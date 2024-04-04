@@ -677,9 +677,17 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
 
         if (tile.get_attributes() & tiletype)
           return false;
-        if (!ignoreUnisolid & tile.is_unisolid())
+
+        if (!ignoreUnisolid && tile.is_unisolid())
           return false;
-        if (tile.is_slope()) {
+
+        // NOTE: As long as tiletype & Tile::SLOPE,
+        // you can skip the proper AATriangle checks
+        // and instead use the box checking
+        if ((tiletype & Tile::SOLID) &&
+            !(tiletype & Tile::SLOPE) &&
+            tile.is_slope())
+        {
           AATriangle triangle;
           const Rectf tbbox = solids->get_tile_bbox(x, y);
           triangle = AATriangle(tbbox, tile.get_data());
