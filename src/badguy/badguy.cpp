@@ -796,8 +796,7 @@ BadGuy::might_fall(int height) const
 
   if (slope)
   {
-    height = static_cast<int>(get_bbox().get_width() * 1.5f);
-    rect.set_height(static_cast<float>(height));
+    rect.set_height(get_bbox().get_width() * 1.5f);
     return Sector::get().is_free_of_statics(rect) &&
            Sector::get().is_free_of_specifically_movingstatics(rect);
   }
