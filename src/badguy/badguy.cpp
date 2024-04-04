@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
+#include "math/aatriangle.hpp"
 #include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -138,7 +139,7 @@ BadGuy::draw(DrawingContext& context)
 {
   float x1, x2;
   float y1 = get_bbox().get_bottom() + 1;
-  float y2 = y1 + get_bbox().get_width() * 2.f;
+  float y2 = y1 + get_bbox().get_width() * 1.5f;
   if (m_dir == Direction::LEFT) {
     x1 = get_bbox().get_left() - 1;
     x2 = get_bbox().get_left();
@@ -776,6 +777,8 @@ BadGuy::try_activate()
 bool
 BadGuy::might_fall(int height) const
 {
+  using RaycastResult = CollisionSystem::RaycastResult;
+
   assert(height > 0);
 
   float x1, x2;
@@ -798,9 +801,47 @@ BadGuy::might_fall(int height) const
 
   if (slope)
   {
-    rect.set_height(get_bbox().get_width() * 1.5f);
-    return Sector::get().is_free_of_statics(rect) &&
-           Sector::get().is_free_of_specifically_movingstatics(rect);
+    float off = std::max(get_bbox().get_width() * 1.5f, static_cast<float>(height));
+
+    Vector eye(x1, y1);
+    Vector end(eye.x, eye.y + off);
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
+
+    if (result.is_valid)
+    {
+      if (auto tile_p = std::get_if<const Tile*>(&result.hit))
+      {
+        const Tile* tile = *tile_p;
+
+        if (tile->get_attributes() & Tile::SLOPE)
+        {
+          bool is_steep = (tile->get_attributes() & Tile::SLOPE &&
+                           (tile->get_data() & AATriangle::DEFORM_LEFT ||
+                            tile->get_data() & AATriangle::DEFORM_RIGHT ||
+                            (tile->get_data() & AATriangle::DEFORM_MASK) == 0));
+          if (!is_steep && result.box.get_top() - eye.y > static_cast<float>(height))
+          {
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+        }
+
+        if (!is_steep && result.box.get_top() - eye.y > static_cast<float>(height))
+        {
+          return true;
+        }
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+    }
+
+    return true;
   }
   else
   {
@@ -813,6 +854,7 @@ BadGuy::might_fall(int height) const
      *
      * HACK: Specifying Tile::SLOPE skips the AATriangle checks.
      */
+
     return Sector::get().is_free_of_statics(rect, nullptr, false, Tile::SOLID | Tile::SLOPE) &&
            Sector::get().is_free_of_specifically_movingstatics(rect);
   }
