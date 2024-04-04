@@ -809,35 +809,11 @@ BadGuy::might_fall(int height) const
 
     if (result.is_valid)
     {
-      if (auto tile_p = std::get_if<const Tile*>(&result.hit))
+      if (std::get_if<const Tile*>(&result.hit))
       {
-        const Tile* tile = *tile_p;
+        //const Tile* tile = *tile_p;
 
-        if (tile->get_attributes() & Tile::SLOPE)
-        {
-          bool is_steep = (tile->get_attributes() & Tile::SLOPE &&
-                           (tile->get_data() & AATriangle::DEFORM_LEFT ||
-                            tile->get_data() & AATriangle::DEFORM_RIGHT ||
-                            (tile->get_data() & AATriangle::DEFORM_MASK) == 0));
-          if (!is_steep && result.box.get_top() - eye.y > static_cast<float>(height))
-          {
-            return true;
-          }
-          else
-          {
-            return false;
-          }
-        }
-
-        if (!is_steep && result.box.get_top() - eye.y > static_cast<float>(height))
-        {
-          return true;
-        }
-        return false;
-      }
-      else
-      {
-        return true;
+        return eye.y - result.box.get_top() > static_cast<float>(height);
       }
     }
 
