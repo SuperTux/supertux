@@ -308,7 +308,7 @@ float find_gamut_intersection(float a, float b, float L1, float C1, float L0)
 } // namespace
 
 
-ColorOKLCh::ColorOKLCh(Color& c) :
+ColorOKLCh::ColorOKLCh(const Color& c) :
   L(0.0f),
   C(0.0f),
   h(0.0f)
@@ -339,6 +339,18 @@ ColorOKLCh::to_srgb() const
       ", " << rgb.g << ", " << rgb.b << ")" << std::endl;
   }
   return linear_srgb_to_srgb(rgb);
+}
+
+float
+ColorOKLCh::get_modified_lightness() const
+{
+  // The formula is from
+  // https://bottosson.github.io/posts/colorpicker/#intermission---a-new-lightness-estimate-for-oklab
+  constexpr float k_1 = 0.206f;
+  constexpr float k_2 = 0.03f;
+  constexpr float k_3 = (1.f + k_1) / (1.f + k_2);
+  return 0.5f * (k_3 * L - k_1 + sqrtf((k_3 * L - k_1) * (k_3 * L - k_1)
+    + 4 * k_2 * k_3 * L));
 }
 
 float

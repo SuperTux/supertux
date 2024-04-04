@@ -22,6 +22,7 @@
 #include "gui/item_color.hpp"
 #include "gui/item_colorchannel.hpp"
 #include "gui/item_colordisplay.hpp"
+#include "gui/item_color_picker_2d.hpp"
 #include "gui/item_controlfield.hpp"
 #include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
@@ -267,6 +268,11 @@ Menu::add_color_channel_rgba(float* input, Color channel, int id, bool is_linear
   return add_item<ItemColorChannelRGBA>(input, channel, id, is_linear);
 }
 
+ItemColorPicker2D&
+Menu::add_color_picker_2d(Color& color) {
+  return add_item<ItemColorPicker2D>(color);
+}
+
 ItemColorChannelOKLab&
 Menu::add_color_channel_oklab(Color* color, int channel)
 {
@@ -308,7 +314,7 @@ Menu::add_images(const std::vector<std::string>& image_paths, int max_image_widt
 {
   return add_item<ItemImages>(image_paths, max_image_width, max_image_height, id);
 }
-  
+
 ItemList&
 Menu::add_list(const std::string& text, const std::vector<std::string>& items, std::string* value_ptr, int id)
 {

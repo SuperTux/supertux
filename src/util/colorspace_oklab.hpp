@@ -18,6 +18,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
+#ifndef HEADER_UTIL_COLORSPACE_OKLAB_HPP
+#define HEADER_UTIL_COLORSPACE_OKLAB_HPP
 
 class Color;
 
@@ -25,10 +27,13 @@ struct ColorOKLCh final {
   ColorOKLCh(float pL, float pC, float ph) : L(pL), C(pC), h(ph) {}
 
   // Convert an non-linear sRGB colour to OKLab's LCh
-  ColorOKLCh(Color& c);
+  ColorOKLCh(const Color& c);
 
   // Convert to non-linear sRGB; clip_chroma is applied if required.
   Color to_srgb() const;
+
+  // Calculate a different lightness estimate which has less dark values
+  float get_modified_lightness() const;
 
   // Find the maximum chroma which is still representable in sRGB while the
   // lightness and hue are preserved
@@ -52,5 +57,7 @@ struct ColorOKLCh final {
 
   float L, C, h;
 };
+
+#endif
 
 /* EOF */

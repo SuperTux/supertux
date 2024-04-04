@@ -27,6 +27,7 @@ ColorMenu::ColorMenu(Color* color_) :
   add_color_channel_oklab(color, 1);
   add_color_channel_oklab(color, 2);
   add_color_channel_oklab(color, 3);
+  add_color_picker_2d(*color);
   add_color_channel_rgba(&(color->red), Color::RED);
   add_color_channel_rgba(&(color->green), Color::GREEN);
   add_color_channel_rgba(&(color->blue), Color::BLUE);
