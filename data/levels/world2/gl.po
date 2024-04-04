@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# xanvieiro <gallaecia6@gmail.com>, 2019-2020
+# Xan Vieiro <gallaecia6@gmail.com>, 2019-2021
+# Xan Vieiro <gallaecia6@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 21:21+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Galician (http://www.transifex.com/arctic-games/supertux/language/gl/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: Xan Vieiro <gallaecia6@gmail.com>, 2021\n"
+"Language-Team: Galician (http://app.transifex.com/arctic-games/supertux/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,8 +37,8 @@ msgstr "Ruínas Antigas"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Atopaches unha área secreta!"
 
@@ -89,7 +90,7 @@ msgstr "Os Desafíos da Árbore Pantasma"
 msgid "Ghouls' Lair"
 msgstr "O Agocho do Demo"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -103,13 +104,13 @@ msgstr "Baixo Terra"
 msgid "I Spy With My Little Eye"
 msgstr "Vexo, vexo.."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Semáforos\n#Os semáforos activarán cousas coma plataformas cando Tux as teña á vista."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Consello: Utiliza os caracois para romper os bloques!"
 
@@ -121,7 +122,7 @@ msgstr "Coma unha folla no Vento"
 msgid "Lost Village"
 msgstr "Aldea Perdida"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Non esquezas darlle ó interruptor!"
 
@@ -161,10 +162,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Flor de Terra\n!images/powerups/earthflower/earth_flower-1.png\n#A flor de terra dálle a Tux a capacidade de converterse nunha pedra premendo a Tecla de ACCIÓN e a tecla ABAIXO ó mesmo tempo.\n#Isto non funciona nin ó saltar nin ó caer!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Secuencia da Torre"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "A Torre Das Pantasmas"
@@ -185,11 +182,11 @@ msgstr "-Obxectos Portátiles:\n!images/objects/rock/rock.png\n#Tux pode coller 
 msgid "Tux' Own Horror Show"
 msgstr "O Arrepiante Propio Show de Tux"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
-msgstr ""
+msgstr "#Os Asubía-bólas son pequenos, pantasmas molestóns, que te levan a diferentes, con frecuencia perigosos, lugares."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -212,8 +209,8 @@ msgstr "Raíces de Madeira"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Rooted Forest"
-msgstr ""
+msgstr "O Bosque con Raizame"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Continuará..."

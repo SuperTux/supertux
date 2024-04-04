@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Jiří Paleček <narre@protonmail.com>, 2021
+# Jiří Paleček <narre@protonmail.com>, 2021-2022
 # Jiří Paleček <narre@protonmail.com>, 2013-2015
 # Jiří Paleček <narre@protonmail.com>, 2018,2020
 # fri, 2013-2014
@@ -13,10 +13,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-22 21:11+0000\n"
-"Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2022\n"
+"Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,7 +31,7 @@ msgstr "Úroveň dříve známá jako \"-89,2 stupňů\""
 msgid "Global Warming"
 msgstr "Globální oteplování"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Jedna noc v oblacích"
 
@@ -83,7 +83,7 @@ msgstr "#Dobrá práce! Nechal sis červenou lucernu! Nemusel jsi, ale protože 
 msgid "Coconut Fortress"
 msgstr "Kokosová pevnost"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Krystalový západ slunce"
 
@@ -106,7 +106,7 @@ msgstr "Venku na krystalových polích"
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
 msgid "The dark castle"
-msgstr "Tmavý hrad"
+msgstr "Temný hrad"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
@@ -144,7 +144,7 @@ msgstr "Květinový bonus"
 msgid "After the Glaciers"
 msgstr "Po ledovcích"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Visící ze stropu"
 
@@ -220,7 +220,7 @@ msgstr "Sněžný kopec"
 msgid "Three Frosty Icebergs"
 msgstr "Tři mrazivé ledovce"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Pod ledem"
 

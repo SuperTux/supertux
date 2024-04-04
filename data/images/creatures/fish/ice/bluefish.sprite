@@ -20,12 +20,12 @@
 
   (action
     (name "iced-left")
-    (hitbox 2 10 48 32)
+    (hitbox 2 10 64 43)
     (images "swim_blue-0.png"))
 
   (action
     (name "iced-right")
-    (hitbox 2 10 48 32)
+    (hitbox 2 10 64 43)
     (mirror-action "iced-left"))
 
 )

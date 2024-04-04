@@ -112,14 +112,15 @@ PathWalker::get_pos(const Sizef& object_size, const Handle& handle) const
   if (!path) return Vector(0, 0);
   if (!path->is_valid()) return Vector(0, 0);
   if (Editor::is_active()) return path->m_nodes.begin()->position;
+  if (!m_running) return path->m_nodes[m_current_node_nr].position;
 
   const Path::Node* current_node = &(path->m_nodes[m_current_node_nr]);
   const Path::Node* next_node = & (path->m_nodes[m_next_node_nr]);
-  
+
   easing easeFunc = m_walking_speed > 0 ?
                           getEasingByName(current_node->easing) :
                           getEasingByName(get_reverse_easing(next_node->easing));
-  
+
   float progress = static_cast<float>(easeFunc(static_cast<double>(m_node_time)));
 
   Vector p1 = current_node->position,

@@ -1,5 +1,5 @@
-//  SuperTux - Boss "GhostTree"
-//  Copyright (C) 2007 Matthias Braun <matze@braunis.de>
+//  SuperTux - Corrupted Root
+//  Copyright (C) 2023 MatusGuy <matusguy@supertuxproject.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,29 +19,48 @@
 
 #include "badguy/badguy.hpp"
 
+#include "supertux/timer.hpp"
+
 class Root final : public BadGuy
 {
 public:
-  Root(const Vector& pos, Flip flip);
-  ~Root() override;
+  Root(const ReaderMapping& reader);
+  Root(const Vector& pos, Direction dir, const std::string& sprite,
+       float delay = -1, bool play_sound = true);
 
-  virtual void deactivate() override;
-  virtual void active_update(float dt_sec) override;
+  virtual void initialize() override;
   virtual void draw(DrawingContext& context) override;
+  virtual void active_update(float dt_sec) override;
+  virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;
+  virtual void kill_fall() override;
+
+  static std::string class_name() { return "root"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Root"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
-  virtual void kill_fall() override { }
+  virtual bool is_snipable() const override { return false; }
 
-protected:
-  enum MyState {
-    STATE_APPEARING, STATE_HATCHING, STATE_GROWING, STATE_SHRINKING, STATE_VANISHING
-  };
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
-  MyState mystate;
-  SpritePtr base_sprite;
-  float offset_y;
-  Timer hatch_timer;
+  void construct(float delay = -1, bool play_sound = true);
+
+  enum State { STATE_HATCHING, STATE_APPEARING, STATE_RETREATING };
+
+private:
+  SurfacePtr m_base_surface;
+  Timer m_timer;
+  State m_state;
+  float m_delay;
+  float m_maxheight;
+  bool m_play_sound;
+
+private:
+  Root(const Root&) = delete;
+  Root& operator=(const Root&) = delete;
 };
 
 #endif
