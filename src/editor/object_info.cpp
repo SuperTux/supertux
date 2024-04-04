@@ -35,6 +35,8 @@ ObjectInfo::ObjectInfo() :
     throw std::runtime_error("file images/engine/editor/objects.stoi is not a supertux-objectinfo file.");
   }*/ // Bombenfest und Idioten sicher :DDDDD
 
+  m_groups.push_back(ObjectGroup());
+
   auto iter = reader.get_iter();
   while (iter.next()) {
     const std::string& token = iter.get_key();

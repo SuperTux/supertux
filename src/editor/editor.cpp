@@ -514,7 +514,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_enabled = true;
 
   if (reset) {
-    m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+    // Start with an empty group
+    m_toolbox_widget->select_objectgroup(0);
   }
 
   // Reload level.

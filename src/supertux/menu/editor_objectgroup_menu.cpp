@@ -32,7 +32,7 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
 
   int id = 0;
   for (auto& og : Editor::current()->get_objectgroups()) {
-    if (worldmap == og.is_worldmap()) {
+    if (worldmap == og.is_worldmap() && !og.get_name().empty()) {
       add_entry(id, og.get_name());
     }
     id++;
