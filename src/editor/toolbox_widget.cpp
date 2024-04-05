@@ -86,6 +86,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
       m_select_mode->draw(context);
       break;
 
+    case EditorTilebox::InputType::NONE:
     case EditorTilebox::InputType::OBJECT:
       m_node_marker_mode->draw(context);
       m_move_mode->draw(context);
@@ -158,6 +159,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
               case EditorTilebox::InputType::TILE:
                 m_select_mode->next_mode();
                 break;
+              case EditorTilebox::InputType::NONE:
               case EditorTilebox::InputType::OBJECT:
                 m_tilebox->set_object("#node");
                 break;
@@ -168,7 +170,8 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
  
            case 2:
-             if (m_tilebox->get_input_type() == EditorTilebox::InputType::OBJECT)
+             if (m_tilebox->get_input_type() == EditorTilebox::InputType::OBJECT ||
+                 m_tilebox->get_input_type() == EditorTilebox::InputType::NONE)
                m_move_mode->next_mode();
              update_mouse_icon();
              break;
@@ -347,6 +350,7 @@ EditorToolboxWidget::get_mouse_icon() const
 {
   switch (m_tilebox->get_input_type())
   {
+    case EditorTilebox::InputType::NONE:
     case EditorTilebox::InputType::OBJECT:
     {
       const std::string object = m_tilebox->get_object();

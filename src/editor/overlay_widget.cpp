@@ -942,6 +942,7 @@ EditorOverlayWidget::process_left_click()
       }
       break;
 
+    case EditorTilebox::InputType::NONE:
     case EditorTilebox::InputType::OBJECT:
       switch (m_editor.get_tileselect_move_mode())
       {
@@ -1160,6 +1161,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         }
         break;
 
+      case EditorTilebox::InputType::NONE:
       case EditorTilebox::InputType::OBJECT:
         if (m_editor.get_tileselect_object().empty())
         {
