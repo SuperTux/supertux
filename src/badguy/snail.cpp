@@ -326,6 +326,7 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
     } else if (hit.right) {
       m_dir = Direction::LEFT;
     }
+    SoundManager::current()->play("sounds/kick.wav", get_pos());
     player.kick();
     be_kicked(false);
     return FORCE_MOVE;
@@ -409,6 +410,7 @@ Snail::ungrab(MovingObject& object, Direction dir_)
 
     if (player)
     {
+      SoundManager::current()->play("sounds/kick.wav", get_pos());
       if (!player->is_swimming() && !player->is_water_jumping())
       {
         switch (dir_)
