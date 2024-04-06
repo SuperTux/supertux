@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Heimen Stoffels <vistausss@outlook.com>, 2015-2016,2018-2019
+# Heimen Stoffels <vistausss@fastmail.com>, 2015-2016,2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-25 12:39+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
-"Language-Team: Dutch (http://www.transifex.com/arctic-games/supertux/language/nl/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>, 2015-2016,2018-2019\n"
+"Language-Team: Dutch (http://app.transifex.com/arctic-games/supertux/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,16 +22,16 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "23e keer in de lucht"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Je hebt een geheim gebied gevonden!"
 
@@ -39,7 +39,7 @@ msgstr "Je hebt een geheim gebied gevonden!"
 msgid "Above the Arctic Skies"
 msgstr "Boven de arctische luchten"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -50,17 +50,13 @@ msgstr "-Luchtbloem\n!images/powerups/airflower/air_flower-0.png\n#De luchtbloem
 msgid "Between Two Glaciers"
 msgstr "Tussen twee gletsjers"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Kristallen\n#Dit level bevat vier gekleurde kristallen. Kun je ze allemaal vinden?\n#\n#Let op: deze kristallen zijn nu nog niet bruikbaar, maar worden dat in de toekomst mogelijk wél."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Lege troonkamer"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -70,7 +66,7 @@ msgstr "Nolok's kasteel"
 msgid "The Crystal Mine"
 msgstr "De kristalmijn"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#Je moet twee schakelaars omzetten om deze deur te kunnen openen."
 
@@ -276,7 +272,7 @@ msgstr "Via Nostalgica"
 msgid "Welcome to Antarctica"
 msgstr "Welkom op Antarctica"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -285,42 +281,42 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr "-Bonusblokken\n!images/objects/bonus_block/full-0.png\n#Bonusblokken kunnen munten bevatten, maar ook bonusitems of speciale items die je helpen bij de opdracht.\n#\n#Ga onder ze staan en spring recht omhoog, tegen ze aan, om ze te openen."
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Eieren\n!images/powerups/egg/egg-shade.png\n#Eieren zorgen ervoor dat Tux groeit. Daardoor Tux houten blokken kapot maken met zijn kop."
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-Herstelpunten\n!images/objects/resetpoints/bell-m.png\n#Activeer het herstelpunt. Als je sterft, dan begint het level vanaf hier i.p.v. vanaf het begin. Elke keer dat je terugkeert naar een herstelpunt, verlies je 10 procent van je munten (minimaal 25 munten)."
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Rennen\n!images/tiles/signs/run.png\n#Het pad is geblokkeerd. Maak wat snelheid en spring vlak voor de blokken; je springt er dan overheen."
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Vuurbloem\n!images/powerups/fireflower/fire_flower-0.png\n#De vuurbloem zorgt ervoor dat Tux vuurballen kan schieten."
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Tux-pop\n!images/powerups/1up/1up.png\n#De Tux-pop voorziet Tux van 100 munten."
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."

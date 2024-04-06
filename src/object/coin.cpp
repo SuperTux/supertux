@@ -114,7 +114,7 @@ Coin::update(float dt_sec)
       v = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle);
     }
 
-    if (get_path()->is_valid()) {
+    if (get_path() && get_path()->is_valid()) {
       m_col.set_movement(v - get_pos());
     }
   }
@@ -325,7 +325,7 @@ Coin::get_settings()
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
-  if (get_walker() && get_path()->is_valid()) {
+  if (get_walker() && get_path() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
     result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);

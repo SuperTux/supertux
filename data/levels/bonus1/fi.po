@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018,2020-2021
+# Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018,2020-2023
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 16:23+0000\n"
-"Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
-"Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018,2020-2023\n"
+"Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,7 +24,7 @@ msgstr "Lentokoe"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr "Tyrmiä, muttei lohikäärmeitä"
+msgstr "Tyrmiä vailla lohikäärmeitä"
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
@@ -32,7 +32,7 @@ msgstr "Valheita!"
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"
-msgstr "Juna lähtee minuutin päästä"
+msgstr "Juna lähtee minuutin kuluttua"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
@@ -79,11 +79,11 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "Onnittelut!\n\n#Olet läpäissyt\n#ensimmäisen Lisäsaaren\n\n\tKentät tekivät\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Jos et vielä läpäissyt kaikkia kenttiä,\n#mene kotiin ja ota toinen polku.\n#Sinulla on edessäsi vielä\n#paljon haasteita!\n\n#Ja täällä on myös salainen\n#kenttä löydettäväksi...\n\n#Iso kiitos jokaiselle, joka\n#osallistui tämän julkaisun\n#tekoon. Toivottavasti pidit siitä!"
+msgstr "Onnittelut!\n\n#Olet läpäissyt\n#ensimmäisen Lisäsaaren\n\n\tKentät tekivät\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Jos et vielä läpäissyt kaikkia kenttiä,\n#palaa kotiin ja ota toinen polku.\n#Sinulla on edessäsi vielä\n#paljon haasteita!\n\n#Ja täällä on myös salainen\n#kenttä löydettäväksi...\n\n#Iso kiitos jokaiselle, joka\n#osallistui tämän julkaisun\n#tekoon. Toivottavasti pidit siitä!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
-msgstr "Seuraa putkia"
+msgstr "Putki umpeen"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
@@ -125,7 +125,7 @@ msgstr "Edelleen liian helppoa"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr "Puoliksi jäässä"
+msgstr "Vähän jäissä"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
@@ -153,7 +153,7 @@ msgstr "Löysit salaisen paikan!"
 
 #: data/levels/bonus1/worldmap.stwm:135
 msgid "Hint: Use igloos to get back here."
-msgstr "Vihje: Käytä igluja päästäksesi takaisin tänne."
+msgstr "Vihje: Käytä igluja palataksesi tänne."
 
 #: data/levels/bonus1/worldmap.stwm:144
 msgid "Warp to Matr1x' Sector"
@@ -165,7 +165,7 @@ msgstr "Siirry Thompsonin domainille"
 
 #: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
-msgstr "Poistu SuperTux-ryhmän saarelta"
+msgstr "Poistu SuperTux-tiimin saarelta"
 
 #: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
@@ -173,7 +173,7 @@ msgstr "Siirry Abednegon alueelle"
 
 #: data/levels/bonus1/worldmap.stwm:172 data/levels/bonus1/worldmap.stwm:262
 msgid "Leave Torfi's Territory"
-msgstr "Poistu Torfin reviiriltä"
+msgstr "Poistu Torfin territoriolta"
 
 #: data/levels/bonus1/worldmap.stwm:179 data/levels/bonus1/worldmap.stwm:207
 msgid "Leave Abednego's Area"
@@ -193,7 +193,7 @@ msgstr "Siirry kotiin"
 
 #: data/levels/bonus1/worldmap.stwm:214
 msgid "Warp to the SuperTux Team Island"
-msgstr "Siirry SuperTux-ryhmän saarelle"
+msgstr "Siirry SuperTux-tiimin saarelle"
 
 #: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
@@ -205,4 +205,4 @@ msgstr "Jatka Matr1xin sektoria"
 
 #: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"
-msgstr "Siirry Torfin reviirille"
+msgstr "Siirry Torfin territoriolle"
