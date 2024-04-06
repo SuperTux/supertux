@@ -52,7 +52,7 @@ jobs:
         if: ${{ matrix.os == 'macos-12' }}
         run: |
           # Use GLM 1.0.0 as later versions don't build with clang
-          brew install --formula mk/brew/glm.rb
+          brew install --build-from-source mk/brew/glm.rb
           brew install cmake googletest bash rename libogg libvorbis glew \
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
                        fribidi glib gtk-doc glbinding@2 libraqm zlib
