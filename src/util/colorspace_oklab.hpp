@@ -29,31 +29,8 @@ struct ColorOKLCh final {
   // Convert an non-linear sRGB colour to OKLab's LCh
   ColorOKLCh(const Color& c);
 
-  // Convert to non-linear sRGB; clip_chroma is applied if required.
-  Color to_srgb() const;
-
   // Calculate a different lightness estimate which has less dark values
   float get_modified_lightness() const;
-
-  // Find the maximum chroma which is still representable in sRGB while the
-  // lightness and hue are preserved
-  float get_maximum_chroma() const;
-
-  // Find the maximum chroma which is still representable in sRGB while the
-  // hue is preserved
-  float get_maximum_chroma_any_l() const;
-
-  // Reduce the chroma so that the colour can be represented in sRGB.
-  // Also clamp the lightness if needed.
-  void clip_chroma();
-
-  // Change the lightness so that the colour can be represented in sRGB.
-  void clip_lightness();
-
-  // Changes both the lightness and chroma so that the colour can be represented
-  // in sRGB. The resulting colour should have less visual distance to the true
-  // colour than colour produced by clipping only chroma or lightness.
-  void clip_adaptive_L0_L_cusp(float alpha=0.05f);
 
   float L, C, h;
 };
