@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <math.h>
 
+#include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
@@ -35,6 +36,7 @@ BicyclePlatformChild::BicyclePlatformChild(const ReaderMapping& reader, float an
   m_momentum(),
   m_contacts()
 {
+  m_col.set_unisolid(true);
 }
 
 void
@@ -55,8 +57,7 @@ BicyclePlatformChild::collision(GameObject& other, const CollisionHit& )
   const float gravity = Sector::get().get_gravity();
 
   // Somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
-  auto mo = dynamic_cast<MovingObject*>(&other);
-  if (!mo) return FORCE_MOVE;
+  auto mo = dynamic_cast<MovingObject*>(&other); if (!mo) return FORCE_MOVE;
   if ((mo->get_bbox().get_bottom()) > (m_col.m_bbox.get_top() + 2)) return FORCE_MOVE;
 
   auto pl = dynamic_cast<Player*>(mo);
