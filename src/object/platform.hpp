@@ -71,7 +71,7 @@ public:
   void stop_moving();
   /** @} */
 
-private:
+protected:
   Vector m_speed;
 
   /** true if Platform will automatically pick a destination based on

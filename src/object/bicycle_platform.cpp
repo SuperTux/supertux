@@ -23,14 +23,18 @@
 #include "math/util.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/surface.hpp"
 
-BicyclePlatformChild::BicyclePlatformChild(const ReaderMapping& reader, float angle_offset, BicyclePlatform& parent) :
-  MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
+static const std::string PLATFORM_SPRITE = "images/objects/platforms/small.sprite";
+
+BicyclePlatformChild::BicyclePlatformChild(const Vector& pos, const std::string& sprite, float angle_offset, BicyclePlatform& parent) :
+  MovingSprite(pos, sprite, LAYER_OBJECTS, COLGROUP_STATIC),
   m_parent(parent),
   m_angle_offset(angle_offset),
   m_momentum(),
@@ -45,7 +49,7 @@ BicyclePlatformChild::update(float dt_sec)
   float angle = m_parent.m_angle + m_angle_offset;
   angle = math::positive_fmodf(angle, math::TAU);
 
-  Vector dest = m_parent.m_center + Vector(cosf(angle), sinf(angle)) * m_parent.m_radius - (m_col.m_bbox.get_size().as_vector() * 0.5f);
+  Vector dest = m_parent.get_pos() + Vector(cosf(angle), sinf(angle)) * m_parent.m_radius - (m_col.m_bbox.get_size().as_vector() * 0.5f);
   Vector movement = dest - get_pos();
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
@@ -77,7 +81,8 @@ BicyclePlatformChild::collision(GameObject& other, const CollisionHit& )
   return FORCE_MOVE;
 }
 
-void BicyclePlatformChild::editor_delete()
+void
+BicyclePlatformChild::editor_delete()
 {
   // Removing a child removes the whole platform.
   m_parent.editor_delete();
@@ -91,57 +96,69 @@ BicyclePlatformChild::on_flip(float height)
 }
 
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
-  GameObject(reader),
-  m_center(0.0f, 0.0f),
+  Platform(reader, PLATFORM_SPRITE),
   m_radius(128),
   m_angle(0),
   m_angular_speed(0.0f),
   m_momentum_change_rate(0.1f),
   m_children(),
-  m_walker(),
   m_platforms(2)
 {
-  reader.get("x", m_center.x);
-  reader.get("y", m_center.y);
+  set_group(COLGROUP_DISABLED);
+  m_col.set_size(32.f, 32.f);
+
   reader.get("radius", m_radius, 128.0f);
   reader.get("momentum-change-rate", m_momentum_change_rate, 0.1f);
 
   reader.get("platforms", m_platforms);
   m_platforms = std::max(1, m_platforms);
-
-  for (int i = 0; i < m_platforms; ++i) {
-    const float offset = static_cast<float>(i) * (math::TAU / static_cast<float>(m_platforms));
-    m_children.push_back(&d_sector->add<BicyclePlatformChild>(reader, offset, *this));
-  }
-
-  std::string path_ref;
-  if (reader.get("path-ref", path_ref))
-  {
-    d_sector->request_name_resolve(path_ref, [this](UID uid){
-        if (!uid) {
-          log_fatal << "no path-ref entry for BicyclePlatform" << std::endl;
-        } else {
-          m_walker.reset(new PathWalker(uid, true));
-        }
-      });
-  }
 }
 
-BicyclePlatform::~BicyclePlatform()
+void
+BicyclePlatform::finish_construction()
 {
+  Platform::finish_construction();
+
+  get_path()->m_mode = WalkMode::ONE_SHOT;
+  get_path()->m_adapt_speed = true;
+  get_walker()->m_running = true;
+
+  if (Editor::is_active()) return;
+
+  for (int i = 0; i < m_platforms; i++)
+  {
+    const float offset = static_cast<float>(i) * (math::TAU / static_cast<float>(m_platforms));
+    m_children.push_back(&d_sector->add<BicyclePlatformChild>(get_pos(), m_sprite_name, offset, *this));
+  }
 }
 
 void
 BicyclePlatform::draw(DrawingContext& context)
 {
-  if (g_debug.show_collision_rects) {
-    context.color().draw_filled_rect(Rectf::from_center(m_center, Sizef(16, 16)), Color::MAGENTA, LAYER_OBJECTS);
+  if (g_debug.show_collision_rects || Editor::is_active())
+    context.color().draw_filled_rect(Rectf::from_center(get_pos(), Sizef(16, 16)), Color::RED, 8.f, get_layer());
+
+  if (Editor::is_active())
+  {
+    for (int i = 0; i < m_platforms; i++)
+    {
+      const float offset = static_cast<float>(i) * (math::TAU / static_cast<float>(m_platforms));
+      float angle = m_angle + offset;
+      angle = math::positive_fmodf(angle, math::TAU);
+
+      Sizef size = m_sprite->get_current_hitbox().get_size();
+      Vector dest = get_pos() + Vector(cosf(angle), sinf(angle)) * m_radius - (size.as_vector() * 0.5f);
+      m_sprite->draw(context.color(), dest, get_layer());
+    }
   }
 }
 
 void
 BicyclePlatform::update(float dt_sec)
 {
+  if (!get_path()) return;
+  if (!get_path()->is_valid()) return;
+
   float total_angular_momentum = 0.0f;
   for (const auto& child : m_children)
   {
@@ -157,58 +174,43 @@ BicyclePlatform::update(float dt_sec)
   m_angle += m_angular_speed * dt_sec;
   m_angle = math::positive_fmodf(m_angle, math::TAU);
 
-  m_angular_speed = std::min(std::max(m_angular_speed, -128.0f * math::PI * dt_sec),
-                             128.0f * math::PI * dt_sec);
+  m_angular_speed = std::min(std::max(m_angular_speed, -128.f * math::PI * dt_sec),
+                             128.f * math::PI * dt_sec);
 
-  if (m_walker)
-  {
-    m_walker->update(std::max(0.0f, dt_sec * m_angular_speed * 0.1f));
-    m_center = m_walker->get_pos(Sizef(), {});
-  }
-  else
-  {
-    m_center += Vector(m_angular_speed, 0) * dt_sec * 32.0f;
-  }
+  get_walker()->m_walking_speed = m_angular_speed;
+
+  std::cout << m_angular_speed << std::endl;
+  get_walker()->m_stop_at_node_nr = -1;
+  get_walker()->update(dt_sec * m_angular_speed * 0.1f);
+  Vector movement = get_walker()->get_pos(get_bbox().get_size(), m_path_handle) - get_pos();
+  m_col.set_movement(movement);
+
 }
 
 void
 BicyclePlatform::on_flip(float height)
 {
-  m_center.y = height - m_center.y;
-}
-
-void
-BicyclePlatform::editor_delete()
-{
-  // Remove children.
-  for (auto& child : m_children)
-  {
-    child->remove_me();
-  }
-
-  // Remove self.
-  remove_me();
-}
-
-void
-BicyclePlatform::after_editor_set()
-{
-  GameObject::after_editor_set();
+  set_pos(Vector(get_pos().x, height - get_pos().y));
 }
 
 ObjectSettings
 BicyclePlatform::get_settings()
 {
-  auto result = GameObject::get_settings();
+  ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_float(_("X"), &m_center.x, "x", 0.0f, OPTION_HIDDEN);
-  result.add_float(_("Y"), &m_center.y, "y", 0.0f, OPTION_HIDDEN);
+  if (get_path_gameobject())
+    result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
+
+  result.add_bool(_("Running"), &get_walker()->m_running, "running", true, 0);
+  result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
+  result.add_path_handle(_("Handle"), m_path_handle, "handle");
 
   result.add_int(_("Platforms"), &m_platforms, "platforms", 2);
   result.add_float(_("Radius"), &m_radius, "radius", 128.0f);
   result.add_float(_("Momentum change rate"), &m_momentum_change_rate, "momentum-change-rate", 0.1f);
 
-  result.reorder({"platforms", "x", "y"});
+  result.reorder({"running", "name", "path-ref", "starting-node", "sprite", "x", "y",
+                  "platforms", "radius", "momentum-change-rate"});
 
   return result;
 }

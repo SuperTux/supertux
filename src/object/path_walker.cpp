@@ -102,6 +102,8 @@ PathWalker::update(float dt_sec)
     }
   }
 
+  //std::cout << m_walking_speed << std::endl;
+
   m_node_time += delta * m_node_mult;
 }
 
@@ -161,6 +163,7 @@ PathWalker::jump_to_node(int node_no)
   } else {
     m_current_node_nr = m_next_node_nr;
   }
+
   m_node_time = 0.f;
 }
 
@@ -183,6 +186,8 @@ PathWalker::advance_node()
   Path* path = get_path();
   if (!path) return;
   if (!path->is_valid()) return;
+
+  std::cout << "advance" << std::endl;
 
   m_current_node_nr = m_next_node_nr;
   if (static_cast<int>(m_current_node_nr) == m_stop_at_node_nr) m_running = false;
@@ -222,6 +227,8 @@ PathWalker::goback_node()
   if (!path->is_valid()) return;
 
   m_current_node_nr = m_next_node_nr;
+
+  std::cout << "go back" << std::endl;
 
   if (m_next_node_nr > 0) {
     m_next_node_nr--;

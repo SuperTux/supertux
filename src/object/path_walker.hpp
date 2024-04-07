@@ -79,7 +79,6 @@ public:
   /** set to false to immediately stop advancing */
   bool m_running;
 
-private:
   size_t m_current_node_nr;
   size_t m_next_node_nr;
 
