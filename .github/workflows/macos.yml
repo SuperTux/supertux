@@ -62,8 +62,8 @@ jobs:
             /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
             /usr/local/opt/webp/lib/libwebp.7.dylib
           install_name_tool -change \
-            '@rpath/libjxl_cms.0.9.dylib' \
-            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.9.dylib \
+            '@rpath/libjxl_cms.0.10.dylib' \
+            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.10.dylib \
             /usr/local/opt/jpeg-xl/lib/libjxl.dylib
 
           # Something funky happens with freetype if mono is left
