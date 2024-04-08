@@ -65,6 +65,7 @@ Sector::Sector(Level& parent) :
   m_level(parent),
   m_fully_constructed(false),
   m_foremost_layer(),
+  m_foremost_opaque_layer(),
   m_gravity(10.0f),
   m_collision_system(new CollisionSystem(*this)),
   m_text_object(add<TextObject>("Text"))
@@ -154,7 +155,8 @@ Sector::finish_construction(bool editable)
   m_initialized = false;
   flush_game_objects();
 
-  m_foremost_layer = calculate_foremost_layer();
+  m_foremost_layer = calculate_foremost_layer(false);
+  m_foremost_opaque_layer = calculate_foremost_layer();
 
   process_resolve_requests();
 
@@ -300,14 +302,14 @@ Sector::get_active_region() const
 }
 
 int
-Sector::calculate_foremost_layer() const
+Sector::calculate_foremost_layer(bool including_transparent) const
 {
   int layer = LAYER_BACKGROUND0;
   for (auto& tm : get_objects_by_type<TileMap>())
   {
     if (tm.get_layer() > layer)
     {
-      if ( (tm.get_alpha() < 1.0f) )
+      if ( including_transparent && tm.get_alpha() < 1.0f )
       {
         layer = tm.get_layer() - 1;
       }
@@ -319,6 +321,12 @@ Sector::calculate_foremost_layer() const
   }
   log_debug << "Calculated badguy falling layer was: " << layer << std::endl;
   return layer;
+}
+
+int
+Sector::get_foremost_opaque_layer() const
+{
+  return m_foremost_opaque_layer;
 }
 
 int

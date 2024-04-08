@@ -167,7 +167,7 @@ Camera::get_settings()
 
   result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
 
-  if (get_walker() && get_path()->is_valid()) {
+  if (get_walker() && get_path() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
     result.add_path_handle(_("Handle"), m_path_handle, "handle");
@@ -179,7 +179,7 @@ Camera::get_settings()
 void
 Camera::after_editor_set()
 {
-  if (get_walker() && get_path()->is_valid()) {
+  if (get_walker() && get_path() && get_path()->is_valid()) {
     if (m_defaultmode != Mode::AUTOSCROLL) {
       get_path()->m_nodes.clear();
       auto path_obj = get_path_gameobject();
@@ -403,7 +403,7 @@ Camera::update_shake()
   if (m_shaketimer.started()) {
 
     // Old method:
-    
+
     // m_translation.x -= sinf(m_shaketimer.get_timegone() * m_shakespeed) * m_shakedepth_x;
     // m_translation.y -= sinf(m_shaketimer.get_timegone() * m_shakespeed) * m_shakedepth_y;
 
@@ -461,92 +461,104 @@ Camera::update_scroll_normal(float dt_sec)
     return;
 
   /****** Vertical Scrolling part. ******/
-  m_cached_translation.y = math::clamp(m_cached_translation.y,
-                                       player_pos.y - m_screen_size.height * 0.67f,
-                                       player_pos.y - m_screen_size.height * 0.33f);
+  if (!player.is_dying())
+  {
+    m_cached_translation.y = math::clamp(m_cached_translation.y,
+                                         player_pos.y - m_screen_size.height * 0.67f,
+                                         player_pos.y - m_screen_size.height * 0.33f);
+  }
 
   m_translation.y = m_cached_translation.y;
 
-  const float top_edge = m_screen_size.height * 0.3f;
-  const float bottom_edge = m_screen_size.height * 0.7f;
-  const float translation_compensation_y = player_pos.y - m_translation.y;
+  if (!player.is_dying())
+  {
+    const float top_edge = m_screen_size.height * 0.3f;
+    const float bottom_edge = m_screen_size.height * 0.7f;
+    const float translation_compensation_y = player_pos.y - m_translation.y;
 
-  float peek_to_y = 0;
-  if (player.peeking_direction_y() == Direction::UP)
-    peek_to_y = bottom_edge - translation_compensation_y;
-  else if (player.peeking_direction_y() == Direction::DOWN)
-    peek_to_y = top_edge - translation_compensation_y;
+    float peek_to_y = 0;
+    if (player.peeking_direction_y() == Direction::UP)
+      peek_to_y = bottom_edge - translation_compensation_y;
+    else if (player.peeking_direction_y() == Direction::DOWN)
+      peek_to_y = top_edge - translation_compensation_y;
 
-  float peek_move_y = (peek_to_y - m_peek_pos.y) * PEEK_ARRIVE_RATIO;
-  if (fabsf(peek_move_y) < 1.0f)
-    peek_move_y = 0.0;
+    float peek_move_y = (peek_to_y - m_peek_pos.y) * PEEK_ARRIVE_RATIO;
+    if (fabsf(peek_move_y) < 1.0f)
+      peek_move_y = 0.0;
 
-  m_peek_pos.y += peek_move_y;
+    m_peek_pos.y += peek_move_y;
 
-  m_translation.y -= m_peek_pos.y;
-  m_translation.y = math::clamp(m_translation.y,
-                                player_pos.y - m_screen_size.height * 0.7f,
-                                player_pos.y - m_screen_size.height * 0.3f);
-  m_cached_translation.y = math::clamp(m_cached_translation.y,
-                                       player_pos.y - m_screen_size.height * 0.7f,
-                                       player_pos.y - m_screen_size.height * 0.3f);
+    m_translation.y -= m_peek_pos.y;
+    m_translation.y = math::clamp(m_translation.y,
+                                  player_pos.y - m_screen_size.height * 0.7f,
+                                  player_pos.y - m_screen_size.height * 0.3f);
+    m_cached_translation.y = math::clamp(m_cached_translation.y,
+                                         player_pos.y - m_screen_size.height * 0.7f,
+                                         player_pos.y - m_screen_size.height * 0.3f);
+  }
 
   /****** Horizontal scrolling part *******/
-  const float left_end = m_screen_size.width * 0.4f;
-  const float right_end = m_screen_size.width * 0.6f;
+  if (!player.is_dying())
+  {
+    const float left_end = m_screen_size.width * 0.4f;
+    const float right_end = m_screen_size.width * 0.6f;
 
-  if (player_delta.x < -CAMERA_EPSILON)
-  {
-    // Walking left.
-    m_lookahead_pos.x -= player_delta.x * 0.8f;
-    if (m_lookahead_pos.x > right_end)
-      m_lookahead_pos.x = right_end;
-  }
-  else if (player_delta.x > CAMERA_EPSILON)
-  {
-    // Walking right.
-    m_lookahead_pos.x -= player_delta.x * 0.8f;
-    if (m_lookahead_pos.x < left_end)
+    if (player_delta.x < -CAMERA_EPSILON)
+    {
+      // Walking left.
+      m_lookahead_pos.x -= player_delta.x * 0.8f;
+      if (m_lookahead_pos.x > right_end)
+        m_lookahead_pos.x = right_end;
+    }
+    else if (player_delta.x > CAMERA_EPSILON)
+    {
+      // Walking right.
+      m_lookahead_pos.x -= player_delta.x * 0.8f;
+      if (m_lookahead_pos.x < left_end)
+        m_lookahead_pos.x = left_end;
+    }
+    else
+    {
+      m_lookahead_pos.x = math::clamp(m_lookahead_pos.x, left_end, right_end);
+    }
+
+    // Adjust for level ends.
+    if (player_pos.x < left_end)
       m_lookahead_pos.x = left_end;
-  }
-  else
-  {
-    m_lookahead_pos.x = math::clamp(m_lookahead_pos.x, left_end, right_end);
-  }
+    if (player_pos.x > d_sector->get_width() - left_end)
+      m_lookahead_pos.x = right_end;
 
-  // Adjust for level ends.
-  if (player_pos.x < left_end)
-    m_lookahead_pos.x = left_end;
-  if (player_pos.x > d_sector->get_width() - left_end)
-    m_lookahead_pos.x = right_end;
-
-  m_cached_translation.x = player_pos.x - m_lookahead_pos.x;
+    m_cached_translation.x = player_pos.x - m_lookahead_pos.x;
+  }
 
   m_translation.x = m_cached_translation.x;
 
-  const float left_edge = m_screen_size.width * 0.1666f;
-  const float right_edge = m_screen_size.width * 0.8334f;
-  const float translation_compensation_x = player_pos.x - m_translation.x;
+  if (!player.is_dying())
+  {
+    const float left_edge = m_screen_size.width * 0.1666f;
+    const float right_edge = m_screen_size.width * 0.8334f;
+    const float translation_compensation_x = player_pos.x - m_translation.x;
 
-  float peek_to_x = 0;
-  if (player.peeking_direction_x() == Direction::LEFT)
-    peek_to_x = right_edge - translation_compensation_x;
-  else if (player.peeking_direction_x() == Direction::RIGHT)
-    peek_to_x = left_edge - translation_compensation_x;
+    float peek_to_x = 0;
+    if (player.peeking_direction_x() == Direction::LEFT)
+      peek_to_x = right_edge - translation_compensation_x;
+    else if (player.peeking_direction_x() == Direction::RIGHT)
+      peek_to_x = left_edge - translation_compensation_x;
 
-  float peek_move_x = (peek_to_x - m_peek_pos.x) * PEEK_ARRIVE_RATIO;
-  if (fabsf(peek_move_x) < 1.0f)
-    peek_move_x = 0.0f;
+    float peek_move_x = (peek_to_x - m_peek_pos.x) * PEEK_ARRIVE_RATIO;
+    if (fabsf(peek_move_x) < 1.0f)
+      peek_move_x = 0.0f;
 
-  m_peek_pos.x += peek_move_x;
+    m_peek_pos.x += peek_move_x;
 
-  m_translation.x -= m_peek_pos.x;
-  m_translation.x = math::clamp(m_translation.x,
-                                player_pos.x - m_screen_size.width * 0.8334f,
-                                player_pos.x - m_screen_size.width * 0.1666f);
-  m_cached_translation.x = math::clamp(m_cached_translation.x,
-                                       player_pos.x - m_screen_size.width * 0.8334f,
-                                       player_pos.x - m_screen_size.width * 0.1666f);
+    m_translation.x -= m_peek_pos.x;
+    m_translation.x = math::clamp(m_translation.x,
+                                  player_pos.x - m_screen_size.width * 0.8334f,
+                                  player_pos.x - m_screen_size.width * 0.1666f);
+    m_cached_translation.x = math::clamp(m_cached_translation.x,
+                                         player_pos.x - m_screen_size.width * 0.8334f,
+                                         player_pos.x - m_screen_size.width * 0.1666f);
+  }
 
   keep_in_bounds(m_translation);
   keep_in_bounds(m_cached_translation);

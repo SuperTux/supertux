@@ -25,10 +25,10 @@
 EditorLevelMenu::EditorLevelMenu() :
   old_tileset(Editor::current()->get_level()->m_tileset)
 {
-  bool worldmap = Editor::current()->get_level()->is_worldmap();
   auto level = Editor::current()->get_level();
+  bool is_worldmap = level->is_worldmap();
 
-  add_label(worldmap ? _("Worldmap Settings") :_("Level Settings"));
+  add_label(is_worldmap ? _("Worldmap Settings") :_("Level Settings"));
   add_hl();
   add_textfield(_("Name"), &(level->m_name));
   add_textfield(_("Author"), &(level->m_author));
@@ -37,7 +37,7 @@ EditorLevelMenu::EditorLevelMenu() :
   add_textfield(_("Level Note"), &(level->m_note));
   add_file(_("Tileset"), &(level->m_tileset), std::vector<std::string>(1, ".strf"), {}, true);
 
-  if (!worldmap) {
+  if (!is_worldmap) {
     add_floatfield(_("Target Time"), &(level->m_target_time));
   }
 

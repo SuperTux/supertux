@@ -1769,8 +1769,8 @@ msgstr "Pre preskočenie stlačte Esc"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Použitie: %s [MOŽNOSTI] [SÚBORÚROVNE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Použitie: {} [MOŽNOSTI] [SÚBORÚROVNE]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2495,13 +2495,13 @@ msgstr "Zmeniť veľkosť"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2549,8 +2549,8 @@ msgstr "Neznámy"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" od autora \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" od autora \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2562,13 +2562,13 @@ msgstr "Nenašli sa žiadne doplnky"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Nainštalovať %s *NOVINKA*"
+msgid "Install {} *NEW*"
+msgstr "Nainštalovať {} *NOVINKA*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Nainštalovať %s"
+msgid "Install {}"
+msgstr "Nainštalovať {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2588,8 +2588,8 @@ msgstr "Sťahuje sa zoznam doplnkov"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Sťahuje sa %s"
+msgid "Downloading {}"
+msgstr "Sťahuje sa {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3102,8 +3102,8 @@ msgstr "Úroveň, ktorú upravujete, nemôžete odstrániť!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "prispel %s"
+msgid "contributed by {}"
+msgstr "prispel {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

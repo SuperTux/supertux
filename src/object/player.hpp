@@ -127,7 +127,7 @@ public:
   bool add_bonus(BonusType type, bool animate = false);
 
   /** like add_bonus, but can also downgrade the bonus items carried */
-  bool set_bonus(BonusType type, bool animate = false);
+  bool set_bonus(BonusType type, bool animate = false, bool increment_powerup_counter = true);
   BonusType get_bonus() const;
 
   std::string bonus_to_string() const;
@@ -173,7 +173,7 @@ public:
   void override_velocity() { m_velocity_override = true; }
 
   bool is_dead() const { return m_dead; }
-  bool is_big() const;
+  bool is_big() const { return get_bonus() != NO_BONUS; }
   bool is_stone() const { return m_stone; }
   bool is_sliding() const { return m_sliding; }
   bool is_swimming() const { return m_swimming; }

@@ -131,12 +131,12 @@ void
 FishSwimming::update(float dt_sec)
 {
   // Don't allow dying by going below the sector.
-  if (m_in_water && get_bbox().get_bottom() >= Sector::get().get_height())
+  if (BadGuy::get_state() != STATE_FALLING && !m_frozen &&
+      m_in_water && get_bbox().get_bottom() >= Sector::get().get_height())
   {
     set_pos(Vector(get_bbox().get_left(),
                    Sector::get().get_height() - m_col.m_bbox.get_height()));
   }
-
   BadGuy::update(dt_sec);
 }
 
