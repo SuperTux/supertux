@@ -55,7 +55,7 @@ Platform::finish_construction()
   if (!get_path())
   {
     // If no path is given, make a one-node dummy path
-    init_path_pos(m_col.m_bbox.p1(), false);
+    init_path_pos(m_col.m_bbox.p1());
   }
 
   if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
@@ -157,9 +157,10 @@ Platform::goto_node(int node_no)
 }
 
 void
-Platform::jump_to_node(int node_no)
+Platform::jump_to_node(int node_no, bool instantaneous)
 {
-  get_walker()->jump_to_node(node_no);
+  get_walker()->jump_to_node(node_no, instantaneous);
+  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[node_no].position));
 }
 
 void
