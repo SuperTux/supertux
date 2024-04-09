@@ -19,6 +19,7 @@
 
 #include "math/vector.hpp"
 #include "supertux/screen_fade.hpp"
+#include "video/layer.hpp"
 
 /** Shrinks a rectangle screen towards a specific position */
 class ShrinkFade final : public ScreenFade
@@ -27,7 +28,7 @@ public:
   enum Direction { FADEOUT, FADEIN };
 
 public:
-  ShrinkFade(const Vector& point, float fade_time, int draw_layer, Direction = FADEOUT);
+  ShrinkFade(const Vector& point, float fade_time, int draw_layer = LAYER_GUI + 1, Direction = FADEOUT);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

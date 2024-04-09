@@ -74,7 +74,7 @@ void Level_spawn(const std::string& sector, const std::string& spawnpoint);
    If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
  * @param string $sector
  * @param string $spawnpoint
- * @param string $transition
+ * @param string $transition Valid transitions are ""circle"" and ""fade"". If any other value is specified, no transition effect is drawn.
  */
 void Level_spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition);
 

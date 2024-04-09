@@ -16,12 +16,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "scripting/level.hpp"
-
 #include "supertux/d_scope.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
-
 #include "util/log.hpp"
 
 namespace scripting {
