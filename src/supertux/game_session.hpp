@@ -150,8 +150,6 @@ public:
 
   bool m_prevent_death; /**< true if players should enter ghost mode instead of dying */
 
-  static constexpr float TELEPORT_FADE_TIME = 1.0f; /**< Duration of teleport fade animation */
-
 private:
   std::unique_ptr<Level> m_level;
   SurfacePtr m_statistics_backdrop;

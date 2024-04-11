@@ -225,10 +225,9 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
           }
           if (!m_target_sector.empty())
           {
-            // Disable controls, make Tux temporarily safe and initiate screen fade
+            // Disable controls, GameSession will make safe Tux during fade animation.
             // Controls will be reactivated after spawn
             m_triggering_player->deactivate();
-            m_triggering_player->make_temporarily_safe(GameSession::TELEPORT_FADE_TIME);
             GameSession::current()->respawn_with_fade(m_target_sector,
                                                       m_target_spawnpoint,
                                                       ScreenFade::FadeType::CIRCLE,
