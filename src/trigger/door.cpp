@@ -154,7 +154,7 @@ Door::update(float )
     }
     else
     {
-      m_triggering_player->walk(0.0);
+      m_triggering_player->walk(0.0f);
       m_triggering_player = nullptr;
     }
   }
