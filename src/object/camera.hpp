@@ -108,6 +108,8 @@ public:
 
   void set_mode(Mode mode_) { m_mode = mode_; }
 
+  Mode get_mode() const { return m_mode; }
+
   /** get the exact scale at this exact moment */
   float get_current_scale() const { return m_enfore_minimum_scale ? std::min(m_minimum_scale, m_scale) : m_scale; }
 
