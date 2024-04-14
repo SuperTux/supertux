@@ -56,7 +56,7 @@ Platform::finish_construction()
   if (!get_path())
   {
     // If no path is given, make a one-node dummy path
-    init_path_pos(m_col.m_bbox.p1(), false);
+    init_path_pos(m_col.m_bbox.p1());
   }
 
   if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
@@ -152,6 +152,13 @@ Platform::editor_update()
 }
 
 void
+Platform::jump_to_node(int node_no)
+{
+  set_node(node_no);
+  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[node_no].position));
+}
+
+void
 Platform::move_to(const Vector& pos)
 {
   Vector shift = pos - m_col.m_bbox.p1();
@@ -190,6 +197,9 @@ Platform::register_class(ssq::VM& vm)
   ssq::Class cls = vm.addAbstractClass<Platform>("Platform", vm.findClass("MovingSprite"));
 
   PathObject::register_members(cls);
+
+  // Use Platform's implementation of "set_node".
+  cls.addFunc("set_node", &Platform::jump_to_node);
 }
 
 /* EOF */

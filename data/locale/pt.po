@@ -1782,8 +1782,8 @@ msgstr "Prime Escape para ignorar"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Utilização: %s [OPÇÕES] [FICHEIRO_DO_NÍVEL]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Utilização: {} [OPÇÕES] [FICHEIRO_DO_NÍVEL]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2507,13 +2507,13 @@ msgstr "Redimensionar"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Jogador %s]"
+msgid "[Profile {}]"
+msgstr "[Jogador {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Jogador %s"
+msgid "Profile {}"
+msgstr "Jogador {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2561,8 +2561,8 @@ msgstr "Desconhecido"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" por \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" por \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2574,13 +2574,13 @@ msgstr "Não foi encontrada nenhuma Extensão"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Instalar %s *NOVO*"
+msgid "Install {} *NEW*"
+msgstr "Instalar {} *NOVO*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Instalar %s"
+msgid "Install {}"
+msgstr "Instalar {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2600,8 +2600,8 @@ msgstr "A descarregar a lista de Extensões"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "A descarregar %s"
+msgid "Downloading {}"
+msgstr "A descarregar {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3114,8 +3114,8 @@ msgstr "Não podes eliminar o nível que estás a editar!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "criado por %s"
+msgid "contributed by {}"
+msgstr "criado por {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

@@ -67,7 +67,6 @@ ScriptedObject::get_settings()
 
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_OBJECTS);
   //result.add_float("width", &new_size.x, "width", OPTION_HIDDEN);
   //result.add_float("height", &new_size.y, "height", OPTION_HIDDEN);
   result.add_bool(_("Solid"), &solid, "solid", true);

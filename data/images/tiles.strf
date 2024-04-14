@@ -247,7 +247,7 @@
       5234 5235 5236 0
     )
   )
-  
+
   (tilegroup
     (name (_ "Snow Background"))
     (tiles
@@ -258,7 +258,7 @@
       2182 2183 2184 2179
       2190 2191 2192 2201
       2198 2199 2200 2202
-	  
+
       3541 3542 3543 3544
       3545 3546 3547 3548
       3549 3550 3551 3552
@@ -274,7 +274,7 @@
       1325 1326 1327 1328
       1329 1330 1331 1332
       1333 1334 1335 1336
-	  
+
 	    85   86   87   88
       89   90   91   92
       3419 3420 3421 3422
@@ -712,7 +712,7 @@
       6717 6718 0    0
       6721 6722 6723 6724
       6725 6726 0    0
-      
+
       6271 6272 6273 6274
       6275 6276 6277 6278
       1450 0    0    1451
@@ -725,7 +725,7 @@
       6303 6304 6305 6306
       6307 6308 6309 6310
       0    1451 1450 0
-      
+
       6543 6544 6546 3401
       3406 3407 3408 3409
       6547 6548 6205 6206
@@ -751,7 +751,7 @@
       6589 6590 6591 6592
       6593 6594 6595 6596
       6597 6598 0    0
-      
+
       6311 6312 6313 0
       6318 0    6320 0
       6325 6326 6327 0
@@ -762,10 +762,10 @@
       6328 6329 6330 6331
       6335 6336 6337 6338
       6342 6343 0    0
-      
+
       4961 4962 4963 0
       4964 4965 4966 0
-      
+
       6110 6111 6112 6113
       6117 6118 6119 6120
       6124 6125 6126 6127
@@ -773,13 +773,13 @@
       6114 6115 6116 0
       6121 6122 6123 0
       6129 6130 6137 0
-      
+
       6410 6411 6412 0
       6416 6417 6418 0
       6422 6423 6424 0
       6413 6414 6425 6415
       6419 6420 6426 6421
-      
+
       6808 6809 6810 6811
       6822 6823 6824 6825
       6836 6837 6838 6839
@@ -817,7 +817,7 @@
       6938 6939 6940 6941
       6942 6943 0    0
       6946 6947 0    0
-      
+
       6729 6730 6731 6732
       6733 6734 6735 6736
       6841 0    0    6842
@@ -830,7 +830,7 @@
       6761 6762 6763 6764
       6765 6766 6767 6768
       0    6842 6841 0
-      
+
       6769 6770 6771 0
       6776 0    6778 0
       6783 6784 6785 0
@@ -840,7 +840,7 @@
       6779 6780 6781 6782
       6786 6787 6788 6789
       6793 6794 6795 6796
-      
+
       6619 6620 6621 6622
       6627 6628 6629 6630
       0    0    6637 6638
@@ -881,7 +881,7 @@
       6188 6151 6189 6180
       6190 6191 6168 6169
       6148 6159 0    0
-      
+
       6346 6347 6348 6349
       6354 6355 6356 6357
       6362 6363 6364 6365
@@ -896,14 +896,14 @@
       6390 6391 6392 6393
       6398 6399 6400 6401
       6406 6407 6408 6409
-      
+
       6601 6602 6610 6609
       6603 6604 0    0
       6605 6606 0    0
       6607 6608 0    0
       6611 0    0    6614
       6615 6616 6617 6618
-      
+
       0    0    0    6225
       0    0    6230 6231
       0    0    6236 6237
@@ -924,7 +924,7 @@
       6256 6257 6258 0
       6262 6263 6264 0
       6268 6269 0    0
-      
+
       0    0    0    6493
       0    0    6498 6499
       0    6503 6504 6505
@@ -949,7 +949,7 @@
       5897 0    0    0
       5905 0    0    0
       5913 0    0    0
-      
+
       0    0    0    6431
       0    0    6437 6438
       0    6443 6444 6445
@@ -971,7 +971,7 @@
       5789 5790 5791 0
       5798 5799 5800 0
       5807 5808 5809 0
-      
+
       6068 6069 6070 6071
       6075 6076 6077 6078
       6082 6083 6084 6085
@@ -999,8 +999,8 @@
       102  140  3161 3162
       104  105  3160 7026
       3037 2943 2944 2945
-      2946 112  2153 0
-	  
+      2946 112  1311 0
+
       57   58   2841 2842
       59   60   2843 2844
       1742 1743 2845 2846
@@ -1014,7 +1014,7 @@
       2869 2870 2871 2872
 
       2905 2906 2907 2908
-	  
+
       2085 2086 2873 2874
       2087 2088 2875 2876
       2089 2090 2877 2878
@@ -1026,7 +1026,7 @@
       2893 2894 2895 2896
       2897 2898 2899 2900
       2901 2902 2903 2904
-	  
+
       4412 4413 4414 0
       4421 4422 4423 0
       4430 4431 4432 0
@@ -1039,7 +1039,7 @@
       4426 4427 4428 4429
       4444 4445 4446 4447
       5360 5361 5362 5363
-      
+
       4368 4369 4370 0
       4377 4378 4379 0
       4386 4387 4388 0
@@ -1052,7 +1052,7 @@
       4382 4383 4384 4385
       4400 4401 4402 4403
       4408 4409 4410 4411
-      
+
       4340 4341 4342 4343
       4347 4348 4349 4350
       4354 4355 4356 4357
@@ -1064,7 +1064,7 @@
       4366 4367 0    0
     )
   )
-  
+
   (tilegroup
     (name (_ "Pole + Signs"))
     (tiles
@@ -1226,7 +1226,7 @@
       4098 4099 1811 1814
     )
   )
-  
+
   (tilegroup
     (name (_ "Halloween"))
     (tiles
@@ -1267,7 +1267,7 @@
       3135 3136 0    0
     )
   )
-  
+
   (tilegroup
     (name (_ "Industrial"))
     (tiles
@@ -1282,7 +1282,7 @@
       3177 3178 3176 3182
 	)
   )
-  
+
   (tilegroup
     (name (_ "Unisolid + Lightmap"))
     (tiles
@@ -1309,7 +1309,7 @@
          0 4222 4223 4224
     )
   )
-  
+
   (tilegroup
     (name (_ "Miscellaneous"))
     (tiles
@@ -1336,8 +1336,8 @@
       2527 2528 0    0
     )
   )
-  
-  
+
+
   (tilegroup
     (name (_ "Retro Tiles"))
     (tiles
@@ -1389,7 +1389,7 @@
       3280 3278 5149 0
     )
   )
-  
+
   (tile
     (id 3162)
     (images
@@ -1596,7 +1596,7 @@
     (data 6)
     (fps 15)
   )
-  
+
   (tile
     (id 1)
     (images
@@ -1708,6 +1708,7 @@
   ; Duplicate of 24, retrocompatibility
   (tile
     (id 25)
+    (deprecated #t)
     (images
       "tiles/snow/grass2.png"
     )
@@ -2225,12 +2226,14 @@
   )
   (tile
     (id 131)
+    (deprecated #t)
     (images
       "tiles/auxiliary/black.png"
     )
   )
   (tile
     (id 132)
+    (deprecated #t)
     (object-name "sequencetrigger")
     (object-data "(width 32) (height 32) (sequence \"stoptux\")")
     (editor-images "tiles/auxiliary/finalgoal.png")
@@ -2238,6 +2241,7 @@
   )
   (tile
     (id 133)
+    (deprecated #t)
     (object-name "sequencetrigger")
     (object-data "(width 32) (height 32) (sequence \"endsequence\")")
     (editor-images "tiles/auxiliary/endseq.png")
@@ -2993,6 +2997,7 @@
   )
   (tile
     (id 1313)
+    (deprecated #t)
     (solid #f)
     (images "particles/rainsplash-1.png"
             "particles/rainsplash-2.png"
@@ -3003,6 +3008,7 @@
   )
   (tile
     (id 1314)
+    (deprecated #t)
     (solid #f)
     (images "particles/rainsplash-2.png"
             "particles/rainsplash-3.png"
@@ -3013,6 +3019,7 @@
   )
   (tile
     (id 1315)
+    (deprecated #t)
     (solid #f)
     (images "particles/rainsplash-3.png"
             "particles/rainsplash-4.png"
@@ -3023,6 +3030,7 @@
   )
   (tile
     (id 1316)
+    (deprecated #t)
     (solid #f)
     (images "particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png"
@@ -3033,6 +3041,7 @@
   )
   (tile
     (id 1317)
+    (deprecated #t)
     (solid #f)
     (images "particles/rainsplash-vertical-1.png"
             "particles/rainsplash-vertical-2.png"
@@ -3043,6 +3052,7 @@
   )
   (tile
     (id 1318)
+    (deprecated #t)
     (solid #f)
     (images "particles/rainsplash-vertical-2.png"
             "particles/rainsplash-vertical-3.png"
@@ -3053,6 +3063,7 @@
   )
   (tile
     (id 1319)
+    (deprecated #t)
     (solid #f)
     (images "particles/rainsplash-vertical-3.png"
             "particles/rainsplash-vertical-4.png"
@@ -3063,6 +3074,7 @@
   )
   (tile
     (id 1320)
+    (deprecated #t)
     (solid #f)
     (images "particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png"
@@ -4245,7 +4257,7 @@
     )
     (fps 16)
   )
-  
+
   (tile
     (id 4004)
     (images
@@ -4259,6 +4271,7 @@
   (tile
     (id 2153)
     (unisolid #t)
+    (deprecated #t)
     (editor-images "tiles/auxiliary/invisible-unisolid-editor.png")
   )
 
@@ -4780,6 +4793,7 @@
     (width 3)(height 1)
     (ids 3041 3042 3043)
     (attributes 257 257 257)
+    (deprecated #t)
     (images
      (surface (diffuse-texture (file "objects/icecube/iceslick.png"))
               (displacement-texture (file "objects/icecube/iceslick-displacement.png")))))
@@ -5058,17 +5072,31 @@
     (deprecated #t)
   )
   (tiles
-    (width 6)
+    (width 5)
     (height 2)
     (ids
-      3417 3373 3374 3375 3376 3377
-      3378 3379 3380 3381 3382 3383
+      3417 3373 3374 3375 3376
+      3378 3379 3380 3381 3382
     )
     (attributes
-      1 1 1 1 1 0
-      1 1 1 1 1 1
+      1 1 1 1 1
+      1 1 1 1 1
     )
     (image "tiles/ghostwood/ghostwood-4.png")
+  )
+  (tiles
+    (width 1)
+    (height 2)
+    (deprecated #t)
+    (ids
+      3377
+      3383
+    )
+    (attributes
+      0
+      1
+    )
+    (image (region "tiles/ghostwood/ghostwood-4.png" 160 0 32 64))
   )
   (tiles
     (width 2)
@@ -5117,7 +5145,7 @@
     (width 8)
     (height 3)
     (ids
-      3398 3399 3400 3401 3402 3403 3404 3405
+         0    0    0 3401    0    0    0    0
       3406 3407 3408 3409 3410 3411 3412 3413
       3414 3415    0    0    0    0 3416 3418
     )
@@ -5130,6 +5158,18 @@
        0  0  0  0  0  0  0  0
       33 17 19 35  1  3 49 67
        0  0  0  0  0  0 65 51
+    )
+    (image "tiles/ghostwood/ghostwood-2.png")
+  )
+  (tiles
+    (width 8)
+    (height 1)
+    (deprecated #t)
+    (ids
+      3398 3399 3400 0 3402 3403 3404 3405
+    )
+    (attributes
+       1  1  1  0  1  1  1  1
     )
     (image "tiles/ghostwood/ghostwood-2.png")
   )
@@ -5176,7 +5216,7 @@
     (height 4)
     (ids
       3438 3439
-      3440 3441      
+      3440 3441
       3442 3443
       3444 3445
     )
@@ -5468,7 +5508,7 @@
     )
     (deprecated #t)
   )
-       
+
   (tiles
     (width 4)
     (height 11)
@@ -5506,7 +5546,7 @@
     )
     (deprecated #t)
   )
-  
+
   (tiles
     (width 4)
     (height 8)
@@ -5533,7 +5573,7 @@
 	  )
     (deprecated #t)
   )
-  
+
   (tiles
     (width 4)
     (height 26)
@@ -5596,7 +5636,7 @@
 	  )
     (deprecated #t)
   )
-  
+
   (tiles
     (width 4)
     (height 10)
@@ -5639,7 +5679,7 @@
     )
     (deprecated #t)
   )
-  
+
   (tiles
     (width 4)
     (height 1)
@@ -5655,7 +5695,7 @@
 	 1024 1024 1024 1024
 	 )
   )
-  
+
   (tile
 	(fps 16)
 	(water #t)
@@ -5666,7 +5706,7 @@
      3877
 	 )
   )
-	 
+
   (tiles
     (width 1)
     (height 3)
@@ -5708,7 +5748,7 @@
     )
     (image "tiles/snow/icechunk.png")
   )
-	
+
   (tiles
     (width 4)
     (height 9)
@@ -5771,7 +5811,7 @@
       1 1 1 1 1 1 1 1 0 0 0
     )
   )
-  
+
    (tiles
     (width 4)
     (height 1)
@@ -5838,7 +5878,7 @@
     )
     (image "tiles/snow/underground/special.png")
   )
-  
+
   (tiles
     (width 2)(height 3)
     (image "tiles/castle/nolok-statue-forest.png")
@@ -5853,7 +5893,7 @@
        0 0
        )
    )
-   
+
    (tiles
      (width 2)(height 3)
      (image "tiles/castle/nolok-statue-ghost.png")
@@ -5868,7 +5908,7 @@
         0 0
         )
     )
-    
+
     (tiles
       (width 2)(height 3)
       (image "tiles/castle/nolok-statue-snow.png")
@@ -5903,7 +5943,7 @@
     (ids
      4104 4105 4106 4107 4108
      4109 4110 4111 4112 4113
-     4114 4115 4116 0    4118)
+     4114 4115 4116    0    0)
     (attributes
      4096 1 4096 1 1
      4096 1 4096 1 1
@@ -6162,13 +6202,21 @@
     (ids
       4661 4662 4663 4664
       4665 4666 4667 4668
-      4669 4670 4671 4672
+      4669 4670    0    0
       4673 4674 4675 4676
       4677 4678 4679 4680
       4681 4682 4683 4684
       4685 4686 4687 4688
     )
     (image "tiles/castle/chain.png")
+  )
+  (tiles
+    (width 2)(height 1)
+    (deprecated #t)
+    (ids
+      4671 4672
+    )
+    (image (region "tiles/castle/chain.png" 64 64 64 32))
   )
   (tiles
     (width 5)(height 6)
@@ -6280,7 +6328,7 @@
   (tiles
     (width 5)(height 3)
     (ids
-      4946 4947 4948 4949 0
+      4946 4947 4948    0    0
       4951 4952 4953 4954 4955
       4956 4957 0    0    4960
     )
@@ -6862,7 +6910,7 @@
       6283 6284 6285 6286
       6287 6288 6289 6290
       6291 6292 6293 6294
-      6295 6296 6297 6298
+         0 6296 6297    0
       6299 0    0    6302
       6303 6304 6305 6306
       6307 6308 6309 6310
@@ -6892,6 +6940,17 @@
        0 32 34  0
     )
     (image "tiles/ghostwood/ghostwood-12.png")
+  )
+  (tiles
+    (width 4)(height 1)
+    (deprecated #t)
+    (ids
+      6295    0    0 6298
+    )
+    (attributes
+       1  0  0  1
+    )
+    (image (region "tiles/ghostwood/ghostwood-12.png" 0 192 128 32))
   )
   (tiles
     (width 7)(height 5)
@@ -7138,7 +7197,7 @@
       6741 6742 6743 6744
       6745 6746 6747 6748
       6749 6750 6751 6752
-      6753 6754 6755 6756
+         0 6754 6755    0
       6757 0    0    6760
       6761 6762 6763 6764
       6765 6766 6767 6768
@@ -7168,6 +7227,17 @@
        0 32 34  0
     )
     (image "tiles/ghostwood/underground/ghostwood-12_under.png")
+  )
+  (tiles
+    (width 4)(height 1)
+    (deprecated #t)
+    (ids
+      6753    0    0 6756
+    )
+    (attributes
+       1  0  0  1
+    )
+    (image (region "tiles/ghostwood/underground/ghostwood-12_under.png" 0 192 128 32))
   )
   (tiles
     (width 7)(height 5)
@@ -7550,5 +7620,27 @@
       0  0  0 0
     )
     (image "tiles/forest/underground/variants2.png")
+  )
+
+  ;; Additional attributes
+  (additional
+    (thunderstorm
+      ;; Attributes for thunderstorm changing tiles
+      (changing-tiles
+        2019 3873
+        2140 3874
+        2141 3875
+        2142 3876
+        2020 3877
+        3419 3523
+        3420 3524
+        3421 3525
+        3422 3526
+        3423 3527
+        3424 3528
+        3425 3529
+        3426 3530
+      )
+    )
   )
 )

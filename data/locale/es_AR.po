@@ -1766,8 +1766,8 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Uso:%s[OPCIONES] [ARCHIVODENIVEL]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Uso:{}[OPCIONES] [ARCHIVODENIVEL]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2490,13 +2490,13 @@ msgstr "Redimensionar"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Perfil %s]"
+msgid "[Profile {}]"
+msgstr "[Perfil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Perfil %s"
+msgid "Profile {}"
+msgstr "Perfil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2544,8 +2544,8 @@ msgstr "Desconocido"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s \"por\"%s \""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{} \"por\"{} \""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2557,13 +2557,13 @@ msgstr "No se encontraron complementos"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Instalar %s *Nuevo*"
+msgid "Install {} *NEW*"
+msgstr "Instalar {} *Nuevo*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Instalar %s"
+msgid "Install {}"
+msgstr "Instalar {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2583,8 +2583,8 @@ msgstr "Descarga del índice del repositorio de complementos"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Descargando %s"
+msgid "Downloading {}"
+msgstr "Descargando {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3097,8 +3097,8 @@ msgstr ""
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "Contribuido por%s"
+msgid "contributed by {}"
+msgstr "Contribuido por{}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

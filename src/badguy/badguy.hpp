@@ -286,6 +286,8 @@ protected:
   SpritePtr m_freezesprite;
   bool m_glowing;
 
+  Timer m_unfreeze_timer;
+
 private:
   State m_state;
 
@@ -294,8 +296,6 @@ private:
   bool m_is_active_flag;
 
   Timer m_state_timer;
-
-  Timer m_unfreeze_timer;
 
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */

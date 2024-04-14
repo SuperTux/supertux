@@ -41,7 +41,7 @@ public:
   virtual ObjectSettings get_settings() override;
 
   virtual const std::string get_icon_path() const override {
-    return "images/engine/editor/sparkle-file.png";
+    return "images/engine/editor/particle_file.png";
   }
 
 private:

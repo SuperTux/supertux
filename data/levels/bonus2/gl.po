@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# xanvieiro <gallaecia6@gmail.com>, 2019-2020
+# Xan Vieiro <gallaecia6@gmail.com>, 2019-2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2020-03-26 19:07+0000\n"
-"Last-Translator: xanvieiro <gallaecia6@gmail.com>\n"
-"Language-Team: Galician (http://www.transifex.com/arctic-games/supertux/language/gl/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:07+0000\n"
+"Last-Translator: Xan Vieiro <gallaecia6@gmail.com>, 2019-2020\n"
+"Language-Team: Galician (http://app.transifex.com/arctic-games/supertux/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -165,14 +165,14 @@ msgstr "Tradición"
 msgid "Bonus Island II"
 msgstr "Illa de Bono II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "Atopaches un lugar secreto!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Pregúntome a onde conduce ese camiño..."
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "Salto a casa..."

@@ -31,6 +31,7 @@
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/screen_fade.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
 #include "video/surface_ptr.hpp"
@@ -88,6 +89,11 @@ public:
   /** ends the current level */
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname);
+  void respawn_with_fade(const std::string& sectorname,
+                         const std::string& spawnpointname,
+                         const ScreenFade::FadeType fade_type,
+                         const Vector &fade_point,
+                         const bool make_invincible = false);
   void reset_level();
 
   void set_start_point(const std::string& sectorname,
@@ -135,6 +141,9 @@ private:
 
   void on_escape_press(bool force_quick_respawn);
 
+  Vector get_fade_point() const;
+  Vector get_fade_point(const Vector& position) const;
+
 public:
   bool reset_button;
   bool reset_checkpoint_button;
@@ -163,6 +172,9 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string m_newsector;
   std::string m_newspawnpoint;
+  ScreenFade::FadeType m_spawn_fade_type;
+  Timer m_spawn_fade_timer;
+  bool m_spawn_with_invincibility;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;

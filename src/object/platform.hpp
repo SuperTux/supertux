@@ -63,6 +63,10 @@ public:
 
   const Vector& get_speed() const { return m_speed; }
 
+  /** Moves platform instantly to given node.
+      Replaces PathObject::set_node's implementation in scripting. */
+  void jump_to_node(int node_no);
+
 private:
   Vector m_speed;
 

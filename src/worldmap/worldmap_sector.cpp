@@ -351,7 +351,7 @@ WorldMapSector::update(float dt_sec)
           // update state and savegame
           m_parent.save_state();
           ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_parent.m_savegame, &level_->get_statistics()),
-                                                std::make_unique<ShrinkFade>(shrinkpos, 1.0f));
+                                                std::make_unique<ShrinkFade>(shrinkpos, 1.0f, LAYER_LIGHTMAP - 1));
 
           m_parent.m_in_level = true;
         } catch(std::exception& e) {

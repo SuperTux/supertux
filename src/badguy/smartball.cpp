@@ -24,7 +24,7 @@ SmartBall::SmartBall(const ReaderMapping& reader)
   parse_type(reader);
 
   walk_speed = 80;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 }
 
 GameObjectTypes

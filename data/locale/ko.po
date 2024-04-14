@@ -1771,8 +1771,8 @@ msgstr "건너뛰려면 Esc 키를 누르세요"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "사용법: %s [옵션] [레벨파일]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "사용법: {} [옵션] [레벨파일]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2494,13 +2494,13 @@ msgstr "크기 조절"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[프로필 %s]"
+msgid "[Profile {}]"
+msgstr "[프로필 {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "프로필 %s"
+msgid "Profile {}"
+msgstr "프로필 {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2548,8 +2548,8 @@ msgstr "알 수 없음"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" 기여자: \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" 기여자: \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2561,13 +2561,13 @@ msgstr "애드온을 찾을 수 없습니다"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "%s 설치 *신규*"
+msgid "Install {} *NEW*"
+msgstr "{} 설치 *신규*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "%s 설치"
+msgid "Install {}"
+msgstr "{} 설치"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2587,8 +2587,8 @@ msgstr "애드온 저장소 색인을 다운로드 중"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "%s 다운로드 중"
+msgid "Downloading {}"
+msgstr "{} 다운로드 중"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3101,8 +3101,8 @@ msgstr "편집 중인 레벨은 삭제할 수 없습니다!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "기여자: %s"
+msgid "contributed by {}"
+msgstr "기여자: {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

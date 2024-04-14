@@ -163,7 +163,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  add_definitions(-DMACOSX)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
 endif()
 
@@ -244,11 +243,13 @@ if(EMSCRIPTEN)
 endif()
 
 if(WIN32 AND NOT VCPKG_BUILD)
+if(NOT MINGW)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${DEPENDENCY_FOLDER}/dll"
     $<TARGET_FILE_DIR:supertux2_lib>)
+endif()
 endif()
 
 ## Some additional include paths
@@ -263,9 +264,6 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
 endif()
 
 ## Link supertux binary with squirrel and other libraries
-if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
-endif()
 
 target_link_libraries(supertux2_lib PUBLIC LibSquirrel)
 target_link_libraries(supertux2_lib PUBLIC LibSqstdlib)
@@ -278,9 +276,12 @@ target_link_libraries(supertux2_lib PUBLIC LibOpenAL)
 target_link_libraries(supertux2_lib PUBLIC LibGlm)
 target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
+
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
+  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
   target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)
+  target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
 if(HAVE_OPENGL)
@@ -289,10 +290,6 @@ endif()
 
 if(ENABLE_DISCORD)
   target_link_libraries(supertux2_lib PUBLIC LibDiscord)
-endif()
-
-if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
 ## Install stuff

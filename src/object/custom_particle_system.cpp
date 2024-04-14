@@ -48,7 +48,7 @@ CustomParticleSystem::CustomParticleSystem() :
   script_easings(),
   m_textures(),
   custom_particles(),
-  m_particle_main_texture("/images/engine/editor/sparkle.png"),
+  m_particle_main_texture("/images/engine/editor/particle.png"),
   m_max_amount(25),
   m_delay(0.1f),
   m_particle_lifetime(5.f),
@@ -91,7 +91,7 @@ CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
   script_easings(),
   m_textures(),
   custom_particles(),
-  m_particle_main_texture("/images/engine/editor/sparkle.png"),
+  m_particle_main_texture("/images/engine/editor/particle.png"),
   m_max_amount(25),
   m_delay(0.1f),
   m_particle_lifetime(5.f),
@@ -124,7 +124,7 @@ CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
   m_particle_offscreen_mode(),
   m_cover_screen(true)
 {
-  reader.get("main-texture", m_particle_main_texture, "/images/engine/editor/sparkle.png");
+  reader.get("main-texture", m_particle_main_texture, "/images/engine/editor/particle.png");
 
   // FIXME: Is there a cleaner way to get a list of textures?
   auto iter = reader.get_iter();
