@@ -27,7 +27,14 @@
 class DrawingContext;
 class ReaderMapping;
 
-/** A text object intended for scripts that want to tell a story */
+/**
+ * A text object intended for scripts that want to tell a story.
+
+ * @scripting
+ * @summary A ""TextObject"" that was given a name can be controlled by scripts.
+ * @instances A ""TextObject"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class TextObject final : public GameObject
 {
   static Color default_color;
@@ -52,101 +59,120 @@ public:
   virtual bool is_saveable() const override { return false; }
 
   /**
-   * Sets the text string to be displayed.
+   * @scripting
+   * @description Sets the text string to be displayed.
    * @param string $text
    */
   void set_text(const std::string& text);
   /**
-   * Sets the font of the text to be displayed.
+   * @scripting
+   * @description Sets the font of the text to be displayed.
    * @param string $fontname Valid values are normal, big and small.
    */
   void set_font(const std::string& fontname);
   /**
-   * Fades in the specified text for the next ""fadetime"" seconds.
+   * @scripting
+   * @description Fades in the specified text for the next ""fadetime"" seconds.
    * @param float $fadetime
    */
   void fade_in(float fadetime);
   /**
-   * Fades out the specified text for the next ""fadetime"" seconds.
+   * @scripting
+   * @description Fades out the specified text for the next ""fadetime"" seconds.
    * @param float $fadetime
    */
   void fade_out(float fadetime);
   /**
-   * Grows in the specified text for the next ""fadetime"" seconds.
+   * @scripting
+   * @description Grows in the specified text for the next ""fadetime"" seconds.
    * @param float $fadetime
    */
   void grow_in(float fadetime);
   /**
-   * Grows out the specified text for the next ""fadetime"" seconds.
+   * @scripting
+   * @description Grows out the specified text for the next ""fadetime"" seconds.
    * @param float $fadetime
    */
   void grow_out(float fadetime);
   /**
+   * @scripting
    * @deprecated Use the ""visible"" property instead! (Does not apply for usage from a ""TextArray"".)
-   * Shows or hides the text abruptly (drastic counterpart to ""fade_in()"" and ""fade_out()"").
+   * @description Shows or hides the text abruptly (drastic counterpart to ""fade_in()"" and ""fade_out()"").
    * @param bool $visible
    */
   void set_visible(bool visible);
   /**
+   * @scripting
    * @deprecated Use the ""centered"" property instead! (Does not apply for usage from a ""TextArray"".)
-   * If ""centered"" is ""true"", the text will be centered on the screen. Otherwise, it will be left-aligned.
+   * @description If ""centered"" is ""true"", the text will be centered on the screen. Otherwise, it will be left-aligned.
    * @param bool $centered
    */
   void set_centered(bool centered);
   /**
-   * Sets the offset of the text, relative to the anchor point.
+   * @scripting
+   * @description Sets the offset of the text, relative to the anchor point.
    * @param float $x
    * @param float $y
    */
   void set_pos(float x, float y);
   /**
-   * Returns the X offset of the text, relative to the anchor point.
+   * @scripting
+   * @description Returns the X offset of the text, relative to the anchor point.
    */
   float get_x() const;
   /**
-   * Returns the Y offset of the text, relative to the anchor point.
+   * @scripting
+   * @description Returns the Y offset of the text, relative to the anchor point.
    */
   float get_y() const;
 #ifdef DOXYGEN_SCRIPTING
   /**
+   * @scripting
    * @deprecated Use ""get_x()"" instead!
-   * Returns the X offset of the text, relative to the anchor point.
+   * @description Returns the X offset of the text, relative to the anchor point.
    */
   float get_pos_x() const;
   /**
+   * @scripting
    * @deprecated Use ""get_y()"" instead!
-   * Returns the Y offset of the text, relative to the anchor point.
+   * @description Returns the Y offset of the text, relative to the anchor point.
    */
   float get_pos_y() const;
 #endif
   /**
-   * Sets the anchor point of the text.
+   * @scripting
+   * @description Sets the anchor point of the text.
    * @param int $anchor One of the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
    */
   void set_anchor_point(int anchor);
   /**
-   * Returns the current anchor point of the text (one of the ""ANCHOR_*"" constants; see ${SRG_REF_AnchorPoints}).
+   * @scripting
+   * @description Returns the current anchor point of the text (one of the ""ANCHOR_*"" constants; see ${SRG_REF_AnchorPoints}).
    */
   int get_anchor_point() const;
   /**
-   * Sets the anchor offset of the text.
+   * @scripting
+   * @description Sets the anchor offset of the text.
    * @param float $x
    * @param float $y
    */
   void set_anchor_offset(float x, float y);
   /**
+   * @scripting
    * @deprecated Use the ""wrap_width"" property instead! (Does not apply for usage from a ""TextArray"".)
-   * Gets the text wrap width of the text.
+   * @description Gets the text wrap width of the text.
    */
   float get_wrap_width() const;
   /**
+   * @scripting
    * @deprecated Use the ""wrap_width"" property instead! (Does not apply for usage from a ""TextArray"".)
-   * Sets the text wrap width of the text.
+   * @description Sets the text wrap width of the text.
    * @param float $width
    */
   void set_wrap_width(float width);
   /**
-   * Sets the front fill color of the text.
+   * @scripting
+   * @description Sets the front fill color of the text.
    * @param float $red
    * @param float $green
    * @param float $blue
@@ -154,7 +180,8 @@ public:
    */
   void set_front_fill_color(float red, float green, float blue, float alpha);
   /**
-   * Sets the back fill color of the text.
+   * @scripting
+   * @description Sets the back fill color of the text.
    * @param float $red
    * @param float $green
    * @param float $blue
@@ -162,7 +189,8 @@ public:
    */
   void set_back_fill_color(float red, float green, float blue, float alpha);
   /**
-   * Sets the text color.
+   * @scripting
+   * @description Sets the text color.
    * @param float $red
    * @param float $green
    * @param float $blue
@@ -170,8 +198,9 @@ public:
    */
   void set_text_color(float red, float green, float blue, float alpha);
   /**
+   * @scripting
    * @deprecated Use the ""roundness"" property instead! (Does not apply for usage from a ""TextArray"".)
-   * Sets the frame's roundness.
+   * @description Sets the frame's roundness.
    * @param float $roundness
    */
   void set_roundness(float roundness);
@@ -191,15 +220,31 @@ private:
   std::string m_wrapped_text;
   float m_fade_progress;
   float m_fadetime;
+  /**
+   * @scripting
+   * @description Determines whether the text is visible.
+   */
   bool m_visible;
+  /**
+   * @scripting
+   * @description Determines whether the text is centered.
+   */
   bool m_centered;
   AnchorPoint m_anchor;
   Vector m_anchor_offset;
   Vector m_pos;
+  /**
+   * @scripting
+   * @description Determines the maximum wrap width of the text.
+   */
   float m_wrap_width;
   Color m_front_fill_color;
   Color m_back_fill_color;
   Color m_text_color;
+  /**
+   * @scripting
+   * @description Determines the roundness of the text frame.
+   */
   float m_roundness;
   bool m_growing_in;
   bool m_growing_out;

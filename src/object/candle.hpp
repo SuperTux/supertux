@@ -21,6 +21,11 @@
 
 /**
  * A burning candle: Simple, scriptable level decoration.
+
+ * @scripting
+ * @summary A ""Candle"" that was given a name can be controlled by scripts.
+ * @instances A ""Candle"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
 class Candle final : public MovingSprite
 {
@@ -44,17 +49,18 @@ public:
   virtual void on_flip(float height) override;
 
   /**
-   * Spawns a puff of smoke.
+   * @scripting
+   * @description Spawns a puff of smoke.
    */
   void puff_smoke();
   /**
-   * @deprecated
-   * Returns ""true"" if the candle is lit up.
+   * @scripting
+   * @description Returns ""true"" if the candle is lit up.
    */
   bool get_burning() const;
   /**
-   * @deprecated
-   * Sets the burning state of the candle.
+   * @scripting
+   * @description Sets the burning state of the candle.
    * @param bool $burning If ""true"", the candle is lit up. If ""false"", it's extinguished.
    */
   void set_burning(bool burning);

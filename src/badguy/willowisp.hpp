@@ -22,6 +22,12 @@
 
 class SoundSource;
 
+/**
+ * @scripting
+ * @summary A ""WillOWisp"" that was given a name can be controlled by scripts.
+ * @instances A ""WillOWisp"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class WillOWisp final : public BadGuy,
                         public PathObject
 {
@@ -46,7 +52,8 @@ public:
   void goto_node(int node_no);
 
   /**
-   * Sets the state of the WillOWisp.
+   * @scripting
+   * @description Sets the state of the WillOWisp.
    * @param string $state One of the following: "stopped", "move_path" (moves along a path),
       "move_path_track" (moves along a path but catches Tux when he is near), "normal" (starts tracking Tux when he is near enough),
       "vanish".

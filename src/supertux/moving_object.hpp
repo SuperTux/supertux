@@ -26,9 +26,12 @@
 class Dispenser;
 class Sector;
 
-/** Base class for all dynamic/moving game objects. This class
-    contains things for handling the bounding boxes and collision
-    feedback. */
+/**
+ * @scripting
+ * @summary Base class for all dynamic/moving game objects. This class
+            contains things for handling the bounding boxes and collision
+            feedback.
+ */
 class MovingObject : public GameObject,
                      public CollisionListener
 {
@@ -116,32 +119,38 @@ public:
   virtual int get_layer() const = 0;
 
   /**
-   * Returns the object's X coordinate.
+   * @scripting
+   * @description Returns the object's X coordinate.
    */
   float get_x() const;
   /**
-   * Returns the object's Y coordinate.
+   * @scripting
+   * @description Returns the object's Y coordinate.
    */
   float get_y() const;
   /**
-   * Sets the position of the object.
+   * @scripting
+   * @description Sets the position of the object.
    * @param float $x
    * @param float $y
    */
   void set_pos(float x, float y);
   /**
-   * Moves the object by ""x"" units to the right and ""y"" down, relative to its current position.
+   * @scripting
+   * @description Moves the object by ""x"" units to the right and ""y"" down, relative to its current position.
    * @param float $x
    * @param float $y
    */
   void move(float x, float y);
 
   /**
-   * Returns the object's hitbox width.
+   * @scripting
+   * @description Returns the object's hitbox width.
    */
   float get_width() const;
   /**
-   * Returns the object's hitbox height.
+   * @scripting
+   * @description Returns the object's hitbox height.
    */
   float get_height() const;
 

@@ -26,13 +26,46 @@ std::string write_file_notice(const std::string& template_file)
 {
   std::stringstream notice;
 
-  notice << "> Note: This file is auto-generated from the [SuperTux scripting interface source code](https://github.com/SuperTux/supertux/tree/master/src/scripting), "
+  notice << "> This file is auto-generated from the [SuperTux source code](https://github.com/SuperTux/supertux/tree/master/src), "
          << "using the template [" << template_file << "](https://github.com/SuperTux/wiki/tree/master/templates/" << template_file << ")."
          << std::endl << std::endl;
 
   return notice.str();
 }
 
+
+std::string write_inheritance_list(const std::vector<Class>& classes,
+                                   const Class::BaseClasses& base_classes,
+                                   const std::vector<std::string>& derived_classes)
+{
+  std::stringstream list;
+
+  if (!base_classes.empty())
+  {
+    list << "This class inherits functions and variables from the following base classes:" << std::endl;
+    // List of all base classes
+    for (const auto& base_class : base_classes)
+    {
+      list << "* " << write_class_ref(base_class.second) << std::endl;
+    }
+    if (!derived_classes.empty())
+      list << std::endl;
+  }
+  if (!derived_classes.empty())
+  {
+    list << "The following classes inherit functions and variables from this class:" << std::endl;
+    // List of all derived classes
+    for (const std::string& derived_class : derived_classes)
+    {
+      // Check whether the current class is documented
+      const bool documented = std::any_of(classes.begin(), classes.end(), [derived_class](const Class& cl) { return cl.name == derived_class; });
+
+      list << "* " << (documented ? write_class_ref(derived_class) : derived_class) << std::endl;
+    }
+  }
+
+  return list.str();
+}
 
 std::string write_constants_table(const std::vector<Constant>& constants)
 {
@@ -46,8 +79,28 @@ std::string write_constants_table(const std::vector<Constant>& constants)
   // Table contents (constants)
   for (const Constant& con : constants)
   {
+    // Print out type, name, initializer (if available) and description
+    table << "`" << con.type << " " << con.name << (con.initializer.empty() ? "" : " " + con.initializer)
+          << "` | " << con.description << std::endl;
+  }
+
+  return table.str();
+}
+
+std::string write_variables_table(const std::vector<Variable>& variables)
+{
+  if (variables.empty()) return "";
+
+  std::stringstream table;
+
+  // Table beginning
+  table << "Variable | Explanation" << std::endl;
+  table << "---------|---------" << std::endl;
+  // Table contents (variables)
+  for (const Variable& var : variables)
+  {
     // Print out type, name and description
-    table << "`" << con.type << " " << con.name << "` | " << con.description << std::endl;
+    table << "`" << var.type << " " << var.name << "` | " << var.description << std::endl;
   }
 
   return table.str();
@@ -75,7 +128,18 @@ std::string write_function_table(const std::vector<Function>& functions)
     table << ")`";
 
     // Print out description of function
-    table << " | " << func.description;
+    table << " | ";
+    if (func.deprecated)
+    {
+      table << "**Deprecated!**";
+      if (!func.deprecation_msg.empty())
+        table << " " << func.deprecation_msg;
+
+      // Add line breaks only if a description, or parameters with descriptions are available
+      if (!func.description.empty() || std::any_of(func.parameters.begin(), func.parameters.end(), [](const Parameter& param) { return !param.description.empty(); }))
+        table << "<br /><br />";
+    }
+    table << func.description;
 
     // Print out descriptions of parameters
     bool has_printed_param_desc = false;

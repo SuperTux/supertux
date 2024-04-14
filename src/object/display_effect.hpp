@@ -19,6 +19,13 @@
 
 #include "supertux/game_object.hpp"
 
+/**
+ * @scripting
+ * @summary ""DisplayEffect"" is an interface for toying with the display.
+ * @instances SuperTux creates an instance named ""Effect"" when starting the scripting engine.
+              Its usage is preferred – creating another instance might have unexpected side effects and is strongly discouraged.
+              (Use ""sector.Effect"" in the console.)
+ */
 class DisplayEffect final : public GameObject
 {
 public:
@@ -38,34 +45,40 @@ public:
       @{ */
 
   /**
-   * Gradually fades out the screen to black for the next ""time"" seconds.
+   * @scripting
+   * @description Gradually fades out the screen to black for the next ""time"" seconds.
    * @param float $time
    */
   void fade_out(float time);
   /**
-   * Gradually fades in the screen from black for the next ""time"" seconds.
+   * @scripting
+   * @description Gradually fades in the screen from black for the next ""time"" seconds.
    * @param float $time
    */
   void fade_in(float time);
   /**
-   * Blackens or un-blackens the screen (depending on the value of ""black"").
+   * @scripting
+   * @description Blackens or un-blackens the screen (depending on the value of ""black"").
    * @param bool $black
    */
   void set_black(bool black);
   /**
-   * Returns ""true"" if the screen has been blackened by ""set_black"".
+   * @scripting
+   * @description Returns ""true"" if the screen has been blackened by ""set_black"".
      Note: Calling ""fade_in"" or ""fade_out"" resets the return value to ""false"".
    */
   bool is_black() const;
   /**
-   * Sets the display ratio to 16:9, effectively adding black bars at the top and bottom of the screen.
-     Should be used before cutscenes. Gradually fades to this state for the next ""time"" seconds.
+   * @scripting
+   * @description Sets the display ratio to 16:9, effectively adding black bars at the top and bottom of the screen.
+                  Should be used before cutscenes. Gradually fades to this state for the next ""time"" seconds.
    * @param float $time
    */
   void sixteen_to_nine(float time);
   /**
-   * Sets the display ratio to 4:3, removing the black bars added by ""sixteen_to_nine()"".
-     Should be used after cutscenes. Gradually fades to this state for the next ""time"" seconds.
+   * @scripting
+   * @description Sets the display ratio to 4:3, removing the black bars added by ""sixteen_to_nine()"".
+                  Should be used after cutscenes. Gradually fades to this state for the next ""time"" seconds.
    * @param float $time
    */
   void four_to_three(float time);

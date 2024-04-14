@@ -27,6 +27,11 @@
 
 class ReaderMapping;
 
+/**
+ * @scripting
+ * @summary A ""Background"" that was given a name can be manipulated by scripts.
+ * @instances A ""Background"" can be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Background final : public GameObject
 {
 public:
@@ -65,42 +70,50 @@ public:
   void fade_color(Color color, float time);
 
   /**
-   * Sets the background's image.
+   * @scripting
+   * @description Sets the background's image.
    * @param string $image
    */
   void set_image(const std::string& image);
   /**
-   * Sets the top, middle and bottom background images.
+   * @scripting
+   * @description Sets the top, middle and bottom background images.
    * @param string $top_image
    * @param string $middle_image
    * @param string $bottom_image
    */
   void set_images(const std::string& top_image, const std::string& middle_image,
-                             const std::string& bottom_image);
+                  const std::string& bottom_image);
   /**
-   * Sets the background speed.
+   * @scripting
+   * @description Sets the background speed.
    * @param float $speed
    */
   void set_speed(float speed);
 
   /**
-   * Returns the red color value.
+   * @scripting
+   * @description Returns the red color value.
    */
   float get_color_red() const;
   /**
-   * Returns the green color value.
+   * @scripting
+   * @description Returns the green color value.
    */
   float get_color_green() const;
   /**
-   * Returns the blue color value.
+   * @scripting
+   * @description Returns the blue color value.
    */
   float get_color_blue() const;
   /**
-   * Returns the alpha color value.
+   * @scripting
+   * @description Returns the alpha color value.
    */
   float get_color_alpha() const;
   /**
-   * Sets the background color.
+   * @scripting
+   * @description Sets the background color.
    * @param float $red
    * @param float $green
    * @param float $blue
@@ -108,7 +121,8 @@ public:
    */
   void set_color(float red, float green, float blue, float alpha);
   /**
-   * Fades to specified background color in ""time"" seconds.
+   * @scripting
+   * @description Fades to specified background color in ""time"" seconds.
    * @param float $red
    * @param float $green
    * @param float $blue

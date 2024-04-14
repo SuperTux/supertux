@@ -22,6 +22,12 @@
 #include "math/easing.hpp"
 #include "video/surface_ptr.hpp"
 
+/**
+ * @scripting
+ * @summary A ""RainParticleSystem"" that was given a name can be controlled by scripts.
+ * @instances A ""RainParticleSystem"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class RainParticleSystem final : public ParticleSystem_Interactive
 {
 public:
@@ -45,19 +51,22 @@ public:
   virtual ObjectSettings get_settings() override;
 
   /**
-   * Smoothly changes the rain speed to the given value in ""time"" seconds.
+   * @scripting
+   * @description Smoothly changes the rain speed to the given value in ""time"" seconds.
    * @param float $speed
    * @param float $time
    */
   void fade_speed(float speed, float time);
   /**
-   * Smoothly changes the amount of particles to the given value in ""time"" seconds.
+   * @scripting
+   * @description Smoothly changes the amount of particles to the given value in ""time"" seconds.
    * @param float $amount
    * @param float $time
    */
   void fade_amount(float amount, float time);
   /**
-   * Smoothly changes the angle of the rain the given value in ""time"" seconds, according to the provided easing function.
+   * @scripting
+   * @description Smoothly changes the angle of the rain the given value in ""time"" seconds, according to the provided easing function.
    * @param float $angle
    * @param float $time
    * @param string $ease

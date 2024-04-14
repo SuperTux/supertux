@@ -26,7 +26,10 @@
 
 class ReaderMapping;
 
-/** Abstract base class for MovingObjects that are represented by a Sprite */
+/**
+ * @scripting
+ * @summary Abstract base class for ""MovingObject""s, that are represented by a sprite.
+ */
 class MovingSprite : public MovingObject
 {
 public:
@@ -74,28 +77,33 @@ public:
 
 #ifdef DOXYGEN_SCRIPTING
   /**
-   * Sets the sprite of the object.
+   * @scripting
+   * @description Sets the sprite of the object.
    * @param string $file
    */
   void set_sprite(const std::string& file);
   /**
-   * Returns the file of the object's sprite.
+   * @scripting
+   * @description Returns the file of the object's sprite.
    */
   std::string get_sprite() const;
 #endif
   /**
-   * Returns the name of the current action of the sprite.
+   * @scripting
+   * @description Returns the name of the current action of the sprite.
    */
   std::string get_action() const;
   /**
-   * Sets the current action of the sprite and resizes the bounding box.
-     Use with care as you can easily get stuck when resizing the bounding box.
+   * @scripting
+   * @description Sets the current action of the sprite and resizes the bounding box.
+                  NOTE: Use with care as you can easily get stuck when resizing the bounding box.
    * @param string $name
    */
   void set_action(const std::string& name);
   /**
-   * Sets the current action of the sprite, as well as the number of times it should loop, and resizes the bounding box.
-     Use with care as you can easily get stuck when resizing the bounding box.
+   * @scripting
+   * @description Sets the current action of the sprite, as well as the number of times it should loop, and resizes the bounding box.
+                  NOTE: Use with care as you can easily get stuck when resizing the bounding box.
    * @param string $name
    * @param int $loops
    */

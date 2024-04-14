@@ -21,7 +21,14 @@
 
 #include "supertux/timer.hpp"
 
-/** This class represents a platform that moves entities riding it. */
+/**
+ * This class represents a platform that moves entities riding it.
+
+ * @scripting
+ * @summary A ""ConveyorBelt"" that was given a name can be controlled by scripts.
+ * @instances A ""ConveyorBelt"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class ConveyorBelt final : public MovingSprite
 {
 public:
@@ -49,22 +56,27 @@ public:
 
   /** @name Scriptable Methods */
   /**
+   * @scripting
    * Starts the conveyor belt.
    */
   void start();
   /**
+   * @scripting
    * Stops the conveyor belt.
    */
   void stop();
   /**
+   * @scripting
    * Makes the conveyor shift objects to the left.
    */
   void move_left();
   /**
+   * @scripting
    * Makes the conveyor shift objects to the right.
    */
   void move_right();
   /**
+   * @scripting
    * Change the shifting speed of the conveyor.
    * @param float $target_speed
    */

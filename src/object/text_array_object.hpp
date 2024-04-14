@@ -27,7 +27,16 @@
 
 typedef size_t ta_index;
 
-/** A text array object intended for narration */
+/**
+ * An array of text objects, intended for narration.
+
+ * @scripting
+ * @summary A ""TextArrayObject"" that was given a name can be controlled by scripts.
+            Supports all functions of ${SRG_REF_Text}, applying them to the current text item.${SRG_NEWPARAGRAPH}
+            Intended for scripts with narration.
+ * @instances A ""TextArrayObject"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class TextArrayObject final : public GameObject
 {
 public:
@@ -53,63 +62,73 @@ public:
   }
 
   /**
-   * Clears all text objects from the stack.
+   * @scripting
+   * @description Clears all text objects from the stack.
    */
   void clear();
   /**
-   * Adds a text object with a specific text at the end of the stack.
+   * @scripting
+   * @description Adds a text object with a specific text at the end of the stack.
    * @param string $text
    */
   void add_text(const std::string& text);
   /**
-   * Adds a text object with a specific text and duration at the end of the stack.
+   * @scripting
+   * @description Adds a text object with a specific text and duration at the end of the stack.
    * @param string $text
    * @param float $duration
    */
   void add_text_duration(const std::string& text, float duration);
   /**
-   * Sets the current text object by its index.
+   * @scripting
+   * @description Sets the current text object by its index.
    * @param int $index
    */
   void set_text_index(ta_index index);
   /**
+   * @scripting
    * @deprecated Use the ""keep_visible"" property instead!
-   * If set, keeps the current text object visible.
+   * @description If set, keeps the current text object visible.
    * @param bool $keep_visible
    */
   void set_keep_visible(bool keep_visible);
   /**
+   * @scripting
    * @deprecated Use the ""fade_transition"" property instead!
-   * If set, allows for a fade-in and fade-out transition.
+   * @description If set, allows for a fade-in and fade-out transition.
    * @param bool $fade_transition
    */
   void set_fade_transition(bool fade_transition);
   /**
-   * Sets the fade-in and fade-out time.
+   * @scripting
+   * @description Sets the fade-in and fade-out time.
    * @param float $fadetime
    */
   void set_fade_time(float fadetime);
   /**
+   * @scripting
    * @deprecated Use the ""finished"" property instead!
-   * If set, sets the text array as finished going through all text objects.
+   * @description If set, sets the text array as finished going through all text objects.
    * @param bool $done
    */
   void set_done(bool done);
   /**
-   * If set, lets the text array automatically go through all text objects.
+   * @scripting
+   * @description If set, lets the text array automatically go through all text objects.
    * @param bool $is_auto
    */
   void set_auto(bool is_auto);
   /**
-   * If available, goes to the next text object in the stack.
+   * @scripting
+   * @description If available, goes to the next text object in the stack.
    */
   void next_text();
   /**
-   * If available, goes to the previous text object in the stack.
+   * @scripting
+   * @description If available, goes to the previous text object in the stack.
    */
   void prev_text();
 
-#ifndef DOXYGEN_SCRIPTING
   /*
    * TextObject API related
    * @see: text_object.hpp
@@ -134,7 +153,6 @@ public:
   void set_back_fill_color(float red, float green, float blue, float alpha);
   void set_text_color(float red, float green, float blue, float alpha);
   void set_roundness(float roundness);
-#endif
 
   /** Gets the text item at a certain index.
       @param: index  the index of the text item to get.
@@ -166,10 +184,23 @@ private:
   bool should_fade() const;
 
 private:
-  bool m_isDone;
-  bool m_isAuto;
-  bool m_keepVisible;
-  bool m_fadeTransition;
+  /**
+   * @scripting
+   * @description Determines whether the text array has finished going through all text objects.
+   */
+  bool m_finished;
+  bool m_is_auto;
+
+  /**
+   * @scripting
+   * @description Determines whether the current text object should be kept visible.
+   */
+  bool m_keep_visible;
+  /**
+   * @scripting
+   * @description Allows for a fade-in and fade-out transition.
+   */
+  bool m_fade_transition;
 
   float m_fadetime;
 

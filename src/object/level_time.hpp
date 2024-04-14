@@ -23,6 +23,12 @@
 
 class ReaderMapping;
 
+/**
+ * @scripting
+ * @summary A ""LevelTime"" that was given a name can be controlled by scripts.
+ * @instances A ""LevelTime"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class LevelTime final : public GameObject
 {
   static Color text_color;
@@ -40,19 +46,23 @@ public:
       @{ */
 
   /**
-   * Resumes the countdown (assuming it isn't already started, in which case it does nothing).
+   * @scripting
+   * @description Resumes the countdown (assuming it isn't already started, in which case it does nothing).
    */
   void start();
   /**
-   * Pauses the countdown (assuming it isn't already stopped, in which case it does nothing).
+   * @scripting
+   * @description Pauses the countdown (assuming it isn't already stopped, in which case it does nothing).
    */
   void stop();
   /**
-   * Returns the number of seconds left on the clock.
+   * @scripting
+   * @description Returns the number of seconds left on the clock.
    */
   float get_time() const;
   /**
-   * Sets the number of seconds left on the clock.
+   * @scripting
+   * @description Sets the number of seconds left on the clock.
    * @param float $time_left
    */
   void set_time(float time_left);

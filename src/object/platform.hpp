@@ -20,8 +20,15 @@
 #include "object/moving_sprite.hpp"
 #include "object/path_object.hpp"
 
-/** This class is the base class for platforms that tux can stand
-    on */
+/**
+ * This is the base class for platforms that Tux can stand on.
+
+ * @scripting
+ * @summary A ""Platform"" that was given a name can be controlled by scripts.
+            It moves along a specified path.
+ * @instances A ""Platform"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+*/
 class Platform : public MovingSprite,
                  public PathObject
 {

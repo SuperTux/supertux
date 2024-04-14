@@ -21,6 +21,12 @@
 
 class GameObject;
 
+/**
+ * @scripting
+ * @summary A ""Dispenser"" that was given a name can be controlled by scripts.
+ * @instances A ""Dispenser"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Dispenser final : public BadGuy
 {
 public:
@@ -36,7 +42,15 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void initialize() override;
+  /**
+   * @scripting
+   * @description Makes the dispenser start dispensing badguys.
+   */
   virtual void activate() override;
+  /**
+   * @scripting
+   * @description Stops the dispenser from dispensing badguys.
+   */
   virtual void deactivate() override;
   virtual void active_update(float dt_sec) override;
 

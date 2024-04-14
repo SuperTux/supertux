@@ -20,6 +20,12 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
 
+/**
+ * @scripting
+ * @summary A ""ScriptedObject"" that was given a name can be controlled by scripts.
+ * @instances A ""ScriptedObject"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class ScriptedObject final : public MovingSprite
 {
 public:
@@ -46,61 +52,72 @@ public:
 
 #ifdef DOXYGEN_SCRIPTING
   /**
+   * @scripting
    * @deprecated Use ""get_x()"" instead!
-   * Returns the X coordinate of the object's position.
+   * @description Returns the X coordinate of the object's position.
    */
   float get_pos_x() const;
   /**
+   * @scripting
    * @deprecated Use ""get_y()"" instead!
-   * Returns the Y coordinate of the object's position.
+   * @description Returns the Y coordinate of the object's position.
    */
   float get_pos_y() const;
 #endif
 
   /**
-   * Makes the object move in a certain ""x"" and ""y"" direction (with a certain speed).
+   * @scripting
+   * @description Makes the object move in a certain ""x"" and ""y"" direction (with a certain speed).
    * @param float $x
    * @param float $y
    */
   void set_velocity(float x, float y);
   /**
-   * Returns the X coordinate of the object's velocity.
+   * @scripting
+   * @description Returns the X coordinate of the object's velocity.
    */
   float get_velocity_x() const;
   /**
-   * Returns the Y coordinate of the object's velocity.
+   * @scripting
+   * @description Returns the Y coordinate of the object's velocity.
    */
   float get_velocity_y() const;
 
   /**
-   * Enables or disables gravity, according to the value of ""enabled"".
+   * @scripting
+   * @description Enables or disables gravity, according to the value of ""enabled"".
    * @param bool $enabled
    */
   void enable_gravity(bool enabled);
   /**
-   * Returns ""true"" if the object's gravity is enabled.
+   * @scripting
+   * @description Returns ""true"" if the object's gravity is enabled.
    */
   bool gravity_enabled() const;
 
   /**
+   * @scripting
    * @deprecated Use the ""visible"" property instead!
-   * Shows or hides the object, according to the value of ""visible"".
+   * @description Shows or hides the object, according to the value of ""visible"".
    * @param bool $visible
    */
   void set_visible(bool visible);
   /**
+   * @scripting
    * @deprecated Use the ""visible"" property instead!
-   * Returns ""true"" if the object is visible.
+   * @description Returns ""true"" if the object is visible.
    */
   bool is_visible() const;
 
   /**
-   * Changes the solidity, according to the value of ""solid"".
+   * @scripting
+   * @description Changes the solidity, according to the value of ""solid"".
    * @param bool $solid
    */
   void set_solid(bool solid);
   /**
-   * Returns ""true"" if the object is solid.
+   * @scripting
+   * @description Returns ""true"" if the object is solid.
    */
   bool is_solid() const;
 
@@ -108,6 +125,10 @@ private:
   Physic physic;
   bool solid;
   bool physic_enabled;
+  /**
+   * @scripting
+   * @description Determines whether the object is visible.
+   */
   bool visible;
   std::string hit_script;
   bool new_vel_set;

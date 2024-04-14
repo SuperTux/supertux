@@ -31,6 +31,12 @@ class Path;
 class PathWalker;
 class ReaderMapping;
 
+/**
+ * @scripting
+ * @summary A ""Camera"" that was given a name can be manipulated by scripts.
+ * @instances An instance named ""Camera"" (""sector.Camera"" in the console) is available.${SRG_NEWPARAGRAPH}
+              The mode of the camera is either ""normal"" (the camera is following the player) or ""autoscroll"". In the latter mode, the camera is forced along a specified path.
+ */
 class Camera final : public GameObject,
                      public PathObject
 {
@@ -120,65 +126,75 @@ public:
   /** @} */
 
   /**
-   * Moves the camera to the specified absolute position. The origin is at the top left.
+   * @scripting
+   * @description Moves the camera to the specified absolute position. The origin is at the top left.
    * @param float $x
    * @param float $y
    */
   void set_pos(float x, float y);
   /**
-   * Moves the camera ""x"" to the left and ""y"" down.
+   * @scripting
+   * @description Moves the camera ""x"" to the left and ""y"" down.
    * @param float $x
    * @param float $y
    */
   void move(float x, float y);
   /**
-   * Sets the camera mode.
+   * @scripting
+   * @description Sets the camera mode.
    * @param string $mode The mode can be "normal" or "manual".
    */
   void set_mode(const std::string& mode);
   /**
-   * Scrolls the camera to specific coordinates in ""scrolltime"" seconds.
+   * @scripting
+   * @description Scrolls the camera to specific coordinates in ""scrolltime"" seconds.
    * @param float $x
    * @param float $y
    * @param float $scrolltime
    */
   void scroll_to(float x, float y, float scrolltime);
   /**
-   * Sets the scale factor.
+   * @scripting
+   * @description Sets the scale factor.
    * @param float $scale
    */
   void set_scale(float scale);
   /**
-   * Sets the scale factor and the target position anchor.
-     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
+   * @scripting
+   * @description Sets the scale factor and the target position anchor.
+                  NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
    */
   void set_scale_anchor(float scale, int anchor);
   /**
-   * Fades to a specified scale factor in ""time"" seconds.
+   * @scripting
+   * @description Fades to a specified scale factor in ""time"" seconds.
    * @param float $scale
    * @param float $time
    */
   void scale(float scale, float time);
   /**
-   * Fades to a specified scale factor and target position anchor in ""time"" seconds.
-     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
+   * @scripting
+   * @description Fades to a specified scale factor and target position anchor in ""time"" seconds.
+                  NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
    * @param float $time
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
    */
   void scale_anchor(float scale, float time, int anchor);
   /**
-   * Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
+   * @scripting
+   * @description Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
    * @param float $scale
    * @param float $time
    * @param string $ease
    */
   void ease_scale(float scale, float time, const std::string& ease);
   /**
-   * Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
-     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
+   * @scripting
+   * @description Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
+                  NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
    * @param float $time
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
@@ -186,19 +202,23 @@ public:
    */
   void ease_scale_anchor(float scale, float time, int anchor, const std::string& ease);
   /**
-   * Gets the current width of the screen.
+   * @scripting
+   * @description Gets the current width of the screen.
    */
   float get_screen_width() const;
   /**
-   * Gets the current height of the screen.
+   * @scripting
+   * @description Gets the current height of the screen.
    */
   float get_screen_height() const;
   /**
-   * Gets the X coordinate of the top-left corner of the screen.
+   * @scripting
+   * @description Gets the X coordinate of the top-left corner of the screen.
    */
   float get_x() const;
   /**
-   * Gets the Y coordinate of the top-left corner of the screen.
+   * @scripting
+   * @description Gets the Y coordinate of the top-left corner of the screen.
    */
   float get_y() const;
 

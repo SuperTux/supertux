@@ -21,6 +21,12 @@
 
 class ReaderMapping;
 
+/**
+ * @scripting
+ * @summary A ""LitObject"" that was given a name can be controlled by scripts.
+ * @instances A ""LitObject"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class LitObject final : public MovingSprite
 {
 public:
@@ -48,11 +54,13 @@ public:
   virtual void on_flip(float height) override;
 
   /**
-   * Returns the current light sprite action.
+   * @scripting
+   * @description Returns the current light sprite action.
    */
   std::string get_light_action() const;
   /**
-   * Sets the light sprite action.
+   * @scripting
+   * @description Sets the light sprite action.
    * @param string $action
    */
   void set_light_action(const std::string& action);

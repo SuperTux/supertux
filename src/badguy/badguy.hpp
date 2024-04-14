@@ -27,7 +27,14 @@ enum class Direction;
 class Player;
 class Bullet;
 
-/** Base class for moving sprites that can hurt the Player. */
+/**
+ * Base class for moving sprites that can hurt the Player.
+
+ * @scripting
+ * @summary A ""BadGuy"" that was given a name can be controlled by scripts.
+ * @instances A ""BadGuy"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class BadGuy : public MovingSprite,
                public Portable
 {
@@ -79,6 +86,13 @@ public:
   /** Set the badguy to kill/falling state, which makes him falling of
       the screen (his sprite is turned upside-down) */
   virtual void kill_fall();
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description Sets the badguy to kill/falling state, which makes it fall of the screen (its sprite is turned upside-down).
+   */
+  void kill();
+#endif
 
   /** Call this, if you use custom kill_fall() or kill_squashed(GameObject& object) */
   virtual void run_dead_script();
@@ -94,7 +108,10 @@ public:
   virtual void ungrab(MovingObject& object, Direction dir) override;
   virtual bool is_portable() const override;
 
-  /** Called when hit by a fire bullet, and is_flammable() returns true */
+  /**
+   * @scripting
+   * @description Kills the badguy by igniting it.
+   */
   virtual void ignite();
 
   /** Called to revert a badguy when is_ignited() returns true */

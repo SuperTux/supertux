@@ -48,16 +48,18 @@ struct GameObjectType
 typedef std::vector<GameObjectType> GameObjectTypes;
 
 /**
-    Base class for all the things that make up Levels' Sectors.
-
-    Each sector of a level will hold a list of active GameObject while the
-    game is played.
-
-    This class is responsible for:
-    - Updating and Drawing the object. This should happen in the update() and
+   This class is responsible for:
+    * Updating and Drawing the object. This should happen in the update() and
       draw() functions. Both are called once per frame.
-    - Providing a safe way to remove the object by calling the remove_me
+    * Providing a safe way to remove the object by calling the remove_me
       functions.
+ */
+/**
+ * @scripting
+ * @summary Base class for all the things that make up Levels' Sectors.${SRG_NEWPARAGRAPH}
+
+            Each sector of a level holds a list of active ""GameObject""s, while the
+            game is played.${SRG_NEWPARAGRAPH}
 */
 class GameObject : public ExposableClass
 {
@@ -95,21 +97,28 @@ public:
   std::string save();
   virtual std::string get_class_name() const { return "game-object"; }
   virtual std::string get_exposed_class_name() const override { return "GameObject"; }
+  /**
+   * @scripting
+   * @description Returns the display name of the object, translated to the user's locale.
+   */
   virtual std::string get_display_name() const { return _("Unknown object"); }
 
   /** Version checking/updating, patch information */
   virtual std::vector<std::string> get_patches() const;
   virtual void update_version();
   /**
-   * Returns the current version of the object.
+   * @scripting
+   * @description Returns the current version of the object.
    */
   int get_version() const;
   /**
-   * Returns the latest version of the object.
+   * @scripting
+   * @description Returns the latest version of the object.
    */
   int get_latest_version() const;
   /**
-   * Checks whether the object's current version is equal to its latest one.
+   * @scripting
+   * @description Checks whether the object's current version is equal to its latest one.
    */
   bool is_up_to_date() const;
 
@@ -140,7 +149,8 @@ public:
   /** Get all types of the object, if available. **/
   virtual GameObjectTypes get_types() const;
   /**
-   * Returns the type index of the object.
+   * @scripting
+   * @description Returns the type index of the object.
    */
   int get_type() const;
 
@@ -165,7 +175,8 @@ public:
 
   void set_name(const std::string& name) { m_name = name; }
   /**
-   * Returns the name of the object.
+   * @scripting
+   * @description Returns the name of the object.
    */
   std::string get_name() const;
 

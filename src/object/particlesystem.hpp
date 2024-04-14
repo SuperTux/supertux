@@ -26,20 +26,25 @@
 class ReaderMapping;
 
 /**
-  This is the base class for particle systems. It is responsible for
-  storing a set of particles with each having an x- and y-coordinate
-  the number of the layer where it should be drawn and a texture.
+  * This is the base class for particle systems. It is responsible for
+    storing a set of particles with each having an x- and y-coordinate
+    the number of the layer where it should be drawn and a texture.
 
-  The coordinate system used here is a virtual one. It would be a bad
-  idea to populate whole levels with particles. So we're using a
-  virtual rectangle here that is tiled onto the level when drawing.
-  This rect.has the size (virtual_width, virtual_height). We're using
-  modulo on the particle coordinates, so when a particle leaves left,
-  it'll reenter at the right side.
+    The coordinate system used here is a virtual one. It would be a bad
+    idea to populate whole levels with particles. So we're using a
+    virtual rectangle here that is tiled onto the level when drawing.
+    This rect.has the size (virtual_width, virtual_height). We're using
+    modulo on the particle coordinates, so when a particle leaves left,
+    it'll reenter at the right side.
 
-  Classes that implement a particle system should subclass from this
-  class, initialize particles in the constructor and move them in the
-  simulate function.
+    Classes that implement a particle system should subclass from this
+    class, initialize particles in the constructor and move them in the
+    simulate function.
+
+ * @scripting
+ * @summary A ""ParticleSystem"" that was given a name can be controlled by scripts.
+ * @instances A ""ParticleSystem"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
 class ParticleSystem : public GameObject
 {
@@ -61,14 +66,16 @@ public:
   virtual ObjectSettings get_settings() override;
 
   /**
+   * @scripting
    * @deprecated Use the ""enabled"" property instead!
-   * Enables/disables the system.
+   * @description Enables/disables the system.
    * @param bool $enable
    */
   void set_enabled(bool enable);
   /**
+   * @scripting
    * @deprecated Use the ""enabled"" property instead!
-   * Returns ""true"" if the system is enabled.
+   * @description Returns ""true"" if the system is enabled.
    */
   bool get_enabled() const;
 
@@ -107,6 +114,11 @@ protected:
   std::vector<std::unique_ptr<Particle> > particles;
   float virtual_width;
   float virtual_height;
+
+  /**
+   * @scripting
+   * @description Determines whether the system is enabled.
+   */
   bool enabled;
 
 private:

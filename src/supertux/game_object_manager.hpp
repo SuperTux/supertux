@@ -36,6 +36,12 @@ class TileMap;
 
 template<class T> class GameObjectRange;
 
+/**
+ * @scripting
+ * @summary This class provides basic controlling functions for a sector. Applies for both worldmap and in-level sectors.
+ * @instances For in-level sectors, an instance under ""sector.settings"" is available from scripts and the console.${SRG_NEWPARAGRAPH}
+              For worldmap sectors, such instance is available under ""worldmap.settings"".
+ */
 class GameObjectManager : public ExposableClass
 {
 public:
@@ -80,14 +86,16 @@ public:
   void flush_game_objects();
 
   /**
-   * Sets the sector's ambient light to the specified color.
+   * @scripting
+   * @description Sets the sector's ambient light to the specified color.
    * @param float $red
    * @param float $green
    * @param float $blue
    */
   void set_ambient_light(float red, float green, float blue);
   /**
-   * Fades to a specified ambient light color in ""fadetime"" seconds.
+   * @scripting
+   * @description Fades to a specified ambient light color in ""fadetime"" seconds.
    * @param float $red
    * @param float $green
    * @param float $blue
@@ -95,27 +103,32 @@ public:
    */
   void fade_to_ambient_light(float red, float green, float blue, float fadetime);
   /**
-   * Returns the red channel of the ambient light color.
+   * @scripting
+   * @description Returns the red channel of the ambient light color.
    */
   float get_ambient_red() const;
   /**
-   * Returns the green channel of the ambient light color.
+   * @scripting
+   * @description Returns the green channel of the ambient light color.
    */
   float get_ambient_green() const;
   /**
-   * Returns the blue channel of the ambient light color.
+   * @scripting
+   * @description Returns the blue channel of the ambient light color.
    */
   float get_ambient_blue() const;
 
   /**
-   * Sets the sector's music.
+   * @scripting
+   * @description Sets the sector's music.
    * @param string $music Full filename, relative to the "music" folder.
    */
   void set_music(const std::string& music);
 
   /**
-   * Adds a ""MovingObject"" to the manager.
-     Note: If adding objects to a worldmap sector, ""posX"" and ""posY"" have to be tile positions (sector position / 32).
+   * @scripting
+   * @description Adds a ""MovingObject"" to the manager.
+                  Note: If adding objects to a worldmap sector, ""posX"" and ""posY"" have to be tile positions (sector position / 32).
    * @param string $class_name GameObject's class.
    * @param string $name Name of the created object.
    * @param float $pos_x X position inside the current sector.

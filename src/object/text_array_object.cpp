@@ -23,10 +23,10 @@
 #include "supertux/sector.hpp"
 
 TextArrayObject::TextArrayObject(const std::string& name) :
-  m_isDone(false),
-  m_isAuto(false),
-  m_keepVisible(false),
-  m_fadeTransition(true),
+  m_finished(false),
+  m_is_auto(false),
+  m_keep_visible(false),
+  m_fade_transition(true),
   m_fadetime(1.0),
   m_texts(),
   m_curTextIndex(0),
@@ -77,11 +77,11 @@ TextArrayObject::set_fade_time(float fadetime)
 void
 TextArrayObject::next_text()
 {
-  if (m_isDone)
+  if (m_finished)
     return;
 
   if (m_curTextIndex + 1 >= m_texts.size()) {
-    m_isDone = true;
+    m_finished = true;
     return;
   }
 
@@ -94,7 +94,7 @@ TextArrayObject::next_text()
 void
 TextArrayObject::prev_text()
 {
-  if (m_isDone)
+  if (m_finished)
     return;
 
   if (m_curTextIndex == 0)
@@ -109,13 +109,13 @@ TextArrayObject::prev_text()
 void
 TextArrayObject::set_keep_visible(bool keep_visible)
 {
-  m_keepVisible = keep_visible;
+  m_keep_visible = keep_visible;
 }
 
 void
 TextArrayObject::set_fade_transition(bool fade_transition)
 {
-  m_fadeTransition = fade_transition;
+  m_fade_transition = fade_transition;
 }
 
 TextArrayItem*
@@ -144,20 +144,20 @@ TextArrayObject::get_last_text_item() const
 void
 TextArrayObject::set_done(bool done)
 {
-  m_isDone = done;
+  m_finished = done;
 }
 
 void
 TextArrayObject::set_auto(bool is_auto)
 {
-  m_isAuto = is_auto;
+  m_is_auto = is_auto;
   reset_automation();
 }
 
 void
 TextArrayObject::update(float dt_sec)
 {
-  if (m_isDone)
+  if (m_finished)
     return;
 
   // make sure there's anything to update
@@ -168,7 +168,7 @@ TextArrayObject::update(float dt_sec)
   handle_input_requests();
 
   // check if if should update auto narration
-  if (m_isAuto && m_waiting.check()) {
+  if (m_is_auto && m_waiting.check()) {
     next_text();
   }
 
@@ -189,7 +189,7 @@ TextArrayObject::update(float dt_sec)
 void
 TextArrayObject::draw(DrawingContext& context)
 {
-  if (m_isDone)
+  if (m_finished)
     return;
 
   auto* curTextItem = get_current_text_item();
@@ -210,7 +210,7 @@ TextArrayObject::draw(DrawingContext& context)
 void
 TextArrayObject::override_properties()
 {
-  if (!(should_fade() || m_keepVisible))
+  if (!(should_fade() || m_keep_visible))
     return;
 
   auto* curTextItem = get_current_text_item();
@@ -224,7 +224,7 @@ TextArrayObject::override_properties()
       lastTextItem->text_object.fade_out(m_fadetime);
       curTextItem->text_object.fade_in(m_fadetime);
     }
-  } else if (m_keepVisible) { // keep visible
+  } else if (m_keep_visible) { // keep visible
     curTextItem->text_object.set_visible(true);
   }
 }
@@ -234,7 +234,7 @@ TextArrayObject::reset_automation()
 {
   m_waiting.stop();
 
-  if (m_isAuto) {
+  if (m_is_auto) {
     auto* text = get_current_text_item();
     if (text)
       m_waiting.start(text->duration);
@@ -247,19 +247,18 @@ TextArrayObject::handle_input_requests()
   const Controller& controller = InputManager::current()->get_controller();
 
   if (controller.pressed(Control::MENU_SELECT)) {
-    m_isAuto = false;
+    m_is_auto = false;
     next_text();
   } else if (controller.pressed(Control::REMOVE)) {
-    m_isAuto = false;
+    m_is_auto = false;
     prev_text();
   }
-
 }
 
 bool
 TextArrayObject::should_fade() const
 {
-  return m_fadeTransition && (m_curTextIndex != m_lastTextIndex);
+  return m_fade_transition && (m_curTextIndex != m_lastTextIndex);
 }
 
 
@@ -462,9 +461,9 @@ TextArrayObject::register_class(ssq::VM& vm)
   cls.addFunc("set_text_color", &TextArrayObject::set_text_color);
   cls.addFunc("set_roundness", &TextArrayObject::set_roundness);
 
-  cls.addVar("keep_visible", &TextArrayObject::m_keepVisible);
-  cls.addVar("fade_transition", &TextArrayObject::m_fadeTransition);
-  cls.addVar("finished", &TextArrayObject::m_isDone);
+  cls.addVar("keep_visible", &TextArrayObject::m_keep_visible);
+  cls.addVar("fade_transition", &TextArrayObject::m_fade_transition);
+  cls.addVar("finished", &TextArrayObject::m_finished);
 }
 
 /* EOF */

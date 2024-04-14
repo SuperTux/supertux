@@ -204,8 +204,8 @@ ScriptedObject::register_class(ssq::VM& vm)
 {
   ssq::Class cls = vm.addAbstractClass<ScriptedObject>("ScriptedObject", vm.findClass("MovingSprite"));
 
-  cls.addFunc("get_pos_x", &MovingObject::get_x);
-  cls.addFunc("get_pos_y", &MovingObject::get_y);
+  cls.addFunc("get_pos_x", &MovingObject::get_x); // Deprecated
+  cls.addFunc("get_pos_y", &MovingObject::get_y); // Deprecated
   cls.addFunc("set_velocity", &ScriptedObject::set_velocity);
   cls.addFunc("get_velocity_x", &ScriptedObject::get_velocity_x);
   cls.addFunc("get_velocity_y", &ScriptedObject::get_velocity_y);

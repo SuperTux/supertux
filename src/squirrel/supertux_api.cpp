@@ -44,10 +44,15 @@
 
 namespace scripting {
 
+/**
+ * @scripting
+ * @summary This module contains global methods.
+ */
 namespace Globals {
 
 /**
- * Displays the value of an argument. This is useful for inspecting tables.
+ * @scripting
+ * @description Displays the value of an argument. This is useful for inspecting tables.
  * @param ANY $object
  */
 static void display(const ssq::Object& object)
@@ -55,14 +60,16 @@ static void display(const ssq::Object& object)
   ConsoleBuffer::output << squirrel_to_string(object) << std::endl;
 }
 /**
- * Displays the contents of the current stack.
+ * @scripting
+ * @description Displays the contents of the current stack.
  */
 static void print_stacktrace(HSQUIRRELVM vm)
 {
   print_squirrel_stack(vm);
 }
 /**
- * Returns the currently running thread.
+ * @scripting
+ * @description Returns the currently running thread.
  */
 static SQInteger get_current_thread(HSQUIRRELVM vm)
 {
@@ -71,7 +78,8 @@ static SQInteger get_current_thread(HSQUIRRELVM vm)
 }
 
 /**
- * Returns whether the game is in christmas mode.
+ * @scripting
+ * @description Returns whether the game is in christmas mode.
  */
 static bool is_christmas()
 {
@@ -79,7 +87,8 @@ static bool is_christmas()
 }
 
 /**
- * Starts a skippable cutscene.
+ * @scripting
+ * @description Starts a skippable cutscene.
  */
 static void start_cutscene()
 {
@@ -103,7 +112,8 @@ static void start_cutscene()
   session->get_current_level().m_skip_cutscene = false;
 }
 /**
- * Ends a skippable cutscene.
+ * @scripting
+ * @description Ends a skippable cutscene.
  */
 static void end_cutscene()
 {
@@ -127,7 +137,8 @@ static void end_cutscene()
   session->get_current_level().m_skip_cutscene = false;
 }
 /**
- * Checks if a skippable cutscene is currently running.
+ * @scripting
+ * @description Checks if a skippable cutscene is currently running.
  */
 static bool check_cutscene()
 {
@@ -142,7 +153,8 @@ static bool check_cutscene()
 }
 
 /**
- * Suspends the script execution for a specified number of seconds.
+ * @scripting
+ * @description Suspends the script execution for a specified number of seconds.
  * @param float $seconds
  */
 static SQInteger wait(HSQUIRRELVM vm, float seconds)
@@ -195,7 +207,8 @@ static SQInteger wait(HSQUIRRELVM vm, float seconds)
 }
 
 /**
- * Suspends the script execution until the current screen has been changed.
+ * @scripting
+ * @description Suspends the script execution until the current screen has been changed.
  */
 static SQInteger wait_for_screenswitch(HSQUIRRELVM vm)
 {
@@ -203,7 +216,8 @@ static SQInteger wait_for_screenswitch(HSQUIRRELVM vm)
   return squirrelvm->wait_for_screenswitch(vm);
 }
 /**
- * Exits the currently running screen (for example, force exits from worldmap or scrolling text).
+ * @scripting
+ * @description Exits the currently running screen (for example, force exits from worldmap or scrolling text).
  */
 static void exit_screen()
 {
@@ -211,7 +225,8 @@ static void exit_screen()
 }
 
 /**
- * Translates a text into the user's language (by looking in the "".po"" files).
+ * @scripting
+ * @description Translates a text into the user's language (by looking in the "".po"" files).
  * @param string $text
  */
 static std::string translate(const std::string& text)
@@ -220,7 +235,8 @@ static std::string translate(const std::string& text)
 }
 #ifdef DOXYGEN_SCRIPTING
 /**
- * Same function as ""translate()"".
+ * @scripting
+ * @description Same function as ""translate()"".
  * @param string $text
  */
 static std::string _(const std::string& text)
@@ -228,8 +244,9 @@ static std::string _(const std::string& text)
 }
 #endif
 /**
- * Translates a text into the user's language (by looking in the "".po"" files).
-   Returns ""text"" or ""text_plural"", depending on ""num"" and the locale.
+ * @scripting
+ * @description Translates a text into the user's language (by looking in the "".po"" files).
+                Returns ""text"" or ""text_plural"", depending on ""num"" and the locale.
  * @param string $text
  * @param string $text_plural
  * @param int $num
@@ -240,7 +257,8 @@ static std::string translate_plural(const std::string& text, const std::string& 
 }
 #ifdef DOXYGEN_SCRIPTING
 /**
- * Same function as ""translate_plural()"".
+ * @scripting
+ * @description Same function as ""translate_plural()"".
  * @param string $text
  * @param string $text_plural
  * @param int $num
@@ -251,7 +269,8 @@ static std::string __(const std::string& text, const std::string& text_plural, i
 #endif
 
 /**
- * Displays a text file and scrolls it over the screen (on next screenswitch).
+ * @scripting
+ * @description Displays a text file and scrolls it over the screen (on next screenswitch).
  * @param string $filename
  */
 static void display_text_file(const std::string& filename)
@@ -260,7 +279,8 @@ static void display_text_file(const std::string& filename)
 }
 
 /**
- * Loads and displays a worldmap (on next screenswitch), using the savegame of the current worldmap.
+ * @scripting
+ * @description Loads and displays a worldmap (on next screenswitch), using the savegame of the current worldmap.
  * @param string $filename
  * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
  * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
@@ -279,7 +299,8 @@ static void load_worldmap(const std::string& filename, const std::string& sector
   }
 }
 /**
- * Switches to a different worldmap after unloading the current one, after ""exit_screen()"" is called.
+ * @scripting
+ * @description Switches to a different worldmap after unloading the current one, after ""exit_screen()"" is called.
  * @param string $dirname The world directory, where the "worldmap.stwm" file is located.
  * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
  * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
@@ -289,7 +310,8 @@ static void set_next_worldmap(const std::string& dirname, const std::string& sec
   GameManager::current()->set_next_worldmap(dirname, sector, spawnpoint);
 }
 /**
- * Loads and displays a level (on next screenswitch), using the savegame of the current level.
+ * @scripting
+ * @description Loads and displays a level (on next screenswitch), using the savegame of the current level.
  * @param string $filename
  */
 static void load_level(const std::string& filename)
@@ -305,7 +327,8 @@ static void load_level(const std::string& filename)
 }
 
 /**
- * Loads a script file and executes it. This is typically used to import functions from external files.
+ * @scripting
+ * @description Loads a script file and executes it. This is typically used to import functions from external files.
  * @param string $filename
  */
 static void import(HSQUIRRELVM vm, const std::string& filename)
@@ -317,7 +340,8 @@ static void import(HSQUIRRELVM vm, const std::string& filename)
 }
 
 /**
- * Enables/disables drawing of collision rectangles.
+ * @scripting
+ * @description Enables/disables drawing of collision rectangles.
  * @param bool $enable
  */
 static void debug_collrects(bool enable)
@@ -325,7 +349,8 @@ static void debug_collrects(bool enable)
   g_debug.show_collision_rects = enable;
 }
 /**
- * Enables/disables drawing of FPS.
+ * @scripting
+ * @description Enables/disables drawing of FPS.
  * @param bool $enable
  */
 static void debug_show_fps(bool enable)
@@ -333,7 +358,8 @@ static void debug_show_fps(bool enable)
   g_config->show_fps = enable;
 }
 /**
- * Enables/disables drawing of non-solid layers.
+ * @scripting
+ * @description Enables/disables drawing of non-solid layers.
  * @param bool $enable
  */
 static void debug_draw_solids_only(bool enable)
@@ -341,7 +367,8 @@ static void debug_draw_solids_only(bool enable)
   ::Sector::s_draw_solids_only = enable;
 }
 /**
- * Enables/disables drawing of editor images.
+ * @scripting
+ * @description Enables/disables drawing of editor images.
  * @param bool $enable
  */
 static void debug_draw_editor_images(bool enable)
@@ -349,7 +376,8 @@ static void debug_draw_editor_images(bool enable)
   Tile::draw_editor_images = enable;
 }
 /**
- * Enables/disables worldmap ghost mode.
+ * @scripting
+ * @description Enables/disables worldmap ghost mode.
  * @param bool $enable
  */
 static void debug_worldmap_ghost(bool enable)
@@ -363,7 +391,8 @@ static void debug_worldmap_ghost(bool enable)
   tux.set_ghost_mode(enable);
 }
 /**
- * Sets the game speed to ""speed"".
+ * @scripting
+ * @description Sets the game speed to ""speed"".
  * @param float $speed
  */
 static void set_game_speed(float speed)
@@ -381,7 +410,8 @@ static void set_game_speed(float speed)
 }
 
 /**
- * Saves world state to scripting table.
+ * @scripting
+ * @description Saves world state to scripting table.
  */
 static void save_state()
 {
@@ -397,7 +427,8 @@ static void save_state()
   }
 }
 /**
- * Loads world state from scripting table.
+ * @scripting
+ * @description Loads world state from scripting table.
  */
 static void load_state()
 {
@@ -414,7 +445,8 @@ static void load_state()
 }
 
 /**
- * Changes the music to ""musicfile"".
+ * @scripting
+ * @description Changes the music to ""musicfile"".
  * @param string $musicfile
  */
 static void play_music(const std::string& filename)
@@ -422,7 +454,8 @@ static void play_music(const std::string& filename)
   SoundManager::current()->play_music(filename);
 }
 /**
- * Fades in the music from ""musicfile"" for ""fadetime"" seconds.
+ * @scripting
+ * @description Fades in the music from ""musicfile"" for ""fadetime"" seconds.
  * @param string $musicfile
  * @param float $fadetime
  */
@@ -431,7 +464,8 @@ static void fade_in_music(const std::string& filename, float fadetime)
   SoundManager::current()->play_music(filename, fadetime);
 }
 /**
- * Fades out the music for ""fadetime"" seconds.
+ * @scripting
+ * @description Fades out the music for ""fadetime"" seconds.
  * @param float $fadetime Set to "0" for no fade-out.
  */
 static void stop_music(float fadetime)
@@ -439,7 +473,8 @@ static void stop_music(float fadetime)
   SoundManager::current()->stop_music(fadetime);
 }
 /**
- * Resumes and fades in the music for ""fadetime"" seconds.
+ * @scripting
+ * @description Resumes and fades in the music for ""fadetime"" seconds.
  * @param float $fadetime Set to "0" for no fade-in.
  */
 static void resume_music(float fadetime)
@@ -447,7 +482,8 @@ static void resume_music(float fadetime)
   SoundManager::current()->resume_music(fadetime);
 }
 /**
- * Pauses the music with a fade-out for ""fadetime"" seconds.
+ * @scripting
+ * @description Pauses the music with a fade-out for ""fadetime"" seconds.
  * @param float $fadetime Set to "0" for no fade-out.
  */
 static void pause_music(float fadetime)
@@ -455,7 +491,8 @@ static void pause_music(float fadetime)
   SoundManager::current()->pause_music(fadetime);
 }
 /**
- * Plays ""soundfile"" as a sound.
+ * @scripting
+ * @description Plays ""soundfile"" as a sound.
  * @param string $soundfile
  */
 static void play_sound(const std::string& filename)
@@ -464,7 +501,8 @@ static void play_sound(const std::string& filename)
 }
 
 /**
- * Speeds Tux up.
+ * @scripting
+ * @description Speeds Tux up.
  */
 static void grease()
 {
@@ -474,7 +512,8 @@ static void grease()
   tux.get_physic().set_velocity_x(tux.get_physic().get_velocity_x()*3);
 }
 /**
- * Makes Tux invincible for 10000 units of time.
+ * @scripting
+ * @description Makes Tux invincible for 10000 units of time.
  */
 static void invincible()
 {
@@ -484,7 +523,8 @@ static void invincible()
   tux.m_invincible_timer.start(10000);
 }
 /**
- * Makes Tux a ghost, i.e. lets him float around and through solid objects.
+ * @scripting
+ * @description Makes Tux a ghost, i.e. lets him float around and through solid objects.
  */
 static void ghost()
 {
@@ -494,7 +534,8 @@ static void ghost()
   tux.set_ghost_mode(true);
 }
 /**
- * Recalls Tux's invincibility and ghost status.
+ * @scripting
+ * @description Recalls Tux's invincibility and ghost status.
  */
 static void mortal()
 {
@@ -505,7 +546,8 @@ static void mortal()
   tux.set_ghost_mode(false);
 }
 /**
- * Re-initializes and respawns Tux at the beginning of the current level.
+ * @scripting
+ * @description Re-initializes and respawns Tux at the beginning of the current level.
  */
 static void restart()
 {
@@ -518,7 +560,8 @@ static void restart()
   session->reset_button = true;
 }
 /**
- * Prints Tux's current coordinates in the current level.
+ * @scripting
+ * @description Prints Tux's current coordinates in the current level.
  */
 static void whereami()
 {
@@ -528,7 +571,8 @@ static void whereami()
   log_info << "You are at x " << (static_cast<int>(tux.get_pos().x)) << ", y " << (static_cast<int>(tux.get_pos().y)) << std::endl;
 }
 /**
- * Moves Tux near the end of the current level.
+ * @scripting
+ * @description Moves Tux near the end of the current level.
  */
 static void gotoend()
 {
@@ -540,7 +584,8 @@ static void gotoend()
     Vector(tux.get_pos().x, tux.get_pos().y));
 }
 /**
- * Moves Tux to the X and Y blocks, relative to his position.
+ * @scripting
+ * @description Moves Tux to the X and Y blocks, relative to his position.
  * @param float $offset_x
  * @param float $offset_y
  */
@@ -555,7 +600,8 @@ static void warp(float offset_x, float offset_y)
 }
 
 /**
- * Adjusts the gamma.
+ * @scripting
+ * @description Adjusts the gamma.
  * @param float $gamma
  */
 static void set_gamma(float gamma)
@@ -564,7 +610,8 @@ static void set_gamma(float gamma)
 }
 
 /**
- * Returns a random integer.
+ * @scripting
+ * @description Returns a random integer.
  */
 static int rand()
 {
@@ -572,7 +619,8 @@ static int rand()
 }
 
 /**
- * Sets the frame, displayed on the title screen.
+ * @scripting
+ * @description Sets the frame, displayed on the title screen.
  * @param string $image
  */
 static void set_title_frame(const std::string& image)
@@ -589,10 +637,16 @@ static void set_title_frame(const std::string& image)
 } // namespace Globals
 
 
+/**
+ * @scripting
+ * @summary The ""Level"" table provides basic controlling functions for the current level.
+ * @scope global
+ */
 namespace Level {
 
 /**
- * Ends the current level.
+ * @scripting
+ * @description Ends the current level.
  * @param bool $win If ""true"", the level is marked as completed if launched from a worldmap.
  */
 static void finish(bool win)
@@ -601,7 +655,8 @@ static void finish(bool win)
   GameSession::current()->finish(win);
 }
 /**
- * Returns whether an end sequence has started. (AKA when the stats at the end are visible)
+ * @scripting
+ * @description Returns whether an end sequence has started. (AKA when the stats at the end are visible)
  */
 static bool has_active_sequence()
 {
@@ -610,10 +665,11 @@ static bool has_active_sequence()
 }
 
 /**
- * Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"".${SRG_TABLENEWPARAGRAPH}
-   Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
-   If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.
-   If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
+ * @scripting
+ * @description Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"".${SRG_TABLENEWPARAGRAPH}
+                Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
+                If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.
+                If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
  * @param string $sector
  * @param string $spawnpoint
  */
@@ -624,7 +680,8 @@ static void spawn(const std::string& sector, const std::string& spawnpoint)
 }
 
 /**
- * Sets the default start spawnpoint of the level.
+ * @scripting
+ * @description Sets the default start spawnpoint of the level.
  * @param string $sector
  * @param string $spawnpoint
  */
@@ -634,7 +691,8 @@ static void set_start_point(const std::string& sector, const std::string& spawnp
   GameSession::current()->set_start_point(sector, spawnpoint);
 }
 /**
- * Sets the default start spawn position of the level.
+ * @scripting
+ * @description Sets the default start spawn position of the level.
  * @param string $sector
  * @param float $x
  * @param float $y
@@ -645,7 +703,8 @@ static void set_start_pos(const std::string& sector, float x, float y)
   GameSession::current()->set_start_pos(sector, Vector(x, y));
 }
 /**
- * Sets the default respawn spawnpoint of the level.
+ * @scripting
+ * @description Sets the default respawn spawnpoint of the level.
  * @param string $sector
  * @param string $spawnpoint
  */
@@ -655,7 +714,8 @@ static void set_respawn_point(const std::string& sector, const std::string& spaw
   GameSession::current()->set_respawn_point(sector, spawnpoint);
 }
 /**
- * Sets the default respawn position of the level.
+ * @scripting
+ * @description Sets the default respawn position of the level.
  * @param string $sector
  * @param float $x
  * @param float $y
@@ -667,8 +727,9 @@ static void set_respawn_pos(const std::string& sector, float x, float y)
 }
 
 /**
- * Flips the level vertically (i.e. top is now bottom and vice versa).
-   Call again to revert the effect. Make sure the player can land on something after the level is flipped!
+ * @scripting
+ * @description Flips the level vertically (i.e. top is now bottom and vice versa).
+                Call again to revert the effect. Make sure the player can land on something after the level is flipped!
  */
 static void flip_vertically()
 {
@@ -679,7 +740,8 @@ static void flip_vertically()
 }
 
 /**
- * Toggles pause.
+ * @scripting
+ * @description Toggles pause.
  */
 static void toggle_pause()
 {
@@ -688,7 +750,8 @@ static void toggle_pause()
 }
 
 /**
- * Pauses the target timer.
+ * @scripting
+ * @description Pauses the target timer.
  */
 static void pause_target_timer()
 {
@@ -696,7 +759,8 @@ static void pause_target_timer()
   GameSession::current()->set_target_timer_paused(true);
 }
 /**
- * Resumes the target timer.
+ * @scripting
+ * @description Resumes the target timer.
  */
 static void resume_target_timer()
 {

@@ -22,6 +22,12 @@
 
 class ReaderMapping;
 
+/**
+ * @scripting
+ * @summary A ""Gradient"" that was given a name can be controlled by scripts.
+ * @instances A ""Gradient"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Gradient final : public GameObject
 {
 public:
@@ -64,33 +70,38 @@ public:
   int get_layer() const { return m_layer; }
 
   /**
-   * Sets the direction of the gradient.
+   * @scripting
+   * @description Sets the direction of the gradient.
    * @param string $direction Can be "horizontal", "vertical", "horizontal_sector" or "vertical_sector".
    */
   void set_direction(const std::string& direction);
 #ifdef DOXYGEN_SCRIPTING
   /**
-   * Returns the direction of the gradient.
-     Possible values are "horizontal", "vertical", "horizontal_sector" or "vertical_sector".
+   * @scripting
+   * @description Returns the direction of the gradient.
+                  Possible values are "horizontal", "vertical", "horizontal_sector" or "vertical_sector".
    */
   std::string get_direction() const;
 #endif
   /**
-   * Set top gradient color.
+   * @scripting
+   * @description Set top gradient color.
    * @param float $red
    * @param float $green
    * @param float $blue
    */
   void set_color1(float red, float green, float blue);
   /**
-   * Set bottom gradient color.
+   * @scripting
+   * @description Set bottom gradient color.
    * @param float $red
    * @param float $green
    * @param float $blue
    */
   void set_color2(float red, float green, float blue);
   /**
-   * Set both gradient colors.
+   * @scripting
+   * @description Set both gradient colors.
    * @param float $red1
    * @param float $green1
    * @param float $blue1
@@ -100,7 +111,8 @@ public:
    */
   void set_colors(float red1, float green1, float blue1, float red2, float green2, float blue2);
   /**
-   * Fade the top gradient color to a specified new color in ""time"" seconds.
+   * @scripting
+   * @description Fade the top gradient color to a specified new color in ""time"" seconds.
    * @param float $red
    * @param float $green
    * @param float $blue
@@ -108,7 +120,8 @@ public:
    */
   void fade_color1(float red, float green, float blue, float time);
   /**
-   * Fade the bottom gradient color to a specified new color in ""time"" seconds.
+   * @scripting
+   * @description Fade the bottom gradient color to a specified new color in ""time"" seconds.
    * @param float $red
    * @param float $green
    * @param float $blue
@@ -116,7 +129,8 @@ public:
    */
   void fade_color2(float red, float green, float blue, float time);
   /**
-   * Fade both gradient colors to specified new colors in ""time"" seconds.
+   * @scripting
+   * @description Fade both gradient colors to specified new colors in ""time"" seconds.
    * @param float $red1
    * @param float $green1
    * @param float $blue1
@@ -127,7 +141,8 @@ public:
    */
   void fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time);
   /**
-   * Swap top and bottom gradient colors.
+   * @scripting
+   * @description Swap top and bottom gradient colors.
    */
   void swap_colors();
 

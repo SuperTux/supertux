@@ -48,8 +48,14 @@ class TextObject;
 class TileMap;
 class Writer;
 
-/** Represents one of (potentially) multiple, separate parts of a Level.
-    Sectors contain GameObjects, e.g. Badguys and Players. */
+/**
+ * Represents one of (potentially) multiple, separate parts of a Level.
+   Sectors contain GameObjects, e.g. Badguys and Players.
+
+ * @scripting
+ * @summary This class provides additional controlling functions for a sector, other than the ones listed at ${SRG_REF_GameObjectManager}.
+ * @instances An instance under ""sector.settings"" is available from scripts and the console.
+ */
 class Sector final : public Base::Sector
 {
   friend class CollisionSystem;
@@ -102,7 +108,8 @@ public:
       Note that this does not include static objects, e.g. bonus blocks. */
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   /**
-   * Checks if the specified sector-relative rectangle is free of solid tiles.
+   * @scripting
+   * @description Checks if the specified sector-relative rectangle is free of solid tiles.
    * @param float $left
    * @param float $top
    * @param float $right
@@ -118,10 +125,11 @@ public:
       Note that this does not include badguys or players. */
   bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr, const bool ignoreUnisolid = false) const;
   /**
-   * Checks if the specified sector-relative rectangle is free of both:
-       1) Solid tiles.
-       2) ""MovingObject""s in ""COLGROUP_STATIC"".
-     Note that this does not include badguys or players.
+   * @scripting
+   * @description Checks if the specified sector-relative rectangle is free of both:
+                    1) Solid tiles.
+                    2) ""MovingObject""s in ""COLGROUP_STATIC"".
+                  Note: This does not include badguys or players.
    * @param float $left
    * @param float $top
    * @param float $right
@@ -137,10 +145,11 @@ public:
       This includes badguys and players. */
   bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
   /**
-   * Checks if the specified sector-relative rectangle is free of both:
-       1) Solid tiles.
-       2) ""MovingObject""s in ""COLGROUP_STATIC"", ""COLGROUP_MOVINGSTATIC"" or ""COLGROUP_MOVING"".
-     This includes badguys and players.
+   * @scripting
+   * @description Checks if the specified sector-relative rectangle is free of both:
+                    1) Solid tiles.
+                    2) ""MovingObject""s in ""COLGROUP_STATIC"", ""COLGROUP_MOVINGSTATIC"" or ""COLGROUP_MOVING"".
+                  This includes badguys and players.
    * @param float $left
    * @param float $top
    * @param float $right
@@ -152,8 +161,9 @@ public:
       Note that this does not include moving badguys, or players */
   bool is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
   /**
-   * Checks if the specified sector-relative rectangle is free of ""MovingObject""s in ""COLGROUP_MOVINGSTATIC"".
-     Note that this does not include moving badguys or players.
+   * @scripting
+   * @description Checks if the specified sector-relative rectangle is free of ""MovingObject""s in ""COLGROUP_MOVINGSTATIC"".
+                  Note: This does not include moving badguys or players.
    * @param float $left
    * @param float $top
    * @param float $right
@@ -189,12 +199,14 @@ public:
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
   /**
+   * @scripting
    * @deprecated Use the ""gravity"" property instead!
    * Sets the sector's gravity.
    * @param float $gravity
    */
   void set_gravity(float gravity);
   /**
+   * @scripting
    * @deprecated Use the ""gravity"" property instead!
    * Returns the sector's gravity.
    * @param float $gravity
@@ -224,6 +236,10 @@ private:
   bool m_fully_constructed;
   int m_foremost_layer;
 
+  /**
+   * @scripting
+   * The sector's gravity.
+   */
   float m_gravity;
 
   std::unique_ptr<CollisionSystem> m_collision_system;

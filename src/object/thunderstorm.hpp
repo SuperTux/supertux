@@ -25,8 +25,15 @@
 class DrawingContext;
 class ReaderMapping;
 
-/** Thunderstorm scriptable GameObject; plays thunder, lightning and
-    electrifies water at regular interval */
+/**
+ * Thunderstorm scriptable GameObject: Plays thunder, lightning and
+   electrifies water at regular interval.
+
+ * @scripting
+ * @summary A ""Thunderstorm"" that was given a name can be controlled by scripts.
+ * @instances A ""Thunderstorm"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Thunderstorm final : public GameObject
 {
 public:
@@ -52,28 +59,34 @@ public:
       @{ */
 
   /**
-   * Starts playing thunder and lightning at a configured interval.
+   * @scripting
+   * @description Starts playing thunder and lightning at a configured interval.
    */
   void start();
   /**
-   * Stops playing thunder and lightning at a configured interval.
+   * @scripting
+   * @description Stops playing thunder and lightning at a configured interval.
    */
   void stop();
 
   /**
-   * Plays thunder.
+   * @scripting
+   * @description Plays thunder.
    */
   void thunder();
   /**
-   * Plays lightning, i.e. calls ""flash()"" and ""electrify()"".
+   * @scripting
+   * @description Plays lightning, i.e. calls ""flash()"" and ""electrify()"".
    */
   void lightning();
   /**
-   * Displays a flash.
+   * @scripting
+   * @description Displays a flash.
    */
   void flash();
   /**
-   * Electrifies water throughout the whole sector for a short time.
+   * @scripting
+   * @description Electrifies water throughout the whole sector for a short time.
    */
   void electrify();
 

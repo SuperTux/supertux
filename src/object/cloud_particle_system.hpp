@@ -23,6 +23,12 @@
 
 class ReaderMapping;
 
+/**
+ * @scripting
+ * @summary A ""CloudParticleSystem"" that was given a name can be controlled by scripts.
+ * @instances A ""CloudParticleSystem"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class CloudParticleSystem final : public ParticleSystem
 {
 public:
@@ -50,20 +56,23 @@ public:
   }
 
   /**
-   * Smoothly changes the rain speed to the given value in ""time"" seconds.
+   * @scripting
+   * @description Smoothly changes the rain speed to the given value in ""time"" seconds.
    * @param float $speed
    * @param float $time
    */
   void fade_speed(float speed, float time);
   /**
-   * Smoothly changes the amount of particles to the given value in ""time"" seconds.
+   * @scripting
+   * @description Smoothly changes the amount of particles to the given value in ""time"" seconds.
    * @param int $amount
    * @param float $time
    * @param float $time_between
    */
   void fade_amount(int amount, float time, float time_between);
   /**
-   * Smoothly changes the amount of particles to the given value in ""time"" seconds.
+   * @scripting
+   * @description Smoothly changes the amount of particles to the given value in ""time"" seconds.
    * @param int $amount
    * @param float $time
    */

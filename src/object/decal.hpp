@@ -22,7 +22,14 @@
 
 class ReaderMapping;
 
-/** A decorative image, perhaps part of the terrain */
+/**
+ * A decorative image, perhaps part of the terrain.
+
+ * @scripting
+ * @summary A ""Decal"" that was given a name can be controlled by scripts.
+ * @instances A ""Decal"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Decal final : public MovingSprite
 {
   friend class FlipLevelTransformer;
@@ -50,26 +57,30 @@ public:
   virtual void on_flip(float height) override;
 
   /**
-   * Fades the decal sprite to a new one in ""time"" seconds.
+   * @scripting
+   * @description Fades the decal sprite to a new one in ""time"" seconds.
    * @param string $sprite
    * @param float $time
    */
   void fade_sprite(const std::string& sprite, float time);
 #ifdef DOXYGEN_SCRIPTING
   /**
+   * @scripting
    * @deprecated Use ""set_sprite()"" instead!
-   * Changes the decal sprite.
+   * @description Changes the decal sprite.
    * @param string $sprite
    */
   void change_sprite(const std::string& sprite);
 #endif
   /**
-   * Fades in the decal in ""time"" seconds.
+   * @scripting
+   * @description Fades in the decal in ""time"" seconds.
    * @param float $time
    */
   void fade_in(float time);
   /**
-   * Fades out the decal in ""time"" seconds.
+   * @scripting
+   * @description Fades out the decal in ""time"" seconds.
    * @param float $time
    */
   void fade_out(float time);

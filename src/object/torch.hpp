@@ -22,6 +22,12 @@
 
 class ReaderMapping;
 
+/**
+ * @scripting
+ * @summary A ""Torch"" that was given a name can be controlled by scripts.
+ * @instances A ""Torch"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Torch final : public MovingSprite
 {
 public:
@@ -49,13 +55,15 @@ public:
   virtual void on_flip(float height) override;
 
   /**
+   * @scripting
    * @deprecated Use the ""burning"" property instead!
-   * Returns ""true"" if the torch is burning.
+   * @description Returns ""true"" if the torch is burning.
    */
   bool get_burning() const;
   /**
+   * @scripting
    * @deprecated Use the ""burning"" property instead!
-   * Switches the burning state of the torch.
+   * @description Switches the burning state of the torch.
    * @param bool $burning
    */
   void set_burning(bool burning);
@@ -65,6 +73,11 @@ private:
   SpritePtr m_flame;
   SpritePtr m_flame_glow;
   SpritePtr m_flame_light;
+
+  /**
+   * @scripting
+   * @description Determines whether the torch is burning.
+   */
   bool m_burning;
 
 private:
