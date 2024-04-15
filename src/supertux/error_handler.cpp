@@ -21,9 +21,20 @@
 // it has to be explicitly linked into the final executable.
 // This is a *libc* feature, not a compiler one; furthermore, it's possible
 // to verify its availability in CMakeLists.txt, if one is so inclined.
-#ifdef __GLIBC__
-#include <execinfo.h>
+
 #include <signal.h>
+
+#ifdef WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <DbgHelp.h>
+
+#include <string>
+#include <sstream>
+
+#pragma comment(lib, "DbgHelp.lib")
+#elif __GLIBC__
+#include <execinfo.h>
 #include <unistd.h>
 #endif
 
@@ -32,10 +43,8 @@ bool ErrorHandler::m_handing_error = false;
 void
 ErrorHandler::set_handlers()
 {
-#ifdef __GLIBC__
   signal(SIGSEGV, handle_error);
   signal(SIGABRT, handle_error);
-#endif
 }
 
 [[ noreturn ]] void
@@ -49,9 +58,11 @@ ErrorHandler::handle_error(int sig)
   else
   {
     m_handing_error = true;
+
     // Do not use external stuff (like log_fatal) to limit the risk of causing
     // another error, which would restart the handler again.
     fprintf(stderr, "\nError: signal %d:\n", sig);
+
     print_stack_trace();
     close_program();
   }
@@ -60,7 +71,56 @@ ErrorHandler::handle_error(int sig)
 void
 ErrorHandler::print_stack_trace()
 {
-#ifdef __GLIBC__
+#ifdef WIN32
+  std::string stacktrace = "";
+  std::string msg = "SuperTux has encountered an unrecoverable error!\n";
+
+  {
+    std::stringstream stacktrace_stream;
+
+    // Initialize symbols
+    SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
+    if (!SymInitialize(GetCurrentProcess(), NULL, TRUE))
+    {
+      goto stacktrace_error;
+    }
+
+    // Get current stack frame
+    void* stack[100];
+    WORD frames = CaptureStackBackTrace(0, 100, stack, NULL);
+
+    // Get symbols for each frame
+    SYMBOL_INFO* symbol = (SYMBOL_INFO*) std::calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1);
+    symbol->MaxNameLen = 255;
+    symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+
+    for (int i = 0; i < frames; i++)
+    {
+      SymFromAddr(GetCurrentProcess(), (DWORD64)(stack[i]), 0, symbol);
+      stacktrace_stream << symbol->Name << " - 0x" << std::hex << symbol->Address << "\n";
+    }
+
+    free(symbol);
+    SymCleanup(GetCurrentProcess());
+
+    stacktrace = stacktrace_stream.str();
+  }
+
+stacktrace_error:
+
+  if (stacktrace.size() > 0)
+  {
+    msg += "Stacktrace:\n";
+    msg += stacktrace;
+  }
+  else
+  {
+    msg += "Unable to get stacktrace.";
+  }
+
+  MessageBoxA(NULL, msg.c_str(), "Error", MB_ICONERROR | MB_OK);
+
+#elif defined(__GLIBC__)
   void *array[127];
   size_t size;
 
