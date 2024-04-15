@@ -41,7 +41,9 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   on_ground(false),
   last_movement(0.0f, 0.0f),
   on_grab_script(),
-  on_ungrab_script()
+  on_ungrab_script(),
+  running_grab_script(),
+  running_ungrab_script()
 {
   parse_type(reader);
   reader.get("on-grab-script", on_grab_script, "");
@@ -58,7 +60,9 @@ Rock::Rock(const Vector& pos, const std::string& spritename) :
   on_ground(false),
   last_movement(0.0f, 0.0f),
   on_grab_script(),
-  on_ungrab_script()
+  on_ungrab_script(),
+  running_grab_script(),
+  running_ungrab_script()
 {
   SoundManager::current()->preload(ROCK_SOUND);
   set_group(COLGROUP_MOVING_STATIC);
@@ -193,8 +197,10 @@ Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
   set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
   on_ground = false;
 
-  if (!on_grab_script.empty()) {
+  if (!on_grab_script.empty() && !running_grab_script) {
+    running_grab_script = true;
     Sector::get().run_script(on_grab_script, "Rock::on_grab");
+    running_grab_script = false;
   }
 }
 
@@ -220,9 +226,11 @@ Rock::ungrab(MovingObject& object, Direction dir)
     }
   }
 
-  if (!on_ungrab_script.empty())
+  if (!on_ungrab_script.empty() && !running_ungrab_script)
   {
+    running_ungrab_script = true;
     Sector::get().run_script(on_ungrab_script, "Rock::on_ungrab");
+    running_ungrab_script = false;
   }
   Portable::ungrab(object, dir);
 }
