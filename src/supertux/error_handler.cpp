@@ -33,7 +33,7 @@
 #include <sstream>
 
 #pragma comment(lib, "DbgHelp.lib")
-#elif __GLIBC__
+#elif defined(__GLIBC__)
 #include <execinfo.h>
 #include <unistd.h>
 #endif
@@ -90,13 +90,13 @@ ErrorHandler::print_stack_trace()
     WORD frames = CaptureStackBackTrace(0, 100, stack, NULL);
 
     // Get symbols for each frame
-    SYMBOL_INFO* symbol = (SYMBOL_INFO*) std::calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1);
+    SYMBOL_INFO* symbol = static_cast<SYMBOL_INFO*>(std::calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1));
     symbol->MaxNameLen = 255;
     symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
 
     for (int i = 0; i < frames; i++)
     {
-      SymFromAddr(GetCurrentProcess(), (DWORD64)(stack[i]), 0, symbol);
+      SymFromAddr(GetCurrentProcess(), (DWORD64) stack[i], 0, symbol);
       stacktrace_stream << symbol->Name << " - 0x" << std::hex << symbol->Address << "\n";
     }
 
@@ -110,7 +110,9 @@ stacktrace_error:
 
   if (stacktrace.size() > 0)
   {
-    msg += "Stacktrace:\n";
+    msg +=
+      "Hit Ctrl+C to copy this error message and file a GitHub issue at https://github.com/SuperTux/supertux/issues/new.\n"
+      "Stacktrace:\n";
     msg += stacktrace;
   }
   else
