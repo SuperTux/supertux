@@ -68,6 +68,45 @@ ErrorHandler::handle_error(int sig)
   }
 }
 
+#ifdef WIN32
+namespace {
+
+std::string
+get_stacktrace()
+{
+  std::stringstream stacktrace_stream;
+
+  // Initialize symbols
+  SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
+  if (!SymInitialize(GetCurrentProcess(), NULL, TRUE))
+  {
+    return "";
+  }
+
+  // Get current stack frame
+  void* stack[100];
+  WORD frames = CaptureStackBackTrace(0, 100, stack, NULL);
+
+  // Get symbols for each frame
+  SYMBOL_INFO* symbol = static_cast<SYMBOL_INFO*>(std::calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1));
+  symbol->MaxNameLen = 255;
+  symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+
+  for (int i = 0; i < frames; i++)
+  {
+    SymFromAddr(GetCurrentProcess(), (DWORD64) stack[i], 0, symbol);
+    stacktrace_stream << symbol->Name << " - 0x" << std::hex << symbol->Address << "\n";
+  }
+
+  std::free(symbol);
+  SymCleanup(GetCurrentProcess());
+
+  return stacktrace_stream.str();
+}
+
+}
+#endif
+
 void
 ErrorHandler::print_stack_trace()
 {
@@ -75,40 +114,9 @@ ErrorHandler::print_stack_trace()
   std::string stacktrace = "";
   std::string msg = "SuperTux has encountered an unrecoverable error!\n";
 
-  {
-    std::stringstream stacktrace_stream;
+  stacktrace = get_stacktrace();
 
-    // Initialize symbols
-    SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
-    if (!SymInitialize(GetCurrentProcess(), NULL, TRUE))
-    {
-      goto stacktrace_error;
-    }
-
-    // Get current stack frame
-    void* stack[100];
-    WORD frames = CaptureStackBackTrace(0, 100, stack, NULL);
-
-    // Get symbols for each frame
-    SYMBOL_INFO* symbol = static_cast<SYMBOL_INFO*>(std::calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1));
-    symbol->MaxNameLen = 255;
-    symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
-
-    for (int i = 0; i < frames; i++)
-    {
-      SymFromAddr(GetCurrentProcess(), (DWORD64) stack[i], 0, symbol);
-      stacktrace_stream << symbol->Name << " - 0x" << std::hex << symbol->Address << "\n";
-    }
-
-    free(symbol);
-    SymCleanup(GetCurrentProcess());
-
-    stacktrace = stacktrace_stream.str();
-  }
-
-stacktrace_error:
-
-  if (stacktrace.size() > 0)
+  if (!stacktrace.empty())
   {
     msg +=
       "Hit Ctrl+C to copy this error message and file a GitHub issue at https://github.com/SuperTux/supertux/issues/new.\n"
