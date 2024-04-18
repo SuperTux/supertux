@@ -13066,6 +13066,40 @@ static SQInteger Level_spawn_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Level_spawn_transition_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg2;
+  if(SQ_FAILED(sq_getstring(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::Level_spawn_transition(arg0, arg1, arg2);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_spawn_transition'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Level_set_start_point_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -14515,6 +14549,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ss");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'Level_spawn'");
+  }
+
+  sq_pushstring(v, "Level_spawn_transition", -1);
+  sq_newclosure(v, &Level_spawn_transition_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".sss");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_spawn_transition'");
   }
 
   sq_pushstring(v, "Level_set_start_point", -1);

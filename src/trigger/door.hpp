@@ -45,7 +45,7 @@ public:
   bool is_locked() const { return m_locked; }
   void unlock();
 
-  Color get_lock_color() const { return lock_color; }
+  Color get_lock_color() const { return m_lock_color; }
 
 private:
   enum DoorState {
@@ -58,16 +58,18 @@ private:
   };
 
 private:
-  DoorState state; /**< current state of the door */
-  std::string target_sector; /**< target sector to teleport to */
-  std::string target_spawnpoint; /**< target spawnpoint to teleport to */
-  std::string script;
-  SpritePtr lock_sprite;
-  Timer stay_open_timer; /**< time until door will close again */
-  Timer unlocking_timer;
-  Timer lock_warn_timer;
+  DoorState m_state; /**< current state of the door */
+  std::string m_target_sector; /**< target sector to teleport to */
+  std::string m_target_spawnpoint; /**< target spawnpoint to teleport to */
+  std::string m_script;
+  SpritePtr m_lock_sprite;
+  Timer m_stay_open_timer; /**< time until door will close again */
+  Timer m_unlocking_timer;
+  Timer m_lock_warn_timer;
   bool m_locked;
-  Color lock_color;
+  Color m_lock_color;
+  bool m_transition_triggered;
+  Player* m_triggering_player;
 
 private:
   Door(const Door&) = delete;
