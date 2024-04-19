@@ -303,8 +303,13 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
 void
 Camera::draw(DrawingContext& context)
 {
+  context.push_transform();
+  context.transform().scale = get_current_scale();
+
   m_screen_size = Sizef(context.get_width(),
                         context.get_height());
+
+  context.pop_transform();
 }
 
 void
@@ -350,11 +355,11 @@ Camera::keep_in_bounds(const Rectf& bounds)
 
   // Keep the translation's scaled position in provided bounds.
   m_translation.x = (bounds.get_width() > m_screen_size.width ?
-      math::clamp(m_translation.x + scale_factor.x, bounds.get_left(), bounds.get_right() - m_screen_size.width ) :
-      0.f);
+      math::clamp(m_translation.x + scale_factor.x, bounds.get_left(), bounds.get_right() - m_screen_size.width) :
+      bounds.get_left());
   m_translation.y = (bounds.get_height() > m_screen_size.height ?
       math::clamp(m_translation.y + scale_factor.y, bounds.get_top(), bounds.get_bottom() - m_screen_size.height) :
-      0.f);
+      bounds.get_top());
 
   // Remove any scale factor we may have added in the checks above.
   m_translation -= scale_factor;

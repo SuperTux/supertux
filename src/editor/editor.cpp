@@ -125,6 +125,7 @@ Editor::Editor() :
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
+  m_new_scale(0.f),
   m_ctrl_pressed(false),
   m_mouse_pos(0.f, 0.f)
 {
@@ -153,6 +154,29 @@ Editor::draw(Compositor& compositor)
   if (m_levelloaded) {
     for(const auto& widget : m_widgets) {
       widget->draw(context);
+    }
+
+    // If camera scale must be changed, change it here.
+    if (m_new_scale != 0.f)
+    {
+      // Do not clamp, as to prevent pointless calls to EditorOverlayWidget::update_pos().
+      if (m_new_scale >= CAMERA_MIN_ZOOM && m_new_scale <= CAMERA_MAX_ZOOM)
+      {
+        Camera& camera = m_sector->get_camera();
+        const bool zooming_in = camera.get_current_scale() < m_new_scale;
+
+        camera.set_scale(m_new_scale);
+
+        // When zooming in, focus on the position of the mouse.
+        if (zooming_in)
+          camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
+                                            static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
+
+        // Update the camera's screen size variable, so it can properly be kept in sector bounds.
+        camera.draw(context);
+        keep_camera_in_bounds();
+      }
+      m_new_scale = 0.f;
     }
 
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
@@ -862,21 +886,14 @@ Editor::event(const SDL_Event& ev)
             break;
           case SDLK_PLUS: // Zoom in
           case SDLK_KP_PLUS:
-            if (m_sector->get_camera().get_current_scale() < CAMERA_MAX_ZOOM)
-              m_sector->get_camera().set_scale(m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY);
-
-            keep_camera_in_bounds();
+            m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
             break;
           case SDLK_MINUS: // Zoom out
           case SDLK_KP_MINUS:
-            if (m_sector->get_camera().get_current_scale() > CAMERA_MIN_ZOOM)
-              m_sector->get_camera().set_scale(m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY);
-
-            keep_camera_in_bounds();
+            m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
             break;
           case SDLK_d: // Reset zoom
-            m_sector->get_camera().set_scale(1.f);
-            keep_camera_in_bounds();
+            m_new_scale = 1.f;
             break;
         }
       }
@@ -898,26 +915,9 @@ Editor::event(const SDL_Event& ev)
       // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
       // The toolbox does scrolling independently from the main area.
       if (m_ctrl_pressed)
-      {
-        Camera& camera = m_sector->get_camera();
-        if (ev.wheel.y > 0 && camera.get_current_scale() < CAMERA_MAX_ZOOM)
-        {
-          camera.set_scale(camera.get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY);
-
-          // When zooming in, focus on the position of the mouse.
-          camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
-                                            static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
-        }
-        else if (ev.wheel.y < 0 && camera.get_current_scale() > CAMERA_MIN_ZOOM)
-        {
-          camera.set_scale(camera.get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY);
-        }
-        keep_camera_in_bounds();
-      }
+        m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY;
       else
-      {
         scroll({ static_cast<float>(ev.wheel.x * -32), static_cast<float>(ev.wheel.y * -32) });
-      }
     }
 
     BIND_SECTOR(*m_sector);

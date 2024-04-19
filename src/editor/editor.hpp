@@ -230,6 +230,7 @@ private:
   float m_time_since_last_save;
 
   float m_scroll_speed;
+  float m_new_scale;
 
   bool m_ctrl_pressed;
   Vector m_mouse_pos;
