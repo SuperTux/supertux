@@ -5,6 +5,7 @@
 # Translators:
 # Dani <danielaafferraz@gmail.com>, 2013
 # Hugo Carvalho <hugokarvalho@hotmail.com>, 2021
+# lecalam, 2024
 # Rui <xymarior@yandex.com>, 2016
 # Sérgio Marques <smarquespt@gmail.com>, 2018
 # Rui <xymarior@yandex.com>, 2016
@@ -13,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-14 13:09+0000\n"
-"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
-"Language-Team: Portuguese (http://www.transifex.com/arctic-games/supertux/language/pt/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: lecalam, 2024\n"
+"Language-Team: Portuguese (http://app.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
@@ -110,7 +111,7 @@ msgstr "Os Mauzões Cheiram Mal!"
 msgid ""
 "#These levels were made Swimming-Ready by Serano and revamped by "
 "AllyTheOcelot"
-msgstr "#Estes níveis foram feitos prontos para natação por Serano e renovados por AllyTheOcelot"
+msgstr "#Estes níveis foram feitos prontos para nadar por Serano e renovados por AllyTheOcelot"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -122,7 +123,7 @@ msgstr "Demasiado fácil"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr "#Todos estes níveis foram atualizados para milestone 2 por Hume."
+msgstr "#Todos estes níveis foram atualizados para a \"milestone\" 2 por Hume."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -162,7 +163,7 @@ msgstr "Dica: usa os iglus para voltares a este lugar."
 
 #: data/levels/bonus1/worldmap.stwm:144
 msgid "Warp to Matr1x' Sector"
-msgstr "Tele-transportar para o Setor Matr1x"
+msgstr "Tele-transportar para o setor Matr1x"
 
 #: data/levels/bonus1/worldmap.stwm:151 data/levels/bonus1/worldmap.stwm:228
 msgid "Warp to Thompson's Domain"
@@ -190,7 +191,7 @@ msgstr "Sair do Domínio do Thompson"
 
 #: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
-msgstr "Voltar para o Setor Matr1x"
+msgstr "Voltar para o setor Matr1x"
 
 #: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
@@ -202,11 +203,11 @@ msgstr "Tele-transportar para a Ilha da Equipa do SuperTux"
 
 #: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
-msgstr "Sair do Setor Matr1x"
+msgstr "Sair do setor Matr1x"
 
 #: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
-msgstr "Continuar no Setor Matr1x"
+msgstr "Continuar no setor Matr1x"
 
 #: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"

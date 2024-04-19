@@ -385,7 +385,7 @@ if (FileSystem::is_directory(olduserdir)) {
 #ifdef EMSCRIPTEN
   EM_ASM({
     try {
-      FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
+      FS.mount(IDBFS, {}, m_userdir);
       FS.syncfs(true, (err) => { console.log(err); });
     } catch(err) {}
   }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument

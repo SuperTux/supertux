@@ -414,38 +414,38 @@ Editor::esc_press()
 void
 Editor::update_keyboard(const Controller& controller)
 {
-  if (!m_enabled){
+  if (!m_enabled) {
     return;
   }
 
-  if (MenuManager::instance().current_menu() == nullptr)
+  if (MenuManager::instance().is_active() || MenuManager::instance().has_dialog())
+    return;
+
+  if (controller.pressed(Control::ESCAPE)) {
+    esc_press();
+    return;
+  }
+  if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
   {
-    if (controller.pressed(Control::ESCAPE)) {
-      esc_press();
-      return;
-    }
-    if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
-    {
-      m_enabled = false;
-      m_overlay_widget->delete_markers();
-      MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
-      return;
-    }
-    if (controller.hold(Control::LEFT)) {
-      scroll({ -m_scroll_speed, 0.0f });
-    }
+    m_enabled = false;
+    m_overlay_widget->delete_markers();
+    MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
+    return;
+  }
+  if (controller.hold(Control::LEFT)) {
+    scroll({ -m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::RIGHT)) {
-      scroll({ m_scroll_speed, 0.0f });
-    }
+  if (controller.hold(Control::RIGHT)) {
+    scroll({ m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::UP)) {
-      scroll({ 0.0f, -m_scroll_speed });
-    }
+  if (controller.hold(Control::UP)) {
+    scroll({ 0.0f, -m_scroll_speed });
+  }
 
-    if (controller.hold(Control::DOWN)) {
-      scroll({ 0.0f, m_scroll_speed });
-    }
+  if (controller.hold(Control::DOWN)) {
+    scroll({ 0.0f, m_scroll_speed });
   }
 }
 
@@ -1106,11 +1106,12 @@ void
 Editor::pack_addon()
 {
   auto id = FileSystem::basename(get_world()->get_basedir());
+  auto output_file_path = FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip");
 
   int version = 0;
   try
   {
-    Partio::ZipFileReader zipold(FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip"));
+    Partio::ZipFileReader zipold(output_file_path);
     auto info_file = zipold.Get_File(id + ".nfo");
     if (info_file)
     {
@@ -1125,7 +1126,7 @@ Editor::pack_addon()
   }
   version++;
 
-  Partio::ZipFileWriter zip(FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip"));
+  Partio::ZipFileWriter zip(output_file_path);
   PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
 
   std::stringstream ss;

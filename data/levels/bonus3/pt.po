@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Hugo Carvalho <hugokarvalho@hotmail.com>, 2021
+# lecalam, 2024
 # Rui <xymarior@yandex.com>, 2016,2018
 # BlaCoiso, 2016
 # Rui <xymarior@yandex.com>, 2016
@@ -12,15 +13,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-14 13:12+0000\n"
-"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
-"Language-Team: Portuguese (http://www.transifex.com/arctic-games/supertux/language/pt/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: lecalam, 2024\n"
+"Language-Team: Portuguese (http://app.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
@@ -30,7 +31,7 @@ msgstr "O nível anteriormente conhecido como \"-89,2 Graus\""
 msgid "Global Warming"
 msgstr "Aquecimento Global"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Uma Noite no Céu"
 
@@ -48,7 +49,7 @@ msgstr "Chuva Florestal (ou \"Chuva Antártica\")"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr "... mas ninguém o pode parar ..."
+msgstr "...mas ninguém o pode parar..."
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:428
 msgid ""
@@ -58,7 +59,7 @@ msgstr "-Desculpa, esta plataforma voadora está preguiçosa.\n-Volta mais tarde
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "Não podes subir mais alto do que nuvens..."
+msgstr "Não podes subir mais alto do que as nuvens..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -82,7 +83,7 @@ msgstr "#Bom trabalho! Mantiveste a lanterna vermelha! Não precisavas de ultrap
 msgid "Coconut Fortress"
 msgstr "Fortaleza de Coco"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Pôr do Sol Cristal"
 
@@ -133,7 +134,7 @@ msgstr "A entrar no castelo"
 
 #: data/levels/bonus3/entering_castle.stl:60
 msgid "#Sorry, nothing to see here! Use the rope to get out!"
-msgstr "#Desculpa, nada para ver aqui! Use a corda para sair!"
+msgstr "#Desculpa, não há nada para ver aqui! Usa a corda para sair!"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
@@ -143,7 +144,7 @@ msgstr "Flor Bónus"
 msgid "After the Glaciers"
 msgstr "Após os Glaciares"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Suspenso ao Telhado"
 
@@ -179,7 +180,7 @@ msgstr "Zona de limpeza"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "- Puxar o Autoclismo: \n#Carrega na tecla seta para cima para puxar o autoclismo!"
+msgstr "- Puxar o autoclismo: \n#Carrega na tecla seta para cima para puxar o autoclismo!"
 
 #: data/levels/bonus3/niv-3.stl:380
 msgid ""
@@ -219,7 +220,7 @@ msgstr "Uma colina de neve"
 msgid "Three Frosty Icebergs"
 msgstr "Três Icebergues Gelados"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Sob o Gelo"
 

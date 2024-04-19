@@ -57,7 +57,7 @@ public:
   void goto_node(int node_no);
 
   /** teleport instantly to given node */
-  void jump_to_node(int node_no);
+  void jump_to_node(int node_no, bool instantaneous = false);
 
   /** start advancing automatically */
   void start_moving();

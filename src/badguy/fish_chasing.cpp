@@ -102,7 +102,8 @@ FishChasing::active_update(float dt_sec) {
     }
     break;
   case FOUND:
-    set_action("notice", m_dir, 1);
+    if (!m_frozen)
+      set_action("notice", m_dir, 1);
 
     if (std::abs(glm::length(m_physic.get_velocity())) >= 1.f) {
       m_physic.set_velocity(m_physic.get_velocity() / 1.25f);
@@ -147,10 +148,12 @@ FishChasing::active_update(float dt_sec) {
        * Sit tight and avoid a division by zero. */
     }
     m_dir = (m_physic.get_velocity_x() <= 0.f ? Direction::LEFT : Direction::RIGHT);
-    set_action("chase", m_dir);
+    if (!m_frozen)
+      set_action("chase", m_dir);
     break;
   case LOST:
-    set_action("swim", m_dir);
+    if (!m_frozen)
+      set_action("swim", m_dir);
 
     if (m_in_water && !m_frozen)
     {

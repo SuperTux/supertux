@@ -101,4 +101,22 @@ string_to_dir(const std::string& dir_str)
   }
 }
 
+Direction
+invert_dir(const Direction& dir)
+{
+  switch (dir)
+  {
+    case Direction::RIGHT:
+      return Direction::LEFT;
+    case Direction::LEFT:
+      return Direction::RIGHT;
+    case Direction::DOWN:
+      return Direction::UP;
+    case Direction::UP:
+      return Direction::DOWN;
+    default:
+      return Direction::NONE;
+  }
+}
+
 /* EOF */

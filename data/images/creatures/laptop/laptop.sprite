@@ -53,4 +53,17 @@
   (action
     (name "waking-right")
     (hitbox 6 26 32 16)
-    (mirror-action "waking-left")))
+    (mirror-action "waking-left"))
+
+  (action
+    (name "iced-left")
+    (hitbox 1 5 45 43)
+    (fps 12)
+    (images "laptop-0.png"))
+
+  (action
+    (name "iced-right")
+    (hitbox 1 5 45 43)
+    (fps 12)
+    (mirror-action "iced-left"))
+)
