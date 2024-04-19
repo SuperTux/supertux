@@ -42,7 +42,8 @@ jobs:
 
           # Pull repository:
           git fetch origin
-          git checkout -b master -t origin/master
+          git checkout master
+          git rebase origin/master
 
           # Pull translations:
           tx pull --use-git-timestamps -a -f
