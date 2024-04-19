@@ -1439,12 +1439,11 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
       else
       {
         // Just draw the bezier lines
-        auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
-        context.color().draw_line(node1->position - cam_translation,
-                                  node1->bezier_before - cam_translation,
+        context.color().draw_line(node1->position,
+                                  node1->bezier_before,
                                   Color(0, 0, 1), LAYER_GUI - 21);
-        context.color().draw_line(node1->position - cam_translation,
-                                  node1->bezier_after - cam_translation,
+        context.color().draw_line(node1->position,
+                                  node1->bezier_after,
                                   Color(0, 0, 1), LAYER_GUI - 21);
         continue;
       }
@@ -1453,23 +1452,22 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
     {
       node2 = &(*j);
     }
-    auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
     Bezier::draw_curve(context,
-                       node1->position - cam_translation,
-                       node1->bezier_after - cam_translation,
-                       node2->bezier_before - cam_translation,
-                       node2->position - cam_translation,
+                       node1->position,
+                       node1->bezier_after,
+                       node2->bezier_before,
+                       node2->position,
                        100,
                        Color::RED,
                        LAYER_GUI - 21);
-    context.color().draw_line(node1->position - cam_translation,
-                              node1->bezier_before - cam_translation,
+    context.color().draw_line(node1->position,
+                              node1->bezier_before,
                               Color(0, 0, 1), LAYER_GUI - 21);
-    context.color().draw_line(node1->position - cam_translation,
-                              node1->bezier_after - cam_translation,
+    context.color().draw_line(node1->position,
+                              node1->bezier_after,
                               Color(0, 0, 1), LAYER_GUI - 21);
-    //context.color().draw_line(node1->position - cam_translation,
-    //                          node2->position - cam_translation,
+    //context.color().draw_line(node1->position,
+    //                          node2->position,
     //                          Color(1, 0, 0), LAYER_GUI - 21);
   }
 }
@@ -1479,7 +1477,6 @@ EditorOverlayWidget::draw(DrawingContext& context)
 {
   draw_tile_tip(context);
   draw_rectangle_preview(context);
-  draw_path(context);
 
   if (g_config->editor_render_grid)
   {
@@ -1497,6 +1494,8 @@ EditorOverlayWidget::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(m_editor.get_sector()->get_camera().get_translation());
   context.transform().scale = m_editor.get_sector()->get_camera().get_current_scale();
+
+  draw_path(context);
 
   if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE &&
       !g_config->editor_show_deprecated_tiles) // If showing deprecated tiles is enabled, this is redundant, since tiles are indicated without the need of hovering over.
