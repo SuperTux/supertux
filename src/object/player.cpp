@@ -1268,7 +1268,7 @@ Player::do_standup(bool force_standup) {
   float new_height = m_swimming ? TUX_WIDTH : BIG_TUX_HEIGHT;
   new_bbox.move(Vector(0, m_col.m_bbox.get_height() - new_height));
   new_bbox.set_height(new_height);
-  if (!Sector::get().is_free_of_movingstatics(new_bbox, this) && !force_standup)
+  if (!Sector::get().is_free_of_movingstatics(new_bbox, this, true) && !force_standup)
   {
     m_crawl = true;
     return;

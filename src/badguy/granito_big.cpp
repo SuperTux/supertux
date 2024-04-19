@@ -22,7 +22,7 @@ GranitoBig::GranitoBig(const ReaderMapping& reader) :
 {
   parse_type(reader);
 
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 }
 
 HitResponse
