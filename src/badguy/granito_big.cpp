@@ -27,7 +27,7 @@ GranitoBig::GranitoBig(const ReaderMapping& reader) :
 
   reader.get("carrying-script", m_carried_script);
 
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 }
 
 HitResponse

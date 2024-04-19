@@ -112,7 +112,6 @@ namespace {
   {
     collision::Constraints constraints;
 
-
     // Slightly growing the static object's rectangle to detect a
     // collision not only when they overlap, but also when they're
     // adjacent or at least extremely close.
