@@ -53,9 +53,6 @@ TileSetParser::parse(int32_t start, int32_t end, int32_t offset, bool imported)
     log_warning << "Cannot import tiles with negative IDs. Importing will start at ID 1." << std::endl;
     start = 1;
   }
-  if (imported && !end) {
-    log_warning << "Importing a tileset with no upper ID limit can cause ID conflicts if the imported tileset is expanded in the future." <<std::endl;
-  }
 
   m_tiles_path = FileSystem::dirname(m_filename);
 
