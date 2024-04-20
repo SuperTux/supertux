@@ -116,13 +116,13 @@ ErrorHandler::handle_error(int sig)
     // another error, which would restart the handler again.
     fprintf(stderr, "\nError: signal %d:\n", sig);
 
-    print_stack_trace();
+    show_stack_trace();
     close_program();
   }
 }
 
 void
-ErrorHandler::print_stack_trace()
+ErrorHandler::show_stack_trace()
 {
   std::string stacktrace = get_stacktrace();
   std::stringstream stream;
