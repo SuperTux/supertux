@@ -80,7 +80,7 @@ std::string ErrorHandler::get_stacktrace()
   SymCleanup(GetCurrentProcess());
 
   return stacktrace.str();
-#elif defined(__GLIBC__)
+#elif defined(__unix__)
   void* array[128];
   size_t size;
 
@@ -97,6 +97,8 @@ std::string ErrorHandler::get_stacktrace()
     stacktrace << functions[i] << "\n";
 
   return stacktrace.str();
+#else
+  return "";
 #endif
 }
 
