@@ -125,29 +125,29 @@ void
 ErrorHandler::print_stack_trace()
 {
   std::string stacktrace = get_stacktrace();
-  std::stringstream msg;
-  msg << "SuperTux has encountered an unrecoverable error!\n";
+  std::stringstream stream;
+  stream << "SuperTux has encountered an unrecoverable error!\n";
   if (!stacktrace.empty())
   {
-    msg
-#ifdef WIN32
-      << "Hit Ctrl+C to copy this error message and file a "
-#else
-      << "Screenshot this error message and file a "
-#endif
+    stream
+      << "Send this error message (either by copying or screenshotting) and file a "
          "GitHub issue at https://github.com/SuperTux/supertux/issues/new.\n"
       << "Stacktrace:\n"
       << stacktrace;
   }
   else
   {
-    msg << "Unable to get stacktrace.";
+    stream << "Unable to get stacktrace.";
   }
+
+  std::string msg = stream.str();
+
+  std::cerr << msg << std::endl;
 
   SDL_ShowSimpleMessageBox(
     SDL_MESSAGEBOX_ERROR,
     "Error",
-    msg.str().c_str(),
+    msg.c_str(),
     nullptr
   );
 }
