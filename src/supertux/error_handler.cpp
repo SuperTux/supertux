@@ -22,18 +22,20 @@
 // This is a *libc* feature, not a compiler one; furthermore, it's possible
 // to verify its availability in CMakeLists.txt, if one is so inclined.
 
-#include <signal.h>
+#include <csignal>
+#include <sstream>
+#include <string>
+
+#include <SDL.h>
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <DbgHelp.h>
 
-#include <string>
-#include <sstream>
 
 #pragma comment(lib, "DbgHelp.lib")
-#elif defined(__GLIBC__)
+#elif defined(__unix__)
 #include <execinfo.h>
 #include <unistd.h>
 #endif
@@ -45,6 +47,57 @@ ErrorHandler::set_handlers()
 {
   signal(SIGSEGV, handle_error);
   signal(SIGABRT, handle_error);
+}
+
+std::string ErrorHandler::get_stacktrace()
+{
+#ifdef WIN32
+  std::stringstream stacktrace;
+
+  // Initialize symbols
+  SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
+  if (!SymInitialize(GetCurrentProcess(), NULL, TRUE))
+  {
+    return "";
+  }
+
+  // Get current stack frame
+  void* stack[100];
+  WORD frames = CaptureStackBackTrace(0, 100, stack, NULL);
+
+  // Get symbols for each frame
+  SYMBOL_INFO* symbol = static_cast<SYMBOL_INFO*>(std::calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1));
+  symbol->MaxNameLen = 255;
+  symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+
+  for (int i = 0; i < frames; i++)
+  {
+    SymFromAddr(GetCurrentProcess(), (DWORD64) stack[i], 0, symbol);
+    stacktrace << symbol->Name << " - 0x" << std::hex << symbol->Address << "\n";
+  }
+
+  std::free(symbol);
+  SymCleanup(GetCurrentProcess());
+
+  return stacktrace.str();
+#elif defined(__GLIBC__)
+  void* array[128];
+  size_t size;
+
+  // Get void*'s for all entries on the stack.
+  size = backtrace(array, 127);
+
+  char** functions = backtrace_symbols(array, static_cast<int>(size));
+  if (functions == nullptr)
+    return "";
+
+  std::stringstream stacktrace;
+
+  for (size_t i = 0; i < size; i++)
+    stacktrace << functions[i] << "\n";
+
+  return stacktrace.str();
+#endif
 }
 
 [[ noreturn ]] void
@@ -68,78 +121,35 @@ ErrorHandler::handle_error(int sig)
   }
 }
 
-#ifdef WIN32
-namespace {
-
-std::string
-get_stacktrace()
-{
-  std::stringstream stacktrace_stream;
-
-  // Initialize symbols
-  SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
-  if (!SymInitialize(GetCurrentProcess(), NULL, TRUE))
-  {
-    return "";
-  }
-
-  // Get current stack frame
-  void* stack[100];
-  WORD frames = CaptureStackBackTrace(0, 100, stack, NULL);
-
-  // Get symbols for each frame
-  SYMBOL_INFO* symbol = static_cast<SYMBOL_INFO*>(std::calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1));
-  symbol->MaxNameLen = 255;
-  symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
-
-  for (int i = 0; i < frames; i++)
-  {
-    SymFromAddr(GetCurrentProcess(), (DWORD64) stack[i], 0, symbol);
-    stacktrace_stream << symbol->Name << " - 0x" << std::hex << symbol->Address << "\n";
-  }
-
-  std::free(symbol);
-  SymCleanup(GetCurrentProcess());
-
-  return stacktrace_stream.str();
-}
-
-}
-#endif
-
 void
 ErrorHandler::print_stack_trace()
 {
-#ifdef WIN32
-  std::string stacktrace = "";
-  std::string msg = "SuperTux has encountered an unrecoverable error!\n";
-
-  stacktrace = get_stacktrace();
-
+  std::string stacktrace = get_stacktrace();
+  std::stringstream msg;
+  msg << "SuperTux has encountered an unrecoverable error!\n";
   if (!stacktrace.empty())
   {
-    msg +=
-      "Hit Ctrl+C to copy this error message and file a GitHub issue at https://github.com/SuperTux/supertux/issues/new.\n"
-      "Stacktrace:\n";
-    msg += stacktrace;
+    msg
+#ifdef WIN32
+      << "Hit Ctrl+C to copy this error message and file a "
+#else
+      << "Screenshot this error message and file a "
+#endif
+         "GitHub issue at https://github.com/SuperTux/supertux/issues/new.\n"
+      << "Stacktrace:\n"
+      << stacktrace;
   }
   else
   {
-    msg += "Unable to get stacktrace.";
+    msg << "Unable to get stacktrace.";
   }
 
-  MessageBoxA(NULL, msg.c_str(), "Error", MB_ICONERROR | MB_OK);
-
-#elif defined(__GLIBC__)
-  void *array[127];
-  size_t size;
-
-  // Get void*'s for all entries on the stack.
-  size = backtrace(array, 127);
-
-  // Print out all the frames to stderr.
-  backtrace_symbols_fd(array, static_cast<int>(size), STDERR_FILENO);
-#endif
+  SDL_ShowSimpleMessageBox(
+    SDL_MESSAGEBOX_ERROR,
+    "Error",
+    msg.str().c_str(),
+    nullptr
+  );
 }
 
 [[ noreturn ]] void

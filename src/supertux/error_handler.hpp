@@ -24,6 +24,7 @@ class ErrorHandler final
 public:
   static void set_handlers();
 
+  static std::string get_stacktrace();
   static void print_stack_trace();
 private:
   [[ noreturn ]] static void handle_error(int sig);
