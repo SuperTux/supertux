@@ -1259,11 +1259,7 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 
     if (m_editor.get_tiles()->empty()) return;
 
-    context.push_transform();
-    context.transform().scale = m_editor.get_sector()->get_camera().get_current_scale();
-
-    const Vector screen_corner = context.get_cliprect().p2() +
-                                 m_editor.get_sector()->get_camera().get_translation();
+    const Vector screen_corner = context.get_cliprect().p2();
     Vector drawn_tile(0.f, 0.f);
     auto tiles = m_editor.get_tiles();
 
@@ -1281,17 +1277,15 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
         }
         uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
         m_editor.get_tileset()->get(tile_id).draw(context.color(),
-                                                  align_to_tilemap(on_tile) - m_editor.get_sector()->get_camera().get_translation(),
+                                                  align_to_tilemap(on_tile),
                                                   LAYER_GUI - 11, Color(1, 1, 1, 0.5));
         //if (tile_id) {
         //const Tile* tg_tile = m_editor.get_tileset()->get( tile_id );
-        //tg_tile->draw(context.color(), tp_to_sp(on_tile) - m_editor.get_sector()->camera->get_translation(),
+        //tg_tile->draw(context.color(), tp_to_sp(on_tile),
         //              LAYER_GUI-11, Color(1, 1, 1, 0.5));
         //}
       }
     }
-
-    context.pop_transform();
   }
 }
 
@@ -1303,11 +1297,7 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
 
   if (m_rectangle_preview->empty()) return;
 
-  context.push_transform();
-  context.transform().scale = m_editor.get_sector()->get_camera().get_current_scale();
-
-  Vector screen_corner = context.get_cliprect().p2() +
-                        m_editor.get_sector()->get_camera().get_translation();
+  Vector screen_corner = context.get_cliprect().p2();
   Vector drawn_tile(0.0f, 0.0f);
   Vector corner(std::min(sp_to_tp(m_drag_start).x, m_hovered_tile.x),
                 std::min(sp_to_tp(m_drag_start).y, m_hovered_tile.y));
@@ -1327,12 +1317,10 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
       }
       uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
       m_editor.get_tileset()->get(tile_id).draw(context.color(),
-                                                align_to_tilemap(on_tile) - m_editor.get_sector()->get_camera().get_translation(),
+                                                align_to_tilemap(on_tile),
                                                 LAYER_GUI - 11, Color(1, 1, 1, 0.5));
     }
   }
-
-  context.pop_transform();
 }
 
 void
@@ -1475,9 +1463,6 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
 void
 EditorOverlayWidget::draw(DrawingContext& context)
 {
-  draw_tile_tip(context);
-  draw_rectangle_preview(context);
-
   if (g_config->editor_render_grid)
   {
     draw_tile_grid(context, 32, true);
@@ -1504,6 +1489,8 @@ EditorOverlayWidget::draw(DrawingContext& context)
   context.set_translation(m_editor.get_sector()->get_camera().get_translation());
   context.transform().scale = scale;
 
+  draw_tile_tip(context);
+  draw_rectangle_preview(context);
   draw_path(context);
 
   if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE &&
@@ -1547,6 +1534,8 @@ EditorOverlayWidget::draw(DrawingContext& context)
                                        Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
   }
 
+  context.pop_transform();
+
   if (m_dragging && m_dragging_right)
   {
     Color selection_color = m_selection_warning ? EditorOverlayWidget::error_color : Color(0.2f, 0.4f, 1.0f);
@@ -1554,8 +1543,6 @@ EditorOverlayWidget::draw(DrawingContext& context)
     context.color().draw_filled_rect(selection_draw_rect(), selection_color,
                                      0.0f, LAYER_GUI-13);
   }
-
-  context.pop_transform();
 
   if (m_warning_timer.get_timeleft() > 0.f) // Draw warning, if set
   {
