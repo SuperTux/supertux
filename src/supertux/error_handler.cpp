@@ -35,7 +35,7 @@
 
 
 #pragma comment(lib, "DbgHelp.lib")
-#elif defined(__unix__)
+#elif defined(__unix__) || defined(__APPLE__)
 #include <execinfo.h>
 #include <unistd.h>
 #endif
@@ -80,7 +80,7 @@ std::string ErrorHandler::get_stacktrace()
   SymCleanup(GetCurrentProcess());
 
   return stacktrace.str();
-#elif defined(__unix__)
+#elif defined(__unix__) || defined(__APPLE__)
   void* array[128];
   size_t size;
 
