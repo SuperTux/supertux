@@ -42,9 +42,13 @@ public:
   static std::string display_name() { return _("Stalactite"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  virtual ObjectSettings get_settings() override;
+
   virtual void on_flip(float height) override;
 
   void squish();
+
+  bool m_sticky;
 
 protected:
   std::vector<Direction> get_allowed_directions() const override;

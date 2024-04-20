@@ -20,7 +20,10 @@
 #include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/bullet.hpp"
+#include "object/fallblock.hpp"
 #include "object/player.hpp"
+#include "object/platform.hpp"
+#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
@@ -32,6 +35,7 @@ static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const ReaderMapping& mapping) :
   BadGuy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1),
+  m_sticky(true),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
@@ -46,6 +50,8 @@ Stalactite::Stalactite(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/cracking.wav");
   SoundManager::current()->preload("sounds/sizzle.ogg");
   SoundManager::current()->preload("sounds/icecrash.ogg");
+
+  mapping.get("sticky", m_sticky, false);
 }
 
 void
@@ -73,6 +79,42 @@ Stalactite::active_update(float dt_sec)
     }
   } else if (state == STALACTITE_FALLING) {
     m_col.set_movement(m_physic.get_movement(dt_sec));
+  }
+
+  if (state != STALACTITE_FALLING) {
+    if (m_sticky)
+    {
+      Rectf small_overlap_box = get_bbox().grown(1.f);
+      Rectf large_overlap_box = get_bbox().grown(8.f);
+
+      for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
+      {
+        if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
+          !Sector::get().is_free_of_statics(large_overlap_box))
+        {
+          m_col.set_movement(tm.get_movement(true));
+          return;
+        }
+      }
+
+      for (auto& platform : Sector::get().get_objects_by_type<Platform>())
+      {
+        if (large_overlap_box.overlaps(platform.get_bbox()))
+        {
+          m_col.set_movement(platform.get_movement());
+          return;
+        }
+      }
+
+      for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
+      {
+        if (small_overlap_box.overlaps(fallblock.get_bbox()))
+        {
+          m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
+          return;
+        }
+      }
+    }
   }
 }
 
@@ -213,6 +255,18 @@ Stalactite::on_flip(float height)
 {
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+ObjectSettings
+Stalactite::get_settings()
+{
+  ObjectSettings result = BadGuy::get_settings();
+
+  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
+
+  result.reorder({"sticky", "speed", "sprite", "x", "y" });
+
+  return result;
 }
 
 /* EOF */
