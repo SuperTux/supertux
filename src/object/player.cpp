@@ -372,6 +372,11 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
 void
 Player::update(float dt_sec)
 {
+  if (m_col.m_colliding_wind.empty()) {
+    m_wind_velocity = Vector(0.f, 0.f);
+    m_wind_acceleration = 0.0;
+  }
+
   if (is_dead() || Sector::get().get_object_count<Player>() == 1)
   {
     m_tag_timer.stop();
@@ -541,6 +546,8 @@ Player::update(float dt_sec)
   if (!m_dying && !m_deactivated)
     handle_input();
 
+  if (!m_col.m_colliding_wind.empty())
+    m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
   /*
   // handle_input() calls apply_friction() when Tux is not walking, so we'll have to do this ourselves
   if (deactivated)
@@ -667,10 +674,6 @@ Player::update(float dt_sec)
     if (std::signbit(m_boost) != sign)
       m_boost = 0.f;
   }
-
-  m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
-  m_wind_velocity = Vector(0.f, 0.f);
-  m_wind_acceleration = 0.0;
 
   // calculate movement for this frame
   m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0));
@@ -1052,6 +1055,7 @@ Player::apply_friction()
     friction *= (ICE_FRICTION_MULTIPLIER*(m_sliding ? 4.f : m_stone ? 5.f : 1.f));
   else
     friction *= (NORMAL_FRICTION_MULTIPLIER*(m_sliding ? 0.8f : m_stone ? 0.4f : 1.f));
+
   if (velx < 0) {
     m_physic.set_acceleration_x(friction);
   } else if (velx > 0) {
@@ -1139,8 +1143,14 @@ Player::handle_horizontal_input()
   // changing directions?
   if ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0)) {
     if (on_ground()) {
+      // Better acceleration in wind when we are on the ground
+      bool wind_control = false;
+      if (!m_col.m_colliding_wind.empty()) {
+        ax *= 3.f;
+        wind_control = true;
+      }
       // let's skid!
-      if (fabsf(vx)>SKID_XM && !m_skidding_timer.started()) {
+      if (fabsf(vx)>SKID_XM && !m_skidding_timer.started() && !wind_control) {
         m_skidding_timer.start(SKID_TIME);
         SoundManager::current()->play("sounds/skid.wav", get_pos());
         // dust some particles
@@ -2892,15 +2902,18 @@ Player::add_wind_velocity(const Vector& speed, const float acceleration, const V
 {
   Vector velocity = glm::normalize(end_speed) * acceleration;
   m_wind_acceleration = acceleration;
+  Vector end_velocity = Vector(0.f, 0.f);
   // Only add velocity in the same direction as the wind.
   if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
-    m_wind_velocity.x = std::min(m_wind_velocity.x + velocity.x, end_speed.x);
+    end_velocity.x = std::min(m_wind_velocity.x + velocity.x, end_speed.x);
   if (end_speed.x < 0 && m_physic.get_velocity_x() > end_speed.x)
-    m_wind_velocity.x = std::max(m_wind_velocity.x + velocity.x, end_speed.x);
+    end_velocity.x = std::max(m_wind_velocity.x + velocity.x, end_speed.x);
   if (end_speed.y > 0 && m_physic.get_velocity_y() < end_speed.y)
-    m_wind_velocity.y = std::min(m_wind_velocity.y + velocity.y, end_speed.y);
+    end_velocity.y = std::min(m_wind_velocity.y + velocity.y, end_speed.y);
   if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
-    m_wind_velocity.y = std::max(m_wind_velocity.y + velocity.y, end_speed.y);
+    end_velocity.y = std::max(m_wind_velocity.y + velocity.y, end_speed.y);
+
+  m_wind_velocity = glm::lerp(m_wind_velocity, end_velocity, 0.5f);
 }
 
 

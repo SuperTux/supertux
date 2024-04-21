@@ -558,6 +558,7 @@ CollisionSystem::update()
     object->m_dest = object->get_bbox();
     object->m_dest.move(object->get_movement());
     object->clear_bottom_collision_list();
+    object->clear_wind_collision_list();
   }
 
   // Part 1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap.
