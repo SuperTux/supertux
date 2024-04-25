@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_BADGUY_STALACTITE_HPP
 #define HEADER_SUPERTUX_BADGUY_STALACTITE_HPP
 
-#include "badguy/badguy.hpp"
+#include "object/sticky_object.hpp"
 
-class Stalactite : public BadGuy
+class Stalactite : public StickyBadguy
 {
 public:
-  Stalactite(const ReaderMapping& reader);
+  Stalactite(const ReaderMapping& mapping);
 
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
@@ -47,8 +47,6 @@ public:
   virtual void on_flip(float height) override;
 
   void squish();
-
-  bool m_sticky;
 
 protected:
   std::vector<Direction> get_allowed_directions() const override;

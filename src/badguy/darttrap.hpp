@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
 #define HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
 
-#include "badguy/badguy.hpp"
+#include "object/sticky_object.hpp"
 
 /** Badguy "DartTrap" - Shoots a Dart at regular intervals */
-class DartTrap final : public BadGuy
+class DartTrap final : public StickyBadguy
 {
 public:
   DartTrap(const ReaderMapping& reader);
@@ -59,7 +59,6 @@ protected:
 
 private:
   bool m_enabled;
-  bool m_sticky;
   float m_initial_delay;
   float m_fire_delay;
   int m_ammo; // ammo left (-1 means unlimited)

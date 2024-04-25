@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_STICKY_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_STICKY_OBJECT_HPP
 
+#include "badguy/badguy.hpp"
 #include "object/moving_sprite.hpp"
 #include "supertux/game_object.hpp"
 
@@ -46,6 +47,26 @@ protected:
 private:
   StickyObject(const StickyObject&) = delete;
   StickyObject& operator=(const StickyObject&) = delete;
+};
+
+class StickyBadguy : public BadGuy
+{
+public:
+  StickyBadguy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS);
+  StickyBadguy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS);
+
+  virtual void update(float dt_sec) override;
+  virtual bool is_sticky() const { return m_sticky; }
+  //virtual void move_for_owner(MovingObject& object);
+
+protected:
+  bool m_sticky; // determines if the object CAN stick, period. 
+  bool m_sticking; // determines if the object has found something to stick to.
+  //GameObject* m_owner = nullptr;
+
+private:
+  StickyBadguy(const StickyBadguy&) = delete;
+  StickyBadguy& operator=(const StickyBadguy&) = delete;
 };
 
 #endif

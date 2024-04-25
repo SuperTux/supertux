@@ -34,8 +34,7 @@ static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const ReaderMapping& mapping) :
-  BadGuy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1),
-  m_sticky(true),
+  StickyBadguy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
@@ -81,40 +80,8 @@ Stalactite::active_update(float dt_sec)
     m_col.set_movement(m_physic.get_movement(dt_sec));
   }
 
-  if (state != STALACTITE_FALLING) {
-    if (m_sticky)
-    {
-      Rectf small_overlap_box = get_bbox().grown(1.f);
-      Rectf large_overlap_box = get_bbox().grown(8.f);
-
-      for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
-      {
-        if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
-          !Sector::get().is_free_of_statics(large_overlap_box))
-        {
-          m_col.set_movement(tm.get_movement(true));
-          return;
-        }
-      }
-
-      for (auto& platform : Sector::get().get_objects_by_type<Platform>())
-      {
-        if (large_overlap_box.overlaps(platform.get_bbox()))
-        {
-          m_col.set_movement(platform.get_movement());
-          return;
-        }
-      }
-
-      for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
-      {
-        if (small_overlap_box.overlaps(fallblock.get_bbox()))
-        {
-          m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
-          return;
-        }
-      }
-    }
+  if (state != STALACTITE_FALLING && m_sticky) {
+    StickyBadguy::update(dt_sec);
   }
 }
 
