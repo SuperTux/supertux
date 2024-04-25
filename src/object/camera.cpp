@@ -807,7 +807,7 @@ Camera::scroll_to(float x, float y, float scrolltime)
 void
 Camera::set_scale(float scale)
 {
-  ease_scale(scale, 0, "");
+  m_scale = scale;
 }
 
 void

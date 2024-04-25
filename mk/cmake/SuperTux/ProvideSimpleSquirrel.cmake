@@ -1,2 +1,6 @@
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/simplesquirrel/")
-add_library(LibSimpleSquirrel ALIAS simplesquirrel)
+if(MSVC)
+  add_library(LibSimpleSquirrel ALIAS simplesquirrel_static)
+else()
+  add_library(LibSimpleSquirrel ALIAS simplesquirrel)
+endif()
