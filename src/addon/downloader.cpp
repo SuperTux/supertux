@@ -336,7 +336,7 @@ public:
   }
 #endif
 
-  std::string get_url() const
+  const std::string& get_url() const
   {
     return m_url;
   }
