@@ -17,13 +17,15 @@
 #define HEADER_SUPERTUX_OBJECT_BUMPER_HPP
 
 #include "object/moving_sprite.hpp"
+#include "object/sticky_object.hpp"
 
 #include "supertux/physic.hpp"
 
 enum class Direction;
 class Player;
 
-class Bumper final : public MovingSprite
+class Bumper final : public StickyObject
+
 {
 public:
   Bumper(const ReaderMapping& reader);
@@ -48,7 +50,6 @@ private:
 
   Direction m_dir;
   Vector m_original_pos;
-  bool m_sticky;
 
 private:
   Bumper(const Bumper&) = delete;

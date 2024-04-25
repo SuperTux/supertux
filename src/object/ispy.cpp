@@ -29,11 +29,10 @@
 #include "util/writer.hpp"
 
 Ispy::Ispy(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES + 5, COLGROUP_DISABLED),
+  StickyObject(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES + 5, COLGROUP_DISABLED),
   m_state(ISPYSTATE_IDLE),
   m_script(),
-  m_dir(Direction::LEFT),
-  m_sticky()
+  m_dir(Direction::LEFT)
 {
   reader.get("script", m_script);
 
@@ -82,40 +81,6 @@ Ispy::collision(GameObject& , const CollisionHit& )
 void
 Ispy::update(float dt_sec)
 {
-
-  if (m_sticky)
-  {
-    // dynamic with tilemap, platform, and fallblock.
-    Rectf large_overlap_box = get_bbox().grown(8.f);
-
-    for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
-    {
-      if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec)
-        && !Sector::get().is_free_of_statics(large_overlap_box))
-      {
-        m_col.set_movement(tm.get_movement(true));
-      }
-    }
-
-    for (auto& platform : Sector::get().get_objects_by_type<Platform>())
-    {
-      if (large_overlap_box.overlaps(platform.get_bbox()))
-      {
-        m_col.set_movement(platform.get_movement());
-      }
-    }
-
-    for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
-    {
-      if (large_overlap_box.overlaps(fallblock.get_bbox()))
-      {
-        m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
-      }
-    }
-  }
-
-  // end dynamic
-
   if (m_state == ISPYSTATE_IDLE)
   {
     //Check if a player has been spotted
@@ -162,6 +127,11 @@ Ispy::update(float dt_sec)
       m_state = ISPYSTATE_IDLE;
     }
   }
+
+  if (m_sticky) {
+    StickyObject::update(dt_sec);
+  }
+
 }
 
 void

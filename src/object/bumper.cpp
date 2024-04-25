@@ -36,11 +36,10 @@ const float BOUNCE_X = 700.0f;
 }
 
 Bumper::Bumper(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
+  StickyObject(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   m_physic(),
   m_dir(Direction::RIGHT),
-  m_original_pos(),
-  m_sticky()
+  m_original_pos()
 {
   std::string dir_str;
   bool old_facing_left = false;
@@ -90,41 +89,14 @@ Bumper::update(float dt_sec)
 
   if (m_sticky)
   {
-    Rectf large_overlap_box = get_bbox().grown(8.f);
-
-    for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
-    {
-      if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
-        !Sector::get().is_free_of_statics(large_overlap_box))
-      {
-        m_col.set_movement(tm.get_movement(true));
-        m_original_pos = get_pos();
-        return;
-      }
+    if (m_sticking) {
+      m_original_pos = get_pos();
     }
-
-    for (auto& platform : Sector::get().get_objects_by_type<Platform>())
-    {
-      if (large_overlap_box.overlaps(platform.get_bbox()))
-      {
-        m_col.set_movement(platform.get_movement());
-        m_original_pos = get_pos();
-        return;
-      }
-    }
-
-    for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
-    {
-      if (small_overlap_box.overlaps(fallblock.get_bbox()))
-      {
-        m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
-        m_original_pos = get_pos();
-        return;
-      }
-    }
+    StickyObject::update(dt_sec);
   }
-
-  m_col.set_movement(m_physic.get_movement (dt_sec));
+  else {
+    m_col.set_movement(m_physic.get_movement(dt_sec));
+  }
 }
 
 HitResponse

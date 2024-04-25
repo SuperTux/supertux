@@ -18,11 +18,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_ISPY_HPP
 #define HEADER_SUPERTUX_OBJECT_ISPY_HPP
 
-#include "object/moving_sprite.hpp"
+#include "object/sticky_object.hpp"
 #include "supertux/direction.hpp"
 
 /** An Ispy: When it spots Tux, a script will run. */
-class Ispy final : public MovingSprite
+class Ispy final : public StickyObject
 {
 public:
   Ispy(const ReaderMapping& mapping);
@@ -53,7 +53,6 @@ private:
 
   std::string m_script; /**< script to execute when Tux is spotted */
   Direction m_dir;
-  bool m_sticky;
 
 private:
   Ispy(const Ispy&) = delete;
