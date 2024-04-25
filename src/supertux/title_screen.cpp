@@ -209,6 +209,8 @@ TitleScreen::update(float dt_sec, const Controller& controller)
 void
 TitleScreen::update_level(float dt_sec)
 {
+  using RaycastResult = CollisionSystem::RaycastResult;
+
   Sector& sector = m_titlesession->get_current_sector();
   Player& player = *(sector.get_players()[0]);
 
@@ -227,12 +229,24 @@ TitleScreen::update_level(float dt_sec)
   m_controller->press(Control::RIGHT);
 
   // Check if we should press the jump button
-  Rectf lookahead = player.get_bbox();
-  lookahead.set_right(lookahead.get_right() + 96.f);
-  lookahead.set_bottom(lookahead.get_bottom() - 2.f);
+  const Rectf& bbox = player.get_bbox();
+  const Vector eye(bbox.get_right(), bbox.get_top() + bbox.get_height() / 2);
+  const Vector end(eye.x + 46.f, eye.y);
+
+  RaycastResult result = sector.get_first_line_intersection(eye, end, false, player.get_collision_object());
+
+  bool shouldjump = result.is_valid;
+  if (shouldjump)
+  {
+    if (auto tile = std::get_if<const Tile*>(&result.hit))
+      shouldjump = !(*tile)->is_slope();
+    else if (auto obj = std::get_if<CollisionObject*>(&result.hit))
+      shouldjump = ((*obj)->get_group() == COLGROUP_STATIC ||
+                    (*obj)->get_group() == COLGROUP_MOVING_STATIC);
+  }
 
   if (player.m_fall_mode == Player::FallMode::JUMPING ||
-      (m_jump_was_released && !sector.is_free_of_statics(lookahead)))
+      (m_jump_was_released && shouldjump))
   {
     m_controller->press(Control::JUMP);
     m_jump_was_released = false;
