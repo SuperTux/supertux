@@ -369,6 +369,7 @@ GameObjectFactory::register_objects(ssq::VM& vm)
   Torch::register_class(vm);
   WillOWisp::register_class(vm);
   Wind::register_class(vm);
+  Granito::register_class(vm);
 }
 
 std::unique_ptr<GameObject>

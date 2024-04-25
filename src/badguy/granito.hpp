@@ -25,10 +25,15 @@ class GranitoBig;
 class Granito : public WalkingBadguy
 {
 public:
+  static void register_class(ssq::VM& vm);
+
+public:
   Granito(const ReaderMapping& reader,
           const std::string& sprite_name = "images/creatures/granito/granito.sprite",
           int layer = LAYER_OBJECTS);
 
+  /** \addtogroup GameObject
+      @{ */
   virtual void active_update(float dt_sec) override;
 
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
@@ -36,6 +41,7 @@ public:
 
   static std::string class_name() { return "granito"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Granito"; }
   static std::string display_name() { return _("Granito"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -47,6 +53,76 @@ public:
 
   virtual GameObjectTypes get_types() const override;
   virtual void after_editor_set() override;
+  /** @} */
+
+  // FIXME: Is this a good name?
+  /** \addtogroup GranitoAPI
+      @{ */
+
+  /**
+   * @scripting
+   * @description Makes the Granito wave.
+   */
+  void wave();
+
+  /**
+   * @scripting
+   * @description Makes the Granito sit.
+   */
+  void sit();
+
+  /**
+   * @scripting
+   * @description Makes the Granito sit.
+   * @param string $direction Direction to turn to. Can be "left or "right".
+   */
+  void turn(const std::string& direction);
+
+  /**
+   * @scripting
+   * @description Sets the walking state for the Granito.
+   * @param bool $walking
+   */
+  void set_walking(bool walking)
+  {
+    if (walking)
+      walk();
+    else
+      stand();
+  }
+
+  /**
+   * @scripting
+   * @description Makes the Granito walk.
+   */
+  void walk();
+
+  /**
+   * @scripting
+   * @description Makes the Granito stand, or stop if walking.
+   */
+  void stand();
+
+  /**
+   * @scripting
+   * @description Makes the Granito jump.
+   */
+  void jump();
+
+  //TODO: No way to expose enums?
+  /**
+   * @scripting
+   * @description Gets the current granito state.
+   *              0 - ""SIT""
+   *              1 - ""STAND""
+   *              2 - ""WALK""
+   *              3 - ""WAVE""
+   *              4 - ""LOOKUP""
+   *              5 - ""JUMPING""
+   */
+  int get_state() { return static_cast<int>(m_state); }
+
+  /** @} */
 
 protected:
   virtual void initialize() override;
@@ -55,7 +131,12 @@ protected:
   void activate() override;
 
 protected:
-  enum Type { DEFAULT, STAND, WALK, SIT };
+  enum Type { DEFAULT, STAND, WALK, SCRIPTABLE, SIT };
+
+  /**
+   * NOTE: When changing this, make sure to also change
+   * the description for get_state()
+   */
   enum State
   {
     STATE_SIT,
@@ -68,10 +149,7 @@ protected:
 
 protected:
   virtual bool try_wave();
-  void wave();
-
   virtual bool try_jump();
-  void jump();
 
   void restore_original_state();
 

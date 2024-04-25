@@ -110,13 +110,13 @@ Granito::active_update(float dt_sec)
         m_has_waved = true;
       }
     }
-    else
+    else if (m_type != SCRIPTABLE)
     {
       try_wave();
     }
   }
 
-  if (m_type == DEFAULT && try_jump())
+  if (m_type == SCRIPTABLE || (m_type == DEFAULT && try_jump()))
   {
     WalkingBadguy::active_update(dt_sec);
     return;
@@ -152,20 +152,12 @@ Granito::active_update(float dt_sec)
           // Walk/stop
           if (walk_speed > 0)
           {
-            walk_speed = 0;
-            m_state = STATE_STAND;
-            m_original_state = STATE_STAND;
-            m_physic.set_velocity_x(0);
-            set_action("stand", m_dir);
+            stand();
           }
           else
           {
             m_dir = (gameRandom.rand(2) == 0 ? Direction::LEFT : Direction::RIGHT);
-            walk_speed = 80;
-            m_state = STATE_WALK;
-            m_original_state = STATE_WALK;
-            m_physic.set_velocity_x(80 * (m_dir == Direction::LEFT ? -1 : 1));
-            set_action(m_dir);
+            walk();
           }
         }
 
@@ -185,7 +177,7 @@ Granito::active_update(float dt_sec)
 HitResponse
 Granito::collision_player(Player& player, const CollisionHit& hit)
 {
-  if (m_state == STATE_SIT || m_type == WALK) return FORCE_MOVE;
+  if (m_state == STATE_SIT || m_type == WALK || m_type == SCRIPTABLE) return FORCE_MOVE;
 
   if (hit.top)
   {
@@ -263,6 +255,7 @@ Granito::get_types() const
     { "default", _("Default") },
     { "standing", _("Standing") },
     { "walking", _("Walking") },
+    { "scriptable", _("Scriptable") },
 
     // Small granito only
     { "sitting", _("Sitting") }
@@ -282,6 +275,7 @@ Granito::after_editor_set()
     case SIT:
       set_action("sit", m_dir);
       break;
+    case SCRIPTABLE:
     case STAND:
       set_action("stand", m_dir);
       break;
@@ -314,6 +308,7 @@ Granito::initialize()
       set_action("sit", m_dir);
       break;
 
+    case SCRIPTABLE:
     case STAND:
       set_action("stand", m_dir);
       break;
@@ -369,6 +364,77 @@ Granito::wave()
   m_state = STATE_WAVE;
 
   set_action("wave", m_dir, 1);
+}
+
+void Granito::sit()
+{
+  walk_speed = 0;
+  m_state = STATE_SIT;
+  m_original_state = STATE_SIT;
+  m_physic.set_velocity_x(0);
+
+  if (!m_airborne)
+  {
+    float oldheight = get_bbox().get_size().height;
+    set_action("sit", m_dir);
+
+    float height = get_bbox().get_size().height;
+    set_pos(Vector(get_bbox().get_left(), get_bbox().get_top() + oldheight - height));
+  }
+  else
+  {
+    set_action("sit", m_dir);
+  }
+}
+
+void Granito::turn(const std::string& direction)
+{
+  m_dir = string_to_dir(direction);
+  switch (m_state)
+  {
+    case STATE_WALK:
+      walk();
+      break;
+
+    case STATE_STAND:
+      set_action("stand", m_dir);
+      break;
+
+    case STATE_SIT:
+      set_action("sit", m_dir);
+      break;
+
+    case STATE_LOOKUP:
+      set_action("lookup", m_dir);
+      break;
+
+    case STATE_JUMPING:
+      set_action("jump", m_dir);
+      break;
+
+    default:
+      break;
+  }
+}
+
+void
+Granito::walk()
+{
+  walk_speed = 80;
+  m_state = STATE_WALK;
+  m_original_state = STATE_WALK;
+  m_physic.set_velocity_x(80 * (m_dir == Direction::LEFT ? -1 : 1));
+  set_action(m_dir);
+}
+
+void
+Granito::stand()
+{
+  walk_speed = 0;
+  m_state = STATE_STAND;
+  m_original_state = STATE_STAND;
+  m_physic.set_velocity_x(0);
+  set_action("stand", m_dir);
 }
 
 bool
@@ -427,16 +493,27 @@ Granito::restore_original_state()
 
   if (m_state == STATE_WALK)
   {
-    set_action(m_dir);
-    walk_speed = 80;
-    m_physic.set_velocity_x(80 * (m_dir == Direction::LEFT ? -1 : 1));
+    walk();
   }
   else
   {
-    set_action("stand", m_dir);
-    walk_speed = 0;
-    m_physic.set_velocity_x(0);
+    stand();
   }
+}
+
+void
+Granito::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Granito>("Granito", vm.findClass("BadGuy"));
+
+  cls.addFunc("wave", &Granito::wave);
+  cls.addFunc("sit", &Granito::sit);
+  cls.addFunc("turn", &Granito::turn);
+  cls.addFunc("set_walking", &Granito::set_walking);
+  cls.addFunc("walk", &Granito::walk);
+  cls.addFunc("stand", &Granito::stand);
+  cls.addFunc("jump", &Granito::jump);
+  cls.addFunc("get_state", &Granito::get_state);
 }
 
 /* EOF */
