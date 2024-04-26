@@ -34,7 +34,7 @@ static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const ReaderMapping& mapping) :
-  StickyBadguy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1),
+  StickyBadguy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1, COLGROUP_MOVING),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
@@ -81,7 +81,7 @@ Stalactite::active_update(float dt_sec)
   }
 
   if (state != STALACTITE_FALLING && m_sticky) {
-    StickyBadguy::update(dt_sec);
+    StickyBadguy::active_update(dt_sec);
   }
 }
 

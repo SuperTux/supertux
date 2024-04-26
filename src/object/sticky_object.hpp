@@ -21,8 +21,6 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/game_object.hpp"
 
-class ReaderMapping;
-
 class StickyObject : public MovingSprite
 {
 public:
@@ -52,10 +50,17 @@ private:
 class StickyBadguy : public BadGuy
 {
 public:
-  StickyBadguy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS);
-  StickyBadguy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS);
+  StickyBadguy(const ReaderMapping& reader,
+    const std::string& sprite_name,
+    Direction default_direction,
+    int layer = LAYER_OBJECTS,
+    CollisionGroup collision_group = COLGROUP_MOVING);
+  StickyBadguy(const ReaderMapping& reader,
+    const std::string& sprite_name,
+    int layer = LAYER_OBJECTS,
+    CollisionGroup collision_group = COLGROUP_MOVING);
 
-  virtual void update(float dt_sec) override;
+  virtual void active_update(float dt_sec) override;
   virtual bool is_sticky() const { return m_sticky; }
   //virtual void move_for_owner(MovingObject& object);
 

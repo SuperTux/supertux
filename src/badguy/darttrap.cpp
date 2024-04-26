@@ -29,7 +29,7 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  StickyBadguy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1),
+  StickyBadguy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1, COLGROUP_MOVING),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),
@@ -80,7 +80,7 @@ void
 DartTrap::active_update(float dt_sec)
 {
   if (m_sticky) {
-    StickyBadguy::update(dt_sec);
+    StickyBadguy::active_update(dt_sec);
   }
 
   // end dynamic

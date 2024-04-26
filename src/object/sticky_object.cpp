@@ -26,7 +26,7 @@
 
 StickyObject::StickyObject(const Vector& pos, const std::string& sprite_name_,
   int layer_, CollisionGroup collision_group) :
-  MovingSprite(pos, sprite_name_, LAYER_OBJECTS, COLGROUP_MOVING),
+  MovingSprite(pos, sprite_name_, layer_, collision_group),
   m_sticky(),
   m_sticking()
   //m_owner(nullptr)
@@ -34,7 +34,7 @@ StickyObject::StickyObject(const Vector& pos, const std::string& sprite_name_,
 }
 
 StickyObject::StickyObject(const ReaderMapping& reader, const std::string& sprite_name_, int layer_, CollisionGroup collision_group) :
-  MovingSprite(reader, sprite_name_, LAYER_OBJECTS, COLGROUP_MOVING),
+  MovingSprite(reader, sprite_name_, layer_, collision_group),
   m_sticky(),
   m_sticking()
   //m_owner(nullptr)
@@ -87,22 +87,23 @@ StickyObject::move_for_owner(MovingObject& object) {
   m_col.set_pos(object.get_pos());
 }*/
 
-StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name, Direction default_direction, int layer) :
-  BadGuy(mapping, sprite_name, default_direction, layer),
+StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name_, Direction default_direction_, int layer_, CollisionGroup collision_group) :
+  BadGuy(mapping, sprite_name_, default_direction_, layer_),
   m_sticky(),
   m_sticking()
 {
+  set_group(collision_group);
 }
 
-StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name, int layer) :
-  BadGuy(mapping, sprite_name, layer),
+StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name_, int layer_, CollisionGroup collision_group) :
+  BadGuy(mapping, sprite_name_, layer_),
   m_sticky(),
   m_sticking()
 {
-
+  set_group(collision_group);
 }
 
-void StickyBadguy::update(float dt_sec) {
+void StickyBadguy::active_update(float dt_sec) {
   Rectf large_overlap_box = get_bbox().grown(8.f);
 
   for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
@@ -136,4 +137,5 @@ void StickyBadguy::update(float dt_sec) {
     }
   }
 }
+
 /* EOF */
