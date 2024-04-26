@@ -20,6 +20,8 @@
 #include <sstream>
 
 #include "physfs/util.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
@@ -52,18 +54,17 @@ World::from_directory(const std::string& directory)
     info.get("description", world->m_description);
     info.get("levelset", world->m_is_levelset, true);
     info.get("hide-from-contribs", world->m_hide_from_contribs, false);
+    world->m_hide_from_contribs = g_config->developer_mode ? false : world->m_hide_from_contribs;
     info.get("contrib-type", world->m_contrib_type, "user");
     info.get("title-level", world->m_title_level);
-    return world;
   }
   catch (const std::exception& err)
   {
     log_warning << "Failed to load " << info_filename << ":" << err.what() << std::endl;
 
     world->m_hide_from_contribs = true;
-
-    return world;
   }
+  return world;
 }
 
 std::unique_ptr<World>
