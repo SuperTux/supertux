@@ -13,8 +13,8 @@ endif()
 
 if(USE_SYSTEM_PHYSFS)
   add_library(LibPhysfs INTERFACE)
+  target_link_libraries(LibPhysfs INTERFACE ${PHYSFS_LIBRARY})
   set_target_properties(LibPhysfs PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${PHYSFS_LIBRARY}"
     INTERFACE_INCLUDE_DIRECTORIES "${PHYSFS_INCLUDE_DIR}")
 else()
   if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt)
