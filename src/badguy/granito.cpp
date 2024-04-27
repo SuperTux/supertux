@@ -29,7 +29,9 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   m_original_state(STATE_STAND),
   m_has_waved(false),
   m_stepped_on(false),
-  m_airborne(false)
+  m_airborne(false),
+  m_detect_script(),
+  m_carried_script()
 {
   parse_type(reader);
 

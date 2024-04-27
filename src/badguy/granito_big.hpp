@@ -48,26 +48,26 @@ public:
   virtual GameObjectTypes get_types() const override;
 
   void carry(Granito* granito);
-  Granito* get_carrying() { return m_carrying; }
+  Granito* get_carrying() const { return m_carrying; }
 
   /**
    * @scripting
    * @description This function tells the Granito being carried to
-   *              unglue itself to the Big Granito, by jumping and walking off.
+   *              unglue itself from the Big Granito, by jumping and walking off.
    */
   virtual void eject() override;
 
   /**
    * @scripting
-   * @description Gets the Granito being carried by the Big Granito.
+   * @description Gets the name of the Granito being carried by the Big Granito.
    */
-  std::string get_carrying_name();
+  std::string get_carrying_name() const;
 
   // The following functions are unimplemented for Big Granito.
   virtual void wave() override {}
   virtual void jump() override {}
   virtual void sit() override {}
-  virtual GranitoBig* get_carrier() override { return nullptr; }
+  virtual GranitoBig* get_carrier() const override { return nullptr; }
 
 public:
   Granito* m_carrying;

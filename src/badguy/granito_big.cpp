@@ -86,7 +86,7 @@ GranitoBig::carry(Granito* granito)
 void
 GranitoBig::eject()
 {
-  if (m_carrying == nullptr)
+  if (!m_carrying)
     return;
 
   m_carrying->walk_for(1.5f);
@@ -95,9 +95,9 @@ GranitoBig::eject()
 }
 
 std::string
-GranitoBig::get_carrying_name()
+GranitoBig::get_carrying_name() const
 {
-  return m_carrying != nullptr ? m_carrying->get_name() : "";
+  return m_carrying ? m_carrying->get_name() : "";
 }
 
 bool
