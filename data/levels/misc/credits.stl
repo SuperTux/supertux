@@ -60,7 +60,7 @@ stop_music(0);")
     )
     (camera
       (name "Camera")
-      (mode "normal")
+      (mode "manual")
     )
     (decal
       (name "PENNY")

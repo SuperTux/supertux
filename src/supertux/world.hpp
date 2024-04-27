@@ -20,6 +20,9 @@
 #include <memory>
 #include <string>
 
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+
 class World final
 {
   friend class EditorLevelsetMenu;
@@ -39,7 +42,7 @@ public:
   std::string get_title() const { return m_title; }
   std::string get_description() const { return m_description; }
 
-  bool hide_from_contribs() const { return m_hide_from_contribs; }
+  bool hide_from_contribs() const { return m_hide_from_contribs && !g_config->developer_mode; }
 
   bool is_levelset() const { return m_is_levelset; }
   bool is_worldmap() const { return !m_is_levelset; }
