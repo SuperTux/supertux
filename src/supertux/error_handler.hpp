@@ -25,11 +25,11 @@ public:
   static void set_handlers();
 
   static std::string get_stacktrace();
-  static void show_stack_trace();
-private:
-  [[ noreturn ]] static void handle_error(int sig);
+  static void error_dialog(const std::string& details);
 
-  [[ noreturn ]] static void close_program();
+  static void handle_error(int sig);
+
+  static void close_program();
 
 private:
   static bool m_handing_error;

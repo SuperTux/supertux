@@ -28,11 +28,12 @@
 
 #include <SDL.h>
 
+#include "util/file_system.hpp"
+
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <DbgHelp.h>
-
 
 #pragma comment(lib, "DbgHelp.lib")
 #elif defined(__unix__) || defined(__APPLE__)
@@ -102,7 +103,7 @@ std::string ErrorHandler::get_stacktrace()
 #endif
 }
 
-[[ noreturn ]] void
+void
 ErrorHandler::handle_error(int sig)
 {
   if (m_handing_error)
@@ -118,24 +119,21 @@ ErrorHandler::handle_error(int sig)
     // another error, which would restart the handler again.
     fprintf(stderr, "\nError: signal %d:\n", sig);
 
-    show_stack_trace();
+    error_dialog(get_stacktrace());
     close_program();
   }
 }
 
 void
-ErrorHandler::show_stack_trace()
+ErrorHandler::error_dialog(const std::string& details)
 {
-  std::string stacktrace = get_stacktrace();
   std::stringstream stream;
   stream << "SuperTux has encountered an unrecoverable error!\n";
-  if (!stacktrace.empty())
+  if (!details.empty())
   {
     stream
-      << "Send this error message (either by copying or screenshotting) and file a "
-         "GitHub issue at https://github.com/SuperTux/supertux/issues/new.\n"
-      << "Stacktrace:\n"
-      << stacktrace;
+      << "Details:\n"
+      << details;
   }
   else
   {
@@ -146,15 +144,46 @@ ErrorHandler::show_stack_trace()
 
   std::cerr << msg << std::endl;
 
-  SDL_ShowSimpleMessageBox(
-    SDL_MESSAGEBOX_ERROR,
-    "Error",
-    msg.c_str(),
-    nullptr
-  );
+  SDL_MessageBoxButtonData btns[] = {
+    {
+      0, // flags
+      0, // buttonid
+      "Report" // text
+    },
+    {
+      SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, // flags
+      2, // buttonid
+      "OK" // text
+    }
+  };
+
+  SDL_MessageBoxData data = {
+    SDL_MESSAGEBOX_ERROR, // flags
+    nullptr, // window
+    "Error", // title
+    msg.c_str(), // message
+    SDL_arraysize(btns), // numbuttons
+    btns, // buttons
+    nullptr // colorscheme
+  };
+
+  int resultbtn;
+  SDL_ShowMessageBox(&data, &resultbtn);
+
+  if (resultbtn == 0)
+  {
+    std::stringstream urlbuilder;
+    urlbuilder << "https://github.com/supertux/supertux/issues/new"
+                  "?title=SuperTux crashes"
+                  "&labels=type:crash,status:needs-confirmation"
+                  "&body=Please provide information about this crash here.%0A%0A"
+               << details;
+    FileSystem::open_url(urlbuilder.str());
+  }
+
 }
 
-[[ noreturn ]] void
+void
 ErrorHandler::close_program()
 {
   exit(10);
