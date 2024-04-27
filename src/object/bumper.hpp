@@ -17,13 +17,13 @@
 #define HEADER_SUPERTUX_OBJECT_BUMPER_HPP
 
 #include "object/sticky_object.hpp"
+
 #include "supertux/physic.hpp"
 
 enum class Direction;
 class Player;
 
 class Bumper final : public StickyObject
-
 {
 public:
   Bumper(const ReaderMapping& reader);

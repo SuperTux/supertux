@@ -78,7 +78,7 @@ Stalactite::active_update(float dt_sec)
   }
 
   if (state != STALACTITE_FALLING && m_sticky) {
-    StickyBadguy::sticky_update(dt_sec);
+    sticky_update(dt_sec);
   }
 }
 

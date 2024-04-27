@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
 #define HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
 
-#include "object/sticky_object.hpp"
+#include "trigger/trigger_base.hpp"
 
 class Switch final : public StickyTrigger
 {

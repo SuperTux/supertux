@@ -58,7 +58,7 @@ Switch::~Switch()
 ObjectSettings
 Switch::get_settings()
 {
-  ObjectSettings result = SpritedTrigger::get_settings();
+  ObjectSettings result = StickyTrigger::get_settings();
 
   result.add_direction(_("Direction"), &m_dir,
                         { Direction::NONE, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "direction");
@@ -76,10 +76,8 @@ Switch::get_settings()
 void
 Switch::update(float dt_sec)
 {
-  if ((m_dir != Direction::NONE) && m_sticky)
-  {
-    StickyTrigger::sticky_update(dt_sec);
-  }
+  if (m_sticky && m_dir != Direction::NONE)
+    StickyObject::update(dt_sec);
 
   switch (m_state) {
     case OFF:
@@ -143,7 +141,7 @@ Switch::event(Player& , EventType type)
 void
 Switch::after_editor_set()
 {
-  SpritedTrigger::after_editor_set();
+  StickyTrigger::after_editor_set();
 
   set_action("off", m_dir);
 }
@@ -151,7 +149,7 @@ Switch::after_editor_set()
 void
 Switch::on_flip(float height)
 {
-  SpritedTrigger::on_flip(height);
+  StickyTrigger::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
 

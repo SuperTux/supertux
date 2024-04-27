@@ -78,7 +78,7 @@ void
 DartTrap::active_update(float dt_sec)
 {
   if (m_sticky) {
-    StickyBadguy::sticky_update(dt_sec);
+    sticky_update(dt_sec);
   }
 
   // end dynamic
