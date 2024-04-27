@@ -44,9 +44,12 @@ std::string write_inheritance_list(const std::vector<Class>& classes,
   {
     list << "This class inherits functions and variables from the following base classes:" << std::endl;
     // List of all base classes
-    for (const auto& base_class : base_classes)
+    for (const auto& [_, base_class] : base_classes)
     {
-      list << "* " << write_class_ref(base_class.second) << std::endl;
+      // Check whether the current class is documented
+      const bool documented = std::any_of(classes.begin(), classes.end(), [base_class](const Class& cl) { return cl.name == base_class; });
+
+      list << "* " << (documented ? write_class_ref(base_class) : base_class) << std::endl;
     }
     if (!derived_classes.empty())
       list << std::endl;

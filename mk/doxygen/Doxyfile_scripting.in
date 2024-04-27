@@ -243,6 +243,7 @@ ALIASES                += "summary=\xrefitem summary \"Summary\" \"Summary\""
 ALIASES                += "instances=\xrefitem instances \"Instances\" \"Instances\""
 ALIASES                += "constants=\xrefitem constants \"Constants\" \"Constants\""
 ALIASES                += "description=\xrefitem description \"Description\" \"Description\""
+ALIASES                += "prefix=\xrefitem prefix \"Prefix\" \"Prefix\""
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"

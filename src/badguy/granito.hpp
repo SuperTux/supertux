@@ -162,12 +162,12 @@ protected:
    */
   enum State
   {
-    STATE_SIT,
-    STATE_STAND,
-    STATE_WALK,
-    STATE_WAVE,
-    STATE_LOOKUP,
-    STATE_JUMPING
+    STATE_SIT = 0,    /*!< @description The Granito is sitting. */
+    STATE_STAND = 1,  /*!< @description The Granito is standing. */
+    STATE_WALK = 2,   /*!< @description The Granito is walking. */
+    STATE_WAVE = 3,   /*!< @description The Granito is waving. */
+    STATE_LOOKUP = 4, /*!< @description The Granito is looking up. */
+    STATE_JUMPING = 5 /*!< @description The Granito is jumping. */
   };
 
 protected:

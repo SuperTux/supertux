@@ -47,7 +47,11 @@ void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls)
   const char* name = p_compounddef->FirstChildElement("compoundname")->GetText();
   if (!name) return; // Some namespaces may not have a name. Don't include those.
   cls.name = name;
-  replace(cls.name, "scripting::", ""); // Leave only the class name
+
+  // Leave only the class name
+  const size_t pos = cls.name.find_last_of("::");
+  if (pos != std::string::npos)
+    cls.name.erase(0, pos);
 
   // Get additional info
   tinyxml2::XMLElement* p_detaileddescpara = p_compounddef->FirstChildElement("detaileddescription")->FirstChildElement("para");
@@ -102,8 +106,10 @@ void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls)
       {
         std::string name = p_inheritancenode->FirstChildElement("label")->GetText();
 
-        // Remove various namespace prefixes
-        replace(name, "worldmap::", "");
+        // Leave only the class name
+        const size_t pos = name.find_last_of("::");
+        if (pos != std::string::npos)
+          name.erase(0, pos);
 
         cls.derived_classes.push_back(name);
       }
@@ -118,16 +124,8 @@ void parse_sectiondef(tinyxml2::XMLElement* p_compounddef, Class& cls)
   tinyxml2::XMLElement* p_sectiondef = p_compounddef->FirstChildElement("sectiondef");
   while (p_sectiondef)
   {
-    if (attr_equal(p_sectiondef, "kind", "func") ||
-        attr_equal(p_sectiondef, "kind", "public-func") ||
-        attr_equal(p_sectiondef, "kind", "enum") ||
-        attr_equal(p_sectiondef, "kind", "public-static-attrib") ||
-        attr_equal(p_sectiondef, "kind", "public-attrib") ||
-        attr_equal(p_sectiondef, "kind", "protected-attrib") ||
-        attr_equal(p_sectiondef, "kind", "private-attrib")) // Contains public class functions, enums or variables
-    {
-      parse_memberdef(p_sectiondef, cls);
-    }
+    parse_memberdef(p_sectiondef, cls);
+
     p_sectiondef = p_sectiondef->NextSiblingElement("sectiondef");
   }
 }
@@ -138,7 +136,8 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef, Class& cls)
   while (p_memberdef)
   {
     if (attr_equal(p_memberdef, "kind", "function") &&
-        !el_equal(p_memberdef, "type", "")) // Look for typed functions
+        !el_equal(p_memberdef, "type", "") &&
+        !p_memberdef->FirstChildElement("reimplements")) // Look for non-derived typed functions
     {
       parse_function(p_memberdef, cls);
     }
@@ -148,14 +147,16 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef, Class& cls)
       if (p_detaileddescpara)
       {
         bool include = false;
+        std::string prefix;
+
         tinyxml2::XMLElement* p_xrefsect = p_detaileddescpara->FirstChildElement("xrefsect");
         while (p_xrefsect)
         {
           if (el_equal(p_xrefsect, "xreftitle", "Scripting")) // Make sure the enum is marked with "@scripting". Otherwise, do not include.
-          {
             include = true;
-            break;
-          }
+          else if (el_equal(p_xrefsect, "xreftitle", "Prefix"))
+            parse_xrefsect_desc(p_xrefsect, prefix);
+
           p_xrefsect = p_xrefsect->NextSiblingElement("xrefsect");
         }
         if (include)
@@ -163,7 +164,7 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef, Class& cls)
           tinyxml2::XMLElement* p_enumvalue = p_memberdef->FirstChildElement("enumvalue");
           while (p_enumvalue)
           {
-            parse_constant(p_enumvalue, cls, true); // Parse enumerators as constants
+            parse_constant(p_enumvalue, cls, true, prefix); // Parse enumerators as constants
 
             p_enumvalue = p_enumvalue->NextSiblingElement("enumvalue");
           }
@@ -183,7 +184,7 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef, Class& cls)
 }
 
 
-void parse_constant(tinyxml2::XMLElement* p_memberdef, Class& cls, bool include)
+void parse_constant(tinyxml2::XMLElement* p_memberdef, Class& cls, bool include, const std::string& prefix)
 {
   /** Parse the constant **/
   Constant con;
@@ -202,6 +203,7 @@ void parse_constant(tinyxml2::XMLElement* p_memberdef, Class& cls, bool include)
   con.name = p_memberdef->FirstChildElement("name")->GetText();
   if (starts_with(con.name, "s_"))
     con.name.erase(0, 2); // Remove the "s_" prefix
+  con.name = prefix + con.name;
   tinyxml2::XMLElement* p_initializer = p_memberdef->FirstChildElement("initializer");
   if (p_initializer)
     con.initializer = p_initializer->GetText();
@@ -367,6 +369,8 @@ void parse_xrefsect_desc(tinyxml2::XMLElement* p_xrefsect, std::string& dest)
     XMLTextReader read(dest);
     p_xrefsectdescpara->Accept(&read);
   }
+
+  if (!dest.empty()) dest.pop_back(); // Remove space, added at the end
 }
 
 } // namespace Parser

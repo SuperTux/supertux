@@ -29,7 +29,7 @@ namespace Parser
   void parse_sectiondef(tinyxml2::XMLElement* p_compounddef, Class& cls);
   void parse_memberdef(tinyxml2::XMLElement* p_sectiondef, Class& cls);
 
-  void parse_constant(tinyxml2::XMLElement* p_memberdef, Class& cls, bool include = false);
+  void parse_constant(tinyxml2::XMLElement* p_memberdef, Class& cls, bool include = false, const std::string& prefix = {});
   void parse_variable(tinyxml2::XMLElement* p_memberdef, Class& cls);
   void parse_function(tinyxml2::XMLElement* p_memberdef, Class& cls);
   void parse_parameterlist(tinyxml2::XMLElement* p_memberdef, Function& func);
