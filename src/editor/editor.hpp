@@ -155,7 +155,7 @@ public:
 
   void scroll(const Vector& velocity);
 
-  bool is_level_loaded() const { return m_levelloaded; }
+  bool is_level_loaded() const { return m_level_loaded; }
 
   void edit_path(PathGameObject* path, GameObject* new_marked_object) {
     m_overlay_widget->edit_path(path, new_marked_object);
@@ -220,7 +220,7 @@ public:
 private:
   Sector* m_sector;
 
-  bool m_levelloaded;
+  bool m_level_loaded;
   bool m_testing_level;
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 

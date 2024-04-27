@@ -110,7 +110,7 @@ Editor::Editor() :
   m_test_pos(),
   m_particle_editor_filename(),
   m_sector(),
-  m_levelloaded(false),
+  m_level_loaded(false),
   m_testing_level(false),
   m_after_setup(false),
   m_tileset(nullptr),
@@ -151,7 +151,7 @@ Editor::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  if (m_levelloaded) {
+  if (m_level_loaded) {
     for(const auto& widget : m_widgets) {
       widget->draw(context);
     }
@@ -205,7 +205,7 @@ Editor::update(float dt_sec, const Controller& controller)
   handle_editor_requests();
 
   // Update other components.
-  if (m_levelloaded && !m_testing_level) {
+  if (m_level_loaded && !m_testing_level) {
     BIND_SECTOR(*m_sector);
 
     for (auto& object : m_sector->get_objects()) {
@@ -434,7 +434,7 @@ Editor::get_tileselect_move_mode() const
 void
 Editor::scroll(const Vector& velocity)
 {
-  if (!m_levelloaded) return;
+  if (!m_level_loaded) return;
 
   m_sector->get_camera().move(velocity / m_sector->get_camera().get_current_scale());
   keep_camera_in_bounds();
@@ -567,7 +567,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   // Reload level.
   m_level = nullptr;
-  m_levelloaded = true;
+  m_level_loaded = true;
 
   m_level = std::move(level);
 
@@ -637,7 +637,7 @@ Editor::quit_editor()
     // Quit level editor.
     m_world = nullptr;
     m_levelfile = "";
-    m_levelloaded = false;
+    m_level_loaded = false;
     m_enabled = false;
     Tile::draw_editor_images = false;
     ScreenManager::current()->pop_screen();
@@ -658,7 +658,7 @@ Editor::quit_editor()
 void
 Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
-  if (!m_levelloaded)
+  if (!m_level_loaded)
   {
     action();
     return;
@@ -812,7 +812,7 @@ Editor::setup()
   Tile::draw_editor_images = true;
   Sector::s_draw_solids_only = false;
   m_after_setup = true;
-  if (!m_levelloaded) {
+  if (!m_level_loaded) {
 
 #if 0
     if (AddonManager::current()->is_old_addon_enabled()) {
