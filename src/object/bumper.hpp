@@ -16,9 +16,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BUMPER_HPP
 #define HEADER_SUPERTUX_OBJECT_BUMPER_HPP
 
-#include "object/moving_sprite.hpp"
 #include "object/sticky_object.hpp"
-
 #include "supertux/physic.hpp"
 
 enum class Direction;

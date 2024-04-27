@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
 #define HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
 
-#include "trigger/trigger_base.hpp"
+#include "object/sticky_object.hpp"
 
-class Switch final : public SpritedTrigger
+class Switch final : public StickyTrigger
 {
 public:
   Switch(const ReaderMapping& reader);
@@ -51,7 +51,6 @@ private:
   std::string m_off_script;
   SwitchState m_state;
   bool m_bistable;
-  bool m_sticky;
   Direction m_dir;
 
 private:

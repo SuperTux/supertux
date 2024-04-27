@@ -19,7 +19,10 @@
 
 #include "badguy/badguy.hpp"
 #include "object/moving_sprite.hpp"
-#include "supertux/game_object.hpp"
+#include "trigger/trigger_base.hpp"
+
+/* This is the class of movingsprites that can stick to the sides, top and bottom of moving
+  objects such as platforms, fallblock, tilemap, etc. */
 
 class StickyObject : public MovingSprite
 {
@@ -47,6 +50,9 @@ private:
   StickyObject& operator=(const StickyObject&) = delete;
 };
 
+/* This is the class of badguys that can stick to the sides, top and bottom of moving
+  objects such as platforms, fallblock, tilemap, etc. */
+
 class StickyBadguy : public BadGuy
 {
 public:
@@ -60,7 +66,7 @@ public:
     int layer = LAYER_OBJECTS,
     CollisionGroup collision_group = COLGROUP_MOVING);
 
-  virtual void active_update(float dt_sec) override;
+  virtual void sticky_update(float dt_sec);
   virtual bool is_sticky() const { return m_sticky; }
   //virtual void move_for_owner(MovingObject& object);
 
@@ -72,6 +78,29 @@ protected:
 private:
   StickyBadguy(const StickyBadguy&) = delete;
   StickyBadguy& operator=(const StickyBadguy&) = delete;
+};
+
+/* This is the class of sprited triggers that can stick to the sides, top and bottom of moving
+  objects such as platforms, fallblock, tilemap, etc. */
+
+class StickyTrigger : public SpritedTrigger
+{
+public:
+  StickyTrigger(const ReaderMapping& reader,
+    const std::string& sprite_name);
+
+  virtual void sticky_update(float dt_sec);
+  virtual bool is_sticky() const { return m_sticky; }
+  //virtual void move_for_owner(MovingObject& object);
+
+protected:
+  bool m_sticky; // determines if the object CAN stick, period. 
+  bool m_sticking; // determines if the object has found something to stick to.
+  //GameObject* m_owner = nullptr;
+
+private:
+  StickyTrigger(const StickyTrigger&) = delete;
+  StickyTrigger& operator=(const StickyTrigger&) = delete;
 };
 
 #endif

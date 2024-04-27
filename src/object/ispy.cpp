@@ -18,9 +18,6 @@
 #include "object/ispy.hpp"
 
 #include "editor/editor.hpp"
-#include "object/fallblock.hpp"
-#include "object/platform.hpp"
-#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"

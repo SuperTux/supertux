@@ -185,9 +185,11 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
-  auto player = dynamic_cast<Player*> (&other);
-  if (player && hit.bottom) {
-    physic.set_velocity_y(-250.f);
+  if (hit.bottom) {
+    auto player = dynamic_cast<Player*> (&other);
+    if (player) {
+      physic.set_velocity_y(-250.f);
+    }
   }
 
   // Don't fall further if we are on a rock which is on the ground.

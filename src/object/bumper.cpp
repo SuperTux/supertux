@@ -17,12 +17,8 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "badguy/crusher.hpp"
-#include "object/fallblock.hpp"
 #include "object/player.hpp"
-#include "object/platform.hpp"
 #include "object/rock.hpp"
-#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -39,11 +35,10 @@ Bumper::Bumper(const ReaderMapping& reader) :
   StickyObject(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   m_physic(),
   m_dir(Direction::RIGHT),
-  m_original_pos()
+  m_original_pos(get_pos())
 {
   std::string dir_str;
   bool old_facing_left = false;
-  m_original_pos = get_pos();
 
   reader.get("sticky", m_sticky, false);
   if (reader.get("direction", dir_str))

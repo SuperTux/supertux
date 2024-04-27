@@ -17,10 +17,7 @@
 #include "object/pushbutton.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "object/fallblock.hpp"
-#include "object/platform.hpp"
 #include "object/player.hpp"
-#include "object/tilemap.hpp"
 #include "object/rock.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"

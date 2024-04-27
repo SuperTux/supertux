@@ -20,10 +20,7 @@
 #include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/bullet.hpp"
-#include "object/fallblock.hpp"
 #include "object/player.hpp"
-#include "object/platform.hpp"
-#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
@@ -81,7 +78,7 @@ Stalactite::active_update(float dt_sec)
   }
 
   if (state != STALACTITE_FALLING && m_sticky) {
-    StickyBadguy::active_update(dt_sec);
+    StickyBadguy::sticky_update(dt_sec);
   }
 }
 

@@ -20,8 +20,6 @@
 #include "audio/sound_source.hpp"
 #include "badguy/dart.hpp"
 #include "editor/editor.hpp"
-#include "object/fallblock.hpp"
-#include "object/platform.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
@@ -80,7 +78,7 @@ void
 DartTrap::active_update(float dt_sec)
 {
   if (m_sticky) {
-    StickyBadguy::active_update(dt_sec);
+    StickyBadguy::sticky_update(dt_sec);
   }
 
   // end dynamic
