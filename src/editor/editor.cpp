@@ -149,6 +149,11 @@ Editor::~Editor()
 void
 Editor::draw(Compositor& compositor)
 {
+  // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
+  // issue with the PlayerStatus.
+  if(m_testing_level)
+    return;
+
   auto& context = compositor.make_context();
 
   if (m_level_loaded) {
@@ -178,11 +183,7 @@ Editor::draw(Compositor& compositor)
       }
       m_new_scale = 0.f;
     }
-
-    // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
-    // issue with the PlayerStatus.
-    if (!m_testing_level)
-      m_sector->draw(context);
+    m_sector->draw(context);
 
     context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
