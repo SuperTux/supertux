@@ -196,7 +196,8 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
   }
 
   if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))) {
-    turn_around();
+    if(hit.slope_normal.x == 0.0f)
+      turn_around();
   }
 
 }
