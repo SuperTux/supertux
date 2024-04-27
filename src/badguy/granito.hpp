@@ -21,7 +21,14 @@
 
 class GranitoBig;
 
-/** Interactable friendly NPC */
+/**
+ * Interactable friendly NPC
+ *
+ * @scripting
+ * @summary A ""Granito"" that was given a name can be controlled by scripts.
+ * @instances A ""Granito"" is instantiated by placing a definition inside a level.
+ *            It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Granito : public WalkingBadguy
 {
 public:
@@ -32,8 +39,6 @@ public:
           const std::string& sprite_name = "images/creatures/granito/granito.sprite",
           int layer = LAYER_OBJECTS);
 
-  /** \addtogroup GameObject
-      @{ */
   virtual void active_update(float dt_sec) override;
 
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
@@ -51,25 +56,24 @@ public:
 
   virtual void kill_fall() override;
 
+  virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;
   virtual void after_editor_set() override;
-  /** @} */
 
-  // FIXME: Is this a good name?
-  /** \addtogroup GranitoAPI
-      @{ */
+  virtual GranitoBig* get_carrier();
+  void turn(const Direction& direction);
 
   /**
    * @scripting
    * @description Makes the Granito wave.
    */
-  void wave();
+  virtual void wave();
 
   /**
    * @scripting
    * @description Makes the Granito sit.
    */
-  void sit();
+  virtual void sit();
 
   /**
    * @scripting
@@ -99,6 +103,13 @@ public:
 
   /**
    * @scripting
+   * @description Makes the Granito walk for a specified amount of seconds.
+   * @param float $seconds
+   */
+  void walk_for(float seconds);
+
+  /**
+   * @scripting
    * @description Makes the Granito stand, or stop if walking.
    */
   void stand();
@@ -107,7 +118,13 @@ public:
    * @scripting
    * @description Makes the Granito jump.
    */
-  void jump();
+  virtual void jump();
+
+  /**
+   * @scripting
+   * @description Eject itself from the Big Granito.
+   */
+  virtual void eject();
 
   //TODO: No way to expose enums?
   /**
@@ -122,7 +139,19 @@ public:
    */
   int get_state() { return static_cast<int>(m_state); }
 
-  /** @} */
+  /**
+   * @scripting
+   * @description Gets the name of the Big Granito that is carrying the Granito.
+   */
+  std::string get_carrier_name();
+
+  /**
+   * @scripting
+   * @description Resets the detection checker,
+   *              allowing the Detect Script to be ran again.
+   */
+  void reset_detection() { m_has_waved = false; }
+
 
 protected:
   virtual void initialize() override;
@@ -153,7 +182,7 @@ protected:
 
   void restore_original_state();
 
-private:
+protected:
   Timer m_walk_interval;
   State m_state;
   State m_original_state;
@@ -161,6 +190,9 @@ private:
   bool m_has_waved;
   bool m_stepped_on; /** True if tux was on top of granito last frame. */
   bool m_airborne; /** Unfortunately, on_ground() sucks. */
+
+  std::string m_detect_script;
+  std::string m_carried_script; /** This is ran when the Granito is carried by a Big Granito */
 
 private:
   Granito(const Granito&) = delete;
