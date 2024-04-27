@@ -185,6 +185,7 @@ private:
   void save_level(const std::string& filename = "", bool switch_file = false);
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
+  void handle_editor_requests();
 
   void keep_camera_in_bounds();
 

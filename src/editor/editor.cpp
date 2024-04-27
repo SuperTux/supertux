@@ -202,7 +202,32 @@ Editor::update(float dt_sec, const Controller& controller)
   // Auto-save (interval).
   update_autosave(dt_sec);
 
-  // Pass all requests.
+  handle_editor_requests();
+
+  // Update other components.
+  if (m_levelloaded && !m_testing_level) {
+    BIND_SECTOR(*m_sector);
+
+    for (auto& object : m_sector->get_objects()) {
+      object->editor_update();
+    }
+
+    for (const auto& widget : m_widgets) {
+      widget->update(dt_sec);
+    }
+
+    // Now that all widgets have been updated, which should have relinquished
+    // pointers to objects marked for deletion, we can actually delete them.
+    for (auto& sector : m_level->get_sectors())
+      sector->flush_game_objects();
+
+    update_keyboard(controller);
+  }
+}
+
+void
+Editor::handle_editor_requests()
+{
   if (m_reload_request) {
     reload_level();
   }
@@ -223,9 +248,6 @@ Editor::update(float dt_sec, const Controller& controller)
   if (m_save_request) {
     save_level(m_save_request_filename, m_save_request_switch);
     m_enabled = true;
-    m_save_request = false;
-    m_save_request_filename = "";
-    m_save_request_switch = false;
   }
 
   if (m_test_request) {
@@ -248,26 +270,6 @@ Editor::update(float dt_sec, const Controller& controller)
     m_enabled = false;
     m_deactivate_request = false;
     return;
-  }
-
-  // Update other components.
-  if (m_levelloaded && !m_testing_level) {
-    BIND_SECTOR(*m_sector);
-
-    for (auto& object : m_sector->get_objects()) {
-      object->editor_update();
-    }
-
-    for (const auto& widget : m_widgets) {
-      widget->update(dt_sec);
-    }
-
-    // Now that all widgets have been updated, which should have relinquished
-    // pointers to objects marked for deletion, we can actually delete them.
-    for (auto& sector : m_level->get_sectors())
-      sector->flush_game_objects();
-
-    update_keyboard(controller);
   }
 }
 
@@ -335,7 +337,13 @@ Editor::save_level(const std::string& filename, bool switch_file)
     sector->on_editor_save();
   }
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
+
   m_time_since_last_save = 0.f;
+
+  m_save_request = false;
+  m_save_request_filename = "";
+  m_save_request_switch = false;
+
   remove_autosave_file();
 }
 
