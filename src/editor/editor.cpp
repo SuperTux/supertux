@@ -88,7 +88,7 @@ Editor::is_active()
     return true;
   } else {
     auto* self = Editor::current();
-    return self && !self->m_leveltested && self->m_after_setup;
+    return self && !self->m_testing_level && self->m_after_setup;
   }
 }
 
@@ -111,7 +111,7 @@ Editor::Editor() :
   m_particle_editor_filename(),
   m_sector(),
   m_levelloaded(false),
-  m_leveltested(false),
+  m_testing_level(false),
   m_after_setup(false),
   m_tileset(nullptr),
   m_has_deprecated_tiles(false),
@@ -181,7 +181,7 @@ Editor::draw(Compositor& compositor)
 
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
-    if (!m_leveltested)
+    if (!m_testing_level)
       m_sector->draw(context);
 
     context.color().draw_filled_rect(context.get_rect(),
@@ -251,7 +251,7 @@ Editor::update(float dt_sec, const Controller& controller)
   }
 
   // Update other components.
-  if (m_levelloaded && !m_leveltested) {
+  if (m_levelloaded && !m_testing_level) {
     BIND_SECTOR(*m_sector);
 
     for (auto& object : m_sector->get_objects()) {
@@ -380,7 +380,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   m_autosave_levelfile = FileSystem::join(directory, backup_filename);
   m_level->save(m_autosave_levelfile);
   m_time_since_last_save = 0.f;
-  m_leveltested = true;
+  m_testing_level = true;
 
   if (!m_level->is_worldmap())
   {
@@ -831,8 +831,8 @@ Editor::setup()
   m_layers_widget->setup();
 
   // Reactivate the editor after level test.
-  if (m_leveltested) {
-    m_leveltested = false;
+  if (m_testing_level) {
+    m_testing_level = false;
     Tile::draw_editor_images = true;
     m_level->reactivate();
 

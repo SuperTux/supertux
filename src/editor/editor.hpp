@@ -113,7 +113,7 @@ public:
 
   void open_level_directory();
 
-  bool is_testing_level() const { return m_leveltested; }
+  bool is_testing_level() const { return m_testing_level; }
 
   /**
    * Handle auto-saving levels
@@ -216,7 +216,7 @@ private:
   Sector* m_sector;
 
   bool m_levelloaded;
-  bool m_leveltested;
+  bool m_testing_level;
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
   TileSet* m_tileset;
