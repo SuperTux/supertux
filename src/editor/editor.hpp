@@ -115,6 +115,11 @@ public:
 
   bool is_testing_level() const { return m_leveltested; }
 
+  /**
+   * Handle auto-saving levels
+   * @param dt_sec Elapsed seconds
+   */
+  void update_autosave(float dt_sec);
   void remove_autosave_file();
 
   /** Convert tiles on every tilemap in the level, according to a tile conversion file. */
