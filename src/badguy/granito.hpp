@@ -60,7 +60,7 @@ public:
   virtual GameObjectTypes get_types() const override;
   virtual void after_editor_set() override;
 
-  virtual GranitoBig* get_carrier();
+  virtual GranitoBig* get_carrier() const;
   void turn(const Direction& direction);
 
   /**
@@ -126,24 +126,17 @@ public:
    */
   virtual void eject();
 
-  //TODO: No way to expose enums?
   /**
    * @scripting
-   * @description Gets the current granito state.
-   *              0 - ""SIT""
-   *              1 - ""STAND""
-   *              2 - ""WALK""
-   *              3 - ""WAVE""
-   *              4 - ""LOOKUP""
-   *              5 - ""JUMPING""
+   * @description Gets the current Granito state. Value is any of the ""GRANITO_STATE"" enumerators.
    */
-  int get_state() { return static_cast<int>(m_state); }
+  int get_state() const { return static_cast<int>(m_state); }
 
   /**
    * @scripting
    * @description Gets the name of the Big Granito that is carrying the Granito.
    */
-  std::string get_carrier_name();
+  std::string get_carrier_name() const;
 
   /**
    * @scripting
@@ -151,7 +144,6 @@ public:
    *              allowing the Detect Script to be ran again.
    */
   void reset_detection() { m_has_waved = false; }
-
 
 protected:
   virtual void initialize() override;
@@ -163,8 +155,10 @@ protected:
   enum Type { DEFAULT, STAND, WALK, SCRIPTABLE, SIT };
 
   /**
-   * NOTE: When changing this, make sure to also change
-   * the description for get_state()
+   * NOTE: Make sure to expose any new enumerators to Squirrel.
+   *
+   * @scripting
+   * @prefix GRANITO_
    */
   enum State
   {
