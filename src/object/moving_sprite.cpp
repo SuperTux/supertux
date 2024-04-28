@@ -181,7 +181,7 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
   m_sprite_name = new_sprite_name;
   update_hitbox();
 
-  return SpriteManager::current()->last_load_successful();
+  return m_sprite->load_successful();
 }
 
 ObjectSettings

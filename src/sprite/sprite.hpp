@@ -84,9 +84,6 @@ public:
   /** Get current frame progress */
   float get_current_frame_progress() const { return m_frame; }
 
-  /** Get sprite's name */
-  const std::string& get_name() const { return m_data.name; }
-
   /** Get current action name */
   const std::string& get_action() const { return m_action->name; }
 
@@ -125,6 +122,8 @@ public:
 
   bool has_action (const std::string& name) const { return (m_data.get_action(name) != nullptr); }
   size_t get_actions_count() const { return m_data.actions.size(); }
+
+  bool load_successful() const { return m_data.m_load_successful; }
 
 private:
   void update();

@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023-2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,8 +18,8 @@
 #ifndef HEADER_SUPERTUX_SPRITE_SPRITE_DATA_HPP
 #define HEADER_SUPERTUX_SPRITE_SPRITE_DATA_HPP
 
-#include <map>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "video/surface_ptr.hpp"
@@ -30,25 +31,16 @@ class SpriteData final
   friend class Sprite;
 
 public:
-  /**
-   * Sprite from data.
-   * `mapping` has to be a pointer to data in the form of "((hitbox 5 10 0 0) ...)".
-   */
-  SpriteData(const ReaderMapping& mapping);
-  /** Single-image sprite */
-  SpriteData(const std::string& image);
-  /** Dummy texture sprite */
-  SpriteData();
+  SpriteData(const std::string& filename);
 
-  const std::string& get_name() const
-  {
-    return name;
-  }
+  void load();
 
 private:
-  struct Action
+  struct Action final
   {
     Action();
+
+    void reset(SurfacePtr surface);
 
     std::string name;
 
@@ -87,17 +79,22 @@ private:
     std::vector<SurfacePtr> surfaces;
   };
 
-  typedef std::map<std::string, std::unique_ptr<Action> > Actions;
-
-  static std::unique_ptr<Action> create_action_from_surface(SurfacePtr surface);
-
+private:
+  void parse(const ReaderMapping& mapping);
   void parse_action(const ReaderMapping& mapping);
-  /** Get an action */
+
   const Action* get_action(const std::string& act) const;
 
 private:
+  const std::string m_filename;
+  bool m_load_successful;
+
+  typedef std::unordered_map<std::string, std::unique_ptr<Action>> Actions;
   Actions actions;
-  std::string name;
+
+private:
+  SpriteData(const SpriteData& other);
+  SpriteData& operator=(const SpriteData&) = delete;
 };
 
 #endif
