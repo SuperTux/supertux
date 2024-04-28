@@ -342,20 +342,25 @@ void ErrorHandler::report_error(const std::string& details)
 {
   std::string sysinfo = get_system_info();
   std::stringstream urlbuilder;
+  std::string labels = FileSystem::escape("type:crash,status:needs-confirmation");
+  std::stringstream bodybuilder;
+  bodybuilder << "Additional information:\r\n"
+                  "- Operating System: " << sysinfo << "\r\n"
+                  "- SuperTux version: " PACKAGE_VERSION "\r\n"
+                  "\r\n"
+                  "<!--\r\n"
+                  "Please provide information about this crash here\r\n"
+                  "such as expected behavior, intended behavior and steps\r\n"
+                  "to reproduce it.\r\n"
+                  "-->\r\n"
+                  "\r\n"
+                  "```\r\n" << details << "\r\n```";
+  std::string body = FileSystem::escape(bodybuilder.str());
+
   urlbuilder << "https://github.com/supertux/supertux/issues/new"
                 "?title=SuperTux crashes"
-                "&labels=type:crash,status:needs-confirmation"
-                "&body=Additional information:%0A"
-                "- Operating System: " << sysinfo << "%0A"
-                "- SuperTux version: " PACKAGE_VERSION "%0A"
-                "%0A"
-                "<!--%0A"
-                "Please provide information about this crash here%0A"
-                "such as expected behavior, intended behavior and steps%0A"
-                "to reproduce it.%0A"
-                "-->%0A"
-                "%0A"
-                "```%0A" << details << "%0A```";
+                "&labels=" << labels <<
+                "&body=" << body;
   FileSystem::open_url(urlbuilder.str());
 }
 

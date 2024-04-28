@@ -34,6 +34,7 @@
 #endif
 
 #include <SDL.h>
+#include <curl/curl.h>
 
 #include "gui/dialog.hpp"
 #include "util/log.hpp"
@@ -228,6 +229,23 @@ void open_path(const std::string& path)
     log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
   }
 #endif
+}
+
+std::string escape(const std::string& url)
+{
+  std::string result = url;
+  CURL *curl = curl_easy_init();
+  if(curl)
+  {
+    char *output = curl_easy_escape(curl, url.c_str(), url.length());
+    if(output) {
+      result = std::string(output);
+      curl_free(output);
+    }
+    curl_easy_cleanup(curl);
+  }
+
+  return result;
 }
 
 void open_url(const std::string& url)
