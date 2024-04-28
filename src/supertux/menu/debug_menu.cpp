@@ -20,10 +20,14 @@
 #include <sstream>
 
 #include "editor/editor.hpp"
+#include "gui/item_action.hpp"
 #include "gui/item_stringselect.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/tile_manager.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/texture_manager.hpp"
@@ -71,6 +75,15 @@ DebugMenu::DebugMenu() :
   add_toggle(-1, _("Use Bitmap Fonts"),
              []{ return g_debug.get_use_bitmap_fonts(); },
              [](bool value){ g_debug.set_use_bitmap_fonts(value); });
+  add_entry(_("Reload Resources"),
+    []{
+      Resources::load();
+      TextureManager::current()->reload();
+
+      SpriteManager::current()->reload();
+      TileManager::current()->reload();
+    })
+    .set_help(_("Reloads all fonts, textures, sprites and tilesets."));
   add_entry(_("Dump Texture Cache"), []{ TextureManager::current()->debug_print(get_logging_instance()); });
 
   add_hl();
