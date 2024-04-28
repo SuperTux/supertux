@@ -28,15 +28,21 @@
 
 #include <SDL.h>
 
+#include <version.h>
+
 #include "util/file_system.hpp"
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <DbgHelp.h>
+#if 0
+#include <VersionHelpers.h>
+#endif
 
 #pragma comment(lib, "DbgHelp.lib")
 #elif defined(__unix__) || defined(__APPLE__)
+#include <sys/utsname.h>
 #include <execinfo.h>
 #include <unistd.h>
 #endif
@@ -103,6 +109,75 @@ std::string ErrorHandler::get_stacktrace()
 #endif
 }
 
+std::string
+ErrorHandler::get_system_info()
+{
+#ifdef WIN32
+
+  std::stringstream info;
+
+#if 0
+  // This method reports Windows 8 on my
+  // Windows 10 PC. Disabled.
+  if (IsWindows10OrGreater())
+    info << "Windows 10/11";
+  else if (IsWindows8Point1OrGreater())
+    info << "Windows 8.1";
+  else if (IsWindows8OrGreater())
+    info << "Windows 8";
+  else if (IsWindows7OrGreater())
+    info << "Windows 7";
+  else if (IsWindowsVistaOrGreater())
+    info << "Windows Vista";
+  else if (IsWindowsXPOrGreater())
+    info << "Windows XP";
+  else
+    info << "Windows";
+
+  info << " ";
+#else
+  info << "Windows ";
+#endif
+
+  SYSTEM_INFO sysinfo;
+  GetSystemInfo(&sysinfo);
+
+  switch (sysinfo.wProcessorArchitecture) {
+    case PROCESSOR_ARCHITECTURE_AMD64:
+      info << "x64";
+      break;
+    case PROCESSOR_ARCHITECTURE_ARM:
+      info << "ARM";
+      break;
+    case PROCESSOR_ARCHITECTURE_ARM64:
+      info << "ARM64";
+      break;
+    case PROCESSOR_ARCHITECTURE_IA64:
+      info << "Intel Itanium-based";
+      break;
+    case PROCESSOR_ARCHITECTURE_INTEL:
+      info << "x86";
+      break;
+    default:
+      break;
+  }
+
+  return info.str();
+
+#elif defined(__unix__) || defined(__APPLE__)
+  struct utsname uts;
+  uname(&uts);
+  std::stringstream info;
+  info << uts.sysname << " "
+       << uts.release << " "
+       << uts.version << " "
+       << uts.machine;
+  return info.str();
+#else
+  return "";
+#endif
+}
+
 [[ noreturn ]] void
 ErrorHandler::handle_error(int sig)
 {
@@ -117,7 +192,7 @@ ErrorHandler::handle_error(int sig)
 
     // Do not use external stuff (like log_fatal) to limit the risk of causing
     // another error, which would restart the handler again.
-    fprintf(stderr, "\nError: signal %d:\n", sig);
+    std::cerr << "\nError: signal " << sig << ":\n";
 
     error_dialog_crash(get_stacktrace());
     close_program();
@@ -256,21 +331,31 @@ ErrorHandler::error_dialog_exception(const std::string& exception)
     // Repurpose the stream.
     stream.str("");
 
-    stream << SDL_GetPrefPath("SuperTux", "supertux2");
+    stream << SDL_GetPrefPath("SuperTux", "supertux2")
            << "/console.err";
-    FileSystem::open_path(msg.str());
+    FileSystem::open_path(stream.str());
   }
 #endif
 }
 
 void ErrorHandler::report_error(const std::string& details)
 {
+  std::string sysinfo = get_system_info();
   std::stringstream urlbuilder;
   urlbuilder << "https://github.com/supertux/supertux/issues/new"
                 "?title=SuperTux crashes"
                 "&labels=type:crash,status:needs-confirmation"
-                "&body=Please provide information about this crash here.%0A%0A"
-             << details;
+                "&body=Additional information:%0A"
+                "- Operating System: " << sysinfo << "%0A"
+                "- SuperTux version: " PACKAGE_VERSION "%0A"
+                "%0A"
+                "<!--%0A"
+                "Please provide information about this crash here%0A"
+                "such as expected behavior, intended behavior and steps%0A"
+                "to reproduce it.%0A"
+                "-->%0A"
+                "%0A"
+                "```%0A" << details << "%0A```";
   FileSystem::open_url(urlbuilder.str());
 }
 

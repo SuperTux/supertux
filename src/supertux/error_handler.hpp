@@ -25,8 +25,11 @@ public:
   static void set_handlers();
 
   static std::string get_stacktrace();
+  static std::string get_system_info();
+
   static void error_dialog_crash(const std::string& stacktrace);
   static void error_dialog_exception(const std::string& exception);
+
   static void report_error(const std::string& details);
 
   [[ noreturn ]] static void handle_error(int sig);
