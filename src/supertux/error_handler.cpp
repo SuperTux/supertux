@@ -103,7 +103,7 @@ std::string ErrorHandler::get_stacktrace()
 #endif
 }
 
-void
+[[ noreturn ]] void
 ErrorHandler::handle_error(int sig)
 {
   if (m_handing_error)
@@ -125,30 +125,22 @@ ErrorHandler::handle_error(int sig)
 }
 
 void
-ErrorHandler::error_dialog(const std::string& details)
+ErrorHandler::error_dialog(const std::string& stacktrace)
 {
-  std::stringstream stream;
-  stream << "SuperTux has encountered an unrecoverable error!\n";
-  if (!details.empty())
-  {
-    stream
-      << "Details:\n"
-      << details;
-  }
-  else
-  {
-    stream << "Unable to get stacktrace.";
-  }
+  char msg[] = "SuperTux has encountered an unrecoverable error!";
 
-  std::string msg = stream.str();
-
-  std::cerr << msg << std::endl;
+  std::cerr << msg << "\n" << stacktrace << std::endl;
 
   SDL_MessageBoxButtonData btns[] = {
     {
       0, // flags
       0, // buttonid
       "Report" // text
+    },
+    {
+      0, // flags
+      1, // buttonid
+      "Details" // text
     },
     {
       SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, // flags
@@ -161,7 +153,7 @@ ErrorHandler::error_dialog(const std::string& details)
     SDL_MESSAGEBOX_ERROR, // flags
     nullptr, // window
     "Error", // title
-    msg.c_str(), // message
+    msg, // message
     SDL_arraysize(btns), // numbuttons
     btns, // buttons
     nullptr // colorscheme
@@ -170,20 +162,64 @@ ErrorHandler::error_dialog(const std::string& details)
   int resultbtn;
   SDL_ShowMessageBox(&data, &resultbtn);
 
-  if (resultbtn == 0)
+  switch (resultbtn)
   {
-    std::stringstream urlbuilder;
-    urlbuilder << "https://github.com/supertux/supertux/issues/new"
-                  "?title=SuperTux crashes"
-                  "&labels=type:crash,status:needs-confirmation"
-                  "&body=Please provide information about this crash here.%0A%0A"
-               << details;
-    FileSystem::open_url(urlbuilder.str());
-  }
+    case 0:
+    {
+      report_error(stacktrace);
+      break;
+    }
 
+    case 1:
+    {
+      SDL_MessageBoxButtonData detailsbtns[] = {
+        {
+          0, // flags
+          0, // buttonid
+          "Report" // text
+        },
+        {
+          SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, // flags
+          1, // buttonid
+          "OK" // text
+        }
+      };
+
+      data = {
+        SDL_MESSAGEBOX_ERROR, // flags
+        nullptr, // window
+        "Error details", // title
+        stacktrace.c_str(), // message
+        SDL_arraysize(detailsbtns), // numbuttons
+        detailsbtns, // buttons
+        nullptr // colorscheme
+      };
+
+      SDL_ShowMessageBox(&data, &resultbtn);
+
+      if (resultbtn == 0)
+        report_error(stacktrace);
+
+      break;
+    }
+
+    default:
+      break;
+  }
 }
 
-void
+void ErrorHandler::report_error(const std::string& details)
+{
+  std::stringstream urlbuilder;
+  urlbuilder << "https://github.com/supertux/supertux/issues/new"
+                "?title=SuperTux crashes"
+                "&labels=type:crash,status:needs-confirmation"
+                "&body=Please provide information about this crash here.%0A%0A"
+             << details;
+  FileSystem::open_url(urlbuilder.str());
+}
+
+[[ noreturn ]] void
 ErrorHandler::close_program()
 {
   exit(10);
