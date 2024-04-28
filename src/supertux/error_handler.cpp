@@ -344,16 +344,23 @@ void ErrorHandler::report_error(const std::string& details)
   std::stringstream urlbuilder;
   std::string labels = FileSystem::escape("type:crash,status:needs-confirmation");
   std::stringstream bodybuilder;
-  bodybuilder << "Additional information:\r\n"
-                  "- Operating System: " << sysinfo << "\r\n"
-                  "- SuperTux version: " PACKAGE_VERSION "\r\n"
+  bodybuilder << "**SuperTux version:** *" PACKAGE_VERSION "*\r\n"
+                 "**System information:** *" << sysinfo << "*\r\n"
                   "\r\n"
                   "<!--\r\n"
                   "Please provide information about this crash here\r\n"
                   "such as expected behavior, intended behavior and steps\r\n"
                   "to reproduce it.\r\n"
-                  "-->\r\n"
+                  "-->\r\n\r\n"
+                  "##### Expected behavior\r\n"
                   "\r\n"
+                  "##### Actual behavior\r\n"
+                  "\r\n"
+                  "##### Steps to reproduce actual behavior\r\n"
+                  "\r\n"
+                  "##### Additional debugging information\r\n"
+                  "\r\n"
+                  "**Stacktrace:**\r\n"
                   "```\r\n" << details << "\r\n```";
   std::string body = FileSystem::escape(bodybuilder.str());
 
