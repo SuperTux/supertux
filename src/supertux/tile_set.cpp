@@ -36,23 +36,36 @@ Tilegroup::Tilegroup() :
 std::unique_ptr<TileSet>
 TileSet::from_file(const std::string& filename)
 {
-  auto tileset = std::make_unique<TileSet>();
+  auto tileset = std::make_unique<TileSet>(filename);
 
   TileSetParser parser(*tileset, filename);
   parser.parse();
 
-  tileset->print_debug_info(filename);
+  tileset->print_debug_info();
 
   return tileset;
 }
 
-TileSet::TileSet() :
+TileSet::TileSet(const std::string& filename) :
+  m_filename(filename),
   m_autotilesets(),
   m_thunderstorm_tiles(),
   m_tiles(1),
   m_tilegroups()
 {
   m_tiles[0] = std::make_unique<Tile>();
+}
+
+void
+TileSet::reload()
+{
+  m_autotilesets.clear();
+  m_thunderstorm_tiles.clear();
+  m_tiles.resize(1);
+  m_tilegroups.clear();
+
+  TileSetParser parser(*this, m_filename);
+  parser.parse();
 }
 
 void
@@ -168,7 +181,7 @@ TileSet::add_tilegroup(const Tilegroup& tilegroup)
 }
 
 void
-TileSet::print_debug_info(const std::string& filename)
+TileSet::print_debug_info()
 {
   if (false)
   { // enable this if you want to see a list of free tiles

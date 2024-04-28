@@ -47,8 +47,10 @@ public:
   static std::unique_ptr<TileSet> from_file(const std::string& filename);
 
 public:
-  TileSet();
+  TileSet(const std::string& filename);
   ~TileSet() = default;
+
+  void reload();
 
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
@@ -73,8 +75,11 @@ public:
     return m_tilegroups;
   }
 
-  void print_debug_info(const std::string& filename);
+  void print_debug_info();
   
+private:
+  const std::string m_filename;
+
 public:
   // Must be public because of tile_set_parser.cpp
   std::vector<std::unique_ptr<AutotileSet>> m_autotilesets;
