@@ -26,6 +26,11 @@ NullTexture::~NullTexture()
 {
 }
 
+void
+NullTexture::reload(const SDL_Surface&)
+{
+}
+
 int
 NullTexture::get_texture_width() const
 {

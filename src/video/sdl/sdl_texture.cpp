@@ -23,18 +23,24 @@
 #include "video/video_system.hpp"
 
 SDLTexture::SDLTexture(SDL_Texture* texture, int width, int height, const Sampler& sampler) :
+  Texture(sampler),
   m_texture(texture),
   m_width(width),
-  m_height(height),
-  m_sampler(sampler)
+  m_height(height)
 {
 }
 
 SDLTexture::SDLTexture(const SDL_Surface& image, const Sampler& sampler) :
+  Texture(sampler),
   m_texture(),
   m_width(),
-  m_height(),
-  m_sampler(sampler)
+  m_height()
+{
+  reload(image);
+}
+
+void
+SDLTexture::reload(const SDL_Surface& image)
 {
   m_texture = SDL_CreateTextureFromSurface(static_cast<SDLScreenRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer(),
                                            const_cast<SDL_Surface*>(&image));
