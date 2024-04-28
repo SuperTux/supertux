@@ -42,6 +42,8 @@ SDLTexture::SDLTexture(const SDL_Surface& image, const Sampler& sampler) :
 void
 SDLTexture::reload(const SDL_Surface& image)
 {
+  SDL_DestroyTexture(m_texture);
+
   m_texture = SDL_CreateTextureFromSurface(static_cast<SDLScreenRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer(),
                                            const_cast<SDL_Surface*>(&image));
   if (!m_texture)

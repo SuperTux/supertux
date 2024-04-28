@@ -82,6 +82,8 @@ GLTexture::reload(const SDL_Surface& image)
 {
   assert_gl();
 
+  glDeleteTextures(1, &m_handle);
+
   if (gl_needs_power_of_two())
   {
     m_texture_width = next_power_of_two(image.w);
