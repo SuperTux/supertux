@@ -119,13 +119,13 @@ ErrorHandler::handle_error(int sig)
     // another error, which would restart the handler again.
     fprintf(stderr, "\nError: signal %d:\n", sig);
 
-    error_dialog(get_stacktrace());
+    error_dialog_crash(get_stacktrace());
     close_program();
   }
 }
 
 void
-ErrorHandler::error_dialog(const std::string& stacktrace)
+ErrorHandler::error_dialog_crash(const std::string& stacktrace)
 {
   char msg[] = "SuperTux has encountered an unrecoverable error!";
 
@@ -206,6 +206,61 @@ ErrorHandler::error_dialog(const std::string& stacktrace)
     default:
       break;
   }
+}
+
+void
+ErrorHandler::error_dialog_exception(const std::string& exception)
+{
+  std::stringstream stream;
+
+  stream << "SuperTux has encountered a fatal exception!";
+
+  if (!exception.empty())
+  {
+    stream << "\n\n" << exception;
+  }
+
+  std::string msg = stream.str();
+
+  SDL_MessageBoxButtonData btns[] = {
+#ifdef WIN32
+    {
+      0, // flags
+      0, // buttonid
+      "Open log" // text
+    },
+#endif
+    {
+      SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, // flags
+      1, // buttonid
+      "OK" // text
+    }
+  };
+
+  SDL_MessageBoxData data = {
+    SDL_MESSAGEBOX_ERROR, // flags
+    nullptr, // window
+    "Error", // title
+    msg.c_str(), // message
+    SDL_arraysize(btns), // numbuttons
+    btns, // buttons
+    nullptr // colorscheme
+  };
+
+  int resultbtn;
+  SDL_ShowMessageBox(&data, &resultbtn);
+
+#ifdef WIN32
+  if (resultbtn == 0)
+  {
+    // Repurpose the stream.
+    stream.str("");
+
+    stream << SDL_GetPrefPath("SuperTux", "supertux2");
+           << "/console.err";
+    FileSystem::open_path(msg.str());
+  }
+#endif
 }
 
 void ErrorHandler::report_error(const std::string& details)

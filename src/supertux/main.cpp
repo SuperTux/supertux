@@ -743,7 +743,7 @@ Main::run(int argc, char** argv)
   }
   catch(const std::exception& e)
   {
-    ErrorHandler::error_dialog(e.what());
+    ErrorHandler::error_dialog_exception(e.what());
     result = 1;
   }
   catch(...)
@@ -751,7 +751,7 @@ Main::run(int argc, char** argv)
     /*
     log_fatal << "Unexpected exception" << std::endl;
     */
-    ErrorHandler::error_dialog("");
+    ErrorHandler::error_dialog_exception("");
     result = 1;
   }
 
