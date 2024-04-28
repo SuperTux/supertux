@@ -237,7 +237,7 @@ std::string escape(const std::string& url)
   CURL *curl = curl_easy_init();
   if(curl)
   {
-    char *output = curl_easy_escape(curl, url.c_str(), url.length());
+    char *output = curl_easy_escape(curl, url.c_str(), static_cast<int>(url.length()));
     if(output) {
       result = std::string(output);
       curl_free(output);
