@@ -40,6 +40,7 @@ public:
   virtual void deactivate() override;
   virtual void active_update(float dt_sec) override;
 
+  virtual void kill_fall() override;
   virtual void freeze() override;
   virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
@@ -56,6 +57,8 @@ public:
   std::string get_default_sprite_name() const override;
 
   virtual void on_flip(float height) override;
+
+  virtual void after_editor_set() override;
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
   {
@@ -83,6 +86,7 @@ protected:
 
 private:
   void set_correct_action();
+  void set_correct_colgroup();
 
 private:
   float m_cycle;

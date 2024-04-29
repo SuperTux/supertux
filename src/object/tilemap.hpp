@@ -75,7 +75,7 @@ public:
   void goto_node(int node_no);
 
   /** Instantly jump to the given node */
-  void jump_to_node(int node_no);
+  void jump_to_node(int node_no, bool instantaneous = false);
 
   /** Start moving tilemap */
   void start_moving();
@@ -115,7 +115,7 @@ public:
     if (actual) {
       return m_movement;
     }
-    
+
     return Vector(m_movement.x, std::max(0.0f, m_movement.y));
   }
 
@@ -167,7 +167,7 @@ public:
 
   /** Puts the correct autotile block at the given position */
   void autotile(int x, int y, uint32_t tile);
-  
+
   enum class AutotileCornerOperation {
     ADD_TOP_LEFT,
     ADD_TOP_RIGHT,
@@ -178,10 +178,10 @@ public:
     REMOVE_BOTTOM_LEFT,
     REMOVE_BOTTOM_RIGHT,
   };
-  
+
   /** Puts the correct autotile blocks at the tiles around the given corner */
   void autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op);
-  
+
   /** Erases in autotile mode */
   void autotile_erase(const Vector& pos, const Vector& corner_pos);
 
@@ -215,7 +215,7 @@ public:
   const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
 
 private:
-  void update_effective_solid();
+  void update_effective_solid(bool update_manager = true);
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
   bool is_corner(uint32_t tile) const;

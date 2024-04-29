@@ -24,7 +24,7 @@
 #include "object/path_object.hpp"
 #include "supertux/sector.hpp"
 
-auto on_select = [](std::string path, PathObject& target, std::string path_ref) {
+auto on_select = [](const std::string& path, PathObject& target, const std::string& path_ref) {
   return [path, &target, path_ref] {
     auto dialog = std::make_unique<Dialog>();
     dialog->add_default_button(_("Clone"), [path, path_ref] {

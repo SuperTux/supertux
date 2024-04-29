@@ -1780,8 +1780,8 @@ msgstr "Naciśnij escape, aby pominąć"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Obsługa: %s [OPCJE] [PLIK POZIOMU]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Obsługa: {} [OPCJE] [PLIK POZIOMU]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2506,13 +2506,13 @@ msgstr "Zmień rozmiar"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2560,8 +2560,8 @@ msgstr "Nieznany"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" przez \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" przez \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2573,13 +2573,13 @@ msgstr "Dodatkowe plansze nieznalezione"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Zainstaluj %s *NOWY*"
+msgid "Install {} *NEW*"
+msgstr "Zainstaluj {} *NOWY*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Zainstaluj %s"
+msgid "Install {}"
+msgstr "Zainstaluj {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2599,8 +2599,8 @@ msgstr "Ściąganie listy dodatków"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Ściąganie %s"
+msgid "Downloading {}"
+msgstr "Ściąganie {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3113,8 +3113,8 @@ msgstr "Nie możesz usunąć poziomu, którego edytujesz!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "Autorstwo: %s"
+msgid "contributed by {}"
+msgstr "Autorstwo: {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

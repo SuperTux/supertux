@@ -29,7 +29,7 @@ LiveFire::LiveFire(const ReaderMapping& reader) :
   state(STATE_WALKING)
 {
   walk_speed = 80;
-  max_drop_height = 20;
+  set_ledge_behavior(LedgeBehavior::SMART);
   m_lightsprite->set_color(Color(0.89f, 0.75f, 0.44f));
   m_glowing = true;
 }

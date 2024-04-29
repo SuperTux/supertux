@@ -30,11 +30,9 @@ namespace {
 
 const float IGEL_NORMAL_SPEED = 80;
 const float IGEL_CORRUPTED_SPEED = 120;
-const int   IGEL_MAX_DROP_HEIGHT = 16;
 
 const float ROLL_RANGE = 32*10;
 const float ROLL_SPEED = 350;
-const int   ROLL_MAX_DROP_HEIGHT = -1;
 const float ROLL_DURATION = 2.f;
 const float ROLL_EASE_TIMER = 0.5f;
 const float ROLL_COOLDOWN = 1.f;
@@ -54,7 +52,7 @@ Igel::Igel(const ReaderMapping& reader) :
   parse_type(reader);
 
   walk_speed = get_normal_walk_speed();
-  max_drop_height = IGEL_MAX_DROP_HEIGHT;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/thud.ogg");
 }
@@ -77,7 +75,7 @@ Igel::active_update(float dt_sec)
 
       if (m_ease_timer.started())
       {
-        float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
+        float progress = m_ease_timer.get_progress();
         float vel = (static_cast<float>(SineEaseOut(static_cast<double>(progress))) * (ROLL_SPEED - get_normal_walk_speed())) + get_normal_walk_speed();
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
@@ -108,7 +106,7 @@ Igel::active_update(float dt_sec)
 
       if (m_ease_timer.started())
       {
-        float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
+        float progress = m_ease_timer.get_progress();
         float vel = (static_cast<float>(SineEaseIn(static_cast<double>(progress))) * (get_normal_walk_speed() - ROLL_SPEED)) + ROLL_SPEED;
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
@@ -231,7 +229,7 @@ Igel::roll()
 
   set_action("roll-start", m_dir);
 
-  max_drop_height = ROLL_MAX_DROP_HEIGHT;
+  set_ledge_behavior(LedgeBehavior::FALL);
 
   m_roll_timer.start(ROLL_DURATION);
   m_ease_timer.start(ROLL_EASE_TIMER);
@@ -251,7 +249,7 @@ Igel::stop_rolling(bool bonk)
     m_physic.set_velocity_y(-250.f);
   }
 
-  max_drop_height = IGEL_MAX_DROP_HEIGHT;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
   m_roll_timer.stop();
   m_roll_cooldown.start(ROLL_COOLDOWN);

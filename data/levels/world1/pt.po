@@ -6,6 +6,7 @@
 # André Pinheiro <andrepinheiro2004@gmail.com>, 2021
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
 # João Frade <100nome.portugal@gmail.com>, 2023
+# lecalam, 2024
 # Rui <xymarior@yandex.com>, 2016,2018
 # Tiago Correia <tiaguito05@gmail.com>, 2019
 # Rui <xymarior@yandex.com>, 2016
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: João Frade <100nome.portugal@gmail.com>, 2023\n"
+"Last-Translator: lecalam, 2024\n"
 "Language-Team: Portuguese (http://app.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +38,7 @@ msgstr "23º Aerotransporte"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Descobriste uma área secreta!"
 
@@ -50,7 +51,7 @@ msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "Flor-de-Ar\n!images/powerups/airflower/air_flower-0.png\n#A flor-de-Ar dá ao Tux o poder de deslizar no ar durante alguns segundos, enquanto premida a tecla de SALTAR."
+msgstr "Flor-de-Ar\n!images/powerups/airflower/air_flower-0.png\n#A Flor-de-Ar dá ao Tux o poder de deslizar no ar durante alguns segundos, enquanto for premida a tecla de SALTAR."
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
@@ -63,10 +64,6 @@ msgid ""
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Cristais\n#Este nível contem quatro cristais coloridos. Consegues encontrá-los?\n#\n#Nota: estes cristais não servem nenhum propósito de momento, mas podem servir num futuro lançamento do jogo."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Sala do Trono Vazia"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -99,7 +96,7 @@ msgid ""
 "!images/objects/pushbutton/pushbutton-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
 "#There are also buttons that you can press by jumping on them."
-msgstr "-Interruptores\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Interruptores podem ser utilizados em muitos casos. Prime a tecla SUBIR para utilizar o interruptor.\n#Há também botões que podes premir saltando sobre eles."
+msgstr "-Interruptores\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Os interruptores podem ser utilizados em muitos casos. Prime a tecla SUBIR para utilizar o interruptor.\n#Há também botões que podes premir saltando sobre eles."
 
 #: data/levels/world1/fork_in_the_road.stl:93
 msgid ""
@@ -112,14 +109,14 @@ msgstr "-Trampolins\n!images/objects/trampoline/trampoline2-0.png\n#Os trampolin
 msgid ""
 "-Climbing\n"
 "#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "-Subir Escadas\n#O Tux pode subir escadas! Prime a tecla SETA CIMA para começar a subir a escada. Prime a tecla AÇÃO ou salta para sair da escada."
+msgstr "-Subir escadas\n#O Tux pode subir escadas! Prime a tecla SETA CIMA para começar a subir a escada. Prime a tecla AÇÃO ou salta para sair da escada."
 
 #: data/levels/world1/fork_in_the_road.stl:106
 msgid ""
 "-Secret Exits\n"
 "#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
 "#Maybe they lead you to something special."
-msgstr "-Saídas Secretas\n#Alguns níveis possuem múltiplas saídas. Estão na sua maioria escondidas, por isso atenta nelas.\n#Talvez te conduzam a algo especial."
+msgstr "-Saídas secretas\n#Alguns níveis podem ter várias saídas. A maior parte das vezes estão escondidas, por isso fica atento.\n#Talvez te conduzam a algo especial."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
@@ -190,7 +187,7 @@ msgstr "Uma carta de Penny contando a Tux que Nolok a levara para uma longínqua
 msgid ""
 "Unsure about what Nolok was doing to her, Tux became worried about his "
 "beloved Penny."
-msgstr "Incerto sobre as ações de Nolok sobre Penny, Tux ficou preocupado com a sua amada."
+msgstr "Sem saber o que Nolok lhe estava a fazer, Tux ficou preocupado com a sua amada Penny."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
@@ -289,7 +286,7 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Blocos de Bónus\n!images/objects/bonus_block/full-0.png\n#Os blocos de bónus podem conter moedas, poderes especiais ou outros itens para te ajudar na viagem.\n#\n#Dá uma cabeçada neles para obteres o que está dentro deles."
+msgstr "-Blocos de bónus\n!images/objects/bonus_block/full-0.png\n#Os blocos de bónus podem conter moedas, poderes especiais ou outros itens para te ajudar na viagem.\n#\n#Dá uma cabeçada neles para obteres o que está dentro deles."
 
 #: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
@@ -303,7 +300,7 @@ msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Pontos de Controlo\n!images/objects/resetpoints/bell-m.png\n#Ativa o Ponto de Controlo. Se morreres, podes tentar começar o nível a partir daqui. Todas as vezes que começares a partir de um ponto de controlo, perdes 10 por cento das moedas (pelo menos 25 moedas)."
+msgstr "-Pontos de controlo\n!images/objects/resetpoints/bell-m.png\n#Ativa o ponto de controlo. Se morreres, podes tentar começar o nível a partir daqui. Todas as vezes que começares a partir de um ponto de controlo, perdes 10 por cento das moedas (pelo menos 25 moedas)."
 
 #: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
@@ -317,7 +314,7 @@ msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Flor-de-Fogo\n!images/powerups/fireflower/fire_flower-0.png\n#A flor-de-fogo dá ao Tux o poder de atirar bolas de fogo com a tecla de Ação."
+msgstr "-Flor-de-Fogo\n!images/powerups/fireflower/fire_flower-0.png\n#A Flor-de-Fogo dá ao Tux o poder de atirar bolas de fogo com a tecla de Ação."
 
 #: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
@@ -330,7 +327,7 @@ msgstr "-Boneco do Tux\n!images/powerups/1up/1up.png\n#O boneco do Tux dá ao Tu
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Áreas Secretas\n#Muitos níveis têm áreas secretas escondidas atrás do que parece uma simples parede. Está atento às pistas para as encontrar."
+msgstr "-Áreas secretas\n#Muitos níveis têm áreas secretas escondidas atrás do que parece uma simples parede. Está atento às pistas para as encontrar."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"

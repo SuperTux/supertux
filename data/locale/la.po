@@ -1084,8 +1084,8 @@ msgstr "Res nescita"
 
 #: src/supertux/command_line_arguments.cpp:73
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Utilitas: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Utilitas: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:74
 msgid "General Options:"
@@ -1688,13 +1688,13 @@ msgstr "Magnitudinem mutare"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profile %s]"
+msgid "[Profile {}]"
+msgstr "[Profile {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "Profile %s"
+msgid "Profile {}"
+msgstr "Profile {}"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1721,8 +1721,8 @@ msgstr "Nescitus"
 
 #: src/supertux/menu/addon_menu.cpp:68
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" de \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" de \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:126
 msgid "No Add-ons installed"
@@ -1734,13 +1734,13 @@ msgstr "Additiones invenitae non sunt"
 
 #: src/supertux/menu/addon_menu.cpp:176
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Acquirere %s *NOVUM*"
+msgid "Install {} *NEW*"
+msgstr "Acquirere {} *NOVUM*"
 
 #: src/supertux/menu/addon_menu.cpp:187
 #, c-format
-msgid "Install %s"
-msgstr "Acquirere %s"
+msgid "Install {}"
+msgstr "Acquirere {}"
 
 #: src/supertux/menu/addon_menu.cpp:196
 msgid "No new Add-ons found"
@@ -1760,8 +1760,8 @@ msgstr "Ratio depositionum additionum acquiritur"
 
 #: src/supertux/menu/addon_menu.cpp:298
 #, c-format
-msgid "Downloading %s"
-msgstr "Acquirtur %s"
+msgid "Downloading {}"
+msgstr "Acquirtur {}"
 
 #: src/supertux/menu/addon_menu.cpp:345
 msgid ""
@@ -2167,8 +2167,8 @@ msgstr "Punctum initii \"main\" invenire non potui.\nQuaeso, muta nominem puncti
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
-msgid "contributed by %s"
-msgstr "de %s"
+msgid "contributed by {}"
+msgstr "de {}"
 
 #: src/supertux/levelintro.cpp:172
 msgid "Badguys killed"

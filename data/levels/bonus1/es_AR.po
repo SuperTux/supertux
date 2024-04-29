@@ -4,19 +4,20 @@
 # 
 # Translators:
 # Alejo Fernandez <alejoo.fernandez.2003@gmail.com>, 2020
+# Salomón Duarte <juanaestelaruizdiaz@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 20:16+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Spanish (Argentina) (http://www.transifex.com/arctic-games/supertux/language/es_AR/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: Salomón Duarte <juanaestelaruizdiaz@gmail.com>, 2021\n"
+"Language-Team: Spanish (Argentina) (http://app.transifex.com/arctic-games/supertux/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es_AR\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
@@ -105,7 +106,7 @@ msgstr "Los chicos malos apestan"
 msgid ""
 "#These levels were made Swimming-Ready by Serano and revamped by "
 "AllyTheOcelot"
-msgstr ""
+msgstr "#Estos niveles son hechos Listos-para-nadar por Serano y renovados por AllyTheOcelot"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -117,7 +118,7 @@ msgstr "Demasiado facil"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr ""
+msgstr "#Todos estos niveles fueron mejorados para la milestone 2 por Hume"
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"

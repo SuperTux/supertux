@@ -96,7 +96,7 @@ void
 Statistics::serialize_to_squirrel(SquirrelVM& vm) const
 {
   if (m_status != FINAL) return;
-  
+
   vm.begin_table("statistics");
   vm.store_int("coins-collected", m_coins);
   vm.store_int("badguys-killed", m_badguys);
@@ -485,11 +485,6 @@ Statistics::frags_to_string(int badguys, int total_badguys)
 std::string
 Statistics::time_to_string(float time)
 {
-  int time_csecs = static_cast<int>(time * 100);
-  int mins = (time_csecs / 6000);
-  int secs = (time_csecs % 6000) / 100;
-  int cscs = (time_csecs % 6000) % 100;
-
   std::ostringstream os;
   if (time == 0.0f)
   {
@@ -497,6 +492,10 @@ Statistics::time_to_string(float time)
   }
   else
   {
+    int time_csecs = static_cast<int>(time * 100);
+    int mins = (time_csecs / 6000);
+    int secs = (time_csecs % 6000) / 100;
+    int cscs = (time_csecs % 6000) % 100;
     os << std::setw(2) << std::setfill('0') << mins << ":" << std::setw(2) << std::setfill('0') << secs << "." << std::setw(2) << std::setfill('0') << cscs;
   }
 

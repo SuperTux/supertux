@@ -47,11 +47,6 @@ private:
 
 public:
   /**
-   * Reloads the camera's configuration.
-   */
-  void reload_config();
-
-  /**
    * Shakes the camera in a certain direction only 1 time.
    * @param float $duration
    * @param float $x

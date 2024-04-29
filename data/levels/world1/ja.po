@@ -6,19 +6,19 @@
 # 515ce455fbf38ec9585626e8d26b6324_7a9a6ef, 2017
 # Ryo Nakano, 2018-2021
 # b1e11c107ebf1f339ff7adfc86b9dbe0_2e3e89d, 2016
-# Sugahara Masayuki <brindflontia@gmail.com>, 2016
+# Masayuki Sugahara <brindflontia@gmail.com>, 2016
 # Sanshiro sumita, 2015-2016
 # Sanshiro sumita, 2015
 # Ubuntu Jackson <santenichiyonitchigo@gmail.com>, 2020
-# 堀 風羽 <Riie-ivt@outlook.com>, 2016
+# 0ea743a388003249c3a27027490eb004_eb62725 <93be5fa112647d5d896be9f7b3c2eda8_426397>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2021-02-19 06:12+0000\n"
-"Last-Translator: Ryo Nakano\n"
-"Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Ryo Nakano, 2018-2021\n"
+"Language-Team: Japanese (http://app.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,16 +29,16 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "第23空挺団"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "秘密の場所を見つけました！"
 
@@ -46,7 +46,7 @@ msgstr "秘密の場所を見つけました！"
 msgid "Above the Arctic Skies"
 msgstr "極寒の空の上"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -57,17 +57,13 @@ msgstr "-エアーフラワー\n!images/powerups/airflower/air_flower-0.png\n#�
 msgid "Between Two Glaciers"
 msgstr "氷壁に囲まれるペンギン"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-クリスタル\n#このステージには4つのカラークリスタルがあります。見つけられますか？\n#\n#注意: 現時点では、クリスタルは特に意味を持ちませんが、ゲームの今後のリリースでは意味を持つ可能性があります。"
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "誰もいない王座の間"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -77,7 +73,7 @@ msgstr "Nolokの城"
 msgid "The Crystal Mine"
 msgstr "クリスタルの鉱山"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#このドアを開くには、2つのスイッチを切り替える必要があります。"
 
@@ -283,7 +279,7 @@ msgstr "ノスタルジカを経由して"
 msgid "Welcome to Antarctica"
 msgstr "南極へようこそ"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -292,42 +288,42 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr "-ボーナスブロック\n!images/objects/bonus_block/full-0.png\n#ボーナスブロックには、冒険を助けるコインやパワーアップアイテム、特別なアイテムが入っていることがあります。\n#\n#中身を取るには、ブロックをジャンプして叩いてください。"
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-タマゴ\n!images/powerups/egg/egg-shade.png\n#タマゴを取ると、タックスの体が大きくなります。大きくなったタックスは、木のブロックを壊せるようになります。"
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-チェックポイント\n!images/objects/resetpoints/bell-m.png\n#これに触れると、チェックポイントを追加します。タックスが死んだ場合、ここからレベルを再開できます。ただし、持っているコインの10%以上 (最低でも25枚) を失います。"
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-走って！\n!images/tiles/signs/run.png\n#行く手が塞がれています。ブロックを超えるには、ジャンプする前にスピードをつけてください。"
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-ファイアフラワー\n!images/powerups/fireflower/fire_flower-0.png\n#ファイアフラワーを取ると、タックスはファイアボールを打てるようになります。"
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Tuxの人形\n!images/powerups/1up/1up.png\n#これを取ると、コインを100枚獲得できます。"
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
