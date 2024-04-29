@@ -86,10 +86,10 @@ Editor::is_active()
 {
   if (s_resaving_in_progress) {
     return true;
-  } else {
-    auto* self = Editor::current();
-    return self && !self->m_testing_level && self->m_after_setup;
   }
+
+  auto* self = Editor::current();
+  return self && !self->m_testing_level && self->m_after_setup;
 }
 
 Editor::Editor() :
