@@ -13,6 +13,7 @@
     (background
       (color 1 1 1)
       (speed 0)
+      (fill #t)
       (image "/images/background/misc/vignette.png")
       (z-pos 200)
     )
@@ -23,36 +24,43 @@
       (y 320)
     )
     (level
+      (z-pos 50)
       (level "antarctica.stl")
       (x 13)
       (y 9)
     )
     (level
+      (z-pos 50)
       (level "who_is_gown.stl")
       (x 13)
       (y 11)
     )
     (level
+      (z-pos 50)
       (level "long_office_nights.stl")
       (x 14)
       (y 15)
     )
     (level
+      (z-pos 50)
       (level "get_to_choppa.stl")
       (x 16)
       (y 15)
     )
     (level
+      (z-pos 50)
       (level "where_my_super_cape.stl")
       (x 16)
       (y 12)
     )
     (level
+      (z-pos 50)
       (level "redmond_headquarters.stl")
       (x 20)
       (y 13)
     )
     (level
+      (z-pos 50)
       (level "intro.stl")
       (auto-play #t)
       (sprite "/images/objects/invisible/invisible.sprite")
@@ -60,6 +68,7 @@
       (y 8)
     )
     (level
+      (z-pos 50)
       (level "outro.stl")
       (extro-script "wait_for_screenswitch();
 exit_worldmap();")
@@ -176,6 +185,7 @@ exit_worldmap();")
     (tilemap
       (solid #f)
       (z-pos -200)
+      (name "ocean")
       (width 40)
       (height 25)
       (tiles
@@ -207,6 +217,7 @@ exit_worldmap();")
       )
     )
     (worldmap-spawnpoint
+      (z-pos 50)
       (name "main")
       (x 13)
       (y 8)
