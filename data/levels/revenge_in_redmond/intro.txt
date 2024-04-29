@@ -4,12 +4,12 @@
   (text "-A Blast From The Past!
  Or was it a dream?
 
-	Tux and Gown were having a nice picnic
-	when suddenly Gown is beamed away!!!
+	Tux and Gown were having a nice picnic,
+	when suddenly, Gown is beamed away!!!
 	
 	Wait a second... Gown?
 	Who is this penguin that looks
-	an awful lot like his friend Penny.
+	an awful lot like his friend Penny?
 	
 	Also, a helicopter?
 	Since when do helicopters casually fly
