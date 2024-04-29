@@ -265,7 +265,6 @@ endif()
 
 ## Link supertux binary with squirrel and other libraries
 
-target_link_libraries(supertux2_lib PUBLIC LibSquirrel)
 target_link_libraries(supertux2_lib PUBLIC LibSqstdlib)
 target_link_libraries(supertux2_lib PUBLIC LibSimpleSquirrel)
 target_link_libraries(supertux2_lib PUBLIC LibTinygettext)
