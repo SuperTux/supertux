@@ -148,11 +148,15 @@ Canvas::draw_surface(const SurfacePtr& surface,
   request->displacement_texture = surface->get_displacement_texture().get();
   request->color = color;
 
-  if (m_colorspaces.find(colorspace) == m_colorspaces.end())
-    m_colorspaces[colorspace] = ColorSpace();
-  m_colorspaces[colorspace].add(Rectf(position,
-                                      Sizef(static_cast<float>(surface->get_width()),
-                                            static_cast<float>(surface->get_height()))), color);
+  if (colorspace != ColorSpace::NONE)
+  {
+    if (m_colorspaces.find(colorspace) == m_colorspaces.end())
+      m_colorspaces[colorspace] = ColorSpace();
+
+    m_colorspaces[colorspace].add(Rectf(position,
+                                        Sizef(static_cast<float>(surface->get_width()),
+                                              static_cast<float>(surface->get_height()))), color);
+  }
 
   m_requests.push_back(request);
 }
@@ -191,9 +195,13 @@ Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const
   request->displacement_texture = surface->get_displacement_texture().get();
   request->color = style.get_color();
 
-  if (m_colorspaces.find(colorspace) == m_colorspaces.end())
-    m_colorspaces[colorspace] = ColorSpace();
-  m_colorspaces[colorspace].add(dstrect, style.get_color());
+  if (colorspace != ColorSpace::NONE)
+  {
+    if (m_colorspaces.find(colorspace) == m_colorspaces.end())
+      m_colorspaces[colorspace] = ColorSpace();
+
+    m_colorspaces[colorspace].add(dstrect, style.get_color());
+  }
 
   m_requests.push_back(request);
 }
@@ -351,6 +359,7 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 void
 Canvas::get_pixel(ColorSpace::Type colorspace, const Vector& position, const std::shared_ptr<Color>& color_out)
 {
+  assert(colorspace != ColorSpace::NONE);
   assert(color_out);
 
   auto request = new(m_obst) GetPixelRequest(m_context.transform());

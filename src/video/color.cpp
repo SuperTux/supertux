@@ -16,8 +16,6 @@
 
 #include "video/color.hpp"
 
-#include <assert.h>
-
 #include "math/util.hpp"
 
 const Color Color::BLACK(0.0, 0.0, 0.0);
