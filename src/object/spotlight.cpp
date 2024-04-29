@@ -142,10 +142,10 @@ Spotlight::draw(DrawingContext& context)
 {
   if (m_enabled)
   {
-    m_light->set_color(m_color);
-    m_light->set_blend(Blend::ADD);
-    m_light->set_angle(m_angle);
-    m_light->draw(context.light(), m_col.m_bbox.p1(), m_layer, NO_FLIP, ColorSpace::LIGHTSPRITES);
+    light->set_color(color);
+    light->set_blend(Blend::ADD);
+    light->set_angle(angle);
+    light->draw(context.light(), m_col.m_bbox.p1(), m_layer, NO_FLIP, ColorSpace::LIGHTSPRITES);
 
     //lightcone->set_angle(angle);
     //lightcone->draw(context.color(), position, m_layer);
