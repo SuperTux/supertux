@@ -357,6 +357,7 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
+  m_testing_level = true;
   m_overlay_widget->reset_action_press();
 
   Tile::draw_editor_images = false;
@@ -374,7 +375,6 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   }
 
   autosave();
-  m_testing_level = true;
 
   if (!m_level->is_worldmap())
   {
