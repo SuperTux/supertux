@@ -54,16 +54,15 @@ World::from_directory(const std::string& directory)
     info.get("hide-from-contribs", world->m_hide_from_contribs, false);
     info.get("contrib-type", world->m_contrib_type, "user");
     info.get("title-level", world->m_title_level);
-    return world;
   }
   catch (const std::exception& err)
   {
     log_warning << "Failed to load " << info_filename << ":" << err.what() << std::endl;
 
     world->m_hide_from_contribs = true;
-
-    return world;
   }
+
+  return world;
 }
 
 std::unique_ptr<World>

@@ -98,6 +98,11 @@ public:
     return m_bbox.p1();
   }
 
+  Vector get_pressure() const
+  {
+    return m_pressure;
+  }
+
   /** moves entire object to a specific position, including all
       points those the object has, exactly like the object has
       spawned in that given pos instead.*/
@@ -163,6 +168,11 @@ private:
       Only bottom constraints to the top of the bounding box would be applied for objects,
       colliding with unisolid objects. */
   bool m_unisolid;
+
+  /**
+   * Contains the current pressure on this object
+   */
+  Vector m_pressure;
 
   /** Objects that were touching the top of this object at the last frame,
       if this object was static or moving static. */

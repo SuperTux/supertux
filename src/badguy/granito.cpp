@@ -29,7 +29,9 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   m_original_state(STATE_STAND),
   m_has_waved(false),
   m_stepped_on(false),
-  m_airborne(false)
+  m_airborne(false),
+  m_detect_script(),
+  m_carried_script()
 {
   parse_type(reader);
 
@@ -302,7 +304,8 @@ Granito::after_editor_set()
   }
 }
 
-GranitoBig* Granito::get_carrier()
+GranitoBig*
+Granito::get_carrier() const
 {
   for (auto& granito : Sector::get().get_objects_by_type<GranitoBig>())
   {
@@ -314,7 +317,7 @@ GranitoBig* Granito::get_carrier()
 }
 
 std::string
-Granito::get_carrier_name()
+Granito::get_carrier_name() const
 {
   GranitoBig* carrier = get_carrier();
   return carrier != nullptr ? carrier->get_name() : "";
@@ -409,7 +412,8 @@ Granito::wave()
   set_action("wave", m_dir, 1);
 }
 
-void Granito::sit()
+void
+Granito::sit()
 {
   walk_speed = 0;
   m_state = STATE_SIT;
@@ -477,7 +481,8 @@ Granito::walk()
   set_action(m_dir);
 }
 
-void Granito::walk_for(float seconds)
+void
+Granito::walk_for(float seconds)
 {
   m_walk_interval.start(seconds);
   if (m_original_state != STATE_WALK)
@@ -568,6 +573,7 @@ Granito::restore_original_state()
   }
 }
 
+
 void
 Granito::register_class(ssq::VM& vm)
 {
@@ -585,6 +591,14 @@ Granito::register_class(ssq::VM& vm)
   cls.addFunc("get_carrier_name", &Granito::get_carrier_name);
   cls.addFunc("reset_detection", &Granito::reset_detection);
   cls.addFunc("eject", &Granito::eject);
+
+  // Enumerators
+  vm.setConst<int>("GRANITO_STATE_SIT", Granito::STATE_SIT);
+  vm.setConst<int>("GRANITO_STATE_STAND", Granito::STATE_STAND);
+  vm.setConst<int>("GRANITO_STATE_WALK", Granito::STATE_WALK);
+  vm.setConst<int>("GRANITO_STATE_WAVE", Granito::STATE_WAVE);
+  vm.setConst<int>("GRANITO_STATE_LOOKUP", Granito::STATE_LOOKUP);
+  vm.setConst<int>("GRANITO_STATE_JUMPING", Granito::STATE_JUMPING);
 }
 
 /* EOF */

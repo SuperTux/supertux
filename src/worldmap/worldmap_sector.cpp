@@ -64,7 +64,7 @@ WorldMapSector::current()
 WorldMapSector::WorldMapSector(WorldMap& parent) :
   Base::Sector("worldmap"),
   m_parent(parent),
-  m_camera(new Camera),
+  m_camera(new Camera(*this)),
   m_tux(&add<Tux>(&parent)),
   m_spawnpoints(),
   m_initial_fade_tilemap(),
