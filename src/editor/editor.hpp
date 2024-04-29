@@ -191,6 +191,7 @@ private:
   void update_keyboard(const Controller& controller);
   void handle_editor_requests();
 
+  void apply_camera_scale(DrawingContext& context);
   void keep_camera_in_bounds();
 
   void post_undo_redo_actions();

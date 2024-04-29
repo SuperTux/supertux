@@ -162,27 +162,7 @@ Editor::draw(Compositor& compositor)
     }
 
     // If camera scale must be changed, change it here.
-    if (m_new_scale != 0.f)
-    {
-      // Do not clamp, as to prevent pointless calls to EditorOverlayWidget::update_pos().
-      if (m_new_scale >= CAMERA_MIN_ZOOM && m_new_scale <= CAMERA_MAX_ZOOM)
-      {
-        Camera& camera = m_sector->get_camera();
-        const bool zooming_in = camera.get_current_scale() < m_new_scale;
-
-        camera.set_scale(m_new_scale);
-
-        // When zooming in, focus on the position of the mouse.
-        if (zooming_in)
-          camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
-                                            static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
-
-        // Update the camera's screen size variable, so it can properly be kept in sector bounds.
-        camera.draw(context);
-        keep_camera_in_bounds();
-      }
-      m_new_scale = 0.f;
-    }
+    apply_camera_scale(context);
     m_sector->draw(context);
 
     context.color().draw_filled_rect(context.get_rect(),
@@ -439,6 +419,33 @@ Editor::scroll(const Vector& velocity)
 
   m_sector->get_camera().move(velocity / m_sector->get_camera().get_current_scale());
   keep_camera_in_bounds();
+}
+
+void
+Editor::apply_camera_scale(DrawingContext& context)
+{
+  if (m_new_scale == 0.0f)
+    return;
+
+  // Do not clamp, as to prevent pointless calls to EditorOverlayWidget::update_pos().
+  if (m_new_scale >= CAMERA_MIN_ZOOM && m_new_scale <= CAMERA_MAX_ZOOM)
+  {
+    Camera& camera = m_sector->get_camera();
+    const bool zooming_in = camera.get_current_scale() < m_new_scale;
+
+    camera.set_scale(m_new_scale);
+
+    // When zooming in, focus on the position of the mouse.
+    if (zooming_in)
+      camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
+                                        static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
+
+    // Update the camera's screen size variable, so it can properly be kept in sector bounds.
+    camera.draw(context);
+    keep_camera_in_bounds();
+  }
+
+  m_new_scale = 0.f;
 }
 
 void
