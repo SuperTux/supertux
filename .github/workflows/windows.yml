@@ -105,13 +105,23 @@ jobs:
           "./$Env:BUILD_TYPE/run_tests.exe"
 
       - name: Package
+        shell: pwsh
         working-directory: build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
           cpack -C $Env:BUILD_TYPE
-          mkdir upload
-          mv *.msi upload/
+          if ($LASTEXITCODE -ne 0)
+          {
+            $code = $LASTEXITCODE
+            type ./_CPack_Packages/win64/WIX/wix.log
+            exit $code
+          }
+          else
+          {
+            mkdir upload
+            mv *.msi upload/
+          }
 
       - uses: actions/upload-artifact@v2
         with:
