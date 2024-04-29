@@ -60,7 +60,7 @@ Torch::draw(DrawingContext& context)
     m_flame->draw(context.color(), pos, m_layer - 1, m_flip);
     m_flame->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
 
-    m_flame_light->draw(context.light(), pos, m_layer);
+    m_flame_light->draw(context.light(), pos, m_layer, NO_FLIP, ColorSpace::LIGHTSPRITES);
     m_flame_light->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
 
     m_flame_glow->draw(context.color(), pos, m_layer - 1, m_flip);

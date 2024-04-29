@@ -218,7 +218,7 @@ WeakBlock::draw(DrawingContext& context)
 
   if (m_type == HAY && (state != STATE_NORMAL))
   {
-    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0, NO_FLIP, ColorSpace::LIGHTSPRITES);
   }
 }
 

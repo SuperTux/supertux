@@ -223,7 +223,7 @@ GhostTree::draw(DrawingContext& context)
   } else {
     context.set_alpha(0.5f);
   }
-  glow_sprite->draw(context.light(), get_pos(), m_layer);
+  glow_sprite->draw(context.light(), get_pos(), m_layer, NO_FLIP, ColorSpace::LIGHTSPRITES);
   context.pop_transform();
 }
 

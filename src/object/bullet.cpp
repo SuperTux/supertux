@@ -93,7 +93,7 @@ Bullet::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
   if (type == FIRE_BONUS){
-    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0, NO_FLIP, ColorSpace::LIGHTSPRITES);
   }
 }
 

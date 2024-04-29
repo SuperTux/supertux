@@ -688,7 +688,7 @@ BonusBlock::draw(DrawingContext& context)
   {
     Vector pos = get_pos() + (m_col.m_bbox.get_size().as_vector() - Vector(static_cast<float>(m_lightsprite->get_width()),
                                                                    static_cast<float>(m_lightsprite->get_height()))) / 2.0f;
-    context.light().draw_surface(m_lightsprite, pos, 10);
+    context.light().draw_surface(m_lightsprite, pos, 10, ColorSpace::LIGHTSPRITES);
   }
 }
 

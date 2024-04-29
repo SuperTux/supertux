@@ -52,7 +52,7 @@ void
 LitObject::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer - 1, m_flip);
-  m_light_sprite->draw(context.light(), get_pos() - m_light_offset, m_layer - 1, m_flip);
+  m_light_sprite->draw(context.light(), get_pos() - m_light_offset, m_layer - 1, m_flip, ColorSpace::LIGHTSPRITES);
 }
 
 void

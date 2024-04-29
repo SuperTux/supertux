@@ -170,7 +170,7 @@ BadGuy::draw(DrawingContext& context)
 
       if (m_glowing)
       {
-        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0, NO_FLIP, ColorSpace::LIGHTSPRITES);
       }
     }
   }

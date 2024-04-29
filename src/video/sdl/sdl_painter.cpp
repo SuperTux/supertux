@@ -613,29 +613,4 @@ SDLPainter::clear_clip_rect()
   }
 }
 
-void
-SDLPainter::get_pixel(const GetPixelRequest& request) const
-{
-  const Rect& rect = m_renderer.get_rect();
-  const Size& logical_size = m_renderer.get_logical_size();
-
-  SDL_Rect srcrect;
-  srcrect.x = rect.left + static_cast<int>(request.pos.x * static_cast<float>(rect.get_width()) / static_cast<float>(logical_size.width));
-  srcrect.y = rect.top + static_cast<int>(request.pos.y * static_cast<float>(rect.get_height()) / static_cast<float>(logical_size.height));
-  srcrect.w = 1;
-  srcrect.h = 1;
-
-  Uint8 pixel[4];
-  int ret = SDL_RenderReadPixels(m_sdl_renderer, &srcrect,
-                                 SDL_PIXELFORMAT_RGB888,
-                                 pixel,
-                                 1);
-  if (ret != 0)
-  {
-    log_warning << "failed to read pixels: " << SDL_GetError() << std::endl;
-  }
-
-  *(request.color_ptr) = Color::from_rgb888(pixel[2], pixel[1], pixel[0]);
-}
-
 /* EOF */

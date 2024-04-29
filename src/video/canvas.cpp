@@ -31,7 +31,8 @@
 Canvas::Canvas(DrawingContext& context, obstack& obst) :
   m_context(context),
   m_obst(obst),
-  m_requests()
+  m_requests(),
+  m_colorspaces()
 {
   m_requests.reserve(500);
 }
@@ -102,8 +103,14 @@ Canvas::render(Renderer& renderer, Filter filter)
         break;
 
       case RequestType::GETPIXEL:
-        painter.get_pixel(static_cast<const GetPixelRequest&>(request));
+      {
+        const GetPixelRequest& pixel_request = static_cast<const GetPixelRequest&>(request);
+        if (m_colorspaces.find(pixel_request.colorspace) == m_colorspaces.end())
+          continue;
+
+        *pixel_request.color_ptr = m_colorspaces[pixel_request.colorspace].get_pixel(pixel_request.pos);
         break;
+      }
     }
   }
 
@@ -113,7 +120,7 @@ Canvas::render(Renderer& renderer, Filter filter)
 void
 Canvas::draw_surface(const SurfacePtr& surface,
                      const Vector& position, float angle, const Color& color, const Blend& blend,
-                     int layer)
+                     int layer, ColorSpace::Type colorspace)
 {
   if (!surface) return;
 
@@ -141,26 +148,32 @@ Canvas::draw_surface(const SurfacePtr& surface,
   request->displacement_texture = surface->get_displacement_texture().get();
   request->color = color;
 
+  if (m_colorspaces.find(colorspace) == m_colorspaces.end())
+    m_colorspaces[colorspace] = ColorSpace();
+  m_colorspaces[colorspace].add(Rectf(position,
+                                      Sizef(static_cast<float>(surface->get_width()),
+                                            static_cast<float>(surface->get_height()))), color);
+
   m_requests.push_back(request);
 }
 
 void
-Canvas::draw_surface(const SurfacePtr& surface, const Vector& position, int layer)
+Canvas::draw_surface(const SurfacePtr& surface, const Vector& position, int layer, ColorSpace::Type colorspace)
 {
-  draw_surface(surface, position, 0.0f, Color(1.0f, 1.0f, 1.0f), Blend(), layer);
+  draw_surface(surface, position, 0.0f, Color(1.0f, 1.0f, 1.0f), Blend(), layer, colorspace);
 }
 
 void
 Canvas::draw_surface_scaled(const SurfacePtr& surface, const Rectf& dstrect,
-                            int layer, const PaintStyle& style)
+                            int layer, const PaintStyle& style, ColorSpace::Type colorspace)
 {
   draw_surface_part(surface, Rectf(0.0f, 0.0f, static_cast<float>(surface->get_width()), static_cast<float>(surface->get_height())),
-                    dstrect, layer, style);
+                    dstrect, layer, style, colorspace);
 }
 
 void
 Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const Rectf& dstrect,
-                          int layer, const PaintStyle& style)
+                          int layer, const PaintStyle& style, ColorSpace::Type colorspace)
 {
   if (!surface) return;
 
@@ -177,6 +190,10 @@ Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
   request->color = style.get_color();
+
+  if (m_colorspaces.find(colorspace) == m_colorspaces.end())
+    m_colorspaces[colorspace] = ColorSpace();
+  m_colorspaces[colorspace].add(dstrect, style.get_color());
 
   m_requests.push_back(request);
 }
@@ -332,26 +349,15 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 }
 
 void
-Canvas::get_pixel(const Vector& position, const std::shared_ptr<Color>& color_out)
+Canvas::get_pixel(ColorSpace::Type colorspace, const Vector& position, const std::shared_ptr<Color>& color_out)
 {
   assert(color_out);
-
-  Vector pos = apply_translate(position)*scale();
-
-  // There is no light offscreen.
-  if (pos.x >= static_cast<float>(m_context.get_viewport().get_width()) ||
-      pos.y >= static_cast<float>(m_context.get_viewport().get_height()) ||
-      pos.x < 0.0f ||
-      pos.y < 0.0f)
-  {
-    *color_out = Color(0, 0, 0);
-    return;
-  }
 
   auto request = new(m_obst) GetPixelRequest(m_context.transform());
 
   request->layer = LAYER_GETPIXEL;
-  request->pos = pos;
+  request->colorspace = colorspace;
+  request->pos = position;
   request->color_ptr = color_out;
 
   m_requests.push_back(request);

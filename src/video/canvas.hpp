@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_VIDEO_CANVAS_HPP
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 #include <obstack.h>
@@ -27,6 +28,7 @@
 #include "math/vector.hpp"
 #include "video/blend.hpp"
 #include "video/color.hpp"
+#include "video/colorspace.hpp"
 #include "video/drawing_target.hpp"
 #include "video/font.hpp"
 #include "video/font_ptr.hpp"
@@ -49,13 +51,13 @@ public:
   Canvas(DrawingContext& context, obstack& obst);
   ~Canvas();
 
-  void draw_surface(const SurfacePtr& surface, const Vector& position, int layer);
+  void draw_surface(const SurfacePtr& surface, const Vector& position, int layer, ColorSpace::Type colorspace = ColorSpace::NONE);
   void draw_surface(const SurfacePtr& surface, const Vector& position, float angle, const Color& color, const Blend& blend,
-                    int layer);
+                    int layer, ColorSpace::Type colorspace = ColorSpace::NONE);
   void draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const Rectf& dstrect,
-                         int layer, const PaintStyle& style = PaintStyle());
+                         int layer, const PaintStyle& style = PaintStyle(), ColorSpace::Type colorspace = ColorSpace::NONE);
   void draw_surface_scaled(const SurfacePtr& surface, const Rectf& dstrect,
-                           int layer, const PaintStyle& style = PaintStyle());
+                           int layer, const PaintStyle& style = PaintStyle(), ColorSpace::Type colorspace = ColorSpace::NONE);
   void draw_surface_batch(const SurfacePtr& surface,
                           std::vector<Rectf> srcrects,
                           std::vector<Rectf> dstrects,
@@ -82,8 +84,8 @@ public:
   void draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer);
   void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
 
-  /** on next update, set color to lightmap's color at position */
-  void get_pixel(const Vector& position, const std::shared_ptr<Color>& color_out);
+  /** on next update, set color to the color at the provided position in the colorspace */
+  void get_pixel(ColorSpace::Type colorspace, const Vector& position, const std::shared_ptr<Color>& color_out);
 
   void clear();
   void render(Renderer& renderer, Filter filter);
@@ -98,6 +100,7 @@ private:
   DrawingContext& m_context;
   obstack& m_obst;
   std::vector<DrawingRequest*> m_requests;
+  std::unordered_map<ColorSpace::Type, ColorSpace> m_colorspaces;
 
 private:
   Canvas(const Canvas&) = delete;

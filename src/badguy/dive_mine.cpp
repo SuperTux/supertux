@@ -123,7 +123,7 @@ DiveMine::draw(DrawingContext& context)
   m_ticking_glow->draw(context.light(),
                        Vector(m_col.m_bbox.get_left() + m_col.m_bbox.get_width() / 2,
                               m_col.m_bbox.get_top() - 8.f),
-                       m_layer, m_flip);
+                       m_layer, m_flip, ColorSpace::LIGHTSPRITES);
 }
 
 void

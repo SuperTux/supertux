@@ -181,7 +181,7 @@ void
 Key::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-  m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer+1);
+  m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer+1, NO_FLIP, ColorSpace::LIGHTSPRITES);
 }
 
 ObjectSettings

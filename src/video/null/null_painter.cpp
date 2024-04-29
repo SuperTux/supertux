@@ -71,12 +71,6 @@ NullPainter::clear(const Color& color)
 }
 
 void
-NullPainter::get_pixel(const GetPixelRequest& request) const
-{
-  log_info << "NullPainter::get_pixel()" << std::endl;
-}
-
-void
 NullPainter::set_clip_rect(const Rect& rect)
 {
   log_info << "NullPainter::set_clip_rect()" << std::endl;
