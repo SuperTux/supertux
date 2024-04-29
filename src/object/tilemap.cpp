@@ -22,10 +22,13 @@
 #include <simplesquirrel/vm.hpp>
 
 #include "editor/editor.hpp"
+#include "object/pulsing_light.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/moving_object.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
@@ -54,6 +57,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_z_pos(0),
   m_offset(Vector(0,0)),
   m_movement(0, 0),
+  m_converted_objects(),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -88,6 +92,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_z_pos(0),
   m_offset(Vector(0, 0)),
   m_movement(Vector(0, 0)),
+  m_converted_objects(),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -371,20 +376,38 @@ TileMap::update(float dt_sec)
   }
 
   // if we have a path to follow, follow it
-  if (get_walker()) {
+  if (get_walker())
+  {
     m_movement = Vector(0, 0);
     get_walker()->update(dt_sec);
     Vector v = get_walker()->get_pos(get_size() * 32, m_path_handle);
-    if (get_path() && get_path()->is_valid()) {
+    if (get_path() && get_path()->is_valid())
+    {
       m_movement = v - get_offset();
       set_offset(v);
-      if (m_ground_movement_manager != nullptr) {
-        for (CollisionObject* other_object : m_objects_hit_bottom) {
-          m_ground_movement_manager->register_movement(*this, *other_object, m_movement);
-          other_object->propagate_movement(m_movement);
+
+      if (m_movement != Vector(0, 0))
+      {
+        if (m_ground_movement_manager != nullptr)
+        {
+          for (CollisionObject* other_object : m_objects_hit_bottom)
+          {
+            m_ground_movement_manager->register_movement(*this, *other_object, m_movement);
+            other_object->propagate_movement(m_movement);
+          }
+        }
+
+        // Move all objects, converted from tiles in this tilemap
+        for (const UID& uid : m_converted_objects)
+        {
+          MovingObject* obj = get_parent()->get_object_by_uid<MovingObject>(uid);
+          if (obj)
+            obj->move(m_movement);
         }
       }
-    } else {
+    }
+    else
+    {
       set_offset(m_path_handle.get_pos(get_size() * 32, Vector(0, 0)));
     }
   }
@@ -966,6 +989,75 @@ void
 TileMap::set_tileset(const TileSet* new_tileset)
 {
   m_tileset = new_tileset;
+}
+
+void
+TileMap::convert_tiles_to_objects()
+{
+  // Since object setup is not yet complete, we have to manually add the offset.
+  // See https://github.com/SuperTux/supertux/issues/1378 for details.
+  const Path* path = get_path();
+  const Vector offset = path ? path->get_base() : Vector(0.f, 0.f);
+
+  for (int x = 0; x < m_width; ++x)
+  {
+    for (int y = 0; y < m_height; ++y)
+    {
+      const Tile& tile = get_tile(x, y);
+
+      if (!tile.get_object_name().empty())
+      {
+        // If a tile is associated with an object, insert that
+        // object and remove the tile.
+        if (is_solid() || tile.get_object_name() == "decal")
+        {
+          const Vector pos = get_tile_position(x, y) + offset;
+          try
+          {
+            GameObject& obj = get_parent()->add_object(GameObjectFactory::instance().create(tile.get_object_name(), pos, Direction::AUTO, tile.get_object_data()));
+            if (dynamic_cast<MovingObject*>(&obj))
+              m_converted_objects.push_back(obj.get_uid());
+
+            change(x, y, 0);
+          }
+          catch (const std::exception& err)
+          {
+            log_warning << "Error converting tile to object: " << err.what() << std::endl;
+          }
+        }
+      }
+      else
+      {
+        // Add lights for fire tiles
+        const uint32_t attributes = tile.get_attributes();
+        if (attributes & Tile::FIRE)
+        {
+          const Vector pos = get_tile_position(x, y) + offset;
+          const Vector center = pos + Vector(16.f, 16.f);
+
+          if (attributes & Tile::HURTS)
+          {
+            // Lava or lavaflow
+            // Space lights a bit
+            if ((get_tile(x - 1, y).get_attributes() != attributes || x % 3 == 0) &&
+                (get_tile(x, y - 1).get_attributes() != attributes || y % 3 == 0))
+            {
+              float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
+              get_parent()->add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
+                                              (Color(1.0f, 0.3f, 0.0f, 1.0f) * m_current_tint).validate());
+            }
+          }
+          else
+          {
+            // Torch
+            float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
+            get_parent()->add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
+                                            (Color(1.0f, 1.0f, 0.6f, 1.0f) * m_current_tint).validate());
+          }
+        }
+      }
+    }
+  }
 }
 
 

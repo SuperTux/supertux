@@ -269,6 +269,10 @@ public:
 
   const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
 
+  /** Convert tiles into their corresponding GameObjects (e.g.
+      bonusblocks, add light to lava tiles). */
+  void convert_tiles_to_objects();
+
 private:
   void update_effective_solid(bool update_manager = true);
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
@@ -300,6 +304,10 @@ private:
   int m_z_pos;
   Vector m_offset;
   Vector m_movement; /**< The movement that happened last frame */
+
+  /** UIDs of MovingObjects, which have been converted from tiles in this tilemap.
+      Will be moved together with this tilemap. */
+  std::vector<UID> m_converted_objects;
 
   /** Objects that were touching the top of a solid tile at the last frame */
   std::unordered_set<CollisionObject*> m_objects_hit_bottom;
