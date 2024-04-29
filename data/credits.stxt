@@ -418,6 +418,10 @@
     )
     (text
       (type "normal")
+      (string "RodirodDude")
+    )
+    (text
+      (type "normal")
       (string "Some_Person")
     )
     (text
