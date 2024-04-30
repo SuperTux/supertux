@@ -846,13 +846,16 @@ EditorOverlayWidget::add_path_node()
   new_node.bezier_before = new_node.position;
   new_node.bezier_after = new_node.position;
   new_node.time = 1;
-  m_edited_path->get_path().m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
-  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->get_path().m_nodes.end() - 1)), &((m_edited_path->get_path().m_nodes.end() - 1)->bezier_before));
-  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->get_path().m_nodes.end() - 1)), &((m_edited_path->get_path().m_nodes.end() - 1)->bezier_after));
-  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path->get_path().m_nodes.end() - 1, m_edited_path->get_path().m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
+
+  auto& nodes = m_edited_path->get_path().m_nodes; 
+  nodes.insert(m_last_node_marker->m_node + 1, new_node);
+  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(nodes.end() - 1)), &((nodes.end() - 1)->bezier_before));
+  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(nodes.end() - 1)), &((nodes.end() - 1)->bezier_after));
+  auto& new_marker = Sector::get().add<NodeMarker>(nodes.end() - 1, nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
   bezier_before.set_parent(new_marker.get_uid());
   bezier_after.set_parent(new_marker.get_uid());
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
+
   update_node_iterators();
   new_marker.update_node_times();
   m_editor.get_sector()->flush_game_objects();
@@ -1418,17 +1421,20 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
   if (!m_selected_object->is_valid()) return;
   if (!m_edited_path->is_valid()) return;
 
-  for (auto i = m_edited_path->get_path().m_nodes.begin(); i != m_edited_path->get_path().m_nodes.end(); ++i)
+  auto& edited_path = m_edited_path->get_path();
+  auto& path_nodes = edited_path.m_nodes;
+
+  for (auto i = path_nodes.begin(); i != path_nodes.end(); ++i)
   {
-    auto j = i+1;
+    auto j = i + 1;
     Path::Node* node1 = &(*i);
     Path::Node* node2;
-    if (j == m_edited_path->get_path().m_nodes.end())
+    if (j == path_nodes.end())
     {
-      if (m_edited_path->get_path().m_mode == WalkMode::CIRCULAR)
+      if (edited_path.m_mode == WalkMode::CIRCULAR)
       {
         //loop to the first node
-        node2 = &(*m_edited_path->get_path().m_nodes.begin());
+        node2 = &(*path_nodes.begin());
       }
       else
       {
@@ -1546,8 +1552,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
   {
     Color selection_color = m_selection_warning ? EditorOverlayWidget::error_color : Color(0.2f, 0.4f, 1.0f);
     selection_color.alpha = 0.6f;
-    context.color().draw_filled_rect(selection_draw_rect(), selection_color,
-                                     0.0f, LAYER_GUI-13);
+    context.color().draw_filled_rect(selection_draw_rect(), selection_color, 0.0f, LAYER_GUI-13);
   }
 
   if (m_warning_timer.get_timeleft() > 0.f) // Draw warning, if set
