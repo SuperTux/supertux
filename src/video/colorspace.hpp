@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_COLORSPACE_HPP
 #define HEADER_SUPERTUX_VIDEO_COLORSPACE_HPP
 
-#include <map>
+#include <vector>
 
 #include "math/circle.hpp"
 #include "math/rectf.hpp"
@@ -43,8 +43,21 @@ public:
   Color get_pixel(const Vector& point) const;
 
 private:
-  std::map<Color, Rectf> m_rects;
-  std::map<Color, Circle> m_circles;
+  template<typename T>
+  struct ColoredShape final
+  {
+    ColoredShape(const T& shape_, const Color& color_) :
+      shape(shape_),
+      color(color_)
+    {}
+
+    T shape;
+    Color color;
+  };
+
+private:
+  std::vector<ColoredShape<Rectf>> m_rects;
+  std::vector<ColoredShape<Circle>> m_circles;
 };
 
 #endif

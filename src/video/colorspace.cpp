@@ -25,13 +25,13 @@ ColorSpace::ColorSpace() :
 void
 ColorSpace::add(const Rectf& rect, const Color& color)
 {
-  m_rects.insert({ color, rect });
+  m_rects.emplace_back(rect, color);
 }
 
 void
 ColorSpace::add(const Circle& circle, const Color& color)
 {
-  m_circles.insert({ color, circle });
+  m_circles.emplace_back(circle, color);
 }
 
 Color
@@ -41,13 +41,13 @@ ColorSpace::get_pixel(const Vector& point) const
   
   for (const auto& rect : m_rects)
   {
-    if (rect.second.contains(point))
-      result = (result + rect.first).validate(); // Additive blending
+    if (rect.shape.contains(point))
+      result = (result + rect.color).validate(); // Additive blending
   }
   for (const auto& circle : m_circles)
   {
-    if (circle.second.contains(point))
-      result = (result + circle.first).validate(); // Additive blending
+    if (circle.shape.contains(point))
+      result = (result + circle.color).validate(); // Additive blending
   }
 
   return result;
