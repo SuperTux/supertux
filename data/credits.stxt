@@ -80,11 +80,6 @@
       (info (_ "Level Design"))
     )
   (blank)
-  (person
-      (name "Alasdair \"Servalot\"")
-      (info (_ "Level Design"))
-    )
-	(blank)
 	(person
       (name "Vankata453")
       (info (_ "Programming"))
