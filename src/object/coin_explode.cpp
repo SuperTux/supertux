@@ -36,7 +36,7 @@ CoinExplode::update(float )
   float rand = 30.0f; // Max variation to be subtracted from the magnitude.
 
   // Each coin in the explosion has a different velocity.
-  std::list<Vector> coin_velocities = {
+  static std::list<Vector> coin_velocities = {
     { 2.5, -4.5 }, { 2, -5 },
     { 1.5, -5.5 }, { 1, -6 }, { 0.5, -6.5 },
     { -2.5, -4.5 }, { -2, -5 },
