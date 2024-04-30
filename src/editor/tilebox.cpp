@@ -21,7 +21,6 @@
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
-#include "editor/util.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_object_factory.hpp"
@@ -107,7 +106,7 @@ EditorTilebox::draw_tilegroup(DrawingContext& context)
       continue;
 
     auto position = get_tile_coords(pos, false);
-    draw_tile(context.color(), *m_editor.get_tileset(), tile_ID, position, LAYER_GUI - 9);
+    m_editor.get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
 
     if (g_config->developer_mode && m_active_tilegroup->developers_group)
     {

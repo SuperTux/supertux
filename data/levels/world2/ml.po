@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Adharsh 01 <adharshps01@gmail.com>, 2019
+# Adharsh P S <adharshps01@gmail.com>, 2019
 # Adithyan S S <AssG.Fight.Fairy@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 21:21+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Malayalam (http://www.transifex.com/arctic-games/supertux/language/ml/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: Adithyan S S <AssG.Fight.Fairy@gmail.com>, 2020\n"
+"Language-Team: Malayalam (http://app.transifex.com/arctic-games/supertux/language/ml/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,8 +37,8 @@ msgstr "പുരാതന അവശിഷ്ടങ്ങൾ"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "നിങ്ങൾ ഒരു സ്വകാര്യ സ്ഥലം കണ്ടുപിടിച്ചിരിക്കുന്നു !"
 
@@ -90,7 +90,7 @@ msgstr "ഗോസ്റ്റ്ട്രീയുടെ വെല്ലുവ�
 msgid "Ghouls' Lair"
 msgstr "ഗൗളിന്റെ നുണയൻ"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -104,13 +104,13 @@ msgstr "ഭൂമിക്കടിയിൽ"
 msgid "I Spy With My Little Eye"
 msgstr "ഞാൻ എന്റെ ചെറിയ കണ്ണുകൊണ്ട് ചാരപ്പണി ചെയ്യുന്നു"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-ഇസ്പി\n#ടക്സിനെ കാണുമ്പോഴെല്ലാം പ്ലാറ്റ്ഫോമുകൾ പോലുള്ള കാര്യങ്ങൾ ഇസ്പികൾ സജീവമാക്കും."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "സൂചന: ബ്ലോക്കുകൾ തകർക്കാൻ ഒച്ചുകൾ ഉപയോഗിക്കുക!"
 
@@ -122,7 +122,7 @@ msgstr "കാറ്റിലെ ഒരു ഇല പോലെ"
 msgid "Lost Village"
 msgstr "നഷ്ടപ്പെട്ട ഗ്രാമം"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#സ്വിച്ച് അമർത്താൻ മറക്കരുത് !"
 
@@ -162,10 +162,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-എർത്ത് ഫ്ലവർ\n!images/powerups/earthflower/earth_flower-1.png\n#ഒരേ സമയം ACTION കീയും DOWN കീയും അമർത്തി കല്ലായി മാറാനുള്ള കഴിവ് എർത്ത് ഫ്ലവർ നൽകുന്നു.\n#ചാടുമ്പോഴും വീഴുമ്പോഴും ഇത് പ്രവർത്തിക്കുന്നില്ല!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr ""
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "പ്രേതങ്ങളുടെ ഗോപുരം"
@@ -186,7 +182,7 @@ msgstr "-പോർട്ടബിൾ ഒബ്‌ജക്റ്റുകൾ:\n!
 msgid "Tux' Own Horror Show"
 msgstr "ടക്സിന്റെ സ്വന്തം പേടിപ്പിക്കുന്ന കളി"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -215,6 +211,6 @@ msgstr ""
 msgid "Rooted Forest"
 msgstr ""
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "തുടരും..."

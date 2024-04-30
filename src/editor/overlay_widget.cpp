@@ -22,7 +22,6 @@
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
-#include "editor/util.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/bezier.hpp"
@@ -1240,11 +1239,18 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 }
 
 void
+EditorOverlayWidget::resize()
+{
+  update_pos();
+}
+
+void
 EditorOverlayWidget::update_pos()
 {
   if(m_editor.get_sector() == nullptr) return;
 
-  m_sector_pos = m_mouse_pos + m_editor.get_sector()->get_camera().get_translation();
+  m_sector_pos = m_mouse_pos / m_editor.get_sector()->get_camera().get_current_scale() +
+                 m_editor.get_sector()->get_camera().get_translation();
   m_hovered_tile = sp_to_tp(m_sector_pos);
 
   // update tip
@@ -1261,9 +1267,8 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 
     if (m_editor.get_tiles()->empty()) return;
 
-    Vector screen_corner = context.get_cliprect().p2() +
-                         m_editor.get_sector()->get_camera().get_translation();
-    Vector drawn_tile = m_hovered_tile; // FIXME: Why is this initialised if it's going to be overwritten right below?
+    const Vector screen_corner = context.get_cliprect().p2();
+    Vector drawn_tile(0.f, 0.f);
     auto tiles = m_editor.get_tiles();
 
     for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--)
@@ -1279,12 +1284,12 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
           continue;
         }
         uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
-        draw_tile(context.color(), *m_editor.get_tileset(), tile_id,
-                  align_to_tilemap(on_tile) - m_editor.get_sector()->get_camera().get_translation(),
-                  LAYER_GUI-11, Color(1, 1, 1, 0.5));
+        m_editor.get_tileset()->get(tile_id).draw(context.color(),
+                                                  align_to_tilemap(on_tile),
+                                                  LAYER_GUI - 11, Color(1, 1, 1, 0.5));
         //if (tile_id) {
         //const Tile* tg_tile = m_editor.get_tileset()->get( tile_id );
-        //tg_tile->draw(context.color(), tp_to_sp(on_tile) - m_editor.get_sector()->camera->get_translation(),
+        //tg_tile->draw(context.color(), tp_to_sp(on_tile),
         //              LAYER_GUI-11, Color(1, 1, 1, 0.5));
         //}
       }
@@ -1300,8 +1305,7 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
 
   if (m_rectangle_preview->empty()) return;
 
-  Vector screen_corner = context.get_cliprect().p2() +
-                        m_editor.get_sector()->get_camera().get_translation();
+  Vector screen_corner = context.get_cliprect().p2();
   Vector drawn_tile(0.0f, 0.0f);
   Vector corner(std::min(sp_to_tp(m_drag_start).x, m_hovered_tile.x),
                 std::min(sp_to_tp(m_drag_start).y, m_hovered_tile.y));
@@ -1320,32 +1324,29 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
         continue;
       }
       uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
-      draw_tile(context.color(), *m_editor.get_tileset(), tile_id,
-                align_to_tilemap(on_tile) - m_editor.get_sector()->get_camera().get_translation(),
-                LAYER_GUI-11, Color(1, 1, 1, 0.5));
+      m_editor.get_tileset()->get(tile_id).draw(context.color(),
+                                                align_to_tilemap(on_tile),
+                                                LAYER_GUI - 11, Color(1, 1, 1, 0.5));
     }
   }
 }
 
 void
-EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size,
-  bool draw_shadow) const
+EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size, bool draw_shadow) const
 {
   auto current_tm = m_editor.get_selected_tilemap();
   if (current_tm == nullptr) return;
 
-  int tm_width = current_tm->get_width() * (32 / tile_size);
-  int tm_height = current_tm->get_height() * (32 / tile_size);
-  auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
-  Rectf draw_rect = Rectf(cam_translation, cam_translation +
-                          Vector(context.get_width() - 128.f,
-                                 context.get_height() - 32.f));
+  const Camera& camera = m_editor.get_sector()->get_camera();
+  const Rectf draw_rect = Rectf(camera.get_translation(),
+                                Sizef((context.get_width() - 128.f) / camera.get_current_scale(),
+                                      (context.get_height() - 32.f) / camera.get_current_scale()));
   Vector start = sp_to_tp( Vector(draw_rect.get_left(), draw_rect.get_top()), tile_size );
   Vector end = sp_to_tp( Vector(draw_rect.get_right(), draw_rect.get_bottom()), tile_size );
   start.x = std::max(0.0f, start.x);
   start.y = std::max(0.0f, start.y);
-  end.x = std::min(float(tm_width), end.x);
-  end.y = std::min(float(tm_height), end.y);
+  end.x = std::min(static_cast<float>(current_tm->get_width() * (32 / tile_size)), end.x);
+  end.y = std::min(static_cast<float>(current_tm->get_height() * (32 / tile_size)), end.y);
 
   Vector line_start(0.0f, 0.0f);
   Vector line_end(0.0f, 0.0f);
@@ -1434,12 +1435,11 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
       else
       {
         // Just draw the bezier lines
-        auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
-        context.color().draw_line(node1->position - cam_translation,
-                                  node1->bezier_before - cam_translation,
+        context.color().draw_line(node1->position,
+                                  node1->bezier_before,
                                   Color(0, 0, 1), LAYER_GUI - 21);
-        context.color().draw_line(node1->position - cam_translation,
-                                  node1->bezier_after - cam_translation,
+        context.color().draw_line(node1->position,
+                                  node1->bezier_after,
                                   Color(0, 0, 1), LAYER_GUI - 21);
         continue;
       }
@@ -1448,23 +1448,22 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
     {
       node2 = &(*j);
     }
-    auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
     Bezier::draw_curve(context,
-                       node1->position - cam_translation,
-                       node1->bezier_after - cam_translation,
-                       node2->bezier_before - cam_translation,
-                       node2->position - cam_translation,
+                       node1->position,
+                       node1->bezier_after,
+                       node2->bezier_before,
+                       node2->position,
                        100,
                        Color::RED,
                        LAYER_GUI - 21);
-    context.color().draw_line(node1->position - cam_translation,
-                              node1->bezier_before - cam_translation,
+    context.color().draw_line(node1->position,
+                              node1->bezier_before,
                               Color(0, 0, 1), LAYER_GUI - 21);
-    context.color().draw_line(node1->position - cam_translation,
-                              node1->bezier_after - cam_translation,
+    context.color().draw_line(node1->position,
+                              node1->bezier_after,
                               Color(0, 0, 1), LAYER_GUI - 21);
-    //context.color().draw_line(node1->position - cam_translation,
-    //                          node2->position - cam_translation,
+    //context.color().draw_line(node1->position,
+    //                          node2->position,
     //                          Color(1, 0, 0), LAYER_GUI - 21);
   }
 }
@@ -1472,10 +1471,6 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
 void
 EditorOverlayWidget::draw(DrawingContext& context)
 {
-  draw_tile_tip(context);
-  draw_rectangle_preview(context);
-  draw_path(context);
-
   if (g_config->editor_render_grid)
   {
     draw_tile_grid(context, 32, true);
@@ -1489,7 +1484,22 @@ EditorOverlayWidget::draw(DrawingContext& context)
 
   m_object_tip->draw(context, m_mouse_pos);
 
-  auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
+  // Draw zoom indicator.
+  // The placing on the top-right is temporary, will be moved with the implementation of an editor toolbar.
+  const float scale = m_editor.get_sector()->get_camera().get_current_scale();
+  const int scale_percentage = static_cast<int>(roundf(scale * 100.f));
+  if (scale_percentage != 100)
+    context.color().draw_text(Resources::big_font, std::to_string(scale_percentage) + '%',
+                              Vector(context.get_width() - 140.f, 15.f),
+                              ALIGN_RIGHT, LAYER_OBJECTS + 1, Color::WHITE);
+
+  context.push_transform();
+  context.set_translation(m_editor.get_sector()->get_camera().get_translation());
+  context.transform().scale = scale;
+
+  draw_tile_tip(context);
+  draw_rectangle_preview(context);
+  draw_path(context);
 
   if (m_editor.get_tileselect_input_type() == EditorTilebox::InputType::TILE &&
       !g_config->editor_show_deprecated_tiles) // If showing deprecated tiles is enabled, this is redundant, since tiles are indicated without the need of hovering over.
@@ -1498,7 +1508,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
     auto sel_tilemap = m_editor.get_selected_tilemap();
     if (m_editor.get_tileset()->get(sel_tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))).is_deprecated())
       context.color().draw_text(Resources::normal_font, "!",
-                                tp_to_sp(Vector(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))) - cam_translation + Vector(16, 8),
+                                tp_to_sp(Vector(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))) + Vector(16, 8),
                                 ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
   }
 
@@ -1506,8 +1516,8 @@ EditorOverlayWidget::draw(DrawingContext& context)
       && !m_dragging_right)
   {
     // Draw selection rectangle...
-    Vector p0 = m_drag_start - cam_translation;
-    Vector p3 = m_mouse_pos;
+    Vector p0 = m_drag_start;
+    Vector p3 = m_sector_pos;
     if (p0.x > p3.x) {
       std::swap(p0.x, p3.x);
     }
@@ -1531,6 +1541,8 @@ EditorOverlayWidget::draw(DrawingContext& context)
     context.color().draw_filled_rect(Rectf(p0, p3),
                                        Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
   }
+
+  context.pop_transform();
 
   if (m_dragging && m_dragging_right)
   {
@@ -1603,7 +1615,8 @@ Vector
 EditorOverlayWidget::tile_screen_pos(const Vector& tp, int tile_size) const
 {
   Vector sp = tp_to_sp(tp, tile_size);
-  return sp - m_editor.get_sector()->get_camera().get_translation();
+  return (sp - m_editor.get_sector()->get_camera().get_translation()) *
+         m_editor.get_sector()->get_camera().get_current_scale();
 }
 
 Vector

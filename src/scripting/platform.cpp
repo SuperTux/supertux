@@ -30,7 +30,7 @@ void
 Platform::set_node(int node_no)
 {
   SCRIPT_GUARD_VOID;
-  object.jump_to_node(node_no);
+  object.jump_to_node(node_no, /* instantaneous = */ true);
 }
 
 void
