@@ -289,13 +289,13 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
 
 void
 Canvas::draw_filled_rect(const Rectf& rect, const Color& color,
-                         int layer)
+                         int layer, ColorSpace::Type colorspace)
 {
-  draw_filled_rect(rect, color, 0.0f, layer);
+  draw_filled_rect(rect, color, 0.0f, layer, colorspace);
 }
 
 void
-Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer)
+Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer, ColorSpace::Type colorspace)
 {
   auto request = new(m_obst) FillRectRequest(m_context.transform());
 
@@ -306,6 +306,14 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
   request->color = color;
   request->color.alpha = color.alpha * m_context.transform().alpha;
   request->radius = radius;
+
+  if (colorspace != ColorSpace::NONE)
+  {
+    if (m_colorspaces.find(colorspace) == m_colorspaces.end())
+      m_colorspaces[colorspace] = ColorSpace();
+
+    m_colorspaces[colorspace].add(rect, color);
+  }
 
   m_requests.push_back(request);
 }

@@ -76,8 +76,8 @@ public:
                         const Vector& position, int layer, const Color& color = Color(1.0,1.0,1.0));
   void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction,
                      const Rectf& region, const Blend& blend = Blend());
-  void draw_filled_rect(const Rectf& rect, const Color& color, int layer);
-  void draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer);
+  void draw_filled_rect(const Rectf& rect, const Color& color, int layer, ColorSpace::Type colorspace = ColorSpace::NONE);
+  void draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer, ColorSpace::Type colorspace = ColorSpace::NONE);
 
   void draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color& color, int layer);
 
