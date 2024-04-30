@@ -839,10 +839,10 @@ Editor::setup()
 void
 Editor::resize()
 {
-  // Calls on window resize.
-  m_toolbox_widget->resize();
-  m_layers_widget->resize();
-  m_overlay_widget->update_pos();
+  for(const auto& widget: m_widgets)
+  {
+    widget->resize();
+  }
 }
 
 void

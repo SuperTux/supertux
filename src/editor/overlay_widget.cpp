@@ -1237,6 +1237,12 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 }
 
 void
+EditorOverlayWidget::resize()
+{
+  update_pos();
+}
+
+void
 EditorOverlayWidget::update_pos()
 {
   if(m_editor.get_sector() == nullptr) return;

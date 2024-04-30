@@ -20,8 +20,6 @@
 #include <sstream>
 
 #include "physfs/util.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
@@ -54,7 +52,6 @@ World::from_directory(const std::string& directory)
     info.get("description", world->m_description);
     info.get("levelset", world->m_is_levelset, true);
     info.get("hide-from-contribs", world->m_hide_from_contribs, false);
-    world->m_hide_from_contribs = g_config->developer_mode ? false : world->m_hide_from_contribs;
     info.get("contrib-type", world->m_contrib_type, "user");
     info.get("title-level", world->m_title_level);
   }
@@ -64,6 +61,7 @@ World::from_directory(const std::string& directory)
 
     world->m_hide_from_contribs = true;
   }
+
   return world;
 }
 
@@ -131,7 +129,7 @@ World::save(bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for levelset '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }
@@ -171,7 +169,7 @@ World::save(bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for levelset '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }
