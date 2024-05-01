@@ -40,7 +40,7 @@ public:
   void deactivate() override;
   void active_update(float dt_sec) override;
   
-  void goto_node(int node_no);
+  void goto_node(int node_idx);
   void set_state(const std::string& state);
   void start_moving();
   void stop_moving();
