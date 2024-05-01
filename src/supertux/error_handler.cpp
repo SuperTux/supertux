@@ -367,7 +367,7 @@ void ErrorHandler::report_error(const std::string& details)
   std::stringstream urlbuilder;
   urlbuilder << "https://github.com/supertux/supertux/issues/new"
                 "?title=SuperTux crashes"
-                "&labels=" << labels <<
+                "&labels=type:crash,status:needs-confirmation"
                 "&body=" << body;
 
   FileSystem::open_url(urlbuilder.str());
