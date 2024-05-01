@@ -467,7 +467,7 @@ msgstr "Wachstum (Erdblume)"
 
 #: src/object/bonus_block.cpp:268
 msgid "Growth (retro)"
-msgstr ""
+msgstr "Wachstum (Retro)"
 
 #: src/object/bonus_block.cpp:268 src/object/powerup.cpp:66
 msgid "Star"
@@ -475,7 +475,7 @@ msgstr "Stern"
 
 #: src/object/bonus_block.cpp:268
 msgid "Star (retro)"
-msgstr ""
+msgstr "Stern (Retro)"
 
 #: src/object/bonus_block.cpp:268
 msgid "Tux doll"
@@ -1565,11 +1565,11 @@ msgstr "Schließen"
 #: src/gui/menu_string_array.cpp:40 src/gui/menu_string_array.cpp:78
 #, c++-format
 msgid "Selected item: {}"
-msgstr ""
+msgstr "Ausgewählter Eintrag: {}"
 
 #: src/gui/menu_string_array.cpp:70
 msgid "Edit string array"
-msgstr ""
+msgstr "String-Array bearbeiten"
 
 #: src/gui/menu_string_array.cpp:79 src/gui/menu_object_select.cpp:50
 #: src/supertux/menu/profile_menu.cpp:88
@@ -1601,7 +1601,7 @@ msgstr "OK"
 
 #: src/gui/menu_object_select.cpp:46
 msgid "List of objects"
-msgstr ""
+msgstr "Liste von Objekten"
 
 #: src/gui/menu_object_select.cpp:48
 #, c++-format
@@ -1610,7 +1610,7 @@ msgstr ""
 
 #: src/gui/menu_object_select.cpp:114
 msgid "Are you sure you want to remove this object from the list?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie das Objekt von der Liste entfernen möchten?"
 
 #: src/gui/menu_color.cpp:24
 msgid "Mix the colour"
@@ -1642,7 +1642,7 @@ msgstr "Abbrechen"
 
 #: src/gui/menu_filesystem.cpp:118
 msgid "Open Directory"
-msgstr ""
+msgstr "Verzeichnis öffnen"
 
 #: src/gui/menu_script.cpp:28
 msgid "Edit script"
@@ -1657,7 +1657,7 @@ msgid ""
 "An error occurred and the game could\n"
 "not clone the path. Please contact\n"
 "the developers for support."
-msgstr ""
+msgstr "Ein Fehler ist aufgetreten und das Spiel\nkonnte den Pfad nicht klonen. Bitte kon-\ntaktieren Sie die Entwickler, um Unter-\nstützung zu erhalten."
 
 #: src/gui/menu_paths.cpp:42
 msgid "Bind"
@@ -1763,11 +1763,11 @@ msgstr "{} \"{}\" von \"{}\""
 
 #: src/addon/addon.cpp:114
 msgid "add-on"
-msgstr ""
+msgstr "Add-on"
 
 #: src/addon/addon.cpp:114
 msgid "add-ons"
-msgstr ""
+msgstr "Add-ons"
 
 #: src/badguy/toad.hpp:38
 msgid "Toad"
