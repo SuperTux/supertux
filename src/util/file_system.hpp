@@ -57,7 +57,7 @@ std::string normalize(const std::string& filename);
 std::string join(const std::string& lhs, const std::string& rhs);
 
 /** Escapes path components */
-std::string escape(const std::string& url);
+std::string escape_url(const std::string& url);
 
 /** Remove a file
     @return true when successfully removed, false otherwise */

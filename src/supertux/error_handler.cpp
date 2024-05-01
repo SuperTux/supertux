@@ -361,10 +361,9 @@ void ErrorHandler::report_error(const std::string& details)
                   "\r\n"
                   "##### Additional debugging information\r\n"
                   "\r\n"
-                  "**Stacktrace:**\r\n"
-                  "```\r\n" << details << "\r\n```";
+                  "**Stacktrace:**\r\n" "```\r\n" << details << "\r\n```";
 
-  std::string body = FileSystem::escape(bodybuilder.str());
+  std::string body = FileSystem::escape_url(bodybuilder.str());
 
   std::stringstream urlbuilder;
   urlbuilder << "https://github.com/supertux/supertux/issues/new"

@@ -231,8 +231,9 @@ void open_path(const std::string& path)
 #endif
 }
 
-std::string escape(const std::string& url)
+std::string escape_url(const std::string& url)
 {
+#ifndef __EMPSCRIPTEN__
   std::string result = url;
   CURL *curl = curl_easy_init();
   if(curl)
@@ -246,6 +247,9 @@ std::string escape(const std::string& url)
   }
 
   return result;
+#else
+  return "";
+#endif
 }
 
 void open_url(const std::string& url)
