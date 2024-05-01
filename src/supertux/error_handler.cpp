@@ -377,7 +377,7 @@ void ErrorHandler::report_error(const std::string& details)
 [[ noreturn ]] void
 ErrorHandler::close_program()
 {
-  exit(10);
+  _Exit(10);
 }
 
 /* EOF */

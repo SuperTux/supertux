@@ -31,10 +31,11 @@
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
+#else
+#include <curl/curl.h>
 #endif
 
 #include <SDL.h>
-#include <curl/curl.h>
 
 #include "gui/dialog.hpp"
 #include "util/log.hpp"
