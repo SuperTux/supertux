@@ -32,7 +32,9 @@
 
 #include "util/file_system.hpp"
 
-#define UNIX (defined(__unix__) || defined(__APPLE__)) && !defined(__EMSCRIPTEN__)
+#if (defined(__unix__) || defined(__APPLE__)) && !(defined(__EMSCRIPTEN__))
+#define UNIX
+#endif
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -41,7 +43,7 @@
 //#include <VersionHelpers.h>
 
 #pragma comment(lib, "DbgHelp.lib")
-#elif UNIX
+#elif defined(UNIX)
 #include <sys/utsname.h>
 #include <execinfo.h>
 #include <unistd.h>
@@ -87,7 +89,7 @@ std::string ErrorHandler::get_stacktrace()
   SymCleanup(GetCurrentProcess());
 
   return stacktrace.str();
-#elif UNIX
+#elif defined(UNIX)
   void* array[128];
   size_t size;
 
@@ -165,7 +167,7 @@ ErrorHandler::get_system_info()
 
   return info.str();
 
-#elif UNIX
+#elif defined(UNIX)
   struct utsname uts;
   uname(&uts);
   std::stringstream info;
