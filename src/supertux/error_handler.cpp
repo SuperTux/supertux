@@ -38,9 +38,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <DbgHelp.h>
-#if 0
-#include <VersionHelpers.h>
-#endif
+//#include <VersionHelpers.h>
 
 #pragma comment(lib, "DbgHelp.lib")
 #elif UNIX
@@ -118,7 +116,7 @@ ErrorHandler::get_system_info()
 
   std::stringstream info;
 
-#if 0
+/*
   // This method reports Windows 8 on my
   // Windows 10 PC. Disabled.
   if (IsWindows10OrGreater())
@@ -137,9 +135,10 @@ ErrorHandler::get_system_info()
     info << "Windows";
 
   info << " ";
-#else
+*/
+
   info << "Windows ";
-#endif
+
 
   SYSTEM_INFO sysinfo;
   GetSystemInfo(&sysinfo);
