@@ -342,7 +342,7 @@ void ErrorHandler::report_error(const std::string& details)
 {
   std::string sysinfo = get_system_info();
   std::stringstream urlbuilder;
-  std::string labels = FileSystem::escape("type:crash,status:needs-confirmation");
+  std::string labels = "type:crash,status:needs-confirmation";
   std::stringstream bodybuilder;
   bodybuilder << "**SuperTux version:** *" PACKAGE_VERSION "*\r\n"
                  "**System information:** *" << sysinfo << "*\r\n"
