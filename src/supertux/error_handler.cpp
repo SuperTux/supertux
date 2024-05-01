@@ -344,6 +344,7 @@ void ErrorHandler::report_error(const std::string& details)
   std::stringstream urlbuilder;
   std::string labels = "type:crash,status:needs-confirmation";
   std::stringstream bodybuilder;
+  // cppcheck-suppress unknownMacro
   bodybuilder << "**SuperTux version:** *" PACKAGE_VERSION "*\r\n"
                  "**System information:** *" << sysinfo << "*\r\n"
                   "\r\n"
