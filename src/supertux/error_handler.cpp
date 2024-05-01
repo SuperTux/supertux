@@ -32,6 +32,8 @@
 
 #include "util/file_system.hpp"
 
+#define UNIX (defined(__unix__) || defined(__APPLE__)) && !defined(__EMSCRIPTEN__)
+
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -41,7 +43,7 @@
 #endif
 
 #pragma comment(lib, "DbgHelp.lib")
-#elif defined(__unix__) || defined(__APPLE__)
+#elif UNIX
 #include <sys/utsname.h>
 #include <execinfo.h>
 #include <unistd.h>
@@ -87,7 +89,7 @@ std::string ErrorHandler::get_stacktrace()
   SymCleanup(GetCurrentProcess());
 
   return stacktrace.str();
-#elif defined(__unix__) || defined(__APPLE__)
+#elif UNIX
   void* array[128];
   size_t size;
 
@@ -164,7 +166,7 @@ ErrorHandler::get_system_info()
 
   return info.str();
 
-#elif defined(__unix__) || defined(__APPLE__)
+#elif UNIX
   struct utsname uts;
   uname(&uts);
   std::stringstream info;
@@ -240,10 +242,8 @@ ErrorHandler::error_dialog_crash(const std::string& stacktrace)
   switch (resultbtn)
   {
     case 0:
-    {
       report_error(stacktrace);
       break;
-    }
 
     case 1:
     {
@@ -341,9 +341,8 @@ ErrorHandler::error_dialog_exception(const std::string& exception)
 void ErrorHandler::report_error(const std::string& details)
 {
   std::string sysinfo = get_system_info();
-  std::stringstream urlbuilder;
-  std::string labels = "type:crash,status:needs-confirmation";
   std::stringstream bodybuilder;
+
   // cppcheck-suppress unknownMacro
   bodybuilder << "**SuperTux version:** *" PACKAGE_VERSION "*\r\n"
                  "**System information:** *" << sysinfo << "*\r\n"
@@ -363,12 +362,15 @@ void ErrorHandler::report_error(const std::string& details)
                   "\r\n"
                   "**Stacktrace:**\r\n"
                   "```\r\n" << details << "\r\n```";
+
   std::string body = FileSystem::escape(bodybuilder.str());
 
+  std::stringstream urlbuilder;
   urlbuilder << "https://github.com/supertux/supertux/issues/new"
                 "?title=SuperTux crashes"
                 "&labels=" << labels <<
                 "&body=" << body;
+
   FileSystem::open_url(urlbuilder.str());
 }
 
