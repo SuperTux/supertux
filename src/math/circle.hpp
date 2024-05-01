@@ -19,17 +19,21 @@
 
 #include "math/vector.hpp"
 
+class ReaderMapping;
 class Rectf;
 
 class Circle final
 {
 public:
-  Circle(const Vector& center, float radius = 0.f);
+  static Circle from_reader(const ReaderMapping& mapping);
+
+public:
+  Circle(const Vector& center = Vector(0.f, 0.f), float radius = 0.f);
 
   bool contains(const Vector& point) const;
-  //bool overlaps(const Rectf& rect) const;
 
   const Vector& get_center() const { return m_center; }
+  void set_center(const Vector& center) { m_center = center; }
 
 private:
   Vector m_center;

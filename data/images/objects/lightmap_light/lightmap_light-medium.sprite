@@ -1,7 +1,16 @@
 (supertux-sprite
     (action
       (name "default")
-      (images "lightmap_light-medium.png")
+      (surfaces
+        (surface
+          (diffuse-texture
+            (file "lightmap_light-medium.png")
+          )
+          (circle
+            (radius 160)
+          )
+        )
+      )
       (hitbox 192 192 0 0)
     )
 )

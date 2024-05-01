@@ -153,9 +153,19 @@ Canvas::draw_surface(const SurfacePtr& surface,
     if (m_colorspaces.find(colorspace) == m_colorspaces.end())
       m_colorspaces[colorspace] = ColorSpace();
 
-    m_colorspaces[colorspace].add(Rectf(position,
-                                        Sizef(static_cast<float>(surface->get_width()),
-                                              static_cast<float>(surface->get_height()))), color);
+    if (surface->get_circle_data())
+    {
+      Circle circle = *surface->get_circle_data();
+      circle.set_center(position + Vector(static_cast<float>(surface->get_width()) / 2,
+                                          static_cast<float>(surface->get_height()) / 2));
+      m_colorspaces[colorspace].add(circle, color);
+    }
+    else
+    {
+      m_colorspaces[colorspace].add(Rectf(position,
+                                          Sizef(static_cast<float>(surface->get_width()),
+                                                static_cast<float>(surface->get_height()))), color);
+    }
   }
 
   m_requests.push_back(request);

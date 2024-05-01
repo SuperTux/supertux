@@ -17,6 +17,18 @@
 #include "math/circle.hpp"
 
 #include "math/rectf.hpp"
+#include "util/reader_mapping.hpp"
+
+Circle
+Circle::from_reader(const ReaderMapping& mapping)
+{
+  Circle circle;
+
+  mapping.get("radius", circle.m_radius);
+
+  return circle;
+}
+
 
 Circle::Circle(const Vector& center, float radius) :
   m_center(center),
@@ -30,28 +42,5 @@ Circle::contains(const Vector& point) const
   const float distance = powf(point.x - m_center.x, 2) + powf(point.y - m_center.y, 2);
   return distance <= powf(m_radius, 2);
 }
-
-/*
-bool
-Circle::overlaps(const Rectf& rect) const
-{
-  const Vector distance = m_center - m_rect.p1();
-
-  // Circle is far enough away from the rectangle
-  if (distance.x > rect.get_width() / 2 + m_radius ||
-      distance.y > rect.get_height() / 2 + m_radius)
-    return false;
-
-  // Circle is close enough to the rectangle
-  if (distance.x <= rect.get_width() / 2 ||
-      distance.y <= rect.get_height() / 2)
-    return true;
-
-  // Check if circle intersects with the corner of the rectangle
-  const float distance_sq = (distance.x - rect.get_width() / 2) ^ 2 +
-                            (distance.y - rect.get_height() / 2) ^ 2;
-  return distance_sq <= m_radius ^ 2;
-}
-*/
 
 /* EOF */

@@ -2,11 +2,29 @@
   (action
     (name "default")
     (hitbox 357 384 384 384)
-    (images "flame_light.png")
+    (surfaces
+      (surface
+        (diffuse-texture
+          (file "flame_light.png")
+        )
+        (circle
+          (radius 220)
+        )
+      )
+    )
   )
   (action
     (name "greyscale")
     (hitbox 357 384 384 384)
-    (images "greyscale/flame_light.png")
+    (surfaces
+      (surface
+        (diffuse-texture
+          (file "greyscale/flame_light.png")
+        )
+        (circle
+          (radius 220)
+        )
+      )
+    )
   )
 )
