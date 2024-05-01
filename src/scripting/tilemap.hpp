@@ -48,15 +48,15 @@ private:
 public:
   /**
    * Moves the tilemap along a path until at given node, then stops.
-   * @param int $node_no
+   * @param int $node_idx
    */
-  void goto_node(int node_no);
+  void goto_node(int node_idx);
 
   /**
    * Jumps instantly to the given node.
-   * @param int $node_no
+   * @param int $node_idx
    */
-  void set_node(int node_no);
+  void set_node(int node_idx);
 
   /**
    * Starts moving the tilemap.
