@@ -25,12 +25,10 @@
 class ReaderMapping;
 class DrawingContext;
 
-namespace {
- /**
-  * The spawnpoint that gets activated at the start of a game session)
-  */
-  const std::string DEFAULT_SPAWNPOINT_NAME = "main";
-}
+/**
+* The spawnpoint that gets activated at the start of a game session)
+*/
+extern std::string DEFAULT_SPAWNPOINT_NAME;
 
 class SpawnPointMarker final : public MovingObject
 {

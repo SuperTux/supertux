@@ -60,6 +60,8 @@
 
 Sector* Sector::s_current = nullptr;
 
+std::string DEFAULT_SECTOR_NAME = "main";
+
 Sector::Sector(Level& parent) :
   Base::Sector("sector"),
   m_level(parent),

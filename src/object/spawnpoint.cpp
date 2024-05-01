@@ -22,6 +22,9 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
+
+std::string DEFAULT_SPAWNPOINT_NAME = "main";
+
 SpawnPointMarker::SpawnPointMarker(const std::string& name, const Vector& pos) :
   m_surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
