@@ -50,9 +50,6 @@ class TextObject;
 class TileMap;
 class Writer;
 
-namespace {
-}
-
 /**
   * The sector that gets activated by default when a level is started
   */
