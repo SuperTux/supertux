@@ -28,7 +28,7 @@ public:
   static std::string get_system_info();
 
   static void error_dialog_crash(const std::string& stacktrace);
-  static void error_dialog_exception(const std::string& exception);
+  static void error_dialog_exception(const std::string& exception = "");
 
   static void report_error(const std::string& details);
 
