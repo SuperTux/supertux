@@ -249,7 +249,7 @@ std::string escape_url(const std::string& url)
 
   return result;
 #else
-  return emscripten_run_script_string("encodeURIComponent(" + url + ")");
+  return emscripten_run_script_string(("encodeURIComponent(" + url + ")").c_str());
 #endif
 }
 
