@@ -20,6 +20,8 @@
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"
 
+#include <list>
+
 CoinExplode::CoinExplode(const Vector& pos, bool count_stats, const std::string& sprite) :
   m_sprite(sprite),
   position(pos),
@@ -33,16 +35,19 @@ CoinExplode::update(float )
   float mag = 100.0f; // Magnitude at which coins are thrown.
   float rand = 30.0f; // Max variation to be subtracted from the magnitude.
 
-  Sector::get().add<HeavyCoin>(position, Vector(2.5, -4.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
-  Sector::get().add<HeavyCoin>(position, Vector(2, -5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
-  Sector::get().add<HeavyCoin>(position, Vector(1.5, -5.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
-  Sector::get().add<HeavyCoin>(position, Vector(1, -6) * (mag+gameRandom.randf(rand)), m_count_stats, m_sprite);
-  Sector::get().add<HeavyCoin>(position, Vector(0.5, -6.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
-  Sector::get().add<HeavyCoin>(position, Vector(-2.5, -4.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
-  Sector::get().add<HeavyCoin>(position, Vector(-2, -5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
-  Sector::get().add<HeavyCoin>(position, Vector(-1.5, -5.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
-  Sector::get().add<HeavyCoin>(position, Vector(-1, -6) * (mag+gameRandom.randf(rand)), m_count_stats, m_sprite);
-  Sector::get().add<HeavyCoin>(position, Vector(-0.5, -6.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
+  // Each coin in the explosion has a different velocity.
+  static std::list<Vector> coin_velocities = {
+    { 2.5, -4.5 }, { 2, -5 },
+    { 1.5, -5.5 }, { 1, -6 }, { 0.5, -6.5 },
+    { -2.5, -4.5 }, { -2, -5 },
+    { -1.5, -5.5 }, { -1, -6 }, { -0.5, -6.5 }
+  };
+
+  for(const auto& vector: coin_velocities)
+  {
+    auto velocity = vector * (mag - gameRandom.randf(rand));
+    Sector::get().add<HeavyCoin>(position, velocity, m_count_stats, m_sprite);
+  }
 
   remove_me();
 }

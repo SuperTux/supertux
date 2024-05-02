@@ -516,17 +516,17 @@ TileMap::draw(DrawingContext& context)
 }
 
 void
-TileMap::goto_node(int node_no)
+TileMap::goto_node(int node_idx)
 {
   if (!get_walker()) return;
-  get_walker()->goto_node(node_no);
+  get_walker()->goto_node(node_idx);
 }
 
 void
-TileMap::jump_to_node(int node_no)
+TileMap::jump_to_node(int node_idx, bool instantaneous)
 {
   if (!get_walker()) return;
-  get_walker()->jump_to_node(node_no);
+  get_walker()->jump_to_node(node_idx, instantaneous);
 }
 
 void
@@ -659,7 +659,7 @@ TileMap::get_tile_id(int x, int y) const
   if (x >= m_width) x = m_width - 1;
   if (y < 0) y = 0;
   if (y >= m_height) y = m_height - 1;
-  
+
   if (x < 0 || x >= m_width || y < 0 || y >= m_height) {
     //log_warning << "tile outside tilemap requested" << std::endl;
     return 0;
@@ -848,7 +848,7 @@ TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos)
                                   + static_cast<int>(pos.x)];
 
   AutotileSet* curr_set = m_tileset->get_autotileset_from_tile(current_tile);
-  
+
   if (curr_set && curr_set->is_corner()) {
     int x = static_cast<int>(corner_pos.x), y = static_cast<int>(corner_pos.y);
     autotile_corner(x, y, current_tile, AutotileCornerOperation::REMOVE_TOP_LEFT);

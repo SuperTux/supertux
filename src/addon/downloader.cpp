@@ -32,6 +32,7 @@
 #include <emscripten/html5.h>
 #endif
 
+#include "physfs/util.hpp"
 #include "supertux/globals.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
@@ -269,7 +270,7 @@ public:
     if (!m_fout)
     {
       std::ostringstream out;
-      out << "PHYSFS_openRead() failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+      out << "PHYSFS_openRead() failed: " << physfsutil::get_last_error();
       throw std::runtime_error(out.str());
     }
 
@@ -336,7 +337,7 @@ public:
   }
 #endif
 
-  std::string get_url() const
+  const std::string& get_url() const
   {
     return m_url;
   }

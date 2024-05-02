@@ -27,7 +27,7 @@
 	(blank)
 	(person
       (name "Tobias \"Tobbi\" Markus")
-      (info (_ "Programming, project lead ad interim"))
+      (info (_ "Maintainer, Programming"))
     )
 	(blank)
 	(person
@@ -80,11 +80,6 @@
       (info (_ "Level Design"))
     )
   (blank)
-  (person
-      (name "Alasdair \"Servalot\"")
-      (info (_ "Level Design"))
-    )
-	(blank)
 	(person
       (name "Vankata453")
       (info (_ "Programming"))
@@ -415,6 +410,10 @@
     (text
       (type "normal")
       (string "Q.K.")
+    )
+    (text
+      (type "normal")
+      (string "RodirodDude")
     )
     (text
       (type "normal")
