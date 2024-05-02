@@ -75,25 +75,9 @@ TextObject::set_font(const std::string& name)
 void
 TextObject::wrap_text()
 {
-  std::string rest;
-
-  // strip all newlines except double ones (markdown'ish)
-  char prev_c = ' ';
-  for (const char& c : m_text) {
-    if (c == '\n') {
-      if (prev_c == '\n') {
-        rest += '\n';
-      } else {
-        rest += ' ';
-      }
-    } else {
-      rest += c;
-    }
-    prev_c = c;
-  }
-
   m_wrapped_text.clear();
 
+  std::string rest = m_text;
   do {
     std::string overflow;
     m_wrapped_text += m_font->wrap_to_width(rest, m_wrap_width, &overflow);

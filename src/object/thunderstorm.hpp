@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 #define HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 
+#include <list>
 #include <map>
 
 #include "squirrel/exposed_object.hpp"
@@ -59,8 +60,10 @@ public:
   /** Play thunder */
   void thunder();
 
-  /** Play lightning, i.e. call flash() and electrify() */
+  /** Methods for doing lightning by different methods. Necessary for the future implementation of SimpleSquirrel. */
+  void lightning_general();
   void lightning();
+  void lightning_in_sequence();
 
   /** Display a nice flash */
   void flash();
@@ -71,17 +74,24 @@ public:
   /** @} */
 
 private:
+  void change_background_colors(bool is_lightning, bool is_scripted = false);
+  void restore_background_colors();
+
+private:
   bool running; /**< whether we currently automatically trigger lightnings */
   float interval; /**< time between two lightnings */
   int layer; /**< layer, where flash will be painted */
-  
+
   std::string m_strike_script;
 
   Timer time_to_thunder; /**< counts down until next thunder */
   Timer time_to_lightning; /**< counts down until next lightning */
   Timer flash_display_timer; /**< counts down while flash is displayed */
+  Timer restore_background_color_timer; /*Helps return the background color to normal */
+  std::list<Color> m_background_colors; /*Helps return the background color to normal */
 
   std::map<uint32_t, uint32_t> changing_tiles; /**< preserves the tiles which an electrocution should change */
+  Color m_flash_color;
 
 private:
   Thunderstorm(const Thunderstorm&) = delete;

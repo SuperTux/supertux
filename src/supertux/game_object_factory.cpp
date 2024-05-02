@@ -37,6 +37,9 @@
 #include "badguy/ghosttree.hpp"
 #include "badguy/ghoul.hpp"
 #include "badguy/goldbomb.hpp"
+#include "badguy/granito.hpp"
+#include "badguy/granito_big.hpp"
+#include "badguy/granito_giant.hpp"
 #include "badguy/haywire.hpp"
 #include "badguy/igel.hpp"
 #include "badguy/jumpy.hpp"
@@ -50,6 +53,8 @@
 #include "badguy/owl.hpp"
 #include "badguy/plant.hpp"
 #include "badguy/rcrystallo.hpp"
+#include "badguy/root.hpp"
+#include "badguy/root_sapling.hpp"
 #include "badguy/short_fuse.hpp"
 #include "badguy/skydive.hpp"
 #include "badguy/smartball.hpp"
@@ -165,7 +170,7 @@ GameObjectFactory::init_factories()
   add_factory<AngryStone>("angrystone");
   add_factory<BouncingSnowball>("bouncingsnowball", OBJ_PARAM_DISPENSABLE);
   add_factory<CaptainSnowball>("captainsnowball", OBJ_PARAM_DISPENSABLE);
-  add_factory<CorruptedGranito>("skullyhop"); // backward compatibility
+  add_type_factory<CorruptedGranito>("skullyhop", CorruptedGranito::SKULLYHOP); // backward compatibility
   add_factory<CorruptedGranito>("corrupted_granito", OBJ_PARAM_DISPENSABLE);
   add_factory<CorruptedGranitoBig>("corrupted_granito_big", OBJ_PARAM_DISPENSABLE);
   add_factory<Crusher>("icecrusher"); // backward compatibility
@@ -186,6 +191,9 @@ GameObjectFactory::init_factories()
   add_factory<GhostTree>("ghosttree");
   add_factory<Ghoul>("ghoul", OBJ_PARAM_DISPENSABLE);
   add_factory<GoldBomb>("goldbomb", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
+  add_factory<Granito>("granito", OBJ_PARAM_DISPENSABLE);
+  add_factory<GranitoBig>("granito_big", OBJ_PARAM_DISPENSABLE);
+  add_factory<GranitoGiant>("granito_giant", OBJ_PARAM_DISPENSABLE);
   add_factory<Haywire>("haywire", OBJ_PARAM_DISPENSABLE);
   add_type_factory<Flame>("iceflame", Flame::ICE); // Backward compatibility.
   add_factory<Igel>("igel", OBJ_PARAM_DISPENSABLE);
@@ -205,6 +213,8 @@ GameObjectFactory::init_factories()
   add_factory<Owl>("owl", OBJ_PARAM_DISPENSABLE);
   add_factory<Plant>("plant", OBJ_PARAM_DISPENSABLE);
   add_factory<RCrystallo>("rcrystallo", OBJ_PARAM_DISPENSABLE);
+  add_factory<Root>("root");
+  add_factory<RootSapling>("root_sapling");
   add_factory<SCrystallo>("scrystallo", OBJ_PARAM_DISPENSABLE);
   add_factory<ShortFuse>("short_fuse", OBJ_PARAM_DISPENSABLE);
   add_factory<SSpiky>("sspiky", OBJ_PARAM_DISPENSABLE);

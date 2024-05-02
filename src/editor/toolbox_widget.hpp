@@ -92,6 +92,7 @@ private:
   Rectf get_item_rect(const HoveredItem& item) const;
 
   void update_selection();
+  SurfacePtr get_mouse_icon() const;
   Rectf normalize_selection(bool rounded) const;
   Rectf selection_draw_rect() const;
 

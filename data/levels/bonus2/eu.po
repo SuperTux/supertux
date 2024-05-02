@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Mielanjel Iraeta <pospolos@gmail.com>, 2018
+# Mielanjel Iraeta <mielanjel@ni.eus>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-04-17 15:25+0000\n"
-"Last-Translator: Mielanjel Iraeta <pospolos@gmail.com>\n"
-"Language-Team: Basque (http://www.transifex.com/arctic-games/supertux/language/eu/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:07+0000\n"
+"Last-Translator: Mielanjel Iraeta <mielanjel@ni.eus>, 2018\n"
+"Language-Team: Basque (http://app.transifex.com/arctic-games/supertux/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -165,14 +165,14 @@ msgstr "Traizioa"
 msgid "Bonus Island II"
 msgstr "Saria Uhartea ll"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "Ezkutuko gune bat aurkitu duzu!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Nora ote darama bide honek..."
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "Etxerako garraioa"

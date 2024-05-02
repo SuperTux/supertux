@@ -1767,8 +1767,8 @@ msgstr "Appuyez sur Échap pour sauter"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Utilisation: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Utilisation: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2492,13 +2492,13 @@ msgstr "Redimensionner"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2546,8 +2546,8 @@ msgstr "Inconnue"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" par \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" par \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2559,13 +2559,13 @@ msgstr "Aucun module complémentaire trouvé"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Installer %s *NOUVEAU*"
+msgid "Install {} *NEW*"
+msgstr "Installer {} *NOUVEAU*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Installer %s"
+msgid "Install {}"
+msgstr "Installer {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2585,8 +2585,8 @@ msgstr "Téléchargement de l'index du référentiel de modules complémentaires
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Téléchargement %s "
+msgid "Downloading {}"
+msgstr "Téléchargement {} "
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3099,8 +3099,8 @@ msgstr "Vous ne pouvez pas supprimer le niveau que vous modifiez!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "Dévloppé par %s"
+msgid "contributed by {}"
+msgstr "Dévloppé par {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

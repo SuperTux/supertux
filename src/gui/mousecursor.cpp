@@ -109,7 +109,7 @@ MouseCursor::draw(DrawingContext& context)
 
     if (m_icon) {
       context.color().draw_surface(m_icon,
-                                   Vector(mouse_pos.x,
+                                   Vector(mouse_pos.x + static_cast<float>(m_icon->get_width()) / 2,
                                           mouse_pos.y - static_cast<float>(m_icon->get_height())),
                                    LAYER_GUI + 100);
     }

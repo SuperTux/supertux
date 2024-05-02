@@ -1179,8 +1179,8 @@ msgstr "Neznan predmet"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Uporaba: %s [MOŽNOSTI] [DATOTEKA STOPNJE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Uporaba: {} [MOŽNOSTI] [DATOTEKA STOPNJE]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
@@ -1809,13 +1809,13 @@ msgstr "Spremeni velikost"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1847,8 +1847,8 @@ msgstr "Neznano"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" od \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" od \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -1860,13 +1860,13 @@ msgstr "Ne najdem dodatkov"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Namesti %s *NOVO*"
+msgid "Install {} *NEW*"
+msgstr "Namesti {} *NOVO*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Namesti %s"
+msgid "Install {}"
+msgstr "Namesti {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -1886,8 +1886,8 @@ msgstr "Prenašam seznam dodatkov v zbirališču"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Prenašam %s"
+msgid "Downloading {}"
+msgstr "Prenašam {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -2303,8 +2303,8 @@ msgstr "Razumem!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "prispeval %s"
+msgid "contributed by {}"
+msgstr "prispeval {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

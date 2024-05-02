@@ -262,6 +262,7 @@ Gradient::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
   context.get_canvas(m_target).draw_gradient(m_gradient_top, m_gradient_bottom, m_layer, m_gradient_direction,
                                              gradient_region, m_blend);
   context.pop_transform();

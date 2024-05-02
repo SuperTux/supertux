@@ -62,7 +62,7 @@ WorldMapSector::current()
 WorldMapSector::WorldMapSector(WorldMap& parent) :
   Base::Sector("worldmap"),
   m_parent(parent),
-  m_camera(new Camera),
+  m_camera(new Camera(*this)),
   m_tux(&add<Tux>(&parent)),
   m_spawnpoints(),
   m_initial_fade_tilemap(),
@@ -81,7 +81,7 @@ WorldMapSector::~WorldMapSector()
 }
 
 void
-WorldMapSector::finish_construction(bool)
+WorldMapSector::finish_construction(bool editable)
 {
   flush_game_objects();
 
@@ -95,6 +95,8 @@ WorldMapSector::finish_construction(bool)
     add<DisplayEffect>("Effect");
 
   flush_game_objects();
+
+  Base::Sector::finish_construction(editable);
 }
 
 
@@ -347,7 +349,7 @@ WorldMapSector::update(float dt_sec)
           // update state and savegame
           m_parent.save_state();
           ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_parent.m_savegame, &level_->get_statistics()),
-                                                std::make_unique<ShrinkFade>(shrinkpos, 1.0f));
+                                                std::make_unique<ShrinkFade>(shrinkpos, 1.0f, LAYER_LIGHTMAP - 1));
 
           m_parent.m_in_level = true;
         } catch(std::exception& e) {

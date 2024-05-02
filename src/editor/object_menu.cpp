@@ -82,7 +82,7 @@ ObjectMenu::menu_action(MenuItem& item)
   {
     case MNID_UPDATE:
       Dialog::show_confirmation(_("This will update the object to its latest functionality.") + "\n" +
-                                _("Check the \"Patch Notes\" for more information.") + "\n \n" +
+                                _("Check the \"Patch Notes\" for more information.") + "\n\n" +
                                 _("Keep in mind this is very likely to break the proper behaviour of the object.") + "\n" +
                                 _("Make sure to re-check any behaviour, related to the object."), [this]() {
         m_object->update_version();
@@ -100,7 +100,7 @@ ObjectMenu::menu_action(MenuItem& item)
       {
         text += fmt::format(fmt::runtime(_("Patch notes for v{}:")), version) + "\n" + patches[version - 2];
         if (version < 1 + static_cast<int>(patches.size()))
-          text += "\n \n";
+          text += "\n\n";
       }
 
       Dialog::show_message(text);

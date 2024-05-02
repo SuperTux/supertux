@@ -25,7 +25,7 @@ WalkingLeaf::WalkingLeaf(const ReaderMapping& reader) :
 {
   parse_type(reader);
 
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 }
 
 GameObjectTypes
@@ -52,7 +52,7 @@ WalkingLeaf::get_default_sprite_name() const
 void
 WalkingLeaf::on_type_change(int old_type)
 {
-  MovingSprite::on_type_change();
+  MovingSprite::on_type_change(old_type);
 
   switch (m_type)
   {

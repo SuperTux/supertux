@@ -20,17 +20,17 @@
 namespace scripting {
 
 void
-Platform::goto_node(int node_no)
+Platform::goto_node(int node_idx)
 {
   SCRIPT_GUARD_VOID;
-  object.goto_node(node_no);
+  object.goto_node(node_idx);
 }
 
 void
-Platform::set_node(int node_no)
+Platform::set_node(int node_idx)
 {
   SCRIPT_GUARD_VOID;
-  object.jump_to_node(node_no);
+  object.jump_to_node(node_idx, /* instantaneous = */ true);
 }
 
 void

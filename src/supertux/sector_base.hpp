@@ -34,7 +34,7 @@ public:
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */
-  virtual void finish_construction(bool editable) {}
+  virtual void finish_construction(bool editable);
 
   virtual void draw(DrawingContext& context) = 0;
   virtual void update(float dt_sec) = 0;

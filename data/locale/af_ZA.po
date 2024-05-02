@@ -1167,8 +1167,8 @@ msgstr "Onbekende voorwerp"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Gebrek: %s [OPSIES] [LEVEL-LEER]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Gebrek: {} [OPSIES] [LEVEL-LEER]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
@@ -1791,13 +1791,13 @@ msgstr "Verander grootte"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profiel %s]"
+msgid "[Profile {}]"
+msgstr "[Profiel {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "Profiel %s"
+msgid "Profile {}"
+msgstr "Profiel {}"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1825,8 +1825,8 @@ msgstr "Onbekende"
 
 #: src/supertux/menu/addon_menu.cpp:68
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" deur \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" deur \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:126
 msgid "No Add-ons installed"
@@ -1838,13 +1838,13 @@ msgstr "Geen Add-ons gekry nie"
 
 #: src/supertux/menu/addon_menu.cpp:176
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Installeer %s *NUUT*"
+msgid "Install {} *NEW*"
+msgstr "Installeer {} *NUUT*"
 
 #: src/supertux/menu/addon_menu.cpp:187
 #, c-format
-msgid "Install %s"
-msgstr "Installeer %s"
+msgid "Install {}"
+msgstr "Installeer {}"
 
 #: src/supertux/menu/addon_menu.cpp:196
 msgid "No new Add-ons found"
@@ -1864,8 +1864,8 @@ msgstr "Laai Tans Add-Ons Repositorie Indeks af"
 
 #: src/supertux/menu/addon_menu.cpp:298
 #, c-format
-msgid "Downloading %s"
-msgstr "Laai Tans af %s"
+msgid "Downloading {}"
+msgstr "Laai Tans af {}"
 
 #: src/supertux/menu/addon_menu.cpp:345
 msgid ""
@@ -2281,8 +2281,8 @@ msgstr ""
 
 #: src/supertux/levelintro.cpp:135
 #, c-format
-msgid "contributed by %s"
-msgstr "bygedra deur %s"
+msgid "contributed by {}"
+msgstr "bygedra deur {}"
 
 #: src/supertux/levelintro.cpp:167
 msgid "Badguys killed"

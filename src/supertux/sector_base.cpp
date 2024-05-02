@@ -28,6 +28,13 @@ Sector::Sector(const std::string& type) :
 }
 
 void
+Sector::finish_construction(bool)
+{
+  for (auto& object : get_objects())
+    object->finish_construction();
+}
+
+void
 Sector::run_script(const std::string& script, const std::string& sourcename)
 {
   m_squirrel_environment->run_script(script, sourcename);
