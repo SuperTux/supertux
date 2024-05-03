@@ -2533,7 +2533,7 @@ msgstr "Discord (deaktiviert; nicht integriert)"
 #: src/supertux/menu/editor_converters_menu.cpp:61
 #: src/supertux/menu/editor_menu.cpp:85
 msgid "Convert Tiles"
-msgstr "Kachen konvertieren"
+msgstr "Kacheln konvertieren"
 
 #: src/supertux/menu/editor_converters_menu.cpp:64
 msgid "Select Tile Conversion File"
