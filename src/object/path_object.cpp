@@ -80,19 +80,19 @@ PathObject::init_path_pos(const Vector& pos, bool running)
 }
 
 void
-PathObject::goto_node(int node_no)
+PathObject::goto_node(int node_idx)
 {
   if (!m_walker) return;
   BIND_SECTOR(Sector::get());
-  m_walker->goto_node(node_no);
+  m_walker->goto_node(node_idx);
 }
 
 void
-PathObject::set_node(int node_no)
+PathObject::set_node(int node_idx)
 {
   if (!m_walker) return;
   BIND_SECTOR(Sector::get());
-  m_walker->jump_to_node(node_no, true);
+  m_walker->jump_to_node(node_idx, true);
 }
 
 void

@@ -65,7 +65,7 @@ public:
 
   /** Moves platform instantly to given node.
       Replaces PathObject::set_node's implementation in scripting. */
-  void jump_to_node(int node_no);
+  void jump_to_node(int node_idx);
 
 private:
   Vector m_speed;

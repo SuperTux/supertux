@@ -263,6 +263,8 @@ public:
    */
   float get_alpha() const;
 
+  float get_target_alpha() const { return m_alpha; }
+
   void set_tileset(const TileSet* new_tileset);
 
   const std::vector<uint32_t>& get_tiles() const { return m_tiles; }

@@ -110,7 +110,7 @@ Platform::update(float dt_sec)
 
       // Travel to node nearest to nearest player
       if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox)) {
-        int nearest_node_id = get_path()->get_nearest_node_no(player->get_bbox().p2());
+        int nearest_node_id = get_path()->get_nearest_node_idx(player->get_bbox().p2());
         if (nearest_node_id != -1) {
           goto_node(nearest_node_id);
         }
@@ -121,7 +121,7 @@ Platform::update(float dt_sec)
       // Player touched platform, didn't touch last frame and Platform is not moving
 
       // Travel to node farthest from current position
-      int farthest_node_id = get_path()->get_farthest_node_no(get_pos());
+      int farthest_node_id = get_path()->get_farthest_node_idx(get_pos());
       if (farthest_node_id != -1) {
         goto_node(farthest_node_id);
       }
@@ -152,10 +152,10 @@ Platform::editor_update()
 }
 
 void
-Platform::jump_to_node(int node_no)
+Platform::jump_to_node(int node_idx)
 {
-  set_node(node_no);
-  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[node_no].position));
+  set_node(node_idx);
+  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[node_idx].position));
 }
 
 void

@@ -277,8 +277,8 @@ WorldMapState::save_state() const
     {
       if (!tilemap.get_name().empty())
       {
-        ssq::Table tilemap_table = table.addTable(tilemap.get_name().c_str());
-        tilemap_table.set("alpha", tilemap.get_alpha());
+        ssq::Table tilemap_table = tilemaps.addTable(tilemap.get_name().c_str());
+        tilemap_table.set("alpha", tilemap.get_target_alpha());
       }
     }
 

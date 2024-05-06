@@ -22,6 +22,9 @@
 
 namespace physfsutil {
 
+/** Gets the last readable error that occurred in PhysFS */
+const char* get_last_error();
+
 /** Convert 'path' to it's canonical name, i.e. normalize it and add a
     '/' to the front) */
 std::string realpath(const std::string& path);

@@ -259,9 +259,9 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
 }
 
 void
-WillOWisp::goto_node(int node_no)
+WillOWisp::goto_node(int node_idx)
 {
-  PathObject::goto_node(node_no);
+  PathObject::goto_node(node_idx);
 
   if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK)
     m_mystate = STATE_PATHMOVING;
