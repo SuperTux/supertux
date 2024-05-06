@@ -124,7 +124,7 @@ msgstr "Verschlossen?"
 
 #: src/trigger/door.cpp:76
 msgid "Lock Color"
-msgstr ""
+msgstr "Farbe des Schlosses"
 
 #: src/trigger/switch.cpp:62 src/object/ispy.cpp:54 src/object/bumper.cpp:53
 #: src/object/spotlight.cpp:106 src/object/pushbutton.cpp:61
@@ -523,7 +523,7 @@ msgstr "Eigene Inhalte"
 
 #: src/object/bonus_block.cpp:278
 msgid "Coin sprite"
-msgstr ""
+msgstr "Münz-Sprite"
 
 #: src/object/pneumatic_platform.hpp:65
 msgid "Pneumatic Platform"
@@ -630,11 +630,11 @@ msgstr "Powerup"
 
 #: src/object/infoblock.cpp:78
 msgid "Front Color"
-msgstr ""
+msgstr "Vordergrundfarbe"
 
 #: src/object/infoblock.cpp:80
 msgid "Back Color"
-msgstr ""
+msgstr "Hintergrundfarbe"
 
 #: src/object/infoblock.cpp:82
 msgid "Roundness"
@@ -819,7 +819,7 @@ msgstr ""
 
 #: src/object/powerup.cpp:69
 msgid "Mints"
-msgstr ""
+msgstr "Pfefferminzbonbons"
 
 #: src/object/powerup.cpp:70
 msgid "Coffee"
@@ -1508,7 +1508,7 @@ msgstr "Instabile Kachel"
 
 #: src/object/brick.hpp:70
 msgid "Heavy Brick"
-msgstr ""
+msgstr "Schwerer Stein"
 
 #: src/object/invisible_wall.hpp:37
 msgid "Invisible Wall"
@@ -1885,7 +1885,7 @@ msgstr "Wald"
 
 #: src/badguy/crusher.hpp:71
 msgid "Crusher"
-msgstr ""
+msgstr "Crusher"
 
 #: src/badguy/flame.cpp:84
 msgid "Fire"
@@ -2001,11 +2001,11 @@ msgstr "Schädel"
 
 #: src/badguy/snowball.hpp:30
 msgid "Mr. Snowball"
-msgstr ""
+msgstr "Herr Schneeball"
 
 #: src/badguy/smartblock.hpp:30
 msgid "Mrs. Iceblock"
-msgstr ""
+msgstr "Frau Eisblock"
 
 #: src/badguy/yeti.cpp:370
 msgid "Fixed position"
@@ -2033,19 +2033,19 @@ msgstr "Fliegender Schneeball"
 
 #: src/badguy/crusher.cpp:74
 msgid "Ice (normal)"
-msgstr ""
+msgstr "Eis (normal)"
 
 #: src/badguy/crusher.cpp:75
 msgid "Ice (big)"
-msgstr ""
+msgstr "Eis (groß)"
 
 #: src/badguy/crusher.cpp:76
 msgid "Rock (normal)"
-msgstr ""
+msgstr "Felsen (normal)"
 
 #: src/badguy/crusher.cpp:77
 msgid "Rock (big)"
-msgstr ""
+msgstr "Felsen (groß)"
 
 #: src/badguy/crusher.cpp:78
 msgid "Corrupted (normal)"
@@ -2113,7 +2113,7 @@ msgstr "Spiky"
 
 #: src/badguy/walkingleaf.hpp:33
 msgid "Walking Leaf"
-msgstr ""
+msgstr "Laufendes Blatt"
 
 #: src/badguy/owl.cpp:241
 msgid "Carry"
@@ -2181,11 +2181,11 @@ msgstr ""
 
 #: src/badguy/stalactite.cpp:156
 msgid "ice"
-msgstr ""
+msgstr "Eis"
 
 #: src/badguy/stalactite.cpp:157
 msgid "rock"
-msgstr ""
+msgstr "Felsen"
 
 #: src/badguy/fish_chasing.hpp:33
 msgid "Chasing Fish"
@@ -2546,15 +2546,15 @@ msgstr "Von: {}"
 
 #: src/supertux/menu/editor_converters_menu.cpp:75
 msgid "Convert Tiles By File"
-msgstr ""
+msgstr "Kacheln mithilfe einer Datei konvertieren"
 
 #: src/supertux/menu/editor_converters_menu.cpp:76
 msgid "Convert all tiles in the current level by a file, specified above."
-msgstr ""
+msgstr "Alle Kacheln des aktuellen Levels mithilfe der oben angegebenen Datei konvertieren"
 
 #: src/supertux/menu/editor_converters_menu.cpp:89
 msgid "No tile conversion file selected."
-msgstr ""
+msgstr "Keine Kachel-Konvertierungsdatei ausgewählt."
 
 #: src/supertux/menu/editor_converters_menu.cpp:93
 msgid ""
@@ -2562,7 +2562,7 @@ msgid ""
 "\n"
 "Note: This should not be ran more than once on a level.\n"
 "Creating a separate copy of the level is highly recommended."
-msgstr ""
+msgstr "Alle Kacheln des aktuellen Levels werden konvertiert. Fortfahren?\n\nHinweis: Diese Aktion sollte nicht öfter als einmal pro Level durchgeführt werden.\nEs wird dringend geraten, eine Sicherungskopie des Levels zu erstellen."
 
 #: src/supertux/menu/video_system_menu.cpp:36
 msgid "Select Video System"
@@ -2761,7 +2761,7 @@ msgstr "Menürundung"
 
 #: src/supertux/menu/custom_menu_menu.cpp:60
 msgid "Editor Interface Color"
-msgstr ""
+msgstr "Farbe der Editor-Benutzeroberfläche"
 
 #: src/supertux/menu/custom_menu_menu.cpp:61
 msgid "Editor Hover Color"
@@ -3121,7 +3121,7 @@ msgstr "Gibt an, ob SuperTux den Namen des aktuellen Levels in Sozialen Medien (
 
 #: src/supertux/menu/options_menu.cpp:192
 msgid "Customize the appearance of the menus"
-msgstr ""
+msgstr "Darstellung der Menüs anpassen"
 
 #: src/supertux/menu/options_menu.cpp:199
 #: src/supertux/menu/options_select_menu.cpp:41
@@ -3164,7 +3164,7 @@ msgstr "Auf neue Version überprüfen"
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
-msgstr ""
+msgstr "Erlaubt es dem Spiel, beim Start eine Überprüfung auf neue Versionen durchzuführen und zu benachrichtigen, wenn neue gefunden wurden."
 
 #: src/supertux/menu/options_menu.cpp:245
 #: src/supertux/menu/options_menu.cpp:288 src/supertux/direction.cpp:76
@@ -3263,7 +3263,7 @@ msgstr "Du kannst die Welt nicht löschen, die du gerade bearbeitest"
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:83
 #, c++-format
 msgid "You are about to delete world \"{}\". Are you sure?"
-msgstr ""
+msgstr "Sind sind dabei, die Welt \"{}\" zu löschen. Sind Sie sicher?"
 
 #: src/supertux/menu/addon_preview_menu.cpp:82
 #, c++-format
@@ -4699,21 +4699,21 @@ msgstr ""
 
 #: src/editor/object_menu.cpp:84
 msgid "This will update the object to its latest functionality."
-msgstr ""
+msgstr "Das Objekt wird auf die neuste Funktionalität aktualisiert."
 
 #: src/editor/object_menu.cpp:85
 msgid "Check the \"Patch Notes\" for more information."
-msgstr ""
+msgstr "Überprüfen Sie die \"Patch-Notizen\" für weitere Informationen."
 
 #: src/editor/object_menu.cpp:86
 msgid ""
 "Keep in mind this is very likely to break the proper behaviour of the "
 "object."
-msgstr ""
+msgstr "Beachten Sie, dass dadurch sehr wahrscheinlich das korrekte Verhalten des Objektes verändert wird."
 
 #: src/editor/object_menu.cpp:87
 msgid "Make sure to re-check any behaviour, related to the object."
-msgstr ""
+msgstr "Stellen Sie sicher, dass Sie das Verhalten des Objektes zu überprüfen, nachdem Sie es aktualisiert haben."
 
 #: src/editor/object_menu.cpp:101
 #, c++-format
