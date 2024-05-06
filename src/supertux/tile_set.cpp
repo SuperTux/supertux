@@ -61,7 +61,7 @@ TileSet::reload()
 {
   m_autotilesets.clear();
   m_thunderstorm_tiles.clear();
-  m_tiles.resize(1);
+  m_tiles.resize(1); // Preserve only the initial tile with an ID of 0
   m_tilegroups.clear();
 
   TileSetParser parser(*this, m_filename);
