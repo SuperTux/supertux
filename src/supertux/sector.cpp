@@ -549,10 +549,11 @@ Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object,
 }
 
 bool
-Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
+Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object, const bool ignore_unisolid) const
 {
   return m_collision_system->is_free_of_movingstatics(rect,
-                                                      ignore_object ? ignore_object->get_collision_object() : nullptr);
+                                                      ignore_object ? ignore_object->get_collision_object() : nullptr,
+                                                      ignore_unisolid);
 }
 
 bool

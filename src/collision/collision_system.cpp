@@ -726,11 +726,11 @@ CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ig
 }
 
 bool
-CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignore_unisolid) const
 {
   using namespace collision;
 
-  if (!is_free_of_tiles(rect)) return false;
+  if (!is_free_of_tiles(rect, ignore_unisolid)) return false;
 
   for (const auto& object : m_objects) {
     if (object == ignore_object) continue;
