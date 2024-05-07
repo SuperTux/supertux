@@ -30,7 +30,7 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 }
 
 PushButton::PushButton(const ReaderMapping& mapping) :
-  StickyObject(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
+  StickyObject(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_STATIC),
   m_script(),
   m_state(OFF),
   m_dir(Direction::UP)
