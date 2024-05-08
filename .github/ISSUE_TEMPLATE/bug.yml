@@ -20,7 +20,7 @@ body:
     attributes:
       label: System Information
       description: Details about your kernel, operating system, or distribution.
-      placeholder: ex. Windows 10 Build 19045
+      placeholder: ex. Windows 11 64-Bit
     validations:
       required: true
   - type: textarea
