@@ -59,7 +59,7 @@ body:
     id: guidelines
     attributes:
       label: Guidelines For Reporting Issues
-      description: Before submitting this issue, make sure you have done the following:
+      description: "Before submitting this issue, make sure you have done the following:"
       options:
         - label: I have read <https://github.com/SuperTux/supertux/blob/master/CONTRIBUTING.md#bug-reports>.
           required: true
