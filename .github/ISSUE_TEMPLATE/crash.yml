@@ -61,13 +61,13 @@ body:
       options:
         - label: I have read <https://github.com/SuperTux/supertux/blob/master/CONTRIBUTING.md#bug-reports>.
           required: true
-        - label: I verified this isn't an issue that's already been reported.
+        - label: I have verified this isn't an issue that's already been reported.
           required: true
-        - label: I verified this isn't a [discussion](https://github.com/SuperTux/supertux/discussions), or an issue about unintended behavior or a feature request, but rather an actual crash ─ that is, the game closed unexpectedly.
+        - label: I have verified this isn't a [discussion](https://github.com/SuperTux/supertux/discussions), or an issue about unintended behavior or a feature request, but rather an actual crash ─ that is, the game closed unexpectedly.
           required: true
-        - label: This report only includes details about **one** (1) crash.
+        - label: I have verified this issue is **not** about wrong translations (use Transifex for those), or anything unsupported (e.g. third-party add-ons).
           required: true
-        - label: If I make a mistake while submitting this report, I will use the "Edit" feature, instead of closing this issue and opening a new one.
+        - label: In this report, I have only included details about **one** (1) crash.
           required: true
-        - label: This issue is **not** about wrong translations (use Transifex for those), or anything unsupported (e.g. third-party add-ons).
+        - label: If I make a mistake while submitting this report, I agree to use the "Edit" feature to correct it, instead of closing this issue and opening a new one.
           required: true
