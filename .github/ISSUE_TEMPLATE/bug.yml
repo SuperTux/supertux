@@ -28,7 +28,7 @@ body:
     attributes:
       label: Expected Behavior
       description: What did you expect to happen?
-      placeholder: Type the behavior you expected in detail.
+      placeholder: Describe the behavior you expected in detail.
     validations:
       required: true
   - type: textarea
@@ -36,7 +36,7 @@ body:
     attributes:
       label: Actual Behavior
       description: Instead, what actually happened?
-      placeholder: Type the actual behavior in detail.
+      placeholder: Describe the actual behavior in detail.
     validations:
       required: true
   - type: textarea
@@ -44,7 +44,7 @@ body:
     attributes:
       label: Steps To Reproduce Actual Behavior
       description: A clear and concise description of how the actual behavior was achieved, since starting up the game.
-      placeholder: Type the steps, leading to the actual behavior.
+      placeholder: Describe the steps, preferably with a numerated list, leading to the actual behavior.
     validations:
       required: true
   - type: textarea

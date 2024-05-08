@@ -28,7 +28,7 @@ body:
     attributes:
       label: Steps To Reproduce Crash
       description: A clear and concise description of how the crash was achieved, since starting up the game.
-      placeholder: Type the steps, leading to the crash.
+      placeholder: Describe the steps, leading to the crash.
     validations:
       required: true
   - type: textarea
