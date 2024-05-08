@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Create a Discussion
+    url: https://github.com/SuperTux/supertux/discussions/new/choose
+    about: If none of these issue types fit your desired request, create a Discussion, if none exists for it.
