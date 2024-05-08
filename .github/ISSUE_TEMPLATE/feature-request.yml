@@ -42,11 +42,11 @@ body:
       options:
         - label: I have read <https://github.com/SuperTux/supertux/blob/master/CONTRIBUTING.md#bug-reports>.
           required: true
-        - label: I verified this isn't a request that's already been submitted as an issue.
+        - label: I have verified this isn't a request that's already been submitted as an issue.
           required: true
-        - label: I verified this isn't a [discussion](https://github.com/SuperTux/supertux/discussions), or an issue with the game, but rather an actual feature request - a currently non-existent, but desired feature.
+        - label: I have verified this isn't a [discussion](https://github.com/SuperTux/supertux/discussions), or an issue with the game, but rather an actual feature request - a currently non-existent, but desired feature.
           required: true
-        - label: This request only includes details about **one** (1) desired feature.
+        - label: In this request, I have only included details about **one** (1) desired feature.
           required: true
-        - label: If I make a mistake while submitting this request, I will use the "Edit" feature, instead of closing this issue and opening a new one.
+        - label: If I make a mistake while submitting this request, I agree to use the "Edit" feature to correct it, instead of closing this issue and opening a new one.
           required: true
