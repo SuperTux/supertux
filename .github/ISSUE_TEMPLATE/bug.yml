@@ -44,7 +44,12 @@ body:
     attributes:
       label: Steps To Reproduce Actual Behavior
       description: A clear and concise description of how the actual behavior was achieved, since starting up the game.
-      placeholder: Describe the steps, preferably with a numerated list, leading to the actual behavior.
+      placeholder: |
+        Describe the steps, leading to the actual behavior, preferably with a numerated list.
+
+        1. ...
+        2. ...
+        3. ...
     validations:
       required: true
   - type: textarea
