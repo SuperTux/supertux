@@ -18,9 +18,6 @@
 		  "tarantula-9.png"
 		  "tarantula-9.png"
 		  "tarantula-9.png"
-		  "tarantula-8.png"
-		  "tarantula-7.png"
-		  "tarantula-6.png"
 		  "tarantula-7.png"
 		  "tarantula-8.png"
 		  "tarantula-9.png")
@@ -47,5 +44,10 @@
 		  "tarantula-7.png"
 		  "tarantula-8.png"
 		  "tarantula-9.png")
+ )
+ (action
+  (name "squished")
+  (hitbox 36 16 48 45)
+  (images "squished.png")
  )
 )

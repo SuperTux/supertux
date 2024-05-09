@@ -45,4 +45,9 @@
 		  "spidermite-8.png"
 		  "spidermite-9.png")
  )
+ (action
+  (name "squished")
+  (hitbox 36 16 48 47)
+  (images "squished.png")
+ )
 )
