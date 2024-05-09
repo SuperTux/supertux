@@ -3,6 +3,9 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# 0ea743a388003249c3a27027490eb004_eb62725 <93be5fa112647d5d896be9f7b3c2eda8_426397>, 2019
+# 111More1, 2023
+# b1e11c107ebf1f339ff7adfc86b9dbe0_2e3e89d, 2016
 # 111More1, 2023
 # 515ce455fbf38ec9585626e8d26b6324_7a9a6ef, 2016-2017
 # Ryo Nakano, 2016
@@ -21,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Ryo Nakano, 2018-2022,2024\n"
+"Last-Translator: 0ea743a388003249c3a27027490eb004_eb62725 <93be5fa112647d5d896be9f7b3c2eda8_426397>, 2019\n"
 "Language-Team: Japanese (http://app.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -484,7 +487,7 @@ msgstr "光"
 
 #: src/object/bonus_block.cpp:268
 msgid "Light (On)"
-msgstr "ライト（オン）"
+msgstr "ライト (オン)"
 
 #: src/object/bonus_block.cpp:269 src/object/trampoline.hpp:37
 msgid "Trampoline"
@@ -492,7 +495,7 @@ msgstr "トランポリン"
 
 #: src/object/bonus_block.cpp:269
 msgid "Portable trampoline"
-msgstr ""
+msgstr "運べるトランポリン"
 
 #: src/object/bonus_block.cpp:269
 msgid "Coin rain"
@@ -1545,11 +1548,11 @@ msgstr "テキストスクローラー"
 
 #: src/gui/notification.cpp:57
 msgid "Click for more details."
-msgstr ""
+msgstr "詳細はこちらをクリックしてください。"
 
 #: src/gui/notification.cpp:150
 msgid "Do not show again"
-msgstr ""
+msgstr "今後表示しない"
 
 #: src/gui/notification.cpp:157 src/supertux/menu/download_dialog.cpp:123
 msgid "Close"
@@ -1571,17 +1574,17 @@ msgstr "追加"
 
 #: src/gui/menu_string_array.cpp:80
 msgid "Insert"
-msgstr ""
+msgstr "挿入"
 
 #: src/gui/menu_string_array.cpp:81
 #: src/supertux/menu/addon_preview_menu.cpp:177 src/editor/object_menu.cpp:61
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: src/gui/menu_string_array.cpp:82 src/supertux/menu/profile_menu.cpp:108
 #: src/supertux/menu/profile_menu.cpp:110
 msgid "Delete"
-msgstr ""
+msgstr "削除"
 
 #: src/gui/menu_string_array.cpp:84 src/gui/menu_object_select.cpp:61
 #: src/gui/menu_color.cpp:37 src/gui/dialog.hpp:87 src/gui/menu_script.cpp:46
@@ -1696,7 +1699,7 @@ msgstr "戻る"
 
 #: src/addon/addon_manager.cpp:484
 msgid "Error deleting addon .zip file: \"PHYSFS_delete\" failed: "
-msgstr ""
+msgstr "アドオンの.zipファイルの削除エラー: \"PHYSFS_delete\" に失敗:"
 
 #: src/addon/addon_manager.cpp:490
 msgid "Error uninstalling add-on: Addon with id "
@@ -1739,11 +1742,11 @@ msgstr "アドオン"
 
 #: src/addon/addon.cpp:83
 msgid "Language Pack"
-msgstr ""
+msgstr "言語パック"
 
 #: src/addon/addon.cpp:86
 msgid "Resource Pack"
-msgstr ""
+msgstr "リソースパック"
 
 #: src/addon/addon.cpp:89
 msgid "Unknown"
@@ -1756,11 +1759,11 @@ msgstr ""
 
 #: src/addon/addon.cpp:114
 msgid "add-on"
-msgstr ""
+msgstr "アドオン"
 
 #: src/addon/addon.cpp:114
 msgid "add-ons"
-msgstr ""
+msgstr "アドオン"
 
 #: src/badguy/toad.hpp:38
 msgid "Toad"
@@ -2376,7 +2379,7 @@ msgstr "  -d, --default                ビデオ設定をデフォルトにリ�
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "  --renderer レンダラー          \"sdl\"、\"opengl\"、または\"auto\" を指定します"
+msgstr "  --renderer レンダラー          \"sdl\"、\"opengl\"、または \"auto\" を指定します"
 
 #: src/supertux/command_line_arguments.cpp:109
 msgid "Audio Options:"
@@ -2424,7 +2427,7 @@ msgstr "  --developer                  開発者向け機能を有効にしま�
 
 #: src/supertux/command_line_arguments.cpp:121
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr "  -s, --debug-scripts          スクリプトデバッガーを有効にします"
+msgstr "  -s, --debug-scripts          スクリプトデバッガーを有効にします。"
 
 #: src/supertux/command_line_arguments.cpp:122
 msgid ""
@@ -2559,12 +2562,12 @@ msgstr ""
 
 #: src/supertux/menu/video_system_menu.cpp:36
 msgid "Select Video System"
-msgstr ""
+msgstr "ビデオシステムを選択"
 
 #: src/supertux/menu/video_system_menu.cpp:37
 #, c++-format
 msgid "Used video system: {}"
-msgstr ""
+msgstr "使用中のビデオシステム: {}"
 
 #: src/supertux/menu/video_system_menu.cpp:54
 msgid "Restart game for the changes to take effect"
@@ -2677,7 +2680,7 @@ msgstr "コントローラーが接続/切断された際に、自動的にプ�
 
 #: src/supertux/menu/multiplayer_menu.cpp:33
 msgid "Allow Multibind"
-msgstr "複数台接続を"
+msgstr "複数台接続を許可"
 
 #: src/supertux/menu/multiplayer_menu.cpp:34
 msgid "Allow binding multiple joysticks to a single player"
@@ -2685,7 +2688,7 @@ msgstr "複数のジョイスティックでひとりのプレイヤーを操作
 
 #: src/supertux/menu/multiplayer_menu.cpp:36
 msgid "Manage Players"
-msgstr "プレイヤーを"
+msgstr "プレイヤーを管理"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose Sector"
@@ -2718,7 +2721,7 @@ msgstr "セクターを削除"
 #: src/supertux/menu/custom_menu_menu.cpp:49
 #: src/supertux/menu/options_menu.cpp:191
 msgid "Menu Customization"
-msgstr ""
+msgstr "メニューのカスタマイズ"
 
 #: src/supertux/menu/custom_menu_menu.cpp:51
 msgid "Menu Back Color"
@@ -2943,7 +2946,7 @@ msgstr "ワールドを作る"
 #: src/supertux/menu/editor_levelset_select_menu.cpp:113
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:41
 msgid "Delete World"
-msgstr "ワールドを"
+msgstr "ワールドを削除"
 
 #: src/supertux/menu/options_menu.cpp:72
 #: src/supertux/menu/options_select_menu.cpp:35
@@ -2997,7 +3000,7 @@ msgstr "解像度をブラウザのサイズに合わせます"
 
 #: src/supertux/menu/options_menu.cpp:116
 msgid "Change Video System"
-msgstr "ビデオシステムを"
+msgstr "ビデオシステムを変更"
 
 #: src/supertux/menu/options_menu.cpp:117
 msgid "Change video system used to render graphics"
@@ -3075,7 +3078,7 @@ msgstr "プレイに使用するプロファイルを選択します"
 
 #: src/supertux/menu/options_menu.cpp:174
 msgid "Multiplayer settings"
-msgstr "マルチプレイヤーの"
+msgstr "マルチプレイヤーの設定"
 
 #: src/supertux/menu/options_menu.cpp:175
 msgid "Configure settings specific to multiplayer"
@@ -3109,11 +3112,11 @@ msgstr "統合と表示"
 msgid ""
 "Manage whether SuperTux should display the levels you play on your social "
 "media profiles (Discord)"
-msgstr "ソーシャルメディア (Discord) のプロフィールに、SuperTuxでプレイしたレベルを表示するかどうかを設定します"
+msgstr "SuperTuxでプレイしたレベルを、ソーシャルメディア (Discord) のプロフィールに表示するかどうかを設定します"
 
 #: src/supertux/menu/options_menu.cpp:192
 msgid "Customize the appearance of the menus"
-msgstr "メニューの見た目をカスタマイズ"
+msgstr "メニューの見た目をカスタマイズします"
 
 #: src/supertux/menu/options_menu.cpp:199
 #: src/supertux/menu/options_select_menu.cpp:41
@@ -3156,7 +3159,7 @@ msgstr "アップデートを自動的に確認"
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
-msgstr "ゲーム起動時に SuperTux の新バージョンがリリースされているか確認し、見つかった場合は通知することを許可します。"
+msgstr "ゲーム起動時にSuperTuxの新バージョンがリリースされているか確認し、見つかった場合は通知することを許可します。"
 
 #: src/supertux/menu/options_menu.cpp:245
 #: src/supertux/menu/options_menu.cpp:288 src/supertux/direction.cpp:76
@@ -3250,25 +3253,25 @@ msgstr "ゲームはブラウザの解像度を検出できませんでした。
 
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:80
 msgid "You cannot delete the world that you are editing"
-msgstr ""
+msgstr "編集中のワールドは削除できません"
 
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:83
 #, c++-format
 msgid "You are about to delete world \"{}\". Are you sure?"
-msgstr ""
+msgstr "ワールド \"{}\" を削除しようとしています。よろしいですか？"
 
 #: src/supertux/menu/addon_preview_menu.cpp:82
 #, c++-format
 msgid "{} \"{}\""
-msgstr ""
+msgstr "{} \"{}\""
 
 #: src/supertux/menu/addon_preview_menu.cpp:87
 msgid "Some information about this add-on is not available."
-msgstr ""
+msgstr "このアドオンは一部の情報が不明です。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:88
 msgid "Perform a \"Check Online\" to try retrieving it."
-msgstr ""
+msgstr "\"オンラインで確認\"を実行して、アドオンの再取得をお試しください。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "No author specified."
@@ -3368,11 +3371,11 @@ msgstr ""
 
 #: src/supertux/menu/addon_preview_menu.cpp:279
 msgid "Fetching screenshot previews..."
-msgstr ""
+msgstr "スクリーンショットのプレビューを取得しています…"
 
 #: src/supertux/menu/addon_preview_menu.cpp:300
 msgid "Updating"
-msgstr ""
+msgstr "更新しています"
 
 #: src/supertux/menu/addon_preview_menu.cpp:300
 msgid "Downloading"
@@ -3458,28 +3461,28 @@ msgstr "サイズ変更"
 
 #: src/supertux/menu/profile_menu.cpp:60
 msgid "No profiles found."
-msgstr ""
+msgstr "プロファイルが見つかりません。"
 
 #: src/supertux/menu/profile_menu.cpp:68
 #: src/supertux/menu/profile_menu.cpp:149
 #: src/supertux/menu/profile_menu.cpp:168
 #, c++-format
 msgid "Profile {}"
-msgstr ""
+msgstr "プロファイル {}"
 
 #: src/supertux/menu/profile_menu.cpp:69
 #, c++-format
 msgid "{} (Profile {})"
-msgstr ""
+msgstr "{} (プロファイル {})"
 
 #: src/supertux/menu/profile_menu.cpp:84
 msgid "No profile selected."
-msgstr ""
+msgstr "プロファイルが選択されていません。"
 
 #: src/supertux/menu/profile_menu.cpp:91 src/supertux/menu/profile_menu.cpp:93
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Rename"
-msgstr "名前を"
+msgstr "名前を変更"
 
 #: src/supertux/menu/profile_menu.cpp:98
 #: src/supertux/menu/profile_menu.cpp:100
@@ -3501,24 +3504,24 @@ msgstr "すべて削除"
 msgid ""
 "This will reset all game progress on the profile \"{}\".\n"
 "Are you sure?"
-msgstr "プロファイル  \"{}\" のすべてのセーブデータがリセットされます。\nよろしいですか？"
+msgstr "プロファイル \"{}\" のすべてのセーブデータをリセットします。\nよろしいですか？"
 
 #: src/supertux/menu/profile_menu.cpp:157
 msgid "This will reset your game progress on all profiles. Are you sure?"
-msgstr "すべてのプロファイルのセーブデータがリセットされます。よろしいですか？"
+msgstr "すべてのプロファイルのセーブデータをリセットします。よろしいですか？"
 
 #: src/supertux/menu/profile_menu.cpp:167
 #, c++-format
 msgid ""
 "This will delete the profile \"{}\",\n"
 "including all game progress on it. Are you sure?"
-msgstr ""
+msgstr "プロファイル \"{}\" を削除します。これにはこのプロファイルの\nすべてのセーブデータも含まれます。よろしいですか？"
 
 #: src/supertux/menu/profile_menu.cpp:178
 msgid ""
 "This will delete all profiles, including all game progress on them.\n"
 "Are you sure?"
-msgstr ""
+msgstr "すべてのプロファイルを削除します。これにはすべてのプロファイルの\nセーブデータも含まれます。よろしいですか？"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:53
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -3598,12 +3601,12 @@ msgstr "アップデートを確認"
 
 #: src/supertux/menu/addon_menu.cpp:150
 msgid "Browse language packs"
-msgstr "言語パックを表示"
+msgstr "言語パックを探す"
 
 #: src/supertux/menu/addon_menu.cpp:150
 #: src/supertux/menu/addon_browse_menu.cpp:70
 msgid "Browse Add-ons"
-msgstr "アドオンを表示"
+msgstr "アドオンを探す"
 
 #: src/supertux/menu/addon_menu.cpp:151
 msgid "Install from file"
@@ -3627,7 +3630,7 @@ msgstr "ストーリーモード"
 
 #: src/supertux/menu/addon_browse_menu.cpp:70
 msgid "Browse Language Packs"
-msgstr "言語パックを表示"
+msgstr "言語パックを探す"
 
 #: src/supertux/menu/addon_browse_menu.cpp:112
 #, c++-format
@@ -3662,11 +3665,11 @@ msgstr "次のページ"
 
 #: src/supertux/menu/addon_browse_menu.cpp:154
 msgid "Check Online (disabled)"
-msgstr "オンラインで (無効)"
+msgstr "オンラインで確認 (無効)"
 
 #: src/supertux/menu/addon_browse_menu.cpp:158
 msgid "Check Online"
-msgstr "オンラインで"
+msgstr "オンラインで確認"
 
 #: src/supertux/menu/addon_browse_menu.cpp:195
 msgid "Downloading Add-On Repository Index"
@@ -3716,7 +3719,7 @@ msgstr "よろしいですか？"
 #: src/supertux/menu/profile_name_menu.cpp:36
 #, c++-format
 msgid "Rename \"{}\""
-msgstr ""
+msgstr "\"{}\"の名前を変更"
 
 #: src/supertux/menu/profile_name_menu.cpp:36
 msgid "Add profile"
@@ -3724,7 +3727,7 @@ msgstr "プロファイルを追加"
 
 #: src/supertux/menu/profile_name_menu.cpp:40
 msgid "Profile names must have a maximum of 20 characters."
-msgstr ""
+msgstr "プロファイル名は最大20文字です。"
 
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Create"
@@ -3734,11 +3737,11 @@ msgstr "作成"
 msgid ""
 "Profile names must have a maximum of 20 characters.\n"
 "Please choose a different name."
-msgstr ""
+msgstr "プロファイル名は最大20文字です。\n他の名前を選択してください。"
 
 #: src/supertux/menu/profile_name_menu.cpp:77
 msgid "An error occurred while creating the profile."
-msgstr ""
+msgstr "プロファイル作成中にエラーが発生しました。"
 
 #: src/supertux/menu/keyboard_menu.cpp:34
 #: src/supertux/menu/joystick_menu.cpp:71
@@ -3874,7 +3877,7 @@ msgstr "手動構成"
 #: src/supertux/menu/joystick_menu.cpp:59
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "SDL2 の自動 GameController サポートの代わりに、手動構成を使用します"
+msgstr "SDL2の自動GameControllerサポートの代わりに、手動構成を使用します"
 
 #: src/supertux/menu/joystick_menu.cpp:77
 msgid "Pause/Menu"
@@ -3958,7 +3961,7 @@ msgstr "Tuxを殺す"
 
 #: src/supertux/menu/cheat_menu.cpp:55
 msgid "Prevent Death"
-msgstr ""
+msgstr "死なないようにする"
 
 #: src/supertux/menu/addon_file_install_menu.cpp:32
 msgid "Install Add-on from file"
@@ -3979,7 +3982,7 @@ msgstr "エディターに戻る"
 
 #: src/supertux/menu/particle_editor_menu.cpp:37
 msgid "New Particle Config"
-msgstr "新しいパーティクル構成"
+msgstr "新しいパーティクル設定"
 
 #: src/supertux/menu/particle_editor_menu.cpp:38
 msgid "Save Particle Config"
@@ -3991,7 +3994,7 @@ msgstr "パーティクル設定を名前を付けて保存..."
 
 #: src/supertux/menu/particle_editor_menu.cpp:40
 msgid "Load Another Particle Config"
-msgstr "別のパーティクル設定をロードする"
+msgstr "別のパーティクル設定を読み込む"
 
 #: src/supertux/menu/particle_editor_menu.cpp:44
 msgid "Open Particle Directory"
@@ -4016,7 +4019,7 @@ msgid ""
 "Ctrl+O = Open\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr "キーボードショートカット:\n---------------------\nEsc = メニューを開く\nCtrl+S = 保存\nCtrl+Shift+S = 名前をつけて保存\nCtrl+O = 開く\nCtrl+Z = 元に戻す\nCtrl+Y = やり直し"
+msgstr "キーボードショートカット:\n---------------------\nEsc = メニューを開く\nCtrl+S = 保存\nCtrl+Shift+S = 名前を付けて保存\nCtrl+O = 開く\nCtrl+Z = 元に戻す\nCtrl+Y = やり直し"
 
 #: src/supertux/menu/particle_editor_menu.cpp:122
 #: src/supertux/menu/editor_menu.cpp:206
@@ -4290,12 +4293,12 @@ msgstr ""
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:79
 msgid "You cannot delete the level that you are editing!"
-msgstr ""
+msgstr "編集中のレベルは削除できません！"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:82
 #, c++-format
 msgid "You are about to delete level \"{}\". Are you sure?"
-msgstr ""
+msgstr "レベル \"{}\" を削除しようとしています。よろしいですか？"
 
 #: src/supertux/levelintro.cpp:137
 #, c++-format
@@ -4342,7 +4345,7 @@ msgid ""
 "For more information, you can visit the SuperTux website.\n"
 "\n"
 "Do you want to visit the website now?"
-msgstr "SuperTux (v{}) が利用可能です！\n詳細は SuperTux の Web サイトで確認できます。\n\n今すぐ Web サイトで確認しますか？"
+msgstr "SuperTux (v{}) が利用可能です！\n詳細はSuperTuxのWebサイトで確認できます。\n\n今すぐWebサイトで確認しますか？"
 
 #: src/supertux/main.cpp:810
 msgid "Checking for new releases..."
@@ -4618,7 +4621,7 @@ msgstr ""
 msgid ""
 "This particle configuration contains unsaved changes,\n"
 "do you want to save?"
-msgstr "このパーティクル設定には保存されていない変更が含まれています。\n保存したいですか？"
+msgstr "このパーティクル設定には保存されていない変更が含まれています。\n保存しますか？"
 
 #: src/editor/particle_editor.cpp:774
 msgid "Save as"
@@ -4641,7 +4644,7 @@ msgid ""
 "aren't saved between sessions!\n"
 "If you want to keep your levels, download them\n"
 "from the \"Manage Assets\" menu."
-msgstr "レベルと資産を忘れないでください\nセッション間では保存されません。\nレベルを保持したい場合は、ダウンロードしてください\n「資産の管理」メニューから。"
+msgstr "レベルと資産はセッションをまたぐと\n破棄されます！\nレベルを保持したい場合は、「資産の管理」\nメニューからダウンロードしてください。"
 
 #: src/editor/editor.cpp:636
 msgid "This level contains unsaved changes, do you want to save?"
@@ -4649,7 +4652,7 @@ msgstr "このレベルには未保存の変更があります。保存します
 
 #: src/editor/editor.cpp:637
 msgid "This level may contain unsaved changes, do you want to save?"
-msgstr ""
+msgstr "このレベルには未保存の変更がある可能性があります。保存しますか？"
 
 #: src/editor/editor.cpp:772
 msgid ""
@@ -5000,15 +5003,15 @@ msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1317
 msgid "Want to help…"
-msgstr "ヘルプが必要ですか？"
+msgstr "貢献をお待ちしています"
 
 #: data//credits.stxt:1322
 msgid "…with localization?"
-msgstr "翻訳について"
+msgstr "翻訳"
 
 #: data//credits.stxt:1332
 msgid "…with something else?"
-msgstr "その他について"
+msgstr "その他"
 
 #: data//credits.stxt:1343
 msgid "Thank you for"
