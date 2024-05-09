@@ -40,8 +40,6 @@ static const float DROP_RANGE = 4.f*32;
 static const float DROP_DETECT_RANGE = 1200.f;
 static const float RETREAT_RANGE = 4.f*32;
 
-float Tarantula::s_ground_height = -1.f;
-
 Tarantula::Tarantula(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/tarantula/tarantula.sprite"),
   m_state(STATE_IDLE),
@@ -52,7 +50,8 @@ Tarantula::Tarantula(const ReaderMapping& reader) :
   m_was_grabbed(false),
   m_retreat(true),
   m_attach_ceiling(false),
-  m_static(false)
+  m_static(false),
+  m_ground_height(0.f)
 {
   parse_type(reader);
   set_action("idle");
@@ -77,7 +76,7 @@ Tarantula::collision_squished(GameObject& object)
   if (m_frozen)
     return BadGuy::collision_squished(object);
 
-  set_action("squished", m_dir);
+  set_action("squished");
   kill_squished(object);
   return true;
 }
@@ -100,7 +99,7 @@ Tarantula::active_update(float dt_sec)
                                                        player->get_bbox().get_bottom()+1.f),
                                                 Sizef(player->get_bbox().get_width(), 1.f))))
     {
-      s_ground_height = player->get_bbox().get_top();
+      m_ground_height = player->get_bbox().get_top();
     }
 
     if (m_state == STATE_HANG_UP || m_state == STATE_HANG_DOWN)
@@ -232,9 +231,9 @@ Tarantula::try_drop()
     {
       // Out of bounds. Drop to the lowest point possible by faking
       // a raycast result.
-      if (s_ground_height < 0.f)
-        s_ground_height = sectorheight;
-      result.box = Rectf(Vector(0.f, s_ground_height), Sizef(1.f, 1.f));
+      if (m_ground_height < 0.f)
+        m_ground_height = sectorheight;
+      result.box = Rectf(Vector(0.f, m_ground_height), Sizef(1.f, 1.f));
     }
     else
     {
@@ -312,7 +311,6 @@ Tarantula::draw(DrawingContext& context)
       Editor::is_active())
     return;
 
-  //FIXME: Hello reviewers, is there a better way to center the silk horizontally? Thank you.
   Vector pos(get_bbox().get_left() + ((get_bbox().get_width() - static_cast<float>(m_silk->get_width()))/2),
              m_start_position.y - 32.f);
 

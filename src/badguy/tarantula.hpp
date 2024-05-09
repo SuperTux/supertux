@@ -84,7 +84,7 @@ private:
   bool m_retreat;
   bool m_attach_ceiling;
   bool m_static; // FIXME: Better name
-  static float s_ground_height;
+  float m_ground_height;
 
 private:
   Tarantula(const Tarantula&) = delete;
