@@ -41,10 +41,13 @@ body:
     attributes:
       label: Debugging Information (Stacktrace)
       description: Include a stacktrace, leading to the crash. This can be obtained via a debugging utility.
-      placeholder: Paste the full stacktrace here.
+      placeholder: |
+        Paste the full stacktrace here.
+
+        You can leave this empty, in case a stacktrace can't be obtained (for example, if the game freezes).
       render: shell
     validations:
-      required: true
+      required: false
   - type: textarea
     id: additional-info
     attributes:
