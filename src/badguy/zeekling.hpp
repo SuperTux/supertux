@@ -46,7 +46,6 @@ private:
   virtual bool collision_squished(GameObject& object) override;
 
   bool should_we_dive();
-  bool should_we_rebound();
 
   void on_bump_horizontal();
   void on_bump_vertical();
@@ -54,20 +53,15 @@ private:
 private:
   enum ZeeklingState {
     FLYING,
-    CHARGING,
     DIVING,
-    CATCH,
-    REBOUND,
     RECOVERING
   };
 
 private:
-  float speed;
-
-  float m_original_xvel, m_original_yvel;
-
+  float m_speed;
   double m_easing_progress;
-  Timer m_charge_timer;
+  float m_target_y;
+  Timer m_timer;
   ZeeklingState state;
 
 private:

@@ -663,21 +663,28 @@ Sector::set_gravity(float gravity)
 }
 
 Player*
-Sector::get_nearest_player (const Vector& pos) const
+Sector::get_nearest_player(const Vector& pos) const
 {
-  Player *nearest_player = nullptr;
+  auto players = get_objects_by_type_index(typeid(Player));
+  if (players.size() == 1)
+  {
+    Player* player = static_cast<Player*>(players[0]);
+    return (player->is_dying() || player->is_dead() ? nullptr : player);
+  }
+
+  Player* nearest_player = nullptr;
   float nearest_dist = std::numeric_limits<float>::max();
 
-  for (auto player_ptr : get_objects_by_type_index(typeid(Player)))
+  for (auto player_ptr : players)
   {
-    Player& player = *static_cast<Player*>(player_ptr);
-    if (player.is_dying() || player.is_dead())
+    Player* player = static_cast<Player*>(player_ptr);
+    if (player->is_dying() || player->is_dead())
       continue;
 
-    float dist = player.get_bbox ().distance(pos);
+    float dist = player->get_bbox().distance(pos);
 
     if (dist < nearest_dist) {
-      nearest_player = &player;
+      nearest_player = player;
       nearest_dist = dist;
     }
   }
