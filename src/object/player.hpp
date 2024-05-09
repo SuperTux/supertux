@@ -105,6 +105,7 @@ public:
   void move_to_sector(Sector& other);
 
   void make_invincible();
+  void make_temporarily_safe(float safe_time);
 
   bool is_invincible() const { return m_invincible_timer.started(); }
   bool is_dying() const { return m_dying; }
@@ -354,6 +355,7 @@ public:
 private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
+  bool m_is_intentionally_safe;
   Timer m_kick_timer;
   Timer m_buttjump_timer;
 

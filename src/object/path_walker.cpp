@@ -40,7 +40,7 @@ PathWalker::PathWalker(UID path_uid, bool running_) :
   m_running(running_),
   m_current_node_nr(0),
   m_next_node_nr(),
-  m_stop_at_node_nr(m_running?-1:0),
+  m_stop_at_node_nr(m_running ? -1 : 0),
   m_node_time(0),
   m_node_mult(),
   m_walking_speed(1.0)
@@ -112,14 +112,15 @@ PathWalker::get_pos(const Sizef& object_size, const Handle& handle) const
   if (!path) return Vector(0, 0);
   if (!path->is_valid()) return Vector(0, 0);
   if (Editor::is_active()) return path->m_nodes.begin()->position;
+  if (!m_running) return path->m_nodes[m_current_node_nr].position;
 
   const Path::Node* current_node = &(path->m_nodes[m_current_node_nr]);
   const Path::Node* next_node = & (path->m_nodes[m_next_node_nr]);
-  
+
   easing easeFunc = m_walking_speed > 0 ?
                           getEasingByName(current_node->easing) :
                           getEasingByName(get_reverse_easing(next_node->easing));
-  
+
   float progress = static_cast<float>(easeFunc(static_cast<double>(m_node_time)));
 
   Vector p1 = current_node->position,
@@ -135,30 +136,32 @@ PathWalker::get_pos(const Sizef& object_size, const Handle& handle) const
 }
 
 void
-PathWalker::goto_node(int node_no)
+PathWalker::goto_node(int node_idx)
 {
   const Path* path = get_path();
   if (!path) return;
 
-  if (node_no == m_stop_at_node_nr) return;
+  if (node_idx == m_stop_at_node_nr) return;
   m_running = true;
-  m_stop_at_node_nr = node_no;
+  m_stop_at_node_nr = node_idx;
 }
 
 void
-PathWalker::jump_to_node(int node_no)
+PathWalker::jump_to_node(int node_idx, bool instantaneous)
 {
   Path* path = get_path();
   if (!path) return;
 
-  if (node_no >= static_cast<int>(path->get_nodes().size())) return;
-  m_next_node_nr = static_cast<size_t>(node_no);
+  if (node_idx >= static_cast<int>(path->get_nodes().size())) return;
+  m_next_node_nr = static_cast<size_t>(node_idx);
+  if (instantaneous || m_walking_speed == 0) {
+    m_current_node_nr = m_next_node_nr;
+  }
+
   if (m_walking_speed > 0) {
     advance_node();
   } else if (m_walking_speed < 0) {
     goback_node();
-  } else {
-    m_current_node_nr = m_next_node_nr;
   }
   m_node_time = 0.f;
 }

@@ -125,7 +125,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }
@@ -140,7 +140,7 @@ Level::save(const std::string& filepath, bool retry)
 
     Writer writer(filepath);
     save(writer);
-    log_info << "Level saved as " << filepath << "." 
+    log_info << "Level saved as " << filepath << "."
              << (StringUtil::has_suffix(filepath, "~") ? " [Autosave]" : "")
              << std::endl;
   } catch(std::exception& e) {
@@ -156,7 +156,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }

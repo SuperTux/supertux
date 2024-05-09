@@ -21,6 +21,7 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
+#include "util/log.hpp"
 
 namespace scripting {
 
@@ -43,6 +44,23 @@ Level_spawn(const std::string& sector, const std::string& spawnpoint)
 {
   SCRIPT_GUARD_GAMESESSION();
   game_session.respawn(sector, spawnpoint);
+}
+
+void
+Level_spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition)
+{
+  SCRIPT_GUARD_GAMESESSION();
+
+  ScreenFade::FadeType fade_type = ScreenFade::FadeType::NONE;
+
+  if (transition == "fade")
+    fade_type = ScreenFade::FadeType::FADE;
+  else if (transition == "circle")
+    fade_type = ScreenFade::FadeType::CIRCLE;
+  else
+    log_warning << "Invalid transition type '" << transition << "'." << std::endl;
+
+  game_session.respawn_with_fade(sector, spawnpoint, fade_type, {0.0f, 0.0f}, true);
 }
 
 void
