@@ -58,7 +58,8 @@ ErrorHandler::set_handlers()
   signal(SIGABRT, handle_error);
 }
 
-std::string ErrorHandler::get_stacktrace()
+std::string
+ErrorHandler::get_stacktrace()
 {
 #ifdef WIN32
   std::stringstream stacktrace;
@@ -339,39 +340,20 @@ ErrorHandler::error_dialog_exception(const std::string& exception)
 #endif
 }
 
-void ErrorHandler::report_error(const std::string& details)
+void
+ErrorHandler::report_error(const std::string& details)
 {
-  std::string sysinfo = get_system_info();
-  std::stringstream bodybuilder;
+  std::stringstream url;
 
   // cppcheck-suppress unknownMacro
-  bodybuilder << "**SuperTux version:** *" PACKAGE_VERSION "*\r\n"
-                 "**System information:** *" << sysinfo << "*\r\n"
-                  "\r\n"
-                  "<!--\r\n"
-                  "Please provide information about this crash here\r\n"
-                  "such as expected behavior, intended behavior and steps\r\n"
-                  "to reproduce it.\r\n"
-                  "-->\r\n\r\n"
-                  "##### Expected behavior\r\n"
-                  "\r\n"
-                  "##### Actual behavior\r\n"
-                  "\r\n"
-                  "##### Steps to reproduce actual behavior\r\n"
-                  "\r\n"
-                  "##### Additional debugging information\r\n"
-                  "\r\n"
-                  "**Stacktrace:**\r\n" "```\r\n" << details << "\r\n```";
+  url << "https://github.com/supertux/supertux/issues/new"
+         "?template=crash.yml"
+         "&labels=type:crash,status:needs-confirmation"
+         "&supertux-version=" << FileSystem::escape_url(PACKAGE_VERSION) <<
+         "&system-info=" << FileSystem::escape_url(get_system_info()) <<
+         "&debug-stacktrace=" << FileSystem::escape_url(details);
 
-  std::string body = FileSystem::escape_url(bodybuilder.str());
-
-  std::stringstream urlbuilder;
-  urlbuilder << "https://github.com/supertux/supertux/issues/new"
-                "?title=SuperTux crashes"
-                "&labels=type:crash,status:needs-confirmation"
-                "&body=" << body;
-
-  FileSystem::open_url(urlbuilder.str());
+  FileSystem::open_url(url.str());
 }
 
 [[ noreturn ]] void
