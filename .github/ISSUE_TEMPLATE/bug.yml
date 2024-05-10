@@ -19,7 +19,7 @@ body:
     id: system-info
     attributes:
       label: System Information
-      description: Details about your operating system (like Linux distribution or Windows version) and CPU architecture (ex. 64-bit or 32-bit).
+      description: Details about your operating system (such as Linux distribution or Windows version) and CPU architecture (ex. 64-bit or 32-bit).
       placeholder: ex. Windows 11 64-bit
     validations:
       required: true
