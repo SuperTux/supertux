@@ -3071,7 +3071,7 @@
       (mask "*0*01111")
     )
     (autotile
-      (id 3378)
+      (id 6546)
       (solid #t)
       (mask "01011010")
     )
@@ -3131,12 +3131,12 @@
       (mask "*1*00010")
     )
     (autotile
-      (id 6546)
+      (id 3378)
       (solid #t)
       (mask "01011111")
     )
     (autotile
-      (id 3401)
+      (id 6545)
       (solid #t)
       (mask "11111010")
     )
