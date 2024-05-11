@@ -1766,8 +1766,8 @@ msgstr "Pritisnite Escape za preskakanje"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Upotreba: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Upotreba: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2491,13 +2491,13 @@ msgstr "Promjena veličine"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2545,8 +2545,8 @@ msgstr "Nepoznato"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" od \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" od \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2558,13 +2558,13 @@ msgstr "Nema pronađenih dodataka"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Instalirajte %s *NOVO*"
+msgid "Install {} *NEW*"
+msgstr "Instalirajte {} *NOVO*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Instalirajte %s"
+msgid "Install {}"
+msgstr "Instalirajte {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2584,8 +2584,8 @@ msgstr "Preuzimanje indeksa repozitorija dodataka"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Preuzimanje %s"
+msgid "Downloading {}"
+msgstr "Preuzimanje {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3098,8 +3098,8 @@ msgstr "Ne možete izbrisati razinu koju uređujete!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "Doprinosi od %s"
+msgid "contributed by {}"
+msgstr "Doprinosi od {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

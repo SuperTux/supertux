@@ -75,7 +75,7 @@ Igel::active_update(float dt_sec)
 
       if (m_ease_timer.started())
       {
-        float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
+        float progress = m_ease_timer.get_progress();
         float vel = (static_cast<float>(SineEaseOut(static_cast<double>(progress))) * (ROLL_SPEED - get_normal_walk_speed())) + get_normal_walk_speed();
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
@@ -106,7 +106,7 @@ Igel::active_update(float dt_sec)
 
       if (m_ease_timer.started())
       {
-        float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
+        float progress = m_ease_timer.get_progress();
         float vel = (static_cast<float>(SineEaseIn(static_cast<double>(progress))) * (get_normal_walk_speed() - ROLL_SPEED)) + ROLL_SPEED;
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));

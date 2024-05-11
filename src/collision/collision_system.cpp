@@ -33,6 +33,7 @@
 namespace {
 
 const float MAX_SPEED = 16.0f;
+static const float FORGIVENESS = 256.f; // 16.f * 16.f - half a tile by half a tile.
 
 } // namespace
 
@@ -421,6 +422,13 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
   // Collision with other (static) objects.
   for (auto* static_object : m_objects)
   {
+    const float static_size = static_object->get_bbox().get_width() * static_object->get_bbox().get_height();
+    const float object_size = object.get_bbox().get_width() * object.get_bbox().get_height();
+    // let's skip this if two colgroup_moving_static's connect and our object is somewhat larger than the static object.
+    if ((object.get_group() == COLGROUP_MOVING_STATIC && static_object->get_group() == COLGROUP_MOVING_STATIC) &&
+      (object_size > static_size + FORGIVENESS)) {
+      return;
+    }
     if ((
           static_object->get_group() == COLGROUP_STATIC ||
           static_object->get_group() == COLGROUP_MOVING_STATIC
@@ -641,9 +649,9 @@ CollisionSystem::update()
   {
     auto object = *i;
 
-    if ((object->get_group() != COLGROUP_MOVING
-        && object->get_group() != COLGROUP_MOVING_STATIC)
-       || !object->is_valid())
+    if (!object->is_valid() ||
+        (object->get_group() != COLGROUP_MOVING &&
+         object->get_group() != COLGROUP_MOVING_STATIC))
       continue;
 
     for (auto i2 = i+1; i2 != m_objects.end(); ++i2) {
@@ -677,20 +685,18 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
       for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
-        if (!(tile.get_attributes() & tiletype))
-          continue;
-        if (tile.is_unisolid () && ignoreUnisolid)
-          continue;
+        if (tile.get_attributes() & tiletype)
+          return false;
+        if (tile.is_unisolid() && !ignoreUnisolid)
+          return false;
         if (tile.is_slope ()) {
           AATriangle triangle;
           const Rectf tbbox = solids->get_tile_bbox(x, y);
           triangle = AATriangle(tbbox, tile.get_data());
           Constraints constraints;
-          if (!collision::rectangle_aatriangle(&constraints, rect, triangle))
-            continue;
+          if (collision::rectangle_aatriangle(&constraints, rect, triangle))
+            return false;
         }
-        // We have a solid tile that overlaps the given rectangle.
-        return false;
       }
     }
   }
@@ -717,15 +723,16 @@ CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ig
 }
 
 bool
-CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
-  if (!is_free_of_tiles(rect)) return false;
+  if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
 
   for (const auto& object : m_objects) {
     if (object == ignore_object) continue;
     if (!object->is_valid()) continue;
+    if (object->is_unisolid() && ignoreUnisolid) continue;
     if ((object->get_group() == COLGROUP_MOVING)
         || (object->get_group() == COLGROUP_MOVING_STATIC)
         || (object->get_group() == COLGROUP_STATIC)) {
@@ -783,7 +790,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
         {
           result.is_valid = true;
           result.hit = tile;
-          result.box = {glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f)};
+          result.box = solids->get_tile_bbox(static_cast<int>(test_vector.x / 32.f), static_cast<int>(test_vector.y / 32.f));
           return result;
         }
       }

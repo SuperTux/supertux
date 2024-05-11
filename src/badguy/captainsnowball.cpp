@@ -30,7 +30,6 @@ CaptainSnowball::CaptainSnowball(const ReaderMapping& reader) :
 {
   walk_speed = BOARDING_SPEED;
   set_ledge_behavior(LedgeBehavior::FALL);
-  m_physic.set_velocity_y(-400);
 }
 
 bool

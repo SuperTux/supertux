@@ -33,7 +33,7 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   parse_type(reader);
 
   walk_speed = 0;
-  max_drop_height = 600;
+  set_ledge_behavior(LedgeBehavior::NORMAL);
 
   m_countMe = false;
 
@@ -211,7 +211,8 @@ Granito::collision(GameObject& other, const CollisionHit& hit)
 {
   if (hit.top)
     m_col.propagate_movement(m_col.get_movement());
-  else if (hit.bottom)
+
+  if (hit.bottom)
   {
     if (m_state == STATE_SIT)
       return WalkingBadguy::collision(other, hit);

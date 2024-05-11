@@ -44,10 +44,13 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 {
   parse_type(reader);
 
-  set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
+
   reader.get("cycle", m_cycle, 5.0f);
-  if (reader.get("gravity", m_gravity)) m_physic.enable_gravity(true);
+
+  reader.get("gravity", m_gravity);
+  m_physic.enable_gravity(m_gravity);
+
   reader.get("random", m_random, false);
 
   std::vector<std::string> badguys;
@@ -75,6 +78,8 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");
 
+  set_correct_colgroup();
+  set_correct_action();
   update_hitbox();
   m_countMe = false;
 }
@@ -161,6 +166,14 @@ Dispenser::active_update(float dt_sec)
 
     launch_object();
   }
+
+  if (m_frozen)
+    set_correct_colgroup();
+}
+
+void
+Dispenser::kill_fall()
+{
 }
 
 void
@@ -285,7 +298,6 @@ Dispenser::freeze()
   if (m_type == DispenserType::POINT || m_type == DispenserType::GRANITO)
     return;
 
-  set_group(COLGROUP_MOVING_STATIC);
   SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
   m_frozen = true;
 
@@ -310,19 +322,15 @@ Dispenser::freeze()
     }
   }
   m_dispense_timer.stop();
+  m_unfreeze_timer.start(8.f);
 }
 
 void
 Dispenser::unfreeze(bool melt)
 {
-  /*set_group(colgroup_active);
-  frozen = false;
-
-  sprite->set_color(Color(1.00, 1.00, 1.00f));*/
   BadGuy::unfreeze(melt);
 
-  set_colgroup_active(m_type == DispenserType::POINT ? COLGROUP_DISABLED :
-                      COLGROUP_MOVING_STATIC);
+  set_correct_colgroup();
   set_correct_action();
   activate();
 }
@@ -350,13 +358,28 @@ Dispenser::set_correct_action()
 {
   switch (m_type)
   {
+    case DispenserType::GRANITO:
     case DispenserType::CANNON:
-      set_action(m_dir);
+      set_action(m_start_dir);
       break;
+    case DispenserType::DROPPER:
+      set_action("dropper");
+      break;
+    default:
+      break;
+  }
+}
+
+void Dispenser::set_correct_colgroup()
+{
+  switch (m_type)
+  {
+    case DispenserType::GRANITO:
     case DispenserType::POINT:
       set_colgroup_active(COLGROUP_DISABLED);
       break;
     default:
+      set_colgroup_active(m_gravity ? COLGROUP_MOVING_STATIC : COLGROUP_STATIC);
       break;
   }
 }
@@ -372,7 +395,12 @@ Dispenser::on_type_change(int old_type)
     if (m_type == GRANITO) // Switching to type GRANITO
       add_object(GameObjectFactory::instance().create("corrupted_granito"));
   }
+}
 
+void
+Dispenser::after_editor_set()
+{
+  BadGuy::after_editor_set();
   set_correct_action();
 }
 

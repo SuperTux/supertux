@@ -1058,7 +1058,7 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:79
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
 msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:80
@@ -1231,8 +1231,8 @@ msgstr ""
 
 #: src/supertux/levelintro.cpp:120
 #, c-format
-msgid "contributed by %s"
-msgstr "được cống hiến bởi %s"
+msgid "contributed by {}"
+msgstr "được cống hiến bởi {}"
 
 #: src/supertux/levelintro.cpp:141 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
@@ -1272,8 +1272,8 @@ msgstr "Thế giới"
 
 #: src/supertux/menu/addon_menu.cpp:83
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" bởi \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" bởi \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:139
 msgid "Language packs"
@@ -1309,12 +1309,12 @@ msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:224
 #, c-format
-msgid "Install %s *NEW*"
+msgid "Install {} *NEW*"
 msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:235
 #, c-format
-msgid "Install %s"
+msgid "Install {}"
 msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:246
@@ -1354,7 +1354,7 @@ msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:361
 #, c-format
-msgid "Downloading %s"
+msgid "Downloading {}"
 msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:408
@@ -2013,12 +2013,12 @@ msgstr ""
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
+msgid "[Profile {}]"
 msgstr ""
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
+msgid "Profile {}"
 msgstr ""
 
 #: src/supertux/menu/world_set_menu.cpp:41

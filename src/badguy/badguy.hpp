@@ -121,6 +121,9 @@ public:
     Returns false if enemy is spiky or too large */
   virtual bool is_snipable() const { return false; }
 
+  /** Can enemy get pushed by explosions? */
+  virtual bool is_heavy() const { return false; }
+
   bool is_frozen() const;
 
   bool is_in_water() const;
@@ -268,6 +271,8 @@ protected:
   SpritePtr m_freezesprite;
   bool m_glowing;
 
+  Timer m_unfreeze_timer;
+
 private:
   State m_state;
 
@@ -276,8 +281,6 @@ private:
   bool m_is_active_flag;
 
   Timer m_state_timer;
-
-  Timer m_unfreeze_timer;
 
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */
