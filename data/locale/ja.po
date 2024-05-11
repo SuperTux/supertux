@@ -2571,7 +2571,7 @@ msgstr "使用中のビデオシステム: {}"
 
 #: src/supertux/menu/video_system_menu.cpp:54
 msgid "Restart game for the changes to take effect"
-msgstr ""
+msgstr "変更を反映するには、ゲームを再起動してください"
 
 #: src/supertux/menu/contrib_menu.cpp:68
 #: src/supertux/menu/world_set_menu.cpp:31
@@ -2670,7 +2670,7 @@ msgstr "マルチプレイヤー"
 
 #: src/supertux/menu/multiplayer_menu.cpp:30
 msgid "Auto-manage Players"
-msgstr "プレイヤーを自動"
+msgstr "プレイヤーを自動管理"
 
 #: src/supertux/menu/multiplayer_menu.cpp:31
 msgid ""
@@ -2937,7 +2937,7 @@ msgstr "ワールドを選ぶ"
 #, c++-format
 msgid "{} level"
 msgid_plural "{} levels"
-msgstr[0] ""
+msgstr[0] "{} 個のレベル"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:112
 msgid "Create World"
@@ -3338,22 +3338,22 @@ msgstr ""
 
 #: src/supertux/menu/addon_preview_menu.cpp:177
 msgid "Install"
-msgstr ""
+msgstr "インストール"
 
 #: src/supertux/menu/addon_preview_menu.cpp:190
 msgid "Uninstall"
-msgstr ""
+msgstr "アンインストール"
 
 #: src/supertux/menu/addon_preview_menu.cpp:214
 #, c++-format
 msgid "Are you sure you want to uninstall \"{}\"?"
-msgstr ""
+msgstr "\"{}\"をアンインストールしてもよろしいですか？"
 
 #: src/supertux/menu/addon_preview_menu.cpp:215
 msgid ""
 "\n"
 "Your progress won't be lost."
-msgstr ""
+msgstr "\nセーブデータは維持されます。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:227
 #, c++-format
@@ -4245,11 +4245,11 @@ msgstr ""
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:40
 msgid "Play with the keyboard"
-msgstr ""
+msgstr "キーボードでプレイ"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:58
 msgid "Remove Player"
-msgstr ""
+msgstr "プレイヤーを削除"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:82
 msgid "Respawn Player"
@@ -4261,7 +4261,7 @@ msgstr ""
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:136
 msgid "Controllers"
-msgstr ""
+msgstr "コントローラー"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:152
 msgid ""
@@ -4289,7 +4289,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:59
 msgid "No levels available"
-msgstr ""
+msgstr "利用可能なレベルなし"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:79
 msgid "You cannot delete the level that you are editing!"
@@ -5019,7 +5019,7 @@ msgstr "プレイしてくださって"
 
 #: data//credits.stxt:1347
 msgid "playing"
-msgstr "ありがとうございます。"
+msgstr "ありがとうございます"
 
 #: data//credits.stxt:1357
 msgid "Penny awaits you in warmer temperatures!"
