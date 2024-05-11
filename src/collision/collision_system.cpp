@@ -163,7 +163,9 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
     if (other_object && other_object->is_unisolid())
     {
       // Constrain only on fall on top of the unisolid object.
-      if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top())
+      // Here we are checking the movements of the objects to prevent
+      // overshoot if both objects are going in convergent directions
+      if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top() - (other_object->get_movement().y - 5.f))
       {
         constraints.constrain_bottom(other_obj_rect.get_top());
         constraints.hit.bottom = true;
