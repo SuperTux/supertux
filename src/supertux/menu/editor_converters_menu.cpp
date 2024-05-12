@@ -61,7 +61,7 @@ EditorConvertersMenu::EditorConvertersMenu() :
   add_label(_("Convert Tiles"));
   add_hl();
 
-  add_file(_("Select Tile Conversion File"), &m_tile_conversion_file, { "sttc" }, "images/converters", false,
+  add_file(_("Select Tile Conversion File"), {&m_tile_conversion_file, { ".sttc" }, {}, "images/converters", false,
            [this](MenuItem& item) {
              auto it = m_converters.find(item.get_text());
              if (it == m_converters.end())
@@ -70,7 +70,7 @@ EditorConvertersMenu::EditorConvertersMenu() :
              item.set_text("\"" + it->second.title + "\"");
              item.set_help(it->second.description + (it->second.author.empty() ? "" :
                            "\n\n" + fmt::format(fmt::runtime(_("By: {}")), it->second.author)));
-           });
+           }});
 
   add_entry(MNID_CONVERT_TILES, _("Convert Tiles By File"))
     .set_help(_("Convert all tiles in the current level by a file, specified above."));

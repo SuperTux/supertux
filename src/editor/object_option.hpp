@@ -27,6 +27,8 @@
 #include "object/path_walker.hpp"
 #include "video/color.hpp"
 
+struct FileSystemMenu::MenuParams;
+
 enum ObjectOptionFlag {
   /** Set if the value is a hidden implementation detail that
       shouldn't be exposed to the user */
@@ -283,9 +285,7 @@ public:
   FileObjectOption(const std::string& text, std::string* pointer,
                    std::optional<std::string> default_value,
                    const std::string& key,
-                   std::vector<std::string> filter,
-                   const std::string& basedir,
-                   bool path_relative_to_basedir,
+                   FileSystemMenu::MenuParams& params,
                    unsigned int flags);
 
   virtual void save(Writer& write) const override;

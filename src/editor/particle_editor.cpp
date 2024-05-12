@@ -372,9 +372,10 @@ ParticleEditor::reset_texture_ui()
   auto chg_texture_btn = std::make_unique<ControlButton>(_("Change texture..."));
   chg_texture_btn.get()->m_on_change = std::function<void()>([this](){
     const std::vector<std::string>& filter = {".jpg", ".png", ".surface"};
-    MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(
+    MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>({
       nullptr,
       filter,
+      {},
       "/",
       false,
       [this](const std::string& new_filename) {
@@ -382,7 +383,7 @@ ParticleEditor::reset_texture_ui()
         m_particles->reinit_textures();
         this->push_version();
       }
-    ));
+    }));
   });
   chg_texture_btn.get()->set_rect(Rectf(25.f, 420, 325.f, 440));
   m_controls_textures.push_back(std::move(chg_texture_btn));

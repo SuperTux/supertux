@@ -403,15 +403,11 @@ ScriptObjectOption::add_to_menu(Menu& menu) const
 FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer,
                                    std::optional<std::string> default_value,
                                    const std::string& key,
-                                   std::vector<std::string> filter,
-                                   const std::string& basedir,
-                                   bool path_relative_to_basedir,
+                                   FileSystemMenu::MenuParams& params,
                                    unsigned int flags) :
   ObjectOption(text, key, flags, pointer),
   m_default_value(std::move(default_value)),
-  m_filter(std::move(filter)),
-  m_basedir(basedir),
-  m_path_relative_to_basedir(path_relative_to_basedir)
+  m_params(params)
 {
 }
 
@@ -440,7 +436,7 @@ FileObjectOption::to_string() const
 void
 FileObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_file(get_text(), m_value_pointer, m_filter, m_basedir, m_path_relative_to_basedir);
+  menu.add_file(get_text(), m_params);
 }
 
 ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,

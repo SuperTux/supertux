@@ -68,13 +68,13 @@ WebAssetMenu::menu_action(MenuItem& item)
     {
       std::vector<std::string> empty_vec;
       MenuManager::instance().push_menu(
-        std::make_unique<FileSystemMenu>(nullptr, empty_vec, "", false, [](const std::string& file) {
+        std::make_unique<FileSystemMenu>({nullptr, empty_vec, empty_vec, "", false, [](const std::string& file) {
           std::string fullpath(std::string(PHYSFS_getRealDir(file.c_str())) + "/" + file);
           FileSystem::open_path(fullpath);
-        })
+        }})
       );
-    }
       break;
+    }
 
     default:
       break;

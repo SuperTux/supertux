@@ -28,20 +28,13 @@
 #include "util/gettext.hpp"
 #include "util/string_util.hpp"
 
-FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(std::string)> callback,
-                               const std::function<void (MenuItem&)>& item_processor) :
-  m_filename(filename),
+FileSystemMenu::FileSystemMenu(MenuParams& params) :
+  m_params(params),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
-  m_directory(basedir.empty() ? (filename ? FileSystem::dirname(*filename) : "/") : basedir),
-  m_extensions(extensions),
-  m_basedir(basedir),
+  m_directory(m_params.basedir.empty() ? (m_params.filename ? FileSystem::dirname(*m_params.filename) : "/") : m_params.basedir),
   m_directories(),
-  m_files(),
-  m_path_relative_to_basedir(path_relative_to_basedir),
-  m_callback(std::move(callback)),
-  m_item_processor(std::move(item_processor))
+  m_files()
 {
   AddonManager::current()->unmount_old_addons();
 
@@ -104,12 +97,12 @@ FileSystemMenu::refresh_items()
     item_id++;
   }
 
-  const bool in_basedir = m_directory == FileSystem::normalize(m_basedir);
+  const bool in_basedir = m_directory == FileSystem::normalize(m_params.basedir);
   for (const auto& item : m_files)
   {
     MenuItem& menu_item = add_entry(item_id, item);
-    if (in_basedir && m_item_processor)
-      m_item_processor(menu_item);
+    if (in_basedir && m_params.item_processor)
+      m_params.item_processor(menu_item);
 
     item_id++;
   }
@@ -128,10 +121,10 @@ FileSystemMenu::refresh_items()
 bool
 FileSystemMenu::has_right_suffix(const std::string& file) const
 {
-  if (m_extensions.empty())
+  if (m_params.extensions.empty())
     return true;
 
-  for (const auto& extension : m_extensions) {
+  for (const auto& extension : m_params.extensions) {
     if (StringUtil::has_suffix(file, extension))
     {
       return true;
@@ -153,15 +146,15 @@ FileSystemMenu::menu_action(MenuItem& item)
       if (id < m_files.size()) {
         std::string new_filename = FileSystem::join(m_directory, m_files[id]);
 
-        if (!m_basedir.empty() && m_path_relative_to_basedir) {
-          new_filename = FileSystem::relpath(new_filename, m_basedir);
+        if (!m_params.basedir.empty() && m_params.path_relative_to_basedir) {
+          new_filename = FileSystem::relpath(new_filename, m_params.basedir);
         }
 
-        if (m_filename)
-          *m_filename = new_filename;
+        if (m_params.filename)
+          *m_params.filename = new_filename;
 
-        if (m_callback)
-          m_callback(new_filename);
+        if (m_params.callback)
+          m_params.callback(new_filename);
 
         MenuManager::instance().pop_menu();
       } else {
