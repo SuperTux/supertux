@@ -1602,11 +1602,11 @@ msgstr ""
 #: src/gui/menu_object_select.cpp:48
 #, c++-format
 msgid "Select object ({})"
-msgstr ""
+msgstr "オブジェクトを選択 ({})"
 
 #: src/gui/menu_object_select.cpp:114
 msgid "Are you sure you want to remove this object from the list?"
-msgstr ""
+msgstr "リストからこのオブジェクトを削除してもよろしいですか？"
 
 #: src/gui/menu_color.cpp:24
 msgid "Mix the colour"
@@ -1638,7 +1638,7 @@ msgstr "キャンセル"
 
 #: src/gui/menu_filesystem.cpp:118
 msgid "Open Directory"
-msgstr ""
+msgstr "ディレクトリを開く"
 
 #: src/gui/menu_script.cpp:28
 msgid "Edit script"
@@ -1755,7 +1755,7 @@ msgstr "不明"
 #: src/addon/addon.cpp:100
 #, c++-format
 msgid "{} \"{}\" by \"{}\""
-msgstr ""
+msgstr "{} \"{}\" (作者: \"{}\")"
 
 #: src/addon/addon.cpp:114
 msgid "add-on"
@@ -2328,30 +2328,30 @@ msgstr "全般的なオプション:"
 
 #: src/supertux/command_line_arguments.cpp:94
 msgid "  -h, --help                   Show this help message and quit"
-msgstr "  -h, --help                   このヘルプメッセージを表示して終了します"
+msgstr "  -h, --help                   このヘルプメッセージを表示して終了する"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr "  -v, --version                SuperTux のバージョンを表示して終了します"
+msgstr "  -v, --version                SuperTux のバージョンを表示して終了する"
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --verbose                    Print verbose messages"
-msgstr "  --verbose                    詳細なメッセージを出力します"
+msgstr "  --verbose                    詳細なメッセージを出力する"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --debug                      Print extra verbose messages"
-msgstr "  --debug                      追加の詳細メッセージを出力します"
+msgstr "  --debug                      追加の詳細メッセージを出力する"
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid ""
 "  --print-datadir              Print SuperTux's primary data directory."
-msgstr "  --print-datadir              SuperTux の現在のデータディレクトリを出力します。"
+msgstr "  --print-datadir              SuperTux の現在のデータディレクトリを出力する。"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid ""
 "  --acknowledgements           Print the licenses of libraries used by "
 "SuperTux."
-msgstr "  --acknowledgements           SuperTux で使用されているライブラリのライセンスを出力します。"
+msgstr "  --acknowledgements           SuperTux で使用されているライブラリのライセンスを出力する。"
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "Video Options:"
@@ -2359,27 +2359,27 @@ msgstr "ビデオのオプション:"
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr "  -f, --fullscreen             全画面モードで実行します"
+msgstr "  -f, --fullscreen             全画面モードで実行する"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "  -w, --window                 Run in window mode"
-msgstr "  -w, --window                 ウィンドウモードで実行します"
+msgstr "  -w, --window                 ウィンドウモードで実行する"
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr "  -g, --geometry 幅x高さ  指定された解像度で SuperTux を実行します"
+msgstr "  -g, --geometry 幅x高さ  指定された解像度で SuperTux を実行する"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "  -a, --aspect 幅:高さ    指定されたアスペクト比で SuperTux を実行します"
+msgstr "  -a, --aspect 幅:高さ    指定されたアスペクト比で SuperTux を実行する"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  -d, --default                Reset video settings to default values"
-msgstr "  -d, --default                ビデオ設定をデフォルトにリセットします"
+msgstr "  -d, --default                ビデオ設定をデフォルトにリセットする"
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "  --renderer レンダラー          \"sdl\"、\"opengl\"、または \"auto\" を指定します"
+msgstr "  --renderer レンダラー          \"sdl\"、\"opengl\"、または \"auto\" を指定する"
 
 #: src/supertux/command_line_arguments.cpp:109
 msgid "Audio Options:"
@@ -2387,11 +2387,11 @@ msgstr "オーディオのオプション:"
 
 #: src/supertux/command_line_arguments.cpp:110
 msgid "  --disable-sound              Disable sound effects"
-msgstr "  --disable-sound              効果音を無効にします"
+msgstr "  --disable-sound              効果音を無効にする"
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid "  --disable-music              Disable music"
-msgstr "  --disable-music              BGM を無効にします"
+msgstr "  --disable-music              BGM を無効にする"
 
 #: src/supertux/command_line_arguments.cpp:113
 msgid "Game Options:"
@@ -2399,49 +2399,49 @@ msgstr "ゲームのオプション:"
 
 #: src/supertux/command_line_arguments.cpp:114
 msgid "  --edit-level                 Open given level in editor"
-msgstr "  --edit-level                 指定されたレベルをエディターで開きます"
+msgstr "  --edit-level                 指定されたレベルをエディターで開く"
 
 #: src/supertux/command_line_arguments.cpp:115
 msgid "  --resave                     Loads given level and saves it"
-msgstr "  --resave                     指定されたレベルを読み込んで保存します"
+msgstr "  --resave                     指定されたレベルを読み込んで保存する"
 
 #: src/supertux/command_line_arguments.cpp:116
 msgid "  --show-fps                   Display framerate in levels"
-msgstr "  --show-fps                   レベルにフレームレートを表示します"
+msgstr "  --show-fps                   レベルにフレームレートを表示する"
 
 #: src/supertux/command_line_arguments.cpp:117
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "  --no-show-fps                レベルにフレームレートを表示しません"
+msgstr "  --no-show-fps                レベルにフレームレートを表示しない"
 
 #: src/supertux/command_line_arguments.cpp:118
 msgid "  --show-pos                   Display player's current position"
-msgstr "  --show-pos                   プレイヤーの現在の位置を表示します"
+msgstr "  --show-pos                   プレイヤーの現在の位置を表示する"
 
 #: src/supertux/command_line_arguments.cpp:119
 msgid "  --no-show-pos                Do not display player's position"
-msgstr "  --no-show-pos                プレイヤーの位置を表示しません"
+msgstr "  --no-show-pos                プレイヤーの位置を表示しない"
 
 #: src/supertux/command_line_arguments.cpp:120
 msgid "  --developer                  Switch on developer feature"
-msgstr "  --developer                  開発者向け機能を有効にします"
+msgstr "  --developer                  開発者向け機能を有効にする"
 
 #: src/supertux/command_line_arguments.cpp:121
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr "  -s, --debug-scripts          スクリプトデバッガーを有効にします。"
+msgstr "  -s, --debug-scripts          スクリプトデバッガーを有効にする。"
 
 #: src/supertux/command_line_arguments.cpp:122
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
-msgstr "  --spawn-pos X,Y              Tux をレベルのどこにスポーンさせるか指定します。レベルが指定されている場合のみに使われます。"
+msgstr "  --spawn-pos X,Y              Tux をレベルのどこにスポーンさせるか指定する。レベルが指定されている場合のみに使用される。"
 
 #: src/supertux/command_line_arguments.cpp:123
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
-msgstr "  --sector セクター              指定されたセクターに Tux をスポーンします\n"
+msgstr "  --sector セクター              指定されたセクターに Tux をスポーンする\n"
 
 #: src/supertux/command_line_arguments.cpp:124
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
-msgstr "  --spawnpoint 開始地点      指定された開始地点に Tux をスポーンします\n"
+msgstr "  --spawnpoint 開始地点      指定された開始地点に Tux をスポーンする\n"
 
 #: src/supertux/command_line_arguments.cpp:126
 msgid "Directory Options:"
@@ -2450,13 +2450,13 @@ msgstr "ディレクトリのオプション:"
 #: src/supertux/command_line_arguments.cpp:127
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "  --datadir ディレクトリ                ゲームのデータファイルを保存するディレクトリを設定します"
+msgstr "  --datadir ディレクトリ                ゲームのデータファイルを保存するディレクトリを設定する"
 
 #: src/supertux/command_line_arguments.cpp:128
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "  --userdir ディレクトリ                ユーザーデータ (セーブデータなど) を保存するディレクトリを設定します"
+msgstr "  --userdir ディレクトリ                ユーザーデータ (セーブデータなど) を保存するディレクトリを設定する"
 
 #: src/supertux/command_line_arguments.cpp:130
 msgid "Add-On Options:"
@@ -2464,7 +2464,7 @@ msgstr "アドオンのオプション:"
 
 #: src/supertux/command_line_arguments.cpp:131
 msgid "  --repository-url URL         Set the URL to the Add-On repository"
-msgstr "  --repository-url URL         URL をアドオンのレポジトリに設定します"
+msgstr "  --repository-url URL         URL をアドオンのレポジトリに設定する"
 
 #: src/supertux/command_line_arguments.cpp:133
 msgid "Environment variables:"
@@ -2510,17 +2510,17 @@ msgstr "編集中はレベル名を共有しない"
 msgid ""
 "Enable this if you want to work on secret levels and don't want the names to"
 " be spoiled"
-msgstr ""
+msgstr "非公開のレベルを編集するときにレベル名を公開したくない場合、有効にしてください"
 
 #: src/supertux/menu/integrations_menu.cpp:54
 msgid "Enable Discord integration"
-msgstr "Discord 統合を有効にする"
+msgstr "Discord統合を有効にする"
 
 #: src/supertux/menu/integrations_menu.cpp:55
 msgid ""
 "Sends information to your Discord application about what you're doing in the"
 " game."
-msgstr ""
+msgstr "ゲーム内のアクティビティ情報をDiscordアプリケーションに送信します。"
 
 #: src/supertux/menu/integrations_menu.cpp:57
 msgid "Discord (disabled; not compiled)"
@@ -2529,20 +2529,20 @@ msgstr "Discord (無効; コンパイルされていません)"
 #: src/supertux/menu/editor_converters_menu.cpp:61
 #: src/supertux/menu/editor_menu.cpp:85
 msgid "Convert Tiles"
-msgstr ""
+msgstr "タイルを変換"
 
 #: src/supertux/menu/editor_converters_menu.cpp:64
 msgid "Select Tile Conversion File"
-msgstr ""
+msgstr "タイル変換ファイルを選択"
 
 #: src/supertux/menu/editor_converters_menu.cpp:72
 #, c++-format
 msgid "By: {}"
-msgstr ""
+msgstr "作者: {}"
 
 #: src/supertux/menu/editor_converters_menu.cpp:75
 msgid "Convert Tiles By File"
-msgstr ""
+msgstr "ファイルを使用してタイルを変換"
 
 #: src/supertux/menu/editor_converters_menu.cpp:76
 msgid "Convert all tiles in the current level by a file, specified above."
@@ -2725,47 +2725,47 @@ msgstr "メニューのカスタマイズ"
 
 #: src/supertux/menu/custom_menu_menu.cpp:51
 msgid "Menu Back Color"
-msgstr ""
+msgstr "メニューの背景色"
 
 #: src/supertux/menu/custom_menu_menu.cpp:52
 msgid "Menu Front Color"
-msgstr ""
+msgstr "メニューの前景色"
 
 #: src/supertux/menu/custom_menu_menu.cpp:53
 msgid "Menu Help Back Color"
-msgstr ""
+msgstr "メニューのヘルプ内容の背景色"
 
 #: src/supertux/menu/custom_menu_menu.cpp:54
 msgid "Menu Help Front Color"
-msgstr ""
+msgstr "メニューのヘルプ内容の前景色"
 
 #: src/supertux/menu/custom_menu_menu.cpp:55
 msgid "Label Text Color"
-msgstr ""
+msgstr "ラベルの文字色"
 
 #: src/supertux/menu/custom_menu_menu.cpp:56
 msgid "Active Text Color"
-msgstr ""
+msgstr "ホバー中の文字色"
 
 #: src/supertux/menu/custom_menu_menu.cpp:57
 msgid "Divider Line Color"
-msgstr ""
+msgstr "区切り線の色"
 
 #: src/supertux/menu/custom_menu_menu.cpp:58
 msgid "Menu Roundness"
-msgstr ""
+msgstr "メニューの角丸度合い"
 
 #: src/supertux/menu/custom_menu_menu.cpp:60
 msgid "Editor Interface Color"
-msgstr ""
+msgstr "エディターの画面色"
 
 #: src/supertux/menu/custom_menu_menu.cpp:61
 msgid "Editor Hover Color"
-msgstr ""
+msgstr "エディターでホバーしたときの色"
 
 #: src/supertux/menu/custom_menu_menu.cpp:62
 msgid "Editor Grab Color"
-msgstr ""
+msgstr "エディターで掴んだときの色"
 
 #: src/supertux/menu/custom_menu_menu.cpp:64
 msgid "Reset to defaults"
@@ -2773,7 +2773,7 @@ msgstr "デフォルトにリセット"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:72
 msgid "Empty World"
-msgstr "レベルがありません"
+msgstr "レベルなし"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:87
 msgid "Create Level"
@@ -2828,7 +2828,7 @@ msgstr "これは自動保存されたファイルを削除します。よろし
 #: src/supertux/menu/cheat_apply_menu.cpp:33
 #: src/supertux/menu/cheat_apply_menu.cpp:51
 msgid "Apply cheat to player"
-msgstr ""
+msgstr "プレイヤーに攻略を適用"
 
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:39
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:60
@@ -3275,66 +3275,66 @@ msgstr "\"オンラインで確認\"を実行して、アドオンの再取得�
 
 #: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "No author specified."
-msgstr ""
+msgstr "作者は未指定です。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:92
 #, c++-format
 msgid "Author: {}"
-msgstr ""
+msgstr "作者: {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:93
 #, c++-format
 msgid "Type: {}"
-msgstr ""
+msgstr "種類: {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:94
 msgid "No license specified."
-msgstr ""
+msgstr "ライセンスは未指定です。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:94
 #, c++-format
 msgid "License: {}"
-msgstr ""
+msgstr "ライセンス: {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:99
 msgid "Dependencies:"
-msgstr ""
+msgstr "依存関係:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:108
 msgid "Installed"
-msgstr ""
+msgstr "インストール済み"
 
 #: src/supertux/menu/addon_preview_menu.cpp:108
 msgid "Not installed"
-msgstr ""
+msgstr "未インストール"
 
 #: src/supertux/menu/addon_preview_menu.cpp:113
 msgid "Not available!"
-msgstr ""
+msgstr "利用できません！"
 
 #: src/supertux/menu/addon_preview_menu.cpp:120
 msgid "Description:"
-msgstr ""
+msgstr "説明:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:123
 msgid "No description available."
-msgstr ""
+msgstr "説明は利用できません。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:147
 msgid "Failed to load all available screenshot previews."
-msgstr ""
+msgstr "すべての利用可能なスクリーンショットプレビューの読み込みに失敗しました。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:152
 msgid "Show screenshots"
-msgstr ""
+msgstr "スクリーンショットを表示"
 
 #: src/supertux/menu/addon_preview_menu.cpp:165
 msgid "Screenshot previews are disabled for automatic installs."
-msgstr ""
+msgstr "自動インストールの場合、スクリーンショットプレビューは無効化されています。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:169
 msgid "No screenshot previews available."
-msgstr ""
+msgstr "スクリーンショットプレビューは利用できません。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:177
 msgid "Install"
@@ -3367,7 +3367,7 @@ msgstr ""
 msgid ""
 "Cannot toggle add-on \"{}\":\n"
 "{}"
-msgstr ""
+msgstr "アドオン\"{}\"を切り替えできません:\n{}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:279
 msgid "Fetching screenshot previews..."
@@ -3550,7 +3550,7 @@ msgid ""
 "remove is currently in-game.\n"
 "\n"
 "Do you wish to remove them anyways?"
-msgstr ""
+msgstr "警告: 削除しようとしているプレイヤーは\n現在プレイ中です。\n\n強制的に削除してもよろしいですか？"
 
 #: src/supertux/menu/addon_menu.cpp:68
 msgid "Installed Language Packs"
@@ -3585,15 +3585,15 @@ msgstr "利用可能なアップデートはありません。"
 #: src/supertux/menu/addon_menu.cpp:144
 #, c++-format
 msgid "{} {} available"
-msgstr ""
+msgstr "{}件の{}が利用可能"
 
 #: src/supertux/menu/addon_menu.cpp:144
 msgid "update"
-msgstr ""
+msgstr "アップデート"
 
 #: src/supertux/menu/addon_menu.cpp:144
 msgid "updates"
-msgstr ""
+msgstr "アップデート"
 
 #: src/supertux/menu/addon_menu.cpp:146
 msgid "Check for updates"
@@ -4110,7 +4110,7 @@ msgstr "レベルを共有"
 
 #: src/supertux/menu/editor_menu.cpp:74
 msgid "Package Add-On"
-msgstr "アドオンにパッケージ"
+msgstr "アドオンとしてパッケージ化"
 
 #: src/supertux/menu/editor_menu.cpp:76
 msgid "Open Level Directory"
@@ -4162,7 +4162,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Undo Stack Size"
-msgstr ""
+msgstr "アンドゥのスタックサイズ"
 
 #: src/supertux/menu/editor_menu.cpp:102
 msgid "Autosave Frequency"
@@ -4170,15 +4170,15 @@ msgstr "自動保存する間隔"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Check for Deprecated Tiles"
-msgstr ""
+msgstr "非推奨のタイルを確認"
 
 #: src/supertux/menu/editor_menu.cpp:109
 msgid "Check if any deprecated tiles are currently present in the level."
-msgstr ""
+msgstr "レベルに非推奨のタイルが存在していないか確認します。"
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Show Deprecated Tiles"
-msgstr ""
+msgstr "非推奨のタイルを表示"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
@@ -4192,7 +4192,7 @@ msgstr "レベルエディターを終了"
 
 #: src/supertux/menu/editor_menu.cpp:170
 msgid "Do you want to package this world as an add-on?"
-msgstr "このワールドをアドオンとしてパッケージしますか？"
+msgstr "このワールドをアドオンとしてパッケージ化しますか？"
 
 #: src/supertux/menu/editor_menu.cpp:196
 msgid ""
@@ -4233,7 +4233,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
-msgstr ""
+msgstr "レベルに非推奨のタイルが存在します。"
 
 #: src/supertux/menu/editor_menu.cpp:239
 msgid "Do you want to show all deprecated tiles on active tilemaps?"
@@ -4241,7 +4241,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:246
 msgid "There are no more deprecated tiles in the level!"
-msgstr ""
+msgstr "レベルに非推奨のタイルは存在しません！"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:40
 msgid "Play with the keyboard"
@@ -4253,11 +4253,11 @@ msgstr "プレイヤーを削除"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:82
 msgid "Respawn Player"
-msgstr ""
+msgstr "プレイヤーを再スタート"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:108
 msgid "Spawn Player"
-msgstr ""
+msgstr "プレイヤーをスタート"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:136
 msgid "Controllers"
@@ -4483,11 +4483,11 @@ msgstr ""
 
 #: src/editor/object_option.cpp:667
 msgid "Offset X"
-msgstr ""
+msgstr "オフセットX"
 
 #: src/editor/object_option.cpp:668
 msgid "Offset Y"
-msgstr ""
+msgstr "オフセットY"
 
 #: src/editor/object_option.cpp:672 src/editor/object_menu.cpp:67
 msgid "Remove"
@@ -4717,7 +4717,7 @@ msgstr ""
 
 #: src/editor/overlay_widget.cpp:1063
 msgid "Cannot select deprecated tiles"
-msgstr ""
+msgstr "非推奨のタイルを選択できません"
 
 #: src/editor/overlay_widget.cpp:1555
 msgid "Autotile mode is on"
@@ -5087,11 +5087,11 @@ msgstr "森の背景"
 
 #: data//images/tiles.strf:690
 msgid "Corrupted Forest"
-msgstr ""
+msgstr "腐敗した森"
 
 #: data//images/tiles.strf:868
 msgid "Corrupted Background"
-msgstr ""
+msgstr "腐敗した背景"
 
 #: data//images/tiles.strf:991
 msgid "Block + Bonus"
@@ -5119,7 +5119,7 @@ msgstr "工場"
 
 #: data//images/tiles.strf:1287
 msgid "Unisolid + Lightmap"
-msgstr "ユニソリッド + ライトマップ"
+msgstr "ユニソリッドとライトマップ"
 
 #: data//images/tiles.strf:1314
 msgid "Miscellaneous"
@@ -5127,7 +5127,7 @@ msgstr "その他"
 
 #: data//images/tiles.strf:1342
 msgid "Retro Tiles"
-msgstr ""
+msgstr "レトロタイル"
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"
