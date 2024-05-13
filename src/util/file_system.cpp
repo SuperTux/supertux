@@ -236,15 +236,10 @@ std::string escape_url(const std::string& url)
 {
 #ifndef __EMSCRIPTEN__
   std::string result = url;
-  CURL *curl = curl_easy_init();
-  if(curl)
-  {
-    char *output = curl_easy_escape(curl, url.c_str(), static_cast<int>(url.length()));
-    if(output) {
-      result = std::string(output);
-      curl_free(output);
-    }
-    curl_easy_cleanup(curl);
+  char *output = curl_easy_escape(nullptr, url.c_str(), static_cast<int>(url.length()));
+  if(output) {
+    result = std::string(output);
+    curl_free(output);
   }
 
   return result;
