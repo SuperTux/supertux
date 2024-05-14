@@ -83,7 +83,7 @@ private:
   bool m_was_grabbed;
   bool m_retreat;
   bool m_attach_ceiling;
-  bool m_static; // FIXME: Better name
+  bool m_static;
   float m_ground_height;
 
 private:
