@@ -136,7 +136,7 @@ Tarantula::active_update(float dt_sec)
       break;
 
     case STATE_DROPPING:
-      // doesn't matter what time we put because timer already started
+      // Doesn't matter what time we put here, because the timer has already started.
       hang_to(m_target_height, 0.f, false, STATE_HANG_UP, EaseQuadIn, "dive");
       break;
 
