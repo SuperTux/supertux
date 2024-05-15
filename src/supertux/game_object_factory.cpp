@@ -227,7 +227,7 @@ GameObjectFactory::init_factories()
   add_factory<Spiky>("spiky", OBJ_PARAM_DISPENSABLE);
   add_factory<Stalactite>("stalactite", OBJ_PARAM_DISPENSABLE);
   add_factory<Stumpy>("stumpy", OBJ_PARAM_DISPENSABLE);
-  add_factory<Tarantula>("spidermite", OBJ_PARAM_DISPENSABLE); // Backward compatibilty.
+  add_factory<Tarantula>("spidermite"); // Backward compatibilty.
   add_factory<Tarantula>("tarantula", OBJ_PARAM_DISPENSABLE);
   add_factory<Toad>("toad", OBJ_PARAM_DISPENSABLE);
   add_factory<Totem>("totem", OBJ_PARAM_DISPENSABLE);
