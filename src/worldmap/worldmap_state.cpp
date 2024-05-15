@@ -361,7 +361,7 @@ WorldMapState::save_tilemap_visibility() const
     {
       sq_pushstring(vm.get_vm(), tilemap.get_name().c_str(), -1);
       sq_newtable(vm.get_vm());
-      vm.store_float("alpha", tilemap.get_alpha());
+      vm.store_float("alpha", tilemap.get_target_alpha());
       if (SQ_FAILED(sq_createslot(vm.get_vm(), -3)))
       {
         throw std::runtime_error("failed to create '" + m_worldmap.m_name + "' table entry");

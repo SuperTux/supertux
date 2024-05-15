@@ -15,7 +15,7 @@
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Rob PlayZ, 2021
-# Rob PlayZ, 2021
+# Alina Gobarov, 2021
 # Tomasz Dądela, 2022
 # Ziemowit Zabawa, 2022
 # Grzegorz Przybylski <zwatotem@gmail.com>, 2019-2021
