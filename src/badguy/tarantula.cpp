@@ -340,7 +340,8 @@ Tarantula::is_freezable() const
   return true;
 }
 
-bool Tarantula::is_snipable() const
+bool
+Tarantula::is_snipable() const
 {
   return m_state != STATE_DROPPING;
 }
