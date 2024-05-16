@@ -174,7 +174,6 @@ include(SuperTux/ProvideOpenAL)
 include(SuperTux/ProvideOggVorbis)
 include(SuperTux/ProvidePhysfs)
 include(SuperTux/ProvideCurl)
-include(SuperTux/ProvideSquirrel)
 include(SuperTux/ProvideSimpleSquirrel)
 include(SuperTux/ProvideTinygettext)
 include(SuperTux/ProvideSDL2_ttf)
@@ -265,7 +264,6 @@ endif()
 
 ## Link supertux binary with squirrel and other libraries
 
-target_link_libraries(supertux2_lib PUBLIC LibSqstdlib)
 target_link_libraries(supertux2_lib PUBLIC LibSimpleSquirrel)
 target_link_libraries(supertux2_lib PUBLIC LibTinygettext)
 target_link_libraries(supertux2_lib PUBLIC LibSexp)
