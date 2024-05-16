@@ -188,6 +188,11 @@ include(SuperTux/BuildVersion)
 include(SuperTux/BuildDocumentation)
 include(SuperTux/BuildMessagePot)
 
+## Configure a batch file for debug run purposes
+if(MSVC)
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat.in" "${CMAKE_CURRENT_BINARY_DIR}/run_supertux.bat")
+endif()
+
 ## Build list of sources for supertux binary
 file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
 
