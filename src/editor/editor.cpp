@@ -1040,23 +1040,18 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
     }
   }
 
-  if(sector_valid && spawnpoint_valid)
+  if (!sector_valid)
   {
-    callback();
-    return;
+    Dialog::show_message(_("Couldn't find a \"main\" sector.\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
+  }
+  else if (!spawnpoint_valid)
+  {
+    Dialog::show_message(_("Couldn't find a \"main\" spawnpoint.\n Please change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
   }
   else
   {
-    if (!sector_valid)
-    {
-      Dialog::show_message(_("Couldn't find a \"main\" sector.\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
-    }
-    else if (!spawnpoint_valid)
-    {
-      Dialog::show_message(_("Couldn't find a \"main\" spawnpoint.\n Please change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
-    }
+    callback();
   }
-
 }
 
 void
