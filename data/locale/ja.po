@@ -263,7 +263,7 @@ msgstr "パーティクルゾーン"
 #: src/object/path_gameobject.cpp:175 src/object/tilemap.cpp:284
 #: src/gui/menu_paths.cpp:54 src/badguy/willowisp.cpp:316
 msgid "Path"
-msgstr "道"
+msgstr "パス"
 
 #: src/object/decal.cpp:48 src/object/scripted_object.cpp:68
 #: src/object/particlesystem.cpp:65 src/object/background.cpp:184
@@ -527,7 +527,7 @@ msgstr "空気圧で動く足場"
 
 #: src/object/coin.cpp:326 src/object/tilemap.cpp:287
 msgid "Following path"
-msgstr "道に従う"
+msgstr "パスに従う"
 
 #: src/object/coin.cpp:329 src/object/camera.cpp:171
 #: src/object/platform.cpp:77 src/object/tilemap.cpp:290
@@ -1492,7 +1492,7 @@ msgstr "バンパー"
 
 #: src/object/conveyor_belt.cpp:63
 msgid "Length"
-msgstr ""
+msgstr "長さ"
 
 #: src/object/moving_sprite.cpp:187 src/object/pneumatic_platform.cpp:161
 msgid "Sprite"
@@ -1703,25 +1703,25 @@ msgstr "アドオンの.zipファイルの削除エラー: \"PHYSFS_delete\" に
 
 #: src/addon/addon_manager.cpp:490
 msgid "Error uninstalling add-on: Addon with id "
-msgstr ""
+msgstr "アドオンのアンインストール中にエラーが発生しました: アドオンID"
 
 #: src/addon/addon_manager.cpp:490
 msgid " not found."
-msgstr ""
+msgstr "のアドオンが見つかりません。"
 
 #: src/addon/addon_manager.cpp:559
 msgid "Only one resource pack is allowed to be enabled at a time."
-msgstr ""
+msgstr "同時に有効にできるリソースパックは1つのみです。"
 
 #: src/addon/addon_manager.cpp:823
 #, c++-format
 msgid "Add-on {} by {} is already installed."
-msgstr ""
+msgstr "アドオン {} (作者: {}) はすでにインストール済みです。"
 
 #: src/addon/addon_manager.cpp:843
 #, c++-format
 msgid "Add-on {} by {} successfully installed."
-msgstr ""
+msgstr "アドオン {} (作者: {}) のインストールに成功しました。"
 
 #: src/addon/addon.cpp:71 src/supertux/menu/editor_levelset_menu.cpp:54
 msgid "Levelset"
@@ -1885,11 +1885,11 @@ msgstr ""
 
 #: src/badguy/flame.cpp:84
 msgid "Fire"
-msgstr ""
+msgstr "火"
 
 #: src/badguy/flame.cpp:85
 msgid "Ghost"
-msgstr ""
+msgstr "幽霊"
 
 #: src/badguy/corrupted_granito_big.hpp:35
 msgid "Corrupted Big Granito"
@@ -2546,11 +2546,11 @@ msgstr "ファイルを使用してタイルを変換"
 
 #: src/supertux/menu/editor_converters_menu.cpp:76
 msgid "Convert all tiles in the current level by a file, specified above."
-msgstr ""
+msgstr "上で指定されたファイルを使用して、現在のレベルに含まれるすべてのタイルを変換します。"
 
 #: src/supertux/menu/editor_converters_menu.cpp:89
 msgid "No tile conversion file selected."
-msgstr ""
+msgstr "タイル変換ファイルが未選択です。"
 
 #: src/supertux/menu/editor_converters_menu.cpp:93
 msgid ""
@@ -2558,7 +2558,7 @@ msgid ""
 "\n"
 "Note: This should not be ran more than once on a level.\n"
 "Creating a separate copy of the level is highly recommended."
-msgstr ""
+msgstr "レベルに含まれるすべてのタイルを変換します。続行しますか？\n\n注意: ひとつのレベルに対して複数回実行しないでください。\nレベルを複製したうえで実行することを推奨します。"
 
 #: src/supertux/menu/video_system_menu.cpp:36
 msgid "Select Video System"
@@ -4126,7 +4126,7 @@ msgstr "別のワールドを編集"
 
 #: src/supertux/menu/editor_menu.cpp:86
 msgid "Convert all tiles in the level using converters."
-msgstr ""
+msgstr "コンバーターを使用して、レベル内のすべてのタイルを変換します。"
 
 #: src/supertux/menu/editor_menu.cpp:90
 msgid "Grid Size"
@@ -4636,7 +4636,7 @@ msgstr ""
 
 #: src/editor/editor.cpp:554
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
-msgstr ""
+msgstr "ヒント: レベルエディターのメニューから、\"非推奨のタイルを表示\"をオンにしてください。"
 
 #: src/editor/editor.cpp:601
 msgid ""
@@ -4644,7 +4644,7 @@ msgid ""
 "aren't saved between sessions!\n"
 "If you want to keep your levels, download them\n"
 "from the \"Manage Assets\" menu."
-msgstr "レベルと資産はセッションをまたぐと\n破棄されます！\nレベルを保持したい場合は、「資産の管理」\nメニューからダウンロードしてください。"
+msgstr "レベルと資産はセッションをまたぐと\n破棄されます！\nレベルを保持したい場合は、\"資産の管理\"\nメニューからダウンロードしてください。"
 
 #: src/editor/editor.cpp:636
 msgid "This level contains unsaved changes, do you want to save?"
@@ -4690,7 +4690,7 @@ msgstr "スタート地点 \"main\" を見つけられませんでした。\nプ
 
 #: src/editor/object_menu.cpp:60
 msgid "Patch Notes"
-msgstr ""
+msgstr "パッチノート"
 
 #: src/editor/object_menu.cpp:84
 msgid "This will update the object to its latest functionality."
@@ -4698,7 +4698,7 @@ msgstr ""
 
 #: src/editor/object_menu.cpp:85
 msgid "Check the \"Patch Notes\" for more information."
-msgstr ""
+msgstr "詳細情報は\"パッチノート\"を確認してください。"
 
 #: src/editor/object_menu.cpp:86
 msgid ""
@@ -4713,7 +4713,7 @@ msgstr ""
 #: src/editor/object_menu.cpp:101
 #, c++-format
 msgid "Patch notes for v{}:"
-msgstr ""
+msgstr "v{}のパッチノート:"
 
 #: src/editor/overlay_widget.cpp:1063
 msgid "Cannot select deprecated tiles"
@@ -4737,7 +4737,7 @@ msgstr "自動タイル作成モードが使えないタイルです"
 
 #: src/editor/overlay_widget.cpp:1575
 msgid "Hold Ctrl to enable autotile erasing"
-msgstr "Ctrlを押して自動的にタイルを削除"
+msgstr "Ctrlを押し続けて自動的にタイルを削除"
 
 #: data//credits.stxt:25
 msgid "Current SuperTux Team"
