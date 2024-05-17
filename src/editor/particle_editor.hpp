@@ -47,7 +47,7 @@ private:
   static bool (*m_clamp_0_1)(ControlTextboxFloat*, float);
 
 public:
-  ParticleEditor();
+  ParticleEditor(const std::string* particle_filename = nullptr);
   ~ParticleEditor() override;
 
 public:

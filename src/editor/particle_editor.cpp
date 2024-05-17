@@ -57,7 +57,7 @@ bool (*ParticleEditor::m_clamp_0_1)(ControlTextboxFloat*, float) = [](ControlTex
   }
 };
 
-ParticleEditor::ParticleEditor() :
+ParticleEditor::ParticleEditor(const std::string* particle_filename) :
   m_enabled(true),
   m_quit_request(false),
   m_controls(),
@@ -69,9 +69,14 @@ ParticleEditor::ParticleEditor() :
   m_texture_current(0),
   m_saved_version(),
   m_particles(),
-  m_filename("")
+  m_filename(particle_filename != nullptr ? *particle_filename : "")
 {
   reload();
+
+  if(m_filename != "")
+  {
+    open("particles/" + m_filename);
+  }  
 }
 
 void

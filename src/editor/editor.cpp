@@ -240,9 +240,7 @@ Editor::handle_editor_requests()
 
   if (m_particle_editor_request) {
     m_particle_editor_request = false;
-    std::unique_ptr<Screen> screen(new ParticleEditor());
-    if (m_particle_editor_filename)
-      static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
+    std::unique_ptr<Screen> screen(new ParticleEditor(m_particle_editor_filename));
     ScreenManager::current()->push_screen(std::move(screen));
     return;
   }
