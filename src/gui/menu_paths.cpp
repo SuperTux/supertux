@@ -24,6 +24,8 @@
 #include "object/path_object.hpp"
 #include "supertux/sector.hpp"
 
+#include <fmt/format.h>
+
 auto on_select = [](const std::string& path, PathObject& target, const std::string& path_ref) {
   return [path, &target, path_ref] {
     auto dialog = std::make_unique<Dialog>();
@@ -51,7 +53,7 @@ auto on_select = [](const std::string& path, PathObject& target, const std::stri
 
 PathsMenu::PathsMenu(PathObject& target, const std::string& path_ref)
 {
-  add_label(_("Path") + " " + path_ref);
+  add_label(fmt::format(fmt::runtime(_("Path {}")), path_ref));
   add_hl();
 
   const auto paths = Editor::current()->get_sector()->get_objects_by_type<PathGameObject>();
