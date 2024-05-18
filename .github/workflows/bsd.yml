@@ -92,7 +92,7 @@ jobs:
       - name: Build in OpenBSD
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-        uses: vmactions/openbsd-vm@v0
+        uses: vmactions/openbsd-vm@v1.0.7
         with:
           envs: BUILD_TYPE
           sync: rsync
