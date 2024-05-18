@@ -31,6 +31,13 @@ else()
     set (BUILD_TYPE ${CMAKE_BUILD_TYPE})
   endif()
   
+  # This is (hopefully) a quick fix for our FreeBSD CIs:
+  if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+    set(SQ_DISABLE_CMAKE_INSTALLER ON)
+  else()
+    set(SQ_DISABLE_CMAKE_INSTALLER OFF)
+  endif()
+
   set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
   ExternalProject_Add(squirrel_project
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
@@ -44,6 +51,7 @@ else()
     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
     -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
     -DCMAKE_INSTALL_PREFIX=${SQUIRREL_PREFIX}
+    -DSQ_DISABLE_CMAKE_INSTALLER=${SQ_DISABLE_CMAKE_INSTALLER}
     -DCMAKE_INSTALL_LIBDIR=lib
     -DINSTALL_INC_DIR=include
     -DCMAKE_POSITION_INDEPENDENT_CODE=ON)
