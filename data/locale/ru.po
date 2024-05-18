@@ -86,11 +86,11 @@ msgstr "Якорь"
 
 #: src/trigger/text_area.cpp:148
 msgid "Anchor offset X"
-msgstr ""
+msgstr "Смещение X якоря"
 
 #: src/trigger/text_area.cpp:149
 msgid "Anchor offset Y"
-msgstr ""
+msgstr "Смещение Y якоря"
 
 #: src/trigger/text_area.cpp:150
 msgid "Texts"
@@ -125,7 +125,7 @@ msgstr "Направление"
 
 #: src/trigger/switch.cpp:65
 msgid "Turn on script"
-msgstr "Cценарий включения"
+msgstr "Сценарий включения"
 
 #: src/trigger/switch.cpp:66
 msgid "Turn off script"
@@ -214,7 +214,7 @@ msgstr "Влево"
 
 #: src/math/anchor_point.cpp:37
 msgid "Middle"
-msgstr "По середтгн"
+msgstr "По середине"
 
 #: src/math/anchor_point.cpp:38 src/object/textscroller.cpp:352
 #: src/object/textscroller.cpp:356 src/supertux/menu/keyboard_menu.cpp:37
@@ -299,7 +299,7 @@ msgstr "Громкость"
 
 #: src/object/conveyor_belt.hpp:39
 msgid "Conveyor Belt"
-msgstr ""
+msgstr "Лента конвейера"
 
 #: src/object/unstable_tile.cpp:70 src/object/weak_block.cpp:97
 #: src/badguy/flame.cpp:86
@@ -312,7 +312,7 @@ msgstr "Кирпич"
 
 #: src/object/unstable_tile.cpp:72
 msgid "Delayed"
-msgstr ""
+msgstr "Задержка"
 
 #: src/object/circleplatform.hpp:35
 msgid "Circular Platform"
@@ -344,7 +344,7 @@ msgstr "Переносной"
 
 #: src/object/trampoline.cpp:67
 msgid "Stationary"
-msgstr ""
+msgstr "Стационарный"
 
 #: src/object/key.hpp:38
 msgid "Key"
@@ -412,7 +412,7 @@ msgstr "Файл"
 
 #: src/object/bonus_block.cpp:154
 msgid "Only one custom object is allowed inside bonus blocks."
-msgstr ""
+msgstr "Внутри блоков бонусов допускается только один пользовательский объект."
 
 #: src/object/bonus_block.cpp:172
 msgid "Blue"
@@ -456,7 +456,7 @@ msgstr "Рост (земляной цветок)"
 
 #: src/object/bonus_block.cpp:268
 msgid "Growth (retro)"
-msgstr ""
+msgstr "Рост (ретро)"
 
 #: src/object/bonus_block.cpp:268 src/object/powerup.cpp:66
 msgid "Star"
@@ -468,7 +468,7 @@ msgstr "Звезда (ретро)"
 
 #: src/object/bonus_block.cpp:268
 msgid "Tux doll"
-msgstr "Кукольный Такс"
+msgstr "Кукла Такс"
 
 #: src/object/bonus_block.cpp:268
 msgid "Custom"
@@ -542,7 +542,7 @@ msgstr "Начальный узел"
 #: src/object/platform.cpp:82 src/object/tilemap.cpp:293
 #: src/badguy/willowisp.cpp:322
 msgid "Handle"
-msgstr ""
+msgstr "Рукоятка"
 
 #: src/object/coin.cpp:335 src/object/coin.cpp:371
 msgid "Collect script"
@@ -590,7 +590,7 @@ msgstr "Выравнивание текста"
 
 #: src/object/lit_object.hpp:40
 msgid "Lit object"
-msgstr ""
+msgstr "Светящийся предмет"
 
 #: src/object/spawnpoint.hpp:48 src/badguy/willowisp.cpp:311
 #: src/worldmap/teleporter.cpp:48
@@ -724,19 +724,19 @@ msgstr "Спрайт света"
 
 #: src/object/lit_object.cpp:71
 msgid "Sprite starting action"
-msgstr ""
+msgstr "Начальное действие спрайта"
 
 #: src/object/lit_object.cpp:72
 msgid "Light sprite starting action"
-msgstr ""
+msgstr "Начальное действие спрайта света"
 
 #: src/object/lit_object.cpp:74
 msgid "Light sprite offset X"
-msgstr ""
+msgstr "Смещение X спрайта света"
 
 #: src/object/lit_object.cpp:75
 msgid "Light sprite offset Y"
-msgstr ""
+msgstr "Смещение Y спрайта света"
 
 #: src/object/rusty_trampoline.hpp:40
 msgid "Rusty Trampoline"
@@ -756,11 +756,11 @@ msgstr "Мерцание"
 
 #: src/object/snow_particle_system.cpp:104
 msgid "Epsilon"
-msgstr ""
+msgstr "Эпсилон"
 
 #: src/object/snow_particle_system.cpp:105
 msgid "Spin Speed"
-msgstr ""
+msgstr "Скорость вращения"
 
 #: src/object/snow_particle_system.cpp:106
 msgid "State Length"
@@ -768,7 +768,7 @@ msgstr ""
 
 #: src/object/snow_particle_system.cpp:107
 msgid "Wind Speed"
-msgstr ""
+msgstr "Скорость ветра"
 
 #: src/object/text_array_object.hpp:47
 msgid "Text array"
@@ -800,7 +800,7 @@ msgstr "Земляной цветок"
 
 #: src/object/powerup.cpp:67
 msgid "Tux Doll"
-msgstr "Кукольный Такс"
+msgstr "Кукла Такс"
 
 #: src/object/powerup.cpp:68
 msgid "Flip Potion"
@@ -808,7 +808,7 @@ msgstr ""
 
 #: src/object/powerup.cpp:69
 msgid "Mints"
-msgstr ""
+msgstr "Мятные леденцы"
 
 #: src/object/powerup.cpp:70
 msgid "Coffee"
@@ -1586,7 +1586,7 @@ msgstr "Удалить"
 #: src/supertux/menu/editor_new_levelset_menu.cpp:37
 #: src/supertux/menu/editor_level_menu.cpp:45 src/editor/object_menu.cpp:71
 msgid "OK"
-msgstr "ОК"
+msgstr "Хорошо"
 
 #: src/gui/menu_object_select.cpp:46
 msgid "List of objects"
@@ -1599,7 +1599,7 @@ msgstr "Выбрать объект ({})"
 
 #: src/gui/menu_object_select.cpp:114
 msgid "Are you sure you want to remove this object from the list?"
-msgstr ""
+msgstr "Уверены, что хотите удалить этот объект из списка?"
 
 #: src/gui/menu_color.cpp:24
 msgid "Mix the colour"
@@ -1776,7 +1776,7 @@ msgstr ""
 
 #: src/badguy/granito_giant.cpp:72
 msgid "Sleeping"
-msgstr ""
+msgstr "Спящий"
 
 #: src/badguy/granito_giant.cpp:73
 msgid "Corrupted A"
@@ -1810,15 +1810,15 @@ msgstr "Сталактит"
 
 #: src/badguy/fish_chasing.cpp:195
 msgid "Tracking Distance"
-msgstr ""
+msgstr "Расстояние отслеживания"
 
 #: src/badguy/fish_chasing.cpp:196
 msgid "Losing Distance"
-msgstr ""
+msgstr "Расстояние потери"
 
 #: src/badguy/fish_chasing.cpp:197
 msgid "Chase Speed"
-msgstr ""
+msgstr "Скорость преследования"
 
 #: src/badguy/haywire.hpp:46
 msgid "Haywire"
@@ -1986,15 +1986,15 @@ msgstr ""
 
 #: src/badguy/darttrap.cpp:164
 msgid "Skull"
-msgstr ""
+msgstr "Череп"
 
 #: src/badguy/snowball.hpp:30
 msgid "Mr. Snowball"
-msgstr ""
+msgstr "Мистер Снежок"
 
 #: src/badguy/smartblock.hpp:30
 msgid "Mrs. Iceblock"
-msgstr ""
+msgstr "Миссис Ледышка"
 
 #: src/badguy/yeti.cpp:370
 msgid "Fixed position"
@@ -2228,7 +2228,7 @@ msgstr "Улитка"
 
 #: src/badguy/smartball.hpp:32
 msgid "Mrs. Snowball"
-msgstr ""
+msgstr "Миссис Снежок"
 
 #: src/badguy/bouncing_snowball.hpp:38
 msgid "Bouncing Snowball"
@@ -2276,7 +2276,7 @@ msgstr "Лучшее время:"
 
 #: src/supertux/statistics.cpp:58
 msgid "Level target time:"
-msgstr "Заданное время уровня:"
+msgstr "Целевое время уровня:"
 
 #: src/supertux/statistics.cpp:149 src/supertux/levelintro.cpp:175
 msgid "Best Level Statistics"
@@ -2663,7 +2663,7 @@ msgstr "Многопользовательская игра"
 
 #: src/supertux/menu/multiplayer_menu.cpp:30
 msgid "Auto-manage Players"
-msgstr ""
+msgstr "Автоуправление игроками"
 
 #: src/supertux/menu/multiplayer_menu.cpp:31
 msgid ""
@@ -2718,11 +2718,11 @@ msgstr "Персонализация меню"
 
 #: src/supertux/menu/custom_menu_menu.cpp:51
 msgid "Menu Back Color"
-msgstr ""
+msgstr "Цвет задней части меню"
 
 #: src/supertux/menu/custom_menu_menu.cpp:52
 msgid "Menu Front Color"
-msgstr ""
+msgstr "Цвет передней части меню"
 
 #: src/supertux/menu/custom_menu_menu.cpp:53
 msgid "Menu Help Back Color"
@@ -2762,7 +2762,7 @@ msgstr ""
 
 #: src/supertux/menu/custom_menu_menu.cpp:64
 msgid "Reset to defaults"
-msgstr ""
+msgstr "Сброс к настройкам по умолчанию"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:72
 msgid "Empty World"
@@ -2821,7 +2821,7 @@ msgstr "Это приведёт к удалению файла автомати�
 #: src/supertux/menu/cheat_apply_menu.cpp:33
 #: src/supertux/menu/cheat_apply_menu.cpp:51
 msgid "Apply cheat to player"
-msgstr ""
+msgstr "Применить чит к игроку"
 
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:39
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:60
@@ -2837,7 +2837,7 @@ msgstr "Игрок {}"
 #: src/supertux/menu/cheat_apply_menu.cpp:36
 #: src/supertux/menu/cheat_apply_menu.cpp:56
 msgid "All Players"
-msgstr ""
+msgstr "Все игроки"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:35
 #: src/supertux/menu/cheat_menu.cpp:31
@@ -2930,10 +2930,10 @@ msgstr "Выберите мир"
 #, c++-format
 msgid "{} level"
 msgid_plural "{} levels"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "{} уровень"
+msgstr[1] "{} уровня"
+msgstr[2] "{} уровней"
+msgstr[3] "{} уровней"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:112
 msgid "Create World"
@@ -2942,7 +2942,7 @@ msgstr "Создать мир"
 #: src/supertux/menu/editor_levelset_select_menu.cpp:113
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:41
 msgid "Delete World"
-msgstr ""
+msgstr "Удалить мир"
 
 #: src/supertux/menu/options_menu.cpp:72
 #: src/supertux/menu/options_select_menu.cpp:35
@@ -3000,7 +3000,7 @@ msgstr "Сменить видеосистему"
 
 #: src/supertux/menu/options_menu.cpp:117
 msgid "Change video system used to render graphics"
-msgstr ""
+msgstr "Сменить видеосистему, используемую для отрисовки графики"
 
 #: src/supertux/menu/options_menu.cpp:124
 #: src/supertux/menu/options_select_menu.cpp:38
@@ -3030,15 +3030,15 @@ msgstr "Управление"
 
 #: src/supertux/menu/options_menu.cpp:151
 msgid "Enable Rumbling Controllers"
-msgstr ""
+msgstr "Включить контроллеры с вибрацией"
 
 #: src/supertux/menu/options_menu.cpp:152
 msgid "Enable vibrating the game controllers."
-msgstr ""
+msgstr "Включите вибрацию игровых контроллеров."
 
 #: src/supertux/menu/options_menu.cpp:152
 msgid "This feature is currently only used in the multiplayer options menu."
-msgstr ""
+msgstr "В настоящее время эта функция используется только в меню параметров многопользовательской игры."
 
 #: src/supertux/menu/options_menu.cpp:154
 #: src/supertux/menu/keyboard_menu.cpp:32
@@ -3061,7 +3061,7 @@ msgstr "Сопоставить функции контроллера с дейс
 #: src/supertux/menu/options_menu.cpp:167
 #: src/supertux/menu/options_select_menu.cpp:40
 msgid "Extras"
-msgstr ""
+msgstr "Дополнительно"
 
 #: src/supertux/menu/options_menu.cpp:170
 #: src/supertux/menu/profile_menu.cpp:56
@@ -3074,11 +3074,11 @@ msgstr "Выбрать учётную запись для игры"
 
 #: src/supertux/menu/options_menu.cpp:174
 msgid "Multiplayer settings"
-msgstr ""
+msgstr "Настройки многопользовательской игры"
 
 #: src/supertux/menu/options_menu.cpp:175
 msgid "Configure settings specific to multiplayer"
-msgstr ""
+msgstr "Настройка особых параметров многопользовательской игры"
 
 #: src/supertux/menu/options_menu.cpp:178
 msgid "Enable transitions"
@@ -3238,7 +3238,7 @@ msgstr "Настроить громкость музыки"
 
 #: src/supertux/menu/options_menu.cpp:517
 msgid "On-screen controls scale"
-msgstr ""
+msgstr "Масштаб экранных элементов управления"
 
 #: src/supertux/menu/options_menu.cpp:638
 msgid ""
@@ -3249,7 +3249,7 @@ msgstr "Игре не удалось определить разрешение �
 
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:80
 msgid "You cannot delete the world that you are editing"
-msgstr ""
+msgstr "Нельзя удалить мир, который вы редактируете"
 
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:83
 #, c++-format
@@ -3379,7 +3379,7 @@ msgstr "Скачивается"
 
 #: src/supertux/menu/addon_preview_menu.cpp:328
 msgid "Add-on uninstalled successfully."
-msgstr ""
+msgstr "Дополнение успешно удалено."
 
 #: src/supertux/menu/addon_preview_menu.cpp:333
 #, c++-format
@@ -3457,7 +3457,7 @@ msgstr "Изменить размер"
 
 #: src/supertux/menu/profile_menu.cpp:60
 msgid "No profiles found."
-msgstr ""
+msgstr "Профили не обнаружены."
 
 #: src/supertux/menu/profile_menu.cpp:68
 #: src/supertux/menu/profile_menu.cpp:149
@@ -3473,7 +3473,7 @@ msgstr "{} (Профиль {})"
 
 #: src/supertux/menu/profile_menu.cpp:84
 msgid "No profile selected."
-msgstr ""
+msgstr "Профили не выбраны."
 
 #: src/supertux/menu/profile_menu.cpp:91 src/supertux/menu/profile_menu.cpp:93
 #: src/supertux/menu/profile_name_menu.cpp:42
@@ -3526,7 +3526,7 @@ msgstr "Описание"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:55
 msgid "Title Screen Level"
-msgstr ""
+msgstr "Уровень экрана заголовка"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:56
 msgid "A level to be used for the title screen, after exiting the world."
@@ -3558,7 +3558,7 @@ msgstr "Установленные дополнения"
 
 #: src/supertux/menu/addon_menu.cpp:76 src/supertux/menu/addon_menu.cpp:117
 msgid "No language packs installed"
-msgstr ""
+msgstr "Нет установленных языковых пакетов"
 
 #: src/supertux/menu/addon_menu.cpp:76
 msgid "No Add-ons installed"
@@ -3567,50 +3567,50 @@ msgstr "Нет установленных дополнений"
 #: src/supertux/menu/addon_menu.cpp:124
 #, c++-format
 msgid "{} {}*UPDATE*"
-msgstr ""
+msgstr "{} {}*ОБНОВЛЕНИЕ*"
 
 #: src/supertux/menu/addon_menu.cpp:130
 #, c++-format
 msgid "{}{}"
-msgstr ""
+msgstr "{}{}"
 
 #: src/supertux/menu/addon_menu.cpp:140
 msgid "No updates available."
-msgstr ""
+msgstr "Обновлений нет."
 
 #: src/supertux/menu/addon_menu.cpp:144
 #, c++-format
 msgid "{} {} available"
-msgstr ""
+msgstr "{} {} доступно"
 
 #: src/supertux/menu/addon_menu.cpp:144
 msgid "update"
-msgstr ""
+msgstr "обновление"
 
 #: src/supertux/menu/addon_menu.cpp:144
 msgid "updates"
-msgstr ""
+msgstr "обновления"
 
 #: src/supertux/menu/addon_menu.cpp:146
 msgid "Check for updates"
-msgstr ""
+msgstr "Проверить наличие обновлений"
 
 #: src/supertux/menu/addon_menu.cpp:150
 msgid "Browse language packs"
-msgstr ""
+msgstr "Обзор языковых пакетов"
 
 #: src/supertux/menu/addon_menu.cpp:150
 #: src/supertux/menu/addon_browse_menu.cpp:70
 msgid "Browse Add-ons"
-msgstr ""
+msgstr "Обзор дополнений"
 
 #: src/supertux/menu/addon_menu.cpp:151
 msgid "Install from file"
-msgstr ""
+msgstr "Установить из файла"
 
 #: src/supertux/menu/addon_menu.cpp:208
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Проверяются обновления…"
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
 msgid "New World"
@@ -3626,38 +3626,38 @@ msgstr "Режим истории"
 
 #: src/supertux/menu/addon_browse_menu.cpp:70
 msgid "Browse Language Packs"
-msgstr ""
+msgstr "Обзор языковых пакетов"
 
 #: src/supertux/menu/addon_browse_menu.cpp:112
 #, c++-format
 msgid "Page {}/{}"
-msgstr ""
+msgstr "Страница {}/{}"
 
 #: src/supertux/menu/addon_browse_menu.cpp:124
 msgid "No new language packs available"
-msgstr ""
+msgstr "Новые языковые пакеты не доступны"
 
 #: src/supertux/menu/addon_browse_menu.cpp:124
 msgid "No new Add-ons available"
-msgstr ""
+msgstr "Новые дополнения не доступны"
 
 #: src/supertux/menu/addon_browse_menu.cpp:127
 msgid "No language packs available"
-msgstr ""
+msgstr "Новые языковые пакеты не доступны"
 
 #: src/supertux/menu/addon_browse_menu.cpp:127
 msgid "No Add-ons available"
-msgstr ""
+msgstr "Дополнения не доступны"
 
 #: src/supertux/menu/addon_browse_menu.cpp:135
 #: src/supertux/menu/addon_browse_menu.cpp:139
 msgid "Previous page"
-msgstr ""
+msgstr "Предыдущая страница"
 
 #: src/supertux/menu/addon_browse_menu.cpp:143
 #: src/supertux/menu/addon_browse_menu.cpp:147
 msgid "Next page"
-msgstr ""
+msgstr "Следующая страница"
 
 #: src/supertux/menu/addon_browse_menu.cpp:154
 msgid "Check Online (disabled)"
@@ -3715,11 +3715,11 @@ msgstr "Вы уверены?"
 #: src/supertux/menu/profile_name_menu.cpp:36
 #, c++-format
 msgid "Rename \"{}\""
-msgstr ""
+msgstr "Переименовать «{}»"
 
 #: src/supertux/menu/profile_name_menu.cpp:36
 msgid "Add profile"
-msgstr ""
+msgstr "Добавить учётную запись"
 
 #: src/supertux/menu/profile_name_menu.cpp:40
 msgid "Profile names must have a maximum of 20 characters."
@@ -3727,7 +3727,7 @@ msgstr ""
 
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Create"
-msgstr ""
+msgstr "Создать"
 
 #: src/supertux/menu/profile_name_menu.cpp:56
 msgid ""
@@ -3796,7 +3796,7 @@ msgstr "Прыжок = Вверх"
 
 #: src/supertux/menu/keyboard_menu.cpp:61
 msgid "Player"
-msgstr ""
+msgstr "Игрок"
 
 #: src/supertux/menu/keyboard_menu.cpp:79
 msgid "Up cursor"
@@ -3957,11 +3957,11 @@ msgstr "Убить Такса"
 
 #: src/supertux/menu/cheat_menu.cpp:55
 msgid "Prevent Death"
-msgstr ""
+msgstr "Предотвратить смерть"
 
 #: src/supertux/menu/addon_file_install_menu.cpp:32
 msgid "Install Add-on from file"
-msgstr ""
+msgstr "Установить дополнение из файла"
 
 #: src/supertux/menu/addon_file_install_menu.cpp:34
 msgid "Drag and drop add-on ZIP archive"
@@ -4054,7 +4054,7 @@ msgstr "Набор плиток"
 
 #: src/supertux/menu/editor_level_menu.cpp:41
 msgid "Target Time"
-msgstr "Заданное время"
+msgstr "Целевое время"
 
 #: src/supertux/menu/editor_level_menu.cpp:83
 msgid "Please enter a name for this level."
@@ -4245,19 +4245,19 @@ msgstr ""
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:58
 msgid "Remove Player"
-msgstr ""
+msgstr "Удалить игрока"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:82
 msgid "Respawn Player"
-msgstr ""
+msgstr "Возродить игрока"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:108
 msgid "Spawn Player"
-msgstr ""
+msgstr "Породить игрока"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:136
 msgid "Controllers"
-msgstr ""
+msgstr "Контроллеры"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:152
 msgid ""
@@ -4285,7 +4285,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:59
 msgid "No levels available"
-msgstr ""
+msgstr "Уровни не доступны"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:79
 msgid "You cannot delete the level that you are editing!"
@@ -4311,7 +4311,7 @@ msgstr "Лучшее время"
 
 #: src/supertux/levelintro.cpp:196
 msgid "Level target time"
-msgstr "Заданное время уровня"
+msgstr "Целевое время уровня"
 
 #: src/supertux/tile_set.cpp:113
 msgid "Others"
@@ -4332,7 +4332,7 @@ msgstr "Регион"
 #: src/supertux/main.cpp:796
 #, c++-format
 msgid "New release: SuperTux v{}!"
-msgstr ""
+msgstr "Новый выпуск: SuperTux v{}!"
 
 #: src/supertux/main.cpp:799
 #, c++-format
@@ -4471,19 +4471,19 @@ msgstr "недопустимый"
 
 #: src/editor/object_option.cpp:665
 msgid "Scale X"
-msgstr ""
+msgstr "Масштаб X"
 
 #: src/editor/object_option.cpp:666
 msgid "Scale Y"
-msgstr ""
+msgstr "Масштаб Y"
 
 #: src/editor/object_option.cpp:667
 msgid "Offset X"
-msgstr ""
+msgstr "Смещение по X"
 
 #: src/editor/object_option.cpp:668
 msgid "Offset Y"
-msgstr ""
+msgstr "Смещение по Y"
 
 #: src/editor/object_option.cpp:672 src/editor/object_menu.cpp:67
 msgid "Remove"
@@ -4583,7 +4583,7 @@ msgstr "Внеэкранный режим"
 
 #: src/editor/particle_editor.cpp:229
 msgid "Clear"
-msgstr ""
+msgstr "Очистить"
 
 #: src/editor/particle_editor.cpp:245
 msgid "<- General settings"
@@ -4595,23 +4595,23 @@ msgstr ""
 
 #: src/editor/particle_editor.cpp:266
 msgid "Color (RGBA)"
-msgstr ""
+msgstr "Цвет (RGBA)"
 
 #: src/editor/particle_editor.cpp:311
 msgid "Scale (x, y)"
-msgstr ""
+msgstr "Масштаб (x, y)"
 
 #: src/editor/particle_editor.cpp:332
 msgid "Hitbox scale (x, y)"
-msgstr ""
+msgstr "Масштаб хитбокса (x, y)"
 
 #: src/editor/particle_editor.cpp:353
 msgid "Hitbox offset relative to scale"
-msgstr ""
+msgstr "Смещение хитбокса относительно масштаба"
 
 #: src/editor/particle_editor.cpp:372
 msgid "Change texture..."
-msgstr ""
+msgstr "Сменить текстуру…"
 
 #: src/editor/particle_editor.cpp:766
 msgid ""
@@ -4682,11 +4682,11 @@ msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr "Не удалось найти точку возрождения \"main\".\nПожалуйста, измените название\nстартовой точки игрока на \"main\""
+msgstr "Не удалось найти точку возрождения «main».\n Пожалуйста, смените название\nстартовой точки игрока на «main»"
 
 #: src/editor/object_menu.cpp:60
 msgid "Patch Notes"
-msgstr ""
+msgstr "Примечания к выпуску"
 
 #: src/editor/object_menu.cpp:84
 msgid "This will update the object to its latest functionality."
@@ -4709,7 +4709,7 @@ msgstr ""
 #: src/editor/object_menu.cpp:101
 #, c++-format
 msgid "Patch notes for v{}:"
-msgstr ""
+msgstr "Примечания к выпуску v{}:"
 
 #: src/editor/overlay_widget.cpp:1063
 msgid "Cannot select deprecated tiles"
@@ -5083,11 +5083,11 @@ msgstr "Задний план леса"
 
 #: data//images/tiles.strf:690
 msgid "Corrupted Forest"
-msgstr ""
+msgstr "Испорченный лес"
 
 #: data//images/tiles.strf:868
 msgid "Corrupted Background"
-msgstr ""
+msgstr "Испорченный фон"
 
 #: data//images/tiles.strf:991
 msgid "Block + Bonus"
@@ -5123,7 +5123,7 @@ msgstr "Разное"
 
 #: data//images/tiles.strf:1342
 msgid "Retro Tiles"
-msgstr ""
+msgstr "Ретро плитка"
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"
