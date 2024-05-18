@@ -62,6 +62,7 @@ jobs:
             pkg install -y libvorbis
             pkg install -y freetype
             pkg install -y libraqm
+            pkg install -y squirrel
             pkg install -y glm
           run: |
             mkdir build && cd build
@@ -111,6 +112,7 @@ jobs:
             pkg_add libvorbis
             pkg_add freetype
             pkg_add glm
+            pkg_add squirrel
             # If it fails to link against libSDL2, the path is
             # /usr/local/lib/libSDL2.a (similar for SDL2_image)
           run: |
