@@ -62,7 +62,6 @@ jobs:
             pkg install -y libvorbis
             pkg install -y freetype
             pkg install -y libraqm
-            pkg install -y squirrel
             pkg install -y glm
           run: |
             mkdir build && cd build
