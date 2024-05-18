@@ -63,6 +63,8 @@ jobs:
             pkg install -y freetype
             pkg install -y libraqm
             pkg install -y glm
+            pkg info -l sdl2
+            pkg info -l sdl2_image
           run: |
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
@@ -109,6 +111,8 @@ jobs:
             pkg_add libvorbis
             pkg_add freetype
             pkg_add glm
+            pkg_info -L sdl2
+            pkg_info -L sdl2_image
           run: |
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
