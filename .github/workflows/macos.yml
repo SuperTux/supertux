@@ -115,7 +115,7 @@ jobs:
         working-directory: build
         run: ../.ci_scripts/package.sh
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-dmg"
           path: build/upload/*.dmg

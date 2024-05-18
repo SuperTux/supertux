@@ -84,7 +84,7 @@ jobs:
           mkdir upload/
           mv supertux2* upload/
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: "wasm32-emscripten-${{ matrix.build_type }}-html"
           path: build/upload/*

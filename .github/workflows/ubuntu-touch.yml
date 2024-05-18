@@ -87,7 +87,7 @@ jobs:
         run: |
           ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: "clickable-${{ matrix.arch }}-${{ matrix.build_type }}-${{ matrix.opengl }}-click"
           path: build.clickable/*.click
