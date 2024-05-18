@@ -34,7 +34,7 @@ public:
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */
-  virtual void finish_construction(bool editable) {}
+  virtual void finish_construction(bool editable);
 
   virtual void draw(DrawingContext& context) = 0;
   virtual void update(float dt_sec) = 0;
@@ -47,6 +47,10 @@ public:
 
   void set_init_script(const std::string& init_script) { m_init_script = init_script; }
   void run_script(const std::string& script, const std::string& sourcename);
+
+protected:
+  virtual bool before_object_add(GameObject& object) override;
+  virtual void before_object_remove(GameObject& object) override;
 
 protected:
   std::string m_name;

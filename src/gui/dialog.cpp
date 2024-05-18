@@ -112,7 +112,7 @@ Dialog::get_button_at(const Vector& mouse_pos) const
 void
 Dialog::event(const SDL_Event& ev)
 {
-  if (m_passive) // Passive dialogs don't accept events
+  if (m_passive) // Passive dialogs don't accept events.
     return;
 
   switch (ev.type) {
@@ -155,7 +155,7 @@ Dialog::event(const SDL_Event& ev)
 void
 Dialog::process_input(const Controller& controller)
 {
-  if (m_passive) // Passive dialogs don't accept events
+  if (m_passive) // Passive dialogs don't accept events.
     return;
 
   if (controller.pressed(Control::LEFT))
@@ -189,14 +189,14 @@ void
 Dialog::draw(DrawingContext& context)
 {
   Rectf bg_rect(Vector(static_cast<float>(m_passive ?
-                                          (static_cast<float>(context.get_width()) - m_text_size.width - 20.0f) :
-                                          static_cast<float>(context.get_width()) / 2.0f - m_text_size.width / 2.0f),
+                                          (context.get_width() - m_text_size.width - 20.0f) :
+                                          context.get_width() / 2.0f - m_text_size.width / 2.0f),
                        static_cast<float>(m_passive ?
-                                          (static_cast<float>(context.get_height()) - m_text_size.height - 65.0f) :
-                                          (static_cast<float>(context.get_height()) / 2.0f - m_text_size.height / 2.0f))),
+                                          (context.get_height() - m_text_size.height - 65.0f) :
+                                          (context.get_height() / 2.0f - m_text_size.height / 2.0f))),
                 m_size);
 
-  // draw background rect
+  // Draw background rect.
   context.color().draw_filled_rect(bg_rect.grown(12.0f),
                                      Color(g_config->menubackcolor.red, g_config->menubackcolor.green,
                                        g_config->menubackcolor.blue, (std::max(0.f, g_config->menubackcolor.alpha - (m_passive ? 0.5f : 0.0f)))),
@@ -209,7 +209,7 @@ Dialog::draw(DrawingContext& context)
                                        g_config->menuroundness,
                                      LAYER_GUI-10);
 
-  // draw text
+  // Draw text.
   context.color().draw_text(Resources::normal_font, m_text,
                               Vector(bg_rect.get_left() + bg_rect.get_width()/2.0f,
                                      bg_rect.get_top()),
@@ -217,7 +217,7 @@ Dialog::draw(DrawingContext& context)
   if (m_passive)
     return;
 
-  // draw HL line
+  // Draw horizontal line.
   context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35),
                                          Sizef(bg_rect.get_width(), 4)),
                                    g_config->hlcolor, LAYER_GUI);
@@ -225,7 +225,7 @@ Dialog::draw(DrawingContext& context)
                                          Sizef(bg_rect.get_width(), 2)),
                                    Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
 
-  // draw buttons
+  // Draw buttons.
   for (int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
   {
     float segment_width = bg_rect.get_width() / static_cast<float>(m_buttons.size());

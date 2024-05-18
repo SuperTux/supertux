@@ -105,7 +105,7 @@ if(EMSCRIPTEN)
   set(IS_EMSCRIPTEN_BUILD ON)
 
   set(EM_USE_FLAGS "-sDISABLE_EXCEPTION_CATCHING=0")
-  set(EM_LINK_FLAGS " -sTOTAL_MEMORY=67108864 -sALLOW_MEMORY_GROWTH=1 -sERROR_ON_UNDEFINED_SYMBOLS=0 --preload-file ${BUILD_CONFIG_DATA_DIR} --use-preload-plugins -lidbfs.js")
+  set(EM_LINK_FLAGS " -sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH=1 -sMAXIMUM_MEMORY=536870912 -sERROR_ON_UNDEFINED_SYMBOLS=0 --preload-file ${BUILD_CONFIG_DATA_DIR} --use-preload-plugins -lidbfs.js")
   if(CMAKE_BUILD_TYPE MATCHES Debug)
     set(EM_USE_FLAGS "${EM_USE_FLAGS} -fsanitize=undefined")
     set(EM_LINK_FLAGS "${EM_LINK_FLAGS} -fsanitize=undefined -sSAFE_HEAP=1 -sASSERTIONS=1 -sDEMANGLE_SUPPORT=1")
@@ -140,6 +140,13 @@ else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
+# Configure main menu logo
+if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
+  set(LOGO_FILE "logo.png")
+else()
+  set(LOGO_FILE "logo_dev.png")
+endif()
+
 if(WIN32)
   include(SuperTux/Win32)
 endif()
@@ -156,7 +163,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  add_definitions(-DMACOSX)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
 endif()
 
@@ -241,11 +247,13 @@ if(EMSCRIPTEN)
 endif()
 
 if(WIN32 AND NOT VCPKG_BUILD)
+if(NOT MINGW)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${DEPENDENCY_FOLDER}/dll"
     $<TARGET_FILE_DIR:supertux2_lib>)
+endif()
 endif()
 
 ## Some additional include paths
@@ -260,9 +268,6 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
 endif()
 
 ## Link supertux binary with squirrel and other libraries
-if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
-endif()
 
 target_link_libraries(supertux2_lib PUBLIC LibSquirrel)
 target_link_libraries(supertux2_lib PUBLIC LibSqstdlib)
@@ -274,9 +279,12 @@ target_link_libraries(supertux2_lib PUBLIC LibOpenAL)
 target_link_libraries(supertux2_lib PUBLIC LibGlm)
 target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
+
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
+  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
   target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)
+  target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
 if(HAVE_OPENGL)
@@ -287,23 +295,11 @@ if(ENABLE_DISCORD)
   target_link_libraries(supertux2_lib PUBLIC LibDiscord)
 endif()
 
-if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC LibCurl)
-endif()
-
 ## Install stuff
 include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
-
-## Configure main menu logo
-if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
-  set(LOGO_FILE "logo_final.sprite")
-else()
-  set(LOGO_FILE "logo.sprite")
-endif()
-configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
 
 ## Build tests
 include(SuperTux/BuildTests)

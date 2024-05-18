@@ -22,10 +22,10 @@
 #include "object/portable.hpp"
 #include "scripting/badguy.hpp"
 #include "squirrel/exposed_object.hpp"
-#include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
+enum class Direction;
 class Player;
 class Bullet;
 
@@ -42,6 +42,9 @@ public:
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
          const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+  BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
          const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
 
@@ -127,11 +130,6 @@ public:
     return "images/objects/water_drop/water_drop.sprite";
   }
 
-  void set_sprite_action(const std::string& action, int loops = 1)
-  {
-    set_action(action, loops);
-  }
-
   /** Returns true if the badguy can currently be affected by wind */
   virtual bool can_be_affected_by_wind() const;
 
@@ -188,6 +186,9 @@ protected:
 
   /** called when the badguy has been deactivated */
   virtual void deactivate();
+
+  /** Returns a vector of directions the badguy can be set to. */
+  virtual std::vector<Direction> get_allowed_directions() const;
 
   void kill_squished(GameObject& object);
 
@@ -267,6 +268,8 @@ protected:
   SpritePtr m_freezesprite;
   bool m_glowing;
 
+  Timer m_unfreeze_timer;
+
 private:
   State m_state;
 
@@ -275,8 +278,6 @@ private:
   bool m_is_active_flag;
 
   Timer m_state_timer;
-
-  Timer m_unfreeze_timer;
 
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */

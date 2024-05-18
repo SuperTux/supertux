@@ -29,10 +29,10 @@ namespace {
 
 const float SNAIL_KICK_SPEED = 500;
 const int MAX_SNAIL_SQUISHES = 10;
-const float SNAIL_KICK_SPEED_Y = -500; /**< y-velocity gained when kicked */
+const float SNAIL_KICK_SPEED_Y = -500; /**< Y-velocity gained when kicked. */
 
-const float SNAIL_GUARD_DELAY = 5.f; /**< Time in-between corrupted snail guard states (seconds) */
-const float SNAIL_GUARD_TIME = 3.f; /**< Duration of corrupted snail guard states (seconds) */
+const float SNAIL_GUARD_DELAY = 5.f; /**< Time in-between corrupted snail guard states (seconds). */
+const float SNAIL_GUARD_TIME = 3.f; /**< Duration of corrupted snail guard states (seconds). */
 
 } // namespace
 
@@ -46,14 +46,13 @@ Snail::Snail(const ReaderMapping& reader) :
   squishcount(0)
 {
   parse_type(reader);
-  on_type_change(-1);
 
   walk_speed = 80;
-  max_drop_height = 600;
+  set_ledge_behavior(LedgeBehavior::SMART);
   SoundManager::current()->preload("sounds/iceblock_bump.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
   SoundManager::current()->preload("sounds/kick.wav");
-  SoundManager::current()->preload("sounds/dartfire.wav"); // TODO: Specific sounds for snail guard state
+  SoundManager::current()->preload("sounds/dartfire.wav"); // TODO: Specific sounds for snail guard state.
 }
 
 void
@@ -72,11 +71,16 @@ Snail::get_types() const
   };
 }
 
-void
-Snail::on_type_change(int old_type)
+std::string
+Snail::get_default_sprite_name() const
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/snail/" + std::string(m_type == Type::CORRUPTED ? "corrupted/corrupted_" : "") + "snail.sprite");
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/creatures/snail/corrupted/corrupted_snail.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void
@@ -107,8 +111,7 @@ Snail::be_flat()
   state = STATE_FLAT;
   set_action("flat", m_dir, /* loops = */ -1);
 
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
 
   flat_timer.start(4);
 }
@@ -129,10 +132,9 @@ Snail::be_kicked(bool upwards)
     state = STATE_KICKED;
   set_action("flat", m_dir, /* loops = */ -1);
 
-  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED, 0);
 
-  // start a timer to delay addition of upward movement until we are (hopefully) out from under the player
+  // Start a timer to delay addition of upward movement until we are (hopefully) out from under the player.
   if (upwards)
     kicked_delay_timer.start(0.05f);
 }
@@ -176,7 +178,7 @@ Snail::active_update(float dt_sec)
       {
         state = STATE_GUARD;
         set_action("guard", m_dir);
-        SoundManager::current()->play("sounds/dartfire.wav", get_pos()); // TODO: Specific sounds for snail guard state
+        SoundManager::current()->play("sounds/dartfire.wav", get_pos()); // TODO: Specific sounds for snail guard state.
         m_guard_end_timer.start(SNAIL_GUARD_TIME);
       }
       break;
@@ -186,7 +188,7 @@ Snail::active_update(float dt_sec)
       {
         state = STATE_GUARD_RETRACT;
         set_action("retract", m_dir, /* loops = */ 1);
-        SoundManager::current()->play("sounds/dartfire.wav", get_pos()); // TODO: Specific sounds for snail guard state
+        SoundManager::current()->play("sounds/dartfire.wav", get_pos()); // TODO: Specific sounds for snail guard state.
       }
       break;
 
@@ -203,15 +205,14 @@ Snail::active_update(float dt_sec)
 
     case STATE_KICKED_DELAY:
       if (kicked_delay_timer.check()) {
-        m_physic.set_velocity_x(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED);
-        m_physic.set_velocity_y(SNAIL_KICK_SPEED_Y);
+        m_physic.set_velocity(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED, SNAIL_KICK_SPEED_Y);
         state = STATE_KICKED;
       }
       break;
 
     case STATE_KICKED:
       m_physic.set_velocity_x(m_physic.get_velocity_x() * powf(0.99f, dt_sec/0.02f));
-      if (fabsf(m_physic.get_velocity_x()) < walk_speed) be_normal();
+      if (on_ground() && (fabsf(m_physic.get_velocity_x()) < walk_speed)) be_normal();
       break;
 
     case STATE_GRABBED:
@@ -259,7 +260,7 @@ Snail::collision_solid(const CollisionHit& hit)
           m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
           set_action("flat", m_dir, /* loops = */ -1);
 
-          m_physic.set_velocity_x(-m_physic.get_velocity_x());
+          m_physic.set_velocity(-m_physic.get_velocity_x(), -std::abs(m_physic.get_velocity_x()));
         }
       }
       [[fallthrough]];
@@ -316,15 +317,16 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
     return BadGuy::collision_player(player, hit);
 
   if (state == STATE_GUARD)
-    return WalkingBadguy::collision_player(player, hit); // Hurt player on collision
+    return WalkingBadguy::collision_player(player, hit); // Hurt player on collision.
 
-  // handle kicks from left or right side
+  // Handle kicks from left or right side.
   if ((state == STATE_WAKING || state == STATE_FLAT) && (hit.left || hit.right)) {
     if (hit.left) {
       m_dir = Direction::RIGHT;
     } else if (hit.right) {
       m_dir = Direction::LEFT;
     }
+    SoundManager::current()->play("sounds/kick.wav", get_pos());
     player.kick();
     be_kicked(false);
     return FORCE_MOVE;
@@ -370,7 +372,7 @@ Snail::collision_squished(GameObject& object)
           m_dir = Direction::LEFT;
         }
       }
-      be_kicked(true);
+      be_kicked(false);
       break;
 
     default:
@@ -391,7 +393,7 @@ Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
   m_dir = dir_;
   if (!m_frozen)
   {
-    set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+    set_action("flat", dir_, /* loops = */ -1);
     be_grabbed();
     flat_timer.stop();
   }
@@ -403,12 +405,50 @@ Snail::ungrab(MovingObject& object, Direction dir_)
 {
   if (!m_frozen)
   {
-    if (dir_ == Direction::UP) {
-      be_flat();
+    const Player* player = dynamic_cast<Player*>(&object);
+    const Owl* owl = dynamic_cast<Owl*>(&object);
+
+    if (player)
+    {
+      SoundManager::current()->play("sounds/kick.wav", get_pos());
+      if (!player->is_swimming() && !player->is_water_jumping())
+      {
+        switch (dir_)
+        {
+        case Direction::UP:
+          if (std::abs(player->get_velocity().x) < 4.f) {
+            be_flat();
+            m_physic.set_velocity_y(SNAIL_KICK_SPEED_Y);
+          }
+          else {
+            be_kicked(true);
+          }
+          break;
+        case Direction::LEFT:
+        case Direction::RIGHT:
+          m_dir = dir_;
+          be_kicked(false);
+          break;
+        case Direction::DOWN:
+          m_dir = player->m_dir;
+          be_kicked(false);
+          m_physic.set_velocity_y(500.f);
+          break;
+        default:
+          break;
+        }
+      }
+      else
+      {
+        float swimangle = player->get_swimming_angle();
+        m_col.m_bbox.move(Vector(std::cos(swimangle) * 48.f, std::sin(swimangle) * 48.f));
+        be_kicked(false);
+        m_physic.set_velocity(SNAIL_KICK_SPEED * 1.5f * Vector(std::cos(swimangle), std::sin(swimangle)));
+        m_dir = m_physic.get_velocity_x() > 0.f ? Direction::RIGHT : Direction::LEFT;
+      }
     }
-    else {
-      m_dir = dir_;
-      be_kicked(dynamic_cast<Owl*>(&object) ? false : true);
+    else if (owl) {
+      be_kicked(false);
     }
   }
   else

@@ -21,19 +21,34 @@
 #include "object/player.hpp"
 #include "supertux/constants.hpp"
 
-InvisibleBlock::InvisibleBlock(const Vector& pos) :
-  Block(pos, "images/objects/bonus_block/invisibleblock.sprite"),
-  visible(false)
-{
-  SoundManager::current()->preload("sounds/brick.wav");
-  set_action("default-editor");
-}
-
 InvisibleBlock::InvisibleBlock(const ReaderMapping& mapping) :
   Block(mapping, "images/objects/bonus_block/invisibleblock.sprite"),
   visible(false)
 {
+  parse_type(mapping);
+
   SoundManager::current()->preload("sounds/brick.wav");
+}
+
+GameObjectTypes
+InvisibleBlock::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "retro", _("Retro") }
+  };
+}
+
+std::string
+InvisibleBlock::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case RETRO:
+      return "images/objects/bonus_block/retro_invisibleblock.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void

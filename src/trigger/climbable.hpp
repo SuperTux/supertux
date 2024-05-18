@@ -54,7 +54,7 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   /** returns true if the player is within bounds of the Climbable */
-  bool may_climb(Player& player) const;
+  bool may_climb(const Player& player) const;
 
 protected:
   std::vector<Player*> climbed_by; /** contains players who's currently climbing us, empty if nobody is. */

@@ -47,15 +47,15 @@ private:
 public:
   /**
    * Moves the platform until at given node, then stops.
-   * @param int $node_no
+   * @param int $node_idx
    */
-  void goto_node(int node_no);
+  void goto_node(int node_idx);
 
   /**
    * Jumps instantly to the given node.
-   * @param int $node_no
+   * @param int $node_idx
    */
-  void set_node(int node_no);
+  void set_node(int node_idx);
 
   /**
    * Starts moving the platform automatically.
@@ -74,7 +74,7 @@ public:
   /**
    * Sets the sprite action.
    * @param string $action
-   * @param string $loops
+   * @param int $loops
    */
   void set_action(const std::string& action, int loops);
 };

@@ -38,7 +38,7 @@ ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world) :
 
   m_levelset = std::unique_ptr<Levelset>(new Levelset(m_world->get_basedir()));
 
-  auto savegame = Savegame::from_file(m_world->get_savegame_filename());
+  auto savegame = Savegame::from_current_profile(m_world->get_basename());
   LevelsetState state = savegame->get_levelset_state(m_world->get_basedir());
 
   add_label(m_world->get_title());
@@ -74,8 +74,8 @@ ContribLevelsetMenu::menu_action(MenuItem& item)
   {
     SoundManager::current()->stop_music();
 
-    // reload the World so that we have something that we can safely
-    // std::move() around without wreaking the ContribMenu
+    // Reload the World so that we have something that we can safely
+    // std::move() around without wreaking the ContribMenu.
     std::unique_ptr<World> world = World::from_directory(m_world->get_basedir());
     std::string filename = m_levelset->get_level_filename(item.get_id());
     GameManager::current()->start_level(*world, filename);

@@ -36,13 +36,22 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  virtual GameObjectTypes get_types() const override;
+  virtual std::string get_default_sprite_name() const override;
 
-  virtual void after_editor_set() override;
   virtual void on_flip(float height) override;
+  virtual void on_type_change(int old_type) override;
+
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 protected:
   enum State {
     IDLE, LOADING
+  };
+
+  enum Type {
+    GRANITO, SKULL
   };
 
   void load();

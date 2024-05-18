@@ -31,6 +31,8 @@
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
+#else
+#include <curl/curl.h>
 #endif
 
 #include <SDL.h>
@@ -146,7 +148,7 @@ std::string normalize(const std::string& filename)
       if (path_stack.empty()) {
 
         log_warning << "Invalid '..' in path '" << filename << "'" << std::endl;
-        // push it into the result path so that the user sees his error...
+        // Push it into the result path so that the user sees this error...
         path_stack.push_back(pathelem);
       } else {
         path_stack.pop_back();
@@ -156,7 +158,7 @@ std::string normalize(const std::string& filename)
     }
   }
 
-  // construct path
+  // Construct path.
   std::ostringstream result;
   for (std::vector<std::string>::iterator i = path_stack.begin();
        i != path_stack.end(); ++i) {
@@ -227,6 +229,22 @@ void open_path(const std::string& path)
   {
     log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
   }
+#endif
+}
+
+std::string escape_url(const std::string& url)
+{
+#ifndef __EMSCRIPTEN__
+  std::string result = url;
+  char *output = curl_easy_escape(nullptr, url.c_str(), static_cast<int>(url.length()));
+  if(output) {
+    result = std::string(output);
+    curl_free(output);
+  }
+
+  return result;
+#else
+  return emscripten_run_script_string(("encodeURIComponent(" + url + ")").c_str());
 #endif
 }
 

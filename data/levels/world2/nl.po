@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 12:50+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
-"Language-Team: Dutch (http://www.transifex.com/arctic-games/supertux/language/nl/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>, 2021\n"
+"Language-Team: Dutch (http://app.transifex.com/arctic-games/supertux/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,8 +38,8 @@ msgstr "Eeuwenoude ruïnes"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Je hebt een geheim gebied gevonden!"
 
@@ -91,7 +91,7 @@ msgstr "Uitdagingen van de spookboom"
 msgid "Ghouls' Lair"
 msgstr "Geestenverblijf"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -105,13 +105,13 @@ msgstr "Ondergronds gaan"
 msgid "I Spy With My Little Eye"
 msgstr "Ik zie, ik zie wat jij niet ziet"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Bespeurders\n#Bespeurders activeren dingen als platformen zodra Tux er dichtbij is."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Tip: gebruik slakken om ijsblokken te breken!"
 
@@ -123,7 +123,7 @@ msgstr "Als een blad in de wind"
 msgid "Lost Village"
 msgstr "Verloren gewaand dorp"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Vergeet niet de schakelaar om te zetten!"
 
@@ -163,10 +163,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Aardbloem\n!images/powerups/earthflower/earth_flower-1.png\n#De aardbloem zorgt ervoor dat Tux in steen kan veranderen door de actietoets en pijltje omlaag gelijktijdig in te drukken.\n#Dit werkt niet tijdens springen of vallen!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Toren-overgangsscène"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Spooktoren"
@@ -187,7 +183,7 @@ msgstr "-Draagbare objecten:\n!images/objects/rock/rock.png\n#Tux kan bepaalde o
 msgid "Tux' Own Horror Show"
 msgstr "Tux' eigen horrorshow"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -216,6 +212,6 @@ msgstr "Houten wortels"
 msgid "Rooted Forest"
 msgstr "Boomwortelbos"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Wordt vervolgd..."

@@ -67,42 +67,11 @@ Gradient::Gradient(const ReaderMapping& reader) :
   std::string direction;
   if (reader.get("direction", direction))
   {
-    if (direction == "horizontal")
-    {
-      m_gradient_direction = HORIZONTAL;
-    }
-    else if (direction == "horizontal_sector")
-    {
-      m_gradient_direction = HORIZONTAL_SECTOR;
-    }
-    else if (direction == "vertical_sector")
-    {
-      m_gradient_direction = VERTICAL_SECTOR;
-    }
-    else
-    {
-      m_gradient_direction = VERTICAL;
-    }
+    set_direction(direction);
   }
   else
   {
-    m_gradient_direction = VERTICAL;
-  }
-  if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR)
-  {
-    if (!reader.get("left_color", bkgd_top_color) ||
-       !reader.get("right_color", bkgd_bottom_color))
-    {
-      log_warning <<
-        "Horizontal gradients should use left_color and right_color, respectively. "
-        "Trying to parse top and bottom color instead" << std::endl;
-    }
-    else
-    {
-      m_gradient_top = Color(bkgd_top_color);
-      m_gradient_bottom = Color(bkgd_bottom_color);
-      return;
-    }
+    set_direction(VERTICAL);
   }
 
   if (reader.get("top_color", bkgd_top_color)) {
@@ -126,20 +95,15 @@ Gradient::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR) {
-    result.add_rgba(_("Left Colour"), &m_gradient_top, "left_color");
-    result.add_rgba(_("Right Colour"), &m_gradient_bottom, "right_color");
-  } else {
-    result.add_rgba(_("Top Colour"), &m_gradient_top, "top_color");
-    result.add_rgba(_("Bottom Colour"), &m_gradient_bottom, "bottom_color");
-  }
+  result.add_rgba(_("Primary Colour"), &m_gradient_top, "top_color");
+  result.add_rgba(_("Secondary Colour"), &m_gradient_bottom, "bottom_color");
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
 
   result.add_enum(_("Direction"), reinterpret_cast<int*>(&m_gradient_direction),
                   {_("Vertical"), _("Horizontal"), _("Vertical (whole sector)"), _("Horizontal (whole sector)")},
                   {"vertical", "horizontal", "vertical_sector", "horizontal_sector"},
-                  static_cast<int>(VERTICAL));
+                  static_cast<int>(VERTICAL), "direction");
 
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_target),
                   {_("Normal"), _("Lightmap")},
@@ -197,7 +161,7 @@ Gradient::update(float delta)
 }
 
 void
-Gradient::set_gradient(Color top, Color bottom)
+Gradient::set_gradient(const Color& top, const Color& bottom)
 {
   m_gradient_top = top;
   m_gradient_bottom = bottom;
@@ -207,7 +171,7 @@ Gradient::set_gradient(Color top, Color bottom)
       m_gradient_top.blue > 1.0f ||
       m_gradient_top.alpha > 1.0f)
   {
-    log_warning << "top gradient color has values above 1.0" << std::endl;
+    log_warning << "Top gradient color has values above 1.0." << std::endl;
   }
 
   if (m_gradient_bottom.red > 1.0f ||
@@ -215,12 +179,12 @@ Gradient::set_gradient(Color top, Color bottom)
       m_gradient_bottom.blue > 1.0f ||
       m_gradient_bottom.alpha > 1.0f)
   {
-    log_warning << "bottom gradient color has values above 1.0" << std::endl;
+    log_warning << "Bottom gradient color has values above 1.0." << std::endl;
   }
 }
 
 void
-Gradient::fade_gradient(Color top, Color bottom, float time)
+Gradient::fade_gradient(const Color& top, const Color& bottom, float time)
 {
   m_start_gradient_top = m_gradient_top;
   m_start_gradient_bottom = m_gradient_bottom;
@@ -230,10 +194,51 @@ Gradient::fade_gradient(Color top, Color bottom, float time)
   m_fade_time = time;
 }
 
+std::string
+Gradient::get_direction_string() const
+{
+  if (m_gradient_direction == HORIZONTAL)
+    return "horizontal";
+  if (m_gradient_direction == VERTICAL)
+    return "vertical";
+  if (m_gradient_direction == HORIZONTAL_SECTOR)
+    return "horizontal_sector";
+  if (m_gradient_direction == VERTICAL_SECTOR)
+    return "vertical_sector";
+
+  return nullptr;
+}
+
 void
 Gradient::set_direction(const GradientDirection& direction)
 {
   m_gradient_direction = direction;
+}
+
+void
+Gradient::set_direction(const std::string& direction)
+{
+  if (direction == "horizontal")
+  {
+    m_gradient_direction = HORIZONTAL;
+  }
+  else if (direction == "horizontal_sector")
+  {
+    m_gradient_direction = HORIZONTAL_SECTOR;
+  }
+  else if (direction == "vertical_sector")
+  {
+    m_gradient_direction = VERTICAL_SECTOR;
+  }
+  else if (direction == "vertical")
+  {
+    m_gradient_direction = VERTICAL;
+  }
+  else
+  {
+    log_info << "Invalid direction for gradient \"" << direction << "\"";
+    m_gradient_direction = VERTICAL;
+  }
 }
 
 void
@@ -252,13 +257,12 @@ Gradient::draw(DrawingContext& context)
   }
   else
   {
-    gradient_region = Rectf(0, 0,
-                            static_cast<float>(context.get_width()),
-                            static_cast<float>(context.get_height()));
+    gradient_region = context.get_rect();
   }
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
   context.get_canvas(m_target).draw_gradient(m_gradient_top, m_gradient_bottom, m_layer, m_gradient_direction,
                                              gradient_region, m_blend);
   context.pop_transform();

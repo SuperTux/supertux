@@ -29,6 +29,7 @@
 #include "util/uid_generator.hpp"
 
 class DrawingContext;
+class MovingObject;
 class TileMap;
 
 template<class T> class GameObjectRange;
@@ -57,10 +58,16 @@ public:
   T& add(Args&&... args)
   {
     auto obj = std::make_unique<T>(std::forward<Args>(args)...);
+    obj->update_version();
     T& obj_ref = *obj;
     add_object(std::move(obj));
     return obj_ref;
   }
+
+  /** Add a MovingObject from scripting. */
+  virtual MovingObject& add_object_scripting(const std::string& class_name, const std::string& name,
+                                             const Vector& pos, const std::string& direction,
+                                             const std::string& data);
 
   void update(float dt_sec);
   void draw(DrawingContext& context);
@@ -72,6 +79,8 @@ public:
 
   float get_width() const;
   float get_height() const;
+  float get_editor_width() const;
+  float get_editor_height() const;
 
   /** returns the width (in tiles) of a worldmap */
   float get_tiles_width() const;
@@ -143,8 +152,11 @@ public:
     }
   }
 
+  /** Move an object to another GameObjectManager. */
+  void move_object(const UID& uid, GameObjectManager& other);
+
   /** Register a callback to be called once the given name can be
-      resolsed to a UID. Note that this function is only valid in the
+      resolved to a UID. Note that this function is only valid in the
       construction phase, not during draw() or update() calls, use
       get_object_by_uid() instead. */
   void request_name_resolve(const std::string& name, std::function<void (UID)> callback);
@@ -208,6 +220,9 @@ public:
   /** Indicate if there are any object changes in the undo stack. */
   bool has_object_changes() const;
 
+  /** Called on editor level save. */
+  void on_editor_save();
+
 protected:
   void update_tilemaps();
 
@@ -228,11 +243,17 @@ protected:
   }
 
 private:
-  struct ObjectChange {
+  struct ObjectChange
+  {
     std::string name;
     UID uid;
     std::string data;
     bool creation; // If the change represents an object creation.
+  };
+  struct ObjectChanges
+  {
+    UID uid;
+    std::vector<ObjectChange> objects;
   };
 
   /** Create object from object change. */
@@ -255,10 +276,13 @@ private:
   UIDGenerator m_uid_generator;
 
   /** Undo/redo variables */
+  UIDGenerator m_change_uid_generator;
   bool m_undo_tracking;
   int m_undo_stack_size;
-  std::vector<ObjectChange> m_undo_stack;
-  std::vector<ObjectChange> m_redo_stack;
+  std::vector<ObjectChanges> m_undo_stack;
+  std::vector<ObjectChanges> m_redo_stack;
+  std::vector<ObjectChange> m_pending_change_stack; // Before a flush, any changes go here
+  UID m_last_saved_change;
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 

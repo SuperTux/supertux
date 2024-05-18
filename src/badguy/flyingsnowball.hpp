@@ -36,6 +36,7 @@ public:
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
   float total_time_elapsed;

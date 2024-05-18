@@ -28,6 +28,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/title_screen.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
@@ -176,6 +177,9 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
 
       add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled)
         .set_help(_("Enable screen transitions and smooth menu animation"));
+
+      add_toggle(MNID_CUSTOM_TITLE_LEVELS, _("Custom title screen levels"), &g_config->custom_title_levels)
+        .set_help(_("Allow overriding the title screen level, when loading certain worlds"));
 
       if (g_config->is_christmas() || g_config->christmas_mode)
         add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
@@ -640,22 +644,27 @@ OptionsMenu::menu_action(MenuItem& item)
 #endif
 
     case MNID_VSYNC:
+    {
+      int vsync = 0;
       switch (m_vsyncs.next)
       {
         case 2:
-          VideoSystem::current()->set_vsync(-1);
+          vsync = -1;
           break;
         case 1:
-          VideoSystem::current()->set_vsync(0);
+          vsync = 0;
           break;
         case 0:
-          VideoSystem::current()->set_vsync(1);
+          vsync = 1;
           break;
         default:
           assert(false);
           break;
       }
-      break;
+      g_config->vsync = vsync;
+      VideoSystem::current()->set_vsync(vsync);
+    }
+    break;
 
     case MNID_FULLSCREEN:
       VideoSystem::current()->apply_config();
@@ -691,6 +700,10 @@ OptionsMenu::menu_action(MenuItem& item)
         SoundManager::current()->set_music_volume(g_config->music_volume);
         g_config->save();
       }
+      break;
+
+    case MNID_CUSTOM_TITLE_LEVELS:
+      TitleScreen::current()->refresh_level();
       break;
 
     case MNID_CUSTOM_CURSOR:

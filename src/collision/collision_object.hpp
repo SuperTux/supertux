@@ -63,6 +63,9 @@ public:
 
   void clear_bottom_collision_list();
 
+  bool is_unisolid() const { return m_unisolid; }
+  void set_unisolid(bool unisolid) { m_unisolid = unisolid; }
+
   /** returns the bounding box of the Object */
   const Rectf& get_bbox() const
   {
@@ -93,6 +96,11 @@ public:
   Vector get_pos() const
   {
     return m_bbox.p1();
+  }
+
+  Vector get_pressure() const
+  {
+    return m_pressure;
   }
 
   /** moves entire object to a specific position, including all
@@ -154,6 +162,17 @@ private:
       This field holds the currently anticipated destination of the object
       during collision detection */
   Rectf m_dest;
+
+  /** Determines whether the object is unisolid.
+
+      Only bottom constraints to the top of the bounding box would be applied for objects,
+      colliding with unisolid objects. */
+  bool m_unisolid;
+
+  /**
+   * Contains the current pressure on this object
+   */
+  Vector m_pressure;
 
   /** Objects that were touching the top of this object at the last frame,
       if this object was static or moving static. */

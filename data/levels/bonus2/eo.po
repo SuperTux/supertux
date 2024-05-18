@@ -1,18 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Robin van der Vliet <info@robinvandervliet.nl>, 2015
+# vpzomtrrfrt <colin@vpzom.click>, 2020
+# Jorge Maldonado Ventura <jorgesumle@freakspot.net>, 2021
+# Robin van der Vliet <info@robinvandervliet.com>, 2015
 # Rubén Leal Coba <mekjotradukoj@outlook.com>, 2013
+# tellovishous <skyguy@readytek.net>, 2023
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 08:35+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/language/eo/)\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:07+0000\n"
+"Last-Translator: tellovishous <skyguy@readytek.net>, 2023\n"
+"Language-Team: Esperanto (http://app.transifex.com/arctic-games/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -48,115 +51,115 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Gratulojn!\n\n#Vi sukcese finfaris\n#Plia Insulo II\n\n\n\tĉefrolas niveloj kontribuitaj de\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Denove, ni volas danki\n#ĉiuj, kiuj kontribuis por ĉi tio\n#eldono. Ni esperas, ke vi ĝuis\n#ĝin, kaj ĝi plifaciligis atendi\n#Mejloŝtonon 3. :-)\n\n\nLa fino de la glaciepoko estas proksima..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr ""
+msgstr "Mario Devus Trakti Ĉi Tion..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr ""
+msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr ""
+msgstr "La longa kaverno"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr ""
+msgstr "Blinda Al La Mondo"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr ""
+msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr ""
+msgstr "Sur La Vojo Denove"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr ""
+msgstr "Frostigita Tunelo"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr ""
+msgstr "Aerŝipo de Luft"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "... Kie ĉio eblas"
+msgstr "... Kie Ĉio Eblas"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr ""
+msgstr "Enmetu Originalan Titolon Ĉi Tie"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr ""
+msgstr "Fino De La Glacia Epoko"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr ""
+msgstr "Pensu Rapide, aŭ Mortu"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
-msgstr ""
+msgstr "Ventumila Fortikaĵo"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr ""
+msgstr "Festa Fosaĵo de Nolok"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
-msgstr ""
+msgstr "Akvaj Vojoj"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr ""
+msgstr "Ĉio, Kio Brilas Ne Estas Oro"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr "Malvarma tago"
+msgstr "Malvarma Tago"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr ""
+msgstr "Alta Gravito"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr ""
+msgstr "Fajroŝtormo"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr ""
+msgstr "Longa Vojaĝo"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr ""
+msgstr "Vivsubteno"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr ""
+msgstr "Klifsaltado"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr ""
+msgstr "En La Kavernon"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
-msgstr ""
+msgstr "Vi havas 1 minuton"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr ""
+msgstr "Vojo Tra La Nuboj"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr ""
+msgstr "En Glacia Kampo de Flander"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr ""
+msgstr "Kastelo En La Ĉielo"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
@@ -164,16 +167,16 @@ msgstr "Tradicio"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr ""
+msgstr "Bonusa Insulo 2"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "Vi trovis sekretan ejon!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Mi demandas al mi kien tiu vojo kondukas..."
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
-msgstr ""
+msgstr "Iru hejmen..."

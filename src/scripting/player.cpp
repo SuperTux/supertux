@@ -204,6 +204,13 @@ Player::get_velocity_y() const
   return object.get_physic().get_velocity_y();
 }
 
+void 
+Player::set_velocity(float x, float y)
+{
+  SCRIPT_GUARD_VOID;
+  object.get_physic().set_velocity(x, y);
+}
+
 bool
 Player::has_grabbed(const std::string& name) const
 {

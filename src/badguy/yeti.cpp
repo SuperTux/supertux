@@ -29,62 +29,63 @@
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 
-namespace {
-const float JUMP_DOWN_VX = 250; /**< horizontal speed while jumping off the dais */
-const float JUMP_DOWN_VY = -250; /**< vertical speed while jumping off the dais */
+namespace
+{
+const float JUMP_DOWN_VX = 250; /**< Horizontal speed while jumping off the dais. */
+const float JUMP_DOWN_VY = -250; /**< Vertical speed while jumping off the dais. */
 
-const float RUN_VX = 350; /**< horizontal speed while running */
+const float RUN_VX = 350; /**< Horizontal speed while running. */
 
-const float JUMP_UP_VX = 350; /**< horizontal speed while jumping on the dais */
-const float JUMP_UP_VY = -700; /**< vertical speed while jumping on the dais */
+const float JUMP_UP_VX = 350; /**< Horizontal speed while jumping on the dais. */
+const float JUMP_UP_VY = -700; /**< Vertical speed while jumping on the dais. */
 
-const float STOMP_VY = -300; /** vertical speed while stomping on the dais */
+const float STOMP_VY = -300; /**< Vertical speed while stomping on the dais. */
 
-const float RUN_DISTANCE = 1060; /** Distance between the x-coordinates of left and right end positions */
-const float JUMP_SPACE = 448; /** Distance between jump position and stand position */
-const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again */
-const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
-const int INITIAL_HITPOINTS = 5; /**< number of hits we can take */
+const float RUN_DISTANCE = 1060; /**< Distance between the x-coordinates of left and right end positions. */
+const float JUMP_SPACE = 448; /**< Distance between the jump position and the stand position. */
+const float STOMP_WAIT = 0.5; /**< Time we stay on the dais before jumping again. */
+const float SAFE_TIME = 0.5; /**< The time we are safe when Tux just hit us. */
+const int INITIAL_HITPOINTS = 5; /**< Number of hits we can take. */
 
 const float YETI_SQUISH_TIME = 3;
 
-const float SNOW_EXPLOSIONS_FREQUENCY = 8; /**< number of snowball explosions per second */
-const int SNOW_EXPLOSIONS_COUNT = 5; /**< number of snowballs per explosion */
-const float SNOW_EXPLOSIONS_VX = 150; /**< Speed of snowballs */
-const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs */
+const float SNOW_EXPLOSIONS_FREQUENCY = 8; /**< Number of snowball explosions per second. */
+const int SNOW_EXPLOSIONS_COUNT = 5; /**< Number of snowballs per explosion. */
+const float SNOW_EXPLOSIONS_VX = 150; /**< Speed of snowballs. */
+const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs. */
 }
 
 Yeti::Yeti(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/yeti/yeti.sprite"),
-  state(),
-  state_timer(),
-  safe_timer(),
-  stomp_count(),
-  hit_points(),
-  hud_head(),
-  left_stand_x(),
-  right_stand_x(),
-  left_jump_x(),
-  right_jump_x(),
-  fixed_pos(),
-  hud_icon()
+  m_state(),
+  m_state_timer(),
+  m_safe_timer(),
+  m_stomp_count(),
+  m_hit_points(),
+  m_hud_head(),
+  m_left_stand_x(),
+  m_right_stand_x(),
+  m_left_jump_x(),
+  m_right_jump_x(),
+  m_fixed_pos(),
+  m_hud_icon()
 {
-  reader.get("lives", hit_points, INITIAL_HITPOINTS);
+  reader.get("lives", m_hit_points, INITIAL_HITPOINTS);
   m_countMe = true;
   SoundManager::current()->preload("sounds/yeti_gna.wav");
   SoundManager::current()->preload("sounds/yeti_roar.wav");
 
-  reader.get("hud-icon", hud_icon, "images/creatures/yeti/hudlife.png");
-  hud_head = Surface::from_file(hud_icon);
+  reader.get("hud-icon", m_hud_icon, "images/creatures/yeti/hudlife.png");
+  m_hud_head = Surface::from_file(m_hud_icon);
 
   initialize();
 
-  reader.get("fixed-pos", fixed_pos, false);
-  if (fixed_pos) {
-    left_stand_x = 80;
-    right_stand_x = 1140;
-    left_jump_x = 528;
-    right_jump_x = 692;
+  reader.get("fixed-pos", m_fixed_pos, false);
+  if (m_fixed_pos) {
+    m_left_stand_x = 80;
+    m_right_stand_x = 1140;
+    m_left_jump_x = 528;
+    m_right_jump_x = 692;
   } else {
     recalculate_pos();
   }
@@ -101,22 +102,22 @@ void
 Yeti::recalculate_pos()
 {
   if (m_dir == Direction::RIGHT) {
-    left_stand_x = m_col.m_bbox.get_left();
-    right_stand_x = left_stand_x + RUN_DISTANCE;
+    m_left_stand_x = m_col.m_bbox.get_left();
+    m_right_stand_x = m_left_stand_x + RUN_DISTANCE;
   } else {
-    right_stand_x = m_col.m_bbox.get_left();
-    left_stand_x = right_stand_x - RUN_DISTANCE;
+    m_right_stand_x = m_col.m_bbox.get_left();
+    m_left_stand_x = m_right_stand_x - RUN_DISTANCE;
   }
 
-  left_jump_x = left_stand_x + JUMP_SPACE;
-  right_jump_x = right_stand_x - JUMP_SPACE;
+  m_left_jump_x = m_left_stand_x + JUMP_SPACE;
+  m_right_jump_x = m_right_stand_x - JUMP_SPACE;
 }
 
 void
 Yeti::draw(DrawingContext& context)
 {
-  // we blink when we are safe
-  if (safe_timer.started() && size_t(g_game_time * 40) % 2)
+  // We blink when we are safe.
+  if (m_safe_timer.started() && size_t(g_game_time * 40) % 2)
     return;
 
   draw_hit_points(context);
@@ -127,15 +128,15 @@ Yeti::draw(DrawingContext& context)
 void
 Yeti::draw_hit_points(DrawingContext& context)
 {
-  if (hud_head)
+  if (m_hud_head)
   {
     context.push_transform();
     context.set_translation(Vector(0, 0));
     context.transform().scale = 1.f;
 
-    for (int i = 0; i < hit_points; ++i)
+    for (int i = 0; i < m_hit_points; ++i)
     {
-      context.color().draw_surface(hud_head, Vector(BORDER_X + (static_cast<float>(i * hud_head->get_width())), BORDER_Y + 1), LAYER_FOREGROUND1);
+      context.color().draw_surface(m_hud_head, Vector(BORDER_X + (static_cast<float>(i * m_hud_head->get_width())), BORDER_Y + 1), LAYER_FOREGROUND1);
     }
 
     context.pop_transform();
@@ -145,20 +146,20 @@ Yeti::draw_hit_points(DrawingContext& context)
 void
 Yeti::active_update(float dt_sec)
 {
-  switch (state) {
+  switch (m_state) {
     case JUMP_DOWN:
       m_physic.set_velocity_x((m_dir==Direction::RIGHT)?+JUMP_DOWN_VX:-JUMP_DOWN_VX);
       break;
     case RUN:
       m_physic.set_velocity_x((m_dir==Direction::RIGHT)?+RUN_VX:-RUN_VX);
-      if (((m_dir == Direction::RIGHT) && (get_pos().x >= right_jump_x)) || ((m_dir == Direction::LEFT) && (get_pos().x <= left_jump_x))) jump_up();
+      if (((m_dir == Direction::RIGHT) && (get_pos().x >= m_right_jump_x)) || ((m_dir == Direction::LEFT) && (get_pos().x <= m_left_jump_x))) jump_up();
       break;
     case JUMP_UP:
       m_physic.set_velocity_x((m_dir==Direction::RIGHT)?+JUMP_UP_VX:-JUMP_UP_VX);
-      if (((m_dir == Direction::RIGHT) && (get_pos().x >= right_stand_x)) || ((m_dir == Direction::LEFT) && (get_pos().x <= left_stand_x))) be_angry();
+      if (((m_dir == Direction::RIGHT) && (get_pos().x >= m_right_stand_x)) || ((m_dir == Direction::LEFT) && (get_pos().x <= m_left_stand_x))) be_angry();
       break;
     case BE_ANGRY:
-      if (state_timer.check() && on_ground()) {
+      if (m_state_timer.check() && on_ground()) {
         m_physic.set_velocity_y(STOMP_VY);
         set_action("stomp", m_dir);
         SoundManager::current()->play("sounds/yeti_gna.wav", get_pos());
@@ -166,7 +167,7 @@ Yeti::active_update(float dt_sec)
       break;
     case SQUISHED:
       {
-        Direction newdir = (int(state_timer.get_timeleft() * SNOW_EXPLOSIONS_FREQUENCY) % 2) ? Direction::LEFT : Direction::RIGHT;
+        Direction newdir = (int(m_state_timer.get_timeleft() * SNOW_EXPLOSIONS_FREQUENCY) % 2) ? Direction::LEFT : Direction::RIGHT;
         if (m_dir != newdir && m_dir == Direction::RIGHT) {
           SoundManager::current()->play("sounds/stomp.wav", get_pos());
           add_snow_explosions();
@@ -175,11 +176,11 @@ Yeti::active_update(float dt_sec)
         m_dir = newdir;
         set_action("jump", m_dir);
       }
-      if (state_timer.check()) {
+      if (m_state_timer.check()) {
         BadGuy::kill_fall();
-        state = FALLING;
+        m_state = FALLING;
         m_physic.set_velocity_y(JUMP_UP_VY / 2); // Move up a bit before falling
-        // Add some extra explosions
+        // Add some extra explosions.
         for (int i = 0; i < 10; i++) {
           add_snow_explosions();
         }
@@ -197,40 +198,37 @@ void
 Yeti::jump_down()
 {
   set_action("jump", m_dir);
-  m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+JUMP_DOWN_VX):(-JUMP_DOWN_VX));
-  m_physic.set_velocity_y(JUMP_DOWN_VY);
-  state = JUMP_DOWN;
+  m_physic.set_velocity(m_dir == Direction::RIGHT ? JUMP_DOWN_VX : -JUMP_DOWN_VX, JUMP_DOWN_VY);
+  m_state = JUMP_DOWN;
 }
 
 void
 Yeti::run()
 {
   set_action("walking", m_dir);
-  m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+RUN_VX):(-RUN_VX));
-  m_physic.set_velocity_y(0);
-  state = RUN;
+  m_physic.set_velocity(m_dir == Direction::RIGHT ? RUN_VX : -RUN_VX, 0);
+  m_state = RUN;
 }
 
 void
 Yeti::jump_up()
 {
   set_action("jump", m_dir);
-  m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+JUMP_UP_VX):(-JUMP_UP_VX));
-  m_physic.set_velocity_y(JUMP_UP_VY);
-  state = JUMP_UP;
+  m_physic.set_velocity(m_dir == Direction::RIGHT ? JUMP_UP_VX : -JUMP_UP_VX, JUMP_UP_VY);
+  m_state = JUMP_UP;
 }
 
 void
 Yeti::be_angry()
 {
-  //turn around
+  // Turn around.
   m_dir = (m_dir==Direction::RIGHT) ? Direction::LEFT : Direction::RIGHT;
 
   set_action("stand", m_dir);
   m_physic.set_velocity_x(0);
-  stomp_count = 0;
-  state = BE_ANGRY;
-  state_timer.start(STOMP_WAIT);
+  m_stomp_count = 0;
+  m_state = BE_ANGRY;
+  m_state_timer.start(STOMP_WAIT);
 }
 
 bool
@@ -253,40 +251,39 @@ Yeti::kill_squished(GameObject& object)
 
 void Yeti::take_hit(Player& )
 {
-  if (safe_timer.started())
+  if (m_safe_timer.started())
     return;
 
   SoundManager::current()->play("sounds/yeti_roar.wav", get_pos());
-  hit_points--;
+  m_hit_points--;
 
-  if (hit_points <= 0) {
-    // We're dead
-    m_physic.set_velocity_x(((m_dir==Direction::RIGHT)?+RUN_VX:-RUN_VX)/5);
-    m_physic.set_velocity_y(0);
+  if (m_hit_points <= 0) {
+    // We're dead.
+    m_physic.set_velocity((m_dir == Direction::RIGHT ? RUN_VX : -RUN_VX) / 5, 0);
 
     // Set the badguy layer to be above the foremost, so that
     // this does not reveal secret tilemaps:
-    m_layer = Sector::get().get_foremost_layer() + 1;
-    state = SQUISHED;
-    state_timer.start(YETI_SQUISH_TIME);
+    m_layer = Sector::get().get_foremost_opaque_layer() + 1;
+    m_state = SQUISHED;
+    m_state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
-    //sprite->set_action("dead"); // This sprite does not look very good
+    // sprite->setAction("dead");
   }
   else {
-    safe_timer.start(SAFE_TIME);
+    m_safe_timer.start(SAFE_TIME);
   }
 }
 
 void
 Yeti::kill_fall()
 {
-  // shooting bullets or being invincible won't work :)
+  // Shooting bullets or being invincible won't prevent this action.
 }
 
 void
 Yeti::drop_stalactite()
 {
-  // make a stalactite falling down and shake camera a bit
+  // Make a stalactite fall down and shake the camera a bit.
   Sector::get().get_camera().shake(.1f, 0, 20.f);
 
   auto player = get_nearest_player();
@@ -295,18 +292,17 @@ Yeti::drop_stalactite()
   for (auto& stalactite : Sector::get().get_objects_by_type<YetiStalactite>())
   {
     if (stalactite.is_hanging()) {
-      if (hit_points >= 3) {
-        // drop stalactites within 3 of player, going out with each jump
+      if (m_hit_points >= 3) {
+        // Drop stalactites within 3 units of player, going out with each jump.
         float distancex = fabsf(stalactite.get_bbox().get_middle().x - player->get_bbox().get_middle().x);
-        if (distancex < static_cast<float>(stomp_count) * 32.0f) {
+        if (distancex < static_cast<float>(m_stomp_count) * 32.0f) {
           stalactite.start_shaking();
         }
       }
       else { /* if (hitpoints < 3) */
-        // drop every 3rd pair of stalactites
-        if ((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (stomp_count % 3)) {
+        // Drop every 3rd pair of stalactites.
+        if ((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (m_stomp_count % 3))
           stalactite.start_shaking();
-        }
       }
     }
   }
@@ -317,9 +313,9 @@ Yeti::collision_solid(const CollisionHit& hit)
 {
   update_on_ground_flag(hit);
   if (hit.top || hit.bottom) {
-    // hit floor or roof
+    // Hit floor or roof.
     m_physic.set_velocity_y(0);
-    switch (state) {
+    switch (m_state) {
       case JUMP_DOWN:
         run();
         break;
@@ -328,18 +324,22 @@ Yeti::collision_solid(const CollisionHit& hit)
       case JUMP_UP:
         break;
       case BE_ANGRY:
-        // we just landed
-        if (!state_timer.started()) {
+        // We just landed.
+        if (!m_state_timer.started())
+        {
           set_action("stand", m_dir);
-          stomp_count++;
+          m_stomp_count++;
           drop_stalactite();
 
-          // go to other side after 3 jumps
-          if (stomp_count == 3) {
+          // Go to the other side after 3 jumps.
+          if (m_stomp_count == 3)
+          {
             jump_down();
-          } else {
-            // jump again
-            state_timer.start(STOMP_WAIT);
+          }
+          else
+          {
+            // Jump again.
+            m_state_timer.start(STOMP_WAIT);
           }
         }
         break;
@@ -349,8 +349,8 @@ Yeti::collision_solid(const CollisionHit& hit)
         break;
     }
   } else if (hit.left || hit.right) {
-    // hit wall
-    if(state != SQUISHED && state != FALLING)
+    // Hit wall.
+    if(m_state != SQUISHED && m_state != FALLING)
       jump_up();
   }
 }
@@ -366,9 +366,9 @@ Yeti::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_text("hud-icon", &hud_icon, "hud-icon", std::string("images/creatures/yeti/hudlife.png"), OPTION_HIDDEN);
-  result.add_bool(_("Fixed position"), &fixed_pos, "fixed-pos", false);
-  result.add_int(_("Lives"), &hit_points, "lives", 5);
+  result.add_text("hud-icon", &m_hud_icon, "hud-icon", "images/creatures/yeti/hudlife.png", OPTION_HIDDEN);
+  result.add_bool(_("Fixed position"), &m_fixed_pos, "fixed-pos", false);
+  result.add_int(_("Lives"), &m_hit_points, "lives", 5);
 
   return result;
 }
@@ -391,11 +391,16 @@ Yeti::add_snow_explosions()
 Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vector& velocity)
   : BadGuy(pos, (velocity.x > 0) ? Direction::RIGHT : Direction::LEFT, "images/objects/bullets/icebullet.sprite")
 {
-  m_physic.set_velocity_x(velocity.x);
-  m_physic.set_velocity_y(velocity.y);
+  m_physic.set_velocity(velocity);
   m_physic.enable_gravity(true);
   set_state(STATE_FALLING);
-  m_layer = Sector::get().get_foremost_layer() + 1;
+  m_layer = Sector::get().get_foremost_opaque_layer() + 1;
+}
+
+std::vector<Direction>
+Yeti::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

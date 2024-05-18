@@ -29,6 +29,7 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void collision_tile(uint32_t tile_attributes) override;
+  virtual void initialize() override;
 
   /* Inherited from Portable */
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
@@ -42,6 +43,9 @@ public:
   static std::string display_name() { return _("Skydive"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return true; }
+
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;

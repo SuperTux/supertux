@@ -21,18 +21,50 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
-static const float JUMPYSPEED=-600;
-static const float JUMPY_MID_TOLERANCE=4;
-static const float JUMPY_LOW_TOLERANCE=2;
+static const float JUMPYSPEED =- 600;
+static const float JUMPY_MID_TOLERANCE = 4;
+static const float JUMPY_LOW_TOLERANCE = 2;
 
 Jumpy::Jumpy(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/jumpy/snowjumpy.sprite"),
   pos_groundhit(0.0f, 0.0f),
   groundhit_pos_set(false)
 {
+  parse_type(reader);
+
   set_action(m_dir, "middle");
-  // TODO create a nice sound for this...
-  //SoundManager::current()->preload("sounds/skid.wav");
+  // TODO: Create a suitable sound for this...
+  // SoundManager::current()->preload("sounds/skid.wav");
+}
+
+GameObjectTypes
+Jumpy::get_types() const
+{
+  return {
+    { "snow", _("Snow") },
+    { "wooden", _("Wooden") },
+    { "corrupted", _("Corrupted") },
+    { "metal", _("Metal") },
+    { "bag", _("Bag") }
+  };
+}
+
+std::string
+Jumpy::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case WOODEN:
+      return "images/creatures/jumpy/woodjumpy.sprite";
+    case CORRUPTED:
+      return "images/creatures/jumpy/corruptjumpy.sprite";
+    case METAL:
+      return "images/creatures/jumpy/metaljumpy.sprite";
+    case BAG:
+      return "images/creatures/bag/bag.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void
@@ -53,15 +85,12 @@ HitResponse
 Jumpy::hit(const CollisionHit& chit)
 {
   if (chit.bottom) {
-    if (!groundhit_pos_set)
-    {
-      pos_groundhit = get_pos();
-      groundhit_pos_set = true;
-    }
+    pos_groundhit = get_pos();
+    groundhit_pos_set = true;
 
     m_physic.set_velocity_y((m_frozen || get_state() != STATE_ACTIVE) ? 0 : JUMPYSPEED);
-    // TODO create a nice sound for this...
-    //SoundManager::current()->play("sounds/skid.wav", get_pos());
+    // TODO: Create a suitable sound for this...
+    // SoundManager::current()->play("sounds/skid.wav", get_pos());
     update_on_ground_flag(chit);
   } else if (chit.top) {
     m_physic.set_velocity_y(0);
@@ -87,6 +116,14 @@ Jumpy::active_update(float dt_sec)
   if (!groundhit_pos_set)
   {
     set_action("editor", m_dir);
+    return;
+  }
+
+  if (get_pos().y > pos_groundhit.y)
+  {
+    // Jumpy is below its groundhit position,
+    // ground tile probably doesn't exist anymore
+    set_action(m_dir, "down");
     return;
   }
 
@@ -123,6 +160,12 @@ bool
 Jumpy::is_flammable() const
 {
   return true;
+}
+
+std::vector<Direction>
+Jumpy::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

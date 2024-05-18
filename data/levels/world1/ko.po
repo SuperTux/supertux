@@ -3,16 +3,19 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Go Nam Hyeon <gnh1201@gmail.com>, 2021
+# Junghee Lee <daemul72@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
 # Myeongjin <aranet100@gmail.com>, 2016-2017,2019,2021
 # Roland Kim <dyn4micwork@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2021-05-02 19:10+0000\n"
-"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
-"Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
+"Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,24 +26,24 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "하늘23번길"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
-msgstr "숨겨진 구역을 찾았습니다!"
+msgstr "비밀공간 구역을 찾았어요!"
 
 #: data/levels/world1/above_arctic_skies.stl:3
 msgid "Above the Arctic Skies"
 msgstr "북극 하늘을 향해"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -51,17 +54,13 @@ msgstr "-공기 꽃\n!images/powerups/airflower/air_flower-0.png\n#공기 꽃은
 msgid "Between Two Glaciers"
 msgstr "두 빙하 사이"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-크리스탈\n#이 레벨에는 네 가지 색상의 크리스탈이 들어 있습니다. 이들을 찾을 수 있나요?\n#\n#참고: 이러한 크리스탈은 현재로서는 어떠한 목적으로도 주어지지 않지만 향후 게임 출시 때 포함될 수 있습니다."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "빈 왕좌 방"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -71,7 +70,7 @@ msgstr "놀록의 성"
 msgid "The Crystal Mine"
 msgstr "크리스탈 광산"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#이 문을 열려면 스위치 두 개를 작동시켜야 합니다."
 
@@ -114,7 +113,7 @@ msgid ""
 "-Secret Exits\n"
 "#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
 "#Maybe they lead you to something special."
-msgstr "-숨겨진 출구\n#일부 레벨에는 여러 출구가 있을 수 있습니다. 대부분 숨겨져 있으므로, 출구들을 지켜봐 주세요.\n#어쩌면 특별한 무언가로 이끌어 줄 수 있습니다."
+msgstr "-비밀공간 출구\n#일부 레벨에는 여러 출구가 있을 수 있습니다. 대부분 숨겨져 있으므로, 출구들을 지켜봐 주세요.\n#어쩌면 특별한 무언가로 이끌어 줄 수 있습니다."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
@@ -126,7 +125,7 @@ msgstr "언 다리를 건너"
 
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
-msgstr "크레바스"
+msgstr "크레바스를 조심해"
 
 #: data/levels/world1/icy_valley.stl:3
 msgid "Icy Valley"
@@ -142,7 +141,7 @@ msgstr "페니와 소풍을"
 
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
-msgstr "여정의 시작"
+msgstr "여정이 시작됩니다"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living in a Fridge"
@@ -185,7 +184,7 @@ msgstr "페니가 턱스에게 놀록이 페니를 먼 숲으로 데려갔다고
 msgid ""
 "Unsure about what Nolok was doing to her, Tux became worried about his "
 "beloved Penny."
-msgstr "놀록이 페니에게 무엇을 했는지 확신이 서지 않는 턱스는 그가 사랑하는 페니를 걱정했습니다."
+msgstr "놀록이 페니에게 무슨 짓을 했는지 알 수 없었기에, 턱스는 사랑하는 페니가 걱정이 되었습니다."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
@@ -197,61 +196,61 @@ msgstr "남극의 어느 해안가에서..."
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "펭귄 턱스는 턱스의 친구인 페니를 만나 소풍을 가려고 했습니다."
+msgstr "펭귄 턱스는 친구 페니를 만나 소풍을 가려고 했습니다."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "어지러운 턱스가 실종된 페니를 찾기 위해 일어났습니다."
+msgstr "턱스는 깨어났고 너무 당황스러웠습니다. 페니가 없어졌다는걸 알았거든요!"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr ""
+msgstr "턱스는 걱정이 되기 시작했습니다. 곧 발견한 편지에는 이런 말이 적혀있었습니다:"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid ""
 "\"Tux, I have kidnapped your beloved Penny and have taken her to my "
 "fortress.\""
-msgstr ""
+msgstr "\"턱스, 내가 페니를 납치했다. 너의 사랑하는 페니를 내 요새로 데려갔지\""
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr ""
+msgstr "\"내 요새로 가는 길에는 내 쫄다구들이 깔려있어\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr ""
+msgstr "\"넌 그녀를 구할 기회가 없단거야! 그러니 단념하길 바랄게. - 놀록\""
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr ""
+msgstr "페니가 곤경에 처할 수 있다는 것을 깨달은 턱스는 그녀를 구하기로 결심했습니다."
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
 "Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr ""
+msgstr "곧이어, 턱스는 멀찍이 서있는 놀록의 성을 바라보며 페니를 구하기 위해 출발했습니다!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr ""
+msgstr "오랜 걸음으로 지친 턱스는 잠시 휴식을 취하기로 했습니다."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr ""
+msgstr "그런데 갑자기 멀리서 큰 굉음이 들려왔습니다."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
-msgstr ""
+msgstr "설인이 멀리서 그를 지켜본 것 같습니다."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
-msgstr ""
+msgstr "설인의 갑작스러운 뒷걸음질에 턱스는 우려스러웠지만 여행을 계속하기로 결심하고..."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr ""
+msgstr "...그저 설인과 다시 마주치지 않기를 과묵하게 바랐습니다."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
@@ -275,66 +274,66 @@ msgstr "환상 속에서"
 
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "어서 와, 남극은 처음이지?"
+msgstr "남극에 오신 것을 환영합니다"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-보너스 상자\n!images/objects/bonus_block/full-0.png\n#보너스 상자에는 당신이 퀘스트를 수행하는 데 도움을 주는 코인, 파워업이나 특별한 아이템이 들어 있습니다.\n#\n#아이템을 얻으려면 아래에서 상자를 위로 치세요."
+msgstr "-보너스 블록\n!images/objects/bonus_block/full-0.png\n#보너스 블록에는 당신이 퀘스트를 수행하는 데 도움을 주는 동전, 파워업이나 특별한 아이템이 들어 있습니다.\n#\n#아이템을 얻으려면 아래에서 상자를 위로 치세요."
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-알\n!images/powerups/egg/egg-shade.png\n#알은 턱스를 더 크게 해 줍니다. 턱스는 머리로 나무 상자를 깰 수 있습니다."
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-체크포인트\n!images/objects/resetpoints/bell-m.png\n#체크포인트를 활성화합니다. 죽으면, 여기에서 레벨을 다시 시작할 수 있습니다. 체크포인트에서 다시 시작할 때매다, (최소 25코인 정도로) 10퍼센트의 코인을 소비합니다."
+msgstr "-체크포인트\n!images/objects/resetpoints/bell-m.png\n#체크포인트를활성화합니다. 죽으면 여기에서 레벨을 다시 시도할 수 있습니다. 체크포인트에서 재시도할 때마다 동전의 10%(최소 25개)를 잃게 됩니다."
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-달리기\n!images/tiles/signs/run.png\n#당신 앞에 길을 막고 있습니다. 상자들을 넘으려면 점프하기 전에 더 멀리 달려서 속도를 더 얻어야 합니다."
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-불 꽃\n!images/powerups/fireflower/fire_flower-0.png\n#불 꽃은 턱스가 불을 발사할 수 있도록 해 줍니다."
+msgstr "-불의 꽃\n!images/powerups/fireflower/fire_flower-0.png\n#불의 꽃은 턱스가 불을 발사할 수 있도록 해 줍니다."
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-턱스 인형\n!images/powerups/1up/1up.png\n#턱스 인형은 턱스에게 100코인을 얻습니다."
+msgstr "-턱스 인형\n!images/powerups/1up/1up.png\n#턱스 인형은 턱스에게 100개의 동전을 줍니다."
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-숨겨진 구역\n#많은 레벨들은 일반 벽처럼 보이는 숨겨진 구역들이 있습니다. 잘 찾아보세요."
+msgstr "-비밀공간 구역\n#많은 레벨들은 일반 벽처럼 보이는 비밀공간 구역들이 있습니다. 잘 찾아보세요."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
-msgstr "얼음 성"
+msgstr "얼음성"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
-msgstr "더 이상 아이스 가이 군은 없어"
+msgstr "이제 미스터 아이스가이는 없어"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"
-msgstr "멀리 있는 예티"
+msgstr "멀리 있는 설인"

@@ -21,45 +21,62 @@
 #include "control/controller.hpp"
 #include "object/player.hpp"
 #include "object/coin.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
 
 /* Trampoline will accelerate Tux to to VY_INITIAL, if
  * he jumps on it to VY_MIN. */
 namespace {
-const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
-const float VY_MIN = -900; //negative, upwards
-const float VY_INITIAL = -500;
-}
+  const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
+  const float VY_MIN = -900; //negative, upwards
+  const float VY_INITIAL = -500;
+} // namespace
 
 Trampoline::Trampoline(const ReaderMapping& mapping) :
-  Rock(mapping, "images/objects/trampoline/trampoline.sprite"),
-  portable(true)
+  Rock(mapping, "images/objects/trampoline/trampoline.sprite")
 {
-  SoundManager::current()->preload(TRAMPOLINE_SOUND);
-
-  //Check if this trampoline is not portable
-  if (mapping.get("portable", portable)) {
-    if (!portable && !mapping.get("sprite", m_sprite_name)) {
-      //we need another sprite
-      m_sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-      m_default_sprite_name = m_sprite_name;
-      m_sprite = SpriteManager::current()->create(m_sprite_name);
-      set_action("normal");
-    }
+  // Older levels use the "portable" property to determine the type.
+  bool portable = true;
+  mapping.get("portable", portable);
+  if (!portable)
+  {
+    m_type = STATIONARY;
+    on_type_change(TypeChange::INITIAL);
   }
+  else
+  {
+    parse_type(mapping);
+  }
+
+  SoundManager::current()->preload(TRAMPOLINE_SOUND);
 }
 
-Trampoline::Trampoline(const Vector& pos, bool port) :
-  Rock(pos, "images/objects/trampoline/trampoline.sprite"),
-  portable(port)
+Trampoline::Trampoline(const Vector& pos, int type) :
+  Rock(pos, "images/objects/trampoline/trampoline.sprite")
 {
+  m_type = type;
+  on_type_change(TypeChange::INITIAL);
+
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
-  if (!port) {
-    m_sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-    m_sprite = SpriteManager::current()->create(m_sprite_name);
-    set_action("normal");
+}
+
+GameObjectTypes
+Trampoline::get_types() const
+{
+  return {
+    { "portable", _("Portable") },
+    { "stationary", _("Stationary") }
+  };
+}
+
+std::string
+Trampoline::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case STATIONARY:
+      return "images/objects/trampoline/trampoline_fix.sprite";
+    default:
+      return m_default_sprite_name;
   }
 }
 
@@ -143,19 +160,7 @@ Trampoline::grab(MovingObject& object, const Vector& pos, Direction dir)
 bool
 Trampoline::is_portable() const
 {
-  return Rock::is_portable() && portable;
-}
-
-ObjectSettings
-Trampoline::get_settings()
-{
-  ObjectSettings result = Rock::get_settings();
-
-  result.add_bool(_("Portable"), &portable, "portable", true);
-
-  result.reorder({"portable", "sprite", "x", "y"});
-
-  return result;
+  return Rock::is_portable() && m_type == PORTABLE;
 }
 
 /* EOF */

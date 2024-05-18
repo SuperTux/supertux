@@ -43,13 +43,17 @@ public:
   WorldMapSector(WorldMap& parent);
   ~WorldMapSector() override;
 
-  void finish_construction(bool) override;
+  void finish_construction(bool editable) override;
 
   void setup();
   void leave();
 
   void draw(DrawingContext& context) override;
   void update(float dt_sec) override;
+
+  MovingObject& add_object_scripting(const std::string& class_name, const std::string& name,
+                                     const Vector& pos, const std::string& direction,
+                                     const std::string& data) override;
 
   Vector get_next_tile(const Vector& pos, const Direction& direction) const;
 
@@ -77,11 +81,7 @@ public:
   template<class T>
   T* at_object() const
   {
-    for (auto& obj : get_objects_by_type<T>())
-      if (obj.get_tile_pos() == m_tux->get_tile_pos())
-        return &obj;
-
-    return nullptr;
+    return at_object<T>(m_tux->get_tile_pos());
   }
   template<class T>
   T* at_object(const Vector& pos) const
@@ -115,9 +115,6 @@ public:
 
 protected:
   void draw_status(DrawingContext& context);
-
-  bool before_object_add(GameObject& object) override;
-  void before_object_remove(GameObject& object) override;
 
 private:
   WorldMap& m_parent;

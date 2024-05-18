@@ -77,10 +77,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   mapping.get("name", m_name);
 
   std::string tileset_name;
-  if (mapping.get("tileset", tileset_name))
-    m_tileset = TileManager::current()->get_tileset(tileset_name);
-  else
-    m_tileset = TileManager::current()->get_tileset("images/ice_world.strf");
+  mapping.get("tileset", tileset_name, "images/ice_world.strf");
+  m_tileset = TileManager::current()->get_tileset(tileset_name);
 
   auto iter = mapping.get_iter();
   while (iter.next())
@@ -155,16 +153,19 @@ WorldMap::process_input(const Controller& controller)
 {
   m_enter_level = false;
 
+  if (m_in_world_select)
+    return;
+
   if (controller.pressed(Control::ACTION) && !m_in_level)
   {
+    MenuManager::instance().clear_menu_stack();
     ScreenManager::current()->push_screen(std::make_unique<WorldSelect>(m_map_filename),
           std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, .25f));
     m_in_world_select = true;
     return;
   }
 
-  if (controller.pressed(Control::JUMP) ||
-      controller.pressed(Control::MENU_SELECT))
+  if (controller.pressed_any(Control::JUMP, Control::MENU_SELECT))
   {
     // some people define UP and JUMP on the same key...
     if (!controller.pressed(Control::UP)) {
@@ -172,8 +173,7 @@ WorldMap::process_input(const Controller& controller)
     }
   }
 
-  if (controller.pressed(Control::START) ||
-      controller.pressed(Control::ESCAPE))
+  if (controller.pressed_any(Control::START, Control::ESCAPE))
   {
     on_escape_press();
   }
@@ -330,6 +330,12 @@ WorldMap::set_sector(const std::string& name, const std::string& spawnpoint,
   // If a spawnpoint has been provided, move to it.
   if (!spawnpoint.empty())
     m_sector->move_to_spawnpoint(spawnpoint);
+}
+
+std::string
+WorldMap::get_filename() const
+{
+  return m_map_filename;
 }
 
 } // namespace worldmap

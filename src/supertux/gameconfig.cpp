@@ -35,24 +35,23 @@
 
 Config::Config() :
   profile(1),
-  profiles(),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
   window_size(1280, 800),
   window_resizable(true),
-  aspect_size(0, 0), // auto detect
+  aspect_size(0, 0), // Auto detect.
 #ifdef __EMSCRIPTEN__
   fit_window(true),
 #endif
   magnification(0.0f),
-  // Ubuntu Touch supports windowed apps
+  // Ubuntu Touch supports windowed apps.
 #ifdef __ANDROID__
   use_fullscreen(true),
 #else
   use_fullscreen(false),
 #endif
   video(VideoSystem::VIDEO_AUTO),
-  try_vsync(true),
+  vsync(1),
   show_fps(false),
   show_player_pos(false),
   show_controller(false),
@@ -60,10 +59,8 @@ Config::Config() :
   music_enabled(true),
   sound_volume(100),
   music_volume(50),
-  random_seed(0), // set by time(), by default (unless in config)
+  random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
-  start_demo(),
-  record_demo(),
   tux_spawn_pos(),
   locale(),
   keyboard_config(),
@@ -82,6 +79,7 @@ Config::Config() :
 #else
   do_release_check(true),
 #endif
+  custom_title_levels(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -108,6 +106,7 @@ Config::Config() :
   editor_autosave_frequency(5),
   editor_undo_tracking(true),
   editor_undo_stack_size(20),
+  editor_show_deprecated_tiles(false),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
@@ -115,7 +114,7 @@ Config::Config() :
 #else
   // Will be loaded and saved anyways, to retain the setting. This is helpful
   // for users who frequently switch between versions compiled with a newer SDL
-  // and those with an older SDL; they won't have to check the setting each time
+  // and those with an older SDL; they won't have to check the setting each time.
   multiplayer_buzz_controllers(false),
 #endif
   repository_url()
@@ -128,7 +127,7 @@ Config::load()
 #ifdef __EMSCRIPTEN__
   EM_ASM({
     supertux_loadFiles();
-  }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
+  }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument.
 #endif
 
   auto doc = ReaderDocument::from_file("config");
@@ -140,29 +139,7 @@ Config::load()
 
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
-  std::optional<ReaderCollection> config_profiles_mapping;
-  if (config_mapping.get("profiles", config_profiles_mapping))
-  {
-    for (auto const& profile_node : config_profiles_mapping->get_objects())
-    {
-      if (profile_node.get_name() == "profile")
-      {
-        auto current_profile = profile_node.get_mapping();
 
-        int id;
-        std::string name;
-        if (current_profile.get("id", id) &&
-            current_profile.get("name", name))
-        {
-          profiles.push_back({id, name});
-        }
-      }
-      else
-      {
-        log_warning << "Unknown token in config file: " << profile_node.get_name() << std::endl;
-      }
-    }
-  }
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
@@ -171,6 +148,7 @@ Config::load()
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("do_release_check", do_release_check);
+  config_mapping.get("custom_title_levels", custom_title_levels);
 
   std::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
@@ -205,7 +183,7 @@ Config::load()
     }
   }
 
-  // menu colors
+  // Menu colors.
 
   std::vector<float> menubackcolor_, menufrontcolor_, menuhelpbackcolor_, menuhelpfrontcolor_,
     labeltextcolor_, activetextcolor_, hlcolor_, editorcolor_, editorhovercolor_, editorgrabcolor_;
@@ -236,7 +214,7 @@ Config::load()
     interface_colors_mapping->get("menuroundness", menuroundness, 16.f);
   }
 
-  // Compatibility; will be overwritten by the "editor" category
+  // Compatibility; will be overwritten by the "editor" category.
   
   config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
@@ -260,6 +238,7 @@ Config::load()
       log_warning << "Undo stack size could not be lower than 1. Setting to lowest possible value (1)." << std::endl;
       editor_undo_stack_size = 1;
     }
+    editor_mapping->get("show_deprecated_tiles", editor_show_deprecated_tiles);
   }
 
   if (is_christmas()) {
@@ -281,7 +260,7 @@ Config::load()
     std::string video_string;
     config_video_mapping->get("video", video_string);
     video = VideoSystem::get_video_system(video_string);
-    config_video_mapping->get("vsync", try_vsync);
+    config_video_mapping->get("vsync", vsync);
 
     config_video_mapping->get("fullscreen_width",  fullscreen_size.width);
     config_video_mapping->get("fullscreen_height", fullscreen_size.height);
@@ -304,8 +283,8 @@ Config::load()
     config_video_mapping->get("magnification", magnification);
 
 #ifdef __EMSCRIPTEN__
-    // Forcibly set autofit to true
-    // TODO: Remove the autofit parameter entirely - it should always be true
+    // Forcibly set autofit to true.
+    // TODO: Remove the autofit parameter entirely - it should always be true.
 
     //config_video_mapping->get("fit_window", fit_window);
     fit_window = true;
@@ -374,16 +353,6 @@ Config::save()
 
   writer.write("profile", profile);
 
-  writer.start_list("profiles");
-  for (const auto& current_profile : profiles)
-  {
-    writer.start_list("profile");
-    writer.write("id", current_profile.id);
-    writer.write("name", current_profile.name);
-    writer.end_list("profile");
-  }
-  writer.end_list("profiles");
-
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
   writer.write("show_controller", show_controller);
@@ -392,6 +361,7 @@ Config::save()
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
   writer.write("do_release_check", do_release_check);
+  writer.write("custom_title_levels", custom_title_levels);
 
   writer.start_list("integrations");
   {
@@ -441,12 +411,12 @@ Config::save()
   writer.start_list("video");
   writer.write("fullscreen", use_fullscreen);
   if (video == VideoSystem::VIDEO_NULL) {
-    // don't save NULL renderer to config as starting SuperTux without
-    // getting a window is rather confusing
+    // Avoid saving a NULL renderer to the configuration, as starting SuperTux without
+    // getting a window is rather confusing.
   } else {
     writer.write("video", VideoSystem::get_video_string(video));
   }
-  writer.write("vsync", try_vsync);
+  writer.write("vsync", vsync);
 
   writer.write("fullscreen_width",  fullscreen_size.width);
   writer.write("fullscreen_height", fullscreen_size.height);
@@ -514,6 +484,7 @@ Config::save()
     writer.write("snap_to_grid", editor_snap_to_grid);
     writer.write("undo_tracking", editor_undo_tracking);
     writer.write("undo_stack_size", editor_undo_stack_size);
+    writer.write("show_deprecated_tiles", editor_show_deprecated_tiles);
   }
   writer.end_list("editor");
 
@@ -524,6 +495,9 @@ Config::save()
 bool
 Config::is_christmas() const
 {
+  if (christmas_mode)
+    return true;
+
   std::time_t time = std::time(nullptr);
   const std::tm* now = std::localtime(&time);
 

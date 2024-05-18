@@ -20,6 +20,9 @@
 #include <stdexcept>
 #include <sstream>
 
+#include <sexp/io.hpp>
+#include <sexp/value.hpp>
+
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_collection.hpp"
@@ -35,6 +38,7 @@ SpriteData::Action::Action() :
   y_offset(0),
   hitbox_w(0),
   hitbox_h(0),
+  hitbox_unisolid(false),
   fps(10),
   loops(-1),
   loop_frame(1),
@@ -49,7 +53,8 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
   name()
 {
   auto iter = mapping.get_iter();
-  while (iter.next()) {
+  while (iter.next())
+  {
     if (iter.get_key() == "name") {
       iter.get(name);
     } else if (iter.get_key() == "action") {
@@ -102,14 +107,15 @@ SpriteData::parse_action(const ReaderMapping& mapping)
 {
   auto action = std::make_unique<Action>();
 
-  if (!mapping.get("name", action->name)) {
+  if (!mapping.get("name", action->name))
+  {
     if (!actions.empty())
-      throw std::runtime_error(
-        "If there are more than one action, they need names!");
+      throw std::runtime_error("If there are more than one action, they need names!");
   }
 
   std::vector<float> hitbox;
-  if (mapping.get("hitbox", hitbox)) {
+  if (mapping.get("hitbox", hitbox))
+  {
     switch (hitbox.size())
     {
       case 4:
@@ -125,6 +131,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         throw std::runtime_error("hitbox should specify 2/4 coordinates");
     }
   }
+  mapping.get("unisolid", action->hitbox_unisolid);
   mapping.get("fps", action->fps);
   if (mapping.get("loops", action->loops))
   {
@@ -145,19 +152,72 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   }
 
   std::string mirror_action;
+  std::string flip_action;
   std::string clone_action;
-  if (mapping.get("mirror-action", mirror_action)) {
+  if (mapping.get("mirror-action", mirror_action))
+  {
     const auto act_tmp = get_action(mirror_action);
-    if (act_tmp == nullptr) {
+    if (act_tmp == nullptr)
+    {
       std::ostringstream msg;
       msg << "Could not mirror action. Action not found: \"" << mirror_action << "\"\n"
           << "Mirror actions must be defined after the real one!";
       throw std::runtime_error(msg.str());
-    } else {
+    }
+    else
+    {
       float max_w = 0;
       float max_h = 0;
-      for (const auto& surf : act_tmp->surfaces) {
+      for (const auto& surf : act_tmp->surfaces)
+      {
         auto surface = surf->clone(HORIZONTAL_FLIP);
+        max_w = std::max(max_w, static_cast<float>(surface->get_width()));
+        max_h = std::max(max_h, static_cast<float>(surface->get_height()));
+        action->surfaces.push_back(surface);
+      }
+
+      if (action->hitbox_w < 1 && action->hitbox_h < 1)
+      {
+        action->hitbox_w = act_tmp->hitbox_w;
+        action->hitbox_h = act_tmp->hitbox_h;
+        action->x_offset = act_tmp->x_offset;
+        action->y_offset = act_tmp->y_offset;
+      }
+
+      if (!action->has_custom_loops && act_tmp->has_custom_loops)
+      {
+        action->has_custom_loops = act_tmp->has_custom_loops;
+        action->loops = act_tmp->loops;
+      }
+
+      if (action->fps == 0)
+      {
+        action->fps = act_tmp->fps;
+      }
+
+      if (action->family_name == "::" + action->name)
+      {
+        action->family_name = act_tmp->family_name;
+      }
+    }
+  }
+  else if (mapping.get("flip-action", flip_action))
+  {
+    const auto act_tmp = get_action(flip_action);
+    if (act_tmp == nullptr)
+    {
+      std::ostringstream msg;
+      msg << "Could not flip action. Action not found: \"" << flip_action << "\"\n"
+          << "Flip actions must be defined after the real one!";
+      throw std::runtime_error(msg.str());
+    }
+    else
+    {
+      float max_w = 0;
+      float max_h = 0;
+      for (const auto& surf : act_tmp->surfaces)
+      {
+        auto surface = surf->clone(VERTICAL_FLIP);
         max_w = std::max(max_w, static_cast<float>(surface->get_width()));
         max_h = std::max(max_h, static_cast<float>(surface->get_height()));
         action->surfaces.push_back(surface);
@@ -186,14 +246,19 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         action->family_name = act_tmp->family_name;
       }
     }
-  } else if (mapping.get("clone-action", clone_action)) {
+  }
+  else if (mapping.get("clone-action", clone_action))
+  {
     const auto* act_tmp = get_action(clone_action);
-    if (act_tmp == nullptr) {
+    if (act_tmp == nullptr)
+    {
       std::ostringstream msg;
       msg << "Could not clone action. Action not found: \"" << clone_action << "\"\n"
           << "Clone actions must be defined after the real one!";
       throw std::runtime_error(msg.str());
-    } else {
+    }
+    else
+    {
       // copy everything except the name (Semphris: and the family name)
       const std::string oldname = action->name;
       const std::string oldfam = action->family_name;
@@ -205,14 +270,60 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         action->family_name = act_tmp->family_name;
       }
     }
-  } else { // Load images
+  }
+  else
+  { // Load images
     std::optional<ReaderCollection> surfaces_collection;
     std::vector<std::string> images;
-    if (mapping.get("images", images))
+    std::optional<ReaderMapping> regions_mapping;
+    if (mapping.get("regions", regions_mapping)) // Regions from images
     {
       float max_w = 0;
       float max_h = 0;
-      for (const auto& image : images) {
+
+      auto iter = regions_mapping->get_iter();
+      while (iter.next())
+      {
+        if (iter.get_key() != "region")
+        {
+          log_warning << "Unknown field '" << iter.get_key() << "' under 'regions'." << std::endl;
+          continue;
+        }
+
+        const auto& sx = iter.as_mapping().get_sexp();
+        const auto& arr = sx.as_array();
+        if (arr.size() != 6)
+        {
+          log_warning << "(region IMAGE_FILE X Y WIDTH HEIGHT) tag malformed: " << sx << std::endl;
+          continue;
+        }
+
+        Rect region;
+        region.left = arr[2].as_int();
+        region.top = arr[3].as_int();
+        const int w = arr[4].as_int();
+        const int h = arr[5].as_int();
+        region.right = region.left + w;
+        region.bottom = region.top + h;
+
+        max_w = std::max(max_w, static_cast<float>(w));
+        max_h = std::max(max_w, static_cast<float>(h));
+
+        auto surface = Surface::from_file(FileSystem::join(mapping.get_doc().get_directory(),
+                                                           arr[1].as_string()),
+                                          region);
+        action->surfaces.push_back(surface);
+      }
+
+      if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
+      if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
+    }
+    else if (mapping.get("images", images))
+    {
+      float max_w = 0;
+      float max_h = 0;
+      for (const auto& image : images)
+      {
         auto surface = Surface::from_file(FileSystem::join(mapping.get_doc().get_directory(), image));
         max_w = std::max(max_w, static_cast<float>(surface->get_width()));
         max_h = std::max(max_h, static_cast<float>(surface->get_height()));

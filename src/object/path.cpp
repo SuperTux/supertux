@@ -36,7 +36,7 @@ string_to_walk_mode(const std::string& mode_string)
   else if (mode_string == "circular")
     return WalkMode::CIRCULAR;
   else {
-    log_warning << "Unknown path mode '" << mode_string << "'found. Using oneshot instead." << std::endl;
+    log_warning << "Unknown path mode '" << mode_string << "' found. Using oneshot instead." << std::endl;
     return WalkMode::ONE_SHOT;
   }
 }
@@ -180,7 +180,7 @@ Path::get_base() const
 }
 
 int
-Path::get_nearest_node_no(const Vector& reference_point) const
+Path::get_nearest_node_idx(const Vector& reference_point) const
 {
   int nearest_node_id = -1;
   float nearest_node_dist = 0;
@@ -196,7 +196,7 @@ Path::get_nearest_node_no(const Vector& reference_point) const
 }
 
 int
-Path::get_farthest_node_no(const Vector& reference_point) const
+Path::get_farthest_node_idx(const Vector& reference_point) const
 {
   int farthest_node_id = -1;
   float farthest_node_dist = 0;

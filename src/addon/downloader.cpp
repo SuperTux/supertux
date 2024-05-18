@@ -32,6 +32,7 @@
 #include <emscripten/html5.h>
 #endif
 
+#include "physfs/util.hpp"
 #include "supertux/globals.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
@@ -39,7 +40,7 @@
 
 namespace {
 
-// This one is necessary for a download function
+// This one is necessary for a download function.
 size_t my_curl_string_append(void* ptr, size_t size, size_t nmemb, void* userdata)
 {
   std::string& s = *static_cast<std::string*>(userdata);
@@ -269,7 +270,7 @@ public:
     if (!m_fout)
     {
       std::ostringstream out;
-      out << "PHYSFS_openRead() failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+      out << "PHYSFS_openRead() failed: " << physfsutil::get_last_error();
       throw std::runtime_error(out.str());
     }
 
@@ -281,6 +282,7 @@ public:
     else
     {
       curl_easy_setopt(m_handle, CURLOPT_URL, url.c_str());
+      // cppcheck-suppress unknownMacro
       curl_easy_setopt(m_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
 
       curl_easy_setopt(m_handle, CURLOPT_WRITEDATA, this);
@@ -296,7 +298,8 @@ public:
       curl_easy_setopt(m_handle, CURLOPT_PROGRESSFUNCTION, &Transfer::on_progress_wrap);
     }
 #else
-    // Avoid code injection from funny callers
+    // Sanitize input to prevent code injection from malicious callers.
+    // Escape backslashes and single quotes in the URL and file path to ensure safe usage.
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
     auto path_clean = StringUtil::replace_all(StringUtil::replace_all(FileSystem::join(std::string(PHYSFS_getWriteDir()), outfile), "\\", "\\\\"), "'", "\\'");
     emscripten_run_script(("supertux_xhr_download(" + std::to_string(m_id) + ", '" + url_clean + "', '" + path_clean + "');").c_str());
@@ -334,7 +337,7 @@ public:
   }
 #endif
 
-  std::string get_url() const
+  const std::string& get_url() const
   {
     return m_url;
   }
@@ -442,7 +445,7 @@ Downloader::download(const std::string& url,
     throw std::runtime_error(url + ": download failed: " + why);
   }
 #else
-  log_warning << "Direct download not yet implemented for Emscripten" << std::endl;
+  log_warning << "Direct download not yet implemented for Emscripten." << std::endl;
   // FUTURE MAINTAINERS: If this needs to be implemented, take a look at
   // emscripten_wget(), emscripten_async_wget(), emscripten_wget_data() and
   // emscripten_async_wget_data():
@@ -467,7 +470,7 @@ Downloader::download(const std::string& url, const std::string& filename)
                                                           PHYSFS_close);
   download(url, my_curl_physfs_write, fout.get());
 #else
-  log_warning << "Direct download not yet implemented for Emscripten" << std::endl;
+  log_warning << "Direct download not yet implemented for Emscripten." << std::endl;
   // FUTURE MAINTAINERS: If this needs to be implemented, take a look at
   // emscripten_wget(), emscripten_async_wget(), emscripten_wget_data() and
   // emscripten_async_wget_data():
@@ -514,7 +517,7 @@ Downloader::update()
   if (m_last_update_time == g_real_time) return;
   m_last_update_time = g_real_time;
 
-  // read data from the network
+  // Read data from the network.
   CURLMcode ret;
   int running_handles;
   while ((ret = curl_multi_perform(m_multi_handle, &running_handles)) == CURLM_CALL_MULTI_PERFORM)
@@ -522,7 +525,7 @@ Downloader::update()
     log_debug << "updating" << std::endl;
   }
 
-  // check if any downloads got finished
+  // Check if any downloads got finished.
   int msgs_in_queue;
   CURLMsg* msg;
   while ((msg = curl_multi_info_read(m_multi_handle, &msgs_in_queue)))
@@ -584,7 +587,7 @@ Downloader::update()
         break;
 
       default:
-        log_warning << "unhandled cURL message: " << msg->msg << std::endl;
+        log_warning << "Unhandled cURL message: " << msg->msg << std::endl;
         break;
     }
   }
@@ -594,7 +597,7 @@ Downloader::update()
 TransferStatusPtr
 Downloader::request_download(const std::string& url, const std::string& outfile)
 {
-  log_info << "request_download: " << url << std::endl;
+  log_info << "Requesting download for: " << url << std::endl;
   auto transfer = std::make_unique<Transfer>(*this, m_next_transfer_id++, url, outfile);
 #ifndef EMSCRIPTEN
   curl_multi_add_handle(m_multi_handle, transfer->get_curl_handle());
@@ -611,7 +614,7 @@ Downloader::onDownloadProgress(int id, int loaded, int total)
   auto it = m_transfers.find(id);
   if (it == m_transfers.end())
   {
-    log_warning << "transfer not found: " << id << std::endl;
+    log_warning << "Transfer not found: " << id << std::endl;
   }
   else
   {
@@ -625,7 +628,7 @@ Downloader::onDownloadFinished(int id)
   auto it = m_transfers.find(id);
   if (it == m_transfers.end())
   {
-    log_warning << "transfer not found: " << id << std::endl;
+    log_warning << "Transfer not found: " << id << std::endl;
   }
   else
   {
@@ -649,7 +652,7 @@ Downloader::onDownloadError(int id)
   auto it = m_transfers.find(id);
   if (it == m_transfers.end())
   {
-    log_warning << "transfer not found: " << id << std::endl;
+    log_warning << "Transfer not found: " << id << std::endl;
   }
   else
   {
@@ -673,7 +676,7 @@ Downloader::onDownloadAborted(int id)
   auto it = m_transfers.find(id);
   if (it == m_transfers.end())
   {
-    log_warning << "transfer not found: " << id << std::endl;
+    log_warning << "Transfer not found: " << id << std::endl;
   }
   else
   {

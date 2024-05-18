@@ -47,17 +47,22 @@ private:
 
 public:
   /**
-   * Reloads the camera's configuration.
-   */
-  void reload_config();
-
-  /**
-   * Moves camera to the given coordinates in ""time"" seconds, returning quickly to the original position afterwards.
-   * @param float $speed
+   * Shakes the camera in a certain direction only 1 time.
+   * @param float $duration
    * @param float $x
    * @param float $y
    */
-  void shake(float speed, float x, float y);
+  void shake(float duration, float x, float y);
+  /**
+   * Starts "earthquake" mode, which shakes the camera vertically with a specified average ""strength"", at a certain minimal ""delay"", until stopped.
+   * @param float $strength
+   * @param float $delay
+   */
+  void start_earthquake(float strength, float delay);
+  /**
+   * Stops "earthquake" mode.
+   */
+  void stop_earthquake();
   /**
    * Moves the camera to the specified absolute position. The origin is at the top left.
    * @param float $x
@@ -96,11 +101,26 @@ public:
    */
   void set_scale(float scale);
   /**
+   * Sets the scale factor and the target position anchor.
+     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
+   * @param float $scale
+   * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
+   */
+  void set_scale_anchor(float scale, int anchor);
+  /**
    * Fades to a specified scale factor in ""time"" seconds.
    * @param float $scale
    * @param float $time
    */
   void scale(float scale, float time);
+  /**
+   * Fades to a specified scale factor and target position anchor in ""time"" seconds.
+     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
+   * @param float $scale
+   * @param float $time
+   * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
+   */
+  void scale_anchor(float scale, float time, int anchor);
   /**
    * Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
    * @param float $scale
@@ -109,13 +129,22 @@ public:
    */
   void ease_scale(float scale, float time, const std::string& ease);
   /**
+   * Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
+     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
+   * @param float $scale
+   * @param float $time
+   * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
+   * @param string $ease
+   */
+  void ease_scale_anchor(float scale, float time, int anchor, const std::string& ease);
+  /**
    * Gets the current width of the screen.
    */
-  int get_screen_width();
+  float get_screen_width();
   /**
    * Gets the current height of the screen.
    */
-  int get_screen_height();
+  float get_screen_height();
   /**
    * Gets the X coordinate of the top-left corner of the screen.
    */

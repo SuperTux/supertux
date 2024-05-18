@@ -17,6 +17,7 @@
 
 name: MacOS
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -30,11 +31,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-11]
+        os: [macos-12]
         build_type: [Debug, Release]
         glbinding: [ON, OFF]
         include:
-          - os: macos-11
+          - os: macos-12
             build_type: Release
             glbinding: OFF
             release: ON
@@ -48,11 +49,22 @@ jobs:
           submodules: true
 
       - name: Install macos dependencies
-        if: ${{ matrix.os == 'macos-11' }}
+        if: ${{ matrix.os == 'macos-12' }}
         run: |
-          brew install cmake googletest bash rename libogg libvorbis glew\
-                       openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz  \
-                       fribidi glib gtk-doc glbinding libraqm glm zlib
+          # Use GLM 1.0.0 as later versions don't build with clang
+          HOMEBREW_NO_AUTO_UPDATE=1 brew install --formula ./mk/brew/glm.rb --build-from-source
+          brew install cmake googletest bash rename libogg libvorbis glew \
+                       openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
+                       fribidi glib gtk-doc glbinding@2 libraqm zlib
+          brew link glbinding@2
+          install_name_tool -change \
+            '@rpath/libsharpyuv.0.dylib' \
+            /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
+            /usr/local/opt/webp/lib/libwebp.7.dylib
+          install_name_tool -change \
+            '@rpath/libjxl_cms.0.10.dylib' \
+            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.10.dylib \
+            /usr/local/opt/jpeg-xl/lib/libjxl.dylib
 
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework                           \
@@ -81,7 +93,7 @@ jobs:
                    -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$GLBINDING    \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
                    -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin        \
-                   -DINSTALL_SUBDIR_SHARE=share/supertux2 -DBUILD_TESTS=ON
+                   -DINSTALL_SUBDIR_SHARE=share/supertux2
 
       - name: Build and install
         working-directory: build
@@ -118,8 +130,8 @@ jobs:
           aws_key_id: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.CI_DOWNLOAD_SECRET_ACCESS_KEY }}
           source_dir: 'build/upload'
-          destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}" 
-           
+          destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
+
       - name: Post uploaded file
         if: matrix.release && env.DOWNLOAD_APIKEY != null
         working-directory: build
@@ -127,14 +139,15 @@ jobs:
         env:
           PREFIX: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
           DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
       - name: Prepare Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'
         env:
           OS: ${{ matrix.os }}
         run: |
-          if [ "$OS" = "macos-11" ]; then
-            rename 's/.dmg/-11.dmg/' build/upload/SuperTux-*
+          if [ "$OS" = "macos-12" ]; then
+            rename 's/.dmg/-12.dmg/' build/upload/SuperTux-*
           fi
 
       - name: Create Release

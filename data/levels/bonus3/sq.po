@@ -1,17 +1,18 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# 111More1, 2022
 # Indrit Bashkimi <indrit.bashkimi@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 08:29+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Albanian (http://www.transifex.com/arctic-games/supertux/language/sq/)\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: 111More1, 2022\n"
+"Language-Team: Albanian (http://app.transifex.com/arctic-games/supertux/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,14 +20,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89,2 degrees"
-msgstr "-89,2 gradë"
+msgid "The Level Formely Known As \"-89,2 Degrees\""
+msgstr "Niveli i njohur më parë si \"-89,2 gradë\""
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
 msgstr "Ngrohja globale"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Një Natë në Qiell"
 
@@ -39,18 +40,18 @@ msgid "Another cold day"
 msgstr "Një tjetër ditë e ftoftë"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
-msgid "Antarctic rain"
-msgstr "Shi antarktik"
+msgid "Forest Rain (aka \"Antarctic Rain\")"
+msgstr "Shiu i pyjeve (i njohur ndryshe si \"shiu i Antarktikut\")"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
 msgstr "...por askush nuk mund ta ndalojë atë..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:428
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr ""
+msgstr "-Më falni, kjo platformë fluturuese është dembel.\n-Kthehu një herë tjetër."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -62,41 +63,41 @@ msgstr "Kështjella e Dritës dhe Errësirës"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "Vrapim në shpellë"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
 msgstr "Shpella e ftoftë"
 
-#: data/levels/bonus3/cavern_v2.stl:50
+#: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr ""
+msgstr "#Punë e mirë! E ke mbajtur fenerin e kuq! Megjithatë, nuk kishit nevojë, por vetëm sepse e kishit, keni 100 monedha!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr ""
+msgstr "Kalaja e kokosit"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
-msgstr ""
+msgstr "Perëndimi i kristaltë"
 
 #: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
-msgstr ""
+msgstr "Qiejt Kristal"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr ""
+msgstr "Bukuri Kristal"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr ""
+msgstr "Kataklizmi Kristal"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr ""
+msgstr "Jashtë në Fushat e Kristalit"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
@@ -113,35 +114,39 @@ msgstr "...akoma më thellë!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
-msgstr ""
+msgstr "Rrethet"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr ""
+msgstr "Mos e humbisni udhëtimin tuaj"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr ""
+msgstr "Duke shkuar poshte"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
-msgstr ""
+msgstr "Hyrja në kështjellë"
+
+#: data/levels/bonus3/entering_castle.stl:60
+msgid "#Sorry, nothing to see here! Use the rope to get out!"
+msgstr "#Më falni, asgjë për të parë këtu! Përdorni litarin për të dalë!"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr ""
+msgstr "Bonusi i luleve"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
-msgstr ""
+msgstr "Pas Akullnajave"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
-msgstr ""
+msgstr "Varur nga çatia"
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
-msgstr ""
+msgstr "Një peizazh kodrinor"
 
 #: data/levels/bonus3/in_the_spring.stl:3
 msgid "In the Spring"
@@ -157,27 +162,27 @@ msgstr "Pak dritë në errësirë mund të jetë mirë, faleminderit!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
-msgstr ""
+msgstr "Alarmi për reshje bore"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
-msgstr ""
+msgstr "Vrima, një ditë në akull"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr ""
+msgstr "Zona e tualetit"
 
-#: data/levels/bonus3/niv-3.stl:29
+#: data/levels/bonus3/niv-3.stl:58
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr ""
+msgstr "- Flush:\n#Shtypni tastin lart për ta shpëlarë!"
 
-#: data/levels/bonus3/niv-3.stl:216
+#: data/levels/bonus3/niv-3.stl:380
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr ""
+msgstr "- Një rrugëdalje?\n#Le të Kërcejmë!"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
@@ -185,23 +190,23 @@ msgstr "Penny ime është nëpër oqean"
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr ""
+msgstr "Bora rozë"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
-msgstr ""
+msgstr "Alarmi i kuq! Pylli po digjet!"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
-msgstr ""
+msgstr "Ikja nga kanalizimet"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr ""
+msgstr "Të bjerë shi apo të mos bjerë shi - Kjo është pyetja"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr ""
+msgstr "Të bjerë shi apo të mos bjerë shi - Kjo është pyetja (Antarktik)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
@@ -209,24 +214,16 @@ msgstr "Një kodër prej bore"
 
 #: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"
-msgstr ""
+msgstr "Tre ajsbergë të ftohtë"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Nën akull"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
-msgstr ""
+msgstr "Ishulli i bonusit III"
 
-#: data/levels/bonus3/worldmap.stwm:12
-msgid "You found a secret place!"
-msgstr "Gjete një vend sekret!"
-
-#: data/levels/bonus3/worldmap.stwm:20
-msgid "Congratulations... you found the secret pathway!"
-msgstr "Përgëzime... gjete një rrugëkalim sekret!"
-
-#: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
+#: data/levels/bonus3/worldmap.stwm:273
 msgid "Go Home"
 msgstr "Shko në Shtëpi"

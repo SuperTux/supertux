@@ -55,7 +55,7 @@ Platform::finish_construction()
   if (!get_path())
   {
     // If no path is given, make a one-node dummy path
-    init_path_pos(m_col.m_bbox.p1(), false);
+    init_path_pos(m_col.m_bbox.p1());
   }
 
   if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
@@ -109,7 +109,7 @@ Platform::update(float dt_sec)
 
       // Travel to node nearest to nearest player
       if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox)) {
-        int nearest_node_id = get_path()->get_nearest_node_no(player->get_bbox().p2());
+        int nearest_node_id = get_path()->get_nearest_node_idx(player->get_bbox().p2());
         if (nearest_node_id != -1) {
           goto_node(nearest_node_id);
         }
@@ -120,7 +120,7 @@ Platform::update(float dt_sec)
       // Player touched platform, didn't touch last frame and Platform is not moving
 
       // Travel to node farthest from current position
-      int farthest_node_id = get_path()->get_farthest_node_no(get_pos());
+      int farthest_node_id = get_path()->get_farthest_node_idx(get_pos());
       if (farthest_node_id != -1) {
         goto_node(farthest_node_id);
       }
@@ -151,15 +151,16 @@ Platform::editor_update()
 }
 
 void
-Platform::goto_node(int node_no)
+Platform::goto_node(int node_idx)
 {
-  get_walker()->goto_node(node_no);
+  get_walker()->goto_node(node_idx);
 }
 
 void
-Platform::jump_to_node(int node_no)
+Platform::jump_to_node(int node_idx, bool instantaneous)
 {
-  get_walker()->jump_to_node(node_no);
+  get_walker()->jump_to_node(node_idx, instantaneous);
+  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[node_idx].position));
 }
 
 void
@@ -196,20 +197,14 @@ void
 Platform::save_state()
 {
   MovingSprite::save_state();
-
-  PathGameObject* path_object = get_path_gameobject();
-  if (path_object)
-    path_object->save_state();
+  PathObject::save_state();
 }
 
 void
 Platform::check_state()
 {
   MovingSprite::check_state();
-
-  PathGameObject* path_object = get_path_gameobject();
-  if (path_object)
-    path_object->check_state();
+  PathObject::check_state();
 }
 
 /* EOF */

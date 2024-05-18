@@ -20,25 +20,29 @@
 
 #include "gui/menu.hpp"
 
+class Profile;
+
 class ProfileMenu final : public Menu
 {
-private:
-  std::vector<int> m_profiles;
-  std::vector<std::string> m_profile_names;
-
 public:
   ProfileMenu();
 
   void refresh() override;
-  void rebuild_menu();
   void menu_action(MenuItem& item) override;
-};
 
-namespace savegames_util
-{
-  std::vector<int> get_savegames();
-  void delete_savegames(int idx, bool reset = false);
-}
+private:
+  void rebuild_menu();
+
+  void on_profile_change();
+
+private:
+  std::vector<Profile*> m_profiles;
+  Profile* m_current_profile;
+
+private:
+  ProfileMenu(const ProfileMenu&) = delete;
+  ProfileMenu& operator=(const ProfileMenu&) = delete;
+};
 
 #endif
 

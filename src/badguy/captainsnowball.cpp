@@ -29,14 +29,13 @@ CaptainSnowball::CaptainSnowball(const ReaderMapping& reader) :
   m_jumping(false)
 {
   walk_speed = BOARDING_SPEED;
-  max_drop_height = -1;
-  m_physic.set_velocity_y(-400);
+  set_ledge_behavior(LedgeBehavior::FALL);
 }
 
 bool
 CaptainSnowball::might_climb(int width, int height) const
 {
-  // make sure we check for at least a 1-pixel climb
+  // Make sure we check for at least a 1-pixel climb.
   assert(height > 0);
 
   float x1;

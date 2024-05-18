@@ -176,7 +176,7 @@ protected:
   void delete_char_before_caret();
 
   /** Returns the largest string fitting in the box. */
-  std::string get_truncated_text(std::string text) const;
+  std::string get_truncated_text(const std::string& text) const;
 
   /** Changes m_current_offset so that the caret is visible */
   void recenter_offset();

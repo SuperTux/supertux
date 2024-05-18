@@ -19,18 +19,20 @@
 
 #include <fmt/format.h>
 
-#include "badguy/dispenser.hpp"
 #include "editor/object_menu.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_list.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "util/log.hpp"
 
-ObjectSelectMenu::ObjectSelectMenu(std::vector<std::unique_ptr<GameObject>>& objects, GameObject* parent) :
+ObjectSelectMenu::ObjectSelectMenu(std::vector<std::unique_ptr<GameObject>>& objects, uint8_t get_objects_param,
+                                   const std::function<void (std::unique_ptr<GameObject>)>& add_object_func) :
   m_objects(objects),
-  m_parent(parent),
+  m_get_objects_param(get_objects_param),
+  m_add_object_function(add_object_func),
   m_selected()
 {
   refresh();
@@ -69,12 +71,23 @@ ObjectSelectMenu::add_object()
   }
 
   auto obj = GameObjectFactory::instance().create(m_selected);
+  obj->update_version(); // Ensure the object is on its latest version
 
-  Dispenser* dispenser = dynamic_cast<Dispenser*>(m_parent);
-  if (dispenser)
-    dispenser->add_object(std::move(obj)); // The Dispenser itself should add the object, running appropriate checks
+  if (m_add_object_function)
+  {
+    try
+    {
+      m_add_object_function(std::move(obj));
+    }
+    catch (const std::exception& err)
+    {
+      Dialog::show_message(err.what());
+    }
+  }
   else
+  {
     m_objects.push_back(std::move(obj));
+  }
 
   refresh();
 }
@@ -87,16 +100,8 @@ ObjectSelectMenu::remove_object(GameObject* obj)
     {
       return obj == found_obj.get();
     }), m_objects.end());
+
   refresh();
-}
-
-const std::vector<std::string>
-ObjectSelectMenu::get_available_objects() const
-{
-  if (dynamic_cast<Dispenser*>(m_parent))
-    return GameObjectFactory::instance().get_registered_objects(ObjectFactory::RegisteredObjectParam::OBJ_PARAM_DISPENSABLE);
-
-  return GameObjectFactory::instance().get_registered_objects();
 }
 
 void
@@ -115,7 +120,8 @@ ObjectSelectMenu::menu_action(MenuItem& item)
   }
   else if (item.get_id() == -2)
   {
-    MenuManager::instance().push_menu(std::make_unique<ListMenu>(get_available_objects(),
+    MenuManager::instance().push_menu(std::make_unique<ListMenu>(
+        GameObjectFactory::instance().get_registered_objects(m_get_objects_param),
         &m_selected, this, [](const std::string& obj_name) {
           return GameObjectFactory::instance().get_display_name(obj_name);
         }));

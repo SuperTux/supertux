@@ -113,3 +113,4 @@ ControlButton::on_key_down(const SDL_KeyboardEvent& key)
   return false;
 }
 
+/* EOF */

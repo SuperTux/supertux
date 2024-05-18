@@ -1,4 +1,4 @@
-//  Dart - Your average poison dart
+//  Dart - Sharp projectile commonly shot from DartTrap
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -28,28 +28,33 @@ const float DART_SPEED = 200;
 static const std::string DART_SOUND = "sounds/flame.wav";
 
 Dart::Dart(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/dart/dart.sprite"),
+  BadGuy(reader, "images/creatures/darttrap/granito/root_dart.sprite"),
   parent(nullptr),
   sound_source()
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
+
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
+
+  set_action("flying", m_dir);
 }
 
-Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::string& sprite, Flip flip) :
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::string& sprite) :
   BadGuy(pos, d, sprite),
   parent(parent_),
   sound_source()
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
-  m_flip = flip;
+
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
+
+  set_action("flying", m_dir);
 }
 
 bool
@@ -67,8 +72,6 @@ Dart::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -::DART_SPEED : m_dir == Direction::RIGHT ? ::DART_SPEED : 0);
   m_physic.set_velocity_y(m_dir == Direction::UP ? -::DART_SPEED : m_dir == Direction::DOWN ? ::DART_SPEED : 0);
-  set_action("flying", m_dir == Direction::UP ? Direction::DOWN : m_dir);
-  if (m_dir == Direction::UP) m_flip = VERTICAL_FLIP;
 }
 
 void
@@ -106,7 +109,7 @@ Dart::collision_solid(const CollisionHit& )
 HitResponse
 Dart::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
-  // ignore collisions with parent
+  // Ignore collisions with parent.
   if (&badguy == parent) {
     return FORCE_MOVE;
   }
@@ -147,18 +150,21 @@ Dart::play_looping_sounds()
 }
 
 void
-Dart::after_editor_set()
+Dart::set_flip(Flip flip)
 {
-  BadGuy::after_editor_set();
-  if ((m_dir == Direction::UP && m_flip == NO_FLIP) || (m_dir == Direction::DOWN && m_flip == VERTICAL_FLIP))
-    FlipLevelTransformer::transform_flip(m_flip);
+  m_flip = flip;
+}
+
+std::vector<Direction>
+Dart::get_allowed_directions() const
+{
+  return { Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
 }
 
 void
 Dart::on_flip(float height)
 {
   BadGuy::on_flip(height);
-  FlipLevelTransformer::transform_flip(m_flip);
   if (m_dir == Direction::UP)
   {
     m_dir = Direction::DOWN;
@@ -168,6 +174,10 @@ Dart::on_flip(float height)
   {
     m_dir = Direction::UP;
     m_physic.set_velocity_y(-::DART_SPEED);
+  }
+  else
+  {
+    FlipLevelTransformer::transform_flip(m_flip);
   }
 }
 

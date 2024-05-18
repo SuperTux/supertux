@@ -24,6 +24,7 @@
 #include "object/path.hpp"
 #include "util/uid.hpp"
 
+template<typename T>
 class ObjectOption;
 
 /** A walker that travels along a path */
@@ -53,10 +54,10 @@ public:
   Vector get_pos(const Sizef& object_size, const Handle& handle) const;
 
   /** advance until at given node, then stop */
-  void goto_node(int node_no);
+  void goto_node(int node_idx);
 
   /** teleport instantly to given node */
-  void jump_to_node(int node_no);
+  void jump_to_node(int node_idx, bool instantaneous = false);
 
   /** start advancing automatically */
   void start_moving();

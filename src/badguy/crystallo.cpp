@@ -16,6 +16,8 @@
 
 #include "badguy/crystallo.hpp"
 
+#include "badguy/rcrystallo.hpp"
+#include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
 Crystallo::Crystallo(const ReaderMapping& reader) :
@@ -23,8 +25,21 @@ Crystallo::Crystallo(const ReaderMapping& reader) :
   m_radius()
 {
   walk_speed = 80;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
   reader.get("radius", m_radius, 100.0f);
+}
+
+Crystallo::Crystallo(const Vector& pos, const Vector& start_pos, float vel_x, std::unique_ptr<Sprite> sprite,
+                     Direction dir, float radius, const std::string& script) :
+  WalkingBadguy(pos, dir, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
+  m_radius(radius)
+{
+  m_physic.set_velocity_x(vel_x);
+  m_sprite = std::move(sprite);
+  m_dead_script = script;
+  m_start_position = start_pos;
+  walk_speed = 80;
+  set_ledge_behavior(LedgeBehavior::SMART);
 }
 
 ObjectSettings
@@ -42,7 +57,7 @@ Crystallo::get_settings()
 void
 Crystallo::active_update(float dt_sec)
 {
-  //walking and turning properly
+  // Walking and turning properly.
   float targetwalk = m_dir == Direction::LEFT ? -80.f : 80.f;
   if (m_dir != Direction::LEFT && get_pos().x > (m_start_position.x + m_radius - 20.f))
     targetwalk = -80.f;
@@ -69,6 +84,16 @@ bool
 Crystallo::is_flammable() const
 {
   return false;
+}
+
+void
+Crystallo::on_flip(float height)
+{
+  WalkingBadguy::on_flip(height);
+
+  Sector::get().add<RCrystallo>(get_pos(), m_start_position, get_velocity_x(),
+                                std::move(m_sprite), m_dir, m_radius, m_dead_script);
+  remove_me();
 }
 
 /* EOF */

@@ -42,7 +42,7 @@ Owl::Owl(const ReaderMapping& reader) :
   carried_object(nullptr)
 {
   reader.get("carry", carried_obj_name, "skydive");
-  set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
+  set_action("fly", m_dir);
   if (Editor::is_active() && s_portable_objects.empty())
     s_portable_objects = GameObjectFactory::instance().get_registered_objects(ObjectFactory::OBJ_PARAM_PORTABLE);
 }
@@ -52,7 +52,6 @@ Owl::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  set_action(m_dir);
 
   // If we add the carried object to the sector while we're editing
   // a level with the editor, it gets written to the level file,
@@ -76,6 +75,7 @@ Owl::initialize()
     }
     else
     {
+      carried_object->grab(*this, get_pos(), m_dir);
       Sector::get().add_object(std::move(game_object));
     }
   }
@@ -107,7 +107,10 @@ Owl::active_update (float dt_sec)
   if (m_frozen)
     return;
 
-  if (carried_object != nullptr) {
+  if (carried_object)
+  {
+    set_action("carry", m_dir);
+
     if (!is_above_player ()) {
       Vector obj_pos = get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM);
       auto obj = dynamic_cast<MovingObject*>(carried_object);
@@ -115,7 +118,7 @@ Owl::active_update (float dt_sec)
       obj_pos.x -= verticalOffset;
       obj_pos.y += 3.f; /* Move a little away from the hitbox (the body). Looks nicer. */
 
-      //To drop enemie before leave the screen
+      // Drop carried object before leaving the screen
       if (obj_pos.x<=16 || obj_pos.x+16>=Sector::get().get_width()){
         carried_object->ungrab (*this, m_dir);
         carried_object = nullptr;
@@ -125,9 +128,12 @@ Owl::active_update (float dt_sec)
         carried_object->grab (*this, obj_pos, m_dir);
     }
     else { /* if (is_above_player) */
-      carried_object->ungrab (*this, m_dir);
-      carried_object = nullptr;
+      ungrab_carried_object();
     }
+  }
+  else /* if (carried_object) */
+  {
+    set_action("fly", m_dir);
   }
 }
 
@@ -141,10 +147,7 @@ Owl::collision_squished(GameObject& object)
   if (player)
     player->bounce (*this);
 
-  if (carried_object != nullptr) {
-    carried_object->ungrab (*this, m_dir);
-    carried_object = nullptr;
-  }
+  ungrab_carried_object();
 
   kill_fall ();
   return true;
@@ -164,22 +167,16 @@ Owl::kill_fall()
   else
     BadGuy::kill_fall();
 
-  if (carried_object != nullptr) {
-    carried_object->ungrab (*this, m_dir);
-    carried_object = nullptr;
-  }
+  ungrab_carried_object();
 
-  // start dead-script
+  // Start the dead-script.
   run_dead_script();
 }
 
 void
 Owl::freeze()
 {
-  if (carried_object != nullptr) {
-    carried_object->ungrab (*this, m_dir);
-    carried_object = nullptr;
-  }
+  ungrab_carried_object();
   m_physic.enable_gravity(true);
   BadGuy::freeze();
 }
@@ -190,7 +187,6 @@ Owl::unfreeze(bool melt)
   BadGuy::unfreeze(melt);
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  set_action(m_dir);
 }
 
 bool
@@ -211,12 +207,10 @@ Owl::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_y(0);
   } else if (hit.left || hit.right) {
     if (m_dir == Direction::LEFT) {
-      set_action ("right", /* loops = */ -1);
       m_dir = Direction::RIGHT;
       m_physic.set_velocity_x (FLYING_SPEED);
     }
     else {
-      set_action ("left", /* loops = */ -1);
       m_dir = Direction::LEFT;
       m_physic.set_velocity_x (-FLYING_SPEED);
     }
@@ -226,11 +220,17 @@ Owl::collision_solid(const CollisionHit& hit)
 void
 Owl::ignite()
 {
+  ungrab_carried_object();
+  BadGuy::ignite();
+}
+
+void
+Owl::ungrab_carried_object()
+{
   if (carried_object != nullptr) {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
-  BadGuy::ignite();
 }
 
 ObjectSettings

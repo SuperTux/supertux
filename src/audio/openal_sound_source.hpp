@@ -30,7 +30,8 @@ public:
   ~OpenALSoundSource() override;
 
   virtual void play() override;
-  virtual void stop() override;
+  virtual void stop(bool unload_buffer = true) override;
+  virtual void pause() override;
   virtual bool playing() const override;
 
   virtual void set_looping(bool looping) override;
@@ -43,7 +44,6 @@ public:
 
   virtual void set_volume(float volume);
 
-  virtual void pause();
   virtual bool paused() const;
   virtual void resume();
   virtual void update();

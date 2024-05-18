@@ -23,8 +23,8 @@
 #include <string>
 
 /** Macro to help easily check if there is a current GameSession and define it, if so. **/
-#define SCRIPT_GUARD_GAMESESSION                        \
-  if (!GameSession::current()) return;                  \
+#define SCRIPT_GUARD_GAMESESSION(returnvalue)           \
+  if (!GameSession::current()) return returnvalue;      \
   GameSession& game_session = *GameSession::current()
 
 #endif
@@ -51,6 +51,10 @@ public:
  * @param bool $win If ""true"", the level is marked as completed if launched from a worldmap.
  */
 void Level_finish(bool win);
+/**
+ * Gets whether an end sequence has started. (AKA when the stats at the end are visible)
+ */
+bool Level_has_active_sequence();
 
 /**
  * Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"".${SRG_TABLENEWPARAGRAPH}
@@ -61,6 +65,19 @@ void Level_finish(bool win);
  * @param string $spawnpoint
  */
 void Level_spawn(const std::string& sector, const std::string& spawnpoint);
+
+
+/**
+ * Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"" with the given transition ""transition"".${SRG_TABLENEWPARAGRAPH}
+   Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
+   If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.
+   If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
+ * @param string $sector
+ * @param string $spawnpoint
+ * @param string $transition Valid transitions are ""circle"" and ""fade"". If any other value is specified, no transition effect is drawn.
+ */
+void Level_spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition);
+
 
 /**
  * Sets the default start spawnpoint of the level.
@@ -102,12 +119,6 @@ void Level_flip_vertically();
  * Toggle pause.
  */
 void Level_toggle_pause();
-
-/**
- * Switch to/from edit mode
- * @param bool $edit_mode
- */
-void Level_edit(bool edit_mode);
 
 /**
  * Pauses the target timer.

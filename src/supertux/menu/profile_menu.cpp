@@ -18,23 +18,23 @@
 #include "supertux/menu/profile_menu.hpp"
 
 #include <fmt/format.h>
-#include <physfs.h>
 #include <sstream>
 
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
-#include "physfs/util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/profile_name_menu.hpp"
+#include "supertux/profile_manager.hpp"
+#include "supertux/title_screen.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
 ProfileMenu::ProfileMenu() :
   m_profiles(),
-  m_profile_names()
+  m_current_profile()
 {
   refresh();
 }
@@ -42,8 +42,9 @@ ProfileMenu::ProfileMenu() :
 void
 ProfileMenu::refresh()
 {
-  m_profiles = savegames_util::get_savegames();
-  m_profile_names.clear();
+  m_profiles = ProfileManager::current()->get_profiles();
+  if (m_current_profile && g_config->profile != m_current_profile->get_id())
+    on_profile_change();
 
   rebuild_menu();
 }
@@ -53,42 +54,31 @@ ProfileMenu::rebuild_menu()
 {
   clear();
   add_label(_("Select Profile"));
-  add_hl();
-  if (m_profiles.empty()) add_inactive(_("No profiles found."));
-  bool has_selected_profile = false;
-  for (std::size_t i = 0; i < m_profiles.size(); ++i)
-  {
-    int id = m_profiles[i];
-    std::string name;
-    for (std::size_t y = 0; y < g_config->profiles.size(); ++y)
-    {
-      if (g_config->profiles[y].id == id)
-        name = g_config->profiles[y].name;
-    }
-    std::string text;
-    if (name.empty())
-    {
-      text = fmt::format(fmt::runtime(_("profile{}")), id);
-    }
-    else
-    {
-      text = name;
-    }
-    m_profile_names.push_back(text);
 
-    if (id == g_config->profile)
-    {
-      text = fmt::format(fmt::runtime(_("[{}]")), text);
-      has_selected_profile = true;
-    }
-    if (g_config->developer_mode && !name.empty())
-      text = fmt::format(fmt::runtime(_("{} (profile{})")), text, id);
+  add_hl();
+  if (m_profiles.empty())
+    add_inactive(_("No profiles found."));
+
+  for (auto* profile : m_profiles)
+  {
+    const int id = profile->get_id();
+    const std::string name = profile->get_name();
+    const bool current = (id == g_config->profile);
+
+    std::string text = (name.empty() ? fmt::format(fmt::runtime(_("Profile {}")), id) :
+                        (g_config->developer_mode ? fmt::format(fmt::runtime(_("{} (Profile {})")), name, id) : name));
+    if (current)
+      text = "[" + text + "]";
 
     add_entry(id, text);
-    if (id == g_config->profile) set_active_item(id);
+    if (current)
+    {
+      set_active_item(id);
+      m_current_profile = profile;
+    }
   }
 
-  if (!has_selected_profile && !m_profiles.empty())
+  if (!m_current_profile && !m_profiles.empty())
   {
     add_hl();
     add_inactive(_("No profile selected."));
@@ -96,47 +86,33 @@ ProfileMenu::rebuild_menu()
 
   add_hl();
   add_entry(-1, _("Add"));
-  if (has_selected_profile)
-  {
+
+  if (m_current_profile)
     add_entry(-2, _("Rename"));
-  }
   else
-  {
     add_inactive(_("Rename"));
-  }
+
   add_hl();
-  if (has_selected_profile)
-  {
+
+  if (m_current_profile)
     add_entry(-3, _("Reset"));
-  }
   else
-  {
     add_inactive(_("Reset"));
-  }
+
   if (!m_profiles.empty())
-  {
     add_entry(-4, _("Reset all"));
-  }
   else
-  {
     add_inactive(_("Reset all"));
-  }
-  if (has_selected_profile)
-  {
+
+  if (m_current_profile)
     add_entry(-5, _("Delete"));
-  }
   else
-  {
     add_inactive(_("Delete"));
-  }
+
   if (!m_profiles.empty())
-  {
     add_entry(-6, _("Delete all"));
-  }
   else
-  {
     add_inactive(_("Delete all"));
-  }
 
   add_hl();
   add_back(_("Back"));
@@ -154,50 +130,45 @@ ProfileMenu::menu_action(MenuItem& item)
       return;
     }
     g_config->profile = id;
+    on_profile_change();
     rebuild_menu();
   }
   else if (id == -1)
   {
-    MenuManager::instance().push_menu(std::make_unique<ProfileNameMenu>(false));
+    MenuManager::instance().push_menu(std::make_unique<ProfileNameMenu>());
   }
   else if (id == -2)
   {
-    MenuManager::instance().push_menu(std::make_unique<ProfileNameMenu>(true,
-      g_config->profile, m_profile_names[g_config->profile - 1]));
+    MenuManager::instance().push_menu(std::make_unique<ProfileNameMenu>(m_current_profile));
   }
   else if (id == -3)
   {
+    const std::string name = m_current_profile->get_name();
     const std::string message = fmt::format(
       fmt::runtime(_("This will reset all game progress on the profile \"{}\".\nAre you sure?")),
-      m_profile_names[g_config->profile - 1]);
+      name.empty() ? fmt::format(fmt::runtime(_("Profile {}")), m_current_profile->get_id()) : name);
 
     Dialog::show_confirmation(message, []() {
-      savegames_util::delete_savegames(g_config->profile, true);
+      ProfileManager::current()->reset_profile(g_config->profile);
     });
   }
   else if (id == -4)
   {
     Dialog::show_confirmation(_("This will reset your game progress on all profiles. Are you sure?"), [this]() {
-      for (const int profile : m_profiles) {
-        savegames_util::delete_savegames(profile, true);
-      }
+      auto* manager = ProfileManager::current();
+      for (auto* profile : m_profiles)
+        manager->reset_profile(profile->get_id());
     });
   }
   else if (id == -5)
   {
+    const std::string name = m_current_profile->get_name();
     const std::string message = fmt::format(
-    fmt::runtime(_("This will delete the profile \"{}\",\nincluding all game progress on it. Are you sure?")),
-    m_profile_names[g_config->profile - 1]);
+      fmt::runtime(_("This will delete the profile \"{}\",\nincluding all game progress on it. Are you sure?")),
+      name.empty() ? fmt::format(fmt::runtime(_("Profile {}")), m_current_profile->get_id()) : name);
 
     Dialog::show_confirmation(message, [this]() {
-      savegames_util::delete_savegames(g_config->profile);
-      g_config->profiles.erase(
-        std::remove_if(g_config->profiles.begin(),
-          g_config->profiles.end(),
-          [](const auto& profile){
-            return profile.id == g_config->profile;
-          }),
-        g_config->profiles.end());
+      ProfileManager::current()->delete_profile(g_config->profile);
       g_config->profile = 1;
       refresh();
     });
@@ -205,10 +176,10 @@ ProfileMenu::menu_action(MenuItem& item)
   else if (id == -6)
   {
     Dialog::show_confirmation(_("This will delete all profiles, including all game progress on them.\nAre you sure?"), [this]() {
-      for (const int profile : m_profiles) {
-        savegames_util::delete_savegames(profile);
-      }
-      g_config->profiles.clear();
+      auto* manager = ProfileManager::current();
+      for (auto* profile : m_profiles)
+        manager->delete_profile(profile->get_id());
+
       g_config->profile = 1;
       refresh();
     });
@@ -219,27 +190,11 @@ ProfileMenu::menu_action(MenuItem& item)
   }
 }
 
-namespace savegames_util {
-  std::vector<int> get_savegames()
-  {
-    std::vector<int> savegames;
-    physfsutil::enumerate_files("/", [&savegames](const std::string& filename) {
-      if (std::string(filename).substr(0, 7) == "profile")
-        savegames.push_back(std::stoi(std::string(filename).substr(7)));
-    });
-    std::sort(savegames.begin(), savegames.end());
-    return savegames;
-  }
-
-  void delete_savegames(int idx, bool reset)
-  {
-    const auto& profile_path = "profile" + std::to_string(idx);
-    physfsutil::enumerate_files(profile_path, [profile_path](const std::string& filename) {
-      std::string filepath = FileSystem::join(profile_path.c_str(), filename);
-      PHYSFS_delete(filepath.c_str());
-    });
-    if (!reset) PHYSFS_delete(profile_path.c_str());
-  }
-} // namespace savegames_util
+void
+ProfileMenu::on_profile_change()
+{
+  /** Perform actions on current profile change */
+  TitleScreen::current()->refresh_level();
+}
 
 /* EOF */

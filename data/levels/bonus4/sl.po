@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Gorzy Gorup <gorupgorazd@gmail.com>, 2019
+# Gorazd Gorup <gorupgorazd@gmail.com>, 2022
 # 
 #, fuzzy
 msgid ""
@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:58+0000\n"
-"Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>, 2019\n"
-"Language-Team: Slovenian (https://www.transifex.com/arctic-games/teams/95/sl/)\n"
+"Last-Translator: Gorazd Gorup <gorupgorazd@gmail.com>, 2022\n"
+"Language-Team: Slovenian (https://app.transifex.com/arctic-games/teams/95/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,7 +39,7 @@ msgstr "Gozd hladu"
 
 #: data/levels/bonus4/Crystal_Mania.stl:3
 msgid "Crystal Mania"
-msgstr "Kristalna blaznost"
+msgstr "Na kupe kristalov"
 
 #: data/levels/bonus4/Deeper_Into_The_Mountains.stl:3
 msgid "Deeper Into The Mountains"
@@ -59,16 +59,16 @@ msgstr "Poraščeno gorovje"
 
 #: data/levels/bonus4/Forest_Mountains.stl:140
 msgid "#One Path contains enemies, the other treasure..."
-msgstr "#Ena pot ti prinese sovražnike, druga pa zaklad..."
+msgstr "#Ena pot ti prinese sovražnike, druga pa zaklad ..."
 
 #: data/levels/bonus4/Forest_Mountains.stl:145
 #: data/levels/bonus4/Forest_Mountains.stl:150
 msgid "#You can use this door to try the other way..."
-msgstr "#Prek teh vrat lahko poskusiš drugo pot..."
+msgstr "#Ta vrata te popeljejo še na drugo pot ..."
 
 #: data/levels/bonus4/Generic_Snow_Level.stl:3
 msgid "Generic Snow Level"
-msgstr "Splošna snežna stopnja"
+msgstr "Standardna snežna stopnja"
 
 #: data/levels/bonus4/Glacier_Danger.stl:3
 msgid "Glacier Danger"
@@ -108,7 +108,7 @@ msgstr "Snežakova zemlja"
 
 #: data/levels/bonus4/SnowMansLand.stl:86
 msgid "#It sure is breezy today, huh?"
-msgstr "#Danes pa pošteno piha, kajne?"
+msgstr "#Danes pa pošteno piha, kajneda?"
 
 #: data/levels/bonus4/Snowy_Sunset.stl:3
 msgid "Snowy Sunset"
@@ -121,19 +121,19 @@ msgstr "Ledena pot"
 #: data/levels/bonus4/Some_Icy_Path.stl:115
 msgid ""
 "#You won't be able to pass, if you don't bring him something he wants..."
-msgstr "#Ne prideš čez, če mu ne prineseš nečesa, kar hoče..."
+msgstr "#Ne prideš čez, če mu ne prineseš nečesa, kar hoče ..."
 
 #: data/levels/bonus4/Some_Icy_Path.stl:120
 msgid "#Maybe this crystal is the right thing for this snowman...?"
-msgstr "#Mogoče bo snežaku ustrezal tale kristal...?"
+msgstr "#Mogoče bo snežaku ustrezal tale kristal ...?"
 
 #: data/levels/bonus4/Some_Icy_Path.stl:125
 msgid "#Great, now he's gone... I'll keep the crystal for myself."
-msgstr "#Krasno, pa ga ni več... Kristal bom kar obdržal."
+msgstr "#Krasno, pa ga ni več ... Kristal bom kar obdržal."
 
 #: data/levels/bonus4/Spooky_Mansion.stl:3
 msgid "Spooky Mansion"
-msgstr "Srhljiva graščina"
+msgstr "Strašljiva graščina"
 
 #: data/levels/bonus4/Stormy_Night.stl:3
 msgid "Stormy Night"
@@ -183,4 +183,4 @@ msgstr "Vrni se nazaj"
 
 #: data/levels/bonus4/worldmap.stwm:280
 msgid "The next challenge awaits..."
-msgstr "Čaka te naslednja preizkušnja..."
+msgstr "Čaka te naslednja preizkušnja ..."

@@ -45,9 +45,31 @@ Brick::Brick(const ReaderMapping& mapping, const std::string& sprite_name) :
   m_breakable(),
   m_coin_counter(0)
 {
+  parse_type(mapping);
   mapping.get("breakable", m_breakable, true);
   if (!m_breakable) {
     m_coin_counter = 5;
+  }
+}
+
+GameObjectTypes
+Brick::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "retro", _("Retro") }
+  };
+}
+
+std::string
+Brick::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case RETRO:
+      return "images/objects/bonus_block/retro_brick.sprite";
+    default:
+      return m_default_sprite_name;
   }
 }
 
@@ -68,7 +90,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy) {
-    // hit contains no information for collisions with blocks.
+    // Hit contains no information for collisions with blocks.
     // Badguy's bottom has to be below the top of the brick
     // SHIFT_DELTA is required to slide over one tile gaps.
     if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
@@ -101,7 +123,7 @@ Brick::try_break(Player* player, bool slider)
   if (m_sprite->get_action() == "empty")
     return;
 
-  //takes too long for sliding tux to barrel through crates and ends up stopping him otherwise
+  // Takes too long for sliding tux to barrel through crates and ends up stopping him otherwise.
   if (slider && m_breakable && m_coin_counter <= 0)
     break_me();
 
@@ -118,11 +140,10 @@ Brick::try_break(Player* player, bool slider)
     if (player) {
       if (player->is_big()) {
         start_break(player);
-        return;
       } else {
         start_bounce(player);
-        return;
       }
+      return;
     }
     break_me();
   }

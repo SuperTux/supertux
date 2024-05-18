@@ -23,6 +23,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/download_dialog.hpp"
+#include "supertux/resources.hpp"
 #include "util/log.hpp"
 
 AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, bool auto_install, bool update) :
@@ -123,18 +124,11 @@ AddonPreviewMenu::rebuild_menu()
   }
   else
   {
-    std::string desc_curr_line = "";
-    for (std::size_t i = 0; i <= desc.size(); i++)
+    std::string overflow;
+    add_inactive(Resources::normal_font->wrap_to_width(desc, 600.f, &overflow), true);
+    while (!overflow.empty())
     {
-      if (i != desc.size() && desc[i] != '\n')
-      {
-        desc_curr_line += desc[i];
-      }
-      else
-      {
-        add_inactive(desc_curr_line, true);
-        desc_curr_line = "";
-      }
+      add_inactive(Resources::normal_font->wrap_to_width(overflow, 600.f, &overflow), true);
     }
   }
   add_inactive("");
@@ -204,7 +198,7 @@ AddonPreviewMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id())
   {
-    case MNID_SCREENSHOTS: // Non-interactive item
+    case MNID_SCREENSHOTS: // Non-interactive item.
       return;
 
     case MNID_SHOW_SCREENSHOTS:

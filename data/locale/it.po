@@ -1179,8 +1179,8 @@ msgstr "Oggetto sconosciuto"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Uso: %s [OPZIONI] [LIVELLO]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Uso: {} [OPZIONI] [LIVELLO]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
@@ -1803,13 +1803,13 @@ msgstr "Ridimensiona"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profilo %s]"
+msgid "[Profile {}]"
+msgstr "[Profilo {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "Profilo %s"
+msgid "Profile {}"
+msgstr "Profilo {}"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1837,8 +1837,8 @@ msgstr "Sconosciuto"
 
 #: src/supertux/menu/addon_menu.cpp:68
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" di \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" di \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:126
 msgid "No Add-ons installed"
@@ -1850,13 +1850,13 @@ msgstr "Nessun componente aggiuntivo trovato"
 
 #: src/supertux/menu/addon_menu.cpp:176
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Installa %s *NUOVO*"
+msgid "Install {} *NEW*"
+msgstr "Installa {} *NUOVO*"
 
 #: src/supertux/menu/addon_menu.cpp:187
 #, c-format
-msgid "Install %s"
-msgstr "Installa %s"
+msgid "Install {}"
+msgstr "Installa {}"
 
 #: src/supertux/menu/addon_menu.cpp:196
 msgid "No new Add-ons found"
@@ -1876,8 +1876,8 @@ msgstr "Scaricamento dell'indice dei componenti aggiuntivi"
 
 #: src/supertux/menu/addon_menu.cpp:298
 #, c-format
-msgid "Downloading %s"
-msgstr "Scaricamento di %s"
+msgid "Downloading {}"
+msgstr "Scaricamento di {}"
 
 #: src/supertux/menu/addon_menu.cpp:345
 msgid ""
@@ -2293,8 +2293,8 @@ msgstr ""
 
 #: src/supertux/levelintro.cpp:135
 #, c-format
-msgid "contributed by %s"
-msgstr "con il contributo di  %s"
+msgid "contributed by {}"
+msgstr "con il contributo di  {}"
 
 #: src/supertux/levelintro.cpp:167
 msgid "Badguys killed"

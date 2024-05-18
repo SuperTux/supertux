@@ -29,7 +29,7 @@ SkyDive::SkyDive(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skydive/skydive.sprite")
 {
   SoundManager::current()->preload("sounds/explosion.wav");
-  set_action("normal", 1);
+  set_action("normal");
 }
 
 void
@@ -71,8 +71,7 @@ SkyDive::grab(MovingObject& object, const Vector& pos, Direction dir_)
 
   if (!m_frozen)
   {
-    m_physic.set_velocity_x(movement.x * LOGICAL_FPS);
-    m_physic.set_velocity_y(0.0);
+    m_physic.set_velocity(movement.x * LOGICAL_FPS, 0.0);
     m_physic.set_acceleration_y(0.0);
   }
   m_physic.enable_gravity(false);
@@ -84,7 +83,7 @@ void
 SkyDive::ungrab(MovingObject& object, Direction dir_)
 {
   auto player = dynamic_cast<Player*> (&object);
-  //handle swimming
+  // Handle swimming state of the player.
   if (player)
   {
     if (player->is_swimming() || player->is_water_jumping())
@@ -93,10 +92,10 @@ SkyDive::ungrab(MovingObject& object, Direction dir_)
       m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
         player->get_physic().get_velocity());
     }
-    //handle non-swimming
+    // Handle non-swimming.
     else
     {
-      //handle x-movement
+      // Handle x-movement based on the player's direction and velocity.
       if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
         m_physic.set_velocity_x(0.f);
       else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
@@ -106,7 +105,7 @@ SkyDive::ungrab(MovingObject& object, Direction dir_)
       else
         m_physic.set_velocity_x(player->get_physic().get_velocity_x()
           + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
-      //handle y-movement
+      // Handle y-movement based on the player's direction and velocity.
       m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
         dir_ == Direction::DOWN ? 500.f :
         player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
@@ -114,7 +113,7 @@ SkyDive::ungrab(MovingObject& object, Direction dir_)
   }
   else if (!m_frozen)
   {
-    set_action("falling", 1);
+    set_action("falling");
     m_physic.set_velocity_y(0);
     m_physic.set_acceleration_y(0);
   }
@@ -166,6 +165,18 @@ SkyDive::collision_tile(uint32_t tile_attributes)
 }
 
 void
+SkyDive::initialize()
+{
+  if (!m_owner)
+  {
+    set_action("falling");
+    m_physic.set_velocity_y(0);
+    m_physic.set_acceleration_y(0);
+  }
+  BadGuy::initialize();
+}
+
+void
 SkyDive::kill_fall()
 {
   explode();
@@ -180,10 +191,8 @@ SkyDive::explode()
     BadGuy::kill_fall();
   else
   {
-    auto& explosion = Sector::get().add<Explosion>(
+    Sector::get().add<Explosion>(
       get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM), EXPLOSION_STRENGTH_DEFAULT);
-
-    explosion.hurts(true);
 
     remove_me();
   }
@@ -193,6 +202,12 @@ bool
 SkyDive::is_portable() const
 {
   return true;
+}
+
+std::vector<Direction>
+SkyDive::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

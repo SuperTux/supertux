@@ -58,6 +58,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
+  void regenerate_name();
+
   Path& get_path() { return *m_path; }
 
   void copy_into(PathGameObject& other);

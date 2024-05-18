@@ -31,10 +31,11 @@
 #include "video/surface_ptr.hpp"
 
 class BadGuy;
-class Portable;
 class Climbable;
 class Controller;
 class CodeController;
+class Key;
+class Portable;
 
 extern const float TUX_INVINCIBLE_TIME_WARNING;
 
@@ -78,6 +79,7 @@ public:
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return false; }
+  virtual bool has_object_manager_priority() const override { return true; }
   virtual void remove_me() override;
 
   int get_id() const { return m_id; }
@@ -99,7 +101,11 @@ public:
   void use_scripting_controller(bool use_or_release);
   void do_scripting_controller(const std::string& control, bool pressed);
 
+  /** Move the player to a different sector, including any objects that it points to, or references. */
+  void move_to_sector(Sector& other);
+
   void make_invincible();
+  void make_temporarily_safe(float safe_time);
 
   bool is_invincible() const { return m_invincible_timer.started(); }
   bool is_dying() const { return m_dying; }
@@ -122,7 +128,8 @@ public:
   bool add_bonus(BonusType type, bool animate = false);
 
   /** like add_bonus, but can also downgrade the bonus items carried */
-  bool set_bonus(BonusType type, bool animate = false);
+  bool set_bonus(BonusType type, bool animate = false, bool increment_powerup_counter = true);
+  BonusType get_bonus() const;
 
   std::string bonus_to_string() const;
 
@@ -167,7 +174,7 @@ public:
   void override_velocity() { m_velocity_override = true; }
 
   bool is_dead() const { return m_dead; }
-  bool is_big() const;
+  bool is_big() const { return get_bonus() != NO_BONUS; }
   bool is_stone() const { return m_stone; }
   bool is_sliding() const { return m_sliding; }
   bool is_swimming() const { return m_swimming; }
@@ -192,10 +199,6 @@ public:
   /** Switches ghost mode on/off.
       Lets Tux float around and through solid objects. */
   void set_ghost_mode(bool enable);
-
-  /** Switches edit mode on/off.
-      In edit mode, Tux will enter ghost_mode instead of dying. */
-  void set_edit_mode(bool enable);
 
   /** Returns whether ghost mode is currently enabled */
   bool get_ghost_mode() const { return m_ghost_mode; }
@@ -229,7 +232,7 @@ public:
   void set_dir(bool right);
   void stop_backflipping();
 
-  void position_grabbed_object();
+  void position_grabbed_object(bool teleport = false);
   bool try_grab();
 
   /** Boosts Tux in a certain direction, sideways. Useful for bumpers/walljumping. */
@@ -240,8 +243,11 @@ public:
   void set_ending_direction(int direction) { m_ending_direction = direction; }
   int get_ending_direction() const { return m_ending_direction; }
 
-  int get_collected_keys() { return m_collected_keys; }
-  void add_collected_keys(int keynum) { m_collected_keys += keynum; }
+  const std::vector<Key*>& get_collected_keys() const { return m_collected_keys; }
+  void add_collected_key(Key* key);
+  void remove_collected_key(Key* key);
+
+  bool track_state() const override { return false; }
 
 private:
   void handle_input();
@@ -349,6 +355,7 @@ public:
 private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
+  bool m_is_intentionally_safe;
   Timer m_kick_timer;
   Timer m_buttjump_timer;
 
@@ -379,7 +386,6 @@ private:
   Vector m_floor_normal;
 
   bool m_ghost_mode; /**< indicates if Tux should float around and through solid objects */
-  bool m_edit_mode; /**< indicates if Tux should switch to ghost mode rather than dying */
 
   Timer m_unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
 
@@ -387,10 +393,16 @@ private:
   unsigned int m_idle_stage;
 
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
-  std::unique_ptr<ObjectRemoveListener> m_climbing_remove_listener;
 
   int m_ending_direction;
-  int m_collected_keys;
+  std::vector<Key*> m_collected_keys;
+
+  float m_last_sliding_angle;
+  float m_current_sliding_angle;
+  float m_target_sliding_angle;
+  Timer m_sliding_rotation_timer;
+  bool m_is_slidejump_falling;
+  bool m_was_crawling_before_slide;
 
 private:
   Player(const Player&) = delete;

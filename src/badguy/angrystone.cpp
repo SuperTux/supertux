@@ -20,21 +20,19 @@
 #include "sprite/sprite.hpp"
 
 static const float CHARGE_SPEED = 240;
-
 static const float CHARGE_TIME = .5;
 static const float ATTACK_TIME = 1;
 static const float RECOVER_TIME = .5;
 
 AngryStone::AngryStone(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/angrystone/angrystone.sprite"),
-  attackDirection(0.0f, 0.0f),
-  oldWallDirection(0.0f, 0.0f),
-  timer(),
-  state(IDLE)
+  m_attack_direction(0.0f, 0.0f),
+  m_old_wall_direction(0.0f, 0.0f),
+  m_timer(),
+  m_state(IDLE)
 {
   m_countMe = false;
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   m_physic.enable_gravity(true);
   set_action("idle");
 }
@@ -46,15 +44,15 @@ AngryStone::collision_solid(const CollisionHit& hit)
     BadGuy::collision_solid(hit);
   // TODO
 #if 0
-  if ((state == ATTACKING) &&
-      (hit.normal.x == -attackDirection.x) && (hit.normal.y == attackDirection.y)) {
-    state = IDLE;
+  if ((m_state == ATTACKING) &&
+      (hit.normal.x == -m_attack_direction.x) && (hit.normal.y == m_attack_direction.y)) 
+  {
+    m_state = IDLE;
     sprite->set_action("idle");
-    physic.set_velocity_x(0);
-    physic.set_velocity_y(0);
+    physic.set_velocity(0, 0);
     physic.enable_gravity(true);
-    oldWallDirection.x = attackDirection.x;
-    oldWallDirection.y = attackDirection.y;
+    m_old_wall_direction.x = m_attack_direction.x;
+    m_old_wall_direction.y = m_attack_direction.y;
   }
 #endif
 }
@@ -65,33 +63,35 @@ AngryStone::kill_fall()
   if (!m_frozen)
     return;
   BadGuy::kill_fall();
-  //prevents AngryStone from getting killed by other enemies or the player
+  // Prevents AngryStone from getting killed by other enemies or the player.
 }
 
 HitResponse
 AngryStone::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
-  if (state == ATTACKING) {
+  if (m_state == ATTACKING) 
+  {
     badguy.kill_fall();
-    return FORCE_MOVE;
   }
 
   return FORCE_MOVE;
 }
 
 void
-AngryStone::active_update(float dt_sec) {
+AngryStone::active_update(float dt_sec) 
+{
   BadGuy::active_update(dt_sec);
 
   if (m_frozen)
     return;
 
-  switch (state) {
-
-
-    case IDLE: {
+  switch (m_state) 
+  {
+    case IDLE: 
+    {
       auto player = get_nearest_player();
-      if (player) {
+      if (player) 
+      {
         auto badguy = this;
         const Vector& playerPos = player->get_pos();
         const Vector& badguyPos = badguy->get_pos();
@@ -104,78 +104,89 @@ AngryStone::active_update(float dt_sec) {
         float playerWidth = player->get_bbox().get_width();
         float badguyWidth = badguy->get_bbox().get_width();
 
-        if ((dx > -playerWidth) && (dx < badguyWidth)) {
-          if (dy > 0) {
-            attackDirection.x = 0;
-            attackDirection.y = 1;
-          } else {
-            attackDirection.x = 0;
-            attackDirection.y = -1;
+        if ((dx > -playerWidth) && (dx < badguyWidth)) 
+        {
+          if (dy > 0) 
+          {
+            m_attack_direction.x = 0;
+            m_attack_direction.y = 1;
+          } else 
+          {
+            m_attack_direction.x = 0;
+            m_attack_direction.y = -1;
           }
-          if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
+          if ((m_attack_direction.x != m_old_wall_direction.x) || (m_attack_direction.y != m_old_wall_direction.y)) 
+          {
             set_action("charging");
-            timer.start(CHARGE_TIME);
-            state = CHARGING;
+            m_timer.start(CHARGE_TIME);
+            m_state = CHARGING;
           }
-        } else if ((dy > -playerHeight) && (dy < badguyHeight)) {
-          if (dx > 0) {
-            attackDirection.x = 1;
-            attackDirection.y = 0;
-          } else {
-            attackDirection.x = -1;
-            attackDirection.y = 0;
+        } else if ((dy > -playerHeight) && (dy < badguyHeight)) 
+          {
+          if (dx > 0) 
+          {
+            m_attack_direction.x = 1;
+            m_attack_direction.y = 0;
+          } else 
+          {
+            m_attack_direction.x = -1;
+            m_attack_direction.y = 0;
           }
-          if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
+          if ((m_attack_direction.x != m_old_wall_direction.x) || (m_attack_direction.y != m_old_wall_direction.y)) 
+          {
             set_action("charging");
-            timer.start(CHARGE_TIME);
-            state = CHARGING;
+            m_timer.start(CHARGE_TIME);
+            m_state = CHARGING;
           }
         }
       }
     } break;
 
-    case CHARGING: {
-      if (timer.check()) {
+    case CHARGING: 
+    {
+      if (m_timer.check()) 
+      {
         set_action("attacking");
-        timer.start(ATTACK_TIME);
-        state = ATTACKING;
+        m_timer.start(ATTACK_TIME);
+        m_state = ATTACKING;
         m_physic.enable_gravity(false);
-        m_physic.set_velocity_x(CHARGE_SPEED * attackDirection.x);
-        m_physic.set_velocity_y(CHARGE_SPEED * attackDirection.y);
-        oldWallDirection.x = 0;
-        oldWallDirection.y = 0;
+        m_physic.set_velocity(CHARGE_SPEED * m_attack_direction.x,
+                              CHARGE_SPEED * m_attack_direction.y);
+        m_old_wall_direction.x = 0;
+        m_old_wall_direction.y = 0;
       }
     } break;
 
-    case ATTACKING: {
-      if (timer.check()) {
-        timer.start(RECOVER_TIME);
-        state = RECOVERING;
+    case ATTACKING: 
+    {
+      if (m_timer.check()) 
+      {
+        m_timer.start(RECOVER_TIME);
+        m_state = RECOVERING;
         set_action("idle");
         m_physic.enable_gravity(true);
-        m_physic.set_velocity_x(0);
-        m_physic.set_velocity_y(0);
+        m_physic.set_velocity(0, 0);
       }
     } break;
 
-    case RECOVERING: {
-      if (timer.check()) {
-        state = IDLE;
+    case RECOVERING: 
+    {
+      if (m_timer.check()) 
+      {
+        m_state = IDLE;
         set_action("idle");
         m_physic.enable_gravity(true);
-        m_physic.set_velocity_x(0);
-        m_physic.set_velocity_y(0);
+        m_physic.set_velocity(0, 0);
       }
     } break;
   }
-
 }
 
 void
 AngryStone::freeze()
 {
   BadGuy::freeze();
-  state = IDLE;
+  m_state = IDLE;
   m_physic.enable_gravity(true);
 }
 
@@ -195,6 +206,12 @@ bool
 AngryStone::is_flammable() const
 {
   return false;
+}
+
+std::vector<Direction>
+AngryStone::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

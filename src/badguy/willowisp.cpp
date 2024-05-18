@@ -28,9 +28,9 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-static const float FLYSPEED = 64.0f; /**< speed in px per second */
-static const float TRACK_RANGE = 384.0f; /**< at what distance to start tracking the player */
-static const float VANISH_RANGE = 512.0f; /**< at what distance to stop tracking and vanish */
+static const float FLYSPEED = 64.0f; /**< Speed in pixels per second. */
+static const float TRACK_RANGE = 384.0f; /**< Distance at which to start tracking the player. */
+static const float VANISH_RANGE = 512.0f; /**< Distance at which to stop tracking and vanish. */
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
 WillOWisp::WillOWisp(const ReaderMapping& reader) :
@@ -260,9 +260,9 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
 }
 
 void
-WillOWisp::goto_node(int node_no)
+WillOWisp::goto_node(int node_idx)
 {
-  get_walker()->goto_node(node_no);
+  get_walker()->goto_node(node_idx);
   if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK) {
     m_mystate = STATE_PATHMOVING;
   }
@@ -307,7 +307,6 @@ WillOWisp::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir);
   result.add_text(_("Sector"), &m_target_sector, "sector");
   result.add_text(_("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
   result.add_text(_("Hit script"), &m_hit_script, "hit-script");
@@ -350,6 +349,12 @@ WillOWisp::move_to(const Vector& pos)
     get_path()->move_by(shift);
   }
   set_pos(pos);
+}
+
+std::vector<Direction>
+WillOWisp::get_allowed_directions() const
+{
+  return {};
 }
 
 void

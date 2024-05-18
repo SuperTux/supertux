@@ -51,6 +51,7 @@ extern "C" {
 #include "object/spawnpoint.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
+#include "physfs/util.hpp"
 #include "port/emscripten.hpp"
 #include "sdk/integration.hpp"
 #include "sprite/sprite_data.hpp"
@@ -133,6 +134,7 @@ Main::Main() :
   m_squirrel_virtual_machine(),
   m_tile_manager(),
   m_sprite_manager(),
+  m_profile_manager(),
   m_resources(),
   m_addon_manager(),
   m_console(),
@@ -180,7 +182,7 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
   if (!PHYSFS_init(argv0))
   {
     std::stringstream msg;
-    msg << "Couldn't initialize physfs: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+    msg << "Couldn't initialize physfs: " << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
   else
@@ -201,20 +203,20 @@ void PhysfsSubsystem::find_mount_datadir()
     // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
     if (!PHYSFS_mount(std::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
     {
-      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << physfsutil::get_last_error() << std::endl;
       return;
     }
 
     PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
     if (!data)
     {
-      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << physfsutil::get_last_error() << std::endl;
       return;
     }
 
     if (!PHYSFS_mountHandle(data, "assets/data.zip", nullptr, 1))
     {
-      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << physfsutil::get_last_error() << std::endl;
     }
 
     return;
@@ -242,8 +244,12 @@ void PhysfsSubsystem::find_mount_datadir()
     if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
     {
       m_datadir = BUILD_DATA_DIR;
+
       // Add config dir for supplemental files
-      PHYSFS_mount(std::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+      if (FileSystem::is_directory(BUILD_CONFIG_DATA_DIR))
+      {
+        PHYSFS_mount(std::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+      }
     }
     else
     {
@@ -256,12 +262,12 @@ void PhysfsSubsystem::find_mount_datadir()
 
   if (!PHYSFS_mount(std::filesystem::canonical(m_datadir).string().c_str(), nullptr, 1))
   {
-    log_warning << "Couldn't add '" << m_datadir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add '" << m_datadir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 #else
   if (!PHYSFS_mount(BUILD_CONFIG_DATA_DIR, nullptr, 1))
   {
-    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 #endif
 }
@@ -277,9 +283,11 @@ void PhysfsSubsystem::remount_datadir_static() const
   add_data_to_search_path("shader");
 
   // Re-mount levels from the user directory
-  if (!PHYSFS_mount(FileSystem::join(m_userdir, "levels").c_str(), "levels", 0))
+  const std::string userdir_levels = FileSystem::join(m_userdir, "levels");
+  if (FileSystem::exists(userdir_levels) &&
+      !PHYSFS_mount(userdir_levels.c_str(), "levels", 0))
   {
-    log_warning << "Couldn't mount levels from the user directory '" << m_userdir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't mount levels from the user directory '" << m_userdir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 }
 
@@ -288,12 +296,12 @@ void PhysfsSubsystem::add_data_to_search_path(const std::string& dir) const
 #ifndef __EMSCRIPTEN__
   if (!PHYSFS_mount(FileSystem::join(std::filesystem::canonical(m_datadir).string(), dir).c_str(), dir.c_str(), 0))
   {
-    log_warning << "Couldn't add '" << m_datadir << "/" << dir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add '" << m_datadir << "/" << dir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 #else
   if (!PHYSFS_mount(FileSystem::join(BUILD_CONFIG_DATA_DIR, dir).c_str(), dir.c_str(), 0))
   {
-    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "/" << dir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "/" << dir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 #endif
 }
@@ -378,7 +386,7 @@ if (FileSystem::is_directory(olduserdir)) {
 #ifdef EMSCRIPTEN
   EM_ASM({
     try {
-      FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
+      FS.mount(IDBFS, {}, m_userdir);
       FS.syncfs(true, (err) => { console.log(err); });
     } catch(err) {}
   }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
@@ -388,13 +396,13 @@ if (FileSystem::is_directory(olduserdir)) {
   {
     std::ostringstream msg;
     msg << "Failed to use userdir directory '"
-        <<  m_userdir << "': errorcode: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+        <<  m_userdir << "': errorcode: " << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
 
   if (!PHYSFS_mount(m_userdir.c_str(), nullptr, 0))
   {
-    log_warning << "Couldn't add user directory '" << m_userdir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add user directory '" << m_userdir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 }
 
@@ -544,6 +552,7 @@ Main::launch_game(const CommandLineArguments& args)
   s_timelog.log("resources");
   m_tile_manager.reset(new TileManager());
   m_sprite_manager.reset(new SpriteManager());
+  m_profile_manager.reset(new ProfileManager());
   m_resources.reset(new Resources());
 
   s_timelog.log("integrations");
@@ -553,7 +562,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   s_timelog.log(nullptr);
 
-  m_savegame = std::make_unique<Savegame>(std::string());
+  m_savegame = std::make_unique<Savegame>(m_profile_manager->get_current_profile(), "");
 
   m_game_manager.reset(new GameManager());
   m_screen_manager.reset(new ScreenManager(*m_video_system, *m_input_manager));
@@ -599,10 +608,8 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else
       { // launch game
-        std::unique_ptr<GameSession> session (
-          new GameSession(filename, *m_savegame));
+        std::unique_ptr<GameSession> session = std::make_unique<GameSession>(filename, *m_savegame);
 
-        g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
         gameRandom.seed(g_config->random_seed);
         graphicsRandom.seed(0);
 
@@ -625,11 +632,6 @@ Main::launch_game(const CommandLineArguments& args)
           session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
         }
 
-        if (!g_config->start_demo.empty())
-          session->play_demo(g_config->start_demo);
-
-        if (!g_config->record_demo.empty())
-          session->record_demo(g_config->record_demo);
         m_screen_manager->push_screen(std::move(session));
       }
     }
@@ -642,8 +644,10 @@ Main::launch_game(const CommandLineArguments& args)
     }
     else
     {
-      m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame));
-      if (g_config->do_release_check) release_check();
+      m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame, g_config->is_christmas()));
+
+      if (g_config->do_release_check)
+        release_check();
     }
   }
 
@@ -739,12 +743,15 @@ Main::run(int argc, char** argv)
   }
   catch(const std::exception& e)
   {
-    log_fatal << "Unexpected exception: " << e.what() << std::endl;
+    ErrorHandler::error_dialog_exception(e.what());
     result = 1;
   }
   catch(...)
   {
+    /*
     log_fatal << "Unexpected exception" << std::endl;
+    */
+    ErrorHandler::error_dialog_exception();
     result = 1;
   }
 
@@ -790,10 +797,10 @@ Main::release_check()
       if (version != latest_ver)
       {
         auto notif = std::make_unique<Notification>("new_release_" + latest_ver);
-        notif->set_text("New release: SuperTux v" + latest_ver + "!");
+        notif->set_text(fmt::format(fmt::runtime(_("New release: SuperTux v{}!")), latest_ver));
         notif->on_press([latest_ver]()
                        {
-                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n \nDo you want to visit the website now?")), latest_ver), []()
+                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n\nDo you want to visit the website now?")), latest_ver), []()
                                                    {
                                                      FileSystem::open_url("https://supertux.org");
                                                    });

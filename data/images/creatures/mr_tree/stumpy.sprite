@@ -43,12 +43,12 @@
     (mirror-action "burning-left")
   )
   (action
-    (hitbox 22 38 46 50)
+    (hitbox 12 30 64 64)
     (name "iced-left")
     (images "stumpy-7.png")
   )
   (action
-    (hitbox 22 38 46 50)
+    (hitbox 12 30 64 64)
     (name "iced-right")
     (mirror-action "iced-left")
   )
@@ -73,12 +73,12 @@
     (mirror-action "dizzy-left")
   )
   (action
-    (hitbox 20 23 42 42)
+    (hitbox 22 38 46 32)
     (name "squished-left")
-    (images "squished-left.png")
+    (images "squished.png")
   )
   (action
-    (hitbox 20 23 42 42)
+    (hitbox 22 38 46 32)
     (name "squished-right")
     (mirror-action "squished-left")
   )

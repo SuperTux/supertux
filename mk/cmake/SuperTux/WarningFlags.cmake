@@ -52,11 +52,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
           "-Wint-in-bool-context "
           )
       endif()
-      if(Boost_VERSION LESS 106500)
-        string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-          "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-          "-Wno-implicit-fallthrough ")
-      endif()
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
       string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
         "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
@@ -74,6 +69,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-reserved-id-macro "
         "-Wno-sign-conversion "
         "-Wno-reserved-identifier "
+        "-Wno-unknown-warning-option "
 
         # warnings that should probably be fixed in code
         "-Wno-documentation-unknown-command "

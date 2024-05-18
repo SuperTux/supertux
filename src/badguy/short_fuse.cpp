@@ -29,7 +29,7 @@ ShortFuse::ShortFuse(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/short_fuse/short_fuse.sprite", "left", "right")
 {
   walk_speed = 100;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/firecracker.ogg");
 }
@@ -44,9 +44,8 @@ ShortFuse::explode()
     BadGuy::kill_fall();
   else
   {
-    auto& explosion = Sector::get().add<Explosion>(get_bbox().get_middle(),
+    Sector::get().add<Explosion>(get_bbox().get_middle(), 
       EXPLOSION_STRENGTH_NEAR, 8, true);
-    explosion.hurts(false);
 
     run_dead_script();
     remove_me();

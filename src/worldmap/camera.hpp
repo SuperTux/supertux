@@ -22,10 +22,12 @@
 
 namespace worldmap {
 
+class WorldMapSector;
+
 class Camera
 {
 public:
-  Camera();
+  explicit Camera(WorldMapSector& worldmap_sector);
 
   void update(float dt_sec);
 
@@ -39,6 +41,7 @@ private:
   void clamp_camera_position(Vector& c) const;
 
 private:
+  WorldMapSector& m_worldmap_sector;
   Vector m_camera_offset;
 
   /** variables to track panning to a spawn point */
