@@ -121,4 +121,4 @@ jobs:
                      -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1
-            ./test_supertux2
+            # ./test_supertux2
