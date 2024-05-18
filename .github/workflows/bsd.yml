@@ -68,7 +68,8 @@ jobs:
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
                      -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr \
-                     -DSDL2_LIBRARIES=/usr/local/lib/libSDL2_image.so;/usr/local/lib/libSDL2.so \
+                     -DSDL2_LIBRARIES=/usr/local/lib/libSDL2.so \
+                     -DSDL2_IMAGE_LIBRARIES=/usr/local/lib/libSDL2_image.so;/usr/local/lib/libSDL2.so \
                      -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1
