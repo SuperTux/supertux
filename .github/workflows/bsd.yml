@@ -43,7 +43,7 @@ jobs:
       - name: Build in FreeBSD
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-        uses: vmactions/freebsd-vm@v0
+        uses: vmactions/freebsd-vm@v1.0.7
         with:
           envs: BUILD_TYPE
           sync: rsync
