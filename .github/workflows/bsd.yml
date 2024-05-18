@@ -112,13 +112,13 @@ jobs:
             pkg_add freetype
             pkg_add glm
             pkg_add squirrel
-            # If it fails to link against libSDL2, the path is
-            # /usr/local/lib/libSDL2.a (similar for SDL2_image)
           run: |
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
                      -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr \
+                     -DSDL2_LIBRARIES=/usr/local/lib/libSDL2.a \
+                     -DSDL2IMAGE_LIBRARIES=/usr/local/lib/libSDL2_image.a;/usr/local/lib/libSDL2.a \
                      -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1
