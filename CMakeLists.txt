@@ -166,6 +166,11 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
 endif()
 
+if(${CMAKE_SYSTEM_NAME} MATCHES "BSD")
+  # Pass -lexecinfo so that stacktrace symbols can be found
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lexecinfo")
+endif()
+
 ## Add lots of dependencies to compiler switches
 include(SuperTux/ProvideGlm)
 include(SuperTux/ProvideFmt)
