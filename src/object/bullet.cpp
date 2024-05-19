@@ -68,6 +68,9 @@ Bullet::update(float dt_sec)
   } else
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
 
+  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  physic.set_gravity_modifier(in_water ? 0.3f : 1.f);
+
   if (life_count <= 0)
   {
     remove_me();
