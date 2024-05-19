@@ -2947,7 +2947,7 @@ msgstr "Удалить мир"
 #: src/supertux/menu/options_menu.cpp:72
 #: src/supertux/menu/options_select_menu.cpp:35
 msgid "Locale"
-msgstr "Локаль"
+msgstr "Язык"
 
 #: src/supertux/menu/options_menu.cpp:76
 msgid "Select Language"
@@ -3030,15 +3030,15 @@ msgstr "Управление"
 
 #: src/supertux/menu/options_menu.cpp:151
 msgid "Enable Rumbling Controllers"
-msgstr "Включить контроллеры с вибрацией"
+msgstr "Включить вибрацию контроллеров"
 
 #: src/supertux/menu/options_menu.cpp:152
 msgid "Enable vibrating the game controllers."
-msgstr "Включите вибрацию игровых контроллеров."
+msgstr "Включить вибрацию игровых контроллеров."
 
 #: src/supertux/menu/options_menu.cpp:152
 msgid "This feature is currently only used in the multiplayer options menu."
-msgstr "В настоящее время эта функция используется только в меню параметров многопользовательской игры."
+msgstr "Пока эта функция используется только в меню параметров многопользовательской игры."
 
 #: src/supertux/menu/options_menu.cpp:154
 #: src/supertux/menu/keyboard_menu.cpp:32
@@ -3061,7 +3061,7 @@ msgstr "Сопоставить функции контроллера с дейс
 #: src/supertux/menu/options_menu.cpp:167
 #: src/supertux/menu/options_select_menu.cpp:40
 msgid "Extras"
-msgstr "Дополнительно"
+msgstr "Специальные"
 
 #: src/supertux/menu/options_menu.cpp:170
 #: src/supertux/menu/profile_menu.cpp:56
@@ -3149,7 +3149,7 @@ msgstr "Использовать внутриигровой либо систе�
 
 #: src/supertux/menu/options_menu.cpp:214
 msgid "Check for new releases"
-msgstr "Проверить наличие новых версий"
+msgstr "Проверять наличие новых версий"
 
 #: src/supertux/menu/options_menu.cpp:215
 msgid ""
@@ -4675,7 +4675,7 @@ msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr "Не удалось найти сектор \"main\".\nПожалуйста, измените название стартового\nсектора игрока на \"main\""
+msgstr "Не удалось найти сектор «main».\nПожалуйста, измените название стартового\nсектора игрока на «main»"
 
 #: src/editor/editor.cpp:989
 msgid ""
@@ -4821,7 +4821,7 @@ msgstr "Координация"
 
 #: data//credits.stxt:180
 msgid "Programming, \"Flexlay\" Level editor"
-msgstr "Программирование, редактор уровней \"Flexlay\""
+msgstr "Программирование, редактор уровней «Flexlay»"
 
 #: data//credits.stxt:195
 msgid "Windows build fixes"
@@ -4894,7 +4894,7 @@ msgstr "Новые функции и заметные обновления"
 
 #: data//credits.stxt:523
 msgid "Support for \"glbinding\" as optional OpenGL binding"
-msgstr "Поддержка \"glbinding\" в качестве дополнительной привязки OpenGL"
+msgstr "Поддержка «glbinding» в качестве дополнительной привязки OpenGL"
 
 #: data//credits.stxt:527
 msgid "New menu code"

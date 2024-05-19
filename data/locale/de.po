@@ -85,7 +85,7 @@ msgstr "Einmalig"
 
 #: src/trigger/text_area.cpp:142
 msgid "Text change time"
-msgstr ""
+msgstr "Text-Änderungszeit"
 
 #: src/trigger/text_area.cpp:143
 msgid "Fade time"
@@ -638,7 +638,7 @@ msgstr "Hintergrundfarbe"
 
 #: src/object/infoblock.cpp:82
 msgid "Roundness"
-msgstr ""
+msgstr "Rundheit"
 
 #: src/object/infoblock.cpp:84
 msgid "Fade Transition"
@@ -1524,7 +1524,7 @@ msgstr "Geskriptetes Objekt"
 
 #: src/object/custom_particle_system_file.hpp:40
 msgid "Custom Particles from file"
-msgstr "Benutzerdefnierte Partikel aus Datei"
+msgstr "Benutzerdefinierte Partikel aus Datei"
 
 #: src/object/coin.hpp:97
 msgid "Heavy Coin"
@@ -1791,15 +1791,15 @@ msgstr "Schlafend"
 
 #: src/badguy/granito_giant.cpp:73
 msgid "Corrupted A"
-msgstr ""
+msgstr "Korrupt A"
 
 #: src/badguy/granito_giant.cpp:74
 msgid "Corrupted B"
-msgstr ""
+msgstr "Korrupt B"
 
 #: src/badguy/granito_giant.cpp:75
 msgid "Corrupted C"
-msgstr ""
+msgstr "Korrupt C"
 
 #: src/badguy/crystallo.hpp:33
 msgid "Crystallo"
@@ -1809,7 +1809,7 @@ msgstr "Kristallo"
 #: src/badguy/kamikazesnowball.cpp:118 src/badguy/walkingleaf.cpp:36
 #: src/badguy/jumpy.cpp:46 src/badguy/igel.cpp:189 src/badguy/mrtree.cpp:51
 msgid "Corrupted"
-msgstr ""
+msgstr "Korrupt"
 
 #: src/badguy/totem.hpp:37
 msgid "Totem"

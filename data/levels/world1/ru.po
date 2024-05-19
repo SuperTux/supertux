@@ -203,7 +203,7 @@ msgstr "Пингвин Такс собрался устроить пикник �
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "Проснувшись в головокружении, Такс обнаружил, что Пенни пропала!"
+msgstr "Очнувшись от оглушения, Такс обнаружил пропажу Пенни!"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
@@ -213,15 +213,15 @@ msgstr "Такс забеспокоился. Затем он увидел пис
 msgid ""
 "\"Tux, I have kidnapped your beloved Penny and have taken her to my "
 "fortress.\""
-msgstr "\"Такс, я похитил твою любимую Пенни и увёз её в свою крепость.\""
+msgstr "«Такс, я похитил твою любимую Пенни и увёз её в свою крепость.»"
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"Путь к крепости усеян моими приспешниками.\""
+msgstr "«Путь к крепости усеян моими приспешниками.»"
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "\"Ты не сможешь её спасти! Подпись: Нолок.\""
+msgstr "«Не пытайся спасти её! Подпись: Нолок.»"
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
