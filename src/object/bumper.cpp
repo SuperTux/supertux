@@ -52,9 +52,8 @@ Bumper::Bumper(const ReaderMapping& reader) :
 ObjectSettings
 Bumper::get_settings()
 {
-  ObjectSettings result = MovingSprite::get_settings();
+  ObjectSettings result = StickyObject::get_settings();
 
-  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
   result.add_direction(_("Direction"), &m_dir, { Direction::RIGHT, Direction::LEFT }, "direction");
   result.reorder({"sticky", "direction", "sprite", "x", "y"});
   return result;

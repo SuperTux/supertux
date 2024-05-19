@@ -32,6 +32,8 @@ public:
 
   virtual void update(float dt_sec) override;
 
+  virtual ObjectSettings get_settings() override;
+
   //virtual void move_for_owner(MovingObject& object);
 
   bool is_sticky() const { return m_sticky; }

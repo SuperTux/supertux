@@ -78,6 +78,17 @@ StickyObject::update(float dt_sec)
 
 }
 
+ObjectSettings
+StickyObject::get_settings()
+{
+  ObjectSettings result = MovingSprite::get_settings();
+  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
+
+  result.reorder({"sticky", "sprite", "z-pos", "x", "y" });
+
+  return result;
+}
+
 /*void
 StickyObject::move_for_owner(MovingObject& object)
 {
