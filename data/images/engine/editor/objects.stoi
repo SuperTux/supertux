@@ -151,8 +151,8 @@
     (class "toad")
     (icon "images/creatures/toad/toad-idle-0.png"))
   (object
-    (class "spidermite")
-    (icon "images/creatures/spidermite/spidermite1.png"))
+    (class "tarantula")
+    (icon "images/creatures/tarantula/tarantula-0.png"))
   (object
     (class "totem")
     (icon "images/creatures/totem/walking1.png"))
