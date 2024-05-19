@@ -66,8 +66,6 @@ Switch::get_settings()
   result.add_script(_("Turn on script"), &m_script, "script");
   result.add_script(_("Turn off script"), &m_off_script, "off-script");
 
-  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
-
   result.reorder({"direction", "script", "off-script", "sticky", "sprite", "x", "y"});
 
   return result;

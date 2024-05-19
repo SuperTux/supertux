@@ -58,11 +58,10 @@ PushButton::PushButton(const ReaderMapping& mapping) :
 ObjectSettings
 PushButton::get_settings()
 {
-  ObjectSettings result = MovingSprite::get_settings();
+  ObjectSettings result = StickyObject::get_settings();
 
   result.add_direction(_("Direction"), &m_dir, { Direction::UP, Direction::DOWN }, "direction");
   result.add_script(_("Script"), &m_script, "script");
-  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
 
   result.reorder({"direction", "script", "sticky", "x", "y"});
 

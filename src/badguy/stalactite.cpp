@@ -224,9 +224,7 @@ Stalactite::on_flip(float height)
 ObjectSettings
 Stalactite::get_settings()
 {
-  ObjectSettings result = BadGuy::get_settings();
-
-  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
+  ObjectSettings result = StickyBadguy::get_settings();
 
   result.reorder({"sticky", "speed", "sprite", "x", "y" });
 

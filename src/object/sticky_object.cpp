@@ -152,4 +152,15 @@ StickyBadguy::sticky_update(float dt_sec)
   }
 }
 
+ObjectSettings
+StickyBadguy::get_settings()
+{
+  ObjectSettings result = BadGuy::get_settings();
+  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
+
+  result.reorder({ "sticky", "direction", "sprite", "z-pos", "x", "y" });
+
+  return result;
+}
+
 /* EOF */

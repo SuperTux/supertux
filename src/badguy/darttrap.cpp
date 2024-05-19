@@ -150,11 +150,10 @@ DartTrap::fire()
 ObjectSettings
 DartTrap::get_settings()
 {
-  ObjectSettings result = BadGuy::get_settings();
+  ObjectSettings result = StickyBadguy::get_settings();
 
   result.add_float(_("Initial delay"), &m_initial_delay, "initial-delay");
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
-  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
   result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay");
   result.add_int(_("Ammo"), &m_ammo, "ammo");
   result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/granito/root_dart.sprite");

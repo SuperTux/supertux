@@ -50,12 +50,11 @@ Ispy::Ispy(const ReaderMapping& reader) :
 ObjectSettings
 Ispy::get_settings()
 {
-  ObjectSettings result = MovingSprite::get_settings();
+  ObjectSettings result = StickyObject::get_settings();
 
   result.add_script(_("Script"), &m_script, "script");
   result.add_direction(_("Direction"), &m_dir,
                         { Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "direction");
-  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
 
   result.reorder({"script", "facing-down", "sticky", "direction", "x", "y"});
 
