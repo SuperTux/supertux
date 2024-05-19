@@ -105,9 +105,6 @@ WorldMapSector::setup()
 {
   BIND_WORLDMAP_SECTOR(*this);
 
-  auto& music_object = get_singleton_by_type<MusicObject>();
-  music_object.play_music(MusicType::LEVEL_MUSIC);
-
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
 
   // If we specified a fade tilemap, let's fade it:
@@ -148,6 +145,15 @@ WorldMapSector::setup()
 
   if (!m_init_script.empty())
     m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
+
+  // Check if Tux is on an auto-playing level.
+  // No need to play music in that case.
+  LevelTile* level = at_object<LevelTile>();
+  if(level && level->is_auto_play() && !level->is_solved())
+    return;
+
+  auto& music_object = get_singleton_by_type<MusicObject>();
+  music_object.play_music(MusicType::LEVEL_MUSIC);
 }
 
 void
