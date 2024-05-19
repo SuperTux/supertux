@@ -77,6 +77,13 @@ WalkingLeaf::active_update(float dt_sec)
     Rectf floatbox = get_bbox();
     floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
     bool float_here = (Sector::get().is_free_of_statics(floatbox));
+    bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+
+    if (in_water)
+    {
+      m_physic.set_acceleration_y(-5.f);
+      m_physic.set_gravity_modifier(0.f);
+    }
 
     if (!float_here) {
       set_action(m_dir);
@@ -84,7 +91,7 @@ WalkingLeaf::active_update(float dt_sec)
     else {
       set_action("float", m_dir);
       if (m_physic.get_velocity_y() >= m_fall_speed) {
-        m_physic.set_velocity_y(m_fall_speed);
+        m_physic.set_velocity_y(in_water ? 0 : m_fall_speed);
       }
     }
   }
