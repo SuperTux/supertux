@@ -27,6 +27,7 @@
 #include "physfs/ifile_stream.hpp"
 #include "scripting/worldmap_sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/fadetoblack.hpp"

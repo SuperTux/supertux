@@ -31,6 +31,7 @@
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
 #include "sdk/integration.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"

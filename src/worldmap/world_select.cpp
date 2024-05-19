@@ -21,6 +21,7 @@
 #include "control/controller.hpp"
 #include "math/util.hpp"
 #include "object/spawnpoint.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"

@@ -35,6 +35,7 @@
 #include "object/snow_particle_system.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"

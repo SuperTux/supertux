@@ -22,6 +22,7 @@
 #include "gui/menu_manager.hpp"
 #include "object/spawnpoint.hpp"
 #include "physfs/util.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"

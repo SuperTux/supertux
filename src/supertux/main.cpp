@@ -57,6 +57,7 @@ extern "C" {
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/command_line_arguments.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/console.hpp"
 #include "supertux/error_handler.hpp"
 #include "supertux/game_manager.hpp"

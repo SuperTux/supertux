@@ -22,6 +22,7 @@
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"

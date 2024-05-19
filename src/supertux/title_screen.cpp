@@ -25,6 +25,7 @@
 #include "object/music_object.hpp"
 #include "object/player.hpp"
 #include "sdk/integration.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
