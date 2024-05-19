@@ -105,7 +105,8 @@ Rock::update(float dt_sec)
 
     for (auto& trampoline : Sector::get().get_objects_by_type<Trampoline>()) {
       if (trampolinebox.overlaps(trampoline.get_bbox()) && !trampoline.is_grabbed() &&
-        (glm::length((get_bbox().get_middle() - trampoline.get_bbox().get_middle())) >= 10.f)) {
+        (glm::length((get_bbox().get_middle() - trampoline.get_bbox().get_middle())) >= 10.f) &&
+        is_portable()) {
         trampoline.bounce();
         physic.set_velocity_y(-500.f);
       }
@@ -114,7 +115,7 @@ Rock::update(float dt_sec)
     Rectf playerbox = get_bbox().grown(-2.f);
     playerbox.set_bottom(get_bbox().get_bottom() + 7.f);
     for (auto& player : Sector::get().get_objects_by_type<Player>()) {
-      if (playerbox.overlaps(player.get_bbox()) && physic.get_velocity_y() > 0.f) {
+      if (playerbox.overlaps(player.get_bbox()) && physic.get_velocity_y() > 0.f && is_portable()) {
         physic.set_velocity_y(-250.f);
       }
     }
