@@ -28,7 +28,6 @@ Sprite::Sprite(SpriteData& newdata) :
   m_frame(0),
   m_frameidx(0),
   m_animation_loops(-1),
-  m_animation_enabled(true),
   m_last_ticks(),
   m_angle(0.0f),
   m_alpha(1.0f),
@@ -47,7 +46,6 @@ Sprite::Sprite(const Sprite& other) :
   m_frame(other.m_frame),
   m_frameidx(other.m_frameidx),
   m_animation_loops(other.m_animation_loops),
-  m_animation_enabled(other.m_animation_enabled),
   m_last_ticks(g_game_time),
   m_angle(0.0f), // FIXME: this can't be right
   m_alpha(1.0f),
@@ -140,7 +138,7 @@ Sprite::update()
   float frame_inc = m_action->fps * (g_game_time - m_last_ticks);
   m_last_ticks = g_game_time;
 
-  if (!m_animation_enabled || m_is_paused) return;
+  if (m_is_paused) return;
 
   m_frame += frame_inc;
 

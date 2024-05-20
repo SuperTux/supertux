@@ -123,7 +123,9 @@ static SpritePtr load_background(const std::string& image_path)
   SpritePtr sprite = load_background_sprite(image_path);
   if (!sprite) return nullptr;
 
-  sprite->set_animation_enabled(!Editor::is_active());
+  if (Editor::is_active())
+    sprite->pause_animation();
+
   return sprite;
 }
 

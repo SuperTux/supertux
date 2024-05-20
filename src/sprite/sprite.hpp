@@ -70,8 +70,6 @@ public:
   /* Stop animation */
   void stop_animation() { m_animation_loops = 0; }
 
-  void set_animation_enabled(bool enabled) { m_animation_enabled = enabled; }
-
   void pause_animation() { m_is_paused = true; }
   void resume_animation() { m_is_paused = false; }
 
@@ -139,7 +137,6 @@ private:
   // between 0 and get_frames()
   int m_frameidx;
   int m_animation_loops;
-  bool m_animation_enabled;
   float m_last_ticks;
   float m_angle;
   float m_alpha;
