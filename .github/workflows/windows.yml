@@ -17,6 +17,7 @@
 
 name: Windows
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -45,7 +46,7 @@ jobs:
 
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
@@ -112,7 +113,7 @@ jobs:
           mkdir upload
           mv *.msi upload/
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-installer"
           path: build/upload/*.msi
@@ -137,6 +138,7 @@ jobs:
         env:
           PREFIX: "${{ github.sha }}/gh-actions/windows-${{ matrix.arch }}/${{ github.run_id }}"
           DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
           IS_WINDOWS: true
 
       - name: Create Release

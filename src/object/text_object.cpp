@@ -75,25 +75,9 @@ TextObject::set_font(const std::string& name)
 void
 TextObject::wrap_text()
 {
-  std::string rest;
-
-  // strip all newlines except double ones (markdown'ish)
-  char prev_c = ' ';
-  for (const char& c : m_text) {
-    if (c == '\n') {
-      if (prev_c == '\n') {
-        rest += '\n';
-      } else {
-        rest += ' ';
-      }
-    } else {
-      rest += c;
-    }
-    prev_c = c;
-  }
-
   m_wrapped_text.clear();
 
+  std::string rest = m_text;
   do {
     std::string overflow;
     m_wrapped_text += m_font->wrap_to_width(rest, m_wrap_width, &overflow);
@@ -221,12 +205,10 @@ TextObject::draw(DrawingContext& context)
 
   if (m_fader || (m_grower && m_fade_progress >= 1.f))
   {
-    if (m_centered) {
-      context.color().draw_center_text(m_font, m_wrapped_text, spos, LAYER_GUI + 60, m_text_color);
-    }
-    else {
-      context.color().draw_text(m_font, m_wrapped_text, spos + Vector(10.f, 10.f), ALIGN_LEFT, LAYER_GUI + 60, m_text_color);
-    }
+    context.color().draw_text(m_font, m_wrapped_text,
+                              spos + Vector(m_centered ? width / 2.f : 10.f, 10.f),
+                              m_centered ? ALIGN_CENTER : ALIGN_LEFT,
+                              LAYER_GUI + 60, m_text_color);
   }
 
   context.pop_transform();

@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# xanvieiro <gallaecia6@gmail.com>, 2020
+# Xan Vieiro <gallaecia6@gmail.com>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:58+0000\n"
-"Last-Translator: xanvieiro <gallaecia6@gmail.com>, 2020\n"
-"Language-Team: Galician (https://www.transifex.com/arctic-games/teams/95/gl/)\n"
+"Last-Translator: Xan Vieiro <gallaecia6@gmail.com>, 2020\n"
+"Language-Team: Galician (https://app.transifex.com/arctic-games/teams/95/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

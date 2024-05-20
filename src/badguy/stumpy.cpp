@@ -36,7 +36,7 @@ Stumpy::Stumpy(const ReaderMapping& reader) :
   invincible_timer()
 {
   walk_speed = STUMPY_SPEED;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
   SoundManager::current()->preload("sounds/mr_treehit.ogg");
 }
 
@@ -46,7 +46,7 @@ Stumpy::Stumpy(const Vector& pos, Direction d) :
   invincible_timer()
 {
   walk_speed = STUMPY_SPEED;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
   SoundManager::current()->preload("sounds/mr_treehit.ogg");
   invincible_timer.start(INVINCIBLE_TIME);
 }

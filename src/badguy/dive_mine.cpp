@@ -67,14 +67,19 @@ DiveMine::explode()
 void
 DiveMine::collision_solid(const CollisionHit& hit)
 {
-  if (m_in_water)
-  {
-    if (hit.left || hit.right)
-      turn_around();
+  if (!m_frozen) {
+    if (m_in_water)
+    {
+      if (hit.left || hit.right)
+        turn_around();
+    }
+    else
+    {
+      explode();
+    }
   }
-  else
-  {
-    explode();
+  else {
+    BadGuy::collision_solid(hit);
   }
 }
 
@@ -97,7 +102,13 @@ DiveMine::collision_player(Player& player, const CollisionHit& hit)
   if (!m_frozen)
     explode();
 
-  return ABORT_MOVE;
+  return FORCE_MOVE;
+}
+
+void
+DiveMine::kill_fall()
+{
+  explode();
 }
 
 void
@@ -192,6 +203,7 @@ DiveMine::unfreeze(bool melt)
   BadGuy::unfreeze();
 
   m_chasing = true; // Ensure stop_chasing() will be executed.
+  m_in_water = false;
   stop_chasing();
 }
 

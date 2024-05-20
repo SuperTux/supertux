@@ -62,7 +62,7 @@ WorldMapSector::current()
 WorldMapSector::WorldMapSector(WorldMap& parent) :
   Base::Sector("worldmap"),
   m_parent(parent),
-  m_camera(new Camera),
+  m_camera(new Camera(*this)),
   m_tux(&add<Tux>(&parent)),
   m_spawnpoints(),
   m_initial_fade_tilemap(),
@@ -81,7 +81,7 @@ WorldMapSector::~WorldMapSector()
 }
 
 void
-WorldMapSector::finish_construction(bool)
+WorldMapSector::finish_construction(bool editable)
 {
   flush_game_objects();
 
@@ -95,6 +95,8 @@ WorldMapSector::finish_construction(bool)
     add<DisplayEffect>("Effect");
 
   flush_game_objects();
+
+  Base::Sector::finish_construction(editable);
 }
 
 
@@ -102,9 +104,6 @@ void
 WorldMapSector::setup()
 {
   BIND_WORLDMAP_SECTOR(*this);
-
-  auto& music_object = get_singleton_by_type<MusicObject>();
-  music_object.play_music(MusicType::LEVEL_MUSIC);
 
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
 
@@ -146,6 +145,15 @@ WorldMapSector::setup()
 
   if (!m_init_script.empty())
     m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
+
+  // Check if Tux is on an auto-playing level.
+  // No need to play music in that case.
+  LevelTile* level = at_object<LevelTile>();
+  if(level && level->is_auto_play() && !level->is_solved())
+    return;
+
+  auto& music_object = get_singleton_by_type<MusicObject>();
+  music_object.play_music(MusicType::LEVEL_MUSIC);
 }
 
 void
@@ -347,7 +355,7 @@ WorldMapSector::update(float dt_sec)
           // update state and savegame
           m_parent.save_state();
           ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_parent.m_savegame, &level_->get_statistics()),
-                                                std::make_unique<ShrinkFade>(shrinkpos, 1.0f));
+                                                std::make_unique<ShrinkFade>(shrinkpos, 1.0f, LAYER_LIGHTMAP - 1));
 
           m_parent.m_in_level = true;
         } catch(std::exception& e) {

@@ -54,16 +54,15 @@ World::from_directory(const std::string& directory)
     info.get("hide-from-contribs", world->m_hide_from_contribs, false);
     info.get("contrib-type", world->m_contrib_type, "user");
     info.get("title-level", world->m_title_level);
-    return world;
   }
   catch (const std::exception& err)
   {
     log_warning << "Failed to load " << info_filename << ":" << err.what() << std::endl;
 
     world->m_hide_from_contribs = true;
-
-    return world;
   }
+
+  return world;
 }
 
 std::unique_ptr<World>
@@ -130,7 +129,7 @@ World::save(bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for levelset '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }
@@ -170,7 +169,7 @@ World::save(bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for levelset '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }

@@ -72,6 +72,9 @@ public:
 
   void set_animation_enabled(bool enabled) { m_animation_enabled = enabled; }
 
+  void pause_animation() { m_is_paused = true; }
+  void resume_animation() { m_is_paused = false; }
+
   /** Check if animation is stopped or not */
   bool animation_done() const;
 
@@ -92,6 +95,8 @@ public:
 
   int get_width() const;
   int get_height() const;
+
+  const std::optional<std::vector<SurfacePtr>> get_action_surfaces(const std::string& name) const;
 
   /** Return the "unisolid" property for the current action's hitbox. */
   bool is_current_hitbox_unisolid() const;
@@ -122,6 +127,7 @@ public:
   Blend get_blend() const;
 
   bool has_action (const std::string& name) const { return (m_data.get_action(name) != nullptr); }
+  size_t get_actions_count() const { return m_data.actions.size(); }
 
 private:
   void update();
@@ -139,6 +145,7 @@ private:
   float m_alpha;
   Color m_color;
   Blend m_blend;
+  bool m_is_paused;
 
   const SpriteData::Action* m_action;
 

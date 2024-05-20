@@ -21,7 +21,6 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
-#include "editor/util.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "supertux/colorscheme.hpp"
@@ -152,7 +151,7 @@ EditorToolboxWidget::draw_tilegroup(DrawingContext& context)
       continue;
 
     auto position = get_tile_coords(pos, false);
-    draw_tile(context.color(), *m_editor.get_tileset(), tile_ID, position, LAYER_GUI - 9);
+    m_editor.get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
 
     if (g_config->developer_mode && m_active_tilegroup->developers_group)
     {
@@ -475,29 +474,29 @@ EditorToolboxWidget::setup()
   m_tiles->set_tile(0);
 }
 
+SurfacePtr
+EditorToolboxWidget::get_mouse_icon() const
+{
+  switch (m_input_type) {
+    case InputType::OBJECT:
+      if (m_object.empty())
+        return m_rubber->get_current_surface();
+      if (m_object == "#node")
+        return m_node_marker_mode->get_current_surface();
+      else
+        return m_move_mode->get_current_surface();
+    case InputType::TILE:
+      return m_select_mode->get_current_surface();
+    case InputType::NONE:
+    default:
+      return nullptr;
+  }
+}
+
 void
 EditorToolboxWidget::update_mouse_icon()
 {
-  switch (m_input_type) {
-    case InputType::NONE:
-      MouseCursor::current()->set_icon(nullptr);
-      break;
-    case InputType::OBJECT:
-      if (m_object.empty()) {
-        MouseCursor::current()->set_icon(m_rubber->get_current_surface());
-      } else {
-        if (m_object == "#node")
-          MouseCursor::current()->set_icon(m_node_marker_mode->get_current_surface());
-        else
-          MouseCursor::current()->set_icon(m_move_mode->get_current_surface());
-      }
-      break;
-    case InputType::TILE:
-      MouseCursor::current()->set_icon(m_select_mode->get_current_surface());
-      break;
-    default:
-      break;
-  }
+  MouseCursor::current()->set_icon(get_mouse_icon());
 }
 
 Vector

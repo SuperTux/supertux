@@ -74,6 +74,11 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+static const float CAMERA_MIN_ZOOM = 0.5f;
+static const float CAMERA_MAX_ZOOM = 3.0f;
+static const float CAMERA_ZOOM_SENSITIVITY = 0.05f;
+static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
+
 bool Editor::s_resaving_in_progress = false;
 
 bool
@@ -119,7 +124,10 @@ Editor::Editor() :
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_time_since_last_save(0.f),
-  m_scroll_speed(32.0f)
+  m_scroll_speed(32.0f),
+  m_new_scale(0.f),
+  m_ctrl_pressed(false),
+  m_mouse_pos(0.f, 0.f)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -146,6 +154,29 @@ Editor::draw(Compositor& compositor)
   if (m_levelloaded) {
     for(const auto& widget : m_widgets) {
       widget->draw(context);
+    }
+
+    // If camera scale must be changed, change it here.
+    if (m_new_scale != 0.f)
+    {
+      // Do not clamp, as to prevent pointless calls to EditorOverlayWidget::update_pos().
+      if (m_new_scale >= CAMERA_MIN_ZOOM && m_new_scale <= CAMERA_MAX_ZOOM)
+      {
+        Camera& camera = m_sector->get_camera();
+        const bool zooming_in = camera.get_current_scale() < m_new_scale;
+
+        camera.set_scale(m_new_scale);
+
+        // When zooming in, focus on the position of the mouse.
+        if (zooming_in)
+          camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
+                                            static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
+
+        // Update the camera's screen size variable, so it can properly be kept in sector bounds.
+        camera.draw(context);
+        keep_camera_in_bounds();
+      }
+      m_new_scale = 0.f;
     }
 
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
@@ -381,24 +412,17 @@ Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
 
-  Camera& camera = m_sector->get_camera();
-  camera.set_translation(camera.get_translation() + velocity);
+  m_sector->get_camera().move(velocity / m_sector->get_camera().get_current_scale());
   keep_camera_in_bounds();
 }
 
 void
 Editor::keep_camera_in_bounds()
 {
-  const Rectf bounds(0.0f,
-                     0.0f,
-                     std::max(0.0f, m_sector->get_editor_width() - static_cast<float>(SCREEN_WIDTH - 128)),
-                     std::max(0.0f, m_sector->get_editor_height() - static_cast<float>(SCREEN_HEIGHT - 32)));
-
   Camera& camera = m_sector->get_camera();
-  Vector pos = camera.get_translation();
-  pos = Vector(math::clamp(pos.x, bounds.get_left(), bounds.get_right()),
-               math::clamp(pos.y, bounds.get_top(), bounds.get_bottom()));
-  camera.set_translation(pos);
+  camera.keep_in_bounds(Rectf(0.f, 0.f,
+                              std::max(0.0f, m_sector->get_editor_width() + 128.f / camera.get_current_scale()),
+                              std::max(0.0f, m_sector->get_editor_height() + 32.f / camera.get_current_scale())));
 
   m_overlay_widget->update_pos();
 }
@@ -414,38 +438,38 @@ Editor::esc_press()
 void
 Editor::update_keyboard(const Controller& controller)
 {
-  if (!m_enabled){
+  if (!m_enabled) {
     return;
   }
 
-  if (MenuManager::instance().current_menu() == nullptr)
+  if (MenuManager::instance().is_active() || MenuManager::instance().has_dialog())
+    return;
+
+  if (controller.pressed(Control::ESCAPE)) {
+    esc_press();
+    return;
+  }
+  if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
   {
-    if (controller.pressed(Control::ESCAPE)) {
-      esc_press();
-      return;
-    }
-    if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
-    {
-      m_enabled = false;
-      m_overlay_widget->delete_markers();
-      MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
-      return;
-    }
-    if (controller.hold(Control::LEFT)) {
-      scroll({ -m_scroll_speed, 0.0f });
-    }
+    m_enabled = false;
+    m_overlay_widget->delete_markers();
+    MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
+    return;
+  }
+  if (controller.hold(Control::LEFT)) {
+    scroll({ -m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::RIGHT)) {
-      scroll({ m_scroll_speed, 0.0f });
-    }
+  if (controller.hold(Control::RIGHT)) {
+    scroll({ m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::UP)) {
-      scroll({ 0.0f, -m_scroll_speed });
-    }
+  if (controller.hold(Control::UP)) {
+    scroll({ 0.0f, -m_scroll_speed });
+  }
 
-    if (controller.hold(Control::DOWN)) {
-      scroll({ 0.0f, m_scroll_speed });
-    }
+  if (controller.hold(Control::DOWN)) {
+    scroll({ 0.0f, m_scroll_speed });
   }
 }
 
@@ -551,7 +575,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   {
     std::string message = _("This level contains deprecated tiles.\nIt is strongly recommended to replace all deprecated tiles\nto avoid loss of compatibility in future versions.");
     if (!g_config->editor_show_deprecated_tiles)
-      message += "\n \n" + _("Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu.");
+      message += "\n\n" + _("Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu.");
 
     Dialog::show_message(message);
   }
@@ -815,10 +839,10 @@ Editor::setup()
 void
 Editor::resize()
 {
-  // Calls on window resize.
-  m_toolbox_widget->resize();
-  m_layers_widget->resize();
-  m_overlay_widget->update_pos();
+  for(const auto& widget: m_widgets)
+  {
+    widget->resize();
+  }
 }
 
 void
@@ -828,65 +852,78 @@ Editor::event(const SDL_Event& ev)
 
   try
   {
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_t &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		test_level(std::nullopt);
-		}
-
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_s &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		save_level();
-		}
-
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_z &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		undo();
-		}
-
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_y &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		redo();
-		}
-
-  if (ev.type == SDL_KEYDOWN)
-  {
-    if (ev.key.keysym.mod & KMOD_RSHIFT)
+    if (ev.type == SDL_KEYDOWN)
     {
-      m_scroll_speed = 96.0f;
-    }
-    else if (ev.key.keysym.mod & KMOD_CTRL)
-    {
-      m_scroll_speed = 16.0f;
-    }
-    else
-    {
-      m_scroll_speed = 32.0f;
-    }
-  }
+      if (ev.key.keysym.mod & KMOD_CTRL)
+        m_scroll_speed = 16.0f;
+      else if (ev.key.keysym.mod & KMOD_RSHIFT)
+        m_scroll_speed = 96.0f;
 
-    if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
-      Compositor::s_render_lighting = !Compositor::s_render_lighting;
-      return;
+      if (ev.key.keysym.sym == SDLK_LCTRL)
+      {
+        m_ctrl_pressed = true;
+      }
+      else if (ev.key.keysym.sym == SDLK_F6)
+      {
+        Compositor::s_render_lighting = !Compositor::s_render_lighting;
+        return;
+      }
+      else if (m_ctrl_pressed)
+      {
+        switch (ev.key.keysym.sym)
+        {
+          case SDLK_t:
+            test_level(std::nullopt);
+            break;
+          case SDLK_s:
+            save_level();
+            break;
+          case SDLK_z:
+            undo();
+            break;
+          case SDLK_y:
+            redo();
+            break;
+          case SDLK_PLUS: // Zoom in
+          case SDLK_KP_PLUS:
+            m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
+            break;
+          case SDLK_MINUS: // Zoom out
+          case SDLK_KP_MINUS:
+            m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
+            break;
+          case SDLK_d: // Reset zoom
+            m_new_scale = 1.f;
+            break;
+        }
+      }
+    }
+    else if (ev.type == SDL_KEYUP)
+    {
+      if (!(ev.key.keysym.mod & KMOD_CTRL) && !(ev.key.keysym.mod & KMOD_RSHIFT))
+        m_scroll_speed = 32.0f;
+
+      if (ev.key.keysym.sym == SDLK_LCTRL)
+        m_ctrl_pressed = false;
+    }
+    else if (ev.type == SDL_MOUSEMOTION)
+    {
+      m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
+    }
+    else if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
+    {
+      // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
+      // The toolbox does scrolling independently from the main area.
+      if (m_ctrl_pressed)
+        m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY;
+      else
+        scroll({ static_cast<float>(ev.wheel.x * -32), static_cast<float>(ev.wheel.y * -32) });
     }
 
     BIND_SECTOR(*m_sector);
-
-    for(const auto& widget : m_widgets) {
+    for (const auto& widget : m_widgets)
       if (widget->event(ev))
         break;
-    }
-
-    // Scroll with mouse wheel, if the mouse is not over the toolbox.
-    // The toolbox does scrolling independently from the main area.
-    if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus()) {
-      float scroll_x = static_cast<float>(ev.wheel.x * -32);
-      float scroll_y = static_cast<float>(ev.wheel.y * -32);
-      scroll({scroll_x, scroll_y});
-    }
   }
   catch(const std::exception& err)
   {
@@ -1106,11 +1143,12 @@ void
 Editor::pack_addon()
 {
   auto id = FileSystem::basename(get_world()->get_basedir());
+  auto output_file_path = FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip");
 
   int version = 0;
   try
   {
-    Partio::ZipFileReader zipold(FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip"));
+    Partio::ZipFileReader zipold(output_file_path);
     auto info_file = zipold.Get_File(id + ".nfo");
     if (info_file)
     {
@@ -1125,7 +1163,7 @@ Editor::pack_addon()
   }
   version++;
 
-  Partio::ZipFileWriter zip(FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip"));
+  Partio::ZipFileWriter zip(output_file_path);
   PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
 
   std::stringstream ss;

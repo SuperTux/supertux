@@ -21,10 +21,10 @@
 namespace scripting {
 
 void
-WillOWisp::goto_node(int node_no)
+WillOWisp::goto_node(int node_idx)
 {
   SCRIPT_GUARD_VOID_T(WillOWisp);
-  object.goto_node(node_no);
+  object.goto_node(node_idx);
 }
 
 void

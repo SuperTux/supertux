@@ -105,6 +105,7 @@ public:
   void move_to_sector(Sector& other);
 
   void make_invincible();
+  void make_temporarily_safe(float safe_time);
 
   bool is_invincible() const { return m_invincible_timer.started(); }
   bool is_dying() const { return m_dying; }
@@ -127,7 +128,7 @@ public:
   bool add_bonus(BonusType type, bool animate = false);
 
   /** like add_bonus, but can also downgrade the bonus items carried */
-  bool set_bonus(BonusType type, bool animate = false);
+  bool set_bonus(BonusType type, bool animate = false, bool increment_powerup_counter = true);
   BonusType get_bonus() const;
 
   std::string bonus_to_string() const;
@@ -173,7 +174,7 @@ public:
   void override_velocity() { m_velocity_override = true; }
 
   bool is_dead() const { return m_dead; }
-  bool is_big() const;
+  bool is_big() const { return get_bonus() != NO_BONUS; }
   bool is_stone() const { return m_stone; }
   bool is_sliding() const { return m_sliding; }
   bool is_swimming() const { return m_swimming; }
@@ -354,6 +355,7 @@ public:
 private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
+  bool m_is_intentionally_safe;
   Timer m_kick_timer;
   Timer m_buttjump_timer;
 
@@ -394,6 +396,13 @@ private:
 
   int m_ending_direction;
   std::vector<Key*> m_collected_keys;
+
+  float m_last_sliding_angle;
+  float m_current_sliding_angle;
+  float m_target_sliding_angle;
+  Timer m_sliding_rotation_timer;
+  bool m_is_slidejump_falling;
+  bool m_was_crawling_before_slide;
 
 private:
   Player(const Player&) = delete;

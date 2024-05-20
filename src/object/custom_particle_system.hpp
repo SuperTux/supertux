@@ -49,7 +49,7 @@ public:
   virtual ObjectSettings get_settings() override;
 
   virtual const std::string get_icon_path() const override {
-    return "images/engine/editor/sparkle.png";
+    return "images/engine/editor/particle.png";
   }
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override {
@@ -137,7 +137,7 @@ private:
     SpriteProperties() :
       likeliness(1.f),
       color(1.f, 1.f, 1.f, 1.f),
-      texture(Surface::from_file("images/engine/editor/sparkle.png")),
+      texture(Surface::from_file("images/engine/editor/particle.png")),
       scale(1.f, 1.f),
       hb_scale(1.f, 1.f),
       hb_offset(0.f, 0.f)

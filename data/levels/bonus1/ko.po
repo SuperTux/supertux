@@ -5,13 +5,13 @@
 # Translators:
 # Go Nam Hyeon <gnh1201@gmail.com>, 2021
 # 최이준, 2023
-# JungHee Lee <daemul72@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
 # Myeongjin <aranet100@gmail.com>, 2016-2017,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:04+0000\n"
 "Last-Translator: 최이준, 2023\n"
 "Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"

@@ -40,6 +40,7 @@
 namespace {
 
 static const char* ADDON_INFO_PATH = "/addons/repository.nfo";
+static const char* ADDON_REPOSITORY_URL = "https://raw.githubusercontent.com/SuperTux/addons/master/index-0_6.nfo";
 
 MD5 md5_from_file(const std::string& filename)
 {
@@ -53,7 +54,7 @@ MD5 md5_from_file(const std::string& filename)
   if (!file)
   {
     std::ostringstream out;
-    out << "PHYSFS_openRead() failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+    out << "PHYSFS_openRead() failed: " << physfsutil::get_last_error();
     throw std::runtime_error(out.str());
   }
   else
@@ -145,7 +146,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_addon_directory(addon_directory),
   m_cache_directory(FileSystem::join(m_addon_directory, "cache")),
   m_screenshots_cache_directory(FileSystem::join(m_cache_directory, "screenshots")),
-  m_repository_url("https://raw.githubusercontent.com/SuperTux/addons/master/index-0_6.nfo"),
+  m_repository_url(ADDON_REPOSITORY_URL),
   m_addon_config(addon_config),
   m_installed_addons(),
   m_repository_addons(),
@@ -157,7 +158,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
   {
     std::ostringstream msg;
     msg << "Couldn't create directory for addons '"
-        << m_addon_directory << "': " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+        << m_addon_directory << "': " << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
 
@@ -339,7 +340,7 @@ AddonManager::request_install_addon(const AddonId& addon_id)
         {
           if (PHYSFS_delete(install_filename.c_str()) == 0)
           {
-            log_warning << "PHYSFS_delete failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+            log_warning << "PHYSFS_delete failed: " << physfsutil::get_last_error() << std::endl;
           }
 
           throw std::runtime_error("Downloading Add-on failed: MD5 checksums differ");
@@ -431,7 +432,7 @@ AddonManager::install_addon(const AddonId& addon_id)
   {
     if (PHYSFS_delete(install_filename.c_str()) == 0)
     {
-      log_warning << "PHYSFS_delete failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      log_warning << "PHYSFS_delete failed: " << physfsutil::get_last_error() << std::endl;
     }
 
     throw std::runtime_error("Downloading Add-on failed: MD5 checksums differ");
@@ -481,13 +482,13 @@ AddonManager::uninstall_addon(const AddonId& addon_id)
   {
     if (PHYSFS_delete(FileSystem::join(m_addon_directory, addon.get_filename()).c_str()) == 0)
     {
-      throw std::runtime_error(_("Error deleting addon .zip file: \"PHYSFS_delete\" failed: ") + PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+      throw std::runtime_error("Error deleting addon .zip file: \"PHYSFS_delete\" failed: " + std::string(physfsutil::get_last_error()));
     }
     m_installed_addons.erase(it);
   }
   else
   {
-    throw std::runtime_error(_("Error uninstalling add-on: Addon with id ") + addon_id + _(" not found."));
+    throw std::runtime_error("Error uninstalling add-on: Addon with id " + addon_id + " not found.");
   }
 }
 
@@ -583,7 +584,7 @@ AddonManager::enable_addon(const AddonId& addon_id)
     {
       std::stringstream err;
       err << "Could not add " << addon.get_install_filename() << " to search path: "
-          << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+          << physfsutil::get_last_error() << std::endl;
       throw std::runtime_error(err.str());
     }
     else
@@ -620,7 +621,7 @@ AddonManager::disable_addon(const AddonId& addon_id)
     {
       std::stringstream err;
       err << "Could not remove " << addon.get_install_filename() << " from search path: "
-          << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+          << physfsutil::get_last_error() << std::endl;
       throw std::runtime_error(err.str());
     }
     else
@@ -672,7 +673,7 @@ AddonManager::mount_old_addons()
       if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), !addon->overrides_data()) == 0)
       {
         log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
-                    << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+                    << physfsutil::get_last_error() << std::endl;
       }
     }
   }
@@ -686,7 +687,7 @@ AddonManager::unmount_old_addons()
       if (PHYSFS_unmount(addon->get_install_filename().c_str()) == 0)
       {
         log_warning << "Could not remove " << addon->get_install_filename() << " from search path: "
-                    << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+                    << physfsutil::get_last_error() << std::endl;
       }
     }
   }
@@ -769,7 +770,7 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
       const char* realdir = PHYSFS_getRealDir(nfo_filename.c_str());
       if (!realdir)
       {
-        log_warning << "PHYSFS_getRealDir() failed for " << nfo_filename << ": " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+        log_warning << "PHYSFS_getRealDir() failed for " << nfo_filename << ": " << physfsutil::get_last_error() << std::endl;
       }
       else
       {
@@ -791,7 +792,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
   if (!realdir)
   {
     log_warning << "PHYSFS_getRealDir() failed for " << archive << ": "
-                << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+                << physfsutil::get_last_error() << std::endl;
   }
   else
   {

@@ -1,50 +1,53 @@
 (supertux-sprite
-	(action
-	  (name "left")
-	  (fps 15)
-	  (hitbox 14 14 37 43)
-	  (images "spidermite1.png"
-	          "spidermite2.png"
-			  "spidermite3.png"
-			  "spidermite4.png"
-			  "spidermite5.png"
-			  "spidermite6.png"))
-	(action
-	  (name "right")
-	  (fps 15)
-	  (hitbox 14 14 37 43)
-	  (clone-action "left"))
-
-	(action
-	  (name "squished-left")
-	  (hitbox 14 19 37 43)
-	  (images "spidermite-squish.png"))
-	(action
-	  (name "squished-right")
-	  (hitbox 14 19 37 43)
-	  (clone-action "squished-left"))
-	(action
-	  (name "iced-left")
-	  (hitbox 0 -1 37 43)
-	  (images "spidermite1.png"))
-	(action
-	  (name "iced-right")
-	  (hitbox 5 -1 37 43)
-	  (mirror-action "iced-left"))
-	(action
-	  (name "burning-left")
-	  (hitbox 14 14 37 43)
-	  (fps 15)
-	  (images "burning-0.png"
-		  "burning-1.png"
-		  "burning-2.png"
-		  "burning-3.png"
-		  "burning-4.png"
-		  "burning-5.png"
-		  "burning-6.png"
-		  "burning-7.png"))
-	(action
-	  (name "burning-right")
-	  (hitbox 14 14 37 43)
-	  (fps 15)
-	  (clone-action "burning-left")))
+  (action
+    (name "idle")
+    (hitbox 36 16 48 54)
+    (fps 10)
+    (images "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-9.png"
+		        "spidermite-7.png"
+		        "spidermite-8.png"
+		        "spidermite-9.png")
+  )
+  (action
+    (name "dive")
+    (hitbox 36 16 48 54)
+    (fps 15)
+    (loops 1)
+    (images "spidermite-0.png"
+		        "spidermite-1.png"
+		        "spidermite-2.png"
+		        "spidermite-3.png")
+  )
+  (action
+    (name "rebound")
+    (hitbox 36 16 48 54)
+    (fps 15)
+    (loops 1)
+    (images "spidermite-3.png"
+		        "spidermite-4.png"
+		        "spidermite-5.png"
+		        "spidermite-6.png"
+		        "spidermite-7.png"
+		        "spidermite-8.png"
+		        "spidermite-9.png")
+  )
+    (action
+    (name "squished")
+    (hitbox 36 16 48 47)
+    (images "squished.png")
+    )
+  )

@@ -25,6 +25,8 @@
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"
 
+#include <fmt/format.h>
+
 KeyboardMenu::KeyboardMenu(InputManager& input_manager, int player_id) :
   m_input_manager(input_manager),
   m_player_id(player_id)
@@ -58,7 +60,8 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager, int player_id) :
   {
     for (int id = 1; id < m_input_manager.get_num_users(); id++)
     {
-      add_entry(_("Player") + " " + std::to_string(id + 1), [&input_manager, id] {
+      add_entry(fmt::format(fmt::runtime(_("Player {}")), std::to_string(id + 1)),
+      [&input_manager, id] {
         MenuManager::instance().push_menu(std::make_unique<KeyboardMenu>(input_manager, id));
       });
     }
@@ -124,44 +127,36 @@ KeyboardMenu::menu_action(MenuItem& item)
 void
 KeyboardMenu::refresh()
 {
-  KeyboardConfig& kbd_cfg = g_config->keyboard_config;
-  ItemControlField* micf;
+  const auto& controls = { Control::UP, Control::DOWN, Control::LEFT, Control::RIGHT, 
+                           Control::JUMP, Control::ACTION,
+                           Control::PEEK_LEFT, Control::PEEK_RIGHT, 
+                           Control::PEEK_UP, Control::PEEK_DOWN };
 
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::UP)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::UP)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::DOWN)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::DOWN)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::LEFT)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::LEFT)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::RIGHT)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::RIGHT)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::JUMP)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::JUMP)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::ACTION)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::ACTION)));
+  const auto& developer_controls = { Control::CHEAT_MENU, Control::DEBUG_MENU, Control::CONSOLE };
 
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::PEEK_LEFT)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::PEEK_LEFT)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::PEEK_RIGHT)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::PEEK_RIGHT)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::PEEK_UP)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::PEEK_UP)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::PEEK_DOWN)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::PEEK_DOWN)));
-
-  if (m_player_id == 0)
+  for(const auto& control : controls)
   {
-    if (g_config->developer_mode) {
-      micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::CHEAT_MENU)));
-      if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::CHEAT_MENU)));
+    refresh_control(control);
+  }
 
-      micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::DEBUG_MENU)));
-      if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::DEBUG_MENU)));
-
-      micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::CONSOLE)));
-      if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::CONSOLE)));
+  if (g_config->developer_mode && m_player_id == 0)
+  {
+    for(const auto& control: developer_controls)
+    {
+      refresh_control(control);
     }
   }
+}
+
+void
+KeyboardMenu::refresh_control(const Control& control)
+{
+  ItemControlField* control_field = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(control)));
+  if(!control_field)
+    return;
+
+  KeyboardConfig& kbd_cfg = g_config->keyboard_config;
+  control_field->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, control)));
 }
 
 /* EOF */

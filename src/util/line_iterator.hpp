@@ -33,6 +33,7 @@ private:
   std::string::const_iterator first;
   std::string::const_iterator last;
   std::string::const_iterator line_end;
+  bool has_started;
 
 public:
   LineIterator(const std::string& str);

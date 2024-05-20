@@ -28,7 +28,8 @@ SoundObject::SoundObject(const ReaderMapping& mapping) :
   ExposedObject<SoundObject, scripting::SoundObject>(this),
   m_sample(),
   m_sound_source(),
-  m_volume()
+  m_volume(),
+  m_started(false)
 {
   mapping.get("sample", m_sample, "");
   mapping.get("volume", m_volume, 1.0f);
@@ -40,7 +41,8 @@ SoundObject::SoundObject(float vol, const std::string& file) :
   ExposedObject<SoundObject, scripting::SoundObject>(this),
   m_sample(file),
   m_sound_source(),
-  m_volume(vol)
+  m_volume(vol),
+  m_started(false)
 {
   prepare_sound_source();
 }
@@ -48,6 +50,15 @@ SoundObject::SoundObject(float vol, const std::string& file) :
 SoundObject::~SoundObject()
 {
   stop_looping_sounds();
+}
+
+void
+SoundObject::update(float dt_sec)
+{
+  if (m_started)
+    return;
+  m_sound_source->play();
+  m_started = true;
 }
 
 ObjectSettings
@@ -69,7 +80,7 @@ void
 SoundObject::stop_looping_sounds()
 {
   if (m_sound_source)
-    m_sound_source->stop(false);
+    m_sound_source->pause();
 }
 
 void
@@ -97,14 +108,10 @@ SoundObject::prepare_sound_source()
     if (!m_sound_source)
       throw std::runtime_error("file not found");
 
-    // Maybe FIXME: Apparently this is an OpenAL error, if gain is not set to 0 before making source looping
-    // it won't be possible to pause it.
     m_sound_source->set_gain(0);
     m_sound_source->set_looping(true);
     m_sound_source->set_relative(true);
     m_sound_source->set_gain(m_volume);
-
-    m_sound_source->play();
   }
   catch(const std::exception& e)
   {

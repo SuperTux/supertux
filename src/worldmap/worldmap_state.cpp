@@ -280,7 +280,7 @@ WorldMapState::save_state() const
     vm.get_or_create_table_entry("worlds");
 
     /** Get or create state table for the current worldmap. **/
-    vm.get_or_create_table_entry(m_worldmap.m_map_filename.c_str());
+    vm.get_or_create_table_entry(m_worldmap.m_map_filename);
 
     // Save the current sector.
     vm.store_string("sector", sector.get_name());
@@ -361,7 +361,7 @@ WorldMapState::save_tilemap_visibility() const
     {
       sq_pushstring(vm.get_vm(), tilemap.get_name().c_str(), -1);
       sq_newtable(vm.get_vm());
-      vm.store_float("alpha", tilemap.get_alpha());
+      vm.store_float("alpha", tilemap.get_target_alpha());
       if (SQ_FAILED(sq_createslot(vm.get_vm(), -3)))
       {
         throw std::runtime_error("failed to create '" + m_worldmap.m_name + "' table entry");

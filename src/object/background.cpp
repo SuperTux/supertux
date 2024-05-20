@@ -230,7 +230,7 @@ Background::update(float dt_sec)
   }
   else if (m_timer_color.started())
   {
-    float progress = m_timer_color.get_timegone() / m_timer_color.get_period();
+    float progress = m_timer_color.get_progress();
 
     m_color = (m_src_color + (m_dst_color - m_src_color) * progress).validate();
   }

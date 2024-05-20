@@ -44,6 +44,7 @@ class Player;
 class ReaderMapping;
 class Rectf;
 class Size;
+class SpawnPointMarker;
 class TextObject;
 class TileMap;
 class Writer;
@@ -130,6 +131,7 @@ public:
 
   Rectf get_active_region() const;
 
+  int get_foremost_opaque_layer() const;
   int get_foremost_layer() const;
 
   /** returns the editor size (in tiles) of a sector */
@@ -150,23 +152,28 @@ public:
   DisplayEffect& get_effect() const;
   TextObject& get_text_object() const { return m_text_object; }
 
+  Vector get_spawn_point_position(const std::string& spawnpoint);
+
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
   virtual bool before_object_add(GameObject& object) override;
   virtual void before_object_remove(GameObject& object) override;
 
-  int calculate_foremost_layer() const;
+  int calculate_foremost_layer(bool including_transparent = true) const;
 
   /** Convert tiles into their corresponding GameObjects (e.g.
       bonusblocks, add light to lava tiles) */
   void convert_tiles2gameobject();
+
+  SpawnPointMarker* get_spawn_point(const std::string& spawnpoint);
 
 private:
   Level& m_level; // Parent level
 
   bool m_fully_constructed;
   int m_foremost_layer;
+  int m_foremost_opaque_layer;
 
   float m_gravity;
 
