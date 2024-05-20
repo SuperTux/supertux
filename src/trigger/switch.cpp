@@ -19,7 +19,6 @@
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
-#include "supertux/constants.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"

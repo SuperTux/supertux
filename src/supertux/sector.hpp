@@ -20,7 +20,6 @@
 #include "supertux/sector_base.hpp"
 
 #include <vector>
-#include <string>
 #include <stdint.h>
 
 #include "collision/collision_system.hpp"

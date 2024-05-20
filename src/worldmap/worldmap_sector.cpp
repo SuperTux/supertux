@@ -22,7 +22,6 @@
 #include "object/ambient_light.hpp"
 #include "object/display_effect.hpp"
 #include "object/music_object.hpp"
-#include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "scripting/worldmap_sector.hpp"

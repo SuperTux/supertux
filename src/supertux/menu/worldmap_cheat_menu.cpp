@@ -18,7 +18,6 @@
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "object/spawnpoint.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/worldmap_cheat_apply_menu.hpp"

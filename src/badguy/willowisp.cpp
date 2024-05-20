@@ -25,7 +25,6 @@
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
