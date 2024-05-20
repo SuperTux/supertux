@@ -83,10 +83,6 @@ private:
   };
 
 private:
-  SpritePtr load_background(const std::string& image_path);
-  SpritePtr load_background_sprite(const std::string& image_path);
-
-private:
   /** Backgrounds with NO_ALIGNMENT are repeated over the whole
       screen, backgrounds with left, right, top, bottom alignment are
       only repeated in one direction and attached to the level edge. */

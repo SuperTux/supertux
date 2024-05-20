@@ -31,6 +31,103 @@
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 
+static const std::unordered_map<std::string, std::string> fallback_paths = {
+  {"arctis2.png", "antarctic/arctis2.png"},
+  {"misty_snowhills_small.png", "antarctic/misty_snowhills_small.png"},
+  {"semi_arctic.jpg", "antarctic/semi_arctic.jpg"},
+  {"bridgecloud-dark.png", "arctic_bridge/bridgecloud-dark.png"},
+  {"bridgecloud-light.png", "arctic_bridge/bridgecloud-light.png"},
+  {"bridgeocean-fade.png", "arctic_bridge/bridgeocean-fade.png"},
+  {"bridgeocean-nofade.png", "arctic_bridge/bridgeocean-nofade.png"},
+  {"bridgeocean-original.png", "arctic_bridge/bridgeocean-original.png"},
+  {"arcticskies1.png", "arcticskies/arcticskies1.png"},
+  {"arcticskies2.png", "arcticskies/arcticskies2.png"},
+  {"arcticskies3.png", "arcticskies/arcticskies3.png"},
+  {"arcticskies35.png", "arcticskies/arcticskies35.png"},
+  {"arcticskies4.png", "arcticskies/arcticskies4.png"},
+  {"block-snow-background.png", "block_snow/block-snow-background.png"},
+  {"block-snow-midground.png", "block_snow/block-snow-midground.png"},
+  {"block-snow-top.png", "block_snow/block-snow-top.png"},
+  {"bluemountain-bottom.png", "bluemountain/bluemountain-bottom.png"},
+  {"bluemountain-middle.png", "bluemountain/bluemountain-middle.png"},
+  {"bluemountain-top.png", "bluemountain/bluemountain-top.png"},
+  {"bluemountain2.png", "bluemountain/bluemountain2.png"},
+  {"castle_foreground.png", "castle/castle_foreground.png"},
+  {"snowcastle.png", "castle/snowcastle.png"},
+  {"cloud-mountains-background.png", "cloud_mountains/cloud-mountains-background.png"},
+  {"cloud-mountains-bottom.png", "cloud_mountains/cloud-mountains-bottom.png"},
+  {"cloud-mountains-forground.png", "cloud_mountains/cloud-mountains-forground.png"},
+  {"cloud-mountains-midground.png", "cloud_mountains/cloud-mountains-midground.png"},
+  {"dawn_hill_para_blur.png", "forest/dawn_hill_para_blur.png"},
+  {"forest2_para.png", "forest/forest2_para.png"},
+  {"forest_para2.png", "forest/forest_para2.png"},
+  {"forest_para3.png", "forest/forest_para3.png"},
+  {"forest_para3_bottom.png", "forest/forest_para3_bottom.png"},
+  {"nighthills.png", "forest/nighthills.png"},
+  {"ghostforest.jpg", "ghostforest/ghostforest.jpg"},
+  {"ghostforest_grave.png", "ghostforest/ghostforest_grave.png"},
+  {"ghostforest_para.png", "ghostforest/ghostforest_para.png"},
+  {"cave2.jpg", "ice_cave/cave2.jpg"},
+  {"darkcave-background.png", "ice_cave/darkcave-background.png"},
+  {"darkcave-middle.png", "ice_cave/darkcave-middle.png"},
+  {"darkcave-preview.png", "ice_cave/darkcave-preview.png"},
+  {"darkcave-top_and_bottom.png", "ice_cave/darkcave-top_and_bottom.png"},
+  {"darkcavemidground-middle.png", "ice_cave/darkcavemidground-middle.png"},
+  {"darkcavemidground-top_and_bottom.png", "ice_cave/darkcavemidground-top_and_bottom.png"},
+  {"black_800px.png", "misc/black_800px.png"},
+  {"fog.png", "misc/fog.png"},
+  {"grid.png", "misc/grid.png"},
+  {"grid.surface", "misc/grid.surface"},
+  {"heatshimmer-displacement.png", "misc/heatshimmer-displacement.png"},
+  {"heatshimmer.png", "misc/heatshimmer.png"},
+  {"heatshimmer.surface", "misc/heatshimmer.surface"},
+  {"leaves.png", "misc/leaves.png"},
+  {"oiltux.jpg", "misc/oiltux.jpg"},
+  {"transparent_up.png", "misc/transparent_up.png"},
+  {"nightsky.png", "nightsky/nightsky.png"},
+  {"nightsky_bottom.png", "nightsky/nightsky_bottom.png"},
+  {"nightsky_middle.png", "nightsky/nightsky_middle.png"},
+  {"nightsky_para.png", "nightsky/nightsky_para.png"},
+  {"nightsky_top.png", "nightsky/nightsky_top.png"},
+};
+
+static SpritePtr load_background_sprite(const std::string& image_path)
+{
+  if (image_path.empty())
+    return nullptr;
+
+  if (PHYSFS_exists(image_path.c_str()))
+    // No need to search fallback paths.
+    return SpriteManager::current()->create(image_path);
+
+  // Search for a fallback image in fallback_paths.
+  const std::string& default_dir = "images/background/";
+  const std::string& default_dir2 = "/images/background/";
+  std::string new_path = image_path;
+  if (image_path.substr(0, default_dir.length()) == default_dir)
+    new_path.erase(0, default_dir.length());
+  else if (image_path.substr(0, default_dir2.length()) == default_dir2)
+    new_path.erase(0, default_dir2.length());
+
+  auto it = fallback_paths.find(new_path);
+  if (it == fallback_paths.end())
+    // Unknown image, try checking for a ".deprecated" version, or use the dummy texture.
+    return SpriteManager::current()->create(image_path);
+
+  new_path = default_dir + it->second;
+  return SpriteManager::current()->create(new_path);
+}
+
+static SpritePtr load_background(const std::string& image_path)
+{
+  SpritePtr sprite = load_background_sprite(image_path);
+  if (!sprite) return nullptr;
+
+  sprite->set_animation_enabled(!Editor::is_active());
+  return sprite;
+}
+
+
 Background::Background() :
   ExposedObject<Background, scripting::Background>(this),
   m_alignment(NO_ALIGNMENT),
@@ -404,107 +501,6 @@ Background::draw(DrawingContext& context)
              level_size.height / 2);
   draw_image(context, pos + m_scroll_offset + Vector(center_offset.x * (1.0f - m_parallax_speed.x),
                                                      center_offset.y * (1.0f - m_parallax_speed.y)));
-}
-
-namespace {
-std::unordered_map<std::string, std::string> fallback_paths = {
-  {"arctis2.png", "antarctic/arctis2.png"},
-  {"misty_snowhills_small.png", "antarctic/misty_snowhills_small.png"},
-  {"semi_arctic.jpg", "antarctic/semi_arctic.jpg"},
-  {"bridgecloud-dark.png", "arctic_bridge/bridgecloud-dark.png"},
-  {"bridgecloud-light.png", "arctic_bridge/bridgecloud-light.png"},
-  {"bridgeocean-fade.png", "arctic_bridge/bridgeocean-fade.png"},
-  {"bridgeocean-nofade.png", "arctic_bridge/bridgeocean-nofade.png"},
-  {"bridgeocean-original.png", "arctic_bridge/bridgeocean-original.png"},
-  {"arcticskies1.png", "arcticskies/arcticskies1.png"},
-  {"arcticskies2.png", "arcticskies/arcticskies2.png"},
-  {"arcticskies3.png", "arcticskies/arcticskies3.png"},
-  {"arcticskies35.png", "arcticskies/arcticskies35.png"},
-  {"arcticskies4.png", "arcticskies/arcticskies4.png"},
-  {"block-snow-background.png", "block_snow/block-snow-background.png"},
-  {"block-snow-midground.png", "block_snow/block-snow-midground.png"},
-  {"block-snow-top.png", "block_snow/block-snow-top.png"},
-  {"bluemountain-bottom.png", "bluemountain/bluemountain-bottom.png"},
-  {"bluemountain-middle.png", "bluemountain/bluemountain-middle.png"},
-  {"bluemountain-top.png", "bluemountain/bluemountain-top.png"},
-  {"bluemountain2.png", "bluemountain/bluemountain2.png"},
-  {"castle_foreground.png", "castle/castle_foreground.png"},
-  {"snowcastle.png", "castle/snowcastle.png"},
-  {"cloud-mountains-background.png", "cloud_mountains/cloud-mountains-background.png"},
-  {"cloud-mountains-bottom.png", "cloud_mountains/cloud-mountains-bottom.png"},
-  {"cloud-mountains-forground.png", "cloud_mountains/cloud-mountains-forground.png"},
-  {"cloud-mountains-midground.png", "cloud_mountains/cloud-mountains-midground.png"},
-  {"dawn_hill_para_blur.png", "forest/dawn_hill_para_blur.png"},
-  {"forest2_para.png", "forest/forest2_para.png"},
-  {"forest_para2.png", "forest/forest_para2.png"},
-  {"forest_para3.png", "forest/forest_para3.png"},
-  {"forest_para3_bottom.png", "forest/forest_para3_bottom.png"},
-  {"nighthills.png", "forest/nighthills.png"},
-  {"ghostforest.jpg", "ghostforest/ghostforest.jpg"},
-  {"ghostforest_grave.png", "ghostforest/ghostforest_grave.png"},
-  {"ghostforest_para.png", "ghostforest/ghostforest_para.png"},
-  {"cave2.jpg", "ice_cave/cave2.jpg"},
-  {"darkcave-background.png", "ice_cave/darkcave-background.png"},
-  {"darkcave-middle.png", "ice_cave/darkcave-middle.png"},
-  {"darkcave-preview.png", "ice_cave/darkcave-preview.png"},
-  {"darkcave-top_and_bottom.png", "ice_cave/darkcave-top_and_bottom.png"},
-  {"darkcavemidground-middle.png", "ice_cave/darkcavemidground-middle.png"},
-  {"darkcavemidground-top_and_bottom.png", "ice_cave/darkcavemidground-top_and_bottom.png"},
-  {"black_800px.png", "misc/black_800px.png"},
-  {"fog.png", "misc/fog.png"},
-  {"grid.png", "misc/grid.png"},
-  {"grid.surface", "misc/grid.surface"},
-  {"heatshimmer-displacement.png", "misc/heatshimmer-displacement.png"},
-  {"heatshimmer.png", "misc/heatshimmer.png"},
-  {"heatshimmer.surface", "misc/heatshimmer.surface"},
-  {"leaves.png", "misc/leaves.png"},
-  {"oiltux.jpg", "misc/oiltux.jpg"},
-  {"transparent_up.png", "misc/transparent_up.png"},
-  {"nightsky.png", "nightsky/nightsky.png"},
-  {"nightsky_bottom.png", "nightsky/nightsky_bottom.png"},
-  {"nightsky_middle.png", "nightsky/nightsky_middle.png"},
-  {"nightsky_para.png", "nightsky/nightsky_para.png"},
-  {"nightsky_top.png", "nightsky/nightsky_top.png"},
-};
-
-} // namespace
-
-SpritePtr
-Background::load_background(const std::string& image_path)
-{
-  SpritePtr sprite = load_background_sprite(image_path);
-  if (!sprite) return nullptr;
-
-  sprite->set_animation_enabled(!Editor::is_active());
-  return sprite;
-}
-
-SpritePtr
-Background::load_background_sprite(const std::string& image_path)
-{
-  if (image_path.empty())
-    return nullptr;
-
-  if (PHYSFS_exists(image_path.c_str()))
-    // No need to search fallback paths.
-    return SpriteManager::current()->create(image_path);
-
-  // Search for a fallback image in fallback_paths.
-  const std::string& default_dir = "images/background/";
-  const std::string& default_dir2 = "/images/background/";
-  std::string new_path = image_path;
-  if (image_path.substr(0, default_dir.length()) == default_dir)
-    new_path.erase(0, default_dir.length());
-  else if (image_path.substr(0, default_dir2.length()) == default_dir2)
-    new_path.erase(0, default_dir2.length());
-
-  auto it = fallback_paths.find(new_path);
-  if (it == fallback_paths.end())
-    // Unknown image, try checking for a ".deprecated" version, or use the dummy texture.
-    return SpriteManager::current()->create(image_path);
-
-  new_path = default_dir + it->second;
-  return SpriteManager::current()->create(new_path);
 }
 
 void
