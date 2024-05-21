@@ -147,6 +147,12 @@ Igel::collision_badguy(BadGuy &badguy, const CollisionHit &hit)
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
+bool
+Igel::can_break() const
+{
+  return m_state == STATE_ROLLING;
+}
+
 void
 Igel::run_dead_script()
 {

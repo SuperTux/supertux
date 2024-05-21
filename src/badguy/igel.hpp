@@ -30,6 +30,7 @@ public:
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit &hit) override;
   virtual HitResponse collision_badguy(BadGuy &badguy, const CollisionHit &hit) override;
+  virtual bool can_break() const override;
   virtual void run_dead_script() override;
 
   virtual std::string get_overlay_size() const override { return "2x1"; }
