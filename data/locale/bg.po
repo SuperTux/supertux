@@ -1651,12 +1651,12 @@ msgid ""
 "Do you wish to clone the path to edit it separately,\n"
 "or do you want to bind both paths together\n"
 "so that any edit on one edits the other?"
-msgstr ""
+msgstr "Наистина ли искаш да клонираш пътя, за да го редактираш\nотделно, или искаш да свържеш двата пътя, така че\nвсяка промяна на единия да се отразява и на другия?"
 
 #: src/gui/menu_paths.cpp:56
 #, c++-format
 msgid "Path {}"
-msgstr ""
+msgstr "Път {}"
 
 #: src/gui/menu_paths.cpp:67 src/supertux/menu/integrations_menu.cpp:60
 #: src/supertux/menu/editor_converters_menu.cpp:79
@@ -3439,7 +3439,7 @@ msgstr "Това ще те препрати към страницата за д�
 #: src/supertux/menu/editor_sector_menu.cpp:34
 #, c++-format
 msgid "Sector {}"
-msgstr ""
+msgstr "Сектор {}"
 
 #: src/supertux/menu/editor_sector_menu.cpp:37
 msgid "Initialization script"
@@ -3946,7 +3946,7 @@ msgstr "Спиране на свалянето"
 msgid ""
 "Error:\n"
 "{}"
-msgstr ""
+msgstr "Грешка:\n{}"
 
 #: src/supertux/menu/cheat_menu.cpp:38
 msgid "Bonus: Star"
@@ -4233,7 +4233,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Клавиши и комбинации:\n---------------------\nEsc = Отваряне на менюто\nCtrl+S = Запазване\nCtrl+T = Тестване\nCtrl+Z = Отмяна\nCtrl+Y = Повторение\nF6 = Изчертаване на светлината\nF7 = Прилепване към мрежата\nF8 = Показване на мрежата\nCtrl++ или Ctrl+Scroll Up = Увеличаване\nCtrl+- или Ctrl+Scroll Down = Намаляване\nCtrl+D = Нулиране на мащаба\n\nКлавиши и комбинации за скриптиране:\n    -------------    \nHome = Преместване в началото на реда\nEnd = Преместване в края на реда\nLeft arrow = Назад в текста\nRight arrow = Напред в текста\nBackspace = Изтриване на текста пред курсора\nDelete = Изтриване на текста зад курсора\nCtrl+X = Изрязване на целия ред\nCtrl+C = Копиране на целия ред\nCtrl+V = Поставяне\nCtrl+D = Дублиране на реда\nCtrl+Z = Отмяна\nCtrl+Y = Повторение"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
@@ -4468,7 +4468,7 @@ msgstr "Кръгообразно"
 #: src/editor/layers_widget.cpp:331
 #, c++-format
 msgid "Sector: {}"
-msgstr ""
+msgstr "Сектор: {}"
 
 #: src/editor/object_option.cpp:92
 msgid "true"
@@ -4708,7 +4708,7 @@ msgid ""
 "\n"
 "Keep in mind this is very likely to break the proper behaviour of the object.\n"
 "Make sure to re-check any behaviour, related to the object."
-msgstr ""
+msgstr "Това ще обнови обекта до най-новата функционалност.\nВиж „Бележките по версията“ за повече информация.\n\nИмай предвид, че това може да повреди правилното поведение на обекта.\nУвери се, че си проверил всяко поведение свързано с обекта."
 
 #: src/editor/object_menu.cpp:98
 #, c++-format
@@ -4745,7 +4745,7 @@ msgstr "Текущ екип на Супер Тъкс"
 
 #: data//credits.stxt:30
 msgid "Maintainer, Programming"
-msgstr ""
+msgstr "Поддръжка, програмиране"
 
 #: data//credits.stxt:35
 msgid "Graphics, Level Design, Story"
@@ -5087,11 +5087,11 @@ msgstr "Горски фон"
 
 #: data//images/tiles.strf:690
 msgid "Corrupted Forest"
-msgstr ""
+msgstr "Увредена гора"
 
 #: data//images/tiles.strf:868
 msgid "Corrupted Background"
-msgstr ""
+msgstr "Увреден фон"
 
 #: data//images/tiles.strf:991
 msgid "Block + Bonus"
@@ -5127,7 +5127,7 @@ msgstr "Разни"
 
 #: data//images/tiles.strf:1342
 msgid "Retro Tiles"
-msgstr ""
+msgstr "Ретро плочки"
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"

@@ -315,7 +315,7 @@ msgstr "Cegła"
 
 #: src/object/unstable_tile.cpp:72
 msgid "Delayed"
-msgstr ""
+msgstr "Opóźniona"
 
 #: src/object/circleplatform.hpp:35
 msgid "Circular Platform"
@@ -809,7 +809,7 @@ msgstr ""
 
 #: src/object/powerup.cpp:67
 msgid "Tux Doll"
-msgstr ""
+msgstr "Awatar Tuxa"
 
 #: src/object/powerup.cpp:68
 msgid "Flip Potion"
@@ -1403,7 +1403,7 @@ msgstr "Wyczyszczaj cząstki"
 
 #: src/object/weak_block.cpp:98
 msgid "Hay"
-msgstr ""
+msgstr "Siano"
 
 #: src/object/decal.hpp:41
 msgid "Decal"
@@ -1530,7 +1530,7 @@ msgstr "Ciężka moneta"
 
 #: src/object/explosion.hpp:35
 msgid "Explosion"
-msgstr ""
+msgstr "Eksplozja"
 
 #: src/object/bonus_block.hpp:62
 msgid "Bonus Block"
@@ -1554,7 +1554,7 @@ msgstr ""
 
 #: src/gui/notification.cpp:150
 msgid "Do not show again"
-msgstr ""
+msgstr "Nie pokazuj ponownie"
 
 #: src/gui/notification.cpp:157 src/supertux/menu/download_dialog.cpp:124
 msgid "Close"
@@ -1576,7 +1576,7 @@ msgstr "Dodaj"
 
 #: src/gui/menu_string_array.cpp:80
 msgid "Insert"
-msgstr ""
+msgstr "Wstaw"
 
 #: src/gui/menu_string_array.cpp:81
 #: src/supertux/menu/addon_preview_menu.cpp:177 src/editor/object_menu.cpp:61
@@ -2731,7 +2731,7 @@ msgstr "Usuń sektor"
 #: src/supertux/menu/custom_menu_menu.cpp:49
 #: src/supertux/menu/options_menu.cpp:191
 msgid "Menu Customization"
-msgstr ""
+msgstr "Personalizacja menu"
 
 #: src/supertux/menu/custom_menu_menu.cpp:51
 msgid "Menu Back Color"
@@ -3557,7 +3557,7 @@ msgstr ""
 
 #: src/supertux/menu/multiplayer_players_menu.cpp:46
 msgid "Add Player"
-msgstr ""
+msgstr "Dodaj gracza"
 
 #: src/supertux/menu/multiplayer_players_menu.cpp:59
 msgid "Remove Last Player"
@@ -3654,7 +3654,7 @@ msgstr ""
 #: src/supertux/menu/addon_browse_menu.cpp:112
 #, c++-format
 msgid "Page {}/{}"
-msgstr ""
+msgstr "Strona {}/{}"
 
 #: src/supertux/menu/addon_browse_menu.cpp:124
 msgid "No new language packs available"
@@ -3675,7 +3675,7 @@ msgstr ""
 #: src/supertux/menu/addon_browse_menu.cpp:135
 #: src/supertux/menu/addon_browse_menu.cpp:139
 msgid "Previous page"
-msgstr ""
+msgstr "Poprzednia strona"
 
 #: src/supertux/menu/addon_browse_menu.cpp:143
 #: src/supertux/menu/addon_browse_menu.cpp:147
@@ -3750,7 +3750,7 @@ msgstr ""
 
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Create"
-msgstr ""
+msgstr "Utwórz"
 
 #: src/supertux/menu/profile_name_menu.cpp:56
 msgid ""
@@ -4282,7 +4282,7 @@ msgstr ""
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:136
 msgid "Controllers"
-msgstr ""
+msgstr "Kontrolery"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:152
 msgid ""
@@ -4314,7 +4314,7 @@ msgstr "Brak dostępnych poziomów"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:79
 msgid "You cannot delete the level that you are editing!"
-msgstr ""
+msgstr "Nie możesz usunąć poziomu, którego edytujesz!"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:82
 #, c++-format
