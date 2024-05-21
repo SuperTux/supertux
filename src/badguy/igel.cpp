@@ -66,17 +66,18 @@ Igel::active_update(float dt_sec)
 
   switch (m_state)
   {
-    case STATE_ROLLING:
-      if (get_action() == "roll-start-" + dir_to_string(m_dir) &&
-          m_sprite->animation_done())
+    case STATE_CHARGING:
+      if (m_sprite->animation_done())
       {
-        set_action("roll", m_dir);
+        roll();
       }
 
+      break;
+
+    case STATE_ROLLING:
       if (m_ease_timer.started())
       {
-        float progress = m_ease_timer.get_progress();
-        float vel = (static_cast<float>(SineEaseOut(static_cast<double>(progress))) * (ROLL_SPEED - get_normal_walk_speed())) + get_normal_walk_speed();
+        float vel = (m_ease_timer.get_progress() * (ROLL_SPEED - get_normal_walk_speed())) + get_normal_walk_speed();
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
       }
@@ -106,8 +107,7 @@ Igel::active_update(float dt_sec)
 
       if (m_ease_timer.started())
       {
-        float progress = m_ease_timer.get_progress();
-        float vel = (static_cast<float>(SineEaseIn(static_cast<double>(progress))) * (get_normal_walk_speed() - ROLL_SPEED)) + ROLL_SPEED;
+        float vel = (m_ease_timer.get_progress() * (get_normal_walk_speed() - ROLL_SPEED)) + ROLL_SPEED;
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
       }
@@ -115,7 +115,7 @@ Igel::active_update(float dt_sec)
       if (m_bonked && m_ease_timer.check())
         set_action("roll-end", m_dir);
 
-      if (!m_roll_cooldown.started() && should_roll()) roll();
+      if (!m_roll_cooldown.started() && should_roll()) charge();
 
       break;
   }
@@ -228,12 +228,21 @@ Igel::should_roll() const
   return in_reach_left && in_reach_right && in_reach_top && in_reach_bottom && can_see_player;
 }
 
+void Igel::charge()
+{
+  m_state = STATE_CHARGING;
+  //TODO: Add an audio cue!!
+  set_action("roll-start", m_dir);
+  set_walk_speed(0.f);
+  m_physic.set_velocity_x(0.f);
+}
+
 void
 Igel::roll()
 {
   m_state = STATE_ROLLING;
 
-  set_action("roll-start", m_dir);
+  set_action("roll", m_dir);
 
   set_ledge_behavior(LedgeBehavior::FALL);
 

@@ -47,9 +47,10 @@ public:
 
 private:
   enum Type { NORMAL, CORRUPTED };
-  enum State { STATE_NORMAL, STATE_ROLLING };
+  enum State { STATE_NORMAL, STATE_CHARGING, STATE_ROLLING };
 
   bool should_roll() const;
+  void charge();
   void roll();
   void stop_rolling(bool bonk = false);
   float get_normal_walk_speed() const;
