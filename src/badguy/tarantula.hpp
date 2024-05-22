@@ -40,6 +40,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override;
 
+  virtual void on_flip(float height) override;
+
   virtual GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
 

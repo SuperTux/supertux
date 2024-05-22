@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
@@ -344,6 +345,16 @@ bool
 Tarantula::is_snipable() const
 {
   return m_state != STATE_DROPPING;
+}
+
+void Tarantula::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  if (m_state == STATE_IDLE)
+  {
+    m_start_position.y = get_bbox().get_top();
+    m_last_height = m_start_position.y;
+  }
 }
 
 GameObjectTypes
