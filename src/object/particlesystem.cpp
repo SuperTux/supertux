@@ -99,8 +99,15 @@ ParticleSystem::draw(DrawingContext& context)
     pos.x = fmodf(particle->pos.x - scrollx, virtual_width);
     if ((pos.x + static_cast<float>(particle_width)) < 0) pos.x += virtual_width;
 
-    pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
-    if (pos.y < 0) pos.y += virtual_height;
+
+    const float particle_height = static_cast<float>(particle->texture->get_height());
+    const float virtual_height_particle = virtual_height + particle_height;
+
+    pos.y = fmodf(particle->pos.y - scrolly, virtual_height_particle);
+    if (pos.y + particle_height < 0)
+    {
+      pos.y += virtual_height_particle;
+    }
 
     if(!region.contains(pos + Sector::get().get_camera().get_translation()))
       continue;
