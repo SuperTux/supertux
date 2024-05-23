@@ -494,7 +494,7 @@ Editor::set_sector(Sector* sector)
   if (!sector) return;
 
   m_sector = sector;
-  m_sector->activate(DEFAULT_SECTOR_NAME);
+  m_sector->activate(DEFAULT_SPAWNPOINT_NAME);
 
   { // Initialize badguy sprites and perform other GameObject related tasks.
     BIND_SECTOR(*m_sector);
