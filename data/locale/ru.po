@@ -36,7 +36,7 @@ msgstr "Вы нашли тайник!"
 #: src/supertux/menu/profile_name_menu.cpp:39
 #: src/supertux/menu/editor_level_menu.cpp:33
 msgid "Name"
-msgstr "Название"
+msgstr "Имя"
 
 #: src/trigger/secretarea_trigger.cpp:56
 msgid "Fade tilemap"
@@ -3147,11 +3147,11 @@ msgstr "Автоматически ставить игру на паузу, ко
 
 #: src/supertux/menu/options_menu.cpp:211
 msgid "Use custom mouse cursor"
-msgstr "Использовать игровой указатель мыши"
+msgstr "Заменить указатель мыши игровым"
 
 #: src/supertux/menu/options_menu.cpp:211
 msgid "Whether the game renders its own cursor or uses the system's cursor"
-msgstr "Использовать внутриигровой либо системный указатель мыши"
+msgstr "Использовать внутриигровой или системный указатель мыши"
 
 #: src/supertux/menu/options_menu.cpp:214
 msgid "Check for new releases"

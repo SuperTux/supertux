@@ -1658,12 +1658,12 @@ msgid ""
 "Do you wish to clone the path to edit it separately,\n"
 "or do you want to bind both paths together\n"
 "so that any edit on one edits the other?"
-msgstr ""
+msgstr "Přeješ si cestu naklonovat a upravovat ji separátně,\nnebo chceš obě cesty propojit, aby úpravy jedné\nautomaticky upravily i tu druhou?"
 
 #: src/gui/menu_paths.cpp:56
 #, c++-format
 msgid "Path {}"
-msgstr ""
+msgstr "Cesta {}"
 
 #: src/gui/menu_paths.cpp:67 src/supertux/menu/integrations_menu.cpp:60
 #: src/supertux/menu/editor_converters_menu.cpp:79
@@ -1823,7 +1823,7 @@ msgstr "Rychlost pronásledování"
 
 #: src/badguy/root_sapling.hpp:41
 msgid "Root Sapling"
-msgstr ""
+msgstr "Sazenice kořene"
 
 #: src/badguy/haywire.hpp:46
 msgid "Haywire"
@@ -2111,7 +2111,7 @@ msgstr "Podzimní listí"
 
 #: src/badguy/root.hpp:39
 msgid "Root"
-msgstr ""
+msgstr "Kořen"
 
 #: src/badguy/owl.cpp:241
 msgid "Carry"
@@ -3448,7 +3448,7 @@ msgstr "Tato akce otevře stránku pro darování peněz vývojářům SuperTuxe
 #: src/supertux/menu/editor_sector_menu.cpp:34
 #, c++-format
 msgid "Sector {}"
-msgstr ""
+msgstr "Sektor {}"
 
 #: src/supertux/menu/editor_sector_menu.cpp:37
 msgid "Initialization script"
@@ -3955,7 +3955,7 @@ msgstr "Přerušit stahování"
 msgid ""
 "Error:\n"
 "{}"
-msgstr ""
+msgstr "Chyba:\n{}"
 
 #: src/supertux/menu/cheat_menu.cpp:38
 msgid "Bonus: Star"
@@ -4242,7 +4242,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Klávesové zkratky:\n---------------------\nEsc = otevřít nabídku\nCtrl+S = uložit\nCtrl+T = otestovat úroveň\nCtrl+Z = krok zpět\nCtrl+Y = krok vpřed\nF6 = vykreslovat světlo\nF7 = zarovnávat k mřížce\nF8 = ukázat/skrýt mřížku\nCtrl++ nebo Ctrl+kolečko myši nahoru = přiblížit\nCtrl+- nebo Ctrl+kolečko myši dolů = oddálit\nCtrl+D = resetovat přiblížení\n\nSkriptovací klávesové zkratky:\n---------------------\nHome = jít na začátek řádky\nEnd = jít na konec řádky\nŠipka doleva = jít zpět v textu\nŠipka doprava = jít vpřed v textu\nBackspace = mazat před kurzorem\nDelete = mazat za kurzorem\nCtrl+X = vyjmout celou řádku\nCtrl+C = kopírovat celou řádku\nCtrl+V = vložit\nCtrl+D = duplikovat řádku\nCtrl+Z = krok zpět\nCtrl+Y = krok vpřed"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
@@ -4477,7 +4477,7 @@ msgstr "Dokola"
 #: src/editor/layers_widget.cpp:331
 #, c++-format
 msgid "Sector: {}"
-msgstr ""
+msgstr "Sektor: {}"
 
 #: src/editor/object_option.cpp:92
 msgid "true"
@@ -4717,7 +4717,7 @@ msgid ""
 "\n"
 "Keep in mind this is very likely to break the proper behaviour of the object.\n"
 "Make sure to re-check any behaviour, related to the object."
-msgstr ""
+msgstr "Tato akce aktualizuje objekt pro nenovější funkcionalitu.\nPodívej se na \"Poznámky k verzi\" pro více informací.\n\nPamatuj, že tato akce pravděpodobně rozbije správné chování objektu.\nPo aktualizaci se ujisti, že vše funguje tak, jak má."
 
 #: src/editor/object_menu.cpp:98
 #, c++-format
@@ -4754,7 +4754,7 @@ msgstr "Aktuální vývojový tým SuperTuxe"
 
 #: data//credits.stxt:30
 msgid "Maintainer, Programming"
-msgstr ""
+msgstr "Údržba, programování"
 
 #: data//credits.stxt:35
 msgid "Graphics, Level Design, Story"
