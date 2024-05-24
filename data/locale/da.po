@@ -1649,12 +1649,12 @@ msgid ""
 "Do you wish to clone the path to edit it separately,\n"
 "or do you want to bind both paths together\n"
 "so that any edit on one edits the other?"
-msgstr ""
+msgstr "Vil du klone stien, så du kan rette den,\neller vil du binde andre stier sammen\nså tilretninger på en sti også rettes i den anden?"
 
 #: src/gui/menu_paths.cpp:56
 #, c++-format
 msgid "Path {}"
-msgstr ""
+msgstr "Sti {}"
 
 #: src/gui/menu_paths.cpp:67 src/supertux/menu/integrations_menu.cpp:60
 #: src/supertux/menu/editor_converters_menu.cpp:79
@@ -1814,7 +1814,7 @@ msgstr "Forfølgelseshastighed"
 
 #: src/badguy/root_sapling.hpp:41
 msgid "Root Sapling"
-msgstr ""
+msgstr "Rodplantning"
 
 #: src/badguy/haywire.hpp:46
 msgid "Haywire"
@@ -2102,7 +2102,7 @@ msgstr "Vandrende blad"
 
 #: src/badguy/root.hpp:39
 msgid "Root"
-msgstr ""
+msgstr "Rod"
 
 #: src/badguy/owl.cpp:241
 msgid "Carry"
@@ -3437,7 +3437,7 @@ msgstr "Vil føre dig til SuperTux doneringssiden. Er du sikker på du vil forts
 #: src/supertux/menu/editor_sector_menu.cpp:34
 #, c++-format
 msgid "Sector {}"
-msgstr ""
+msgstr "Sektor {}"
 
 #: src/supertux/menu/editor_sector_menu.cpp:37
 msgid "Initialization script"
@@ -3944,7 +3944,7 @@ msgstr "Afbryd overførsel"
 msgid ""
 "Error:\n"
 "{}"
-msgstr ""
+msgstr "Fejl:\n{}"
 
 #: src/supertux/menu/cheat_menu.cpp:38
 msgid "Bonus: Star"
@@ -4231,7 +4231,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Genvejstaster:\n---------------------\nEsc = Åbn menu\nCtrl+S = Gem\nCtrl+T = Test\nCtrl+Z = Fortryd\nCtrl+Y = Gør det om\nF6 = Renderingslys\nF7 = Gitterplacering\nF8 = Vis gitter\nCtrl++ eller Ctrl+Scroll Up = Zoom ind\nCtrl+- eller Ctrl+Scroll Down = Zoom ud\nCtrl+D = Nulstil zoom\n\nScriptgenvejstaster:\n    -------------    \nHome = Hop til linjestart\nEnd = Hop til linjeslut\nLeft arrow = Gå tilbage i tekst\nRight arrow = Gå frem i tekst\nBackspace = Slet foran markør\nDelete = Slet bag markør\nCtrl+X = Klip hel linje\nCtrl+C = Kopiér hel linje\nCtrl+V = Indsæt\nCtrl+D = Duplikér linje\nCtrl+Z = Fortryd\nCtrl+Y = Gør det om"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
@@ -4466,7 +4466,7 @@ msgstr "Cirkulær"
 #: src/editor/layers_widget.cpp:331
 #, c++-format
 msgid "Sector: {}"
-msgstr ""
+msgstr "Sektor: {}"
 
 #: src/editor/object_option.cpp:92
 msgid "true"
@@ -4706,7 +4706,7 @@ msgid ""
 "\n"
 "Keep in mind this is very likely to break the proper behaviour of the object.\n"
 "Make sure to re-check any behaviour, related to the object."
-msgstr ""
+msgstr "Vil opdatere objektet til nyeste funktionalitet.\nTjek \"Patch-noter\" for mere information.\n\nHusk at det meget sandsynligt ødelægger sædvanlig objektopførsel.\nSørg for at tjekke alle objektrelaterede opførsler igen."
 
 #: src/editor/object_menu.cpp:98
 #, c++-format
@@ -4743,7 +4743,7 @@ msgstr "Nuværende SuperTux-hold"
 
 #: data//credits.stxt:30
 msgid "Maintainer, Programming"
-msgstr ""
+msgstr "Vedligeholder, Programmering"
 
 #: data//credits.stxt:35
 msgid "Graphics, Level Design, Story"
