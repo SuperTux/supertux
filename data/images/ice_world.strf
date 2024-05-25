@@ -98,7 +98,7 @@
 )
 (tiles
 	(width 3)(height 9)
-	(images "worldmap/ice/icecave.png")
+	(images "worldmap/deprecated/ice/icecave.png")
 	(ids
 		149 150 151
 		152 153 154
@@ -524,7 +524,7 @@
    483 0   0   484 0 0
    0   0   487 0   0 0
   )
-  (image "worldmap/halloween/tiles.deprecated.png")
+  (image "worldmap/deprecated/halloween/tiles.png")
   (deprecated #t)
 )
 
