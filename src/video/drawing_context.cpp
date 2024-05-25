@@ -133,4 +133,27 @@ DrawingContext::get_size() const
   return Vector(get_width(), get_height()) * transform().scale;
 }
 
+bool
+DrawingContext::perspective_scale(float speed_x, float speed_y)
+{
+  DrawingTransform& tfm = transform();
+  if (tfm.scale == 1 || speed_x < 0 || speed_y < 0) {
+    //Trivial or unreal situation: Do not apply perspective.
+    return true;
+  }
+  const float speed = sqrt(speed_x*speed_y);
+  if (speed == 0) {
+    //Special case: The object appears to be infinitely far.
+    tfm.scale = 1.0;
+    return true;
+  }
+  const float t = tfm.scale*(1/speed - 1) + 1;
+  if (t <= 0) {
+    //The object will appear behind the camera, therefore we shall not see it.
+    return false;
+  }
+  tfm.scale /= speed * t;
+  return true;
+}
+
 /* EOF */

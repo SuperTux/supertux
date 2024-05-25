@@ -439,8 +439,17 @@ TileMap::draw(DrawingContext& context)
 {
   // skip draw if current opacity is 0.0
   if (m_current_alpha == 0.0f) return;
-
+  
   context.push_transform();
+
+  const bool normal_speed = m_editor_active && Editor::is_active();
+  float speed_x = normal_speed ? 1.0f : m_speed_x;
+  float speed_y = normal_speed ? 1.0f : m_speed_y;
+  if (!context.perspective_scale(speed_x, speed_y)) {
+    //The tilemap is placed behind the camera.
+    context.pop_transform();
+    return;
+  }
 
   if (m_flip != NO_FLIP) context.set_flip(m_flip);
 
@@ -454,9 +463,7 @@ TileMap::draw(DrawingContext& context)
 
   const float trans_x = context.get_translation().x;
   const float trans_y = context.get_translation().y;
-  const bool normal_speed = m_editor_active && Editor::is_active();
-  context.set_translation(Vector(trans_x * (normal_speed ? 1.0f : m_speed_x),
-                                 trans_y * (normal_speed ? 1.0f : m_speed_y)));
+  context.set_translation(Vector(trans_x*speed_x, trans_y*speed_y));
 
   Rectf draw_rect = context.get_cliprect();
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
