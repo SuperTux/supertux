@@ -316,8 +316,7 @@ void
 Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
   const Sizef level(d_gameobject_manager->get_width(), d_gameobject_manager->get_height());
-  const Sizef screen(context.get_width(),
-                     context.get_height());
+  const Sizef screen = context.get_viewport().get_size();
   const Sizef parallax_image_size((1.0f - m_parallax_speed.x) * screen.width + level.width * m_parallax_speed.x,
                                   (1.0f - m_parallax_speed.y) * screen.height + level.height * m_parallax_speed.y);
 
@@ -427,8 +426,7 @@ Background::draw(DrawingContext& context)
 
   Sizef level_size(d_gameobject_manager->get_width(),
                    d_gameobject_manager->get_height());
-  Sizef screen(context.get_width(),
-               context.get_height());
+  Sizef screen = context.get_viewport().get_size();
   Sizef translation_range = level_size - screen;
   Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
                        context.get_translation().y - translation_range.height / 2.0f);
