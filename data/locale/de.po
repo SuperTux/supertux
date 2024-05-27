@@ -11,6 +11,7 @@
 # cvcxc <hans.andersen72@yahoo.com>, 2013
 # divVerent <divVerent@gmail.com>, 2011,2013
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2016
+# Iwan Gabovitch, 2024
 # Larson März <larson@protonmail.ch>, 2016
 # Marcel Haring <getting@autistici.org>, 2013-2014
 # Matthias Braun <matze@braunis.de>, 2004
@@ -28,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-05-19 02:34+0200\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2021,2024\n"
+"Last-Translator: Iwan Gabovitch, 2024\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,7 +90,7 @@ msgstr "Text-Änderungszeit"
 
 #: src/trigger/text_area.cpp:143
 msgid "Fade time"
-msgstr ""
+msgstr "Überblendezeit"
 
 #: src/trigger/text_area.cpp:144 src/object/textscroller.cpp:353
 msgid "Anchor"
@@ -97,11 +98,11 @@ msgstr "Anker"
 
 #: src/trigger/text_area.cpp:148
 msgid "Anchor offset X"
-msgstr ""
+msgstr "Ankerversatz X"
 
 #: src/trigger/text_area.cpp:149
 msgid "Anchor offset Y"
-msgstr ""
+msgstr "Ankerversatz Y"
 
 #: src/trigger/text_area.cpp:150
 msgid "Texts"
@@ -592,7 +593,7 @@ msgstr "Textausrichtung"
 
 #: src/object/lit_object.hpp:40
 msgid "Lit object"
-msgstr ""
+msgstr "Beleuchtetes Objekt"
 
 #: src/object/spawnpoint.hpp:48 src/badguy/willowisp.cpp:311
 #: src/worldmap/teleporter.cpp:48
@@ -639,7 +640,7 @@ msgstr "Rundheit"
 
 #: src/object/infoblock.cpp:84
 msgid "Fade Transition"
-msgstr ""
+msgstr "Überblende-Übergang"
 
 #: src/object/fallblock.hpp:41
 msgid "Falling Platform"
@@ -728,23 +729,23 @@ msgstr "Musik"
 
 #: src/object/lit_object.cpp:68
 msgid "Light sprite"
-msgstr ""
+msgstr "Licht-Sprite"
 
 #: src/object/lit_object.cpp:71
 msgid "Sprite starting action"
-msgstr ""
+msgstr "Sprite-Startaktion"
 
 #: src/object/lit_object.cpp:72
 msgid "Light sprite starting action"
-msgstr ""
+msgstr "Licht-Sprite-Startaktion"
 
 #: src/object/lit_object.cpp:74
 msgid "Light sprite offset X"
-msgstr ""
+msgstr "Licht-Sprite-Versatz X"
 
 #: src/object/lit_object.cpp:75
 msgid "Light sprite offset Y"
-msgstr ""
+msgstr "Licht-Sprite-Versatz Y"
 
 #: src/object/rusty_trampoline.hpp:40
 msgid "Rusty Trampoline"
@@ -768,11 +769,11 @@ msgstr "Epsilon"
 
 #: src/object/snow_particle_system.cpp:105
 msgid "Spin Speed"
-msgstr ""
+msgstr "Drehgeschwindigkeit"
 
 #: src/object/snow_particle_system.cpp:106
 msgid "State Length"
-msgstr ""
+msgstr "Statuslänge"
 
 #: src/object/snow_particle_system.cpp:107
 msgid "Wind Speed"
@@ -812,7 +813,7 @@ msgstr "Tux-Puppe"
 
 #: src/object/powerup.cpp:68
 msgid "Flip Potion"
-msgstr ""
+msgstr "Umdreh-Trank"
 
 #: src/object/powerup.cpp:69
 msgid "Mints"
