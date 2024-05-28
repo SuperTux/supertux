@@ -369,7 +369,7 @@ void
 EditorLayersWidget::sort_layers()
 {
   std::sort(m_layer_icons.begin(), m_layer_icons.end(),
-            [](const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs) {
+            [](const auto& lhs, const auto& rhs) {
               return lhs->get_zpos() < rhs->get_zpos();
             });
 }
