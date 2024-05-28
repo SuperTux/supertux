@@ -26,6 +26,7 @@
 #include "object/coin.hpp"
 #include "object/player.hpp"
 #include "physfs/util.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/player_status_hud.hpp"
 #include "supertux/savegame.hpp"
@@ -71,7 +72,7 @@ void
 Level::initialize()
 {
   // Get the "main" sector.
-  Sector* main_sector = get_sector("main");
+  Sector* main_sector = get_sector(DEFAULT_SECTOR_NAME);
   if (!main_sector)
     throw std::runtime_error("No \"main\" sector found.");
 

@@ -21,6 +21,7 @@
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
@@ -80,7 +81,7 @@ WorldMapState::load_state()
     else // Sector property does not exist, which may indicate outdated save file.
     {
       if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the main one.
-        m_worldmap.set_sector("main", "", false);
+        m_worldmap.set_sector(DEFAULT_SECTOR_NAME, "", false);
     }
     if (!m_worldmap.m_sector)
     {
@@ -100,7 +101,7 @@ WorldMapState::load_state()
 
     // Set default properties.
     if (!m_worldmap.m_sector)
-      m_worldmap.set_sector("main", "", false); // If no current sector is present, set it to "main", or the default one.
+      m_worldmap.set_sector(DEFAULT_SECTOR_NAME, "", false); // If no current sector is present, set it to "main", or the default one.
 
     // Create a new initial save.
     save_state();
@@ -123,7 +124,7 @@ WorldMapState::load_tux()
   if (!vm.get_float("x", p.x) || !vm.get_float("y", p.y))
   {
     log_warning << "Player position not set, respawning." << std::endl;
-    sector.move_to_spawnpoint("main");
+    sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
     m_position_was_reset = true;
   }
   std::string back_str = vm.read_string("back");
@@ -133,7 +134,7 @@ WorldMapState::load_tux()
   int tile_data = sector.tile_data_at(p);
   if (!( tile_data & ( Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))) {
     log_warning << "Player at illegal position " << p.x << ", " << p.y << " respawning." << std::endl;
-    sector.move_to_spawnpoint("main");
+    sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
     m_position_was_reset = true;
   }
   sq_pop(vm.get_vm(), 1);
