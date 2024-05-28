@@ -19,8 +19,8 @@
 #include <physfs.h>
 #include <sstream>
 
-#include "supertux/level.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/sector_parser.hpp"
 #include "util/log.hpp"
