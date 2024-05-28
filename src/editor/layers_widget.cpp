@@ -264,30 +264,30 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
-  if (m_has_mouse_focus)
+  if (!m_has_mouse_focus)
+    return false;
+
+  if((wheel.x < 0 || wheel.y < 0) && !(wheel.x > 0 || wheel.y > 0))
   {
-    if((wheel.x < 0 || wheel.y < 0) && !(wheel.x > 0 || wheel.y > 0))
+    if (m_scroll >= 16)
     {
-      if (m_scroll >= 16)
-      {
-        m_scroll -= 16;
-      }
-      else
-      {
-        m_scroll = 0;
-      }
+      m_scroll -= 16;
     }
-    else if ((wheel.x > 0 || wheel.y > 0) && !(wheel.x < 0 || wheel.y < 0))
+    else
     {
-      if (m_scroll < (static_cast<int>(m_layer_icons.size()) - 1) * 35)
-      {
-        m_scroll += 16;
-      }
-      else
-      {
-        m_scroll = (static_cast<int>(m_layer_icons.size()) - 1) * 35;
-      }
-      
+      m_scroll = 0;
+    }
+  }
+  else if ((wheel.x > 0 || wheel.y > 0) && !(wheel.x < 0 || wheel.y < 0))
+  {
+    auto last_layer_idx = static_cast<int>(m_layer_icons.size()) - 1;
+    if (m_scroll < last_layer_idx * 35)
+    {
+      m_scroll += 16;
+    }
+    else
+    {
+      m_scroll = last_layer_idx * 35;
     }
   }
   return false;
