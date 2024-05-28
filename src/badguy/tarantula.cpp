@@ -87,9 +87,11 @@ Tarantula::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
 
-  if (is_grabbed())
+  if (m_frozen)
   {
-    m_was_grabbed = true;
+    if (is_grabbed())
+      m_was_grabbed = true;
+
     return;
   }
 
@@ -298,7 +300,7 @@ Tarantula::collision_solid(const CollisionHit& hit)
   if (hit.top)
     m_attach_ceiling = true;
 
-  if (m_was_grabbed && m_frozen && hit.bottom)
+  if (!m_was_grabbed && m_frozen && hit.bottom)
     kill_fall();
 }
 
