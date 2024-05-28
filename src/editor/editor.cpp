@@ -1076,9 +1076,9 @@ Editor::retoggle_undo_tracking()
     // Remove undo/redo button widgets.
     m_widgets.erase(std::remove_if(
                       m_widgets.begin(), m_widgets.end(),
-                      [this](const std::unique_ptr<Widget>& widget) {
-                          const Widget* ptr = widget.get();
-                          return ptr == m_undo_widget || ptr == m_redo_widget;
+                      [this](const auto& widget) {
+                        return widget.get() == m_undo_widget ||
+                               widget.get() == m_redo_widget;
                       }), m_widgets.end());
     m_undo_widget = nullptr;
     m_redo_widget = nullptr;
