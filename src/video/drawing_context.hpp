@@ -78,7 +78,7 @@ public:
   float get_scale() const { return transform().scale; }
   void scale(float scale) { transform().scale *= scale; }
   
-  /** Recalculates the scaling factor for paralax layers.*/
+  /** Recalculates the scaling factor for parallax layers.*/
   bool perspective_scale(float speed_x, float speed_y);
 
   /** Apply that flip in the next draws (flips are listed on surface.h). */
