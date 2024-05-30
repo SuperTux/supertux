@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
 //                2014 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -31,6 +32,7 @@
 #include <emscripten/html5.h>
 #endif
 
+#include "physfs/util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/file_system.hpp"
@@ -39,7 +41,7 @@
 
 namespace {
 
-// This one is necessary for a download function
+// This one is necessary for a download function.
 size_t my_curl_string_append(void* ptr, size_t size, size_t nmemb, void* userdata)
 {
   std::string& s = *static_cast<std::string*>(userdata);
@@ -68,6 +70,21 @@ size_t my_curl_physfs_write(void* ptr, size_t size, size_t nmemb, void* userdata
 
 } // namespace
 
+TransferStatus::TransferStatus(Downloader& downloader, TransferId id_,
+                               const std::string& url) :
+  m_downloader(downloader),
+  id(id_),
+  file(FileSystem::basename(url)),
+  callbacks(),
+  prevented(false),
+  dltotal(0),
+  dlnow(0),
+  ultotal(0),
+  ulnow(0),
+  error_msg(),
+  parent_list()
+{}
+
 void
 TransferStatus::abort()
 {
@@ -78,6 +95,143 @@ void
 TransferStatus::update()
 {
   m_downloader.update();
+}
+
+TransferStatusList::TransferStatusList() :
+  m_transfer_statuses(),
+  m_successful_count(0),
+  m_callbacks(),
+  m_error_msg()
+{
+}
+
+TransferStatusList::TransferStatusList(const std::vector<TransferStatusPtr>& list) :
+  m_transfer_statuses(),
+  m_successful_count(0),
+  m_callbacks(),
+  m_error_msg()
+{
+  for (TransferStatusPtr status : list)
+  {
+    push(status);
+  }
+}
+
+void
+TransferStatusList::abort()
+{
+  for (TransferStatusPtr status : m_transfer_statuses)
+  {
+    status->abort();
+  }
+  reset();
+}
+
+void
+TransferStatusList::update()
+{
+  for (size_t i = 0; i < m_transfer_statuses.size(); i++)
+  {
+    m_transfer_statuses[i]->update();
+  }
+}
+
+void
+TransferStatusList::push(TransferStatusPtr status)
+{
+  status->parent_list = this;
+
+  m_transfer_statuses.push_back(status);
+}
+
+void
+TransferStatusList::push(TransferStatusListPtr statuses)
+{
+  for (TransferStatusPtr status : statuses->m_transfer_statuses)
+  {
+    push(status);
+  }
+}
+
+// Called when one of the transfers completes.
+void
+TransferStatusList::on_transfer_complete(TransferStatusPtr this_status, bool successful)
+{
+  if (successful)
+  {
+    m_successful_count++;
+    if (m_successful_count == static_cast<int>(m_transfer_statuses.size()))
+    {
+      // All transfers have sucessfully completed.
+      bool success = true;
+      for (const auto& callback : m_callbacks)
+      {
+        try
+        {
+          callback(success);
+        }
+        catch (const std::exception& err)
+        {
+          success = false;
+          log_warning << "Exception in Downloader: TransferStatusList callback failed: " << err.what() << std::endl;
+          m_error_msg = err.what();
+        }
+      }
+
+      reset();
+    }
+  }
+  else
+  {
+    std::stringstream err;
+    err << "Downloading \"" << this_status->file << "\" failed: " << this_status->error_msg;
+    m_error_msg = err.str();
+    log_warning << "Exception in Downloader: TransferStatusList: " << m_error_msg << std::endl;
+
+    // Execute all callbacks.
+    for (const auto& callback : m_callbacks)
+    {
+      callback(false);
+    }
+
+    reset();
+  }
+}
+
+int
+TransferStatusList::get_download_now() const
+{
+  int dlnow = 0;
+  for (TransferStatusPtr status : m_transfer_statuses)
+  {
+    dlnow += status->dlnow;
+  }
+  return dlnow;
+}
+
+int
+TransferStatusList::get_download_total() const
+{
+  int dltotal = 0;
+  for (TransferStatusPtr status : m_transfer_statuses)
+  {
+    dltotal += status->dltotal;
+  }
+  return dltotal;
+}
+
+void
+TransferStatusList::reset()
+{
+  m_transfer_statuses.clear();
+  m_callbacks.clear();
+  m_successful_count = 0;
+}
+
+bool
+TransferStatusList::is_active() const
+{
+  return !m_transfer_statuses.empty();
 }
 
 class Transfer final
@@ -108,7 +262,7 @@ public:
     m_handle(),
     m_error_buffer({{'\0'}}),
 #endif
-    m_status(new TransferStatus(m_downloader, id))
+    m_status(new TransferStatus(m_downloader, id, url))
 #ifndef EMSCRIPTEN
     ,
     m_fout(PHYSFS_openWrite(outfile.c_str()), PHYSFS_close)
@@ -118,7 +272,7 @@ public:
     if (!m_fout)
     {
       std::ostringstream out;
-      out << "PHYSFS_openRead() failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+      out << "PHYSFS_openRead() failed: " << physfsutil::get_last_error();
       throw std::runtime_error(out.str());
     }
 
@@ -130,6 +284,7 @@ public:
     else
     {
       curl_easy_setopt(m_handle, CURLOPT_URL, url.c_str());
+      // cppcheck-suppress unknownMacro
       curl_easy_setopt(m_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
 
       curl_easy_setopt(m_handle, CURLOPT_WRITEDATA, this);
@@ -145,7 +300,8 @@ public:
       curl_easy_setopt(m_handle, CURLOPT_PROGRESSFUNCTION, &Transfer::on_progress_wrap);
     }
 #else
-    // Avoid code injection from funny callers
+    // Sanitize input to prevent code injection from malicious callers.
+    // Escape backslashes and single quotes in the URL and file path to ensure safe usage.
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
     auto path_clean = StringUtil::replace_all(StringUtil::replace_all(FileSystem::join(std::string(PHYSFS_getWriteDir()), outfile), "\\", "\\\\"), "'", "\\'");
     emscripten_run_script(("supertux_xhr_download(" + std::to_string(m_id) + ", '" + url_clean + "', '" + path_clean + "');").c_str());
@@ -183,7 +339,7 @@ public:
   }
 #endif
 
-  std::string get_url() const
+  const std::string& get_url() const
   {
     return m_url;
   }
@@ -233,7 +389,8 @@ Downloader::Downloader() :
   m_multi_handle(),
 #endif
   m_transfers(),
-  m_next_transfer_id(1)
+  m_next_transfer_id(1),
+  m_last_update_time(-1)
 {
 #ifndef EMSCRIPTEN
   curl_global_init(CURL_GLOBAL_ALL);
@@ -250,7 +407,7 @@ Downloader::~Downloader()
 #ifndef EMSCRIPTEN
   for (auto& transfer : m_transfers)
   {
-    curl_multi_remove_handle(m_multi_handle, transfer->get_curl_handle());
+    curl_multi_remove_handle(m_multi_handle, transfer.second->get_curl_handle());
   }
 #endif
   m_transfers.clear();
@@ -293,7 +450,7 @@ Downloader::download(const std::string& url,
     throw std::runtime_error(url + ": download failed: " + why);
   }
 #else
-  log_warning << "Direct download not yet implemented for Emscripten" << std::endl;
+  log_warning << "Direct download not yet implemented for Emscripten." << std::endl;
   // FUTURE MAINTAINERS: If this needs to be implemented, take a look at
   // emscripten_wget(), emscripten_async_wget(), emscripten_wget_data() and
   // emscripten_async_wget_data():
@@ -324,7 +481,7 @@ Downloader::download(const std::string& url, const std::string& filename)
                                                           PHYSFS_close);
   download(url, my_curl_physfs_write, fout.get());
 #else
-  log_warning << "Direct download not yet implemented for Emscripten" << std::endl;
+  log_warning << "Direct download not yet implemented for Emscripten." << std::endl;
   // FUTURE MAINTAINERS: If this needs to be implemented, take a look at
   // emscripten_wget(), emscripten_async_wget(), emscripten_wget_data() and
   // emscripten_async_wget_data():
@@ -335,25 +492,17 @@ Downloader::download(const std::string& url, const std::string& filename)
 void
 Downloader::abort(TransferId id)
 {
-  // allow aborting
-  //if (g_config->disable_network)
-  //  return;
-
-  auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
-                         [&id](const std::unique_ptr<Transfer>& rhs)
-                         {
-                           return id == rhs->get_id();
-                         });
+  auto it = m_transfers.find(id);
   if (it == m_transfers.end())
   {
     log_warning << "transfer not found: " << id << std::endl;
   }
   else
   {
-    TransferStatusPtr status = (*it)->get_status();
+    TransferStatusPtr status = (it->second)->get_status();
 
 #ifndef EMSCRIPTEN
-    curl_multi_remove_handle(m_multi_handle, (*it)->get_curl_handle());
+    curl_multi_remove_handle(m_multi_handle, it->second->get_curl_handle());
 #endif
     m_transfers.erase(it);
 
@@ -378,7 +527,11 @@ Downloader::update()
     return;
 
 #ifndef EMSCRIPTEN
-  // read data from the network
+  // Prevent updating a Downloader multiple times in the same frame.
+  if (m_last_update_time == g_real_time) return;
+  m_last_update_time = g_real_time;
+
+  // Read data from the network.
   CURLMcode ret;
   int running_handles;
   while ((ret = curl_multi_perform(m_multi_handle, &running_handles)) == CURLM_CALL_MULTI_PERFORM)
@@ -386,7 +539,7 @@ Downloader::update()
     log_debug << "updating" << std::endl;
   }
 
-  // check if any downloads got finished
+  // Check if any downloads got finished.
   int msgs_in_queue;
   CURLMsg* msg;
   while ((msg = curl_multi_info_read(m_multi_handle, &msgs_in_queue)))
@@ -400,12 +553,12 @@ Downloader::update()
           curl_multi_remove_handle(m_multi_handle, msg->easy_handle);
 
           auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
-                                 [&msg](const std::unique_ptr<Transfer>& rhs) {
-                                   return rhs->get_curl_handle() == msg->easy_handle;
+                                 [&msg](const auto& rhs) {
+                                   return rhs.second->get_curl_handle() == msg->easy_handle;
                                  });
           assert(it != m_transfers.end());
-          TransferStatusPtr status = (*it)->get_status();
-          status->error_msg = (*it)->get_error_buffer();
+          TransferStatusPtr status = it->second->get_status();
+          status->error_msg = it->second->get_error_buffer();
           m_transfers.erase(it);
 
           if (resultfromcurl == CURLE_OK)
@@ -424,6 +577,8 @@ Downloader::update()
                 status->error_msg = err.what();
               }
             }
+            if (status->parent_list)
+              status->parent_list->on_transfer_complete(status, success);
           }
           else
           {
@@ -439,12 +594,14 @@ Downloader::update()
                 log_warning << "Illegal exception in Downloader: " << err.what() << std::endl;
               }
             }
+            if (status->parent_list)
+              status->parent_list->on_transfer_complete(status, false);
           }
         }
         break;
 
       default:
-        log_warning << "unhandled cURL message: " << msg->msg << std::endl;
+        log_warning << "Unhandled cURL message: " << msg->msg << std::endl;
         break;
     }
   }
@@ -456,55 +613,48 @@ Downloader::request_download(const std::string& url, const std::string& outfile)
 {
   if (g_config->disable_network)
   {
-    auto ptr = std::make_shared<TransferStatus>(*this, -1);
+    auto ptr = std::make_shared<TransferStatus>(*this, -1, "");
     ptr->prevented = true;
     ptr->error_msg = "Networking is disabled";
     return ptr;
   }
 
-  log_info << "request_download: " << url << std::endl;
+  log_info << "Requesting download for: " << url << std::endl;
   auto transfer = std::make_unique<Transfer>(*this, m_next_transfer_id++, url, outfile);
 #ifndef EMSCRIPTEN
   curl_multi_add_handle(m_multi_handle, transfer->get_curl_handle());
 #endif
-  m_transfers.push_back(std::move(transfer));
-  return m_transfers.back()->get_status();
+  auto transferId = transfer->get_id();
+  m_transfers[transferId] = std::move(transfer);
+  return m_transfers[transferId]->get_status();
 }
 
 #ifdef EMSCRIPTEN
 void
 Downloader::onDownloadProgress(int id, int loaded, int total)
 {
-  auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
-                         [&id](const std::unique_ptr<Transfer>& rhs)
-                         {
-                           return id == rhs->get_id();
-                         });
+  auto it = m_transfers.find(id);
   if (it == m_transfers.end())
   {
-    log_warning << "transfer not found: " << id << std::endl;
+    log_warning << "Transfer not found: " << id << std::endl;
   }
   else
   {
-    (*it)->on_progress(static_cast<double>(loaded), static_cast<double>(total), 0.0, 0.0);
+    (it->second)->on_progress(static_cast<double>(loaded), static_cast<double>(total), 0.0, 0.0);
   }
 }
 
 void
 Downloader::onDownloadFinished(int id)
 {
-  auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
-                         [&id](const std::unique_ptr<Transfer>& rhs)
-                         {
-                           return id == rhs->get_id();
-                         });
+  auto it = m_transfers.find(id);
   if (it == m_transfers.end())
   {
-    log_warning << "transfer not found: " << id << std::endl;
+    log_warning << "Transfer not found: " << id << std::endl;
   }
   else
   {
-    for (const auto& callback : (*it)->get_status()->callbacks)
+    for (const auto& callback : it->second->get_status()->callbacks)
     {
       try
       {
@@ -521,18 +671,14 @@ Downloader::onDownloadFinished(int id)
 void
 Downloader::onDownloadError(int id)
 {
-  auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
-                         [&id](const std::unique_ptr<Transfer>& rhs)
-                         {
-                           return id == rhs->get_id();
-                         });
+  auto it = m_transfers.find(id);
   if (it == m_transfers.end())
   {
-    log_warning << "transfer not found: " << id << std::endl;
+    log_warning << "Transfer not found: " << id << std::endl;
   }
   else
   {
-    for (const auto& callback : (*it)->get_status()->callbacks)
+    for (const auto& callback : it->second->get_status()->callbacks)
     {
       try
       {
@@ -549,18 +695,14 @@ Downloader::onDownloadError(int id)
 void
 Downloader::onDownloadAborted(int id)
 {
-  auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
-                         [&id](const std::unique_ptr<Transfer>& rhs)
-                         {
-                           return id == rhs->get_id();
-                         });
+  auto it = m_transfers.find(id);
   if (it == m_transfers.end())
   {
-    log_warning << "transfer not found: " << id << std::endl;
+    log_warning << "Transfer not found: " << id << std::endl;
   }
   else
   {
-    for (const auto& callback : (*it)->get_status()->callbacks)
+    for (const auto& callback : it->second->get_status()->callbacks)
     {
       try
       {

@@ -25,19 +25,35 @@ public:
   BouncingSnowball(const ReaderMapping& reader);
 
   virtual void initialize() override;
+
   virtual void active_update(float) override;
+
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+
+  virtual void unfreeze(bool melt = true) override;
+
+  virtual std::string get_overlay_size() const override { return "2x2"; }
   static std::string class_name() { return "bouncingsnowball"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Bouncing Snowball"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  virtual GameObjectTypes get_types() const override;
+  virtual std::string get_default_sprite_name() const override;
+
   virtual void after_editor_set() override;
   virtual bool is_snipable() const override { return true; }
+  virtual bool is_freezable() const override;
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+private:
+  enum Type {
+    NORMAL,
+    FATBAT
+  };
 
 private:
   BouncingSnowball(const BouncingSnowball&) = delete;

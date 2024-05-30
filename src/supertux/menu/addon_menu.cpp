@@ -24,6 +24,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/addon_browse_menu.hpp"
+#include "supertux/menu/addon_file_install_menu.hpp"
 #include "supertux/menu/addon_preview_menu.hpp"
 #include "supertux/menu/download_dialog.hpp"
 #include "util/log.hpp"
@@ -86,7 +87,7 @@ AddonMenu::rebuild_menu()
         bool addon_update = false;
         try
         {
-          // Detect if the addon has an update
+          // Detect if the add-on has an update.
           const Addon& repository_addon = m_addon_manager.get_repository_addon(addon_id);
           if (addon.get_md5() != repository_addon.get_md5() &&
             addon.get_version() < repository_addon.get_version())
@@ -147,6 +148,7 @@ AddonMenu::rebuild_menu()
   }
 
   add_entry(MNID_BROWSE, m_langpacks_only ? _("Browse language packs") : _("Browse Add-ons"));
+  add_entry(MNID_INSTALL_FROM_FILE, _("Install from file"));
   add_hl();
   add_back(_("Back"));
 }
@@ -162,6 +164,10 @@ AddonMenu::menu_action(MenuItem& item)
   else if (index == MNID_BROWSE)
   {
     MenuManager::instance().push_menu(std::make_unique<AddonBrowseMenu>(m_langpacks_only, false));
+  }
+  else if (index == MNID_INSTALL_FROM_FILE)
+  { 
+    MenuManager::instance().push_menu(std::make_unique<AddonFileInstallMenu>(this));
   }
   else if (IS_UPDATE_MENU_ID(index))
   {

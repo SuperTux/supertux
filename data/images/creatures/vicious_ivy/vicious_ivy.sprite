@@ -1,7 +1,7 @@
 (supertux-sprite
  (action
   (name "left")
-  (hitbox 7 10 32 32)
+  (hitbox 9 12 32 32)
   (fps 15)
   (images "left-0.png"
 		  "left-1.png"
@@ -15,14 +15,14 @@
  
  (action
   (name "right")
-  (hitbox 19 10 32 32)
+  (hitbox 19 12 32 32)
   (fps 15)
   (mirror-action "left")
  )
  
  (action
   (name "float-left")
-  (hitbox 13 12 32 32)
+  (hitbox 14 12 32 32)
   (fps 15)
   (images "float-0.png"
 		  "float-1.png"
@@ -36,53 +36,54 @@
  
  (action
   (name "float-right")
-  (hitbox 19 12 32 32)
+  (hitbox 20 12 32 32)
   (fps 15)
   (mirror-action "float-left")
  )
  
  (action
   (name "iced-left")
-  (hitbox 2 4 32 32)
-  (images "left-0.png")
+  (hitbox 3 6 64 43)
+  (images "left-2.png")
  )
  
  (action
   (name "iced-right")
-  (hitbox 2 4 31.8 31.8)
+  (hitbox 3 6 64 43)
   (mirror-action "iced-left")
  )
  
  (action
   (name "squished-left")
-  (hitbox 1 -21 32 32)
+  (hitbox 9 12 32 32)
   (images "squished.png")
  )
 
  
  (action
   (name "squished-right")
-  (hitbox -1 -21 32 32)
+  (hitbox 19 12 32 32)
   (mirror-action "squished-left")
  )
 
  (action
   (name "burning-left")
-  (hitbox 2 36 31.8 31.8)
+  (hitbox 9 12 32 32)
   (fps 15)
   (images "burning-0.png"
-   "burning-1.png"
-   "burning-2.png"
-   "burning-3.png"
-   "burning-4.png"
-   "burning-5.png"
-   "burning-6.png"
-   "burning-7.png"
-   "burning-8.png"
-   "burning-9.png"))
+		  "burning-1.png"
+		  "burning-2.png"
+		  "burning-3.png"
+		  "burning-4.png"
+		  "burning-5.png"
+		  "burning-6.png"
+		  "burning-7.png"
+		  "burning-8.png"
+		  "burning-9.png"))
+
  (action
   (name "burning-right")
-  (hitbox 2 36 31.8 31.8)
+  (hitbox 9 12 32 32)
   (mirror-action "burning-left")
  )
 )

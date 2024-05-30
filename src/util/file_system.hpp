@@ -30,6 +30,9 @@ bool exists(const std::string& path);
 /** Create the given directory */
 void mkdir(const std::string& directory);
 
+/** Copy file from one directory to another */
+void copy(const std::string& source_path, const std::string& target_path);
+
 /** returns the path of the directory the file is in */
 std::string dirname(const std::string& filename);
 
@@ -52,6 +55,9 @@ std::string normalize(const std::string& filename);
 
 /** join two filenames join("foo", "bar") -> "foo/bar" */
 std::string join(const std::string& lhs, const std::string& rhs);
+
+/** Escapes path components */
+std::string escape_url(const std::string& url);
 
 /** Remove a file
     @return true when successfully removed, false otherwise */

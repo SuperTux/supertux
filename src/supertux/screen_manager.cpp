@@ -18,6 +18,7 @@
 
 #include "supertux/screen_manager.hpp"
 
+#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/particle_editor.hpp"
@@ -158,10 +159,7 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
 {
   log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
   assert(screen);
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
+  set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
 }
 
@@ -169,10 +167,7 @@ void
 ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
 {
   log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
+  set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::POP_ACTION);
 }
 
@@ -194,10 +189,7 @@ ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
   g_config->save();
 #endif
 
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
+  set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::QUIT_ACTION);
 }
 
@@ -217,7 +209,7 @@ void
 ScreenManager::draw_fps(DrawingContext& context, FPS_Stats& fps_statistics)
 {
   // The fonts are not monospace, so the numbers need to be drawn separately
-  Vector pos(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 50);
+  Vector pos(context.get_width() - BORDER_X, BORDER_Y + 50);
   context.color().draw_text(Resources::small_font, "FPS  min / avg / max",
     pos, ALIGN_RIGHT, LAYER_HUD);
   static const float w2 = Resources::small_font->get_text_width("999.9 /");
@@ -258,7 +250,7 @@ ScreenManager::draw_player_pos(DrawingContext& context)
 
       context.color().draw_text(
         Resources::small_font, pos_text,
-        Vector(static_cast<float>(context.get_width()) - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
+        Vector(context.get_width() - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
               BORDER_Y + 60 + height), ALIGN_LEFT, LAYER_HUD);
 
       height += 30;
@@ -480,7 +472,7 @@ ScreenManager::process_events()
         }
         break;
 
-      // NOTE: Steam recommends leaving this behavior in. If it turns out to bt
+      // NOTE: Steam recommends leaving this behavior in. If it turns out to be
       // impractical for users, please add `#ifdef STEAM_BUILD` code around it.
       case SDL_JOYDEVICEREMOVED:
       case SDL_CONTROLLERDEVICEREMOVED:
@@ -488,6 +480,7 @@ ScreenManager::process_events()
         {
           session->toggle_pause();
         }
+        break;
     }
   }
 }
@@ -571,10 +564,6 @@ ScreenManager::handle_screen_switch()
 
 void ScreenManager::loop_iter()
 {
-  // Useful if screens edit their status without switching screens
-  Integration::update_status_all(m_screen_stack.back()->get_status());
-  Integration::update_all();
-
   Uint32 ticks = SDL_GetTicks();
   elapsed_ticks += ticks - last_ticks;
   last_ticks = ticks;
@@ -593,6 +582,10 @@ void ScreenManager::loop_iter()
     return;
   }
 
+  // Useful if screens edit their status without switching screens
+  Integration::update_status_all(m_screen_stack.back()->get_status());
+  Integration::update_all();
+
   g_real_time = static_cast<float>(ticks) / 1000.0f;
 
   float speed_multiplier = g_debug.get_game_speed_multiplier();
@@ -604,7 +597,7 @@ void ScreenManager::loop_iter()
   float fps = m_fps_statistics->get_fps();
   if (fps != 0) {
     // Skip if fps not ready yet (during first 0.5 seconds of startup).
-    float seconds_per_frame = 1.0f / m_fps_statistics->get_fps();
+    float seconds_per_frame = 1.0f / fps;
     int max_steps_per_frame = static_cast<int>(
       ceilf(seconds_per_frame / seconds_per_step));
     if (max_steps_per_frame < 2)

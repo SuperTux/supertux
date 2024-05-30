@@ -27,21 +27,23 @@
 #include "math/fwd.hpp"
 #include "supertux/direction.hpp"
 
-class ReaderMapping;
 class GameObject;
+class ReaderMapping;
 
 class ObjectFactory
 {
 private:
-  typedef std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> FactoryFunction;
-  typedef std::map<std::string, FactoryFunction> Factories;
+  struct FactoryFunctions {
+    std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> create = nullptr;
+    std::function<std::string ()> get_display_name = nullptr;
+  };
+  typedef std::map<std::string, FactoryFunctions> Factories;
+
   Factories factories;
   std::vector<std::string> m_badguys_names;
   std::vector<uint8_t> m_badguys_params;
   std::vector<std::string> m_objects_names;
-  std::vector<std::string> m_objects_display_names;
   std::vector<uint8_t> m_objects_params;
-  std::map<std::string, std::string> m_other_display_names; // Stores display names for non-factory objects.
 
 protected:
   bool m_adding_badguys;
@@ -49,13 +51,18 @@ protected:
 public:
   enum RegisteredObjectParam
   {
-    OBJ_PARAM_NONE=0, OBJ_PARAM_PORTABLE=0b10000000
+    OBJ_PARAM_NONE = 0,
+    OBJ_PARAM_PORTABLE = 0b10000000,
+    OBJ_PARAM_WORLDMAP = 0b01000000,
+    OBJ_PARAM_DISPENSABLE = 0b00100000
   };
 
 public:
   /** Will throw in case of creation failure, will never return nullptr */
   std::unique_ptr<GameObject> create(const std::string& name, const ReaderMapping& reader) const;
   std::string get_display_name(const std::string& name) const;
+
+  bool has_params(const std::string& name, uint8_t params);
 
   std::vector<std::string>& get_registered_badguys() { return m_badguys_names; }
   std::vector<std::string> get_registered_badguys(uint8_t params);
@@ -65,13 +72,7 @@ public:
 protected:
   ObjectFactory();
 
-  void add_display_name(const char* class_name, const std::string& display_name)
-  {
-    assert(m_other_display_names.find(class_name) == m_other_display_names.end());
-    m_other_display_names[class_name] = display_name;
-  }
-
-  void add_factory(const char* name, const std::string& display_name, const FactoryFunction& func, uint8_t obj_params = 0)
+  void add_factory(const char* name, const FactoryFunctions functions, uint8_t obj_params = 0)
   {
     assert(factories.find(name) == factories.end());
     if (m_adding_badguys)
@@ -80,18 +81,36 @@ protected:
       m_badguys_params.push_back(obj_params);
     }
     m_objects_names.push_back(name);
-    m_objects_display_names.push_back(display_name);
     m_objects_params.push_back(obj_params);
-    factories[name] = func;
+    factories[name] = std::move(functions);
+  }
+
+private:
+  template<class C>
+  void add_factory(const char* class_name,
+                   const std::function<std::unique_ptr<GameObject> (const ReaderMapping&)>& create_func,
+                   uint8_t obj_params = 0)
+  {
+    add_factory(class_name, { std::move(create_func), C::display_name }, obj_params);
+  }
+
+protected:
+  template<class C>
+  void add_factory(const char* class_name, uint8_t obj_params = 0)
+  {
+    add_factory<C>(class_name,
+                   [](const ReaderMapping& reader) {
+                     return std::make_unique<C>(reader);
+                   }, obj_params);
   }
 
   template<class C>
-  void add_factory(const char* class_name, uint8_t obj_params = 0, const std::string& display_name = "")
+  void add_type_factory(const char* class_name, int type, uint8_t obj_params = 0)
   {
-    add_factory(class_name, (display_name == "") ? C::display_name() : display_name,
-                [](const ReaderMapping& reader) {
-                  return std::make_unique<C>(reader);
-                }, obj_params);
+    add_factory<C>(class_name,
+                   [type](const ReaderMapping& reader) {
+                     return std::make_unique<C>(reader, type);
+                   }, obj_params);
   }
 };
 

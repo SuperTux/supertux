@@ -65,7 +65,6 @@ ScriptedObject::get_settings()
 
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_OBJECTS);
   //result.add_float("width", &new_size.x, "width", OPTION_HIDDEN);
   //result.add_float("height", &new_size.y, "height", OPTION_HIDDEN);
   result.add_bool(_("Solid"), &solid, "solid", true);
@@ -154,18 +153,6 @@ void
 ScriptedObject::enable_gravity(bool f)
 {
 	physic.enable_gravity(f);
-}
-
-void
-ScriptedObject::set_action(const std::string& animation)
-{
-  m_sprite->set_action(animation);
-}
-
-std::string
-ScriptedObject::get_action() const
-{
-  return m_sprite->get_action();
 }
 
 void

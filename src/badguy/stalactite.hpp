@@ -30,8 +30,8 @@ public:
   virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit) override;
 
-  virtual ObjectSettings get_settings() override;
-  void after_editor_set() override;
+  virtual GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual void kill_fall() override;
   virtual void draw(DrawingContext& context) override;
@@ -47,6 +47,9 @@ public:
   void squish();
 
 protected:
+  std::vector<Direction> get_allowed_directions() const override;
+
+protected:
   enum StalactiteType {
     ICE,
     ROCK
@@ -58,12 +61,7 @@ protected:
     STALACTITE_SQUISHED
   };
 
-  static const std::vector<std::string> s_sprites;
-
-  static StalactiteType StalactiteType_from_string(const std::string& type_string);
-
 protected:
-  StalactiteType m_type;
   Timer timer;
   StalactiteState state;
   Vector shake_delta;

@@ -24,10 +24,10 @@
 #include "supertux/menu/debug_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
 #include "supertux/menu/custom_menu_menu.hpp"
+#include "supertux/menu/editor_converters_menu.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_level_menu.hpp"
 #include "supertux/menu/editor_level_select_menu.hpp"
-#include "supertux/menu/editor_levelset_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
@@ -42,7 +42,7 @@
 #include "supertux/menu/main_menu.hpp"
 #include "supertux/menu/multiplayer_menu.hpp"
 #include "supertux/menu/multiplayer_players_menu.hpp"
-#include "supertux/menu/options_menu.hpp"
+#include "supertux/menu/options_select_menu.hpp"
 #include "supertux/menu/particle_editor_menu.hpp"
 #include "supertux/menu/particle_editor_save_as.hpp"
 #include "supertux/menu/particle_editor_open.hpp"
@@ -86,10 +86,10 @@ MenuStorage::create(MenuId menu_id)
       return std::make_unique<LanguageMenu>();
 
     case OPTIONS_MENU:
-      return std::unique_ptr<Menu>(new OptionsMenu(true));
+      return std::make_unique<OptionsSelectMenu>(true);
 
     case INGAME_OPTIONS_MENU:
-      return std::unique_ptr<Menu>(new OptionsMenu(false));
+      return std::make_unique<OptionsSelectMenu>(false);
 
     case PROFILE_MENU:
       return std::make_unique<ProfileMenu>();
@@ -166,8 +166,8 @@ MenuStorage::create(MenuId menu_id)
     case EDITOR_LEVEL_MENU:
       return std::make_unique<EditorLevelMenu>();
 
-    case EDITOR_LEVELSET_MENU:
-      return std::make_unique<EditorLevelsetMenu>();
+    case EDITOR_CONVERTERS_MENU:
+      return std::make_unique<EditorConvertersMenu>();
 
     case INTEGRATIONS_MENU:
       return std::make_unique<IntegrationsMenu>();

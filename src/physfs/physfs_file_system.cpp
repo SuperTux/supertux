@@ -19,6 +19,7 @@
 #include <physfs.h>
 
 #include "physfs/ifile_stream.hpp"
+#include "physfs/util.hpp"
 
 PhysFSFileSystem::PhysFSFileSystem()
 {
@@ -28,14 +29,9 @@ std::vector<std::string>
 PhysFSFileSystem::open_directory(const std::string& pathname)
 {
   std::vector<std::string> files;
-
-  char** directory = PHYSFS_enumerateFiles(pathname.c_str());
-  for (char** i = directory; *i != nullptr; ++i)
-  {
-    files.push_back(*i);
-  }
-  PHYSFS_freeList(directory);
-
+  physfsutil::enumerate_files(pathname, [&files](const std::string& file) {
+    files.push_back(file);
+  });
   return files;
 }
 

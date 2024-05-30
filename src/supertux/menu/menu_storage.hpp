@@ -19,11 +19,7 @@
 
 #include <memory>
 
-class JoystickMenu;
-class KeyboardMenu;
 class Menu;
-class OptionsMenu;
-class ProfileMenu;
 
 class MenuStorage final
 {
@@ -64,7 +60,7 @@ public:
     EDITOR_SECTORS_MENU,
     EDITOR_SECTOR_MENU,
     EDITOR_LEVEL_MENU,
-    EDITOR_LEVELSET_MENU,
+    EDITOR_CONVERTERS_MENU,
     PARTICLE_EDITOR_MENU,
     PARTICLE_EDITOR_SAVE_AS,
     PARTICLE_EDITOR_OPEN,

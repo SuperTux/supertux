@@ -21,7 +21,9 @@
 #include "editor/editor.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_set.hpp"
@@ -34,7 +36,6 @@
 #include "video/drawing_context.hpp"
 #include "video/layer.hpp"
 #include "video/surface.hpp"
-#include "worldmap/worldmap.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
   ExposedObject<TileMap, scripting::TileMap>(this),
@@ -50,7 +51,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_height(0),
   m_z_pos(0),
   m_offset(Vector(0,0)),
-  m_movement(0,0),
+  m_movement(0, 0),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -84,8 +85,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_width(-1),
   m_height(-1),
   m_z_pos(0),
-  m_offset(Vector(0,0)),
-  m_movement(Vector(0,0)),
+  m_offset(Vector(0, 0)),
+  m_movement(Vector(0, 0)),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -152,7 +153,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   /* Initialize effective_solid based on real_solid and current_alpha. */
   m_effective_solid = m_real_solid;
-  update_effective_solid ();
+  update_effective_solid(false);
 
   reader.get("width", m_width);
   reader.get("height", m_height);
@@ -193,6 +194,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 void
 TileMap::finish_construction()
 {
+  get_parent()->update_solid(this);
+
   if (get_path() && get_path()->get_nodes().size() > 0) {
     if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
       m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
@@ -325,6 +328,20 @@ TileMap::after_editor_set()
 }
 
 void
+TileMap::save_state()
+{
+  GameObject::save_state();
+  PathObject::save_state();
+}
+
+void
+TileMap::check_state()
+{
+  GameObject::check_state();
+  PathObject::check_state();
+}
+
+void
 TileMap::update(float dt_sec)
 {
   // handle tilemap fading
@@ -339,8 +356,7 @@ TileMap::update(float dt_sec)
   }
 
   // handle tint fading
-  if (m_current_tint.red != m_tint.red || m_current_tint.green != m_tint.green ||
-      m_current_tint.blue != m_tint.blue || m_current_tint.alpha != m_tint.alpha) {
+  if (m_current_tint != m_tint) {
 
     m_remaining_tint_fade_time = std::max(0.0f, m_remaining_tint_fade_time - dt_sec);
     if (m_remaining_tint_fade_time == 0.0f) {
@@ -353,9 +369,9 @@ TileMap::update(float dt_sec)
     }
   }
 
-  m_movement = Vector(0,0);
   // if we have a path to follow, follow it
   if (get_walker()) {
+    m_movement = Vector(0, 0);
     get_walker()->update(dt_sec);
     Vector v = get_walker()->get_pos(get_size() * 32, m_path_handle);
     if (get_path() && get_path()->is_valid()) {
@@ -403,7 +419,7 @@ TileMap::on_flip(float height)
   for (int x = 0; x < get_width(); ++x) {
     for (int y = 0; y < get_height()/2; ++y) {
       // swap tiles
-      int y2 = get_height()-1-y;
+      int y2 = get_height() - 1 - y;
       uint32_t t1 = get_tile_id(x, y);
       uint32_t t2 = get_tile_id(x, y2);
       change(x, y, t2);
@@ -465,6 +481,14 @@ TileMap::draw(DrawingContext& context)
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
       }
 
+      // If the tilemap is active in editor and showing deprecated tiles is enabled, draw indication over each deprecated tile
+      if (Editor::is_active() && m_editor_active &&
+          g_config->editor_show_deprecated_tiles && tile.is_deprecated())
+      {
+        context.color().draw_text(Resources::normal_font, "!", pos + Vector(16, 8),
+                                  ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
+      }
+
       const SurfacePtr& surface = Editor::is_active() ? tile.get_current_editor_surface() : tile.get_current_surface();
       if (surface) {
         std::get<0>(batches[surface]).emplace_back(surface->get_region());
@@ -492,10 +516,17 @@ TileMap::draw(DrawingContext& context)
 }
 
 void
-TileMap::goto_node(int node_no)
+TileMap::goto_node(int node_idx)
 {
   if (!get_walker()) return;
-  get_walker()->goto_node(node_no);
+  get_walker()->goto_node(node_idx);
+}
+
+void
+TileMap::jump_to_node(int node_idx, bool instantaneous)
+{
+  if (!get_walker()) return;
+  get_walker()->jump_to_node(node_idx, instantaneous);
 }
 
 void
@@ -628,7 +659,7 @@ TileMap::get_tile_id(int x, int y) const
   if (x >= m_width) x = m_width - 1;
   if (y < 0) y = 0;
   if (y >= m_height) y = m_height - 1;
-  
+
   if (x < 0 || x >= m_width || y < 0 || y >= m_height) {
     //log_warning << "tile outside tilemap requested" << std::endl;
     return 0;
@@ -670,7 +701,9 @@ TileMap::get_tile_at(const Vector& pos) const
 void
 TileMap::change(int x, int y, uint32_t newtile)
 {
-  assert(x >= 0 && x < m_width && y >= 0 && y < m_height);
+  if(x < 0 || x >= m_width || y < 0 || y >= m_height)
+    return;
+
   m_tiles[y*m_width + x] = newtile;
 }
 
@@ -794,10 +827,9 @@ TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op
 }
 
 bool
-TileMap::is_corner(uint32_t tile)
+TileMap::is_corner(uint32_t tile) const
 {
   auto* ats = m_tileset->get_autotileset_from_tile(tile);
-  
   return ats && ats->is_corner();
 }
 
@@ -816,7 +848,7 @@ TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos)
                                   + static_cast<int>(pos.x)];
 
   AutotileSet* curr_set = m_tileset->get_autotileset_from_tile(current_tile);
-  
+
   if (curr_set && curr_set->is_corner()) {
     int x = static_cast<int>(corner_pos.x), y = static_cast<int>(corner_pos.y);
     autotile_corner(x, y, current_tile, AutotileCornerOperation::REMOVE_TOP_LEFT);
@@ -926,9 +958,8 @@ TileMap::move_by(const Vector& shift)
 }
 
 void
-TileMap::update_effective_solid()
+TileMap::update_effective_solid(bool update_manager)
 {
-  bool old = m_effective_solid;
   if (!m_real_solid)
     m_effective_solid = false;
   else if (m_effective_solid && (m_current_alpha < 0.25f))
@@ -936,12 +967,8 @@ TileMap::update_effective_solid()
   else if (!m_effective_solid && (m_current_alpha >= 0.75f))
     m_effective_solid = true;
 
-  if(Sector::current() != nullptr && old != m_effective_solid)
-  {
-      Sector::get().update_solid(this);
-  } else if(worldmap::WorldMap::current() != nullptr && old != m_effective_solid) {
-      worldmap::WorldMap::current()->update_solid(this);
-  }
+  if (update_manager)
+    get_parent()->update_solid(this);
 }
 
 void

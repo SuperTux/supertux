@@ -16,19 +16,10 @@
 
 #include "badguy/smartblock.hpp"
 
-#include "sprite/sprite_manager.hpp"
-#include "util/reader_mapping.hpp"
-
 SmartBlock::SmartBlock(const ReaderMapping& reader) :
-  MrIceBlock(reader)
+  MrIceBlock(reader, "images/creatures/iceblock/smart_block.sprite")
 {
-  max_drop_height = 16;
-  m_default_sprite_name = "images/creatures/mr_iceblock/smart_block/smart_block.sprite";
-
-  if (!reader.get("sprite", m_sprite_name)) {
-    m_sprite_name = m_default_sprite_name;
-  }
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
+  set_ledge_behavior(LedgeBehavior::SMART);
 }
 
 /* EOF */

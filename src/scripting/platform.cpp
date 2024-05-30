@@ -20,10 +20,17 @@
 namespace scripting {
 
 void
-Platform::goto_node(int node_no)
+Platform::goto_node(int node_idx)
 {
   SCRIPT_GUARD_VOID;
-  object.goto_node(node_no);
+  object.goto_node(node_idx);
+}
+
+void
+Platform::set_node(int node_idx)
+{
+  SCRIPT_GUARD_VOID;
+  object.jump_to_node(node_idx, /* instantaneous = */ true);
 }
 
 void
@@ -40,11 +47,18 @@ Platform::stop_moving()
   object.stop_moving();
 }
 
+std::string
+Platform::get_action() const
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_action();
+}
+
 void
-Platform::set_action(const std::string& action, int repeat)
+Platform::set_action(const std::string& action, int loops)
 {
   SCRIPT_GUARD_VOID;
-  object.set_action(action, repeat);
+  object.set_action(action, loops);
 }
 
 } // namespace scripting

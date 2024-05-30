@@ -24,11 +24,8 @@
 #include "supertux/timer.hpp"
 
 class Color;
-class DrawingContext;
-class Player;
-class ReaderMapping;
 
-class Climbable final : public TriggerBase
+class Climbable final : public Trigger
 {
 private:
   struct ClimbPlayer
@@ -42,7 +39,6 @@ private:
 
 public:
   Climbable(const ReaderMapping& reader);
-  Climbable(const Rectf& area);
   ~Climbable() override;
 
   static std::string class_name() { return "climbable"; }
@@ -52,14 +48,13 @@ public:
   virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
 
   virtual void event(Player& player, EventType type) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   /** returns true if the player is within bounds of the Climbable */
-  bool may_climb(Player& player) const;
+  bool may_climb(const Player& player) const;
 
 protected:
   std::vector<Player*> climbed_by; /** contains players who's currently climbing us, empty if nobody is. */
@@ -67,8 +62,6 @@ protected:
   std::string message;
 
 private:
-  Vector new_size;
-
   Climbable(const Climbable&) = delete;
   Climbable& operator=(const Climbable&) = delete;
 };

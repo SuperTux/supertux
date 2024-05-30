@@ -26,7 +26,7 @@
 
 TextObject::TextObject(const std::string& name) :
   GameObject(name),
-  ExposedObject<TextObject, scripting::Text>(this),
+  ExposedObject<TextObject, scripting::TextObject>(this),
   m_font(Resources::normal_font),
   m_text(),
   m_wrapped_text(),
@@ -35,7 +35,9 @@ TextObject::TextObject(const std::string& name) :
   m_visible(false),
   m_centered(false),
   m_anchor(ANCHOR_MIDDLE),
+  m_anchor_offset(0, 0),
   m_pos(0, 0),
+  m_wrap_width(500.f),
   m_front_fill_color(0.6f, 0.7f, 0.8f, 0.5f),
   m_back_fill_color(0.2f, 0.3f, 0.4f, 0.8f),
   m_text_color(1.f, 1.f, 1.f, 1.f),
@@ -73,28 +75,12 @@ TextObject::set_font(const std::string& name)
 void
 TextObject::wrap_text()
 {
-  std::string rest;
-
-  // strip all newlines except double ones (markdown'ish)
-  char prev_c = ' ';
-  for (const char& c : m_text) {
-    if (c == '\n') {
-      if (prev_c == '\n') {
-        rest += '\n';
-      } else {
-        rest += ' ';
-      }
-    } else {
-      rest += c;
-    }
-    prev_c = c;
-  }
-
   m_wrapped_text.clear();
 
+  std::string rest = m_text;
   do {
     std::string overflow;
-    m_wrapped_text += m_font->wrap_to_width(rest, 500, &overflow);
+    m_wrapped_text += m_font->wrap_to_width(rest, m_wrap_width, &overflow);
     if (!overflow.empty()) {
       m_wrapped_text += "\n";
     }
@@ -205,27 +191,24 @@ TextObject::draw(DrawingContext& context)
 
   float width  = m_font->get_text_width(m_wrapped_text) + 20.0f;
   float height = m_font->get_text_height(m_wrapped_text) + 20.0f;
-  Vector spos = m_pos + get_anchor_pos(Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
-                                       width, height, m_anchor);
+  Vector spos = m_pos + get_anchor_pos(context.get_rect(),
+                                       width, height, m_anchor) + m_anchor_offset;
   Vector sizepos = spos + (Vector(width / 2.f, height / 2.f)) - (Vector(width / 2.f, height / 2.f) * (m_fade_progress));
 
   if (m_fade_progress > 0.f)
   {
-    context.color().draw_filled_rect(Rectf((m_grower ? sizepos : spos) - Vector(4.f, 4.f), Sizef((width * (m_fader ? 1.f : m_fade_progress)) + 8.f, (height * (m_fader ? 1.f : m_fade_progress)) + 8.f)),
-      m_back_fill_color, m_roundness + 4.f, LAYER_GUI + 50);
+    const Rectf draw_rect(m_grower ? sizepos : spos, Sizef(width, height) * (m_fader ? 1.f : m_fade_progress));
 
-    context.color().draw_filled_rect(Rectf((m_grower ? sizepos : spos), Sizef(width, height) * (m_fader ? 1.f : m_fade_progress)),
-      m_front_fill_color, m_roundness, LAYER_GUI + 50);
+    context.color().draw_filled_rect(draw_rect.grown(4.0f), m_back_fill_color, m_roundness + 4.f, LAYER_GUI + 50);
+    context.color().draw_filled_rect(draw_rect, m_front_fill_color, m_roundness, LAYER_GUI + 50);
   }
 
   if (m_fader || (m_grower && m_fade_progress >= 1.f))
   {
-    if (m_centered) {
-      context.color().draw_center_text(m_font, m_wrapped_text, spos, LAYER_GUI + 60, m_text_color);
-    }
-    else {
-      context.color().draw_text(m_font, m_wrapped_text, spos + Vector(10.f, 10.f), ALIGN_LEFT, LAYER_GUI + 60, m_text_color);
-    }
+    context.color().draw_text(m_font, m_wrapped_text,
+                              spos + Vector(m_centered ? width / 2.f : 10.f, 10.f),
+                              m_centered ? ALIGN_CENTER : ALIGN_LEFT,
+                              LAYER_GUI + 60, m_text_color);
   }
 
   context.pop_transform();

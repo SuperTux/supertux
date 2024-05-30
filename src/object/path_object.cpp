@@ -16,11 +16,12 @@
 
 #include "object/path_object.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "editor/editor.hpp"
 #include "object/path_gameobject.hpp"
 #include "supertux/d_scope.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -43,7 +44,7 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
   bool running = running_default;
   mapping.get("running", running);
 
-  boost::optional<ReaderMapping> handle_map;
+  std::optional<ReaderMapping> handle_map;
   if (mapping.get("handle", handle_map))
   {
     handle_map->get("scale_x", m_path_handle.m_scalar_pos.x);
@@ -53,7 +54,7 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
   }
 
   std::string path_ref;
-  boost::optional<ReaderMapping> path_mapping;
+  std::optional<ReaderMapping> path_mapping;
   if (mapping.get("path", path_mapping))
   {
     auto& path_gameobject = d_gameobject_manager->add<PathGameObject>(*path_mapping, true);
@@ -63,8 +64,8 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
   else if (mapping.get("path-ref", path_ref))
   {
     d_gameobject_manager->request_name_resolve(path_ref, [this, running](UID uid){
-        m_path_uid = uid;
-        m_walker.reset(new PathWalker(uid, running));
+        if (!m_path_uid) m_path_uid = uid;
+        m_walker.reset(new PathWalker(m_path_uid, running));
       });
   }
 }
@@ -75,6 +76,22 @@ PathObject::init_path_pos(const Vector& pos, bool running)
   auto& path_gameobject = d_gameobject_manager->add<PathGameObject>(pos);
   m_path_uid = path_gameobject.get_uid();
   m_walker.reset(new PathWalker(path_gameobject.get_uid(), running));
+}
+
+void
+PathObject::save_state() const
+{
+  PathGameObject* path_object = get_path_gameobject();
+  if (path_object)
+    path_object->save_state();
+}
+
+void
+PathObject::check_state() const
+{
+  PathGameObject* path_object = get_path_gameobject();
+  if (path_object)
+    path_object->check_state();
 }
 
 PathGameObject*
@@ -106,6 +123,18 @@ PathObject::get_path_ref() const
     return {};
   }
   return path_gameobject->get_name();
+}
+
+void
+PathObject::editor_clone_path(PathGameObject* path_object)
+{
+  if (!path_object)
+    return;
+
+  auto new_path_obj = GameObjectFactory::instance().create(path_object->get_class_name(), path_object->save());
+  auto& new_path = static_cast<PathGameObject&>(Editor::current()->get_sector()->add_object(std::move(new_path_obj)));
+  new_path.regenerate_name();
+  m_path_uid = new_path.get_uid();
 }
 
 void

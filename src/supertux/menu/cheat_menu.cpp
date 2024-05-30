@@ -39,7 +39,6 @@ CheatMenu::CheatMenu()
   add_entry(MNID_SHRINK, _("Shrink Tux"));
   add_entry(MNID_KILL, _("Kill Tux"));
   add_entry(MNID_FINISH, _("Finish Level"));
-
   if (players.size() == 1)
   {
     add_entry(MNID_GHOST, players[0]->get_ghost_mode() ?
@@ -47,10 +46,14 @@ CheatMenu::CheatMenu()
   }
   else
   {
-    // In multiplayer, different players may have different ghost states
+    // In multiplayer, different players may have different ghost states.
     add_entry(MNID_GHOST, _("Activate Ghost Mode"));
     add_entry(MNID_UNGHOST, _("Leave Ghost Mode"));
   }
+
+  if (GameSession::current())
+    add_toggle(-1, _("Prevent Death"), &GameSession::current()->m_prevent_death);
+
   add_hl();
   add_back(_("Back"));
 }
@@ -81,7 +84,6 @@ CheatMenu::menu_action(MenuItem& item)
 
     case MNID_FIRE:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
-        log_warning << player.get_id() << std::endl;
         player.set_bonus(FIRE_BONUS);
         player.get_status().max_fire_bullets[player.get_id()] = count;
       }));
@@ -89,7 +91,6 @@ CheatMenu::menu_action(MenuItem& item)
 
     case MNID_ICE:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
-        log_warning << player.get_id() << std::endl;
         player.set_bonus(ICE_BONUS);
         player.get_status().max_ice_bullets[player.get_id()] = count;
       }));
@@ -97,7 +98,6 @@ CheatMenu::menu_action(MenuItem& item)
 
     case MNID_AIR:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
-        log_warning << player.get_id() << std::endl;
         player.set_bonus(AIR_BONUS);
         player.get_status().max_air_time[player.get_id()] = count;
       }));
@@ -105,7 +105,6 @@ CheatMenu::menu_action(MenuItem& item)
 
     case MNID_EARTH:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
-        log_warning << player.get_id() << std::endl;
         player.set_bonus(EARTH_BONUS);
         player.get_status().max_earth_time[player.get_id()] = count;
       }));

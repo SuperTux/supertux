@@ -141,9 +141,11 @@
 
        (action
          (name "small-walk-right")
-         (fps 15.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 26 32 32)
-         (images "small/walk-0.png"
+         (images "small/walk_transition-0.png"
+                 "small/walk-0.png"
                  "small/walk-1.png"
                  "small/walk-2.png"
                  "small/walk-3.png"
@@ -154,9 +156,32 @@
 
        (action
          (name "small-walk-left")
-         (fps 15.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 26 32 32)
          (mirror-action "small-walk-right"))
+
+       (action
+         (name "small-run-right")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 18 26 32 32)
+         (images "small/run_transition-0.png"
+                 "small/run-0.png"
+                 "small/run-1.png"
+                 "small/run-2.png"
+                 "small/run-3.png"
+                 "small/run-4.png"
+                 "small/run-5.png"
+                 "small/run-6.png"
+                 "small/run-7.png"))
+
+       (action
+         (name "small-run-left")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 20 26 32 32)
+         (mirror-action "small-run-right"))
 
        (action
          (name "small-jump-right")
@@ -190,7 +215,7 @@
          (fps 15.0)
          (loops 1)
          (hitbox 16 26 32 32)
-         (mirror-action "small-jump-right"))
+         (mirror-action "small-fall-right"))
 
        (action
          (name "small-walljump-right")
@@ -604,9 +629,11 @@
 
        (action
          (name "big-walk-right")
-         (fps 16.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
-         (images "big/walk-0.png"
+         (images "big/walk_transition-0.png"
+                 "big/walk-0.png"
                  "big/walk-1.png"
                  "big/walk-2.png"
                  "big/walk-3.png"
@@ -617,9 +644,32 @@
 
        (action
          (name "big-walk-left")
-         (fps 16.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
+
+       (action
+         (name "big-run-right")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 18 14 32 64)
+         (images "big/run_transition-0.png"
+                 "big/run-0.png"
+                 "big/run-1.png"
+                 "big/run-2.png"
+                 "big/run-3.png"
+                 "big/run-4.png"
+                 "big/run-5.png"
+                 "big/run-6.png"
+                 "big/run-7.png"))
+
+       (action
+         (name "big-run-left")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 20 14 32 64)
+         (mirror-action "big-run-right"))
 
        (action
          (name "big-jump-right")
@@ -1075,9 +1125,11 @@
 
        (action
          (name "fire-walk-right")
-         (fps 16.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
-         (images "big/walk-0.png"
+         (images "big/walk_transition-0.png"
+                 "big/walk-0.png"
                  "big/walk-1.png"
                  "big/walk-2.png"
                  "big/walk-3.png"
@@ -1088,11 +1140,34 @@
 
        (action
          (name "fire-walk-left")
-         (fps 16.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
          (mirror-action "fire-walk-right"))
 
        (action
+         (name "fire-run-right")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 18 14 32 64)
+         (images "big/run_transition-0.png"
+                 "big/run-0.png"
+                 "big/run-1.png"
+                 "big/run-2.png"
+                 "big/run-3.png"
+                 "big/run-4.png"
+                 "big/run-5.png"
+                 "big/run-6.png"
+                 "big/run-7.png"))
+
+       (action
+         (name "fire-run-left")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 20 14 32 64)
+         (mirror-action "fire-run-right"))
+	   
+	   (action
          (name "fire-jump-right")
          (fps 15.0)
          (loops 1)
@@ -1546,9 +1621,11 @@
 
        (action
          (name "ice-walk-right")
-         (fps 16.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
-         (images "big/walk-0.png"
+         (images "big/walk_transition-0.png"
+                 "big/walk-0.png"
                  "big/walk-1.png"
                  "big/walk-2.png"
                  "big/walk-3.png"
@@ -1559,11 +1636,34 @@
 
        (action
          (name "ice-walk-left")
-         (fps 16.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
          (mirror-action "ice-walk-right"))
 
        (action
+         (name "ice-run-right")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 18 14 32 64)
+         (images "big/run_transition-0.png"
+                 "big/run-0.png"
+                 "big/run-1.png"
+                 "big/run-2.png"
+                 "big/run-3.png"
+                 "big/run-4.png"
+                 "big/run-5.png"
+                 "big/run-6.png"
+                 "big/run-7.png"))
+
+       (action
+         (name "ice-run-left")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 20 14 32 64)
+         (mirror-action "ice-run-right"))
+	   
+	   (action
          (name "ice-jump-right")
          (fps 15.0)
          (loops 1)
@@ -2017,9 +2117,11 @@
 
        (action
          (name "earth-walk-right")
-         (fps 16.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
-         (images "big/walk-0.png"
+         (images "big/walk_transition-0.png"
+                 "big/walk-0.png"
                  "big/walk-1.png"
                  "big/walk-2.png"
                  "big/walk-3.png"
@@ -2030,11 +2132,34 @@
 
        (action
          (name "earth-walk-left")
-         (fps 16.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
          (mirror-action "earth-walk-right"))
 
        (action
+         (name "earth-run-right")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 18 14 32 64)
+         (images "big/run_transition-0.png"
+                 "big/run-0.png"
+                 "big/run-1.png"
+                 "big/run-2.png"
+                 "big/run-3.png"
+                 "big/run-4.png"
+                 "big/run-5.png"
+                 "big/run-6.png"
+                 "big/run-7.png"))
+
+       (action
+         (name "earth-run-left")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 20 14 32 64)
+         (mirror-action "earth-run-right"))
+	   
+	   (action
          (name "earth-jump-right")
          (fps 15.0)
          (loops 1)
@@ -2487,9 +2612,11 @@
 
        (action
          (name "air-walk-right")
-         (fps 16.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
-         (images "big/walk-0.png"
+         (images "big/walk_transition-0.png"
+                 "big/walk-0.png"
                  "big/walk-1.png"
                  "big/walk-2.png"
                  "big/walk-3.png"
@@ -2500,11 +2627,34 @@
 
        (action
          (name "air-walk-left")
-         (fps 16.0)
+         (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
          (mirror-action "air-walk-right"))
 
        (action
+         (name "air-run-right")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 18 14 32 64)
+         (images "big/run_transition-0.png"
+                 "big/run-0.png"
+                 "big/run-1.png"
+                 "big/run-2.png"
+                 "big/run-3.png"
+                 "big/run-4.png"
+                 "big/run-5.png"
+                 "big/run-6.png"
+                 "big/run-7.png"))
+
+       (action
+         (name "air-run-left")
+         (fps 15.0)
+         (loop-frame 2)
+         (hitbox 20 14 32 64)
+         (mirror-action "air-run-right"))
+	   
+	   (action
          (name "air-jump-right")
          (fps 15.0)
          (loops 1)
@@ -2814,24 +2964,9 @@
 ; Cutscenes And Extras
 
        (action
-         (name "stone-right")
-         (hitbox 16 14 32 64)
+         (name "earth-stone")
+         (hitbox 10 13 32 32)
          (images "earth/statue.png"))
-
-       (action
-         (name "stone-left")
-         (hitbox 16 14 32 64)
-         (mirror-action "stone-right"))
-
-       (action
-         (name "stone-duck-right")
-         (hitbox 16 45 32 32)
-         (images "earth/statue.png"))
-
-       (action
-         (name "stone-duck-left")
-         (hitbox 16 45 32 32)
-         (mirror-action "stone-right"))
 
        (action
          (name "credits-right")
@@ -2918,8 +3053,8 @@
                  "cutscene/credits-0.png"))
 
 	   (action
-		   (name "credits-left")
-       (fps 10.0)
-       (hitbox 16 14 32 64)
-       (mirror-action "credits-right"))
+	     (name "credits-left")
+		 (fps 10.0)
+		 (hitbox 16 14 32 64)
+		 (mirror-action "credits-right"))
 )

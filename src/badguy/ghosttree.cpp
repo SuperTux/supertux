@@ -31,11 +31,9 @@
 #include "supertux/sector.hpp"
 
 static const size_t WILLOWISP_COUNT = 10;
-static const float ROOT_TOP_OFFSET = 64;
 static const float WILLOWISP_TOP_OFFSET = -64;
 static const Vector SUCK_TARGET_OFFSET = Vector(-16,-16);
 static const float SUCK_TARGET_SPREAD = 8;
-static const float ROOT_HEIGHT = 87;
 
 GhostTree::GhostTree(const ReaderMapping& mapping) :
   BadGuy(mapping, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10),
@@ -63,7 +61,7 @@ void
 GhostTree::die()
 {
   mystate = STATE_DYING;
-  m_sprite->set_action("dying", 1);
+  set_action("dying", 1);
   glow_sprite->set_action("dying", 1);
 
   for (const auto& willo : willowisps) {
@@ -154,15 +152,18 @@ GhostTree::active_update(float /*dt_sec*/)
       }
     }
 
+    // TODO: Add support for the new root implementation
+    /*
     if (root_timer.check()) {
-      /* TODO indicate root with an animation */
+      //TODO: indicate root with an animation.
       auto player = get_nearest_player();
       if (player)
         Sector::get().add<Root>(Vector(player->get_bbox().get_left(), (m_flip == NO_FLIP ? (m_col.m_bbox.get_bottom() + ROOT_TOP_OFFSET) : (m_col.m_bbox.get_top() - ROOT_TOP_OFFSET - ROOT_HEIGHT))), m_flip);
     }
+    */
   } else if (mystate == STATE_SWALLOWING) {
     if (suck_lantern) {
-      // suck in lantern
+      // Suck in the lantern.
       assert (suck_lantern);
       Vector pos = suck_lantern->get_pos();
       Vector delta = m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
@@ -170,18 +171,18 @@ GhostTree::active_update(float /*dt_sec*/)
         suck_lantern->ungrab(*this, Direction::RIGHT);
         suck_lantern->remove_me();
         suck_lantern = nullptr;
-        m_sprite->set_action("swallow", 1);
+        set_action("swallow", 1);
       } else {
         pos += glm::normalize(delta);
         suck_lantern->grab(*this, pos, Direction::RIGHT);
       }
     } else {
-      // wait until lantern is swallowed
+      // Wait until the lantern is swallowed completely.
       if (m_sprite->animation_done()) {
         if (is_color_deadly(suck_lantern_color)) {
           die();
         } else {
-          m_sprite->set_action("normal");
+          set_action("normal");
           mystate = STATE_IDLE;
           spawn_lantern();
         }
@@ -260,6 +261,12 @@ void
 GhostTree::spawn_lantern()
 {
   Sector::get().add<Lantern>(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET);
+}
+
+std::vector<Direction>
+GhostTree::get_allowed_directions() const
+{
+  return {};
 }
 
 void

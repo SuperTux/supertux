@@ -38,7 +38,12 @@ public:
   static std::string display_name() { return _("Mole"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  virtual bool is_snipable() const override { return true; }
+
   virtual void on_flip(float height) override;
+
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
   enum MoleState {
@@ -58,6 +63,7 @@ private:
   MoleState state;
   Timer timer;
   Timer throw_timer;
+  int cycle_num;
 
 private:
   Mole(const Mole&) = delete;

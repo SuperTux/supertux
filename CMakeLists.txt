@@ -31,6 +31,7 @@
 #   make
 #
 
+cmake_minimum_required(VERSION 3.1)
 
 ## Project name to use as command prefix.
 
@@ -39,16 +40,22 @@ project(SUPERTUX)
 
 ### CMake configuration
 
-cmake_minimum_required(VERSION 3.1)
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)
   cmake_policy(SET CMP0008 NEW)
   cmake_policy(SET CMP0023 NEW)
 endif()
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+# This should be set only with windows Visual Studio generator builds
+string(TOLOWER "${CMAKE_GENERATOR_PLATFORM}" PLATFORM)
+if(${PLATFORM} MATCHES "arm64")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_ARM64_ /DMY_CPU_LE")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_ARM64_ /DMY_CPU_LE")
+endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 include(ConfigureFiles)
@@ -97,14 +104,16 @@ if(EMSCRIPTEN)
   set(CMAKE_EXECUTABLE_SUFFIX .html)
   set(IS_EMSCRIPTEN_BUILD ON)
 
-  set(USE_FLAGS " -sUSE_SDL=2 -sFULL_ES2=1 -sUSE_SDL_IMAGE=2 -sUSE_FREETYPE=2 -sUSE_PTHREADS=1 -sDISABLE_EXCEPTION_CATCHING=0 --preload-file ${BUILD_CONFIG_DATA_DIR} -sTOTAL_MEMORY=67108864 -sALLOW_MEMORY_GROWTH=1 -sSDL2_IMAGE_FORMATS='[\"png\",\"jpg\"]' --use-preload-plugins")
+  set(EM_USE_FLAGS "-sDISABLE_EXCEPTION_CATCHING=0")
+  set(EM_LINK_FLAGS " -sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH=1 -sMAXIMUM_MEMORY=536870912 -sERROR_ON_UNDEFINED_SYMBOLS=0 --preload-file ${BUILD_CONFIG_DATA_DIR} --use-preload-plugins -lidbfs.js")
   if(CMAKE_BUILD_TYPE MATCHES Debug)
-    set(USE_FLAGS "${USE_FLAGS} -fsanitize=undefined -sSAFE_HEAP=1 -sASSERTIONS=1 -sDEMANGLE_SUPPORT=1")
+    set(EM_USE_FLAGS "${EM_USE_FLAGS} -fsanitize=undefined")
+    set(EM_LINK_FLAGS "${EM_LINK_FLAGS} -fsanitize=undefined -sSAFE_HEAP=1 -sASSERTIONS=1 -sDEMANGLE_SUPPORT=1")
   endif()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS} -sERROR_ON_UNDEFINED_SYMBOLS=0")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS} -sERROR_ON_UNDEFINED_SYMBOLS=0")
-  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${USE_FLAGS} -sERROR_ON_UNDEFINED_SYMBOLS=0 -lidbfs.js")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${USE_FLAGS} -sERROR_ON_UNDEFINED_SYMBOLS=0 -lidbfs.js")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EM_USE_FLAGS}")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EM_USE_FLAGS}")
+  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${EM_USE_FLAGS} ${EM_LINK_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${EM_USE_FLAGS} ${EM_LINK_FLAGS}")
 endif()
 
 # TODO: Add " OR ANDROID OR IOS" to this
@@ -131,6 +140,13 @@ else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
+# Configure main menu logo
+if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
+  set(LOGO_FILE "logo.png")
+else()
+  set(LOGO_FILE "logo_dev.png")
+endif()
+
 if(WIN32)
   include(SuperTux/Win32)
 endif()
@@ -147,11 +163,10 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  add_definitions(-DMACOSX)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
 endif()
 
 ## Add lots of dependencies to compiler switches
-include(SuperTux/ProvideBoost)
 include(SuperTux/ProvideGlm)
 include(SuperTux/ProvideFmt)
 include(SuperTux/ProvideSDL2)
@@ -228,15 +243,17 @@ target_link_libraries(supertux2 supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 if(EMSCRIPTEN)
-  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'] PUBLIC -sEXTRA_EXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
+  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
 endif()
 
 if(WIN32 AND NOT VCPKG_BUILD)
+if(NOT MINGW)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${DEPENDENCY_FOLDER}/dll"
     $<TARGET_FILE_DIR:supertux2_lib>)
+endif()
 endif()
 
 ## Some additional include paths
@@ -251,11 +268,7 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
 endif()
 
 ## Link supertux binary with squirrel and other libraries
-if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
-endif()
 
-target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
 target_link_libraries(supertux2_lib PUBLIC LibSquirrel)
 target_link_libraries(supertux2_lib PUBLIC LibSqstdlib)
 target_link_libraries(supertux2_lib PUBLIC LibTinygettext)
@@ -263,11 +276,16 @@ target_link_libraries(supertux2_lib PUBLIC LibSexp)
 target_link_libraries(supertux2_lib PUBLIC LibSavePNG)
 target_link_libraries(supertux2_lib PUBLIC LibPartioZip)
 target_link_libraries(supertux2_lib PUBLIC LibOpenAL)
-target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)
-target_link_libraries(supertux2_lib PUBLIC LibBoost)
 target_link_libraries(supertux2_lib PUBLIC LibGlm)
 target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
+
+if(NOT EMSCRIPTEN)
+  target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
+  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
+  target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)
+  target_link_libraries(supertux2_lib PUBLIC LibCurl)
+endif()
 
 if(HAVE_OPENGL)
   target_link_libraries(supertux2_lib PUBLIC LibOpenGL)
@@ -277,23 +295,11 @@ if(ENABLE_DISCORD)
   target_link_libraries(supertux2_lib PUBLIC LibDiscord)
 endif()
 
-if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC LibCurl)
-endif()
-
 ## Install stuff
 include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
-
-## Configure main menu logo
-if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
-  set(LOGO_FILE "logo_final.sprite")
-else()
-  set(LOGO_FILE "logo.sprite")
-endif()
-configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
 
 ## Build tests
 include(SuperTux/BuildTests)

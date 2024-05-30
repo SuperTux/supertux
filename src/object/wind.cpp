@@ -133,6 +133,7 @@ Wind::collision(GameObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*> (&other);
   if (player && affects_player)
   {
+    player->override_velocity();
     if (!player->on_ground())
 	  {
       player->add_velocity(speed * acceleration * dt_sec, speed);

@@ -31,6 +31,7 @@
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/profile_manager.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
@@ -51,17 +52,29 @@ private:
 class PhysfsSubsystem final
 {
 private:
-  boost::optional<std::string> m_forced_datadir;
-  boost::optional<std::string> m_forced_userdir;
+  std::optional<std::string> m_forced_datadir;
+  std::optional<std::string> m_forced_userdir;
+
+  std::string m_datadir;
+  std::string m_userdir;
 
 public:
   PhysfsSubsystem(const char* argv0,
-                  boost::optional<std::string> forced_datadir,
-                  boost::optional<std::string> forced_userdir);
+                  std::optional<std::string> forced_datadir,
+                  std::optional<std::string> forced_userdir);
   ~PhysfsSubsystem();
-  void find_datadir() const;
-  void find_userdir() const;
+
+private:
+  void find_mount_datadir();
+  void find_mount_userdir();
+
+public:
+  void remount_datadir_static() const;
+
   static void print_search_path();
+
+private:
+  void add_data_to_search_path(const std::string& dir) const;
 };
 
 class SDLSubsystem final
@@ -101,6 +114,7 @@ private:
   std::unique_ptr<SquirrelVirtualMachine> m_squirrel_virtual_machine;
   std::unique_ptr<TileManager> m_tile_manager;
   std::unique_ptr<SpriteManager> m_sprite_manager;
+  std::unique_ptr<ProfileManager> m_profile_manager;
   std::unique_ptr<Resources> m_resources;
   std::unique_ptr<AddonManager> m_addon_manager;
   std::unique_ptr<Console> m_console;

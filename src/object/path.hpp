@@ -27,7 +27,9 @@
 #include "math/easing.hpp"
 #include "util/gettext.hpp"
 
+template<typename T>
 class ObjectOption;
+class PathGameObject;
 class ReaderMapping;
 class Writer;
 
@@ -49,6 +51,9 @@ public:
   /** Helper class that stores an individual node of a Path */
   class Node
   {
+  private:
+    Path* parent; /**< the parent path of this node */
+
   public:
     Vector position; /**< the position of this node */
     Vector bezier_before; /**< the position of the bezier handle towards the preceding node */
@@ -58,7 +63,9 @@ public:
     EasingMode easing; /**< speed variations during travel
             (constant speed, start slow and go progressively quicker, etc.) */
 
-    Node() :
+  public:
+    Node(Path* parent_) :
+      parent(parent_),
       position(0.0f, 0.0f),
       bezier_before(0.0f, 0.0f),
       bezier_after(0.0f, 0.0f),
@@ -67,12 +74,12 @@ public:
       easing()
     {}
 
-    static std::string display_name() { return _("Path Node"); }
+    Path& get_parent() const { return *parent; }
   };
 
 public:
-  Path();
-  Path(const Vector& pos);
+  Path(PathGameObject& parent);
+  Path(const Vector& pos, PathGameObject& parent);
 
   void read(const ReaderMapping& reader);
   void save(Writer& writer);
@@ -80,10 +87,10 @@ public:
   Vector get_base() const;
 
   /** returns Node index nearest to reference_point or -1 if not applicable */
-  int get_nearest_node_no(const Vector& reference_point) const;
+  int get_nearest_node_idx(const Vector& reference_point) const;
 
   /** returns Node index farthest from reference_point or -1 if not applicable */
-  int get_farthest_node_no(const Vector& reference_point) const;
+  int get_farthest_node_idx(const Vector& reference_point) const;
 
   /** Moves all nodes by given shift. */
   void move_by(const Vector& shift);
@@ -95,6 +102,11 @@ public:
   bool is_valid() const;
 
   const std::vector<Node>& get_nodes() const { return m_nodes; }
+
+  PathGameObject& get_gameobject() const { return m_parent_gameobject; }
+
+private:
+  PathGameObject& m_parent_gameobject;
 
 public:
   std::vector<Node> m_nodes;

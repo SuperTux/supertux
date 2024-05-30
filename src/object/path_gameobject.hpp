@@ -49,7 +49,6 @@ public:
     return "images/engine/editor/path.png";
   }
 
-  virtual void editor_update() override;
   virtual void editor_select() override;
   virtual void editor_deselect() override;
 
@@ -59,13 +58,14 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
+  void regenerate_name();
+
   Path& get_path() { return *m_path; }
 
   void copy_into(PathGameObject& other);
 
-private:
-  /** Removes the object if the path is not referenced anywhere */
-  void check_references();
+  /** Allows saving the object only if the path is referenced somewhere. */
+  bool is_saveable() const override;
 
 private:
   std::unique_ptr<Path> m_path;

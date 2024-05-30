@@ -17,18 +17,21 @@
 #ifndef HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
 #define HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
 
+#include <memory>
 #include <stdexcept>
+#include <string>
+#include <vector>
 
-#include "control/input_manager.hpp"
 #include "editor/widget.hpp"
+
 #include "math/fwd.hpp"
-#include "object/tilemap.hpp"
-#include "supertux/screen.hpp"
+#include "util/uid.hpp"
 
 class DrawingContext;
 class Editor;
 class GameObject;
 class LayerIcon;
+class TileMap;
 class Tip;
 
 /** A widget at the bottom of the screen for switching between tilemap
@@ -57,12 +60,16 @@ public:
   void refresh();
 
   void refresh_sector_text();
+  void refresh_layers();
   void sort_layers();
-  void add_layer(GameObject* layer);
+  void add_layer(GameObject* layer, bool initial = false);
+
+  void update_current_tip();
 
   bool has_mouse_focus() const;
 
-  TileMap* get_selected_tilemap() const { return m_selected_tilemap; }
+  TileMap* get_selected_tilemap() const;
+  void set_selected_tilemap(TileMap* tilemap);
 
 private:
   Vector get_layer_coords(const int pos) const;
@@ -72,7 +79,7 @@ private:
 private:
   Editor& m_editor;
   std::vector<std::unique_ptr<LayerIcon>> m_layer_icons;
-  TileMap* m_selected_tilemap;
+  UID m_selected_tilemap;
 
   int m_Ypos;
   const int m_Xpos = 32;

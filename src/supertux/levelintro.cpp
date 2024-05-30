@@ -65,11 +65,8 @@ void
 LevelIntro::update(float dt_sec, const Controller& controller)
 {
   // Check if it's time to exit the screen
-  if (controller.pressed(Control::JUMP) ||
-     controller.pressed(Control::ACTION) ||
-     controller.pressed(Control::MENU_SELECT) ||
-     controller.pressed(Control::START) ||
-     controller.pressed(Control::ESCAPE)) {
+  if (controller.pressed_any(Control::JUMP, Control::ACTION, Control::MENU_SELECT,
+                             Control::START, Control::ESCAPE)) {
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.1f));
   }
 
@@ -125,13 +122,10 @@ LevelIntro::draw(Compositor& compositor)
   auto& context = compositor.make_context();
 
   const Statistics& stats = m_level.m_stats;
-  int py = static_cast<int>(static_cast<float>(context.get_height()) / 2.0f - Resources::normal_font->get_height() / 2.0f);
+  int py = static_cast<int>(context.get_height() / 2.0f - Resources::normal_font->get_height() / 2.0f);
 
   context.set_ambient_color(Color(1.0f, 1.0f, 1.0f, 1.0f));
-  context.color().draw_filled_rect(Rectf(0, 0,
-                                         static_cast<float>(context.get_width()),
-                                         static_cast<float>(context.get_height())),
-                                   Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
+  context.color().draw_filled_rect(context.get_rect(), Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
 
   {
     context.color().draw_center_text(Resources::normal_font, m_level.get_name(), Vector(0, static_cast<float>(py)), LAYER_FOREGROUND1, s_header_color);
@@ -155,7 +149,7 @@ LevelIntro::draw(Compositor& compositor)
 
     float offset = (static_cast<float>(i) - static_cast<float>(m_player_sprite.size()) / 2.f + 0.5f) * 64.f;
 
-    m_player_sprite[i]->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
+    m_player_sprite[i]->draw(context.color(), Vector((context.get_width() - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
                                                 static_cast<float>(py) + m_player_sprite_py[i] - m_player_sprite[i]->get_current_hitbox_height()), LAYER_FOREGROUND1);
 
     Color power_color = (m_player_status.bonus[i] == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
@@ -166,7 +160,7 @@ LevelIntro::draw(Compositor& compositor)
 
     m_player_sprite[i]->set_color(power_color);
     /*if (m_player_status.bonus[i] > GROWUP_BONUS) {
-      m_santa_sprite[i]->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
+      m_santa_sprite[i]->draw(context.color(), Vector((context.get_width() - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
                                                   static_cast<float>(py) + m_player_sprite_py[i] - m_player_sprite[i]->get_current_hitbox_height()), LAYER_FOREGROUND1);
     }*/
 

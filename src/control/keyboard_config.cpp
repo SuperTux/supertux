@@ -16,7 +16,7 @@
 
 #include "control/keyboard_config.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -27,7 +27,21 @@ static constexpr const char DELIMITER = ':';
 
 KeyboardConfig::KeyboardConfig() :
   m_keymap(),
-  m_configurable_controls(),
+  m_configurable_controls({
+    Control::UP,
+    Control::DOWN,
+    Control::LEFT,
+    Control::RIGHT,
+    Control::JUMP,
+    Control::ACTION,
+    Control::PEEK_LEFT,
+    Control::PEEK_RIGHT,
+    Control::PEEK_UP,
+    Control::PEEK_DOWN,
+    Control::CONSOLE,
+    Control::CHEAT_MENU,
+    Control::DEBUG_MENU
+  }),
   m_jump_with_up_kbd(false)
 {
   // initialize default keyboard map
@@ -64,22 +78,6 @@ KeyboardConfig::KeyboardConfig() :
   m_keymap[SDLK_k]         = {2, Control::DOWN};
   m_keymap[SDLK_o]         = {2, Control::JUMP};
   m_keymap[SDLK_u]         = {2, Control::ACTION};
-
-  m_configurable_controls = {
-    Control::UP,
-    Control::DOWN,
-    Control::LEFT,
-    Control::RIGHT,
-    Control::JUMP,
-    Control::ACTION,
-    Control::PEEK_LEFT,
-    Control::PEEK_RIGHT,
-    Control::PEEK_UP,
-    Control::PEEK_DOWN,
-    Control::CONSOLE,
-    Control::CHEAT_MENU,
-    Control::DEBUG_MENU
-  };
 }
 
 void
@@ -123,7 +121,7 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
       control_text = control_text.substr(pos + 1);
     }
 
-    const boost::optional<Control> maybe_control = Control_from_string(control_text);
+    const std::optional<Control> maybe_control = Control_from_string(control_text);
     if (maybe_control) {
       if (m_configurable_controls.count(*maybe_control)) {
         bind_key(static_cast<SDL_Keycode>(key), player_id, *maybe_control);

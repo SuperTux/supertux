@@ -29,7 +29,7 @@ LiveFire::LiveFire(const ReaderMapping& reader) :
   state(STATE_WALKING)
 {
   walk_speed = 80;
-  max_drop_height = 20;
+  set_ledge_behavior(LedgeBehavior::SMART);
   m_lightsprite->set_color(Color(0.89f, 0.75f, 0.44f));
   m_glowing = true;
 }
@@ -56,7 +56,7 @@ LiveFire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 void
 LiveFire::active_update(float dt_sec) {
 
-  // Remove when extinguish animation is done
+  // Remove when extinguish animation is done.
   if ((m_sprite->get_action() == "extinguish-left" || m_sprite->get_action() == "extinguish-right" )
     && m_sprite->animation_done()) remove_me();
 
@@ -77,15 +77,15 @@ LiveFire::active_update(float dt_sec) {
       bool inReach_bottom = (pb.get_top() <= m_col.m_bbox.get_bottom());
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
-        // wake up
-        m_sprite->set_action("waking", m_dir, 1);
+        // Wake up.
+        set_action("waking", m_dir, 1);
         state = STATE_WAKING;
       }
     }
   }
   else if (state == STATE_WAKING) {
     if (m_sprite->animation_done()) {
-      // start walking
+      // Start walking.
       state = STATE_WALKING;
       WalkingBadguy::initialize();
     }
@@ -97,7 +97,7 @@ LiveFire::active_update(float dt_sec) {
 void
 LiveFire::freeze()
 {
-  // attempting to freeze a flame causes it to go out
+  // Attempting to freeze a flame causes it to go out.
   death_sound = "sounds/sizzle.ogg";
   kill_fall();
 }
@@ -118,7 +118,7 @@ void
 LiveFire::kill_fall()
 {
   SoundManager::current()->play(death_sound, get_pos());
-  // throw a puff of smoke
+  // Emit a puff of smoke.
   Vector ppos = m_col.m_bbox.get_middle();
   Vector pspeed = Vector(0, -150);
   Vector paccel = Vector(0,0);
@@ -126,8 +126,8 @@ LiveFire::kill_fall()
                                          "default", ppos, ANCHOR_MIDDLE,
                                          pspeed, paccel,
                                          LAYER_BACKGROUNDTILES+2);
-  // extinguish the flame
-  m_sprite->set_action("extinguish", m_dir, 1);
+  // Extinguish the flame.
+  set_action("extinguish", m_dir, 1);
   m_physic.set_velocity_y(0);
   m_physic.set_acceleration_y(0);
   m_physic.enable_gravity(false);
@@ -136,11 +136,11 @@ LiveFire::kill_fall()
   set_group(COLGROUP_DISABLED);
   state = STATE_DEAD;
 
-  // start dead-script
+  // Start the dead-script.
   run_dead_script();
 }
 
-/* The following defines a sleeping version */
+/* The following defines a sleeping version. */
 
 LiveFireAsleep::LiveFireAsleep(const ReaderMapping& reader) :
   LiveFire(reader)
@@ -152,7 +152,7 @@ void
 LiveFireAsleep::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    m_sprite->set_action("sleeping", m_dir);
+    set_action("sleeping", m_dir);
     BadGuy::draw(context);
   } else {
     LiveFire::draw(context);
@@ -163,10 +163,10 @@ void
 LiveFireAsleep::initialize()
 {
   m_physic.set_velocity_x(0);
-  m_sprite->set_action("sleeping", m_dir);
+  set_action("sleeping", m_dir);
 }
 
-/* The following defines a dormant version that never wakes */
+/* The following defines a dormant version that remains inactive. */
 LiveFireDormant::LiveFireDormant(const ReaderMapping& reader) :
   LiveFire(reader)
 {
@@ -178,7 +178,7 @@ void
 LiveFireDormant::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    m_sprite->set_action("sleeping", m_dir);
+    set_action("sleeping", m_dir);
     BadGuy::draw(context);
   } else {
     LiveFire::draw(context);
@@ -189,7 +189,7 @@ void
 LiveFireDormant::initialize()
 {
   m_physic.set_velocity_x(0);
-  m_sprite->set_action("sleeping", m_dir);
+  set_action("sleeping", m_dir);
 }
 
 /* EOF */

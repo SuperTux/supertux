@@ -32,7 +32,8 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
-  turn_around_counter()
+  turn_around_counter(),
+  m_stay_on_platform_overridden(false)
 {
 }
 
@@ -49,7 +50,8 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
-  turn_around_counter()
+  turn_around_counter(),
+  m_stay_on_platform_overridden(false)
 {
 }
 
@@ -65,7 +67,8 @@ WalkingBadguy::WalkingBadguy(const ReaderMapping& reader,
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
-  turn_around_counter()
+  turn_around_counter(),
+  m_stay_on_platform_overridden(false)
 {
 }
 
@@ -74,7 +77,7 @@ WalkingBadguy::initialize()
 {
   if (m_frozen)
     return;
-  m_sprite->set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
+  set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -walk_speed : walk_speed);
   m_physic.set_acceleration_x (0.0);
@@ -85,6 +88,28 @@ WalkingBadguy::set_walk_speed (float ws)
 {
   walk_speed = fabsf(ws);
   /* physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed); */
+}
+
+void WalkingBadguy::set_ledge_behavior(LedgeBehavior behavior)
+{
+  switch (behavior)
+  {
+    case LedgeBehavior::STRICT:
+      max_drop_height = 0;
+      break;
+
+    case LedgeBehavior::SMART:
+      max_drop_height = static_cast<int>(get_bbox().get_width()) / 2;
+      break;
+
+    case LedgeBehavior::NORMAL:
+      max_drop_height = s_normal_max_drop_height;
+      break;
+
+    case LedgeBehavior::FALL:
+      max_drop_height = -1;
+      break;
+  }
 }
 
 void
@@ -131,12 +156,9 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
     assert(false);
   }
 
-  if (max_drop_height > -1) {
-    if (on_ground() && might_fall(max_drop_height+1))
-    {
-      turn_around();
-    }
-  }
+  if (max_drop_height > -1 && on_ground() && might_fall(max_drop_height+1) && !m_stay_on_platform_overridden)
+    turn_around();
+  m_stay_on_platform_overridden = false;
 
   if ((m_dir == Direction::LEFT) && (m_physic.get_velocity_x () > 0.0f)) {
     m_dir = Direction::RIGHT;
@@ -173,8 +195,10 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
     if (m_physic.get_velocity_y() > 0) m_physic.set_velocity_y(0);
   }
 
-  if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))) {
-    turn_around();
+  if ( hit.slope_normal.x == 0.0f &&
+      ((hit.left && m_dir == Direction::LEFT) ||
+      (hit.right && m_dir == Direction::RIGHT)) ) {
+      turn_around();
   }
 
 }
@@ -203,7 +227,7 @@ WalkingBadguy::turn_around()
     return;
   m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
   if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE || get_state() == STATE_ACTIVE) {
-    m_sprite->set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
+    set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
   }
   m_physic.set_velocity_x(-m_physic.get_velocity_x());
   m_physic.set_acceleration_x (-m_physic.get_acceleration_x ());

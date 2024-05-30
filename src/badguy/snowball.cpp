@@ -21,6 +21,8 @@
 SnowBall::SnowBall(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")
 {
+  parse_type(reader);
+
   walk_speed = 80;
 }
 
@@ -31,10 +33,43 @@ SnowBall::SnowBall(const Vector& pos, Direction d, const std::string& script)
   m_dead_script = script;
 }
 
+GameObjectTypes
+SnowBall::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "bumpkin", _("Bumpkin") },
+    { "bsod", _("BSOD") }
+  };
+}
+
+std::string
+SnowBall::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case BUMPKIN:
+      return "images/creatures/pumpkin/bumpkin.sprite";
+    case BSOD:
+      return "images/creatures/bsod/bsod.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
+bool
+SnowBall::is_freezable() const
+{
+  return m_type == BUMPKIN || m_type == BSOD;
+}
+
 bool
 SnowBall::collision_squished(GameObject& object)
 {
-  m_sprite->set_action("squished", m_dir);
+  if (m_frozen)
+    return WalkingBadguy::collision_squished(object);
+
+  set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }

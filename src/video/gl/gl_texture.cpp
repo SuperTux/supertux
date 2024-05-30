@@ -22,7 +22,7 @@
 #include "video/sampler.hpp"
 #include "video/sdl_surface.hpp"
 
-GLTexture::GLTexture(int width, int height, boost::optional<Color> fill_color) :
+GLTexture::GLTexture(int width, int height, std::optional<Color> fill_color) :
   m_handle(),
   m_sampler(),
   m_texture_width(),
@@ -97,7 +97,7 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
   SDL_BlitSurface(const_cast<SDL_Surface*>(&image), nullptr, convert.get(), nullptr);
 
   // Fill the remaining pixels of 'convert' with repeated copies of
-  // 'image' to minimize OpenGL blending artifacts at the borders
+  // 'image' to minimize OpenGL blending artifacts at the borders.
   if (m_image_width != m_texture_width || m_image_height != m_texture_height)
   {
     if (SDL_MUSTLOCK(convert)) {
@@ -147,7 +147,7 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
     } else if (convert->format->BytesPerPixel == 4) {
       sdl_format = GL_RGBA;
     } else {
-      sdl_format = GL_RGBA; // NOLINT
+      sdl_format = GL_RGBA; // NOLINT.
       assert(false);
     }
 
@@ -169,7 +169,7 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
                  m_texture_width, m_texture_height, 0, sdl_format,
                  GL_UNSIGNED_BYTE, convert->pixels);
 
-    // no not use mipmaps
+    // Disable the use of mipmaps for the texture.
 #if 0
     glGenerateMipmap(GL_TEXTURE_2D);
 #endif

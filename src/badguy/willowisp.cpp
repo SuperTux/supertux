@@ -23,14 +23,15 @@
 #include "object/lantern.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-static const float FLYSPEED = 64.0f; /**< speed in px per second */
-static const float TRACK_RANGE = 384.0f; /**< at what distance to start tracking the player */
-static const float VANISH_RANGE = 512.0f; /**< at what distance to stop tracking and vanish */
+static const float FLYSPEED = 64.0f; /**< Speed in pixels per second. */
+static const float TRACK_RANGE = 384.0f; /**< Distance at which to start tracking the player. */
+static const float VANISH_RANGE = 512.0f; /**< Distance at which to stop tracking and vanish. */
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
 WillOWisp::WillOWisp(const ReaderMapping& reader) :
@@ -53,8 +54,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
     reader.get("sector", m_target_sector);
     reader.get("spawnpoint", m_target_spawnpoint);
   } else {
-    reader.get("sector", m_target_sector, "main");
-    reader.get("spawnpoint", m_target_spawnpoint, "main");
+    reader.get("sector", m_target_sector, DEFAULT_SECTOR_NAME.c_str());
+    reader.get("spawnpoint", m_target_spawnpoint, DEFAULT_SPAWNPOINT_NAME.c_str());
   }
 
   reader.get("flyspeed", m_flyspeed, FLYSPEED);
@@ -85,7 +86,7 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   m_sprite->set_color(m_color);
   m_glowing = true;
 
-  m_sprite->set_action("idle");
+  set_action("idle");
 }
 
 void
@@ -215,7 +216,7 @@ void
 WillOWisp::vanish()
 {
   m_mystate = STATE_VANISHING;
-  m_sprite->set_action("vanishing", 1);
+  set_action("vanishing", 1);
   set_colgroup_active(COLGROUP_DISABLED);
 
   if (m_parent_dispenser != nullptr)
@@ -247,7 +248,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
     return ABORT_MOVE;
 
   m_mystate = STATE_WARPING;
-  m_sprite->set_action("warping", 1);
+  set_action("warping", 1);
 
   if (!m_hit_script.empty()) {
     Sector::get().run_script(m_hit_script, "hit-script");
@@ -260,9 +261,9 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
 }
 
 void
-WillOWisp::goto_node(int node_no)
+WillOWisp::goto_node(int node_idx)
 {
-  get_walker()->goto_node(node_no);
+  get_walker()->goto_node(node_idx);
   if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK) {
     m_mystate = STATE_PATHMOVING;
   }
@@ -307,7 +308,6 @@ WillOWisp::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir);
   result.add_text(_("Sector"), &m_target_sector, "sector");
   result.add_text(_("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
   result.add_text(_("Hit script"), &m_hit_script, "hit-script");
@@ -350,6 +350,12 @@ WillOWisp::move_to(const Vector& pos)
     get_path()->move_by(shift);
   }
   set_pos(pos);
+}
+
+std::vector<Direction>
+WillOWisp::get_allowed_directions() const
+{
+  return {};
 }
 
 void

@@ -50,22 +50,25 @@ public:
 
   virtual void on_flip(float height) override;
 
+  void save_state() override;
+  void check_state() override;
+
   const Vector& get_speed() const { return m_speed; }
 
   /** @name Scriptable Methods
       @{ */
 
   /** Move platform until at given node, then stop */
-  void goto_node(int node_no);
+  void goto_node(int node_idx);
+
+  /** Move platform instantly to given node */
+  void jump_to_node(int node_idx, bool instantaneous = false);
 
   /** Start moving platform */
   void start_moving();
 
   /** Stop platform at next node */
   void stop_moving();
-
-  /** Updates the platform to the given action  */
-  void set_action(const std::string& action, int repeat);
   /** @} */
 
 private:

@@ -16,7 +16,10 @@
 
 #include "editor/object_menu.hpp"
 
+#include <fmt/format.h>
+
 #include "editor/editor.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/d_scope.hpp"
@@ -24,10 +27,21 @@
 #include "supertux/game_object.hpp"
 #include "supertux/moving_object.hpp"
 
-ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
-  m_editor(editor),
-  m_object(go)
+ObjectMenu::ObjectMenu(GameObject* go, const std::function<bool (GameObject*)>& remove_function) :
+  m_editor(*Editor::current()),
+  m_object(go),
+  m_remove_function(remove_function)
 {
+  m_object->save_state();
+
+  refresh();
+}
+
+void
+ObjectMenu::refresh()
+{
+  clear();
+
   ObjectSettings os = m_object->get_settings();
   add_label(os.get_name());
   add_hl();
@@ -39,6 +53,20 @@ ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
       oo.add_to_menu(*this);
     }
   }
+
+  if (!m_object->is_up_to_date())
+  {
+    add_hl();
+    add_entry(MNID_PATCH_NOTES, _("Patch Notes"));
+    add_entry(MNID_UPDATE, _("Update"));
+  }
+
+  if (m_remove_function)
+  {
+    add_hl();
+    add_entry(MNID_REMOVEFUNCTION, _("Remove"));
+  }
+
   add_hl();
   add_back(_("OK"), -1);
 }
@@ -52,11 +80,41 @@ ObjectMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id())
   {
+    case MNID_UPDATE:
+      Dialog::show_confirmation(_("This will update the object to its latest functionality.\nCheck the \"Patch Notes\" for more information.\n\nKeep in mind this is very likely to break the proper behaviour of the object.\nMake sure to re-check any behaviour, related to the object."), [this]() {
+        m_object->update_version();
+        refresh();
+      });
+      break;
+
+    case MNID_PATCH_NOTES:
+    {
+      const std::vector<std::string> patches = m_object->get_patches();
+      std::string text;
+
+      for (int version = m_object->get_version() + 1;
+           version <= 1 + static_cast<int>(patches.size()); version++)
+      {
+        text += fmt::format(fmt::runtime(_("Patch notes for v{}:")), version) + "\n" + patches[version - 2];
+        if (version < 1 + static_cast<int>(patches.size()))
+          text += "\n\n";
+      }
+
+      Dialog::show_message(text);
+      refresh();
+      break;
+    }
+
     case MNID_REMOVE:
       m_editor.delete_markers();
       m_editor.m_reactivate_request = true;
       MenuManager::instance().pop_menu();
       m_object->remove_me();
+      break;
+
+    case MNID_REMOVEFUNCTION:
+      if (m_remove_function(m_object))
+        MenuManager::instance().pop_menu();
       break;
 
     case MNID_TEST_FROM_HERE: {
@@ -85,10 +143,14 @@ ObjectMenu::on_back_action()
   BIND_SECTOR(*m_editor.get_sector());
 
   m_object->after_editor_set();
+  m_object->check_state();
 
-  m_editor.m_reactivate_request = true;
-  if (!dynamic_cast<MovingObject*>(m_object)) {
-    m_editor.sort_layers();
+  if (!MenuManager::instance().previous_menu())
+  {
+    m_editor.m_reactivate_request = true;
+    if (!dynamic_cast<MovingObject*>(m_object)) {
+      m_editor.sort_layers();
+    }
   }
 
   return true;

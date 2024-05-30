@@ -1,22 +1,25 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# 111More1, 2022
+# Asemif official, 2023
+# Ievgen Tkach <njamnjam.b@gmail.com>, 2018
 # Max Lyashuk <m_lyashuk@ukr.net>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 09:00+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/arctic-games/supertux/language/uk/)\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: Asemif official, 2023\n"
+"Language-Team: Ukrainian (http://app.transifex.com/arctic-games/supertux/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
@@ -36,7 +39,7 @@ msgstr "Потяг відбуває за хвилину"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
-msgstr ""
+msgstr "Бонус Діас!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
@@ -48,7 +51,7 @@ msgstr "Довгий шлях до дому"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr ""
+msgstr "Бонусний Острівний Палац"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
@@ -79,11 +82,11 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
+msgstr "-Вітаю!\n\n#Ви успішно закінчили\n#Бонус Острів I\n\nІнші рівні, внесені\nДжейсон У. Томпсон\nТорфі Гуннарссон\nAbednego\nMatr1x\n\n\n#Якщо ви ще не пройшли всі рівні,\n#знайди дорогу додому і бери\n#інший шлях. Є ще більший\n#челендж чекає на вас!\n\n#І ще є секретний рівень\n#також знайди...\n\n#Велике «дякую».\n#всі,хто долучився до цього\n#випускку. Сподіваємось, вам сподобалось!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
-msgstr ""
+msgstr "Труба вниз там"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
@@ -99,7 +102,13 @@ msgstr "Я бував тут раніше?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr ""
+msgstr "Погані хлопці смердять!"
+
+#: data/levels/bonus1/thompson-level2.stl:96
+msgid ""
+"#These levels were made Swimming-Ready by Serano and revamped by "
+"AllyTheOcelot"
+msgstr "#Ці рівні були зроблені до плавання Serano та оновлені AllyTheOcelot"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -109,9 +118,9 @@ msgstr "Хороший початок"
 msgid "Too easy"
 msgstr "Надто просто"
 
-#: data/levels/bonus1/torfi-level2.stl:43
-msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr ""
+#: data/levels/bonus1/torfi-level2.stl:56
+msgid "#All these levels were upgraded for milestone 2 by Hume."
+msgstr "#Усі ці рівні були оновлені Hume для етапу 2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -119,7 +128,7 @@ msgstr "Досі надто просто"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr ""
+msgstr "Напівзаморожені"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
@@ -131,7 +140,7 @@ msgstr "Лабіринт у небі"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr ""
+msgstr "Колапс неминучий!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
@@ -141,62 +150,62 @@ msgstr "Видима частина айсберга"
 msgid "Bonus Island I"
 msgstr "Бонусний острів I"
 
-#: data/levels/bonus1/worldmap.stwm:12
+#: data/levels/bonus1/worldmap.stwm:127
 msgid "You found a secret place!"
 msgstr "Ви знайшли сховок!"
 
-#: data/levels/bonus1/worldmap.stwm:20
+#: data/levels/bonus1/worldmap.stwm:135
 msgid "Hint: Use igloos to get back here."
-msgstr ""
+msgstr "Підказка: використовуйте іглу, щоб повернутися сюди."
 
-#: data/levels/bonus1/worldmap.stwm:29
+#: data/levels/bonus1/worldmap.stwm:144
 msgid "Warp to Matr1x' Sector"
-msgstr ""
+msgstr "Перейти до сектора Matr1x'"
 
-#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
+#: data/levels/bonus1/worldmap.stwm:151 data/levels/bonus1/worldmap.stwm:228
 msgid "Warp to Thompson's Domain"
-msgstr ""
+msgstr "Перейти до домену Томпсона"
 
-#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
+#: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
 msgstr "Покинути острів команди SuperTux"
 
-#: data/levels/bonus1/worldmap.stwm:50
+#: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
-msgstr ""
+msgstr "Перейти до території Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
+#: data/levels/bonus1/worldmap.stwm:172 data/levels/bonus1/worldmap.stwm:262
 msgid "Leave Torfi's Territory"
-msgstr ""
+msgstr "Залишити територію Ещкаш"
 
-#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
+#: data/levels/bonus1/worldmap.stwm:179 data/levels/bonus1/worldmap.stwm:207
 msgid "Leave Abednego's Area"
-msgstr ""
+msgstr "Залишити територію Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
+#: data/levels/bonus1/worldmap.stwm:186 data/levels/bonus1/worldmap.stwm:234
 msgid "Leave Thompson's Domain"
-msgstr ""
+msgstr "Залишити домен Tompson"
 
-#: data/levels/bonus1/worldmap.stwm:77
+#: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
-msgstr ""
+msgstr "Назад до сектора Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:83
+#: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
 msgstr "Викривлений дім"
 
-#: data/levels/bonus1/worldmap.stwm:97
+#: data/levels/bonus1/worldmap.stwm:214
 msgid "Warp to the SuperTux Team Island"
-msgstr ""
+msgstr "Перейти до острову команди SuperTux"
 
-#: data/levels/bonus1/worldmap.stwm:123
+#: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
-msgstr ""
+msgstr "Залишити сектор Matr1x'"
 
-#: data/levels/bonus1/worldmap.stwm:129
+#: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
-msgstr ""
+msgstr "Продовжити сектор Matr1x'"
 
-#: data/levels/bonus1/worldmap.stwm:136
+#: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"
-msgstr ""
+msgstr "Перейти на територію Torfi"

@@ -19,7 +19,8 @@
 LineIterator::LineIterator(const std::string& str)
   : first(str.begin()),
     last(str.end()),
-    line_end(str.begin())
+    line_end(str.begin()),
+    has_started(false)
 {
 }
 
@@ -27,7 +28,8 @@ LineIterator::LineIterator(std::string::const_iterator first_,
                            std::string::const_iterator last_)
   : first(first_),
     last(last_),
-    line_end(first_)
+    line_end(first_),
+    has_started(false)
 {
 }
 
@@ -40,13 +42,14 @@ LineIterator::next()
   }
   else
   {
-    if (first != line_end)
+    if (has_started)
       first = line_end + 1;
 
     do {
       ++line_end;
     } while(line_end != last && *line_end != '\n');
 
+    has_started = true;
     return true;
   }
 }

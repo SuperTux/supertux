@@ -36,7 +36,7 @@ string_to_walk_mode(const std::string& mode_string)
   else if (mode_string == "circular")
     return WalkMode::CIRCULAR;
   else {
-    log_warning << "Unknown path mode '" << mode_string << "'found. Using oneshot instead." << std::endl;
+    log_warning << "Unknown path mode '" << mode_string << "' found. Using oneshot instead." << std::endl;
     return WalkMode::ONE_SHOT;
   }
 }
@@ -56,19 +56,21 @@ walk_mode_to_string(WalkMode walk_mode)
   }
 }
 
-Path::Path() :
+Path::Path(PathGameObject& parent) :
+  m_parent_gameobject(parent),
   m_nodes(),
   m_mode(WalkMode::CIRCULAR),
   m_adapt_speed()
 {
 }
 
-Path::Path(const Vector& pos) :
+Path::Path(const Vector& pos, PathGameObject& parent) :
+  m_parent_gameobject(parent),
   m_nodes(),
   m_mode(),
   m_adapt_speed()
 {
-  Node first_node;
+  Node first_node(this);
   first_node.position = pos;
   first_node.bezier_before = pos;
   first_node.bezier_after = pos;
@@ -95,7 +97,7 @@ Path::read(const ReaderMapping& reader)
       ReaderMapping node_mapping = iter.as_mapping();
 
       // each new node will inherit all values from the last one
-      Node node;
+      Node node(this);
       node.time = 1;
       node.speed = 0;
       node.easing = EaseNone;
@@ -178,7 +180,7 @@ Path::get_base() const
 }
 
 int
-Path::get_nearest_node_no(const Vector& reference_point) const
+Path::get_nearest_node_idx(const Vector& reference_point) const
 {
   int nearest_node_id = -1;
   float nearest_node_dist = 0;
@@ -194,7 +196,7 @@ Path::get_nearest_node_no(const Vector& reference_point) const
 }
 
 int
-Path::get_farthest_node_no(const Vector& reference_point) const
+Path::get_farthest_node_idx(const Vector& reference_point) const
 {
   int farthest_node_id = -1;
   float farthest_node_dist = 0;
@@ -227,7 +229,7 @@ Path::edit_path()
   for (auto i = m_nodes.begin(); i != m_nodes.end(); ++i) {
     auto& before = Sector::get().add<BezierMarker>(&(*i), &(i->bezier_before));
     auto& after = Sector::get().add<BezierMarker>(&(*i), &(i->bezier_after));
-    auto& nm = Sector::get().add<NodeMarker>(this, i, id, before.get_uid(), after.get_uid());
+    auto& nm = Sector::get().add<NodeMarker>(i, id, before.get_uid(), after.get_uid());
     before.set_parent(nm.get_uid());
     after.set_parent(nm.get_uid());
     id++;

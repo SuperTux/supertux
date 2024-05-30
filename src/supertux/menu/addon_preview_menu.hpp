@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2022 Vankata453
+//  Copyright (C) 2022-2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_PREVIEW_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_PREVIEW_MENU_HPP
 
+#include "gui/menu.hpp"
+
 #include <vector>
 
-#include "addon/addon_manager.hpp"
-#include "gui/dialog.hpp"
-#include "gui/menu.hpp"
+#include "addon/downloader_defines.hpp"
 
 class Addon;
 class AddonManager;
@@ -29,6 +29,7 @@ class AddonManager;
 class AddonPreviewMenu final : public Menu
 {
   enum {
+    MNID_SCREENSHOTS,
     MNID_SHOW_SCREENSHOTS,
     MNID_INSTALL,
     MNID_UNINSTALL,
@@ -37,23 +38,25 @@ class AddonPreviewMenu final : public Menu
 
 private:
   AddonManager& m_addon_manager;
-  AddonScreenshotManager m_screenshot_manager;
   const Addon& m_addon;
-  bool m_addon_enabled;
   const bool m_auto_install;
   const bool m_update;
-  std::vector<std::string> m_screenshots;
+
+  bool m_addon_enabled;
   bool m_show_screenshots;
+  TransferStatusListPtr m_screenshot_download_status;
+  bool m_screenshot_download_success;
 
 public:
   AddonPreviewMenu(const Addon& addon, bool auto_install = false, bool update = false);
   ~AddonPreviewMenu() override;
 
-  bool on_back_action() override;
-
-  void rebuild_menu();
   void menu_action(MenuItem& item) override;
 
+private:
+  void rebuild_menu();
+
+  void show_screenshots();
   void install_addon();
   void uninstall_addon();
   void toggle_addon();
@@ -61,22 +64,6 @@ public:
 private:
   AddonPreviewMenu(const AddonPreviewMenu&) = delete;
   AddonPreviewMenu& operator=(const AddonPreviewMenu&) = delete;
-};
-
-class ScreenshotDownloadDialog final : public Dialog
-{
-private:
-  AddonScreenshotManager& m_screenshot_manager;
-
-public:
-  ScreenshotDownloadDialog(AddonScreenshotManager& screenshot_manager, bool passive = false);
-  ~ScreenshotDownloadDialog() override;
-
-  void update() override;
-
-private:
-  ScreenshotDownloadDialog(const ScreenshotDownloadDialog&) = delete;
-  ScreenshotDownloadDialog& operator=(const ScreenshotDownloadDialog&) = delete;
 };
 
 #endif

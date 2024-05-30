@@ -25,6 +25,11 @@ class Wind;
 
 namespace scripting {
 
+/**
+ * @summary A ""Wind"" that was given a name can be controlled by scripts.
+ * @instances A ""Wind"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Wind final
 #ifndef SCRIPTING_API
   : public GameObject<::Wind>
@@ -39,10 +44,14 @@ private:
 #endif
 
 public:
-  /** Start wind */
+  /**
+   * Starts blowing.
+   */
   void start();
 
-  /** Stop wind */
+  /**
+   * Stops blowing.
+   */
   void stop();
 };
 

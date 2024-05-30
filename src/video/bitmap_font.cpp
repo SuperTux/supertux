@@ -23,13 +23,14 @@
 #include <sstream>
 
 #include "physfs/physfs_sdl.hpp"
+#include "physfs/util.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/utf8_iterator.hpp"
+#include "video/canvas.hpp"
 #include "video/drawing_request.hpp"
-#include "video/painter.hpp"
 #include "video/surface.hpp"
 #include "video/sdl_surface.hpp"
 
@@ -37,7 +38,7 @@ namespace {
 
 bool vline_empty(const SDLSurfacePtr& surface, int x, int start_y, int end_y, Uint8 threshold)
 {
-  Uint8* pixels = static_cast<Uint8*>(surface->pixels);
+  const Uint8* pixels = static_cast<Uint8*>(surface->pixels);
 
   for (int y = start_y; y < end_y; ++y)
   {
@@ -69,27 +70,25 @@ BitmapFont::BitmapFont(GlyphWidth glyph_width_,
   const std::string fontdir = FileSystem::dirname(filename);
   const std::string fontname = FileSystem::basename(filename);
 
-  // scan for prefix-filename in addons search path
-  char **rc = PHYSFS_enumerateFiles(fontdir.c_str());
-  for (char **i = rc; *i != nullptr; i++) {
-    std::string filename_(*i);
-    if ( filename_.rfind(fontname) != std::string::npos ) {
+  // scan for prefix-filename in addons search path.
+  physfsutil::enumerate_files(fontdir, [fontdir, fontname, this](const std::string& file) {
+    std::string filepath = FileSystem::join(fontdir, file);
+    if (file.rfind(fontname) != std::string::npos) {
       try {
-        loadFontFile(fontdir + filename_);
+        loadFontFile(filepath);
       }
       catch(const std::exception& e)
       {
         log_fatal << "Couldn't load font file: " << e.what() << std::endl;
       }
     }
-  }
-  PHYSFS_freeList(rc);
+  });
 }
 
 void
 BitmapFont::loadFontFile(const std::string &filename)
 {
-  // FIXME: Workaround for a crash on MSYS2 when starting with --debug
+  // FIXME: Workaround for a crash on MSYS2 when starting with --debug.
   log_debug_ << "Loading font: " << filename << std::endl;
   auto doc = ReaderDocument::from_file(filename);
   auto root = doc.get_root();
@@ -104,7 +103,7 @@ BitmapFont::loadFontFile(const std::string &filename)
   int def_char_width=0;
 
   if ( !config_l.get("glyph-width",def_char_width) ) {
-    log_warning << "Font:"<< filename << ": misses default glyph-width" << std::endl;
+    log_warning << "Font:" << filename << ": misses default glyph-width" << std::endl;
   }
 
   if ( !config_l.get("glyph-height",char_height) ) {
@@ -228,12 +227,12 @@ BitmapFont::loadFontSurface(const std::string& glyphimage,
         if (left <= right)
         {
           glyph.offset  = Vector(static_cast<float>(x) - static_cast<float>(left), 0.0f);
-          glyph.advance = static_cast<float>(right - left + 1 + 1); // FIXME: might be useful to make spacing configurable
+          glyph.advance = static_cast<float>(right - left + 1 + 1); // FIXME: might be useful to make spacing configurable.
         }
         else
-        { // glyph is completly transparent
+        { // Glyph is completely transparent.
           glyph.offset  = Vector(0, 0);
-          glyph.advance = static_cast<float>(char_width + 1); // FIXME: might be useful to make spacing configurable
+          glyph.advance = static_cast<float>(char_width + 1); // FIXME: might be useful to make spacing configurable.
         }
 
         glyph.rect = Rectf(static_cast<float>(x),
@@ -291,9 +290,9 @@ BitmapFont::get_text_height(const std::string& text) const
   std::string::size_type text_height = char_height;
 
   for (std::string::const_iterator it = text.begin(); it != text.end(); ++it)
-  { // since UTF8 multibyte characters are decoded with values
+  { // Since UTF8 multibyte characters are decoded with values
     // outside the ASCII range there is no risk of overlapping and
-    // thus we don't need to decode the utf-8 string
+    // thus we don't need to decode the utf-8 string.
     if (*it == '\n')
       text_height += char_height + 2;
   }
@@ -312,13 +311,13 @@ BitmapFont::wrap_to_width(const std::string& s_, float width, std::string* overf
 {
   std::string s = s_;
 
-  // if text is already smaller, return full text
+  // If text is already smaller, return full text.
   if (get_text_width(s) <= width) {
     if (overflow) *overflow = "";
     return s;
   }
 
-  // if we can find a whitespace character to break at, return text up to this character
+  // If we can find a whitespace character to break at, return text up to this character.
   for (int i = static_cast<int>(s.length()) - 1; i >= 0; i--) {
     std::string s2 = s.substr(0,i);
     if (s[i] != ' ') continue;
@@ -328,30 +327,30 @@ BitmapFont::wrap_to_width(const std::string& s_, float width, std::string* overf
     }
   }
 
-  // hard-wrap at width, taking care of multibyte characters
+  // Hard-wrap at width, taking care of multibyte characters.
   unsigned int char_bytes = 1;
   for (int i = 0; i < static_cast<int>(s.length()); i += char_bytes) {
 
-    // calculate the number of bytes in the character
+    // Calculate the number of bytes in the character.
     char_bytes = 1;
-    auto iter = s.begin() + i + 1; // iter points to next byte
+    auto iter = s.begin() + i + 1; // Iter points to next byte.
     while ( iter != s.end() && (*iter & 128) && !(*iter & 64) ) {
-      // this is a "continuation" byte in the form 10xxxxxx
+      // This is a "continuation" byte in the form 10xxxxxx.
       ++iter;
       ++char_bytes;
     }
 
-    // check whether text now goes over allowed width, and if so
-    // return everything up to the character and put the rest in the overflow
+    // Check whether text now goes over allowed width, and if so
+    // return everything up to the character and put the rest in the overflow.
     std::string s2 = s.substr(0,i+char_bytes);
     if (get_text_width(s2) > width) {
-      if (i == 0) i += char_bytes; // edge case when even one char is too wide
+      if (i == 0) i += char_bytes; // Edge case when even one char is too wide.
       if (overflow) *overflow = s.substr(i);
       return s.substr(0, i);
     }
   }
 
-  // should in theory never reach here
+  // Should in theory never reach here.
   if (overflow) *overflow = "";
   return s;
 }
@@ -371,7 +370,7 @@ BitmapFont::draw_text(Canvas& canvas, const std::string& text,
     {
       std::string temp = text.substr(last, i - last);
 
-      // calculate X positions based on the alignment type
+      // Calculate X positions based on the alignment type.
       Vector pos = Vector(x, y);
 
       if (alignment == ALIGN_CENTER)
@@ -380,7 +379,7 @@ BitmapFont::draw_text(Canvas& canvas, const std::string& text,
         pos.x -= get_text_width(temp);
 
       // Cast font position to integer to get a clean drawing result and
-      // no blurring as we would get with subpixel positions
+      // no blurring as we would get with subpixel positions.
       pos.x = std::truncf(pos.x);
 
       draw_text(canvas, temp, pos, layer, color);

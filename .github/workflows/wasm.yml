@@ -17,6 +17,7 @@
 
 name: WebAssembly
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -31,9 +32,9 @@ jobs:
       matrix:
         build_type: ["Release", "Debug"]
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
@@ -46,37 +47,8 @@ jobs:
           sudo apt-get install -y git cmake build-essential curl zip
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
-          ./emsdk install 1.40.1
-          ./emsdk activate 1.40.1
-          # Fixes a bug in emscripten - see https://github.com/emscripten-core/emscripten/issues/13590
-          sed -i "s/\#define MALLOC_ALIGNMENT ((size_t)(2 \* sizeof(void \*)))/#define MALLOC_ALIGNMENT 16/g" upstream/emscripten/system/lib/dlmalloc.c
-          # Fixes a bug with the libjpeg port - see https://github.com/emscripten-core/emscripten/pull/13878
-          sed -i 's/2b581c60ae401a79bbbe748ff2deeda5acd50bfd2ea22e5926e36d34b9ebcffb6580b0ff48e972c1441583e30e21e1ea821ca0423f9c67ce08a31dffabdbe6b7/b2affe9a1688bd49fc033f4682c4a242d4ee612f1affaef532f5adcb4602efc4433c4a52a4b3d69e7440ff1f6413b1b041b419bc90efd6d697999961a9a6afb7/g' upstream/emscripten/tools/ports/libjpeg.py
-          sed -i 's/https:\/\/dl.bintray.com\/homebrew\/mirror\/jpeg-9c.tar.gz/https:\/\/storage.googleapis.com\/webassembly\/emscripten-ports\/jpegsrc.v9c.tar.gz/g' upstream/emscripten/tools/ports/libjpeg.py
-
-      - name: Install vcpkg and dependencies
-        run: |
-          source ~/emsdk/emsdk_env.sh
-          cd ~
-          git clone https://github.com/microsoft/vcpkg
-          ./vcpkg/bootstrap-vcpkg.sh
-          ./vcpkg/vcpkg integrate install
-          ./vcpkg/vcpkg install boost-date-time:wasm32-emscripten
-          ./vcpkg/vcpkg install boost-filesystem:wasm32-emscripten
-          ./vcpkg/vcpkg install boost-format:wasm32-emscripten
-          ./vcpkg/vcpkg install boost-locale:wasm32-emscripten
-          ./vcpkg/vcpkg install boost-optional:wasm32-emscripten
-          ./vcpkg/vcpkg install boost-system:wasm32-emscripten
-          ./vcpkg/vcpkg install glbinding:wasm32-emscripten
-          ./vcpkg/vcpkg install libpng:wasm32-emscripten
-          ./vcpkg/vcpkg install libogg:wasm32-emscripten
-          ./vcpkg/vcpkg install libvorbis:wasm32-emscripten
-          ./vcpkg/vcpkg install glm:wasm32-emscripten
-          ./vcpkg/vcpkg install zlib:wasm32-emscripten
-
-      - name: Patch SDL_ttf
-        working-directory: external/SDL_ttf
-        run: git apply ../../mk/emscripten/SDL_ttf.patch
+          ./emsdk install latest
+          ./emsdk activate latest
 
       - name: Configure build
         env:
@@ -85,10 +57,8 @@ jobs:
           source ~/emsdk/emsdk_env.sh
           mkdir build
           cd build
-          emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON \
-                -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake\
-                -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON\
-                -DEMSCRIPTEN=1 -DWARNINGS=ON -DWERROR=ON ..
+          # TODO: Re-add -DWERROR=ON when warnings will be fixed
+          emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWARNINGS=ON ..
 
       - name: Sync data folder
         working-directory: build
@@ -110,11 +80,11 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
-          rm supertux2.html && cp template.html supertux2.html
+          cp template.html supertux2.html
           mkdir upload/
           mv supertux2* upload/
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: "wasm32-emscripten-${{ matrix.build_type }}-html"
           path: build/upload/*

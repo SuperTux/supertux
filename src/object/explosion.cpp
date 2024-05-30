@@ -22,6 +22,7 @@
 #include "math/random.hpp"
 #include "object/bonus_block.hpp"
 #include "object/brick.hpp"
+#include "object/camera.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "object/weak_block.hpp"
@@ -32,23 +33,22 @@
 
 Explosion::Explosion(const Vector& pos, float p_push_strength,
     int p_num_particles, bool p_short_fuse) :
-  MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
-  hurt(true),
+  MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS + 40, COLGROUP_MOVING),
+  hurt(!p_short_fuse),
   push_strength(p_push_strength),
   num_particles(p_num_particles),
   state(STATE_WAITING),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
   short_fuse(p_short_fuse)
 {
-  SoundManager::current()->preload("sounds/explosion.wav");
-  SoundManager::current()->preload("sounds/firecracker.ogg");
+  SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
   set_pos(get_pos() - (m_col.m_bbox.get_middle() - get_pos()));
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
 
 Explosion::Explosion(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
+  MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS + 40, COLGROUP_MOVING),
   hurt(true),
   push_strength(-1),
   num_particles(100),
@@ -56,8 +56,7 @@ Explosion::Explosion(const ReaderMapping& reader) :
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
   short_fuse(false)
 {
-  SoundManager::current()->preload("sounds/explosion.wav");
-  SoundManager::current()->preload("sounds/firecracker.ogg");
+  SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
@@ -69,16 +68,18 @@ Explosion::explode()
     return;
   state = STATE_EXPLODING;
 
+  Sector::get().get_camera().shake(.1f, 0.f, 10.f);
+
   set_action(hurt ? "default" : "pop", 1);
-  m_sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
-  m_sprite->set_angle(graphicsRandom.randf(0, 360)); // a random rotation on the sprite to make explosions appear more random
+  m_sprite->set_animation_loops(1); //TODO: This is necessary because set_action will not set "loops" when "action" is the default action.
+  m_sprite->set_angle(graphicsRandom.randf(0, 360)); // A random rotation on the sprite to make explosions appear more random.
   if (hurt)
     SoundManager::current()->play("sounds/explosion.wav", get_pos(), 0.98f);
   else
     SoundManager::current()->play("sounds/firecracker.ogg", get_pos(), 0.7f);
   bool does_push = push_strength > 0;
 
-  // spawn some particles
+  // Spawn some particles.
   Vector accel = Vector(0, Sector::get().get_gravity()*100);
   Sector::get().add<Particles>(
     m_col.m_bbox.get_middle(), -360, 360, 450.0f, 900.0f, accel, num_particles,
@@ -113,7 +114,7 @@ Explosion::explode()
       Vector add_speed = glm::normalize(direction) * force;
 
       auto player = dynamic_cast<Player*>(obj);
-      if (player) {
+      if (player && !player->is_stone()) {
         player->add_velocity(add_speed);
       }
 
@@ -176,7 +177,7 @@ Explosion::collision(GameObject& other, const CollisionHit& )
     return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*>(&other);
-  if (player != nullptr) {
+  if (player != nullptr && !player->is_stone()) {
     player->kill(false);
   }
 

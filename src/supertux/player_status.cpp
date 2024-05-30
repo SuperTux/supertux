@@ -38,7 +38,8 @@ PlayerStatus::PlayerStatus(int num_players) :
   max_air_time(num_players),
   max_earth_time(num_players),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
-  last_worldmap()
+  last_worldmap(),
+  title_level()
 {
   reset(num_players);
 
@@ -87,7 +88,14 @@ PlayerStatus::get_max_coins() const
 bool
 PlayerStatus::can_reach_checkpoint() const
 {
-  return !GameSession::current()->get_reset_point_sectorname().empty();
+  return GameSession::current()->get_active_checkpoint_spawnpoint();
+}
+
+bool
+PlayerStatus::respawns_at_checkpoint() const
+{
+  return GameSession::current()->get_last_spawnpoint().is_checkpoint ||
+         GameSession::current()->reset_checkpoint_button;
 }
 
 void
@@ -158,6 +166,7 @@ PlayerStatus::write(Writer& writer)
 
   writer.write("worldmap-sprite", worldmap_sprite, false);
   writer.write("last-worldmap", last_worldmap, false);
+  writer.write("title-level", title_level);
 }
 
 void
@@ -206,30 +215,7 @@ PlayerStatus::read(const ReaderMapping& mapping)
         }
 
         auto map = iter.as_mapping();
-
-        std::string bonusname;
-        if (map.get("bonus", bonusname)) {
-          if (bonusname == "none") {
-            bonus[id] = NO_BONUS;
-          } else if (bonusname == "growup") {
-            bonus[id] = GROWUP_BONUS;
-          } else if (bonusname == "fireflower") {
-            bonus[id] = FIRE_BONUS;
-          } else if (bonusname == "iceflower") {
-            bonus[id] = ICE_BONUS;
-          } else if (bonusname == "airflower") {
-            bonus[id] = AIR_BONUS;
-          } else if (bonusname == "earthflower") {
-            bonus[id] = EARTH_BONUS;
-          } else {
-            log_warning << "Unknown bonus '" << bonusname << "' in savefile for player " << (id + 1) << std::endl;
-            bonus[id] = NO_BONUS;
-          }
-        }
-        map.get("fireflowers", max_fire_bullets[id]);
-        map.get("iceflowers", max_ice_bullets[id]);
-        map.get("airflowers", max_air_time[id]);
-        map.get("earthflowers", max_earth_time[id]);
+        parse_bonus_mapping(map, id);
       }
     }
     catch (const std::exception& e)
@@ -238,34 +224,41 @@ PlayerStatus::read(const ReaderMapping& mapping)
     }
   }
 
-  std::string bonusname;
-  if (mapping.get("bonus", bonusname)) {
-    if (bonusname == "none") {
-      bonus[0] = NO_BONUS;
-    } else if (bonusname == "growup") {
-      bonus[0] = GROWUP_BONUS;
-    } else if (bonusname == "fireflower") {
-      bonus[0] = FIRE_BONUS;
-    } else if (bonusname == "iceflower") {
-      bonus[0] = ICE_BONUS;
-    } else if (bonusname == "airflower") {
-      bonus[0] = AIR_BONUS;
-    } else if (bonusname == "earthflower") {
-      bonus[0] = EARTH_BONUS;
-    } else {
-      log_warning << "Unknown bonus '" << bonusname << "' in savefile" << std::endl;
-      bonus[0] = NO_BONUS;
-    }
-  }
-  mapping.get("fireflowers", max_fire_bullets[0]);
-  mapping.get("iceflowers", max_ice_bullets[0]);
-  mapping.get("airflowers", max_air_time[0]);
-  mapping.get("earthflowers", max_earth_time[0]);
+  parse_bonus_mapping(mapping, 0);
 
   mapping.get("coins", coins);
 
   mapping.get("worldmap-sprite", worldmap_sprite);
   mapping.get("last-worldmap", last_worldmap);
+  mapping.get("title-level", title_level);
+}
+
+void
+PlayerStatus::parse_bonus_mapping(const ReaderMapping& map, int id)
+{
+  std::string bonusname;
+  if (map.get("bonus", bonusname)) {
+    if (bonusname == "none") {
+      bonus[id] = NO_BONUS;
+    } else if (bonusname == "growup") {
+      bonus[id] = GROWUP_BONUS;
+    } else if (bonusname == "fireflower") {
+      bonus[id] = FIRE_BONUS;
+    } else if (bonusname == "iceflower") {
+      bonus[id] = ICE_BONUS;
+    } else if (bonusname == "airflower") {
+      bonus[id] = AIR_BONUS;
+    } else if (bonusname == "earthflower") {
+      bonus[id] = EARTH_BONUS;
+    } else {
+      log_warning << "Unknown bonus '" << bonusname << "' in savefile for player " << (id + 1) << std::endl;
+      bonus[id] = NO_BONUS;
+    }
+  }
+  map.get("fireflowers", max_fire_bullets[id]);
+  map.get("iceflowers", max_ice_bullets[id]);
+  map.get("airflowers", max_air_time[id]);
+  map.get("earthflowers", max_earth_time[id]);
 }
 
 std::string

@@ -31,7 +31,8 @@ const float CAMERA_PAN_TIME_MAX = 0.52213f;
 
 namespace worldmap {
 
-Camera::Camera() :
+Camera::Camera(WorldMapSector& worldmap_sector) :
+  m_worldmap_sector(worldmap_sector),
   m_camera_offset(0.0f, 0.0f),
   m_pan_startpos(0.0f, 0.0f),
   m_pan_time_full(0),
@@ -43,7 +44,7 @@ Camera::Camera() :
 void
 Camera::update(float dt_sec)
 {
-  // position "camera"
+  // Position the "camera".
   Vector target_pos = get_camera_pos_for_tux();
   clamp_camera_position(target_pos);
   if (!m_panning) {
@@ -53,7 +54,7 @@ Camera::update(float dt_sec)
 
   m_pan_time_remaining -= dt_sec;
   if (m_pan_time_remaining > 0) {
-    // Smoothly interpolate camera position
+    // Smoothly interpolate the camera's position.
     float f = m_pan_time_remaining / m_pan_time_full;
     f = 0.5f - 0.5f * cosf(math::PI * f);
     m_camera_offset.x = f * m_pan_startpos.x + (1.0f - f) * target_pos.x;
@@ -82,8 +83,7 @@ Camera::pan()
 Vector
 Camera::get_camera_pos_for_tux() const
 {
-  auto& worldmap = *WorldMap::current();
-  auto& tux = worldmap.get_singleton_by_type<Tux>();
+  auto& tux = m_worldmap_sector.get_singleton_by_type<Tux>();
 
   Vector camera_offset_(0.0f, 0.0f);
   Vector tux_pos = tux.get_pos();
@@ -95,8 +95,6 @@ Camera::get_camera_pos_for_tux() const
 void
 Camera::clamp_camera_position(Vector& c) const
 {
-  auto& worldmap = *WorldMap::current();
-
   if (c.x < 0) {
     c.x = 0;
   }
@@ -105,20 +103,20 @@ Camera::clamp_camera_position(Vector& c) const
     c.y = 0;
   }
 
-  if (c.x > worldmap.get_width() - static_cast<float>(SCREEN_WIDTH)) {
-    c.x = worldmap.get_width() - static_cast<float>(SCREEN_WIDTH);
+  if (c.x > m_worldmap_sector.get_width() - static_cast<float>(SCREEN_WIDTH)) {
+    c.x = m_worldmap_sector.get_width() - static_cast<float>(SCREEN_WIDTH);
   }
 
-  if (c.y > worldmap.get_height() - static_cast<float>(SCREEN_HEIGHT)) {
-    c.y = worldmap.get_height() - static_cast<float>(SCREEN_HEIGHT);
+  if (c.y > m_worldmap_sector.get_height() - static_cast<float>(SCREEN_HEIGHT)) {
+    c.y = m_worldmap_sector.get_height() - static_cast<float>(SCREEN_HEIGHT);
   }
 
-  if (worldmap.get_width() < static_cast<float>(SCREEN_WIDTH)) {
-    c.x = (worldmap.get_width() - static_cast<float>(SCREEN_WIDTH)) / 2.0f;
+  if (m_worldmap_sector.get_width() < static_cast<float>(SCREEN_WIDTH)) {
+    c.x = (m_worldmap_sector.get_width() - static_cast<float>(SCREEN_WIDTH)) / 2.0f;
   }
 
-  if (worldmap.get_height() < static_cast<float>(SCREEN_HEIGHT)) {
-    c.y = (worldmap.get_height() - static_cast<float>(SCREEN_HEIGHT)) / 2.0f;
+  if (m_worldmap_sector.get_height() < static_cast<float>(SCREEN_HEIGHT)) {
+    c.y = (m_worldmap_sector.get_height() - static_cast<float>(SCREEN_HEIGHT)) / 2.0f;
   }
 }
 

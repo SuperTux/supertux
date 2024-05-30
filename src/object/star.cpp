@@ -27,8 +27,8 @@ static const float INITIALJUMP = -400;
 static const float STAR_SPEED = 150;
 static const float JUMPSTAR_SPEED = -300;
 
-Star::Star(const Vector& pos, Direction direction) :
-  MovingSprite(pos, "images/powerups/star/star.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
+Star::Star(const Vector& pos, Direction direction, const std::string& custom_sprite) :
+  MovingSprite(pos, custom_sprite.empty() ? "images/powerups/star/star.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {

@@ -22,30 +22,82 @@
 
 class OptionsMenu final : public Menu
 {
+private:
+  static bool less_than_volume(const std::string& lhs, const std::string& rhs);
+
 public:
-  OptionsMenu(bool complete);
+  enum Type {
+    LOCALE,
+    VIDEO,
+    AUDIO,
+    CONTROLS,
+    EXTRAS,
+    ADVANCED
+  };
+
+public:
+  OptionsMenu(Type type, bool complete);
   ~OptionsMenu() override;
+
+  void on_window_resize() override;
 
   void menu_action(MenuItem& item) override;
 
 private:
-  int next_magnification;
-  int next_aspect_ratio;
-  int next_window_resolution;
-  int next_resolution;
-  int next_vsync;
-  int next_sound_volume;
-  int next_music_volume;
-  int m_next_mobile_controls_scale;
+  void insert_label(const std::string& text);
 
-  std::vector<std::string> magnifications;
-  std::vector<std::string> aspect_ratios;
-  std::vector<std::string> window_resolutions;
-  std::vector<std::string> resolutions;
-  std::vector<std::string> vsyncs;
-  std::vector<std::string> sound_volumes;
-  std::vector<std::string> music_volumes;
-  std::vector<std::string> m_mobile_controls_scales;
+  void add_magnification();
+  void add_aspect_ratio();
+  void add_window_resolutions();
+  void add_resolutions();
+  void add_vsync();
+  void add_sound_volume();
+  void add_music_volume();
+  void add_mobile_control_scales();
+
+private:
+  enum MenuIDs {
+    MNID_WINDOW_RESIZABLE,
+    MNID_WINDOW_RESOLUTION,
+    MNID_FULLSCREEN,
+    MNID_FULLSCREEN_RESOLUTION,
+    MNID_FIT_WINDOW,
+    MNID_MAGNIFICATION,
+    MNID_ASPECTRATIO,
+    MNID_VSYNC,
+    MNID_SOUND,
+    MNID_MUSIC,
+    MNID_SOUND_VOLUME,
+    MNID_MUSIC_VOLUME,
+    MNID_RUMBLING,
+    MNID_DEVELOPER_MODE,
+    MNID_CHRISTMAS_MODE,
+    MNID_TRANSITIONS,
+    MNID_CUSTOM_TITLE_LEVELS,
+    MNID_CONFIRMATION_DIALOG,
+    MNID_PAUSE_ON_FOCUSLOSS,
+    MNID_CUSTOM_CURSOR,
+    MNID_RELEASE_CHECK,
+    MNID_DISABLE_NETWORK,
+    MNID_MOBILE_CONTROLS,
+    MNID_MOBILE_CONTROLS_SCALE
+  };
+
+private:
+  struct StringOption {
+    std::vector<std::string> list = {};
+    int next = 0;
+  };
+
+private:
+  StringOption m_magnifications;
+  StringOption m_aspect_ratios;
+  StringOption m_window_resolutions;
+  StringOption m_resolutions;
+  StringOption m_vsyncs;
+  StringOption m_sound_volumes;
+  StringOption m_music_volumes;
+  StringOption m_mobile_control_scales;
 
 private:
   OptionsMenu(const OptionsMenu&) = delete;

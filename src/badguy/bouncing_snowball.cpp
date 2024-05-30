@@ -27,22 +27,26 @@ static const float BSNOWBALL_WALKSPEED = 80;
 BouncingSnowball::BouncingSnowball(const ReaderMapping& reader)
   : BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
 {
+  parse_type(reader);
 }
 
 void
 BouncingSnowball::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -BSNOWBALL_WALKSPEED : BSNOWBALL_WALKSPEED);
-  m_sprite->set_action(m_dir);
+  set_action(m_dir);
 }
 
 void
 BouncingSnowball::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
+  if (m_frozen)
+    return;
+
   if ((m_sprite->get_action() == "left-up" || m_sprite->get_action() == "right-up") && m_sprite->animation_done())
   {
-    m_sprite->set_action(m_dir);
+    set_action(m_dir);
   }
   Rectf lookbelow = get_bbox();
   lookbelow.set_bottom(lookbelow.get_bottom() + 48);
@@ -50,18 +54,60 @@ BouncingSnowball::active_update(float dt_sec)
   bool groundBelow = !Sector::get().is_free_of_statics(lookbelow);
   if (groundBelow && (m_physic.get_velocity_y() >= 64.0f))
   {
-    m_sprite->set_action(m_dir == Direction::LEFT ? "left-down" : "right-down");
+    set_action(m_dir, "down");
   }
   if (!groundBelow && (m_sprite->get_action() == "left-down" || m_sprite->get_action() == "right-down"))
   {
-    m_sprite->set_action(m_dir);
+    set_action(m_dir);
   }
+
+  // Left-right faux collision
+
+  Rectf side_look_box = get_bbox().grown(-1.f);
+  side_look_box.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -1.f : 1.f));
+  side_look_box.set_right(get_bbox().get_right() + (m_dir == Direction::LEFT ? -1.f : 1.f));
+  if (!Sector::get().is_free_of_statics(side_look_box))
+  {
+    m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
+    set_action(m_dir);
+    m_physic.set_velocity_x(-m_physic.get_velocity_x());
+  }
+}
+
+GameObjectTypes
+BouncingSnowball::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "fatbat", _("Fatbat") }
+  };
+}
+
+std::string
+BouncingSnowball::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case FATBAT:
+      return "images/creatures/fatbat/fatbat.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
+bool
+BouncingSnowball::is_freezable() const
+{
+  return m_type == FATBAT;
 }
 
 bool
 BouncingSnowball::collision_squished(GameObject& object)
 {
-  m_sprite->set_action("squished");
+  if (m_frozen)
+    return BadGuy::collision_squished(object);
+
+  set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }
@@ -70,7 +116,11 @@ void
 BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
   if (m_sprite->get_action() == "squished")
+    return;
+
+  if (m_frozen)
   {
+    BadGuy::collision_solid(hit);
     return;
   }
 
@@ -78,7 +128,7 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
     if (get_state() == STATE_ACTIVE) {
       float bounce_speed = -m_physic.get_velocity_y()*0.8f;
       m_physic.set_velocity_y(std::min(JUMPSPEED, bounce_speed));
-	    m_sprite->set_action(m_dir == Direction::LEFT ? "left-up" : "right-up", /* loops = */ 1);
+	    set_action(m_dir, "up", /* loops = */ 1);
     } else {
       m_physic.set_velocity_y(0);
     }
@@ -86,13 +136,7 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_y(0);
   }
 
-  // left or right collision
-  // The direction must correspond, else we got fake bounces on slopes.
-  if ((hit.left && m_dir == Direction::LEFT) || (hit.right && m_dir == Direction::RIGHT)) {
-    m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
-    m_sprite->set_action(m_dir);
-    m_physic.set_velocity_x(-m_physic.get_velocity_x());
-  }
+  //Left/right collisions handled in update because otherwise we would get weird wall-hugging behavior.
 
 }
 
@@ -104,10 +148,17 @@ BouncingSnowball::collision_badguy(BadGuy& , const CollisionHit& hit)
 }
 
 void
+BouncingSnowball::unfreeze(bool melt)
+{
+  BadGuy::unfreeze(melt);
+  initialize();
+}
+
+void
 BouncingSnowball::after_editor_set()
 {
   BadGuy::after_editor_set();
-  m_sprite->set_action(m_dir);
+  set_action(m_dir);
 }
 
 /* EOF */

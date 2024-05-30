@@ -17,11 +17,13 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
 
-#include <boost/optional.hpp>
+#include "util/currenton.hpp"
+
+#include <optional>
 #include <memory>
 #include <string>
+
 #include "math/vector.hpp"
-#include "util/currenton.hpp"
 
 class Savegame;
 class World;
@@ -31,18 +33,34 @@ class GameManager final : public Currenton<GameManager>
 public:
   GameManager();
 
-  void start_worldmap(const World& world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");
+  void start_worldmap(const World& world, const std::string& worldmap_filename = "",
+                      const std::string& sector = "", const std::string& spawnpoint = "");
+  void start_worldmap(const World& world, const std::string& worldmap_filename,
+                      const std::optional<std::pair<std::string, Vector>>& start_pos);
   void start_level(const World& world, const std::string& level_filename,
-                   const boost::optional<std::pair<std::string, Vector>>& start_pos = boost::none);
+                   const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
 
   bool load_next_worldmap();
-  void set_next_worldmap(const std::string& worldmap, const std::string &spawnpoint);
+  void set_next_worldmap(const std::string& world, const std::string& sector = "",
+                         const std::string& spawnpoint = "");
+
+private:
+  struct NextWorldMap
+  {
+    NextWorldMap(const std::string& w, const std::string& s,
+                 const std::string& sp) :
+      world(w), sector(s), spawnpoint(sp)
+    {}
+
+    const std::string world;
+    const std::string sector;
+    const std::string spawnpoint;
+  };
 
 private:
   std::unique_ptr<Savegame> m_savegame;
 
-  std::string m_next_worldmap;
-  std::string m_next_spawnpoint;
+  std::optional<NextWorldMap> m_next_worldmap;
 
 private:
   GameManager(const GameManager&) = delete;

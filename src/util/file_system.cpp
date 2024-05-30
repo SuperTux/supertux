@@ -16,8 +16,7 @@
 
 #include "util/file_system.hpp"
 
-#include <boost/filesystem.hpp>
-#include <boost/version.hpp>
+#include <filesystem>
 #include <sstream>
 #include <stdexcept>
 #include <sys/stat.h>
@@ -32,6 +31,8 @@
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
+#else
+#include <curl/curl.h>
 #endif
 
 #include <SDL.h>
@@ -40,14 +41,14 @@
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 namespace FileSystem {
 
 bool exists(const std::string& path)
 {
   fs::path location(path);
-  boost::system::error_code ec;
+  std::error_code ec;
 
   // If we get an error (such as "Permission denied"), then ignore it
   // and pretend that the path doesn't exist.
@@ -67,6 +68,11 @@ void mkdir(const std::string& directory)
   {
     throw std::runtime_error("failed to create directory: "  + directory);
   }
+}
+
+void copy(const std::string& source_path, const std::string& target_path)
+{
+  fs::copy_file(source_path, target_path, fs::copy_options::overwrite_existing);
 }
 
 std::string dirname(const std::string& filename)
@@ -93,43 +99,7 @@ std::string basename(const std::string& filename)
 
 std::string relpath(const std::string& filename, const std::string& basedir)
 {
-#if BOOST_VERSION >= 106000
   return fs::relative(filename, basedir).string();
-#else
-  fs::path from = basedir;
-  fs::path to = filename;
-
-  // Taken from https://stackoverflow.com/a/29221546
-
-  // Start at the root path and while they are the same then do nothing then when they first
-  // diverge take the entire from path, swap it with '..' segments, and then append the remainder of the to path.
-  fs::path::const_iterator fromIter = from.begin();
-  fs::path::const_iterator toIter = to.begin();
-
-  // Loop through both while they are the same to find nearest common directory
-  while (fromIter != from.end() && toIter != to.end() && (*toIter) == (*fromIter))
-  {
-    ++toIter;
-    ++fromIter;
-  }
-
-  // Replace from path segments with '..' (from => nearest common directory)
-  fs::path finalPath;
-  while (fromIter != from.end())
-  {
-    finalPath /= "..";
-    ++fromIter;
-  }
-
-  // Append the remainder of the to path (nearest common directory => to)
-  while (toIter != to.end())
-  {
-    finalPath /= *toIter;
-    ++toIter;
-  }
-
-  return finalPath.string();
-#endif
 }
 
 std::string extension(const std::string& filename)
@@ -178,7 +148,7 @@ std::string normalize(const std::string& filename)
       if (path_stack.empty()) {
 
         log_warning << "Invalid '..' in path '" << filename << "'" << std::endl;
-        // push it into the result path so that the user sees his error...
+        // Push it into the result path so that the user sees this error...
         path_stack.push_back(pathelem);
       } else {
         path_stack.pop_back();
@@ -188,7 +158,7 @@ std::string normalize(const std::string& filename)
     }
   }
 
-  // construct path
+  // Construct path.
   std::ostringstream result;
   for (std::vector<std::string>::iterator i = path_stack.begin();
        i != path_stack.end(); ++i) {
@@ -259,6 +229,22 @@ void open_path(const std::string& path)
   {
     log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
   }
+#endif
+}
+
+std::string escape_url(const std::string& url)
+{
+#ifndef __EMSCRIPTEN__
+  std::string result = url;
+  char *output = curl_easy_escape(nullptr, url.c_str(), static_cast<int>(url.length()));
+  if(output) {
+    result = std::string(output);
+    curl_free(output);
+  }
+
+  return result;
+#else
+  return emscripten_run_script_string(("encodeURIComponent(" + url + ")").c_str());
 #endif
 }
 

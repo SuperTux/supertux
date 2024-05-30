@@ -29,7 +29,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES + 5, COLGROUP_DISABLED),
   m_state(ISPYSTATE_IDLE),
   m_script(),
-  m_dir(Direction::AUTO)
+  m_dir(Direction::LEFT)
 {
   reader.get("script", m_script);
 
@@ -42,7 +42,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   if (m_dir == Direction::AUTO)
     log_warning << "Setting an Ispy's direction to AUTO is no good idea." << std::endl;
 
-  set_sprite_action("idle");
+  set_action("idle", m_dir);
 }
 
 ObjectSettings
@@ -51,7 +51,8 @@ Ispy::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_script(_("Script"), &m_script, "script");
-  result.add_direction(_("Direction"), &m_dir, Direction::AUTO, "direction");
+  result.add_direction(_("Direction"), &m_dir,
+                        { Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "direction");
 
   result.reorder({"script", "facing-down", "direction", "x", "y"});
 
@@ -62,7 +63,7 @@ void
 Ispy::after_editor_set()
 {
   MovingSprite::after_editor_set();
-  set_sprite_action("idle");
+  set_action("idle", m_dir);
 }
 
 HitResponse
@@ -91,7 +92,7 @@ Ispy::update(float dt_sec)
 
     if (Sector::get().can_see_player(eye))
     {
-      set_sprite_action("alert", 1);
+      set_action("alert", m_dir, 1);
       m_state = ISPYSTATE_ALERT;
     }
   }
@@ -99,7 +100,7 @@ Ispy::update(float dt_sec)
   {
     if (m_sprite->animation_done())
     {
-      set_sprite_action("hiding", 1);
+      set_action("hiding", m_dir, 1);
       m_state = ISPYSTATE_HIDING;
 
       Sector::get().run_script(m_script, "Ispy");
@@ -109,7 +110,7 @@ Ispy::update(float dt_sec)
   {
     if (m_sprite->animation_done())
     {
-      set_sprite_action("showing", 1);
+      set_action("showing", m_dir, 1);
       m_state = ISPYSTATE_SHOWING;
     }
   }
@@ -117,22 +118,9 @@ Ispy::update(float dt_sec)
   {
     if (m_sprite->animation_done())
     {
-      set_sprite_action("idle");
+      set_action("idle", m_dir);
       m_state = ISPYSTATE_IDLE;
     }
-  }
-}
-
-void
-Ispy::set_sprite_action(const std::string& action, int loops)
-{
-  switch (m_dir)
-  {
-    case Direction::DOWN:  m_sprite->set_action(action + "-down",  loops); break;
-    case Direction::UP:    m_sprite->set_action(action + "-up",    loops); break;
-    case Direction::LEFT:  m_sprite->set_action(action + "-left",  loops); break;
-    case Direction::RIGHT: m_sprite->set_action(action + "-right", loops); break;
-    default: break;
   }
 }
 
@@ -143,12 +131,12 @@ Ispy::on_flip(float height)
   if (m_dir == Direction::UP)
   {
     m_dir = Direction::DOWN;
-    m_sprite->set_action("idle-down");
+    set_action("idle-down");
   }
   else if (m_dir == Direction::DOWN)
   {
     m_dir = Direction::UP;
-    m_sprite->set_action("idle-up");
+    set_action("idle-up");
   }
 }
 

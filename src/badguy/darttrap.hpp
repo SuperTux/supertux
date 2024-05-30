@@ -36,25 +36,36 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  virtual GameObjectTypes get_types() const override;
+  virtual std::string get_default_sprite_name() const override;
 
   virtual void on_flip(float height) override;
+  virtual void on_type_change(int old_type) override;
+
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 protected:
   enum State {
     IDLE, LOADING
   };
 
-  void load(); /**< load a shot */
-  void fire(); /**< fire a shot */
+  enum Type {
+    GRANITO, SKULL
+  };
+
+  void load();
+  void fire();
 
 private:
-  bool enabled; /** Is DartTrap enabled **/
-  float initial_delay; /**< time to wait before firing first shot */
-  float fire_delay; /**< reload time */
-  int ammo; /**< ammo left (-1 means unlimited) */
+  bool m_enabled;
+  float m_initial_delay;
+  float m_fire_delay;
+  int m_ammo; // ammo left (-1 means unlimited)
+  std::string m_dart_sprite;
 
-  State state; /**< current state */
-  Timer fire_timer; /**< time until new shot is fired */
+  State m_state;
+  Timer m_fire_timer;
 
 private:
   DartTrap(const DartTrap&) = delete;

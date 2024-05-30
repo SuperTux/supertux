@@ -7,6 +7,7 @@
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2019
 # zecas <jjorge@free.fr>, 2019
 # André Pinheiro <andrepinheiro2004@gmail.com>, 2021
+# lecalam, 2024
 # 
 #, fuzzy
 msgid ""
@@ -15,13 +16,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:58+0000\n"
-"Last-Translator: André Pinheiro <andrepinheiro2004@gmail.com>, 2021\n"
-"Language-Team: Portuguese (https://www.transifex.com/arctic-games/teams/95/pt/)\n"
+"Last-Translator: lecalam, 2024\n"
+"Language-Team: Portuguese (https://app.transifex.com/arctic-games/teams/95/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/bonus4/A_Narrow_Path.stl:3
 msgid "A Narrow Path"
@@ -29,11 +30,11 @@ msgstr "Um Caminho Estreito"
 
 #: data/levels/bonus4/Beginning_The_Journey.stl:3
 msgid "Beginning The Journey"
-msgstr "Começo Da Jornada"
+msgstr "Começo da Jornada"
 
 #: data/levels/bonus4/Cave_of_Dreams.stl:3
 msgid "Cave Of Dreams"
-msgstr "Caverna Dos Sonhos"
+msgstr "Caverna dos Sonhos"
 
 #: data/levels/bonus4/Cold_Forest.stl:3
 msgid "Cold Forest"
@@ -45,7 +46,7 @@ msgstr "Mania de Cristal"
 
 #: data/levels/bonus4/Deeper_Into_The_Mountains.stl:3
 msgid "Deeper Into The Mountains"
-msgstr "Mais Fundo Nas Montanhas "
+msgstr "Mais Fundo nas Montanhas "
 
 #: data/levels/bonus4/Feeling_The_Nature.stl:3
 msgid "Feeling The Nature"
@@ -57,16 +58,16 @@ msgstr "Nevoeiro e Névoa"
 
 #: data/levels/bonus4/Forest_Mountains.stl:3
 msgid "Forest Mountains"
-msgstr "Montanhas Da Floresta"
+msgstr "Montanhas da Floresta"
 
 #: data/levels/bonus4/Forest_Mountains.stl:140
 msgid "#One Path contains enemies, the other treasure..."
-msgstr "#Um caminho contêm inimigos, outro um tesouro..."
+msgstr "#Um caminho contém inimigos, o outro tesouros..."
 
 #: data/levels/bonus4/Forest_Mountains.stl:145
 #: data/levels/bonus4/Forest_Mountains.stl:150
 msgid "#You can use this door to try the other way..."
-msgstr "#Tu podes usar esta porta para tentar outro caminho... "
+msgstr "#Podes usar esta porta para tentar o outro caminho... "
 
 #: data/levels/bonus4/Generic_Snow_Level.stl:3
 msgid "Generic Snow Level"
@@ -74,7 +75,7 @@ msgstr "Nível Genérico de Neve"
 
 #: data/levels/bonus4/Glacier_Danger.stl:3
 msgid "Glacier Danger"
-msgstr "Perigo de Geleira"
+msgstr "Perigo do Glaciar"
 
 #: data/levels/bonus4/Halloween_Fields.stl:3
 msgid "Halloween Fields"
@@ -82,7 +83,7 @@ msgstr "Campos de Halloween"
 
 #: data/levels/bonus4/Its_Halloween_Time.stl:3
 msgid "It's Halloween Time!"
-msgstr "É Hora Do Halloween!"
+msgstr "É Hora do Halloween!"
 
 #: data/levels/bonus4/Lets_Climb_That_Mountain.stl:3
 msgid "Let's Climb That Mountain!"
@@ -94,7 +95,7 @@ msgstr "Pesadelos"
 
 #: data/levels/bonus4/Penguin_In_The_Bushes.stl:3
 msgid "A Penguin In The Bushes"
-msgstr "Um Pinguim Nos Arbustos"
+msgstr "Um Pinguim nos Arbustos"
 
 #: data/levels/bonus4/Rainy_Swamps.stl:3
 msgid "Rainy Swamps"
@@ -110,7 +111,7 @@ msgstr "Terra do Boneco de Neve"
 
 #: data/levels/bonus4/SnowMansLand.stl:86
 msgid "#It sure is breezy today, huh?"
-msgstr "#Está mesmo fresco hoje, hã? "
+msgstr "#Está mesmo fresco hoje, não? "
 
 #: data/levels/bonus4/Snowy_Sunset.stl:3
 msgid "Snowy Sunset"
@@ -123,8 +124,7 @@ msgstr "Algum Caminho Gelado"
 #: data/levels/bonus4/Some_Icy_Path.stl:115
 msgid ""
 "#You won't be able to pass, if you don't bring him something he wants..."
-msgstr ""
-"#Você não está habilitado a passar, se você não trouxer algo que ele quer..."
+msgstr "#Não conseguirás passar, se não lhe trouxeres algo que ele queira..."
 
 #: data/levels/bonus4/Some_Icy_Path.stl:120
 msgid "#Maybe this crystal is the right thing for this snowman...?"
@@ -153,7 +153,7 @@ msgstr "O Caminho da Neve"
 
 #: data/levels/bonus4/Too_Much_Water.stl:3
 msgid "Too Much Water"
-msgstr "Muita Água"
+msgstr "Demasiada Água"
 
 #: data/levels/bonus4/Two_Tiny_Towers.stl:3
 msgid "Two Tiny Towers"
@@ -165,15 +165,15 @@ msgstr "Ilha Extra IV"
 
 #: data/levels/bonus4/worldmap.stwm:210
 msgid "Enter Forest Sector"
-msgstr "Entrar no Sector Florestal"
+msgstr "Entrar no setor Florestal"
 
 #: data/levels/bonus4/worldmap.stwm:217
 msgid "Enter Halloween Sector"
-msgstr "Entrar no Sector de Halloween"
+msgstr "Entrar no setor de Halloween"
 
 #: data/levels/bonus4/worldmap.stwm:224
 msgid "Enter Arctic Sector"
-msgstr "Entrar no Sector Ártico"
+msgstr "Entrar no setor Ártico"
 
 #: data/levels/bonus4/worldmap.stwm:231 data/levels/bonus4/worldmap.stwm:238
 #: data/levels/bonus4/worldmap.stwm:245 data/levels/bonus4/worldmap.stwm:252
@@ -187,4 +187,4 @@ msgstr "Regressar"
 
 #: data/levels/bonus4/worldmap.stwm:280
 msgid "The next challenge awaits..."
-msgstr "O próximo desafio aguarda... "
+msgstr "O próximo desafio está à espera... "

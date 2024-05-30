@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
 //                2014 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,18 +24,23 @@
 #include <curl/easy.h>
 #endif
 #include <functional>
-#include <memory>
+#include <map>
 #include <string>
 #include <vector>
 
+#include "addon/downloader_defines.hpp"
+
 typedef int TransferId;
-class Downloader;
 
 class TransferStatus final
 {
+  friend class Downloader;
+  friend class TransferStatusList;
+
 public:
   Downloader& m_downloader;
   TransferId id;
+  const std::string file;
   std::vector<std::function<void (bool)> > callbacks;
   bool prevented; // Set to true if networking was disabled
 
@@ -45,17 +51,12 @@ public:
 
   std::string error_msg;
 
-  TransferStatus(Downloader& downloader, TransferId id_) :
-    m_downloader(downloader),
-    id(id_),
-    callbacks(),
-    prevented(false),
-    dltotal(0),
-    dlnow(0),
-    ultotal(0),
-    ulnow(0),
-    error_msg()
-  {}
+private:
+  TransferStatusList* parent_list;
+
+public:
+  TransferStatus(Downloader& downloader, TransferId id_,
+                 const std::string& url);
 
   void abort();
   void update();
@@ -71,9 +72,54 @@ public:
       callbacks.push_back(callback);
     }
   }
+
+private:
+  TransferStatus(const TransferStatus&) = delete;
+  TransferStatus& operator=(const TransferStatus&) = delete;
 };
 
-using TransferStatusPtr = std::shared_ptr<TransferStatus>;
+class TransferStatusList final
+{
+  friend class Downloader;
+
+private:
+  std::vector<TransferStatusPtr> m_transfer_statuses;
+  int m_successful_count;
+  std::vector<std::function<void (bool)> > m_callbacks;
+
+  std::string m_error_msg;
+
+public:
+  TransferStatusList();
+  TransferStatusList(const std::vector<TransferStatusPtr>& list);
+
+  void abort();
+  void update();
+
+  void push(TransferStatusPtr status);
+  void push(TransferStatusListPtr statuses);
+
+  void then(const std::function<void (bool)>& callback)
+  {
+    m_callbacks.push_back(callback);
+  }
+
+  int get_download_now() const;
+  int get_download_total() const;
+  const std::string& get_error() const { return m_error_msg; }
+
+  bool is_active() const;
+
+private:
+  // Called when one of the transfers completes.
+  void on_transfer_complete(TransferStatusPtr this_status, bool successful);
+
+  void reset();
+
+private:
+  TransferStatusList(const TransferStatusList&) = delete;
+  TransferStatusList& operator=(const TransferStatusList&) = delete;
+};
 
 class Transfer;
 
@@ -83,8 +129,10 @@ private:
 #ifndef EMSCRIPTEN
   CURLM* m_multi_handle;
 #endif
-  std::vector<std::unique_ptr<Transfer> > m_transfers;
+  std::map<TransferId, std::unique_ptr<Transfer> > m_transfers;
   int m_next_transfer_id;
+
+  float m_last_update_time;
 
 public:
   Downloader();

@@ -41,12 +41,13 @@
 	
 	(action
 	  (name "iced-left")
-	  (hitbox 2 3 32 32)
-	  (images "frozen.png")
+	  (hitbox -1 2 45 43)
+	  (images "rotate-0.png")
 	)
-	(action (name "iced-right")
-		(hitbox 14 3 31.8 31.8)
-		(mirror-action "iced-left")
+	(action
+	  (name "iced-right")
+	  (hitbox -1 2 45 43)
+	  (mirror-action "iced-left")
 	)
 	(action
 	  (name "burning-left")
@@ -71,57 +72,57 @@
 	
 	(action
 	  (name "waking-left")
-      (fps 40.0)
-      (hitbox 4 7 32 28)
-      (images "rotate-0.png"
-              "rotate-0.png"
-              "rotate-1.png"
-              "rotate-1.png"
-              "rotate-2.png"
-              "rotate-2.png"
-              "rotate-3.png"
-              "rotate-3.png"
-              "rotate-4.png"
-              "rotate-4.png"
-              "rotate-5.png"
-              "rotate-5.png"
-              "rotate-6.png"
-              "rotate-6.png"
-              "rotate-7.png"
-              "rotate-7.png"
-              "rotate-0.png"
-              "rotate-0.png"
-              "rotate-0.png"
-              "rotate-1.png"
-              "rotate-1.png"
-              "rotate-1.png"
-              "rotate-2.png"
-              "rotate-2.png"
-              "rotate-2.png"
-              "rotate-3.png"
-              "rotate-3.png"
-              "rotate-3.png"
-              "rotate-4.png"
-              "rotate-4.png"
-              "rotate-4.png"
-              "rotate-4.png"
-              "rotate-5.png"
-              "rotate-5.png"
-              "rotate-5.png"
-              "rotate-5.png"
-              "rotate-6.png"
-              "rotate-6.png"
-              "rotate-6.png"
-              "rotate-7.png"
-              "rotate-7.png"
-              "rotate-7.png"
-              "rotate-7.png")
+    (fps 40.0)
+    (hitbox 4 7 32 28)
+    (images "rotate-0.png"
+            "rotate-0.png"
+            "rotate-1.png"
+            "rotate-1.png"
+            "rotate-2.png"
+            "rotate-2.png"
+            "rotate-3.png"
+            "rotate-3.png"
+            "rotate-4.png"
+            "rotate-4.png"
+            "rotate-5.png"
+            "rotate-5.png"
+            "rotate-6.png"
+            "rotate-6.png"
+            "rotate-7.png"
+            "rotate-7.png"
+            "rotate-0.png"
+            "rotate-0.png"
+            "rotate-0.png"
+            "rotate-1.png"
+            "rotate-1.png"
+            "rotate-1.png"
+            "rotate-2.png"
+            "rotate-2.png"
+            "rotate-2.png"
+            "rotate-3.png"
+            "rotate-3.png"
+            "rotate-3.png"
+            "rotate-4.png"
+            "rotate-4.png"
+            "rotate-4.png"
+            "rotate-4.png"
+            "rotate-5.png"
+            "rotate-5.png"
+            "rotate-5.png"
+            "rotate-5.png"
+            "rotate-6.png"
+            "rotate-6.png"
+            "rotate-6.png"
+            "rotate-7.png"
+            "rotate-7.png"
+            "rotate-7.png"
+            "rotate-7.png")
 	)
 
 	(action
-      (name "waking-right")
+    (name "waking-right")
 	  (fps 40.0)
-      (hitbox 4 7 32 28)
-      (mirror-action "waking-left")
+    (hitbox 4 7 32 28)
+    (mirror-action "waking-left")
 	)
 )

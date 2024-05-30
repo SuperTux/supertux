@@ -55,7 +55,7 @@ std::string Control_to_string(Control control)
   return g_control_names[static_cast<int>(control)];
 }
 
-boost::optional<Control> Control_from_string(const std::string& text)
+std::optional<Control> Control_from_string(const std::string& text)
 {
   for(int i = 0; g_control_names[i] != nullptr; ++i) {
     if (text == g_control_names[i]) {
@@ -63,11 +63,12 @@ boost::optional<Control> Control_from_string(const std::string& text)
     }
   }
 
-  return boost::none;
+  return std::nullopt;
 }
 
 Controller::Controller():
-  m_touchscreen(false)
+  m_touchscreen(false),
+  m_jump_key_pressed(false)
 {
   reset();
 }
@@ -83,12 +84,25 @@ Controller::reset()
     m_old_controls[i] = false;
   }
   m_touchscreen = false;
+  m_jump_key_pressed = false;
 }
 
 void
 Controller::set_control(Control control, bool value)
 {
+  if (control == Control::JUMP) {
+    m_jump_key_pressed = value;
+  }
   m_controls[static_cast<int>(control)] = value;
+}
+
+void
+Controller::set_jump_key_with_up(bool value)
+{
+  // Do not release the jump key if the jump key is still pressed.
+  if (!m_jump_key_pressed) {
+    m_controls[static_cast<int>(Control::JUMP)] = value;
+  }
 }
 
 void

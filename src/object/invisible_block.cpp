@@ -19,24 +19,36 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 
-InvisibleBlock::InvisibleBlock(const Vector& pos) :
-   Block(SpriteManager::current()->create("images/objects/bonus_block/invisibleblock.sprite")),
-   visible(false)
+InvisibleBlock::InvisibleBlock(const ReaderMapping& mapping) :
+  Block(mapping, "images/objects/bonus_block/invisibleblock.sprite"),
+  visible(false)
 {
-  m_col.m_bbox.set_pos(pos);
+  parse_type(mapping);
+
   SoundManager::current()->preload("sounds/brick.wav");
-  m_sprite->set_action("default-editor");
 }
 
-InvisibleBlock::InvisibleBlock(const ReaderMapping& mapping) :
-   Block(mapping, "images/objects/bonus_block/invisibleblock.sprite"),
-   visible(false)
+GameObjectTypes
+InvisibleBlock::get_types() const
 {
-  SoundManager::current()->preload("sounds/brick.wav");
+  return {
+    { "normal", _("Normal") },
+    { "retro", _("Retro") }
+  };
+}
+
+std::string
+InvisibleBlock::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case RETRO:
+      return "images/objects/bonus_block/retro_invisibleblock.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void
@@ -77,7 +89,7 @@ InvisibleBlock::hit(Player& player)
   if (visible)
     return;
 
-  m_sprite->set_action("empty");
+  set_action("empty");
   start_bounce(&player);
   set_group(COLGROUP_STATIC);
   visible = true;

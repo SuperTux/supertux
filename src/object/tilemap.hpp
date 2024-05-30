@@ -61,6 +61,9 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  void save_state() override;
+  void check_state() override;
+
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
@@ -69,7 +72,10 @@ public:
   virtual void on_flip(float height) override;
 
   /** Move tilemap until at given node, then stop */
-  void goto_node(int node_no);
+  void goto_node(int node_idx);
+
+  /** Instantly jump to the given node */
+  void jump_to_node(int node_idx, bool instantaneous = false);
 
   /** Start moving tilemap */
   void start_moving();
@@ -108,9 +114,9 @@ public:
   {
     if (actual) {
       return m_movement;
-    } else {
-      return Vector(m_movement.x, std::max(0.0f, m_movement.y));
     }
+
+    return Vector(m_movement.x, std::max(0.0f, m_movement.y));
   }
 
   /** Returns the position of the upper-left corner of tile (x, y) in
@@ -138,7 +144,7 @@ public:
   void notify_object_removal(CollisionObject* other);
 
   int get_layer() const { return m_z_pos; }
-  void set_layer(int layer_) { m_z_pos = layer_; }
+  void set_layer(int layer) { m_z_pos = layer; }
 
   bool is_solid() const { return m_real_solid && m_effective_solid; }
 
@@ -161,7 +167,7 @@ public:
 
   /** Puts the correct autotile block at the given position */
   void autotile(int x, int y, uint32_t tile);
-  
+
   enum class AutotileCornerOperation {
     ADD_TOP_LEFT,
     ADD_TOP_RIGHT,
@@ -172,10 +178,10 @@ public:
     REMOVE_BOTTOM_LEFT,
     REMOVE_BOTTOM_RIGHT,
   };
-  
+
   /** Puts the correct autotile blocks at the tiles around the given corner */
   void autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op);
-  
+
   /** Erases in autotile mode */
   void autotile_erase(const Vector& pos, const Vector& corner_pos);
 
@@ -204,15 +210,17 @@ public:
       target alpha. */
   float get_alpha() const;
 
+  float get_target_alpha() const { return m_alpha; }
+
   void set_tileset(const TileSet* new_tileset);
 
   const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
 
 private:
-  void update_effective_solid();
+  void update_effective_solid(bool update_manager = true);
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
-  bool is_corner(uint32_t tile);
+  bool is_corner(uint32_t tile) const;
 
   void apply_offset_x(int fill_id, int xoffset);
   void apply_offset_y(int fill_id, int yoffset);

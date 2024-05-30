@@ -4,7 +4,8 @@
 [![MacOS](https://github.com/SuperTux/supertux/actions/workflows/macos.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/macos.yml?branch=master)
 [![GNU/Linux](https://github.com/SuperTux/supertux/actions/workflows/gnulinux.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/gnulinux.yml?branch=master)
 [![Android](https://github.com/SuperTux/supertux/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/android.yml?branch=master)
-[![BSD](https://github.com/SuperTux/supertux/actions/workflows/bsd.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/bsd.yml?branch=master)
+<!-- BSD disabled, see https://github.com/SuperTux/supertux/pull/2366#issuecomment-1670925526 -->
+<!-- [![BSD](https://github.com/SuperTux/supertux/actions/workflows/bsd.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/bsd.yml?branch=master) -->
 [![WebAssembly](https://github.com/SuperTux/supertux/actions/workflows/wasm.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/wasm.yml?branch=master)
 [![Ubuntu Touch](https://github.com/SuperTux/supertux/actions/workflows/ubuntu-touch.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/ubuntu-touch.yml?branch=master)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
@@ -111,5 +112,5 @@ As of now, with the release of SuperTux 0.6.3 (December 2021), the Forest World 
 finished, since the ghost forest section has been included. However, some levels, especially
 the Ghostree Level, are considered to be placeholders, because for the next version (0.7.0) a
 great overhaul is planned with new features like reworked boss fights, graphics, and worlds.
-If you have some Constructive Feedback, Contributions or ideas to share, don't hestitate
+If you have some Constructive Feedback, Contributions or ideas to share, don't hesitate
 to contact us with one of the possibilities given above.

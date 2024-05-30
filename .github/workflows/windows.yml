@@ -17,6 +17,7 @@
 
 name: Windows
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -45,24 +46,26 @@ jobs:
 
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
           submodules: true
+
+      - name: Use cached dependencies
+        id: cache-dependencies
+        uses: actions/cache@v3
+        with:
+          path: C:/vcpkg/installed
+          key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/windows.yml') }}
+
       - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         env:
           ARCH: ${{ matrix.arch }}
         run: |
           vcpkg integrate install
           vcpkg install gtest:$Env:ARCH-windows
-          vcpkg install boost-date-time:$Env:ARCH-windows
-          vcpkg install boost-filesystem:$Env:ARCH-windows
-          vcpkg install boost-format:$Env:ARCH-windows
-          vcpkg install boost-iostreams:$Env:ARCH-windows
-          vcpkg install boost-locale:$Env:ARCH-windows
-          vcpkg install boost-optional:$Env:ARCH-windows
-          vcpkg install boost-system:$Env:ARCH-windows
           vcpkg install curl:$Env:ARCH-windows
           vcpkg install --recurse freetype:$Env:ARCH-windows
           vcpkg install glew:$Env:ARCH-windows
@@ -110,7 +113,7 @@ jobs:
           mkdir upload
           mv *.msi upload/
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-installer"
           path: build/upload/*.msi
@@ -135,6 +138,7 @@ jobs:
         env:
           PREFIX: "${{ github.sha }}/gh-actions/windows-${{ matrix.arch }}/${{ github.run_id }}"
           DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
           IS_WINDOWS: true
 
       - name: Create Release

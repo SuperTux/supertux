@@ -80,7 +80,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     m_parent->get_controller(control.player).set_control(control.control, value);
 
     if (m_keyboard_config.m_jump_with_up_kbd && control.control == Control::UP) {
-      m_parent->get_controller(control.player).set_control(Control::JUMP, value);
+      m_parent->get_controller(control.player).set_jump_key_with_up(value);
     }
   }
 }
@@ -170,7 +170,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     }
     m_parent->reset();
     MenuManager::instance().refresh();
-    m_wait_for_key = boost::none;
+    m_wait_for_key = std::nullopt;
     return;
   }
 
@@ -219,15 +219,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       control = Control::REMOVE;
       break;
     default:
-      if (m_keyboard_config.m_keymap.count(event.keysym.sym) == 0)
-        return;
-
-      // Forbid events from players other than the first in menus
-      if (m_keyboard_config.m_keymap[event.keysym.sym].player != 0)
-        return;
-
-      control = m_keyboard_config.m_keymap[event.keysym.sym].control;
-      break;
+      return;
   }
 
   // Keep empty because this is in the menu; only the first player may navigate

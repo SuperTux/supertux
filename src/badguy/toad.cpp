@@ -21,9 +21,9 @@
 #include "sprite/sprite.hpp"
 
 namespace {
-const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
-const float HORIZONTAL_SPEED = 320; /**< x-speed when jumping */
-const float TOAD_RECOVER_TIME = 0.5; /**< time to stand still before starting a (new) jump */
+const float VERTICAL_SPEED = -450;   /**< Vertical speed when jumping. */
+const float HORIZONTAL_SPEED = 320; /**< Horizontal speed when jumping. */
+const float TOAD_RECOVER_TIME = 0.5; /**< Time to stand still before starting a (new) jump. */
 static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 
@@ -38,34 +38,32 @@ Toad::Toad(const ReaderMapping& reader) :
 void
 Toad::initialize()
 {
-  // initial state is JUMPING, because we might start airborne
+  // The initial state is JUMPING, because we might start airborne.
   state = JUMPING;
-  m_sprite->set_action("jumping", m_dir);
+  set_action("jumping", m_dir);
 }
 
 void
 Toad::set_state(ToadState newState)
 {
   if (newState == IDLE) {
-    m_physic.set_velocity_x(0);
-    m_physic.set_velocity_y(0);
+    m_physic.set_velocity(0, 0);
     if (!m_frozen)
-      m_sprite->set_action("idle", m_dir);
+      set_action("idle", m_dir);
 
     recover_timer.start(TOAD_RECOVER_TIME);
   } else
     if (newState == JUMPING) {
-      m_sprite->set_action("jumping", m_dir);
-      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
-      m_physic.set_velocity_y(VERTICAL_SPEED);
+      set_action("jumping", m_dir);
+      m_physic.set_velocity(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED, VERTICAL_SPEED);
       SoundManager::current()->play( HOP_SOUND, get_pos());
     } else
       if (newState == FALLING) {
         Player* player = get_nearest_player();
-        // face player
+        // Face the player.
         if (player && (player->get_bbox().get_right() < m_col.m_bbox.get_left()) && (m_dir == Direction::RIGHT)) m_dir = Direction::LEFT;
         if (player && (player->get_bbox().get_left() > m_col.m_bbox.get_right()) && (m_dir == Direction::LEFT)) m_dir = Direction::RIGHT;
-        m_sprite->set_action("idle", m_dir);
+        set_action("idle", m_dir);
       }
 
   state = newState;
@@ -76,7 +74,7 @@ Toad::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
-  m_sprite->set_action("squished", m_dir);
+  set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }
@@ -84,25 +82,25 @@ Toad::collision_squished(GameObject& object)
 void
 Toad::collision_solid(const CollisionHit& hit)
 {
-  // default behavior when frozen
+  // Default behavior when frozen.
   if (m_frozen || BadGuy::get_state() == STATE_BURNING)
   {
     BadGuy::collision_solid(hit);
     return;
   }
 
-  // just default behaviour (i.e. stop at floor/walls) when squished
+  // Default behaviour (i.e. stop at floor/walls) when squished.
   if (BadGuy::get_state() == STATE_SQUISHED) {
     BadGuy::collision_solid(hit);
     return;
   }
 
-  // ignore collisions while standing still
+  // Ignore collisions while standing still.
   if (state == IDLE) {
     return;
   }
 
-  // check if we hit left or right while moving in either direction
+  // Check if we hit left or right while moving in either direction.
   if (((m_physic.get_velocity_x() < 0) && hit.left) || ((m_physic.get_velocity_x() > 0) && hit.right)) {
     /*
       dir = dir == LEFT ? RIGHT : LEFT;
@@ -115,13 +113,13 @@ Toad::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_x(-0.25f*m_physic.get_velocity_x());
   }
 
-  // check if we hit the floor while falling
+  // Check if we hit the floor while falling.
   if ((state == FALLING) && hit.bottom) {
     set_state(IDLE);
     return;
   }
 
-  // check if we hit the roof while climbing
+  // Check if we hit the roof while climbing.
   if ((state == JUMPING) && hit.top) {
     m_physic.set_velocity_y(0);
   }
@@ -131,7 +129,7 @@ Toad::collision_solid(const CollisionHit& hit)
 HitResponse
 Toad::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  // behaviour for badguy collisions is the same as for collisions with solids
+  // Behaviour for badguy collisions is the same as for collisions with solids.
   collision_solid(hit);
 
   return CONTINUE;
@@ -143,13 +141,13 @@ Toad::active_update(float dt_sec)
   BadGuy::active_update(dt_sec);
 
 
-  // change sprite when we are falling and not frozen
+  // Change sprite when we are falling and not frozen.
   if ((state == JUMPING) && (m_physic.get_velocity_y() > 0) && !m_frozen) {
     set_state(FALLING);
     return;
   }
 
-  // jump when fully recovered and if not frozen
+  // Jump when fully recovered and if not frozen.
   if ((state == IDLE) && (recover_timer.check() && !m_frozen)) {
     set_state(JUMPING);
     return;

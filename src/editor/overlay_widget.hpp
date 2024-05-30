@@ -25,6 +25,7 @@
 #include "editor/widget.hpp"
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/timer.hpp"
 #include "util/typed_uid.hpp"
 
 class Color;
@@ -45,6 +46,8 @@ public:
   static Color text_autotile_available_color;
   static Color text_autotile_active_color;
   static Color text_autotile_error_color;
+  static Color warning_color;
+  static Color error_color;
 
 public:
   EditorOverlayWidget(Editor& editor);
@@ -58,6 +61,7 @@ public:
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
+  virtual void resize() override;
 
   void update_pos();
   void delete_markers();
@@ -83,6 +87,7 @@ private:
   void preview_rectangle();
   bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile) const;
   void fill();
+  void replace();
   void put_object();
 
   void rubber_object();
@@ -111,12 +116,15 @@ private:
   Vector sp_to_tp(const Vector& sp, int tile_size = 32) const;
   Vector tile_screen_pos(const Vector& tp, int tile_size = 32) const;
   Vector align_to_tilemap(const Vector& sp, int tile_size = 32) const;
+  bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos) const;
 
   // in sector position
   Rectf drag_rect() const;
   Rectf tile_drag_rect() const;
   Rectf selection_draw_rect() const;
   void update_tile_selection();
+
+  void set_warning(const std::string& text, float time);
 
 private:
   Editor& m_editor;
@@ -143,6 +151,12 @@ private:
   Vector m_obj_mouse_desync;
 
   std::unique_ptr<TileSelection> m_rectangle_preview;
+
+  // Warnings
+  Timer m_warning_timer;
+  std::string m_warning_text;
+
+  bool m_selection_warning;
 
 private:
   EditorOverlayWidget(const EditorOverlayWidget&) = delete;

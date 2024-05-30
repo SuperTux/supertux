@@ -31,22 +31,34 @@
 MrBomb::MrBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
 {
+  parse_type(reader);
+
   walk_speed = 80;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
-  //Prevent stutter when Tux jumps on Mr Bomb
+  // Prevent stutter when Tux jumps on Mr Bomb.
   SoundManager::current()->preload("sounds/explosion.wav");
+}
 
-  //Check if we need another sprite
-  if ( !reader.get( "sprite", m_sprite_name ) ){
-    return;
+GameObjectTypes
+MrBomb::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "classic", _("Classic") }
+  };
+}
+
+std::string
+MrBomb::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CLASSIC:
+      return "images/creatures/mr_bomb/old_bomb/old_bomb.sprite";
+    default:
+      return m_default_sprite_name;
   }
-  if (m_sprite_name.empty()) {
-    m_sprite_name = "images/creatures/mr_bomb/mr_bomb.sprite";
-    return;
-  }
-  //Replace sprite
-  m_sprite = SpriteManager::current()->create( m_sprite_name );
 }
 
 HitResponse
@@ -131,11 +143,11 @@ MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
   if (dynamic_cast<Owl*>(&object))
-    m_sprite->set_action(dir_);
+    set_action(dir_);
   else
   {
     assert(m_frozen);
-    m_sprite->set_action("iced", dir_);
+    set_action("iced", dir_);
   }
   m_col.set_movement(pos - get_pos());
   m_dir = dir_;

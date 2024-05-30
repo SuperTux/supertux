@@ -18,10 +18,10 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_TUX_HPP
 #define HEADER_SUPERTUX_WORLDMAP_TUX_HPP
 
-#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
+
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/player_status.hpp"
-#include "worldmap/worldmap.hpp"
 
 class Controller;
 
@@ -51,7 +51,8 @@ public:
   Vector get_pos() const;
   Vector get_axis() const;
   Vector get_tile_pos() const { return m_tile_pos; }
-  void  set_tile_pos(const Vector& p) { m_tile_pos = p; }
+  void set_initial_pos(const Vector& pos) { m_initial_tile_pos = pos / 32.f; }
+  void set_tile_pos(const Vector& pos) { m_tile_pos = pos; }
 
   void process_special_tile(SpecialTile* special_tile);
 
@@ -75,6 +76,7 @@ private:
 
   Direction m_input_direction;
   Direction m_direction;
+  Vector m_initial_tile_pos;
   Vector m_tile_pos;
   /** Length by which tux is away from its current tile, length is in
       input_direction direction */

@@ -20,6 +20,7 @@
 
 #include "control/controller.hpp"
 #include "math/util.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"
@@ -29,7 +30,6 @@
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
-#include "worldmap/worldmap_parser.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace worldmap {
@@ -58,6 +58,18 @@ WorldSelect::WorldSelect(const std::string& current_world_filename) :
 
   if (worlds.size() > 0)
     std::reverse(worlds.begin(), worlds.end());
+
+  // Only worlds with a set prefix, which also are numbered starting with 1, will be ordered properly.
+  // This is a probably a poor solution, but I can't think of any other. - Daniel
+  std::string prefix = "";
+  vm.get_string("prefix", prefix);
+  if (!prefix.empty())
+  {
+    for (int i = 0; unsigned(i) < worlds.size(); i++)
+    {
+      worlds[i] = prefix + std::to_string(i+1) + "/worldmap.stwm";
+    }
+  }
 
   int i = 0;
   for (const auto& world : worlds) {
@@ -167,9 +179,9 @@ WorldSelect::draw(Compositor& compositor)
     float size = 1.f + (std::cos(angle) - 1.f) / 4.f;
     Rectf rect = world.icon->get_region();
     rect = Rectf(0, 0, rect.get_width() * size / 2.f, rect.get_height() * size / 2.f);
-    rect.move(Vector(static_cast<float>(context.get_width()) / 2.f - rect.get_width() / 2.f,
-                     static_cast<float>(context.get_height()) / 2.f - rect.get_height() / 2.f));
-    rect.move(Vector(std::sin(angle) * -static_cast<float>(context.get_width()) / 4.f, 0.f));
+    rect.move(Vector(context.get_width() / 2.f - rect.get_width() / 2.f,
+                     context.get_height() / 2.f - rect.get_height() / 2.f));
+    rect.move(Vector(std::sin(angle) * -context.get_width() / 4.f, 0.f));
 
     PaintStyle ps;
     ps.set_alpha(std::cos(angle) * .5f + .5f);
@@ -188,8 +200,8 @@ WorldSelect::draw(Compositor& compositor)
   float halfangle = 1.f / static_cast<float>(m_worlds.size()) * math::PI * 2;
   float o = distance * (.5f - std::cos(halfangle));
   context.color().draw_text(Resources::big_font, name_to_display,
-                            Vector(static_cast<float>(context.get_width()) / 2.f,
-                                   static_cast<float>(context.get_height()) * 3.f / 4.f + pow(10.f - o * 10.f, 2.f)),
+                            Vector(context.get_width() / 2.f,
+                                   context.get_height() * 3.f / 4.f + pow(10.f - o * 10.f, 2.f)),
                             FontAlignment::ALIGN_CENTER,
                             10,
                             Color(1.f, 1.f, 1.f,static_cast<float>(pow(o, 2.f)) * 4.f));
@@ -212,7 +224,7 @@ WorldSelect::update(float dt_sec, const Controller& controller)
   if (!m_enabled)
     return;
 
-  if (controller.pressed(Control::ESCAPE) || controller.pressed(Control::ACTION))
+  if (controller.pressed_any(Control::ESCAPE, Control::ACTION))
   {
     m_enabled = false;
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, 0.25f));
@@ -236,8 +248,7 @@ WorldSelect::update(float dt_sec, const Controller& controller)
   if (controller.pressed(Control::JUMP) && m_worlds[m_selected_world].unlocked) {
     m_enabled = false;
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, 0.25f));
-    worldmap::WorldMap::current()->change(m_worlds[m_selected_world].filename, "main");
-    log_warning << m_worlds[m_selected_world].filename << std::endl;
+    worldmap::WorldMap::current()->change(m_worlds[m_selected_world].filename, "", DEFAULT_SPAWNPOINT_NAME);
     return;
   }
 }

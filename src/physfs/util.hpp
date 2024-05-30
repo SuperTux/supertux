@@ -17,9 +17,13 @@
 #ifndef HEADER_SUPERTUX_PHYSFS_UTIL_HPP
 #define HEADER_SUPERTUX_PHYSFS_UTIL_HPP
 
+#include <functional>
 #include <string>
 
 namespace physfsutil {
+
+/** Gets the last readable error that occurred in PhysFS */
+const char* get_last_error();
 
 /** Convert 'path' to it's canonical name, i.e. normalize it and add a
     '/' to the front) */
@@ -29,10 +33,16 @@ std::string realpath(const std::string& path);
     pointing to a directory */
 bool is_directory(const std::string& path);
 
-bool remove(const std::string& filenam);
+bool remove(const std::string& filename);
+
+/** Removes the content of a directory */
+void remove_content(const std::string& dir);
 
 /** Removes directory with content */
-void remove_with_content(const std::string& filename);
+void remove_with_content(const std::string& dir);
+
+/** Open directory and call callback for each file */
+bool enumerate_files(const std::string& pathname, std::function<void(const std::string&)> callback);
 
 } // namespace physfsutil
 

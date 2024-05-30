@@ -29,6 +29,7 @@ public:
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void update(float dt_sec) override;
   virtual void active_update(float dt_sec) override;
 
   virtual void freeze() override;
@@ -41,10 +42,18 @@ public:
   virtual std::string get_overlay_size() const override { return "2x1"; }
   virtual ObjectSettings get_settings() override;
 
+  virtual GameObjectTypes get_types() const override;
+  virtual std::string get_default_sprite_name() const override;
+
   void turn_around();
   void maintain_velocity(float goal_x_velocity);
 
 protected:
+  enum Type {
+    SNOW,
+    FOREST
+  };
+
   enum FishYState {
     DISRUPTED,
     BALANCED

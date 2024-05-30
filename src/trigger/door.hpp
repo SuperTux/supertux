@@ -17,19 +17,14 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_DOOR_HPP
 #define HEADER_SUPERTUX_TRIGGER_DOOR_HPP
 
-#include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
-#include "video/flip.hpp"
 
-class Player;
-class ReaderMapping;
+#include "supertux/timer.hpp"
 
-class Door final : public TriggerBase
+class Door final : public SpritedTrigger
 {
 public:
   Door(const ReaderMapping& reader);
-  Door(int x, int y, const std::string& sector, const std::string& spawnpoint);
-  ~Door() override;
 
   static std::string class_name() { return "door"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -42,26 +37,39 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;
+
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+
   virtual void on_flip(float height) override;
+
+  bool is_locked() const { return m_locked; }
+  void unlock();
+
+  Color get_lock_color() const { return m_lock_color; }
 
 private:
   enum DoorState {
     CLOSED,
     OPENING,
     OPEN,
-    CLOSING
+    CLOSING,
+    LOCKED,
+    UNLOCKING
   };
 
 private:
-  DoorState state; /**< current state of the door */
-  std::string target_sector; /**< target sector to teleport to */
-  std::string target_spawnpoint; /**< target spawnpoint to teleport to */
-  std::string script;
-  std::string sprite_name;
-  SpritePtr sprite; /**< "door" sprite to render */
-  Timer stay_open_timer; /**< time until door will close again */
-  Flip m_flip;
+  DoorState m_state; /**< current state of the door */
+  std::string m_target_sector; /**< target sector to teleport to */
+  std::string m_target_spawnpoint; /**< target spawnpoint to teleport to */
+  std::string m_script;
+  SpritePtr m_lock_sprite;
+  Timer m_stay_open_timer; /**< time until door will close again */
+  Timer m_unlocking_timer;
+  Timer m_lock_warn_timer;
+  bool m_locked;
+  Color m_lock_color;
+  bool m_transition_triggered;
+  Player* m_triggering_player;
 
 private:
   Door(const Door&) = delete;

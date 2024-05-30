@@ -44,7 +44,7 @@ public:
   virtual bool is_hurtable() const override { return false; }
   virtual void kill_fall() override { vanish(); }
 
-  virtual void goto_node(int node_no);
+  virtual void goto_node(int node_idx);
   virtual void set_state(const std::string& state);
   virtual void start_moving();
   virtual void stop_moving();
@@ -76,6 +76,9 @@ public:
   void vanish();
 
   Color get_color() const { return m_color; }
+
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;

@@ -19,36 +19,35 @@
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace {
-const std::string SWITCH_SOUND = "sounds/switch.ogg";
-}
+  const std::string SWITCH_SOUND = "sounds/switch.ogg";
+} // namespace
 
 Switch::Switch(const ReaderMapping& reader) :
-  sprite_name(),
-  sprite(),
-  script(),
-  off_script(),
-  state(OFF),
-  bistable(),
-  m_flip(NO_FLIP)
+  SpritedTrigger(reader, "images/objects/switch/switch.sprite"),
+  m_script(),
+  m_off_script(),
+  m_state(OFF),
+  m_bistable(),
+  m_dir(Direction::NONE)
 {
-  if (!reader.get("x", m_col.m_bbox.get_left())) throw std::runtime_error("no x position set");
-  if (!reader.get("y", m_col.m_bbox.get_top())) throw std::runtime_error("no y position set");
-  if (!reader.get("sprite", sprite_name)) sprite_name = "images/objects/switch/left.sprite";
-  sprite = SpriteManager::current()->create(sprite_name);
-  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  std::string dir_str;
+  if (reader.get("direction", dir_str))
+    m_dir = string_to_dir(dir_str);
+  else
+    m_dir = Direction::NONE;
 
-  reader.get("script", script);
-  bistable = reader.get("off-script", off_script);
+  set_action("off", m_dir);
 
-  SoundManager::current()->preload( SWITCH_SOUND );
+  reader.get("script", m_script);
+  m_bistable = reader.get("off-script", m_off_script);
+
+  SoundManager::current()->preload(SWITCH_SOUND);
 }
 
 Switch::~Switch()
@@ -58,64 +57,54 @@ Switch::~Switch()
 ObjectSettings
 Switch::get_settings()
 {
-  ObjectSettings result = TriggerBase::get_settings();
+  ObjectSettings result = SpritedTrigger::get_settings();
 
-  result.add_sprite(_("Sprite"), &sprite_name, "sprite", std::string("images/objects/switch/left.sprite"));
-  result.add_script(_("Turn on script"), &script, "script");
-  result.add_script(_("Turn off script"), &off_script, "off-script");
+  result.add_direction(_("Direction"), &m_dir,
+                        { Direction::NONE, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "direction");
 
-  result.reorder({"script", "off-script", "sprite", "x", "y"});
+  result.add_script(_("Turn on script"), &m_script, "script");
+  result.add_script(_("Turn off script"), &m_off_script, "off-script");
+
+  result.reorder({"direction", "script", "off-script", "sprite", "x", "y"});
 
   return result;
 }
 
 void
-Switch::after_editor_set() {
-  sprite = SpriteManager::current()->create(sprite_name);
-  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-}
-
-void
 Switch::update(float )
 {
-  switch (state) {
+  switch (m_state) {
     case OFF:
       break;
     case TURN_ON:
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         std::ostringstream location;
         location << "switch" << m_col.m_bbox.p1();
-        Sector::get().run_script(script, location.str());
+        Sector::get().run_script(m_script, location.str());
 
-        sprite->set_action("on", 1);
-        state = ON;
+        set_action("on", m_dir, 1);
+        m_state = ON;
       }
       break;
     case ON:
-      if (sprite->animation_done() && !bistable) {
-        sprite->set_action("turnoff", 1);
-        state = TURN_OFF;
+      if (m_sprite->animation_done() && !m_bistable) {
+        set_action("turnoff", m_dir, 1);
+        m_state = TURN_OFF;
       }
       break;
     case TURN_OFF:
-      if (sprite->animation_done()) {
-        if (bistable) {
+      if (m_sprite->animation_done()) {
+        if (m_bistable) {
           std::ostringstream location;
           location << "switch" << m_col.m_bbox.p1();
-          Sector::get().run_script(off_script, location.str());
+          Sector::get().run_script(m_off_script, location.str());
         }
 
-        sprite->set_action("off");
-        state = OFF;
+        set_action("off", m_dir);
+        m_state = OFF;
       }
       break;
   }
-}
-
-void
-Switch::draw(DrawingContext& context)
-{
-  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_TILES, m_flip);
 }
 
 void
@@ -123,19 +112,19 @@ Switch::event(Player& , EventType type)
 {
   if (type != EVENT_ACTIVATE) return;
 
-  switch (state) {
+  switch (m_state) {
     case OFF:
-      sprite->set_action("turnon", 1);
+      set_action("turnon", m_dir, 1);
       SoundManager::current()->play(SWITCH_SOUND, get_pos());
-      state = TURN_ON;
+      m_state = TURN_ON;
       break;
     case TURN_ON:
       break;
     case ON:
-      if (bistable) {
-        sprite->set_action("turnoff", 1);
+      if (m_bistable) {
+        set_action("turnoff", m_dir, 1);
         SoundManager::current()->play(SWITCH_SOUND, get_pos());
-        state = TURN_OFF;
+        m_state = TURN_OFF;
       }
       break;
     case TURN_OFF:
@@ -144,9 +133,17 @@ Switch::event(Player& , EventType type)
 }
 
 void
+Switch::after_editor_set()
+{
+  SpritedTrigger::after_editor_set();
+
+  set_action("off", m_dir);
+}
+
+void
 Switch::on_flip(float height)
 {
-  TriggerBase::on_flip(height);
+  SpritedTrigger::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
 

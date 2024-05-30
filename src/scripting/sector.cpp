@@ -17,11 +17,7 @@
 
 #include "scripting/sector.hpp"
 
-#include "math/easing.hpp"
-#include "object/ambient_light.hpp"
-#include "object/music_object.hpp"
 #include "supertux/sector.hpp"
-#include "video/color.hpp"
 
 namespace scripting {
 
@@ -35,6 +31,34 @@ void
 Sector::set_gravity(float gravity)
 {
   m_parent->set_gravity(gravity);
+}
+
+bool
+Sector::is_free_of_solid_tiles(float left, float top, float right, float bottom,
+                               bool ignore_unisolid) const
+{
+  return m_parent->is_free_of_tiles(Rectf(Vector(left, top), Vector(right, bottom)),
+                                    ignore_unisolid, Tile::SOLID);
+}
+
+bool
+Sector::is_free_of_statics(float left, float top, float right, float bottom,
+                           bool ignore_unisolid) const
+{
+  return m_parent->is_free_of_statics(Rectf(Vector(left, top), Vector(right, bottom)),
+                                      nullptr, ignore_unisolid);
+}
+
+bool
+Sector::is_free_of_movingstatics(float left, float top, float right, float bottom) const
+{
+  return m_parent->is_free_of_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)));
+}
+
+bool
+Sector::is_free_of_specifically_movingstatics(float left, float top, float right, float bottom) const
+{
+  return m_parent->is_free_of_specifically_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)));
 }
 
 } // namespace scripting

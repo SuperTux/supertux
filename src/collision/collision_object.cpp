@@ -27,6 +27,8 @@ CollisionObject::CollisionObject(CollisionGroup group, CollisionListener& listen
   m_group(group),
   m_movement(0.0f, 0.0f),
   m_dest(),
+  m_unisolid(false),
+  m_pressure(),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr)
 {
@@ -81,6 +83,7 @@ CollisionObject::clear_bottom_collision_list()
 void CollisionObject::propagate_movement(const Vector& movement)
 {
   for (CollisionObject* other_object : m_objects_hit_bottom) {
+    if (other_object->get_group() == COLGROUP_STATIC) continue;
     m_ground_movement_manager->register_movement(*this, *other_object, movement);
     other_object->propagate_movement(movement);
   }

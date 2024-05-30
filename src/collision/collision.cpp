@@ -37,16 +37,6 @@ void Constraints::merge_constraints(const Constraints& other)
   hit.crush |= other.hit.crush;
 }
 
-bool intersects(const Rectf& r1, const Rectf& r2)
-{
-  if (r1.get_right() < r2.get_left() || r1.get_left() > r2.get_right())
-    return false;
-  if (r1.get_bottom() < r2.get_top() || r1.get_top() > r2.get_bottom())
-    return false;
-
-  return true;
-}
-
 //---------------------------------------------------------------------------
 
 namespace {
@@ -72,7 +62,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle,
                           bool& hits_rectangle_bottom)
 {
-  if (!intersects(rect, triangle.bbox))
+  if (!rect.overlaps(triangle.bbox))
     return false;
 
   Vector normal(0.0f, 0.0f);
@@ -205,14 +195,14 @@ bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, co
   float den1 = (d2-b2)*(c1-c2) + (a2-c2)*(d1-d2);
   float den2 = (d2-b2)*(a1-a2) + (a2-c2)*(b1-b2);
 
-  // normalize to positive numerator
+  // Normalize to positive numerator.
   if (num < 0) {
     num = -num;
     den1 = -den1;
     den2 = -den2;
   }
 
-  // numerator is zero -> Check for parallel or coinciding lines
+  // Numerator is zero -> Check for parallel or coinciding lines.
   if (num == 0) {
     if ((b1-b2)*(c1-a2) != (a1-a2)*(d1-b2)) return false;
     if (a1 == a2) {
@@ -226,7 +216,7 @@ bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, co
     return ((a1 <= c2) && (a2 >= c1));
   }
 
-  // Standard check
+  // Standard check.
   return (den1>=0) && (den1<=num) && (den2>=0) && (den2<=num);
 
 }

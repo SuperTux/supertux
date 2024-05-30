@@ -59,8 +59,8 @@ MoleRock::initialize()
 {
   m_physic.set_velocity(initial_velocity);
 
-  // Randomly select a rock size to display.
-  m_sprite->set_action(graphicsRandom.rand(2) == 0 ? "small" : "medium");
+  int num = graphicsRandom.rand(1, static_cast<int>(m_sprite->get_actions_count()) + 1);
+  set_action("variant-" + std::to_string(num));
 }
 
 void
@@ -85,7 +85,7 @@ MoleRock::collision_solid(const CollisionHit& )
 HitResponse
 MoleRock::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
-  // ignore collisions with parent
+  // Ignore collisions with parent.
   if (&badguy == parent) {
     return FORCE_MOVE;
   }

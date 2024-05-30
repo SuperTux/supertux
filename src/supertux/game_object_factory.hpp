@@ -21,6 +21,8 @@
 
 #include "supertux/object_factory.hpp"
 
+#include "math/vector.hpp"
+
 class GameObjectFactory final : public ObjectFactory
 {
 public:
@@ -28,8 +30,9 @@ public:
 
 public:
   using ObjectFactory::create;
+  std::unique_ptr<GameObject> create(const std::string& name, const std::string& data) const;
   std::unique_ptr<GameObject> create(const std::string& name,
-                                     const Vector& pos, const Direction& dir = Direction::AUTO,
+                                     const Vector& pos = {}, const Direction& dir = Direction::AUTO,
                                      const std::string& data = {}) const;
 
 private:

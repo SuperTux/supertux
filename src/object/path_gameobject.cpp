@@ -16,15 +16,15 @@
 
 #include "object/path_gameobject.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "editor/node_marker.hpp"
-#include "gui/menu_manager.hpp"
 #include "object/path.hpp"
 #include "object/path_object.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -49,26 +49,30 @@ PathStyle PathStyle_from_string(const std::string& text)
 } // namespace
 
 PathGameObject::PathGameObject() :
-  m_path(new Path),
+  m_path(new Path(*this)),
   m_style(PathStyle::NONE),
   m_edge_sprite(),
   m_node_sprite()
 {
+  m_track_undo = false;
+
   m_name = make_unique_name("path", this);
 }
 
 PathGameObject::PathGameObject(const Vector& pos) :
-  m_path(new Path(pos)),
+  m_path(new Path(pos, *this)),
   m_style(PathStyle::NONE),
   m_edge_sprite(),
   m_node_sprite()
 {
+  m_track_undo = false;
+
   m_name = make_unique_name("path", this);
 }
 
 PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compatibility_hack) :
   GameObject(mapping),
-  m_path(new Path),
+  m_path(new Path(*this)),
   m_style(PathStyle::NONE),
   m_edge_sprite(),
   m_node_sprite()
@@ -79,7 +83,7 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compa
   }
   else
   {
-    boost::optional<ReaderMapping> path_mapping;
+    std::optional<ReaderMapping> path_mapping;
     if (mapping.get("path", path_mapping))
     {
       m_path->read(*path_mapping);
@@ -94,9 +98,8 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compa
     m_node_sprite = SpriteManager::current()->create("images/objects/path/node.sprite");
   }
 
-  if (m_name.empty()) {
-    set_name(make_unique_name("path", this));
-  }
+  if (m_name.empty())
+    regenerate_name();
 }
 
 PathGameObject::~PathGameObject()
@@ -106,7 +109,6 @@ PathGameObject::~PathGameObject()
 void
 PathGameObject::update(float dt_sec)
 {
-  check_references();
 }
 
 void
@@ -114,7 +116,7 @@ PathGameObject::draw(DrawingContext& context)
 {
   if (m_style == PathStyle::SOLID)
   {
-    boost::optional<Vector> previous_node;
+    std::optional<Vector> previous_node;
 
     for (const auto& node : m_path->get_nodes())
     {
@@ -149,7 +151,7 @@ PathGameObject::draw(DrawingContext& context)
     const Color node_color = Color::BLUE;
     const Color edge_color = Color::MAGENTA;
 
-    boost::optional<Vector> previous_node;
+    std::optional<Vector> previous_node;
     for (const auto& node : m_path->get_nodes())
     {
       if (previous_node)
@@ -176,12 +178,6 @@ PathGameObject::get_settings()
 }
 
 void
-PathGameObject::editor_update()
-{
-  check_references();
-}
-
-void
 PathGameObject::editor_select()
 {
   log_fatal << "PathGameObject::selected" << std::endl;
@@ -204,17 +200,6 @@ PathGameObject::remove_me()
       handle.remove_me(); // Removing a node handle also removes its bezier handles
   }
 
-  const auto& path_objects = Sector::get().get_objects_by_type<PathObject>();
-
-  for (const auto& path_obj : path_objects)
-  {
-    if (path_obj.get_path_gameobject() == this)
-    {
-      log_warning << "Attempt to delete path " << get_name() << " while bound to object" << std::endl;
-      return;
-    }
-  }
-
   GameObject::remove_me();
 }
 
@@ -224,29 +209,32 @@ PathGameObject::copy_into(PathGameObject& other)
   other.get_path().m_nodes = get_path().m_nodes;
 }
 
-void
-PathGameObject::check_references()
+bool
+PathGameObject::is_saveable() const
 {
   if (!Sector::current())
-    return;
+    return false;
 
-  // Object settings menu might hold references to paths
-  if (MenuManager::instance().is_active())
-    return;
+  for (const auto& sector : Level::current()->get_sectors())
+  {
+    for (const auto& path_obj : sector->get_objects_by_type<PathObject>())
+      if (path_obj.get_path_gameobject() == this)
+        return true;
+  }
 
-  const auto& path_objects = Sector::get().get_objects_by_type<PathObject>();
-
-  for (const auto& path_obj : path_objects)
-    if (path_obj.get_path_gameobject() == this)
-      return;
-
-  remove_me();
+  return false;
 }
 
 void
 PathGameObject::on_flip(float height)
 {
   m_path->on_flip(height);
+}
+
+void
+PathGameObject::regenerate_name()
+{
+  set_name(make_unique_name("path", this));
 }
 
 /* EOF */

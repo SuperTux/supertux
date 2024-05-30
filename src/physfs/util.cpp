@@ -18,9 +18,15 @@
 
 #include <physfs.h>
 
+#include "physfs/physfs_file_system.hpp"
 #include "util/file_system.hpp"
 
 namespace physfsutil {
+
+const char* get_last_error()
+{
+  return PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+}
 
 std::string realpath(const std::string& path)
 {
@@ -60,21 +66,43 @@ bool remove(const std::string& filename)
   return PHYSFS_delete(filename.c_str()) == 0;
 }
 
-void
-remove_with_content(const std::string& filename)
-{
-  char** files = PHYSFS_enumerateFiles(filename.c_str());
+#define PHYSFS_UTIL_DIRECTORY_GUARD \
+  if (!is_directory(dir) || !PHYSFS_exists(dir.c_str())) return
 
-  for (const char* const* file = files; *file != nullptr; file++)
-  {
-    std::string path = FileSystem::join(filename, *file);
+void remove_content(const std::string& dir)
+{
+  PHYSFS_UTIL_DIRECTORY_GUARD;
+  enumerate_files(dir, [&dir](const std::string& file) {
+    std::string path = FileSystem::join(dir, file);
     if (is_directory(path))
       remove_with_content(path);
     PHYSFS_delete(path.c_str());
+  });
+}
+
+void remove_with_content(const std::string& dir)
+{
+  PHYSFS_UTIL_DIRECTORY_GUARD;
+
+  remove_content(dir);
+  remove(dir);
+}
+
+bool enumerate_files(const std::string& pathname, std::function<void(const std::string&)> callback)
+{
+  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
+  files(PHYSFS_enumerateFiles(pathname.c_str()),
+        PHYSFS_freeList);
+
+  if(files == nullptr)
+    return false;
+
+  for (const char* const* filename = files.get(); *filename != nullptr; ++filename)
+  {
+    callback(*filename);
   }
 
-  PHYSFS_delete(filename.c_str());
-  PHYSFS_freeList(files);
+  return true;
 }
 
 } // namespace physfsutil

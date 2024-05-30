@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
 #define HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
 
-#include <boost/optional.hpp>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -40,6 +40,8 @@ namespace sexp {
 class Value;
 } // namespace sexp
 class Color;
+enum class Direction;
+class GameObject;
 class Menu;
 class Path;
 class PathObject;
@@ -47,11 +49,11 @@ class Rectf;
 class TileMap;
 class Writer;
 
-class ObjectOption
+class BaseObjectOption
 {
 public:
-  ObjectOption(const std::string& text, const std::string& key, unsigned int flags);
-  virtual ~ObjectOption();
+  BaseObjectOption(const std::string& text, const std::string& key, unsigned int flags);
+  virtual ~BaseObjectOption() = default;
 
   virtual void save(Writer& write) const = 0;
   virtual std::string to_string() const = 0;
@@ -67,15 +69,32 @@ protected:
   const unsigned int m_flags;
 
 private:
+  BaseObjectOption(const BaseObjectOption&) = delete;
+  BaseObjectOption& operator=(const BaseObjectOption&) = delete;
+};
+
+template <typename T = void>
+class ObjectOption: public BaseObjectOption
+{
+public:
+  ObjectOption(const std::string& text, const std::string& key, unsigned int flags, T* pointer = nullptr);
+  virtual ~ObjectOption() override = default;
+
+  virtual T* get_value() const { return m_value_pointer; }
+
+protected:
+  T* const m_value_pointer;
+
+private:
   ObjectOption(const ObjectOption&) = delete;
   ObjectOption& operator=(const ObjectOption&) = delete;
 };
 
-class BoolObjectOption : public ObjectOption
+class BoolObjectOption final : public ObjectOption<bool>
 {
 public:
   BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
-                   boost::optional<bool> default_value,
+                   std::optional<bool> default_value,
                    unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -83,19 +102,18 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  bool* const m_pointer;
-  const boost::optional<bool> m_default_value;
+  const std::optional<bool> m_default_value;
 
 private:
   BoolObjectOption(const BoolObjectOption&) = delete;
   BoolObjectOption& operator=(const BoolObjectOption&) = delete;
 };
 
-class IntObjectOption : public ObjectOption
+class IntObjectOption final : public ObjectOption<int>
 {
 public:
   IntObjectOption(const std::string& text, int* pointer, const std::string& key,
-                  boost::optional<int> default_value,
+                  std::optional<int> default_value,
                   unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -103,15 +121,14 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  int* const m_pointer;
-  const boost::optional<int> m_default_value;
+  const std::optional<int> m_default_value;
 
 private:
   IntObjectOption(const IntObjectOption&) = delete;
   IntObjectOption& operator=(const IntObjectOption&) = delete;
 };
 
-class LabelObjectOption : public ObjectOption
+class LabelObjectOption final : public ObjectOption<>
 {
 public:
   LabelObjectOption(const std::string& text,
@@ -126,7 +143,7 @@ private:
   LabelObjectOption& operator=(const LabelObjectOption&) = delete;
 };
 
-class RectfObjectOption : public ObjectOption
+class RectfObjectOption final : public ObjectOption<Rectf>
 {
 public:
   RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
@@ -137,7 +154,6 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  Rectf* const m_pointer;
   float m_width;
   float m_height;
 
@@ -146,11 +162,11 @@ private:
   RectfObjectOption& operator=(const RectfObjectOption&) = delete;
 };
 
-class FloatObjectOption : public ObjectOption
+class FloatObjectOption final : public ObjectOption<float>
 {
 public:
   FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
-                    boost::optional<float> default_value,
+                    std::optional<float> default_value,
                     unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -158,19 +174,18 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  float* const m_pointer;
-  const boost::optional<float> m_default_value;
+  const std::optional<float> m_default_value;
 
 private:
   FloatObjectOption(const FloatObjectOption&) = delete;
   FloatObjectOption& operator=(const FloatObjectOption&) = delete;
 };
 
-class StringObjectOption : public ObjectOption
+class StringObjectOption final : public ObjectOption<std::string>
 {
 public:
   StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
-                     boost::optional<std::string> default_value,
+                     std::optional<std::string> default_value,
                      unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -178,19 +193,18 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::string* const m_pointer;
-  boost::optional<std::string> m_default_value;
+  std::optional<std::string> m_default_value;
 
 private:
   StringObjectOption(const StringObjectOption&) = delete;
   StringObjectOption& operator=(const StringObjectOption&) = delete;
 };
 
-class StringMultilineObjectOption : public ObjectOption
+class StringMultilineObjectOption final : public ObjectOption<std::string>
 {
 public:
   StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
-                     boost::optional<std::string> default_value,
+                     std::optional<std::string> default_value,
                      unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -198,19 +212,18 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::string* const m_pointer;
-  boost::optional<std::string> m_default_value;
+  std::optional<std::string> m_default_value;
 
 private:
   StringMultilineObjectOption(const StringMultilineObjectOption&) = delete;
   StringMultilineObjectOption& operator=(const StringMultilineObjectOption&) = delete;
 };
 
-class StringSelectObjectOption : public ObjectOption
+class StringSelectObjectOption final : public ObjectOption<int>
 {
 public:
   StringSelectObjectOption(const std::string& text, int* pointer, const std::vector<std::string>& select,
-                           boost::optional<int> default_value,
+                           std::optional<int> default_value,
                            const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -218,22 +231,21 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  int* const m_pointer;
   const std::vector<std::string> m_select;
-  const boost::optional<int> m_default_value;
+  const std::optional<int> m_default_value;
 
 private:
   StringSelectObjectOption(const StringSelectObjectOption&) = delete;
   StringSelectObjectOption& operator=(const StringSelectObjectOption&) = delete;
 };
 
-class EnumObjectOption : public ObjectOption
+class EnumObjectOption final : public ObjectOption<int>
 {
 public:
   EnumObjectOption(const std::string& text, int* pointer,
                    const std::vector<std::string>& labels,
                    const std::vector<std::string>& symbols,
-                   boost::optional<int> default_value,
+                   std::optional<int> default_value,
                    const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -241,17 +253,16 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  int* const m_pointer;
   const std::vector<std::string> m_labels;
   const std::vector<std::string> m_symbols;
-  const boost::optional<int> m_default_value;
+  const std::optional<int> m_default_value;
 
 private:
   EnumObjectOption(const EnumObjectOption&) = delete;
   EnumObjectOption& operator=(const EnumObjectOption&) = delete;
 };
 
-class ScriptObjectOption : public ObjectOption
+class ScriptObjectOption final : public ObjectOption<std::string>
 {
 public:
   ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key,
@@ -262,18 +273,15 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::string* const m_pointer;
-
-private:
   ScriptObjectOption(const ScriptObjectOption&) = delete;
   ScriptObjectOption& operator=(const ScriptObjectOption&) = delete;
 };
 
-class FileObjectOption : public ObjectOption
+class FileObjectOption final : public ObjectOption<std::string>
 {
 public:
   FileObjectOption(const std::string& text, std::string* pointer,
-                   boost::optional<std::string> default_value,
+                   std::optional<std::string> default_value,
                    const std::string& key,
                    std::vector<std::string> filter,
                    const std::string& basedir,
@@ -285,8 +293,7 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::string* const m_pointer;
-  boost::optional<std::string> m_default_value;
+  std::optional<std::string> m_default_value;
   const std::vector<std::string> m_filter;
   std::string m_basedir;
   bool m_path_relative_to_basedir;
@@ -296,11 +303,11 @@ private:
   FileObjectOption& operator=(const FileObjectOption&) = delete;
 };
 
-class ColorObjectOption : public ObjectOption
+class ColorObjectOption final : public ObjectOption<Color>
 {
 public:
   ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
-                    boost::optional<Color> default_value, bool use_alpha,
+                    std::optional<Color> default_value, bool use_alpha,
                     unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -308,8 +315,7 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  Color* const m_pointer;
-  const boost::optional<Color> m_default_value;
+  const std::optional<Color> m_default_value;
   bool m_use_alpha;
 
 private:
@@ -317,25 +323,27 @@ private:
   ColorObjectOption& operator=(const ColorObjectOption&) = delete;
 };
 
-class BadGuySelectObjectOption : public ObjectOption
+class ObjectSelectObjectOption final : public ObjectOption<std::vector<std::unique_ptr<GameObject>>>
 {
 public:
-  BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
-                           unsigned int flags);
+  ObjectSelectObjectOption(const std::string& text, std::vector<std::unique_ptr<GameObject>>* pointer,
+                           uint8_t get_objects_param, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func,
+                           const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::vector<std::string>* const m_pointer;
+  uint8_t m_get_objects_param;
+  const std::function<void (std::unique_ptr<GameObject>)> m_add_object_function;
 
 private:
-  BadGuySelectObjectOption(const BadGuySelectObjectOption&) = delete;
-  BadGuySelectObjectOption& operator=(const BadGuySelectObjectOption&) = delete;
+  ObjectSelectObjectOption(const ObjectSelectObjectOption&) = delete;
+  ObjectSelectObjectOption& operator=(const ObjectSelectObjectOption&) = delete;
 };
 
-class TilesObjectOption : public ObjectOption
+class TilesObjectOption final : public ObjectOption<TileMap>
 {
 public:
   TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,
@@ -353,7 +361,7 @@ private:
   TilesObjectOption& operator=(const TilesObjectOption&) = delete;
 };
 
-class PathObjectOption : public ObjectOption
+class PathObjectOption final : public ObjectOption<Path>
 {
 public:
   PathObjectOption(const std::string& text, Path* path, const std::string& key,
@@ -364,14 +372,11 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  Path* m_path;
-
-private:
   PathObjectOption(const PathObjectOption&) = delete;
   PathObjectOption& operator=(const PathObjectOption&) = delete;
 };
 
-class PathRefObjectOption : public ObjectOption
+class PathRefObjectOption final : public ObjectOption<PathObject>
 {
 public:
   PathRefObjectOption(const std::string& text, PathObject& target, const std::string& path_ref,
@@ -383,14 +388,13 @@ public:
 
 private:
   std::string m_path_ref;
-  PathObject& m_target;
 
 private:
   PathRefObjectOption(const PathRefObjectOption&) = delete;
   PathRefObjectOption& operator=(const PathRefObjectOption&) = delete;
 };
 
-class SExpObjectOption : public ObjectOption
+class SExpObjectOption final : public ObjectOption<sexp::Value>
 {
 public:
   SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value, unsigned int flags);
@@ -400,14 +404,11 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  sexp::Value m_sx;
-
-private:
   SExpObjectOption(const SExpObjectOption&) = delete;
   SExpObjectOption& operator=(const SExpObjectOption&) = delete;
 };
 
-class PathHandleOption : public ObjectOption
+class PathHandleOption final : public ObjectOption<PathWalker::Handle>
 {
 public:
   PathHandleOption(const std::string& text, PathWalker::Handle& handle,
@@ -425,7 +426,7 @@ private:
   PathHandleOption& operator=(const PathHandleOption&) = delete;
 };
 
-class RemoveObjectOption : public ObjectOption
+class RemoveObjectOption final : public ObjectOption<>
 {
 public:
   RemoveObjectOption();
@@ -439,7 +440,7 @@ private:
   RemoveObjectOption& operator=(const RemoveObjectOption&) = delete;
 };
 
-class TestFromHereOption : public ObjectOption
+class TestFromHereOption final : public ObjectOption<>
 {
 public:
   TestFromHereOption();
@@ -453,7 +454,7 @@ private:
   TestFromHereOption& operator=(const TestFromHereOption&) = delete;
 };
 
-class ParticleEditorOption : public ObjectOption
+class ParticleEditorOption final : public ObjectOption<>
 {
 public:
   ParticleEditorOption();
@@ -467,7 +468,7 @@ private:
   ParticleEditorOption& operator=(const ParticleEditorOption&) = delete;
 };
 
-class ButtonOption : public ObjectOption
+class ButtonOption final : public ObjectOption<>
 {
 public:
   ButtonOption(const std::string& text, std::function<void()> callback);
@@ -484,7 +485,7 @@ private:
   ButtonOption& operator=(const ButtonOption&) = delete;
 };
 
-class StringArrayOption : public ObjectOption
+class StringArrayOption final : public ObjectOption<>
 {
 public:
   StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>& items);
@@ -501,22 +502,40 @@ private:
   StringArrayOption& operator=(const StringArrayOption&) = delete;
 };
 
-class ListOption : public ObjectOption
+class ListOption final : public ObjectOption<std::string>
 {
 public:
   ListOption(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
 
   virtual void save(Writer& write) const override;
-  virtual std::string to_string() const override { return *m_value_ptr; }
+  virtual std::string to_string() const override { return *m_value_pointer; }
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
   const std::vector<std::string>& m_items;
-  std::string* m_value_ptr;
 
 private:
   ListOption(const ListOption&) = delete;
   ListOption& operator=(const ListOption&) = delete;
+};
+
+class DirectionOption final : public ObjectOption<Direction>
+{
+public:
+  DirectionOption(const std::string& text, Direction* value_ptr,
+                  std::vector<Direction> possible_directions,
+                  const std::string& key, unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  std::vector<Direction> m_possible_directions;
+
+private:
+  DirectionOption(const DirectionOption&) = delete;
+  DirectionOption& operator=(const DirectionOption&) = delete;
 };
 
 #endif

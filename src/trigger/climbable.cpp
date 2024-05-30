@@ -26,37 +26,20 @@
 #include "video/viewport.hpp"
 
 namespace {
-const float GRACE_DX = 8; // how far off may the player's bounding-box be x-wise
-const float GRACE_DY = 8; // how far off may the player's bounding-box be y-wise
-const float ACTIVATE_TRY_FOR = 1; // how long to try correcting mis-alignment of player and climbable before giving up
-const float POSITION_FIX_AX = 30; // x-wise acceleration applied to player when trying to align player and Climbable
-const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when trying to align player and Climbable
+const float GRACE_DX = 8; // How far off may the player's bounding-box be x-wise.
+const float GRACE_DY = 8; // How far off may the player's bounding-box be y-wise.
+const float ACTIVATE_TRY_FOR = 1; // How long to try correcting mis-alignment of player and climbable before giving up.
+const float POSITION_FIX_AX = 30; // X-wise acceleration applied to player when trying to align player and Climbable.
+const float POSITION_FIX_AY = 50; // Y-wise acceleration applied to player when trying to align player and Climbable.
 }
 
 Climbable::Climbable(const ReaderMapping& reader) :
+  Trigger(reader),
   climbed_by(),
   trying_to_climb(),
-  message(),
-  new_size(0.0f, 0.0f)
+  message()
 {
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
-  float w = 32, h = 32;
-  reader.get("width", w);
-  reader.get("height", h);
-  m_col.m_bbox.set_size(w, h);
-  new_size.x = w;
-  new_size.y = h;
   reader.get("message", message);
-}
-
-Climbable::Climbable(const Rectf& area) :
-  climbed_by(),
-  trying_to_climb(),
-  message(),
-  new_size(0.0f, 0.0f)
-{
-  m_col.m_bbox = area;
 }
 
 Climbable::~Climbable()
@@ -71,13 +54,7 @@ Climbable::~Climbable()
 ObjectSettings
 Climbable::get_settings()
 {
-  new_size.x = m_col.m_bbox.get_width();
-  new_size.y = m_col.m_bbox.get_height();
-
-  ObjectSettings result = TriggerBase::get_settings();
-
-  // result.add_float(_("Width"), &new_size.x, "width");
-  // result.add_float(_("Height"), &new_size.y, "height");
+  ObjectSettings result = Trigger::get_settings();
 
   result.add_translatable_text(_("Message"), &message, "message");
 
@@ -87,14 +64,10 @@ Climbable::get_settings()
 }
 
 void
-Climbable::after_editor_set() {
-  m_col.m_bbox.set_size(new_size.x, new_size.y);
-}
-
-void
 Climbable::update(float dt_sec)
 {
-  TriggerBase::update(dt_sec);
+  Trigger::update(dt_sec);
+
   auto it = climbed_by.begin();
   while (it != climbed_by.end())
   {
@@ -111,7 +84,7 @@ Climbable::update(float dt_sec)
   {
     if (it2->m_activate_try_timer->started())
     {
-      // the "-20" to y velocity prevents Tux from walking in place on the ground for horizonal adjustments
+      // The "-20" to y velocity prevents Tux from walking in place on the ground for horizonal adjustments.
       if (it2->m_player->get_bbox().get_left() < m_col.m_bbox.get_left() - GRACE_DX) it2->m_player->add_velocity(Vector(POSITION_FIX_AX,-20));
       if (it2->m_player->get_bbox().get_right() > m_col.m_bbox.get_right() + GRACE_DX) it2->m_player->add_velocity(Vector(-POSITION_FIX_AX,-20));
       if (it2->m_player->get_bbox().get_top() < m_col.m_bbox.get_top() - GRACE_DY) it2->m_player->add_velocity(Vector(0,POSITION_FIX_AY));
@@ -148,7 +121,7 @@ Climbable::draw(DrawingContext& context)
 void
 Climbable::event(Player& player, EventType type)
 {
-  if (type == EVENT_ACTIVATE) {
+  if (type == EVENT_ACTIVATE || (type == EVENT_TOUCH && player.get_controller().hold(Control::UP))) {
     if (player.get_grabbed_object() == nullptr){
       auto it = std::find_if(trying_to_climb.begin(), trying_to_climb.end(),
         [&player](const ClimbPlayer& element)
@@ -186,7 +159,7 @@ Climbable::event(Player& player, EventType type)
 }
 
 bool
-Climbable::may_climb(Player& player) const
+Climbable::may_climb(const Player& player) const
 {
   if (player.get_bbox().get_left() < m_col.m_bbox.get_left() - GRACE_DX) return false;
   if (player.get_bbox().get_right() > m_col.m_bbox.get_right() + GRACE_DX) return false;

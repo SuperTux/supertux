@@ -20,7 +20,9 @@
 
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
-#include "gui/menu_item.hpp"
+#include "gui/item_action.hpp"
+#include "gui/item_goto.hpp"
+#include "gui/item_toggle.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
@@ -37,6 +39,14 @@
 
 EditorMenu::EditorMenu()
 {
+  refresh();
+}
+
+void
+EditorMenu::refresh()
+{
+  clear();
+
   bool worldmap = Editor::current()->get_level()->is_worldmap();
   bool is_world = Editor::current()->get_world() != nullptr;
   std::vector<std::string> snap_grid_sizes;
@@ -57,6 +67,8 @@ EditorMenu::EditorMenu()
     add_entry(MNID_TESTLEVEL, _("Test Worldmap"));
   }
 
+  add_entry(MNID_OPTIONS, _("Options"));
+
   add_entry(MNID_SHARE, _("Share Level"));
 
   add_entry(MNID_PACK, _("Package Add-On"));
@@ -70,6 +82,11 @@ EditorMenu::EditorMenu()
 
   add_hl();
 
+  add_submenu(_("Convert Tiles"), MenuStorage::EDITOR_CONVERTERS_MENU)
+    .set_help(_("Convert all tiles in the level using converters."));
+
+  add_hl();
+
   add_string_select(-1, _("Grid Size"), &(g_config->editor_selected_snap_grid_size), snap_grid_sizes);
   add_toggle(-1, _("Show Grid"), &(g_config->editor_render_grid));
   add_toggle(-1, _("Grid Snapping"), &(g_config->editor_snap_to_grid));
@@ -77,7 +94,24 @@ EditorMenu::EditorMenu()
   add_toggle(-1, _("Render Light"), &(Compositor::s_render_lighting));
   add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
   add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
+  add_toggle(-1, _("Enable Object Undo Tracking"), &(g_config->editor_undo_tracking));
+  if (g_config->editor_undo_tracking)
+  {
+    add_intfield(_("Undo Stack Size"), &(g_config->editor_undo_stack_size), -1, true);
+  }
   add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));
+
+  if (Editor::current()->has_deprecated_tiles())
+  {
+    add_hl();
+
+    add_entry(MNID_CHECKDEPRECATEDTILES, _("Check for Deprecated Tiles"))
+      .set_help(_("Check if any deprecated tiles are currently present in the level."));
+    add_toggle(-1, _("Show Deprecated Tiles"), &(g_config->editor_show_deprecated_tiles))
+      .set_help(_("Indicate all deprecated tiles on the active tilemap, without the need of hovering over."));
+  }
+
+  add_hl();
 
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
               MenuStorage::EDITOR_LEVEL_MENU);
@@ -147,10 +181,14 @@ EditorMenu::menu_action(MenuItem& item)
     {
       editor->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
-        editor->m_test_pos = boost::none;
+        editor->m_test_pos = std::nullopt;
         editor->m_test_request = true;
       });
     }
+      break;
+
+    case MNID_OPTIONS:
+      MenuManager::instance().push_menu(MenuStorage::OPTIONS_MENU);
       break;
 
     case MNID_SHARE:
@@ -164,7 +202,7 @@ EditorMenu::menu_action(MenuItem& item)
 	case MNID_HELP:
     {
       auto dialog = std::make_unique<Dialog>();
-      dialog->set_text(_("Keyboard Shortcuts:\n---------------------\nEsc = Open Menu\nCtrl+S = Save\nCtrl+T = Test\nCtrl+Z = Undo\nCtrl+Y = Redo\nF6 = Render Light\nF7 = Grid Snapping\nF8 = Show Grid\n \nScripting Shortcuts:\n    -------------    \nHome = Go to beginning of line\nEnd = Go to end of line\nLeft arrow = Go back in text\nRight arrow = Go forward in text\nBackspace = Delete in front of text cursor\nDelete = Delete behind text cursor\nCtrl+X = Cut whole line\nCtrl+C = Copy whole line\nCtrl+V = Paste\nCtrl+D = Duplicate line\nCtrl+Z = Undo\nCtrl+Y = Redo"));
+      dialog->set_text(_("Keyboard Shortcuts:\n---------------------\nEsc = Open Menu\nCtrl+S = Save\nCtrl+T = Test\nCtrl+Z = Undo\nCtrl+Y = Redo\nF6 = Render Light\nF7 = Grid Snapping\nF8 = Show Grid\nCtrl++ or Ctrl+Scroll Up = Zoom In\nCtrl+- or Ctrl+Scroll Down = Zoom Out\nCtrl+D = Reset Zoom\n\nScripting Shortcuts:\n    -------------    \nHome = Go to beginning of line\nEnd = Go to end of line\nLeft arrow = Go back in text\nRight arrow = Go forward in text\nBackspace = Delete in front of text cursor\nDelete = Delete behind text cursor\nCtrl+X = Cut whole line\nCtrl+C = Copy whole line\nCtrl+V = Paste\nCtrl+D = Duplicate line\nCtrl+Z = Undo\nCtrl+Y = Redo"));
       dialog->add_cancel_button(_("Got it!"));
       MenuManager::instance().set_dialog(std::move(dialog));
     }
@@ -187,9 +225,45 @@ EditorMenu::menu_action(MenuItem& item)
       Editor::current()->m_quit_request = true;
       break;
 
+    case MNID_CHECKDEPRECATEDTILES:
+      editor->check_deprecated_tiles(true);
+      if (editor->has_deprecated_tiles())
+      {
+        const std::string present_message = _("Deprecated tiles are still present in the level.");
+        if (g_config->editor_show_deprecated_tiles)
+        {
+          Dialog::show_message(present_message);
+        }
+        else
+        {
+          Dialog::show_confirmation(present_message + "\n\n" + _("Do you want to show all deprecated tiles on active tilemaps?"), []() {
+            g_config->editor_show_deprecated_tiles = true;
+          });
+        }
+      }
+      else
+      {
+        Dialog::show_message(_("There are no more deprecated tiles in the level!"));
+        refresh();
+      }
+      break;
+
     default:
       break;
   }
+}
+
+bool
+EditorMenu::on_back_action()
+{
+  auto editor = Editor::current();
+  if (!editor)
+    return true;
+
+  editor->retoggle_undo_tracking();
+  editor->undo_stack_cleanup();
+
+  return true;
 }
 
 /* EOF */

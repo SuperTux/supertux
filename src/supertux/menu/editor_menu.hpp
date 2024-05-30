@@ -28,20 +28,25 @@ private:
     MNID_SAVEASLEVEL,
     MNID_SAVECOPYLEVEL,
     MNID_TESTLEVEL,
+    MNID_OPTIONS,
     MNID_PACK,
     MNID_OPEN_DIR,
     MNID_SHARE,
     MNID_LEVELSEL,
     MNID_LEVELSETSEL,
 	  MNID_HELP,
-    MNID_QUITEDITOR
+    MNID_QUITEDITOR,
+    MNID_CHECKDEPRECATEDTILES
   };
 
 public:
   EditorMenu();
   ~EditorMenu() override;
 
+  void refresh() override;
   void menu_action(MenuItem& item) override;
+
+  bool on_back_action() override;
 
 private:
   EditorMenu(const EditorMenu&) = delete;

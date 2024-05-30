@@ -25,6 +25,15 @@ class Timer;
 class WalkingBadguy : public BadGuy
 {
 public:
+  enum class LedgeBehavior
+  {
+    STRICT, /**< Do not fall off any ledge at all. */
+    SMART, /**< Do not fall off any ledge, but still go down slopes. */
+    NORMAL, /**< Fall off any ledge, unless the ledge is too tall (600px) or the ledge falls offscreen. */
+    FALL /**< Fall off any ledge. */
+  };
+
+public:
   WalkingBadguy(const Vector& pos,
                 const std::string& sprite_name,
                 const std::string& walk_left_action,
@@ -52,6 +61,8 @@ public:
   virtual void unfreeze(bool melt = true) override;
 
   void active_update(float dt_sec, float target_velocity, float modifier = 1.f);
+  /** used by objects that should make badguys not turn around when they are walking on them */
+  void override_stay_on_platform() { m_stay_on_platform_overridden = true; }
 
   float get_velocity_x() const { return m_physic.get_velocity_x(); }
   float get_velocity_y() const { return m_physic.get_velocity_y(); }
@@ -64,8 +75,14 @@ public:
   void set_walk_speed (float);
   bool is_active() const { return BadGuy::is_active(); }
 
+  /** Set max_drop_height depending on the given behavior */
+  void set_ledge_behavior(LedgeBehavior behavior);
+
 protected:
   void turn_around();
+
+protected:
+  static const int s_normal_max_drop_height = 600;
 
 protected:
   std::string walk_left_action;
@@ -74,6 +91,7 @@ protected:
   int max_drop_height; /**< Maximum height of drop before we will turn around, or -1 to just drop from any ledge */
   Timer turn_around_timer;
   int turn_around_counter; /**< counts number of turns since turn_around_timer was started */
+  bool m_stay_on_platform_overridden;
 
 private:
   WalkingBadguy(const WalkingBadguy&) = delete;

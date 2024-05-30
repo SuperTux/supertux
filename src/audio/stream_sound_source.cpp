@@ -72,6 +72,14 @@ StreamSoundSource::set_sound_file(std::unique_ptr<SoundFile> newfile)
 }
 
 void
+StreamSoundSource::resume()
+{
+  OpenALSoundSource::resume();
+  set_gain(1.0);
+  m_fade_state = NoFading;
+}
+
+void
 StreamSoundSource::update()
 {
   ALint processed = 0;
@@ -138,8 +146,8 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   std::unique_ptr<char[]> bufferdata(new char[STREAMFRAGMENTSIZE]);
   size_t bytesread = 0;
   do {
-    bytesread += m_file->read(bufferdata.get() + bytesread,
-                            STREAMFRAGMENTSIZE - bytesread);
+    bytesread += m_file->read(static_cast<char *>(bufferdata.get()) + bytesread,
+      STREAMFRAGMENTSIZE - bytesread);
     // end of sound file
     if (bytesread < STREAMFRAGMENTSIZE) {
       if (m_looping)
