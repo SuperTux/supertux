@@ -19,7 +19,7 @@
     (blank)
     (blank)
     (blank)
-	(blank)
+    (blank)
     (blank)
     (blank)
     (blank)
@@ -425,6 +425,9 @@
     )
 	(person
       (name "semajD")
+    )
+	(person
+      (name "SnugglyBun")
     )
     (person
       (name "treskalle")
