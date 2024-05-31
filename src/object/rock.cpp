@@ -198,7 +198,8 @@ Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
   on_ground = false;
 
   running_ungrab_script = false;
-  if (!on_grab_script.empty() && !running_grab_script) {
+  if (!on_grab_script.empty() && !running_grab_script)
+  {
     running_grab_script = true;
     Sector::get().run_script(on_grab_script, "Rock::on_grab");
   }
