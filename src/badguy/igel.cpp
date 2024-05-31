@@ -228,7 +228,8 @@ Igel::should_roll() const
   return in_reach_left && in_reach_right && in_reach_top && in_reach_bottom && can_see_player;
 }
 
-void Igel::charge()
+void
+Igel::charge()
 {
   m_state = STATE_CHARGING;
   //TODO: Add an audio cue!!
