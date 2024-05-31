@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-05-19 02:34+0200\n"
+"POT-Creation-Date: 2024-05-30 16:19+0200\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2024\n"
 "Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
@@ -100,7 +100,7 @@ msgstr "Svislý offset ukotvení"
 msgid "Texts"
 msgstr "Texty"
 
-#: src/trigger/door.cpp:80 src/badguy/willowisp.cpp:310
+#: src/trigger/door.cpp:80 src/badguy/willowisp.cpp:311
 #: src/worldmap/teleporter.cpp:47 data//images/engine/editor/objects.stoi:342
 msgid "Sector"
 msgstr "Sektor"
@@ -256,7 +256,7 @@ msgstr "Částicová zóna"
 #: src/object/path_gameobject.hpp:45 src/object/coin.cpp:324
 #: src/object/camera.cpp:168 src/object/platform.cpp:76
 #: src/object/path_gameobject.cpp:175 src/object/tilemap.cpp:284
-#: src/badguy/willowisp.cpp:316
+#: src/badguy/willowisp.cpp:317
 msgid "Path"
 msgstr "Cesta"
 
@@ -358,7 +358,7 @@ msgstr "Úhel"
 #: src/object/spotlight.cpp:104 src/object/magicblock.cpp:95
 #: src/object/candle.cpp:75 src/object/torch.cpp:96 src/object/rublight.cpp:55
 #: src/object/lantern.cpp:62 src/object/ambient_light.cpp:122
-#: src/object/key.cpp:192 src/badguy/willowisp.cpp:318
+#: src/object/key.cpp:192 src/badguy/willowisp.cpp:319
 #: src/badguy/walking_candle.cpp:91
 msgid "Color"
 msgstr "Barva"
@@ -395,7 +395,7 @@ msgstr "Povolit fyziku"
 msgid "Visible"
 msgstr "Viditelný"
 
-#: src/object/scripted_object.cpp:73 src/badguy/willowisp.cpp:312
+#: src/object/scripted_object.cpp:73 src/badguy/willowisp.cpp:313
 msgid "Hit script"
 msgstr "Skript při zásahu"
 
@@ -524,18 +524,18 @@ msgstr "Režim cesty"
 
 #: src/object/coin.cpp:330 src/object/camera.cpp:172
 #: src/object/platform.cpp:78 src/object/tilemap.cpp:291
-#: src/badguy/willowisp.cpp:321
+#: src/badguy/willowisp.cpp:322
 msgid "Adapt Speed"
 msgstr "Přizpůsobit rychlost"
 
 #: src/object/coin.cpp:331 src/object/platform.cpp:81
-#: src/object/tilemap.cpp:285 src/badguy/willowisp.cpp:317
+#: src/object/tilemap.cpp:285 src/badguy/willowisp.cpp:318
 msgid "Starting Node"
 msgstr "Počáteční uzel"
 
 #: src/object/coin.cpp:332 src/object/camera.cpp:173
 #: src/object/platform.cpp:82 src/object/tilemap.cpp:293
-#: src/badguy/willowisp.cpp:322
+#: src/badguy/willowisp.cpp:323
 msgid "Handle"
 msgstr "Úchopný bod"
 
@@ -587,7 +587,7 @@ msgstr "Zarovnání textu"
 msgid "Lit object"
 msgstr "Nasvícený objekt"
 
-#: src/object/spawnpoint.hpp:48 src/badguy/willowisp.cpp:311
+#: src/object/spawnpoint.hpp:48 src/badguy/willowisp.cpp:312
 #: src/worldmap/teleporter.cpp:48
 msgid "Spawnpoint"
 msgstr "Zrodiště"
@@ -1607,12 +1607,12 @@ msgid "Mix the colour"
 msgstr "Namíchej barvu"
 
 #: src/gui/dialog.hpp:96 src/supertux/menu/editor_level_select_menu.cpp:181
-#: src/editor/editor.cpp:662
+#: src/editor/editor.cpp:663
 msgid "Yes"
 msgstr "Ano"
 
 #: src/gui/dialog.hpp:97 src/supertux/menu/editor_level_select_menu.cpp:185
-#: src/editor/particle_editor.cpp:781 src/editor/editor.cpp:669
+#: src/editor/particle_editor.cpp:781 src/editor/editor.cpp:670
 msgid "No"
 msgstr "Ne"
 
@@ -1626,7 +1626,7 @@ msgstr "Ne"
 #: src/supertux/menu/editor_level_select_menu.cpp:190
 #: src/supertux/menu/editor_save_as.cpp:42
 #: src/supertux/menu/particle_editor_open.cpp:43
-#: src/editor/particle_editor.cpp:785 src/editor/editor.cpp:673
+#: src/editor/particle_editor.cpp:785 src/editor/editor.cpp:674
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -1674,8 +1674,8 @@ msgstr "Cesta {}"
 #: src/supertux/menu/editor_level_select_menu.cpp:98
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:42
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:63
-#: src/supertux/menu/worldmap_cheat_menu.cpp:56
-#: src/supertux/menu/worldmap_cheat_menu.cpp:195
+#: src/supertux/menu/worldmap_cheat_menu.cpp:57
+#: src/supertux/menu/worldmap_cheat_menu.cpp:196
 #: src/supertux/menu/editor_levelset_select_menu.cpp:114
 #: src/supertux/menu/options_menu.cpp:223
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:69
@@ -1703,16 +1703,16 @@ msgstr "Cesta {}"
 msgid "Back"
 msgstr "Zpět"
 
-#: src/addon/addon_manager.cpp:560
+#: src/addon/addon_manager.cpp:562
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr "Najednou nemůže být aktivních více balíčků zdrojů."
 
-#: src/addon/addon_manager.cpp:824
+#: src/addon/addon_manager.cpp:837
 #, c++-format
 msgid "Add-on {} by {} is already installed."
 msgstr "Doplněk {} od tvůrce {} je již nainstalován."
 
-#: src/addon/addon_manager.cpp:844
+#: src/addon/addon_manager.cpp:857
 #, c++-format
 msgid "Add-on {} by {} successfully installed."
 msgstr "Doplněk {} od tvůrce {} úspěšně nainstalován."
@@ -1770,6 +1770,10 @@ msgstr "Strom"
 #: src/badguy/plant.hpp:34
 msgid "Plant"
 msgstr "Rostlina"
+
+#: src/badguy/tarantula.hpp:39 src/badguy/tarantula.cpp:353
+msgid "Tarantula"
+msgstr ""
 
 #: src/badguy/granito_giant.cpp:71
 msgid "Awake"
@@ -1917,15 +1921,15 @@ msgstr "Kapitán Sněhová koule"
 msgid "Ghost Tree"
 msgstr "Strom duchů"
 
-#: src/badguy/willowisp.cpp:313
+#: src/badguy/willowisp.cpp:314
 msgid "Track range"
 msgstr "Oblast sledování"
 
-#: src/badguy/willowisp.cpp:314
+#: src/badguy/willowisp.cpp:315
 msgid "Vanish range"
 msgstr "Oblast zmizení"
 
-#: src/badguy/willowisp.cpp:315
+#: src/badguy/willowisp.cpp:316
 msgid "Fly speed"
 msgstr "Rychlost letu"
 
@@ -2157,9 +2161,13 @@ msgstr "Chodící svíčka"
 msgid "Angry Stone"
 msgstr "Zuřící kámen"
 
-#: src/badguy/spidermite.hpp:38
+#: src/badguy/tarantula.cpp:354
 msgid "Spidermite"
 msgstr "Pavouk"
+
+#: src/badguy/tarantula.cpp:374
+msgid "Static"
+msgstr ""
 
 #: src/badguy/ghoul.hpp:30
 msgid "Ghoul"
@@ -2481,11 +2489,11 @@ msgstr "  SUPERTUX2_USER_DIR Adresář uživatelských dat (uložené hry, etc.)
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "  SUPERTUX2_DATA_DIR Adresář dat hry"
 
-#: src/supertux/title_screen.cpp:271
+#: src/supertux/title_screen.cpp:272
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/supertux/title_screen.cpp:272
+#: src/supertux/title_screen.cpp:273
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
@@ -2849,76 +2857,76 @@ msgstr "Hráč {}"
 msgid "All Players"
 msgstr "Všichni hráči"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:35
+#: src/supertux/menu/worldmap_cheat_menu.cpp:36
 #: src/supertux/menu/cheat_menu.cpp:31
 msgid "Cheats"
 msgstr "Podvádění"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:37
+#: src/supertux/menu/worldmap_cheat_menu.cpp:38
 #: src/supertux/menu/cheat_menu.cpp:33
 msgid "Bonus: Grow"
 msgstr "Bonus: růst"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:38
+#: src/supertux/menu/worldmap_cheat_menu.cpp:39
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Fire"
 msgstr "Bonus: oheň"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:39
+#: src/supertux/menu/worldmap_cheat_menu.cpp:40
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Bonus: Ice"
 msgstr "Bonus: led"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:40
+#: src/supertux/menu/worldmap_cheat_menu.cpp:41
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Air"
 msgstr "Bonus: Vzduch"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:41
+#: src/supertux/menu/worldmap_cheat_menu.cpp:42
 #: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Earth"
 msgstr "Bonus: Země"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:42
+#: src/supertux/menu/worldmap_cheat_menu.cpp:43
 msgid "Bonus: None"
 msgstr "Bonus: žádný"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:45
+#: src/supertux/menu/worldmap_cheat_menu.cpp:46
 #: src/supertux/menu/cheat_menu.cpp:45 src/supertux/menu/cheat_menu.cpp:51
 msgid "Leave Ghost Mode"
 msgstr "Opustit režim Duch"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:45
+#: src/supertux/menu/worldmap_cheat_menu.cpp:46
 #: src/supertux/menu/cheat_menu.cpp:45 src/supertux/menu/cheat_menu.cpp:50
 msgid "Activate Ghost Mode"
 msgstr "Aktivovat režim Duch"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:47
+#: src/supertux/menu/worldmap_cheat_menu.cpp:48
 #: src/supertux/menu/cheat_menu.cpp:41
 msgid "Finish Level"
 msgstr "Dokončit úroveň"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:48
+#: src/supertux/menu/worldmap_cheat_menu.cpp:49
 msgid "Reset Level"
 msgstr "Resetovat úroveň"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:50
+#: src/supertux/menu/worldmap_cheat_menu.cpp:51
 msgid "Finish Worldmap"
 msgstr "Dokončit mapu"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:51
+#: src/supertux/menu/worldmap_cheat_menu.cpp:52
 msgid "Reset Worldmap"
 msgstr "Resetovat mapu"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:53
+#: src/supertux/menu/worldmap_cheat_menu.cpp:54
 msgid "Go to level"
 msgstr "Jít do úrovně"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:54
+#: src/supertux/menu/worldmap_cheat_menu.cpp:55
 msgid "Go to main spawnpoint"
 msgstr "Jít na hlavní zrodiště"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:187
+#: src/supertux/menu/worldmap_cheat_menu.cpp:188
 msgid "Select level"
 msgstr "Vybrat úroveň"
 
@@ -4346,12 +4354,12 @@ msgstr "dolů"
 msgid "Region"
 msgstr "Oblast"
 
-#: src/supertux/main.cpp:800
+#: src/supertux/main.cpp:801
 #, c++-format
 msgid "New release: SuperTux v{}!"
 msgstr "Nová verze: SuperTux v{}!"
 
-#: src/supertux/main.cpp:803
+#: src/supertux/main.cpp:804
 #, c++-format
 msgid ""
 "A new release of SuperTux (v{}) is available!\n"
@@ -4360,7 +4368,7 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "Nová verze SuperTuxe (v{}) je dostupná!\nPro více informací můžeš navštívit web SuperTuxe.\n\nChceš web navštívit nyní?"
 
-#: src/supertux/main.cpp:814
+#: src/supertux/main.cpp:815
 msgid "Checking for new releases..."
 msgstr "Hledám nové verze..."
 
@@ -4645,18 +4653,18 @@ msgstr "Tato konfigurace částic obsahuje neuložené změny,\nchceš je uloži
 msgid "Save as"
 msgstr "Uložit jako"
 
-#: src/editor/editor.cpp:576
+#: src/editor/editor.cpp:577
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "Tato úroveň obsahuje deprekované dlaždice.\nDoporučujeme je všechny nahradit, abys\nv budoucnosti předešel ztrátě kompatibility."
 
-#: src/editor/editor.cpp:578
+#: src/editor/editor.cpp:579
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "Tip: Zapni možnost \"Zobrazit deprekované dlaždice\" z nabídky editoru."
 
-#: src/editor/editor.cpp:625
+#: src/editor/editor.cpp:626
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -4664,15 +4672,15 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Nezapomeň, že Tvoje úrovně a zdrojové soubory\nse automaticky mezi sezeními neuloží!\nPokud chceš uložit své úrovně, stáhni si je\nz nabídky \"Správa datových souborů\"."
 
-#: src/editor/editor.cpp:660
+#: src/editor/editor.cpp:661
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Tato úroveň obsahuje neuložené změny, chceš je uložit?"
 
-#: src/editor/editor.cpp:661
+#: src/editor/editor.cpp:662
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "V této úrovni jsou neuložené změny, chceš je uložit?"
 
-#: src/editor/editor.cpp:796
+#: src/editor/editor.cpp:797
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with default Super Tux structure.\n"
@@ -4680,26 +4688,26 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Některé doplňky jsou stále aktivní\na mohou se křížit se strukturou SuperTuxe.\nI po té si je můžeš znovu aktivovat v nabídce.\nJejich deaktivace ti nesmaže uloženou hru."
 
-#: src/editor/editor.cpp:799
+#: src/editor/editor.cpp:800
 msgid "Disable add-ons"
 msgstr "Deaktivovat doplňky"
 
-#: src/editor/editor.cpp:804
+#: src/editor/editor.cpp:805
 msgid "Ignore (not advised)"
 msgstr "Ignorovat (nedoporučujeme)"
 
-#: src/editor/editor.cpp:808
+#: src/editor/editor.cpp:809
 msgid "Leave editor"
 msgstr "Opustit editor"
 
-#: src/editor/editor.cpp:1022
+#: src/editor/editor.cpp:1023
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
 msgstr "Nelze nalézt sektor \"main\".\nProsím, změň jméno sektoru,\nkde se má začít, na \"main\""
 
-#: src/editor/editor.cpp:1026
+#: src/editor/editor.cpp:1027
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
@@ -5149,3 +5157,19 @@ msgstr "Hradní cesty"
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
 msgstr "Temný les"
+
+#: data//images/converters/data.stcd:3
+msgid "Nightly Tiles"
+msgstr ""
+
+#: data//images/converters/data.stcd:5
+msgid "For levels, created in previous Nightly builds."
+msgstr ""
+
+#: data//images/converters/data.stcd:8
+msgid "Pre-0.6.3 Crystal Tiles"
+msgstr ""
+
+#: data//images/converters/data.stcd:10
+msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
+msgstr ""

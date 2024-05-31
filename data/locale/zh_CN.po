@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-05-19 02:34+0200\n"
+"POT-Creation-Date: 2024-05-30 16:19+0200\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Matatabi Wang, 2024\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
@@ -96,7 +96,7 @@ msgstr ""
 msgid "Texts"
 msgstr ""
 
-#: src/trigger/door.cpp:80 src/badguy/willowisp.cpp:310
+#: src/trigger/door.cpp:80 src/badguy/willowisp.cpp:311
 #: src/worldmap/teleporter.cpp:47 data//images/engine/editor/objects.stoi:342
 msgid "Sector"
 msgstr "区块"
@@ -252,7 +252,7 @@ msgstr "粒子区域"
 #: src/object/path_gameobject.hpp:45 src/object/coin.cpp:324
 #: src/object/camera.cpp:168 src/object/platform.cpp:76
 #: src/object/path_gameobject.cpp:175 src/object/tilemap.cpp:284
-#: src/badguy/willowisp.cpp:316
+#: src/badguy/willowisp.cpp:317
 msgid "Path"
 msgstr "路径"
 
@@ -354,7 +354,7 @@ msgstr "角度"
 #: src/object/spotlight.cpp:104 src/object/magicblock.cpp:95
 #: src/object/candle.cpp:75 src/object/torch.cpp:96 src/object/rublight.cpp:55
 #: src/object/lantern.cpp:62 src/object/ambient_light.cpp:122
-#: src/object/key.cpp:192 src/badguy/willowisp.cpp:318
+#: src/object/key.cpp:192 src/badguy/willowisp.cpp:319
 #: src/badguy/walking_candle.cpp:91
 msgid "Color"
 msgstr "颜色"
@@ -391,7 +391,7 @@ msgstr "启用物理"
 msgid "Visible"
 msgstr "可见"
 
-#: src/object/scripted_object.cpp:73 src/badguy/willowisp.cpp:312
+#: src/object/scripted_object.cpp:73 src/badguy/willowisp.cpp:313
 msgid "Hit script"
 msgstr "命中脚本"
 
@@ -520,18 +520,18 @@ msgstr "路径模式"
 
 #: src/object/coin.cpp:330 src/object/camera.cpp:172
 #: src/object/platform.cpp:78 src/object/tilemap.cpp:291
-#: src/badguy/willowisp.cpp:321
+#: src/badguy/willowisp.cpp:322
 msgid "Adapt Speed"
 msgstr "适应速度"
 
 #: src/object/coin.cpp:331 src/object/platform.cpp:81
-#: src/object/tilemap.cpp:285 src/badguy/willowisp.cpp:317
+#: src/object/tilemap.cpp:285 src/badguy/willowisp.cpp:318
 msgid "Starting Node"
 msgstr "起始节点"
 
 #: src/object/coin.cpp:332 src/object/camera.cpp:173
 #: src/object/platform.cpp:82 src/object/tilemap.cpp:293
-#: src/badguy/willowisp.cpp:322
+#: src/badguy/willowisp.cpp:323
 msgid "Handle"
 msgstr ""
 
@@ -583,7 +583,7 @@ msgstr "文本对齐"
 msgid "Lit object"
 msgstr ""
 
-#: src/object/spawnpoint.hpp:48 src/badguy/willowisp.cpp:311
+#: src/object/spawnpoint.hpp:48 src/badguy/willowisp.cpp:312
 #: src/worldmap/teleporter.cpp:48
 msgid "Spawnpoint"
 msgstr "出生点"
@@ -1603,12 +1603,12 @@ msgid "Mix the colour"
 msgstr "混合颜色"
 
 #: src/gui/dialog.hpp:96 src/supertux/menu/editor_level_select_menu.cpp:181
-#: src/editor/editor.cpp:662
+#: src/editor/editor.cpp:663
 msgid "Yes"
 msgstr "是"
 
 #: src/gui/dialog.hpp:97 src/supertux/menu/editor_level_select_menu.cpp:185
-#: src/editor/particle_editor.cpp:781 src/editor/editor.cpp:669
+#: src/editor/particle_editor.cpp:781 src/editor/editor.cpp:670
 msgid "No"
 msgstr "否"
 
@@ -1622,7 +1622,7 @@ msgstr "否"
 #: src/supertux/menu/editor_level_select_menu.cpp:190
 #: src/supertux/menu/editor_save_as.cpp:42
 #: src/supertux/menu/particle_editor_open.cpp:43
-#: src/editor/particle_editor.cpp:785 src/editor/editor.cpp:673
+#: src/editor/particle_editor.cpp:785 src/editor/editor.cpp:674
 msgid "Cancel"
 msgstr "取消"
 
@@ -1670,8 +1670,8 @@ msgstr ""
 #: src/supertux/menu/editor_level_select_menu.cpp:98
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:42
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:63
-#: src/supertux/menu/worldmap_cheat_menu.cpp:56
-#: src/supertux/menu/worldmap_cheat_menu.cpp:195
+#: src/supertux/menu/worldmap_cheat_menu.cpp:57
+#: src/supertux/menu/worldmap_cheat_menu.cpp:196
 #: src/supertux/menu/editor_levelset_select_menu.cpp:114
 #: src/supertux/menu/options_menu.cpp:223
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:69
@@ -1699,16 +1699,16 @@ msgstr ""
 msgid "Back"
 msgstr "返回"
 
-#: src/addon/addon_manager.cpp:560
+#: src/addon/addon_manager.cpp:562
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr ""
 
-#: src/addon/addon_manager.cpp:824
+#: src/addon/addon_manager.cpp:837
 #, c++-format
 msgid "Add-on {} by {} is already installed."
 msgstr ""
 
-#: src/addon/addon_manager.cpp:844
+#: src/addon/addon_manager.cpp:857
 #, c++-format
 msgid "Add-on {} by {} successfully installed."
 msgstr ""
@@ -1766,6 +1766,10 @@ msgstr "树先生"
 #: src/badguy/plant.hpp:34
 msgid "Plant"
 msgstr "植物"
+
+#: src/badguy/tarantula.hpp:39 src/badguy/tarantula.cpp:353
+msgid "Tarantula"
+msgstr ""
 
 #: src/badguy/granito_giant.cpp:71
 msgid "Awake"
@@ -1913,15 +1917,15 @@ msgstr "雪球船长"
 msgid "Ghost Tree"
 msgstr "鬼魂之树"
 
-#: src/badguy/willowisp.cpp:313
+#: src/badguy/willowisp.cpp:314
 msgid "Track range"
 msgstr "追踪范围"
 
-#: src/badguy/willowisp.cpp:314
+#: src/badguy/willowisp.cpp:315
 msgid "Vanish range"
 msgstr "消失范围"
 
-#: src/badguy/willowisp.cpp:315
+#: src/badguy/willowisp.cpp:316
 msgid "Fly speed"
 msgstr "飞行速度"
 
@@ -2153,8 +2157,12 @@ msgstr "蜡烛怪"
 msgid "Angry Stone"
 msgstr "愤怒之石"
 
-#: src/badguy/spidermite.hpp:38
+#: src/badguy/tarantula.cpp:354
 msgid "Spidermite"
+msgstr ""
+
+#: src/badguy/tarantula.cpp:374
+msgid "Static"
 msgstr ""
 
 #: src/badguy/ghoul.hpp:30
@@ -2477,11 +2485,11 @@ msgstr "  SUPERTUX2_USER_DIR           用户数据目录（存档等）"
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "  SUPERTUX2_DATA_DIR           游戏数据文件目录"
 
-#: src/supertux/title_screen.cpp:271
+#: src/supertux/title_screen.cpp:272
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/supertux/title_screen.cpp:272
+#: src/supertux/title_screen.cpp:273
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
@@ -2845,76 +2853,76 @@ msgstr ""
 msgid "All Players"
 msgstr ""
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:35
+#: src/supertux/menu/worldmap_cheat_menu.cpp:36
 #: src/supertux/menu/cheat_menu.cpp:31
 msgid "Cheats"
 msgstr "作弊"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:37
+#: src/supertux/menu/worldmap_cheat_menu.cpp:38
 #: src/supertux/menu/cheat_menu.cpp:33
 msgid "Bonus: Grow"
 msgstr "奖励：生长"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:38
+#: src/supertux/menu/worldmap_cheat_menu.cpp:39
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Fire"
 msgstr "奖励：火"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:39
+#: src/supertux/menu/worldmap_cheat_menu.cpp:40
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Bonus: Ice"
 msgstr "奖励：冰"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:40
+#: src/supertux/menu/worldmap_cheat_menu.cpp:41
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Air"
 msgstr "奖励：空气"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:41
+#: src/supertux/menu/worldmap_cheat_menu.cpp:42
 #: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Earth"
 msgstr "奖励：土地"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:42
+#: src/supertux/menu/worldmap_cheat_menu.cpp:43
 msgid "Bonus: None"
 msgstr "奖励：空"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:45
+#: src/supertux/menu/worldmap_cheat_menu.cpp:46
 #: src/supertux/menu/cheat_menu.cpp:45 src/supertux/menu/cheat_menu.cpp:51
 msgid "Leave Ghost Mode"
 msgstr "退出幽灵模式"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:45
+#: src/supertux/menu/worldmap_cheat_menu.cpp:46
 #: src/supertux/menu/cheat_menu.cpp:45 src/supertux/menu/cheat_menu.cpp:50
 msgid "Activate Ghost Mode"
 msgstr "激活幽灵模式"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:47
+#: src/supertux/menu/worldmap_cheat_menu.cpp:48
 #: src/supertux/menu/cheat_menu.cpp:41
 msgid "Finish Level"
 msgstr "完成关卡"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:48
+#: src/supertux/menu/worldmap_cheat_menu.cpp:49
 msgid "Reset Level"
 msgstr "重设关卡"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:50
+#: src/supertux/menu/worldmap_cheat_menu.cpp:51
 msgid "Finish Worldmap"
 msgstr "完成世界地图"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:51
+#: src/supertux/menu/worldmap_cheat_menu.cpp:52
 msgid "Reset Worldmap"
 msgstr "重设世界地图"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:53
+#: src/supertux/menu/worldmap_cheat_menu.cpp:54
 msgid "Go to level"
 msgstr "进入关卡"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:54
+#: src/supertux/menu/worldmap_cheat_menu.cpp:55
 msgid "Go to main spawnpoint"
 msgstr "进入主出生点"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:187
+#: src/supertux/menu/worldmap_cheat_menu.cpp:188
 msgid "Select level"
 msgstr "选择关卡"
 
@@ -4339,12 +4347,12 @@ msgstr "下"
 msgid "Region"
 msgstr "区域"
 
-#: src/supertux/main.cpp:800
+#: src/supertux/main.cpp:801
 #, c++-format
 msgid "New release: SuperTux v{}!"
 msgstr ""
 
-#: src/supertux/main.cpp:803
+#: src/supertux/main.cpp:804
 #, c++-format
 msgid ""
 "A new release of SuperTux (v{}) is available!\n"
@@ -4353,7 +4361,7 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr ""
 
-#: src/supertux/main.cpp:814
+#: src/supertux/main.cpp:815
 msgid "Checking for new releases..."
 msgstr ""
 
@@ -4638,18 +4646,18 @@ msgstr "该粒子配置包含未保存的更改，\n您想保存吗？"
 msgid "Save as"
 msgstr "另存为"
 
-#: src/editor/editor.cpp:576
+#: src/editor/editor.cpp:577
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "该关卡包含已废弃的图片。\n强烈建议替换掉所有已废弃的图块，以避免在未来版本中失去兼容性。"
 
-#: src/editor/editor.cpp:578
+#: src/editor/editor.cpp:579
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "提示：从关卡编辑菜单中打开“显示已废弃的图块”。"
 
-#: src/editor/editor.cpp:625
+#: src/editor/editor.cpp:626
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -4657,15 +4665,15 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "不要忘了，您的关卡和资产\n在会话关闭后不会保存！\n如果您想保留您的关卡，\n请从“管理资产”菜单下载它们。"
 
-#: src/editor/editor.cpp:660
+#: src/editor/editor.cpp:661
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "此关卡包含未保存的更改，您要保存吗？"
 
-#: src/editor/editor.cpp:661
+#: src/editor/editor.cpp:662
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "该关卡可能包含未保存的改动，您想保存吗？"
 
-#: src/editor/editor.cpp:796
+#: src/editor/editor.cpp:797
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with default Super Tux structure.\n"
@@ -4673,26 +4681,26 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "某些过时的扩展仍处于活动状态\n并可能导致与默认 Super Tux 结构发生冲突。\n您仍然可以在菜单中启用这些扩展。\n禁用这些扩展不会删除您的游戏进度。"
 
-#: src/editor/editor.cpp:799
+#: src/editor/editor.cpp:800
 msgid "Disable add-ons"
 msgstr "禁用扩展"
 
-#: src/editor/editor.cpp:804
+#: src/editor/editor.cpp:805
 msgid "Ignore (not advised)"
 msgstr "忽略（不推荐）"
 
-#: src/editor/editor.cpp:808
+#: src/editor/editor.cpp:809
 msgid "Leave editor"
 msgstr "离开编辑器"
 
-#: src/editor/editor.cpp:1022
+#: src/editor/editor.cpp:1023
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
 msgstr "找不到“main”区块。\n请将您希望玩家从此处开始\n的区块的名称更改为“main”"
 
-#: src/editor/editor.cpp:1026
+#: src/editor/editor.cpp:1027
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
@@ -5142,3 +5150,19 @@ msgstr "城堡小径"
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
 msgstr "黑暗森林"
+
+#: data//images/converters/data.stcd:3
+msgid "Nightly Tiles"
+msgstr ""
+
+#: data//images/converters/data.stcd:5
+msgid "For levels, created in previous Nightly builds."
+msgstr ""
+
+#: data//images/converters/data.stcd:8
+msgid "Pre-0.6.3 Crystal Tiles"
+msgstr ""
+
+#: data//images/converters/data.stcd:10
+msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
+msgstr ""

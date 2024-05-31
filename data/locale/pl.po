@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-05-19 02:34+0200\n"
+"POT-Creation-Date: 2024-05-30 16:19+0200\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Alina Gobarov, 2024\n"
 "Language-Team: Polish (http://app.transifex.com/arctic-games/supertux/language/pl/)\n"
@@ -108,7 +108,7 @@ msgstr ""
 msgid "Texts"
 msgstr "Teksty"
 
-#: src/trigger/door.cpp:80 src/badguy/willowisp.cpp:310
+#: src/trigger/door.cpp:80 src/badguy/willowisp.cpp:311
 #: src/worldmap/teleporter.cpp:47 data//images/engine/editor/objects.stoi:342
 msgid "Sector"
 msgstr "Sektor"
@@ -264,7 +264,7 @@ msgstr "Obszar cząsteczek"
 #: src/object/path_gameobject.hpp:45 src/object/coin.cpp:324
 #: src/object/camera.cpp:168 src/object/platform.cpp:76
 #: src/object/path_gameobject.cpp:175 src/object/tilemap.cpp:284
-#: src/badguy/willowisp.cpp:316
+#: src/badguy/willowisp.cpp:317
 msgid "Path"
 msgstr "Ścieżka"
 
@@ -366,7 +366,7 @@ msgstr "Kąt"
 #: src/object/spotlight.cpp:104 src/object/magicblock.cpp:95
 #: src/object/candle.cpp:75 src/object/torch.cpp:96 src/object/rublight.cpp:55
 #: src/object/lantern.cpp:62 src/object/ambient_light.cpp:122
-#: src/object/key.cpp:192 src/badguy/willowisp.cpp:318
+#: src/object/key.cpp:192 src/badguy/willowisp.cpp:319
 #: src/badguy/walking_candle.cpp:91
 msgid "Color"
 msgstr "Kolor"
@@ -403,7 +403,7 @@ msgstr "Fizyka aktywna"
 msgid "Visible"
 msgstr "Widzialne"
 
-#: src/object/scripted_object.cpp:73 src/badguy/willowisp.cpp:312
+#: src/object/scripted_object.cpp:73 src/badguy/willowisp.cpp:313
 msgid "Hit script"
 msgstr "Skrypt zderzenia"
 
@@ -532,18 +532,18 @@ msgstr "Rodzaj ścieżki"
 
 #: src/object/coin.cpp:330 src/object/camera.cpp:172
 #: src/object/platform.cpp:78 src/object/tilemap.cpp:291
-#: src/badguy/willowisp.cpp:321
+#: src/badguy/willowisp.cpp:322
 msgid "Adapt Speed"
 msgstr "Dostosuj prędkość"
 
 #: src/object/coin.cpp:331 src/object/platform.cpp:81
-#: src/object/tilemap.cpp:285 src/badguy/willowisp.cpp:317
+#: src/object/tilemap.cpp:285 src/badguy/willowisp.cpp:318
 msgid "Starting Node"
 msgstr "Punkt początkowy"
 
 #: src/object/coin.cpp:332 src/object/camera.cpp:173
 #: src/object/platform.cpp:82 src/object/tilemap.cpp:293
-#: src/badguy/willowisp.cpp:322
+#: src/badguy/willowisp.cpp:323
 msgid "Handle"
 msgstr ""
 
@@ -595,7 +595,7 @@ msgstr "Wyrównanie tekstu"
 msgid "Lit object"
 msgstr ""
 
-#: src/object/spawnpoint.hpp:48 src/badguy/willowisp.cpp:311
+#: src/object/spawnpoint.hpp:48 src/badguy/willowisp.cpp:312
 #: src/worldmap/teleporter.cpp:48
 msgid "Spawnpoint"
 msgstr "Punkt odrodzenia"
@@ -1615,12 +1615,12 @@ msgid "Mix the colour"
 msgstr "Zmieszaj kolor"
 
 #: src/gui/dialog.hpp:96 src/supertux/menu/editor_level_select_menu.cpp:181
-#: src/editor/editor.cpp:662
+#: src/editor/editor.cpp:663
 msgid "Yes"
 msgstr "Tak"
 
 #: src/gui/dialog.hpp:97 src/supertux/menu/editor_level_select_menu.cpp:185
-#: src/editor/particle_editor.cpp:781 src/editor/editor.cpp:669
+#: src/editor/particle_editor.cpp:781 src/editor/editor.cpp:670
 msgid "No"
 msgstr "Nie"
 
@@ -1634,7 +1634,7 @@ msgstr "Nie"
 #: src/supertux/menu/editor_level_select_menu.cpp:190
 #: src/supertux/menu/editor_save_as.cpp:42
 #: src/supertux/menu/particle_editor_open.cpp:43
-#: src/editor/particle_editor.cpp:785 src/editor/editor.cpp:673
+#: src/editor/particle_editor.cpp:785 src/editor/editor.cpp:674
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -1682,8 +1682,8 @@ msgstr "Ścieżka {}"
 #: src/supertux/menu/editor_level_select_menu.cpp:98
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:42
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:63
-#: src/supertux/menu/worldmap_cheat_menu.cpp:56
-#: src/supertux/menu/worldmap_cheat_menu.cpp:195
+#: src/supertux/menu/worldmap_cheat_menu.cpp:57
+#: src/supertux/menu/worldmap_cheat_menu.cpp:196
 #: src/supertux/menu/editor_levelset_select_menu.cpp:114
 #: src/supertux/menu/options_menu.cpp:223
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:69
@@ -1711,16 +1711,16 @@ msgstr "Ścieżka {}"
 msgid "Back"
 msgstr "Wróć"
 
-#: src/addon/addon_manager.cpp:560
+#: src/addon/addon_manager.cpp:562
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr ""
 
-#: src/addon/addon_manager.cpp:824
+#: src/addon/addon_manager.cpp:837
 #, c++-format
 msgid "Add-on {} by {} is already installed."
 msgstr ""
 
-#: src/addon/addon_manager.cpp:844
+#: src/addon/addon_manager.cpp:857
 #, c++-format
 msgid "Add-on {} by {} successfully installed."
 msgstr ""
@@ -1778,6 +1778,10 @@ msgstr "Pan Drzewo"
 #: src/badguy/plant.hpp:34
 msgid "Plant"
 msgstr "Roślina"
+
+#: src/badguy/tarantula.hpp:39 src/badguy/tarantula.cpp:353
+msgid "Tarantula"
+msgstr ""
 
 #: src/badguy/granito_giant.cpp:71
 msgid "Awake"
@@ -1925,15 +1929,15 @@ msgstr "Kapitan kula śnieżna"
 msgid "Ghost Tree"
 msgstr "Drzewo-duch"
 
-#: src/badguy/willowisp.cpp:313
+#: src/badguy/willowisp.cpp:314
 msgid "Track range"
 msgstr "Zakres toru"
 
-#: src/badguy/willowisp.cpp:314
+#: src/badguy/willowisp.cpp:315
 msgid "Vanish range"
 msgstr "Zakres zanikania"
 
-#: src/badguy/willowisp.cpp:315
+#: src/badguy/willowisp.cpp:316
 msgid "Fly speed"
 msgstr "Szybkość lotu"
 
@@ -2165,8 +2169,12 @@ msgstr "Chodząca świeczka"
 msgid "Angry Stone"
 msgstr "Wściekły kamień"
 
-#: src/badguy/spidermite.hpp:38
+#: src/badguy/tarantula.cpp:354
 msgid "Spidermite"
+msgstr ""
+
+#: src/badguy/tarantula.cpp:374
+msgid "Static"
 msgstr ""
 
 #: src/badguy/ghoul.hpp:30
@@ -2489,11 +2497,11 @@ msgstr "SUPERTUX2_USER_DIR                    Ścieżka dla danych użytkownika 
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "SUPERTUX2_DATA_DIR                    Ścieżka dla danych gry"
 
-#: src/supertux/title_screen.cpp:271
+#: src/supertux/title_screen.cpp:272
 msgid "Copyright"
 msgstr "Prawa autorskie"
 
-#: src/supertux/title_screen.cpp:272
+#: src/supertux/title_screen.cpp:273
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
@@ -2857,76 +2865,76 @@ msgstr "Gracz {}"
 msgid "All Players"
 msgstr "Wszyscy gracze"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:35
+#: src/supertux/menu/worldmap_cheat_menu.cpp:36
 #: src/supertux/menu/cheat_menu.cpp:31
 msgid "Cheats"
 msgstr "Kody"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:37
+#: src/supertux/menu/worldmap_cheat_menu.cpp:38
 #: src/supertux/menu/cheat_menu.cpp:33
 msgid "Bonus: Grow"
 msgstr "Bonus: Wzrost"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:38
+#: src/supertux/menu/worldmap_cheat_menu.cpp:39
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Fire"
 msgstr "Bonus: Ogień"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:39
+#: src/supertux/menu/worldmap_cheat_menu.cpp:40
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Bonus: Ice"
 msgstr "Bonus: Lód"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:40
+#: src/supertux/menu/worldmap_cheat_menu.cpp:41
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Air"
 msgstr "Bonus: Powietrze"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:41
+#: src/supertux/menu/worldmap_cheat_menu.cpp:42
 #: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Earth"
 msgstr "Bonus: Ziemia"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:42
+#: src/supertux/menu/worldmap_cheat_menu.cpp:43
 msgid "Bonus: None"
 msgstr "Bonus: Nic"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:45
+#: src/supertux/menu/worldmap_cheat_menu.cpp:46
 #: src/supertux/menu/cheat_menu.cpp:45 src/supertux/menu/cheat_menu.cpp:51
 msgid "Leave Ghost Mode"
 msgstr "Opuść Tryb Ducha"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:45
+#: src/supertux/menu/worldmap_cheat_menu.cpp:46
 #: src/supertux/menu/cheat_menu.cpp:45 src/supertux/menu/cheat_menu.cpp:50
 msgid "Activate Ghost Mode"
 msgstr "Aktywuj Tryb Ducha"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:47
+#: src/supertux/menu/worldmap_cheat_menu.cpp:48
 #: src/supertux/menu/cheat_menu.cpp:41
 msgid "Finish Level"
 msgstr "Ukończ poziom"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:48
+#: src/supertux/menu/worldmap_cheat_menu.cpp:49
 msgid "Reset Level"
 msgstr "Zrestartuj poziom"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:50
+#: src/supertux/menu/worldmap_cheat_menu.cpp:51
 msgid "Finish Worldmap"
 msgstr "Ukończ mapę"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:51
+#: src/supertux/menu/worldmap_cheat_menu.cpp:52
 msgid "Reset Worldmap"
 msgstr "Przywróć mapę"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:53
+#: src/supertux/menu/worldmap_cheat_menu.cpp:54
 msgid "Go to level"
 msgstr "Idź do poziomu"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:54
+#: src/supertux/menu/worldmap_cheat_menu.cpp:55
 msgid "Go to main spawnpoint"
 msgstr "Idź do głównego punktu odradzania"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:187
+#: src/supertux/menu/worldmap_cheat_menu.cpp:188
 msgid "Select level"
 msgstr "Wybierz poziom"
 
@@ -4354,12 +4362,12 @@ msgstr "dół"
 msgid "Region"
 msgstr "Obszar"
 
-#: src/supertux/main.cpp:800
+#: src/supertux/main.cpp:801
 #, c++-format
 msgid "New release: SuperTux v{}!"
 msgstr ""
 
-#: src/supertux/main.cpp:803
+#: src/supertux/main.cpp:804
 #, c++-format
 msgid ""
 "A new release of SuperTux (v{}) is available!\n"
@@ -4368,7 +4376,7 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr ""
 
-#: src/supertux/main.cpp:814
+#: src/supertux/main.cpp:815
 msgid "Checking for new releases..."
 msgstr ""
 
@@ -4653,18 +4661,18 @@ msgstr "Ta konfiguracja cząstek zawiera niezapisane zmiany, czy chcesz je zapis
 msgid "Save as"
 msgstr "Zapisz jako"
 
-#: src/editor/editor.cpp:576
+#: src/editor/editor.cpp:577
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "Ten poziom zawiera przestarzałe płytki.\nZdecydowanie zaleca się zastąpienie wszystkich przestarzałych płytek\naby uniknąć utraty kompatybilności w przyszłych wersjach."
 
-#: src/editor/editor.cpp:578
+#: src/editor/editor.cpp:579
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "Wskazówka: Włącz opcję \"Pokaż przestarzałe płytki\" w menu edytora poziomów."
 
-#: src/editor/editor.cpp:625
+#: src/editor/editor.cpp:626
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -4672,15 +4680,15 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Nie zapomnij, że twoje poziomy i zasoby\nnie są zapisywane pomiędzy sesjami!\nJeżeli chcesz zachować swoje poziomy, pobierz je\nz menu \"Manage Assets\"."
 
-#: src/editor/editor.cpp:660
+#: src/editor/editor.cpp:661
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Ten poziom zawiera niezapisane zmiany, czy chcesz je teraz zapisać?"
 
-#: src/editor/editor.cpp:661
+#: src/editor/editor.cpp:662
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "Ten poziom może zawierać niezapisane zmiany, czy chcesz je zapisać?"
 
-#: src/editor/editor.cpp:796
+#: src/editor/editor.cpp:797
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with default Super Tux structure.\n"
@@ -4688,26 +4696,26 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Niektóre przestarzałe dodatki są wciąż aktywne\ni mogą one kolidować z ogólną strukturą Super Tuxa.\nNadal możesz uruchomić te dodatki w menu.\nWyłączenie tych dodatków nie usunie twoich postępów w grze."
 
-#: src/editor/editor.cpp:799
+#: src/editor/editor.cpp:800
 msgid "Disable add-ons"
 msgstr "Wyłącz dodatkowe plansze"
 
-#: src/editor/editor.cpp:804
+#: src/editor/editor.cpp:805
 msgid "Ignore (not advised)"
 msgstr "Zignoruj (Niezalecane)"
 
-#: src/editor/editor.cpp:808
+#: src/editor/editor.cpp:809
 msgid "Leave editor"
 msgstr "Opuść edytor"
 
-#: src/editor/editor.cpp:1022
+#: src/editor/editor.cpp:1023
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
 msgstr "Nie znaleziono \"głównego\" sektora.\nZmień nazwę sektora, w którym\nchciałbyś by gracz startował, na \"główny\""
 
-#: src/editor/editor.cpp:1026
+#: src/editor/editor.cpp:1027
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
@@ -5157,3 +5165,19 @@ msgstr "Ścieżki zamkowe"
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
 msgstr "Ciemniejszy Las"
+
+#: data//images/converters/data.stcd:3
+msgid "Nightly Tiles"
+msgstr ""
+
+#: data//images/converters/data.stcd:5
+msgid "For levels, created in previous Nightly builds."
+msgstr ""
+
+#: data//images/converters/data.stcd:8
+msgid "Pre-0.6.3 Crystal Tiles"
+msgstr ""
+
+#: data//images/converters/data.stcd:10
+msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
+msgstr ""
