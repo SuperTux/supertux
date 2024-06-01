@@ -120,7 +120,8 @@ Rock::update(float dt_sec)
       }
     }
 
-    m_col.set_movement(physic.get_movement(dt_sec));
+    m_col.set_movement(physic.get_movement(dt_sec) *
+      Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f));
   }
 }
 

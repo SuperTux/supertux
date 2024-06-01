@@ -111,7 +111,7 @@ WalkingLeaf::active_update(float dt_sec)
     else {
       set_action("float", m_dir);
       if (m_physic.get_velocity_y() >= m_fall_speed && !in_water) {
-        m_physic.set_velocity_y(in_water ? 0.f : m_fall_speed);
+        m_physic.set_velocity_y(m_fall_speed);
       }
     }
   }

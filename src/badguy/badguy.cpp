@@ -65,6 +65,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
+  m_water_affected(true),
   m_unfreeze_timer(),
   m_state(STATE_INIT),
   m_is_active_flag(),
@@ -108,6 +109,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
+  m_water_affected(true),
   m_unfreeze_timer(),
   m_state(STATE_INIT),
   m_is_active_flag(),
@@ -330,7 +332,10 @@ void
 BadGuy::active_update(float dt_sec)
 {
   if (!is_grabbed())
-    m_col.set_movement(m_physic.get_movement(dt_sec));
+    m_col.set_movement(m_physic.get_movement(dt_sec) * (m_water_affected ? (
+      Vector((is_in_water() && !m_frozen) ? 0.7f : (is_in_water() && m_frozen) ? 0.4f : 1.f,
+             (is_in_water() && !m_frozen) ? 0.3f : (is_in_water() && m_frozen) ? 0.6f : 1.f)) :
+      Vector(1.f, 1.f)));
   if (m_frozen)
     m_sprite->stop_animation();
 }

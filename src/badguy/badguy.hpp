@@ -269,6 +269,7 @@ protected:
   SpritePtr m_lightsprite;
   SpritePtr m_freezesprite;
   bool m_glowing;
+  bool m_water_affected;
 
   Timer m_unfreeze_timer;
 
