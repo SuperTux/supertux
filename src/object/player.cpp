@@ -36,6 +36,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/resources.hpp"
@@ -2195,15 +2196,22 @@ Player::draw(DrawingContext& context)
   }
   */
 
+  // Because the camera also tracks Tux, to avoid perceived jitter the position should be
+  // projected forward according to the time since the last frame. This forward projection
+  // may overshoot slightly, but Tux should never move fast enough that this is perceivable.
+  // (While this could be done for all objects, it is most important here as the camera often
+  // tracks Tux.) Note `context.get_time_offset()` is only nonzero if frame prediction is on.
+  Vector draw_pos = get_pos() + context.get_time_offset() * m_physic.get_velocity();
+
   /* Draw Tux */
   if (!m_visible || (m_safe_timer.started() && !m_is_intentionally_safe && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
   else if (m_dying)
-    m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_opaque_layer() + 1);
+    m_sprite->draw(context.color(), draw_pos, Sector::get().get_foremost_opaque_layer() + 1);
   else
-    m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
+    m_sprite->draw(context.color(), draw_pos, LAYER_OBJECTS + 1);
 
   //TODO: Replace recoloring with proper costumes
   Color power_color = (get_bonus() == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
