@@ -32,7 +32,7 @@ jobs:
       matrix:
         # TODO: Add the OpenBSD, NetBSD and Solaris VMs whenever possible
         vm_os: [freebsd]
-        build_type: [Debug, Release]
+        build_type: [Debug, RelWithDebInfo]
         # FreeBSD does not have glbinding
         # glbiactions/checkout@v4
 

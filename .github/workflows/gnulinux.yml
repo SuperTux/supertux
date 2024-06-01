@@ -34,14 +34,14 @@ jobs:
         arch: [32, 64]
         os: [ubuntu-20.04]
         compiler: [gcc, clang]
-        build_type: [Debug, Release]
+        build_type: [Debug, RelWithDebInfo]
         glbinding: [ON, OFF]
         exclude:
           - arch: 32
             glbinding: ON
         include:
           - os: ubuntu-20.04
-            build_type: Release
+            build_type: RelWithDebInfo
             compiler: gcc
             arch: 64
             glbinding: OFF

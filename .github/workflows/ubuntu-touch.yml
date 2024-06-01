@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [Debug, Release]
+        build_type: [Debug, RelWithDebInfo]
         arch: [amd64, arm64, armhf]
         # glbinding is missing as it isn't available on Ubuntu 16.04
         opengl: [glew, sdl]
