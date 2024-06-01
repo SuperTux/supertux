@@ -180,6 +180,8 @@ Editor::draw(Compositor& compositor)
       m_new_scale = 0.f;
     }
 
+    m_sector->pause_camera_interpolation();
+
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
     if (!m_leveltested)
