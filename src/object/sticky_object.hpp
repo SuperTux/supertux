@@ -34,14 +34,14 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  //virtual void move_for_owner(MovingObject& object);
+  virtual void move_for_owner(MovingObject& object);
 
   bool is_sticky() const { return m_sticky; }
 
 protected:
   bool m_sticky; // determines if the object CAN stick, period. 
   bool m_sticking; // determines if the object has found something to stick to.
-  //GameObject* m_owner = nullptr;
+  Vector m_displacement_from_owner;
 
 private:
   StickyObject(const StickyObject&) = delete;
@@ -63,14 +63,14 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  //virtual void move_for_owner(MovingObject& object);
+  virtual void move_for_owner(MovingObject& object);
 
   bool is_sticky() const { return m_sticky; }
 
 protected:
   bool m_sticky; // determines if the object CAN stick, period. 
   bool m_sticking; // determines if the object has found something to stick to.
-  //GameObject* m_owner = nullptr;
+  Vector m_displacement_from_owner;
 
 private:
   StickyBadguy(const StickyBadguy&) = delete;

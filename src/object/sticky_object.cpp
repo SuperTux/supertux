@@ -17,6 +17,7 @@
 #include "object/sticky_object.hpp"
 
 #include "badguy/badguy.hpp"
+#include "badguy/crusher.hpp"
 #include "object/fallblock.hpp"
 #include "object/moving_sprite.hpp"
 #include "object/platform.hpp"
@@ -27,16 +28,16 @@ StickyObject::StickyObject(const Vector& pos, const std::string& sprite_name,
                            int layer, CollisionGroup collision_group) :
   MovingSprite(pos, sprite_name, layer, collision_group),
   m_sticky(),
-  m_sticking()
-  //m_owner(nullptr)
+  m_sticking(),
+  m_displacement_from_owner()
 {
 }
 
 StickyObject::StickyObject(const ReaderMapping& reader, const std::string& sprite_name, int layer, CollisionGroup collision_group) :
   MovingSprite(reader, sprite_name, layer, collision_group),
   m_sticky(),
-  m_sticking()
-  //m_owner(nullptr)
+  m_sticking(),
+  m_displacement_from_owner()
 {
 }
 
@@ -51,7 +52,27 @@ StickyObject::update(float dt_sec)
       !Sector::get().is_free_of_statics(large_overlap_box))
     {
       m_col.set_movement(tm.get_movement(true));
-      m_sticking = true;
+      if (!m_sticking)
+      {
+        m_displacement_from_owner = get_pos() - tm.get_bbox().p1();
+        m_sticking = true;
+      }
+      m_col.set_pos(tm.get_bbox().p1() + m_displacement_from_owner);
+      return;
+    }
+  }
+
+  for (auto& crusher : Sector::get().get_objects_by_type<Crusher>())
+  {
+    if (large_overlap_box.overlaps(crusher.get_bbox()))
+    {
+      m_col.set_movement(crusher.get_movement());
+      if (!m_sticking)
+      {
+        m_displacement_from_owner = get_pos() - crusher.get_pos();
+        m_sticking = true;
+      }
+      move_for_owner(crusher);
       return;
     }
   }
@@ -61,7 +82,12 @@ StickyObject::update(float dt_sec)
     if (large_overlap_box.overlaps(platform.get_bbox()))
     {
       m_col.set_movement(platform.get_movement());
-      m_sticking = true;
+      if (!m_sticking)
+      {
+        m_displacement_from_owner = get_pos() - platform.get_pos();
+        m_sticking = true;
+      }
+      move_for_owner(platform);
       return;
     }
   }
@@ -71,7 +97,12 @@ StickyObject::update(float dt_sec)
     if (large_overlap_box.overlaps(fallblock.get_bbox()))
     {
       m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
-      m_sticking = true;
+      if (!m_sticking)
+      {
+        m_displacement_from_owner = get_pos() - fallblock.get_pos();
+        m_sticking = true;
+      }
+      move_for_owner(fallblock);
       return;
     }
   }
@@ -89,20 +120,17 @@ StickyObject::get_settings()
   return result;
 }
 
-/*void
+void
 StickyObject::move_for_owner(MovingObject& object)
 {
-  if (!m_owner) {
-    return;
-  }
-  m_col.set_pos(object.get_pos());
-}*/
-
+  m_col.set_pos(object.get_pos() + m_displacement_from_owner);
+}
 
 StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name, Direction default_direction, int layer, CollisionGroup collision_group) :
   BadGuy(mapping, sprite_name, default_direction, layer),
   m_sticky(),
-  m_sticking()
+  m_sticking(),
+  m_displacement_from_owner()
 {
   set_group(collision_group);
 }
@@ -110,7 +138,8 @@ StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& spri
 StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name, int layer, CollisionGroup collision_group) :
   BadGuy(mapping, sprite_name, layer),
   m_sticky(),
-  m_sticking()
+  m_sticking(),
+  m_displacement_from_owner()
 {
   set_group(collision_group);
 }
@@ -126,7 +155,27 @@ StickyBadguy::sticky_update(float dt_sec)
       !Sector::get().is_free_of_statics(large_overlap_box))
     {
       m_col.set_movement(tm.get_movement(true));
-      m_sticking = true;
+      if (!m_sticking)
+      {
+        m_displacement_from_owner = get_pos() - tm.get_bbox().p1();
+        m_sticking = true;
+      }
+      m_col.set_pos(tm.get_bbox().p1() + m_displacement_from_owner);
+      return;
+    }
+  }
+
+  for (auto& crusher : Sector::get().get_objects_by_type<Crusher>())
+  {
+    if (large_overlap_box.overlaps(crusher.get_bbox()))
+    {
+      m_col.set_movement(crusher.get_movement());
+      if (!m_sticking)
+      {
+        m_displacement_from_owner = get_pos() - crusher.get_pos();
+        m_sticking = true;
+      }
+      move_for_owner(crusher);
       return;
     }
   }
@@ -136,7 +185,12 @@ StickyBadguy::sticky_update(float dt_sec)
     if (large_overlap_box.overlaps(platform.get_bbox()))
     {
       m_col.set_movement(platform.get_movement());
-      m_sticking = true;
+      if (!m_sticking)
+      {
+        m_displacement_from_owner = get_pos() - platform.get_pos();
+        m_sticking = true;
+      }
+      move_for_owner(platform);
       return;
     }
   }
@@ -146,7 +200,12 @@ StickyBadguy::sticky_update(float dt_sec)
     if (large_overlap_box.overlaps(fallblock.get_bbox()))
     {
       m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
-      m_sticking = true;
+      if (!m_sticking)
+      {
+        m_displacement_from_owner = get_pos() - fallblock.get_pos();
+        m_sticking = true;
+      }
+      move_for_owner(fallblock);
       return;
     }
   }
@@ -161,6 +220,12 @@ StickyBadguy::get_settings()
   result.reorder({ "sticky", "direction", "sprite", "z-pos", "x", "y" });
 
   return result;
+}
+
+void
+StickyBadguy::move_for_owner(MovingObject& object)
+{
+  m_col.set_pos(object.get_pos() + m_displacement_from_owner);
 }
 
 /* EOF */
