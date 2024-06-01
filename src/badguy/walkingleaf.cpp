@@ -72,17 +72,37 @@ WalkingLeaf::on_type_change(int old_type)
 void
 WalkingLeaf::active_update(float dt_sec)
 {
+  WalkingBadguy::active_update(dt_sec);
   if (!m_frozen && !m_ignited)
   {
     Rectf floatbox = get_bbox();
     floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
     bool float_here = (Sector::get().is_free_of_statics(floatbox));
+
     bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+
+    Rectf watertopbox = get_bbox();
+    watertopbox.set_top(get_bbox().get_bottom() - get_bbox().get_height() / 3.f);
+    Rectf wateroutbox = get_bbox();
+    wateroutbox.set_bottom(get_bbox().get_top() + (2 * get_bbox().get_height() / 3.f));
+
+    bool on_top_of_water = (!Sector::get().is_free_of_tiles(watertopbox, true, Tile::WATER) &&
+      Sector::get().is_free_of_tiles(wateroutbox, true, Tile::WATER));
 
     if (in_water)
     {
-      m_physic.set_acceleration_y(-5.f);
-      m_physic.set_gravity_modifier(0.f);
+      if (!on_top_of_water)
+      {
+        m_physic.set_acceleration_y(-350.f);
+        m_physic.set_gravity_modifier(-10.f);
+      }
+      else
+      {
+        m_col.set_movement(Vector(m_col.get_movement().x, 0.f));
+        m_physic.set_velocity_y(0.f);
+        m_physic.set_acceleration_y(0.f);
+        m_physic.set_gravity_modifier(0.f);
+      }
     }
 
     if (!float_here) {
@@ -90,13 +110,11 @@ WalkingLeaf::active_update(float dt_sec)
     }
     else {
       set_action("float", m_dir);
-      if (m_physic.get_velocity_y() >= m_fall_speed) {
-        m_physic.set_velocity_y(in_water ? 0 : m_fall_speed);
+      if (m_physic.get_velocity_y() >= m_fall_speed && !in_water) {
+        m_physic.set_velocity_y(in_water ? 0.f : m_fall_speed);
       }
     }
   }
-
-  WalkingBadguy::active_update(dt_sec);
 }
 
 bool
