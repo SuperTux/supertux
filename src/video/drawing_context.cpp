@@ -26,14 +26,15 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool overlay) :
+DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool overlay, float time_offset) :
   m_video_system(video_system_),
   m_obst(obst),
   m_overlay(overlay),
   m_ambient_color(Color::WHITE),
   m_transform_stack({ DrawingTransform(m_video_system.get_viewport()) }),
   m_colormap_canvas(*this, m_obst),
-  m_lightmap_canvas(*this, m_obst)
+  m_lightmap_canvas(*this, m_obst),
+  m_time_offset(time_offset)
 {
 }
 
