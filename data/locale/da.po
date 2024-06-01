@@ -1764,7 +1764,7 @@ msgstr "Plante"
 
 #: src/badguy/tarantula.hpp:39 src/badguy/tarantula.cpp:353
 msgid "Tarantula"
-msgstr ""
+msgstr "Tarantel"
 
 #: src/badguy/granito_giant.cpp:71
 msgid "Awake"
@@ -2158,7 +2158,7 @@ msgstr "Edderkoppemide"
 
 #: src/badguy/tarantula.cpp:374
 msgid "Static"
-msgstr ""
+msgstr "Hvidstøj"
 
 #: src/badguy/ghoul.hpp:30
 msgid "Ghoul"
@@ -5149,16 +5149,16 @@ msgstr "Mørkere skov"
 
 #: data//images/converters/data.stcd:3
 msgid "Nightly Tiles"
-msgstr ""
+msgstr "Natfelter"
 
 #: data//images/converters/data.stcd:5
 msgid "For levels, created in previous Nightly builds."
-msgstr ""
+msgstr "Til baner skabt i tidligere Nightly builds."
 
 #: data//images/converters/data.stcd:8
 msgid "Pre-0.6.3 Crystal Tiles"
-msgstr ""
+msgstr "Før-0.6.3 krystalfelter"
 
 #: data//images/converters/data.stcd:10
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
-msgstr ""
+msgstr "Til baner skabt i pre-0.6.3-versioner, der bruger krystalfelter."

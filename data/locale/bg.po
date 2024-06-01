@@ -1766,7 +1766,7 @@ msgstr "Растение"
 
 #: src/badguy/tarantula.hpp:39 src/badguy/tarantula.cpp:353
 msgid "Tarantula"
-msgstr ""
+msgstr "Тарантула"
 
 #: src/badguy/granito_giant.cpp:71
 msgid "Awake"
@@ -2108,7 +2108,7 @@ msgstr "Ходещ лист"
 
 #: src/badguy/root.hpp:39
 msgid "Root"
-msgstr ""
+msgstr "Корен"
 
 #: src/badguy/owl.cpp:241
 msgid "Carry"
@@ -5151,16 +5151,16 @@ msgstr "По-тъмна гора"
 
 #: data//images/converters/data.stcd:3
 msgid "Nightly Tiles"
-msgstr ""
+msgstr "Нощни плочки"
 
 #: data//images/converters/data.stcd:5
 msgid "For levels, created in previous Nightly builds."
-msgstr ""
+msgstr "За нива създадени в предишни нощни компилации на играта."
 
 #: data//images/converters/data.stcd:8
 msgid "Pre-0.6.3 Crystal Tiles"
-msgstr ""
+msgstr "Кристални плочки от преди 0.6.3"
 
 #: data//images/converters/data.stcd:10
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
-msgstr ""
+msgstr "За нива създадени във версии преди 0.6.3, които ползват кристални плочки."

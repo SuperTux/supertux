@@ -1650,12 +1650,12 @@ msgid ""
 "Do you wish to clone the path to edit it separately,\n"
 "or do you want to bind both paths together\n"
 "so that any edit on one edits the other?"
-msgstr ""
+msgstr "Bi želeli podvojiti pot in urediti dvojnika\nali bi raje povezali obe poti, da urejanje\nene poti spremeni tudi drugo?"
 
 #: src/gui/menu_paths.cpp:56
 #, c++-format
 msgid "Path {}"
-msgstr ""
+msgstr "Pot {}"
 
 #: src/gui/menu_paths.cpp:67 src/supertux/menu/integrations_menu.cpp:60
 #: src/supertux/menu/editor_converters_menu.cpp:79
@@ -1697,17 +1697,17 @@ msgstr "Nazaj"
 
 #: src/addon/addon_manager.cpp:562
 msgid "Only one resource pack is allowed to be enabled at a time."
-msgstr ""
+msgstr "Naenkrat je lahko omogočen le en paket virov."
 
 #: src/addon/addon_manager.cpp:837
 #, c++-format
 msgid "Add-on {} by {} is already installed."
-msgstr ""
+msgstr "Dodatek {} avtorja/ice {} je že nameščen."
 
 #: src/addon/addon_manager.cpp:857
 #, c++-format
 msgid "Add-on {} by {} successfully installed."
-msgstr ""
+msgstr "Dodatek {} avtorja/ice {} je uspešno nameščen."
 
 #: src/addon/addon.cpp:71 src/supertux/menu/editor_levelset_menu.cpp:54
 msgid "Levelset"
@@ -1728,11 +1728,11 @@ msgstr "Dodatek"
 
 #: src/addon/addon.cpp:83
 msgid "Language Pack"
-msgstr ""
+msgstr "Jezikovni paket"
 
 #: src/addon/addon.cpp:86
 msgid "Resource Pack"
-msgstr ""
+msgstr "Paket virov"
 
 #: src/addon/addon.cpp:89
 msgid "Unknown"
@@ -1741,15 +1741,15 @@ msgstr "Neznano"
 #: src/addon/addon.cpp:100
 #, c++-format
 msgid "{} \"{}\" by \"{}\""
-msgstr ""
+msgstr "{} \"{}\" avtorja/ice \"{}\""
 
 #: src/addon/addon.cpp:114
 msgid "add-on"
-msgstr ""
+msgstr "dodatek"
 
 #: src/addon/addon.cpp:114
 msgid "add-ons"
-msgstr ""
+msgstr "dodatki"
 
 #: src/badguy/toad.hpp:38
 msgid "Toad"
@@ -1765,27 +1765,27 @@ msgstr "Rastlina"
 
 #: src/badguy/tarantula.hpp:39 src/badguy/tarantula.cpp:353
 msgid "Tarantula"
-msgstr ""
+msgstr "Tarantela"
 
 #: src/badguy/granito_giant.cpp:71
 msgid "Awake"
-msgstr ""
+msgstr "Buden"
 
 #: src/badguy/granito_giant.cpp:72
 msgid "Sleeping"
-msgstr ""
+msgstr "Speč"
 
 #: src/badguy/granito_giant.cpp:73
 msgid "Corrupted A"
-msgstr ""
+msgstr "Skvarjen A"
 
 #: src/badguy/granito_giant.cpp:74
 msgid "Corrupted B"
-msgstr ""
+msgstr "Skvarjen B"
 
 #: src/badguy/granito_giant.cpp:75
 msgid "Corrupted C"
-msgstr ""
+msgstr "Skvarjen C"
 
 #: src/badguy/crystallo.hpp:33
 msgid "Crystallo"
@@ -1795,7 +1795,7 @@ msgstr "Kristalko"
 #: src/badguy/kamikazesnowball.cpp:118 src/badguy/walkingleaf.cpp:36
 #: src/badguy/jumpy.cpp:46 src/badguy/igel.cpp:189 src/badguy/mrtree.cpp:51
 msgid "Corrupted"
-msgstr ""
+msgstr "Skvarjen"
 
 #: src/badguy/totem.hpp:37
 msgid "Totem"
@@ -1807,19 +1807,19 @@ msgstr "Stalaktit"
 
 #: src/badguy/fish_chasing.cpp:198
 msgid "Tracking Distance"
-msgstr ""
+msgstr "Razdalja sledenja"
 
 #: src/badguy/fish_chasing.cpp:199
 msgid "Losing Distance"
-msgstr ""
+msgstr "Razdalja zaostanka"
 
 #: src/badguy/fish_chasing.cpp:200
 msgid "Chase Speed"
-msgstr ""
+msgstr "Hitrost zasledovanja"
 
 #: src/badguy/root_sapling.hpp:41
 msgid "Root Sapling"
-msgstr ""
+msgstr "Sadika"
 
 #: src/badguy/haywire.hpp:46
 msgid "Haywire"
@@ -1839,28 +1839,28 @@ msgstr "Zverinica"
 
 #: src/badguy/smartball.cpp:35
 msgid "Pumpkin"
-msgstr ""
+msgstr "Buča"
 
 #: src/badguy/bouncing_snowball.cpp:82
 msgid "Fatbat"
-msgstr ""
+msgstr "Netopirko"
 
 #: src/badguy/dive_mine.hpp:50
 msgid "Dive Mine"
-msgstr ""
+msgstr "Potapljaška mina"
 
 #: src/badguy/granito_big.hpp:33
 msgid "Big Granito"
-msgstr ""
+msgstr "Veliki Granitek"
 
 #: src/badguy/mriceblock.hpp:49
 msgid "Mr. Iceblock"
-msgstr ""
+msgstr "Gospod Ledeni"
 
 #: src/badguy/granito.hpp:39 src/badguy/darttrap.cpp:163
 #: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:438
 msgid "Granito"
-msgstr ""
+msgstr "Granitek"
 
 #: src/badguy/fish_swimming.cpp:54 src/badguy/jumpy.cpp:44
 #: data//images/ice_world.strf:10 data//images/tiles.strf:28
@@ -1875,19 +1875,19 @@ msgstr "Gozd"
 
 #: src/badguy/crusher.hpp:71
 msgid "Crusher"
-msgstr ""
+msgstr "Drobilec"
 
 #: src/badguy/flame.cpp:84
 msgid "Fire"
-msgstr ""
+msgstr "Ogenj"
 
 #: src/badguy/flame.cpp:85
 msgid "Ghost"
-msgstr ""
+msgstr "Strahec"
 
 #: src/badguy/corrupted_granito_big.hpp:35
 msgid "Corrupted Big Granito"
-msgstr ""
+msgstr "Skvarjeni veliki Granitek"
 
 #: src/badguy/scrystallo.cpp:57
 msgid "Walk Radius"
@@ -1899,7 +1899,7 @@ msgstr "Doseg zbujanja"
 
 #: src/badguy/scrystallo.cpp:59
 msgid "Roof-attached"
-msgstr ""
+msgstr "Na stropu"
 
 #: src/badguy/jumpy.hpp:40
 msgid "Jumpy"
@@ -1947,7 +1947,7 @@ msgstr "Jetijev stalaktit"
 
 #: src/badguy/fish_harmless.hpp:30
 msgid "Harmless Fish"
-msgstr ""
+msgstr "Neškodljiva riba"
 
 #: src/badguy/livefire.hpp:38
 msgid "Walking Flame"
@@ -1983,19 +1983,19 @@ msgstr "Strelivo"
 
 #: src/badguy/darttrap.cpp:152
 msgid "Dart sprite"
-msgstr ""
+msgstr "Animiran izrezek puščice"
 
 #: src/badguy/darttrap.cpp:164
 msgid "Skull"
-msgstr ""
+msgstr "Lobanja"
 
 #: src/badguy/snowball.hpp:30
 msgid "Mr. Snowball"
-msgstr ""
+msgstr "Gospod Snežko"
 
 #: src/badguy/smartblock.hpp:30
 msgid "Mrs. Iceblock"
-msgstr ""
+msgstr "Gospa Ledena"
 
 #: src/badguy/yeti.cpp:370
 msgid "Fixed position"
@@ -2011,11 +2011,11 @@ msgstr "Zlata bomba"
 
 #: src/badguy/corrupted_granito.hpp:44
 msgid "Corrupted Granito"
-msgstr ""
+msgstr "Skvarjeni Granitek"
 
 #: src/badguy/mrbomb.cpp:48
 msgid "Classic"
-msgstr ""
+msgstr "Klasičen"
 
 #: src/badguy/flyingsnowball.hpp:33
 msgid "Flying Snowball"
@@ -2023,27 +2023,27 @@ msgstr "Leteča kepica"
 
 #: src/badguy/crusher.cpp:75
 msgid "Ice (normal)"
-msgstr ""
+msgstr "Ledeni (navaden)"
 
 #: src/badguy/crusher.cpp:76
 msgid "Ice (big)"
-msgstr ""
+msgstr "Ledeni (velik)"
 
 #: src/badguy/crusher.cpp:77
 msgid "Rock (normal)"
-msgstr ""
+msgstr "Kameni (navaden)"
 
 #: src/badguy/crusher.cpp:78
 msgid "Rock (big)"
-msgstr ""
+msgstr "Kameni (velik)"
 
 #: src/badguy/crusher.cpp:79
 msgid "Corrupted (normal)"
-msgstr ""
+msgstr "Skvarjen (navaden)"
 
 #: src/badguy/crusher.cpp:80
 msgid "Corrupted (big)"
-msgstr ""
+msgstr "Skvarjen (velik)"
 
 #: src/badguy/crusher.cpp:492
 msgid "Sideways"
@@ -2051,7 +2051,7 @@ msgstr "Vstran"
 
 #: src/badguy/kamikazesnowball.hpp:34
 msgid "Kamikaze Snowball"
-msgstr ""
+msgstr "Samomorilska kepica"
 
 #: src/badguy/kamikazesnowball.hpp:64
 msgid "Leafshot"
@@ -2059,7 +2059,7 @@ msgstr "Hitri list"
 
 #: src/badguy/fish_swimming.hpp:40
 msgid "Swimming Fish"
-msgstr ""
+msgstr "Plavajoča riba"
 
 #: src/badguy/flame.hpp:47
 msgid "Flame"
@@ -2071,15 +2071,15 @@ msgstr "Speči Kristalko"
 
 #: src/badguy/jumpy.cpp:45
 msgid "Wooden"
-msgstr ""
+msgstr "Leseni"
 
 #: src/badguy/jumpy.cpp:47
 msgid "Metal"
-msgstr ""
+msgstr "Kovinski"
 
 #: src/badguy/jumpy.cpp:48
 msgid "Bag"
-msgstr ""
+msgstr "Mošnjiček"
 
 #: src/badguy/willowisp.hpp:57
 msgid "Will o' Wisp"
@@ -2087,7 +2087,7 @@ msgstr "Blodeča lučka"
 
 #: src/badguy/fish_jumping.hpp:41
 msgid "Jumping Fish"
-msgstr ""
+msgstr "Skakajoča riba"
 
 #: src/badguy/badguy.hpp:61
 msgid "Badguy"
@@ -2103,11 +2103,11 @@ msgstr "Špikamož"
 
 #: src/badguy/walkingleaf.hpp:33
 msgid "Walking Leaf"
-msgstr ""
+msgstr "Hodeči list"
 
 #: src/badguy/root.hpp:39
 msgid "Root"
-msgstr ""
+msgstr "Korenina"
 
 #: src/badguy/owl.cpp:241
 msgid "Carry"
@@ -2127,11 +2127,11 @@ msgstr "Jeti"
 
 #: src/badguy/snowball.cpp:41
 msgid "Bumpkin"
-msgstr ""
+msgstr "Buča"
 
 #: src/badguy/snowball.cpp:42
 msgid "BSOD"
-msgstr ""
+msgstr "Modri zaslonček smrti"
 
 #: src/badguy/mole.hpp:38
 msgid "Mole"
@@ -2155,11 +2155,11 @@ msgstr "Jezni kamen"
 
 #: src/badguy/tarantula.cpp:354
 msgid "Spidermite"
-msgstr ""
+msgstr "Pršica prelka"
 
 #: src/badguy/tarantula.cpp:374
 msgid "Static"
-msgstr ""
+msgstr "Nepremična"
 
 #: src/badguy/ghoul.hpp:30
 msgid "Ghoul"
@@ -2167,7 +2167,7 @@ msgstr "Prikazen"
 
 #: src/badguy/granito_giant.hpp:32
 msgid "Giant Granito"
-msgstr ""
+msgstr "Velikanski Granitek"
 
 #: src/badguy/snowman.hpp:29
 msgid "Snowman"
@@ -2175,19 +2175,19 @@ msgstr "Snežak"
 
 #: src/badguy/viciousivy.hpp:33
 msgid "Vicious Ivy"
-msgstr ""
+msgstr "Vražja vitica"
 
 #: src/badguy/stalactite.cpp:156
 msgid "ice"
-msgstr ""
+msgstr "ledeni"
 
 #: src/badguy/stalactite.cpp:157
 msgid "rock"
-msgstr ""
+msgstr "kameni"
 
 #: src/badguy/fish_chasing.hpp:33
 msgid "Chasing Fish"
-msgstr ""
+msgstr "Loveča riba"
 
 #: src/badguy/stumpy.hpp:38
 msgid "Stumpy"
@@ -2221,11 +2221,11 @@ msgstr "Največ pridaničev hkrati"
 
 #: src/badguy/dispenser.cpp:435
 msgid "Dropper"
-msgstr ""
+msgstr "Kapalkar"
 
 #: src/badguy/dispenser.cpp:436
 msgid "Cannon"
-msgstr ""
+msgstr "Top"
 
 #: src/badguy/dispenser.cpp:437 src/worldmap/special_tile.cpp:77
 msgid "Invisible"
@@ -2237,7 +2237,7 @@ msgstr "Polž"
 
 #: src/badguy/smartball.hpp:32
 msgid "Mrs. Snowball"
-msgstr ""
+msgstr "Gospa kepica"
 
 #: src/badguy/bouncing_snowball.hpp:39
 msgid "Bouncing Snowball"
@@ -2245,19 +2245,19 @@ msgstr "Poskakujoča kepica"
 
 #: src/badguy/granito_big.cpp:52 src/badguy/granito.cpp:263
 msgid "Default"
-msgstr ""
+msgstr "V privzetem položaju"
 
 #: src/badguy/granito_big.cpp:53 src/badguy/granito.cpp:264
 msgid "Standing"
-msgstr ""
+msgstr "Stoječ"
 
 #: src/badguy/granito_big.cpp:54 src/badguy/granito.cpp:265
 msgid "Walking"
-msgstr ""
+msgstr "Hodeč"
 
 #: src/badguy/mriceblock.cpp:63
 msgid "Laptop"
-msgstr ""
+msgstr "Prenosnik"
 
 #: src/badguy/dart.hpp:44
 msgid "Dart"
@@ -2265,7 +2265,7 @@ msgstr "Puščica"
 
 #: src/badguy/granito.cpp:268
 msgid "Sitting"
-msgstr ""
+msgstr "Sedeč"
 
 #: src/supertux/statistics.cpp:54
 msgid "Max coins collected:"
@@ -2322,7 +2322,7 @@ msgstr "Preskoči s pritiskom na ubežnico (Esc)"
 #: src/supertux/command_line_arguments.cpp:92
 #, c++-format
 msgid "Usage: {} [OPTIONS] [LEVELFILE]"
-msgstr ""
+msgstr "Uporaba: {} [MOŽNOSTI] [DATOTEKA_STOPNJE]"
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "General Options:"
@@ -2493,7 +2493,7 @@ msgstr "Za to igro NIKAKOR NE JAMČIMO. To je brezplačna in prosta programska o
 
 #: src/supertux/game_object.cpp:114
 msgid "Version"
-msgstr ""
+msgstr "Različica"
 
 #: src/supertux/game_object.cpp:129
 #: src/supertux/menu/editor_levelset_menu.cpp:54
@@ -3366,7 +3366,7 @@ msgstr ""
 msgid ""
 "NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\n"
 "Are you sure you wish to uninstall?"
-msgstr ""
+msgstr "POZOR: Dodatek \"{}\" je pomemben gradnik {} {}.\nAli ga zares želiš odstraniti?"
 
 #: src/supertux/menu/addon_preview_menu.cpp:246
 #, c++-format
