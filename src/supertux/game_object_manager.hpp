@@ -33,6 +33,7 @@
 class DrawingContext;
 class MovingObject;
 class TileMap;
+class BadGuy;
 
 template<class T> class GameObjectRange;
 
@@ -366,6 +367,8 @@ private:
   std::unordered_map<std::string, GameObject*> m_objects_by_name;
   std::unordered_map<UID, GameObject*> m_objects_by_uid;
   std::unordered_map<std::type_index, std::vector<GameObject*> > m_objects_by_type_index;
+
+  std::unordered_map<std::string, std::set<BadGuy*> > m_objects_by_load_group;
 
   std::vector<NameResolveRequest> m_name_resolve_requests;
 
