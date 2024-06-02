@@ -61,6 +61,9 @@ public:
   static std::string display_name() { return _("Badguy"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  /** Tag which indicates a group of badguys to activate/deactivate all at once */
+  const std::string& get_load_group() const { return m_load_group; }
+
   virtual std::string get_overlay_size() const { return "1x1"; }
 
   virtual ObjectSettings get_settings() override;
@@ -137,6 +140,9 @@ public:
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
   Physic& get_physic() { return m_physic; }
+
+  /** Determine whether to activate or deactivate all badguys in group */
+  static void update_load_group(std::set<BadGuy *>& group);
 
 protected:
   enum State {
@@ -236,7 +242,9 @@ protected:
   void set_colgroup_active(CollisionGroup group);
 
 private:
-  void try_activate();
+  bool may_deactivate() const;
+  bool may_activate() const;
+  void do_activate();
 
 protected:
   Physic m_physic;
@@ -263,6 +271,8 @@ protected:
   bool m_in_water; /** < true if the badguy is currently in water */
 
   std::string m_dead_script; /**< script to execute when badguy is killed */
+
+  std::string m_load_group; /**< tag to identify group of enemies to load at once */
 
   float m_melting_time;
 

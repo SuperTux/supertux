@@ -24,6 +24,7 @@
 #include "object/tilemap.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/moving_object.hpp"
+#include "badguy/badguy.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
@@ -44,6 +45,7 @@ GameObjectManager::GameObjectManager(bool undo_tracking) :
   m_objects_by_name(),
   m_objects_by_uid(),
   m_objects_by_type_index(),
+  m_objects_by_load_group(),
   m_name_resolve_requests()
 {
 }
@@ -152,6 +154,7 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 
   GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));
+
   return tmp;
 }
 
@@ -195,6 +198,10 @@ GameObjectManager::clear_objects()
 void
 GameObjectManager::update(float dt_sec)
 {
+  for (auto& group : m_objects_by_load_group) {
+    BadGuy::update_load_group(group.second);
+  }
+
   for (const auto& object : m_gameobjects)
   {
     if (!object->is_valid())
@@ -473,6 +480,17 @@ GameObjectManager::this_before_object_add(GameObject& object)
     m_objects_by_type_index[std::type_index(typeid(object))].push_back(&object);
   }
 
+  {
+    // By badguy load group
+    auto bg = dynamic_cast<BadGuy*>(&object);
+    if (bg) {
+      const std::string& group = bg->get_load_group();
+      if (!group.empty()) {
+        m_objects_by_load_group[group].insert(bg);
+      }
+    }
+  }
+
   save_object_change(object, true);
 }
 
@@ -498,6 +516,21 @@ GameObjectManager::this_before_object_remove(GameObject& object)
     auto it = std::find(vec.begin(), vec.end(), &object);
     assert(it != vec.end());
     vec.erase(it);
+  }
+
+  {
+    // By badguy load group
+    auto bg = dynamic_cast<BadGuy*>(&object);
+    if (bg) {
+      const std::string& group = bg->get_load_group();
+      if (!group.empty()) {
+        auto &g = m_objects_by_load_group[group];
+        g.erase(bg);
+        if (g.empty()) {
+          m_objects_by_load_group.erase(group);
+        }
+      }
+    }
   }
 }
 
