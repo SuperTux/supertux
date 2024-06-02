@@ -49,7 +49,7 @@ Shard::update(float dt_sec)
 {
   m_sticky = true;
 
-  if (m_physic.get_velocity() != Vector(0.f, 0.f))
+  if (m_physic.get_velocity() != Vector(0.f, 0.f) && !m_sticking)
     m_sprite->set_angle(math::degrees(math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()))));
   if (m_stick_timer.check())
     remove_me();
