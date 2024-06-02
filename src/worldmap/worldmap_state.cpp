@@ -19,6 +19,7 @@
 #include "worldmap/worldmap_state.hpp"
 
 #include "math/vector.hpp"
+#include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/constants.hpp"
@@ -87,6 +88,13 @@ WorldMapState::load_state()
     {
       // Quit loading worldmap state, if there is still no current sector loaded.
       throw std::runtime_error("No sector set.");
+    }
+
+    if (vm.has_property("music"))
+    {
+      const std::string music = vm.read_string("music");
+      auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+      music_object.set_music(music);
     }
 
     /** Load objects. **/
@@ -289,6 +297,9 @@ WorldMapState::save_state() const
     /** Delete the table entry for the current sector and construct a new one. **/
     vm.delete_table_entry(sector.get_name().c_str());
     vm.begin_table(sector.get_name().c_str());
+
+    auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+    vm.store_string("music", music_object.get_music());
 
     /** Save objects. **/
     save_tux();
