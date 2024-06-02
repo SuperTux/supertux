@@ -22,6 +22,7 @@
 #include "math/easing.hpp"
 #include "math/random.hpp"
 #include "math/vector.hpp"
+#include "math/util.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
@@ -39,10 +40,10 @@ const float DIVE_DETECT_STAND = 0.9f;
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
-  m_speed(160.f),
-  m_easing_progress(0.0),
+  m_speed(260.f),
+  m_catch_pos(0.f),
   m_timer(),
-  state(FLYING)
+  m_state(FLYING)
 {
   m_physic.enable_gravity(false);
 }
@@ -77,46 +78,42 @@ Zeekling::on_bump_horizontal()
   set_action(m_dir);
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -m_speed : m_speed);
 
-  if (state == DIVING)
+  switch (m_state)
   {
-    state = FLYING;
-    m_easing_progress = 0.0;
-    m_physic.set_velocity_y(0);
-  }
-  else
-  {
-    state = RECOVERING;
-    m_easing_progress = 0.0;
-    m_physic.set_velocity_y(-m_speed);
+    case DIVING:
+      // Diving attempt failed. So sad. Return to base.
+      m_state = RECOVERING;
+      m_catch_pos = get_pos().y;
+      m_physic.set_velocity_y(0);
+      break;
+
+    default:
+      break;
   }
 }
 
 void
 Zeekling::on_bump_vertical()
 {
-  if (BadGuy::get_state() == STATE_BURNING)
-  {
-    m_physic.set_velocity(0, 0);
-    return;
-  }
-
-  switch (state) {
-
+  switch (m_state) {
     case DIVING:
-      state = RECOVERING;
-      m_easing_progress = 0.0;
+      // Diving attempt failed. So sad. Return to base.
+      m_state = RECOVERING;
+      m_catch_pos = get_pos().y;
       set_action(m_dir);
       break;
 
     case RECOVERING:
-      state = FLYING;
+      // I guess this is my new home now.
+      m_state = FLYING;
+      m_start_position.y = get_pos().y;
+      m_physic.set_velocity_y(0);
+      set_action(m_dir);
       break;
 
     default:
       break;
   }
-
-  m_physic.set_velocity_y(state == RECOVERING ? -m_speed : 0);
 }
 
 void
@@ -128,8 +125,8 @@ Zeekling::collision_solid(const CollisionHit& hit)
     return;
   }
 
-  if (m_sprite->get_action() == "squished-left" ||
-      m_sprite->get_action() == "squished-right")
+  if (BadGuy::get_state() == STATE_SQUISHED ||
+      BadGuy::get_state() == STATE_BURNING)
   {
     return;
   }
@@ -148,10 +145,12 @@ Zeekling::should_we_dive()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
-  if (m_frozen) return false;
+  if (m_frozen)
+    return false;
 
-  Player* plr = get_nearest_player();
-  if (!plr) return false;
+  Player* player = get_nearest_player();
+  if (!player)
+    return false;
 
   // Left/rightmost point of the hitbox.
   Vector eye;
@@ -159,21 +158,27 @@ Zeekling::should_we_dive()
   eye = bbox.get_middle();
   eye.x = m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right();
 
-  const Vector& plrmid = plr->get_bbox().get_middle();
+  const Vector& plrmid = player->get_bbox().get_middle();
 
   // Do not dive if we are not above the player.
-  float height = plr->get_bbox().get_top() - get_bbox().get_bottom();
-  if (height <= 0) return false;
+  float height = player->get_bbox().get_top() - get_bbox().get_bottom();
+  if (height <= 0)
+    return false;
 
   // Do not dive if we are too far above the player.
-  if (height > 512) return false;
+  if (height > 512)
+    return false;
+
+  float dist = std::abs(eye.x - plrmid.x);
+  if (!math::in_bounds(dist, 10.f, 32.f * 15))
+    return false;
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, plrmid, false, nullptr);
 
   auto* resultobj = std::get_if<CollisionObject*>(&result.hit);
   
   if (result.is_valid && resultobj &&
-      *resultobj == plr->get_collision_object())
+      *resultobj == player->get_collision_object())
   {
     m_target_y = plrmid.y;
     return true;
@@ -186,58 +191,82 @@ Zeekling::should_we_dive()
 
 void
 Zeekling::active_update(float dt_sec) {
-  switch (state) {
+  switch (m_state) {
     case FLYING:
+      std::cout << m_start_position.y << " "
+                << get_pos().y << std::endl;
+
       if (!should_we_dive())
         break;
 
-      state = DIVING;
+      m_state = DIVING;
       set_action("dive", m_dir);
 
-      [[fallthrough]];
+      //[[fallthrough]];
+      break;
 
     case DIVING:
-      if (get_bbox().get_bottom() == m_target_y)
+      if (math::in_bounds(get_bbox().get_bottom(), m_target_y - 5.f, m_target_y + 5.f))
       {
-        state = FLYING;
-        //m_timer.start(1.f);
+        m_state = CATCHING;
+        m_timer.start(1.5f);
+        m_physic.set_velocity_y(0.f);
         set_action(m_dir);
         break;
       }
       else
       {
-        float startdist = std::abs(m_target_y - m_start_position.y);
-        float dist = std::abs(m_target_y - get_bbox().get_top());
-        double progress = static_cast<double>(dist / startdist);
-        float value = std::max(1.f, 0.15f * dist * static_cast<float>(QuadraticEaseOut(progress)));
-        std::cout << dist << " / "
+        float startdist = m_target_y - m_start_position.y;
+        float dist = m_target_y - get_bbox().get_top();
+        float progress = (1.f - (dist / startdist)) * 550.f;
+        float value = 550.f - progress;
+        /*
+        std::cout << m_target_y << " "
+                  << dist << " / "
                   << startdist << " "
                   << progress << " "
                   << value << std::endl;
+        */
 
-        set_pos({get_pos().x, get_pos().y + value});
+        m_physic.set_velocity_y(value);
 
         break;
       }
 
-    case RECOVERING: {
+    case CATCHING:
       if (m_timer.check())
       {
-        state = FLYING;
+        m_state = RECOVERING;
+        m_catch_pos = get_pos().y;
+      }
+
+      break;
+
+    case RECOVERING:
+      if (math::in_bounds(get_bbox().get_bottom(), m_start_position.y - 5.f, m_start_position.y + 5.f))
+      {
+        m_state = FLYING;
+        m_start_position.y = get_pos().y;
         m_physic.set_velocity_y(0);
         set_action(m_dir);
       }
       else
       {
-        double progress = static_cast<double>(m_timer.get_progress() / 2);
-        float dist = -std::abs(m_start_position.y - get_bbox().get_top());
-        float value = dist * static_cast<float>(QuadraticEaseInOut(progress));
+        float startdist = m_catch_pos - m_start_position.y;
+        float dist = get_bbox().get_top() - m_start_position.y - 25.f;
+        float progress = (dist / startdist) * 550.f;
+        float value = progress < 550.f / 2 ? progress : 550.f - progress;
+        std::cout << m_catch_pos << " "
+                  << m_start_position.y << " "
+                  << dist << " / "
+                  << startdist << " "
+                  << progress << " "
+                  << value << std::endl;
 
-        m_physic.set_velocity_y(value);
+        m_physic.set_velocity_y(-value);
       }
 
       break;
-    }
 
     default:
       break;
@@ -258,7 +287,7 @@ Zeekling::unfreeze(bool melt)
 {
   BadGuy::unfreeze(melt);
   m_physic.enable_gravity(false);
-  state = FLYING;
+  m_state = FLYING;
   initialize();
 }
 

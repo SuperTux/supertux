@@ -54,15 +54,16 @@ private:
   enum ZeeklingState {
     FLYING,
     DIVING,
-    RECOVERING
+    RECOVERING,
+    CATCHING
   };
 
 private:
   float m_speed;
-  double m_easing_progress;
+  float m_catch_pos;
   float m_target_y;
   Timer m_timer;
-  ZeeklingState state;
+  ZeeklingState m_state;
 
 private:
   Zeekling(const Zeekling&) = delete;
