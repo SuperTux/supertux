@@ -62,6 +62,8 @@ protected:
   Vector last_movement;
   std::string on_grab_script;
   std::string on_ungrab_script;
+  bool running_grab_script;
+  bool running_ungrab_script;
 
 private:
   Rock(const Rock&) = delete;
