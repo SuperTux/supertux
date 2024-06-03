@@ -84,7 +84,7 @@ public:
   void set_input_type(InputType input_type) { m_input_type = input_type; }
 
   TileSelection* get_tiles() const { return m_tiles.get(); }
-  std::string get_object() const { return m_object; }
+  const std::string& get_object() const { return m_object; }
   void set_object(const std::string& object) { m_object = object; }
 
   float get_tiles_height() const;

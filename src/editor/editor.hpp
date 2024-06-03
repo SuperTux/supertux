@@ -103,7 +103,7 @@ public:
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
 
-  std::string get_levelfile() const { return m_levelfile; }
+  const std::string& get_levelfile() const { return m_levelfile; }
 
   void set_level(const std::string& levelfile_) {
     m_levelfile = levelfile_;
