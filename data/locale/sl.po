@@ -2512,7 +2512,7 @@ msgstr "Med urejanjem ne deli imen stopenj"
 msgid ""
 "Enable this if you want to work on secret levels and don't want the names to"
 " be spoiled"
-msgstr ""
+msgstr "Omogoči to možnost, če se želiš ukvarjati s skrivnimi stopnjami, pa nočeš razkriti imen"
 
 #: src/supertux/menu/integrations_menu.cpp:54
 msgid "Enable Discord integration"
@@ -2522,7 +2522,7 @@ msgstr "Omogoči integracijo Discorda"
 msgid ""
 "Sends information to your Discord application about what you're doing in the"
 " game."
-msgstr ""
+msgstr "Svoj Discord obveščaj, kaj počneš v igri."
 
 #: src/supertux/menu/integrations_menu.cpp:57
 msgid "Discord (disabled; not compiled)"
@@ -2531,28 +2531,28 @@ msgstr "Discord (onemogočen; nepreveden)"
 #: src/supertux/menu/editor_converters_menu.cpp:61
 #: src/supertux/menu/editor_menu.cpp:85
 msgid "Convert Tiles"
-msgstr ""
+msgstr "Pretvori podlage"
 
 #: src/supertux/menu/editor_converters_menu.cpp:64
 msgid "Select Tile Conversion File"
-msgstr ""
+msgstr "Izberi datoteko za pretvarjanje podlag"
 
 #: src/supertux/menu/editor_converters_menu.cpp:72
 #, c++-format
 msgid "By: {}"
-msgstr ""
+msgstr "Avtor/ica: {}"
 
 #: src/supertux/menu/editor_converters_menu.cpp:75
 msgid "Convert Tiles By File"
-msgstr ""
+msgstr "Pretvori podlage z datoteko"
 
 #: src/supertux/menu/editor_converters_menu.cpp:76
 msgid "Convert all tiles in the current level by a file, specified above."
-msgstr ""
+msgstr "Pretvrori vse podlage v trenutni stopnji z zgoraj navedeno datoteko."
 
 #: src/supertux/menu/editor_converters_menu.cpp:89
 msgid "No tile conversion file selected."
-msgstr ""
+msgstr "Pretvorbena datoteka ni izbrana."
 
 #: src/supertux/menu/editor_converters_menu.cpp:93
 msgid ""
@@ -2560,20 +2560,20 @@ msgid ""
 "\n"
 "Note: This should not be ran more than once on a level.\n"
 "Creating a separate copy of the level is highly recommended."
-msgstr ""
+msgstr "To bo pretvorilo vse podlage v stopnji. Vseeno nadaljujem?\n\nPozor: Idealno naj tega za posamezno stopnjo ne bi izvedli več\nkot enkrat. Priporočljivo je, da ustvariš ločeno kopijo stopnje."
 
 #: src/supertux/menu/video_system_menu.cpp:36
 msgid "Select Video System"
-msgstr ""
+msgstr "Izberi video sistem"
 
 #: src/supertux/menu/video_system_menu.cpp:37
 #, c++-format
 msgid "Used video system: {}"
-msgstr ""
+msgstr "Uporabljen video sistem: {}"
 
 #: src/supertux/menu/video_system_menu.cpp:54
 msgid "Restart game for the changes to take effect"
-msgstr ""
+msgstr "Spremembe se bodo poznale šele po ponovnem zagonu igre."
 
 #: src/supertux/menu/contrib_menu.cpp:68
 #: src/supertux/menu/world_set_menu.cpp:31
@@ -2583,29 +2583,29 @@ msgstr "Prispevane stopnje"
 #: src/supertux/menu/contrib_menu.cpp:98
 #: src/supertux/menu/contrib_menu.cpp:112
 msgid "Official Contrib Levels"
-msgstr ""
+msgstr "Uradne prispevane stopnje"
 
 #: src/supertux/menu/contrib_menu.cpp:99
 #: src/supertux/menu/contrib_menu.cpp:118
 msgid "Community Contrib Levels"
-msgstr ""
+msgstr "Prispevane stopnje skupnosti"
 
 #: src/supertux/menu/contrib_menu.cpp:100
 #: src/supertux/menu/contrib_menu.cpp:124
 msgid "User Contrib Levels"
-msgstr ""
+msgstr "Prispevane stopnje uporabnika"
 
 #: src/supertux/menu/contrib_menu.cpp:113
 msgid "How is this possible? There are no Official Contrib Levels!"
-msgstr ""
+msgstr "Kako je to mogoče? Ni uradnih prispevanih stopenj!"
 
 #: src/supertux/menu/contrib_menu.cpp:119
 msgid "No Community Contrib Levels yet. Download them from the Add-ons Menu."
-msgstr ""
+msgstr "Ni še stopenj, ki bi jih prispevala skupnost. Prenesi si jih prek menija dodatkov."
 
 #: src/supertux/menu/contrib_menu.cpp:125
 msgid "No User Contrib Levels yet. Create some with the Level Editor."
-msgstr ""
+msgstr "Nimaš še svojih prispevanih stopenj. Ustvari jih z urejevalnikom stopenj."
 
 #: src/supertux/menu/debug_menu.cpp:34
 msgid "Debug"
@@ -2668,17 +2668,17 @@ msgstr "Shrani"
 #: src/supertux/menu/multiplayer_menu.cpp:27
 #: src/supertux/menu/multiplayer_players_menu.cpp:34
 msgid "Multiplayer"
-msgstr ""
+msgstr "Večigralski način"
 
 #: src/supertux/menu/multiplayer_menu.cpp:30
 msgid "Auto-manage Players"
-msgstr ""
+msgstr "Samodejno upravljanje igralcev"
 
 #: src/supertux/menu/multiplayer_menu.cpp:31
 msgid ""
 "Automatically add and remove players when controllers are plugged or "
 "unplugged"
-msgstr ""
+msgstr "Samodejno doda in odstrani igralce, ko zazna priklop ali odklop krmilnikov"
 
 #: src/supertux/menu/multiplayer_menu.cpp:33
 msgid "Allow Multibind"
@@ -2690,7 +2690,7 @@ msgstr ""
 
 #: src/supertux/menu/multiplayer_menu.cpp:36
 msgid "Manage Players"
-msgstr ""
+msgstr "Upravljanje igralcev"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose Sector"
@@ -2723,43 +2723,43 @@ msgstr "Izbriši predel"
 #: src/supertux/menu/custom_menu_menu.cpp:49
 #: src/supertux/menu/options_menu.cpp:191
 msgid "Menu Customization"
-msgstr ""
+msgstr "Prilagajanje menija"
 
 #: src/supertux/menu/custom_menu_menu.cpp:51
 msgid "Menu Back Color"
-msgstr ""
+msgstr "Barva ozadja menija"
 
 #: src/supertux/menu/custom_menu_menu.cpp:52
 msgid "Menu Front Color"
-msgstr ""
+msgstr "Barva ospredja menija"
 
 #: src/supertux/menu/custom_menu_menu.cpp:53
 msgid "Menu Help Back Color"
-msgstr ""
+msgstr "Barva ozadja pomagalskega menija"
 
 #: src/supertux/menu/custom_menu_menu.cpp:54
 msgid "Menu Help Front Color"
-msgstr ""
+msgstr "Barva ospredja pomagalskega menija"
 
 #: src/supertux/menu/custom_menu_menu.cpp:55
 msgid "Label Text Color"
-msgstr ""
+msgstr "Barva oznake"
 
 #: src/supertux/menu/custom_menu_menu.cpp:56
 msgid "Active Text Color"
-msgstr ""
+msgstr "Barva dejavnega besedila"
 
 #: src/supertux/menu/custom_menu_menu.cpp:57
 msgid "Divider Line Color"
-msgstr ""
+msgstr "Barva ločilne črte"
 
 #: src/supertux/menu/custom_menu_menu.cpp:58
 msgid "Menu Roundness"
-msgstr ""
+msgstr "Zglajenost menija"
 
 #: src/supertux/menu/custom_menu_menu.cpp:60
 msgid "Editor Interface Color"
-msgstr ""
+msgstr "Barva vmesnika v urejevalniku"
 
 #: src/supertux/menu/custom_menu_menu.cpp:61
 msgid "Editor Hover Color"
@@ -2771,7 +2771,7 @@ msgstr ""
 
 #: src/supertux/menu/custom_menu_menu.cpp:64
 msgid "Reset to defaults"
-msgstr ""
+msgstr "Ponastavi na privzeto"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:72
 msgid "Empty World"
@@ -2841,13 +2841,13 @@ msgstr ""
 #: src/supertux/menu/multiplayer_player_menu.cpp:37
 #, c++-format
 msgid "Player {}"
-msgstr ""
+msgstr "Igralec/ka {}"
 
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:57
 #: src/supertux/menu/cheat_apply_menu.cpp:36
 #: src/supertux/menu/cheat_apply_menu.cpp:56
 msgid "All Players"
-msgstr ""
+msgstr "Vsi igralci"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 #: src/supertux/menu/cheat_menu.cpp:31
@@ -2940,10 +2940,10 @@ msgstr "Izberi svet"
 #, c++-format
 msgid "{} level"
 msgid_plural "{} levels"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "{} stopnja"
+msgstr[1] "{} stopnji"
+msgstr[2] "{} stopnje"
+msgstr[3] "{} stopenj"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:112
 msgid "Create World"
@@ -2952,12 +2952,12 @@ msgstr "Ustvari svet"
 #: src/supertux/menu/editor_levelset_select_menu.cpp:113
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:41
 msgid "Delete World"
-msgstr ""
+msgstr "Izbriši svet"
 
 #: src/supertux/menu/options_menu.cpp:72
 #: src/supertux/menu/options_select_menu.cpp:35
 msgid "Locale"
-msgstr ""
+msgstr "Jezikovne nastavitve"
 
 #: src/supertux/menu/options_menu.cpp:76
 msgid "Select Language"
@@ -2978,7 +2978,7 @@ msgstr "Jezikovni paketi vsebujejo najnovejše prevode"
 #: src/supertux/menu/options_menu.cpp:88
 #: src/supertux/menu/options_select_menu.cpp:37
 msgid "Video"
-msgstr ""
+msgstr "Slika"
 
 #: src/supertux/menu/options_menu.cpp:91
 msgid "Window Resizable"
@@ -3006,16 +3006,16 @@ msgstr "Prilagodi ločljivost velikosti tvojega brskalnika"
 
 #: src/supertux/menu/options_menu.cpp:116
 msgid "Change Video System"
-msgstr ""
+msgstr "Spremeni video sistem"
 
 #: src/supertux/menu/options_menu.cpp:117
 msgid "Change video system used to render graphics"
-msgstr ""
+msgstr "Spremeni sistem za grafično upodabljanje"
 
 #: src/supertux/menu/options_menu.cpp:124
 #: src/supertux/menu/options_select_menu.cpp:38
 msgid "Audio"
-msgstr ""
+msgstr "Zvok"
 
 #: src/supertux/menu/options_menu.cpp:129
 msgid "Disable all sound effects"
@@ -3036,19 +3036,19 @@ msgstr "Glasba (onemogočena)"
 #: src/supertux/menu/options_menu.cpp:147
 #: src/supertux/menu/options_select_menu.cpp:39
 msgid "Controls"
-msgstr ""
+msgstr "Krmilniki"
 
 #: src/supertux/menu/options_menu.cpp:151
 msgid "Enable Rumbling Controllers"
-msgstr ""
+msgstr "Omogoči vibriranje krmilnikov"
 
 #: src/supertux/menu/options_menu.cpp:152
 msgid "Enable vibrating the game controllers."
-msgstr ""
+msgstr "Omogoči vibriranje krmilnikov."
 
 #: src/supertux/menu/options_menu.cpp:152
 msgid "This feature is currently only used in the multiplayer options menu."
-msgstr ""
+msgstr "Ta funkcionalnost je uporabljena edinole v večigralskih nastavitvah."
 
 #: src/supertux/menu/options_menu.cpp:154
 #: src/supertux/menu/keyboard_menu.cpp:34
@@ -3071,7 +3071,7 @@ msgstr "Spremeni nastavitve igralne palice"
 #: src/supertux/menu/options_menu.cpp:167
 #: src/supertux/menu/options_select_menu.cpp:40
 msgid "Extras"
-msgstr ""
+msgstr "Dodatno"
 
 #: src/supertux/menu/options_menu.cpp:170
 #: src/supertux/menu/profile_menu.cpp:56
@@ -3084,11 +3084,11 @@ msgstr "Izberi profil za igranje"
 
 #: src/supertux/menu/options_menu.cpp:174
 msgid "Multiplayer settings"
-msgstr ""
+msgstr "Večigralske nastavitve"
 
 #: src/supertux/menu/options_menu.cpp:175
 msgid "Configure settings specific to multiplayer"
-msgstr ""
+msgstr "Posebej prilagodi večigralske nastavitve"
 
 #: src/supertux/menu/options_menu.cpp:178
 msgid "Enable transitions"
@@ -3100,11 +3100,11 @@ msgstr "Omogoči zaslonske prehode in gladko animacijo menija"
 
 #: src/supertux/menu/options_menu.cpp:181
 msgid "Custom title screen levels"
-msgstr ""
+msgstr "Naslovne stopnje po meri"
 
 #: src/supertux/menu/options_menu.cpp:182
 msgid "Allow overriding the title screen level, when loading certain worlds"
-msgstr ""
+msgstr "Med nalaganjem določenih svetov omogoča spremembo stopnje, prikazane na naslovnici."
 
 #: src/supertux/menu/options_menu.cpp:185
 msgid "Christmas Mode"
@@ -3122,12 +3122,12 @@ msgstr "Omogoča, da SuperTux prikaže stopnje, ki jih igraš, na tvojih družbe
 
 #: src/supertux/menu/options_menu.cpp:192
 msgid "Customize the appearance of the menus"
-msgstr ""
+msgstr "Prilagodi videz menijev"
 
 #: src/supertux/menu/options_menu.cpp:199
 #: src/supertux/menu/options_select_menu.cpp:41
 msgid "Advanced"
-msgstr ""
+msgstr "Napredno"
 
 #: src/supertux/menu/options_menu.cpp:204
 msgid "Developer Mode"
@@ -3159,13 +3159,13 @@ msgstr "Določi, ali naj igra izriše svoj kazalnik ali uporabi uporabnikov sist
 
 #: src/supertux/menu/options_menu.cpp:214
 msgid "Check for new releases"
-msgstr ""
+msgstr "Preveri za nove izdaje"
 
 #: src/supertux/menu/options_menu.cpp:215
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
-msgstr ""
+msgstr "Omogoča igri, da ob zagonu preveri, ali obstaja kakšna novejša izdaja, in te obvesti."
 
 #: src/supertux/menu/options_menu.cpp:245
 #: src/supertux/menu/options_menu.cpp:288 src/supertux/direction.cpp:76
@@ -3248,7 +3248,7 @@ msgstr "Nastavi glasnost glasbe"
 
 #: src/supertux/menu/options_menu.cpp:517
 msgid "On-screen controls scale"
-msgstr ""
+msgstr "Velikost krmilnih elementov"
 
 #: src/supertux/menu/options_menu.cpp:638
 msgid ""
@@ -3259,107 +3259,107 @@ msgstr "Igra ni uspela zaznati ločljivosti tvojega brskalnika.\nTo se je najver
 
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:80
 msgid "You cannot delete the world that you are editing"
-msgstr ""
+msgstr "Ne moreš izbrisati sveta, ki ga urejaš"
 
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:83
 #, c++-format
 msgid "You are about to delete world \"{}\". Are you sure?"
-msgstr ""
+msgstr "Nameravaš izbrisati svet \"{}\". Ali si gotov/a?"
 
 #: src/supertux/menu/addon_preview_menu.cpp:82
 #, c++-format
 msgid "{} \"{}\""
-msgstr ""
+msgstr "{} \"{}\""
 
 #: src/supertux/menu/addon_preview_menu.cpp:87
 msgid "Some information about this add-on is not available."
-msgstr ""
+msgstr "Nekaterih informacij o tem dodatku ni na voljo."
 
 #: src/supertux/menu/addon_preview_menu.cpp:88
 msgid "Perform a \"Check Online\" to try retrieving it."
-msgstr ""
+msgstr "S klikom na \"Preveri na spletu\" jih lahko poskusiš pridobiti."
 
 #: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "No author specified."
-msgstr ""
+msgstr "Avtor ni naveden."
 
 #: src/supertux/menu/addon_preview_menu.cpp:92
 #, c++-format
 msgid "Author: {}"
-msgstr ""
+msgstr "Avtor/ica: {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:93
 #, c++-format
 msgid "Type: {}"
-msgstr ""
+msgstr "Vrsta: {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:94
 msgid "No license specified."
-msgstr ""
+msgstr "Licenca ni določena."
 
 #: src/supertux/menu/addon_preview_menu.cpp:94
 #, c++-format
 msgid "License: {}"
-msgstr ""
+msgstr "Licenca: {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:99
 msgid "Dependencies:"
-msgstr ""
+msgstr "Odvisnosti:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:108
 msgid "Installed"
-msgstr ""
+msgstr "Nameščen"
 
 #: src/supertux/menu/addon_preview_menu.cpp:108
 msgid "Not installed"
-msgstr ""
+msgstr "Ni nameščen"
 
 #: src/supertux/menu/addon_preview_menu.cpp:113
 msgid "Not available!"
-msgstr ""
+msgstr "Ni na voljo!"
 
 #: src/supertux/menu/addon_preview_menu.cpp:120
 msgid "Description:"
-msgstr ""
+msgstr "Opis:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:123
 msgid "No description available."
-msgstr ""
+msgstr "Opis ni na voljo."
 
 #: src/supertux/menu/addon_preview_menu.cpp:147
 msgid "Failed to load all available screenshot previews."
-msgstr ""
+msgstr "Nalaganje vseh zaslonskih predogledov ni uspelo."
 
 #: src/supertux/menu/addon_preview_menu.cpp:152
 msgid "Show screenshots"
-msgstr ""
+msgstr "Prikaži zaslonske predoglede"
 
 #: src/supertux/menu/addon_preview_menu.cpp:165
 msgid "Screenshot previews are disabled for automatic installs."
-msgstr ""
+msgstr "Zaslonski predogledi so onemogočeni pri samodejnih namestitvah."
 
 #: src/supertux/menu/addon_preview_menu.cpp:169
 msgid "No screenshot previews available."
-msgstr ""
+msgstr "Zaslonski predogledi niso na voljo."
 
 #: src/supertux/menu/addon_preview_menu.cpp:177
 msgid "Install"
-msgstr ""
+msgstr "Namesti"
 
 #: src/supertux/menu/addon_preview_menu.cpp:190
 msgid "Uninstall"
-msgstr ""
+msgstr "Odstrani"
 
 #: src/supertux/menu/addon_preview_menu.cpp:214
 #, c++-format
 msgid "Are you sure you want to uninstall \"{}\"?"
-msgstr ""
+msgstr "Ali si prepričan/a, da želiš odstraniti \"{}\"?"
 
 #: src/supertux/menu/addon_preview_menu.cpp:215
 msgid ""
 "\n"
 "Your progress won't be lost."
-msgstr ""
+msgstr "\nTvoj napredek se bo ohranil."
 
 #: src/supertux/menu/addon_preview_menu.cpp:227
 #, c++-format
@@ -3373,30 +3373,30 @@ msgstr "POZOR: Dodatek \"{}\" je pomemben gradnik {} {}.\nAli ga zares želiš o
 msgid ""
 "Cannot toggle add-on \"{}\":\n"
 "{}"
-msgstr ""
+msgstr "Ne morem preklopiti dodatka \"{}\":\n{}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:279
 msgid "Fetching screenshot previews..."
-msgstr ""
+msgstr "Pridobivam zaslonske predoglede ..."
 
 #: src/supertux/menu/addon_preview_menu.cpp:300
 msgid "Updating"
-msgstr ""
+msgstr "Posodabljam"
 
 #: src/supertux/menu/addon_preview_menu.cpp:300
 msgid "Downloading"
-msgstr ""
+msgstr "Prenašam"
 
 #: src/supertux/menu/addon_preview_menu.cpp:328
 msgid "Add-on uninstalled successfully."
-msgstr ""
+msgstr "Dodatek je uspešno odstranjen."
 
 #: src/supertux/menu/addon_preview_menu.cpp:333
 #, c++-format
 msgid ""
 "Error uninstalling add-on:\n"
 "{}"
-msgstr ""
+msgstr "Napaka pri odstranjevanju dodatka:\n{}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:361
 msgid ""
@@ -3443,12 +3443,12 @@ msgstr "Končaj"
 msgid ""
 "This will take you to the SuperTux donation page. Are you sure you want to "
 "continue?"
-msgstr ""
+msgstr "To te bo preusmerilo na spletno stran za donacije SuperTuksu. Ali želiš nadaljevati?"
 
 #: src/supertux/menu/editor_sector_menu.cpp:34
 #, c++-format
 msgid "Sector {}"
-msgstr ""
+msgstr "Predel {}"
 
 #: src/supertux/menu/editor_sector_menu.cpp:37
 msgid "Initialization script"
@@ -3472,43 +3472,43 @@ msgstr "Spremeni velikost"
 
 #: src/supertux/menu/profile_menu.cpp:60
 msgid "No profiles found."
-msgstr ""
+msgstr "Ne najdem profilov."
 
 #: src/supertux/menu/profile_menu.cpp:68
 #: src/supertux/menu/profile_menu.cpp:149
 #: src/supertux/menu/profile_menu.cpp:168
 #, c++-format
 msgid "Profile {}"
-msgstr ""
+msgstr "Profil {}"
 
 #: src/supertux/menu/profile_menu.cpp:69
 #, c++-format
 msgid "{} (Profile {})"
-msgstr ""
+msgstr "{} (Profil {})"
 
 #: src/supertux/menu/profile_menu.cpp:84
 msgid "No profile selected."
-msgstr ""
+msgstr "Profil ni izbran."
 
 #: src/supertux/menu/profile_menu.cpp:91 src/supertux/menu/profile_menu.cpp:93
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Rename"
-msgstr ""
+msgstr "Preimenuj"
 
 #: src/supertux/menu/profile_menu.cpp:98
 #: src/supertux/menu/profile_menu.cpp:100
 msgid "Reset"
-msgstr ""
+msgstr "Ponastavi"
 
 #: src/supertux/menu/profile_menu.cpp:103
 #: src/supertux/menu/profile_menu.cpp:105
 msgid "Reset all"
-msgstr ""
+msgstr "Ponastavi vse"
 
 #: src/supertux/menu/profile_menu.cpp:113
 #: src/supertux/menu/profile_menu.cpp:115
 msgid "Delete all"
-msgstr ""
+msgstr "Izbriši vse"
 
 #: src/supertux/menu/profile_menu.cpp:148
 #, c++-format
