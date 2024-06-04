@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 7277
+  ;; next-id: 7312
   ;; free/skipped ids (please use before any other): 101
   ;; 2080-2084 are empty tiles, 4619-4660, 4719-4722, 5023-5092, 5205, 5268-5283, 5433-5527, 6962-6977, 7002 7005 7007 7008 7173
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
@@ -1552,6 +1552,10 @@
 	  5118 5119 5120 0
 	  5121 5122 5124 0
 	  5125 5126 5127 0
+	  0    7302 0    0
+	  7303 7304 7305 0
+	  7306 7307 7308 0
+	  7309 7310 7311 0
     )
   )
 
@@ -7900,11 +7904,22 @@
     (height 4)
     (ids
       0    5117 0
-	    5118 5119 5120
-	    5121 5122 5124
-	    5125 5126 5127
+	  5118 5119 5120
+	  5121 5122 5124
+	  5125 5126 5127
     )
     (images "tiles/background/seaweed-0.png")
+  )
+  (tiles
+    (width 3)
+    (height 4)
+    (ids
+      0    7302 0
+	  7303 7304 7305
+	  7306 7307 7308
+	  7309 7310 7311
+    )
+    (images "tiles/background/corrupt_seaweed-0.png")
   )
   ;; Additional attributes
   (additional
