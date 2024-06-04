@@ -34,6 +34,12 @@ public:
   void load();
   void save();
 
+  bool is_initial() const { return m_initial; }
+
+private:
+  bool m_initial;
+
+public:
   int profile;
 
   /** the width/height to be used to display the game in fullscreen */

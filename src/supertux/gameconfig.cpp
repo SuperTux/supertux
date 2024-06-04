@@ -34,6 +34,7 @@
 #endif
 
 Config::Config() :
+  m_initial(true),
   profile(1),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
@@ -340,6 +341,8 @@ Config::load()
       }
     }
   }
+
+  m_initial = false;
 }
 
 void
