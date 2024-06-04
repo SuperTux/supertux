@@ -4,8 +4,8 @@
 # 
 # Translators:
 # 111More1, 2022
-# JungHee Lee <daemul72@gmail.com>, 2022
-# JungHee Lee <daemul72@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
 # Myeongjin <aranet100@gmail.com>, 2016-2017,2019,2021
 # Youngjun, Choi, 2022
 msgid ""

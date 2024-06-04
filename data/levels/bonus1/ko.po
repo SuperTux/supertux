@@ -5,7 +5,7 @@
 # Translators:
 # Go Nam Hyeon <gnh1201@gmail.com>, 2021
 # 최이준, 2023
-# JungHee Lee <daemul72@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
 # Myeongjin <aranet100@gmail.com>, 2016-2017,2019
 msgid ""
 msgstr ""

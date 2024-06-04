@@ -202,8 +202,8 @@ Sector::activate(const std::string& spawnpoint)
   if (!sp) {
     if (!m_level.is_worldmap())
       log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-    if (spawnpoint != "main") {
-      activate("main");
+    if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
+      activate(DEFAULT_SPAWNPOINT_NAME);
     } else {
       activate(Vector(0, 0));
     }

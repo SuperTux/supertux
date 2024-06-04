@@ -52,6 +52,7 @@
 #include "physfs/util.hpp"
 #include "sdk/integration.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -493,7 +494,7 @@ Editor::set_sector(Sector* sector)
   if (!sector) return;
 
   m_sector = sector;
-  m_sector->activate("main");
+  m_sector->activate(DEFAULT_SPAWNPOINT_NAME);
 
   { // Initialize badguy sprites and perform other GameObject related tasks.
     BIND_SECTOR(*m_sector);
@@ -526,7 +527,7 @@ Editor::delete_current_sector()
 void
 Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
-  std::string sector_name = "main";
+  std::string sector_name = DEFAULT_SECTOR_NAME;
   Vector translation(0.0f, 0.0f);
 
   if (!reset && m_sector) {
@@ -538,7 +539,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_enabled = true;
 
   if (reset) {
-    m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+    m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   }
 
   // Reload level.
@@ -965,7 +966,7 @@ void
 Editor::change_tileset()
 {
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+  m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_tileset);
@@ -982,7 +983,7 @@ Editor::select_objectgroup(int id)
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return m_toolbox_widget->get_object_info().m_groups;
+  return m_toolbox_widget->get_tilebox().get_object_info().m_groups;
 }
 
 void
@@ -997,12 +998,12 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
   bool sector_valid = false, spawnpoint_valid = false;
   for (const auto& sector : m_level->m_sectors)
   {
-    if (sector->get_name() == "main")
+    if (sector->get_name() == DEFAULT_SECTOR_NAME)
     {
       sector_valid = true;
       for (const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
       {
-        if (spawnpoint.get_name() == "main")
+        if (spawnpoint.get_name() == DEFAULT_SPAWNPOINT_NAME)
         {
           spawnpoint_valid = true;
         }

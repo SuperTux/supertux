@@ -139,7 +139,7 @@ FallBlock::draw(DrawingContext& context)
     pos.x += static_cast<float>(graphicsRandom.rand(-8, 8));
     pos.y += static_cast<float>(graphicsRandom.rand(-5, 5));
   }
-  MovingSprite::draw(context);
+  m_sprite->draw(context.color(), pos, m_layer, m_flip);
 }
 
 bool
