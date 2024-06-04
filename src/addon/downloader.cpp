@@ -76,7 +76,6 @@ TransferStatus::TransferStatus(Downloader& downloader, TransferId id_,
   id(id_),
   file(FileSystem::basename(url)),
   callbacks(),
-  prevented(false),
   dltotal(0),
   dlnow(0),
   ultotal(0),
@@ -139,6 +138,7 @@ TransferStatusList::update()
 void
 TransferStatusList::push(TransferStatusPtr status)
 {
+  assert(!status->parent_list);
   status->parent_list = this;
 
   m_transfer_statuses.push_back(status);
@@ -524,7 +524,29 @@ void
 Downloader::update()
 {
   if (g_config->disable_network)
+  {
+    // Remove any on-going transfers
+    for (const auto& transfer_data : m_transfers)
+    {
+      TransferStatusPtr status = transfer_data.second->get_status();
+      status->error_msg = "Networking is disabled";
+      for (const auto& callback : status->callbacks)
+      {
+        try
+        {
+          callback(false);
+        }
+        catch(const std::exception& err)
+        {
+          log_warning << "Illegal exception in Downloader: " << err.what() << std::endl;
+        }
+      }
+      if (status->parent_list)
+        status->parent_list->on_transfer_complete(status, false);
+    }
+    m_transfers.clear();
     return;
+  }
 
 #ifndef EMSCRIPTEN
   // Prevent updating a Downloader multiple times in the same frame.
@@ -611,14 +633,6 @@ Downloader::update()
 TransferStatusPtr
 Downloader::request_download(const std::string& url, const std::string& outfile)
 {
-  if (g_config->disable_network)
-  {
-    auto ptr = std::make_shared<TransferStatus>(*this, -1, "");
-    ptr->prevented = true;
-    ptr->error_msg = "Networking is disabled";
-    return ptr;
-  }
-
   log_info << "Requesting download for: " << url << std::endl;
   auto transfer = std::make_unique<Transfer>(*this, m_next_transfer_id++, url, outfile);
 #ifndef EMSCRIPTEN

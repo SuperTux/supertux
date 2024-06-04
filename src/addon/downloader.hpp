@@ -42,7 +42,6 @@ public:
   TransferId id;
   const std::string file;
   std::vector<std::function<void (bool)> > callbacks;
-  bool prevented; // Set to true if networking was disabled
 
   int dltotal;
   int dlnow;
@@ -63,14 +62,7 @@ public:
 
   void then(const std::function<void (bool)>& callback)
   {
-    if (prevented)
-    {
-      callback(false);
-    }
-    else
-    {
-      callbacks.push_back(callback);
-    }
+    callbacks.push_back(callback);
   }
 
 private:
