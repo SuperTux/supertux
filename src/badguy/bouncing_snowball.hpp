@@ -48,12 +48,17 @@ public:
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+  void turn_around();
 
 private:
   enum Type {
     NORMAL,
     FATBAT
   };
+
+  Timer m_turn_around_timer;
+  int m_turn_around_counter; /**< Counts number of turns since turn_around_timer was started */
+
 
 private:
   BouncingSnowball(const BouncingSnowball&) = delete;
