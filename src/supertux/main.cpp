@@ -771,6 +771,9 @@ Main::run(int argc, char** argv)
 void
 Main::release_check()
 {
+  if (g_config->disable_network)
+    return;
+
   // Detect a potential new release of SuperTux. If a release, other than
   // the current one is indicated on the given web file, show a notification on the main menu screen.
   const std::string target_file = "ver_info.nfo";
