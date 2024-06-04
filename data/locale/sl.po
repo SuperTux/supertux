@@ -2682,11 +2682,11 @@ msgstr "Samodejno doda in odstrani igralce, ko zazna priklop ali odklop krmilnik
 
 #: src/supertux/menu/multiplayer_menu.cpp:33
 msgid "Allow Multibind"
-msgstr ""
+msgstr "Dovoli večvezavo"
 
 #: src/supertux/menu/multiplayer_menu.cpp:34
 msgid "Allow binding multiple joysticks to a single player"
-msgstr ""
+msgstr "Omogoči vezavo več igralnih palic na enega igralca"
 
 #: src/supertux/menu/multiplayer_menu.cpp:36
 msgid "Manage Players"
@@ -2763,11 +2763,11 @@ msgstr "Barva vmesnika v urejevalniku"
 
 #: src/supertux/menu/custom_menu_menu.cpp:61
 msgid "Editor Hover Color"
-msgstr ""
+msgstr "Kazalna barva v urejevalniku"
 
 #: src/supertux/menu/custom_menu_menu.cpp:62
 msgid "Editor Grab Color"
-msgstr ""
+msgstr "Izbiralna barva v urejevalniku"
 
 #: src/supertux/menu/custom_menu_menu.cpp:64
 msgid "Reset to defaults"
@@ -2830,7 +2830,7 @@ msgstr "To bo izbrisalo shrambeno datoteko. Želiš nadaljevati?"
 #: src/supertux/menu/cheat_apply_menu.cpp:33
 #: src/supertux/menu/cheat_apply_menu.cpp:51
 msgid "Apply cheat to player"
-msgstr ""
+msgstr "Omogoči švindlanje za igralca"
 
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:39
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:60
@@ -3515,7 +3515,7 @@ msgstr "Izbriši vse"
 msgid ""
 "This will reset all game progress on the profile \"{}\".\n"
 "Are you sure?"
-msgstr ""
+msgstr "To bo ponastavilo ves igralni napredek za profil \"{}\".\nAli si prepričan/a?"
 
 #: src/supertux/menu/profile_menu.cpp:157
 msgid "This will reset your game progress on all profiles. Are you sure?"
@@ -3526,13 +3526,13 @@ msgstr "To bo izničilo tvoj napredek v vseh profilih. Ali res želiš nadaljeva
 msgid ""
 "This will delete the profile \"{}\",\n"
 "including all game progress on it. Are you sure?"
-msgstr ""
+msgstr "To bo izbrisalo profil \"{}\",\nvključno z vsem igralnim napredkom. Ali si prepričan/a?"
 
 #: src/supertux/menu/profile_menu.cpp:178
 msgid ""
 "This will delete all profiles, including all game progress on them.\n"
 "Are you sure?"
-msgstr ""
+msgstr "To bo izbrisalo vse profile, vključno z njihovim igralnim napredkom.\nAli si prepričan/a?"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:53
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -3541,19 +3541,19 @@ msgstr "Opis"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:55
 msgid "Title Screen Level"
-msgstr ""
+msgstr "Naslovna stopnja"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:56
 msgid "A level to be used for the title screen, after exiting the world."
-msgstr ""
+msgstr "Stopnja na naslovnici po izhodu iz sveta."
 
 #: src/supertux/menu/multiplayer_players_menu.cpp:46
 msgid "Add Player"
-msgstr ""
+msgstr "Dodaj igralca"
 
 #: src/supertux/menu/multiplayer_players_menu.cpp:59
 msgid "Remove Last Player"
-msgstr ""
+msgstr "Odstrani zadnjega igralca"
 
 #: src/supertux/menu/multiplayer_players_menu.cpp:62
 msgid ""
@@ -3561,19 +3561,19 @@ msgid ""
 "remove is currently in-game.\n"
 "\n"
 "Do you wish to remove them anyways?"
-msgstr ""
+msgstr "Pozor: Igralec, ki ga želiš odstraniti,\nje trenutno sredi igre.\n\nNaj ga vseeno odstranim?"
 
 #: src/supertux/menu/addon_menu.cpp:68
 msgid "Installed Language Packs"
-msgstr ""
+msgstr "Nameščeni jezikovni paketi"
 
 #: src/supertux/menu/addon_menu.cpp:68
 msgid "Installed Add-ons"
-msgstr ""
+msgstr "Nameščeni dodatki"
 
 #: src/supertux/menu/addon_menu.cpp:76 src/supertux/menu/addon_menu.cpp:117
 msgid "No language packs installed"
-msgstr ""
+msgstr "Ni nameščenih jezikovnih paketov"
 
 #: src/supertux/menu/addon_menu.cpp:76
 msgid "No Add-ons installed"
@@ -3582,50 +3582,50 @@ msgstr "Ni nameščenih dodatkov"
 #: src/supertux/menu/addon_menu.cpp:124
 #, c++-format
 msgid "{} {}*UPDATE*"
-msgstr ""
+msgstr "{} {}*POSODOBITEV*"
 
 #: src/supertux/menu/addon_menu.cpp:130
 #, c++-format
 msgid "{}{}"
-msgstr ""
+msgstr "{}{}"
 
 #: src/supertux/menu/addon_menu.cpp:140
 msgid "No updates available."
-msgstr ""
+msgstr "Na voljo ni posodobitev."
 
 #: src/supertux/menu/addon_menu.cpp:144
 #, c++-format
 msgid "{} {} available"
-msgstr ""
+msgstr "{} {} na voljo"
 
 #: src/supertux/menu/addon_menu.cpp:144
 msgid "update"
-msgstr ""
+msgstr "posodobitev"
 
 #: src/supertux/menu/addon_menu.cpp:144
 msgid "updates"
-msgstr ""
+msgstr "posodobitev"
 
 #: src/supertux/menu/addon_menu.cpp:146
 msgid "Check for updates"
-msgstr ""
+msgstr "Preveri za posodobitve"
 
 #: src/supertux/menu/addon_menu.cpp:150
 msgid "Browse language packs"
-msgstr ""
+msgstr "Brskaj po jezikovnih paketih"
 
 #: src/supertux/menu/addon_menu.cpp:150
 #: src/supertux/menu/addon_browse_menu.cpp:70
 msgid "Browse Add-ons"
-msgstr ""
+msgstr "Brskaj po dodatkih"
 
 #: src/supertux/menu/addon_menu.cpp:151
 msgid "Install from file"
-msgstr ""
+msgstr "Namesti iz datoteke"
 
 #: src/supertux/menu/addon_menu.cpp:208
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Preverjam za posodobitve ..."
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
 msgid "New World"
@@ -3641,38 +3641,38 @@ msgstr "Pripovedni način"
 
 #: src/supertux/menu/addon_browse_menu.cpp:70
 msgid "Browse Language Packs"
-msgstr ""
+msgstr "Brskaj po jezikovnih paketih"
 
 #: src/supertux/menu/addon_browse_menu.cpp:112
 #, c++-format
 msgid "Page {}/{}"
-msgstr ""
+msgstr "Stran {}/{}"
 
 #: src/supertux/menu/addon_browse_menu.cpp:124
 msgid "No new language packs available"
-msgstr ""
+msgstr "Na voljo ni novih jezikovnih paketov"
 
 #: src/supertux/menu/addon_browse_menu.cpp:124
 msgid "No new Add-ons available"
-msgstr ""
+msgstr "Na voljo ni novih dodatkov"
 
 #: src/supertux/menu/addon_browse_menu.cpp:127
 msgid "No language packs available"
-msgstr ""
+msgstr "Na voljo ni jezikovnih paketov"
 
 #: src/supertux/menu/addon_browse_menu.cpp:127
 msgid "No Add-ons available"
-msgstr ""
+msgstr "Na voljo ni dodatkov"
 
 #: src/supertux/menu/addon_browse_menu.cpp:135
 #: src/supertux/menu/addon_browse_menu.cpp:139
 msgid "Previous page"
-msgstr ""
+msgstr "Prejšnja stran"
 
 #: src/supertux/menu/addon_browse_menu.cpp:143
 #: src/supertux/menu/addon_browse_menu.cpp:147
 msgid "Next page"
-msgstr ""
+msgstr "Naslednja stran"
 
 #: src/supertux/menu/addon_browse_menu.cpp:154
 msgid "Check Online (disabled)"
@@ -3730,29 +3730,29 @@ msgstr "Si prepričan/a?"
 #: src/supertux/menu/profile_name_menu.cpp:36
 #, c++-format
 msgid "Rename \"{}\""
-msgstr ""
+msgstr "Preimenuj \"{}\""
 
 #: src/supertux/menu/profile_name_menu.cpp:36
 msgid "Add profile"
-msgstr ""
+msgstr "Dodaj profil"
 
 #: src/supertux/menu/profile_name_menu.cpp:40
 msgid "Profile names must have a maximum of 20 characters."
-msgstr ""
+msgstr "Imena profilov imajo lahko največ 20 znakov."
 
 #: src/supertux/menu/profile_name_menu.cpp:42
 msgid "Create"
-msgstr ""
+msgstr "Ustvari"
 
 #: src/supertux/menu/profile_name_menu.cpp:56
 msgid ""
 "Profile names must have a maximum of 20 characters.\n"
 "Please choose a different name."
-msgstr ""
+msgstr "Imena profilov imajo lahko največ 20 znakov.\nProsim, izberi drugačno ime."
 
 #: src/supertux/menu/profile_name_menu.cpp:77
 msgid "An error occurred while creating the profile."
-msgstr ""
+msgstr "Med ustvarjanjem profila je prišlo do napake."
 
 #: src/supertux/menu/keyboard_menu.cpp:36
 #: src/supertux/menu/joystick_menu.cpp:71
@@ -3955,7 +3955,7 @@ msgstr "Prekliči prenos"
 msgid ""
 "Error:\n"
 "{}"
-msgstr ""
+msgstr "Napaka:\n{}"
 
 #: src/supertux/menu/cheat_menu.cpp:38
 msgid "Bonus: Star"
@@ -3971,15 +3971,15 @@ msgstr "Ubij Tuksa"
 
 #: src/supertux/menu/cheat_menu.cpp:55
 msgid "Prevent Death"
-msgstr ""
+msgstr "Prepreči smrt"
 
 #: src/supertux/menu/addon_file_install_menu.cpp:32
 msgid "Install Add-on from file"
-msgstr ""
+msgstr "Namesti dodatek iz datoteke"
 
 #: src/supertux/menu/addon_file_install_menu.cpp:34
 msgid "Drag and drop add-on ZIP archive"
-msgstr ""
+msgstr "Povleci in spusti dodatek v obliki arhiva ZIP"
 
 #: src/supertux/menu/particle_editor_menu.cpp:32
 msgid "Particle Editor"
@@ -4136,7 +4136,7 @@ msgstr "Uredi drug svet"
 
 #: src/supertux/menu/editor_menu.cpp:86
 msgid "Convert all tiles in the level using converters."
-msgstr ""
+msgstr "S pretvorniki pretvori vse podlage v stopnji."
 
 #: src/supertux/menu/editor_menu.cpp:90
 msgid "Grid Size"
@@ -4168,11 +4168,11 @@ msgstr "Vključi pomoč samo-gradnje"
 
 #: src/supertux/menu/editor_menu.cpp:97
 msgid "Enable Object Undo Tracking"
-msgstr ""
+msgstr "Omogoči pomnjenje razveljavitev"
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Undo Stack Size"
-msgstr ""
+msgstr "Velikost sklada razveljavitev"
 
 #: src/supertux/menu/editor_menu.cpp:102
 msgid "Autosave Frequency"
@@ -4180,21 +4180,21 @@ msgstr "Pogostost samodejnega shranjevanja"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Check for Deprecated Tiles"
-msgstr ""
+msgstr "Preveri za zastarele podlage"
 
 #: src/supertux/menu/editor_menu.cpp:109
 msgid "Check if any deprecated tiles are currently present in the level."
-msgstr ""
+msgstr "Preveri, ali so v stopnji prisotne kakšne zastarele podlage"
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Show Deprecated Tiles"
-msgstr ""
+msgstr "Prikaži zastarele podlage"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Indicate all deprecated tiles on the active tilemap, without the need of "
 "hovering over."
-msgstr ""
+msgstr "Označi vse zastarele podlage na trenutnem zarisu, ne da bi ti bilo treba z miško lebdeti nad njimi."
 
 #: src/supertux/menu/editor_menu.cpp:121
 msgid "Exit Level Editor"
@@ -4242,81 +4242,81 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Bližnjice na tipkovnici:\n---------------------\nEsc = Odpri meni\nCtrl+S = Shrani\nCtrl+T = Testiraj\nCtrl+Z = Razveljavi\nCtrl+Y = Obnovi\nF6 = Upodobi svetlobo\nF7 = Pripni na mrežo\nF8 = Pokaži mrežo\nCtrl++ ali Ctrl+Scroll Up = Približaj\nCtrl+- ali Ctrl+Scroll Down = Oddalji\nCtrl+D = Ponastavi oddaljenost\n\nBližnjice za pisanje skript:\n    -------------    \nHome = Pojdi na začetek vrstice\nEnd = Pojdi na konec vrstice\nLeft arrow = Pojdi nazaj po besedilu\nRight arrow = Pojdi naprej po besedilu\nBackspace = Briši besedilo pred kazalcem\nDelete = Briši besedilo za kazalcem\nCtrl+X = Izreži celo vrstico\nCtrl+C = Kopiraj celo vrstico\nCtrl+V = Prilepi\nCtrl+D = Podvoji vrstico\nCtrl+Z = Razveljavi\nCtrl+Y = Obnovi"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
-msgstr ""
+msgstr "V stopnji so še zastarele podlage."
 
 #: src/supertux/menu/editor_menu.cpp:239
 msgid "Do you want to show all deprecated tiles on active tilemaps?"
-msgstr ""
+msgstr "Ali želiš prikazati vse zastarele podlage na trenutnem zarisu?"
 
 #: src/supertux/menu/editor_menu.cpp:246
 msgid "There are no more deprecated tiles in the level!"
-msgstr ""
+msgstr "V stopnji ni več zastarelih podlag!"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:40
 msgid "Play with the keyboard"
-msgstr ""
+msgstr "Igraj s tipkovnico"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:58
 msgid "Remove Player"
-msgstr ""
+msgstr "Odstrani igralca"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:82
 msgid "Respawn Player"
-msgstr ""
+msgstr "Ponovno udejanji igralca"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:108
 msgid "Spawn Player"
-msgstr ""
+msgstr "Udejanji igralca"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:136
 msgid "Controllers"
-msgstr ""
+msgstr "Krmilniki"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:152
 msgid ""
 "This controller does not support rumbling;\n"
 "please check the controllers manually."
-msgstr ""
+msgstr "Ta krmilnik ne podpira vibriranja.\nKrmilnike boš moral/a preveriti ročno."
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:157
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "controllers; please check the controllers manually."
-msgstr ""
+msgstr "Ta različica SuperTuksa ne podpira vibriranja\nkrmilnikov. Krmilnike preveri ročno, prosim."
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:184
 msgid ""
 "This joystick does not support rumbling;\n"
 "please check the joysticks manually."
-msgstr ""
+msgstr "Ta igralna palica ne podpira vibriranja.\nIgralne palice boš moral/a preveriti ročno."
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:189
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "joysticks; please check the joysticks manually."
-msgstr ""
+msgstr "Ta različica SuperTuksa ne podpira vibriranja\nigralnih palic. Igralne palice preveri ročno, prosim."
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:59
 msgid "No levels available"
-msgstr ""
+msgstr "Na voljo ni nobenih stopenj"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:79
 msgid "You cannot delete the level that you are editing!"
-msgstr ""
+msgstr "Ne moreš izbrisati stopnje, ki jo urejaš!"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:82
 #, c++-format
 msgid "You are about to delete level \"{}\". Are you sure?"
-msgstr ""
+msgstr "To bo izbrisalo stopnjo \"{}\". Ali si prepričan/a?"
 
 #: src/supertux/levelintro.cpp:137
 #, c++-format
 msgid "contributed by {}"
-msgstr ""
+msgstr "Avtor/ica: {}"
 
 #: src/supertux/levelintro.cpp:184
 msgid "Badguys killed"
@@ -4349,7 +4349,7 @@ msgstr "Regija"
 #: src/supertux/main.cpp:801
 #, c++-format
 msgid "New release: SuperTux v{}!"
-msgstr ""
+msgstr "Nova izdaja: SuperTuks različica {}!"
 
 #: src/supertux/main.cpp:804
 #, c++-format
@@ -4358,11 +4358,11 @@ msgid ""
 "For more information, you can visit the SuperTux website.\n"
 "\n"
 "Do you want to visit the website now?"
-msgstr ""
+msgstr "Izšla je nova izdaja SuperTuksa (različica {})!\nVeč o tem piše na spletnem mestu SuperTux.\n\nAli ga želiš obiskati kar zdaj?"
 
 #: src/supertux/main.cpp:815
 msgid "Checking for new releases..."
-msgstr ""
+msgstr "Preverjam za nove izdaje ..."
 
 #: src/control/joystick_config.cpp:85
 msgid "Joystick Mappings"
@@ -4386,7 +4386,7 @@ msgstr "Sprememba ob dotiku"
 
 #: src/worldmap/special_tile.hpp:36
 msgid "Special Tile"
-msgstr ""
+msgstr "Posebna podlaga"
 
 #: src/worldmap/level_tile.hpp:36 src/worldmap/level_tile.cpp:161
 msgid "Level"
@@ -4432,7 +4432,7 @@ msgstr "Teleportirnik"
 msgid ""
 "This object's current functionality is deprecated.\n"
 "Updating to get its latest functionality is recommended."
-msgstr ""
+msgstr "Funkcionalnost tega predmeta je zastarela.\nPosodabljam za novejšo različico funkcionalnosti."
 
 #: src/editor/node_marker.cpp:122
 msgid "Path Node"
@@ -4477,7 +4477,7 @@ msgstr "Krožno"
 #: src/editor/layers_widget.cpp:331
 #, c++-format
 msgid "Sector: {}"
-msgstr ""
+msgstr "Predel: {}"
 
 #: src/editor/object_option.cpp:92
 msgid "true"
@@ -4493,19 +4493,19 @@ msgstr "neveljavno"
 
 #: src/editor/object_option.cpp:665
 msgid "Scale X"
-msgstr ""
+msgstr "Velikost po X"
 
 #: src/editor/object_option.cpp:666
 msgid "Scale Y"
-msgstr ""
+msgstr "Velikost po Y"
 
 #: src/editor/object_option.cpp:667
 msgid "Offset X"
-msgstr ""
+msgstr "Odmik po X"
 
 #: src/editor/object_option.cpp:668
 msgid "Offset Y"
-msgstr ""
+msgstr "Odmik po Y"
 
 #: src/editor/object_option.cpp:672 src/editor/object_menu.cpp:67
 msgid "Remove"
@@ -4521,7 +4521,7 @@ msgstr "Odpri urejevalnik delcev"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
-msgstr ""
+msgstr "Spremeni teksturo ...  ->"
 
 #: src/editor/particle_editor.cpp:126
 msgid "Max amount"
@@ -4605,35 +4605,35 @@ msgstr "Zunajzaslonski način"
 
 #: src/editor/particle_editor.cpp:229
 msgid "Clear"
-msgstr ""
+msgstr "Počisti"
 
 #: src/editor/particle_editor.cpp:245
 msgid "<- General settings"
-msgstr ""
+msgstr "<- Splošne nastavitve"
 
 #: src/editor/particle_editor.cpp:255
 msgid "Likeliness"
-msgstr ""
+msgstr "Verjetnost"
 
 #: src/editor/particle_editor.cpp:266
 msgid "Color (RGBA)"
-msgstr ""
+msgstr "Barva (RGBA)"
 
 #: src/editor/particle_editor.cpp:311
 msgid "Scale (x, y)"
-msgstr ""
+msgstr "Velikost (x, y)"
 
 #: src/editor/particle_editor.cpp:332
 msgid "Hitbox scale (x, y)"
-msgstr ""
+msgstr "Velikost občutljivega področja (x, y)"
 
 #: src/editor/particle_editor.cpp:353
 msgid "Hitbox offset relative to scale"
-msgstr ""
+msgstr "Odmik občutljivega področja glede na velikost"
 
 #: src/editor/particle_editor.cpp:372
 msgid "Change texture..."
-msgstr ""
+msgstr "Spremeni teksturo ..."
 
 #: src/editor/particle_editor.cpp:766
 msgid ""
@@ -4650,11 +4650,11 @@ msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
-msgstr ""
+msgstr "Ta stopnja vsebuje zastarele podlage.\nPriporočam, da zamenjaš vse zastarele podlage in se tako\nizogneš nezdružljivosti z bodočimi različicami igre."
 
 #: src/editor/editor.cpp:579
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
-msgstr ""
+msgstr "Namig: V meniju urejevalnika vklopi možnost \"Prikaži zastarele podlage\""
 
 #: src/editor/editor.cpp:626
 msgid ""
@@ -4670,7 +4670,7 @@ msgstr "Ta stopnja vsebuje nekaj neshranjenih sprememb. Jih shranim?"
 
 #: src/editor/editor.cpp:662
 msgid "This level may contain unsaved changes, do you want to save?"
-msgstr ""
+msgstr "Ta stopnja morda vsebuje neshranjene spremembe. Jih želiš shraniti?"
 
 #: src/editor/editor.cpp:797
 msgid ""
@@ -4708,7 +4708,7 @@ msgstr "Ni bilo mogoče najti \"glavne\" začetne točke.\nProsim, spremeni ime 
 
 #: src/editor/object_menu.cpp:60
 msgid "Patch Notes"
-msgstr ""
+msgstr "Novosti posodobitve"
 
 #: src/editor/object_menu.cpp:84
 msgid ""
@@ -4717,16 +4717,16 @@ msgid ""
 "\n"
 "Keep in mind this is very likely to break the proper behaviour of the object.\n"
 "Make sure to re-check any behaviour, related to the object."
-msgstr ""
+msgstr "To bo posodobilo funkcionalnost predmeta.\nVeč piše v novostih posodobitve.\n\nZlahka se zgodi, da predmet zaradi tega ne bo več deloval kot pričakovano.\nPriporočam, da preveriš obnašanje predmeta in njegove okolice."
 
 #: src/editor/object_menu.cpp:98
 #, c++-format
 msgid "Patch notes for v{}:"
-msgstr ""
+msgstr "Novosti za različico {}:"
 
 #: src/editor/overlay_widget.cpp:1062
 msgid "Cannot select deprecated tiles"
-msgstr ""
+msgstr "Ne morem izbrati zastarelih podlag"
 
 #: src/editor/overlay_widget.cpp:1567
 msgid "Autotile mode is on"
@@ -4754,7 +4754,7 @@ msgstr "Trenutna ekipa SuperTuxa"
 
 #: data//credits.stxt:30
 msgid "Maintainer, Programming"
-msgstr ""
+msgstr "Vzdrževanje, programiranje"
 
 #: data//credits.stxt:35
 msgid "Graphics, Level Design, Story"
@@ -5096,11 +5096,11 @@ msgstr "Gozdno ozadje"
 
 #: data//images/tiles.strf:690
 msgid "Corrupted Forest"
-msgstr ""
+msgstr "Skvarjeni gozd"
 
 #: data//images/tiles.strf:868
 msgid "Corrupted Background"
-msgstr ""
+msgstr "Skvarjeno ozadje"
 
 #: data//images/tiles.strf:991
 msgid "Block + Bonus"
@@ -5136,7 +5136,7 @@ msgstr "Razno"
 
 #: data//images/tiles.strf:1342
 msgid "Retro Tiles"
-msgstr ""
+msgstr "Retro podlage"
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"
@@ -5152,16 +5152,16 @@ msgstr "Temačni gozd"
 
 #: data//images/converters/data.stcd:3
 msgid "Nightly Tiles"
-msgstr ""
+msgstr "Nočne podlage"
 
 #: data//images/converters/data.stcd:5
 msgid "For levels, created in previous Nightly builds."
-msgstr ""
+msgstr "Za stopnje, ki so bile ustvarjene v prejšnjih nočnih različicah"
 
 #: data//images/converters/data.stcd:8
 msgid "Pre-0.6.3 Crystal Tiles"
-msgstr ""
+msgstr "Kristalne podlage pred 0.6.3"
 
 #: data//images/converters/data.stcd:10
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
-msgstr ""
+msgstr "Za stopnje, ustvarjene pred različico 0.6.3, ki uporabljajo kristalne podlage"
