@@ -56,6 +56,8 @@ OptionsMenu::less_than_volume(const std::string& lhs, const std::string& rhs)
 
 
 OptionsMenu::OptionsMenu(Type type, bool complete) :
+  m_type(type),
+  m_complete(complete),
   m_magnifications(),
   m_aspect_ratios(),
   m_window_resolutions(),
@@ -65,13 +67,21 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
   m_music_volumes(),
   m_mobile_control_scales()
 {
-  switch (type) // Insert label and menu items, appropriate for the chosen OptionsMenu type
+  refresh();
+}
+
+void
+OptionsMenu::refresh()
+{
+  clear();
+
+  switch (m_type) // Insert label and menu items, appropriate for the chosen OptionsMenu type
   {
     case LOCALE: /** LOCALE */
     {
       insert_label(_("Locale"));
 
-      if (complete)
+      if (m_complete)
       {
         add_submenu(_("Select Language"), MenuStorage::LANGUAGE_MENU)
           .set_help(_("Select a different language to display text in"));
@@ -166,7 +176,7 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
     {
       insert_label(_("Extras"));
 
-      if (complete)
+      if (m_complete)
         add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
           .set_help(_("Select a profile to play with"));
 
@@ -211,12 +221,13 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
 
 #ifndef __EMSCRIPTEN__
-      add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
-        .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
-#endif
+      if (!g_config->disable_network)
+        add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
+          .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
 
       add_toggle(MNID_DISABLE_NETWORK, _("Disable network"), &g_config->disable_network)
         .set_help(_("Prevents the game from connecting online"));
+#endif
 
       break;
     }
@@ -718,6 +729,11 @@ OptionsMenu::menu_action(MenuItem& item)
         g_config->m_mobile_controls_scale = 1; // if sscanf fails revert to default scale
       else
         g_config->m_mobile_controls_scale /= 100.0f;
+      break;
+
+    case MNID_DISABLE_NETWORK:
+      refresh();
+      set_active_item(MNID_DISABLE_NETWORK);
       break;
 
     default:
