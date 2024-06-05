@@ -75,7 +75,7 @@ WorldMapState::load_state()
     {
       if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the main one.
         m_worldmap.set_sector(DEFAULT_SECTOR_NAME, "", false);
-      
+
       sector = worldmap;
     }
 
