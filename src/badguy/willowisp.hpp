@@ -49,7 +49,7 @@ public:
   virtual bool is_hurtable() const override { return false; }
   virtual void kill_fall() override { vanish(); }
 
-  void goto_node(int node_no);
+  void goto_node(int node_idx);
 
   /**
    * @scripting

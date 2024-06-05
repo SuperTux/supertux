@@ -26,12 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       - name: Checkout the wiki repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: SuperTux/wiki
           path: wiki
@@ -67,7 +67,7 @@ jobs:
                              --page ../../../wiki/templates/ScriptingPage.md \
                              --output ../../../wiki
 
-     - name: Check for changes
+      - name: Check for changes
         working-directory: wiki
         run: |
           REF_UPDATED=true
@@ -89,7 +89,7 @@ jobs:
         run: |
           git --version
           git status
-          git config --global user.email "supertux-bot"
+          git config --global user.email "SuperTux-bot@users.noreply.github.com"
           git config --global user.name "SuperTux Bot"
           git add .
           git commit -m "Update scripting reference (SuperTux/supertux@${{ github.sha }})"

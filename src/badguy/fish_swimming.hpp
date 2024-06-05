@@ -51,7 +51,8 @@ public:
 protected:
   enum Type {
     SNOW,
-    FOREST
+    FOREST,
+    CORRUPTED,
   };
 
   enum FishYState {

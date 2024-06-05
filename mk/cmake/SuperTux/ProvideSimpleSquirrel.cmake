@@ -4,3 +4,6 @@ if(MSVC)
 else()
   add_library(LibSimpleSquirrel ALIAS simplesquirrel)
 endif()
+
+# Set variables
+set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/external/simplesquirrel/libs/squirrel)

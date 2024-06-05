@@ -28,6 +28,7 @@
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "squirrel/squirrel_environment.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/fadetoblack.hpp"
@@ -107,9 +108,6 @@ WorldMapSector::setup()
 {
   BIND_WORLDMAP_SECTOR(*this);
 
-  auto& music_object = get_singleton_by_type<MusicObject>();
-  music_object.play_music(MusicType::LEVEL_MUSIC);
-
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
 
   // If we specified a fade tilemap, let's fade it:
@@ -150,6 +148,15 @@ WorldMapSector::setup()
 
   if (!m_init_script.empty())
     m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
+
+  // Check if Tux is on an auto-playing level.
+  // No need to play music in that case.
+  LevelTile* level = at_object<LevelTile>();
+  if(level && level->is_auto_play() && !level->is_solved())
+    return;
+
+  auto& music_object = get_singleton_by_type<MusicObject>();
+  music_object.play_music(MusicType::LEVEL_MUSIC);
 }
 
 void
@@ -335,7 +342,7 @@ WorldMapSector::update(float dt_sec)
         int tile_data = tile_data_at(m_tux->get_tile_pos());
         if (!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
           log_warning << "Player at illegal position " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << " respawning." << std::endl;
-          move_to_spawnpoint("main");
+          move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
           return;
         }
         log_warning << "No level to enter at: " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << std::endl;
@@ -596,8 +603,8 @@ WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
   }
 
   log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-  if (spawnpoint != "main") {
-    move_to_spawnpoint("main");
+  if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
+    move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
   }
 }
 

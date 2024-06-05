@@ -23,6 +23,7 @@
 #include "object/lantern.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -52,8 +53,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
     reader.get("sector", m_target_sector);
     reader.get("spawnpoint", m_target_spawnpoint);
   } else {
-    reader.get("sector", m_target_sector, "main");
-    reader.get("spawnpoint", m_target_spawnpoint, "main");
+    reader.get("sector", m_target_sector, DEFAULT_SECTOR_NAME.c_str());
+    reader.get("spawnpoint", m_target_spawnpoint, DEFAULT_SPAWNPOINT_NAME.c_str());
   }
 
   reader.get("flyspeed", m_flyspeed, FLYSPEED);
@@ -259,9 +260,9 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
 }
 
 void
-WillOWisp::goto_node(int node_no)
+WillOWisp::goto_node(int node_idx)
 {
-  PathObject::goto_node(node_no);
+  PathObject::goto_node(node_idx);
 
   if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK)
     m_mystate = STATE_PATHMOVING;
