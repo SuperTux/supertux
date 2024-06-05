@@ -1,4 +1,9 @@
+if(EMSCRIPTEN)
+  set(SSQ_BUILD_INSTALL OFF)
+endif()
+
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/simplesquirrel/")
+
 if(MSVC)
   add_library(LibSimpleSquirrel ALIAS simplesquirrel_static)
 else()
