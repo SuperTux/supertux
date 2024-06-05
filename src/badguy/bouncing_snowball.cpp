@@ -25,9 +25,9 @@ static const float JUMPSPEED = -450;
 static const float BSNOWBALL_WALKSPEED = 80;
 
 BouncingSnowball::BouncingSnowball(const ReaderMapping& reader) :
-    BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite"),
-    m_turn_around_timer(),
-    m_turn_around_counter()
+  BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite"),
+  m_turn_around_timer(),
+  m_turn_around_counter()
 {
   parse_type(reader);
 }
