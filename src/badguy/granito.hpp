@@ -26,6 +26,8 @@ class GranitoBig;
  *
  * @scripting
  * @summary A ""Granito"" that was given a name can be controlled by scripts.
+ *          Note: Using these functions in a non-"Scriptable" granito can lead to undefined behavior!
+ *          You can do it, but make sure you know what you're doing.
  * @instances A ""Granito"" is instantiated by placing a definition inside a level.
  *            It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
