@@ -19,6 +19,7 @@
 #include "worldmap/worldmap_state.hpp"
 
 #include "math/vector.hpp"
+#include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_util.hpp"
@@ -50,7 +51,8 @@ WorldMapState::load_state()
   try
   {
     /** Get state table for all worldmaps. **/
-    ssq::Table worlds = vm.findTable("state").findTable("worlds");
+    ssq::Table state = vm.findTable("state");
+    ssq::Table worlds = state.findTable("worlds");
 
     // If a non-canonical entry is present, replace it with a canonical one.
     const std::string old_map_filename = m_worldmap.m_map_filename.substr(1);
@@ -83,6 +85,17 @@ WorldMapState::load_state()
     {
       // Quit loading worldmap state, if there is still no current sector loaded.
       throw std::runtime_error("No sector set.");
+    }
+
+    try
+    {
+      ssq::Object music = sector.find("music");
+      auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+      music_object.set_music(music.toString());
+    }
+    catch (const ssq::NotFoundException&)
+    {
+      log_debug << "Could not find \"music\" in the worldmap sector state table." << std::endl;
     }
 
     /** Load objects. **/
@@ -256,6 +269,9 @@ WorldMapState::save_state() const
     worldmap.remove(sector.get_name().c_str());
     ssq::Table table = worldmap.addTable(sector.get_name().c_str());
 
+    /** Save Music **/
+    auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+    table.set("music", music_object.get_music());
 
     /** Save Tux **/
     ssq::Table tux = table.addTable("tux");
