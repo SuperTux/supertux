@@ -86,7 +86,7 @@ WorldMapState::load_state()
       // Quit loading worldmap state, if there is still no current sector loaded.
       throw std::runtime_error("No sector set.");
     }
-
+    
     try
     {
       ssq::Object music = sector.find("music");

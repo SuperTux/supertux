@@ -1773,7 +1773,7 @@ msgstr "Rostlina"
 
 #: src/badguy/tarantula.hpp:39 src/badguy/tarantula.cpp:353
 msgid "Tarantula"
-msgstr ""
+msgstr "Sklípkan"
 
 #: src/badguy/granito_giant.cpp:71
 msgid "Awake"
@@ -2167,7 +2167,7 @@ msgstr "Pavouk"
 
 #: src/badguy/tarantula.cpp:374
 msgid "Static"
-msgstr ""
+msgstr "Statický"
 
 #: src/badguy/ghoul.hpp:30
 msgid "Ghoul"
@@ -5160,16 +5160,16 @@ msgstr "Temný les"
 
 #: data//images/converters/data.stcd:3
 msgid "Nightly Tiles"
-msgstr ""
+msgstr "Dlaždice z vývojových verzí"
 
 #: data//images/converters/data.stcd:5
 msgid "For levels, created in previous Nightly builds."
-msgstr ""
+msgstr "Pro úrovně vytvořené v předchozích vývojových verzích."
 
 #: data//images/converters/data.stcd:8
 msgid "Pre-0.6.3 Crystal Tiles"
-msgstr ""
+msgstr "Křišťálové dlaždice z verzí před 0.6.3"
 
 #: data//images/converters/data.stcd:10
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
-msgstr ""
+msgstr "Pro úrovně vytvořené před verzí 0.6.3, které používají křišťálové dlaždice."
