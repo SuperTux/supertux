@@ -712,6 +712,7 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
   m_newsector = sector;
   m_newspawnpoint = spawnpoint;
   m_spawn_with_invincibility = false;
+  m_spawn_fade_type = ScreenFade::FadeType::NONE;
 }
 
 void
