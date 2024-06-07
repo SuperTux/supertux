@@ -266,7 +266,7 @@ void
 Granito::activate()
 {
   WalkingBadguy::activate();
-  m_has_waved = false;
+  reset_detection();
 }
 
 GameObjectTypes
@@ -371,31 +371,32 @@ Granito::try_wave()
   if (!on_ground()) return false;
 
   Player* player = get_nearest_player();
-  if (!player) return false;
+  if (!player)
+    return false;
 
-  RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
-                                                                   player->get_bbox().get_middle(),
-                                                                   false,
-                                                                   get_collision_object());
+  Vector mid = get_bbox().get_middle();
+  Vector plrmid = player->get_bbox().get_middle();
+
+  float xdist = mid.x - plrmid.x;
+  if (std::abs(xdist) > 32.f*4.f)
+    return false;
+
+  RaycastResult result = Sector::get().get_first_line_intersection(mid, plrmid, false, get_collision_object());
 
   CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
   if (resultobj && *resultobj == player->get_collision_object())
   {
-    float xdist = get_bbox().get_middle().x - result.box.get_middle().x;
-    if (std::abs(xdist) < 32.f*4.f)
-    {
-      // Only wave if facing player.
-      if (xdist == std::abs(xdist) * (m_dir == Direction::LEFT ? -1 : 1))
-        return false;
+    // Only wave if facing player.
+    if (xdist == std::abs(xdist) * (m_dir == Direction::LEFT ? -1 : 1))
+      return false;
 
-      Sector::get().run_script(m_detect_script, "detect-script");
-      if (m_type == SCRIPTABLE)
-        m_has_waved = true;
-      else
-        wave();
+    Sector::get().run_script(m_detect_script, "detect-script");
+    if (m_type == SCRIPTABLE)
+      m_has_waved = true;
+    else
+      wave();
 
-      return true;
-    }
+    return true;
   }
 
   return false;
@@ -404,6 +405,9 @@ Granito::try_wave()
 void
 Granito::wave()
 {
+  if (m_type == SCRIPTABLE)
+    reset_detection();
+
   walk_speed = 0;
   m_physic.set_velocity_x(0);
 
@@ -559,7 +563,8 @@ void Granito::eject()
 void
 Granito::restore_original_state()
 {
-  if (m_state == m_original_state) return;
+  if (m_state == m_original_state)
+    return;
 
   m_state = m_original_state;
 
