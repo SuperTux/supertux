@@ -1133,7 +1133,7 @@ BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
 void
 BadGuy::register_class(ssq::VM& vm)
 {
-  ssq::Class cls = vm.addAbstractClass<BadGuy>("BadGuy");
+  ssq::Class cls = vm.addAbstractClass<BadGuy>("BadGuy", vm.findClass("MovingSprite"));
 
   cls.addFunc("kill", &BadGuy::kill_fall);
   cls.addFunc("ignite", &BadGuy::ignite);
