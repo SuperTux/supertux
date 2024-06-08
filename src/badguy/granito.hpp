@@ -142,8 +142,9 @@ public:
 
   /**
    * @scripting
-   * @description Resets the detection checker,
+   * @description Resets the player detection used for waving,
    *              allowing the Detect Script to be ran again.
+   *              Only works on Standing and Default granito.
    */
   void reset_detection() { m_has_waved = false; }
 
