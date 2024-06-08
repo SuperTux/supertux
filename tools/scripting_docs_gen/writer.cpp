@@ -122,7 +122,7 @@ std::string write_function_table(const std::vector<Function>& functions)
   for (const Function& func : functions)
   {
     // Print out function
-    table << "`" << func.name << "(";
+    table << "`" << func.type << " " << func.name << "(";
     for (size_t i = 0; i < func.parameters.size(); i++)
     {
       if (i != 0) table << ", ";

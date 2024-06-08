@@ -18,10 +18,32 @@
 
 #include <string>
 #include <iostream>
+#include <unordered_map>
 
 #include "util.hpp"
 
 namespace Parser {
+
+// Simplified versions of various C++ types for easier understanding
+static const std::unordered_map<std::string, std::string> s_simplified_types = {
+  { "SQInteger", "ANY" }, // SQInteger is used internally with Squirrel, so we don't know the exact return type
+  { "char", "int" },
+  { "signed char", "int" },
+  { "short", "int" },
+  { "long", "int" },
+  { "unsigned char", "int" },
+  { "unsigned short", "int" },
+  { "unsigned int", "int" },
+  { "unsigned long", "int" },
+  { "uint8_t", "int" },
+  { "uint16_t", "int" },
+  { "uint32_t", "int" },
+  { "long long", "int" },
+  { "unsigned long long", "int" },
+  { "double", "float" },
+  { "std::string", "string" },
+  { "std::wstring", "string" }
+};
 
 static void parse_base_classes(tinyxml2::XMLElement* p_inheritancenode, tinyxml2::XMLElement* p_inheritancegraph, Class::BaseClasses& list)
 {
@@ -283,7 +305,19 @@ void parse_function(tinyxml2::XMLElement* p_memberdef, Class& cls)
 
   // Get general info
   const char* type = p_memberdef->FirstChildElement("type")->GetText();
-  func.type = type ? type : "";
+  if (type)
+  {
+    func.type = type;
+
+    // Replace type with simplified version, if available
+    const auto it = s_simplified_types.find(func.type);
+    if (it != s_simplified_types.end())
+      func.type = it->second;
+  }
+  else
+  {
+    func.type = "void";
+  }
   func.name = p_memberdef->FirstChildElement("name")->GetText();
 
   tinyxml2::XMLElement* p_descpara = p_memberdef->FirstChildElement("briefdescription")->FirstChildElement("para");
@@ -309,6 +343,18 @@ void parse_function(tinyxml2::XMLElement* p_memberdef, Class& cls)
     }
     if (include)
     {
+      tinyxml2::XMLElement* p_simplesect = p_detaileddescpara->FirstChildElement("simplesect");
+      while (p_simplesect)
+      {
+        if (attr_equal(p_simplesect, "kind", "return")) // Custom return type specified
+        {
+          func.type = p_simplesect->FirstChildElement("para")->GetText();
+          func.type.pop_back(); // Remove space at the end
+          break;
+        }
+        p_simplesect = p_simplesect->NextSiblingElement("simplesect");
+      }
+
       if (p_descpara) // Brief description has been provided
       {
         XMLTextReader read(func.description);

@@ -70,6 +70,7 @@ static void print_stacktrace(HSQUIRRELVM vm)
 /**
  * @scripting
  * @description Returns the currently running thread.
+ * @returns Thread
  */
 static SQInteger get_current_thread(HSQUIRRELVM vm)
 {
@@ -156,6 +157,7 @@ static bool check_cutscene()
  * @scripting
  * @description Suspends the script execution for a specified number of seconds.
  * @param float $seconds
+ * @returns void
  */
 static SQInteger wait(HSQUIRRELVM vm, float seconds)
 {
@@ -209,6 +211,7 @@ static SQInteger wait(HSQUIRRELVM vm, float seconds)
 /**
  * @scripting
  * @description Suspends the script execution until the current screen has been changed.
+ * @returns void
  */
 static SQInteger wait_for_screenswitch(HSQUIRRELVM vm)
 {
