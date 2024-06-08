@@ -23,7 +23,7 @@
 
 /**
  * @scripting
- * @summary This class provides the ability to create, edit, and remove images floating in midair on the screen, such as the SuperTux logo.
+ * @summary This class provides the ability to create, edit, and remove images floating in midair on the screen.
             It is implemented as a wrapper around a sprite, so any sprite actions are applicable.
  * @instances Floating Images are created in a script or from the console. Constructor:${SRG_NEWPARAGRAPH}
               """"""<floatimage> <- FloatingImage(string filename)""""""${SRG_NEWPARAGRAPH}
