@@ -126,7 +126,7 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
           cpack -C $Env:BUILD_TYPE -G ZIP
-          mkdir upload
+          mkdir -Force upload
           mv *.zip upload/
 
       - name: Upload Portable Package
