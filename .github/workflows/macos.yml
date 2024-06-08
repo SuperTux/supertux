@@ -32,11 +32,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-12]
-        build_type: [Debug, Release]
+        build_type: [Debug, RelWithDebInfo]
         glbinding: [ON, OFF]
         include:
           - os: macos-12
-            build_type: Release
+            build_type: RelWithDebInfo
             glbinding: OFF
             release: ON
 
