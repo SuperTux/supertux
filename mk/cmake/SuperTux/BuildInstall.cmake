@@ -1,9 +1,8 @@
 if(WIN32 AND NOT UNIX)
   if(VCPKG_BUILD)
-    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}" DESTINATION ${INSTALL_SUBDIR_BIN} FILES_MATCHING PATTERN "*.dll")
-  else()
-    install(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
+    file(GLOB DLLS ${CMAKE_CURRENT_BINARY_DIR}/*.dll)
   endif()
+  install(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
 
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
 
