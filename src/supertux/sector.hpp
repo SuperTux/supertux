@@ -52,7 +52,8 @@ class Writer;
 /**
  * Represents one of (potentially) multiple, separate parts of a Level.
    Sectors contain GameObjects, e.g. Badguys and Players.
-
+ */
+/**
  * @scripting
  * @summary This class provides additional controlling functions for a sector, other than the ones listed at ${SRG_REF_GameObjectManager}.
  * @instances An instance under ""sector.settings"" is available from scripts and the console.
@@ -245,7 +246,7 @@ private:
 
   /**
    * @scripting
-   * The sector's gravity.
+   * @description The sector's gravity.
    */
   float m_gravity;
 
