@@ -16,6 +16,8 @@
 
 #include "supertux/game_object_factory.hpp"
 
+#include <sstream>
+
 #include "audio/sound_source.hpp"
 #include "badguy/angrystone.hpp"
 #include "badguy/bouncing_snowball.hpp"
