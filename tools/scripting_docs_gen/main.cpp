@@ -82,7 +82,7 @@ int main(int argc, char** argv)
     Class cl; // Store class data
     Parser::parse_compounddef(doc.RootElement(), cl);
 
-    if (cl.constants.empty() && cl.functions.empty()) continue; // If there are no constants or functions, do not save the class
+    if (cl.constants.empty() && cl.variables.empty() && cl.functions.empty()) continue; // If the class has no content, do not save it
 
     // Save the class
     classes.push_back(std::move(cl));
@@ -134,8 +134,8 @@ int main(int argc, char** argv)
     replace(target_data, "${SRG_NEWPARAGRAPH} ", "\r\n\r\n");
     replace(target_data, "${SRG_TABLENEWPARAGRAPH}", "<br /><br />");
     replace(target_data, "\"\"", "`");
-    //replace(target_data, "Note:", "**NOTE:**");
-    //replace(target_data, "NOTE:", "**NOTE:**");
+    replace(target_data, "NOTE:", "<br /><br />**NOTE:**");
+    replace(target_data, "Note:", "<br /><br />**NOTE:**");
 
     // Write to target file
     write_file(output_dir_path / std::filesystem::path("Scripting" + cl.name + ".md"), target_data);

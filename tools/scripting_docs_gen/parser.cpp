@@ -51,7 +51,7 @@ void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls)
   // Leave only the class name
   const size_t pos = cls.name.find_last_of("::");
   if (pos != std::string::npos)
-    cls.name.erase(0, pos);
+    cls.name.erase(0, pos + 1);
 
   // Get additional info
   tinyxml2::XMLElement* p_detaileddescpara = p_compounddef->FirstChildElement("detaileddescription")->FirstChildElement("para");
@@ -109,13 +109,15 @@ void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls)
         // Leave only the class name
         const size_t pos = name.find_last_of("::");
         if (pos != std::string::npos)
-          name.erase(0, pos);
+          name.erase(0, pos + 1);
 
         cls.derived_classes.push_back(name);
       }
 
       p_inheritancenode = p_inheritancenode->NextSiblingElement("node");
     }
+    std::sort(cls.derived_classes.begin(), cls.derived_classes.end()); // Sort A-Z
+    cls.derived_classes.erase(std::unique(cls.derived_classes.begin(), cls.derived_classes.end()), cls.derived_classes.end()); // Remove duplicates
   }
 }
 
@@ -136,7 +138,7 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef, Class& cls)
   while (p_memberdef)
   {
     if (attr_equal(p_memberdef, "kind", "function") &&
-        !el_equal(p_memberdef, "type", "") &&
+        //!el_equal(p_memberdef, "type", "") &&
         !p_memberdef->FirstChildElement("reimplements")) // Look for non-derived typed functions
     {
       parse_function(p_memberdef, cls);
@@ -280,7 +282,8 @@ void parse_function(tinyxml2::XMLElement* p_memberdef, Class& cls)
   Function func;
 
   // Get general info
-  func.type = p_memberdef->FirstChildElement("type")->GetText();
+  const char* type = p_memberdef->FirstChildElement("type")->GetText();
+  func.type = type ? type : "";
   func.name = p_memberdef->FirstChildElement("name")->GetText();
 
   tinyxml2::XMLElement* p_descpara = p_memberdef->FirstChildElement("briefdescription")->FirstChildElement("para");
