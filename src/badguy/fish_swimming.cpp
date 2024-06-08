@@ -35,6 +35,7 @@ FishSwimming::FishSwimming(const ReaderMapping& reader) :
 {
   parse_type(reader);
   reader.get("radius", m_radius, 100.0f);
+  m_water_affected = false;
 }
 
 FishSwimming::FishSwimming(const ReaderMapping& reader, const std::string& spritename) :
