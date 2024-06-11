@@ -45,7 +45,6 @@ const float RUN_DISTANCE = 1060; /**< Distance between the x-coordinates of left
 const float JUMP_SPACE = 448; /**< Distance between the jump position and the stand position. */
 const float STOMP_WAIT = 0.5; /**< Time we stay on the dais before jumping again. */
 const float SAFE_TIME = 0.5; /**< The time we are safe when Tux just hit us. */
-const int INITIAL_HITPOINTS = 5; /**< Number of hits we can take. */
 
 const float YETI_SQUISH_TIME = 3;
 
@@ -56,27 +55,21 @@ const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs. */
 }
 
 Yeti::Yeti(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/yeti/yeti.sprite"),
+  Boss(reader, "images/creatures/yeti/yeti.sprite"),
   m_state(),
   m_state_timer(),
   m_safe_timer(),
   m_stomp_count(),
-  m_hit_points(),
-  m_hud_head(),
   m_left_stand_x(),
   m_right_stand_x(),
   m_left_jump_x(),
   m_right_jump_x(),
-  m_fixed_pos(),
-  m_hud_icon()
+  m_fixed_pos()
 {
-  reader.get("lives", m_hit_points, INITIAL_HITPOINTS);
-  m_countMe = true;
-  SoundManager::current()->preload("sounds/yeti_gna.wav");
-  SoundManager::current()->preload("sounds/yeti_roar.wav");
-
   reader.get("hud-icon", m_hud_icon, "images/creatures/yeti/hudlife.png");
   m_hud_head = Surface::from_file(m_hud_icon);
+  SoundManager::current()->preload("sounds/yeti_gna.wav");
+  SoundManager::current()->preload("sounds/yeti_roar.wav");
 
   initialize();
 
@@ -120,32 +113,14 @@ Yeti::draw(DrawingContext& context)
   if (m_safe_timer.started() && size_t(g_game_time * 40) % 2)
     return;
 
-  draw_hit_points(context);
-
-  BadGuy::draw(context);
-}
-
-void
-Yeti::draw_hit_points(DrawingContext& context)
-{
-  if (m_hud_head)
-  {
-    context.push_transform();
-    context.set_translation(Vector(0, 0));
-    context.transform().scale = 1.f;
-
-    for (int i = 0; i < m_hit_points; ++i)
-    {
-      context.color().draw_surface(m_hud_head, Vector(BORDER_X + (static_cast<float>(i * m_hud_head->get_width())), BORDER_Y + 1), LAYER_FOREGROUND1);
-    }
-
-    context.pop_transform();
-  }
+  Boss::draw(context);
 }
 
 void
 Yeti::active_update(float dt_sec)
 {
+  Boss::boss_update(dt_sec);
+
   switch (m_state) {
     case JUMP_DOWN:
       m_physic.set_velocity_x((m_dir==Direction::RIGHT)?+JUMP_DOWN_VX:-JUMP_DOWN_VX);
@@ -255,9 +230,9 @@ void Yeti::take_hit(Player& )
     return;
 
   SoundManager::current()->play("sounds/yeti_roar.wav", get_pos());
-  m_hit_points--;
+  m_lives--;
 
-  if (m_hit_points <= 0) {
+  if (m_lives <= 0) {
     // We're dead.
     m_physic.set_velocity((m_dir == Direction::RIGHT ? RUN_VX : -RUN_VX) / 5, 0);
 
@@ -292,7 +267,7 @@ Yeti::drop_stalactite()
   for (auto& stalactite : Sector::get().get_objects_by_type<YetiStalactite>())
   {
     if (stalactite.is_hanging()) {
-      if (m_hit_points >= 3) {
+      if (!m_pinch_mode) {
         // Drop stalactites within 3 units of player, going out with each jump.
         float distancex = fabsf(stalactite.get_bbox().get_middle().x - player->get_bbox().get_middle().x);
         if (distancex < static_cast<float>(m_stomp_count) * 32.0f) {
@@ -355,20 +330,12 @@ Yeti::collision_solid(const CollisionHit& hit)
   }
 }
 
-bool
-Yeti::is_flammable() const
-{
-  return false;
-}
-
 ObjectSettings
 Yeti::get_settings()
 {
-  ObjectSettings result = BadGuy::get_settings();
+  ObjectSettings result = Boss::get_settings();
 
-  result.add_text("hud-icon", &m_hud_icon, "hud-icon", "images/creatures/yeti/hudlife.png", OPTION_HIDDEN);
   result.add_bool(_("Fixed position"), &m_fixed_pos, "fixed-pos", false);
-  result.add_int(_("Lives"), &m_hit_points, "lives", 5);
 
   return result;
 }

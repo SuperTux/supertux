@@ -18,9 +18,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_YETI_HPP
 #define HEADER_SUPERTUX_BADGUY_YETI_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/boss.hpp"
 
-class Yeti final : public BadGuy
+class Yeti final : public Boss
 {
 public:
   Yeti(const ReaderMapping& mapping);
@@ -32,7 +32,6 @@ public:
   virtual bool collision_squished(GameObject& object) override;
   virtual void kill_fall() override;
 
-  virtual bool is_flammable() const override;
   static std::string class_name() { return "yeti"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Yeti"); }
@@ -51,8 +50,6 @@ private:
   void be_angry();
   void drop_stalactite();
   void jump_down();
-
-  void draw_hit_points(DrawingContext& context);
 
   void take_hit(Player& player);
 
@@ -74,8 +71,6 @@ private:
   Timer m_state_timer;
   Timer m_safe_timer;
   int m_stomp_count;
-  int m_hit_points;
-  SurfacePtr m_hud_head;
 
   float m_left_stand_x;
   float m_right_stand_x;
@@ -83,7 +78,6 @@ private:
   float m_right_jump_x;
 
   bool m_fixed_pos;
-  std::string m_hud_icon;
 
   class SnowExplosionParticle: public BadGuy
   {
