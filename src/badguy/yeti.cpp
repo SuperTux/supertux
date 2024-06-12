@@ -42,7 +42,6 @@ const float STOMP_VY = -300; /**< Vertical speed while stomping on the dais. */
 
 const float RUN_DISTANCE = 1060; /**< Distance between the x-coordinates of left and right end positions. */
 const float JUMP_SPACE = 448; /**< Distance between the jump position and the stand position. */
-const float BIG_WAIT = 4;
 const float BEFORE_WAIT = 3;
 const float BALL_WAIT = 2;
 const float STOMP_WAIT = 0.5; /**< Time we stay on the dais before jumping again. */
@@ -141,7 +140,7 @@ Yeti::active_update(float dt_sec)
 
   switch (m_state) {
     case RUN:
-      if (!m_just_threw || (m_just_threw && m_state_timer.check()))
+      if (!m_just_threw || m_state_timer.check())
       {
         set_action("jump", m_dir);
         m_just_threw = false;
