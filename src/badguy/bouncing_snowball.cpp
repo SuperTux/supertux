@@ -58,8 +58,10 @@ BouncingSnowball::active_update(float dt_sec)
     set_action(m_dir);
   }
   Rectf lookbelow = get_bbox();
-  lookbelow.set_bottom(lookbelow.get_bottom() + 48);
-  lookbelow.set_top(lookbelow.get_top() + 31);
+  lookbelow.set_bottom(get_bbox().get_bottom() + 48);
+  lookbelow.set_left(get_bbox().get_left() + 10);
+  lookbelow.set_right(get_bbox().get_right() - 10);
+  lookbelow.set_top(get_bbox().get_top() + 31);
   bool groundBelow = !Sector::get().is_free_of_statics(lookbelow);
   if (groundBelow && (m_physic.get_velocity_y() >= 64.0f))
   {

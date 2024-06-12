@@ -85,7 +85,9 @@ private:
 
   bool m_fixed_pos;
   bool m_just_hit;
+  bool m_just_threw;
   bool m_grabbed_tux;
+  bool m_jumped;
 
   class SnowExplosionParticle: public BadGuy
   {

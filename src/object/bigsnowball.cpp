@@ -97,7 +97,7 @@ BigSnowball::collision(GameObject& other, const CollisionHit& hit)
 {
   // ignore collisions with yeti
   auto* yeti = dynamic_cast<Yeti*>(&other);
-  if (&other == yeti) {
+  if (yeti) {
     return ABORT_MOVE;
   }
   return FORCE_MOVE;

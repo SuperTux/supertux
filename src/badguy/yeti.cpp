@@ -68,7 +68,9 @@ Yeti::Yeti(const ReaderMapping& reader) :
   m_right_jump_x(),
   m_fixed_pos(),
   m_just_hit(),
-  m_grabbed_tux()
+  m_just_threw(),
+  m_grabbed_tux(),
+  m_jumped()
 {
   reader.get("hud-icon", m_hud_icon, "images/creatures/yeti/hudlife.png");
   m_hud_head = Surface::from_file(m_hud_icon);
@@ -139,34 +141,45 @@ Yeti::active_update(float dt_sec)
 
   switch (m_state) {
     case RUN:
-      if (m_pinch_mode)
+      if (!m_just_threw || (m_just_threw && m_state_timer.check()))
       {
-        if (std::abs(m_physic.get_velocity_x()) < (RUN_PINCH_VX - 10.f)) {
-          m_physic.set_acceleration_x(5.f*(m_dir == Direction::RIGHT ? RUN_PINCH_VX : -RUN_PINCH_VX));
+        set_action("jump", m_dir);
+        m_just_threw = false;
+        if (!m_jumped && (push_distance >= 160.f)) {
+          m_physic.set_velocity_y(STOMP_VY * 2.5f / 3.f);
+          m_jumped = true;
         }
-        else
-        {
-          m_physic.set_acceleration_x(0.f);
-          m_physic.set_velocity_x(RUN_PINCH_VX * (m_dir == Direction::RIGHT ? 1.f : -1.f));
-        }
-      }
-      else
-      {
-        if (std::abs(m_physic.get_velocity_x()) < (RUN_VX - 10.f)) {
-          m_physic.set_acceleration_x(5.f*(m_dir == Direction::RIGHT ? RUN_VX : -RUN_VX));
-        }
-        else
-        {
-          m_physic.set_acceleration_x(0.f);
-          m_physic.set_velocity_x(RUN_VX * (m_dir == Direction::RIGHT ? 1.f : -1.f));
-        }
-      }
 
-      if (((m_dir == Direction::RIGHT) && (get_pos().x >= m_right_jump_x)) || ((m_dir == Direction::LEFT) && (get_pos().x <= m_left_jump_x))) jump_up();
+        if (m_pinch_mode)
+        {
+          if (std::abs(m_physic.get_velocity_x()) < (RUN_PINCH_VX - 10.f)) {
+            m_physic.set_acceleration_x(5.f * (m_dir == Direction::RIGHT ? RUN_PINCH_VX : -RUN_PINCH_VX));
+          }
+          else
+          {
+            m_physic.set_acceleration_x(0.f);
+            m_physic.set_velocity_x(RUN_PINCH_VX * (m_dir == Direction::RIGHT ? 1.f : -1.f));
+          }
+        }
+        else
+        {
+          if (std::abs(m_physic.get_velocity_x()) < (RUN_VX - 10.f)) {
+            m_physic.set_acceleration_x(5.f * (m_dir == Direction::RIGHT ? RUN_VX : -RUN_VX));
+          }
+          else
+          {
+            m_physic.set_acceleration_x(0.f);
+            m_physic.set_velocity_x(RUN_VX * (m_dir == Direction::RIGHT ? 1.f : -1.f));
+          }
+        }
+
+        if (((m_dir == Direction::RIGHT) && (get_pos().x >= m_right_jump_x)) || ((m_dir == Direction::LEFT) && (get_pos().x <= m_left_jump_x))) jump_up();
+      }
       break;
     case JUMP_UP:
       if (((m_dir == Direction::RIGHT) && (get_pos().x >= m_right_stand_x)) || ((m_dir == Direction::LEFT) && (get_pos().x <= m_left_stand_x)))
       {
+        m_jumped = false;
         m_dir = (m_dir == Direction::RIGHT) ? Direction::LEFT : Direction::RIGHT;
         throw_snowballs();
       }
@@ -179,12 +192,7 @@ Yeti::active_update(float dt_sec)
         set_action("stand", m_dir);
         m_stomp_count++;
         if ((m_pinch_mode && m_stomp_count == 3) || (!m_pinch_mode && m_stomp_count == 2)) {
-          if (m_pinch_mode) {
-            throw_big_snowballs();
-          }
-          else {
-            be_angry();
-          }
+          be_angry();
         } else {
           m_state_timer.start(BALL_WAIT / (m_pinch_mode ? 1.2f : 1.f));
         }
@@ -197,7 +205,8 @@ Yeti::active_update(float dt_sec)
         set_action("stand", m_dir);
         m_stomp_count++;
         if ((m_lives == 1 && m_stomp_count == 3) || (m_lives > 1 && m_stomp_count == 1)) {
-          be_angry();
+          m_just_threw = true;
+          run();
         }
         else {
           m_state_timer.start(BALL_WAIT);
@@ -267,8 +276,8 @@ Yeti::active_update(float dt_sec)
 void
 Yeti::run()
 {
-  set_action("jump", m_dir);
   m_state = RUN;
+  m_state_timer.start(BEFORE_WAIT);
 }
 
 void
@@ -295,7 +304,7 @@ Yeti::throw_big_snowballs()
 {
   m_stomp_count = 0;
   m_state = THROW_BIG;
-  m_state_timer.start(BEFORE_WAIT);
+  m_state_timer.start(BALL_WAIT);
 }
 
 void
@@ -303,7 +312,7 @@ Yeti::be_angry()
 {
   m_stomp_count = 0;
   m_state = BE_ANGRY;
-  m_state_timer.start(m_pinch_mode ? BIG_WAIT : BALL_WAIT);
+  m_state_timer.start(BALL_WAIT);
 }
 
 bool
@@ -419,7 +428,9 @@ Yeti::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_y(0);
     switch (m_state) {
       case RUN:
-        set_action("walking", m_dir);
+        if (!m_just_threw) {
+          set_action("walking", m_dir);
+        }
         break;
       case JUMP_UP:
         break;
@@ -439,8 +450,12 @@ Yeti::collision_solid(const CollisionHit& hit)
           if (m_stomp_count == 3)
           {
             m_just_hit = false;
-            m_physic.set_velocity_y(STOMP_VY * 2.5f / 3.f);
-            run();
+            if (m_pinch_mode) {
+              throw_big_snowballs();
+            }
+            else {
+              run();
+            }
           }
           else
           {
