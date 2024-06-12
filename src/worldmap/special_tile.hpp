@@ -40,9 +40,9 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  std::string get_map_message() const { return m_map_message; }
+  const std::string& get_map_message() const { return m_map_message; }
   bool is_passive_message() const { return m_passive_message; }
-  std::string get_script() const { return m_script; }
+  const std::string& get_script() const { return m_script; }
 
   bool get_apply_action_north() const { return m_apply_action_north; }
   bool get_apply_action_east() const  { return m_apply_action_east; }

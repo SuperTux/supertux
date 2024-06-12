@@ -32,9 +32,9 @@ jobs:
       matrix:
         # TODO: Add the OpenBSD, NetBSD and Solaris VMs whenever possible
         vm_os: [freebsd]
-        build_type: [Debug, Release]
+        build_type: [Debug, RelWithDebInfo]
         # FreeBSD does not have glbinding
-        # glbinding: [ON, OFF]
+        # glbiactions/checkout@v4
 
     runs-on: macos-10.15
     steps:
@@ -80,3 +80,4 @@ jobs:
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1
             ./test_supertux2
+actions/checkout@v4

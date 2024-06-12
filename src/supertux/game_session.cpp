@@ -31,6 +31,7 @@
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
 #include "sdk/integration.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -87,7 +88,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_current_cutscene_text(),
   m_endsequence_timer()
 {
-  set_start_point("main", "main");
+  set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
 
   m_boni_at_start.resize(InputManager::current()->get_num_users(), NO_BONUS);
   m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
@@ -704,6 +705,7 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
   m_newsector = sector;
   m_newspawnpoint = spawnpoint;
   m_spawn_with_invincibility = false;
+  m_spawn_fade_type = ScreenFade::FadeType::NONE;
 }
 
 void

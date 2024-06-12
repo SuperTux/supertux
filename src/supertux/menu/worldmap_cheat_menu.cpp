@@ -18,6 +18,7 @@
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/worldmap_cheat_apply_menu.hpp"
 #include "supertux/player_status.hpp"
@@ -152,7 +153,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
       return;
 
     case MNID_MOVE_TO_MAIN:
-      worldmap_sector->move_to_spawnpoint("main");
+      worldmap_sector->move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
       MenuManager::instance().clear_menu_stack();
       break;
   }
