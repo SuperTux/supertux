@@ -24,16 +24,25 @@
 static const float JUMPSPEED = -450;
 static const float BSNOWBALL_WALKSPEED = 80;
 
-BouncingSnowball::BouncingSnowball(const ReaderMapping& reader)
-  : BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
+BouncingSnowball::BouncingSnowball(const ReaderMapping& reader) :
+  BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite"),
+  m_x_speed()
 {
+  m_x_speed = BSNOWBALL_WALKSPEED;
   parse_type(reader);
+}
+
+BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d, float x_vel) :
+  BadGuy(pos, d, "images/creatures/bouncing_snowball/bouncing_snowball.sprite"),
+  m_x_speed()
+{
+  m_x_speed = x_vel;
 }
 
 void
 BouncingSnowball::initialize()
 {
-  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -BSNOWBALL_WALKSPEED : BSNOWBALL_WALKSPEED);
+  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -m_x_speed : m_x_speed);
   set_action(m_dir);
 }
 

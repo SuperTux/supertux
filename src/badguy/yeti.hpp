@@ -30,6 +30,7 @@ public:
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual bool collision_squished(GameObject& object) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void kill_fall() override;
 
   static std::string class_name() { return "yeti"; }
@@ -47,9 +48,10 @@ protected:
 private:
   void run();
   void jump_up();
+  void throw_snowballs();
   void be_angry();
   void drop_stalactite();
-  void jump_down();
+  void summon_snowball();
 
   void take_hit(Player& player);
 
@@ -58,12 +60,13 @@ private:
 
 private:
   enum YetiState {
-    JUMP_DOWN,
     RUN,
     JUMP_UP,
+    THROW,
     BE_ANGRY,
     SQUISHED,
-    FALLING
+    FALLING,
+    REMOVE_TUX
   };
 
 private:
@@ -78,6 +81,8 @@ private:
   float m_right_jump_x;
 
   bool m_fixed_pos;
+  bool m_just_hit;
+  bool m_grabbed_tux;
 
   class SnowExplosionParticle: public BadGuy
   {
