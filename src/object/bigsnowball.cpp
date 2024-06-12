@@ -22,7 +22,7 @@
 #include "util/reader_mapping.hpp"
 
 namespace {
-  const float SPEED_X = 300.f;
+  const float SPEED_X = 350.f;
   const float SPEED_Y = -300.f;
 }
 
