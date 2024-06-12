@@ -23,6 +23,7 @@
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/yeti_stalactite.hpp"
 #include "math/random.hpp"
+#include "object/bigsnowball.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -41,6 +42,8 @@ const float STOMP_VY = -300; /**< Vertical speed while stomping on the dais. */
 
 const float RUN_DISTANCE = 1060; /**< Distance between the x-coordinates of left and right end positions. */
 const float JUMP_SPACE = 448; /**< Distance between the jump position and the stand position. */
+const float BIG_WAIT = 4;
+const float BEFORE_WAIT = 3;
 const float BALL_WAIT = 2;
 const float STOMP_WAIT = 0.5; /**< Time we stay on the dais before jumping again. */
 const float SAFE_TIME = 1; /**< The time we are safe when Tux just hit us. */
@@ -76,8 +79,8 @@ Yeti::Yeti(const ReaderMapping& reader) :
 
   reader.get("fixed-pos", m_fixed_pos, false);
   if (m_fixed_pos) {
-    m_left_stand_x = 112;
-    m_right_stand_x = 1118;
+    m_left_stand_x = 208;
+    m_right_stand_x = 1014;
     m_left_jump_x = 528;
     m_right_jump_x = 692;
   } else {
@@ -169,16 +172,35 @@ Yeti::active_update(float dt_sec)
       }
       break;
     case THROW:
-      m_physic.set_velocity_x((std::abs(m_physic.get_velocity_x()) > 10.f) ? (m_physic.get_velocity_x() / 1.25f) : 0.f);
+      m_physic.set_velocity_x((std::abs(m_physic.get_velocity_x()) > 10.f) ? (m_physic.get_velocity_x() / 1.125f) : 0.f);
       if (m_state_timer.check())
       {
         summon_snowball();
         set_action("stand", m_dir);
         m_stomp_count++;
         if ((m_pinch_mode && m_stomp_count == 3) || (!m_pinch_mode && m_stomp_count == 2)) {
-          be_angry();
+          if (m_pinch_mode) {
+            throw_big_snowballs();
+          }
+          else {
+            be_angry();
+          }
         } else {
           m_state_timer.start(BALL_WAIT / (m_pinch_mode ? 1.2f : 1.f));
+        }
+      }
+      break;
+    case THROW_BIG:
+      if (m_state_timer.check())
+      {
+        summon_big_snowball();
+        set_action("stand", m_dir);
+        m_stomp_count++;
+        if ((m_lives == 1 && m_stomp_count == 3) || (m_lives > 1 && m_stomp_count == 1)) {
+          be_angry();
+        }
+        else {
+          m_state_timer.start(BALL_WAIT);
         }
       }
       break;
@@ -245,7 +267,7 @@ Yeti::active_update(float dt_sec)
 void
 Yeti::run()
 {
-  set_action("walking", m_dir);
+  set_action("jump", m_dir);
   m_state = RUN;
 }
 
@@ -269,11 +291,19 @@ Yeti::throw_snowballs()
 }
 
 void
+Yeti::throw_big_snowballs()
+{
+  m_stomp_count = 0;
+  m_state = THROW_BIG;
+  m_state_timer.start(BEFORE_WAIT);
+}
+
+void
 Yeti::be_angry()
 {
   m_stomp_count = 0;
   m_state = BE_ANGRY;
-  m_state_timer.start(BALL_WAIT / (m_pinch_mode ? 1.2f : 1.f));
+  m_state_timer.start(m_pinch_mode ? BIG_WAIT : BALL_WAIT);
 }
 
 bool
@@ -374,6 +404,13 @@ Yeti::summon_snowball()
 }
 
 void
+Yeti::summon_big_snowball()
+{
+  Vector bs_pos = Vector(get_bbox().get_middle().x - 44.f, get_bbox().get_top() - 89.f);
+  Sector::get().add<BigSnowball>(bs_pos, m_dir, true);
+}
+
+void
 Yeti::collision_solid(const CollisionHit& hit)
 {
   update_on_ground_flag(hit);
@@ -382,10 +419,13 @@ Yeti::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_y(0);
     switch (m_state) {
       case RUN:
+        set_action("walking", m_dir);
         break;
       case JUMP_UP:
         break;
       case THROW:
+        break;
+      case THROW_BIG:
         break;
       case BE_ANGRY:
         // We just landed.
@@ -399,6 +439,7 @@ Yeti::collision_solid(const CollisionHit& hit)
           if (m_stomp_count == 3)
           {
             m_just_hit = false;
+            m_physic.set_velocity_y(STOMP_VY * 2.5f / 3.f);
             run();
           }
           else

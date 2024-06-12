@@ -49,9 +49,11 @@ private:
   void run();
   void jump_up();
   void throw_snowballs();
+  void throw_big_snowballs();
   void be_angry();
   void drop_stalactite();
   void summon_snowball();
+  void summon_big_snowball();
 
   void take_hit(Player& player);
 
@@ -63,6 +65,7 @@ private:
     RUN,
     JUMP_UP,
     THROW,
+    THROW_BIG,
     BE_ANGRY,
     SQUISHED,
     FALLING,

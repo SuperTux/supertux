@@ -178,6 +178,9 @@
   (object
     (class "dart")
     (icon "images/creatures/darttrap/granito/root_dart_left.png"))
+  (object
+    (class "bigsnowball")
+    (icon "images/objects/big_snowball/big_snowball.png"))
  )
 
  (objectgroup
