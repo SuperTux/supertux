@@ -384,6 +384,8 @@ Yeti::collision_solid(const CollisionHit& hit)
         break;
       case JUMP_UP:
         break;
+      case THROW:
+        break;
       case BE_ANGRY:
         // We just landed.
         if (!m_state_timer.started())
@@ -408,6 +410,8 @@ Yeti::collision_solid(const CollisionHit& hit)
       case SQUISHED:
         break;
       case FALLING:
+        break;
+      case REMOVE_TUX:
         break;
     }
   } else if (hit.left || hit.right) {
