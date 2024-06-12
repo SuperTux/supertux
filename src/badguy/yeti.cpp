@@ -126,7 +126,7 @@ Yeti::active_update(float dt_sec)
   float push_distance;
   push_distance = player ? (glm::length(get_bbox().get_middle() - player->get_bbox().get_middle())) : 0.f;
 
-  if ((m_state == BE_ANGRY || m_state == THROW) && push_distance <= 160.f && m_physic.get_velocity_x() == 0.f)
+  if (on_ground() && (m_state == BE_ANGRY || m_state == THROW) && push_distance <= 160.f && m_physic.get_velocity_x() == 0.f)
   {
     m_state_timer.stop();
     m_physic.enable_gravity(false);
@@ -181,6 +181,7 @@ Yeti::active_update(float dt_sec)
           m_state_timer.start(BALL_WAIT / (m_pinch_mode ? 1.2f : 1.f));
         }
       }
+      break;
     case BE_ANGRY:
       if (m_state_timer.check() && on_ground())
       {
