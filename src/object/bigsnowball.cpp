@@ -18,6 +18,7 @@
 #include "badguy/yeti.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
+#include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -118,6 +119,13 @@ BigSnowball::collision(GameObject& other, const CollisionHit& hit)
   // ignore collisions with yeti
   auto yeti = dynamic_cast<Yeti*>(&other); // cppcheck-suppress constVariablePointer
   if (yeti) {
+    return ABORT_MOVE;
+  }
+
+  auto player = dynamic_cast<Player*>(&other); // cppcheck-suppress constVariablePointer
+  if (player && player->m_does_buttjump && hit.top)
+  {
+    spawn_particles();
     return ABORT_MOVE;
   }
 
