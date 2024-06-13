@@ -15,6 +15,7 @@
 
 #include "object/bigsnowball.hpp"
 
+#include "badguy/badguy.hpp"
 #include "badguy/yeti.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
@@ -123,6 +124,13 @@ BigSnowball::collision(GameObject& other, const CollisionHit& hit)
   // ignore collisions with yeti
   auto yeti = dynamic_cast<Yeti*>(&other); // cppcheck-suppress constVariablePointer
   if (yeti) {
+    return ABORT_MOVE;
+  }
+
+  auto badguy = dynamic_cast<BadGuy*>(&other); // cppcheck-suppress constVariablePointer
+  if (badguy && ((m_dir == Direction::LEFT && hit.left) || (m_dir == Direction::RIGHT && hit.right) || hit.bottom))
+  {
+    badguy->kill_fall();
     return ABORT_MOVE;
   }
 
