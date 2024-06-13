@@ -36,6 +36,7 @@ BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d, float x_vel) 
   BadGuy(pos, d, "images/creatures/bouncing_snowball/bouncing_snowball.sprite"),
   m_x_speed()
 {
+  m_countMe = false;
   m_x_speed = x_vel;
 }
 

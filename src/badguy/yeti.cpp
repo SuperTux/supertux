@@ -80,7 +80,7 @@ Yeti::Yeti(const ReaderMapping& reader) :
 
   reader.get("fixed-pos", m_fixed_pos, false);
   if (m_fixed_pos) {
-    m_left_stand_x = 208;
+    m_left_stand_x = 216;
     m_right_stand_x = 1014;
     m_left_jump_x = 528;
     m_right_jump_x = 692;

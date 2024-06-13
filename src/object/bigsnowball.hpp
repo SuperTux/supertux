@@ -40,9 +40,14 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
 private:
+  void spawn_particles();
+
+private:
   Physic m_physic;
   Direction m_dir;
   float m_speed;
+  bool m_break_on_impact;
+  bool m_bounce;
 
 private:
   BigSnowball(const BigSnowball&) = delete;

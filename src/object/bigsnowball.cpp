@@ -16,6 +16,9 @@
 #include "object/bigsnowball.hpp"
 
 #include "badguy/yeti.hpp"
+#include "math/random.hpp"
+#include "math/util.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
@@ -30,14 +33,18 @@ BigSnowball::BigSnowball(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/big_snowball/big_snowball.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   m_physic(),
   m_dir(Direction::LEFT),
-  m_speed()
+  m_speed(),
+  m_break_on_impact(),
+  m_bounce()
 {
   reader.get("speed", m_speed, SPEED_X);
-  m_physic.set_velocity_x(m_dir == Direction::RIGHT ? m_speed : -m_speed);
+  reader.get("break-on-impact", m_break_on_impact, false);
+  reader.get("bounce", m_bounce, true);
   std::string dir_str;
   if (reader.get("direction", dir_str)) {
     m_dir = string_to_dir(dir_str);
   }
+  m_physic.set_velocity_x(m_dir == Direction::RIGHT ? m_speed : -m_speed);
   set_action("normal", m_dir);
 }
 
@@ -45,10 +52,15 @@ BigSnowball::BigSnowball(const Vector& pos, const Direction& dir, bool bounce) :
   MovingSprite(pos, "images/objects/big_snowball/big_snowball.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   m_physic(),
   m_dir(Direction::LEFT),
-  m_speed()
+  m_speed(),
+  m_break_on_impact(),
+  m_bounce()
 {
+  // settings used by Yeti when it throws it
   m_dir = dir;
   m_speed = SPEED_X;
+  m_break_on_impact = true;
+  m_bounce = false;
   m_physic.set_velocity_x(m_dir == Direction::RIGHT ? SPEED_X : -SPEED_X);
   if (bounce) {
     m_physic.set_velocity_y(SPEED_Y);
@@ -61,9 +73,11 @@ BigSnowball::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_float(_("Speed"), &m_speed, "speed", SPEED_X);
   result.add_direction(_("Direction"), &m_dir, { Direction::RIGHT, Direction::LEFT }, "direction");
-  result.reorder({ "direction", "sprite", "x", "y" });
+  result.add_float(_("Speed"), &m_speed, "speed", SPEED_X);
+  result.add_bool(_("Break on impact?"), &m_break_on_impact, "break-on-impact", false);
+  result.add_bool(_("Bounce?"), &m_bounce, "bounce", true);
+  result.reorder({ "direction", "speed", "break-on-impact", "bounce", "sprite", "x", "y" });
   return result;
 }
 
@@ -81,9 +95,15 @@ BigSnowball::update(float dt_sec)
   side_look_box.set_right(get_bbox().get_right() + (m_dir == Direction::LEFT ? -1.f : 1.f));
   if (!Sector::get().is_free_of_statics(side_look_box))
   {
-    m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
-    set_action(m_dir);
-    m_physic.set_velocity_x(-m_physic.get_velocity_x());
+    if (m_break_on_impact) {
+      spawn_particles();
+    }
+    else
+    {
+      m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
+      set_action(m_dir);
+      m_physic.set_velocity_x(-m_physic.get_velocity_x());
+    }
   }
 
   Vector movement = m_physic.get_movement(dt_sec);
@@ -100,25 +120,59 @@ BigSnowball::collision(GameObject& other, const CollisionHit& hit)
   if (yeti) {
     return ABORT_MOVE;
   }
+
+  auto bs = dynamic_cast<BigSnowball*>(&other); // cppcheck-suppress constVariablePointer
+  if (bs) {
+    collision_solid(hit);
+    return ABORT_MOVE;
+  }
   return FORCE_MOVE;
 }
 
 void
 BigSnowball::collision_solid(const CollisionHit& hit)
 {
-  if (hit.bottom) {
-    m_physic.set_velocity_y(0.f);
-  }
-  if (m_dir == Direction::LEFT && hit.left)
+  if (hit.bottom)
   {
-    m_physic.set_velocity_x(m_speed);
-    m_dir = Direction::RIGHT;
+    if (m_physic.get_velocity_y() > 10.f && m_bounce) {
+      m_physic.set_velocity_y(-std::pow(m_physic.get_velocity_y(), (9.f / 10.f)));
+    }
+    else {
+      m_physic.set_velocity_y(0.f);
+    }
   }
-  if (m_dir == Direction::RIGHT && hit.right)
+
+  if ((hit.left || hit.right) && m_break_on_impact) {
+    spawn_particles();
+  }
+
+  if (!m_break_on_impact)
   {
-    m_physic.set_velocity_x(-m_speed);
-    m_dir = Direction::LEFT;
+    if (m_dir == Direction::LEFT && hit.left)
+    {
+      m_physic.set_velocity_x(m_speed);
+      m_dir = Direction::RIGHT;
+    }
+    if (m_dir == Direction::RIGHT && hit.right)
+    {
+      m_physic.set_velocity_x(-m_speed);
+      m_dir = Direction::LEFT;
+    }
   }
+}
+
+void
+BigSnowball::spawn_particles()
+{
+  for (int i = 0; i < 8; i++)
+  {
+    Sector::get().add<SpriteParticle>(m_sprite_name, "particle",
+      get_bbox().get_middle() + (15.f * Vector(std::cos(math::PI_4*i), std::sin(math::PI_4*i))),
+      ANCHOR_MIDDLE, (150.f * (glm::normalize(Vector(std::cos(math::PI_4*i), std::sin(math::PI_4*i))))) +
+                      Vector(gameRandom.randf(-40.f, 40.f), gameRandom.randf(-40.f, 40.f)),
+      Vector(0.f, 1000.f), LAYER_OBJECTS + 1, true);
+  }
+  remove_me();
 }
 
 /* EOF */
