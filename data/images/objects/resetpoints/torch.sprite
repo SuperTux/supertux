@@ -27,6 +27,6 @@
  )
 
   (linked-sprites
-    (light "torch_light.sprite" 0.87 0.64 0.12)
+    (light "torch_light.sprite" "default" 0.87 0.64 0.12)
   )
 )
