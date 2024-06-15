@@ -218,26 +218,8 @@ BadGuy::update(float dt_sec)
   }
 
   bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
-  Rectf top_water_box = get_bbox();
-  top_water_box.set_bottom(get_bbox().get_top() + 8.f);
-  bool top_water = (Sector::get().is_free_of_tiles(top_water_box, true, Tile::WATER));
-
   if (m_physic.gravity_enabled()) {
     m_physic.set_gravity_modifier(in_water ? 0.3f : 1.f);
-  }
-
-  if (m_frozen && in_water && !is_grabbed()) {
-    if (std::abs(m_physic.get_velocity_x()) > 5.f) {
-      m_physic.set_velocity_x(m_physic.get_velocity_x() * 0.975f);
-    }
-    else
-    {
-      m_physic.set_velocity_x(0.f);
-      m_physic.set_acceleration_x(0.f);
-    }
-    if (!top_water) {
-      m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() - 20.f, -100.f));
-    }
   }
 
   switch (m_state) {
