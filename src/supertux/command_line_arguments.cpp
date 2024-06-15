@@ -43,8 +43,6 @@ CommandLineArguments::CommandLineArguments() :
   music_enabled(),
   filenames(),
   enable_script_debugger(),
-  start_demo(),
-  record_demo(),
   tux_spawn_pos(),
   sector(),
   spawnpoint(),
@@ -124,10 +122,6 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if level is specified.") << "\n"
     << _("  --sector SECTOR              Spawn Tux in SECTOR\n") << "\n"
     << _("  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n") << "\n"
-    << "\n"
-    << _("Demo Recording Options:") << "\n"
-    << _("  --record-demo FILE LEVEL     Record a demo to FILE") << "\n"
-    << _("  --play-demo FILE LEVEL       Play a recorded demo") << "\n"
     << "\n"
     << _("Directory Options:") << "\n"
     << _("  --datadir DIR                Set the directory for the games datafiles") << "\n"
@@ -319,28 +313,6 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       music_enabled = false;
     }
-    else if (arg == "--play-demo")
-    {
-      if (i + 1 >= argc)
-      {
-        throw std::runtime_error("Need to specify a demo filename");
-      }
-      else
-      {
-        start_demo = argv[++i];
-      }
-    }
-    else if (arg == "--record-demo")
-    {
-      if (i + 1 >= argc)
-      {
-        throw std::runtime_error("Need to specify a demo filename");
-      }
-      else
-      {
-        record_demo = argv[++i];
-      }
-    }
     else if (arg == "--spawn-pos")
     {
       Vector spawn_pos(0.0f, 0.0f);
@@ -401,7 +373,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else
     {
-      throw std::runtime_error(fmt::format("Unknown option '{}''. Use --help to see a list of options", arg));
+      throw std::runtime_error(fmt::format("Unknown option '{}'. Use --help to see a list of options", arg));
     }
   }
 
@@ -427,8 +399,6 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(sound_enabled)
   merge_option(music_enabled)
   merge_option(enable_script_debugger)
-  merge_option(start_demo)
-  merge_option(record_demo)
   merge_option(tux_spawn_pos)
   merge_option(developer_mode)
   merge_option(christmas_mode)

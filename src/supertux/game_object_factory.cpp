@@ -37,6 +37,9 @@
 #include "badguy/ghosttree.hpp"
 #include "badguy/ghoul.hpp"
 #include "badguy/goldbomb.hpp"
+#include "badguy/granito.hpp"
+#include "badguy/granito_big.hpp"
+#include "badguy/granito_giant.hpp"
 #include "badguy/haywire.hpp"
 #include "badguy/igel.hpp"
 #include "badguy/jumpy.hpp"
@@ -50,6 +53,8 @@
 #include "badguy/owl.hpp"
 #include "badguy/plant.hpp"
 #include "badguy/rcrystallo.hpp"
+#include "badguy/root.hpp"
+#include "badguy/root_sapling.hpp"
 #include "badguy/short_fuse.hpp"
 #include "badguy/skydive.hpp"
 #include "badguy/smartball.hpp"
@@ -57,12 +62,12 @@
 #include "badguy/snail.hpp"
 #include "badguy/snowball.hpp"
 #include "badguy/snowman.hpp"
-#include "badguy/spidermite.hpp"
 #include "badguy/scrystallo.hpp"
 #include "badguy/spiky.hpp"
 #include "badguy/sspiky.hpp"
 #include "badguy/stalactite.hpp"
 #include "badguy/stumpy.hpp"
+#include "badguy/tarantula.hpp"
 #include "badguy/toad.hpp"
 #include "badguy/totem.hpp"
 #include "badguy/viciousivy.hpp"
@@ -165,10 +170,10 @@ GameObjectFactory::init_factories()
   add_factory<AngryStone>("angrystone");
   add_factory<BouncingSnowball>("bouncingsnowball", OBJ_PARAM_DISPENSABLE);
   add_factory<CaptainSnowball>("captainsnowball", OBJ_PARAM_DISPENSABLE);
-  add_factory<CorruptedGranito>("skullyhop"); // backward compatibility
+  add_type_factory<CorruptedGranito>("skullyhop", CorruptedGranito::SKULLYHOP); // Backward compatibility
   add_factory<CorruptedGranito>("corrupted_granito", OBJ_PARAM_DISPENSABLE);
   add_factory<CorruptedGranitoBig>("corrupted_granito_big", OBJ_PARAM_DISPENSABLE);
-  add_factory<Crusher>("icecrusher"); // backward compatibility
+  add_factory<Crusher>("icecrusher"); // Backward compatibility
   add_factory<Crusher>("crusher");
   add_factory<Crystallo>("crystallo", OBJ_PARAM_DISPENSABLE);
   add_factory<Dart>("dart", OBJ_PARAM_DISPENSABLE);
@@ -177,7 +182,7 @@ GameObjectFactory::init_factories()
   add_factory<DiveMine>("dive-mine", OBJ_PARAM_DISPENSABLE);
   add_factory<FishChasing>("fish-chasing", OBJ_PARAM_DISPENSABLE);
   add_factory<FishHarmless>("fish-harmless", OBJ_PARAM_DISPENSABLE);
-  add_factory<FishJumping>("fish"); // backward compatibility
+  add_factory<FishJumping>("fish"); // Backward compatibility
   add_factory<FishJumping>("fish-jumping", OBJ_PARAM_DISPENSABLE);
   add_factory<FishSwimming>("fish-swimming", OBJ_PARAM_DISPENSABLE);
   add_factory<Flame>("flame", OBJ_PARAM_DISPENSABLE);
@@ -186,6 +191,9 @@ GameObjectFactory::init_factories()
   add_factory<GhostTree>("ghosttree");
   add_factory<Ghoul>("ghoul", OBJ_PARAM_DISPENSABLE);
   add_factory<GoldBomb>("goldbomb", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
+  add_factory<Granito>("granito", OBJ_PARAM_DISPENSABLE);
+  add_factory<GranitoBig>("granito_big", OBJ_PARAM_DISPENSABLE);
+  add_factory<GranitoGiant>("granito_giant", OBJ_PARAM_DISPENSABLE);
   add_factory<Haywire>("haywire", OBJ_PARAM_DISPENSABLE);
   add_type_factory<Flame>("iceflame", Flame::ICE); // Backward compatibility.
   add_factory<Igel>("igel", OBJ_PARAM_DISPENSABLE);
@@ -205,6 +213,8 @@ GameObjectFactory::init_factories()
   add_factory<Owl>("owl", OBJ_PARAM_DISPENSABLE);
   add_factory<Plant>("plant", OBJ_PARAM_DISPENSABLE);
   add_factory<RCrystallo>("rcrystallo", OBJ_PARAM_DISPENSABLE);
+  add_factory<Root>("root");
+  add_factory<RootSapling>("root_sapling");
   add_factory<SCrystallo>("scrystallo", OBJ_PARAM_DISPENSABLE);
   add_factory<ShortFuse>("short_fuse", OBJ_PARAM_DISPENSABLE);
   add_factory<SSpiky>("sspiky", OBJ_PARAM_DISPENSABLE);
@@ -214,10 +224,11 @@ GameObjectFactory::init_factories()
   add_factory<Snail>("snail", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<SnowBall>("snowball", OBJ_PARAM_DISPENSABLE);
   add_factory<Snowman>("snowman", OBJ_PARAM_DISPENSABLE);
-  add_factory<SpiderMite>("spidermite", OBJ_PARAM_DISPENSABLE);
   add_factory<Spiky>("spiky", OBJ_PARAM_DISPENSABLE);
   add_factory<Stalactite>("stalactite", OBJ_PARAM_DISPENSABLE);
   add_factory<Stumpy>("stumpy", OBJ_PARAM_DISPENSABLE);
+  add_factory<Tarantula>("spidermite"); // Backward compatibilty.
+  add_factory<Tarantula>("tarantula", OBJ_PARAM_DISPENSABLE);
   add_factory<Toad>("toad", OBJ_PARAM_DISPENSABLE);
   add_factory<Totem>("totem", OBJ_PARAM_DISPENSABLE);
   add_factory<ViciousIvy>("poisonivy"); // Backward compatibilty.

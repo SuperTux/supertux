@@ -35,6 +35,8 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
+  virtual void kill_fall() override;
+
   virtual void draw(DrawingContext& context) override;
   virtual void active_update(float dt_sec) override;
 

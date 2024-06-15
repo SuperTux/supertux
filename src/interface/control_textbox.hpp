@@ -42,7 +42,7 @@ public:
   void bind_string(std::string* value) { m_string = value; }
 
   /** Returns the full string held in m_charlist */
-  std::string get_string() const;
+  const std::string& get_string() const;
 
   /** Gets at which (absolute) index, in the text, corresponds an on-screen point */
   int get_text_position(const Vector& pos) const;
@@ -176,7 +176,7 @@ protected:
   void delete_char_before_caret();
 
   /** Returns the largest string fitting in the box. */
-  std::string get_truncated_text(std::string text) const;
+  std::string get_truncated_text(const std::string& text) const;
 
   /** Changes m_current_offset so that the caret is visible */
   void recenter_offset();

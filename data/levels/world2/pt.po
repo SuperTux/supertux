@@ -7,6 +7,7 @@
 # Dani <danielaafferraz@gmail.com>, 2013
 # Hugo Carvalho <hugokarvalho@hotmail.com>, 2021
 # João Frade <100nome.portugal@gmail.com>, 2023
+# lecalam, 2024
 # Rui <xymarior@yandex.com>, 2016,2018
 # Tiago Correia <tiaguito05@gmail.com>, 2019
 # Rui <xymarior@yandex.com>, 2016
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: João Frade <100nome.portugal@gmail.com>, 2023\n"
+"Last-Translator: lecalam, 2024\n"
 "Language-Team: Portuguese (http://app.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,8 +44,8 @@ msgstr "Velhas Ruínas"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Descobriste uma área secreta!"
 
@@ -96,11 +97,11 @@ msgstr "Os Desafios de Ghosttree"
 msgid "Ghouls' Lair"
 msgstr "Covil de Ghouls"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#Lanternas são usadas para tornar sólidos os blocos mágicos, para que consigas andar sobre eles."
+msgstr "#As lanternas são usadas para tornar sólidos os blocos mágicos, para que consigas andar sobre eles."
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -110,13 +111,13 @@ msgstr "Pelo Subterrâneo"
 msgid "I Spy With My Little Eye"
 msgstr "Eu Espio Com o Meu Olhinho"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Ispy\n#Ispys vão ativar coisas, como por exemplo plataformas, sempre que o Tux estiver no seu campo de visão."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Dica: usa caracóis para partir blocos!"
 
@@ -128,7 +129,7 @@ msgstr "Como uma folha no Vento"
 msgid "Lost Village"
 msgstr "Vila Perdida"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Não te esqueças de carregar no interruptor!"
 
@@ -166,11 +167,7 @@ msgid ""
 "!images/powerups/earthflower/earth_flower-1.png\n"
 "#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
 "#This does not work while jumping or falling!"
-msgstr "-Flor-de-Terra\n!images/powerups/earthflower/earth_flower-1.png\n#A flor-de-Terra dá ao Tux o poder de se tornar em pedra ao premir a tecla AÇÃO e SETA BAIXO ao mesmo tempo.\n#Isto não funciona quando saltas ou cais!"
-
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Cutscene da Torre"
+msgstr "-Flor-de-Terra\n!images/powerups/earthflower/earth_flower-1.png\n#A flor-de-Terra dá ao Tux o poder de se transformar em pedra ao premir a tecla AÇÃO e SETA BAIXO ao mesmo tempo.\n#Isto não funciona quando saltas ou cais!"
 
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
@@ -186,17 +183,17 @@ msgid ""
 "!images/objects/rock/rock.png\n"
 "#Tux can pick up certain objects and carry them around.\n"
 "#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Objetos Portáteis:\n!images/objects/rock/rock.png\n#O Tux pode segurar certos objetos e transportá-los.\n#Prime a tecla AÇÃO para apanhar um objeto e segura-a premida durante o tempo que desejes que o transporte. Solta a tecla AÇÃO para largar o objeto."
+msgstr "-Objetos Portáteis:\n!images/objects/rock/rock.png\n#O Tux pode segurar certos objetos e transportá-los.\n#Prime a tecla AÇÃO para agarrar um objeto e mantém-na premida durante o tempo que quiseres transportar o objeto. Solta a tecla AÇÃO para largar o objeto."
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"
 msgstr "O Espétaculo de Terror do Tux"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
-msgstr "#Will o'Wisps são fantasmas pequenos e irritantes que te transportam para sítios diferentes, normalmente sítios perigosos."
+msgstr "#As Chama Perseguidoras são fantasmas pequenos e irritantes que te transportam para sítios diferentes, normalmente sítios perigosos."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -221,6 +218,6 @@ msgstr "Raízes de Madeira"
 msgid "Rooted Forest"
 msgstr "Floresta Enraizada"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Continua..."

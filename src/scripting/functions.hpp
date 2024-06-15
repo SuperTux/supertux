@@ -290,18 +290,6 @@ void set_gamma(float gamma);
 int rand();
 
 /**
- * Records a demo to the given file.
- * @param string $filename
- */
-void record_demo(const std::string& filename);
-
-/**
- * Plays back a demo from the given file.
- * @param string $filename
- */
-void play_demo(const std::string& filename);
-
-/**
  * Sets the frame, displayed on the title screen.
  * @param string $image
  */

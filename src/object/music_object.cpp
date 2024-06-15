@@ -95,7 +95,7 @@ MusicObject::set_music(const std::string& music)
   m_music = music;
 }
 
-std::string
+const std::string&
 MusicObject::get_music() const
 {
   return m_music;

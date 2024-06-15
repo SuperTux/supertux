@@ -263,7 +263,7 @@ void Yeti::take_hit(Player& )
 
     // Set the badguy layer to be above the foremost, so that
     // this does not reveal secret tilemaps:
-    m_layer = Sector::get().get_foremost_layer() + 1;
+    m_layer = Sector::get().get_foremost_opaque_layer() + 1;
     m_state = SQUISHED;
     m_state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
@@ -394,7 +394,7 @@ Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vect
   m_physic.set_velocity(velocity);
   m_physic.enable_gravity(true);
   set_state(STATE_FALLING);
-  m_layer = Sector::get().get_foremost_layer() + 1;
+  m_layer = Sector::get().get_foremost_opaque_layer() + 1;
 }
 
 std::vector<Direction>

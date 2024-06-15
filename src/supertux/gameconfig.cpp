@@ -51,7 +51,7 @@ Config::Config() :
   use_fullscreen(false),
 #endif
   video(VideoSystem::VIDEO_AUTO),
-  try_vsync(true),
+  vsync(1),
   show_fps(false),
   show_player_pos(false),
   show_controller(false),
@@ -61,8 +61,6 @@ Config::Config() :
   music_volume(50),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
-  start_demo(),
-  record_demo(),
   tux_spawn_pos(),
   locale(),
   keyboard_config(),
@@ -262,7 +260,7 @@ Config::load()
     std::string video_string;
     config_video_mapping->get("video", video_string);
     video = VideoSystem::get_video_system(video_string);
-    config_video_mapping->get("vsync", try_vsync);
+    config_video_mapping->get("vsync", vsync);
 
     config_video_mapping->get("fullscreen_width",  fullscreen_size.width);
     config_video_mapping->get("fullscreen_height", fullscreen_size.height);
@@ -418,7 +416,7 @@ Config::save()
   } else {
     writer.write("video", VideoSystem::get_video_string(video));
   }
-  writer.write("vsync", try_vsync);
+  writer.write("vsync", vsync);
 
   writer.write("fullscreen_width",  fullscreen_size.width);
   writer.write("fullscreen_height", fullscreen_size.height);

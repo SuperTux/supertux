@@ -19,8 +19,10 @@
 #include "worldmap/worldmap_state.hpp"
 
 #include "math/vector.hpp"
+#include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
@@ -80,12 +82,19 @@ WorldMapState::load_state()
     else // Sector property does not exist, which may indicate outdated save file.
     {
       if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the main one.
-        m_worldmap.set_sector("main", "", false);
+        m_worldmap.set_sector(DEFAULT_SECTOR_NAME, "", false);
     }
     if (!m_worldmap.m_sector)
     {
       // Quit loading worldmap state, if there is still no current sector loaded.
       throw std::runtime_error("No sector set.");
+    }
+
+    if (vm.has_property("music"))
+    {
+      const std::string music = vm.read_string("music");
+      auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+      music_object.set_music(music);
     }
 
     /** Load objects. **/
@@ -100,7 +109,7 @@ WorldMapState::load_state()
 
     // Set default properties.
     if (!m_worldmap.m_sector)
-      m_worldmap.set_sector("main", "", false); // If no current sector is present, set it to "main", or the default one.
+      m_worldmap.set_sector(DEFAULT_SECTOR_NAME, "", false); // If no current sector is present, set it to "main", or the default one.
 
     // Create a new initial save.
     save_state();
@@ -123,7 +132,7 @@ WorldMapState::load_tux()
   if (!vm.get_float("x", p.x) || !vm.get_float("y", p.y))
   {
     log_warning << "Player position not set, respawning." << std::endl;
-    sector.move_to_spawnpoint("main");
+    sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
     m_position_was_reset = true;
   }
   std::string back_str = vm.read_string("back");
@@ -133,7 +142,7 @@ WorldMapState::load_tux()
   int tile_data = sector.tile_data_at(p);
   if (!( tile_data & ( Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))) {
     log_warning << "Player at illegal position " << p.x << ", " << p.y << " respawning." << std::endl;
-    sector.move_to_spawnpoint("main");
+    sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
     m_position_was_reset = true;
   }
   sq_pop(vm.get_vm(), 1);
@@ -280,7 +289,7 @@ WorldMapState::save_state() const
     vm.get_or_create_table_entry("worlds");
 
     /** Get or create state table for the current worldmap. **/
-    vm.get_or_create_table_entry(m_worldmap.m_map_filename.c_str());
+    vm.get_or_create_table_entry(m_worldmap.m_map_filename);
 
     // Save the current sector.
     vm.store_string("sector", sector.get_name());
@@ -288,6 +297,9 @@ WorldMapState::save_state() const
     /** Delete the table entry for the current sector and construct a new one. **/
     vm.delete_table_entry(sector.get_name().c_str());
     vm.begin_table(sector.get_name().c_str());
+
+    auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+    vm.store_string("music", music_object.get_music());
 
     /** Save objects. **/
     save_tux();
@@ -361,7 +373,7 @@ WorldMapState::save_tilemap_visibility() const
     {
       sq_pushstring(vm.get_vm(), tilemap.get_name().c_str(), -1);
       sq_newtable(vm.get_vm());
-      vm.store_float("alpha", tilemap.get_alpha());
+      vm.store_float("alpha", tilemap.get_target_alpha());
       if (SQ_FAILED(sq_createslot(vm.get_vm(), -3)))
       {
         throw std::runtime_error("failed to create '" + m_worldmap.m_name + "' table entry");

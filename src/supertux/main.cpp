@@ -51,11 +51,13 @@ extern "C" {
 #include "object/spawnpoint.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
+#include "physfs/util.hpp"
 #include "port/emscripten.hpp"
 #include "sdk/integration.hpp"
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/command_line_arguments.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/console.hpp"
 #include "supertux/error_handler.hpp"
 #include "supertux/game_manager.hpp"
@@ -181,7 +183,7 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
   if (!PHYSFS_init(argv0))
   {
     std::stringstream msg;
-    msg << "Couldn't initialize physfs: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+    msg << "Couldn't initialize physfs: " << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
   else
@@ -202,20 +204,20 @@ void PhysfsSubsystem::find_mount_datadir()
     // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
     if (!PHYSFS_mount(std::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
     {
-      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << physfsutil::get_last_error() << std::endl;
       return;
     }
 
     PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
     if (!data)
     {
-      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << physfsutil::get_last_error() << std::endl;
       return;
     }
 
     if (!PHYSFS_mountHandle(data, "assets/data.zip", nullptr, 1))
     {
-      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << physfsutil::get_last_error() << std::endl;
     }
 
     return;
@@ -261,12 +263,12 @@ void PhysfsSubsystem::find_mount_datadir()
 
   if (!PHYSFS_mount(std::filesystem::canonical(m_datadir).string().c_str(), nullptr, 1))
   {
-    log_warning << "Couldn't add '" << m_datadir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add '" << m_datadir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 #else
   if (!PHYSFS_mount(BUILD_CONFIG_DATA_DIR, nullptr, 1))
   {
-    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 #endif
 }
@@ -282,9 +284,11 @@ void PhysfsSubsystem::remount_datadir_static() const
   add_data_to_search_path("shader");
 
   // Re-mount levels from the user directory
-  if (!PHYSFS_mount(FileSystem::join(m_userdir, "levels").c_str(), "levels", 0))
+  const std::string userdir_levels = FileSystem::join(m_userdir, "levels");
+  if (FileSystem::exists(userdir_levels) &&
+      !PHYSFS_mount(userdir_levels.c_str(), "levels", 0))
   {
-    log_warning << "Couldn't mount levels from the user directory '" << m_userdir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't mount levels from the user directory '" << m_userdir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 }
 
@@ -293,12 +297,12 @@ void PhysfsSubsystem::add_data_to_search_path(const std::string& dir) const
 #ifndef __EMSCRIPTEN__
   if (!PHYSFS_mount(FileSystem::join(std::filesystem::canonical(m_datadir).string(), dir).c_str(), dir.c_str(), 0))
   {
-    log_warning << "Couldn't add '" << m_datadir << "/" << dir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add '" << m_datadir << "/" << dir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 #else
   if (!PHYSFS_mount(FileSystem::join(BUILD_CONFIG_DATA_DIR, dir).c_str(), dir.c_str(), 0))
   {
-    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "/" << dir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "/" << dir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 #endif
 }
@@ -383,7 +387,7 @@ if (FileSystem::is_directory(olduserdir)) {
 #ifdef EMSCRIPTEN
   EM_ASM({
     try {
-      FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
+      FS.mount(IDBFS, {}, m_userdir);
       FS.syncfs(true, (err) => { console.log(err); });
     } catch(err) {}
   }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
@@ -393,13 +397,13 @@ if (FileSystem::is_directory(olduserdir)) {
   {
     std::ostringstream msg;
     msg << "Failed to use userdir directory '"
-        <<  m_userdir << "': errorcode: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+        <<  m_userdir << "': errorcode: " << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
 
   if (!PHYSFS_mount(m_userdir.c_str(), nullptr, 0))
   {
-    log_warning << "Couldn't add user directory '" << m_userdir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Couldn't add user directory '" << m_userdir << "' to PhysFS searchpath: " << physfsutil::get_last_error() << std::endl;
   }
 }
 
@@ -605,16 +609,14 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else
       { // launch game
-        std::unique_ptr<GameSession> session (
-          new GameSession(filename, *m_savegame));
+        std::unique_ptr<GameSession> session = std::make_unique<GameSession>(filename, *m_savegame);
 
-        g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
         gameRandom.seed(g_config->random_seed);
         graphicsRandom.seed(0);
 
         if (args.sector || args.spawnpoint)
         {
-          std::string sectorname = args.sector.value_or("main");
+          std::string sectorname = args.sector.value_or(DEFAULT_SECTOR_NAME);
 
           const auto& spawnpoints = session->get_current_sector().get_objects_by_type<SpawnPointMarker>();
           std::string default_spawnpoint = (spawnpoints.begin() != spawnpoints.end()) ?
@@ -631,11 +633,6 @@ Main::launch_game(const CommandLineArguments& args)
           session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
         }
 
-        if (!g_config->start_demo.empty())
-          session->play_demo(g_config->start_demo);
-
-        if (!g_config->record_demo.empty())
-          session->record_demo(g_config->record_demo);
         m_screen_manager->push_screen(std::move(session));
       }
     }
@@ -747,12 +744,15 @@ Main::run(int argc, char** argv)
   }
   catch(const std::exception& e)
   {
-    log_fatal << "Unexpected exception: " << e.what() << std::endl;
+    ErrorHandler::error_dialog_exception(e.what());
     result = 1;
   }
   catch(...)
   {
+    /*
     log_fatal << "Unexpected exception" << std::endl;
+    */
+    ErrorHandler::error_dialog_exception();
     result = 1;
   }
 

@@ -1060,8 +1060,8 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:79
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Выкарыстанне: %s [ПАРАМЕТРЫ] [ФАЙЛ УЗРОЎНЯ]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Выкарыстанне: {} [ПАРАМЕТРЫ] [ФАЙЛ УЗРОЎНЯ]"
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid "General Options:"
@@ -1242,8 +1242,8 @@ msgstr ""
 
 #: src/supertux/levelintro.cpp:120
 #, c-format
-msgid "contributed by %s"
-msgstr "зрабілі ўнёсак: %s"
+msgid "contributed by {}"
+msgstr "зрабілі ўнёсак: {}"
 
 #: src/supertux/levelintro.cpp:141 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
@@ -1283,8 +1283,8 @@ msgstr "Свет"
 
 #: src/supertux/menu/addon_menu.cpp:83
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" ад \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" ад \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:139
 msgid "Language packs"
@@ -1320,13 +1320,13 @@ msgstr "Дадаткаў не знойдзена"
 
 #: src/supertux/menu/addon_menu.cpp:224
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Усталяваць %s *НАВІНКА*"
+msgid "Install {} *NEW*"
+msgstr "Усталяваць {} *НАВІНКА*"
 
 #: src/supertux/menu/addon_menu.cpp:235
 #, c-format
-msgid "Install %s"
-msgstr "Усталяваць %s"
+msgid "Install {}"
+msgstr "Усталяваць {}"
 
 #: src/supertux/menu/addon_menu.cpp:246
 msgid "No new Language packs found"
@@ -1365,8 +1365,8 @@ msgstr "Сцягванне індэксу рэпазітара дадаткаў"
 
 #: src/supertux/menu/addon_menu.cpp:361
 #, c-format
-msgid "Downloading %s"
-msgstr "Сцягванне %s"
+msgid "Downloading {}"
+msgstr "Сцягванне {}"
 
 #: src/supertux/menu/addon_menu.cpp:408
 msgid ""
@@ -2027,13 +2027,13 @@ msgstr "Рэжым Раства"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Профіль %s]"
+msgid "[Profile {}]"
+msgstr "[Профіль {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "Профіль %s"
+msgid "Profile {}"
+msgstr "Профіль {}"
 
 #: src/supertux/menu/world_set_menu.cpp:41
 msgid "Story Mode"

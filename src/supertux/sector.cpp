@@ -65,6 +65,7 @@ Sector::Sector(Level& parent) :
   m_level(parent),
   m_fully_constructed(false),
   m_foremost_layer(),
+  m_foremost_opaque_layer(),
   m_gravity(10.0f),
   m_collision_system(new CollisionSystem(*this)),
   m_text_object(add<TextObject>("Text"))
@@ -154,13 +155,12 @@ Sector::finish_construction(bool editable)
   m_initialized = false;
   flush_game_objects();
 
-  m_foremost_layer = calculate_foremost_layer();
+  m_foremost_layer = calculate_foremost_layer(false);
+  m_foremost_opaque_layer = calculate_foremost_layer();
 
   process_resolve_requests();
 
-  for (auto& object : get_objects()) {
-    object->finish_construction();
-  }
+  Base::Sector::finish_construction(editable);
 
   m_initialized = false;
   flush_game_objects();
@@ -168,8 +168,8 @@ Sector::finish_construction(bool editable)
   m_fully_constructed = true;
 }
 
-void
-Sector::activate(const std::string& spawnpoint)
+SpawnPointMarker*
+Sector::get_spawn_point(const std::string& spawnpoint)
 {
   SpawnPointMarker* sp = nullptr;
   for (auto& spawn_point : get_objects_by_type<SpawnPointMarker>()) {
@@ -179,11 +179,29 @@ Sector::activate(const std::string& spawnpoint)
     }
   }
 
+  return sp;
+}
+
+Vector
+Sector::get_spawn_point_position(const std::string& spawnpoint)
+{
+  SpawnPointMarker* sp = get_spawn_point(spawnpoint);
+  if (sp)
+    return sp->get_pos();
+  else
+    return Vector(0.0f, 0.0f);
+}
+
+void
+Sector::activate(const std::string& spawnpoint)
+{
+  SpawnPointMarker* sp = get_spawn_point(spawnpoint);
+
   if (!sp) {
     if (!m_level.is_worldmap())
       log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-    if (spawnpoint != "main") {
-      activate("main");
+    if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
+      activate(DEFAULT_SPAWNPOINT_NAME);
     } else {
       activate(Vector(0, 0));
     }
@@ -302,14 +320,14 @@ Sector::get_active_region() const
 }
 
 int
-Sector::calculate_foremost_layer() const
+Sector::calculate_foremost_layer(bool including_transparent) const
 {
   int layer = LAYER_BACKGROUND0;
   for (auto& tm : get_objects_by_type<TileMap>())
   {
     if (tm.get_layer() > layer)
     {
-      if ( (tm.get_alpha() < 1.0f) )
+      if ( including_transparent && tm.get_alpha() < 1.0f )
       {
         layer = tm.get_layer() - 1;
       }
@@ -321,6 +339,12 @@ Sector::calculate_foremost_layer() const
   }
   log_debug << "Calculated badguy falling layer was: " << layer << std::endl;
   return layer;
+}
+
+int
+Sector::get_foremost_opaque_layer() const
+{
+  return m_foremost_opaque_layer;
 }
 
 int

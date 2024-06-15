@@ -57,7 +57,7 @@ public:
 
   std::vector<Player*> get_players() const;
 
-  std::string get_tileset() const { return m_tileset; }
+  const std::string& get_tileset() const { return m_tileset; }
 
   int get_total_coins() const;
   int get_total_badguys() const;
@@ -67,7 +67,7 @@ public:
 
   bool is_worldmap() const { return m_is_worldmap; }
 
-  std::string get_license() const { return m_license; }
+  const std::string& get_license() const { return m_license; }
 
 private:
   void initialize();

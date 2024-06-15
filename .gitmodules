@@ -9,13 +9,13 @@
 	url = https://github.com/SuperTux/sexp-cpp.git
 [submodule "external/physfs"]
 	path = external/physfs
-	url = https://github.com/SuperTux/physfs.git
+	url = https://github.com/icculus/physfs.git
 [submodule "external/SDL_ttf"]
 	path = external/SDL_ttf
 	url = https://github.com/SuperTux/SDL_ttf
 [submodule "discord-sdk"]
 	path = external/discord-sdk
-	url = https://github.com/discord/discord-rpc
+	url = https://github.com/SuperTux/discord-rpc
 [submodule "external/fmt"]
 	path = external/fmt
 	url = https://github.com/fmtlib/fmt.git

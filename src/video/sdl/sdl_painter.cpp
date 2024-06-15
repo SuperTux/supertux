@@ -592,10 +592,7 @@ SDLPainter::clear(const Color& color)
 void
 SDLPainter::set_clip_rect(const Rect& rect)
 {
-  m_cliprect = SDL_Rect{ rect.left,
-                         rect.top,
-                         rect.get_width(),
-                         rect.get_height() };
+  m_cliprect = rect.to_sdl();
 
   int ret = SDL_RenderSetClipRect(m_sdl_renderer, &*m_cliprect);
   if (ret < 0)

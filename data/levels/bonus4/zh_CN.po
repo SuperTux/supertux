@@ -1,0 +1,188 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the SuperTux package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# 玉堂白鹤 <yjwork@qq.com>, 2019
+# CodingJellyfish <dumaosen_main01@outlook.com>, 2021
+# Wenbin Lv <wenbin816@gmail.com>, 2024
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux v0.6.0-1010-gefc33a183\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-11-24 00:58+0000\n"
+"Last-Translator: Wenbin Lv <wenbin816@gmail.com>, 2024\n"
+"Language-Team: Chinese (China) (https://app.transifex.com/arctic-games/teams/95/zh_CN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: data/levels/bonus4/A_Narrow_Path.stl:3
+msgid "A Narrow Path"
+msgstr "冤家路窄"
+
+#: data/levels/bonus4/Beginning_The_Journey.stl:3
+msgid "Beginning The Journey"
+msgstr "启程"
+
+#: data/levels/bonus4/Cave_of_Dreams.stl:3
+msgid "Cave Of Dreams"
+msgstr "梦境之洞"
+
+#: data/levels/bonus4/Cold_Forest.stl:3
+msgid "Cold Forest"
+msgstr "寒冷森林"
+
+#: data/levels/bonus4/Crystal_Mania.stl:3
+msgid "Crystal Mania"
+msgstr "水晶狂热"
+
+#: data/levels/bonus4/Deeper_Into_The_Mountains.stl:3
+msgid "Deeper Into The Mountains"
+msgstr "深入山岭"
+
+#: data/levels/bonus4/Feeling_The_Nature.stl:3
+msgid "Feeling The Nature"
+msgstr "感受自然"
+
+#: data/levels/bonus4/Fog_And_Mist.stl:3
+msgid "Fog And Mist"
+msgstr "迷雾"
+
+#: data/levels/bonus4/Forest_Mountains.stl:3
+msgid "Forest Mountains"
+msgstr "森林山脉"
+
+#: data/levels/bonus4/Forest_Mountains.stl:140
+msgid "#One Path contains enemies, the other treasure..."
+msgstr "#一条路径有敌人，另一条路径有宝藏……"
+
+#: data/levels/bonus4/Forest_Mountains.stl:145
+#: data/levels/bonus4/Forest_Mountains.stl:150
+msgid "#You can use this door to try the other way..."
+msgstr "#你可以通过这扇门尝试另一条路……"
+
+#: data/levels/bonus4/Generic_Snow_Level.stl:3
+msgid "Generic Snow Level"
+msgstr "通用雪地关卡"
+
+#: data/levels/bonus4/Glacier_Danger.stl:3
+msgid "Glacier Danger"
+msgstr "冰川危机"
+
+#: data/levels/bonus4/Halloween_Fields.stl:3
+msgid "Halloween Fields"
+msgstr "万圣节领域"
+
+#: data/levels/bonus4/Its_Halloween_Time.stl:3
+msgid "It's Halloween Time!"
+msgstr "万圣节时间到！"
+
+#: data/levels/bonus4/Lets_Climb_That_Mountain.stl:3
+msgid "Let's Climb That Mountain!"
+msgstr "我们去爬那座山吧！"
+
+#: data/levels/bonus4/Night_Terrors.stl:3
+msgid "Night Terrors"
+msgstr "战栗之夜"
+
+#: data/levels/bonus4/Penguin_In_The_Bushes.stl:3
+msgid "A Penguin In The Bushes"
+msgstr "灌木丛中的企鹅"
+
+#: data/levels/bonus4/Rainy_Swamps.stl:3
+msgid "Rainy Swamps"
+msgstr "多雨沼泽"
+
+#: data/levels/bonus4/Sky_High.stl:3
+msgid "Sky High"
+msgstr "比天更高"
+
+#: data/levels/bonus4/SnowMansLand.stl:3
+msgid "SnowMan's Land"
+msgstr "雪人领地"
+
+#: data/levels/bonus4/SnowMansLand.stl:86
+msgid "#It sure is breezy today, huh?"
+msgstr "#今天风挺大的，是吧？"
+
+#: data/levels/bonus4/Snowy_Sunset.stl:3
+msgid "Snowy Sunset"
+msgstr "白雪日落"
+
+#: data/levels/bonus4/Some_Icy_Path.stl:3
+msgid "Some Icy Path"
+msgstr "冰冷道路"
+
+#: data/levels/bonus4/Some_Icy_Path.stl:115
+msgid ""
+"#You won't be able to pass, if you don't bring him something he wants..."
+msgstr "#如果你不把他想要的东西带过来，你就无法通过……"
+
+#: data/levels/bonus4/Some_Icy_Path.stl:120
+msgid "#Maybe this crystal is the right thing for this snowman...?"
+msgstr "#也许这个水晶就是这个雪人想要的东西……？"
+
+#: data/levels/bonus4/Some_Icy_Path.stl:125
+msgid "#Great, now he's gone... I'll keep the crystal for myself."
+msgstr "#太好了，现在他走了……水晶我就自己留着吧。"
+
+#: data/levels/bonus4/Spooky_Mansion.stl:3
+msgid "Spooky Mansion"
+msgstr "幽灵宅邸"
+
+#: data/levels/bonus4/Stormy_Night.stl:3
+msgid "Stormy Night"
+msgstr "风雨交加的夜晚"
+
+#: data/levels/bonus4/Sunshine_Valley.stl:3
+msgid "Sunshine Valley"
+msgstr "阳光峡谷"
+
+#: data/levels/bonus4/The_Way_Of_The_Snow.stl:3
+msgid "The Way Of The Snow"
+msgstr "雪之道路"
+
+#: data/levels/bonus4/Too_Much_Water.stl:3
+msgid "Too Much Water"
+msgstr "水太多了"
+
+#: data/levels/bonus4/Two_Tiny_Towers.stl:3
+msgid "Two Tiny Towers"
+msgstr "迷你双塔"
+
+#: data/levels/bonus4/worldmap.stwm:3
+msgid "Bonus Island IV"
+msgstr "额外 IV 岛"
+
+#: data/levels/bonus4/worldmap.stwm:210
+msgid "Enter Forest Sector"
+msgstr "进入森林区块"
+
+#: data/levels/bonus4/worldmap.stwm:217
+msgid "Enter Halloween Sector"
+msgstr "进入万圣节区块"
+
+#: data/levels/bonus4/worldmap.stwm:224
+msgid "Enter Arctic Sector"
+msgstr "进入极地区块"
+
+#: data/levels/bonus4/worldmap.stwm:231 data/levels/bonus4/worldmap.stwm:238
+#: data/levels/bonus4/worldmap.stwm:245 data/levels/bonus4/worldmap.stwm:252
+#: data/levels/bonus4/worldmap.stwm:259 data/levels/bonus4/worldmap.stwm:266
+msgid "Go Home"
+msgstr "回家"
+
+#: data/levels/bonus4/worldmap.stwm:273
+msgid "Go Back"
+msgstr "返回"
+
+#: data/levels/bonus4/worldmap.stwm:280
+msgid "The next challenge awaits..."
+msgstr "下一个挑战正在等待着你……"

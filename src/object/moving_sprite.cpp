@@ -35,7 +35,8 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   m_light_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
-  m_sprite_found(false)
+  m_sprite_found(false),
+  m_custom_layer(false)
 {
   change_sprite(m_sprite_name);
 
@@ -57,7 +58,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_light_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
-  m_sprite_found(false)
+  m_sprite_found(false),
+  m_custom_layer(reader.get("z-pos", m_layer))
 {
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
@@ -79,7 +81,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_light_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
-  m_sprite_found(false)
+  m_sprite_found(false),
+  m_custom_layer(reader.get("z-pos", m_layer))
 {
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
@@ -103,19 +106,15 @@ MovingSprite::update(float )
 {
 }
 
-bool
-MovingSprite::has_found_sprite()
-{
-  bool found = m_sprite_found;
-  m_sprite_found = false; // After the first call, indicate that a custom sprite has not been found.
-  return found;
-}
-
 void
 MovingSprite::on_type_change(int old_type)
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+  /** Don't change the sprite/layer to the default one for the current type,
+      if this is the initial `on_type_change()` call, and a custom sprite/layer has just been loaded. */
+  if (old_type >= 0 || !m_sprite_found)
     change_sprite(get_default_sprite_name());
+  if (old_type >= 0 || !m_custom_layer)
+    m_layer = get_layer();
 }
 
 bool
@@ -209,8 +208,9 @@ MovingSprite::get_settings()
   ObjectSettings result = MovingObject::get_settings();
 
   result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name());
+  result.add_int(_("Z-pos"), &m_layer, "z-pos");
 
-  result.reorder({"sprite", "x", "y"});
+  result.reorder({"sprite", "z-pos", "x", "y"});
 
   return result;
 }

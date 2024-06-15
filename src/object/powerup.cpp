@@ -45,7 +45,7 @@ PowerUp::PowerUp(const Vector& pos, int type) :
   no_physics(false)
 {
   m_type = type;
-  on_type_change();
+  on_type_change(TypeChange::INITIAL);
 
   update_version();
   initialize();

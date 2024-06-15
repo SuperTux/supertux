@@ -18,7 +18,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 #define HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 
-#include <memory>
 #include <string>
 
 #include "math/anchor_point.hpp"
@@ -33,7 +32,6 @@
 class Path;
 class PathWalker;
 class ReaderMapping;
-class CameraConfig;
 
 class Camera final : public GameObject,
                      public ExposedObject<Camera, scripting::Camera>,
@@ -43,13 +41,6 @@ public:
   enum class Mode
   {
     NORMAL, MANUAL, AUTOSCROLL, SCROLLTO
-  };
-
-private:
-  /** The camera basically provides lookahead on the left or right
-      side or is undecided. */
-  enum class LookaheadMode {
-    NONE, LEFT, RIGHT
   };
 
 public:
@@ -92,6 +83,8 @@ public:
   void set_translation(const Vector& translation) { m_translation = translation; }
   void set_translation_centered(const Vector& translation);
 
+  void keep_in_bounds(const Rectf& bounds);
+
   /** shake camera in a direction 1 time */
   void shake(float duration, float x, float y);
 
@@ -102,9 +95,7 @@ public:
   /** scroll the upper left edge of the camera in scrolltime seconds
       to the position goal */
   void scroll_to(const Vector& goal, float scrolltime);
-  void move(const int dx, const int dy);
-
-  void reload_config();
+  void move(const Vector& offset);
 
   /** get the coordinates of the point directly in the center of this
       camera */
@@ -119,11 +110,16 @@ public:
 
   void set_mode(Mode mode_) { m_mode = mode_; }
 
+  Mode get_mode() const { return m_mode; }
+
   /** get the exact scale at this exact moment */
   float get_current_scale() const { return m_enfore_minimum_scale ? std::min(m_minimum_scale, m_scale) : m_scale; }
 
   /** get the scale towards which the camera is moving */
   float get_target_scale() const { return m_scale_target; }
+
+  /** Instantly set the scale of the camera */
+  void set_scale(float scale) { m_scale = scale; }
 
   /** smoothly slide the scale and anchor position of the camera towards a new value */
   void ease_scale(float scale, float time, easing ease, AnchorPoint anchor = AnchorPoint::ANCHOR_MIDDLE);
@@ -152,8 +148,6 @@ private:
   Vector m_translation;
 
   // normal mode
-  LookaheadMode m_lookahead_mode;
-  float m_changetime;
   Vector m_lookahead_pos;
   Vector m_peek_pos;
   Vector m_cached_translation;
@@ -176,8 +170,6 @@ private:
   Vector m_scroll_goal;
   float m_scroll_to_pos;
   float m_scrollspeed;
-
-  std::unique_ptr<CameraConfig> m_config;
 
   float m_scale,
         m_scale_origin,
