@@ -10,6 +10,6 @@
 
   (linked-sprites
     (shade "egg.sprite")
-    (light "images/objects/lightmap_light/lightmap_light-small.sprite" 0.2 0.2 0)
+    (light "images/objects/lightmap_light/lightmap_light-small.sprite" "default" 0.2 0.2 0)
   )
 )

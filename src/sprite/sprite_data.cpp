@@ -84,15 +84,22 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
         if (arr[0].as_string() == "light") // The key "light" is reserved for light sprites
         {
           linked_light_sprite = LinkedLightSprite(filepath);
-          if (arr.size() >= 5) // Color has been specified
+
+          if (arr.size() >= 3) // Default action has been specified
+            linked_light_sprite->action = arr[2].as_string();
+
+          if (arr.size() >= 6) // Color has been specified
           {
-            linked_light_sprite->color = Color(arr[2].as_float(), arr[3].as_float(),
-                                               arr[4].as_float());
+            linked_light_sprite->color = Color(arr[3].as_float(), arr[4].as_float(),
+                                               arr[5].as_float());
           }
         }
         else
         {
-          linked_sprites[arr[0].as_string()] = filepath;
+          linked_sprites[arr[0].as_string()] = LinkedSprite(filepath);
+
+          if (arr.size() >= 3) // Default action has been specified
+            linked_sprites[arr[0].as_string()].action = arr[2].as_string();
         }
       }
     }
@@ -210,15 +217,22 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       if (arr[0].as_string() == "light") // The key "light" is reserved for light sprites
       {
         action->linked_light_sprite = LinkedLightSprite(filepath);
-        if (arr.size() >= 5) // Color has been specified
+
+        if (arr.size() >= 3) // Default action has been specified
+          action->linked_light_sprite->action = arr[2].as_string();
+
+        if (arr.size() >= 6) // Color has been specified
         {
-          action->linked_light_sprite->color = Color(arr[2].as_float(), arr[3].as_float(),
-                                                     arr[4].as_float());
+          action->linked_light_sprite->color = Color(arr[3].as_float(), arr[4].as_float(),
+                                                     arr[5].as_float());
         }
       }
       else
       {
-        action->linked_sprites[arr[0].as_string()] = filepath;
+        action->linked_sprites[arr[0].as_string()] = LinkedSprite(filepath);
+
+        if (arr.size() >= 3) // Default action has been specified
+          action->linked_sprites[arr[0].as_string()].action = arr[2].as_string();
       }
     }
   }

@@ -193,6 +193,11 @@ Sprite::get_linked_light_sprite() const
   else
     sprite = SpriteManager::current()->create(m_data.linked_light_sprite->file);
 
+  if (m_action->linked_light_sprite && !m_action->linked_light_sprite->action.empty())
+    sprite->set_action(m_action->linked_light_sprite->action);
+  else if (m_data.linked_light_sprite && !m_data.linked_light_sprite->action.empty())
+    sprite->set_action(m_data.linked_light_sprite->action);
+
   sprite->set_blend(Blend::ADD);
   sprite->set_color(m_data.linked_light_sprite->color);
   return sprite;
@@ -208,7 +213,14 @@ Sprite::get_linked_light_sprite_file() const
 SpritePtr
 Sprite::get_linked_sprite(const std::string& key) const
 {
-  return SpriteManager::current()->create(get_linked_sprite_file(key));
+  SpritePtr sprite = SpriteManager::current()->create(get_linked_sprite_file(key));
+
+  if (m_action->linked_sprites.find(key) != m_action->linked_sprites.end() && !m_action->linked_sprites.at(key).action.empty())
+    sprite->set_action(m_action->linked_sprites.at(key).action);
+  else if (m_data.linked_sprites.find(key) != m_data.linked_sprites.end() && !m_data.linked_sprites.at(key).action.empty())
+    sprite->set_action(m_data.linked_sprites.at(key).action);
+
+  return sprite;
 }
 
 std::string
@@ -216,7 +228,7 @@ Sprite::get_linked_sprite_file(const std::string& key) const
 {
   auto it = m_action->linked_sprites.find(key);
   if (it != m_action->linked_sprites.end())
-    return it->second;
+    return it->second.file;
 
   it = m_data.linked_sprites.find(key);
   if (it == m_data.linked_sprites.end()) // No linked sprite with such key
@@ -225,7 +237,7 @@ Sprite::get_linked_sprite_file(const std::string& key) const
     return ""; // Empty sprite name leads to a dummy sprite
   }
 
-  return it->second;
+  return it->second.file;
 }
 
 int
