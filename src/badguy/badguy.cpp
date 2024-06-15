@@ -245,7 +245,7 @@ BadGuy::update(float dt_sec)
     }
 
     // y movement
-    if (on_top_of_water)
+    if (on_top_of_water && (m_physic.get_velocity_y() <= 0.f))
     {
       m_col.set_movement(Vector(m_col.get_movement().x, 0.f));
       m_physic.set_velocity_y(0.f);
