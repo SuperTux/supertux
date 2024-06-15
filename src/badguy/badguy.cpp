@@ -217,9 +217,41 @@ BadGuy::update(float dt_sec)
     set_state(STATE_INACTIVE);
   }
 
-  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  m_in_water = !Sector::get().is_free_of_tiles(get_bbox().grown(-4.f), true, Tile::WATER);
+
   if (m_physic.gravity_enabled()) {
-    m_physic.set_gravity_modifier(in_water ? 0.3f : 1.f);
+    m_physic.set_gravity_modifier(m_in_water ? m_frozen ? -0.3f : 0.3f : 1.f);
+  }
+
+  Rectf watertopbox = get_bbox();
+  watertopbox.set_bottom(get_bbox().get_bottom() - get_bbox().get_height() / 3.f);
+  Rectf wateroutbox = get_bbox();
+  wateroutbox.set_bottom(get_bbox().get_top() + get_bbox().get_height() / 3.f);
+
+  bool on_top_of_water = (!Sector::get().is_free_of_tiles(watertopbox, true, Tile::WATER) &&
+    Sector::get().is_free_of_tiles(wateroutbox, true, Tile::WATER));
+
+  bool in_water_bigger = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER); // *supposedly* prevents a weird sound glitch
+  if (in_water_bigger && m_frozen && !is_grabbed())
+  {
+    // x movement
+    if ((m_physic.get_velocity_x() > -5.0f) && (m_physic.get_velocity_x() < 5.0f))
+    {
+      m_physic.set_velocity_x(0);
+      m_physic.set_acceleration_x(0.0);
+    }
+    else {
+      m_physic.set_velocity_x(m_physic.get_velocity_x() - (m_physic.get_velocity_x() > 0.f ? 5.f : -5.f));
+    }
+
+    // y movement
+    if (on_top_of_water)
+    {
+      m_col.set_movement(Vector(m_col.get_movement().x, 0.f));
+      m_physic.set_velocity_y(0.f);
+      m_physic.set_acceleration_y(0.f);
+      m_physic.set_gravity_modifier(0.f);
+    }
   }
 
   switch (m_state) {
@@ -240,7 +272,7 @@ BadGuy::update(float dt_sec)
     case STATE_INIT:
     case STATE_INACTIVE:
       m_is_active_flag = false;
-      m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox(), false, Tile::WATER);
+      m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox().grown(-4.f), false, Tile::WATER);
       inactive_update(dt_sec);
       try_activate();
       break;
@@ -355,10 +387,6 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   {
     m_in_water = true;
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
-  }
-  if (!(tile_attributes & Tile::WATER) && is_in_water())
-  {
-    m_in_water = false;
   }
 
   if (tile_attributes & Tile::HURTS && is_hurtable())
