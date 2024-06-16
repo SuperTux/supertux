@@ -183,6 +183,15 @@ BadGuy::update(float dt_sec)
 {
   if (m_frozen && !is_grabbed())
   {
+    Rectf playerbox = get_bbox().grown(-2.f);
+    playerbox.set_bottom(get_bbox().get_bottom() + 7.f);
+    for (auto& player : Sector::get().get_objects_by_type<Player>())
+    {
+      if (playerbox.overlaps(player.get_bbox()) && m_physic.get_velocity_y() > 0.f && is_portable()) {
+        m_physic.set_velocity_y(-250.f);
+      }
+    }
+
     set_colgroup_active(std::abs(m_physic.get_velocity_y()) < 0.2f && std::abs(m_physic.get_velocity_x()) < 0.2f
       ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
     if (m_unfreeze_timer.check())
@@ -553,6 +562,9 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
   //TODO: Unfreeze timer.
   if (m_frozen)
   {
+    if (hit.bottom) {
+      m_physic.set_velocity_y(-250.f);
+    }
     player.collision_solid(hit);
   }
   else
