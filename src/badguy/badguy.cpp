@@ -217,21 +217,26 @@ BadGuy::update(float dt_sec)
     set_state(STATE_INACTIVE);
   }
 
-  m_in_water = !Sector::get().is_free_of_tiles(get_bbox().grown(-4.f), true, Tile::WATER);
-
-  if (m_physic.gravity_enabled()) {
-    m_physic.set_gravity_modifier(m_in_water ? m_frozen ? -0.3f : 0.3f : 1.f);
+  if (Sector::get().is_free_of_tiles(get_bbox().grown(1.f), true, Tile::WATER) && m_in_water) {
+    m_in_water = false;
   }
 
   Rectf watertopbox = get_bbox();
   watertopbox.set_bottom(get_bbox().get_bottom() - get_bbox().get_height() / 3.f);
+  watertopbox.set_top(get_bbox().get_top() + get_bbox().get_height() / 3.f);
   Rectf wateroutbox = get_bbox();
   wateroutbox.set_bottom(get_bbox().get_top() + get_bbox().get_height() / 3.f);
 
-  bool on_top_of_water = (!Sector::get().is_free_of_tiles(watertopbox, true, Tile::WATER) &&
+  bool middle_has_water = !Sector::get().is_free_of_tiles(watertopbox, true, Tile::WATER);
+  bool on_top_of_water = (middle_has_water &&
     Sector::get().is_free_of_tiles(wateroutbox, true, Tile::WATER));
 
-  bool in_water_bigger = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER); // *supposedly* prevents a weird sound glitch
+  bool in_water_bigger = !Sector::get().is_free_of_tiles(get_bbox().grown(-4.f), true, Tile::WATER); // *supposedly* prevents a weird sound glitch
+
+  if (m_physic.gravity_enabled()) {
+    m_physic.set_gravity_modifier(middle_has_water ? m_frozen ? -1.f : 0.3f : 1.f);
+  }
+
   if (in_water_bigger && m_frozen && !is_grabbed())
   {
     // x movement
@@ -245,6 +250,10 @@ BadGuy::update(float dt_sec)
     }
 
     // y movement
+    if (!on_top_of_water && m_physic.get_velocity_y() < -100.f) {
+      m_physic.set_velocity_y(-100.f);
+    }
+
     if (on_top_of_water && (m_physic.get_velocity_y() <= 0.f))
     {
       m_col.set_movement(Vector(m_col.get_movement().x, 0.f));
