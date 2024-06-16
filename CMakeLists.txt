@@ -232,6 +232,9 @@ add_library(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
 add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
 target_include_directories(supertux2_lib PUBLIC ${CMAKE_BINARY_DIR} src/)
 
+file(GLOB_RECURSE SUPERTUX_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/**.hpp)
+target_precompile_headers(supertux2_lib PRIVATE ${SUPERTUX_HEADERS})
+
 if(WIN32)
   add_executable(supertux2 WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
   target_link_libraries(supertux2 LibSDL2main)

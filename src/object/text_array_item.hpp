@@ -14,6 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef HEADER_SUPERTUX_OBJECT_TEXT_ARRAY_ITEM_HPP
+#define HEADER_SUPERTUX_OBJECT_TEXT_ARRAY_ITEM_HPP
+
+#include "object/text_object.hpp"
+
 struct TextArrayItem
 {
   TextObject text_object;
@@ -21,5 +26,7 @@ struct TextArrayItem
 
   TextArrayItem() : text_object(), duration(0.0f) {}
 };
+
+#endif
 
 /* EOF */
