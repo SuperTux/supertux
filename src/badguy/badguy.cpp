@@ -240,13 +240,13 @@ BadGuy::update(float dt_sec)
   if (in_water_bigger && m_frozen && !is_grabbed())
   {
     // x movement
-    if ((m_physic.get_velocity_x() > -5.0f) && (m_physic.get_velocity_x() < 5.0f))
+    if ((m_physic.get_velocity_x() > -2.0f) && (m_physic.get_velocity_x() < 2.0f))
     {
       m_physic.set_velocity_x(0);
       m_physic.set_acceleration_x(0.0);
     }
     else {
-      m_physic.set_velocity_x(m_physic.get_velocity_x() - (m_physic.get_velocity_x() > 0.f ? 5.f : -5.f));
+      m_physic.set_velocity_x(m_physic.get_velocity_x() - (m_physic.get_velocity_x() > 0.f ? 2.f : -2.f));
     }
 
     // y movement
@@ -374,7 +374,7 @@ BadGuy::active_update(float dt_sec)
 {
   if (!is_grabbed())
     m_col.set_movement(m_physic.get_movement(dt_sec) * (m_water_affected ? (
-      Vector((is_in_water() && !m_frozen) ? 0.7f : (is_in_water() && m_frozen) ? 0.4f : 1.f,
+      Vector((is_in_water() && !m_frozen) ? 0.7f : (is_in_water() && m_frozen) ? 0.1f : 1.f,
              (is_in_water() && !m_frozen) ? 0.3f : (is_in_water() && m_frozen) ? 0.6f : 1.f)) :
       Vector(1.f, 1.f)));
   if (m_frozen)
@@ -904,7 +904,8 @@ BadGuy::ungrab(MovingObject& object, Direction dir_)
     if (player->is_swimming() || player->is_water_jumping())
     {
       float swimangle = player->get_swimming_angle();
-      m_physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));
+      m_physic.set_velocity((player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle))) *
+        (m_in_water ? 0.5f : 1.f));
     }
     else
     {
