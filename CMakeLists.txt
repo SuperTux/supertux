@@ -31,7 +31,7 @@
 #   make
 #
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.9)
 
 ## Project name to use as command prefix.
 
@@ -248,6 +248,9 @@ target_include_directories(supertux2_lib PUBLIC ${CMAKE_BINARY_DIR} src/)
 option(SUPERTUX_PCH "Pre-compile headers (faster builds)" ON)
 if(SUPERTUX_PCH)
   file(GLOB_RECURSE SUPERTUX_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/**.hpp)
+  if(NOT HAVE_OPENGL)
+    list(FILTER SUPERTUX_HEADERS EXCLUDE REGEX src/video/gl/*)
+  endif()
   target_precompile_headers(supertux2_lib PRIVATE ${SUPERTUX_HEADERS})
 endif()
 

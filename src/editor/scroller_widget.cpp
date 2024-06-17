@@ -26,6 +26,10 @@
 
 namespace {
 
+#ifdef _MSC_VER
+#undef SIZE
+#endif
+
 const float TOPLEFT = 16;
 const float MIDDLE = 48;
 const float BOTTOMRIGHT = 80;

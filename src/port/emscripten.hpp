@@ -41,61 +41,7 @@ void onDownloadError(int id);
 void onDownloadAborted(int id);
 const char* getExceptionMessage(intptr_t address);
 
-EMSCRIPTEN_KEEPALIVE // This is probably not useful, I just want ppl to know it exists
-void
-set_resolution(int w, int h)
-{
-  VideoSystem::current()->on_resize(w, h);
-  MenuManager::instance().on_window_resize();
-}
-
-EMSCRIPTEN_KEEPALIVE // Same as above
-void
-save_config()
-{
-  g_config->save();
-}
-
-void
-onDownloadProgress(int id, int loaded, int total)
-{
-  AddonManager::current()->onDownloadProgress(id, loaded, total);
-}
-
-void
-onDownloadFinished(int id)
-{
-  AddonManager::current()->onDownloadFinished(id);
-}
-
-void
-onDownloadError(int id)
-{
-  AddonManager::current()->onDownloadError(id);
-}
-
-void
-onDownloadAborted(int id)
-{
-  AddonManager::current()->onDownloadAborted(id);
-}
-
-const char*
-getExceptionMessage(intptr_t address)
-{
-  return reinterpret_cast<std::exception*>(address)->what();
-}
-
 } // extern "C"
-
-void
-init_emscripten()
-{
-  EM_ASM({
-    if (window.supertux_onready)
-      window.supertux_onready();
-  }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
-}
 
 #endif
 
