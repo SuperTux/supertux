@@ -93,6 +93,10 @@ Rock::update(float dt_sec)
 {
   if (!is_grabbed()) {
 
+    if (get_bbox().get_top() > Sector::get().get_height()) {
+      remove_me();
+    }
+
     Rectf icebox = get_bbox().grown(-1.f);
     icebox.set_bottom(get_bbox().get_bottom() + 8.f);
     on_ice = !Sector::get().is_free_of_tiles(icebox, true, Tile::ICE);
