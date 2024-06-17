@@ -64,7 +64,13 @@ include(ExternalProject)
 include(CheckCXXCompilerFlag)
 include(CheckSymbolExists)
 
-option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster builds)" ON)
+if(EMSCRIPTEN)
+  # FIXME: As of writing, Emscripten fails with "wasm-ld: error: /path/to/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/thinlto/libc.a(fileno.o): attempt to add bitcode file after LTO (fileno)"
+  # Seems to be a known issue: https://github.com/emscripten-core/emscripten/issues/20275
+  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster builds)" OFF)
+else()
+  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster builds)" ON)
+endif()
 if(SUPERTUX_IPO)
   include(CheckIPOSupported)
   check_ipo_supported(RESULT result)

@@ -24,11 +24,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-namespace {
-
-#ifdef _MSC_VER
-#undef SIZE
-#endif
+namespace CONSTS {
 
 const float TOPLEFT = 16;
 const float MIDDLE = 48;
@@ -50,7 +46,7 @@ EditorScrollerWidget::EditorScrollerWidget(Editor& editor) :
 bool
 EditorScrollerWidget::can_scroll() const
 {
-  return m_scrolling && m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE;
+  return m_scrolling && m_mouse_pos.x < CONSTS::SIZE && m_mouse_pos.y < CONSTS::SIZE;
 }
 
 void
@@ -58,9 +54,9 @@ EditorScrollerWidget::draw(DrawingContext& context)
 {
   if (!rendered) return;
 
-  context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(SIZE, SIZE)),
+  context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(CONSTS::SIZE, CONSTS::SIZE)),
                                      Color(0.9f, 0.9f, 1.0f, 0.6f),
-                                     MIDDLE, LAYER_GUI-10);
+                                     CONSTS::MIDDLE, LAYER_GUI-10);
   context.color().draw_filled_rect(Rectf(Vector(40, 40), Vector(56, 56)),
                                      Color(0.9f, 0.9f, 1.0f, 0.6f),
                                      8, LAYER_GUI-20);
@@ -68,16 +64,16 @@ EditorScrollerWidget::draw(DrawingContext& context)
     draw_arrow(context, m_mouse_pos);
   }
 
-  draw_arrow(context, Vector(TOPLEFT, MIDDLE));
-  draw_arrow(context, Vector(BOTTOMRIGHT, MIDDLE));
-  draw_arrow(context, Vector(MIDDLE, TOPLEFT));
-  draw_arrow(context, Vector(MIDDLE, BOTTOMRIGHT));
+  draw_arrow(context, Vector(CONSTS::TOPLEFT, CONSTS::MIDDLE));
+  draw_arrow(context, Vector(CONSTS::BOTTOMRIGHT, CONSTS::MIDDLE));
+  draw_arrow(context, Vector(CONSTS::MIDDLE, CONSTS::TOPLEFT));
+  draw_arrow(context, Vector(CONSTS::MIDDLE, CONSTS::BOTTOMRIGHT));
 }
 
 void
 EditorScrollerWidget::draw_arrow(DrawingContext& context, const Vector& pos)
 {
-  Vector dir = pos - Vector(MIDDLE, MIDDLE);
+  Vector dir = pos - Vector(CONSTS::MIDDLE, CONSTS::MIDDLE);
   if (dir.x != 0 || dir.y != 0) {
     // draw a triangle
     dir = glm::normalize(dir) * 8.0f;
@@ -109,7 +105,7 @@ EditorScrollerWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   if (button.button == SDL_BUTTON_LEFT) {
     if (!rendered) return false;
 
-    if (m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
+    if (m_mouse_pos.x < CONSTS::SIZE && m_mouse_pos.y < CONSTS::SIZE) {
       m_scrolling = true;
       return true;
     } else {
@@ -126,8 +122,8 @@ EditorScrollerWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   if (!rendered) return false;
 
   m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
-  if (m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
-    m_scrolling_vec = m_mouse_pos - Vector(MIDDLE, MIDDLE);
+  if (m_mouse_pos.x < CONSTS::SIZE && m_mouse_pos.y < CONSTS::SIZE) {
+    m_scrolling_vec = m_mouse_pos - Vector(CONSTS::MIDDLE, CONSTS::MIDDLE);
     if (m_scrolling_vec.x != 0 || m_scrolling_vec.y != 0) {
       float norm = glm::length(m_scrolling_vec);
       m_scrolling_vec *= powf(static_cast<float>(M_E), norm / 16.0f - 1.0f);
