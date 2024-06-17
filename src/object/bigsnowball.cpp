@@ -19,11 +19,14 @@
 #include "badguy/yeti.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
+#include "object/bumper.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
+#include "object/trampoline.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/tile.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace {
@@ -112,7 +115,9 @@ BigSnowball::update(float dt_sec)
     spawn_particles();
   }
 
-  Vector movement = m_physic.get_movement(dt_sec);
+  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+
+  Vector movement = m_physic.get_movement(dt_sec) * Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f);
   m_sprite->set_angle(m_sprite->get_angle() + movement.x * 3.141592653898f / 2.f);
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
@@ -146,6 +151,24 @@ BigSnowball::collision(GameObject& other, const CollisionHit& hit)
     collision_solid(hit);
     return ABORT_MOVE;
   }
+
+  auto tramp = dynamic_cast<Trampoline*>(&other); // cppcheck-suppress constVariablePointer
+  if (tramp)
+  {
+    m_physic.set_velocity_y(-500.f);
+    tramp->bounce();
+    return ABORT_MOVE;
+  }
+
+  auto bumper = dynamic_cast<Bumper*>(&other); // cppcheck-suppress constVariablePointer
+  if (bumper)
+  {
+    m_physic.set_velocity_x(-m_physic.get_velocity_x());
+    m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
+    bumper->bounce();
+    return ABORT_MOVE;
+  }
+
   return FORCE_MOVE;
 }
 

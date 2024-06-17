@@ -101,8 +101,7 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   {
     player->get_physic().set_velocity(0.f, player->is_swimming() ? 0.f : BOUNCE_Y);
     player->sideways_push(m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X);
-    SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
-    set_action("swinging", m_dir, 1);
+    bounce();
   }
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
@@ -141,6 +140,13 @@ Bumper::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+void
+Bumper::bounce()
+{
+  SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
+  set_action("swinging", m_dir, 1);
 }
 
 /* EOF */
