@@ -21,6 +21,10 @@
 
 class Timer;
 
+#ifdef _MSC_VER
+#undef STRICT
+#endif
+
 /** Base class for Badguys that walk on the floor. */
 class WalkingBadguy : public BadGuy
 {

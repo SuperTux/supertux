@@ -14,6 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef HEADER_SUPERTUX_PORT_EMSCRIPTEN_HPP
+#define HEADER_SUPERTUX_PORT_EMSCRIPTEN_HPP
+
 // Export functions for emscripten
 // If you add functions here, make sure to make CMakeLists.txt export them!
 #ifdef __EMSCRIPTEN__
@@ -93,5 +96,7 @@ init_emscripten()
       window.supertux_onready();
   }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
 }
+
+#endif
 
 #endif
