@@ -121,13 +121,13 @@ AddonMenu::rebuild_menu()
   {
     const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[index]);
     const std::string text = addon_string_util::generate_menu_item_text(addon);
-    add_entry(MAKE_UPDATE_MENU_ID(index), fmt::format(fmt::runtime(_("{} {}*UPDATE*")), text, !addon.is_enabled() ? "[DISABLED] " : ""));
+    add_entry(MAKE_UPDATE_MENU_ID(index), fmt::format(fmt::runtime(_("{} {}*UPDATE*")), text, !addon.is_enabled() ? (_("[DISABLED]") + " ") : ""));
   }
   for (const auto& index : addons_to_list)
   {
     const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[index]);
     const std::string text = addon_string_util::generate_menu_item_text(addon);
-    add_entry(MAKE_INSTALLED_MENU_ID(index), fmt::format(fmt::runtime(_("{}{}")), text, !addon.is_enabled() ? " [DISABLED]" : ""));
+    add_entry(MAKE_INSTALLED_MENU_ID(index), fmt::format(fmt::runtime(_("{}{}")), text, !addon.is_enabled() ? (" " + _("[DISABLED]")) : ""));
   }
 
   add_hl();
