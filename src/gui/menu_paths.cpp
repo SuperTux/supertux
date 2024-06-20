@@ -24,6 +24,8 @@
 #include "object/path_object.hpp"
 #include "supertux/sector.hpp"
 
+#include <fmt/format.h>
+
 auto on_select = [](const std::string& path, PathObject& target, const std::string& path_ref) {
   return [path, &target, path_ref] {
     auto dialog = std::make_unique<Dialog>();
@@ -44,14 +46,14 @@ auto on_select = [](const std::string& path, PathObject& target, const std::stri
         MenuManager::instance().pop_menu();
     });
     dialog->add_cancel_button(_("Cancel"));
-    dialog->set_text("Do you wish to clone the path to edit it separately,\nor do you want to bind both paths together\nso that any edit on one edits the other?");
+    dialog->set_text(_("Do you wish to clone the path to edit it separately,\nor do you want to bind both paths together\nso that any edit on one edits the other?"));
     MenuManager::instance().set_dialog(std::move(dialog));
   };
 };
 
 PathsMenu::PathsMenu(PathObject& target, const std::string& path_ref)
 {
-  add_label(_("Path") + " " + path_ref);
+  add_label(fmt::format(fmt::runtime(_("Path {}")), path_ref));
   add_hl();
 
   const auto paths = Editor::current()->get_sector()->get_objects_by_type<PathGameObject>();

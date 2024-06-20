@@ -57,6 +57,7 @@ extern "C" {
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/command_line_arguments.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/console.hpp"
 #include "supertux/error_handler.hpp"
 #include "supertux/game_manager.hpp"
@@ -615,7 +616,7 @@ Main::launch_game(const CommandLineArguments& args)
 
         if (args.sector || args.spawnpoint)
         {
-          std::string sectorname = args.sector.value_or("main");
+          std::string sectorname = args.sector.value_or(DEFAULT_SECTOR_NAME);
 
           const auto& spawnpoints = session->get_current_sector().get_objects_by_type<SpawnPointMarker>();
           std::string default_spawnpoint = (spawnpoints.begin() != spawnpoints.end()) ?
@@ -743,12 +744,15 @@ Main::run(int argc, char** argv)
   }
   catch(const std::exception& e)
   {
-    log_fatal << "Unexpected exception: " << e.what() << std::endl;
+    ErrorHandler::error_dialog_exception(e.what());
     result = 1;
   }
   catch(...)
   {
+    /*
     log_fatal << "Unexpected exception" << std::endl;
+    */
+    ErrorHandler::error_dialog_exception();
     result = 1;
   }
 

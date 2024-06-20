@@ -19,7 +19,7 @@
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Rob PlayZ, 2021
-# Rob PlayZ, 2021
+# Alina Gobarov, 2021
 # Seba D. <ferxiit@gmail.com>, 2020
 # Simon Kornowski <kornowski.simon@gmail.com>, 2013
 # Tomasz Dądela, 2022

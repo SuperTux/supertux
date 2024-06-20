@@ -200,8 +200,8 @@ Sector::activate(const std::string& spawnpoint)
   if (!sp) {
     if (!m_level.is_worldmap())
       log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-    if (spawnpoint != "main") {
-      activate("main");
+    if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
+      activate(DEFAULT_SPAWNPOINT_NAME);
     } else {
       activate(Vector(0, 0));
     }
@@ -288,6 +288,9 @@ Sector::activate(const Vector& player_pos)
   if (!m_init_script.empty() && !Editor::is_active()) {
     run_script(m_init_script, "init-script");
   }
+
+  // Do not interpolate camera after it has been warped
+  pause_camera_interpolation();
 }
 
 void
@@ -371,6 +374,12 @@ Sector::update(float dt_sec)
   assert(m_fully_constructed);
 
   BIND_SECTOR(*this);
+
+  // Record last camera parameters, to allow for camera interpolation
+  Camera& camera = get_camera();
+  m_last_scale = camera.get_current_scale();
+  m_last_translation = camera.get_translation();
+  m_last_dt = dt_sec;
 
   m_squirrel_environment->update(dt_sec);
 
@@ -489,8 +498,21 @@ Sector::draw(DrawingContext& context)
   context.push_transform();
 
   Camera& camera = get_camera();
-  context.set_translation(camera.get_translation());
-  context.scale(camera.get_current_scale());
+
+  if (g_config->frame_prediction && m_last_dt > 0.f) {
+    // Interpolate between two camera settings; there are many possible ways to do this, but on
+    // short time scales all look about the same. This delays the camera position by one frame.
+    // (The proper thing to do, of course, would be not to interpolate, but instead to adjust
+    // the Camera class to extrapolate, and provide scale/translation at a given time; done
+    // right, this would make it possible to, for example, exactly sinusoidally shake the
+    // camera instead of piecewise linearly.)
+    float x = std::min(1.f, context.get_time_offset() / m_last_dt);
+    context.set_translation(camera.get_translation() * x + (1 - x) * m_last_translation);
+    context.scale(camera.get_current_scale() * x + (1 - x) * m_last_scale);
+  } else {
+    context.set_translation(camera.get_translation());
+    context.scale(camera.get_current_scale());
+  }
 
   GameObjectManager::draw(context);
 
@@ -712,6 +734,12 @@ Sector::stop_looping_sounds()
   for (auto& object : get_objects()) {
     object->stop_looping_sounds();
   }
+}
+
+void
+Sector::pause_camera_interpolation()
+{
+  m_last_dt = 0.;
 }
 
 void Sector::play_looping_sounds()

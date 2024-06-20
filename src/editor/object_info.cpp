@@ -19,30 +19,58 @@
 #include "util/reader_document.hpp"
 
 ObjectInfo::ObjectInfo() :
-  m_groups()
+  m_groups(),
+  m_layers_group(),
+  m_worldmap_layers_group()
 {
   auto doc = ReaderDocument::from_file("images/engine/editor/objects.stoi");
   auto root = doc.get_root();
 
-  if (root.get_name() != "supertux-objectinfo") {
-    throw std::runtime_error("file images/engine/editor/objects.stoi is not a supertux-objectinfo file.");
-  } // Bombenfest und Idioten sicher :DDDDD
+  if (root.get_name() != "supertux-objectinfo")
+    throw std::runtime_error("'images/engine/editor/objects.stoi' is not a 'supertux-objectinfo' file.");
 
   auto reader = root.get_mapping();
 
-  /*const lisp::Lisp* info = root->get_lisp("supertux-objectinfo");
-  if (!info) {
-    throw std::runtime_error("file images/engine/editor/objects.stoi is not a supertux-objectinfo file.");
-  }*/ // Bombenfest und Idioten sicher :DDDDD
-
   auto iter = reader.get_iter();
-  while (iter.next()) {
+  while (iter.next())
+  {
     const std::string& token = iter.get_key();
-    if (token == "objectgroup") {
-      m_groups.push_back( ObjectGroup( iter.as_mapping() ) );
+    if (token == "objectgroup")
+      m_groups.push_back(ObjectGroup(iter.as_mapping()));
+    else if (token == "layers")
+      m_layers_group = std::make_unique<ObjectGroup>(iter.as_mapping());
+    else if (token == "layers-worldmap")
+      m_worldmap_layers_group = std::make_unique<ObjectGroup>(iter.as_mapping());
+  }
+}
+
+int
+ObjectInfo::get_first_worldmap_group_index() const
+{
+  int worldmap_group_index = 0;
+  for (const auto& group : m_groups)
+  {
+    if (group.is_worldmap())
+    {
+      return worldmap_group_index;
+    }
+    worldmap_group_index++;
+  }
+  return -1;
+}
+
+int
+ObjectInfo::get_num_groups(bool for_worldmap) const
+{
+  int num_groups = 0;
+  for (const auto& group : m_groups)
+  {
+    if (group.is_worldmap() == for_worldmap)
+    {
+      num_groups++;
     }
   }
-
+  return num_groups;
 }
 
 /* EOF */
