@@ -44,7 +44,6 @@ public:
   virtual void on_flip(float height) override;
 
 public:
-
   Physic& get_physic() { return m_physic; }
 
   enum State

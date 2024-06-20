@@ -73,10 +73,10 @@ Bumper::update(float dt_sec)
   {
     if (small_overlap_box.overlaps(rock.get_bbox()))
     {
-      float BOUNCE_DIR = m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X;
-      rock.get_physic().set_velocity(BOUNCE_DIR * 0.7f, BOUNCE_Y * 0.6f);
+      rock.get_physic().set_velocity((m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X) * 0.7f,
+                                     BOUNCE_Y * 0.6f);
       SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
-      m_sprite->set_action("swinging", m_dir, 1);
+      set_action("swinging", m_dir, 1);
       set_pos(m_original_pos);
     }
   }
@@ -99,9 +99,8 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-    float BOUNCE_DIR = m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X;
     player->get_physic().set_velocity(0.f, player->is_swimming() ? 0.f : BOUNCE_Y);
-    player->sideways_push(BOUNCE_DIR);
+    player->sideways_push(m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X);
     SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
     set_action("swinging", m_dir, 1);
   }
@@ -109,8 +108,7 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy)
   {
-    float BOUNCE_DIR = (m_dir == Direction::LEFT) ? -400.f : 400.f;
-    badguy->get_physic().set_velocity(BOUNCE_DIR, 0.f);
+    badguy->get_physic().set_velocity(((m_dir == Direction::LEFT) ? -400.f : 400.f), 0.f);
     SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
     set_action("swinging", m_dir, 1);
   }
