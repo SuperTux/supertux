@@ -17,8 +17,6 @@
 
 #include "badguy/zeekling.hpp"
 
-#include <math.h>
-
 #include "math/easing.hpp"
 #include "math/random.hpp"
 #include "math/vector.hpp"
@@ -27,36 +25,32 @@
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
-#include <variant>
+const float FLYING_SPEED = 220.f;
+const float DIVING_SPEED = 300.f;
 
-/*
-const float CATCH_DURATION = 0.49f;
-const float CATCH_BIG_DISTANCE = 32.f*3.2f; // distance from the ground
-const float CATCH_SMALL_DISTANCE = 32.f*2.6f; // same here
-
-const float DIVE_DETECT_STAND = 0.9f;
-//const float DIVE_DETECT_DIVIDER = 128.f; // some weird magic number i thought of
-*/
+const float DIVING_DURATION = 1.5f;
+const float RECOVER_DURATION = 2.8f;
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
-  m_speed(260.f),
   m_catch_pos(0.f),
   m_timer(),
   m_state(FLYING)
 {
   m_physic.enable_gravity(false);
+  m_physic.set_velocity_x(220.f);
 }
 
 void Zeekling::draw(DrawingContext &context)
 {
+  context.color().draw_line({get_pos().x-5, m_target_y}, {get_pos().x+5, m_target_y}, Color::GREEN, 1000);
   BadGuy::draw(context);
 }
 
 void
 Zeekling::initialize()
 {
-  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -m_speed : m_speed);
+  m_physic.set_velocity_x(m_physic.get_velocity_x() * (m_dir == Direction::LEFT ? -1 : 1));
   set_action(m_dir);
 }
 
@@ -76,15 +70,13 @@ Zeekling::on_bump_horizontal()
 {
   m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
   set_action(m_dir);
-  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -m_speed : m_speed);
+  m_physic.set_velocity_x(m_physic.get_velocity_x() * (m_dir == Direction::LEFT ? 1 : -1));
 
   switch (m_state)
   {
     case DIVING:
       // Diving attempt failed. So sad. Return to base.
-      m_state = RECOVERING;
-      m_catch_pos = get_pos().y;
-      m_physic.set_velocity_y(0);
+      recover();
       break;
 
     default:
@@ -98,17 +90,12 @@ Zeekling::on_bump_vertical()
   switch (m_state) {
     case DIVING:
       // Diving attempt failed. So sad. Return to base.
-      m_state = RECOVERING;
-      m_catch_pos = get_pos().y;
-      set_action(m_dir);
+      recover();
       break;
 
     case RECOVERING:
       // I guess this is my new home now.
-      m_state = FLYING;
-      m_start_position.y = get_pos().y;
-      m_physic.set_velocity_y(0);
-      set_action(m_dir);
+      fly();
       break;
 
     default:
@@ -180,7 +167,7 @@ Zeekling::should_we_dive()
   if (result.is_valid && resultobj &&
       *resultobj == player->get_collision_object())
   {
-    m_target_y = plrmid.y;
+    m_target_y = player->get_bbox().get_top() - 10;
     return true;
   }
   else
@@ -189,49 +176,62 @@ Zeekling::should_we_dive()
   }
 }
 
+void Zeekling::set_speed(float speed)
+{
+  m_physic.set_velocity_x(speed * (m_dir == Direction::LEFT ? -1 : 1));
+}
+
+void Zeekling::fly()
+{
+  m_state = FLYING;
+  set_speed(FLYING_SPEED);
+  m_start_position.y = get_pos().y;
+  set_action(m_dir);
+}
+
+void Zeekling::dive()
+{
+  m_state = DIVING;
+  set_speed(DIVING_SPEED);
+  m_timer.start(DIVING_DURATION);
+  set_action("dive", m_dir);
+}
+
+void Zeekling::recover()
+{
+  m_state = RECOVERING;
+  m_catch_pos = get_pos().y;
+  m_timer.start(RECOVER_DURATION);
+  set_action(m_dir);
+}
+
 void
 Zeekling::active_update(float dt_sec) {
   switch (m_state) {
     case FLYING:
-      std::cout << m_start_position.y << " "
-                << get_pos().y << std::endl;
-
       if (!should_we_dive())
         break;
 
-      m_state = DIVING;
-      set_action("dive", m_dir);
+      dive();
 
-      //[[fallthrough]];
       break;
 
     case DIVING:
-      if (math::in_bounds(get_bbox().get_bottom(), m_target_y - 5.f, m_target_y + 5.f))
+      if (m_timer.check())
       {
-        m_state = CATCHING;
-        m_timer.start(1.5f);
-        m_physic.set_velocity_y(0.f);
-        set_action(m_dir);
-        break;
+        recover();
       }
       else
       {
-        float startdist = m_target_y - m_start_position.y;
-        float dist = m_target_y - get_bbox().get_top();
-        float progress = (1.f - (dist / startdist)) * 550.f;
-        float value = 550.f - progress;
-        /*
-        std::cout << m_target_y << " "
-                  << dist << " / "
-                  << startdist << " "
-                  << progress << " "
-                  << value << std::endl;
-        */
+        float dist = m_target_y - m_start_position.y;
+        double progress = CubicEaseIn(static_cast<double>(1.f - m_timer.get_progress()));
+        float value = m_target_y - (static_cast<float>(progress) * dist);
+        Vector pos(get_pos().x, value);
 
-        m_physic.set_velocity_y(value);
+        set_pos(pos);
 
-        break;
       }
+      break;
 
     case CATCHING:
       if (m_timer.check())
@@ -243,27 +243,18 @@ Zeekling::active_update(float dt_sec) {
       break;
 
     case RECOVERING:
-      if (math::in_bounds(get_bbox().get_bottom(), m_start_position.y - 5.f, m_start_position.y + 5.f))
+      if (m_timer.check())
       {
-        m_state = FLYING;
-        m_start_position.y = get_pos().y;
-        m_physic.set_velocity_y(0);
-        set_action(m_dir);
+        fly();
       }
       else
       {
-        float startdist = m_catch_pos - m_start_position.y;
-        float dist = get_bbox().get_top() - m_start_position.y - 25.f;
-        float progress = (dist / startdist) * 550.f;
-        float value = progress < 550.f / 2 ? progress : 550.f - progress;
-        std::cout << m_catch_pos << " "
-                  << m_start_position.y << " "
-                  << dist << " / "
-                  << startdist << " "
-                  << progress << " "
-                  << value << std::endl;
+        float dist = m_catch_pos - m_start_position.y;
+        double progress = QuadraticEaseInOut(static_cast<double>(m_timer.get_progress()));
+        float value = m_catch_pos - (static_cast<float>(progress) * dist);
+        Vector pos(get_pos().x, value);
 
-        m_physic.set_velocity_y(-value);
+        set_pos(pos);
       }
 
       break;

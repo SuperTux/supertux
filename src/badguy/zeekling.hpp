@@ -47,6 +47,12 @@ private:
 
   bool should_we_dive();
 
+  void set_speed(float speed);
+
+  void fly();
+  void dive();
+  void recover();
+
   void on_bump_horizontal();
   void on_bump_vertical();
 
@@ -59,7 +65,6 @@ private:
   };
 
 private:
-  float m_speed;
   float m_catch_pos;
   float m_target_y;
   Timer m_timer;
