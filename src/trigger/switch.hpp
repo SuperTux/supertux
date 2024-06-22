@@ -19,7 +19,7 @@
 
 #include "trigger/trigger_base.hpp"
 
-class Switch final : public SpritedTrigger
+class Switch final : public StickyTrigger
 {
 public:
   Switch(const ReaderMapping& reader);

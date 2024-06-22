@@ -1605,7 +1605,14 @@ Player::handle_input()
       }
       else
       {
-        dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+        Rectf player_head_clear_box = get_bbox().grown(-2.f);
+        player_head_clear_box.set_top(get_bbox().get_top() - 2.f);
+        if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, moving_object, true)) {
+          dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+        }
+        else {
+          dest_.set_bottom(m_col.m_bbox.get_bottom() + 2.f);
+        }
         dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
 
         if (m_dir == Direction::LEFT)
