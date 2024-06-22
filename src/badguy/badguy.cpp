@@ -382,12 +382,24 @@ void
 BadGuy::active_update(float dt_sec)
 {
   if (!is_grabbed())
-    m_col.set_movement(m_physic.get_movement(dt_sec) * (m_water_affected ? (
-      Vector((is_in_water() && !m_frozen) ? 0.7f : (is_in_water() && m_frozen) ? 0.1f : 1.f,
-             (is_in_water() && !m_frozen) ? 0.3f : (is_in_water() && m_frozen) ? 0.6f : 1.f)) :
-      Vector(1.f, 1.f)));
-  if (m_frozen)
+  {
+    if (is_in_water() && m_water_affected)
+    {
+      if (m_frozen) {
+        m_col.set_movement(m_physic.get_movement(dt_sec) * Vector(0.1f, 0.6f));
+      }
+      else {
+        m_col.set_movement(m_physic.get_movement(dt_sec) * Vector(0.7f, 0.3f));
+      }
+    }
+    else {
+      m_col.set_movement(m_physic.get_movement(dt_sec));
+    }
+  }
+
+  if (m_frozen) {
     m_sprite->stop_animation();
+  }
 }
 
 void
