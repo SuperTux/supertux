@@ -150,17 +150,17 @@ Zeekling::should_we_dive()
 
   const Vector& plrmid = player->get_bbox().get_middle();
 
-  // Do not dive if we are not above the player.
-  float height = player->get_bbox().get_top() - get_bbox().get_bottom();
-  if (height <= 0)
+  // Do not dive if we are too close to the player.
+  float height = player->get_bbox().get_top() - get_bbox().get_top();
+  if (height <= 32.f * 4.5f)
     return false;
 
   // Do not dive if we are too far above the player.
   if (height > 512)
     return false;
 
-  float dist = std::abs(eye.x - plrmid.x);
-  if (!math::in_bounds(dist, 10.f, 32.f * 15))
+  float xdist = std::abs(eye.x - plrmid.x);
+  if (!math::in_bounds(xdist, 10.f, 32.f * 15))
     return false;
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, plrmid, false, nullptr);
