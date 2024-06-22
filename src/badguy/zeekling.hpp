@@ -50,6 +50,7 @@ private:
   void set_speed(float speed);
 
   void fly();
+  void charge();
   void dive();
   void recover();
 
@@ -59,9 +60,9 @@ private:
 private:
   enum ZeeklingState {
     FLYING,
+    CHARGING,
     DIVING,
     RECOVERING,
-    CATCHING
   };
 
 private:

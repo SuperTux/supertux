@@ -25,9 +25,11 @@
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
-const float FLYING_SPEED = 220.f;
-const float DIVING_SPEED = 300.f;
+const float FLYING_SPEED = 180.f;
+const float CHARGING_SPEED = 120.f;
+const float DIVING_SPEED = 280.f;
 
+const float CHARGING_DURATION = 0.3f;
 const float DIVING_DURATION = 1.5f;
 const float RECOVER_DURATION = 2.8f;
 
@@ -38,7 +40,7 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   m_state(FLYING)
 {
   m_physic.enable_gravity(false);
-  m_physic.set_velocity_x(220.f);
+  m_physic.set_velocity_x(FLYING_SPEED);
 }
 
 void Zeekling::draw(DrawingContext &context)
@@ -189,6 +191,14 @@ void Zeekling::fly()
   set_action(m_dir);
 }
 
+void Zeekling::charge()
+{
+  m_state = CHARGING;
+  m_timer.start(CHARGING_DURATION);
+  set_speed(CHARGING_SPEED);
+  set_action("charge", m_dir);
+}
+
 void Zeekling::dive()
 {
   m_state = DIVING;
@@ -212,8 +222,15 @@ Zeekling::active_update(float dt_sec) {
       if (!should_we_dive())
         break;
 
-      dive();
+      charge();
 
+      break;
+
+    case CHARGING:
+      if (m_timer.check())
+      {
+        dive();
+      }
       break;
 
     case DIVING:
@@ -231,15 +248,6 @@ Zeekling::active_update(float dt_sec) {
         set_pos(pos);
 
       }
-      break;
-
-    case CATCHING:
-      if (m_timer.check())
-      {
-        m_state = RECOVERING;
-        m_catch_pos = get_pos().y;
-      }
-
       break;
 
     case RECOVERING:
