@@ -26,7 +26,7 @@
 #include "supertux/sector.hpp"
 
 const float FLYING_SPEED = 180.f;
-const float CHARGING_SPEED = 120.f;
+const float CHARGING_SPEED = 150.f;
 const float DIVING_SPEED = 280.f;
 
 const float CHARGING_DURATION = 0.3f;
@@ -72,7 +72,8 @@ Zeekling::on_bump_horizontal()
 {
   m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
   set_action(m_dir);
-  m_physic.set_velocity_x(m_physic.get_velocity_x() * (m_dir == Direction::LEFT ? 1 : -1));
+  m_physic.set_velocity_x(std::abs(m_physic.get_velocity_x()) * (m_dir == Direction::LEFT ? -1 : 1));
+  std::cout << m_state << " " << m_dir << std::endl;
 
   switch (m_state)
   {
@@ -202,8 +203,8 @@ void Zeekling::charge()
 void Zeekling::dive()
 {
   m_state = DIVING;
-  set_speed(DIVING_SPEED);
   m_timer.start(DIVING_DURATION);
+  set_speed(DIVING_SPEED);
   set_action("dive", m_dir);
 }
 
