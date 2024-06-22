@@ -22,7 +22,6 @@
 #include "object/moving_sprite.hpp"
 #include "object/platform.hpp"
 #include "object/tilemap.hpp"
-#include "supertux/sector.hpp"
 
 StickyObject::StickyObject(const Vector& pos, const std::string& sprite_name,
                            int layer, CollisionGroup collision_group) :
@@ -44,8 +43,7 @@ StickyObject::StickyObject(const ReaderMapping& reader, const std::string& sprit
 void
 StickyObject::update(float dt_sec)
 {
-  Rectf large_overlap_box = get_bbox().grown(8.f);
-
+  const Rectf large_overlap_box = get_bbox().grown(8.f);
   for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
   {
     if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
@@ -62,51 +60,9 @@ StickyObject::update(float dt_sec)
     }
   }
 
-  for (auto& crusher : Sector::get().get_objects_by_type<Crusher>())
-  {
-    if (large_overlap_box.overlaps(crusher.get_bbox()))
-    {
-      m_col.set_movement(crusher.get_movement());
-      if (!m_sticking)
-      {
-        m_displacement_from_owner = get_pos() - crusher.get_pos();
-        m_sticking = true;
-      }
-      move_for_owner(crusher);
-      return;
-    }
-  }
-
-  for (auto& platform : Sector::get().get_objects_by_type<Platform>())
-  {
-    if (large_overlap_box.overlaps(platform.get_bbox()))
-    {
-      m_col.set_movement(platform.get_movement());
-      if (!m_sticking)
-      {
-        m_displacement_from_owner = get_pos() - platform.get_pos();
-        m_sticking = true;
-      }
-      move_for_owner(platform);
-      return;
-    }
-  }
-
-  for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
-  {
-    if (large_overlap_box.overlaps(fallblock.get_bbox()))
-    {
-      m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
-      if (!m_sticking)
-      {
-        m_displacement_from_owner = get_pos() - fallblock.get_pos();
-        m_sticking = true;
-      }
-      move_for_owner(fallblock);
-      return;
-    }
-  }
-
+  sticky_update<Crusher>();
+  sticky_update<Platform>();
+  sticky_update<FallBlock>();
 }
 
 ObjectSettings
@@ -147,8 +103,7 @@ StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& spri
 void
 StickyBadguy::sticky_update(float dt_sec)
 {
-  Rectf large_overlap_box = get_bbox().grown(8.f);
-
+  const Rectf large_overlap_box = get_bbox().grown(8.f);
   for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
   {
     if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
@@ -165,50 +120,9 @@ StickyBadguy::sticky_update(float dt_sec)
     }
   }
 
-  for (auto& crusher : Sector::get().get_objects_by_type<Crusher>())
-  {
-    if (large_overlap_box.overlaps(crusher.get_bbox()))
-    {
-      m_col.set_movement(crusher.get_movement());
-      if (!m_sticking)
-      {
-        m_displacement_from_owner = get_pos() - crusher.get_pos();
-        m_sticking = true;
-      }
-      move_for_owner(crusher);
-      return;
-    }
-  }
-
-  for (auto& platform : Sector::get().get_objects_by_type<Platform>())
-  {
-    if (large_overlap_box.overlaps(platform.get_bbox()))
-    {
-      m_col.set_movement(platform.get_movement());
-      if (!m_sticking)
-      {
-        m_displacement_from_owner = get_pos() - platform.get_pos();
-        m_sticking = true;
-      }
-      move_for_owner(platform);
-      return;
-    }
-  }
-
-  for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
-  {
-    if (large_overlap_box.overlaps(fallblock.get_bbox()))
-    {
-      m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
-      if (!m_sticking)
-      {
-        m_displacement_from_owner = get_pos() - fallblock.get_pos();
-        m_sticking = true;
-      }
-      move_for_owner(fallblock);
-      return;
-    }
-  }
+  sticky_update<Crusher>();
+  sticky_update<Platform>();
+  sticky_update<FallBlock>();
 }
 
 ObjectSettings

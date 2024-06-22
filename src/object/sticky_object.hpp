@@ -20,6 +20,8 @@
 #include "badguy/badguy.hpp"
 #include "object/moving_sprite.hpp"
 
+#include "supertux/sector.hpp"
+
 /** This is a class for MovingSprites that can stick to the sides, top and bottom of MovingObjects,
     such as platforms, fallblock, tilemap, etc. */
 class StickyObject : public MovingSprite
@@ -37,6 +39,26 @@ public:
   virtual void move_for_owner(MovingObject& object);
 
   bool is_sticky() const { return m_sticky; }
+
+private:
+  template<class T>
+  void sticky_update()
+  {
+    for (auto& obj : Sector::get().get_objects_by_type<T>())
+    {
+      if (m_col.m_bbox.grown(8.f).overlaps(obj.get_bbox()))
+      {
+        m_col.set_movement(obj.get_movement());
+        if (!m_sticking)
+        {
+          m_displacement_from_owner = get_pos() - obj.get_pos();
+          m_sticking = true;
+        }
+        move_for_owner(obj);
+        return;
+      }
+    }
+  }
 
 protected:
   bool m_sticky; // determines if the object CAN stick, period. 
@@ -66,6 +88,26 @@ public:
   virtual void move_for_owner(MovingObject& object);
 
   bool is_sticky() const { return m_sticky; }
+
+private:
+  template<class T>
+  void sticky_update()
+  {
+    for (auto& obj : Sector::get().get_objects_by_type<T>())
+    {
+      if (m_col.m_bbox.grown(8.f).overlaps(obj.get_bbox()))
+      {
+        m_col.set_movement(obj.get_movement());
+        if (!m_sticking)
+        {
+          m_displacement_from_owner = get_pos() - obj.get_pos();
+          m_sticking = true;
+        }
+        move_for_owner(obj);
+        return;
+      }
+    }
+  }
 
 protected:
   bool m_sticky; // determines if the object CAN stick, period. 
