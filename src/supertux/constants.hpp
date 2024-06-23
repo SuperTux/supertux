@@ -19,10 +19,9 @@
 
 #include <string>
 
-// the engine will be run with a logical framerate of 64fps.
-// We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
-// binary fraction...
-static const float LOGICAL_FPS = 64.0;
+// the engine will be run with a logical framerate of 66.666fps, corresponding
+// to a 15 msec gap between steps. Warning: changing this may affect physics
+static const float LOGICAL_FPS = 1000.0f / 15.0f;
 
 // SHIFT_DELTA is used for sliding over 1-tile gaps and collision detection
 static const float SHIFT_DELTA = 7.0f;
