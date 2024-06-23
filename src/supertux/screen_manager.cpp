@@ -138,10 +138,9 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_menu_manager(new MenuManager()),
   m_controller_hud(new ControllerHUD),
   m_mobile_controller(),
-  last_ticks(0),
-  elapsed_ticks(0),
-  ms_per_step(static_cast<Uint32>(1000.0f / LOGICAL_FPS)),
-  seconds_per_step(static_cast<float>(ms_per_step) / 1000.0f),
+  last_time(std::chrono::steady_clock::now()),
+  elapsed_time(0.0f),
+  seconds_per_step(1.0f / LOGICAL_FPS),
   m_fps_statistics(new FPS_Stats()),
   m_speed(1.0),
   m_actions(),
@@ -564,23 +563,25 @@ ScreenManager::handle_screen_switch()
 
 void ScreenManager::loop_iter()
 {
-  Uint32 ticks = SDL_GetTicks();
-  elapsed_ticks += ticks - last_ticks;
-  last_ticks = ticks;
+  auto now = std::chrono::steady_clock::now();
+  auto nsecs = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_time).count();
+  elapsed_time += 1e-9f * static_cast<float>(nsecs);
+  g_real_time += 1e-9f * static_cast<float>(nsecs);
+  last_time = now;
 
-  if (elapsed_ticks > ms_per_step * 8) {
+  if (elapsed_time > seconds_per_step * 8) {
     // when the game loads up or levels are switched the
     // elapsed_ticks grows extremely large, so we just ignore those
     // large time jumps
-    elapsed_ticks = 0;
+    elapsed_time = 0;
   }
 
   bool always_draw = g_debug.draw_redundant_frames || g_config->frame_prediction;
 
-  if (elapsed_ticks < ms_per_step && !always_draw) {
+  if (elapsed_time < seconds_per_step && !always_draw) {
     // Sleep a bit because not enough time has passed since the previous
     // logical game step
-    SDL_Delay(ms_per_step - elapsed_ticks);
+    SDL_Delay(static_cast<Uint32>(1000.0f * (seconds_per_step - elapsed_time)));
     return;
   }
 
@@ -588,10 +589,8 @@ void ScreenManager::loop_iter()
   Integration::update_status_all(m_screen_stack.back()->get_status());
   Integration::update_all();
 
-  g_real_time = static_cast<float>(ticks) / 1000.0f;
-
   float speed_multiplier = g_debug.get_game_speed_multiplier();
-  int steps = elapsed_ticks / ms_per_step;
+  int steps = static_cast<int>(std::floor(elapsed_time / seconds_per_step));
 
   // Do not calculate more than a few steps at once
   // The maximum number of steps executed before drawing a frame is
@@ -625,14 +624,13 @@ void ScreenManager::loop_iter()
     g_game_time += dtime;
     process_events();
     update_gamelogic(dtime);
-    elapsed_ticks -= ms_per_step;
+    elapsed_time -= seconds_per_step;
   }
 
   // When the game is laggy, real time may be >1 step after the game time
   // To avoid predicting positions too far ahead, when using frame prediction,
   // limit the draw time offset to at most one step.
-  Uint32 tick_offset = std::min(elapsed_ticks, ms_per_step);
-  float time_offset = m_speed * speed_multiplier * static_cast<float>(tick_offset) / 1000.0f;
+  float time_offset = m_speed * speed_multiplier * std::min(elapsed_time, seconds_per_step);
 
   if ((steps > 0 && !m_screen_stack.empty())
       || always_draw) {

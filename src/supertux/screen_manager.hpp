@@ -18,6 +18,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_MANAGER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_MANAGER_HPP
 
+#include <chrono>
 #include <memory>
 #include <SDL.h>
 
@@ -78,9 +79,8 @@ private:
   std::unique_ptr<ControllerHUD> m_controller_hud;
   MobileController m_mobile_controller;
 
-  Uint32 last_ticks;
-  Uint32 elapsed_ticks;
-  const Uint32 ms_per_step;
+  std::chrono::steady_clock::time_point last_time;
+  float elapsed_time;
   const float seconds_per_step;
   std::unique_ptr<FPS_Stats> m_fps_statistics;
 
