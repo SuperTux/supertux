@@ -49,6 +49,7 @@ public:
 
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
+  Physic& get_physic() { return physic; }
 
 private:
   enum Type {
@@ -59,6 +60,7 @@ private:
 protected:
   Physic physic;
   bool on_ground;
+  bool on_ice;
   Vector last_movement;
   std::string on_grab_script;
   std::string on_ungrab_script;

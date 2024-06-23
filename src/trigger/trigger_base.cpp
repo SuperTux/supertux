@@ -95,4 +95,10 @@ SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& s
 {
 }
 
+
+StickyTrigger::StickyTrigger(const ReaderMapping& reader, const std::string& sprite_name) :
+  StickyObject(reader, sprite_name, LAYER_TILES + 1, COLGROUP_TOUCHABLE)
+{
+}
+
 /* EOF */

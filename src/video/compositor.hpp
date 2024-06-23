@@ -33,7 +33,7 @@ public:
   static bool s_render_lighting;
 
 public:
-  Compositor(VideoSystem& video_system);
+  Compositor(VideoSystem& video_system, float time_offset);
   ~Compositor();
 
   void render();
@@ -51,6 +51,8 @@ private:
   obstack m_obst;
 
   std::vector<std::unique_ptr<DrawingContext> > m_drawing_contexts;
+
+  float m_time_offset;
 
 private:
   Compositor(const Compositor&) = delete;

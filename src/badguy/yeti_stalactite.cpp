@@ -45,7 +45,7 @@ YetiStalactite::is_hanging() const
 void
 YetiStalactite::active_update(float dt_sec)
 {
-  if (state == STALACTITE_HANGING)
+  if (state == STALACTITE_HANGING && !m_sticky)
     return;
 
   Stalactite::active_update(dt_sec);

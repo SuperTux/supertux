@@ -26,7 +26,7 @@
 #include "util/writer.hpp"
 
 Ispy::Ispy(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES + 5, COLGROUP_DISABLED),
+  StickyObject(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES + 5, COLGROUP_DISABLED),
   m_state(ISPYSTATE_IDLE),
   m_script(),
   m_dir(Direction::LEFT)
@@ -39,6 +39,8 @@ Ispy::Ispy(const ReaderMapping& reader) :
   else if (!Editor::is_active())
     m_dir = Direction::LEFT;
 
+  reader.get("sticky", m_sticky, false);
+
   if (m_dir == Direction::AUTO)
     log_warning << "Setting an Ispy's direction to AUTO is no good idea." << std::endl;
 
@@ -48,13 +50,13 @@ Ispy::Ispy(const ReaderMapping& reader) :
 ObjectSettings
 Ispy::get_settings()
 {
-  ObjectSettings result = MovingSprite::get_settings();
+  ObjectSettings result = StickyObject::get_settings();
 
   result.add_script(_("Script"), &m_script, "script");
   result.add_direction(_("Direction"), &m_dir,
                         { Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "direction");
 
-  result.reorder({"script", "facing-down", "direction", "x", "y"});
+  result.reorder({"script", "facing-down", "sticky", "direction", "x", "y"});
 
   return result;
 }
@@ -75,7 +77,6 @@ Ispy::collision(GameObject& , const CollisionHit& )
 void
 Ispy::update(float dt_sec)
 {
-
   if (m_state == ISPYSTATE_IDLE)
   {
     //Check if a player has been spotted
@@ -122,6 +123,11 @@ Ispy::update(float dt_sec)
       m_state = ISPYSTATE_IDLE;
     }
   }
+
+  if (m_sticky) {
+    StickyObject::update(dt_sec);
+  }
+
 }
 
 void

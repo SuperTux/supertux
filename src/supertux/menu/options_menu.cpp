@@ -109,6 +109,9 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_magnification();
       add_vsync();
 
+      add_toggle(MNID_FRAME_PREDICTION, _("Frame prediction"), &g_config->frame_prediction)
+        .set_help(_("Smooth camera motion, generating intermediate frames. This has a noticeable effect on monitors at >> 60Hz. Moving objects may be blurry."));
+
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
       add_aspect_ratio();
 #endif
