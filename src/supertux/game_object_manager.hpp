@@ -116,10 +116,11 @@ public:
   template<class T>
   T& get_singleton_by_type() const
   {
-    const auto& range = get_objects_by_type<T>();
-    assert(range.begin() != range.end());
-    assert(range.begin()->is_singleton());
-    return *range.begin();
+    const auto& objs = get_objects_by_type_index(typeid(T));
+    assert(objs.size() == 1);
+    T* obj = static_cast<T*>(objs[0]);
+    assert(obj->is_singleton());
+    return *obj;
   }
 
   template<class T>
