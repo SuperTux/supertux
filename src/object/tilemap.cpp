@@ -439,12 +439,12 @@ TileMap::draw(DrawingContext& context)
 {
   // skip draw if current opacity is 0.0
   if (m_current_alpha == 0.0f) return;
-  
+
   context.push_transform();
 
   const bool normal_speed = m_editor_active && Editor::is_active();
-  float speed_x = normal_speed ? 1.0f : m_speed_x;
-  float speed_y = normal_speed ? 1.0f : m_speed_y;
+  const float speed_x = normal_speed ? 1.0f : m_speed_x;
+  const float speed_y = normal_speed ? 1.0f : m_speed_y;
   if (!context.perspective_scale(speed_x, speed_y)) {
     //The tilemap is placed behind the camera.
     context.pop_transform();
