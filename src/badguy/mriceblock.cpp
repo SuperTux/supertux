@@ -24,6 +24,7 @@
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
@@ -356,6 +357,7 @@ MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 
   Portable::grab(object, pos, dir_);
   m_col.set_movement(pos - get_pos());
+  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   set_action("flat", m_dir, /* loops = */ -1);
   set_state(ICESTATE_GRABBED);

@@ -2017,6 +2017,7 @@ Player::draw(DrawingContext& context)
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
   if (m_col.m_bbox.get_bottom() - 16 < Sector::get().get_camera().get_translation().y) {
     float px = m_col.m_bbox.get_left() + (m_col.m_bbox.get_right() - m_col.m_bbox.get_left() - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
+    px += context.get_time_offset() * m_physic.get_velocity().x;
     float py = Sector::get().get_camera().get_translation().y;
     py += std::min(((py - (m_col.m_bbox.get_bottom() + 16)) / 4), 16.0f);
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
