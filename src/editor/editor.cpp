@@ -851,7 +851,7 @@ Editor::resize()
 void
 Editor::event(const SDL_Event& ev)
 {
-  if (!m_enabled) return;
+  if (!m_enabled || !m_levelloaded) return;
 
   try
   {
