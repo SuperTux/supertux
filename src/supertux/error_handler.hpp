@@ -19,32 +19,29 @@
 
 #include <iostream>
 
-class ErrorHandler final
-{
-public:
-  static void set_handlers();
+#ifdef WIN32
+#include <windows.h>
+#endif
 
-  static std::string get_stacktrace();
-  static std::string get_system_info();
+namespace ErrorHandler {
+  void set_handlers();
 
-  static void error_dialog_crash(const std::string& stacktrace);
-  static void error_dialog_exception(const std::string& exception = "");
+  std::string get_stacktrace();
+  std::string get_system_info();
 
-  static void report_error(const std::string& details);
+  void error_dialog_crash(const std::string& stacktrace);
+  void error_dialog_exception(const std::string& exception = "");
 
-  [[ noreturn ]] static void handle_error(int sig);
+#if WIN32 && 0
+  //LONG WINAPI seh_handler(_In_ _EXCEPTION_POINTERS* ExceptionInfo);
+  //CONTEXT* pcontext;
+#else
+  [[ noreturn ]] void handle_error(int sig);
+#endif
+  void report_error(const std::string& details);
 
-  [[ noreturn ]] static void close_program();
-
-private:
-  static bool m_handing_error;
-
-private:
-  ErrorHandler() = delete;
-  ~ErrorHandler() = delete;
-  ErrorHandler(const ErrorHandler&) = delete;
-  ErrorHandler& operator=(const ErrorHandler&) = delete;
-};
+  [[ noreturn ]] void close_program();
+}
 
 #endif
 

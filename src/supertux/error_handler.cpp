@@ -49,47 +49,134 @@
 #include <unistd.h>
 #endif
 
-bool ErrorHandler::m_handing_error = false;
-
 void
 ErrorHandler::set_handlers()
 {
+#if WIN32 && 0
+  SetUnhandledExceptionFilter(seh_handler);
+#elif defined(UNIX) || 1
   signal(SIGSEGV, handle_error);
   signal(SIGABRT, handle_error);
+#endif
 }
 
 std::string
 ErrorHandler::get_stacktrace()
 {
 #ifdef WIN32
-  std::stringstream stacktrace;
+  // Adapted from SuperTuxKart, (C) 2013-2015 Lionel Fuentes, GPLv3
 
-  // Initialize symbols
-  SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
-  if (!SymInitialize(GetCurrentProcess(), NULL, TRUE))
+  CONTEXT context;
+  std::memset(&context, 0, sizeof(CONTEXT));
+  context.ContextFlags = CONTEXT_FULL;
+  RtlCaptureContext(&context);
+
+  const HANDLE hProcess = GetCurrentProcess();
+  const HANDLE hThread = GetCurrentThread();
+
+  // Since the stack trace can also be used for leak checks, don't
+  // initialise this all the time.
+  static bool first_time = true;
+
+  // Initialize the symbol hander for the process
+  if (first_time)
   {
-    return "";
+    // Get the file path of the executable
+    std::string path;
+    path.reserve(MAX_PATH);
+    GetModuleFileName(NULL, &path[0], MAX_PATH);
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &path[0], (int) path.size(), NULL, 0);
+    std::wstring wpath(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, &path[0], (int) path.size(), &wpath[0], size_needed);
+
+    // Finally initialize the symbol handler.
+    BOOL bOk = SymInitializeW(hProcess, wpath.empty() ? NULL : wpath.c_str(), TRUE);
+    if (!bOk)
+    {
+      return "";
+    }
+
+    SymSetOptions(SYMOPT_LOAD_LINES);
+    first_time = false;
   }
 
-  // Get current stack frame
-  void* stack[100];
-  WORD frames = CaptureStackBackTrace(0, 100, stack, NULL);
+  std::stringstream callstack;
 
-  // Get symbols for each frame
-  SYMBOL_INFO* symbol = static_cast<SYMBOL_INFO*>(std::calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1));
-  symbol->MaxNameLen = 255;
-  symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
-
-  for (int i = 0; i < frames; i++)
+  // Get the stack trace
   {
-    SymFromAddr(GetCurrentProcess(), (DWORD64) stack[i], 0, symbol);
-    stacktrace << symbol->Name << " - 0x" << std::hex << symbol->Address << "\n";
+    // Initialize the STACKFRAME structure so that it
+    // corresponds to the current function call
+    STACKFRAME64 stackframe;
+    std::memset(&stackframe, 0, sizeof(stackframe));
+    stackframe.AddrPC.Mode      = AddrModeFlat;
+    stackframe.AddrStack.Mode   = AddrModeFlat;
+    stackframe.AddrFrame.Mode   = AddrModeFlat;
+#if defined(_M_ARM)
+    stackframe.AddrPC.Offset    = context.Pc;
+    stackframe.AddrStack.Offset = context.Sp;
+    stackframe.AddrFrame.Offset = context.R11;
+    const DWORD machine_type    = IMAGE_FILE_MACHINE_ARM;
+#elif defined(_M_ARM64)
+    stackframe.AddrPC.Offset    = context.Pc;
+    stackframe.AddrStack.Offset = context.Sp;
+    stackframe.AddrFrame.Offset = context.Fp;
+    const DWORD machine_type    = IMAGE_FILE_MACHINE_ARM64;
+#elif defined(_WIN64)
+    stackframe.AddrPC.Offset    = context.Rip;
+    stackframe.AddrStack.Offset = context.Rsp;
+    stackframe.AddrFrame.Offset = context.Rbp;
+    const DWORD machine_type    = IMAGE_FILE_MACHINE_AMD64;
+#else
+    stackframe.AddrPC.Offset    = context.Eip;
+    stackframe.AddrStack.Offset = context.Esp;
+    stackframe.AddrFrame.Offset = context.Ebp;
+    const DWORD machine_type = IMAGE_FILE_MACHINE_I386;
+#endif
+
+    // Walk the stack
+    const int max_nb_calls = 32;
+    for (int i = 0; i < max_nb_calls ; i++)
+    {
+      const BOOL stackframe_ok = StackWalk64(machine_type, hProcess, hThread,
+                                             &stackframe, &context, NULL,
+                                             SymFunctionTableAccess64,
+                                             SymGetModuleBase64, NULL);
+      if (!stackframe_ok) break;
+
+      // Decode the symbol and add it to the call stack
+      DWORD64 sym_displacement;
+      char buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)];
+      PSYMBOL_INFO symbol = (PSYMBOL_INFO) buffer;
+      symbol->MaxNameLen = MAX_SYM_NAME;
+      symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+
+      if (!SymFromAddr(hProcess, stackframe.AddrPC.Offset,
+                        &sym_displacement, symbol))
+      {
+        callstack << "<no symbol available>\n";
+        continue;
+      }
+
+      IMAGEHLP_LINE64 line64;
+      DWORD dwDisplacement = (DWORD) sym_displacement;
+      bool result = SymGetLineFromAddr64(hProcess,
+                                         stackframe.AddrPC.Offset,
+                                         &dwDisplacement, &line64);
+      if (result)
+      {
+        std::string s(line64.FileName);
+        callstack << FileSystem::basename(s)
+                  << ":" << symbol->Name << ":"
+                  << line64.LineNumber << "\n";
+      }
+      else
+      {
+        callstack << symbol->Name << "\n";
+      }
+    }
   }
 
-  std::free(symbol);
-  SymCleanup(GetCurrentProcess());
-
-  return stacktrace.str();
+  return callstack.str();
 #elif defined(UNIX)
   void* array[128];
   size_t size;
@@ -184,17 +271,19 @@ ErrorHandler::get_system_info()
 #endif
 }
 
+#if 1
 [[ noreturn ]] void
 ErrorHandler::handle_error(int sig)
 {
-  if (m_handing_error)
+  static bool handling_error = false;
+  if (handling_error)
   {
     // Error happened again while handling another segfault. Abort now.
     close_program();
   }
   else
   {
-    m_handing_error = true;
+    handling_error = true;
 
     // Do not use external stuff (like log_fatal) to limit the risk of causing
     // another error, which would restart the handler again.
@@ -204,6 +293,25 @@ ErrorHandler::handle_error(int sig)
     close_program();
   }
 }
+#elif defined(WIN32) && 0
+LONG
+ErrorHandler::seh_handler(_EXCEPTION_POINTERS* ExceptionInfo)
+{
+  if (handling_error)
+  {
+    // Error happened again while handling another segfault. Abort now.
+    close_program();
+  }
+  else
+  {
+    handling_error = true;
+
+    pcontext = ExceptionInfo->ContextRecord;
+    error_dialog_crash(get_stacktrace());
+    close_program();
+  }
+}
+#endif
 
 void
 ErrorHandler::error_dialog_crash(const std::string& stacktrace)
@@ -365,3 +473,4 @@ ErrorHandler::close_program()
 }
 
 /* EOF */
+
