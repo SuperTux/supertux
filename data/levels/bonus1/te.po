@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Jagadeeshvarma, 2021
+# Nanowarrior, 2021-2022
+# జయంత్ వర్మ బెల్లపుకొండ <jayanthvarma.b@gmail.com>, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-17 03:54+0000\n"
-"Last-Translator: Jagadeeshvarma\n"
-"Language-Team: Telugu (http://www.transifex.com/arctic-games/supertux/language/te/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: జయంత్ వర్మ బెల్లపుకొండ <jayanthvarma.b@gmail.com>, 2022\n"
+"Language-Team: Telugu (http://app.transifex.com/arctic-games/supertux/language/te/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -79,7 +80,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
+msgstr "-సుభాకాంక్షలు!\n\n#మీరు విజయవంతంగా పూర్తి చేశారు\n#లాభాంశమైన దీవిI\n\n\tలెవల్ల సృష్టికర్తలు\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#మీరు ఇంకా అన్ని లెవల్లను పూర్తి చేయకపోతే,\n#తిరిగి వెనక్కి వెళ్ళి వేరే మార్గం గుండా వెళ్ళండి.\n# మీ కోసం మరింత సవాలు ఎదురు చూస్తుంది!\n\n#మరియు మీరు వెతక వలిసిన ఒక\n#రహస్యమైన లెవలు కూడా ఉంది...\n\n#ఈ విడుదలకు తోడ్పడ అందరికి మనసారా ధన్యవాదాలు\n#మీకు ఇది నచ్చిందని ఆశిస్తుము!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -161,7 +162,7 @@ msgstr "Matr1x' సెక్టార్‌కు వార్ప్ అవం�
 
 #: data/levels/bonus1/worldmap.stwm:151 data/levels/bonus1/worldmap.stwm:228
 msgid "Warp to Thompson's Domain"
-msgstr ""
+msgstr "థాంప్సన్స్ భూభాగానికి వార్ప్ చేయి"
 
 #: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
@@ -169,7 +170,7 @@ msgstr "సూపర్ టక్స్ జట్టు ద్వీపాన్
 
 #: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
-msgstr ""
+msgstr "అబెద్నెగో ప్రాంతానికి వార్ప్ చేయి"
 
 #: data/levels/bonus1/worldmap.stwm:172 data/levels/bonus1/worldmap.stwm:262
 msgid "Leave Torfi's Territory"
@@ -189,11 +190,11 @@ msgstr "తిరిగి Matr1x' ప్రాతాన్నికి"
 
 #: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
-msgstr ""
+msgstr "ఇంటిని వార్ప్ చేయి"
 
 #: data/levels/bonus1/worldmap.stwm:214
 msgid "Warp to the SuperTux Team Island"
-msgstr ""
+msgstr "సూపర్ టక్స్ జట్టు ద్వీపంకి వార్ప్ చేయి"
 
 #: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
@@ -205,4 +206,4 @@ msgstr "Matr1x' ప్రాతాన్ని కొనసాగించండ
 
 #: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"
-msgstr ""
+msgstr "టోర్ఫీ భూభాగానికి వార్ప్ చేయి"

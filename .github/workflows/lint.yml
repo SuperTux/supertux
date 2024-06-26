@@ -33,7 +33,7 @@ jobs:
   lint_cppcheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # The apt version of Cppcheck is outdated and apparently there are no
       # alternative up-to-date precompiled versions for Ubuntu,
@@ -51,6 +51,7 @@ jobs:
       - name: Lint code with Cppcheck
         run: |
           ./danmar-cppcheck-*/cppcheck \
+            --check-level=exhaustive \
             --quiet --inline-suppr --language=c++ --error-exitcode=10 \
             -j"$(nproc)" --std=c++17 --enable=warning,style \
             --suppress=useStlAlgorithm  src/

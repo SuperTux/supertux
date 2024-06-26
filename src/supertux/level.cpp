@@ -26,6 +26,7 @@
 #include "object/coin.hpp"
 #include "object/player.hpp"
 #include "physfs/util.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/player_status_hud.hpp"
 #include "supertux/savegame.hpp"
@@ -71,7 +72,7 @@ void
 Level::initialize()
 {
   // Get the "main" sector.
-  Sector* main_sector = get_sector("main");
+  Sector* main_sector = get_sector(DEFAULT_SECTOR_NAME);
   if (!main_sector)
     throw std::runtime_error("No \"main\" sector found.");
 
@@ -125,7 +126,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }
@@ -140,7 +141,7 @@ Level::save(const std::string& filepath, bool retry)
 
     Writer writer(filepath);
     save(writer);
-    log_info << "Level saved as " << filepath << "." 
+    log_info << "Level saved as " << filepath << "."
              << (StringUtil::has_suffix(filepath, "~") ? " [Autosave]" : "")
              << std::endl;
   } catch(std::exception& e) {
@@ -156,7 +157,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }

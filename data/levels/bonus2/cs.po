@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Jiří Paleček <narre@protonmail.com>, 2021
+# Jiří Paleček <narre@protonmail.com>, 2021-2022
 # Jiří Paleček <narre@protonmail.com>, 2015
 # fri, 2013
 # Hume2 <teratux.mail@gmail.com>, 2013,2015
@@ -12,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-20 12:42+0000\n"
-"Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:07+0000\n"
+"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2022\n"
+"Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -83,7 +83,7 @@ msgstr "Zamrzlý tunel"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr "Vzdušná vzducholoď"
+msgstr "Vzducholoď v luftu"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
@@ -115,7 +115,7 @@ msgstr "Cesty vody"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "Všechno co se blyští není zlato"
+msgstr "Všechno, co se blyští, není zlato"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
@@ -155,7 +155,7 @@ msgstr "Cesta zkrze oblaka"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "Na ledových polích Vlámska"
+msgstr "Na Vlámském ledovém poli"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"

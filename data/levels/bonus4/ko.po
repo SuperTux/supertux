@@ -2,20 +2,25 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the SuperTux package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# Myeongjin <aranet100@gmail.com>, 2019
+# Junghee Lee <daemul72@gmail.com>, 2022
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux v0.6.0-1010-gefc33a183\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2019-11-24 00:58+0000\n"
+"Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
+"Language-Team: Korean (https://app.transifex.com/arctic-games/teams/95/ko/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/levels/bonus4/A_Narrow_Path.stl:3
 msgid "A Narrow Path"
@@ -39,44 +44,44 @@ msgstr "크리스탈 매니아"
 
 #: data/levels/bonus4/Deeper_Into_The_Mountains.stl:3
 msgid "Deeper Into The Mountains"
-msgstr "산의 더 깊은 곳으로"
+msgstr "더 깊은 산 속으로"
 
 #: data/levels/bonus4/Feeling_The_Nature.stl:3
 msgid "Feeling The Nature"
-msgstr "자연을 느끼다"
+msgstr "자연을 느껴요"
 
 #: data/levels/bonus4/Fog_And_Mist.stl:3
 msgid "Fog And Mist"
-msgstr "안개와 흐림"
+msgstr "안개와 엷은 안개"
 
 #: data/levels/bonus4/Forest_Mountains.stl:3
 msgid "Forest Mountains"
-msgstr "숲과 산"
+msgstr "숲속 산"
 
 #: data/levels/bonus4/Forest_Mountains.stl:140
 msgid "#One Path contains enemies, the other treasure..."
-msgstr "#하나의 길엔 적이 있고, 다른 하나엔 보물이..."
+msgstr "#한쪽 길에는 적들이 있고, 다른쪽 길에는 보물이 있어요..."
 
 #: data/levels/bonus4/Forest_Mountains.stl:145
 #: data/levels/bonus4/Forest_Mountains.stl:150
 msgid "#You can use this door to try the other way..."
-msgstr "#이 문을 사용하여 다른 방법을 시도할 수 있습니다..."
+msgstr "#이 문을 이용해서 다른 방법을 시도할 수 있어요..."
 
 #: data/levels/bonus4/Generic_Snow_Level.stl:3
 msgid "Generic Snow Level"
-msgstr "눈의 단계"
+msgstr "일반적인 눈 수준"
 
 #: data/levels/bonus4/Glacier_Danger.stl:3
 msgid "Glacier Danger"
-msgstr "위험한 빙하"
+msgstr "빙하의 위험"
 
 #: data/levels/bonus4/Halloween_Fields.stl:3
 msgid "Halloween Fields"
-msgstr "할로윈 길"
+msgstr "할로윈 들판"
 
 #: data/levels/bonus4/Its_Halloween_Time.stl:3
 msgid "It's Halloween Time!"
-msgstr "할로윈이야!"
+msgstr "할로윈 시간이에요!"
 
 #: data/levels/bonus4/Lets_Climb_That_Mountain.stl:3
 msgid "Let's Climb That Mountain!"
@@ -84,7 +89,7 @@ msgstr "저 산을 오르자!"
 
 #: data/levels/bonus4/Night_Terrors.stl:3
 msgid "Night Terrors"
-msgstr "밤의 공포"
+msgstr "밤 공포의 대상"
 
 #: data/levels/bonus4/Penguin_In_The_Bushes.stl:3
 msgid "A Penguin In The Bushes"
@@ -104,40 +109,40 @@ msgstr "눈사람의 땅"
 
 #: data/levels/bonus4/SnowMansLand.stl:86
 msgid "#It sure is breezy today, huh?"
-msgstr "#오늘은 정말 상쾌하네요, 그렇죠?"
+msgstr "#오늘은 정말 바람이 부네요, 그렇죠?"
 
 #: data/levels/bonus4/Snowy_Sunset.stl:3
 msgid "Snowy Sunset"
-msgstr "눈 덮인 일몰"
+msgstr "눈에 덮인 저녁노을"
 
 #: data/levels/bonus4/Some_Icy_Path.stl:3
 msgid "Some Icy Path"
-msgstr "약간의 얼음 길"
+msgstr "약간 빙판길"
 
 #: data/levels/bonus4/Some_Icy_Path.stl:115
 msgid ""
 "#You won't be able to pass, if you don't bring him something he wants..."
-msgstr "#그가 원하는 것을 그에게 가져오지 않으면, 지나갈 수 없습니다..."
+msgstr "#당신은 통과할 수 없을 거예요, 그가 원하는 걸 가져다주지 않으면..."
 
 #: data/levels/bonus4/Some_Icy_Path.stl:120
 msgid "#Maybe this crystal is the right thing for this snowman...?"
-msgstr "#이 크리스탈이 이 눈사람에게 딱 맞을지도...?"
+msgstr "#어쩌면 이 크리스탈이 이 눈사람에게 딱일지도...?"
 
 #: data/levels/bonus4/Some_Icy_Path.stl:125
 msgid "#Great, now he's gone... I'll keep the crystal for myself."
-msgstr "#좋아, 이제 그는 떠났어...크리스탈은 나만 가져갈게."
+msgstr "#잘됐네요, 이제 그는 사라졌어요... 크리스탈은 제가 보관할게요."
 
 #: data/levels/bonus4/Spooky_Mansion.stl:3
 msgid "Spooky Mansion"
-msgstr "유령 저택"
+msgstr "으스스한 맨션"
 
 #: data/levels/bonus4/Stormy_Night.stl:3
 msgid "Stormy Night"
-msgstr "폭풍우 치는 밤"
+msgstr "폭풍의 밤"
 
 #: data/levels/bonus4/Sunshine_Valley.stl:3
 msgid "Sunshine Valley"
-msgstr "해가 비치는 계곡"
+msgstr "맑은 날씨의 계곡"
 
 #: data/levels/bonus4/The_Way_Of_The_Snow.stl:3
 msgid "The Way Of The Snow"
@@ -149,34 +154,34 @@ msgstr "너무 많은 물"
 
 #: data/levels/bonus4/Two_Tiny_Towers.stl:3
 msgid "Two Tiny Towers"
-msgstr "두 개의 작은 탑"
+msgstr "두 작은 탑"
 
 #: data/levels/bonus4/worldmap.stwm:3
 msgid "Bonus Island IV"
-msgstr "보너스 아일랜드 IV"
+msgstr "보너스 섬 IV"
 
 #: data/levels/bonus4/worldmap.stwm:210
 msgid "Enter Forest Sector"
-msgstr "숲 진입"
+msgstr "숲 섹터 들어가기"
 
 #: data/levels/bonus4/worldmap.stwm:217
 msgid "Enter Halloween Sector"
-msgstr "할로윈 진입"
+msgstr "할로윈 섹터 들어가기"
 
 #: data/levels/bonus4/worldmap.stwm:224
 msgid "Enter Arctic Sector"
-msgstr "북극에 진입"
+msgstr "북극 섹터 들어가기"
 
 #: data/levels/bonus4/worldmap.stwm:231 data/levels/bonus4/worldmap.stwm:238
 #: data/levels/bonus4/worldmap.stwm:245 data/levels/bonus4/worldmap.stwm:252
 #: data/levels/bonus4/worldmap.stwm:259 data/levels/bonus4/worldmap.stwm:266
 msgid "Go Home"
-msgstr "집에 가라"
+msgstr "집으로 가기"
 
 #: data/levels/bonus4/worldmap.stwm:273
 msgid "Go Back"
-msgstr "돌아가"
+msgstr "뒤로 가기"
 
 #: data/levels/bonus4/worldmap.stwm:280
 msgid "The next challenge awaits..."
-msgstr "다음 도전이 기다리고 있습니다..."
+msgstr "다음 도전이 기다리고 있어요..."

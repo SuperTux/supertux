@@ -52,7 +52,8 @@ FishSwimming::get_types() const
 {
   return {
     { "snow", _("Snow") },
-    { "forest", _("Forest") }
+    { "forest", _("Forest") },
+    { "corrupted", _("Corrupted") }
   };
 }
 
@@ -63,6 +64,8 @@ FishSwimming::get_default_sprite_name() const
   {
     case FOREST:
       return "images/creatures/fish/forest/bluefish.sprite";
+    case CORRUPTED:
+      return "images/creatures/fish/forest/corrupted/corrupted_bluefish.sprite";
     default:
       return m_default_sprite_name;
   }

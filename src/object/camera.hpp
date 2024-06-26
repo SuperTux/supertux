@@ -83,6 +83,8 @@ public:
   void set_translation(const Vector& translation) { m_translation = translation; }
   void set_translation_centered(const Vector& translation);
 
+  void keep_in_bounds(const Rectf& bounds);
+
   /** shake camera in a direction 1 time */
   void shake(float duration, float x, float y);
 
@@ -93,7 +95,7 @@ public:
   /** scroll the upper left edge of the camera in scrolltime seconds
       to the position goal */
   void scroll_to(const Vector& goal, float scrolltime);
-  void move(const int dx, const int dy);
+  void move(const Vector& offset);
 
   /** get the coordinates of the point directly in the center of this
       camera */
@@ -108,11 +110,16 @@ public:
 
   void set_mode(Mode mode_) { m_mode = mode_; }
 
+  Mode get_mode() const { return m_mode; }
+
   /** get the exact scale at this exact moment */
   float get_current_scale() const { return m_enfore_minimum_scale ? std::min(m_minimum_scale, m_scale) : m_scale; }
 
   /** get the scale towards which the camera is moving */
   float get_target_scale() const { return m_scale_target; }
+
+  /** Instantly set the scale of the camera */
+  void set_scale(float scale) { m_scale = scale; }
 
   /** smoothly slide the scale and anchor position of the camera towards a new value */
   void ease_scale(float scale, float time, easing ease, AnchorPoint anchor = AnchorPoint::ANCHOR_MIDDLE);

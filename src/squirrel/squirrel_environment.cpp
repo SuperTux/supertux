@@ -112,7 +112,7 @@ SquirrelEnvironment::unexpose(const std::string& name)
   SQInteger oldtop = sq_gettop(m_vm.get_vm());
   sq_pushobject(m_vm.get_vm(), m_table);
   try {
-    unexpose_object(m_vm.get_vm(), -1, name.c_str());
+    unexpose_object(m_vm.get_vm(), -1, name);
   } catch(std::exception& e) {
     log_warning << "Couldn't unregister object: " << e.what() << std::endl;
   }
