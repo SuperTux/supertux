@@ -915,7 +915,7 @@ EditorOverlayWidget::process_left_click()
 
   switch (m_editor.get_tileselect_input_type())
   {
-    case EditorToolboxWidget::InputType::TILE:
+    case EditorTilebox::InputType::TILE:
       switch (m_editor.get_tileselect_select_mode())
       {
         case 0:
@@ -941,7 +941,8 @@ EditorOverlayWidget::process_left_click()
       }
       break;
 
-    case EditorToolboxWidget::InputType::OBJECT:
+    case EditorTilebox::InputType::NONE:
+    case EditorTilebox::InputType::OBJECT:
       switch (m_editor.get_tileselect_move_mode())
       {
         case 0:
@@ -976,15 +977,15 @@ EditorOverlayWidget::process_right_click()
 {
   switch (m_editor.get_tileselect_input_type())
   {
-    case EditorToolboxWidget::InputType::TILE:
+    case EditorTilebox::InputType::TILE:
       m_dragging = true;
       m_dragging_right = true;
       m_drag_start = m_sector_pos;
       update_tile_selection();
       break;
 
-    case EditorToolboxWidget::InputType::NONE:
-    case EditorToolboxWidget::InputType::OBJECT:
+    case EditorTilebox::InputType::NONE:
+    case EditorTilebox::InputType::OBJECT:
       {
         if (m_hovered_object &&
             m_hovered_object->is_valid() &&
@@ -1077,7 +1078,7 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (button.button == SDL_BUTTON_LEFT)
   {
-    if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE)
+    if (m_editor.get_tileselect_input_type() == EditorTilebox::InputType::TILE)
     {
       if (m_dragging && m_editor.get_tileselect_select_mode() == 1)
       {
@@ -1087,7 +1088,7 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 
       m_editor.get_selected_tilemap()->check_state();
     }
-    else if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::OBJECT)
+    else if (m_editor.get_tileselect_input_type() == EditorTilebox::InputType::OBJECT)
     {
       if (m_dragging && m_dragged_object) {
         m_dragged_object->check_state();
@@ -1138,7 +1139,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   {
     switch (m_editor.get_tileselect_input_type())
     {
-      case EditorToolboxWidget::InputType::TILE:
+      case EditorTilebox::InputType::TILE:
         if (m_dragging_right)
         {
           update_tile_selection();
@@ -1159,7 +1160,8 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         }
         break;
 
-      case EditorToolboxWidget::InputType::OBJECT:
+      case EditorTilebox::InputType::NONE:
+      case EditorTilebox::InputType::OBJECT:
         if (m_editor.get_tileselect_object().empty())
         {
           if (m_editor.get_tileselect_select_mode() == 1)
@@ -1237,6 +1239,12 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 }
 
 void
+EditorOverlayWidget::resize()
+{
+  update_pos();
+}
+
+void
 EditorOverlayWidget::update_pos()
 {
   if(m_editor.get_sector() == nullptr) return;
@@ -1252,7 +1260,7 @@ EditorOverlayWidget::update_pos()
 void
 EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 {
-  if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE)
+  if (m_editor.get_tileselect_input_type() == EditorTilebox::InputType::TILE)
   {
     auto tilemap = m_editor.get_selected_tilemap();
     if (!tilemap) return;
@@ -1493,7 +1501,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
   draw_rectangle_preview(context);
   draw_path(context);
 
-  if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE &&
+  if (m_editor.get_tileselect_input_type() == EditorTilebox::InputType::TILE &&
       !g_config->editor_show_deprecated_tiles) // If showing deprecated tiles is enabled, this is redundant, since tiles are indicated without the need of hovering over.
   {
     // Deprecated tiles in active tilemaps should have indication, when hovered

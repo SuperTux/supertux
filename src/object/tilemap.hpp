@@ -72,10 +72,10 @@ public:
   virtual void on_flip(float height) override;
 
   /** Move tilemap until at given node, then stop */
-  void goto_node(int node_no);
+  void goto_node(int node_idx);
 
   /** Instantly jump to the given node */
-  void jump_to_node(int node_no, bool instantaneous = false);
+  void jump_to_node(int node_idx, bool instantaneous = false);
 
   /** Start moving tilemap */
   void start_moving();
@@ -209,6 +209,8 @@ public:
       in or out, this will return the current alpha value, not the
       target alpha. */
   float get_alpha() const;
+
+  float get_target_alpha() const { return m_alpha; }
 
   void set_tileset(const TileSet* new_tileset);
 

@@ -36,6 +36,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/resources.hpp"
@@ -1213,6 +1214,11 @@ Player::handle_horizontal_input()
     ax *= ICE_ACCELERATION_MULTIPLIER;
   }
 
+  if(get_collision_object()->get_pressure() != Vector(0.0f, 0.0f)) {
+    vx = 0.0f; vy = 0.0f;
+    ax = 0.0f; ay = 0.0f;
+  }
+
   m_physic.set_velocity(vx, vy);
   m_physic.set_acceleration(ax, ay);
 
@@ -1599,7 +1605,14 @@ Player::handle_input()
       }
       else
       {
-        dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+        Rectf player_head_clear_box = get_bbox().grown(-2.f);
+        player_head_clear_box.set_top(get_bbox().get_top() - 2.f);
+        if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, moving_object, true)) {
+          dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+        }
+        else {
+          dest_.set_bottom(m_col.m_bbox.get_bottom() + 2.f);
+        }
         dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
 
         if (m_dir == Direction::LEFT)
@@ -2190,15 +2203,22 @@ Player::draw(DrawingContext& context)
   }
   */
 
+  // Because the camera also tracks Tux, to avoid perceived jitter the position should be
+  // projected forward according to the time since the last frame. This forward projection
+  // may overshoot slightly, but Tux should never move fast enough that this is perceivable.
+  // (While this could be done for all objects, it is most important here as the camera often
+  // tracks Tux.) Note `context.get_time_offset()` is only nonzero if frame prediction is on.
+  Vector draw_pos = get_pos() + context.get_time_offset() * m_physic.get_velocity();
+
   /* Draw Tux */
   if (!m_visible || (m_safe_timer.started() && !m_is_intentionally_safe && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
   else if (m_dying)
-    m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_opaque_layer() + 1);
+    m_sprite->draw(context.color(), draw_pos, Sector::get().get_foremost_opaque_layer() + 1);
   else
-    m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
+    m_sprite->draw(context.color(), draw_pos, LAYER_OBJECTS + 1);
 
   //TODO: Replace recoloring with proper costumes
   Color power_color = (get_bonus() == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :

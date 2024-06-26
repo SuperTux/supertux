@@ -60,7 +60,7 @@ public:
 
   void draw_image(DrawingContext& context, const Vector& pos);
 
-  std::string get_image() const { return m_imagefile; }
+  const std::string& get_image() const { return m_imagefile; }
   float get_speed() const { return m_parallax_speed.x; }
   int get_layer() const { return m_layer; }
 

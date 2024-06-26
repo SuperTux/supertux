@@ -516,17 +516,17 @@ TileMap::draw(DrawingContext& context)
 }
 
 void
-TileMap::goto_node(int node_no)
+TileMap::goto_node(int node_idx)
 {
   if (!get_walker()) return;
-  get_walker()->goto_node(node_no);
+  get_walker()->goto_node(node_idx);
 }
 
 void
-TileMap::jump_to_node(int node_no, bool instantaneous)
+TileMap::jump_to_node(int node_idx, bool instantaneous)
 {
   if (!get_walker()) return;
-  get_walker()->jump_to_node(node_no, instantaneous);
+  get_walker()->jump_to_node(node_idx, instantaneous);
 }
 
 void

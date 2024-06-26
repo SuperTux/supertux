@@ -139,6 +139,8 @@ public:
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
+  Physic& get_physic() { return m_physic; }
+
 protected:
   enum State {
     STATE_INIT,
@@ -270,6 +272,7 @@ protected:
   SpritePtr m_lightsprite;
   SpritePtr m_freezesprite;
   bool m_glowing;
+  bool m_water_affected;
 
   Timer m_unfreeze_timer;
 

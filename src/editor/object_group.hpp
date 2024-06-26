@@ -32,7 +32,7 @@ public:
 
   void add_icon(const std::string& object, const std::string& icon_path);
 
-  std::string get_name() const { return m_name; }
+  const std::string& get_name() const { return m_name; }
 
   bool is_worldmap() const { return m_for_worldmap;  }
 
