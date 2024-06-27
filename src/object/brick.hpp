@@ -33,6 +33,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Brick"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Block::get_class_types().add(typeid(Brick)); }
 
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
@@ -69,6 +70,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Heavy Brick"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Brick::get_class_types().add(typeid(HeavyBrick)); }
 
   GameObjectTypes get_types() const override { return {}; }
 

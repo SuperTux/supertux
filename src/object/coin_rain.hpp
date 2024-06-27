@@ -27,6 +27,7 @@ class CoinRain final : public GameObject
 public:
   CoinRain(const Vector& pos, bool emerge=false, bool count_stats = true,
            const std::string& sprite_path = "images/objects/coin/coin.sprite");
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(CoinRain)); }
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual bool is_saveable() const override {

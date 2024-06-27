@@ -45,6 +45,7 @@ public:
   virtual std::string get_exposed_class_name() const override { return "LitObject"; }
   static std::string display_name() { return _("Lit object"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(LitObject)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
