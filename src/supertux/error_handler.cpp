@@ -52,7 +52,7 @@
 void
 ErrorHandler::set_handlers()
 {
-#if WIN32 && 0
+#ifdef WIN32 && 0
   SetUnhandledExceptionFilter(seh_handler);
 #elif defined(UNIX) || 1
   signal(SIGSEGV, handle_error);
