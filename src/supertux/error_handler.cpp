@@ -52,7 +52,7 @@
 void
 ErrorHandler::set_handlers()
 {
-#if WIN32 && 0
+#ifdef WIN32
   SetUnhandledExceptionFilter(seh_handler);
 #elif defined(UNIX) || 1
   signal(SIGSEGV, handle_error);
@@ -60,16 +60,17 @@ ErrorHandler::set_handlers()
 #endif
 }
 
+static PCONTEXT pcontext = NULL;
 std::string
 ErrorHandler::get_stacktrace()
 {
 #ifdef WIN32
   // Adapted from SuperTuxKart, (C) 2013-2015 Lionel Fuentes, GPLv3
 
-  CONTEXT context;
-  std::memset(&context, 0, sizeof(CONTEXT));
-  context.ContextFlags = CONTEXT_FULL;
-  RtlCaptureContext(&context);
+  if (pcontext == NULL)
+  {
+    return "";
+  }
 
   const HANDLE hProcess = GetCurrentProcess();
   const HANDLE hThread = GetCurrentThread();
@@ -112,24 +113,24 @@ ErrorHandler::get_stacktrace()
     stackframe.AddrStack.Mode   = AddrModeFlat;
     stackframe.AddrFrame.Mode   = AddrModeFlat;
 #if defined(_M_ARM)
-    stackframe.AddrPC.Offset    = context.Pc;
-    stackframe.AddrStack.Offset = context.Sp;
-    stackframe.AddrFrame.Offset = context.R11;
+    stackframe.AddrPC.Offset    = pcontext->Pc;
+    stackframe.AddrStack.Offset = pcontext->Sp;
+    stackframe.AddrFrame.Offset = pcontext->R11;
     const DWORD machine_type    = IMAGE_FILE_MACHINE_ARM;
 #elif defined(_M_ARM64)
-    stackframe.AddrPC.Offset    = context.Pc;
-    stackframe.AddrStack.Offset = context.Sp;
-    stackframe.AddrFrame.Offset = context.Fp;
+    stackframe.AddrPC.Offset    = pcontext->Pc;
+    stackframe.AddrStack.Offset = pcontext->Sp;
+    stackframe.AddrFrame.Offset = pcontext->Fp;
     const DWORD machine_type    = IMAGE_FILE_MACHINE_ARM64;
 #elif defined(_WIN64)
-    stackframe.AddrPC.Offset    = context.Rip;
-    stackframe.AddrStack.Offset = context.Rsp;
-    stackframe.AddrFrame.Offset = context.Rbp;
+    stackframe.AddrPC.Offset    = pcontext->Rip;
+    stackframe.AddrStack.Offset = pcontext->Rsp;
+    stackframe.AddrFrame.Offset = pcontext->Rbp;
     const DWORD machine_type    = IMAGE_FILE_MACHINE_AMD64;
 #else
-    stackframe.AddrPC.Offset    = context.Eip;
-    stackframe.AddrStack.Offset = context.Esp;
-    stackframe.AddrFrame.Offset = context.Ebp;
+    stackframe.AddrPC.Offset    = pcontext->Eip;
+    stackframe.AddrStack.Offset = pcontext->Esp;
+    stackframe.AddrFrame.Offset = pcontext->Ebp;
     const DWORD machine_type = IMAGE_FILE_MACHINE_I386;
 #endif
 
@@ -138,7 +139,7 @@ ErrorHandler::get_stacktrace()
     for (int i = 0; i < max_nb_calls ; i++)
     {
       const BOOL stackframe_ok = StackWalk64(machine_type, hProcess, hThread,
-                                             &stackframe, &context, NULL,
+                                             &stackframe, pcontext, NULL,
                                              SymFunctionTableAccess64,
                                              SymGetModuleBase64, NULL);
       if (!stackframe_ok) break;
@@ -271,7 +272,7 @@ ErrorHandler::get_system_info()
 #endif
 }
 
-#if 1
+#if 0
 [[ noreturn ]] void
 ErrorHandler::handle_error(int sig)
 {
@@ -293,23 +294,13 @@ ErrorHandler::handle_error(int sig)
     close_program();
   }
 }
-#elif defined(WIN32) && 0
+#elif defined(WIN32) && 1
 LONG
 ErrorHandler::seh_handler(_EXCEPTION_POINTERS* ExceptionInfo)
 {
-  if (handling_error)
-  {
-    // Error happened again while handling another segfault. Abort now.
-    close_program();
-  }
-  else
-  {
-    handling_error = true;
-
-    pcontext = ExceptionInfo->ContextRecord;
-    error_dialog_crash(get_stacktrace());
-    close_program();
-  }
+  pcontext = ExceptionInfo->ContextRecord;
+  error_dialog_crash(get_stacktrace());
+  return EXCEPTION_EXECUTE_HANDLER;
 }
 #endif
 
