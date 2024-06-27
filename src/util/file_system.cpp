@@ -31,6 +31,8 @@
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
+#else
+#include <curl/curl.h>
 #endif
 
 #include <SDL.h>
@@ -227,6 +229,22 @@ void open_path(const std::string& path)
   {
     log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
   }
+#endif
+}
+
+std::string escape_url(const std::string& url)
+{
+#ifndef __EMSCRIPTEN__
+  std::string result = url;
+  char *output = curl_easy_escape(nullptr, url.c_str(), static_cast<int>(url.length()));
+  if(output) {
+    result = std::string(output);
+    curl_free(output);
+  }
+
+  return result;
+#else
+  return emscripten_run_script_string(("encodeURIComponent(" + url + ")").c_str());
 #endif
 }
 

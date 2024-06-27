@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PUSHBUTTON_HPP
 #define HEADER_SUPERTUX_OBJECT_PUSHBUTTON_HPP
 
-#include "object/moving_sprite.hpp"
+#include "object/sticky_object.hpp"
 
 /** PushButton - jump on it to run a script */
-class PushButton final : public MovingSprite
+class PushButton final : public StickyObject
 {
 public:
   PushButton(const ReaderMapping& reader);

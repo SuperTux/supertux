@@ -17,7 +17,7 @@
 #include "object/trampoline.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "badguy/walking_badguy.hpp"
+#include "badguy/badguy.hpp"
 #include "control/controller.hpp"
 #include "object/player.hpp"
 #include "object/coin.hpp"
@@ -97,53 +97,51 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
   if (heavy_coin) {
     return ABORT_MOVE;
   }
-  //Tramponine has to be on ground to work.
-  if (on_ground) {
-    auto player = dynamic_cast<Player*> (&other);
-    //Trampoline works for player
-    if (player) {
-      player->override_velocity();
-      if (player->m_does_buttjump)
-        player->m_does_buttjump = false;
-      float vy = player->get_physic().get_velocity_y();
-      //player is falling down on trampoline
-      if (hit.top && vy >= 0) {
-        if (!(player->get_status().bonus[player->get_id()] == AIR_BONUS))
-        {
-          if (player->get_controller().hold(Control::JUMP))
-            vy = VY_MIN;
-          else if (player->get_controller().hold(Control::DOWN))
-            vy = VY_MIN + 100;
-          else
-            vy = VY_INITIAL;
-        }
+  auto player = dynamic_cast<Player*> (&other);
+  //Trampoline works for player
+  if (player && !is_grabbed())
+  {
+    player->override_velocity();
+    if (player->m_does_buttjump)
+      player->m_does_buttjump = false;
+    float vy = player->get_physic().get_velocity_y();
+    //player is falling down on trampoline
+    if (hit.top && vy >= 0)
+    {
+      if (!(player->get_status().bonus[player->get_id()] == AIR_BONUS))
+      {
+        if (player->get_controller().hold(Control::JUMP))
+          vy = VY_MIN;
+        else if (player->get_controller().hold(Control::DOWN))
+          vy = VY_MIN + 100;
         else
-        {
-          if (player->get_controller().hold(Control::JUMP))
-            vy = VY_MIN - 80;
-          else if (player->get_controller().hold(Control::DOWN))
-            vy = VY_MIN - 70;
-          else
-            vy = VY_INITIAL - 40;
-        }
-        player->get_physic().set_velocity_y(vy);
-        SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
-        set_action("swinging", 1);
-        return FORCE_MOVE;
+          vy = VY_INITIAL;
       }
+      else
+      {
+        if (player->get_controller().hold(Control::JUMP))
+          vy = VY_MIN - 80;
+        else if (player->get_controller().hold(Control::DOWN))
+          vy = VY_MIN - 70;
+        else
+          vy = VY_INITIAL - 40;
+      }
+      player->get_physic().set_velocity_y(vy);
+      bounce();
+      return FORCE_MOVE;
     }
-    auto walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
-    //Trampoline also works for WalkingBadguy
-    if (walking_badguy) {
-      float vy = walking_badguy->get_velocity_y();
-      //walking_badguy is falling down on trampoline
-      if (hit.top && vy >= 0) {
-        vy = VY_INITIAL;
-        walking_badguy->set_velocity_y(vy);
-        SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
-        set_action("swinging", 1);
-        return FORCE_MOVE;
-      }
+  }
+  auto badguy = dynamic_cast<BadGuy*> (&other);
+  //Trampoline also works for Badguy
+  if (badguy) {
+    float vy = badguy->get_physic().get_velocity_y();
+    //badguy is falling down on trampoline
+    if (hit.top && vy >= 0) {
+      vy = VY_INITIAL;
+      badguy->get_physic().set_velocity_y(vy);
+      SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
+      set_action("swinging", 1);
+      return FORCE_MOVE;
     }
   }
 
@@ -161,6 +159,13 @@ bool
 Trampoline::is_portable() const
 {
   return Rock::is_portable() && m_type == PORTABLE;
+}
+
+void
+Trampoline::bounce()
+{
+  SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
+  m_sprite->set_action("swinging", 1);
 }
 
 /* EOF */

@@ -354,7 +354,7 @@ ControlTextbox::revert_value()
   recenter_offset();
 }
 
-std::string
+const std::string&
 ControlTextbox::get_string() const
 {
   return m_internal_string_backup;

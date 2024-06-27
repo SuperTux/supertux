@@ -70,7 +70,7 @@ ScriptedObject::get_settings()
   result.add_bool(_("Solid"), &solid, "solid", true);
   result.add_bool(_("Physics enabled"), &physic_enabled, "physic-enabled", true);
   result.add_bool(_("Visible"), &visible, "visible", true);
-  result.add_text(_("Hit script"), &hit_script, "hit-script");
+  result.add_script(_("Hit script"), &hit_script, "hit-script");
 
   result.reorder({"z-pos", "visible", "physic-enabled", "solid", "name", "sprite", "script", "button", "x", "y"});
 

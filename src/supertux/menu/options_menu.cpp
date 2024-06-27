@@ -109,6 +109,9 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_magnification();
       add_vsync();
 
+      add_toggle(MNID_FRAME_PREDICTION, _("Frame prediction"), &g_config->frame_prediction)
+        .set_help(_("Smooth camera motion, generating intermediate frames. This has a noticeable effect on monitors at >> 60Hz. Moving objects may be blurry."));
+
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
       add_aspect_ratio();
 #endif
@@ -644,22 +647,27 @@ OptionsMenu::menu_action(MenuItem& item)
 #endif
 
     case MNID_VSYNC:
+    {
+      int vsync = 0;
       switch (m_vsyncs.next)
       {
         case 2:
-          VideoSystem::current()->set_vsync(-1);
+          vsync = -1;
           break;
         case 1:
-          VideoSystem::current()->set_vsync(0);
+          vsync = 0;
           break;
         case 0:
-          VideoSystem::current()->set_vsync(1);
+          vsync = 1;
           break;
         default:
           assert(false);
           break;
       }
-      break;
+      g_config->vsync = vsync;
+      VideoSystem::current()->set_vsync(vsync);
+    }
+    break;
 
     case MNID_FULLSCREEN:
       VideoSystem::current()->apply_config();

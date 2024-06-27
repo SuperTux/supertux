@@ -75,7 +75,7 @@ public:
   void set_particle_name(std::string& particle_name) {m_particle_name = particle_name;}
 
   /** Returns the name of the particle object for this area */
-  std::string get_particle_name() const {return m_particle_name;}
+  const std::string& get_particle_name() const { return m_particle_name; }
 
   /** Move the area around. Multiple calls stack (e. g. calling one before
    *  the other finished will play both movements simultaneously)
@@ -116,7 +116,7 @@ public:
 
     Rectf get_rect() const {return m_rect;}
     ParticleZoneType get_type() const {return m_type;}
-    std::string get_particle_name() const {return m_particle_name;}
+    const std::string& get_particle_name() const {return m_particle_name;}
   };
 
   ZoneDetails get_details() {

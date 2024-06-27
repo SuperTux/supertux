@@ -27,7 +27,7 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1),
+  StickyBadguy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1, COLGROUP_MOVING),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),
@@ -39,6 +39,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   parse_type(reader);
 
   reader.get("enabled", m_enabled, true);
+  reader.get("sticky", m_sticky, false);
   reader.get("initial-delay", m_initial_delay, 0.0f);
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
@@ -74,8 +75,14 @@ DartTrap::collision_player(Player&, const CollisionHit& )
 }
 
 void
-DartTrap::active_update(float)
+DartTrap::active_update(float dt_sec)
 {
+  if (m_sticky) {
+    sticky_update(dt_sec);
+  }
+
+  // end dynamic
+
   if (!m_enabled) return;
 
   switch (m_state) {
@@ -143,7 +150,7 @@ DartTrap::fire()
 ObjectSettings
 DartTrap::get_settings()
 {
-  ObjectSettings result = BadGuy::get_settings();
+  ObjectSettings result = StickyBadguy::get_settings();
 
   result.add_float(_("Initial delay"), &m_initial_delay, "initial-delay");
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
@@ -151,7 +158,7 @@ DartTrap::get_settings()
   result.add_int(_("Ammo"), &m_ammo, "ammo");
   result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/granito/root_dart.sprite");
 
-  result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y", "dart-sprite"});
+  result.reorder({"initial-delay", "fire-delay", "ammo", "sticky", "direction", "x", "y", "dart-sprite"});
 
   return result;
 }

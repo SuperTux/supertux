@@ -22,6 +22,7 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include "physfs/util.hpp"
 #include "util/log.hpp"
 
 #include <iostream>
@@ -54,7 +55,7 @@ Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
       break;
   }
   if (res == 0) {
-    log_warning << "Error seeking in file: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    log_warning << "Error seeking in file: " << physfsutil::get_last_error() << std::endl;
     return -1;
   }
   int i = static_cast<int>(PHYSFS_tell(file));
@@ -117,7 +118,7 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
   if (!file) {
     std::stringstream msg;
     msg << "Couldn't open '" << filename << "': "
-        << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+        << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
 
@@ -145,7 +146,7 @@ SDL_RWops* get_writable_physfs_SDLRWops(const std::string& filename)
   if (!file) {
     std::stringstream msg;
     msg << "Couldn't open '" << filename << "' for writing: "
-        << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+        << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
 

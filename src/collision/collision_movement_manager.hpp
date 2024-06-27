@@ -45,12 +45,12 @@ private:
     void register_movement(CollisionObject& moving_object, const Vector& movement);
     void register_movement(TileMap& moving_tilemap, const Vector& movement);
 
-    const std::unordered_map<CollisionObject*, Vector> get_objects_map() const
+    const std::unordered_map<CollisionObject*, Vector>& get_objects_map() const
     {
       return m_moving_objects;
     }
 
-    const std::unordered_map<TileMap*, Vector> get_tilemaps_map() const
+    const std::unordered_map<TileMap*, Vector>& get_tilemaps_map() const
     {
       return m_moving_tilemaps;
     }

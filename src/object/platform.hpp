@@ -55,14 +55,16 @@ public:
 
   const Vector& get_speed() const { return m_speed; }
 
+  const Vector& get_movement() const { return m_movement; }
+
   /** @name Scriptable Methods
       @{ */
 
   /** Move platform until at given node, then stop */
-  void goto_node(int node_no);
+  void goto_node(int node_idx);
 
   /** Move platform instantly to given node */
-  void jump_to_node(int node_no, bool instantaneous = false);
+  void jump_to_node(int node_idx, bool instantaneous = false);
 
   /** Start moving platform */
   void start_moving();
@@ -73,6 +75,7 @@ public:
 
 private:
   Vector m_speed;
+  Vector m_movement;
 
   /** true if Platform will automatically pick a destination based on
       collisions and current Player position */

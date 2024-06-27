@@ -51,7 +51,8 @@ Config::Config() :
   use_fullscreen(false),
 #endif
   video(VideoSystem::VIDEO_AUTO),
-  try_vsync(true),
+  vsync(1),
+  frame_prediction(false),
   show_fps(false),
   show_player_pos(false),
   show_controller(false),
@@ -140,6 +141,7 @@ Config::load()
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
 
+  config_mapping.get("frame_prediction", frame_prediction);
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
@@ -260,7 +262,7 @@ Config::load()
     std::string video_string;
     config_video_mapping->get("video", video_string);
     video = VideoSystem::get_video_system(video_string);
-    config_video_mapping->get("vsync", try_vsync);
+    config_video_mapping->get("vsync", vsync);
 
     config_video_mapping->get("fullscreen_width",  fullscreen_size.width);
     config_video_mapping->get("fullscreen_height", fullscreen_size.height);
@@ -353,6 +355,7 @@ Config::save()
 
   writer.write("profile", profile);
 
+  writer.write("frame_prediction", frame_prediction);
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
   writer.write("show_controller", show_controller);
@@ -416,7 +419,7 @@ Config::save()
   } else {
     writer.write("video", VideoSystem::get_video_string(video));
   }
-  writer.write("vsync", try_vsync);
+  writer.write("vsync", vsync);
 
   writer.write("fullscreen_width",  fullscreen_size.width);
   writer.write("fullscreen_height", fullscreen_size.height);
