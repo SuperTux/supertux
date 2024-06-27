@@ -25,7 +25,7 @@ template<typename T>
 class GameObjectIterator
 {
 public:
-  typedef std::vector<std::unique_ptr<GameObject> >::const_iterator Iterator;
+  typedef std::vector<GameObject* >::const_iterator Iterator;
 
 public:
   GameObjectIterator(Iterator it, Iterator end) :
@@ -35,7 +35,7 @@ public:
   {
     if (m_it != m_end)
     {
-      m_object = dynamic_cast<T*>(m_it->get());
+      m_object = dynamic_cast<T*>(*m_it);
       if (!m_object)
       {
         skip_to_next();
@@ -94,7 +94,7 @@ private:
       }
       else
       {
-        m_object = dynamic_cast<T*>(m_it->get());
+        m_object = dynamic_cast<T*>(*m_it);
       }
     }
     while (!m_object);
@@ -115,11 +115,13 @@ public:
   {}
 
   GameObjectIterator<T> begin() const {
-    return GameObjectIterator<T>(m_manager.get_objects().begin(), m_manager.get_objects().end());
+    auto& objects = m_manager.get_objects_by_type_index(typeid(T));
+    return GameObjectIterator<T>(objects.begin(), objects.end());
   }
 
   GameObjectIterator<T> end() const {
-    return GameObjectIterator<T>(m_manager.get_objects().end(), m_manager.get_objects().end());
+    auto& objects = m_manager.get_objects_by_type_index(typeid(T));
+    return GameObjectIterator<T>(objects.end(), objects.end());
   }
 
 private:

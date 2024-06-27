@@ -66,6 +66,7 @@ public:
   virtual std::string get_exposed_class_name() const override { return "Dispenser"; }
   static std::string display_name() { return _("Dispenser"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Dispenser)); }
 
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;
