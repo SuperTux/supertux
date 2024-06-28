@@ -220,7 +220,7 @@ BadGuy::update(float dt_sec)
   }
 
   // Deactivate badguy, if off-screen and not falling down.
-  if (m_is_active_flag && is_offscreen() && m_physic.get_velocity_y() <= 0.f)
+  if (m_is_active_flag && is_offscreen() && m_physic.get_velocity_y() <= 0.f && !always_active())
   {
     deactivate();
     set_state(STATE_INACTIVE);

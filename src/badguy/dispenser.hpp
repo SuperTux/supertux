@@ -45,6 +45,7 @@ public:
   virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
+  virtual bool always_active() const override { return true; }
   virtual bool is_portable() const override;
 
   static std::string class_name() { return "dispenser"; }

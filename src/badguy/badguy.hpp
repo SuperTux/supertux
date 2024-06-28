@@ -121,6 +121,8 @@ public:
     Returns false if enemy is spiky or too large */
   virtual bool is_snipable() const { return false; }
 
+  virtual bool always_active() const { return false; }
+
   bool is_frozen() const;
 
   bool is_in_water() const;
