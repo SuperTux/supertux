@@ -17,6 +17,7 @@
 #include "collision/collision.hpp"
 
 #include <algorithm>
+#include <iostream>
 
 #include "math/aatriangle.hpp"
 #include "math/rectf.hpp"
@@ -40,10 +41,9 @@ void Constraints::merge_constraints(const Constraints& other)
 //---------------------------------------------------------------------------
 
 namespace {
-/*
 inline float dot(const Vector& p1, const Vector& p2)
 {
-  return std::sqrt(p1.x*p2.y+p1.y*p2.y);
+  return p1.x*p2.y+p1.y*p2.y;
 }
 inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 {
@@ -53,7 +53,6 @@ inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
   n /= nval;
   c /= nval;
 }
-*/
 
 }
 
@@ -68,6 +67,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle,
                           bool& hits_rectangle_bottom)
 {
+#if 0
   if (!rect.overlaps(triangle.bbox))
     return false;
 
@@ -172,8 +172,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
 
 
   return false;
-  /*
-
+#else
   if (!rect.overlaps(triangle.bbox))
       return false;
 
@@ -234,12 +233,12 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
     if (depth < 0)
       return false;
 
-  #if 0
-    std::cout << "R: " << rect << " Tri: " << triangle << "\n";
+  #if 1
+    std::cout << "R: " << rect << " Tri: " << triangle.get_dir() + triangle.get_deform() << "\n";
     std::cout << "Norm: " << normal << " Depth: " << depth << "\n";
   #endif
 
-    Vector outvec = normal * (depth + 0.f);
+    Vector outvec = normal * (depth + 0.3f);
 
     const float RDELTA = 3;
     if (p1.x < area.get_left() - RDELTA || p1.x > area.get_right() + RDELTA
@@ -266,7 +265,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
     }
 
     return true;
-  */
+#endif
 }
 
 void set_rectangle_rectangle_constraints(Constraints* constraints, const Rectf& r1, const Rectf& r2)
