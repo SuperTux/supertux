@@ -45,9 +45,6 @@
 
 static const std::string DEFAULT_TITLE_LEVEL = "levels/misc/menu.stl";
 
-static const std::string TITLE_MUSIC = "music/misc/theme.music";
-static const std::string CHRISTMAS_TITLE_MUSIC = "music/misc/christmas_theme.music";
-
 TitleScreen::TitleScreen(Savegame& savegame, bool christmas) :
   m_savegame(savegame),
   m_christmas(christmas),
@@ -148,8 +145,7 @@ void
 TitleScreen::setup_sector(Sector& sector)
 {
   auto& music = sector.get_singleton_by_type<MusicObject>();
-  music.set_music(m_christmas ? CHRISTMAS_TITLE_MUSIC : TITLE_MUSIC);
-  music.resume_music(true);
+  music.play_music(LEVEL_MUSIC);
 
   Player& player = *(sector.get_players()[0]);
 
