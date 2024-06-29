@@ -145,7 +145,7 @@ void
 TitleScreen::setup_sector(Sector& sector)
 {
   auto& music = sector.get_singleton_by_type<MusicObject>();
-  music.play_music(LEVEL_MUSIC);
+  music.resume_music(true);
 
   Player& player = *(sector.get_players()[0]);
 
