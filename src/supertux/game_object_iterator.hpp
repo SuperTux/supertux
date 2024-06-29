@@ -35,24 +35,28 @@ public:
   {
     if (m_it != m_end)
     {
+      // A dynamic_cast is needed to perform sidecasts (a.k.a. crosscasts)
+      // T may be one of multiple base classes of the object and need not inherit GameObject
       m_object = dynamic_cast<T*>(*m_it);
-      if (!m_object)
-      {
-        skip_to_next();
-      }
+      assert(m_object);
     }
   }
 
   GameObjectIterator& operator++()
   {
-    skip_to_next();
+    ++m_it;
+    if (m_it != m_end)
+    {
+      m_object = dynamic_cast<T*>(*m_it);
+      assert(m_object);
+    }
     return *this;
   }
 
   GameObjectIterator operator++(int)
   {
     GameObjectIterator tmp(*this);
-    skip_to_next();
+    operator++();
     return tmp;
   }
 
@@ -80,24 +84,6 @@ public:
   bool operator!=(const GameObjectIterator& other) const
   {
     return !(*this == other);
-  }
-
-private:
-  void skip_to_next()
-  {
-    do
-    {
-      ++m_it;
-      if (m_it == m_end)
-      {
-        break;
-      }
-      else
-      {
-        m_object = dynamic_cast<T*>(*m_it);
-      }
-    }
-    while (!m_object);
   }
 
 private:
