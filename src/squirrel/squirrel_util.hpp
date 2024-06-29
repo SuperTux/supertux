@@ -29,7 +29,6 @@ class Object;
 typedef std::vector<HSQOBJECT> SquirrelObjectList;
 
 std::string squirrel_to_string(const ssq::Object& object);
-void print_squirrel_stack(HSQUIRRELVM vm);
 
 #endif
 

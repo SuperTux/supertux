@@ -18,6 +18,7 @@
 
 #include <simplesquirrel/table.hpp>
 #include <simplesquirrel/vm.hpp>
+#include <sqstdaux.h>
 
 #include "audio/sound_manager.hpp"
 #include "math/anchor_point.hpp"
@@ -65,7 +66,7 @@ static void display(const ssq::Object& object)
  */
 static void print_stacktrace(HSQUIRRELVM vm)
 {
-  print_squirrel_stack(vm);
+  sqstd_printcallstack(vm);
 }
 /**
  * @scripting
@@ -564,17 +565,6 @@ static void restart()
 }
 /**
  * @scripting
- * @description Prints Tux's current coordinates in the current level.
- */
-static void whereami()
-{
-  if (!Sector::current()) return;
-  // FIXME: This only has effect on the first player.
-  ::Player& tux = *(::Sector::get().get_players()[0]);
-  log_info << "You are at x " << (static_cast<int>(tux.get_pos().x)) << ", y " << (static_cast<int>(tux.get_pos().y)) << std::endl;
-}
-/**
- * @scripting
  * @description Moves Tux near the end of the current level.
  */
 static void gotoend()
@@ -862,7 +852,6 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("ghost", &scripting::Globals::ghost);
   vm.addFunc("mortal", &scripting::Globals::mortal);
   vm.addFunc("restart", &scripting::Globals::restart);
-  vm.addFunc("whereami", &scripting::Globals::whereami);
   vm.addFunc("gotoend", &scripting::Globals::gotoend);
   vm.addFunc("warp", &scripting::Globals::warp);
   vm.addFunc("set_gamma", &scripting::Globals::set_gamma);
