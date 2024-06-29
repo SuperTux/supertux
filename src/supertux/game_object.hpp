@@ -49,7 +49,7 @@ typedef std::vector<GameObjectType> GameObjectTypes;
 
 /**
    This class is responsible for:
-    * Updating and Drawing the object. This should happen in the update() and
+    * Updating and drawing the object. This should happen in the update() and
       draw() functions. Both are called once per frame.
     * Providing a safe way to remove the object by calling the remove_me
       functions.
