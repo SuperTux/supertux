@@ -111,7 +111,9 @@ BigSnowball::update(float dt_sec)
     }
   }
 
-  if (!Sector::get().is_free_of_tiles(get_bbox().grown(-6.f), false, Tile::HURTS)) {
+  Rectf spikebox = get_bbox().grown(-6.f);
+  spikebox.set_bottom(get_bbox().get_bottom() - (m_physic.get_velocity_y() > 300.f ? 6.f : 40.f));
+  if (!Sector::get().is_free_of_tiles(spikebox, false, Tile::HURTS)) {
     spawn_particles();
   }
 
@@ -120,7 +122,7 @@ BigSnowball::update(float dt_sec)
   Vector movement = m_physic.get_movement(dt_sec) * Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f);
   m_sprite->set_angle(m_sprite->get_angle() + movement.x * 3.141592653898f / 2.f);
   m_col.set_movement(movement);
-  m_col.propagate_movement(movement);
+  //m_col.propagate_movement(movement);
 }
 
 HitResponse
