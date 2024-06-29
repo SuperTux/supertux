@@ -26,7 +26,6 @@
 #include "object/coin.hpp"
 #include "object/player.hpp"
 #include "physfs/util.hpp"
-#include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/player_status_hud.hpp"
 #include "supertux/savegame.hpp"
@@ -99,7 +98,7 @@ Level::initialize()
     if (id > 0 && !savegame)
       s_dummy_player_status.add_player();
 
-    // Add players only in the main sector. Players will be moved between sectors.
+    // Add all players in the first sector. They will be moved between sectors.
     sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
   }
   sector->flush_game_objects();
