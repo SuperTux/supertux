@@ -1,5 +1,5 @@
 ;; -*- scheme -*-
-;; This file contains the mapping from tile-ids to image files as well
+;; This file contains the mapping from tile-ids to images files as well
 ;; as the tile properties (unisolid, solid, ice, water, etc.). Since
 ;; it is important that the tile-ids don't change once created and
 ;; used in a level some care has to be taken when editing this file,
@@ -1885,7 +1885,7 @@
       0 0 0 33 17 19 35 1 3 0  0  0  0
       0 0 0 0  0  0  0  0 0 0  0  0  0
     )
-    (image "tiles/snow/convex.png")
+    (images "tiles/snow/convex.png")
   )
 
   (tiles
@@ -1900,7 +1900,7 @@
       1 1
       1 1
     )
-    (image "tiles/snow/concave.png")
+    (images "tiles/snow/concave.png")
   )
 
   (tiles
@@ -1919,7 +1919,7 @@
       1 1
       1 1
     )
-    (image "tiles/snow/variants.png")
+    (images "tiles/snow/variants.png")
   )
 
   (tiles
@@ -1938,7 +1938,7 @@
       1 1
       1 1
     )
-    (image "tiles/snow/special.png")
+    (images "tiles/snow/special.png")
   )
 
   (tiles
@@ -1953,18 +1953,18 @@
       0 0 0
       0 0 0
     )
-    (image "tiles/snow/background2.png")
+    (images "tiles/snow/background2.png")
   )
 
   (tile
     (id 24)
-    (image "tiles/snow/grass2.png")
+    (images "tiles/snow/grass2.png")
   )
   ; Duplicate of 24, retrocompatibility
   (tile
     (id 25)
     (deprecated #t)
-    (image "tiles/snow/grass2.png")
+    (images "tiles/snow/grass2.png")
   )
 
   (tile
@@ -2017,7 +2017,7 @@
 
   (tile
     (id 48)
-    (image "tiles/blocks/block5.png")
+    (images "tiles/blocks/block5.png")
     (solid #t)
   )
 
@@ -2032,7 +2032,7 @@
       1 1
       1 1
     )
-    (image "tiles/blocks/bigblock.png")
+    (images "tiles/blocks/bigblock.png")
   )
 
   (tile
@@ -2070,7 +2070,7 @@
     (attributes
       1 0
     )
-    (image "tiles/castle/deprecated/grey_brick_moss.png")
+    (images "tiles/castle/deprecated/grey_brick_moss.png")
     (deprecated #t)
   )
 
@@ -2078,41 +2078,41 @@
     ; dupe of tile 63, this one will be kept.
     (id 70)
     (deprecated #t)
-    (image "tiles/snow/underground/background.png")
+    (images "tiles/snow/underground/background.png")
     (solid #t)
   )
 
   (tile
     (id 71)
     (deprecated #t)
-    (image "tiles/background/deprecated/backgroundtile2.png")
+    (images "tiles/background/deprecated/backgroundtile2.png")
     (solid #t)
   )
 
   (tile
     (id 72)
     (deprecated #t)
-    (image "tiles/background/deprecated/backgroundtile3.png")
+    (images "tiles/background/deprecated/backgroundtile3.png")
     (solid #t)
   )
 
   (tile
     (id 73)
     (deprecated #t)
-    (image "tiles/background/deprecated/backgroundtile4.png")
+    (images "tiles/background/deprecated/backgroundtile4.png")
     (solid #t)
   )
 
   (tile
     (id 74)
     (deprecated #t)
-    (image "tiles/background/deprecated/backgroundtile5.png")
+    (images "tiles/background/deprecated/backgroundtile5.png")
     (solid #t)
   )
 
   (tile
     (id 75)
-    (image "tiles/water/deprecated/water.png")
+    (images "tiles/water/deprecated/water.png")
     (water #t)
     (deprecated #t)
   )
@@ -2131,7 +2131,7 @@
 
   (tile
     (id 77)
-    (image "tiles/blocks/brick0.png")
+    (images "tiles/blocks/brick0.png")
     (solid #t)
     (object-name "brick")
     (object-data "(breakable #t) (sprite \"images/objects/bonus_block/brick.sprite\")")
@@ -2139,7 +2139,7 @@
 
   (tile
     (id 78)
-    (image "tiles/blocks/brick1.png")
+    (images "tiles/blocks/brick1.png")
     (solid #t)
     (object-name "brick")
     (object-data "(breakable #t) (sprite \"images/objects/bonus_block/brickIce.sprite\")")
@@ -2147,7 +2147,7 @@
 
   (tile
     (id 3159)
-    (image "tiles/blocks/brick2.png")
+    (images "tiles/blocks/brick2.png")
     (solid #t)
     (object-name "brick")
     (object-data "(breakable #t) (sprite \"images/objects/bonus_block/brickWeb.sprite\")")
@@ -2155,7 +2155,7 @@
 
   (tile
     (id 7026)
-    (image "tiles/blocks/brick3.png")
+    (images "tiles/blocks/brick3.png")
     (solid #t)
     (object-name "heavy-brick")
     (object-data "(breakable #t)")
@@ -2211,7 +2211,7 @@
       85 86 87 88
       89 90 91 92
     )
-    (image "tiles/background/cloud.png")
+    (images "tiles/background/cloud.png")
   )
 
   (tiles
@@ -2221,7 +2221,7 @@
       93 94 95 96
       97 98 99 100
     )
-    (image "tiles/retro/retro_background.png")
+    (images "tiles/retro/retro_background.png")
   )
 
   (tile
@@ -2272,7 +2272,7 @@
 
   (tile
     (id 104)
-    (image "tiles/blocks/brick0.png")
+    (images "tiles/blocks/brick0.png")
     (editor-images "tiles/blocks/brick0_full.png")
     (solid #t)
     (object-name "brick")
@@ -2281,7 +2281,7 @@
 
   (tile
     (id 105)
-    (image "tiles/blocks/brick1.png")
+    (images "tiles/blocks/brick1.png")
     (editor-images "tiles/blocks/brick1_full.png")
     (solid #t)
     (object-name "brick")
@@ -2290,7 +2290,7 @@
 
   (tile
     (id 3160)
-    (image "tiles/blocks/brick2.png")
+    (images "tiles/blocks/brick2.png")
     (editor-images "tiles/blocks/brick2_full.png")
     (solid #t)
     (object-name "brick")
@@ -2303,7 +2303,7 @@
       106 107 108
       109 110 111
     )
-    (image "tiles/snow/background.png")
+    (images "tiles/snow/background.png")
   )
 
   (tile
@@ -2316,7 +2316,7 @@
   (tile
     (id 126)
     (deprecated #t)
-    (image "tiles/goal/deprecated/exitbg.png")
+    (images "tiles/goal/deprecated/exitbg.png")
     (object-name "decal")
     (object-data "(sprite \"images/decal/snow/exitbg.png\") (z-pos -100)")
   )
@@ -2324,7 +2324,7 @@
   (tile
     (id 127)
     (deprecated #t)
-    (image "tiles/goal/deprecated/exitfg.png")
+    (images "tiles/goal/deprecated/exitfg.png")
     (object-name "decal")
     (object-data "(sprite \"images/decal/snow/exitfg.png\") (z-pos 200)")
   )
@@ -2514,7 +2514,7 @@
       136 137
       138 139
     )
-    (image "tiles/signs/run.png")
+    (images "tiles/signs/run.png")
   )
 
   (tile
@@ -2546,7 +2546,7 @@
       141 142
       143 144
     )
-    (image "tiles/signs/right.png")
+    (images "tiles/signs/right.png")
   )
 
   (tiles
@@ -2556,7 +2556,7 @@
       152 153 154 159 243
       155 156 157 245 244
     )
-    (image "tiles/background/deprecated/snow-para-1.png")
+    (images "tiles/background/deprecated/snow-para-1.png")
     (deprecated #t)
   )
 
@@ -2573,7 +2573,7 @@
       164 165 166 171 255
       167 168 169 257 256
     )
-    (image "tiles/background/deprecated/snow-para-2.png")
+    (images "tiles/background/deprecated/snow-para-2.png")
     (deprecated #t)
   )
 
@@ -2623,7 +2623,7 @@
       512 512 512 512
       512 512 512 512
     )
-    (image
+    (images
       "tiles/waterfall/trans-0.png"
       "tiles/waterfall/trans-1.png"
       "tiles/waterfall/trans-2.png"
@@ -2654,7 +2654,7 @@
 
   (tile
     (id 200)
-    (image "tiles/water/deprecated/water-trans.png")
+    (images "tiles/water/deprecated/water-trans.png")
     (water #t)
     (deprecated #t)
   )
@@ -2694,7 +2694,7 @@
       172 246
       247 248
     )
-    (image "tiles/signs/platform.png")
+    (images "tiles/signs/platform.png")
   )
 
   (tiles
@@ -2713,7 +2713,7 @@
       512 512 512 512
       512 512 512 512
     )
-    (image
+    (images
       "tiles/waterfall/deprecated/waterfall-0.png"
       "tiles/waterfall/deprecated/waterfall-1.png"
       "tiles/waterfall/deprecated/waterfall-2.png"
@@ -2762,7 +2762,7 @@
       1 1 1
       1 1 1
     )
-    (image "tiles/jungle/deprecated/convex.png")
+    (images "tiles/jungle/deprecated/convex.png")
     (deprecated #t)
   )
 
@@ -2776,7 +2776,7 @@
       1 1
       1 1
     )
-    (image "tiles/jungle/deprecated/concave.png")
+    (images "tiles/jungle/deprecated/concave.png")
     (deprecated #t)
   )
 
@@ -2813,7 +2813,7 @@
       1 1 1
       1 1 1
     )
-    (image "tiles/jungle/deprecated/special.png")
+    (images "tiles/jungle/deprecated/special.png")
     (deprecated #t)
   )
 
@@ -2827,7 +2827,7 @@
       0 0
       0 0
     )
-    (image "tiles/doodads/deprecated/stone1.png")
+    (images "tiles/doodads/deprecated/stone1.png")
     (deprecated #t)
   )
 
@@ -2841,13 +2841,13 @@
       0 0
       0 0
     )
-    (image "tiles/doodads/deprecated/stone2.png")
+    (images "tiles/doodads/deprecated/stone2.png")
     (deprecated #t)
   )
 
   (tile
     (id 322)
-    (image "tiles/forest/plant1.png")
+    (images "tiles/forest/plant1.png")
   )
 
   (tiles
@@ -2858,7 +2858,7 @@
       327 328
       329 330
     )
-    (image "tiles/forest/liane.png")
+    (images "tiles/forest/liane.png")
   )
 
   (tiles
@@ -2871,19 +2871,19 @@
       1 1 1
       1 1 1
     )
-    (image "tiles/blocks/rock_plate.png")
+    (images "tiles/blocks/rock_plate.png")
   )
 
   ; experimental unisolid tile
   (tile
     (id 359)
-    (image "tiles/auxiliary/notile.png")
+    (images "tiles/auxiliary/notile.png")
     (unisolid #t)
   )
 
   (tile
     (id 360)
-    (image"tiles/forest/mushrooms.png")
+    (images"tiles/forest/mushrooms.png")
   )
 
   (tiles
@@ -2898,7 +2898,7 @@
       0   0   0   0   450 451 452 453
       0   0   0   0   454 455 456 457
     )
-    (image "tiles/forest/foresttiles-12.png")
+    (images "tiles/forest/foresttiles-12.png")
   )
 
   (tiles
@@ -2910,7 +2910,7 @@
       467 468 469
       470 471 472
     )
-    (image "tiles/forest/deprecated/brush2.png")
+    (images "tiles/forest/deprecated/brush2.png")
     (deprecated #t)
   )
 
@@ -2921,7 +2921,7 @@
       475 476
       477 478
     )
-    (image "tiles/forest/deprecated/hole2.png")
+    (images "tiles/forest/deprecated/hole2.png")
     (deprecated #t)
   )
 
@@ -2931,7 +2931,7 @@
       479 480
       481 482
     )
-    (image "tiles/signs/platform_wood.png")
+    (images "tiles/signs/platform_wood.png")
   )
 
   (tiles
@@ -2940,7 +2940,7 @@
       483 484 485 486
       487 488 489 490
     )
-    (image "tiles/pole/deprecated/misc.png")
+    (images "tiles/pole/deprecated/misc.png")
     (deprecated #t)
   )
 
@@ -2954,7 +2954,7 @@
         0 0 0 0
         1 1 1 1
     )
-    (image "tiles/ghostwood/deprecated/earth-floor.png")
+    (images "tiles/ghostwood/deprecated/earth-floor.png")
     (deprecated #t)
   )
 
@@ -2974,7 +2974,7 @@
       1 1 1 1
       1 1 1 1
     )
-    (image "tiles/forest/foresttiles-1.png")
+    (images "tiles/forest/foresttiles-1.png")
   )
 
   (tiles
@@ -2985,7 +2985,7 @@
     (attributes
       1 1 1 1
     )
-    (image "tiles/forest/foresttiles-1a.png")
+    (images "tiles/forest/foresttiles-1a.png")
   )
 
   (tiles
@@ -3000,7 +3000,7 @@
       1 1 1
       1 1 1
     )
-    (image "tiles/forest/deprecated/foresttiles-2.png")
+    (images "tiles/forest/deprecated/foresttiles-2.png")
     (deprecated #t)
   )
 
@@ -3014,7 +3014,7 @@
       1 1
       1 1
     )
-    (image "tiles/forest/deprecated/foresttiles-3.png")
+    (images "tiles/forest/deprecated/foresttiles-3.png")
     (deprecated #t)
   )
 
@@ -3028,7 +3028,7 @@
       1 1
       1 1
     )
-    (image "tiles/forest/concave.png")
+    (images "tiles/forest/concave.png")
   )
 
   (tiles
@@ -3041,7 +3041,7 @@
       1 1
       1 1
     )
-    (image "tiles/forest/steps.png")
+    (images "tiles/forest/steps.png")
   )
 
   (tiles
@@ -3056,7 +3056,7 @@
       1 1
       1 1
     )
-    (image "tiles/forest/wall.png")
+    (images "tiles/forest/wall.png")
   )
 
   (tiles
@@ -3076,7 +3076,7 @@
       2 0
       0 0
     )
-    (image "tiles/forest/foresttiles-5.png")
+    (images "tiles/forest/foresttiles-5.png")
   )
 
   (tiles
@@ -3099,7 +3099,7 @@
       50 64
       0  0
     )
-    (image "tiles/forest/foresttiles-6.png")
+    (images "tiles/forest/foresttiles-6.png")
   )
 
   (tiles
@@ -3119,7 +3119,7 @@
       18 34 32 16
       0  0  0  0
     )
-    (image "tiles/forest/foresttiles-7.png")
+    (images "tiles/forest/foresttiles-7.png")
   )
 
   (tiles
@@ -3152,7 +3152,7 @@
       0 0 0 0 0 0 0 0
       3 3 0 0 0 0 0 0
     )
-    (image "tiles/forest/deprecated/foresttiles-8.png")
+    (images "tiles/forest/deprecated/foresttiles-8.png")
     (deprecated #t)
   )
 
@@ -3172,7 +3172,7 @@
       1227 1228 1229 1230 1231 1232
       1233 1234 1235 1236 1237 1238
     )
-    (image "tiles/forest/deprecated/foresttiles-9.png")
+    (images "tiles/forest/deprecated/foresttiles-9.png")
     (deprecated #t)
   )
 
@@ -3182,7 +3182,7 @@
       2045 1219 1220
       2046 1225 1226
     )
-    (image "tiles/forest/deprecated/foresttiles-9a.png")
+    (images "tiles/forest/deprecated/foresttiles-9a.png")
     (deprecated #t)
   )
 
@@ -3202,7 +3202,7 @@
       1279 1280 1281 1282
       1283 1284 1285 1286
     )
-    (image "tiles/forest/deprecated/foresttiles-10.png")
+    (images "tiles/forest/deprecated/foresttiles-10.png")
     (deprecated #t)
   )
 
@@ -3222,7 +3222,7 @@
       1307 1308
       1309 1310
     )
-    (image "tiles/forest/deprecated/foresttiles-11.png")
+    (images "tiles/forest/deprecated/foresttiles-11.png")
     (deprecated #t)
   )
 
@@ -3361,7 +3361,7 @@
       1329 1330 1331 1332
       1333 1334 1335 1336
     )
-    (image "tiles/snow/iceshrub.png")
+    (images "tiles/snow/iceshrub.png")
   )
 
   (tile
@@ -3399,7 +3399,7 @@
       2008 1354 2013
       2009 1821 2014
     )
-    (image "tiles/forest/deprecated/hole.png")
+    (images "tiles/forest/deprecated/hole.png")
     (deprecated #t)
   )
 
@@ -3416,7 +3416,7 @@
       1
       1
     )
-    (image "tiles/castle/pedestal.png")
+    (images "tiles/castle/pedestal.png")
   )
 
   (tile
@@ -3433,7 +3433,7 @@
       1361 1362 1363
       1364 1365 1366
     )
-    (image "tiles/forest/deprecated/brush.png")
+    (images "tiles/forest/deprecated/brush.png")
     (deprecated #t)
   )
 
@@ -3457,7 +3457,7 @@
       1 1 1 1 1 1 1 1
       1 1 1 1 1 1 1 1
     )
-    (image "tiles/castle/deprecated/stone.png")
+    (images "tiles/castle/deprecated/stone.png")
     (deprecated #t)
   )
   ;dupe of 1385 ; this one should be removed
@@ -3485,7 +3485,7 @@
       1
       1
     )
-    (image "tiles/castle/deprecated/window.png")
+    (images "tiles/castle/deprecated/window.png")
     (deprecated #t)
   )
 
@@ -3529,7 +3529,7 @@
       1 1 1 1
       1 1 1 1
     )
-    (image "tiles/ghostwood/ghostwood-1.png")
+    (images "tiles/ghostwood/ghostwood-1.png")
   )
 
   (tiles
@@ -3540,7 +3540,7 @@
     (attributes
       1 1 1 1
     )
-    (image "tiles/ghostwood/ghostwood-1a.png")
+    (images "tiles/ghostwood/ghostwood-1a.png")
   )
 
   (tiles
@@ -3560,7 +3560,7 @@
         18 34 32 16
         0  0  0  0
     )
-    (image "tiles/ghostwood/ghostwood-7.png")
+    (images "tiles/ghostwood/ghostwood-7.png")
   )
 
   (tiles
@@ -3579,7 +3579,7 @@
       1
       1
     )
-    (image "tiles/castle/deprecated/castle_wall.png")
+    (images "tiles/castle/deprecated/castle_wall.png")
     (deprecated #t)
   )
 
@@ -3590,7 +3590,7 @@
       1513 1514
       1515 1516
     )
-    (image "tiles/castle/deprecated/stonewindow.png")
+    (images "tiles/castle/deprecated/stonewindow.png")
   )
 
   (tile
@@ -3631,7 +3631,7 @@
       1523 1524 1525 1526
       1527 1528 1529 1530
     )
-    (image "tiles/castle/deprecated/door.png")
+    (images "tiles/castle/deprecated/door.png")
   )
 
   (tiles
@@ -3644,7 +3644,7 @@
       1 1 1
       1 1 1
     )
-    (image "tiles/forest/fishbone.png")
+    (images "tiles/forest/fishbone.png")
   )
 
   (tiles
@@ -3659,7 +3659,7 @@
       1 1 1 1
       1 1 1 1
     )
-    (image "tiles/blocks/deprecated/icebridge.png")
+    (images "tiles/blocks/deprecated/icebridge.png")
     (deprecated #t)
   )
 
@@ -3678,7 +3678,7 @@
       1600 1601
       1602 1603
     )
-    (image "tiles/signs/rightup.png")
+    (images "tiles/signs/rightup.png")
   )
 
   (tiles
@@ -3687,7 +3687,7 @@
       1604 1605
       1606 1607
     )
-    (image "tiles/signs/rightdown.png")
+    (images "tiles/signs/rightdown.png")
   )
 
   (tiles
@@ -3696,7 +3696,7 @@
       1608 1609
       1610 1611
     )
-    (image "tiles/signs/left.png")
+    (images "tiles/signs/left.png")
   )
 
   (tiles
@@ -3705,7 +3705,7 @@
       1612 1613
       1614 1615
     )
-    (image "tiles/signs/leftup.png")
+    (images "tiles/signs/leftup.png")
   )
 
   (tiles
@@ -3714,7 +3714,7 @@
       1616 1617
       1618 1619
     )
-    (image "tiles/signs/leftdown.png")
+    (images "tiles/signs/leftdown.png")
   )
 
   (tiles
@@ -3723,7 +3723,7 @@
       1620 1621
       1622 1623
     )
-    (image "tiles/signs/up.png")
+    (images "tiles/signs/up.png")
   )
 
   (tiles
@@ -3732,7 +3732,7 @@
       1624 1625
       1626 1627
     )
-    (image "tiles/signs/down.png")
+    (images "tiles/signs/down.png")
   )
 
   (tiles
@@ -3741,7 +3741,7 @@
       1628 1629
       1630 1631
     )
-    (image "tiles/signs/danger.png")
+    (images "tiles/signs/danger.png")
   )
 
   (tiles
@@ -3764,7 +3764,7 @@
       0 0 0 0 0 1 0
       0 0 0 0 0 1 0
     )
-    (image "tiles/forest/deprecated/exit-tree.png")
+    (images "tiles/forest/deprecated/exit-tree.png")
     (deprecated #t)
   )
 
@@ -4058,7 +4058,7 @@
       0  0  0  0  66 48
       18 34 32 16 50 64
     )
-    (image "tiles/forest/earth-floor.png")
+    (images "tiles/forest/earth-floor.png")
   )
 
   (tiles
@@ -4068,7 +4068,7 @@
       1727 1728
       1729 1730
     )
-    (image "tiles/signs/color_cyan.png")
+    (images "tiles/signs/color_cyan.png")
   )
 
   (tiles
@@ -4078,7 +4078,7 @@
       1731 1732
       1733 1734
     )
-    (image "tiles/signs/color_yellow.png")
+    (images "tiles/signs/color_yellow.png")
   )
 
   (tiles
@@ -4088,7 +4088,7 @@
       3992 3993
       3994 3995
     )
-    (image "tiles/signs/color_green.png")
+    (images "tiles/signs/color_green.png")
   )
 
   (tiles
@@ -4098,7 +4098,7 @@
       3996 3997
       3998 3999
     )
-    (image "tiles/signs/color_magenta.png")
+    (images "tiles/signs/color_magenta.png")
   )
 
   (tile
@@ -4149,7 +4149,7 @@
       3 3 3 3
       0 0 0 0
     )
-    (image "tiles/forest/deprecated/branch.png")
+    (images "tiles/forest/deprecated/branch.png")
     (deprecated #t)
   )
 
@@ -4172,7 +4172,7 @@
       1 1
       1 1
     )
-    (image "tiles/castle/deprecated/column.png")
+    (images "tiles/castle/deprecated/column.png")
     (deprecated #t)
   )
 
@@ -4197,7 +4197,7 @@
       1 1 1 1 1
       1 1 1 1 1
     )
-    (image "tiles/castle/deprecated/brown.png")
+    (images "tiles/castle/deprecated/brown.png")
     (deprecated #t)
   )
 
@@ -4233,7 +4233,7 @@
       0 0 0 0
       3 3 3 3
     )
-    (image "tiles/castle/deprecated/snowcastle.png")
+    (images "tiles/castle/deprecated/snowcastle.png")
     (deprecated #t)
   )
 
@@ -4246,7 +4246,7 @@
       1810 1813
       1811 1814
     )
-    (image "tiles/castle/nolok-statue.png")
+    (images "tiles/castle/nolok-statue.png")
   )
 
   (tiles
@@ -4256,7 +4256,7 @@
       1822 1823
       1824 1825
     )
-    (image "tiles/signs/needrock.png")
+    (images "tiles/signs/needrock.png")
   )
 
   (tiles
@@ -4276,7 +4276,7 @@
       1 1 1 1
       1 1 1 1
     )
-    (image "tiles/forest/underground/groundtiles-1.png")
+    (images "tiles/forest/underground/groundtiles-1.png")
   )
 
   (tiles
@@ -4297,7 +4297,7 @@
         18 34 32 16
         0  0  0  0
     )
-    (image "tiles/forest/underground/slope-1.png")
+    (images "tiles/forest/underground/slope-1.png")
   )
 
   (tiles
@@ -4315,7 +4315,7 @@
       1 1 1 1
       1 1 1 1
     )
-    (image "tiles/forest/underground/background1.png")
+    (images "tiles/forest/underground/background1.png")
   )
 
   (tiles
@@ -4335,7 +4335,7 @@
       1 1 1 1
       1 1 1 1
     )
-    (image "tiles/forest/underground/deprecated/background.png")
+    (images "tiles/forest/underground/deprecated/background.png")
     (deprecated #t)
   )
 
@@ -4349,7 +4349,7 @@
       1948 1949 1950 1951
       1952 1953 1954 1955
     )
-    (image "tiles/forest/underground/roots.png")
+    (images "tiles/forest/underground/roots.png")
   )
 
   (tiles
@@ -4367,7 +4367,7 @@
       1 1 1 1
       1 1 1 1
     )
-    (image "tiles/forest/underground/background2.png")
+    (images "tiles/forest/underground/background2.png")
   )
 
   (tiles
@@ -4385,7 +4385,7 @@
       1024 1024 1024 1024 0    1024 1024
       1024 1024 1024 1024 0    0    1024
     )
-    (image "tiles/forest/spikevine.png")
+    (images "tiles/forest/spikevine.png")
   )
 
   (tiles
@@ -4403,7 +4403,7 @@
       1 1
       1 1
     )
-    (image "tiles/forest/statue.png")
+    (images "tiles/forest/statue.png")
   )
 
   (tiles
@@ -4415,7 +4415,7 @@
     (attributes
       1 1
     )
-    (image "tiles/forest/deprecated/dangersign.png")
+    (images "tiles/forest/deprecated/dangersign.png")
     (deprecated #t)
   )
 
@@ -4434,7 +4434,7 @@
       1 1 1
       1 1 1
     )
-    (image "tiles/forest/deprecated/exit/outhouse.png")
+    (images "tiles/forest/deprecated/exit/outhouse.png")
     (deprecated #t)
   )
 
@@ -4447,7 +4447,7 @@
       2039    0    0 2040
           0 2041 2042    0
     )
-    (image "tiles/lightmap/lightmap-bw.png")
+    (images "tiles/lightmap/lightmap-bw.png")
   )
 
   (tiles
@@ -4459,7 +4459,7 @@
       4203 4204 4205 4206
          0 4207 4208 4209
     )
-    (image "tiles/lightmap/lightmap-white.png")
+    (images "tiles/lightmap/lightmap-white.png")
   )
 
   (tiles
@@ -4471,7 +4471,7 @@
       4218 4219 4220 4221
          0 4222 4223 4224
     )
-    (image "tiles/lightmap/lightmap-black.png")
+    (images "tiles/lightmap/lightmap-black.png")
   )
   ; NOT dupes of 57/58 - unisolid
   (tiles
@@ -4483,7 +4483,7 @@
     (attributes
       3 3
     )
-    (image "tiles/pipe/green.png")
+    (images "tiles/pipe/green.png")
     (deprecated #t)
   )
 
@@ -4495,7 +4495,7 @@
       2048
       2049
     )
-    (image "tiles/forest/ladder.png")
+    (images "tiles/forest/ladder.png")
   )
 
   (tiles
@@ -4507,7 +4507,7 @@
     (attributes
       512 512 512 512
     )
-    (image
+    (images
       (surface (diffuse-texture (file "tiles/water/antarctic-1.png"))
               (displacement-texture (file "tiles/water/antarctic-displacement.png")))
       (surface (diffuse-texture (file "tiles/water/antarctic-2.png"))
@@ -4555,7 +4555,7 @@
       1 1 1 1024 1024
       1 0 0 0 0
     )
-    (image "tiles/castle/deprecated/foreground.png")
+    (images "tiles/castle/deprecated/foreground.png")
     (deprecated #t)
   )
 
@@ -4568,7 +4568,7 @@
     (attributes
       3584 3584 3584 3584
     )
-    (image
+    (images
       "tiles/lava/lava-1.png"
       "tiles/lava/lava-2.png"
       "tiles/lava/lava-3.png"
@@ -4609,7 +4609,7 @@
       0 0 0 3 3 3
       0 0 0 3 3 3
     )
-    (image "tiles/snow/air.png")
+    (images "tiles/snow/air.png")
   )
 
   (tiles
@@ -4623,7 +4623,7 @@
       3 3 3 3
       0 0 0 0
       0 0 0 0)
-    (image "tiles/snow/deprecated/unisolid.png")
+    (images "tiles/snow/deprecated/unisolid.png")
     (deprecated #t)
   )
 
@@ -4645,7 +4645,7 @@
       2187 2188 2189 2190   2191 2192 2193 2194
       2195 2196 2197 2198   2199 2200 2201 2202)
 
-    (image "tiles/snow/background3.png"))
+    (images "tiles/snow/background3.png"))
   (tiles
     (width 3)
     (height 3)
@@ -4657,7 +4657,7 @@
       1 1 1
       1 1 1
       1 1 1)
-    (image "tiles/test/test.png"))
+    (images "tiles/test/test.png"))
   (tiles
     (width 12)
     (height 14)
@@ -4676,7 +4676,7 @@
       2344 2345 2346 2347 2348 2349 2350 2351 2352 2353 2354 2355
       2356 2357 2358 2359 2360 2361 2362 2363 2364 2365 2366 2367
       2368 2369 2370 2371 2372 2373 2374 2375 2376 2377 2378 2379)
-    (image "tiles/castle/deprecated/background.png")
+    (images "tiles/castle/deprecated/background.png")
     (deprecated #t)
   )
 
@@ -4686,7 +4686,7 @@
     (ids
       2380 2381
       2382 2383)
-    (image "tiles/castle/deprecated/stones.png")
+    (images "tiles/castle/deprecated/stones.png")
     (deprecated #t)
   )
 
@@ -4709,7 +4709,7 @@
       1 1 1 1
       1 1 1 1
     )
-    (image "tiles/snow/underground/convex.png")
+    (images "tiles/snow/underground/convex.png")
   )
 
   (tiles
@@ -4723,7 +4723,7 @@
       0 0
       0 0
     )
-    (image "tiles/signs/trampoline.png")
+    (images "tiles/signs/trampoline.png")
   )
 
   ; NOT dupes of 2085/2086 - unisolid
@@ -4736,7 +4736,7 @@
     (attributes
       3 3
     )
-    (image "tiles/pipe/blue.png")
+    (images "tiles/pipe/blue.png")
     (deprecated #t)
   )
 
@@ -4782,7 +4782,7 @@
       0 0 0 0 0 0 0 0 0 0  0  0  0  0 33 17 19 35
       0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0
     )
-    (image "tiles/crystalcave/deprecated/ground.png")
+    (images "tiles/crystalcave/deprecated/ground.png")
     (deprecated #t)
   )
 
@@ -4805,7 +4805,7 @@
     0 0 0 0 0 0 0 0
     0 0 0 0 0 0 0 0
     )
-    (image "tiles/crystalcave/deprecated/background.png")
+    (images "tiles/crystalcave/deprecated/background.png")
     (deprecated #t)
   )
 
@@ -4842,7 +4842,7 @@
       0 0 0 0 0 0 0 0 1 0 0 0 0 3 0 0
       0 0 0 0 0 0 0 0 0 1 0 0 3 0 0 0
     )
-    (image "tiles/snowmountain/deprecated/ground.png")
+    (images "tiles/snowmountain/deprecated/ground.png")
     (deprecated #t)
   )
 
@@ -4870,7 +4870,7 @@
         2  0
         0  0
     )
-    (image "tiles/castle/deprecated/chain.png")
+    (images "tiles/castle/deprecated/chain.png")
     (deprecated #t)
   )
 
@@ -4946,7 +4946,7 @@
       0    0    0    0
       1    0    0    3
     )
-    (image "tiles/pipe/green.png")
+    (images "tiles/pipe/green.png")
   )
 
   (tiles
@@ -4991,7 +4991,7 @@
       0    0    0    0
       1    0    0    3
     )
-    (image "tiles/pipe/blue.png")
+    (images "tiles/pipe/blue.png")
   )
 
   (tiles
@@ -5004,7 +5004,7 @@
           0    0
           0    0
     )
-    (image "tiles/pipe/mask.png")
+    (images "tiles/pipe/mask.png")
   )
 
   (tiles
@@ -5045,7 +5045,7 @@
       0  0  0  2
       0  32 34 0
     )
-    (image "tiles/snow/slope_transitions.png" )
+    (images "tiles/snow/slope_transitions.png" )
   )
 
   (tiles
@@ -5062,7 +5062,7 @@
       1 1
       1 1
     )
-    (image "tiles/snow/underground/concave.png")
+    (images "tiles/snow/underground/concave.png")
   )
 
   (tiles
@@ -5091,7 +5091,7 @@
       33 17 19 35 1  3  49 67
       0  0  0  0  0  0  65 51
     )
-    (image "tiles/snow/underground/slope.png")
+    (images "tiles/snow/underground/slope.png")
   )
 
   (tiles
@@ -5108,7 +5108,7 @@
       3031 3032 3033 3034
       3035 3036 0    0
     )
-    (image "tiles/pole/diagonals.png")
+    (images "tiles/pole/diagonals.png")
   )
 
   (tiles
@@ -5142,7 +5142,7 @@
       1 1 1 1
       1 1 1 0
     )
-    (image "tiles/snow/special2.png")
+    (images "tiles/snow/special2.png")
   )
 
   (tiles
@@ -5155,7 +5155,7 @@
       1
       1
     )
-    (image (region "tiles/snow/special2.png" 32 0 32 64))
+    (images (region "tiles/snow/special2.png" 32 0 32 64))
     (deprecated #t)
   )
 
@@ -5167,7 +5167,7 @@
       4332 4333 4334 4335
       4336 4337 4338 4339
     )
-    (image "tiles/background/rope.png")
+    (images "tiles/background/rope.png")
   )
 
   (tiles
@@ -5186,7 +5186,7 @@
       0 1 1 0
       0 0 0 0
     )
-    (image "tiles/halloween/base.png")
+    (images "tiles/halloween/base.png")
   )
 
   (tiles
@@ -5203,7 +5203,7 @@
       1 1
       0 0
     )
-    (image "tiles/halloween/inner.png")
+    (images "tiles/halloween/inner.png")
   )
 
   (tiles
@@ -5216,7 +5216,7 @@
       1 1
       1 1
     )
-    (image "tiles/halloween/variation.png")
+    (images "tiles/halloween/variation.png")
   )
 
   (tiles
@@ -5229,7 +5229,7 @@
       1 1
       1 1
     )
-    (image "tiles/halloween/outerdarkness.png")
+    (images "tiles/halloween/outerdarkness.png")
   )
 
   (tiles
@@ -5242,7 +5242,7 @@
       1 1
       1 1
     )
-    (image "tiles/halloween/innerdarkness.png")
+    (images "tiles/halloween/innerdarkness.png")
   )
 
   (tiles
@@ -5253,7 +5253,7 @@
       3122 3108 3109 3127 3128 3129 0
       3131 3132 3133 3134 3135 3136 0
     )
-    (image "tiles/halloween/darkness.png")
+    (images "tiles/halloween/darkness.png")
   )
 
   (tiles
@@ -5266,7 +5266,7 @@
       1 1
       1 1
     )
-    (image "tiles/halloween/deprecated/black.png")
+    (images "tiles/halloween/deprecated/black.png")
     (deprecated #t)
   )
 
@@ -5276,7 +5276,7 @@
         3163 3164
         3165 3166
       )
-      (image "tiles/signs/icehold.png")
+      (images "tiles/signs/icehold.png")
   )
 
   (tiles
@@ -5289,7 +5289,7 @@
       1 1 1 1
       1 1 1 1
     )
-    (image "tiles/castle/deprecated/grey_misc.png")
+    (images "tiles/castle/deprecated/grey_misc.png")
     (deprecated #t)
   )
 
@@ -5322,7 +5322,7 @@
       0    0    0    0    0    0
       0    0    0    0    0    0
     )
-    (image "tiles/blocks/industrial.png")
+    (images "tiles/blocks/industrial.png")
   )
 
   (tiles
@@ -5335,7 +5335,7 @@
       1 1 0 0
       1 1 0 0
     )
-    (image "tiles/snow/deprecated/custom.png")
+    (images "tiles/snow/deprecated/custom.png")
     (deprecated #t)
   )
 (tiles
@@ -5349,7 +5349,7 @@
     (datas
       0 0 0
     )
-    (image "tiles/castle/deprecated/grey_unisolid.png")
+    (images "tiles/castle/deprecated/grey_unisolid.png")
     (deprecated #t)
   )
 (tiles
@@ -5359,7 +5359,7 @@
       3287 3288
       3289 3290
     )
-    (image "tiles/doodads/tux-statue.png")
+    (images "tiles/doodads/tux-statue.png")
   )
 (tiles
     (width 16)(height 8)
@@ -5393,7 +5393,7 @@
       66 50 64 48 0  2  2  2  0  0  0  0  0  0  0  0
       50 0  0  64 2  0  0  0  0  0  0  0  0  0  0  0
     )
-    (image "tiles/snowmountain/deprecated/ground2.png")
+    (images "tiles/snowmountain/deprecated/ground2.png")
     (deprecated #t)
   )
 
@@ -5407,7 +5407,7 @@
       1 1 1 1 1
       1 1 1 1 1
     )
-    (image "tiles/ghostwood/ghostwood-4.png")
+    (images "tiles/ghostwood/ghostwood-4.png")
   )
 
   (tiles
@@ -5421,7 +5421,7 @@
       0
       1
     )
-    (image (region "tiles/ghostwood/ghostwood-4.png" 160 0 32 64))
+    (images (region "tiles/ghostwood/ghostwood-4.png" 160 0 32 64))
   )
 
   (tiles
@@ -5441,7 +5441,7 @@
       2  0
       0  0
     )
-    (image "tiles/ghostwood/ghostwood-5.png")
+    (images "tiles/ghostwood/ghostwood-5.png")
   )
 
   (tiles
@@ -5464,7 +5464,7 @@
       50 64
       0  0
     )
-    (image "tiles/ghostwood/ghostwood-6.png")
+    (images "tiles/ghostwood/ghostwood-6.png")
   )
 
   (tiles
@@ -5484,7 +5484,7 @@
       33 17 19 35 1  3  49 67
       0  0  0  0  0  0  65 51
     )
-    (image "tiles/ghostwood/ghostwood-2.png")
+    (images "tiles/ghostwood/ghostwood-2.png")
   )
 
   (tiles
@@ -5496,7 +5496,7 @@
     (attributes
       1  1  1  0  1  1  1  1
     )
-    (image "tiles/ghostwood/ghostwood-2.png")
+    (images "tiles/ghostwood/ghostwood-2.png")
   )
 
   (tiles
@@ -5509,7 +5509,7 @@
       0 0 0 0
       0 0 0 0
     )
-    (image "tiles/background/storm-cloud.png")
+    (images "tiles/background/storm-cloud.png")
   )
 
   (tiles
@@ -5522,7 +5522,7 @@
       0 0 0 0
       3 3 3 3
     )
-    (image "tiles/background/storm-cloud.png")
+    (images "tiles/background/storm-cloud.png")
     (deprecated #t)
   )
 
@@ -5534,7 +5534,7 @@
     (attributes
       1 1 1
     )
-    (image "tiles/forest/forestlog.png")
+    (images "tiles/forest/forestlog.png")
   )
 
   (tiles
@@ -5551,7 +5551,7 @@
       1 1
       1 1
     )
-    (image "tiles/forest/statue2.png")
+    (images "tiles/forest/statue2.png")
   )
 
   (tile
@@ -5596,7 +5596,7 @@
       1 1
       1 1
     )
-    (image "tiles/forest/deprecated/nolok_statue.png")
+    (images "tiles/forest/deprecated/nolok_statue.png")
     (deprecated #t)
   )
 
@@ -5645,7 +5645,7 @@
       49 67 1  3
       65 51 0  0
     )
-    (image "tiles/forest/ceiling-slopes.png")
+    (images "tiles/forest/ceiling-slopes.png")
   )
 
   (tiles
@@ -5660,7 +5660,7 @@
       1 1
       1 1
     )
-    (image "tiles/forest/underground/convex.png")
+    (images "tiles/forest/underground/convex.png")
   )
 
   (tiles
@@ -5671,7 +5671,7 @@
     (attributes
       1 1 1 1
     )
-    (image "tiles/forest/underground/groundtiles-2.png")
+    (images "tiles/forest/underground/groundtiles-2.png")
   )
 
   (tiles
@@ -5688,7 +5688,7 @@
       1 1
       1 1
     )
-    (image "tiles/forest/underground/wall.png")
+    (images "tiles/forest/underground/wall.png")
   )
 
   (tile
@@ -5715,7 +5715,7 @@
       49 67 1  3
       65 51 0  0
     )
-    (image "tiles/forest/underground/ceiling-slopes.png")
+    (images "tiles/forest/underground/ceiling-slopes.png")
   )
 
   (tiles
@@ -5735,7 +5735,7 @@
       2 0
       0 0
     )
-    (image "tiles/forest/underground/slope-2.png")
+    (images "tiles/forest/underground/slope-2.png")
   )
 
   (tiles
@@ -5758,7 +5758,7 @@
       50 64
       0  0
     )
-    (image "tiles/forest/underground/slope-3.png")
+    (images "tiles/forest/underground/slope-3.png")
   )
 
   (tiles
@@ -5771,13 +5771,13 @@
       1024 1024 1024 1024
       1024 1024 1024 1024
     )
-    (image "tiles/background/deprecated/storm-cloud-electrified.png")
+    (images "tiles/background/deprecated/storm-cloud-electrified.png")
     (deprecated #t)
   )
 
   (tiles
     (width 4)(height 4)
-    (image "tiles/snow/underground/background.png")
+    (images "tiles/snow/underground/background.png")
     (ids
       3541 3542 3543 3544
       3545 3546 3547 3548
@@ -5788,7 +5788,7 @@
 
   (tiles
     (width 4)(height 4)
-    (image "tiles/background/deprecated/backgroundtile2.png")
+    (images "tiles/background/deprecated/backgroundtile2.png")
     (ids
       3557 3558 3559 3560
       3561 3562 3563 3564
@@ -5800,7 +5800,7 @@
 
   (tiles
     (width 4)(height 4)
-    (image "tiles/background/deprecated/backgroundtile3.png")
+    (images "tiles/background/deprecated/backgroundtile3.png")
     (ids
       3573 3574 3575 3576
       3577 3578 3579 3580
@@ -5812,7 +5812,7 @@
 
   (tiles
     (width 4)(height 4)
-    (image "tiles/background/deprecated/backgroundtile4.png")
+    (images "tiles/background/deprecated/backgroundtile4.png")
     (ids
       3589 3590 3591 3592
       3593 3594 3595 3596
@@ -5824,7 +5824,7 @@
 
   (tiles
     (width 4)(height 4)
-    (image "tiles/background/deprecated/backgroundtile5.png")
+    (images "tiles/background/deprecated/backgroundtile5.png")
     (ids
       3605 3606 3607 3608
       3609 3610 3611 3612
@@ -5836,7 +5836,7 @@
 
   (tiles
     (width 4)(height 11)
-    (image "tiles/forest/deprecated/treelarge.png")
+    (images "tiles/forest/deprecated/treelarge.png")
     (ids
       3625 3626 3627 3628
       3629 3630 3631 3632
@@ -5855,7 +5855,7 @@
 
   (tiles
     (width 2)(height 9)
-    (image "tiles/forest/deprecated/treesmall.png")
+    (images "tiles/forest/deprecated/treesmall.png")
     (ids
       3669 3670
       3671 3672
@@ -5872,7 +5872,7 @@
 
   (tiles
     (width 4)(height 8)
-    (image "tiles/forest/deprecated/rock1.png")
+    (images "tiles/forest/deprecated/rock1.png")
     (ids
       3687 3688 3689 3690
       3691 3692 3693 3694
@@ -5898,7 +5898,7 @@
 
   (tiles
     (width 4)(height 26)
-    (image "tiles/forest/deprecated/rock3.png")
+    (images "tiles/forest/deprecated/rock3.png")
     (ids
       3769 3770 3771 3772
       3773 3774 3775 3776
@@ -5960,7 +5960,7 @@
 
   (tiles
     (width 4)(height 10)
-    (image "tiles/forest/deprecated/rock2.png")
+    (images "tiles/forest/deprecated/rock2.png")
     (ids
       3729 3730 3731 3732
       3733 3734 3735 3736
@@ -6030,7 +6030,7 @@
 
   (tiles
     (width 1)(height 3)
-    (image "tiles/snow/flagpole.png")
+    (images "tiles/snow/flagpole.png")
     (ids
       3927 3928 3929
     )
@@ -6082,7 +6082,7 @@
 
   (tiles
     (width 4)(height 9)
-    (image "tiles/snow/variants2.png")
+    (images "tiles/snow/variants2.png")
     (ids
       3988 3989 3990 3991
       5368 5369 5370 5371
@@ -6120,7 +6120,7 @@
 
   (tiles
     (width 11)(height 7)
-    (image "tiles/retro/retro_snow.png")
+    (images "tiles/retro/retro_snow.png")
     (ids
       4000 4001 4002 4003 4170 4171 4172 4190 5093 5094 5095
       4078 4079 4080 4081 4173 4175 4185 4191 5096 5097 5098
@@ -6143,7 +6143,7 @@
 
   (tiles
     (width 4)(height 1)
-    (image "tiles/blocks/deprecated/block_season.png")
+    (images "tiles/blocks/deprecated/block_season.png")
     (ids
       4005 4006 4007 4008
     )
@@ -6173,7 +6173,7 @@
       0 0 0 0
       0 0 0 0
     )
-    (image "tiles/snow/special3.png")
+    (images "tiles/snow/special3.png")
   )
 
   (tiles
@@ -6204,12 +6204,12 @@
       1 1 1 1
       1 0 0 0
     )
-    (image "tiles/snow/underground/special.png")
+    (images "tiles/snow/underground/special.png")
   )
 
   (tiles
     (width 2)(height 3)
-    (image "tiles/castle/nolok-statue-forest.png")
+    (images "tiles/castle/nolok-statue-forest.png")
     (ids
       4082 4083
       4084 4085
@@ -6224,7 +6224,7 @@
 
   (tiles
     (width 2)(height 3)
-    (image "tiles/castle/nolok-statue-ghost.png")
+    (images "tiles/castle/nolok-statue-ghost.png")
     (ids
       4088 4089
       4090 4091
@@ -6239,7 +6239,7 @@
 
   (tiles
     (width 2)(height 3)
-    (image "tiles/castle/nolok-statue-snow.png")
+    (images "tiles/castle/nolok-statue-snow.png")
     (ids
       4094 4095
       4096 4097
@@ -6262,7 +6262,7 @@
       4096 4096
       4096 4096
       4096 4096)
-    (image "tiles/test/walljump-test.png")
+    (images "tiles/test/walljump-test.png")
   )
   (tiles
     (width 5)(height 3)
@@ -6274,7 +6274,7 @@
       4096 1 4096 1 1
       4096 1 4096 1 1
       4096 1 4096 0 0)
-    (image "tiles/snow/snow-walljump.png")
+    (images "tiles/snow/snow-walljump.png")
   )
 
   (tiles
@@ -6287,7 +6287,7 @@
       4096 4096
       4096 4096
       4096 4096)
-    (image "tiles/forest/leaf-walljump.png")
+    (images "tiles/forest/leaf-walljump.png")
   )
 
   (tiles
@@ -6295,7 +6295,7 @@
     (ids
       4125 4126
       4127 4128)
-    (image "tiles/signs/walljump.png")
+    (images "tiles/signs/walljump.png")
   )
 
   (tiles
@@ -6317,7 +6317,7 @@
       2595 2596 2597 2598
       2603 2604 2605 2606
       2607 2608 2609 2610)
-    (image "tiles/forest/rocks-forest.png")
+    (images "tiles/forest/rocks-forest.png")
   )
 
   (tiles
@@ -6336,7 +6336,7 @@
       4141 4142 4143 4144
       4145 4146 4147 4148
       4149 4150 4151 4152)
-    (image "tiles/snow/rocks-snow.png")
+    (images "tiles/snow/rocks-snow.png")
   )
 
   (tiles
@@ -6363,7 +6363,7 @@
       1 0 0 1 1 1 1 1 0 0
       1 0 0 1 1 1 1 1 0 0
     )
-    (image "tiles/crystalcave/deprecated/ground_extra.png")
+    (images "tiles/crystalcave/deprecated/ground_extra.png")
     (deprecated #t)
   )
 
@@ -6393,7 +6393,7 @@
       1 1 1 0
       1 1 1 1
     )
-    (image "tiles/forest/foresttiles-13.png")
+    (images "tiles/forest/foresttiles-13.png")
   )
 
   (tiles
@@ -6404,7 +6404,7 @@
       4354 4355 4356 4357 4358 4359 4360
       4361 4362 4363 4364 4365 4366 4367
     )
-    (image "tiles/blocks/block_overlays.png")
+    (images "tiles/blocks/block_overlays.png")
   )
 
   (tiles
@@ -6423,7 +6423,7 @@
       0 0 0 1 1 1 1 1 1
       0 0 0 1 1 1 1 0 0
     )
-    (image "tiles/blocks/bridge_brown.png")
+    (images "tiles/blocks/bridge_brown.png")
   )
 
   (tiles
@@ -6442,7 +6442,7 @@
       0 0 0 1 1 1 1 1 1
       0 0 0 1 1 1 1 0 0
     )
-    (image "tiles/blocks/bridge_ice.png")
+    (images "tiles/blocks/bridge_ice.png")
   )
 
   (tiles
@@ -6452,7 +6452,7 @@
       4453 4454 4455 4456 4457
       4458 4459 4460 4461 4462
     )
-    (image "tiles/castle/castle_corner.png")
+    (images "tiles/castle/castle_corner.png")
   )
 
   (tiles
@@ -6481,7 +6481,7 @@
       0 0 0  34 32 0  0 0 0 0 0 0 0 0 0
       0 0 0  0  0  0  0 0 0 0 0 0 0 0 0
     )
-    (image "tiles/castle/castle_forest.png")
+    (images "tiles/castle/castle_forest.png")
   )
 
   (tiles
@@ -6510,7 +6510,7 @@
       0 0 0  34 32 0  0 0 0 0 0
       0 0 0  0  0  0  0 0 0 0 0
     )
-    (image "tiles/castle/castle_snow.png")
+    (images "tiles/castle/castle_snow.png")
   )
 
   (tiles
@@ -6524,7 +6524,7 @@
       1467 1468 1469 1470 0    0
       1471 1472 1473 1474 0    0
     )
-    (image "tiles/castle/castle_wall.png")
+    (images "tiles/castle/castle_wall.png")
   )
 
   (tiles
@@ -6538,7 +6538,7 @@
       4681 4682 4683 4684
       4685 4686 4687 4688
     )
-    (image "tiles/castle/chain.png")
+    (images "tiles/castle/chain.png")
   )
 
   (tiles
@@ -6547,7 +6547,7 @@
     (ids
       4671 4672
     )
-    (image (region "tiles/castle/chain.png" 64 64 64 32))
+    (images (region "tiles/castle/chain.png" 64 64 64 32))
   )
 
   (tiles
@@ -6568,7 +6568,7 @@
       1 1 0 1 1
       1 1 0 1 1
     )
-    (image "tiles/castle/ruins.png")
+    (images "tiles/castle/ruins.png")
   )
 
   (tiles
@@ -6581,7 +6581,7 @@
       1024 1024
       1024 1024
     )
-    (image "tiles/castle/ruin_spikes.png")
+    (images "tiles/castle/ruin_spikes.png")
   )
 
   (tiles
@@ -6613,7 +6613,7 @@
       0  0  0  0  0  0  0  0  0  0  0 65 51
       0  0  0  0  0  0  0  0  0  0  0  0  0
     )
-    (image "tiles/crystalcave/crystal_1x1.png")
+    (images "tiles/crystalcave/crystal_1x1.png")
   )
   
   (tiles
@@ -6638,7 +6638,7 @@
       1 1 1 0
       1 1 0 0
     )
-    (image "tiles/crystalcave/crystal_1x1_extra.png")
+    (images "tiles/crystalcave/crystal_1x1_extra.png")
   )
   
   (tiles
@@ -6659,7 +6659,7 @@
       0  0  0 0 0 0
       33 35 0 0 0 0
     )
-    (image "tiles/crystalcave/crystal_variants.png")
+    (images "tiles/crystalcave/crystal_variants.png")
   )
   
   (tiles
@@ -6671,7 +6671,7 @@
       7292 7293 7294 7295 7296
       7297 7298 7299 7300 7301
     )
-    (image "tiles/crystalcave/crystal_1x1_extra2.png")
+    (images "tiles/crystalcave/crystal_1x1_extra2.png")
   )
   
   (tiles
@@ -6696,7 +6696,7 @@
       1 1 1 1 0 0
       1 1 1 1 0 0
     )
-    (image "tiles/crystalcave/crystal_2x2.png")
+    (images "tiles/crystalcave/crystal_2x2.png")
   )
   
   (tiles
@@ -6721,7 +6721,7 @@
       0 0 1 1 0 0 0 0 0 0
       0 0 1 1 0 0 0 0 0 0
     )
-    (image "tiles/crystalcave/deprecated/crystal_2x2.png")
+    (images "tiles/crystalcave/deprecated/crystal_2x2.png")
     (deprecated #t)
   )
   
@@ -6733,7 +6733,7 @@
       4906 4907 4908 4909 0    0
       4912 4913 4914 4915 0    0
     )
-    (image "tiles/crystalcave/crystal_bg.png")
+    (images "tiles/crystalcave/crystal_bg.png")
   )
 
   (tiles
@@ -6744,7 +6744,7 @@
       4932 4933 4934 4935 4936 4937 4938
       4939 4940 4941 4942 4943 4944 4945
     )
-    (image "tiles/crystalcave/crystals1.png")
+    (images "tiles/crystalcave/crystals1.png")
   )
 
   (tiles
@@ -6754,7 +6754,7 @@
       4951 4952 4953 4954 4955
       4956 4957 0    0    4960
     )
-    (image "tiles/crystalcave/crystals2.png")
+    (images "tiles/crystalcave/crystals2.png")
   )
 
   (tiles
@@ -6767,7 +6767,7 @@
       3 3 3
       3 3 3
     )
-    (image "tiles/forest/branches.png")
+    (images "tiles/forest/branches.png")
   )
 
   (tiles
@@ -6787,7 +6787,7 @@
       5015 5016 5017 5018
       5019 0    0    0
     )
-    (image "tiles/halloween/halloween_extra.png")
+    (images "tiles/halloween/halloween_extra.png")
   )
 
   (tiles
@@ -6799,7 +6799,7 @@
       1348 1722 0    0    0    0
       1347 0    0    0    0    0
     )
-    (image "tiles/pole/pole.png")
+    (images "tiles/pole/pole.png")
   )
 
   (tiles
@@ -6814,7 +6814,7 @@
       1 1 1 1 1 1 1 1
       1 1 1 1 1 1 1 1
     )
-    (image "tiles/retro/retro_castle.png")
+    (images "tiles/retro/retro_castle.png")
   )
 
   (tiles
@@ -6823,7 +6823,7 @@
       5144 3277 5146
       3280 3278 5149
     )
-    (image "tiles/retro/retro_castlewall.png")
+    (images "tiles/retro/retro_castlewall.png")
   )
 
   (tiles
@@ -6846,7 +6846,7 @@
       1 1 1 1 1 1 1 1 1 0
       1 1 1 1 1 1 1 1 1 0
     )
-    (image "tiles/retro/retro_cave.png")
+    (images "tiles/retro/retro_cave.png")
   )
 
   (tiles
@@ -6855,7 +6855,7 @@
       5199 5200
       5201 5202
     )
-    (image "tiles/signs/bombhold.png")
+    (images "tiles/signs/bombhold.png")
   )
 
   (tiles
@@ -6863,7 +6863,7 @@
     (ids
       5203 5204
     )
-    (image "tiles/snow/grass1.png")
+    (images "tiles/snow/grass1.png")
   )
 
   (tiles
@@ -6889,7 +6889,7 @@
       0  0  0  0  66 48
       18 34 32 16 50 64
     )
-    (image "tiles/snow/ice-floor.png")
+    (images "tiles/snow/ice-floor.png")
   )
 
   (tiles
@@ -6936,7 +6936,7 @@
       0 0 0 0
       0 0 0 0
     )
-    (image "tiles/snow/snowfort_fg.png")
+    (images "tiles/snow/snowfort_fg.png")
   )
 
   (tiles
@@ -6953,7 +6953,7 @@
       0 0 0 0
       0 0 0 0
     )
-    (image "tiles/snow/snowfort_fence.png")
+    (images "tiles/snow/snowfort_fence.png")
   )
 
   (tiles
@@ -6986,7 +6986,7 @@
       0 0 0 0
       0 0 0 0
     )
-    (image "tiles/snow/snowfort_bg.png")
+    (images "tiles/snow/snowfort_bg.png")
   )
 
   (tiles
@@ -6999,7 +6999,7 @@
       1024 0    1024 0
       0    1024 0    1024
     )
-    (image "tiles/snow/spike.png")
+    (images "tiles/snow/spike.png")
   )
 
   (tiles
@@ -7018,7 +7018,7 @@
       0 0 0 0 0 0 0 3 3 3 3
       0 0 3 3 3 3 3 3 3 3 0
     )
-    (image "tiles/snow/unisolid.png")
+    (images "tiles/snow/unisolid.png")
   )
 
   (tiles
@@ -7037,7 +7037,7 @@
       0 0 0 1 1 1 1
       0 0 0 0 0 0 0
     )
-    (image "tiles/snow/snowmerge.png")
+    (images "tiles/snow/snowmerge.png")
   )
 
   (tile
@@ -7071,7 +7071,7 @@
       5544 5545 5546 5547 5548 5549
       5550 5551 5552 5553 5554 0
     )
-    (image "tiles/snow/unisolid2.png")
+    (images "tiles/snow/unisolid2.png")
   )
 
   (tiles
@@ -7088,7 +7088,7 @@
       1 1 1 1 0
       1 1 1 1 0
     )
-    (image "tiles/forest/foresttiles-earth.png")
+    (images "tiles/forest/foresttiles-earth.png")
   )
 
   (tiles
@@ -7107,7 +7107,7 @@
       0 0 0 1 1 0 0
       0 0 0 0 0 0 0
     )
-    (image "tiles/forest/forestmerge.png")
+    (images "tiles/forest/forestmerge.png")
   )
 
   (tiles
@@ -7126,7 +7126,7 @@
       0 0 0 0 0 0 0 0 3 3 0
       0 0 0 0 0 0 3 3 3 3 0
     )
-    (image "tiles/forest/hole.png")
+    (images "tiles/forest/hole.png")
   )
 
   (tiles
@@ -7146,7 +7146,7 @@
       0    0    0    5798 5799 5800 0    0    0
       0    0    0    5807 5808 5809 0    0    0
     )
-    (image "tiles/forest/tree1.png")
+    (images "tiles/forest/tree1.png")
   )
 
   (tiles
@@ -7166,7 +7166,7 @@
       0    0    0    5904 5905 0    0    0
       0    0    0    5912 5913 0    0    0
     )
-    (image "tiles/forest/tree2.png")
+    (images "tiles/forest/tree2.png")
   )
 
   (tiles
@@ -7186,7 +7186,7 @@
       0    0    5985 5986 0    0
       0    0    5991 5992 0    0
     )
-    (image "tiles/forest/tree3.png")
+    (images "tiles/forest/tree3.png")
   )
 
   (tiles
@@ -7195,7 +7195,7 @@
       5996 5997 5998 5999
       6000 6001 6002 6003
     )
-    (image "tiles/forest/plant2.png")
+    (images "tiles/forest/plant2.png")
   )
 
   (tiles
@@ -7236,7 +7236,7 @@
       0  0  0  2
       0 32 34  0
     )
-    (image "tiles/forest/slope_transitions.png")
+    (images "tiles/forest/slope_transitions.png")
   )
 
   (tiles
@@ -7265,7 +7265,7 @@
       18 16 2 0
       50 64 0 0
     )
-    (image "tiles/forest/variants.png")
+    (images "tiles/forest/variants.png")
   )
 
   (tiles
@@ -7278,7 +7278,7 @@
       6096 6097 6098 6099 6100 6101 6102
       6103 6104 6105 6106 6107 6108 6109
     )
-    (image "tiles/forest/tree_special.png")
+    (images "tiles/forest/tree_special.png")
   )
 
   (tiles
@@ -7295,7 +7295,7 @@
       1024 1024 1024 1024 0    1024 1024
       1024 1024 1024 1024 0    0    1024
     )
-    (image "tiles/ghostwood/corruptvine.png")
+    (images "tiles/ghostwood/corruptvine.png")
   )
 
   (tiles
@@ -7314,7 +7314,7 @@
       0 0 0 0 0 0 0 0 3 3 0
       0 0 0 0 0 0 3 3 3 3 0
     )
-    (image "tiles/ghostwood/ghosthole.png")
+    (images "tiles/ghostwood/ghosthole.png")
   )
 
   (tiles
@@ -7340,7 +7340,7 @@
       0  0  0  0  66 48
       18 34 32 16 50 64
     )
-    (image "tiles/ghostwood/ghostwood-10.png")
+    (images "tiles/ghostwood/ghostwood-10.png")
   )
 
   (tiles
@@ -7355,7 +7355,7 @@
       6259 6260 6261 6262 6263 6264
       0    6266 6267 6268 6269 0
     )
-    (image "tiles/ghostwood/ghostwood-11.png")
+    (images "tiles/ghostwood/ghostwood-11.png")
   )
 
   (tiles
@@ -7396,7 +7396,7 @@
       0  0  0  2
       0  32 34 0
     )
-    (image "tiles/ghostwood/ghostwood-12.png")
+    (images "tiles/ghostwood/ghostwood-12.png")
   )
 
   (tiles
@@ -7408,7 +7408,7 @@
     (attributes
       1  0  0  1
     )
-    (image (region "tiles/ghostwood/ghostwood-12.png" 0 192 128 32))
+    (images (region "tiles/ghostwood/ghostwood-12.png" 0 192 128 32))
   )
 
   (tiles
@@ -7427,7 +7427,7 @@
       0 0 0 1 1 1 1
       0 0 0 1 1 0 0
     )
-    (image "tiles/ghostwood/ghostwood-13.png")
+    (images "tiles/ghostwood/ghostwood-13.png")
   )
 
   (tiles
@@ -7442,7 +7442,7 @@
       0    0    0    0    6398 6399 6400 6401
       0    0    0    0    6406 6407 6408 6409
     )
-    (image "tiles/ghostwood/ghostwood-14.png")
+    (images "tiles/ghostwood/ghostwood-14.png")
   )
 
   (tiles
@@ -7452,7 +7452,7 @@
       6416 6417 6418 6419 6420 6421
       6422 6423 6424 6425 6426 0
     )
-    (image "tiles/ghostwood/ghostwood-15.png")
+    (images "tiles/ghostwood/ghostwood-15.png")
   )
 
   (tiles
@@ -7468,7 +7468,7 @@
       6477 6478 6479 6480 6481 6482 6483
       6484 6485 6486 6487 6488 6489 6490
     )
-    (image "tiles/ghostwood/ghostwood-16.png")
+    (images "tiles/ghostwood/ghostwood-16.png")
   )
 
   (tiles
@@ -7483,7 +7483,7 @@
       6527 6528 6529 6530 6531 6532
       6533 6534 6535 6536 6537 6538
     )
-    (image "tiles/ghostwood/ghostwood-17.png")
+    (images "tiles/ghostwood/ghostwood-17.png")
   )
 
   (tiles
@@ -7502,7 +7502,7 @@
       1 1
       1 1
     )
-    (image "tiles/ghostwood/ghostwood-8.png")
+    (images "tiles/ghostwood/ghostwood-8.png")
   )
 
   (tiles
@@ -7537,7 +7537,7 @@
       1 1 1 1
       1 1 0 0
     )
-    (image "tiles/ghostwood/ghostwood-9.png")
+    (images "tiles/ghostwood/ghostwood-9.png")
   )
 
   (tiles
@@ -7548,7 +7548,7 @@
       6605 6606
       6607 6608
     )
-    (image "tiles/ghostwood/liane_ghost.png")
+    (images "tiles/ghostwood/liane_ghost.png")
   )
 
   (tiles
@@ -7556,7 +7556,7 @@
     (ids
       6609
     )
-    (image "tiles/ghostwood/mushrooms.png")
+    (images "tiles/ghostwood/mushrooms.png")
   )
 
   (tiles
@@ -7564,7 +7564,7 @@
     (ids
       6610
     )
-    (image "tiles/ghostwood/plant1.png")
+    (images "tiles/ghostwood/plant1.png")
   )
 
   (tiles
@@ -7573,7 +7573,7 @@
       6611 0    0    6614
       6615 6616 6617 6618
     )
-    (image "tiles/ghostwood/plant2.png")
+    (images "tiles/ghostwood/plant2.png")
   )
 
   (tiles
@@ -7614,7 +7614,7 @@
       0  0  0  0  0  0  0  0
       33 17 19 35 0  0  0  0
     )
-    (image "tiles/ghostwood/roots.png")
+    (images "tiles/ghostwood/roots.png")
   )
 
   (tiles
@@ -7629,7 +7629,7 @@
       4096 4096
       4096 4096
     )
-    (image "tiles/ghostwood/root-walljump.png")
+    (images "tiles/ghostwood/root-walljump.png")
   )
 
   (tiles
@@ -7658,7 +7658,7 @@
       18 16 2 0
       50 64 0 0
     )
-    (image "tiles/ghostwood/variants_ghost.png")
+    (images "tiles/ghostwood/variants_ghost.png")
   )
 
   (tiles
@@ -7699,7 +7699,7 @@
       0  0  0  2
       0  32 34 0
     )
-    (image "tiles/ghostwood/underground/ghostwood-12_under.png")
+    (images "tiles/ghostwood/underground/ghostwood-12_under.png")
   )
 
   (tiles
@@ -7711,7 +7711,7 @@
     (attributes
       1 0 0 1
     )
-    (image (region "tiles/ghostwood/underground/ghostwood-12_under.png" 0 192 128 32))
+    (images (region "tiles/ghostwood/underground/ghostwood-12_under.png" 0 192 128 32))
   )
 
   (tiles
@@ -7730,7 +7730,7 @@
       0 0 0 1 1 1 1
       0 0 0 0 0 0 0
     )
-    (image "tiles/ghostwood/underground/ghostwood-13_under.png")
+    (images "tiles/ghostwood/underground/ghostwood-13_under.png")
   )
 
   (tiles
@@ -7741,7 +7741,7 @@
     (attributes
       1 1 1 1
     )
-    (image "tiles/ghostwood/underground/ghostwood-1a_under.png")
+    (images "tiles/ghostwood/underground/ghostwood-1a_under.png")
   )
 
   (tiles
@@ -7767,7 +7767,7 @@
       0 0 0 0 33 17 19 35 1 3 0  0  0  0
       0 0 0 0 0  0  0  0  0 0 0  0  0  0
     )
-    (image "tiles/ghostwood/underground/ghostwood-1_under.png")
+    (images "tiles/ghostwood/underground/ghostwood-1_under.png")
   )
 
   (tiles
@@ -7782,7 +7782,7 @@
       1 1
       1 1
     )
-    (image "tiles/ghostwood/underground/ghostwood-2_under.png")
+    (images "tiles/ghostwood/underground/ghostwood-2_under.png")
   )
 
   (tiles
@@ -7805,7 +7805,7 @@
       1 1
       1 1
     )
-    (image "tiles/ghostwood/underground/ghostwood-3_under.png")
+    (images "tiles/ghostwood/underground/ghostwood-3_under.png")
   )
 
   (tiles
@@ -7832,7 +7832,7 @@
       1 1 1 1
       1 1 0 0
     )
-    (image "tiles/ghostwood/underground/ghostwood-4_under.png")
+    (images "tiles/ghostwood/underground/ghostwood-4_under.png")
   )
 
   (tiles
@@ -7855,7 +7855,7 @@
       50 64 0 0
       0  0  0 0
     )
-    (image "tiles/ghostwood/underground/variants2_ghost.png")
+    (images "tiles/ghostwood/underground/variants2_ghost.png")
   )
 
   (tiles
@@ -7872,7 +7872,7 @@
       1 1 1
       1 1 0
     )
-    (image "tiles/ghostwood/underground/variants_ghost.png")
+    (images "tiles/ghostwood/underground/variants_ghost.png")
   )
 
   (tiles
@@ -7913,7 +7913,7 @@
       0  0  0  2
       0  32 34 0
     )
-    (image "tiles/snow/underground/slope_transitions.png")
+    (images "tiles/snow/underground/slope_transitions.png")
   )
 
   (tiles
@@ -7932,7 +7932,7 @@
       0 0 0 1 1 1 1
       0 0 0 0 0 0 0
     )
-    (image "tiles/snow/underground/snowmerge.png")
+    (images "tiles/snow/underground/snowmerge.png")
   )
 
   (tiles
@@ -7955,7 +7955,7 @@
       50 64 0  0
       0  0  0  0
     )
-    (image "tiles/snow/underground/variants.png")
+    (images "tiles/snow/underground/variants.png")
   )
 
   (tiles
@@ -7965,7 +7965,7 @@
       7061 7062 7063 7064 7065 7066
       7067 7068 7069 7070 7071 0
     )
-    (image "tiles/forest/foresttiles-bush.png")
+    (images "tiles/forest/foresttiles-bush.png")
   )
 
   (tiles
@@ -7980,7 +7980,7 @@
       1024 1024
       1024 1024
     )
-    (image "tiles/forest/pogonia.png")
+    (images "tiles/forest/pogonia.png")
   )
 
   (tiles
@@ -7999,7 +7999,7 @@
       0 0 0 1 1 1 1
       0 0 0 0 0 0 0
     )
-    (image "tiles/forest/underground/groundmerge.png")
+    (images "tiles/forest/underground/groundmerge.png")
   )
 
   (tiles
@@ -8030,7 +8030,7 @@
       1 1 1 1
       1 0 0 0
     )
-    (image "tiles/forest/underground/groundtiles-more.png")
+    (images "tiles/forest/underground/groundtiles-more.png")
   )
 
   (tiles
@@ -8071,7 +8071,7 @@
       0  0  0  2
       0  32 34 0
     )
-    (image "tiles/forest/underground/slope_transitions.png")
+    (images "tiles/forest/underground/slope_transitions.png")
   )
 
   (tiles
@@ -8088,7 +8088,7 @@
       1 1 1
       1 1 0
     )
-    (image "tiles/forest/underground/variants.png")
+    (images "tiles/forest/underground/variants.png")
   )
 
   (tiles
@@ -8111,7 +8111,7 @@
       50 64 0 0
       0  0  0 0
     )
-    (image "tiles/forest/underground/variants2.png")
+    (images "tiles/forest/underground/variants2.png")
   )
 
   (tiles
