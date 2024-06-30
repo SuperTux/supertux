@@ -74,7 +74,7 @@ Camera::pan()
   Vector target_pos = get_camera_pos_for_tux();
   clamp_camera_position(target_pos);
   Vector start_to_target = target_pos - m_pan_startpos;
-  m_pan_time_full = glm::length(start_to_target) / 612.41f;
+  m_pan_time_full = start_to_target.length() / 612.41f;
   if (m_pan_time_full > CAMERA_PAN_TIME_MAX)
     m_pan_time_full = CAMERA_PAN_TIME_MAX;
   m_pan_time_remaining = m_pan_time_full;

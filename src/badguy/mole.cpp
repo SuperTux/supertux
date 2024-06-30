@@ -87,9 +87,14 @@ Mole::throw_rock()
   float angle = math::radians(135.f - (static_cast<float>(cycle_num) * 30.f));
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::get().add<MoleRock>(m_col.m_bbox.get_middle(),
-    THROW_VELOCITY * ((cycle_num == 0 || cycle_num == 3) ? 0.8f : 1.f) *
-    Vector(cosf(angle), sin(angle) * (m_flip == NO_FLIP ? -1.f : 1.f)), this);
+
+  // TODO test
+  Vector out(cosf(angle), sin(angle));
+  out.y *= (m_flip == NO_FLIP ? -1.f : 1.f);
+  out *= ((cycle_num == 0 || cycle_num == 3) ? 0.8f : 1.f);
+  out *= THROW_VELOCITY;
+
+  Sector::get().add<MoleRock>(m_col.m_bbox.get_middle(), out, this);
   cycle_num += 1;
 }
 

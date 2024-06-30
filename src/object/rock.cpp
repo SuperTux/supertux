@@ -113,7 +113,7 @@ Rock::update(float dt_sec)
 
     for (auto& trampoline : Sector::get().get_objects_by_type<Trampoline>()) {
       if (trampolinebox.overlaps(trampoline.get_bbox()) && !trampoline.is_grabbed() &&
-        (glm::length((get_bbox().get_middle() - trampoline.get_bbox().get_middle())) >= 10.f) &&
+        (((get_bbox().get_middle() - trampoline.get_bbox().get_middle())).length() >= 10.f) &&
         is_portable()) {
         trampoline.bounce();
         physic.set_velocity_y(-500.f);
@@ -128,7 +128,7 @@ Rock::update(float dt_sec)
       }
     }
 
-    m_col.set_movement(physic.get_movement(dt_sec) *
+    m_col.set_movement(physic.get_movement(dt_sec) ^
       Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f));
   }
 }
@@ -261,7 +261,7 @@ Rock::ungrab(MovingObject& object, Direction dir)
       physic.set_velocity_x(fabsf(player->get_physic().get_velocity_x()) < 1.f ? 0.f :
         player->m_dir == Direction::LEFT ? -200.f : 200.f);
       physic.set_velocity_y((dir == Direction::UP) ? -500.f : (dir == Direction::DOWN) ? 500.f :
-        (glm::length(last_movement) > 1) ? -200.f : 0.f);
+        (last_movement.length() > 1) ? -200.f : 0.f);
     }
   }
 

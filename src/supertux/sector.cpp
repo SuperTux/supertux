@@ -507,7 +507,7 @@ Sector::draw(DrawingContext& context)
     // right, this would make it possible to, for example, exactly sinusoidally shake the
     // camera instead of piecewise linearly.)
     float x = std::min(1.f, context.get_time_offset() / m_last_dt);
-    context.set_translation(camera.get_translation() * x + (1 - x) * m_last_translation);
+    context.set_translation(camera.get_translation() ^ m_last_translation * x + (1 - x));
     context.scale(camera.get_current_scale() * x + (1 - x) * m_last_scale);
   } else {
     context.set_translation(camera.get_translation());

@@ -386,10 +386,10 @@ BadGuy::active_update(float dt_sec)
     if (is_in_water() && m_water_affected)
     {
       if (m_frozen) {
-        m_col.set_movement(m_physic.get_movement(dt_sec) * Vector(0.1f, 0.6f));
+        m_col.set_movement(m_physic.get_movement(dt_sec) ^ Vector(0.1f, 0.6f));
       }
       else {
-        m_col.set_movement(m_physic.get_movement(dt_sec) * Vector(0.7f, 0.3f));
+        m_col.set_movement(m_physic.get_movement(dt_sec) ^ Vector(0.7f, 0.3f));
       }
     }
     else {
@@ -489,7 +489,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
     }
 
     if (player->is_stone()) {
-      if (glm::length(player->get_physic().get_movement(.1f)) > 16.f)
+      if (player->get_physic().get_movement(.1f).length() > 16.f)
       {
         kill_fall();
         return ABORT_MOVE;

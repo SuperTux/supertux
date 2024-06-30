@@ -166,13 +166,13 @@ AmbientSound::update(float dt_sec)
     else if (player_center.y >= get_bbox().get_top() && player_center.y <= get_bbox().get_bottom())
       player_distance = player_center.x < get_bbox().get_left() ? get_bbox().get_left() - player_center.x : player_center.x - get_bbox().get_right();
     else if (player_center.x <= get_bbox().get_left() && player_center.y <= get_bbox().get_top())
-      player_distance = glm::distance(player_center, get_bbox().p1());
+      player_distance = player_center.distance(get_bbox().p1());
     else if (player_center.x >= get_bbox().get_right() && player_center.y <= get_bbox().get_top())
-      player_distance = glm::distance(player_center, get_bbox().p1() + Vector(get_bbox().get_width(), 0));
+      player_distance = player_center.distance(get_bbox().p1() + Vector(get_bbox().get_width(), 0));
     else if (player_center.x <= get_bbox().get_left() && player_center.y >= get_bbox().get_bottom())
-      player_distance = glm::distance(player_center, get_bbox().p1() + Vector(0, get_bbox().get_height()));
+      player_distance = player_center.distance(get_bbox().p1() + Vector(0, get_bbox().get_height()));
     else if (player_center.x >= get_bbox().get_right() && player_center.y >= get_bbox().get_bottom())
-      player_distance = glm::distance(player_center, get_bbox().p2());
+      player_distance = player_center.distance(get_bbox().p2());
     m_sound_source->set_gain(std::max(m_radius_in_px - player_distance, 0.0f) / m_radius_in_px * m_volume);
   }
 

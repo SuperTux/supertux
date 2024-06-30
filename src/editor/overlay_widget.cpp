@@ -367,8 +367,8 @@ void
 EditorOverlayWidget::preview_rectangle()
 {
   Rectf dr = drag_rect();
-  dr.set_p1(glm::floor(sp_to_tp(dr.p1())));
-  dr.set_p2(glm::floor(sp_to_tp(dr.p2())));
+  dr.set_p1(sp_to_tp(dr.p1()).floor());
+  dr.set_p2(sp_to_tp(dr.p2()).floor());
   bool sgn_x = m_drag_start.x < m_sector_pos.x;
   bool sgn_y = m_drag_start.y < m_sector_pos.y;
 
@@ -391,8 +391,8 @@ void
 EditorOverlayWidget::draw_rectangle()
 {
   Rectf dr = drag_rect();
-  dr.set_p1(glm::floor(sp_to_tp(dr.p1())));
-  dr.set_p2(glm::floor(sp_to_tp(dr.p2())));
+  dr.set_p1(sp_to_tp(dr.p1()).floor());
+  dr.set_p2(sp_to_tp(dr.p2()).floor());
   bool sgn_x = m_drag_start.x < m_sector_pos.x;
   bool sgn_y = m_drag_start.y < m_sector_pos.y;
 
@@ -768,7 +768,7 @@ EditorOverlayWidget::move_object()
     if (g_config->editor_snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
-      new_pos = glm::floor(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
+      new_pos = (new_pos / static_cast<float>(snap_grid_size)).floor() * static_cast<float>(snap_grid_size);
 
       auto pm = dynamic_cast<MarkerObject*>(m_dragged_object.get());
       if (pm)
@@ -883,7 +883,7 @@ EditorOverlayWidget::put_object()
     if (g_config->editor_snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
-      target_pos = glm::floor(m_sector_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
+      target_pos = (m_sector_pos / static_cast<float>(snap_grid_size)).floor() * static_cast<float>(snap_grid_size);
     }
 
     auto object = GameObjectFactory::instance().create(object_class, target_pos);
@@ -1626,7 +1626,7 @@ EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size) const
   if (!tilemap) return Vector(0, 0);
 
   Vector sp_ = sp + tilemap->get_offset() / static_cast<float>(tile_size);
-  return glm::trunc(sp_) * static_cast<float>(tile_size);
+  return sp_.trunc() * static_cast<float>(tile_size);
 }
 
 bool
