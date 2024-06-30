@@ -432,6 +432,10 @@ GameSession::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
+  if (m_game_pause) {
+    context.set_time_offset(0.0f);
+  }
+
   m_currentsector->draw(context);
   drawstatus(context);
 
