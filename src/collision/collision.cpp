@@ -48,8 +48,8 @@ inline float dot(const Vector& p1, const Vector& p2)
 inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 {
   n = Vector(p2.y - p1.y, p1.x - p2.x);
-  c = -dot(p2, n);
-  float nval = std::sqrt(n.x * n.y);
+  c = -(p2 * n);
+  float nval = n.length();
   n /= nval;
   c /= nval;
 }
@@ -228,7 +228,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
         assert(false);
     }
 
-    float n_p1 = -dot(normal, p1);
+    float n_p1 = -(normal * p1);
     float depth = n_p1 - c;
     if (depth < 0)
       return false;

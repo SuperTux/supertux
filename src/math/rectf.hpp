@@ -132,18 +132,18 @@ public:
     return true;
   }
 
-  float distance (const Vector& other, AnchorPoint ap = ANCHOR_MIDDLE) const
+  float distance(const Vector& other, AnchorPoint ap = ANCHOR_MIDDLE) const
   {
-    Vector v = get_anchor_pos (*this, ap);
-    return glm::distance(v, other);
+    Vector v = get_anchor_pos(*this, ap);
+    return v.distance(other);
   }
 
-  float distance (const Rectf& other, AnchorPoint ap = ANCHOR_MIDDLE) const
+  float distance(const Rectf& other, AnchorPoint ap = ANCHOR_MIDDLE) const
   {
     Vector v1 = get_anchor_pos(*this, ap);
     Vector v2 = get_anchor_pos(other, ap);
 
-    return glm::distance(v1, v2);
+    return v1.distance(v2);
   }
 
   Rectf grown(float border) const

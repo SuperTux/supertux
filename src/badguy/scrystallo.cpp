@@ -100,7 +100,7 @@ SCrystallo::active_update(float dt_sec)
       Vector p1 = m_col.m_bbox.get_middle();
       Vector p2 = player->get_bbox().get_middle();
       Vector dist = (p2 - p1);
-      if (glm::length(dist) <= m_range)
+      if (dist.length() <= m_range)
       {
         set_action("waking", m_dir, 1);
         m_state = SCRYSTALLO_WAKING;

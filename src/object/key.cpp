@@ -81,7 +81,7 @@ Key::update(float dt_sec)
   if (!m_owner)
     return;
 
-  float distance = glm::length(get_pos() - m_owner->get_pos());
+  float distance = (get_pos() - m_owner->get_pos()).length();
 
   if (m_state != KeyState::NORMAL)
   {
@@ -96,7 +96,7 @@ Key::update(float dt_sec)
 
   // use
   for (auto& door : Sector::get().get_objects_by_type<Door>()) {
-    if (m_state == KeyState::FOLLOW && door.is_locked() && glm::length(get_pos() - door.get_pos()) < 100.f &&
+    if (m_state == KeyState::FOLLOW && door.is_locked() && (get_pos() - door.get_pos()).length() < 100.f &&
       // color matches
       std::abs(door.get_lock_color().red - m_color.red) <= 0.1f &&
       std::abs(door.get_lock_color().green - m_color.green) <= 0.1f &&
@@ -133,8 +133,7 @@ Key::update(float dt_sec)
     break;
   case FOUND:
     m_col.set_movement((m_my_door_pos - Vector(get_bbox().get_width() / 2.f, get_bbox().get_height() / 2.f) -
-      (get_pos()))
-      *glm::length((m_my_door_pos - get_bbox().get_middle())*0.003f));
+      (get_pos())) * ((m_my_door_pos - get_bbox().get_middle())*0.003f).length());
     if (m_unlock_timer.check() || m_owner->is_dying())
     {
       m_unlock_timer.stop();
@@ -218,10 +217,10 @@ Key::spawn_use_particles()
 {
   for (int i = 1; i < 9; i++)
   {
-    Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
+    Vector direction = Vector::from_angle(float(i) * math::PI_4);
     Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-key-collect",
       get_bbox().get_middle(),
-      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false, m_color);
+      ANCHOR_MIDDLE, direction * 400.f, -(direction * 400.f) * 2.8f, LAYER_OBJECTS + 6, false, m_color);
   }
 }
 

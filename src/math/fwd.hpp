@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_MATH_FWD_HPP
 #define HEADER_SUPERTUX_MATH_FWD_HPP
 
-#include <glm/fwd.hpp>
+#include "math/vector.hpp"
 
-using Vector = glm::vec2;
+//using Vector = glm::vec2;
 
 #endif
 
