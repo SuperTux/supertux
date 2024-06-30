@@ -67,9 +67,11 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle,
                           bool& hits_rectangle_bottom)
 {
-#if 0
+#if 1
   if (!rect.overlaps(triangle.bbox))
     return false;
+
+  float angx, angy;
 
   int deform = triangle.get_deform();
   Rectf trirect;
@@ -77,22 +79,40 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   {
     case 0:
       trirect = triangle.bbox;
+      angx = 45.f;
+      angy = 45.f;
       break;
     case AATriangle::DEFORM_BOTTOM:
       trirect.set_p1(Vector(triangle.bbox.get_left(), triangle.bbox.get_top() + triangle.bbox.get_height()/2));
       trirect.set_p2(triangle.bbox.p2());
+
+      angx = triangle.is_north() ? 26.56f : 63.43f;
+      angy = triangle.is_north() ? 63.43f : 26.56f;
+
       break;
     case AATriangle::DEFORM_TOP:
       trirect.set_p1(triangle.bbox.p1());
       trirect.set_p2(Vector(triangle.bbox.get_right(), triangle.bbox.get_top() + triangle.bbox.get_height()/2));
+
+      angx = triangle.is_north() ? 26.56f : 63.43f;
+      angy = triangle.is_north() ? 63.43f : 26.56f;
+
       break;
     case AATriangle::DEFORM_LEFT:
       trirect.set_p1(triangle.bbox.p1());
       trirect.set_p2(Vector(triangle.bbox.get_left() + triangle.bbox.get_width()/2, triangle.bbox.get_bottom()));
+
+      angx = triangle.is_north() ? 63.43f : 26.56f;
+      angy = triangle.is_north() ? 26.56f : 63.43f;
+
       break;
     case AATriangle::DEFORM_RIGHT:
       trirect.set_p1(Vector(triangle.bbox.get_left() + triangle.bbox.get_width()/2, triangle.bbox.get_top()));
       trirect.set_p2(triangle.bbox.p2());
+
+      angx = triangle.is_north() ? 63.43f : 26.56f;
+      angy = triangle.is_north() ? 26.56f : 63.43f;
+
       break;
     default:
       assert(false);
@@ -149,27 +169,48 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
 
     if (triangle.is_north())
     {
-      dc = -dc;
+      //dc = -dc;
     }
+    dc -= 1.f;
+
+    std::cout << "dc: " << dc << "sp: " << sp << std::endl;
 
     //col_p1[1]=spx
     //col_p1[2]=spy
 
+
     if (triangle.is_east())
-      constraints->constrain_right(sp.x - 2);
+    {
+      constraints->hit.right = true;
+      constraints->hit.slope_normal.x = -1;
+      constraints->constrain_right(sp.x - dc);
+    }
     else
-      constraints->constrain_left(sp.x + 2);
+    {
+      constraints->hit.left = true;
+      constraints->hit.slope_normal.x = 1;
+      constraints->constrain_left(sp.x + dc);
+    }
 
-    constraints->constrain_bottom(sp.y - dc);
-    constraints->hit.bottom = true;
-    hits_rectangle_bottom = true;
-    constraints->hit.right = true;
+    if (triangle.is_north())
+    {
+      constraints->hit.top = true;
+      constraints->hit.slope_normal.y = 1;
+      constraints->constrain_top(sp.y + dc);
+    }
+    else
+    {
+      constraints->hit.bottom = true;
+      hits_rectangle_bottom = true;
+      constraints->hit.slope_normal.y = -1;
+      constraints->constrain_bottom(sp.y - dc);
+    }
+
+    constraints->hit.slope_normal.x *= std::cos(angx);
+    constraints->hit.slope_normal.y *= std::sin(angy);
+
+    return true;
   }
-  else
-  {
-
-  }
-
 
   return false;
 #else
@@ -235,7 +276,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
 
   #if 1
     std::cout << "R: " << rect << " Tri: " << triangle.get_dir() + triangle.get_deform() << "\n";
-    std::cout << "Norm: " << normal << " Depth: " << depth << "\n";
+    std::cout << "Norm: " << normal << " Depth: " << depth << std::endl;
   #endif
 
     Vector outvec = normal * (depth + 0.3f);
