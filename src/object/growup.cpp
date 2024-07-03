@@ -26,28 +26,28 @@
 
 GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom_sprite) :
   MovingSprite(pos, custom_sprite.empty() ? "images/powerups/egg/egg.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
-  physic(),
+  m_physic(),
   m_custom_sprite(!custom_sprite.empty()),
-  shadesprite(SpriteManager::current()->create("images/powerups/egg/egg.sprite")),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  m_shadesprite(SpriteManager::current()->create("images/powerups/egg/egg.sprite")),
+  m_lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  physic.enable_gravity(true);
-  physic.set_velocity_x((direction == Direction::LEFT) ? -100.0f : 100.0f);
+  m_physic.enable_gravity(true);
+  m_physic.set_velocity_x((direction == Direction::LEFT) ? -100.0f : 100.0f);
   SoundManager::current()->preload("sounds/grow.ogg");
   // Set the shadow action for the egg sprite, so it remains in place as the egg rolls.
-  shadesprite->set_action("shadow");
+  m_shadesprite->set_action("shadow");
   // Configure the light sprite for the glow effect.
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
+  m_lightsprite->set_blend(Blend::ADD);
+  m_lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
 }
 
 void
 GrowUp::update(float dt_sec)
 {
-  if (!m_custom_sprite && physic.get_velocity_x() != 0)
+  if (!m_custom_sprite && m_physic.get_velocity_x() != 0)
     m_sprite->set_angle(get_pos().x * 360.0f / (32.0f * math::PI));
 
-  m_col.set_movement(physic.get_movement(dt_sec));
+  m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
 void
@@ -58,19 +58,24 @@ GrowUp::draw(DrawingContext& context)
   if (m_custom_sprite)
     return;
 
-  shadesprite->draw(context.color(), get_pos(), m_layer);
-  lightsprite->draw(context.light(), get_bbox().get_middle(), 0);
+  m_shadesprite->draw(context.color(), get_pos(), m_layer);
+  m_lightsprite->draw(context.light(), get_bbox().get_middle(), 0);
 }
 
 void
 GrowUp::collision_solid(const CollisionHit& hit)
 {
   if (hit.top)
-    physic.set_velocity_y(0);
-  if (hit.bottom && physic.get_velocity_y() > 0)
-    physic.set_velocity_y(0);
-  if (hit.left || hit.right) {
-    physic.set_velocity_x(-physic.get_velocity_x());
+    m_physic.set_velocity_y(0);
+
+  if (hit.bottom && m_physic.get_velocity_y() > 0)
+    m_physic.set_velocity_y(0);
+
+  if (hit.slope_normal.x == 0.0f &&
+      ((hit.left && m_physic.get_velocity_x() < 0.0f) ||
+      (hit.right && m_physic.get_velocity_x() > 0.0f))) {
+    m_physic.set_velocity_x(-m_physic.get_velocity_x());
+    m_physic.set_acceleration_x(-m_physic.get_acceleration_x());
   }
 }
 
@@ -97,7 +102,7 @@ GrowUp::collision(GameObject& other, const CollisionHit& hit )
 void
 GrowUp::do_jump()
 {
-  physic.set_velocity_y(-300);
+  m_physic.set_velocity_y(-300);
 }
 
 /* EOF */

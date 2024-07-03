@@ -37,11 +37,11 @@ public:
   void do_jump();
 
 private:
-  Physic physic;
+  Physic m_physic;
 
   const bool m_custom_sprite;
-  SpritePtr shadesprite;
-  SpritePtr lightsprite;
+  SpritePtr m_shadesprite;
+  SpritePtr m_lightsprite;
 
 private:
   GrowUp(const GrowUp&) = delete;
