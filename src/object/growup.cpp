@@ -69,7 +69,15 @@ GrowUp::collision_solid(const CollisionHit& hit)
     physic.set_velocity_y(0);
   if (hit.bottom && physic.get_velocity_y() > 0)
     physic.set_velocity_y(0);
-  if (hit.left || hit.right) {
+  if (hit.slope_normal.x > 0.0f && physic.get_velocity_x() < 0.0f)
+  {
+    physic.set_velocity_x(-physic.get_velocity_x());
+  }
+  else if (hit.slope_normal.x < 0.0f && physic.get_velocity_x() > 0.0f)
+  {
+    physic.set_velocity_x(-physic.get_velocity_x());
+  }
+  else if ((hit.left || hit.right) && hit.slope_normal.x == 0.0f) {
     physic.set_velocity_x(-physic.get_velocity_x());
   }
 }
