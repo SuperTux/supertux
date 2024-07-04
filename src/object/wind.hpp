@@ -72,6 +72,7 @@ private:
   bool affects_objects; /**< whether the wind can affect objects */
   bool affects_player; /**< whether the wind can affect the player: useful for cinematic wind */
   bool fancy_wind;
+  bool particles_enabled;
 
 private:
   Wind(const Wind&) = delete;
