@@ -8,7 +8,8 @@
   (icon-locked "")
   (sector
     (name "main")
-    (init-script "Tux.deactivate();")
+    (init-script "Tux.deactivate();
+Effect.sixteen_to_nine(0);")
     (ambient-light
       (color 0.9999999 0.9999999 0.9999999)
     )
@@ -73,7 +74,7 @@
       (z-pos 50)
       (sprite "/images/decal/retro/copter.png")
       (x 608)
-      (y 96)
+      (y 160)
     )
     (decal
       (z-pos 10)
