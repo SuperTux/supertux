@@ -1,5 +1,7 @@
-//  SuperTux
+//  SuperTux BadGuy MrBomb
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2013 LMH <lmh.0013@gmail.com>
+//  Copyright (C) 2024 MatusGuy <matusguy@supertuxproject.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,7 +20,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
-#include "badguy/bomb.hpp"
 #include "badguy/owl.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
@@ -29,52 +30,80 @@
 #include "util/reader_mapping.hpp"
 
 MrBomb::MrBomb(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
+  WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
+  m_state(STATE_NORMAL),
+  m_realize_timer(),
+  m_ticking_sound(),
+  m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
-  parse_type(reader);
+  assert(SAFE_DIST >= REALIZE_DIST);
 
   walk_speed = 80;
   set_ledge_behavior(LedgeBehavior::SMART);
 
-  // Prevent stutter when Tux jumps on Mr Bomb.
   SoundManager::current()->preload("sounds/explosion.wav");
+
+  m_exploding_sprite->set_action("default", 1);
 }
 
-GameObjectTypes
-MrBomb::get_types() const
+void
+MrBomb::collision_solid(const CollisionHit& hit)
 {
-  return {
-    { "normal", _("Normal") },
-    { "classic", _("Classic") }
-  };
-}
+  if (m_state == STATE_TICKING) {
+    if (hit.bottom)
+      m_physic.set_velocity(0, 0);
+    else
+      kill_fall();
 
-std::string
-MrBomb::get_default_sprite_name() const
-{
-  switch (m_type)
-  {
-    case CLASSIC:
-      return "images/creatures/mr_bomb/old_bomb/old_bomb.sprite";
-    default:
-      return m_default_sprite_name;
+    update_on_ground_flag(hit);
+    return;
   }
+
+  WalkingBadguy::collision_solid(hit);
 }
 
 HitResponse
 MrBomb::collision(GameObject& object, const CollisionHit& hit)
 {
+  if (m_state == STATE_TICKING)
+  {
+    auto player = dynamic_cast<Player*>(&object);
+    if (player) return collision_player(*player, hit);
+    auto badguy = dynamic_cast<BadGuy*>(&object);
+    if (badguy) return collision_badguy(*badguy, hit);
+  }
+
   if (is_grabbed())
     return FORCE_MOVE;
+
   return WalkingBadguy::collision(object, hit);
 }
 
 HitResponse
 MrBomb::collision_player(Player& player, const CollisionHit& hit)
 {
+  if (m_state == STATE_TICKING)
+  {
+    if (m_physic.get_velocity() != Vector())
+      kill_fall();
+    return ABORT_MOVE;
+  }
   if (is_grabbed())
     return FORCE_MOVE;
-  return WalkingBadguy::collision_player(player, hit);
+  return BadGuy::collision_player(player, hit);
+}
+
+HitResponse
+MrBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
+{
+  if (m_state == STATE_TICKING)
+  {
+    if (m_physic.get_velocity() != Vector()) kill_fall();
+    return ABORT_MOVE;
+  } else if (m_state != STATE_NORMAL) {
+    return FORCE_MOVE;
+  }
+  return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
 bool
@@ -83,49 +112,108 @@ MrBomb::collision_squished(GameObject& object)
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);
 
-  auto player = dynamic_cast<Player*>(&object);
+  Player* player = dynamic_cast<Player*>(&object);
   if (player && player->is_invincible()) {
     player->bounce(*this);
     kill_fall();
     return true;
   }
-  if (is_valid()) {
-    auto& bomb = Sector::get().add<Bomb>(get_pos(), m_dir, m_sprite_name);
-
-    // Do not trigger dispenser because we need to wait for
-    // the bomb instance to explode.
-    if (get_parent_dispenser() != nullptr)
-    {
-      bomb.set_parent_dispenser(get_parent_dispenser());
-      set_parent_dispenser(nullptr);
-    }
-
-    remove_me();
+  if (is_valid() && m_state != STATE_TICKING) {
+    trigger();
   }
-  kill_squished(object);
   return true;
 }
 
 void
 MrBomb::active_update(float dt_sec)
 {
-  if (is_grabbed())
+  if (m_state == STATE_TICKING)
+  {
+    m_exploding_sprite->set_action("exploding", 1);
+
+    if (on_ground())
+      m_physic.set_velocity_x(0);
+
+    m_ticking_sound->set_position(get_pos());
+
+    if (m_sprite->animation_done())
+    {
+      kill_fall();
+    }
+    else if (!is_grabbed())
+    {
+      m_col.set_movement(m_physic.get_movement(dt_sec));
+    }
     return;
+  }
+
   WalkingBadguy::active_update(dt_sec);
+}
+
+void
+MrBomb::draw(DrawingContext& context)
+{
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+  if (m_state == STATE_TICKING)
+  {
+    m_exploding_sprite->set_blend(Blend::ADD);
+    m_exploding_sprite->draw(context.light(),
+      get_pos() + Vector(get_bbox().get_width() / 2, get_bbox().get_height() / 2), m_layer, m_flip);
+  }
+
+  WalkingBadguy::draw(context);
+}
+
+void
+MrBomb::trigger()
+{
+  m_state = STATE_TICKING;
+  m_frozen = false;
+  set_action("ticking", m_dir, 1);
+  m_physic.set_velocity_x(0);
+
+  if (player)
+    player->bounce(*this);
+  SoundManager::current()->play("sounds/squish.wav", get_pos());
+  m_ticking_sound = SoundManager::current()->create_sound_source("sounds/fizz.wav");
+  m_ticking_sound->set_position(get_pos());
+  m_ticking_sound->set_looping(true);
+  m_ticking_sound->set_gain(1.0f);
+  m_ticking_sound->set_reference_distance(32);
+  m_ticking_sound->play();
+}
+
+void
+MrBomb::explode()
+{
+  remove_me();
+  Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+    EXPLOSION_STRENGTH_DEFAULT);
+  run_dead_script();
 }
 
 void
 MrBomb::kill_fall()
 {
+  if (m_state == STATE_TICKING)
+    m_ticking_sound->stop();
+
+  // Make the player let go before we explode, otherwise the player is holding
+  // an invalid object.
+  if (is_grabbed()) {
+    Player* player = dynamic_cast<Player*>(m_owner);
+
+    if (player)
+      player->stop_grabbing();
+  }
+
   if (is_valid()) {
     if (m_frozen)
       BadGuy::kill_fall();
     else
     {
-      remove_me();
-      Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
-        EXPLOSION_STRENGTH_DEFAULT);
-      run_dead_script();
+      explode();
     }
   }
 }
@@ -142,16 +230,73 @@ void
 MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
-  if (dynamic_cast<Owl*>(&object))
-    set_action(dir_);
-  else
+
+  if (m_state == STATE_TICKING){
+    // We actually face the opposite direction of Tux here to make the fuse more
+    // visible instead of hiding it behind Tux.
+    set_action("ticking", m_dir, Sprite::LOOPS_CONTINUED);
+    set_colgroup_active(COLGROUP_DISABLED);
+  }
+  else if (m_frozen)
   {
-    assert(m_frozen);
     set_action("iced", dir_);
   }
+  else if (dynamic_cast<Owl*>(&object))
+    set_action(dir_);
+
   m_col.set_movement(pos - get_pos());
   m_dir = dir_;
   set_colgroup_active(COLGROUP_DISABLED);
+}
+
+void
+MrBomb::ungrab(MovingObject& object, Direction dir_)
+{
+  auto player = dynamic_cast<Player*> (&object);
+  if (m_frozen)
+    BadGuy::ungrab(object, dir_);
+  else
+  {
+    // Handle swimming state of the player.
+    if (player && (player->is_swimming() || player->is_water_jumping()))
+    {
+      float swimangle = player->get_swimming_angle();
+      m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
+        player->get_physic().get_velocity());
+    }
+    // Handle non-swimming.
+    else
+    {
+      if (player)
+      {
+        // Handle x-movement based on the player's direction and velocity.
+        if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
+          m_physic.set_velocity_x(0.f);
+        else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
+          || (player->m_dir == Direction::RIGHT && player->get_physic().get_velocity_x() >= 1.0f))
+          m_physic.set_velocity_x(player->get_physic().get_velocity_x()
+            + (player->m_dir == Direction::LEFT ? -10.f : 10.f));
+        else
+          m_physic.set_velocity_x(player->get_physic().get_velocity_x()
+            + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
+        // Handle y-movement based on the player's direction and velocity.
+        m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
+          dir_ == Direction::DOWN ? 500.f :
+          player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
+      }
+    }
+  }
+  set_colgroup_active(m_frozen ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
+  Portable::ungrab(object, dir_);
+}
+
+void
+MrBomb::freeze()
+{
+  if (m_state != STATE_TICKING) {
+    m_state = STATE_NORMAL;
+    WalkingBadguy::freeze();
+  }
 }
 
 bool
@@ -163,7 +308,23 @@ MrBomb::is_freezable() const
 bool
 MrBomb::is_portable() const
 {
-  return m_frozen;
+  return (m_frozen || (m_state == STATE_TICKING));
+}
+
+void
+MrBomb::stop_looping_sounds()
+{
+  if (m_ticking_sound) {
+    m_ticking_sound->stop();
+  }
+}
+
+void
+MrBomb::play_looping_sounds()
+{
+  if (m_state == STATE_TICKING && m_ticking_sound) {
+    m_ticking_sound->play();
+  }
 }
 
 /* EOF */

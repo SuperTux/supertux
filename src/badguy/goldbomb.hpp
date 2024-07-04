@@ -19,19 +19,16 @@
 #ifndef HEADER_SUPERTUX_BADGUY_GOLDBOMB_HPP
 #define HEADER_SUPERTUX_BADGUY_GOLDBOMB_HPP
 
-#include "badguy/walking_badguy.hpp"
+#include "badguy/mrbomb.hpp"
 
 class SoundSource;
 
-class GoldBomb final : public WalkingBadguy
+class GoldBomb final : public MrBomb
 {
 public:
   GoldBomb(const ReaderMapping& reader);
 
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& object, const CollisionHit& hit) override;
-  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
-  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
   virtual void active_update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -54,17 +51,14 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
-  bool is_ticking() const { return tstate == STATE_TICKING; }
-
-protected:
-  virtual bool collision_squished(GameObject& object) override;
+  bool is_ticking() const { return m_state == STATE_TICKING; }
 
 private:
   void flee(Direction dir);
   void cornered();
 
 private:
-  enum Ticking_State {
+  enum State {
     STATE_NORMAL,
     STATE_TICKING,
     STATE_REALIZING,
@@ -72,7 +66,7 @@ private:
     STATE_CORNERED
   };
 
-  Ticking_State tstate;
+  State m_state;
   Timer m_realize_timer;
 
   std::unique_ptr<SoundSource> ticking;

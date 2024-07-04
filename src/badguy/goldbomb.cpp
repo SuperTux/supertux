@@ -43,7 +43,7 @@ static const float FLEEING_WALK_SPEED = 180.0f;
 
 GoldBomb::GoldBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/gold_bomb/gold_bomb.sprite", "left", "right"),
-  tstate(STATE_NORMAL),
+  m_state(STATE_NORMAL),
   m_realize_timer(),
   ticking(),
   m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
@@ -61,7 +61,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
 void
 GoldBomb::collision_solid(const CollisionHit& hit)
 {
-  if (tstate == STATE_TICKING) {
+  if (m_state == STATE_TICKING) {
     if (hit.bottom)
       m_physic.set_velocity(0, 0);
     else
@@ -69,7 +69,7 @@ GoldBomb::collision_solid(const CollisionHit& hit)
 
     update_on_ground_flag(hit);
     return;
-  } else if (tstate != STATE_NORMAL && (hit.left || hit.right)) {
+  } else if (m_state != STATE_NORMAL && (hit.left || hit.right)) {
     cornered();
     return;
   }
@@ -77,85 +77,10 @@ GoldBomb::collision_solid(const CollisionHit& hit)
   WalkingBadguy::collision_solid(hit);
 }
 
-HitResponse
-GoldBomb::collision(GameObject& object, const CollisionHit& hit)
-{
-  if (tstate == STATE_TICKING)
-  {
-    auto player = dynamic_cast<Player*>(&object);
-    if (player) return collision_player(*player, hit);
-    auto badguy = dynamic_cast<BadGuy*>(&object);
-    if (badguy) return collision_badguy(*badguy, hit);
-  }
-
-  if (is_grabbed())
-    return FORCE_MOVE;
-
-  return WalkingBadguy::collision(object, hit);
-}
-
-HitResponse
-GoldBomb::collision_player(Player& player, const CollisionHit& hit)
-{
-  if (tstate == STATE_TICKING)
-  {
-    if (m_physic.get_velocity() != Vector())
-      kill_fall();
-    return ABORT_MOVE;
-  }
-  if (is_grabbed())
-    return FORCE_MOVE;
-  return BadGuy::collision_player(player, hit);
-}
-
-HitResponse
-GoldBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
-{
-  if (tstate == STATE_TICKING)
-  {
-    if (m_physic.get_velocity() != Vector()) kill_fall();
-    return ABORT_MOVE;
-  } else if (tstate != STATE_NORMAL) {
-    return FORCE_MOVE;
-  }
-  return WalkingBadguy::collision_badguy(badguy, hit);
-}
-
-bool
-GoldBomb::collision_squished(GameObject& object)
-{
-  if (m_frozen)
-    return WalkingBadguy::collision_squished(object);
-
-  Player* player = dynamic_cast<Player*>(&object);
-  if (player && player->is_invincible()) {
-    player->bounce(*this);
-    kill_fall();
-    return true;
-  }
-  if (is_valid() && tstate != STATE_TICKING) {
-    tstate = STATE_TICKING;
-    m_frozen = false;
-    set_action("ticking", m_dir, 1);
-    m_physic.set_velocity_x(0);
-
-    if (player)
-      player->bounce(*this);
-    SoundManager::current()->play("sounds/squish.wav", get_pos());
-    ticking = SoundManager::current()->create_sound_source("sounds/fizz.wav");
-    ticking->set_position(get_pos());
-    ticking->set_looping(true);
-    ticking->set_gain(1.0f);
-    ticking->set_reference_distance(32);
-    ticking->play();
-  }
-  return true;
-}
-
 void
 GoldBomb::active_update(float dt_sec)
 {
-  if (tstate == STATE_TICKING) {
+  if (m_state == STATE_TICKING) {
     m_exploding_sprite->set_action("exploding", 1);
     if (on_ground()) m_physic.set_velocity_x(0);
     ticking->set_position(get_pos());
@@ -168,7 +93,7 @@ GoldBomb::active_update(float dt_sec)
     return;
   }
 
-  if ((tstate == STATE_FLEEING || tstate == STATE_CORNERED) && on_ground() && might_fall(s_normal_max_drop_height+1))
+  if ((m_state == STATE_FLEEING || m_state == STATE_CORNERED) && on_ground() && might_fall(s_normal_max_drop_height+1))
   {
     // also check for STATE_CORNERED just so
     // the bomb doesnt automatically turn around
@@ -188,16 +113,16 @@ GoldBomb::active_update(float dt_sec)
     obj = currobj;
 
     auto player = dynamic_cast<Player*>(obj);
-    if (player && !player->get_ghost_mode()) break;
+    if (player && !player->get_ghost_mode())
+      break;
 
     auto haywire = dynamic_cast<Haywire*>(obj);
-    if (haywire && haywire->is_exploding()) break;
+    if (haywire && haywire->is_exploding())
+      break;
 
-    auto bomb = dynamic_cast<Bomb*>(obj);
-    if (bomb) break;
-
-    auto goldbomb = dynamic_cast<GoldBomb*>(obj);
-    if (goldbomb && goldbomb->is_ticking()) break;
+    auto bomb = dynamic_cast<MrBomb*>(obj);
+    if (bomb && bomb->is_ticking())
+      break;
 
     obj = nullptr;
   }
@@ -206,7 +131,7 @@ GoldBomb::active_update(float dt_sec)
   {
     // Everybody's outside of safe distance. Am I cornered?
 
-    if (tstate == STATE_CORNERED)
+    if (m_state == STATE_CORNERED)
     {
       // Look back to check.
       set_action("recover", m_dir);
@@ -214,9 +139,9 @@ GoldBomb::active_update(float dt_sec)
     }
 
     // Finally, when done recovering, go back to normal.
-    if (tstate == STATE_NORMAL) return;
+    if (m_state == STATE_NORMAL) return;
 
-    tstate = STATE_NORMAL;
+    m_state = STATE_NORMAL;
     m_physic.set_velocity_x(NORMAL_WALK_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
     m_physic.set_acceleration_x(0);
     set_action(m_dir);
@@ -231,10 +156,10 @@ GoldBomb::active_update(float dt_sec)
   const Vector vecdist = p2-p1;
 
   // But I only react to those who are in realize distance
-  if (glm::length(vecdist) > REALIZE_DIST && tstate == STATE_NORMAL) return;
+  if (glm::length(vecdist) > REALIZE_DIST && m_state == STATE_NORMAL) return;
 
   // Someone's around!
-  switch (tstate)
+  switch (m_state)
   {
     case STATE_FLEEING:
       // They popped up from the other side! Turn around!
@@ -263,7 +188,7 @@ GoldBomb::active_update(float dt_sec)
       m_physic.set_acceleration_x(0);
       m_dir = vecdist.x > 0 ? Direction::RIGHT : Direction::LEFT;
       m_sprite->set_action("flee", m_dir);
-      tstate = STATE_REALIZING;
+      m_state = STATE_REALIZING;
       m_realize_timer.start(REALIZE_TIME);
       break;
     }
@@ -283,7 +208,7 @@ GoldBomb::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  if (tstate == STATE_TICKING)
+  if (m_state == STATE_TICKING)
   {
     m_exploding_sprite->set_blend(Blend::ADD);
     m_exploding_sprite->draw(context.light(),
@@ -295,7 +220,7 @@ GoldBomb::draw(DrawingContext& context)
 void
 GoldBomb::kill_fall()
 {
-  if (tstate == STATE_TICKING)
+  if (m_state == STATE_TICKING)
     ticking->stop();
 
   // Make the player let go before we explode, otherwise the player is holding
@@ -334,7 +259,7 @@ void
 GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object,pos,dir_);
-  if (tstate == STATE_TICKING){
+  if (m_state == STATE_TICKING){
     // We actually face the opposite direction of Tux here to make the fuse more
     // visible instead of hiding it behind Tux.
     set_action("ticking", m_dir, Sprite::LOOPS_CONTINUED);
@@ -394,8 +319,8 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
 void
 GoldBomb::freeze()
 {
-  if (tstate != STATE_TICKING) {
-    tstate = STATE_NORMAL;
+  if (m_state != STATE_TICKING) {
+    m_state = STATE_NORMAL;
     WalkingBadguy::freeze();
   }
 }
@@ -409,7 +334,7 @@ GoldBomb::is_freezable() const
 bool
 GoldBomb::is_portable() const
 {
-  return (m_frozen || (tstate == STATE_TICKING));
+  return (m_frozen || (m_state == STATE_TICKING));
 }
 
 void GoldBomb::stop_looping_sounds()
@@ -421,7 +346,7 @@ void GoldBomb::stop_looping_sounds()
 
 void GoldBomb::play_looping_sounds()
 {
-  if (tstate == STATE_TICKING && ticking) {
+  if (m_state == STATE_TICKING && ticking) {
     ticking->play();
   }
 }
@@ -442,13 +367,13 @@ GoldBomb::flee(Direction dir)
   else
     set_action("flee", m_dir);
 
-  tstate = STATE_FLEEING;
+  m_state = STATE_FLEEING;
 }
 
 void
 GoldBomb::cornered()
 {
-  if (tstate == STATE_CORNERED) return;
+  if (m_state == STATE_CORNERED) return;
 
   set_walk_speed(0);
   m_physic.set_velocity_x(0);
@@ -456,7 +381,7 @@ GoldBomb::cornered()
 
   set_action("scared", m_dir);
 
-  tstate = STATE_CORNERED;
+  m_state = STATE_CORNERED;
 }
 
 /* EOF */
