@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# 111More1, 2023
+# IAN RODRÍGUEZ Lorenzo, 2023
 # Ryo Nakano, 2019,2021,2024
 # b1e11c107ebf1f339ff7adfc86b9dbe0_2e3e89d, 2016
 # Sanshiro sumita, 2015
