@@ -112,7 +112,7 @@ Thunderstorm::update(float )
       return;
     }
 
-    alpha *= g_config->thunderstorm_brightness / 100.0f;
+    alpha *= static_cast<float>(g_config->thunderstorm_brightness) / 100.0f;
     m_flash_color = Color(alpha , alpha, alpha, 1.0);
   }
 
