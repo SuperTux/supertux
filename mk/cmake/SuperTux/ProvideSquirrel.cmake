@@ -60,9 +60,6 @@ else()
       IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}sqstdlib${CMAKE_SHARED_LIBRARY_SUFFIX}"
       IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/sqstdlib${CMAKE_LINK_LIBRARY_SUFFIX}"
       INTERFACE_INCLUDE_DIRECTORIES "${SQUIRREL_PREFIX}/include")
-
-    #For debug run purposes
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat.in" "${CMAKE_CURRENT_BINARY_DIR}/run_supertux.bat")
   else()
     add_library(LibSquirrel STATIC IMPORTED)
     set_target_properties(LibSquirrel PROPERTIES
