@@ -199,7 +199,9 @@ ScriptedObject::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player && !hit_script.empty()) {
-    Sector::get().run_script(hit_script, "hit-script");
+    Sector::get().run_script(hit_script, "hit-script", *this, {
+        { player->get_name(), "Tux" } // Create trigger reference to the player
+      });
   }
 
   return FORCE_MOVE;

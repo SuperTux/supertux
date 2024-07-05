@@ -20,6 +20,7 @@
 
 #include <string>
 #include <vector>
+#include <functional>
 
 #include <squirrel.h>
 
@@ -70,6 +71,13 @@ public:
       the script so the script gets destroyed when the SquirrelEnvironment is
       destroyed). */
   void run_script(std::istream& in, const std::string& sourcename);
+
+  /** Pushes a reference to an entry in the environment table, if it exists,
+      to a sub-table in the environment table. */
+  void create_reference(const std::string& name, const std::string& ref_name,
+                        const std::string& ref_table, const std::string& ref_sub_table);
+
+  void modify_table(const std::function<void(SquirrelVM&)>& function);
 
   void update(float dt_sec);
   void wait_for_seconds(HSQUIRRELVM vm, float seconds);

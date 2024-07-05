@@ -50,6 +50,7 @@ private:
   std::string m_script;
   std::string m_off_script;
   SwitchState m_state;
+  std::string m_player_name;
   bool m_bistable;
   Direction m_dir;
 

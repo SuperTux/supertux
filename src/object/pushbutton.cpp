@@ -130,7 +130,14 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   SoundManager::current()->play(BUTTON_SOUND, get_pos());
 
   // run script
-  Sector::get().run_script(m_script, "PushButton");
+  if (player)
+  {
+    Sector::get().run_script(m_script, "PushButton", *this, {
+        { player->get_name(), "Tux" } // Create trigger reference to the player
+      });
+  }
+  else
+    Sector::get().run_script(m_script, "PushButton", *this, {});
 
   return FORCE_MOVE;
 }
