@@ -125,15 +125,23 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
-          cpack -C $Env:BUILD_TYPE -G ZIP
           mkdir -Force upload
+          cmake --install . --prefix .\upload\
+
+          # Because github puts assets in zips, if you upload a zip,
+          # it will upload another zip. I have disabled this code because
+          # of that, but in case you wanted to know how to generate a portable release,
+          # here it is.
+          <#
+          cpack -C $Env:BUILD_TYPE -G ZIP
           mv *.zip upload/
+          #>
 
       - name: Upload Portable Package
         uses: actions/upload-artifact@v4
         with:
-          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-portable"
-          path: build/upload/*.zip
+          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-${{ github.sha }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-portable"
+          path: build/upload/*
           if-no-files-found: ignore
 
       - uses: anshulrgoyal/upload-s3-action@master
