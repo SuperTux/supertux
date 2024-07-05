@@ -126,7 +126,7 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
           mkdir -Force upload
-          cmake --install . --prefix .\upload\
+          cmake --install . --config $Env:BUILD_TYPE --prefix .\upload\
 
           # Because github puts assets in zips, if you upload a zip,
           # it will upload another zip. I have disabled this code because
