@@ -131,7 +131,8 @@ MenuManager::draw(DrawingContext& context)
 {
   if (m_dialog.has_next) // Has next dialog
   {
-    if (m_dialog.next) m_dialog.next->update();
+    // Removed to fix a crash with changing dialog in initial next dialog update
+    //if (m_dialog.next) m_dialog.next->update();
 
     if (m_dialog.current && m_dialog.next)
     {

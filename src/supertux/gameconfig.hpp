@@ -34,6 +34,12 @@ public:
   void load();
   void save();
 
+  bool is_initial() const { return m_initial; }
+
+private:
+  bool m_initial;
+
+public:
   int profile;
 
   /** the width/height to be used to display the game in fullscreen */
@@ -103,6 +109,7 @@ public:
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
   bool do_release_check;
+  bool disable_network;
   bool custom_title_levels;
 
 #ifdef ENABLE_DISCORD
