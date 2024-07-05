@@ -54,7 +54,6 @@ OptionsMenu::less_than_volume(const std::string& lhs, const std::string& rhs)
   return false;
 }
 
-
 OptionsMenu::OptionsMenu(Type type, bool complete) :
   m_magnifications(),
   m_aspect_ratios(),
@@ -63,6 +62,7 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
   m_vsyncs(),
   m_sound_volumes(),
   m_music_volumes(),
+  m_thunderstorm_brightness_values(),
   m_mobile_control_scales()
 {
   switch (type) // Insert label and menu items, appropriate for the chosen OptionsMenu type
@@ -111,6 +111,8 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
 
       add_toggle(MNID_FRAME_PREDICTION, _("Frame prediction"), &g_config->frame_prediction)
         .set_help(_("Smooth camera motion, generating intermediate frames. This has a noticeable effect on monitors at >> 60Hz. Moving objects may be blurry."));
+
+      add_thunderstorm_brightness();
 
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
       add_aspect_ratio();
@@ -508,6 +510,42 @@ OptionsMenu::add_music_volume()
 }
 
 void
+OptionsMenu::add_thunderstorm_brightness()
+{
+  m_thunderstorm_brightness_values.list = { "0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%" };
+
+  std::ostringstream thunderstorm_brightness_value_stream;
+  thunderstorm_brightness_value_stream << g_config->thunderstorm_brightness << "%";
+  std::string thunderstorm_brightness_string = thunderstorm_brightness_value_stream.str();
+
+  if (std::find(m_thunderstorm_brightness_values.list.begin(),
+    m_thunderstorm_brightness_values.list.end(), thunderstorm_brightness_string) == m_thunderstorm_brightness_values.list.end())
+  {
+    m_thunderstorm_brightness_values.list.push_back(thunderstorm_brightness_string);
+  }
+
+  std::sort(m_thunderstorm_brightness_values.list.begin(), m_thunderstorm_brightness_values.list.end(), less_than_volume);
+
+  std::ostringstream out;
+  out << g_config->thunderstorm_brightness << "%";
+  std::string thunderstorm_brightness_value = out.str();
+  int count = 0;
+  for (const auto& value : m_thunderstorm_brightness_values.list)
+  {
+    if (value == thunderstorm_brightness_value)
+    {
+      thunderstorm_brightness_value.clear();
+      m_thunderstorm_brightness_values.next = count;
+      break;
+    }
+    ++count;
+  }
+
+  add_string_select(MNID_THUNDERSTORM_BRIGHTNESS, _("Thunderstorm Brightness"), &m_thunderstorm_brightness_values.next, m_thunderstorm_brightness_values.list)
+    .set_help(_("Adjust the brightness of the thunderstorm flash"));
+}
+
+void
 OptionsMenu::add_mobile_control_scales()
 {
   for (unsigned i = 50; i <= 300; i += 25)
@@ -701,6 +739,13 @@ OptionsMenu::menu_action(MenuItem& item)
         bool music_enabled = g_config->music_volume > 0 ? true : false;
         SoundManager::current()->enable_music(music_enabled);
         SoundManager::current()->set_music_volume(g_config->music_volume);
+        g_config->save();
+      }
+      break;
+
+    case MNID_THUNDERSTORM_BRIGHTNESS:
+      if (sscanf(m_thunderstorm_brightness_values.list[m_thunderstorm_brightness_values.next].c_str(), "%i", &g_config->thunderstorm_brightness) == 1)
+      {
         g_config->save();
       }
       break;

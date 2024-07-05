@@ -69,6 +69,7 @@ public:
   bool music_enabled;
   int sound_volume;
   int music_volume;
+  int thunderstorm_brightness;
 
   /** initial random seed.  0 ==> set from time() */
   int random_seed;
