@@ -125,8 +125,8 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
-          mkdir -Force upload
-          cmake --install . --config $Env:BUILD_TYPE --prefix .\upload\
+          mkdir -Force SuperTux-${{ github.sha }}-portable
+          cmake --install . --config $Env:BUILD_TYPE --prefix .\SuperTux-${{ github.sha }}-portable
 
           # Because github puts assets in zips, if you upload a zip,
           # it will upload another zip. I have disabled this code because
@@ -134,14 +134,14 @@ jobs:
           # here it is.
           <#
           cpack -C $Env:BUILD_TYPE -G ZIP
-          mv *.zip upload/
+          mv *.zip SuperTux-${{ github.sha }}-portable/
           #>
 
       - name: Upload Portable Package
         uses: actions/upload-artifact@v4
         with:
-          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-${{ github.sha }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-portable"
-          path: build/upload/*
+          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-portable"
+          path: build/SuperTux-${{ github.sha }}-portable
           if-no-files-found: ignore
 
       - uses: anshulrgoyal/upload-s3-action@master
