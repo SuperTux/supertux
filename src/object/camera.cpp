@@ -22,6 +22,8 @@
 #include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -31,11 +33,6 @@
 
 /* Very small value, used in Camera checks. */
 static const float CAMERA_EPSILON = .00001f;
-
-/* This is the fractional distance toward the peek
-   position to move each frame; lower is slower,
-   0 is never get there, 1 is instant. */
-static const float PEEK_ARRIVE_RATIO = 0.03f;
 
 /**
  * For the multiplayer camera, the camera will ensure all players are visible.
@@ -487,11 +484,8 @@ Camera::update_scroll_normal(float dt_sec)
     else if (player.peeking_direction_y() == Direction::DOWN)
       peek_to_y = top_edge - translation_compensation_y;
 
-    float peek_move_y = (peek_to_y - m_peek_pos.y) * PEEK_ARRIVE_RATIO;
-    if (fabsf(peek_move_y) < 1.0f)
-      peek_move_y = 0.0;
-
-    m_peek_pos.y += peek_move_y;
+    if (m_translation.y + m_screen_size.height < get_parent()->get_height())
+      m_peek_pos.y += (peek_to_y - m_peek_pos.y) * g_config->camera_peek_multiplier;
 
     m_translation.y -= m_peek_pos.y;
     m_translation.y = math::clamp(m_translation.y,
@@ -550,11 +544,7 @@ Camera::update_scroll_normal(float dt_sec)
     else if (player.peeking_direction_x() == Direction::RIGHT)
       peek_to_x = left_edge - translation_compensation_x;
 
-    float peek_move_x = (peek_to_x - m_peek_pos.x) * PEEK_ARRIVE_RATIO;
-    if (fabsf(peek_move_x) < 1.0f)
-      peek_move_x = 0.0f;
-
-    m_peek_pos.x += peek_move_x;
+    m_peek_pos.x += (peek_to_x - m_peek_pos.x) * g_config->camera_peek_multiplier;
 
     m_translation.x -= m_peek_pos.x;
     m_translation.x = math::clamp(m_translation.x,
