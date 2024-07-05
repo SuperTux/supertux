@@ -140,7 +140,7 @@ jobs:
       - name: Upload Portable Package
         uses: actions/upload-artifact@v4
         with:
-          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-portable"
+          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-portable"
           path: build/SuperTux-${{ github.sha }}-portable
           if-no-files-found: ignore
 
