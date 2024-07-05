@@ -166,7 +166,7 @@ Sprite::update()
 
 void
 Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
-             Flip flip)
+             Flip flip, ColorSpace::Type colorspace)
 {
   assert(m_action != nullptr);
   update();
@@ -183,7 +183,8 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
                     m_angle,
                     m_color,
                     m_blend,
-                    layer);
+                    layer,
+                    colorspace);
 
   context.pop_transform();
 }

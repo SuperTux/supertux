@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,33 +14,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/light.hpp"
+#ifndef HEADER_SUPERTUX_MATH_CIRCLE_HPP
+#define HEADER_SUPERTUX_MATH_CIRCLE_HPP
 
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
+#include "math/vector.hpp"
 
-Light::Light(const Vector& center, const Color& color_) :
-  position(center),
-  color(color_),
-  sprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
+class ReaderMapping;
+class Rectf;
+
+class Circle final
 {
-}
+public:
+  static Circle from_reader(const ReaderMapping& mapping);
 
-Light::~Light()
-{
-}
+public:
+  Circle(const Vector& center = Vector(0.f, 0.f), float radius = 0.f);
 
-void
-Light::update(float )
-{
-}
+  bool contains(const Vector& point) const;
 
-void
-Light::draw(DrawingContext& context)
-{
-  sprite->set_color(color);
-  sprite->set_blend(Blend::ADD);
-  sprite->draw(context.light(), position, 0, NO_FLIP, ColorSpace::LIGHTSPRITES);
-}
+  const Vector& get_center() const { return m_center; }
+  void set_center(const Vector& center) { m_center = center; }
+
+private:
+  Vector m_center;
+  float m_radius;
+};
+
+#endif
 
 /* EOF */

@@ -140,7 +140,7 @@ RubLight::draw(DrawingContext& context)
     Color col = color.multiply_linearly(brightness);
     light->set_color(col);
     light->set_blend(Blend::ADD);
-    light->draw(context.light(), get_pos(), m_layer);
+    light->draw(context.light(), get_pos(), m_layer, NO_FLIP, ColorSpace::LIGHTSPRITES);
   }
 
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);

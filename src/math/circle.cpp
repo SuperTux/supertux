@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,33 +14,33 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/light.hpp"
+#include "math/circle.hpp"
 
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
+#include "math/rectf.hpp"
+#include "util/reader_mapping.hpp"
 
-Light::Light(const Vector& center, const Color& color_) :
-  position(center),
-  color(color_),
-  sprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
+Circle
+Circle::from_reader(const ReaderMapping& mapping)
+{
+  Circle circle;
+
+  mapping.get("radius", circle.m_radius);
+
+  return circle;
+}
+
+
+Circle::Circle(const Vector& center, float radius) :
+  m_center(center),
+  m_radius(radius)
 {
 }
 
-Light::~Light()
+bool
+Circle::contains(const Vector& point) const
 {
-}
-
-void
-Light::update(float )
-{
-}
-
-void
-Light::draw(DrawingContext& context)
-{
-  sprite->set_color(color);
-  sprite->set_blend(Blend::ADD);
-  sprite->draw(context.light(), position, 0, NO_FLIP, ColorSpace::LIGHTSPRITES);
+  const float distance = powf(point.x - m_center.x, 2) + powf(point.y - m_center.y, 2);
+  return distance <= powf(m_radius, 2);
 }
 
 /* EOF */

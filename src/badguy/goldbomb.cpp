@@ -287,7 +287,7 @@ GoldBomb::draw(DrawingContext& context)
   {
     m_exploding_sprite->set_blend(Blend::ADD);
     m_exploding_sprite->draw(context.light(),
-      get_pos() + Vector(get_bbox().get_width() / 2, get_bbox().get_height() / 2), m_layer, m_flip);
+      get_pos() + Vector(get_bbox().get_width() / 2, get_bbox().get_height() / 2), m_layer, m_flip, ColorSpace::LIGHTSPRITES);
   }
   WalkingBadguy::draw(context);
 }

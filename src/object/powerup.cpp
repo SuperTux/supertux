@@ -290,7 +290,7 @@ PowerUp::draw(DrawingContext& context)
   if (m_type == STAR || m_type == HERRING)
     m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0, NO_FLIP, ColorSpace::LIGHTSPRITES);
 }
 
 ObjectSettings

@@ -152,7 +152,7 @@ void
 Kugelblitz::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer);
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0, NO_FLIP, ColorSpace::LIGHTSPRITES);
 }
 
 void

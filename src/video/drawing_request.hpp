@@ -25,6 +25,7 @@
 #include "math/vector.hpp"
 #include "video/blend.hpp"
 #include "video/color.hpp"
+#include "video/colorspace.hpp"
 #include "video/drawing_transform.hpp"
 #include "video/font.hpp"
 #include "video/gradient.hpp"
@@ -173,12 +174,14 @@ struct GetPixelRequest : public DrawingRequest
 {
   GetPixelRequest(const DrawingTransform& transform) :
     DrawingRequest(transform),
+    colorspace(ColorSpace::NONE),
     pos(0.0f, 0.0f),
     color_ptr()
   {}
 
   RequestType get_type() const override { return RequestType::GETPIXEL; }
 
+  ColorSpace::Type colorspace;
   Vector pos;
   std::shared_ptr<Color> color_ptr;
 

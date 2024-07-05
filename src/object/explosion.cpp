@@ -167,7 +167,7 @@ void
 Explosion::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+40);
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0, NO_FLIP, ColorSpace::LIGHTSPRITES);
 }
 
 HitResponse

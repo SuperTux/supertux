@@ -106,7 +106,7 @@ void
 TreeWillOWisp::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer);
-  m_sprite->draw(context.light(), get_pos(), m_layer);
+  m_sprite->draw(context.light(), get_pos(), m_layer, NO_FLIP, ColorSpace::LIGHTSPRITES);
 }
 
 void

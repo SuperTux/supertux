@@ -16,7 +16,7 @@
 
 #include "video/color.hpp"
 
-#include <assert.h>
+#include "math/util.hpp"
 
 const Color Color::BLACK(0.0, 0.0, 0.0);
 const Color Color::RED(1.0, 0.0, 0.0);
@@ -40,9 +40,9 @@ Color::Color(float red_, float green_, float blue_, float alpha_) :
   blue(blue_),
   alpha(alpha_)
 {
-  assert(0 <= red   && red <= 1.0f);
-  assert(0 <= green && green <= 1.0f);
-  assert(0 <= blue  && blue <= 1.0f);
+  red = math::clamp(red, 0.f, 1.f);
+  green = math::clamp(green, 0.f, 1.f);
+  blue = math::clamp(blue, 0.f, 1.f);
 }
 
 Color::Color(const std::vector<float>& vals) :
@@ -65,9 +65,10 @@ Color::Color(const std::vector<float>& vals) :
     alpha = vals[3];
   else
     alpha = 1.0;
-  assert(0 <= red   && red <= 1.0f);
-  assert(0 <= green && green <= 1.0f);
-  assert(0 <= blue  && blue <= 1.0f);
+
+  red = math::clamp(red, 0.f, 1.f);
+  green = math::clamp(green, 0.f, 1.f);
+  blue = math::clamp(blue, 0.f, 1.f);
 }
 
 bool

@@ -472,43 +472,6 @@ GLPainter::clear(const Color& color)
 }
 
 void
-GLPainter::get_pixel(const GetPixelRequest& request) const
-{
-  assert_gl();
-
-  const Rect& rect = m_renderer.get_rect();
-  const Size& logical_size = m_renderer.get_logical_size();
-
-  float x = request.pos.x * static_cast<float>(rect.get_width()) / static_cast<float>(logical_size.width);
-  float y = request.pos.y * static_cast<float>(rect.get_height()) / static_cast<float>(logical_size.height);
-
-  x += static_cast<float>(rect.left);
-  y += static_cast<float>(rect.top);
-
-#if 0
-  // #ifndef USE_OPENGLES2
-  //
-  // FIXME: glFenceSync() causes crashes on Intel I965, so disable
-  // GLPixelRequest for now, it's not yet properly used anyway.
-  GLPixelRequest pixel_request(1, 1);
-  pixel_request.request(static_cast<int>(x), static_cast<int>(y));
-
-  *(request.color_ptr) = pixel_request.get_color();
-
-#else
-  float pixels[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-
-  // OpenGLES2 does not have PBOs, only GLES3 has.
-  glReadPixels(static_cast<GLint>(x), static_cast<GLint>(y),
-               1, 1, GL_RGB, GL_FLOAT, pixels);
-
-  *(request.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
-#endif
-
-  assert_gl();
-}
-
-void
 GLPainter::set_clip_rect(const Rect& clip_rect)
 {
   assert_gl();

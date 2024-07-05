@@ -1,12 +1,31 @@
 (supertux-sprite
     (action
       (name "default")
-      (images "candle-light-1.png")
+      (surfaces
+        (surface
+          (diffuse-texture
+            (file "candle-light-1.png")
+          )
+          (circle
+            (radius 140)
+          )
+        )
+      )
+      (images )
       (hitbox 260 280 256 256)
     )
     (action
       (name "white")
-      (images "candle-light-white-1.png")
+      (surfaces
+        (surface
+          (diffuse-texture
+            (file "candle-light-white-1.png")
+          )
+          (circle
+            (radius 140)
+          )
+        )
+      )
       (hitbox 260 280 256 256)
     )
 )

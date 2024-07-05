@@ -38,7 +38,7 @@ public:
 
   /** Draw sprite, automatically calculates next frame */
   void draw(Canvas& canvas, const Vector& pos, int layer,
-            Flip flip = NO_FLIP);
+            Flip flip = NO_FLIP, ColorSpace::Type colorspace = ColorSpace::NONE);
 
   /** Set action (or state) */
   void set_action(const std::string& name, int loops = -1);

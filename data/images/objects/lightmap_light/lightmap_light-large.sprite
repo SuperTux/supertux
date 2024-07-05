@@ -1,7 +1,16 @@
 (supertux-sprite
     (action
       (name "default")
-      (images "lightmap_light-large.png")
+      (surfaces
+        (surface
+          (diffuse-texture
+            (file "lightmap_light-large.png")
+          )
+          (circle
+            (radius 360)
+          )
+        )
+      )
       (hitbox 512 512 0 0)
     )
 )

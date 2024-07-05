@@ -20,6 +20,7 @@
 #include <string>
 #include <optional>
 
+#include "math/circle.hpp"
 #include "math/rect.hpp"
 #include "math/vector.hpp"
 #include "video/flip.hpp"
@@ -29,9 +30,13 @@
 class ReaderMapping;
 class SurfaceData;
 
-/** A rectangular image.  The class basically holds a reference to a
-    texture with additional UV coordinates that specify a rectangular
-    area on this texture */
+/**
+  A rectangular image.
+
+  This class basically holds a reference to a
+  texture with additional UV coordinates that specify a rectangular
+  area on the texture, as well as other additional data.
+*/
 class Surface final
 {
 public:
@@ -40,8 +45,10 @@ public:
   static SurfacePtr from_reader(const ReaderMapping& mapping, const std::optional<Rect>& rect = std::nullopt, const std::string& filename = "");
 
 private:
-  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, Flip flip, const std::string& filename = "");
-  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, const Rect& region, Flip flip, const std::string& filename = "");
+  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, Flip flip, const std::string& filename = "",
+          const std::optional<Circle>& circle_data = std::nullopt);
+  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, const Rect& region, Flip flip, const std::string& filename = "",
+          const std::optional<Circle>& circle_data = std::nullopt);
 
 public:
   ~Surface();
@@ -57,12 +64,16 @@ public:
   Flip get_flip() const { return m_flip; }
   const std::string& get_filename() const { return m_source_filename; }
 
+  const std::optional<Circle>& get_circle_data() const { return m_circle_data; }
+
 private:
   const TexturePtr m_diffuse_texture;
   const TexturePtr m_displacement_texture;
   const Rect m_region;
   const Flip m_flip;
   const std::string m_source_filename;
+
+  const std::optional<Circle> m_circle_data;
 
 private:
   Surface& operator=(const Surface&) = delete;

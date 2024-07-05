@@ -92,10 +92,10 @@ Candle::draw(DrawingContext& context)
     // draw approx. 1 in 10 frames darker. Makes the candle flicker.
     if (graphicsRandom.rand(10) != 0 || !flicker) {
       // context.color().draw_surface(candle_light_1, pos, layer);
-      candle_light_1->draw(context.light(), m_col.m_bbox.get_middle(), m_layer);
+      candle_light_1->draw(context.light(), m_col.m_bbox.get_middle(), m_layer, NO_FLIP, ColorSpace::LIGHTSPRITES);
     } else {
       // context.color().draw_surface(candle_light_2, pos, layer);
-      candle_light_2->draw(context.light(), m_col.m_bbox.get_middle(), m_layer);
+      candle_light_2->draw(context.light(), m_col.m_bbox.get_middle(), m_layer, NO_FLIP, ColorSpace::LIGHTSPRITES);
     }
   }
 }
