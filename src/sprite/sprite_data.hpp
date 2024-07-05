@@ -20,7 +20,10 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <optional>
+#include <unordered_map>
 
+#include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
@@ -46,6 +49,25 @@ public:
   }
 
 private:
+  struct LinkedSprite
+  {
+    LinkedSprite(const std::string& file_ = {}) :
+      file(file_), action()
+    {}
+
+    std::string file;
+    std::string action;
+  };
+  struct LinkedLightSprite final : public LinkedSprite
+  {
+    LinkedLightSprite(const std::string& file_ = {}) :
+      LinkedSprite(file_), color()
+    {}
+
+    Color color;
+  };
+  typedef std::unordered_map<std::string, LinkedSprite> LinkedSprites;
+
   struct Action
   {
     Action();
@@ -55,6 +77,7 @@ private:
     /** Position correction */
     float x_offset;
     float y_offset;
+    float flip_offset;
 
     /** Hitbox width */
     float hitbox_w;
@@ -85,6 +108,9 @@ private:
     std::string family_name;
 
     std::vector<SurfacePtr> surfaces;
+
+    std::optional<LinkedLightSprite> linked_light_sprite;
+    LinkedSprites linked_sprites;
   };
 
   typedef std::map<std::string, std::unique_ptr<Action> > Actions;
@@ -98,6 +124,9 @@ private:
 private:
   Actions actions;
   std::string name;
+
+  std::optional<LinkedLightSprite> linked_light_sprite;
+  LinkedSprites linked_sprites;
 };
 
 #endif

@@ -39,4 +39,8 @@
     (name "base-right")
 	(hitbox 9 22 80 16)
     (mirror-action "base-left"))
+
+  (linked-sprites
+    (rock "images/particles/corrupted_rock.sprite")
+  )
 )

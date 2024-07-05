@@ -24,5 +24,9 @@
 "torch6.png"
 
   )
- )              
+ )
+
+  (linked-sprites
+    (light "torch_light.sprite" "default" 0.87 0.64 0.12)
+  )
 )

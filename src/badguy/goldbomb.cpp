@@ -46,7 +46,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   tstate(STATE_NORMAL),
   m_realize_timer(),
   ticking(),
-  m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
+  m_exploding_sprite(m_sprite->get_linked_sprite("explode"))
 {
   assert(SAFE_DIST >= REALIZE_DIST);
 
@@ -56,6 +56,14 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/explosion.wav");
 
   m_exploding_sprite->set_action("default", 1);
+}
+
+MovingSprite::LinkedSprites
+GoldBomb::get_linked_sprites()
+{
+  return {
+    { "explode", m_exploding_sprite }
+  };
 }
 
 void

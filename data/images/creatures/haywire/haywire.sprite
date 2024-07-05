@@ -106,4 +106,8 @@
   (fps 20.0)
   (hitbox 14 19 32 32)
   (mirror-action "jump-left"))
+
+  (linked-sprites
+    (ticking-glow "ticking_glow/ticking_glow.sprite")
+  )
 )

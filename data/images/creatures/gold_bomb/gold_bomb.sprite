@@ -177,5 +177,8 @@
   (loops 1)
   (hitbox 14 19 32 32)
   (mirror-action "ticking-left"))
- 
+
+  (linked-sprites
+    (explode "images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite")
+  )
 )
