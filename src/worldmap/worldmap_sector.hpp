@@ -37,6 +37,9 @@ class WorldMapSector final : public Base::Sector
   friend class WorldMapState;
 
 public:
+  static void register_class(ssq::VM& vm);
+
+public:
   static WorldMapSector* current();
 
 public:
@@ -45,15 +48,13 @@ public:
 
   void finish_construction(bool editable) override;
 
+  std::string get_exposed_class_name() const override { return "WorldMapSector"; }
+
   void setup();
   void leave();
 
   void draw(DrawingContext& context) override;
   void update(float dt_sec) override;
-
-  MovingObject& add_object_scripting(const std::string& class_name, const std::string& name,
-                                     const Vector& pos, const std::string& direction,
-                                     const std::string& data) override;
 
   Vector get_next_tile(const Vector& pos, const Direction& direction) const;
 
@@ -97,15 +98,49 @@ public:
       if possible, write the new position to \a new_pos */
   bool path_ok(const Direction& direction, const Vector& old_pos, Vector* new_pos) const;
 
-  /** Moves Tux to the given spawnpoint
-      @param spawnpoint Name of the spawnpoint to move to
-      @param pan Pan the camera during to new spawnpoint */
-  void move_to_spawnpoint(const std::string& spawnpoint, bool pan = false);
-
   /** Sets the name of the tilemap that should fade when worldmap is set up. */
   void set_initial_fade_tilemap(const std::string& tilemap_name, int direction);
 
   bool in_worldmap() const override { return true; }
+
+  /**
+   * Returns Tux's X position on the worldmap.
+   */
+  float get_tux_x() const;
+  /**
+   * Returns Tux's Y position on the worldmap.
+   */
+  float get_tux_y() const;
+
+  /**
+   * Changes the current sector of the worldmap to a specified new sector.
+   * @param string $sector
+   */
+  void set_sector(const std::string& sector);
+  /**
+   * Changes the current sector of the worldmap to a specified new sector,
+     moving Tux to the specified spawnpoint.
+   * @param string $sector
+   * @param string $spawnpoint
+   */
+  void spawn(const std::string& sector, const std::string& spawnpoint);
+  /**
+   * Moves Tux to the specified spawnpoint.
+   * @param string $spawnpoint
+   */
+  void move_to_spawnpoint(const std::string& spawnpoint);
+  void move_to_spawnpoint(const std::string& spawnpoint, bool pan);
+
+  /**
+   * Gets the path to the worldmap file. Useful for saving worldmap-specific data.
+   */
+  std::string get_filename() const;
+  /**
+   * Overrides the "Title Screen Level" property for the world with ""filename"".
+     The newly set level will be used for the title screen, after exiting the world.
+   * @param string $filename
+   */
+  void set_title_level(const std::string& filename);
 
   TileSet* get_tileset() const override;
   WorldMap& get_worldmap() const { return m_parent; }
@@ -114,6 +149,10 @@ public:
   Vector get_tux_pos() const;
 
 protected:
+  MovingObject& add_object_scripting(const std::string& class_name, const std::string& name,
+                                     const Vector& pos, const std::string& direction,
+                                     const std::string& data) override;
+
   void draw_status(DrawingContext& context);
 
 private:

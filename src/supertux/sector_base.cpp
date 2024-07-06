@@ -16,6 +16,7 @@
 
 #include "supertux/sector_base.hpp"
 
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "util/log.hpp"
 
 namespace Base {
@@ -43,14 +44,14 @@ Sector::run_script(const std::string& script, const std::string& sourcename)
 bool
 Sector::before_object_add(GameObject& object)
 {
-  m_squirrel_environment->try_expose(object);
+  m_squirrel_environment->expose(object, object.get_name());
   return true;
 }
 
 void
 Sector::before_object_remove(GameObject& object)
 {
-  m_squirrel_environment->try_unexpose(object);
+  m_squirrel_environment->unexpose(object.get_name());
 }
 
 } // namespace Base

@@ -16,6 +16,8 @@
 
 #include "object/platform.hpp"
 
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
@@ -30,9 +32,9 @@ Platform::Platform(const ReaderMapping& reader) :
 
 Platform::Platform(const ReaderMapping& reader, const std::string& default_sprite) :
   MovingSprite(reader, default_sprite, LAYER_OBJECTS, COLGROUP_STATIC),
-  ExposedObject<Platform, scripting::Platform>(this),
   PathObject(),
   m_speed(Vector(0,0)),
+  m_movement(Vector(0, 0)),
   m_automatic(false),
   m_player_contact(false),
   m_last_player_contact(false),
@@ -132,10 +134,10 @@ Platform::update(float dt_sec)
   }
 
   get_walker()->update(dt_sec);
-  Vector movement = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos();
-  m_col.set_movement(movement);
-  m_col.propagate_movement(movement);
-  m_speed = movement / dt_sec;
+  m_movement = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos();
+  m_col.set_movement(m_movement);
+  m_col.propagate_movement(m_movement);
+  m_speed = m_movement / dt_sec;
 }
 
 void
@@ -151,28 +153,10 @@ Platform::editor_update()
 }
 
 void
-Platform::goto_node(int node_idx)
+Platform::jump_to_node(int node_idx)
 {
-  get_walker()->goto_node(node_idx);
-}
-
-void
-Platform::jump_to_node(int node_idx, bool instantaneous)
-{
-  get_walker()->jump_to_node(node_idx, instantaneous);
+  set_node(node_idx);
   set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[node_idx].position));
-}
-
-void
-Platform::start_moving()
-{
-  get_walker()->start_moving();
-}
-
-void
-Platform::stop_moving()
-{
-  get_walker()->stop_moving();
 }
 
 void
@@ -205,6 +189,18 @@ Platform::check_state()
 {
   MovingSprite::check_state();
   PathObject::check_state();
+}
+
+
+void
+Platform::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Platform>("Platform", vm.findClass("MovingSprite"));
+
+  PathObject::register_members(cls);
+
+  // Use Platform's implementation of "set_node".
+  cls.addFunc("set_node", &Platform::jump_to_node);
 }
 
 /* EOF */
