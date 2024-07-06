@@ -21,6 +21,7 @@
 #include "control/controller.hpp"
 #include "math/util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"
@@ -246,7 +247,7 @@ WorldSelect::update(float dt_sec, const Controller& controller)
   if (controller.pressed(Control::JUMP) && m_worlds[m_selected_world].unlocked) {
     m_enabled = false;
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, 0.25f));
-    worldmap::WorldMap::current()->change(m_worlds[m_selected_world].filename, "", "main");
+    worldmap::WorldMap::current()->change(m_worlds[m_selected_world].filename, "", DEFAULT_SPAWNPOINT_NAME);
     return;
   }
 }

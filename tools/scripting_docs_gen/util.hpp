@@ -28,7 +28,7 @@ bool param_matches(int argc, char** argv, int i,
 
 bool starts_with(const std::string& str, const std::string& prefix);
 void replace(std::string& str, const std::string& from,
-             const std::string to, const std::string to_if_empty = "");
+             const std::string& to, const std::string& to_if_empty = "");
 void regex_replace(std::string& str, const std::regex from,
                    const std::string& to);
 

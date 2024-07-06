@@ -20,6 +20,7 @@
 
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
+#include <sqstdaux.h>
 
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
@@ -128,6 +129,13 @@ SquirrelEnvironment::run_script(std::istream& in, const std::string& sourcename)
     thread.run(thread.compileSource(in, sourcename.c_str()));
 
     m_scripts.push_back(std::move(thread));
+  }
+  catch (const ssq::Exception& e)
+  {
+    if (e.vm)
+      sqstd_printcallstack(e.vm);
+
+    log_warning << e.what() << std::endl;
   }
   catch (const std::exception& e)
   {

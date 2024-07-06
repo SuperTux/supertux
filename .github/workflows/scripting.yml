@@ -19,6 +19,8 @@ name: Scripting
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - src/
   workflow_dispatch:
 
 jobs:
@@ -26,12 +28,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       - name: Checkout the wiki repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: SuperTux/wiki
           path: wiki

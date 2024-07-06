@@ -121,51 +121,56 @@ public:
 
   /**
    * @scripting
+   * @description Returns "None", "Fade", "Shrink".
    */
   std::string get_birth_mode() const;
   /**
    * @scripting
-   * @param string $mode
+   * @param string $mode Possible values: "None", "Fade", "Shrink".
    */
   void set_birth_mode(const std::string& mode);
 
   /**
    * @scripting
+   * @description Returns "None", "Fade", "Shrink".
    */
   std::string get_death_mode() const;
   /**
    * @scripting
-   * @param string $mode
+   * @param string $mode Possible values: "None", "Fade", "Shrink".
    */
   void set_death_mode(const std::string& mode);
 
   /**
    * @scripting
+   * @description Returns "Fixed", "Facing", "Wiggling".
    */
   std::string get_rotation_mode() const;
   /**
    * @scripting
-   * @param string $mode
+   * @param string $mode Possible values: "Fixed", "Facing", "Wiggling".
    */
   void set_rotation_mode(const std::string& mode);
 
   /**
    * @scripting
+   * @description Returns "Ignore", "Stick", "StickForever", "BounceHeavy", "BounceLight", "Destroy".
    */
   std::string get_collision_mode() const;
   /**
    * @scripting
-   * @param string $mode
+   * @param string $mode Possible values: "Ignore", "Stick", "StickForever", "BounceHeavy", "BounceLight", "Destroy".
    */
   void set_collision_mode(const std::string& mode);
 
   /**
    * @scripting
+   * @description Returns "Never", "OnlyOnExit", "Always".
    */
   std::string get_offscreen_mode() const;
   /**
    * @scripting
-   * @param string $mode
+   * @param string $mode Possible values: "Never", "OnlyOnExit", "Always".
    */
   void set_offscreen_mode(const std::string& mode);
 

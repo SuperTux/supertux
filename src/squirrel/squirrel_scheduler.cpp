@@ -36,7 +36,7 @@ SquirrelScheduler::update(float time)
 {
   while (!schedule.empty() &&
          (schedule.front().wakeup_time < time ||
-          (schedule.front().skippable && Level::current() != nullptr &&
+          (schedule.front().skippable && Level::current() &&
            Level::current()->m_skip_cutscene)))
   {
     HSQOBJECT thread_ref = schedule.front().thread_ref;

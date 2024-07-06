@@ -114,7 +114,7 @@ LitObject::set_light_action(const std::string& action)
 void
 LitObject::register_class(ssq::VM& vm)
 {
-  ssq::Class cls = vm.addAbstractClass<LitObject>("LitObject", vm.findClass("MovingObject"));
+  ssq::Class cls = vm.addAbstractClass<LitObject>("LitObject", vm.findClass("MovingSprite"));
 
   cls.addFunc("get_light_action", &LitObject::get_light_action);
   cls.addFunc("set_light_action", &LitObject::set_light_action);

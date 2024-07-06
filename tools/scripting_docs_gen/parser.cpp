@@ -18,10 +18,32 @@
 
 #include <string>
 #include <iostream>
+#include <unordered_map>
 
 #include "util.hpp"
 
 namespace Parser {
+
+// Simplified versions of various C++ types for easier understanding
+static const std::unordered_map<std::string, std::string> s_simplified_types = {
+  { "SQInteger", "ANY" }, // SQInteger is used internally with Squirrel, so we don't know the exact return type
+  { "char", "int" },
+  { "signed char", "int" },
+  { "short", "int" },
+  { "long", "int" },
+  { "unsigned char", "int" },
+  { "unsigned short", "int" },
+  { "unsigned int", "int" },
+  { "unsigned long", "int" },
+  { "uint8_t", "int" },
+  { "uint16_t", "int" },
+  { "uint32_t", "int" },
+  { "long long", "int" },
+  { "unsigned long long", "int" },
+  { "double", "float" },
+  { "std::string", "string" },
+  { "std::wstring", "string" }
+};
 
 static void parse_base_classes(tinyxml2::XMLElement* p_inheritancenode, tinyxml2::XMLElement* p_inheritancegraph, Class::BaseClasses& list)
 {
@@ -51,7 +73,7 @@ void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls)
   // Leave only the class name
   const size_t pos = cls.name.find_last_of("::");
   if (pos != std::string::npos)
-    cls.name.erase(0, pos);
+    cls.name.erase(0, pos + 1);
 
   // Get additional info
   tinyxml2::XMLElement* p_detaileddescpara = p_compounddef->FirstChildElement("detaileddescription")->FirstChildElement("para");
@@ -109,13 +131,15 @@ void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls)
         // Leave only the class name
         const size_t pos = name.find_last_of("::");
         if (pos != std::string::npos)
-          name.erase(0, pos);
+          name.erase(0, pos + 1);
 
         cls.derived_classes.push_back(name);
       }
 
       p_inheritancenode = p_inheritancenode->NextSiblingElement("node");
     }
+    std::sort(cls.derived_classes.begin(), cls.derived_classes.end()); // Sort A-Z
+    cls.derived_classes.erase(std::unique(cls.derived_classes.begin(), cls.derived_classes.end()), cls.derived_classes.end()); // Remove duplicates
   }
 }
 
@@ -136,7 +160,7 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef, Class& cls)
   while (p_memberdef)
   {
     if (attr_equal(p_memberdef, "kind", "function") &&
-        !el_equal(p_memberdef, "type", "") &&
+        //!el_equal(p_memberdef, "type", "") &&
         !p_memberdef->FirstChildElement("reimplements")) // Look for non-derived typed functions
     {
       parse_function(p_memberdef, cls);
@@ -280,7 +304,20 @@ void parse_function(tinyxml2::XMLElement* p_memberdef, Class& cls)
   Function func;
 
   // Get general info
-  func.type = p_memberdef->FirstChildElement("type")->GetText();
+  const char* type = p_memberdef->FirstChildElement("type")->GetText();
+  if (type)
+  {
+    func.type = type;
+
+    // Replace type with simplified version, if available
+    const auto it = s_simplified_types.find(func.type);
+    if (it != s_simplified_types.end())
+      func.type = it->second;
+  }
+  else
+  {
+    func.type = "void";
+  }
   func.name = p_memberdef->FirstChildElement("name")->GetText();
 
   tinyxml2::XMLElement* p_descpara = p_memberdef->FirstChildElement("briefdescription")->FirstChildElement("para");
@@ -306,6 +343,18 @@ void parse_function(tinyxml2::XMLElement* p_memberdef, Class& cls)
     }
     if (include)
     {
+      tinyxml2::XMLElement* p_simplesect = p_detaileddescpara->FirstChildElement("simplesect");
+      while (p_simplesect)
+      {
+        if (attr_equal(p_simplesect, "kind", "return")) // Custom return type specified
+        {
+          func.type = p_simplesect->FirstChildElement("para")->GetText();
+          func.type.pop_back(); // Remove space at the end
+          break;
+        }
+        p_simplesect = p_simplesect->NextSiblingElement("simplesect");
+      }
+
       if (p_descpara) // Brief description has been provided
       {
         XMLTextReader read(func.description);

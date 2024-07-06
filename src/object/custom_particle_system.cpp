@@ -1249,18 +1249,15 @@ CustomParticleSystem::ease_value(float* value, float target, float time, easing 
 void
 CustomParticleSystem::spawn_particles(int amount, bool instantly)
 {
-  if (instantly)
-  {
-    for (int i  = 0; i < amount; i++)
-    {
-      spawn_particles(0.f);
-    }
-  }
-  else
+  if (!instantly)
   {
     // TODO: Implement delayed spawn mode for scripting.
     log_warning << "Delayed spawn mode is not yet implemented for scripting." << std::endl;
+    return;
   }
+
+  for (int i = 0; i < amount; i++)
+    spawn_particles(0.f);
 }
 
 // =============================================================================
@@ -1296,17 +1293,14 @@ CustomParticleSystem::get_birth_mode() const
 {
   switch (m_particle_birth_mode)
   {
-  case CustomParticleSystem::FadeMode::None:
-    return "None";
-
-  case CustomParticleSystem::FadeMode::Fade:
-    return "Fade";
-
-  case CustomParticleSystem::FadeMode::Shrink:
-    return "Shrink";
-  
-  default:
-    return "";
+    case FadeMode::None:
+      return "None";
+    case FadeMode::Fade:
+      return "Fade";
+    case FadeMode::Shrink:
+      return "Shrink";
+    default:
+      return "";
   }
 }
 
@@ -1314,21 +1308,13 @@ void
 CustomParticleSystem::set_birth_mode(const std::string& mode)
 {
   if (mode == "None")
-  {
-    m_particle_birth_mode = CustomParticleSystem::FadeMode::None;
-  }
+    m_particle_birth_mode = FadeMode::None;
   else if (mode == "Fade")
-  {
-    m_particle_birth_mode = CustomParticleSystem::FadeMode::Fade;
-  }
+    m_particle_birth_mode = FadeMode::Fade;
   else if (mode == "Shrink")
-  {
-    m_particle_birth_mode = CustomParticleSystem::FadeMode::Shrink;
-  }
+    m_particle_birth_mode = FadeMode::Shrink;
   else
-  {
     log_warning << "Invalid option " + mode + "; valid options are: None, Fade, Shrink." << std::endl;
-  }
 }
 
 std::string
@@ -1336,17 +1322,14 @@ CustomParticleSystem::get_death_mode() const
 {
   switch (m_particle_death_mode)
   {
-  case CustomParticleSystem::FadeMode::None:
-    return "None";
-
-  case CustomParticleSystem::FadeMode::Fade:
-    return "Fade";
-
-  case CustomParticleSystem::FadeMode::Shrink:
-    return "Shrink";
-  
-  default:
-    return "";
+    case FadeMode::None:
+      return "None";
+    case FadeMode::Fade:
+      return "Fade";
+    case FadeMode::Shrink:
+      return "Shrink";
+    default:
+      return "";
   }
 }
 
@@ -1354,21 +1337,13 @@ void
 CustomParticleSystem::set_death_mode(const std::string& mode)
 {
   if (mode == "None")
-  {
-    m_particle_death_mode = CustomParticleSystem::FadeMode::None;
-  }
+    m_particle_death_mode = FadeMode::None;
   else if (mode == "Fade")
-  {
-    m_particle_death_mode = CustomParticleSystem::FadeMode::Fade;
-  }
+    m_particle_death_mode = FadeMode::Fade;
   else if (mode == "Shrink")
-  {
-    m_particle_death_mode = CustomParticleSystem::FadeMode::Shrink;
-  }
+    m_particle_death_mode = FadeMode::Shrink;
   else
-  {
     log_warning << "Invalid option " + mode + "; valid options are: None, Fade, Shrink." << std::endl;
-  }
 }
 
 std::string
@@ -1376,17 +1351,14 @@ CustomParticleSystem::get_rotation_mode() const
 {
   switch (m_particle_rotation_mode)
   {
-  case CustomParticleSystem::RotationMode::Fixed:
-    return "Fixed";
-
-  case CustomParticleSystem::RotationMode::Facing:
-    return "Facing";
-
-  case CustomParticleSystem::RotationMode::Wiggling:
-    return "Wiggling";
-  
-  default:
-    return "";
+    case RotationMode::Fixed:
+      return "Fixed";
+    case RotationMode::Facing:
+      return "Facing";
+    case RotationMode::Wiggling:
+      return "Wiggling";
+    default:
+      return "";
   }
 }
 
@@ -1394,21 +1366,13 @@ void
 CustomParticleSystem::set_rotation_mode(const std::string& mode)
 {
   if (mode == "Fixed")
-  {
-    m_particle_rotation_mode = CustomParticleSystem::RotationMode::Fixed;
-  }
+    m_particle_rotation_mode = RotationMode::Fixed;
   else if (mode == "Facing")
-  {
-    m_particle_rotation_mode = CustomParticleSystem::RotationMode::Facing;
-  }
+    m_particle_rotation_mode = RotationMode::Facing;
   else if (mode == "Wiggling")
-  {
-    m_particle_rotation_mode = CustomParticleSystem::RotationMode::Wiggling;
-  }
+    m_particle_rotation_mode = RotationMode::Wiggling;
   else
-  {
     log_warning << "Invalid option " + mode + "; valid options are: Fixed, Facing, Wiggling." << std::endl;
-  }
 }
 
 std::string
@@ -1416,26 +1380,20 @@ CustomParticleSystem::get_collision_mode() const
 {
   switch (m_particle_collision_mode)
   {
-  case CustomParticleSystem::CollisionMode::Ignore:
-    return "Ignore";
-
-  case CustomParticleSystem::CollisionMode::Stick:
-    return "Stick";
-
-  case CustomParticleSystem::CollisionMode::StickForever:
-    return "StickForever";
-
-  case CustomParticleSystem::CollisionMode::BounceHeavy:
-    return "BounceHeavy";
-
-  case CustomParticleSystem::CollisionMode::BounceLight:
-    return "BounceLight";
-
-  case CustomParticleSystem::CollisionMode::Destroy:
-    return "Destroy";
-  
-  default:
-    return "";
+    case CollisionMode::Ignore:
+      return "Ignore";
+    case CollisionMode::Stick:
+      return "Stick";
+    case CollisionMode::StickForever:
+      return "StickForever";
+    case CollisionMode::BounceHeavy:
+      return "BounceHeavy";
+    case CollisionMode::BounceLight:
+      return "BounceLight";
+    case CollisionMode::Destroy:
+      return "Destroy";
+    default:
+      return "";
   }
 }
 
@@ -1443,33 +1401,19 @@ void
 CustomParticleSystem::set_collision_mode(const std::string& mode)
 {
   if (mode == "Ignore")
-  {
-    m_particle_collision_mode = CustomParticleSystem::CollisionMode::Ignore;
-  }
+    m_particle_collision_mode = CollisionMode::Ignore;
   else if (mode == "Stick")
-  {
-    m_particle_collision_mode = CustomParticleSystem::CollisionMode::Stick;
-  }
+    m_particle_collision_mode = CollisionMode::Stick;
   else if (mode == "StickForever")
-  {
-    m_particle_collision_mode = CustomParticleSystem::CollisionMode::StickForever;
-  }
+    m_particle_collision_mode = CollisionMode::StickForever;
   else if (mode == "BounceHeavy")
-  {
-    m_particle_collision_mode = CustomParticleSystem::CollisionMode::BounceHeavy;
-  }
+    m_particle_collision_mode = CollisionMode::BounceHeavy;
   else if (mode == "BounceLight")
-  {
-    m_particle_collision_mode = CustomParticleSystem::CollisionMode::BounceLight;
-  }
+    m_particle_collision_mode = CollisionMode::BounceLight;
   else if (mode == "Destroy")
-  {
-    m_particle_collision_mode = CustomParticleSystem::CollisionMode::Destroy;
-  }
+    m_particle_collision_mode = CollisionMode::Destroy;
   else
-  {
     log_warning << "Invalid option " + mode + "; valid options are: Ignore, Stick, StickForever, BounceHeavy, BounceLight, Destroy." << std::endl;
-  }
 }
 
 std::string
@@ -1477,17 +1421,14 @@ CustomParticleSystem::get_offscreen_mode() const
 {
   switch (m_particle_offscreen_mode)
   {
-  case CustomParticleSystem::OffscreenMode::Never:
-    return "Never";
-
-  case CustomParticleSystem::OffscreenMode::OnlyOnExit:
-    return "OnlyOnExit";
-
-  case CustomParticleSystem::OffscreenMode::Always:
-    return "Always";
-  
-  default:
-    return "";
+    case OffscreenMode::Never:
+      return "Never";
+    case OffscreenMode::OnlyOnExit:
+      return "OnlyOnExit";
+    case OffscreenMode::Always:
+      return "Always";
+    default:
+      return "";
   }
 }
 
@@ -1495,21 +1436,13 @@ void
 CustomParticleSystem::set_offscreen_mode(const std::string& mode)
 {
   if (mode == "Never")
-  {
-    m_particle_offscreen_mode = CustomParticleSystem::OffscreenMode::Never;
-  }
+    m_particle_offscreen_mode = OffscreenMode::Never;
   else if (mode == "OnlyOnExit")
-  {
-    m_particle_offscreen_mode = CustomParticleSystem::OffscreenMode::OnlyOnExit;
-  }
+    m_particle_offscreen_mode = OffscreenMode::OnlyOnExit;
   else if (mode == "Always")
-  {
-    m_particle_offscreen_mode = CustomParticleSystem::OffscreenMode::Always;
-  }
+    m_particle_offscreen_mode = OffscreenMode::Always;
   else
-  {
     log_warning << "Invalid option " + mode + "; valid options are: Never, OnlyOnExit, Always." << std::endl;
-  }
 }
 
 // =============================================================================
@@ -1671,7 +1604,7 @@ CustomParticleSystem::set_death_time(float death_time)
 void
 CustomParticleSystem::fade_death_time(float death_time, float time)
 {
-  ease_value(&m_particle_death_time, death_time, time, getEasingByName(EasingMode::EaseNone));
+  ease_value(&m_particle_death_time, death_time, time, LinearInterpolation);
 }
 
 void

@@ -55,6 +55,8 @@ static void printFunc(HSQUIRRELVM, const char* fmt, ...)
   va_end(arglist);
 }
 
+static const char* DEFAULT_SCRIPT_FILE = "scripts/default.nut";
+
 SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
   m_vm(64, ssq::Libs::BLOB | ssq::Libs::MATH | ssq::Libs::STRING),
   m_screenswitch_queue(),
@@ -93,8 +95,8 @@ SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
   // Try to load the default script.
   try
   {
-    IFileStream stream("scripts/default.nut");
-    m_vm.run(m_vm.compileSource(stream, "scripts/default.nut"));
+    IFileStream stream(DEFAULT_SCRIPT_FILE);
+    m_vm.run(m_vm.compileSource(stream, DEFAULT_SCRIPT_FILE));
   }
   catch (const std::exception& err)
   {

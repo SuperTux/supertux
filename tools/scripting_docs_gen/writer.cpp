@@ -122,7 +122,7 @@ std::string write_function_table(const std::vector<Function>& functions)
   for (const Function& func : functions)
   {
     // Print out function
-    table << "`" << func.name << "(";
+    table << "`" << func.type << " " << func.name << "(";
     for (size_t i = 0; i < func.parameters.size(); i++)
     {
       if (i != 0) table << ", ";
@@ -138,19 +138,26 @@ std::string write_function_table(const std::vector<Function>& functions)
       if (!func.deprecation_msg.empty())
         table << " " << func.deprecation_msg;
 
-      // Add line breaks only if a description, or parameters with descriptions are available
-      if (!func.description.empty() || std::any_of(func.parameters.begin(), func.parameters.end(), [](const Parameter& param) { return !param.description.empty(); }))
+      // Add line breaks only if a description is available
+      if (!func.description.empty())
         table << "<br /><br />";
     }
     table << func.description;
 
     // Print out descriptions of parameters
-    bool has_printed_param_desc = false;
-    for (const Parameter& param : func.parameters)
+    if (std::any_of(func.parameters.begin(), func.parameters.end(), [](const Parameter& param) { return !param.description.empty(); }))
     {
-      if (param.description.empty()) continue;
-      table << (has_printed_param_desc ? "" : "<br />") << "<br /> `" << param.name << "` - " << param.description;
-      has_printed_param_desc = true;
+      if (!func.deprecation_msg.empty() || !func.description.empty())
+        table << "<br /><br />";
+
+      bool has_printed_param_desc = false;
+      for (const Parameter& param : func.parameters)
+      {
+        if (param.description.empty()) continue;
+
+        table << (has_printed_param_desc ? "<br />" : "") << " `" << param.name << "` - " << param.description;
+        has_printed_param_desc = true;
+      }
     }
 
     // End table entry
