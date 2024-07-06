@@ -17,38 +17,55 @@
 #ifndef CLASS_HEADER
 #define CLASS_HEADER
 
+#include <map>
 #include <string>
 #include <vector>
 
 struct Constant
 {
-  std::string type;
-  std::string name;
-  std::string description;
+  std::string type {};
+  std::string name {};
+  std::string initializer {};
+  std::string description {};
+};
+
+struct Variable
+{
+  std::string type {};
+  std::string name {};
+  std::string description {};
 };
 
 struct Parameter
 {
-  std::string type;
-  std::string name;
-  std::string description;
+  std::string type {};
+  std::string name {};
+  std::string description {};
 };
 
 struct Function
 {
-  std::string type;
-  std::string name;
-  std::string description;
-  std::vector<Parameter> parameters;
+  std::string type {};
+  std::string name {};
+  std::string description {};
+  std::vector<Parameter> parameters {};
+
+  bool deprecated {};
+  std::string deprecation_msg {};
 };
 
 struct Class
 {
-  std::string name;
-  std::string summary;
-  std::string instances;
-  std::vector<Constant> constants;
-  std::vector<Function> functions;
+  std::string name {};
+  std::string summary {};
+  std::string instances {};
+  std::vector<Constant> constants {};
+  std::vector<Variable> variables {};
+  std::vector<Function> functions {};
+
+  typedef std::map<int, std::string> BaseClasses;
+  BaseClasses base_classes {};
+  std::vector<std::string> derived_classes {};
 };
 
 #endif
