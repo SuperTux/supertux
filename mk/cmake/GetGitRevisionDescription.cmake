@@ -19,18 +19,32 @@
 
 find_package(Git QUIET)
 
-function(git_get_hash hash branch)
-  if(GIT_FOUND)
+macro(git_get_hash _hash _branch)
+  if(NOT GIT_FOUND)
     return()
   endif()
 
   # Commit hash
   execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
                   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-                  OUTPUT_VARIABLE ${hash})
+                  RESULT_VARIABLE _result
+                  OUTPUT_VARIABLE ${_hash})
+
+  if(_result EQUAL 0)
+    string(REPLACE "\n" "" ${_hash} ${${_hash}})
+  else()
+    set(${_hash} ${_hash}-NOTFOUND)
+  endif()
 
   # Branch
   execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
                   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-                  OUTPUT_VARIABLE ${branch})
-endfunction()
+                  RESULT_VARIABLE _result
+                  OUTPUT_VARIABLE ${_branch})
+
+  if(_result EQUAL 0)
+    string(REPLACE "\n" "" ${_branch} ${${_branch}})
+  else()
+    set(${_branch} ${_branch}-NOTFOUND)
+  endif()
+endmacro()

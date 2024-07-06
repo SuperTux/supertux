@@ -35,8 +35,7 @@ cmake_minimum_required(VERSION 3.1)
 
 ## Project name to use as command prefix.
 
-project(SUPERTUX)
-
+project(SUPERTUX VERSION 0.6.3)
 
 ### CMake configuration
 
@@ -140,13 +139,6 @@ else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
-# Configure main menu logo
-if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
-  set(LOGO_FILE "logo.png")
-else()
-  set(LOGO_FILE "logo_dev.png")
-endif()
-
 if(WIN32)
   include(SuperTux/Win32)
 endif()
@@ -246,14 +238,12 @@ if(EMSCRIPTEN)
   target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
 endif()
 
-if(WIN32 AND NOT VCPKG_BUILD)
-if(NOT MINGW)
+if(WIN32 AND NOT VCPKG_BUILD AND NOT MINGW)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${DEPENDENCY_FOLDER}/dll"
     $<TARGET_FILE_DIR:supertux2_lib>)
-endif()
 endif()
 
 ## Some additional include paths
@@ -299,7 +289,7 @@ endif()
 include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
-configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
+configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 
 ## Build tests
 include(SuperTux/BuildTests)

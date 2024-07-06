@@ -1,53 +1,30 @@
-if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-  ## Find revision of WC
-  mark_as_advanced(GIT_EXECUTABLE)
-  find_program(GIT_EXECUTABLE git)
-  if(NOT GIT_EXECUTABLE EQUAL "GIT_EXECUTABLE-NOTFOUND")
-    include(GetGitRevisionDescription)
-    git_describe(VERSION_STRING_GIT "--tags" "--match" "?[0-9]*.[0-9]*.[0-9]*")
-    string(REPLACE "v" "" VERSION_LIST ${VERSION_STRING_GIT})
-    string(REGEX REPLACE "[^\\-]+\\-([0-9]+)\\-.*" "\\1" VERSION_NUMBER_GIT "${VERSION_LIST}")
-    string(REGEX REPLACE "(-|_|\\.)" ";" VERSION_LIST ";${VERSION_LIST}")
+include(GetGitRevisionDescription)
+
+if(NOT IS_SUPERTUX_RELEASE AND NOT STEAM_BUILD)
+  set(SUPERTUX_PACKAGE_VERSION dev)
+  if(EXISTS "${PROJECT_SOURCE_DIR}/.git")
+    git_get_hash(hash branch)
+
+    if(branch)
+      string(APPEND SUPERTUX_PACKAGE_VERSION " ${branch}")
+    endif()
+
+    if(hash)
+      string(APPEND SUPERTUX_PACKAGE_VERSION " ${hash}")
+    endif()
   endif()
+else()
+  set(SUPERTUX_PACKAGE_VERSION v${PROJECT_VERSION})
 endif()
 
-get_filename_component(BASEDIR ${CMAKE_SOURCE_DIR} NAME)
-if("${VERSION_LIST}" STREQUAL "")
-  if(${BASEDIR} MATCHES "supertux2-[0-9\\.]*")
-    string(REGEX REPLACE "(\\.|_|-)" ";" VERSION_LIST ${BASEDIR})
-  endif()
+# Configure main menu logo
+if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
+  set(LOGO_FILE "logo.png")
+else()
+  set(LOGO_FILE "logo_dev.png")
 endif()
 
-file(GLOB ORIG_TGZ ../*.orig.tar.gz)
-if("${VERSION_LIST}" STREQUAL "" AND (NOT "${ORIG_TGZ}" STREQUAL ""))
-  get_filename_component(BASEDIR ${ORIG_TGZ} NAME)
-  string(REGEX REPLACE "(\\.|_|-)" ";" VERSION_LIST ${BASEDIR})
-endif()
-
-list(LENGTH VERSION_LIST VERSION_LIST_SIZE)
-
-if(${VERSION_LIST_SIZE} GREATER 0)
-  list(GET VERSION_LIST 1 MAJOR_VERSION_GIT)
-  list(GET VERSION_LIST 2 MINOR_VERSION_GIT)
-  list(GET VERSION_LIST 3 PATCH_VERSION_GIT)
-
-  if("${VERSION_STRING_GIT}" STREQUAL "")
-    set(VERSION_STRING_GIT "${MAJOR_VERSION_GIT}.${MINOR_VERSION_GIT}.${PATCH_VERSION_GIT}")
-  endif()
-
-  configure_file("${CMAKE_SOURCE_DIR}/version.cmake.in" "${CMAKE_SOURCE_DIR}/version.cmake")
-endif()
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
-  message( SEND_ERROR "Could not find GIT or valid version.cmake. Version information will be invalid." )
-endif()
-include("${CMAKE_SOURCE_DIR}/version.cmake")
-
-if(FORCE_VERSION_STRING)
-  set(SUPERTUX_VERSION_STRING "${FORCE_VERSION_STRING}")
-endif()
-set(SUPERTUX_VERSION ${SUPERTUX_VERSION_STRING})
-
-configure_file(version.h.in ${CMAKE_BINARY_DIR}/version.h )
+configure_file(version.h.in ${CMAKE_BINARY_DIR}/version.h)
 
 set_source_files_properties(${CMAKE_BINARY_DIR}/version.h
   PROPERTIES GENERATED true)
