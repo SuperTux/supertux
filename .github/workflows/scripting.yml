@@ -20,7 +20,7 @@ on:
   push:
     branches: [ "master" ]
     paths:
-      - src/
+      - src/*
   workflow_dispatch:
 
 jobs:
