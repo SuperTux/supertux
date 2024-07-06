@@ -20,6 +20,7 @@
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
   WalkingBadguy(reader, sprite_name, "left", "right", layer),
@@ -28,7 +29,9 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   m_original_state(STATE_STAND),
   m_has_waved(false),
   m_stepped_on(false),
-  m_airborne(false)
+  m_airborne(false),
+  m_detect_script(),
+  m_carried_script()
 {
   parse_type(reader);
 
@@ -39,6 +42,9 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
 
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   m_col.set_unisolid(true);
+
+  reader.get("detect-script", m_detect_script);
+  reader.get("carried-script", m_carried_script);
 }
 
 void
@@ -122,8 +128,13 @@ Granito::active_update(float dt_sec)
     return;
   }
 
-  // Only called, when timer has finished
-  if (!m_walk_interval.started() && !m_walk_interval.check())
+  if (m_type == SCRIPTABLE && m_walk_interval.check())
+  {
+    stand();
+  }
+
+  // Only called when timer has finished
+  else if (m_type != SCRIPTABLE && !m_walk_interval.started() && !m_walk_interval.check())
   {
     m_walk_interval.start(gameRandom.randf(1.f, 4.f));
 
@@ -133,8 +144,7 @@ Granito::active_update(float dt_sec)
         if (gameRandom.rand(100) > 50)
         {
           // Turn around
-          m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
-          set_action("stand", m_dir);
+          turn(m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
         }
 
         break;
@@ -144,28 +154,19 @@ Granito::active_update(float dt_sec)
         if (gameRandom.rand(100) > 50 && walk_speed == 0)
         {
           // Turn around
-          m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
-          set_action("stand", m_dir);
+          turn(m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
         }
         else
         {
           // Walk/stop
           if (walk_speed > 0)
           {
-            walk_speed = 0;
-            m_state = STATE_STAND;
-            m_original_state = STATE_STAND;
-            m_physic.set_velocity_x(0);
-            set_action("stand", m_dir);
+            stand();
           }
           else
           {
-            m_dir = (gameRandom.rand(2) == 0 ? Direction::LEFT : Direction::RIGHT);
-            walk_speed = 80;
-            m_state = STATE_WALK;
-            m_original_state = STATE_WALK;
-            m_physic.set_velocity_x(80 * (m_dir == Direction::LEFT ? -1 : 1));
-            set_action(m_dir);
+            turn(m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
+            walk();
           }
         }
 
@@ -185,7 +186,7 @@ Granito::active_update(float dt_sec)
 HitResponse
 Granito::collision_player(Player& player, const CollisionHit& hit)
 {
-  if (m_state == STATE_SIT || m_type == WALK) return FORCE_MOVE;
+  if (m_state == STATE_SIT || m_type == WALK || m_type == SCRIPTABLE) return FORCE_MOVE;
 
   if (hit.top)
   {
@@ -225,17 +226,18 @@ Granito::collision(GameObject& other, const CollisionHit& hit)
       return WalkingBadguy::collision(other, hit);
     }
 
-    if (granito->m_carrying != nullptr)
+    if (granito->get_carrying() != nullptr)
     {
       // Sorry, im already carrying this guy.
       return WalkingBadguy::collision(other, hit);
     }
 
     // Sure dude.
-    granito->m_carrying = this;
+    granito->carry(this);
 
     // Yay!
     m_state = STATE_SIT;
+    Sector::get().run_script(m_carried_script, "carried-script");
   }
 
   return WalkingBadguy::collision(other, hit);
@@ -247,13 +249,25 @@ Granito::kill_fall()
   return;
 }
 
+ObjectSettings
+Granito::get_settings()
+{
+  auto settings = WalkingBadguy::get_settings();
+
+  settings.remove("dead-script");
+
+  settings.add_script(_("Detect script"), &m_detect_script, "detect-script");
+  settings.add_script(_("Carried script"), &m_carried_script, "carried-script");
+
+  return settings;
+}
+
 void
 Granito::activate()
 {
   WalkingBadguy::activate();
-  m_has_waved = false;
+  reset_detection();
 }
-
 
 GameObjectTypes
 Granito::get_types() const
@@ -263,6 +277,7 @@ Granito::get_types() const
     { "default", _("Default") },
     { "standing", _("Standing") },
     { "walking", _("Walking") },
+    { "scriptable", _("Scriptable") },
 
     // Small granito only
     { "sitting", _("Sitting") }
@@ -282,10 +297,30 @@ Granito::after_editor_set()
     case SIT:
       set_action("sit", m_dir);
       break;
+    case SCRIPTABLE:
     case STAND:
       set_action("stand", m_dir);
       break;
   }
+}
+
+GranitoBig*
+Granito::get_carrier() const
+{
+  for (auto& granito : Sector::get().get_objects_by_type<GranitoBig>())
+  {
+    if (granito.get_carrying() == this)
+      return &granito;
+  }
+
+  return nullptr;
+}
+
+std::string
+Granito::get_carrier_name() const
+{
+  GranitoBig* carrier = get_carrier();
+  return carrier != nullptr ? carrier->get_name() : "";
 }
 
 void
@@ -314,6 +349,7 @@ Granito::initialize()
       set_action("sit", m_dir);
       break;
 
+    case SCRIPTABLE:
     case STAND:
       set_action("stand", m_dir);
       break;
@@ -335,26 +371,32 @@ Granito::try_wave()
   if (!on_ground()) return false;
 
   Player* player = get_nearest_player();
-  if (!player) return false;
+  if (!player)
+    return false;
 
-  RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
-                                                                   player->get_bbox().get_middle(),
-                                                                   false,
-                                                                   get_collision_object());
+  Vector mid = get_bbox().get_middle();
+  Vector plrmid = player->get_bbox().get_middle();
+
+  float xdist = mid.x - plrmid.x;
+  if (std::abs(xdist) > 32.f*4.f)
+    return false;
+
+  RaycastResult result = Sector::get().get_first_line_intersection(mid, plrmid, false, get_collision_object());
 
   CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
   if (resultobj && *resultobj == player->get_collision_object())
   {
-    float xdist = get_bbox().get_middle().x - result.box.get_middle().x;
-    if (std::abs(xdist) < 32.f*4.f)
-    {
-      // Only wave if facing player.
-      if (xdist == std::abs(xdist) * (m_dir == Direction::LEFT ? -1 : 1))
-        return false;
+    // Only wave if facing player.
+    if (xdist == std::abs(xdist) * (m_dir == Direction::LEFT ? -1 : 1))
+      return false;
 
+    Sector::get().run_script(m_detect_script, "detect-script");
+    if (m_type == SCRIPTABLE)
+      m_has_waved = true;
+    else
       wave();
-      return true;
-    }
+
+    return true;
   }
 
   return false;
@@ -363,12 +405,102 @@ Granito::try_wave()
 void
 Granito::wave()
 {
+  if (m_type == SCRIPTABLE)
+    reset_detection();
+
   walk_speed = 0;
   m_physic.set_velocity_x(0);
 
   m_state = STATE_WAVE;
 
   set_action("wave", m_dir, 1);
+}
+
+void
+Granito::sit()
+{
+  walk_speed = 0;
+  m_state = STATE_SIT;
+  m_original_state = STATE_SIT;
+  m_physic.set_velocity_x(0);
+
+  if (!m_airborne)
+  {
+    float oldheight = get_bbox().get_size().height;
+    set_action("sit", m_dir);
+
+    float height = get_bbox().get_size().height;
+    set_pos(Vector(get_bbox().get_left(), get_bbox().get_top() + oldheight - height));
+  }
+  else
+  {
+    set_action("sit", m_dir);
+  }
+}
+
+void
+Granito::turn(const Direction& direction)
+{
+  m_dir = direction;
+  switch (m_state)
+  {
+    case STATE_WALK:
+      walk();
+      break;
+
+    case STATE_STAND:
+      set_action("stand", m_dir);
+      break;
+
+    case STATE_SIT:
+      set_action("sit", m_dir);
+      break;
+
+    case STATE_LOOKUP:
+      set_action("lookup", m_dir);
+      break;
+
+    case STATE_JUMPING:
+      set_action("jump", m_dir);
+      break;
+
+    default:
+      break;
+  }
+}
+
+void
+Granito::turn(const std::string& direction)
+{
+  turn(string_to_dir(direction));
+}
+
+void
+Granito::walk()
+{
+  walk_speed = 80;
+  m_state = STATE_WALK;
+  m_original_state = STATE_WALK;
+  m_physic.set_velocity_x(80 * (m_dir == Direction::LEFT ? -1 : 1));
+  set_action(m_dir);
+}
+
+void
+Granito::walk_for(float seconds)
+{
+  m_walk_interval.start(seconds);
+  if (m_original_state != STATE_WALK)
+    walk();
+}
+
+void
+Granito::stand()
+{
+  walk_speed = 0;
+  m_state = STATE_STAND;
+  m_original_state = STATE_STAND;
+  m_physic.set_velocity_x(0);
+  set_action("stand", m_dir);
 }
 
 bool
@@ -418,25 +550,60 @@ Granito::jump()
   m_physic.set_velocity_y(-420.f);
 }
 
+void Granito::eject()
+{
+  GranitoBig* granito = get_carrier();
+
+  if (!granito)
+    return;
+
+  granito->eject();
+}
+
 void
 Granito::restore_original_state()
 {
-  if (m_state == m_original_state) return;
+  if (m_state == m_original_state)
+    return;
 
   m_state = m_original_state;
 
   if (m_state == STATE_WALK)
   {
-    set_action(m_dir);
-    walk_speed = 80;
-    m_physic.set_velocity_x(80 * (m_dir == Direction::LEFT ? -1 : 1));
+    walk();
   }
   else
   {
-    set_action("stand", m_dir);
-    walk_speed = 0;
-    m_physic.set_velocity_x(0);
+    stand();
   }
+}
+
+
+void
+Granito::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Granito>("Granito", vm.findClass("BadGuy"));
+
+  cls.addFunc("wave", &Granito::wave);
+  cls.addFunc("sit", &Granito::sit);
+  cls.addFunc("turn", static_cast<void(Granito::*)(const std::string&)>(&Granito::turn));
+  cls.addFunc("set_walking", &Granito::set_walking);
+  cls.addFunc("walk", &Granito::walk);
+  cls.addFunc("walk_for", &Granito::walk_for);
+  cls.addFunc("stand", &Granito::stand);
+  cls.addFunc("jump", &Granito::jump);
+  cls.addFunc("get_state", &Granito::get_state);
+  cls.addFunc("get_carrier_name", &Granito::get_carrier_name);
+  cls.addFunc("reset_detection", &Granito::reset_detection);
+  cls.addFunc("eject", &Granito::eject);
+
+  // Enumerators
+  vm.setConst<int>("GRANITO_STATE_SIT", Granito::STATE_SIT);
+  vm.setConst<int>("GRANITO_STATE_STAND", Granito::STATE_STAND);
+  vm.setConst<int>("GRANITO_STATE_WALK", Granito::STATE_WALK);
+  vm.setConst<int>("GRANITO_STATE_WAVE", Granito::STATE_WAVE);
+  vm.setConst<int>("GRANITO_STATE_LOOKUP", Granito::STATE_LOOKUP);
+  vm.setConst<int>("GRANITO_STATE_JUMPING", Granito::STATE_JUMPING);
 }
 
 /* EOF */

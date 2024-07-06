@@ -19,6 +19,9 @@
 
 #include <math.h>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
@@ -49,7 +52,6 @@ static const float MULTIPLAYER_CAM_WEIGHT = 0.1f;
 
 Camera::Camera(const std::string& name) :
   GameObject(name),
-  ExposedObject<Camera, scripting::Camera>(this),
   m_mode(Mode::NORMAL),
   m_defaultmode(Mode::NORMAL),
   m_screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)),
@@ -86,7 +88,6 @@ Camera::Camera(const std::string& name) :
 
 Camera::Camera(const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<Camera, scripting::Camera>(this),
   m_mode(Mode::NORMAL),
   m_defaultmode(Mode::NORMAL),
   m_screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)),
@@ -365,8 +366,8 @@ Camera::keep_in_bounds(const Rectf& bounds)
 void
 Camera::keep_in_bounds(Vector& translation_)
 {
-  float width = d_sector->get_width();
-  float height = d_sector->get_height();
+  float width = get_parent()->get_width();
+  float height = get_parent()->get_height();
 
   // Remove any earthquake offset from the translation.
   translation_.y -= m_earthquake_last_offset;
@@ -635,7 +636,7 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
 void
 Camera::update_scroll_autoscroll(float dt_sec)
 {
-  if (!d_sector->get_object_count<Player>([](const Player& p) { return !p.is_dead() && !p.is_dying(); }))
+  if (!get_parent()->get_object_count<Player>([](const Player& p) { return !p.is_dead() && !p.is_dying(); }))
     return;
 
   get_walker()->update(dt_sec);
@@ -764,6 +765,95 @@ Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
   }
 }
 
+void
+Camera::set_pos(float x, float y)
+{
+  scroll_to(Vector(x, y), 0.0f);
+}
+
+void
+Camera::move(float x, float y)
+{
+  scroll_to(m_translation + Vector(x, y), 0.0f);
+}
+
+void
+Camera::set_mode(const std::string& mode)
+{
+  if (mode == "normal")
+    m_mode = Mode::NORMAL;
+  else if (mode == "manual")
+    m_mode = Mode::MANUAL;
+  else
+    log_warning << "Camera mode '" << mode << "' unknown." << std::endl;
+}
+
+void
+Camera::scroll_to(float x, float y, float scrolltime)
+{
+  scroll_to(Vector(x, y), scrolltime);
+}
+
+void
+Camera::set_scale(float scale)
+{
+  m_scale = scale;
+}
+
+void
+Camera::set_scale_anchor(float scale, int anchor)
+{
+  ease_scale_anchor(scale, 0, anchor, "");
+}
+
+void
+Camera::scale(float scale, float time)
+{
+  ease_scale(scale, time, "");
+}
+
+void
+Camera::scale_anchor(float scale, float time, int anchor)
+{
+  ease_scale_anchor(scale, time, anchor, "");
+}
+
+void
+Camera::ease_scale(float scale, float time, const std::string& ease)
+{
+  ease_scale_anchor(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease);
+}
+
+void
+Camera::ease_scale_anchor(float scale, float time, int anchor, const std::string& ease)
+{
+  ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)), static_cast<AnchorPoint>(anchor));
+}
+
+float
+Camera::get_screen_width() const
+{
+  return m_screen_size.width;
+}
+
+float
+Camera::get_screen_height() const
+{
+  return m_screen_size.height;
+}
+
+float
+Camera::get_x() const
+{
+  return m_translation.x;
+}
+
+float
+Camera::get_y() const
+{
+  return m_translation.y;
+}
+
 Vector
 Camera::get_center() const
 {
@@ -796,4 +886,34 @@ Camera::is_saveable() const
   return !(Level::current() &&
            Level::current()->is_worldmap());
 }
+
+
+void
+Camera::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Camera>("Camera", vm.findClass("GameObject"));
+
+  PathObject::register_members(cls);
+
+  cls.addFunc("shake", &Camera::shake);
+  cls.addFunc("start_earthquake", &Camera::start_earthquake);
+  cls.addFunc("stop_earthquake", &Camera::stop_earthquake);
+  cls.addFunc("set_pos", &Camera::set_pos);
+  cls.addFunc<void, Camera, float, float>("move", &Camera::move);
+  cls.addFunc<void, Camera, const std::string&>("set_mode", &Camera::set_mode);
+  cls.addFunc<void, Camera, float, float, float>("scroll_to", &Camera::scroll_to);
+  cls.addFunc("get_current_scale", &Camera::get_current_scale);
+  cls.addFunc("get_target_scale", &Camera::get_target_scale);
+  cls.addFunc("set_scale", &Camera::set_scale);
+  cls.addFunc("set_scale_anchor", &Camera::set_scale_anchor);
+  cls.addFunc("scale", &Camera::scale);
+  cls.addFunc("scale_anchor", &Camera::scale_anchor);
+  cls.addFunc<void, Camera, float, float, const std::string&>("ease_scale", &Camera::ease_scale);
+  cls.addFunc("ease_scale_anchor", &Camera::ease_scale_anchor);
+  cls.addFunc("get_screen_width", &Camera::get_screen_width);
+  cls.addFunc("get_screen_height", &Camera::get_screen_height);
+  cls.addFunc("get_x", &Camera::get_x);
+  cls.addFunc("get_y", &Camera::get_y);
+}
+
 /* EOF */

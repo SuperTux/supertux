@@ -18,15 +18,20 @@
 #define HEADER_SUPERTUX_OBJECT_CANDLE_HPP
 
 #include "object/moving_sprite.hpp"
-#include "scripting/candle.hpp"
-#include "squirrel/exposed_object.hpp"
 
 /**
  * A burning candle: Simple, scriptable level decoration.
+
+ * @scripting
+ * @summary A ""Candle"" that was given a name can be controlled by scripts.
+ * @instances A ""Candle"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class Candle final : public MovingSprite,
-               public ExposedObject<Candle, scripting::Candle>
+class Candle final : public MovingSprite
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Candle(const ReaderMapping& mapping);
   virtual void draw(DrawingContext& context) override;
@@ -34,6 +39,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   static std::string class_name() { return "candle"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Candle"; }
   static std::string display_name() { return _("Candle"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -42,12 +48,22 @@ public:
 
   virtual void on_flip(float height) override;
 
-  /** @name Scriptable Methods
-      @{ */
-  void puff_smoke(); /**< spawn a puff of smoke */
-  bool get_burning() const; /**< returns true if candle is lighted */
-  void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
-  /** @} */
+  /**
+   * @scripting
+   * @description Spawns a puff of smoke.
+   */
+  void puff_smoke();
+  /**
+   * @scripting
+   * @description Returns ""true"" if the candle is lit up.
+   */
+  bool get_burning() const;
+  /**
+   * @scripting
+   * @description Sets the burning state of the candle.
+   * @param bool $burning If ""true"", the candle is lit up. If ""false"", it's extinguished.
+   */
+  void set_burning(bool burning);
 
 private:
   bool burning; /**< true if candle is currently lighted */

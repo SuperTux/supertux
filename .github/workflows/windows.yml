@@ -50,7 +50,7 @@ jobs:
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Use cached dependencies
         id: cache-dependencies
@@ -105,13 +105,23 @@ jobs:
           "./$Env:BUILD_TYPE/run_tests.exe"
 
       - name: Package MSI Installer
+        shell: pwsh
         working-directory: build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
           cpack -C $Env:BUILD_TYPE
-          mkdir upload
-          mv *.msi upload/
+          if ($LASTEXITCODE -ne 0)
+          {
+            $code = $LASTEXITCODE
+            type ./_CPack_Packages/win64/WIX/wix.log
+            exit $code
+          }
+          else
+          {
+            mkdir upload
+            mv *.msi upload/
+          }
 
       - name: Upload MSI Installer
         uses: actions/upload-artifact@v4

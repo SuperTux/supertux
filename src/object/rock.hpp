@@ -19,13 +19,10 @@
 
 #include "object/moving_sprite.hpp"
 #include "object/portable.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/rock.hpp"
 #include "supertux/physic.hpp"
 
 class Rock : public MovingSprite,
-             public Portable,
-             public ExposedObject<Rock, scripting::Rock>
+             public Portable
 {
 public:
   Rock(const ReaderMapping& reader, const std::string& spritename = "images/objects/rock/rock.sprite");

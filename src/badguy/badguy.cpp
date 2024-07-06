@@ -16,6 +16,9 @@
 
 #include "badguy/badguy.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
@@ -50,7 +53,6 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
-  ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
@@ -94,7 +96,6 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
                Direction default_direction, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
-  ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
@@ -1198,6 +1199,16 @@ BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
     m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
   if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
+}
+
+
+void
+BadGuy::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<BadGuy>("BadGuy", vm.findClass("MovingSprite"));
+
+  cls.addFunc("kill", &BadGuy::kill_fall);
+  cls.addFunc("ignite", &BadGuy::ignite);
 }
 
 /* EOF */
