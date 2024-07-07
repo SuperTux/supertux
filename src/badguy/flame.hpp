@@ -28,7 +28,7 @@ public:
 
   virtual void activate() override;
   virtual void deactivate() override;
-
+  virtual void after_editor_set();
   virtual void active_update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void kill_fall() override;
@@ -69,7 +69,9 @@ private:
 
   std::unique_ptr<SoundSource> sound_source;
   SurfacePtr m_radius_indicator;
-
+private:
+  Color lightcolor;
+  void updateColor();
 private:
   Flame(const Flame&) = delete;
   Flame& operator=(const Flame&) = delete;

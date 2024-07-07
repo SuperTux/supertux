@@ -36,6 +36,7 @@ Flame::Flame(const ReaderMapping& reader, int type) :
   angle(0),
   radius(),
   speed(),
+  lightcolor(1.0f, 1.0f, 1.0f),
   sound_source(),
   m_radius_indicator(Surface::from_file("images/creatures/flame/flame-editor.png"))
 {
@@ -56,25 +57,19 @@ Flame::Flame(const ReaderMapping& reader, int type) :
   {
     m_col.m_bbox.set_pos(Vector(m_start_position.x + cosf(angle) * radius,
                                 m_start_position.y + sinf(angle) * radius));
+    
   }
   m_countMe = false;
   m_glowing = true;
   SoundManager::current()->preload(FLAME_SOUND);
-
   set_colgroup_active(COLGROUP_TOUCHABLE);
-
-  switch (m_type)
-  {
-    case FIRE:
-      m_lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));
-      break;
-    case GHOST:
-      m_lightsprite->set_color(Color(0.21f, 0.00f, 0.21f));
-      break;
-    case ICE:
-      m_lightsprite->set_color(Color(0.00f, 0.13f, 0.18f));
-      break;
+  std::vector<float> vColor;
+  if (reader.get("color", vColor)) {
+    lightcolor = Color(vColor);
   }
+
+  updateColor();
+
 }
 
 GameObjectTypes
@@ -108,11 +103,13 @@ Flame::get_settings()
 
   result.add_float(_("Radius"), &radius, "radius", 100.0f);
   result.add_float(_("Speed"), &speed, "speed", 2.0f);
+  result.add_color(_("Color"), &lightcolor, "color", Color::WHITE);
 
-  result.reorder({"speed", "sprite", "x", "y"});
+  result.reorder({"color", "speed", "sprite", "x", "y"});
 
   return result;
 }
+
 
 void
 Flame::active_update(float dt_sec)
@@ -128,15 +125,20 @@ Flame::active_update(float dt_sec)
   if (m_type == ICE)
     m_sprite->set_angle(math::degrees(angle) * 3.0f);
 
-  if (m_sprite->get_action() == "fade" && m_sprite->animation_done())
+  if ((m_sprite->get_action() == "fade" || m_sprite->get_action() == "greyscale_fade") && m_sprite->animation_done())
     remove_me();
+  if (m_type == FIRE)
+    spawn_flame_sprites(1, "images/particles/flame.sprite",lightcolor);
+
 }
 
 void
 Flame::draw(DrawingContext& context)
 {
   BadGuy::draw(context);
-
+if (m_sprite->get_action() != "fade" && m_sprite->get_action() != "greyscale_fade"){
+  m_sprite->set_action(lightcolor.greyscale() >= 1.f ? "default" : "greyscale");
+}
   if (Editor::is_active())
   {
     Rectf rect(Vector(get_pos().x - radius + get_bbox().get_width() / 2,
@@ -165,6 +167,12 @@ Flame::deactivate()
   sound_source.reset();
 }
 
+void
+Flame::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+  m_sprite->set_color(lightcolor);
+}
 
 void
 Flame::kill_fall()
@@ -178,7 +186,7 @@ Flame::freeze()
     return;
 
   SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
-  set_action("fade", 1);
+  m_sprite->set_action(lightcolor.greyscale() >= 1.f ? "fade" : "greyscale_fade",1);
   Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
                                          "default",
                                          m_col.m_bbox.get_middle(), ANCHOR_MIDDLE,
@@ -248,5 +256,10 @@ Flame::on_flip(float height)
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
+void
+Flame::updateColor(){
+  m_lightsprite->set_color(lightcolor);
+  m_sprite->set_color(lightcolor);
 
+}
 /* EOF */
