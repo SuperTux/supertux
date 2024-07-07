@@ -28,6 +28,7 @@ class BicyclePlatformChild : public MovingSprite
 
 public:
   BicyclePlatformChild(const ReaderMapping& reader, float angle_offset, BicyclePlatform& parent);
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(BicyclePlatformChild)); }
 
   virtual void update(float dt_sec) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
@@ -66,6 +67,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Bicycle Platform"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(BicyclePlatform)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void editor_delete() override;

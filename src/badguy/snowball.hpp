@@ -29,6 +29,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Mr. Snowball"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(SnowBall)); }
 
   virtual bool is_snipable() const override { return true; }
   virtual bool is_freezable() const override;

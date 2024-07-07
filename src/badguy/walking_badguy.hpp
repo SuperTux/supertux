@@ -52,6 +52,7 @@ public:
                 const std::string& walk_right_action,
                 int layer = LAYER_OBJECTS,
                 const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(WalkingBadguy)); }
 
   virtual void initialize() override;
   virtual void active_update(float dt_sec) override;

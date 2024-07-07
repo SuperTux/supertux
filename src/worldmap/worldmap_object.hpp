@@ -36,6 +36,7 @@ public:
   WorldMapObject(const ReaderMapping& mapping, const std::string& default_sprite);
   WorldMapObject(const ReaderMapping& mapping);
   WorldMapObject(const Vector& pos, const std::string& default_sprite);
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(WorldMapObject)); }
 
   static std::string class_name() { return "worldmap-object"; }
   virtual std::string get_class_name() const override { return class_name(); }

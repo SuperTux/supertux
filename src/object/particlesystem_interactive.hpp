@@ -47,6 +47,7 @@ public:
   virtual std::string get_display_name() const override {
     return _("Interactive particle system");
   }
+  virtual GameObjectClasses get_class_types() const override { return ParticleSystem::get_class_types().add(typeid(ParticleSystem_Interactive)); }
 
 protected:
   virtual int collision(Particle* particle, const Vector& movement);
