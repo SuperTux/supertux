@@ -137,10 +137,6 @@ private:
 
   SurfacePtr cloudimage;
 
-  float m_current_speed;
-  float m_target_speed;
-  float m_speed_fade_time_remaining;
-
   float m_current_speed_x;
   float m_target_speed_x;
   float m_speed_fade_time_remaining_x;
