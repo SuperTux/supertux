@@ -26,6 +26,8 @@ class MrBomb : public WalkingBadguy
 {
 public:
   MrBomb(const ReaderMapping& reader);
+  MrBomb(const ReaderMapping& reader, const std::string& sprite,
+         const std::string& glow_sprite = "images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite");
 
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& object, const CollisionHit& hit) override;
@@ -43,7 +45,7 @@ public:
   virtual bool is_freezable() const override;
 
   bool is_ticking() const { return m_state == STATE_TICKING; }
-  virtual void trigger();
+  virtual void trigger(Player* player);
   virtual void explode();
 
   virtual void kill_fall() override;
@@ -57,18 +59,18 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
-
 protected:
+  void update_ticking(float dt_sec);
+
   virtual bool collision_squished(GameObject& object) override;
 
-private:
-  enum State {
+protected:
+  enum State : uint8_t {
     STATE_NORMAL,
     STATE_TICKING
   };
 
-  State m_state;
-  Timer m_realize_timer;
+  uint8_t m_state;
 
   std::unique_ptr<SoundSource> m_ticking_sound;
   SpritePtr m_exploding_sprite;

@@ -42,56 +42,28 @@ static const float NORMAL_WALK_SPEED = 80.0f;
 static const float FLEEING_WALK_SPEED = 180.0f;
 
 GoldBomb::GoldBomb(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/gold_bomb/gold_bomb.sprite", "left", "right"),
-  m_state(STATE_NORMAL),
-  m_realize_timer(),
-  ticking(),
-  m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
+  MrBomb(reader, "images/creatures/gold_bomb/gold_bomb.sprite"),
+  m_realize_timer()
 {
   assert(SAFE_DIST >= REALIZE_DIST);
-
-  walk_speed = NORMAL_WALK_SPEED;
-  set_ledge_behavior(LedgeBehavior::SMART);
-
-  SoundManager::current()->preload("sounds/explosion.wav");
-
-  m_exploding_sprite->set_action("default", 1);
 }
 
 void
 GoldBomb::collision_solid(const CollisionHit& hit)
 {
-  if (m_state == STATE_TICKING) {
-    if (hit.bottom)
-      m_physic.set_velocity(0, 0);
-    else
-      kill_fall();
-
-    update_on_ground_flag(hit);
-    return;
-  } else if (m_state != STATE_NORMAL && (hit.left || hit.right)) {
+  if ((m_state != STATE_NORMAL || m_state != STATE_TICKING) && (hit.left || hit.right))
+  {
     cornered();
     return;
   }
 
-  WalkingBadguy::collision_solid(hit);
+  MrBomb::collision_solid(hit);
 }
 
 void
 GoldBomb::active_update(float dt_sec)
 {
-  if (m_state == STATE_TICKING) {
-    m_exploding_sprite->set_action("exploding", 1);
-    if (on_ground()) m_physic.set_velocity_x(0);
-    ticking->set_position(get_pos());
-    if (m_sprite->animation_done()) {
-      kill_fall();
-    }
-    else if (!is_grabbed()) {
-      m_col.set_movement(m_physic.get_movement(dt_sec));
-    }
-    return;
-  }
+  update_ticking(dt_sec);
 
   if ((m_state == STATE_FLEEING || m_state == STATE_CORNERED) && on_ground() && might_fall(s_normal_max_drop_height+1))
   {
@@ -203,152 +175,10 @@ GoldBomb::active_update(float dt_sec)
   }
 }
 
-void
-GoldBomb::draw(DrawingContext& context)
+void GoldBomb::explode()
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-
-  if (m_state == STATE_TICKING)
-  {
-    m_exploding_sprite->set_blend(Blend::ADD);
-    m_exploding_sprite->draw(context.light(),
-      get_pos() + Vector(get_bbox().get_width() / 2, get_bbox().get_height() / 2), m_layer, m_flip);
-  }
-  WalkingBadguy::draw(context);
-}
-
-void
-GoldBomb::kill_fall()
-{
-  if (m_state == STATE_TICKING)
-    ticking->stop();
-
-  // Make the player let go before we explode, otherwise the player is holding
-  // an invalid object. There's probably a better way to do this than in the
-  // GoldBomb class.
-  if (is_grabbed()) {
-    Player* player = dynamic_cast<Player*>(m_owner);
-
-    if (player)
-      player->stop_grabbing();
-  }
-
-  if (is_valid()) {
-    if (m_frozen)
-      BadGuy::kill_fall();
-    else
-    {
-      remove_me();
-      Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
-        EXPLOSION_STRENGTH_DEFAULT);
-      run_dead_script();
-    }
-      Sector::get().add<CoinExplode>(get_pos(), !m_parent_dispenser);
-  }
-}
-
-void
-GoldBomb::ignite()
-{
-  if (m_frozen)
-    unfreeze();
-  kill_fall();
-}
-
-void
-GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
-{
-  Portable::grab(object,pos,dir_);
-  if (m_state == STATE_TICKING){
-    // We actually face the opposite direction of Tux here to make the fuse more
-    // visible instead of hiding it behind Tux.
-    set_action("ticking", m_dir, Sprite::LOOPS_CONTINUED);
-    set_colgroup_active(COLGROUP_DISABLED);
-  }
-  else if (m_frozen){
-    set_action("iced", dir_);
-  }
-  else if (dynamic_cast<Owl*>(&object))
-    set_action(dir_);
-  m_col.set_movement(pos - get_pos());
-  m_dir = dir_;
-  set_colgroup_active(COLGROUP_DISABLED);
-}
-
-void
-GoldBomb::ungrab(MovingObject& object, Direction dir_)
-{
-  auto player = dynamic_cast<Player*> (&object);
-  if (m_frozen)
-    BadGuy::ungrab(object, dir_);
-  else
-  {
-    // Handle swimming state of the player.
-    if (player && (player->is_swimming() || player->is_water_jumping()))
-    {
-      float swimangle = player->get_swimming_angle();
-      m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
-        player->get_physic().get_velocity());
-    }
-    // Handle non-swimming.
-    else
-    {
-      if (player)
-      {
-        // Handle x-movement based on the player's direction and velocity.
-        if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
-          m_physic.set_velocity_x(0.f);
-        else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
-          || (player->m_dir == Direction::RIGHT && player->get_physic().get_velocity_x() >= 1.0f))
-          m_physic.set_velocity_x(player->get_physic().get_velocity_x()
-            + (player->m_dir == Direction::LEFT ? -10.f : 10.f));
-        else
-          m_physic.set_velocity_x(player->get_physic().get_velocity_x()
-            + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
-        // Handle y-movement based on the player's direction and velocity.
-        m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
-          dir_ == Direction::DOWN ? 500.f :
-          player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
-      }
-    }
-  }
-  set_colgroup_active(m_frozen ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
-  Portable::ungrab(object, dir_);
-}
-
-void
-GoldBomb::freeze()
-{
-  if (m_state != STATE_TICKING) {
-    m_state = STATE_NORMAL;
-    WalkingBadguy::freeze();
-  }
-}
-
-bool
-GoldBomb::is_freezable() const
-{
-  return true;
-}
-
-bool
-GoldBomb::is_portable() const
-{
-  return (m_frozen || (m_state == STATE_TICKING));
-}
-
-void GoldBomb::stop_looping_sounds()
-{
-  if (ticking) {
-    ticking->stop();
-  }
-}
-
-void GoldBomb::play_looping_sounds()
-{
-  if (m_state == STATE_TICKING && ticking) {
-    ticking->play();
-  }
+  MrBomb::explode();
+  Sector::get().add<CoinExplode>(get_pos(), !m_parent_dispenser);
 }
 
 void

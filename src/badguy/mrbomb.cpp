@@ -32,12 +32,23 @@
 MrBomb::MrBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
   m_state(STATE_NORMAL),
-  m_realize_timer(),
   m_ticking_sound(),
   m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
-  assert(SAFE_DIST >= REALIZE_DIST);
+  walk_speed = 80;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
+  SoundManager::current()->preload("sounds/explosion.wav");
+
+  m_exploding_sprite->set_action("default", 1);
+}
+
+MrBomb::MrBomb(const ReaderMapping& reader, const std::string& sprite, const std::string& glow_sprite):
+  WalkingBadguy(reader, sprite, "left", "right"),
+  m_state(STATE_NORMAL),
+  m_ticking_sound(),
+  m_exploding_sprite(SpriteManager::current()->create(glow_sprite))
+{
   walk_speed = 80;
   set_ledge_behavior(LedgeBehavior::SMART);
 
@@ -119,7 +130,7 @@ MrBomb::collision_squished(GameObject& object)
     return true;
   }
   if (is_valid() && m_state != STATE_TICKING) {
-    trigger();
+    trigger(player);
   }
   return true;
 }
@@ -127,26 +138,7 @@ MrBomb::collision_squished(GameObject& object)
 void
 MrBomb::active_update(float dt_sec)
 {
-  if (m_state == STATE_TICKING)
-  {
-    m_exploding_sprite->set_action("exploding", 1);
-
-    if (on_ground())
-      m_physic.set_velocity_x(0);
-
-    m_ticking_sound->set_position(get_pos());
-
-    if (m_sprite->animation_done())
-    {
-      kill_fall();
-    }
-    else if (!is_grabbed())
-    {
-      m_col.set_movement(m_physic.get_movement(dt_sec));
-    }
-    return;
-  }
-
+  update_ticking(dt_sec);
   WalkingBadguy::active_update(dt_sec);
 }
 
@@ -166,7 +158,7 @@ MrBomb::draw(DrawingContext& context)
 }
 
 void
-MrBomb::trigger()
+MrBomb::trigger(Player* player)
 {
   m_state = STATE_TICKING;
   m_frozen = false;
@@ -324,6 +316,26 @@ MrBomb::play_looping_sounds()
 {
   if (m_state == STATE_TICKING && m_ticking_sound) {
     m_ticking_sound->play();
+  }
+}
+
+void MrBomb::update_ticking(float dt_sec)
+{
+  if (m_state == STATE_TICKING)
+  {
+    m_exploding_sprite->set_action("exploding", 1);
+
+    if (on_ground())
+      m_physic.set_velocity_x(0);
+
+    m_ticking_sound->set_position(get_pos());
+
+    if (m_sprite->animation_done())
+      kill_fall();
+    else if (!is_grabbed())
+      m_col.set_movement(m_physic.get_movement(dt_sec));
+
+    return;
   }
 }
 

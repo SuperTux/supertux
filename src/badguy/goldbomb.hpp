@@ -31,46 +31,26 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
 
   virtual void active_update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
 
-  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
-  virtual void ungrab(MovingObject& object, Direction dir) override;
-  virtual bool is_portable() const override;
-
-  virtual void freeze() override;
-  virtual bool is_freezable() const override;
-
-  virtual void kill_fall() override;
-  virtual void ignite() override;
   static std::string class_name() { return "goldbomb"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Gold Bomb"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual bool is_snipable() const override { return true; }
 
-  virtual void stop_looping_sounds() override;
-  virtual void play_looping_sounds() override;
-
-  bool is_ticking() const { return m_state == STATE_TICKING; }
+  virtual void explode() override;
 
 private:
   void flee(Direction dir);
   void cornered();
 
 private:
-  enum State {
-    STATE_NORMAL,
-    STATE_TICKING,
-    STATE_REALIZING,
+  enum State : uint8_t {
+    STATE_REALIZING = 2,
     STATE_FLEEING,
     STATE_CORNERED
   };
 
-  State m_state;
   Timer m_realize_timer;
-
-  std::unique_ptr<SoundSource> ticking;
-  SpritePtr m_exploding_sprite;
 
 private:
   GoldBomb(const GoldBomb&) = delete;
