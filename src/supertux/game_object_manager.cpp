@@ -483,9 +483,7 @@ GameObjectManager::this_before_object_add(GameObject& object)
   }
 
   { // By type index:
-    for (const std::type_index& type : object.get_class_types().types) {
-      m_objects_by_type_index[type].push_back(&object);
-    }
+    m_objects_by_type_index[std::type_index(typeid(object))].push_back(&object);
   }
 
   save_object_change(object, true);
@@ -509,12 +507,10 @@ GameObjectManager::this_before_object_remove(GameObject& object)
   }
 
   { // By type index:
-    for (const std::type_index& type : object.get_class_types().types) {
-      auto& vec = m_objects_by_type_index[type];
-      auto it = std::find(vec.begin(), vec.end(), &object);
-      assert(it != vec.end());
-      vec.erase(it);
-    }
+    auto& vec = m_objects_by_type_index[std::type_index(typeid(object))];
+    auto it = std::find(vec.begin(), vec.end(), &object);
+    assert(it != vec.end());
+    vec.erase(it);
   }
 }
 

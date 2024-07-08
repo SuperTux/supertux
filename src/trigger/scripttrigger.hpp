@@ -29,7 +29,6 @@ public:
   static std::string display_name() { return _("Script Trigger"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool has_variable_size() const override { return true; }
-  virtual GameObjectClasses get_class_types() const override { return Trigger::get_class_types().add(typeid(ScriptTrigger)); }
 
   virtual ObjectSettings get_settings() override;
 

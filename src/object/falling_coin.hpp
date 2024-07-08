@@ -26,7 +26,6 @@ class FallingCoin final : public GameObject
 {
 public:
   FallingCoin(const Vector& start_position, float x_vel);
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(FallingCoin)); }
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;

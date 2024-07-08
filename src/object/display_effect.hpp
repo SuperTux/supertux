@@ -34,7 +34,6 @@ public:
 public:
   DisplayEffect(const std::string& name = "");
   ~DisplayEffect() override;
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(DisplayEffect)); }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

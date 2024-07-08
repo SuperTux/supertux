@@ -27,7 +27,6 @@ class EndSequence : public GameObject
 public:
   EndSequence();
   ~EndSequence() override;
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(EndSequence)); }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

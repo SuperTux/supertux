@@ -58,7 +58,6 @@ public:
   virtual std::string get_exposed_class_name() const override { return "Spotlight"; }
   static std::string display_name() { return _("Spotlight"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Spotlight)); }
 
   virtual ObjectSettings get_settings() override;
 

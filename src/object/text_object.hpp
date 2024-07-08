@@ -51,7 +51,6 @@ public:
   virtual std::string get_exposed_class_name() const override { return "TextObject"; }
   static std::string display_name() { return _("Text"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(TextObject)); }
 
   virtual const std::string get_icon_path() const override { return "images/engine/editor/textarray.png"; }
 

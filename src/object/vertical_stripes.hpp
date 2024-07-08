@@ -28,8 +28,6 @@ public:
 	VerticalStripes();
 	~VerticalStripes() override;
 
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(VerticalStripes)); }
-
   virtual bool is_singleton() const override { return true; }
   virtual bool is_saveable() const override { return false; }
   virtual void update(float dt_sec) override;

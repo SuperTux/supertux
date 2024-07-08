@@ -45,7 +45,6 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Haywire"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(Haywire)); }
   virtual bool is_snipable() const override { return true; }
 
   inline bool is_exploding() const { return m_is_exploding; }

@@ -25,7 +25,6 @@ class Bomb final : public BadGuy
 {
 public:
   Bomb(const Vector& pos, Direction dir, const std::string& custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
-  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Bomb)); }
   virtual bool is_saveable() const override {
     return false;
   }

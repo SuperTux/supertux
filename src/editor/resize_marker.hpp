@@ -32,7 +32,6 @@ public:
 
 public:
   ResizeMarker(MovingObject* obj, Side vert, Side horz);
-  virtual GameObjectClasses get_class_types() const override { return MarkerObject::get_class_types().add(typeid(ResizeMarker)); }
 
   void move_to(const Vector& pos) override;
   Vector get_point_vector() const override;

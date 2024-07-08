@@ -35,7 +35,6 @@ public:
             const float min_initial_velocity, const float max_initial_velocity,
             const Vector& acceleration, int number, Color color,
             int size, float life_time, int drawing_layer);
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(Particles)); }
   virtual bool is_saveable() const override {
     return false;
   }

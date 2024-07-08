@@ -25,7 +25,6 @@ class CoinExplode final : public GameObject
 public:
   CoinExplode(const Vector& pos, bool count_stats = true,
               const std::string& sprite_path = "images/objects/coin/coin.sprite");
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(CoinExplode)); }
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual bool is_saveable() const override {

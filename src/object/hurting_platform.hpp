@@ -30,7 +30,6 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Hurting Platform"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return Platform::get_class_types().add(typeid(HurtingPlatform)); }
 
 private:
   HurtingPlatform(const HurtingPlatform&) = delete;

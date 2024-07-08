@@ -46,7 +46,6 @@ public:
   virtual std::string get_exposed_class_name() const override { return "ConveyorBelt"; }
   static std::string display_name() { return _("Conveyor Belt"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(ConveyorBelt)); }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

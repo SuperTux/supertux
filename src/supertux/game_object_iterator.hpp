@@ -25,7 +25,7 @@ template<typename T>
 class GameObjectIterator
 {
 public:
-  typedef std::vector<GameObject* >::const_iterator Iterator;
+  typedef std::vector<std::unique_ptr<GameObject> >::const_iterator Iterator;
 
 public:
   GameObjectIterator(Iterator it, Iterator end) :
@@ -35,28 +35,24 @@ public:
   {
     if (m_it != m_end)
     {
-      // A dynamic_cast is needed to perform sidecasts (a.k.a. crosscasts)
-      // T may be one of multiple base classes of the object and need not inherit GameObject
-      m_object = dynamic_cast<T*>(*m_it);
-      assert(m_object);
+      m_object = dynamic_cast<T*>(m_it->get());
+      if (!m_object)
+      {
+        skip_to_next();
+      }
     }
   }
 
   GameObjectIterator& operator++()
   {
-    ++m_it;
-    if (m_it != m_end)
-    {
-      m_object = dynamic_cast<T*>(*m_it);
-      assert(m_object);
-    }
+    skip_to_next();
     return *this;
   }
 
   GameObjectIterator operator++(int)
   {
     GameObjectIterator tmp(*this);
-    operator++();
+    skip_to_next();
     return tmp;
   }
 
@@ -87,6 +83,24 @@ public:
   }
 
 private:
+  void skip_to_next()
+  {
+    do
+    {
+      ++m_it;
+      if (m_it == m_end)
+      {
+        break;
+      }
+      else
+      {
+        m_object = dynamic_cast<T*>(m_it->get());
+      }
+    }
+    while (!m_object);
+  }
+
+private:
   Iterator m_it;
   Iterator m_end;
   T* m_object;
@@ -101,13 +115,11 @@ public:
   {}
 
   GameObjectIterator<T> begin() const {
-    auto& objects = m_manager.get_objects_by_type_index(typeid(T));
-    return GameObjectIterator<T>(objects.begin(), objects.end());
+    return GameObjectIterator<T>(m_manager.get_objects().begin(), m_manager.get_objects().end());
   }
 
   GameObjectIterator<T> end() const {
-    auto& objects = m_manager.get_objects_by_type_index(typeid(T));
-    return GameObjectIterator<T>(objects.end(), objects.end());
+    return GameObjectIterator<T>(m_manager.get_objects().end(), m_manager.get_objects().end());
   }
 
 private:

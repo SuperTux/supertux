@@ -35,7 +35,6 @@ public:
 public:
   Electrifier(TileChangeMap replacements, float seconds);
   Electrifier(uint32_t oldtile, uint32_t newtile, float seconds);
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(Electrifier)); }
   virtual bool is_saveable() const override {
     return false;
   }

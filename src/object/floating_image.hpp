@@ -39,7 +39,6 @@ public:
   ~FloatingImage() override;
 
   virtual bool is_saveable() const override { return false; }
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(FloatingImage)); }
   virtual std::string get_exposed_class_name() const override { return "FloatingImage"; }
 
   virtual void update(float dt_sec) override;

@@ -40,7 +40,6 @@ public:
   static std::string display_name() { return _("Swimming Fish"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual std::string get_overlay_size() const override { return "2x1"; }
-  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(FishSwimming)); }
   virtual ObjectSettings get_settings() override;
 
   virtual GameObjectTypes get_types() const override;

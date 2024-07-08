@@ -46,7 +46,6 @@ public:
   MovingObject();
   MovingObject(const ReaderMapping& reader);
   ~MovingObject() override;
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(MovingObject)); }
 
   virtual void collision_solid(const CollisionHit& /*hit*/) override
   {

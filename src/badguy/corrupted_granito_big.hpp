@@ -34,7 +34,6 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Corrupted Big Granito"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(CorruptedGranitoBig)); }
 
   virtual bool is_snipable()  const override { return false; }
   virtual bool is_freezable() const override { return false; }

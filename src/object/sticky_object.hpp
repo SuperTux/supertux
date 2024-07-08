@@ -31,7 +31,6 @@ public:
                int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
   StickyObject(const ReaderMapping& reader, const std::string& sprite_name,
                int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
-  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(StickyObject)); }
 
   virtual void update(float dt_sec) override;
 
@@ -81,7 +80,6 @@ public:
                int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
   StickyBadguy(const ReaderMapping& reader, const std::string& sprite_name,
                int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
-  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(StickyBadguy)); }
 
   virtual void sticky_update(float dt_sec);
 

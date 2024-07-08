@@ -67,7 +67,6 @@ public:
   virtual std::string get_exposed_class_name() const override { return "Camera"; }
   static std::string display_name() { return _("Camera"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(Camera)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

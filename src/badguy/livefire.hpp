@@ -37,7 +37,6 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Walking Flame"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(LiveFire)); }
 
 private:
   std::string death_sound;
@@ -71,7 +70,6 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Sleeping Flame"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return LiveFire::get_class_types().add(typeid(LiveFireAsleep)); }
 
 private:
   LiveFireAsleep(const LiveFireAsleep&) = delete;
@@ -90,7 +88,6 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Dormant Flame"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return LiveFire::get_class_types().add(typeid(LiveFireDormant)); }
 
 private:
   LiveFireDormant(const LiveFireDormant&) = delete;

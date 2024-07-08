@@ -68,7 +68,6 @@ class Trigger : public MovingObject,
 {
 public:
   Trigger(const ReaderMapping& reader);
-  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Trigger)); }
 
   virtual void update(float) override
   {
@@ -92,7 +91,6 @@ class SpritedTrigger : public MovingSprite,
 {
 public:
   SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name);
-  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(SpritedTrigger)); }
 
   virtual void update(float) override
   {
@@ -114,7 +112,6 @@ class StickyTrigger : public StickyObject,
 {
 public:
   StickyTrigger(const ReaderMapping& reader, const std::string& sprite_name);
-  virtual GameObjectClasses get_class_types() const override { return StickyObject::get_class_types().add(typeid(StickyTrigger)); }
 
   virtual void update(float dt_sec) override
   {

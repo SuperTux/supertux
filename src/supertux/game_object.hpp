@@ -22,7 +22,6 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include <typeindex>
 
 #include "editor/object_settings.hpp"
 #include "supertux/game_object_component.hpp"
@@ -47,23 +46,6 @@ struct GameObjectType
   const std::string name;
 };
 typedef std::vector<GameObjectType> GameObjectTypes;
-
-/**
- A helper structure to list all the type_indexes of the classes in the
- type hierarchy of a given class. This makes it easier to register e.g.
- a MrIceblock in lists for MrIceBlock, WalkingBadguy, Badguy, Portable,
- MovingSprite, MovingObject, and GameObject.
- */
-struct GameObjectClasses
-{
-  std::vector<std::type_index> types;
-
-  GameObjectClasses& add(const std::type_info &info) {
-    std::type_index idx(info);
-    types.push_back(idx);
-    return *this;
-  }
-};
 
 /**
    This class is responsible for:
@@ -120,9 +102,6 @@ public:
    * @description Returns the display name of the object, translated to the user's locale.
    */
   virtual std::string get_display_name() const { return _("Unknown object"); }
-  /** List notable classes in inheritance hierarchy of class. This makes it possible
-      to efficiently look up all objects deriving from a particular intermediate class */
-  virtual GameObjectClasses get_class_types() const;
 
   /** Version checking/updating, patch information */
   virtual std::vector<std::string> get_patches() const;

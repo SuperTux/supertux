@@ -25,7 +25,6 @@ class EndSequenceWalk final : public EndSequence
 public:
   EndSequenceWalk();
   ~EndSequenceWalk() override;
-  virtual GameObjectClasses get_class_types() const override { return EndSequence::get_class_types().add(typeid(EndSequenceWalk)); }
   virtual void draw(DrawingContext& context) override;
 
 protected:

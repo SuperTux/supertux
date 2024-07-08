@@ -48,7 +48,6 @@ public:
   virtual std::string get_exposed_class_name() const override { return "RainParticleSystem"; }
   static std::string display_name() { return _("Rain Particles"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return ParticleSystem_Interactive::get_class_types().add(typeid(RainParticleSystem)); }
   virtual ObjectSettings get_settings() override;
 
   /**

@@ -28,7 +28,6 @@ class MarkerObject : public MovingObject
 public:
   MarkerObject(const Vector& pos);
   MarkerObject();
-  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(MarkerObject)); }
 
   virtual void update(float dt_sec) override {}
   virtual void draw(DrawingContext& context) override;

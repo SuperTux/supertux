@@ -37,7 +37,6 @@ public:
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
                  int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE);
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(SpriteParticle)); }
   ~SpriteParticle() override;
 
 protected:

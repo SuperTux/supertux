@@ -31,8 +31,6 @@ class Bullet final : public MovingObject
 public:
   Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type, Player& player);
 
-  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Bullet)); }
-
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
