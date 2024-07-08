@@ -145,6 +145,7 @@ public:
   void kill(bool completely);
 
   void set_pos(const Vector& vector) override;
+  void move(const Vector& vector);
 
   /**
    * @scripting
