@@ -26,7 +26,7 @@
 class SpecialRiser final : public MovingObject
 {
 public:
-  SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child, bool is_solid = false);
+  SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child, bool is_solid = false, int rise_speed = 50);
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(SpecialRiser)); }
   virtual bool is_saveable() const override {
     return false;
@@ -45,6 +45,7 @@ private:
   Vector m_start_pos; 
   float m_offset;
   std::unique_ptr<MovingObject> m_child;
+  int m_rise_speed;
 
 private:
   SpecialRiser(const SpecialRiser&) = delete;

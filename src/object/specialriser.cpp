@@ -19,10 +19,11 @@
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 
-SpecialRiser::SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child, bool is_solid) :
+SpecialRiser::SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child, bool is_solid, int rise_speed) :
   m_start_pos(pos),
   m_offset(0),
-  m_child(std::move(child))
+  m_child(std::move(child)),
+  m_rise_speed(rise_speed)
 {
   m_child->set_pos(pos - Vector(0,32));
   set_pos(m_start_pos);
@@ -41,7 +42,7 @@ SpecialRiser::SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> chil
 void
 SpecialRiser::update(float dt_sec)
 {
-  m_offset += 50 * dt_sec;
+  m_offset += m_rise_speed * dt_sec;
   set_pos(m_start_pos - Vector(0, m_offset));
   if (m_offset > 32) {
     Sector::get().add_object(std::move(m_child));
