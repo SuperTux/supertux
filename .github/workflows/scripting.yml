@@ -21,6 +21,7 @@ on:
     branches: [ "master" ]
     paths:
       - src/*
+      - tools/scripting_docs_gen/*
   workflow_dispatch:
 
 jobs:
