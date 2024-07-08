@@ -19,7 +19,7 @@
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 
-SpecialRiser::SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child, bool is_solid, int rise_speed) :
+SpecialRiser::SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child, bool is_solid, float rise_speed) :
   m_start_pos(pos),
   m_offset(0),
   m_child(std::move(child)),
