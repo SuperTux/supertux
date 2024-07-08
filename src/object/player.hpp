@@ -145,7 +145,6 @@ public:
   void kill(bool completely);
 
   void set_pos(const Vector& vector) override;
-  void move(const Vector& vector);
 
   /**
    * @scripting
@@ -426,6 +425,9 @@ private:
 
   void handle_horizontal_input();
   void handle_vertical_input();
+
+  /** Set Tux's position, reset state and velocity. */
+  void set_pos_reset(const Vector& vector);
 
   void do_jump_apex();
   void early_jump_apex();

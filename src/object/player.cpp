@@ -2379,7 +2379,7 @@ Player::on_flip(float height)
 {
   Vector pos = get_pos();
   pos.y = height - pos.y - get_bbox().get_height();
-  move(pos);
+  set_pos_reset(pos);
 }
 
 void
@@ -2499,7 +2499,7 @@ Player::set_pos(const Vector& vector)
 }
 
 void
-Player::move(const Vector& vector)
+Player::set_pos_reset(const Vector& vector)
 {
   m_col.set_pos(vector);
 
@@ -3013,7 +3013,7 @@ Player::multiplayer_respawn()
   set_group(COLGROUP_MOVING);
   m_physic.reset();
 
-  move(target->get_pos());
+  set_pos_reset(target->get_pos());
   m_target.reset();
 }
 
