@@ -16,6 +16,9 @@
 
 #include "object/scripted_object.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
@@ -27,7 +30,6 @@
 
 ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/bonus_block/brick.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
-  ExposedObject<ScriptedObject, scripting::ScriptedObject>(this),
   physic(),
   solid(),
   physic_enabled(),
@@ -65,35 +67,16 @@ ScriptedObject::get_settings()
 
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_OBJECTS);
   //result.add_float("width", &new_size.x, "width", OPTION_HIDDEN);
   //result.add_float("height", &new_size.y, "height", OPTION_HIDDEN);
   result.add_bool(_("Solid"), &solid, "solid", true);
   result.add_bool(_("Physics enabled"), &physic_enabled, "physic-enabled", true);
   result.add_bool(_("Visible"), &visible, "visible", true);
-  result.add_text(_("Hit script"), &hit_script, "hit-script");
+  result.add_script(_("Hit script"), &hit_script, "hit-script");
 
   result.reorder({"z-pos", "visible", "physic-enabled", "solid", "name", "sprite", "script", "button", "x", "y"});
 
   return result;
-}
-
-void
-ScriptedObject::move(float x, float y)
-{
-  m_col.m_bbox.move(Vector(x, y));
-}
-
-float
-ScriptedObject::get_pos_x() const
-{
-  return get_pos().x;
-}
-
-float
-ScriptedObject::get_pos_y() const
-{
-  return get_pos().y;
 }
 
 void
@@ -212,6 +195,27 @@ ScriptedObject::on_flip(float height)
   MovingSprite::on_flip(height);
   if(!physic_enabled)
     FlipLevelTransformer::transform_flip(m_flip);
+}
+
+
+void
+ScriptedObject::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<ScriptedObject>("ScriptedObject", vm.findClass("MovingSprite"));
+
+  cls.addFunc("get_pos_x", &MovingObject::get_x); // Deprecated
+  cls.addFunc("get_pos_y", &MovingObject::get_y); // Deprecated
+  cls.addFunc("set_velocity", &ScriptedObject::set_velocity);
+  cls.addFunc("get_velocity_x", &ScriptedObject::get_velocity_x);
+  cls.addFunc("get_velocity_y", &ScriptedObject::get_velocity_y);
+  cls.addFunc("enable_gravity", &ScriptedObject::enable_gravity);
+  cls.addFunc("gravity_enabled", &ScriptedObject::gravity_enabled);
+  cls.addFunc("set_visible", &ScriptedObject::set_visible);
+  cls.addFunc("is_visible", &ScriptedObject::is_visible);
+  cls.addFunc("set_solid", &ScriptedObject::set_solid);
+  cls.addFunc("is_solid", &ScriptedObject::is_solid);
+
+  cls.addVar("visible", &ScriptedObject::visible);
 }
 
 /* EOF */

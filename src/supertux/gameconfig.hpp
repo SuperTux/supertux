@@ -34,6 +34,9 @@ public:
   void load();
   void save();
 
+  void check_values();
+
+public:
   int profile;
 
   /** the width/height to be used to display the game in fullscreen */
@@ -60,10 +63,12 @@ public:
 
   bool use_fullscreen;
   VideoSystem::Enum video;
-  bool try_vsync;
+  int vsync;
+  bool frame_prediction;
   bool show_fps;
   bool show_player_pos;
   bool show_controller;
+  float camera_peek_multiplier;
   bool sound_enabled;
   bool music_enabled;
   int sound_volume;
@@ -73,8 +78,6 @@ public:
   int random_seed;
 
   bool enable_script_debugger;
-  std::string start_demo;
-  std::string record_demo;
 
   /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
   std::optional<Vector> tux_spawn_pos;

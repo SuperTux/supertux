@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_SHARD_HPP
 #define HEADER_SUPERTUX_OBJECT_SHARD_HPP
 
-#include "object/moving_sprite.hpp"
+#include "object/sticky_object.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
-class Shard final : public MovingSprite
+class Shard final : public StickyObject
 {
 public:
   Shard(const ReaderMapping& reader);
@@ -34,6 +34,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Shard"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return StickyObject::get_class_types().add(typeid(Shard)); }
 
 protected:
   Physic m_physic;

@@ -90,6 +90,28 @@ WalkingBadguy::set_walk_speed (float ws)
   /* physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed); */
 }
 
+void WalkingBadguy::set_ledge_behavior(LedgeBehavior behavior)
+{
+  switch (behavior)
+  {
+    case LedgeBehavior::STRICT:
+      max_drop_height = 0;
+      break;
+
+    case LedgeBehavior::SMART:
+      max_drop_height = static_cast<int>(get_bbox().get_width()) / 2;
+      break;
+
+    case LedgeBehavior::NORMAL:
+      max_drop_height = s_normal_max_drop_height;
+      break;
+
+    case LedgeBehavior::FALL:
+      max_drop_height = -1;
+      break;
+  }
+}
+
 void
 WalkingBadguy::add_velocity (const Vector& velocity)
 {
@@ -173,8 +195,10 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
     if (m_physic.get_velocity_y() > 0) m_physic.set_velocity_y(0);
   }
 
-  if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))) {
-    turn_around();
+  if ( hit.slope_normal.x == 0.0f &&
+      ((hit.left && m_dir == Direction::LEFT) ||
+      (hit.right && m_dir == Direction::RIGHT)) ) {
+      turn_around();
   }
 
 }

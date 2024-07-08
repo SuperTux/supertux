@@ -18,29 +18,29 @@
 #define HEADER_SUPERTUX_SOUND_OBJECT_HPP
 
 #include "supertux/game_object.hpp"
-#include "squirrel/exposed_object.hpp"
 
-#include "scripting/sound_object.hpp"
-
-class ReaderMapping;
 class SoundSource;
 
 /** Plays sound at given interval with specified volume hearable in entire Sector */
-class SoundObject final : public GameObject,
-                          public ExposedObject<SoundObject, scripting::SoundObject>
+class SoundObject final : public GameObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   SoundObject(const ReaderMapping& mapping);
   SoundObject(float vol, const std::string& file);
   ~SoundObject() override;
 
   virtual void draw(DrawingContext& context) override {}
-  virtual void update(float dt_sec) override {}
+  virtual void update(float dt_sec) override;
 
   static std::string class_name() { return "sound-object"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "SoundObject"; }
   static std::string display_name() { return _("Sound"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(SoundObject)); }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/sound.png"; }
 
   virtual ObjectSettings get_settings() override;
@@ -50,14 +50,35 @@ public:
 
   /** @name Scriptable methods
       @{ */
+
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * Starts playing sound, if currently stopped.
+   */
+  void start_playing();
+  /**
+   * Stops playing sound.
+   */
+  void stop_playing();
+#endif
+
+  /**
+   * Sets the volume of sound played by SoundObject.
+   * @param float $volume
+   */
   void set_volume(float volume);
-  float get_volume() const { return m_volume; }
+  /**
+   * Returns the volume of sound played by SoundObject.
+   */
+  float get_volume() const;
+
   /** @} */
 
 private:
   std::string m_sample;
   std::unique_ptr<SoundSource> m_sound_source;
   float m_volume;
+  bool m_started;
 
 private:
   void prepare_sound_source();

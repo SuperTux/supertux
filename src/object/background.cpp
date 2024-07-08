@@ -16,8 +16,11 @@
 
 #include "object/background.hpp"
 
-#include <physfs.h>
 #include <utility>
+
+#include <physfs.h>
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
 
 #include "editor/editor.hpp"
 #include "supertux/d_scope.hpp"
@@ -31,7 +34,6 @@
 #include "video/surface.hpp"
 
 Background::Background() :
-  ExposedObject<Background, scripting::Background>(this),
   m_alignment(NO_ALIGNMENT),
   m_fill(false),
   m_layer(LAYER_BACKGROUND0),
@@ -57,7 +59,6 @@ Background::Background() :
 
 Background::Background(const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<Background, scripting::Background>(this),
   m_alignment(NO_ALIGNMENT),
   m_fill(false),
   m_layer(LAYER_BACKGROUND0),
@@ -229,10 +230,16 @@ Background::update(float dt_sec)
   }
   else if (m_timer_color.started())
   {
-    float progress = m_timer_color.get_timegone() / m_timer_color.get_period();
+    float progress = m_timer_color.get_progress();
 
     m_color = (m_src_color + (m_dst_color - m_src_color) * progress).validate();
   }
+}
+
+void
+Background::set_color(float red, float green, float blue, float alpha)
+{
+  m_color = Color(red, green, blue, alpha);
 }
 
 void
@@ -244,6 +251,12 @@ Background::fade_color(Color color, float time)
   m_timer_color.start(time, false);
 
   m_color = m_src_color;
+}
+
+void
+Background::fade_color(float red, float green, float blue, float alpha, float time)
+{
+  fade_color(Color(red, green, blue, alpha), time);
 }
 
 void
@@ -273,6 +286,30 @@ Background::set_speed(float speed)
 {
   m_parallax_speed.x = speed;
   m_parallax_speed.y = speed;
+}
+
+float
+Background::get_color_red() const
+{
+  return m_color.red;
+}
+
+float
+Background::get_color_green() const
+{
+  return m_color.green;
+}
+
+float
+Background::get_color_blue() const
+{
+  return m_color.blue;
+}
+
+float
+Background::get_color_alpha() const
+{
+  return m_color.alpha;
 }
 
 void
@@ -498,6 +535,23 @@ Background::on_flip(float height)
   else if (m_alignment == TOP_ALIGNMENT)
     m_alignment = BOTTOM_ALIGNMENT;
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+
+void
+Background::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Background>("Background", vm.findClass("GameObject"));
+
+  cls.addFunc("set_image", &Background::set_image);
+  cls.addFunc("set_images", &Background::set_images);
+  cls.addFunc("set_speed", &Background::set_speed);
+  cls.addFunc("get_color_red", &Background::get_color_red);
+  cls.addFunc("get_color_green", &Background::get_color_green);
+  cls.addFunc("get_color_blue", &Background::get_color_blue);
+  cls.addFunc("get_color_alpha", &Background::get_color_alpha);
+  cls.addFunc("set_color", &Background::set_color);
+  cls.addFunc<void, Background, float, float, float, float, float>("fade_color", &Background::fade_color);
 }
 
 /* EOF */

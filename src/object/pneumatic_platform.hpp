@@ -28,6 +28,7 @@ class PneumaticPlatformChild final : public MovingSprite
 public:
   PneumaticPlatformChild(const ReaderMapping& reader, bool left, PneumaticPlatform& parent);
   ~PneumaticPlatformChild() override;
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(PneumaticPlatformChild)); }
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
@@ -64,6 +65,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Pneumatic Platform"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(PneumaticPlatform)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

@@ -16,6 +16,8 @@
 
 #include "supertux/game_object_factory.hpp"
 
+#include <sstream>
+
 #include "audio/sound_source.hpp"
 #include "badguy/angrystone.hpp"
 #include "badguy/bouncing_snowball.hpp"
@@ -37,6 +39,9 @@
 #include "badguy/ghosttree.hpp"
 #include "badguy/ghoul.hpp"
 #include "badguy/goldbomb.hpp"
+#include "badguy/granito.hpp"
+#include "badguy/granito_big.hpp"
+#include "badguy/granito_giant.hpp"
 #include "badguy/haywire.hpp"
 #include "badguy/igel.hpp"
 #include "badguy/jumpy.hpp"
@@ -50,6 +55,8 @@
 #include "badguy/owl.hpp"
 #include "badguy/plant.hpp"
 #include "badguy/rcrystallo.hpp"
+#include "badguy/root.hpp"
+#include "badguy/root_sapling.hpp"
 #include "badguy/short_fuse.hpp"
 #include "badguy/skydive.hpp"
 #include "badguy/smartball.hpp"
@@ -57,12 +64,12 @@
 #include "badguy/snail.hpp"
 #include "badguy/snowball.hpp"
 #include "badguy/snowman.hpp"
-#include "badguy/spidermite.hpp"
 #include "badguy/scrystallo.hpp"
 #include "badguy/spiky.hpp"
 #include "badguy/sspiky.hpp"
 #include "badguy/stalactite.hpp"
 #include "badguy/stumpy.hpp"
+#include "badguy/tarantula.hpp"
 #include "badguy/toad.hpp"
 #include "badguy/totem.hpp"
 #include "badguy/viciousivy.hpp"
@@ -89,9 +96,11 @@
 #include "object/coin.hpp"
 #include "object/conveyor_belt.hpp"
 #include "object/decal.hpp"
+#include "object/display_effect.hpp"
 #include "object/explosion.hpp"
 #include "object/fallblock.hpp"
 #include "object/firefly.hpp"
+#include "object/floating_image.hpp"
 #include "object/ghost_particle_system.hpp"
 #include "object/gradient.hpp"
 #include "object/hurting_platform.hpp"
@@ -120,6 +129,7 @@
 #include "object/sound_object.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
+#include "object/text_array_object.hpp"
 #include "object/textscroller.hpp"
 #include "object/thunderstorm.hpp"
 #include "object/tilemap.hpp"
@@ -165,10 +175,10 @@ GameObjectFactory::init_factories()
   add_factory<AngryStone>("angrystone");
   add_factory<BouncingSnowball>("bouncingsnowball", OBJ_PARAM_DISPENSABLE);
   add_factory<CaptainSnowball>("captainsnowball", OBJ_PARAM_DISPENSABLE);
-  add_factory<CorruptedGranito>("skullyhop"); // backward compatibility
+  add_type_factory<CorruptedGranito>("skullyhop", CorruptedGranito::SKULLYHOP); // Backward compatibility
   add_factory<CorruptedGranito>("corrupted_granito", OBJ_PARAM_DISPENSABLE);
   add_factory<CorruptedGranitoBig>("corrupted_granito_big", OBJ_PARAM_DISPENSABLE);
-  add_factory<Crusher>("icecrusher"); // backward compatibility
+  add_factory<Crusher>("icecrusher"); // Backward compatibility
   add_factory<Crusher>("crusher");
   add_factory<Crystallo>("crystallo", OBJ_PARAM_DISPENSABLE);
   add_factory<Dart>("dart", OBJ_PARAM_DISPENSABLE);
@@ -177,7 +187,7 @@ GameObjectFactory::init_factories()
   add_factory<DiveMine>("dive-mine", OBJ_PARAM_DISPENSABLE);
   add_factory<FishChasing>("fish-chasing", OBJ_PARAM_DISPENSABLE);
   add_factory<FishHarmless>("fish-harmless", OBJ_PARAM_DISPENSABLE);
-  add_factory<FishJumping>("fish"); // backward compatibility
+  add_factory<FishJumping>("fish"); // Backward compatibility
   add_factory<FishJumping>("fish-jumping", OBJ_PARAM_DISPENSABLE);
   add_factory<FishSwimming>("fish-swimming", OBJ_PARAM_DISPENSABLE);
   add_factory<Flame>("flame", OBJ_PARAM_DISPENSABLE);
@@ -186,6 +196,9 @@ GameObjectFactory::init_factories()
   add_factory<GhostTree>("ghosttree");
   add_factory<Ghoul>("ghoul", OBJ_PARAM_DISPENSABLE);
   add_factory<GoldBomb>("goldbomb", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
+  add_factory<Granito>("granito", OBJ_PARAM_DISPENSABLE);
+  add_factory<GranitoBig>("granito_big", OBJ_PARAM_DISPENSABLE);
+  add_factory<GranitoGiant>("granito_giant", OBJ_PARAM_DISPENSABLE);
   add_factory<Haywire>("haywire", OBJ_PARAM_DISPENSABLE);
   add_type_factory<Flame>("iceflame", Flame::ICE); // Backward compatibility.
   add_factory<Igel>("igel", OBJ_PARAM_DISPENSABLE);
@@ -205,6 +218,8 @@ GameObjectFactory::init_factories()
   add_factory<Owl>("owl", OBJ_PARAM_DISPENSABLE);
   add_factory<Plant>("plant", OBJ_PARAM_DISPENSABLE);
   add_factory<RCrystallo>("rcrystallo", OBJ_PARAM_DISPENSABLE);
+  add_factory<Root>("root");
+  add_factory<RootSapling>("root_sapling");
   add_factory<SCrystallo>("scrystallo", OBJ_PARAM_DISPENSABLE);
   add_factory<ShortFuse>("short_fuse", OBJ_PARAM_DISPENSABLE);
   add_factory<SSpiky>("sspiky", OBJ_PARAM_DISPENSABLE);
@@ -214,10 +229,11 @@ GameObjectFactory::init_factories()
   add_factory<Snail>("snail", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<SnowBall>("snowball", OBJ_PARAM_DISPENSABLE);
   add_factory<Snowman>("snowman", OBJ_PARAM_DISPENSABLE);
-  add_factory<SpiderMite>("spidermite", OBJ_PARAM_DISPENSABLE);
   add_factory<Spiky>("spiky", OBJ_PARAM_DISPENSABLE);
   add_factory<Stalactite>("stalactite", OBJ_PARAM_DISPENSABLE);
   add_factory<Stumpy>("stumpy", OBJ_PARAM_DISPENSABLE);
+  add_factory<Tarantula>("spidermite"); // Backward compatibilty.
+  add_factory<Tarantula>("tarantula", OBJ_PARAM_DISPENSABLE);
   add_factory<Toad>("toad", OBJ_PARAM_DISPENSABLE);
   add_factory<Totem>("totem", OBJ_PARAM_DISPENSABLE);
   add_factory<ViciousIvy>("poisonivy"); // Backward compatibilty.
@@ -314,6 +330,48 @@ GameObjectFactory::init_factories()
     },
     TileMap::display_name
   });
+}
+
+/** Register all scriptable objects to a Squirrel VM. */
+void
+GameObjectFactory::register_objects(ssq::VM& vm)
+{
+  /* Base classes */
+  GameObject::register_class(vm);
+  MovingObject::register_class(vm);
+  MovingSprite::register_class(vm);
+  BadGuy::register_class(vm);
+  ParticleSystem::register_class(vm);
+
+  AmbientSound::register_class(vm);
+  Background::register_class(vm);
+  Camera::register_class(vm);
+  Candle::register_class(vm);
+  CloudParticleSystem::register_class(vm);
+  ConveyorBelt::register_class(vm);
+  CustomParticleSystem::register_class(vm);
+  Decal::register_class(vm);
+  Dispenser::register_class(vm);
+  DisplayEffect::register_class(vm);
+  FloatingImage::register_class(vm);
+  Gradient::register_class(vm);
+  LevelTime::register_class(vm);
+  LitObject::register_class(vm);
+  Platform::register_class(vm);
+  Player::register_class(vm);
+  RainParticleSystem::register_class(vm);
+  ScriptedObject::register_class(vm);
+  SoundObject::register_class(vm);
+  Spotlight::register_class(vm);
+  TextArrayObject::register_class(vm);
+  TextObject::register_class(vm);
+  Thunderstorm::register_class(vm);
+  TileMap::register_class(vm);
+  Torch::register_class(vm);
+  WillOWisp::register_class(vm);
+  Wind::register_class(vm);
+  Granito::register_class(vm);
+  GranitoBig::register_class(vm);
 }
 
 std::unique_ptr<GameObject>

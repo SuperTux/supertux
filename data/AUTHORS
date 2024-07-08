@@ -71,6 +71,23 @@ All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unl
 * wisphunt.ogg
 * worldmap_old.ogg - By ZhayTee
 * voc-***.ogg
+* night.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* worldmap_ice.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* sunset.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* skylevel.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* midday.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* midday_alt.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* cavetheme.ogg - By SnugglyBun, based on the original cave theme by Wansti. licensed under CC-BY-SA 4.0
+* cavetheme_alt.ogg - By SnugglyBun, cover of the original cave theme by Wansti. licensed under CC-BY-SA 4.0
+* crystalmine_intro.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* crystalmine_main.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* crystalmine_underwater.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* glacier.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* snowfort.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* icecastle.ogg - By SnugglyBun, based on the original fortress theme by Wansti. licensed under CC-BY-SA 4.0
+* yetiboss.ogg - By SnugglyBun, cover of the original boss battle theme by Wansti. licensed under CC-BY-SA 4.0
+* forest_midday.ogg - By SnugglyBun, based on the original forest theme by Wansti. licensed under CC-BY-SA 4.0
+* forest_midday_alt.ogg - By SnugglyBun, based on forest.ogg and forest3.ogg by Wansti. licensed under CC-BY-SA 4.0
 
 == Scripts ==
 
@@ -112,7 +129,7 @@ These are just more code.
 * invincible_start.ogg - self-made sound by Wansti
 * jump.wav - self-made by wansti
 * kick.wav - replaced with a self-made sound by Some_Person
-* kill.wav - copy of hurt.wav
+* kill.wav - submitted by RodirodDude CC BY-NC 4.0
 * lava.wav - submitted as GPL by Bastian Zapf
 * lifeup.wav - added Fri May 14 05:24:24 2004 UTC by sik0fewl. Message was "added sounds from Nathan McCoy" -sommer 22:43, 4 Jan 2007 (CET)
 * lightning.wav - sampled by Some_Person from http://www.pdsounds.org/sounds/storm_thunderbolts

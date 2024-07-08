@@ -27,6 +27,7 @@ class TreeWillOWisp final : public BadGuy
 public:
   TreeWillOWisp(GhostTree* tree, const Vector& pos, float radius, float speed);
   ~TreeWillOWisp() override;
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(TreeWillOWisp)); }
 
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;

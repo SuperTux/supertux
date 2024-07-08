@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
 #define HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
 
-#include "badguy/badguy.hpp"
+#include "object/sticky_object.hpp"
 
 /** Badguy "DartTrap" - Shoots a Dart at regular intervals */
-class DartTrap final : public BadGuy
+class DartTrap final : public StickyBadguy
 {
 public:
   DartTrap(const ReaderMapping& reader);
@@ -34,6 +34,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Dart Trap"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return StickyBadguy::get_class_types().add(typeid(DartTrap)); }
 
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;

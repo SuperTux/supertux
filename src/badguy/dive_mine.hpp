@@ -35,6 +35,8 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
+  virtual void kill_fall() override;
+
   virtual void draw(DrawingContext& context) override;
   virtual void active_update(float dt_sec) override;
 
@@ -47,6 +49,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Dive Mine"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(DiveMine)); }
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;

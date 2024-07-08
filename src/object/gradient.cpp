@@ -14,9 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/gradient.hpp"
+
 #include <utility>
 
-#include "object/gradient.hpp"
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
 
 #include "editor/editor.hpp"
 #include "object/camera.hpp"
@@ -30,7 +33,6 @@
 #include "video/viewport.hpp"
 
 Gradient::Gradient() :
-  ExposedObject<Gradient, scripting::Gradient>(this),
   m_layer(LAYER_BACKGROUND0),
   m_gradient_top(),
   m_gradient_bottom(),
@@ -48,7 +50,6 @@ Gradient::Gradient() :
 
 Gradient::Gradient(const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<Gradient, scripting::Gradient>(this),
   m_layer(LAYER_BACKGROUND0),
   m_gradient_top(),
   m_gradient_bottom(),
@@ -242,6 +243,48 @@ Gradient::set_direction(const std::string& direction)
 }
 
 void
+Gradient::set_color1(float red, float green, float blue)
+{
+  set_gradient(Color(red, green, blue), m_gradient_bottom);
+}
+
+void
+Gradient::set_color2(float red, float green, float blue)
+{
+  set_gradient(m_gradient_top, Color(red, green, blue));
+}
+
+void
+Gradient::set_colors(float red1, float green1, float blue1, float red2, float green2, float blue2)
+{
+  set_gradient(Color(red1, green1, blue1), Color(red2, green2, blue2));
+}
+
+void
+Gradient::fade_color1(float red, float green, float blue, float time)
+{
+  fade_gradient(Color(red, green, blue), m_gradient_bottom, time);
+}
+
+void
+Gradient::fade_color2(float red, float green, float blue, float time)
+{
+  fade_gradient(m_gradient_top, Color(red, green, blue), time);
+}
+
+void
+Gradient::fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time)
+{
+  fade_gradient(Color(red1, green1, blue1), Color(red2, green2, blue2), time);
+}
+
+void
+Gradient::swap_colors()
+{
+  set_gradient(m_gradient_bottom, m_gradient_top);
+}
+
+void
 Gradient::draw(DrawingContext& context)
 {
   if (Editor::is_active() && !g_config->editor_render_background)
@@ -262,6 +305,7 @@ Gradient::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
   context.get_canvas(m_target).draw_gradient(m_gradient_top, m_gradient_bottom, m_layer, m_gradient_direction,
                                              gradient_region, m_blend);
   context.pop_transform();
@@ -280,6 +324,23 @@ Gradient::on_flip(float height)
   GameObject::on_flip(height);
   if (m_gradient_direction == VERTICAL || m_gradient_direction == VERTICAL_SECTOR)
     std::swap(m_gradient_top, m_gradient_bottom);
+}
+
+
+void
+Gradient::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Gradient>("Gradient", vm.findClass("GameObject"));
+
+  cls.addFunc<void, Gradient, const std::string&>("set_direction", &Gradient::set_direction);
+  cls.addFunc("get_direction", &Gradient::get_direction_string);
+  cls.addFunc("set_color1", &Gradient::set_color1);
+  cls.addFunc("set_color2", &Gradient::set_color2);
+  cls.addFunc("set_colors", &Gradient::set_colors);
+  cls.addFunc("fade_color1", &Gradient::fade_color1);
+  cls.addFunc("fade_color2", &Gradient::fade_color2);
+  cls.addFunc("fade_colors", &Gradient::fade_colors);
+  cls.addFunc("swap_colors", &Gradient::swap_colors);
 }
 
 /* EOF */

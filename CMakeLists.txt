@@ -105,7 +105,7 @@ if(EMSCRIPTEN)
   set(IS_EMSCRIPTEN_BUILD ON)
 
   set(EM_USE_FLAGS "-sDISABLE_EXCEPTION_CATCHING=0")
-  set(EM_LINK_FLAGS " -sTOTAL_MEMORY=67108864 -sALLOW_MEMORY_GROWTH=1 -sERROR_ON_UNDEFINED_SYMBOLS=0 --preload-file ${BUILD_CONFIG_DATA_DIR} --use-preload-plugins -lidbfs.js")
+  set(EM_LINK_FLAGS " -sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH=1 -sMAXIMUM_MEMORY=536870912 -sERROR_ON_UNDEFINED_SYMBOLS=0 --preload-file ${BUILD_CONFIG_DATA_DIR} --use-preload-plugins -lidbfs.js")
   if(CMAKE_BUILD_TYPE MATCHES Debug)
     set(EM_USE_FLAGS "${EM_USE_FLAGS} -fsanitize=undefined")
     set(EM_LINK_FLAGS "${EM_LINK_FLAGS} -fsanitize=undefined -sSAFE_HEAP=1 -sASSERTIONS=1 -sDEMANGLE_SUPPORT=1")
@@ -175,7 +175,7 @@ include(SuperTux/ProvideOpenAL)
 include(SuperTux/ProvideOggVorbis)
 include(SuperTux/ProvidePhysfs)
 include(SuperTux/ProvideCurl)
-include(SuperTux/ProvideSquirrel)
+include(SuperTux/ProvideSimpleSquirrel)
 include(SuperTux/ProvideTinygettext)
 include(SuperTux/ProvideSDL2_ttf)
 include(SuperTux/ProvideDiscord)
@@ -188,7 +188,6 @@ include(SuperTux/ProvideOpenGL)
 include(SuperTux/BuildVersion)
 include(SuperTux/BuildDocumentation)
 include(SuperTux/BuildMessagePot)
-include(SuperTux/BuildMiniswigWrapper)
 
 ## Build list of sources for supertux binary
 file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
@@ -205,10 +204,6 @@ endif()
 list(SORT SUPERTUX_SOURCES_C)
 list(SORT SUPERTUX_SOURCES_CXX)
 list(SORT SUPERTUX_RESOURCES)
-
-if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
-  set(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
-endif()
 
 ## On Windows, add an icon
 if(WIN32)
@@ -250,11 +245,13 @@ if(EMSCRIPTEN)
 endif()
 
 if(WIN32 AND NOT VCPKG_BUILD)
+if(NOT MINGW)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${DEPENDENCY_FOLDER}/dll"
     $<TARGET_FILE_DIR:supertux2_lib>)
+endif()
 endif()
 
 ## Some additional include paths
@@ -285,7 +282,9 @@ target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
+  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
   target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)
+  target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
 if(HAVE_OPENGL)
@@ -294,10 +293,6 @@ endif()
 
 if(ENABLE_DISCORD)
   target_link_libraries(supertux2_lib PUBLIC LibDiscord)
-endif()
-
-if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
 # FIXME: Some libraries made by Provide*.cmake

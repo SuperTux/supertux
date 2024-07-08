@@ -26,9 +26,15 @@
 
 class ReaderMapping;
 
-/** Abstract base class for MovingObjects that are represented by a Sprite */
+/**
+ * @scripting
+ * @summary Abstract base class for ""MovingObject""s, that are represented by a sprite.
+ */
 class MovingSprite : public MovingObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   MovingSprite(const Vector& pos,
                const std::string& sprite_name,
@@ -50,14 +56,16 @@ public:
   virtual void update(float dt_sec) override;
   static std::string class_name() { return "moving-sprite"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "MovingSprite"; }
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(MovingSprite)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
-  virtual void on_type_change(int old_type = -1) override;
+  virtual void on_type_change(int old_type) override;
 
   virtual int get_layer() const override { return m_layer; }
 
-  bool has_found_sprite();
+  bool has_found_sprite() const { return m_sprite_found; }
   const std::string& get_sprite_name() const { return m_sprite_name; }
   virtual std::string get_default_sprite_name() const { return m_default_sprite_name; }
 
@@ -67,11 +75,43 @@ public:
 
   /** Get various sprite properties. **/
   Sprite* get_sprite() const { return m_sprite.get(); }
-  const std::string& get_action() const { return m_sprite->get_action(); }
 
-  /** Set new action for sprite and resize bounding box.  use with
-      care as you can easily get stuck when resizing the bounding box. */
-  void set_action(const std::string& name, int loops = -1);
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description Sets the sprite of the object.
+   * @param string $file
+   */
+  void set_sprite(const std::string& file);
+  /**
+   * @scripting
+   * @description Returns the file of the object's sprite.
+   */
+  std::string get_sprite() const;
+#endif
+  /**
+   * @scripting
+   * @description Returns the name of the current action of the sprite.
+   */
+  std::string get_action() const;
+  /**
+   * @scripting
+   * @description Sets the current action of the sprite and resizes the bounding box.
+                  NOTE: Use with care as you can easily get stuck when resizing the bounding box.
+   * @param string $name
+   */
+  void set_action(const std::string& name);
+  /**
+   * @scripting
+   * @description Sets the current action of the sprite, as well as the number of times it should loop, and resizes the bounding box.
+                  NOTE: Use with care as you can easily get stuck when resizing the bounding box.
+   * @param string $name
+   * @param int $loops
+   */
+  void set_action_loops(const std::string& name, int loops);
+
+  /** Sets the action from an action name, as well as the number of times it should loop. */
+  void set_action(const std::string& name, int loops);
 
   /** Sets the action from an action name and a particular direction
       in the form of "name-direction", eg. "walk-left".
@@ -117,6 +157,9 @@ protected:
 private:
   /** A custom sprite has been successfully found and set on initialization. */
   bool m_sprite_found;
+
+  /** A custom layer has been specified. */
+  const bool m_custom_layer;
 
 private:
   MovingSprite(const MovingSprite&) = delete;

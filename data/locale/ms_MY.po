@@ -1176,8 +1176,8 @@ msgstr "Objek tidak diketahui"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Penggunaan: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Penggunaan: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
@@ -1803,13 +1803,13 @@ msgstr "Saiz semula"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1841,8 +1841,8 @@ msgstr "Tidak diketahui"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" oleh \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" oleh \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -1854,13 +1854,13 @@ msgstr "Tiada Tambahan ditemui"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Pasang %s *BAHARU*"
+msgid "Install {} *NEW*"
+msgstr "Pasang {} *BAHARU*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Pasang %s"
+msgid "Install {}"
+msgstr "Pasang {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -1880,8 +1880,8 @@ msgstr "Memuat Turun Indeks Repositori Tambahan"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Memuat turun %s"
+msgid "Downloading {}"
+msgstr "Memuat turun {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -2297,8 +2297,8 @@ msgstr "Faham!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "disumbang oleh %s"
+msgid "contributed by {}"
+msgstr "disumbang oleh {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

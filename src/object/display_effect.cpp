@@ -16,6 +16,9 @@
 
 #include "object/display_effect.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
@@ -23,7 +26,6 @@ static const float BORDER_SIZE = 75;
 
 DisplayEffect::DisplayEffect(const std::string& name) :
   GameObject(name),
-  ExposedObject<DisplayEffect, scripting::DisplayEffect>(this),
   screen_fade(FadeType::NO_FADE),
   screen_fadetime(0),
   screen_fading(0),
@@ -92,6 +94,7 @@ DisplayEffect::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
 
   if (black || screen_fade != FadeType::NO_FADE) {
     float alpha;
@@ -187,6 +190,20 @@ DisplayEffect::four_to_three(float fadetime)
     border_fadetime = fadetime;
     border_fading = border_fadetime;
   }
+}
+
+
+void
+DisplayEffect::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<DisplayEffect>("DisplayEffect", vm.findClass("GameObject"));
+
+  cls.addFunc("fade_out", &DisplayEffect::fade_out);
+  cls.addFunc("fade_in", &DisplayEffect::fade_in);
+  cls.addFunc("set_black", &DisplayEffect::set_black);
+  cls.addFunc("is_black", &DisplayEffect::is_black);
+  cls.addFunc("sixteen_to_nine", &DisplayEffect::sixteen_to_nine);
+  cls.addFunc("four_to_three", &DisplayEffect::four_to_three);
 }
 
 /* EOF */

@@ -66,7 +66,7 @@ Resources::load()
   }
   else
   {
-    console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.25f, 0, 1));
+    console_font.reset(new TTFFont("fonts/SourceCodePro-Medium.ttf", 12, 1.25f, 0, 1));
 
     auto font = get_font_for_locale(g_dictionary_manager->get_language());
     if(font != current_font)

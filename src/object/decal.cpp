@@ -15,7 +15,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/decal.hpp"
-#include "scripting/decal.hpp"
+
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "supertux/flip_level_transformer.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader.hpp"
@@ -23,7 +26,6 @@
 
 Decal::Decal(const ReaderMapping& reader) :
   MovingSprite(reader, "images/decal/explanations/billboard-bigtux.png", LAYER_OBJECTS, COLGROUP_DISABLED),
-  ExposedObject<Decal, scripting::Decal>(this),
   m_default_action("default"),
   m_solid(),
   m_fade_sprite(m_sprite.get()->clone()),
@@ -45,7 +47,6 @@ Decal::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_OBJECTS);
   result.add_bool(_("Solid"), &m_solid, "solid", false);
   result.add_text(_("Action"), &m_default_action, "action", "default");
 
@@ -116,7 +117,7 @@ Decal::update(float)
     else
     {
       // Square root makes the background stay at fairly constant color/transparency
-      float new_alpha = sqrtf(m_sprite_timer.get_timegone() / m_sprite_timer.get_period());
+      float new_alpha = sqrtf(m_sprite_timer.get_progress());
       float old_alpha = sqrtf(m_sprite_timer.get_timeleft() / m_sprite_timer.get_period());
       m_sprite.get()->set_alpha(new_alpha);
       m_fade_sprite.get()->set_alpha(old_alpha);
@@ -136,11 +137,23 @@ Decal::update(float)
     else
     {
       float alpha;
-      if (m_visible) alpha = m_fade_timer.get_timegone() / m_fade_timer.get_period();
+      if (m_visible) alpha = m_fade_timer.get_progress();
       else alpha = m_fade_timer.get_timeleft() / m_fade_timer.get_period();
       m_sprite.get()->set_alpha(alpha);
     }
   }
+}
+
+
+void
+Decal::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Decal>("Decal", vm.findClass("MovingSprite"));
+
+  cls.addFunc("fade_sprite", &Decal::fade_sprite);
+  cls.addFunc("change_sprite", &MovingSprite::change_sprite); // Deprecated; for compatibility
+  cls.addFunc("fade_in", &Decal::fade_in);
+  cls.addFunc("fade_out", &Decal::fade_out);
 }
 
 /* EOF */

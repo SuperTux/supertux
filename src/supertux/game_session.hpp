@@ -17,22 +17,23 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 
+#include "supertux/screen.hpp"
+#include "util/currenton.hpp"
+
 #include <memory>
 #include <unordered_map>
 #include <vector>
 
-#include <squirrel.h>
+#include <simplesquirrel/table.hpp>
 
 #include "math/vector.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/game_session_recorder.hpp"
 #include "supertux/player_status.hpp"
-#include "supertux/screen.hpp"
+#include "supertux/screen_fade.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
-#include "util/currenton.hpp"
 #include "video/surface_ptr.hpp"
 
 class CodeController;
@@ -46,7 +47,6 @@ class Savegame;
 
 /** Screen that runs a Level, where Players run and jump through Sectors. */
 class GameSession final : public Screen,
-                          public GameSessionRecorder,
                           public Currenton<GameSession>
 {
 private:
@@ -89,6 +89,11 @@ public:
   /** ends the current level */
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname);
+  void respawn_with_fade(const std::string& sectorname,
+                         const std::string& spawnpointname,
+                         const ScreenFade::FadeType fade_type,
+                         const Vector &fade_point,
+                         const bool make_invincible = false);
   void reset_level();
 
   void set_start_point(const std::string& sectorname,
@@ -116,7 +121,7 @@ public:
    * resources for the current level/world
    */
   std::string get_working_directory() const;
-  std::string get_level_file() const { return m_levelfile; }
+  const std::string& get_level_file() const { return m_levelfile; }
   bool has_active_sequence() const;
   int restart_level(bool after_death = false, bool preserve_music = false);
 
@@ -136,6 +141,9 @@ private:
 
   void on_escape_press(bool force_quick_respawn);
 
+  Vector get_fade_point() const;
+  Vector get_fade_point(const Vector& position) const;
+
 public:
   bool reset_button;
   bool reset_checkpoint_button;
@@ -146,8 +154,7 @@ private:
   std::unique_ptr<Level> m_level;
   SurfacePtr m_statistics_backdrop;
 
-  // scripts
-  SquirrelObjectList m_scripts;
+  ssq::Table m_data_table;
 
   Sector* m_currentsector;
 
@@ -165,6 +172,9 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string m_newsector;
   std::string m_newspawnpoint;
+  ScreenFade::FadeType m_spawn_fade_type;
+  Timer m_spawn_fade_timer;
+  bool m_spawn_with_invincibility;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;

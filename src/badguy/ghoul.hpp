@@ -30,6 +30,7 @@ public:
   static std::string display_name() { return _("Ghoul"); }
   std::string get_class_name() const override { return class_name(); }
   std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Ghoul)); }
   bool is_freezable() const override;
   bool is_flammable() const override;
   virtual bool is_snipable() const override { return true; }
@@ -40,7 +41,7 @@ public:
   void deactivate() override;
   void active_update(float dt_sec) override;
   
-  void goto_node(int node_no);
+  void goto_node(int node_idx);
   void set_state(const std::string& state);
   void start_moving();
   void stop_moving();

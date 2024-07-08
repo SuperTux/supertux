@@ -103,7 +103,7 @@ Rectf relative_map(const Rectf& inside, const Rect& srcrect, const Rectf& dstrec
                dstrect.get_left() + (inside.get_right() - src_rectf.get_left()) * dstrect.get_width() / src_rectf.get_width(),
                dstrect.get_top() + (inside.get_bottom() - src_rectf.get_top()) * dstrect.get_height() / src_rectf.get_height());
 
-  assert(dstrect.contains(result));
+  assert(dstrect.overlaps(result));
 
   return result;
 }
@@ -117,7 +117,7 @@ void render_texture(SDL_Renderer* renderer,
   if (srcrect.empty() || dstrect.empty())
     return;
 
-  if (imgrect.contains(srcrect))
+  if (imgrect.overlaps(srcrect))
   {
     SDL_Rect sdl_srcrect = srcrect.to_sdl();
     SDL_FRect sdl_dstrect = dstrect.to_sdl();
@@ -592,10 +592,7 @@ SDLPainter::clear(const Color& color)
 void
 SDLPainter::set_clip_rect(const Rect& rect)
 {
-  m_cliprect = SDL_Rect{ rect.left,
-                         rect.top,
-                         rect.get_width(),
-                         rect.get_height() };
+  m_cliprect = rect.to_sdl();
 
   int ret = SDL_RenderSetClipRect(m_sdl_renderer, &*m_cliprect);
   if (ret < 0)

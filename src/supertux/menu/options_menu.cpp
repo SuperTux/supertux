@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/dialog.hpp"
+#include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"
@@ -109,13 +110,18 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_magnification();
       add_vsync();
 
+      add_toggle(MNID_FRAME_PREDICTION, _("Frame prediction"), &g_config->frame_prediction)
+        .set_help(_("Smooth camera motion, generating intermediate frames. This has a noticeable effect on monitors at >> 60Hz. Moving objects may be blurry."));
+
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
       add_aspect_ratio();
 #endif
 
+      add_floatfield(_("Camera Peek Multiplier"), &g_config->camera_peek_multiplier)
+        .set_help(_("The fractional distance towards the camera peek position to move each frame.\n\n0 = No Peek, 1 = Instant Peek"));
+
       add_submenu(_("Change Video System"), MenuStorage::MenuId::VIDEO_SYSTEM_MENU)
         .set_help(_("Change video system used to render graphics"));
-
       break;
     }
 
@@ -227,6 +233,7 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
 
 OptionsMenu::~OptionsMenu()
 {
+  g_config->save();
 }
 
 void
@@ -644,22 +651,27 @@ OptionsMenu::menu_action(MenuItem& item)
 #endif
 
     case MNID_VSYNC:
+    {
+      int vsync = 0;
       switch (m_vsyncs.next)
       {
         case 2:
-          VideoSystem::current()->set_vsync(-1);
+          vsync = -1;
           break;
         case 1:
-          VideoSystem::current()->set_vsync(0);
+          vsync = 0;
           break;
         case 0:
-          VideoSystem::current()->set_vsync(1);
+          vsync = 1;
           break;
         default:
           assert(false);
           break;
       }
-      break;
+      g_config->vsync = vsync;
+      VideoSystem::current()->set_vsync(vsync);
+    }
+    break;
 
     case MNID_FULLSCREEN:
       VideoSystem::current()->apply_config();

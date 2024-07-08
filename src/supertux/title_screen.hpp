@@ -24,10 +24,10 @@
 
 #include <string>
 
+#include "control/codecontroller.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "video/surface_ptr.hpp"
 
-class CodeController;
 class GameSession;
 class Savegame;
 class Sector;

@@ -59,6 +59,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 
         # flags that we deliberately ignore
         "-Wno-unused-parameter "
+        "-Wno-unused-template "
         "-Wno-c++98-compat "
         "-Wno-c++98-compat-pedantic "
         "-Wno-float-equal "
@@ -68,6 +69,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-documentation "
         "-Wno-reserved-id-macro "
         "-Wno-sign-conversion "
+        "-Wno-reserved-identifier "
+        "-Wno-unknown-warning-option "
 
         # warnings that should probably be fixed in code
         "-Wno-documentation-unknown-command "

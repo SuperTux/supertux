@@ -25,9 +25,19 @@
 #include "object/path_walker.hpp"
 #include "util/uid.hpp"
 
-/** A class for all objects that contain / make use of a path. */
+namespace ssq {
+class Class;
+} // namespace ssq
+
+/**
+ * @scripting
+ * @summary A base class for all objects that contain, or make use of a path.
+ */
 class PathObject
 {
+protected:
+  static void register_members(ssq::Class& cls);
+
 public:
   PathObject();
   virtual ~PathObject();
@@ -41,12 +51,41 @@ public:
   Path* get_path() const;
   PathWalker* get_walker() const { return m_walker.get(); }
 
+  void editor_clone_path(PathGameObject* path_object);
+
   std::string get_path_ref() const;
   void editor_set_path_by_ref(const std::string& new_ref);
 
+  /**
+   * @scripting
+   * @description Moves the path object until at given node, then stops.
+   * @param int $node_idx
+   */
+  void goto_node(int node_idx);
+  /**
+   * @scripting
+   * @description Jumps instantly to the given node.
+   * @param int $node_idx
+   */
+  void set_node(int node_idx);
+  /**
+   * @scripting
+   * @description Starts moving the path object automatically.
+   */
+  void start_moving();
+  /**
+   * @scripting
+   * @description Stops moving the path object.
+   */
+  void stop_moving();
+
 protected:
+  void save_state() const;
+  void check_state() const;
+
   void on_flip();
 
+protected:
   PathWalker::Handle m_path_handle;
 
 private:

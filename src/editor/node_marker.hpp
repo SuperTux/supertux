@@ -25,6 +25,7 @@ class NodeMarker final : public MarkerObject
 {
 public:
   NodeMarker(std::vector<Path::Node>::iterator node_iterator, size_t id_, UID before, UID after);
+  virtual GameObjectClasses get_class_types() const override { return MarkerObject::get_class_types().add(typeid(NodeMarker)); }
 
   virtual void move_to(const Vector& pos) override;
   virtual void editor_delete() override;

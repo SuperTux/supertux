@@ -195,7 +195,7 @@ BonusBlock::get_default_sprite_name() const
 void
 BonusBlock::on_type_change(int old_type)
 {
-  Block::on_type_change();
+  Block::on_type_change(old_type);
 
   m_hit_counter = get_default_hit_counter();
   m_coin_sprite = get_default_coin_sprite();

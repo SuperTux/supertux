@@ -16,14 +16,14 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BUMPER_HPP
 #define HEADER_SUPERTUX_OBJECT_BUMPER_HPP
 
-#include "object/moving_sprite.hpp"
+#include "object/sticky_object.hpp"
 
 #include "supertux/physic.hpp"
 
 enum class Direction;
 class Player;
 
-class Bumper final : public MovingSprite
+class Bumper final : public StickyObject
 {
 public:
   Bumper(const ReaderMapping& reader);
@@ -37,6 +37,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Bumper"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return StickyObject::get_class_types().add(typeid(Bumper)); }
 
   virtual void after_editor_set() override;
   virtual void on_flip(float height) override;
@@ -47,6 +48,7 @@ private:
   Physic m_physic;
 
   Direction m_dir;
+  Vector m_original_pos;
 
 private:
   Bumper(const Bumper&) = delete;

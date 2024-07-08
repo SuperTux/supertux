@@ -20,8 +20,6 @@
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
 #include "object/portable.hpp"
-#include "scripting/badguy.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
@@ -29,11 +27,20 @@ enum class Direction;
 class Player;
 class Bullet;
 
-/** Base class for moving sprites that can hurt the Player. */
+/**
+ * Base class for moving sprites that can hurt the Player.
+
+ * @scripting
+ * @summary A ""BadGuy"" that was given a name can be controlled by scripts.
+ * @instances A ""BadGuy"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class BadGuy : public MovingSprite,
-               public ExposedObject<BadGuy, scripting::BadGuy>,
                public Portable
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
@@ -58,8 +65,10 @@ public:
 
   static std::string class_name() { return "badguy"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "BadGuy"; }
   static std::string display_name() { return _("Badguy"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Portable)).add(typeid(BadGuy)); }
 
   virtual std::string get_overlay_size() const { return "1x1"; }
 
@@ -78,6 +87,13 @@ public:
   /** Set the badguy to kill/falling state, which makes him falling of
       the screen (his sprite is turned upside-down) */
   virtual void kill_fall();
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description Sets the badguy to kill/falling state, which makes it fall of the screen (its sprite is turned upside-down).
+   */
+  void kill();
+#endif
 
   /** Call this, if you use custom kill_fall() or kill_squashed(GameObject& object) */
   virtual void run_dead_script();
@@ -93,7 +109,10 @@ public:
   virtual void ungrab(MovingObject& object, Direction dir) override;
   virtual bool is_portable() const override;
 
-  /** Called when hit by a fire bullet, and is_flammable() returns true */
+  /**
+   * @scripting
+   * @description Kills the badguy by igniting it.
+   */
   virtual void ignite();
 
   /** Called to revert a badguy when is_ignited() returns true */
@@ -135,6 +154,8 @@ public:
 
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
+
+  Physic& get_physic() { return m_physic; }
 
 protected:
   enum State {
@@ -267,6 +288,9 @@ protected:
   SpritePtr m_lightsprite;
   SpritePtr m_freezesprite;
   bool m_glowing;
+  bool m_water_affected;
+
+  Timer m_unfreeze_timer;
 
 private:
   State m_state;
@@ -276,8 +300,6 @@ private:
   bool m_is_active_flag;
 
   Timer m_state_timer;
-
-  Timer m_unfreeze_timer;
 
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */

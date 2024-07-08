@@ -29,6 +29,7 @@ public:
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void update(float dt_sec) override;
   virtual void active_update(float dt_sec) override;
 
   virtual void freeze() override;
@@ -39,6 +40,7 @@ public:
   static std::string display_name() { return _("Swimming Fish"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual std::string get_overlay_size() const override { return "2x1"; }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(FishSwimming)); }
   virtual ObjectSettings get_settings() override;
 
   virtual GameObjectTypes get_types() const override;
@@ -50,7 +52,8 @@ public:
 protected:
   enum Type {
     SNOW,
-    FOREST
+    FOREST,
+    CORRUPTED,
   };
 
   enum FishYState {
