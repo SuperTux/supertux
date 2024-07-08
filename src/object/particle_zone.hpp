@@ -17,18 +17,15 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PARTICLE_ZONE_HPP
 #define HEADER_SUPERTUX_OBJECT_PARTICLE_ZONE_HPP
 
-#include "squirrel/exposed_object.hpp"
-// TODO: #include "scripting/wind.hpp"
 #include "supertux/moving_object.hpp"
+
 #include "video/layer.hpp"
 
-class ReaderMapping;
-
 /** Defines an area where a certain particle type can spawn */
-class ParticleZone final :
-  public MovingObject//, // TODO: Make this area actually moveable with Squirrel
-  //public ExposedObject<ParticleZone, scripting::Wind> // TODO: Scripting interface
+class ParticleZone final : public MovingObject
 {
+  // TODO: Scripting interface
+
 public:
   ParticleZone(const ReaderMapping& reader);
 
@@ -40,6 +37,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Particle zone"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(ParticleZone)); }
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual ObjectSettings get_settings() override;

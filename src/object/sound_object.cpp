@@ -18,6 +18,9 @@
 
 #include <limits>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "editor/editor.hpp"
@@ -25,7 +28,6 @@
 
 SoundObject::SoundObject(const ReaderMapping& mapping) :
   GameObject(mapping),
-  ExposedObject<SoundObject, scripting::SoundObject>(this),
   m_sample(),
   m_sound_source(),
   m_volume(),
@@ -38,7 +40,6 @@ SoundObject::SoundObject(const ReaderMapping& mapping) :
 }
 
 SoundObject::SoundObject(float vol, const std::string& file) :
-  ExposedObject<SoundObject, scripting::SoundObject>(this),
   m_sample(file),
   m_sound_source(),
   m_volume(vol),
@@ -126,6 +127,24 @@ SoundObject::set_volume(float volume)
 {
   m_volume = volume;
   m_sound_source->set_gain(volume);
+}
+
+float
+SoundObject::get_volume() const
+{
+  return m_volume;
+}
+
+
+void
+SoundObject::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<SoundObject>("SoundObject", vm.findClass("GameObject"));
+
+  cls.addFunc("start_playing", &SoundObject::play_looping_sounds);
+  cls.addFunc("stop_playing", &SoundObject::stop_looping_sounds);
+  cls.addFunc("set_volume", &SoundObject::set_volume);
+  cls.addFunc("get_volume", &SoundObject::get_volume);
 }
 
 /* EOF */

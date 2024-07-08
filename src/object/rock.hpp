@@ -19,13 +19,10 @@
 
 #include "object/moving_sprite.hpp"
 #include "object/portable.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/rock.hpp"
 #include "supertux/physic.hpp"
 
 class Rock : public MovingSprite,
-             public Portable,
-             public ExposedObject<Rock, scripting::Rock>
+             public Portable
 {
 public:
   Rock(const ReaderMapping& reader, const std::string& spritename = "images/objects/rock/rock.sprite");
@@ -42,6 +39,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Rock"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Portable)).add(typeid(Rock)); }
 
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;

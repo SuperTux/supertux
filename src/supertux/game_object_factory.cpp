@@ -16,6 +16,8 @@
 
 #include "supertux/game_object_factory.hpp"
 
+#include <sstream>
+
 #include "audio/sound_source.hpp"
 #include "badguy/angrystone.hpp"
 #include "badguy/bouncing_snowball.hpp"
@@ -94,9 +96,11 @@
 #include "object/coin.hpp"
 #include "object/conveyor_belt.hpp"
 #include "object/decal.hpp"
+#include "object/display_effect.hpp"
 #include "object/explosion.hpp"
 #include "object/fallblock.hpp"
 #include "object/firefly.hpp"
+#include "object/floating_image.hpp"
 #include "object/ghost_particle_system.hpp"
 #include "object/gradient.hpp"
 #include "object/hurting_platform.hpp"
@@ -125,6 +129,7 @@
 #include "object/sound_object.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
+#include "object/text_array_object.hpp"
 #include "object/textscroller.hpp"
 #include "object/thunderstorm.hpp"
 #include "object/tilemap.hpp"
@@ -325,6 +330,48 @@ GameObjectFactory::init_factories()
     },
     TileMap::display_name
   });
+}
+
+/** Register all scriptable objects to a Squirrel VM. */
+void
+GameObjectFactory::register_objects(ssq::VM& vm)
+{
+  /* Base classes */
+  GameObject::register_class(vm);
+  MovingObject::register_class(vm);
+  MovingSprite::register_class(vm);
+  BadGuy::register_class(vm);
+  ParticleSystem::register_class(vm);
+
+  AmbientSound::register_class(vm);
+  Background::register_class(vm);
+  Camera::register_class(vm);
+  Candle::register_class(vm);
+  CloudParticleSystem::register_class(vm);
+  ConveyorBelt::register_class(vm);
+  CustomParticleSystem::register_class(vm);
+  Decal::register_class(vm);
+  Dispenser::register_class(vm);
+  DisplayEffect::register_class(vm);
+  FloatingImage::register_class(vm);
+  Gradient::register_class(vm);
+  LevelTime::register_class(vm);
+  LitObject::register_class(vm);
+  Platform::register_class(vm);
+  Player::register_class(vm);
+  RainParticleSystem::register_class(vm);
+  ScriptedObject::register_class(vm);
+  SoundObject::register_class(vm);
+  Spotlight::register_class(vm);
+  TextArrayObject::register_class(vm);
+  TextObject::register_class(vm);
+  Thunderstorm::register_class(vm);
+  TileMap::register_class(vm);
+  Torch::register_class(vm);
+  WillOWisp::register_class(vm);
+  Wind::register_class(vm);
+  Granito::register_class(vm);
+  GranitoBig::register_class(vm);
 }
 
 std::unique_ptr<GameObject>

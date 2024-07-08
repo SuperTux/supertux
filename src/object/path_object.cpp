@@ -18,8 +18,9 @@
 
 #include <optional>
 
+#include <simplesquirrel/class.hpp>
+
 #include "editor/editor.hpp"
-#include "object/path_gameobject.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -76,6 +77,36 @@ PathObject::init_path_pos(const Vector& pos, bool running)
   auto& path_gameobject = d_gameobject_manager->add<PathGameObject>(pos);
   m_path_uid = path_gameobject.get_uid();
   m_walker.reset(new PathWalker(path_gameobject.get_uid(), running));
+}
+
+void
+PathObject::goto_node(int node_idx)
+{
+  if (!m_walker) return;
+  BIND_SECTOR(Sector::get());
+  m_walker->goto_node(node_idx);
+}
+
+void
+PathObject::set_node(int node_idx)
+{
+  if (!m_walker) return;
+  BIND_SECTOR(Sector::get());
+  m_walker->jump_to_node(node_idx, true);
+}
+
+void
+PathObject::start_moving()
+{
+  if (!m_walker) return;
+  m_walker->start_moving();
+}
+
+void
+PathObject::stop_moving()
+{
+  if (!m_walker) return;
+  m_walker->stop_moving();
 }
 
 void
@@ -149,6 +180,16 @@ PathObject::on_flip()
 {
   m_path_handle.m_scalar_pos.y = 1 - m_path_handle.m_scalar_pos.y;
   m_path_handle.m_pixel_offset.y = -m_path_handle.m_pixel_offset.y;
+}
+
+
+void
+PathObject::register_members(ssq::Class& cls)
+{
+  cls.addFunc("goto_node", &PathObject::goto_node);
+  cls.addFunc("set_node", &PathObject::set_node);
+  cls.addFunc("start_moving", &PathObject::start_moving);
+  cls.addFunc("stop_moving", &PathObject::stop_moving);
 }
 
 /* EOF */

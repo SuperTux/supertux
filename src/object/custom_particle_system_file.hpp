@@ -22,14 +22,13 @@
 #include "object/custom_particle_system.hpp"
 #include "object/particlesystem_interactive.hpp"
 #include "object/particle_zone.hpp"
-#include "scripting/custom_particles.hpp"
 #include "video/surface.hpp"
 #include "video/surface_ptr.hpp"
 
-class CustomParticleSystemFile final :
-  public CustomParticleSystem
+class CustomParticleSystemFile final : public CustomParticleSystem
 {
   friend class ParticleEditor;
+
 public:
   CustomParticleSystemFile();
   CustomParticleSystemFile(const ReaderMapping& reader);
@@ -39,6 +38,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Custom Particles from file"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return CustomParticleSystem::get_class_types().add(typeid(CustomParticleSystemFile)); }
   virtual ObjectSettings get_settings() override;
 
   virtual const std::string get_icon_path() const override {

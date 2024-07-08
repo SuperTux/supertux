@@ -36,6 +36,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Ghost Particles"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return ParticleSystem::get_class_types().add(typeid(GhostParticleSystem)); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/ghostparticles.png";

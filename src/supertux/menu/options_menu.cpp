@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/dialog.hpp"
+#include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"
@@ -118,9 +119,11 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_aspect_ratio();
 #endif
 
+      add_floatfield(_("Camera Peek Multiplier"), &g_config->camera_peek_multiplier)
+        .set_help(_("The fractional distance towards the camera peek position to move each frame.\n\n0 = No Peek, 1 = Instant Peek"));
+
       add_submenu(_("Change Video System"), MenuStorage::MenuId::VIDEO_SYSTEM_MENU)
         .set_help(_("Change video system used to render graphics"));
-
       break;
     }
 
@@ -232,6 +235,7 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
 
 OptionsMenu::~OptionsMenu()
 {
+  g_config->save();
 }
 
 void

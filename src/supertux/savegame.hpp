@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 
+#include <simplesquirrel/table.hpp>
+
 class PlayerStatus;
 class Profile;
 
@@ -102,6 +104,7 @@ private:
   Profile& m_profile;
   std::string m_world_name;
   std::unique_ptr<PlayerStatus> m_player_status;
+  ssq::Table m_state_table;
 
 private:
   Savegame(const Savegame&) = delete;
