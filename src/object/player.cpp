@@ -2379,7 +2379,7 @@ Player::on_flip(float height)
 {
   Vector pos = get_pos();
   pos.y = height - pos.y - get_bbox().get_height();
-  set_pos(pos);
+  set_pos_reset(pos);
 }
 
 void
@@ -2491,6 +2491,17 @@ void
 Player::set_pos(const Vector& vector)
 {
   MovingObject::set_pos(vector);
+
+  // Make sure objects following Tux move directly with him
+  position_grabbed_object(true);
+  for (Key* key : m_collected_keys)
+    key->update_pos();
+}
+
+void
+Player::set_pos_reset(const Vector& vector)
+{
+  m_col.set_pos(vector);
 
   // Reset size to get correct hitbox if Tux was eg. ducked before moving
   if (is_big())
@@ -3002,7 +3013,7 @@ Player::multiplayer_respawn()
   set_group(COLGROUP_MOVING);
   m_physic.reset();
 
-  set_pos(target->get_pos());
+  set_pos_reset(target->get_pos());
   m_target.reset();
 }
 
