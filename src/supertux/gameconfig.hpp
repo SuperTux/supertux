@@ -73,6 +73,7 @@ public:
   bool music_enabled;
   int sound_volume;
   int music_volume;
+  int flash_intensity;
 
   /** initial random seed.  0 ==> set from time() */
   int random_seed;
