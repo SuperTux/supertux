@@ -34,6 +34,9 @@ public:
   void load();
   void save();
 
+  void check_values();
+
+public:
   int profile;
 
   /** the width/height to be used to display the game in fullscreen */
@@ -60,14 +63,17 @@ public:
 
   bool use_fullscreen;
   VideoSystem::Enum video;
-  bool try_vsync;
+  int vsync;
+  bool frame_prediction;
   bool show_fps;
   bool show_player_pos;
   bool show_controller;
+  float camera_peek_multiplier;
   bool sound_enabled;
   bool music_enabled;
   int sound_volume;
   int music_volume;
+  int flash_intensity;
 
   /** initial random seed.  0 ==> set from time() */
   int random_seed;

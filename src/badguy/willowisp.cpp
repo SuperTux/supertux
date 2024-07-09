@@ -23,6 +23,7 @@
 #include "object/lantern.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -36,7 +37,6 @@ static const std::string SOUNDFILE = "sounds/willowisp.wav";
 WillOWisp::WillOWisp(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS,
          "images/objects/lightmap_light/lightmap_light-small.sprite"),
-  ExposedObject<WillOWisp, scripting::WillOWisp>(this),
   PathObject(),
   m_mystate(STATE_IDLE),
   m_target_sector(),
@@ -53,8 +53,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
     reader.get("sector", m_target_sector);
     reader.get("spawnpoint", m_target_spawnpoint);
   } else {
-    reader.get("sector", m_target_sector, "main");
-    reader.get("spawnpoint", m_target_spawnpoint, "main");
+    reader.get("sector", m_target_sector, DEFAULT_SECTOR_NAME.c_str());
+    reader.get("spawnpoint", m_target_spawnpoint, DEFAULT_SPAWNPOINT_NAME.c_str());
   }
 
   reader.get("flyspeed", m_flyspeed, FLYSPEED);
@@ -260,46 +260,39 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
 }
 
 void
-WillOWisp::goto_node(int node_no)
+WillOWisp::goto_node(int node_idx)
 {
-  get_walker()->goto_node(node_no);
-  if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK) {
+  PathObject::goto_node(node_idx);
+
+  if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK)
     m_mystate = STATE_PATHMOVING;
-  }
-}
-
-void
-WillOWisp::start_moving()
-{
-  get_walker()->start_moving();
-}
-
-void
-WillOWisp::stop_moving()
-{
-  get_walker()->stop_moving();
 }
 
 void
 WillOWisp::set_state(const std::string& new_state)
 {
-  if (new_state == "stopped") {
+  if (new_state == "stopped")
     m_mystate = STATE_STOPPED;
-  } else if (new_state == "idle") {
+  else if (new_state == "idle")
     m_mystate = STATE_IDLE;
-  } else if (new_state == "move_path") {
+  else if (new_state == "move_path")
+  {
     m_mystate = STATE_PATHMOVING;
-    get_walker()->start_moving();
-  } else if (new_state == "move_path_track") {
-    m_mystate = STATE_PATHMOVING_TRACK;
-    get_walker()->start_moving();
-  } else if (new_state == "normal") {
-    m_mystate = STATE_IDLE;
-  } else if (new_state == "vanish") {
-    vanish();
-  } else {
-    log_warning << "Can't set unknown willowisp state '" << new_state << std::endl;
+    if (get_walker())
+      get_walker()->start_moving();
   }
+  else if (new_state == "move_path_track")
+  {
+    m_mystate = STATE_PATHMOVING_TRACK;
+    if (get_walker())
+      get_walker()->start_moving();
+  }
+  else if (new_state == "normal")
+    m_mystate = STATE_IDLE;
+  else if (new_state == "vanish")
+    vanish();
+  else
+    log_warning << "Cannot set unknown Will-O-Wisp state: '" << new_state << "'." << std::endl;
 }
 
 ObjectSettings
@@ -362,6 +355,18 @@ WillOWisp::on_flip(float height)
 {
   BadGuy::on_flip(height);
   PathObject::on_flip();
+}
+
+
+void
+WillOWisp::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<WillOWisp>("WillOWisp", vm.findClass("BadGuy"));
+
+  PathObject::register_members(cls);
+
+  cls.addFunc("goto_node", &WillOWisp::goto_node);
+  cls.addFunc("set_state", &WillOWisp::set_state);
 }
 
 /* EOF */

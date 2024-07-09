@@ -32,36 +32,38 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-12]
-        build_type: [Debug, Release]
+        build_type: [Debug, RelWithDebInfo]
         glbinding: [ON, OFF]
         include:
           - os: macos-12
-            build_type: Release
+            build_type: RelWithDebInfo
             glbinding: OFF
             release: ON
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-12' }}
         run: |
+          # Use GLM 1.0.0 as later versions don't build with clang
+          HOMEBREW_NO_AUTO_UPDATE=1 brew install --formula ./mk/brew/glm.rb --build-from-source
           brew install cmake googletest bash rename libogg libvorbis glew \
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
-                       fribidi glib gtk-doc glbinding@2 libraqm glm zlib
+                       fribidi glib gtk-doc glbinding@2 libraqm zlib
           brew link glbinding@2
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
             /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
             /usr/local/opt/webp/lib/libwebp.7.dylib
           install_name_tool -change \
-            '@rpath/libjxl_cms.0.9.dylib' \
-            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.9.dylib \
+            '@rpath/libjxl_cms.0.10.dylib' \
+            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.10.dylib \
             /usr/local/opt/jpeg-xl/lib/libjxl.dylib
 
           # Something funky happens with freetype if mono is left
@@ -113,7 +115,7 @@ jobs:
         working-directory: build
         run: ../.ci_scripts/package.sh
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-dmg"
           path: build/upload/*.dmg
@@ -137,6 +139,7 @@ jobs:
         env:
           PREFIX: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
           DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
       - name: Prepare Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'

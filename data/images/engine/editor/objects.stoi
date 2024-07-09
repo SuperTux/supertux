@@ -105,7 +105,10 @@
   (object
     (class "darttrap")
     (icon "images/creatures/darttrap/granito/empty_left.png"))
-  (object
+(object
+    (class "root_sapling")
+    (icon "images/creatures/mole/corrupted/root_sapling-0.png"))  
+(object
     (class "ghoul")
     (icon "images/creatures/ghoul/g1.png"))
   (object
@@ -148,8 +151,8 @@
     (class "toad")
     (icon "images/creatures/toad/toad-idle-0.png"))
   (object
-    (class "spidermite")
-    (icon "images/creatures/spidermite/spidermite1.png"))
+    (class "tarantula")
+    (icon "images/creatures/tarantula/tarantula-0.png"))
   (object
     (class "totem")
     (icon "images/creatures/totem/walking1.png"))
@@ -335,9 +338,7 @@
     (icon "images/engine/editor/textarray.png"))
  )
 
- (objectgroup
-  (name (_"Sector"))
-  (worldmap #f)
+ (layers
   (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))
@@ -403,6 +404,9 @@
   (object
     (class "decal")
     (icon "images/engine/editor/decal.png"))
+ )
+
+ (layers-worldmap
   (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))

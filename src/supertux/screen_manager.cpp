@@ -159,10 +159,7 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
 {
   log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
   assert(screen);
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
+  set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
 }
 
@@ -170,10 +167,7 @@ void
 ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
 {
   log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
+  set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::POP_ACTION);
 }
 
@@ -195,10 +189,7 @@ ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
   g_config->save();
 #endif
 
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
+  set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::QUIT_ACTION);
 }
 
@@ -584,7 +575,9 @@ void ScreenManager::loop_iter()
     elapsed_ticks = 0;
   }
 
-  if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
+  bool always_draw = g_debug.draw_redundant_frames || g_config->frame_prediction;
+
+  if (elapsed_ticks < ms_per_step && !always_draw) {
     // Sleep a bit because not enough time has passed since the previous
     // logical game step
     SDL_Delay(ms_per_step - elapsed_ticks);
@@ -635,10 +628,16 @@ void ScreenManager::loop_iter()
     elapsed_ticks -= ms_per_step;
   }
 
+  // When the game is laggy, real time may be >1 step after the game time
+  // To avoid predicting positions too far ahead, when using frame prediction,
+  // limit the draw time offset to at most one step.
+  Uint32 tick_offset = std::min(elapsed_ticks, ms_per_step);
+  float time_offset = m_speed * speed_multiplier * static_cast<float>(tick_offset) / 1000.0f;
+
   if ((steps > 0 && !m_screen_stack.empty())
-      || g_debug.draw_redundant_frames) {
+      || always_draw) {
     // Draw a frame
-    Compositor compositor(m_video_system);
+    Compositor compositor(m_video_system, g_config->frame_prediction ? time_offset : 0.0f);
     draw(compositor, *m_fps_statistics);
     m_fps_statistics->report_frame();
   }

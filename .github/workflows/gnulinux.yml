@@ -34,14 +34,14 @@ jobs:
         arch: [32, 64]
         os: [ubuntu-20.04]
         compiler: [gcc, clang]
-        build_type: [Debug, Release]
+        build_type: [Debug, RelWithDebInfo]
         glbinding: [ON, OFF]
         exclude:
           - arch: 32
             glbinding: ON
         include:
           - os: ubuntu-20.04
-            build_type: Release
+            build_type: RelWithDebInfo
             compiler: gcc
             arch: 64
             glbinding: OFF
@@ -58,11 +58,11 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Install 64-bit dependencies
         if: ${{ matrix.arch == 64 }}
@@ -224,35 +224,35 @@ jobs:
         run: ../.ci_scripts/package.sh
 
       - name: Upload AppImage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-appimage"
           path: build/upload/*.AppImage
           if-no-files-found: ignore
 
       - name: Upload source
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: "source"
           path: build/upload/*Source.tar.gz
           if-no-files-found: ignore
 
       - name: Upload coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: "coverage"
           path: build/coverage/*
           if-no-files-found: ignore
 
       - name: Upload documentation
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: "documentation"
           path: build/docs/doxygen/html/*
           if-no-files-found: ignore
 
       - name: Upload tar archives
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-tgz"
           path: build/upload/*Linux.tar.gz
@@ -277,6 +277,7 @@ jobs:
         env:
           PREFIX: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
           DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
       - name: Prepare Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'

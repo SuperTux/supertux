@@ -16,6 +16,8 @@
 
 #include "object/platform.hpp"
 
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
@@ -30,9 +32,9 @@ Platform::Platform(const ReaderMapping& reader) :
 
 Platform::Platform(const ReaderMapping& reader, const std::string& default_sprite) :
   MovingSprite(reader, default_sprite, LAYER_OBJECTS, COLGROUP_STATIC),
-  ExposedObject<Platform, scripting::Platform>(this),
   PathObject(),
   m_speed(Vector(0,0)),
+  m_movement(Vector(0, 0)),
   m_automatic(false),
   m_player_contact(false),
   m_last_player_contact(false),
@@ -55,7 +57,7 @@ Platform::finish_construction()
   if (!get_path())
   {
     // If no path is given, make a one-node dummy path
-    init_path_pos(m_col.m_bbox.p1(), false);
+    init_path_pos(m_col.m_bbox.p1());
   }
 
   if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
@@ -109,7 +111,7 @@ Platform::update(float dt_sec)
 
       // Travel to node nearest to nearest player
       if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox)) {
-        int nearest_node_id = get_path()->get_nearest_node_no(player->get_bbox().p2());
+        int nearest_node_id = get_path()->get_nearest_node_idx(player->get_bbox().p2());
         if (nearest_node_id != -1) {
           goto_node(nearest_node_id);
         }
@@ -120,7 +122,7 @@ Platform::update(float dt_sec)
       // Player touched platform, didn't touch last frame and Platform is not moving
 
       // Travel to node farthest from current position
-      int farthest_node_id = get_path()->get_farthest_node_no(get_pos());
+      int farthest_node_id = get_path()->get_farthest_node_idx(get_pos());
       if (farthest_node_id != -1) {
         goto_node(farthest_node_id);
       }
@@ -132,10 +134,10 @@ Platform::update(float dt_sec)
   }
 
   get_walker()->update(dt_sec);
-  Vector movement = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos();
-  m_col.set_movement(movement);
-  m_col.propagate_movement(movement);
-  m_speed = movement / dt_sec;
+  m_movement = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos();
+  m_col.set_movement(m_movement);
+  m_col.propagate_movement(m_movement);
+  m_speed = m_movement / dt_sec;
 }
 
 void
@@ -151,27 +153,10 @@ Platform::editor_update()
 }
 
 void
-Platform::goto_node(int node_no)
+Platform::jump_to_node(int node_idx)
 {
-  get_walker()->goto_node(node_no);
-}
-
-void
-Platform::jump_to_node(int node_no)
-{
-  get_walker()->jump_to_node(node_no);
-}
-
-void
-Platform::start_moving()
-{
-  get_walker()->start_moving();
-}
-
-void
-Platform::stop_moving()
-{
-  get_walker()->stop_moving();
+  set_node(node_idx);
+  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[node_idx].position));
 }
 
 void
@@ -204,6 +189,18 @@ Platform::check_state()
 {
   MovingSprite::check_state();
   PathObject::check_state();
+}
+
+
+void
+Platform::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Platform>("Platform", vm.findClass("MovingSprite"));
+
+  PathObject::register_members(cls);
+
+  // Use Platform's implementation of "set_node".
+  cls.addFunc("set_node", &Platform::jump_to_node);
 }
 
 /* EOF */

@@ -34,13 +34,15 @@ bool starts_with(const std::string& str, const std::string& prefix)
 }
 
 void replace(std::string& str, const std::string& from,
-             const std::string to, const std::string to_if_empty)
+             const std::string& to, const std::string& to_if_empty)
 {
+  const std::string& to_str = to.empty() ? to_if_empty : to;
+
   size_t start_pos = str.find(from);
   while (start_pos != std::string::npos)
   {
-    str.replace(start_pos, from.length(), to.empty() ? to_if_empty : to);
-    start_pos = str.find(from);
+    str.replace(start_pos, from.length(), to_str);
+    start_pos = str.find(from, start_pos + to_str.length());
   }
 }
 
@@ -70,12 +72,35 @@ void write_file(const std::string& path, const std::string& content)
 
 bool attr_equal(tinyxml2::XMLElement* el, const char* attr, const std::string& rhs)
 {
-  const char* val = el->FindAttribute(attr)->Value();
+  const tinyxml2::XMLAttribute* attr_obj = el->FindAttribute(attr);
+  if (!attr_obj) return false;
+
+  const char* val = attr_obj->Value();
   return val == NULL ? rhs.empty() : std::string(val) == rhs;
 }
 
 bool el_equal(tinyxml2::XMLElement* el, const char* child_el, const std::string& rhs)
 {
-  const char* text = el->FirstChildElement(child_el)->GetText();
+  const tinyxml2::XMLElement* child_el_obj = el->FirstChildElement(child_el);
+  if (!child_el_obj) return false;
+
+  const char* text = child_el_obj->GetText();
   return text == NULL ? rhs.empty() : std::string(text) == rhs;
+}
+
+
+tinyxml2::XMLElement* first_child_with_attribute(tinyxml2::XMLElement* el,
+                                                 const char* child_name,
+                                                 const char* child_attr,
+                                                 const std::string& child_attr_val)
+{
+  tinyxml2::XMLElement* child_el = el->FirstChildElement(child_name);
+  while (child_el)
+  {
+    if (attr_equal(child_el, child_attr, child_attr_val))
+      return child_el;
+
+    child_el = child_el->NextSiblingElement(child_name);
+  }
+  return nullptr;
 }

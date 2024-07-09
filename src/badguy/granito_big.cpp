@@ -16,11 +16,16 @@
 
 #include "badguy/granito_big.hpp"
 
+#include "util/reader_mapping.hpp"
+#include "supertux/sector.hpp"
+
 GranitoBig::GranitoBig(const ReaderMapping& reader) :
   Granito(reader, "images/creatures/granito/big/granito_big.sprite", LAYER_OBJECTS - 2),
   m_carrying(nullptr)
 {
   parse_type(reader);
+
+  reader.get("carrying-script", m_carried_script);
 
   max_drop_height = 16;
 }
@@ -37,12 +42,28 @@ GranitoBig::active_update(float dt_sec)
 {
   Granito::active_update(dt_sec);
 
-  if (!m_carrying) return;
+  if (!m_carrying)
+    return;
 
   Vector pos(get_bbox().get_middle().x - m_carrying->get_bbox().get_width() / 2,
              get_bbox().get_top() - m_carrying->get_bbox().get_height());
   m_carrying->set_pos(pos);
-  m_carrying->set_action("sit", m_dir);
+  m_carrying->turn(m_dir);
+}
+
+ObjectSettings
+GranitoBig::get_settings()
+{
+  auto settings = Granito::get_settings();
+
+  settings.remove("detect-script");
+  settings.remove("carried-script");
+
+  // No need to make another member for the carrying script.
+  // Just repurpose the carried script.
+  settings.add_script(_("Carrying Script"), &m_carried_script, "carrying-script");
+
+  return settings;
 }
 
 GameObjectTypes
@@ -51,8 +72,33 @@ GranitoBig::get_types() const
   return {
     { "default", _("Default") },
     { "standing", _("Standing") },
-    { "walking", _("Walking") }
+    { "walking", _("Walking") },
+    { "scriptable", _("Scriptable") },
   };
+}
+
+void
+GranitoBig::carry(Granito* granito)
+{
+  m_carrying = granito;
+  Sector::get().run_script(m_carried_script, "carrying-script");
+}
+
+void
+GranitoBig::eject()
+{
+  if (!m_carrying)
+    return;
+
+  m_carrying->walk_for(1.5f);
+  m_carrying->jump();
+  m_carrying = nullptr;
+}
+
+std::string
+GranitoBig::get_carrying_name() const
+{
+  return m_carrying ? m_carrying->get_name() : "";
 }
 
 bool
@@ -65,6 +111,14 @@ bool
 GranitoBig::try_jump()
 {
   return false;
+}
+
+void
+GranitoBig::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<GranitoBig>("GranitoBig", vm.findClass("Granito"));
+
+  cls.addFunc("get_carrying_name", &GranitoBig::get_carrying_name);
 }
 
 /* EOF */

@@ -16,6 +16,9 @@
 
 #include "object/thunderstorm.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "object/background.hpp"
@@ -33,11 +36,11 @@ namespace {
 const float LIGHTNING_DELAY = 2.0f;
 const float FLASH_DISPLAY_TIME = 1.3f;
 const float ELECTRIFY_TIME = 0.5f;
+const float RESTORE_BACKGROUND_COLOR_TIME = 0.1f;
 } // namespace
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<Thunderstorm, scripting::Thunderstorm>(this),
   running(true),
   interval(10.0f),
   layer(LAYER_BACKGROUNDTILES-1),
@@ -45,6 +48,8 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   time_to_thunder(),
   time_to_lightning(),
   flash_display_timer(),
+  restore_background_color_timer(),
+  m_background_colors(),
   changing_tiles(TileManager::current()->get_tileset(Level::current()->get_tileset())->m_thunderstorm_tiles),
   m_flash_color()
 {
@@ -85,6 +90,34 @@ Thunderstorm::get_settings()
 void
 Thunderstorm::update(float )
 {
+  // need this out here for lone lightning strikes
+  if (restore_background_color_timer.check()) {
+    restore_background_colors();
+    restore_background_color_timer.stop();
+  }
+
+  if (flash_display_timer.started())
+  {
+    float alpha = 0.9f;
+    if (flash_display_timer.get_timegone() > 0.1f)
+    {
+      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.1f;
+      if (progress < 0.0f)
+        progress = 0.0f;
+
+      alpha = 0.9f - progress;
+    }
+
+    if (alpha < 0.0f)
+    {
+      flash_display_timer.stop();
+      return;
+    }
+
+    alpha *= static_cast<float>(g_config->flash_intensity) / 100.0f;
+    m_flash_color = Color(alpha, alpha, alpha, 1.0);
+  }
+
   if (!running) return;
 
   if (time_to_thunder.check()) {
@@ -92,29 +125,8 @@ Thunderstorm::update(float )
     time_to_lightning.start(LIGHTNING_DELAY);
   }
   if (time_to_lightning.check()) {
-    lightning();
+    lightning_general();
     time_to_thunder.start(interval);
-  }
-
-  if(flash_display_timer.started())
-  {
-    float alpha = 0.9f;
-    if(flash_display_timer.get_timegone() > 0.1f)
-    {
-      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.1f;
-      if(progress < 0.0f)
-        progress = 0.0f;
-
-      alpha = 0.9f - progress;
-    }
-
-    if(alpha < 0.0f)
-    {
-      flash_display_timer.stop();
-      return;
-    }
-
-    m_flash_color = Color(alpha, alpha, alpha, 1.0);
   }
 }
 
@@ -128,6 +140,18 @@ Thunderstorm::draw(DrawingContext& context)
   context.transform().scale = 1.f;
   context.color().draw_gradient(m_flash_color, m_flash_color, 500, GradientDirection::HORIZONTAL, context.get_rect(), Blend::ADD);
   context.pop_transform();
+}
+
+void
+Thunderstorm::lightning_general(bool is_scripted)
+{
+  flash();
+  electrify();
+  if (!m_strike_script.empty()) {
+    Sector::get().run_script(m_strike_script, "strike-script");
+  }
+
+  change_background_colors(true, is_scripted);
 }
 
 void
@@ -158,13 +182,7 @@ Thunderstorm::thunder()
 void
 Thunderstorm::lightning()
 {
-  flash();
-  electrify();
-  if (!m_strike_script.empty()) {
-	  Sector::get().run_script(m_strike_script, "strike-script");
-  }
-
-  change_background_colors(true);
+  lightning_general(true);
 }
 
 void
@@ -181,15 +199,49 @@ Thunderstorm::electrify()
 }
 
 void
-Thunderstorm::change_background_colors(bool is_lightning)
+Thunderstorm::change_background_colors(bool is_lightning, bool is_scripted)
 {
   auto factor = is_lightning ? (1.0f / 0.7f) : 0.7f;
   auto backgrounds = Sector::current()->get_objects_by_type<Background>();
   for(auto& background : backgrounds)
   {
-    auto new_color = background.get_color() * factor;
-    background.fade_color(new_color.validate(), 0.1f);
+    auto color = background.get_color();
+    auto new_color = color * factor;
+    if (is_scripted) {
+      m_background_colors.push_back(color);
+    }
+    new_color.a = color.alpha;
+    background.fade_color(new_color.validate(), RESTORE_BACKGROUND_COLOR_TIME);
   }
+  if (is_scripted) {
+    restore_background_color_timer.start(RESTORE_BACKGROUND_COLOR_TIME);
+  }
+}
+
+void
+Thunderstorm::restore_background_colors()
+{
+  auto backgrounds = Sector::current()->get_objects_by_type<Background>();
+  for (auto& background : backgrounds)
+  {
+    auto color = m_background_colors.front();
+    background.fade_color(color, RESTORE_BACKGROUND_COLOR_TIME);
+    m_background_colors.pop_front();
+  }
+}
+
+
+void
+Thunderstorm::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Thunderstorm>("Thunderstorm", vm.findClass("GameObject"));
+
+  cls.addFunc("start", &Thunderstorm::start);
+  cls.addFunc("stop", &Thunderstorm::stop);
+  cls.addFunc("thunder", &Thunderstorm::thunder);
+  cls.addFunc("lightning", &Thunderstorm::lightning);
+  cls.addFunc("flash", &Thunderstorm::flash);
+  cls.addFunc("electrify", &Thunderstorm::electrify);
 }
 
 /* EOF */

@@ -85,7 +85,9 @@ Bullet::update(float dt_sec)
     return;
   }
 
-  m_col.set_movement(physic.get_movement(dt_sec));
+  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  physic.set_gravity_modifier(in_water ? 0.3f : 1.f);
+  m_col.set_movement(physic.get_movement(dt_sec) * (in_water ? 0.5f : 1.f));
 }
 
 void

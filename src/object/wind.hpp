@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_WIND_HPP
 #define HEADER_SUPERTUX_OBJECT_WIND_HPP
 
-#include "squirrel/exposed_object.hpp"
-#include "scripting/wind.hpp"
 #include "supertux/moving_object.hpp"
 
 #include "video/layer.hpp"
@@ -26,10 +24,11 @@
 class ReaderMapping;
 
 /** Defines an area that will gently push Players in one direction */
-class Wind final :
-  public MovingObject,
-  public ExposedObject<Wind, scripting::Wind>
+class Wind final : public MovingObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Wind(const ReaderMapping& reader);
 
@@ -40,6 +39,7 @@ public:
   virtual bool has_variable_size() const override { return true; }
   static std::string class_name() { return "wind"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Wind"; }
   static std::string display_name() { return _("Wind"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -49,16 +49,14 @@ public:
 
   virtual void on_flip(float height) override;
 
-  /** @name Scriptable Methods
-      @{ */
-
-  /** start blowing */
+  /**
+   * Starts blowing.
+   */
   void start();
-
-  /** stop blowing */
+  /**
+   * Stops blowing.
+   */
   void stop();
-
-  /** @} */
 
 private:
   bool blowing; /**< true if wind is currently switched on */
@@ -72,6 +70,7 @@ private:
   bool affects_objects; /**< whether the wind can affect objects */
   bool affects_player; /**< whether the wind can affect the player: useful for cinematic wind */
   bool fancy_wind;
+  bool particles_enabled;
 
 private:
   Wind(const Wind&) = delete;
