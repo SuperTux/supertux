@@ -1,31 +1,31 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 if (hasProperty("cpuarch")) {
-    ext.cpuarch = property("cpuarch").split()
+  ext.cpuarch = property("cpuarch")
 } else {
-    ext.cpuarch = ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
+  ext.cpuarch = 'arm64-v8a'
 }
 
 buildscript {
-    repositories {
-        mavenCentral()
-        google()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.1'
+  repositories {
+    mavenCentral()
+    google()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:8.0.2'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
+  }
 }
 
 allprojects {
-    repositories {
-        mavenCentral()
-        google()
-    }
+  repositories {
+    mavenCentral()
+    google()
+  }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register('clean', Delete) {
+  delete rootProject.buildDir
 }

@@ -1,8 +1,4 @@
-if(ANDROID)
-  find_library(PhysFS physfs)
-else()
-  find_package(PhysFS)
-endif()
+find_package(PhysFS)
 
 if(PHYSFS_LIBRARY)
   set(CMAKE_REQUIRED_LIBRARIES ${PHYSFS_LIBRARY})

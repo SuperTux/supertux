@@ -3,11 +3,7 @@ if(NOT EMSCRIPTEN)
     find_package(OpenAL CONFIG REQUIRED)
     add_library(LibOpenAL ALIAS OpenAL::OpenAL)
   else()
-    if(ANDROID)
-      find_library(OpenAL OpenAL)
-    else()
-      find_package(OpenAL REQUIRED)
-    endif()
+    find_package(OpenAL REQUIRED)
 
     add_library(LibOpenAL INTERFACE IMPORTED)
     set_target_properties(LibOpenAL PROPERTIES

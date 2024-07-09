@@ -1,71 +1,106 @@
-def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
+def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY')
 def buildAsApplication = !buildAsLibrary
 if (buildAsApplication) {
-    apply plugin: 'com.android.application'
+  apply plugin: 'com.android.application'
 }
 else {
-    apply plugin: 'com.android.library'
+  apply plugin: 'com.android.library'
 }
 
+def cmakeVersion = "3.28.1"
+
 android {
-    compileSdkVersion 33
-    defaultConfig {
-        if (buildAsApplication) {
-            applicationId "org.lethargik.supertux2"
-        }
-        minSdkVersion 16
-        targetSdkVersion 33
-        versionCode 7000
-        versionName "0.7.0"
-        ndkVersion "25.2.9519653"
-        externalNativeBuild {
-            cmake {
-                version "3.22.1"
-                arguments "-DANDROID_APP_PLATFORM=android-33", "-Wno-dev"
-                abiFilters rootProject.ext.cpuarch as String[]
-            }
-        }
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    applicationVariants.all { variant ->
-        tasks["merge${variant.name.capitalize()}Assets"]
-            .dependsOn("externalNativeBuild${variant.name.capitalize()}")
-    }
-    if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
-        sourceSets.main {
-            jniLibs.srcDir 'libs'
-        }
-        externalNativeBuild {
-            cmake {
-                version "3.22.1"
-                path 'jni/CMakeLists.txt'
-            }
-        }
+  namespace 'org.lethargik.supertux2'
 
+  compileSdkVersion 33
+  defaultConfig {
+    if (buildAsApplication) {
+      applicationId namespace
     }
-    lintOptions {
-        abortOnError false
-    }
-    namespace 'org.lethargik.supertux2'
+    minSdkVersion 16
+    targetSdkVersion compileSdkVersion
+    versionCode 7000
+    versionName "0.7.0"
+    ndkVersion "25.2.9519653"
+    externalNativeBuild {
 
-    if (buildAsLibrary) {
-        libraryVariants.all { variant ->
-            variant.outputs.each { output ->
-                def outputFile = output.outputFile
-                if (outputFile != null && outputFile.name.endsWith(".aar")) {
-                    def fileName = "org.lethargik.supertux2.aar";
-                    output.outputFile = new File(outputFile.parent, fileName);
-                }
-            }
+      cmake {
+        version cmakeVersion
+
+        def vcpkgTriplet = new StringBuilder()
+        switch (rootProject.ext.cpuarch) {
+          case "arm64-v8a":
+            vcpkgTriplet.append("arm64")
+            break
+          case "armeabi-v7a":
+            vcpkgTriplet.append("arm")
+            break
+          case "x86_64":
+            vcpkgTriplet.append("x64")
+            break
+          case "x86":
+            vcpkgTriplet.append("x86")
+            break
+          default:
+            vcpkgTriplet.append("arm64")
+            break
         }
+        vcpkgTriplet.append("-android")
+
+        arguments "-DCMAKE_TOOLCHAIN_FILE=${System.getenv("VCPKG_ROOT")}/scripts/buildsystems/vcpkg.cmake",
+          "-DVCPKG_BUILD=ON",
+          "-DUSE_SYSTEM_GLM=OFF",
+          "-DVCPKG_TARGET_TRIPLET=${vcpkgTriplet.toString()}",
+          //"-DCMAKE_MAKEFILE_VERBOSE=ON"
+          "-DCMAKE_SYSTEM_VERSION=$targetSdkVersion.apiLevel",
+          "-DANDROID_PLATFORM=android-$targetSdkVersion.apiLevel",
+          //"-DCMAKE_SYSROOT=$android.ndkDirectory/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+          //"-DCMAKE_CXX_FLAGS=-nostartfiles",
+          //"-DCMAKE_C_FLAGS=-nostartfiles",
+          "-Wno-dev"
+        abiFilters [rootProject.ext.cpuarch]
+      }
     }
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+  applicationVariants.configureEach { variant ->
+    tasks["merge${variant.name.capitalize()}Assets"]
+      .dependsOn("externalNativeBuild${variant.name.capitalize()}")
+  }
+  if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
+    sourceSets.main {
+      jniLibs.srcDir 'libs'
+    }
+    externalNativeBuild {
+      cmake {
+        version cmakeVersion
+        path 'jni/CMakeLists.txt'
+      }
+    }
+
+  }
+  lintOptions {
+    abortOnError false
+  }
+
+  if (buildAsLibrary) {
+    libraryVariants.all { variant ->
+      variant.outputs.each { output ->
+        def outputFile = output.outputFile
+        if (outputFile != null && outputFile.name.endsWith(".aar")) {
+          def fileName = "${namespace}.aar"
+          output.outputFile = new File(outputFile.parent, fileName)
+        }
+      }
+    }
+  }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
 }
