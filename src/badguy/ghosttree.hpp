@@ -17,18 +17,16 @@
 #ifndef HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
 #define HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/boss.hpp"
 
 class TreeWillOWisp;
 class Lantern;
 
-class GhostTree final : public BadGuy
+class GhostTree final : public Boss
 {
 public:
   GhostTree(const ReaderMapping& mapping);
 
-  virtual bool is_flammable() const override { return false; }
-  virtual bool is_freezable() const override { return false; }
   virtual void kill_fall() override { }
 
   virtual void activate() override;
@@ -74,6 +72,8 @@ private:
   Timer root_timer;
   int   treecolor;
   Color suck_lantern_color;
+
+  bool m_taking_life;
 
   Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
 

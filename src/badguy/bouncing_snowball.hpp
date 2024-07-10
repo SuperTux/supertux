@@ -23,6 +23,7 @@ class BouncingSnowball final : public BadGuy
 {
 public:
   BouncingSnowball(const ReaderMapping& reader);
+  BouncingSnowball(const Vector& pos, Direction d, float x_vel = 80);
 
   virtual void initialize() override;
 
@@ -54,6 +55,8 @@ private:
     NORMAL,
     FATBAT
   };
+
+  float m_x_speed;
 
 private:
   BouncingSnowball(const BouncingSnowball&) = delete;

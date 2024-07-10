@@ -1,4 +1,4 @@
-//  Copyright (C) 2020 Daniel Ward <weluvgoatz@gmail.com>
+//  Copyright (C) 2024 Daniel Ward <weluvgoatz@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -13,47 +13,45 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BUMPER_HPP
-#define HEADER_SUPERTUX_OBJECT_BUMPER_HPP
+#ifndef HEADER_SUPERTUX_OBJECT_BIGSNOWBALL_HPP
+#define HEADER_SUPERTUX_OBJECT_BIGSNOWBALL_HPP
 
-#include "object/sticky_object.hpp"
+#include "object/moving_sprite.hpp"
 
 #include "supertux/physic.hpp"
 
 enum class Direction;
-class Player;
 
-class Bumper final : public StickyObject
+class BigSnowball final : public MovingSprite
 {
 public:
-  Bumper(const ReaderMapping& reader);
+  BigSnowball(const ReaderMapping& reader);
+  BigSnowball(const Vector& pos, const Direction& dir, bool bounce = false);
 
   virtual ObjectSettings get_settings() override;
 
   virtual void update(float dt_sec) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
-  static std::string class_name() { return "bumper"; }
+  static std::string class_name() { return "bigsnowball"; }
   virtual std::string get_class_name() const override { return class_name(); }
-  static std::string display_name() { return _("Bumper"); }
+  static std::string display_name() { return _("Big Snowball"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
-  virtual void after_editor_set() override;
-  virtual void on_flip(float height) override;
-
-  Physic& get_physic();
-
-  void bounce();
+private:
+  void spawn_particles();
 
 private:
   Physic m_physic;
-
   Direction m_dir;
-  Vector m_original_pos;
+  float m_speed;
+  bool m_break_on_impact;
+  bool m_bounce;
 
 private:
-  Bumper(const Bumper&) = delete;
-  Bumper& operator=(const Bumper&) = delete;
+  BigSnowball(const BigSnowball&) = delete;
+  BigSnowball& operator=(const BigSnowball&) = delete;
 };
 
 #endif
