@@ -170,7 +170,7 @@ Wind::collision(GameObject& other, const CollisionHit& )
   auto rock = dynamic_cast<Rock*>(&other);
   if (rock && affects_objects)
   {
-    rock->add_wind_velocity(speed * get_wind_strength(rock->get_bbox().get_middle()) * acceleration * dt_sec, speed);
+    rock->add_wind_velocity(acceleration * get_wind_strength(rock->get_bbox().get_middle()), speed, dt_sec);
   }
 
   return ABORT_MOVE;

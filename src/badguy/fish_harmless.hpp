@@ -35,6 +35,7 @@ public:
 
 protected:
   virtual void initialize() override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
 private:
   FishHarmless(const FishHarmless&) = delete;

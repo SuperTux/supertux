@@ -76,23 +76,24 @@ FlyingSnowBall::active_update(float dt_sec)
 
   float delta = total_time_elapsed * GLOBAL_SPEED_MULT;
 
-  // Put that function in a graphing calculator :
+  // Derivative of the following function (put it in a graphing calculator):
   // sin(x)^3 + sin(3(x - pi/3))/3
   float targetHgt = (
-                        std::pow(std::sin(delta), 3.f) +
-                        std::sin(3.f *
-                            ((delta - math::PI) / 3.f)
-                        ) / 3.f
-                    ) * 100.f;
+    std::cos(3.f * (delta - math::PI/3.f))
+    + std::pow(std::sin(delta), 2.f)
+    * std::cos(delta) * 3.f
+  );
 
-  m_physic.set_velocity_y(m_physic.get_velocity_y() + (targetHgt - prev_height) / dt_sec);
-  prev_height = targetHgt;
+  // Simple damping and then movement
+  m_physic.set_velocity_y(m_physic.get_velocity_y() * pow(0.5f, dt_sec));
+  m_physic.set_velocity_y(m_physic.get_velocity_y() + targetHgt);
 
   m_physic.set_velocity_x(m_physic.get_velocity_x() * pow(0.5f, dt_sec));
 
+  BadGuy::handle_wind();
+
   m_col.set_movement(m_physic.get_movement(dt_sec));
 
-  m_physic.set_velocity_y(0.f);
 
   auto player = get_nearest_player();
   if (player) {

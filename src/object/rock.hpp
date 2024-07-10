@@ -48,7 +48,11 @@ public:
   std::string get_default_sprite_name() const override;
 
   /** Adds velocity from wind */
-  virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
+  virtual void add_wind_velocity(const float acceleration, const Vector& end_speed, const float dt_sec);
+  Physic& get_physic() { return m_physic; }
+
+protected:
+  virtual void handle_wind();
 
 private:
   enum Type {
@@ -57,11 +61,16 @@ private:
   };
 
 protected:
-  Physic physic;
-  bool on_ground;
-  Vector last_movement;
-  std::string on_grab_script;
-  std::string on_ungrab_script;
+  Physic m_physic;
+  bool m_on_ground;
+  bool m_on_ice;
+  Vector m_last_movement;
+  Vector m_wind_velocity;
+  float m_wind_acceleration;
+  std::string m_on_grab_script;
+  std::string m_on_ungrab_script;
+  bool m_running_grab_script;
+  bool m_running_ungrab_script;
 
 private:
   Rock(const Rock&) = delete;
