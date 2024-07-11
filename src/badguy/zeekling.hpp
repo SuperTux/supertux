@@ -25,8 +25,6 @@ class Zeekling final : public BadGuy
 public:
   Zeekling(const ReaderMapping& reader);
 
-  virtual void draw(DrawingContext& context) override;
-
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void active_update(float dt_sec) override;
@@ -41,6 +39,8 @@ public:
   static std::string display_name() { return _("Zeekling"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return true; }
+
+  virtual void on_flip(float height) override;
 
 private:
   virtual bool collision_squished(GameObject& object) override;
@@ -73,6 +73,7 @@ private:
 private:
   Zeekling(const Zeekling&) = delete;
   Zeekling& operator=(const Zeekling&) = delete;
+
 };
 
 #endif

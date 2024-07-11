@@ -41,12 +41,6 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   m_physic.set_velocity_x(220.f);
 }
 
-void Zeekling::draw(DrawingContext &context)
-{
-  context.color().draw_line({get_pos().x-5, m_target_y}, {get_pos().x+5, m_target_y}, Color::GREEN, 1000);
-  BadGuy::draw(context);
-}
-
 void
 Zeekling::initialize()
 {
@@ -286,6 +280,12 @@ bool
 Zeekling::is_freezable() const
 {
   return true;
+}
+
+void Zeekling::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  m_start_position.y = get_pos().y;
 }
 
 /* EOF */
