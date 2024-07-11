@@ -74,7 +74,7 @@ HitResponse
 RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
 {
   //Trampoline has to be on ground to work.
-  if (on_ground) {
+  if (m_on_ground) {
     auto player = dynamic_cast<Player*> (&other);
     //Trampoline works for player
     if (player) {
