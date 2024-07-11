@@ -28,7 +28,7 @@ bool param_matches(int argc, char** argv, int i,
 
 bool starts_with(const std::string& str, const std::string& prefix);
 void replace(std::string& str, const std::string& from,
-             const std::string to, const std::string to_if_empty = "");
+             const std::string& to, const std::string& to_if_empty = "");
 void regex_replace(std::string& str, const std::regex from,
                    const std::string& to);
 
@@ -38,6 +38,10 @@ void write_file(const std::string& path, const std::string& content);
 bool attr_equal(tinyxml2::XMLElement* el, const char* attr, const std::string& rhs);
 bool el_equal(tinyxml2::XMLElement* el, const char* child_el, const std::string& rhs);
 
+tinyxml2::XMLElement* first_child_with_attribute(tinyxml2::XMLElement* el,
+                                                 const char* child_name,
+                                                 const char* child_attr,
+                                                 const std::string& child_attr_val);
 
 // XML text reader, which is able to read text from all child nodes.
 class XMLTextReader : public tinyxml2::XMLVisitor

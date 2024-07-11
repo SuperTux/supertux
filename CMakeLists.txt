@@ -174,7 +174,7 @@ include(SuperTux/ProvideOpenAL)
 include(SuperTux/ProvideOggVorbis)
 include(SuperTux/ProvidePhysfs)
 include(SuperTux/ProvideCurl)
-include(SuperTux/ProvideSquirrel)
+include(SuperTux/ProvideSimpleSquirrel)
 include(SuperTux/ProvideTinygettext)
 include(SuperTux/ProvideSDL2_ttf)
 include(SuperTux/ProvideDiscord)
@@ -187,7 +187,6 @@ include(SuperTux/ProvideOpenGL)
 include(SuperTux/BuildVersion)
 include(SuperTux/BuildDocumentation)
 include(SuperTux/BuildMessagePot)
-include(SuperTux/BuildMiniswigWrapper)
 
 ## Build list of sources for supertux binary
 file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
@@ -204,10 +203,6 @@ endif()
 list(SORT SUPERTUX_SOURCES_C)
 list(SORT SUPERTUX_SOURCES_CXX)
 list(SORT SUPERTUX_RESOURCES)
-
-if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
-  set(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
-endif()
 
 ## On Windows, add an icon
 if(WIN32)
@@ -269,8 +264,7 @@ endif()
 
 ## Link supertux binary with squirrel and other libraries
 
-target_link_libraries(supertux2_lib PUBLIC LibSquirrel)
-target_link_libraries(supertux2_lib PUBLIC LibSqstdlib)
+target_link_libraries(supertux2_lib PUBLIC LibSimpleSquirrel)
 target_link_libraries(supertux2_lib PUBLIC LibTinygettext)
 target_link_libraries(supertux2_lib PUBLIC LibSexp)
 target_link_libraries(supertux2_lib PUBLIC LibSavePNG)

@@ -19,6 +19,7 @@
 #include <ctime>
 
 #include "editor/overlay_widget.hpp"
+#include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
@@ -52,9 +53,11 @@ Config::Config() :
 #endif
   video(VideoSystem::VIDEO_AUTO),
   vsync(1),
+  frame_prediction(false),
   show_fps(false),
   show_player_pos(false),
   show_controller(false),
+  camera_peek_multiplier(0.03f),
   sound_enabled(true),
   music_enabled(true),
   sound_volume(100),
@@ -140,9 +143,11 @@ Config::load()
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
 
+  config_mapping.get("frame_prediction", frame_prediction);
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
+  config_mapping.get("camera_peek_multiplier", camera_peek_multiplier);
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
@@ -342,20 +347,26 @@ Config::load()
       }
     }
   }
+
+  check_values();
 }
 
 void
 Config::save()
 {
+  check_values();
+
   Writer writer("config");
 
   writer.start_list("supertux-config");
 
   writer.write("profile", profile);
 
+  writer.write("frame_prediction", frame_prediction);
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
   writer.write("show_controller", show_controller);
+  writer.write("camera_peek_multiplier", camera_peek_multiplier);
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
@@ -489,6 +500,12 @@ Config::save()
   writer.end_list("editor");
 
   writer.end_list("supertux-config");
+}
+
+void
+Config::check_values()
+{
+  camera_peek_multiplier = math::clamp(camera_peek_multiplier, 0.f, 1.f);
 }
 
 

@@ -17,6 +17,9 @@
 
 #include "object/player.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "control/codecontroller.hpp"
@@ -36,6 +39,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/resources.hpp"
@@ -149,7 +153,6 @@ const float BUTTJUMP_SPEED = 800.f;
 } // namespace
 
 Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
-  ExposedObject<Player, scripting::Player>(this),
   m_id(player_id),
   m_target(nullptr),
   m_deactivated(false),
@@ -300,13 +303,15 @@ Player::set_winning()
 }
 
 void
-Player::use_scripting_controller(bool use_or_release)
+Player::use_scripting_controller(bool enable)
 {
-  if ((use_or_release == true) && (m_controller != m_scripting_controller.get())) {
+  if (enable && (m_controller != m_scripting_controller.get()))
+  {
     m_scripting_controller_old = &get_controller();
     set_controller(m_scripting_controller.get());
   }
-  if ((use_or_release == false) && (m_controller == m_scripting_controller.get())) {
+  else if (!enable && (m_controller == m_scripting_controller.get()))
+  {
     set_controller(m_scripting_controller_old);
     m_scripting_controller_old = nullptr;
   }
@@ -355,9 +360,15 @@ Player::adjust_height(float new_height, float bottom_offset)
 
   // adjust bbox accordingly
   // note that we use members of moving_object for this, so we can run this during CD, too
-  set_pos(bbox2.p1());
+  m_col.set_pos(bbox2.p1());
   m_col.set_size(bbox2.get_width(), bbox2.get_height());
   return true;
+}
+
+void
+Player::trigger_sequence(const std::string& sequence_name)
+{
+  trigger_sequence(string_to_sequence(sequence_name), nullptr);
 }
 
 void
@@ -1262,7 +1273,15 @@ Player::do_duck() {
 }
 
 void
-Player::do_standup(bool force_standup) {
+Player::do_standup()
+{
+  // Scripting: Force standup for backwards compatibility.
+  do_standup(true);
+}
+
+void
+Player::do_standup(bool force_standup)
+{
   if (!m_duck || !is_big() || m_backflipping || m_stone)
   {
     m_crawl = false;
@@ -1604,7 +1623,14 @@ Player::handle_input()
       }
       else
       {
-        dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+        Rectf player_head_clear_box = get_bbox().grown(-2.f);
+        player_head_clear_box.set_top(get_bbox().get_top() - 2.f);
+        if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, moving_object, true)) {
+          dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+        }
+        else {
+          dest_.set_bottom(m_col.m_bbox.get_bottom() + 2.f);
+        }
         dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
 
         if (m_dir == Direction::LEFT)
@@ -2195,15 +2221,22 @@ Player::draw(DrawingContext& context)
   }
   */
 
+  // Because the camera also tracks Tux, to avoid perceived jitter the position should be
+  // projected forward according to the time since the last frame. This forward projection
+  // may overshoot slightly, but Tux should never move fast enough that this is perceivable.
+  // (While this could be done for all objects, it is most important here as the camera often
+  // tracks Tux.) Note `context.get_time_offset()` is only nonzero if frame prediction is on.
+  Vector draw_pos = get_pos() + context.get_time_offset() * m_physic.get_velocity();
+
   /* Draw Tux */
   if (!m_visible || (m_safe_timer.started() && !m_is_intentionally_safe && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
   else if (m_dying)
-    m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_opaque_layer() + 1);
+    m_sprite->draw(context.color(), draw_pos, Sector::get().get_foremost_opaque_layer() + 1);
   else
-    m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
+    m_sprite->draw(context.color(), draw_pos, LAYER_OBJECTS + 1);
 
   //TODO: Replace recoloring with proper costumes
   Color power_color = (get_bonus() == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
@@ -2346,7 +2379,7 @@ Player::on_flip(float height)
 {
   Vector pos = get_pos();
   pos.y = height - pos.y - get_bbox().get_height();
-  move(pos);
+  set_pos(pos);
 }
 
 void
@@ -2455,9 +2488,9 @@ Player::kill(bool completely)
 }
 
 void
-Player::move(const Vector& vector)
+Player::set_pos(const Vector& vector)
 {
-  set_pos(vector);
+  MovingObject::set_pos(vector);
 
   // Reset size to get correct hitbox if Tux was eg. ducked before moving
   if (is_big())
@@ -2484,21 +2517,21 @@ Player::check_bounds()
   if (get_pos().x < 0) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the left side
-    set_pos(Vector(0, get_pos().y));
+    m_col.set_pos(Vector(0, get_pos().y));
   }
 
   if (m_col.m_bbox.get_right() > Sector::get().get_width()) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the right side
-    set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(),
-                   m_col.m_bbox.get_top()));
+    m_col.set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(),
+                         m_col.m_bbox.get_top()));
   }
 
   // If Tux is swimming, don't allow him to go below the sector
   if (m_swimming && !m_ghost_mode && !is_dying() && !is_dead()
       && m_col.m_bbox.get_bottom() > Sector::get().get_height()) {
-    set_pos(Vector(m_col.m_bbox.get_left(),
-                   Sector::get().get_height() - m_col.m_bbox.get_height()));
+    m_col.set_pos(Vector(m_col.m_bbox.get_left(),
+                         Sector::get().get_height() - m_col.m_bbox.get_height()));
   }
 
   /* fallen out of the level? */
@@ -2535,6 +2568,24 @@ Player::get_velocity() const
   return m_physic.get_velocity();
 }
 
+float
+Player::get_velocity_x() const
+{
+  return m_physic.get_velocity_x();
+}
+
+float
+Player::get_velocity_y() const
+{
+  return m_physic.get_velocity_y();
+}
+
+void
+Player::set_velocity(float x, float y)
+{
+  m_physic.set_velocity(x, y);
+}
+
 void
 Player::bounce(BadGuy& )
 {
@@ -2548,6 +2599,14 @@ Player::bounce(BadGuy& )
 //scripting Functions Below
 
 void
+Player::activate()
+{
+  if (!m_deactivated)
+    return;
+  m_deactivated = false;
+}
+
+void
 Player::deactivate()
 {
   if (m_deactivated)
@@ -2559,20 +2618,32 @@ Player::deactivate()
   if (m_climbing) stop_climbing(*m_climbing);
 }
 
-void
-Player::activate()
+bool
+Player::get_input_pressed(const std::string& input)
 {
-  if (!m_deactivated)
-    return;
-  m_deactivated = false;
+  return m_controller->pressed(Control_from_string(input).value());
 }
 
-void Player::walk(float speed)
+bool
+Player::get_input_held(const std::string& input)
+{
+  return m_controller->hold(Control_from_string(input).value());
+}
+
+bool
+Player::get_input_released(const std::string& input)
+{
+  return m_controller->released(Control_from_string(input).value());
+}
+
+void
+Player::walk(float speed)
 {
   m_physic.set_velocity_x(speed);
 }
 
-void Player::set_dir(bool right)
+void
+Player::set_dir(bool right)
 {
   m_dir = right ? Direction::RIGHT : Direction::LEFT;
 }
@@ -2598,6 +2669,12 @@ Player::set_ghost_mode(bool enable)
     m_physic.enable_gravity(true);
     log_debug << "You feel solid again." << std::endl;
   }
+}
+
+bool
+Player::get_ghost_mode() const
+{
+  return m_ghost_mode;
 }
 
 void
@@ -2925,7 +3002,7 @@ Player::multiplayer_respawn()
   set_group(COLGROUP_MOVING);
   m_physic.reset();
 
-  move(target->get_pos());
+  set_pos(target->get_pos());
   m_target.reset();
 }
 
@@ -2970,6 +3047,46 @@ Player::remove_collected_key(Key* key)
                                      m_collected_keys.end(),
                                      key),
                          m_collected_keys.end());
+}
+
+
+void
+Player::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Player>("Player", vm.findClass("MovingObject"));
+
+  cls.addFunc<bool, Player, const std::string&>("add_bonus", &Player::add_bonus);
+  cls.addFunc<bool, Player, const std::string&>("set_bonus", &Player::set_bonus);
+  cls.addFunc("get_bonus", &Player::bonus_to_string);
+  cls.addFunc("add_coins", &Player::add_coins);
+  cls.addFunc("get_coins", &Player::get_coins);
+  cls.addFunc("make_invincible", &Player::make_invincible);
+  cls.addFunc("deactivate", &Player::deactivate);
+  cls.addFunc("activate", &Player::activate);
+  cls.addFunc("walk", &Player::walk);
+  cls.addFunc("set_dir", &Player::set_dir);
+  cls.addFunc("set_visible", &Player::set_visible);
+  cls.addFunc("get_visible", &Player::get_visible);
+  cls.addFunc("kill", &Player::kill);
+  cls.addFunc("set_ghost_mode", &Player::set_ghost_mode);
+  cls.addFunc("get_ghost_mode", &Player::get_ghost_mode);
+  cls.addFunc("kick", &Player::kick);
+  cls.addFunc("do_cheer", &Player::do_cheer);
+  cls.addFunc("do_duck", &Player::do_duck);
+  cls.addFunc("do_standup", static_cast<void(Player::*)()>(&Player::do_standup));
+  cls.addFunc("do_backflip", &Player::do_backflip);
+  cls.addFunc("do_jump", &Player::do_jump);
+  cls.addFunc("trigger_sequence", static_cast<void(Player::*)(const std::string&)>(&Player::trigger_sequence));
+  cls.addFunc("use_scripting_controller", &Player::use_scripting_controller);
+  cls.addFunc("do_scripting_controller", &Player::do_scripting_controller);
+  cls.addFunc("has_grabbed", &Player::has_grabbed);
+  cls.addFunc("get_velocity_x", &Player::get_velocity_x);
+  cls.addFunc("get_velocity_y", &Player::get_velocity_y);
+  cls.addFunc("set_velocity", &Player::set_velocity);
+  cls.addFunc("get_action", &Player::get_action);
+  cls.addFunc("get_input_pressed", &Player::get_input_pressed);
+  cls.addFunc("get_input_held", &Player::get_input_held);
+  cls.addFunc("get_input_released", &Player::get_input_released);
 }
 
 /* EOF */

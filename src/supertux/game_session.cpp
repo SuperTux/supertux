@@ -31,6 +31,8 @@
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
 #include "sdk/integration.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -60,7 +62,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_prevent_death(false),
   m_level(),
   m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
-  m_scripts(),
+  m_data_table(SquirrelVirtualMachine::current()->get_vm().findTable("Level").getOrCreateTable("data")),
   m_currentsector(nullptr),
   m_end_sequence(nullptr),
   m_game_pause(false),
@@ -87,11 +89,13 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_current_cutscene_text(),
   m_endsequence_timer()
 {
-  set_start_point("main", "main");
+  set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
 
   m_boni_at_start.resize(InputManager::current()->get_num_users(), NO_BONUS);
   m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
   m_max_ice_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
+
+  m_data_table.clear();
 
   if (restart_level(false, preserve_music) != 0)
     throw std::runtime_error ("Initializing the level failed.");
@@ -121,6 +125,8 @@ GameSession::reset_level()
   m_activated_checkpoint = nullptr;
   m_pause_target_timer = false;
   m_spawn_with_invincibility = false;
+
+  m_data_table.clear();
 }
 
 int
@@ -200,6 +206,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
       spawnpoint = &m_spawnpoints.front();
 
       m_play_time = 0; // Reset play time.
+      m_data_table.clear();
     }
 
     /* Perform the respawn from the chosen spawnpoint. */
@@ -431,6 +438,10 @@ GameSession::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
+  if (m_game_pause) {
+    context.set_time_offset(0.0f);
+  }
+
   m_currentsector->draw(context);
   drawstatus(context);
 
@@ -478,6 +489,7 @@ GameSession::setup()
 void
 GameSession::leave()
 {
+  m_data_table.clear();
 }
 
 void
@@ -704,6 +716,7 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
   m_newsector = sector;
   m_newspawnpoint = spawnpoint;
   m_spawn_with_invincibility = false;
+  m_spawn_fade_type = ScreenFade::FadeType::NONE;
 }
 
 void

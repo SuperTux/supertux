@@ -18,8 +18,6 @@
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
 #include "math/vector.hpp"
-#include "scripting/background.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 #include "video/blend.hpp"
@@ -29,9 +27,16 @@
 
 class ReaderMapping;
 
-class Background final : public GameObject,
-                         public ExposedObject<Background, scripting::Background>
+/**
+ * @scripting
+ * @summary A ""Background"" that was given a name can be manipulated by scripts.
+ * @instances A ""Background"" can be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class Background final : public GameObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Background();
   Background(const ReaderMapping& reader);
@@ -42,6 +47,7 @@ public:
 
   static std::string class_name() { return "background"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Background"; }
   static std::string display_name() { return _("Background"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -54,19 +60,76 @@ public:
 
   virtual void on_flip(float height) override;
 
-  void set_image(const std::string& name);
-  void set_images(const std::string& name_top, const std::string& name_middle, const std::string& name_bottom);
-  void set_speed(float bgd_speed);
-
   void draw_image(DrawingContext& context, const Vector& pos);
 
-  std::string get_image() const { return m_imagefile; }
+  const std::string& get_image() const { return m_imagefile; }
   float get_speed() const { return m_parallax_speed.x; }
   int get_layer() const { return m_layer; }
 
   Color get_color() const { return m_color; }
-  void set_color(Color color) { m_color = color; }
   void fade_color(Color color, float time);
+
+  /**
+   * @scripting
+   * @description Sets the background's image.
+   * @param string $image
+   */
+  void set_image(const std::string& image);
+  /**
+   * @scripting
+   * @description Sets the top, middle and bottom background images.
+   * @param string $top_image
+   * @param string $middle_image
+   * @param string $bottom_image
+   */
+  void set_images(const std::string& top_image, const std::string& middle_image,
+                  const std::string& bottom_image);
+  /**
+   * @scripting
+   * @description Sets the background speed.
+   * @param float $speed
+   */
+  void set_speed(float speed);
+
+  /**
+   * @scripting
+   * @description Returns the red color value.
+   */
+  float get_color_red() const;
+  /**
+   * @scripting
+   * @description Returns the green color value.
+   */
+  float get_color_green() const;
+  /**
+   * @scripting
+   * @description Returns the blue color value.
+   */
+  float get_color_blue() const;
+  /**
+   * @scripting
+   * @description Returns the alpha color value.
+   */
+  float get_color_alpha() const;
+  /**
+   * @scripting
+   * @description Sets the background color.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
+  void set_color(float red, float green, float blue, float alpha);
+  /**
+   * @scripting
+   * @description Fades to specified background color in ""time"" seconds.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   * @param float $time
+   */
+  void fade_color(float red, float green, float blue, float alpha, float time);
 
 private:
   enum Alignment {

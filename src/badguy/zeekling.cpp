@@ -25,9 +25,11 @@
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
-const float FLYING_SPEED = 220.f;
-const float DIVING_SPEED = 300.f;
+const float FLYING_SPEED = 180.f;
+const float CHARGING_SPEED = 150.f;
+const float DIVING_SPEED = 280.f;
 
+const float CHARGING_DURATION = 0.3f;
 const float DIVING_DURATION = 1.5f;
 const float RECOVER_DURATION = 2.8f;
 
@@ -38,7 +40,7 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   m_state(FLYING)
 {
   m_physic.enable_gravity(false);
-  m_physic.set_velocity_x(220.f);
+  m_physic.set_velocity_x(FLYING_SPEED);
 }
 
 void
@@ -64,7 +66,8 @@ Zeekling::on_bump_horizontal()
 {
   m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
   set_action(m_dir);
-  m_physic.set_velocity_x(m_physic.get_velocity_x() * (m_dir == Direction::LEFT ? 1 : -1));
+  m_physic.set_velocity_x(std::abs(m_physic.get_velocity_x()) * (m_dir == Direction::LEFT ? -1 : 1));
+  std::cout << m_state << " " << m_dir << std::endl;
 
   switch (m_state)
   {
@@ -141,17 +144,17 @@ Zeekling::should_we_dive()
 
   const Vector& plrmid = player->get_bbox().get_middle();
 
-  // Do not dive if we are not above the player.
-  float height = player->get_bbox().get_top() - get_bbox().get_bottom();
-  if (height <= 0)
+  // Do not dive if we are too close to the player.
+  float height = player->get_bbox().get_top() - get_bbox().get_top();
+  if (height <= 32.f * 4.5f)
     return false;
 
   // Do not dive if we are too far above the player.
   if (height > 512)
     return false;
 
-  float dist = std::abs(eye.x - plrmid.x);
-  if (!math::in_bounds(dist, 10.f, 32.f * 15))
+  float xdist = std::abs(eye.x - plrmid.x);
+  if (!math::in_bounds(xdist, 10.f, 32.f * 15))
     return false;
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, plrmid, false, nullptr);
@@ -183,11 +186,19 @@ void Zeekling::fly()
   set_action(m_dir);
 }
 
+void Zeekling::charge()
+{
+  m_state = CHARGING;
+  m_timer.start(CHARGING_DURATION);
+  set_speed(CHARGING_SPEED);
+  set_action("charge", m_dir);
+}
+
 void Zeekling::dive()
 {
   m_state = DIVING;
-  set_speed(DIVING_SPEED);
   m_timer.start(DIVING_DURATION);
+  set_speed(DIVING_SPEED);
   set_action("dive", m_dir);
 }
 
@@ -206,8 +217,15 @@ Zeekling::active_update(float dt_sec) {
       if (!should_we_dive())
         break;
 
-      dive();
+      charge();
 
+      break;
+
+    case CHARGING:
+      if (m_timer.check())
+      {
+        dive();
+      }
       break;
 
     case DIVING:
@@ -225,15 +243,6 @@ Zeekling::active_update(float dt_sec) {
         set_pos(pos);
 
       }
-      break;
-
-    case CATCHING:
-      if (m_timer.check())
-      {
-        m_state = RECOVERING;
-        m_catch_pos = get_pos().y;
-      }
-
       break;
 
     case RECOVERING:

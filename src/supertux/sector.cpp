@@ -16,8 +16,11 @@
 
 #include "supertux/sector.hpp"
 
-#include <physfs.h>
 #include <algorithm>
+
+#include <physfs.h>
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
@@ -42,7 +45,6 @@
 #include "object/tilemap.hpp"
 #include "object/vertical_stripes.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/constants.hpp"
@@ -200,8 +202,8 @@ Sector::activate(const std::string& spawnpoint)
   if (!sp) {
     if (!m_level.is_worldmap())
       log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-    if (spawnpoint != "main") {
-      activate("main");
+    if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
+      activate(DEFAULT_SPAWNPOINT_NAME);
     } else {
       activate(Vector(0, 0));
     }
@@ -227,12 +229,12 @@ Sector::activate(const Vector& player_pos)
     m_squirrel_environment->expose_self();
 
     for (const auto& object : get_objects()) {
-      m_squirrel_environment->try_expose(*object);
+      m_squirrel_environment->expose(*object, object->get_name());
     }
   }
 
   // The Sector object is called 'settings' as it is accessed as 'sector.settings'
-  m_squirrel_environment->expose("settings", std::make_unique<scripting::Sector>(this));
+  m_squirrel_environment->expose(*this, "settings");
 
   if (Editor::is_active())
     return;
@@ -243,9 +245,9 @@ Sector::activate(const Vector& player_pos)
     Player& player = *static_cast<Player*>(player_ptr);
     // spawn smalltux below spawnpoint
     if (!player.is_big()) {
-      player.move(player_pos + Vector(0,32));
+      player.set_pos(player_pos + Vector(0,32));
     } else {
-      player.move(player_pos);
+      player.set_pos(player_pos);
     }
 
     // spawning tux in the ground would kill him
@@ -254,7 +256,7 @@ Sector::activate(const Vector& player_pos)
       log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
       Vector npos = player.get_bbox().p1();
       npos.y-=32;
-      player.move(npos);
+      player.set_pos(npos);
     }
   }
 
@@ -263,10 +265,10 @@ Sector::activate(const Vector& player_pos)
   {
     Player& player = *(get_players()[0]);
     Camera& camera = get_camera();
-    player.move(player.get_pos()+Vector(-32, 0));
+    player.set_pos(player.get_pos()+Vector(-32, 0));
     camera.reset(player.get_pos());
     camera.update(1);
-    player.move(player.get_pos()+(Vector(32, 0)));
+    player.set_pos(player.get_pos()+(Vector(32, 0)));
     camera.update(1);
   }
 
@@ -288,6 +290,9 @@ Sector::activate(const Vector& player_pos)
   if (!m_init_script.empty() && !Editor::is_active()) {
     run_script(m_init_script, "init-script");
   }
+
+  // Do not interpolate camera after it has been warped
+  pause_camera_interpolation();
 }
 
 void
@@ -300,9 +305,8 @@ Sector::deactivate()
 
   m_squirrel_environment->unexpose_self();
 
-  for (const auto& object: get_objects()) {
-    m_squirrel_environment->try_unexpose(*object);
-  }
+  for (const auto& object : get_objects())
+    m_squirrel_environment->unexpose(object->get_name());
 
   m_squirrel_environment->unexpose("settings");
 
@@ -372,6 +376,12 @@ Sector::update(float dt_sec)
 
   BIND_SECTOR(*this);
 
+  // Record last camera parameters, to allow for camera interpolation
+  Camera& camera = get_camera();
+  m_last_scale = camera.get_current_scale();
+  m_last_translation = camera.get_translation();
+  m_last_dt = dt_sec;
+
   m_squirrel_environment->update(dt_sec);
 
   GameObjectManager::update(dt_sec);
@@ -405,7 +415,7 @@ Sector::before_object_add(GameObject& object)
   }
 
   if (s_current == this) {
-    m_squirrel_environment->try_expose(object);
+    m_squirrel_environment->expose(object, object.get_name());
   }
 
   if (m_fully_constructed) {
@@ -425,7 +435,7 @@ Sector::before_object_remove(GameObject& object)
   }
 
   if (s_current == this)
-    m_squirrel_environment->try_unexpose(object);
+    m_squirrel_environment->unexpose(object.get_name());
 }
 
 void
@@ -489,8 +499,21 @@ Sector::draw(DrawingContext& context)
   context.push_transform();
 
   Camera& camera = get_camera();
-  context.set_translation(camera.get_translation());
-  context.scale(camera.get_current_scale());
+
+  if (g_config->frame_prediction && m_last_dt > 0.f) {
+    // Interpolate between two camera settings; there are many possible ways to do this, but on
+    // short time scales all look about the same. This delays the camera position by one frame.
+    // (The proper thing to do, of course, would be not to interpolate, but instead to adjust
+    // the Camera class to extrapolate, and provide scale/translation at a given time; done
+    // right, this would make it possible to, for example, exactly sinusoidally shake the
+    // camera instead of piecewise linearly.)
+    float x = std::min(1.f, context.get_time_offset() / m_last_dt);
+    context.set_translation(camera.get_translation() * x + (1 - x) * m_last_translation);
+    context.scale(camera.get_current_scale() * x + (1 - x) * m_last_scale);
+  } else {
+    context.set_translation(camera.get_translation());
+    context.scale(camera.get_current_scale());
+  }
 
   GameObjectManager::draw(context);
 
@@ -519,11 +542,27 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, uint32_t 
 }
 
 bool
+Sector::is_free_of_solid_tiles(float left, float top, float right, float bottom,
+                               bool ignore_unisolid) const
+{
+  return m_collision_system->is_free_of_tiles(Rectf(Vector(left, top), Vector(right, bottom)),
+                                              ignore_unisolid, Tile::SOLID);
+}
+
+bool
 Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
 {
   return m_collision_system->is_free_of_statics(rect,
                                                 ignore_object ? ignore_object->get_collision_object() : nullptr,
                                                 ignoreUnisolid);
+}
+
+bool
+Sector::is_free_of_statics(float left, float top, float right, float bottom,
+                           bool ignore_unisolid) const
+{
+  return m_collision_system->is_free_of_statics(Rectf(Vector(left, top), Vector(right, bottom)),
+                                                nullptr, ignore_unisolid);
 }
 
 bool
@@ -534,10 +573,22 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 }
 
 bool
+Sector::is_free_of_movingstatics(float left, float top, float right, float bottom) const
+{
+  return m_collision_system->is_free_of_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
+}
+
+bool
 Sector::is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
 {
   return m_collision_system->is_free_of_specifically_movingstatics(rect,
                                                       ignore_object ? ignore_object->get_collision_object() : nullptr);
+}
+
+bool
+Sector::is_free_of_specifically_movingstatics(float left, float top, float right, float bottom) const
+{
+  return m_collision_system->is_free_of_specifically_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
 }
 
 CollisionSystem::RaycastResult
@@ -662,6 +713,12 @@ Sector::set_gravity(float gravity)
   m_gravity = gravity;
 }
 
+float
+Sector::get_gravity() const
+{
+  return m_gravity;
+}
+
 Player*
 Sector::get_nearest_player(const Vector& pos) const
 {
@@ -712,6 +769,12 @@ Sector::stop_looping_sounds()
   for (auto& object : get_objects()) {
     object->stop_looping_sounds();
   }
+}
+
+void
+Sector::pause_camera_interpolation()
+{
+  m_last_dt = 0.;
 }
 
 void Sector::play_looping_sounds()
@@ -841,6 +904,22 @@ DisplayEffect&
 Sector::get_effect() const
 {
   return get_singleton_by_type<DisplayEffect>();
+}
+
+
+void
+Sector::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Sector>("Sector", vm.findClass("GameObjectManager"));
+
+  cls.addFunc("set_gravity", &Sector::set_gravity);
+  cls.addFunc("get_gravity", &Sector::get_gravity);
+  cls.addFunc("is_free_of_solid_tiles", &Sector::is_free_of_solid_tiles);
+  cls.addFunc<bool, Sector, float, float, float, float, bool>("is_free_of_statics", &Sector::is_free_of_statics);
+  cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_movingstatics", &Sector::is_free_of_movingstatics);
+  cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_specifically_movingstatics", &Sector::is_free_of_specifically_movingstatics);
+
+  cls.addVar("gravity", &Sector::m_gravity);
 }
 
 /* EOF */

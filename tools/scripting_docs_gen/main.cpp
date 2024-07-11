@@ -72,20 +72,37 @@ int main(int argc, char** argv)
     const std::string filename = fspath.filename();
 
     if (!(std::filesystem::is_regular_file(dir_entry) &&
-          starts_with(filename, "classscripting_1_1"))) continue; // Make sure the current file is about "scripting" namespace member class
+          (starts_with(filename, "class") || starts_with(filename, "namespace")))) continue; // Make sure the current file is about a class or a namespace
 
     /** Read data from current XML class data file **/
     tinyxml2::XMLDocument doc;
     doc.LoadFile(fspath.c_str());
 
-    /** Parse the class and its functions **/
+    /** Parse the class and its members **/
     Class cl; // Store class data
     Parser::parse_compounddef(doc.RootElement(), cl);
 
-    if (cl.constants.empty() && cl.functions.empty()) continue; // If there are no constants or functions, do not create a file
+    if (cl.constants.empty() && cl.variables.empty() && cl.functions.empty()) continue; // If the class has no content, do not save it
 
-    // Save class, so it gets included in the home page
-    classes.push_back(cl);
+    // Save the class
+    classes.push_back(std::move(cl));
+  }
+
+  // Sort classes by their names (A-Z)
+  std::sort(classes.begin(), classes.end(),
+            [](const Class& lhs, const Class& rhs) { return lhs.name < rhs.name; });
+
+  /** Loop through all classes and write their data to files **/
+  for (Class& cl : classes)
+  {
+    // Remove a few internal base classes
+    for (auto it = cl.base_classes.begin(); it != cl.base_classes.end();)
+    {
+      if (it->second == "ssq::ExposableClass" || it->second == "ExposableClass")
+        cl.base_classes.erase(it++);
+      else
+        ++it;
+    }
 
     /** Fill in the data in the provided page template file and save as new file.
         File entries to be replaced:
@@ -107,7 +124,9 @@ int main(int argc, char** argv)
     // Entries
     replace(target_data, "${SRG_CLASSSUMMARY}", cl.summary, "None.");
     replace(target_data, "${SRG_CLASSINSTANCES}", cl.instances, "None.");
+    replace(target_data, "${SRG_CLASSINHERITANCE}", Writer::write_inheritance_list(classes, cl.base_classes, cl.derived_classes), "None.");
     replace(target_data, "${SRG_CLASSCONSTANTS}", Writer::write_constants_table(cl.constants), "None.");
+    replace(target_data, "${SRG_CLASSVARIABLES}", Writer::write_variables_table(cl.variables), "None.");
     replace(target_data, "${SRG_CLASSFUNCTIONS}", Writer::write_function_table(cl.functions), "None.");
     replace(target_data, "${SRG_CLASSNAME}", "`" + cl.name + "`");
     regex_replace(target_data, std::regex("\\$\\{SRG_REF_(.+?)\\}"), Writer::write_class_ref("$1"));
@@ -115,15 +134,13 @@ int main(int argc, char** argv)
     replace(target_data, "${SRG_NEWPARAGRAPH} ", "\r\n\r\n");
     replace(target_data, "${SRG_TABLENEWPARAGRAPH}", "<br /><br />");
     replace(target_data, "\"\"", "`");
+    replace(target_data, "NOTE:", "<br /><br />**NOTE:**");
+    replace(target_data, "Note:", "<br /><br />**NOTE:**");
 
     // Write to target file
     write_file(output_dir_path / std::filesystem::path("Scripting" + cl.name + ".md"), target_data);
     std::cout << "Generated reference for class \"" << cl.name << "\"." << std::endl;
   }
-
-  // Sort classes by their names (A-Z)
-  std::sort(classes.begin(), classes.end(),
-            [](const Class& lhs, const Class& rhs) { return lhs.name < rhs.name; });
 
   /** Fill in the data in the provided home page template file and save as new file.
       File entries to be replaced:

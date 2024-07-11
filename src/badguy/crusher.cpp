@@ -244,7 +244,8 @@ Crusher::collision_solid(const CollisionHit& hit)
 void
 Crusher::update(float dt_sec)
 {
-  Vector movement = m_physic.get_movement(dt_sec);
+  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  Vector movement = m_physic.get_movement(dt_sec) * (in_water ? 0.6f : 1.f);
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
   if (m_cooldown_timer >= dt_sec)

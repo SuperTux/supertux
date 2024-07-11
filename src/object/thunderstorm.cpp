@@ -16,6 +16,9 @@
 
 #include "object/thunderstorm.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "object/background.hpp"
@@ -38,7 +41,6 @@ const float RESTORE_BACKGROUND_COLOR_TIME = 0.1f;
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<Thunderstorm, scripting::Thunderstorm>(this),
   running(true),
   interval(10.0f),
   layer(LAYER_BACKGROUNDTILES-1),
@@ -122,7 +124,7 @@ Thunderstorm::update(float )
     time_to_lightning.start(LIGHTNING_DELAY);
   }
   if (time_to_lightning.check()) {
-    lightning_in_sequence();
+    lightning_general();
     time_to_thunder.start(interval);
   }
 }
@@ -137,6 +139,18 @@ Thunderstorm::draw(DrawingContext& context)
   context.transform().scale = 1.f;
   context.color().draw_gradient(m_flash_color, m_flash_color, 500, GradientDirection::HORIZONTAL, context.get_rect(), Blend::ADD);
   context.pop_transform();
+}
+
+void
+Thunderstorm::lightning_general(bool is_scripted)
+{
+  flash();
+  electrify();
+  if (!m_strike_script.empty()) {
+    Sector::get().run_script(m_strike_script, "strike-script");
+  }
+
+  change_background_colors(true, is_scripted);
 }
 
 void
@@ -165,27 +179,9 @@ Thunderstorm::thunder()
 }
 
 void
-Thunderstorm::lightning_general()
-{
-  flash();
-  electrify();
-  if (!m_strike_script.empty()) {
-    Sector::get().run_script(m_strike_script, "strike-script");
-  }
-}
-
-void
 Thunderstorm::lightning()
 {
-  lightning_general();
-  change_background_colors(true, true);
-}
-
-void
-Thunderstorm::lightning_in_sequence()
-{
-  lightning_general();
-  change_background_colors(true, false);
+  lightning_general(true);
 }
 
 void
@@ -231,6 +227,20 @@ Thunderstorm::restore_background_colors()
     background.fade_color(color, RESTORE_BACKGROUND_COLOR_TIME);
     m_background_colors.pop_front();
   }
+}
+
+
+void
+Thunderstorm::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Thunderstorm>("Thunderstorm", vm.findClass("GameObject"));
+
+  cls.addFunc("start", &Thunderstorm::start);
+  cls.addFunc("stop", &Thunderstorm::stop);
+  cls.addFunc("thunder", &Thunderstorm::thunder);
+  cls.addFunc("lightning", &Thunderstorm::lightning);
+  cls.addFunc("flash", &Thunderstorm::flash);
+  cls.addFunc("electrify", &Thunderstorm::electrify);
 }
 
 /* EOF */
