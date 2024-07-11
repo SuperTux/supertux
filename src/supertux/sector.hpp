@@ -266,6 +266,7 @@ private:
   Vector m_last_translation; // For camera interpolation at high frame rates
   float m_last_scale;
   float m_last_dt;
+  bool m_init_script_run;
 
  public: 
   // The default sector size.
