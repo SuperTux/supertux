@@ -418,6 +418,25 @@ Player::update(float dt_sec)
     }
   }
 
+  if(m_active_bubbles.size() > 0)
+  {
+    for (auto& bubble : m_active_bubbles)
+    {
+      bubble.second.y -= dt_sec * 30.0f;
+
+      // Small horizontal oscillation
+      bubble.second.x += std::sin(bubble.second.y * 0.1f) * dt_sec * 5.0f;
+    }
+
+    m_active_bubbles.erase(std::remove_if(m_active_bubbles.begin(), m_active_bubbles.end(),
+      [&](const std::pair<SurfacePtr, glm::vec2>& bubble)
+      {
+        Rectf bubble_box = Rectf(bubble.second.x, bubble.second.y, bubble.second.x + 16.f, bubble.second.y + 16.f);
+        bool is_out_of_water = Sector::get().is_free_of_tiles(bubble_box, true, Tile::WATER);
+        return is_out_of_water;
+      }), m_active_bubbles.end());
+  }
+
   // Skip if in multiplayer respawn
   if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p) { return !p.is_dead() && !p.is_dying() && !p.is_winning() && &p != this; }))
   {
@@ -524,7 +543,6 @@ Player::update(float dt_sec)
       if (m_bubble_timer.check())
       {
         glm::vec2 beak_local_offset(30.f, 0.0f);
-
         float sprite_angle_rad = glm::radians(m_sprite->get_angle());
 
         // Calculate the offsets based on the sprite angle
@@ -548,40 +566,37 @@ Player::update(float dt_sec)
           beak_position = player_center + glm::vec2(rotated_beak_offset_x, rotated_beak_offset_y);
         }
 
-        int random_index = graphicsRandom.rand(0, 3);
-        SurfacePtr bubble_surface = m_bubble_particles[random_index];
+        int num_bubbles = graphicsRandom.rand(1, 3);
 
-        glm::vec2 bubble_pos;
-        if (std::abs(sprite_angle_rad) >= 5.0f) // Facing left
+        for (int i = 0; i < num_bubbles; ++i)
         {
-          bubble_pos = beak_position - glm::vec2(offset_x, offset_y);
-        }
-        else // Facing right (including straight up or down)
-        {
-          bubble_pos = beak_position + glm::vec2(offset_x, offset_y);
-        }
+          int random_index = graphicsRandom.rand(0, 3);
+          SurfacePtr bubble_surface = m_bubble_particles[random_index];
 
-        m_active_bubbles.push_back({ bubble_surface, bubble_pos });
+          glm::vec2 bubble_pos;
+          if (std::abs(sprite_angle_rad) >= 5.0f) // Facing left
+          {
+            bubble_pos = beak_position - glm::vec2(offset_x, offset_y);
+          }
+          else // Facing right (including straight up or down)
+          {
+            bubble_pos = beak_position + glm::vec2(offset_x, offset_y);
+          }
+
+          if (num_bubbles > 1)
+          {
+            float burst_offset_x = graphicsRandom.randf(-5.0f, 5.0f);
+            float burst_offset_y = graphicsRandom.randf(-5.0f, 5.0f);
+            bubble_pos.x += burst_offset_x;
+            bubble_pos.y += burst_offset_y;
+          }
+
+          m_active_bubbles.push_back({ bubble_surface, bubble_pos });
+        }
 
         // Restart the timer for the next wave of bubbles
         m_bubble_timer.start(0.8f + graphicsRandom.randf(0.0f, 0.6f));
       }
-
-      for (auto& bubble : m_active_bubbles)
-      {
-        bubble.second.y -= dt_sec * 30.0f;
-
-        // Small horizontal oscillation
-        bubble.second.x += std::sin(bubble.second.y * 0.1f) * dt_sec * 5.0f;
-      }
-      
-      m_active_bubbles.erase(std::remove_if(m_active_bubbles.begin(), m_active_bubbles.end(),
-        [&](const std::pair<SurfacePtr, glm::vec2>& bubble)
-        {
-          Rectf bubble_box = Rectf(bubble.second.x, bubble.second.y, bubble.second.x + 16.f, bubble.second.y + 16.f);
-          bool is_out_of_water = Sector::get().is_free_of_tiles(bubble_box, true, Tile::WATER);
-          return is_out_of_water;
-        }), m_active_bubbles.end());
     }
     else
     {
@@ -2315,7 +2330,7 @@ Player::draw(DrawingContext& context)
 
   for (auto bubble_sprite : m_active_bubbles)
   {
-    context.color().draw_surface(bubble_sprite.first, bubble_sprite.second, LAYER_OBJECTS);
+    context.color().draw_surface(bubble_sprite.first, bubble_sprite.second, LAYER_TILES - 5);
   }
   m_sprite->set_color(m_stone ? Color(1.f, 1.f, 1.f) : power_color);
 }
