@@ -254,6 +254,12 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   SoundManager::current()->preload("sounds/invincible_start.ogg");
   SoundManager::current()->preload("sounds/splash.wav");
   SoundManager::current()->preload("sounds/grow.wav");
+  m_bubble_particles[0] = Surface::from_file("images/particles/air_bubble-1.png");
+  m_bubble_particles[1] = Surface::from_file("images/particles/air_bubble-2.png");
+  m_bubble_particles[2] = Surface::from_file("images/particles/air_bubble-3.png");
+  m_bubble_particles[3] = Surface::from_file("images/particles/air_bubble-4.png");
+  m_bubble_timer.start(3.0f + (rand() % 2));
+
   m_col.set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
 
   m_sprite->set_angle(0.0f);
@@ -514,6 +520,71 @@ Player::update(float dt_sec)
         if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
           m_physic.set_velocity_y(-350.f);
       }
+
+      if (m_bubble_timer.check())
+      {
+        int bubble_count = graphicsRandom.rand(3, 5);
+        float vertical_spacing = 20.0f - graphicsRandom.randf(5);
+
+        glm::vec2 beak_local_offset(30.f, 0.0f);
+
+        float sprite_angle_rad = glm::radians(m_sprite->get_angle());
+
+        // Calculate the offsets based on the sprite angle
+        float offset_x = std::cos(sprite_angle_rad) * 10.0f;
+        float offset_y = std::sin(sprite_angle_rad) * 10.0f;
+
+        // Rotate the beak offset based on the sprite's angle
+        float rotated_beak_offset_x = beak_local_offset.x * std::cos(sprite_angle_rad) - beak_local_offset.y * std::sin(sprite_angle_rad);
+        float rotated_beak_offset_y = beak_local_offset.x * std::sin(sprite_angle_rad) + beak_local_offset.y * std::cos(sprite_angle_rad);
+
+        glm::vec2 player_center = m_col.m_bbox.get_middle();
+        glm::vec2 beak_position;
+
+        // Determine direction based on the radians
+        if (std::abs(sprite_angle_rad) >= 5.0f) // Facing left
+        {
+          beak_position = player_center - glm::vec2(rotated_beak_offset_x, rotated_beak_offset_y);
+        }
+        else // Facing right (including straight up or down)
+        {
+          beak_position = player_center + glm::vec2(rotated_beak_offset_x, rotated_beak_offset_y);
+        }
+
+        int random_index = graphicsRandom.rand(0, 3);
+        SurfacePtr bubble_surface = m_bubble_particles[random_index];
+
+        glm::vec2 bubble_pos;
+        if (std::abs(sprite_angle_rad) >= 5.0f) // Facing left
+        {
+          bubble_pos = beak_position - glm::vec2(offset_x, offset_y);
+        }
+        else // Facing right (including straight up or down)
+        {
+          bubble_pos = beak_position + glm::vec2(offset_x, offset_y);
+        }
+
+        m_active_bubbles.push_back({ bubble_surface, bubble_pos });
+
+        // Restart the timer for the next wave of bubbles
+        m_bubble_timer.start(0.8f + graphicsRandom.randf(0.0f, 0.6f));
+      }
+
+      for (auto& bubble : m_active_bubbles)
+      {
+        bubble.second.y -= dt_sec * 30.0f;
+
+        // Small horizontal oscillation
+        bubble.second.x += std::sin(bubble.second.y * 0.1f) * dt_sec * 5.0f;
+      }
+      
+      m_active_bubbles.erase(std::remove_if(m_active_bubbles.begin(), m_active_bubbles.end(),
+        [&](const std::pair<SurfacePtr, glm::vec2>& bubble)
+        {
+          Rectf bubble_box = Rectf(bubble.second.x, bubble.second.y, bubble.second.x + 16.f, bubble.second.y + 16.f);
+          bool is_out_of_water = Sector::get().is_free_of_tiles(bubble_box, true, Tile::WATER);
+          return is_out_of_water;
+        }), m_active_bubbles.end());
     }
     else
     {
@@ -2245,9 +2316,12 @@ Player::draw(DrawingContext& context)
     get_bonus() == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
     Color(1.f, 1.f, 1.f));
 
+  for (auto bubble_sprite : m_active_bubbles)
+  {
+    context.color().draw_surface(bubble_sprite.first, bubble_sprite.second, LAYER_OBJECTS);
+  }
   m_sprite->set_color(m_stone ? Color(1.f, 1.f, 1.f) : power_color);
 }
-
 
 void
 Player::collision_tile(uint32_t tile_attributes)

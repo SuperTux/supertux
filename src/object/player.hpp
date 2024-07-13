@@ -552,6 +552,10 @@ private:
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
+  SurfacePtr m_bubble_particles[4]; /**< bubble particles for swimming */
+  Timer m_bubble_timer; /**< timer for spawning bubble particles */
+  std::vector<std::pair<SurfacePtr, glm::vec2>> m_active_bubbles; /**< active bubble particles */
+
   Vector m_floor_normal;
 
   bool m_ghost_mode; /**< indicates if Tux should float around and through solid objects */
