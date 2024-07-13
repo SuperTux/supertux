@@ -18,6 +18,7 @@
 #include "video/compositor.hpp"
 
 #include "math/rect.hpp"
+#include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
 #include "video/painter.hpp"
 #include "video/renderer.hpp"
@@ -25,10 +26,11 @@
 
 bool Compositor::s_render_lighting = true;
 
-Compositor::Compositor(VideoSystem& video_system) :
+Compositor::Compositor(VideoSystem& video_system, float time_offset) :
   m_video_system(video_system),
   m_obst(),
-  m_drawing_contexts()
+  m_drawing_contexts(),
+  m_time_offset(time_offset)
 {
   obstack_init(&m_obst);
 }
@@ -42,7 +44,7 @@ Compositor::~Compositor()
 DrawingContext&
 Compositor::make_context(bool overlay)
 {
-  m_drawing_contexts.emplace_back(new DrawingContext(m_video_system, m_obst, overlay));
+  m_drawing_contexts.emplace_back(new DrawingContext(m_video_system, m_obst, overlay, m_time_offset));
   return *m_drawing_contexts.back();
 }
 
@@ -68,12 +70,9 @@ Compositor::render()
     {
       if (!ctx->is_overlay())
       {
-        painter.set_clip_rect(ctx->get_viewport());
         painter.clear(ctx->get_ambient_color());
 
         ctx->light().render(lightmap, Canvas::ALL);
-
-        painter.clear_clip_rect();
       }
     }
     lightmap.end_draw();
@@ -84,13 +83,9 @@ Compositor::render()
   {
     back_renderer->start_draw();
 
-    Painter& painter = back_renderer->get_painter();
-
     for (auto& ctx : m_drawing_contexts)
     {
-      painter.set_clip_rect(ctx->get_viewport());
       ctx->color().render(*back_renderer, Canvas::BELOW_LIGHTMAP);
-      painter.clear_clip_rect();
     }
 
     back_renderer->end_draw();
@@ -101,13 +96,10 @@ Compositor::render()
     auto& renderer = m_video_system.get_renderer();
 
     renderer.start_draw();
-    Painter& painter = renderer.get_painter();
 
     for (auto& ctx : m_drawing_contexts)
     {
-      painter.set_clip_rect(ctx->get_viewport());
       ctx->color().render(renderer, Canvas::BELOW_LIGHTMAP);
-      painter.clear_clip_rect();
     }
 
     if (use_lightmap)
@@ -115,11 +107,9 @@ Compositor::render()
       const TexturePtr& texture = lightmap.get_texture();
       if (texture)
       {
-        TextureRequest request;
+        DrawingTransform transform(m_video_system.get_viewport());
+        TextureRequest request(transform);
 
-        request.type = TEXTURE;
-        request.flip = 0;
-        request.alpha = 1.0f;
         request.blend = Blend::MOD;
 
         request.srcrects.emplace_back(0.0f, 0.0f,
@@ -131,16 +121,14 @@ Compositor::render()
         request.texture = texture.get();
         request.color = Color::WHITE;
 
-        painter.draw_texture(request);
+        renderer.get_painter().draw_texture(request);
       }
     }
 
     // Render overlay elements.
     for (auto& ctx : m_drawing_contexts)
     {
-      painter.set_clip_rect(ctx->get_viewport());
       ctx->color().render(renderer, Canvas::ABOVE_LIGHTMAP);
-      painter.clear_clip_rect();
     }
 
     renderer.end_draw();

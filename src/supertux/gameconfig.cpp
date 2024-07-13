@@ -19,6 +19,7 @@
 #include <ctime>
 
 #include "editor/overlay_widget.hpp"
+#include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
@@ -35,7 +36,6 @@
 
 Config::Config() :
   profile(1),
-  profiles(),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
   window_size(1280, 800),
@@ -52,18 +52,19 @@ Config::Config() :
   use_fullscreen(false),
 #endif
   video(VideoSystem::VIDEO_AUTO),
-  try_vsync(true),
+  vsync(1),
+  frame_prediction(false),
   show_fps(false),
   show_player_pos(false),
   show_controller(false),
+  camera_peek_multiplier(0.03f),
   sound_enabled(true),
   music_enabled(true),
   sound_volume(100),
   music_volume(50),
+  flash_intensity(50),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
-  start_demo(),
-  record_demo(),
   tux_spawn_pos(),
   locale(),
   keyboard_config(),
@@ -83,6 +84,7 @@ Config::Config() :
   do_release_check(true),
 #endif
   show_world_previews(true),
+  custom_title_levels(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -109,6 +111,7 @@ Config::Config() :
   editor_autosave_frequency(5),
   editor_undo_tracking(true),
   editor_undo_stack_size(20),
+  editor_show_deprecated_tiles(false),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
@@ -141,38 +144,20 @@ Config::load()
 
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
-  std::optional<ReaderCollection> config_profiles_mapping;
-  if (config_mapping.get("profiles", config_profiles_mapping))
-  {
-    for (auto const& profile_node : config_profiles_mapping->get_objects())
-    {
-      if (profile_node.get_name() == "profile")
-      {
-        auto current_profile = profile_node.get_mapping();
 
-        int id;
-        std::string name;
-        if (current_profile.get("id", id) &&
-            current_profile.get("name", name))
-        {
-          profiles.push_back({id, name});
-        }
-      }
-      else
-      {
-        log_warning << "Unknown token in config file: " << profile_node.get_name() << std::endl;
-      }
-    }
-  }
+  config_mapping.get("flash_intensity", flash_intensity);
+  config_mapping.get("frame_prediction", frame_prediction);
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
+  config_mapping.get("camera_peek_multiplier", camera_peek_multiplier);
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("do_release_check", do_release_check);
   config_mapping.get("show_world_previews", show_world_previews);
+  config_mapping.get("custom_title_levels", custom_title_levels);
 
   std::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
@@ -262,6 +247,7 @@ Config::load()
       log_warning << "Undo stack size could not be lower than 1. Setting to lowest possible value (1)." << std::endl;
       editor_undo_stack_size = 1;
     }
+    editor_mapping->get("show_deprecated_tiles", editor_show_deprecated_tiles);
   }
 
   if (is_christmas()) {
@@ -283,7 +269,7 @@ Config::load()
     std::string video_string;
     config_video_mapping->get("video", video_string);
     video = VideoSystem::get_video_system(video_string);
-    config_video_mapping->get("vsync", try_vsync);
+    config_video_mapping->get("vsync", vsync);
 
     config_video_mapping->get("fullscreen_width",  fullscreen_size.width);
     config_video_mapping->get("fullscreen_height", fullscreen_size.height);
@@ -365,36 +351,33 @@ Config::load()
       }
     }
   }
+
+  check_values();
 }
 
 void
 Config::save()
 {
+  check_values();
+
   Writer writer("config");
 
   writer.start_list("supertux-config");
 
   writer.write("profile", profile);
 
-  writer.start_list("profiles");
-  for (const auto& current_profile : profiles)
-  {
-    writer.start_list("profile");
-    writer.write("id", current_profile.id);
-    writer.write("name", current_profile.name);
-    writer.end_list("profile");
-  }
-  writer.end_list("profiles");
-
+  writer.write("frame_prediction", frame_prediction);
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
   writer.write("show_controller", show_controller);
+  writer.write("camera_peek_multiplier", camera_peek_multiplier);
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
   writer.write("do_release_check", do_release_check);
   writer.write("show_world_previews", show_world_previews);
+  writer.write("custom_title_levels", custom_title_levels);
 
   writer.start_list("integrations");
   {
@@ -449,7 +432,7 @@ Config::save()
   } else {
     writer.write("video", VideoSystem::get_video_string(video));
   }
-  writer.write("vsync", try_vsync);
+  writer.write("vsync", vsync);
 
   writer.write("fullscreen_width",  fullscreen_size.width);
   writer.write("fullscreen_height", fullscreen_size.height);
@@ -462,6 +445,8 @@ Config::save()
 
   writer.write("aspect_width",  aspect_size.width);
   writer.write("aspect_height", aspect_size.height);
+
+  writer.write("flash_intensity", flash_intensity);
 
 #ifdef __EMSCRIPTEN__
   // Forcibly set autofit to true
@@ -517,16 +502,25 @@ Config::save()
     writer.write("snap_to_grid", editor_snap_to_grid);
     writer.write("undo_tracking", editor_undo_tracking);
     writer.write("undo_stack_size", editor_undo_stack_size);
+    writer.write("show_deprecated_tiles", editor_show_deprecated_tiles);
   }
   writer.end_list("editor");
 
   writer.end_list("supertux-config");
 }
 
+void
+Config::check_values()
+{
+  camera_peek_multiplier = math::clamp(camera_peek_multiplier, 0.f, 1.f);
+}
 
 bool
 Config::is_christmas() const
 {
+  if (christmas_mode)
+    return true;
+
   std::time_t time = std::time(nullptr);
   const std::tm* now = std::localtime(&time);
 

@@ -56,6 +56,9 @@ public:
       been assigned to any other group */
   void add_unassigned_tilegroup();
 
+  /** Check for and remove any deprecated tiles from tilegroups. */
+  void remove_deprecated_tiles();
+
   void add_tilegroup(const Tilegroup& tilegroup);
 
   const Tile& get(const uint32_t id) const;

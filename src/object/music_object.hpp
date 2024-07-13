@@ -46,11 +46,11 @@ public:
   virtual ObjectSettings get_settings() override;
 
   void play_music(MusicType musictype);
-  void resume_music();
+  void resume_music(bool instantly = false);
   MusicType get_music_type() const;
 
   void set_music(const std::string& music);
-  std::string get_music() const;
+  const std::string& get_music() const;
 
 private:
   MusicType m_currentmusic;

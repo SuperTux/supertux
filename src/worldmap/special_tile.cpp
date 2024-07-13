@@ -75,7 +75,7 @@ SpecialTile::get_settings()
   result.add_bool(_("Show message"), &m_passive_message, "passive-message", false);
   result.add_script(_("Script"), &m_script, "script");
   result.add_bool(_("Invisible"), &m_invisible, "invisible-tile", false);
-  result.add_text(_("Direction"), &m_apply_direction, "apply-to-direction", std::string("north-east-south-west"));
+  result.add_text(_("Direction"), &m_apply_direction, "apply-to-direction", "north-east-south-west");
 
   result.reorder({"map-message", "invisible-tile", "script", "passive-message", "apply-to-direction", "sprite", "x", "y"});
 

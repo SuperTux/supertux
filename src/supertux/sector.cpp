@@ -16,8 +16,11 @@
 
 #include "supertux/sector.hpp"
 
-#include <physfs.h>
 #include <algorithm>
+
+#include <physfs.h>
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
@@ -42,17 +45,14 @@
 #include "object/tilemap.hpp"
 #include "object/vertical_stripes.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/game_object_factory.hpp"
-#include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/player_status_hud.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
@@ -62,47 +62,17 @@
 
 Sector* Sector::s_current = nullptr;
 
-namespace {
-
-PlayerStatus dummy_player_status(1);
-
-} // namespace
-
-
 Sector::Sector(Level& parent) :
   Base::Sector("sector"),
   m_level(parent),
   m_fully_constructed(false),
   m_foremost_layer(),
+  m_foremost_opaque_layer(),
   m_gravity(10.0f),
-  m_collision_system(new CollisionSystem(*this))
+  m_collision_system(new CollisionSystem(*this)),
+  m_text_object(add<TextObject>("Text"))
 {
-  Savegame* savegame = (Editor::current() && Editor::is_active()) ?
-    Editor::current()->m_savegame.get() :
-    GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
-  PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
-
-  if (savegame && !m_level.m_suppress_pause_menu && !savegame->is_title_screen()) {
-    add<PlayerStatusHUD>(player_status);
-  }
-
-  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
-  {
-    if (!InputManager::current()->has_corresponsing_controller(id)
-        && !InputManager::current()->m_uses_keyboard[id]
-        && savegame
-        && !savegame->is_title_screen()
-        && id != 0)
-      continue;
-
-    if (id > 0 && !savegame)
-      dummy_player_status.add_player();
-
-    add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
-  }
-
   add<DisplayEffect>("Effect");
-  add<TextObject>("Text");
   add<TextArrayObject>("TextArray");
 
   SoundManager::current()->preload("sounds/shoot.wav");
@@ -150,8 +120,20 @@ Sector::finish_construction(bool editable)
     }
   }
 
-  if (get_solid_tilemaps().empty()) {
-    log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
+  if (get_solid_tilemaps().empty())
+  {
+    if (editable)
+    {
+      log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
+    }
+    else
+    {
+      log_warning << "sector '" << get_name() << "' does not contain a solid tile layer. Creating an empty one." << std::endl;
+
+      TileMap& tilemap = add<TileMap>(TileManager::current()->get_tileset(m_level.get_tileset()));
+      tilemap.resize(100, 35);
+      tilemap.set_solid();
+    }
   }
 
   if (!get_object_by_type<Camera>()) {
@@ -175,13 +157,12 @@ Sector::finish_construction(bool editable)
   m_initialized = false;
   flush_game_objects();
 
-  m_foremost_layer = calculate_foremost_layer();
+  m_foremost_layer = calculate_foremost_layer(false);
+  m_foremost_opaque_layer = calculate_foremost_layer();
 
   process_resolve_requests();
 
-  for (auto& object : get_objects()) {
-    object->finish_construction();
-  }
+  Base::Sector::finish_construction(editable);
 
   m_initialized = false;
   flush_game_objects();
@@ -189,8 +170,8 @@ Sector::finish_construction(bool editable)
   m_fully_constructed = true;
 }
 
-void
-Sector::activate(const std::string& spawnpoint)
+SpawnPointMarker*
+Sector::get_spawn_point(const std::string& spawnpoint)
 {
   SpawnPointMarker* sp = nullptr;
   for (auto& spawn_point : get_objects_by_type<SpawnPointMarker>()) {
@@ -200,11 +181,29 @@ Sector::activate(const std::string& spawnpoint)
     }
   }
 
+  return sp;
+}
+
+Vector
+Sector::get_spawn_point_position(const std::string& spawnpoint)
+{
+  SpawnPointMarker* sp = get_spawn_point(spawnpoint);
+  if (sp)
+    return sp->get_pos();
+  else
+    return Vector(0.0f, 0.0f);
+}
+
+void
+Sector::activate(const std::string& spawnpoint)
+{
+  SpawnPointMarker* sp = get_spawn_point(spawnpoint);
+
   if (!sp) {
     if (!m_level.is_worldmap())
       log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-    if (spawnpoint != "main") {
-      activate("main");
+    if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
+      activate(DEFAULT_SPAWNPOINT_NAME);
     } else {
       activate(Vector(0, 0));
     }
@@ -218,6 +217,10 @@ Sector::activate(const Vector& player_pos)
 {
   BIND_SECTOR(*this);
 
+  // Make sure all players are moved to this sector.
+  for (auto& player : m_level.get_players())
+    player->move_to_sector(*this);
+
   if (s_current != this) {
     if (s_current != nullptr)
       s_current->deactivate();
@@ -226,12 +229,12 @@ Sector::activate(const Vector& player_pos)
     m_squirrel_environment->expose_self();
 
     for (const auto& object : get_objects()) {
-      m_squirrel_environment->try_expose(*object);
+      m_squirrel_environment->expose(*object, object->get_name());
     }
   }
 
   // The Sector object is called 'settings' as it is accessed as 'sector.settings'
-  m_squirrel_environment->expose("settings", std::make_unique<scripting::Sector>(this));
+  m_squirrel_environment->expose(*this, "settings");
 
   if (Editor::is_active())
     return;
@@ -242,9 +245,9 @@ Sector::activate(const Vector& player_pos)
     Player& player = *static_cast<Player*>(player_ptr);
     // spawn smalltux below spawnpoint
     if (!player.is_big()) {
-      player.move(player_pos + Vector(0,32));
+      player.set_pos(player_pos + Vector(0,32));
     } else {
-      player.move(player_pos);
+      player.set_pos(player_pos);
     }
 
     // spawning tux in the ground would kill him
@@ -253,7 +256,7 @@ Sector::activate(const Vector& player_pos)
       log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
       Vector npos = player.get_bbox().p1();
       npos.y-=32;
-      player.move(npos);
+      player.set_pos(npos);
     }
   }
 
@@ -262,10 +265,10 @@ Sector::activate(const Vector& player_pos)
   {
     Player& player = *(get_players()[0]);
     Camera& camera = get_camera();
-    player.move(player.get_pos()+Vector(-32, 0));
+    player.set_pos(player.get_pos()+Vector(-32, 0));
     camera.reset(player.get_pos());
     camera.update(1);
-    player.move(player.get_pos()+(Vector(32, 0)));
+    player.set_pos(player.get_pos()+(Vector(32, 0)));
     camera.update(1);
   }
 
@@ -287,6 +290,9 @@ Sector::activate(const Vector& player_pos)
   if (!m_init_script.empty() && !Editor::is_active()) {
     run_script(m_init_script, "init-script");
   }
+
+  // Do not interpolate camera after it has been warped
+  pause_camera_interpolation();
 }
 
 void
@@ -299,9 +305,8 @@ Sector::deactivate()
 
   m_squirrel_environment->unexpose_self();
 
-  for (const auto& object: get_objects()) {
-    m_squirrel_environment->try_unexpose(*object);
-  }
+  for (const auto& object : get_objects())
+    m_squirrel_environment->unexpose(object->get_name());
 
   m_squirrel_environment->unexpose("settings");
 
@@ -319,14 +324,14 @@ Sector::get_active_region() const
 }
 
 int
-Sector::calculate_foremost_layer() const
+Sector::calculate_foremost_layer(bool including_transparent) const
 {
   int layer = LAYER_BACKGROUND0;
   for (auto& tm : get_objects_by_type<TileMap>())
   {
     if (tm.get_layer() > layer)
     {
-      if ( (tm.get_alpha() < 1.0f) )
+      if ( including_transparent && tm.get_alpha() < 1.0f )
       {
         layer = tm.get_layer() - 1;
       }
@@ -338,6 +343,12 @@ Sector::calculate_foremost_layer() const
   }
   log_debug << "Calculated badguy falling layer was: " << layer << std::endl;
   return layer;
+}
+
+int
+Sector::get_foremost_opaque_layer() const
+{
+  return m_foremost_opaque_layer;
 }
 
 int
@@ -364,6 +375,12 @@ Sector::update(float dt_sec)
   assert(m_fully_constructed);
 
   BIND_SECTOR(*this);
+
+  // Record last camera parameters, to allow for camera interpolation
+  Camera& camera = get_camera();
+  m_last_scale = camera.get_current_scale();
+  m_last_translation = camera.get_translation();
+  m_last_dt = dt_sec;
 
   m_squirrel_environment->update(dt_sec);
 
@@ -398,11 +415,11 @@ Sector::before_object_add(GameObject& object)
   }
 
   if (s_current == this) {
-    m_squirrel_environment->try_expose(object);
+    m_squirrel_environment->expose(object, object.get_name());
   }
 
   if (m_fully_constructed) {
-    process_resolve_requests();
+    try_process_resolve_requests();
     object.finish_construction();
   }
 
@@ -418,7 +435,7 @@ Sector::before_object_remove(GameObject& object)
   }
 
   if (s_current == this)
-    m_squirrel_environment->try_unexpose(object);
+    m_squirrel_environment->unexpose(object.get_name());
 }
 
 void
@@ -482,8 +499,21 @@ Sector::draw(DrawingContext& context)
   context.push_transform();
 
   Camera& camera = get_camera();
-  context.set_translation(camera.get_translation());
-  context.scale(camera.get_current_scale());
+
+  if (g_config->frame_prediction && m_last_dt > 0.f) {
+    // Interpolate between two camera settings; there are many possible ways to do this, but on
+    // short time scales all look about the same. This delays the camera position by one frame.
+    // (The proper thing to do, of course, would be not to interpolate, but instead to adjust
+    // the Camera class to extrapolate, and provide scale/translation at a given time; done
+    // right, this would make it possible to, for example, exactly sinusoidally shake the
+    // camera instead of piecewise linearly.)
+    float x = std::min(1.f, context.get_time_offset() / m_last_dt);
+    context.set_translation(camera.get_translation() * x + (1 - x) * m_last_translation);
+    context.scale(camera.get_current_scale() * x + (1 - x) * m_last_scale);
+  } else {
+    context.set_translation(camera.get_translation());
+    context.scale(camera.get_current_scale());
+  }
 
   GameObjectManager::draw(context);
 
@@ -512,6 +542,14 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, uint32_t 
 }
 
 bool
+Sector::is_free_of_solid_tiles(float left, float top, float right, float bottom,
+                               bool ignore_unisolid) const
+{
+  return m_collision_system->is_free_of_tiles(Rectf(Vector(left, top), Vector(right, bottom)),
+                                              ignore_unisolid, Tile::SOLID);
+}
+
+bool
 Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
 {
   return m_collision_system->is_free_of_statics(rect,
@@ -520,10 +558,37 @@ Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object,
 }
 
 bool
+Sector::is_free_of_statics(float left, float top, float right, float bottom,
+                           bool ignore_unisolid) const
+{
+  return m_collision_system->is_free_of_statics(Rectf(Vector(left, top), Vector(right, bottom)),
+                                                nullptr, ignore_unisolid);
+}
+
+bool
 Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
 {
   return m_collision_system->is_free_of_movingstatics(rect,
                                                       ignore_object ? ignore_object->get_collision_object() : nullptr);
+}
+
+bool
+Sector::is_free_of_movingstatics(float left, float top, float right, float bottom) const
+{
+  return m_collision_system->is_free_of_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
+}
+
+bool
+Sector::is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
+{
+  return m_collision_system->is_free_of_specifically_movingstatics(rect,
+                                                      ignore_object ? ignore_object->get_collision_object() : nullptr);
+}
+
+bool
+Sector::is_free_of_specifically_movingstatics(float left, float top, float right, float bottom) const
+{
+  return m_collision_system->is_free_of_specifically_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
 }
 
 CollisionSystem::RaycastResult
@@ -597,18 +662,33 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
   bool is_offset = resize_offset.width || resize_offset.height;
   Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
                             static_cast<float>(resize_offset.height) * 32.0f);
-  for (const auto& object : get_objects()) {
+
+  for (const auto& object : get_objects())
+  {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
-    if (tilemap) {
-      if (tilemap->get_size() == old_size) {
+    if (tilemap)
+    {
+      if (tilemap->get_size() == old_size)
+      {
+        tilemap->save_state();
         tilemap->resize(new_size, resize_offset);
-      } else if (is_offset) {
-        tilemap->move_by(obj_shift);
+        tilemap->check_state();
       }
-    } else if (is_offset) {
+      else if (is_offset)
+      {
+        tilemap->save_state();
+        tilemap->move_by(obj_shift);
+        tilemap->check_state();
+      }
+    }
+    else if (is_offset)
+    {
       auto moving_object = dynamic_cast<MovingObject*>(object.get());
-      if (moving_object) {
+      if (moving_object)
+      {
+        moving_object->save_state();
         moving_object->move_to(moving_object->get_pos() + obj_shift);
+        moving_object->check_state();
       }
     }
   }
@@ -631,6 +711,12 @@ Sector::set_gravity(float gravity)
   }
 
   m_gravity = gravity;
+}
+
+float
+Sector::get_gravity() const
+{
+  return m_gravity;
 }
 
 Player*
@@ -676,6 +762,12 @@ Sector::stop_looping_sounds()
   for (auto& object : get_objects()) {
     object->stop_looping_sounds();
   }
+}
+
+void
+Sector::pause_camera_interpolation()
+{
+  m_last_dt = 0.;
 }
 
 void Sector::play_looping_sounds()
@@ -798,24 +890,29 @@ Sector::get_camera() const
 std::vector<Player*>
 Sector::get_players() const
 {
-  auto players_raw = get_objects_by_type<Player>();
-
-  std::vector<Player*> players;
-
-  auto it = players_raw.begin();
-  while (it != players_raw.end())
-  {
-    players.push_back(&(*it));
-    it++;
-  }
-
-  return players;
+  return m_level.get_players();
 }
 
 DisplayEffect&
 Sector::get_effect() const
 {
   return get_singleton_by_type<DisplayEffect>();
+}
+
+
+void
+Sector::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Sector>("Sector", vm.findClass("GameObjectManager"));
+
+  cls.addFunc("set_gravity", &Sector::set_gravity);
+  cls.addFunc("get_gravity", &Sector::get_gravity);
+  cls.addFunc("is_free_of_solid_tiles", &Sector::is_free_of_solid_tiles);
+  cls.addFunc<bool, Sector, float, float, float, float, bool>("is_free_of_statics", &Sector::is_free_of_statics);
+  cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_movingstatics", &Sector::is_free_of_movingstatics);
+  cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_specifically_movingstatics", &Sector::is_free_of_specifically_movingstatics);
+
+  cls.addVar("gravity", &Sector::m_gravity);
 }
 
 /* EOF */

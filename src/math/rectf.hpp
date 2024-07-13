@@ -81,7 +81,6 @@ public:
             m_size == other.m_size);
   }
 
-  // This is a temporary hack to pass x/y to ReaderMapping
   float& get_left() { return m_p1.x; }
   float& get_top() { return m_p1.y; }
 
@@ -89,6 +88,9 @@ public:
   float get_right() const { return m_p1.x + m_size.width; }
   float get_top() const { return m_p1.y; }
   float get_bottom() const { return m_p1.y + m_size.height; }
+
+  float& get_width() { return m_size.width; }
+  float& get_height() { return m_size.height; }
 
   float get_width() const { return m_size.width; }
   float get_height() const { return m_size.height; }
@@ -122,12 +124,11 @@ public:
     return v.x >= m_p1.x && v.y >= m_p1.y && v.x < get_right() && v.y < get_bottom();
   }
 
-  bool contains(const Rectf& other) const
+  bool overlaps(const Rectf& other) const
   {
-    // FIXME: This is overlaps(), not contains()!
-    if (m_p1.x >= other.get_right() || other.get_left() >= get_right())
+    if (get_right() < other.get_left() || get_left() > other.get_right())
       return false;
-    if (m_p1.y >= other.get_bottom() || other.get_top() >= get_bottom())
+    if (get_bottom() < other.get_top() || get_top() > other.get_bottom())
       return false;
 
     return true;

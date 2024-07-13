@@ -22,8 +22,11 @@
 #include <string>
 #include <vector>
 
-#include "supertux/levelset.hpp"
+#include <simplesquirrel/table.hpp>
+
 #include "supertux/player_status.hpp"
+
+class Profile;
 
 struct LevelState
 {
@@ -84,41 +87,45 @@ public:
     uint32_t get_percentage() const;
   };
 
-public:
-  static std::unique_ptr<Savegame> from_file(const std::string& filename);
+  static std::unique_ptr<Savegame> from_profile(int profile, const std::string& world_name, bool base_data = false);
+  static std::unique_ptr<Savegame> from_current_profile(const std::string& world_name, bool base_data = false);
 
 public:
-  Savegame(const std::string& filename);
+  Savegame(Profile& profile, const std::string& world_name);
+
+  Profile& get_profile() const { return m_profile; }
+  std::string get_filename() const;
 
   /** Returns content of (tux ...) entry */
   PlayerStatus& get_player_status() const { return *m_player_status; }
 
   std::string get_title() const;
-  const std::string& get_filename() const { return m_filename; }
 
-  std::vector<std::string> get_levelsets() const;
-  LevelsetState get_levelset_state(const std::string& name) const;
+  std::vector<std::string> get_levelsets();
+  LevelsetState get_levelset_state(const std::string& name);
   void set_levelset_state(const std::string& basedir,
                           const std::string& level_filename,
                           bool solved);
 
-  Progress get_levelset_progress() const;
-  Progress get_worldmap_progress() const;
+  std::vector<std::string> get_worldmaps();
+  WorldmapState get_worldmap_state(const std::string& name);
 
-  std::vector<std::string> get_worldmaps() const;
-  WorldmapState get_worldmap_state(const std::string& name) const;
+  Progress get_levelset_progress();
+  Progress get_worldmap_progress();
 
   void save();
 
   bool is_title_screen() const;
 
 private:
-  void load();
+  void load(bool base_data = false);
   void clear_state_table();
 
 private:
-  std::string m_filename;
+  Profile& m_profile;
+  std::string m_world_name;
   std::unique_ptr<PlayerStatus> m_player_status;
+  ssq::Table m_state_table;
 
 private:
   Savegame(const Savegame&) = delete;

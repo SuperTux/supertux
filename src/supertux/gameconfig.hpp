@@ -34,14 +34,10 @@ public:
   void load();
   void save();
 
-  int profile;
+  void check_values();
 
-  struct Profile
-  {
-    int id;
-    std::string name;
-  };
-  std::vector<Profile> profiles;
+public:
+  int profile;
 
   /** the width/height to be used to display the game in fullscreen */
   Size fullscreen_size;
@@ -67,21 +63,22 @@ public:
 
   bool use_fullscreen;
   VideoSystem::Enum video;
-  bool try_vsync;
+  int vsync;
+  bool frame_prediction;
   bool show_fps;
   bool show_player_pos;
   bool show_controller;
+  float camera_peek_multiplier;
   bool sound_enabled;
   bool music_enabled;
   int sound_volume;
   int music_volume;
+  int flash_intensity;
 
   /** initial random seed.  0 ==> set from time() */
   int random_seed;
 
   bool enable_script_debugger;
-  std::string start_demo;
-  std::string record_demo;
 
   /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
   std::optional<Vector> tux_spawn_pos;
@@ -112,6 +109,7 @@ public:
   bool custom_mouse_cursor;
   bool do_release_check;
   bool show_world_previews;
+  bool custom_title_levels;
 
 #ifdef ENABLE_DISCORD
   bool enable_discord;
@@ -147,6 +145,7 @@ public:
   int editor_autosave_frequency;
   bool editor_undo_tracking;
   int editor_undo_stack_size;
+  bool editor_show_deprecated_tiles;
 
   bool multiplayer_auto_manage_players;
   bool multiplayer_multibind;

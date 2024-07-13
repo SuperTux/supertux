@@ -5,16 +5,16 @@
 # Translators:
 # IAN RODRÍGUEZ Lorenzo, 2023
 # 515ce455fbf38ec9585626e8d26b6324_7a9a6ef, 2017
-# Ryo Nakano, 2019,2021
+# Ryo Nakano, 2019,2021,2024
 # Sanshiro sumita, 2015-2016
 # Sanshiro sumita, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:04+0000\n"
-"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
+"Last-Translator: Ryo Nakano, 2019,2021,2024\n"
 "Language-Team: Japanese (http://app.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -99,7 +99,7 @@ msgstr "天空の火"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
-msgstr "見たことのある光景"
+msgstr "見覚えのある光景"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
@@ -109,7 +109,7 @@ msgstr "悪者は臭う！"
 msgid ""
 "#These levels were made Swimming-Ready by Serano and revamped by "
 "AllyTheOcelot"
-msgstr "#これらのレベルは Serano によって Swimming-Ready にされ、AllyTheOcelot によって改良されました"
+msgstr "#これらのレベルは Serano によって潜水対応になり、AllyTheOcelot によって改良されました"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -121,7 +121,7 @@ msgstr "簡単すぎるレベル"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr "#これらすべてのレベルは、ヒュームによってマイルストーン 2 にアップグレードされました。"
+msgstr "#これらすべてのレベルは、Hume によってマイルストーン 2 にアップグレードされました。"
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"

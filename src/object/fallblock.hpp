@@ -43,7 +43,9 @@ public:
 
   virtual void on_flip(float height) override;
 
-protected:
+public:
+  Physic& get_physic() { return m_physic; }
+
   enum State
   {
     IDLE,
@@ -51,6 +53,8 @@ protected:
     FALL,
     LAND
   };
+
+  State get_state() const { return m_state; }
 
 private:
   State m_state;

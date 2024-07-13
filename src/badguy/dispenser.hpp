@@ -18,38 +18,53 @@
 #define HEADER_SUPERTUX_BADGUY_DISPENSER_HPP
 
 #include "badguy/badguy.hpp"
-#include "scripting/dispenser.hpp"
-#include "squirrel/exposed_object.hpp"
 
 class GameObject;
 
-class Dispenser final : public BadGuy,
-                        public ExposedObject<Dispenser, scripting::Dispenser>
+/**
+ * @scripting
+ * @summary A ""Dispenser"" that was given a name can be controlled by scripts.
+ * @instances A ""Dispenser"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class Dispenser final : public BadGuy
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 private:
   enum DispenserType {
-    DROPPER, CANNON, POINT
+    DROPPER, CANNON, POINT, GRANITO
   };
 
 public:
   Dispenser(const ReaderMapping& reader);
 
-  void add_object(std::unique_ptr<GameObject> object);
-
   virtual void draw(DrawingContext& context) override;
   virtual void initialize() override;
+  /**
+   * @scripting
+   * @description Makes the dispenser start dispensing badguys.
+   */
   virtual void activate() override;
+  /**
+   * @scripting
+   * @description Stops the dispenser from dispensing badguys.
+   */
   virtual void deactivate() override;
   virtual void active_update(float dt_sec) override;
 
+  virtual void kill_fall() override;
   virtual void freeze() override;
   virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
+  virtual bool always_active() const override { return true; }
   virtual bool is_portable() const override;
 
   static std::string class_name() { return "dispenser"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Dispenser"; }
   static std::string display_name() { return _("Dispenser"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -59,15 +74,7 @@ public:
 
   virtual void on_flip(float height) override;
 
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
-  {
-    ExposedObject<Dispenser, scripting::Dispenser>::expose(vm, table_idx);
-  }
-
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override
-  {
-    ExposedObject<Dispenser, scripting::Dispenser>::unexpose(vm, table_idx);
-  }
+  virtual void after_editor_set() override;
 
   void notify_dead() {
     if (m_limit_dispensed_badguys) {
@@ -76,6 +83,8 @@ public:
   }
 
 protected:
+  void add_object(std::unique_ptr<GameObject> object);
+
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   void launch_object();
 
@@ -83,6 +92,7 @@ protected:
 
 private:
   void set_correct_action();
+  void set_correct_colgroup();
 
 private:
   float m_cycle;

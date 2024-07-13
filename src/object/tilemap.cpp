@@ -18,10 +18,15 @@
 
 #include <tuple>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_set.hpp"
@@ -34,10 +39,8 @@
 #include "video/drawing_context.hpp"
 #include "video/layer.hpp"
 #include "video/surface.hpp"
-#include "worldmap/worldmap.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
-  ExposedObject<TileMap, scripting::TileMap>(this),
   PathObject(),
   m_editor_active(true),
   m_tileset(new_tileset),
@@ -50,7 +53,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_height(0),
   m_z_pos(0),
   m_offset(Vector(0,0)),
-  m_movement(0,0),
+  m_movement(0, 0),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -72,7 +75,6 @@ TileMap::TileMap(const TileSet *new_tileset) :
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<TileMap, scripting::TileMap>(this),
   PathObject(),
   m_editor_active(true),
   m_tileset(tileset_),
@@ -84,8 +86,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_width(-1),
   m_height(-1),
   m_z_pos(0),
-  m_offset(Vector(0,0)),
-  m_movement(Vector(0,0)),
+  m_offset(Vector(0, 0)),
+  m_movement(Vector(0, 0)),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -152,7 +154,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   /* Initialize effective_solid based on real_solid and current_alpha. */
   m_effective_solid = m_real_solid;
-  update_effective_solid ();
+  update_effective_solid(false);
 
   reader.get("width", m_width);
   reader.get("height", m_height);
@@ -193,6 +195,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 void
 TileMap::finish_construction()
 {
+  get_parent()->update_solid(this);
+
   if (get_path() && get_path()->get_nodes().size() > 0) {
     if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
       m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
@@ -325,6 +329,20 @@ TileMap::after_editor_set()
 }
 
 void
+TileMap::save_state()
+{
+  GameObject::save_state();
+  PathObject::save_state();
+}
+
+void
+TileMap::check_state()
+{
+  GameObject::check_state();
+  PathObject::check_state();
+}
+
+void
 TileMap::update(float dt_sec)
 {
   // handle tilemap fading
@@ -352,9 +370,9 @@ TileMap::update(float dt_sec)
     }
   }
 
-  m_movement = Vector(0,0);
   // if we have a path to follow, follow it
   if (get_walker()) {
+    m_movement = Vector(0, 0);
     get_walker()->update(dt_sec);
     Vector v = get_walker()->get_pos(get_size() * 32, m_path_handle);
     if (get_path() && get_path()->is_valid()) {
@@ -402,7 +420,7 @@ TileMap::on_flip(float height)
   for (int x = 0; x < get_width(); ++x) {
     for (int y = 0; y < get_height()/2; ++y) {
       // swap tiles
-      int y2 = get_height()-1-y;
+      int y2 = get_height() - 1 - y;
       uint32_t t1 = get_tile_id(x, y);
       uint32_t t2 = get_tile_id(x, y2);
       change(x, y, t2);
@@ -464,6 +482,14 @@ TileMap::draw(DrawingContext& context)
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
       }
 
+      // If the tilemap is active in editor and showing deprecated tiles is enabled, draw indication over each deprecated tile
+      if (Editor::is_active() && m_editor_active &&
+          g_config->editor_show_deprecated_tiles && tile.is_deprecated())
+      {
+        context.color().draw_text(Resources::normal_font, "!", pos + Vector(16, 8),
+                                  ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
+      }
+
       const SurfacePtr& surface = Editor::is_active() ? tile.get_current_editor_surface() : tile.get_current_surface();
       if (surface) {
         std::get<0>(batches[surface]).emplace_back(surface->get_region());
@@ -488,34 +514,6 @@ TileMap::draw(DrawingContext& context)
   }
 
   context.pop_transform();
-}
-
-void
-TileMap::goto_node(int node_no)
-{
-  if (!get_walker()) return;
-  get_walker()->goto_node(node_no);
-}
-
-void
-TileMap::jump_to_node(int node_no)
-{
-  if (!get_walker()) return;
-  get_walker()->jump_to_node(node_no);
-}
-
-void
-TileMap::start_moving()
-{
-  if (!get_walker()) return;
-  get_walker()->start_moving();
-}
-
-void
-TileMap::stop_moving()
-{
-  if (!get_walker()) return;
-  get_walker()->stop_moving();
 }
 
 void
@@ -634,7 +632,7 @@ TileMap::get_tile_id(int x, int y) const
   if (x >= m_width) x = m_width - 1;
   if (y < 0) y = 0;
   if (y >= m_height) y = m_height - 1;
-  
+
   if (x < 0 || x >= m_width || y < 0 || y >= m_height) {
     //log_warning << "tile outside tilemap requested" << std::endl;
     return 0;
@@ -663,7 +661,13 @@ uint32_t
 TileMap::get_tile_id_at(const Vector& pos) const
 {
   Vector xy = (pos - m_offset) / 32.0f;
-  return get_tile_id(int(xy.x), int(xy.y));
+  return get_tile_id(static_cast<int>(xy.x), static_cast<int>(xy.y));
+}
+
+uint32_t
+TileMap::get_tile_id_at(float x, float y) const
+{
+  return get_tile_id_at(Vector(x, y));
 }
 
 const Tile&
@@ -687,6 +691,12 @@ TileMap::change_at(const Vector& pos, uint32_t newtile)
 {
   Vector xy = (pos - m_offset) / 32.0f;
   change(int(xy.x), int(xy.y), newtile);
+}
+
+void
+TileMap::change_at(float x, float y, uint32_t newtile)
+{
+  change_at(Vector(x, y), newtile);
 }
 
 void
@@ -802,10 +812,9 @@ TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op
 }
 
 bool
-TileMap::is_corner(uint32_t tile)
+TileMap::is_corner(uint32_t tile) const
 {
   auto* ats = m_tileset->get_autotileset_from_tile(tile);
-  
   return ats && ats->is_corner();
 }
 
@@ -824,7 +833,7 @@ TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos)
                                   + static_cast<int>(pos.x)];
 
   AutotileSet* curr_set = m_tileset->get_autotileset_from_tile(current_tile);
-  
+
   if (curr_set && curr_set->is_corner()) {
     int x = static_cast<int>(corner_pos.x), y = static_cast<int>(corner_pos.y);
     autotile_corner(x, y, current_tile, AutotileCornerOperation::REMOVE_TOP_LEFT);
@@ -894,23 +903,29 @@ TileMap::get_autotileset(uint32_t tile) const
 }
 
 void
-TileMap::fade(float alpha_, float seconds)
+TileMap::fade(float alpha_, float time)
 {
   m_alpha = alpha_;
-  m_remaining_fade_time = seconds;
+  m_remaining_fade_time = time;
 }
 
 void
-TileMap::tint_fade(const Color& new_tint, float seconds)
+TileMap::tint_fade(const Color& new_tint, float time)
 {
   m_tint = new_tint;
-  m_remaining_tint_fade_time = seconds;
+  m_remaining_tint_fade_time = time;
 }
 
 void
-TileMap::set_alpha(float alpha_)
+TileMap::tint_fade(float time, float red, float green, float blue, float alpha)
 {
-  m_alpha = alpha_;
+  tint_fade(Color(red, green, blue, alpha), time);
+}
+
+void
+TileMap::set_alpha(float alpha)
+{
+  m_alpha = alpha;
   m_current_alpha = m_alpha;
   m_remaining_fade_time = 0;
   update_effective_solid ();
@@ -934,9 +949,8 @@ TileMap::move_by(const Vector& shift)
 }
 
 void
-TileMap::update_effective_solid()
+TileMap::update_effective_solid(bool update_manager)
 {
-  bool old = m_effective_solid;
   if (!m_real_solid)
     m_effective_solid = false;
   else if (m_effective_solid && (m_current_alpha < 0.25f))
@@ -944,18 +958,34 @@ TileMap::update_effective_solid()
   else if (!m_effective_solid && (m_current_alpha >= 0.75f))
     m_effective_solid = true;
 
-  if(Sector::current() != nullptr && old != m_effective_solid)
-  {
-      Sector::get().update_solid(this);
-  } else if(worldmap::WorldMap::current() != nullptr && old != m_effective_solid) {
-      worldmap::WorldMapSector::current()->update_solid(this);
-  }
+  if (update_manager)
+    get_parent()->update_solid(this);
 }
 
 void
 TileMap::set_tileset(const TileSet* new_tileset)
 {
   m_tileset = new_tileset;
+}
+
+
+void
+TileMap::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<TileMap>("TileMap", vm.findClass("GameObject"));
+
+  PathObject::register_members(cls);
+
+  cls.addFunc("get_tile_id", &TileMap::get_tile_id);
+  cls.addFunc<uint32_t, TileMap, float, float>("get_tile_id_at", &TileMap::get_tile_id_at);
+  cls.addFunc("change", &TileMap::change);
+  cls.addFunc<void, TileMap, float, float, uint32_t>("change_at", &TileMap::change_at);
+  cls.addFunc("change_all", &TileMap::change_all);
+  cls.addFunc("fade", &TileMap::fade);
+  cls.addFunc<void, TileMap, float, float, float, float, float>("tint_fade", &TileMap::tint_fade);
+  cls.addFunc("set_alpha", &TileMap::set_alpha);
+  cls.addFunc("get_alpha", &TileMap::get_alpha);
+  cls.addFunc("set_solid", &TileMap::set_solid);
 }
 
 /* EOF */

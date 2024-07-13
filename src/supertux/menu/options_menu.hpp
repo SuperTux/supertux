@@ -53,6 +53,7 @@ private:
   void add_vsync();
   void add_sound_volume();
   void add_music_volume();
+  void add_flash_intensity();
   void add_mobile_control_scales();
 
 private:
@@ -65,15 +66,18 @@ private:
     MNID_MAGNIFICATION,
     MNID_ASPECTRATIO,
     MNID_VSYNC,
+    MNID_FRAME_PREDICTION,
     MNID_SOUND,
     MNID_MUSIC,
     MNID_SOUND_VOLUME,
     MNID_MUSIC_VOLUME,
+    MNID_FLASH_INTENSITY,
     MNID_RUMBLING,
     MNID_DEVELOPER_MODE,
     MNID_CHRISTMAS_MODE,
     MNID_TRANSITIONS,
     MNID_WORLD_PREVIEWS,
+    MNID_CUSTOM_TITLE_LEVELS,
     MNID_CONFIRMATION_DIALOG,
     MNID_PAUSE_ON_FOCUSLOSS,
     MNID_CUSTOM_CURSOR,
@@ -84,8 +88,8 @@ private:
 
 private:
   struct StringOption {
-    std::vector<std::string> list;
-    int next;
+    std::vector<std::string> list = {};
+    int next = 0;
   };
 
 private:
@@ -96,6 +100,7 @@ private:
   StringOption m_vsyncs;
   StringOption m_sound_volumes;
   StringOption m_music_volumes;
+  StringOption m_flash_intensity_values;
   StringOption m_mobile_control_scales;
 
 private:

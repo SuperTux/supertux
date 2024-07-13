@@ -16,10 +16,19 @@
 
 #include "supertux/level.hpp"
 
+#include <numeric>
+
+#include <physfs.h>
+
 #include "badguy/goldbomb.hpp"
+#include "editor/editor.hpp"
 #include "object/bonus_block.hpp"
 #include "object/coin.hpp"
+#include "object/player.hpp"
 #include "physfs/util.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/player_status_hud.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "util/file_system.hpp"
@@ -27,8 +36,7 @@
 #include "util/string_util.hpp"
 #include "util/writer.hpp"
 
-#include <physfs.h>
-#include <numeric>
+static PlayerStatus s_dummy_player_status(1);
 
 Level* Level::s_current = nullptr;
 
@@ -60,6 +68,43 @@ Level::~Level()
 }
 
 void
+Level::initialize()
+{
+  if (m_sectors.empty())
+    throw std::runtime_error("Level has no sectors!");
+
+  m_stats.init(*this);
+
+  Savegame* savegame = (GameSession::current() && !Editor::current() ?
+    &GameSession::current()->get_savegame() : nullptr);
+  PlayerStatus& player_status = savegame ? savegame->get_player_status() : s_dummy_player_status;
+
+  if (savegame && !m_suppress_pause_menu && !savegame->is_title_screen())
+  {
+    for (auto& sector : m_sectors)
+      sector->add<PlayerStatusHUD>(player_status);
+  }
+
+  Sector* sector = m_sectors.at(0).get();
+  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
+  {
+    if (!InputManager::current()->has_corresponsing_controller(id)
+        && !InputManager::current()->m_uses_keyboard[id]
+        && savegame
+        && !savegame->is_title_screen()
+        && id != 0)
+      continue;
+
+    if (id > 0 && !savegame)
+      s_dummy_player_status.add_player();
+
+    // Add all players in the first sector. They will be moved between sectors.
+    sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+  }
+  sector->flush_game_objects();
+}
+
+void
 Level::save(std::ostream& stream)
 {
   Writer writer(stream);
@@ -79,7 +124,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }
@@ -94,7 +139,7 @@ Level::save(const std::string& filepath, bool retry)
 
     Writer writer(filepath);
     save(writer);
-    log_info << "Level saved as " << filepath << "." 
+    log_info << "Level saved as " << filepath << "."
              << (StringUtil::has_suffix(filepath, "~") ? " [Autosave]" : "")
              << std::endl;
   } catch(std::exception& e) {
@@ -110,7 +155,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }
@@ -129,7 +174,7 @@ Level::save(Writer& writer)
   writer.write("name", m_name, true);
   writer.write("author", m_author, false);
   if (!m_note.empty()) {
-    writer.write("note", m_note, false);
+    writer.write("note", m_note, true);
   }
   if (!m_contact.empty()) {
     writer.write("contact", m_contact, false);
@@ -248,6 +293,17 @@ Level::get_total_secrets() const
     return accumulator + sector->get_object_count<SecretAreaTrigger>();
   };
   return std::accumulate(m_sectors.begin(), m_sectors.end(), 0, get_secret_count);
+}
+
+std::vector<Player*>
+Level::get_players() const
+{
+  std::vector<Player*> players;
+  for (const auto& sector : m_sectors)
+    for (auto& player : sector->get_objects_by_type_index(typeid(Player)))
+      players.push_back(static_cast<Player*>(player));
+
+  return players;
 }
 
 void

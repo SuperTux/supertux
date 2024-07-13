@@ -19,18 +19,18 @@
 
 #include "gui/menu.hpp"
 
+class Profile;
+
 class ProfileNameMenu final : public Menu
 {
-private:
-  const bool m_rename;
-  const int m_current_profile_id;
-  const std::string m_current_profile_name;
-  std::string m_profile_name;
-
 public:
-  ProfileNameMenu(bool rename = false, int id = 0, std::string name = "");
+  ProfileNameMenu(Profile* profile = nullptr);
 
   void menu_action(MenuItem& item) override;
+
+private:
+  Profile* m_profile;
+  std::string m_profile_name;
 
 private:
   ProfileNameMenu(const ProfileNameMenu&) = delete;

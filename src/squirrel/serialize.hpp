@@ -17,13 +17,15 @@
 #ifndef HEADER_SUPERTUX_SQUIRREL_SERIALIZE_HPP
 #define HEADER_SUPERTUX_SQUIRREL_SERIALIZE_HPP
 
-#include <squirrel.h>
-
 class ReaderMapping;
 class Writer;
 
-void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer);
-void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMapping& mapping);
+namespace ssq {
+class Table;
+} // namespace ssq
+
+void load_squirrel_table(ssq::Table& table, const ReaderMapping& mapping);
+void save_squirrel_table(const ssq::Table& table, Writer& writer);
 
 #endif
 

@@ -50,7 +50,7 @@ UnstableTile::UnstableTile(const ReaderMapping& mapping, int type) :
   if (type >= 0)
   {
     m_type = type;
-    on_type_change();
+    on_type_change(TypeChange::INITIAL);
   }
   else
   {

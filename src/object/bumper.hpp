@@ -16,14 +16,14 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BUMPER_HPP
 #define HEADER_SUPERTUX_OBJECT_BUMPER_HPP
 
-#include "object/moving_sprite.hpp"
+#include "object/sticky_object.hpp"
 
 #include "supertux/physic.hpp"
 
 enum class Direction;
 class Player;
 
-class Bumper final : public MovingSprite
+class Bumper final : public StickyObject
 {
 public:
   Bumper(const ReaderMapping& reader);
@@ -43,10 +43,13 @@ public:
 
   Physic& get_physic();
 
+  void bounce();
+
 private:
   Physic m_physic;
 
   Direction m_dir;
+  Vector m_original_pos;
 
 private:
   Bumper(const Bumper&) = delete;

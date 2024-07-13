@@ -27,20 +27,24 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", get_allowed_directions()[0], LAYER_TILES-1),
+  StickyBadguy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1, COLGROUP_MOVING),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),
   m_ammo(),
-  m_dart_sprite("images/creatures/dart/dart.sprite"),
+  m_dart_sprite("images/creatures/darttrap/granito/root_dart.sprite"),
   m_state(IDLE),
   m_fire_timer()
 {
+  parse_type(reader);
+
   reader.get("enabled", m_enabled, true);
+  reader.get("sticky", m_sticky, false);
   reader.get("initial-delay", m_initial_delay, 0.0f);
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
-  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/skull_dart.sprite");
+  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/granito/root_dart.sprite");
+
   m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
   if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
@@ -71,8 +75,14 @@ DartTrap::collision_player(Player&, const CollisionHit& )
 }
 
 void
-DartTrap::active_update(float)
+DartTrap::active_update(float dt_sec)
 {
+  if (m_sticky) {
+    sticky_update(dt_sec);
+  }
+
+  // end dynamic
+
   if (!m_enabled) return;
 
   switch (m_state) {
@@ -140,17 +150,39 @@ DartTrap::fire()
 ObjectSettings
 DartTrap::get_settings()
 {
-  ObjectSettings result = BadGuy::get_settings();
+  ObjectSettings result = StickyBadguy::get_settings();
 
   result.add_float(_("Initial delay"), &m_initial_delay, "initial-delay");
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
   result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay");
   result.add_int(_("Ammo"), &m_ammo, "ammo");
-  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/skull_dart.sprite");
+  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/granito/root_dart.sprite");
 
-  result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y", "dart-sprite"});
+  result.reorder({"initial-delay", "fire-delay", "ammo", "sticky", "direction", "x", "y", "dart-sprite"});
 
   return result;
+}
+
+GameObjectTypes
+DartTrap::get_types() const
+{
+  return {
+    {"granito", _("Granito")},
+    {"skull", _("Skull")}
+  };
+}
+
+std::string
+DartTrap::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case SKULL:
+      return "images/creatures/darttrap/skull/darttrap_skull.sprite";
+    case GRANITO:
+      return "images/creatures/darttrap/granito/darttrap_granito.sprite";
+  }
+  return "images/creatures/darttrap/granito/darttrap_granito.sprite";
 }
 
 std::vector<Direction>
@@ -174,7 +206,25 @@ DartTrap::on_flip(float height)
     set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
   }
   else
+  {
     FlipLevelTransformer::transform_flip(m_flip);
+  }
+}
+
+void
+DartTrap::on_type_change(int old_type)
+{
+  BadGuy::on_type_change(old_type);
+
+  switch (m_type)
+  {
+    case GRANITO:
+      m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
+      break;
+    case SKULL:
+      m_dart_sprite = "images/creatures/darttrap/skull/skull_dart.sprite";
+      break;
+  }
 }
 
 /* EOF */

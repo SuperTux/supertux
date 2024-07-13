@@ -78,7 +78,7 @@ TEST(ObjectOption, to_string)
     select.push_back(std::make_unique<TestObject>());
     select.push_back(std::make_unique<TestObject>());
     select.push_back(std::make_unique<TestObject>());
-    ObjectSelectObjectOption objectselect("test", &select, nullptr, {}, 0);
+    ObjectSelectObjectOption objectselect("test", &select, 0, {}, {}, 0);
     ASSERT_EQ("3", objectselect.to_string());
   }
 

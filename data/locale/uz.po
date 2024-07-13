@@ -1766,8 +1766,8 @@ msgstr "Oʻtkazib yuborish uchun escape tugmasini bosing"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Foydalanish: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Foydalanish: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2489,13 +2489,13 @@ msgstr "Oʻlchamini oʻzgartirish"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2543,8 +2543,8 @@ msgstr "Noma'lum"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" tomonidan \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" tomonidan \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2556,13 +2556,13 @@ msgstr "Hech qanday qo‘shimcha topilmadi"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "O'rnatish %s *YANGI*"
+msgid "Install {} *NEW*"
+msgstr "O'rnatish {} *YANGI*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "O'rnatish %s"
+msgid "Install {}"
+msgstr "O'rnatish {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2582,8 +2582,8 @@ msgstr "Qo'shimchalar ombori indeksi yuklab olinmoqda"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Yuklab olinmoqda %s"
+msgid "Downloading {}"
+msgstr "Yuklab olinmoqda {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3096,8 +3096,8 @@ msgstr "Siz tahrirlayotgan darajani o'chira olmaysiz!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "tomonidan hissa qoʻshgan %s"
+msgid "contributed by {}"
+msgstr "tomonidan hissa qoʻshgan {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

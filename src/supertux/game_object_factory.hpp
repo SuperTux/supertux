@@ -23,10 +23,17 @@
 
 #include "math/vector.hpp"
 
+namespace ssq {
+class VM;
+} // namespace ssq
+
 class GameObjectFactory final : public ObjectFactory
 {
 public:
   static GameObjectFactory& instance();
+
+  /** Register all scriptable objects to a Squirrel VM. */
+  static void register_objects(ssq::VM& vm);
 
 public:
   using ObjectFactory::create;

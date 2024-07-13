@@ -48,7 +48,7 @@ PowerUp::PowerUp(const Vector& pos, int type) :
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   m_type = type;
-  on_type_change();
+  on_type_change(TypeChange::INITIAL);
 
   update_version();
   initialize();
@@ -309,8 +309,7 @@ PowerUp::get_settings()
 std::vector<std::string>
 PowerUp::get_patches() const
 {
-  return { _("Sprites no longer define the behaviour of the object.") + "\n" +
-           _("Object types are used instead.") };
+  return { _("Sprites no longer define the behaviour of the object.\nObject types are used instead.") };
 }
 
 void

@@ -97,12 +97,18 @@
     (class "zeekling")
     (icon "images/creatures/zeekling/zeekling-0.png"))
   (object
-    (class "skullyhop")
-    (icon "images/creatures/skullyhop/stand-0.png"))
+    (class "corrupted_granito")
+    (icon "images/creatures/granito/corrupted/idle_left-0.png"))
+  (object
+    (class "corrupted_granito_big")
+    (icon "images/creatures/granito/corrupted/big/rock_mine-0.png"))
   (object
     (class "darttrap")
-    (icon "images/creatures/darttrap/charge_left-1.png"))
-  (object
+    (icon "images/creatures/darttrap/granito/empty_left.png"))
+(object
+    (class "root_sapling")
+    (icon "images/creatures/mole/corrupted/root_sapling-0.png"))  
+(object
     (class "ghoul")
     (icon "images/creatures/ghoul/g1.png"))
   (object
@@ -145,20 +151,11 @@
     (class "toad")
     (icon "images/creatures/toad/toad-idle-0.png"))
   (object
-    (class "spidermite")
-    (icon "images/creatures/spidermite/spidermite1.png"))
-  (object
-    (class "plant")
-    (icon "images/creatures/plant/left-0.png"))
+    (class "tarantula")
+    (icon "images/creatures/tarantula/tarantula-0.png"))
   (object
     (class "totem")
     (icon "images/creatures/totem/walking1.png"))
-  (object
-    (class "angrystone")
-    (icon "images/creatures/angrystone/charging-0.png"))
-  (object
-    (class "kugelblitz")
-    (icon "images/creatures/kugelblitz/flying-0.png"))
  )
 
  (objectgroup
@@ -180,7 +177,10 @@
     (icon "images/engine/editor/stalactite_ice_yeti.png"))
   (object
     (class "dart")
-    (icon "images/creatures/darttrap/skull_dart_left.png"))
+    (icon "images/creatures/darttrap/granito/root_dart_left.png"))
+  (object
+    (class "bigsnowball")
+    (icon "images/objects/big_snowball/big_snowball.png"))
  )
 
  (objectgroup
@@ -217,14 +217,20 @@
     (class "firefly")
     (icon "images/engine/editor/resetpoint.png"))
   (object
+    (class "granito")
+    (icon "images/creatures/granito/granito_stand-0.png"))
+  (object
+    (class "granito_big")
+    (icon "images/creatures/granito/big/granito_stand-0.png"))
+  (object
+    (class "granito_giant")
+    (icon "images/creatures/granito/giant/granito_sleep-0.png"))
+  (object
     (class "dispenser")
     (icon "images/creatures/dispenser/dropper.png"))
   (object
     (class "ispy")
     (icon "images/objects/ispy/i-idle.png"))
-  (object
-    (class "#node")
-    (icon "images/engine/editor/path_node.png"))
 ;;(object
 ;;  (class "path")
 ;;  (icon "images/engine/editor/path.png"))
@@ -335,9 +341,7 @@
     (icon "images/engine/editor/textarray.png"))
  )
 
- (objectgroup
-  (name (_"Sector"))
-  (worldmap #f)
+ (layers
   (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))
@@ -365,24 +369,21 @@
   (object
     (class "particles-ghosts")
     (icon "images/engine/editor/ghostparticles.png"))
-
-
-
 ;;  +-- This should be disabled, as it probably won't support multiple textures
 ;;  |   per config object.
 ;;  v                               ~ Semphris
   (object
     (class "particles-custom")
     (icon "images/engine/editor/particle.png"))
-
-
-
   (object
     (class "particles-custom-file")
     (icon "images/engine/editor/particle_file.png"))
   (object
     (class "textscroller")
     (icon "images/engine/editor/textscroller.png"))
+  (object
+    (class "sound-object")
+    (icon "images/engine/editor/sound.png"))
  )
 
  (objectgroup
@@ -406,6 +407,9 @@
   (object
     (class "decal")
     (icon "images/engine/editor/decal.png"))
+ )
+
+ (layers-worldmap
   (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))

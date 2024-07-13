@@ -23,7 +23,6 @@
 #include "gui/item_colorchannel.hpp"
 #include "gui/item_colordisplay.hpp"
 #include "gui/item_controlfield.hpp"
-#include "gui/item_file.hpp"
 #include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_hl.hpp"
@@ -40,6 +39,7 @@
 #include "gui/item_toggle.hpp"
 #include "gui/item_string_array.hpp"
 #include "gui/item_images.hpp"
+#include "gui/menu_filesystem.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -307,11 +307,17 @@ Menu::add_string_select(int id, const std::string& text, int default_item, const
   return *item_ptr;
 }
 
-ItemFile&
+ItemAction&
 Menu::add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
-               const std::string& basedir, bool path_relative_to_basedir, int id)
+               const std::string& basedir, bool path_relative_to_basedir,
+               const std::function<void (MenuItem&)>& item_processor, int id)
 {
-  auto item = std::make_unique<ItemFile>(text, input, extensions, basedir, path_relative_to_basedir, id);
+  auto item = std::make_unique<ItemAction>(text, id,
+    [input, extensions, basedir, path_relative_to_basedir, item_processor]()
+    {
+      MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(input, extensions, basedir,
+          path_relative_to_basedir, nullptr, item_processor));
+    });
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

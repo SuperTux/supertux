@@ -20,8 +20,13 @@
 #include <memory>
 #include <string>
 
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+
 class World final
 {
+  friend class EditorLevelsetMenu;
+
 public:
   /** Load a World
       @param directory  Directory containing the info file, e.g. "levels/world1" */
@@ -32,31 +37,32 @@ private:
   World(const std::string& directory);
 
 public:
-  std::string get_basedir() const { return m_basedir; }
-  std::string get_title() const { return m_title; }
-  std::string get_description() const { return m_description; }
+  std::string get_basename() const;
+  const std::string& get_basedir() const { return m_basedir; }
+  const std::string& get_title() const { return m_title; }
+  const std::string& get_description() const { return m_description; }
 
-  bool hide_from_contribs() const { return m_hide_from_contribs; }
+  bool hide_from_contribs() const { return m_hide_from_contribs && !g_config->developer_mode; }
 
   bool is_levelset() const { return m_is_levelset; }
   bool is_worldmap() const { return !m_is_levelset; }
-  
-  std::string get_contrib_type() const { return m_contrib_type; }
+
+  const std::string& get_contrib_type() const { return m_contrib_type; }
+  const std::string& get_title_level() const { return m_title_level; }
 
   std::string get_worldmap_filename() const;
-  std::string get_savegame_filename() const;
 
   void save(bool retry = false);
 
-public:
+private:
   std::string m_title;
   std::string m_description;
   bool m_is_levelset;
 
-private:
   std::string m_basedir;
   bool m_hide_from_contribs;
   std::string m_contrib_type; // Type of world if it is contrib: official, community, user
+  std::string m_title_level; // Level, which should be used for the title screen, after exiting the world
 
 private:
   World(const World&) = delete;

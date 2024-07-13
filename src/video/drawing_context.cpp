@@ -26,17 +26,15 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool overlay) :
+DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool overlay, float time_offset) :
   m_video_system(video_system_),
   m_obst(obst),
   m_overlay(overlay),
-  m_viewport(0, 0,
-             m_video_system.get_viewport().get_screen_width(),
-             m_video_system.get_viewport().get_screen_height()),
   m_ambient_color(Color::WHITE),
-  m_transform_stack(1),
+  m_transform_stack({ DrawingTransform(m_video_system.get_viewport()) }),
   m_colormap_canvas(*this, m_obst),
-  m_lightmap_canvas(*this, m_obst)
+  m_lightmap_canvas(*this, m_obst),
+  m_time_offset(time_offset)
 {
 }
 
@@ -56,8 +54,8 @@ DrawingContext::get_cliprect() const
 {
   return Rectf(get_translation().x,
                get_translation().y,
-               get_translation().x + static_cast<float>(m_viewport.get_width()) / transform().scale,
-               get_translation().y + static_cast<float>(m_viewport.get_height()) / transform().scale);
+               get_translation().x + static_cast<float>(transform().viewport.get_width()) / transform().scale,
+               get_translation().y + static_cast<float>(transform().viewport.get_height()) / transform().scale);
 }
 
 void
@@ -111,22 +109,22 @@ DrawingContext::pop_transform()
   assert(!m_transform_stack.empty());
 }
 
-const Rect
+const Rect&
 DrawingContext::get_viewport() const
 {
-  return m_viewport;
+  return transform().viewport;
 }
 
 float
 DrawingContext::get_width() const
 {
-  return static_cast<float>(m_viewport.get_width()) / transform().scale;
+  return static_cast<float>(transform().viewport.get_width()) / transform().scale;
 }
 
 float
 DrawingContext::get_height() const
 {
-  return static_cast<float>(m_viewport.get_height()) / transform().scale;
+  return static_cast<float>(transform().viewport.get_height()) / transform().scale;
 }
 
 Vector

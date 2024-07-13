@@ -21,6 +21,7 @@
 #include <sexp/value.hpp>
 
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/info_box_line.hpp"
@@ -57,12 +58,13 @@ TextScroller::TextScroller(const ReaderMapping& mapping) :
   m_x_anchor(XAnchor::SCROLLER_ANCHOR_CENTER),
   m_text_align(TextAlign::SCROLLER_ALIGN_CENTER)
 {
-  if (!mapping.get("file", m_filename))
+  mapping.get("file", m_filename);
+
+  if (!Editor::is_active())
   {
-    log_warning << mapping.get_doc().get_filename() << "'file' tag missing" << std::endl;
-  }
-  else
-  {
+    if (m_filename.empty())
+      throw std::runtime_error("Cannot load text scroller: No file specified!");
+
     parse_file(m_filename);
   }
 
@@ -289,16 +291,13 @@ TextScroller::update(float dt_sec)
     }
 
     // allow jumping ahead with certain keys
-    if ((controller->pressed(Control::JUMP) ||
-         controller->pressed(Control::ACTION) ||
-         controller->pressed(Control::MENU_SELECT)) &&
+    if (controller->pressed_any(Control::JUMP, Control::ACTION, Control::MENU_SELECT) &&
         !(controller->pressed(Control::UP))) { // prevent skipping if jump with up is enabled
       scroll(SCROLL_JUMP);
     }
 
     // use start or escape keys to exit
-    if ((controller->pressed(Control::START) ||
-        controller->pressed(Control::ESCAPE)) &&
+    if (controller->pressed_any(Control::START, Control::ESCAPE) &&
         !m_fading  && m_finish_script.empty()) {
       m_fading = true;
       ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f));

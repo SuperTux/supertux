@@ -34,6 +34,7 @@ Key::Key(const ReaderMapping& reader) :
   m_state(KeyState::NORMAL),
   m_wait_timer(),
   m_unlock_timer(),
+  m_physic(),
   m_chain_pos(1),
   m_my_door_pos(0.f, 0.f),
   m_color(Color::WHITE),
@@ -100,7 +101,7 @@ Key::update(float dt_sec)
       std::abs(door.get_lock_color().red - m_color.red) <= 0.1f &&
       std::abs(door.get_lock_color().green - m_color.green) <= 0.1f &&
       std::abs(door.get_lock_color().blue - m_color.blue) <= 0.1f) {
-      m_owner->add_collected_keys(-1);
+      m_owner->remove_collected_key(this);
       for (auto& key : Sector::get().get_objects_by_type<Key>()) {
         if (key.m_chain_pos > m_chain_pos)
           key.m_chain_pos -= 1;
@@ -157,18 +158,21 @@ Key::update(float dt_sec)
 HitResponse
 Key::collision(GameObject& other, const CollisionHit& hit_)
 {
-  auto player = dynamic_cast<Player*> (&other);
-  if (player && m_state == KeyState::NORMAL)
+  if (m_state == KeyState::NORMAL)
   {
-    spawn_use_particles();
-    m_total_time_elapsed = 0.f;
-    SoundManager::current()->play("sounds/metal_hit.ogg", get_pos());
-    m_chain_pos = player->get_collected_keys() + 1;
-    player->add_collected_keys(1);
-    m_collected = true;
-    m_wait_timer.start(0.5f);
-    m_owner = player;
-    m_state = KeyState::COLLECT;
+    auto player = dynamic_cast<Player*>(&other);
+    if (player)
+    {
+      spawn_use_particles();
+      m_total_time_elapsed = 0.f;
+      SoundManager::current()->play("sounds/metal_hit.ogg", get_pos());
+      m_chain_pos = static_cast<int>(player->get_collected_keys().size()) + 1;
+      player->add_collected_key(this);
+      m_collected = true;
+      m_wait_timer.start(0.5f);
+      m_owner = player;
+      m_state = KeyState::COLLECT;
+    }
   }
   return FORCE_MOVE;
 }
@@ -200,6 +204,13 @@ Key::after_editor_set()
   m_lightsprite->set_blend(Blend::ADD);
   m_lightsprite->set_color(m_color);
   m_sprite->set_color(m_color);
+}
+
+void
+Key::update_pos()
+{
+  m_col.m_bbox.set_pos(m_owner->get_bbox().get_middle() -
+    Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f - 10.f));
 }
 
 void

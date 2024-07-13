@@ -18,14 +18,17 @@
 
 #include "worldmap/worldmap_sector.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "object/ambient_light.hpp"
 #include "object/display_effect.hpp"
 #include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "scripting/worldmap_sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/fadetoblack.hpp"
@@ -62,7 +65,7 @@ WorldMapSector::current()
 WorldMapSector::WorldMapSector(WorldMap& parent) :
   Base::Sector("worldmap"),
   m_parent(parent),
-  m_camera(new Camera),
+  m_camera(new Camera(*this)),
   m_tux(&add<Tux>(&parent)),
   m_spawnpoints(),
   m_initial_fade_tilemap(),
@@ -81,7 +84,7 @@ WorldMapSector::~WorldMapSector()
 }
 
 void
-WorldMapSector::finish_construction(bool)
+WorldMapSector::finish_construction(bool editable)
 {
   flush_game_objects();
 
@@ -95,6 +98,8 @@ WorldMapSector::finish_construction(bool)
     add<DisplayEffect>("Effect");
 
   flush_game_objects();
+
+  Base::Sector::finish_construction(editable);
 }
 
 
@@ -102,9 +107,6 @@ void
 WorldMapSector::setup()
 {
   BIND_WORLDMAP_SECTOR(*this);
-
-  auto& music_object = get_singleton_by_type<MusicObject>();
-  music_object.play_music(MusicType::LEVEL_MUSIC);
 
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
 
@@ -130,7 +132,7 @@ WorldMapSector::setup()
 
   // register worldmap_table as "worldmap" in scripting
   m_squirrel_environment->expose_self();
-  m_squirrel_environment->expose("settings", std::make_unique<scripting::WorldMapSector>(this));
+  m_squirrel_environment->expose(*this, "settings");
 
   /** Perform scripting related actions. **/
   // Run default.nut just before init script
@@ -146,6 +148,15 @@ WorldMapSector::setup()
 
   if (!m_init_script.empty())
     m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
+
+  // Check if Tux is on an auto-playing level.
+  // No need to play music in that case.
+  LevelTile* level = at_object<LevelTile>();
+  if(level && level->is_auto_play() && !level->is_solved())
+    return;
+
+  auto& music_object = get_singleton_by_type<MusicObject>();
+  music_object.play_music(MusicType::LEVEL_MUSIC);
 }
 
 void
@@ -277,42 +288,48 @@ WorldMapSector::update(float dt_sec)
   m_camera->update(dt_sec);
 
   {
-    // check for teleporters
-    auto teleporter = at_object<Teleporter>();
-    if (teleporter && (teleporter->is_automatic() || (m_parent.m_enter_level && (!m_tux->is_moving())))) {
-      m_parent.m_enter_level = false;
-      if (!teleporter->get_worldmap().empty())
-      {
-        // Change worldmap.
-        m_parent.change(teleporter->get_worldmap(), teleporter->get_sector(),
-                        teleporter->get_spawnpoint());
-      }
-      else
-      {
-        // TODO: an animation, camera scrolling or a fading would be a nice touch
-        SoundManager::current()->play("sounds/warp.wav");
-        m_tux->m_back_direction = Direction::NONE;
-        if (!teleporter->get_sector().empty())
+    if(!m_tux->is_moving())
+    {
+      // check for teleporters
+      auto teleporter = at_object<Teleporter>();
+      if (teleporter && (teleporter->is_automatic() || (m_parent.m_enter_level))) {
+        m_parent.m_enter_level = false;
+        if (!teleporter->get_worldmap().empty())
         {
-          // A target sector is set, so teleport to it at the specified spawnpoint.
-          m_parent.set_sector(teleporter->get_sector(), teleporter->get_spawnpoint());
+          // Change worldmap.
+          m_parent.change(teleporter->get_worldmap(), teleporter->get_sector(),
+                          teleporter->get_spawnpoint());
         }
         else
         {
-          // No target sector is set, so teleport at the specified spawnpoint in the current one.
-          move_to_spawnpoint(teleporter->get_spawnpoint(), true);
+          // TODO: an animation, camera scrolling or a fading would be a nice touch
+          SoundManager::current()->play("sounds/warp.wav");
+          m_tux->m_back_direction = Direction::NONE;
+          if (!teleporter->get_sector().empty())
+          {
+            // A target sector is set, so teleport to it at the specified spawnpoint.
+            m_parent.set_sector(teleporter->get_sector(), teleporter->get_spawnpoint());
+          }
+          else
+          {
+            // No target sector is set, so teleport at the specified spawnpoint in the current one.
+            move_to_spawnpoint(teleporter->get_spawnpoint(), true);
+          }
         }
       }
     }
   }
 
   {
-    // check for auto-play levels
-    auto level = at_object<LevelTile>();
-    if (level && level->is_auto_play() && !level->is_solved() && !m_tux->is_moving()) {
-      m_parent.m_enter_level = true;
-      // automatically mark these levels as solved in case player aborts
-      level->set_solved(true);
+    if(!m_tux->is_moving())
+    {
+      // check for auto-play levels
+      auto level = at_object<LevelTile>();
+      if (level && level->is_auto_play() && !level->is_solved()) {
+        m_parent.m_enter_level = true;
+        // automatically mark these levels as solved in case player aborts
+        level->set_solved(true);
+      }
     }
   }
 
@@ -326,7 +343,7 @@ WorldMapSector::update(float dt_sec)
         int tile_data = tile_data_at(m_tux->get_tile_pos());
         if (!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
           log_warning << "Player at illegal position " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << " respawning." << std::endl;
-          move_to_spawnpoint("main");
+          move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
           return;
         }
         log_warning << "No level to enter at: " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << std::endl;
@@ -342,7 +359,7 @@ WorldMapSector::update(float dt_sec)
           // update state and savegame
           m_parent.save_state();
           ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_parent.m_savegame, &level_->get_statistics()),
-                                                std::make_unique<ShrinkFade>(shrinkpos, 1.0f));
+                                                std::make_unique<ShrinkFade>(shrinkpos, 1.0f, LAYER_LIGHTMAP - 1));
 
           m_parent.m_in_level = true;
         } catch(std::exception& e) {
@@ -555,6 +572,24 @@ WorldMapSector::path_ok(const Direction& direction, const Vector& old_pos, Vecto
 }
 
 void
+WorldMapSector::set_sector(const std::string& sector)
+{
+  m_parent.set_sector(sector);
+}
+
+void
+WorldMapSector::spawn(const std::string& sector, const std::string& spawnpoint)
+{
+  m_parent.set_sector(sector, spawnpoint);
+}
+
+void
+WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint)
+{
+  move_to_spawnpoint(spawnpoint, false);
+}
+
+void
 WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 {
   auto sp = get_spawnpoint_by_name(spawnpoint);
@@ -569,8 +604,8 @@ WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
   }
 
   log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-  if (spawnpoint != "main") {
-    move_to_spawnpoint("main");
+  if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
+    move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
   }
 }
 
@@ -592,6 +627,45 @@ Vector
 WorldMapSector::get_tux_pos() const
 {
   return m_tux->get_pos();
+}
+
+float
+WorldMapSector::get_tux_x() const
+{
+  return m_tux->get_pos().x;
+}
+
+float
+WorldMapSector::get_tux_y() const
+{
+  return m_tux->get_pos().y;
+}
+
+std::string
+WorldMapSector::get_filename() const
+{
+  return m_parent.get_filename();
+}
+
+void
+WorldMapSector::set_title_level(const std::string& filename)
+{
+  m_parent.get_savegame().get_player_status().title_level = filename;
+}
+
+
+void
+WorldMapSector::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<WorldMapSector>("WorldMapSector", vm.findClass("GameObjectManager"));
+
+  cls.addFunc("get_tux_x", &WorldMapSector::get_tux_x);
+  cls.addFunc("get_tux_y", &WorldMapSector::get_tux_y);
+  cls.addFunc("set_sector", &WorldMapSector::set_sector);
+  cls.addFunc("spawn", &WorldMapSector::spawn);
+  cls.addFunc<void, WorldMapSector, const std::string&>("move_to_spawnpoint", &WorldMapSector::move_to_spawnpoint);
+  cls.addFunc("get_filename", &WorldMapSector::get_filename);
+  cls.addFunc("set_title_level", &WorldMapSector::set_title_level);
 }
 
 } // namespace worldmap

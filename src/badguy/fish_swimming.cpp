@@ -35,6 +35,7 @@ FishSwimming::FishSwimming(const ReaderMapping& reader) :
 {
   parse_type(reader);
   reader.get("radius", m_radius, 100.0f);
+  m_water_affected = false;
 }
 
 FishSwimming::FishSwimming(const ReaderMapping& reader, const std::string& spritename) :
@@ -45,6 +46,7 @@ FishSwimming::FishSwimming(const ReaderMapping& reader, const std::string& sprit
   m_radius()
 {
   reader.get("radius", m_radius, 100.0f);
+  m_water_affected = false;
 }
 
 GameObjectTypes
@@ -52,7 +54,8 @@ FishSwimming::get_types() const
 {
   return {
     { "snow", _("Snow") },
-    { "forest", _("Forest") }
+    { "forest", _("Forest") },
+    { "corrupted", _("Corrupted") }
   };
 }
 
@@ -63,6 +66,8 @@ FishSwimming::get_default_sprite_name() const
   {
     case FOREST:
       return "images/creatures/fish/forest/bluefish.sprite";
+    case CORRUPTED:
+      return "images/creatures/fish/forest/corrupted/corrupted_bluefish.sprite";
     default:
       return m_default_sprite_name;
   }
@@ -128,8 +133,21 @@ FishSwimming::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 void
-FishSwimming::active_update(float dt_sec) {
+FishSwimming::update(float dt_sec)
+{
+  // Don't allow dying by going below the sector.
+  if (BadGuy::get_state() != STATE_FALLING && !m_frozen &&
+      m_in_water && get_bbox().get_bottom() >= Sector::get().get_height())
+  {
+    set_pos(Vector(get_bbox().get_left(),
+                   Sector::get().get_height() - m_col.m_bbox.get_height()));
+  }
+  BadGuy::update(dt_sec);
+  //m_col.set_movement(m_physic.get_movement(dt_sec));
+}
 
+void
+FishSwimming::active_update(float dt_sec) {
   // Perform basic updates.
   BadGuy::active_update(dt_sec);
   m_in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);

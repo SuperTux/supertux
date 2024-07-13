@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Joe Hansen <joedalton2@yahoo.dk>, 2015-2016,2018-2019,2021
+# Lars Lyngby <larslyngby@hotmail.com>, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 21:21+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: Lars Lyngby <larslyngby@hotmail.com>, 2022\n"
+"Language-Team: Danish (http://app.transifex.com/arctic-games/supertux/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,8 +37,8 @@ msgstr "Historiske ruiner"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Du har fundet et hemmeligt område"
 
@@ -89,7 +90,7 @@ msgstr "Ghostrees udfordringer"
 msgid "Ghouls' Lair"
 msgstr "Den onde ånds hule"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -103,13 +104,13 @@ msgstr "At gå under jorden"
 msgid "I Spy With My Little Eye"
 msgstr "Jeg spionerer med mit lille øje"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Ispy\n#Ispy'er vil aktivere ting såsom platforme når Tux er i syne."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Tip: Brug snegle til at bryde blokke!"
 
@@ -121,7 +122,7 @@ msgstr "Som et blad i vinden"
 msgid "Lost Village"
 msgstr "Forladt landsby"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Glem ikke at trykke på kontakten!"
 
@@ -161,10 +162,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Jordblomst\n!images/powerups/earthflower/earth_flower-1.png\n#Jordblomsten giver Tux mulighed for at blive til sten ved at holde tasten ACTION og DOWN nede på samme tid.\n#Dette fungerer ikke samtidig med hop eller fald!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Tårnmellemscene"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Spøgelsernes tårn"
@@ -185,11 +182,11 @@ msgstr "-Flytbare objekter:\n!images/objects/rock/rock.png\n#Tux kan samle beste
 msgid "Tux' Own Horror Show"
 msgstr "Tux' eget gysershow"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
-msgstr ""
+msgstr "#Lygtemænd er små, irriterende spøgelser, som transporterer dig til forskellige, ofte farlige, steder."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -212,8 +209,8 @@ msgstr "Trærødder"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Rooted Forest"
-msgstr ""
+msgstr "Rodfæstet skov"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Fortsættes ..."

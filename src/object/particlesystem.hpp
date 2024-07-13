@@ -20,32 +20,37 @@
 #include <vector>
 
 #include "math/vector.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/particlesystem.hpp"
 #include "supertux/game_object.hpp"
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 
 /**
-  This is the base class for particle systems. It is responsible for
-  storing a set of particles with each having an x- and y-coordinate
-  the number of the layer where it should be drawn and a texture.
+  * This is the base class for particle systems. It is responsible for
+    storing a set of particles with each having an x- and y-coordinate
+    the number of the layer where it should be drawn and a texture.
 
-  The coordinate system used here is a virtual one. It would be a bad
-  idea to populate whole levels with particles. So we're using a
-  virtual rectangle here that is tiled onto the level when drawing.
-  This rect.has the size (virtual_width, virtual_height). We're using
-  modulo on the particle coordinates, so when a particle leaves left,
-  it'll reenter at the right side.
+    The coordinate system used here is a virtual one. It would be a bad
+    idea to populate whole levels with particles. So we're using a
+    virtual rectangle here that is tiled onto the level when drawing.
+    This rect.has the size (virtual_width, virtual_height). We're using
+    modulo on the particle coordinates, so when a particle leaves left,
+    it'll reenter at the right side.
 
-  Classes that implement a particle system should subclass from this
-  class, initialize particles in the constructor and move them in the
-  simulate function.
+    Classes that implement a particle system should subclass from this
+    class, initialize particles in the constructor and move them in the
+    simulate function.
+
+ * @scripting
+ * @summary A ""ParticleSystem"" that was given a name can be controlled by scripts.
+ * @instances A ""ParticleSystem"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class ParticleSystem : public GameObject,
-                       public ExposedObject<ParticleSystem, scripting::ParticleSystem>
+class ParticleSystem : public GameObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   ParticleSystem(const ReaderMapping& reader, float max_particle_size = 60);
   ParticleSystem(float max_particle_size = 60);
@@ -55,11 +60,23 @@ public:
 
   static std::string class_name() { return "particle-system"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "ParticleSystem"; }
   static std::string display_name() { return _("Particle system"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
 
-  void set_enabled(bool enabled_);
+  /**
+   * @scripting
+   * @deprecated Use the ""enabled"" property instead!
+   * @description Enables/disables the system.
+   * @param bool $enable
+   */
+  void set_enabled(bool enable);
+  /**
+   * @scripting
+   * @deprecated Use the ""enabled"" property instead!
+   * @description Returns ""true"" if the system is enabled.
+   */
   bool get_enabled() const;
 
   int get_layer() const { return z_pos; }
@@ -97,6 +114,11 @@ protected:
   std::vector<std::unique_ptr<Particle> > particles;
   float virtual_width;
   float virtual_height;
+
+  /**
+   * @scripting
+   * @description Determines whether the system is enabled.
+   */
   bool enabled;
 
 private:

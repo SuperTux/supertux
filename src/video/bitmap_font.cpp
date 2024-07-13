@@ -29,8 +29,8 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/utf8_iterator.hpp"
+#include "video/canvas.hpp"
 #include "video/drawing_request.hpp"
-#include "video/painter.hpp"
 #include "video/surface.hpp"
 #include "video/sdl_surface.hpp"
 
@@ -38,7 +38,7 @@ namespace {
 
 bool vline_empty(const SDLSurfacePtr& surface, int x, int start_y, int end_y, Uint8 threshold)
 {
-  Uint8* pixels = static_cast<Uint8*>(surface->pixels);
+  const Uint8* pixels = static_cast<Uint8*>(surface->pixels);
 
   for (int y = start_y; y < end_y; ++y)
   {

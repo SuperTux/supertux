@@ -36,7 +36,7 @@ public:
   Rectf get_rect() const { return m_rect; }
 
   void set_label(const std::string& label) { m_label = label; }
-  std::string get_label() const { return m_label; }
+  const std::string& get_label() const { return m_label; }
 
   bool fits(const std::string& text) const;
   std::string get_truncated_text() const;
