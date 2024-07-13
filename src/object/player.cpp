@@ -523,9 +523,6 @@ Player::update(float dt_sec)
 
       if (m_bubble_timer.check())
       {
-        int bubble_count = graphicsRandom.rand(3, 5);
-        float vertical_spacing = 20.0f - graphicsRandom.randf(5);
-
         glm::vec2 beak_local_offset(30.f, 0.0f);
 
         float sprite_angle_rad = glm::radians(m_sprite->get_angle());
