@@ -17,39 +17,35 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
 
-#include <list>
-#include <sstream>
 #include <vector>
 
 #include <simplesquirrel/vm.hpp>
 
 #include "util/currenton.hpp"
+#include "util/stream_buffer.hpp"
 #include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
 
 class Console;
-class ConsoleStreamBuffer;
 class DrawingContext;
 
-class ConsoleBuffer final : public Currenton<ConsoleBuffer>
+class ConsoleBuffer final : public Currenton<ConsoleBuffer>,
+                            public StreamLineBuffer
 {
 public:
   static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
-  static ConsoleStreamBuffer s_outputBuffer; /**< stream buffer used by output stream */
+  static StreamBuffer<ConsoleBuffer> s_outputBuffer; /**< stream buffer used by output stream */
 
-public:
-  std::list<std::string> m_lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
+private:
   Console* m_console;
 
 public:
   ConsoleBuffer();
 
-  void addLines(const std::string& s); /**< display a string of (potentially) multiple lines in the console */
-  void addLine(const std::string& s); /**< display a line in the console */
-
-  void flush(ConsoleStreamBuffer& buffer); /**< act upon changes in a ConsoleStreamBuffer */
-
   void set_console(Console* console);
+
+protected:
+  int add_line(const std::string& s) override; /**< display a line in the console */
 
 private:
   ConsoleBuffer(const ConsoleBuffer&) = delete;
@@ -119,18 +115,6 @@ private:
 private:
   Console(const Console&) = delete;
   Console & operator=(const Console&) = delete;
-};
-
-class ConsoleStreamBuffer final : public std::stringbuf
-{
-public:
-  virtual int sync() override
-  {
-    int result = std::stringbuf::sync();
-    if (ConsoleBuffer::current())
-      ConsoleBuffer::current()->flush(*this);
-    return result;
-  }
 };
 
 #endif
