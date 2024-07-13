@@ -418,23 +418,20 @@ Player::update(float dt_sec)
     }
   }
 
-  if (m_active_bubbles.size() > 0)
+  if (!m_active_bubbles.empty())
   {
     for (auto& bubble : m_active_bubbles)
     {
       bubble.second.y -= dt_sec * 30.0f;
-
-      // Small horizontal oscillation
       bubble.second.x += std::sin(bubble.second.y * 0.1f) * dt_sec * 5.0f;
     }
 
-    m_active_bubbles.erase(std::remove_if(m_active_bubbles.begin(), m_active_bubbles.end(),
-      [&](const std::pair<SurfacePtr, glm::vec2>& bubble)
+    m_active_bubbles.remove_if([&](const std::pair<SurfacePtr, glm::vec2>& bubble)
       {
-        Rectf bubble_box = Rectf(bubble.second.x, bubble.second.y, bubble.second.x + 16.f, bubble.second.y + 16.f);
+        Rectf bubble_box(bubble.second.x, bubble.second.y, bubble.second.x + 16.f, bubble.second.y + 16.f);
         bool is_out_of_water = Sector::get().is_free_of_tiles(bubble_box, true, Tile::WATER);
         return is_out_of_water;
-      }), m_active_bubbles.end());
+      });
   }
 
   // Skip if in multiplayer respawn
@@ -543,23 +540,22 @@ Player::update(float dt_sec)
       if (m_bubble_timer.check())
       {
         glm::vec2 beak_local_offset(30.f, 0.0f);
-        float sprite_angle_rad = glm::radians(m_sprite->get_angle());
 
         // Calculate the offsets based on the sprite angle
-        float offset_x = std::cos(sprite_angle_rad) * 10.0f;
-        float offset_y = std::sin(sprite_angle_rad) * 10.0f;
+        float offset_x = std::cos(m_swimming_angle) * 10.0f;
+        float offset_y = std::sin(m_swimming_angle) * 10.0f;
 
         // Rotate the beak offset based on the sprite's angle
-        float rotated_beak_offset_x = beak_local_offset.x * std::cos(sprite_angle_rad) - beak_local_offset.y * std::sin(sprite_angle_rad);
-        float rotated_beak_offset_y = beak_local_offset.x * std::sin(sprite_angle_rad) + beak_local_offset.y * std::cos(sprite_angle_rad);
+        float rotated_beak_offset_x = beak_local_offset.x * std::cos(m_swimming_angle) - beak_local_offset.y * std::sin(m_swimming_angle);
+        float rotated_beak_offset_y = beak_local_offset.x * std::sin(m_swimming_angle) + beak_local_offset.y * std::cos(m_swimming_angle);
 
         glm::vec2 player_center = m_col.m_bbox.get_middle();
         glm::vec2 beak_position;
 
         // Determine direction based on the radians
-        if (std::abs(sprite_angle_rad) >= 5.0f) // Facing left
+        if (m_swimming_angle > M_PI_2 && m_swimming_angle < 3.0 * M_PI_2) // Facing left
         {
-          beak_position = player_center - glm::vec2(rotated_beak_offset_x, rotated_beak_offset_y);
+          beak_position = player_center + glm::vec2(rotated_beak_offset_x, rotated_beak_offset_y);
         }
         else // Facing right (including straight up or down)
         {
@@ -574,9 +570,9 @@ Player::update(float dt_sec)
           SurfacePtr bubble_surface = m_bubble_particles[random_index];
 
           glm::vec2 bubble_pos;
-          if (std::abs(sprite_angle_rad) >= 5.0f) // Facing left
+          if (m_swimming_angle > M_PI_2 && m_swimming_angle < 3.0 * M_PI_2) // Facing left
           {
-            bubble_pos = beak_position - glm::vec2(offset_x, offset_y);
+            bubble_pos = beak_position + glm::vec2(offset_x, offset_y);
           }
           else // Facing right (including straight up or down)
           {

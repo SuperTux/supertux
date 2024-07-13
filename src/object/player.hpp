@@ -28,6 +28,9 @@
 #include "video/layer.hpp"
 #include "video/surface_ptr.hpp"
 
+#include <array>
+#include <list>
+
 class BadGuy;
 class Climbable;
 class Controller;
@@ -552,9 +555,9 @@ private:
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
-  SurfacePtr m_bubble_particles[4]; /**< bubble particles for swimming */
+  std::array<SurfacePtr, 4> m_bubble_particles; /**< bubble particles for swimming */
   Timer m_bubble_timer; /**< timer for spawning bubble particles */
-  std::vector<std::pair<SurfacePtr, glm::vec2>> m_active_bubbles; /**< active bubble particles */
+  std::list<std::pair<SurfacePtr, glm::vec2>> m_active_bubbles; /**< active bubble particles */
 
   Vector m_floor_normal;
 
