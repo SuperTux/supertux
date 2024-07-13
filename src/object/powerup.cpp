@@ -111,8 +111,8 @@ PowerUp::initialize()
   SoundManager::current()->preload("sounds/gulp.wav");
 
   if(m_type == EGG) {
-    shadesprite = SpriteManager::current()->create("images/powerups/egg/egg.sprite");
-    shadesprite->set_action("shadow");
+    m_shadesprite = SpriteManager::current()->create("images/powerups/egg/egg.sprite");
+    m_shadesprite->set_action("shadow");
   }
 
   // Older levels utilize hardcoded behaviour from the chosen sprite
@@ -296,7 +296,7 @@ PowerUp::draw(DrawingContext& context)
     m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
   if (m_type == EGG)
-    shadesprite->draw(context.color(), get_pos(), m_layer, m_flip);
+    m_shadesprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
   lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
