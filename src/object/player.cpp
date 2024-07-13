@@ -418,7 +418,7 @@ Player::update(float dt_sec)
     }
   }
 
-  if(m_active_bubbles.size() > 0)
+  if (m_active_bubbles.size() > 0)
   {
     for (auto& bubble : m_active_bubbles)
     {
