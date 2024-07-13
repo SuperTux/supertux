@@ -71,6 +71,7 @@ DebugMenu::DebugMenu() :
   add_toggle(-1, _("Use Bitmap Fonts"),
              []{ return g_debug.get_use_bitmap_fonts(); },
              [](bool value){ g_debug.set_use_bitmap_fonts(value); });
+  add_toggle(-1, _("Show Tile Ids In Editor"), &g_debug.show_tile_ids_in_editor);
   add_entry(_("Dump Texture Cache"), []{ TextureManager::current()->debug_print(get_logging_instance()); });
 
   add_hl();

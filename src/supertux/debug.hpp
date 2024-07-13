@@ -39,6 +39,8 @@ public:
   // vaguely measure the impact of code changes which should increase the FPS
   bool draw_redundant_frames;
 
+  bool show_tile_ids_in_editor;
+
 private:
   /** Use old bitmap fonts instead of TTF */
   bool m_use_bitmap_fonts;
