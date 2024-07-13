@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BICYCLE_PLATFORM_HPP
 #define HEADER_SUPERTUX_OBJECT_BICYCLE_PLATFORM_HPP
 
-#include "object/path_walker.hpp"
+#include "object/platform.hpp"
 #include "object/moving_sprite.hpp"
 
 class BicyclePlatform;
@@ -27,7 +27,8 @@ class BicyclePlatformChild : public MovingSprite
   friend class BicyclePlatform;
 
 public:
-  BicyclePlatformChild(const ReaderMapping& reader, float angle_offset, BicyclePlatform& parent);
+  BicyclePlatformChild(const Vector& pos, const std::string& sprite,
+                       float angle_offset, BicyclePlatform& parent);
 
   virtual void update(float dt_sec) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
@@ -50,13 +51,14 @@ private:
 /**
  * Used to construct a pair of bicycle platforms: If one is pushed down, the other one rises
  */
-class BicyclePlatform final : public GameObject
+class BicyclePlatform final : public Platform
 {
   friend class BicyclePlatformChild;
 
 public:
   BicyclePlatform(const ReaderMapping& reader);
-  ~BicyclePlatform() override;
+
+  virtual void finish_construction() override;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
@@ -68,11 +70,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
-  virtual void editor_delete() override;
-  virtual void after_editor_set() override;
 
 private:
-  Vector m_center; /**< pivot point */
   float m_radius; /**< radius of circle */
 
   float m_angle; /**< current angle */
@@ -81,7 +80,6 @@ private:
   float m_momentum_change_rate; /** Change in momentum every step **/
 
   std::vector<BicyclePlatformChild*> m_children;
-  std::unique_ptr<PathWalker> m_walker;
   int m_platforms;
 
 private:

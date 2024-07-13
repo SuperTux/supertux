@@ -68,7 +68,7 @@ public:
       Replaces PathObject::set_node's implementation in scripting. */
   void jump_to_node(int node_idx);
 
-private:
+protected:
   Vector m_speed;
   Vector m_movement;
 
