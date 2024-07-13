@@ -121,13 +121,19 @@ AddonMenu::rebuild_menu()
   {
     const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[index]);
     const std::string text = addon_string_util::generate_menu_item_text(addon);
-    add_entry(MAKE_UPDATE_MENU_ID(index), fmt::format(fmt::runtime(_("{} {}*UPDATE*")), text, !addon.is_enabled() ? (_("[DISABLED]") + " ") : ""));
+    if(addon.is_enabled())
+      add_entry(MAKE_UPDATE_MENU_ID(index), fmt::format(fmt::runtime(_("{} *UPDATE*")), text));
+    else
+      add_entry(MAKE_UPDATE_MENU_ID(index), fmt::format(fmt::runtime(_("{} [DISABLED] *UPDATE*")), text));
   }
   for (const auto& index : addons_to_list)
   {
     const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[index]);
     const std::string text = addon_string_util::generate_menu_item_text(addon);
-    add_entry(MAKE_INSTALLED_MENU_ID(index), fmt::format(fmt::runtime("{}{}"), text, !addon.is_enabled() ? (" " + _("[DISABLED]")) : ""));
+    if(addon.is_enabled())
+      add_entry(MAKE_INSTALLED_MENU_ID(index), fmt::format(fmt::runtime("{}"), text));
+    else
+      add_entry(MAKE_INSTALLED_MENU_ID(index), fmt::format(fmt::runtime(_("{} [DISABLED]")), text));
   }
 
   add_hl();
