@@ -553,7 +553,7 @@ Player::update(float dt_sec)
         glm::vec2 beak_position;
 
         // Determine direction based on the radians
-        if (m_swimming_angle > M_PI_2 && m_swimming_angle < 3.0 * M_PI_2) // Facing left
+        if (m_swimming_angle > static_cast<float>(M_PI_2) && m_swimming_angle < 3.0f * static_cast<float>(M_PI_2)) // Facing left
         {
           beak_position = player_center + glm::vec2(rotated_beak_offset_x, rotated_beak_offset_y);
         }
@@ -570,7 +570,7 @@ Player::update(float dt_sec)
           SurfacePtr bubble_surface = m_bubble_particles[random_index];
 
           glm::vec2 bubble_pos;
-          if (m_swimming_angle > M_PI_2 && m_swimming_angle < 3.0 * M_PI_2) // Facing left
+          if (m_swimming_angle > static_cast<float>(M_PI_2) && m_swimming_angle < 3.0f * static_cast<float>(M_PI_2)) // Facing left
           {
             bubble_pos = beak_position + glm::vec2(offset_x, offset_y);
           }
