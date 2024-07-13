@@ -69,6 +69,7 @@ private:
   std::string script;
   bool no_physics;
   SpritePtr lightsprite;
+  SpritePtr shadesprite;
 
 private:
   PowerUp(const PowerUp&) = delete;
