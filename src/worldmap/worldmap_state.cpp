@@ -330,7 +330,7 @@ WorldMapState::save_state()
       }
     }
   }
-  catch (std::exception& err)
+  catch (const std::exception& err)
   {
     log_warning << "Failed to save worldmap state: " << err.what() << std::endl;
   }

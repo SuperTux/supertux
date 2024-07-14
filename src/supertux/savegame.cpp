@@ -38,7 +38,6 @@ namespace {
 std::vector<LevelState> get_level_states(ssq::Table& levels)
 {
   std::vector<LevelState> results;
-
   for (const auto& [key, value] : levels.convertRaw())
   {
     try
