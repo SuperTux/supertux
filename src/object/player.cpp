@@ -540,6 +540,7 @@ Player::update(float dt_sec)
       if (m_bubble_timer.check())
       {
         glm::vec2 beak_local_offset(30.f, 0.0f);
+        float big_offset_x = is_big() ? 4.0f : 0.0f;
 
         // Calculate the offsets based on the sprite angle
         float offset_x = std::cos(m_swimming_angle) * 10.0f;
@@ -555,11 +556,11 @@ Player::update(float dt_sec)
         // Determine direction based on the radians
         if (m_swimming_angle > static_cast<float>(M_PI_2) && m_swimming_angle < 3.0f * static_cast<float>(M_PI_2)) // Facing left
         {
-          beak_position = player_center + glm::vec2(rotated_beak_offset_x, rotated_beak_offset_y);
+          beak_position = player_center + glm::vec2(rotated_beak_offset_x - big_offset_x * 2, rotated_beak_offset_y);
         }
         else // Facing right (including straight up or down)
         {
-          beak_position = player_center + glm::vec2(rotated_beak_offset_x, rotated_beak_offset_y);
+          beak_position = player_center + glm::vec2(rotated_beak_offset_x - 4.0f + big_offset_x, rotated_beak_offset_y);
         }
 
         int num_bubbles = graphicsRandom.rand(1, 3);
@@ -572,11 +573,11 @@ Player::update(float dt_sec)
           glm::vec2 bubble_pos;
           if (m_swimming_angle > static_cast<float>(M_PI_2) && m_swimming_angle < 3.0f * static_cast<float>(M_PI_2)) // Facing left
           {
-            bubble_pos = beak_position + glm::vec2(offset_x, offset_y);
+            bubble_pos = beak_position + glm::vec2(offset_x - big_offset_x * 2, offset_y);
           }
           else // Facing right (including straight up or down)
           {
-            bubble_pos = beak_position + glm::vec2(offset_x, offset_y);
+            bubble_pos = beak_position + glm::vec2(offset_x - 4.0f + big_offset_x, offset_y);
           }
 
           if (num_bubbles > 1)
