@@ -35,7 +35,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
     {
       has_worlds = true;
 
-      const auto savegame = Savegame::from_current_profile(world->get_worldmap_filename());
+      const auto savegame = Savegame::from_current_profile(world->get_basename());
 
       ItemAction* item;
       if (world->is_levelset())
@@ -45,7 +45,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
       }
       else
       {
-        const std::string preview_file = FileSystem::join("previews", FileSystem::strip_extension(FileSystem::basename(world->get_worldmap_filename())) + ".png");
+        const std::string preview_file = FileSystem::join("previews", FileSystem::strip_extension(FileSystem::basename(world->get_basename())) + ".png");
         SurfacePtr preview = find_preview(preview_file, world->get_basedir());
 
         item = &add_world(world->get_title(), world->get_basedir(),

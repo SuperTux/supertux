@@ -308,6 +308,9 @@ Savegame::get_worldmap_state(const std::string& name)
     ssq::Table world = worlds.getOrCreateTable(name.c_str());
     for (const auto& [_, value] : world.convertRaw())
     {
+      if (value.getType() != ssq::Type::TABLE)
+        continue;
+
       ssq::Table sector = value.toTable();
 
       if (sector.hasEntry("levels"))
