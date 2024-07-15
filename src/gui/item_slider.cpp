@@ -26,6 +26,7 @@
 #include "video/viewport.hpp"
 
 static const float SLIDER_WIDTH = 100.f;
+static const float SLIDER_SCROLL_SENSITIVITY = 3.f;
 
 ItemSlider::ItemSlider(const std::string& text, int min_value, int max_value, int* value, const std::string& value_append, int id) :
   MenuItem(text, id),
@@ -81,16 +82,16 @@ ItemSlider::event(const SDL_Event& ev)
   {
     case SDL_MOUSEBUTTONDOWN:
     {
-      if (ev.button.button == SDL_BUTTON_LEFT)
-      {
-        const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
-        if (mouse_pos.x >= m_slider_x && mouse_pos.x <= m_slider_x + SLIDER_WIDTH)
-        {
-          *m_value = static_cast<int>((mouse_pos.x - m_slider_x) / SLIDER_WIDTH) * (m_max_value - m_min_value) + m_min_value;
-          m_sliding = true;
+      if (ev.button.button != SDL_BUTTON_LEFT)
+        break;
 
-          MenuManager::instance().current_menu()->menu_action(*this);
-        }
+      const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
+      if (mouse_pos.x >= m_slider_x && mouse_pos.x <= m_slider_x + SLIDER_WIDTH)
+      {
+        *m_value = static_cast<int>(((mouse_pos.x - m_slider_x) / SLIDER_WIDTH) * (m_max_value - m_min_value)) + m_min_value;
+        m_sliding = true;
+
+        MenuManager::instance().current_menu()->menu_action(*this);
       }
       break;
     }
@@ -101,27 +102,48 @@ ItemSlider::event(const SDL_Event& ev)
       break;
 
     case SDL_MOUSEMOTION:
-      if (m_sliding)
-      {
-        const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
-        if (mouse_pos.x <= m_slider_x)
-          *m_value = m_min_value;
-        else if (mouse_pos.x >= m_slider_x + SLIDER_WIDTH)
-          *m_value = m_max_value;
-        else
-          *m_value = static_cast<int>((mouse_pos.x - m_slider_x) / SLIDER_WIDTH) * (m_max_value - m_min_value) + m_min_value;
+    {
+      if (!m_sliding)
+        break;
 
+      const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
+      if (mouse_pos.x <= m_slider_x)
+        *m_value = m_min_value;
+      else if (mouse_pos.x >= m_slider_x + SLIDER_WIDTH)
+        *m_value = m_max_value;
+      else
+        *m_value = static_cast<int>(((mouse_pos.x - m_slider_x) / SLIDER_WIDTH) * (m_max_value - m_min_value)) + m_min_value;
+
+      MenuManager::instance().current_menu()->menu_action(*this);
+      break;
+    }
+
+    case SDL_KEYDOWN:
+      if (ev.key.keysym.sym == SDLK_LEFT)
+      {
+        *m_value = std::max(*m_value - g_config->menu_slider_steps, m_min_value);
+        MenuManager::instance().current_menu()->menu_action(*this);
+      }
+      else if (ev.key.keysym.sym == SDLK_RIGHT)
+      {
+        *m_value = std::min(*m_value + g_config->menu_slider_steps, m_max_value);
         MenuManager::instance().current_menu()->menu_action(*this);
       }
       break;
 
-    case SDL_KEYDOWN:
-      if (ev.key.keysym.sym == SDLK_LEFT)
-        *m_value = std::max(*m_value - 1, m_min_value);
-      else if (ev.key.keysym.sym == SDLK_RIGHT)
-        *m_value = std::min(*m_value + 1, m_max_value);
+    case SDL_MOUSEWHEEL:
+      if (ev.wheel.y == 0)
+        break;
+
+      if (ev.wheel.y < 0)
+        *m_value = std::max(*m_value + ev.wheel.y * g_config->menu_slider_steps, m_min_value);
+      else
+        *m_value = std::min(*m_value + ev.wheel.y * g_config->menu_slider_steps, m_max_value);
 
       MenuManager::instance().current_menu()->menu_action(*this);
+      break;
+
+    default:
       break;
   }
 }

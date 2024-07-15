@@ -21,6 +21,7 @@
 #include "gui/dialog.hpp"
 #include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
+#include "gui/item_intfield.hpp"
 #include "gui/item_slider.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"
@@ -228,6 +229,9 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
         .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
 #endif
+
+      add_intfield(_("Menu slider steps"), &g_config->menu_slider_steps, MNID_MENU_SLIDER_STEPS, true)
+        .set_help(_("Determines the amount of steps to be done on a menu slider when using arrow keys or the scroll wheel"));
 
       break;
     }
