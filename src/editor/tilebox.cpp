@@ -17,12 +17,12 @@
 
 #include "editor/tilebox.hpp"
 
-#include "supertux/debug.hpp"
 #include "editor/editor.hpp"
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/globals.hpp"
@@ -109,7 +109,7 @@ EditorTilebox::draw_tilegroup(DrawingContext& context)
     auto position = get_tile_coords(pos, false);
     m_editor.get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
 
-    if (g_config->developer_mode && (m_active_tilegroup->developers_group || g_debug.show_tile_ids_in_editor) && tile_ID != 0)
+    if (g_config->developer_mode && (m_active_tilegroup->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
     {
       // Display tile ID on top of tile:
       context.color().draw_text(Resources::console_font, std::to_string(tile_ID),
