@@ -34,7 +34,7 @@ public:
   int get_width() const override;
 
   bool changes_width() const override { return false; }
-  bool locks_selection() const { return m_sliding; }
+  bool locks_selection() const override { return m_sliding; }
 
 private:
   int m_min_value;
