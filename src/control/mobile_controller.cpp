@@ -95,7 +95,7 @@ MobileController::draw(DrawingContext& context)
     m_mobile_controls_scale = g_config->mobile_controls_scale;
 
     // Use screen height to calculate button size, because 20:9 screen ratios are common
-    const float BUTTON_SCALE = 0.05f * g_config->mobile_controls_scale;
+    const float BUTTON_SCALE = 0.05f * static_cast<float>(g_config->mobile_controls_scale);
 
     m_rect_directions.set_size(height * BUTTON_SCALE * 4 / 3, height * BUTTON_SCALE);
     m_rect_directions.set_pos(Vector(0, height - height * BUTTON_SCALE));
