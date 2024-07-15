@@ -627,13 +627,12 @@ Menu::draw(DrawingContext& context)
     const int text_width = static_cast<int>(Resources::normal_font->get_text_width(m_items[m_active_item]->get_help()));
     const int text_height = static_cast<int>(Resources::normal_font->get_text_height(m_items[m_active_item]->get_help()));
 
-    const Rectf text_rect(m_pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
+    const Rectf text_rect(static_cast<float>(SCREEN_WIDTH) / 2 - static_cast<float>(text_width) / 2.0f - 8.0f,
                           static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
-                          m_pos.x + static_cast<float>(text_width) / 2.0f + 8.0f,
+                          static_cast<float>(SCREEN_WIDTH) / 2 + static_cast<float>(text_width) / 2.0f + 8.0f,
                           static_cast<float>(SCREEN_HEIGHT) - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
 
-    context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
-                                           text_rect.p2() + Vector(4,4)),
+    context.color().draw_filled_rect(text_rect.grown(4),
                                      g_config->menuhelpbackcolor,
                                      g_config->menuroundness + 4.f,
                                      LAYER_GUI);
@@ -644,7 +643,7 @@ Menu::draw(DrawingContext& context)
                                      LAYER_GUI);
 
     context.color().draw_text(Resources::normal_font, m_items[m_active_item]->get_help(),
-                              Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
+                              Vector(static_cast<float>(SCREEN_WIDTH) / 2, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
                               ALIGN_CENTER, LAYER_GUI);
   }
 
