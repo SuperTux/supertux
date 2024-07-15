@@ -63,6 +63,16 @@ public:
   {
   }
 
+  // Meant for checking directions
+  AATriangle(int newdir) :
+    bbox(),
+    dir(newdir)
+  {
+  }
+
+  inline bool is_south() { return dir & SOUTHWEST || dir & SOUTHEAST; }
+  inline bool is_east() { return dir & NORTHEAST || dir & SOUTHEAST; }
+
 public:
   Rectf bbox;
   int dir;

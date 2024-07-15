@@ -137,18 +137,15 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
 void
 BadGuy::draw(DrawingContext& context)
 {
-  float x1, x2;
-  float y1 = get_bbox().get_bottom() + 1;
-  float y2 = y1 + get_bbox().get_width() * 1.5f;
-  if (m_dir == Direction::LEFT) {
-    x1 = get_bbox().get_left() - 1;
-    x2 = get_bbox().get_left();
-  } else {
-    x1 = get_bbox().get_right();
-    x2 = get_bbox().get_right() + 1;
-  }
-  const Rectf rect = Rectf(x1, y1, x2, y2);
-  context.color().draw_filled_rect(rect, Color::CYAN, 0, 200);
+  Vector eye(0, get_bbox().get_bottom() + 1.f);
+  eye.x = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
+
+  Vector end(eye.x, eye.y + 16.f);
+  context.color().draw_line(eye, end, Color::GREEN, LAYER_GUI);
+
+  Vector seye(get_bbox().get_left() + get_bbox().get_width() / 2.f, eye.y);
+  Vector send(seye.x + 5.f * (m_dir == Direction::LEFT ? 1.f : -1.f), seye.y + 64.f);
+  context.color().draw_line(seye, send, Color::GREEN, LAYER_GUI);
 
   if (!m_sprite.get()) return;
 
@@ -781,58 +778,33 @@ BadGuy::might_fall(int height) const
 
   assert(height > 0);
 
-  float x1, x2;
-  float y1 = get_bbox().get_bottom() + 1;
-  float y2 = y1 + static_cast<float>(height);
-  if (m_dir == Direction::LEFT) {
-    x1 = get_bbox().get_left() - 1;
-    x2 = get_bbox().get_left();
-  }
-  else
-  {
-    x1 = get_bbox().get_right();
-    x2 = get_bbox().get_right() + 1;
-  }
-  Rectf rect(x1, y1, x2, y2);
+  Vector eye(0, get_bbox().get_bottom() + 1.f);
+  eye.x = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
 
-  // Is walking on slope
-  Rectf slopecheck(Vector(get_bbox().get_left(), get_bbox().get_bottom()), Sizef(get_bbox().get_width(), 1.f));
-  bool slope = !Sector::get().is_free_of_tiles(slopecheck, false, Tile::SLOPE);
+  Vector end(eye.x, eye.y + 64.f);
+
+  RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
+  bool slope = false;
+
+  auto tile_p = std::get_if<const Tile*>(&result.hit);
+  if (tile_p && (*tile_p) && (*tile_p)->is_slope())
+  {
+    AATriangle tri((*tile_p)->get_data());
+    if (tri.is_south() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
+      slope = true;
+  }
 
   if (slope)
   {
-    float off = std::max(get_bbox().get_width() * 1.5f, static_cast<float>(height));
+    Vector seye(get_bbox().get_left() + get_bbox().get_width() / 2.f, eye.y);
+    Vector send(seye.x + 5.f * (m_dir == Direction::LEFT ? 1.f : -1.f), seye.y + 64.f);
+    RaycastResult sresult = Sector::get().get_first_line_intersection(seye, send, false, nullptr);
 
-    Vector eye(x1, y1);
-    Vector end(eye.x, eye.y + off);
-    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
-
-    if (result.is_valid)
-    {
-      if (std::get_if<const Tile*>(&result.hit))
-      {
-        //const Tile* tile = *tile_p;
-
-        return eye.y - result.box.get_top() > static_cast<float>(height);
-      }
-    }
-
-    return true;
+    return !sresult.is_valid;
   }
   else
   {
-    /*
-     * Some slopes are too steep for badguys with big hitboxes to
-     * recognize they're going down the slope.
-     * This is because the width is so big that the badguy doesn't
-     * finish going down the slope which means the max drop height
-     * becomes insufficient.
-     *
-     * HACK: Specifying Tile::SLOPE skips the AATriangle checks.
-     */
-
-    return Sector::get().is_free_of_statics(rect, nullptr, false, Tile::SOLID | Tile::SLOPE) &&
-           Sector::get().is_free_of_specifically_movingstatics(rect);
+    return !result.is_valid && result.box.p1().y - get_pos().y < static_cast<float>(height);
   }
 }
 
