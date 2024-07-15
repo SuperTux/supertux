@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-05-30 16:19+0200\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Jesusaves <jesusalva@themanaworld.org>, 2021,2024\n"
+"Last-Translator: Fúlvio Alves <fga.fulvio@gmail.com>, 2020-2021,2023-2024\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +47,7 @@ msgstr "Nome"
 
 #: src/trigger/secretarea_trigger.cpp:56
 msgid "Fade tilemap"
-msgstr "Esmaecer mapa de telas"
+msgstr "Esmaecer mapa de blocos"
 
 #: src/trigger/secretarea_trigger.cpp:57 src/trigger/climbable.cpp:59
 #: src/object/infoblock.cpp:76 src/worldmap/teleporter.cpp:49
@@ -162,7 +162,7 @@ msgstr "Novo ponto de partida do mapa mundi"
 
 #: src/trigger/sequence_trigger.cpp:54
 msgid "Worldmap fade tilemap"
-msgstr "Esmaecer mapa de telas do mapa-múndi"
+msgstr "Esmaecer mapa de blocos do mapa-múndi"
 
 #: src/trigger/sequence_trigger.cpp:55
 #: src/object/custom_particle_system.cpp:430
@@ -283,7 +283,7 @@ msgstr "Gradiente"
 
 #: src/object/tilemap.hpp:58
 msgid "Tilemap"
-msgstr "Mapa de Pisos"
+msgstr "Mapa de Blocos"
 
 #: src/object/sound_object.cpp:69 src/object/ambient_sound.cpp:85
 #: src/object/sound_object.hpp:42 src/supertux/menu/options_menu.cpp:128
@@ -1441,7 +1441,7 @@ msgstr "Matiz"
 #: src/object/tilemap.cpp:296 src/supertux/menu/editor_tilegroup_menu.cpp:26
 #: src/editor/toolbox_widget.cpp:98
 msgid "Tiles"
-msgstr "Pisos"
+msgstr "Blocos"
 
 #: src/object/gradient.cpp:98
 msgid "Primary Colour"
@@ -1830,7 +1830,7 @@ msgstr "Velocidade de Perseguição"
 
 #: src/badguy/root_sapling.hpp:41
 msgid "Root Sapling"
-msgstr ""
+msgstr "Muda de raiz"
 
 #: src/badguy/haywire.hpp:46
 msgid "Haywire"
@@ -1854,11 +1854,11 @@ msgstr "Abóbora"
 
 #: src/badguy/bouncing_snowball.cpp:82
 msgid "Fatbat"
-msgstr ""
+msgstr "Morcego gordo"
 
 #: src/badguy/dive_mine.hpp:50
 msgid "Dive Mine"
-msgstr ""
+msgstr "Mina de mergulho"
 
 #: src/badguy/granito_big.hpp:33
 msgid "Big Granito"
@@ -1910,7 +1910,7 @@ msgstr "Raio de Despertar"
 
 #: src/badguy/scrystallo.cpp:59
 msgid "Roof-attached"
-msgstr ""
+msgstr "Fixado no teto"
 
 #: src/badguy/jumpy.hpp:40
 msgid "Jumpy"
@@ -2042,11 +2042,11 @@ msgstr "Gelo (grande)"
 
 #: src/badguy/crusher.cpp:77
 msgid "Rock (normal)"
-msgstr ""
+msgstr "Pedra (normal)"
 
 #: src/badguy/crusher.cpp:78
 msgid "Rock (big)"
-msgstr ""
+msgstr "Pedra (grande)"
 
 #: src/badguy/crusher.cpp:79
 msgid "Corrupted (normal)"
@@ -2070,7 +2070,7 @@ msgstr "Folha-Bala"
 
 #: src/badguy/fish_swimming.hpp:40
 msgid "Swimming Fish"
-msgstr ""
+msgstr "Peixes nadando"
 
 #: src/badguy/flame.hpp:47
 msgid "Flame"
@@ -2082,7 +2082,7 @@ msgstr "Cristal Adormecido"
 
 #: src/badguy/jumpy.cpp:45
 msgid "Wooden"
-msgstr ""
+msgstr "De madeira"
 
 #: src/badguy/jumpy.cpp:47
 msgid "Metal"
@@ -2090,7 +2090,7 @@ msgstr "Metal"
 
 #: src/badguy/jumpy.cpp:48
 msgid "Bag"
-msgstr ""
+msgstr "Bolsa"
 
 #: src/badguy/willowisp.hpp:57
 msgid "Will o' Wisp"
@@ -2098,7 +2098,7 @@ msgstr "Chama Perseguidora"
 
 #: src/badguy/fish_jumping.hpp:41
 msgid "Jumping Fish"
-msgstr ""
+msgstr "Peixe saltador"
 
 #: src/badguy/badguy.hpp:61
 msgid "Badguy"
@@ -2114,7 +2114,7 @@ msgstr "Espinhoso"
 
 #: src/badguy/walkingleaf.hpp:33
 msgid "Walking Leaf"
-msgstr ""
+msgstr "Folha ambulante"
 
 #: src/badguy/root.hpp:39
 msgid "Root"
@@ -2138,7 +2138,7 @@ msgstr "Yeti"
 
 #: src/badguy/snowball.cpp:41
 msgid "Bumpkin"
-msgstr ""
+msgstr "Caipira"
 
 #: src/badguy/snowball.cpp:42
 msgid "BSOD"
@@ -2166,7 +2166,7 @@ msgstr "Pedra Irritada"
 
 #: src/badguy/tarantula.cpp:354
 msgid "Spidermite"
-msgstr ""
+msgstr "Ácaro-aranha"
 
 #: src/badguy/tarantula.cpp:374
 msgid "Static"
@@ -2186,7 +2186,7 @@ msgstr "Homem neve"
 
 #: src/badguy/viciousivy.hpp:33
 msgid "Vicious Ivy"
-msgstr ""
+msgstr "Hera Viciosa"
 
 #: src/badguy/stalactite.cpp:156
 msgid "ice"
@@ -2194,11 +2194,11 @@ msgstr "gelo"
 
 #: src/badguy/stalactite.cpp:157
 msgid "rock"
-msgstr ""
+msgstr "pedra"
 
 #: src/badguy/fish_chasing.hpp:33
 msgid "Chasing Fish"
-msgstr ""
+msgstr "Peixe perseguidor"
 
 #: src/badguy/stumpy.hpp:38
 msgid "Stumpy"
@@ -2232,7 +2232,7 @@ msgstr "Máximo de badguys simultâneos"
 
 #: src/badguy/dispenser.cpp:435
 msgid "Dropper"
-msgstr ""
+msgstr "Conta-gotas"
 
 #: src/badguy/dispenser.cpp:436
 msgid "Cannon"
@@ -2260,7 +2260,7 @@ msgstr "Padrão"
 
 #: src/badguy/granito_big.cpp:53 src/badguy/granito.cpp:264
 msgid "Standing"
-msgstr ""
+msgstr "Em pé"
 
 #: src/badguy/granito_big.cpp:54 src/badguy/granito.cpp:265
 msgid "Walking"
@@ -2523,7 +2523,7 @@ msgstr "Não compartilhar o nome dos níveis enquanto edita"
 msgid ""
 "Enable this if you want to work on secret levels and don't want the names to"
 " be spoiled"
-msgstr ""
+msgstr "Ative isso se quiser trabalhar em níveis secretos e não quiser que os nomes sejam entregues"
 
 #: src/supertux/menu/integrations_menu.cpp:54
 msgid "Enable Discord integration"
@@ -2533,7 +2533,7 @@ msgstr "Ativar integração com o Discord"
 msgid ""
 "Sends information to your Discord application about what you're doing in the"
 " game."
-msgstr ""
+msgstr "Envia informações para seu aplicativo Discord sobre o que você está fazendo no jogo."
 
 #: src/supertux/menu/integrations_menu.cpp:57
 msgid "Discord (disabled; not compiled)"
@@ -2542,11 +2542,11 @@ msgstr "Discord (desativado; não compilado)"
 #: src/supertux/menu/editor_converters_menu.cpp:61
 #: src/supertux/menu/editor_menu.cpp:85
 msgid "Convert Tiles"
-msgstr ""
+msgstr "Converter blocos"
 
 #: src/supertux/menu/editor_converters_menu.cpp:64
 msgid "Select Tile Conversion File"
-msgstr ""
+msgstr "Selecione o arquivo de conversão de bloco"
 
 #: src/supertux/menu/editor_converters_menu.cpp:72
 #, c++-format
@@ -2555,15 +2555,15 @@ msgstr "Por: {}"
 
 #: src/supertux/menu/editor_converters_menu.cpp:75
 msgid "Convert Tiles By File"
-msgstr ""
+msgstr "Converter blocos por arquivo"
 
 #: src/supertux/menu/editor_converters_menu.cpp:76
 msgid "Convert all tiles in the current level by a file, specified above."
-msgstr ""
+msgstr "Converter todos os blocos no nível atual por um arquivo, especificado acima."
 
 #: src/supertux/menu/editor_converters_menu.cpp:89
 msgid "No tile conversion file selected."
-msgstr ""
+msgstr "Nenhum arquivo de conversão de bloco selecionado."
 
 #: src/supertux/menu/editor_converters_menu.cpp:93
 msgid ""
@@ -2571,7 +2571,7 @@ msgid ""
 "\n"
 "Note: This should not be ran more than once on a level.\n"
 "Creating a separate copy of the level is highly recommended."
-msgstr ""
+msgstr "Isso converterá todos os blocos no nível. Continuar?\n\nNota: Isso não deve ser executado mais de uma vez em um nível.\nÉ altamente recomendado criar uma cópia separada do nível."
 
 #: src/supertux/menu/video_system_menu.cpp:36
 msgid "Select Video System"
@@ -2679,11 +2679,11 @@ msgstr "Salvar"
 #: src/supertux/menu/multiplayer_menu.cpp:27
 #: src/supertux/menu/multiplayer_players_menu.cpp:34
 msgid "Multiplayer"
-msgstr ""
+msgstr "Multijogador"
 
 #: src/supertux/menu/multiplayer_menu.cpp:30
 msgid "Auto-manage Players"
-msgstr ""
+msgstr "Gerenciar jogadores automaticamente"
 
 #: src/supertux/menu/multiplayer_menu.cpp:31
 msgid ""
@@ -4074,7 +4074,7 @@ msgstr "Nota do Nível"
 
 #: src/supertux/menu/editor_level_menu.cpp:38
 msgid "Tileset"
-msgstr "Blocos"
+msgstr "Conjunto de blocos"
 
 #: src/supertux/menu/editor_level_menu.cpp:41
 msgid "Target Time"
@@ -4146,7 +4146,7 @@ msgstr "Editar Outro Mundo"
 
 #: src/supertux/menu/editor_menu.cpp:86
 msgid "Convert all tiles in the level using converters."
-msgstr ""
+msgstr "Converter todos os blocos do nível usando conversores."
 
 #: src/supertux/menu/editor_menu.cpp:90
 msgid "Grid Size"
@@ -4190,21 +4190,21 @@ msgstr "Frequência de Salvamento Automático"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Check for Deprecated Tiles"
-msgstr ""
+msgstr "Verificar por blocos obsoletos"
 
 #: src/supertux/menu/editor_menu.cpp:109
 msgid "Check if any deprecated tiles are currently present in the level."
-msgstr ""
+msgstr "Verificar se há algum bloco obsoleto presente no nível."
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Show Deprecated Tiles"
-msgstr ""
+msgstr "Mostrar blocos obsoletos"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Indicate all deprecated tiles on the active tilemap, without the need of "
 "hovering over."
-msgstr ""
+msgstr "Indicar todos os blocos obsoletos no mapa de blocos ativos, sem a necessidade de passar o mouse sobre eles."
 
 #: src/supertux/menu/editor_menu.cpp:121
 msgid "Exit Level Editor"
@@ -4256,15 +4256,15 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
-msgstr ""
+msgstr "Blocos obsoletos ainda estão presentes no nível."
 
 #: src/supertux/menu/editor_menu.cpp:239
 msgid "Do you want to show all deprecated tiles on active tilemaps?"
-msgstr ""
+msgstr "Você quer mostrar todos os blocos obsoletos no mapa de blocos ativos?"
 
 #: src/supertux/menu/editor_menu.cpp:246
 msgid "There are no more deprecated tiles in the level!"
-msgstr ""
+msgstr "Não há mais blocos obsoletos no nível!"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:40
 msgid "Play with the keyboard"
@@ -4660,11 +4660,11 @@ msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
-msgstr ""
+msgstr "Este nível contém blocos obsoletos.\nÉ altamente recomendado substituir todos os blocos obsoletos\npara evitar perda de compatibilidade em versões futuras."
 
 #: src/editor/editor.cpp:579
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
-msgstr ""
+msgstr "Dica: Ative \"Mostrar blocos obsoletos\" no menu do editor de níveis."
 
 #: src/editor/editor.cpp:626
 msgid ""
@@ -4736,7 +4736,7 @@ msgstr ""
 
 #: src/editor/overlay_widget.cpp:1062
 msgid "Cannot select deprecated tiles"
-msgstr ""
+msgstr "Não é possível selecionar blocos obsoletos."
 
 #: src/editor/overlay_widget.cpp:1567
 msgid "Autotile mode is on"
@@ -5146,7 +5146,7 @@ msgstr "Miscelânea"
 
 #: data//images/tiles.strf:1342
 msgid "Retro Tiles"
-msgstr ""
+msgstr "Blocos retrô"
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"
@@ -5162,7 +5162,7 @@ msgstr "Floresta Escura"
 
 #: data//images/converters/data.stcd:3
 msgid "Nightly Tiles"
-msgstr ""
+msgstr "Blocos noturnos"
 
 #: data//images/converters/data.stcd:5
 msgid "For levels, created in previous Nightly builds."
@@ -5170,8 +5170,8 @@ msgstr ""
 
 #: data//images/converters/data.stcd:8
 msgid "Pre-0.6.3 Crystal Tiles"
-msgstr ""
+msgstr "Blocos de cristal pré-0.6.3"
 
 #: data//images/converters/data.stcd:10
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
-msgstr ""
+msgstr "Para níveis criados em versões anteriores à 0.6.3, que utilizam blocos de cristal."

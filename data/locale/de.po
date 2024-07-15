@@ -15,6 +15,7 @@
 # Larson März <larson@protonmail.ch>, 2016
 # Marcel Haring <getting@autistici.org>, 2013-2014
 # Matthias Braun <matze@braunis.de>, 2004
+# Moritz Hofmann <moritz.hofmann2005@gmail.com>, 2024
 # mteufel, 2018
 # mteufel, 2018
 # Sless <sless@gmx.net>, 2014
@@ -29,7 +30,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-05-30 16:19+0200\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Iwan Gabovitch, 2024\n"
+"Last-Translator: Moritz Hofmann <moritz.hofmann2005@gmail.com>, 2024\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1666,7 +1667,7 @@ msgid ""
 "Do you wish to clone the path to edit it separately,\n"
 "or do you want to bind both paths together\n"
 "so that any edit on one edits the other?"
-msgstr ""
+msgstr "Möchtest du den Pfad klonen, um ihn separat zu bearbeiten,\noder möchtest du beide Pfade miteinander verbinden\nso dass jede Bearbeitung des einen Pfads auch den anderen Pfad bearbeitet?"
 
 #: src/gui/menu_paths.cpp:56
 #, c++-format
@@ -1781,7 +1782,7 @@ msgstr "Pflanze"
 
 #: src/badguy/tarantula.hpp:39 src/badguy/tarantula.cpp:353
 msgid "Tarantula"
-msgstr ""
+msgstr "Vogelspinne"
 
 #: src/badguy/granito_giant.cpp:71
 msgid "Awake"
@@ -1863,7 +1864,7 @@ msgstr ""
 
 #: src/badguy/dive_mine.hpp:50
 msgid "Dive Mine"
-msgstr ""
+msgstr "Tauchergrube"
 
 #: src/badguy/granito_big.hpp:33
 msgid "Big Granito"
@@ -1871,7 +1872,7 @@ msgstr ""
 
 #: src/badguy/mriceblock.hpp:49
 msgid "Mr. Iceblock"
-msgstr ""
+msgstr "Mr. Eisblock"
 
 #: src/badguy/granito.hpp:39 src/badguy/darttrap.cpp:163
 #: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:438
@@ -2031,7 +2032,7 @@ msgstr "Korrupter Granito"
 
 #: src/badguy/mrbomb.cpp:48
 msgid "Classic"
-msgstr ""
+msgstr "Klassisch"
 
 #: src/badguy/flyingsnowball.hpp:33
 msgid "Flying Snowball"
@@ -2067,7 +2068,7 @@ msgstr "Seitwärts"
 
 #: src/badguy/kamikazesnowball.hpp:34
 msgid "Kamikaze Snowball"
-msgstr ""
+msgstr "Kamikaze Schneeball"
 
 #: src/badguy/kamikazesnowball.hpp:64
 msgid "Leafshot"
@@ -2123,7 +2124,7 @@ msgstr "Laufendes Blatt"
 
 #: src/badguy/root.hpp:39
 msgid "Root"
-msgstr ""
+msgstr "Wurzel"
 
 #: src/badguy/owl.cpp:241
 msgid "Carry"
@@ -2143,7 +2144,7 @@ msgstr "Yeti"
 
 #: src/badguy/snowball.cpp:41
 msgid "Bumpkin"
-msgstr ""
+msgstr "Tölpel"
 
 #: src/badguy/snowball.cpp:42
 msgid "BSOD"
@@ -2171,11 +2172,11 @@ msgstr "Wütender Stein"
 
 #: src/badguy/tarantula.cpp:354
 msgid "Spidermite"
-msgstr ""
+msgstr "Spinne"
 
 #: src/badguy/tarantula.cpp:374
 msgid "Static"
-msgstr ""
+msgstr "Statisch"
 
 #: src/badguy/ghoul.hpp:30
 msgid "Ghoul"
@@ -2183,7 +2184,7 @@ msgstr "Ghul"
 
 #: src/badguy/granito_giant.hpp:32
 msgid "Giant Granito"
-msgstr ""
+msgstr "Riesiger Granito"
 
 #: src/badguy/snowman.hpp:29
 msgid "Snowman"
@@ -2191,7 +2192,7 @@ msgstr "Schneemann"
 
 #: src/badguy/viciousivy.hpp:33
 msgid "Vicious Ivy"
-msgstr ""
+msgstr "Tückischer Efeu"
 
 #: src/badguy/stalactite.cpp:156
 msgid "ice"
@@ -2237,7 +2238,7 @@ msgstr "Maximale Anzahl gleichzeitiger Gegner"
 
 #: src/badguy/dispenser.cpp:435
 msgid "Dropper"
-msgstr ""
+msgstr "Pipette"
 
 #: src/badguy/dispenser.cpp:436
 msgid "Cannon"
@@ -2265,11 +2266,11 @@ msgstr "Standard"
 
 #: src/badguy/granito_big.cpp:53 src/badguy/granito.cpp:264
 msgid "Standing"
-msgstr ""
+msgstr "Stehend"
 
 #: src/badguy/granito_big.cpp:54 src/badguy/granito.cpp:265
 msgid "Walking"
-msgstr ""
+msgstr "Laufend"
 
 #: src/badguy/mriceblock.cpp:63
 msgid "Laptop"
@@ -2281,7 +2282,7 @@ msgstr "Dart"
 
 #: src/badguy/granito.cpp:268
 msgid "Sitting"
-msgstr ""
+msgstr "Sitzend"
 
 #: src/supertux/statistics.cpp:54
 msgid "Max coins collected:"
@@ -3291,7 +3292,7 @@ msgstr "Einige Informationen über dieses Add-on sind nicht verfügbar."
 
 #: src/supertux/menu/addon_preview_menu.cpp:88
 msgid "Perform a \"Check Online\" to try retrieving it."
-msgstr ""
+msgstr "Führe eine \"Online-Prüfung\" durch, um zu versuchen, sie abzurufen."
 
 #: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "No author specified."
@@ -4182,11 +4183,11 @@ msgstr "Kachel-Hilfsmodus aktivieren"
 
 #: src/supertux/menu/editor_menu.cpp:97
 msgid "Enable Object Undo Tracking"
-msgstr ""
+msgstr "Objekt-Rückgängig-Verfolgung einschalten"
 
 #: src/supertux/menu/editor_menu.cpp:100
 msgid "Undo Stack Size"
-msgstr ""
+msgstr "Stapelgröße rückgängig machen"
 
 #: src/supertux/menu/editor_menu.cpp:102
 msgid "Autosave Frequency"
@@ -4256,7 +4257,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Tastaturabkürzungen:\n---------------------\nEsc = Menü öffnen\nStrg+S = Speichern\nStrg+T = Testen\nStrg+Z = Rückgängig\nStrg+Y = Wiederholen\nF6 = Licht rendern\nF7 = Raster fangen\nF8 = Raster anzeigen\nStrg++ oder Strg+Scroll Up = Vergrößern\nStrg+- oder Strg+Scroll Down = Herauszoomen\nStrg+D = Zoom zurücksetzen\n\nSkripting-Kurzbefehle:\n------------- \nHome = Zum Anfang der Zeile gehen\nEnde = Zum Ende der Zeile gehen\nPfeil nach links = Im Text zurückgehen\nPfeil nach rechts = Im Text vorwärts gehen\nBackspace = Löschen vor dem Textcursor\nLöschen = Löschen hinter dem Textcursor\nStrg+X = Ganze Zeile ausschneiden\nStrg+C = Ganze Zeile kopieren\nStrg+V = Einfügen\nStrg+D = Zeile duplizieren\nStrg+Z = Rückgängig\nStrg+Y = Wiederholen"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
@@ -4280,11 +4281,11 @@ msgstr "Spieler entfernen"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:82
 msgid "Respawn Player"
-msgstr ""
+msgstr "Spieler respawnen"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:108
 msgid "Spawn Player"
-msgstr ""
+msgstr "Spieler spawnen"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:136
 msgid "Controllers"
@@ -4400,7 +4401,7 @@ msgstr "Bei Berührung verändern"
 
 #: src/worldmap/special_tile.hpp:36
 msgid "Special Tile"
-msgstr ""
+msgstr "Spezielle Kacheln"
 
 #: src/worldmap/level_tile.hpp:36 src/worldmap/level_tile.cpp:161
 msgid "Level"
@@ -4446,7 +4447,7 @@ msgstr "Teleporter"
 msgid ""
 "This object's current functionality is deprecated.\n"
 "Updating to get its latest functionality is recommended."
-msgstr ""
+msgstr "Die aktuelle Funktionalität dieses Objekts ist veraltet.\nEs wird empfohlen, es zu aktualisieren, um seine neuesten Funktionen zu erhalten."
 
 #: src/editor/node_marker.cpp:122
 msgid "Path Node"
@@ -4507,19 +4508,19 @@ msgstr "ungültig"
 
 #: src/editor/object_option.cpp:665
 msgid "Scale X"
-msgstr ""
+msgstr "X Skalierung"
 
 #: src/editor/object_option.cpp:666
 msgid "Scale Y"
-msgstr ""
+msgstr "Y Versatz"
 
 #: src/editor/object_option.cpp:667
 msgid "Offset X"
-msgstr ""
+msgstr "X Versatz"
 
 #: src/editor/object_option.cpp:668
 msgid "Offset Y"
-msgstr ""
+msgstr "Y Versatz"
 
 #: src/editor/object_option.cpp:672 src/editor/object_menu.cpp:67
 msgid "Remove"
@@ -4619,7 +4620,7 @@ msgstr "Außerhalb-des-Bildschirm-Modus"
 
 #: src/editor/particle_editor.cpp:229
 msgid "Clear"
-msgstr ""
+msgstr "Leeren"
 
 #: src/editor/particle_editor.cpp:245
 msgid "<- General settings"
@@ -4627,7 +4628,7 @@ msgstr "<- Allgemeine Einstellungen"
 
 #: src/editor/particle_editor.cpp:255
 msgid "Likeliness"
-msgstr ""
+msgstr "Ähnlichkeit"
 
 #: src/editor/particle_editor.cpp:266
 msgid "Color (RGBA)"
@@ -4635,15 +4636,15 @@ msgstr "Farbe (RGBA)"
 
 #: src/editor/particle_editor.cpp:311
 msgid "Scale (x, y)"
-msgstr ""
+msgstr "Skalierung (x, y)"
 
 #: src/editor/particle_editor.cpp:332
 msgid "Hitbox scale (x, y)"
-msgstr ""
+msgstr "Hitbox Skalierung (x, y)"
 
 #: src/editor/particle_editor.cpp:353
 msgid "Hitbox offset relative to scale"
-msgstr ""
+msgstr "Hitbox-Versatz relativ zur Skalierung"
 
 #: src/editor/particle_editor.cpp:372
 msgid "Change texture..."
@@ -4664,11 +4665,11 @@ msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
-msgstr ""
+msgstr "Dieses Level enthält veraltete Kacheln.\nEs wird dringend empfohlen, alle veralteten Kacheln zu ersetzen, um Kompatibilitätsverluste in zukünftigen Versionen zu vermeiden."
 
 #: src/editor/editor.cpp:579
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
-msgstr ""
+msgstr "Tipp: Aktiviere die Option \"Veraltete Kacheln anzeigen\" im Menü des Leveleditors."
 
 #: src/editor/editor.cpp:626
 msgid ""
@@ -4684,7 +4685,7 @@ msgstr "Dieser Level enthält nicht gespeicherte Änderungen, möchtest du speic
 
 #: src/editor/editor.cpp:662
 msgid "This level may contain unsaved changes, do you want to save?"
-msgstr ""
+msgstr "Dieses Level enthält möglicherweise ungespeicherte Änderungen. Möchtest du das Level speichern?"
 
 #: src/editor/editor.cpp:797
 msgid ""
@@ -4722,7 +4723,7 @@ msgstr "Konnte den »main«-Spawnpoint nicht finden.\nBitte ändere den Namen de
 
 #: src/editor/object_menu.cpp:60
 msgid "Patch Notes"
-msgstr ""
+msgstr "Änderungsnotizen"
 
 #: src/editor/object_menu.cpp:84
 msgid ""
@@ -4731,7 +4732,7 @@ msgid ""
 "\n"
 "Keep in mind this is very likely to break the proper behaviour of the object.\n"
 "Make sure to re-check any behaviour, related to the object."
-msgstr ""
+msgstr "Dadurch wird das Objekt auf die neuesten Funktionen aktualisiert.\nIn den Änderungsnotizen finden Sie weitere Informationen.\n\nDenke daran, dass dies sehr wahrscheinlich das korrekte Verhalten des Objekts beeinträchtigt.\nStelle sicher, dass Sie das Verhalten des Objekts erneut überprüfen."
 
 #: src/editor/object_menu.cpp:98
 #, c++-format
@@ -5166,16 +5167,16 @@ msgstr "Dunklerer Wald"
 
 #: data//images/converters/data.stcd:3
 msgid "Nightly Tiles"
-msgstr ""
+msgstr "Nächtliche Kacheln"
 
 #: data//images/converters/data.stcd:5
 msgid "For levels, created in previous Nightly builds."
-msgstr ""
+msgstr "Für Level, die in früheren Nightly-Builds erstellt wurden."
 
 #: data//images/converters/data.stcd:8
 msgid "Pre-0.6.3 Crystal Tiles"
-msgstr ""
+msgstr "Vor-0.6.3 Kristallkacheln"
 
 #: data//images/converters/data.stcd:10
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
-msgstr ""
+msgstr "Für Levels, die in Versionen vor pre-0.6.3 erstellt wurden, die Kristallkacheln verwenden."
