@@ -36,12 +36,12 @@ ItemSlider::ItemSlider(const std::string& text, int min_value, int max_value, in
   m_slider_x(-SLIDER_WIDTH), // Will be set in draw().
   m_sliding(false)
 {
+  assert(m_min_value < m_max_value);
 }
 
 void
 ItemSlider::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
-  assert(m_min_value < m_max_value);
   assert(*m_value >= m_min_value && *m_value <= m_max_value);
 
   const float value_text_width = Resources::normal_font->get_text_width(std::to_string(m_max_value) + m_value_append);
