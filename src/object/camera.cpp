@@ -19,9 +19,14 @@
 
 #include <math.h>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -31,11 +36,6 @@
 
 /* Very small value, used in Camera checks. */
 static const float CAMERA_EPSILON = .00001f;
-
-/* This is the fractional distance toward the peek
-   position to move each frame; lower is slower,
-   0 is never get there, 1 is instant. */
-static const float PEEK_ARRIVE_RATIO = 0.03f;
 
 /**
  * For the multiplayer camera, the camera will ensure all players are visible.
@@ -52,7 +52,6 @@ static const float MULTIPLAYER_CAM_WEIGHT = 0.1f;
 
 Camera::Camera(const std::string& name) :
   GameObject(name),
-  ExposedObject<Camera, scripting::Camera>(this),
   m_mode(Mode::NORMAL),
   m_defaultmode(Mode::NORMAL),
   m_screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)),
@@ -89,7 +88,6 @@ Camera::Camera(const std::string& name) :
 
 Camera::Camera(const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<Camera, scripting::Camera>(this),
   m_mode(Mode::NORMAL),
   m_defaultmode(Mode::NORMAL),
   m_screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)),
@@ -303,8 +301,13 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
 void
 Camera::draw(DrawingContext& context)
 {
+  context.push_transform();
+  context.transform().scale = get_current_scale();
+
   m_screen_size = Sizef(context.get_width(),
                         context.get_height());
+
+  context.pop_transform();
 }
 
 void
@@ -343,10 +346,28 @@ Camera::update(float dt_sec)
 }
 
 void
+Camera::keep_in_bounds(const Rectf& bounds)
+{
+  // Determines the difference between normal and scaled translation.
+  const Vector scale_factor = (m_screen_size.as_vector() * (get_current_scale() - 1.f)) / 2.f;
+
+  // Keep the translation's scaled position in provided bounds.
+  m_translation.x = (bounds.get_width() > m_screen_size.width ?
+      math::clamp(m_translation.x + scale_factor.x, bounds.get_left(), bounds.get_right() - m_screen_size.width) :
+      bounds.get_left());
+  m_translation.y = (bounds.get_height() > m_screen_size.height ?
+      math::clamp(m_translation.y + scale_factor.y, bounds.get_top(), bounds.get_bottom() - m_screen_size.height) :
+      bounds.get_top());
+
+  // Remove any scale factor we may have added in the checks above.
+  m_translation -= scale_factor;
+}
+
+void
 Camera::keep_in_bounds(Vector& translation_)
 {
-  float width = d_sector->get_width();
-  float height = d_sector->get_height();
+  float width = get_parent()->get_width();
+  float height = get_parent()->get_height();
 
   // Remove any earthquake offset from the translation.
   translation_.y -= m_earthquake_last_offset;
@@ -464,11 +485,8 @@ Camera::update_scroll_normal(float dt_sec)
     else if (player.peeking_direction_y() == Direction::DOWN)
       peek_to_y = top_edge - translation_compensation_y;
 
-    float peek_move_y = (peek_to_y - m_peek_pos.y) * PEEK_ARRIVE_RATIO;
-    if (fabsf(peek_move_y) < 1.0f)
-      peek_move_y = 0.0;
-
-    m_peek_pos.y += peek_move_y;
+    if (m_translation.y + m_screen_size.height < get_parent()->get_height())
+      m_peek_pos.y += (peek_to_y - m_peek_pos.y) * g_config->camera_peek_multiplier;
 
     m_translation.y -= m_peek_pos.y;
     m_translation.y = math::clamp(m_translation.y,
@@ -527,11 +545,7 @@ Camera::update_scroll_normal(float dt_sec)
     else if (player.peeking_direction_x() == Direction::RIGHT)
       peek_to_x = left_edge - translation_compensation_x;
 
-    float peek_move_x = (peek_to_x - m_peek_pos.x) * PEEK_ARRIVE_RATIO;
-    if (fabsf(peek_move_x) < 1.0f)
-      peek_move_x = 0.0f;
-
-    m_peek_pos.x += peek_move_x;
+    m_peek_pos.x += (peek_to_x - m_peek_pos.x) * g_config->camera_peek_multiplier;
 
     m_translation.x -= m_peek_pos.x;
     m_translation.x = math::clamp(m_translation.x,
@@ -622,7 +636,7 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
 void
 Camera::update_scroll_autoscroll(float dt_sec)
 {
-  if (!d_sector->get_object_count<Player>([](const Player& p) { return !p.is_dead() && !p.is_dying(); }))
+  if (!get_parent()->get_object_count<Player>([](const Player& p) { return !p.is_dead() && !p.is_dying(); }))
     return;
 
   get_walker()->update(dt_sec);
@@ -751,6 +765,95 @@ Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
   }
 }
 
+void
+Camera::set_pos(float x, float y)
+{
+  scroll_to(Vector(x, y), 0.0f);
+}
+
+void
+Camera::move(float x, float y)
+{
+  scroll_to(m_translation + Vector(x, y), 0.0f);
+}
+
+void
+Camera::set_mode(const std::string& mode)
+{
+  if (mode == "normal")
+    m_mode = Mode::NORMAL;
+  else if (mode == "manual")
+    m_mode = Mode::MANUAL;
+  else
+    log_warning << "Camera mode '" << mode << "' unknown." << std::endl;
+}
+
+void
+Camera::scroll_to(float x, float y, float scrolltime)
+{
+  scroll_to(Vector(x, y), scrolltime);
+}
+
+void
+Camera::set_scale(float scale)
+{
+  m_scale = scale;
+}
+
+void
+Camera::set_scale_anchor(float scale, int anchor)
+{
+  ease_scale_anchor(scale, 0, anchor, "");
+}
+
+void
+Camera::scale(float scale, float time)
+{
+  ease_scale(scale, time, "");
+}
+
+void
+Camera::scale_anchor(float scale, float time, int anchor)
+{
+  ease_scale_anchor(scale, time, anchor, "");
+}
+
+void
+Camera::ease_scale(float scale, float time, const std::string& ease)
+{
+  ease_scale_anchor(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease);
+}
+
+void
+Camera::ease_scale_anchor(float scale, float time, int anchor, const std::string& ease)
+{
+  ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)), static_cast<AnchorPoint>(anchor));
+}
+
+float
+Camera::get_screen_width() const
+{
+  return m_screen_size.width;
+}
+
+float
+Camera::get_screen_height() const
+{
+  return m_screen_size.height;
+}
+
+float
+Camera::get_x() const
+{
+  return m_translation.x;
+}
+
+float
+Camera::get_y() const
+{
+  return m_translation.y;
+}
+
 Vector
 Camera::get_center() const
 {
@@ -772,10 +875,9 @@ Camera::get_screen_size() const
 
 
 void
-Camera::move(const int dx, const int dy)
+Camera::move(const Vector& offset)
 {
-  m_translation.x += static_cast<float>(dx);
-  m_translation.y += static_cast<float>(dy);
+  scroll_to(m_translation + offset, 0.0f);
 }
 
 bool
@@ -784,4 +886,34 @@ Camera::is_saveable() const
   return !(Level::current() &&
            Level::current()->is_worldmap());
 }
+
+
+void
+Camera::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Camera>("Camera", vm.findClass("GameObject"));
+
+  PathObject::register_members(cls);
+
+  cls.addFunc("shake", &Camera::shake);
+  cls.addFunc("start_earthquake", &Camera::start_earthquake);
+  cls.addFunc("stop_earthquake", &Camera::stop_earthquake);
+  cls.addFunc("set_pos", &Camera::set_pos);
+  cls.addFunc<void, Camera, float, float>("move", &Camera::move);
+  cls.addFunc<void, Camera, const std::string&>("set_mode", &Camera::set_mode);
+  cls.addFunc<void, Camera, float, float, float>("scroll_to", &Camera::scroll_to);
+  cls.addFunc("get_current_scale", &Camera::get_current_scale);
+  cls.addFunc("get_target_scale", &Camera::get_target_scale);
+  cls.addFunc("set_scale", &Camera::set_scale);
+  cls.addFunc("set_scale_anchor", &Camera::set_scale_anchor);
+  cls.addFunc("scale", &Camera::scale);
+  cls.addFunc("scale_anchor", &Camera::scale_anchor);
+  cls.addFunc<void, Camera, float, float, const std::string&>("ease_scale", &Camera::ease_scale);
+  cls.addFunc("ease_scale_anchor", &Camera::ease_scale_anchor);
+  cls.addFunc("get_screen_width", &Camera::get_screen_width);
+  cls.addFunc("get_screen_height", &Camera::get_screen_height);
+  cls.addFunc("get_x", &Camera::get_x);
+  cls.addFunc("get_y", &Camera::get_y);
+}
+
 /* EOF */

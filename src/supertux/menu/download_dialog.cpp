@@ -18,6 +18,7 @@
 #include "supertux/menu/download_dialog.hpp"
 
 #include <sstream>
+#include <fmt/format.h>
 
 #include "addon/downloader.hpp"
 
@@ -55,7 +56,7 @@ DownloadDialog::DownloadDialog(TransferStatusListPtr statuses, bool auto_close,
       {
         if (m_error_msg)
         {
-          Dialog::show_message(_("Error:\n") + m_status->get_error());
+          Dialog::show_message(fmt::format(fmt::runtime(_("Error:\n{}")), m_status->get_error()));
         }
         else
         {

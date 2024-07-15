@@ -20,7 +20,12 @@
 
 #include <algorithm>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
+#include "object/ambient_light.hpp"
+#include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/moving_object.hpp"
@@ -153,6 +158,14 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));
   return tmp;
+}
+
+void
+GameObjectManager::add_object(const std::string& class_name, const std::string& name,
+                              float pos_x, float pos_y, const std::string& direction,
+                              const std::string& data)
+{
+  add_object_scripting(class_name, name, Vector(pos_x, pos_y), direction, data);
 }
 
 MovingObject&
@@ -501,6 +514,42 @@ GameObjectManager::this_before_object_remove(GameObject& object)
   }
 }
 
+void
+GameObjectManager::fade_to_ambient_light(float red, float green, float blue, float fadetime)
+{
+  get_singleton_by_type<AmbientLight>().fade_to_ambient_light(red, green, blue, fadetime);
+}
+
+void
+GameObjectManager::set_ambient_light(float red, float green, float blue)
+{
+  get_singleton_by_type<AmbientLight>().set_ambient_light(Color(red, green, blue));
+}
+
+float
+GameObjectManager::get_ambient_red() const
+{
+  return get_singleton_by_type<AmbientLight>().get_ambient_light().red;
+}
+
+float
+GameObjectManager::get_ambient_green() const
+{
+  return get_singleton_by_type<AmbientLight>().get_ambient_light().green;
+}
+
+float
+GameObjectManager::get_ambient_blue() const
+{
+  return get_singleton_by_type<AmbientLight>().get_ambient_light().blue;
+}
+
+void
+GameObjectManager::set_music(const std::string& filename)
+{
+  get_singleton_by_type<MusicObject>().set_music(filename);
+}
+
 float
 GameObjectManager::get_width() const
 {
@@ -563,6 +612,22 @@ GameObjectManager::get_tiles_height() const
       height = static_cast<float>(tilemap->get_height());
   }
   return height;
+}
+
+
+void
+GameObjectManager::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<GameObjectManager>("GameObjectManager");
+
+  cls.addFunc("set_ambient_light", &GameObjectManager::set_ambient_light);
+  cls.addFunc("fade_to_ambient_light", &GameObjectManager::fade_to_ambient_light);
+  cls.addFunc("get_ambient_red", &GameObjectManager::get_ambient_red);
+  cls.addFunc("get_ambient_green", &GameObjectManager::get_ambient_green);
+  cls.addFunc("get_ambient_blue", &GameObjectManager::get_ambient_blue);
+  cls.addFunc("set_music", &GameObjectManager::set_music);
+  cls.addFunc<void, GameObjectManager, const std::string&, const std::string&,
+              float, float, const std::string&, const std::string&>("add_object", &GameObjectManager::add_object);
 }
 
 /* EOF */

@@ -41,6 +41,7 @@ CorruptedGranitoBig::CorruptedGranitoBig(const ReaderMapping& reader) :
   parse_type(reader);
 
   m_col.set_unisolid(true);
+  m_physic.enable_gravity(false);
 
   SoundManager::current()->preload("sounds/brick.wav");
 }
@@ -52,7 +53,7 @@ CorruptedGranitoBig::initialize()
 
   m_state = STATE_READY;
   set_action("idle", m_dir);
-  set_colgroup_active(COLGROUP_MOVING_STATIC);
+  set_colgroup_active(COLGROUP_STATIC);
 }
 
 void
@@ -80,9 +81,12 @@ CorruptedGranitoBig::draw(DrawingContext &context)
 void
 CorruptedGranitoBig::kill_fall()
 {
+  if (m_state == STATE_BROKEN)
+    return;
+
   m_state = STATE_BROKEN;
   set_action("broken", m_dir);
-  set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+  set_colgroup_active(COLGROUP_DISABLED);
   m_col.set_unisolid(false);
 
   run_dead_script();

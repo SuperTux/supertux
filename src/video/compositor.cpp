@@ -26,10 +26,11 @@
 
 bool Compositor::s_render_lighting = true;
 
-Compositor::Compositor(VideoSystem& video_system) :
+Compositor::Compositor(VideoSystem& video_system, float time_offset) :
   m_video_system(video_system),
   m_obst(),
-  m_drawing_contexts()
+  m_drawing_contexts(),
+  m_time_offset(time_offset)
 {
   obstack_init(&m_obst);
 }
@@ -43,7 +44,7 @@ Compositor::~Compositor()
 DrawingContext&
 Compositor::make_context(bool overlay)
 {
-  m_drawing_contexts.emplace_back(new DrawingContext(m_video_system, m_obst, overlay));
+  m_drawing_contexts.emplace_back(new DrawingContext(m_video_system, m_obst, overlay, m_time_offset));
   return *m_drawing_contexts.back();
 }
 

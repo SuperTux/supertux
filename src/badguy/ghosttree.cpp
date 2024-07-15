@@ -29,6 +29,8 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
+#include "video/surface.hpp"
 
 static const size_t WILLOWISP_COUNT = 10;
 static const float WILLOWISP_TOP_OFFSET = -64;
@@ -36,7 +38,7 @@ static const Vector SUCK_TARGET_OFFSET = Vector(-16,-16);
 static const float SUCK_TARGET_SPREAD = 8;
 
 GhostTree::GhostTree(const ReaderMapping& mapping) :
-  BadGuy(mapping, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10),
+  Boss(mapping, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10),
   mystate(STATE_IDLE),
   willowisp_timer(),
   willo_spawn_y(0),
@@ -49,9 +51,13 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   root_timer(),
   treecolor(0),
   suck_lantern_color(),
+  m_taking_life(),
   suck_lantern(nullptr),
   willowisps()
 {
+  mapping.get("hud-icon", m_hud_icon, "images/creatures/ghosttree/hudlife.png");
+  m_hud_head = Surface::from_file(m_hud_icon);
+
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/tree_howling.ogg");
   SoundManager::current()->preload("sounds/tree_suck.ogg");
@@ -60,14 +66,17 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
 void
 GhostTree::die()
 {
-  mystate = STATE_DYING;
-  set_action("dying", 1);
-  glow_sprite->set_action("dying", 1);
 
   for (const auto& willo : willowisps) {
     willo->vanish();
   }
-  run_dead_script();
+
+  if (m_lives <= 0) {
+    mystate = STATE_DYING;
+    set_action("dying", 1);
+    glow_sprite->set_action("dying", 1);
+    run_dead_script();
+  }
 }
 
 void
@@ -79,9 +88,12 @@ GhostTree::activate()
 }
 
 void
-GhostTree::active_update(float /*dt_sec*/)
+GhostTree::active_update(float dt_sec)
 {
+  Boss::boss_update(dt_sec);
+
   if (mystate == STATE_IDLE) {
+    m_taking_life = false;
     if (colorchange_timer.check()) {
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       suck_timer.start(3);
@@ -180,8 +192,13 @@ GhostTree::active_update(float /*dt_sec*/)
       // Wait until the lantern is swallowed completely.
       if (m_sprite->animation_done()) {
         if (is_color_deadly(suck_lantern_color)) {
+          if (!m_taking_life) {
+            m_lives--;
+            m_taking_life = true;
+          }
           die();
-        } else {
+        }
+        if (m_lives > 0) {
           set_action("normal");
           mystate = STATE_IDLE;
           spawn_lantern();
@@ -215,7 +232,7 @@ GhostTree::willowisp_died(TreeWillOWisp* willowisp)
 void
 GhostTree::draw(DrawingContext& context)
 {
-  BadGuy::draw(context);
+  Boss::draw(context);
 
   context.push_transform();
   if (mystate == STATE_SUCKING) {

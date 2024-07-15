@@ -16,18 +16,22 @@
 
 #include "object/floating_image.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/sector.hpp"
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
-  sprite(SpriteManager::current()->create(spritefile)),
-  layer(LAYER_FOREGROUND1 + 1),
-  visible(false),
-  anchor(ANCHOR_MIDDLE),
-  pos(0.0f, 0.0f),
-  fading(0),
-  fadetime(0)
+  m_sprite(SpriteManager::current()->create(spritefile)),
+  m_layer(LAYER_FOREGROUND1 + 1),
+  m_visible(false),
+  m_anchor(ANCHOR_MIDDLE),
+  m_pos(0.0f, 0.0f),
+  m_fading(0),
+  m_fadetime(0)
 {
 }
 
@@ -38,45 +42,104 @@ FloatingImage::~FloatingImage()
 void
 FloatingImage::update(float dt_sec)
 {
-  if (fading > 0) {
-    fading -= dt_sec;
-    if (fading <= 0) {
-      fading = 0;
-      visible = true;
+  if (m_fading > 0)
+  {
+    m_fading -= dt_sec;
+    if (m_fading <= 0)
+    {
+      m_fading = 0;
+      m_visible = true;
     }
-  } else if (fading < 0) {
-    fading += dt_sec;
-    if (fading >= 0) {
-      fading = 0;
-      visible = false;
+  }
+  else if (m_fading < 0)
+  {
+    m_fading += dt_sec;
+    if (m_fading >= 0)
+    {
+      m_fading = 0;
+      m_visible = false;
     }
   }
 }
 
 void
+FloatingImage::set_layer(int layer)
+{
+  m_layer = layer;
+}
+
+int
+FloatingImage::get_layer() const
+{
+  return m_layer;
+}
+
+void
+FloatingImage::set_pos(float x, float y)
+{
+  m_pos = Vector(x, y);
+}
+
+float
+FloatingImage::get_x() const
+{
+  return m_pos.x;
+}
+
+float
+FloatingImage::get_y() const
+{
+  return m_pos.y;
+}
+
+void
+FloatingImage::set_anchor_point(int anchor)
+{
+  m_anchor = static_cast<AnchorPoint>(anchor);
+}
+
+int
+FloatingImage::get_anchor_point() const
+{
+  return static_cast<int>(m_anchor);
+}
+
+bool
+FloatingImage::get_visible() const
+{
+  return m_visible;
+}
+
+void
+FloatingImage::set_visible(bool visible)
+{
+  m_visible = visible;
+}
+
+void
 FloatingImage::set_action(const std::string& action)
 {
-  sprite->set_action(action);
+  m_sprite->set_action(action);
 }
 
 std::string
-FloatingImage::get_action()
+FloatingImage::get_action() const
 {
-  return sprite->get_action();
+  return m_sprite->get_action();
 }
 
 void
-FloatingImage::fade_in(float fadetime_)
+FloatingImage::fade_in(float time)
 {
-  fadetime = fadetime_;
-  fading = fadetime_;
+  m_fadetime = time;
+  m_fading = time;
 }
 
 void
-FloatingImage::fade_out(float fadetime_)
+FloatingImage::fade_out(float time)
 {
-  fadetime = fadetime_;
-  fading = -fadetime_;
+  m_fadetime = time;
+  m_fading = -time;
 }
 
 void
@@ -85,23 +148,57 @@ FloatingImage::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  if (fading > 0) {
-    context.set_alpha((fadetime-fading) / fadetime);
-  } else if (fading < 0) {
-    context.set_alpha(-fading / fadetime);
-  } else if (!visible) {
+  if (m_fading > 0)
+    context.set_alpha((m_fadetime - m_fading) / m_fadetime);
+  else if (m_fading < 0)
+    context.set_alpha(-m_fading / m_fadetime);
+  else if (!m_visible)
+  {
     context.pop_transform();
     return;
   }
 
-  Vector spos = pos + get_anchor_pos(context.get_rect(),
-                                     static_cast<float>(sprite->get_width()),
-                                     static_cast<float>(sprite->get_height()),
-                                     anchor);
-
-  sprite->draw(context.color(), spos, layer);
+  const Vector spos = m_pos + get_anchor_pos(context.get_rect(),
+                                             static_cast<float>(m_sprite->get_width()),
+                                             static_cast<float>(m_sprite->get_height()),
+                                             m_anchor);
+  m_sprite->draw(context.color(), spos, m_layer);
 
   context.pop_transform();
+}
+
+
+void
+FloatingImage::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addClass("FloatingImage", [](const std::string& spritefile)
+    {
+      if (!Sector::current())
+        throw std::runtime_error("Tried to create 'FloatingImage' without an active sector.");
+
+      return &Sector::get().add<FloatingImage>(spritefile);
+    },
+    false /* Do not free pointer from Squirrel */,
+    vm.findClass("GameObject"));
+
+  cls.addFunc("set_layer", &FloatingImage::set_layer);
+  cls.addFunc("get_layer", &FloatingImage::get_layer);
+  cls.addFunc("set_pos", &FloatingImage::set_pos);
+  cls.addFunc("get_x", &FloatingImage::get_x);
+  cls.addFunc("get_y", &FloatingImage::get_y);
+  cls.addFunc("get_pos_x", &FloatingImage::get_x); // Deprecated
+  cls.addFunc("get_pos_y", &FloatingImage::get_y); // Deprecated
+  cls.addFunc("set_anchor_point", &FloatingImage::set_anchor_point);
+  cls.addFunc("get_anchor_point", &FloatingImage::get_anchor_point);
+  cls.addFunc("set_visible", &FloatingImage::set_visible);
+  cls.addFunc("get_visible", &FloatingImage::get_visible);
+  cls.addFunc("set_action", &FloatingImage::set_action);
+  cls.addFunc("get_action", &FloatingImage::get_action);
+  cls.addFunc("fade_in", &FloatingImage::fade_in);
+  cls.addFunc("fade_out", &FloatingImage::fade_out);
+
+  cls.addVar("layer", &FloatingImage::m_layer);
+  cls.addVar("visible", &FloatingImage::m_visible);
 }
 
 /* EOF */

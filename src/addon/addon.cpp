@@ -232,7 +232,7 @@ Addon::get_filename() const
   return get_id() + ".zip";
 }
 
-std::string
+const std::string&
 Addon::get_install_filename() const
 {
   return m_install_filename;

@@ -56,6 +56,9 @@ std::string normalize(const std::string& filename);
 /** join two filenames join("foo", "bar") -> "foo/bar" */
 std::string join(const std::string& lhs, const std::string& rhs);
 
+/** Escapes path components */
+std::string escape_url(const std::string& url);
+
 /** Remove a file
     @return true when successfully removed, false otherwise */
  bool remove(const std::string& path);

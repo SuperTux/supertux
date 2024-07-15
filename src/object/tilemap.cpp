@@ -18,6 +18,9 @@
 
 #include <tuple>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
@@ -38,7 +41,6 @@
 #include "video/surface.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
-  ExposedObject<TileMap, scripting::TileMap>(this),
   PathObject(),
   m_editor_active(true),
   m_tileset(new_tileset),
@@ -73,7 +75,6 @@ TileMap::TileMap(const TileSet *new_tileset) :
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<TileMap, scripting::TileMap>(this),
   PathObject(),
   m_editor_active(true),
   m_tileset(tileset_),
@@ -516,34 +517,6 @@ TileMap::draw(DrawingContext& context)
 }
 
 void
-TileMap::goto_node(int node_no)
-{
-  if (!get_walker()) return;
-  get_walker()->goto_node(node_no);
-}
-
-void
-TileMap::jump_to_node(int node_no)
-{
-  if (!get_walker()) return;
-  get_walker()->jump_to_node(node_no);
-}
-
-void
-TileMap::start_moving()
-{
-  if (!get_walker()) return;
-  get_walker()->start_moving();
-}
-
-void
-TileMap::stop_moving()
-{
-  if (!get_walker()) return;
-  get_walker()->stop_moving();
-}
-
-void
 TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
              int new_z_pos, bool newsolid)
 {
@@ -659,7 +632,7 @@ TileMap::get_tile_id(int x, int y) const
   if (x >= m_width) x = m_width - 1;
   if (y < 0) y = 0;
   if (y >= m_height) y = m_height - 1;
-  
+
   if (x < 0 || x >= m_width || y < 0 || y >= m_height) {
     //log_warning << "tile outside tilemap requested" << std::endl;
     return 0;
@@ -688,7 +661,13 @@ uint32_t
 TileMap::get_tile_id_at(const Vector& pos) const
 {
   Vector xy = (pos - m_offset) / 32.0f;
-  return get_tile_id(int(xy.x), int(xy.y));
+  return get_tile_id(static_cast<int>(xy.x), static_cast<int>(xy.y));
+}
+
+uint32_t
+TileMap::get_tile_id_at(float x, float y) const
+{
+  return get_tile_id_at(Vector(x, y));
 }
 
 const Tile&
@@ -712,6 +691,12 @@ TileMap::change_at(const Vector& pos, uint32_t newtile)
 {
   Vector xy = (pos - m_offset) / 32.0f;
   change(int(xy.x), int(xy.y), newtile);
+}
+
+void
+TileMap::change_at(float x, float y, uint32_t newtile)
+{
+  change_at(Vector(x, y), newtile);
 }
 
 void
@@ -848,7 +833,7 @@ TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos)
                                   + static_cast<int>(pos.x)];
 
   AutotileSet* curr_set = m_tileset->get_autotileset_from_tile(current_tile);
-  
+
   if (curr_set && curr_set->is_corner()) {
     int x = static_cast<int>(corner_pos.x), y = static_cast<int>(corner_pos.y);
     autotile_corner(x, y, current_tile, AutotileCornerOperation::REMOVE_TOP_LEFT);
@@ -918,23 +903,29 @@ TileMap::get_autotileset(uint32_t tile) const
 }
 
 void
-TileMap::fade(float alpha_, float seconds)
+TileMap::fade(float alpha_, float time)
 {
   m_alpha = alpha_;
-  m_remaining_fade_time = seconds;
+  m_remaining_fade_time = time;
 }
 
 void
-TileMap::tint_fade(const Color& new_tint, float seconds)
+TileMap::tint_fade(const Color& new_tint, float time)
 {
   m_tint = new_tint;
-  m_remaining_tint_fade_time = seconds;
+  m_remaining_tint_fade_time = time;
 }
 
 void
-TileMap::set_alpha(float alpha_)
+TileMap::tint_fade(float time, float red, float green, float blue, float alpha)
 {
-  m_alpha = alpha_;
+  tint_fade(Color(red, green, blue, alpha), time);
+}
+
+void
+TileMap::set_alpha(float alpha)
+{
+  m_alpha = alpha;
   m_current_alpha = m_alpha;
   m_remaining_fade_time = 0;
   update_effective_solid ();
@@ -975,6 +966,26 @@ void
 TileMap::set_tileset(const TileSet* new_tileset)
 {
   m_tileset = new_tileset;
+}
+
+
+void
+TileMap::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<TileMap>("TileMap", vm.findClass("GameObject"));
+
+  PathObject::register_members(cls);
+
+  cls.addFunc("get_tile_id", &TileMap::get_tile_id);
+  cls.addFunc<uint32_t, TileMap, float, float>("get_tile_id_at", &TileMap::get_tile_id_at);
+  cls.addFunc("change", &TileMap::change);
+  cls.addFunc<void, TileMap, float, float, uint32_t>("change_at", &TileMap::change_at);
+  cls.addFunc("change_all", &TileMap::change_all);
+  cls.addFunc("fade", &TileMap::fade);
+  cls.addFunc<void, TileMap, float, float, float, float, float>("tint_fade", &TileMap::tint_fade);
+  cls.addFunc("set_alpha", &TileMap::set_alpha);
+  cls.addFunc("get_alpha", &TileMap::get_alpha);
+  cls.addFunc("set_solid", &TileMap::set_solid);
 }
 
 /* EOF */

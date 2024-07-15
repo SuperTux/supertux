@@ -151,8 +151,8 @@
     (class "toad")
     (icon "images/creatures/toad/toad-idle-0.png"))
   (object
-    (class "spidermite")
-    (icon "images/creatures/spidermite/spidermite1.png"))
+    (class "tarantula")
+    (icon "images/creatures/tarantula/tarantula-0.png"))
   (object
     (class "totem")
     (icon "images/creatures/totem/walking1.png"))
@@ -178,6 +178,9 @@
   (object
     (class "dart")
     (icon "images/creatures/darttrap/granito/root_dart_left.png"))
+  (object
+    (class "bigsnowball")
+    (icon "images/objects/big_snowball/big_snowball.png"))
  )
 
  (objectgroup
@@ -338,9 +341,7 @@
     (icon "images/engine/editor/textarray.png"))
  )
 
- (objectgroup
-  (name (_"Sector"))
-  (worldmap #f)
+ (layers
   (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))
@@ -406,6 +407,9 @@
   (object
     (class "decal")
     (icon "images/engine/editor/decal.png"))
+ )
+
+ (layers-worldmap
   (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))

@@ -20,7 +20,8 @@ on:
   push:
     branches: [ "master" ]
     paths:
-      - src/scripting/*.hpp
+      - src/*
+      - tools/scripting_docs_gen/*
   workflow_dispatch:
 
 jobs:
@@ -28,12 +29,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       - name: Checkout the wiki repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: SuperTux/wiki
           path: wiki
@@ -56,31 +57,42 @@ jobs:
           cmake --version
           mkdir build
           cd build
-          cmake .. -DBUILD_SCRIPTING_DOCUMENTATION=ON
+          cmake .. -DBUILD_DOCUMENTATION_WITH_SCRIPTING=ON
           make
 
       - name: Generate scripting reference
         working-directory: tools/scripting_docs_gen/build
         run: |
-          doxygen docs/scripting/Doxyfile
+          doxygen docs/Doxyfile
           rm ../../../wiki/Scripting*.md
-          ./ScriptingDocsGen --dir docs/scripting/doxygen/xml \
+          ./ScriptingDocsGen --dir docs/doxygen/xml \
                              --home ../../../wiki/templates/ScriptingHome.md \
                              --page ../../../wiki/templates/ScriptingPage.md \
                              --output ../../../wiki
 
+      - name: Check for changes
+        working-directory: wiki
+        run: |
+          REF_UPDATED=true
+          if git diff --exit-code; then
+            REF_UPDATED=false
+          fi
+          echo "REFERENCE_UPDATED=$(echo $REF_UPDATED)" >> $GITHUB_ENV
+
       - name: Install SSH key
+        if: ${{ env.REFERENCE_UPDATED == 'true' }}
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.wiki_repo_key }}
           known_hosts: ${{ secrets.wiki_repo_hosts }}
 
       - name: Push changes to wiki
+        if: ${{ env.REFERENCE_UPDATED == 'true' }}
         working-directory: wiki
         run: |
           git --version
           git status
-          git config --global user.email "supertux-bot"
+          git config --global user.email "SuperTux-bot@users.noreply.github.com"
           git config --global user.name "SuperTux Bot"
           git add .
           git commit -m "Update scripting reference (SuperTux/supertux@${{ github.sha }})"
