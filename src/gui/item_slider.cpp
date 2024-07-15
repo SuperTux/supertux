@@ -26,7 +26,6 @@
 #include "video/viewport.hpp"
 
 static const float SLIDER_WIDTH = 100.f;
-static const float SLIDER_SCROLL_SENSITIVITY = 3.f;
 
 ItemSlider::ItemSlider(const std::string& text, int min_value, int max_value, int* value, const std::string& value_append, int id) :
   MenuItem(text, id),
