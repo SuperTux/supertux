@@ -98,7 +98,7 @@ WorldPreviewMenu::draw_preview_data(DrawingContext& context, const Rectf& previe
   // Draw world progress.
   if (!m_world_entries[index].progress_text.empty())
     context.color().draw_text(Resources::normal_font, m_world_entries[index].progress_text,
-                              Vector(preview_rect.get_left() + s_preview_size.width / 2, preview_rect.get_bottom() * 1.05f),
+                              Vector(preview_rect.get_left() + static_cast<float>(SCREEN_WIDTH) / 5, preview_rect.get_bottom() * 1.03f),
                               ALIGN_CENTER, LAYER_GUI, Color(1, 1, 1, alpha));
 }
 

@@ -23,7 +23,6 @@
 
 #include "gui/menu_action.hpp"
 #include "math/rectf.hpp"
-#include "math/sizef.hpp"
 #include "math/vector.hpp"
 #include "supertux/timer.hpp"
 #include "video/color.hpp"
@@ -58,7 +57,6 @@ class PathObject;
 class Menu
 {
 protected:
-  static const Sizef s_preview_size;
   static const float s_preview_fade_time;
 
 public:
