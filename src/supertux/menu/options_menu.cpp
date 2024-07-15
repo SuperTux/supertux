@@ -61,11 +61,7 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
   m_aspect_ratios(),
   m_window_resolutions(),
   m_resolutions(),
-  m_vsyncs(),
-  m_sound_volumes(),
-  m_music_volumes(),
-  m_flash_intensity_values(),
-  m_mobile_control_scales()
+  m_vsyncs()
 {
   switch (type) // Insert label and menu items, appropriate for the chosen OptionsMenu type
   {

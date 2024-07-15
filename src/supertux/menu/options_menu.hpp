@@ -93,10 +93,6 @@ private:
   StringOption m_window_resolutions;
   StringOption m_resolutions;
   StringOption m_vsyncs;
-  StringOption m_sound_volumes;
-  StringOption m_music_volumes;
-  StringOption m_flash_intensity_values;
-  StringOption m_mobile_control_scales;
 
 private:
   OptionsMenu(const OptionsMenu&) = delete;
