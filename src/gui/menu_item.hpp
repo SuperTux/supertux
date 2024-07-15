@@ -71,6 +71,9 @@ public:
     return false;
   }
 
+  /** Returns true when the menu shouldn't move the selection from this item. */
+  virtual bool locks_selection() const { return false; }
+
   /** Returns true when the width must be recalculated when an action is
       processed */
   virtual bool changes_width() const {

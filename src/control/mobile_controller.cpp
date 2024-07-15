@@ -86,20 +86,17 @@ MobileController::draw(DrawingContext& context)
 
   if (m_screen_width != static_cast<int>(context.get_width()) ||
       m_screen_height != static_cast<int>(context.get_height()) ||
-      m_mobile_controls_scale != g_config->m_mobile_controls_scale)
+      m_mobile_controls_scale != g_config->mobile_controls_scale)
   {
     m_screen_width = static_cast<int>(context.get_width());
     m_screen_height = static_cast<int>(context.get_height());
     float width = static_cast<float>(m_screen_width);
     float height = static_cast<float>(m_screen_height);
-    m_mobile_controls_scale = g_config->m_mobile_controls_scale;
-    // Buttons on Android are bigger, and direction buttons are extra wide
+    m_mobile_controls_scale = g_config->mobile_controls_scale;
+
     // Use screen height to calculate button size, because 20:9 screen ratios are common
-#ifdef __ANDROID__
-    const float BUTTON_SCALE = 0.4f * g_config->m_mobile_controls_scale;
-#else
-    const float BUTTON_SCALE = 0.2f * g_config->m_mobile_controls_scale;
-#endif
+    const float BUTTON_SCALE = 0.05f * g_config->mobile_controls_scale;
+
     m_rect_directions.set_size(height * BUTTON_SCALE * 4 / 3, height * BUTTON_SCALE);
     m_rect_directions.set_pos(Vector(0, height - height * BUTTON_SCALE));
     m_draw_directions = Rectf::from_center(m_rect_directions.get_middle(),

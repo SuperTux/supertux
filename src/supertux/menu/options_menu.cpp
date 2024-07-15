@@ -21,6 +21,7 @@
 #include "gui/dialog.hpp"
 #include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
+#include "gui/item_slider.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"
 #include "gui/menu_item.hpp"
@@ -113,7 +114,8 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_toggle(MNID_FRAME_PREDICTION, _("Frame prediction"), &g_config->frame_prediction)
         .set_help(_("Smooth camera motion, generating intermediate frames. This has a noticeable effect on monitors at >> 60Hz. Moving objects may be blurry."));
 
-      add_flash_intensity();
+      add_slider(_("Flash Intensity"), 0, 100, &g_config->flash_intensity, "%", MNID_FLASH_INTENSITY)
+        .set_help(_("Adjust the intensity of the flash, produced by thunderstorms"));
 
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
       add_aspect_ratio();
@@ -138,8 +140,10 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
         add_toggle(MNID_MUSIC, _("Music"), &g_config->music_enabled)
           .set_help(_("Disable all music"));
 
-        add_sound_volume();
-        add_music_volume();
+        add_slider(_("Sound Volume"), 0, 100, &g_config->sound_volume, "%", MNID_SOUND_VOLUME)
+          .set_help(_("Adjust sound volume"));
+        add_slider(_("Music Volume"), 0, 100, &g_config->music_volume, "%", MNID_MUSIC_VOLUME)
+          .set_help(_("Adjust music volume"));
       }
       else
       {
@@ -166,6 +170,12 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
         .set_help(_("Configure joystick control-action mappings"));
 #endif
+
+      add_toggle(MNID_MOBILE_CONTROLS, _("On-screen controls"), &g_config->mobile_controls)
+        .set_help(_("Toggle on-screen controls"));
+
+      add_slider(_("On-screen controls scale"), 4, 12, &g_config->mobile_controls_scale, "", MNID_MOBILE_CONTROLS_SCALE)
+        .set_help(_("Configure the scale of on-screen controls"));
 
       break;
     }
@@ -442,127 +452,6 @@ OptionsMenu::add_vsync()
 }
 
 void
-OptionsMenu::add_sound_volume()
-{
-  m_sound_volumes.list = { "0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%" };
-
-  std::ostringstream sound_vol_stream;
-  sound_vol_stream << g_config->sound_volume << "%";
-  std::string sound_vol_string = sound_vol_stream.str();
-
-  if (std::find(m_sound_volumes.list.begin(),
-                m_sound_volumes.list.end(), sound_vol_string) == m_sound_volumes.list.end())
-  {
-    m_sound_volumes.list.push_back(sound_vol_string);
-  }
-
-  std::sort(m_sound_volumes.list.begin(), m_sound_volumes.list.end(), less_than_volume);
-
-  std::ostringstream out;
-  out << g_config->sound_volume << "%";
-  std::string sound_volume = out.str();
-  int count = 0;
-  for (const auto& volume : m_sound_volumes.list)
-  {
-    if (volume == sound_volume)
-    {
-      sound_volume.clear();
-      m_sound_volumes.next = count;
-      break;
-    }
-    ++count;
-  }
-
-  add_string_select(MNID_SOUND_VOLUME, _("Sound Volume"), &m_sound_volumes.next, m_sound_volumes.list)
-    .set_help(_("Adjust sound volume"));
-}
-
-void
-OptionsMenu::add_music_volume()
-{
-  m_music_volumes.list = { "0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%" };
-
-  std::ostringstream music_vol_stream;
-  music_vol_stream << g_config->music_volume << "%";
-  std::string music_vol_string = music_vol_stream.str();
-
-  if (std::find(m_music_volumes.list.begin(),
-               m_music_volumes.list.end(), music_vol_string) == m_music_volumes.list.end())
-  {
-    m_music_volumes.list.push_back(music_vol_string);
-  }
-
-  std::sort(m_music_volumes.list.begin(), m_music_volumes.list.end(), less_than_volume);
-
-  std::ostringstream out;
-  out << g_config->music_volume << "%";
-  std::string music_volume = out.str();
-  int count = 0;
-  for (const auto& volume : m_music_volumes.list)
-  {
-    if (volume == music_volume)
-    {
-      music_volume.clear();
-      m_music_volumes.next = count;
-      break;
-    }
-    ++count;
-  }
-
-  add_string_select(MNID_MUSIC_VOLUME, _("Music Volume"), &m_music_volumes.next, m_music_volumes.list)
-    .set_help(_("Adjust music volume"));
-}
-
-void
-OptionsMenu::add_flash_intensity()
-{
-  m_flash_intensity_values.list = { "0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%" };
-
-  std::ostringstream flash_intensity_value_stream;
-  flash_intensity_value_stream << g_config->flash_intensity << "%";
-  std::string flash_intensity_string = flash_intensity_value_stream.str();
-
-  if (std::find(m_flash_intensity_values.list.begin(),
-    m_flash_intensity_values.list.end(), flash_intensity_string) == m_flash_intensity_values.list.end())
-  {
-    m_flash_intensity_values.list.push_back(flash_intensity_string);
-  }
-
-  std::sort(m_flash_intensity_values.list.begin(), m_flash_intensity_values.list.end(), less_than_volume);
-
-  std::ostringstream out;
-  out << g_config->flash_intensity << "%";
-  std::string flash_intensity_value = out.str();
-  int count = 0;
-  for (const auto& value : m_flash_intensity_values.list)
-  {
-    if (value == flash_intensity_value)
-    {
-      flash_intensity_value.clear();
-      m_flash_intensity_values.next = count;
-      break;
-    }
-    ++count;
-  }
-
-  add_string_select(MNID_FLASH_INTENSITY, _("Flash Intensity"), &m_flash_intensity_values.next, m_flash_intensity_values.list)
-    .set_help(_("Adjust the intensity of the flash produced by the thunderstorm"));
-}
-
-void
-OptionsMenu::add_mobile_control_scales()
-{
-  for (unsigned i = 50; i <= 300; i += 25)
-  {
-    m_mobile_control_scales.list.push_back(std::to_string(i) + "%");
-    if (i == static_cast<unsigned>(g_config->m_mobile_controls_scale * 100))
-      m_mobile_control_scales.next = (i - 50) / 25;
-  }
-
-  add_string_select(MNID_MOBILE_CONTROLS_SCALE, _("On-screen controls scale"), &m_mobile_control_scales.next, m_mobile_control_scales.list);
-}
-
-void
 OptionsMenu::on_window_resize()
 {
   set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2.0f,
@@ -721,13 +610,9 @@ OptionsMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_SOUND_VOLUME:
-      if (sscanf(m_sound_volumes.list[m_sound_volumes.next].c_str(), "%i", &g_config->sound_volume) == 1)
-      {
-        bool sound_enabled = g_config->sound_volume > 0 ? true : false;
-        SoundManager::current()->enable_sound(sound_enabled);
-        SoundManager::current()->set_sound_volume(g_config->sound_volume);
-        g_config->save();
-      }
+      SoundManager::current()->enable_sound(g_config->sound_enabled);
+      SoundManager::current()->set_sound_volume(g_config->sound_volume);
+      g_config->save();
       break;
 
     case MNID_MUSIC:
@@ -736,20 +621,9 @@ OptionsMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_MUSIC_VOLUME:
-      if (sscanf(m_music_volumes.list[m_music_volumes.next].c_str(), "%i", &g_config->music_volume) == 1)
-      {
-        bool music_enabled = g_config->music_volume > 0 ? true : false;
-        SoundManager::current()->enable_music(music_enabled);
-        SoundManager::current()->set_music_volume(g_config->music_volume);
-        g_config->save();
-      }
-      break;
-
-    case MNID_FLASH_INTENSITY:
-      if (sscanf(m_flash_intensity_values.list[m_flash_intensity_values.next].c_str(), "%i", &g_config->flash_intensity) == 1)
-      {
-        g_config->save();
-      }
+      SoundManager::current()->enable_music(g_config->music_enabled);
+      SoundManager::current()->set_music_volume(g_config->music_volume);
+      g_config->save();
       break;
 
     case MNID_CUSTOM_TITLE_LEVELS:
@@ -758,13 +632,6 @@ OptionsMenu::menu_action(MenuItem& item)
 
     case MNID_CUSTOM_CURSOR:
       SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
-      break;
-
-    case MNID_MOBILE_CONTROLS_SCALE:
-      if (sscanf(m_mobile_control_scales.list[m_mobile_control_scales.next].c_str(), "%f", &g_config->m_mobile_controls_scale) == EOF)
-        g_config->m_mobile_controls_scale = 1; // if sscanf fails revert to default scale
-      else
-        g_config->m_mobile_controls_scale /= 100.0f;
       break;
 
     default:

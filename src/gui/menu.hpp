@@ -43,6 +43,7 @@ class ItemLabel;
 class ItemPaths;
 class ItemScript;
 class ItemScriptLine;
+class ItemSlider;
 class ItemList;
 class ItemStringSelect;
 class ItemTextField;
@@ -109,6 +110,7 @@ public:
   ItemImages& add_images(const std::vector<std::string>& image_paths, int max_image_width = 0, int max_image_height = 0, int id = -1);
   ItemList& add_list(const std::string& text, const std::vector<std::string>& items, std::string* value_ptr, int id = -1);
   ItemHorizontalMenu& add_horizontalmenu(int id, float height, float min_item_width = -1.f);
+  ItemSlider& add_slider(const std::string& text, int min_value, int max_value, int* value, const std::string& value_append = {}, int id = -1);
 
   /** Remove all entries from the menu */
   void clear();

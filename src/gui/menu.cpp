@@ -33,6 +33,7 @@
 #include "gui/item_paths.hpp"
 #include "gui/item_script.hpp"
 #include "gui/item_script_line.hpp"
+#include "gui/item_slider.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_textfield.hpp"
 #include "gui/item_list.hpp"
@@ -400,6 +401,15 @@ Menu::add_horizontalmenu(int id, float height, float min_item_width)
   return *item_ptr;
 }
 
+ItemSlider&
+Menu::add_slider(const std::string& text, int min_value, int max_value, int* value, const std::string& value_append, int id)
+{
+  auto item = std::make_unique<ItemSlider>(text, min_value, max_value, value, value_append, id);
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
+}
+
 void
 Menu::clear()
 {
@@ -449,6 +459,9 @@ Menu::process_action(const MenuAction& action)
 
   switch (action) {
     case MenuAction::UP:
+      if (m_items[m_active_item]->locks_selection())
+        return;
+
       do {
         if (m_active_item > 0)
           --m_active_item;
@@ -459,6 +472,9 @@ Menu::process_action(const MenuAction& action)
       break;
 
     case MenuAction::DOWN:
+      if (m_items[m_active_item]->locks_selection())
+        return;
+
       do {
         if (m_active_item < int(m_items.size())-1 )
           ++m_active_item;
@@ -688,6 +704,9 @@ Menu::event(const SDL_Event& ev)
 
     case SDL_MOUSEMOTION:
     {
+      if (m_items[m_active_item]->locks_selection())
+        break;
+
       Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       float x = mouse_pos.x;
       float y = mouse_pos.y;

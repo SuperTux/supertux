@@ -51,10 +51,6 @@ private:
   void add_window_resolutions();
   void add_resolutions();
   void add_vsync();
-  void add_sound_volume();
-  void add_music_volume();
-  void add_flash_intensity();
-  void add_mobile_control_scales();
 
 private:
   enum MenuIDs {

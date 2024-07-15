@@ -70,7 +70,11 @@ Config::Config() :
   keyboard_config(),
   joystick_config(),
   mobile_controls(SDL_GetNumTouchDevices() > 0),
-  m_mobile_controls_scale(1),
+#ifdef __ANDROID__
+  mobile_controls_scale(8), // Buttons on Android are bigger, and direction buttons are extra wide
+#else
+  mobile_controls_scale(4),
+#endif
   addons(),
   developer_mode(false),
   christmas_mode(false),
@@ -323,7 +327,7 @@ Config::load()
     }
 
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
-    config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
+    config_control_mapping->get("mobile_controls_scale", mobile_controls_scale);
   }
 
   std::optional<ReaderCollection> config_addons_mapping;
@@ -473,7 +477,7 @@ Config::save()
     writer.end_list("joystick");
 
     writer.write("mobile_controls", mobile_controls);
-    writer.write("mobile_controls_scale", m_mobile_controls_scale);
+    writer.write("mobile_controls_scale", mobile_controls_scale);
   }
   writer.end_list("control");
 
@@ -510,6 +514,7 @@ void
 Config::check_values()
 {
   camera_peek_multiplier = math::clamp(camera_peek_multiplier, 0.f, 1.f);
+  mobile_controls_scale = math::clamp(mobile_controls_scale, 4, 12);
 }
 
 bool
