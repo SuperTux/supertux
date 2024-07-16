@@ -37,6 +37,9 @@ public:
   bool locks_selection() const override { return m_sliding; }
 
 private:
+  void move_indicator(const Vector& pos);
+
+private:
   int m_min_value;
   int m_max_value;
   int* m_value;

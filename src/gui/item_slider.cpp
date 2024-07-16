@@ -87,7 +87,7 @@ ItemSlider::event(const SDL_Event& ev)
       const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       if (mouse_pos.x >= m_slider_x && mouse_pos.x <= m_slider_x + SLIDER_WIDTH)
       {
-        *m_value = static_cast<int>(((mouse_pos.x - m_slider_x) / SLIDER_WIDTH) * (m_max_value - m_min_value)) + m_min_value;
+        move_indicator(mouse_pos);
         m_sliding = true;
 
         MenuManager::instance().current_menu()->menu_action(*this);
@@ -106,12 +106,7 @@ ItemSlider::event(const SDL_Event& ev)
         break;
 
       const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
-      if (mouse_pos.x <= m_slider_x)
-        *m_value = m_min_value;
-      else if (mouse_pos.x >= m_slider_x + SLIDER_WIDTH)
-        *m_value = m_max_value;
-      else
-        *m_value = static_cast<int>(((mouse_pos.x - m_slider_x) / SLIDER_WIDTH) * (m_max_value - m_min_value)) + m_min_value;
+      move_indicator(mouse_pos);
 
       MenuManager::instance().current_menu()->menu_action(*this);
       break;
@@ -145,6 +140,17 @@ ItemSlider::event(const SDL_Event& ev)
     default:
       break;
   }
+}
+
+void
+ItemSlider::move_indicator(const Vector& pos)
+{
+  if (pos.x <= m_slider_x)
+    *m_value = m_min_value;
+  else if (pos.x >= m_slider_x + SLIDER_WIDTH)
+    *m_value = m_max_value;
+  else
+    *m_value = static_cast<int>(((pos.x - m_slider_x) / SLIDER_WIDTH) * static_cast<float>(m_max_value - m_min_value)) + m_min_value;
 }
 
 /* EOF */
