@@ -70,18 +70,15 @@ public:
 class Savegame final
 {
 public:
-  struct Progress
+  struct Progress final
   {
-  public:
     Progress() :
       solved(),
+      perfect(),
       total()
     {}
-    Progress(int solved_, int total_) :
-      solved(solved_),
-      total(total_)
-    {}
     uint32_t solved;
+    uint32_t perfect;
     uint32_t total;
 
     uint32_t get_percentage() const;

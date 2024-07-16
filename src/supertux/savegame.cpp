@@ -104,7 +104,8 @@ LevelsetState::get_level_state(const std::string& filename) const
 uint32_t
 Savegame::Progress::get_percentage() const
 {
-  return solved > 0 ? static_cast<uint32_t>(static_cast<float>(solved) / static_cast<float>(total) * 100) : 0;
+  // Calculate the percentage using both the solved and perfected level counts.
+  return solved > 0 ? static_cast<uint32_t>(static_cast<float>(solved + perfect) / static_cast<float>(total * 2) * 100) : 0;
 }
 
 std::unique_ptr<Savegame>
@@ -402,6 +403,9 @@ Savegame::get_levelset_progress()
 
       if (level_state.solved)
         progress.solved++;
+      if (level_state.perfect)
+        progress.perfect++;
+
       progress.total++;
     }
   }
@@ -423,6 +427,9 @@ Savegame::get_worldmap_progress()
 
       if (level_state.solved)
         progress.solved++;
+      if (level_state.perfect)
+        progress.perfect++;
+
       progress.total++;
     }
   }

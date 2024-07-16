@@ -18,6 +18,7 @@
 
 #include <sstream>
 
+#include <fmt/format.h>
 #include <physfs.h>
 
 #include "gui/item_action.hpp"
@@ -43,13 +44,13 @@ WorldPreviewMenu::add_world(const std::string& title, const std::string& folder,
 {
   ItemAction& item = add_entry(static_cast<int>(m_world_entries.size()), title);
 
-  std::stringstream out;
   if (!preview || !g_config->show_world_previews) // No preview, or previews are not enabled, so progress should be shown on the menu item.
   {
     if (progress.total > 0) // Only show progress, if provided.
     {
-      out << title << " (" << progress.solved << "/" << progress.total << "; " << progress.get_percentage() << "%)";
-      item.set_text(out.str());
+      item.set_text(fmt::format(fmt::runtime("{} ({}/{}, {}/{}; {}%)"),
+          title, progress.solved, progress.total,
+          progress.perfect, progress.total, progress.get_percentage()));
     }
 
     m_world_entries.push_back({ folder, "" });
@@ -58,10 +59,12 @@ WorldPreviewMenu::add_world(const std::string& title, const std::string& folder,
   {
     item.set_preview(preview);
 
+    std::string progress_text;
     if (progress.total > 0) // Only show progress, if provided.
-      out << progress.solved << "/" << progress.total << " (" << progress.get_percentage() << "%)";
+      progress_text = fmt::format(fmt::runtime(_("{}/{} finished, {}/{} perfected ({}%)")),
+          progress.solved, progress.total, progress.perfect, progress.total, progress.get_percentage());
 
-    m_world_entries.push_back({ folder, out.str() });
+    m_world_entries.push_back({ folder, progress_text });
   }
 
   return item;

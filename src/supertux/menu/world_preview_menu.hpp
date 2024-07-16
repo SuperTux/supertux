@@ -32,7 +32,7 @@ public:
 
 protected:
   ItemAction& add_world(const std::string& title, const std::string& folder,
-                        Savegame::Progress progress = { 0, 0 }, SurfacePtr preview = nullptr);
+                        Savegame::Progress progress = {}, SurfacePtr preview = nullptr);
 
   SurfacePtr find_preview(const std::string& preview_file, const std::string& basedir);
   void draw_preview_data(DrawingContext& context, const Rectf& preview_rect, float alpha) override;
