@@ -712,7 +712,11 @@ Menu::draw_preview(DrawingContext& context)
     {
       PaintStyle style;
       style.set_alpha(alpha);
-      context.color().draw_surface_scaled(preview, preview_rect, LAYER_GUI, style);
+      context.color().draw_surface_scaled(preview, preview_rect, LAYER_GUI + 1, style);
+
+      // Draw a border around the preview.
+      context.color().draw_filled_rect(preview_rect.grown(2.f),
+                                       Color(1.f, 1.f, 1.f, alpha), 2.f, LAYER_GUI);
     }
 
     // Draw other data, alongside the preview, if available.
