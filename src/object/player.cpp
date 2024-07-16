@@ -226,6 +226,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_swimming_accel_modifier(100.f),
   m_water_jump(false),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
+  m_bubbles_sprite(SpriteManager::current()->create("images/particles/air_bubble.sprite")),
   m_floor_normal(0.0f, 0.0f),
   m_ghost_mode(false),
   m_unduck_hurt_timer(),
@@ -239,7 +240,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_target_sliding_angle(0.0f),
   m_sliding_rotation_timer(),
   m_is_slidejump_falling(false),
-  m_bubbles_sprite(SpriteManager::current()->create("images/particles/air_bubble.sprite")),
   m_was_crawling_before_slide(false)
 {
   m_name = name_;
@@ -567,7 +567,7 @@ Player::update(float dt_sec)
         if (bubble_surfaces)
         {
           const std::vector<SurfacePtr>& surfaces = bubble_surfaces.value();
-          int surfaces_size = surfaces.size();
+          int surfaces_size = static_cast<int>(surfaces.size());
 
           for (int i = 0; i < num_bubbles; ++i)
           {
