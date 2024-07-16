@@ -135,6 +135,14 @@ public:
 protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item);
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
+  template<typename T, typename... Args>
+  T& add_item(Args&&... args)
+  {
+    auto item = std::make_unique<T>(std::forward<Args>(args)...);
+    auto item_ptr = item.get();
+    add_item(std::move(item));
+    return *item_ptr;
+  }
   void delete_item(int pos_);
 
   /** Recalculates the width for this menu */
