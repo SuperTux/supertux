@@ -519,6 +519,9 @@ void
 Config::check_values()
 {
   camera_peek_multiplier = math::clamp(camera_peek_multiplier, 0.f, 1.f);
+  sound_volume = math::clamp(sound_volume, 0, 100);
+  music_volume = math::clamp(music_volume, 0, 100);
+  flash_intensity = math::clamp(flash_intensity, 0, 100);
   mobile_controls_scale = math::clamp(mobile_controls_scale, 4, 12);
   menu_slider_steps = std::max(menu_slider_steps, 1);
 }
