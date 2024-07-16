@@ -555,9 +555,9 @@ private:
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
-  std::array<SurfacePtr, 4> m_bubble_particles; /**< bubble particles for swimming */
+  SpritePtr m_bubbles_sprite; /**< bubble particles sprite for swimming */
   Timer m_bubble_timer; /**< timer for spawning bubble particles */
-  std::list<std::pair<SurfacePtr, glm::vec2>> m_active_bubbles; /**< active bubble particles */
+  std::list<std::pair<SurfacePtr, Vector>> m_active_bubbles; /**< active bubble particles */
 
   Vector m_floor_normal;
 

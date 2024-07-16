@@ -239,6 +239,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_target_sliding_angle(0.0f),
   m_sliding_rotation_timer(),
   m_is_slidejump_falling(false),
+  m_bubbles_sprite(SpriteManager::current()->create("images/particles/air_bubble.sprite")),
   m_was_crawling_before_slide(false)
 {
   m_name = name_;
@@ -254,11 +255,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   SoundManager::current()->preload("sounds/invincible_start.ogg");
   SoundManager::current()->preload("sounds/splash.wav");
   SoundManager::current()->preload("sounds/grow.wav");
-  m_bubble_particles[0] = Surface::from_file("images/particles/air_bubble-1.png");
-  m_bubble_particles[1] = Surface::from_file("images/particles/air_bubble-2.png");
-  m_bubble_particles[2] = Surface::from_file("images/particles/air_bubble-3.png");
-  m_bubble_particles[3] = Surface::from_file("images/particles/air_bubble-4.png");
-  m_bubble_timer.start(3.0f + (rand() % 2));
+  m_bubble_timer.start(3.0f + graphicsRandom.randf(2));
 
   m_col.set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
 
@@ -422,11 +419,11 @@ Player::update(float dt_sec)
   {
     for (auto& bubble : m_active_bubbles)
     {
-      bubble.second.y -= dt_sec * 30.0f;
+      bubble.second.y -= dt_sec * 40.0f;
       bubble.second.x += std::sin(bubble.second.y * 0.1f) * dt_sec * 5.0f;
     }
 
-    m_active_bubbles.remove_if([&](const std::pair<SurfacePtr, glm::vec2>& bubble)
+    m_active_bubbles.remove_if([&](const std::pair<SurfacePtr, Vector>& bubble)
       {
         Rectf bubble_box(bubble.second.x, bubble.second.y, bubble.second.x + 16.f, bubble.second.y + 16.f);
         bool is_out_of_water = Sector::get().is_free_of_tiles(bubble_box, true, Tile::WATER);
@@ -539,7 +536,7 @@ Player::update(float dt_sec)
 
       if (m_bubble_timer.check())
       {
-        glm::vec2 beak_local_offset(30.f, 0.0f);
+        Vector beak_local_offset(30.f, 0.0f);
         float big_offset_x = is_big() ? 4.0f : 0.0f;
 
         // Calculate the offsets based on the sprite angle
@@ -550,45 +547,53 @@ Player::update(float dt_sec)
         float rotated_beak_offset_x = beak_local_offset.x * std::cos(m_swimming_angle) - beak_local_offset.y * std::sin(m_swimming_angle);
         float rotated_beak_offset_y = beak_local_offset.x * std::sin(m_swimming_angle) + beak_local_offset.y * std::cos(m_swimming_angle);
 
-        glm::vec2 player_center = m_col.m_bbox.get_middle();
-        glm::vec2 beak_position;
+        Vector player_center = m_col.m_bbox.get_middle();
+        Vector beak_position;
 
         // Determine direction based on the radians
-        if (m_swimming_angle > static_cast<float>(M_PI_2) && m_swimming_angle < 3.0f * static_cast<float>(M_PI_2)) // Facing left
+        if (m_swimming_angle > static_cast<float>(math::PI_2) && m_swimming_angle < 3.0f * static_cast<float>(math::PI_2)) // Facing left
         {
-          beak_position = player_center + glm::vec2(rotated_beak_offset_x - big_offset_x * 2, rotated_beak_offset_y);
+          beak_position = player_center + Vector(rotated_beak_offset_x - big_offset_x * 2, rotated_beak_offset_y);
         }
         else // Facing right (including straight up or down)
         {
-          beak_position = player_center + glm::vec2(rotated_beak_offset_x - 4.0f + big_offset_x, rotated_beak_offset_y);
+          beak_position = player_center + Vector(rotated_beak_offset_x - 4.0f + big_offset_x, rotated_beak_offset_y);
         }
 
         int num_bubbles = graphicsRandom.rand(1, 3);
 
-        for (int i = 0; i < num_bubbles; ++i)
+        std::optional<std::vector<SurfacePtr>> bubble_surfaces = m_bubbles_sprite->get_action_surfaces("normal");
+
+        if (bubble_surfaces)
         {
-          int random_index = graphicsRandom.rand(0, 3);
-          SurfacePtr bubble_surface = m_bubble_particles[random_index];
+          const std::vector<SurfacePtr>& surfaces = bubble_surfaces.value();
+          int surfaces_size = surfaces.size();
 
-          glm::vec2 bubble_pos;
-          if (m_swimming_angle > static_cast<float>(M_PI_2) && m_swimming_angle < 3.0f * static_cast<float>(M_PI_2)) // Facing left
+          for (int i = 0; i < num_bubbles; ++i)
           {
-            bubble_pos = beak_position + glm::vec2(offset_x - big_offset_x * 2, offset_y);
-          }
-          else // Facing right (including straight up or down)
-          {
-            bubble_pos = beak_position + glm::vec2(offset_x - 4.0f + big_offset_x, offset_y);
-          }
+            int random_index = graphicsRandom.rand(1, surfaces_size - 1);
+            SurfacePtr bubble_surface = surfaces.at(random_index);
 
-          if (num_bubbles > 1)
-          {
-            float burst_offset_x = graphicsRandom.randf(-5.0f, 5.0f);
-            float burst_offset_y = graphicsRandom.randf(-5.0f, 5.0f);
-            bubble_pos.x += burst_offset_x;
-            bubble_pos.y += burst_offset_y;
-          }
+            Vector bubble_pos(0.f, 0.f);
+            if (m_swimming_angle > static_cast<float>(math::PI_2) && m_swimming_angle < 3.0f * static_cast<float>(math::PI_2)) // Facing left
+            {
+              bubble_pos = beak_position + Vector(offset_x - big_offset_x * 2, offset_y);
+            }
+            else // Facing right (including straight up or down)
+            {
+              bubble_pos = beak_position + Vector(offset_x - 4.0f + big_offset_x, offset_y);
+            }
 
-          m_active_bubbles.push_back({ bubble_surface, bubble_pos });
+            if (num_bubbles > 1)
+            {
+              float burst_offset_x = graphicsRandom.randf(-5.0f, 5.0f);
+              float burst_offset_y = graphicsRandom.randf(-5.0f, 5.0f);
+              bubble_pos.x += burst_offset_x;
+              bubble_pos.y += burst_offset_y;
+            }
+
+            m_active_bubbles.push_back({ bubble_surface, bubble_pos });
+          }
         }
 
         // Restart the timer for the next wave of bubbles
