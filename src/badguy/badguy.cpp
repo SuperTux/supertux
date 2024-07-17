@@ -70,11 +70,11 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_glowing(false),
   m_water_affected(true),
   m_unfreeze_timer(),
+  m_floor_normal(0.0f, 0.0f),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
   m_on_ground_flag(false),
-  m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
 {
   SoundManager::current()->preload("sounds/squish.wav");
@@ -113,11 +113,11 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_glowing(false),
   m_water_affected(true),
   m_unfreeze_timer(),
+  m_floor_normal(0.0f, 0.0f),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
   m_on_ground_flag(false),
-  m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
 {
   std::string dir_str;
@@ -143,11 +143,11 @@ BadGuy::draw(DrawingContext& context)
   Vector eye(0, get_bbox().get_bottom() + 1.f);
   eye.x = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
 
-  Vector end(eye.x, eye.y + 16.f);
+  Vector end(eye.x, eye.y + 256.f);
   context.color().draw_line(eye, end, Color::GREEN, LAYER_GUI);
 
   Vector seye(get_bbox().get_left() + get_bbox().get_width() / 2.f, eye.y);
-  Vector send(seye.x + 5.f * (m_dir == Direction::LEFT ? 1.f : -1.f), seye.y + 64.f);
+  Vector send(seye.x + 6.5f * (m_dir == Direction::LEFT ? 1.f : -1.f), seye.y + 80.f);
   context.color().draw_line(seye, send, Color::GREEN, LAYER_GUI);
 
   if (!m_sprite.get()) return;
@@ -853,31 +853,34 @@ BadGuy::might_fall(int height) const
   Vector eye(0, get_bbox().get_bottom() + 1.f);
   eye.x = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
 
-  Vector end(eye.x, eye.y + 64.f);
+  // TODO: change to max possible drop height
+  Vector end(eye.x, eye.y + 256.f);
+  std::cout << eye << " " << end << std::endl;
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
-  bool slope = false;
+  //bool slope = false;
 
   auto tile_p = std::get_if<const Tile*>(&result.hit);
-  if (tile_p && (*tile_p) && (*tile_p)->is_slope())
+  if (result.is_valid && result.box.p1().y - eye.y < static_cast<float>(height)) {
+    return false;
+  }
+  else if (tile_p && (*tile_p) && (*tile_p)->is_slope())
   {
     AATriangle tri((*tile_p)->get_data());
+    std::cout << "SLOPE" << std::endl;
     if (tri.is_south() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
-      slope = true;
+    {
+      //slope = true;
+      Vector seye(get_bbox().get_left() + get_bbox().get_width() / 2.f, eye.y);
+      Vector send(seye.x + 6.5f * (m_dir == Direction::LEFT ? 1.f : -1.f), seye.y + 80.f);
+      RaycastResult sresult = Sector::get().get_first_line_intersection(seye, send, false, nullptr);
+
+      std::cout << sresult.is_valid << std::endl;
+      return !sresult.is_valid;
+    }
   }
 
-  if (slope)
-  {
-    Vector seye(get_bbox().get_left() + get_bbox().get_width() / 2.f, eye.y);
-    Vector send(seye.x + 5.f * (m_dir == Direction::LEFT ? 1.f : -1.f), seye.y + 64.f);
-    RaycastResult sresult = Sector::get().get_first_line_intersection(seye, send, false, nullptr);
-
-    return !sresult.is_valid;
-  }
-  else
-  {
-    return !result.is_valid && result.box.p1().y - get_pos().y < static_cast<float>(height);
-  }
+  return true;
 }
 
 Player*

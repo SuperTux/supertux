@@ -45,7 +45,6 @@
 #include "object/tilemap.hpp"
 #include "object/vertical_stripes.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/constants.hpp"
@@ -557,6 +556,14 @@ Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object,
                                                 ignore_object ? ignore_object->get_collision_object() : nullptr,
                                                 ignoreUnisolid,
                                                 tiletype);
+}
+
+bool
+Sector::is_free_of_statics(float left, float top, float right, float bottom,
+                           bool ignore_unisolid) const
+{
+  return m_collision_system->is_free_of_statics(Rectf(Vector(left, top), Vector(right, bottom)),
+                                                nullptr, ignore_unisolid);
 }
 
 bool

@@ -293,6 +293,10 @@ protected:
 
   Timer m_unfreeze_timer;
 
+  /** floor normal stored the last time when update_on_ground_flag was
+      called and we touched something solid from above */
+  Vector m_floor_normal;
+
 private:
   State m_state;
 
@@ -306,9 +310,6 @@ private:
       update_on_ground_flag was called last frame */
   bool m_on_ground_flag;
 
-  /** floor normal stored the last time when update_on_ground_flag was
-      called and we touched something solid from above */
-  Vector m_floor_normal;
 
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup m_colgroup_active;
