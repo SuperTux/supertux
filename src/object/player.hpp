@@ -28,7 +28,6 @@
 #include "video/layer.hpp"
 #include "video/surface_ptr.hpp"
 
-#include <array>
 #include <list>
 
 class BadGuy;
