@@ -141,13 +141,13 @@ DrawingContext::perspective_scale(float speed_x, float speed_y)
     //Trivial or unreal situation: Do not apply perspective.
     return true;
   }
-  const float speed = sqrt(speed_x*speed_y);
+  const float speed = sqrt(speed_x * speed_y);
   if (speed == 0) {
     //Special case: The object appears to be infinitely far.
     tfm.scale = 1.0;
     return true;
   }
-  const float t = tfm.scale*(1/speed - 1) + 1;
+  const float t = tfm.scale * (1 / speed - 1) + 1;
   if (t <= 0) {
     //The object will appear behind the camera, therefore we shall not see it.
     return false;

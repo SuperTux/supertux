@@ -463,7 +463,7 @@ TileMap::draw(DrawingContext& context)
 
   const float trans_x = context.get_translation().x;
   const float trans_y = context.get_translation().y;
-  context.set_translation(Vector(trans_x*speed_x, trans_y*speed_y));
+  context.set_translation(Vector(trans_x * speed_x, trans_y * speed_y));
 
   Rectf draw_rect = context.get_cliprect();
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
