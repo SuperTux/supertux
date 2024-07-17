@@ -39,8 +39,6 @@ project(SUPERTUX)
 
 ### CMake configuration
 
-message("VERSION ${CMAKE_VERSION}")
-
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)
   cmake_policy(SET CMP0008 NEW)
@@ -316,7 +314,9 @@ endif()
 ]]
 
 ## Install stuff
-include(SuperTux/BuildInstall)
+if(NOT ANDROID)
+  include(SuperTux/BuildInstall)
+endif()
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )

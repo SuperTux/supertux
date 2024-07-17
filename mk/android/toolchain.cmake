@@ -1,0 +1,17 @@
+# This file picks the right vcpkg triplet before including the vcpkg toolchain file.
+if(ANDROID_ABI AND NOT VCPKG_TARGET_TRIPLET)
+  if(ANDROID_ABI STREQUAL "arm64-v8a")
+    set(VCPKG_TARGET_TRIPLET "arm64")
+  elseif(ANDROID_ABI STREQUAL "armeabi-v7a")
+    set(VCPKG_TARGET_TRIPLET "arm-neon")
+  elseif(ANDROID_ABI STREQUAL "x86")
+    set(VCPKG_TARGET_TRIPLET "x86")
+  elseif(ANDROID_ABI STREQUAL "x86_64")
+    set(VCPKG_TARGET_TRIPLET "x64")
+  else()
+    message(FATAL_ERROR "Couldn't find correct vcpkg triplet for ${ANDROID_ABI}")
+  endif()
+  string(APPEND VCPKG_TARGET_TRIPLET "-android")
+endif()
+
+include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
