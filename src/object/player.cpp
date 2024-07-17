@@ -551,7 +551,7 @@ Player::update(float dt_sec)
         Vector beak_position;
 
         // Determine direction based on the radians
-        if (m_swimming_angle > static_cast<float>(math::PI_2) && m_swimming_angle < 3.0f * static_cast<float>(math::PI_2)) // Facing left
+        if (std::abs(m_swimming_angle) > static_cast<float>(math::PI_2)) // Facing left
         {
           beak_position = player_center + Vector(rotated_beak_offset_x - big_offset_x * 2, rotated_beak_offset_y);
         }
@@ -575,7 +575,7 @@ Player::update(float dt_sec)
             SurfacePtr bubble_surface = surfaces.at(random_index);
 
             Vector bubble_pos(0.f, 0.f);
-            if (m_swimming_angle > static_cast<float>(math::PI_2) && m_swimming_angle < 3.0f * static_cast<float>(math::PI_2)) // Facing left
+            if (std::abs(m_swimming_angle) > static_cast<float>(math::PI_2)) // Facing left
             {
               bubble_pos = beak_position + Vector(offset_x - big_offset_x * 2, offset_y);
             }
