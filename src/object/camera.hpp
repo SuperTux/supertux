@@ -160,12 +160,14 @@ public:
   void scroll_to(float x, float y, float scrolltime);
   /**
    * @scripting
+   * @deprecated Use ""scale()"" instead!
    * @description Sets the scale factor.
    * @param float $scale
    */
   void set_scale(float scale);
   /**
    * @scripting
+   * @deprecated Use ""scale()"" instead!
    * @description Sets the scale factor and the target position anchor.
                   NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
@@ -177,10 +179,14 @@ public:
    * @description Fades to a specified scale factor in ""time"" seconds.
    * @param float $scale
    * @param float $time
+   * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants.
+                        Optional, default is ""ANCHOR_MIDDLE"" (see ${SRG_REF_AnchorPoints}).
+   * @param string $ease Optional, empty by default.
    */
-  void scale(float scale, float time);
+  void scale(float scale, float time = 0.f, int anchor = AnchorPoint::ANCHOR_MIDDLE, const std::string& ease = "");
   /**
    * @scripting
+   * @deprecated Use ""scale()"" instead!
    * @description Fades to a specified scale factor and target position anchor in ""time"" seconds.
                   NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
@@ -190,6 +196,7 @@ public:
   void scale_anchor(float scale, float time, int anchor);
   /**
    * @scripting
+   * @deprecated Use ""scale()"" instead!
    * @description Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
    * @param float $scale
    * @param float $time
@@ -198,6 +205,7 @@ public:
   void ease_scale(float scale, float time, const std::string& ease);
   /**
    * @scripting
+   * @deprecated Use ""scale()"" instead!
    * @description Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
                   NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
