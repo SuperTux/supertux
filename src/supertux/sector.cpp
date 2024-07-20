@@ -740,7 +740,8 @@ Sector::get_nearest_player(const Vector& pos) const
 
     float dist = player->get_bbox().distance(pos);
 
-    if (dist < nearest_dist) {
+    if (dist < nearest_dist)
+    {
       nearest_player = player;
       nearest_dist = dist;
     }

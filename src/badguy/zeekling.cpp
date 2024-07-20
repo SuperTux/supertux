@@ -33,6 +33,13 @@ const float CHARGING_DURATION = 0.3f;
 const float DIVING_DURATION = 1.5f;
 const float RECOVER_DURATION = 2.8f;
 
+const float MIN_DETECT_RANGE_Y = 32.f * 4.5f;
+const float MAX_DETECT_RANGE_Y = 512.f;
+const float MIN_DETECT_RANGE_X = 10.f;
+const float MAX_DETECT_RANGE_X = 32.f * 15.f;
+
+const float CATCH_OFFSET = -10.f;
+
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
   m_catch_pos(0.f),
@@ -140,15 +147,15 @@ Zeekling::should_we_dive()
 
   // Do not dive if we are too close to the player.
   float height = player->get_bbox().get_top() - get_bbox().get_top();
-  if (height <= 32.f * 4.5f)
+  if (height <= MIN_DETECT_RANGE_Y)
     return false;
 
   // Do not dive if we are too far above the player.
-  if (height > 512)
+  if (height > MAX_DETECT_RANGE_Y)
     return false;
 
   float xdist = std::abs(eye.x - plrmid.x);
-  if (!math::in_bounds(xdist, 10.f, 32.f * 15))
+  if (!math::in_bounds(xdist, MIN_DETECT_RANGE_X, MAX_DETECT_RANGE_X))
     return false;
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, plrmid, false, nullptr);
@@ -158,7 +165,7 @@ Zeekling::should_we_dive()
   if (result.is_valid && resultobj &&
       *resultobj == player->get_collision_object())
   {
-    m_target_y = player->get_bbox().get_top() - 10;
+    m_target_y = player->get_bbox().get_top() + CATCH_OFFSET;
     return true;
   }
   else
