@@ -67,17 +67,11 @@ Zeekling::on_bump_horizontal()
   m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
   set_action(m_dir);
   m_physic.set_velocity_x(std::abs(m_physic.get_velocity_x()) * (m_dir == Direction::LEFT ? -1 : 1));
-  std::cout << m_state << " " << m_dir << std::endl;
 
-  switch (m_state)
+  if (m_state == DIVING)
   {
-    case DIVING:
-      // Diving attempt failed. So sad. Return to base.
-      recover();
-      break;
-
-    default:
-      break;
+    // Diving attempt failed. So sad. Return to base.
+    recover();
   }
 }
 
