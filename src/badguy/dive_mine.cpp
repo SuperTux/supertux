@@ -24,7 +24,7 @@
 #include "supertux/sector.hpp"
 
 const float DiveMine::s_trigger_radius = 120.f;
-const float DiveMine::s_swim_speed = 35.f;
+const float DiveMine::s_swim_speed = 30.f;
 const float DiveMine::s_max_float_acceleration = 15.f;
 
 DiveMine::DiveMine(const ReaderMapping& reader) :
