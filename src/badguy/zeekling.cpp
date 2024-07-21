@@ -19,8 +19,8 @@
 
 #include "math/easing.hpp"
 #include "math/random.hpp"
-#include "math/vector.hpp"
 #include "math/util.hpp"
+#include "math/vector.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
@@ -116,13 +116,10 @@ Zeekling::collision_solid(const CollisionHit& hit)
     return;
   }
 
-  if (hit.top || hit.bottom) {
+  if (hit.top || hit.bottom)
     on_bump_vertical();
-  }
   else if (hit.left || hit.right)
-  {
     on_bump_horizontal();
-  }
 }
 
 bool
@@ -174,7 +171,8 @@ Zeekling::should_we_dive()
   }
 }
 
-void Zeekling::set_speed(float speed)
+void
+Zeekling::set_speed(float speed)
 {
   m_physic.set_velocity_x(speed * (m_dir == Direction::LEFT ? -1 : 1));
 }

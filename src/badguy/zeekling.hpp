@@ -74,7 +74,6 @@ private:
 private:
   Zeekling(const Zeekling&) = delete;
   Zeekling& operator=(const Zeekling&) = delete;
-
 };
 
 #endif
