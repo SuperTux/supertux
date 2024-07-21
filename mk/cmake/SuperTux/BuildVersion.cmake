@@ -1,6 +1,6 @@
 include(GetGitRevisionDescription)
 
-if(NOT IS_SUPERTUX_RELEASE AND NOT STEAM_BUILD)
+if(GIT_FOUND AND NOT IS_SUPERTUX_RELEASE AND NOT STEAM_BUILD)
   set(SUPERTUX_PACKAGE_VERSION dev)
   if(EXISTS "${PROJECT_SOURCE_DIR}/.git")
     git_get_hash(hash branch)
