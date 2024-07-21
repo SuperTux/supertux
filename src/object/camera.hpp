@@ -183,7 +183,7 @@ public:
                         Optional, default is ""ANCHOR_MIDDLE"" (see ${SRG_REF_AnchorPoints}).
    * @param string $ease Optional, empty by default.
    */
-  void scale(float scale, float time = 0.f, int anchor = AnchorPoint::ANCHOR_MIDDLE, const std::string& ease = "");
+  void scale(float scale, float time = 0.f, int anchor = ANCHOR_MIDDLE, const std::string& ease = "");
   /**
    * @scripting
    * @deprecated Use ""scale()"" instead!

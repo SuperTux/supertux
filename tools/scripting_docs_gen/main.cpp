@@ -133,9 +133,6 @@ int main(int argc, char** argv)
     // Formatting
     replace(target_data, "${SRG_NEWPARAGRAPH} ", "\r\n\r\n");
     replace(target_data, "${SRG_TABLENEWPARAGRAPH}", "<br /><br />");
-    replace(target_data, "\"\"", "`");
-    replace(target_data, "NOTE:", "<br /><br />**NOTE:**");
-    replace(target_data, "Note:", "<br /><br />**NOTE:**");
 
     // Write to target file
     write_file(output_dir_path / std::filesystem::path("Scripting" + cl.name + ".md"), target_data);

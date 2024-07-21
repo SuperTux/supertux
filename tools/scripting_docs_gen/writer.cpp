@@ -22,6 +22,14 @@
 
 namespace Writer {
 
+static std::string format_description(std::string desc)
+{
+  replace(desc, "\"\"", "`");
+  replace(desc, "NOTE:", "<br /><br />**NOTE:**");
+  replace(desc, "Note:", "<br /><br />**NOTE:**");
+  return desc;
+}
+
 std::string write_file_notice(const std::string& template_file)
 {
   std::stringstream notice;
@@ -84,7 +92,7 @@ std::string write_constants_table(const std::vector<Constant>& constants)
   {
     // Print out type, name, initializer (if available) and description
     table << "`" << con.type << " " << con.name << (con.initializer.empty() ? "" : " " + con.initializer)
-          << "` | " << con.description << std::endl;
+          << "` | " << format_description(con.description) << std::endl;
   }
 
   return table.str();
@@ -103,7 +111,7 @@ std::string write_variables_table(const std::vector<Variable>& variables)
   for (const Variable& var : variables)
   {
     // Print out type, name and description
-    table << "`" << var.type << " " << var.name << "` | " << var.description << std::endl;
+    table << "`" << var.type << " " << var.name << "` | " << format_description(var.description) << std::endl;
   }
 
   return table.str();
@@ -127,6 +135,8 @@ std::string write_function_table(const std::vector<Function>& functions)
     {
       if (i != 0) table << ", ";
       table << func.parameters[i].type << " " << func.parameters[i].name;
+      if (!func.parameters[i].default_value.empty())
+        table << " = " << func.parameters[i].default_value;
     }
     table << ")`";
 
@@ -136,13 +146,13 @@ std::string write_function_table(const std::vector<Function>& functions)
     {
       table << "**Deprecated!**";
       if (!func.deprecation_msg.empty())
-        table << " " << func.deprecation_msg;
+        table << " " << format_description(func.deprecation_msg);
 
       // Add line breaks only if a description is available
       if (!func.description.empty())
         table << "<br /><br />";
     }
-    table << func.description;
+    table << format_description(func.description);
 
     // Print out descriptions of parameters
     if (std::any_of(func.parameters.begin(), func.parameters.end(), [](const Parameter& param) { return !param.description.empty(); }))
@@ -155,7 +165,7 @@ std::string write_function_table(const std::vector<Function>& functions)
       {
         if (param.description.empty()) continue;
 
-        table << (has_printed_param_desc ? "<br />" : "") << " `" << param.name << "` - " << param.description;
+        table << (has_printed_param_desc ? "<br />" : "") << " `" << param.name << "` - " << format_description(param.description);
         has_printed_param_desc = true;
       }
     }
