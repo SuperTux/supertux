@@ -25,20 +25,20 @@
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
-const float FLYING_SPEED = 180.f;
-const float CHARGING_SPEED = 150.f;
-const float DIVING_SPEED = 280.f;
+static const float FLYING_SPEED = 180.f;
+static const float CHARGING_SPEED = 150.f;
+static const float DIVING_SPEED = 280.f;
 
-const float CHARGING_DURATION = 0.3f;
-const float DIVING_DURATION = 1.5f;
-const float RECOVER_DURATION = 2.8f;
+static const float CHARGING_DURATION = 0.3f;
+static const float DIVING_DURATION = 1.5f;
+static const float RECOVER_DURATION = 2.8f;
 
-const float MIN_DETECT_RANGE_Y = 32.f * 4.5f;
-const float MAX_DETECT_RANGE_Y = 512.f;
-const float MIN_DETECT_RANGE_X = 10.f;
-const float MAX_DETECT_RANGE_X = 32.f * 15.f;
+static const float MIN_DETECT_RANGE_Y = 32.f * 4.5f;
+static const float MAX_DETECT_RANGE_Y = 512.f;
+static const float MIN_DETECT_RANGE_X = 10.f;
+static const float MAX_DETECT_RANGE_X = 32.f * 15.f;
 
-const float CATCH_OFFSET = -10.f;
+static const float CATCH_OFFSET = -10.f;
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
@@ -93,6 +93,7 @@ Zeekling::on_bump_vertical()
 
     case RECOVERING:
       // I guess this is my new home now.
+      // Set start position to the current position.
       fly();
       break;
 
@@ -140,7 +141,7 @@ Zeekling::should_we_dive()
   eye = bbox.get_middle();
   eye.x = m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right();
 
-  const Vector& plrmid = player->get_bbox().get_middle();
+  const Vector& playermiddle = player->get_bbox().get_middle();
 
   // Do not dive if we are too close to the player.
   float height = player->get_bbox().get_top() - get_bbox().get_top();
@@ -151,11 +152,11 @@ Zeekling::should_we_dive()
   if (height > MAX_DETECT_RANGE_Y)
     return false;
 
-  float xdist = std::abs(eye.x - plrmid.x);
+  float xdist = std::abs(eye.x - playermiddle.x);
   if (!math::in_bounds(xdist, MIN_DETECT_RANGE_X, MAX_DETECT_RANGE_X))
     return false;
 
-  RaycastResult result = Sector::get().get_first_line_intersection(eye, plrmid, false, nullptr);
+  RaycastResult result = Sector::get().get_first_line_intersection(eye, playermiddle, false, nullptr);
 
   auto* resultobj = std::get_if<CollisionObject*>(&result.hit);
   
@@ -234,10 +235,10 @@ Zeekling::active_update(float dt_sec) {
       }
       else
       {
-        float dist = m_target_y - m_start_position.y;
-        double progress = CubicEaseIn(static_cast<double>(1.f - m_timer.get_progress()));
-        float value = m_target_y - (static_cast<float>(progress) * dist);
-        Vector pos(get_pos().x, value);
+        const float dist = m_target_y - m_start_position.y;
+        const double progress = CubicEaseIn(static_cast<double>(1.f - m_timer.get_progress()));
+        const float value = m_target_y - (static_cast<float>(progress) * dist);
+        const Vector pos(get_pos().x, value);
 
         set_pos(pos);
 
@@ -251,10 +252,10 @@ Zeekling::active_update(float dt_sec) {
       }
       else
       {
-        float dist = m_catch_pos - m_start_position.y;
-        double progress = QuadraticEaseInOut(static_cast<double>(m_timer.get_progress()));
-        float value = m_catch_pos - (static_cast<float>(progress) * dist);
-        Vector pos(get_pos().x, value);
+        const float dist = m_catch_pos - m_start_position.y;
+        const double progress = QuadraticEaseInOut(static_cast<double>(m_timer.get_progress()));
+        const float value = m_catch_pos - (static_cast<float>(progress) * dist);
+        const Vector pos(get_pos().x, value);
 
         set_pos(pos);
       }

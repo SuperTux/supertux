@@ -726,7 +726,7 @@ Sector::get_nearest_player(const Vector& pos) const
   if (players.size() == 1)
   {
     Player* player = static_cast<Player*>(players[0]);
-    return (player->is_dying() || player->is_dead() ? nullptr : player);
+    return ((player->is_dying() || player->is_dead()) ? nullptr : player);
   }
 
   Player* nearest_player = nullptr;
