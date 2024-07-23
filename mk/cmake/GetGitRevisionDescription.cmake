@@ -19,32 +19,48 @@
 
 find_package(Git QUIET)
 
-macro(git_get_hash _hash _branch)
+function(git_run cmd output result)
   if(NOT GIT_FOUND)
+    set(${output} ${output}-NOTFOUND)
     return()
   endif()
 
-  # Commit hash
-  execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+  execute_process(COMMAND "${GIT_EXECUTABLE} ${cmd}"
                   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-                  RESULT_VARIABLE _result
-                  OUTPUT_VARIABLE ${_hash})
+                  RESULT_VARIABLE ${result}
+                  OUTPUT_VARIABLE ${output})
 
-  if(_result EQUAL 0)
-    string(REPLACE "\n" "" ${_hash} ${${_hash}})
+  if(${result} EQUAL 0)
+    string(REPLACE "\n" "" ${output} ${${output}})
   else()
-    set(${_hash} ${_hash}-NOTFOUND)
+    set(${output} ${output}-NOTFOUND)
+  endif()
+endfunction()
+
+function(git_project_version out is_release)
+  if(NOT GIT_FOUND OR NOT EXISTS "${PROJECT_SOURCE_DIR}/.git")
+    set(${out} ${out}-NOTFOUND)
+    set(${is_release} NO)
+    return()
   endif()
 
-  # Branch
-  execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
-                  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-                  RESULT_VARIABLE _result
-                  OUTPUT_VARIABLE ${_branch})
+  # Tag
+  git_run("describe --tags --abbrev=0" _tag _result)
 
-  if(_result EQUAL 0)
-    string(REPLACE "\n" "" ${_branch} ${${_branch}})
+  # Commits since tag
+  git_run("rev-list ${_tag}..HEAD --count" _tagn _result)
+
+  if(_tagn STREQUAL "0")
+    set(${is_release} YES)
+    set(${out} "${_tag}")
   else()
-    set(${_branch} ${_branch}-NOTFOUND)
+    # Commit hash
+    git_run("rev-parse --short HEAD" _hash _result)
+
+    # Branch
+    git_run("rev-parse --abbrev-ref HEAD" _branch _result)
+
+    set(${is_release} NO)
+    set(${out} "${_tag} (${_tagn}) - ${_hash} (${_branch})")
   endif()
-endmacro()
+endfunction()

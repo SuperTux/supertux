@@ -1,20 +1,9 @@
 include(GetGitRevisionDescription)
 
-if(GIT_FOUND AND NOT IS_SUPERTUX_RELEASE AND NOT STEAM_BUILD)
-  set(SUPERTUX_PACKAGE_VERSION dev)
-  if(EXISTS "${PROJECT_SOURCE_DIR}/.git")
-    git_get_hash(hash branch)
+git_project_version(SUPERTUX_PACKAGE_VERSION IS_SUPERTUX_RELEASE)
 
-    if(branch)
-      string(APPEND SUPERTUX_PACKAGE_VERSION " ${branch}")
-    endif()
-
-    if(hash)
-      string(APPEND SUPERTUX_PACKAGE_VERSION " ${hash}")
-    endif()
-  endif()
-else()
-  set(SUPERTUX_PACKAGE_VERSION v${PROJECT_VERSION})
+if(NOT IS_SUPERTUX_RELEASE AND SUPERTUX_PACKAGE_VERSION)
+  string(PREPEND SUPERTUX_PACKAGE_VERSION "dev ")
 endif()
 
 # Configure main menu logo
