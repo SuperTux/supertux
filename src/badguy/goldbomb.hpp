@@ -42,12 +42,15 @@ public:
 private:
   void flee(Direction dir);
   void cornered();
+  void recover();
+  void normalize();
 
 private:
   enum State : uint8_t {
     STATE_REALIZING = 2,
     STATE_FLEEING,
-    STATE_CORNERED
+    STATE_CORNERED,
+    STATE_RECOVER
   };
 
   Timer m_realize_timer;

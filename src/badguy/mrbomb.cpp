@@ -138,7 +138,12 @@ MrBomb::collision_squished(GameObject& object)
 void
 MrBomb::active_update(float dt_sec)
 {
-  update_ticking(dt_sec);
+  if (m_state == STATE_TICKING)
+  {
+    update_ticking(dt_sec);
+    return;
+  }
+
   WalkingBadguy::active_update(dt_sec);
 }
 
@@ -321,22 +326,17 @@ MrBomb::play_looping_sounds()
 
 void MrBomb::update_ticking(float dt_sec)
 {
-  if (m_state == STATE_TICKING)
-  {
-    m_exploding_sprite->set_action("exploding", 1);
+  m_exploding_sprite->set_action("exploding", 1);
 
-    if (on_ground())
-      m_physic.set_velocity_x(0);
+  if (on_ground())
+    m_physic.set_velocity_x(0);
 
-    m_ticking_sound->set_position(get_pos());
+  m_ticking_sound->set_position(get_pos());
 
-    if (m_sprite->animation_done())
-      kill_fall();
-    else if (!is_grabbed())
-      m_col.set_movement(m_physic.get_movement(dt_sec));
-
-    return;
-  }
+  if (m_sprite->animation_done())
+    kill_fall();
+  else if (!is_grabbed())
+    m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
 /* EOF */

@@ -19,7 +19,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
-#include "badguy/bomb.hpp"
 #include "badguy/haywire.hpp"
 #include "badguy/owl.hpp"
 #include "object/coin_explode.hpp"
@@ -51,7 +50,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
 void
 GoldBomb::collision_solid(const CollisionHit& hit)
 {
-  if ((m_state != STATE_NORMAL || m_state != STATE_TICKING) && (hit.left || hit.right))
+  if ((m_state != STATE_NORMAL && m_state != STATE_TICKING) && (hit.left || hit.right))
   {
     cornered();
     return;
@@ -63,15 +62,25 @@ GoldBomb::collision_solid(const CollisionHit& hit)
 void
 GoldBomb::active_update(float dt_sec)
 {
-  update_ticking(dt_sec);
+  if (m_state == STATE_TICKING)
+  {
+    update_ticking(dt_sec);
+    return;
+  }
 
-  if ((m_state == STATE_FLEEING || m_state == STATE_CORNERED) && on_ground() && might_fall(s_normal_max_drop_height+1))
+  if ((m_state == STATE_FLEEING || m_state == STATE_CORNERED || m_state == STATE_RECOVER)
+      && on_ground() && might_fall(s_normal_max_drop_height+1))
   {
     // also check for STATE_CORNERED just so
     // the bomb doesnt automatically turn around
-    cornered();
+    if (m_state == STATE_RECOVER)
+      recover();
+    else
+      cornered();
+
     return;
   }
+
   WalkingBadguy::active_update(dt_sec);
 
   if (m_frozen) return;
@@ -106,19 +115,17 @@ GoldBomb::active_update(float dt_sec)
     if (m_state == STATE_CORNERED)
     {
       // Look back to check.
-      set_action("recover", m_dir);
-      if (!m_sprite->animation_done()) return;
+      recover();
+      return;
     }
 
-    // Finally, when done recovering, go back to normal.
-    if (m_state == STATE_NORMAL) return;
+    if (m_state == STATE_RECOVER)
+    {
+      if (!m_sprite->animation_done())
+        return;
+    }
 
-    m_state = STATE_NORMAL;
-    m_physic.set_velocity_x(NORMAL_WALK_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
-    m_physic.set_acceleration_x(0);
-    set_action(m_dir);
-    set_ledge_behavior(LedgeBehavior::SMART);
-    set_walk_speed(NORMAL_WALK_SPEED);
+    normalize();
     return;
   }
 
@@ -166,12 +173,18 @@ GoldBomb::active_update(float dt_sec)
     }
 
     case STATE_REALIZING:
-      if (!m_realize_timer.check()) break;
+      if (!m_realize_timer.check())
+        break;
 
       flee(vecdist.x > 0 ? Direction::LEFT : Direction::RIGHT);
       break;
 
-    default: break;
+    case STATE_RECOVER:
+      cornered();
+      return;
+
+    default:
+      break;
   }
 }
 
@@ -203,7 +216,8 @@ GoldBomb::flee(Direction dir)
 void
 GoldBomb::cornered()
 {
-  if (m_state == STATE_CORNERED) return;
+  if (m_state == STATE_CORNERED)
+    return;
 
   set_walk_speed(0);
   m_physic.set_velocity_x(0);
@@ -212,6 +226,29 @@ GoldBomb::cornered()
   set_action("scared", m_dir);
 
   m_state = STATE_CORNERED;
+}
+
+void
+GoldBomb::recover()
+{
+  if (m_state == STATE_RECOVER)
+    return;
+
+  set_action("recover", m_dir);
+
+  m_state = STATE_RECOVER;
+}
+
+void GoldBomb::normalize()
+{
+  m_physic.set_velocity_x(NORMAL_WALK_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
+  m_physic.set_acceleration_x(0);
+
+  set_action(m_dir);
+  set_ledge_behavior(LedgeBehavior::SMART);
+  set_walk_speed(NORMAL_WALK_SPEED);
+
+  m_state = STATE_NORMAL;
 }
 
 /* EOF */
