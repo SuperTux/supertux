@@ -19,15 +19,20 @@
 #define HEADER_SUPERTUX_OBJECT_TORCH_HPP
 
 #include "object/moving_sprite.hpp"
-#include "squirrel/exposed_object.hpp"
-
-#include "scripting/torch.hpp"
 
 class ReaderMapping;
 
-class Torch final : public MovingSprite,
-                    public ExposedObject<Torch, scripting::Torch>
+/**
+ * @scripting
+ * @summary A ""Torch"" that was given a name can be controlled by scripts.
+ * @instances A ""Torch"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class Torch final : public MovingSprite
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Torch(const ReaderMapping& reader);
 
@@ -38,6 +43,7 @@ public:
 
   static std::string class_name() { return "torch"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Torch"; }
   static std::string display_name() { return _("Torch"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -48,18 +54,30 @@ public:
 
   virtual void on_flip(float height) override;
 
-  /** @name Scriptable Methods
-      @{ */
-  bool get_burning() const; /**< returns true if torch is lighted */
-  void set_burning(bool burning_); /**< true: light torch, false: extinguish
-                                     torch */
-  /** @} */
+  /**
+   * @scripting
+   * @deprecated Use the ""burning"" property instead!
+   * @description Returns ""true"" if the torch is burning.
+   */
+  bool get_burning() const;
+  /**
+   * @scripting
+   * @deprecated Use the ""burning"" property instead!
+   * @description Switches the burning state of the torch.
+   * @param bool $burning
+   */
+  void set_burning(bool burning);
 
 private:
   Color m_light_color;
   SpritePtr m_flame;
   SpritePtr m_flame_glow;
   SpritePtr m_flame_light;
+
+  /**
+   * @scripting
+   * @description Determines whether the torch is burning.
+   */
   bool m_burning;
 
 private:

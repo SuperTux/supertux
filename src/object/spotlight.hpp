@@ -17,17 +17,23 @@
 #ifndef HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
 #define HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
 
-#include "scripting/spotlight.hpp"
 #include "sprite/sprite_ptr.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "supertux/moving_object.hpp"
 #include "video/color.hpp"
 
 class ReaderMapping;
 
-class Spotlight final : public MovingObject,
-                        public ExposedObject<Spotlight, scripting::Spotlight>
+/**
+ * @scripting
+ * @summary A ""Spotlight"" that was given a name can be controlled by scripts.
+ * @instances A ""Spotlight"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class Spotlight final : public MovingObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   enum class Direction {
     CLOCKWISE,
@@ -49,6 +55,7 @@ public:
 
   static std::string class_name() { return "spotlight"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Spotlight"; }
   static std::string display_name() { return _("Spotlight"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -56,44 +63,127 @@ public:
 
   virtual int get_layer() const override { return m_layer; }
 
-  void set_enabled(bool enabled) { m_enabled = enabled; }
-  bool is_enabled() const { return m_enabled; }
+  /**
+   * @scripting
+   * @deprecated Use the ""enabled"" property instead!
+   * @description Enables/disables the spotlight.
+   * @param bool $enabled
+   */
+  void set_enabled(bool enabled);
+  /**
+   * @scripting
+   * @deprecated Use the ""enabled"" property instead!
+   * @description Returns ""true"" if the spotlight is enabled.
+   */
+  bool is_enabled();
 
-  void set_angle(float angle_) { angle = angle_; }
-  void set_speed(float speed_) { speed = speed_; }
-  void set_color(Color color_) { color = color_; }
-  void set_direction(Direction dir) { m_direction = dir; }
+  /**
+   * @scripting
+   * @description Sets the direction of the spotlight.
+   * @param string $direction
+   */
+  void set_direction(const std::string& direction);
 
-  void ease_angle(float time, float target, EasingMode ease = EasingMode::EaseNone)
-  {
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&angle, time, target, getEasingByName(ease)));
-  }
+  /**
+   * @scripting
+   * @deprecated Use the ""angle"" property instead!
+   * @description Sets the angle of the spotlight.
+   * @param float $angle
+   */
+  void set_angle(float angle);
+  /**
+   * @scripting
+   * @description Fades the angle of the spotlight in ""time"" seconds.
+   * @param float $angle
+   * @param float $time
+   */
+  void fade_angle(float angle, float time);
+  /**
+   * @scripting
+   * @description Fades the angle of the spotlight in ""time"" seconds, with easing.
+   * @param float $angle
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_angle(float angle, float time, const std::string& easing);
 
-  void ease_speed(float time, float target, EasingMode ease = EasingMode::EaseNone)
-  {
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&speed, time, target, getEasingByName(ease)));
-  }
+  /**
+   * @scripting
+   * @deprecated Use the ""speed"" property instead!
+   * @description Sets the speed of the spotlight.
+   * @param float $speed
+   */
+  void set_speed(float speed);
+  /**
+   * @scripting
+   * @description Fades the speed of the spotlight in ""time"" seconds.
+   * @param float $speed
+   * @param float $time
+   */
+  void fade_speed(float speed, float time);
+  /**
+   * @scripting
+   * @description Fades the speed of the spotlight in ""time"" seconds, with easing.
+   * @param float $speed
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed(float speed, float time, const std::string& easing);
 
-  void ease_color(float time, Color target, EasingMode ease = EasingMode::EaseNone)
-  {
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.red,   time, target.red,   getEasingByName(ease)));
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.green, time, target.green, getEasingByName(ease)));
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.blue,  time, target.blue,  getEasingByName(ease)));
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.alpha, time, target.alpha, getEasingByName(ease)));
-  }
+  /**
+   * @scripting
+   * @description Sets the RGBA color of the spotlight.
+   * @param float $r
+   * @param float $g
+   * @param float $b
+   * @param float $a
+   */
+  void set_color_rgba(float r, float g, float b, float a);
+  /**
+   * @scripting
+   * @description Fades the spotlight to a new RGBA color in ""time"" seconds.
+   * @param float $r
+   * @param float $g
+   * @param float $b
+   * @param float $a
+   * @param float $time
+   */
+  void fade_color_rgba(float r, float g, float b, float a, float time);
+  /**
+   * @scripting
+   * @description Fades the spotlight to a new RGBA color in ""time"" seconds, with easing.
+   * @param float $r
+   * @param float $g
+   * @param float $b
+   * @param float $a
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_color_rgba(float r, float g, float b, float a, float time, const std::string& easing);
+
+  void ease_angle(float time, float target, EasingMode ease = EasingMode::EaseNone);
+  void ease_speed(float time, float target, EasingMode ease = EasingMode::EaseNone);
+  void ease_color(float time, Color target, EasingMode ease = EasingMode::EaseNone);
 
 private:
-  float   angle;
-  SpritePtr center;
-  SpritePtr base;
-  SpritePtr lights;
-  SpritePtr light;
-  SpritePtr lightcone;
+  /**
+   * @scripting
+   * @description The angle of the spotlight.
+   */
+  float m_angle;
+  SpritePtr m_center;
+  SpritePtr m_base;
+  SpritePtr m_lights;
+  SpritePtr m_light;
+  SpritePtr m_lightcone;
 
-  Color   color;
+  Color m_color;
 
-  /** Speed that the spotlight is rotating with */
-  float speed;
+  /**
+   * @scripting
+   * @description Speed that the spotlight is rotating with.
+   */
+  float m_speed;
 
   /** The direction of the spotlight */
   Direction m_direction;
@@ -101,6 +191,10 @@ private:
   /** The layer (z-pos) of the spotlight. */
   int m_layer;
 
+  /**
+   * @scripting
+   * @description Determines whether the spotlight is enabled.
+   */
   bool m_enabled;
 
 private:

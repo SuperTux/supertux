@@ -126,8 +126,9 @@ RCrystallo::active_update(float dt_sec)
     WalkingBadguy::active_update(dt_sec, targetwalk, 2.f);
     break;
   case RCRYSTALLO_DETECT:
-    m_physic.set_velocity_x(0.f);
-    m_physic.set_acceleration_x(0.f);
+    m_physic.set_velocity(0.f, 0.f);
+    m_physic.set_gravity_modifier(0.f);
+    m_physic.set_acceleration(0.f, 0.f);
     if (m_sprite->animation_done())
     {
 

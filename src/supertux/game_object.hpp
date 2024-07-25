@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 
+#include "squirrel/exposable_class.hpp"
+
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -34,6 +36,10 @@ class ObjectRemoveListener;
 class ReaderMapping;
 class Writer;
 
+namespace ssq {
+class VM;
+} // namespace ssq
+
 struct GameObjectType
 {
   const std::string id;
@@ -42,26 +48,31 @@ struct GameObjectType
 typedef std::vector<GameObjectType> GameObjectTypes;
 
 /**
-    Base class for all the things that make up Levels' Sectors.
-
-    Each sector of a level will hold a list of active GameObject while the
-    game is played.
-
-    This class is responsible for:
-    - Updating and Drawing the object. This should happen in the update() and
+   This class is responsible for:
+    * Updating and drawing the object. This should happen in the update() and
       draw() functions. Both are called once per frame.
-    - Providing a safe way to remove the object by calling the remove_me
+    * Providing a safe way to remove the object by calling the remove_me
       functions.
+ */
+/**
+ * @scripting
+ * @summary Base class for all the things that make up Levels' Sectors.${SRG_NEWPARAGRAPH}
+
+            Each sector of a level holds a list of active ""GameObject""s, while the
+            game is played.${SRG_NEWPARAGRAPH}
 */
-class GameObject
+class GameObject : public ExposableClass
 {
   friend class GameObjectManager;
+
+public:
+  static void register_class(ssq::VM& vm);
 
 public:
   GameObject();
   GameObject(const std::string& name);
   GameObject(const ReaderMapping& reader);
-  virtual ~GameObject();
+  virtual ~GameObject() override;
 
   /** Called after all objects have been added to the Sector and the
       Sector is fully constructed. If objects refer to other objects
@@ -85,14 +96,31 @@ public:
   virtual void save(Writer& writer);
   std::string save();
   virtual std::string get_class_name() const { return "game-object"; }
+  virtual std::string get_exposed_class_name() const override { return "GameObject"; }
+  /**
+   * @scripting
+   * @description Returns the display name of the object, translated to the user's locale.
+   */
   virtual std::string get_display_name() const { return _("Unknown object"); }
 
   /** Version checking/updating, patch information */
   virtual std::vector<std::string> get_patches() const;
-  int get_version() const { return m_version; }
-  int get_latest_version() const;
-  bool is_up_to_date() const;
   virtual void update_version();
+  /**
+   * @scripting
+   * @description Returns the current version of the object.
+   */
+  int get_version() const;
+  /**
+   * @scripting
+   * @description Returns the latest version of the object.
+   */
+  int get_latest_version() const;
+  /**
+   * @scripting
+   * @description Checks whether the object's current version is equal to its latest one.
+   */
+  bool is_up_to_date() const;
 
   /** If true only a single object of this type is allowed in a
       given GameObjectManager */
@@ -120,7 +148,11 @@ public:
 
   /** Get all types of the object, if available. **/
   virtual GameObjectTypes get_types() const;
-  int get_type() const { return m_type; }
+  /**
+   * @scripting
+   * @description Returns the type index of the object.
+   */
+  int get_type() const;
 
   virtual void after_editor_set();
 
@@ -142,7 +174,11 @@ public:
   void del_remove_listener(ObjectRemoveListener* listener);
 
   void set_name(const std::string& name) { m_name = name; }
-  const std::string& get_name() const { return m_name; }
+  /**
+   * @scripting
+   * @description Returns the name of the object.
+   */
+  std::string get_name() const;
 
   virtual const std::string get_icon_path() const {
     return "images/tiles/auxiliary/notile.png";

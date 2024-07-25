@@ -81,7 +81,6 @@ public:
             m_size == other.m_size);
   }
 
-  // This is a temporary hack to pass x/y to ReaderMapping
   float& get_left() { return m_p1.x; }
   float& get_top() { return m_p1.y; }
 
@@ -89,6 +88,9 @@ public:
   float get_right() const { return m_p1.x + m_size.width; }
   float get_top() const { return m_p1.y; }
   float get_bottom() const { return m_p1.y + m_size.height; }
+
+  float& get_width() { return m_size.width; }
+  float& get_height() { return m_size.height; }
 
   float get_width() const { return m_size.width; }
   float get_height() const { return m_size.height; }

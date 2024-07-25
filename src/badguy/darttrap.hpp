@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
 #define HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
 
-#include "badguy/badguy.hpp"
+#include "object/sticky_object.hpp"
 
 /** Badguy "DartTrap" - Shoots a Dart at regular intervals */
-class DartTrap final : public BadGuy
+class DartTrap final : public StickyBadguy
 {
 public:
   DartTrap(const ReaderMapping& reader);

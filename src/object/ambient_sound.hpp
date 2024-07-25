@@ -20,17 +20,23 @@
 
 #include "math/vector.hpp"
 #include "supertux/moving_object.hpp"
-#include "scripting/ambient_sound.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "video/layer.hpp"
 
 class GameObject;
 class ReaderMapping;
 class SoundSource;
 
-class AmbientSound final : public MovingObject,
-                           public ExposedObject<AmbientSound, scripting::AmbientSound>
+/**
+ * @scripting
+ * @summary An ""AmbientSound"" that was given a name can be controlled by scripts.
+ * @instances An ""AmbientSound"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class AmbientSound final : public MovingObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   AmbientSound(const ReaderMapping& mapping);
   AmbientSound(const Vector& pos, float radius, float vol, const std::string& file);
@@ -40,19 +46,10 @@ public:
 
   static std::string class_name() { return "ambient-sound"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "AmbientSound"; }
   static std::string display_name() { return _("Ambient Sound"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool has_variable_size() const override { return true; }
-
-  /** @name Scriptable Methods
-      @{ */
-#ifndef SCRIPTING_API
-  virtual void set_pos(const Vector& pos) override;
-#endif
-  void set_pos(float x, float y);
-  float get_pos_x() const;
-  float get_pos_y() const;
-  /** @} */
 
   virtual void draw(DrawingContext& context) override;
 
@@ -62,6 +59,21 @@ public:
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
+
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @deprecated Use ""get_x()"" instead!
+   * @description Returns the ambient sound's X coordinate.
+   */
+  float get_pos_x() const;
+  /**
+   * @scripting
+   * @deprecated Use ""get_y()"" instead!
+   * @description Returns the ambient sound's Y coordinate.
+   */
+  float get_pos_y() const;
+#endif
 
 protected:
   virtual void update(float dt_sec) override;
