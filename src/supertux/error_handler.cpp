@@ -170,9 +170,9 @@ ErrorHandler::get_stacktrace()
       if (result)
       {
         std::string s(line64.FileName);
-        callstack << FileSystem::basename(s)
-                  << ":" << symbol->Name << ":"
-                  << line64.LineNumber << "\n";
+        callstack << symbol->Name << " ("
+                  << FileSystem::basename(s) << ":"
+                  << line64.LineNumber << ")\n";
       }
       else
       {
