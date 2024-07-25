@@ -5,7 +5,14 @@ if(WIN32 AND NOT UNIX)
     install(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
   endif()
 
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
+  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png
+                ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico
+          DESTINATION ".")
+
+  # Install PDB files for use with the error handler.
+  install(FILES $<TARGET_PDB_FILE:supertux2>
+          DESTINATION ${INSTALL_SUBDIR_BIN}
+          OPTIONAL)
 
   option(PACKAGE_VCREDIST "Package the VCREDIST libraries with the program" OFF)
 

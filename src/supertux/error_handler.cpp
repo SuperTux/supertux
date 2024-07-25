@@ -69,7 +69,11 @@ ErrorHandler::get_stacktrace()
 
   if (pcontext == NULL)
   {
-    return "";
+    CONTEXT context;
+    std::memset(&context, 0, sizeof(CONTEXT));
+    context.ContextFlags = CONTEXT_FULL;
+    RtlCaptureContext(&context);
+    pcontext = &context;
   }
 
   const HANDLE hProcess = GetCurrentProcess();
@@ -272,7 +276,15 @@ ErrorHandler::get_system_info()
 #endif
 }
 
-#if 0
+#ifdef WIN32
+LONG
+ErrorHandler::seh_handler(_EXCEPTION_POINTERS* ExceptionInfo)
+{
+  pcontext = ExceptionInfo->ContextRecord;
+  error_dialog_crash(get_stacktrace());
+  return EXCEPTION_EXECUTE_HANDLER;
+}
+#else
 [[ noreturn ]] void
 ErrorHandler::handle_error(int sig)
 {
@@ -293,14 +305,6 @@ ErrorHandler::handle_error(int sig)
     error_dialog_crash(get_stacktrace());
     close_program();
   }
-}
-#elif defined(WIN32) && 1
-LONG
-ErrorHandler::seh_handler(_EXCEPTION_POINTERS* ExceptionInfo)
-{
-  pcontext = ExceptionInfo->ContextRecord;
-  error_dialog_crash(get_stacktrace());
-  return EXCEPTION_EXECUTE_HANDLER;
 }
 #endif
 
