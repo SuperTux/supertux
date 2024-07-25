@@ -478,7 +478,7 @@ TileMap::draw(DrawingContext& context)
       if (m_tiles[index] == 0) continue;
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
-      if (g_debug.show_collision_rects) {
+	  if (g_debug.show_collision_rects && m_real_solid) {
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
       }
 
