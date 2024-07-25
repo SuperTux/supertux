@@ -16,7 +16,9 @@
 #include "object/bumper.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "badguy/badguy.hpp"
 #include "object/player.hpp"
+#include "object/rock.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -30,13 +32,15 @@ const float BOUNCE_X = 700.0f;
 }
 
 Bumper::Bumper(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
+  StickyObject(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   m_physic(),
-  m_dir(Direction::RIGHT)
+  m_dir(Direction::RIGHT),
+  m_original_pos(get_pos())
 {
   std::string dir_str;
   bool old_facing_left = false;
 
+  reader.get("sticky", m_sticky, false);
   if (reader.get("direction", dir_str))
     m_dir = string_to_dir(dir_str);
   else if (reader.get("left", old_facing_left) && old_facing_left)
@@ -48,10 +52,10 @@ Bumper::Bumper(const ReaderMapping& reader) :
 ObjectSettings
 Bumper::get_settings()
 {
-  ObjectSettings result = MovingSprite::get_settings();
+  ObjectSettings result = StickyObject::get_settings();
 
   result.add_direction(_("Direction"), &m_dir, { Direction::RIGHT, Direction::LEFT }, "direction");
-  result.reorder({"direction", "sprite", "x", "y"});
+  result.reorder({"sticky", "direction", "sprite", "x", "y"});
   return result;
 }
 
@@ -60,7 +64,33 @@ Bumper::update(float dt_sec)
 {
   if (m_sprite->animation_done())
     set_action("normal", m_dir);
-  m_col.set_movement(m_physic.get_movement (dt_sec));
+
+  // Pushing rocks, as well as dynamic with tilemap, platform, and fallblock.
+
+  Rectf small_overlap_box = get_bbox().grown(1.f);
+
+  for (auto& rock : Sector::get().get_objects_by_type<Rock>())
+  {
+    if (small_overlap_box.overlaps(rock.get_bbox()))
+    {
+      rock.get_physic().set_velocity((m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X) * 0.7f,
+                                     BOUNCE_Y * 0.6f);
+      SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
+      set_action("swinging", m_dir, 1);
+      set_pos(m_original_pos);
+    }
+  }
+
+  if (m_sticky)
+  {
+    if (m_sticking) {
+      m_original_pos = get_pos();
+    }
+    StickyObject::update(dt_sec);
+  }
+  else {
+    m_col.set_movement(m_physic.get_movement(dt_sec));
+  }
 }
 
 HitResponse
@@ -69,12 +99,19 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-    float BOUNCE_DIR = m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X;
     player->get_physic().set_velocity(0.f, player->is_swimming() ? 0.f : BOUNCE_Y);
-    player->sideways_push(BOUNCE_DIR);
+    player->sideways_push(m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X);
+    bounce();
+  }
+
+  auto badguy = dynamic_cast<BadGuy*> (&other);
+  if (badguy)
+  {
+    badguy->get_physic().set_velocity(((m_dir == Direction::LEFT) ? -400.f : 400.f), 0.f);
     SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
     set_action("swinging", m_dir, 1);
   }
+
   auto bumper = dynamic_cast<Bumper*> (&other);
   if (bumper)
   {
@@ -103,6 +140,13 @@ Bumper::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+void
+Bumper::bounce()
+{
+  SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
+  set_action("swinging", m_dir, 1);
 }
 
 /* EOF */

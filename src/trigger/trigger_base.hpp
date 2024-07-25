@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
 #define HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
 
-#include "object/moving_sprite.hpp"
+#include "object/sticky_object.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/object_remove_listener.hpp"
 
@@ -104,6 +104,28 @@ public:
 private:
   SpritedTrigger(const SpritedTrigger&) = delete;
   SpritedTrigger& operator=(const SpritedTrigger&) = delete;
+};
+
+
+class StickyTrigger : public StickyObject,
+                      public TriggerBase
+{
+public:
+  StickyTrigger(const ReaderMapping& reader, const std::string& sprite_name);
+
+  virtual void update(float dt_sec) override
+  {
+    StickyObject::update(dt_sec);
+    TriggerBase::update();
+  }
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override
+  {
+    return TriggerBase::collision(other, hit);
+  }
+
+private:
+  StickyTrigger(const StickyTrigger&) = delete;
+  StickyTrigger& operator=(const StickyTrigger&) = delete;
 };
 
 #endif

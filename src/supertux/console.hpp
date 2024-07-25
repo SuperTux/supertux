@@ -18,9 +18,10 @@
 #define HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
 
 #include <list>
-#include <squirrel.h>
 #include <sstream>
 #include <vector>
+
+#include <simplesquirrel/vm.hpp>
 
 #include "util/currenton.hpp"
 #include "video/font_ptr.hpp"
@@ -94,8 +95,7 @@ private:
   SurfacePtr m_background; /**< console background image */
   SurfacePtr m_background2; /**< second, moving console background image */
 
-  HSQUIRRELVM m_vm; /**< squirrel thread for the console (with custom roottable) */
-  HSQOBJECT m_vm_object;
+  ssq::VM m_vm; /**< squirrel thread for the console (with custom roottable) */
 
   int m_backgroundOffset; /**< current offset of scrolling background image */
   float m_height; /**< height of the console in px */

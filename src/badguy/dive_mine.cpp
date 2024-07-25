@@ -33,6 +33,7 @@ DiveMine::DiveMine(const ReaderMapping& reader) :
   m_chasing(true)
 {
   reset_sprites();
+  m_water_affected = false;
 }
 
 void

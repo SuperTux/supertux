@@ -4,8 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Germana <germanaoliveirab@gmail.com>, 2019
-# Tam Ezquerra <namarie.tam@gmail.com>, 2019
+# Diego Enmanuel Rosales Santander, 2024
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:59+0000\n"
-"Last-Translator: Tam Ezquerra <namarie.tam@gmail.com>, 2019\n"
+"Last-Translator: Diego Enmanuel Rosales Santander, 2024\n"
 "Language-Team: Spanish (https://app.transifex.com/arctic-games/teams/95/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,64 +27,64 @@ msgstr "Las Ruinas Antiguas del Bosque"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:3
 msgid "Double Problems"
-msgstr "Problemas dobles"
+msgstr "Problemas Dobles"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:82
 msgid "-Concentrate! Tux! It's not Mario!"
-msgstr "¡Concéntrate, Tux! - ¡No es Mario!"
+msgstr ""
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:142
 msgid "You found a secret area!"
-msgstr "¡Hallaste un área secreta!"
+msgstr ""
 
 #: data/levels/community2016/Entrance_To_Cave (gelada).stl:3
 msgid "The Entrance To The Cave"
-msgstr "La entrada a la Cueva"
+msgstr "La Entrada A La Cueva"
 
 #: data/levels/community2016/Entrance_To_Lava_Castle (herobrine).stl:3
 msgid "The Entrance To The Lava Castle"
-msgstr "La Entrada al Castillo de Lava"
+msgstr "La Entrada Al Castillo De Lava"
 
 #: data/levels/community2016/HMS_Snowballs_Ahoy (Vellidragon).stl:3
 msgid "HMS Snowball Ahoy!"
-msgstr "¡Bola de nieve HMS a la vista!"
+msgstr "¡Bola de Nieve HMS a la Vista!"
 
 #: data/levels/community2016/Into_The_Palace (ThomyW).stl:3
 msgid "Into The Palace"
-msgstr "Dentro del Palacio"
+msgstr ""
 
 #: data/levels/community2016/Is_The_Biggest_Fish (cookie monster).stl:3
 msgid "Is The Biggest Fish"
-msgstr "Es el Pez más Grande"
+msgstr ""
 
 #: data/levels/community2016/Problem_With_Green (herobrine).stl:3
 msgid "The Problem With GREEN"
-msgstr "El Problema con el VERDE"
+msgstr ""
 
 #: data/levels/community2016/Sunny_Hills (Serano).stl:3
 msgid "Sunny Hills"
-msgstr "Colinas Soleadas"
+msgstr ""
 
 #: data/levels/community2016/The_Mountains (gelada).stl:3
 msgid "The Mountains"
-msgstr "Las Montañas"
+msgstr ""
 
 #: data/levels/community2016/The_Strange_Thing (herobrine).stl:3
 msgid "The Strange Thing"
-msgstr "La Cosa Extraña"
+msgstr ""
 
 #: data/levels/community2016/Uncontrolled_Lift (gelada).stl:3
 msgid "Uncontrolled Lift"
-msgstr "Ascenso Incontrolable"
+msgstr ""
 
 #: data/levels/community2016/Up_Or_Down (Serano).stl:3
 msgid "Up, Or Down?"
-msgstr "¿Arriba o Abajo?"
+msgstr ""
 
 #: data/levels/community2016/Welcome_To_Icy_Island (gelada).stl:3
 msgid "Welcome To The Icy Island"
-msgstr "Bienvenido a la Isla Helada"
+msgstr ""
 
 #: data/levels/community2016/worldmap.stwm:3
 msgid "Community Island 2016"
-msgstr "Isla de la Comunidad 2016"
+msgstr ""

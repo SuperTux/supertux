@@ -42,7 +42,7 @@ struct obstack;
 class DrawingContext final
 {
 public:
-  DrawingContext(VideoSystem& video_system, obstack& obst, bool overlay);
+  DrawingContext(VideoSystem& video_system, obstack& obst, bool overlay, float time_offset);
   ~DrawingContext();
 
   /** Returns the visible area in world coordinates */
@@ -86,6 +86,10 @@ public:
   void set_alpha(float alpha);
   float get_alpha() const;
 
+  /** For position extrapolation at high frame rates: real time since last game update step */
+  void set_time_offset(float time_offset) { m_time_offset = time_offset; }
+  float get_time_offset() const { return m_time_offset; }
+
   void clear()
   {
     m_lightmap_canvas.clear();
@@ -127,6 +131,8 @@ private:
 
   Canvas m_colormap_canvas;
   Canvas m_lightmap_canvas;
+
+  float m_time_offset;
 
 private:
   DrawingContext(const DrawingContext&) = delete;

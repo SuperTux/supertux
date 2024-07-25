@@ -29,7 +29,7 @@ namespace {
 } // namespace
 
 Switch::Switch(const ReaderMapping& reader) :
-  SpritedTrigger(reader, "images/objects/switch/switch.sprite"),
+  StickyTrigger(reader, "images/objects/switch/switch.sprite"),
   m_script(),
   m_off_script(),
   m_state(OFF),
@@ -45,6 +45,7 @@ Switch::Switch(const ReaderMapping& reader) :
   set_action("off", m_dir);
 
   reader.get("script", m_script);
+  reader.get("sticky", m_sticky, false);
   m_bistable = reader.get("off-script", m_off_script);
 
   SoundManager::current()->preload(SWITCH_SOUND);
@@ -57,7 +58,7 @@ Switch::~Switch()
 ObjectSettings
 Switch::get_settings()
 {
-  ObjectSettings result = SpritedTrigger::get_settings();
+  ObjectSettings result = StickyTrigger::get_settings();
 
   result.add_direction(_("Direction"), &m_dir,
                         { Direction::NONE, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "direction");
@@ -65,14 +66,17 @@ Switch::get_settings()
   result.add_script(_("Turn on script"), &m_script, "script");
   result.add_script(_("Turn off script"), &m_off_script, "off-script");
 
-  result.reorder({"direction", "script", "off-script", "sprite", "x", "y"});
+  result.reorder({"direction", "script", "off-script", "sticky", "sprite", "x", "y"});
 
   return result;
 }
 
 void
-Switch::update(float )
+Switch::update(float dt_sec)
 {
+  if (m_sticky && m_dir != Direction::NONE)
+    StickyObject::update(dt_sec);
+
   switch (m_state) {
     case OFF:
       break;
@@ -135,7 +139,7 @@ Switch::event(Player& , EventType type)
 void
 Switch::after_editor_set()
 {
-  SpritedTrigger::after_editor_set();
+  StickyTrigger::after_editor_set();
 
   set_action("off", m_dir);
 }
@@ -143,7 +147,7 @@ Switch::after_editor_set()
 void
 Switch::on_flip(float height)
 {
-  SpritedTrigger::on_flip(height);
+  StickyTrigger::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
 

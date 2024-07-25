@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_SHARD_HPP
 #define HEADER_SUPERTUX_OBJECT_SHARD_HPP
 
-#include "object/moving_sprite.hpp"
+#include "object/sticky_object.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
-class Shard final : public MovingSprite
+class Shard final : public StickyObject
 {
 public:
   Shard(const ReaderMapping& reader);
