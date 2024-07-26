@@ -418,8 +418,6 @@ void parse_xrefsect_desc(tinyxml2::XMLElement* p_xrefsect, std::string& dest)
     XMLTextReader read(dest);
     p_xrefsectdescpara->Accept(&read);
   }
-
-  if (!dest.empty()) dest.pop_back(); // Remove space, added at the end
 }
 
 } // namespace Parser

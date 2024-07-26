@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# 111More1, 2022
+# IAN RODRÍGUEZ Lorenzo, 2022
 # Jean-Philippe L'Étoile <letoile.jean.philippe@gmail.com>, 2019
 msgid ""
 msgstr ""
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:04+0000\n"
-"Last-Translator: 111More1, 2022\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: French (Canada) (http://app.transifex.com/arctic-games/supertux/language/fr_CA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
