@@ -166,10 +166,8 @@ Zeekling::should_we_dive()
     m_target_y = player->get_bbox().get_top() + CATCH_OFFSET;
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 void
@@ -239,9 +237,7 @@ Zeekling::active_update(float dt_sec) {
         const double progress = CubicEaseIn(static_cast<double>(1.f - m_timer.get_progress()));
         const float value = m_target_y - (static_cast<float>(progress) * dist);
         const Vector pos(get_pos().x, value);
-
         set_pos(pos);
-
       }
       break;
 
@@ -256,7 +252,6 @@ Zeekling::active_update(float dt_sec) {
         const double progress = QuadraticEaseInOut(static_cast<double>(m_timer.get_progress()));
         const float value = m_catch_pos - (static_cast<float>(progress) * dist);
         const Vector pos(get_pos().x, value);
-
         set_pos(pos);
       }
 
