@@ -424,15 +424,15 @@ Background::draw(DrawingContext& context)
   }
   context.set_flip(context.get_flip() ^ m_flip);
 
-  Sizef level_size(d_gameobject_manager->get_width(),
+  const Sizef level_size(d_gameobject_manager->get_width(),
                    d_gameobject_manager->get_height());
-  Sizef screen = context.get_viewport().get_size();
-  Sizef translation_range = level_size - screen;
-  Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
-                       context.get_translation().y - translation_range.height / 2.0f);
+  const Sizef screen = context.get_viewport().get_size();
+  const Sizef translation_range = level_size - screen;
+  const Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
+                             context.get_translation().y - translation_range.height / 2.0f);
 
-  Vector pos(level_size.width / 2,
-             level_size.height / 2);
+  const Vector pos(level_size.width / 2,
+                   level_size.height / 2);
   draw_image(context, pos + m_scroll_offset + Vector(center_offset.x * (1.0f - m_parallax_speed.x),
                                                      center_offset.y * (1.0f - m_parallax_speed.y)));
   context.pop_transform();
