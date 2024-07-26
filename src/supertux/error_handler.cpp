@@ -54,7 +54,7 @@ ErrorHandler::set_handlers()
 {
 #ifdef WIN32
   SetUnhandledExceptionFilter(seh_handler);
-#elif defined(UNIX) || 1
+#elif defined(UNIX)
   signal(SIGSEGV, handle_error);
   signal(SIGABRT, handle_error);
 #endif
