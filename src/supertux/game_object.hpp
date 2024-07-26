@@ -49,16 +49,17 @@ struct GameObjectType
 typedef std::vector<GameObjectType> GameObjectTypes;
 
 /**
- A helper structure to list all the type_indexes of the classes in the
- type hierarchy of a given class. This makes it easier to register e.g.
- a MrIceblock in lists for MrIceBlock, WalkingBadguy, Badguy, Portable,
- MovingSprite, MovingObject, and GameObject.
- */
+  A helper structure to list all the type_indexes of the classes in the
+  type hierarchy of a given class. This makes it easier to register e.g.
+  a MrIceblock in lists for MrIceBlock, WalkingBadguy, Badguy, Portable,
+  MovingSprite, MovingObject, and GameObject.
+*/
 struct GameObjectClasses
 {
   std::vector<std::type_index> types;
 
-  GameObjectClasses& add(const std::type_info &info) {
+  GameObjectClasses& add(const std::type_info& info)
+  {
     std::type_index idx(info);
     types.push_back(idx);
     return *this;

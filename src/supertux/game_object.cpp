@@ -110,11 +110,12 @@ GameObject::save()
 }
 
 GameObjectClasses
-GameObject::get_class_types() const {
-    GameObjectClasses g{};
-    // All class types except GameObject, since everything implements GameObject
-    // g.add(typeid(GameObject));
-    return g;
+GameObject::get_class_types() const
+{
+  GameObjectClasses g;
+  // All class types except GameObject, since everything implements GameObject
+  // g.add(typeid(GameObject));
+  return g;
 }
 
 ObjectSettings
