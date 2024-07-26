@@ -60,7 +60,10 @@ ErrorHandler::set_handlers()
 #endif
 }
 
+#ifdef WIN32
 static PCONTEXT pcontext = NULL;
+#endif
+
 std::string
 ErrorHandler::get_stacktrace()
 {
