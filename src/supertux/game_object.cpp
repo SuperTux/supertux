@@ -144,7 +144,7 @@ GameObject::get_settings()
   return result;
 }
 
-std::string
+const std::string&
 GameObject::get_name() const
 {
   return m_name;

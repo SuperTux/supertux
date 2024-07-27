@@ -200,7 +200,7 @@ public:
    * @scripting
    * @description Returns the name of the object.
    */
-  std::string get_name() const;
+  const std::string& get_name() const;
 
   virtual const std::string get_icon_path() const {
     return "images/tiles/auxiliary/notile.png";
