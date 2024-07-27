@@ -31,6 +31,8 @@ public:
     return false;
   }
 
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(Light)); }
+
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 

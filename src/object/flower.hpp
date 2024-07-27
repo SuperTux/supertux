@@ -30,6 +30,7 @@ class Flower final : public MovingObject
 
 public:
   Flower(BonusType type, const std::string& custom_sprite = "");
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Flower)); }
 
   virtual bool is_saveable() const override { return false; }
 

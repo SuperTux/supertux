@@ -46,6 +46,7 @@ public:
   virtual std::string get_exposed_class_name() const override { return "Torch"; }
   static std::string display_name() { return _("Torch"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Torch)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
