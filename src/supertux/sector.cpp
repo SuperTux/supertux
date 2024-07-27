@@ -37,7 +37,6 @@
 #include "object/music_object.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
-#include "object/pulsing_light.hpp"
 #include "object/smoke_cloud.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/text_array_object.hpp"
@@ -49,7 +48,6 @@
 #include "supertux/colorscheme.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/debug.hpp"
-#include "supertux/game_object_factory.hpp"
 #include "supertux/level.hpp"
 #include "supertux/player_status_hud.hpp"
 #include "supertux/resources.hpp"
@@ -102,8 +100,10 @@ Sector::finish_construction(bool editable)
   // but I don't know if it's going to introduce other bugs..   ~ Semphris
   try_process_resolve_requests();
 
-  if (!editable) {
-    convert_tiles2gameobject();
+  if (!editable)
+  {
+    for (auto& tm : get_objects_by_type<TileMap>())
+      tm.convert_tiles_to_objects();
 
     if (!m_level.is_worldmap())
     {
@@ -816,69 +816,6 @@ Sector::save(Writer &writer)
   }
 
   writer.end_list("sector");
-}
-
-void
-Sector::convert_tiles2gameobject()
-{
-  // add lights for special tiles
-  for (auto& tm : get_objects_by_type<TileMap>())
-  {
-    // Since object setup is not yet complete, I have to manually add the offset
-    // See https://github.com/SuperTux/supertux/issues/1378 for details
-    Vector tm_offset = tm.get_path() ? tm.get_path()->get_base() : Vector(0, 0);
-
-    for (int x=0; x < tm.get_width(); ++x)
-    {
-      for (int y=0; y < tm.get_height(); ++y)
-      {
-        const Tile& tile = tm.get_tile(x, y);
-
-        if (!tile.get_object_name().empty())
-        {
-          // If a tile is associated with an object, insert that
-          // object and remove the tile
-          if (tile.get_object_name() == "decal" ||
-              tm.is_solid())
-          {
-            Vector pos = tm.get_tile_position(x, y) + tm_offset;
-            try {
-              auto object = GameObjectFactory::instance().create(tile.get_object_name(), pos, Direction::AUTO, tile.get_object_data());
-              add_object(std::move(object));
-              tm.change(x, y, 0);
-            } catch(std::exception& e) {
-              log_warning << e.what() << "" << std::endl;
-            }
-          }
-        }
-        else
-        {
-          // add lights for fire tiles
-          uint32_t attributes = tile.get_attributes();
-          Vector pos = tm.get_tile_position(x, y) + tm_offset;
-          Vector center = pos + Vector(16, 16);
-
-          if (attributes & Tile::FIRE) {
-            if (attributes & Tile::HURTS) {
-              // lava or lavaflow
-              // space lights a bit
-              if ((tm.get_tile(x-1, y).get_attributes() != attributes || x%3 == 0)
-                  && (tm.get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
-                float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
-                add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
-                                  (Color(1.0f, 0.3f, 0.0f, 1.0f) * tm.get_current_tint()).validate());
-              }
-            } else {
-              // torch
-              float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
-              add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
-                                (Color(1.0f, 1.0f, 0.6f, 1.0f) * tm.get_current_tint()).validate());
-            }
-          }
-        }
-      }
-    }
-  }
 }
 
 Camera&

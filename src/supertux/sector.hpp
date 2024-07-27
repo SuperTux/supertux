@@ -234,10 +234,6 @@ private:
 
   int calculate_foremost_layer(bool including_transparent = true) const;
 
-  /** Convert tiles into their corresponding GameObjects (e.g.
-      bonusblocks, add light to lava tiles) */
-  void convert_tiles2gameobject();
-
   SpawnPointMarker* get_spawn_point(const std::string& spawnpoint);
 
 private:
