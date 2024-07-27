@@ -16,6 +16,9 @@
 
 #include "object/cloud_particle_system.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "math/random.hpp"
 #include "object/camera.hpp"
 #include "supertux/sector.hpp"
@@ -29,13 +32,10 @@
 
 CloudParticleSystem::CloudParticleSystem() :
   ParticleSystem(128),
-  ExposedObject<CloudParticleSystem, scripting::Clouds>(this),
   cloudimage(Surface::from_file("images/particles/cloud.png")),
-
   m_current_speed(1.f),
   m_target_speed(1.f),
   m_speed_fade_time_remaining(0.f),
-
   m_current_amount(15),
   m_current_real_amount(0)
 {
@@ -44,13 +44,10 @@ CloudParticleSystem::CloudParticleSystem() :
 
 CloudParticleSystem::CloudParticleSystem(const ReaderMapping& reader) :
   ParticleSystem(reader, 128),
-  ExposedObject<CloudParticleSystem, scripting::Clouds>(this),
   cloudimage(Surface::from_file("images/particles/cloud.png")),
-
   m_current_speed(1.f),
   m_target_speed(1.f),
   m_speed_fade_time_remaining(0.f),
-
   m_current_amount(15),
   m_current_real_amount(0)
 {
@@ -229,6 +226,12 @@ void CloudParticleSystem::fade_amount(int new_amount, float fade_time, float tim
   } // If delta is zero, there is nothing to do.
 }
 
+void
+CloudParticleSystem::set_amount(int amount, float time)
+{
+  fade_amount(amount, time, 0.f);
+}
+
 
 void CloudParticleSystem::draw(DrawingContext& context)
 {
@@ -275,6 +278,17 @@ void CloudParticleSystem::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+}
+
+
+void
+CloudParticleSystem::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<CloudParticleSystem>("CloudParticleSystem", vm.findClass("ParticleSystem"));
+
+  cls.addFunc("fade_speed", &CloudParticleSystem::fade_speed);
+  cls.addFunc("fade_amount", &CloudParticleSystem::fade_amount);
+  cls.addFunc("set_amount", &CloudParticleSystem::set_amount);
 }
 
 /* EOF */

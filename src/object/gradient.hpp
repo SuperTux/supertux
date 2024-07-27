@@ -17,17 +17,22 @@
 #ifndef HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 #define HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 
-#include "scripting/gradient.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "supertux/game_object.hpp"
 #include "video/drawing_context.hpp"
 
 class ReaderMapping;
 
-class Gradient final :
-  public GameObject,
-  public ExposedObject<Gradient, scripting::Gradient>
+/**
+ * @scripting
+ * @summary A ""Gradient"" that was given a name can be controlled by scripts.
+ * @instances A ""Gradient"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class Gradient final : public GameObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Gradient();
   Gradient(const ReaderMapping& reader);
@@ -40,6 +45,7 @@ public:
 
   static std::string class_name() { return "gradient"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Gradient"; }
   static std::string display_name() { return _("Gradient"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -59,10 +65,86 @@ public:
   GradientDirection get_direction() const { return m_gradient_direction; }
   std::string get_direction_string() const;
   void set_direction(const GradientDirection& direction);
-  void set_direction(const std::string& direction);
 
   void set_layer(int layer) { m_layer = layer; }
   int get_layer() const { return m_layer; }
+
+  /**
+   * @scripting
+   * @description Sets the direction of the gradient.
+   * @param string $direction Can be "horizontal", "vertical", "horizontal_sector" or "vertical_sector".
+   */
+  void set_direction(const std::string& direction);
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description Returns the direction of the gradient.
+                  Possible values are "horizontal", "vertical", "horizontal_sector" or "vertical_sector".
+   */
+  std::string get_direction() const;
+#endif
+  /**
+   * @scripting
+   * @description Set top gradient color.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   */
+  void set_color1(float red, float green, float blue);
+  /**
+   * @scripting
+   * @description Set bottom gradient color.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   */
+  void set_color2(float red, float green, float blue);
+  /**
+   * @scripting
+   * @description Set both gradient colors.
+   * @param float $red1
+   * @param float $green1
+   * @param float $blue1
+   * @param float $red2
+   * @param float $green2
+   * @param float $blue2
+   */
+  void set_colors(float red1, float green1, float blue1, float red2, float green2, float blue2);
+  /**
+   * @scripting
+   * @description Fade the top gradient color to a specified new color in ""time"" seconds.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $time
+   */
+  void fade_color1(float red, float green, float blue, float time);
+  /**
+   * @scripting
+   * @description Fade the bottom gradient color to a specified new color in ""time"" seconds.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $time
+   */
+  void fade_color2(float red, float green, float blue, float time);
+  /**
+   * @scripting
+   * @description Fade both gradient colors to specified new colors in ""time"" seconds.
+   * @param float $red1
+   * @param float $green1
+   * @param float $blue1
+   * @param float $red2
+   * @param float $green2
+   * @param float $blue2
+   * @param float $time
+   */
+  void fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time);
+  /**
+   * @scripting
+   * @description Swap top and bottom gradient colors.
+   */
+  void swap_colors();
 
 private:
   int m_layer;
@@ -72,16 +154,16 @@ private:
   Blend m_blend;
   DrawingTarget m_target;
 
-private:
-  Gradient(const Gradient&) = delete;
-  Gradient& operator=(const Gradient&) = delete;
-  
   Color m_start_gradient_top;
   Color m_start_gradient_bottom;
   Color m_fade_gradient_top;
   Color m_fade_gradient_bottom;
   float m_fade_total_time;
-  float m_fade_time = 0;
+  float m_fade_time;
+
+private:
+  Gradient(const Gradient&) = delete;
+  Gradient& operator=(const Gradient&) = delete;
 };
 
 #endif

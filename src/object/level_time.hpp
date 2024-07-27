@@ -17,18 +17,25 @@
 #ifndef HEADER_SUPERTUX_OBJECT_LEVEL_TIME_HPP
 #define HEADER_SUPERTUX_OBJECT_LEVEL_TIME_HPP
 
-#include "squirrel/exposed_object.hpp"
-#include "scripting/level_time.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 
-class LevelTime final : public GameObject,
-                        public ExposedObject<LevelTime, scripting::LevelTime>
+/**
+ * @scripting
+ * @summary A ""LevelTime"" that was given a name can be controlled by scripts.
+ * @instances A ""LevelTime"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class LevelTime final : public GameObject
 {
   static Color text_color;
+
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   LevelTime(const ReaderMapping& reader);
 
@@ -38,21 +45,33 @@ public:
   /** @name Scriptable Methods
       @{ */
 
-  /** Resumes the countdown */
+  /**
+   * @scripting
+   * @description Resumes the countdown (assuming it isn't already started, in which case it does nothing).
+   */
   void start();
-
-  /** Pauses the countdown */
+  /**
+   * @scripting
+   * @description Pauses the countdown (assuming it isn't already stopped, in which case it does nothing).
+   */
   void stop();
-
-  /** Returns the number of seconds left on the clock */
+  /**
+   * @scripting
+   * @description Returns the number of seconds left on the clock.
+   */
   float get_time() const;
-
-  /** Changes the number of seconds left on the clock */
+  /**
+   * @scripting
+   * @description Sets the number of seconds left on the clock.
+   * @param float $time_left
+   */
   void set_time(float time_left);
 
   /** @} */
+
   static std::string class_name() { return "leveltime"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "LevelTime"; }
   static std::string display_name() { return _("Time Limit"); }
   virtual std::string get_display_name() const override { return display_name(); }
 

@@ -19,8 +19,18 @@
 
 #include "badguy/granito.hpp"
 
+/**
+ * @scripting
+ * @summary A ""GranitoBig"" that was given a name can be controlled by scripts.
+ *          It has some features from its base class, ""Granito"", disabled.
+ * @instances A ""GranitoBig"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class GranitoBig final : public Granito
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   GranitoBig(const ReaderMapping& reader);
 
@@ -30,11 +40,36 @@ public:
 
   static std::string class_name() { return "granito_big"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "GranitoBig"; }
   static std::string display_name() { return _("Big Granito"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;
 
+  void carry(Granito* granito);
+  Granito* get_carrying() const { return m_carrying; }
+
+  /**
+   * @scripting
+   * @description This function tells the Granito being carried to
+   *              unglue itself from the Big Granito, by jumping and walking off.
+   */
+  virtual void eject() override;
+
+  /**
+   * @scripting
+   * @description Gets the name of the Granito being carried by the Big Granito.
+   */
+  std::string get_carrying_name() const;
+
+  // The following functions are unimplemented for Big Granito.
+  virtual void wave() override {}
+  virtual void jump() override {}
+  virtual void sit() override {}
+  virtual GranitoBig* get_carrier() const override { return nullptr; }
+
+public:
   Granito* m_carrying;
 
 protected:

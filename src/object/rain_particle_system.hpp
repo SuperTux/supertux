@@ -17,15 +17,22 @@
 #ifndef HEADER_SUPERTUX_OBJECT_RAIN_PARTICLE_SYSTEM_HPP
 #define HEADER_SUPERTUX_OBJECT_RAIN_PARTICLE_SYSTEM_HPP
 
-#include "math/easing.hpp"
 #include "object/particlesystem_interactive.hpp"
-#include "scripting/rain.hpp"
+
+#include "math/easing.hpp"
 #include "video/surface_ptr.hpp"
 
-class RainParticleSystem final :
-  public ParticleSystem_Interactive,
-  public ExposedObject<RainParticleSystem, scripting::Rain>
+/**
+ * @scripting
+ * @summary A ""RainParticleSystem"" that was given a name can be controlled by scripts.
+ * @instances A ""RainParticleSystem"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class RainParticleSystem final : public ParticleSystem_Interactive
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   RainParticleSystem();
   RainParticleSystem(const ReaderMapping& reader);
@@ -38,13 +45,36 @@ public:
 
   static std::string class_name() { return "particles-rain"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "RainParticleSystem"; }
   static std::string display_name() { return _("Rain Particles"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
 
-  void fade_speed(float new_speed, float fade_time);
+  /**
+   * @scripting
+   * @description Smoothly changes the rain speed to the given value in ""time"" seconds.
+   * @param float $speed
+   * @param float $time
+   */
+  void fade_speed(float speed, float time);
+  /**
+   * @scripting
+   * @description Smoothly changes the amount of particles to the given value in ""time"" seconds.
+   * @param float $amount
+   * @param float $time
+   */
+  void fade_amount(float amount, float time);
+  /**
+   * @scripting
+   * @description Smoothly changes the angle of the rain the given value in ""time"" seconds, according to the provided easing function.
+   * @param float $angle
+   * @param float $time
+   * @param string $ease
+   */
+  void fade_angle(float angle, float time, const std::string& ease);
+
+  /** Smoothly changes the angle of the rain the given value in ""time"" seconds, according to the provided easing function. */
   void fade_angle(float new_angle, float fade_time, easing ease_func);
-  void fade_amount(float new_amount, float fade_time);
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/rain.png";
@@ -59,14 +89,6 @@ public:
 
   // When m_current_amount == max_amount, fog is this value
   static float constexpr const fog_max_value = 0.6f;
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override {
-    ExposedObject<RainParticleSystem, scripting::Rain>::expose(vm, table_idx);
-  }
-
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override {
-    ExposedObject<RainParticleSystem, scripting::Rain>::unexpose(vm, table_idx);
-  }
 
 private:
   void set_amount(float amount);

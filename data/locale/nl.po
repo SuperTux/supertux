@@ -7,7 +7,7 @@
 # Frank van der Loo <f.vanderloo@gmail.com>, 2014-2015
 # Heimen Stoffels <vistausss@fastmail.com>, 2021-2022,2024
 # Heimen Stoffels <vistausss@fastmail.com>, 2015-2016,2018-2020
-# 111More1, 2022
+# IAN RODRÍGUEZ Lorenzo, 2022
 # thetuxgirl, 2024
 # Pieter De Decker <pdedecker@gmail.com>, 2007,2013
 # 62bd5b1da39b746abffbed10afdf3f48_dd9a6d2 <cc54ef8159ac0c483e6ec4ac38becdcc_215531>, 2015

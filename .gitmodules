@@ -1,9 +1,6 @@
 [submodule "external/tinygettext"]
 	path = external/tinygettext
 	url = https://github.com/SuperTux/tinygettext.git
-[submodule "external/squirrel"]
-	path = external/squirrel
-	url = https://github.com/albertodemichelis/squirrel.git
 [submodule "external/sexp-cpp"]
 	path = external/sexp-cpp
 	url = https://github.com/SuperTux/sexp-cpp.git
@@ -19,9 +16,9 @@
 [submodule "external/fmt"]
 	path = external/fmt
 	url = https://github.com/fmtlib/fmt.git
-[submodule "tools/miniswig"]
-	path = tools/miniswig
-	url = https://github.com/WindstilleTeam/miniswig
 [submodule "external/glm"]
 	path = external/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "external/simplesquirrel"]
+	path = external/simplesquirrel
+	url = https://github.com/SuperTux/simplesquirrel
