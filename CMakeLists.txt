@@ -64,12 +64,12 @@ include(ExternalProject)
 include(CheckCXXCompilerFlag)
 include(CheckSymbolExists)
 
-if(EMSCRIPTEN)
+if(EMSCRIPTEN OR NOT (CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo"))
   # FIXME: As of writing, Emscripten fails with "wasm-ld: error: /path/to/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/thinlto/libc.a(fileno.o): attempt to add bitcode file after LTO (fileno)"
   # Seems to be a known issue: https://github.com/emscripten-core/emscripten/issues/20275
-  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster builds)" OFF)
+  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster executables)" OFF)
 else()
-  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster builds)" ON)
+  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster executables)" ON)
 endif()
 if(SUPERTUX_IPO)
   include(CheckIPOSupported)
@@ -251,7 +251,11 @@ add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCE
 target_include_directories(supertux2_lib PUBLIC ${CMAKE_BINARY_DIR} src/)
 
 # Pre-compiled headers
-option(SUPERTUX_PCH "Pre-compile headers (faster builds)" ON)
+if (CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
+  option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" ON)
+else()
+  option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" OFF)
+endif()
 if(SUPERTUX_PCH)
   file(GLOB_RECURSE SUPERTUX_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/**.hpp)
   if(NOT HAVE_OPENGL)
