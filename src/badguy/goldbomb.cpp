@@ -239,7 +239,8 @@ GoldBomb::recover()
   m_state = STATE_RECOVER;
 }
 
-void GoldBomb::normalize()
+void
+GoldBomb::normalize()
 {
   m_physic.set_velocity_x(NORMAL_WALK_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
   m_physic.set_acceleration_x(0);

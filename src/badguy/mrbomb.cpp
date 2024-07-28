@@ -324,7 +324,8 @@ MrBomb::play_looping_sounds()
   }
 }
 
-void MrBomb::update_ticking(float dt_sec)
+void
+MrBomb::update_ticking(float dt_sec)
 {
   m_exploding_sprite->set_action("exploding", 1);
 
