@@ -25,6 +25,7 @@ class EndSequenceFireworks final : public EndSequence
 public:
   EndSequenceFireworks();
   ~EndSequenceFireworks() override;
+  virtual GameObjectClasses get_class_types() const override { return EndSequence::get_class_types().add(typeid(EndSequenceFireworks)); }
   virtual void draw(DrawingContext& context) override;
 
 protected:

@@ -45,6 +45,7 @@ public:
   virtual std::string get_exposed_class_name() const override { return "ScriptedObject"; }
   static std::string display_name() { return _("Scripted Object"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(ScriptedObject)); }
 
   virtual ObjectSettings get_settings() override;
 

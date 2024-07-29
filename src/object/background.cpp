@@ -316,8 +316,7 @@ void
 Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
   const Sizef level(d_gameobject_manager->get_width(), d_gameobject_manager->get_height());
-  const Sizef screen(context.get_width(),
-                     context.get_height());
+  const Sizef screen = context.get_viewport().get_size();
   const Sizef parallax_image_size((1.0f - m_parallax_speed.x) * screen.width + level.width * m_parallax_speed.x,
                                   (1.0f - m_parallax_speed.y) * screen.height + level.height * m_parallax_speed.y);
 
@@ -334,7 +333,6 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
   const int end_y   = static_cast<int>(ceilf((cliprect.get_bottom() - (pos_.y + img_h/2.0f)) / img_h)) + 1;
 
   Canvas& canvas = context.get_canvas(m_target);
-  context.set_flip(context.get_flip() ^ m_flip);
 
   if (m_fill)
   {
@@ -407,7 +405,6 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         break;
     }
   }
-  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 void
@@ -418,19 +415,27 @@ Background::draw(DrawingContext& context)
 
   if (!m_image)
     return;
+    
+  context.push_transform();
+  if (!context.perspective_scale(m_parallax_speed.x, m_parallax_speed.y)) {
+    //The background is placed behind the camera.
+    context.pop_transform();
+    return;
+  }
+  context.set_flip(context.get_flip() ^ m_flip);
 
-  Sizef level_size(d_gameobject_manager->get_width(),
+  const Sizef level_size(d_gameobject_manager->get_width(),
                    d_gameobject_manager->get_height());
-  Sizef screen(context.get_width(),
-               context.get_height());
-  Sizef translation_range = level_size - screen;
-  Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
-                       context.get_translation().y - translation_range.height / 2.0f);
+  const Sizef screen = context.get_viewport().get_size();
+  const Sizef translation_range = level_size - screen;
+  const Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
+                             context.get_translation().y - translation_range.height / 2.0f);
 
-  Vector pos(level_size.width / 2,
-             level_size.height / 2);
+  const Vector pos(level_size.width / 2,
+                   level_size.height / 2);
   draw_image(context, pos + m_scroll_offset + Vector(center_offset.x * (1.0f - m_parallax_speed.x),
                                                      center_offset.y * (1.0f - m_parallax_speed.y)));
+  context.pop_transform();
 }
 
 namespace {
