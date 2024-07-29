@@ -230,7 +230,7 @@ protected:
 
   /** Returns true if we might soon fall at least @c height
       pixels. Minimum value for height is 1 pixel */
-  bool might_fall(int height = 1) const;
+  bool might_fall(int height = 1);
 
   /** Update on_ground_flag judging by solid collision @c hit. This
       gets called from the base implementation of collision_solid, so
@@ -296,6 +296,10 @@ protected:
   /** floor normal stored the last time when update_on_ground_flag was
       called and we touched something solid from above */
   Vector m_floor_normal;
+
+  /** Used for the might_fall function.
+      Represents the tile data of the detected slope. */
+  int m_detected_slope;
 
 private:
   State m_state;

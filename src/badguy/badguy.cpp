@@ -71,6 +71,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_water_affected(true),
   m_unfreeze_timer(),
   m_floor_normal(0.0f, 0.0f),
+  m_detected_slope(0),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
@@ -114,6 +115,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_water_affected(true),
   m_unfreeze_timer(),
   m_floor_normal(0.0f, 0.0f),
+  m_detected_slope(0),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
@@ -844,43 +846,91 @@ BadGuy::try_activate()
 }
 
 bool
-BadGuy::might_fall(int height) const
+BadGuy::might_fall(int height)
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
   assert(height > 0);
 
-  Vector eye(0, get_bbox().get_bottom() + 1.f);
-  eye.x = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
+  // Origin in Y coord used for raycasting.
+  float oy = get_bbox().get_bottom() + 1.f;
 
-  // TODO: change to max possible drop height
-  Vector end(eye.x, eye.y + 256.f);
-  std::cout << eye << " " << end << std::endl;
-
-  RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
-  //bool slope = false;
-
-  auto tile_p = std::get_if<const Tile*>(&result.hit);
-  if (result.is_valid && result.box.p1().y - eye.y < static_cast<float>(height)) {
-    return false;
-  }
-  else if (tile_p && (*tile_p) && (*tile_p)->is_slope())
+  if (m_detected_slope == 0)
   {
-    AATriangle tri((*tile_p)->get_data());
-    std::cout << "SLOPE" << std::endl;
-    if (tri.is_south() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
-    {
-      //slope = true;
-      Vector seye(get_bbox().get_left() + get_bbox().get_width() / 2.f, eye.y);
-      Vector send(seye.x + 6.5f * (m_dir == Direction::LEFT ? 1.f : -1.f), seye.y + 80.f);
-      RaycastResult sresult = Sector::get().get_first_line_intersection(seye, send, false, nullptr);
+    Vector eye(0, oy);
+    eye.x = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
 
-      std::cout << sresult.is_valid << std::endl;
-      return !sresult.is_valid;
+    // TODO: change to max possible drop height
+    Vector end(eye.x, eye.y + 256.f);
+    //std::cout << eye << " " << end << std::endl;
+
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
+    //bool slope = false;
+
+    auto tile_p = std::get_if<const Tile*>(&result.hit);
+    if (result.is_valid && result.box.get_top() - eye.y < static_cast<float>(height))
+    {
+      // The ground is within max drop height. Continue.
+      return false;
+    }
+    else if (tile_p && (*tile_p) && (*tile_p)->is_slope())
+    {
+      // Switch to slope mode.
+      m_detected_slope = (*tile_p)->get_data();
+    }
+    else
+    {
+      // The ground is no longer within reach. Turn around.
+      return true;
     }
   }
 
-  return true;
+  if (m_detected_slope != 0)
+  {
+    AATriangle tri(m_detected_slope);
+    std::cout << "SLOPE " << m_detected_slope << std::endl;
+    if (tri.is_south() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
+    {
+      //slope = true;
+      Vector eye(get_bbox().get_left() + get_bbox().get_width() / 2.f, oy);
+      Vector end(eye.x + 6.5f * (m_dir == Direction::LEFT ? 1.f : -1.f), eye.y + 80.f);
+      RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
+
+      std::cout << result.is_valid << std::endl;
+
+      if (!result.is_valid)
+      {
+        // Turn around and climb the slope.
+        m_detected_slope = 0;
+        return true;
+      }
+      else
+      {
+        if (result.box.get_top() - eye.y >= static_cast<float>(height))
+        {
+          // Result is not within reach.
+          std::cout << "gahh";
+          m_detected_slope = 0;
+          return true;
+        }
+
+        bool is_tile = std::holds_alternative<const Tile*>(result.hit);
+        if (is_tile && std::get<const Tile*>(result.hit)->is_slope())
+        {
+          // Still going down a slope. Continue.
+          //m_detected_slope = (*tile_p)->get_data();
+          return false;
+        }
+
+        // No longer going down a slope. Switch off slope mode.
+        m_detected_slope = 0;
+        std::cout << "aggh" << std::endl;
+        return false;
+      }
+    }
+
+    return false;
+  }
 }
 
 Player*
