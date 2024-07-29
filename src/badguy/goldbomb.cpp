@@ -50,7 +50,9 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
 void
 GoldBomb::collision_solid(const CollisionHit& hit)
 {
-  if ((m_state != STATE_NORMAL && m_state != STATE_TICKING) && (hit.left || hit.right))
+  // The first condition checks if the current state
+  // is not walking nor ticking, which are both MrBomb states.
+  if (m_state >= MB_STATE_COUNT && (hit.left || hit.right))
   {
     cornered();
     return;
@@ -62,20 +64,19 @@ GoldBomb::collision_solid(const CollisionHit& hit)
 void
 GoldBomb::active_update(float dt_sec)
 {
-  if (m_state == STATE_TICKING)
+  if (m_state == MB_STATE_TICKING)
   {
     update_ticking(dt_sec);
     return;
   }
 
-  if ((m_state == STATE_FLEEING || m_state == STATE_CORNERED || m_state == STATE_RECOVER)
+  if ((m_state == GB_STATE_FLEEING || m_state == GB_STATE_CORNERED || m_state == GB_STATE_RECOVER)
       && on_ground() && might_fall(s_normal_max_drop_height+1))
   {
-    // also check for STATE_CORNERED just so
-    // the bomb doesnt automatically turn around
-    if (m_state == STATE_RECOVER)
-      recover();
-    else
+    // If it's fleeing, enter cornered state once ledge is detected.
+    // Skip the WalkingBadguy update function to prevent turning around
+    // when a ledge is detected.
+    if (m_state != GB_STATE_RECOVER)
       cornered();
 
     return;
@@ -112,14 +113,14 @@ GoldBomb::active_update(float dt_sec)
   {
     // Everybody's outside of safe distance. Am I cornered?
 
-    if (m_state == STATE_CORNERED)
+    if (m_state == GB_STATE_CORNERED)
     {
       // Look back to check.
       recover();
       return;
     }
 
-    if (m_state == STATE_RECOVER)
+    if (m_state == GB_STATE_RECOVER)
     {
       if (!m_sprite->animation_done())
         return;
@@ -135,17 +136,18 @@ GoldBomb::active_update(float dt_sec)
   const Vector vecdist = p2-p1;
 
   // But I only react to those who are in realize distance
-  if (glm::length(vecdist) > REALIZE_DIST && m_state == STATE_NORMAL) return;
+  if (glm::length(vecdist) > REALIZE_DIST && m_state == MB_STATE_NORMAL)
+    return;
 
   // Someone's around!
   switch (m_state)
   {
-    case STATE_FLEEING:
+    case GB_STATE_FLEEING:
       // They popped up from the other side! Turn around!
       if (m_dir == (vecdist.x > 0 ? Direction::LEFT : Direction::RIGHT)) return;
       [[fallthrough]];
 
-    case STATE_NORMAL:
+    case MB_STATE_NORMAL:
     {
       if (!on_ground()) break;
 
@@ -167,19 +169,19 @@ GoldBomb::active_update(float dt_sec)
       m_physic.set_acceleration_x(0);
       m_dir = vecdist.x > 0 ? Direction::RIGHT : Direction::LEFT;
       m_sprite->set_action("flee", m_dir);
-      m_state = STATE_REALIZING;
+      m_state = GB_STATE_REALIZING;
       m_realize_timer.start(REALIZE_TIME);
       break;
     }
 
-    case STATE_REALIZING:
+    case GB_STATE_REALIZING:
       if (!m_realize_timer.check())
         break;
 
       flee(vecdist.x > 0 ? Direction::LEFT : Direction::RIGHT);
       break;
 
-    case STATE_RECOVER:
+    case GB_STATE_RECOVER:
       cornered();
       return;
 
@@ -210,13 +212,13 @@ GoldBomb::flee(Direction dir)
   else
     set_action("flee", m_dir);
 
-  m_state = STATE_FLEEING;
+  m_state = GB_STATE_FLEEING;
 }
 
 void
 GoldBomb::cornered()
 {
-  if (m_state == STATE_CORNERED)
+  if (m_state == GB_STATE_CORNERED)
     return;
 
   set_walk_speed(0);
@@ -225,18 +227,18 @@ GoldBomb::cornered()
 
   set_action("scared", m_dir);
 
-  m_state = STATE_CORNERED;
+  m_state = GB_STATE_CORNERED;
 }
 
 void
 GoldBomb::recover()
 {
-  if (m_state == STATE_RECOVER)
+  if (m_state == GB_STATE_RECOVER)
     return;
 
   set_action("recover", m_dir);
 
-  m_state = STATE_RECOVER;
+  m_state = GB_STATE_RECOVER;
 }
 
 void
@@ -249,7 +251,7 @@ GoldBomb::normalize()
   set_ledge_behavior(LedgeBehavior::SMART);
   set_walk_speed(NORMAL_WALK_SPEED);
 
-  m_state = STATE_NORMAL;
+  m_state = MB_STATE_NORMAL;
 }
 
 /* EOF */

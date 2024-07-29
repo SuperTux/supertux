@@ -35,6 +35,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Gold Bomb"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(GoldBomb)); }
   virtual bool is_snipable() const override { return true; }
 
   virtual void explode() override;
@@ -47,10 +48,10 @@ private:
 
 private:
   enum State : uint8_t {
-    STATE_REALIZING = 2,
-    STATE_FLEEING,
-    STATE_CORNERED,
-    STATE_RECOVER
+    GB_STATE_REALIZING = 2,
+    GB_STATE_FLEEING,
+    GB_STATE_CORNERED,
+    GB_STATE_RECOVER
   };
 
   Timer m_realize_timer;

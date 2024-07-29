@@ -44,7 +44,7 @@ public:
   virtual void freeze() override;
   virtual bool is_freezable() const override;
 
-  bool is_ticking() const { return m_state == STATE_TICKING; }
+  bool is_ticking() const { return m_state == MB_STATE_TICKING; }
   virtual void trigger(Player* player);
   virtual void explode();
 
@@ -67,8 +67,10 @@ protected:
 
 protected:
   enum State : uint8_t {
-    STATE_NORMAL,
-    STATE_TICKING
+    MB_STATE_NORMAL,
+    MB_STATE_TICKING,
+
+    MB_STATE_COUNT
   };
 
   uint8_t m_state;

@@ -1,4 +1,4 @@
-//  SuperTux BadGuy MrBomb
+//  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //  Copyright (C) 2013 LMH <lmh.0013@gmail.com>
 //  Copyright (C) 2024 MatusGuy <matusguy@supertuxproject.org>
@@ -31,7 +31,7 @@
 
 MrBomb::MrBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
-  m_state(STATE_NORMAL),
+  m_state(MB_STATE_NORMAL),
   m_ticking_sound(),
   m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
@@ -45,7 +45,7 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
 
 MrBomb::MrBomb(const ReaderMapping& reader, const std::string& sprite, const std::string& glow_sprite):
   WalkingBadguy(reader, sprite, "left", "right"),
-  m_state(STATE_NORMAL),
+  m_state(MB_STATE_NORMAL),
   m_ticking_sound(),
   m_exploding_sprite(SpriteManager::current()->create(glow_sprite))
 {
@@ -60,7 +60,7 @@ MrBomb::MrBomb(const ReaderMapping& reader, const std::string& sprite, const std
 void
 MrBomb::collision_solid(const CollisionHit& hit)
 {
-  if (m_state == STATE_TICKING) {
+  if (m_state == MB_STATE_TICKING) {
     if (hit.bottom)
       m_physic.set_velocity(0, 0);
     else
@@ -76,7 +76,7 @@ MrBomb::collision_solid(const CollisionHit& hit)
 HitResponse
 MrBomb::collision(GameObject& object, const CollisionHit& hit)
 {
-  if (m_state == STATE_TICKING)
+  if (m_state == MB_STATE_TICKING)
   {
     auto player = dynamic_cast<Player*>(&object);
     if (player) return collision_player(*player, hit);
@@ -93,7 +93,7 @@ MrBomb::collision(GameObject& object, const CollisionHit& hit)
 HitResponse
 MrBomb::collision_player(Player& player, const CollisionHit& hit)
 {
-  if (m_state == STATE_TICKING)
+  if (m_state == MB_STATE_TICKING)
   {
     if (m_physic.get_velocity() != Vector())
       kill_fall();
@@ -107,11 +107,11 @@ MrBomb::collision_player(Player& player, const CollisionHit& hit)
 HitResponse
 MrBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if (m_state == STATE_TICKING)
+  if (m_state == MB_STATE_TICKING)
   {
     if (m_physic.get_velocity() != Vector()) kill_fall();
     return ABORT_MOVE;
-  } else if (m_state != STATE_NORMAL) {
+  } else if (m_state != MB_STATE_NORMAL) {
     return FORCE_MOVE;
   }
   return WalkingBadguy::collision_badguy(badguy, hit);
@@ -129,7 +129,7 @@ MrBomb::collision_squished(GameObject& object)
     kill_fall();
     return true;
   }
-  if (is_valid() && m_state != STATE_TICKING) {
+  if (is_valid() && m_state != MB_STATE_TICKING) {
     trigger(player);
   }
   return true;
@@ -138,7 +138,7 @@ MrBomb::collision_squished(GameObject& object)
 void
 MrBomb::active_update(float dt_sec)
 {
-  if (m_state == STATE_TICKING)
+  if (m_state == MB_STATE_TICKING)
   {
     update_ticking(dt_sec);
     return;
@@ -152,7 +152,7 @@ MrBomb::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  if (m_state == STATE_TICKING)
+  if (m_state == MB_STATE_TICKING)
   {
     m_exploding_sprite->set_blend(Blend::ADD);
     m_exploding_sprite->draw(context.light(),
@@ -165,7 +165,7 @@ MrBomb::draw(DrawingContext& context)
 void
 MrBomb::trigger(Player* player)
 {
-  m_state = STATE_TICKING;
+  m_state = MB_STATE_TICKING;
   m_frozen = false;
   set_action("ticking", m_dir, 1);
   m_physic.set_velocity_x(0);
@@ -193,7 +193,7 @@ MrBomb::explode()
 void
 MrBomb::kill_fall()
 {
-  if (m_state == STATE_TICKING)
+  if (m_state == MB_STATE_TICKING)
     m_ticking_sound->stop();
 
   // Make the player let go before we explode, otherwise the player is holding
@@ -228,7 +228,7 @@ MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
 
-  if (m_state == STATE_TICKING){
+  if (m_state == MB_STATE_TICKING){
     // We actually face the opposite direction of Tux here to make the fuse more
     // visible instead of hiding it behind Tux.
     set_action("ticking", m_dir, Sprite::LOOPS_CONTINUED);
@@ -290,8 +290,8 @@ MrBomb::ungrab(MovingObject& object, Direction dir_)
 void
 MrBomb::freeze()
 {
-  if (m_state != STATE_TICKING) {
-    m_state = STATE_NORMAL;
+  if (m_state != MB_STATE_TICKING) {
+    m_state = MB_STATE_NORMAL;
     WalkingBadguy::freeze();
   }
 }
@@ -305,7 +305,7 @@ MrBomb::is_freezable() const
 bool
 MrBomb::is_portable() const
 {
-  return (m_frozen || (m_state == STATE_TICKING));
+  return (m_frozen || (m_state == MB_STATE_TICKING));
 }
 
 void
@@ -319,7 +319,7 @@ MrBomb::stop_looping_sounds()
 void
 MrBomb::play_looping_sounds()
 {
-  if (m_state == STATE_TICKING && m_ticking_sound) {
+  if (m_state == MB_STATE_TICKING && m_ticking_sound) {
     m_ticking_sound->play();
   }
 }
