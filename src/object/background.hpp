@@ -18,12 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
 #include "math/vector.hpp"
-<<<<<<< HEAD
-#include "scripting/background.hpp"
 #include "sprite/sprite_ptr.hpp"
-#include "squirrel/exposed_object.hpp"
-=======
->>>>>>> supertux/master
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 #include "video/blend.hpp"
