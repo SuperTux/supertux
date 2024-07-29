@@ -37,7 +37,7 @@ public:
   ReaderObject get_root() const;
 
   /** Returns the filename of the document */
-  std::string get_filename() const;
+  const std::string& get_filename() const;
 
   /** Returns the directory of the document */
   std::string get_directory() const;

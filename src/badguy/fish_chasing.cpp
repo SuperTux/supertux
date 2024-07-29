@@ -52,6 +52,8 @@ FishChasing::get_default_sprite_name() const
   {
     case FOREST:
       return "images/creatures/fish/forest/brownfish.sprite";
+    case CORRUPTED:
+      return "images/creatures/fish/forest/corrupted/corrupted_brownfish.sprite";
     default:
       return m_default_sprite_name;
   }

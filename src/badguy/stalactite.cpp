@@ -31,7 +31,7 @@ static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const ReaderMapping& mapping) :
-  BadGuy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1),
+  StickyBadguy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1, COLGROUP_MOVING),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
@@ -46,6 +46,8 @@ Stalactite::Stalactite(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/cracking.wav");
   SoundManager::current()->preload("sounds/sizzle.ogg");
   SoundManager::current()->preload("sounds/icecrash.ogg");
+
+  mapping.get("sticky", m_sticky, false);
 }
 
 void
@@ -73,6 +75,10 @@ Stalactite::active_update(float dt_sec)
     }
   } else if (state == STALACTITE_FALLING) {
     m_col.set_movement(m_physic.get_movement(dt_sec));
+  }
+
+  if (state != STALACTITE_FALLING && m_sticky) {
+    sticky_update(dt_sec);
   }
 }
 
@@ -213,6 +219,16 @@ Stalactite::on_flip(float height)
 {
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+ObjectSettings
+Stalactite::get_settings()
+{
+  ObjectSettings result = StickyBadguy::get_settings();
+
+  result.reorder({"sticky", "speed", "sprite", "x", "y" });
+
+  return result;
 }
 
 /* EOF */

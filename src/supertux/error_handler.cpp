@@ -106,6 +106,8 @@ ErrorHandler::get_stacktrace()
   for (size_t i = 0; i < size; i++)
     stacktrace << functions[i] << "\n";
 
+  std::free(functions);
+
   return stacktrace.str();
 #else
   return "";

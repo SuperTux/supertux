@@ -62,23 +62,23 @@ private:
   Addon();
 
 public:
-  std::string get_id() const { return m_id; }
+  const std::string& get_id() const { return m_id; }
   int get_version() const { return m_version; }
   int get_format() const { return m_format; }
 
   Type get_type() const { return m_type; }
-  std::string get_title() const { return m_title; }
-  std::string get_author() const { return m_author; }
-  std::string get_license() const { return m_license; }
+  const std::string& get_title() const { return m_title; }
+  const std::string& get_author() const { return m_author; }
+  const std::string& get_license() const { return m_license; }
 
-  std::string get_description() const { return m_description; }
-  std::string get_url() const { return m_url; }
-  std::string get_md5() const { return m_md5; }
+  const std::string& get_description() const { return m_description; }
+  const std::string& get_url() const { return m_url; }
+  const std::string& get_md5() const { return m_md5; }
   const std::vector<std::string>& get_screenshots() const { return m_screenshots; }
   const std::vector<std::string>& get_dependencies() const { return m_dependencies; }
 
   std::string get_filename() const;
-  std::string get_install_filename() const;
+  const std::string& get_install_filename() const;
 
   bool is_installed() const;
   bool is_enabled() const;

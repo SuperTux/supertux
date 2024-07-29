@@ -29,6 +29,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Invisible Block"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Block::get_class_types().add(typeid(InvisibleBlock)); }
 
   virtual void draw(DrawingContext& context) override;
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;

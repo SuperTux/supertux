@@ -21,14 +21,20 @@ find data/ -name "objects.stoi" -print0 | xargs -0 xgettext --keyword='_:1' \
   --package-name="${package_name}" --package-version="${package_version}" \
   --msgid-bugs-address=https://github.com/SuperTux/supertux/issues
 
+find data/ -name "data.stcd" -print0 | xargs -0 xgettext --keyword='_:1' \
+  --language=Lisp --from-code=UTF-8 --sort-by-file \
+  --output data/locale/converters.pot --add-comments=l10n \
+  --package-name="${package_name}" --package-version="${package_version}" \
+  --msgid-bugs-address=https://github.com/SuperTux/supertux/issues
+
 find data/ -name "*.strf" -print0 | xargs -0 xgettext --keyword='_:1' \
   --language=Lisp --from-code=UTF-8 --sort-by-file \
   --output data/locale/tilesets.pot --add-comments=l10n \
   --package-name="${package_name}" --package-version="${package_version}" \
   --msgid-bugs-address=https://github.com/SuperTux/supertux/issues
 
-msgcat data/locale/main.pot data/locale/credits.pot data/locale/objects.pot data/locale/tilesets.pot > data/locale/messages.pot
-rm -f data/locale/main.pot data/locale/credits.pot data/locale/objects.pot data/locale/tilesets.pot
+msgcat data/locale/main.pot data/locale/credits.pot data/locale/objects.pot data/locale/tilesets.pot data/locale/converters.pot > data/locale/messages.pot
+rm -f data/locale/main.pot data/locale/credits.pot data/locale/objects.pot data/locale/tilesets.pot data/locale/converters.pot
 
 # Prepare script files for inclusion in tinygettext
 for LEVELSET in $(ls data/levels); do

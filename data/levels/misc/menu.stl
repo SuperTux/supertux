@@ -24,6 +24,9 @@
         parallax2.set_color(0.125, 0.18, 0.35, 1);
         skybox.set_image(\"images/background/misc/skybox_night.png\");
 
+        // change music
+        settings.set_music(\"music/misc/christmas_theme.music\");
+
         // change tilemaps
         christmas.set_alpha(1);
       }
@@ -73,6 +76,9 @@
       (height 32)
       (x 18240)
       (y 1408)
+    )
+    (music
+      (file "/music/misc/theme.music")
     )
     (particles-snow
       (enabled #f)

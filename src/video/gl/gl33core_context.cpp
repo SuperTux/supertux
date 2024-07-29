@@ -68,12 +68,12 @@ GL33CoreContext::bind()
   if (back_renderer->is_rendering() || !back_renderer->get_texture())
   {
     texture = m_black_texture.get();
-    glUniform1f(m_program->get_uniform_location("backbuffer"), 0.0f);
+    glUniform1f(m_program->get_backbuffer_location(), 0.0f);
   }
   else
   {
     texture = static_cast<GLTexture*>(back_renderer->get_texture().get());
-    glUniform1f(m_program->get_uniform_location("backbuffer"), 1.0f);
+    glUniform1f(m_program->get_backbuffer_location(), 1.0f);
   }
 
   glActiveTexture(GL_TEXTURE2);
@@ -99,14 +99,14 @@ GL33CoreContext::bind()
     0.0, sy, 0,
     tx, ty, 1.0,
   };
-  glUniformMatrix3fv(m_program->get_uniform_location("fragcoord2uv"),
+  glUniformMatrix3fv(m_program->get_fragcoord2uv_location(),
                      1, false, matrix);
 
-  glUniform1i(m_program->get_uniform_location("diffuse_texture"), 0);
-  glUniform1i(m_program->get_uniform_location("displacement_texture"), 1);
-  glUniform1i(m_program->get_uniform_location("framebuffer_texture"), 2);
+  glUniform1i(m_program->get_diffuse_texture_location(), 0);
+  glUniform1i(m_program->get_displacement_texture_location(), 1);
+  glUniform1i(m_program->get_framebuffer_texture_location(), 2);
 
-  glUniform1f(m_program->get_uniform_location("game_time"), g_game_time);
+  glUniform1f(m_program->get_game_time_location(), g_game_time);
 
   assert_gl();
 }
@@ -128,7 +128,7 @@ GL33CoreContext::ortho(float width, float height, bool vflip)
     0, 0, 1
   };
 
-  const GLint mvp_loc = m_program->get_uniform_location("modelviewprojection");
+  const GLint mvp_loc = m_program->get_modelviewprojection_location();
   glUniformMatrix3fv(mvp_loc, 1, false, mvp_matrix);
 
   assert_gl();
@@ -196,7 +196,7 @@ GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacemen
     animate.x /= static_cast<float>(texture.get_image_width());
     animate.y /= static_cast<float>(texture.get_image_height());
 
-    glUniform2f(m_program->get_uniform_location("animate"), animate.x, animate.y);
+    glUniform2f(m_program->get_animate_location(), animate.x, animate.y);
   }
 
   if (displacement_texture)
@@ -209,7 +209,7 @@ GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacemen
     animate.x /= static_cast<float>(displacement_texture->get_image_width());
     animate.y /= static_cast<float>(displacement_texture->get_image_height());
 
-    glUniform2f(m_program->get_uniform_location("displacement_animate"), animate.x, animate.y);
+    glUniform2f(m_program->get_displacement_animate_location(), animate.x, animate.y);
   }
   else
   {

@@ -17,6 +17,7 @@
 #include "object/pushbutton.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "object/bigsnowball.hpp"
 #include "object/player.hpp"
 #include "object/rock.hpp"
 #include "sprite/sprite.hpp"
@@ -30,7 +31,7 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 }
 
 PushButton::PushButton(const ReaderMapping& mapping) :
-  MovingSprite(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
+  StickyObject(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
   m_script(),
   m_state(OFF),
   m_dir(Direction::UP)
@@ -50,18 +51,20 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   else if (mapping.get("upside-down", old_upside_down) && old_upside_down)
     m_dir = Direction::DOWN;
 
+  mapping.get("sticky", m_sticky, false);
+
   set_action("off", m_dir, -1);
 }
 
 ObjectSettings
 PushButton::get_settings()
 {
-  ObjectSettings result = MovingSprite::get_settings();
+  ObjectSettings result = StickyObject::get_settings();
 
   result.add_direction(_("Direction"), &m_dir, { Direction::UP, Direction::DOWN }, "direction");
   result.add_script(_("Script"), &m_script, "script");
 
-  result.reorder({"direction", "script", "x", "y"});
+  result.reorder({"direction", "script", "sticky", "x", "y"});
 
   return result;
 }
@@ -74,8 +77,11 @@ PushButton::after_editor_set()
 }
 
 void
-PushButton::update(float /*dt_sec*/)
+PushButton::update(float dt_sec)
 {
+  if (m_sticky) {
+    StickyObject::update(dt_sec);
+  }
 }
 
 HitResponse
@@ -83,7 +89,9 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*>(&other);
   auto rock = dynamic_cast<Rock*>(&other);
-  if (!player && !rock)
+  auto bs = dynamic_cast<BigSnowball*>(&other);
+
+  if (!player && !rock && !bs)
     return FORCE_MOVE;
 	if (player)
   {

@@ -32,7 +32,7 @@ jobs:
       matrix:
         # TODO: Add the OpenBSD, NetBSD and Solaris VMs whenever possible
         vm_os: [freebsd]
-        build_type: [Debug, Release]
+        build_type: [Debug, RelWithDebInfo]
         # FreeBSD does not have glbinding
         # glbiactions/checkout@v4
 
@@ -42,7 +42,7 @@ jobs:
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
