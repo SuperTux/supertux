@@ -20,6 +20,7 @@
 # Swyter <Swyterzone@gmail.com>, 2018,2021-2022,2024
 # Tam Ezquerra <namarie.tam@gmail.com>, 2019
 # Tam Ezquerra <namarie.tam@gmail.com>, 2019
+# Unknown, 2024
 # William Beltrán <wbeltranc@gmail.com>, 2016
 # William Beltrán <wbeltranc@gmail.com>, 2015-2016
 msgid ""
@@ -28,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-05-30 16:19+0200\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Swyter <Swyterzone@gmail.com>, 2018,2021-2022,2024\n"
+"Last-Translator: Unknown, 2024\n"
 "Language-Team: Spanish (http://app.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,11 +98,11 @@ msgstr "Anclado"
 
 #: src/trigger/text_area.cpp:148
 msgid "Anchor offset X"
-msgstr ""
+msgstr "Desplazarse de anclaje X"
 
 #: src/trigger/text_area.cpp:149
 msgid "Anchor offset Y"
-msgstr ""
+msgstr "Desplazarse de anclaje Y"
 
 #: src/trigger/text_area.cpp:150
 msgid "Texts"
@@ -122,7 +123,7 @@ msgstr "¿Bloqueado?"
 
 #: src/trigger/door.cpp:83
 msgid "Lock Color"
-msgstr ""
+msgstr "Bloquear Color"
 
 #: src/trigger/switch.cpp:62 src/object/ispy.cpp:54 src/object/bumper.cpp:53
 #: src/object/spotlight.cpp:106 src/object/pushbutton.cpp:61
@@ -189,7 +190,7 @@ msgstr "Se puede escalar"
 
 #: src/trigger/text_area.hpp:47
 msgid "Text Area"
-msgstr ""
+msgstr "Àrea de texto"
 
 #: src/trigger/door.hpp:31
 msgid "Door"
@@ -334,7 +335,7 @@ msgstr "Normal"
 #: src/object/brick.cpp:60 src/object/bonus_block.cpp:175
 #: src/object/coin.cpp:70 src/object/invisible_block.cpp:38
 msgid "Retro"
-msgstr ""
+msgstr "Retro"
 
 #: src/object/brick.cpp:166
 msgid "Breakable"
@@ -418,7 +419,7 @@ msgstr ""
 
 #: src/object/bonus_block.cpp:172
 msgid "Blue"
-msgstr ""
+msgstr "Azul"
 
 #: src/object/bonus_block.cpp:173
 msgid "Orange"
@@ -792,23 +793,23 @@ msgstr "Huevo"
 
 #: src/object/powerup.cpp:62
 msgid "Fire Flower"
-msgstr ""
+msgstr "Flor de Fuego"
 
 #: src/object/powerup.cpp:63
 msgid "Ice Flower"
-msgstr ""
+msgstr "Flor de Hielo"
 
 #: src/object/powerup.cpp:64
 msgid "Air Flower"
-msgstr ""
+msgstr "Flor de Aire"
 
 #: src/object/powerup.cpp:65
 msgid "Earth Flower"
-msgstr ""
+msgstr "Flor de Tierra"
 
 #: src/object/powerup.cpp:67
 msgid "Tux Doll"
-msgstr ""
+msgstr "Muñeco de Tux"
 
 #: src/object/powerup.cpp:68
 msgid "Flip Potion"
@@ -816,7 +817,7 @@ msgstr ""
 
 #: src/object/powerup.cpp:69
 msgid "Mints"
-msgstr ""
+msgstr "Mentas"
 
 #: src/object/powerup.cpp:70
 msgid "Coffee"
@@ -1810,7 +1811,7 @@ msgstr "Cristalio"
 #: src/badguy/kamikazesnowball.cpp:118 src/badguy/walkingleaf.cpp:36
 #: src/badguy/jumpy.cpp:46 src/badguy/igel.cpp:189 src/badguy/mrtree.cpp:51
 msgid "Corrupted"
-msgstr ""
+msgstr "Corrupto"
 
 #: src/badguy/totem.hpp:37
 msgid "Totem"
@@ -1870,7 +1871,7 @@ msgstr ""
 
 #: src/badguy/mriceblock.hpp:49
 msgid "Mr. Iceblock"
-msgstr ""
+msgstr "Sr. Cubo de Hielo"
 
 #: src/badguy/granito.hpp:39 src/badguy/darttrap.cpp:163
 #: src/badguy/corrupted_granito.cpp:175 src/badguy/dispenser.cpp:438
@@ -1894,7 +1895,7 @@ msgstr ""
 
 #: src/badguy/flame.cpp:84
 msgid "Fire"
-msgstr ""
+msgstr "Fuego"
 
 #: src/badguy/flame.cpp:85
 msgid "Ghost"
@@ -1902,7 +1903,7 @@ msgstr ""
 
 #: src/badguy/corrupted_granito_big.hpp:35
 msgid "Corrupted Big Granito"
-msgstr ""
+msgstr "Corrupto Granito Grande"
 
 #: src/badguy/scrystallo.cpp:57
 msgid "Walk Radius"
@@ -2006,7 +2007,7 @@ msgstr ""
 
 #: src/badguy/snowball.hpp:30
 msgid "Mr. Snowball"
-msgstr ""
+msgstr "Bola de Nieve"
 
 #: src/badguy/smartblock.hpp:30
 msgid "Mrs. Iceblock"
@@ -2030,7 +2031,7 @@ msgstr ""
 
 #: src/badguy/mrbomb.cpp:48
 msgid "Classic"
-msgstr ""
+msgstr "Clasico"
 
 #: src/badguy/flyingsnowball.hpp:33
 msgid "Flying Snowball"
@@ -2038,23 +2039,23 @@ msgstr "Bola de nieve voladora"
 
 #: src/badguy/crusher.cpp:75
 msgid "Ice (normal)"
-msgstr ""
+msgstr "Hielo (normal)"
 
 #: src/badguy/crusher.cpp:76
 msgid "Ice (big)"
-msgstr ""
+msgstr "Hielo (grande)"
 
 #: src/badguy/crusher.cpp:77
 msgid "Rock (normal)"
-msgstr ""
+msgstr "Roca (normal)"
 
 #: src/badguy/crusher.cpp:78
 msgid "Rock (big)"
-msgstr ""
+msgstr "Roca (grande)"
 
 #: src/badguy/crusher.cpp:79
 msgid "Corrupted (normal)"
-msgstr ""
+msgstr "Corrupto (normal)"
 
 #: src/badguy/crusher.cpp:80
 msgid "Corrupted (big)"
@@ -2066,7 +2067,7 @@ msgstr "De lado"
 
 #: src/badguy/kamikazesnowball.hpp:34
 msgid "Kamikaze Snowball"
-msgstr ""
+msgstr "Bola de nieve kamikaze"
 
 #: src/badguy/kamikazesnowball.hpp:64
 msgid "Leafshot"
@@ -2194,7 +2195,7 @@ msgstr ""
 
 #: src/badguy/stalactite.cpp:156
 msgid "ice"
-msgstr ""
+msgstr "hielo"
 
 #: src/badguy/stalactite.cpp:157
 msgid "rock"
@@ -2268,7 +2269,7 @@ msgstr ""
 
 #: src/badguy/granito_big.cpp:54 src/badguy/granito.cpp:265
 msgid "Walking"
-msgstr ""
+msgstr "Caminando"
 
 #: src/badguy/mriceblock.cpp:63
 msgid "Laptop"
@@ -2598,17 +2599,17 @@ msgstr "Niveles aportados"
 #: src/supertux/menu/contrib_menu.cpp:98
 #: src/supertux/menu/contrib_menu.cpp:112
 msgid "Official Contrib Levels"
-msgstr ""
+msgstr "Niveles oficiales de contribución"
 
 #: src/supertux/menu/contrib_menu.cpp:99
 #: src/supertux/menu/contrib_menu.cpp:118
 msgid "Community Contrib Levels"
-msgstr ""
+msgstr "Niveles de contribución por la Comunidad"
 
 #: src/supertux/menu/contrib_menu.cpp:100
 #: src/supertux/menu/contrib_menu.cpp:124
 msgid "User Contrib Levels"
-msgstr ""
+msgstr "Niveles de contribución por Usuarios"
 
 #: src/supertux/menu/contrib_menu.cpp:113
 msgid "How is this possible? There are no Official Contrib Levels!"
@@ -3291,7 +3292,7 @@ msgstr "A este mod le falta información."
 
 #: src/supertux/menu/addon_preview_menu.cpp:88
 msgid "Perform a \"Check Online\" to try retrieving it."
-msgstr ""
+msgstr "Realice una \"Verificar en línea\" para intentar recuperarlo."
 
 #: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "No author specified."
@@ -4272,7 +4273,7 @@ msgstr ""
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:40
 msgid "Play with the keyboard"
-msgstr ""
+msgstr "Jugar con el teclado"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:58
 msgid "Remove Player"

@@ -25,11 +25,13 @@
 
 namespace Parser
 {
-  extern Class* cl; // Set by "parse_compounddef()" so it can be accessed by the other functions.
-
   void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls);
-  void parse_sectiondef(tinyxml2::XMLElement* p_compounddef);
-  void parse_memberdef(tinyxml2::XMLElement* p_sectiondef);
+  void parse_sectiondef(tinyxml2::XMLElement* p_compounddef, Class& cls);
+  void parse_memberdef(tinyxml2::XMLElement* p_sectiondef, Class& cls);
+
+  void parse_constant(tinyxml2::XMLElement* p_memberdef, Class& cls, bool include = false, const std::string& prefix = {});
+  void parse_variable(tinyxml2::XMLElement* p_memberdef, Class& cls);
+  void parse_function(tinyxml2::XMLElement* p_memberdef, Class& cls);
   void parse_parameterlist(tinyxml2::XMLElement* p_memberdef, Function& func);
 
   void parse_xrefsect_desc(tinyxml2::XMLElement* p_xrefsect, std::string& dest);

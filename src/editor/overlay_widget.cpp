@@ -112,6 +112,7 @@ EditorOverlayWidget::delete_markers()
   if (m_selected_object && m_selected_object->is_valid())
     m_selected_object->editor_deselect();
 
+  sector->flush_game_objects(); // Flush any markers queued to be added
   for (auto& marker : sector->get_objects_by_type<MarkerObject>())
   {
     marker.remove_me();
