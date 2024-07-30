@@ -18,6 +18,12 @@
 
 #ifdef __EMSCRIPTEN__
 
+#include "addon/addon_manager.hpp"
+#include "gui/menu_manager.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+#include "video/video_system.hpp"
+
 extern "C" {
 
 EMSCRIPTEN_KEEPALIVE // This is probably not useful, I just want ppl to know it exists

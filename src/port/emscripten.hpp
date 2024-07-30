@@ -24,12 +24,6 @@
 #include <emscripten.h>
 #include <emscripten/html5.h>
 
-#include "addon/addon_manager.hpp"
-#include "gui/menu_manager.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
-#include "video/video_system.hpp"
-
 extern "C" {
 
 void set_resolution(int w, int h);
