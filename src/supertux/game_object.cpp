@@ -109,6 +109,15 @@ GameObject::save()
   return save_stream.str();
 }
 
+GameObjectClasses
+GameObject::get_class_types() const
+{
+  GameObjectClasses g;
+  // All class types except GameObject, since everything implements GameObject
+  // g.add(typeid(GameObject));
+  return g;
+}
+
 ObjectSettings
 GameObject::get_settings()
 {
@@ -135,7 +144,7 @@ GameObject::get_settings()
   return result;
 }
 
-std::string
+const std::string&
 GameObject::get_name() const
 {
   return m_name;

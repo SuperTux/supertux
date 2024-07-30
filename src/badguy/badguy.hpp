@@ -68,6 +68,7 @@ public:
   virtual std::string get_exposed_class_name() const override { return "BadGuy"; }
   static std::string display_name() { return _("Badguy"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Portable)).add(typeid(BadGuy)); }
 
   virtual std::string get_overlay_size() const { return "1x1"; }
 
@@ -138,6 +139,8 @@ public:
   /** Can enemy be sniped by sliding or swimboosting Tux?
     Returns false if enemy is spiky or too large */
   virtual bool is_snipable() const { return false; }
+
+  virtual bool always_active() const { return false; }
 
   bool is_frozen() const;
 

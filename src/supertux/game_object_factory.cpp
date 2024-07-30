@@ -84,6 +84,7 @@
 #include "object/ambient_sound.hpp"
 #include "object/background.hpp"
 #include "object/bicycle_platform.hpp"
+#include "object/bigsnowball.hpp"
 #include "object/bonus_block.hpp"
 #include "object/brick.hpp"
 #include "object/bumper.hpp"
@@ -251,6 +252,7 @@ GameObjectFactory::init_factories()
   add_factory<AmbientSound>("ambient_sound"); // Backward compatibilty.
   add_factory<AmbientSound>("ambient-sound");
   add_factory<Background>("background", OBJ_PARAM_WORLDMAP);
+  add_factory<BigSnowball>("bigsnowball", OBJ_PARAM_DISPENSABLE);
   add_factory<PathGameObject>("path");
   add_factory<BicyclePlatform>("bicycle-platform");
   add_factory<BonusBlock>("bonusblock", OBJ_PARAM_DISPENSABLE);

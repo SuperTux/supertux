@@ -62,6 +62,7 @@ Config::Config() :
   music_enabled(true),
   sound_volume(100),
   music_volume(50),
+  flash_intensity(50),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
   tux_spawn_pos(),
@@ -143,6 +144,7 @@ Config::load()
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
 
+  config_mapping.get("flash_intensity", flash_intensity);
   config_mapping.get("frame_prediction", frame_prediction);
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
@@ -441,6 +443,8 @@ Config::save()
   writer.write("aspect_width",  aspect_size.width);
   writer.write("aspect_height", aspect_size.height);
 
+  writer.write("flash_intensity", flash_intensity);
+
 #ifdef __EMSCRIPTEN__
   // Forcibly set autofit to true
   // TODO: Remove the autofit parameter entirely - it should always be true
@@ -507,7 +511,6 @@ Config::check_values()
 {
   camera_peek_multiplier = math::clamp(camera_peek_multiplier, 0.f, 1.f);
 }
-
 
 bool
 Config::is_christmas() const

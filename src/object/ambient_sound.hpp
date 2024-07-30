@@ -50,6 +50,7 @@ public:
   static std::string display_name() { return _("Ambient Sound"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool has_variable_size() const override { return true; }
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(AmbientSound)); }
 
   virtual void draw(DrawingContext& context) override;
 

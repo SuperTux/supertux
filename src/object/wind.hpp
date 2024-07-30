@@ -42,6 +42,7 @@ public:
   virtual std::string get_exposed_class_name() const override { return "Wind"; }
   static std::string display_name() { return _("Wind"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Wind)); }
 
   virtual ObjectSettings get_settings() override;
 
@@ -70,6 +71,7 @@ private:
   bool affects_objects; /**< whether the wind can affect objects */
   bool affects_player; /**< whether the wind can affect the player: useful for cinematic wind */
   bool fancy_wind;
+  bool particles_enabled;
 
 private:
   Wind(const Wind&) = delete;

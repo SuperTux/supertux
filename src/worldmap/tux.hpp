@@ -39,6 +39,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
   virtual bool is_singleton() const override { return true; }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(Tux)); }
 
   void setup(); /**< called prior to first update */
 
