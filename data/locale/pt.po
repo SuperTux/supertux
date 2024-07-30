@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# 111More1, 2022
+# IAN RODRÍGUEZ Lorenzo, 2022
 # André Pinheiro <andrepinheiro2004@gmail.com>, 2021
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # BlaCoiso, 2016

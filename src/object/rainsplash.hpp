@@ -28,6 +28,7 @@ class RainSplash final : public GameObject
 public:
   RainSplash(const Vector& pos, bool vertical);
   ~RainSplash() override;
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(RainSplash)); }
   virtual bool is_saveable() const override {
     return false;
   }

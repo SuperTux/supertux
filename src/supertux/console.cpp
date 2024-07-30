@@ -18,8 +18,8 @@
 
 #include "math/sizef.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
@@ -111,8 +111,7 @@ Console::Console(ConsoleBuffer& buffer) :
   m_history_position(m_history.end()),
   m_background(Surface::from_file("images/engine/console.png")),
   m_background2(Surface::from_file("images/engine/console2.png")),
-  m_vm(nullptr),
-  m_vm_object(),
+  m_vm(),
   m_backgroundOffset(0),
   m_height(0),
   m_alpha(1.0),
@@ -126,10 +125,7 @@ Console::Console(ConsoleBuffer& buffer) :
 
 Console::~Console()
 {
-  if (m_vm != nullptr && SquirrelVirtualMachine::current() != nullptr)
-  {
-    sq_release(SquirrelVirtualMachine::current()->get_vm().get_vm(), &m_vm_object);
-  }
+  m_vm.reset();
   m_buffer.set_console(nullptr);
 }
 
@@ -153,36 +149,23 @@ Console::on_buffer_change(int line_count)
 void
 Console::ready_vm()
 {
-  if (m_vm == nullptr) {
-    m_vm = SquirrelVirtualMachine::current()->get_vm().get_vm();
-    HSQUIRRELVM new_vm = sq_newthread(m_vm, 16);
-    if (new_vm == nullptr)
-      throw SquirrelError(m_vm, "Couldn't create new VM thread for console");
+  if (!m_vm.isEmpty()) return;
 
-    // Store reference to thread.
-    sq_resetobject(&m_vm_object);
-    if (SQ_FAILED(sq_getstackobj(m_vm, -1, &m_vm_object)))
-      throw SquirrelError(m_vm, "Couldn't get vm object for console");
-    sq_addref(m_vm, &m_vm_object);
-    sq_pop(m_vm, 1);
+  m_vm = SquirrelVirtualMachine::current()->get_vm().newThread(16);
 
-    // Create new roottable for thread.
-    sq_newtable(new_vm);
-    sq_pushroottable(new_vm);
-    if (SQ_FAILED(sq_setdelegate(new_vm, -2)))
-      throw SquirrelError(new_vm, "Couldn't set console_table delegate");
+  // Create new root table for the thread.
+  ssq::Table root = m_vm.newTable();
+  root.setDelegate(m_vm); // Set the root table as delegate.
+  m_vm.setRootTable(root);
 
-    sq_setroottable(new_vm);
-
-    m_vm = new_vm;
-
-    try {
-      std::string filename = "scripts/console.nut";
-      IFileStream stream(filename);
-      compile_and_run(m_vm, stream, filename);
-    } catch(std::exception& e) {
-      log_warning << "Couldn't load console.nut: " << e.what() << std::endl;
-    }
+  try
+  {
+    IFileStream stream("scripts/console.nut");
+    m_vm.run(m_vm.compileSource(stream, "scripts/console.nut"));
+  }
+  catch (const std::exception& e)
+  {
+    log_warning << "Couldn't load 'console.nut': " << e.what() << std::endl;
   }
 }
 
@@ -191,26 +174,26 @@ Console::execute_script(const std::string& command)
 {
   ready_vm();
 
-  SQInteger oldtop = sq_gettop(m_vm);
-  try {
-    if (SQ_FAILED(sq_compilebuffer(m_vm, command.c_str(), command.length(),
-                                  "", SQTrue)))
-      throw SquirrelError(m_vm, "Couldn't compile command");
+  const SQInteger old_top = m_vm.getTop();
+  try
+  {
+    ssq::Object ret = m_vm.runAndReturn(m_vm.compileSource(command.c_str()));
 
-    sq_pushroottable(m_vm);
-    if (SQ_FAILED(sq_call(m_vm, 1, SQTrue, SQTrue)))
-      throw SquirrelError(m_vm, "Problem while executing command");
-
-    if (sq_gettype(m_vm, -1) != OT_NULL)
-      m_buffer.addLines(squirrel2string(m_vm, -1));
-  } catch(std::exception& e) {
+    if (ret.getType() != ssq::Type::NULLPTR)
+      m_buffer.addLines(squirrel_to_string(ret));
+  }
+  catch (const std::exception& e)
+  {
     m_buffer.addLines(e.what());
   }
-  SQInteger newtop = sq_gettop(m_vm);
-  if (newtop < oldtop) {
-    log_fatal << "Script destroyed squirrel stack..." << std::endl;
-  } else {
-    sq_settop(m_vm, oldtop);
+
+  if (m_vm.getTop() < old_top)
+  {
+    log_fatal << "Script destroyed Squirrel stack..." << std::endl;
+  }
+  else
+  {
+    sq_settop(m_vm.getHandle(), old_top);
   }
 }
 
@@ -367,19 +350,20 @@ Console::autocomplete()
   ready_vm();
 
   // Append all keys of the current root table to list.
-  sq_pushroottable(m_vm); // push root table.
-  while (true) {
+  sq_pushroottable(m_vm.getHandle()); // push root table.
+  while (true)
+  {
     // Check all keys (and their children) for matches.
-    sq_insert_commands(cmds, m_vm, "", prefix);
+    sq_insert_commands(cmds, m_vm.getHandle(), "", prefix);
 
     // Cycle through parent(delegate) table.
-    SQInteger oldtop = sq_gettop(m_vm);
-    if (SQ_FAILED(sq_getdelegate(m_vm, -1)) || oldtop == sq_gettop(m_vm)) {
+    const SQInteger old_top = m_vm.getTop();
+    if (SQ_FAILED(sq_getdelegate(m_vm.getHandle(), -1)) || old_top == m_vm.getTop())
       break;
-    }
-    sq_remove(m_vm, -2); // Remove old table.
+
+    sq_remove(m_vm.getHandle(), -2); // Remove old table.
   }
-  sq_pop(m_vm, 1); // Remove table.
+  sq_pop(m_vm.getHandle(), 1); // Remove table.
 
   // Depending on number of hits, show matches or autocomplete.
   if (cmds.empty())

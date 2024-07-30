@@ -25,6 +25,7 @@ class OneUp final : public MovingSprite
 {
 public:
   OneUp(const Vector& pos, Direction direction = Direction::RIGHT);
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(OneUp)); }
   virtual bool is_saveable() const override {
     return false;
   }

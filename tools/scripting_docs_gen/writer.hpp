@@ -26,7 +26,11 @@ namespace Writer
 {
   std::string write_file_notice(const std::string& template_file);
 
+  std::string write_inheritance_list(const std::vector<Class>& classes,
+                                     const Class::BaseClasses& base_classes,
+                                     const std::vector<std::string>& derived_classes);
   std::string write_constants_table(const std::vector<Constant>& constants);
+  std::string write_variables_table(const std::vector<Variable>& variables);
   std::string write_function_table(const std::vector<Function>& functions);
   std::string write_class_list(const std::vector<Class>& classes);
 
