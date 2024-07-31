@@ -57,13 +57,11 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""burning"" property instead!
    * @description Returns ""true"" if the torch is burning.
    */
   bool get_burning() const;
   /**
    * @scripting
-   * @deprecated Use the ""burning"" property instead!
    * @description Switches the burning state of the torch.
    * @param bool $burning
    */

@@ -204,6 +204,8 @@ DisplayEffect::register_class(ssq::VM& vm)
   cls.addFunc("is_black", &DisplayEffect::is_black);
   cls.addFunc("sixteen_to_nine", &DisplayEffect::sixteen_to_nine);
   cls.addFunc("four_to_three", &DisplayEffect::four_to_three);
+
+  cls.addVar("black", &DisplayEffect::black);
 }
 
 /* EOF */

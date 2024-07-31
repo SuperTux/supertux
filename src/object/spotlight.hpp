@@ -66,14 +66,12 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""enabled"" property instead!
    * @description Enables/disables the spotlight.
    * @param bool $enabled
    */
   void set_enabled(bool enabled);
   /**
    * @scripting
-   * @deprecated Use the ""enabled"" property instead!
    * @description Returns ""true"" if the spotlight is enabled.
    */
   bool is_enabled();
@@ -87,7 +85,6 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""angle"" property instead!
    * @description Sets the angle of the spotlight.
    * @param float $angle
    */
@@ -110,7 +107,6 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""speed"" property instead!
    * @description Sets the speed of the spotlight.
    * @param float $speed
    */

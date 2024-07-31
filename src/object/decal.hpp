@@ -67,7 +67,6 @@ public:
 #ifdef DOXYGEN_SCRIPTING
   /**
    * @scripting
-   * @deprecated Use ""set_sprite()"" instead!
    * @description Changes the decal sprite.
    * @param string $sprite
    */

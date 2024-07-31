@@ -64,13 +64,11 @@ public:
 #ifdef DOXYGEN_SCRIPTING
   /**
    * @scripting
-   * @deprecated Use ""get_x()"" instead!
    * @description Returns the ambient sound's X coordinate.
    */
   float get_pos_x() const;
   /**
    * @scripting
-   * @deprecated Use ""get_y()"" instead!
    * @description Returns the ambient sound's Y coordinate.
    */
   float get_pos_y() const;

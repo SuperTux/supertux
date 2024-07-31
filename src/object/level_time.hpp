@@ -85,6 +85,14 @@ private:
   bool running;
   float time_left;
 
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description The number of seconds left on the clock.
+   */
+  float m_time;
+#endif
+
 private:
   LevelTime(const LevelTime&) = delete;
   LevelTime& operator=(const LevelTime&) = delete;
