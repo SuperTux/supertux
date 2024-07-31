@@ -150,7 +150,7 @@ public:
    * Sets the sprite action for all images (top, middle and bottom).
    * @param string $action
    */
-  void set_image_actions(const std::string& action);
+  void set_all_image_actions(const std::string& action);
 
 private:
   enum Alignment {

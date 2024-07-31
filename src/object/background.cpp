@@ -104,8 +104,8 @@ static SpritePtr load_background_sprite(const std::string& image_path)
     return SpriteManager::current()->create(image_path);
 
   // Search for a fallback image in fallback_paths.
-  const std::string& default_dir = "images/background/";
-  const std::string& default_dir2 = "/images/background/";
+  static const std::string default_dir = "images/background/";
+  static const std::string default_dir2 = "/images/background/";
   std::string new_path = image_path;
   if (image_path.substr(0, default_dir.length()) == default_dir)
     new_path.erase(0, default_dir.length());
@@ -568,7 +568,7 @@ Background::set_bottom_image_action(const std::string& action)
 }
 
 void
-Background::set_image_actions(const std::string& action)
+Background::set_all_image_actions(const std::string& action)
 {
   set_top_image_action(action);
   set_image_action(action);
