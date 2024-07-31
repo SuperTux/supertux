@@ -31,6 +31,11 @@ class WorldMap;
 
 /** Represents one of (potentially) multiple, separate parts of a WorldMap.
     WorldMap variant of Sector, utilizing only its base features. */
+/**
+ * @scripting
+ * @summary This class provides additional controlling functions for a worldmap sector, other than the ones listed at ${SRG_REF_GameObjectManager}.
+ * @instances An instance under ""worldmap.settings"" is available from scripts and the console.
+ */
 class WorldMapSector final : public Base::Sector
 {
   friend class WorldMapSectorParser;
@@ -104,20 +109,24 @@ public:
   bool in_worldmap() const override { return true; }
 
   /**
+   * @scripting
    * Returns Tux's X position on the worldmap.
    */
   float get_tux_x() const;
   /**
+   * @scripting
    * Returns Tux's Y position on the worldmap.
    */
   float get_tux_y() const;
 
   /**
+   * @scripting
    * Changes the current sector of the worldmap to a specified new sector.
    * @param string $sector
    */
   void set_sector(const std::string& sector);
   /**
+   * @scripting
    * Changes the current sector of the worldmap to a specified new sector,
      moving Tux to the specified spawnpoint.
    * @param string $sector
@@ -125,6 +134,7 @@ public:
    */
   void spawn(const std::string& sector, const std::string& spawnpoint);
   /**
+   * @scripting
    * Moves Tux to the specified spawnpoint.
    * @param string $spawnpoint
    */
@@ -132,10 +142,12 @@ public:
   void move_to_spawnpoint(const std::string& spawnpoint, bool pan);
 
   /**
+   * @scripting
    * Gets the path to the worldmap file. Useful for saving worldmap-specific data.
    */
   std::string get_filename() const;
   /**
+   * @scripting
    * Overrides the "Title Screen Level" property for the world with ""filename"".
      The newly set level will be used for the title screen, after exiting the world.
    * @param string $filename
