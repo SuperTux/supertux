@@ -537,6 +537,10 @@ private:
 
   Physic m_physic;
 
+  /**
+   * @scripting
+   * @description Determines whether Tux is visible.
+   */
   bool m_visible;
 
   Portable* m_grabbed_object;
