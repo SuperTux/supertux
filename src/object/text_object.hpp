@@ -251,6 +251,13 @@ private:
    */
   bool m_centered;
   AnchorPoint m_anchor;
+#ifdef DOXYGEN_SCRIPTING 
+  /**
+   * @scripting
+   * @description The current anchor point. 
+   */
+  int m_anchor_point;
+#endif
   Vector m_anchor_offset;
   Vector m_pos;
   /**
