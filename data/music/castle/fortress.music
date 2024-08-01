@@ -1,5 +1,8 @@
 (supertux-music
   (file "fortress.ogg")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
+  (title "The Fortress (Milestone 2 Version)")
   (loop-begin 11.37)
   (loop-at -1)
 )

@@ -19,6 +19,7 @@
 #include <assert.h>
 #include <sexp/value.hpp>
 
+#include "gui/menu_filesystem_item_processor_music_help.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
@@ -219,9 +220,10 @@ ObjectSettings::add_file(const std::string& text, std::string* value_ptr,
                          const std::vector<std::string>& filter,
                          const std::string& basedir,
                          bool path_relative_to_basedir,
-                         unsigned int flags)
+                         unsigned int flags,
+                         const std::function<void (MenuItem&, const std::string&, bool)> item_processor)
 {
-  add_option(std::make_unique<FileObjectOption>(text, value_ptr, default_value, key, filter, basedir, path_relative_to_basedir, flags));
+  add_option(std::make_unique<FileObjectOption>(text, value_ptr, default_value, key, filter, basedir, path_relative_to_basedir, flags, item_processor));
 }
 
 void
@@ -294,7 +296,7 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
                           std::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {"/music"}, false, flags);
+  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {"/music"}, false, flags, item_processor_music_help);
 }
 
 void

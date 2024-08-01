@@ -1,5 +1,8 @@
 (supertux-music
   (file "forest2.ogg")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
+  (title "Rabbit Holes")
   (loop-begin 0)
   (loop-at    143)
 )

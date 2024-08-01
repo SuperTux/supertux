@@ -1,5 +1,8 @@
 (supertux-music
   (file "forest.ogg")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
+  (title "Forest Dance")
   (loop-begin 54.818)
   (loop-at    95.955)
 )

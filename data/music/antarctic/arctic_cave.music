@@ -1,5 +1,8 @@
 (supertux-music
   (file "arctic_cave.ogg")
+  (title "Eyes in the Deep")
+  (authors "Jason Lavallée")
+  (license "CC-BY-SA / GPL 2+")
   (loop-begin 0)
   (loop-at    267)
 )
