@@ -19,7 +19,9 @@
 #include <assert.h>
 #include <sexp/value.hpp>
 
-#include "gui/menu_filesystem_item_processor_music_help.hpp"
+#include "audio/sound_file.hpp"
+#include "fmt/format.h"
+#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
@@ -296,7 +298,43 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
                           std::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {"/music"}, false, flags, item_processor_music_help);
+  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {"/music"}, false, flags,
+           [](MenuItem& menu_item, const std::string& file_path, bool in_basedir) {
+             std::unique_ptr<SoundFile> sound_file;
+             try {
+               sound_file = load_sound_file(file_path);
+             } catch (...) {
+               menu_item.set_help("");
+               return;
+             }
+
+             const std::vector<std::string>& authors = sound_file->m_authors;
+             const std::string& license = sound_file->m_license;
+             const std::string& title = sound_file->m_title;
+
+             if (title.empty() && authors.empty() && license.empty()) {
+               menu_item.set_help("");
+               return;
+             }
+
+             const std::string filename = FileSystem::basename(file_path);
+             const std::string title_or_filename_line = title.empty() ? filename : "\"" + title + "\""; // assumes path is just a filename
+
+             std::string author_lines = "";
+
+             for (const std::string& author : authors) {
+               author_lines.append("\n" + fmt::format(fmt::runtime(_("Author") +": {}"), author));
+             }
+
+             const std::string license_line = fmt::format(fmt::runtime(_("License") + ": {}"), license);
+
+             const std::string help_text =
+                 title_or_filename_line
+                 + author_lines
+                 + (license.empty() ? "" : "\n" + license_line);
+
+             menu_item.set_help(help_text);
+           });
 }
 
 void
