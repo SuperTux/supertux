@@ -18,12 +18,12 @@
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
 #include "math/vector.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 #include "video/blend.hpp"
 #include "video/drawing_context.hpp"
 #include "video/flip.hpp"
-#include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 
@@ -131,6 +131,26 @@ public:
    * @param float $time
    */
   void fade_color(float red, float green, float blue, float alpha, float time);
+  /**
+   * Sets the sprite action for the top image.
+   * @param string $action
+   */
+  void set_top_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for the main (middle) image.
+   * @param string $action
+   */
+  void set_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for the bottom image.
+   * @param string $action
+   */
+  void set_bottom_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for all images (top, middle and bottom).
+   * @param string $action
+   */
+  void set_all_image_actions(const std::string& action);
 
 private:
   enum Alignment {
@@ -140,9 +160,6 @@ private:
     TOP_ALIGNMENT,
     BOTTOM_ALIGNMENT
   };
-
-private:
-  SurfacePtr load_background(const std::string& image_path);
 
 private:
   /** Backgrounds with NO_ALIGNMENT are repeated over the whole
@@ -163,9 +180,9 @@ private:
   Vector m_parallax_speed;
   Vector m_scroll_speed;
   Vector m_scroll_offset;
-  SurfacePtr m_image_top; /**< image to draw above pos */
-  SurfacePtr m_image; /**< image to draw, anchored at pos */
-  SurfacePtr m_image_bottom; /**< image to draw below pos+screenheight */
+  SpritePtr m_image_top; /**< image to draw above pos */
+  SpritePtr m_image; /**< image to draw, anchored at pos */
+  SpritePtr m_image_bottom; /**< image to draw below pos+screenheight */
 
   Blend m_blend;
   Color m_color;
