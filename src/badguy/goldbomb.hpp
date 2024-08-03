@@ -48,7 +48,7 @@ private:
 
 private:
   enum State : uint8_t {
-    GB_STATE_REALIZING = 2,
+    GB_STATE_REALIZING = MB_STATE_COUNT,
     GB_STATE_FLEEING,
     GB_STATE_CORNERED,
     GB_STATE_RECOVER
