@@ -19,6 +19,7 @@
 #include <ctime>
 
 #include "editor/overlay_widget.hpp"
+#include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
@@ -51,14 +52,17 @@ Config::Config() :
   use_fullscreen(false),
 #endif
   video(VideoSystem::VIDEO_AUTO),
-  try_vsync(true),
+  vsync(1),
+  frame_prediction(false),
   show_fps(false),
   show_player_pos(false),
   show_controller(false),
+  camera_peek_multiplier(0.03f),
   sound_enabled(true),
   music_enabled(true),
   sound_volume(100),
   music_volume(50),
+  flash_intensity(50),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
   tux_spawn_pos(),
@@ -140,9 +144,12 @@ Config::load()
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
 
+  config_mapping.get("flash_intensity", flash_intensity);
+  config_mapping.get("frame_prediction", frame_prediction);
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
+  config_mapping.get("camera_peek_multiplier", camera_peek_multiplier);
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
@@ -260,7 +267,7 @@ Config::load()
     std::string video_string;
     config_video_mapping->get("video", video_string);
     video = VideoSystem::get_video_system(video_string);
-    config_video_mapping->get("vsync", try_vsync);
+    config_video_mapping->get("vsync", vsync);
 
     config_video_mapping->get("fullscreen_width",  fullscreen_size.width);
     config_video_mapping->get("fullscreen_height", fullscreen_size.height);
@@ -342,20 +349,26 @@ Config::load()
       }
     }
   }
+
+  check_values();
 }
 
 void
 Config::save()
 {
+  check_values();
+
   Writer writer("config");
 
   writer.start_list("supertux-config");
 
   writer.write("profile", profile);
 
+  writer.write("frame_prediction", frame_prediction);
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
   writer.write("show_controller", show_controller);
+  writer.write("camera_peek_multiplier", camera_peek_multiplier);
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
@@ -416,7 +429,7 @@ Config::save()
   } else {
     writer.write("video", VideoSystem::get_video_string(video));
   }
-  writer.write("vsync", try_vsync);
+  writer.write("vsync", vsync);
 
   writer.write("fullscreen_width",  fullscreen_size.width);
   writer.write("fullscreen_height", fullscreen_size.height);
@@ -429,6 +442,8 @@ Config::save()
 
   writer.write("aspect_width",  aspect_size.width);
   writer.write("aspect_height", aspect_size.height);
+
+  writer.write("flash_intensity", flash_intensity);
 
 #ifdef __EMSCRIPTEN__
   // Forcibly set autofit to true
@@ -491,6 +506,11 @@ Config::save()
   writer.end_list("supertux-config");
 }
 
+void
+Config::check_values()
+{
+  camera_peek_multiplier = math::clamp(camera_peek_multiplier, 0.f, 1.f);
+}
 
 bool
 Config::is_christmas() const

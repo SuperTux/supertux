@@ -33,6 +33,7 @@ FishJumping::FishJumping(const ReaderMapping& reader) :
   m_stop_y(0)
 {
   m_physic.enable_gravity(true);
+  m_water_affected = false;
 }
 
 void

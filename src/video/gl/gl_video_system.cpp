@@ -179,19 +179,7 @@ GLVideoSystem::create_gl_context()
   m_glcontext = SDL_GL_CreateContext(m_sdl_window.get());
 
   assert_gl();
-
-  if (g_config->try_vsync) {
-    // We want VSync for smooth scrolling.
-    if (SDL_GL_SetSwapInterval(-1) != 0)
-    {
-      log_info << "no support for late swap tearing vsync: " << SDL_GetError() << std::endl;
-      if (SDL_GL_SetSwapInterval(1))
-      {
-        log_info << "no support for vsync: " << SDL_GetError() << std::endl;
-      }
-    }
-  }
-
+  set_vsync(g_config->vsync);
   assert_gl();
 
 #if defined(USE_OPENGLES2)
@@ -325,7 +313,23 @@ GLVideoSystem::set_vsync(int mode)
 {
   if (SDL_GL_SetSwapInterval(mode) < 0)
   {
-    log_warning << "Setting vsync mode failed: " << SDL_GetError() << std::endl;
+    log_warning << "Setting vsync mode to " << mode << " failed: " << SDL_GetError() << std::endl;
+    if(mode != 1)
+    {
+      mode = 1;
+      log_warning << "Trying to set vsync mode to 1" << std::endl;
+      if (SDL_GL_SetSwapInterval(1) < 0)
+      {
+        log_warning << "Setting vsync mode failed: " << SDL_GetError() << ". Trying to set vsync mode to 0" << std::endl;
+        if(mode != 0)
+        {
+          mode = 0;
+          log_warning << "Trying to set vsync mode to 0" << std::endl;
+          SDL_GL_SetSwapInterval(0);
+        }
+      }
+      g_config->vsync = mode;
+    }
   }
   else
   {

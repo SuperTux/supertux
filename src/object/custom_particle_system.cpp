@@ -43,7 +43,6 @@
 #include "video/viewport.hpp"
 
 CustomParticleSystem::CustomParticleSystem() :
-  ExposedObject<CustomParticleSystem, scripting::CustomParticles>(this),
   texture_sum_odds(0.f),
   time_last_remaining(0.f),
   script_easings(),
@@ -87,7 +86,6 @@ CustomParticleSystem::CustomParticleSystem() :
 
 CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
   ParticleSystem_Interactive(reader),
-  ExposedObject<CustomParticleSystem, scripting::CustomParticles>(this),
   texture_sum_odds(0.f),
   time_last_remaining(0.f),
   script_easings(),
@@ -1072,7 +1070,7 @@ CustomParticleSystem::get_collision(Particle* object, const Vector& movement)
 // LOCAL
 
 CustomParticleSystem::SpriteProperties
-CustomParticleSystem::get_random_texture()
+CustomParticleSystem::get_random_texture() const
 {
   float val = graphicsRandom.randf(texture_sum_odds);
   for (const auto& texture : m_textures)
@@ -1087,7 +1085,7 @@ CustomParticleSystem::get_random_texture()
 }
 
 std::vector<ParticleZone::ZoneDetails>
-CustomParticleSystem::get_zones()
+CustomParticleSystem::get_zones() const
 {
   std::vector<ParticleZone::ZoneDetails> list;
 
@@ -1116,13 +1114,13 @@ CustomParticleSystem::get_zones()
 }
 
 float
-CustomParticleSystem::get_abs_x()
+CustomParticleSystem::get_abs_x() const
 {
   return (Sector::current()) ? Sector::get().get_camera().get_translation().x : 0.f;
 }
 
 float
-CustomParticleSystem::get_abs_y()
+CustomParticleSystem::get_abs_y() const
 {
   return (Sector::current()) ? Sector::get().get_camera().get_translation().y : 0.f;
 }
@@ -1227,7 +1225,14 @@ CustomParticleSystem::spawn_particles(float lifetime)
 // SCRIPTING
 
 void
-CustomParticleSystem::ease_value(float* value, float target, float time, easing func) {
+CustomParticleSystem::clear()
+{
+  custom_particles.clear();
+}
+
+void
+CustomParticleSystem::ease_value(float* value, float target, float time, easing func)
+{
   assert(value);
 
   ease_request req;
@@ -1239,6 +1244,959 @@ CustomParticleSystem::ease_value(float* value, float target, float time, easing 
   req.func = func;
 
   script_easings.push_back(req);
+}
+
+void
+CustomParticleSystem::spawn_particles(int amount, bool instantly)
+{
+  if (!instantly)
+  {
+    // TODO: Implement delayed spawn mode for scripting.
+    log_warning << "Delayed spawn mode is not yet implemented for scripting." << std::endl;
+    return;
+  }
+
+  for (int i = 0; i < amount; i++)
+    spawn_particles(0.f);
+}
+
+// =============================================================================
+// ============================   ATTRIBUTES   =================================
+// =============================================================================
+
+int
+CustomParticleSystem::get_max_amount() const
+{
+  return m_max_amount;
+}
+
+void
+CustomParticleSystem::set_max_amount(int amount)
+{
+  m_max_amount = amount;
+}
+
+bool
+CustomParticleSystem::get_cover_screen() const
+{
+  return m_cover_screen;
+}
+
+void
+CustomParticleSystem::set_cover_screen(bool cover)
+{
+  m_cover_screen = cover;
+}
+
+std::string
+CustomParticleSystem::get_birth_mode() const
+{
+  switch (m_particle_birth_mode)
+  {
+    case FadeMode::None:
+      return "None";
+    case FadeMode::Fade:
+      return "Fade";
+    case FadeMode::Shrink:
+      return "Shrink";
+    default:
+      return "";
+  }
+}
+
+void
+CustomParticleSystem::set_birth_mode(const std::string& mode)
+{
+  if (mode == "None")
+    m_particle_birth_mode = FadeMode::None;
+  else if (mode == "Fade")
+    m_particle_birth_mode = FadeMode::Fade;
+  else if (mode == "Shrink")
+    m_particle_birth_mode = FadeMode::Shrink;
+  else
+    log_warning << "Invalid option " + mode + "; valid options are: None, Fade, Shrink." << std::endl;
+}
+
+std::string
+CustomParticleSystem::get_death_mode() const
+{
+  switch (m_particle_death_mode)
+  {
+    case FadeMode::None:
+      return "None";
+    case FadeMode::Fade:
+      return "Fade";
+    case FadeMode::Shrink:
+      return "Shrink";
+    default:
+      return "";
+  }
+}
+
+void
+CustomParticleSystem::set_death_mode(const std::string& mode)
+{
+  if (mode == "None")
+    m_particle_death_mode = FadeMode::None;
+  else if (mode == "Fade")
+    m_particle_death_mode = FadeMode::Fade;
+  else if (mode == "Shrink")
+    m_particle_death_mode = FadeMode::Shrink;
+  else
+    log_warning << "Invalid option " + mode + "; valid options are: None, Fade, Shrink." << std::endl;
+}
+
+std::string
+CustomParticleSystem::get_rotation_mode() const
+{
+  switch (m_particle_rotation_mode)
+  {
+    case RotationMode::Fixed:
+      return "Fixed";
+    case RotationMode::Facing:
+      return "Facing";
+    case RotationMode::Wiggling:
+      return "Wiggling";
+    default:
+      return "";
+  }
+}
+
+void
+CustomParticleSystem::set_rotation_mode(const std::string& mode)
+{
+  if (mode == "Fixed")
+    m_particle_rotation_mode = RotationMode::Fixed;
+  else if (mode == "Facing")
+    m_particle_rotation_mode = RotationMode::Facing;
+  else if (mode == "Wiggling")
+    m_particle_rotation_mode = RotationMode::Wiggling;
+  else
+    log_warning << "Invalid option " + mode + "; valid options are: Fixed, Facing, Wiggling." << std::endl;
+}
+
+std::string
+CustomParticleSystem::get_collision_mode() const
+{
+  switch (m_particle_collision_mode)
+  {
+    case CollisionMode::Ignore:
+      return "Ignore";
+    case CollisionMode::Stick:
+      return "Stick";
+    case CollisionMode::StickForever:
+      return "StickForever";
+    case CollisionMode::BounceHeavy:
+      return "BounceHeavy";
+    case CollisionMode::BounceLight:
+      return "BounceLight";
+    case CollisionMode::Destroy:
+      return "Destroy";
+    default:
+      return "";
+  }
+}
+
+void
+CustomParticleSystem::set_collision_mode(const std::string& mode)
+{
+  if (mode == "Ignore")
+    m_particle_collision_mode = CollisionMode::Ignore;
+  else if (mode == "Stick")
+    m_particle_collision_mode = CollisionMode::Stick;
+  else if (mode == "StickForever")
+    m_particle_collision_mode = CollisionMode::StickForever;
+  else if (mode == "BounceHeavy")
+    m_particle_collision_mode = CollisionMode::BounceHeavy;
+  else if (mode == "BounceLight")
+    m_particle_collision_mode = CollisionMode::BounceLight;
+  else if (mode == "Destroy")
+    m_particle_collision_mode = CollisionMode::Destroy;
+  else
+    log_warning << "Invalid option " + mode + "; valid options are: Ignore, Stick, StickForever, BounceHeavy, BounceLight, Destroy." << std::endl;
+}
+
+std::string
+CustomParticleSystem::get_offscreen_mode() const
+{
+  switch (m_particle_offscreen_mode)
+  {
+    case OffscreenMode::Never:
+      return "Never";
+    case OffscreenMode::OnlyOnExit:
+      return "OnlyOnExit";
+    case OffscreenMode::Always:
+      return "Always";
+    default:
+      return "";
+  }
+}
+
+void
+CustomParticleSystem::set_offscreen_mode(const std::string& mode)
+{
+  if (mode == "Never")
+    m_particle_offscreen_mode = OffscreenMode::Never;
+  else if (mode == "OnlyOnExit")
+    m_particle_offscreen_mode = OffscreenMode::OnlyOnExit;
+  else if (mode == "Always")
+    m_particle_offscreen_mode = OffscreenMode::Always;
+  else
+    log_warning << "Invalid option " + mode + "; valid options are: Never, OnlyOnExit, Always." << std::endl;
+}
+
+// =============================================================================
+//   Delay
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_delay() const
+{
+  return m_delay;
+}
+
+void
+CustomParticleSystem::set_delay(float delay)
+{
+  m_delay = delay;
+}
+
+void
+CustomParticleSystem::fade_delay(float delay, float time)
+{
+  ease_value(&m_delay, delay, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_delay(float delay, float time, const std::string& easing_)
+{
+  ease_value(&m_delay, delay, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Lifetime
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_lifetime() const
+{
+  return m_particle_lifetime;
+}
+
+void
+CustomParticleSystem::set_lifetime(float lifetime)
+{
+  m_particle_lifetime = lifetime;
+}
+
+void
+CustomParticleSystem::fade_lifetime(float lifetime, float time)
+{
+  ease_value(&m_particle_lifetime, lifetime, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_lifetime(float lifetime, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_lifetime, lifetime, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Lifetime variation
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_lifetime_variation() const
+{
+  return m_particle_lifetime_variation;
+}
+
+void
+CustomParticleSystem::set_lifetime_variation(float lifetime_variation)
+{
+  m_particle_lifetime_variation = lifetime_variation;
+}
+
+void
+CustomParticleSystem::fade_lifetime_variation(float lifetime_variation, float time)
+{
+  ease_value(&m_particle_lifetime_variation, lifetime_variation, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_lifetime_variation(float lifetime_variation, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_lifetime_variation, lifetime_variation, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Birth time
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_birth_time() const
+{
+  return m_particle_birth_time;
+}
+
+void
+CustomParticleSystem::set_birth_time(float birth_time)
+{
+  m_particle_birth_time = birth_time;
+}
+
+void
+CustomParticleSystem::fade_birth_time(float birth_time, float time)
+{
+  ease_value(&m_particle_birth_time, birth_time, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_birth_time(float birth_time, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_birth_time, birth_time, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Birth time variation
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_birth_time_variation() const
+{
+  return m_particle_birth_time_variation;
+}
+
+void
+CustomParticleSystem::set_birth_time_variation(float birth_time_variation)
+{
+  m_particle_birth_time_variation = birth_time_variation;
+}
+
+void
+CustomParticleSystem::fade_birth_time_variation(float birth_time_variation, float time)
+{
+  ease_value(&m_particle_birth_time_variation, birth_time_variation, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_birth_time_variation(float birth_time_variation, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_birth_time_variation, birth_time_variation, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Death time
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_death_time() const
+{
+  return m_particle_death_time;
+}
+
+void
+CustomParticleSystem::set_death_time(float death_time)
+{
+  m_particle_death_time = death_time;
+}
+
+void
+CustomParticleSystem::fade_death_time(float death_time, float time)
+{
+  ease_value(&m_particle_death_time, death_time, time, LinearInterpolation);
+}
+
+void
+CustomParticleSystem::ease_death_time(float death_time, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_death_time, death_time, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+
+
+// =============================================================================
+//   Death time variation
+// -----------------------------------------------------------------------------
+float
+CustomParticleSystem::get_death_time_variation() const
+{
+  return m_particle_death_time_variation;
+}
+
+void
+CustomParticleSystem::set_death_time_variation(float death_time_variation)
+{
+  m_particle_death_time_variation = death_time_variation;
+}
+
+void
+CustomParticleSystem::fade_death_time_variation(float death_time_variation, float time)
+{
+  ease_value(&m_particle_death_time_variation, death_time_variation, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_death_time_variation(float death_time_variation, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_death_time_variation, death_time_variation, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   X speed
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_speed_x() const
+{
+  return m_particle_speed_x;
+}
+
+void
+CustomParticleSystem::set_speed_x(float speed_x)
+{
+  m_particle_speed_x = speed_x;
+}
+
+void
+CustomParticleSystem::fade_speed_x(float speed_x, float time)
+{
+  ease_value(&m_particle_speed_x, speed_x, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_speed_x(float speed_x, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_speed_x, speed_x, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Y speed
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_speed_y() const
+{
+  return m_particle_speed_y;
+}
+
+void
+CustomParticleSystem::set_speed_y(float speed_y)
+{
+  m_particle_speed_y = speed_y;
+}
+
+void
+CustomParticleSystem::fade_speed_y(float speed_y, float time)
+{
+  ease_value(&m_particle_speed_y, speed_y, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_speed_y(float speed_y, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_speed_y, speed_y, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   X speed variation
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_speed_variation_x() const
+{
+  return m_particle_speed_variation_x;
+}
+
+void
+CustomParticleSystem::set_speed_variation_x(float speed_variation_x)
+{
+  m_particle_speed_variation_x = speed_variation_x;
+}
+
+void
+CustomParticleSystem::fade_speed_variation_x(float speed_variation_x, float time)
+{
+  ease_value(&m_particle_speed_variation_x, speed_variation_x, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_speed_variation_x(float speed_variation_x, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_speed_variation_x, speed_variation_x, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Y speed variation
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_speed_variation_y() const
+{
+  return m_particle_speed_variation_y;
+}
+
+void
+CustomParticleSystem::set_speed_variation_y(float speed_variation_y)
+{
+  m_particle_speed_variation_y = speed_variation_y;
+}
+
+void
+CustomParticleSystem::fade_speed_variation_y(float speed_variation_y, float time)
+{
+  ease_value(&m_particle_speed_variation_y, speed_variation_y, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_speed_variation_y(float speed_variation_y, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_speed_variation_y, speed_variation_y, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   X acceleration
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_acceleration_x() const
+{
+  return m_particle_acceleration_x;
+}
+
+void
+CustomParticleSystem::set_acceleration_x(float acceleration_x)
+{
+  m_particle_acceleration_x = acceleration_x;
+}
+
+void
+CustomParticleSystem::fade_acceleration_x(float acceleration_x, float time)
+{
+  ease_value(&m_particle_acceleration_x, acceleration_x, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_acceleration_x(float acceleration_x, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_acceleration_x, acceleration_x, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Y acceleration
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_acceleration_y() const
+{
+  return m_particle_acceleration_y;
+}
+
+void
+CustomParticleSystem::set_acceleration_y(float acceleration_y)
+{
+  m_particle_acceleration_y = acceleration_y;
+}
+
+void
+CustomParticleSystem::fade_acceleration_y(float acceleration_y, float time)
+{
+  ease_value(&m_particle_acceleration_y, acceleration_y, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_acceleration_y(float acceleration_y, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_acceleration_y, acceleration_y, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   X friction
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_friction_x() const
+{
+  return m_particle_friction_x;
+}
+
+void
+CustomParticleSystem::set_friction_x(float friction_x)
+{
+  m_particle_friction_x = friction_x;
+}
+
+void
+CustomParticleSystem::fade_friction_x(float friction_x, float time)
+{
+  ease_value(&m_particle_friction_x, friction_x, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_friction_x(float friction_x, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_friction_x, friction_x, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Y friction
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_friction_y() const
+{
+  return m_particle_friction_y;
+}
+
+void
+CustomParticleSystem::set_friction_y(float friction_y)
+{
+  m_particle_friction_y = friction_y;
+}
+
+void
+CustomParticleSystem::fade_friction_y(float friction_y, float time)
+{
+  ease_value(&m_particle_friction_y, friction_y, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_friction_y(float friction_y, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_friction_y, friction_y, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Feather factor
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_feather_factor() const
+{
+  return m_particle_feather_factor;
+}
+
+void
+CustomParticleSystem::set_feather_factor(float feather_factor)
+{
+  m_particle_feather_factor = feather_factor;
+}
+
+void
+CustomParticleSystem::fade_feather_factor(float feather_factor, float time)
+{
+  ease_value(&m_particle_feather_factor, feather_factor, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_feather_factor(float feather_factor, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_feather_factor, feather_factor, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Rotation
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_rotation() const
+{
+  return m_particle_rotation;
+}
+
+void
+CustomParticleSystem::set_rotation(float rotation)
+{
+  m_particle_rotation = rotation;
+}
+
+void
+CustomParticleSystem::fade_rotation(float rotation, float time)
+{
+  ease_value(&m_particle_rotation, rotation, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_rotation(float rotation, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_rotation, rotation, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Rotation variation
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_rotation_variation() const
+{
+  return m_particle_rotation_variation;
+}
+
+void
+CustomParticleSystem::set_rotation_variation(float rotation_variation)
+{
+  m_particle_rotation_variation = rotation_variation;
+}
+
+void
+CustomParticleSystem::fade_rotation_variation(float rotation_variation, float time)
+{
+  ease_value(&m_particle_rotation_variation, rotation_variation, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_rotation_variation(float rotation_variation, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_rotation_variation, rotation_variation, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Rotation speed
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_rotation_speed() const
+{
+  return m_particle_rotation_speed;
+}
+
+void
+CustomParticleSystem::set_rotation_speed(float rotation_speed)
+{
+  m_particle_rotation_speed = rotation_speed;
+}
+
+void
+CustomParticleSystem::fade_rotation_speed(float rotation_speed, float time)
+{
+  ease_value(&m_particle_rotation_speed, rotation_speed, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_rotation_speed(float rotation_speed, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_rotation_speed, rotation_speed, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Rotation speed variation
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_rotation_speed_variation() const
+{
+  return m_particle_rotation_speed_variation;
+}
+
+void
+CustomParticleSystem::set_rotation_speed_variation(float rotation_speed_variation)
+{
+  m_particle_rotation_speed_variation = rotation_speed_variation;
+}
+
+void
+CustomParticleSystem::fade_rotation_speed_variation(float rotation_speed_variation, float time)
+{
+  ease_value(&m_particle_rotation_speed_variation, rotation_speed_variation, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_rotation_speed_variation(float rotation_speed_variation, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_rotation_speed_variation, rotation_speed_variation, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Rotation acceleration
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_rotation_acceleration() const
+{
+  return m_particle_rotation_acceleration;
+}
+
+void
+CustomParticleSystem::set_rotation_acceleration(float rotation_acceleration)
+{
+  m_particle_rotation_acceleration = rotation_acceleration;
+}
+
+void
+CustomParticleSystem::fade_rotation_acceleration(float rotation_acceleration, float time)
+{
+  ease_value(&m_particle_rotation_acceleration, rotation_acceleration, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_rotation_acceleration(float rotation_acceleration, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_rotation_acceleration, rotation_acceleration, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+// =============================================================================
+//   Rotation decceleration
+// -----------------------------------------------------------------------------
+
+float
+CustomParticleSystem::get_rotation_decceleration() const
+{
+  return m_particle_rotation_decceleration;
+}
+
+void
+CustomParticleSystem::set_rotation_decceleration(float rotation_decceleration)
+{
+  m_particle_rotation_decceleration = rotation_decceleration;
+}
+
+void
+CustomParticleSystem::fade_rotation_decceleration(float rotation_decceleration, float time)
+{
+  ease_value(&m_particle_rotation_decceleration, rotation_decceleration, time, getEasingByName(EasingMode::EaseNone));
+}
+
+void
+CustomParticleSystem::ease_rotation_decceleration(float rotation_decceleration, float time, const std::string& easing_)
+{
+  ease_value(&m_particle_rotation_decceleration, rotation_decceleration, time, getEasingByName(EasingMode_from_string(easing_)));
+}
+
+
+void
+CustomParticleSystem::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<CustomParticleSystem>("CustomParticleSystem", vm.findClass("ParticleSystem"));
+
+  cls.addFunc("clear", &CustomParticleSystem::clear);
+  cls.addFunc<void, CustomParticleSystem, int, bool>("spawn_particles", &CustomParticleSystem::spawn_particles);
+  cls.addFunc("get_max_amount", &CustomParticleSystem::get_max_amount);
+  cls.addFunc("set_max_amount", &CustomParticleSystem::set_max_amount);
+  cls.addFunc("get_cover_screen", &CustomParticleSystem::get_cover_screen);
+  cls.addFunc("set_cover_screen", &CustomParticleSystem::set_cover_screen);
+  cls.addFunc("get_birth_mode", &CustomParticleSystem::get_birth_mode);
+  cls.addFunc("set_birth_mode", &CustomParticleSystem::set_birth_mode);
+  cls.addFunc("get_death_mode", &CustomParticleSystem::get_death_mode);
+  cls.addFunc("set_death_mode", &CustomParticleSystem::set_death_mode);
+  cls.addFunc("get_rotation_mode", &CustomParticleSystem::get_rotation_mode);
+  cls.addFunc("set_rotation_mode", &CustomParticleSystem::set_rotation_mode);
+  cls.addFunc("get_collision_mode", &CustomParticleSystem::get_collision_mode);
+  cls.addFunc("set_collision_mode", &CustomParticleSystem::set_collision_mode);
+  cls.addFunc("get_offscreen_mode", &CustomParticleSystem::get_offscreen_mode);
+  cls.addFunc("set_offscreen_mode", &CustomParticleSystem::set_offscreen_mode);
+  cls.addFunc("get_delay", &CustomParticleSystem::get_delay);
+  cls.addFunc("set_delay", &CustomParticleSystem::set_delay);
+  cls.addFunc("fade_delay", &CustomParticleSystem::fade_delay);
+  cls.addFunc("ease_delay", &CustomParticleSystem::ease_delay);
+  cls.addFunc("get_lifetime", &CustomParticleSystem::get_lifetime);
+  cls.addFunc("set_lifetime", &CustomParticleSystem::set_lifetime);
+  cls.addFunc("fade_lifetime", &CustomParticleSystem::fade_lifetime);
+  cls.addFunc("ease_lifetime", &CustomParticleSystem::ease_lifetime);
+  cls.addFunc("get_lifetime_variation", &CustomParticleSystem::get_lifetime_variation);
+  cls.addFunc("set_lifetime_variation", &CustomParticleSystem::set_lifetime_variation);
+  cls.addFunc("fade_lifetime_variation", &CustomParticleSystem::fade_lifetime_variation);
+  cls.addFunc("ease_lifetime_variation", &CustomParticleSystem::ease_lifetime_variation);
+  cls.addFunc("get_birth_time", &CustomParticleSystem::get_birth_time);
+  cls.addFunc("set_birth_time", &CustomParticleSystem::set_birth_time);
+  cls.addFunc("fade_birth_time", &CustomParticleSystem::fade_birth_time);
+  cls.addFunc("ease_birth_time", &CustomParticleSystem::ease_birth_time);
+  cls.addFunc("get_birth_time_variation", &CustomParticleSystem::get_birth_time_variation);
+  cls.addFunc("set_birth_time_variation", &CustomParticleSystem::set_birth_time_variation);
+  cls.addFunc("fade_birth_time_variation", &CustomParticleSystem::fade_birth_time_variation);
+  cls.addFunc("ease_birth_time_variation", &CustomParticleSystem::ease_birth_time_variation);
+  cls.addFunc("get_death_time", &CustomParticleSystem::get_death_time);
+  cls.addFunc("set_death_time", &CustomParticleSystem::set_death_time);
+  cls.addFunc("fade_death_time", &CustomParticleSystem::fade_death_time);
+  cls.addFunc("ease_death_time", &CustomParticleSystem::ease_death_time);
+  cls.addFunc("get_death_time_variation", &CustomParticleSystem::get_death_time_variation);
+  cls.addFunc("set_death_time_variation", &CustomParticleSystem::set_death_time_variation);
+  cls.addFunc("fade_death_time_variation", &CustomParticleSystem::fade_death_time_variation);
+  cls.addFunc("ease_death_time_variation", &CustomParticleSystem::ease_death_time_variation);
+  cls.addFunc("get_speed_x", &CustomParticleSystem::get_speed_x);
+  cls.addFunc("set_speed_x", &CustomParticleSystem::set_speed_x);
+  cls.addFunc("fade_speed_x", &CustomParticleSystem::fade_speed_x);
+  cls.addFunc("ease_speed_x", &CustomParticleSystem::ease_speed_x);
+  cls.addFunc("get_speed_y", &CustomParticleSystem::get_speed_y);
+  cls.addFunc("set_speed_y", &CustomParticleSystem::set_speed_y);
+  cls.addFunc("fade_speed_y", &CustomParticleSystem::fade_speed_y);
+  cls.addFunc("ease_speed_y", &CustomParticleSystem::ease_speed_y);
+  cls.addFunc("get_speed_variation_x", &CustomParticleSystem::get_speed_variation_x);
+  cls.addFunc("set_speed_variation_x", &CustomParticleSystem::set_speed_variation_x);
+  cls.addFunc("fade_speed_variation_x", &CustomParticleSystem::fade_speed_variation_x);
+  cls.addFunc("ease_speed_variation_x", &CustomParticleSystem::ease_speed_variation_x);
+  cls.addFunc("get_speed_variation_y", &CustomParticleSystem::get_speed_variation_y);
+  cls.addFunc("set_speed_variation_y", &CustomParticleSystem::set_speed_variation_y);
+  cls.addFunc("fade_speed_variation_y", &CustomParticleSystem::fade_speed_variation_y);
+  cls.addFunc("ease_speed_variation_y", &CustomParticleSystem::ease_speed_variation_y);
+  cls.addFunc("get_acceleration_x", &CustomParticleSystem::get_acceleration_x);
+  cls.addFunc("set_acceleration_x", &CustomParticleSystem::set_acceleration_x);
+  cls.addFunc("fade_acceleration_x", &CustomParticleSystem::fade_acceleration_x);
+  cls.addFunc("ease_acceleration_x", &CustomParticleSystem::ease_acceleration_x);
+  cls.addFunc("get_acceleration_y", &CustomParticleSystem::get_acceleration_y);
+  cls.addFunc("set_acceleration_y", &CustomParticleSystem::set_acceleration_y);
+  cls.addFunc("fade_acceleration_y", &CustomParticleSystem::fade_acceleration_y);
+  cls.addFunc("ease_acceleration_y", &CustomParticleSystem::ease_acceleration_y);
+  cls.addFunc("get_friction_x", &CustomParticleSystem::get_friction_x);
+  cls.addFunc("set_friction_x", &CustomParticleSystem::set_friction_x);
+  cls.addFunc("fade_friction_x", &CustomParticleSystem::fade_friction_x);
+  cls.addFunc("ease_friction_x", &CustomParticleSystem::ease_friction_x);
+  cls.addFunc("get_friction_y", &CustomParticleSystem::get_friction_y);
+  cls.addFunc("set_friction_y", &CustomParticleSystem::set_friction_y);
+  cls.addFunc("fade_friction_y", &CustomParticleSystem::fade_friction_y);
+  cls.addFunc("ease_friction_y", &CustomParticleSystem::ease_friction_y);
+  cls.addFunc("get_feather_factor", &CustomParticleSystem::get_feather_factor);
+  cls.addFunc("set_feather_factor", &CustomParticleSystem::set_feather_factor);
+  cls.addFunc("fade_feather_factor", &CustomParticleSystem::fade_feather_factor);
+  cls.addFunc("ease_feather_factor", &CustomParticleSystem::ease_feather_factor);
+  cls.addFunc("get_rotation", &CustomParticleSystem::get_rotation);
+  cls.addFunc("set_rotation", &CustomParticleSystem::set_rotation);
+  cls.addFunc("fade_rotation", &CustomParticleSystem::fade_rotation);
+  cls.addFunc("ease_rotation", &CustomParticleSystem::ease_rotation);
+  cls.addFunc("get_rotation_variation", &CustomParticleSystem::get_rotation_variation);
+  cls.addFunc("set_rotation_variation", &CustomParticleSystem::set_rotation_variation);
+  cls.addFunc("fade_rotation_variation", &CustomParticleSystem::fade_rotation_variation);
+  cls.addFunc("ease_rotation_variation", &CustomParticleSystem::ease_rotation_variation);
+  cls.addFunc("get_rotation_speed", &CustomParticleSystem::get_rotation_speed);
+  cls.addFunc("set_rotation_speed", &CustomParticleSystem::set_rotation_speed);
+  cls.addFunc("fade_rotation_speed", &CustomParticleSystem::fade_rotation_speed);
+  cls.addFunc("ease_rotation_speed", &CustomParticleSystem::ease_rotation_speed);
+  cls.addFunc("get_rotation_speed_variation", &CustomParticleSystem::get_rotation_speed_variation);
+  cls.addFunc("set_rotation_speed_variation", &CustomParticleSystem::set_rotation_speed_variation);
+  cls.addFunc("fade_rotation_speed_variation", &CustomParticleSystem::fade_rotation_speed_variation);
+  cls.addFunc("ease_rotation_speed_variation", &CustomParticleSystem::ease_rotation_speed_variation);
+  cls.addFunc("get_rotation_acceleration", &CustomParticleSystem::get_rotation_acceleration);
+  cls.addFunc("set_rotation_acceleration", &CustomParticleSystem::set_rotation_acceleration);
+  cls.addFunc("fade_rotation_acceleration", &CustomParticleSystem::fade_rotation_acceleration);
+  cls.addFunc("ease_rotation_acceleration", &CustomParticleSystem::ease_rotation_acceleration);
+  cls.addFunc("get_rotation_decceleration", &CustomParticleSystem::get_rotation_decceleration);
+  cls.addFunc("set_rotation_decceleration", &CustomParticleSystem::set_rotation_decceleration);
+  cls.addFunc("fade_rotation_decceleration", &CustomParticleSystem::fade_rotation_decceleration);
+  cls.addFunc("ease_rotation_decceleration", &CustomParticleSystem::ease_rotation_decceleration);
+
+  cls.addVar("max_amount", &CustomParticleSystem::m_max_amount);
+  cls.addVar("cover_screen", &CustomParticleSystem::m_cover_screen);
+  cls.addVar("delay", &CustomParticleSystem::m_delay);
+  cls.addVar("particle_lifetime", &CustomParticleSystem::m_particle_lifetime);
+  cls.addVar("particle_lifetime_variation", &CustomParticleSystem::m_particle_lifetime_variation);
+  cls.addVar("particle_birth_time", &CustomParticleSystem::m_particle_birth_time);
+  cls.addVar("particle_birth_time_variation", &CustomParticleSystem::m_particle_birth_time_variation);
+  cls.addVar("particle_death_time", &CustomParticleSystem::m_particle_death_time);
+  cls.addVar("particle_death_time_variation", &CustomParticleSystem::m_particle_death_time_variation);
+  cls.addVar("particle_speed_x", &CustomParticleSystem::m_particle_speed_x);
+  cls.addVar("particle_speed_y", &CustomParticleSystem::m_particle_speed_y);
+  cls.addVar("particle_speed_variation_x", &CustomParticleSystem::m_particle_speed_variation_x);
+  cls.addVar("particle_speed_variation_y", &CustomParticleSystem::m_particle_speed_variation_y);
+  cls.addVar("particle_acceleration_x", &CustomParticleSystem::m_particle_acceleration_x);
+  cls.addVar("particle_acceleration_y", &CustomParticleSystem::m_particle_acceleration_y);
+  cls.addVar("particle_friction_x", &CustomParticleSystem::m_particle_friction_x);
+  cls.addVar("particle_friction_y", &CustomParticleSystem::m_particle_friction_y);
+  cls.addVar("particle_feather_factor", &CustomParticleSystem::m_particle_feather_factor);
+  cls.addVar("particle_rotation", &CustomParticleSystem::m_particle_rotation);
+  cls.addVar("particle_rotation_variation", &CustomParticleSystem::m_particle_rotation_variation);
+  cls.addVar("particle_rotation_speed", &CustomParticleSystem::m_particle_rotation_speed);
+  cls.addVar("particle_rotation_speed_variation", &CustomParticleSystem::m_particle_rotation_speed_variation);
+  cls.addVar("particle_rotation_acceleration", &CustomParticleSystem::m_particle_rotation_acceleration);
+  cls.addVar("particle_rotation_decceleration", &CustomParticleSystem::m_particle_rotation_decceleration);
 }
 
 /* EOF */

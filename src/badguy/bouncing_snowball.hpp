@@ -23,6 +23,7 @@ class BouncingSnowball final : public BadGuy
 {
 public:
   BouncingSnowball(const ReaderMapping& reader);
+  BouncingSnowball(const Vector& pos, Direction d, float x_vel = 80);
 
   virtual void initialize() override;
 
@@ -38,6 +39,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Bouncing Snowball"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(BouncingSnowball)); }
 
   virtual GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
@@ -54,6 +56,8 @@ private:
     NORMAL,
     FATBAT
   };
+
+  float m_x_speed;
 
 private:
   BouncingSnowball(const BouncingSnowball&) = delete;

@@ -18,6 +18,9 @@
 
 #include <math.h>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
@@ -120,11 +123,30 @@ MovingSprite::matches_sprite(const std::string& sprite_file) const
   return m_sprite_name == sprite_file || m_sprite_name == "/" + sprite_file;
 }
 
+std::string
+MovingSprite::get_action() const
+{
+  return m_sprite->get_action();
+}
+
 void
 MovingSprite::update_hitbox()
 {
   m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   m_col.set_unisolid(m_sprite->is_current_hitbox_unisolid());
+}
+
+void
+MovingSprite::set_action(const std::string& name)
+{
+  m_sprite->set_action(name);
+  update_hitbox();
+}
+
+void
+MovingSprite::set_action_loops(const std::string& name, int loops)
+{
+  set_action(name, loops);
 }
 
 void
@@ -229,6 +251,19 @@ MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
                                              pspeed, paccel,
                                              LAYER_OBJECTS-1);
   }
+}
+
+
+void
+MovingSprite::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<MovingSprite>("MovingSprite", vm.findClass("MovingObject"));
+
+  cls.addFunc("set_sprite", &MovingSprite::change_sprite);
+  cls.addFunc("get_sprite", &MovingSprite::get_sprite_name);
+  cls.addFunc("get_action", &MovingSprite::get_action);
+  cls.addFunc<void, MovingSprite, const std::string&>("set_action", &MovingSprite::set_action);
+  cls.addFunc("set_action_loops", &MovingSprite::set_action_loops);
 }
 
 /* EOF */

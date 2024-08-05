@@ -575,7 +575,9 @@ void ScreenManager::loop_iter()
     elapsed_ticks = 0;
   }
 
-  if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
+  bool always_draw = g_debug.draw_redundant_frames || g_config->frame_prediction;
+
+  if (elapsed_ticks < ms_per_step && !always_draw) {
     // Sleep a bit because not enough time has passed since the previous
     // logical game step
     SDL_Delay(ms_per_step - elapsed_ticks);
@@ -626,10 +628,16 @@ void ScreenManager::loop_iter()
     elapsed_ticks -= ms_per_step;
   }
 
+  // When the game is laggy, real time may be >1 step after the game time
+  // To avoid predicting positions too far ahead, when using frame prediction,
+  // limit the draw time offset to at most one step.
+  Uint32 tick_offset = std::min(elapsed_ticks, ms_per_step);
+  float time_offset = m_speed * speed_multiplier * static_cast<float>(tick_offset) / 1000.0f;
+
   if ((steps > 0 && !m_screen_stack.empty())
-      || g_debug.draw_redundant_frames) {
+      || always_draw) {
     // Draw a frame
-    Compositor compositor(m_video_system);
+    Compositor compositor(m_video_system, g_config->frame_prediction ? time_offset : 0.0f);
     draw(compositor, *m_fps_statistics);
     m_fps_statistics->report_frame();
   }

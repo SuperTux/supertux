@@ -21,6 +21,8 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "physfs/util.hpp"
+
 IFileStreambuf::IFileStreambuf(const std::string& filename) :
   file(),
   buf()
@@ -34,7 +36,7 @@ IFileStreambuf::IFileStreambuf(const std::string& filename) :
   if (file == nullptr) {
     std::stringstream msg;
     msg << "Couldn't open file '" << filename << "': "
-        << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+        << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
 }

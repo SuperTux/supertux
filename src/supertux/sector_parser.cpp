@@ -35,6 +35,7 @@
 #include "object/snow_particle_system.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
@@ -174,7 +175,7 @@ SectorParser::parse(const ReaderMapping& reader)
 void
 SectorParser::parse_old_format(const ReaderMapping& reader)
 {
-  m_sector.set_name("main");
+  m_sector.set_name(DEFAULT_SECTOR_NAME);
 
   auto sector = dynamic_cast<Sector*>(&m_sector);
   if (sector)
@@ -241,7 +242,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   reader.get("start_pos_x", startpos.x);
   reader.get("start_pos_y", startpos.y);
 
-  m_sector.add<SpawnPointMarker>("main", startpos);
+  m_sector.add<SpawnPointMarker>(DEFAULT_SPAWNPOINT_NAME, startpos);
 
   m_sector.add<MusicObject>().set_music("music/chipdisko.ogg");
   // skip reading music filename. It's all .ogg now, anyway
@@ -295,7 +296,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
         Vector sp_pos(0.0f, 0.0f);
         if (reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
         {
-          m_sector.add<SpawnPointMarker>("main", sp_pos);
+          m_sector.add<SpawnPointMarker>(DEFAULT_SPAWNPOINT_NAME, sp_pos);
         }
       } else {
         log_warning << "Unknown token '" << iter.get_key() << "' in reset-points." << std::endl;
@@ -372,9 +373,9 @@ SectorParser::create_sector()
   intact.set_solid(true);
 
   if (m_sector.in_worldmap()) {
-    m_sector.add<worldmap::SpawnPointObject>("main", Vector(4, 4));
+    m_sector.add<worldmap::SpawnPointObject>(DEFAULT_SPAWNPOINT_NAME, Vector(4, 4));
   } else {
-    m_sector.add<SpawnPointMarker>("main", Vector(64, 480));
+    m_sector.add<SpawnPointMarker>(DEFAULT_SPAWNPOINT_NAME, Vector(64, 480));
   }
 
   m_sector.add<Camera>("Camera");

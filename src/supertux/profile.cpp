@@ -20,6 +20,7 @@
 
 #include <sstream>
 
+#include "physfs/util.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
@@ -84,7 +85,7 @@ Profile::create_basedir()
   {
     std::ostringstream msg;
     msg << "Couldn't create directory '" << basedir << "' for profile " << m_id << ":"
-        << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+        << physfsutil::get_last_error();
     throw std::runtime_error(msg.str());
   }
 }

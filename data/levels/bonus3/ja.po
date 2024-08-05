@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# 111More1, 2023
-# Ryo Nakano, 2019,2021
+# IAN RODRÍGUEZ Lorenzo, 2023
+# Ryo Nakano, 2019,2021,2024
 # b1e11c107ebf1f339ff7adfc86b9dbe0_2e3e89d, 2016
 # Sanshiro sumita, 2015
 # Sanshiro sumita, 2015
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
-"Last-Translator: 111More1, 2023\n"
+"Last-Translator: Ryo Nakano, 2019,2021,2024\n"
 "Language-Team: Japanese (http://app.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +76,7 @@ msgstr "冷たいどうくつ"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr "#よくできました！あなたは赤いランタンを持ち続けました。あなたは100枚以上のコインを持っています。しかし、あなたがする理由はなく、する必要はありませんでした！"
+msgstr "#よくできました！あなたは赤いランタンを持ち続けました。クリアには必要なかったですが、これを達成したので、100枚のコインを差し上げます！"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
@@ -189,7 +189,7 @@ msgstr "-出口ですか？\n#飛んでみましょう！"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
-msgstr "私のペニーは海の向こう側"
+msgstr "愛しのペニーは海の向こう"
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"

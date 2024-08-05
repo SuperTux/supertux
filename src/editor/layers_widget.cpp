@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_menu.hpp"
+#include "editor/tilebox.hpp"
 #include "editor/tip.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
@@ -27,6 +28,7 @@
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/moving_object.hpp"
@@ -37,10 +39,15 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+#include <fmt/format.h>
+
 EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_editor(editor),
   m_layer_icons(),
   m_selected_tilemap(),
+  m_add_icon("", "images/engine/editor/add.png"),
+  m_add_layer_box(new EditorTilebox(editor, Rectf())),
+  m_add_layer_box_visible(false),
   m_Ypos(448),
   m_Width(512),
   m_scroll(0),
@@ -52,13 +59,24 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_object_tip(new Tip()),
   m_has_mouse_focus(false)
 {
+  m_add_layer_box->on_select([this](EditorTilebox& tilebox)
+    {
+      assert(tilebox.get_input_type() == EditorTilebox::InputType::OBJECT);
+
+      m_editor.get_sector()->add_object(GameObjectFactory::instance().create(tilebox.get_object()));
+      m_add_layer_box_visible = false;
+    });
 }
 
 void
 EditorLayersWidget::draw(DrawingContext& context)
 {
-
-  if (m_object_tip->get_visible()) {
+  if (m_add_layer_box_visible)
+  {
+    m_add_layer_box->draw(context);
+  }
+  else if (m_object_tip->get_visible())
+  {
     auto position = get_layer_coords(m_hovered_layer);
     m_object_tip->draw_up(context, position);
   }
@@ -111,16 +129,20 @@ EditorLayersWidget::draw(DrawingContext& context)
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   int pos = 0;
-  for (const auto& layer_icon : m_layer_icons) {
-    if (layer_icon->is_valid()) {
-      if (pos * 35 >= m_scroll) {
-        layer_icon->draw(context, get_layer_coords(pos));
-      } else if ((pos + 1) * 35 >= m_scroll) {
-        layer_icon->draw(context, get_layer_coords(pos), 35 - (m_scroll - pos * 35));
-      }
-    }
+  for (const auto& layer_icon : m_layer_icons)
+  {
+    if (!layer_icon->is_valid()) continue;
+
+    if (pos * 35 >= m_scroll)
+      layer_icon->draw(context, get_layer_coords(pos));
+    else if ((pos + 1) * 35 >= m_scroll)
+      layer_icon->draw(context, get_layer_coords(pos), 35 - (m_scroll - pos * 35));
     pos++;
   }
+  if (pos * 35 >= m_scroll)
+    m_add_icon.draw(context, get_layer_coords(pos));
+  else if ((pos + 1) * 35 >= m_scroll)
+    m_add_icon.draw(context, get_layer_coords(pos), 35 - (m_scroll - pos * 35));
 }
 
 void
@@ -155,6 +177,17 @@ EditorLayersWidget::update(float dt_sec)
 }
 
 bool
+EditorLayersWidget::event(const SDL_Event& ev)
+{
+  bool result = Widget::event(ev);
+
+  if (m_add_layer_box_visible)
+    result |= m_add_layer_box->event(ev);
+
+  return result;
+}
+
+bool
 EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   return false;
@@ -173,7 +206,19 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         return true;
 
       case HoveredItem::LAYERS:
-        if (m_hovered_layer >= m_layer_icons.size())
+        if (m_hovered_layer == m_layer_icons.size()) // Add layer button
+        {
+          m_add_layer_box_visible = !m_add_layer_box_visible;
+          if (m_add_layer_box_visible)
+          {
+            m_add_layer_box->select_layers_objectgroup();
+
+            const Vector coords = get_layer_coords(static_cast<int>(m_layer_icons.size()));
+            m_add_layer_box->set_rect(Rectf(coords - Vector(48.f, std::max(m_add_layer_box->get_tiles_height(), 32.f)),
+                                            coords + Vector(80.f, 0.f)));
+          }
+        }
+        else if (m_hovered_layer > m_layer_icons.size())
         {
           return false;
         }
@@ -189,8 +234,8 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
               m_editor.edit_path(cam->get_path_gameobject(), cam);
             }
           }
-          return true;
         }
+        return true;
 
       default:
         return false;
@@ -233,26 +278,33 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     m_hovered_item = HoveredItem::SPAWNPOINTS;
     m_object_tip->set_visible(false);
     return true;
+  }
+
+  if (x <= static_cast<float>(m_sector_text_width)) {
+    m_hovered_item = HoveredItem::SECTOR;
+    m_object_tip->set_visible(false);
   } else {
-    if (x <= static_cast<float>(m_sector_text_width)) {
-      m_hovered_item = HoveredItem::SECTOR;
-      m_object_tip->set_visible(false);
-    } else {
-      // Scrolling
-      if (x < static_cast<float>(m_sector_text_width + 32)) {
-        m_scroll_speed = -1;
-      } else if (x > static_cast<float>(SCREEN_WIDTH - 160)) { // 160 = 128 + 32
-        m_scroll_speed = 1;
-      } else {
-        m_scroll_speed = 0;
-      }
-      unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
-      if (m_hovered_layer != new_hovered_layer || m_hovered_item != HoveredItem::LAYERS) {
-        m_hovered_layer = new_hovered_layer;
-        update_tip();
-      }
-      m_hovered_item = HoveredItem::LAYERS;
+    // Scrolling
+    if (x < static_cast<float>(m_sector_text_width + 32))
+    {
+      m_scroll_speed = -1;
+      m_add_layer_box_visible = false;
     }
+    else if (x > static_cast<float>(SCREEN_WIDTH - 160)) // 160 = 128 + 32
+    {
+      m_scroll_speed = 1;
+      m_add_layer_box_visible = false;
+    }
+    else
+    {
+      m_scroll_speed = 0;
+    }
+    unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
+    if (m_hovered_layer != new_hovered_layer || m_hovered_item != HoveredItem::LAYERS) {
+      m_hovered_layer = new_hovered_layer;
+      update_tip();
+    }
+    m_hovered_item = HoveredItem::LAYERS;
   }
 
   return true;
@@ -326,7 +378,7 @@ EditorLayersWidget::refresh()
 void
 EditorLayersWidget::refresh_sector_text()
 {
-  m_sector_text = _("Sector") + ": " + m_editor.get_sector()->get_name();
+  m_sector_text = fmt::format(fmt::runtime(_("Sector: {}")), m_editor.get_sector()->get_name());
   m_sector_text_width  = int(Resources::normal_font->get_text_width(m_sector_text)) + 6;
 }
 
@@ -408,11 +460,12 @@ EditorLayersWidget::add_layer(GameObject* layer, bool initial)
 void
 EditorLayersWidget::update_tip()
 {
-  if ( m_hovered_layer >= m_layer_icons.size() ) {
+  if (m_hovered_layer == m_layer_icons.size())
+     m_object_tip->set_info(_("Add Layer"));
+  else if (m_hovered_layer > m_layer_icons.size())
     m_object_tip->set_visible(false);
-    return;
-  }
-  m_object_tip->set_info_for_object(*m_layer_icons[m_hovered_layer]->get_layer());
+  else
+    m_object_tip->set_info_for_object(*m_layer_icons[m_hovered_layer]->get_layer());
 }
 
 void

@@ -1,11 +1,15 @@
 if(WIN32 AND NOT UNIX)
-  if(VCPKG_BUILD)
-    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/\${CMAKE_INSTALL_CONFIG_NAME}/" DESTINATION ${INSTALL_SUBDIR_BIN} FILES_MATCHING PATTERN "*.dll")
-  else()
-    install(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
-  endif()
+  install(DIRECTORY $<TARGET_FILE_DIR:supertux2_lib>/
+          DESTINATION ${INSTALL_SUBDIR_BIN}
+          FILES_MATCHING PATTERN "*.dll")
 
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
+  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png
+                ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico
+          DESTINATION ".")
+
+  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat
+                ${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux_portable.bat
+          DESTINATION ".")
 
   option(PACKAGE_VCREDIST "Package the VCREDIST libraries with the program" OFF)
 

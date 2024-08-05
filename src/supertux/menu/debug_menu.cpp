@@ -75,15 +75,17 @@ DebugMenu::DebugMenu() :
   add_toggle(-1, _("Use Bitmap Fonts"),
              []{ return g_debug.get_use_bitmap_fonts(); },
              [](bool value){ g_debug.set_use_bitmap_fonts(value); });
-  add_entry(_("Reload Resources"),
-    []{
-      Resources::load();
-      TextureManager::current()->reload();
+  add_toggle(-1, _("Show Tile IDs in Editor Toolbox"), &g_debug.show_toolbox_tile_ids);
+  
+  add_entry(_("Reload Resources"), []{
+    Resources::load();
+    TextureManager::current()->reload();
 
-      SpriteManager::current()->reload();
-      TileManager::current()->reload();
-    })
-    .set_help(_("Reloads all fonts, textures, sprites and tilesets."));
+    SpriteManager::current()->reload();
+    TileManager::current()->reload();
+  })
+  .set_help(_("Reloads all fonts, textures, sprites and tilesets."));
+    
   add_entry(_("Dump Texture Cache"), []{ TextureManager::current()->debug_print(get_logging_instance()); });
 
   add_hl();

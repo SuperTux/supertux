@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "editor/object_option.hpp"
 #include "object/path_walker.hpp"

@@ -35,7 +35,12 @@ SnowParticleSystem::SnowParticleSystem() :
   m_state(RELEASING),
   m_timer(),
   m_gust_onset(0),
-  m_gust_current_velocity(0)
+  m_gust_current_velocity(0),
+  m_wind_speed(),
+  m_epsilon(),
+  m_spin_speed(),
+  m_state_length(),
+  m_snowimages()
 {
   init();
 }
@@ -45,7 +50,12 @@ SnowParticleSystem::SnowParticleSystem(const ReaderMapping& reader) :
   m_state(RELEASING),
   m_timer(),
   m_gust_onset(0),
-  m_gust_current_velocity(0)
+  m_gust_current_velocity(0),
+  m_wind_speed(),
+  m_epsilon(),
+  m_spin_speed(),
+  m_state_length(),
+  m_snowimages()
 {
   reader.get("state_length", m_state_length, 5.0f);
   reader.get("wind_speed", m_wind_speed, 30.0f);

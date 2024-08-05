@@ -58,7 +58,7 @@ Root::construct(float delay, bool play_sound)
 {
   m_countMe = false;
   m_physic.enable_gravity(false);
-  set_colgroup_active(COLGROUP_TOUCHABLE);
+  set_colgroup_active(COLGROUP_DISABLED);
   set_action("root", m_dir);
 
   Vector pos = get_pos();
@@ -185,6 +185,7 @@ Root::active_update(float dt_sec)
       if (m_timer.check())
       {
         m_state = STATE_APPEARING;
+        set_colgroup_active(COLGROUP_TOUCHABLE);
         m_timer.start(APPEAR_TIME);
       }
       break;
