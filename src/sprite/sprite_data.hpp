@@ -34,7 +34,7 @@ public:
    * Sprite from data.
    * `mapping` has to be a pointer to data in the form of "((hitbox 5 10 0 0) ...)".
    */
-  SpriteData(const ReaderMapping& mapping);
+  SpriteData(const ReaderMapping& mapping, const std::string& image = nullptr);
   /** Single-image sprite */
   SpriteData(const std::string& image);
   /** Dummy texture sprite */
@@ -43,6 +43,11 @@ public:
   const std::string& get_name() const
   {
     return name;
+  }
+
+  const std::string& get_sprite_path() const
+  {
+    return m_sprite_path;
   }
 
 private:
@@ -98,6 +103,7 @@ private:
 private:
   Actions actions;
   std::string name;
+  std::string m_sprite_path;
 };
 
 #endif

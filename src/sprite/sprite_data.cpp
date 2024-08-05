@@ -48,9 +48,10 @@ SpriteData::Action::Action() :
 {
 }
 
-SpriteData::SpriteData(const ReaderMapping& mapping) :
+SpriteData::SpriteData(const ReaderMapping& mapping, const std::string& image) :
   actions(),
-  name()
+  name(),
+  m_sprite_path(image)
 {
   auto iter = mapping.get_iter();
   while (iter.next())
@@ -60,20 +61,21 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
     } else if (iter.get_key() == "action") {
       parse_action(iter.as_mapping());
     } else {
-      log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;
+      log_warning << m_sprite_path << ": Unknown sprite field: " << iter.get_key() << std::endl;
     }
   }
   if (actions.empty())
-    throw std::runtime_error("Error: Sprite without actions.");
+    throw std::runtime_error(m_sprite_path + ": Error: Sprite without actions.");
 }
 
 SpriteData::SpriteData(const std::string& image) :
   actions(),
-  name()
+  name(),
+  m_sprite_path(image)
 {
   auto surface = Surface::from_file(image);
   if (!TextureManager::current()->last_load_successful())
-    throw std::runtime_error("Cannot load image.");
+    throw std::runtime_error(m_sprite_path + ": Cannot load image.");
 
   auto action = create_action_from_surface(surface);
   action->name = "default";
@@ -82,7 +84,8 @@ SpriteData::SpriteData(const std::string& image) :
 
 SpriteData::SpriteData() :
   actions(),
-  name()
+  name(),
+  m_sprite_path()
 {
   auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
   auto action = create_action_from_surface(surface);
@@ -110,7 +113,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   if (!mapping.get("name", action->name))
   {
     if (!actions.empty())
-      throw std::runtime_error("If there are more than one action, they need names!");
+      throw std::runtime_error(m_sprite_path + ": If there are more than one action, they need names!");
   }
 
   std::vector<float> hitbox;
@@ -128,7 +131,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         break;
 
       default:
-        throw std::runtime_error("hitbox should specify 2/4 coordinates");
+        throw std::runtime_error(m_sprite_path + ": hitbox should specify 2/4 coordinates");
     }
   }
   mapping.get("unisolid", action->hitbox_unisolid);
@@ -141,7 +144,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   {
     if (action->loop_frame < 1)
     {
-      log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << name << "' set to a value below 1." << std::endl;
+      log_warning << m_sprite_path << ": 'loop-frame' of action '" << action->name << "' in sprite '" << name << "' set to a value below 1." << std::endl;
       action->loop_frame = 1;
     }
   }
@@ -160,6 +163,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
     if (act_tmp == nullptr)
     {
       std::ostringstream msg;
+      msg << m_sprite_path << ": ";
       msg << "Could not mirror action. Action not found: \"" << mirror_action << "\"\n"
           << "Mirror actions must be defined after the real one!";
       throw std::runtime_error(msg.str());
@@ -207,6 +211,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
     if (act_tmp == nullptr)
     {
       std::ostringstream msg;
+      msg << m_sprite_path << ": ";
       msg << "Could not flip action. Action not found: \"" << flip_action << "\"\n"
           << "Flip actions must be defined after the real one!";
       throw std::runtime_error(msg.str());
@@ -253,6 +258,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
     if (act_tmp == nullptr)
     {
       std::ostringstream msg;
+      msg << m_sprite_path << ": ";
       msg << "Could not clone action. Action not found: \"" << clone_action << "\"\n"
           << "Clone actions must be defined after the real one!";
       throw std::runtime_error(msg.str());
@@ -286,7 +292,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       {
         if (iter.get_key() != "region")
         {
-          log_warning << "Unknown field '" << iter.get_key() << "' under 'regions'." << std::endl;
+          log_warning << m_sprite_path << ": Unknown field '" << iter.get_key() << "' under 'regions'." << std::endl;
           continue;
         }
 
@@ -294,7 +300,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         const auto& arr = sx.as_array();
         if (arr.size() != 6)
         {
-          log_warning << "(region IMAGE_FILE X Y WIDTH HEIGHT) tag malformed: " << sx << std::endl;
+          log_warning << m_sprite_path << ": (region IMAGE_FILE X Y WIDTH HEIGHT) tag malformed: " << sx << std::endl;
           continue;
         }
 
@@ -343,6 +349,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         else
         {
           std::stringstream msg;
+          msg << m_sprite_path << ":";
           msg << "Sprite '" << name << "' unknown tag in 'surfaces' << " << i.get_name();
           throw std::runtime_error(msg.str());
         }
@@ -362,6 +369,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
     else
     {
       std::stringstream msg;
+      msg << m_sprite_path << ": ";
       msg << "Sprite '" << name << "' contains no images in action '"
           << action->name << "'.";
       throw std::runtime_error(msg.str());
@@ -372,7 +380,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   const int frames = static_cast<int>(action->surfaces.size());
   if (action->loop_frame > frames && frames > 0)
   {
-    log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << name << "' not-in-range of total frames." << std::endl;
+    log_warning << m_sprite_path << ": 'loop-frame' of action '" << action->name << "' in sprite '" << name << "' not-in-range of total frames." << std::endl;
     action->loop_frame = 1;
   }
 

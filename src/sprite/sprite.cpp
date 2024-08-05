@@ -98,7 +98,7 @@ Sprite::set_action(const std::string& name, int loops)
 
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
-    log_warning << "Action '" << name << "' not found." << std::endl;
+    log_warning << m_data.get_sprite_path() << ": Action '" << name << "' not found." << std::endl;
     return;
   }
 

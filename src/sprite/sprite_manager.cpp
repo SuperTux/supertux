@@ -94,7 +94,7 @@ SpriteManager::load(const std::string& filename)
     }
     else
     {
-      sprite_data = std::make_unique<SpriteData>(root.get_mapping());
+      sprite_data = std::make_unique<SpriteData>(root.get_mapping(), filename);
     }
   }
   else
