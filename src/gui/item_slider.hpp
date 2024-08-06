@@ -22,7 +22,8 @@
 class ItemSlider final : public MenuItem
 {
 public:
-  ItemSlider(const std::string& text, int min_value, int max_value, int* value, const std::string& value_append = {}, int id = -1);
+  ItemSlider(const std::string& text, int min_value, int max_value, int* value,
+             const std::string& value_append = {}, int step = 1, int id = -1);
 
   /** Draws the menu item. */
   void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
@@ -44,6 +45,7 @@ private:
   int m_max_value;
   int* m_value;
   const std::string m_value_append;
+  const int m_step;
 
   float m_slider_x;
   bool m_sliding;

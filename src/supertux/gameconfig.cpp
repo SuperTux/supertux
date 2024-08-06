@@ -104,7 +104,6 @@ Config::Config() :
   editorhovercolor(ColorScheme::Editor::hover_color),
   editorgrabcolor(ColorScheme::Editor::grab_color),
   menuroundness(16.f),
-  menu_slider_steps(10),
   editor_selected_snap_grid_size(3),
   editor_render_grid(true),
   editor_snap_to_grid(true),
@@ -225,8 +224,6 @@ Config::load()
     editorgrabcolor = Color(editorgrabcolor_);
     interface_colors_mapping->get("menuroundness", menuroundness, 16.f);
   }
-
-  config_mapping.get("menu_slider_steps", menu_slider_steps);
 
   // Compatibility; will be overwritten by the "editor" category.
   
@@ -428,8 +425,6 @@ Config::save()
   writer.write("menuroundness", menuroundness);
   writer.end_list("interface_colors");
 
-  writer.write("menu_slider_steps", menu_slider_steps);
-
   writer.start_list("video");
   writer.write("fullscreen", use_fullscreen);
   if (video == VideoSystem::VIDEO_NULL) {
@@ -523,7 +518,6 @@ Config::check_values()
   music_volume = math::clamp(music_volume, 0, 100);
   flash_intensity = math::clamp(flash_intensity, 0, 100);
   mobile_controls_scale = math::clamp(mobile_controls_scale, 4, 12);
-  menu_slider_steps = std::max(menu_slider_steps, 1);
 }
 
 bool

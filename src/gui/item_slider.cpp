@@ -27,12 +27,14 @@
 
 static const float SLIDER_WIDTH = 100.f;
 
-ItemSlider::ItemSlider(const std::string& text, int min_value, int max_value, int* value, const std::string& value_append, int id) :
+ItemSlider::ItemSlider(const std::string& text, int min_value, int max_value, int* value,
+                       const std::string& value_append, int step, int id) :
   MenuItem(text, id),
   m_min_value(min_value),
   m_max_value(max_value),
   m_value(value),
   m_value_append(value_append),
+  m_step(step),
   m_slider_x(-SLIDER_WIDTH), // Will be set in draw().
   m_sliding(false)
 {
@@ -115,12 +117,12 @@ ItemSlider::event(const SDL_Event& ev)
     case SDL_KEYDOWN:
       if (ev.key.keysym.sym == SDLK_LEFT)
       {
-        *m_value = std::max(*m_value - g_config->menu_slider_steps, m_min_value);
+        *m_value = std::max(*m_value - m_step, m_min_value);
         MenuManager::instance().current_menu()->menu_action(*this);
       }
       else if (ev.key.keysym.sym == SDLK_RIGHT)
       {
-        *m_value = std::min(*m_value + g_config->menu_slider_steps, m_max_value);
+        *m_value = std::min(*m_value + m_step, m_max_value);
         MenuManager::instance().current_menu()->menu_action(*this);
       }
       break;
@@ -130,9 +132,9 @@ ItemSlider::event(const SDL_Event& ev)
         break;
 
       if (ev.wheel.y < 0)
-        *m_value = std::max(*m_value + ev.wheel.y * g_config->menu_slider_steps, m_min_value);
+        *m_value = std::max(*m_value + ev.wheel.y * m_step, m_min_value);
       else
-        *m_value = std::min(*m_value + ev.wheel.y * g_config->menu_slider_steps, m_max_value);
+        *m_value = std::min(*m_value + ev.wheel.y * m_step, m_max_value);
 
       MenuManager::instance().current_menu()->menu_action(*this);
       break;

@@ -323,9 +323,10 @@ Menu::add_horizontalmenu(int id, float height, float min_item_width)
 }
 
 ItemSlider&
-Menu::add_slider(const std::string& text, int min_value, int max_value, int* value, const std::string& value_append, int id)
+Menu::add_slider(const std::string& text, int min_value, int max_value, int* value,
+                 const std::string& value_append, int step, int id)
 {
-  return add_item<ItemSlider>(text, min_value, max_value, value, value_append, id);
+  return add_item<ItemSlider>(text, min_value, max_value, value, value_append, step, id);
 }
 
 void

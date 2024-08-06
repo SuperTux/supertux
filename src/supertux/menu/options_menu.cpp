@@ -111,7 +111,7 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_toggle(MNID_FRAME_PREDICTION, _("Frame prediction"), &g_config->frame_prediction)
         .set_help(_("Smooth camera motion, generating intermediate frames. This has a noticeable effect on monitors at >> 60Hz. Moving objects may be blurry."));
 
-      add_slider(_("Flash Intensity"), 0, 100, &g_config->flash_intensity, "%", MNID_FLASH_INTENSITY)
+      add_slider(_("Flash Intensity"), 0, 100, &g_config->flash_intensity, "%", 5, MNID_FLASH_INTENSITY)
         .set_help(_("Adjust the intensity of the flash, produced by thunderstorms"));
 
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
@@ -137,9 +137,9 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
         add_toggle(MNID_MUSIC, _("Music"), &g_config->music_enabled)
           .set_help(_("Disable all music"));
 
-        add_slider(_("Sound Volume"), 0, 100, &g_config->sound_volume, "%", MNID_SOUND_VOLUME)
+        add_slider(_("Sound Volume"), 0, 100, &g_config->sound_volume, "%", 5, MNID_SOUND_VOLUME)
           .set_help(_("Adjust sound volume"));
-        add_slider(_("Music Volume"), 0, 100, &g_config->music_volume, "%", MNID_MUSIC_VOLUME)
+        add_slider(_("Music Volume"), 0, 100, &g_config->music_volume, "%", 5, MNID_MUSIC_VOLUME)
           .set_help(_("Adjust music volume"));
       }
       else
@@ -171,7 +171,7 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_toggle(MNID_MOBILE_CONTROLS, _("On-screen controls"), &g_config->mobile_controls)
         .set_help(_("Toggle on-screen controls"));
 
-      add_slider(_("On-screen controls scale"), 4, 12, &g_config->mobile_controls_scale, "", MNID_MOBILE_CONTROLS_SCALE)
+      add_slider(_("On-screen controls scale"), 4, 12, &g_config->mobile_controls_scale, "", 1, MNID_MOBILE_CONTROLS_SCALE)
         .set_help(_("Configure the scale of on-screen controls"));
 
       break;
@@ -229,9 +229,6 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
         .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
 #endif
-
-      add_intfield(_("Menu slider steps"), &g_config->menu_slider_steps, MNID_MENU_SLIDER_STEPS, true)
-        .set_help(_("Determines the amount of steps to be done on a menu slider when using arrow keys or the scroll wheel"));
 
       break;
     }

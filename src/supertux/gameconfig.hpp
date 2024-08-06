@@ -133,7 +133,6 @@ public:
   Color editorhovercolor;
   Color editorgrabcolor;
   float menuroundness;
-  int menu_slider_steps;
 
   int editor_selected_snap_grid_size;
   bool editor_render_grid;
