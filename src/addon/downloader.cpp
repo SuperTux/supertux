@@ -321,7 +321,7 @@ public:
     return m_url;
   }
 
-  virtual size_t on_data(char* ptr, size_t size, size_t nmemb) = 0;
+  virtual size_t on_data(const char* ptr, size_t size, size_t nmemb) = 0;
 
   int on_progress(double dltotal, double dlnow,
                    double ultotal, double ulnow)
@@ -337,7 +337,7 @@ public:
 
 private:
 #ifndef EMSCRIPTEN
-  static size_t on_data_wrap(char* ptr, size_t size, size_t nmemb, void* userdata)
+  static size_t on_data_wrap(const char* ptr, size_t size, size_t nmemb, void* userdata)
   {
     return static_cast<Transfer*>(userdata)->on_data(ptr, size, nmemb);
   }
@@ -383,11 +383,11 @@ public:
     // Escape backslashes and single quotes in the URL and file path to ensure safe usage.
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
     auto path_clean = StringUtil::replace_all(StringUtil::replace_all(FileSystem::join(std::string(PHYSFS_getWriteDir()), outfile), "\\", "\\\\"), "'", "\\'");
-    emscripten_run_script(("supertux_xhr_file_download(" + std::to_string(m_id) + ", '" + url_clean + "', '" + path_clean + "');").c_str());
+    emscripten_run_script(("supertux_xhr_file_download(" + std::to_string(static_cast<intptr_t>(&m_downloader)) + ", '" + std::to_string(m_id) + ", '" + url_clean + "', '" + path_clean + "');").c_str());
 #endif
   }
 
-  size_t on_data(char* ptr, size_t size, size_t nmemb) override
+  size_t on_data(const char* ptr, size_t size, size_t nmemb) override
   {
 #ifndef EMSCRIPTEN
     PHYSFS_writeBytes(m_fout.get(), ptr, size * nmemb);
@@ -415,11 +415,11 @@ public:
     // Sanitize input to prevent code injection from malicious callers.
     // Escape backslashes and single quotes in the URL to ensure safe usage.
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
-    emscripten_run_script(("supertux_xhr_string_download(" + std::to_string(m_id) + ", '" + url_clean + "');").c_str());
+    emscripten_run_script(("supertux_xhr_string_download(" + std::to_string(static_cast<intptr_t>(&m_downloader)) + ", '" + std::to_string(m_id) + ", '" + url_clean + "');").c_str());
 #endif
   }
 
-  size_t on_data(char* ptr, size_t size, size_t nmemb) override
+  size_t on_data(const char* ptr, size_t size, size_t nmemb) override
   {
     m_out += std::string(ptr, size * nmemb);
     return size * nmemb;
@@ -554,6 +554,8 @@ Downloader::abort(TransferId id)
         log_warning << "Illegal exception in Downloader: " << err.what() << std::endl;
       }
     }
+    if (status->parent_list)
+      status->parent_list->on_transfer_complete(status, false);
   }
 }
 
@@ -683,7 +685,7 @@ Downloader::onDownloadProgress(int id, int loaded, int total)
 }
 
 void
-Downloader::onDownloadFinished(int id)
+Downloader::onDownloadFinished(int id, const char* data)
 {
   auto it = m_transfers.find(id);
   if (it == m_transfers.end())
@@ -692,7 +694,18 @@ Downloader::onDownloadFinished(int id)
   }
   else
   {
-    for (const auto& callback : it->second->get_status()->callbacks)
+    // If a string with the downloaded data is provided,
+    // that would mean a StringTransfer was taking place.
+    // Pass the data to that transfer.
+    if (strlen(data) != 0)
+    {
+      auto* str_transfer = dynamic_cast<StringTransfer*>(it->get());
+      if (str_transfer)
+        str_transfer->on_data(data, strlen(data), 1);
+    }
+
+    TransferStatusPtr status = it->second->get_status();
+    for (const auto& callback : status->callbacks)
     {
       try
       {
@@ -703,6 +716,8 @@ Downloader::onDownloadFinished(int id)
         log_warning << "Exception in Downloader: " << err.what() << std::endl;
       }
     }
+    if (status->parent_list)
+      status->parent_list->on_transfer_complete(status, true);
   }
 }
 
@@ -716,6 +731,7 @@ Downloader::onDownloadError(int id)
   }
   else
   {
+    TransferStatusPtr status = it->second->get_status();
     for (const auto& callback : it->second->get_status()->callbacks)
     {
       try
@@ -727,6 +743,8 @@ Downloader::onDownloadError(int id)
         log_warning << "Exception in Downloader: " << err.what() << std::endl;
       }
     }
+    if (status->parent_list)
+      status->parent_list->on_transfer_complete(status, false);
   }
 }
 
@@ -740,6 +758,7 @@ Downloader::onDownloadAborted(int id)
   }
   else
   {
+    TransferStatusPtr status = it->second->get_status();
     for (const auto& callback : it->second->get_status()->callbacks)
     {
       try
@@ -751,6 +770,8 @@ Downloader::onDownloadAborted(int id)
         log_warning << "Exception in Downloader: " << err.what() << std::endl;
       }
     }
+    if (status->parent_list)
+      status->parent_list->on_transfer_complete(status, false);
   }
 }
 #endif
