@@ -19,64 +19,42 @@
 #ifndef HEADER_SUPERTUX_BADGUY_GOLDBOMB_HPP
 #define HEADER_SUPERTUX_BADGUY_GOLDBOMB_HPP
 
-#include "badguy/walking_badguy.hpp"
+#include "badguy/mrbomb.hpp"
 
 class SoundSource;
 
-class GoldBomb final : public WalkingBadguy
+class GoldBomb final : public MrBomb
 {
 public:
   GoldBomb(const ReaderMapping& reader);
 
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& object, const CollisionHit& hit) override;
-  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
-  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
   virtual void active_update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
-
-  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
-  virtual void ungrab(MovingObject& object, Direction dir) override;
-  virtual bool is_portable() const override;
-
-  virtual void freeze() override;
-  virtual bool is_freezable() const override;
-
-  virtual void kill_fall() override;
-  virtual void ignite() override;
   static std::string class_name() { return "goldbomb"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Gold Bomb"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(GoldBomb)); }
   virtual bool is_snipable() const override { return true; }
 
-  virtual void stop_looping_sounds() override;
-  virtual void play_looping_sounds() override;
-
-  bool is_ticking() const { return tstate == STATE_TICKING; }
-
-protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual void explode() override;
 
 private:
   void flee(Direction dir);
   void cornered();
+  void recover();
+  void normalize();
 
 private:
-  enum Ticking_State {
-    STATE_NORMAL,
-    STATE_TICKING,
-    STATE_REALIZING,
-    STATE_FLEEING,
-    STATE_CORNERED
+  enum State : uint8_t {
+    GB_STATE_REALIZING = MB_STATE_COUNT,
+    GB_STATE_FLEEING,
+    GB_STATE_CORNERED,
+    GB_STATE_RECOVER
   };
 
-  Ticking_State tstate;
   Timer m_realize_timer;
-
-  std::unique_ptr<SoundSource> ticking;
-  SpritePtr m_exploding_sprite;
 
 private:
   GoldBomb(const GoldBomb&) = delete;

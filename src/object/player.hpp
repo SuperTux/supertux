@@ -89,6 +89,7 @@ public:
   virtual bool has_object_manager_priority() const override { return true; }
   virtual std::string get_exposed_class_name() const override { return "Player"; }
   virtual void remove_me() override;
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Player)); }
 
   int get_id() const { return m_id; }
   void set_id(int id);
