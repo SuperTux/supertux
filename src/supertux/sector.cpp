@@ -728,7 +728,7 @@ Sector::get_nearest_player (const Vector& pos) const
   for (auto player_ptr : get_objects_by_type_index(typeid(Player)))
   {
     Player& player = *static_cast<Player*>(player_ptr);
-    if (player.is_dying() || player.is_dead())
+    if (!player.is_alive())
       continue;
 
     float dist = player.get_bbox ().distance(pos);
