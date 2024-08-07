@@ -148,7 +148,7 @@ public:
 
 #ifdef EMSCRIPTEN
   void onDownloadProgress(int id, int loaded, int total);
-  void onDownloadFinished(int id);
+  void onDownloadFinished(int id, const char* data);
   void onDownloadError(int id);
   void onDownloadAborted(int id);
 #endif
