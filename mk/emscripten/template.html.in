@@ -534,7 +534,7 @@
     }
 
     var onDownloadProgress, onDownloadFinished, onDownloadError, onDownloadAborted;
-    window.supertux_xhr_download = function(id, url, file) {
+    window.supertux_xhr_file_download = function(id, url, file) {
       console.log('id: ' + id);
       console.log('url: ' + url);
       console.log('file: ' + file);
