@@ -27,6 +27,7 @@
 #include "video/font.hpp"
 #include "video/surface.hpp"
 #include "video/ttf_font.hpp"
+#include "video/ttf_surface_manager.hpp"
 
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
@@ -79,6 +80,7 @@ Resources::load(bool reload)
       control_font.reset(new TTFFont("fonts/Roboto-Regular.ttf", 15, 1.25f, 0, 0));
     }
   }
+  TTFSurfaceManager::current()->clear_cache();
 
   /* Load menu images */
   checkbox = Surface::from_file("images/engine/menu/checkbox-unchecked.png");
