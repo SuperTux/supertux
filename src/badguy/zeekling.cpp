@@ -245,15 +245,13 @@ Zeekling::active_update(float dt_sec) {
       if (m_timer.check())
       {
         fly();
+        break;
       }
-      else
-      {
-        const float dist = m_catch_pos - m_start_position.y;
-        const double progress = QuadraticEaseInOut(static_cast<double>(m_timer.get_progress()));
-        const float value = m_catch_pos - (static_cast<float>(progress) * dist);
-        const Vector pos(get_pos().x, value);
-        set_pos(pos);
-      }
+      const float dist = m_catch_pos - m_start_position.y;
+      const double progress = QuadraticEaseInOut(static_cast<double>(m_timer.get_progress()));
+      const float value = m_catch_pos - (static_cast<float>(progress) * dist);
+      const Vector pos(get_pos().x, value);
+      set_pos(pos);
 
       break;
 
