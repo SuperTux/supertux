@@ -48,7 +48,7 @@ SurfacePtr Resources::no_tile;
 std::string Resources::current_font;
 
 void
-Resources::load()
+Resources::load(bool reload)
 {
   // Load the mouse-cursor
   mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
@@ -69,7 +69,7 @@ Resources::load()
     console_font.reset(new TTFFont("fonts/SourceCodePro-Medium.ttf", 12, 1.25f, 0, 1));
 
     auto font = get_font_for_locale(g_dictionary_manager->get_language());
-    if(font != current_font)
+    if(reload || font != current_font)
     {
       current_font = font;
       fixed_font.reset(new TTFFont(font, 18, 1.25f, 2, 1));

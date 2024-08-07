@@ -31,6 +31,7 @@
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/texture_manager.hpp"
+#include "video/ttf_surface_manager.hpp"
 
 DebugMenu::DebugMenu() :
   next_game_speed(0)
@@ -78,9 +79,10 @@ DebugMenu::DebugMenu() :
   add_toggle(-1, _("Show Tile IDs in Editor Toolbox"), &g_debug.show_toolbox_tile_ids);
   
   add_entry(_("Reload Resources"), []{
-    Resources::load();
     TextureManager::current()->reload();
+    TTFSurfaceManager::current()->clear_cache();
 
+    Resources::load(true);
     SpriteManager::current()->reload();
     TileManager::current()->reload();
   })
