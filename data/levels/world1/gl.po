@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# xanvieiro <gallaecia6@gmail.com>, 2019-2020
+# Xan Vieiro <gallaecia6@gmail.com>, 2019-2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-03-27 13:47+0000\n"
-"Last-Translator: xanvieiro <gallaecia6@gmail.com>\n"
-"Language-Team: Galician (http://www.transifex.com/arctic-games/supertux/language/gl/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Xan Vieiro <gallaecia6@gmail.com>, 2019-2020\n"
+"Language-Team: Galician (http://app.transifex.com/arctic-games/supertux/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,16 +22,16 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "23ª Aerotransportada"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Atopaches unha área secreta!"
 
@@ -39,7 +39,7 @@ msgstr "Atopaches unha área secreta!"
 msgid "Above the Arctic Skies"
 msgstr "Sobre os Ceos Árticos"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -50,17 +50,13 @@ msgstr "-Flor Aérea\n!images/powerups/airflower/air_flower-0.png\n#A Flor Aére
 msgid "Between Two Glaciers"
 msgstr "Entre Dous Glaciares"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Cristais\n#Este nivel contén catro cristais de cor. Podes atopalos?\n#\n#Nota: Estes cristais non teñen ningún propósito polo momento pero poderían telo nunha versión futura do xogo."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Cuarto do Trono Baleiro"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -70,7 +66,7 @@ msgstr "O Castelo de Nolok"
 msgid "The Crystal Mine"
 msgstr "A Mina de Cristal"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#Tes que activar dous interruptores para abrir esta porta."
 
@@ -276,7 +272,7 @@ msgstr "Vía Nostálxica"
 msgid "Welcome to Antarctica"
 msgstr "Benvida á Antártida"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -285,42 +281,42 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr "-Bloques de Bono\n!images/objects/bonus_block/full-0.png\n#Os bloques de bono poden conter moedas, elementos especiais ou emerxentes para axudarche na túa misión..\n#\n#Bate neles dende abaixo para obter os seus contidos."
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Ovos\n!images/powerups/egg/egg-shade.png\n#O ovo fai que Tux medre máis grande. Entón, Tux pode esmagar bloques de madeira coa súa cabeza."
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-Punto de rescate\n!images/objects/resetpoints/bell-m.png\n#Activa o punto de rescate. Se morres, podes retomar o nivel dende aquí. Cada vez que reinicies dende un punto de rescate, perderás o 10 por cento das túas moedas (polo menos 25 moedas)."
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Correr\n!images/tiles/signs/run.png\n#O camiño diante túa está bloqueado. Gaña algunha velocidade antes de saltar para sobrepasar os bloques."
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Flor de Lume\n!images/powerups/fireflower/fire_flower-0.png\n#A flor de lume dálle a Tux a habilidade de disparar bólas de lume."
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Boneca Tux\n!images/powerups/1up/1up.png\n#A boneca Tux dálle a Tux 100 modedas."
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."

@@ -30,6 +30,7 @@ public:
   virtual void deactivate() override;
 
   virtual void active_update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
   virtual void kill_fall() override;
 
   virtual void freeze() override;
@@ -45,6 +46,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Flame"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Flame)); }
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
@@ -67,6 +69,7 @@ private:
   float speed;
 
   std::unique_ptr<SoundSource> sound_source;
+  SurfacePtr m_radius_indicator;
 
 private:
   Flame(const Flame&) = delete;

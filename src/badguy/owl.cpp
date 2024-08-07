@@ -75,6 +75,7 @@ Owl::initialize()
     }
     else
     {
+      carried_object->grab(*this, get_pos(), m_dir);
       Sector::get().add_object(std::move(game_object));
     }
   }

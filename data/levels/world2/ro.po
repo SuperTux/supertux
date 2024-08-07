@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
 "Language-Team: Romanian (http://app.transifex.com/arctic-games/supertux/language/ro/)\n"
@@ -38,8 +38,8 @@ msgstr "Ruine antice"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Ai găsit o zonă secretă!"
 
@@ -91,7 +91,7 @@ msgstr "Provocări ale arborele fantomă"
 msgid "Ghouls' Lair"
 msgstr "Bârlogul de la Ghoul"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -105,13 +105,13 @@ msgstr "Mergem în subteran"
 msgid "I Spy With My Little Eye"
 msgstr "Spionez cu ochiul meu mic"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Spionez\n#Ele se activează lucruri precum platformele ori de câte ori Tux este în vizorul lor."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Sugestie: Folosește melci pentru a sparge blocurile!"
 
@@ -123,7 +123,7 @@ msgstr "Ca o frunză în vânt"
 msgid "Lost Village"
 msgstr "Satul Pierdut"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Nu uitați să apăsați comutatorul!"
 
@@ -163,10 +163,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "- Floarea Pământului\n!images/powerups/earthflower/earth_flower-1.png\n#Floarea de pământ îi oferă lui Tux capacitatea de a se transforma în piatră apăsând în același timp tasta ACȚIUNE și tasta JOS.\n#Acest lucru nu funcționează în timp ce săriți sau cădeți!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Turnul Cutscene"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Turnul Fantomelor"
@@ -187,7 +183,7 @@ msgstr "-Obiecte portabile:\n!images/objects/rock/rock.png\n#Tux poate ridica an
 msgid "Tux' Own Horror Show"
 msgstr "Spectacolul de groază al lui Tux"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -216,6 +212,6 @@ msgstr "Rădăcini de lemn"
 msgid "Rooted Forest"
 msgstr "Pădurea înrădăcinată"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Va urma..."

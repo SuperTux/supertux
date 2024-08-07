@@ -26,7 +26,7 @@ public:
   bool get_use_bitmap_fonts() const;
 
   void set_game_speed_multiplier(float v);
-  float get_game_speed_multiplier() const;
+  float get_game_speed_multiplier() const { return m_game_speed_multiplier; }
 
 public:
   /** Show collision rectangles of moving objects */
@@ -38,6 +38,8 @@ public:
   // Draw frames even when visually nothing changes; this can be used to
   // vaguely measure the impact of code changes which should increase the FPS
   bool draw_redundant_frames;
+
+  bool show_toolbox_tile_ids;
 
 private:
   /** Use old bitmap fonts instead of TTF */

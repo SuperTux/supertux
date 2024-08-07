@@ -19,7 +19,7 @@
 
 #include <SDL.h>
 
-/** Simple Wrapper class around SDL_Surface that provides execption
+/** Simple Wrapper class around SDL_Surface that provides exception
     safety */
 class SDLSurfacePtr final
 {

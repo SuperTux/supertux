@@ -18,10 +18,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2020-05-14 20:48+0000\n"
-"Last-Translator: Kristóf Kófiás <kristof.kofias@gmail.com>\n"
-"Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Kristóf Kófiás <kristof.kofias@gmail.com>, 2014,2020\n"
+"Language-Team: Hungarian (http://app.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -41,7 +41,7 @@ msgstr "23. Repülős század"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Megtaláltad a titkos helységet!"
 
@@ -67,10 +67,6 @@ msgid ""
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Kristályok\n#Ezen a pályán négy színes kristály található. Meg tudod találni őket?\n#\n#Megjegyzés: Ezek a kristályok nem szolgálnak semmire ebben a pillanatban, de a játék egy jövőbeni kiadásában lehet, hogy lesz céljuk."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Üres Trónterem"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"

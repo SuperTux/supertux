@@ -33,6 +33,7 @@ Sprite::Sprite(SpriteData& newdata) :
   m_alpha(1.0f),
   m_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_blend(),
+  m_is_paused(false),
   m_action(m_data.get_action("normal"))
 {
   if (!m_action)
@@ -50,6 +51,7 @@ Sprite::Sprite(const Sprite& other) :
   m_alpha(1.0f),
   m_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_blend(),
+  m_is_paused(other.m_is_paused),
   m_action(other.m_action)
 {
 }
@@ -96,9 +98,12 @@ Sprite::set_action(const std::string& name, int loops)
 
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
-    log_debug << "Action '" << name << "' not found." << std::endl;
+    log_warning << "Action '" << name << "' not found." << std::endl;
     return;
   }
+
+  // Automatically resume if a new action is set
+  m_is_paused = false;
 
   // The action's loops were set to continued; use the ones from the previous action.
   if (loops == LOOPS_CONTINUED)
@@ -133,6 +138,8 @@ Sprite::update()
   float frame_inc = m_action->fps * (g_game_time - m_last_ticks);
   m_last_ticks = g_game_time;
 
+  if (m_is_paused) return;
+
   m_frame += frame_inc;
 
   while (m_frame >= 1.0f) {
@@ -158,9 +165,8 @@ void
 Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
              Flip flip)
 {
-  assert(m_action != nullptr);
+  assert(m_action);
   update();
-
 
   DrawingContext& context = canvas.get_context();
   context.push_transform();
@@ -178,6 +184,24 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
   context.pop_transform();
 }
 
+void
+Sprite::draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
+                    Flip flip)
+{
+  assert(m_action);
+  update();
+
+  DrawingContext& context = canvas.get_context();
+  context.push_transform();
+
+  context.set_flip(context.get_flip() ^ flip);
+  context.set_alpha(context.get_alpha() * m_alpha);
+
+  canvas.draw_surface_scaled(m_action->surfaces[m_frameidx], dest_rect, layer);
+
+  context.pop_transform();
+}
+
 int
 Sprite::get_width() const
 {
@@ -190,6 +214,14 @@ Sprite::get_height() const
 {
   assert(m_frameidx < get_frames());
   return static_cast<int>(m_action->surfaces[m_frameidx]->get_height());
+}
+
+const std::optional<std::vector<SurfacePtr>>
+Sprite::get_action_surfaces(const std::string& name) const
+{
+  const SpriteData::Action* action = m_data.get_action(name);
+  if (!action) return std::nullopt;
+  return action->surfaces;
 }
 
 bool

@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov <adem4ik@gmail.com>, 2018-2019,2021
+# Andrei Stepanov, 2018-2019,2021-2022,2024
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013,2015
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # Dmitry <dmitrymq@gmail.com>, 2013
 # Savsish <alex.ahmetshins@mail.ru>, 2016
-# Translator TRA, 2021
+# 85e8e9a0e917e081842b0894245d15cc_1e402b3, 2021
+# Темак, 2022
 # Dmitry Anikonov <starwars32@yandex.ru>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-20 13:57+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Andrei Stepanov, 2018-2019,2021-2022,2024\n"
+"Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,7 +38,7 @@ msgstr "23-й воздушно-десантный"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Вы нашли тайник!"
 
@@ -64,10 +65,6 @@ msgid ""
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Кристаллы\n#На уровне лежат кристаллы. Сможете их найти?\n#\n#Примечание: на данный момент от этих кристаллов нет никакой пользы, но это может поменяться в будущих версиях игры."
 
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Пустой тронный зал"
-
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
 msgstr "Замок Нолока"
@@ -78,11 +75,11 @@ msgstr "Кристальная шахта"
 
 #: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
-msgstr "#Вы должны активировать два переключателя, чтобы открыть эту дверь."
+msgstr "#Вы должны задействовать два переключателя, чтобы открыть эту дверь."
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "Конец туннеля"
+msgstr "Конец прохода"
 
 #: data/levels/world1/entrance_cave.stl:3
 msgid "Entrance to the Cave"
@@ -119,7 +116,7 @@ msgid ""
 "-Secret Exits\n"
 "#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
 "#Maybe they lead you to something special."
-msgstr "-Секретные выходы\n#У некоторых уровней может быть несколько выходов. Обычно они хорошо спрятаны, так что присматривайтесь.\n#Они могут привести к чему-то особенному."
+msgstr "-Тайные выходы\n#У некоторых уровней может быть несколько выходов. Обычно они хорошо спрятаны, так что присматривайтесь.\n#Они могут привести к чему-то особенному."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
@@ -155,7 +152,7 @@ msgstr "Жизнь в холодильнике"
 
 #: data/levels/world1/miyamoto_monument.stl:3
 msgid "Miyamoto Monument"
-msgstr "Монумент Миямото"
+msgstr "Памятник Миямото"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
@@ -202,11 +199,11 @@ msgstr "Где-то у берегов Антарктиды…"
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "Пингвин Такс собирался на встречу со своей подругой Пенни для пикника."
+msgstr "Пингвин Такс собрался устроить пикник вместе со своей подругой Пенни."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "Проснувшись в головокружении, Такс обнаружил, что Пенни пропала!"
+msgstr "Очнувшись от оглушения, Такс обнаружил пропажу Пенни!"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
@@ -216,15 +213,15 @@ msgstr "Такс забеспокоился. Затем он увидел пис
 msgid ""
 "\"Tux, I have kidnapped your beloved Penny and have taken her to my "
 "fortress.\""
-msgstr "\"Такс, я похитил твою любимую Пенни и увёз её в свою крепость.\""
+msgstr "«Такс, я похитил твою любимую Пенни и увёз её в свою крепость.»"
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"Путь к крепости усеян моими приспешниками.\""
+msgstr "«Путь к крепости усеян моими приспешниками.»"
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "\"У тебя нет и шанса спасти её! Подпись: Нолок.\""
+msgstr "«Не пытайся спасти её! Подпись: Нолок.»"
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
@@ -246,17 +243,17 @@ msgstr "Но вдруг он услышал далёкий оглушитель�
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
-msgstr "Йети, кажется, наблюдал за ним издалека."
+msgstr "Снежный человек, кажется, наблюдал за ним издалека."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
-msgstr "Обеспокоенный внезапным отступлением йети, Такс решил продолжить свой путь…"
+msgstr "Обеспокоенный внезапным отступлением снежного человека, Такс решил продолжить свой путь…"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "..хотя втайне надеялся, что ни в коем случае больше не столкнётся с йети."
+msgstr "..хотя втайне надеялся, что ни в коем случае больше не столкнётся со снежным человеком."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
@@ -264,7 +261,7 @@ msgstr "Разбитый мост"
 
 #: data/levels/world1/somewhat_smaller_bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "Немного меньший бассейн"
+msgstr "Весьма небольшая купальня"
 
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
@@ -276,7 +273,7 @@ msgstr "Подо льдом"
 
 #: data/levels/world1/via_nostalgica.stl:3
 msgid "Via Nostalgica"
-msgstr "Через ностальгию"
+msgstr "Через счастливую тоску"
 
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
@@ -289,7 +286,7 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Бонусные блоки\n!images/objects/bonus_block/full-0.png\n#Бонусные блоки могут содержать монеты, бонусы или иные полезные предметы для выполнения квеста.\n#\n#Ударьте их снизу, чтобы достать содержимое."
+msgstr "-Бонусные блоки\n!images/objects/bonus_block/full-0.png\n#Бонусные блоки могут содержать монеты, бонусы или иные полезные предметы для выполнения задания.\n#\n#Ударьте их снизу, чтобы достать содержимое."
 
 #: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
@@ -303,14 +300,14 @@ msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Контрольные точки\n!images/objects/resetpoints/bell-m.png\n#Активирована контрольная точка. Если вы умрёте, то сможете продолжить уровень отсюда. Каждый раз, когда вы начинаете с контрольной точки, вы теряете 10% своих монет (минимум 25 монет)."
+msgstr "-Контрольные точки\n!images/objects/resetpoints/bell-m.png\n#Задействуйте контрольную точку. После гибели вы сможете продолжить уровень отсюда. Каждый раз, когда вы начинаете с контрольной точки, вы теряете 10% своих монет (от 25 монет)."
 
 #: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Беги\n!images/tiles/signs/run.png\n#Путь впереди заблокирован. Разбегись прежде чем перепрыгивать через блоки"
+msgstr "-Бег\n!images/tiles/signs/run.png\n#Путь впереди заблокирован. Разбегитесь и затем подпрыгните, чтобы преодолеть блоки."
 
 #: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
@@ -324,13 +321,13 @@ msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Кукольный Такс\n!images/powerups/1up/1up.png\n#Даёт Таксу 100 монет."
+msgstr "-Кукла Такс\n!images/powerups/1up/1up.png\n#Кукла даёт Таксу 100 монет."
 
 #: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Тайники\n#На многих уровнях есть тайники, спрятанные за обычными стенами. Ищи подсказки, чтобы обнаружить их."
+msgstr "-Тайники\n#На многих уровнях есть тайники, спрятанные за обычными стенами. Ищите подсказки, чтобы находить их."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
@@ -338,8 +335,8 @@ msgstr "Ледяной остров"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
-msgstr "Нет больше мистера Ледяного"
+msgstr "Нет больше господина Ледяного"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"
-msgstr "Йети вдалеке"
+msgstr "Снежный человек вдалеке"

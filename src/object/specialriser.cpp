@@ -20,11 +20,10 @@
 #include "video/drawing_context.hpp"
 
 SpecialRiser::SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child, bool is_solid) :
-  m_start_pos(0.0f, 0.0f),
+  m_start_pos(pos),
   m_offset(0),
   m_child(std::move(child))
 {
-  m_start_pos = pos;
   m_child->set_pos(pos - Vector(0,32));
   set_pos(m_start_pos);
   m_col.m_bbox.set_size(m_child->get_bbox().get_width(), 32);

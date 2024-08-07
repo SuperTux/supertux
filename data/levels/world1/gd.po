@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-12-12 17:46+0000\n"
-"Last-Translator: GunChleoc\n"
-"Language-Team: Gaelic, Scottish (http://www.transifex.com/arctic-games/supertux/language/gd/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: GunChleoc, 2016,2019\n"
+"Language-Team: Gaelic, Scottish (http://app.transifex.com/arctic-games/supertux/language/gd/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,16 +24,16 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "Feachd-adhair"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Lorg thu raon dìomhair!"
 
@@ -41,7 +41,7 @@ msgstr "Lorg thu raon dìomhair!"
 msgid "Above the Arctic Skies"
 msgstr "Os cionn speuran na h-Artaig"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -52,17 +52,13 @@ msgstr "-Dìthean adhair\n!images/powerups/airflower/air_flower-0.png\n#Bheir d�
 msgid "Between Two Glaciers"
 msgstr "Eadar dà eigh-shruth"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Criostalan\n#Tha ceithir criostalan dathte san leibheil seo. AN lorg thu iad?\n#\n#An aire: Chan eil na criostalan gu feum dhut aig an àm seo ach 's dòcha gun dèan ann an tionndadh ri teachd dhen gheama."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Seòmar cathrach falamh"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -72,7 +68,7 @@ msgstr "Caisteal Nolok"
 msgid "The Crystal Mine"
 msgstr "Mèinn nan criostal"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#Feumaidh tu dà shuidse a ghnìomhachadh airson an doras seo fhosgladh."
 
@@ -278,7 +274,7 @@ msgstr "An uair a bha siud"
 msgid "Welcome to Antarctica"
 msgstr "Fàilte dhan Antartaig"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -287,42 +283,42 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr "-Blocaichean duaise\n!images/objects/bonus_block/full-0.png\n#Faodaidh buinn, cumhachdan no nithean sònraichte a bhith ann am bloca gus do chuideachadh le d' obair.\n#\n#Buail ri am bonn gus na tha 'nam broinn fhaighinn."
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Uighean\n!images/powerups/egg/egg-shade.png\n#Bheir an t-ugh fàs air Tux. 'S urrainn dha Tux blocaichean fiodha a phronnadh le a cheann an uairsin."
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-Ionadan sàbhalaidh\n!images/objects/resetpoints/bell-m.png\n#Gnìomhaich an t-ionad sàbhalaidh. Ma gheibh thu bàs, 's urrainn dhut an leibheil fheuchainn a-rithist on a siud. Gach turas a dh'fheuchas tu a-rithist o ionad sàbhalaidh, caillidh tu 10 às a' cheud dhe na buinn agad (25 bonn air a' char as lugha)."
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Ruith\n!images/tiles/signs/run.png\n#Tha an t-slighe romhad bacte. Luathaich mus leum thu gus faighinn thar nam blocaichean."
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Dìthean teine\n!images/powerups/fireflower/fire_flower-0.png\n#'S urrainn dha Tux bàlaichean teine a losgadh nuair a bhios dìthean teine aige."
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Doileag Tux\n!images/powerups/1up/1up.png\n#Bheir doileag Tux 100 bonn dha Tux."
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."

@@ -31,6 +31,7 @@
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/profile_manager.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
@@ -113,6 +114,7 @@ private:
   std::unique_ptr<SquirrelVirtualMachine> m_squirrel_virtual_machine;
   std::unique_ptr<TileManager> m_tile_manager;
   std::unique_ptr<SpriteManager> m_sprite_manager;
+  std::unique_ptr<ProfileManager> m_profile_manager;
   std::unique_ptr<Resources> m_resources;
   std::unique_ptr<AddonManager> m_addon_manager;
   std::unique_ptr<Console> m_console;

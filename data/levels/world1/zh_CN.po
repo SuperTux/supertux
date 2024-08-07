@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>, 2020
 # CodingJellyfish <dumaosen_main01@outlook.com>, 2020
 # Liu Sizhuang <chinatslsz@hotmail.com>, 2008
 # a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>, 2020
+# Wenbin Lv <wenbin816@gmail.com>, 2024
 # CodingJellyfish <dumaosen_main01@outlook.com>, 2019-2020
 # 玉堂白鹤 <yjwork@qq.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-12-27 12:38+0000\n"
-"Last-Translator: a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Wenbin Lv <wenbin816@gmail.com>, 2024\n"
+"Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,18 +26,18 @@ msgstr ""
 
 #: data/levels/world1/23rd_airborne.stl:3
 msgid "23rd Airborne"
-msgstr "第23空降师"
+msgstr "第 23 空降师"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "你找到了一个秘密区域！"
 
@@ -43,38 +45,34 @@ msgstr "你找到了一个秘密区域！"
 msgid "Above the Arctic Skies"
 msgstr "苍穹之上"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "- 空气花\n!images/powerups/airflower/air_flower-0.png\n#摘下这朵花后，Tux 能够在空中短暂停留，不过要按住“跳跃”键。"
+msgstr "-空气花\n!images/powerups/airflower/air_flower-0.png\n#空气花给予 Tux 在空中滑翔数秒的能力，只需要按住“跳跃”键即可做到。"
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
-msgstr "跨越冰川"
+msgstr "冰川之间"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "- 水晶\n#这关中有四个不同颜色的水晶。你能找到吗？\n#\n#注意：现在他们或许无用，不过这个情况将在更新后改变！"
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "寂寥的宫殿"
+msgstr "-水晶\n#此关卡中有四个彩色水晶。你能找到它们吗？\n#\n#注意：这些水晶目前没有任何用途，但它们在游戏的未来版本中可能会发挥作用。"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
-msgstr "恶龙城堡"
+msgstr "Nolok 的城堡"
 
 #: data/levels/world1/crystal_mine.stl:3
 msgid "The Crystal Mine"
 msgstr "水晶矿洞"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#你在打开两个开关后才能打开这个门。"
 
@@ -88,7 +86,7 @@ msgstr "洞穴入口"
 
 #: data/levels/world1/fork_in_the_road.stl:3
 msgid "A Fork in the Road"
-msgstr "岔路惊魂"
+msgstr "岔路口的抉择"
 
 #: data/levels/world1/fork_in_the_road.stl:84
 msgid ""
@@ -97,27 +95,27 @@ msgid ""
 "!images/objects/pushbutton/pushbutton-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
 "#There are also buttons that you can press by jumping on them."
-msgstr "- 开关\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#打开开关妙事多，按下“上”键就能做。\n#有时开关变按键，跳到上面事便妥。"
+msgstr "-开关\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#开关可以用来做各种各样的事情。按“上”键可以使用开关。\n#有时你看到的可能是按钮。跳到按钮上就可以按下。"
 
 #: data/levels/world1/fork_in_the_road.stl:93
 msgid ""
 "-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "- 蹦床\n!images/objects/trampoline/trampoline2-0.png\n#若想跳得高，蹦床必须要。在上按“跳跃”，高飞赛凤凰。"
+msgstr "-蹦床\n!images/objects/trampoline/trampoline2-0.png\n#蹦床让 Tux 能够跳到前所未有的高度。在蹦床上弹跳时按住“跳跃”键还可以弹得更高。"
 
 #: data/levels/world1/fork_in_the_road.stl:100
 msgid ""
 "-Climbing\n"
 "#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "- 爬梯子\n#这只企鹅比你想象中灵巧得多呢！按下“上”键可以让他爬上梯子，按下动作键或者跳跃能让他放手。"
+msgstr "-爬梯子\n#这只企鹅比你想象中灵巧得多呢！按“上”键可以让他爬上梯子，按“动作”键或者跳跃能让他放手。"
 
 #: data/levels/world1/fork_in_the_road.stl:106
 msgid ""
 "-Secret Exits\n"
 "#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
 "#Maybe they lead you to something special."
-msgstr "- 秘密出口\n#有些关卡有多个出口。它们不知隐藏在哪里，所以我们最好多注意。\n#他们或许能让你到达一些特殊的地方。"
+msgstr "-秘密出口\n#有些关卡有多个出口。它们大多是隐藏的，所以需要多加留意。\n#它们或许能让你到达一些特殊的地方。"
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
@@ -125,7 +123,7 @@ msgstr "霜冻田野"
 
 #: data/levels/world1/frozen_bridge.stl:3
 msgid "Over the Frozen Bridge"
-msgstr "冰雕桥上"
+msgstr "冰封桥上"
 
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
@@ -133,7 +131,7 @@ msgstr "洞中的冰"
 
 #: data/levels/world1/icy_valley.stl:3
 msgid "Icy Valley"
-msgstr "寒冰之谷"
+msgstr "寒冰峡谷"
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -157,19 +155,19 @@ msgstr "宫本大师之碑"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
-msgstr "雪怪风波"
+msgstr "雪球风波"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
-msgstr "寒冷的夜晚"
+msgstr "漫漫寒夜"
 
 #: data/levels/world1/or_just_me.stl:3
 msgid "...Or Is It Just Me?"
-msgstr "不知所措"
+msgstr "……只有我是这样吗？"
 
 #: data/levels/world1/path_in_the_clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "云中小路"
+msgstr "云中小径"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
 msgid "Tux had reached the end of the castle."
@@ -177,18 +175,18 @@ msgstr "Tux 终于来到了城堡的尽头。"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
 msgid "But to his surprise all he could find was a letter."
-msgstr "他翻遍了城堡，却只找到一片小小的信封。"
+msgstr "令他意想不到的是，他翻遍了城堡，却只找到了一封信。"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
 msgid ""
 "A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "那封信写着 Penny 被带到了浩瀚林海之中，上面还散发着她淡淡的香气。 "
+msgstr "Penny 在信中向 Tux 求救，说她被 Nolok 带到了一个遥远的森林。"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
 "Unsure about what Nolok was doing to her, Tux became worried about his "
 "beloved Penny."
-msgstr "想到 Nolok 对他一生所爱之人的虐待，Tux 心中汹涌着不安。"
+msgstr "Tux 无从知晓 Nolok 对他心爱的 Penny 做了些什么，他的心中汹涌着不安。"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
@@ -196,7 +194,7 @@ msgstr "直到突然……"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
-msgstr "在很远很远的地方，有一片冰和雪的银色大陆……"
+msgstr "在遥远的南极洲海岸的某个地方……"
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
@@ -214,11 +212,11 @@ msgstr "Tux 心急如焚。他四处寻找，却只发现了一封信，上面�
 msgid ""
 "\"Tux, I have kidnapped your beloved Penny and have taken her to my "
 "fortress.\""
-msgstr "“可怜的 Tux 啊！你亲爱的 Penny 现在已经成为了我的瓮中之鳖。”"
+msgstr "“可怜的 Tux 啊！你心爱的 Penny 现在已经成为了我的瓮中之鳖。”"
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "“她在我的城堡里，而去那里的途中布满了我的兵卒。”"
+msgstr "“她在我的城堡里，而去那里的道路上布满了我的兵卒。”"
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
@@ -227,7 +225,7 @@ msgstr "“救她是不可能的，你就不要异想天开了！署名，Nolok�
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "想到刀山火海之中她痛苦的脸庞，Tux 决定启程去拯救她。"
+msgstr "想到 Penny 可能遭受的痛苦，Tux 决定启程去拯救她。"
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
@@ -236,29 +234,29 @@ msgstr "他抬头一看，城堡在远方的云雾中若隐若现。一场伟大
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "Tux 已经筋疲力尽了，于是他决定小憩一下。"
+msgstr "经过长途跋涉，Tux 已经筋疲力尽了，于是他决定小憩一下。"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "突然，他听见了远方可怕的咆哮声。"
+msgstr "但就在此时，突然，他听到远方传来一声咆哮。"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
-msgstr "想必雪大王已经开始跟踪他了。"
+msgstr "雪大王似乎正在远处观察着他。"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
-msgstr "虽然雪大王撤退地有些不合常理，Tux 还是继续了他的冒险。"
+msgstr "雪大王的突然撤退让 Tux 感到有些不安，所以他决定继续他的旅程。…"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "……与此同时，他偷偷的希望，千万不要被这家伙盯上啊！"
+msgstr "…与此同时，他偷偷地想着，千万不要再遇到雪大王了。"
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "粉碎的桥"
+msgstr "破碎的桥"
 
 #: data/levels/world1/somewhat_smaller_bath.stl:3
 msgid "The Somewhat Smaller Bath"
@@ -266,11 +264,11 @@ msgstr "水池有点小"
 
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
-msgstr "冰冷的石头"
+msgstr "冰冷如石"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
-msgstr "冰面下方"
+msgstr "寒冰之下"
 
 #: data/levels/world1/via_nostalgica.stl:3
 msgid "Via Nostalgica"
@@ -278,57 +276,57 @@ msgstr "怀旧地带"
 
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "欢迎来到南极"
+msgstr "欢迎来到南极洲"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "- 奖励砖块\n!images/objects/bonus_block/full-0.png\n#把它顶开，惊喜自来！这小小的奖励砖块中可能包含金币，道具或者你想要的特殊物品。\n#\n#从下方撞击它可以得到这些奖励。"
+msgstr "-奖励方块\n!images/objects/bonus_block/full-0.png\n#奖励方块中可能包含金币、能力提升道具或者特殊物品。它们对你的旅途大有帮助。\n#\n#从下方撞击它们可以得到这些奖励。"
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "- 蛋\n!images/powerups/egg/egg-shade.png\n#蛋会让 Tux 长高，然后 Tux 就可以撞碎木块了！"
+msgstr "-蛋\n!images/powerups/egg/egg-shade.png\n#蛋会让 Tux 长高，然后 Tux 就可以用头撞碎木块了！"
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "- 检查点\n!images/objects/resetpoints/bell-m.png\n#当你激活检查点后，如果你在冒险途中出了意外，你可以从这里重试关卡。不过，你将失去10％的硬币（至少25个）。"
+msgstr "-检查点\n!images/objects/resetpoints/bell-m.png\n#激活这个检查点吧！之后，如果你在冒险途中出了意外，你可以从这里重试关卡。不过，每重试一次，你将失去 10% 的硬币（至少 25 个）。"
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "- 助跑\n!images/tiles/signs/run.png\n#哦不，前方的道路被封住了！不过跳跃前加速就可以越过这些砖块哦。"
+msgstr "-助跑\n!images/tiles/signs/run.png\n#哦不，前方的道路被封住了！不过，先助跑再起跳，就可以越过这些障碍物哦。"
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "- 火焰花\n!images/powerups/fireflower/fire_flower-0.png\n#摘下这朵神圣的火焰花吧！它将赐予 Tux 发射火球的能力。"
+msgstr "-火焰花\n!images/powerups/fireflower/fire_flower-0.png\n#摘下这朵神圣的火焰花吧！它将赐予 Tux 发射火球的能力。"
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "- 企鹅娃娃\n!images/powerups/1up/1up.png\n#这娃娃似乎很值钱，它会给予 Tux 100 金币。"
+msgstr "-Tux 娃娃\n!images/powerups/1up/1up.png\n#这娃娃似乎很值钱，它会给予 Tux 100 金币。"
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "- 秘密区域\n#很多墙壁看似普通，实则暗藏玄机。如果你细心寻找，它们背后的金银珠宝就属于你。"
+msgstr "-秘密区域\n#很多关卡包含秘密区域。有些墙壁看似普通，其实背后别有洞天。试着寻找这些秘密区域存在的蛛丝马迹吧。"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
@@ -336,7 +334,7 @@ msgstr "冰封岛"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
-msgstr "再见，冰块"
+msgstr "再见，冰块先生"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"

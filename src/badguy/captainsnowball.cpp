@@ -29,8 +29,7 @@ CaptainSnowball::CaptainSnowball(const ReaderMapping& reader) :
   m_jumping(false)
 {
   walk_speed = BOARDING_SPEED;
-  max_drop_height = -1;
-  m_physic.set_velocity_y(-400);
+  set_ledge_behavior(LedgeBehavior::FALL);
 }
 
 bool

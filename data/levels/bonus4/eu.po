@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Urtzi Odriozola <urtzi.odriozola@gmail.com>, 2019
-# Mielanjel Iraeta <pospolos@gmail.com>, 2019
+# Mielanjel Iraeta <mielanjel@ni.eus>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -14,8 +14,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:58+0000\n"
-"Last-Translator: Mielanjel Iraeta <pospolos@gmail.com>, 2019\n"
-"Language-Team: Basque (https://www.transifex.com/arctic-games/teams/95/eu/)\n"
+"Last-Translator: Mielanjel Iraeta <mielanjel@ni.eus>, 2019\n"
+"Language-Team: Basque (https://app.transifex.com/arctic-games/teams/95/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

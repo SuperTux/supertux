@@ -48,7 +48,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
     if (linked)
       m_type = HAY;
 
-    on_type_change();
+    on_type_change(TypeChange::INITIAL);
   }
   else
   {
@@ -73,7 +73,7 @@ WeakBlock::update_version()
   if (get_version() == 1)
   {
     m_type = ICE;
-    on_type_change();
+    on_type_change(m_type);
   }
 
   GameObject::update_version();

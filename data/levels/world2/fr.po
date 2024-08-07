@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# a a, 2021
+# Semphris <semphris@protonmail.com>, 2021
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013,2016
 # MCMic, 2015
 # mol1 <leo.poughon@neuf.fr>, 2013,2015
@@ -17,15 +17,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 00:33+0000\n"
-"Last-Translator: a a\n"
-"Language-Team: French (http://www.transifex.com/arctic-games/supertux/language/fr/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: Semphris <semphris@protonmail.com>, 2021\n"
+"Language-Team: French (http://app.transifex.com/arctic-games/supertux/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/world2/ancient_ruins.stl:3
 msgid "Ancient Ruins"
@@ -45,8 +45,8 @@ msgstr "Ruines Oubliées"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Vous avez trouvé un passage secret"
 
@@ -98,7 +98,7 @@ msgstr "Les Défis des Fantômes"
 msgid "Ghouls' Lair"
 msgstr "Chez la Goule"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -112,13 +112,13 @@ msgstr "Lâcher la Proie pour l'Ombre"
 msgid "I Spy With My Little Eye"
 msgstr "J'Espionne Avec Mon Petit Œil"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Espion\n#Les Espions activent des objets tels que les plateformes quand ils voient Tux."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Conseil : Utilise les escargots pour casser les blocs!"
 
@@ -130,7 +130,7 @@ msgstr "Comme une feuille au Vent"
 msgid "Lost Village"
 msgstr "Village Perdu"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#N'oublie pas de frapper l'interrupteur!"
 
@@ -170,10 +170,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Fleur de Terre\n!images/powerups/earthflower/earth_flower-0.png\n#La Fleur de Terre donne à Tux le pouvoir de se trasformer en pierre en maintenant ACTION et BAS appuyées simultanément."
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Cinématique de la Tour"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Tour Des Fantômes"
@@ -194,7 +190,7 @@ msgstr "-Objets Portables:\n!images/objects/rock/rock.png\n#Tux peut prendre cer
 msgid "Tux' Own Horror Show"
 msgstr "Le Spectacle d'Horreur de Tux"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -223,6 +219,6 @@ msgstr "Racines Boisées"
 msgid "Rooted Forest"
 msgstr "Forêt des racines"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "À suivre..."

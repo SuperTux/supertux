@@ -17,95 +17,264 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TEXT_ARRAY_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_TEXT_ARRAY_OBJECT_HPP
 
+#include "supertux/game_object.hpp"
+
 #include <memory>
 
-#include "squirrel/exposed_object.hpp"
-#include "scripting/text_array.hpp"
-
-#include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
-
 #include "object/text_object.hpp"
 #include "object/text_array_item.hpp"
 
 typedef size_t ta_index;
 
-/** A text array object intended for narration */
-class TextArrayObject final : public GameObject,
-                              public ExposedObject<TextArrayObject, scripting::TextArray>
+/**
+ * An array of text objects, intended for narration.
+
+ * @scripting
+ * @summary A ""TextArrayObject"" that was given a name can be controlled by scripts.
+            Supports all functions of ${SRG_REF_Text}, applying them to the current text item.${SRG_NEWPARAGRAPH}
+            Intended for scripts with narration.
+ * @instances A ""TextArrayObject"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class TextArrayObject final : public GameObject
 {
 public:
-  TextArrayObject(const std::string& name = std::string());
-  TextArrayObject(const ReaderMapping& reader);
+  static void register_class(ssq::VM& vm);
 
+public:
+  TextArrayObject(const std::string& name = "");
   ~TextArrayObject() override = default;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
-  virtual bool is_singleton() const override { return true; }
   virtual bool is_saveable() const override { return false; }
 
   static std::string class_name() { return "text-array"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "TextArrayObject"; }
   static std::string display_name() { return _("Text array"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(TextArrayObject)); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/textarray.png";
   }
 
-  /////////// TextArray api related ///////////
-
-  /** Empties the text array. */
+  /**
+   * @scripting
+   * @description Clears all text objects from the stack.
+   */
   void clear();
-
-  /** Adds a text with duration.
-      @param: text      the text itself (can be multiline & formatted).
-      @param: duration  (optional) the text display time in seconds, defaults to 3. */
-  void add_text(const std::string& text, float duration = 3.0f);
-
-  /** Sets the current text index.
-      @param: index the index to set to. */
+  /**
+   * @scripting
+   * @description Adds a text object with a specific text at the end of the stack.
+   * @param string $text
+   */
+  void add_text(const std::string& text);
+  /**
+   * @scripting
+   * @description Adds a text object with a specific text and duration at the end of the stack.
+   * @param string $text
+   * @param float $duration
+   */
+  void add_text_duration(const std::string& text, float duration);
+  /**
+   * @scripting
+   * @description Sets the current text object by its index.
+   * @param int $index
+   */
   void set_text_index(ta_index index);
-
-  /** Sets the keep visible flag.
-      This flag overrides all texts to be visible.
-      @note: fade_transition overrides this
-      @param: keep_visible  true to enable keep_visible; false to disable the flag. */
+  /**
+   * @scripting
+   * @deprecated Use the ""keep_visible"" property instead!
+   * @description If set, keeps the current text object visible.
+   * @param bool $keep_visible
+   */
   void set_keep_visible(bool keep_visible);
-
-  /** Sets the fade transition flag.
-      This flag overrides all texts to be visible and fading.
-      @note: overrides keep_visible flag */
+  /**
+   * @scripting
+   * @deprecated Use the ""fade_transition"" property instead!
+   * @description If set, allows for a fade-in and fade-out transition.
+   * @param bool $fade_transition
+   */
   void set_fade_transition(bool fade_transition);
-
-  /** Sets fadetime for fade_transition.
-      @param: fadetime  the fade time.
-      @note: does NOT override the TextArray::fade_in() method. */
+  /**
+   * @scripting
+   * @description Sets the fade-in and fade-out time.
+   * @param float $fadetime
+   */
   void set_fade_time(float fadetime);
-
-  /** Sets the done flag as on. This disables the text array.
-      @note: the text array is not cleared.
-      @param: done  true for on; false for off. */
+  /**
+   * @scripting
+   * @deprecated Use the ""finished"" property instead!
+   * @description If set, sets the text array as finished going through all text objects.
+   * @param bool $done
+   */
   void set_done(bool done);
-
-  /** Sets the auto flag on & starts the auto narration.
-      @note: this starts the auto narration immediately!
-      this is disabled once the user inputs a skip! */
+  /**
+   * @scripting
+   * @description If set, lets the text array automatically go through all text objects.
+   * @param bool $is_auto
+   */
   void set_auto(bool is_auto);
-
-  /** Sets the current text to the next one.
-      @note: if the text is the last on the array,
-      the done flag is set, and the text array is disabled. */
+  /**
+   * @scripting
+   * @description If available, goes to the next text object in the stack.
+   */
   void next_text();
-
-  /** Sets the current text to the previous.
-      @note: if the current text is the first on the array,
-      it stays that way. */
+  /**
+   * @scripting
+   * @description If available, goes to the previous text object in the stack.
+   */
   void prev_text();
 
-  /////////// TextArrayObject access ///////////
+  /*
+   * TextObject API related
+   * @see: text_object.hpp
+   */
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Sets the text string to be displayed.
+   * @param string $text
+   */
+  void set_text(const std::string& text);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Sets the font of the text to be displayed.
+   * @param string $fontname Valid values are normal, big and small.
+   */
+  void set_font(const std::string& fontname);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Fades in the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
+  void fade_in(float fadetime);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Fades out the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
+  void fade_out(float fadetime);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Grows in the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
+  void grow_in(float fadetime);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Grows out the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
+  void grow_out(float fadetime);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Shows or hides the text abruptly (drastic counterpart to ""fade_in()"" and ""fade_out()"").
+   * @param bool $visible
+   */
+  void set_visible(bool visible);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": If ""centered"" is ""true"", the text will be centered on the screen. Otherwise, it will be left-aligned.
+   * @param bool $centered
+   */
+  void set_centered(bool centered);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Sets the offset of the text, relative to the anchor point.
+   * @param float $x
+   * @param float $y
+   */
+  void set_pos(float x, float y);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Returns the X offset of the text, relative to the anchor point.
+   */
+  float get_x() const;
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Returns the Y offset of the text, relative to the anchor point.
+   */
+  float get_y() const;
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @deprecated Use ""get_x()"" instead!
+   * @description Current ""TextObject"": Returns the X offset of the text, relative to the anchor point.
+   */
+  float get_pos_x() const;
+  /**
+   * @scripting
+   * @deprecated Use ""get_y()"" instead!
+   * @description Current ""TextObject"": Returns the Y offset of the text, relative to the anchor point.
+   */
+  float get_pos_y() const;
+#endif
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Sets the anchor point of the text.
+   * @param int $anchor One of the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
+   */
+  void set_anchor_point(int anchor);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Returns the current anchor point of the text (one of the ""ANCHOR_*"" constants; see ${SRG_REF_AnchorPoints}).
+   */
+  int get_anchor_point() const;
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Sets the anchor offset of the text.
+   * @param float $x
+   * @param float $y
+   */
+  void set_anchor_offset(float x, float y);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Gets the text wrap width of the text.
+   */
+  float get_wrap_width() const;
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Sets the text wrap width of the text.
+   * @param float $width
+   */
+  void set_wrap_width(float width);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Sets the front fill color of the text.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
+  void set_front_fill_color(float red, float green, float blue, float alpha);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Sets the back fill color of the text.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
+  void set_back_fill_color(float red, float green, float blue, float alpha);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Sets the text color.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
+  void set_text_color(float red, float green, float blue, float alpha);
+  /**
+   * @scripting
+   * @description Current ""TextObject"": Sets the frame's roundness.
+   * @param float $roundness
+   */
+  void set_roundness(float roundness);
 
   /** Gets the text item at a certain index.
       @param: index  the index of the text item to get.
@@ -137,10 +306,23 @@ private:
   bool should_fade() const;
 
 private:
-  bool m_isDone;
-  bool m_isAuto;
-  bool m_keepVisible;
-  bool m_fadeTransition;
+  /**
+   * @scripting
+   * @description Determines whether the text array has finished going through all text objects.
+   */
+  bool m_finished;
+  bool m_is_auto;
+
+  /**
+   * @scripting
+   * @description Determines whether the current text object should be kept visible.
+   */
+  bool m_keep_visible;
+  /**
+   * @scripting
+   * @description Allows for a fade-in and fade-out transition.
+   */
+  bool m_fade_transition;
 
   float m_fadetime;
 

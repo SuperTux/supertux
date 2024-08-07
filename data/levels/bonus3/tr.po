@@ -6,17 +6,18 @@
 # Alkım Kaçmaz <alkimkacmaz@gmail.com>, 2013
 # Erdoğan Şahin, 2016
 # mahmut özcan <faradundamarti@yandex.com>, 2015-2016
+# IAN RODRÍGUEZ Lorenzo, 2022
 # mahmut özcan <mahmutozcan@protonmail.com>, 2020
-# yakup <mutouk@yandex.ru>, 2014
+# 9d4282795e87ad099e39d98812f1a822_ade2f01 <c3fa67bcf1b8b90bf10d2d5dae1637ab_127851>, 2014
 # Yusuf Özsoy <yusufozsoy96@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 19:20+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Turkish (http://www.transifex.com/arctic-games/supertux/language/tr/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Language-Team: Turkish (http://app.transifex.com/arctic-games/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,13 +26,13 @@ msgstr ""
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
-msgstr ""
+msgstr "Eski Adıyla “-89,2 Derece” Olarak Bilinen Seviye"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
 msgstr "Küresel Isınma"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Gökyüzünde Bir Gece"
 
@@ -45,7 +46,7 @@ msgstr "Başka bir soğuk gün"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Forest Rain (aka \"Antarctic Rain\")"
-msgstr ""
+msgstr "Orman Yağmuru (\"Antarktika Yağmuru\" olarak da bilinir)"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
@@ -83,7 +84,7 @@ msgstr "#İyi iş! Kırmızı feneri kaptın! Gerek yok, ama sadece, 100 altına
 msgid "Coconut Fortress"
 msgstr "Hindistan cevizi Kalesi"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Kristal Günbatımı"
 
@@ -134,7 +135,7 @@ msgstr "Kaleye giriliyor"
 
 #: data/levels/bonus3/entering_castle.stl:60
 msgid "#Sorry, nothing to see here! Use the rope to get out!"
-msgstr ""
+msgstr "#Üzgünüm, burada görülecek bir şey yok! Dışarı çıkmak için ipi kullanın!"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
@@ -144,7 +145,7 @@ msgstr "Çiçek Bonusu"
 msgid "After the Glaciers"
 msgstr "Buzullardan Sonra"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Çatıdan Sarkmak"
 
@@ -220,7 +221,7 @@ msgstr "Karlı Bir Tepe"
 msgid "Three Frosty Icebergs"
 msgstr "Üç Donmuş Buzdağı"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Buzun Altında"
 

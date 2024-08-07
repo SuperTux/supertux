@@ -18,6 +18,9 @@
 
 #include <algorithm>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "supertux/object_remove_listener.hpp"
 #include "util/reader_mapping.hpp"
@@ -106,13 +109,22 @@ GameObject::save()
   return save_stream.str();
 }
 
+GameObjectClasses
+GameObject::get_class_types() const
+{
+  GameObjectClasses g;
+  // All class types except GameObject, since everything implements GameObject
+  // g.add(typeid(GameObject));
+  return g;
+}
+
 ObjectSettings
 GameObject::get_settings()
 {
   ObjectSettings result(get_display_name());
 
   result.add_int(_("Version"), &m_version, "version", 1, OPTION_HIDDEN);
-  result.add_text(_("Name"), &m_name, "name", std::string());
+  result.add_text(_("Name"), &m_name, "name", "");
 
   const GameObjectTypes types = get_types();
   if (!types.empty())
@@ -132,10 +144,28 @@ GameObject::get_settings()
   return result;
 }
 
+const std::string&
+GameObject::get_name() const
+{
+  return m_name;
+}
+
+int
+GameObject::get_type() const
+{
+  return m_type;
+}
+
 std::vector<std::string>
 GameObject::get_patches() const
 {
   return {};
+}
+
+int
+GameObject::get_version() const
+{
+  return m_version;
 }
 
 int
@@ -147,7 +177,9 @@ GameObject::get_latest_version() const
 bool
 GameObject::is_up_to_date() const
 {
-  return m_version >= get_latest_version();
+  const int latest = get_latest_version();
+  assert(m_version <= latest);
+  return m_version == latest;
 }
 
 void
@@ -207,7 +239,7 @@ GameObject::parse_type(const ReaderMapping& reader)
   {
     try
     {
-      set_type(type_id_to_value(type));
+      m_type = type_id_to_value(type);
     }
     catch (...)
     {
@@ -216,7 +248,7 @@ GameObject::parse_type(const ReaderMapping& reader)
     }
   }
 
-  on_type_change(-1); // Initial object type initialization
+  on_type_change(TypeChange::INITIAL); // Initial object type initialization
 }
 
 GameObjectTypes
@@ -273,6 +305,20 @@ GameObject::update(float dt_sec)
   });
 
   m_fade_helpers.erase(new_end, m_fade_helpers.end());
+}
+
+
+void
+GameObject::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<GameObject>("GameObject");
+
+  cls.addFunc("get_version", &GameObject::get_version);
+  cls.addFunc("get_latest_version", &GameObject::get_latest_version);
+  cls.addFunc("is_up_to_date", &GameObject::is_up_to_date);
+  cls.addFunc("get_name", &GameObject::get_name);
+  cls.addFunc("get_display_name", &GameObject::get_display_name);
+  cls.addFunc("get_type", &GameObject::get_type);
 }
 
 /* EOF */

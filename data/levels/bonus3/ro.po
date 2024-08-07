@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
 "Language-Team: Romanian (http://app.transifex.com/arctic-games/supertux/language/ro/)\n"
@@ -28,7 +28,7 @@ msgstr "Nivelul cunoscut ca „-89,2 grade”"
 msgid "Global Warming"
 msgstr "Încălzire globală"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "O noapte în cer"
 
@@ -80,7 +80,7 @@ msgstr "#Bună treabă! Ai păstrat felinarul roșu! Nu era nevoie dar pentru c�
 msgid "Coconut Fortress"
 msgstr "Fortăreața nucii de cocos"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Apusul de cristal"
 
@@ -141,7 +141,7 @@ msgstr "Bonusul floare"
 msgid "After the Glaciers"
 msgstr "După ghețari"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Atârnând de acoperiș"
 
@@ -217,7 +217,7 @@ msgstr "Un deal nins"
 msgid "Three Frosty Icebergs"
 msgstr "Trei ghețari geroși"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Sub gheață"
 

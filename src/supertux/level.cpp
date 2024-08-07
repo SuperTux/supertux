@@ -36,6 +36,8 @@
 #include "util/string_util.hpp"
 #include "util/writer.hpp"
 
+static PlayerStatus s_dummy_player_status(1);
+
 Level* Level::s_current = nullptr;
 
 Level::Level(bool worldmap) :
@@ -68,19 +70,14 @@ Level::~Level()
 void
 Level::initialize()
 {
-  // Get the "main" sector.
-  Sector* main_sector = get_sector("main");
-  if (!main_sector)
-    throw std::runtime_error("No \"main\" sector found.");
+  if (m_sectors.empty())
+    throw std::runtime_error("Level has no sectors!");
 
   m_stats.init(*this);
 
-  Savegame* savegame = (Editor::current() && Editor::is_active()) ?
-    Editor::current()->m_savegame.get() :
-    GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
-
-  PlayerStatus dummy_player_status(1);
-  PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
+  Savegame* savegame = (GameSession::current() && !Editor::current() ?
+    &GameSession::current()->get_savegame() : nullptr);
+  PlayerStatus& player_status = savegame ? savegame->get_player_status() : s_dummy_player_status;
 
   if (savegame && !m_suppress_pause_menu && !savegame->is_title_screen())
   {
@@ -88,6 +85,7 @@ Level::initialize()
       sector->add<PlayerStatusHUD>(player_status);
   }
 
+  Sector* sector = m_sectors.at(0).get();
   for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
   {
     if (!InputManager::current()->has_corresponsing_controller(id)
@@ -98,12 +96,12 @@ Level::initialize()
       continue;
 
     if (id > 0 && !savegame)
-      dummy_player_status.add_player();
+      s_dummy_player_status.add_player();
 
-    // Add players only in the main sector. Players will be moved between sectors.
-    main_sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+    // Add all players in the first sector. They will be moved between sectors.
+    sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
   }
-  main_sector->flush_game_objects();
+  sector->flush_game_objects();
 }
 
 void
@@ -126,7 +124,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }
@@ -141,7 +139,7 @@ Level::save(const std::string& filepath, bool retry)
 
     Writer writer(filepath);
     save(writer);
-    log_info << "Level saved as " << filepath << "." 
+    log_info << "Level saved as " << filepath << "."
              << (StringUtil::has_suffix(filepath, "~") ? " [Autosave]" : "")
              << std::endl;
   } catch(std::exception& e) {
@@ -157,7 +155,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }
@@ -176,7 +174,7 @@ Level::save(Writer& writer)
   writer.write("name", m_name, true);
   writer.write("author", m_author, false);
   if (!m_note.empty()) {
-    writer.write("note", m_note, false);
+    writer.write("note", m_note, true);
   }
   if (!m_contact.empty()) {
     writer.write("contact", m_contact, false);

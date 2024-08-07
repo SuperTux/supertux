@@ -5,12 +5,12 @@
 # Translators:
 # IAN RODRÍGUEZ Lorenzo, 2022
 # Vangelis Nomikos <nvangelis@gmail.com>, 2013-2014
-# Vangelis Skarmoutsos <skarmoutsosv@gmail.com>, 2016,2019
+# Vangelis Skarmoutsos (SkarmoutsosV) <skarmoutsosv@gmail.com>, 2016,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Greek (http://app.transifex.com/arctic-games/supertux/language/el/)\n"
@@ -38,8 +38,8 @@ msgstr "Αρχαία ερείπια"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Βρήκες μια μυστική περιοχή!"
 
@@ -91,7 +91,7 @@ msgstr "Οι προκλήσεις του Ghosttree"
 msgid "Ghouls' Lair"
 msgstr "Φωλιά καλικάντζαρων"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -105,13 +105,13 @@ msgstr "Πηγαίνοντας Υπόγεια"
 msgid "I Spy With My Little Eye"
 msgstr "Κατασκοπεύω με το μικρό μου μάτι"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Εγώ κατασκοπεύω\n#Εγώ κατασκοπεύω θα ενεργοποιεί πράγματα όπως πλατφόρμες όποτε το Tux είναι στο μάτι τους."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Συμβουλή: Χρησιμοποιήστε σαλιγκάρια για να σπάσετε μπλοκ!"
 
@@ -123,7 +123,7 @@ msgstr "Σαν φύλλο στον άνεμο"
 msgid "Lost Village"
 msgstr "Χαμένο Χωριό"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Μην ξεχάσετε να πατήσετε τον διακόπτη!"
 
@@ -163,10 +163,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "- Λουλούδι της Γης\n!images/powerups/earthflower/earth_flower-1.png\n#Το λουλούδι της γης δίνει στον Tux τη δυνατότητα να μετατραπεί σε πέτρα πατώντας ταυτόχρονα το πλήκτρο ACTION και το πλήκτρο DOWN.\n#Αυτό δεν λειτουργεί όταν πηδάτε ή πέφτετε!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Σκηνή κοπής πύργου"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Πύργος των Φαντασμάτων"
@@ -187,7 +183,7 @@ msgstr "-Φορητά αντικείμενα:\n!images/objects/rock/rock.png\nΤ
 msgid "Tux' Own Horror Show"
 msgstr "Σόου τρόμου Τοξ"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -216,6 +212,6 @@ msgstr "Ξύλινες Ρίζες"
 msgid "Rooted Forest"
 msgstr "Ριζωμένο δάσος"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Συνεχίζεται..."

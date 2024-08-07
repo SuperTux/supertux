@@ -37,16 +37,6 @@ void Constraints::merge_constraints(const Constraints& other)
   hit.crush |= other.hit.crush;
 }
 
-bool intersects(const Rectf& r1, const Rectf& r2)
-{
-  if (r1.get_right() < r2.get_left() || r1.get_left() > r2.get_right())
-    return false;
-  if (r1.get_bottom() < r2.get_top() || r1.get_top() > r2.get_bottom())
-    return false;
-
-  return true;
-}
-
 //---------------------------------------------------------------------------
 
 namespace {
@@ -72,7 +62,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle,
                           bool& hits_rectangle_bottom)
 {
-  if (!intersects(rect, triangle.bbox))
+  if (!rect.overlaps(triangle.bbox))
     return false;
 
   Vector normal(0.0f, 0.0f);

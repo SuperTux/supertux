@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2020-08-28 18:34+0000\n"
-"Last-Translator: Alejo Fernandez <alejoo.fernandez.2003@gmail.com>\n"
-"Language-Team: Spanish (Argentina) (http://www.transifex.com/arctic-games/supertux/language/es_AR/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:07+0000\n"
+"Last-Translator: Alejo Fernandez <alejoo.fernandez.2003@gmail.com>, 2020\n"
+"Language-Team: Spanish (Argentina) (http://app.transifex.com/arctic-games/supertux/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es_AR\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -165,14 +165,14 @@ msgstr "Tradición"
 msgid "Bonus Island II"
 msgstr "La isla del Bonus II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "¡Encontraste un lugar secreto!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Me pregunto a dónde lleva ese camino..."
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "De regreso a casa..."

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# IAN RODRÍGUEZ Lorenzo, 2022
 # Булат Ибраһим <bulat_ibrahim@mail.ru>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 20:16+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Tatar (http://www.transifex.com/arctic-games/supertux/language/tt/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Language-Team: Tatar (http://app.transifex.com/arctic-games/supertux/language/tt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -105,7 +106,7 @@ msgstr "Яман егетләр"
 msgid ""
 "#These levels were made Swimming-Ready by Serano and revamped by "
 "AllyTheOcelot"
-msgstr ""
+msgstr "#Бу дәрәҗәләр Серано йөзәргә әзер һәм AllyTheOcelot тарафыннан яңартылды"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -117,7 +118,7 @@ msgstr "Бик җиңел"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr ""
+msgstr "#Бу дәрәҗәләрнең барысы 2-нче этап өчен яңартылды."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"

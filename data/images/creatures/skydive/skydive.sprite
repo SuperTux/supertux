@@ -21,6 +21,6 @@
 
   (action
     (name "iced")
-    (hitbox 14 7 32 44)
+    (hitbox 0 0 64 64)
     (images "skydive-0.png"))
 )

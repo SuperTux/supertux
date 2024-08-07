@@ -16,6 +16,9 @@
 
 #include "object/candle.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "math/random.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
@@ -26,7 +29,6 @@
 
 Candle::Candle(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED),
-  ExposedObject<Candle, scripting::Candle>(this),
   burning(true),
   flicker(true),
   lightcolor(1.0f, 1.0f, 1.0f),
@@ -144,6 +146,17 @@ Candle::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+
+void
+Candle::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Candle>("Candle", vm.findClass("MovingSprite"));
+
+  cls.addFunc("puff_smoke", &Candle::puff_smoke);
+  cls.addFunc("get_burning", &Candle::get_burning);
+  cls.addFunc("set_burning", &Candle::set_burning);
 }
 
 /* EOF */

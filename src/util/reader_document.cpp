@@ -57,7 +57,7 @@ ReaderDocument::get_root() const
   return ReaderObject(*this, m_sx);
 }
 
-std::string
+const std::string&
 ReaderDocument::get_filename() const
 {
   return m_filename;

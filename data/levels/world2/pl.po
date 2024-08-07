@@ -6,6 +6,8 @@
 # Arkadiusz Chojnicki <bunx12@gmail.com>, 2019
 # Krzysztof Szeląg, 2015-2016,2018
 # Krzysztof Szeląg, 2019
+# Krzysztof Szeląg, 2019
+# Łukasz Hryniuk, 2013
 # Łukasz Hryniuk, 2013
 # Łukasz Hryniuk, 2013
 # mkkot <marcin2006@gmail.com>, 2014
@@ -13,15 +15,18 @@
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Rob PlayZ, 2021
-# Zwatotem <zwatotem@gmail.com>, 2019-2021
+# Alina Gobarov, 2021
+# Tomasz Dądela, 2022
+# Ziemowit Zabawa, 2022
+# Grzegorz Przybylski <zwatotem@gmail.com>, 2019-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 22:41+0000\n"
-"Last-Translator: Rob PlayZ\n"
-"Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: Ziemowit Zabawa, 2022\n"
+"Language-Team: Polish (http://app.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,8 +51,8 @@ msgstr "Starożytne ruiny"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Znalazłeś sekretne miejsce!"
 
@@ -77,7 +82,7 @@ msgstr "Znajdź większą rybę!"
 
 #: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
-msgstr "-Duża ryba... dla ciebie."
+msgstr "-Duża ryba… dla ciebie."
 
 #: data/levels/world2/forest_intro.stl:3
 msgid "A New Location"
@@ -97,13 +102,13 @@ msgstr "Wyzwania Drzewa Duchów"
 
 #: data/levels/world2/ghouls_lair.stl:3
 msgid "Ghouls' Lair"
-msgstr "Kłamca Ghoul"
+msgstr "Jaskinia ghouli"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#Lampy są używane po to, aby zmaterializować magiczne klocki. Wtedy wówczas możesz po nich chodzić."
+msgstr "#Lampy są używane po to, aby zmaterializować magiczne klocki. Wówczas możesz po nich chodzić."
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -113,13 +118,13 @@ msgstr "Zejście pod ziemię"
 msgid "I Spy With My Little Eye"
 msgstr "Podglądam swym małym okiem"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Podglądacz\n#Podglądacze będą aktrywować mechanizmy, na przykład platformy, kiedy Tux będzie w ich zasięgu wzroku."
+msgstr "-Podglądacz\n#Podglądacze aktywują mechanizmy, takie jak platformy, gdy Tux jest w zasięgu ich wzroku."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Podpowiedź: Używaj ślimaków, żeby niszczyć klocki!"
 
@@ -131,7 +136,7 @@ msgstr "Jak liść na wietrze"
 msgid "Lost Village"
 msgstr "Zaginiona wioska"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Nie zapomnij o przełączniku!"
 
@@ -141,7 +146,7 @@ msgstr "Zatęchłe groty"
 
 #: data/levels/world2/owls_again.stl:3
 msgid "The Owls again..."
-msgstr "Znów te sowy..."
+msgstr "Znów te sowy…"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
@@ -171,10 +176,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Kwiat ziemi\n!images/powerups/earthflower/earth_flower-1.png\n#Kwiat ziemi umożliwia Tuxowi zamiany w kamień przy jednoczesnym naciśnięciu klawiszy AKCJI oraz W DÓŁ.\n#Nie zadziała to podczas skoku lub spadania!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Scena na Wieży"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Wieża duchów"
@@ -195,7 +196,7 @@ msgstr "-Obiekty przenośne\n!images/objects/rock/rock.png\n#Tux może podnosić
 msgid "Tux' Own Horror Show"
 msgstr "Prywatne Show Horrorów Tuxa"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -224,6 +225,6 @@ msgstr "Korzenie drzew"
 msgid "Rooted Forest"
 msgstr "Korzenny las"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Ciąg dalszy nastąpi..."

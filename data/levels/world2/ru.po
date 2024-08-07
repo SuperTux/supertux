@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov <adem4ik@gmail.com>, 2018-2021
+# Andrei Stepanov, 2018-2021
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # Dmitry <dmitrymq@gmail.com>, 2013
 # Dmitry <dmitrymq@gmail.com>, 2013
+# Темак, 2022
 # Dmitry Anikonov <starwars32@yandex.ru>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-20 13:30+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: Темак, 2022\n"
+"Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,8 +43,8 @@ msgstr "Древние руины"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Вы нашли тайник!"
 
@@ -95,11 +96,11 @@ msgstr "Трудности призрачного дерева"
 msgid "Ghouls' Lair"
 msgstr "Логово упырей"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#Фонари помогут сделать магические блоки твёрдыми, так что вы сможете ходить по ним"
+msgstr "#Светильники помогут сделать волшебные блоки твёрдыми, так что вы сможете ходить по ним"
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -109,13 +110,13 @@ msgstr "Спускаться в подземелье"
 msgid "I Spy With My Little Eye"
 msgstr "Я иду искать"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Глазок\n#Глазок активирует объекты, такие как платформы, всякий раз, когда Такс находится в их поле зрения."
+msgstr "-Глазок\n#Глазок задействует объекты, такие как платформы, всякий раз, когда Такс находится в их поле зрения."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Подсказка: используйте улиток, чтобы разбить блоки!"
 
@@ -127,7 +128,7 @@ msgstr "Как листок на ветру"
 msgid "Lost Village"
 msgstr "Затерянная деревня"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Не забудьте ударить по переключателю!"
 
@@ -167,10 +168,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Земляной цветок\n!images/powerups/earthflower/earth_flower-1.png\n#Воздушный цветок даёт Таксу возможность обращаться в камень при нажатии сочетания кнопок ДЕЙСТВИЯ и ВНИЗ.\n#Это не работает в прыжке или при падении."
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Заставка башни"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Башня призраков"
@@ -185,13 +182,13 @@ msgid ""
 "!images/objects/rock/rock.png\n"
 "#Tux can pick up certain objects and carry them around.\n"
 "#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Переносные объекты:\n!images/objects/rock/rock.png\n#Такс может подбирать некоторые объекты и носить их с собой.\n#Нажмите кнопку ДЕЙСТВИЯ, чтобы поднять предмет и держать его пока зажата эта кнопка. Отожмите кнопку ДЕЙСТВИЯ, чтобы отпустить объект."
+msgstr "-Переносные предметы:\n!images/objects/rock/rock.png\n#Такс может подбирать некоторые предметы и носить их с собой.\n#Нажмите кнопку ДЕЙСТВИЯ, чтобы поднять предмет и держать его пока зажата эта кнопка. Отпустите кнопку ДЕЙСТВИЯ, чтобы отпустить предмет."
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"
-msgstr "Авторское шоу ужасов Такса"
+msgstr "Представление ужасов Такса"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -220,6 +217,6 @@ msgstr "Деревянные корни"
 msgid "Rooted Forest"
 msgstr "Корневой лес"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Продолжение следует…"

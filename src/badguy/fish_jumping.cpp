@@ -33,6 +33,7 @@ FishJumping::FishJumping(const ReaderMapping& reader) :
   m_stop_y(0)
 {
   m_physic.enable_gravity(true);
+  m_water_affected = false;
 }
 
 void
@@ -70,7 +71,7 @@ FishJumping::hit(const CollisionHit& hit_)
 void
 FishJumping::collision_tile(uint32_t tile_attributes)
 {
-  if ((tile_attributes & Tile::WATER) && (m_physic.get_velocity_y() >= 0)) {
+  if ((tile_attributes & Tile::WATER) && (m_physic.get_velocity_y() >= 0) && !m_frozen) {
     if (m_beached_timer.started())
       m_beached_timer.stop();
     // Initialize stop position if uninitialized.
@@ -143,7 +144,7 @@ FishJumping::freeze()
 {
   BadGuy::freeze();
   m_physic.enable_gravity(true);
-  set_action(m_physic.get_velocity_y() < 0 ? "iced" : "iced-down");
+  set_action("iced");
   m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   m_wait_timer.stop();
   if (m_beached_timer.started())

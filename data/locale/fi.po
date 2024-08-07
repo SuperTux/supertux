@@ -1771,8 +1771,8 @@ msgstr "Paina ESC ohittaaksesi"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Käyttö: %s [ASETUKSET] [KENTTÄTIEDOSTO]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Käyttö: {} [ASETUKSET] [KENTTÄTIEDOSTO]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2495,13 +2495,13 @@ msgstr "Määrittele koko uudelleen"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profiili %s]"
+msgid "[Profile {}]"
+msgstr "[Profiili {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Profiili %s"
+msgid "Profile {}"
+msgstr "Profiili {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2549,8 +2549,8 @@ msgstr "Tuntematon"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\", tehnyt \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\", tehnyt \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2562,13 +2562,13 @@ msgstr "Ei löytynyt uusia lisäosia"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Asenna %s *UUSI*"
+msgid "Install {} *NEW*"
+msgstr "Asenna {} *UUSI*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Asenna %s"
+msgid "Install {}"
+msgstr "Asenna {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2588,8 +2588,8 @@ msgstr "Ladataan lisäosien Säilytysindeksiä"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Ladataan %s"
+msgid "Downloading {}"
+msgstr "Ladataan {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3102,8 +3102,8 @@ msgstr ""
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "Tehnyt %s"
+msgid "contributed by {}"
+msgstr "Tehnyt {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

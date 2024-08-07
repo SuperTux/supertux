@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout the .wiki repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: 'SuperTux/supertux.wiki'
           fetch-depth: 100

@@ -41,16 +41,17 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Music"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(MusicObject)); }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/music.png"; }
 
   virtual ObjectSettings get_settings() override;
 
   void play_music(MusicType musictype);
-  void resume_music();
+  void resume_music(bool instantly = false);
   MusicType get_music_type() const;
 
   void set_music(const std::string& music);
-  std::string get_music() const;
+  const std::string& get_music() const;
 
 private:
   MusicType m_currentmusic;

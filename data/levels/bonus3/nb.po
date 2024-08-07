@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Allan Nordhøy <epost@anotheragency.no>, 2016,2018
+# IAN RODRÍGUEZ Lorenzo, 2022
 # Karl Ove Hufthammer <karl@huftis.org>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 19:20+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/arctic-games/supertux/language/nb/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Language-Team: Norwegian Bokmål (http://app.transifex.com/arctic-games/supertux/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,13 +22,13 @@ msgstr ""
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
-msgstr ""
+msgstr "Nivået tidligere kjent som \"-89,2 grader\""
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
 msgstr "Global oppvarming"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "En natt i stjernehimmelen"
 
@@ -41,7 +42,7 @@ msgstr "Nok en kald dag"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Forest Rain (aka \"Antarctic Rain\")"
-msgstr ""
+msgstr "Skogregn"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
@@ -79,7 +80,7 @@ msgstr "#Godt jobbet! Du tok vare på den røde lykten! Du trengte ikke gjøre d
 msgid "Coconut Fortress"
 msgstr "Kokosnøttfestningen"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Krystallsolnedgang"
 
@@ -130,7 +131,7 @@ msgstr "Inn i slottet"
 
 #: data/levels/bonus3/entering_castle.stl:60
 msgid "#Sorry, nothing to see here! Use the rope to get out!"
-msgstr ""
+msgstr "#Beklager, ingenting å se her! Bruk tauet for å komme deg ut!"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
@@ -140,7 +141,7 @@ msgstr "Blomstbonus"
 msgid "After the Glaciers"
 msgstr "Etter istidene"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Heng fra taket"
 
@@ -216,7 +217,7 @@ msgstr "Det snør på toppene"
 msgid "Three Frosty Icebergs"
 msgstr "Tre frosne isfjell"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Under isen"
 

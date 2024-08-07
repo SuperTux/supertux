@@ -4,14 +4,15 @@
 # 
 # Translators:
 # CodingJellyfish <dumaosen_main01@outlook.com>, 2018
+# CodingJellyfish <dumaosen_main01@outlook.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2018-12-27 16:07+0000\n"
-"Last-Translator: CodingJellyfish <dumaosen_main01@outlook.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2015-10-19 18:02+0000\n"
+"Last-Translator: CodingJellyfish <dumaosen_main01@outlook.com>, 2018\n"
+"Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,7 +29,7 @@ msgstr "雾气散去"
 
 #: data/levels/halloween2014/halloween3.stl:3
 msgid "Graveyard Shift"
-msgstr "赶夜"
+msgstr "墓地夜班"
 
 #: data/levels/halloween2014/intro.stl:3
 msgid "The Abandoned House"
@@ -36,11 +37,11 @@ msgstr "被遗弃的小屋"
 
 #: data/levels/halloween2014/mound.stl:3
 msgid "Mound of the Dead"
-msgstr "死亡之丘"
+msgstr "亡者坟堆"
 
 #: data/levels/halloween2014/outro.stl:3
 msgid "Halloween Party?"
-msgstr "万圣派对时间？"
+msgstr "万圣节派对？"
 
 #: data/levels/halloween2014/pools.stl:3
 msgid "Putrid Pools"
@@ -48,4 +49,4 @@ msgstr "腐臭池塘"
 
 #: data/levels/halloween2014/worldmap.stwm:3
 msgid "Halloween 2014"
-msgstr "2014年的万圣节"
+msgstr "万圣节 2014"

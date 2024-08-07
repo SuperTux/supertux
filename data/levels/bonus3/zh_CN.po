@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 19:20+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: 玉堂白鹤 <yjwork@qq.com>, 2018\n"
+"Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,19 +21,19 @@ msgstr ""
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
-msgstr ""
+msgstr "以前叫做“-89.2 度”的关卡"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
 msgstr "全球变暖"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
-msgstr "空中夜晚"
+msgstr "天空中的一夜"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
-msgstr "被遗弃的城堡"
+msgstr "废弃城堡"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
@@ -41,11 +41,11 @@ msgstr "又一个寒冷的日子"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Forest Rain (aka \"Antarctic Rain\")"
-msgstr ""
+msgstr "森林之雨（又名“南极之雨”）"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr "...但没有人能阻止它..."
+msgstr "……但没有人能阻止它……"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:428
 msgid ""
@@ -55,7 +55,7 @@ msgstr "-对不起，这个飞行平台太懒了。\n-换个时间再来吧。"
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "你不能爬上比云高的地方..."
+msgstr "你无法爬得比云更高……"
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -63,7 +63,7 @@ msgstr "光明与黑暗之城"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr "洞中快跑"
+msgstr "洞穴逃亡"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
@@ -73,13 +73,13 @@ msgstr "寒冷洞窟"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr "#好样的！你保住了红灯笼！你虽然不必这么做，但因为你做到了，拿下这100颗金币！"
+msgstr "#好样的！你保住了红灯笼！你虽然不必这么做，但正因为你做到了，请收下这 100 个金币！"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
 msgstr "椰子要塞"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "水晶日落"
 
@@ -97,7 +97,7 @@ msgstr "水晶灾难"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr "在水晶田野外"
+msgstr "在水晶田野上"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
@@ -106,11 +106,11 @@ msgstr "黑暗城堡"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
-msgstr "深，更深......"
+msgstr "深，更深……"
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr "...最深处！"
+msgstr "……最深！"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
@@ -122,7 +122,7 @@ msgstr "不可错过的旅程"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr "下去"
+msgstr "一路向下"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
@@ -130,19 +130,19 @@ msgstr "进入城堡"
 
 #: data/levels/bonus3/entering_castle.stl:60
 msgid "#Sorry, nothing to see here! Use the rope to get out!"
-msgstr ""
+msgstr "#对不起，没什么可看的了！使用绳子出去吧！"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr "鲜花额外关"
+msgstr "鲜花奖励关"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
 msgstr "冰川之后"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
-msgstr "屋檐上的等待"
+msgstr "悬挂在屋顶上"
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
@@ -150,7 +150,7 @@ msgstr "多山之景"
 
 #: data/levels/bonus3/in_the_spring.stl:3
 msgid "In the Spring"
-msgstr "春天"
+msgstr "春天里"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
@@ -158,11 +158,11 @@ msgstr "根本停不下来"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
-msgstr "黑暗中的一些光会很好，谢谢！"
+msgstr "黑暗中有点光就好了，谢谢！"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
-msgstr "降雪警告"
+msgstr "暴雪预警"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
@@ -176,13 +176,13 @@ msgstr "厕所地带"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "-冲：\n#按“上”去冲！"
+msgstr "-冲水：\n#按“上”键冲水！"
 
 #: data/levels/bonus3/niv-3.stl:380
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr "-出路?\n#让我们跳吧! "
+msgstr "-在寻找出路？\n#让我们跳吧！"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
@@ -194,7 +194,7 @@ msgstr "粉红色的雪"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
-msgstr "红色警报！ 森林在燃烧！"
+msgstr "红色警报！森林在燃烧！"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
@@ -216,13 +216,13 @@ msgstr "多雪的小山"
 msgid "Three Frosty Icebergs"
 msgstr "三座冰冷的冰山"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
-msgstr "冰面下方"
+msgstr "寒冰之下"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
-msgstr "Bonus Island III"
+msgstr "额外 III 岛"
 
 #: data/levels/bonus3/worldmap.stwm:273
 msgid "Go Home"

@@ -28,6 +28,7 @@
 #include "object/camera.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
+#include "object/rock.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -115,7 +116,7 @@ Crusher::on_type_change(int old_type)
       break;
   }
 
-  MovingSprite::on_type_change();
+  MovingSprite::on_type_change(old_type);
 }
 
 HitResponse
@@ -136,8 +137,22 @@ Crusher::collision(GameObject& other, const CollisionHit& hit)
   }
 
   auto* badguy = dynamic_cast<BadGuy*>(&other);
-  if (badguy && m_state == CRUSHING) {
+  if (badguy && m_state == CRUSHING && ((!m_sideways && hit.bottom) ||
+      (m_sideways && ((hit.left && m_physic.get_velocity_x() < 0.f) ||
+                      (hit.right && m_physic.get_velocity_x() > 0.f)))))
+  {
     badguy->kill_fall();
+  }
+
+  auto* rock = dynamic_cast<Rock*>(&other);
+  if (rock && !rock->is_grabbed() && m_state == CRUSHING && ((!m_sideways && hit.bottom) ||
+      (m_sideways && ((hit.left && m_physic.get_velocity_x() < 0.f) ||
+                      (hit.right && m_physic.get_velocity_x() > 0.f)))))
+  {
+    SoundManager::current()->play("sounds/brick.wav", get_pos());
+    m_physic.reset();
+    set_state(RECOVERING);
+    return ABORT_MOVE;
   }
 
   const auto* heavy_coin = dynamic_cast<HeavyCoin*>(&other);
@@ -229,7 +244,8 @@ Crusher::collision_solid(const CollisionHit& hit)
 void
 Crusher::update(float dt_sec)
 {
-  Vector movement = m_physic.get_movement(dt_sec);
+  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  Vector movement = m_physic.get_movement(dt_sec) * (in_water ? 0.6f : 1.f);
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
   if (m_cooldown_timer >= dt_sec)
@@ -257,7 +273,7 @@ Crusher::update(float dt_sec)
     brickbox.set_right((m_sideways && m_physic.get_velocity_x() > 0.f) ?
       get_bbox().get_right() + 9.f : get_bbox().get_right() - 1.f);
 
-    if (brickbox.contains(brick.get_bbox()))
+    if (brickbox.overlaps(brick.get_bbox()))
     {
       if (brick.get_class_name() != "heavy-brick")
       {
@@ -328,7 +344,7 @@ Crusher::update(float dt_sec)
   switch (m_state)
   {
   case IDLE:
-    m_start_position = get_pos();
+    //m_start_position = get_pos();
     if (found_victim())
     {
       set_state(CRUSHING);
@@ -360,9 +376,11 @@ Crusher::update(float dt_sec)
   case RECOVERING:
     if (returned_down || returned_up || returned_left || returned_right)
     {
-      set_pos(Vector(m_sideways ? m_start_position.x : get_pos().x,
-        m_sideways ? get_pos().y : m_start_position.y));
-      m_physic.set_velocity(0.f, 0.f);
+      m_physic.reset();
+      // we have to offset the crusher when we bring it back to its original position because otherwise it will gain an ugly offset. #JustPhysicErrorThings
+      set_pos(Vector(m_sideways ? m_start_position.x + (2.6f * (m_side_dir == Direction::LEFT ? -1.f : 1.f)) : get_pos().x,
+        m_sideways ? get_pos().y : m_start_position.y + (2.6f * (m_flip ? -1.f : 1.f))));
+
       if (m_ic_size == LARGE)
         m_cooldown_timer = PAUSE_TIME_LARGE;
       else

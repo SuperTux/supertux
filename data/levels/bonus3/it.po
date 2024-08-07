@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Angela <angelapellegrino@hotmail.it>, 2014
+# A-TNT DC, 2021
 # Enrico B. <enricobe@hotmail.com>, 2015
 # Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
 # Ioma Taani, 2019
@@ -15,25 +16,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 19:20+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: A-TNT DC, 2021\n"
+"Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
-msgstr ""
+msgstr "Il livello conosciuto come \"-89,2 gradi\""
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
 msgstr "Riscaldamento globale"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Una Notte in Cielo"
 
@@ -47,7 +48,7 @@ msgstr "Un altro freddo giorno"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Forest Rain (aka \"Antarctic Rain\")"
-msgstr ""
+msgstr "Pioggia di foresta (aka \"Pioggia Antartica\")"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
@@ -85,7 +86,7 @@ msgstr "#Ottimo lavoro! Hai tenuto la lanterna rossa! Non era necessario, ma vis
 msgid "Coconut Fortress"
 msgstr "Fortezza Noce di Cocco"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Tramonto di Cristallo"
 
@@ -136,7 +137,7 @@ msgstr "Entrando nel castello"
 
 #: data/levels/bonus3/entering_castle.stl:60
 msgid "#Sorry, nothing to see here! Use the rope to get out!"
-msgstr ""
+msgstr "Scusa, niente da vedere qui! Usa la fune per uscire!<br>"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
@@ -146,7 +147,7 @@ msgstr "Bonus Floreale"
 msgid "After the Glaciers"
 msgstr "Dopo i Ghiacciai"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Penzolando dal Tetto"
 
@@ -222,7 +223,7 @@ msgstr "Una collina nevosa"
 msgid "Three Frosty Icebergs"
 msgstr "Tre gelidi iceberg"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Sotto il ghiaccio"
 

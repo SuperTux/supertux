@@ -70,6 +70,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Crusher"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Crusher)); }
 
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override;
@@ -115,13 +116,14 @@ class CrusherRoot : public MovingSprite
 {
 public:
   CrusherRoot(Vector position, Crusher::Direction direction, float delay, int layer);
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(CrusherRoot)); }
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
 private:
   void start_animation();
-  bool delay_gone() { return m_delay_remaining <= 0.f; }
+  bool delay_gone() const { return m_delay_remaining <= 0.f; }
 
 private:
   Vector m_original_pos;

@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# CRS.ECHO51 <christian.elbrianno41@gmail.com>, 2017
+# Chris <christian.elbrianno41@gmail.com>, 2017
 # IAN RODRÍGUEZ Lorenzo, 2023
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
 "Language-Team: Indonesian (http://app.transifex.com/arctic-games/supertux/language/id/)\n"
@@ -27,7 +27,7 @@ msgstr "Level yang Sebelumnya Dikenal Sebagai \"-89,2 Derajat\""
 msgid "Global Warming"
 msgstr "Pemanasan Global"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Satu Malam di Langit"
 
@@ -79,7 +79,7 @@ msgstr "#Kerja bagus! Kamu mendapatkan lentera merah! Sebetulnya tidak perlu, ta
 msgid "Coconut Fortress"
 msgstr "Benteng Kelapa"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Matahari Terbenam Kristal"
 
@@ -140,7 +140,7 @@ msgstr "Bonus Bunga"
 msgid "After the Glaciers"
 msgstr "Setelah Gletser"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Menggantung Dari Atap"
 
@@ -216,7 +216,7 @@ msgstr "Bukit salju"
 msgid "Three Frosty Icebergs"
 msgstr "Tiga Gunung Es Beku"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Di Bawah Es"
 

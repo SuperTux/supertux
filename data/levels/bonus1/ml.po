@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Adharsh 01 <adharshps01@gmail.com>, 2019
-# Adithyan S S <AssG.Fight.Fairy@gmail.com>, 2020
+# Adharsh P S <adharshps01@gmail.com>, 2019
+# Adithyan S S <AssG.Fight.Fairy@gmail.com>, 2020,2023
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 20:16+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Malayalam (http://www.transifex.com/arctic-games/supertux/language/ml/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: Adithyan S S <AssG.Fight.Fairy@gmail.com>, 2020,2023\n"
+"Language-Team: Malayalam (http://app.transifex.com/arctic-games/supertux/language/ml/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,15 +21,15 @@ msgstr ""
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
-msgstr "പറക്കുന്നതിന്റെ പരീക്ഷണം"
+msgstr "വ്യോമയാനപ്പരീക്ഷണം"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr "ഇരുട്ടറയുണ്ട് പക്ഷെ ഡ്രാഗണുകൾ ഇല്ല"
+msgstr "അസുരന്മാർ ഇല്ല അന്ധകാരം ഉണ്ട്"
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
-msgstr "നുണകൾ"
+msgstr "നുണകൾ!"
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"
@@ -37,7 +37,7 @@ msgstr "തീവണ്ടി ഒരു മിനിറ്റിനകം പോ
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
-msgstr "ബോണസ് വേദി"
+msgstr "ബോണസ് വേദി!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
@@ -45,7 +45,7 @@ msgstr "കൊട്ടാരത്തിന്റെ കവാടം"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
-msgstr "വീട്ടിലേക്കുള്ള നീണ്ട പാത"
+msgstr "നീണ്ട പാതവഴി വീട്ടിലേക്ക്"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
@@ -53,7 +53,7 @@ msgstr "ബോണസ് ദ്വീപ് കൊട്ടാരം"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
-msgstr "മേഖല 42"
+msgstr "ഏരിയ 42"
 
 #: data/levels/bonus1/extro.txt:3
 msgid ""
@@ -84,11 +84,11 @@ msgstr "-അഭിനന്ദനങ്ങൾ!\n\n#ബോണസ് ദ്വീ�
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
-msgstr "അവിടെ പൈപ് താഴേക്ക്"
+msgstr "താഴേക്കങ്ങോട്ട് പൈപ്പ് ആണ്  "
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
-msgstr ""
+msgstr "ഈ കളി മീൻകളി "
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
@@ -186,7 +186,7 @@ msgstr "തോംപ്സണിന്റെ ഡൊമെയ്ൻ വിടു�
 
 #: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
-msgstr "മാട്ര്1x സെക്ടറിലേക്ക് മടങ്ങുക"
+msgstr "മാട്ര്1x സെക്ടറിലേക്ക് മടങ്ങുക"
 
 #: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"

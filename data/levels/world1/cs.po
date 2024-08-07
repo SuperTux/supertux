@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Jiří Paleček <narre@protonmail.com>, 2021
+# Jiří Paleček <narre@protonmail.com>, 2021-2022
 # Jiří Paleček <narre@protonmail.com>, 2015-2016
 # Jiří Paleček <narre@protonmail.com>, 2013-2015
 # Jiří Paleček <narre@protonmail.com>, 2020
@@ -15,10 +15,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-20 12:14+0000\n"
-"Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2022\n"
+"Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,7 +38,7 @@ msgstr "23. letecká"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Našel jsi tajnou skrýš!"
 
@@ -65,17 +65,13 @@ msgid ""
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Krystaly\n#Tato úroveň obsahuje čtyři barevné krystaly. Zvládneš je najít?\n#\n#Poznámka: Tyto krystaly nemají zatím žádné využití, ale to se může do budoucna změnit."
 
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Prázdný trůnní sál"
-
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
 msgstr "Nolokův hrad"
 
 #: data/levels/world1/crystal_mine.stl:3
 msgid "The Crystal Mine"
-msgstr "Krystalový důl"
+msgstr "Křišťálový důl"
 
 #: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
@@ -100,7 +96,7 @@ msgid ""
 "!images/objects/pushbutton/pushbutton-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
 "#There are also buttons that you can press by jumping on them."
-msgstr "-Páčky a tlačítka\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Páčky zvládnou spoustu věcí - stiskni klávesu NAHORU pro jejich použití.\n#Tlačítka stiskneš tím, že na ně skočíš."
+msgstr "-Páčky a tlačítka\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Páčky zvládnou spoustu věcí - stiskni klávesu NAHORU pro jejich použití. Tlačítka stiskneš tím, že na ně skočíš."
 
 #: data/levels/world1/fork_in_the_road.stl:93
 msgid ""
@@ -211,7 +207,7 @@ msgstr "Tux se probral, motala se mu hlava, a náhle zjistil, že Penny je pryč
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "Tux se začínal strachovat. Potom uviděl dopis, ve kterém bylo napsáno:"
+msgstr "Začínal se strachovat, a náhle uviděl dopis, ve kterém bylo napsáno:"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid ""
@@ -235,7 +231,7 @@ msgstr "Tux si uvědomil, v jakém nebezpečí by Penny mohla být, a rozhodl se
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
 "Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Poté v dáli uviděl Nolokův hrad a vydal se Penny zachránit!"
+msgstr "Rozhlédl se, v dáli spatřil Nolokův hrad, a vydal se na cestu."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
@@ -339,7 +335,7 @@ msgstr "Zmrzlý ostrov"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
-msgstr "Žádná další ledová panna"
+msgstr "Zkáza sněžného muže"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"

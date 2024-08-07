@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
 "Language-Team: Armenian (http://app.transifex.com/arctic-games/supertux/language/hy/)\n"
@@ -26,7 +26,7 @@ msgstr "Մակարդակը, որը նախկինում հայտնի է որպես
 msgid "Global Warming"
 msgstr "Գլոբալ տաքացում"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Մեկ գիշեր երկնքում"
 
@@ -78,7 +78,7 @@ msgstr "#Լավ աշխատանք! Դու պահեցիր կարմիր լապտե�
 msgid "Coconut Fortress"
 msgstr "Կոկոսի ամրոց"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Բյուրեղյա մայրամուտ"
 
@@ -139,7 +139,7 @@ msgstr "Ծաղկի բոնուս"
 msgid "After the Glaciers"
 msgstr "Սառցադաշտերից հետո"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Կախված տանիքից"
 
@@ -215,7 +215,7 @@ msgstr "Ձյունածածկ բլուր"
 msgid "Three Frosty Icebergs"
 msgstr "Երեք սառցակալած այսբերգ"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Սառույցի տակ"
 

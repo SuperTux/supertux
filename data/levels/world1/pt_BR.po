@@ -3,44 +3,46 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Jesusalva Jesusalva <jesusalva@themanaworld.org>, 2014
+# Anyone Anonymous, 2022
+# Jesusaves <jesusalva@themanaworld.org>, 2014
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
 # Filipe Oliveira <contato@fmoliveira.com.br>, 2013
+# Fúlvio Alves <fga.fulvio@gmail.com>, 2023
 # Herval Ribeiro <heraze@gmail.com>, 2006
-# Jesusalva Jesusalva <jesusalva@themanaworld.org>, 2020
-# Jesusalva Jesusalva <jesusalva@themanaworld.org>, 2018
+# Jesusaves <jesusalva@themanaworld.org>, 2020
+# Jesusaves <jesusalva@themanaworld.org>, 2018
 # Joel Gil Leon <joel@gil.com>, 2013
-# Jesusalva Jesusalva <jesusalva@themanaworld.org>, 2015
+# Jesusaves <jesusalva@themanaworld.org>, 2015
 # Rui <xymarior@yandex.com>, 2016
 # Victor Gonçalves <hotcyv@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-08-06 18:34+0000\n"
-"Last-Translator: Jesusalva Jesusalva <jesusalva@themanaworld.org>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Fúlvio Alves <fga.fulvio@gmail.com>, 2023\n"
+"Language-Team: Portuguese (Brazil) (http://app.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/world1/23rd_airborne.stl:3
 msgid "23rd Airborne"
-msgstr "23 Aerotransportado"
+msgstr "23º Aerotransportado"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Você achou uma área secreta!"
 
@@ -48,7 +50,7 @@ msgstr "Você achou uma área secreta!"
 msgid "Above the Arctic Skies"
 msgstr "Sobre os Céus do Ártico"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -59,17 +61,13 @@ msgstr "-Flor de Ar\n!images/powerups/airflower/air_flower-0.png\n#A flor de ar 
 msgid "Between Two Glaciers"
 msgstr "Entre Duas Geleiras"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Cristais\n#Esse nível possui quatro cristais coloridos. Você consegue encontrá-los?\n#\n#Nota: Esses cristais não possuem função nenhuma no momento, mas eles podem ter em uma versão futura do jogo."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Sala do Trono Vazia"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -79,7 +77,7 @@ msgstr "O Castelo de Nolok"
 msgid "The Crystal Mine"
 msgstr "A Mina de Cristais"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#Você tem que ativar dois interruptores para abrir esta porta."
 
@@ -182,7 +180,7 @@ msgstr "Tux tinha chegado ao fim do castelo."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
 msgid "But to his surprise all he could find was a letter."
-msgstr "Mas para sua surpresa, tudo que ele conseguiu encontrar foi uma carta."
+msgstr "Mas, para sua surpresa, tudo que ele conseguiu encontrar foi uma carta."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
 msgid ""
@@ -193,7 +191,7 @@ msgstr "Uma carta de Penny dizendo a Tux que Nolok tinha a levado para uma flore
 msgid ""
 "Unsure about what Nolok was doing to her, Tux became worried about his "
 "beloved Penny."
-msgstr "Incerto sobre o que Nolok estava fazendo a ela, Tux ficou preocupado sobre sua amada Penny."
+msgstr "Incerto sobre o que Nolok estava fazendo a ela, Tux ficou preocupado com sua amada Penny."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
@@ -249,7 +247,7 @@ msgstr "Mas então, de repente, ele ouviu um grande rugido à distância."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
-msgstr "Um yeti parece ter observado ele à distância."
+msgstr "Um yeti parece tê-lo observado de longe."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
@@ -285,7 +283,7 @@ msgstr "Via Nostálgica"
 msgid "Welcome to Antarctica"
 msgstr "Bem-vindo à Antártida"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -294,42 +292,42 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr "-Blocos Bônus\n!images/objects/bonus_block/full-0.png\n#Blocos Bônus podem conter moedas, poderes, ou itens especiais que lhe ajudarão em sua busca\n#Atinja-os por baixo para obter seus conteúdos."
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Ovos\n!images/powerups/egg/egg-shade.png\n#Os ovos fazem o Tux crescer. Tux, então, poderá quebrar os blocos de madeira com a cabeça."
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Checkpoints\n!images/objects/resetpoints/bell-m.png\n#Ativa o checkpoint. Se você morrer, você pode continuar a fase daqui, porém irá perder 10 por cento de suas moedas, num mínimo de 25 moedas."
+msgstr "-Checkpoints\n!images/objects/resetpoints/bell-m.png\n#Ativa o checkpoint. Se você morrer, poderá continuar o nível daqui, porém irá perder 10 por cento de suas moedas (ao menos 25 moedas)."
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Correndo\n!images/tiles/signs/run.png\n#A passagem à sua frente está bloqueada. Ganhe um pouco de velocidade antes de pular por cima dos blocos."
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Flor de Fogo\n!images/powerups/fireflower/fire_flower-0.png\n#A flor de fogo dá ao Tux o poder de atirar bolas de fogo."
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "- Boneco do Tux\n!images/powerups/1up/1up.png\n#O boneco do Tux dá ao Tux 100 moedas."
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
@@ -341,7 +339,7 @@ msgstr "Ilha Congelada"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
-msgstr "Acabou Senhor Gelo"
+msgstr "Acabou, Senhor Gelo"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"

@@ -34,7 +34,12 @@ public:
     is_playing = true;
   }
 
-  virtual void stop() override
+  virtual void stop(bool) override
+  {
+    is_playing = false;
+  }
+
+  virtual void pause() override
   {
     is_playing = false;
   }

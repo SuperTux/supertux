@@ -14,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-21 16:41+0000\n"
-"Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021\n"
+"Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,8 +42,8 @@ msgstr "Prastaré ruiny"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Našel jsi tajnou skrýš!"
 
@@ -95,7 +95,7 @@ msgstr "Výzvy stromu duchů"
 msgid "Ghouls' Lair"
 msgstr "Doupě démonů"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -109,13 +109,13 @@ msgstr "Jde se do podzemí"
 msgid "I Spy With My Little Eye"
 msgstr "Před pikolou za pikolou"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Čidlo\n#Čidla aktivují věci (jako třeba plošiny), kdykoliv spatří Tuxe."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Tip: Použij šneky pro rozbití bloků!"
 
@@ -127,7 +127,7 @@ msgstr "Jako list ve větru"
 msgid "Lost Village"
 msgstr "Ztracená vesnice"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Nezapomeň zatáhnout za páčku!"
 
@@ -167,10 +167,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Zemní květina\n!images/powerups/earthflower/earth_flower-1.png\n#Zemní květina umožní Tuxovi zkamenět stisknutím kláves AKCE a DOLŮ současně, pokud je zrovna na zemi."
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Věžní předělová scéna"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Věž duchů"
@@ -191,7 +187,7 @@ msgstr "-Přenosné objekty:\n!images/objects/rock/rock.png\n#Tux umí zvednout 
 msgid "Tux' Own Horror Show"
 msgstr "Tuxova vlastní hororová show"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -220,6 +216,6 @@ msgstr "Dřevěné kořeny"
 msgid "Rooted Forest"
 msgstr "Vzrostlý les"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Pokračování příště..."

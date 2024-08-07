@@ -13,9 +13,5 @@
           "flame-fade-1.png"
           "flame-fade-2.png"
           "flame-fade-3.png"))
- (action
-  (hitbox 96 96 127.8 31.8)
-  (name "editor")
-  (images "flame-editor.png"))
 )
 

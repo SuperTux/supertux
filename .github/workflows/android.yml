@@ -37,10 +37,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Clone SDL Android repo
         run: |
@@ -137,13 +137,13 @@ jobs:
           mv SuperTux*.apk upload/apk/
           cd ..
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: "SuperTux-android-aab"
           path: build.android/upload/aab
           if-no-files-found: error
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: "SuperTux-android-apk"
           path: build.android/upload/apk

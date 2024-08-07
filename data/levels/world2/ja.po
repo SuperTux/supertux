@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
 "Language-Team: Japanese (http://app.transifex.com/arctic-games/supertux/language/ja/)\n"
@@ -42,8 +42,8 @@ msgstr "さびれた廃墟"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "秘密の場所を見つけました！"
 
@@ -95,7 +95,7 @@ msgstr "Ghosttreeの挑戦"
 msgid "Ghouls' Lair"
 msgstr "グールの巣窟"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -109,13 +109,13 @@ msgstr "地下に向かって"
 msgid "I Spy With My Little Eye"
 msgstr "小さな目で探検する"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Ispy\n#Ispyは、Tuxが範囲内に入るとプラットフォームなどの物体を有効化します。"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "ヒント：蝸牛を使ってブロックを壊す！"
 
@@ -127,7 +127,7 @@ msgstr "風の中の葉のように"
 msgid "Lost Village"
 msgstr "失われた村"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#スイッチを切り替えるのをお忘れなく！"
 
@@ -167,10 +167,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-アースフラワー\n!images/powerups/earthflower/earth_flower-1.png\n#アースフラワーをとると、アクションキーと下キーを同時に押した際に、Tuxが石に変身します。\n#ただし、ジャンプ中や落下中は使えません。"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "塔のカットシーン"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "幽霊の城"
@@ -191,7 +187,7 @@ msgstr "-運べる物体:\n!images/objects/rock/rock.png\n#Tuxはある特定の
 msgid "Tux' Own Horror Show"
 msgstr "Tuxのホラーショー"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -220,6 +216,6 @@ msgstr "木の根っこ"
 msgid "Rooted Forest"
 msgstr "根づく森"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "続く…"

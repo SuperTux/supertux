@@ -255,7 +255,7 @@ SuggestionStack
 get_suggestions(const std::string& prefix, bool remove_prefix)
 {
   SuggestionStack result;
-  HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm().get_vm();
+  HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm().getHandle();
 
   // Register main scripting reference data
   if (!has_registered_reference_file(SCRIPTING_REFERENCE_FILE))

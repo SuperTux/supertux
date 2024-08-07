@@ -39,7 +39,7 @@ SmokeCloud::update(float dt_sec)
 void
 SmokeCloud::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), position, LAYER_OBJECTS+1);
+  sprite->draw(context.color(), position, LAYER_OBJECTS + 1);
 }
 
 /* EOF */

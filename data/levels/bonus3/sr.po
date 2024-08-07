@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 19:20+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Serbian (http://www.transifex.com/arctic-games/supertux/language/sr/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: Slobodan Simić <slsimic@gmail.com>, 2016,2018,2020\n"
+"Language-Team: Serbian (http://app.transifex.com/arctic-games/supertux/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Global Warming"
 msgstr "Глобално загревање"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Једна ноћ на небу"
 
@@ -80,7 +80,7 @@ msgstr "#Одлично! Сачувао си црвени фењер! Ниси �
 msgid "Coconut Fortress"
 msgstr "Кокос тврђава"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Кристални залазак"
 
@@ -141,7 +141,7 @@ msgstr "Цветни бонус"
 msgid "After the Glaciers"
 msgstr "Након глечера"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Висећи са крова"
 
@@ -217,7 +217,7 @@ msgstr "Завејано брдо"
 msgid "Three Frosty Icebergs"
 msgstr "Ледени брегови"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Под ледом"
 

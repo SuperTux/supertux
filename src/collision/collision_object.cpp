@@ -28,6 +28,7 @@ CollisionObject::CollisionObject(CollisionGroup group, CollisionListener& listen
   m_movement(0.0f, 0.0f),
   m_dest(),
   m_unisolid(false),
+  m_pressure(),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr)
 {

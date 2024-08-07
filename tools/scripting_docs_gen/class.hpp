@@ -17,6 +17,7 @@
 #ifndef CLASS_HEADER
 #define CLASS_HEADER
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -24,8 +25,16 @@ struct Constant
 {
   std::string type {};
   std::string name {};
+  std::string initializer {};
   std::string description {};
   std::string detailed_description {};
+};
+
+struct Variable
+{
+  std::string type {};
+  std::string name {};
+  std::string description {};
 };
 
 struct Parameter
@@ -42,17 +51,24 @@ struct Function
   std::string description {};
   std::string detailed_description {};
   std::vector<Parameter> parameters {};
+
+  bool deprecated {};
+  std::string deprecation_msg {};
 };
 
 struct Class
 {
   std::string name {};
-  std::vector<std::string> base_classes {};
   std::string summary {};
   std::string instances {};
   bool global {};
   std::vector<Constant> constants {};
+  std::vector<Variable> variables {};
   std::vector<Function> functions {};
+
+  typedef std::map<int, std::string> BaseClasses;
+  BaseClasses base_classes {};
+  std::vector<std::string> derived_classes {};
 };
 
 #endif

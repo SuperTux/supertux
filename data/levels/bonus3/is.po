@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Icelandic (http://app.transifex.com/arctic-games/supertux/language/is/)\n"
@@ -26,7 +26,7 @@ msgstr "Stigið sem áður var þekkt sem „-89,2 gráður“"
 msgid "Global Warming"
 msgstr "Hnatthlýnun"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Næturhiminn"
 
@@ -78,7 +78,7 @@ msgstr "#Gott starf! Þú geymdir rauðu luktina! Þú þurftir það samt ekki,
 msgid "Coconut Fortress"
 msgstr "Kókoshnetuvirki"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Kristall sólsetur"
 
@@ -139,7 +139,7 @@ msgstr "Blóma bónus"
 msgid "After the Glaciers"
 msgstr "Eftir Jökla"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Hangur af þakinu"
 
@@ -215,7 +215,7 @@ msgstr "Snjóþung hæð"
 msgid "Three Frosty Icebergs"
 msgstr "Þrír frostkaldir ísjakar"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Undir ísnum"
 

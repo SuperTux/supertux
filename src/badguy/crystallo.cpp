@@ -25,7 +25,7 @@ Crystallo::Crystallo(const ReaderMapping& reader) :
   m_radius()
 {
   walk_speed = 80;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
   reader.get("radius", m_radius, 100.0f);
 }
 
@@ -39,7 +39,7 @@ Crystallo::Crystallo(const Vector& pos, const Vector& start_pos, float vel_x, st
   m_dead_script = script;
   m_start_position = start_pos;
   walk_speed = 80;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 }
 
 ObjectSettings

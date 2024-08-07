@@ -16,9 +16,11 @@
 
 #include "supertux/game_manager.hpp"
 
+#include "editor/editor.hpp"
 #include "sdk/integration.hpp"
 #include "supertux/levelset_screen.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/profile.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
@@ -42,13 +44,16 @@ void
 GameManager::start_level(const World& world, const std::string& level_filename,
                          const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
-  m_savegame = Savegame::from_file(world.get_savegame_filename());
+  m_savegame = Savegame::from_current_profile(world.get_basename());
 
   auto screen = std::make_unique<LevelsetScreen>(world.get_basedir(),
                                                  level_filename,
                                                  *m_savegame,
                                                  start_pos);
   ScreenManager::current()->push_screen(std::move(screen));
+
+  if (!Editor::current())
+    m_savegame->get_profile().set_last_world(world.get_basename());
 }
 
 void
@@ -57,7 +62,7 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
 {
   try
   {
-    m_savegame = Savegame::from_file(world.get_savegame_filename());
+    m_savegame = Savegame::from_current_profile(world.get_basename());
 
     auto filename = m_savegame->get_player_status().last_worldmap;
     // If we specified a worldmap filename manually,
@@ -78,6 +83,9 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
     auto worldmap = std::make_unique<worldmap::WorldMap>(filename, *m_savegame, sector, spawnpoint);
     auto worldmap_screen = std::make_unique<worldmap::WorldMapScreen>(std::move(worldmap));
     ScreenManager::current()->push_screen(std::move(worldmap_screen));
+
+    if (!Editor::current())
+      m_savegame->get_profile().set_last_world(world.get_basename());
   }
   catch(std::exception& e)
   {

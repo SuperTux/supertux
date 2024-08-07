@@ -3,15 +3,18 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Junghee Lee <daemul72@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
 # Myeongjin <aranet100@gmail.com>, 2016-2017,2019,2021
+# Youngjun, Choi, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 19:20+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
+"Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,13 +23,13 @@ msgstr ""
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
-msgstr ""
+msgstr "\"영하89,2도\"로 알려진 레벨"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
 msgstr "지구 온난화"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "하늘에서의 첫날 밤"
 
@@ -40,7 +43,7 @@ msgstr "또 다른 추운 날"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Forest Rain (aka \"Antarctic Rain\")"
-msgstr ""
+msgstr "포레스트 비(일명 \"남극 비\")"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
@@ -72,15 +75,15 @@ msgstr "차가운 동굴"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr "#잘했어요! 빨간 랜턴을 유지했습니다! 그럴 필요까지는 없었지만, 그렇게 했기 때문에, 100코인을 가집니다!"
+msgstr "#잘했어요! 빨간 랜턴을 가지고 계셨군요! 여러분은 그럴 필요가 없었지만, 100개의 동전을 가지고 있었기 때문이요!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
 msgstr "코코넛 요새"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
-msgstr "크리스탈 일몰"
+msgstr "크리스탈 석양"
 
 #: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
@@ -88,7 +91,7 @@ msgstr "크리스탈 하늘"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr "크리스탈 아름다움"
+msgstr "크리스탈의 아름다움"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
@@ -129,7 +132,7 @@ msgstr "성에 들어가는 중"
 
 #: data/levels/bonus3/entering_castle.stl:60
 msgid "#Sorry, nothing to see here! Use the rope to get out!"
-msgstr ""
+msgstr "#죄송합니다, 여기에 볼 것이 없습니다! 로프를 사용하여 탈출하세요!"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
@@ -139,7 +142,7 @@ msgstr "꽃 보너스"
 msgid "After the Glaciers"
 msgstr "빙하 이후"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "지붕에 매달리기"
 
@@ -169,7 +172,7 @@ msgstr "구멍, 얼음의 날"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr "화장실 구역"
+msgstr "화장실 영역"
 
 #: data/levels/bonus3/niv-3.stl:58
 msgid ""
@@ -215,7 +218,7 @@ msgstr "눈 덮힌 언덕"
 msgid "Three Frosty Icebergs"
 msgstr "서리가 내린 빙산 셋"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "얼음 밑으로"
 

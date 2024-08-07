@@ -1768,8 +1768,8 @@ msgstr "Saltatzeko, sakatu Ihes"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Erabilera: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Erabilera: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2492,13 +2492,13 @@ msgstr "Tamaina aldatu"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[%s profila]"
+msgid "[Profile {}]"
+msgstr "[{} profila]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "%s profila"
+msgid "Profile {}"
+msgstr "{} profila"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2546,8 +2546,8 @@ msgstr "Ezezaguna"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" by \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" by \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2559,13 +2559,13 @@ msgstr "Ez da gehigarririk aurkitu"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Instalatu %s *BERRIA*"
+msgid "Install {} *NEW*"
+msgstr "Instalatu {} *BERRIA*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Instalatu %s"
+msgid "Install {}"
+msgstr "Instalatu {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2585,8 +2585,8 @@ msgstr "Gehigarrien biltegiaren indizea deskargatzen"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "%s deskargatzen"
+msgid "Downloading {}"
+msgstr "{} deskargatzen"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3099,8 +3099,8 @@ msgstr "Ezin duzu ezabatu editatzen ari zaren maila!Ezin duzu ezabatu editatzen 
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "%s lagunduta"
+msgid "contributed by {}"
+msgstr "{} lagunduta"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

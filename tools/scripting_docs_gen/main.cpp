@@ -68,21 +68,19 @@ int main(int argc, char** argv)
     const std::string filename = fspath.filename();
 
     if (!(std::filesystem::is_regular_file(dir_entry) &&
-          starts_with(filename, "classscripting_1_1"))) continue; // Make sure the current file is about "scripting" namespace member class
+          (starts_with(filename, "class") || starts_with(filename, "namespace")))) continue; // Make sure the current file is about a class or a namespace
 
     /** Read data from current XML class data file **/
     tinyxml2::XMLDocument doc;
     doc.LoadFile(fspath.c_str());
 
-    /** Parse the class and its functions **/
+    /** Parse the class and its members **/
     Class cl; // Store class data
     Parser::parse_compounddef(doc.RootElement(), cl);
 
-    if (cl.constants.empty() && cl.functions.empty()) continue; // Exclude empty classes
+    if (cl.constants.empty() && cl.variables.empty() && cl.functions.empty()) continue; // If the class has no content, do not save it
 
-    std::cout << "Successfully parsed scripting class \"" << cl.name << "\"." << std::endl;
-
-    // Push to class stack
+    // Save the class
     classes.push_back(std::move(cl));
   }
 
@@ -93,6 +91,63 @@ int main(int argc, char** argv)
   /** Generate markdown reference, if template files have been provided */
   if (generate_markdown_reference)
     Generator::generate_markdown_reference(output_dir, home_template_file, page_template_file, classes);
+
+  /** Loop through all classes and write their data to files **/
+  for (Class& cl : classes)
+  {
+    // Remove a few internal base classes
+    for (auto it = cl.base_classes.begin(); it != cl.base_classes.end();)
+    {
+      if (it->second == "ssq::ExposableClass" || it->second == "ExposableClass")
+        cl.base_classes.erase(it++);
+      else
+        ++it;
+    }
+
+    /** Fill in the data in the provided page template file and save as new file.
+        File entries to be replaced:
+          "${SRG_CLASSSUMMARY}": Insert the provided summary info of the class, if available.
+          "${SRG_CLASSINSTANCES}": Insert the provided instances info of the class, if available.
+          "${SRG_CLASSCONSTANTS}": Insert a table with all constants in the class and their data.
+          "${SRG_FUNCDATATABLE}": Insert a table with all functions in the class and their data.
+          "${SRG_CLASSNAME}": Insert the class name.
+          "${SRG_REF_[class]}": Insert the name of the referenced class, as well as its reference URL.
+
+        File formatting replacements:
+          "${SRG_NEWPARAGRAPH}": Insert two new lines to start a new paragraph.
+          "${SRG_TABLENEWPARAGRAPH}": Insert two HTML line breaks to start a new paragraph in a table.
+          [""] (double quotation marks): Replace with [`] for code formatting.
+    **/
+    // Prepare target data (add a notice at the top of the generated file)
+    std::string target_data = Writer::write_file_notice(page_template_filename) +  page_template;
+
+    // Entries
+    replace(target_data, "${SRG_CLASSSUMMARY}", cl.summary, "None.");
+    replace(target_data, "${SRG_CLASSINSTANCES}", cl.instances, "None.");
+    replace(target_data, "${SRG_CLASSINHERITANCE}", Writer::write_inheritance_list(classes, cl.base_classes, cl.derived_classes), "None.");
+    replace(target_data, "${SRG_CLASSCONSTANTS}", Writer::write_constants_table(cl.constants), "None.");
+    replace(target_data, "${SRG_CLASSVARIABLES}", Writer::write_variables_table(cl.variables), "None.");
+    replace(target_data, "${SRG_CLASSFUNCTIONS}", Writer::write_function_table(cl.functions), "None.");
+    replace(target_data, "${SRG_CLASSNAME}", "`" + cl.name + "`");
+    regex_replace(target_data, std::regex("\\$\\{SRG_REF_(.+?)\\}"), Writer::write_class_ref("$1"));
+    // Formatting
+    replace(target_data, "${SRG_NEWPARAGRAPH} ", "\r\n\r\n");
+    replace(target_data, "${SRG_TABLENEWPARAGRAPH}", "<br /><br />");
+    replace(target_data, "\"\"", "`");
+    replace(target_data, "NOTE:", "<br /><br />**NOTE:**");
+    replace(target_data, "Note:", "<br /><br />**NOTE:**");
+
+    // Write to target file
+    write_file(output_dir_path / std::filesystem::path("Scripting" + cl.name + ".md"), target_data);
+    std::cout << "Generated reference for class \"" << cl.name << "\"." << std::endl;
+  }
+
+  /** Fill in the data in the provided home page template file and save as new file.
+      File entries to be replaced:
+        "${SRG_CLASSLIST}": Insert a list with all classes which have been parsed.
+  **/
+  // Prepare target data (add a notice at the top of the generated file)
+  std::string target_data = Writer::write_file_notice(home_template_filename) + home_template;
 
   /** Generate data (.stsr) file, if target file destination has been provided */
   if (!output_data_file.empty())

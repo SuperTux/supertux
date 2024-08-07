@@ -98,9 +98,8 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compa
     m_node_sprite = SpriteManager::current()->create("images/objects/path/node.sprite");
   }
 
-  if (m_name.empty()) {
-    set_name(make_unique_name("path", this));
-  }
+  if (m_name.empty())
+    regenerate_name();
 }
 
 PathGameObject::~PathGameObject()
@@ -230,6 +229,12 @@ void
 PathGameObject::on_flip(float height)
 {
   m_path->on_flip(height);
+}
+
+void
+PathGameObject::regenerate_name()
+{
+  set_name(make_unique_name("path", this));
 }
 
 /* EOF */

@@ -579,7 +579,7 @@ ParticleEditor::save(const std::string& filepath_, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for particle config '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }
@@ -610,7 +610,7 @@ ParticleEditor::save(const std::string& filepath_, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for particle config '"
-              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+              << dirname << "': " <<physfsutil::get_last_error();
           throw std::runtime_error(msg.str());
         }
       }

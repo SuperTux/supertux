@@ -251,7 +251,7 @@ But don't use a space after a function name:
 Write simple getters/setters inside a header file on a single line:
 
 ```c++
-Vector get_pos() const { retun m_pos; }
+Vector get_pos() const { return m_pos; }
 ```
 
 Don't include more complex functions inside a header file, unless it's

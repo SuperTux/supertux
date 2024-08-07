@@ -71,6 +71,7 @@ public:
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */
+  std::string title_level; /**< level to be used for the title screen, overrides the value of the same property for the world */
 
 private:
   PlayerStatus(const PlayerStatus&) = delete;

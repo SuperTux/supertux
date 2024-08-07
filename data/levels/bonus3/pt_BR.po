@@ -16,15 +16,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 02:57+0000\n"
-"Last-Translator: Jesusaves <jesusalva@themanaworld.org>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: Jesusaves <jesusalva@themanaworld.org>, 2021\n"
+"Language-Team: Portuguese (Brazil) (http://app.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
@@ -34,7 +34,7 @@ msgstr "O Nível Anteriormente Conhecido Como \"-89,2 Graus\""
 msgid "Global Warming"
 msgstr "Aquecimento Global"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Uma Noite no Céu"
 
@@ -86,7 +86,7 @@ msgstr "#Parabéns! Você ficou com a lanterna vermelha! Você não precisava, m
 msgid "Coconut Fortress"
 msgstr "Fortaleza dos Cocos"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Pôr do sol de cristal"
 
@@ -147,7 +147,7 @@ msgstr "Flor Bônus"
 msgid "After the Glaciers"
 msgstr "Atrás dos Glaciares"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Pendurado No Telhado"
 
@@ -223,7 +223,7 @@ msgstr "A Colina de Neve"
 msgid "Three Frosty Icebergs"
 msgstr "Três Icebergues Congelados"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Embaixo do Gelo"
 

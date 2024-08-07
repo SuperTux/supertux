@@ -28,6 +28,7 @@ std::ostream& operator<<(std::ostream& o, const Direction& dir);
 std::string dir_to_string(const Direction& dir);
 std::string dir_to_translated_string(const Direction& dir);
 Direction string_to_dir(const std::string& dir_str);
+Direction invert_dir(const Direction& dir);
 
 #endif
 

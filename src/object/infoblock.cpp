@@ -43,15 +43,15 @@ InfoBlock::InfoBlock(const ReaderMapping& mapping) :
   {
     log_warning << "No message in InfoBlock" << std::endl;
   }
-  std::vector<float> m_frontcolor_;
-  if (mapping.get("frontcolor", m_frontcolor_))
+  std::vector<float> front_color;
+  if (mapping.get("frontcolor", front_color))
   {
-    m_frontcolor = Color(m_frontcolor_);
+    m_frontcolor = Color(front_color);
   }
-  std::vector<float> m_backcolor_;
-  if (mapping.get("backcolor", m_backcolor_))
+  std::vector<float> back_color;
+  if (mapping.get("backcolor", back_color))
   {
-    m_backcolor = Color(m_backcolor_);
+    m_backcolor = Color(back_color);
   }
   mapping.get("roundness", m_roundness, 0.f);
   mapping.get("fadetransition", m_fadetransition, true);
@@ -126,10 +126,9 @@ HitResponse
 InfoBlock::collision(GameObject& other, const CollisionHit& hit_)
 {
   auto player = dynamic_cast<Player*> (&other);
-  if (player)
+  if (player && player->m_does_buttjump)
   {
-    if (player->m_does_buttjump)
-      InfoBlock::hit(*player);
+    InfoBlock::hit(*player);
   }
   return Block::collision(other, hit_);
 }
@@ -204,12 +203,12 @@ InfoBlock::draw(DrawingContext& context)
   context.color().draw_filled_rect(Rectf(Vector(m_fadetransition ? x1 - border : growposx,
     m_fadetransition ? y1 - border : growposy),
     Sizef(width + 2 * border, height + 2 * border - 4) * (m_fadetransition ? 1.f : m_shown_pct)),
-    m_frontcolor, m_roundness, LAYER_GUI - 50);
+    m_frontcolor, m_roundness, LAYER_FOREGROUND1 - 1);
 
   context.color().draw_filled_rect(Rectf(Vector((m_fadetransition ? x1 - border : growposx) - 4.f,
     (m_fadetransition ? y1 - border : growposy) - 4.f),
     Sizef(8.f, 8.f) + (Sizef((width + 2 * border), (height + 2 * border - 4)) * (m_fadetransition ? 1.f : m_shown_pct))),
-    m_backcolor, m_roundness + 4.f, LAYER_GUI - 51);
+    m_backcolor, m_roundness + 4.f, LAYER_FOREGROUND1 - 2);
 
   float y = y1;
   for (size_t i = 0; i < m_lines.size(); ++i) {
@@ -222,7 +221,7 @@ InfoBlock::draw(DrawingContext& context)
 
     if (m_fadetransition || m_shown_pct >= 1.f)
     {
-      m_lines[i]->draw(context, Rectf(x1, y, x2, y), LAYER_GUI - 50 + 1);
+      m_lines[i]->draw(context, Rectf(x1, y, x2, y), LAYER_FOREGROUND1);
       y += m_lines[i]->get_height();
     }
   }

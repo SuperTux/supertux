@@ -142,7 +142,7 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
               water = true;
           }
         } else { // normal rectangular tile
-          if (intersects(dest, rect)) {
+          if (dest.overlaps(rect)) {
             if (tile.get_attributes() & Tile::WATER)
               water = true;
             set_rectangle_rectangle_constraints(&constraints, dest, rect);

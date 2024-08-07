@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Junghee Lee <daemul72@gmail.com>, 2022
 # Myeongjin <aranet100@gmail.com>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2017-09-20 13:21+0000\n"
-"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
-"Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:07+0000\n"
+"Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
+"Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -63,7 +64,7 @@ msgstr "긴 동굴"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "세계에 눈이 멀다"
+msgstr "세계를 보지 못하다"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
@@ -167,7 +168,7 @@ msgstr "보너스 섬 II"
 
 #: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
-msgstr "숨겨진 장소를 찾았습니다!"
+msgstr "비밀공간 장소를 찾았어요!"
 
 #: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."

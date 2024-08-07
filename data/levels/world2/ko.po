@@ -4,15 +4,15 @@
 # 
 # Translators:
 # IAN RODRÍGUEZ Lorenzo, 2022
-# JungHee Lee <daemul72@gmail.com>, 2022
-# JungHee Lee <daemul72@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
 # Myeongjin <aranet100@gmail.com>, 2016-2017,2019,2021
 # Youngjun, Choi, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
@@ -40,8 +40,8 @@ msgstr "고대 유적"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "비밀공간 구역을 찾았어요!"
 
@@ -93,7 +93,7 @@ msgstr "유령나무의 도전"
 msgid "Ghouls' Lair"
 msgstr "구울의 은신처"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -107,13 +107,13 @@ msgstr "지하로 가는 중"
 msgid "I Spy With My Little Eye"
 msgstr "나는 작은 눈으로 감시해요"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-이스파이\n#이스파이 는 Tux가 시야에 들어올 때마다 플랫폼과 같은 것을 활성화합니다."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "힌트: 블록을 깨려면 달팽이를 사용하세요!"
 
@@ -125,7 +125,7 @@ msgstr "바람 속의 나뭇잎처럼"
 msgid "Lost Village"
 msgstr "잃어버린 마을"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#스위치를 치는 걸 잊지 마세요!"
 
@@ -165,10 +165,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-흙 꽃\n!images/powerups/earthflower/earth_flower-1.png\n#흙 꽃은 턱스에게 액션 키와 아래 방향키를 동시에 누르면 돌로 변하는 능력을 줍니다.\n#점프나 낙하 중에는 작동하지 않습니다!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "타워 절단현장"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "유령의 탑"
@@ -189,7 +185,7 @@ msgstr "-휴대용 물건:\n!images/objects/rock/rock.png\n#턱스는 특정 물
 msgid "Tux' Own Horror Show"
 msgstr "턱스 자신만의 호러 쇼"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -218,6 +214,6 @@ msgstr "나무 뿌리"
 msgid "Rooted Forest"
 msgstr "뿌리깊은 숲"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "다음에 계속..."

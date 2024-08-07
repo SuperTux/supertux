@@ -6,7 +6,8 @@
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
 # vpzomtrrfrt <colin@vpzom.click>, 2020
 # Frist Lsat <egzofern@aol.com>, 2016
-# Robin van der Vliet <info@robinvandervliet.nl>, 2015
+# Jorge Maldonado Ventura <jorgesumle@freakspot.net>, 2022
+# Robin van der Vliet <info@robinvandervliet.com>, 2015
 # Rubén Leal Coba <mekjotradukoj@outlook.com>, 2013
 # tellovishous <skyguy@readytek.net>, 2021
 # Любомир Василев, 2016
@@ -14,10 +15,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-06-27 17:45+0000\n"
-"Last-Translator: tellovishous <skyguy@readytek.net>\n"
-"Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/language/eo/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Jorge Maldonado Ventura <jorgesumle@freakspot.net>, 2022\n"
+"Language-Team: Esperanto (http://app.transifex.com/arctic-games/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,7 +38,7 @@ msgstr "La 23-a Aera Forto"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Vi trovis sekretejon!"
 
@@ -50,7 +51,7 @@ msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-Aerfloro\n!images/powerups/airflower/air_flower-0.png\n#La Aerfloro donas al Tux la ebleco glisi en la aero dum kelkaj sekundoj, dum premi la SALTO klavo"
+msgstr "-Aerfloro\n!images/powerups/airflower/air_flower-0.png\n#La Aerfloro donas al Tux la eblecon glisi en la aero dum kelkaj sekundoj, premante la SALTI-klavon."
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
@@ -63,10 +64,6 @@ msgid ""
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Kristaloj\n#Ĉi tiu nivelo enhavas kvar kolorajn kristalojn. Ĉu vi povas trovi ilin?\n#\n#Noto: Ĉi tiuj kristaloj ne havas celon nune, sed eble en estonta eldono de la ludo."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Malplena Tronĉambro"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -289,7 +286,7 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Bonifika Blokoj\n!images/objects/bonus_block/full-0.png\n#Bonifika blokoj enhavas monerojn, bonaĵojn, aŭ specialajn elementojn por helpi vi.\n#\n#Batu tiun sube akiri sin."
+msgstr "-Bonifikaj Blokoj\n!images/objects/bonus_block/full-0.png\n#Bonifikaj blokoj enhavas monerojn, plifortigaĵojn, aŭ specialajn elementojn por helpi vi en via serĉo.\n#\n#Batu ilin el sube por atingi iliajn enhavojn."
 
 #: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
@@ -317,7 +314,7 @@ msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Fajra Floro\n!images/powerups/fireflower/fire_flower-0.png\n#La fajra floro donis al Tux la ebleco pafi fajrobulojn."
+msgstr "-Fajra Floro\n!images/powerups/fireflower/fire_flower-0.png\n#La fajra floro donas al Tux la eblecon pafi fajrobulojn."
 
 #: data/levels/world1/welcome_antarctica.stl:111
 msgid ""

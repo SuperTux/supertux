@@ -3,17 +3,19 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# CodingJellyfish <dumaosen_main01@outlook.com>, 2018
 # Liu Sizhuang <chinatslsz@hotmail.com>, 2008
+# Wenbin Lv <wenbin816@gmail.com>, 2024
 # CodingJellyfish <dumaosen_main01@outlook.com>, 2018
 # 玉堂白鹤 <yjwork@qq.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2018-12-25 14:01+0000\n"
-"Last-Translator: CodingJellyfish <dumaosen_main01@outlook.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:07+0000\n"
+"Last-Translator: Wenbin Lv <wenbin816@gmail.com>, 2024\n"
+"Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -49,51 +51,51 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-祝贺你!\n\n#你已经成功地通过了额外II岛!\n\n\n\t关卡贡献者:\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#再一次,我们要感谢每一个贡献者,\n#是你们使milestone 3的等待不再乏味:-)\n#我们希望你玩得愉快.\n\n 冰川世纪就要结束了..."
+msgstr "-祝贺你！\n\n#你已经成功地通过了\n#额外 II 岛\n\n\n\t关卡贡献者：\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#再一次，我们要感谢所有为此\n#版本的发布做出了贡献的人们。\n#我们希望你能喜欢！但愿这些\n#关卡让你等待 Milestone 3 的\n#过程稍微轻松了那么一点 :-)\n\n 冰河时代就要结束了……"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Mario应该可以通过..."
+msgstr "马力欧应该要处理这个的……"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr "倒数第四关"
+msgstr "峡湾"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "长长的山洞"
+msgstr "长长的洞穴"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "世界盲"
+msgstr "一叶障目"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr "偷窃"
+msgstr "狼吞虎咽"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr "又上路了"
+msgstr "再次上路"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr "冰冻的隧道"
+msgstr "冰封隧道"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr "Luft飞船"
+msgstr "Luft 飞艇"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...一切皆有可能"
+msgstr "……一切皆有可能"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "在这里输入标题"
+msgstr "在此输入原标题"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr "冰川世纪结束了"
+msgstr "冰河时代的终结"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
@@ -101,11 +103,11 @@ msgstr "死亡倒计时"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
-msgstr "城堡卫兵"
+msgstr "风扇堡垒"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr "Nolok的派对之洞"
+msgstr "Nolok 的派对之洞"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
@@ -113,7 +115,7 @@ msgstr "水路"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "闪光的不都是金子"
+msgstr "闪闪发光的不一定都是金子"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
@@ -125,7 +127,7 @@ msgstr "强大的重力"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr "大爆发"
+msgstr "烈焰风暴"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
@@ -133,7 +135,7 @@ msgstr "漫长的旅途"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr "维持生命"
+msgstr "生命维持装置"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
@@ -145,7 +147,7 @@ msgstr "进入洞穴"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
-msgstr "只有1分钟"
+msgstr "只有 1 分钟"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
@@ -153,7 +155,7 @@ msgstr "云中之路"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "在Flanders冰原上"
+msgstr "在 Flanders 冰原上"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
@@ -165,16 +167,16 @@ msgstr "传统"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr "额外II岛"
+msgstr "额外 II 岛"
 
 #: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
-msgstr "你找到了一个秘密区域!"
+msgstr "你找到了一个秘密区域！"
 
 #: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
-msgstr "这条路通向哪里呢..."
+msgstr "这条路通向哪里呢……"
 
 #: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
-msgstr "回家..."
+msgstr "回家……"

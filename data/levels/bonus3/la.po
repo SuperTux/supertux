@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 19:20+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Latin (http://www.transifex.com/arctic-games/supertux/language/la/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: Alisa P <parashchenko.alisa@yandex.com>, 2016,2018\n"
+"Language-Team: Latin (http://app.transifex.com/arctic-games/supertux/language/la/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Global Warming"
 msgstr "Calor in mundo crescit"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Una nox in caelo"
 
@@ -78,7 +78,7 @@ msgstr "#Bene fecisti! Lucem rubem tenebas! Factum tuum neccesarium non est, sed
 msgid "Coconut Fortress"
 msgstr "Coconut munitio"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Sol crystallum crescit"
 
@@ -139,7 +139,7 @@ msgstr "Additio floris"
 msgid "After the Glaciers"
 msgstr "Post glaciem"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Ab villa ire"
 
@@ -215,7 +215,7 @@ msgstr "Mons nevadus"
 msgid "Three Frosty Icebergs"
 msgstr "Tres montes de glacie frigi"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Sub glacie"
 

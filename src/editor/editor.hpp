@@ -24,6 +24,7 @@
 #include <physfs.h>
 
 #include "editor/overlay_widget.hpp"
+#include "editor/tilebox.hpp"
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
@@ -92,17 +93,17 @@ public:
   World* get_world() const { return m_world.get(); }
 
   TileSet* get_tileset() const { return m_tileset; }
-  TileSelection* get_tiles() const { return m_toolbox_widget->get_tiles(); }
-  std::string get_tileselect_object() const { return m_toolbox_widget->get_object(); }
+  TileSelection* get_tiles() const { return m_toolbox_widget->get_tilebox().get_tiles(); }
+  std::string get_tileselect_object() const { return m_toolbox_widget->get_tilebox().get_object(); }
 
-  EditorToolboxWidget::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_input_type(); }
+  EditorTilebox::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_tilebox().get_input_type(); }
 
-  bool has_active_toolbox_tip() const { return m_toolbox_widget->has_active_object_tip(); }
+  bool has_active_toolbox_tip() const { return m_toolbox_widget->get_tilebox().has_active_object_tip(); }
 
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
 
-  std::string get_levelfile() const { return m_levelfile; }
+  const std::string& get_levelfile() const { return m_levelfile; }
 
   void set_level(const std::string& levelfile_) {
     m_levelfile = levelfile_;
@@ -116,6 +117,12 @@ public:
   bool is_testing_level() const { return m_leveltested; }
 
   void remove_autosave_file();
+
+  /** Convert tiles on every tilemap in the level, according to a tile conversion file. */
+  void convert_tiles_by_file(const std::string& file);
+
+  void check_deprecated_tiles(bool focus = false);
+  bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
 
   /** Checks whether the level can be saved and does not contain
       obvious issues (currently: check if main sector and a spawn point
@@ -175,6 +182,8 @@ private:
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
 
+  void keep_camera_in_bounds();
+
   void post_undo_redo_actions();
 
 protected:
@@ -197,7 +206,6 @@ public:
   bool m_particle_editor_request;
   std::optional<std::pair<std::string, Vector>> m_test_pos;
 
-  std::unique_ptr<Savegame> m_savegame;
   std::string* m_particle_editor_filename;
 
 private:
@@ -208,6 +216,7 @@ private:
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
   TileSet* m_tileset;
+  bool m_has_deprecated_tiles;
 
   std::vector<std::unique_ptr<Widget> > m_widgets;
   ButtonWidget* m_undo_widget;
@@ -222,6 +231,10 @@ private:
   float m_time_since_last_save;
 
   float m_scroll_speed;
+  float m_new_scale;
+
+  bool m_ctrl_pressed;
+  Vector m_mouse_pos;
 
 private:
   Editor(const Editor&) = delete;

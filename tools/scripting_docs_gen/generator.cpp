@@ -38,8 +38,17 @@ void generate_markdown_reference(const std::string& output_dir,
   const std::string home_template_filename = std::filesystem::path(home_template_file).filename();
   const std::string page_template_filename = std::filesystem::path(page_template_file).filename();
 
-  for (const Class& cl : classes)
+  for (Class& cl : classes)
   {
+    // Remove a few internal base classes
+    for (auto it = cl.base_classes.begin(); it != cl.base_classes.end();)
+    {
+      if (it->second == "ssq::ExposableClass" || it->second == "ExposableClass")
+        cl.base_classes.erase(it++);
+      else
+        ++it;
+    }
+
     /** Fill in the data in the provided page template file and save as new file.
         File entries to be replaced:
           "${SRG_CLASSSUMMARY}": Insert the provided summary info of the class, if available.
@@ -55,12 +64,14 @@ void generate_markdown_reference(const std::string& output_dir,
           [""] (double quotation marks): Replace with [`] for code formatting.
     **/
     // Prepare target data (add a notice at the top of the generated file)
-    std::string target_data = MarkdownWriter::write_file_notice(page_template_filename) + page_template;
+    std::string target_data = MarkdownWriter::write_file_notice(page_template_filename) +  page_template;
 
     // Entries
     replace(target_data, "${SRG_CLASSSUMMARY}", cl.summary, "None.");
     replace(target_data, "${SRG_CLASSINSTANCES}", cl.instances, "None.");
+    replace(target_data, "${SRG_CLASSINHERITANCE}", MarkdownWriter::write_inheritance_list(classes, cl.base_classes, cl.derived_classes), "None.");
     replace(target_data, "${SRG_CLASSCONSTANTS}", MarkdownWriter::write_constants_table(cl.constants), "None.");
+    replace(target_data, "${SRG_CLASSVARIABLES}", MarkdownWriter::write_variables_table(cl.variables), "None.");
     replace(target_data, "${SRG_CLASSFUNCTIONS}", MarkdownWriter::write_function_table(cl.functions), "None.");
     replace(target_data, "${SRG_CLASSNAME}", "`" + cl.name + "`");
     regex_replace(target_data, std::regex("\\$\\{SRG_REF_(.+?)\\}"), MarkdownWriter::write_class_ref("$1"));
@@ -68,9 +79,12 @@ void generate_markdown_reference(const std::string& output_dir,
     replace(target_data, "${SRG_NEWPARAGRAPH} ", "\r\n\r\n");
     replace(target_data, "${SRG_TABLENEWPARAGRAPH}", "<br /><br />");
     replace(target_data, "\"\"", "`");
+    replace(target_data, "NOTE:", "<br /><br />**NOTE:**");
+    replace(target_data, "Note:", "<br /><br />**NOTE:**");
 
     // Write to target file
     write_file(output_dir_path / std::filesystem::path("Scripting" + cl.name + ".md"), target_data);
+    std::cout << "Generated reference for class \"" << cl.name << "\"." << std::endl;
   }
 
   /** Fill in the data in the provided home page template file and save as new file.

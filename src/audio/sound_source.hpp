@@ -29,7 +29,8 @@ public:
   virtual ~SoundSource() {}
 
   virtual void play() = 0;
-  virtual void stop() = 0;
+  virtual void stop(bool unload_buffer = true) = 0;
+  virtual void pause() = 0;
   virtual bool playing() const = 0;
 
   virtual void set_looping(bool looping) = 0;

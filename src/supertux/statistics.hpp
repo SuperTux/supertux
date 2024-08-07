@@ -25,7 +25,10 @@
 
 class DrawingContext;
 class Level;
-class SquirrelVM;
+
+namespace ssq {
+class Table;
+} // namespace ssq
 
 /** This class is a layer between level and worldmap to keep
     track of stuff like scores, and minor, but funny things, like
@@ -50,10 +53,10 @@ public:
   Statistics(); /**< Creates new statistics, call reset() before counting */
 
   /** serialize statistics object as squirrel table "statistics" */
-  void serialize_to_squirrel(SquirrelVM& vm) const;
+  void serialize_to_squirrel(ssq::Table& table) const;
 
   /** unserialize statistics object from squirrel table "statistics" */
-  void unserialize_from_squirrel(SquirrelVM& vm);
+  void unserialize_from_squirrel(const ssq::Table& table);
 
   void draw_worldmap_info(DrawingContext& context, float target_time); /**< draw worldmap stat HUD */
   void draw_endseq_panel(DrawingContext& context, Statistics* best_stats, const SurfacePtr& backdrop, float target_time); /**< draw panel shown during level's end sequence */

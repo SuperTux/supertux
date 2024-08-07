@@ -18,6 +18,9 @@
 
 #include <algorithm>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "supertux/game_session.hpp"
@@ -32,7 +35,6 @@ static const float TIME_WARNING = 20;
 
 LevelTime::LevelTime(const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<LevelTime, scripting::LevelTime>(this),
   time_surface(Surface::from_file("images/engine/hud/time-0.png")),
   running(!Editor::is_active()),
   time_left()
@@ -121,7 +123,7 @@ LevelTime::draw(DrawingContext& context)
                                           BORDER_Y + 1),
                                    LAYER_HUD);
       context.color().draw_text(Resources::normal_font, time_text,
-                                Vector(context.get_width() - all_width / 2.0f + static_cast<float>(time_surface->get_width()),
+                                Vector((context.get_width() - all_width) / 2.0f + static_cast<float>(time_surface->get_width()),
                                        BORDER_Y + 14),
                                 ALIGN_LEFT, LAYER_HUD, LevelTime::text_color);
     }
@@ -152,6 +154,18 @@ void
 LevelTime::set_time(float time_left_)
 {
   time_left = std::min(std::max(time_left_, 0.0f), 999.0f);
+}
+
+
+void
+LevelTime::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<LevelTime>("LevelTime", vm.findClass("GameObject"));
+
+  cls.addFunc("start", &LevelTime::start);
+  cls.addFunc("stop", &LevelTime::stop);
+  cls.addFunc("get_time", &LevelTime::get_time);
+  cls.addFunc("set_time", &LevelTime::set_time);
 }
 
 /* EOF */

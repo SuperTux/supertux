@@ -5,16 +5,17 @@
 # Translators:
 # Ariadna Pascual <ariadnapascual7@gmail.com>, 2016
 # Catalanoic <catalanoic@gmail.com>, 2016
+# IAN RODRÍGUEZ Lorenzo, 2022
 # 76352799d6904fac47e3a0fa3ed5fd59_334826e <af5856938576e19ac7f099472ce1a9b6_234157>, 2014
 # Yael Codesal, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 20:16+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Catalan (http://www.transifex.com/arctic-games/supertux/language/ca/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Language-Team: Catalan (http://app.transifex.com/arctic-games/supertux/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -108,7 +109,7 @@ msgstr "Els enemics fan pudor!"
 msgid ""
 "#These levels were made Swimming-Ready by Serano and revamped by "
 "AllyTheOcelot"
-msgstr ""
+msgstr "#Aquests nivells van ser preparats per a la natació per Serano i renovats per AllyTheOcelot"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -120,7 +121,7 @@ msgstr "Massa fàcil"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr ""
+msgstr "#Tots aquests nivells van ser actualitzats per a la fita 2 per Hume."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"

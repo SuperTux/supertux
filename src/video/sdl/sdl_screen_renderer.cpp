@@ -62,8 +62,7 @@ SDLScreenRenderer::start_draw()
   const Rect& viewport = m_video_system.get_viewport().get_rect();
   const Vector& scale = m_video_system.get_viewport().get_scale();
 
-  SDL_Rect sdl_viewport = { viewport.left, viewport.top,
-                            viewport.get_width(), viewport.get_height() };
+  SDL_Rect sdl_viewport = viewport.to_sdl();
 
   // SetViewport() works in scaled screen coordinates, so we have to
   // reset it to 1.0, 1.0 to get meaningful results

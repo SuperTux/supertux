@@ -23,6 +23,11 @@
 
 namespace physfsutil {
 
+const char* get_last_error()
+{
+  return PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+}
+
 std::string realpath(const std::string& path)
 {
   std::string result = FileSystem::normalize(path);

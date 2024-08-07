@@ -6,15 +6,15 @@
 # Любомир Василев, 2015-2016
 # Vankata 453, 2021
 # Любомир Василев, 2016,2018-2019
-# Любомир Василев, 2020-2021
+# Любомир Василев, 2020-2021,2024
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-18 19:43+0000\n"
-"Last-Translator: Любомир Василев\n"
-"Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: Любомир Василев, 2020-2021,2024\n"
+"Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,8 +39,8 @@ msgstr "Древни останки"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Ти откри тайно място!"
 
@@ -92,7 +92,7 @@ msgstr "Предизвикателствата на призрачното дъ�
 msgid "Ghouls' Lair"
 msgstr "Леговището на таласъма"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -106,13 +106,13 @@ msgstr "Слизане под земята"
 msgid "I Spy With My Little Eye"
 msgstr "Виждам всичко"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Шпионче\n#Шпиончетата активират различни неща, като например платформи, когато Тъкс влезе в полезрението им."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Съвет: Използвай охлюви, за да чупиш блокчета!"
 
@@ -124,7 +124,7 @@ msgstr "Като лист на вятъра"
 msgid "Lost Village"
 msgstr "Изгубеното село"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Не забравяй да натиснеш превключвателя!"
 
@@ -164,10 +164,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Земно цвете\n!images/powerups/earthflower/earth_flower-1.png\n#Земното цвете дава на Тъкс способността да се превръща в камък, като натиснеш едновременно бутона за ДЕЙСТВИЕ и бутона НАДОЛУ.\n#Това не работи при скачане или падане!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Сцена в кулата"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Кулата на духовете"
@@ -188,11 +184,11 @@ msgstr "-Подвижни предмети:\n!images/objects/rock/rock.png\n#Т�
 msgid "Tux' Own Horror Show"
 msgstr "Шоуто на ужасите на Тъкс"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
-msgstr "#Светлинките са малки, дразнещи духчета, които те пренасят на различни, обикновено опасни места."
+msgstr "#Светлинките са малки, дразнещи духчета, които те пренасят на различни, често опасни места."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -217,6 +213,6 @@ msgstr "Дървесни корени"
 msgid "Rooted Forest"
 msgstr "Вкоренената гора"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Следва продължение…"

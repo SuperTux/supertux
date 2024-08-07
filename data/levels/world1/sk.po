@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# IAN RODRÍGUEZ Lorenzo, 2022
 # Jose Riha <jose1711@gmail.com>, 2021
 # c79a840bffc1621596a73d9f7d995b66_5f97bea <821296eb068acbf38f8fe02d322f4248_155187>, 2014
 # MiroslavR <miroslavr256@gmail.com>, 2015-2016
@@ -11,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-10-15 20:53+0000\n"
-"Last-Translator: Jose Riha <jose1711@gmail.com>\n"
-"Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/language/sk/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Language-Team: Slovak (http://app.transifex.com/arctic-games/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,7 +35,7 @@ msgstr "23. výsadková"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Našli ste tajné miesto!"
 
@@ -60,10 +61,6 @@ msgid ""
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Kryštály\n#Táto úroveň obsahuje štyri farebné kryštály. Dokážete ich nájsť?\n\n#Poznámka: V súčasnosti nemajú kryštály žiadnu funkciu, ale to sa môže zmeniť v ďalších verziách hry."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Prázdna miestnosť s trónmi"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -235,25 +232,25 @@ msgstr "Potom v diaľke zazrel Tux  Nolokov zámok a vyrazil na záchranu Penny!
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr ""
+msgstr "Tux, vyčerpaný z dlhej chôdze, sa rozhodol dať si malú prestávku."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr ""
+msgstr "Zrazu však z diaľky počul hlasný rev."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
-msgstr ""
+msgstr "Zdá sa, že ho z diaľky spozoroval yeti."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
-msgstr ""
+msgstr "Tux, znepokojený náhlym ústupom yetiho, sa Tux rozhodol pokračovať vo svojej ceste..."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr ""
+msgstr "...zatiaľ čo tajne dúfal, že už v žiadnom prípade nenarazím na yetiho."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
@@ -293,7 +290,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Vajcia\n!images/powerups/egg/egg-shade.png\n#Vajíčko robí Tuxa väčším. Tux potom môže hlavou rozbiť drevené bloky."
 
 #: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
@@ -331,11 +328,11 @@ msgstr "-Tajné miesta\n#Mnohé úrovne ukrývajú za zdanlivo obyčajnými sten
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
-msgstr ""
+msgstr "Ľadový ostrov"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
-msgstr ""
+msgstr "Už žiadny pán ľadový chlap"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"

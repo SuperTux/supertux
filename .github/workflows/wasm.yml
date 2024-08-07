@@ -17,6 +17,7 @@
 
 name: WebAssembly
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -29,15 +30,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: ["Release", "Debug"]
+        build_type: ["RelWithDebInfo", "Debug"]
 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Install emscripten tools
         run: |
@@ -83,7 +84,7 @@ jobs:
           mkdir upload/
           mv supertux2* upload/
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: "wasm32-emscripten-${{ matrix.build_type }}-html"
           path: build/upload/*
@@ -97,5 +98,4 @@ jobs:
           cd build/upload/
           mv supertux2.html index.html
           zip supertux2.zip *
-          # TODO: Decomment (or replace URL with a different host)
-          # curl -F "archive=@$(pwd)/supertux2.zip" -F "message=$(git log --format=%B -n 1 | head -1)" $UPLOAD_URL
+          curl -F "archive=@$(pwd)/supertux2.zip" -F "message=$(git log --format=%B -n 1 | head -1)" $UPLOAD_URL

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Tatar (http://app.transifex.com/arctic-games/supertux/language/tt/)\n"
@@ -32,7 +32,7 @@ msgstr "23-нче Бортчы"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Сез яшерен җирне таптыгыз!"
 
@@ -58,10 +58,6 @@ msgid ""
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Кристаллар\n# Бу дәрәҗәдә дүрт төсле кристалл бар. Сез аларны таба аласызмы?\n#\n# Искәрмә: Бу кристаллар хәзерге вакытта бернинди максатка хезмәт итми, ләкин алар киләчәктә уен чыгарылышында булырга мөмкин."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Буш тәхет бүлмәсе"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"

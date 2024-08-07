@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018,2020
+# Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018,2020,2022
 #  <lapamiko@luukku.com>, 2004
 # tingberg <tom.ingberg@iki.fi>, 2013-2014
 # Lauri Ojansivu <x@xet7.org>, 2014
@@ -11,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-02-10 12:38+0000\n"
-"Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
-"Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018,2020,2022\n"
+"Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,16 +25,16 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "Lento 23"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Löysit salaisen paikan!"
 
@@ -42,7 +42,7 @@ msgstr "Löysit salaisen paikan!"
 msgid "Above the Arctic Skies"
 msgstr "Arktisten taivaiden yllä"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -53,17 +53,13 @@ msgstr "-Ilmakukka\n!images/powerups/airflower/air_flower-0.png\n#Ilmakukka anta
 msgid "Between Two Glaciers"
 msgstr "Kahden jäätikön välissä"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Kristallit\n#Tässä tasossa on neljä värillistä kristallia. Pystytkö löytämään ne?\n#\n#Huom: Nämä kristallit eivät tee mitään tällä hetkellä, mutta ne saattavat pelin myöhemmissä versioissa."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Tyhjä valtaistuinsali"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -73,7 +69,7 @@ msgstr "Nolokin linna"
 msgid "The Crystal Mine"
 msgstr "Kristallikaivos"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#Tämän oven avaamiseen täytyy aktivoida kaksi vipua."
 
@@ -103,7 +99,7 @@ msgid ""
 "-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "-Trampoliinit\n!images/objects/trampoline/trampoline2-0.png\n#Trampoliinit mahdollistavat hypyt uusiin korkeuksiin. Pidä hyppynäppäintä pohjassa hypätäksesi vielä korkeammalle."
+msgstr "-Trampoliinit\n!images/objects/trampoline/trampoline2-0.png\n#Trampoliinit mahdollistavat hypyt uusiin korkeuksiin. Pidä hyppynäppäintä pohjassa trampoliinin päällä hypätäksesi vielä korkeammalle."
 
 #: data/levels/world1/fork_in_the_road.stl:100
 msgid ""
@@ -116,7 +112,7 @@ msgid ""
 "-Secret Exits\n"
 "#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
 "#Maybe they lead you to something special."
-msgstr "-Salaiset maalit\n#Joissain tasoissa voi olla useampi maali. Ne ovat enimmäkseen piilossa, joten etsi niitä tarkasti.\n#Ehkä ne voivat johtaa jonnekin erityiseen."
+msgstr "-Salaiset maalit\n#Joissain kentissä voi olla useampi maali. Ne ovat enimmäkseen piilossa, joten etsi niitä tarkasti.\n#Ne voivat jopa johtaa erityisiin paikkoihin."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
@@ -124,7 +120,7 @@ msgstr "Jäiset kentät"
 
 #: data/levels/world1/frozen_bridge.stl:3
 msgid "Over the Frozen Bridge"
-msgstr "Jäätynyt silta"
+msgstr "Jäätyneen sillan ylitys"
 
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
@@ -187,7 +183,7 @@ msgstr "Kirje Pennyltä Tuxille, jossa hän kertoi Nolokin siirtäneen hänet ka
 msgid ""
 "Unsure about what Nolok was doing to her, Tux became worried about his "
 "beloved Penny."
-msgstr "Epävarmana siitä, mitä Nolok tekisi hänelle, Tux huolestui rakkaasta Pennystään."
+msgstr "Epävarmana Nolokin suunnitelmista hänelle, Tux huolestui rakkaasta Pennystään."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
@@ -221,12 +217,12 @@ msgstr "\"Reitti linnoitukselleni on täynnä kätyreitäni.\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "\"Hänen pelastamistaan ei edes kannata yrittää! Terveisin, Nolok.\""
+msgstr "\"Et taatusti pysty pelastamaan häntä! Terveisin, Nolok.\""
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Tajutessaan sen, kuinka pahasti Penny voi olla pulassa, Tux tiesi, että hänen täytyisi pelastaa hänet."
+msgstr "Tajuttuaan, kuinka pahassa pulassa Penny voi olla, Tux tiesi, että hänen täytyisi pelastaa hänet."
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
@@ -239,7 +235,7 @@ msgstr "Väsyneenä pitkästä kävelymatkasta, Tux päätti pitää lyhyen tauo
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "Mutta sitten hän yhtäkkiä kuuli kovan karjaisun kaukaa."
+msgstr "Mutta sitten hän yhtäkkiä kuuli kaukaisen, kovan karjaisun."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
@@ -253,7 +249,7 @@ msgstr "Huolestuneena lumimiehen äkillisestä perääntymisestä, Tux päätti 
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "...salaa toivoen, ettei hän törmäisi lumimieheen uudelleen."
+msgstr "...salaa toivoen, ettei hän törmäisi häneen uudelleen."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
@@ -279,7 +275,7 @@ msgstr "Via Nostalgica"
 msgid "Welcome to Antarctica"
 msgstr "Tervetuloa Etelämantereelle"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -288,46 +284,46 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr "-Bonuslaatikot\n!images/objects/bonus_block/full-0.png\n#Bonuslaatikoissa voi olla kolikoita, lisävoimia tai erikoisesineitä, jotka voivat auttaa sinua.\n#\n#Saadaksesi niiden sisällön, iske niitä alapuolelta."
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Munat\n!images/powerups/egg/egg-shade.png\n#Muna tekee Tuxista suuremman, jolloin hän voi rikkoa puulaatikoita päällään."
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-Välietapit\n!images/objects/resetpoints/bell-m.png\n#Aktivoi välietappi. Jos kuolet, voit jatkaa kenttää tästä. Joka kerta kun jatkat välietapilta, menetät 10% kolikoistasi (ainakin 25 kolikkoa)."
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Juokseminen\n!images/tiles/signs/run.png\n#Tie edessäsi on tukossa. Kerää vauhtia ennen kuin hyppäät, niin pääset esteen yli."
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Tulikukka\n!images/powerups/fireflower/fire_flower-0.png\n#Tulikukka antaa Tuxille kyvyn ampua tulipalloja toimintanäppäimestä."
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Pingviininukke\n!images/powerups/1up/1up.png\n#Pingviininukke antaa Tuxille 100 kolikkoa."
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Salaiset paikat\n#Monissa kentissä on salaisia alueita näennäisten seinien takana. Etsi vihjeitä niiden löytämiseen."
+msgstr "-Salaiset paikat\n#Monissa kentissä on salaisia paikkoja näennäisten seinien takana. Etsi vihjeitä niiden löytämiseen."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"

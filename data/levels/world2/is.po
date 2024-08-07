@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Icelandic (http://app.transifex.com/arctic-games/supertux/language/is/)\n"
@@ -36,8 +36,8 @@ msgstr "Fornar rústir"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Þú fannst leynisvæði!"
 
@@ -89,7 +89,7 @@ msgstr "Ghosttree áskoranir"
 msgid "Ghouls' Lair"
 msgstr "Gúllar Lair"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -103,13 +103,13 @@ msgstr "Að fara neðanjarðar"
 msgid "I Spy With My Little Eye"
 msgstr "Ég njósna með litla auganu"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "Ég njósna\n#Ispys mun virkja hluti eins og palla hvenær sem Tux er í augsýn þeirra."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Ábending: Notaðu snigla til að brjóta kubba!"
 
@@ -121,7 +121,7 @@ msgstr "Eins og lauf í vindinum"
 msgid "Lost Village"
 msgstr "Týndur Þorp"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Ekki gleyma að ýta á rofann!"
 
@@ -161,10 +161,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Jarðarblóm\n!images/powerups/earthflower/earth_flower-1.png\n#Jarðblómið gefur Tux möguleika á að breytast í stein með því að ýta á ACTION takkann og NIÐUR takkann á sama tíma.\n#Þetta virkar ekki þegar þú hoppar eða dettur!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Tower Cutscene"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Draugar Turn"
@@ -185,7 +181,7 @@ msgstr "-Færanlegir hlutir:\n!images/objects/rock/rock.png\n#Tux getur tekið u
 msgid "Tux' Own Horror Show"
 msgstr "Eigin hryllingsþáttur Tux"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -214,6 +210,6 @@ msgstr "Trérætur"
 msgid "Rooted Forest"
 msgstr "Rótaður skógur"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Framhald..."

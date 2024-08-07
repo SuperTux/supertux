@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: tellovishous <skyguy@readytek.net>, 2020-2021,2023\n"
 "Language-Team: Esperanto (http://app.transifex.com/arctic-games/supertux/language/eo/)\n"
@@ -39,8 +39,8 @@ msgstr "Antikvaj Ruinoj"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Vi trovis sekretejon!"
 
@@ -92,7 +92,7 @@ msgstr "Defioj de Fantomarbo"
 msgid "Ghouls' Lair"
 msgstr "Nesto de Ĥuloj"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -106,13 +106,13 @@ msgstr "Iras Subtere"
 msgid "I Spy With My Little Eye"
 msgstr "Mi Ekvidas Per Mia Malgranda Okulo"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Ispy\n#Ispy aktivigos objektojn kiel bazojn dum Tux estas en sia vido."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Konsileto: Uzu limakoj por rompi blokojn!"
 
@@ -124,7 +124,7 @@ msgstr "Kiel folio en la Vento"
 msgid "Lost Village"
 msgstr "Perdita Vilaĝo"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Ne forgesu premi la ŝaltilon!"
 
@@ -164,10 +164,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Terfloro\n!images/powerups/earthflower/earth_flower-1.png\n#La terfloro ebligas Tux fariĝi ŝtonon premante la AGO klavon kaj la SUBEN klavon samtempe.\n#Ĉi tiu ne funkcias dum saltado aŭ falado!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Filmeto de Turo"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Turo de Fantomoj"
@@ -188,7 +184,7 @@ msgstr "-Porteblaj Objektoj:\n!images/objects/rock/rock.png\n#Tux povas preni iu
 msgid "Tux' Own Horror Show"
 msgstr "Propra Teruro Teatraĵo de Tux"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -217,6 +213,6 @@ msgstr "Lignaj Radikoj"
 msgid "Rooted Forest"
 msgstr "Radikita Arbaro"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Daŭrigota..."

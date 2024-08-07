@@ -159,7 +159,7 @@ Climbable::event(Player& player, EventType type)
 }
 
 bool
-Climbable::may_climb(Player& player) const
+Climbable::may_climb(const Player& player) const
 {
   if (player.get_bbox().get_left() < m_col.m_bbox.get_left() - GRACE_DX) return false;
   if (player.get_bbox().get_right() > m_col.m_bbox.get_right() + GRACE_DX) return false;

@@ -179,19 +179,19 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
 }
 
 void
-AutotileParser::parse_mask(std::string mask, std::vector<AutotileMask>& autotile_masks, bool solid)
+AutotileParser::parse_mask(const std::string& mask, std::vector<AutotileMask>& autotile_masks, bool solid)
 {
   parse_mask(mask, autotile_masks, solid, false);
 }
 
 void
-AutotileParser::parse_mask_corner(std::string mask, std::vector<AutotileMask>& autotile_masks)
+AutotileParser::parse_mask_corner(const std::string& mask, std::vector<AutotileMask>& autotile_masks)
 {
   parse_mask(mask, autotile_masks, true, true);
 }
 
 void
-AutotileParser::parse_mask(std::string mask, std::vector<AutotileMask>& autotile_masks, bool solid, bool is_corner)
+AutotileParser::parse_mask(const std::string& mask, std::vector<AutotileMask>& autotile_masks, bool solid, bool is_corner)
 {
   size_t mask_size = is_corner ? 4 : 8;
   if (mask.size() != mask_size)

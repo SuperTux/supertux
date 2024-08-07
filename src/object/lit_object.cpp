@@ -16,6 +16,9 @@
 
 #include "object/lit_object.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -23,7 +26,6 @@
 
 LitObject::LitObject(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/lightflower/lightflower1.sprite"),
-  ExposedObject<LitObject, scripting::LitObject>(this),
   m_light_offset(-6.f, -17.f),
   m_light_sprite_name("images/objects/lightflower/light/glow_light.sprite"),
   m_sprite_action("default"),
@@ -65,11 +67,11 @@ LitObject::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_sprite(_("Light sprite"), &m_light_sprite_name, "light-sprite", std::string("images/objects/lightflower/light/glow_light.sprite"));
+  result.add_sprite(_("Light sprite"), &m_light_sprite_name, "light-sprite", "images/objects/lightflower/light/glow_light.sprite");
   result.add_int(_("Layer"), &m_layer, "layer", 0);
 
-  result.add_text(_("Sprite starting action"), &m_sprite_action, "action", std::string("default"));
-  result.add_text(_("Light sprite starting action"), &m_light_sprite_action, "light-action", std::string("default"));
+  result.add_text(_("Sprite starting action"), &m_sprite_action, "action", "default");
+  result.add_text(_("Light sprite starting action"), &m_light_sprite_action, "light-action", "default");
 
   result.add_float(_("Light sprite offset X"), &m_light_offset.x, "light-offset-x");
   result.add_float(_("Light sprite offset Y"), &m_light_offset.y, "light-offset-y");
@@ -96,13 +98,7 @@ LitObject::on_flip(float height)
   FlipLevelTransformer::transform_flip(m_flip);
 }
 
-const std::string&
-LitObject::get_action() const
-{
-  return m_sprite->get_action();
-}
-
-const std::string&
+std::string
 LitObject::get_light_action() const
 {
   return m_light_sprite->get_action();
@@ -112,6 +108,16 @@ void
 LitObject::set_light_action(const std::string& action)
 {
   m_light_sprite->set_action(action);
+}
+
+
+void
+LitObject::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<LitObject>("LitObject", vm.findClass("MovingSprite"));
+
+  cls.addFunc("get_light_action", &LitObject::get_light_action);
+  cls.addFunc("set_light_action", &LitObject::set_light_action);
 }
 
 /* EOF */

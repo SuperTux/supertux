@@ -3,6 +3,8 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# A-TNT DC, 2021
+# A-TNT DC, 2021
 # Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
 # Am1g0 <Giuego@aol.com>, 2014
 # Ioma Taani, 2019-2020
@@ -14,15 +16,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 21:21+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: A-TNT DC, 2021\n"
+"Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/world2/ancient_ruins.stl:3
 msgid "Ancient Ruins"
@@ -42,8 +44,8 @@ msgstr "Antiche rovine"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Hai trovato un'area segreta!"
 
@@ -95,7 +97,7 @@ msgstr "Le sfide di Fantasmalbero"
 msgid "Ghouls' Lair"
 msgstr "La tana del Gula"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -109,13 +111,13 @@ msgstr "Passaggio Sotterraneo"
 msgid "I Spy With My Little Eye"
 msgstr "Io spioccio col mio picchio occhio"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-IoSpio\n#Gli IoSpio attiveranno cose come piattaforme ogni volta che Tux è a vista."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Suggerimento: usa le lumache per rompere i blocchi!"
 
@@ -127,7 +129,7 @@ msgstr "Come una foglia nel vento"
 msgid "Lost Village"
 msgstr "Il Villaggio perduto"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Non dimenticare di attivare l'interruttore!"
 
@@ -167,10 +169,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "-Fiore della Terra\n!images/powerups/earthflower/earth_flower-1.png\n#Il Fiore della Terra dà a Tux l'abilità di trasformarsi in pietra mentre si tengono premuti il tasto AZIONE ed il tasto GIÙ contemporaneamente.\n#Non funziona mentre si sta saltando o se si sta cadendo!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Cutscene della Torre"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Torre dei Fantasmi"
@@ -191,11 +189,11 @@ msgstr "-Oggetti Trasportabili:\n!images/objects/rock/rock.png\n#Tux ha la possi
 msgid "Tux' Own Horror Show"
 msgstr "La storia horror di Tux"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
-msgstr ""
+msgstr "#I Fuochi fatui sono fantasmi piccoli e fastidiosi, che ti trasportano in luoghi diversi, spesso pericolosi."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -218,8 +216,8 @@ msgstr "Radici Legnose"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Rooted Forest"
-msgstr ""
+msgstr "Foresta radicata"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Da continuare..."

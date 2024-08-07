@@ -1771,8 +1771,8 @@ msgstr "Натисніть Escape, щоб пропустити"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Використання: %s [ПАРАМЕТРИ] [ФАЙЛ_РІВНЯ]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Використання: {} [ПАРАМЕТРИ] [ФАЙЛ_РІВНЯ]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2497,13 +2497,13 @@ msgstr "Змінити розмір"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Профіль %s]"
+msgid "[Profile {}]"
+msgstr "[Профіль {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Профіль %s"
+msgid "Profile {}"
+msgstr "Профіль {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2551,8 +2551,8 @@ msgstr "Невідомо"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" від \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" від \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2564,13 +2564,13 @@ msgstr "Жодного доповнення не знайдено"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Інсталювати %s *НОВЕ*"
+msgid "Install {} *NEW*"
+msgstr "Інсталювати {} *НОВЕ*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Інсталювати %s"
+msgid "Install {}"
+msgstr "Інсталювати {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2590,8 +2590,8 @@ msgstr "Завантаження даних репозиторію доповн�
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Завантаження %s"
+msgid "Downloading {}"
+msgstr "Завантаження {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3104,8 +3104,8 @@ msgstr "Ви не можете видалити рівень, який ви ре
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "Автор %s"
+msgid "contributed by {}"
+msgstr "Автор {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

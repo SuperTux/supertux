@@ -3,22 +3,23 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2020-2021
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2021
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
+# IAN RODRÍGUEZ Lorenzo, 2022
+# 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2020-2022
+# 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2021
+# 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-06-12 18:32+0000\n"
-"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
-"Language-Team: Hebrew (http://www.transifex.com/arctic-games/supertux/language/he/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Language-Team: Hebrew (http://app.transifex.com/arctic-games/supertux/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
+"Plural-Forms: nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;\n"
 
 #: data/levels/world1/23rd_airborne.stl:3
 msgid "23rd Airborne"
@@ -33,7 +34,7 @@ msgstr "המוטס ה־23"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "מצאת אזור סודי!"
 
@@ -59,10 +60,6 @@ msgid ""
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-קריסטלים\n#בשלב הזה כלולים ארבעה קריסטלים צבעוניים. את/ה יכול/ה למצוא אותם?\n#\n#הערה: קריסטלים אלו לא משרתים אף מטרה בזה הרגע אך אולי יהיו בגרסה עתידית של המשחק."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr ""
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -202,11 +199,11 @@ msgstr "טַקס הפינגווין הלך להיפגש עם חברתו, פני,
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "טַקס התעורר, מסוחרר, וגילה שפני איננה!"
+msgstr "טַקס התעורר, מסוחרר, כדי לגלות שפני איננה!"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "טַקס התחיל להיות מודאג. אז הוא ראה פתק, והתחיל לקרוא:"
+msgstr "טַקס החל להיות מודאג. לאחר מכן הוא ראה פתק, והתחיל לקרוא:"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid ""
@@ -216,7 +213,7 @@ msgstr "\"טַקס, חטפתי את פני אהובתך והבאתי אותה ל
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"הדרך למבצר מוגנת במשרתים שלי.\""
+msgstr "\"כדי להגיע למבצר שלי יהיה עליך לעבור את המשרתים שלי.\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
@@ -225,12 +222,12 @@ msgstr "\"אין לך סיכוי להציל אותה! על החתום, נולו�
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "טַקס הבין באיזו צרה פני עלולה להסתבך, אך היה נחוש להצילה."
+msgstr "טַקס מבין באיזו צרה פני עלולה להסתבך, אך נחוש להצילה."
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
 "Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "לאחר מכן, טַקס ראה את הטירה של נולוק מרחוק ויצא לחלץ את פני!"
+msgstr "ואז, טַקס ראה מרחוק את הטירה של נולוק ויצא להציל את פני!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
@@ -248,11 +245,11 @@ msgstr "נראה כי יטי צפה בו מרחוק."
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
-msgstr ""
+msgstr "מודאג מהנסיגה הפתאומית של האיטי, טוקס החליט להמשיך במסעו, ..."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr ""
+msgstr "... תוך תקווה בסתר לא להיתקל שוב ב-yiti, בשום אופן."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
@@ -326,7 +323,7 @@ msgstr "-בובת טַקס\n!images/powerups/1up/1up.png\n#בובת טַקס נ�
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
+msgstr "אזורים סודיים\n#רמות רבות מכילות אזורים סודיים מאחורי מה שנראה כקירות פשוטים. חפש רמזים כדי למצוא אותם."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"

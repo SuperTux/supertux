@@ -6,7 +6,7 @@
 # Translators:
 # Vangelis Nomikos <nvangelis@gmail.com>, 2019
 # I will not tell you that <leftermos@yahoo.gr>, 2019
-# Vangelis Skarmoutsos <skarmoutsosv@gmail.com>, 2019
+# Vangelis Skarmoutsos (SkarmoutsosV) <skarmoutsosv@gmail.com>, 2019
 # IAN RODRÍGUEZ Lorenzo, 2022
 # 
 #, fuzzy

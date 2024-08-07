@@ -157,9 +157,9 @@ Ghoul::active_update(float dt_sec)
 }
 
 void
-Ghoul::goto_node(int node_no)
+Ghoul::goto_node(int node_idx)
 {
-  get_walker()->goto_node(node_no);
+  get_walker()->goto_node(node_idx);
   if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK) {
     m_mystate = STATE_PATHMOVING;
   }

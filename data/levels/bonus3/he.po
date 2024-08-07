@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Hebrew (http://app.transifex.com/arctic-games/supertux/language/he/)\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
+"Plural-Forms: nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
@@ -28,7 +28,7 @@ msgstr "הרמה שנודעה בעבר בשם \"-89,2 מעלות\""
 msgid "Global Warming"
 msgstr "ההתחממות הגלובלית"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "לילה אחד בשמיים"
 
@@ -80,7 +80,7 @@ msgstr "#עבודה טובה! שמרת על הפנס האדום! אמנם לא �
 msgid "Coconut Fortress"
 msgstr "מבצר קוקוס"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "שקיעה של קריסטלים"
 
@@ -141,7 +141,7 @@ msgstr "בונוס פרחים"
 msgid "After the Glaciers"
 msgstr "אחרי הקרחונים"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "תלוי מהגג"
 
@@ -217,7 +217,7 @@ msgstr "גבעה מושלגת"
 msgid "Three Frosty Icebergs"
 msgstr "שלושה קרחונים קפואים"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "מתחת לקרח"
 

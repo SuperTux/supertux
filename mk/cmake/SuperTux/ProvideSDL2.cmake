@@ -1,5 +1,5 @@
 message(STATUS "Checking for SDL2")
-if(WIN32)
+if(WIN32 AND NOT MINGW)
   if(VCPKG_BUILD)
     find_package(SDL2 CONFIG REQUIRED)
     find_library(SDL2IMAGE_LIBRARIES SDL2_image)

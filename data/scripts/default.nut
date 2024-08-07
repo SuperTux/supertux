@@ -3,22 +3,6 @@
  * and variables you define here can be used in all threads
  */
 
-//Create Level table
-Level <- {
-  finish=Level_finish,
-  has_active_sequence=Level_has_active_sequence,
-  spawn=Level_spawn,
-  set_start_point=Level_set_start_point,
-  set_start_pos=Level_set_start_pos,
-  set_respawn_point=Level_set_respawn_point,
-  set_respawn_pos=Level_set_respawn_pos,
-  flip_vertically=Level_flip_vertically,
-  toggle_pause=Level_toggle_pause,
-  pause_target_timer=Level_pause_target_timer,
-  resume_target_timer=Level_resume_target_timer
-};
-
-
 function end_level()
 {
   play_music("music/misc/leveldone.ogg");

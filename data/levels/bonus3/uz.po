@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
 "Language-Team: Uzbek (http://app.transifex.com/arctic-games/supertux/language/uz/)\n"
@@ -26,7 +26,7 @@ msgstr "Ilgari \"-89,2 daraja\" deb nomlanuvchi daraja"
 msgid "Global Warming"
 msgstr "Global isish"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Osmonda bir kecha"
 
@@ -78,7 +78,7 @@ msgstr "#Juda yaxshi! Siz qizil chiroqni saqladingiz! Sizga kerak emas edi, leki
 msgid "Coconut Fortress"
 msgstr "Hindiston yong'og'i qal'asi"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Kristal quyosh botishi"
 
@@ -139,7 +139,7 @@ msgstr "Gul bonusi"
 msgid "After the Glaciers"
 msgstr "Muzliklardan keyin"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Tomdan osilgan"
 
@@ -215,7 +215,7 @@ msgstr "Qorli tepalik"
 msgid "Three Frosty Icebergs"
 msgstr "Uchta Ayozli Aysberg"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Muz ostida"
 

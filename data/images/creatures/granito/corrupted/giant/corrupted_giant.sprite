@@ -33,4 +33,10 @@
     (fps 5)
     (mirror-action "husk3-left")
   )
+  (action
+    (name "idle-left")
+    (clone-action "husk1-left"))
+  (action
+    (name "idle-right")
+    (clone-action "husk1-right"))
 )

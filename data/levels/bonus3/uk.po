@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# IAN RODRÍGUEZ Lorenzo, 2022
 # Max Lyashuk <m_lyashuk@ukr.net>, 2015
 # Olexandr Nesterenko <nolexndr@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 19:20+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/arctic-games/supertux/language/uk/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Language-Team: Ukrainian (http://app.transifex.com/arctic-games/supertux/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,13 +22,13 @@ msgstr ""
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
-msgstr ""
+msgstr "Рівень, раніше відомий як \"-89,2 градуса\""
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
 msgstr "Глобальне потепління"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Одна ніч в небі"
 
@@ -41,7 +42,7 @@ msgstr "Ще один холодний день"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Forest Rain (aka \"Antarctic Rain\")"
-msgstr ""
+msgstr "Лісовий дощ (він же \"Антарктичний дощ\")"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
@@ -79,7 +80,7 @@ msgstr "#Гарна робота! Ви втримали цей червоний 
 msgid "Coconut Fortress"
 msgstr "Кокосова фортеця"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Криштальний захід сонця"
 
@@ -130,7 +131,7 @@ msgstr "Вхід до замку"
 
 #: data/levels/bonus3/entering_castle.stl:60
 msgid "#Sorry, nothing to see here! Use the rope to get out!"
-msgstr ""
+msgstr "#Вибачте, тут нічого не видно! Використовуйте мотузку, щоб вибратися!"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
@@ -140,7 +141,7 @@ msgstr "Квітка-бонус"
 msgid "After the Glaciers"
 msgstr "Після льодовиків"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Висячи на даху"
 
@@ -166,7 +167,7 @@ msgstr "Сповіщення про снігопад"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
-msgstr ""
+msgstr "Дірки, день на льоду"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
@@ -176,7 +177,7 @@ msgstr "Вбиральня"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr ""
+msgstr "- Змив:\n#Натисніть клавішу вгору, щоб змити!"
 
 #: data/levels/bonus3/niv-3.stl:380
 msgid ""
@@ -216,7 +217,7 @@ msgstr "Снігова гірка"
 msgid "Three Frosty Icebergs"
 msgstr "Три холодні айсберги"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Під льодом"
 

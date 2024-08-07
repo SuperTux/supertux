@@ -20,12 +20,12 @@
 
  (action
   (name "iced-left")
-  (hitbox 8 13 32 32)
+  (hitbox 3 8 45 43)
   (images "spiky_sleep-3.png"))
 
  (action
   (name "iced-right")
-  (hitbox 8 13 32 32)
+  (hitbox 3 8 45 43)
   (mirror-action "iced-left"))
 
  (action

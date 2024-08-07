@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.6.2-963-gb4a1b149f\n"
+"Project-Id-Version: SuperTux v0.6.3-1080-g2e08c1b7f\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Long Office Nights"
 msgstr ""
 
-#: data/levels/revenge_in_redmond/long_office_nights.stl:570
+#: data/levels/revenge_in_redmond/long_office_nights.stl:568
 msgid ""
 "#Only those wielding the legendary coffee and mints shall pass this barrier!"
 msgstr ""
@@ -42,8 +42,8 @@ msgstr ""
 msgid "Where Is My Super Cape?"
 msgstr ""
 
-#: data/levels/revenge_in_redmond/who_is_dawn.stl:3
-msgid "Who Is This Dawn?"
+#: data/levels/revenge_in_redmond/who_is_gown.stl:3
+msgid "Who Is This Gown?"
 msgstr ""
 
 #: data/levels/revenge_in_redmond/worldmap.stwm:3

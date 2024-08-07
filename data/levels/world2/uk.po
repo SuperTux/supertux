@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Ukrainian (http://app.transifex.com/arctic-games/supertux/language/uk/)\n"
@@ -38,8 +38,8 @@ msgstr "Античні руїни"
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285
+#: data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr "Ви знайшли сховок!"
 
@@ -91,7 +91,7 @@ msgstr "Виклики Ghosttree"
 msgid "Ghouls' Lair"
 msgstr "Лігво упирів"
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -105,13 +105,13 @@ msgstr "Спускання під землю"
 msgid "I Spy With My Little Eye"
 msgstr "Я шпигую своїм маленьким оком"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "Шпигую\n#Шпигую буде активувати такі речі, як платформи, коли Тукс буде в їхньому полі зору."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr "Підказка: використовуйте равликів, щоб розбивати блоки!"
 
@@ -123,7 +123,7 @@ msgstr "Як листок на вітрі"
 msgid "Lost Village"
 msgstr "Загублене село"
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr "#Не забудьте натиснути перемикач!"
 
@@ -163,10 +163,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr "- Земляна квітка\n!images/powerups/earthflower/earth_flower-1.png\n#Земляна квітка дає Туксу здатність перетворюватися на камінь, натиснувши одночасно клавіші ДІЯ та ВНИЗ.\n#Це не працює під час стрибка чи падіння!"
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr "Вежа Катсцена"
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr "Вежа Привидів"
@@ -187,7 +183,7 @@ msgstr "-Портативні об'єкти:\n!images/objects/rock/rock.png\n#Tu
 msgid "Tux' Own Horror Show"
 msgstr "Власне шоу жахів Тукса"
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
@@ -216,6 +212,6 @@ msgstr "Дерев'яні корені"
 msgid "Rooted Forest"
 msgstr "Вкорінений ліс"
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr "Далі буде..."

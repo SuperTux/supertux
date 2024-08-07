@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Joe Hansen <joedalton2@yahoo.dk>, 2015-2016,2018-2019
+# Lars Lyngby <larslyngby@hotmail.com>, 2024
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2019-12-22 14:19+0000\n"
-"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
-"Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Lars Lyngby <larslyngby@hotmail.com>, 2024\n"
+"Language-Team: Danish (http://app.transifex.com/arctic-games/supertux/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,7 +32,7 @@ msgstr "Højt at flyve..."
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
 msgid "You found a secret area!"
 msgstr "Du har fundet et hemmeligt område"
 
@@ -56,11 +57,7 @@ msgid ""
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "-Krystaller\n#Denne bane indeholder fire farvelagte krystaller. Kan du finde dem?\n#\n#Bemærk: Disse krystallers har ikke et formål i øjeblikket, men vil måske have et i en fremtidig udgivelse af spillet."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Tomt tronrum"
+msgstr "-Krystaller\n#Denne bane indeholder fire farvelagte krystaller. Kan du finde dem?\n#\n#Bemærk: Disse krystaller tjener ikke et formål lige nu, men de vil måske have et formål i en fremtidig udgave af spillet."
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -113,7 +110,7 @@ msgid ""
 "-Secret Exits\n"
 "#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
 "#Maybe they lead you to something special."
-msgstr "-Hemmelige udgange\n#Nogle baner kan have flere udgange. De er ofte skjult, så hold specielt øje efter dem.\n#Måske fører de dig til noget specielt."
+msgstr "-Hemmelige udgange\n#Nogle baner kan have flere udgange. De er ofte skjult, så hold specielt udkig efter dem.\n#Måske fører de dig til noget helt specielt."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
@@ -297,7 +294,7 @@ msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Kontrolpunkter\n!images/objects/resetpoints/bell-m.png\n#Aktiver kontrolpunktet. Hvis du dør, så kan du starte forfra på banen derfra. Hver gang du prøver igen fra et kontrolpunkt, så mister du 10 procent af dine mønster (mindst 25 mønter)."
+msgstr "-Kontrolpunkter\n!images/objects/resetpoints/bell-m.png\n#Aktiver kontrolpunktet. Hvis du dør, kan du genstarte banen derfra. Hver gang du genstarter fra et kontrolpunkt, mister du 10 procent af dine mønster (dog mindst 25 mønter)."
 
 #: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
