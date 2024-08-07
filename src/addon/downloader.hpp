@@ -143,6 +143,7 @@ public:
   void update();
 
   TransferStatusPtr request_download(const std::string& url, const std::string& filename);
+  TransferStatusPtr request_string_download(const std::string& url, std::string& out_string);
   void abort(TransferId id);
 
 #ifdef EMSCRIPTEN
@@ -151,6 +152,9 @@ public:
   void onDownloadError(int id);
   void onDownloadAborted(int id);
 #endif
+
+private:
+  TransferStatusPtr add_transfer(std::unique_ptr<Transfer> transfer);
 
 private:
   Downloader(const Downloader&) = delete;
