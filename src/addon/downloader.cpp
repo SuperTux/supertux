@@ -700,7 +700,7 @@ Downloader::onDownloadFinished(int id, const char* data)
     const size_t data_len = strlen(data);
     if (data_len != 0)
     {
-      auto* str_transfer = dynamic_cast<StringTransfer*>(it->second->get());
+      auto* str_transfer = dynamic_cast<StringTransfer*>(it->second.get());
       if (str_transfer)
         str_transfer->on_data(data, data_len, 1);
     }
