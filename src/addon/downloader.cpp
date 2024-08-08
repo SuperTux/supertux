@@ -769,7 +769,7 @@ Downloader::onDownloadError(int id)
   else
   {
     TransferStatusPtr status = it->second->get_status();
-    for (const auto& callback : it->second->get_status()->callbacks)
+    for (const auto& callback : status->callbacks)
     {
       try
       {
@@ -796,7 +796,7 @@ Downloader::onDownloadAborted(int id)
   else
   {
     TransferStatusPtr status = it->second->get_status();
-    for (const auto& callback : it->second->get_status()->callbacks)
+    for (const auto& callback : status->callbacks)
     {
       try
       {
