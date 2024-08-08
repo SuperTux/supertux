@@ -24,6 +24,7 @@ GranitoBig::GranitoBig(const ReaderMapping& reader) :
   m_carrying(nullptr)
 {
   parse_type(reader);
+  set_ledge_behavior(LedgeBehavior::SMART);
 
   reader.get("carrying-script", m_carried_script);
 

@@ -20,7 +20,6 @@
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader_mapping.hpp"
 
 Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
   WalkingBadguy(reader, sprite_name, "left", "right", layer),
@@ -36,7 +35,7 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   parse_type(reader);
 
   walk_speed = 0;
-  max_drop_height = 600;
+  set_ledge_behavior(LedgeBehavior::NORMAL);
 
   m_countMe = false;
 
@@ -215,7 +214,8 @@ Granito::collision(GameObject& other, const CollisionHit& hit)
 
   if (hit.bottom)
   {
-    if (m_state == STATE_SIT) return WalkingBadguy::collision(other, hit);
+    if (m_state == STATE_SIT)
+      return WalkingBadguy::collision(other, hit);
 
     // Yo big granito can i sit on top of your head?
     GranitoBig* granito = dynamic_cast<GranitoBig*>(&other);

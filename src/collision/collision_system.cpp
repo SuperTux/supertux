@@ -164,7 +164,9 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
     if (other_object && other_object->is_unisolid())
     {
       // Constrain only on fall on top of the unisolid object.
-      if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top())
+      // Here we are checking the movements of the objects to prevent
+      // overshoot if both objects are going in convergent directions
+      if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top() - (other_object->get_movement().y - 5.f))
       {
         constraints.constrain_bottom(other_obj_rect.get_top());
         constraints.hit.bottom = true;
@@ -726,15 +728,16 @@ CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ig
 }
 
 bool
-CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
-  if (!is_free_of_tiles(rect)) return false;
+  if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
 
   for (const auto& object : m_objects) {
     if (object == ignore_object) continue;
     if (!object->is_valid()) continue;
+    if (object->is_unisolid() && ignoreUnisolid) continue;
     if ((object->get_group() == COLGROUP_MOVING)
         || (object->get_group() == COLGROUP_MOVING_STATIC)
         || (object->get_group() == COLGROUP_STATIC)) {
