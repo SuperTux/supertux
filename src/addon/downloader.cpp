@@ -385,7 +385,7 @@ public:
     // Escape backslashes and single quotes in the URL and file path to ensure safe usage.
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
     auto path_clean = StringUtil::replace_all(StringUtil::replace_all(FileSystem::join(std::string(PHYSFS_getWriteDir()), outfile), "\\", "\\\\"), "'", "\\'");
-    emscripten_run_script(("supertux_xhr_file_download(" + std::to_string(reinterpret_cast<intptr_t>(&m_downloader)) + ", '" + std::to_string(m_id) + ", '" + url_clean + "', '" + path_clean + "');").c_str());
+    emscripten_run_script(("supertux_xhr_file_download(" + std::to_string(reinterpret_cast<intptr_t>(&m_downloader)) + ", " + std::to_string(m_id) + ", '" + url_clean + "', '" + path_clean + "');").c_str());
 #endif
   }
 
@@ -417,7 +417,7 @@ public:
     // Sanitize input to prevent code injection from malicious callers.
     // Escape backslashes and single quotes in the URL to ensure safe usage.
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
-    emscripten_run_script(("supertux_xhr_string_download(" + std::to_string(reinterpret_cast<intptr_t>(&m_downloader)) + ", '" + std::to_string(m_id) + ", '" + url_clean + "');").c_str());
+    emscripten_run_script(("supertux_xhr_string_download(" + std::to_string(reinterpret_cast<intptr_t>(&m_downloader)) + ", " + std::to_string(m_id) + ", '" + url_clean + "');").c_str());
 #endif
   }
 
