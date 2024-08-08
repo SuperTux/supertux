@@ -385,7 +385,7 @@ public:
     // Escape backslashes and single quotes in the URL and file path to ensure safe usage.
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
     auto path_clean = StringUtil::replace_all(StringUtil::replace_all(FileSystem::join(std::string(PHYSFS_getWriteDir()), outfile), "\\", "\\\\"), "'", "\\'");
-    emscripten_run_script(("supertux_xhr_file_download(" + std::to_string(static_cast<intptr_t>(&m_downloader)) + ", '" + std::to_string(m_id) + ", '" + url_clean + "', '" + path_clean + "');").c_str());
+    emscripten_run_script(("supertux_xhr_file_download(" + std::to_string(reinterpret_cast<intptr_t>(&m_downloader)) + ", '" + std::to_string(m_id) + ", '" + url_clean + "', '" + path_clean + "');").c_str());
 #endif
   }
 
@@ -417,7 +417,7 @@ public:
     // Sanitize input to prevent code injection from malicious callers.
     // Escape backslashes and single quotes in the URL to ensure safe usage.
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
-    emscripten_run_script(("supertux_xhr_string_download(" + std::to_string(static_cast<intptr_t>(&m_downloader)) + ", '" + std::to_string(m_id) + ", '" + url_clean + "');").c_str());
+    emscripten_run_script(("supertux_xhr_string_download(" + std::to_string(reinterpret_cast<intptr_t>(&m_downloader)) + ", '" + std::to_string(m_id) + ", '" + url_clean + "');").c_str());
 #endif
   }
 
@@ -733,11 +733,12 @@ Downloader::onDownloadFinished(int id, const char* data)
     // If a string with the downloaded data is provided,
     // that would mean a StringTransfer was taking place.
     // Pass the data to that transfer.
-    if (strlen(data) != 0)
+    const size_t data_len = strlen(data);
+    if (data_len != 0)
     {
-      auto* str_transfer = dynamic_cast<StringTransfer*>(it->get());
+      auto* str_transfer = dynamic_cast<StringTransfer*>(it->second->get());
       if (str_transfer)
-        str_transfer->on_data(data, strlen(data), 1);
+        str_transfer->on_data(data, data_len, 1);
     }
 
     TransferStatusPtr status = it->second->get_status();
