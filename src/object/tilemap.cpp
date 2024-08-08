@@ -18,6 +18,9 @@
 
 #include <tuple>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
@@ -38,7 +41,6 @@
 #include "video/surface.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
-  ExposedObject<TileMap, scripting::TileMap>(this),
   PathObject(),
   m_editor_active(true),
   m_tileset(new_tileset),
@@ -73,7 +75,6 @@ TileMap::TileMap(const TileSet *new_tileset) :
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<TileMap, scripting::TileMap>(this),
   PathObject(),
   m_editor_active(true),
   m_tileset(tileset_),
@@ -441,6 +442,15 @@ TileMap::draw(DrawingContext& context)
 
   context.push_transform();
 
+  const bool normal_speed = m_editor_active && Editor::is_active();
+  const float speed_x = normal_speed ? 1.0f : m_speed_x;
+  const float speed_y = normal_speed ? 1.0f : m_speed_y;
+  if (!context.perspective_scale(speed_x, speed_y)) {
+    //The tilemap is placed behind the camera.
+    context.pop_transform();
+    return;
+  }
+
   if (m_flip != NO_FLIP) context.set_flip(m_flip);
 
   if (m_editor_active) {
@@ -453,9 +463,7 @@ TileMap::draw(DrawingContext& context)
 
   const float trans_x = context.get_translation().x;
   const float trans_y = context.get_translation().y;
-  const bool normal_speed = m_editor_active && Editor::is_active();
-  context.set_translation(Vector(trans_x * (normal_speed ? 1.0f : m_speed_x),
-                                 trans_y * (normal_speed ? 1.0f : m_speed_y)));
+  context.set_translation(Vector(trans_x * speed_x, trans_y * speed_y));
 
   Rectf draw_rect = context.get_cliprect();
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
@@ -477,7 +485,7 @@ TileMap::draw(DrawingContext& context)
       if (m_tiles[index] == 0) continue;
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
-      if (g_debug.show_collision_rects) {
+	  if (g_debug.show_collision_rects && m_real_solid) {
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
       }
 
@@ -513,34 +521,6 @@ TileMap::draw(DrawingContext& context)
   }
 
   context.pop_transform();
-}
-
-void
-TileMap::goto_node(int node_idx)
-{
-  if (!get_walker()) return;
-  get_walker()->goto_node(node_idx);
-}
-
-void
-TileMap::jump_to_node(int node_idx, bool instantaneous)
-{
-  if (!get_walker()) return;
-  get_walker()->jump_to_node(node_idx, instantaneous);
-}
-
-void
-TileMap::start_moving()
-{
-  if (!get_walker()) return;
-  get_walker()->start_moving();
-}
-
-void
-TileMap::stop_moving()
-{
-  if (!get_walker()) return;
-  get_walker()->stop_moving();
 }
 
 void
@@ -688,7 +668,13 @@ uint32_t
 TileMap::get_tile_id_at(const Vector& pos) const
 {
   Vector xy = (pos - m_offset) / 32.0f;
-  return get_tile_id(int(xy.x), int(xy.y));
+  return get_tile_id(static_cast<int>(xy.x), static_cast<int>(xy.y));
+}
+
+uint32_t
+TileMap::get_tile_id_at(float x, float y) const
+{
+  return get_tile_id_at(Vector(x, y));
 }
 
 const Tile&
@@ -712,6 +698,12 @@ TileMap::change_at(const Vector& pos, uint32_t newtile)
 {
   Vector xy = (pos - m_offset) / 32.0f;
   change(int(xy.x), int(xy.y), newtile);
+}
+
+void
+TileMap::change_at(float x, float y, uint32_t newtile)
+{
+  change_at(Vector(x, y), newtile);
 }
 
 void
@@ -918,23 +910,29 @@ TileMap::get_autotileset(uint32_t tile) const
 }
 
 void
-TileMap::fade(float alpha_, float seconds)
+TileMap::fade(float alpha_, float time)
 {
   m_alpha = alpha_;
-  m_remaining_fade_time = seconds;
+  m_remaining_fade_time = time;
 }
 
 void
-TileMap::tint_fade(const Color& new_tint, float seconds)
+TileMap::tint_fade(const Color& new_tint, float time)
 {
   m_tint = new_tint;
-  m_remaining_tint_fade_time = seconds;
+  m_remaining_tint_fade_time = time;
 }
 
 void
-TileMap::set_alpha(float alpha_)
+TileMap::tint_fade(float time, float red, float green, float blue, float alpha)
 {
-  m_alpha = alpha_;
+  tint_fade(Color(red, green, blue, alpha), time);
+}
+
+void
+TileMap::set_alpha(float alpha)
+{
+  m_alpha = alpha;
   m_current_alpha = m_alpha;
   m_remaining_fade_time = 0;
   update_effective_solid ();
@@ -975,6 +973,26 @@ void
 TileMap::set_tileset(const TileSet* new_tileset)
 {
   m_tileset = new_tileset;
+}
+
+
+void
+TileMap::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<TileMap>("TileMap", vm.findClass("GameObject"));
+
+  PathObject::register_members(cls);
+
+  cls.addFunc("get_tile_id", &TileMap::get_tile_id);
+  cls.addFunc<uint32_t, TileMap, float, float>("get_tile_id_at", &TileMap::get_tile_id_at);
+  cls.addFunc("change", &TileMap::change);
+  cls.addFunc<void, TileMap, float, float, uint32_t>("change_at", &TileMap::change_at);
+  cls.addFunc("change_all", &TileMap::change_all);
+  cls.addFunc("fade", &TileMap::fade);
+  cls.addFunc<void, TileMap, float, float, float, float, float>("tint_fade", &TileMap::tint_fade);
+  cls.addFunc("set_alpha", &TileMap::set_alpha);
+  cls.addFunc("get_alpha", &TileMap::get_alpha);
+  cls.addFunc("set_solid", &TileMap::set_solid);
 }
 
 /* EOF */

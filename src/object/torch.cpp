@@ -17,6 +17,9 @@
 
 #include "object/torch.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -25,7 +28,6 @@
 
 Torch::Torch(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/torch/torch1.sprite"),
-  ExposedObject<Torch, scripting::Torch>(this),
   m_light_color(1.f, 1.f, 1.f),
   m_flame(SpriteManager::current()->create("images/objects/torch/flame.sprite")),
   m_flame_glow(SpriteManager::current()->create("images/objects/torch/flame_glow.sprite")),
@@ -117,9 +119,9 @@ Torch::get_burning() const
 }
 
 void
-Torch::set_burning(bool burning_)
+Torch::set_burning(bool burning)
 {
-  m_burning = burning_;
+  m_burning = burning;
 }
 
 void
@@ -127,6 +129,18 @@ Torch::on_flip(float height)
 {
   MovingObject::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+
+void
+Torch::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Torch>("Torch", vm.findClass("MovingSprite"));
+
+  cls.addFunc("get_burning", &Torch::get_burning);
+  cls.addFunc("set_burning", &Torch::set_burning);
+
+  cls.addVar("burning", &Torch::m_burning);
 }
 
 /* EOF */

@@ -15,7 +15,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/decal.hpp"
-#include "scripting/decal.hpp"
+
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "supertux/flip_level_transformer.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader.hpp"
@@ -23,7 +26,6 @@
 
 Decal::Decal(const ReaderMapping& reader) :
   MovingSprite(reader, "images/decal/explanations/billboard-bigtux.png", LAYER_OBJECTS, COLGROUP_DISABLED),
-  ExposedObject<Decal, scripting::Decal>(this),
   m_default_action("default"),
   m_solid(),
   m_fade_sprite(m_sprite.get()->clone()),
@@ -140,6 +142,18 @@ Decal::update(float)
       m_sprite.get()->set_alpha(alpha);
     }
   }
+}
+
+
+void
+Decal::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Decal>("Decal", vm.findClass("MovingSprite"));
+
+  cls.addFunc("fade_sprite", &Decal::fade_sprite);
+  cls.addFunc("change_sprite", &MovingSprite::change_sprite); // Deprecated; for compatibility
+  cls.addFunc("fade_in", &Decal::fade_in);
+  cls.addFunc("fade_out", &Decal::fade_out);
 }
 
 /* EOF */
