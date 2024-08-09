@@ -77,6 +77,21 @@ void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls)
   if (pos != std::string::npos)
     cls.name.erase(0, pos + 1);
 
+  // Get base classes
+  tinyxml2::XMLElement* p_basecompoundref = p_compounddef->FirstChildElement("basecompoundref");
+  while (p_basecompoundref)
+  {
+    if (p_basecompoundref->GetText())
+    {
+      std::string base_class_name = p_basecompoundref->GetText();
+      replace(base_class_name, "scripting::", ""); // Leave only the class name
+      if (!starts_with(base_class_name, "GameObject<")) // Exclude GameObject<> base template class
+        cls.base_classes.push_back(std::move(base_class_name));
+    }
+
+    p_basecompoundref = p_compounddef->NextSiblingElement("basecompoundref");
+  }
+
   // Get additional info
   tinyxml2::XMLElement* p_detaileddescpara = p_compounddef->FirstChildElement("detaileddescription")->FirstChildElement("para");
   if (p_detaileddescpara) // Detailed description (possibly containing additional info) is available
@@ -104,6 +119,13 @@ void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls)
         parse_xrefsect_desc(p_xrefsect, cls.summary);
       else if (title == "Instances")
         parse_xrefsect_desc(p_xrefsect, cls.instances);
+      else if (title == "Scope")
+      {
+        std::string scope;
+        parse_xrefsect_desc(p_xrefsect, scope);
+
+        cls.global = (scope == "global");
+      }
 
       p_xrefsect = p_xrefsect->NextSiblingElement("xrefsect");
     }
@@ -389,7 +411,11 @@ void parse_parameterlist(tinyxml2::XMLElement* p_memberdef, Function& func)
     tinyxml2::XMLElement* p_parameternamelist = p_parameteritem->FirstChildElement("parameternamelist");
     tinyxml2::XMLElement* p_parametertype = p_parameternamelist->FirstChildElement("parametertype");
     if (p_parametertype) // Type has been provided
+    {
       param.type = p_parametertype->GetText();
+      if (starts_with(param.type, "std::")) // Remove a potential "std::" part from the type string
+        param.type.erase(0, 5);
+    }
 
     tinyxml2::XMLElement* p_parametername = p_parameternamelist->FirstChildElement("parametername");
     if (p_parametername) // Name has been provided

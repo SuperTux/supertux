@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -15,27 +15,28 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_SCRIPT_HPP
-#define HEADER_SUPERTUX_GUI_MENU_SCRIPT_HPP
+#ifndef HEADER_SUPERTUX_SQUIRREL_SUGGESTIONS_HPP
+#define HEADER_SUPERTUX_SQUIRREL_SUGGESTIONS_HPP
 
-#include "gui/menu.hpp"
+#include "squirrel/scripting_reference.hpp"
 
-class ScriptMenu final : public Menu
+class ReaderMapping;
+
+namespace squirrel {
+
+struct Suggestion final
 {
-public:
-  ScriptMenu(std::string* script);
-  ~ScriptMenu();
+  Suggestion(const std::string& name_, const ScriptingObject* ref_,
+             const bool is_instance_);
 
-  void menu_action(MenuItem& item) override {}
-
-protected:
-  bool is_sensitive() const override { return true; }
-
-private:
-  ScriptMenu(const ScriptMenu&) = delete;
-  ScriptMenu& operator=(const ScriptMenu&) = delete;
+  std::string name;
+  const ScriptingObject* reference;
+  bool is_instance;
 };
+typedef std::vector<Suggestion> SuggestionStack;
+
+SuggestionStack get_suggestions(const std::string& prefix, bool remove_prefix);
+
+} // namespace squirrel
 
 #endif
-
-/* EOF */

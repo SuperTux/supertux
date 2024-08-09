@@ -219,6 +219,9 @@ public:
    */
   float get_gravity() const;
 
+  void expose_objects();
+  void unexpose_objects();
+
   Camera& get_camera() const;
   std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
@@ -242,6 +245,7 @@ private:
 
 private:
   Level& m_level; // Parent level
+  bool m_editable;
 
   bool m_fully_constructed;
   int m_foremost_layer;

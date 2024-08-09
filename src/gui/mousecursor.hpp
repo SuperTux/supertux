@@ -23,7 +23,6 @@
 #include "config.h"
 
 #include "sprite/sprite_ptr.hpp"
-#include "util/currenton.hpp"
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;
@@ -35,12 +34,17 @@ enum class MouseCursorState
   LINK,
   HIDE
 };
+enum class MouseCursorAction
+{
+  SELECT,
+  TEXT
+};
 
 /** Mouse cursor.
     Used to create mouse cursors.
     The mouse cursors can be animated
     and can be used in four different states. */
-class MouseCursor final : public Currenton<MouseCursor>
+class MouseCursor final
 {
 public:
   static MouseCursor* current() { return current_; }
@@ -55,6 +59,7 @@ public:
   void draw(DrawingContext& context);
 
   void set_state(MouseCursorState state);
+  void set_action(MouseCursorAction action);
   void set_icon(SurfacePtr icon);
 
   void set_pos(int x, int y) { m_mobile_mode = true; m_x = x; m_y = y; }
@@ -65,6 +70,7 @@ private:
 private:
   MouseCursorState m_state;
   MouseCursorState m_applied_state;
+  MouseCursorAction m_action;
   SpritePtr m_sprite;
   int m_x, m_y;
   bool m_mobile_mode;

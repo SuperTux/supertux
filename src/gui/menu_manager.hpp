@@ -46,9 +46,9 @@ public:
 private:
   template<typename T>
   struct SettableItem {
-    std::unique_ptr<T> current = nullptr;
-    std::unique_ptr<T> next = nullptr;
-    bool has_next = false;
+    std::unique_ptr<T> current;
+    std::unique_ptr<T> next;
+    bool has_next;
   };
 
 private:
@@ -69,6 +69,7 @@ public:
   void refresh();
 
   void draw(DrawingContext& context);
+  void update(float dt_sec);
 
   void set_dialog(std::unique_ptr<Dialog> dialog);
   void set_notification(std::unique_ptr<Notification> notification);

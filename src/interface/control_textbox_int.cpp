@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,76 +17,70 @@
 
 #include "interface/control_textbox_int.hpp"
 
-#include <string>
-#include <exception>
-
 ControlTextboxInt::ControlTextboxInt() :
+  ControlTextbox(false),
   m_validate_int(),
   m_value(nullptr)
 {
-  revert_value();
 }
 
 void
-ControlTextboxInt::update(float dt_sec)
+ControlTextboxInt::set_value(int value)
 {
-  ControlTextbox::update(dt_sec);
-  if (!m_has_focus)
-    revert_value();
+  if (m_value)
+    *m_value = value;
+
+  m_internal_string_backup = std::to_string(*m_value);
+  put_text(m_internal_string_backup);
+}
+
+void
+ControlTextboxInt::bind_value(int* value)
+{
+  m_value = value;
+
+  if (m_value)
+  {
+    m_internal_string_backup = std::to_string(*m_value);
+    put_text(m_internal_string_backup);
+  }
+  else
+  {
+    m_charlist.clear();
+    m_charlist.push_back({});
+  }
+
+  set_caret_pos(0);
+  set_secondary_caret_pos(0);
 }
 
 bool
-ControlTextboxInt::parse_value(bool call_on_change /* = true (see header */)
+ControlTextboxInt::validate_value()
 {
-  if (!m_value)
+  if (!ControlTextbox::validate_value())
     return false;
 
-  // Calling super will put the correct value in m_string.
-  if (!ControlTextbox::parse_value(false)) {
-    // If the parent has failed, abandon. Keeping parsing should still result
-    // in the parsing of a correct value (get_string() will return the last
-    // valid value), but it would be unnecessary, since the last valid value
-    // is already the one that's currently displayed.
-    return false;
-  }
+  const std::string contents = get_contents();
 
   int temp;
-  try {
-    temp = std::stoi(get_contents());
-  } catch (std::exception&) {
-    revert_value();
+  try
+  {
+    temp = std::stoi(contents);
+    if (contents != std::to_string(temp)) // Ensure full string has been converted
+      return false;
+  }
+  catch (const std::exception&)
+  {
     return false;
   }
 
-  if (m_validate_int) {
-    if (!m_validate_int(this, temp)) {
-      revert_value();
-      return false;
-    }
-  }
+  if (m_validate_int && !m_validate_int(this, temp))
+    return false;
 
-  if (*m_value != temp) {
+  if (m_value)
     *m_value = temp;
-
-    // Revert the value regardless.
-    revert_value();
-
-    if (call_on_change && m_on_change)
-      m_on_change();
-  }
 
   return true;
 }
-
-void
-ControlTextboxInt::revert_value()
-{
-  if (!m_value)
-    return;
-
-  m_internal_string_backup = std::to_string(*m_value);
-  ControlTextbox::revert_value();
-}
-
 
 /* EOF */

@@ -20,7 +20,7 @@
 
 #include "util.hpp"
 
-namespace Writer {
+namespace MarkdownWriter {
 
 std::string write_file_notice(const std::string& template_file)
 {
@@ -84,9 +84,18 @@ std::string write_constants_table(const std::vector<Constant>& constants)
   {
     // Print out type, name, initializer (if available) and description
     table << "`" << con.type << " " << con.name << (con.initializer.empty() ? "" : " " + con.initializer)
-          << "` | " << con.description << std::endl;
-  }
+          << "` | " << con.description;
+    if (!con.detailed_description.empty())
+    {
+      std::string desc = con.detailed_description;
+      replace(desc, "NOTE:", "**NOTE:**"); // Make "NOTE:" strings bold
+      table << "<br /><br />" << desc;
+    }
 
+    // End table entry
+    table << std::endl;
+  }
+ 
   return table.str();
 }
 
@@ -104,6 +113,7 @@ std::string write_variables_table(const std::vector<Variable>& variables)
   {
     // Print out type, name and description
     table << "`" << var.type << " " << var.name << "` | " << var.description << std::endl;
+>>>>>>> supertux/master
   }
 
   return table.str();
@@ -130,7 +140,14 @@ std::string write_function_table(const std::vector<Function>& functions)
     }
     table << ")`";
 
-    // Print out description of function
+    table << " | " << func.description;
+    if (!func.detailed_description.empty())
+    {
+      std::string desc = func.detailed_description;
+      replace(desc, "NOTE:", "**NOTE:**"); // Make "NOTE:" strings bold
+      table << "<br /><br />" << desc;
+    }
+    // Print out regular and detailed description of function
     table << " | ";
     if (func.deprecated)
     {
@@ -143,6 +160,12 @@ std::string write_function_table(const std::vector<Function>& functions)
         table << "<br /><br />";
     }
     table << func.description;
+    if (!func.detailed_description.empty())
+    {
+      std::string desc = func.detailed_description;
+      replace(desc, "NOTE:", "**NOTE:**"); // Make "NOTE:" strings bold
+      table << "<br /><br />" << desc;
+    }
 
     // Print out descriptions of parameters
     if (std::any_of(func.parameters.begin(), func.parameters.end(), [](const Parameter& param) { return !param.description.empty(); }))
@@ -187,3 +210,80 @@ std::string write_class_ref(const std::string& name)
 }
 
 } // namespace Writer
+
+
+namespace SExpWriter {
+
+std::string write_data_file(const std::vector<Class>& classes)
+{
+  std::stringstream out;
+  std::string indent = "  ";
+
+  out << ";; Note: This file is auto-generated from the SuperTux scripting interface source code.\n";
+  out << ";; DO NOT CHANGE!\n";
+  out << ";; Register more scripting entries from scripting reference (.stsr) files using `register_scripting_reference(string filename)`.\n\n";
+
+  out << "(supertux-scripting-reference\n";
+  for (const Class& cl : classes)
+  {
+    if (!cl.global)
+    {
+      out << indent << "(class\n";
+      indent += "  ";
+      out << indent << "(name \"" << cl.name << "\")\n";
+      for (const std::string& class_name : cl.base_classes)
+        out << indent << "(base-class \"" << class_name << "\")\n";
+      out << indent << "(summary (_ \"" << escape(cl.summary) << "\"))\n";
+      out << indent << "(instances (_ \"" << escape(cl.instances) << "\"))\n";
+    }
+
+    for (const Constant& con : cl.constants)
+    {
+      out << indent << "(constant\n";
+      indent += "  ";
+      out << indent << "(name \"" << con.name << "\")\n";
+      out << indent << "(type \"" << con.type << "\")\n";
+      if (!con.description.empty())
+        out << indent << "(description (_ \"" << escape(con.description) << "\"))\n";
+      if (!con.detailed_description.empty())
+        out << indent << "(detailed-description (_ \"" << escape(con.detailed_description) << "\"))\n";
+      indent.pop_back(); indent.pop_back();
+      out << indent << ")\n";
+    }
+    for (const Function& func : cl.functions)
+    {
+      out << indent << "(function\n";
+      indent += "  ";
+      out << indent << "(name \"" << func.name << "\")\n";
+      out << indent << "(type \"" << func.type << "\")\n";
+      if (!func.description.empty())
+        out << indent << "(description (_ \"" << escape(func.description) << "\"))\n";
+      if (!func.detailed_description.empty())
+        out << indent << "(detailed-description (_ \"" << escape(func.detailed_description) << "\"))\n";
+
+      for (const Parameter& param : func.parameters)
+      {
+        out << indent << "(parameter\n";
+        indent += "  ";
+        out << indent << "(name \"" << param.name << "\")\n";
+        out << indent << "(type \"" << param.type << "\")\n";
+        if (!param.description.empty())
+          out << indent << "(description (_ \"" << escape(param.description) << "\"))\n";
+        indent.pop_back(); indent.pop_back();
+        out << indent << ")\n";
+      }
+
+      indent.pop_back(); indent.pop_back();
+      out << indent << ")\n";
+    }
+
+    indent = "  ";
+    if (!cl.global)
+      out << indent << ")\n";
+  }
+  out << ")\n";
+
+  return out.str();
+}
+
+} // namespace SExpWriter

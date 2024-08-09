@@ -242,6 +242,7 @@ ALIASES                += "scripting=\xrefitem scripting \"Scripting\" \"Scripti
 ALIASES                += "summary=\xrefitem summary \"Summary\" \"Summary\""
 ALIASES                += "instances=\xrefitem instances \"Instances\" \"Instances\""
 ALIASES                += "constants=\xrefitem constants \"Constants\" \"Constants\""
+ALIASES                += "scope=\xrefitem scope \"Scope\" \"Scope\""
 ALIASES                += "description=\xrefitem description \"Description\" \"Description\""
 ALIASES                += "prefix=\xrefitem prefix \"Prefix\" \"Prefix\""
 
