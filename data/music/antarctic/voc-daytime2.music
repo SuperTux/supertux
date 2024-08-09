@@ -1,5 +1,7 @@
 (supertux-music
   (file "voc-daytime2.ogg")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
   (loop-begin 0)
   (loop-at    -1)
 )
