@@ -67,6 +67,10 @@ public:
   void set_burning(bool burning);
 
 private:
+  /**
+   * @scripting
+   * @description The burning state of the candle.
+   */
   bool burning; /**< true if candle is currently lighted */
   bool flicker; /**< true if candle light is to flicker */
   Color lightcolor; /**< determines color or light given off */

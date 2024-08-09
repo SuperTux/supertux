@@ -912,7 +912,7 @@ Sector::register_class(ssq::VM& vm)
   cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_movingstatics", &Sector::is_free_of_movingstatics);
   cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_specifically_movingstatics", &Sector::is_free_of_specifically_movingstatics);
 
-  cls.addVar("gravity", &Sector::m_gravity);
+  cls.addVar("gravity", &Sector::get_gravity, &Sector::set_gravity);
 }
 
 /* EOF */

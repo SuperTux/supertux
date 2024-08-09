@@ -157,6 +157,8 @@ Candle::register_class(ssq::VM& vm)
   cls.addFunc("puff_smoke", &Candle::puff_smoke);
   cls.addFunc("get_burning", &Candle::get_burning);
   cls.addFunc("set_burning", &Candle::set_burning);
+
+  cls.addVar("burning", &Candle::get_burning, &Candle::set_burning);
 }
 
 /* EOF */

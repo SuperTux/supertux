@@ -98,7 +98,7 @@ LitObject::on_flip(float height)
   FlipLevelTransformer::transform_flip(m_flip);
 }
 
-std::string
+const std::string&
 LitObject::get_light_action() const
 {
   return m_light_sprite->get_action();
@@ -118,6 +118,8 @@ LitObject::register_class(ssq::VM& vm)
 
   cls.addFunc("get_light_action", &LitObject::get_light_action);
   cls.addFunc("set_light_action", &LitObject::set_light_action);
+
+  cls.addVar("light_action", &LitObject::get_light_action, &LitObject::set_light_action);
 }
 
 /* EOF */

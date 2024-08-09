@@ -100,6 +100,11 @@ private:
   float border_fading;
   float border_size;
 
+  /**
+   * @scripting
+   * @description Determines whether the screen has been blackened.
+                  Equivalent to ""set_black()"" and ""is_black()"".
+   */
   bool black;
   bool borders;
 

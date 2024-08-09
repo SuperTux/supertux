@@ -166,6 +166,8 @@ LevelTime::register_class(ssq::VM& vm)
   cls.addFunc("stop", &LevelTime::stop);
   cls.addFunc("get_time", &LevelTime::get_time);
   cls.addFunc("set_time", &LevelTime::set_time);
+
+  cls.addVar("time", &LevelTime::get_time, &LevelTime::set_time);
 }
 
 /* EOF */

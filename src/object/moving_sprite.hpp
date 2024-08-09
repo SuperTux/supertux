@@ -76,13 +76,16 @@ public:
   /** Get various sprite properties. **/
   Sprite* get_sprite() const { return m_sprite.get(); }
 
+  /** "void" wrapper for "change_sprite()" to be used for the "sprite" scripting property. **/
+  void set_sprite(const std::string& file);
+
 #ifdef DOXYGEN_SCRIPTING
   /**
    * @scripting
-   * @description Sets the sprite of the object.
+   * @description Sets the sprite of the object. Returns ""true"" on success.
    * @param string $file
    */
-  void set_sprite(const std::string& file);
+  bool set_sprite(const std::string& file);
   /**
    * @scripting
    * @description Returns the file of the object's sprite.

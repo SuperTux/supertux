@@ -53,22 +53,26 @@ public:
 
 #ifdef DOXYGEN_SCRIPTING
   /**
-   * Starts playing sound, if currently stopped.
+   * @scripting
+   * @description Starts playing sound, if currently stopped.
    */
   void start_playing();
   /**
-   * Stops playing sound.
+   * @scripting
+   * @description Stops playing sound.
    */
   void stop_playing();
 #endif
 
   /**
-   * Sets the volume of sound played by SoundObject.
+   * @scripting
+   * @description Sets the volume of the played sound.
    * @param float $volume
    */
   void set_volume(float volume);
   /**
-   * Returns the volume of sound played by SoundObject.
+   * @scripting
+   * @description Returns the volume of the played sound.
    */
   float get_volume() const;
 
@@ -77,6 +81,10 @@ public:
 private:
   std::string m_sample;
   std::unique_ptr<SoundSource> m_sound_source;
+  /**
+   * @scripting
+   * @description The volume of the played sound.
+   */
   float m_volume;
   bool m_started;
 
