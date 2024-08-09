@@ -74,6 +74,7 @@ public:
   static void print_search_path();
 
 private:
+  bool setup_android_datadir() const;
   void add_data_to_search_path(const std::string& dir) const;
 };
 

@@ -285,6 +285,11 @@ public:
       // cppcheck-suppress unknownMacro
       curl_easy_setopt(m_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
 
+      #ifdef __ANDROID__
+        //FIXME: Needed for some reason, maybe openssl wasn't built well?
+        curl_easy_setopt(m_handle, CURLOPT_SSL_VERIFYPEER, 0);
+      #endif
+
       curl_easy_setopt(m_handle, CURLOPT_WRITEDATA, this);
       curl_easy_setopt(m_handle, CURLOPT_WRITEFUNCTION, &Transfer::on_data_wrap);
 
@@ -436,6 +441,10 @@ Downloader::download(const std::string& url,
   curl_easy_setopt(curl_handle, CURLOPT_NOSIGNAL, 1);
   curl_easy_setopt(curl_handle, CURLOPT_FAILONERROR, 1);
   curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1);
+#ifdef __ANDROID__
+  //FIXME: Needed for some reason, maybe openssl wasn't built well?
+  curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0);
+#endif
   CURLcode result = curl_easy_perform(curl_handle);
   curl_easy_cleanup(curl_handle);
 

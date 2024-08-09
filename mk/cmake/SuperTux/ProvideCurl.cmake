@@ -2,7 +2,11 @@
 ## so it's not required to add them here
 
 if(NOT EMSCRIPTEN)
-  find_package(CURL REQUIRED)
+  if(ANDROID)
+    find_library(CURL libcurl)
+  else()
+    find_package(CURL REQUIRED)
+  endif()
 
   add_library(LibCurl INTERFACE IMPORTED)
   set_target_properties(LibCurl PROPERTIES
