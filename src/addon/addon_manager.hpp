@@ -97,13 +97,6 @@ public:
   void update();
   void check_for_langpack_updates();
 
-#ifdef EMSCRIPTEN
-  void onDownloadProgress(int id, int loaded, int total);
-  void onDownloadFinished(int id);
-  void onDownloadError(int id);
-  void onDownloadAborted(int id);
-#endif
-
 private:
   TransferStatusListPtr request_install_addon_dependencies(const Addon& addon);
 
