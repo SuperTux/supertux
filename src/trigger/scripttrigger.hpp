@@ -38,6 +38,7 @@ public:
 
 private:
   EventType triggerevent;
+  Direction m_trigger_direction;
   std::string script;
   bool must_activate;
   bool oneshot;
