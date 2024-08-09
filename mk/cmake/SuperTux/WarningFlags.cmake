@@ -19,85 +19,79 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     #   -Wpadded -Wabi -Winline -Wunsafe-loop-optimizations -Wstrict-overflow=5
     # fails on MinGW:
     #   -ansi
-    if(CMAKE_COMPILER_IS_GNUCXX)
-      string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-        "-Wall "
-        "-Wextra "
-        "-fdiagnostics-show-option "
-        "-pedantic "
-        "-Wno-long-long "
-        "-Wcast-align "
-        "-Wdisabled-optimization "
-        "-Winit-self -Winvalid-pch "
-        "-Wmissing-include-dirs "
-        "-Wmissing-noreturn "
-        "-Wpacked -Wredundant-decls "
-        "-Wformat=2 "
-        "-Weffc++ "
-        "-Wctor-dtor-privacy "
-        "-Wno-unused-parameter "
-        "-Wshadow "
-        "-Wnon-virtual-dtor "
-        "-Wcast-qual "
-        "-Wold-style-cast "
-        "-Wzero-as-null-pointer-constant "
-        "-Wconversion "
-        "-Wlogical-op "
-        "-Wstrict-null-sentinel "
-        "-Wsuggest-override "
-        )
-      if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8)
-        string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-          "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-          "-Wint-in-bool-context "
-          )
+
+    set(ALL_WARNING_FLAGS
+      -Wall -Weverything -Wextra
+      -fdiagnostics-show-option
+      -pedantic
+      -Wno-long-long
+      -Wcast-align
+      -Wdisabled-optimization
+      -Winit-self -Winvalid-pch
+      -Wmissing-include-dirs
+      -Wmissing-noreturn
+      -Wpacked -Wredundant-decls
+      -Wformat=2
+      -Weffc++
+      -Wctor-dtor-privacy
+      -Wshadow
+      -Wnon-virtual-dtor
+      -Wcast-qual
+      -Wold-style-cast
+      -Wzero-as-null-pointer-constant
+      -Wconversion
+      -Wlogical-op
+      -Wstrict-null-sentinel
+      -Wsuggest-override
+      -Wint-in-bool-context
+
+      # flags that we deliberately ignore
+      -Wno-unused-parameter
+      -Wno-unused-template
+      -Wno-c++98-compat
+      -Wno-c++98-compat-pedantic
+      -Wno-float-equal
+      -Wno-padded
+      -Wno-weak-vtables
+      -Wno-disabled-macro-expansion
+      -Wno-documentation
+      -Wno-reserved-id-macro
+      -Wno-sign-conversion
+      -Wno-reserved-identifier
+      -Wno-unknown-warning-option
+
+      # warnings that should probably be fixed in code
+      -Wno-documentation-unknown-command
+      -Wno-inconsistent-missing-destructor-override
+      -Wno-deprecated-dynamic-exception-spec
+      -Wno-deprecated
+      -Wno-switch-enum
+      -Wno-covered-switch-default
+      -Wno-exit-time-destructors
+      -Wno-global-constructors
+      -Wno-duplicate-enum
+      -Wno-unreachable-code)
+    
+    foreach(flag IN LISTS ALL_WARNING_FLAGS)
+      check_cxx_compiler_flag(${flag} HAVE_FLAG_${flag})
+      if(HAVE_FLAG_${flag})
+        string(APPEND SUPERTUX2_EXTRA_WARNING_FLAGS "${flag} ")
       endif()
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+      unset(HAVE_FLAG CACHE)
+    endforeach(flag IN LISTS ALL_WARNING_FLAGS)
+
+    # This snipped adapted from AOMediaCodec cmakefile
+    # The detection of cross compilation by -Wpoison-system-directories has false positives on macOS because
+    # --sysroot is implicitly added. Turn the warning off.
+    if(NOT DEFINED HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
+        check_cxx_compiler_flag(-Wpoison-system-directories HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
+    endif()
+    if(HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
       string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
         "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-        "-Weverything "
-
-        # flags that we deliberately ignore
-        "-Wno-unused-parameter "
-        "-Wno-unused-template "
-        "-Wno-c++98-compat "
-        "-Wno-c++98-compat-pedantic "
-        "-Wno-float-equal "
-        "-Wno-padded "
-        "-Wno-weak-vtables "
-        "-Wno-disabled-macro-expansion "
-        "-Wno-documentation "
-        "-Wno-reserved-id-macro "
-        "-Wno-sign-conversion "
-        "-Wno-reserved-identifier "
-        "-Wno-unknown-warning-option "
-
-        # warnings that should probably be fixed in code
-        "-Wno-documentation-unknown-command "
-        "-Wno-inconsistent-missing-destructor-override "
-        "-Wno-deprecated-dynamic-exception-spec "
-        "-Wno-deprecated "
-        "-Wno-switch-enum "
-        "-Wno-covered-switch-default "
-        "-Wno-exit-time-destructors "
-        "-Wno-global-constructors "
-        "-Wno-duplicate-enum "
-        "-Wno-unreachable-code "
-      )
-
-      # This snipped adapted from AOMediaCodec cmakefile
-      # The detection of cross compilation by -Wpoison-system-directories has false positives on macOS because
-      # --sysroot is implicitly added. Turn the warning off.
-      if(NOT DEFINED HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
-          check_cxx_compiler_flag(-Wpoison-system-directories HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
-      endif()
-      if(HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
-        string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-          "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-          "-Wno-poison-system-directories ")
-      endif()
+        "-Wno-poison-system-directories ")
     endif()
-  endif()
+   endif()
 endif()
 
 # EOF #
