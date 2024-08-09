@@ -26,6 +26,7 @@ class Table;
 namespace worldmap {
 
 class WorldMap;
+class WorldMapSector;
 
 class WorldMapState final
 {
@@ -33,9 +34,10 @@ public:
   WorldMapState(WorldMap& worldmap);
 
   void load_state();
-  void save_state() const;
+  void save_state();
 
 private:
+  void load(const ssq::Table& table);
   void load_tux(const ssq::Table& table);
   void load_levels(const ssq::Table& table);
   void load_tilemap_visibility(const ssq::Table& table);
@@ -43,6 +45,7 @@ private:
 
 private:
   WorldMap& m_worldmap;
+  WorldMapSector* m_sector;
 
   /** Variables, related to loading. **/
   bool m_position_was_reset;
