@@ -39,6 +39,8 @@ public:
   // Returns -1 if there is no cached text surface
   int get_cached_surface_width(const TTFFont& font, const std::string& text);
 
+  void clear_cache();
+
   void print_debug_info(std::ostream& out);
 
 private:

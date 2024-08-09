@@ -62,7 +62,7 @@ public:
   static SurfacePtr no_tile;
 
 public:
-  static void load();
+  static void load(bool reload = false);
   static void unload();
   static bool needs_custom_font(const tinygettext::Language& locale);
   static std::string get_font_for_locale(const tinygettext::Language& locale);
