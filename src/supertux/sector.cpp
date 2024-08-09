@@ -252,8 +252,6 @@ Sector::activate(const Vector& player_pos)
 
     // spawning tux in the ground would kill him
     if (!is_free_of_tiles(player.get_bbox())) {
-      std::string current_level = "[" + Sector::get().get_level().m_filename + "] ";
-      log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
       Vector npos = player.get_bbox().p1();
       npos.y-=32;
       player.set_pos(npos);
@@ -705,11 +703,6 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 void
 Sector::set_gravity(float gravity)
 {
-  if (gravity != 10.0f)
-  {
-    log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects: " << gravity << std::endl;
-  }
-
   m_gravity = gravity;
 }
 
