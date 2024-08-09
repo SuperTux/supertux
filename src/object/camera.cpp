@@ -803,25 +803,25 @@ Camera::set_scale(float scale)
 void
 Camera::set_scale_anchor(float scale, int anchor)
 {
-  ease_scale_anchor(scale, 0, anchor, "");
+  ease_scale(scale, 0.f, LinearInterpolation, static_cast<AnchorPoint>(anchor));
 }
 
 void
-Camera::scale(float scale, float time)
+Camera::scale(float scale, float time, int anchor, const std::string& ease)
 {
-  ease_scale(scale, time, "");
+  ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)), static_cast<AnchorPoint>(anchor));
 }
 
 void
 Camera::scale_anchor(float scale, float time, int anchor)
 {
-  ease_scale_anchor(scale, time, anchor, "");
+  ease_scale(scale, time, LinearInterpolation, static_cast<AnchorPoint>(anchor));
 }
 
 void
 Camera::ease_scale(float scale, float time, const std::string& ease)
 {
-  ease_scale_anchor(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease);
+  ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)), AnchorPoint::ANCHOR_MIDDLE);
 }
 
 void
@@ -904,12 +904,12 @@ Camera::register_class(ssq::VM& vm)
   cls.addFunc<void, Camera, float, float, float>("scroll_to", &Camera::scroll_to);
   cls.addFunc("get_current_scale", &Camera::get_current_scale);
   cls.addFunc("get_target_scale", &Camera::get_target_scale);
-  cls.addFunc("set_scale", &Camera::set_scale);
-  cls.addFunc("set_scale_anchor", &Camera::set_scale_anchor);
-  cls.addFunc("scale", &Camera::scale);
-  cls.addFunc("scale_anchor", &Camera::scale_anchor);
-  cls.addFunc<void, Camera, float, float, const std::string&>("ease_scale", &Camera::ease_scale);
-  cls.addFunc("ease_scale_anchor", &Camera::ease_scale_anchor);
+  cls.addFunc("set_scale", &Camera::set_scale); // Deprecated
+  cls.addFunc("set_scale_anchor", &Camera::set_scale_anchor); // Deprecated
+  cls.addFunc("scale", &Camera::scale, ssq::DefaultArguments<float, int, std::string>(0.f, AnchorPoint::ANCHOR_MIDDLE, ""));
+  cls.addFunc("scale_anchor", &Camera::scale_anchor); // Deprecated
+  cls.addFunc<void, Camera, float, float, const std::string&>("ease_scale", &Camera::ease_scale); // Deprecated
+  cls.addFunc("ease_scale_anchor", &Camera::ease_scale_anchor); // Deprecated
   cls.addFunc("get_screen_width", &Camera::get_screen_width);
   cls.addFunc("get_screen_height", &Camera::get_screen_height);
   cls.addFunc("get_x", &Camera::get_x);

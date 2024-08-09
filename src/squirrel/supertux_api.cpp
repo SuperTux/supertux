@@ -665,26 +665,18 @@ static bool has_active_sequence()
                 If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
  * @param string $sector
  * @param string $spawnpoint
- */
-static void spawn(const std::string& sector, const std::string& spawnpoint)
-{
-  if (!GameSession::current()) return;
-  GameSession::current()->respawn(sector, spawnpoint);
-}
-
-/**
- * @scripting
- * @description Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"" with the given transition ""transition"".${SRG_TABLENEWPARAGRAPH}
-                Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
-                If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.
-                If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
- * @param string $sector
- * @param string $spawnpoint
  * @param string $transition Valid transitions are ""circle"" and ""fade"". If any other value is specified, no transition effect is drawn.
+                             Optional, empty by default.
  */
-static void spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition)
+static void spawn(const std::string& sector, const std::string& spawnpoint, const std::string& transition = "")
 {
   if (!GameSession::current()) return;
+
+  if (transition.empty())
+  {
+    GameSession::current()->respawn(sector, spawnpoint);
+    return;
+  }
 
   ScreenFade::FadeType fade_type = ScreenFade::FadeType::NONE;
 
@@ -697,6 +689,22 @@ static void spawn_transition(const std::string& sector, const std::string& spawn
 
   GameSession::current()->respawn_with_fade(sector, spawnpoint, fade_type, {0.0f, 0.0f}, true);
 }
+#ifdef DOXYGEN_SCRIPTING
+/**
+ * @scripting
+ * @deprecated Use ""spawn()"" instead!
+ * @description Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"" with the given transition ""transition"".${SRG_TABLENEWPARAGRAPH}
+                Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
+                If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.
+                If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
+ * @param string $sector
+ * @param string $spawnpoint
+ * @param string $transition Valid transitions are ""circle"" and ""fade"". If any other value is specified, no transition effect is drawn.
+ */
+static void spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition)
+{
+}
+#endif
 
 /**
  * @scripting
@@ -862,8 +870,8 @@ void register_supertux_scripting_api(ssq::VM& vm)
   ssq::Table level = vm.addTable("Level");
   level.addFunc("finish", &scripting::Level::finish);
   level.addFunc("has_active_sequence", &scripting::Level::has_active_sequence);
-  level.addFunc("spawn", &scripting::Level::spawn);
-  level.addFunc("spawn_transition", &scripting::Level::spawn_transition);
+  level.addFunc("spawn", &scripting::Level::spawn, ssq::DefaultArguments<std::string>(""));
+  level.addFunc("spawn_transition", &scripting::Level::spawn); // Deprecated
   level.addFunc("set_start_point", &scripting::Level::set_start_point);
   level.addFunc("set_start_pos", &scripting::Level::set_start_pos);
   level.addFunc("set_respawn_point", &scripting::Level::set_respawn_point);

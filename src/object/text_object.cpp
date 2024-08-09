@@ -305,6 +305,7 @@ TextObject::register_class(ssq::VM& vm)
 
       return &Sector::get().add<TextObject>();
     },
+    {},
     false /* Do not free pointer from Squirrel */,
     vm.findClass("GameObject"));
 

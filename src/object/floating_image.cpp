@@ -178,6 +178,7 @@ FloatingImage::register_class(ssq::VM& vm)
 
       return &Sector::get().add<FloatingImage>(spritefile);
     },
+    {},
     false /* Do not free pointer from Squirrel */,
     vm.findClass("GameObject"));
 
