@@ -24,7 +24,7 @@ class GranitoGiant final : public BadGuy
 public:
   explicit GranitoGiant(const ReaderMapping& reader);
 
-  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void initialize() override;
 
   static std::string class_name() { return "granito_giant"; }

@@ -241,7 +241,7 @@ Granito::collision(GameObject& other, const CollisionHit& hit)
     Sector::get().run_script(m_carried_script, "carried-script");
   }
 
-  return WalkingBadguy::collision(other, hit);
+  return FORCE_MOVE;
 }
 
 void
