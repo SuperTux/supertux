@@ -20,6 +20,7 @@
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
   WalkingBadguy(reader, sprite_name, "left", "right", layer),
