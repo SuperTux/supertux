@@ -331,13 +331,11 @@ Granito::initialize()
 
   if (m_type == WALK)
   {
-    m_original_state = STATE_WALK;
-    restore_original_state();
+    walk();
   }
   else if (m_type == SIT)
   {
-    m_original_state = STATE_SIT;
-    restore_original_state();
+    sit();
   }
 
   switch (m_type)
