@@ -243,7 +243,7 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     m_physic.reset();
   }
 
-  return WalkingBadguy::collision(other, hit);
+  return FORCE_MOVE;
 }
 
 void
