@@ -192,7 +192,7 @@ AmbientSound::prepare_sound_source()
 void
 AmbientSound::register_class(ssq::VM& vm)
 {
-  ssq::Class cls = vm.addAbstractClass<AmbientSound>("AmbientSound");
+  ssq::Class cls = vm.addAbstractClass<AmbientSound>("AmbientSound", vm.findClass("MovingObject"));
 
   cls.addFunc("get_pos_x", &MovingObject::get_x);
   cls.addFunc("get_pos_y", &MovingObject::get_y);
