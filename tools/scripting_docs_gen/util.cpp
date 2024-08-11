@@ -52,6 +52,12 @@ void regex_replace(std::string& str, const std::regex from,
   str = std::regex_replace(str, from, to);
 }
 
+std::string escape(std::string str)
+{
+  replace(str, "\"", "\\\"");
+  return str;
+}
+
 
 std::string read_file(const std::string& path)
 {

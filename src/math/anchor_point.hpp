@@ -28,6 +28,7 @@ class Rectf;
 /**
  * @scripting
  * @summary This module contains global anchor constants.
+ * @scope global
  */
 namespace AnchorPoints {
 #endif

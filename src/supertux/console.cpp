@@ -16,10 +16,13 @@
 
 #include "supertux/console.hpp"
 
+#include <fmt/format.h>
+
 #include "math/sizef.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
+#include "squirrel/suggestions.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
@@ -267,71 +270,6 @@ Console::move_cursor(int offset_)
   if (m_inputBufferPosition > static_cast<int>(m_inputBuffer.length())) m_inputBufferPosition = static_cast<int>(m_inputBuffer.length());
 }
 
-// Helper functions for Console::autocomplete.
-// TODO: Fix rough documentation.
-namespace {
-
-void sq_insert_commands(std::list<std::string>& cmds, HSQUIRRELVM vm, const std::string& table_prefix, const std::string& search_prefix);
-
-/**
- * Acts upon key,value on top of stack:
- * Appends key (plus type-dependent suffix) to cmds if table_prefix+key starts with search_prefix;
- * Calls sq_insert_commands if search_prefix starts with table_prefix+key (and value is a table/class/instance);
- */
-void
-sq_insert_command(std::list<std::string>& cmds, HSQUIRRELVM vm, const std::string& table_prefix, const std::string& search_prefix)
-{
-  const SQChar* key_chars;
-  if (SQ_FAILED(sq_getstring(vm, -2, &key_chars))) return;
-  std::string key_string = table_prefix + key_chars;
-
-  switch (sq_gettype(vm, -1)) {
-    case OT_INSTANCE:
-      key_string+=".";
-      if (search_prefix.substr(0, key_string.length()) == key_string) {
-        sq_getclass(vm, -1);
-        sq_insert_commands(cmds, vm, key_string, search_prefix);
-        sq_pop(vm, 1);
-      }
-      break;
-    case OT_TABLE:
-    case OT_CLASS:
-      key_string+=".";
-      if (search_prefix.substr(0, key_string.length()) == key_string) {
-        sq_insert_commands(cmds, vm, key_string, search_prefix);
-      }
-      break;
-    case OT_CLOSURE:
-    case OT_NATIVECLOSURE:
-      key_string+="()";
-      break;
-    default:
-      break;
-  }
-
-  if (key_string.substr(0, search_prefix.length()) == search_prefix) {
-    cmds.push_back(key_string);
-  }
-
-}
-
-/**
- * Calls sq_insert_command for all entries of table/class on top of stack.
- */
-void
-sq_insert_commands(std::list<std::string>& cmds, HSQUIRRELVM vm, const std::string& table_prefix, const std::string& search_prefix)
-{
-  sq_pushnull(vm); // push iterator.
-  while (SQ_SUCCEEDED(sq_next(vm,-2))) {
-    sq_insert_command(cmds, vm, table_prefix, search_prefix);
-    sq_pop(vm, 2); // pop key, val.
-  }
-  sq_pop(vm, 1); // pop iterator.
-}
-
-}
-// End of Console::autocomplete helper functions.
-
 void
 Console::autocomplete()
 {
@@ -342,58 +280,95 @@ Console::autocomplete()
   } else {
     autocompleteFrom = 0;
   }
-  std::string prefix = m_inputBuffer.substr(autocompleteFrom, m_inputBufferPosition - autocompleteFrom);
+  const std::string prefix = m_inputBuffer.substr(autocompleteFrom, m_inputBufferPosition - autocompleteFrom);
   m_buffer.addLines("> " + prefix);
 
-  std::list<std::string> cmds;
-
   ready_vm();
-
-  // Append all keys of the current root table to list.
-  sq_pushroottable(m_vm.getHandle()); // push root table.
-  while (true)
-  {
-    // Check all keys (and their children) for matches.
-    sq_insert_commands(cmds, m_vm.getHandle(), "", prefix);
-
-    // Cycle through parent(delegate) table.
-    const SQInteger old_top = m_vm.getTop();
-    if (SQ_FAILED(sq_getdelegate(m_vm.getHandle(), -1)) || old_top == m_vm.getTop())
-      break;
-
-    sq_remove(m_vm.getHandle(), -2); // Remove old table.
-  }
-  sq_pop(m_vm.getHandle(), 1); // Remove table.
+  const squirrel::SuggestionStack cmds = squirrel::get_suggestions(prefix, false);
 
   // Depending on number of hits, show matches or autocomplete.
+  m_buffer.addLine(""); // Additional spacing line
   if (cmds.empty())
   {
     m_buffer.addLines("No known command starts with \"" + prefix + "\"");
+    m_buffer.addLine(""); // End spacing line
   }
-
-  if (cmds.size() == 1)
+  else if (cmds.size() == 1)
   {
     // One match: just replace input buffer with full command.
-    std::string replaceWith = cmds.front();
+    const std::string& replaceWith = cmds.begin()->name;
     m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
     m_inputBufferPosition += static_cast<int>(replaceWith.length() - prefix.length());
-  }
 
-  if (cmds.size() > 1)
+    print_suggestion(cmds.back());
+    m_buffer.addLine(""); // End spacing line
+  }
+  else if (cmds.size() > 1)
   {
     // Multiple matches: show all matches and set input buffer to longest common prefix.
-    std::string commonPrefix = cmds.front();
-    while (cmds.begin() != cmds.end()) {
-      std::string cmd = cmds.front();
-      cmds.pop_front();
-      m_buffer.addLines(cmd);
+    std::string commonPrefix = cmds.begin()->name;
+    for (auto i = cmds.begin(); i != cmds.end(); i++)
+    {
+      print_suggestion(*i);
+      m_buffer.addLine(""); // Spacing line
       for (int n = static_cast<int>(commonPrefix.length()); n >= 1; n--) {
-        if (cmd.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;
+        if (i->name.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;
       }
     }
     std::string replaceWith = commonPrefix;
     m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
     m_inputBufferPosition += static_cast<int>(replaceWith.length() - prefix.length());
+  }
+}
+
+void
+Console::print_suggestion(const squirrel::Suggestion& suggestion)
+{
+  if (!suggestion.reference)
+  {
+    m_buffer.addLine("\"" + suggestion.name + "\"");
+    return;
+  }
+
+  using namespace squirrel;
+
+  switch (suggestion.reference->get_type())
+  {
+    case ScriptingObject::Type::CONSTANT:
+    {
+      const auto& con = static_cast<const ScriptingConstant&>(*suggestion.reference);
+      m_buffer.addLine("\"" + con.type + " " + con.name + "\" - " + con.description);
+    }
+    break;
+
+    case ScriptingObject::Type::FUNCTION:
+    {
+      const auto& func = static_cast<const ScriptingFunction&>(*suggestion.reference);
+
+      std::stringstream out;
+      out << func.type << " " << func.name << "(";
+      for (size_t i = 0; i < func.parameters.size(); i++)
+      {
+        const auto& param = func.parameters.at(i);
+
+        out << param.type << " " << param.name;
+        if (i != func.parameters.size() - 1)
+          out << ", ";
+      }
+      out << ")";
+
+      m_buffer.addLine("\"" + out.str() + "\" - " + func.description);
+    }
+    break;
+
+    case ScriptingObject::Type::CLASS:
+    {
+      const auto& cl = static_cast<const ScriptingClass&>(*suggestion.reference);
+      m_buffer.addLine("\"" + suggestion.name + "\" - " +
+        (suggestion.is_instance ? fmt::format(fmt::runtime(_("Instance of `{}`.")), cl.name) + " " : "") +
+        cl.summary);
+    }
+    break;
   }
 }
 

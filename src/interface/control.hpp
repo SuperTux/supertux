@@ -37,8 +37,13 @@ public:
   void set_focus(bool focus) { m_has_focus = focus; }
   bool has_focus() const { return m_has_focus; }
 
-  void set_rect(const Rectf& rect) { m_rect = rect; }
-  Rectf get_rect() const { return m_rect; }
+  void set_pos(const Vector& pos) { m_rect.set_pos(pos); on_rect_change(); }
+  void set_size(const Sizef& size) { m_rect.set_size(size); on_rect_change(); }
+  void set_rect(const Rectf& rect) { m_rect = rect; on_rect_change(); }
+  const Rectf& get_rect() const { return m_rect; }
+
+protected:
+  virtual void on_rect_change() {}
 
 public:
   /** Optional; a function that will be called each time the bound value

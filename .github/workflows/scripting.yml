@@ -68,7 +68,17 @@ jobs:
           ./ScriptingDocsGen --dir docs/doxygen/xml \
                              --home ../../../wiki/templates/ScriptingHome.md \
                              --page ../../../wiki/templates/ScriptingPage.md \
-                             --output ../../../wiki
+                             --output ../../../wiki \
+                             --output-data ../../../data/scripts/reference.stsr
+
+      - name: Check for changes
+        working-directory: wiki
+        run: |
+          REF_UPDATED=true
+          if git diff --exit-code; then
+            REF_UPDATED=false
+          fi
+          echo "REFERENCE_UPDATED=$(echo $REF_UPDATED)" >> $GITHUB_ENV
 
       - name: Check for changes
         working-directory: wiki
@@ -97,3 +107,11 @@ jobs:
           git add .
           git commit -m "Update scripting reference (SuperTux/supertux@${{ github.sha }})"
           git push git@github.com:SuperTux/wiki.git HEAD:master
+
+      - name: Push data file changes
+        if: ${{ env.REFERENCE_UPDATED == 'true' }}
+        run: |
+          git status
+          git add data/scripts
+          git commit -m "Update scripting reference (SuperTux/supertux@${{ github.sha }})"
+          git push HEAD:master

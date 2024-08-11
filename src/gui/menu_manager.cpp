@@ -195,6 +195,13 @@ MenuManager::draw(DrawingContext& context)
     MouseCursor::current()->draw(context);
 }
 
+void
+MenuManager::update(float dt_sec)
+{
+  if (current_menu() && (!m_dialog.current || m_dialog.current->is_passive()))
+    current_menu()->update(dt_sec);
+}
+
 
 void
 MenuManager::set_dialog(std::unique_ptr<Dialog> dialog)

@@ -1,6 +1,5 @@
-//  SuperTux
-//  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
-//                2023 Vankata453
+//  SuperTux - Scripting reference generator
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,27 +14,20 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_SCRIPT_HPP
-#define HEADER_SUPERTUX_GUI_MENU_SCRIPT_HPP
+#ifndef GENERATOR_HEADER
+#define GENERATOR_HEADER
 
-#include "gui/menu.hpp"
+#include <string>
+#include <vector>
 
-class ScriptMenu final : public Menu
+struct Class;
+
+namespace Generator
 {
-public:
-  ScriptMenu(std::string* script);
-  ~ScriptMenu();
-
-  void menu_action(MenuItem& item) override {}
-
-protected:
-  bool is_sensitive() const override { return true; }
-
-private:
-  ScriptMenu(const ScriptMenu&) = delete;
-  ScriptMenu& operator=(const ScriptMenu&) = delete;
-};
+  void generate_markdown_reference(const std::string& output_dir,
+                                   const std::string& home_template_file, const std::string& page_template_file,
+                                   const std::vector<Class>& classes);
+  void generate_data_file(const std::string& output_file, const std::vector<Class>& classes);
+} // namespace Generator
 
 #endif
-
-/* EOF */

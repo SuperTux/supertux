@@ -26,6 +26,7 @@
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "physfs/ifile_stream.hpp"
+#include "squirrel/scripting_reference.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/console.hpp"
 #include "supertux/debug.hpp"
@@ -48,6 +49,7 @@ namespace scripting {
 /**
  * @scripting
  * @summary This module contains global methods.
+ * @scope global
  */
 namespace Globals {
 
@@ -627,6 +629,26 @@ static void set_title_frame(const std::string& image)
   title_screen->set_frame(image);
 }
 
+/**
+ * @scripting
+ * @description Registers a scripting reference data file ("supertux-scripting-reference").
+ * @param string $filename
+ */
+static void register_scripting_reference(const std::string& filename)
+{
+  squirrel::register_scripting_reference(filename);
+}
+
+/**
+ * @scripting
+ * @description Unregisters scripting reference data, loaded from the specified file.
+ * @param string $filename
+ */
+static void unregister_scripting_reference(const std::string& filename)
+{
+  squirrel::unregister_scripting_reference(filename);
+}
+
 } // namespace Globals
 
 
@@ -857,6 +879,8 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("set_gamma", &scripting::Globals::set_gamma);
   vm.addFunc("rand", &scripting::Globals::rand);
   vm.addFunc("set_title_frame", &scripting::Globals::set_title_frame);
+  vm.addFunc("register_scripting_reference", &scripting::Globals::register_scripting_reference);
+  vm.addFunc("unregister_scripting_reference", &scripting::Globals::unregister_scripting_reference);
 
   /* "Level" global functions */
   ssq::Table level = vm.addTable("Level");

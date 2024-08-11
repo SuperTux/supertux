@@ -31,6 +31,7 @@ void replace(std::string& str, const std::string& from,
              const std::string& to, const std::string& to_if_empty = "");
 void regex_replace(std::string& str, const std::regex from,
                    const std::string& to);
+std::string escape(std::string str);
 
 std::string read_file(const std::string& path);
 void write_file(const std::string& path, const std::string& content);
@@ -53,6 +54,12 @@ public:
   XMLTextReader(std::string& buffer) :
     m_buffer(buffer)
   {}
+  ~XMLTextReader() override
+  {
+    // Remove excess spaces from the end of the string
+    while (!m_buffer.empty() && m_buffer.back() == ' ')
+      m_buffer.pop_back();
+  }
 
   virtual bool Visit(const tinyxml2::XMLText& txt) override
   {

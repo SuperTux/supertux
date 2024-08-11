@@ -27,6 +27,7 @@ struct Constant
   std::string name {};
   std::string initializer {};
   std::string description {};
+  std::string detailed_description {};
 };
 
 struct Variable
@@ -48,6 +49,7 @@ struct Function
   std::string type {};
   std::string name {};
   std::string description {};
+  std::string detailed_description {};
   std::vector<Parameter> parameters {};
 
   bool deprecated {};
@@ -59,6 +61,7 @@ struct Class
   std::string name {};
   std::string summary {};
   std::string instances {};
+  bool global {};
   std::vector<Constant> constants {};
   std::vector<Variable> variables {};
   std::vector<Function> functions {};

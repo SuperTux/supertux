@@ -32,7 +32,6 @@
 #include "gui/item_label.hpp"
 #include "gui/item_paths.hpp"
 #include "gui/item_script.hpp"
-#include "gui/item_script_line.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_textfield.hpp"
 #include "gui/item_list.hpp"
@@ -171,12 +170,6 @@ ItemScript&
 Menu::add_script(const std::string& text, std::string* script, int id)
 {
   return add_item<ItemScript>(text, script, id);
-}
-
-ItemScriptLine&
-Menu::add_script_line(std::string* input, int id)
-{
-  return add_item<ItemScriptLine>(input, id);
 }
 
 ItemIntField&
@@ -370,6 +363,10 @@ Menu::process_action(const MenuAction& action)
 
   switch (action) {
     case MenuAction::UP:
+      if (m_items[m_active_item]->locks_navigation() ||
+          m_items[m_active_item]->locked())
+        break;
+
       do {
         if (m_active_item > 0)
           --m_active_item;
@@ -380,6 +377,10 @@ Menu::process_action(const MenuAction& action)
       break;
 
     case MenuAction::DOWN:
+      if (m_items[m_active_item]->locks_navigation() ||
+          m_items[m_active_item]->locked())
+        break;
+
       do {
         if (m_active_item < int(m_items.size())-1 )
           ++m_active_item;
@@ -497,11 +498,11 @@ Menu::on_window_resize()
   m_pos.x = static_cast<float>(SCREEN_WIDTH) / 2.0f;
   m_pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f;
 
-  calculate_width();
-  calculate_height();
-
   for (auto& item : m_items)
     item->on_window_resize();
+
+  calculate_width();
+  calculate_height();
 }
 
 void
@@ -541,6 +542,13 @@ Menu::draw(DrawingContext& context)
                               Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
                               ALIGN_CENTER, LAYER_GUI);
   }
+}
+
+void
+Menu::update(float dt_sec)
+{
+  for (auto& item : m_items)
+    item->update(dt_sec);
 }
 
 MenuItem&
@@ -633,8 +641,10 @@ Menu::event(const SDL_Event& ev)
         }
 
         /* only change the mouse focus to a selectable item */
-        if (!m_items[new_active_item]->skippable() &&
-            new_active_item != m_active_item) {
+        if (!m_items[m_active_item]->locked() &&
+            !m_items[new_active_item]->skippable() &&
+            new_active_item != m_active_item)
+        {
           // Selection caused by mouse movement
           if (m_active_item != -1)
             process_action(MenuAction::UNSELECT);
@@ -642,12 +652,12 @@ Menu::event(const SDL_Event& ev)
           process_action(MenuAction::SELECT);
         }
 
-        if (MouseCursor::current())
+        if (!m_items[m_active_item]->overrides_cursor_state() && MouseCursor::current())
           MouseCursor::current()->set_state(MouseCursorState::LINK);
       }
       else
       {
-        if (MouseCursor::current())
+        if (!m_items[m_active_item]->overrides_cursor_state() && MouseCursor::current())
           MouseCursor::current()->set_state(MouseCursorState::NORMAL);
       }
     }

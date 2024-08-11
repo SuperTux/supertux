@@ -22,7 +22,7 @@
 
 #include "class.hpp"
 
-namespace Writer
+namespace MarkdownWriter
 {
   std::string write_file_notice(const std::string& template_file);
 
@@ -35,6 +35,11 @@ namespace Writer
   std::string write_class_list(const std::vector<Class>& classes);
 
   std::string write_class_ref(const std::string& name);
-} // namespace Writer
+} // namespace MarkdownWriter
+
+namespace SExpWriter
+{
+  std::string write_data_file(const std::vector<Class>& classes);
+} // namespace SExpWriter
 
 #endif
