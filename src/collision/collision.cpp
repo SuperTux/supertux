@@ -67,14 +67,30 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle,
                           bool& hits_rectangle_bottom)
 {
+  // Welcome to the slope collision algorithm. Enjoy your stay!
+
 #if 1
   if (!rect.overlaps(triangle.bbox))
     return false;
 
+  // For more information on the two following variables, read
+  // https://github.com/SuperTux/supertux/wiki/Tileset#slope-types
+
+  // The deform represents the shape of the slope ("normal", "steep", "gentle").
+  int deform = triangle.get_deform();
+
+  // The direction represents the orientation of the slope.
+  int dir = triangle.get_dir();
+
+  // These are both the angles in the triangle.
+  // angx is the triangle on the left or right, aligned with the 90º angle.
+  // angy is the triangle at the top or bottom, aligned with the 90º angle.
   float angx, angy;
 
-  int deform = triangle.get_deform();
+  // This is the bounding box of the triangle, which can be different depending on the
+  // deform.
   Rectf trirect;
+
   switch (deform)
   {
     case 0:
@@ -118,7 +134,6 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
       assert(false);
   }
 
-  int dir = triangle.get_dir();
   Vector trip1 = trirect.p1();
   Vector trip2 = trirect.p2();
   Sizef trisz = trirect.get_size();
@@ -151,17 +166,89 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
       assert(false);
   }
 
+  Rectf halftri;
+  halftri.set_size(trirect.get_width(), trirect.get_height());
+  halftri.set_pos({ triangle.bbox.get_left(), triangle.bbox.get_top() });
+
+  if (triangle.is_east())
+  {
+    // Check for collision on the other part of the deformed triangle
+    switch (triangle.get_deform())
+    {
+      case AATriangle::DEFORM_LEFT:
+        halftri.set_left(halftri.get_left() + trirect.get_width());
+        break;
+
+      case AATriangle::DEFORM_TOP:
+        halftri.set_top(halftri.get_bottom() + trirect.get_height());
+        break;
+    }
+
+    set_rectangle_rectangle_constraints(constraints, rect, halftri);
+
+    if (constraints->has_constraints())
+      return true;
+
+    if (!math::in_bounds(rect.p1().y, trip1.y - rect.get_height(), trip2.y) ||
+        rect.p1().x < trip2.x)
+      goto continue_collision;
+
+    constraints->hit.left = true;
+    constraints->constrain_left(trip2.x);
+  }
+  else
+  {
+    if (!math::in_bounds(rect.p1().y, trip1.y - rect.get_height(), trip2.y) ||
+        rect.p1().x >= trip1.x)
+      goto continue_collision;
+
+    constraints->hit.right = true;
+    constraints->constrain_right(trip1.x);
+  }
+
+  if (triangle.is_north())
+  {
+    if (!math::in_bounds(rect.p1().x, trip1.x - rect.get_width(), trip2.x) ||
+        rect.p1().y >= trip1.y)
+      goto continue_collision;
+
+    constraints->hit.bottom = true;
+    hits_rectangle_bottom = true;
+    constraints->constrain_bottom(trip2.y);
+  }
+  else
+  {
+    if (!math::in_bounds(rect.p1().x, trip1.x - rect.get_width(), trip2.x) ||
+        rect.p1().y < trip2.y)
+      goto continue_collision;
+
+    constraints->hit.top = true;
+    constraints->constrain_top(trip1.y);
+  }
+
+continue_collision:
+
+  /*
+  // If colliding with the vertice that contains the x angle,
+  // check if ar.y is above sp.y in a south triangle or below sp.y in a north triangle.
+  // If it isn't, ignore. This prevents teleporting to the triangle when touching its ledge.
+  if (triangle.is_north() ? sp.y < ar.y : sp.y > ar.y)
+  {
+    return false;
+  }
+  */
+
   float ratio = 1;
   if (trisz.height > 0)
     ratio = std::abs(trisz.width / trisz.height);
 
   float sum = diff.x + (diff.y * ratio);
 
-  float area = (trisz.width + (trisz.height * ratio)) / 2;
-  if (sum <= area)
+  float trisum = (trisz.width + (trisz.height * ratio)) / 2;
+  if (sum <= trisum)
   {
     //dx+((dy+dc)*ratio)=area
-    float dc = (area - (diff.y * ratio) - diff.x) / ratio;
+    float dc = (trisum - (diff.y * ratio) - diff.x) / ratio;
     if (dc + diff.y > trisz.height)
     {
       dc = trisz.height - diff.y;
@@ -171,9 +258,9 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
     {
       //dc = -dc;
     }
-    dc -= 1.f;
+    //dc -= 1.f;
 
-    std::cout << "dc: " << dc << "sp: " << sp << std::endl;
+    std::cout << "dc: " << dc << " sp: " << sp << std::endl;
 
     //col_p1[1]=spx
     //col_p1[2]=spy

@@ -29,6 +29,9 @@ class Vector final
 {
 public:
   Vector(float nx, float ny): x(nx), y(ny) { }
+  Vector(int nx, int ny): x(static_cast<float>(nx)), y(static_cast<float>(ny)) { }
+  Vector(int nx, float ny): x(static_cast<float>(nx)), y(ny) { }
+  Vector(float nx, int ny): x(nx), y(static_cast<float>(ny)) { }
   Vector(const Vector& other): x(other.x), y(other.y) { }
   Vector(): x(0), y(0) { }
 
