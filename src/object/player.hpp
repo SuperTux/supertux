@@ -286,14 +286,12 @@ public:
 
   /**
    * @scripting
-   * @deprecated
    * @description Set Tux visible or invisible.
    * @param bool $visible
    */
   void set_visible(bool visible);
   /**
    * @scripting
-   * @deprecated
    * @description Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
    */
   bool get_visible() const;
@@ -539,6 +537,10 @@ private:
 
   Physic m_physic;
 
+  /**
+   * @scripting
+   * @description Determines whether Tux is visible.
+   */
   bool m_visible;
 
   Portable* m_grabbed_object;
