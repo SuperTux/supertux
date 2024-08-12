@@ -148,8 +148,14 @@ BadGuy::draw(DrawingContext& context)
   Vector end(eye.x, eye.y + 256.f);
   context.color().draw_line(eye, end, Color::GREEN, LAYER_GUI);
 
-  Vector seye(get_bbox().get_left() + get_bbox().get_width() / 2.f, eye.y);
-  Vector send(seye.x + 6.5f * (m_dir == Direction::LEFT ? 1.f : -1.f), seye.y + 80.f);
+  float dirmult = (m_dir == Direction::LEFT ? 1.f : -1.f);
+  float rearx = (m_dir == Direction::LEFT ? get_bbox().get_right() : get_bbox().get_left());
+
+  float soff = (get_width() / 5.f) * dirmult;
+  Vector seye(rearx - soff, eye.y);
+
+  float eoff = soff - (2.f * dirmult);
+  Vector send(seye.x + eoff, seye.y + 80.f);
   context.color().draw_line(seye, send, Color::GREEN, LAYER_GUI);
 
   if (!m_sprite.get()) return;
@@ -875,8 +881,16 @@ BadGuy::might_fall(int height)
     }
     else if (tile_p && (*tile_p) && (*tile_p)->is_slope())
     {
-      // Switch to slope mode.
-      m_detected_slope = (*tile_p)->get_data();
+      // Check if we are about to go down a slope.
+      AATriangle tri((*tile_p)->get_data());
+      if (tri.is_south() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
+      {
+        // Switch to slope mode.
+        m_detected_slope = tri.dir;
+      }
+
+      // Otherwise, climb the slope like normal.
+      return false;
     }
     else
     {
@@ -887,50 +901,55 @@ BadGuy::might_fall(int height)
 
   if (m_detected_slope != 0)
   {
-    AATriangle tri(m_detected_slope);
+    //AATriangle tri(m_detected_slope);
     std::cout << "SLOPE " << m_detected_slope << std::endl;
-    if (tri.is_south() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
+    //slope = true;
+
+    float dirmult = (m_dir == Direction::LEFT ? 1.f : -1.f);
+    float rearx = (m_dir == Direction::LEFT ? get_bbox().get_right() : get_bbox().get_left());
+
+    float soff = (get_width() / 5.f) * dirmult;
+    Vector eye(rearx - soff, oy);
+
+    float eoff = soff - (2.f * dirmult);
+    Vector end(eye.x + eoff, eye.y + 80.f);
+
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
+
+    std::cout << result.is_valid << std::endl;
+
+    if (!result.is_valid)
     {
-      //slope = true;
-      Vector eye(get_bbox().get_left() + get_bbox().get_width() / 2.f, oy);
-      Vector end(eye.x + 6.5f * (m_dir == Direction::LEFT ? 1.f : -1.f), eye.y + 80.f);
-      RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
-
-      std::cout << result.is_valid << std::endl;
-
-      if (!result.is_valid)
+      // Turn around and climb the slope.
+      m_detected_slope = 0;
+      return true;
+    }
+    else
+    {
+      if (result.box.get_top() - eye.y > static_cast<float>(height) + 1.f)
       {
-        // Turn around and climb the slope.
+        // Result is not within reach.
+        std::cout << "gahh " << result.box.get_top() - eye.y << std::endl;
         m_detected_slope = 0;
         return true;
       }
-      else
+
+      auto tile_p = std::get_if<const Tile*>(&result.hit);
+      if (tile_p && (*tile_p) && (*tile_p)->is_slope())
       {
-        if (result.box.get_top() - eye.y >= static_cast<float>(height))
-        {
-          // Result is not within reach.
-          std::cout << "gahh";
-          m_detected_slope = 0;
-          return true;
-        }
-
-        bool is_tile = std::holds_alternative<const Tile*>(result.hit);
-        if (is_tile && std::get<const Tile*>(result.hit)->is_slope())
-        {
-          // Still going down a slope. Continue.
-          //m_detected_slope = (*tile_p)->get_data();
-          return false;
-        }
-
-        // No longer going down a slope. Switch off slope mode.
-        m_detected_slope = 0;
-        std::cout << "aggh" << std::endl;
+        // Still going down a slope. Continue.
+        //m_detected_slope = (*tile_p)->get_data();
         return false;
       }
-    }
 
-    return false;
+      // No longer going down a slope. Switch off slope mode.
+      m_detected_slope = 0;
+      std::cout << "aggh" << std::endl;
+      return false;
+    }
   }
+
+  return false;
 }
 
 Player*
