@@ -216,6 +216,7 @@ ScriptedObject::register_class(ssq::VM& vm)
   cls.addFunc("is_solid", &ScriptedObject::is_solid);
 
   cls.addVar("visible", &ScriptedObject::visible);
+  cls.addVar("solid", &ScriptedObject::is_solid, &ScriptedObject::set_solid);
 }
 
 /* EOF */

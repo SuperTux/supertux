@@ -3098,6 +3098,8 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("get_input_pressed", &Player::get_input_pressed);
   cls.addFunc("get_input_held", &Player::get_input_held);
   cls.addFunc("get_input_released", &Player::get_input_released);
+
+  cls.addVar("visible", &Player::m_visible);
 }
 
 /* EOF */

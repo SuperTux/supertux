@@ -58,7 +58,7 @@ public:
    * @scripting
    * @description Returns the current light sprite action.
    */
-  std::string get_light_action() const;
+  const std::string& get_light_action() const;
   /**
    * @scripting
    * @description Sets the light sprite action.
@@ -72,6 +72,14 @@ private:
   std::string m_sprite_action;
   std::string m_light_sprite_action;
   SpritePtr m_light_sprite;
+
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description The current light sprite action.
+   */
+  std::string m_light_action;
+#endif
 
 private:
   LitObject(const LitObject&) = delete;

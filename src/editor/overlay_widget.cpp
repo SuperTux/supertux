@@ -1240,7 +1240,7 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 }
 
 void
-EditorOverlayWidget::resize()
+EditorOverlayWidget::on_window_resize()
 {
   update_pos();
 }
