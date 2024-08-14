@@ -37,6 +37,7 @@ cmake_minimum_required(VERSION 3.1)
 
 project(SUPERTUX)
 
+
 ### CMake configuration
 
 if(COMMAND cmake_policy)
@@ -51,7 +52,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # This should be set only with windows Visual Studio generator builds
 string(TOLOWER "${CMAKE_GENERATOR_PLATFORM}" PLATFORM)
-if(MSVC AND (${PLATFORM} MATCHES "arm64"))
+if(${PLATFORM} MATCHES "arm64")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_ARM64_ /DMY_CPU_LE")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_ARM64_ /DMY_CPU_LE")
 endif()
@@ -293,7 +294,6 @@ if(ENABLE_DISCORD)
   target_link_libraries(supertux2_lib PUBLIC LibDiscord)
 endif()
 
-#[[
 # FIXME: Some libraries made by Provide*.cmake
 # scripts are not passed to the linker. This
 # forcefully links them
@@ -311,18 +311,15 @@ if(ANDROID)
   find_library(log-lib log)
   target_link_libraries(supertux2_lib PUBLIC ${log-lib})
 endif()
-]]
 
 ## Install stuff
-if(NOT ANDROID)
-  include(SuperTux/BuildInstall)
-endif()
+include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
 # Make android data.zip
-if(ANDROID AND NOT EXISTS ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
+if(ANDROID)
   get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
   if(NOT EXISTS ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
     file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
