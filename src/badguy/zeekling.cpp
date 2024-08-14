@@ -227,26 +227,30 @@ Zeekling::active_update(float dt_sec) {
       break;
 
     case DIVING:
+    {
       if (m_timer.check())
       {
         recover();
+        break;
       }
-      else
-      {
-        const float dist = m_target_y - m_start_position.y;
-        const double progress = CubicEaseIn(static_cast<double>(1.f - m_timer.get_progress()));
-        const float value = m_target_y - (static_cast<float>(progress) * dist);
-        const Vector pos(get_pos().x, value);
-        set_pos(pos);
-      }
+
+      const float dist = m_target_y - m_start_position.y;
+      const double progress = CubicEaseIn(static_cast<double>(1.f - m_timer.get_progress()));
+      const float value = m_target_y - (static_cast<float>(progress) * dist);
+      const Vector pos(get_pos().x, value);
+      set_pos(pos);
+
       break;
+    }
 
     case RECOVERING:
+    {
       if (m_timer.check())
       {
         fly();
         break;
       }
+
       const float dist = m_catch_pos - m_start_position.y;
       const double progress = QuadraticEaseInOut(static_cast<double>(m_timer.get_progress()));
       const float value = m_catch_pos - (static_cast<float>(progress) * dist);
@@ -254,6 +258,7 @@ Zeekling::active_update(float dt_sec) {
       set_pos(pos);
 
       break;
+    }
 
     default:
       break;
