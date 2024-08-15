@@ -142,8 +142,8 @@ public:
   bool is_alive() const { return !is_dying() && !is_dead(); }
   
   /**
-   * Returns true if the player can be controlled
-   * by the player (alive and not currently in a win sequence)
+   * Returns true if the player can be controlled.
+   * (alive and not currently in a win sequence)
    */
   bool is_active() const { return is_alive() && !is_winning(); }
 
