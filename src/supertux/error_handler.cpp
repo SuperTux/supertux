@@ -325,9 +325,7 @@ ErrorHandler::error_dialog_exception(const std::string& exception)
 #ifdef WIN32
   if (resultbtn == 0)
   {
-    // Repurpose the stream.
-    stream.str("");
-
+    std::stringstream stream;
     stream << SDL_GetPrefPath("SuperTux", "supertux2")
            << "/console.err";
     FileSystem::open_path(stream.str());
