@@ -290,9 +290,18 @@ ErrorHandler::error_dialog_crash(const std::string& stacktrace)
 void
 ErrorHandler::error_dialog_exception(const std::string& exception)
 {
-  char msg[] = "SuperTux has encountered a fatal exception!";
+  std::stringstream stream;
 
-  std::cerr << msg << "\n\n" << exception << std::endl;
+  stream << "SuperTux has encountered a fatal exception!";
+
+  if (!exception.empty())
+  {
+    stream << "\n\n" << exception;
+  }
+
+  std::string msg = stream.str();
+
+  std::cerr << msg << std::endl;
 
   SDL_MessageBoxButtonData btns[] = {
 #ifdef WIN32
@@ -313,7 +322,7 @@ ErrorHandler::error_dialog_exception(const std::string& exception)
     SDL_MESSAGEBOX_ERROR, // flags
     nullptr, // window
     "Error", // title
-    msg, // message
+    msg.c_str(), // message
     SDL_arraysize(btns), // numbuttons
     btns, // buttons
     nullptr // colorscheme
@@ -325,7 +334,9 @@ ErrorHandler::error_dialog_exception(const std::string& exception)
 #ifdef WIN32
   if (resultbtn == 0)
   {
-    std::stringstream stream;
+    // Repurpose the stream.
+    stream.str("");
+
     stream << SDL_GetPrefPath("SuperTux", "supertux2")
            << "/console.err";
     FileSystem::open_path(stream.str());
