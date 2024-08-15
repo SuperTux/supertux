@@ -259,6 +259,9 @@ private:
   void try_activate();
 
 protected:
+  static const int s_normal_max_drop_height = 600;
+
+protected:
   Physic m_physic;
 
 public:
