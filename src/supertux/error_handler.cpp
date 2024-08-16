@@ -51,7 +51,7 @@ void
 ErrorHandler::set_handlers()
 {
 #ifdef WIN32
-  SetUnhandledExceptionFilter(seh_handler);
+  SetUnhandledExceptionFilter(supertux_seh_handler);
 #elif defined(UNIX)
   signal(SIGSEGV, handle_error);
   signal(SIGABRT, handle_error);
@@ -278,8 +278,8 @@ ErrorHandler::get_system_info()
 }
 
 #ifdef WIN32
-LONG
-ErrorHandler::seh_handler(_EXCEPTION_POINTERS* ExceptionInfo)
+LONG WINAPI
+ErrorHandler::supertux_seh_handler(_EXCEPTION_POINTERS* ExceptionInfo)
 {
   pcontext = ExceptionInfo->ContextRecord;
   error_dialog_crash(get_stacktrace());

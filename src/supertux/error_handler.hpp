@@ -34,7 +34,7 @@ namespace ErrorHandler {
   void error_dialog_exception(const std::string& exception = "");
 
 #ifdef WIN32
-  LONG WINAPI seh_handler(_In_ _EXCEPTION_POINTERS* ExceptionInfo);
+  LONG WINAPI supertux_seh_handler(_In_ _EXCEPTION_POINTERS* ExceptionInfo);
   //CONTEXT* pcontext;
 #else
   [[ noreturn ]] void handle_error(int sig);
