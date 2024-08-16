@@ -234,16 +234,17 @@ LevelIntro::push_player()
   if (m_player_status.bonus[i] == FIRE_BONUS && g_config->christmas_mode)
   {
     m_player_sprite[i]->set_action("big-walk-right");
-    m_santa_sprite[i]->set_action("santa-walk-right");
+    m_santa_sprite[i]->set_action("default");
   }
   else
   {
     m_player_sprite[i]->set_action(m_player_status.get_bonus_prefix(i) + "-walk-right");
   }
+
   m_player_sprite_jump_timer[i]->start(graphicsRandom.randf(5,10));
 
   /* Set Tux powerup sprite action */
-  m_santa_sprite[i]->set_action(m_player_sprite[i]->get_action());
+  //m_santa_sprite[i]->set_action(m_player_sprite[i]->get_action());
 }
 
 void

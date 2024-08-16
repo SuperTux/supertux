@@ -58,30 +58,35 @@ public:
   /** @name Scriptable Methods */
   /**
    * @scripting
-   * Starts the conveyor belt.
+   * @description Starts the conveyor belt.
    */
   void start();
   /**
    * @scripting
-   * Stops the conveyor belt.
+   * @description Stops the conveyor belt.
    */
   void stop();
   /**
    * @scripting
-   * Makes the conveyor shift objects to the left.
+   * @description Makes the conveyor shift objects to the left.
    */
   void move_left();
   /**
    * @scripting
-   * Makes the conveyor shift objects to the right.
+   * @description Makes the conveyor shift objects to the right.
    */
   void move_right();
   /**
    * @scripting
-   * Change the shifting speed of the conveyor.
+   * @description Change the shifting speed of the conveyor.
    * @param float $target_speed
    */
   void set_speed(float target_speed);
+  /**
+   * @scripting
+   * @description Returns the shifting speed of the conveyor.
+   */
+  float get_speed() const;
 
 private:
   void update_hitbox() override;
@@ -90,6 +95,10 @@ private:
   bool m_running;
   Direction m_dir;
   int m_length;
+  /**
+   * @scripting
+   * @description The shifting speed of the conveyor.
+   */
   float m_speed;
 
   float m_frame;

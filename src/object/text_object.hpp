@@ -67,6 +67,11 @@ public:
   void set_text(const std::string& text);
   /**
    * @scripting
+   * @description Returns the displayed text.
+   */
+  const std::string& get_text() const;
+  /**
+   * @scripting
    * @description Sets the font of the text to be displayed.
    * @param string $fontname Valid values are normal, big and small.
    */
@@ -97,18 +102,26 @@ public:
   void grow_out(float fadetime);
   /**
    * @scripting
-   * @deprecated Use the ""visible"" property instead! (Does not apply for usage from a ""TextArray"".)
    * @description Shows or hides the text abruptly (drastic counterpart to ""fade_in()"" and ""fade_out()"").
    * @param bool $visible
    */
   void set_visible(bool visible);
   /**
    * @scripting
-   * @deprecated Use the ""centered"" property instead! (Does not apply for usage from a ""TextArray"".)
+   * @description Returns ""true"" if the text is visible.
+   */
+  bool get_visible() const;
+  /**
+   * @scripting
    * @description If ""centered"" is ""true"", the text will be centered on the screen. Otherwise, it will be left-aligned.
    * @param bool $centered
    */
   void set_centered(bool centered);
+  /**
+   * @scripting
+   * @description Returns ""true"" if the text is centered.
+   */
+  bool get_centered() const;
   /**
    * @scripting
    * @description Sets the offset of the text, relative to the anchor point.
@@ -160,13 +173,11 @@ public:
   void set_anchor_offset(float x, float y);
   /**
    * @scripting
-   * @deprecated Use the ""wrap_width"" property instead! (Does not apply for usage from a ""TextArray"".)
    * @description Gets the text wrap width of the text.
    */
   float get_wrap_width() const;
   /**
    * @scripting
-   * @deprecated Use the ""wrap_width"" property instead! (Does not apply for usage from a ""TextArray"".)
    * @description Sets the text wrap width of the text.
    * @param float $width
    */
@@ -200,11 +211,15 @@ public:
   void set_text_color(float red, float green, float blue, float alpha);
   /**
    * @scripting
-   * @deprecated Use the ""roundness"" property instead! (Does not apply for usage from a ""TextArray"".)
    * @description Sets the frame's roundness.
    * @param float $roundness
    */
   void set_roundness(float roundness);
+  /**
+   * @scripting
+   * @description Returns the roundness of the text.
+   */
+  float get_roundness() const;
 
   void set_anchor_point(AnchorPoint anchor) { m_anchor = anchor; }
   void set_anchor_offset(const Vector& offset) { m_anchor_offset = offset; }
@@ -217,6 +232,10 @@ private:
 
 private:
   FontPtr m_font;
+  /**
+   * @scripting
+   * @description The displayed text.
+   */
   std::string m_text;
   std::string m_wrapped_text;
   float m_fade_progress;
@@ -232,6 +251,13 @@ private:
    */
   bool m_centered;
   AnchorPoint m_anchor;
+#ifdef DOXYGEN_SCRIPTING 
+  /**
+   * @scripting
+   * @description The current anchor point. 
+   */
+  int m_anchor_point;
+#endif
   Vector m_anchor_offset;
   Vector m_pos;
   /**

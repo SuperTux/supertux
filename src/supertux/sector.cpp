@@ -726,7 +726,7 @@ Sector::get_nearest_player(const Vector& pos) const
   if (players.size() == 1)
   {
     Player* player = static_cast<Player*>(players[0]);
-    return ((player->is_dying() || player->is_dead()) ? nullptr : player);
+    return (!player->is_alive()) ? nullptr : player);
   }
 
   Player* nearest_player = nullptr;
@@ -735,7 +735,7 @@ Sector::get_nearest_player(const Vector& pos) const
   for (auto player_ptr : players)
   {
     Player* player = static_cast<Player*>(player_ptr);
-    if (player->is_dying() || player->is_dead())
+    if (!player->is_alive())
       continue;
 
     float dist = player->get_bbox().distance(pos);
