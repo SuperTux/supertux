@@ -267,7 +267,7 @@ GameSession::on_escape_press(bool force_quick_respawn)
   auto players = m_currentsector->get_players();
 
   int alive = m_currentsector->get_object_count<Player>([](const Player& p) {
-    return !p.is_dead() && !p.is_dying();
+    return p.is_alive();
   });
 
   if ((!alive && (m_play_time > 2.0f || force_quick_respawn)) || m_end_sequence)
@@ -336,7 +336,7 @@ GameSession::get_fade_point(const Vector& position) const
 
       for (const auto* player : m_currentsector->get_players())
       {
-        if (!player->is_dead() && !player->is_dying())
+        if (player->is_alive())
         {
           average_position += player->get_bbox().get_middle();
           alive_players++;
@@ -417,7 +417,7 @@ GameSession::check_end_conditions()
 
   bool all_dead_or_winning = true;
   for (const auto* p : m_currentsector->get_players())
-    if (!(all_dead_or_winning &= (p->is_dead() || p->is_dying() || p->is_winning())))
+    if (!(all_dead_or_winning &= (!p->is_active())))
       break;
 
   /* End of level? */
@@ -861,7 +861,7 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
     caller->set_winning();
 
   int remaining_players = get_current_sector().get_object_count<Player>([](const Player& p){
-    return !p.is_dead() && !p.is_dying() && !p.is_winning();
+    return p.is_active();
   });
 
   // Abort if a sequence is already playing.

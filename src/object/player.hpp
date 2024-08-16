@@ -135,6 +135,18 @@ public:
   bool is_invincible() const { return m_invincible_timer.started(); }
   bool is_dying() const { return m_dying; }
 
+  /**
+   * Returns true if the player is currently alive 
+   * (not dying or dead)
+   */
+  bool is_alive() const { return !is_dying() && !is_dead(); }
+  
+  /**
+   * Returns true if the player can be controlled.
+   * (alive and not currently in a win sequence)
+   */
+  bool is_active() const { return is_alive() && !is_winning(); }
+
   Direction peeking_direction_x() const { return m_peekingX; }
   Direction peeking_direction_y() const { return m_peekingY; }
 
