@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 7399
+  ;; next-id: 7413
   ;; free/skipped ids (please use before any other): 101
   ;; 2080-2084 are empty tiles, 4619-4660, 4719-4722, 5037-5092, 5205, 5268-5283, 5433-5527, 6962-6977, 7002 7005 7007 7008 7173
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
@@ -1323,8 +1323,11 @@
       3165 3166 247  248
       479  480  4125 4126
       481  482  4127 4128
-      5199 5200 0    0
-      5201 5202 0    0
+      5199 5200 7399 7400
+      5201 5202 7401 7402
+      0    0    7407 7408
+      7403 7404 7409 7410
+      7405 7406 7411 7412
 
       1348 1720 1719 1718
       79   80   1347 1722
@@ -8296,6 +8299,34 @@
     (object-data "
       (type \"delayed\")
     ")
+  )
+  
+  (tiles
+    (width 2)(height 2)
+    (ids
+      7399 7400
+      7401 7402
+    )
+    (images "tiles/signs/sign-base.png")
+  )
+  
+  (tiles
+    (width 2)(height 2)
+    (ids
+      7403 7404
+      7405 7406
+    )
+    (images "tiles/signs/wall-sign-base.png")
+  )
+  
+  (tiles
+    (width 2)(height 3)
+    (ids
+      7407 7408
+      7409 7410
+      7411 7412
+    )
+    (images "tiles/signs/hanging-sign-base.png")
   )
   
   ;; Additional attributes
