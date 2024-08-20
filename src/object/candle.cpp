@@ -36,21 +36,27 @@ Candle::Candle(const ReaderMapping& mapping) :
 {
   mapping.get("burning", burning, true);
   mapping.get("flicker", flicker, true);
-  std::vector<float> vColor;
-  if (!mapping.get("color", vColor)) vColor = {1.0f, 1.0f, 1.0f};
   mapping.get("layer", m_layer, 0);
 
+  std::vector<float> vColor;
+  if (!mapping.get("color", vColor)) vColor = {1.f, 1.f, 1.f};
+
+  //std::cout << vColor[0] << vColor[1] << vColor[2] << vColor[3] << std::endl;
+  lightcolor = Color(vColor);
+
+  candle_light_1->set_blend(Blend::ADD);
+  candle_light_2->set_blend(Blend::ADD);
+
   // Change the light color if defined.
-  if (vColor.size() >= 3) {
-    lightcolor = Color(vColor);
-    candle_light_1->set_blend(Blend::ADD);
-    candle_light_2->set_blend(Blend::ADD);
+  if (lightcolor.greyscale() < 1.f) {
     candle_light_1->set_color(lightcolor);
     candle_light_2->set_color(lightcolor);
+
     // The following allows the original candle appearance to be preserved.
     candle_light_1->set_action("white");
     candle_light_2->set_action("white");
   }
+
 
   set_action(burning ? "on" : "off");
 }
@@ -69,8 +75,17 @@ Candle::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  candle_light_1->set_color(lightcolor);
-  candle_light_2->set_color(lightcolor);
+  candle_light_1->set_blend(Blend::ADD);
+  candle_light_2->set_blend(Blend::ADD);
+
+  if (lightcolor.greyscale() < 1.f) {
+    candle_light_1->set_color(lightcolor);
+    candle_light_2->set_color(lightcolor);
+
+    // The following allows the original candle appearance to be preserved.
+    candle_light_1->set_action("white");
+    candle_light_2->set_action("white");
+  }
 
   set_action(burning ? "on" : "off");
 }
