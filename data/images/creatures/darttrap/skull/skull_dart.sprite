@@ -19,4 +19,8 @@
     (hitbox 12 6 9 22)
     (flip-action "flying-down")
   )
+
+  (linked-sprites
+    (light "images/creatures/darttrap/skull/dart_light.sprite" "" 1 1 1)
+  )
 )
