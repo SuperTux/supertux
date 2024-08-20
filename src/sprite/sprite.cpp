@@ -99,7 +99,7 @@ Sprite::set_action(const std::string& name, int loops)
 
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
-    log_debug << "Action '" << name << "' not found." << std::endl;
+    log_warning << "Action '" << name << "' not found." << std::endl;
     return;
   }
 
@@ -140,9 +140,7 @@ Sprite::update()
   m_last_ticks = g_game_time;
 
   if (m_is_paused)
-  {
     return;
-  }
 
   m_frame += frame_inc;
 
@@ -169,9 +167,8 @@ void
 Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
              Flip flip)
 {
-  assert(m_action != nullptr);
+  assert(m_action);
   update();
-
 
   DrawingContext& context = canvas.get_context();
   context.push_transform();
@@ -180,13 +177,30 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
   context.set_alpha(context.get_alpha() * m_alpha);
 
   canvas.draw_surface(m_action->surfaces[m_frameidx],
-                      pos - Vector(m_action->x_offset,
-                                   flip == NO_FLIP ? m_action->y_offset :
-                                     (static_cast<float>(m_action->surfaces[m_frameidx]->get_height()) - m_action->y_offset - m_action->hitbox_h + m_action->flip_offset)),
+                      pos - Vector(m_action->x_offset, flip == NO_FLIP ? m_action->y_offset :
+                                   (static_cast<float>(m_action->surfaces[m_frameidx]->get_height()) - m_action->y_offset - m_action->hitbox_h + m_action->flip_offset)),
                       m_angle,
                       m_color,
                       m_blend,
                       layer);
+
+  context.pop_transform();
+}
+
+void
+Sprite::draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
+                    Flip flip)
+{
+  assert(m_action);
+  update();
+
+  DrawingContext& context = canvas.get_context();
+  context.push_transform();
+
+  context.set_flip(context.get_flip() ^ flip);
+  context.set_alpha(context.get_alpha() * m_alpha);
+
+  canvas.draw_surface_scaled(m_action->surfaces[m_frameidx], dest_rect, layer);
 
   context.pop_transform();
 }

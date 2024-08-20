@@ -180,6 +180,8 @@ Editor::draw(Compositor& compositor)
       m_new_scale = 0.f;
     }
 
+    m_sector->pause_camera_interpolation();
+
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
     if (!m_leveltested)
@@ -838,18 +840,18 @@ Editor::setup()
 }
 
 void
-Editor::resize()
+Editor::on_window_resize()
 {
   for(const auto& widget: m_widgets)
   {
-    widget->resize();
+    widget->on_window_resize();
   }
 }
 
 void
 Editor::event(const SDL_Event& ev)
 {
-  if (!m_enabled) return;
+  if (!m_enabled || !m_levelloaded) return;
 
   try
   {

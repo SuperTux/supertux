@@ -42,7 +42,7 @@ struct obstack;
 class DrawingContext final
 {
 public:
-  DrawingContext(VideoSystem& video_system, obstack& obst, bool overlay);
+  DrawingContext(VideoSystem& video_system, obstack& obst, bool overlay, float time_offset);
   ~DrawingContext();
 
   /** Returns the visible area in world coordinates */
@@ -77,6 +77,9 @@ public:
 
   float get_scale() const { return transform().scale; }
   void scale(float scale) { transform().scale *= scale; }
+  
+  /** Recalculates the scaling factor for parallax layers.*/
+  bool perspective_scale(float speed_x, float speed_y);
 
   /** Apply that flip in the next draws (flips are listed on surface.h). */
   void set_flip(Flip flip);
@@ -85,6 +88,10 @@ public:
   /** apply that alpha in the next draws (1.0 means fully opaque) */
   void set_alpha(float alpha);
   float get_alpha() const;
+
+  /** For position extrapolation at high frame rates: real time since last game update step */
+  void set_time_offset(float time_offset) { m_time_offset = time_offset; }
+  float get_time_offset() const { return m_time_offset; }
 
   void clear()
   {
@@ -127,6 +134,8 @@ private:
 
   Canvas m_colormap_canvas;
   Canvas m_lightmap_canvas;
+
+  float m_time_offset;
 
 private:
   DrawingContext(const DrawingContext&) = delete;

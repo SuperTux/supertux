@@ -67,7 +67,7 @@ public:
   virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
 
   virtual void setup() override;
-  virtual void resize() override;
+  virtual void on_window_resize() override;
 
   void set_rect(const Rectf& rect);
   Rectf get_rect() const { return m_rect; }

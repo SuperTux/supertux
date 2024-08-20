@@ -18,20 +18,25 @@
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
 #include "math/vector.hpp"
-#include "scripting/background.hpp"
-#include "squirrel/exposed_object.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 #include "video/blend.hpp"
 #include "video/drawing_context.hpp"
 #include "video/flip.hpp"
-#include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 
-class Background final : public GameObject,
-                         public ExposedObject<Background, scripting::Background>
+/**
+ * @scripting
+ * @summary A ""Background"" that was given a name can be manipulated by scripts.
+ * @instances A ""Background"" can be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class Background final : public GameObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Background();
   Background(const ReaderMapping& reader);
@@ -42,8 +47,10 @@ public:
 
   static std::string class_name() { return "background"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Background"; }
   static std::string display_name() { return _("Background"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(Background)); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/background.png";
@@ -54,10 +61,6 @@ public:
 
   virtual void on_flip(float height) override;
 
-  void set_image(const std::string& name);
-  void set_images(const std::string& name_top, const std::string& name_middle, const std::string& name_bottom);
-  void set_speed(float bgd_speed);
-
   void draw_image(DrawingContext& context, const Vector& pos);
 
   const std::string& get_image() const { return m_imagefile; }
@@ -65,8 +68,89 @@ public:
   int get_layer() const { return m_layer; }
 
   Color get_color() const { return m_color; }
-  void set_color(Color color) { m_color = color; }
   void fade_color(Color color, float time);
+
+  /**
+   * @scripting
+   * @description Sets the background's image.
+   * @param string $image
+   */
+  void set_image(const std::string& image);
+  /**
+   * @scripting
+   * @description Sets the top, middle and bottom background images.
+   * @param string $top_image
+   * @param string $middle_image
+   * @param string $bottom_image
+   */
+  void set_images(const std::string& top_image, const std::string& middle_image,
+                  const std::string& bottom_image);
+  /**
+   * @scripting
+   * @description Sets the background speed.
+   * @param float $speed
+   */
+  void set_speed(float speed);
+
+  /**
+   * @scripting
+   * @description Returns the red color value.
+   */
+  float get_color_red() const;
+  /**
+   * @scripting
+   * @description Returns the green color value.
+   */
+  float get_color_green() const;
+  /**
+   * @scripting
+   * @description Returns the blue color value.
+   */
+  float get_color_blue() const;
+  /**
+   * @scripting
+   * @description Returns the alpha color value.
+   */
+  float get_color_alpha() const;
+  /**
+   * @scripting
+   * @description Sets the background color.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
+  void set_color(float red, float green, float blue, float alpha);
+  /**
+   * @scripting
+   * @description Fades to specified background color in ""time"" seconds.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   * @param float $time
+   */
+  void fade_color(float red, float green, float blue, float alpha, float time);
+  /**
+   * Sets the sprite action for the top image.
+   * @param string $action
+   */
+  void set_top_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for the main (middle) image.
+   * @param string $action
+   */
+  void set_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for the bottom image.
+   * @param string $action
+   */
+  void set_bottom_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for all images (top, middle and bottom).
+   * @param string $action
+   */
+  void set_all_image_actions(const std::string& action);
 
 private:
   enum Alignment {
@@ -76,9 +160,6 @@ private:
     TOP_ALIGNMENT,
     BOTTOM_ALIGNMENT
   };
-
-private:
-  SurfacePtr load_background(const std::string& image_path);
 
 private:
   /** Backgrounds with NO_ALIGNMENT are repeated over the whole
@@ -99,9 +180,9 @@ private:
   Vector m_parallax_speed;
   Vector m_scroll_speed;
   Vector m_scroll_offset;
-  SurfacePtr m_image_top; /**< image to draw above pos */
-  SurfacePtr m_image; /**< image to draw, anchored at pos */
-  SurfacePtr m_image_bottom; /**< image to draw below pos+screenheight */
+  SpritePtr m_image_top; /**< image to draw above pos */
+  SpritePtr m_image; /**< image to draw, anchored at pos */
+  SpritePtr m_image_bottom; /**< image to draw below pos+screenheight */
 
   Blend m_blend;
   Color m_color;

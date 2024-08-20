@@ -19,9 +19,8 @@
 
 #include <memory>
 
-#include <squirrel.h>
+#include <simplesquirrel/vm.hpp>
 
-#include "squirrel/squirrel_vm.hpp"
 #include "util/currenton.hpp"
 
 class SquirrelThreadQueue;
@@ -33,23 +32,23 @@ public:
   SquirrelVirtualMachine(bool enable_debugger);
   ~SquirrelVirtualMachine() override;
 
-  SquirrelVM& get_vm() { return m_vm; }
+  ssq::VM& get_vm() { return m_vm; }
 
-  void wait_for_seconds(HSQUIRRELVM vm, float seconds);
-  void skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds);
+  SQInteger wait_for_seconds(HSQUIRRELVM vm, float seconds);
+  SQInteger skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds);
   void update(float dt_sec);
 
   /** adds thread waiting for a screen switch event */
-  void wait_for_screenswitch(HSQUIRRELVM vm);
+  SQInteger wait_for_screenswitch(HSQUIRRELVM vm);
 
   /** wakes up threads waiting for a screen switch event */
   void wakeup_screenswitch();
 
 private:
-    void update_debugger();
+  void update_debugger();
 
 private:
-  SquirrelVM m_vm;
+  ssq::VM m_vm;
 
   std::unique_ptr<SquirrelThreadQueue> m_screenswitch_queue;
   std::unique_ptr<SquirrelScheduler> m_scheduler;

@@ -3,16 +3,19 @@
   (name (_ "Revenge in Redmond"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
-    (decal
+    (background
+      (color 1 1 1)
+      (speed 0)
+      (fill #t)
+      (image "/images/background/misc/vignette.png")
       (z-pos 200)
-      (sprite "/images/background/misc/vignette.png")
-      (x 0)
-      (y 0)
     )
     (decal
       (z-pos 10)
@@ -21,33 +24,57 @@
       (y 320)
     )
     (level
+      (z-pos 50)
       (level "antarctica.stl")
       (x 13)
       (y 9)
     )
     (level
+      (z-pos 50)
       (level "who_is_gown.stl")
       (x 13)
       (y 11)
     )
     (level
+      (z-pos 50)
       (level "long_office_nights.stl")
       (x 14)
       (y 15)
     )
     (level
+      (z-pos 50)
       (level "get_to_choppa.stl")
       (x 16)
       (y 15)
     )
     (level
+      (z-pos 50)
       (level "where_my_super_cape.stl")
       (x 16)
       (y 12)
     )
     (level
+      (z-pos 50)
       (level "redmond_headquarters.stl")
       (x 20)
+      (y 13)
+    )
+    (level
+      (z-pos 50)
+      (level "intro.stl")
+      (auto-play #t)
+      (sprite "/images/objects/invisible/invisible.sprite")
+      (x 13)
+      (y 8)
+    )
+    (level
+      (z-pos 50)
+      (level "outro.stl")
+      (extro-script "wait_for_screenswitch();
+exit_worldmap();")
+      (auto-play #t)
+      (sprite "/images/objects/invisible/invisible.sprite")
+      (x 23)
       (y 13)
     )
     (music
@@ -68,12 +95,12 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 39 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 21 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 21 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 14 11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 21 0 10 20 20 40 11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 21 0 21 0 0 0 22 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 21 0 21 0 0 0 14 20 20 29 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 21 0 21 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 14 20 15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -157,8 +184,8 @@
     )
     (tilemap
       (solid #f)
-      (z-pos -300)
-      (name "water")
+      (z-pos -200)
+      (name "ocean")
       (width 40)
       (height 25)
       (tiles
@@ -190,6 +217,7 @@
       )
     )
     (worldmap-spawnpoint
+      (z-pos 50)
       (name "main")
       (x 13)
       (y 8)

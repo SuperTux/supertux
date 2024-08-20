@@ -301,6 +301,8 @@ ErrorHandler::error_dialog_exception(const std::string& exception)
 
   std::string msg = stream.str();
 
+  std::cerr << msg << std::endl;
+
   SDL_MessageBoxButtonData btns[] = {
 #ifdef WIN32
     {

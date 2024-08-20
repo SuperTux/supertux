@@ -62,7 +62,7 @@ ButtonWidget::setup()
 }
 
 void
-ButtonWidget::resize()
+ButtonWidget::on_window_resize()
 {
 }
 

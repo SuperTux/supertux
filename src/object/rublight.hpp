@@ -17,7 +17,6 @@
 #define HEADER_SUPERTUX_OBJECT_RUBLIGHT_HPP
 
 #include "object/moving_sprite.hpp"
-
 #include "video/color.hpp"
 
 /** A triboluminescent (or something similar) block */
@@ -34,7 +33,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Rublight"); }
   virtual std::string get_display_name() const override { return display_name(); }
-
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(RubLight)); }
   virtual ObjectSettings get_settings() override;
 
   virtual void on_flip(float height) override;
@@ -47,6 +46,7 @@ private:
 
   State state;
   float stored_energy;
+  SpritePtr light;
 
   Color color;
   float fading_speed;

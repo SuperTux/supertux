@@ -35,6 +35,7 @@ FishSwimming::FishSwimming(const ReaderMapping& reader) :
 {
   parse_type(reader);
   reader.get("radius", m_radius, 100.0f);
+  m_water_affected = false;
 }
 
 FishSwimming::FishSwimming(const ReaderMapping& reader, const std::string& spritename) :
@@ -45,6 +46,7 @@ FishSwimming::FishSwimming(const ReaderMapping& reader, const std::string& sprit
   m_radius()
 {
   reader.get("radius", m_radius, 100.0f);
+  m_water_affected = false;
 }
 
 GameObjectTypes
@@ -141,6 +143,7 @@ FishSwimming::update(float dt_sec)
                    Sector::get().get_height() - m_col.m_bbox.get_height()));
   }
   BadGuy::update(dt_sec);
+  //m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
 void

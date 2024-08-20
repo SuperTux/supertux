@@ -26,6 +26,7 @@ class BezierMarker final : public MarkerObject
 {
 public:
   BezierMarker(Path::Node* node, Vector* bezier_pos);
+  virtual GameObjectClasses get_class_types() const override { return MarkerObject::get_class_types().add(typeid(BezierMarker)); }
 
   virtual void move_to(const Vector& pos) override;
   virtual Vector get_point_vector() const override;

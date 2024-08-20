@@ -39,6 +39,8 @@ public:
   /** Draw sprite, automatically calculates next frame */
   void draw(Canvas& canvas, const Vector& pos, int layer,
             Flip flip = NO_FLIP);
+  void draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
+                   Flip flip = NO_FLIP);
 
   /** Set action (or state) */
   void set_action(const std::string& name, int loops = -1);
@@ -69,7 +71,6 @@ public:
   void stop_animation() { m_animation_loops = 0; }
 
   void pause_animation() { m_is_paused = true; }
-
   void resume_animation() { m_is_paused = false; }
 
   /** Check if animation is stopped or not */
