@@ -185,6 +185,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_jump_early_apex(false),
   m_on_ice(false),
   m_ice_this_frame(false),
+  m_ignore_sideways_crush(false),
   //m_santahatsprite(SpriteManager::current()->create("images/creatures/tux/santahat.sprite")),
   m_multiplayer_arrow(SpriteManager::current()->create("images/engine/hud/arrowdown.png")),
   m_tag_timer(),
@@ -2324,8 +2325,13 @@ Player::collision_solid(const CollisionHit& hit)
 
   // crushed?
   if (hit.crush) {
-    if (hit.left || hit.right) {
-      kill(true);
+    if ((hit.left || hit.right)) {
+      if (m_ignore_sideways_crush) {
+        m_ignore_sideways_crush = false;
+      }
+      else {
+        kill(true);
+      }
     } else if (hit.top || hit.bottom) {
       kill(false);
     }
