@@ -167,7 +167,7 @@ Explosion::update(float )
 
       if (m_fading_timer.check())
       {
-        m_fading_timer.start(1.5f);
+        m_fading_timer.start(hurt ? 1.5f : .85f);
         m_state = E_STATE_FADING;
       }
 
