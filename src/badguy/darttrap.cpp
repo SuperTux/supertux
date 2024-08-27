@@ -185,6 +185,10 @@ DartTrap::get_default_sprite_name() const
   return "images/creatures/darttrap/granito/darttrap_granito.sprite";
 }
 
+void DartTrap::kill_fall()
+{
+}
+
 std::vector<Direction>
 DartTrap::get_allowed_directions() const
 {
