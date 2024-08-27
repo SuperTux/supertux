@@ -235,14 +235,20 @@ Crusher::collision_solid(const CollisionHit& hit)
         }
       }
     }
-    if (hit.bottom)
-      spawn_roots(Direction::DOWN);
-    else if (hit.top)
-      spawn_roots(Direction::UP);
-    else if (hit.left)
-      spawn_roots(Direction::LEFT);
-    else if (hit.right)
-      spawn_roots(Direction::RIGHT);
+    if(m_sideways)
+    {
+      if (hit.left)
+        spawn_roots(Direction::LEFT);
+      else if (hit.right)
+        spawn_roots(Direction::RIGHT);
+    }
+    else
+    {
+      if (hit.bottom)
+        spawn_roots(Direction::DOWN);
+      else if (hit.top)
+        spawn_roots(Direction::UP);
+    }
     break;
   default:
     log_debug << "Crusher in invalid state" << std::endl;
