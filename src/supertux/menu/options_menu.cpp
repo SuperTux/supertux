@@ -24,11 +24,11 @@
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"
 #include "gui/menu_item.hpp"
-#include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/title_screen.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -579,13 +579,13 @@ OptionsMenu::menu_action(MenuItem& item)
         {
           g_config->aspect_size = Size(0, 0); // Magic values
           VideoSystem::current()->apply_config();
-          MenuManager::instance().on_window_resize();
+          ScreenManager::current()->on_window_resize();
         }
         else if (sscanf(m_aspect_ratios.list[m_aspect_ratios.next].c_str(), "%d:%d",
                         &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
         {
           VideoSystem::current()->apply_config();
-          MenuManager::instance().on_window_resize();
+          ScreenManager::current()->on_window_resize();
         }
         else
         {
@@ -605,7 +605,7 @@ OptionsMenu::menu_action(MenuItem& item)
         g_config->magnification /= 100.0f;
       }
       VideoSystem::current()->apply_config();
-      MenuManager::instance().on_window_resize();
+      ScreenManager::current()->on_window_resize();
       break;
 
     case MNID_WINDOW_RESIZABLE:
@@ -626,7 +626,7 @@ OptionsMenu::menu_action(MenuItem& item)
         {
           g_config->window_size = Size(width, height);
           VideoSystem::current()->apply_config();
-          MenuManager::instance().on_window_resize();
+          ScreenManager::current()->on_window_resize();
         }
       }
       break;
@@ -711,7 +711,7 @@ OptionsMenu::menu_action(MenuItem& item)
 
     case MNID_FULLSCREEN:
       VideoSystem::current()->apply_config();
-      MenuManager::instance().on_window_resize();
+      ScreenManager::current()->on_window_resize();
       g_config->save();
       break;
 

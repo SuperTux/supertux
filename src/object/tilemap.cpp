@@ -632,6 +632,12 @@ TileMap::set_solid(bool solid)
   update_effective_solid ();
 }
 
+bool
+TileMap::get_solid() const
+{
+  return m_effective_solid;
+}
+
 uint32_t
 TileMap::get_tile_id(int x, int y) const
 {
@@ -993,6 +999,10 @@ TileMap::register_class(ssq::VM& vm)
   cls.addFunc("set_alpha", &TileMap::set_alpha);
   cls.addFunc("get_alpha", &TileMap::get_alpha);
   cls.addFunc("set_solid", &TileMap::set_solid);
+  cls.addFunc("get_solid", &TileMap::get_solid);
+
+  cls.addVar("alpha", &TileMap::get_alpha, &TileMap::set_alpha);
+  cls.addVar("solid", &TileMap::get_solid, &TileMap::set_solid);
 }
 
 /* EOF */

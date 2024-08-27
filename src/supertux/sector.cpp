@@ -728,7 +728,7 @@ Sector::get_nearest_player (const Vector& pos) const
   for (auto player_ptr : get_objects_by_type_index(typeid(Player)))
   {
     Player& player = *static_cast<Player*>(player_ptr);
-    if (player.is_dying() || player.is_dead())
+    if (!player.is_alive())
       continue;
 
     float dist = player.get_bbox ().distance(pos);
@@ -912,7 +912,7 @@ Sector::register_class(ssq::VM& vm)
   cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_movingstatics", &Sector::is_free_of_movingstatics);
   cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_specifically_movingstatics", &Sector::is_free_of_specifically_movingstatics);
 
-  cls.addVar("gravity", &Sector::m_gravity);
+  cls.addVar("gravity", &Sector::get_gravity, &Sector::set_gravity);
 }
 
 /* EOF */

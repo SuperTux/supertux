@@ -98,6 +98,12 @@ TextObject::set_text(const std::string& text)
   wrap_text();
 }
 
+const std::string&
+TextObject::get_text() const
+{
+  return m_text;
+}
+
 void
 TextObject::grow_in(float fadetime)
 {
@@ -147,10 +153,22 @@ TextObject::set_visible(bool visible)
   }
 }
 
+bool
+TextObject::get_visible() const
+{
+  return m_visible;
+}
+
 void
 TextObject::set_centered(bool centered)
 {
   m_centered = centered;
+}
+
+bool
+TextObject::get_centered() const
+{
+  return m_centered;
 }
 
 void
@@ -223,6 +241,12 @@ void
 TextObject::set_roundness(float roundness)
 {
   m_roundness = roundness;
+}
+
+float
+TextObject::get_roundness() const
+{
+  return m_roundness;
 }
 
 void
@@ -310,13 +334,16 @@ TextObject::register_class(ssq::VM& vm)
 
   /* NOTE: Any functions exposed here should also be exposed in TextArrayObject. */
   cls.addFunc("set_text", &TextObject::set_text);
+  cls.addFunc("get_text", &TextObject::get_text);
   cls.addFunc("set_font", &TextObject::set_font);
   cls.addFunc("fade_in", &TextObject::fade_in);
   cls.addFunc("fade_out", &TextObject::fade_out);
   cls.addFunc("grow_in", &TextObject::grow_in);
   cls.addFunc("grow_out", &TextObject::grow_out);
   cls.addFunc("set_visible", &TextObject::set_visible);
+  cls.addFunc("get_visible", &TextObject::get_visible);
   cls.addFunc("set_centered", &TextObject::set_centered);
+  cls.addFunc("get_centered", &TextObject::get_centered);
   cls.addFunc<void, TextObject, float, float>("set_pos", &TextObject::set_pos);
   cls.addFunc("get_x", &TextObject::get_x);
   cls.addFunc("get_y", &TextObject::get_y);
@@ -331,9 +358,12 @@ TextObject::register_class(ssq::VM& vm)
   cls.addFunc("set_back_fill_color", &TextObject::set_back_fill_color);
   cls.addFunc("set_text_color", &TextObject::set_text_color);
   cls.addFunc("set_roundness", &TextObject::set_roundness);
+  cls.addFunc("get_roundness", &TextObject::get_roundness);
 
-  cls.addVar("visible", &TextObject::m_visible);
+  cls.addVar("text", &TextObject::get_text, &TextObject::set_text);
+  cls.addVar("visible", &TextObject::get_visible, &TextObject::set_visible);
   cls.addVar("centered", &TextObject::m_centered);
+  cls.addVar("anchor_point", &TextObject::get_anchor_point, &TextObject::set_anchor_point);
   cls.addVar("wrap_width", &TextObject::m_wrap_width);
   cls.addVar("roundness", &TextObject::m_roundness);
 }

@@ -199,6 +199,7 @@ FloatingImage::register_class(ssq::VM& vm)
 
   cls.addVar("layer", &FloatingImage::m_layer);
   cls.addVar("visible", &FloatingImage::m_visible);
+  cls.addVar("anchor_point", &FloatingImage::get_anchor_point, &FloatingImage::set_anchor_point);
 }
 
 /* EOF */

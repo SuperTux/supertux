@@ -39,7 +39,7 @@ public:
   virtual void update(float dt_sec) override;
 
   virtual void setup() override;
-  virtual void resize() override;
+  virtual void on_window_resize() override;
 
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
