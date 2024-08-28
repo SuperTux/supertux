@@ -1975,6 +1975,18 @@ Player::get_visible() const
 }
 
 void
+Player::set_is_intentionally_safe(bool safe)
+{
+  m_is_intentionally_safe = safe;
+}
+
+bool
+Player::get_is_intentionally_safe() const
+{
+  return m_is_intentionally_safe;
+}
+
+void
 Player::kick()
 {
   m_kick_timer.start(KICK_TIME);
@@ -2365,7 +2377,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy != nullptr) {
-    if (m_safe_timer.started() || m_invincible_timer.started())
+    if (m_is_intentionally_safe || m_safe_timer.started() || m_invincible_timer.started())
       return FORCE_MOVE;
     if (m_stone)
       return ABORT_MOVE;
@@ -2411,7 +2423,7 @@ Player::kill(bool completely)
   if (m_dying || m_deactivated || is_winning() )
     return;
 
-  if (!completely && (m_safe_timer.started() || m_invincible_timer.started()))
+  if (!completely && (m_is_intentionally_safe || m_safe_timer.started() || m_invincible_timer.started()))
     return;
 
   m_growing = false;
@@ -3078,6 +3090,8 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("set_dir", &Player::set_dir);
   cls.addFunc("set_visible", &Player::set_visible);
   cls.addFunc("get_visible", &Player::get_visible);
+  cls.addFunc("set_is_intentionally_safe", &Player::set_is_intentionally_safe);
+  cls.addFunc("get_is_intentionally_safe", &Player::get_is_intentionally_safe);
   cls.addFunc("kill", &Player::kill);
   cls.addFunc("set_ghost_mode", &Player::set_ghost_mode);
   cls.addFunc("get_ghost_mode", &Player::get_ghost_mode);
@@ -3100,6 +3114,7 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("get_input_released", &Player::get_input_released);
 
   cls.addVar("visible", &Player::m_visible);
+  cls.addVar("is_intentionally_safe", &Player::m_is_intentionally_safe);
 }
 
 /* EOF */
