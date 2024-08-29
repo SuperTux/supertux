@@ -1,6 +1,6 @@
 Install instructions for SuperTux - <https://supertux.org/>
 ====================================================================
-Last update: May 19, 2023
+Last update: August 28, 2024
 
 Quick links:
 - [Binaires](#binaries)
@@ -109,9 +109,9 @@ For ease of use, here are some installation lines for some Linux distributions:
   sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libsdl2-dev libsdl2-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev
   ```
 
-- ArchLinux (using sudo, as of June 3rd 2023)
+- ArchLinux (using sudo, as of August 28th 2024)
   ```
-  sudo pacman -Sy cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib
+  sudo pacman -S cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib
   ```
 
 ### Linux/UNIX using CMake
