@@ -16,10 +16,15 @@
 
 #include "object/background.hpp"
 
-#include <physfs.h>
 #include <utility>
 
+#include <physfs.h>
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/gameconfig.hpp"
@@ -28,10 +33,107 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
-#include "video/surface.hpp"
+
+static const std::unordered_map<std::string, std::string> fallback_paths = {
+  {"arctis2.png", "antarctic/arctis2.png"},
+  {"misty_snowhills_small.png", "antarctic/misty_snowhills_small.png"},
+  {"semi_arctic.jpg", "antarctic/semi_arctic.jpg"},
+  {"bridgecloud-dark.png", "arctic_bridge/bridgecloud-dark.png"},
+  {"bridgecloud-light.png", "arctic_bridge/bridgecloud-light.png"},
+  {"bridgeocean-fade.png", "arctic_bridge/bridgeocean-fade.png"},
+  {"bridgeocean-nofade.png", "arctic_bridge/bridgeocean-nofade.png"},
+  {"bridgeocean-original.png", "arctic_bridge/bridgeocean-original.png"},
+  {"arcticskies1.png", "arcticskies/arcticskies1.png"},
+  {"arcticskies2.png", "arcticskies/arcticskies2.png"},
+  {"arcticskies3.png", "arcticskies/arcticskies3.png"},
+  {"arcticskies35.png", "arcticskies/arcticskies35.png"},
+  {"arcticskies4.png", "arcticskies/arcticskies4.png"},
+  {"block-snow-background.png", "block_snow/block-snow-background.png"},
+  {"block-snow-midground.png", "block_snow/block-snow-midground.png"},
+  {"block-snow-top.png", "block_snow/block-snow-top.png"},
+  {"bluemountain-bottom.png", "bluemountain/bluemountain-bottom.png"},
+  {"bluemountain-middle.png", "bluemountain/bluemountain-middle.png"},
+  {"bluemountain-top.png", "bluemountain/bluemountain-top.png"},
+  {"bluemountain2.png", "bluemountain/bluemountain2.png"},
+  {"castle_foreground.png", "castle/castle_foreground.png"},
+  {"snowcastle.png", "castle/snowcastle.png"},
+  {"cloud-mountains-background.png", "cloud_mountains/cloud-mountains-background.png"},
+  {"cloud-mountains-bottom.png", "cloud_mountains/cloud-mountains-bottom.png"},
+  {"cloud-mountains-forground.png", "cloud_mountains/cloud-mountains-forground.png"},
+  {"cloud-mountains-midground.png", "cloud_mountains/cloud-mountains-midground.png"},
+  {"dawn_hill_para_blur.png", "forest/dawn_hill_para_blur.png"},
+  {"forest2_para.png", "forest/forest2_para.png"},
+  {"forest_para2.png", "forest/forest_para2.png"},
+  {"forest_para3.png", "forest/forest_para3.png"},
+  {"forest_para3_bottom.png", "forest/forest_para3_bottom.png"},
+  {"nighthills.png", "forest/nighthills.png"},
+  {"ghostforest.jpg", "ghostforest/ghostforest.jpg"},
+  {"ghostforest_grave.png", "ghostforest/ghostforest_grave.png"},
+  {"ghostforest_para.png", "ghostforest/ghostforest_para.png"},
+  {"cave2.jpg", "ice_cave/cave2.jpg"},
+  {"darkcave-background.png", "ice_cave/darkcave-background.png"},
+  {"darkcave-middle.png", "ice_cave/darkcave-middle.png"},
+  {"darkcave-preview.png", "ice_cave/darkcave-preview.png"},
+  {"darkcave-top_and_bottom.png", "ice_cave/darkcave-top_and_bottom.png"},
+  {"darkcavemidground-middle.png", "ice_cave/darkcavemidground-middle.png"},
+  {"darkcavemidground-top_and_bottom.png", "ice_cave/darkcavemidground-top_and_bottom.png"},
+  {"black_800px.png", "misc/black_800px.png"},
+  {"fog.png", "misc/fog.png"},
+  {"grid.png", "misc/grid.png"},
+  {"grid.surface", "misc/grid.surface"},
+  {"heatshimmer-displacement.png", "misc/heatshimmer-displacement.png"},
+  {"heatshimmer.png", "misc/heatshimmer.png"},
+  {"heatshimmer.surface", "misc/heatshimmer.surface"},
+  {"leaves.png", "misc/leaves.png"},
+  {"oiltux.jpg", "misc/oiltux.jpg"},
+  {"transparent_up.png", "misc/transparent_up.png"},
+  {"nightsky.png", "nightsky/nightsky.png"},
+  {"nightsky_bottom.png", "nightsky/nightsky_bottom.png"},
+  {"nightsky_middle.png", "nightsky/nightsky_middle.png"},
+  {"nightsky_para.png", "nightsky/nightsky_para.png"},
+  {"nightsky_top.png", "nightsky/nightsky_top.png"},
+};
+
+static SpritePtr load_background_sprite(const std::string& image_path)
+{
+  if (image_path.empty())
+    return nullptr;
+
+  if (PHYSFS_exists(image_path.c_str()))
+    // No need to search fallback paths.
+    return SpriteManager::current()->create(image_path);
+
+  // Search for a fallback image in fallback_paths.
+  static const std::string default_dir = "images/background/";
+  static const std::string default_dir2 = "/images/background/";
+  std::string new_path = image_path;
+  if (image_path.substr(0, default_dir.length()) == default_dir)
+    new_path.erase(0, default_dir.length());
+  else if (image_path.substr(0, default_dir2.length()) == default_dir2)
+    new_path.erase(0, default_dir2.length());
+
+  auto it = fallback_paths.find(new_path);
+  if (it == fallback_paths.end())
+    // Unknown image, try checking for a ".deprecated" version, or use the dummy texture.
+    return SpriteManager::current()->create(image_path);
+
+  new_path = default_dir + it->second;
+  return SpriteManager::current()->create(new_path);
+}
+
+static SpritePtr load_background(const std::string& image_path)
+{
+  SpritePtr sprite = load_background_sprite(image_path);
+  if (!sprite) return nullptr;
+
+  if (Editor::is_active())
+    sprite->pause_animation();
+
+  return sprite;
+}
+
 
 Background::Background() :
-  ExposedObject<Background, scripting::Background>(this),
   m_alignment(NO_ALIGNMENT),
   m_fill(false),
   m_layer(LAYER_BACKGROUND0),
@@ -57,7 +159,6 @@ Background::Background() :
 
 Background::Background(const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<Background, scripting::Background>(this),
   m_alignment(NO_ALIGNMENT),
   m_fill(false),
   m_layer(LAYER_BACKGROUND0),
@@ -192,9 +293,9 @@ Background::get_settings()
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.0f);
   result.add_float(_("Parallax Speed x"), &m_parallax_speed.x, "speed", std::nullopt);
   result.add_float(_("Parallax Speed y"), &m_parallax_speed.y, "speed-y", m_parallax_speed.x);
-  result.add_surface(_("Top image"), &m_imagefile_top, "image-top", "");
-  result.add_surface(_("Image"), &m_imagefile, "image");
-  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", "");
+  result.add_sprite(_("Top image"), &m_imagefile_top, "image-top", "");
+  result.add_sprite(_("Image"), &m_imagefile, "image");
+  result.add_sprite(_("Bottom image"), &m_imagefile_bottom, "image-bottom", "");
   result.add_rgba(_("Colour"), &m_color, "color");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_target),
                   {_("Normal"), _("Lightmap")},
@@ -236,6 +337,12 @@ Background::update(float dt_sec)
 }
 
 void
+Background::set_color(float red, float green, float blue, float alpha)
+{
+  m_color = Color(red, green, blue, alpha);
+}
+
+void
 Background::fade_color(Color color, float time)
 {
   m_src_color = m_color;
@@ -244,6 +351,12 @@ Background::fade_color(Color color, float time)
   m_timer_color.start(time, false);
 
   m_color = m_src_color;
+}
+
+void
+Background::fade_color(float red, float green, float blue, float alpha, float time)
+{
+  fade_color(Color(red, green, blue, alpha), time);
 }
 
 void
@@ -275,12 +388,35 @@ Background::set_speed(float speed)
   m_parallax_speed.y = speed;
 }
 
+float
+Background::get_color_red() const
+{
+  return m_color.red;
+}
+
+float
+Background::get_color_green() const
+{
+  return m_color.green;
+}
+
+float
+Background::get_color_blue() const
+{
+  return m_color.blue;
+}
+
+float
+Background::get_color_alpha() const
+{
+  return m_color.alpha;
+}
+
 void
 Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
   const Sizef level(d_gameobject_manager->get_width(), d_gameobject_manager->get_height());
-  const Sizef screen(context.get_width(),
-                     context.get_height());
+  const Sizef screen = context.get_viewport().get_size();
   const Sizef parallax_image_size((1.0f - m_parallax_speed.x) * screen.width + level.width * m_parallax_speed.x,
                                   (1.0f - m_parallax_speed.y) * screen.height + level.height * m_parallax_speed.y);
 
@@ -297,7 +433,9 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
   const int end_y   = static_cast<int>(ceilf((cliprect.get_bottom() - (pos_.y + img_h/2.0f)) / img_h)) + 1;
 
   Canvas& canvas = context.get_canvas(m_target);
-  context.set_flip(context.get_flip() ^ m_flip);
+
+  m_image->set_color(m_color);
+  m_image->set_blend(m_blend);
 
   if (m_fill)
   {
@@ -305,7 +443,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
                          pos_.y - context.get_height() / 2.0f),
                   Sizef(context.get_width(),
                         context.get_height()));
-    canvas.draw_surface_scaled(m_image, dstrect, m_layer);
+    m_image->draw_scaled(canvas, dstrect, m_layer);
   }
   else
   {
@@ -316,7 +454,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x - parallax_image_size.width / 2.0f,
                    pos_.y + static_cast<float>(y) * img_h - img_h_2);
-          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
+          m_image->draw(canvas, p, m_layer);
         }
         break;
 
@@ -325,7 +463,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x + parallax_image_size.width / 2.0f - img_w,
                    pos_.y + static_cast<float>(y) * img_h - img_h_2);
-          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
+          m_image->draw(canvas, p, m_layer);
         }
         break;
 
@@ -334,7 +472,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                    pos_.y - parallax_image_size.height / 2.0f);
-          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
+          m_image->draw(canvas, p, m_layer);
         }
         break;
 
@@ -343,7 +481,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                    pos_.y - img_h + parallax_image_size.height / 2.0f);
-          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
+          m_image->draw(canvas, p, m_layer);
         }
         break;
 
@@ -356,21 +494,26 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
 
             if (m_image_top && (y < 0))
             {
-              canvas.draw_surface(m_image_top, p, 0.f, m_color, m_blend, m_layer);
+              m_image_top->set_color(m_color);
+              m_image_top->set_blend(m_blend);
+
+              m_image_top->draw(canvas, p, m_layer);
             }
             else if (m_image_bottom && (y > 0))
             {
-              canvas.draw_surface(m_image_bottom, p, 0.f, m_color, m_blend, m_layer);
+              m_image_bottom->set_color(m_color);
+              m_image_bottom->set_blend(m_blend);
+
+              m_image_bottom->draw(canvas, p, m_layer);
             }
             else
             {
-              canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
+              m_image->draw(canvas, p, m_layer);
             }
           }
         break;
     }
   }
-  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 void
@@ -381,109 +524,55 @@ Background::draw(DrawingContext& context)
 
   if (!m_image)
     return;
+    
+  context.push_transform();
+  if (!context.perspective_scale(m_parallax_speed.x, m_parallax_speed.y)) {
+    //The background is placed behind the camera.
+    context.pop_transform();
+    return;
+  }
+  context.set_flip(context.get_flip() ^ m_flip);
 
-  Sizef level_size(d_gameobject_manager->get_width(),
+  const Sizef level_size(d_gameobject_manager->get_width(),
                    d_gameobject_manager->get_height());
-  Sizef screen(context.get_width(),
-               context.get_height());
-  Sizef translation_range = level_size - screen;
-  Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
-                       context.get_translation().y - translation_range.height / 2.0f);
+  const Sizef screen = context.get_viewport().get_size();
+  const Sizef translation_range = level_size - screen;
+  const Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
+                             context.get_translation().y - translation_range.height / 2.0f);
 
-  Vector pos(level_size.width / 2,
-             level_size.height / 2);
+  const Vector pos(level_size.width / 2,
+                   level_size.height / 2);
   draw_image(context, pos + m_scroll_offset + Vector(center_offset.x * (1.0f - m_parallax_speed.x),
                                                      center_offset.y * (1.0f - m_parallax_speed.y)));
+  context.pop_transform();
 }
 
-namespace {
-std::unordered_map<std::string, std::string> fallback_paths = {
-  {"arctis2.png", "antarctic/arctis2.png"},
-  {"misty_snowhills_small.png", "antarctic/misty_snowhills_small.png"},
-  {"semi_arctic.jpg", "antarctic/semi_arctic.jpg"},
-  {"bridgecloud-dark.png", "arctic_bridge/bridgecloud-dark.png"},
-  {"bridgecloud-light.png", "arctic_bridge/bridgecloud-light.png"},
-  {"bridgeocean-fade.png", "arctic_bridge/bridgeocean-fade.png"},
-  {"bridgeocean-nofade.png", "arctic_bridge/bridgeocean-nofade.png"},
-  {"bridgeocean-original.png", "arctic_bridge/bridgeocean-original.png"},
-  {"arcticskies1.png", "arcticskies/arcticskies1.png"},
-  {"arcticskies2.png", "arcticskies/arcticskies2.png"},
-  {"arcticskies3.png", "arcticskies/arcticskies3.png"},
-  {"arcticskies35.png", "arcticskies/arcticskies35.png"},
-  {"arcticskies4.png", "arcticskies/arcticskies4.png"},
-  {"block-snow-background.png", "block_snow/block-snow-background.png"},
-  {"block-snow-midground.png", "block_snow/block-snow-midground.png"},
-  {"block-snow-top.png", "block_snow/block-snow-top.png"},
-  {"bluemountain-bottom.png", "bluemountain/bluemountain-bottom.png"},
-  {"bluemountain-middle.png", "bluemountain/bluemountain-middle.png"},
-  {"bluemountain-top.png", "bluemountain/bluemountain-top.png"},
-  {"bluemountain2.png", "bluemountain/bluemountain2.png"},
-  {"castle_foreground.png", "castle/castle_foreground.png"},
-  {"snowcastle.png", "castle/snowcastle.png"},
-  {"cloud-mountains-background.png", "cloud_mountains/cloud-mountains-background.png"},
-  {"cloud-mountains-bottom.png", "cloud_mountains/cloud-mountains-bottom.png"},
-  {"cloud-mountains-forground.png", "cloud_mountains/cloud-mountains-forground.png"},
-  {"cloud-mountains-midground.png", "cloud_mountains/cloud-mountains-midground.png"},
-  {"dawn_hill_para_blur.png", "forest/dawn_hill_para_blur.png"},
-  {"forest2_para.png", "forest/forest2_para.png"},
-  {"forest_para2.png", "forest/forest_para2.png"},
-  {"forest_para3.png", "forest/forest_para3.png"},
-  {"forest_para3_bottom.png", "forest/forest_para3_bottom.png"},
-  {"nighthills.png", "forest/nighthills.png"},
-  {"ghostforest.jpg", "ghostforest/ghostforest.jpg"},
-  {"ghostforest_grave.png", "ghostforest/ghostforest_grave.png"},
-  {"ghostforest_para.png", "ghostforest/ghostforest_para.png"},
-  {"cave2.jpg", "ice_cave/cave2.jpg"},
-  {"darkcave-background.png", "ice_cave/darkcave-background.png"},
-  {"darkcave-middle.png", "ice_cave/darkcave-middle.png"},
-  {"darkcave-preview.png", "ice_cave/darkcave-preview.png"},
-  {"darkcave-top_and_bottom.png", "ice_cave/darkcave-top_and_bottom.png"},
-  {"darkcavemidground-middle.png", "ice_cave/darkcavemidground-middle.png"},
-  {"darkcavemidground-top_and_bottom.png", "ice_cave/darkcavemidground-top_and_bottom.png"},
-  {"black_800px.png", "misc/black_800px.png"},
-  {"fog.png", "misc/fog.png"},
-  {"grid.png", "misc/grid.png"},
-  {"grid.surface", "misc/grid.surface"},
-  {"heatshimmer-displacement.png", "misc/heatshimmer-displacement.png"},
-  {"heatshimmer.png", "misc/heatshimmer.png"},
-  {"heatshimmer.surface", "misc/heatshimmer.surface"},
-  {"leaves.png", "misc/leaves.png"},
-  {"oiltux.jpg", "misc/oiltux.jpg"},
-  {"transparent_up.png", "misc/transparent_up.png"},
-  {"nightsky.png", "nightsky/nightsky.png"},
-  {"nightsky_bottom.png", "nightsky/nightsky_bottom.png"},
-  {"nightsky_middle.png", "nightsky/nightsky_middle.png"},
-  {"nightsky_para.png", "nightsky/nightsky_para.png"},
-  {"nightsky_top.png", "nightsky/nightsky_top.png"},
-};
-
-} // namespace
-
-SurfacePtr
-Background::load_background(const std::string& image_path)
+void
+Background::set_top_image_action(const std::string& action)
 {
-  if (image_path.empty())
-    return nullptr;
+  if (m_image_top)
+    m_image_top->set_action(action);
+}
 
-  if (PHYSFS_exists(image_path.c_str()))
-    // No need to search fallback paths.
-    return Surface::from_file(image_path);
+void
+Background::set_image_action(const std::string& action)
+{
+  m_image->set_action(action);
+}
 
-  // Search for a fallback image in fallback_paths.
-  const std::string& default_dir = "images/background/";
-  const std::string& default_dir2 = "/images/background/";
-  std::string new_path = image_path;
-  if (image_path.substr(0, default_dir.length()) == default_dir)
-    new_path.erase(0, default_dir.length());
-  else if (image_path.substr(0, default_dir2.length()) == default_dir2)
-    new_path.erase(0, default_dir2.length());
-  auto it = fallback_paths.find(new_path);
-  if (it == fallback_paths.end())
-    // Unknown image, let the texture manager select the dummy texture.
-    return Surface::from_file(image_path);
+void
+Background::set_bottom_image_action(const std::string& action)
+{
+  if (m_image_bottom)
+    m_image_bottom->set_action(action);
+}
 
-  new_path = default_dir + it->second;
-  return Surface::from_file(new_path);
+void
+Background::set_all_image_actions(const std::string& action)
+{
+  set_top_image_action(action);
+  set_image_action(action);
+  set_bottom_image_action(action);
 }
 
 void
@@ -498,6 +587,23 @@ Background::on_flip(float height)
   else if (m_alignment == TOP_ALIGNMENT)
     m_alignment = BOTTOM_ALIGNMENT;
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+
+void
+Background::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Background>("Background", vm.findClass("GameObject"));
+
+  cls.addFunc("set_image", &Background::set_image);
+  cls.addFunc("set_images", &Background::set_images);
+  cls.addFunc("set_speed", &Background::set_speed);
+  cls.addFunc("get_color_red", &Background::get_color_red);
+  cls.addFunc("get_color_green", &Background::get_color_green);
+  cls.addFunc("get_color_blue", &Background::get_color_blue);
+  cls.addFunc("get_color_alpha", &Background::get_color_alpha);
+  cls.addFunc("set_color", &Background::set_color);
+  cls.addFunc<void, Background, float, float, float, float, float>("fade_color", &Background::fade_color);
 }
 
 /* EOF */

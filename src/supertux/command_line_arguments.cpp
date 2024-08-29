@@ -373,7 +373,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else
     {
-      throw std::runtime_error(fmt::format("Unknown option '{}''. Use --help to see a list of options", arg));
+      throw std::runtime_error(fmt::format("Unknown option '{}'. Use --help to see a list of options", arg));
     }
   }
 

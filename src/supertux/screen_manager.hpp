@@ -52,6 +52,8 @@ public:
   float get_speed() const;
   bool has_pending_fadeout() const;
 
+  void on_window_resize();
+
   // push new screen on screen_stack
   void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
   void pop_screen(std::unique_ptr<ScreenFade> fade = {});

@@ -20,8 +20,7 @@
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "editor/editor.hpp"
-#include "editor/particle_editor.hpp"
+#include "control/input_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -203,6 +202,15 @@ float
 ScreenManager::get_speed() const
 {
   return m_speed;
+}
+
+void
+ScreenManager::on_window_resize()
+{
+  m_menu_manager->on_window_resize();
+
+  for (const auto& screen : m_screen_stack)
+    screen->on_window_resize();
 }
 
 void
@@ -395,13 +403,7 @@ ScreenManager::process_events()
 
     m_menu_manager->event(event);
 
-    if (Editor::is_active()) {
-      Editor::current()->event(event);
-    }
-
-    if (ParticleEditor::is_active()) {
-      ParticleEditor::current()->event(event);
-    }
+    m_screen_stack.back()->event(event);
 
     switch (event.type)
     {
@@ -414,10 +416,7 @@ ScreenManager::process_events()
         {
           case SDL_WINDOWEVENT_RESIZED:
             m_video_system.on_resize(event.window.data1, event.window.data2);
-            m_menu_manager->on_window_resize();
-            if (Editor::is_active()) {
-              Editor::current()->resize();
-            }
+            on_window_resize();
             break;
 
           case SDL_WINDOWEVENT_HIDDEN:
@@ -575,7 +574,9 @@ void ScreenManager::loop_iter()
     elapsed_ticks = 0;
   }
 
-  if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
+  bool always_draw = g_debug.draw_redundant_frames || g_config->frame_prediction;
+
+  if (elapsed_ticks < ms_per_step && !always_draw) {
     // Sleep a bit because not enough time has passed since the previous
     // logical game step
     SDL_Delay(ms_per_step - elapsed_ticks);
@@ -626,10 +627,16 @@ void ScreenManager::loop_iter()
     elapsed_ticks -= ms_per_step;
   }
 
+  // When the game is laggy, real time may be >1 step after the game time
+  // To avoid predicting positions too far ahead, when using frame prediction,
+  // limit the draw time offset to at most one step.
+  Uint32 tick_offset = std::min(elapsed_ticks, ms_per_step);
+  float time_offset = m_speed * speed_multiplier * static_cast<float>(tick_offset) / 1000.0f;
+
   if ((steps > 0 && !m_screen_stack.empty())
-      || g_debug.draw_redundant_frames) {
+      || always_draw) {
     // Draw a frame
-    Compositor compositor(m_video_system);
+    Compositor compositor(m_video_system, g_config->frame_prediction ? time_offset : 0.0f);
     draw(compositor, *m_fps_statistics);
     m_fps_statistics->report_frame();
   }

@@ -18,13 +18,24 @@
 
 #include <sstream>
 
-#include "util/log.hpp"
 #include "video/glutil.hpp"
 
 GLProgram::GLProgram() :
   m_program(glCreateProgram()),
   m_frag_shader(),
-  m_vert_shader()
+  m_vert_shader(),
+  m_backbuffer_location(-1),
+  m_fragcoord2uv_location(-1),
+  m_diffuse_texture_location(-1),
+  m_displacement_texture_location(-1),
+  m_framebuffer_texture_location(-1),
+  m_game_time_location(-1),
+  m_modelviewprojection_location(-1),
+  m_animate_location(-1),
+  m_displacement_animate_location(-1),
+  m_position_location(-1),
+  m_texcoord_location(-1),
+  m_diffuse_location(-1)
 {
   assert_gl();
 
@@ -48,6 +59,21 @@ GLProgram::GLProgram() :
     out << "link failure:\n" << get_info_log() << std::endl;
     throw std::runtime_error(out.str());
   }
+
+  // Any uniform/attribute not in m_program will be given a value of -1,
+  // and an error will be reported if code attempts to use it
+  m_backbuffer_location = glGetUniformLocation(m_program, "backbuffer");
+  m_fragcoord2uv_location = glGetUniformLocation(m_program, "fragcoord2uv");
+  m_diffuse_texture_location = glGetUniformLocation(m_program, "diffuse_texture");
+  m_displacement_texture_location = glGetUniformLocation(m_program, "displacement_texture");
+  m_framebuffer_texture_location = glGetUniformLocation(m_program, "framebuffer_texture");
+  m_game_time_location = glGetUniformLocation(m_program, "game_time");
+  m_modelviewprojection_location = glGetUniformLocation(m_program, "modelviewprojection");
+  m_animate_location = glGetUniformLocation(m_program, "animate");
+  m_displacement_animate_location = glGetUniformLocation(m_program, "displacement_animate");
+  m_position_location = glGetAttribLocation(m_program, "position");
+  m_texcoord_location = glGetAttribLocation(m_program, "texcoord");
+  m_diffuse_location = glGetAttribLocation(m_program, "diffuse");
 
   assert_gl();
 }
@@ -86,34 +112,14 @@ GLProgram::validate()
 }
 
 GLint
-GLProgram::get_attrib_location(const char* name) const
+GLProgram::check_valid(GLint loc, const char* name)
 {
-  assert_gl();
-
-  GLint loc = glGetAttribLocation(m_program, name);
   if (loc == -1)
   {
-    log_debug << "GLProgram::get_attrib_location(\"" << name << "\") failed" << std::endl;
+    std::ostringstream out;
+    out << "Getting uniform or attribute location for \"" << name << "\" failed" << std::endl;
+    throw std::runtime_error(out.str());
   }
-
-  assert_gl();
-
-  return loc;
-}
-
-GLint
-GLProgram::get_uniform_location(const char* name) const
-{
-  assert_gl();
-
-  GLint loc = glGetUniformLocation(m_program, name);
-  if (loc == -1)
-  {
-    log_debug << "GLProgram::get_uniform_location(\"" << name << "\") failed" << std::endl;
-  }
-
-  assert_gl();
-
   return loc;
 }
 

@@ -19,16 +19,11 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_STATE_HPP
 #define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_STATE_HPP
 
+namespace ssq {
+class Table;
+} // namespace ssq
+
 namespace worldmap {
-
-/** Macro to allow quick and easy access to the current Squirrel VM. **/
-#define WORLDMAP_STATE_SQUIRREL_VM_GUARD  \
-  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm()
-
-/** Macro to allow quick and easy access to the current WorldMapSector. **/
-#define WORLDMAP_STATE_SECTOR_GUARD   \
-  WorldMapSector& sector = m_worldmap.get_sector()
-
 
 class WorldMap;
 
@@ -41,15 +36,10 @@ public:
   void save_state() const;
 
 private:
-  void load_tux();
-  void load_levels();
-  void load_tilemap_visibility();
-  void load_sprite_change_objects();
-
-  void save_tux() const;
-  void save_levels() const;
-  void save_tilemap_visibility() const;
-  void save_sprite_change_objects() const;
+  void load_tux(const ssq::Table& table);
+  void load_levels(const ssq::Table& table);
+  void load_tilemap_visibility(const ssq::Table& table);
+  void load_sprite_change_objects(const ssq::Table& table);
 
 private:
   WorldMap& m_worldmap;

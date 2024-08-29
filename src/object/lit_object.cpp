@@ -16,6 +16,9 @@
 
 #include "object/lit_object.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -23,7 +26,6 @@
 
 LitObject::LitObject(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/lightflower/lightflower1.sprite"),
-  ExposedObject<LitObject, scripting::LitObject>(this),
   m_light_offset(-6.f, -17.f),
   m_light_sprite_name("images/objects/lightflower/light/glow_light.sprite"),
   m_sprite_action("default"),
@@ -97,12 +99,6 @@ LitObject::on_flip(float height)
 }
 
 const std::string&
-LitObject::get_action() const
-{
-  return m_sprite->get_action();
-}
-
-const std::string&
 LitObject::get_light_action() const
 {
   return m_light_sprite->get_action();
@@ -112,6 +108,18 @@ void
 LitObject::set_light_action(const std::string& action)
 {
   m_light_sprite->set_action(action);
+}
+
+
+void
+LitObject::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<LitObject>("LitObject", vm.findClass("MovingSprite"));
+
+  cls.addFunc("get_light_action", &LitObject::get_light_action);
+  cls.addFunc("set_light_action", &LitObject::set_light_action);
+
+  cls.addVar("light_action", &LitObject::get_light_action, &LitObject::set_light_action);
 }
 
 /* EOF */

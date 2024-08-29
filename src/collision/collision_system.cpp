@@ -425,7 +425,7 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
     // let's skip this if two colgroup_moving_static's connect and our object is somewhat larger than the static object.
     if ((object.get_group() == COLGROUP_MOVING_STATIC && static_object->get_group() == COLGROUP_MOVING_STATIC) &&
       (object_size > static_size + FORGIVENESS)) {
-      return;
+      continue;
     }
     if ((
           static_object->get_group() == COLGROUP_STATIC ||

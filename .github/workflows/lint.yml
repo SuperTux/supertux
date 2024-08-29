@@ -33,7 +33,7 @@ jobs:
   lint_cppcheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # The apt version of Cppcheck is outdated and apparently there are no
       # alternative up-to-date precompiled versions for Ubuntu,

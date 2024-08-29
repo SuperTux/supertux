@@ -11,6 +11,7 @@ Most images were created either by grumbel or gwater. Check the log for details.
 * images/objects/explosion/explosion*.png - Bleed - http://remusprites.carbonmade.com/ licensed under CC-BY 3.0, see https://opengameart.org/content/simple-explosion-bleeds-game-art
 * images/engine/editor/sparkle-file.png - Semphris, licensed CC-BY 4.0 - CONTAINS WORK BY FortAwesome/FontAwesome (the file logo), licensed under CC-BY 4.0
 * images/worldmap/shared/rocky_paths[-editor].png - Semphris, released under CC0
+* images/objects/conveyor_belt/* - submitted by RodirodDude CC BY-NC 4.0
 
 == Levels ==
 
@@ -86,6 +87,8 @@ All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unl
 * snowfort.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
 * icecastle.ogg - By SnugglyBun, based on the original fortress theme by Wansti. licensed under CC-BY-SA 4.0
 * yetiboss.ogg - By SnugglyBun, cover of the original boss battle theme by Wansti. licensed under CC-BY-SA 4.0
+* forest_midday.ogg - By SnugglyBun, based on the original forest theme by Wansti. licensed under CC-BY-SA 4.0
+* forest_midday_alt.ogg - By SnugglyBun, based on forest.ogg and forest3.ogg by Wansti. licensed under CC-BY-SA 4.0
 
 == Scripts ==
 

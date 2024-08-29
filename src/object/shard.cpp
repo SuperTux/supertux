@@ -21,10 +21,11 @@
 #include "math/util.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
 Shard::Shard(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/creatures/crystallo/shard.sprite", LAYER_TILES - 2, COLGROUP_MOVING),
+  StickyObject(reader, "images/creatures/crystallo/shard.sprite", LAYER_TILES - 2, COLGROUP_MOVING),
   m_physic(),
   m_stick_timer()
 {
@@ -33,7 +34,7 @@ Shard::Shard(const ReaderMapping& reader) :
 }
 
 Shard::Shard(const Vector& pos, const Vector& velocity, const std::string& sprite) :
-  MovingSprite(pos, sprite, LAYER_TILES - 2, COLGROUP_MOVING),
+  StickyObject(pos, sprite, LAYER_TILES - 2, COLGROUP_MOVING),
   m_physic(),
   m_stick_timer()
 {
@@ -46,11 +47,16 @@ Shard::Shard(const Vector& pos, const Vector& velocity, const std::string& sprit
 void
 Shard::update(float dt_sec)
 {
-  if (m_physic.get_velocity() != Vector(0.f, 0.f))
+  m_sticky = true;
+
+  if (m_physic.get_velocity() != Vector(0.f, 0.f) && !m_sticking)
     m_sprite->set_angle(math::degrees(math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()))));
-  m_col.set_movement(m_physic.get_movement(dt_sec));
   if (m_stick_timer.check())
     remove_me();
+
+  m_col.set_movement(m_physic.get_movement(dt_sec));
+
+  StickyObject::update(dt_sec);
 }
 
 void
