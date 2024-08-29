@@ -350,7 +350,7 @@ EditorLayersWidget::has_mouse_focus() const
 }
 
 void
-EditorLayersWidget::resize()
+EditorLayersWidget::on_window_resize()
 {
   m_Ypos = SCREEN_HEIGHT - 32;
   m_Width = SCREEN_WIDTH - 128;
@@ -359,7 +359,7 @@ EditorLayersWidget::resize()
 void
 EditorLayersWidget::setup()
 {
-  resize();
+  on_window_resize();
 }
 
 void

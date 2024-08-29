@@ -206,14 +206,12 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""gravity"" property instead!
    * Sets the sector's gravity.
    * @param float $gravity
    */
   void set_gravity(float gravity);
   /**
    * @scripting
-   * @deprecated Use the ""gravity"" property instead!
    * Returns the sector's gravity.
    * @param float $gravity
    */

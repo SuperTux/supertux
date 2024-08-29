@@ -413,10 +413,10 @@ Player::update(float dt_sec)
   }
 
   // Skip if in multiplayer respawn
-  if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p) { return !p.is_dead() && !p.is_dying() && !p.is_winning() && &p != this; }))
+  if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p) { return p.is_active() && &p != this; }))
   {
     auto* target = Sector::get().get_object_by_uid<Player>(*m_target);
-    if (!target || target->is_dying() || target->is_dead() || target->is_winning())
+    if (!target || !target->is_active())
     {
       next_target();
     }
@@ -545,7 +545,7 @@ Player::update(float dt_sec)
     set_bonus(NO_BONUS, true);
     m_dead = true;
 
-    if (!Sector::get().get_object_count<Player>([](const Player& p) { return !p.is_dead() && !p.is_dying(); }))
+    if (!Sector::get().get_object_count<Player>([](const Player& p) { return p.is_alive(); }))
     {
       Sector::get().stop_looping_sounds();
     }
@@ -1992,7 +1992,7 @@ Player::draw(DrawingContext& context)
   if(Editor::is_active())
     return;
 
-  if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p){ return !p.is_dead() && !p.is_dying() && !p.is_winning() && &p != this; }))
+  if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p){ return p.is_active() && &p != this; }))
   {
     auto* target = Sector::get().get_object_by_uid<Player>(*m_target);
     if (target)
@@ -2463,7 +2463,7 @@ Player::kill(bool completely)
     m_dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
 
-    auto alive_players = Sector::get().get_object_count<Player>([](const Player& p){ return !p.is_dead() && !p.is_dying(); });
+    auto alive_players = Sector::get().get_object_count<Player>([](const Player& p){ return p.is_alive(); });
 
     if (!alive_players)
     {
@@ -2539,7 +2539,7 @@ Player::check_bounds()
   }
 
   // If Tux is swimming, don't allow him to go below the sector
-  if (m_swimming && !m_ghost_mode && !is_dying() && !is_dead()
+  if (m_swimming && !m_ghost_mode && is_alive()
       && m_col.m_bbox.get_bottom() > Sector::get().get_height()) {
     m_col.set_pos(Vector(m_col.m_bbox.get_left(),
                          Sector::get().get_height() - m_col.m_bbox.get_height()));
@@ -2910,7 +2910,7 @@ Player::next_target()
   bool is_next = false;
   for (auto* player : players)
   {
-    if (!player->is_dead() && !player->is_dying() && !player->is_winning())
+    if (player->is_active())
     {
       if (!first)
       {
@@ -2950,7 +2950,7 @@ Player::prev_target()
   Player* last = nullptr;
   for (auto* player : players)
   {
-    if (!player->is_dead() && !player->is_dying() && !player->is_winning())
+    if (player->is_active())
     {
       if (m_target && player->get_uid() == *m_target && last)
       {
@@ -3098,6 +3098,8 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("get_input_pressed", &Player::get_input_pressed);
   cls.addFunc("get_input_held", &Player::get_input_held);
   cls.addFunc("get_input_released", &Player::get_input_released);
+
+  cls.addVar("visible", &Player::m_visible);
 }
 
 /* EOF */

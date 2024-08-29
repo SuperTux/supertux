@@ -33,7 +33,7 @@ public:
   virtual void update(float dt_sec) {}
 
   virtual void setup() {}
-  virtual void resize() {}
+  virtual void on_window_resize() {}
 
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) { return false; }
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) { return false; }
