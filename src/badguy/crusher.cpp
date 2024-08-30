@@ -652,18 +652,19 @@ Crusher::eye_position(bool right) const
     }
     break;
   case RECOVERING:
+    auto amplitude = static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f;
     // Eyes spin while crusher is recovering, giving a dazed impression.
     return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other.
       ((!m_sideways ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position.
       (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f)) * //Phase factor due to cooldown timer.
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f - (right ? 1 : -1) * // Amplitude dependent on size.
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f, // Offset to keep eyes visible.
+      amplitude - (right ? 1 : -1) * // Amplitude dependent on size.
+      amplitude, // Offset to keep eyes visible.
 
       cosf((right ? 3.1415f : 0.0f) + // Eyes spin out of phase of eachother.
       (!m_sideways ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position.
         (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f) * //Phase factor due to cooldown timer.
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size.
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible.
+      amplitude -  // Amplitude dependent on size.
+      amplitude); // Offset to keep eyes visible.
   default:
     log_debug << "Crusher in invalid state" << std::endl;
     break;
