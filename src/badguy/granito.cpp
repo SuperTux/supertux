@@ -50,7 +50,7 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
 void
 Granito::active_update(float dt_sec)
 {
-  if (m_state == STATE_SIT || m_type == WALK)
+  if (m_state == STATE_SIT)
   {
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
@@ -82,6 +82,14 @@ Granito::active_update(float dt_sec)
     {
       set_action(m_dir);
     }
+  }
+
+  if (m_type == WALK)
+  {
+    // Don't do any extra calculations
+    WalkingBadguy::active_update(dt_sec);
+    m_stepped_on = false;
+    return;
   }
 
   if ((m_state == STATE_LOOKUP && !m_stepped_on) ||
