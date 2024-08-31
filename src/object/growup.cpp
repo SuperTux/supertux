@@ -32,8 +32,6 @@ GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom
   physic.enable_gravity(true);
   physic.set_velocity_x((direction == Direction::LEFT) ? -100.0f : 100.0f);
   SoundManager::current()->preload("sounds/grow.ogg");
-  // Set the shadow action for the egg sprite, so it remains in place as the egg rolls.
-  shadesprite->set_action("shadow");
 }
 
 MovingSprite::LinkedSprites

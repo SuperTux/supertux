@@ -148,8 +148,8 @@ MovingSprite::update_hitbox()
 void
 MovingSprite::set_action(const std::string& name)
 {
-  m_sprite->set_action(name);
-  update_hitbox();
+  if (m_sprite->set_action(name))
+    on_sprite_update();
 }
 
 void
@@ -161,36 +161,38 @@ MovingSprite::set_action_loops(const std::string& name, int loops)
 void
 MovingSprite::set_action(const std::string& name, int loops)
 {
-  m_sprite->set_action(name, loops);
-  on_sprite_update();
+  if (m_sprite->set_action(name, loops))
+    on_sprite_update();
 }
 
 void
 MovingSprite::set_action(const std::string& name, const Direction& dir, int loops)
 {
-  m_sprite->set_action(name, dir, loops);
-  on_sprite_update();
+  if (m_sprite->set_action(name, dir, loops))
+    on_sprite_update();
 }
 
 void
 MovingSprite::set_action(const Direction& dir, const std::string& name, int loops)
 {
-  m_sprite->set_action(dir, name, loops);
-  on_sprite_update();
+  if (m_sprite->set_action(dir, name, loops))
+    on_sprite_update();
 }
 
 void
 MovingSprite::set_action(const Direction& dir, int loops)
 {
-  m_sprite->set_action(dir, loops);
-  on_sprite_update();
+  if (m_sprite->set_action(dir, loops))
+    on_sprite_update();
 }
 
 void
 MovingSprite::set_action_centered(const std::string& action, int loops)
 {
   Vector old_size = m_col.m_bbox.get_size().as_vector();
-  m_sprite->set_action(action, loops);
+  if (!m_sprite->set_action(action, loops))
+    return;
+
   on_sprite_update();
   set_pos(get_pos() - (m_col.m_bbox.get_size().as_vector() - old_size) / 2.0f);
 }
@@ -199,7 +201,9 @@ void
 MovingSprite::set_action(const std::string& action, int loops, AnchorPoint anchorPoint)
 {
   Rectf old_bbox = m_col.m_bbox;
-  m_sprite->set_action(action, loops);
+  if (!m_sprite->set_action(action, loops))
+    return;
+
   on_sprite_update();
   set_pos(get_anchor_pos(old_bbox, m_sprite->get_current_hitbox_width(),
                          m_sprite->get_current_hitbox_height(), anchorPoint));

@@ -33,28 +33,32 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
   m_state(MB_STATE_NORMAL),
   m_ticking_sound(),
-  m_exploding_sprite(m_sprite->get_linked_sprite("explode"))
+  m_exploding_sprite(m_sprite->get_linked_sprite("ticking-glow"))
 {
   walk_speed = 80;
   set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/explosion.wav");
-
-  m_exploding_sprite->set_action("default", 1);
 }
 
 MrBomb::MrBomb(const ReaderMapping& reader, const std::string& sprite):
   WalkingBadguy(reader, sprite, "left", "right"),
   m_state(MB_STATE_NORMAL),
   m_ticking_sound(),
-  m_exploding_sprite(m_sprite->get_linked_sprite("explode"))
+  m_exploding_sprite(m_sprite->get_linked_sprite("ticking-glow"))
 {
   walk_speed = 80;
   set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/explosion.wav");
+}
 
-  m_exploding_sprite->set_action("default", 1);
+MovingSprite::LinkedSprites
+MrBomb::get_linked_sprites()
+{
+  return {
+    { "ticking-glow", m_exploding_sprite }
+  };
 }
 
 void
@@ -327,8 +331,6 @@ MrBomb::play_looping_sounds()
 void
 MrBomb::update_ticking(float dt_sec)
 {
-  m_exploding_sprite->set_action("exploding", 1);
-
   if (on_ground())
     m_physic.set_velocity_x(0);
 

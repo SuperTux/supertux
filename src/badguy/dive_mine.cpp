@@ -48,7 +48,6 @@ void
 DiveMine::reset_sprites()
 {
   set_action(m_dir);
-  m_ticking_glow->set_action("idle");
 }
 
 void
@@ -180,8 +179,6 @@ DiveMine::active_update(float dt_sec)
     }
 
     set_action("ticking", m_dir);
-    m_ticking_glow->set_action("ticking");
-
     m_physic.set_velocity(glm::normalize(dist) * s_swim_speed);
   }
   else

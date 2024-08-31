@@ -69,7 +69,7 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
     {
       parse_action(iter.as_mapping());
     }
-    else if (iter.get_key() == "linked-sprites") // "(linked-sprites ({key} "{path}" {color r/g/b [optional]}) )"
+    else if (iter.get_key() == "linked-sprites")
     {
       auto iter_sprites = iter.as_mapping().get_iter();
       while (iter_sprites.next())
@@ -81,7 +81,8 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
         if (!PHYSFS_exists(filepath.c_str())) // If file path is not relative to current directory, make it relative to root
           filepath = arr[1].as_string();
 
-        if (arr[0].as_string() == "light") // The key "light" is reserved for light sprites
+        const std::string key = arr[0].as_string();
+        if (key == "light") // The key "light" is reserved for light sprites
         {
           linked_light_sprite = LinkedLightSprite(filepath);
 
@@ -96,10 +97,17 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
         }
         else
         {
-          linked_sprites[arr[0].as_string()] = LinkedSprite(filepath);
+          LinkedSprite linked_sprite = LinkedSprite(filepath);
 
           if (arr.size() >= 3) // Default action has been specified
-            linked_sprites[arr[0].as_string()].action = arr[2].as_string();
+          {
+            linked_sprite.action = arr[2].as_string();
+
+            if (arr.size() >= 4) // Default action loops have been specified
+              linked_sprite.loops = arr[3].as_int();
+          }
+
+          linked_sprites[key] = std::move(linked_sprite);
         }
       }
     }
@@ -202,7 +210,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   }
 
   std::optional<ReaderMapping> linked_sprites_mapping;
-  if (mapping.get("linked-sprites", linked_sprites_mapping)) // "(linked-sprites ({key} "{path}" {color r/g/b [optional]}) )"
+  if (mapping.get("linked-sprites", linked_sprites_mapping))
   {
     auto iter_sprites = linked_sprites_mapping->get_iter();
     while (iter_sprites.next())
@@ -214,7 +222,8 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       if (!PHYSFS_exists(filepath.c_str())) // If file path is not relative to current directory, make it relative to root
         filepath = arr[1].as_string();
 
-      if (arr[0].as_string() == "light") // The key "light" is reserved for light sprites
+      const std::string key = arr[0].as_string();
+      if (key == "light") // The key "light" is reserved for light sprites
       {
         action->linked_light_sprite = LinkedLightSprite(filepath);
 
@@ -229,10 +238,17 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       }
       else
       {
-        action->linked_sprites[arr[0].as_string()] = LinkedSprite(filepath);
+        LinkedSprite linked_sprite = LinkedSprite(filepath);
 
         if (arr.size() >= 3) // Default action has been specified
-          action->linked_sprites[arr[0].as_string()].action = arr[2].as_string();
+        {
+          linked_sprite.action = arr[2].as_string();
+
+          if (arr.size() >= 4) // Default action loops have been specified
+            linked_sprite.loops = arr[3].as_int();
+        }
+
+        action->linked_sprites[key] = std::move(linked_sprite);
       }
     }
   }

@@ -64,6 +64,8 @@ protected:
 
   virtual bool collision_squished(GameObject& object) override;
 
+  LinkedSprites get_linked_sprites() override;
+
 protected:
   enum State : uint8_t {
     MB_STATE_NORMAL,

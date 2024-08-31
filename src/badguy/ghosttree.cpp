@@ -82,7 +82,6 @@ GhostTree::die()
   if (m_lives <= 0) {
     mystate = STATE_DYING;
     set_action("dying", 1);
-    glow_sprite->set_action("dying", 1);
     run_dead_script();
   }
 }

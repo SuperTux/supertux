@@ -67,40 +67,40 @@ Sprite::clone() const
   return SpritePtr(new Sprite(*this));
 }
 
-void
+bool
 Sprite::set_action(const std::string& name, const Direction& dir, int loops)
 {
   if (dir == Direction::NONE)
-    set_action(name, loops);
+    return set_action(name, loops);
   else
-    set_action(name + "-" + dir_to_string(dir), loops);
+    return set_action(name + "-" + dir_to_string(dir), loops);
 }
 
-void
+bool
 Sprite::set_action(const Direction& dir, const std::string& name, int loops)
 {
   if (dir == Direction::NONE)
-    set_action(name, loops);
+    return set_action(name, loops);
   else
-    set_action(dir_to_string(dir) + "-" + name, loops);
+    return set_action(dir_to_string(dir) + "-" + name, loops);
 }
 
-void
+bool
 Sprite::set_action(const Direction& dir, int loops)
 {
-  set_action(dir_to_string(dir), loops);
+  return set_action(dir_to_string(dir), loops);
 }
 
-void
+bool
 Sprite::set_action(const std::string& name, int loops)
 {
   if (m_action && m_action->name == name)
-    return;
+    return false;
 
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
     log_warning << "Action '" << name << "' not found." << std::endl;
-    return;
+    return false;
   }
 
   // Automatically resume if a new action is set
@@ -111,7 +111,7 @@ Sprite::set_action(const std::string& name, int loops)
   {
     m_action = newaction;
     update();
-    return;
+    return true;
   }
 
   // If the new action has a loops property,
@@ -125,6 +125,7 @@ Sprite::set_action(const std::string& name, int loops)
   }
 
   m_action = newaction;
+  return true;
 }
 
 bool
@@ -239,10 +240,19 @@ Sprite::get_linked_sprite(const std::string& key) const
 {
   SpritePtr sprite = SpriteManager::current()->create(get_linked_sprite_file(key));
 
-  if (m_action->linked_sprites.find(key) != m_action->linked_sprites.end() && !m_action->linked_sprites.at(key).action.empty())
-    sprite->set_action(m_action->linked_sprites.at(key).action);
-  else if (m_data.linked_sprites.find(key) != m_data.linked_sprites.end() && !m_data.linked_sprites.at(key).action.empty())
-    sprite->set_action(m_data.linked_sprites.at(key).action);
+  if (m_action->linked_sprites.find(key) != m_action->linked_sprites.end())
+  {
+    const SpriteData::LinkedSprite& linked_sprite = m_action->linked_sprites.at(key);
+log_warning << linked_sprite.action << std::endl;
+    if (!linked_sprite.action.empty())
+      sprite->set_action(linked_sprite.action, linked_sprite.loops);
+  }
+  else if (m_data.linked_sprites.find(key) != m_data.linked_sprites.end())
+  {
+    const SpriteData::LinkedSprite& linked_sprite = m_data.linked_sprites.at(key);
+    if (!linked_sprite.action.empty())
+      sprite->set_action(linked_sprite.action, linked_sprite.loops);
+  }
 
   return sprite;
 }

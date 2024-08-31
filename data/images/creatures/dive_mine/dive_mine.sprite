@@ -24,18 +24,21 @@
  
  (action
   (name "iced-left")
-  (hitbox 10 13 45 43)
+  (hitbox 5 8 32 32)
   (images "left-0.png"))
  
  (action
   (name "iced-right")
-  (hitbox 6 13 45 43)
+  (hitbox 5 8 32 32)
   (mirror-action "iced-left"))
 
  (action
   (name "ticking-left")
   (fps 15.0)
   (hitbox 14 19 32 32)
+  (linked-sprites
+    (ticking-glow "ticking_glow/ticking_glow.sprite" "ticking")
+  )
   (images "ticking-0.png"
           "ticking-1.png"
           "ticking-2.png"
@@ -45,17 +48,19 @@
 		  "ticking-6.png"
 		  "ticking-7.png"
 		  "ticking-8.png"
-		  "ticking-9.png"
-          ))
+		  "ticking-9.png"))
 
  
  (action
   (name "ticking-right")
   (fps 15.0)
   (hitbox 14 19 32 32)
+  (linked-sprites
+    (ticking-glow "ticking_glow/ticking_glow.sprite" "ticking")
+  )
   (mirror-action "ticking-left"))
 
-  (linked-sprites
-    (ticking-glow "images/creatures/dive_mine/ticking_glow/ticking_glow.sprite")
-  )
+ (linked-sprites
+   (ticking-glow "ticking_glow/ticking_glow.sprite" "idle")
+ )
 )

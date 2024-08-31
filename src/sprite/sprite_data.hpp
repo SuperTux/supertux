@@ -49,21 +49,24 @@ public:
   }
 
 private:
-  struct LinkedSprite
+  struct LinkedSprite final
   {
     LinkedSprite(const std::string& file_ = {}) :
-      file(file_), action()
+      file(file_), action(), loops(-1)
     {}
 
     std::string file;
     std::string action;
+    int loops;
   };
-  struct LinkedLightSprite final : public LinkedSprite
+  struct LinkedLightSprite final
   {
     LinkedLightSprite(const std::string& file_ = {}) :
-      LinkedSprite(file_), color()
+      file(file_), action(), color()
     {}
 
+    std::string file;
+    std::string action;
     Color color;
   };
   typedef std::unordered_map<std::string, LinkedSprite> LinkedSprites;

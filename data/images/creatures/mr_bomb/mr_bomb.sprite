@@ -33,6 +33,9 @@
   (fps 15.0)
   (loops 1)
   (hitbox 14 19 32 32)
+  (linked-sprites
+    (ticking-glow "ticking_glow/ticking_glow.sprite" "exploding")
+  )
   (images "ticking-0.png"
           "ticking-1.png"
           "ticking-2.png"
@@ -107,9 +110,12 @@
   (fps 15.0)
   (loops 1)
   (hitbox 14 19 32 32)
+  (linked-sprites
+    (ticking-glow "ticking_glow/ticking_glow.sprite" "exploding" 1)
+  )
   (mirror-action "ticking-left"))
 
   (linked-sprites
-    (explode "ticking_glow/ticking_glow.sprite")
+    (ticking-glow "ticking_glow/ticking_glow.sprite")
   )
 )

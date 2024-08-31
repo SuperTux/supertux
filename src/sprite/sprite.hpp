@@ -43,22 +43,22 @@ public:
                    Flip flip = NO_FLIP);
 
   /** Set action (or state) */
-  void set_action(const std::string& name, int loops = -1);
+  bool set_action(const std::string& name, int loops = -1);
 
   /** Composes action (or state) string from an action name and a particular direction
    * in the form of "name-direction", eg. "walk-left"
    */
-  void set_action(const std::string& name, const Direction& dir, int loops = -1);
+  bool set_action(const std::string& name, const Direction& dir, int loops = -1);
 
   /** Composes action (or state) string from an action name and a particular direction
    * in the form of "direction-name", eg. "left-up"
    */
-  void set_action(const Direction& dir, const std::string& name, int loops = -1);
+  bool set_action(const Direction& dir, const std::string& name, int loops = -1);
 
   /** Composes action (or state) string from a particular direction
    * in the form of "direction", e.g. "left"
    */
-  void set_action(const Direction& dir, int loops = -1);
+  bool set_action(const Direction& dir, int loops = -1);
 
   /** Set number of animation cycles until animation stops */
   void set_animation_loops(int loops = -1) { m_animation_loops = loops; }
