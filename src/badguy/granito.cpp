@@ -243,6 +243,9 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     m_physic.reset();
   }
 
+  // Call other collision functions (collision_player, collision_badguy, ...)
+  WalkingBadguy::collision(other, hit);
+
   return FORCE_MOVE;
 }
 
