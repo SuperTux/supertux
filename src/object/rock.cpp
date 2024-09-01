@@ -188,10 +188,12 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
+  /*
   auto crusher = dynamic_cast<Crusher*> (&other);
   if (crusher) {
     return FORCE_MOVE;
   }
+  */
 
   if (hit.bottom) {
     auto player = dynamic_cast<Player*> (&other);
