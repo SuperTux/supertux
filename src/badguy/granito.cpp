@@ -221,10 +221,11 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
   if (hit.top)
     m_col.propagate_movement(m_col.get_movement());
 
+
   if (hit.bottom)
   {
     if (m_state == STATE_SIT)
-      return WalkingBadguy::collision(other, hit);
+      goto granito_collision_end;
 
     // Yo big granito can i sit on top of your head?
     GranitoBig* granito = dynamic_cast<GranitoBig*>(&other);
@@ -232,13 +233,13 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     if (!granito)
     {
       // I'm not a big granito.
-      return WalkingBadguy::collision(other, hit);
+      goto granito_collision_end;
     }
 
     if (granito->get_carrying() != nullptr)
     {
       // Sorry, im already carrying this guy.
-      return WalkingBadguy::collision(other, hit);
+      goto granito_collision_end;
     }
 
     // Sure dude.
@@ -250,6 +251,17 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     walk_speed = 0;
     m_physic.reset();
   }
+
+  {
+    auto* movingobject = dynamic_cast<MovingObject*>(&other);
+    if (movingobject != nullptr && movingobject->get_group() == COLGROUP_MOVING_STATIC &&
+        m_dir == Direction::LEFT ? hit.left : hit.right) {
+      turn(invert_dir(m_dir));
+      return ABORT_MOVE;
+    }
+  }
+
+granito_collision_end:
 
   // Call other collision functions (collision_player, collision_badguy, ...)
   WalkingBadguy::collision(other, hit);
