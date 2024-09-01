@@ -116,8 +116,6 @@ JoystickManager::on_joystick_removed(int instance_id)
 {
   log_debug << "on_joystick_removed: " << static_cast<int>(instance_id) << std::endl;
 
-  std::vector<SDL_Joystick*> erase_us;
-
   auto it = std::find_if(joysticks.begin(), joysticks.end(), [instance_id] (decltype(joysticks)::const_reference pair) {
     return SDL_JoystickInstanceID(pair.first) == instance_id;
   });
