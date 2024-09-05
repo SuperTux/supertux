@@ -1,3 +1,4 @@
+#[[
 if(ANDROID)
   find_library(glm::glm glm)
   if(TARGET glm::glm)
@@ -5,18 +6,18 @@ if(ANDROID)
     set(USE_SYSTEM_GLM TRUE)
   endif()
 else()
-  if(EMSCRIPTEN)
-    option(USE_SYSTEM_GLM "Use the system-provided GLM instead of the external module" OFF)
-  else()
-    option(USE_SYSTEM_GLM "Use the system-provided GLM instead of the external module" ON)
-  endif()
-
-  if(USE_SYSTEM_GLM)
-    find_package(glm QUIET)
-  endif()
+]]
+if(EMSCRIPTEN)
+  option(USE_SYSTEM_GLM "Use the system-provided GLM instead of the external module" OFF)
+else()
+  option(USE_SYSTEM_GLM "Use the system-provided GLM instead of the external module" ON)
 endif()
 
-if(NOT USE_SYSTEM_GLM)
+if(USE_SYSTEM_GLM)
+  find_package(glm QUIET)
+endif()
+
+if(NOT USE_SYSTEM_GLM AND NOT glm_FOUND)
   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/external/glm/CMakeLists.txt")
     message(FATAL_ERROR "")
   endif()

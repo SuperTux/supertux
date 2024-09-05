@@ -4,11 +4,7 @@ if(EMSCRIPTEN)
   set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -sUSE_VORBIS=1")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sUSE_VORBIS=1")
 else()
-  if(ANDROID)
-    find_library(OggVorbis vorbis)
-  else()
-    find_package(OggVorbis REQUIRED)
-  endif()
+  find_package(OggVorbis REQUIRED)
 
   add_library(LibOggVorbis INTERFACE IMPORTED)
   set_target_properties(LibOggVorbis PROPERTIES

@@ -43,7 +43,6 @@ if(TINYGETTEXT_WITH_SDL)
     target_compile_definitions(tinygettext PUBLIC TINYGETTEXT_WITH_SDL)
     target_link_libraries(tinygettext PUBLIC SDL2)
   else()
-    # lol no windows
     find_package(PkgConfig REQUIRED)
     pkg_search_module(SDL2 REQUIRED sdl2 IMPORTED_TARGET)
     target_compile_definitions(tinygettext PUBLIC TINYGETTEXT_WITH_SDL)

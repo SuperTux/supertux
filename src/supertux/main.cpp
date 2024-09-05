@@ -205,6 +205,7 @@ void PhysfsSubsystem::find_mount_datadir()
       log_warning << "Couldn't setup android assets: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
     }
 
+/*
     PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
     if (!data)
     {
@@ -216,6 +217,7 @@ void PhysfsSubsystem::find_mount_datadir()
     {
       log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
     }
+*/
 
     return;
 #endif
@@ -425,7 +427,6 @@ PhysfsSubsystem::setup_android_datadir() const
   (this means only SDL knows how to use the JNI to load assets)
   1. Copy the data zip inside the apk to userdir
   2. Physfs mounts that new data zip
-  This solution works... until it doesn't
   */
 
   std::string zippath = "data.zip";
@@ -439,7 +440,7 @@ PhysfsSubsystem::setup_android_datadir() const
   bool newdata = true;
   if (FileSystem::exists(newzip)) {
     // Oh wait, the zip already exists?
-    // Well is it different?
+    // Well, is it different?
     size_t currzipsz;
     void* currzip = SDL_LoadFile(newzip.c_str(), &currzipsz);
 

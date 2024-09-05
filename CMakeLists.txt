@@ -294,20 +294,18 @@ if(ENABLE_DISCORD)
   target_link_libraries(supertux2_lib PUBLIC LibDiscord)
 endif()
 
-# FIXME: Some libraries made by Provide*.cmake
-# scripts are not passed to the linker. This
-# forcefully links them
+# FIXME: Very janky development enviroment!
 if(ANDROID)
   target_link_libraries(supertux2_lib PUBLIC physfs)
   target_link_libraries(supertux2_lib PUBLIC libcurl)
   target_link_libraries(supertux2_lib PUBLIC OpenAL)
   target_link_libraries(supertux2_lib PUBLIC ogg)
   target_link_libraries(supertux2_lib PUBLIC vorbis)
-  target_link_libraries(supertux2_lib PUBLIC vorbisenc)
   target_link_libraries(supertux2_lib PUBLIC vorbisfile)
   target_link_libraries(supertux2_lib PUBLIC glm)
-  find_library(png png)
   target_link_libraries(supertux2_lib PUBLIC png)
+
+  # This is fine, though.
   find_library(log-lib log)
   target_link_libraries(supertux2_lib PUBLIC ${log-lib})
 endif()
