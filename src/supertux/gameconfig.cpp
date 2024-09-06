@@ -76,7 +76,11 @@ Config::Config() :
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
+#ifdef __ANDROID__
+  custom_mouse_cursor(false),
+#else
   custom_mouse_cursor(true),
+#endif
 #ifdef __EMSCRIPTEN__
   do_release_check(false),
 #else
