@@ -721,21 +721,29 @@ Sector::get_gravity() const
 }
 
 Player*
-Sector::get_nearest_player (const Vector& pos) const
+Sector::get_nearest_player(const Vector& pos) const
 {
-  Player *nearest_player = nullptr;
+  auto players = get_objects_by_type_index(typeid(Player));
+  if (players.size() == 1)
+  {
+    Player* player = static_cast<Player*>(players[0]);
+    return (!player->is_alive() ? nullptr : player);
+  }
+
+  Player* nearest_player = nullptr;
   float nearest_dist = std::numeric_limits<float>::max();
 
-  for (auto player_ptr : get_objects_by_type_index(typeid(Player)))
+  for (auto player_ptr : players)
   {
-    Player& player = *static_cast<Player*>(player_ptr);
-    if (!player.is_alive())
+    Player* player = static_cast<Player*>(player_ptr);
+    if (!player->is_alive())
       continue;
 
-    float dist = player.get_bbox ().distance(pos);
+    float dist = player->get_bbox().distance(pos);
 
-    if (dist < nearest_dist) {
-      nearest_player = &player;
+    if (dist < nearest_dist)
+    {
+      nearest_player = player;
       nearest_dist = dist;
     }
   }
@@ -913,7 +921,7 @@ Sector::register_class(ssq::VM& vm)
   cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_movingstatics", &Sector::is_free_of_movingstatics);
   cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_specifically_movingstatics", &Sector::is_free_of_specifically_movingstatics);
 
-  cls.addVar("gravity", &Sector::get_gravity, &Sector::set_gravity);
+  cls.addVar("gravity", &Sector::m_gravity);
 }
 
 /* EOF */
