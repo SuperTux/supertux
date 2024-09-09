@@ -64,7 +64,7 @@ public:
   }
 
   // Meant for checking directions
-  AATriangle(int newdir) :
+  explicit AATriangle(int newdir) :
     bbox(),
     dir(newdir)
   {
