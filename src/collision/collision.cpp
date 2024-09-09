@@ -129,7 +129,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
 
   Vector outvec = normal * (depth + 0.2f);
 
-  const float RDELTA = 3;
+  const float RDELTA = 1.5f;
   if (p1.x < area.get_left() - RDELTA || p1.x > area.get_right() + RDELTA
      || p1.y < area.get_top() - RDELTA || p1.y > area.get_bottom() + RDELTA) {
     set_rectangle_rectangle_constraints(constraints, rect, area);
