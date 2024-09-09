@@ -708,11 +708,11 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
 }
 
 bool
-CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const
+CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype) const
 {
   using namespace collision;
 
-  if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
+  if (!is_free_of_tiles(rect, ignoreUnisolid, tiletype)) return false;
 
   for (const auto& object : m_objects) {
     if (object == ignore_object) continue;

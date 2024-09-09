@@ -550,11 +550,12 @@ Sector::is_free_of_solid_tiles(float left, float top, float right, float bottom,
 }
 
 bool
-Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
+Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype) const
 {
   return m_collision_system->is_free_of_statics(rect,
                                                 ignore_object ? ignore_object->get_collision_object() : nullptr,
-                                                ignoreUnisolid);
+                                                ignoreUnisolid,
+                                                tiletype);
 }
 
 bool

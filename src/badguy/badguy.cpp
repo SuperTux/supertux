@@ -22,6 +22,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
+#include "math/aatriangle.hpp"
 #include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -69,11 +70,12 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_glowing(false),
   m_water_affected(true),
   m_unfreeze_timer(),
+  m_floor_normal(0.0f, 0.0f),
+  m_detected_slope(0),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
   m_on_ground_flag(false),
-  m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
 {
   SoundManager::current()->preload("sounds/squish.wav");
@@ -112,11 +114,12 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_glowing(false),
   m_water_affected(true),
   m_unfreeze_timer(),
+  m_floor_normal(0.0f, 0.0f),
+  m_detected_slope(0),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
   m_on_ground_flag(false),
-  m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
 {
   std::string dir_str;
@@ -139,6 +142,25 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
 void
 BadGuy::draw(DrawingContext& context)
 {
+  /*
+  // TODEL: this shows the detection ranges for the might_fall function.
+  Vector eye(0, get_bbox().get_bottom() + 1.f);
+  eye.x = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
+
+  Vector end(eye.x, eye.y + 256.f);
+  context.color().draw_line(eye, end, Color::GREEN, LAYER_GUI);
+
+  float dirmult = (m_dir == Direction::LEFT ? 1.f : -1.f);
+  float rearx = (m_dir == Direction::LEFT ? get_bbox().get_right() : get_bbox().get_left());
+
+  float soff = (get_width() / 5.f) * dirmult;
+  Vector seye(rearx - soff, eye.y);
+
+  float eoff = soff - (2.f * dirmult);
+  Vector send(seye.x + eoff, seye.y + 80.f);
+  context.color().draw_line(seye, send, Color::GREEN, LAYER_GUI);
+  */
+
   if (!m_sprite.get()) return;
 
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
@@ -833,25 +855,98 @@ BadGuy::try_activate()
 }
 
 bool
-BadGuy::might_fall(int height) const
+BadGuy::might_fall(int height)
 {
-  // Make sure we check for at least a 1-pixel fall.
+  using RaycastResult = CollisionSystem::RaycastResult;
+
   assert(height > 0);
 
-  float x1;
-  float x2;
-  float y1 = m_col.m_bbox.get_bottom() + 1;
-  float y2 = m_col.m_bbox.get_bottom() + 1 + static_cast<float>(height);
-  if (m_dir == Direction::LEFT) {
-    x1 = m_col.m_bbox.get_left() - 1;
-    x2 = m_col.m_bbox.get_left();
-  } else {
-    x1 = m_col.m_bbox.get_right();
-    x2 = m_col.m_bbox.get_right() + 1;
-  }
-  const Rectf rect = Rectf(x1, y1, x2, y2);
+  // Origin in Y coord used for raycasting.
+  float oy = get_bbox().get_bottom() + 1.f;
 
-  return Sector::get().is_free_of_statics(rect) && Sector::get().is_free_of_specifically_movingstatics(rect);
+  if (m_detected_slope == 0)
+  {
+    Vector eye(0, oy);
+    eye.x = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
+
+    Vector end(eye.x, eye.y + static_cast<float>(s_normal_max_drop_height));
+
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
+
+    if (result.is_valid && result.box.get_top() - eye.y < static_cast<float>(height))
+    {
+      // The ground is within max drop height. Continue.
+      return false;
+    }
+
+    auto tile_p = std::get_if<const Tile*>(&result.hit);
+    if (tile_p && (*tile_p) && (*tile_p)->is_slope())
+    {
+      // Check if we are about to go down a slope.
+      AATriangle tri((*tile_p)->get_data());
+      if (tri.is_south() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
+      {
+        // Switch to slope mode.
+        m_detected_slope = tri.dir;
+      }
+
+      // Otherwise, climb the slope like normal,
+      // by returning false at the end of this function.
+    }
+    else
+    {
+      // The ground is no longer within reach. Turn around.
+      return true;
+    }
+  }
+
+  if (m_detected_slope != 0)
+  {
+    float dirmult = (m_dir == Direction::LEFT ? 1.f : -1.f);
+
+    // X position of the opposite face of the hitbox relative to m_dir.
+    float rearx = (m_dir == Direction::LEFT ? get_bbox().get_right() : get_bbox().get_left());
+
+    // X Offset from rearx used for determining the start of the raycast.
+    float startoff = (get_width() / 5.f) * dirmult;
+    Vector eye(rearx - startoff, oy);
+
+    // X Offset from eye's X used for determining the end of the raycast.
+    float endoff = startoff - (2.f * dirmult);
+    Vector end(eye.x + endoff, eye.y + 80.f);
+
+    // The resulting line segment (eye, end) should result in a downwards facing diagonal direction.
+
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
+
+    std::cout << result.is_valid << std::endl;
+
+    if (!result.is_valid)
+    {
+      // Turn around and climb the slope.
+      m_detected_slope = 0;
+      return true;
+    }
+
+    if (result.box.get_top() - eye.y > static_cast<float>(height) + 1.f)
+    {
+      // Result is not within reach.
+      m_detected_slope = 0;
+      return true;
+    }
+
+    auto tile_p = std::get_if<const Tile*>(&result.hit);
+    if (tile_p && (*tile_p) && (*tile_p)->is_slope())
+    {
+      // Still going down a slope. Continue.
+      return false;
+    }
+
+    // No longer going down a slope. Switch off slope mode.
+    m_detected_slope = 0;
+  }
+
+  return false;
 }
 
 Player*
