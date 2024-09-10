@@ -34,14 +34,16 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
                            int layer_, CollisionGroup collision_group) :
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
-  m_sprite(SpriteManager::current()->create(m_sprite_name)),
+  m_sprite(),
+  m_light_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false),
   m_custom_layer(false)
 {
+  change_sprite(m_sprite_name);
+
   m_col.m_bbox.set_pos(pos);
-  update_hitbox();
   set_group(collision_group);
 }
 
@@ -56,13 +58,12 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
   m_sprite(),
+  m_light_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false),
   m_custom_layer(reader.get("z-pos", m_layer))
 {
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid or sprite change fails
@@ -80,18 +81,17 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite_name(),
   m_default_sprite_name(),
   m_sprite(),
+  m_light_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false),
   m_custom_layer(reader.get("z-pos", m_layer))
 {
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
-  //m_default_sprite_name = m_sprite_name;
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
-  update_hitbox();
+  if (m_sprite_name.empty() || !change_sprite(m_sprite_name))
+    m_sprite_found = false;
+
   set_group(collision_group);
 }
 
@@ -99,6 +99,9 @@ void
 MovingSprite::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+  if (m_light_sprite)
+    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void
@@ -145,8 +148,8 @@ MovingSprite::update_hitbox()
 void
 MovingSprite::set_action(const std::string& name)
 {
-  m_sprite->set_action(name);
-  update_hitbox();
+  if (m_sprite->set_action(name))
+    on_sprite_update();
 }
 
 void
@@ -158,37 +161,39 @@ MovingSprite::set_action_loops(const std::string& name, int loops)
 void
 MovingSprite::set_action(const std::string& name, int loops)
 {
-  m_sprite->set_action(name, loops);
-  update_hitbox();
+  if (m_sprite->set_action(name, loops))
+    on_sprite_update();
 }
 
 void
 MovingSprite::set_action(const std::string& name, const Direction& dir, int loops)
 {
-  m_sprite->set_action(name, dir, loops);
-  update_hitbox();
+  if (m_sprite->set_action(name, dir, loops))
+    on_sprite_update();
 }
 
 void
 MovingSprite::set_action(const Direction& dir, const std::string& name, int loops)
 {
-  m_sprite->set_action(dir, name, loops);
-  update_hitbox();
+  if (m_sprite->set_action(dir, name, loops))
+    on_sprite_update();
 }
 
 void
 MovingSprite::set_action(const Direction& dir, int loops)
 {
-  m_sprite->set_action(dir, loops);
-  update_hitbox();
+  if (m_sprite->set_action(dir, loops))
+    on_sprite_update();
 }
 
 void
 MovingSprite::set_action_centered(const std::string& action, int loops)
 {
   Vector old_size = m_col.m_bbox.get_size().as_vector();
-  m_sprite->set_action(action, loops);
-  update_hitbox();
+  if (!m_sprite->set_action(action, loops))
+    return;
+
+  on_sprite_update();
   set_pos(get_pos() - (m_col.m_bbox.get_size().as_vector() - old_size) / 2.0f);
 }
 
@@ -196,10 +201,27 @@ void
 MovingSprite::set_action(const std::string& action, int loops, AnchorPoint anchorPoint)
 {
   Rectf old_bbox = m_col.m_bbox;
-  m_sprite->set_action(action, loops);
-  update_hitbox();
+  if (!m_sprite->set_action(action, loops))
+    return;
+
+  on_sprite_update();
   set_pos(get_anchor_pos(old_bbox, m_sprite->get_current_hitbox_width(),
                          m_sprite->get_current_hitbox_height(), anchorPoint));
+}
+
+void
+MovingSprite::on_sprite_update()
+{
+  // Update hitbox
+  update_hitbox();
+
+  // Update light sprite
+  m_light_sprite = m_sprite->get_linked_light_sprite();
+
+  // Update other linked sprites
+  auto linked_sprites = get_linked_sprites();
+  for (const auto& [key, sprite] : linked_sprites)
+    sprite = m_sprite->get_linked_sprite(key);
 }
 
 bool
@@ -207,7 +229,7 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
   m_sprite = SpriteManager::current()->create(new_sprite_name);
   m_sprite_name = new_sprite_name;
-  update_hitbox();
+  on_sprite_update();
 
   return SpriteManager::current()->last_load_successful();
 }
@@ -236,8 +258,7 @@ MovingSprite::after_editor_set()
     change_sprite(get_default_sprite_name());
   }
   m_sprite->set_action(current_action);
-
-  update_hitbox();
+  on_sprite_update();
 }
 
 void

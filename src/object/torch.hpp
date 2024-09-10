@@ -49,6 +49,7 @@ public:
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Torch)); }
 
   virtual ObjectSettings get_settings() override;
+  virtual LinkedSprites get_linked_sprites() override;
   virtual void after_editor_set() override;
 
   virtual int get_layer() const override { return m_layer; }

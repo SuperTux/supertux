@@ -141,7 +141,16 @@ public:
       resizing the bounding box. */
   void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
 
+public:
+  typedef std::map<std::string, SpritePtr&> LinkedSprites;
+
 protected:
+  /** Provides all linked sprites of the object, so they can be updated on main sprite change. */
+  virtual LinkedSprites get_linked_sprites() { return {}; }
+
+  /** Update the object after a sprite or sprite action change. */
+  virtual void on_sprite_update();
+
   /** Update hitbox, based on sprite. */
   virtual void update_hitbox();
 
@@ -153,6 +162,7 @@ protected:
             so support for sprite switching for object types is retained. */
   std::string m_default_sprite_name;
   SpritePtr m_sprite;
+  SpritePtr m_light_sprite;
   int m_layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 
   Flip m_flip;

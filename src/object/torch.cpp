@@ -22,16 +22,14 @@
 
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "util/reader_mapping.hpp"
 
 Torch::Torch(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/torch/torch1.sprite"),
   m_light_color(1.f, 1.f, 1.f),
-  m_flame(SpriteManager::current()->create("images/objects/torch/flame.sprite")),
-  m_flame_glow(SpriteManager::current()->create("images/objects/torch/flame_glow.sprite")),
-  m_flame_light(SpriteManager::current()->create("images/objects/torch/flame_light.sprite")),
+  m_flame(m_sprite->get_linked_sprite("flame")),
+  m_flame_glow(m_sprite->get_linked_sprite("glow")),
   m_burning(true)
 {
   reader.get("burning", m_burning, true);
@@ -41,15 +39,29 @@ Torch::Torch(const ReaderMapping& reader) :
   if (!reader.get("color", vColor)) vColor = { 1.f, 1.f, 1.f };
 
   m_flame_glow->set_blend(Blend::ADD);
-  m_flame_light->set_blend(Blend::ADD);
   if (vColor.size() >= 3)
   {
     m_light_color = Color(vColor);
     m_flame->set_color(m_light_color);
     m_flame_glow->set_color(m_light_color);
-    m_flame_light->set_color(m_light_color);
+    if (m_light_sprite)
+      m_light_sprite->set_color(m_light_color);
   }
+
+  m_flame->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
+  m_light_sprite->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
+  m_flame_glow->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
+
   set_group(COLGROUP_TOUCHABLE);
+}
+
+MovingSprite::LinkedSprites
+Torch::get_linked_sprites()
+{
+  return {
+    { "flame", m_flame },
+    { "glow", m_flame_glow }
+  };
 }
 
 void
@@ -60,13 +72,13 @@ Torch::draw(DrawingContext& context)
     Vector pos = get_pos();
     if (m_flip != NO_FLIP) pos.y -= 24.0f;
     m_flame->draw(context.color(), pos, m_layer - 1, m_flip);
-    m_flame->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
 
-    m_flame_light->draw(context.light(), pos, m_layer);
-    m_flame_light->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
+    if (m_light_sprite)
+    {
+      m_light_sprite->draw(context.light(), pos, m_layer);
+    }
 
     m_flame_glow->draw(context.color(), pos, m_layer - 1, m_flip);
-    m_flame_glow->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
   }
 
   m_sprite->draw(context.color(), get_pos(), m_layer - 1, m_flip);
@@ -109,7 +121,12 @@ Torch::after_editor_set()
 
   m_flame->set_color(m_light_color);
   m_flame_glow->set_color(m_light_color);
-  m_flame_light->set_color(m_light_color);
+  if (m_light_sprite)
+    m_light_sprite->set_color(m_light_color);
+
+  m_flame->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
+  m_light_sprite->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
+  m_flame_glow->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
 }
 
 bool

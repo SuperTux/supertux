@@ -44,6 +44,7 @@ public:
   virtual bool is_freezable() const override { return false; }
   virtual bool is_snipable() const override { return false; }
 
+protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:

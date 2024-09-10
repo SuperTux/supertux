@@ -40,4 +40,9 @@
 	  (hitbox 18 26 48 48)
 	  (mirror-action "broken-left")
 	)
+
+	(linked-sprites
+	  (rock-particles "images/particles/granito_piece.sprite")
+	  (shard "root_spike.sprite")
+	)
 )

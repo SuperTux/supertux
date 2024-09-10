@@ -48,6 +48,9 @@ public:
 
   void startBurning();
 
+protected:
+  LinkedSprites get_linked_sprites() override;
+
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 

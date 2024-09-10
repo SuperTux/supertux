@@ -22,7 +22,6 @@
 #include "math/random.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -32,28 +31,43 @@ Candle::Candle(const ReaderMapping& mapping) :
   burning(true),
   flicker(true),
   lightcolor(1.0f, 1.0f, 1.0f),
-  candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
-  candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
+  candle_light_1(m_sprite->get_linked_sprite("light-1")),
+  candle_light_2(m_sprite->get_linked_sprite("light-2"))
 {
   mapping.get("burning", burning, true);
   mapping.get("flicker", flicker, true);
-  std::vector<float> vColor;
-  if (!mapping.get("color", vColor)) vColor = {1.0f, 1.0f, 1.0f};
   mapping.get("layer", m_layer, 0);
 
+  std::vector<float> vColor;
+  if (!mapping.get("color", vColor)) vColor = {1.f, 1.f, 1.f};
+
+  //std::cout << vColor[0] << vColor[1] << vColor[2] << vColor[3] << std::endl;
+  lightcolor = Color(vColor);
+
+  candle_light_1->set_blend(Blend::ADD);
+  candle_light_2->set_blend(Blend::ADD);
+
   // Change the light color if defined.
-  if (vColor.size() >= 3) {
-    lightcolor = Color(vColor);
-    candle_light_1->set_blend(Blend::ADD);
-    candle_light_2->set_blend(Blend::ADD);
+  if (lightcolor.greyscale() < 1.f)
+  {
     candle_light_1->set_color(lightcolor);
     candle_light_2->set_color(lightcolor);
-    // The following allows the original candle appearance to be preserved.
-    candle_light_1->set_action("white");
-    candle_light_2->set_action("white");
-  }
 
-  set_action(burning ? "on" : "off");
+    set_action(burning ? "on-white" : "off-white");
+  }
+  else
+  {
+    set_action(burning ? "on" : "off");
+  }
+}
+
+MovingSprite::LinkedSprites
+Candle::get_linked_sprites()
+{
+  return {
+    { "light-1", candle_light_1 },
+    { "light-2", candle_light_2 }
+  };
 }
 
 void
@@ -61,10 +75,21 @@ Candle::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  candle_light_1->set_color(lightcolor);
-  candle_light_2->set_color(lightcolor);
+  candle_light_1->set_blend(Blend::ADD);
+  candle_light_2->set_blend(Blend::ADD);
 
-  set_action(burning ? "on" : "off");
+  // Change the light color if defined.
+  if (lightcolor.greyscale() < 1.f)
+  {
+    candle_light_1->set_color(lightcolor);
+    candle_light_2->set_color(lightcolor);
+
+    set_action(burning ? "on-white" : "off-white");
+  }
+  else
+  {
+    set_action(burning ? "on" : "off");
+  }
 }
 
 ObjectSettings
@@ -132,11 +157,11 @@ Candle::set_burning(bool burning_)
 {
   if (burning == burning_) return;
   burning = burning_;
-  if (burning_) {
-    set_action("on");
-  } else {
-    set_action("off");
-  }
+  if (lightcolor.greyscale() < 1.f)
+    set_action(burning_ ? "on-white" : "off-white");
+  else
+    set_action(burning_ ? "on" : "off");
+
   // Puff smoke for flickering light sources only.
   if (flicker) puff_smoke();
 }

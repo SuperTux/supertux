@@ -8,4 +8,9 @@
 		(name "silver-left")
 		(hitbox 0 2 48 28)
 		(mirror-action "silver-right"))
+
+  (linked-sprites
+    (light "images/objects/lightmap_light/lightmap_light-small.sprite")
+    (sparkle "images/particles/sparkle.sprite")
+  )
 )
