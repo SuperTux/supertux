@@ -74,6 +74,7 @@ add_subdirectory(openssl-cmake)
 
 # watch this backfire terribly
 cache_set(CURL_USE_OPENSSL ON BOOL)
+cache_set(CURL_BUILD_EXE OFF BOOL)
 #cache_set(HTTP_ONLY ON BOOL)
 cache_set(BUILD_TESTING OFF BOOL)
 cache_set(CURL_ENABLE_EXPORT_TARGET OFF BOOL)
