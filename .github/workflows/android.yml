@@ -63,17 +63,12 @@ jobs:
           ../../../.ci_scripts/clone_dependency.sh libsdl-org/SDL_ttf release-2.20.2
           ../../../.ci_scripts/clone_dependency.sh curl/curl curl-8_0_1
           ../../../.ci_scripts/clone_dependency.sh glennrp/libpng v1.6.39
+          ../../../.ci_scripts/clone_dependency.sh janbar/openssl-cmake master
+          ../../../.ci_scripts/clone_dependency.sh kcat/openal-soft 1.23.1
           ../../../.ci_scripts/clone_dependency.sh fmtlib/fmt 9.1.0
           ../../../.ci_scripts/clone_dependency.sh g-truc/glm 0.9.9.8
           ../../../.ci_scripts/clone_dependency.sh xiph/vorbis v1.3.7
           ../../../.ci_scripts/clone_dependency.sh xiph/ogg v1.3.5
-          ../../../.ci_scripts/clone_dependency.sh kcat/openal-soft 1.23.1
-          ../../../.ci_scripts/clone_dependency.sh janbar/openssl-cmake master
-          ../../../.ci_scripts/clone_dependency.sh SuperTux/physfs master
-          ../../../.ci_scripts/clone_dependency.sh driedfruit/SDL_SavePNG master
-          ../../../.ci_scripts/clone_dependency.sh SuperTux/sexp-cpp master
-          ../../../.ci_scripts/clone_dependency.sh albertodemichelis/squirrel v3.2
-          ../../../.ci_scripts/clone_dependency.sh SuperTux/tinygettext master
           ln -s ../../../ supertux
 
       - name: Cache dependencies
