@@ -205,20 +205,6 @@ void PhysfsSubsystem::find_mount_datadir()
       log_warning << "Couldn't setup android assets: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
     }
 
-/*
-    PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
-    if (!data)
-    {
-      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
-      return;
-    }
-
-    if (!PHYSFS_mountHandle(data, "assets/data.zip", nullptr, 1))
-    {
-      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
-    }
-*/
-
     return;
 #endif
 
@@ -452,7 +438,10 @@ PhysfsSubsystem::setup_android_datadir() const
   if (newdata) {
     // Copy
     SDL_RWops* zipcp = SDL_RWFromFile(newzip.c_str(), "w");
-    if (!zipcp) return false;
+    if (!zipcp) {
+      SDL_free(zipdata);
+      return false;
+    }
     SDL_RWwrite(zipcp, zipdata, sizeof(char), zipsz);
     SDL_RWclose(zipcp);
   }
