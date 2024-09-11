@@ -99,7 +99,7 @@ void WalkingBadguy::set_ledge_behavior(LedgeBehavior behavior)
       break;
 
     case LedgeBehavior::SMART:
-      max_drop_height = 16.f;
+      max_drop_height = static_cast<int>(get_bbox().get_width()) / 2;
       break;
 
     case LedgeBehavior::NORMAL:
@@ -122,11 +122,6 @@ void
 WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier)
 {
   BadGuy::active_update(dt_sec);
-
-  // Walk down slopes smoothly.
-  if (on_ground() && m_floor_normal.y != 0 && (m_floor_normal.x * m_physic.get_velocity_x()) >= 0) {
-    m_physic.set_velocity_y((std::abs(m_physic.get_velocity_x()) * std::abs(m_floor_normal.x)) + 100.f);
-  }
 
   float current_x_velocity = m_physic.get_velocity_x ();
 
