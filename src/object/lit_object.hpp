@@ -45,6 +45,7 @@ public:
   virtual std::string get_exposed_class_name() const override { return "LitObject"; }
   static std::string display_name() { return _("Lit object"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(LitObject)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -57,7 +58,7 @@ public:
    * @scripting
    * @description Returns the current light sprite action.
    */
-  std::string get_light_action() const;
+  const std::string& get_light_action() const;
   /**
    * @scripting
    * @description Sets the light sprite action.
@@ -71,6 +72,14 @@ private:
   std::string m_sprite_action;
   std::string m_light_sprite_action;
   SpritePtr m_light_sprite;
+
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description The current light sprite action.
+   */
+  std::string m_light_action;
+#endif
 
 private:
   LitObject(const LitObject&) = delete;

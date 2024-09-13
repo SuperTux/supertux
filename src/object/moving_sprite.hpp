@@ -57,6 +57,7 @@ public:
   static std::string class_name() { return "moving-sprite"; }
   virtual std::string get_class_name() const override { return class_name(); }
   virtual std::string get_exposed_class_name() const override { return "MovingSprite"; }
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(MovingSprite)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -75,13 +76,16 @@ public:
   /** Get various sprite properties. **/
   Sprite* get_sprite() const { return m_sprite.get(); }
 
+  /** "void" wrapper for "change_sprite()" to be used for the "sprite" scripting property. **/
+  void set_sprite(const std::string& file);
+
 #ifdef DOXYGEN_SCRIPTING
   /**
    * @scripting
-   * @description Sets the sprite of the object.
+   * @description Sets the sprite of the object. Returns ""true"" on success.
    * @param string $file
    */
-  void set_sprite(const std::string& file);
+  bool set_sprite(const std::string& file);
   /**
    * @scripting
    * @description Returns the file of the object's sprite.

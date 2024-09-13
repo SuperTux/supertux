@@ -65,6 +65,7 @@ public:
   virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
   static std::string display_name() { return _("Tilemap"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(PathObject)).add(typeid(TileMap)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -151,6 +152,11 @@ public:
    * @param bool $solid
    */
   void set_solid(bool solid = true);
+  /**
+   * @scripting
+   * @description Returns the effective solidity of the tilemap.
+   */
+  bool get_solid() const;
 
   bool is_outside_bounds(const Vector& pos) const;
   const Tile& get_tile(int x, int y) const;
@@ -287,6 +293,14 @@ private:
   typedef std::vector<uint32_t> Tiles;
   Tiles m_tiles;
 
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description Equivalent to ""get_solid()"" and ""set_solid()"".
+   */
+  bool m_solid;
+#endif
+
   /* read solid: In *general*, is this a solid layer? effective solid:
      is the layer *currently* solid? A generally solid layer may be
      not solid when its alpha is low. See `is_solid' above. */
@@ -307,6 +321,10 @@ private:
   std::shared_ptr<CollisionGroundMovementManager> m_ground_movement_manager;
 
   Flip m_flip;
+  /**
+   * @scripting
+   * @description Determines the tilemap's current opacity.
+   */
   float m_alpha; /**< requested tilemap opacity */
   float m_current_alpha; /**< current tilemap opacity */
   float m_remaining_fade_time; /**< seconds until requested tilemap opacity is reached */

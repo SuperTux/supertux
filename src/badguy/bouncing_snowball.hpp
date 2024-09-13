@@ -39,6 +39,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Bouncing Snowball"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(BouncingSnowball)); }
 
   virtual GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
@@ -49,6 +50,7 @@ public:
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+  void turn_around();
 
 private:
   enum Type {
@@ -57,6 +59,9 @@ private:
   };
 
   float m_x_speed;
+  Timer m_turn_around_timer;
+  int m_turn_around_counter; /**< Counts number of turns since turn_around_timer was started */
+
 
 private:
   BouncingSnowball(const BouncingSnowball&) = delete;

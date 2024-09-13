@@ -42,6 +42,7 @@ public:
   virtual std::string get_exposed_class_name() const override { return "Candle"; }
   static std::string display_name() { return _("Candle"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Candle)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -66,6 +67,10 @@ public:
   void set_burning(bool burning);
 
 private:
+  /**
+   * @scripting
+   * @description The burning state of the candle.
+   */
   bool burning; /**< true if candle is currently lighted */
   bool flicker; /**< true if candle light is to flicker */
   Color lightcolor; /**< determines color or light given off */

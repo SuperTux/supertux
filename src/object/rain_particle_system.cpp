@@ -24,6 +24,7 @@
 
 #include "math/easing.hpp"
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
 #include "supertux/sector.hpp"
@@ -106,9 +107,7 @@ RainParticleSystem::get_settings()
 void RainParticleSystem::set_amount(float amount)
 {
   // Don't spawn too many particles to avoid destroying the player's computer
-  float real_amount = amount < min_amount ? min_amount
-    : amount > max_amount ? max_amount
-    : amount;
+  float real_amount = math::clamp(amount, min_amount, max_amount);
 
   int old_raindropcount = static_cast<int>(virtual_width*m_current_real_amount/6.0f);
   int new_raindropcount = static_cast<int>(virtual_width*real_amount/6.0f);

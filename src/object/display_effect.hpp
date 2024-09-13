@@ -34,6 +34,7 @@ public:
 public:
   DisplayEffect(const std::string& name = "");
   ~DisplayEffect() override;
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(DisplayEffect)); }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -99,6 +100,11 @@ private:
   float border_fading;
   float border_size;
 
+  /**
+   * @scripting
+   * @description Determines whether the screen has been blackened.
+                  Equivalent to ""set_black()"" and ""is_black()"".
+   */
   bool black;
   bool borders;
 

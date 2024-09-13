@@ -442,6 +442,15 @@ TileMap::draw(DrawingContext& context)
 
   context.push_transform();
 
+  const bool normal_speed = m_editor_active && Editor::is_active();
+  const float speed_x = normal_speed ? 1.0f : m_speed_x;
+  const float speed_y = normal_speed ? 1.0f : m_speed_y;
+  if (!context.perspective_scale(speed_x, speed_y)) {
+    //The tilemap is placed behind the camera.
+    context.pop_transform();
+    return;
+  }
+
   if (m_flip != NO_FLIP) context.set_flip(m_flip);
 
   if (m_editor_active) {
@@ -454,9 +463,7 @@ TileMap::draw(DrawingContext& context)
 
   const float trans_x = context.get_translation().x;
   const float trans_y = context.get_translation().y;
-  const bool normal_speed = m_editor_active && Editor::is_active();
-  context.set_translation(Vector(trans_x * (normal_speed ? 1.0f : m_speed_x),
-                                 trans_y * (normal_speed ? 1.0f : m_speed_y)));
+  context.set_translation(Vector(trans_x * speed_x, trans_y * speed_y));
 
   Rectf draw_rect = context.get_cliprect();
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
@@ -478,7 +485,7 @@ TileMap::draw(DrawingContext& context)
       if (m_tiles[index] == 0) continue;
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
-      if (g_debug.show_collision_rects) {
+	  if (g_debug.show_collision_rects && m_real_solid) {
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
       }
 
@@ -623,6 +630,12 @@ TileMap::set_solid(bool solid)
 {
   m_real_solid = solid;
   update_effective_solid ();
+}
+
+bool
+TileMap::get_solid() const
+{
+  return m_effective_solid;
 }
 
 uint32_t
@@ -986,6 +999,10 @@ TileMap::register_class(ssq::VM& vm)
   cls.addFunc("set_alpha", &TileMap::set_alpha);
   cls.addFunc("get_alpha", &TileMap::get_alpha);
   cls.addFunc("set_solid", &TileMap::set_solid);
+  cls.addFunc("get_solid", &TileMap::get_solid);
+
+  cls.addVar("alpha", &TileMap::get_alpha, &TileMap::set_alpha);
+  cls.addVar("solid", &TileMap::get_solid, &TileMap::set_solid);
 }
 
 /* EOF */
