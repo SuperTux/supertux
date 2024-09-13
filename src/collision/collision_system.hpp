@@ -67,11 +67,16 @@ public:
   bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
   bool is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
 
+  enum RaycastIgnore {
+    IGNORE_NONE,
+    IGNORE_TILES,
+    IGNORE_OBJECTS
+  };
 
   RaycastResult get_first_line_intersection(const Vector& line_start,
                                             const Vector& line_end,
-                                            bool ignore_objects,
-                                            const CollisionObject* ignore_object) const;
+                                            RaycastIgnore ignore = IGNORE_NONE,
+                                            const CollisionObject* ignore_object = nullptr) const;
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const;
 
   std::vector<CollisionObject*> get_nearby_objects(const Vector& center, float max_distance) const;

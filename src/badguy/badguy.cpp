@@ -306,7 +306,7 @@ BadGuy::update(float dt_sec)
         m_freezesprite->set_action(get_overlay_size(), 1);
       else
         m_freezesprite->set_action("default", 1);
-        
+
       active_update(dt_sec);
       break;
 
@@ -873,30 +873,26 @@ BadGuy::might_fall(int height)
 
     RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
 
-    if (result.is_valid && result.box.get_top() - eye.y < static_cast<float>(height))
+    if (result.is_valid && result.box.get_top() - eye.y >= static_cast<float>(height))
     {
-      // The ground is within max drop height. Continue.
-      return false;
+      // The ground is deeper than max drop height. Turn around.
+      return true;
     }
 
     auto tile_p = std::get_if<const Tile*>(&result.hit);
     if (tile_p && (*tile_p) && (*tile_p)->is_slope())
     {
-      // Check if we are about to go down a slope.
+
       AATriangle tri((*tile_p)->get_data());
+
       if (tri.is_south() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
       {
         // Switch to slope mode.
         m_detected_slope = tri.dir;
       }
 
-      // Otherwise, climb the slope like normal,
+      // Otherwise, climb the slope like normal
       // by returning false at the end of this function.
-    }
-    else
-    {
-      // The ground is no longer within reach. Turn around.
-      return true;
     }
   }
 
@@ -918,8 +914,6 @@ BadGuy::might_fall(int height)
     // The resulting line segment (eye, end) should result in a downwards facing diagonal direction.
 
     RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
-
-    std::cout << result.is_valid << std::endl;
 
     if (!result.is_valid)
     {

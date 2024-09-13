@@ -764,46 +764,51 @@ CollisionSystem::is_free_of_specifically_movingstatics(const Rectf& rect, const 
 CollisionSystem::RaycastResult
 CollisionSystem::get_first_line_intersection(const Vector& line_start,
                                              const Vector& line_end,
-                                             bool ignore_objects,
+                                             RaycastIgnore ignore,
                                              const CollisionObject* ignore_object) const
 {
   using namespace collision;
-  RaycastResult result{};
+  RaycastResult tileresult{};
+  tileresult.is_valid = false;
 
-  // Check if no tile is in the way.
-  const float lsx = std::min(line_start.x, line_end.x);
-  const float lex = std::max(line_start.x, line_end.x);
-  const float lsy = std::min(line_start.y, line_end.y);
-  const float ley = std::max(line_start.y, line_end.y);
+  if (ignore != IGNORE_TILES)
+  {
+    // Check if no tile is in the way.
+    const float lsx = std::min(line_start.x, line_end.x);
+    const float lex = std::max(line_start.x, line_end.x);
+    const float lsy = std::min(line_start.y, line_end.y);
+    const float ley = std::max(line_start.y, line_end.y);
 
-  for (float test_x = lsx; test_x <= lex; test_x += 16) { // NOLINT.
-    for (float test_y = lsy; test_y <= ley; test_y += 16) { // NOLINT.
-      for (const auto& solids : m_sector.get_solid_tilemaps()) {
-        const auto& test_vector = Vector(test_x, test_y);
-        if(solids->is_outside_bounds(test_vector))
-        {
-          continue;
-        }
+    for (float test_x = lsx; test_x <= lex; test_x += 16) { // NOLINT.
+      for (float test_y = lsy; test_y <= ley; test_y += 16) { // NOLINT.
+        for (const auto& solids : m_sector.get_solid_tilemaps()) {
+          const auto& test_vector = Vector(test_x, test_y);
+          if(solids->is_outside_bounds(test_vector))
+          {
+            continue;
+          }
 
-        const Tile* tile = &solids->get_tile_at(test_vector);
+          const Tile* tile = &solids->get_tile_at(test_vector);
 
-        // FIXME: check collision with slope tiles
-        if ((tile->get_attributes() & Tile::SOLID))
-        {
-          result.is_valid = true;
-          result.hit = tile;
-          result.box = solids->get_tile_bbox(static_cast<int>(test_vector.x / 32.f), static_cast<int>(test_vector.y / 32.f));
-          return result;
+          // FIXME: check collision with slope tiles
+          if ((tile->get_attributes() & Tile::SOLID))
+          {
+            tileresult.is_valid = true;
+            tileresult.hit = tile;
+            tileresult.box = solids->get_tile_bbox(static_cast<int>(test_vector.x / 32.f), static_cast<int>(test_vector.y / 32.f));
+            goto finish_tiles;
+          }
         }
       }
     }
   }
 
-  if (ignore_objects)
-  {
-    result.is_valid = false;
-    return result;
-  }
+finish_tiles:
+  if (ignore == IGNORE_OBJECTS)
+    return tileresult;
+
+  RaycastResult objresult{};
+  objresult.is_valid = false;
 
   // Check if no object is in the way.
   for (const auto& object : m_objects) {
@@ -815,22 +820,30 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
     {
       if (intersects_line(object->get_bbox(), line_start, line_end))
       {
-        result.is_valid = true;
-        result.hit = object;
-        result.box = object->get_bbox();
-        return result;
+        objresult.is_valid = true;
+        objresult.hit = object;
+        objresult.box = object->get_bbox();
+        break;
       }
     }
   }
 
-  result.is_valid = false;
-  return result;
+  if (ignore == IGNORE_TILES)
+    return objresult;
+
+  if (tileresult.is_valid && objresult.is_valid)
+    return tileresult.box.get_top() < objresult.box.get_top() ? tileresult : objresult;
+  else if (tileresult.is_valid)
+    return tileresult;
+  else
+    return objresult;
 }
 
 bool
 CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const
 {
-  return !get_first_line_intersection(line_start, line_end, ignore_objects, ignore_object).is_valid;
+  auto ignore = (ignore_objects ? IGNORE_OBJECTS : IGNORE_NONE);
+  return !get_first_line_intersection(line_start, line_end, ignore, ignore_object).is_valid;
 }
 
 std::vector<CollisionObject*>
