@@ -871,7 +871,7 @@ BadGuy::might_fall(int height)
 
     Vector end(eye.x, eye.y + static_cast<float>(s_normal_max_drop_height + 2));
 
-    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, this);
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, &m_col);
 
     if (!result.is_valid || result.box.get_top() - oy >= static_cast<float>(height))
     {
@@ -912,7 +912,7 @@ BadGuy::might_fall(int height)
 
     // The resulting line segment (eye, end) should result in a downwards facing diagonal direction.
 
-    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, this);
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, &m_col);
 
     if (!result.is_valid)
     {
