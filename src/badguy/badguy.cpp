@@ -862,7 +862,7 @@ BadGuy::might_fall(int height)
   assert(height > 0);
 
   // Origin in Y coord used for raycasting.
-  float oy = get_bbox().get_bottom() + 1.f;
+  float oy = get_bbox().get_bottom() - 1.f;
 
   if (m_detected_slope == 0)
   {
@@ -871,9 +871,9 @@ BadGuy::might_fall(int height)
 
     Vector end(eye.x, eye.y + static_cast<float>(s_normal_max_drop_height));
 
-    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, this);
 
-    if (result.is_valid && result.box.get_top() - eye.y >= static_cast<float>(height))
+    if (!result.is_valid || result.box.get_top() - eye.y >= static_cast<float>(height))
     {
       // The ground is deeper than max drop height. Turn around.
       return true;
@@ -882,7 +882,6 @@ BadGuy::might_fall(int height)
     auto tile_p = std::get_if<const Tile*>(&result.hit);
     if (tile_p && (*tile_p) && (*tile_p)->is_slope())
     {
-
       AATriangle tri((*tile_p)->get_data());
 
       if (tri.is_south() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
@@ -913,7 +912,7 @@ BadGuy::might_fall(int height)
 
     // The resulting line segment (eye, end) should result in a downwards facing diagonal direction.
 
-    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, nullptr);
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, this);
 
     if (!result.is_valid)
     {

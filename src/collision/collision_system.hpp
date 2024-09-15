@@ -38,7 +38,7 @@ class CollisionSystem final
 public:
   struct RaycastResult
   {
-    bool is_valid; /**< true if raycast hit something */
+    bool is_valid = false; /**< true if raycast hit something */
     std::variant<const Tile*, CollisionObject*> hit; /**< tile/object that the raycast hit */
     Rectf box = {}; /**< hitbox of tile/object */
   };

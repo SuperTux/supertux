@@ -768,8 +768,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
                                              const CollisionObject* ignore_object) const
 {
   using namespace collision;
-  RaycastResult tileresult{};
-  tileresult.is_valid = false;
+  RaycastResult tileresult;
 
   if (ignore != IGNORE_TILES)
   {
@@ -807,8 +806,7 @@ finish_tiles:
   if (ignore == IGNORE_OBJECTS)
     return tileresult;
 
-  RaycastResult objresult{};
-  objresult.is_valid = false;
+  RaycastResult objresult;
 
   // Check if no object is in the way.
   for (const auto& object : m_objects) {
@@ -832,11 +830,19 @@ finish_tiles:
     return objresult;
 
   if (tileresult.is_valid && objresult.is_valid)
-    return tileresult.box.get_top() < objresult.box.get_top() ? tileresult : objresult;
+  {
+    float tiledist = glm::distance(tileresult.box.get_middle(), line_start);
+    float objdist = glm::distance(objresult.box.get_middle(), line_start);
+    return tiledist < objdist ? tileresult : objresult;
+  }
   else if (tileresult.is_valid)
     return tileresult;
-  else
+  else if (objresult.is_valid)
     return objresult;
+  else
+  {
+    return RaycastResult();
+  }
 }
 
 bool
