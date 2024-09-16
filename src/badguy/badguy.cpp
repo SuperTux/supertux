@@ -31,6 +31,7 @@
 #include "object/water_drop.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
@@ -141,10 +142,13 @@ BadGuy::draw(DrawingContext& context)
 {
   if (!m_sprite.get()) return;
 
+  Vector draw_offset = context.get_time_offset() * m_physic.get_velocity();
+  Vector draw_pos = get_pos() + draw_offset;
+
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
     if (Editor::is_active()) {
-      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+      m_sprite->draw(context.color(), draw_pos, m_layer, m_flip);
     }
   }
   else
@@ -153,27 +157,27 @@ BadGuy::draw(DrawingContext& context)
     {
       context.push_transform();
       context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
-      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+      m_sprite->draw(context.color(), draw_pos, m_layer, m_flip);
       context.pop_transform();
     }
     else
     {
       if (m_unfreeze_timer.started() && m_unfreeze_timer.get_timeleft() <= 1.f)
       {
-        m_sprite->draw(context.color(), get_pos() + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer-1, m_flip);
+        m_sprite->draw(context.color(), draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer - 1, m_flip);
         if (is_portable())
-          m_freezesprite->draw(context.color(), get_pos() + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer);
+          m_freezesprite->draw(context.color(), draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer);
       }
       else
       {
         if (m_frozen && is_portable())
-          m_freezesprite->draw(context.color(), get_pos(), m_layer);
-        m_sprite->draw(context.color(), get_pos(), m_layer - (m_frozen ? 1 : 0), m_flip);
+          m_freezesprite->draw(context.color(), draw_pos, m_layer);
+        m_sprite->draw(context.color(), draw_pos, m_layer - (m_frozen ? 1 : 0), m_flip);
       }
 
       if (m_glowing)
       {
-        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, 0);
       }
     }
   }
@@ -892,6 +896,7 @@ BadGuy::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
   m_col.set_movement(pos - get_pos());
+  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   if (m_frozen)
   {
