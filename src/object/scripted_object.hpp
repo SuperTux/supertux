@@ -98,14 +98,12 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""visible"" property instead!
    * @description Shows or hides the object, according to the value of ""visible"".
    * @param bool $visible
    */
   void set_visible(bool visible);
   /**
    * @scripting
-   * @deprecated Use the ""visible"" property instead!
    * @description Returns ""true"" if the object is visible.
    */
   bool is_visible() const;
@@ -124,6 +122,10 @@ public:
 
 private:
   Physic physic;
+  /**
+   * @scripting
+   * @description Determines whether the object is solid.
+   */
   bool solid;
   bool physic_enabled;
   /**

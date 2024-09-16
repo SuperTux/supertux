@@ -184,9 +184,10 @@ public:
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects = false, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;
 
-  Player* get_nearest_player (const Vector& pos) const;
-  Player* get_nearest_player (const Rectf& pos) const {
-    return (get_nearest_player (get_anchor_pos (pos, ANCHOR_MIDDLE)));
+  Player* get_nearest_player(const Vector& pos) const;
+  Player* get_nearest_player(const Rectf& pos) const
+  {
+    return get_nearest_player(get_anchor_pos(pos, ANCHOR_MIDDLE));
   }
 
   std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance) const;
@@ -207,14 +208,12 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""gravity"" property instead!
    * Sets the sector's gravity.
    * @param float $gravity
    */
   void set_gravity(float gravity);
   /**
    * @scripting
-   * @deprecated Use the ""gravity"" property instead!
    * Returns the sector's gravity.
    * @param float $gravity
    */

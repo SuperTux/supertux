@@ -32,7 +32,8 @@ typedef size_t ta_index;
 
  * @scripting
  * @summary A ""TextArrayObject"" that was given a name can be controlled by scripts.
-            Supports all functions of ${SRG_REF_Text}, applying them to the current text item.${SRG_NEWPARAGRAPH}
+            Supports all functions and variables of ${SRG_REF_Text}, applying them to the current text item.
+            If no text item is available, calling functions or using variables of ${SRG_REF_Text} (other than ""set_text()"") will result in an error.${SRG_NEWPARAGRAPH}
             Intended for scripts with narration.
  * @instances A ""TextArrayObject"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
@@ -88,14 +89,12 @@ public:
   void set_text_index(ta_index index);
   /**
    * @scripting
-   * @deprecated Use the ""keep_visible"" property instead!
    * @description If set, keeps the current text object visible.
    * @param bool $keep_visible
    */
   void set_keep_visible(bool keep_visible);
   /**
    * @scripting
-   * @deprecated Use the ""fade_transition"" property instead!
    * @description If set, allows for a fade-in and fade-out transition.
    * @param bool $fade_transition
    */
@@ -108,8 +107,8 @@ public:
   void set_fade_time(float fadetime);
   /**
    * @scripting
-   * @deprecated Use the ""finished"" property instead!
    * @description If set, sets the text array as finished going through all text objects.
+                  Alternatively, the "finished" property can be modified.
    * @param bool $done
    */
   void set_done(bool done);
@@ -135,13 +134,16 @@ public:
    * @see: text_object.hpp
    */
   void set_text(const std::string& text);
+  const std::string& get_text() const;
   void set_font(const std::string& fontname);
   void fade_in(float fadetime);
   void fade_out(float fadetime);
   void grow_in(float fadetime);
   void grow_out(float fadetime);
   void set_visible(bool visible);
+  bool get_visible() const;
   void set_centered(bool centered);
+  bool get_centered() const;
   void set_pos(float x, float y);
   float get_x() const;
   float get_y() const;
@@ -154,6 +156,7 @@ public:
   void set_back_fill_color(float red, float green, float blue, float alpha);
   void set_text_color(float red, float green, float blue, float alpha);
   void set_roundness(float roundness);
+  float get_roundness() const;
 
   /** Gets the text item at a certain index.
       @param: index  the index of the text item to get.

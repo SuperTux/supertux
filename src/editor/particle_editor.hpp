@@ -59,7 +59,7 @@ public:
 
   virtual IntegrationStatus get_status() const override;
 
-  void event(const SDL_Event& ev);
+  void event(const SDL_Event& ev) override;
   void update_keyboard(const Controller& controller);
   void check_unsaved_changes(const std::function<void ()>& action);
   void quit_editor();

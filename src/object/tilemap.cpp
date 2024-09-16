@@ -485,7 +485,7 @@ TileMap::draw(DrawingContext& context)
       if (m_tiles[index] == 0) continue;
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
-      if (g_debug.show_collision_rects) {
+	  if (g_debug.show_collision_rects && m_real_solid) {
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
       }
 
@@ -630,6 +630,12 @@ TileMap::set_solid(bool solid)
 {
   m_real_solid = solid;
   update_effective_solid ();
+}
+
+bool
+TileMap::get_solid() const
+{
+  return m_effective_solid;
 }
 
 uint32_t
@@ -993,6 +999,10 @@ TileMap::register_class(ssq::VM& vm)
   cls.addFunc("set_alpha", &TileMap::set_alpha);
   cls.addFunc("get_alpha", &TileMap::get_alpha);
   cls.addFunc("set_solid", &TileMap::set_solid);
+  cls.addFunc("get_solid", &TileMap::get_solid);
+
+  cls.addVar("alpha", &TileMap::get_alpha, &TileMap::set_alpha);
+  cls.addVar("solid", &TileMap::get_solid, &TileMap::set_solid);
 }
 
 /* EOF */
