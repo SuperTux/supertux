@@ -143,25 +143,6 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
 void
 BadGuy::draw(DrawingContext& context)
 {
-  /*
-  // TODEL: this shows the detection ranges for the might_fall function.
-  Vector eye(0, get_bbox().get_bottom() + 1.f);
-  eye.x = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
-
-  Vector end(eye.x, eye.y + 256.f);
-  context.color().draw_line(eye, end, Color::GREEN, LAYER_GUI);
-
-  float dirmult = (m_dir == Direction::LEFT ? 1.f : -1.f);
-  float rearx = (m_dir == Direction::LEFT ? get_bbox().get_right() : get_bbox().get_left());
-
-  float soff = (get_width() / 5.f) * dirmult;
-  Vector seye(rearx - soff, eye.y);
-
-  float eoff = soff - (2.f * dirmult);
-  Vector send(seye.x + eoff, seye.y + 80.f);
-  context.color().draw_line(seye, send, Color::GREEN, LAYER_GUI);
-  */
-
   if (!m_sprite.get()) return;
 
   Vector draw_offset = context.get_time_offset() * m_physic.get_velocity();
