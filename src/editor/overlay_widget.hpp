@@ -61,7 +61,7 @@ public:
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
-  virtual void resize() override;
+  virtual void on_window_resize() override;
 
   void update_pos();
   void delete_markers();

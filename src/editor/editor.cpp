@@ -840,11 +840,11 @@ Editor::setup()
 }
 
 void
-Editor::resize()
+Editor::on_window_resize()
 {
   for(const auto& widget: m_widgets)
   {
-    widget->resize();
+    widget->on_window_resize();
   }
 }
 

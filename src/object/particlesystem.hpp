@@ -68,14 +68,12 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""enabled"" property instead!
    * @description Enables/disables the system.
    * @param bool $enable
    */
   void set_enabled(bool enable);
   /**
    * @scripting
-   * @deprecated Use the ""enabled"" property instead!
    * @description Returns ""true"" if the system is enabled.
    */
   bool get_enabled() const;

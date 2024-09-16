@@ -252,7 +252,7 @@ EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 }
 
 void
-EditorToolboxWidget::resize()
+EditorToolboxWidget::on_window_resize()
 {
   m_pos_x = static_cast<float>(SCREEN_WIDTH - 128);
   m_tilebox->set_rect(Rectf(Vector(m_pos_x, 96.f),
@@ -264,7 +264,7 @@ EditorToolboxWidget::resize()
   m_move_mode->m_pos        = Vector(m_pos_x + 64.0f, 64.0f);
   m_undo_mode->m_pos        = Vector(m_pos_x + 96.0f, 64.0f);
 
-  m_tilebox->resize();
+  m_tilebox->on_window_resize();
 }
 
 void
@@ -272,7 +272,7 @@ EditorToolboxWidget::setup()
 {
   m_tilebox->setup();
 
-  resize();
+  on_window_resize();
   m_tilebox->get_tiles()->set_tile(0);
 }
 

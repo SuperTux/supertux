@@ -63,7 +63,7 @@ LevelTime::update(float dt_sec)
   if (!running) return;
 
   int players_alive = Sector::current() ? Sector::current()->get_object_count<Player>([](const Player& p) {
-    return !p.is_dead() && !p.is_dying() && !p.is_winning();
+    return p.is_active();
   }) : 0;
 
   if (!players_alive)
@@ -89,7 +89,7 @@ LevelTime::update(float dt_sec)
     {
       for (auto& p : Sector::get().get_players())
       {
-        if (p->is_dead() || p->is_dying() || p->is_winning())
+        if (!p->is_active())
           continue;
 
         p->add_coins(-1);
@@ -166,6 +166,8 @@ LevelTime::register_class(ssq::VM& vm)
   cls.addFunc("stop", &LevelTime::stop);
   cls.addFunc("get_time", &LevelTime::get_time);
   cls.addFunc("set_time", &LevelTime::set_time);
+
+  cls.addVar("time", &LevelTime::get_time, &LevelTime::set_time);
 }
 
 /* EOF */

@@ -172,6 +172,12 @@ ConveyorBelt::set_speed(float target_speed)
   m_speed = target_speed;
 }
 
+float
+ConveyorBelt::get_speed() const
+{
+  return m_speed;
+}
+
 
 void
 ConveyorBelt::register_class(ssq::VM& vm)
@@ -183,6 +189,9 @@ ConveyorBelt::register_class(ssq::VM& vm)
   cls.addFunc("move_left", &ConveyorBelt::move_left);
   cls.addFunc("move_right", &ConveyorBelt::move_right);
   cls.addFunc("set_speed", &ConveyorBelt::set_speed);
+  cls.addFunc("get_speed", &ConveyorBelt::get_speed);
+
+  cls.addVar("speed", &ConveyorBelt::get_speed, &ConveyorBelt::set_speed);
 }
 
 /* EOF */

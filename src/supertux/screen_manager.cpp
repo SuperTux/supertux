@@ -20,8 +20,7 @@
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "editor/editor.hpp"
-#include "editor/particle_editor.hpp"
+#include "control/input_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -203,6 +202,15 @@ float
 ScreenManager::get_speed() const
 {
   return m_speed;
+}
+
+void
+ScreenManager::on_window_resize()
+{
+  m_menu_manager->on_window_resize();
+
+  for (const auto& screen : m_screen_stack)
+    screen->on_window_resize();
 }
 
 void
@@ -395,13 +403,7 @@ ScreenManager::process_events()
 
     m_menu_manager->event(event);
 
-    if (Editor::is_active()) {
-      Editor::current()->event(event);
-    }
-
-    if (ParticleEditor::is_active()) {
-      ParticleEditor::current()->event(event);
-    }
+    m_screen_stack.back()->event(event);
 
     switch (event.type)
     {
@@ -414,10 +416,7 @@ ScreenManager::process_events()
         {
           case SDL_WINDOWEVENT_RESIZED:
             m_video_system.on_resize(event.window.data1, event.window.data2);
-            m_menu_manager->on_window_resize();
-            if (Editor::is_active()) {
-              Editor::current()->resize();
-            }
+            on_window_resize();
             break;
 
           case SDL_WINDOWEVENT_HIDDEN:

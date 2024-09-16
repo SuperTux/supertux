@@ -47,14 +47,12 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""layer"" property instead!
    * @description Sets the layer of the floating image.
    * @param int $layer
    */
   void set_layer(int layer);
   /**
    * @scripting
-   * @deprecated Use the ""layer"" property instead!
    * @description Returns the layer the floating image is on.
    */
   int get_layer() const;
@@ -102,14 +100,12 @@ public:
   int get_anchor_point() const;
   /**
    * @scripting
-   * @deprecated Use the ""visible"" property instead!
    * @description Sets the visibility of the floating image.
    * @param bool $visible
    */
   void set_visible(bool visible);
   /**
    * @scripting
-   * @deprecated Use the ""visible"" property instead!
    * @description Returns the visibility state of the floating image.
    */
   bool get_visible() const;
@@ -155,6 +151,14 @@ private:
   Vector m_pos;
   float m_fading;
   float m_fadetime;
+
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description The current anchor point.
+   */
+  int m_anchor_point;
+#endif
 };
 
 #endif
