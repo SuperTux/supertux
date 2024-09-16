@@ -864,16 +864,18 @@ BadGuy::might_fall(int height)
   // Origin in Y coord used for raycasting.
   float oy = get_bbox().get_bottom() + 1.f;
 
+  float fh = static_cast<float>(height);
+
   if (m_detected_slope == 0)
   {
     Vector eye(0, oy - 2.f);
     eye.x = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
 
-    Vector end(eye.x, eye.y + static_cast<float>(s_normal_max_drop_height + 2));
+    Vector end(eye.x, eye.y + fh + 2.f);
 
     RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, &m_col);
 
-    if (!result.is_valid || result.box.get_top() - oy >= static_cast<float>(height))
+    if (!result.is_valid)
     {
       // The ground is deeper than max drop height. Turn around.
       return true;
@@ -921,7 +923,7 @@ BadGuy::might_fall(int height)
       return true;
     }
 
-    if (result.box.get_top() - oy > static_cast<float>(height) + 1.f)
+    if (result.box.get_top() - oy > fh + 1.f)
     {
       // Result is not within reach.
       m_detected_slope = 0;
