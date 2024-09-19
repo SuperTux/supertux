@@ -106,7 +106,7 @@ msgstr "ഭീകര ജീവികളെ സഹിക്കാൻ വയ്യ
 msgid ""
 "#These levels were made Swimming-Ready by Serano and revamped by "
 "AllyTheOcelot"
-msgstr ""
+msgstr "#സെരാനോ ഈ ലെവലുകൾ നീന്താൻ പാകമാക്കി. പിന്നീട് അല്ലൈദിഓസിലോട്ട് പുനർനവീകരിച്ചു  "
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
