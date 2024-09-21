@@ -319,7 +319,6 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
 
     context.color().draw_text(Resources::normal_font, _("Coins"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
 
-    Color tcolor;
     if (m_coins >= m_total_coins)
       tcolor = Statistics::perfect_color;
     else
