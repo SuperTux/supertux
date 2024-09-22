@@ -39,6 +39,7 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager, int player_id) :
   add_controlfield(static_cast<int>(Control::RIGHT),      _("Right"));
   add_controlfield(static_cast<int>(Control::JUMP),       _("Jump"));
   add_controlfield(static_cast<int>(Control::ACTION),     _("Action"));
+  add_controlfield(static_cast<int>(Control::ITEM),       _("Item Pocket"));
 
   add_controlfield(static_cast<int>(Control::PEEK_LEFT),  _("Peek Left"));
   add_controlfield(static_cast<int>(Control::PEEK_RIGHT), _("Peek Right"));
