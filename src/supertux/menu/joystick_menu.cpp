@@ -229,6 +229,7 @@ JoystickMenu::refresh()
 
     refresh_menu_item(Control::JUMP);
     refresh_menu_item(Control::ACTION);
+    refresh_menu_item(Control::ITEM);
     refresh_menu_item(Control::START);
     refresh_menu_item(Control::PEEK_LEFT);
     refresh_menu_item(Control::PEEK_RIGHT);

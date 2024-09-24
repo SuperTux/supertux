@@ -35,10 +35,10 @@ JoystickConfig::JoystickConfig() :
   bind_joybutton(0, 0, Control::JUMP);
   bind_joybutton(0, 0, Control::MENU_SELECT);
   bind_joybutton(0, 1, Control::ACTION);
-  bind_joybutton(0, 7, Control::ITEM);
   bind_joybutton(0, 4, Control::PEEK_LEFT);
   bind_joybutton(0, 5, Control::PEEK_RIGHT);
   bind_joybutton(0, 6, Control::START);
+  bind_joybutton(0, 7, Control::ITEM);
 
   // Default joystick axis configuration
   bind_joyaxis(0, -1, Control::LEFT);

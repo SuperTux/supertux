@@ -128,9 +128,9 @@ KeyboardMenu::menu_action(MenuItem& item)
 void
 KeyboardMenu::refresh()
 {
-  const auto& controls = { Control::UP, Control::DOWN, Control::LEFT, Control::RIGHT, 
-                           Control::JUMP, Control::ACTION,
-                           Control::PEEK_LEFT, Control::PEEK_RIGHT, 
+  const auto& controls = { Control::UP, Control::DOWN, Control::LEFT, Control::RIGHT,
+                           Control::JUMP, Control::ACTION, Control::ITEM,
+                           Control::PEEK_LEFT, Control::PEEK_RIGHT,
                            Control::PEEK_UP, Control::PEEK_DOWN };
 
   const auto& developer_controls = { Control::CHEAT_MENU, Control::DEBUG_MENU, Control::CONSOLE };
