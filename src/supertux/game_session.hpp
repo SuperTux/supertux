@@ -23,6 +23,7 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
+#include <queue>
 
 #include <simplesquirrel/table.hpp>
 
@@ -95,6 +96,9 @@ public:
                          const Vector &fade_point,
                          const bool make_invincible = false);
   void reset_level();
+
+  void on_player_added(int id);
+  void on_player_removed(int id);
 
   void set_start_point(const std::string& sectorname,
                        const std::string& spawnpointname);
@@ -175,6 +179,8 @@ private:
   ScreenFade::FadeType m_spawn_fade_type;
   Timer m_spawn_fade_timer;
   bool m_spawn_with_invincibility;
+
+  std::queue<BonusType> m_item_pockets;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;

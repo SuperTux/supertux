@@ -240,16 +240,7 @@ GameControllerManager::on_controller_added(int joystick_index)
 
         if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen() && id != 0)
         {
-          auto& sector = GameSession::current()->get_current_sector();
-          auto& player_status = GameSession::current()->get_savegame().get_player_status();
-
-          if (player_status.m_num_players <= id)
-            player_status.add_player();
-
-          // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-          auto& player = sector.add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
-
-          player.multiplayer_prepare_spawn();
+          GameSession::current()->on_player_added(id);
         }
       }
     }
@@ -272,22 +263,10 @@ GameControllerManager::on_controller_removed(int instance_id)
     m_game_controllers.erase(it);
 
     if (m_parent->m_use_game_controller && g_config->multiplayer_auto_manage_players
-        && deleted_player_id != 0 && !m_parent->m_uses_keyboard[deleted_player_id])
+        && deleted_player_id != 0 && !m_parent->m_uses_keyboard[deleted_player_id] &&
+        GameSession::current())
     {
-      // Sectors in worldmaps have no Player's of that class.
-      if (Sector::current() && Sector::current()->get_object_count<Player>() > 0)
-      {
-        auto players = Sector::current()->get_objects_by_type<Player>();
-        auto it_players = players.begin();
-
-        while (it_players != players.end())
-        {
-          if (it_players->get_id() == deleted_player_id)
-            it_players->remove_me();
-
-          it_players++;
-        }
-      }
+      GameSession::current()->on_player_removed(deleted_player_id);
     }
   }
   else

@@ -129,6 +129,35 @@ GameSession::reset_level()
   m_data_table.clear();
 }
 
+void
+GameSession::on_player_added(int id)
+{
+  if (m_savegame.get_player_status().m_num_players <= id)
+    m_savegame.get_player_status().add_player();
+
+  // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
+  auto& player = m_currentsector->add<Player>(m_savegame.get_player_status(), "Tux" + std::to_string(id + 1), id);
+
+  player.multiplayer_prepare_spawn();
+}
+
+void
+GameSession::on_player_removed(int id)
+{
+
+  // Sectors in worldmaps have no Player's of that class
+  if (m_currentsector)
+  {
+    for (Player* player : m_currentsector->get_players())
+    {
+      if (player->get_id() == id)
+        player->remove_me();
+    }
+  }
+
+  m_savegame.get_player_status().remove_player(id);
+}
+
 int
 GameSession::restart_level(bool after_death, bool preserve_music)
 {
@@ -482,6 +511,7 @@ GameSession::setup()
     ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN));
   }
 
+  m_item_pockets.push(FIRE_BONUS);
 
   m_end_seq_started = false;
 }
@@ -610,6 +640,17 @@ GameSession::update(float dt_sec, const Controller& controller)
         m_play_time += dt_sec;
         m_level->m_stats.finish(m_play_time);
       }
+
+      for (Player* player : m_currentsector->get_players())
+      {
+        if (player->get_controller().hold(Control::ITEM) && m_item_pockets.size() > 0)
+        {
+          BonusType bonustype = m_item_pockets.front();
+          m_item_pockets.pop();
+          player->add_bonus(bonustype, true);
+        }
+      }
+
       m_currentsector->update(dt_sec);
     } else {
       bool are_all_stopped = true;
