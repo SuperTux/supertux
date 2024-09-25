@@ -56,6 +56,7 @@ private:
   SurfacePtr ice_surface;
 
   std::unordered_map<BonusType, SpritePtr> m_bonus_sprites;
+  SurfacePtr m_item_pocket_border;
 
 private:
   PlayerStatusHUD(const PlayerStatusHUD&) = delete;

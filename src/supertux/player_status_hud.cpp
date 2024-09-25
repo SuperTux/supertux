@@ -33,13 +33,13 @@ PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status) :
   coin_surface(Surface::from_file("images/engine/hud/coins-0.png")),
   fire_surface(Surface::from_file("images/engine/hud/fire-0.png")),
   ice_surface(Surface::from_file("images/engine/hud/ice-0.png")),
-  m_bonus_sprites()
+  m_bonus_sprites(),
+  m_item_pocket_border(Surface::from_file("images/engine/hud/item_pocket.png"))
 {
   m_bonus_sprites[FIRE_BONUS]  = SpriteManager::current()->create("images/powerups/fireflower/fireflower.sprite");
   m_bonus_sprites[ICE_BONUS]   = SpriteManager::current()->create("images/powerups/iceflower/iceflower.sprite");
   m_bonus_sprites[AIR_BONUS]   = SpriteManager::current()->create("images/powerups/airflower/airflower.sprite");
   m_bonus_sprites[EARTH_BONUS] = SpriteManager::current()->create("images/powerups/earthflower/earthflower.sprite");
-  //m_bonus_sprites[GROWUP_BONUS] = "images/powerups/egg/egg.sprite";
 }
 
 void
@@ -152,9 +152,12 @@ PlayerStatusHUD::draw(DrawingContext& context)
   }
 
 
+  Vector pos(BORDER_X, BORDER_Y);
+  context.color().draw_surface(m_item_pocket_border, pos, LAYER_HUD);
   if (m_player_status.m_item_pockets.size() > 0)
   {
-    m_bonus_sprites[m_player_status.m_item_pockets.front()]->draw(context.color(), Vector(BORDER_X, BORDER_Y), LAYER_HUD);
+    pos += 20;
+    m_bonus_sprites[m_player_status.m_item_pockets.front()]->draw(context.color(), pos, LAYER_HUD);
   }
 
   context.pop_transform();
