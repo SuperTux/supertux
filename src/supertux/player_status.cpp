@@ -77,8 +77,6 @@ void PlayerStatus::reset(int num_players)
   max_earth_time.clear();
   max_earth_time.resize(num_players, 0);
 
-  m_item_pockets.push(FIRE_BONUS); // DELETE ME!
-
   m_num_players = num_players;
 }
 
@@ -102,7 +100,7 @@ PlayerStatus::respawns_at_checkpoint() const
 }
 
 std::string
-PlayerStatus::get_bonus_sprite(BonusType& bonustype)
+PlayerStatus::get_bonus_sprite(BonusType bonustype)
 {
   switch (bonustype) {
     case FIRE_BONUS:
@@ -268,6 +266,17 @@ PlayerStatus::give_item_from_pocket(Player* player)
   BonusType bonustype = m_item_pockets.front();
   m_item_pockets.pop();
   player->add_bonus(bonustype, true);
+}
+
+void
+PlayerStatus::add_item_to_pocket(BonusType bonustype)
+{
+  if (m_item_pockets.size() + 1 > get_item_pockets_max())
+  {
+    m_item_pockets.pop();
+  }
+
+  m_item_pockets.push(bonustype);
 }
 
 void

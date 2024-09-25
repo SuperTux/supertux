@@ -51,13 +51,14 @@ public:
 
   int get_item_pockets_max();
   void give_item_from_pocket(Player* player);
+  void add_item_to_pocket(BonusType bonustype);
 
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
   bool respawns_at_checkpoint() const;
   bool has_hat_sprite(int player_id) const { return bonus[player_id] > GROWUP_BONUS; }
 
-  static std::string get_bonus_sprite(BonusType& bonustype);
+  static std::string get_bonus_sprite(BonusType bonustype);
   std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
 
   void add_player();

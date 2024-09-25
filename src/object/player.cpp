@@ -1947,10 +1947,14 @@ Player::set_bonus(BonusType type, bool animate, bool increment_powerup_counter)
     if (type == EARTH_BONUS) m_player_status.max_earth_time[get_id()]++;
   }
 
-  if (!m_second_growup_sound_timer.started() &&
-     type > GROWUP_BONUS && type != get_bonus())
+  if (type > GROWUP_BONUS)
   {
-    m_second_growup_sound_timer.start(0.5);
+    m_player_status.add_item_to_pocket(get_bonus());
+
+    if (!m_second_growup_sound_timer.started() && type != get_bonus())
+    {
+      m_second_growup_sound_timer.start(0.5);
+    }
   }
 
   m_player_status.bonus[get_id()] = type;

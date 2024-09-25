@@ -154,10 +154,12 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
   Vector pos(BORDER_X, BORDER_Y);
   context.color().draw_surface(m_item_pocket_border, pos, LAYER_HUD);
-  if (m_player_status.m_item_pockets.size() > 0)
+
+  Sprite* sprite = m_bonus_sprites[m_player_status.m_item_pockets.front()].get();
+  if (m_player_status.m_item_pockets.size() > 0 && sprite)
   {
     pos += 20;
-    m_bonus_sprites[m_player_status.m_item_pockets.front()]->draw(context.color(), pos, LAYER_HUD);
+    sprite->draw(context.color(), pos, LAYER_HUD);
   }
 
   context.pop_transform();
