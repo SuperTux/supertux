@@ -20,6 +20,7 @@
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
+#include "object/player.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
 #include "util/log.hpp"
@@ -76,6 +77,8 @@ void PlayerStatus::reset(int num_players)
   max_earth_time.clear();
   max_earth_time.resize(num_players, 0);
 
+  m_item_pockets.push(FIRE_BONUS); // DELETE ME!
+
   m_num_players = num_players;
 }
 
@@ -96,6 +99,25 @@ PlayerStatus::respawns_at_checkpoint() const
 {
   return GameSession::current()->get_last_spawnpoint().is_checkpoint ||
          GameSession::current()->reset_checkpoint_button;
+}
+
+std::string
+PlayerStatus::get_bonus_sprite(BonusType& bonustype)
+{
+  switch (bonustype) {
+    case FIRE_BONUS:
+      return "images/powerups/fireflower/fireflower.sprite";
+    case ICE_BONUS:
+      return "images/powerups/iceflower/iceflower.sprite";
+    case AIR_BONUS:
+      return "images/powerups/airflower/airflower.sprite";
+    case EARTH_BONUS:
+      return "images/powerups/earthflower/earthflower.sprite";
+    case GROWUP_BONUS:
+      return "images/powerups/egg/egg.sprite";
+    default:
+      return "";
+  }
 }
 
 void
@@ -206,6 +228,7 @@ PlayerStatus::read(const ReaderMapping& mapping)
 
           if (max_earth_time.size() < static_cast<size_t>(id))
             max_earth_time.resize(id, 0);
+
         }
         else if (id == 0)
         {
@@ -231,6 +254,20 @@ PlayerStatus::read(const ReaderMapping& mapping)
   mapping.get("worldmap-sprite", worldmap_sprite);
   mapping.get("last-worldmap", last_worldmap);
   mapping.get("title-level", title_level);
+}
+
+int
+PlayerStatus::get_item_pockets_max()
+{
+  return m_num_players > 1 ? std::floor(m_num_players / 2) : 1;
+}
+
+void
+PlayerStatus::give_item_from_pocket(Player* player)
+{
+  BonusType bonustype = m_item_pockets.front();
+  m_item_pockets.pop();
+  player->add_bonus(bonustype, true);
 }
 
 void

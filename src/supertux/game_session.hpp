@@ -180,8 +180,6 @@ private:
   Timer m_spawn_fade_timer;
   bool m_spawn_with_invincibility;
 
-  std::queue<BonusType> m_item_pockets;
-
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;
 

@@ -511,8 +511,6 @@ GameSession::setup()
     ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN));
   }
 
-  m_item_pockets.push(FIRE_BONUS);
-
   m_end_seq_started = false;
 }
 
@@ -643,11 +641,9 @@ GameSession::update(float dt_sec, const Controller& controller)
 
       for (Player* player : m_currentsector->get_players())
       {
-        if (player->get_controller().hold(Control::ITEM) && m_item_pockets.size() > 0)
+        if (player->get_controller().hold(Control::ITEM) && m_savegame.get_player_status().m_item_pockets.size() > 0)
         {
-          BonusType bonustype = m_item_pockets.front();
-          m_item_pockets.pop();
-          player->add_bonus(bonustype, true);
+          m_savegame.get_player_status().give_item_from_pocket(player);
         }
       }
 

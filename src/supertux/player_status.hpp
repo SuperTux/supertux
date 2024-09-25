@@ -22,10 +22,12 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <queue>
 
 class DrawingContext;
 class ReaderMapping;
 class Writer;
+class Player;
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
@@ -47,11 +49,16 @@ public:
   void write(Writer& writer);
   void read(const ReaderMapping& mapping);
 
+  int get_item_pockets_max();
+  void give_item_from_pocket(Player* player);
+
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
   bool respawns_at_checkpoint() const;
-  std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
   bool has_hat_sprite(int player_id) const { return bonus[player_id] > GROWUP_BONUS; }
+
+  static std::string get_bonus_sprite(BonusType& bonustype);
+  std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
 
   void add_player();
   void remove_player(int player_id);
@@ -61,6 +68,8 @@ private:
 
 public:
   int m_num_players;
+
+  std::queue<BonusType> m_item_pockets;
 
   int coins;
   std::vector<BonusType> bonus;

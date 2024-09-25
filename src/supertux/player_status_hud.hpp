@@ -21,11 +21,14 @@
 
 #include "supertux/game_object.hpp"
 
+#include <unordered_map>
+
+#include "sprite/sprite.hpp"
+#include "supertux/player_status.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;
-class PlayerStatus;
 
 class PlayerStatusHUD : public GameObject
 {
@@ -51,6 +54,8 @@ private:
   SurfacePtr coin_surface;
   SurfacePtr fire_surface;
   SurfacePtr ice_surface;
+
+  std::unordered_map<BonusType, SpritePtr> m_bonus_sprites;
 
 private:
   PlayerStatusHUD(const PlayerStatusHUD&) = delete;
