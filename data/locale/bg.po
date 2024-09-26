@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-05-30 16:19+0200\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Бойко Иванов, 2024\n"
+"Last-Translator: Любомир Василев, 2021,2024\n"
 "Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -646,7 +646,7 @@ msgstr "Факла"
 
 #: src/object/rublight.hpp:34
 msgid "Rublight"
-msgstr "Светлина от крушка"
+msgstr "Светлинно блокче"
 
 #: src/object/background.hpp:45
 msgid "Background"
@@ -916,7 +916,7 @@ msgstr "Светлина"
 
 #: src/object/shard.hpp:35
 msgid "Shard"
-msgstr "Счупено парче"
+msgstr "Парче"
 
 #: src/object/rublight.cpp:56
 msgid "Fading Speed"
@@ -1054,152 +1054,152 @@ msgstr "Без изглаждане"
 #: src/object/custom_particle_system.cpp:437
 #: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
 msgid "Quad in"
-msgstr "Четворно изглаждане в начало"
+msgstr "Четворно изглаждане в началото"
 
 #: src/object/custom_particle_system.cpp:437
 #: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
 msgid "Quad out"
-msgstr "Четворно изглаждане в край"
+msgstr "Четворно изглаждане в края"
 
 #: src/object/custom_particle_system.cpp:437
 #: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
 msgid "Quad in/out"
-msgstr "Четворно изглаждане в начало/край"
+msgstr "Четворно изглаждане в началото/края"
 
 #: src/object/custom_particle_system.cpp:438
 #: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
 msgid "Cubic in"
-msgstr "Кубично изглаждане в начало"
+msgstr "Кубично изглаждане в началото"
 
 #: src/object/custom_particle_system.cpp:438
 #: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
 msgid "Cubic out"
-msgstr "Кубично изглаждане в край"
+msgstr "Кубично изглаждане в края"
 
 #: src/object/custom_particle_system.cpp:438
 #: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
 msgid "Cubic in/out"
-msgstr "Кубично изглаждане в начало/край"
+msgstr "Кубично изглаждане в началото/края"
 
 #: src/object/custom_particle_system.cpp:439
 #: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
 msgid "Quart in"
-msgstr "Четвъртинно изглаждане в начало"
+msgstr "Четвъртично изглаждане в началото"
 
 #: src/object/custom_particle_system.cpp:439
 #: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
 msgid "Quart out"
-msgstr "Четвъртинно изглаждане в край"
+msgstr "Четвъртично изглаждане в края"
 
 #: src/object/custom_particle_system.cpp:439
 #: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
 msgid "Quart in/out"
-msgstr "Четвъринно изглаждане в начало/край"
+msgstr "Четвъртично изглаждане в началото/края"
 
 #: src/object/custom_particle_system.cpp:440
 #: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
 msgid "Quint in"
-msgstr "Петорно изглаждане в начало"
+msgstr "Петично изглаждане в началото"
 
 #: src/object/custom_particle_system.cpp:440
 #: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
 msgid "Quint out"
-msgstr "Петорно изглаждане в край"
+msgstr "Петично изглаждане в края"
 
 #: src/object/custom_particle_system.cpp:440
 #: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
 msgid "Quint in/out"
-msgstr "Петорно изглаждане в начало/край"
+msgstr "Петично изглаждане в началото/края"
 
 #: src/object/custom_particle_system.cpp:441
 #: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
 msgid "Sine in"
-msgstr "Синусойдално изглаждане в начало"
+msgstr "Синусоидално изглаждане в началото"
 
 #: src/object/custom_particle_system.cpp:441
 #: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
 msgid "Sine out"
-msgstr "Синусойдално изглаждане в край"
+msgstr "Синусоидално изглаждане в края"
 
 #: src/object/custom_particle_system.cpp:441
 #: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
 msgid "Sine in/out"
-msgstr "Синусойдално изглаждане в начало/край"
+msgstr "Синусоидално изглаждане в началото/края"
 
 #: src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
 msgid "Circular in"
-msgstr "Кръгово изглаждане в начало"
+msgstr "Кръгово изглаждане в началото"
 
 #: src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
 msgid "Circular out"
-msgstr "Кръгово изглаждане в край"
+msgstr "Кръгово изглаждане в края"
 
 #: src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
 msgid "Circular in/out"
-msgstr "Кръгово изглаждане в начало/край"
+msgstr "Кръгово изглаждане в началото/края"
 
 #: src/object/custom_particle_system.cpp:443
 #: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
 msgid "Exponential in"
-msgstr "Експоненциално изглаждане в начало"
+msgstr "Експоненциално изглаждане в началото"
 
 #: src/object/custom_particle_system.cpp:443
 #: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
 msgid "Exponential out"
-msgstr "Експоненциално изглаждане в край"
+msgstr "Експоненциално изглаждане в края"
 
 #: src/object/custom_particle_system.cpp:443
 #: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
 msgid "Exponential in/out"
-msgstr "Експоненциално изглаждане в начало/край"
+msgstr "Експоненциално изглаждане в началото/края"
 
 #: src/object/custom_particle_system.cpp:444
 #: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
 msgid "Elastic in"
-msgstr "Еластично изглаждане в начало"
+msgstr "Еластично изглаждане в началото"
 
 #: src/object/custom_particle_system.cpp:444
 #: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
 msgid "Elastic out"
-msgstr "Еластично изглаждане в край"
+msgstr "Еластично изглаждане в края"
 
 #: src/object/custom_particle_system.cpp:444
 #: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
 msgid "Elastic in/out"
-msgstr "Еластично изглаждане в начало/край"
+msgstr "Еластично изглаждане в началото/края"
 
 #: src/object/custom_particle_system.cpp:445
 #: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
 msgid "Back in"
-msgstr "Задно изглаждане в начало"
+msgstr "Изглаждане с връщане в началото"
 
 #: src/object/custom_particle_system.cpp:445
 #: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
 msgid "Back out"
-msgstr "Задно изглаждане в край"
+msgstr "Изглаждане с връщане в края"
 
 #: src/object/custom_particle_system.cpp:445
 #: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
 msgid "Back in/out"
-msgstr "Задно изглаждане в начало/край"
+msgstr "Изглаждане с връщане в началото/края"
 
 #: src/object/custom_particle_system.cpp:446
 #: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
 msgid "Bounce in"
-msgstr "Подскачащо изглаждане в начало"
+msgstr "Подскачащо изглаждане в началото"
 
 #: src/object/custom_particle_system.cpp:446
 #: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
 msgid "Bounce out"
-msgstr "Подскачащо изглаждане в край"
+msgstr "Подскачащо изглаждане в края"
 
 #: src/object/custom_particle_system.cpp:446
 #: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
 msgid "Bounce in/out"
-msgstr "Подскачащо изглаждане в начало/край"
+msgstr "Подскачащо изглаждане в началото/края"
 
 #: src/object/custom_particle_system.cpp:462
 msgid "Birth time"
@@ -1254,7 +1254,7 @@ msgstr "Триене по Y"
 #: src/object/custom_particle_system.cpp:507
 #: src/editor/particle_editor.cpp:189
 msgid "Feather factor"
-msgstr "Фактор на перо"
+msgstr "Множител на олекотяване"
 
 #: src/object/custom_particle_system.cpp:508
 msgid "Rotation"
@@ -1821,7 +1821,7 @@ msgstr "Скорост на преследване"
 
 #: src/badguy/root_sapling.hpp:41
 msgid "Root Sapling"
-msgstr "Коренова фиданка"
+msgstr "Коренов израстък"
 
 #: src/badguy/haywire.hpp:46
 msgid "Haywire"
@@ -1849,7 +1849,7 @@ msgstr "Дебел прилеп"
 
 #: src/badguy/dive_mine.hpp:50
 msgid "Dive Mine"
-msgstr "Подводна мина"
+msgstr "Мина-гмуркач"
 
 #: src/badguy/granito_big.hpp:33
 msgid "Big Granito"
@@ -1877,7 +1877,7 @@ msgstr "Гора"
 
 #: src/badguy/crusher.hpp:71
 msgid "Crusher"
-msgstr "Трошач"
+msgstr "Разбивач"
 
 #: src/badguy/flame.cpp:84
 msgid "Fire"
@@ -1889,7 +1889,7 @@ msgstr "Призрак"
 
 #: src/badguy/corrupted_granito_big.hpp:35
 msgid "Corrupted Big Granito"
-msgstr "Корумпиран голям Гранито"
+msgstr "Увреден голям Гранито"
 
 #: src/badguy/scrystallo.cpp:57
 msgid "Walk Radius"
@@ -2013,7 +2013,7 @@ msgstr "Златна бомба"
 
 #: src/badguy/corrupted_granito.hpp:44
 msgid "Corrupted Granito"
-msgstr "Корумпиран Гранито"
+msgstr "Увреден Гранито"
 
 #: src/badguy/mrbomb.cpp:48
 msgid "Classic"
@@ -2081,7 +2081,7 @@ msgstr "Метален"
 
 #: src/badguy/jumpy.cpp:48
 msgid "Bag"
-msgstr "Чанта"
+msgstr "Торба"
 
 #: src/badguy/willowisp.hpp:57
 msgid "Will o' Wisp"
@@ -2129,7 +2129,7 @@ msgstr "Йети"
 
 #: src/badguy/snowball.cpp:41
 msgid "Bumpkin"
-msgstr "Отскачаща тиква"
+msgstr "Тиквун"
 
 #: src/badguy/snowball.cpp:42
 msgid "BSOD"
@@ -2161,7 +2161,7 @@ msgstr "Паякокърлеж"
 
 #: src/badguy/tarantula.cpp:374
 msgid "Static"
-msgstr "Неподвижен"
+msgstr "Неподвижно"
 
 #: src/badguy/ghoul.hpp:30
 msgid "Ghoul"
@@ -2169,7 +2169,7 @@ msgstr "Таласъм"
 
 #: src/badguy/granito_giant.hpp:32
 msgid "Giant Granito"
-msgstr "Гигантски Гранито"
+msgstr "Огромен Гранито"
 
 #: src/badguy/snowman.hpp:29
 msgid "Snowman"
@@ -2177,7 +2177,7 @@ msgstr "Снежен човек"
 
 #: src/badguy/viciousivy.hpp:33
 msgid "Vicious Ivy"
-msgstr "Вискозен Бръшлян"
+msgstr "Яростен бръшлян"
 
 #: src/badguy/stalactite.cpp:156
 msgid "ice"
