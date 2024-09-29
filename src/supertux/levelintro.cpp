@@ -178,15 +178,25 @@ LevelIntro::draw(Compositor& compositor)
 
     py += static_cast<int>(Resources::normal_font->get_height());
 
-    draw_stats_line(context, py, _("Coins"),
-                    Statistics::coins_to_string(m_best_level_statistics->get_coins(), stats.m_total_coins),
-                    m_best_level_statistics->get_coins() >= stats.m_total_coins);
-    draw_stats_line(context, py, _("Badguys killed"),
-                    Statistics::frags_to_string(m_best_level_statistics->get_badguys(), stats.m_total_badguys),
-                    m_best_level_statistics->get_badguys() >= stats.m_total_badguys);
-    draw_stats_line(context, py, _("Secrets"),
-                    Statistics::secrets_to_string(m_best_level_statistics->get_secrets(), stats.m_total_secrets),
-                    m_best_level_statistics->get_secrets() >= stats.m_total_secrets);
+    const Statistics::Preferences& preferences = m_level.m_stats.get_preferences();
+    if (preferences.enable_coins)
+    {
+      draw_stats_line(context, py, _("Coins"),
+                      Statistics::coins_to_string(m_best_level_statistics->get_coins(), stats.m_total_coins),
+                      m_best_level_statistics->get_coins() >= stats.m_total_coins);
+    }
+    if (preferences.enable_badguys)
+    {
+      draw_stats_line(context, py, _("Badguys killed"),
+                      Statistics::frags_to_string(m_best_level_statistics->get_badguys(), stats.m_total_badguys),
+                      m_best_level_statistics->get_badguys() >= stats.m_total_badguys);
+    }
+    if (preferences.enable_secrets)
+    {
+      draw_stats_line(context, py, _("Secrets"),
+                      Statistics::secrets_to_string(m_best_level_statistics->get_secrets(), stats.m_total_secrets),
+                      m_best_level_statistics->get_secrets() >= stats.m_total_secrets);
+    }
 
     bool targetTimeBeaten = m_level.m_target_time == 0.0f || (m_best_level_statistics->get_time() != 0.0f && m_best_level_statistics->get_time() < m_level.m_target_time);
     draw_stats_line(context, py, _("Best time"),
