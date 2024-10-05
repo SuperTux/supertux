@@ -34,9 +34,9 @@ static const int MAX_COINS = 9999;
 
 PlayerStatus::PlayerStatus(int num_players) :
   m_num_players(num_players),
+  m_item_pockets(num_players),
   coins(START_COINS),
   bonus(num_players),
-  m_item_pockets(num_players),
   max_fire_bullets(num_players),
   max_ice_bullets(num_players),
   max_air_time(num_players),
@@ -64,7 +64,8 @@ PlayerStatus::take_checkpoint_coins()
     coins = 0;
 }
 
-void PlayerStatus::reset(int num_players)
+void
+PlayerStatus::reset(int num_players)
 {
   coins = START_COINS;
 
@@ -265,15 +266,19 @@ void
 PlayerStatus::give_item_from_pocket(Player* player)
 {
   BonusType bonustype = m_item_pockets[player->get_id()];
+  if (bonustype == NO_BONUS)
+    return;
+
   m_item_pockets[player->get_id()] = NO_BONUS;
 
   Vector pos;
   auto& powerup = Sector::get().add<PowerUp>(pos, PowerUp::get_type_from_bonustype(bonustype));
   pos.x = player->get_bbox().get_left();
-  pos.y = player->get_bbox().get_top() - powerup.get_bbox().get_height() - 5;
+  pos.y = player->get_bbox().get_top() + player->get_collision_object()->get_movement().y - powerup.get_bbox().get_height() - 15;
 
   powerup.physic.set_velocity_y(-200);
   powerup.physic.set_gravity_modifier(0.4f);
+  powerup.get_collision_object()->m_group = COLGROUP_TOUCHABLE;
   powerup.set_pos(pos);
 }
 

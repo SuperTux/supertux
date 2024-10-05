@@ -24,6 +24,8 @@
 #include "video/surface.hpp"
 #include "editor/editor.hpp"
 
+#include <iostream>
+
 static const int DISPLAYED_COINS_UNSET = -1;
 
 PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status) :
@@ -151,15 +153,18 @@ PlayerStatusHUD::draw(DrawingContext& context)
                               PlayerStatusHUD::text_color);
   }
 
+  std::cout << m_player_status.m_num_players << std::endl;
+  for (int i = 0; i < m_player_status.m_num_players; i++) {
+    float ypos = static_cast<float>(m_item_pocket_border->get_height() * i);
+    Vector pos(BORDER_X, BORDER_Y + ypos);
+    context.color().draw_surface(m_item_pocket_border, pos, LAYER_HUD);
 
-  Vector pos(BORDER_X, BORDER_Y);
-  context.color().draw_surface(m_item_pocket_border, pos, LAYER_HUD);
-
-  Sprite* sprite = m_bonus_sprites[m_player_status.m_item_pockets.front()].get();
-  if (m_player_status.m_item_pockets.size() > 0 && sprite)
-  {
-    pos += 20;
-    sprite->draw(context.color(), pos, LAYER_HUD);
+    if (m_bonus_sprites.find(m_player_status.m_item_pockets[i]) != m_bonus_sprites.end())
+    {
+      pos += 20;
+      Sprite* sprite = m_bonus_sprites[m_player_status.m_item_pockets.front()].get();
+      sprite->draw(context.color(), pos, LAYER_HUD);
+    }
   }
 
   context.pop_transform();

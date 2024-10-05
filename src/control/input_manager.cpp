@@ -53,9 +53,10 @@ InputManager::get_controller(int player_id)
   return *m_controllers[player_id];
 }
 
-bool InputManager::can_add_user() const
+bool
+InputManager::can_add_user() const
 {
-  return get_num_users() >= MAX_PLAYERS;
+  return get_num_users() < MAX_PLAYERS;
 }
 
 void

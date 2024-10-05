@@ -648,6 +648,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       }
 
       m_currentsector->update(dt_sec);
+
     } else {
       bool are_all_stopped = true;
 
