@@ -88,9 +88,9 @@ ErrorHandler::get_stacktrace()
   if (first_time)
   {
     // Get the file path of the executable
-    std::string path;
-    path.reserve(MAX_PATH);
+    std::string path(MAX_PATH, 0);
     GetModuleFileName(NULL, &path[0], MAX_PATH);
+
     int size_needed = MultiByteToWideChar(CP_UTF8, 0, &path[0], (int) path.size(), NULL, 0);
     std::wstring wpath(size_needed, 0);
     MultiByteToWideChar(CP_UTF8, 0, &path[0], (int) path.size(), &wpath[0], size_needed);
