@@ -247,6 +247,31 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   return ABORT_MOVE;
 }
 
+PowerUp::Type
+PowerUp::get_type_from_bonustype(int type)
+{
+  switch (type)
+  {
+    case GROWUP_BONUS:
+      return EGG;
+
+    case FIRE_BONUS:
+      return FIRE;
+
+    case ICE_BONUS:
+      return ICE;
+
+    case AIR_BONUS:
+      return AIR;
+
+    case EARTH_BONUS:
+      return EARTH;
+
+    default:
+      return FIRE;
+  }
+}
+
 void
 PowerUp::update(float dt_sec)
 {

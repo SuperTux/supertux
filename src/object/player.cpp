@@ -1949,7 +1949,7 @@ Player::set_bonus(BonusType type, bool animate, bool increment_powerup_counter)
 
   if (type > GROWUP_BONUS)
   {
-    m_player_status.add_item_to_pocket(get_bonus());
+    m_player_status.add_item_to_pocket(get_bonus(), this);
 
     if (!m_second_growup_sound_timer.started() && type != get_bonus())
     {

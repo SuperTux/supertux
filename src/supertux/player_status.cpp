@@ -21,6 +21,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "object/powerup.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
@@ -232,7 +233,7 @@ PlayerStatus::read(const ReaderMapping& mapping)
             max_earth_time.resize(id, 0);
 
           if (m_item_pockets.size() < static_cast<size_t>(id))
-            m_item_pockets.resize(id, 0);
+            m_item_pockets.resize(id, NO_BONUS);
         }
         else if (id == 0)
         {
@@ -266,13 +267,20 @@ PlayerStatus::give_item_from_pocket(Player* player)
   BonusType bonustype = m_item_pockets[player->get_id()];
   m_item_pockets[player->get_id()] = NO_BONUS;
 
-  Sector::get().add_object<PowerUp>()
+  Vector pos;
+  auto& powerup = Sector::get().add<PowerUp>(pos, PowerUp::get_type_from_bonustype(bonustype));
+  pos.x = player->get_bbox().get_left();
+  pos.y = player->get_bbox().get_top() - powerup.get_bbox().get_height() - 5;
+
+  powerup.physic.set_velocity_y(-200);
+  powerup.physic.set_gravity_modifier(0.4f);
+  powerup.set_pos(pos);
 }
 
 void
 PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
 {
-  m_item_pockets[id] = bonustype;
+  m_item_pockets[player->get_id()] = bonustype;
 }
 
 void
@@ -348,7 +356,7 @@ PlayerStatus::remove_player(int player_id)
     max_ice_bullets[i] = max_ice_bullets[i + 1];
     max_air_time[i] = max_air_time[i + 1];
     max_earth_time[i] = max_earth_time[i + 1];
-    m_item_pockets[i] = m_item_pockets[i +\1];
+    m_item_pockets[i] = m_item_pockets[i + 1];
   }
 
   bonus.resize(m_num_players, NO_BONUS);
@@ -356,7 +364,7 @@ PlayerStatus::remove_player(int player_id)
   max_ice_bullets.resize(m_num_players, 0);
   max_air_time.resize(m_num_players, 0);
   max_earth_time.resize(m_num_players, 0);
-  m_item_pockets.resize(m_item_pockets, NO_BONUS);
+  m_item_pockets.resize(m_num_players, NO_BONUS);
 }
 
 /* EOF */
