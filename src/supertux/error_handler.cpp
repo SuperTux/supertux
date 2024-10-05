@@ -151,7 +151,7 @@ ErrorHandler::get_stacktrace()
 
       // Decode the symbol and add it to the call stack
       DWORD64 sym_displacement;
-      char buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)];
+      char buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)]; // cppcheck-suppress unassignedVariable
       PSYMBOL_INFO symbol = (PSYMBOL_INFO) buffer;
       symbol->MaxNameLen = MAX_SYM_NAME;
       symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
