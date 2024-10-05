@@ -55,6 +55,10 @@ void
 JoystickManager::on_joystick_added(int joystick_index)
 {
   log_debug << "on_joystick_added(): " << joystick_index << std::endl;
+
+  if (!parent->can_add_user())
+    return;
+
   SDL_Joystick* joystick = SDL_JoystickOpen(joystick_index);
   if (!joystick)
   {

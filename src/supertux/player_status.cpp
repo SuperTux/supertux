@@ -23,6 +23,7 @@
 #include "object/player.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -34,6 +35,7 @@ PlayerStatus::PlayerStatus(int num_players) :
   m_num_players(num_players),
   coins(START_COINS),
   bonus(num_players),
+  m_item_pockets(num_players),
   max_fire_bullets(num_players),
   max_ice_bullets(num_players),
   max_air_time(num_players),
@@ -76,6 +78,8 @@ void PlayerStatus::reset(int num_players)
   max_air_time.resize(num_players, 0);
   max_earth_time.clear();
   max_earth_time.resize(num_players, 0);
+  m_item_pockets.clear();
+  m_item_pockets.resize(num_players, NO_BONUS);
 
   m_num_players = num_players;
 }
@@ -227,6 +231,8 @@ PlayerStatus::read(const ReaderMapping& mapping)
           if (max_earth_time.size() < static_cast<size_t>(id))
             max_earth_time.resize(id, 0);
 
+          if (m_item_pockets.size() < static_cast<size_t>(id))
+            m_item_pockets.resize(id, 0);
         }
         else if (id == 0)
         {
@@ -254,29 +260,19 @@ PlayerStatus::read(const ReaderMapping& mapping)
   mapping.get("title-level", title_level);
 }
 
-int
-PlayerStatus::get_item_pockets_max()
-{
-  return m_num_players > 1 ? std::floor(m_num_players / 2) : 1;
-}
-
 void
 PlayerStatus::give_item_from_pocket(Player* player)
 {
-  BonusType bonustype = m_item_pockets.front();
-  m_item_pockets.pop();
-  player->add_bonus(bonustype, true);
+  BonusType bonustype = m_item_pockets[player->get_id()];
+  m_item_pockets[player->get_id()] = NO_BONUS;
+
+  Sector::get().add_object<PowerUp>()
 }
 
 void
-PlayerStatus::add_item_to_pocket(BonusType bonustype)
+PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
 {
-  if (m_item_pockets.size() + 1 > get_item_pockets_max())
-  {
-    m_item_pockets.pop();
-  }
-
-  m_item_pockets.push(bonustype);
+  m_item_pockets[id] = bonustype;
 }
 
 void
@@ -337,6 +333,7 @@ PlayerStatus::add_player()
   max_ice_bullets.resize(m_num_players, 0);
   max_air_time.resize(m_num_players, 0);
   max_earth_time.resize(m_num_players, 0);
+  m_item_pockets.resize(m_num_players, NO_BONUS);
 }
 
 void
@@ -351,6 +348,7 @@ PlayerStatus::remove_player(int player_id)
     max_ice_bullets[i] = max_ice_bullets[i + 1];
     max_air_time[i] = max_air_time[i + 1];
     max_earth_time[i] = max_earth_time[i + 1];
+    m_item_pockets[i] = m_item_pockets[i +\1];
   }
 
   bonus.resize(m_num_players, NO_BONUS);
@@ -358,6 +356,7 @@ PlayerStatus::remove_player(int player_id)
   max_ice_bullets.resize(m_num_players, 0);
   max_air_time.resize(m_num_players, 0);
   max_earth_time.resize(m_num_players, 0);
+  m_item_pockets.resize(m_item_pockets, NO_BONUS);
 }
 
 /* EOF */

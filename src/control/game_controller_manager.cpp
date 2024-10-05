@@ -205,6 +205,9 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
 void
 GameControllerManager::on_controller_added(int joystick_index)
 {
+  if (!m_parent->can_add_user())
+    return;
+
   if (!SDL_IsGameController(joystick_index))
   {
     log_warning << "joystick is not a game controller, ignoring: " << joystick_index << std::endl;

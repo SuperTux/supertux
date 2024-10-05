@@ -22,7 +22,6 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <queue>
 
 class DrawingContext;
 class ReaderMapping;
@@ -51,7 +50,7 @@ public:
 
   int get_item_pockets_max();
   void give_item_from_pocket(Player* player);
-  void add_item_to_pocket(BonusType bonustype);
+  void add_item_to_pocket(BonusType bonustype, Player* player);
 
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
@@ -70,7 +69,7 @@ private:
 public:
   int m_num_players;
 
-  std::queue<BonusType> m_item_pockets;
+  std::vector<BonusType> m_item_pockets;
 
   int coins;
   std::vector<BonusType> bonus;
