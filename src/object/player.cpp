@@ -2430,17 +2430,18 @@ Player::kill(bool completely)
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
 
-    if (get_bonus() == FIRE_BONUS
-      || get_bonus() == ICE_BONUS
-      || get_bonus() == AIR_BONUS
-      || get_bonus() == EARTH_BONUS) {
+    if (get_bonus() > GROWUP_BONUS)
+    {
       m_safe_timer.start(TUX_SAFE_TIME);
       m_is_intentionally_safe = false;
       set_bonus(GROWUP_BONUS, true);
-    } else if (get_bonus() == GROWUP_BONUS) {
+    }
+    else if (get_bonus() == GROWUP_BONUS)
+    {
       m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_is_intentionally_safe = false;
       m_duck = false;
+      m_crawl = false;
       stop_backflipping();
       set_bonus(NO_BONUS, true);
     }
