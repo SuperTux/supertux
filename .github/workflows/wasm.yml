@@ -85,6 +85,7 @@ jobs:
           mv supertux2* upload/
 
       - uses: actions/upload-artifact@v4
+        if: matrix.build_type != 'Debug'
         with:
           name: "wasm32-emscripten-${{ matrix.build_type }}-html"
           path: build/upload/*

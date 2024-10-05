@@ -105,6 +105,7 @@ jobs:
           "./$Env:BUILD_TYPE/run_tests.exe"
 
       - name: Package MSI Installer
+        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
         shell: pwsh
         working-directory: build
         env:
@@ -148,6 +149,7 @@ jobs:
           #>
 
       - name: Upload Portable Package
+        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
         uses: actions/upload-artifact@v4
         with:
           name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-portable"
