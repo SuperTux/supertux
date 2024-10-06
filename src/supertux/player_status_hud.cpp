@@ -56,9 +56,6 @@ PlayerStatusHUD::update(float dt_sec)
 void
 PlayerStatusHUD::draw(DrawingContext& context)
 {
-  if (Editor::is_active())
-    return;
-
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
       (std::abs(displayed_coins - m_player_status.coins) > 100)) {
     displayed_coins = m_player_status.coins;
@@ -77,24 +74,21 @@ PlayerStatusHUD::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.transform().scale = 1.f;
-  if (!Editor::is_active())
+  if (coin_surface)
   {
-    if (coin_surface)
-    {
-      context.color().draw_surface(coin_surface,
-                                  Vector(context.get_width() - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
-                                         hudpos),
-                                  LAYER_HUD);
-    }
-
-    context.color().draw_text(Resources::fixed_font,
-                              coins_text,
-                              Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                                    hudpos + 13.f),
-                              ALIGN_LEFT,
-                              LAYER_HUD,
-                              PlayerStatusHUD::text_color);
+    context.color().draw_surface(coin_surface,
+                                Vector(context.get_width() - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
+                                       hudpos),
+                                LAYER_HUD);
   }
+
+  context.color().draw_text(Resources::fixed_font,
+                            coins_text,
+                            Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
+                                  hudpos + 13.f),
+                            ALIGN_LEFT,
+                            LAYER_HUD,
+                            PlayerStatusHUD::text_color);
 
   for (int i = 0; i < m_player_status.m_num_players; i++) {
     float ypos = static_cast<float>(m_item_pocket_border->get_height() * i);

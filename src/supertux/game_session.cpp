@@ -635,7 +635,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       {
         if (player->get_controller().pressed(Control::ITEM) && m_savegame.get_player_status().m_item_pockets.size() > 0)
         {
-          m_savegame.get_player_status().give_item_from_pocket(player);
+          player->get_status().give_item_from_pocket(player);
         }
       }
 
