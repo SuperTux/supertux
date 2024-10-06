@@ -33,8 +33,6 @@ PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status) :
   displayed_coins(DISPLAYED_COINS_UNSET),
   displayed_coins_frame(0),
   coin_surface(Surface::from_file("images/engine/hud/coins-0.png")),
-  fire_surface(Surface::from_file("images/engine/hud/fire-0.png")),
-  ice_surface(Surface::from_file("images/engine/hud/ice-0.png")),
   m_bonus_sprites(),
   m_item_pocket_border(Surface::from_file("images/engine/hud/item_pocket.png"))
 {
@@ -93,61 +91,6 @@ PlayerStatusHUD::draw(DrawingContext& context)
                               coins_text,
                               Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
                                     hudpos + 13.f),
-                              ALIGN_LEFT,
-                              LAYER_HUD,
-                              PlayerStatusHUD::text_color);
-  }
-
-  hudpos += 8.f;
-  for (int target = 0; target < InputManager::current()->get_num_users(); target++)
-  {
-    SurfacePtr surface;
-    std::string ammo_text;
-
-    if (m_player_status.bonus[target] == FIRE_BONUS)
-    {
-      surface = fire_surface;
-      ammo_text = std::to_string(m_player_status.max_fire_bullets[target]);
-    }
-    else if (m_player_status.bonus[target] == ICE_BONUS)
-    {
-      surface = ice_surface;
-      ammo_text = std::to_string(m_player_status.max_ice_bullets[target]);
-    }
-    else
-    {
-      continue;
-    }
-
-    hudpos += static_cast<float>(surface->get_height());
-
-    const float ammo_text_width = Resources::fixed_font->get_text_width(ammo_text);
-
-    if (InputManager::current()->get_num_users() > 1)
-    {
-      const std::string player_text = std::to_string(target + 1) + ":";
-
-      context.color().draw_text(Resources::fixed_font,
-                                player_text,
-                                Vector(context.get_width() - BORDER_X - ammo_text_width -
-                                         static_cast<float>(surface->get_width()) -
-                                         Resources::fixed_font->get_text_width(player_text) - 3.f,
-                                       hudpos + 13.f),
-                                ALIGN_LEFT,
-                                LAYER_HUD,
-                                PlayerStatusHUD::text_color);
-    }
-
-    context.color().draw_surface(surface,
-                                 Vector(context.get_width() - BORDER_X - ammo_text_width -
-                                          static_cast<float>(surface->get_width()),
-                                        hudpos),
-                                 LAYER_HUD);
-
-    context.color().draw_text(Resources::fixed_font,
-                              ammo_text,
-                              Vector(context.get_width() - BORDER_X - ammo_text_width,
-                                     hudpos + 13.f),
                               ALIGN_LEFT,
                               LAYER_HUD,
                               PlayerStatusHUD::text_color);

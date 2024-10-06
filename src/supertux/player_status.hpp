@@ -48,7 +48,6 @@ public:
   void write(Writer& writer);
   void read(const ReaderMapping& mapping);
 
-  int get_item_pockets_max();
   void give_item_from_pocket(Player* player);
   void add_item_to_pocket(BonusType bonustype, Player* player);
 
@@ -76,10 +75,6 @@ public:
 
   int coins;
   std::vector<BonusType> bonus;
-  std::vector<int> max_fire_bullets; /**< maximum number of fire bullets in play */
-  std::vector<int> max_ice_bullets; /**< maximum number of ice bullets in play */
-  std::vector<int> max_air_time; /**<determines maximum number of seconds player can float in air */
-  std::vector<int> max_earth_time; /**< determines maximum number of seconds player can turn to stone */
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */

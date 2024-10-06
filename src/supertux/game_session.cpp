@@ -92,8 +92,6 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
 
   m_boni_at_start.resize(InputManager::current()->get_num_users(), NO_BONUS);
-  m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
-  m_max_ice_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
 
   m_data_table.clear();
 
@@ -118,8 +116,6 @@ GameSession::reset_level()
   PlayerStatus& currentStatus = m_savegame.get_player_status();
   currentStatus.coins = m_coins_at_start;
   currentStatus.bonus = m_boni_at_start;
-  currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
-  currentStatus.max_ice_bullets = m_max_ice_bullets_at_start;
 
   clear_respawn_points();
   m_activated_checkpoint = nullptr;
@@ -163,8 +159,6 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 {
   const PlayerStatus& currentStatus = m_savegame.get_player_status();
   m_coins_at_start = currentStatus.coins;
-  m_max_fire_bullets_at_start = currentStatus.max_fire_bullets;
-  m_max_ice_bullets_at_start = currentStatus.max_ice_bullets;
   m_boni_at_start = currentStatus.bonus;
 
   // Needed for the title screen apparently.
@@ -174,7 +168,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     {
       for (const auto& p : m_currentsector->get_players())
       {
-        p->set_bonus(m_boni_at_start.at(p->get_id()), false, false);
+        p->set_bonus(m_boni_at_start.at(p->get_id()), false);
         m_boni_at_start[p->get_id()] = currentStatus.bonus[p->get_id()];
       }
     }
@@ -425,8 +419,6 @@ GameSession::abort_level()
 
   PlayerStatus& currentStatus = m_savegame.get_player_status();
   currentStatus.coins = m_coins_at_start;
-  currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
-  currentStatus.max_ice_bullets = m_max_ice_bullets_at_start;
   SoundManager::current()->stop_sounds();
 }
 

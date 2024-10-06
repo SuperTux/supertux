@@ -150,6 +150,9 @@ const float TURN_MAGNITUDE_BOOST = 0.2f;
 const float BUTTJUMP_WAIT_TIME = 0.2f; // the length of time that the buttjump action is being played
 const float BUTTJUMP_SPEED = 800.f;
 
+const int MAX_FIRE_BULLETS = 2;
+const int MAX_ICE_BULLETS  = 2;
+
 } // namespace
 
 Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
@@ -1562,10 +1565,8 @@ Player::handle_input()
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>([this](const Bullet& b){ return &b.get_player() == this; });
   if (m_controller->pressed(Control::ACTION) && (get_bonus() == FIRE_BONUS || get_bonus() == ICE_BONUS) && !just_grabbed) {
-    if ((get_bonus() == FIRE_BONUS &&
-      active_bullets < m_player_status.max_fire_bullets[get_id()]) ||
-      (get_bonus() == ICE_BONUS &&
-      active_bullets < m_player_status.max_ice_bullets[get_id()]))
+    if ((get_bonus() == FIRE_BONUS && active_bullets < MAX_FIRE_BULLETS) ||
+        (get_bonus() == ICE_BONUS  && active_bullets < MAX_ICE_BULLETS))
     {
       Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f);
       Direction swim_dir;
@@ -1896,7 +1897,7 @@ Player::add_bonus(BonusType type, bool animate)
 }
 
 bool
-Player::set_bonus(BonusType type, bool animate, bool increment_powerup_counter)
+Player::set_bonus(BonusType type, bool animate)
 {
   if (m_dying) {
     return false;
@@ -1930,21 +1931,6 @@ Player::set_bonus(BonusType type, bool animate, bool increment_powerup_counter)
       return false;
     }
     if (m_does_buttjump) m_does_buttjump = false;
-  }
-
-  if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
-    m_player_status.max_fire_bullets[get_id()] = 0;
-    m_player_status.max_ice_bullets[get_id()] = 0;
-    m_player_status.max_air_time[get_id()] = 0;
-    m_player_status.max_earth_time[get_id()] = 0;
-  }
-
-  if (increment_powerup_counter)
-  {
-    if (type == FIRE_BONUS) m_player_status.max_fire_bullets[get_id()]++;
-    if (type == ICE_BONUS) m_player_status.max_ice_bullets[get_id()]++;
-    if (type == AIR_BONUS) m_player_status.max_air_time[get_id()]++;
-    if (type == EARTH_BONUS) m_player_status.max_earth_time[get_id()]++;
   }
 
   if (type > GROWUP_BONUS)

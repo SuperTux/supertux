@@ -37,10 +37,6 @@ PlayerStatus::PlayerStatus(int num_players) :
   m_item_pockets(num_players),
   coins(START_COINS),
   bonus(num_players),
-  max_fire_bullets(num_players),
-  max_ice_bullets(num_players),
-  max_air_time(num_players),
-  max_earth_time(num_players),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
   last_worldmap(),
   title_level()
@@ -72,14 +68,6 @@ PlayerStatus::reset(int num_players)
   // Keep in sync with a section in read()
   bonus.clear();
   bonus.resize(num_players, NO_BONUS);
-  max_fire_bullets.clear();
-  max_fire_bullets.resize(num_players, 0);
-  max_ice_bullets.clear();
-  max_ice_bullets.resize(num_players, 0);
-  max_air_time.clear();
-  max_air_time.resize(num_players, 0);
-  max_earth_time.clear();
-  max_earth_time.resize(num_players, 0);
   m_item_pockets.clear();
   m_item_pockets.resize(num_players, NO_BONUS);
 
@@ -197,12 +185,6 @@ PlayerStatus::write(Writer& writer)
     }
 
     writer.write("bonus", get_bonus_name(bonus[i]));
-
-    writer.write("fireflowers", max_fire_bullets[i]);
-    writer.write("iceflowers", max_ice_bullets[i]);
-    writer.write("airflowers", max_air_time[i]);
-    writer.write("earthflowers", max_earth_time[i]);
-
     writer.write("item-pocket", get_bonus_name(m_item_pockets[i]));
 
     if (i != 0)
@@ -243,18 +225,6 @@ PlayerStatus::read(const ReaderMapping& mapping)
           // Keep this in sync with reset()
           if (bonus.size() < static_cast<size_t>(id))
             bonus.resize(id, NO_BONUS);
-
-          if (max_fire_bullets.size() < static_cast<size_t>(id))
-            max_fire_bullets.resize(id, 0);
-
-          if (max_ice_bullets.size() < static_cast<size_t>(id))
-            max_ice_bullets.resize(id, 0);
-
-          if (max_air_time.size() < static_cast<size_t>(id))
-            max_air_time.resize(id, 0);
-
-          if (max_earth_time.size() < static_cast<size_t>(id))
-            max_earth_time.resize(id, 0);
 
           if (m_item_pockets.size() < static_cast<size_t>(id))
             m_item_pockets.resize(id, NO_BONUS);
@@ -301,6 +271,7 @@ PlayerStatus::give_item_from_pocket(Player* player)
 
   powerup.physic.set_velocity_y(-200);
   powerup.physic.set_gravity_modifier(0.4f);
+  powerup.set_layer(LAYER_FOREGROUND1);
   powerup.get_collision_object()->m_group = COLGROUP_TOUCHABLE;
   powerup.set_pos(pos);
 }
@@ -321,13 +292,10 @@ PlayerStatus::parse_bonus_mapping(const ReaderMapping& map, int id)
   if (map.get("bonus", bonusname)) {
     bonus[id] = get_bonus_from_name(bonusname);
   }
+
   if (map.get("item-pocket", bonusname)) {
     m_item_pockets[id] = get_bonus_from_name(bonusname);
   }
-  map.get("fireflowers", max_fire_bullets[id]);
-  map.get("iceflowers", max_ice_bullets[id]);
-  map.get("airflowers", max_air_time[id]);
-  map.get("earthflowers", max_earth_time[id]);
 }
 
 std::string
@@ -356,10 +324,6 @@ PlayerStatus::add_player()
   m_num_players++;
 
   bonus.resize(m_num_players, NO_BONUS);
-  max_fire_bullets.resize(m_num_players, 0);
-  max_ice_bullets.resize(m_num_players, 0);
-  max_air_time.resize(m_num_players, 0);
-  max_earth_time.resize(m_num_players, 0);
   m_item_pockets.resize(m_num_players, NO_BONUS);
 }
 
@@ -371,18 +335,10 @@ PlayerStatus::remove_player(int player_id)
   for (int i = player_id; i < m_num_players; i++)
   {
     bonus[i] = bonus[i + 1];
-    max_fire_bullets[i] = max_fire_bullets[i + 1];
-    max_ice_bullets[i] = max_ice_bullets[i + 1];
-    max_air_time[i] = max_air_time[i + 1];
-    max_earth_time[i] = max_earth_time[i + 1];
     m_item_pockets[i] = m_item_pockets[i + 1];
   }
 
   bonus.resize(m_num_players, NO_BONUS);
-  max_fire_bullets.resize(m_num_players, 0);
-  max_ice_bullets.resize(m_num_players, 0);
-  max_air_time.resize(m_num_players, 0);
-  max_earth_time.resize(m_num_players, 0);
   m_item_pockets.resize(m_num_players, NO_BONUS);
 }
 

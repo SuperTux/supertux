@@ -52,8 +52,6 @@ private:
   int displayed_coins;
   int displayed_coins_frame;
   SurfacePtr coin_surface;
-  SurfacePtr fire_surface;
-  SurfacePtr ice_surface;
 
   std::unordered_map<BonusType, SpritePtr> m_bonus_sprites;
   SurfacePtr m_item_pocket_border;

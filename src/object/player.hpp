@@ -136,11 +136,11 @@ public:
   bool is_dying() const { return m_dying; }
 
   /**
-   * Returns true if the player is currently alive 
+   * Returns true if the player is currently alive
    * (not dying or dead)
    */
   bool is_alive() const { return !is_dying() && !is_dead(); }
-  
+
   /**
    * Returns true if the player can be controlled.
    * (alive and not currently in a win sequence)
@@ -201,7 +201,7 @@ public:
   bool add_bonus(BonusType type, bool animate = false);
 
   /** like add_bonus, but can also downgrade the bonus items carried */
-  bool set_bonus(BonusType type, bool animate = false, bool increment_powerup_counter = true);
+  bool set_bonus(BonusType type, bool animate = false);
   BonusType get_bonus() const;
 
   std::string bonus_to_string() const;
