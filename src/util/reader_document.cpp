@@ -24,6 +24,14 @@
 #include "util/log.hpp"
 
 ReaderDocument
+ReaderDocument::from_string(const std::string& string, const std::string& filename)
+{
+  std::stringstream stream;
+  stream << string;
+  return from_stream(stream, filename);
+}
+
+ReaderDocument
 ReaderDocument::from_stream(std::istream& stream, const std::string& filename)
 {
   sexp::Value sx = sexp::Parser::from_stream(stream, sexp::Parser::USE_ARRAYS);
