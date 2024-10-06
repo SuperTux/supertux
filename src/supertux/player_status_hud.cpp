@@ -153,7 +153,6 @@ PlayerStatusHUD::draw(DrawingContext& context)
                               PlayerStatusHUD::text_color);
   }
 
-  std::cout << m_player_status.m_num_players << std::endl;
   for (int i = 0; i < m_player_status.m_num_players; i++) {
     float ypos = static_cast<float>(m_item_pocket_border->get_height() * i);
     Vector pos(BORDER_X, BORDER_Y + ypos);

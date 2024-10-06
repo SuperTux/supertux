@@ -106,6 +106,49 @@ PlayerStatus::respawns_at_checkpoint() const
 }
 
 std::string
+PlayerStatus::get_bonus_name(BonusType bonustype)
+{
+  switch (bonustype) {
+    case FIRE_BONUS:
+      return "fireflower";
+    case ICE_BONUS:
+      return "iceflower";
+    case AIR_BONUS:
+      return "airflower";
+    case EARTH_BONUS:
+      return "earthflower";
+    case GROWUP_BONUS:
+      return "egg";
+    case NO_BONUS:
+      return "none";
+    default:
+      log_warning << "Unknown bonus " << static_cast<int>(bonustype) << std::endl;
+      return "none";
+  }
+}
+
+BonusType
+PlayerStatus::get_bonus_from_name(const std::string& name)
+{
+  if (name == "none") {
+    return NO_BONUS;
+  } else if (name == "growup") {
+    return GROWUP_BONUS;
+  } else if (name == "fireflower") {
+    return FIRE_BONUS;
+  } else if (name == "iceflower") {
+    return ICE_BONUS;
+  } else if (name == "airflower") {
+    return AIR_BONUS;
+  } else if (name == "earthflower") {
+    return EARTH_BONUS;
+  } else {
+    log_warning << "Unknown bonus '" << name << "' in savefile"<< std::endl;
+    return NO_BONUS;
+  }
+}
+
+std::string
 PlayerStatus::get_bonus_sprite(BonusType bonustype)
 {
   switch (bonustype) {
@@ -153,34 +196,14 @@ PlayerStatus::write(Writer& writer)
       writer.start_list("tux" + std::to_string(i + 1));
     }
 
-    switch (bonus[i]) {
-      case NO_BONUS:
-        writer.write("bonus", "none");
-        break;
-      case GROWUP_BONUS:
-        writer.write("bonus", "growup");
-        break;
-      case FIRE_BONUS:
-        writer.write("bonus", "fireflower");
-        break;
-      case ICE_BONUS:
-        writer.write("bonus", "iceflower");
-        break;
-      case AIR_BONUS:
-        writer.write("bonus", "airflower");
-        break;
-      case EARTH_BONUS:
-        writer.write("bonus", "earthflower");
-        break;
-      default:
-        log_warning << "Unknown bonus type." << std::endl;
-        writer.write("bonus", "none");
-    }
+    writer.write("bonus", get_bonus_name(bonus[i]));
 
     writer.write("fireflowers", max_fire_bullets[i]);
     writer.write("iceflowers", max_ice_bullets[i]);
     writer.write("airflowers", max_air_time[i]);
     writer.write("earthflowers", max_earth_time[i]);
+
+    writer.write("item-pocket", get_bonus_name(m_item_pockets[i]));
 
     if (i != 0)
     {
@@ -285,6 +308,9 @@ PlayerStatus::give_item_from_pocket(Player* player)
 void
 PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
 {
+  if (bonustype <= GROWUP_BONUS)
+    return;
+
   m_item_pockets[player->get_id()] = bonustype;
 }
 
@@ -293,22 +319,10 @@ PlayerStatus::parse_bonus_mapping(const ReaderMapping& map, int id)
 {
   std::string bonusname;
   if (map.get("bonus", bonusname)) {
-    if (bonusname == "none") {
-      bonus[id] = NO_BONUS;
-    } else if (bonusname == "growup") {
-      bonus[id] = GROWUP_BONUS;
-    } else if (bonusname == "fireflower") {
-      bonus[id] = FIRE_BONUS;
-    } else if (bonusname == "iceflower") {
-      bonus[id] = ICE_BONUS;
-    } else if (bonusname == "airflower") {
-      bonus[id] = AIR_BONUS;
-    } else if (bonusname == "earthflower") {
-      bonus[id] = EARTH_BONUS;
-    } else {
-      log_warning << "Unknown bonus '" << bonusname << "' in savefile for player " << (id + 1) << std::endl;
-      bonus[id] = NO_BONUS;
-    }
+    bonus[id] = get_bonus_from_name(bonusname);
+  }
+  if (map.get("item-pocket", bonusname)) {
+    m_item_pockets[id] = get_bonus_from_name(bonusname);
   }
   map.get("fireflowers", max_fire_bullets[id]);
   map.get("iceflowers", max_ice_bullets[id]);

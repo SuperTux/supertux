@@ -57,6 +57,9 @@ public:
   bool respawns_at_checkpoint() const;
   bool has_hat_sprite(int player_id) const { return bonus[player_id] > GROWUP_BONUS; }
 
+  static std::string get_bonus_name(BonusType bonustype);
+  static BonusType get_bonus_from_name(const std::string& name);
+
   static std::string get_bonus_sprite(BonusType bonustype);
   std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
 
