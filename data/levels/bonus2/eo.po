@@ -4,7 +4,7 @@
 # 
 # Translators:
 # vpzomtrrfrt <colin@vpzom.click>, 2020
-# Jorge Maldonado Ventura <jorgesumle@freakspot.net>, 2021
+# Jorge <jorgesumle@freakspot.net>, 2021
 # Robin van der Vliet <info@robinvandervliet.com>, 2015
 # Rubén Leal Coba <mekjotradukoj@outlook.com>, 2013
 # tellovishous <skyguy@readytek.net>, 2023
