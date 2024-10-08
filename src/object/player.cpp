@@ -1389,7 +1389,7 @@ Player::handle_vertical_input()
   if (m_controller->pressed(Control::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
   if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && (m_can_jump || m_coyote_timer.started())) {
     m_jump_button_timer.stop();
-    if (m_duck) {
+    if (m_duck && !m_sliding) {
       // when running, only jump a little bit; else do a backflip
       if ((m_physic.get_velocity_x() != 0) ||
           (m_controller->hold(Control::LEFT)) ||
