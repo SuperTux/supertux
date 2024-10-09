@@ -64,6 +64,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_ignited(false),
   m_in_water(false),
   m_dead_script(),
+  m_load_group(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
@@ -107,6 +108,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_ignited(false),
   m_in_water(false),
   m_dead_script(),
+  m_load_group(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
@@ -126,6 +128,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_dir = m_start_dir;
 
   reader.get("dead-script", m_dead_script);
+  reader.get("load-group", m_load_group);
 
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
@@ -224,8 +227,8 @@ BadGuy::update(float dt_sec)
     }
   }
 
-  // Deactivate badguy, if off-screen and not falling down.
-  if (m_is_active_flag && is_offscreen() && m_physic.get_velocity_y() <= 0.f && !always_active())
+  // Deactivate badguy
+  if (m_load_group.empty() && m_is_active_flag && may_deactivate())
   {
     deactivate();
     set_state(STATE_INACTIVE);
@@ -297,7 +300,9 @@ BadGuy::update(float dt_sec)
       m_is_active_flag = false;
       m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox().grown(-4.f), false, Tile::WATER);
       inactive_update(dt_sec);
-      try_activate();
+      if (m_load_group.empty() && may_activate()) {
+        do_activate();
+      }
       break;
 
     case STATE_BURNING: {
@@ -808,32 +813,85 @@ BadGuy::is_offscreen() const
   return true;
 }
 
-void
-BadGuy::try_activate()
+bool
+BadGuy::may_deactivate() const
+{
+  // Deactivate if off-screen and not falling down.
+  return !always_active() && is_offscreen() && m_physic.get_velocity_y() <= 0.f;
+}
+
+bool
+BadGuy::may_activate() const
 {
   // Don't activate if player is dying.
   auto player = get_nearest_player();
-  if (!player) return;
+  if (!player) return false;
 
-  if (!is_offscreen()) {
-    set_state(STATE_ACTIVE);
-    if (!m_is_initialized) {
+  return !is_offscreen();
+}
 
-      // If starting direction was set to AUTO, this is our chance to re-orient the badguy.
-      if (m_start_dir == Direction::AUTO) {
-        auto player_ = get_nearest_player();
-        if (player_ && (player_->get_bbox().get_left() > m_col.m_bbox.get_right())) {
-          m_dir = Direction::RIGHT;
-        } else {
-          m_dir = Direction::LEFT;
-        }
+void
+BadGuy::do_activate()
+{
+  set_state(STATE_ACTIVE);
+  if (!m_is_initialized) {
+    // If starting direction was set to AUTO, this is our chance to re-orient the badguy.
+    if (m_start_dir == Direction::AUTO) {
+      auto player_ = get_nearest_player();
+      if (player_ && (player_->get_bbox().get_left() > m_col.m_bbox.get_right())) {
+        m_dir = Direction::RIGHT;
+      } else {
+        m_dir = Direction::LEFT;
       }
-
-      initialize();
-      m_is_initialized = true;
     }
-    activate();
+    initialize();
+    m_is_initialized = true;
   }
+  activate();
+}
+
+void
+BadGuy::update_load_group(std::set<BadGuy *>& group)
+{
+  bool any_on_screen = false;
+  bool all_off_screen = true;
+  for (BadGuy *g : group) {
+    if (!g->is_valid())
+      continue;
+
+    if ((g->m_state == STATE_INIT || g->m_state == STATE_INACTIVE) && g->may_activate()) {
+      any_on_screen = true;
+    }
+
+    if (!(g->m_is_active_flag && g->is_offscreen() && g->m_physic.get_velocity_y() <= 0.f)) {
+      all_off_screen = false;
+    }
+  }
+
+  if (any_on_screen) {
+    for (BadGuy *g : group) {
+      if (!g->is_valid())
+        continue;
+
+      if (g->m_state == STATE_INIT || g->m_state == STATE_INACTIVE) {
+        g->m_is_active_flag = false;
+        g->m_in_water = !Sector::get().is_free_of_tiles(g->m_col.get_bbox(), false, Tile::WATER);
+        g->do_activate();
+      }
+    }
+  }
+  if (all_off_screen) {
+    for (BadGuy *g : group) {
+      if (!g->is_valid())
+        continue;
+
+      if (g->m_is_active_flag) {
+        g->deactivate();
+        g->set_state(STATE_INACTIVE);
+      }
+    }
+  }
+
 }
 
 bool
@@ -1140,6 +1198,7 @@ BadGuy::get_settings()
   if (!get_allowed_directions().empty())
     result.add_direction(_("Direction"), &m_start_dir, get_allowed_directions(), "direction");
   result.add_script(_("Death script"), &m_dead_script, "dead-script");
+  result.add_text(_("Load group"), &m_load_group, "load-group");
 
   result.reorder({"direction", "sprite", "x", "y"});
 
