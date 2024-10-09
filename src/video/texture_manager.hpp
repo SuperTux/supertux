@@ -53,7 +53,9 @@ public:
   TexturePtr get(const std::string& filename,
                  const std::optional<Rect>& rect,
                  const Sampler& sampler = Sampler());
-  TexturePtr create_dummy_texture();
+  TexturePtr create_dummy_texture() const;
+
+  void reload();
 
   void debug_print(std::ostream& out) const;
 
@@ -63,17 +65,18 @@ private:
   const SDL_Surface& get_surface(const std::string& filename);
   void reap_cache_entry(const Texture::Key& key);
 
-  TexturePtr create_image_texture(const std::string& filename, const Rect& rect, const Sampler& sampler);
-
   /** on failure a dummy texture is returned and no exception is thrown */
   TexturePtr create_image_texture(const std::string& filename, const Sampler& sampler);
 
+  TexturePtr create_image_texture(const std::string& filename, const Rect& rect, const Sampler& sampler);
+
   /** throw an exception on error */
-  TexturePtr create_image_texture_raw(const std::string& filename, const Sampler& sampler);
-  TexturePtr create_image_texture_raw(const std::string& filename, const Rect& rect, const Sampler& sampler);
+  SDLSurfacePtr create_image_surface_raw(const std::string& filename, const Rect& rect, const Sampler& sampler);
+
+  static SDLSurfacePtr create_dummy_surface();
 
 private:
-  std::map<Texture::Key, std::weak_ptr<Texture> > m_image_textures;
+  std::map<Texture::Key, std::weak_ptr<Texture>> m_image_textures;
   std::map<std::string, SDLSurfacePtr> m_surfaces;
   bool m_load_successful;
 

@@ -1,6 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
-//                2023 Vankata453
+//                2023-2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,24 +17,11 @@
 
 #include "sprite/sprite_manager.hpp"
 
-#include <optional>
-#include <sstream>
-
 #include "sprite/sprite.hpp"
-#include "util/file_system.hpp"
-#include "util/log.hpp"
-#include "util/reader_document.hpp"
-#include "util/reader_mapping.hpp"
-#include "util/string_util.hpp"
-
-std::unique_ptr<SpriteData> SpriteManager::s_dummy_sprite_data = nullptr;
 
 SpriteManager::SpriteManager() :
-  m_sprites(),
-  m_load_successful(false)
+  m_sprites()
 {
-  if (!s_dummy_sprite_data)
-    s_dummy_sprite_data.reset(new SpriteData());
 }
 
 SpritePtr
@@ -45,65 +32,28 @@ SpriteManager::create(const std::string& name)
   if (i == m_sprites.end())
   {
     // Try loading the sprite file.
-    try
-    {
-      data = load(name);
-    }
-    catch (const std::exception& err)
-    {
-      log_warning << "Error loading sprite '" << name << "', using dummy texture: " << err.what() << std::endl;
-      m_load_successful = false;
-      return SpritePtr(new Sprite(*s_dummy_sprite_data)); // Return a dummy sprite.
-    }
+    data = load(name);
   }
   else
   {
     data = i->second.get();
   }
 
-  m_load_successful = true;
   return SpritePtr(new Sprite(*data));
 }
 
 SpriteData*
 SpriteManager::load(const std::string& filename)
 {
-  std::unique_ptr<SpriteData> sprite_data;
-
-  if (StringUtil::has_suffix(filename, ".sprite"))
-  {
-    std::optional<ReaderDocument> doc;
-    try
-    {
-      doc = ReaderDocument::from_file(filename);
-    }
-    catch (const std::exception& err)
-    {
-      std::ostringstream msg;
-      msg << "Parse error when trying to load sprite '" << filename
-          << "': " << err.what();
-      throw std::runtime_error(msg.str());
-    }
-    auto root = doc->get_root();
-
-    if (root.get_name() != "supertux-sprite")
-    {
-      std::ostringstream msg;
-      msg << "'" << filename << "' is not a supertux-sprite file";
-      throw std::runtime_error(msg.str());
-    }
-    else
-    {
-      sprite_data = std::make_unique<SpriteData>(root.get_mapping());
-    }
-  }
-  else
-  {
-    sprite_data = std::make_unique<SpriteData>(filename);
-  }
-
-  m_sprites[filename] = std::move(sprite_data);
+  m_sprites[filename] = std::make_unique<SpriteData>(filename);
   return m_sprites[filename].get();
+}
+
+void
+SpriteManager::reload()
+{
+  for (const auto& sprite_data : m_sprites)
+    sprite_data.second->load();
 }
 
 /* EOF */
