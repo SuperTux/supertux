@@ -31,7 +31,7 @@
 #   make
 #
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.9)
 
 ## Project name to use as command prefix.
 
@@ -44,6 +44,7 @@ if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)
   cmake_policy(SET CMP0008 NEW)
   cmake_policy(SET CMP0023 NEW)
+  cmake_policy(SET CMP0069 NEW)
 endif()
 
 set(CMAKE_CXX_STANDARD 17)
@@ -62,6 +63,23 @@ include(ConfigureFiles)
 include(ExternalProject)
 include(CheckCXXCompilerFlag)
 include(CheckSymbolExists)
+
+if(EMSCRIPTEN OR NOT (CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo"))
+  # FIXME: As of writing, Emscripten fails with "wasm-ld: error: /path/to/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/thinlto/libc.a(fileno.o): attempt to add bitcode file after LTO (fileno)"
+  # Seems to be a known issue: https://github.com/emscripten-core/emscripten/issues/20275
+  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster executables)" OFF)
+else()
+  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster executables)" ON)
+endif()
+if(SUPERTUX_IPO)
+  include(CheckIPOSupported)
+  check_ipo_supported(RESULT result)
+  if(result)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON CACHE BOOL "" FORCE)
+  endif()
+else()
+  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF CACHE BOOL "" FORCE)
+endif()
 
 ## For autopackage
 set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
@@ -226,6 +244,20 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 add_library(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
 add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
 target_include_directories(supertux2_lib PUBLIC ${CMAKE_BINARY_DIR} src/)
+
+# Pre-compiled headers
+if (CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
+  option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" ON)
+else()
+  option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" OFF)
+endif()
+if(SUPERTUX_PCH)
+  file(GLOB_RECURSE SUPERTUX_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/**.hpp)
+  if(NOT HAVE_OPENGL)
+    list(FILTER SUPERTUX_HEADERS EXCLUDE REGEX src/video/gl/*)
+  endif()
+  target_precompile_headers(supertux2_lib PRIVATE ${SUPERTUX_HEADERS})
+endif()
 
 if(WIN32)
   add_executable(supertux2 WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
