@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
@@ -86,9 +87,11 @@ Tarantula::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
 
-  if (is_grabbed())
+  if (m_frozen)
   {
-    m_was_grabbed = true;
+    if (is_grabbed())
+      m_was_grabbed = true;
+
     return;
   }
 
@@ -297,7 +300,7 @@ Tarantula::collision_solid(const CollisionHit& hit)
   if (hit.top)
     m_attach_ceiling = true;
 
-  if (m_was_grabbed && m_frozen && hit.bottom)
+  if (!m_was_grabbed && m_frozen && hit.bottom)
     kill_fall();
 }
 
@@ -344,6 +347,16 @@ bool
 Tarantula::is_snipable() const
 {
   return m_state != STATE_DROPPING;
+}
+
+void Tarantula::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  if (m_state == STATE_IDLE)
+  {
+    m_start_position.y = get_bbox().get_top();
+    m_last_height = m_start_position.y;
+  }
 }
 
 GameObjectTypes
