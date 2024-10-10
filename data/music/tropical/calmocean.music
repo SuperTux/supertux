@@ -1,0 +1,5 @@
+(supertux-music
+  (file "calmocean.ogg")
+  (loop-begin 16)
+  (loop-at    -1)
+)
