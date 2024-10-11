@@ -144,6 +144,7 @@ const float SWIM_BOOST_SPEED = 600.f;
 const float SWIM_TO_BOOST_ACCEL = 15.f;
 const float TURN_MAGNITUDE = 0.15f;
 const float TURN_MAGNITUDE_BOOST = 0.2f;
+const std::array<std::string, 2> BUBBLE_ACTIONS = { "normal", "small" };
 
 /* Buttjump variables */
 
@@ -423,11 +424,12 @@ Player::update(float dt_sec)
       bubble.second.x += std::sin(bubble.second.y * 0.1f) * dt_sec * 5.0f;
     }
 
-    m_active_bubbles.remove_if([&](const std::pair<SurfacePtr, Vector>& bubble)
+    m_active_bubbles.remove_if([&](const std::pair<SpritePtr, Vector>& bubble)
       {
         Rectf bubble_box(bubble.second.x, bubble.second.y, bubble.second.x + 16.f, bubble.second.y + 16.f);
         bool is_out_of_water = Sector::get().is_free_of_tiles(bubble_box, true, Tile::WATER);
-        return is_out_of_water;
+        bool hits_solid = !Sector::get().is_free_of_tiles(bubble_box, false, Tile::SOLID);
+        return is_out_of_water || hits_solid;
       });
   }
 
@@ -562,37 +564,36 @@ Player::update(float dt_sec)
 
         int num_bubbles = graphicsRandom.rand(1, 3);
 
-        std::optional<std::vector<SurfacePtr>> bubble_surfaces = m_bubbles_sprite->get_action_surfaces("normal");
-
-        if (bubble_surfaces)
+        for (int i = 0; i < num_bubbles; ++i)
         {
-          const std::vector<SurfacePtr>& surfaces = bubble_surfaces.value();
-          int surfaces_size = static_cast<int>(surfaces.size());
+          int random_action_index = graphicsRandom.rand(0, 2);
+          std::string selected_action = BUBBLE_ACTIONS[random_action_index];
 
-          for (int i = 0; i < num_bubbles; ++i)
+          SpritePtr bubble_sprite = m_bubbles_sprite->clone();
+          bubble_sprite->set_animation_loops(1);
+          bubble_sprite->set_action(selected_action);
+
+          Vector bubble_pos(0.f, 0.f);
+          if (std::abs(m_swimming_angle) > static_cast<float>(math::PI_2)) // Facing left
           {
-            int random_index = graphicsRandom.rand(1, surfaces_size - 1);
-            SurfacePtr bubble_surface = surfaces.at(random_index);
+            bubble_pos = beak_position + Vector(offset_x - big_offset_x * 2, offset_y);
+          }
+          else // Facing right (including straight up or down)
+          {
+            bubble_pos = beak_position + Vector(offset_x - 4.0f + big_offset_x, offset_y);
+          }
 
-            Vector bubble_pos(0.f, 0.f);
-            if (std::abs(m_swimming_angle) > static_cast<float>(math::PI_2)) // Facing left
-            {
-              bubble_pos = beak_position + Vector(offset_x - big_offset_x * 2, offset_y);
-            }
-            else // Facing right (including straight up or down)
-            {
-              bubble_pos = beak_position + Vector(offset_x - 4.0f + big_offset_x, offset_y);
-            }
+          if (num_bubbles > 1)
+          {
+            float burst_offset_x = graphicsRandom.randf(-5.0f, 5.0f);
+            float burst_offset_y = graphicsRandom.randf(-5.0f, 5.0f);
+            bubble_pos.x += burst_offset_x;
+            bubble_pos.y += burst_offset_y;
+          }
 
-            if (num_bubbles > 1)
-            {
-              float burst_offset_x = graphicsRandom.randf(-5.0f, 5.0f);
-              float burst_offset_y = graphicsRandom.randf(-5.0f, 5.0f);
-              bubble_pos.x += burst_offset_x;
-              bubble_pos.y += burst_offset_y;
-            }
-
-            m_active_bubbles.push_back({ bubble_surface, bubble_pos });
+          if (bubble_pos.y > -1)
+          {
+            m_active_bubbles.emplace_back(std::make_pair(std::move(bubble_sprite), bubble_pos));
           }
         }
 
@@ -2330,9 +2331,9 @@ Player::draw(DrawingContext& context)
     get_bonus() == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
     Color(1.f, 1.f, 1.f));
 
-  for (auto bubble_sprite : m_active_bubbles)
+  for (auto& bubble_sprite : m_active_bubbles)
   {
-    context.color().draw_surface(bubble_sprite.first, bubble_sprite.second, LAYER_TILES - 5);
+    bubble_sprite.first->draw(context.color(), bubble_sprite.second, LAYER_TILES - 5);
   }
   m_sprite->set_color(m_stone ? Color(1.f, 1.f, 1.f) : power_color);
 }

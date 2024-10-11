@@ -28,6 +28,7 @@
 #include "video/layer.hpp"
 #include "video/surface_ptr.hpp"
 
+#include <array>
 #include <list>
 
 class BadGuy;
@@ -556,7 +557,7 @@ private:
 
   SpritePtr m_bubbles_sprite; /**< bubble particles sprite for swimming */
   Timer m_bubble_timer; /**< timer for spawning bubble particles */
-  std::list<std::pair<SurfacePtr, Vector>> m_active_bubbles; /**< active bubble particles */
+  std::list<std::pair<SpritePtr, Vector>> m_active_bubbles; /**< active bubble particles */
 
   Vector m_floor_normal;
 
