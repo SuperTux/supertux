@@ -141,8 +141,7 @@ private:
 
   void on_escape_press(bool force_quick_respawn);
 
-  Vector get_fade_point() const;
-  Vector get_fade_point(const Vector& position) const;
+  Vector get_fade_point(const Vector& position = Vector(0, 0)) const;
 
 public:
   bool reset_button;
