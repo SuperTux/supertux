@@ -33,6 +33,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Update packages
+          sudo apt-get update
+          sudo apt-get install -y gettext
+
           # Update translation templates:
           chmod +x makepot.sh
           ./makepot.sh
