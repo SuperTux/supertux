@@ -33,11 +33,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Pull repository:
-          git fetch origin
-          git checkout master
-          git rebase origin/master
-
           # Update translation templates:
           chmod +x makepot.sh
           ./makepot.sh
