@@ -1392,7 +1392,7 @@ Player::handle_vertical_input()
   if (m_controller->pressed(Control::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
   if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && (m_can_jump || m_coyote_timer.started())) {
     m_jump_button_timer.stop();
-    if (m_duck) {
+    if (m_duck && !m_sliding) {
       // when running, only jump a little bit; else do a backflip
       if ((m_physic.get_velocity_x() != 0) ||
           (m_controller->hold(Control::LEFT)) ||
@@ -1737,7 +1737,7 @@ Player::position_grabbed_object(bool teleport)
 bool
 Player::try_grab()
 {
-  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !m_duck && !m_released_object)
+  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !(m_duck ^ m_crawl) && !m_released_object)
   {
 
     Vector pos(0.0f, 0.0f);
@@ -2420,17 +2420,18 @@ Player::kill(bool completely)
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
 
-    if (get_bonus() == FIRE_BONUS
-      || get_bonus() == ICE_BONUS
-      || get_bonus() == AIR_BONUS
-      || get_bonus() == EARTH_BONUS) {
+    if (get_bonus() > GROWUP_BONUS)
+    {
       m_safe_timer.start(TUX_SAFE_TIME);
       m_is_intentionally_safe = false;
       set_bonus(GROWUP_BONUS, true);
-    } else if (get_bonus() == GROWUP_BONUS) {
+    }
+    else if (get_bonus() == GROWUP_BONUS)
+    {
       m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_is_intentionally_safe = false;
       m_duck = false;
+      m_crawl = false;
       stop_backflipping();
       set_bonus(NO_BONUS, true);
     }

@@ -68,12 +68,12 @@ Level::~Level()
 }
 
 void
-Level::initialize()
+Level::initialize(const Statistics::Preferences& stat_preferences)
 {
   if (m_sectors.empty())
     throw std::runtime_error("Level has no sectors!");
 
-  m_stats.init(*this);
+  m_stats.init(*this, stat_preferences);
 
   Savegame* savegame = (GameSession::current() && !Editor::current() ?
     &GameSession::current()->get_savegame() : nullptr);
@@ -194,6 +194,13 @@ Level::save(Writer& writer)
 
   if (!m_wmselect_bkg.empty())
     writer.write("bkg", m_wmselect_bkg);
+
+  if (!m_is_worldmap)
+  {
+    writer.start_list("statistics");
+    m_stats.get_preferences().write(writer);
+    writer.end_list("statistics");
+  }
 
   for (auto& sector : m_sectors) {
     sector->save(writer);

@@ -331,12 +331,6 @@ GameSession::on_escape_press(bool force_quick_respawn)
 }
 
 Vector
-GameSession::get_fade_point() const
-{
-  return get_fade_point(Vector(0.0f, 0.0f));
-}
-
-Vector
 GameSession::get_fade_point(const Vector& position) const
 {
   Vector fade_point(0.0f, 0.0f);
