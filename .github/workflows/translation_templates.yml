@@ -39,7 +39,7 @@ jobs:
 
           # Update translation templates:
           chmod +x makepot.sh
-          ./makepot.sh
+          sh ./makepot.sh
 
           # Commit
           git status
