@@ -28,9 +28,9 @@ WalkingCandle::WalkingCandle(const ReaderMapping& reader)
   max_drop_height = 64;
 
   std::vector<float> vColor;
-  if (reader.get("color", vColor)) {
+  if (reader.get("color", vColor))
     lightcolor = Color(vColor);
-  }
+
   m_sprite->set_color(lightcolor);
   m_lightsprite->set_color(lightcolor);
 
@@ -51,22 +51,28 @@ WalkingCandle::is_flammable() const
 }
 
 void
-WalkingCandle::freeze() {
+WalkingCandle::freeze()
+{
   BadGuy::freeze();
   m_glowing = false;
 }
 
 void
-WalkingCandle::unfreeze(bool melt) {
+WalkingCandle::unfreeze(bool melt)
+{
   BadGuy::unfreeze(melt);
   initialize();
+  m_sprite->set_color(lightcolor);
+  m_lightsprite->set_color(lightcolor);
   m_glowing = true;
 }
 
 HitResponse
-WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
+WalkingCandle::collision(GameObject& other, const CollisionHit& hit)
+{
   auto l = dynamic_cast<Lantern*>(&other);
-  if (l && !m_frozen) if (l->get_bbox().get_bottom() < m_col.m_bbox.get_top()) {
+  if (l && !m_frozen) if (l->get_bbox().get_bottom() < m_col.m_bbox.get_top())
+  {
     l->add_color(lightcolor);
     run_dead_script();
     remove_me();
@@ -89,7 +95,6 @@ WalkingCandle::get_settings()
   ObjectSettings result = BadGuy::get_settings();
 
   result.add_color(_("Color"), &lightcolor, "color", Color::WHITE);
-
   result.reorder({"color", "x", "y"});
 
   return result;
