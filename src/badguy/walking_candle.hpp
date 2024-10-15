@@ -42,7 +42,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
 private:
-  Color lightcolor;
+  Color m_lightcolor;
 
 private:
   WalkingCandle(const WalkingCandle&) = delete;
