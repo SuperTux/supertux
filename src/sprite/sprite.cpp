@@ -197,7 +197,12 @@ Sprite::draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
   context.set_flip(context.get_flip() ^ flip);
   context.set_alpha(context.get_alpha() * m_alpha);
 
-  canvas.draw_surface_scaled(m_action->surfaces[m_frameidx], dest_rect, layer);
+  PaintStyle style;
+  style.set_color(m_color);
+  style.set_alpha(m_color.alpha);
+  style.set_blend(m_blend);
+
+  canvas.draw_surface_scaled(m_action->surfaces[m_frameidx], dest_rect, layer, style);
 
   context.pop_transform();
 }

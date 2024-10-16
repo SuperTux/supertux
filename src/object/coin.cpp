@@ -164,6 +164,9 @@ Coin::collect()
 
   int tile = static_cast<int>(get_pos().y / 32);
 
+  if (!is_valid())
+    return;
+
   if (!sound_timer.started()) {
     pitch_one = tile;
     pitch = 1;
