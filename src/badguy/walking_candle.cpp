@@ -70,10 +70,10 @@ WalkingCandle::unfreeze(bool melt)
 HitResponse
 WalkingCandle::collision(GameObject& other, const CollisionHit& hit)
 {
-  auto l = dynamic_cast<Lantern*>(&other);
-  if (l && !m_frozen) if (l->get_bbox().get_bottom() < m_col.m_bbox.get_top())
+  auto lantern = dynamic_cast<Lantern*>(&other);
+  if (lantern && !m_frozen) if (lantern->get_bbox().get_bottom() < m_col.m_bbox.get_top())
   {
-    l->add_color(m_lightcolor);
+    lantern->add_color(m_lightcolor);
     run_dead_script();
     remove_me();
     return FORCE_MOVE;
