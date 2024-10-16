@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-10-15 23:31+0000\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Ukrainian (http://app.transifex.com/arctic-games/supertux/language/uk/)\n"
@@ -28,7 +28,7 @@ msgstr "Рівень, раніше відомий як \"-89,2 градуса\""
 msgid "Global Warming"
 msgstr "Глобальне потепління"
 
-#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
+#: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
 msgstr "Одна ніч в небі"
 
@@ -80,7 +80,7 @@ msgstr "#Гарна робота! Ви втримали цей червоний 
 msgid "Coconut Fortress"
 msgstr "Кокосова фортеця"
 
-#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
+#: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
 msgstr "Криштальний захід сонця"
 
@@ -141,7 +141,7 @@ msgstr "Квітка-бонус"
 msgid "After the Glaciers"
 msgstr "Після льодовиків"
 
-#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
+#: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
 msgstr "Висячи на даху"
 
@@ -217,7 +217,7 @@ msgstr "Снігова гірка"
 msgid "Three Frosty Icebergs"
 msgstr "Три холодні айсберги"
 
-#: ⁨data/levels/bonus3/under ice.stl⁩:3
+#: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
 msgstr "Під льодом"
 

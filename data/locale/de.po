@@ -30,7 +30,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-05-30 16:19+0200\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Moritz Hofmann <moritz.hofmann2005@gmail.com>, 2024\n"
+"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2021,2024\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1916,7 +1916,7 @@ msgstr "Aufwachradius"
 
 #: src/badguy/scrystallo.cpp:59
 msgid "Roof-attached"
-msgstr ""
+msgstr "Vom Dach hängend"
 
 #: src/badguy/jumpy.hpp:40
 msgid "Jumpy"

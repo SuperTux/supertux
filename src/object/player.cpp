@@ -480,7 +480,7 @@ Player::update(float dt_sec)
         adjust_height(BIG_TUX_HEIGHT, 10.f);
         do_duck();
       }
-      else if (!is_big() || m_stone)
+      else if (!is_big() || (m_stone && !m_growing))
       {
         adjust_height(SMALL_TUX_HEIGHT);
       }
@@ -602,8 +602,8 @@ Player::update(float dt_sec)
 
   //End of wallclinging
 
-  // Roll the sprite if Tux is rolling
-  if (m_stone)
+  // Roll the sprite if Tux is rolling (and not growing)
+  if (m_stone && !m_growing)
   {
     float f = 1.f;
 
@@ -723,7 +723,8 @@ Player::update(float dt_sec)
   }
 
   if (m_growing) {
-    if (m_sprite->animation_done()) m_growing = false;
+    if (m_sprite->animation_done())
+      m_growing = false;
   }
 
   // when climbing animate only while moving
@@ -805,19 +806,19 @@ Player::update(float dt_sec)
 
     //if you stop holding down when sliding, then it stops.
     //or, stop sliding if you come to a stop and are not on a slope.
-    if (!m_controller->hold(Control::DOWN) ||
-      (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f))
+    if (!m_controller->hold(Control::DOWN))
     {
-      if (is_big())
-      {
-        if (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) {
-          m_crawl = true;
-        }
-        m_duck = true;
-      }
       m_sliding = false;
       m_slidejumping = false;
-      m_was_crawling_before_slide = false;
+
+      do_standup(false);
+    }
+    else if (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f)
+    {
+      if (is_big() || m_growing)
+          m_crawl = true;
+      m_sliding = false;
+      m_slidejumping = false;
     }
   }
 
@@ -1388,7 +1389,7 @@ Player::handle_vertical_input()
   if (m_controller->pressed(Control::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
   if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && (m_can_jump || m_coyote_timer.started())) {
     m_jump_button_timer.stop();
-    if (m_duck) {
+    if (m_duck && !m_sliding) {
       // when running, only jump a little bit; else do a backflip
       if ((m_physic.get_velocity_x() != 0) ||
           (m_controller->hold(Control::LEFT)) ||
@@ -1583,7 +1584,7 @@ Player::handle_input()
   }
 
   /* Turn to Stone */
-  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 150.f) && get_bonus() == EARTH_BONUS) {
+  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 150.f) && get_bonus() == EARTH_BONUS && !m_growing) {
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     adjust_height(TUX_WIDTH);
     m_stone = true;
@@ -1598,11 +1599,11 @@ Player::handle_input()
     apply_friction();
 
   /* Duck or Standup! */
-  if ((m_controller->pressed(Control::DOWN) || ((m_duck || m_wants_buttjump) && m_controller->hold(Control::DOWN))) &&
-    !m_swimming && !m_sliding && !m_stone) {
+  if (((m_controller->pressed(Control::DOWN) && !m_growing && !m_stone) || ((m_duck || m_wants_buttjump || m_crawl) && m_controller->hold(Control::DOWN))) &&
+    !m_swimming && !m_sliding && !m_stone && !m_growing) {
     do_duck();
   }
-  else {
+  else if (!m_sliding && !m_growing) {
     do_standup(false);
   }
 
@@ -1735,7 +1736,7 @@ Player::position_grabbed_object(bool teleport)
 bool
 Player::try_grab()
 {
-  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !m_duck && !m_released_object)
+  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !(m_duck ^ m_crawl) && !m_released_object)
   {
 
     Vector pos(0.0f, 0.0f);
@@ -1902,7 +1903,7 @@ Player::set_bonus(BonusType type, bool animate, bool increment_powerup_counter)
   }
 
   if ((get_bonus() == NO_BONUS) && (type != NO_BONUS || m_stone)) {
-    if (!m_swimming)
+    if (!m_swimming && !m_sliding)
     {
       if (!adjust_height(BIG_TUX_HEIGHT))
       {
@@ -2017,6 +2018,7 @@ Player::draw(DrawingContext& context)
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
   if (m_col.m_bbox.get_bottom() - 16 < Sector::get().get_camera().get_translation().y) {
     float px = m_col.m_bbox.get_left() + (m_col.m_bbox.get_right() - m_col.m_bbox.get_left() - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
+    px += context.get_time_offset() * m_physic.get_velocity().x;
     float py = Sector::get().get_camera().get_translation().y;
     py += std::min(((py - (m_col.m_bbox.get_bottom() + 16)) / 4), 16.0f);
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
@@ -2088,15 +2090,16 @@ Player::draw(DrawingContext& context)
       m_sprite->set_action(sa_prefix +"-slidejump"+ sa_postfix);
     }
     else {
+      const bool was_growing_before = (m_sprite->get_action().substr(0, 9) == "slidegrow");
       m_sprite->set_action(sa_prefix + "-slide" + sa_postfix);
-      if (m_was_crawling_before_slide)
+      if (m_was_crawling_before_slide || was_growing_before)
       {
-        m_sprite->set_frame(m_sprite->get_frames()); // Skip the "duck" animation when coming from crawling
+        m_sprite->set_frame(m_sprite->get_frames()); // Skip the "duck" animation when coming from crawling or slidegrowing
         m_was_crawling_before_slide = false;
       }
     }
   }
-  else if (m_duck && is_big() && !m_swimming && !m_crawl) {
+  else if (m_duck && is_big() && !m_swimming && !m_crawl && !m_stone) {
     m_sprite->set_action(sa_prefix+"-duck"+sa_postfix);
   }
   else if (m_crawl)
@@ -2427,17 +2430,18 @@ Player::kill(bool completely)
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
 
-    if (get_bonus() == FIRE_BONUS
-      || get_bonus() == ICE_BONUS
-      || get_bonus() == AIR_BONUS
-      || get_bonus() == EARTH_BONUS) {
+    if (get_bonus() > GROWUP_BONUS)
+    {
       m_safe_timer.start(TUX_SAFE_TIME);
       m_is_intentionally_safe = false;
       set_bonus(GROWUP_BONUS, true);
-    } else if (get_bonus() == GROWUP_BONUS) {
+    }
+    else if (get_bonus() == GROWUP_BONUS)
+    {
       m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_is_intentionally_safe = false;
       m_duck = false;
+      m_crawl = false;
       stop_backflipping();
       set_bonus(NO_BONUS, true);
     }
