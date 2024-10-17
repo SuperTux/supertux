@@ -146,6 +146,8 @@ public:
 
   bool is_in_water() const;
 
+  virtual bool is_heavy() const { return false; }
+
   /** Get melting particle sprite filename */
   virtual std::string get_water_sprite() const {
     return "images/objects/water_drop/water_drop.sprite";

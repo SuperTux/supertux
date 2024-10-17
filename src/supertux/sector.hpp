@@ -148,7 +148,7 @@ public:
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
       This includes badguys and players. */
-  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr, const bool ignoreUnisolid = false) const;
   /**
    * @scripting
    * @description Checks if the specified sector-relative rectangle is free of both:
