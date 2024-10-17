@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov, 2018-2019,2021
+# Andrei Stepanov, 2018-2019,2021,2024
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # melikamp <melikamp@melikamp.com>, 2014
 # se luxxy <70luxxy@gmail.com>, 2018
@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-10-15 23:31+0000\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
-"Last-Translator: Темак, 2022-2023\n"
+"Last-Translator: Andrei Stepanov, 2018-2019,2021,2024\n"
 "Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,15 +30,15 @@ msgstr "Уровень ранее был известен как «-89,2 гра�
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
-msgstr "Глобальное Потепление"
+msgstr "Глобальное потепление"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
-msgstr "Одна Ночь в Небе"
+msgstr "Одна ночь в небесах"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
-msgstr "Заброшенная Крепость"
+msgstr "Заброшенная крепость"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
@@ -64,29 +64,29 @@ msgstr "Вы не сможете забраться выше облаков…"
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
-msgstr "Крепость Света и Тьмы"
+msgstr "Крепость света и тьмы"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr "Пещерный Забег"
+msgstr "Забег в пещере"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
-msgstr "Холодная Пещера"
+msgstr "Холодная пещера"
 
 #: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr "#Хорошая работа! Ты сохранил красный светильник! Ты мог бы этого и не делать, но раз сделал, то получай 100 монет!"
+msgstr "#Хорошая работа! Вы сохранили красный светильник! Вы могли бы этого и не делать, но раз сделали, то держите 100 монет!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr "Кокосовая Крепость"
+msgstr "Кокосовая крепость"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
-msgstr "Хрустальный Закат"
+msgstr "Хрустальный закат"
 
 #: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
@@ -94,20 +94,20 @@ msgstr "Хрустальные Небеса"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr "Кристальная Красота"
+msgstr "Хрустальная красота"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr "Кристальный Катаклизм"
+msgstr "Хрустальный катаклизм"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr "Выйдя на Кристальные Поля"
+msgstr "На хрустальных полях"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
 msgid "The dark castle"
-msgstr "Тёмная Крепость"
+msgstr "Мрачный замок"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
@@ -143,19 +143,19 @@ msgstr "Цветочный бонус"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
-msgstr "После Ледников"
+msgstr "После ледников"
 
 #: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
-msgstr "Свисая с Крыши"
+msgstr "Свисая с крыши"
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
-msgstr "Холмистый Ландшафт"
+msgstr "Холмистый пейзаж"
 
 #: data/levels/bonus3/in_the_spring.stl:3
 msgid "In the Spring"
-msgstr "Весной"
+msgstr "По весне"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
@@ -171,11 +171,11 @@ msgstr "Штормовое предупреждение"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
-msgstr "Проруби, День на Льду"
+msgstr "Проруби, день на льду"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr "Туалетная Зона"
+msgstr "Зона туалета"
 
 #: data/levels/bonus3/niv-3.stl:58
 msgid ""
@@ -195,7 +195,7 @@ msgstr "Моя Пенни за океаном"
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr "Розовое Шоу"
+msgstr "Розовый снег"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
@@ -219,11 +219,11 @@ msgstr "Снежный холм"
 
 #: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"
-msgstr "Три Ледяных Айсберга"
+msgstr "Три ледяных айсберга"
 
 #: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
-msgstr "Подо Льдом"
+msgstr "Подо льдом"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
@@ -231,4 +231,4 @@ msgstr "Призовой остров III"
 
 #: data/levels/bonus3/worldmap.stwm:273
 msgid "Go Home"
-msgstr "Иди Домой"
+msgstr "Домой"

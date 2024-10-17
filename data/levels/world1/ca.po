@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-10-15 23:31+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Catalan (http://app.transifex.com/arctic-games/supertux/language/ca/)\n"
@@ -35,7 +35,7 @@ msgstr "23a divisió aeroespacial"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
 msgstr "Has trobat una àrea secreta!"
 
@@ -167,88 +167,25 @@ msgstr "\"...o és cosa meva?\""
 msgid "A Path in the Clouds"
 msgstr "Un camí en els núvols"
 
-#: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tux havia arribat al final del castell."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "Però, per a la seva sorpresa, tot el que va trobar va ser una carta."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Una carta de la Penny dient a la Tux que en Nolok l'ha portat a un bosc llunyà."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:5
-msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Sense saber què li estava fent Nolok, en Tux es va preocupar per la seva estimada Penny."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Fins que de sobte..."
-
-#: data/levels/world1/scripts_intro.txt:2
-msgid "Somewhere at the shores of Antarctica..."
-msgstr "En algun lloc a les costes de l'Antàrtida..."
-
-#: data/levels/world1/scripts_intro.txt:3
-msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "El pingüí Tux anava a trobar-se amb el seu amic, Penny, per fer un pícnic."
-
-#: data/levels/world1/scripts_intro.txt:4
-msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "En Tux es va despertar, marejat, en trobar que la Penny havia desaparegut!"
-
-#: data/levels/world1/scripts_intro.txt:5
-msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "Tux començava a preocupar-se. Aleshores va veure una carta i deia:"
-
-#: data/levels/world1/scripts_intro.txt:6
-msgid ""
-"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
-"fortress.\""
-msgstr "\"Tux, he segrestat la teva estimada Penny i l'he portat a la meva fortalesa\"."
-
-#: data/levels/world1/scripts_intro.txt:7
-msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"El camí cap a la meva fortalesa està ple de sequaços\"."
-
-#: data/levels/world1/scripts_intro.txt:8
-msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "\"No tens cap possibilitat de salvar-la! Signat, Nolok.\""
-
-#: data/levels/world1/scripts_intro.txt:9
-msgid ""
-"Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "En adonar-se dels problemes en què podia estar Penny, en Tux es va decidir a salvar-la."
-
-#: data/levels/world1/scripts_intro.txt:10
-msgid ""
-"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Aleshores, Tux va veure el castell de Nolok a la distància i va marxar a rescatar la Penny!"
-
-#: data/levels/world1/scripts_yeti_cutscene.txt:2
+#: data/levels/world1/scripts_.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "Esgotat de la seva llarga caminada, en Tux va decidir fer un petit descans."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:3
+#: data/levels/world1/scripts_.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "Però llavors, de sobte, va sentir un fort rugit des de lluny."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:4
+#: data/levels/world1/scripts_.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "Un yeti sembla haver-lo observat des de lluny."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:5
+#: data/levels/world1/scripts_.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "Preocupat per la sobtada retirada del yeti, Tux va decidir continuar el seu viatge,..."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:6
+#: data/levels/world1/scripts_.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "... mentre secretament esperava no tornar a topar amb el yeti, de cap manera."
 

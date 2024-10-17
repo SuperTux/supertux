@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-10-15 23:31+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Ioan Moldovan <ioanm.work@gmail.com>, 2019,2023\n"
 "Language-Team: Romanian (http://app.transifex.com/arctic-games/supertux/language/ro/)\n"
@@ -34,7 +34,7 @@ msgstr "A 23-a companie de zbor"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
 msgstr "Ai găsit o zonă secretă!"
 
@@ -166,88 +166,25 @@ msgstr "... Sau sunt doar eu?"
 msgid "A Path in the Clouds"
 msgstr "O cale în nori"
 
-#: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tux a ajuns la capătul castelului."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "Dar, spre surprinderea lui, tot ce a găsit a fost o scrisoare."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "O scrisoare de la Penny pentru Tux, în care scrie că Nolok a dus-o într-o pădure îndepărtată."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:5
-msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Temându-se de ce i-ar putea face Nolok, Tux a devenit îngrijorat pentru draga sa Penny."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Până când deodată..."
-
-#: data/levels/world1/scripts_intro.txt:2
-msgid "Somewhere at the shores of Antarctica..."
-msgstr "Undeva pe țărmurile Antarcticii..."
-
-#: data/levels/world1/scripts_intro.txt:3
-msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "Pinguinul Tux urma să se întâlnească cu prietena lui, Penny, la un picnic."
-
-#: data/levels/world1/scripts_intro.txt:4
-msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "Tux și-a revenit, amețit, și a văzut că Penny a dispărut!"
-
-#: data/levels/world1/scripts_intro.txt:5
-msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "Tux începuse să devină îngrijorat. Apoi a văzut o scrisoare în care scria:"
-
-#: data/levels/world1/scripts_intro.txt:6
-msgid ""
-"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
-"fortress.\""
-msgstr "\"Tux, am răpit-o pe draga ta Penny și am dus-o în fortăreața mea.\""
-
-#: data/levels/world1/scripts_intro.txt:7
-msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "„Calea spre fortăreața mea este păzită de minionii mei”."
-
-#: data/levels/world1/scripts_intro.txt:8
-msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "— Nu ai nicio şansă să o salvezi! Semnat, Nolok."
-
-#: data/levels/world1/scripts_intro.txt:9
-msgid ""
-"Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Dându-și seama de problemele în care ar putea fi Penny, Tux a devenit hotărât să o salveze."
-
-#: data/levels/world1/scripts_intro.txt:10
-msgid ""
-"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Apoi, Tux a văzut castelul lui Nolok în depărtare și a pornit să o salveze pe Penny!"
-
-#: data/levels/world1/scripts_yeti_cutscene.txt:2
+#: data/levels/world1/scripts_.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "Epuizat de mersul lung, Tux a decis să ia o mică pauză."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:3
+#: data/levels/world1/scripts_.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "Dar apoi, dintr-o dată, a auzit un vuiet puternic de la distanță."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:4
+#: data/levels/world1/scripts_.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "Un yeti pare să-l fi observat de departe."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:5
+#: data/levels/world1/scripts_.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "Preocupat de retragerea bruscă a yetiului, Tux a decis să-și continue călătoria,..."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:6
+#: data/levels/world1/scripts_.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "...în timp ce speram în secret să nu mai dau peste yeti, sub nicio formă."
 

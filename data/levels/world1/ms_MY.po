@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-10-15 23:31+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>, 2018,2021\n"
 "Language-Team: Malay (Malaysia) (http://app.transifex.com/arctic-games/supertux/language/ms_MY/)\n"
@@ -31,7 +31,7 @@ msgstr "Penerbangan ke-23"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
 msgstr "Anda telah menemui satu tempat rahsia!"
 
@@ -163,88 +163,25 @@ msgstr "...Atau Saya Seorang Jer?"
 msgid "A Path in the Clouds"
 msgstr "Laluan di atas Awan"
 
-#: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tux sudah sampai di penghujung istana."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "Tetapi beliau hanya menemui sepucuk surat."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Surat daripada Penny yang memberitahu Tux bahawa si Nolox durjana telah membawanya jauh ke dalam hutan."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:5
-msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Tidak pasti apa tujuan Nolox, Tux semakin risau akan keselamatan Penny."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Sehinggalah..."
-
-#: data/levels/world1/scripts_intro.txt:2
-msgid "Somewhere at the shores of Antarctica..."
-msgstr "Di suatu tempat, persisiran pantai Antartika..."
-
-#: data/levels/world1/scripts_intro.txt:3
-msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "Tux si penguin akan bertemu dengan rakannya, Penny, untuk berkelah."
-
-#: data/levels/world1/scripts_intro.txt:4
-msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "Tux tersedar, masih berasa pening, beliau mendapati si Penny sudah hilang!"
-
-#: data/levels/world1/scripts_intro.txt:5
-msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "Tux menjadi risau. Kemudian beliau menemui sepucuk surat, seraya membaca:"
-
-#: data/levels/world1/scripts_intro.txt:6
-msgid ""
-"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
-"fortress.\""
-msgstr "\"Tux, Aku telah menculik si Penny kesayangan kamu dan bawa balik ke kubuku.\""
-
-#: data/levels/world1/scripts_intro.txt:7
-msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"Laluan ke kubu aku dipenuhi dengan para pengikutku.\""
-
-#: data/levels/world1/scripts_intro.txt:8
-msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "\"Kamu pasti sukar menyelamat Penny! Tanda tangan, Nolok.\""
-
-#: data/levels/world1/scripts_intro.txt:9
-msgid ""
-"Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Menyedari si Penny mungkin ada di dalam, Tux semakin nekad menyelamatkannya."
-
-#: data/levels/world1/scripts_intro.txt:10
-msgid ""
-"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Kemudian, dari jauh Tux nampak istana Nolok dan berazam untuk menyelamatkan Penny!"
-
-#: data/levels/world1/scripts_yeti_cutscene.txt:2
+#: data/levels/world1/scripts_.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "Setelah penat berjalan jauh, Tux berhenti sebentar untuk menghilangkan lelahnya."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:3
+#: data/levels/world1/scripts_.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "Tiba-tiba, beliau terdengar laungan kuat dari jauh."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:4
+#: data/levels/world1/scripts_.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "Ada seekor Yeti memerhati beliau dari jarak jauh."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:5
+#: data/levels/world1/scripts_.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "Disebabkan si yeti tiba-tiba menghilangkan diri, Tux bercadang untuk meneruskan perjalanannya."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:6
+#: data/levels/world1/scripts_.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "...tetapi masih berharap tidak lagi bertembung dengan yeti itu lagi."
 

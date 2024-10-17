@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-10-15 23:31+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Swyter <Swyterzone@gmail.com>, 2018,2021,2023\n"
 "Language-Team: Spanish (http://app.transifex.com/arctic-games/supertux/language/es/)\n"
@@ -37,7 +37,7 @@ msgstr "La 23ª división aérea"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
 msgstr "¡Hallaste un área secreta!"
 
@@ -169,88 +169,25 @@ msgstr "... ¿o es mi imaginación?"
 msgid "A Path in the Clouds"
 msgstr "El sendero entre las nubes"
 
-#: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tux ha llegado al final del castillo."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "Pero para su sorpresa, solo encontró una carta."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Una carta en donde Penny le cuenta a Tux que Nolok se la llevó prisionera a un bosque lejano."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:5
-msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Sin saber qué estaba haciendo con ella, Tux comenzó a preocuparse por su amada Penny."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Hasta que de repente"
-
-#: data/levels/world1/scripts_intro.txt:2
-msgid "Somewhere at the shores of Antarctica..."
-msgstr "En algún lugar en las costas de la Antártida..."
-
-#: data/levels/world1/scripts_intro.txt:3
-msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "Tux el pingüino iba a encontrarse con su amiga, Penny, para disfrutar de un pícnic."
-
-#: data/levels/world1/scripts_intro.txt:4
-msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "Tux se despertó, mareado, y descubrió que Penny había desaparecido!"
-
-#: data/levels/world1/scripts_intro.txt:5
-msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "Tux comenzaba a preocuparse. Luego, vió una carta que decía: "
-
-#: data/levels/world1/scripts_intro.txt:6
-msgid ""
-"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
-"fortress.\""
-msgstr "\"Tux, he secuestrado a tu amada Penny y la llevé a mi fortaleza.\""
-
-#: data/levels/world1/scripts_intro.txt:7
-msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"El camino hacia mi fortaleza está plagado con mis secuaces.\" "
-
-#: data/levels/world1/scripts_intro.txt:8
-msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "\"¡No tienes oportunidad de salvarla!\nFirma: Nolok.\""
-
-#: data/levels/world1/scripts_intro.txt:9
-msgid ""
-"Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Al darse cuenta de los problemas en los que se encontraría Penny, Tux decidió salvarla."
-
-#: data/levels/world1/scripts_intro.txt:10
-msgid ""
-"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Luego, Tux divisó el castillo de Nolok a la distancia y se encaminó al rescate de Penny!"
-
-#: data/levels/world1/scripts_yeti_cutscene.txt:2
+#: data/levels/world1/scripts_.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "Cansado de su larga caminata, Tux decidió descansar un ratito."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:3
+#: data/levels/world1/scripts_.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "Pero de pronto, escuchó un rugido muy fuerte que venía desde lejos."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:4
+#: data/levels/world1/scripts_.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "Parece que un yete lo estaba observando desde la lejanía."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:5
+#: data/levels/world1/scripts_.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "Preocupado por la retirada repentina del yeti, Tux decidió continuar su aventura..."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:6
+#: data/levels/world1/scripts_.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "... mientras que en su interior esperaba no encontrarse con el yeti de nuevo, bajo ninguna circunstancia..."
 

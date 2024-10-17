@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-10-15 23:31+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Любомир Василев, 2021\n"
 "Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
@@ -33,7 +33,7 @@ msgstr "„Въздушна“ №23"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
 msgstr "Ти откри тайно място!"
 
@@ -165,88 +165,25 @@ msgstr "…или само аз си мисля така?"
 msgid "A Path in the Clouds"
 msgstr "Път през облаците"
 
-#: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Тъкс стигна до края на замъка."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "Но за своя изненада намери само едно писмо."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Писмо от Пени, в което тя му казва, че Нолок я е отвел в далечна гора."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:5
-msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Не знаейки какво ще направи с нея Нолок, Тъкс започна да се притеснява за любимата си Пени."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Докато изведнъж…"
-
-#: data/levels/world1/scripts_intro.txt:2
-msgid "Somewhere at the shores of Antarctica..."
-msgstr "Някъде по бреговете на Антарктида…"
-
-#: data/levels/world1/scripts_intro.txt:3
-msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "Пингвинът Тъкс щеше да се срещне с приятелката си Пени и да си направят пикник."
-
-#: data/levels/world1/scripts_intro.txt:4
-msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "Тъкс се събуди замаян и видя, че Пени я няма!"
-
-#: data/levels/world1/scripts_intro.txt:5
-msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "Тъкс започна да се притеснява. След това видя писмо и го прочете:"
-
-#: data/levels/world1/scripts_intro.txt:6
-msgid ""
-"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
-"fortress.\""
-msgstr "„Тъкс, аз отвлякох любимата ти Пени и я отведох в крепостта си.“"
-
-#: data/levels/world1/scripts_intro.txt:7
-msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "„Пътят към крепостта ми е осеян със слугите ми.“"
-
-#: data/levels/world1/scripts_intro.txt:8
-msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "„Нямаш шанс да я спасиш! Подпис: Нолок.“"
-
-#: data/levels/world1/scripts_intro.txt:9
-msgid ""
-"Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Осъзнавайки в каква беда може да се намира Пени, Тъкс се зарече да я спаси."
-
-#: data/levels/world1/scripts_intro.txt:10
-msgid ""
-"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Тогава в далечината Тъкс видя замъка на Нолок, и се отправи към него, за да спаси Пени!"
-
-#: data/levels/world1/scripts_yeti_cutscene.txt:2
+#: data/levels/world1/scripts_.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "Изтощен от дългото пътуване, Тъкс реши да спре за кратка почивка."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:3
+#: data/levels/world1/scripts_.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "Но тогава чу силен рев от далечината."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:4
+#: data/levels/world1/scripts_.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "Изглежда някакво йети го е следило отдалече."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:5
+#: data/levels/world1/scripts_.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "Тъкс се озадачи от неочакваното отстъпление на йетито, но продължи пътя си…"
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:6
+#: data/levels/world1/scripts_.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "…надявайки се да не се натъкне отново на йетито."
 

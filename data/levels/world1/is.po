@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-10-15 23:31+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Icelandic (http://app.transifex.com/arctic-games/supertux/language/is/)\n"
@@ -31,7 +31,7 @@ msgstr "23. loftborinn"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
 msgstr "Þú fannst leynisvæði!"
 
@@ -163,88 +163,25 @@ msgstr "...Eða er það bara ég?"
 msgid "A Path in the Clouds"
 msgstr "Leið í skýjunum"
 
-#: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tux var kominn að enda kastalans."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "En honum til undrunar var það eina sem hann fann bréf."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Bréf frá Penny sem segir Tux að Nolok hafi farið með hana í fjarlægan skóg."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:5
-msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Óviss um hvað Nolok var að gera henni varð Tux áhyggjufullur um ástkæru Penny sína."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Þangað til allt í einu..."
-
-#: data/levels/world1/scripts_intro.txt:2
-msgid "Somewhere at the shores of Antarctica..."
-msgstr "Einhvers staðar við strendur Suðurskautslandsins..."
-
-#: data/levels/world1/scripts_intro.txt:3
-msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "Tux mörgæsin ætlaði að hitta vinkonu sína, Penny, í lautarferð."
-
-#: data/levels/world1/scripts_intro.txt:4
-msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "Tux vaknaði, svimaður, við að uppgötva að Penny var týndur!"
-
-#: data/levels/world1/scripts_intro.txt:5
-msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "Tux var farinn að hafa áhyggjur. Hann sá þá bréf og stóð á því:"
-
-#: data/levels/world1/scripts_intro.txt:6
-msgid ""
-"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
-"fortress.\""
-msgstr "\"Tux, ég hef rænt ástkæru Penny þinni og hef farið með hana í vígi mitt.\""
-
-#: data/levels/world1/scripts_intro.txt:7
-msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "„Leiðin að vígi mínu er full af þjónum mínum."
-
-#: data/levels/world1/scripts_intro.txt:8
-msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "\"Þú átt ekki möguleika á að bjarga henni! Undirritaður, Nolok.\""
-
-#: data/levels/world1/scripts_intro.txt:9
-msgid ""
-"Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Þegar Tux áttaði sig á vandræðum Penny gæti verið í, varð Tux staðráðinn í að bjarga henni."
-
-#: data/levels/world1/scripts_intro.txt:10
-msgid ""
-"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Síðan sá Tux kastala Noloks í fjarska og lagði af stað til að bjarga Penny!"
-
-#: data/levels/world1/scripts_yeti_cutscene.txt:2
+#: data/levels/world1/scripts_.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "Dauðþreyttur eftir langa göngutúrinn ákvað Tux að taka sér smá pásu."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:3
+#: data/levels/world1/scripts_.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "En svo heyrði hann allt í einu hávært öskur úr fjarlægð."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:4
+#: data/levels/world1/scripts_.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "Yeti virðist hafa fylgst með honum úr fjarska."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:5
+#: data/levels/world1/scripts_.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "Tux hafði áhyggjur af skyndilegri hörfun Yetisins og ákvað að halda áfram ferð sinni, ..."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:6
+#: data/levels/world1/scripts_.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "...meðan hann vonast til þess að lenda ekki í Yeti aftur, á nokkurn hátt."
 

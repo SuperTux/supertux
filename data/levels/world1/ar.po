@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-10-15 23:31+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022-2023\n"
 "Language-Team: Arabic (http://app.transifex.com/arctic-games/supertux/language/ar/)\n"
@@ -34,7 +34,7 @@ msgstr "23 المحمولة جوا"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
 msgstr "لقد وجدتَ منطقة سرية!"
 
@@ -166,88 +166,25 @@ msgstr "...أم أنها مجرد لي؟"
 msgid "A Path in the Clouds"
 msgstr "طريق في السحاب"
 
-#: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "وصل تكس إلى نهاية القلعة."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "ولكن لدهشته كان كل ما وجده هو رسالة."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "رسالة من بيني تخبر تكس أن نولوك أخذها إلى غابة بعيدة."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:5
-msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "غير متأكد مما كان يفعله نولوك بها ، أصبح توكس قلقًا بشأن حبيبته بيني."
-
-#: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "ولكن فجأة..."
-
-#: data/levels/world1/scripts_intro.txt:2
-msgid "Somewhere at the shores of Antarctica..."
-msgstr "في مكان ما على ضفاف قارة أنتركاتيكا..."
-
-#: data/levels/world1/scripts_intro.txt:3
-msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "كان البطريق تكس ذاهبًا لمقابلة صديقته، بيني، للذهاب في نزهة."
-
-#: data/levels/world1/scripts_intro.txt:4
-msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "استيقظ تكس وهو يشعر بالدوار، ليجد أن بيني مفقودة!"
-
-#: data/levels/world1/scripts_intro.txt:5
-msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "بدأ تكس يشعر بالقلق. ثم رأى رسالة مكتوب فيها:"
-
-#: data/levels/world1/scripts_intro.txt:6
-msgid ""
-"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
-"fortress.\""
-msgstr "\"تكس ، لقد خطفت حبيبتك بيني وأخذتها إلى حصني.\""
-
-#: data/levels/world1/scripts_intro.txt:7
-msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"الطريق إلى حصني مليء بأتباعي\"."
-
-#: data/levels/world1/scripts_intro.txt:8
-msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "\"ليس لديك أمل لإنقاذها! التوقيع، نولوك.\""
-
-#: data/levels/world1/scripts_intro.txt:9
-msgid ""
-"Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "إدراكًا للمشكلة التي يمكن أن تواجهها بيني ، أصبح Tux مصممًا على إنقاذها."
-
-#: data/levels/world1/scripts_intro.txt:10
-msgid ""
-"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "ثم رأى تكس قلعة نولوك من بعيد وانطلق لإنقاذ بيني!"
-
-#: data/levels/world1/scripts_yeti_cutscene.txt:2
+#: data/levels/world1/scripts_.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "استنفد توكس من مشيته الطويلة ، فقرر أن يأخذ استراحة قصيرة."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:3
+#: data/levels/world1/scripts_.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "ولكن بعد ذلك ، فجأة سمع زئيرًا مدويًا من مسافة بعيدة."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:4
+#: data/levels/world1/scripts_.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "يبدو أن اليتي قد لاحظه من بعيد."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:5
+#: data/levels/world1/scripts_.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "قلقًا من التراجع المفاجئ لليتي ، قرر تكس مواصلة رحلته ، ..."
 
-#: data/levels/world1/scripts_yeti_cutscene.txt:6
+#: data/levels/world1/scripts_.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "... بينما كان يأمل سرًا ألا يصطدم باليتي مرة أخرى ، بأي وسيلة."
 
