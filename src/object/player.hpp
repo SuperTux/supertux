@@ -136,11 +136,11 @@ public:
   bool is_dying() const { return m_dying; }
 
   /**
-   * Returns true if the player is currently alive 
+   * Returns true if the player is currently alive
    * (not dying or dead)
    */
   bool is_alive() const { return !is_dying() && !is_dead(); }
-  
+
   /**
    * Returns true if the player can be controlled.
    * (alive and not currently in a win sequence)
@@ -298,8 +298,8 @@ public:
 
   /**
    * @scripting
-   * @description Set Tux visible or invisible.
-   * @param bool $visible
+   * @description Set Tux safe or invisible.
+   * @param bool $safe
    */
   void set_visible(bool visible);
   /**
@@ -307,6 +307,18 @@ public:
    * @description Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
    */
   bool get_visible() const;
+
+  /**
+   * @scripting
+   * @description Set Tux visible or invisible.
+   * @param bool $visible
+   */
+  void set_is_intentionally_safe(bool safe);
+  /**
+   * @scripting
+   * @description Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
+   */
+  bool get_is_intentionally_safe() const;
 
   bool on_ground() const;
   void set_on_ground(bool flag);
@@ -535,7 +547,13 @@ public:
 private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
+
+  /**
+   * @scripting
+   * @description Determines whether Tux is invincible.
+   */
   bool m_is_intentionally_safe;
+
   Timer m_kick_timer;
   Timer m_buttjump_timer;
 
