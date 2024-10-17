@@ -32,7 +32,7 @@
 
 #include "util/file_system.hpp"
 
-#if (defined(__unix__) || defined(__APPLE__)) && !(defined(__EMSCRIPTEN__))
+#if (defined(__unix__) || defined(__APPLE__)) && !(defined(__EMSCRIPTEN__) || defined(__ANDROID__))
 #define UNIX
 #endif
 

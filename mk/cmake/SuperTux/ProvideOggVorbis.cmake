@@ -20,5 +20,4 @@ else()
     VORBIS_LIBRARY
     )
 endif()
-
 # EOF #
