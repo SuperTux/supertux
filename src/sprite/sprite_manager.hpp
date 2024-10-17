@@ -1,6 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
-//                2023 Vankata453
+//                2023-2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -31,20 +31,17 @@ class SpriteData;
 class SpriteManager final : public Currenton<SpriteManager>
 {
 private:
-  static std::unique_ptr<SpriteData> s_dummy_sprite_data;
-
-private:
-  typedef std::map<std::string, std::unique_ptr<SpriteData> > Sprites;
+  typedef std::map<std::string, std::unique_ptr<SpriteData>> Sprites;
   Sprites m_sprites;
-  bool m_load_successful;
 
 public:
   SpriteManager();
 
-  bool last_load_successful() const { return m_load_successful; }
-
-  /** loads a sprite. */
+  /** Loads a sprite. */
   SpritePtr create(const std::string& filename);
+
+  /** Reloads all sprites. */
+  void reload();
 
 private:
   SpriteData* load(const std::string& filename);
