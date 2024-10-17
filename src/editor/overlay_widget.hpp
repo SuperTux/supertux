@@ -28,6 +28,7 @@
 #include "supertux/timer.hpp"
 #include "util/typed_uid.hpp"
 
+class AutotileSet;
 class Color;
 class DrawingContext;
 class Editor;
@@ -64,6 +65,7 @@ public:
   virtual void on_window_resize() override;
 
   void update_pos();
+  void update_autotileset();
   void delete_markers();
   void update_node_iterators();
   void on_level_change();
@@ -101,6 +103,9 @@ private:
   void select_object();
   void add_path_node();
 
+  AutotileSet* get_current_autotileset() const;
+  std::string get_autotileset_key_range() const;
+
   void draw_tile_tip(DrawingContext&);
   void draw_tile_grid(DrawingContext&, int tile_size, bool draw_shadow) const;
   void draw_tilemap_border(DrawingContext&);
@@ -130,6 +135,7 @@ private:
   Editor& m_editor;
   Vector m_hovered_tile;
   Vector m_hovered_tile_prev;
+  Vector m_last_hovered_tile;
   Vector m_sector_pos;
   Vector m_mouse_pos;
   Vector m_previous_mouse_pos;
@@ -146,6 +152,9 @@ private:
   TypedUID<GameObject> m_selected_object;
   TypedUID<PathGameObject> m_edited_path;
   TypedUID<NodeMarker> m_last_node_marker;
+
+  std::vector<AutotileSet*> m_available_autotilesets;
+  int m_current_autotileset;
 
   std::unique_ptr<Tip> m_object_tip;
   Vector m_obj_mouse_desync;
