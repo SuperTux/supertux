@@ -40,17 +40,25 @@ jobs:
           curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
           mv tx /usr/local/bin/tx
 
+          # Git User Configuration
+          git config --global user.email "SuperTux-bot@users.noreply.github.com"
+          git config --global user.name "SuperTux Bot"
+
           # Pull repository:
           git fetch origin
           git checkout master
           git rebase origin/master
+
+          # Update translation templates
+          ./makepot.sh
+          git commit -am "Update translation templates" || true
 
           # Pull translations:
           tx pull --use-git-timestamps -a -f
 
           # Commit
           git status
-          git config --global user.email "SuperTux-bot@users.noreply.github.com"
-          git config --global user.name "SuperTux Bot"
           git commit -am "Update translations" || true
+
+          # Push to Github
           git push https://git:$GITHUB_TOKEN@github.com/SuperTux/supertux.git master
