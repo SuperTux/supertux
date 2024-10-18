@@ -23,7 +23,6 @@
 #include "gui/item_action.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/level_parser.hpp"
-#include "supertux/levelset.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/world.hpp"
