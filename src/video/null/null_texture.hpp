@@ -27,8 +27,11 @@ public:
   NullTexture(const Size& size);
   ~NullTexture() override;
 
+  virtual void reload(const SDL_Surface& image) override;
+
   virtual int get_texture_width() const override;
   virtual int get_texture_height() const override;
+
   virtual int get_image_width() const override;
   virtual int get_image_height() const override;
 
