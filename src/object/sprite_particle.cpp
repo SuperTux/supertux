@@ -23,7 +23,6 @@
 #include "supertux/sector.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
-
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
                                int drawing_layer_, bool notimeout, Color color_) :
@@ -43,6 +42,14 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
       lightsprite->set_color(color_);
     }
 
+  }
+  if (sprite_name == "images/particles/flame.sprite")
+  {
+    glow = true;
+    lightsprite->set_blend(Blend::ADD);
+    lightsprite->set_color(color_);
+    sprite->set_action(color_.greyscale() >= 1.f ? "fade" : "fade_greyscale");
+    sprite->set_animation_loops(1);
   }
   no_time_out = notimeout;
   sprite->set_color(color_);
@@ -89,11 +96,11 @@ SpriteParticle::update(float dt_sec)
   velocity.x += acceleration.x * dt_sec;
   velocity.y += acceleration.y * dt_sec;
 
-  // die when too far offscreen
   Camera& camera = Sector::get().get_camera();
   if (!camera.get_rect().contains(position)) {
     remove_me();
   }
+
 }
 
 void
