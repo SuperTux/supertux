@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:31+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Ryo Nakano, 2018-2021\n"
 "Language-Team: Japanese (http://app.transifex.com/arctic-games/supertux/language/ja/)\n"
@@ -170,25 +170,88 @@ msgstr "…私だけですか？"
 msgid "A Path in the Clouds"
 msgstr "雲の通り道"
 
-#: data/levels/world1/scripts_.txt:2
+#: data/levels/world1/scripts_castle_cutscene.txt:2
+msgid "Tux had reached the end of the castle."
+msgstr "タックスは城の奥にたどり着いた。"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:3
+msgid "But to his surprise all he could find was a letter."
+msgstr "しかし、驚いたことに、見つかったのは一枚の手紙だけだった。"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:4
+msgid ""
+"A letter from Penny telling Tux that Nolok has taken her to a far forest."
+msgstr "それは、ノロークに遠く離れた森へと連れ去られたことをタックスに伝える、ペニーからの手紙だった。"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:5
+msgid ""
+"Unsure about what Nolok was doing to her, Tux became worried about his "
+"beloved Penny."
+msgstr "ノロークが最愛のペニーに何をしたのか分からなかったので、タックスはうろたえた。"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:6
+msgid "Until suddenly..."
+msgstr "すると突然…"
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid "Somewhere at the shores of Antarctica..."
+msgstr "これは、南極のどこかの海岸でのお話…"
+
+#: data/levels/world1/scripts_intro.txt:3
+msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
+msgstr "ペンギンのタックスは、ピクニックをしようと友達のペニーに会いに行くところだった。"
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux woke up, dizzy, to find that Penny was missing!"
+msgstr "タックスがめまいとともに目覚めると、ペニーがいなくなっていた！"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Tux was starting to become worried. He then saw a letter, and it read:"
+msgstr "タックスはうろたえた。その時、彼は一枚の手紙を見つけた。それには、こう書いてあった。"
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid ""
+"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
+"fortress.\""
+msgstr "「タックスよ、俺はお前の最愛のペニーを誘拐して、要塞に連れて行ってやった。」"
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "\"The path to my fortress is littered with my minions.\""
+msgstr "「要塞への道には俺の手先を用意しておいた。」"
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
+msgstr "「彼女を救うチャンスはないぞ！ノロークより。」"
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid ""
+"Realizing the trouble Penny could be in, Tux became determined to save her."
+msgstr "ペニーが陥ったトラブルに気づき、タックスは彼女を救う決心をした。"
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid ""
+"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
+msgstr "タックスは遠くにノロークの城を見つけて、ペニーを救うべく出発した！"
+
+#: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "長旅の疲れから、タックスは少し休憩を取ることにした。"
 
-#: data/levels/world1/scripts_.txt:3
+#: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "しかしその時、突然遠くで大きく吠える声が聞こえた。"
 
-#: data/levels/world1/scripts_.txt:4
+#: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "イエティは遠くからタックスを見つけたようだ。"
 
-#: data/levels/world1/scripts_.txt:5
+#: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "イエティが突然逃げたのを受けて、タックスは旅を続けることにした。…"
 
-#: data/levels/world1/scripts_.txt:6
+#: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "…絶対に二度とイエティに偶然出会いませんようにと、密かに願いながら。"
 

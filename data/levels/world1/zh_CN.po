@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:31+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Wenbin Lv <wenbin816@gmail.com>, 2024\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
@@ -169,25 +169,88 @@ msgstr "……只有我是这样吗？"
 msgid "A Path in the Clouds"
 msgstr "云中小径"
 
-#: data/levels/world1/scripts_.txt:2
+#: data/levels/world1/scripts_castle_cutscene.txt:2
+msgid "Tux had reached the end of the castle."
+msgstr "Tux 终于来到了城堡的尽头。"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:3
+msgid "But to his surprise all he could find was a letter."
+msgstr "令他意想不到的是，他翻遍了城堡，却只找到了一封信。"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:4
+msgid ""
+"A letter from Penny telling Tux that Nolok has taken her to a far forest."
+msgstr "Penny 在信中向 Tux 求救，说她被 Nolok 带到了一个遥远的森林。"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:5
+msgid ""
+"Unsure about what Nolok was doing to her, Tux became worried about his "
+"beloved Penny."
+msgstr "Tux 无从知晓 Nolok 对他心爱的 Penny 做了些什么，他的心中汹涌着不安。"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:6
+msgid "Until suddenly..."
+msgstr "直到突然……"
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid "Somewhere at the shores of Antarctica..."
+msgstr "在遥远的南极洲海岸的某个地方……"
+
+#: data/levels/world1/scripts_intro.txt:3
+msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
+msgstr "企鹅 Tux 与他的情人 Penny 相约在这里，享受美味佳肴。"
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux woke up, dizzy, to find that Penny was missing!"
+msgstr "Tux 昏昏沉沉地站了起来，却突然发现 Penny 不见了！"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Tux was starting to become worried. He then saw a letter, and it read:"
+msgstr "Tux 心急如焚。他四处寻找，却只发现了一封信，上面写着："
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid ""
+"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
+"fortress.\""
+msgstr "“可怜的 Tux 啊！你心爱的 Penny 现在已经成为了我的瓮中之鳖。”"
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "\"The path to my fortress is littered with my minions.\""
+msgstr "“她在我的城堡里，而去那里的道路上布满了我的兵卒。”"
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
+msgstr "“救她是不可能的，你就不要异想天开了！署名，Nolok”"
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid ""
+"Realizing the trouble Penny could be in, Tux became determined to save her."
+msgstr "想到 Penny 可能遭受的痛苦，Tux 决定启程去拯救她。"
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid ""
+"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
+msgstr "他抬头一看，城堡在远方的云雾中若隐若现。一场伟大的冒险就这样开始了！"
+
+#: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "经过长途跋涉，Tux 已经筋疲力尽了，于是他决定小憩一下。"
 
-#: data/levels/world1/scripts_.txt:3
+#: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "但就在此时，突然，他听到远方传来一声咆哮。"
 
-#: data/levels/world1/scripts_.txt:4
+#: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "雪大王似乎正在远处观察着他。"
 
-#: data/levels/world1/scripts_.txt:5
+#: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "雪大王的突然撤退让 Tux 感到有些不安，所以他决定继续他的旅程。…"
 
-#: data/levels/world1/scripts_.txt:6
+#: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "…与此同时，他偷偷地想着，千万不要再遇到雪大王了。"
 

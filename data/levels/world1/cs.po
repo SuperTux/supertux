@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:31+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2022\n"
 "Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
@@ -170,25 +170,88 @@ msgstr "...nebo se mi to jen zdá?"
 msgid "A Path in the Clouds"
 msgstr "Stezka v oblacích"
 
-#: data/levels/world1/scripts_.txt:2
+#: data/levels/world1/scripts_castle_cutscene.txt:2
+msgid "Tux had reached the end of the castle."
+msgstr "Tux se dostal na konec hradu."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:3
+msgid "But to his surprise all he could find was a letter."
+msgstr "Ale k jeho překvapení tam byl jenom dopis."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:4
+msgid ""
+"A letter from Penny telling Tux that Nolok has taken her to a far forest."
+msgstr "Dopis od Penny, říkající Tuxovi, že jí Nolok přemístil do jiného hradu, kdesi ve vzdáleném lese."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:5
+msgid ""
+"Unsure about what Nolok was doing to her, Tux became worried about his "
+"beloved Penny."
+msgstr "Nejistý, co jí Nolok dělá, se Tux začal o svou milovanou Penny strachovat."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:6
+msgid "Until suddenly..."
+msgstr "Dokud najednou..."
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid "Somewhere at the shores of Antarctica..."
+msgstr "Kdesi na březích Antarktidy..."
+
+#: data/levels/world1/scripts_intro.txt:3
+msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
+msgstr "...se tučňák Tux chystal na na setkání se svou přítelkyní, Penny, na piknik."
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux woke up, dizzy, to find that Penny was missing!"
+msgstr "Tux se probral, motala se mu hlava, a náhle zjistil, že Penny je pryč!"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Tux was starting to become worried. He then saw a letter, and it read:"
+msgstr "Začínal se strachovat, a náhle uviděl dopis, ve kterém bylo napsáno:"
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid ""
+"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
+"fortress.\""
+msgstr "\"Tuxi, unesl jsem tvoji milovanou Penny a vzal jsem ji do své pevnosti.\""
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "\"The path to my fortress is littered with my minions.\""
+msgstr "\"Cesta do této pevnosti je plná mých vojáků.\""
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
+msgstr "\"Nemáš nejmenší šanci jí zachránit! Podepsán, Nolok.\""
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid ""
+"Realizing the trouble Penny could be in, Tux became determined to save her."
+msgstr "Tux si uvědomil, v jakém nebezpečí by Penny mohla být, a rozhodl se jí zachránit."
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid ""
+"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
+msgstr "Rozhlédl se, v dáli spatřil Nolokův hrad, a vydal se na cestu."
+
+#: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "Vyčerpán ze své výpravy, Tux se rozhodl si chvíli odpočinout."
 
-#: data/levels/world1/scripts_.txt:3
+#: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "Ale potom, znenadání, zaslechl z dáli hlasitý řev."
 
-#: data/levels/world1/scripts_.txt:4
+#: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "Vypadalo to, že ho z dálky pozoruje nějaký yeti."
 
-#: data/levels/world1/scripts_.txt:5
+#: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "Vystrašen yetiho náhlým ústupem se Tux rozhodl pokračovat ve své výpravě, ..."
 
-#: data/levels/world1/scripts_.txt:6
+#: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "...zatímco tajně doufal, že na onoho yetiho znovu nenarazí."
 

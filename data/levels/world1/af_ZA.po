@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:31+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Martin van Zijl <martin.vanzijl@gmail.com>, 2019\n"
 "Language-Team: Afrikaans (South Africa) (http://app.transifex.com/arctic-games/supertux/language/af_ZA/)\n"
@@ -163,25 +163,88 @@ msgstr "...Of Is Dit Net Ek?"
 msgid "A Path in the Clouds"
 msgstr "'n Pad in die Wolke"
 
-#: data/levels/world1/scripts_.txt:2
+#: data/levels/world1/scripts_castle_cutscene.txt:2
+msgid "Tux had reached the end of the castle."
+msgstr "Tux het die einde van die kasteel bereik."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:3
+msgid "But to his surprise all he could find was a letter."
+msgstr "Maar tot sy verbasing het hy net 'n brief gekry."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:4
+msgid ""
+"A letter from Penny telling Tux that Nolok has taken her to a far forest."
+msgstr "'n Brief van Penny wat Tux vertel dat Nolok haar na 'n verre woud geneem het."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:5
+msgid ""
+"Unsure about what Nolok was doing to her, Tux became worried about his "
+"beloved Penny."
+msgstr "Onseker wat Nolok aan haar doen, het Tux bekommerd geraak oor sy geliefde Penny."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:6
+msgid "Until suddenly..."
+msgstr "Tot skielik..."
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid "Somewhere at the shores of Antarctica..."
+msgstr "Iewers aan die oewers van Antarktika..."
+
+#: data/levels/world1/scripts_intro.txt:3
+msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
+msgstr "Tux die pikkewyn het sy vriend Penny gaan ontmoet vir 'n piekniek."
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux woke up, dizzy, to find that Penny was missing!"
+msgstr "Toe Tux duiselig wakker word, het hy besef dat Penny verdwyn het!"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Tux was starting to become worried. He then saw a letter, and it read:"
+msgstr "Tux begin toe bekommerd raak. Hy sien toe 'n brief, en dit sê:"
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid ""
+"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
+"fortress.\""
+msgstr "\"Tux, ek het jou geliefde Penny ontvoer en haar na my fort geneem.\""
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "\"The path to my fortress is littered with my minions.\""
+msgstr "\"Die pad na my fort het talle vyande.\""
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
+msgstr "'Jy het nie 'n kans om haar te red nie! Onderteken, Nolok.'"
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid ""
+"Realizing the trouble Penny could be in, Tux became determined to save her."
+msgstr "Toe Tux die gevaar besef het wat Penny in was, het hy vesberade besluit om haar te red."
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid ""
+"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
+msgstr "Toe sien Tux vir Nolok se kasteel in die verte, en gaan voort om Penny te red!"
+
+#: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "Uitgeput van sy lang stap, besluit Tux toe om 'n bietjie te rus."
 
-#: data/levels/world1/scripts_.txt:3
+#: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "Maar, toe hoor hy skielik 'n groot brul van ver af."
 
-#: data/levels/world1/scripts_.txt:4
+#: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "Dit lyk asof 'n Yeti hom van ver af gesien het."
 
-#: data/levels/world1/scripts_.txt:5
+#: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "Bekommerd oor die skielike toevlug van die Yeti, besluit Tux tog om voort te gaan met sy reis, ..."
 
-#: data/levels/world1/scripts_.txt:6
+#: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "...terwyl hy hoop om nie weer die Yeti raak te loop nie."
 

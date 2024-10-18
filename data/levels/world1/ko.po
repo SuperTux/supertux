@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:31+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
 "Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
@@ -167,25 +167,88 @@ msgstr "...아니면 나 혼자야?"
 msgid "A Path in the Clouds"
 msgstr "구름 속 길"
 
-#: data/levels/world1/scripts_.txt:2
+#: data/levels/world1/scripts_castle_cutscene.txt:2
+msgid "Tux had reached the end of the castle."
+msgstr "턱스는 성의 끝에 도달했습니다."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:3
+msgid "But to his surprise all he could find was a letter."
+msgstr "그러나 놀랍게도 그가 찾을 수 있는 것은 편지가 전부였습니다."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:4
+msgid ""
+"A letter from Penny telling Tux that Nolok has taken her to a far forest."
+msgstr "페니가 턱스에게 놀록이 페니를 먼 숲으로 데려갔다고 말하는 편지입니다."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:5
+msgid ""
+"Unsure about what Nolok was doing to her, Tux became worried about his "
+"beloved Penny."
+msgstr "놀록이 페니에게 무슨 짓을 했는지 알 수 없었기에, 턱스는 사랑하는 페니가 걱정이 되었습니다."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:6
+msgid "Until suddenly..."
+msgstr "갑자기..."
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid "Somewhere at the shores of Antarctica..."
+msgstr "남극의 어느 해안가에서..."
+
+#: data/levels/world1/scripts_intro.txt:3
+msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
+msgstr "펭귄 턱스는 친구 페니를 만나 소풍을 가려고 했습니다."
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux woke up, dizzy, to find that Penny was missing!"
+msgstr "턱스는 깨어났고 너무 당황스러웠습니다. 페니가 없어졌다는걸 알았거든요!"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Tux was starting to become worried. He then saw a letter, and it read:"
+msgstr "턱스는 걱정이 되기 시작했습니다. 곧 발견한 편지에는 이런 말이 적혀있었습니다:"
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid ""
+"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
+"fortress.\""
+msgstr "\"턱스, 내가 페니를 납치했다. 너의 사랑하는 페니를 내 요새로 데려갔지\""
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "\"The path to my fortress is littered with my minions.\""
+msgstr "\"내 요새로 가는 길에는 내 쫄다구들이 깔려있어\""
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
+msgstr "\"넌 그녀를 구할 기회가 없단거야! 그러니 단념하길 바랄게. - 놀록\""
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid ""
+"Realizing the trouble Penny could be in, Tux became determined to save her."
+msgstr "페니가 곤경에 처할 수 있다는 것을 깨달은 턱스는 그녀를 구하기로 결심했습니다."
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid ""
+"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
+msgstr "곧이어, 턱스는 멀찍이 서있는 놀록의 성을 바라보며 페니를 구하기 위해 출발했습니다!"
+
+#: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "오랜 걸음으로 지친 턱스는 잠시 휴식을 취하기로 했습니다."
 
-#: data/levels/world1/scripts_.txt:3
+#: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "그런데 갑자기 멀리서 큰 굉음이 들려왔습니다."
 
-#: data/levels/world1/scripts_.txt:4
+#: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "설인이 멀리서 그를 지켜본 것 같습니다."
 
-#: data/levels/world1/scripts_.txt:5
+#: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "설인의 갑작스러운 뒷걸음질에 턱스는 우려스러웠지만 여행을 계속하기로 결심하고..."
 
-#: data/levels/world1/scripts_.txt:6
+#: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "...그저 설인과 다시 마주치지 않기를 과묵하게 바랐습니다."
 

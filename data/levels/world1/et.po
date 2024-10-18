@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:31+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Urmas Kvell, 2020,2022\n"
 "Language-Team: Estonian (http://app.transifex.com/arctic-games/supertux/language/et/)\n"
@@ -164,25 +164,88 @@ msgstr "Lumehelbe saladuslik puudutus"
 msgid "A Path in the Clouds"
 msgstr "Mägede ja taeva piiril"
 
-#: data/levels/world1/scripts_.txt:2
+#: data/levels/world1/scripts_castle_cutscene.txt:2
+msgid "Tux had reached the end of the castle."
+msgstr "Tux kiirustas treppidest üles lossi kõrgeimasse vangitorni,"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:3
+msgid "But to his surprise all he could find was a letter."
+msgstr "kuid teda ootas ees vaid üks kortsutatud kiri torni aknalaual."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:4
+msgid ""
+"A letter from Penny telling Tux that Nolok has taken her to a far forest."
+msgstr "\"Mu armas Tux, ma kuulsin pealt Noloki kurja plaani...\""
+
+#: data/levels/world1/scripts_castle_cutscene.txt:5
+msgid ""
+"Unsure about what Nolok was doing to her, Tux became worried about his "
+"beloved Penny."
+msgstr "\"Ta viib mu siit ära kaugele metsamaale oma suvelossi. Päästa mind! Sinu Penny\""
+
+#: data/levels/world1/scripts_castle_cutscene.txt:6
+msgid "Until suddenly..."
+msgstr "Ent äkitselt..."
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid "Somewhere at the shores of Antarctica..."
+msgstr "Kaugel Antarktikas oli järjekordne imekaunis talvehommik..."
+
+#: data/levels/world1/scripts_intro.txt:3
+msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
+msgstr "Pingviin Tux oli kutsunud oma armsa Penny piknikule."
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux woke up, dizzy, to find that Penny was missing!"
+msgstr "Endal pea veel pööritas, hakkas Tux hõikuma Pennyt."
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Tux was starting to become worried. He then saw a letter, and it read:"
+msgstr "Kuid ta hõiked jäid vastuseta, seejärel märkas kirja ümbrikus..."
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid ""
+"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
+"fortress.\""
+msgstr "\"Tux, Mina röövisin su armsama, Penny.\""
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "\"The path to my fortress is littered with my minions.\""
+msgstr "\"Ta on lukustatud mu lossi kõige kõrgemasse vangitorni,\""
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
+msgstr "\"kuhu ta peab jääma kõikide aegade lõpuni! Allakirjutanu, Nolok\""
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid ""
+"Realizing the trouble Penny could be in, Tux became determined to save her."
+msgstr "Kauguses võis silmata kurja valitseja Noloki talvelossi,"
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid ""
+"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
+msgstr "kuid teekond sinna oli täis jäiseid ohti ja Noloki kurje käsilasi."
+
+#: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "Noloki talveloss kindlalt silme ees otsustas Tux hinge puhata ja ennast kosutada."
 
-#: data/levels/world1/scripts_.txt:3
+#: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "Kuid ühtäkki kostus kaugusest vali möire!"
 
-#: data/levels/world1/scripts_.txt:4
+#: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "See ei olnud jääkaru või morsk, vaid eemalt jälitas teda üksik jeti."
 
-#: data/levels/world1/scripts_.txt:5
+#: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "Tundes muret Jeti ootamatu lahkumise pärast, otsustas Tux oma rännakut jätkata, ..."
 
-#: data/levels/world1/scripts_.txt:6
+#: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "...sisimas lootes jetiga enam mitte kohtuda. Ükskõik mis ka teekond ei tooks."
 

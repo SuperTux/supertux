@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:30+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2021,2024\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
@@ -217,15 +217,15 @@ msgstr "Schließen"
 
 #: src/supertux/statistics.cpp:70
 msgid "Enable Coins Statistic"
-msgstr ""
+msgstr "Münzenstatistik aktivieren"
 
 #: src/supertux/statistics.cpp:71
 msgid "Enable Badguys Statistic"
-msgstr ""
+msgstr "Gegnerstatistik aktivieren"
 
 #: src/supertux/statistics.cpp:72
 msgid "Enable Secrets Statistic"
-msgstr ""
+msgstr "Versteckstatistik aktivieren"
 
 #: src/supertux/statistics.cpp:93
 msgid "Max coins collected:"

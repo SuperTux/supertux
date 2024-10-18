@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:31+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Armenian (http://app.transifex.com/arctic-games/supertux/language/hy/)\n"
@@ -163,25 +163,88 @@ msgstr "...Թե՞ դա իմ երեւակայությունն է։"
 msgid "A Path in the Clouds"
 msgstr "Ճանապարհ ամպերի մեջ"
 
-#: data/levels/world1/scripts_.txt:2
+#: data/levels/world1/scripts_castle_cutscene.txt:2
+msgid "Tux had reached the end of the castle."
+msgstr "Թուքսը հասել էր ամրոցի ծայրին։"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:3
+msgid "But to his surprise all he could find was a letter."
+msgstr "Բայց ի զարմանս իրեն, միայն մի նամակ կարողացավ գտնել։"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:4
+msgid ""
+"A letter from Penny telling Tux that Nolok has taken her to a far forest."
+msgstr "Փեննիի նամակը, որը Թաքսին ասում է, որ Նոլոկը նրան տարել է հեռավոր անտառ:"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:5
+msgid ""
+"Unsure about what Nolok was doing to her, Tux became worried about his "
+"beloved Penny."
+msgstr "Անվստահ լինելով, թե ինչ էր անում Նոլոկը իր հետ՝ Թաքսը անհանգստացավ իր սիրելի Պենիի համար։"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:6
+msgid "Until suddenly..."
+msgstr "Մինչև հանկարծ..."
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid "Somewhere at the shores of Antarctica..."
+msgstr "Անտարկտիդայի ափերին ինչ-որ տեղ..."
+
+#: data/levels/world1/scripts_intro.txt:3
+msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
+msgstr "Պինգվին Թաքսը պատրաստվում էր հանդիպել իր ընկերոջը՝ Պենիին, խնջույքի։"
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux woke up, dizzy, to find that Penny was missing!"
+msgstr "Թաքսը գլխապտույտ արթնացավ՝ պարզելու, որ Պեննին բացակայում է։"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Tux was starting to become worried. He then saw a letter, and it read:"
+msgstr "Թաքսը սկսել էր անհանգստանալ։ Հետո նա տեսավ մի նամակ, որտեղ գրված էր."
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid ""
+"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
+"fortress.\""
+msgstr "«Թաքս, ես առևանգել եմ քո սիրելի Պենիին և տարել նրան իմ ամրոց»։"
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "\"The path to my fortress is littered with my minions.\""
+msgstr "«Իմ բերդ տանող ճանապարհը լցված է իմ կամակատարներով»։"
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
+msgstr "«Դու նրան փրկելու հնարավորություն չունես, ստորագրիր, Նոլոք»։"
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid ""
+"Realizing the trouble Penny could be in, Tux became determined to save her."
+msgstr "Հասկանալով, թե ինչ դժվարությունների մեջ կարող էր հայտնվել Պեննին, Թաքսը վճռական դարձավ փրկել նրան:"
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid ""
+"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
+msgstr "Այնուհետև Թաքսը հեռվից տեսավ Նոլոկի ամրոցը և ճանապարհ ընկավ Փենին փրկելու։"
+
+#: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "Իր երկար քայլելուց հոգնած Թաքսը որոշեց մի փոքր ընդմիջել։"
 
-#: data/levels/world1/scripts_.txt:3
+#: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "Բայց հետո, հանկարծ նա հեռվից բարձր մռնչյուն լսեց։"
 
-#: data/levels/world1/scripts_.txt:4
+#: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "Յեթին թվում է, թե նրան հեռվից է նկատել։"
 
-#: data/levels/world1/scripts_.txt:5
+#: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "Յեթիի անսպասելի նահանջից անհանգստացած Թաքսը որոշեց շարունակել իր ճանապարհը,…"
 
-#: data/levels/world1/scripts_.txt:6
+#: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "...թաքուն հույս ունենալով, որ նորից չբախվեմ իետին, ոչ մի կերպ:"
 

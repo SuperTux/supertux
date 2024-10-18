@@ -9,6 +9,7 @@
 # Matatabi Wang, 2024
 # Matatabi Wang, 2024
 # Sizhuang Liu <oldherl@gmail.com>, 2008
+# Wenbin Lv <wenbin816@gmail.com>, 2024
 # CodingJellyfish <dumaosen_main01@outlook.com>, 2018-2020
 # 玉堂白鹤 <yjwork@qq.com>, 2018-2019
 # a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>, 2020
@@ -16,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:30+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>, 2020\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
@@ -205,15 +206,15 @@ msgstr "关闭"
 
 #: src/supertux/statistics.cpp:70
 msgid "Enable Coins Statistic"
-msgstr ""
+msgstr "启用金币统计"
 
 #: src/supertux/statistics.cpp:71
 msgid "Enable Badguys Statistic"
-msgstr ""
+msgstr "启用坏人统计"
 
 #: src/supertux/statistics.cpp:72
 msgid "Enable Secrets Statistic"
-msgstr ""
+msgstr "启用秘区统计"
 
 #: src/supertux/statistics.cpp:93
 msgid "Max coins collected:"
@@ -619,7 +620,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "键盘快捷键：\n---------------------\nEsc = 打开菜单\nCtrl+S = 保存\nCtrl+T = 测试\nCtrl+Z = 撤销\nCtrl+Y = 重做\nF5 = 切换自动图块放置\nF6 = 渲染光线\nF7 = 对齐网格\nF8 = 显示网格\nCtrl++ 或 Ctrl+向上滚动 = 放大\nCtrl+- 或 Ctrl+向下滚动 = 缩小\nCtrl+D = 重置缩放\n\n脚本快捷键：\n    -------------    \nHome = 转到行首\nEnd = 转到行末\n左箭头 = 在文本中后退\n右箭头 = 在文本中前进\nBackspace = 删除光标前的内容\nDelete = 删除光标后的内容\nCtrl+X = 剪切整行\nCtrl+C = 复制整行\nCtrl+V = 粘贴\nCtrl+D = 将行重复一次\nCtrl+Z = 撤销\nCtrl+Y = 重做"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
@@ -631,7 +632,7 @@ msgstr "您是否想要显示活跃的图块地图中的所有被废弃的图块
 
 #: src/supertux/menu/editor_menu.cpp:246
 msgid "There are no more deprecated tiles in the level!"
-msgstr "关卡中不再有已废弃的图块！"
+msgstr "关卡中已没有已废弃的图块！"
 
 #: src/supertux/menu/debug_menu.cpp:34
 msgid "Debug"
@@ -675,7 +676,7 @@ msgstr "使用点阵字体"
 
 #: src/supertux/menu/debug_menu.cpp:74
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr ""
+msgstr "在编辑器工具箱中显示图块 ID"
 
 #: src/supertux/menu/debug_menu.cpp:75
 msgid "Dump Texture Cache"
@@ -960,15 +961,15 @@ msgstr "没有已安装的扩展"
 
 #: src/supertux/menu/addon_menu.cpp:125
 msgid "{} *UPDATE*"
-msgstr ""
+msgstr "{} *更新*"
 
 #: src/supertux/menu/addon_menu.cpp:127
 msgid "{} [DISABLED] *UPDATE*"
-msgstr ""
+msgstr "{} [已禁用] *更新*"
 
 #: src/supertux/menu/addon_menu.cpp:136
 msgid "{} [DISABLED]"
-msgstr ""
+msgstr "{} [已禁用]"
 
 #: src/supertux/menu/addon_menu.cpp:146
 msgid "No updates available."
@@ -1505,28 +1506,28 @@ msgstr "使分辨率适应您的浏览器的大小"
 
 #: src/supertux/menu/options_menu.cpp:113
 msgid "Frame prediction"
-msgstr ""
+msgstr "帧预测"
 
 #: src/supertux/menu/options_menu.cpp:114
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
-msgstr ""
+msgstr "平滑摄像机的移动并生成中间帧。对于刷新率远高于 60Hz 的显示器有肉眼可见的效果。运动中的物体可能变模糊。"
 
 #: src/supertux/menu/options_menu.cpp:122
 msgid "Camera Peek Multiplier"
-msgstr ""
+msgstr "摄像机观察系数"
 
 #: src/supertux/menu/options_menu.cpp:123
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
-msgstr ""
+msgstr "每帧向摄像机观察点的移动距离，以小数系数表示。\n\n0 = 不观察，1 = 立即观察"
 
 #: src/supertux/menu/options_menu.cpp:125
 msgid "Change Video System"
-msgstr "修改视频系统"
+msgstr "更改视频系统"
 
 #: src/supertux/menu/options_menu.cpp:126
 msgid "Change video system used to render graphics"
@@ -1754,11 +1755,11 @@ msgstr "调整音乐音量"
 
 #: src/supertux/menu/options_menu.cpp:548
 msgid "Flash Intensity"
-msgstr ""
+msgstr "闪光强度"
 
 #: src/supertux/menu/options_menu.cpp:549
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr ""
+msgstr "调整雷雨产生的闪光的强度"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "On-screen controls scale"
@@ -2628,7 +2629,7 @@ msgstr "背景"
 
 #: src/object/bigsnowball.hpp:39
 msgid "Big Snowball"
-msgstr ""
+msgstr "大雪球"
 
 #: src/object/shard.hpp:35
 msgid "Shard"
@@ -2730,7 +2731,7 @@ msgstr "华丽粒子"
 
 #: src/object/wind.cpp:88
 msgid "Particles Enabled"
-msgstr ""
+msgstr "启用粒子"
 
 #: src/object/ambient_light.hpp:37
 msgid "Ambient Light"
@@ -3237,11 +3238,11 @@ msgstr "命中脚本"
 
 #: src/object/bigsnowball.cpp:83
 msgid "Break on impact?"
-msgstr ""
+msgstr "受冲击时破裂？"
 
 #: src/object/bigsnowball.cpp:84
 msgid "Bounce?"
-msgstr ""
+msgstr "弹跳？"
 
 #: src/object/fallblock.hpp:41
 msgid "Falling Platform"
@@ -3289,7 +3290,7 @@ msgstr "雷雨"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
-msgstr ""
+msgstr "附着"
 
 #: src/object/level_time.hpp:75
 msgid "Time Limit"
@@ -3792,7 +3793,7 @@ msgstr "区块：{}"
 
 #: src/editor/layers_widget.cpp:464
 msgid "Add Layer"
-msgstr ""
+msgstr "添加层"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -4531,11 +4532,11 @@ msgstr "生命"
 
 #: src/badguy/boss.cpp:89
 msgid "Lives to Pinch Mode"
-msgstr ""
+msgstr "进入危机模式的生命数"
 
 #: src/badguy/boss.cpp:90
 msgid "Pinch Mode Activation Script"
-msgstr ""
+msgstr "危机模式激活脚本"
 
 #: src/badguy/smartball.cpp:35
 msgid "Pumpkin"
@@ -4559,11 +4560,11 @@ msgstr "飞镖"
 
 #: src/badguy/granito.cpp:259
 msgid "Detect script"
-msgstr ""
+msgstr "检测脚本"
 
 #: src/badguy/granito.cpp:260
 msgid "Carried script"
-msgstr ""
+msgstr "被携带时的脚本"
 
 #: src/badguy/granito.cpp:277 src/badguy/granito_big.cpp:73
 msgid "Default"
@@ -4579,7 +4580,7 @@ msgstr "行走"
 
 #: src/badguy/granito.cpp:280 src/badguy/granito_big.cpp:76
 msgid "Scriptable"
-msgstr ""
+msgstr "可使用脚本"
 
 #: src/badguy/granito.cpp:283
 msgid "Sitting"
@@ -4623,7 +4624,7 @@ msgstr "无害鱼"
 
 #: src/badguy/granito_big.cpp:64
 msgid "Carrying Script"
-msgstr ""
+msgstr "携带时的脚本"
 
 #: src/badguy/fish_swimming.hpp:40
 msgid "Swimming Fish"
@@ -5117,7 +5118,7 @@ msgstr "冰洞和水晶"
 
 #: data/images/ice_world.strf:169
 msgid "Snow Embellishments"
-msgstr ""
+msgstr "雪装饰"
 
 #: data/images/ice_world.strf:339
 msgid "Underground Forest"
@@ -5125,7 +5126,7 @@ msgstr "地下森林"
 
 #: data/images/ice_world.strf:417
 msgid "Trees & Rocks"
-msgstr ""
+msgstr "树和岩石"
 
 #: data/images/ice_world.strf:494
 msgid "Seasonal"

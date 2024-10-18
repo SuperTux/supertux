@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:31+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Nanowarrior, 2022\n"
 "Language-Team: Telugu (http://app.transifex.com/arctic-games/supertux/language/te/)\n"
@@ -163,25 +163,88 @@ msgstr "...లేక నాకేనా?"
 msgid "A Path in the Clouds"
 msgstr "మేఘాలలో ఒక మార్గం"
 
-#: data/levels/world1/scripts_.txt:2
+#: data/levels/world1/scripts_castle_cutscene.txt:2
+msgid "Tux had reached the end of the castle."
+msgstr "టక్స్ కోట చివరకి చేరుకుంన్నాడు."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:3
+msgid "But to his surprise all he could find was a letter."
+msgstr "కానీ అతనికి ఆశ్చర్యం కలిగింది అతనికి దొరికినదంతా ఒక ఉత్తరం."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:4
+msgid ""
+"A letter from Penny telling Tux that Nolok has taken her to a far forest."
+msgstr "నోలోక్ ఆమెను చాలా దూరం అడవికి తీసుకువెళ్లినట్లు టక్స్‌కు తెలియజేసిన పెన్నీ ఉత్తరం."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:5
+msgid ""
+"Unsure about what Nolok was doing to her, Tux became worried about his "
+"beloved Penny."
+msgstr "నోలోక్ ఆమెకు ఏమి చేస్తున్నాడో తెలియక, టక్స్ తన ప్రియమైన పెన్నీ గురించి ఆందోళన చెందాడు."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:6
+msgid "Until suddenly..."
+msgstr "అకస్మాత్తుగా..."
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid "Somewhere at the shores of Antarctica..."
+msgstr "ఎక్కడో అంటార్కిటికా తీరంలో..."
+
+#: data/levels/world1/scripts_intro.txt:3
+msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
+msgstr "టక్స్ పెంగ్విన్ తన స్నేహితురాలు పెన్నీని విహారయాత్ర కోసం కలవబోతున్నాడు."
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux woke up, dizzy, to find that Penny was missing!"
+msgstr "టక్స్ మేల్కొన్నాను, తల తిరుగుతూంది, పెన్నీ తప్పిపోయిందని గుర్తించాడు!"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Tux was starting to become worried. He then saw a letter, and it read:"
+msgstr "టక్స్ ఆందోళన చెందడం ప్రారంభించాడు. అప్పుడు అతను ఒక ఉత్తరాన్ని చూశి, అది చదివాడు:"
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid ""
+"\"Tux, I have kidnapped your beloved Penny and have taken her to my "
+"fortress.\""
+msgstr "\"టక్స్, నేను మీ ప్రియమైన పెన్నీని కిడ్నాప్ చేసాను మరియు ఆమెను నా కోటకు తీసుకువెళ్ళాను.\""
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "\"The path to my fortress is littered with my minions.\""
+msgstr "\"నా కోటకు దారి నా సేవకులతో నిండిపోయింది.\""
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
+msgstr "\"ఆమెను రక్షించే అవకాశం నీకు లేదు! సంతకం చేశాను, నోలోక్.\""
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid ""
+"Realizing the trouble Penny could be in, Tux became determined to save her."
+msgstr "పెన్నీ పడే ఇబ్బందులను గ్రహించిన టక్స్ ఆమెను రక్షించాలని నిశ్చయించుకున్నాడు."
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid ""
+"Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
+msgstr "అప్పుడు, టక్స్ దూరంలో నోలోక్ కోటను చూసి, పెన్నీని రక్షించడానికి బయలుదేరాడు!"
+
+#: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
 msgstr "తన సుదీర్ఘ నడకతో అలసిపోయిన టక్స్ కొంచెం విరామం తీసుకోవాలని నిర్ణయించుకున్నాడు."
 
-#: data/levels/world1/scripts_.txt:3
+#: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
 msgstr "అయితే అంతలోనే అకస్మాత్తుగా అతనికి దూరం నుంచి పెద్దగా గర్జన వినిపించింది."
 
-#: data/levels/world1/scripts_.txt:4
+#: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
 msgstr "ఒక యతి అతనిని దూరం నుండి గమనించినట్లుంది."
 
-#: data/levels/world1/scripts_.txt:5
+#: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
 msgstr "యతి యొక్క ఆకస్మిక తిరోగమనం గురించి ఆందోళన చెందిన టక్స్ తన ప్రయాణాన్ని కొనసాగించాలని నిర్ణయించుకున్నాడు, ..."
 
-#: data/levels/world1/scripts_.txt:6
+#: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "...మళ్ళీ ఏవిధంగానైనా యతిలోకి పరుగెత్తకూడదని రహస్యంగా ఆశిస్తున్నా."
 

@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:30+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2024\n"
 "Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
@@ -208,15 +208,15 @@ msgstr "Zavřít"
 
 #: src/supertux/statistics.cpp:70
 msgid "Enable Coins Statistic"
-msgstr ""
+msgstr "Zapnout statistiku mincí"
 
 #: src/supertux/statistics.cpp:71
 msgid "Enable Badguys Statistic"
-msgstr ""
+msgstr "Zapnout statistiku zlejšků"
 
 #: src/supertux/statistics.cpp:72
 msgid "Enable Secrets Statistic"
-msgstr ""
+msgstr "Zapnout statistiku tajných skrýší"
 
 #: src/supertux/statistics.cpp:93
 msgid "Max coins collected:"
@@ -625,7 +625,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Klávesové zkratky:\n---------------------\nEsc = otevřít nabídku\nCtrl+S = uložit\nCtrl+T = otestovat úroveň\nCtrl+Z = krok zpět\nCtrl+Y = krok vpřed\nF5 = přepnout automatické vyhlazování\nF6 = vykreslovat světlo\nF7 = zarovnávat k mřížce\nF8 = ukázat/skrýt mřížku\nCtrl++ nebo Ctrl+kolečko myši nahoru = přiblížit\nCtrl+- nebo Ctrl+kolečko myši dolů = oddálit\nCtrl+D = resetovat přiblížení\n\nSkriptovací klávesové zkratky:\n---------------------\nHome = jít na začátek řádky\nEnd = jít na konec řádky\nŠipka doleva = jít zpět v textu\nŠipka doprava = jít vpřed v textu\nBackspace = mazat před kurzorem\nDelete = mazat za kurzorem\nCtrl+X = vyjmout celou řádku\nCtrl+C = kopírovat celou řádku\nCtrl+V = vložit\nCtrl+D = duplikovat řádku\nCtrl+Z = krok zpět\nCtrl+Y = krok vpřed"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
@@ -681,7 +681,7 @@ msgstr "Použít rastrová písma"
 
 #: src/supertux/menu/debug_menu.cpp:74
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr ""
+msgstr "Zobrazit ID ve výběru dlaždic"
 
 #: src/supertux/menu/debug_menu.cpp:75
 msgid "Dump Texture Cache"
@@ -966,15 +966,15 @@ msgstr "Nejsou nainstalovány žádné doplňky"
 
 #: src/supertux/menu/addon_menu.cpp:125
 msgid "{} *UPDATE*"
-msgstr ""
+msgstr "{} *AKTUALIZOVAT*"
 
 #: src/supertux/menu/addon_menu.cpp:127
 msgid "{} [DISABLED] *UPDATE*"
-msgstr ""
+msgstr "{} [NEKATIVNÍ] *AKTUALIZOVAT*"
 
 #: src/supertux/menu/addon_menu.cpp:136
 msgid "{} [DISABLED]"
-msgstr ""
+msgstr "{} [NEAKTIVNÍ]"
 
 #: src/supertux/menu/addon_menu.cpp:146
 msgid "No updates available."
@@ -1511,24 +1511,24 @@ msgstr "Upravit rozlišení podle velikosti okna prohlížeče"
 
 #: src/supertux/menu/options_menu.cpp:113
 msgid "Frame prediction"
-msgstr ""
+msgstr "Předpoveď snímků"
 
 #: src/supertux/menu/options_menu.cpp:114
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
-msgstr ""
+msgstr "Vyhlazený pohyb kamery pomocí generace mezisnímků. Tato možnost má zásadní vliv na vykreslování na monitorech > 60 Hz. Pohyblivé objekty mohou být romazané."
 
 #: src/supertux/menu/options_menu.cpp:122
 msgid "Camera Peek Multiplier"
-msgstr ""
+msgstr "Faktor nahlížení"
 
 #: src/supertux/menu/options_menu.cpp:123
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
-msgstr ""
+msgstr "Zlomek vzdálenosti k pozisi kamery při nahlížení, o který se kamera pohne každý snímek.\n\n0 = Žádné nahlížení, 1 = okamžité nahlížení"
 
 #: src/supertux/menu/options_menu.cpp:125
 msgid "Change Video System"
@@ -1760,11 +1760,11 @@ msgstr "Upravit hlasitost hudby"
 
 #: src/supertux/menu/options_menu.cpp:548
 msgid "Flash Intensity"
-msgstr ""
+msgstr "Intenzita blesků"
 
 #: src/supertux/menu/options_menu.cpp:549
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr ""
+msgstr "Nastavení intenzity blikání obrazovky při úderu blesku"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "On-screen controls scale"
@@ -2634,7 +2634,7 @@ msgstr "Pozadí"
 
 #: src/object/bigsnowball.hpp:39
 msgid "Big Snowball"
-msgstr ""
+msgstr "Velká sněhová koule"
 
 #: src/object/shard.hpp:35
 msgid "Shard"
@@ -2736,7 +2736,7 @@ msgstr "Lepší částicové efekty"
 
 #: src/object/wind.cpp:88
 msgid "Particles Enabled"
-msgstr ""
+msgstr "Povolit částice"
 
 #: src/object/ambient_light.hpp:37
 msgid "Ambient Light"
@@ -3243,11 +3243,11 @@ msgstr "Skript při zásahu"
 
 #: src/object/bigsnowball.cpp:83
 msgid "Break on impact?"
-msgstr ""
+msgstr "Zničit při dopadu?"
 
 #: src/object/bigsnowball.cpp:84
 msgid "Bounce?"
-msgstr ""
+msgstr "Odrazit?"
 
 #: src/object/fallblock.hpp:41
 msgid "Falling Platform"
@@ -3295,7 +3295,7 @@ msgstr "Bouřka"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
-msgstr ""
+msgstr "Lepivá"
 
 #: src/object/level_time.hpp:75
 msgid "Time Limit"
@@ -3798,7 +3798,7 @@ msgstr "Sektor: {}"
 
 #: src/editor/layers_widget.cpp:464
 msgid "Add Layer"
-msgstr ""
+msgstr "Přidat vrstvu"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -4537,11 +4537,11 @@ msgstr "Počet životů"
 
 #: src/badguy/boss.cpp:89
 msgid "Lives to Pinch Mode"
-msgstr ""
+msgstr "Životy pro aktivaci agresivního režimu"
 
 #: src/badguy/boss.cpp:90
 msgid "Pinch Mode Activation Script"
-msgstr ""
+msgstr "Skript aktivace agresivního režimu"
 
 #: src/badguy/smartball.cpp:35
 msgid "Pumpkin"
@@ -4565,11 +4565,11 @@ msgstr "Šipka"
 
 #: src/badguy/granito.cpp:259
 msgid "Detect script"
-msgstr ""
+msgstr "Skript při detekci"
 
 #: src/badguy/granito.cpp:260
 msgid "Carried script"
-msgstr ""
+msgstr "Skript při přenosu"
 
 #: src/badguy/granito.cpp:277 src/badguy/granito_big.cpp:73
 msgid "Default"
@@ -4585,7 +4585,7 @@ msgstr "Chodící"
 
 #: src/badguy/granito.cpp:280 src/badguy/granito_big.cpp:76
 msgid "Scriptable"
-msgstr ""
+msgstr "Skriptovatelný"
 
 #: src/badguy/granito.cpp:283
 msgid "Sitting"
@@ -4629,7 +4629,7 @@ msgstr "Neškodná ryba"
 
 #: src/badguy/granito_big.cpp:64
 msgid "Carrying Script"
-msgstr ""
+msgstr "Skript při přenosu"
 
 #: src/badguy/fish_swimming.hpp:40
 msgid "Swimming Fish"
@@ -5123,7 +5123,7 @@ msgstr "Ledová jeskyně a krystaly"
 
 #: data/images/ice_world.strf:169
 msgid "Snow Embellishments"
-msgstr ""
+msgstr "Sněhové doplňky"
 
 #: data/images/ice_world.strf:339
 msgid "Underground Forest"
@@ -5131,7 +5131,7 @@ msgstr "Podzemní les"
 
 #: data/images/ice_world.strf:417
 msgid "Trees & Rocks"
-msgstr ""
+msgstr "Stromy a skály"
 
 #: data/images/ice_world.strf:494
 msgid "Seasonal"

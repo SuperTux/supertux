@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:30+0000\n"
+"POT-Creation-Date: 2024-10-17 07:49+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Любомир Василев, 2021,2024\n"
 "Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
@@ -202,15 +202,15 @@ msgstr "Затваряне"
 
 #: src/supertux/statistics.cpp:70
 msgid "Enable Coins Statistic"
-msgstr ""
+msgstr "Включване на статистиката за монетите"
 
 #: src/supertux/statistics.cpp:71
 msgid "Enable Badguys Statistic"
-msgstr ""
+msgstr "Включване на статистиката за лошите"
 
 #: src/supertux/statistics.cpp:72
 msgid "Enable Secrets Statistic"
-msgstr ""
+msgstr "Включване на статистиката за тайните"
 
 #: src/supertux/statistics.cpp:93
 msgid "Max coins collected:"
@@ -617,7 +617,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Клавиши и комбинации:\n---------------------\nEsc = Отваряне на менюто\nCtrl+S = Запазване\nCtrl+T = Тестване\nCtrl+Z = Отмяна\nCtrl+Y = Повторение\nF5 = Превключване на авт. поставяне на плочки\nF6 = Изчертаване на светлината\nF7 = Прилепване към мрежата\nF8 = Показване на мрежата\nCtrl++ или Ctrl+Scroll Up = Увеличаване\nCtrl+- или Ctrl+Scroll Down = Намаляване\nCtrl+D = Нулиране на мащаба\n\nКлавиши и комбинации за скриптиране:\n    -------------    \nHome = Преместване в началото на реда\nEnd = Преместване в края на реда\nLeft arrow = Назад в текста\nRight arrow = Напред в текста\nBackspace = Изтриване на текста пред курсора\nDelete = Изтриване на текста зад курсора\nCtrl+X = Изрязване на целия ред\nCtrl+C = Копиране на целия ред\nCtrl+V = Поставяне\nCtrl+D = Дублиране на реда\nCtrl+Z = Отмяна\nCtrl+Y = Повторение"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
@@ -673,7 +673,7 @@ msgstr "Използване на растерни шрифтове"
 
 #: src/supertux/menu/debug_menu.cpp:74
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr ""
+msgstr "Показване на идентификаторите на плочките в панела с инструменти на редактора"
 
 #: src/supertux/menu/debug_menu.cpp:75
 msgid "Dump Texture Cache"
@@ -958,15 +958,15 @@ msgstr "Няма инсталирани добавки"
 
 #: src/supertux/menu/addon_menu.cpp:125
 msgid "{} *UPDATE*"
-msgstr ""
+msgstr "{} *ОБНОВЛЕНИЕ*"
 
 #: src/supertux/menu/addon_menu.cpp:127
 msgid "{} [DISABLED] *UPDATE*"
-msgstr ""
+msgstr "{} [ИЗКЛЮЧЕНО] *ОБНОВЛЕНИЕ*"
 
 #: src/supertux/menu/addon_menu.cpp:136
 msgid "{} [DISABLED]"
-msgstr ""
+msgstr "{} [ИЗКЛЮЧЕНО]"
 
 #: src/supertux/menu/addon_menu.cpp:146
 msgid "No updates available."
@@ -1503,24 +1503,24 @@ msgstr "Напасване на резолюцията към размера н�
 
 #: src/supertux/menu/options_menu.cpp:113
 msgid "Frame prediction"
-msgstr ""
+msgstr "Предвиждане на кадри"
 
 #: src/supertux/menu/options_menu.cpp:114
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
-msgstr ""
+msgstr "Плавно движение на камерата, чрез създаване на междинни кадри. Това има забележим ефект при ползване на монитори с честота на опресняване на картината по-голяма от 60Hz. Движещите се обекти могат да изглеждат леко размазани."
 
 #: src/supertux/menu/options_menu.cpp:122
 msgid "Camera Peek Multiplier"
-msgstr ""
+msgstr "Множител за камерата при надничане"
 
 #: src/supertux/menu/options_menu.cpp:123
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
-msgstr ""
+msgstr "Частичното разстояние към позицията на камерата за надничане, с което камерата да се придвижва на всеки кадър.\n\n0 = Без надничане, 1 = Моментално надничане"
 
 #: src/supertux/menu/options_menu.cpp:125
 msgid "Change Video System"
@@ -1752,11 +1752,11 @@ msgstr "Настройване на силата на музиката"
 
 #: src/supertux/menu/options_menu.cpp:548
 msgid "Flash Intensity"
-msgstr ""
+msgstr "Интензитет на светкавиците"
 
 #: src/supertux/menu/options_menu.cpp:549
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr ""
+msgstr "Настройка на интензитета на светкавиците при гръмотевична буря"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "On-screen controls scale"
@@ -2626,7 +2626,7 @@ msgstr "Фон"
 
 #: src/object/bigsnowball.hpp:39
 msgid "Big Snowball"
-msgstr ""
+msgstr "Голяма снежна топка"
 
 #: src/object/shard.hpp:35
 msgid "Shard"
@@ -2728,7 +2728,7 @@ msgstr "Частици във въздуха"
 
 #: src/object/wind.cpp:88
 msgid "Particles Enabled"
-msgstr ""
+msgstr "Частиците на включени"
 
 #: src/object/ambient_light.hpp:37
 msgid "Ambient Light"
@@ -3235,11 +3235,11 @@ msgstr "Скрипт за удряне"
 
 #: src/object/bigsnowball.cpp:83
 msgid "Break on impact?"
-msgstr ""
+msgstr "Чупене при удар?"
 
 #: src/object/bigsnowball.cpp:84
 msgid "Bounce?"
-msgstr ""
+msgstr "Подскачане?"
 
 #: src/object/fallblock.hpp:41
 msgid "Falling Platform"
@@ -3287,7 +3287,7 @@ msgstr "Гръмотевична буря"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
-msgstr ""
+msgstr "Лепкаво"
 
 #: src/object/level_time.hpp:75
 msgid "Time Limit"
@@ -3790,7 +3790,7 @@ msgstr "Сектор: {}"
 
 #: src/editor/layers_widget.cpp:464
 msgid "Add Layer"
-msgstr ""
+msgstr "Добавяне на слой"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -4557,11 +4557,11 @@ msgstr "Стреличка"
 
 #: src/badguy/granito.cpp:259
 msgid "Detect script"
-msgstr ""
+msgstr "Скрипт за засичане"
 
 #: src/badguy/granito.cpp:260
 msgid "Carried script"
-msgstr ""
+msgstr "Скрипта за обекта, който бива носен"
 
 #: src/badguy/granito.cpp:277 src/badguy/granito_big.cpp:73
 msgid "Default"
@@ -4577,7 +4577,7 @@ msgstr "Ходещ"
 
 #: src/badguy/granito.cpp:280 src/badguy/granito_big.cpp:76
 msgid "Scriptable"
-msgstr ""
+msgstr "Може да се скриптира"
 
 #: src/badguy/granito.cpp:283
 msgid "Sitting"
@@ -4621,7 +4621,7 @@ msgstr "Безобидна риба"
 
 #: src/badguy/granito_big.cpp:64
 msgid "Carrying Script"
-msgstr ""
+msgstr "Скрипт за носене"
 
 #: src/badguy/fish_swimming.hpp:40
 msgid "Swimming Fish"
@@ -5115,7 +5115,7 @@ msgstr "Ледена пещера и кристали"
 
 #: data/images/ice_world.strf:169
 msgid "Snow Embellishments"
-msgstr ""
+msgstr "Показване на разкрасяванията"
 
 #: data/images/ice_world.strf:339
 msgid "Underground Forest"
@@ -5123,7 +5123,7 @@ msgstr "Подземна гора"
 
 #: data/images/ice_world.strf:417
 msgid "Trees & Rocks"
-msgstr ""
+msgstr "Дървета и камъни"
 
 #: data/images/ice_world.strf:494
 msgid "Seasonal"
