@@ -82,6 +82,16 @@ public:
   void draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer);
   void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
 
+  /** Draw a flat-topped regular hexagon
+   *
+   * @param pos Centre position
+   * @param radius Radius of the hexagon's circle hull
+   * @param color Color
+   * @param layer Layer
+   */
+  void draw_hexagon(const Vector& pos, float radius, const Color& color,
+    int layer);
+
   /** on next update, set color to lightmap's color at position */
   void get_pixel(const Vector& position, const std::shared_ptr<Color>& color_out);
 
