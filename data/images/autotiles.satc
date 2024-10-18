@@ -14,7 +14,7 @@
 ;;  |
 ;;  V
 ;; Contains :
-;;   The autotileset name (unused as of writing these lines) : (name "snow")
+;;   The autotileset name (used as an indicator in the editor) : (name "snow")
 ;;     The name of the autotileset is "snow".
 ;;   The default tile ID (used if no tile matches any mask) : (default 11)
 ;;     If a very special tile is needed (and it doesn't exist), it will use this tile (it's a center tile) by default.
@@ -75,7 +75,7 @@
 ;;       (Contributor, 2020)
 ;;
 ;;
-;; NOTE : A single id MUST NOT OCCUR MORE THAN ONE AUTOTILE IN THE ENTIRE FILE.
+;; NOTE : A single id MUST NOT OCCUR IN MORE THAN ONE AUTOTILE IN AN AUTOTILESET.
 ;;        Otherwise, the behavior is UNDEFINED.
 
 (supertux-autotiles
