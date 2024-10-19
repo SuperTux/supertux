@@ -23,6 +23,7 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "editor/editor.hpp"
+#include "worldmap/worldmap_sector.hpp"
 
 #include <iostream>
 
@@ -56,6 +57,9 @@ PlayerStatusHUD::update(float dt_sec)
 void
 PlayerStatusHUD::draw(DrawingContext& context)
 {
+  if (Editor::is_active())
+    return;
+
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
       (std::abs(displayed_coins - m_player_status.coins) > 100)) {
     displayed_coins = m_player_status.coins;
@@ -90,16 +94,21 @@ PlayerStatusHUD::draw(DrawingContext& context)
                             LAYER_HUD,
                             PlayerStatusHUD::text_color);
 
-  for (int i = 0; i < m_player_status.m_num_players; i++) {
-    float ypos = static_cast<float>(m_item_pocket_border->get_height() * i);
-    Vector pos(BORDER_X, BORDER_Y + ypos);
-    context.color().draw_surface(m_item_pocket_border, pos, LAYER_HUD);
 
-    if (m_bonus_sprites.find(m_player_status.m_item_pockets[i]) != m_bonus_sprites.end())
+  if (!worldmap::WorldMapSector::current())
+  {
+    for (int i = 0; i < m_player_status.m_num_players; i++)
     {
-      pos += 20;
-      Sprite* sprite = m_bonus_sprites[m_player_status.m_item_pockets.front()].get();
-      sprite->draw(context.color(), pos, LAYER_HUD);
+      float ypos = static_cast<float>(m_item_pocket_border->get_height() * i);
+      Vector pos(BORDER_X, BORDER_Y + ypos);
+      context.color().draw_surface(m_item_pocket_border, pos, LAYER_HUD);
+
+      if (m_bonus_sprites.find(m_player_status.m_item_pockets[i]) != m_bonus_sprites.end())
+      {
+        pos += 20;
+        Sprite* sprite = m_bonus_sprites[m_player_status.m_item_pockets.front()].get();
+        sprite->draw(context.color(), pos, LAYER_HUD);
+      }
     }
   }
 

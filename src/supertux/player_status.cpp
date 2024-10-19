@@ -24,10 +24,13 @@
 #include "object/powerup.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+#include "worldmap/level_tile.hpp"
+#include "worldmap/worldmap.hpp"
 
 static const int START_COINS = 100;
 static const int MAX_COINS = 9999;
@@ -267,7 +270,7 @@ PlayerStatus::give_item_from_pocket(Player* player)
   Vector pos;
   auto& powerup = Sector::get().add<PowerUp>(pos, PowerUp::get_type_from_bonustype(bonustype));
   pos.x = player->get_bbox().get_left();
-  pos.y = player->get_bbox().get_top() + player->get_collision_object()->get_movement().y - powerup.get_bbox().get_height() - 15;
+  pos.y = player->get_bbox().get_top() +  - powerup.get_bbox().get_height() - 15;
 
   powerup.physic.set_velocity_y(-200);
   powerup.physic.set_gravity_modifier(0.4f);
@@ -283,6 +286,31 @@ PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
     return;
 
   m_item_pockets[player->get_id()] = bonustype;
+}
+
+bool
+PlayerStatus::is_item_pocket_allowed() const
+{
+  Level* level = Level::current();
+  int allowed = static_cast<Level::Setting>(level->m_allow_item_pocket);
+
+  if (allowed != Level::INHERIT)
+  {
+    return allowed == Level::ON ? true : false;
+  }
+  else
+  {
+    worldmap::WorldMap* worldmap = worldmap::WorldMap::current();
+    if (worldmap)
+    {
+      worldmap->
+    }
+    else
+    {
+      // This level is probably in a levelset, pick ON.
+      return true;
+    }
+  }
 }
 
 void

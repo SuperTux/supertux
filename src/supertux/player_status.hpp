@@ -51,6 +51,8 @@ public:
   void give_item_from_pocket(Player* player);
   void add_item_to_pocket(BonusType bonustype, Player* player);
 
+  bool is_item_pocket_allowed() const;
+
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
   bool respawns_at_checkpoint() const;

@@ -52,6 +52,7 @@ Level::Level(bool worldmap) :
   m_stats(),
   m_target_time(),
   m_tileset("images/tiles.strf"),
+  m_allow_item_pocket(ON),
   m_suppress_pause_menu(),
   m_is_in_cutscene(false),
   m_skip_cutscene(false),
@@ -60,6 +61,11 @@ Level::Level(bool worldmap) :
   m_wmselect_bkg()
 {
   s_current = this;
+
+  if (!is_worldmap())
+  {
+    m_allow_item_pocket = INHERIT;
+  }
 }
 
 Level::~Level()
@@ -189,6 +195,8 @@ Level::save(Writer& writer)
     writer.write("suppress-pause-menu", m_suppress_pause_menu);
   }
 
+  writer.write("allow-item-pocket", get_setting_name(static_cast<Level::Setting>(m_allow_item_pocket)));
+
   writer.write("icon", m_icon);
   writer.write("icon-locked", m_icon_locked);
 
@@ -211,6 +219,43 @@ Level::save(Writer& writer)
 
   // Ends writing to supertux level file. Keep this at the very end.
   writer.end_list("supertux-level");
+}
+
+std::string
+Level::get_setting_name(Setting setting)
+{
+  switch (setting)
+  {
+    case ON:
+      return "on";
+
+    case OFF:
+      return "off";
+
+    case INHERIT:
+      return "inherit";
+  }
+
+  return "on";
+}
+
+Level::Setting
+Level::get_setting_from_name(std::string setting)
+{
+  if (setting == "on")
+  {
+    return ON;
+  }
+  else if (setting == "off")
+  {
+    return OFF;
+  }
+  else if (setting == "inherit")
+  {
+    return INHERIT;
+  }
+
+  return ON;
 }
 
 void

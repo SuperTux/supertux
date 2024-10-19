@@ -591,6 +591,19 @@ Sector::is_free_of_specifically_movingstatics(float left, float top, float right
   return m_collision_system->is_free_of_specifically_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
 }
 
+void
+Sector::set_allow_item_pocket(bool allow)
+{
+  //FIXME
+  //m_level.m_allow_item_pocket = allow;
+}
+
+bool
+Sector::is_item_pocket_allowed()
+{
+  return m_level.m_allow_item_pocket;
+}
+
 CollisionSystem::RaycastResult
 Sector::get_first_line_intersection(const Vector& line_start,
                                     const Vector& line_end,
@@ -919,6 +932,8 @@ Sector::register_class(ssq::VM& vm)
   cls.addFunc<bool, Sector, float, float, float, float, bool>("is_free_of_statics", &Sector::is_free_of_statics);
   cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_movingstatics", &Sector::is_free_of_movingstatics);
   cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_specifically_movingstatics", &Sector::is_free_of_specifically_movingstatics);
+  cls.addFunc("set_allow_item_pocket", &Sector::set_allow_item_pocket);
+  cls.addFunc("is_item_pocket_allowed", &Sector::is_item_pocket_allowed);
 
   cls.addVar("gravity", &Sector::m_gravity);
 }
