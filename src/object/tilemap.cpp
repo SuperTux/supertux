@@ -654,6 +654,12 @@ TileMap::get_tile_id(int x, int y) const
   return m_tiles[y*m_width + x];
 }
 
+uint32_t
+TileMap::get_tile_id(const Vector& pos) const
+{
+  return get_tile_id(static_cast<int>(pos.x), static_cast<int>(pos.y));
+}
+
 bool
 TileMap::is_outside_bounds(const Vector& pos) const
 {
@@ -957,7 +963,7 @@ TileMap::register_class(ssq::VM& vm)
 
   PathObject::register_members(cls);
 
-  cls.addFunc("get_tile_id", &TileMap::get_tile_id);
+  cls.addFunc<uint32_t, TileMap, int, int>("get_tile_id", &TileMap::get_tile_id);
   cls.addFunc<uint32_t, TileMap, float, float>("get_tile_id_at", &TileMap::get_tile_id_at);
   cls.addFunc("change", &TileMap::change);
   cls.addFunc<void, TileMap, float, float, uint32_t>("change_at", &TileMap::change_at);

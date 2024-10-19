@@ -170,6 +170,7 @@ public:
    * @param int $y
    */
   uint32_t get_tile_id(int x, int y) const;
+  uint32_t get_tile_id(const Vector& pos) const;
   /**
    * @scripting
    * @description Returns the ID of the tile at the given position (in world coordinates).
