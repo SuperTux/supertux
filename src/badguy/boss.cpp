@@ -90,14 +90,12 @@ Boss::get_settings()
   /* l10n: Pinch Mode refers to a particular boss mode that gets 
      activated once the boss has lost the specified amounts of lives. 
      This setting specifies how many lives need to be spent until pinch
-     mode is activated. See more: 
-     https://terrariafanideas.fandom.com/wiki/Boss_Pinch_Modes */
+     mode is activated. */
   result.add_int(_("Lives to Pinch Mode"), &m_pinch_lives, "pinch-lives", DEFAULT_PINCH_LIVES);
 
   /* l10n: Pinch Mode refers to a particular boss mode that gets 
     activated once the boss has lost the specified amounts of lives. 
-    This setting specifies the squirrel script that gets run to activate boss mode. 
-    See more: https://terrariafanideas.fandom.com/wiki/Boss_Pinch_Modes */
+    This setting specifies the squirrel script that gets run to activate boss mode.  */
   result.add_script(_("Pinch Mode Activation Script"), &m_pinch_activation_script, "pinch-activation-script");
 
   return result;
