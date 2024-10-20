@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  main.pot (SuperTux v0.6.3-1402-g53b9964a9)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1402-g53b9964a9\n"
+"#-#-#-#-#  main.pot (SuperTux v0.6.3-1408-g128b13cea)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1408-g128b13cea\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-19 05:12+0000\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"#-#-#-#-#  credits.pot (SuperTux v0.6.3-1402-g53b9964a9)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1402-g53b9964a9\n"
+"#-#-#-#-#  credits.pot (SuperTux v0.6.3-1408-g128b13cea)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1408-g128b13cea\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-19 05:12+0000\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,10 +29,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  objects.pot (SuperTux v0.6.3-1402-g53b9964a9)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1402-g53b9964a9\n"
+"#-#-#-#-#  objects.pot (SuperTux v0.6.3-1408-g128b13cea)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1408-g128b13cea\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-19 05:12+0000\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,10 +40,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  tilesets.pot (SuperTux v0.6.3-1402-g53b9964a9)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1402-g53b9964a9\n"
+"#-#-#-#-#  tilesets.pot (SuperTux v0.6.3-1408-g128b13cea)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1408-g128b13cea\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-19 05:12+0000\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,10 +51,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  converters.pot (SuperTux v0.6.3-1402-g53b9964a9)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1402-g53b9964a9\n"
+"#-#-#-#-#  converters.pot (SuperTux v0.6.3-1408-g128b13cea)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1408-g128b13cea\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-19 05:12+0000\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2468,7 +2468,7 @@ msgstr ""
 #: src/object/rublight.cpp:55 src/object/spotlight.cpp:105
 #: src/object/magicblock.cpp:95 src/object/lantern.cpp:62
 #: src/object/torch.cpp:98 src/object/candle.cpp:77
-#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:91
+#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:97
 msgid "Color"
 msgstr ""
 
@@ -4545,11 +4545,18 @@ msgstr ""
 msgid "Lives"
 msgstr ""
 
-#: src/badguy/boss.cpp:89
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies how many lives need to be spent until pinch
+#. mode is activated.
+#: src/badguy/boss.cpp:94
 msgid "Lives to Pinch Mode"
 msgstr ""
 
-#: src/badguy/boss.cpp:90
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies the squirrel script that gets run to activate boss mode.
+#: src/badguy/boss.cpp:99
 msgid "Pinch Mode Activation Script"
 msgstr ""
 
