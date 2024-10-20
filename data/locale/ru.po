@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:30+0000\n"
+"POT-Creation-Date: 2024-10-19 05:12+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Andrei Stepanov, 2018-2021,2024\n"
 "Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
@@ -4415,7 +4415,7 @@ msgid "Yeti"
 msgstr "Йети"
 
 #: src/badguy/fish_swimming.cpp:57 data/images/ice_world.strf:253
-#: data/images/tiles.strf:449 data/images/worldmap.strf:67
+#: data/images/tiles.strf:443 data/images/worldmap.strf:67
 msgid "Forest"
 msgstr "Лес"
 
@@ -5153,51 +5153,55 @@ msgstr "Снежный задний план"
 msgid "Crystal"
 msgstr "Хрусталь"
 
-#: data/images/tiles.strf:660
+#: data/images/tiles.strf:654
 msgid "Forest Background"
 msgstr "Задний план леса"
 
-#: data/images/tiles.strf:826
+#: data/images/tiles.strf:820
 msgid "Corrupted Forest"
 msgstr "Испорченный лес"
 
-#: data/images/tiles.strf:1051
+#: data/images/tiles.strf:1045
 msgid "Corrupted Background"
 msgstr "Испорченный фон"
 
-#: data/images/tiles.strf:1187
+#: data/images/tiles.strf:1181
+msgid "Jagged Rocks"
+msgstr "Зубчатые скалы"
+
+#: data/images/tiles.strf:1225
 msgid "Block + Bonus"
 msgstr "Блок + бонус"
 
-#: data/images/tiles.strf:1265
+#: data/images/tiles.strf:1304
 msgid "Pole + Signs"
 msgstr "Полюс + знаки"
 
-#: data/images/tiles.strf:1309
+#: data/images/tiles.strf:1353
 msgid "Liquid"
 msgstr "Жидкость"
 
-#: data/images/tiles.strf:1333
+#: data/images/tiles.strf:1377
 msgid "Castle"
 msgstr "Замок"
 
-#: data/images/tiles.strf:1457 data/images/worldmap.strf:199
+#: data/images/tiles.strf:1501 data/images/worldmap.strf:199
 msgid "Halloween"
 msgstr "Хэллоуин"
 
-#: data/images/tiles.strf:1498
+#: data/images/tiles.strf:1542
 msgid "Industrial"
 msgstr "Промышленный"
 
-#: data/images/tiles.strf:1513
+#: data/images/tiles.strf:1557
 msgid "Unisolid + Lightmap"
 msgstr "Нецельный снизу + карта освещённости"
 
-#: data/images/tiles.strf:1540
+#: data/images/tiles.strf:1584
 msgid "Miscellaneous"
 msgstr "Разное"
 
-#: data/images/tiles.strf:1579
+#: data/images/tiles.strf:1623
 msgid "Retro Tiles"
 msgstr "Ретро плитка"
 
@@ -5228,3 +5232,13 @@ msgstr "Кристаллические плитки до 0.6.3"
 #: data/images/converters/data.stcd:10
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
 msgstr "Для уровней, созданных в версиях до 0.6.3, в которых используются кристаллические плитки."
+
+#: data/images/converters/data.stcd:13
+msgid "Jagged Rock Tiles from Addon"
+msgstr "Плитки зубчатых скал из дополнения"
+
+#: data/images/converters/data.stcd:15
+msgid ""
+"For levels, created with the rock tiles addon, converts their IDs to vanilla"
+" rock tile IDs"
+msgstr "Для уровней, созданных с помощью дополнения плиток скал, преобразует их идентификаторы в идентификаторы оригинальных плиток скал"

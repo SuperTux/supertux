@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-15 23:30+0000\n"
+"POT-Creation-Date: 2024-10-19 05:12+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: 0ea743a388003249c3a27027490eb004_eb62725 <93be5fa112647d5d896be9f7b3c2eda8_426397>, 2019\n"
 "Language-Team: Japanese (http://app.transifex.com/arctic-games/supertux/language/ja/)\n"
@@ -4419,7 +4419,7 @@ msgid "Yeti"
 msgstr "Yeti"
 
 #: src/badguy/fish_swimming.cpp:57 data/images/ice_world.strf:253
-#: data/images/tiles.strf:449 data/images/worldmap.strf:67
+#: data/images/tiles.strf:443 data/images/worldmap.strf:67
 msgid "Forest"
 msgstr "森"
 
@@ -5157,51 +5157,55 @@ msgstr "雪の背景"
 msgid "Crystal"
 msgstr "クリスタル"
 
-#: data/images/tiles.strf:660
+#: data/images/tiles.strf:654
 msgid "Forest Background"
 msgstr "森の背景"
 
-#: data/images/tiles.strf:826
+#: data/images/tiles.strf:820
 msgid "Corrupted Forest"
 msgstr "腐敗した森"
 
-#: data/images/tiles.strf:1051
+#: data/images/tiles.strf:1045
 msgid "Corrupted Background"
 msgstr "腐敗した背景"
 
-#: data/images/tiles.strf:1187
+#: data/images/tiles.strf:1181
+msgid "Jagged Rocks"
+msgstr ""
+
+#: data/images/tiles.strf:1225
 msgid "Block + Bonus"
 msgstr "ブロックとボーナス"
 
-#: data/images/tiles.strf:1265
+#: data/images/tiles.strf:1304
 msgid "Pole + Signs"
 msgstr "柱と看板"
 
-#: data/images/tiles.strf:1309
+#: data/images/tiles.strf:1353
 msgid "Liquid"
 msgstr "液体"
 
-#: data/images/tiles.strf:1333
+#: data/images/tiles.strf:1377
 msgid "Castle"
 msgstr "城"
 
-#: data/images/tiles.strf:1457 data/images/worldmap.strf:199
+#: data/images/tiles.strf:1501 data/images/worldmap.strf:199
 msgid "Halloween"
 msgstr "ハロウィン"
 
-#: data/images/tiles.strf:1498
+#: data/images/tiles.strf:1542
 msgid "Industrial"
 msgstr "工場"
 
-#: data/images/tiles.strf:1513
+#: data/images/tiles.strf:1557
 msgid "Unisolid + Lightmap"
 msgstr "ユニソリッドとライトマップ"
 
-#: data/images/tiles.strf:1540
+#: data/images/tiles.strf:1584
 msgid "Miscellaneous"
 msgstr "その他"
 
-#: data/images/tiles.strf:1579
+#: data/images/tiles.strf:1623
 msgid "Retro Tiles"
 msgstr "レトロタイル"
 
@@ -5231,4 +5235,14 @@ msgstr ""
 
 #: data/images/converters/data.stcd:10
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
+msgstr ""
+
+#: data/images/converters/data.stcd:13
+msgid "Jagged Rock Tiles from Addon"
+msgstr ""
+
+#: data/images/converters/data.stcd:15
+msgid ""
+"For levels, created with the rock tiles addon, converts their IDs to vanilla"
+" rock tile IDs"
 msgstr ""

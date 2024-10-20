@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-17 07:49+0000\n"
+"POT-Creation-Date: 2024-10-19 05:12+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>, 2020\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
@@ -4414,7 +4414,7 @@ msgid "Yeti"
 msgstr "雪大王"
 
 #: src/badguy/fish_swimming.cpp:57 data/images/ice_world.strf:253
-#: data/images/tiles.strf:449 data/images/worldmap.strf:67
+#: data/images/tiles.strf:443 data/images/worldmap.strf:67
 msgid "Forest"
 msgstr "森林"
 
@@ -5152,51 +5152,55 @@ msgstr "雪背景"
 msgid "Crystal"
 msgstr "水晶"
 
-#: data/images/tiles.strf:660
+#: data/images/tiles.strf:654
 msgid "Forest Background"
 msgstr "森林背景"
 
-#: data/images/tiles.strf:826
+#: data/images/tiles.strf:820
 msgid "Corrupted Forest"
 msgstr "腐烂森林"
 
-#: data/images/tiles.strf:1051
+#: data/images/tiles.strf:1045
 msgid "Corrupted Background"
 msgstr "腐烂背景"
 
-#: data/images/tiles.strf:1187
+#: data/images/tiles.strf:1181
+msgid "Jagged Rocks"
+msgstr ""
+
+#: data/images/tiles.strf:1225
 msgid "Block + Bonus"
 msgstr "方块 + 奖励"
 
-#: data/images/tiles.strf:1265
+#: data/images/tiles.strf:1304
 msgid "Pole + Signs"
 msgstr "杆子 + 标志"
 
-#: data/images/tiles.strf:1309
+#: data/images/tiles.strf:1353
 msgid "Liquid"
 msgstr "流体"
 
-#: data/images/tiles.strf:1333
+#: data/images/tiles.strf:1377
 msgid "Castle"
 msgstr "城堡"
 
-#: data/images/tiles.strf:1457 data/images/worldmap.strf:199
+#: data/images/tiles.strf:1501 data/images/worldmap.strf:199
 msgid "Halloween"
 msgstr "万圣节"
 
-#: data/images/tiles.strf:1498
+#: data/images/tiles.strf:1542
 msgid "Industrial"
 msgstr "工业"
 
-#: data/images/tiles.strf:1513
+#: data/images/tiles.strf:1557
 msgid "Unisolid + Lightmap"
 msgstr "单向固体 + 光照地图"
 
-#: data/images/tiles.strf:1540
+#: data/images/tiles.strf:1584
 msgid "Miscellaneous"
 msgstr "杂项"
 
-#: data/images/tiles.strf:1579
+#: data/images/tiles.strf:1623
 msgid "Retro Tiles"
 msgstr "复古图块"
 
@@ -5227,3 +5231,13 @@ msgstr "0.6.3 之前的水晶图块"
 #: data/images/converters/data.stcd:10
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
 msgstr "用于在 0.6.3 之前的版本创建的关卡，这些关卡使用水晶图块。"
+
+#: data/images/converters/data.stcd:13
+msgid "Jagged Rock Tiles from Addon"
+msgstr ""
+
+#: data/images/converters/data.stcd:15
+msgid ""
+"For levels, created with the rock tiles addon, converts their IDs to vanilla"
+" rock tile IDs"
+msgstr ""
