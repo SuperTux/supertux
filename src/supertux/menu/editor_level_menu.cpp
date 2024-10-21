@@ -37,6 +37,13 @@ EditorLevelMenu::EditorLevelMenu() :
   add_textfield(_("Level Note"), &(level->m_note));
   add_file(_("Tileset"), &(level->m_tileset), std::vector<std::string>(1, ".strf"), {}, true);
 
+  std::vector<std::string> choices = {_("No"), _("Yes")};
+  if (!is_worldmap)
+  {
+    choices.push_back(_("Inherit"));
+  }
+  add_string_select(-1, _("Allow Item Pocket"), &(level->m_allow_item_pocket), choices);
+
   if (!is_worldmap)
   {
     add_floatfield(_("Target Time"), &(level->m_target_time));

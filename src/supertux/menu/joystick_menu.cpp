@@ -74,6 +74,7 @@ JoystickMenu::recreate_menu()
       add_controlfield(static_cast<int>(Control::RIGHT),       _("Right"));
       add_controlfield(static_cast<int>(Control::JUMP),        _("Jump"));
       add_controlfield(static_cast<int>(Control::ACTION),      _("Action"));
+      add_controlfield(static_cast<int>(Control::ITEM),        _("Item Pocket"));
       add_controlfield(static_cast<int>(Control::START),       _("Pause/Menu"));
       add_controlfield(static_cast<int>(Control::PEEK_LEFT),   _("Peek Left"));
       add_controlfield(static_cast<int>(Control::PEEK_RIGHT),  _("Peek Right"));
@@ -228,6 +229,7 @@ JoystickMenu::refresh()
 
     refresh_menu_item(Control::JUMP);
     refresh_menu_item(Control::ACTION);
+    refresh_menu_item(Control::ITEM);
     refresh_menu_item(Control::START);
     refresh_menu_item(Control::PEEK_LEFT);
     refresh_menu_item(Control::PEEK_RIGHT);
