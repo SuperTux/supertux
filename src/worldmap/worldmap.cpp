@@ -18,6 +18,8 @@
 
 #include "worldmap/worldmap.hpp"
 
+#include <physfs.h>
+
 #include "audio/sound_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
@@ -27,6 +29,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/player_status_hud.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
@@ -35,6 +38,8 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
+#include "video/sdl_surface.hpp"
+#include "video/sdl_surface_ptr.hpp"
 #include "worldmap/direction.hpp"
 #include "worldmap/level_tile.hpp"
 #include "worldmap/tux.hpp"
@@ -61,7 +66,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   m_passive_message_timer(),
   m_enter_level(false),
   m_in_level(false),
-  m_in_world_select(false)
+  m_in_world_select(false),
+  m_screenshot_request(false)
 {
   SoundManager::current()->preload("sounds/warp.wav");
 
@@ -115,10 +121,30 @@ WorldMap::setup()
 void
 WorldMap::leave()
 {
+  if (m_screenshot_request)
+  {
+    take_preview_screenshot();
+    ScreenManager::current()->set_draw_hud(true);
+  }
+
   save_state();
   m_sector->leave();
 
   GameManager::current()->load_next_worldmap();
+}
+
+void
+WorldMap::quit()
+{
+  if (g_config->show_world_previews)
+  {
+    // Prepare to take preview screenshot, when leaving the worldmap.
+    m_screenshot_request = true;
+    ScreenManager::current()->set_draw_hud(false);
+    m_sector->get_singleton_by_type<PlayerStatusHUD>().remove_me();
+  }
+
+  ScreenManager::current()->pop_screen();
 }
 
 
@@ -190,6 +216,36 @@ WorldMap::process_input(const Controller& controller)
   {
     MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
   }
+}
+
+
+void
+WorldMap::take_preview_screenshot()
+{
+  SDLSurfacePtr screenshot = VideoSystem::current()->make_screenshot();
+  if (!screenshot)
+  {
+    log_warning << "Error taking worldmap preview screenshot." << std::endl;
+    return;
+  }
+
+  const std::string directory = FileSystem::join("profile" + std::to_string(g_config->profile), "previews");
+  if (!PHYSFS_exists(directory.c_str()) && !PHYSFS_mkdir(directory.c_str()))
+  {
+    log_warning << "Cannot create directory '" << directory << "' for worldmap previews." << std::endl;
+    return;
+  }
+
+  const std::string file = FileSystem::strip_extension(FileSystem::basename(m_savegame.get_filename())) + ".png";
+  const std::string path = FileSystem::join(directory, file);
+  if (PHYSFS_exists(path.c_str()) && !PHYSFS_delete(path.c_str()))
+  {
+    log_warning << "Error deleting existing worldmap screenshot preview '" << path << "'." << std::endl;
+    return;
+  }
+
+  if (!SDLSurface::save_png(*screenshot, path))
+    log_warning << "Cannot save worldmap screenshot preview '" << path << "'." << std::endl;
 }
 
 
