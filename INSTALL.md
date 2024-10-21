@@ -261,7 +261,7 @@ Once dependencies are installed:
 
 3. Open a console window and navigate to the `build` directory.
 
-5. Run `cmake .. -A Win32 -DCMAKE_BUILD_TYPE=Release -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=C:/PATH/TO/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x86-windows`.
+5. Run `cmake .. -DCMAKE_BUILD_TYPE=Release -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=C:/PATH/TO/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows`.
 
     **Make sure to change the path to vcpkg to the actual path to vcpkg on your system!**
 
