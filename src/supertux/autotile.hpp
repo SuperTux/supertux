@@ -100,6 +100,8 @@ public:
   /** Returns the id of the first block in the autotileset. Used for erronous configs. */
   uint32_t get_default_tile() const { return m_default; }
 
+  const std::string& get_name() const { return m_name; }
+
   /** true if the given tile is present in the autotileset */
   bool is_member(uint32_t tile_id) const;
 
