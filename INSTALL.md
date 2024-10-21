@@ -248,10 +248,10 @@ Once all of these are installed; you may install dependencies with vcpkg. In any
 ```
 ./bootstrap-vcpkg.bat -disableMetrics
 ./vcpkg integrate install
-./vcpkg install --triplet=x86-windows gtest curl freetype glew libogg libraqm libvorbis openal-soft sdl2 sdl2-image[libjpeg-turbo] glm zlib
+./vcpkg install --triplet=x64-windows gtest curl freetype glew libogg libraqm libvorbis openal-soft sdl2 sdl2-image[libjpeg-turbo] glm zlib
 ```
 
-**Note:** If you wish to produce 64-bit builds, replace `--triplet=x86-windows` with `--triplet=x64-windows`.
+**Note:** If you wish to produce 32-bit builds, replace `--triplet=x64-windows` with `--triplet=x86-windows`.
 
 Once dependencies are installed:
 
