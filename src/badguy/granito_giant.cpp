@@ -25,7 +25,7 @@ GranitoGiant::GranitoGiant(const ReaderMapping& reader):
 }
 
 HitResponse
-GranitoGiant::collision_player(Player &player, const CollisionHit &hit)
+GranitoGiant::collision(GameObject& other, const CollisionHit& hit)
 {
   return FORCE_MOVE;
 }
