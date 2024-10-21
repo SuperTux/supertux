@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-19 05:12+0000\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Grzegorz Przybylski <zwatotem@gmail.com>, 2024\n"
 "Language-Team: Polish (http://app.transifex.com/arctic-games/supertux/language/pl/)\n"
@@ -2448,7 +2448,7 @@ msgstr "SUPERTUX2_DATA_DIR                    Ścieżka dla danych gry"
 #: src/object/rublight.cpp:55 src/object/spotlight.cpp:105
 #: src/object/magicblock.cpp:95 src/object/lantern.cpp:62
 #: src/object/torch.cpp:98 src/object/candle.cpp:77
-#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:91
+#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:97
 msgid "Color"
 msgstr "Kolor"
 
@@ -4544,11 +4544,19 @@ msgstr "Roślina"
 msgid "Lives"
 msgstr "Życia"
 
-#: src/badguy/boss.cpp:89
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies how many lives need to be spent until pinch
+#. mode is activated.
+#: src/badguy/boss.cpp:94
 msgid "Lives to Pinch Mode"
 msgstr ""
 
-#: src/badguy/boss.cpp:90
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies the squirrel script that gets run to activate boss
+#. mode.
+#: src/badguy/boss.cpp:99
 msgid "Pinch Mode Activation Script"
 msgstr ""
 

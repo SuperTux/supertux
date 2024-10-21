@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-19 05:12+0000\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Любомир Василев, 2021,2024\n"
 "Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
@@ -2431,7 +2431,7 @@ msgstr "  SUPERTUX2_DATA_DIR            Папка с файловете с да
 #: src/object/rublight.cpp:55 src/object/spotlight.cpp:105
 #: src/object/magicblock.cpp:95 src/object/lantern.cpp:62
 #: src/object/torch.cpp:98 src/object/candle.cpp:77
-#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:91
+#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:97
 msgid "Color"
 msgstr "Цвят"
 
@@ -4527,13 +4527,21 @@ msgstr "Растение"
 msgid "Lives"
 msgstr "Животи"
 
-#: src/badguy/boss.cpp:89
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies how many lives need to be spent until pinch
+#. mode is activated.
+#: src/badguy/boss.cpp:94
 msgid "Lives to Pinch Mode"
-msgstr ""
+msgstr "Животи преди активиране на Притиснатия режим"
 
-#: src/badguy/boss.cpp:90
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies the squirrel script that gets run to activate boss
+#. mode.
+#: src/badguy/boss.cpp:99
 msgid "Pinch Mode Activation Script"
-msgstr ""
+msgstr "Скрипт за активиране на Притиснатия режим"
 
 #: src/badguy/smartball.cpp:35
 msgid "Pumpkin"
@@ -4561,7 +4569,7 @@ msgstr "Скрипт за засичане"
 
 #: src/badguy/granito.cpp:260
 msgid "Carried script"
-msgstr "Скрипта за обекта, който бива носен"
+msgstr "Скрипт за обекта, който бива носен"
 
 #: src/badguy/granito.cpp:277 src/badguy/granito_big.cpp:73
 msgid "Default"

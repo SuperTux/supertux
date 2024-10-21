@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-19 05:12+0000\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2021,2024\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
@@ -1524,7 +1524,7 @@ msgstr "Frame-Vorhersage"
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
-msgstr ""
+msgstr "Flüssige Kamerabewegungen, welche durch die Generierung von Zwischenframes erreicht wird. Dies hat einen wahrnehmbaren Effekt auf Monitoren mit >> 60 Hz. Sich bewegende Objekte könnten unscharf werden."
 
 #: src/supertux/menu/options_menu.cpp:122
 msgid "Camera Peek Multiplier"
@@ -1767,11 +1767,11 @@ msgstr "Musiklautstärke anpassen"
 
 #: src/supertux/menu/options_menu.cpp:548
 msgid "Flash Intensity"
-msgstr ""
+msgstr "Blitz-Intensität"
 
 #: src/supertux/menu/options_menu.cpp:549
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr ""
+msgstr "Die Intensität des vom Gewitter erzeugten Blitzes anpassen"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "On-screen controls scale"
@@ -2446,7 +2446,7 @@ msgstr "  SUPERTUX2_DATA_DIR           Verzeichnis für Spieldatendateien"
 #: src/object/rublight.cpp:55 src/object/spotlight.cpp:105
 #: src/object/magicblock.cpp:95 src/object/lantern.cpp:62
 #: src/object/torch.cpp:98 src/object/candle.cpp:77
-#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:91
+#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:97
 msgid "Color"
 msgstr "Farbe"
 
@@ -4542,11 +4542,19 @@ msgstr "Pflanze"
 msgid "Lives"
 msgstr "Leben"
 
-#: src/badguy/boss.cpp:89
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies how many lives need to be spent until pinch
+#. mode is activated.
+#: src/badguy/boss.cpp:94
 msgid "Lives to Pinch Mode"
 msgstr ""
 
-#: src/badguy/boss.cpp:90
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies the squirrel script that gets run to activate boss
+#. mode.
+#: src/badguy/boss.cpp:99
 msgid "Pinch Mode Activation Script"
 msgstr ""
 
@@ -5178,7 +5186,7 @@ msgstr "Verdorbener Hintergrund"
 
 #: data/images/tiles.strf:1181
 msgid "Jagged Rocks"
-msgstr ""
+msgstr "Scharfkantige Felsen"
 
 #: data/images/tiles.strf:1225
 msgid "Block + Bonus"
@@ -5246,7 +5254,7 @@ msgstr "Für Levels, die in Versionen vor pre-0.6.3 erstellt wurden, die Kristal
 
 #: data/images/converters/data.stcd:13
 msgid "Jagged Rock Tiles from Addon"
-msgstr ""
+msgstr "Scharfkantige Felsenkacheln aus einem Add-on"
 
 #: data/images/converters/data.stcd:15
 msgid ""

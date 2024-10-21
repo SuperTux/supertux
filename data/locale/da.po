@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-19 05:12+0000\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Lars Lyngby <larslyngby@hotmail.com>, 2022,2024\n"
 "Language-Team: Danish (http://app.transifex.com/arctic-games/supertux/language/da/)\n"
@@ -199,15 +199,15 @@ msgstr "Luk"
 
 #: src/supertux/statistics.cpp:70
 msgid "Enable Coins Statistic"
-msgstr ""
+msgstr "Aktivér møntstatistik"
 
 #: src/supertux/statistics.cpp:71
 msgid "Enable Badguys Statistic"
-msgstr ""
+msgstr "Aktivér SlemmeFyre-statistik"
 
 #: src/supertux/statistics.cpp:72
 msgid "Enable Secrets Statistic"
-msgstr ""
+msgstr "Aktivér hemmelighedsstatistik"
 
 #: src/supertux/statistics.cpp:93
 msgid "Max coins collected:"
@@ -614,7 +614,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Genvejstaster:\n---------------------\nEsc = Åbn menu\nCtrl+S = Gem\nCtrl+T = Test\nCtrl+Z = Fortryd\nCtrl+Y = Gendan\nF5 = Slå automatisk opdeling til/fra\nF6 = Renderingslys\nF7 = Gitterindfangning\nF8 = Vis gitter\nCtrl++ or Ctrl+Scroll Up = Zoom ind\nCtrl+- or Ctrl+Scroll Down = Zoom ud\nCtrl+D = Nulstil zoom\n\nScriptgenveje:\n    -------------    \nHome = Gå til linjestart\nEnd = Gå til linjeslut\nLeft arrow = Gå tilbage i teksten\nRight arrow = Gå frem i teksten\nBackspace = Slet foran cursor\nDelete = Slet bag cursor\nCtrl+X = Klip hele linjen\nCtrl+C = Kopiér hele linjen\nCtrl+V = Indsæt\nCtrl+D = Duplikér linjen\nCtrl+Z = Fortryd\nCtrl+Y = Gendan"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
@@ -670,7 +670,7 @@ msgstr "Brug bitmap-skrifttyper"
 
 #: src/supertux/menu/debug_menu.cpp:74
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr ""
+msgstr "Vis flise-ID'er i redigeringsprogrammets værktøjskasse"
 
 #: src/supertux/menu/debug_menu.cpp:75
 msgid "Dump Texture Cache"
@@ -955,15 +955,15 @@ msgstr "Ingen tilføjelser er installeret"
 
 #: src/supertux/menu/addon_menu.cpp:125
 msgid "{} *UPDATE*"
-msgstr ""
+msgstr "{} *OPDATÉR*"
 
 #: src/supertux/menu/addon_menu.cpp:127
 msgid "{} [DISABLED] *UPDATE*"
-msgstr ""
+msgstr "{} [SLÅET FRA] *OPDATÉR*"
 
 #: src/supertux/menu/addon_menu.cpp:136
 msgid "{} [DISABLED]"
-msgstr ""
+msgstr "{} [SLÅET FRA]"
 
 #: src/supertux/menu/addon_menu.cpp:146
 msgid "No updates available."
@@ -1500,24 +1500,24 @@ msgstr "Tilpas opløsningen til størrelsen af din browser"
 
 #: src/supertux/menu/options_menu.cpp:113
 msgid "Frame prediction"
-msgstr ""
+msgstr "Billedforudsigelse"
 
 #: src/supertux/menu/options_menu.cpp:114
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
-msgstr ""
+msgstr "Ubrudt kamerabevægelse gennem beregnede mellembilleder. Har en mærkbar effekt på skærme ved >> 60Hz. Bevægende objekter kan være uskarpe."
 
 #: src/supertux/menu/options_menu.cpp:122
 msgid "Camera Peek Multiplier"
-msgstr ""
+msgstr "Kamera kiggemultiplikator"
 
 #: src/supertux/menu/options_menu.cpp:123
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
-msgstr ""
+msgstr "Brøkdelsafstanden mod kameraets kiggeposition, som hvert billede skal flyttes.\n\n0 = Ikke kigge, 1 = Kig omgående"
 
 #: src/supertux/menu/options_menu.cpp:125
 msgid "Change Video System"
@@ -1749,11 +1749,11 @@ msgstr "Juster musiklydstyrke"
 
 #: src/supertux/menu/options_menu.cpp:548
 msgid "Flash Intensity"
-msgstr ""
+msgstr "Blitzintensitet"
 
 #: src/supertux/menu/options_menu.cpp:549
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr ""
+msgstr "Juster intensiteten af blitz produceret af tordenvejret"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "On-screen controls scale"
@@ -2428,7 +2428,7 @@ msgstr "  SUPERTUX2_DATA_DIR           Mappe for spillenes datafiler"
 #: src/object/rublight.cpp:55 src/object/spotlight.cpp:105
 #: src/object/magicblock.cpp:95 src/object/lantern.cpp:62
 #: src/object/torch.cpp:98 src/object/candle.cpp:77
-#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:91
+#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:97
 msgid "Color"
 msgstr "Farve"
 
@@ -2623,7 +2623,7 @@ msgstr "Baggrund"
 
 #: src/object/bigsnowball.hpp:39
 msgid "Big Snowball"
-msgstr ""
+msgstr "Stor snebold"
 
 #: src/object/shard.hpp:35
 msgid "Shard"
@@ -2725,7 +2725,7 @@ msgstr "Fancy partikler"
 
 #: src/object/wind.cpp:88
 msgid "Particles Enabled"
-msgstr ""
+msgstr "Partikler aktiveret"
 
 #: src/object/ambient_light.hpp:37
 msgid "Ambient Light"
@@ -3232,11 +3232,11 @@ msgstr "Ram-skript"
 
 #: src/object/bigsnowball.cpp:83
 msgid "Break on impact?"
-msgstr ""
+msgstr "Gå i stykker ved sammenstød?"
 
 #: src/object/bigsnowball.cpp:84
 msgid "Bounce?"
-msgstr ""
+msgstr "Hop?"
 
 #: src/object/fallblock.hpp:41
 msgid "Falling Platform"
@@ -3284,7 +3284,7 @@ msgstr "Tordenvejr"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
-msgstr ""
+msgstr "Klistret"
 
 #: src/object/level_time.hpp:75
 msgid "Time Limit"
@@ -3787,7 +3787,7 @@ msgstr "Sektor: {}"
 
 #: src/editor/layers_widget.cpp:464
 msgid "Add Layer"
-msgstr ""
+msgstr "Tilføj lag"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -4524,13 +4524,21 @@ msgstr "Plante"
 msgid "Lives"
 msgstr "Liv"
 
-#: src/badguy/boss.cpp:89
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies how many lives need to be spent until pinch
+#. mode is activated.
+#: src/badguy/boss.cpp:94
 msgid "Lives to Pinch Mode"
-msgstr ""
+msgstr "Liv til klemmetilstand"
 
-#: src/badguy/boss.cpp:90
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies the squirrel script that gets run to activate boss
+#. mode.
+#: src/badguy/boss.cpp:99
 msgid "Pinch Mode Activation Script"
-msgstr ""
+msgstr "Klemmetilstandsaktiveringsscript"
 
 #: src/badguy/smartball.cpp:35
 msgid "Pumpkin"
@@ -4554,11 +4562,11 @@ msgstr "Dart"
 
 #: src/badguy/granito.cpp:259
 msgid "Detect script"
-msgstr ""
+msgstr "Detektér script"
 
 #: src/badguy/granito.cpp:260
 msgid "Carried script"
-msgstr ""
+msgstr "Båret script"
 
 #: src/badguy/granito.cpp:277 src/badguy/granito_big.cpp:73
 msgid "Default"
@@ -4574,7 +4582,7 @@ msgstr "Gående"
 
 #: src/badguy/granito.cpp:280 src/badguy/granito_big.cpp:76
 msgid "Scriptable"
-msgstr ""
+msgstr "Skriptbar"
 
 #: src/badguy/granito.cpp:283
 msgid "Sitting"
@@ -4618,7 +4626,7 @@ msgstr "Harmløs fisk"
 
 #: src/badguy/granito_big.cpp:64
 msgid "Carrying Script"
-msgstr ""
+msgstr "Bærer script"
 
 #: src/badguy/fish_swimming.hpp:40
 msgid "Swimming Fish"
@@ -4674,7 +4682,7 @@ msgstr "Vilkårlig"
 
 #: src/badguy/dispenser.cpp:421
 msgid "Limit dispensed badguys"
-msgstr "Begræns antallet af onde folk"
+msgstr "Begræns antallet af slemme fyre"
 
 #: src/badguy/dispenser.cpp:423
 msgid "Obey Gravity"
@@ -4682,7 +4690,7 @@ msgstr "Adlyd tyngdekraften"
 
 #: src/badguy/dispenser.cpp:425
 msgid "Max concurrent badguys"
-msgstr "Maks samtidige onde folk"
+msgstr "Maks samtidige slemme fyre"
 
 #: src/badguy/dispenser.cpp:437
 msgid "Dropper"
@@ -5112,7 +5120,7 @@ msgstr "Ishule og krystal"
 
 #: data/images/ice_world.strf:169
 msgid "Snow Embellishments"
-msgstr ""
+msgstr "Vis udsmykninger"
 
 #: data/images/ice_world.strf:339
 msgid "Underground Forest"
@@ -5120,7 +5128,7 @@ msgstr "Undergrundsskov"
 
 #: data/images/ice_world.strf:417
 msgid "Trees & Rocks"
-msgstr ""
+msgstr "Træer & sten"
 
 #: data/images/ice_world.strf:494
 msgid "Seasonal"
@@ -5160,7 +5168,7 @@ msgstr "Ødelagt baggrund"
 
 #: data/images/tiles.strf:1181
 msgid "Jagged Rocks"
-msgstr ""
+msgstr "Flossede sten"
 
 #: data/images/tiles.strf:1225
 msgid "Block + Bonus"
@@ -5228,10 +5236,10 @@ msgstr "Til baner skabt i pre-0.6.3-versioner, der bruger krystalfelter."
 
 #: data/images/converters/data.stcd:13
 msgid "Jagged Rock Tiles from Addon"
-msgstr ""
+msgstr "Flossede stenfliser fra tilføjelse"
 
 #: data/images/converters/data.stcd:15
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
-msgstr ""
+msgstr "For baner fremstillet med stenflisetilføjelsen konverterer deres ID'er til standard stenflise-ID'er"

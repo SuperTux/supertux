@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-19 05:12+0000\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Fúlvio Alves <fga.fulvio@gmail.com>, 2020-2021,2023-2024\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
@@ -211,15 +211,15 @@ msgstr "Fechar"
 
 #: src/supertux/statistics.cpp:70
 msgid "Enable Coins Statistic"
-msgstr ""
+msgstr "Ativar Estatísticas de Moedas"
 
 #: src/supertux/statistics.cpp:71
 msgid "Enable Badguys Statistic"
-msgstr ""
+msgstr "Ativar Estatísticas de Inimigos"
 
 #: src/supertux/statistics.cpp:72
 msgid "Enable Secrets Statistic"
-msgstr ""
+msgstr "Ativar Estatísticas de Segredos"
 
 #: src/supertux/statistics.cpp:93
 msgid "Max coins collected:"
@@ -627,7 +627,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Atalhos de Teclado:\n---------------------\nEsc = Abrir Menu\nCtrl+S = Salvar\nCtrl+T = Testar\nCtrl+Z = Desfazer\nCtrl+Y = Refazer\nF5 = Alternar Autotiling\nF6 = Renderizar Luz\nF7 = Encaixar na Grade\nF8 = Mostrar Grade\nCtrl++ ou Ctrl+Rodar para cima = Aumentar Zoom\nCtrl+- ou Ctrl+Rodar para baixo = Diminuir Zoom\nCtrl+D = Redefinir Zoom\n\nAtalhos de Script:\n    -------------    \nHome = Ir para o início da lina\nEnd = Ir para o fim da linha\nSeta esquerda = Voltar no texto\nSeta direita = Avançar no texto\nBackspace = Apagar na frente do cursor de texto\nDelete = Apagar atrás do cursor de texto\nCtrl+X = Cortar linha inteira\nCtrl+C = Copiar linha inteira\nCtrl+V = Colar\nCtrl+D = Duplicar linha\nCtrl+Z = Desfazer\nCtrl+Y = Refazer"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
@@ -683,7 +683,7 @@ msgstr "Usar Fontes Bitmap"
 
 #: src/supertux/menu/debug_menu.cpp:74
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr ""
+msgstr "Mostrar IDs de blocos na caixa de ferramentas do Editor"
 
 #: src/supertux/menu/debug_menu.cpp:75
 msgid "Dump Texture Cache"
@@ -968,15 +968,15 @@ msgstr "Não há Complementos instalados"
 
 #: src/supertux/menu/addon_menu.cpp:125
 msgid "{} *UPDATE*"
-msgstr ""
+msgstr "{} *ATUALIZAÇÃO*"
 
 #: src/supertux/menu/addon_menu.cpp:127
 msgid "{} [DISABLED] *UPDATE*"
-msgstr ""
+msgstr "{} [DESATIVADO] *ATUALIZAÇÃO*"
 
 #: src/supertux/menu/addon_menu.cpp:136
 msgid "{} [DISABLED]"
-msgstr ""
+msgstr "{} [DESATIVADO]"
 
 #: src/supertux/menu/addon_menu.cpp:146
 msgid "No updates available."
@@ -1513,24 +1513,24 @@ msgstr "Ajustar a resolução ao tamanho do seu navegador"
 
 #: src/supertux/menu/options_menu.cpp:113
 msgid "Frame prediction"
-msgstr ""
+msgstr "Previsão de quadros"
 
 #: src/supertux/menu/options_menu.cpp:114
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
-msgstr ""
+msgstr "Movimento suave da câmera, gerando quadros intermediários. Isso tem um efeito perceptível em monitores em >> 60Hz. Objetos em movimento podem ficar desfocados."
 
 #: src/supertux/menu/options_menu.cpp:122
 msgid "Camera Peek Multiplier"
-msgstr ""
+msgstr "Multiplicador de Espiada da Câmera"
 
 #: src/supertux/menu/options_menu.cpp:123
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
-msgstr ""
+msgstr "A distância fracionária em direção à posição de pico da câmera para mover cada quadro.\n\n0 = Sem espiada, 1 = Espiada instantânea"
 
 #: src/supertux/menu/options_menu.cpp:125
 msgid "Change Video System"
@@ -1762,11 +1762,11 @@ msgstr "Ajustar volume de música"
 
 #: src/supertux/menu/options_menu.cpp:548
 msgid "Flash Intensity"
-msgstr ""
+msgstr "Intensidade do Flash"
 
 #: src/supertux/menu/options_menu.cpp:549
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr ""
+msgstr "Ajuste a intensidade do flash produzido pela tempestade"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "On-screen controls scale"
@@ -2441,7 +2441,7 @@ msgstr "  DIRETÓRIOdosDADOSdoSUPERTUX2           Diretório para os arquivos do
 #: src/object/rublight.cpp:55 src/object/spotlight.cpp:105
 #: src/object/magicblock.cpp:95 src/object/lantern.cpp:62
 #: src/object/torch.cpp:98 src/object/candle.cpp:77
-#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:91
+#: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:97
 msgid "Color"
 msgstr "Cor"
 
@@ -2636,7 +2636,7 @@ msgstr "Fundo"
 
 #: src/object/bigsnowball.hpp:39
 msgid "Big Snowball"
-msgstr ""
+msgstr "Grande Bola de Neve"
 
 #: src/object/shard.hpp:35
 msgid "Shard"
@@ -2738,7 +2738,7 @@ msgstr "Partículas Chiques"
 
 #: src/object/wind.cpp:88
 msgid "Particles Enabled"
-msgstr ""
+msgstr "Partículas Ativadas"
 
 #: src/object/ambient_light.hpp:37
 msgid "Ambient Light"
@@ -3245,11 +3245,11 @@ msgstr "Script ao tocar"
 
 #: src/object/bigsnowball.cpp:83
 msgid "Break on impact?"
-msgstr ""
+msgstr "Quebrar com o impacto?"
 
 #: src/object/bigsnowball.cpp:84
 msgid "Bounce?"
-msgstr ""
+msgstr "Pular?"
 
 #: src/object/fallblock.hpp:41
 msgid "Falling Platform"
@@ -3297,7 +3297,7 @@ msgstr "Tempestade"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
-msgstr ""
+msgstr "Pegajoso"
 
 #: src/object/level_time.hpp:75
 msgid "Time Limit"
@@ -3800,7 +3800,7 @@ msgstr "Setor: {}"
 
 #: src/editor/layers_widget.cpp:464
 msgid "Add Layer"
-msgstr ""
+msgstr "Adicionar Camada"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -4537,13 +4537,21 @@ msgstr "Planta"
 msgid "Lives"
 msgstr "Vidas"
 
-#: src/badguy/boss.cpp:89
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies how many lives need to be spent until pinch
+#. mode is activated.
+#: src/badguy/boss.cpp:94
 msgid "Lives to Pinch Mode"
-msgstr ""
+msgstr "Vidas para o Modo Agressivo"
 
-#: src/badguy/boss.cpp:90
+#. l10n: Pinch Mode refers to a particular boss mode that gets
+#. activated once the boss has lost the specified amounts of lives.
+#. This setting specifies the squirrel script that gets run to activate boss
+#. mode.
+#: src/badguy/boss.cpp:99
 msgid "Pinch Mode Activation Script"
-msgstr ""
+msgstr "Script de ativação do Modo Agressivo"
 
 #: src/badguy/smartball.cpp:35
 msgid "Pumpkin"
@@ -4567,11 +4575,11 @@ msgstr "Dardo"
 
 #: src/badguy/granito.cpp:259
 msgid "Detect script"
-msgstr ""
+msgstr "Detectar script"
 
 #: src/badguy/granito.cpp:260
 msgid "Carried script"
-msgstr ""
+msgstr "Script carregado"
 
 #: src/badguy/granito.cpp:277 src/badguy/granito_big.cpp:73
 msgid "Default"
@@ -4587,7 +4595,7 @@ msgstr "Andando"
 
 #: src/badguy/granito.cpp:280 src/badguy/granito_big.cpp:76
 msgid "Scriptable"
-msgstr ""
+msgstr "Scriptável"
 
 #: src/badguy/granito.cpp:283
 msgid "Sitting"
@@ -4631,7 +4639,7 @@ msgstr "Peixe Inofensivo"
 
 #: src/badguy/granito_big.cpp:64
 msgid "Carrying Script"
-msgstr ""
+msgstr "Carregando Script"
 
 #: src/badguy/fish_swimming.hpp:40
 msgid "Swimming Fish"
@@ -4915,7 +4923,7 @@ msgstr "Empacotamento, Builds Noturnas"
 
 #: data/credits.stxt:200
 msgid "Translation Guru (and many details anyone else could have done)"
-msgstr "Guro de Tradução (e muitos detalhes que qualquer outro poderia ter feito)"
+msgstr "Guru de Tradução (e muitos detalhes que qualquer outro poderia ter feito)"
 
 #: data/credits.stxt:450
 msgid "Additional contributors"
@@ -5125,7 +5133,7 @@ msgstr "Caverna de Gelo e Cristal"
 
 #: data/images/ice_world.strf:169
 msgid "Snow Embellishments"
-msgstr ""
+msgstr "Embelezamentos de Neve"
 
 #: data/images/ice_world.strf:339
 msgid "Underground Forest"
@@ -5133,7 +5141,7 @@ msgstr "Floresta Subterrânea"
 
 #: data/images/ice_world.strf:417
 msgid "Trees & Rocks"
-msgstr ""
+msgstr "Árvores e Rochas"
 
 #: data/images/ice_world.strf:494
 msgid "Seasonal"
@@ -5173,7 +5181,7 @@ msgstr "Fundo Corrompido"
 
 #: data/images/tiles.strf:1181
 msgid "Jagged Rocks"
-msgstr ""
+msgstr "Rochas Irregulares"
 
 #: data/images/tiles.strf:1225
 msgid "Block + Bonus"
@@ -5241,10 +5249,10 @@ msgstr "Para níveis criados em versões anteriores à 0.6.3, que utilizam bloco
 
 #: data/images/converters/data.stcd:13
 msgid "Jagged Rock Tiles from Addon"
-msgstr ""
+msgstr "Pedras de Rochas Irregulares do Complemento"
 
 #: data/images/converters/data.stcd:15
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
-msgstr ""
+msgstr "Para níveis, criados com o complemento de peças de pedra, converte seus IDs em IDs de peças de pedra vanilla"
