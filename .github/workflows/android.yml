@@ -17,134 +17,116 @@
 
 name: Android
 on:
+  workflow_dispatch:
+    inputs: {}
   push:
     branches:
       - master
+      - android-workflows
     tags:
       - '*'
-  pull_request: {}
+  pull_request: {2485}
 
 jobs:
-  build-android:
-    env:
-      # Revision of https://github.com/pelya/commandergenius.git - SDL2 repo is a submodule
-      # We check out a specific stable revision, so the build won't break if I modify my SDL repo
-      SDL_ANDROID_REV: 798fd0f5e167aa6ecce33623dbf88ebc6cd647ea
-      # It takes 35 minutes per one architecture to build SuperTux, of which 20 minutes are for building Boost and ICU libraries
-      # Enable additional architectures when we have these libraries inside the cache, or create a separate Android script for each architecture
-      ARCH_LIST: armeabi-v7a arm64-v8a x86 x86_64
-
+  android:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [arm64-v8a, armeabi-v7a, x86, x86_64]
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+
+      - name: Set script permissions
+        run: chmod +x ./.ci_scripts/*.sh
+
+      - name: Use cached dependencies
+        id: use-dependencies
+        uses: actions/cache/restore@v3
         with:
-          fetch-depth: 0
-          submodules: recursive
+          path: ./build.android/app/jni/
+          key: Android-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/android.yml') }}
 
-      - name: Clone SDL Android repo
+      - name: Prepare SDL Android project
+        if: steps.use-dependencies.outputs.cache-hit != 'true'
         run: |
-          git clone --depth=100 https://github.com/pelya/commandergenius.git build.android
-          git -C build.android checkout ${SDL_ANDROID_REV}
+          ./.ci_scripts/clone_dependency.sh libsdl-org/SDL release-2.26.5
+          mv ./SDL/android-project/ ./build.android
+          mv ./SDL/ ./build.android/app/jni/SDL
 
-      - name: Clone SDL Android repo submodules
-        # There are many more submodules in this repo, we don't need them all
-        working-directory: build.android
-        run: >
-          git submodule update --init --recursive --depth=1
-          project/jni/boost/src project/jni/iconv/src
-          project/jni/sdl2 project/jni/sdl2_image
-          project/jni/sdl2_mixer project/jni/sdl2_ttf
-
-      - name: Symlink the application dir
+      - name: Clone dependencies
+        working-directory: build.android/app/jni
+        if: steps.use-dependencies.outputs.cache-hit != 'true'
         run: |
-          rm -rf build.android/project/jni/application/supertux/supertux
-          ln -s `pwd` build.android/project/jni/application/supertux/supertux
-          ln -s supertux build.android/project/jni/application/src
+          ../../../.ci_scripts/clone_dependency.sh libsdl-org/SDL_image release-2.6.3
+          ../../../.ci_scripts/clone_dependency.sh libsdl-org/SDL_ttf release-2.20.2
+          ../../../.ci_scripts/clone_dependency.sh curl/curl curl-8_0_1
+          ../../../.ci_scripts/clone_dependency.sh glennrp/libpng v1.6.39
+          ../../../.ci_scripts/clone_dependency.sh janbar/openssl-cmake master
+          ../../../.ci_scripts/clone_dependency.sh kcat/openal-soft 1.23.1
+          ../../../.ci_scripts/clone_dependency.sh fmtlib/fmt 9.1.0
+          ../../../.ci_scripts/clone_dependency.sh g-truc/glm 0.9.9.8
+          ../../../.ci_scripts/clone_dependency.sh xiph/vorbis v1.3.7
+          ../../../.ci_scripts/clone_dependency.sh xiph/ogg v1.3.5
+          ln -s ../../../ supertux
 
-      - name: Set architectures list and version
-        working-directory: build.android
-        run: |
-          VERSION_NAME="$(git -C .. describe --tags | cut -f 1,2 -d "-" | sed 's/[^0-9\\.\\-]//g' | sed 's/-/./g')"
-          VERSION_CODE="$(printf "%02d%02d%02d%04d\n" "$(echo $VERSION_NAME | cut -d . -f 1)" "$(echo $VERSION_NAME | cut -d . -f 2)" "$(echo $VERSION_NAME | cut -d . -f 3)" "$(echo $VERSION_NAME | cut -d . -f 4)")"
-          echo "Version name: $VERSION_NAME"
-          echo "Version code: $VERSION_CODE"
-          sed -i "s/MultiABI=.*/MultiABI='${ARCH_LIST}'/g" project/jni/application/supertux/AndroidAppSettings.cfg
-          sed -i "s/AppVersionName.*/AppVersionName="$VERSION_NAME"/g" project/jni/application/supertux/AndroidAppSettings.cfg
-          sed -i "s/AppVersionCode.*/AppVersionCode=$VERSION_CODE/g" project/jni/application/supertux/AndroidAppSettings.cfg
-
-      - name: Copy precompiled libraries from cache
-        uses: actions/cache@v2
-        id: cache
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache/save@v3
         with:
-          # The same SDL revision will produce the same libraries
-          key: ${{env.SDL_ANDROID_REV}}
-          path: |
-            build.android/project/jni/boost/include
-            build.android/project/jni/boost/lib
-            build.android/project/jni/iconv/include
-            build.android/project/jni/iconv/lib
-            build.android/project/jni/icuuc/include
-            build.android/project/jni/icuuc/lib
-            build.android/project/jni/openssl/include
-            build.android/project/jni/openssl/lib
+          path: ./build.android/app/jni/
+          key: Android-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/android.yml') }}
 
-      - name: Touch cached file timestamps
-        if: steps.cache.outputs.cache-hit == 'true'
-        working-directory: build.android
-        run: >
-          touch
-          project/jni/boost/lib/*/*
-          project/jni/iconv/lib/*/*
-          project/jni/icuuc/lib/*/*
-          project/jni/openssl/lib/*/*
-          || true
-
-      - name: Build Boost, ICU, and OpenSSL
-        working-directory: build.android
+      - name: Copy SuperTux Android project files
         run: |
-          export PATH=$ANDROID_NDK_LATEST_HOME:$PATH
-          ./changeAppSettings.sh
+          cp -r -f ./mk/android/* ./build.android/
 
-      - name: Set up Gradle and Android SDK licenses
-        working-directory: build.android/project
-        run: |
-          yes | sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
-          ./gradlew assembleRelease || true
-          yes | sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses --sdk_root=`pwd`
-          mkdir -p $HOME/.android
-          keytool -genkey -v -keystore $HOME/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Debug, OU=Debug, O=Debug, L=Debug, ST=Debug, C=Debug"
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
-          echo "proguard.config=proguard.cfg;proguard-local.cfg" >> local.properties
-
-      - name: Build
-        working-directory: build.android
-        run: |
-          export PATH=$ANDROID_NDK_LATEST_HOME:$ANDROID_SDK_ROOT/build-tools/31.0.0:$PATH
-          ./build.sh
-
-      - name: Package
-        working-directory: build.android
-        run: |
-          export PATH=$ANDROID_NDK_LATEST_HOME:$ANDROID_SDK_ROOT/build-tools/31.0.0:$PATH
-          mkdir -p upload/apk/ upload/aab/
-          cd project
-          ./gradlew bundleReleaseWithDebugInfo
-          mv app/build/outputs/bundle/releaseWithDebugInfo/app-releaseWithDebugInfo.aab ../upload/aab/SuperTux.aab
-          cd jni/application/supertux
-          ./create-apk-with-data.sh
-          cd ../../../..
-          mv SuperTux*.apk upload/apk/
-          cd ..
-
-      - uses: actions/upload-artifact@v4
+      - name: Set up JDK 20
+        uses: actions/setup-java@v3
         with:
-          name: "SuperTux-android-aab"
-          path: build.android/upload/aab
-          if-no-files-found: error
+          distribution: 'zulu'
+          java-version: 20
+          cache: 'gradle'
 
-      - uses: actions/upload-artifact@v4
+      - name: Setup Android enviroment
+        uses: android-actions/setup-android@v2
         with:
-          name: "SuperTux-android-apk"
-          path: build.android/upload/apk
-          if-no-files-found: error
+          packages: |
+            platforms;android-33
+            ndk;25.2.9519653
+            build-tools;33.0.2
+
+      - name: Build APK
+        working-directory: build.android
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease -Pcpuarch="${{ matrix.arch }}" --info
+
+      - name: Upload unsigned APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Unsigned APK ${{ matrix.arch }}"
+          path: "build.android/app/build/outputs/apk/release/app-release-unsigned.apk"
+
+      - name: Sign APK
+        working-directory: build.android/app/build/outputs/apk/release
+        run: |
+          # removing possible confusion
+          cp ./app-release-unsigned.apk ./app-release.apk
+
+          keytool -genkey -v \
+          -keystore supertux.keystore -alias supertux \
+          -storepass supertux \
+          -dname "cn=MatusGuy, ou=Contributor, O=SuperTux Team, L=Antarctica, ST=Antarctica, C=aq" \
+          -keyalg RSA -keysize 2048 -validity 10000
+
+          $ANDROID_SDK_ROOT/build-tools/33.0.2/apksigner sign \
+          --ks supertux.keystore --ks-pass pass:supertux \
+          ./app-release.apk
+
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Signed APK ${{ matrix.arch }}"
+          path: "build.android/app/build/outputs/apk/release/app-release.apk"
