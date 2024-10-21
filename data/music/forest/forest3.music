@@ -1,5 +1,8 @@
 (supertux-music
   (file "forest3.ogg")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
+  (title "Riding The Wind")
   (loop-begin 0)
   (loop-at    99)
 )

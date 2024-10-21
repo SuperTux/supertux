@@ -1,5 +1,7 @@
 (supertux-music
   (file "worldmap_old.ogg")
+  (authors "ZhayTee")
+  (title "supertux title")
   (loop-begin 0)
   (loop-at    40)
 )
