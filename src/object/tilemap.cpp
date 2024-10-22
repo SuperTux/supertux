@@ -820,7 +820,7 @@ TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos, AutotileSet
   if (!autotileset || (current_tile != 0 && !autotileset->is_member(current_tile)))
     return;
 
-  if (autotileset->is_corner())
+  if (current_tile != 0 && autotileset->is_corner())
   {
     int x = static_cast<int>(corner_pos.x), y = static_cast<int>(corner_pos.y);
     autotile_corner(x, y, current_tile, autotileset, AutotileCornerOperation::REMOVE_TOP_LEFT);
