@@ -1288,7 +1288,7 @@ EditorOverlayWidget::update_autotileset()
     return;
   }
   auto it_autotileset = std::find(m_available_autotilesets.begin(), m_available_autotilesets.end(), old_autotileset);
-  m_current_autotileset = it_autotileset != m_available_autotilesets.end() ? it_autotileset - m_available_autotilesets.begin() : 0;
+  m_current_autotileset = it_autotileset != m_available_autotilesets.end() ? static_cast<int>(it_autotileset - m_available_autotilesets.begin()) : 0;
 }
 
 AutotileSet*

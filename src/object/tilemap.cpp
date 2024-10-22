@@ -817,7 +817,7 @@ TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos, AutotileSet
 
   uint32_t current_tile = m_tiles[static_cast<int>(pos.y)*m_width
                                   + static_cast<int>(pos.x)];
-  if (!autotileset || !autotileset->is_member(current_tile))
+  if (!autotileset || (current_tile != 0 && !autotileset->is_member(current_tile)))
     return;
 
   if (autotileset->is_corner())
