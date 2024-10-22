@@ -46,8 +46,8 @@ public:
 
   virtual std::string wrap_to_width(const std::string& text, float width, std::string* overflow) override;
 
-  virtual void draw_text(Canvas& canvas, const std::string& text,
-                         const Vector& pos, FontAlignment alignment, int layer, const Color& color) override;
+  virtual Rectf draw_text(Canvas& canvas, const std::string& text,
+                          const Vector& pos, FontAlignment alignment, int layer, const Color& color) override;
 
   int get_shadow_size() const { return m_shadow_size; }
   int get_border() const { return m_border; }
