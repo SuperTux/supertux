@@ -55,15 +55,15 @@ GameObjectChange::save(Writer& writer) const
 }
 
 
-GameObjectChanges::GameObjectChanges(const UID& uid_, std::vector<GameObjectChange> objects_) :
+GameObjectChangeSet::GameObjectChangeSet(const UID& uid_, std::vector<GameObjectChange> objects_) :
   uid(uid_),
-  objects(std::move(objects_))
+  changes(std::move(objects_))
 {
 }
 
-GameObjectChanges::GameObjectChanges(const ReaderMapping& reader) :
+GameObjectChangeSet::GameObjectChangeSet(const ReaderMapping& reader) :
   uid(),
-  objects()
+  changes()
 {
   auto iter = reader.get_iter();
   while (iter.next())
@@ -74,14 +74,14 @@ GameObjectChanges::GameObjectChanges(const ReaderMapping& reader) :
       continue;
     }
 
-    objects.push_back(GameObjectChange(iter.as_mapping()));
+    changes.push_back(GameObjectChange(iter.as_mapping()));
   }
 }
 
 void
-GameObjectChanges::save(Writer& writer) const
+GameObjectChangeSet::save(Writer& writer) const
 {
-  for (const auto& change : objects)
+  for (const auto& change : changes)
   {
     writer.start_list("object-change");
     change.save(writer);

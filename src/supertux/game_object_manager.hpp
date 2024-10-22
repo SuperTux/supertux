@@ -276,7 +276,7 @@ public:
 
   /** Apply saved object changes. */
   void apply_object_change(const GameObjectChange& change, bool track_undo);
-  void apply_object_changes(const GameObjectChanges& changes, bool track_undo);
+  void apply_object_changes(const GameObjectChangeSet& changes, bool track_undo);
 
   /** Save object settings changes in the undo stack.
       Used to save an object's previous state before a change had occurred. */
@@ -346,8 +346,8 @@ private:
   UIDGenerator m_change_uid_generator;
   bool m_undo_tracking;
   int m_undo_stack_size;
-  std::vector<GameObjectChanges> m_undo_stack;
-  std::vector<GameObjectChanges> m_redo_stack;
+  std::vector<GameObjectChangeSet> m_undo_stack;
+  std::vector<GameObjectChangeSet> m_redo_stack;
   std::vector<GameObjectChange> m_pending_change_stack; // Before a flush, any changes go here
   UID m_last_saved_change;
 

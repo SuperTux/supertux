@@ -385,13 +385,13 @@ GameObjectManager::apply_object_change(const GameObjectChange& change, bool trac
   GameObject* object = get_object_by_uid<GameObject>(change.uid);
   switch (change.action)
   {
-    case GameObjectChange::Action::CREATE:
+    case GameObjectChange::ACTION_CREATE:
     {
       create_object_from_change(change, track_undo);
     }
     break;
 
-    case GameObjectChange::Action::DELETE:
+    case GameObjectChange::ACTION_DELETE:
     {
       if (!object)
         throw std::runtime_error("Object '" + change.name + "' does not exist.");
@@ -401,7 +401,7 @@ GameObjectManager::apply_object_change(const GameObjectChange& change, bool trac
     }
     break;
 
-    case GameObjectChange::Action::MODIFY:
+    case GameObjectChange::ACTION_MODIFY:
     {
       if (!object)
         throw std::runtime_error("Object '" + change.name + "' does not exist.");
@@ -424,9 +424,9 @@ GameObjectManager::apply_object_change(const GameObjectChange& change, bool trac
 }
 
 void
-GameObjectManager::apply_object_changes(const GameObjectChanges& changes, bool track_undo)
+GameObjectManager::apply_object_changes(const GameObjectChangeSet& change_set, bool track_undo)
 {
-  for (const auto& change : changes.objects)
+  for (const auto& change : change_set.changes)
   {
     try
     {
@@ -444,10 +444,10 @@ void
 GameObjectManager::undo()
 {
   if (m_undo_stack.empty()) return;
-  GameObjectChanges& changes = m_undo_stack.back();
+  GameObjectChangeSet& change_set = m_undo_stack.back();
 
-  auto it = changes.objects.begin();
-  while (it != changes.objects.end())
+  auto it = change_set.changes.begin();
+  while (it != change_set.changes.end())
   {
     try
     {
@@ -457,14 +457,14 @@ GameObjectManager::undo()
     catch (const std::exception& err)
     {
       log_warning << "Cannot process object change: " << err.what() << std::endl;
-      it = changes.objects.erase(it); // Drop invalid changes
+      it = change_set.changes.erase(it); // Drop invalid changes
     }
   }
 
-  if (!changes.objects.empty())
+  if (!change_set.changes.empty())
   {
     // Changes have been reversed for redo
-    m_redo_stack.push_back(std::move(changes));
+    m_redo_stack.push_back(std::move(change_set));
   }
   m_undo_stack.pop_back();
 }
@@ -473,10 +473,10 @@ void
 GameObjectManager::redo()
 {
   if (m_redo_stack.empty()) return;
-  GameObjectChanges& changes = m_redo_stack.back();
+  GameObjectChangeSet& change_set = m_redo_stack.back();
 
-  auto it = changes.objects.begin();
-  while (it != changes.objects.end())
+  auto it = change_set.changes.begin();
+  while (it != change_set.changes.end())
   {
     try
     {
@@ -486,14 +486,14 @@ GameObjectManager::redo()
     catch (const std::exception& err)
     {
       log_warning << "Cannot process object change: " << err.what() << std::endl;
-      it = changes.objects.erase(it); // Drop invalid changes
+      it = change_set.changes.erase(it); // Drop invalid changes
     }
   }
 
-  if (!changes.objects.empty())
+  if (!change_set.changes.empty())
   {
     // Changes have been reversed for undo
-    m_undo_stack.push_back(std::move(changes));
+    m_undo_stack.push_back(std::move(change_set));
   }
   m_redo_stack.pop_back();
 }
@@ -542,7 +542,7 @@ GameObjectManager::process_object_change(GameObjectChange& change)
   GameObject* object = get_object_by_uid<GameObject>(change.uid);
   switch (change.action)
   {
-    case GameObjectChange::Action::CREATE: /** Object was added, remove it. */
+    case GameObjectChange::ACTION_CREATE: /** Object was added, remove it. */
     {
       if (!object)
         throw std::runtime_error("Object '" + change.name + "' no longer exists.");
@@ -552,20 +552,20 @@ GameObjectManager::process_object_change(GameObjectChange& change)
 
       // Prepare for redo
       change.data = object->save();
-      change.action = GameObjectChange::Action::DELETE;
+      change.action = GameObjectChange::ACTION_DELETE;
     }
     break;
 
-    case GameObjectChange::Action::DELETE: /** Object was deleted, create it. */
+    case GameObjectChange::ACTION_DELETE: /** Object was deleted, create it. */
     {
       create_object_from_change(change, false);
 
       // Prepare for redo
-      change.action = GameObjectChange::Action::CREATE;
+      change.action = GameObjectChange::ACTION_CREATE;
     }
     break;
 
-    case GameObjectChange::Action::MODIFY: /** Object was modified, revert settings. */
+    case GameObjectChange::ACTION_MODIFY: /** Object was modified, revert settings. */
     {
       if (!object)
         throw std::runtime_error("Object '" + change.name + "' no longer exists.");
@@ -605,7 +605,7 @@ GameObjectManager::save_object_change(const GameObject& object, const ObjectSett
   m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(),
                                      save_object_settings_state(settings, false),
                                      save_object_settings_state(settings, true),
-                                     GameObjectChange::Action::MODIFY });
+                                     GameObjectChange::ACTION_MODIFY });
 }
 
 void
@@ -646,13 +646,13 @@ GameObjectManager::this_before_object_add(GameObject& object)
     }
   }
 
-  save_object_state(object, GameObjectChange::Action::CREATE);
+  save_object_state(object, GameObjectChange::ACTION_CREATE);
 }
 
 void
 GameObjectManager::this_before_object_remove(GameObject& object)
 {
-  save_object_state(object, GameObjectChange::Action::DELETE);
+  save_object_state(object, GameObjectChange::ACTION_DELETE);
 
   { // By name:
     const std::string& name = object.get_name();

@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_CHANGE_HPP
 
 #include <string>
+#include <vector>
 
 #include "util/uid.hpp"
 
@@ -28,11 +29,11 @@ class Writer;
 class GameObjectChange final
 {
 public:
-  enum class Action
+  enum Action
   {
-    CREATE,
-    DELETE,
-    MODIFY
+    ACTION_CREATE,
+    ACTION_DELETE,
+    ACTION_MODIFY
   };
 
 public:
@@ -51,18 +52,18 @@ public:
   Action action; // The action which triggered a state change
 };
 
-/** Stores multiple GameObjectChanges. */
-class GameObjectChanges final
+/** Stores multiple GameObjectChange-s. */
+class GameObjectChangeSet final
 {
 public:
-  GameObjectChanges(const UID& uid, std::vector<GameObjectChange> objects);
-  GameObjectChanges(const ReaderMapping& reader);
+  GameObjectChangeSet(const UID& uid, std::vector<GameObjectChange> objects);
+  GameObjectChangeSet(const ReaderMapping& reader);
 
   void save(Writer& writer) const;
 
 public:
   UID uid;
-  std::vector<GameObjectChange> objects;
+  std::vector<GameObjectChange> changes;
 };
 
 #endif
