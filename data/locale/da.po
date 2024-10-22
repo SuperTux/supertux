@@ -493,7 +493,7 @@ msgstr "Rediger en anden verden"
 #: src/supertux/menu/editor_menu.cpp:85
 #: src/supertux/menu/editor_converters_menu.cpp:61
 msgid "Convert Tiles"
-msgstr "Konvertér fliser"
+msgstr "Konvertér felter"
 
 #: src/supertux/menu/editor_menu.cpp:86
 msgid "Convert all tiles in the level using converters."
@@ -670,7 +670,7 @@ msgstr "Brug bitmap-skrifttyper"
 
 #: src/supertux/menu/debug_menu.cpp:74
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr "Vis flise-ID'er i redigeringsprogrammets værktøjskasse"
+msgstr "Vis felt-ID'er i redigeringsprogrammets værktøjskasse"
 
 #: src/supertux/menu/debug_menu.cpp:75
 msgid "Dump Texture Cache"
@@ -4955,7 +4955,7 @@ msgstr "Ny organisering af menu"
 
 #: data/credits.stxt:506
 msgid "Fixing tile bugs"
-msgstr "Rettelse af feltfejl"
+msgstr "Retter feltfejl"
 
 #: data/credits.stxt:510
 msgid "Build error fix"
@@ -5236,10 +5236,10 @@ msgstr "Til baner skabt i pre-0.6.3-versioner, der bruger krystalfelter."
 
 #: data/images/converters/data.stcd:13
 msgid "Jagged Rock Tiles from Addon"
-msgstr "Flossede stenfliser fra tilføjelse"
+msgstr "Flossede stenfelter fra tilføjelse"
 
 #: data/images/converters/data.stcd:15
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
-msgstr "For baner fremstillet med stenflisetilføjelsen konverterer deres ID'er til standard stenflise-ID'er"
+msgstr "For baner fremstillet med stenfelttilføjelsen konverterer deres ID'er til standard stenfelt-ID'er"
