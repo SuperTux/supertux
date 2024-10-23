@@ -37,7 +37,7 @@ static const float BOUNCY_BRICK_SPEED = 90;
 static const float BUMP_ROTATION_ANGLE = 10;
 
 Block::Block(const Vector& pos, const std::string& sprite_file) :
-  MovingSprite(pos, sprite_file),
+  MovingSprite(pos, sprite_file, LAYER_OBJECTS + 1),
   m_bouncing(false),
   m_breaking(false),
   m_bounce_dir(0),
@@ -51,7 +51,7 @@ Block::Block(const Vector& pos, const std::string& sprite_file) :
 }
 
 Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
-  MovingSprite(mapping, sprite_file),
+  MovingSprite(mapping, sprite_file, LAYER_OBJECTS + 1),
   m_bouncing(false),
   m_breaking(false),
   m_bounce_dir(0),
@@ -147,12 +147,6 @@ Block::update(float dt_sec)
   } else {
     m_col.set_movement(Vector(0, m_bounce_dir * dt_sec));
   }
-}
-
-void
-Block::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+1, m_flip);
 }
 
 void
