@@ -2,8 +2,6 @@
 
 (supertux-autotiles
 
-  
-
   (autotileset
     (name "invisible_paths")
     (default 45)
@@ -2232,6 +2230,166 @@
       (id 8)
       (solid #t)
       (mask "*1****0*")
+    )
+  )
+  
+  (autotileset
+    (name "underground_forest_cliff")
+    (default 583)
+    (autotile
+      (id 579)
+      (solid #f)
+      (mask "00000001")
+  )
+    (autotile
+      (id 580)
+      (solid #f)
+      (mask "00000*1*")
+  )
+    (autotile
+      (id 581)
+      (solid #f)
+      (mask "00000100")
+  )
+    (autotile
+      (id 582)
+      (solid #f)
+      (mask "00*0100*")
+  )
+    (autotile
+      (id 583)
+      (solid #t)
+      (mask "********")
+      (mask "*1****1*")
+      (mask "***11***")
+  )
+    (autotile
+      (id 584)
+      (solid #f)
+      (mask "*0010*00")
+  )
+    (autotile
+      (id 592)
+      (solid #f)
+      (mask "00100000")
+  )
+    (autotile
+      (id 593)
+      (solid #f)
+      (mask "*1*00000")
+  )
+    (autotile
+      (id 594)
+      (solid #f)
+      (mask "10000000")
+  )
+    (autotile
+      (id 588)
+      (solid #f)
+      (mask "00*0110*")
+      (mask "00100*1*")
+      (mask "00*01*1*")
+  )
+    (autotile
+      (id 589)
+      (solid #f)
+      (mask "10000*1*")
+      (mask "*0010*1*")
+      (mask "*0010*01")
+  )
+    (autotile
+      (id 610)
+      (solid #f)
+      (mask "10*0100*")
+      (mask "*1*0100*")
+      (mask "*1*00001")
+  )
+    (autotile
+      (id 611)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "01*00100")
+      (mask "*0110*00")
+    )
+  )
+  
+  (autotileset
+    (name "underground_corrupted_forest_cliff")
+    (default 729)
+    (autotile
+      (id 747)
+      (solid #f)
+      (mask "10*0100*")
+      (mask "*1*0100*")
+      (mask "*1*00001")
+  )
+    (autotile
+      (id 748)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "01*00100")
+      (mask "*0110*00")
+  )
+    (autotile
+      (id 725)
+      (solid #f)
+      (mask "00000001")
+  )
+    (autotile
+      (id 726)
+      (solid #f)
+      (mask "00000*1*")
+  )
+    (autotile
+      (id 727)
+      (solid #f)
+      (mask "00000100")
+  )
+    (autotile
+      (id 728)
+      (solid #f)
+      (mask "00*0100*")
+  )
+    (autotile
+      (id 729)
+      (solid #t)
+      (mask "********")
+      (mask "*1****1*")
+      (mask "***11***")
+  )
+    (autotile
+      (id 730)
+      (solid #f)
+      (mask "*0010*00")
+  )
+    (autotile
+      (id 738)
+      (solid #f)
+      (mask "00100000")
+  )
+    (autotile
+      (id 739)
+      (solid #f)
+      (mask "*1*00000")
+  )
+    (autotile
+      (id 740)
+      (solid #f)
+      (mask "10000000")
+  )
+    (autotile
+      (id 734)
+      (solid #f)
+      (mask "00*0110*")
+      (mask "00100*1*")
+      (mask "00*01*1*")
+  )
+    (autotile
+      (id 735)
+      (solid #f)
+      (mask "10000*1*")
+      (mask "*0010*1*")
+      (mask "*0010*01")
     )
   )
   
