@@ -177,7 +177,7 @@ LevelParser::load(const ReaderDocument& doc)
     level.get("icon-locked", m_level.m_icon_locked);
     level.get("bkg", m_level.m_wmselect_bkg);
 
-    std::string name = "on";
+    std::string name = m_level.m_is_worldmap ? "on" : "inherit";
     level.get("allow-item-pocket", name);
     m_level.m_allow_item_pocket = Level::get_setting_from_name(name);
 

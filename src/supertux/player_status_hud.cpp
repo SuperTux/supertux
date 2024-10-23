@@ -57,7 +57,7 @@ PlayerStatusHUD::update(float dt_sec)
 void
 PlayerStatusHUD::draw(DrawingContext& context)
 {
-  if (Editor::is_active())
+  if (Editor::is_active() || Level)
     return;
 
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
@@ -95,7 +95,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
                             PlayerStatusHUD::text_color);
 
 
-  if (!worldmap::WorldMapSector::current())
+  if (m_player_status.is_item_pocket_allowed())
   {
     for (int i = 0; i < m_player_status.m_num_players; i++)
     {

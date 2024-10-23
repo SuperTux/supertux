@@ -261,6 +261,9 @@ PlayerStatus::read(const ReaderMapping& mapping)
 void
 PlayerStatus::give_item_from_pocket(Player* player)
 {
+  if (!is_item_pocket_allowed())
+    return;
+
   BonusType bonustype = m_item_pockets[player->get_id()];
   if (bonustype == NO_BONUS)
     return;
@@ -282,6 +285,9 @@ PlayerStatus::give_item_from_pocket(Player* player)
 void
 PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
 {
+  if (!is_item_pocket_allowed())
+    return;
+
   if (bonustype <= GROWUP_BONUS)
     return;
 
@@ -303,7 +309,7 @@ PlayerStatus::is_item_pocket_allowed() const
     worldmap::WorldMap* worldmap = worldmap::WorldMap::current();
     if (worldmap)
     {
-      worldmap->
+      return worldmap->is_item_pocket_allowed();
     }
     else
     {
