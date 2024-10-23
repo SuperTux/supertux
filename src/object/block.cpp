@@ -193,7 +193,7 @@ Block::break_me()
     Sector::get().add<SpriteParticle>(m_sprite->clone(), action,
                                 pos, ANCHOR_MIDDLE,
                                 velocity, Vector(0, gravity),
-                                LAYER_OBJECTS + 3);
+                                m_layer);
   }
 
   remove_me();
