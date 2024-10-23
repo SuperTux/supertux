@@ -1,6 +1,9 @@
 ;; See autotiles.satc for instructions
 
 (supertux-autotiles
+
+  
+
   (autotileset
     (name "invisible_paths")
     (default 45)
@@ -337,89 +340,87 @@
 	  (mask "*0*00*0*")
 	)
   )
+  
   (autotileset
     (name "snow")
     (default 105)
     (autotile
-      (id 105)
-      (solid #t)
-      (mask "********")
-    )
-    (autotile
-      (id 105)
+      (id 109)
       (solid #f)
-      (mask "*1****1*")
-      (mask "***11***")
-    )
+      (mask "10000000")
+  )
+    (autotile
+      (id 113)
+      (solid #f)
+      (mask "00*0110*")
+      (mask "00100*1*")
+      (mask "00*01*1*")
+  )
+    (autotile
+      (id 112)
+      (solid #f)
+      (mask "10000*1*")
+      (mask "*0010*1*")
+      (mask "*0010*01")
+  )
+    (autotile
+      (id 111)
+      (solid #f)
+      (mask "10*0100*")
+      (mask "*1*0100*")
+      (mask "*1*00001")
+  )
+    (autotile
+      (id 110)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*1*00100")
+      (mask "*0110*00")
+  )
     (autotile
       (id 101)
       (solid #f)
       (mask "00000001")
-    )
+  )
     (autotile
       (id 102)
       (solid #f)
       (mask "00000*1*")
-    )
+  )
     (autotile
       (id 103)
       (solid #f)
       (mask "00000100")
-    )
+  )
     (autotile
       (id 104)
       (solid #f)
       (mask "00*0100*")
-    )
+  )
+    (autotile
+      (id 105)
+      (solid #t)
+      (mask "********")
+      (mask "*1****1*")
+      (mask "***11***")
+  )
     (autotile
       (id 106)
       (solid #f)
       (mask "*0010*00")
-    )
+  )
     (autotile
       (id 107)
       (solid #f)
       (mask "00100000")
-    )
+  )
     (autotile
       (id 108)
       (solid #f)
       (mask "*1*00000")
     )
-    (autotile
-      (id 109)
-      (solid #f)
-      (mask "10000000")
-    )
-    (autotile
-      (id 110)
-      (solid #f)
-      (mask "*1*10*00")
-      (mask "*0110*00")
-      (mask "*1*00100")
-    )
-    (autotile
-      (id 111)
-      (solid #f)
-      (mask "*1*0100*")
-      (mask "10*0100*")
-      (mask "*1*00001")
-    )
-    (autotile
-      (id 112)
-      (solid #f)
-      (mask "*0010*1*")
-      (mask "*0010*01")
-      (mask "10000*1*")
-    )
-    (autotile
-      (id 113)
-      (solid #f)
-      (mask "00*01*1*")
-      (mask "00100*1*")
-      (mask "00*0110*")
-    )
   )
+  
   (autotileset
     (name "crystal")
     (default 238)
@@ -590,6 +591,7 @@
       (mask "*1*00000")
     )
   )
+  
   (autotileset
     (name "ice_cave_ceiling")
     (default 689)
@@ -669,6 +671,7 @@
       (mask "00000100")
     )
   )
+  
   (autotileset
     (name "trees")
     (default 140)
@@ -1617,4 +1620,619 @@
       (mask "*1*00001")
     )
   )
+  
+  (autotileset
+    (name "snow_layer")
+    (default 105)
+    (autotile
+      (id 252)
+      (solid #f)
+      (mask "10000000")
+  )
+    (autotile
+      (id 256)
+      (solid #f)
+      (mask "00*0110*")
+      (mask "00100*1*")
+      (mask "00*01*1*")
+  )
+    (autotile
+      (id 255)
+      (solid #f)
+      (mask "10000*1*")
+      (mask "*0010*1*")
+      (mask "*0010*01")
+  )
+    (autotile
+      (id 254)
+      (solid #f)
+      (mask "10*0100*")
+      (mask "*1*0100*")
+      (mask "*1*00001")
+  )
+    (autotile
+      (id 253)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*1*00100")
+      (mask "*0110*00")
+  )
+    (autotile
+      (id 249)
+      (solid #f)
+      (mask "00000001")
+  )
+    (autotile
+      (id 125)
+      (solid #f)
+      (mask "00000*1*")
+  )
+    (autotile
+      (id 250)
+      (solid #f)
+      (mask "00000100")
+  )
+    (autotile
+      (id 128)
+      (solid #f)
+      (mask "00*0100*")
+  )
+    (autotile
+      (id 105)
+      (solid #t)
+      (mask "********")
+      (mask "*1****1*")
+      (mask "***11***")
+  )
+    (autotile
+      (id 134)
+      (solid #f)
+      (mask "*0010*00")
+  )
+    (autotile
+      (id 251)
+      (solid #f)
+      (mask "00100000")
+  )
+    (autotile
+      (id 131)
+      (solid #f)
+      (mask "*1*00000")
+    )
+  )
+  
+  (autotileset
+    (name "ice_holes")
+    (default 689)
+    (autotile
+      (id 222)
+      (solid #f)
+      (mask "00*0100*")
+  )
+    (autotile
+      (id 689)
+      (alt-id
+        (id 223)
+        (weight 0.02)
+      )
+      (solid #t)
+      (mask "********")
+      (mask "*1****1*")
+      (mask "***11***")
+  )
+    (autotile
+      (id 224)
+      (solid #f)
+      (mask "*0010*00")
+  )
+    (autotile
+      (id 225)
+      (solid #f)
+      (mask "00100000")
+  )
+    (autotile
+      (id 226)
+      (solid #f)
+      (mask "*1*00000")
+  )
+    (autotile
+      (id 227)
+      (solid #f)
+      (mask "10000000")
+  )
+    (autotile
+      (id 232)
+      (solid #f)
+      (mask "00*0110*")
+      (mask "00100*1*")
+      (mask "00*01*1*")
+  )
+    (autotile
+      (id 231)
+      (solid #f)
+      (mask "10000*1*")
+      (mask "*0010*1*")
+      (mask "*0010*01")
+  )
+    (autotile
+      (id 229)
+      (solid #f)
+      (mask "10*0100*")
+      (mask "*1*0100*")
+      (mask "*1*00001")
+  )
+    (autotile
+      (id 228)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*1*00100")
+      (mask "*0110*00")
+  )
+    (autotile
+      (id 219)
+      (solid #f)
+      (mask "00000001")
+  )
+    (autotile
+      (id 220)
+      (solid #f)
+      (mask "00000*1*")
+  )
+    (autotile
+      (id 221)
+      (solid #f)
+      (mask "00000100")
+    )
+  )
+  
+  (autotileset
+    (name "snow_cliff")
+    (default 105)
+    (autotile
+      (id 449)
+      (solid #f)
+      (mask "10000000")
+  )
+    (autotile
+      (id 113)
+      (solid #f)
+      (mask "00*0110*")
+      (mask "00100*1*")
+      (mask "00*01*1*")
+  )
+    (autotile
+      (id 112)
+      (solid #f)
+      (mask "10000*1*")
+      (mask "*0010*1*")
+      (mask "*0010*01")
+  )
+    (autotile
+      (id 456)
+      (solid #f)
+      (mask "10*0100*")
+      (mask "*1*0100*")
+      (mask "*1*00001")
+  )
+    (autotile
+      (id 457)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*1*00100")
+      (mask "*0110*00")
+  )
+    (autotile
+      (id 101)
+      (solid #f)
+      (mask "00000001")
+  )
+    (autotile
+      (id 102)
+      (solid #f)
+      (mask "00000*1*")
+  )
+    (autotile
+      (id 103)
+      (solid #f)
+      (mask "00000100")
+  )
+    (autotile
+      (id 104)
+      (solid #f)
+      (mask "00*0100*")
+  )
+    (autotile
+      (id 105)
+      (solid #t)
+      (mask "********")
+      (mask "*1****1*")
+      (mask "***11***")
+  )
+    (autotile
+      (id 106)
+      (solid #f)
+      (mask "*0010*00")
+  )
+    (autotile
+      (id 447)
+      (solid #f)
+      (mask "00100000")
+  )
+    (autotile
+      (id 448)
+      (solid #f)
+      (mask "*1*00000")
+    )
+  )
+  
+  (autotileset
+    (name "ice_cave_cliff")
+    (default 652)
+    (autotile
+      (id 663)
+      (solid #f)
+      (mask "10000000")
+  )
+    (autotile
+      (id 657)
+      (solid #f)
+      (mask "00*0110*")
+      (mask "00100*1*")
+      (mask "00*01*1*")
+  )
+    (autotile
+      (id 658)
+      (solid #f)
+      (mask "10000*1*")
+      (mask "*0010*1*")
+      (mask "*0010*01")
+  )
+    (autotile
+      (id 670)
+      (solid #f)
+      (mask "10*0100*")
+      (mask "*1*0100*")
+      (mask "*1*00001")
+  )
+    (autotile
+      (id 671)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*1*00100")
+      (mask "*0110*00")
+  )
+    (autotile
+      (id 648)
+      (solid #f)
+      (mask "00000001")
+  )
+    (autotile
+      (id 649)
+      (solid #f)
+      (mask "00000*1*")
+  )
+    (autotile
+      (id 650)
+      (solid #f)
+      (mask "00000100")
+  )
+    (autotile
+      (id 651)
+      (solid #f)
+      (mask "00*0100*")
+  )
+    (autotile
+      (id 652)
+      (solid #t)
+      (mask "********")
+      (mask "*1****1*")
+      (mask "***11***")
+  )
+    (autotile
+      (id 653)
+      (solid #f)
+      (mask "*0010*00")
+  )
+    (autotile
+      (id 661)
+      (solid #f)
+      (mask "00100000")
+  )
+    (autotile
+      (id 662)
+      (solid #f)
+      (mask "*1*00000")
+    )
+  )
+  
+  (autotileset
+    (name "forest_cliff")
+    (default 261)
+    (autotile
+      (id 257)
+      (solid #f)
+      (mask "00000001")
+  )
+    (autotile
+      (id 258)
+      (solid #f)
+      (mask "00000*1*")
+  )
+    (autotile
+      (id 259)
+      (solid #f)
+      (mask "00000100")
+  )
+    (autotile
+      (id 260)
+      (solid #f)
+      (mask "00*0100*")
+  )
+    (autotile
+      (id 261)
+      (solid #t)
+      (mask "********")
+      (mask "*1****1*")
+      (mask "***11***")
+  )
+    (autotile
+      (id 262)
+      (solid #f)
+      (mask "*0010*00")
+  )
+    (autotile
+      (id 270)
+      (solid #f)
+      (mask "00100000")
+  )
+    (autotile
+      (id 271)
+      (solid #f)
+      (mask "*1*00000")
+  )
+    (autotile
+      (id 272)
+      (solid #f)
+      (mask "10000000")
+  )
+    (autotile
+      (id 266)
+      (solid #f)
+      (mask "00*0110*")
+      (mask "00100*1*")
+      (mask "00*01*1*")
+  )
+    (autotile
+      (id 267)
+      (solid #f)
+      (mask "10000*1*")
+      (mask "*0010*1*")
+      (mask "*0010*01")
+  )
+    (autotile
+      (id 285)
+      (solid #f)
+      (mask "10*0100*")
+      (mask "*1*0100*")
+      (mask "*1*00001")
+  )
+    (autotile
+      (id 286)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*1*00100")
+      (mask "*0110*00")
+    )
+  )
+  
+  (autotileset
+    (name "corrupted_forest_cliff")
+    (default 304)
+    (autotile
+      (id 304)
+      (solid #t)
+      (mask "********")
+      (mask "*1****1*")
+      (mask "***11***")
+  )
+    (autotile
+      (id 305)
+      (solid #f)
+      (mask "*0010*00")
+  )
+    (autotile
+      (id 313)
+      (solid #f)
+      (mask "00100000")
+  )
+    (autotile
+      (id 314)
+      (solid #f)
+      (mask "*1*00000")
+  )
+    (autotile
+      (id 315)
+      (solid #f)
+      (mask "10000000")
+  )
+    (autotile
+      (id 309)
+      (solid #f)
+      (mask "00*0110*")
+      (mask "00100*1*")
+      (mask "00*01*1*")
+  )
+    (autotile
+      (id 310)
+      (solid #f)
+      (mask "10000*1*")
+      (mask "*0010*1*")
+      (mask "*0010*01")
+  )
+    (autotile
+      (id 322)
+      (solid #f)
+      (mask "10*0100*")
+      (mask "*1*0100*")
+      (mask "*1*00001")
+  )
+    (autotile
+      (id 323)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "01*00100")
+      (mask "*0110*00")
+  )
+    (autotile
+      (id 300)
+      (solid #f)
+      (mask "00000001")
+  )
+    (autotile
+      (id 301)
+      (solid #f)
+      (mask "00000*1*")
+  )
+    (autotile
+      (id 302)
+      (solid #f)
+      (mask "00000100")
+  )
+    (autotile
+      (id 303)
+      (solid #f)
+      (mask "00*0100*")
+    )
+  )
+  
+  (autotileset
+    (name "corrupted_forest_transition")
+    (default 304)
+    (autotile
+      (id 304)
+      (solid #t)
+      (mask "********")
+      (mask "*1****1*")
+      (mask "***11***")
+  )
+    (autotile
+      (id 562)
+      (solid #f)
+      (mask "*0010*00")
+  )
+    (autotile
+      (id 569)
+      (solid #f)
+      (mask "00100000")
+  )
+    (autotile
+      (id 560)
+      (solid #f)
+      (mask "*1*00000")
+  )
+    (autotile
+      (id 570)
+      (solid #f)
+      (mask "10000000")
+  )
+    (autotile
+      (id 566)
+      (solid #f)
+      (mask "00*0110*")
+      (mask "00100*1*")
+      (mask "00*01*1*")
+  )
+    (autotile
+      (id 564)
+      (solid #f)
+      (mask "10000*1*")
+      (mask "*0010*1*")
+      (mask "*0010*01")
+  )
+    (autotile
+      (id 561)
+      (solid #f)
+      (mask "10*0100*")
+      (mask "*1*0100*")
+      (mask "*1*00001")
+  )
+    (autotile
+      (id 559)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "01*00100")
+      (mask "*0110*00")
+  )
+    (autotile
+      (id 567)
+      (solid #f)
+      (mask "00000001")
+  )
+    (autotile
+      (id 565)
+      (solid #f)
+      (mask "00000*1*")
+  )
+    (autotile
+      (id 568)
+      (solid #f)
+      (mask "00000100")
+  )
+    (autotile
+      (id 563)
+      (solid #f)
+      (mask "00*0100*")
+    )
+  )
+  
+  (autotileset
+    (name "water_waves_horizontal")
+    (default 5)
+    (autotile
+      (id 5)
+      (solid #t)
+      (mask "***00***")
+    )
+    (autotile
+      (id 2)
+      (solid #t)
+      (mask "***01***")
+    )
+    (autotile
+      (id 3)
+      (solid #t)
+      (mask "***11***")
+    )
+    (autotile
+      (id 4)
+      (solid #t)
+      (mask "***10***")
+    )
+  )
+  
+  (autotileset
+    (name "water_waves_vertical")
+    (default 5)
+    (autotile
+      (id 5)
+      (solid #t)
+      (mask "*0****0*")
+    )
+    (autotile
+      (id 6)
+      (solid #t)
+      (mask "*0****1*")
+    )
+    (autotile
+      (id 7)
+      (solid #t)
+      (mask "*1****1*")
+    )
+    (autotile
+      (id 8)
+      (solid #t)
+      (mask "*1****0*")
+    )
+  )
+  
 )
