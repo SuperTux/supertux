@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 'SuperTux/supertux'
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Update translation templates
         env:
@@ -37,9 +37,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gettext
 
+          # Checkout master to make git describe work
+          git checkout master
+          
           # Update translation templates:
           chmod +x makepot.sh
-          ./makepot.sh
+          sh ./makepot.sh
 
           # Commit
           git status

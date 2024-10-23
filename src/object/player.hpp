@@ -28,6 +28,9 @@
 #include "video/layer.hpp"
 #include "video/surface_ptr.hpp"
 
+#include <array>
+#include <list>
+
 class BadGuy;
 class Climbable;
 class Controller;
@@ -566,6 +569,10 @@ private:
   bool m_water_jump;
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
+
+  SpritePtr m_bubbles_sprite; /**< bubble particles sprite for swimming */
+  Timer m_bubble_timer; /**< timer for spawning bubble particles */
+  std::list<std::pair<SpritePtr, Vector>> m_active_bubbles; /**< active bubble particles */
 
   Vector m_floor_normal;
 

@@ -63,7 +63,7 @@ public:
   virtual void after_editor_set() override;
   virtual void on_type_change(int old_type) override;
 
-  virtual int get_layer() const override { return m_layer; }
+  int get_layer() const override { return m_layer; }
   void set_layer(int layer) { m_layer = layer; }
 
   bool has_found_sprite() const { return m_sprite_found; }

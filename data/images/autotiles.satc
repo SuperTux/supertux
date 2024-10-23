@@ -6107,4 +6107,185 @@
       (mask "11111*0*")
     )
   )
+  
+  (autotileset
+    (name "jrock_a")
+    (default 7317)
+  
+  ;; CENTER
+    (autotile
+      (id 7317)
+      (alt-id
+        (id 7324)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "***11111")
+    )
+  
+  ;; LEFT
+  (autotile
+      (id 7316)
+      (solid #t)
+      (mask "***01011")
+    )
+  
+  ;; RIGHT
+  (autotile
+      (id 7318)
+      (solid #t)
+      (mask "***10110")
+    )
+  
+  ;; THIN
+  (autotile
+      (id 7319)
+      (solid #t)
+      (mask "***00010")
+    )
+  
+  ;; B LEFT
+  (autotile
+      (id 7320)
+      (solid #t)
+      (mask "***01*0*")
+    )
+  
+  ;; B CENTER
+  (autotile
+      (id 7321)
+      (solid #t)
+      (mask "***11*0*")
+    )
+  
+  ;; B RIGHT
+  (autotile
+      (id 7322)
+      (solid #t)
+      (mask "***10*0*")
+    )
+  
+  ;; B THIN
+  (autotile
+      (id 7323)
+      (solid #t)
+      (mask "***00*0*")
+    )
+  
+  ;; CORNER TL
+  (autotile
+      (id 7325)
+      (solid #t)
+      (mask "***11110")
+    )
+  
+  ;; CORNER TR
+  (autotile
+      (id 7326)
+      (solid #t)
+      (mask "***11011")
+    )
+  
+  ;; CORNER BL
+  (autotile
+      (id 7327)
+      (solid #t)
+      (mask "***10111")
+    )
+  
+  ;; CORNER BR
+  (autotile
+      (id 7328)
+      (solid #t)
+      (mask "***01111")
+    )
+  
+  ;; CORNER THIN TL
+  (autotile
+      (id 7329)
+      (solid #t)
+      (mask "***01010")
+    )
+  
+  ;; CORNER THIN TR
+  (autotile
+      (id 7330)
+      (solid #t)
+      (mask "***10010")
+    )
+  
+  ;; CORNER THIN TC
+  (autotile
+      (id 7331)
+      (solid #t)
+      (mask "***11010")
+    )
+  
+  ;; CORNER THIN BL
+  (autotile
+      (id 7332)
+      (solid #t)
+      (mask "***00011")
+    )
+  
+  ;; CORNER THIN BR
+  (autotile
+      (id 7333)
+      (solid #t)
+      (mask "***00110")
+    )
+  
+  ;; CORNER THIN BC
+  (autotile
+      (id 7334)
+      (solid #t)
+      (mask "***00111")
+    )
+  
+  ;; CORNER "S"
+  (autotile
+      (id 7335)
+      (solid #t)
+      (mask "***01110")
+    )
+  
+  ;; CORNER "Z"
+  (autotile
+      (id 7336)
+      (solid #t)
+      (mask "***10011")
+    )
+  
+  ;; DECO TILES -----------
+  
+  ;; DECO LEFT
+  (autotile
+      (id 7312)
+      (solid #f)
+      (mask "*****011")
+    )
+  
+  ;; DECO CENTER
+  (autotile
+      (id 7313)
+      (solid #f)
+      (mask "*****111")
+    )
+  
+  ;; DECO RIGHT
+  (autotile
+      (id 7314)
+      (solid #f)
+      (mask "*****110")
+    )
+  
+  ;; DECO THIN
+  (autotile
+      (id 7315)
+      (solid #f)
+      (mask "*****010")
+    )
+  
+  )
+  
 )

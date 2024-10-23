@@ -248,10 +248,10 @@ Once all of these are installed; you may install dependencies with vcpkg. In any
 ```
 ./bootstrap-vcpkg.bat -disableMetrics
 ./vcpkg integrate install
-./vcpkg install --triplet=x86-windows gtest curl freetype glew libogg libraqm libvorbis openal-soft sdl2 sdl2-image[libjpeg-turbo] glm zlib
+./vcpkg install --triplet=x64-windows gtest curl freetype glew libogg libraqm libvorbis openal-soft sdl2 sdl2-image[libjpeg-turbo] glm zlib
 ```
 
-**Note:** If you wish to produce 64-bit builds, replace `--triplet=x86-windows` with `--triplet=x64-windows`.
+**Note:** If you wish to produce 32-bit builds, replace `--triplet=x64-windows` with `--triplet=x86-windows`.
 
 Once dependencies are installed:
 
@@ -261,16 +261,15 @@ Once dependencies are installed:
 
 3. Open a console window and navigate to the `build` directory.
 
-5. Run `cmake .. -A Win32 -DCMAKE_BUILD_TYPE=Release -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=C:/PATH/TO/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x86-windows`.
+5. Run `cmake .. -DCMAKE_BUILD_TYPE=Release -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=C:/PATH/TO/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows`.
 
     **Make sure to change the path to vcpkg to the actual path to vcpkg on your system!**
 
     Options:
-    - `-A Win32` tells CMake to produce 32-bit executables. To produce 64-bit executables, you may either replace `Win32` with `x64`, or omit this argument entirely (remove everything, including the `-A`).
     - `-DCMAKE_BUILD_TYPE=Release` creates a Release build, which does not contain debug information and runs faster. You may also produce `Debug` builds, but these run significantly slower. Other options may be available, such as `RelWithDebInfo` and `MinSizeRel`, but they are not tested. [More info](https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html)
     - `-DVCPKG_BUILD=ON` tells SuperTux to use vcpkg to find dependencies.
     - `-DCMAKE_TOOLCHAIN_FILE=C:/PATH/TO/vcpkg/scripts/buildsystems/vcpkg.cmake` tells CMake to use the vcpkg toolchain to load dependencies. **Make sure to change the path to the actual path to vcpkg on your system!**
-    - `-DVCPKG_TARGET_TRIPLET=x86-windows` tells vcpkg to use 32-bit dependencies for Windows. If you are compiling 64-bit executables, replace "x86" with "x64".
+    - `-DVCPKG_TARGET_TRIPLET=x64-windows` tells vcpkg to use 64-bit dependencies for Windows. If you are compiling 32-bit executables, replace "x64" with "x86".
     - Optionally, you may add `-G "Visual Studio 16 2019"` to force a certain version of Visual Studio if multiple are installed on your system.
 
     For more CMake options, look at end of the Linux/UNIX build section.
