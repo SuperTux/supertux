@@ -25,16 +25,12 @@ class WorldmapCheatApplyMenu final : public Menu
 {
 public:
   WorldmapCheatApplyMenu(int num_players, std::function<void(int)> callback);
-  /** Use this for cheats that need a stack count, e. g. giving fire flowers */
-  WorldmapCheatApplyMenu(int num_players, std::function<void(int, int)> callback);
 
   void menu_action(MenuItem& item) override;
 
 private:
   int m_num_players;
-  std::function<void(int)> m_callback_1;
-  std::function<void(int, int)> m_callback_2;
-  int m_stack_count;
+  std::function<void(int)> m_callback;
 
 private:
   WorldmapCheatApplyMenu(const WorldmapCheatApplyMenu&) = delete;

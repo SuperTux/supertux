@@ -26,6 +26,7 @@
 class DrawingContext;
 class ReaderMapping;
 class Writer;
+class Player;
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
@@ -47,11 +48,21 @@ public:
   void write(Writer& writer);
   void read(const ReaderMapping& mapping);
 
+  void give_item_from_pocket(Player* player);
+  void add_item_to_pocket(BonusType bonustype, Player* player);
+
+  bool is_item_pocket_allowed() const;
+
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
   bool respawns_at_checkpoint() const;
-  std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
   bool has_hat_sprite(int player_id) const { return bonus[player_id] > GROWUP_BONUS; }
+
+  static std::string get_bonus_name(BonusType bonustype);
+  static BonusType get_bonus_from_name(const std::string& name);
+
+  static std::string get_bonus_sprite(BonusType bonustype);
+  std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
 
   void add_player();
   void remove_player(int player_id);
@@ -62,12 +73,10 @@ private:
 public:
   int m_num_players;
 
+  std::vector<BonusType> m_item_pockets;
+
   int coins;
   std::vector<BonusType> bonus;
-  std::vector<int> max_fire_bullets; /**< maximum number of fire bullets in play */
-  std::vector<int> max_ice_bullets; /**< maximum number of ice bullets in play */
-  std::vector<int> max_air_time; /**<determines maximum number of seconds player can float in air */
-  std::vector<int> max_earth_time; /**< determines maximum number of seconds player can turn to stone */
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */

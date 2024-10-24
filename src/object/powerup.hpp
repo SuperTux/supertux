@@ -23,6 +23,21 @@
 class PowerUp final : public MovingSprite
 {
 public:
+  enum Type {
+    EGG,
+    FIRE,
+    ICE,
+    AIR,
+    EARTH,
+    STAR,
+    ONEUP,
+    FLIP,
+    MINTS,
+    COFFEE,
+    HERRING
+  };
+
+public:
   PowerUp(const ReaderMapping& mapping);
   PowerUp(const Vector& pos, int type);
 
@@ -41,6 +56,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(PowerUp)); }
 
+  static Type get_type_from_bonustype(int type);
+
   std::vector<std::string> get_patches() const override;
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -51,21 +68,6 @@ private:
   void setup_lightsprite();
 
 public:
-  enum Type {
-    EGG,
-    FIRE,
-    ICE,
-    AIR,
-    EARTH,
-    STAR,
-    ONEUP,
-    FLIP,
-    MINTS,
-    COFFEE,
-    HERRING
-  };
-
-private:
   Physic physic;
   std::string script;
   bool no_physics;

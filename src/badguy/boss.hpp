@@ -37,6 +37,7 @@ public:
 
 protected:
   int m_lives;
+  int m_max_lives;
   int m_pinch_lives;
   SurfacePtr m_hud_head;
   std::string m_hud_icon;

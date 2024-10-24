@@ -88,6 +88,8 @@ public:
 
   const std::string& get_filename() const;
 
+  bool is_item_pocket_allowed() const { return m_allow_item_pocket; }
+
 private:
   void on_escape_press();
 
@@ -111,6 +113,7 @@ private:
   std::string m_passive_message;
   Timer m_passive_message_timer;
 
+  bool m_allow_item_pocket;
   bool m_enter_level;
   bool m_in_level;
   bool m_in_world_select;

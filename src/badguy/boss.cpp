@@ -31,6 +31,7 @@ namespace
 Boss::Boss(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
   BadGuy(reader, sprite_name, layer),
   m_lives(),
+  m_max_lives(),
   m_pinch_lives(),
   m_hud_head(),
   m_hud_icon(),
@@ -38,9 +39,11 @@ Boss::Boss(const ReaderMapping& reader, const std::string& sprite_name, int laye
   m_pinch_activation_script()
 {
   reader.get("lives", m_lives, DEFAULT_LIVES);
-  reader.get("pinch-lives", m_pinch_lives, DEFAULT_PINCH_LIVES);
+  m_max_lives = m_lives;
+
   m_countMe = true;
 
+  reader.get("pinch-lives", m_pinch_lives, DEFAULT_PINCH_LIVES);
   reader.get("pinch-activation-script", m_pinch_activation_script, "");
 }
 
@@ -70,9 +73,13 @@ Boss::draw_hit_points(DrawingContext& context)
     context.set_translation(Vector(0, 0));
     context.transform().scale = 1.f;
 
+    float startpos = (context.get_width() - static_cast<float>((m_hud_head->get_width() * m_max_lives))) / 2;
     for (int i = 0; i < m_lives; ++i)
     {
-      context.color().draw_surface(m_hud_head, Vector(BORDER_X + (static_cast<float>(i * m_hud_head->get_width())), BORDER_Y + 1), LAYER_HUD);
+      context.color().draw_surface(m_hud_head,
+                                   Vector(BORDER_X + (startpos + static_cast<float>(i * m_hud_head->get_width())),
+                                          BORDER_Y + 1),
+                                   LAYER_HUD);
     }
 
     context.pop_transform();
@@ -86,15 +93,15 @@ Boss::get_settings()
 
   result.add_text("hud-icon", &m_hud_icon, "hud-icon", "images/creatures/yeti/hudlife.png", OPTION_HIDDEN);
   result.add_int(_("Lives"), &m_lives, "lives", DEFAULT_LIVES);
-  
-  /* l10n: Pinch Mode refers to a particular boss mode that gets 
-     activated once the boss has lost the specified amounts of lives. 
+
+  /* l10n: Pinch Mode refers to a particular boss mode that gets
+     activated once the boss has lost the specified amounts of lives.
      This setting specifies how many lives need to be spent until pinch
      mode is activated. */
   result.add_int(_("Lives to Pinch Mode"), &m_pinch_lives, "pinch-lives", DEFAULT_PINCH_LIVES);
 
-  /* l10n: Pinch Mode refers to a particular boss mode that gets 
-    activated once the boss has lost the specified amounts of lives. 
+  /* l10n: Pinch Mode refers to a particular boss mode that gets
+    activated once the boss has lost the specified amounts of lives.
     This setting specifies the squirrel script that gets run to activate boss mode.  */
   result.add_script(_("Pinch Mode Activation Script"), &m_pinch_activation_script, "pinch-activation-script");
 
