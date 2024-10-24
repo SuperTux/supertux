@@ -55,9 +55,9 @@ GameObjectChange::save(Writer& writer) const
 }
 
 
-GameObjectChangeSet::GameObjectChangeSet(const UID& uid_, std::vector<GameObjectChange> objects_) :
+GameObjectChangeSet::GameObjectChangeSet(const UID& uid_, std::vector<GameObjectChange> changes_) :
   uid(uid_),
-  changes(std::move(objects_))
+  changes(std::move(changes_))
 {
 }
 

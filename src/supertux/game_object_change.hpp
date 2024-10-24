@@ -56,7 +56,7 @@ public:
 class GameObjectChangeSet final
 {
 public:
-  GameObjectChangeSet(const UID& uid, std::vector<GameObjectChange> objects);
+  GameObjectChangeSet(const UID& uid, std::vector<GameObjectChange> changes);
   GameObjectChangeSet(const ReaderMapping& reader);
 
   void save(Writer& writer) const;
