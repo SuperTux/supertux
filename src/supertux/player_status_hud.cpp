@@ -18,8 +18,10 @@
 
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/level.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/title_screen.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "editor/editor.hpp"
@@ -57,7 +59,7 @@ PlayerStatusHUD::update(float dt_sec)
 void
 PlayerStatusHUD::draw(DrawingContext& context)
 {
-  if (Editor::is_active() || Level)
+  if (Editor::is_active() || TitleScreen::current() || (Level::current() && Level::current()->m_is_in_cutscene))
     return;
 
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
