@@ -117,7 +117,7 @@ if(EMSCRIPTEN)
 endif()
 
 # TODO: Add " OR ANDROID OR IOS" to this
-if(EMSCRIPTEN OR UBUNTU_TOUCH OR ANDROID)
+if(EMSCRIPTEN)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
@@ -163,6 +163,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  add_definitions(-DMACOSX)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
 endif()
 
@@ -230,6 +231,8 @@ target_include_directories(supertux2_lib PUBLIC ${CMAKE_BINARY_DIR} src/)
 if(WIN32)
   add_executable(supertux2 WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
   target_link_libraries(supertux2 LibSDL2main)
+elseif(ANDROID)
+  add_library(supertux2 src/main.cpp)
 else()
   add_executable(supertux2 src/main.cpp)
 endif()
@@ -263,6 +266,9 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
 endif()
 
 ## Link supertux binary with squirrel and other libraries
+if(NOT EMSCRIPTEN)
+  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
+endif()
 
 target_link_libraries(supertux2_lib PUBLIC LibSimpleSquirrel)
 target_link_libraries(supertux2_lib PUBLIC LibTinygettext)
@@ -273,7 +279,6 @@ target_link_libraries(supertux2_lib PUBLIC LibOpenAL)
 target_link_libraries(supertux2_lib PUBLIC LibGlm)
 target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
-
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
@@ -289,11 +294,45 @@ if(ENABLE_DISCORD)
   target_link_libraries(supertux2_lib PUBLIC LibDiscord)
 endif()
 
+# FIXME: Very janky development enviroment!
+if(ANDROID)
+  target_link_libraries(supertux2_lib PUBLIC physfs)
+  target_link_libraries(supertux2_lib PUBLIC libcurl)
+  target_link_libraries(supertux2_lib PUBLIC OpenAL)
+  target_link_libraries(supertux2_lib PUBLIC ogg)
+  target_link_libraries(supertux2_lib PUBLIC vorbis)
+  target_link_libraries(supertux2_lib PUBLIC vorbisfile)
+  target_link_libraries(supertux2_lib PUBLIC glm)
+  target_link_libraries(supertux2_lib PUBLIC png)
+
+  # This is fine, though.
+  find_library(log-lib log)
+  target_link_libraries(supertux2_lib PUBLIC ${log-lib})
+endif()
+
 ## Install stuff
 include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
+
+# Make android data.zip
+if(ANDROID)
+  get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
+  if(NOT EXISTS ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
+    file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
+  endif()
+  file(GLOB DATA_CONTENTS RELATIVE ${DATADIR} ${DATADIR}/*)
+  message("DATA: ${DATA_CONTENTS}")
+  #file(ARCHIVE_CREATE OUTPUT ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar "cfv"
+    "${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip"
+    --format=zip
+    ${DATA_CONTENTS}
+
+    WORKING_DIRECTORY ${DATADIR}
+  )
+endif()
 
 ## Build tests
 include(SuperTux/BuildTests)

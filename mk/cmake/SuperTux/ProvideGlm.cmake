@@ -1,3 +1,12 @@
+#[[
+if(ANDROID)
+  find_library(glm::glm glm)
+  if(TARGET glm::glm)
+    set(glm_FOUND TRUE)
+    set(USE_SYSTEM_GLM TRUE)
+  endif()
+else()
+]]
 if(EMSCRIPTEN)
   option(USE_SYSTEM_GLM "Use the system-provided GLM instead of the external module" OFF)
 else()
@@ -6,26 +15,9 @@ endif()
 
 if(USE_SYSTEM_GLM)
   find_package(glm QUIET)
-
-  if(NOT glm_FOUND)
-    # fallback for old glm version in UBPorts
-    find_path(GLM_INCLUDE_DIR
-      NAMES glm/glm.hpp
-      PATHS ${GLM_ROOT_DIR}/include)
-    if(NOT GLM_INCLUDE_DIR)
-      message(STATUS "Could NOT find glm, using external/glm fallback")
-      set(USE_SYSTEM_GLM OFF)
-    else()
-      message(STATUS "Found glm: ${GLM_INCLUDE_DIR}")
-      add_library(LibGlm INTERFACE IMPORTED)
-      set_target_properties(LibGlm PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${GLM_INCLUDE_DIR}"
-        INTERFACE_COMPILE_DEFINITIONS "GLM_ENABLE_EXPERIMENTAL")
-    endif()
-  endif()
 endif()
 
-if(NOT USE_SYSTEM_GLM)
+if(NOT USE_SYSTEM_GLM AND NOT glm_FOUND)
   if (NOT EXISTS "${CMAKE_SOURCE_DIR}/external/glm/CMakeLists.txt")
     message(FATAL_ERROR "")
   endif()
@@ -73,6 +65,20 @@ elseif(glm_FOUND)
       INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "$<TARGET_PROPERTY:glm,INTERFACE_INCLUDE_DIRECTORIES>"
       INTERFACE_COMPILE_DEFINITIONS "GLM_ENABLE_EXPERIMENTAL")
   endif()
+else()
+  # fallback for old glm version in UBPorts
+  find_path(GLM_INCLUDE_DIR
+    NAMES glm/glm.hpp
+    PATHS ${GLM_ROOT_DIR}/include)
+  if(NOT GLM_INCLUDE_DIR)
+    message(FATAL_ERROR "glm library missing")
+  endif()
+
+  message(STATUS "Found glm: ${GLM_INCLUDE_DIR}")
+  add_library(LibGlm INTERFACE IMPORTED)
+  set_target_properties(LibGlm PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES "${GLM_INCLUDE_DIR}"
+    INTERFACE_COMPILE_DEFINITIONS "GLM_ENABLE_EXPERIMENTAL")
 endif()
 
 # EOF #

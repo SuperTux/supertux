@@ -3,7 +3,7 @@ if(USE_SYSTEM_TINYGETTEXT)
   find_package(tinygettext QUIET)
 endif()
 
-if(TARGET tinygettext)
+if(TARGET tinygettext OR EXISTS TINYGETTEXT_LIBRARY)
   message(STATUS "Found preinstalled tinygettext")
 
   add_library(LibTinygettext ALIAS tinygettext)
@@ -12,8 +12,8 @@ else()
     message(STATUS "Could NOT find tinygettext, using external/tinygettext fallback")
   endif()
 
-  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
-    message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
+  if(NOT EXISTS ${CMAKE_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
+    message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
   endif()
 
   # Include altivec wrapper on ppc
