@@ -76,8 +76,8 @@ public:
   std::optional<bool> christmas_mode;
 
   std::optional<std::string> repository_url;
-
   std::optional<bool> editor;
+  std::optional<bool> from_datadir;
   std::optional<bool> resave;
 
   // std::optional<std::string> locale;
