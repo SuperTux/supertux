@@ -91,7 +91,7 @@ Physic::get_movement(float dt_sec)
 
   if (wind_enabled_flag) {
     this->set_velocity(
-      math::push_to_velocity(this->get_velocity(), this->get_wind_velocity(), wa * dt_sec)
+      math::push_to_velocity(this->get_velocity(), this->get_wind_velocity(), wa * 100.0f * dt_sec)
     );
   }
 
