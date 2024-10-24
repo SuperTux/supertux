@@ -108,6 +108,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (m_tilebox->on_mouse_button_down(button))
   {
+    m_editor.update_autotileset();
     update_mouse_icon();
     return true;
   }
@@ -150,6 +151,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           case 0:
             m_tilebox->get_tiles()->set_tile(0);
             m_tilebox->set_object("");
+            m_editor.update_autotileset();
             update_mouse_icon();
             break;
 

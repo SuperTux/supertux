@@ -100,22 +100,35 @@ TileSet::get(const uint32_t id) const
   }
 }
 
-AutotileSet*
-TileSet::get_autotileset_from_tile(uint32_t tile_id) const
+std::vector<AutotileSet*>
+TileSet::get_autotilesets_from_tile(uint32_t tile_id) const
 {
   if (tile_id == 0)
   {
-    return nullptr;
+    return {};
   }
 
+  std::vector<AutotileSet*> autotilesets;
   for (auto& ats : m_autotilesets)
   {
     if (ats->is_member(tile_id))
-    {
-      return ats.get();
-    }
+      autotilesets.push_back(ats.get());
   }
-  return nullptr;
+  return autotilesets;
+}
+
+bool
+TileSet::has_mutual_autotileset(uint32_t lhs, uint32_t rhs) const
+{
+  if (lhs == rhs)
+    return true;
+
+  for (const auto& autotileset : m_autotilesets)
+  {
+    if (autotileset->is_member(lhs) && autotileset->is_member(rhs))
+      return true;
+  }
+  return false;
 }
 
 void

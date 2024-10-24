@@ -65,7 +65,8 @@ public:
 
   const Tile& get(const uint32_t id) const;
   
-  AutotileSet* get_autotileset_from_tile(uint32_t tile_id) const;
+  std::vector<AutotileSet*> get_autotilesets_from_tile(uint32_t tile_id) const;
+  bool has_mutual_autotileset(uint32_t lhs, uint32_t rhs) const;
 
   uint32_t get_max_tileid() const {
     return static_cast<uint32_t>(m_tiles.size());
