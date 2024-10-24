@@ -116,11 +116,13 @@
     )
     (flyingsnowball
       (direction "left")
+      (load-group "stair")
       (x 6880)
       (y 992)
     )
     (flyingsnowball
       (direction "left")
+      (load-group "stair")
       (x 6816)
       (y 896)
     )
@@ -141,16 +143,19 @@
     )
     (flyingsnowball
       (direction "left")
+      (load-group "final")
       (x 13984)
       (y 912)
     )
     (flyingsnowball
       (direction "left")
+      (load-group "final")
       (x 14144)
       (y 960)
     )
     (flyingsnowball
       (direction "left")
+      (load-group "final")
       (x 13824)
       (y 864)
     )
@@ -192,21 +197,25 @@
     )
     (jumpy
       (direction "left")
+      (load-group "jpair1")
       (x 11616)
       (y 768)
     )
     (jumpy
       (direction "left")
+      (load-group "jpair1")
       (x 11680)
       (y 768)
     )
     (jumpy
       (direction "left")
+      (load-group "jpair2")
       (x 11920)
       (y 768)
     )
     (jumpy
       (direction "left")
+      (load-group "jpair2")
       (x 11984)
       (y 768)
     )
