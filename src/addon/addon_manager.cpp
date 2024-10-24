@@ -276,7 +276,10 @@ AddonManager::request_check_online()
 {
   empty_cache_directory();
 
-  TransferStatusPtr status = m_downloader.request_download(m_repository_url, ADDON_INFO_PATH);
+  // Since then() may be called immediately if networking is disabled,
+  // hold the status in a separate variable so that `m_transfer_status = {}`
+  // below doesn't cause this function to return nullptr.
+  auto status = m_downloader.request_download(m_repository_url, ADDON_INFO_PATH);
   status->then(
     [this](bool success)
     {

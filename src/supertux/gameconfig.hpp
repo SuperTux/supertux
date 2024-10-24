@@ -36,6 +36,11 @@ public:
 
   void check_values();
 
+  bool is_initial() const { return m_initial; }
+
+private:
+  bool m_initial;
+
 public:
   int profile;
 
@@ -108,6 +113,7 @@ public:
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
   bool do_release_check;
+  bool disable_network;
   bool custom_title_levels;
 
 #ifdef ENABLE_DISCORD

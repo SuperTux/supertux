@@ -35,6 +35,7 @@
 #endif
 
 Config::Config() :
+  m_initial(true),
   profile(1),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
@@ -78,11 +79,8 @@ Config::Config() :
   confirmation_dialog(false),
   pause_on_focusloss(true),
   custom_mouse_cursor(true),
-#ifdef __EMSCRIPTEN__
   do_release_check(false),
-#else
-  do_release_check(true),
-#endif
+  disable_network(true),
   custom_title_levels(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
@@ -155,6 +153,7 @@ Config::load()
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("do_release_check", do_release_check);
+  config_mapping.get("disable_network", disable_network);
   config_mapping.get("custom_title_levels", custom_title_levels);
 
   std::optional<ReaderMapping> config_integrations_mapping;
@@ -351,6 +350,7 @@ Config::load()
   }
 
   check_values();
+  m_initial = false;
 }
 
 void
@@ -374,6 +374,7 @@ Config::save()
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
   writer.write("do_release_check", do_release_check);
+  writer.write("disable_network", disable_network);
   writer.write("custom_title_levels", custom_title_levels);
 
   writer.start_list("integrations");
