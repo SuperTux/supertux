@@ -196,14 +196,14 @@ GameObject::save_state()
 
   if (!m_parent->undo_tracking_enabled())
   {
-    m_last_state.clear();
+    m_last_state.reset();
     return;
   }
-  if (!track_state())
+  if (!track_state() || m_last_state)
     return;
 
-  if (m_last_state.empty())
-    m_last_state = save();
+  m_last_state = get_settings();
+  m_last_state->save_state();
 }
 
 void
@@ -214,21 +214,15 @@ GameObject::check_state()
 
   if (!m_parent->undo_tracking_enabled())
   {
-    m_last_state.clear();
+    m_last_state.reset();
     return;
   }
-  if (!track_state())
+  if (!track_state() || !m_last_state)
     return;
 
-  // If settings have changed, save the change.
-  if (!m_last_state.empty())
-  {
-    if (m_last_state != save())
-    {
-      m_parent->save_object_change(*this, m_last_state);
-    }
-    m_last_state.clear();
-  }
+  // Save any option changes.
+  m_parent->save_object_change(*this, *m_last_state);
+  m_last_state.reset();
 }
 
 void

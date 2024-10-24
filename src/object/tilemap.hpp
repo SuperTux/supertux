@@ -58,6 +58,8 @@ public:
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   ~TileMap() override;
 
+  void parse_tiles(const ReaderMapping& reader);
+
   virtual void finish_construction() override;
 
   static std::string class_name() { return "tilemap"; }
@@ -189,6 +191,7 @@ public:
    * @param int $newtile
    */
   void change(int x, int y, uint32_t newtile);
+  void change(int idx, uint32_t newtile);
   /**
    * @scripting
    * @description Changes the tile at the given position (in-world coordinates) to ""newtile"".
