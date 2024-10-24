@@ -52,8 +52,6 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
-  m_wind_velocity(),
-  m_wind_acceleration(0.f),
   m_countMe(true),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
@@ -97,8 +95,6 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
-  m_wind_velocity(),
-  m_wind_acceleration(0.f),
   m_countMe(true),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
@@ -340,14 +336,12 @@ BadGuy::handle_wind()
 {
   if (!m_col.m_colliding_wind.empty())
   {
-    if (on_ground() && m_wind_velocity.y > 0.f)
-      m_wind_velocity.y = 0.f;
-
-    m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
+    if (on_ground() && m_physic.get_wind_velocity_y() > 0.f)
+      m_physic.set_wind_velocity_y(0.f);
   }
   else {
-    m_wind_velocity = Vector(0.f, 0.f);
-    m_wind_acceleration = 0.0;
+    m_physic.set_wind_velocity(Vector(0.f));
+    m_physic.set_wind_acceleration(0.0);
   }
 }
 

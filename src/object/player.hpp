@@ -164,9 +164,6 @@ public:
   /** Adds velocity to the player until given end speed is reached */
   void add_velocity(const Vector& velocity, const Vector& end_speed);
 
-  /** Version of `add_velocity` with modifications for wind physics */
-  void add_wind_velocity(const float acceleration, const Vector& end_speed, const float dt_sec);
-
   /** Returns the current velocity of the player */
   Vector get_velocity() const;
 
@@ -371,8 +368,6 @@ private:
   Timer m_backflip_timer;
 
   Physic m_physic;
-  Vector m_wind_velocity;
-  float m_wind_acceleration;
   bool m_visible;
 
   Portable* m_grabbed_object;

@@ -22,6 +22,9 @@
 Physic::Physic() :
   ax(0), ay(0),
   vx(0), vy(0),
+  wvx(0), wvy(0),
+  wa(0),
+  wind_enabled_flag(true),
   gravity_enabled_flag(true),
   gravity_modifier(1.0f)
 {
@@ -30,7 +33,8 @@ Physic::Physic() :
 void
 Physic::reset()
 {
-  ax = ay = vx = vy = 0;
+  ax = ay = vx = vy = wvx = wvy = wa = 0;
+  wind_enabled_flag = true;
   gravity_enabled_flag = true;
 }
 
@@ -46,6 +50,18 @@ Physic::set_velocity(const Vector& vector)
 {
   vx = vector.x;
   vy = vector.y;
+}
+
+void
+Physic::set_wind_velocity(float nvx, float nvy) {
+  wvx = nvx;
+  wvy = nvy;
+}
+
+void
+Physic::set_wind_velocity(const Vector& vector) {
+  wvx = vector.x;
+  wvy = vector.y;
 }
 
 void
@@ -72,6 +88,13 @@ Physic::get_movement(float dt_sec)
   // v t + .5 a t (t+dt_sec) at total time t
   vx += ax * dt_sec;
   vy += (ay + grav) * dt_sec;
+
+  if (wind_enabled_flag) {
+    this->set_velocity(
+      math::push_to_velocity(this->get_velocity(), this->get_wind_velocity(), wa * dt_sec)
+    );
+  }
+
   Vector result(vx * dt_sec, vy * dt_sec);
 
   return result;

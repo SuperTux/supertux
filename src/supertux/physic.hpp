@@ -47,6 +47,24 @@ public:
   float get_velocity_x() const { return vx; }
   float get_velocity_y() const { return vy; }
 
+  /// Set both components of the wind velocity
+  void set_wind_velocity(float nvx, float nvy);
+  void set_wind_velocity(const Vector& vector);
+
+  /// Set one component of the wind velocity
+  void set_wind_velocity_x(float nvx) { wvx = nvx; }
+  void set_wind_velocity_y(float nvy) { wvy = nvy; }
+
+  /// Get one or both components of the wind velocity
+  Vector get_wind_velocity() const { return Vector(wvx, wvy); }
+  float get_wind_velocity_x() const { return wvx; }
+  float get_wind_velocity_y() const { return wvy; }
+
+  /// Set wind acceleration
+  void set_wind_acceleration(float nwa) { wa = nwa; }
+  /// Get wind acceleration
+  float get_wind_acceleration() const { return wa; }
+
   /// Set acceleration.
   /** Sets acceleration applied to the object. (Note that gravity is
    * eventually added to the vertical acceleration)
@@ -78,6 +96,15 @@ private:
 
   /** horizontal and vertical velocity */
   float vx, vy;
+
+  /** horizontal and vertical wind velocity */
+  float wvx, wvy;
+
+  /** wind acceleration */
+  float wa;
+
+  /** should wind velocity be included in the calculations? */
+  bool wind_enabled_flag;
 
   /** should we respect gravity in our calculations? */
   bool gravity_enabled_flag;

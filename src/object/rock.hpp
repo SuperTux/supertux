@@ -47,8 +47,6 @@ public:
   virtual GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
 
-  /** Adds velocity from wind */
-  virtual void add_wind_velocity(const float acceleration, const Vector& end_speed, const float dt_sec);
   Physic& get_physic() { return m_physic; }
 
 protected:
@@ -65,8 +63,6 @@ protected:
   bool m_on_ground;
   bool m_on_ice;
   Vector m_last_movement;
-  Vector m_wind_velocity;
-  float m_wind_acceleration;
   std::string m_on_grab_script;
   std::string m_on_ungrab_script;
   bool m_running_grab_script;

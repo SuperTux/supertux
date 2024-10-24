@@ -140,6 +140,8 @@ public:
   /** Version of `add_velocity` with modifications for wind physics */
   void add_wind_velocity(const float acceleration, const Vector& end_speed, const float dt_sec);
 
+  Physic& get_physic() { return m_physic; }
+
 protected:
   enum State {
     STATE_INIT,

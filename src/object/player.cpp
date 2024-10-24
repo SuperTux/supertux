@@ -213,8 +213,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_growing(false),
   m_backflip_timer(),
   m_physic(),
-  m_wind_velocity(),
-  m_wind_acceleration(),
   m_visible(true),
   m_grabbed_object(nullptr),
   m_grabbed_object_remove_listener(new GrabListener(*this)),
@@ -378,8 +376,8 @@ void
 Player::update(float dt_sec)
 {
   if (m_col.m_colliding_wind.empty()) {
-    m_wind_velocity = Vector(0.f, 0.f);
-    m_wind_acceleration = 0.0;
+    m_physic.set_wind_acceleration(0);
+    m_physic.set_wind_velocity(0, 0);
   }
 
   if (is_dead() || Sector::get().get_object_count<Player>() == 1)
@@ -551,12 +549,6 @@ Player::update(float dt_sec)
   if (!m_dying && !m_deactivated)
     handle_input();
 
-  if (!m_col.m_colliding_wind.empty()) {
-    if (on_ground() && m_wind_velocity.y > 0.f)
-      m_wind_velocity.y = 0.f;
-
-    m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
-  }
   /*
   // handle_input() calls apply_friction() when Tux is not walking, so we'll have to do this ourselves
   if (deactivated)
@@ -2907,29 +2899,5 @@ Player::remove_collected_key(Key* key)
                                      key),
                          m_collected_keys.end());
 }
-
-void
-Player::add_wind_velocity(const float acceleration, const Vector& end_speed, const float dt_sec)
-{
-  Vector adjusted_end_speed = glm::normalize(end_speed) * acceleration;
-
-  Vector vec_acceleration = adjusted_end_speed * dt_sec;
-
-  m_wind_acceleration = acceleration;
-  Vector end_velocity = Vector(0.f, 0.f);
-  // Only add velocity in the same direction as the wind.
-  if (adjusted_end_speed.x > 0 && m_physic.get_velocity_x() + m_wind_velocity.x < end_speed.x)
-    end_velocity.x = std::min(vec_acceleration.x, adjusted_end_speed.x);
-  if (adjusted_end_speed.x < 0 && m_physic.get_velocity_x() + m_wind_velocity.x > end_speed.x)
-    end_velocity.x = std::max(vec_acceleration.x, adjusted_end_speed.x);
-  if (adjusted_end_speed.y > 0 && m_physic.get_velocity_y() + m_wind_velocity.y < end_speed.y)
-    end_velocity.y = std::min(vec_acceleration.y, adjusted_end_speed.y);
-  if (adjusted_end_speed.y < 0 && m_physic.get_velocity_y() + m_wind_velocity.y > end_speed.y)
-    end_velocity.y = std::max(vec_acceleration.y, adjusted_end_speed.y);
-
-  m_wind_velocity = glm::lerp(m_wind_velocity, end_velocity, 0.5f);
-}
-
-
 
 /* EOF */
