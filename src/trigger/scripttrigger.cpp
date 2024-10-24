@@ -17,6 +17,7 @@
 #include "trigger/scripttrigger.hpp"
 
 #include "editor/editor.hpp"
+#include "object/player.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
@@ -26,11 +27,16 @@
 ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   Trigger(reader),
   triggerevent(),
+  m_trigger_direction(Direction::AUTO),
   script(),
   must_activate(false),
   oneshot(false),
   runcount(0)
 {
+  std::string trigger_direction;
+  reader.get("trigger-direction", trigger_direction, dir_to_string(Direction::AUTO).c_str());
+  m_trigger_direction = string_to_dir(trigger_direction);
+
   reader.get("script", script);
   reader.get("button", must_activate);
   reader.get("oneshot", oneshot);
@@ -51,6 +57,8 @@ ScriptTrigger::get_settings()
   result.add_script(_("Script"), &script, "script");
   result.add_bool(_("Button"), &must_activate, "button");
   result.add_bool(_("Oneshot"), &oneshot, "oneshot", false);
+  result.add_direction(_("Trigger Direction"), &m_trigger_direction,
+                        { Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "trigger-direction");
 
   result.reorder({"script", "button", "width", "height", "x", "y"});
 
@@ -58,10 +66,29 @@ ScriptTrigger::get_settings()
 }
 
 void
-ScriptTrigger::event(Player& , EventType type)
+ScriptTrigger::event(Player& player, EventType type)
 {
   if (type != triggerevent || (oneshot && runcount >= 1))
     return;
+
+  if(m_trigger_direction != Direction::AUTO)
+  {
+    const auto& pos = get_pos();
+    const auto& player_pos = player.get_pos();
+    Direction player_direction = Direction::NONE;
+
+    if (player_pos.x < pos.x)
+      player_direction = Direction::LEFT;
+    if (player_pos.x + player.get_width() > pos.x + get_width())
+      player_direction = Direction::RIGHT;
+    if (player_pos.y < pos.y)
+      player_direction = Direction::UP;
+    if (player_pos.y + player.get_height() > pos.y + get_height())
+      player_direction = Direction::DOWN;
+
+    if (player_direction != m_trigger_direction)
+      return;
+  }
 
   Sector::get().run_script(script, "ScriptTrigger");
   runcount++;
