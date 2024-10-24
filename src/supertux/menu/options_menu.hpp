@@ -51,10 +51,6 @@ private:
   void add_window_resolutions();
   void add_resolutions();
   void add_vsync();
-  void add_sound_volume();
-  void add_music_volume();
-  void add_flash_intensity();
-  void add_mobile_control_scales();
 
 private:
   enum MenuIDs {
@@ -97,10 +93,6 @@ private:
   StringOption m_window_resolutions;
   StringOption m_resolutions;
   StringOption m_vsyncs;
-  StringOption m_sound_volumes;
-  StringOption m_music_volumes;
-  StringOption m_flash_intensity_values;
-  StringOption m_mobile_control_scales;
 
 private:
   OptionsMenu(const OptionsMenu&) = delete;
