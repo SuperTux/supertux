@@ -90,8 +90,14 @@ Trigger::Trigger(const ReaderMapping& reader) :
 }
 
 
-SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name) :
-  MovingSprite(reader, sprite_name, LAYER_TILES + 1, COLGROUP_TOUCHABLE)
+SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
+  MovingSprite(reader, sprite_name, layer, COLGROUP_TOUCHABLE)
+{
+}
+
+
+StickyTrigger::StickyTrigger(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
+  StickyObject(reader, sprite_name, layer, COLGROUP_TOUCHABLE)
 {
 }
 

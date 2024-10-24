@@ -46,7 +46,7 @@ jobs:
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-12' }}
@@ -62,8 +62,8 @@ jobs:
             /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
             /usr/local/opt/webp/lib/libwebp.7.dylib
           install_name_tool -change \
-            '@rpath/libjxl_cms.0.10.dylib' \
-            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.10.dylib \
+            '@rpath/libjxl_cms.0.11.dylib' \
+            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
             /usr/local/opt/jpeg-xl/lib/libjxl.dylib
 
           # Something funky happens with freetype if mono is left
@@ -116,6 +116,7 @@ jobs:
         run: ../.ci_scripts/package.sh
 
       - uses: actions/upload-artifact@v4
+        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
         with:
           name: "${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-dmg"
           path: build/upload/*.dmg

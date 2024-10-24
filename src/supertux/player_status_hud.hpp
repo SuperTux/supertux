@@ -34,6 +34,7 @@ private:
 
 public:
   PlayerStatusHUD(PlayerStatus& player_status);
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(PlayerStatusHUD)); }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

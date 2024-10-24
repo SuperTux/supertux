@@ -21,6 +21,8 @@
 
 #include "interface/control.hpp"
 
+#include "util/log.hpp"
+
 template<class T>
 class ControlEnum : public InterfaceControl
 {
@@ -38,7 +40,7 @@ public:
   void set_value(T value) { *m_value = value; }
   void bind_value(T* value) { m_value = value; }
 
-  void add_option(T key, std::string label) { m_options.push_back(std::make_pair(key, label)); }
+  void add_option(T key, const std::string& label) { m_options.push_back(std::make_pair(key, label)); }
 
   Rectf get_list_rect() const {
     return Rectf (

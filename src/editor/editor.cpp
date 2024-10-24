@@ -180,6 +180,8 @@ Editor::draw(Compositor& compositor)
       m_new_scale = 0.f;
     }
 
+    m_sector->pause_camera_interpolation();
+
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
     if (!m_leveltested)
@@ -409,6 +411,12 @@ Editor::get_tileselect_move_mode() const
 }
 
 void
+Editor::update_autotileset()
+{
+  m_overlay_widget->update_autotileset();
+}
+
+void
 Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
@@ -539,7 +547,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_enabled = true;
 
   if (reset) {
-    m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+    m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   }
 
   // Reload level.
@@ -725,20 +733,14 @@ Editor::convert_tiles_by_file(const std::string& file)
   {
     IFileStream in(file);
     if (!in.good())
-    {
-      log_warning << "Couldn't open conversion file '" << file << "'." << std::endl;
-      return;
-    }
+      throw std::runtime_error("Error opening file stream!");
 
     int a, b;
     std::string delimiter;
     while (in >> a >> delimiter >> b)
     {
       if (delimiter != "->")
-      {
-        log_warning << "Couldn't parse conversion file '" << file << "'." << std::endl;
-        return;
-      }
+        throw std::runtime_error("Expected '->' delimiter!");
 
       tiles[a] = b;
     }
@@ -746,6 +748,7 @@ Editor::convert_tiles_by_file(const std::string& file)
   catch (std::exception& err)
   {
     log_warning << "Couldn't parse conversion file '" << file << "': " << err.what() << std::endl;
+    return;
   }
 
   for (const auto& sector : m_level->get_sectors())
@@ -838,18 +841,18 @@ Editor::setup()
 }
 
 void
-Editor::resize()
+Editor::on_window_resize()
 {
   for(const auto& widget: m_widgets)
   {
-    widget->resize();
+    widget->on_window_resize();
   }
 }
 
 void
 Editor::event(const SDL_Event& ev)
 {
-  if (!m_enabled) return;
+  if (!m_enabled || !m_levelloaded) return;
 
   try
   {
@@ -966,7 +969,7 @@ void
 Editor::change_tileset()
 {
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+  m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_tileset);
@@ -983,7 +986,7 @@ Editor::select_objectgroup(int id)
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return m_toolbox_widget->get_object_info().m_groups;
+  return m_toolbox_widget->get_tilebox().get_object_info().m_groups;
 }
 
 void

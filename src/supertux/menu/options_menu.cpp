@@ -19,15 +19,16 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/dialog.hpp"
+#include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"
 #include "gui/menu_item.hpp"
-#include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/title_screen.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -54,7 +55,6 @@ OptionsMenu::less_than_volume(const std::string& lhs, const std::string& rhs)
   return false;
 }
 
-
 OptionsMenu::OptionsMenu(Type type, bool complete) :
   m_type(type),
   m_complete(complete),
@@ -65,6 +65,7 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
   m_vsyncs(),
   m_sound_volumes(),
   m_music_volumes(),
+  m_flash_intensity_values(),
   m_mobile_control_scales()
 {
   refresh();
@@ -119,13 +120,20 @@ OptionsMenu::refresh()
       add_magnification();
       add_vsync();
 
+      add_toggle(MNID_FRAME_PREDICTION, _("Frame prediction"), &g_config->frame_prediction)
+        .set_help(_("Smooth camera motion, generating intermediate frames. This has a noticeable effect on monitors at >> 60Hz. Moving objects may be blurry."));
+
+      add_flash_intensity();
+
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
       add_aspect_ratio();
 #endif
 
+      add_floatfield(_("Camera Peek Multiplier"), &g_config->camera_peek_multiplier)
+        .set_help(_("The fractional distance towards the camera peek position to move each frame.\n\n0 = No Peek, 1 = Instant Peek"));
+
       add_submenu(_("Change Video System"), MenuStorage::MenuId::VIDEO_SYSTEM_MENU)
         .set_help(_("Change video system used to render graphics"));
-
       break;
     }
 
@@ -241,6 +249,7 @@ OptionsMenu::refresh()
 
 OptionsMenu::~OptionsMenu()
 {
+  g_config->save();
 }
 
 void
@@ -519,6 +528,42 @@ OptionsMenu::add_music_volume()
 }
 
 void
+OptionsMenu::add_flash_intensity()
+{
+  m_flash_intensity_values.list = { "0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%" };
+
+  std::ostringstream flash_intensity_value_stream;
+  flash_intensity_value_stream << g_config->flash_intensity << "%";
+  std::string flash_intensity_string = flash_intensity_value_stream.str();
+
+  if (std::find(m_flash_intensity_values.list.begin(),
+    m_flash_intensity_values.list.end(), flash_intensity_string) == m_flash_intensity_values.list.end())
+  {
+    m_flash_intensity_values.list.push_back(flash_intensity_string);
+  }
+
+  std::sort(m_flash_intensity_values.list.begin(), m_flash_intensity_values.list.end(), less_than_volume);
+
+  std::ostringstream out;
+  out << g_config->flash_intensity << "%";
+  std::string flash_intensity_value = out.str();
+  int count = 0;
+  for (const auto& value : m_flash_intensity_values.list)
+  {
+    if (value == flash_intensity_value)
+    {
+      flash_intensity_value.clear();
+      m_flash_intensity_values.next = count;
+      break;
+    }
+    ++count;
+  }
+
+  add_string_select(MNID_FLASH_INTENSITY, _("Flash Intensity"), &m_flash_intensity_values.next, m_flash_intensity_values.list)
+    .set_help(_("Adjust the intensity of the flash produced by the thunderstorm"));
+}
+
+void
 OptionsMenu::add_mobile_control_scales()
 {
   for (unsigned i = 50; i <= 300; i += 25)
@@ -531,14 +576,12 @@ OptionsMenu::add_mobile_control_scales()
   add_string_select(MNID_MOBILE_CONTROLS_SCALE, _("On-screen controls scale"), &m_mobile_control_scales.next, m_mobile_control_scales.list);
 }
 
-
 void
 OptionsMenu::on_window_resize()
 {
   set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2.0f,
                  static_cast<float>(SCREEN_HEIGHT) / 2.0f + 15.0f);
 }
-
 
 void
 OptionsMenu::menu_action(MenuItem& item)
@@ -550,13 +593,13 @@ OptionsMenu::menu_action(MenuItem& item)
         {
           g_config->aspect_size = Size(0, 0); // Magic values
           VideoSystem::current()->apply_config();
-          MenuManager::instance().on_window_resize();
+          ScreenManager::current()->on_window_resize();
         }
         else if (sscanf(m_aspect_ratios.list[m_aspect_ratios.next].c_str(), "%d:%d",
                         &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
         {
           VideoSystem::current()->apply_config();
-          MenuManager::instance().on_window_resize();
+          ScreenManager::current()->on_window_resize();
         }
         else
         {
@@ -576,7 +619,7 @@ OptionsMenu::menu_action(MenuItem& item)
         g_config->magnification /= 100.0f;
       }
       VideoSystem::current()->apply_config();
-      MenuManager::instance().on_window_resize();
+      ScreenManager::current()->on_window_resize();
       break;
 
     case MNID_WINDOW_RESIZABLE:
@@ -597,7 +640,7 @@ OptionsMenu::menu_action(MenuItem& item)
         {
           g_config->window_size = Size(width, height);
           VideoSystem::current()->apply_config();
-          MenuManager::instance().on_window_resize();
+          ScreenManager::current()->on_window_resize();
         }
       }
       break;
@@ -682,7 +725,7 @@ OptionsMenu::menu_action(MenuItem& item)
 
     case MNID_FULLSCREEN:
       VideoSystem::current()->apply_config();
-      MenuManager::instance().on_window_resize();
+      ScreenManager::current()->on_window_resize();
       g_config->save();
       break;
 
@@ -712,6 +755,13 @@ OptionsMenu::menu_action(MenuItem& item)
         bool music_enabled = g_config->music_volume > 0 ? true : false;
         SoundManager::current()->enable_music(music_enabled);
         SoundManager::current()->set_music_volume(g_config->music_volume);
+        g_config->save();
+      }
+      break;
+
+    case MNID_FLASH_INTENSITY:
+      if (sscanf(m_flash_intensity_values.list[m_flash_intensity_values.next].c_str(), "%i", &g_config->flash_intensity) == 1)
+      {
         g_config->save();
       }
       break;

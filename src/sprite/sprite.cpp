@@ -98,7 +98,7 @@ Sprite::set_action(const std::string& name, int loops)
 
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
-    log_debug << "Action '" << name << "' not found." << std::endl;
+    log_warning << "Action '" << name << "' not found." << std::endl;
     return;
   }
 
@@ -138,10 +138,7 @@ Sprite::update()
   float frame_inc = m_action->fps * (g_game_time - m_last_ticks);
   m_last_ticks = g_game_time;
 
-  if (m_is_paused)
-  {
-    return;
-  }
+  if (m_is_paused) return;
 
   m_frame += frame_inc;
 
@@ -168,9 +165,8 @@ void
 Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
              Flip flip)
 {
-  assert(m_action != nullptr);
+  assert(m_action);
   update();
-
 
   DrawingContext& context = canvas.get_context();
   context.push_transform();
@@ -184,6 +180,29 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
                     m_color,
                     m_blend,
                     layer);
+
+  context.pop_transform();
+}
+
+void
+Sprite::draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
+                    Flip flip)
+{
+  assert(m_action);
+  update();
+
+  DrawingContext& context = canvas.get_context();
+  context.push_transform();
+
+  context.set_flip(context.get_flip() ^ flip);
+  context.set_alpha(context.get_alpha() * m_alpha);
+
+  PaintStyle style;
+  style.set_color(m_color);
+  style.set_alpha(m_color.alpha);
+  style.set_blend(m_blend);
+
+  canvas.draw_surface_scaled(m_action->surfaces[m_frameidx], dest_rect, layer, style);
 
   context.pop_transform();
 }

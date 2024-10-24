@@ -98,12 +98,14 @@ TTFFont::get_text_height(const std::string& text) const
   });
 }
 
-void
+Rectf
 TTFFont::draw_text(Canvas& canvas, const std::string& text,
                    const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 
 {
+  float min_x = pos.x;
   float last_y = pos.y - (static_cast<float>(TTF_FontHeight(m_font)) - get_height()) / 2.0f;
+  float max_width = 0.f;
 
   LineIterator iter(text);
   while (iter.next())
@@ -113,24 +115,30 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
     if (!line.empty())
     {
       TTFSurfacePtr ttf_surface = TTFSurfaceManager::current()->create_surface(*this, line);
+      const float width = static_cast<float>(ttf_surface->get_width());
 
       Vector new_pos(pos.x, last_y);
 
       if (alignment == ALIGN_CENTER)
-      {
-        new_pos.x -= static_cast<float>(ttf_surface->get_width()) / 2.0f;
-      }
+        new_pos.x -= width / 2.0f;
       else if (alignment == ALIGN_RIGHT)
-      {
-        new_pos.x -= static_cast<float>(ttf_surface->get_width());
-      }
+        new_pos.x -= width;
 
-      // draw text
-      canvas.draw_surface(ttf_surface->get_surface(), glm::floor(new_pos), 0.0f, color, Blend(), layer);
+      new_pos = glm::floor(new_pos);
+
+      if (new_pos.x < min_x)
+        min_x = new_pos.x;
+      if (width > max_width)
+        max_width = width;
+
+      // Draw text surface
+      canvas.draw_surface(ttf_surface->get_surface(), new_pos, 0.0f, color, Blend(), layer);
     }
 
     last_y += get_height();
   }
+
+  return Rectf(min_x, pos.y, min_x + max_width, last_y);
 }
 
 std::string

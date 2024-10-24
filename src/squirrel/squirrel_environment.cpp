@@ -18,105 +18,81 @@
 
 #include <algorithm>
 
-#include "squirrel/script_interface.hpp"
-#include "squirrel/squirrel_error.hpp"
-#include "squirrel/squirrel_scheduler.hpp"
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+#include <sqstdaux.h>
+
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
-#include "supertux/game_object.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 
-SquirrelEnvironment::SquirrelEnvironment(SquirrelVM& vm, const std::string& name) :
+SquirrelEnvironment::SquirrelEnvironment(ssq::VM& vm, const std::string& name) :
   m_vm(vm),
-  m_table(),
+  m_table(m_vm.newTable()),
   m_name(name),
   m_scripts(),
   m_scheduler(std::make_unique<SquirrelScheduler>(m_vm))
 {
-  // garbage collector has to be invoked manually
-  sq_collectgarbage(m_vm.get_vm());
+  // Garbage collector has to be invoked manually!
+  sq_collectgarbage(m_vm.getHandle());
 
-  sq_newtable(m_vm.get_vm());
-  sq_pushroottable(m_vm.get_vm());
-  if (SQ_FAILED(sq_setdelegate(m_vm.get_vm(), -2)))
-    throw SquirrelError(m_vm.get_vm(), "Couldn't set table delegate");
-
-  sq_resetobject(&m_table);
-  if (SQ_FAILED(sq_getstackobj(m_vm.get_vm(), -1, &m_table))) {
-    throw SquirrelError(m_vm.get_vm(), "Couldn't get table");
-  }
-
-  sq_addref(m_vm.get_vm(), &m_table);
-  sq_pop(m_vm.get_vm(), 1);
+  // Set the root table as delegate.
+  m_table.setDelegate(m_vm);
 }
 
 SquirrelEnvironment::~SquirrelEnvironment()
 {
-  for (auto& script: m_scripts)
-  {
-    sq_release(m_vm.get_vm(), &script);
-  }
   m_scripts.clear();
-  sq_release(m_vm.get_vm(), &m_table);
+  m_table.reset();
 
-  sq_collectgarbage(m_vm.get_vm());
+  sq_collectgarbage(m_vm.getHandle());
 }
 
 void
 SquirrelEnvironment::expose_self()
 {
-  sq_pushroottable(m_vm.get_vm());
-  m_vm.store_object(m_name.c_str(), m_table);
-  sq_pop(m_vm.get_vm(), 1);
+  m_vm.set(m_name.c_str(), m_table);
 }
 
 void
 SquirrelEnvironment::unexpose_self()
 {
-  sq_pushroottable(m_vm.get_vm());
-  m_vm.delete_table_entry(m_name.c_str());
-  sq_pop(m_vm.get_vm(), 1);
+  m_vm.remove(m_name.c_str());
 }
 
 void
-SquirrelEnvironment::try_expose(GameObject& object)
+SquirrelEnvironment::expose(ExposableClass& object, const std::string& name)
 {
-  auto script_object = dynamic_cast<ScriptInterface*>(&object);
-  if (script_object != nullptr) {
-    sq_pushobject(m_vm.get_vm(), m_table);
-    script_object->expose(m_vm.get_vm(), -1);
-    sq_pop(m_vm.get_vm(), 1);
+  if (name.empty()) return;
+
+  const std::string class_name = object.get_exposed_class_name();
+  assert(!class_name.empty());
+
+  try
+  {
+    ssq::Class sq_class = m_vm.findClass(class_name.c_str());
+    m_vm.newInstancePtr(m_table, sq_class, name.c_str(), &object);
   }
-}
-
-void
-SquirrelEnvironment::try_unexpose(GameObject& object)
-{
-  auto script_object = dynamic_cast<ScriptInterface*>(&object);
-  if (script_object != nullptr) {
-    SQInteger oldtop = sq_gettop(m_vm.get_vm());
-    sq_pushobject(m_vm.get_vm(), m_table);
-    try {
-      script_object->unexpose(m_vm.get_vm(), -1);
-    } catch(std::exception& e) {
-      log_warning << "Couldn't unregister object: " << e.what() << std::endl;
-    }
-    sq_settop(m_vm.get_vm(), oldtop);
+  catch (const std::exception& err)
+  {
+    log_warning << "Couldn't expose object of class '" << class_name << "': " << err.what() << std::endl;
   }
 }
 
 void
 SquirrelEnvironment::unexpose(const std::string& name)
 {
-  SQInteger oldtop = sq_gettop(m_vm.get_vm());
-  sq_pushobject(m_vm.get_vm(), m_table);
-  try {
-    unexpose_object(m_vm.get_vm(), -1, name.c_str());
-  } catch(std::exception& e) {
-    log_warning << "Couldn't unregister object: " << e.what() << std::endl;
+  if (name.empty()) return;
+
+  try
+  {
+    m_table.remove(name.c_str());
   }
-  sq_settop(m_vm.get_vm(), oldtop);
+  catch (const std::exception& err)
+  {
+    log_warning << "Couldn't unregister object: " << err.what() << std::endl;
+  }
 }
 
 void
@@ -133,15 +109,8 @@ SquirrelEnvironment::garbage_collect()
 {
   m_scripts.erase(
     std::remove_if(m_scripts.begin(), m_scripts.end(),
-                   [this](HSQOBJECT& object){
-                     HSQUIRRELVM vm = object_to_vm(object);
-
-                     if (sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
-                       sq_release(m_vm.get_vm(), &object);
-                       return true;
-                     } else {
-                       return false;
-                     }
+                   [](ssq::VM& thread) {
+                     return thread.getState() != SQ_VMSTATE_SUSPENDED;
                    }),
     m_scripts.end());
 }
@@ -153,35 +122,37 @@ SquirrelEnvironment::run_script(std::istream& in, const std::string& sourcename)
 
   try
   {
-    HSQOBJECT object = m_vm.create_thread();
-    m_scripts.push_back(object);
+    ssq::VM thread = m_vm.newThread(64);
+    thread.setForeignPtr(this);
+    thread.setRootTable(m_table);
 
-    HSQUIRRELVM vm = object_to_vm(object);
+    thread.run(thread.compileSource(in, sourcename.c_str()));
 
-    sq_setforeignptr(vm, this);
-
-    // set root table
-    sq_pushobject(vm, m_table);
-    sq_setroottable(vm);
-
-    compile_and_run(vm, in, sourcename);
+    m_scripts.push_back(std::move(thread));
   }
-  catch(const std::exception& e)
+  catch (const ssq::Exception& e)
   {
-    log_warning << "Error running script: " << e.what() << std::endl;
+    if (e.vm)
+      sqstd_printcallstack(e.vm);
+
+    log_warning << e.what() << std::endl;
+  }
+  catch (const std::exception& e)
+  {
+    log_warning << e.what() << std::endl;
   }
 }
 
-void
+SQInteger
 SquirrelEnvironment::wait_for_seconds(HSQUIRRELVM vm, float seconds)
 {
-  m_scheduler->schedule_thread(vm, g_game_time + seconds, false);
+  return m_scheduler->schedule_thread(vm, g_game_time + seconds, false);
 }
 
-void
+SQInteger
 SquirrelEnvironment::skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds)
 {
-  m_scheduler->schedule_thread(vm, g_game_time + seconds, true);
+  return m_scheduler->schedule_thread(vm, g_game_time + seconds, true);
 }
 
 void

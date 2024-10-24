@@ -24,16 +24,30 @@
 static const float JUMPSPEED = -450;
 static const float BSNOWBALL_WALKSPEED = 80;
 
-BouncingSnowball::BouncingSnowball(const ReaderMapping& reader)
-  : BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
+BouncingSnowball::BouncingSnowball(const ReaderMapping& reader) :
+  BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite"),
+  m_x_speed(),
+  m_turn_around_timer(),
+  m_turn_around_counter()
 {
+  m_x_speed = BSNOWBALL_WALKSPEED;
   parse_type(reader);
+}
+
+BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d, float x_vel) :
+  BadGuy(pos, d, "images/creatures/bouncing_snowball/bouncing_snowball.sprite"),
+  m_x_speed(),
+  m_turn_around_timer(),
+  m_turn_around_counter()
+{
+  m_countMe = false;
+  m_x_speed = x_vel;
 }
 
 void
 BouncingSnowball::initialize()
 {
-  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -BSNOWBALL_WALKSPEED : BSNOWBALL_WALKSPEED);
+  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -m_x_speed : m_x_speed);
   set_action(m_dir);
 }
 
@@ -49,8 +63,10 @@ BouncingSnowball::active_update(float dt_sec)
     set_action(m_dir);
   }
   Rectf lookbelow = get_bbox();
-  lookbelow.set_bottom(lookbelow.get_bottom() + 48);
-  lookbelow.set_top(lookbelow.get_top() + 31);
+  lookbelow.set_bottom(get_bbox().get_bottom() + 48);
+  lookbelow.set_left(get_bbox().get_left() + 10);
+  lookbelow.set_right(get_bbox().get_right() - 10);
+  lookbelow.set_top(get_bbox().get_top() + 31);
   bool groundBelow = !Sector::get().is_free_of_statics(lookbelow);
   if (groundBelow && (m_physic.get_velocity_y() >= 64.0f))
   {
@@ -128,7 +144,7 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
     if (get_state() == STATE_ACTIVE) {
       float bounce_speed = -m_physic.get_velocity_y()*0.8f;
       m_physic.set_velocity_y(std::min(JUMPSPEED, bounce_speed));
-	    set_action(m_dir, "up", /* loops = */ 1);
+      set_action(m_dir, "up", /* loops = */ 1);
     } else {
       m_physic.set_velocity_y(0);
     }
@@ -143,8 +159,29 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
 HitResponse
 BouncingSnowball::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  collision_solid(hit);
+  if (!m_frozen && ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))))
+    turn_around();
+  else
+    collision_solid(hit);
+
   return CONTINUE;
+}
+
+void
+BouncingSnowball::turn_around()
+{
+  m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
+  set_action(m_dir);
+  m_physic.set_velocity_x(-m_physic.get_velocity_x());
+  m_physic.set_acceleration_x(-m_physic.get_acceleration_x());
+
+  // if we get dizzy, we fall off the screen
+  if (m_turn_around_timer.started()) {
+    if (m_turn_around_counter++ > 10) kill_fall();
+  } else {
+    m_turn_around_timer.start(1.0f);
+    m_turn_around_counter = 0;
+  }
 }
 
 void

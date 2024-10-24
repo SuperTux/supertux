@@ -333,7 +333,7 @@ WorldMap::set_sector(const std::string& name, const std::string& spawnpoint,
     m_sector->move_to_spawnpoint(spawnpoint);
 }
 
-std::string
+const std::string&
 WorldMap::get_filename() const
 {
   return m_map_filename;

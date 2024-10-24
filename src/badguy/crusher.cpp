@@ -244,7 +244,8 @@ Crusher::collision_solid(const CollisionHit& hit)
 void
 Crusher::update(float dt_sec)
 {
-  Vector movement = m_physic.get_movement(dt_sec);
+  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  Vector movement = m_physic.get_movement(dt_sec) * (in_water ? 0.6f : 1.f);
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
   if (m_cooldown_timer >= dt_sec)
@@ -467,14 +468,15 @@ Crusher::spawn_roots(Direction direction)
 void
 Crusher::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer + 2, m_flip);
+  Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
+  m_sprite->draw(context.color(), draw_pos, m_layer + 2, m_flip);
   if (m_sprite->has_action("whites"))
   {
     // Draw crusher's eyes slightly behind.
-    m_lefteye->draw(context.color(), get_pos() + eye_position(false), m_layer + 1, m_flip);
-    m_righteye->draw(context.color(), get_pos() + eye_position(true), m_layer + 1, m_flip);
+    m_lefteye->draw(context.color(), draw_pos + eye_position(false), m_layer + 1, m_flip);
+    m_righteye->draw(context.color(), draw_pos + eye_position(true), m_layer + 1, m_flip);
     // Draw the whites of crusher's eyes even further behind.
-    m_whites->draw(context.color(), get_pos(), m_layer, m_flip);
+    m_whites->draw(context.color(), draw_pos, m_layer, m_flip);
   }
 }
 

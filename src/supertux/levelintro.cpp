@@ -178,15 +178,25 @@ LevelIntro::draw(Compositor& compositor)
 
     py += static_cast<int>(Resources::normal_font->get_height());
 
-    draw_stats_line(context, py, _("Coins"),
-                    Statistics::coins_to_string(m_best_level_statistics->get_coins(), stats.m_total_coins),
-                    m_best_level_statistics->get_coins() >= stats.m_total_coins);
-    draw_stats_line(context, py, _("Badguys killed"),
-                    Statistics::frags_to_string(m_best_level_statistics->get_badguys(), stats.m_total_badguys),
-                    m_best_level_statistics->get_badguys() >= stats.m_total_badguys);
-    draw_stats_line(context, py, _("Secrets"),
-                    Statistics::secrets_to_string(m_best_level_statistics->get_secrets(), stats.m_total_secrets),
-                    m_best_level_statistics->get_secrets() >= stats.m_total_secrets);
+    const Statistics::Preferences& preferences = m_level.m_stats.get_preferences();
+    if (preferences.enable_coins)
+    {
+      draw_stats_line(context, py, _("Coins"),
+                      Statistics::coins_to_string(m_best_level_statistics->get_coins(), stats.m_total_coins),
+                      m_best_level_statistics->get_coins() >= stats.m_total_coins);
+    }
+    if (preferences.enable_badguys)
+    {
+      draw_stats_line(context, py, _("Badguys killed"),
+                      Statistics::frags_to_string(m_best_level_statistics->get_badguys(), stats.m_total_badguys),
+                      m_best_level_statistics->get_badguys() >= stats.m_total_badguys);
+    }
+    if (preferences.enable_secrets)
+    {
+      draw_stats_line(context, py, _("Secrets"),
+                      Statistics::secrets_to_string(m_best_level_statistics->get_secrets(), stats.m_total_secrets),
+                      m_best_level_statistics->get_secrets() >= stats.m_total_secrets);
+    }
 
     bool targetTimeBeaten = m_level.m_target_time == 0.0f || (m_best_level_statistics->get_time() != 0.0f && m_best_level_statistics->get_time() < m_level.m_target_time);
     draw_stats_line(context, py, _("Best time"),
@@ -234,16 +244,17 @@ LevelIntro::push_player()
   if (m_player_status.bonus[i] == FIRE_BONUS && g_config->christmas_mode)
   {
     m_player_sprite[i]->set_action("big-walk-right");
-    m_santa_sprite[i]->set_action("santa-walk-right");
+    m_santa_sprite[i]->set_action("default");
   }
   else
   {
     m_player_sprite[i]->set_action(m_player_status.get_bonus_prefix(i) + "-walk-right");
   }
+
   m_player_sprite_jump_timer[i]->start(graphicsRandom.randf(5,10));
 
   /* Set Tux powerup sprite action */
-  m_santa_sprite[i]->set_action(m_player_sprite[i]->get_action());
+  //m_santa_sprite[i]->set_action(m_player_sprite[i]->get_action());
 }
 
 void

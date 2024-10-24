@@ -227,20 +227,20 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
   m_requests.push_back(request);
 }
 
-void
+Rectf
 Canvas::draw_text(const FontPtr& font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
   // FIXME: Font viewport.
-  font->draw_text(*this, text, pos, alignment, layer, color);
+  return font->draw_text(*this, text, pos, alignment, layer, color);
 }
 
-void
+Rectf
 Canvas::draw_center_text(const FontPtr& font, const std::string& text,
                          const Vector& position, int layer, const Color& color)
 {
-  draw_text(font, text, Vector(position.x + static_cast<float>(m_context.get_width()) / 2.0f, position.y),
-            ALIGN_CENTER, layer, color);
+  return draw_text(font, text, Vector(position.x + static_cast<float>(m_context.get_width()) / 2.0f, position.y),
+                   ALIGN_CENTER, layer, color);
 }
 
 void

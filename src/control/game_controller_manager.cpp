@@ -259,8 +259,6 @@ GameControllerManager::on_controller_added(int joystick_index)
 void
 GameControllerManager::on_controller_removed(int instance_id)
 {
-  std::vector<SDL_GameController*> erase_us;
-
   auto it = std::find_if(m_game_controllers.begin(), m_game_controllers.end(), [instance_id] (decltype(m_game_controllers)::const_reference pair) {
     return SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(pair.first)) == instance_id;
   });

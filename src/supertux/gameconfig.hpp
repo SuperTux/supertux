@@ -34,6 +34,8 @@ public:
   void load();
   void save();
 
+  void check_values();
+
   bool is_initial() const { return m_initial; }
 
 private:
@@ -67,13 +69,16 @@ public:
   bool use_fullscreen;
   VideoSystem::Enum video;
   int vsync;
+  bool frame_prediction;
   bool show_fps;
   bool show_player_pos;
   bool show_controller;
+  float camera_peek_multiplier;
   bool sound_enabled;
   bool music_enabled;
   int sound_volume;
   int music_volume;
+  int flash_intensity;
 
   /** initial random seed.  0 ==> set from time() */
   int random_seed;

@@ -16,6 +16,9 @@
 
 #include "badguy/badguy.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
@@ -28,6 +31,7 @@
 #include "object/water_drop.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
@@ -50,7 +54,6 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
-  ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
@@ -65,6 +68,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
+  m_water_affected(true),
   m_unfreeze_timer(),
   m_state(STATE_INIT),
   m_is_active_flag(),
@@ -93,7 +97,6 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
                Direction default_direction, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
-  ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
@@ -108,6 +111,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
+  m_water_affected(true),
   m_unfreeze_timer(),
   m_state(STATE_INIT),
   m_is_active_flag(),
@@ -138,10 +142,13 @@ BadGuy::draw(DrawingContext& context)
 {
   if (!m_sprite.get()) return;
 
+  Vector draw_offset = context.get_time_offset() * m_physic.get_velocity();
+  Vector draw_pos = get_pos() + draw_offset;
+
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
     if (Editor::is_active()) {
-      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+      m_sprite->draw(context.color(), draw_pos, m_layer, m_flip);
     }
   }
   else
@@ -150,27 +157,27 @@ BadGuy::draw(DrawingContext& context)
     {
       context.push_transform();
       context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
-      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+      m_sprite->draw(context.color(), draw_pos, m_layer, m_flip);
       context.pop_transform();
     }
     else
     {
       if (m_unfreeze_timer.started() && m_unfreeze_timer.get_timeleft() <= 1.f)
       {
-        m_sprite->draw(context.color(), get_pos() + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer-1, m_flip);
+        m_sprite->draw(context.color(), draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer - 1, m_flip);
         if (is_portable())
-          m_freezesprite->draw(context.color(), get_pos() + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer);
+          m_freezesprite->draw(context.color(), draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer);
       }
       else
       {
         if (m_frozen && is_portable())
-          m_freezesprite->draw(context.color(), get_pos(), m_layer);
-        m_sprite->draw(context.color(), get_pos(), m_layer - (m_frozen ? 1 : 0), m_flip);
+          m_freezesprite->draw(context.color(), draw_pos, m_layer);
+        m_sprite->draw(context.color(), draw_pos, m_layer - (m_frozen ? 1 : 0), m_flip);
       }
 
       if (m_glowing)
       {
-        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, 0);
       }
     }
   }
@@ -181,6 +188,15 @@ BadGuy::update(float dt_sec)
 {
   if (m_frozen && !is_grabbed())
   {
+    Rectf playerbox = get_bbox().grown(-2.f);
+    playerbox.set_bottom(get_bbox().get_bottom() + 7.f);
+    for (auto& player : Sector::get().get_objects_by_type<Player>())
+    {
+      if (playerbox.overlaps(player.get_bbox()) && m_physic.get_velocity_y() > 0.f && is_portable()) {
+        m_physic.set_velocity_y(-250.f);
+      }
+    }
+
     set_colgroup_active(std::abs(m_physic.get_velocity_y()) < 0.2f && std::abs(m_physic.get_velocity_x()) < 0.2f
       ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
     if (m_unfreeze_timer.check())
@@ -209,10 +225,56 @@ BadGuy::update(float dt_sec)
   }
 
   // Deactivate badguy, if off-screen and not falling down.
-  if (m_is_active_flag && is_offscreen() && m_physic.get_velocity_y() <= 0.f)
+  if (m_is_active_flag && is_offscreen() && m_physic.get_velocity_y() <= 0.f && !always_active())
   {
     deactivate();
     set_state(STATE_INACTIVE);
+  }
+
+  if (Sector::get().is_free_of_tiles(get_bbox().grown(1.f), true, Tile::WATER) && m_in_water) {
+    m_in_water = false;
+  }
+
+  Rectf watertopbox = get_bbox();
+  watertopbox.set_bottom(get_bbox().get_bottom() - get_bbox().get_height() / 3.f);
+  watertopbox.set_top(get_bbox().get_top() + get_bbox().get_height() / 3.f);
+  Rectf wateroutbox = get_bbox();
+  wateroutbox.set_bottom(get_bbox().get_top() + get_bbox().get_height() / 3.f);
+
+  bool middle_has_water = !Sector::get().is_free_of_tiles(watertopbox, true, Tile::WATER);
+  bool on_top_of_water = (middle_has_water &&
+    Sector::get().is_free_of_tiles(wateroutbox, true, Tile::WATER));
+
+  bool in_water_bigger = !Sector::get().is_free_of_tiles(get_bbox().grown(-4.f), true, Tile::WATER); // *supposedly* prevents a weird sound glitch
+
+  if (m_physic.gravity_enabled()) {
+    m_physic.set_gravity_modifier(middle_has_water ? m_frozen ? -1.f : 0.3f : 1.f);
+  }
+
+  if (in_water_bigger && m_frozen && !is_grabbed())
+  {
+    // x movement
+    if ((m_physic.get_velocity_x() > -2.0f) && (m_physic.get_velocity_x() < 2.0f))
+    {
+      m_physic.set_velocity_x(0);
+      m_physic.set_acceleration_x(0.0);
+    }
+    else {
+      m_physic.set_velocity_x(m_physic.get_velocity_x() - (m_physic.get_velocity_x() > 0.f ? 2.f : -2.f));
+    }
+
+    // y movement
+    if (!on_top_of_water && m_physic.get_velocity_y() < -100.f) {
+      m_physic.set_velocity_y(-100.f);
+    }
+
+    if (on_top_of_water && (m_physic.get_velocity_y() <= 0.f))
+    {
+      m_col.set_movement(Vector(m_col.get_movement().x, 0.f));
+      m_physic.set_velocity_y(0.f);
+      m_physic.set_acceleration_y(0.f);
+      m_physic.set_gravity_modifier(0.f);
+    }
   }
 
   switch (m_state) {
@@ -233,7 +295,7 @@ BadGuy::update(float dt_sec)
     case STATE_INIT:
     case STATE_INACTIVE:
       m_is_active_flag = false;
-      m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox(), false, Tile::WATER);
+      m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox().grown(-4.f), false, Tile::WATER);
       inactive_update(dt_sec);
       try_activate();
       break;
@@ -325,9 +387,24 @@ void
 BadGuy::active_update(float dt_sec)
 {
   if (!is_grabbed())
-    m_col.set_movement(m_physic.get_movement(dt_sec));
-  if (m_frozen)
+  {
+    if (is_in_water() && m_water_affected)
+    {
+      if (m_frozen) {
+        m_col.set_movement(m_physic.get_movement(dt_sec) * Vector(0.1f, 0.6f));
+      }
+      else {
+        m_col.set_movement(m_physic.get_movement(dt_sec) * Vector(0.7f, 0.3f));
+      }
+    }
+    else {
+      m_col.set_movement(m_physic.get_movement(dt_sec));
+    }
+  }
+
+  if (m_frozen) {
     m_sprite->stop_animation();
+  }
 }
 
 void
@@ -345,10 +422,6 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   {
     m_in_water = true;
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
-  }
-  if (!(tile_attributes & Tile::WATER) && is_in_water())
-  {
-    m_in_water = false;
   }
 
   if (tile_attributes & Tile::HURTS && is_hurtable())
@@ -506,6 +579,9 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
   //TODO: Unfreeze timer.
   if (m_frozen)
   {
+    if (hit.bottom) {
+      m_physic.set_velocity_y(-250.f);
+    }
     player.collision_solid(hit);
   }
   else
@@ -820,6 +896,7 @@ BadGuy::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
   m_col.set_movement(pos - get_pos());
+  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   if (m_frozen)
   {
@@ -857,7 +934,8 @@ BadGuy::ungrab(MovingObject& object, Direction dir_)
     if (player->is_swimming() || player->is_water_jumping())
     {
       float swimangle = player->get_swimming_angle();
-      m_physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));
+      m_physic.set_velocity((player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle))) *
+        (m_in_water ? 0.5f : 1.f));
     }
     else
     {
@@ -1126,6 +1204,16 @@ BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
     m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
   if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
+}
+
+
+void
+BadGuy::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<BadGuy>("BadGuy", vm.findClass("MovingSprite"));
+
+  cls.addFunc("kill", &BadGuy::kill_fall);
+  cls.addFunc("ignite", &BadGuy::ignite);
 }
 
 /* EOF */

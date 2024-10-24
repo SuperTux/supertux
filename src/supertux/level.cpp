@@ -26,7 +26,6 @@
 #include "object/coin.hpp"
 #include "object/player.hpp"
 #include "physfs/util.hpp"
-#include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/player_status_hud.hpp"
 #include "supertux/savegame.hpp"
@@ -69,14 +68,12 @@ Level::~Level()
 }
 
 void
-Level::initialize()
+Level::initialize(const Statistics::Preferences& stat_preferences)
 {
-  // Get the "main" sector.
-  Sector* main_sector = get_sector(DEFAULT_SECTOR_NAME);
-  if (!main_sector)
-    throw std::runtime_error("No \"main\" sector found.");
+  if (m_sectors.empty())
+    throw std::runtime_error("Level has no sectors!");
 
-  m_stats.init(*this);
+  m_stats.init(*this, stat_preferences);
 
   Savegame* savegame = (GameSession::current() && !Editor::current() ?
     &GameSession::current()->get_savegame() : nullptr);
@@ -88,6 +85,7 @@ Level::initialize()
       sector->add<PlayerStatusHUD>(player_status);
   }
 
+  Sector* sector = m_sectors.at(0).get();
   for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
   {
     if (!InputManager::current()->has_corresponsing_controller(id)
@@ -100,10 +98,10 @@ Level::initialize()
     if (id > 0 && !savegame)
       s_dummy_player_status.add_player();
 
-    // Add players only in the main sector. Players will be moved between sectors.
-    main_sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+    // Add all players in the first sector. They will be moved between sectors.
+    sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
   }
-  main_sector->flush_game_objects();
+  sector->flush_game_objects();
 }
 
 void
@@ -196,6 +194,13 @@ Level::save(Writer& writer)
 
   if (!m_wmselect_bkg.empty())
     writer.write("bkg", m_wmselect_bkg);
+
+  if (!m_is_worldmap)
+  {
+    writer.start_list("statistics");
+    m_stats.get_preferences().write(writer);
+    writer.end_list("statistics");
+  }
 
   for (auto& sector : m_sectors) {
     sector->save(writer);
@@ -302,7 +307,7 @@ Level::get_players() const
 {
   std::vector<Player*> players;
   for (const auto& sector : m_sectors)
-    for (auto& player : sector->get_objects_by_type_index(typeid(Player)))
+    for (const auto& player : sector->get_objects_by_type_index(typeid(Player)))
       players.push_back(static_cast<Player*>(player));
 
   return players;

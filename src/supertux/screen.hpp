@@ -21,6 +21,7 @@
 
 class Compositor;
 class Controller;
+union SDL_Event;
 
 /**
  * Abstract base class for code the MainLoop runs exclusively and full-screen.
@@ -55,6 +56,16 @@ public:
    * updates and logic here
    */
   virtual void update(float dt_sec, const Controller& controller) = 0;
+
+  /**
+   * gets called whenever an SDL event occurs
+   */
+  virtual void event(const SDL_Event& ev) {}
+
+  /**
+   * gets called whenever the game window is resized or resolution settings are changed
+   */
+  virtual void on_window_resize() {}
 
   /** 
    * Gives details about what the user is doing right now.

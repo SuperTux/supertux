@@ -35,7 +35,7 @@ static const float CENTER_EPSILON = 5.0f;
 static const float WALK_SPEED = 100.0f;
 
 Door::Door(const ReaderMapping& mapping) :
-  SpritedTrigger(mapping, "images/objects/door/door.sprite"),
+  SpritedTrigger(mapping, "images/objects/door/door.sprite", LAYER_BACKGROUNDTILES + 1),
   m_state(CLOSED),
   m_target_sector(),
   m_target_spawnpoint(),
@@ -163,8 +163,7 @@ Door::update(float )
 void
 Door::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_BACKGROUNDTILES+1, m_flip);
-
+  MovingSprite::draw(context);
   if (m_state == DoorState::LOCKED || m_state == DoorState::UNLOCKING)
   {
     Vector shake_delta = Vector(static_cast<float>(graphicsRandom.rand(-8, 8)), static_cast<float>(graphicsRandom.rand(-8, 8)));

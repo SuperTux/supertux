@@ -24,7 +24,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <squirrel.h>
+#include <simplesquirrel/table.hpp>
 
 #include "math/vector.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
@@ -121,7 +121,7 @@ public:
    * resources for the current level/world
    */
   std::string get_working_directory() const;
-  std::string get_level_file() const { return m_levelfile; }
+  const std::string& get_level_file() const { return m_levelfile; }
   bool has_active_sequence() const;
   int restart_level(bool after_death = false, bool preserve_music = false);
 
@@ -141,8 +141,7 @@ private:
 
   void on_escape_press(bool force_quick_respawn);
 
-  Vector get_fade_point() const;
-  Vector get_fade_point(const Vector& position) const;
+  Vector get_fade_point(const Vector& position = Vector(0, 0)) const;
 
 public:
   bool reset_button;
@@ -154,8 +153,7 @@ private:
   std::unique_ptr<Level> m_level;
   SurfacePtr m_statistics_backdrop;
 
-  // scripts
-  SquirrelObjectList m_scripts;
+  ssq::Table m_data_table;
 
   Sector* m_currentsector;
 
