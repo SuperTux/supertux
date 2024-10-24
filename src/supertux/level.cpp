@@ -85,7 +85,7 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
     &GameSession::current()->get_savegame() : nullptr);
   PlayerStatus& player_status = savegame ? savegame->get_player_status() : s_dummy_player_status;
 
-  if (!m_suppress_pause_menu || (savegame && !savegame->is_title_screen()))
+  if (Editor::current() || (savegame && !savegame->is_title_screen() && !m_suppress_pause_menu))
   {
     for (auto& sector : m_sectors)
       sector->add<PlayerStatusHUD>(player_status);
