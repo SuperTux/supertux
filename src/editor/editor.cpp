@@ -874,6 +874,7 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port,
   }
   catch (const std::exception& err)
   {
+    log_warning << "Error starting network client: " << err.what() << std::endl;
     Dialog::show_message(_("Error starting network client:") + "\n" + err.what());
     return;
   }
@@ -941,6 +942,7 @@ Editor::host_level(uint16_t port)
   }
   catch (const std::exception& err)
   {
+    log_warning << "Error starting network server: " << err.what() << std::endl;
     Dialog::show_message(_("Error starting network server:") + "\n \n" + err.what());
     return;
   }

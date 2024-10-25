@@ -19,6 +19,8 @@
 #include <algorithm>
 #include <cassert>
 
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/timer.hpp"
 #include "util/log.hpp"
 
@@ -53,6 +55,8 @@ Host::Host() :
   m_requests(),
   m_requests_new()
 {
+  if (g_config->disable_network)
+    throw std::runtime_error("Cannot create ENet host: Networking is disabled.");
 }
 
 Host::~Host()

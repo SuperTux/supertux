@@ -104,7 +104,7 @@ EditorMenu::refresh()
     if (Editor::current()->is_hosting_level())
       add_entry(MNID_STOP_HOSTING_LEVEL, _("Stop Hosting Level"))
         .set_help(_("Stop hosting the current level over the network."));
-    else
+    else if (!g_config->disable_network)
       add_submenu(_("Host Level"), MenuStorage::EDITOR_HOST_LEVEL_MENU)
         .set_help(_("Host the current level over the network."));
   }

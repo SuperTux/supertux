@@ -109,9 +109,12 @@ EditorLevelsetSelectMenu::initialize()
     }
   }
 
-  add_hl();
-  add_submenu(_("Edit Remote Level"), MenuStorage::EDITOR_EDIT_REMOTE_LEVEL_MENU)
-    .set_help(_("Edit a level, hosted by another SuperTux instance."));
+  if (!g_config->disable_network)
+  {
+    add_hl();
+    add_submenu(_("Edit Remote Level"), MenuStorage::EDITOR_EDIT_REMOTE_LEVEL_MENU)
+      .set_help(_("Edit a level hosted by another SuperTux instance."));
+  }
 
   add_hl();
   add_submenu(_("Create World"), MenuStorage::EDITOR_NEW_LEVELSET_MENU);
