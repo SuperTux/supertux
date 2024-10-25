@@ -103,8 +103,10 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
                    const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 
 {
+  const float init_y = pos.y - (static_cast<float>(TTF_FontHeight(m_font)) - get_height()) / 2.0f;
+
   float min_x = pos.x;
-  float last_y = pos.y - (static_cast<float>(TTF_FontHeight(m_font)) - get_height()) / 2.0f;
+  float last_y = init_y;
   float max_width = 0.f;
 
   LineIterator iter(text);
@@ -138,7 +140,7 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
     last_y += get_height();
   }
 
-  return Rectf(min_x, pos.y, min_x + max_width, last_y);
+  return Rectf(min_x, init_y, min_x + max_width, last_y);
 }
 
 std::string
