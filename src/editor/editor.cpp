@@ -664,7 +664,7 @@ Editor::set_sector(Sector* sector)
 }
 
 void
-Editor::create_sector(const std::string& name, bool from_network)
+Editor::create_sector(const std::string& name)
 {
   auto new_sector = SectorParser::from_nothing(*m_level);
   if (!new_sector)
@@ -691,19 +691,42 @@ Editor::create_sector(const std::string& name, bool from_network)
   new_sector->set_name(sector_name);
 
   setup_sector(*new_sector);
-  m_level->add_sector(std::move(new_sector));
 
-  if (!from_network)
+  network::Host* network_host = get_network_host();
+  if (network_host)
   {
-    load_sector(sector_name);
+    std::ostringstream sector_stream;
+    Writer sector_writer(sector_stream);
 
-    network::Host* network_host = get_network_host();
-    if (network_host)
-    {
-      network::StagedPacket packet(EditorNetworkProtocol::OP_SECTOR_CREATE, sector_name);
-      network_host->broadcast_packet(packet, true);
-    }
+    GameObject::s_save_uid = true;
+    new_sector->save(sector_writer);
+    GameObject::s_save_uid = false;
+
+    network::StagedPacket packet(EditorNetworkProtocol::OP_SECTOR_CREATE, sector_stream.str());
+    network_host->broadcast_packet(packet, true);
   }
+
+  m_level->add_sector(std::move(new_sector));
+  load_sector(sector_name);
+}
+
+void
+Editor::add_sector(const std::string& data)
+{
+  auto doc = ReaderDocument::from_string(data, "remote-sector");
+
+  GameObject::s_read_uid = true;
+  auto new_sector = SectorParser::from_reader(*m_level, doc.get_root().get_mapping(), true);
+  GameObject::s_read_uid = false;
+
+  if (!new_sector)
+  {
+    log_warning << "Failed to add sector." << std::endl;
+    return;
+  }
+
+  setup_sector(*new_sector);
+  m_level->add_sector(std::move(new_sector));
 }
 
 void

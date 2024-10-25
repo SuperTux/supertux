@@ -159,7 +159,7 @@ public:
   void check_unsaved_changes(const std::function<void ()>& action);
 
   void load_sector(const std::string& name);
-  void create_sector(const std::string& name = {}, bool from_network = false);
+  void create_sector(const std::string& name = {});
   void delete_sector(const std::string& name, bool from_network = false);
 
   void update_network_cursor();
@@ -219,6 +219,7 @@ private:
 
   void keep_camera_in_bounds();
 
+  void add_sector(const std::string& data);
   void setup_sector(Sector& sector);
   void post_undo_redo_actions();
 

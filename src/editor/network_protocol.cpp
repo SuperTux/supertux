@@ -338,7 +338,7 @@ EditorNetworkProtocol::on_packet_receive(network::ReceivedPacket packet)
 
     case OP_SECTOR_CREATE:
     {
-      m_editor.create_sector(packet.data[0], true);
+      m_editor.add_sector(packet.data[0]);
       break;
     }
     case OP_SECTOR_DELETE:

@@ -27,6 +27,7 @@
 class ReaderDocument final
 {
 public:
+  static ReaderDocument from_string(const std::string& string, const std::string& filename = "<string>");
   static ReaderDocument from_stream(std::istream& stream, const std::string& filename = "<stream>");
   static ReaderDocument from_file(const std::string& filename);
 
