@@ -84,8 +84,7 @@ ReceivedPacket::ReceivedPacket(ENetPacket& packet, Peer* peer_) :
   code(-1),
   data()
 {
-  std::istringstream stream(reinterpret_cast<const char*>(packet.data));
-  auto doc = ReaderDocument::from_stream(stream);
+  auto doc = ReaderDocument::from_string(reinterpret_cast<const char*>(packet.data), "network-packet");
   auto root = doc.get_root();
   if (root.get_name() != "supertux-network-packet")
     throw std::runtime_error("Received packet is not a valid 'supertux-network-packet'.");

@@ -253,8 +253,7 @@ EditorNetworkProtocol::on_packet_receive(network::ReceivedPacket packet)
   {
     case OP_USER_SERVER_CONNECT:
     {
-      std::istringstream stream(packet.data[0]);
-      auto doc = ReaderDocument::from_stream(stream);
+      auto doc = ReaderDocument::from_string(packet.data[0], "editor-network-user");
       auto root = doc.get_root();
       if (root.get_name() != "supertux-editor-network-user")
         throw std::runtime_error("Cannot parse editor network user: Data is not 'supertux-editor-network-user'.");
@@ -349,8 +348,7 @@ EditorNetworkProtocol::on_packet_receive(network::ReceivedPacket packet)
 
     case OP_MOUSE_CURSOR_UPDATE:
     {
-      std::istringstream stream(packet.data[1]);
-      auto doc = ReaderDocument::from_stream(stream);
+      auto doc = ReaderDocument::from_string(packet.data[1], "mouse-cursor-state");
       auto root = doc.get_root();
       if (root.get_name() != "supertux-mouse-cursor-state")
         throw std::runtime_error("Cannot parse editor network cursor update: Data is not 'supertux-mouse-cursor-state'.");
@@ -375,8 +373,7 @@ EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
       m_pending_users.erase(&packet.peer->enet);
 
       // Parse the editor user
-      std::istringstream stream(packet.data[0]);
-      auto doc = ReaderDocument::from_stream(stream);
+      auto doc = ReaderDocument::from_string(packet.data[0], "editor-network-user");
       auto root = doc.get_root();
       if (root.get_name() != "supertux-editor-network-user")
         throw std::runtime_error("Cannot parse editor network user: Data is not 'supertux-editor-network-user'.");

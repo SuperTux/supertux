@@ -523,8 +523,7 @@ GameObjectManager::create_object_from_change(const GameObjectChange& change, boo
 void
 GameObjectManager::parse_object_settings(ObjectSettings& settings, const std::string& data)
 {
-  std::istringstream stream(data);
-  auto doc = ReaderDocument::from_stream(stream);
+  auto doc = ReaderDocument::from_string(data, "game-object");
   auto root = doc.get_root();
   if (root.get_name() != "supertux-game-object")
     throw std::runtime_error("Data is not 'supertux-game-object'.");

@@ -476,8 +476,7 @@ Editor::get_network_user(const std::string& nickname) const
 void
 Editor::parse_network_users(const std::string& data)
 {
-  std::istringstream stream(data);
-  auto doc = ReaderDocument::from_stream(stream);
+  auto doc = ReaderDocument::from_string(data, "editor-network-users");
   auto root = doc.get_root();
   if (root.get_name() != "supertux-editor-network-users")
     throw std::runtime_error("Cannot parse editor network users: Data is not 'supertux-editor-network-users'.");
