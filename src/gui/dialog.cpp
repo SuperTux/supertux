@@ -266,13 +266,13 @@ Dialog::get_center_pos() const
 void
 Dialog::on_button_click(int button) const
 {
-  if (m_buttons[button].callback)
-  {
-    m_buttons[button].callback();
-  }
   if (m_clear_diags || button == m_cancel_button)
   {
     MenuManager::instance().set_dialog({});
+  }
+  if (m_buttons[button].callback)
+  {
+    m_buttons[button].callback();
   }
 }
 
