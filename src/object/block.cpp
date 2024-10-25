@@ -37,7 +37,7 @@ static const float BOUNCY_BRICK_SPEED = 90;
 static const float BUMP_ROTATION_ANGLE = 10;
 
 Block::Block(const Vector& pos, const std::string& sprite_file) :
-  MovingSprite(pos, sprite_file),
+  MovingSprite(pos, sprite_file, LAYER_OBJECTS + 1),
   m_bouncing(false),
   m_breaking(false),
   m_bounce_dir(0),
@@ -51,7 +51,7 @@ Block::Block(const Vector& pos, const std::string& sprite_file) :
 }
 
 Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
-  MovingSprite(mapping, sprite_file),
+  MovingSprite(mapping, sprite_file, LAYER_OBJECTS + 1),
   m_bouncing(false),
   m_breaking(false),
   m_bounce_dir(0),
@@ -150,12 +150,6 @@ Block::update(float dt_sec)
 }
 
 void
-Block::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+1, m_flip);
-}
-
-void
 Block::start_bounce(GameObject* hitter)
 {
   if (m_original_y == -1){
@@ -199,7 +193,7 @@ Block::break_me()
     Sector::get().add<SpriteParticle>(m_sprite->clone(), action,
                                 pos, ANCHOR_MIDDLE,
                                 velocity, Vector(0, gravity),
-                                LAYER_OBJECTS + 3);
+                                m_layer);
   }
 
   remove_me();

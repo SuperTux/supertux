@@ -40,8 +40,7 @@ rm -f data/locale/main.pot data/locale/credits.pot data/locale/objects.pot data/
 for LEVELSET in $(ls data/levels); do
   SCRIPT_FILES=$(find data/levels/$LEVELSET -name "*.nut")
   for SCRIPT_FILE in $SCRIPT_FILES; do
-    name=$(basename ${SCRIPT_FILE})
-    name=${name/.nut/}
+    name=$(basename ${SCRIPT_FILE} | sed 's/.nut//g')
     python tools/extract_strings.py ${SCRIPT_FILE} data/levels/$LEVELSET/scripts_${name}.txt
   done
 done
