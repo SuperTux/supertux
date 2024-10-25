@@ -275,6 +275,9 @@ Savegame::save()
 std::vector<std::string>
 Savegame::get_worldmaps()
 {
+  if (m_state_table.isEmpty())
+    return {};
+
   std::vector<std::string> worlds;
 
   try
@@ -296,6 +299,9 @@ Savegame::get_worldmaps()
 WorldmapState
 Savegame::get_worldmap_state(const std::string& name)
 {
+  if (m_state_table.isEmpty())
+    return {};
+
   WorldmapState result;
 
   try
@@ -324,6 +330,9 @@ Savegame::get_worldmap_state(const std::string& name)
 std::vector<std::string>
 Savegame::get_levelsets()
 {
+  if (m_state_table.isEmpty())
+    return {};
+
   std::vector<std::string> results;
 
   try
@@ -342,6 +351,9 @@ Savegame::get_levelsets()
 LevelsetState
 Savegame::get_levelset_state(const std::string& basedir)
 {
+  if (m_state_table.isEmpty())
+    return {};
+
   LevelsetState result;
 
   try
@@ -363,6 +375,9 @@ Savegame::set_levelset_state(const std::string& basedir,
                              const std::string& level_filename,
                              bool solved)
 {
+  if (m_state_table.isEmpty())
+    return;
+
   LevelsetState state = get_levelset_state(basedir);
 
   try
