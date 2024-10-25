@@ -109,6 +109,18 @@ public:
    * @return float
    */
   float get_y_speed() const;
+  /**
+  * @scripting
+  * @description Sets the fog's opacity.
+  * @param float opacity
+  */
+  void set_fog_opacity(float opacity);
+  /**
+  * @scripting
+  * @description Gets the fog's opacity.
+  * @return float
+  */
+  float get_fog_opacity() const;
 
 private:
   /** Returns the amount that got inserted (In case max_amount got hit) */
@@ -135,7 +147,7 @@ private:
     {}
   };
 
-  SurfacePtr cloudimage;
+  SurfacePtr cloud_image;
 
   float m_current_speed_x;
   float m_target_speed_x;
@@ -145,11 +157,10 @@ private:
   float m_target_speed_y;
   float m_speed_fade_time_remaining_y;
 
+  float m_fog_opacity;
+
   int m_current_amount;
   int m_current_real_amount;
-
-  const float fog_max_value = 1.0f;
-  const float fog_start_amount = 10.0f;
 
 private:
   CloudParticleSystem(const CloudParticleSystem&) = delete;
