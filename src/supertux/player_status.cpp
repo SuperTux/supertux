@@ -21,7 +21,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
-#include "object/powerup.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
@@ -270,15 +269,10 @@ PlayerStatus::give_item_from_pocket(Player* player)
 
   m_item_pockets[player->get_id()] = NO_BONUS;
 
-  Vector pos;
-  auto& powerup = Sector::get().add<PowerUp>(pos, PowerUp::get_type_from_bonustype(bonustype));
+  auto& powerup = Sector::get().add<PocketPowerUp>(bonustype, Vector(0,0));
+  Vector pos = player->get_pos();
   pos.x = player->get_bbox().get_left();
-  pos.y = player->get_bbox().get_top() +  - powerup.get_bbox().get_height() - 15;
-
-  powerup.physic.set_velocity_y(-200);
-  powerup.physic.set_gravity_modifier(0.4f);
-  powerup.set_layer(LAYER_FOREGROUND1);
-  powerup.get_collision_object()->m_group = COLGROUP_TOUCHABLE;
+  pos.y = player->get_bbox().get_top() - powerup.get_bbox().get_height() - 15;
   powerup.set_pos(pos);
 }
 
@@ -374,6 +368,50 @@ PlayerStatus::remove_player(int player_id)
 
   bonus.resize(m_num_players, NO_BONUS);
   m_item_pockets.resize(m_num_players, NO_BONUS);
+}
+
+PlayerStatus::PocketPowerUp::PocketPowerUp(BonusType bonustype, Vector pos):
+  PowerUp(pos, PowerUp::get_type_from_bonustype(bonustype)),
+  m_cooldown_timer(),
+  m_blink_timer(),
+  m_visible(true)
+{
+  physic.set_velocity_y(-325.f);
+  physic.set_gravity_modifier(0.4f);
+  set_layer(LAYER_FOREGROUND1);
+  m_col.m_group = COLGROUP_DISABLED;
+}
+
+void
+PlayerStatus::PocketPowerUp::update(float dt_sec)
+{
+  PowerUp::update(dt_sec);
+
+  bool check = m_cooldown_timer.check();
+  if (!m_cooldown_timer.started() && !check && m_col.m_group != COLGROUP_TOUCHABLE)
+  {
+    m_cooldown_timer.start(1.3f);
+    m_blink_timer.start(.15f, true);
+  }
+
+  if (check)
+  {
+    m_visible = true;
+    m_blink_timer.stop();
+    m_col.m_group = COLGROUP_TOUCHABLE;
+  }
+
+  if (m_blink_timer.check())
+    m_visible = !m_visible;
+}
+
+void
+PlayerStatus::PocketPowerUp::draw(DrawingContext& context)
+{
+  if (!m_visible)
+    return;
+
+  PowerUp::draw(context);
 }
 
 /* EOF */

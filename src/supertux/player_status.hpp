@@ -23,6 +23,9 @@
 #include <string>
 #include <vector>
 
+#include "object/powerup.hpp"
+#include "supertux/timer.hpp"
+
 class DrawingContext;
 class ReaderMapping;
 class Writer;
@@ -39,6 +42,7 @@ enum BonusType {
     example when switching maps in the worldmap) */
 class PlayerStatus final
 {
+
 public:
   PlayerStatus(int num_players);
   void reset(int num_players);
@@ -69,6 +73,26 @@ public:
 
 private:
   void parse_bonus_mapping(const ReaderMapping& map, int id);
+
+private:
+  /// PowerUp that flings itself upwards
+  /// can't be collected right away.
+  class PocketPowerUp : public PowerUp
+  {
+  public:
+    PocketPowerUp(BonusType bonustype, Vector pos);
+    virtual void update(float dt_sec) override;
+    virtual void draw(DrawingContext& context) override;
+
+  public:
+    Timer m_cooldown_timer;
+    Timer m_blink_timer;
+    bool m_visible;
+
+  private:
+    PocketPowerUp(const PocketPowerUp&) = delete;
+    PocketPowerUp& operator=(const PocketPowerUp&) = delete;
+  };
 
 public:
   int m_num_players;

@@ -20,7 +20,7 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
 
-class PowerUp final : public MovingSprite
+class PowerUp : public MovingSprite
 {
 public:
   enum Type {
@@ -62,12 +62,12 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
-private:
+protected:
   /** Initialize power up sprites and other defaults */
   void initialize();
   void setup_lightsprite();
 
-public:
+protected:
   Physic physic;
   std::string script;
   bool no_physics;
