@@ -101,17 +101,6 @@ MouseCursor::update_state()
       apply_state(MouseCursorState::CLICK);
     else
       apply_state(m_state);
-
-    Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
-
-    m_sprite->draw(context.color(), mouse_pos, LAYER_GUI + 100);
-
-    if (m_icon) {
-      context.color().draw_surface(m_icon,
-                                   Vector(mouse_pos.x + static_cast<float>(m_icon->get_width()) / 2,
-                                          mouse_pos.y - static_cast<float>(m_icon->get_height())),
-                                   LAYER_GUI + 100);
-    }
   }
   else
   {

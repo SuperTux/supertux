@@ -16,6 +16,7 @@
 
 #include "network/host.hpp"
 
+#include <algorithm>
 #include <cassert>
 
 #include "supertux/timer.hpp"

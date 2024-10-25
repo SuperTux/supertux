@@ -44,23 +44,23 @@ EditorSectorHandler::before_object_add(GameObject& object)
 }
 
 void
-EditorSectorHandler::on_object_changes(const GameObjectChanges& changes)
+EditorSectorHandler::on_object_changes(const GameObjectChangeSet& changes)
 {
   broadcast_sector_changes([this, changes](Writer& writer)
     {
       writer.write("sector", m_sector.get_name());
       writer.start_list("object-changes");
 
-      GameObjectChanges changes_local = changes;
-      for (GameObjectChange& change : changes_local.objects)
+      GameObjectChangeSet change_set_local = changes;
+      for (GameObjectChange& change : change_set_local.changes)
       {
         switch (change.action)
         {
-          case GameObjectChange::Action::DELETE: // No need to send data, just the action is enough
+          case GameObjectChange::ACTION_DELETE: // No need to send data, just the action is enough
             change.data.clear();
             break;
 
-          case GameObjectChange::Action::MODIFY: // Need to send current object data
+          case GameObjectChange::ACTION_MODIFY: // Need to send current object data
             change.data = change.new_data;
             break;
 
@@ -68,7 +68,7 @@ EditorSectorHandler::on_object_changes(const GameObjectChanges& changes)
             break;
         }
       }
-      changes_local.save(writer);
+      change_set_local.save(writer);
 
       writer.end_list("object-changes");
     });

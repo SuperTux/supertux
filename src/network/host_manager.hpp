@@ -22,9 +22,9 @@
 #include <memory>
 #include <vector>
 
-namespace network {
+#include "network/host.hpp"
 
-class Host;
+namespace network {
 
 class HostManager final : public Currenton<HostManager>
 {

@@ -70,7 +70,7 @@ GameObjectChangeSet::GameObjectChangeSet(const ReaderMapping& reader) :
   {
     if (iter.get_key() != "object-change")
     {
-      log_warning << "Unknown key '" << iter.get_key() << "' in GameObjectChanges data. Ignoring." << std::endl;
+      log_warning << "Unknown key '" << iter.get_key() << "' in GameObjectChangeSet data. Ignoring." << std::endl;
       continue;
     }
 

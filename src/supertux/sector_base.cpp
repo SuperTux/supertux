@@ -31,12 +31,13 @@ Sector::Sector(const std::string& type) :
 }
 
 void
-<<<<<<< HEAD
 Sector::finish_construction(bool)
 {
   for (auto& object : get_objects())
     object->finish_construction();
-=======
+}
+
+void
 Sector::parse_properties(const ReaderMapping& reader)
 {
   reader.get("name", m_name);
@@ -58,7 +59,6 @@ Sector::get_properties() const
   save_properties(writer);
 
   return stream.str();
->>>>>>> 3d9c693f5 (Rename to `GameObjectState`, perform remote sector/object actions)
 }
 
 void

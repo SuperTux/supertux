@@ -16,8 +16,6 @@
 
 #include "network/host_manager.hpp"
 
-#include "network/host.hpp"
-
 namespace network {
 
 HostManager::HostManager() :

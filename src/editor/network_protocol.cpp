@@ -330,8 +330,8 @@ EditorNetworkProtocol::on_packet_receive(network::ReceivedPacket packet)
       std::optional<ReaderMapping> object_changes_mapping;
       if (reader.get("object-changes", object_changes_mapping))
       {
-        GameObjectChanges changes(*object_changes_mapping);
-        sector->apply_object_changes(changes, false); // Do not track remote object changes
+        GameObjectChangeSet change_set(*object_changes_mapping);
+        sector->apply_object_changes(change_set, false); // Do not track remote object changes
       }
       break;
     }

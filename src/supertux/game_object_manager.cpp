@@ -35,12 +35,12 @@
 
 bool GameObjectManager::s_draw_solids_only = false;
 
-GameObjectManager::GameObjectManager() :
+GameObjectManager::GameObjectManager(bool undo_tracking) :
   m_initialized(false),
   m_event_handler(),
   m_uid_generator(),
   m_change_uid_generator(),
-  m_undo_tracking(false),
+  m_undo_tracking(undo_tracking),
   m_undo_stack_size(20),
   m_undo_stack(),
   m_redo_stack(),
@@ -285,13 +285,13 @@ GameObjectManager::flush_game_objects()
   // If object changes have been performed since last flush, push them to the undo stack.
   if (!m_pending_change_stack.empty())
   {
-    GameObjectChanges changes(m_change_uid_generator.next(), std::move(m_pending_change_stack));
+    GameObjectChangeSet change_set(m_change_uid_generator.next(), std::move(m_pending_change_stack));
     if (m_event_handler)
-      m_event_handler->on_object_changes(changes);
+      m_event_handler->on_object_changes(change_set);
 
     if (m_undo_tracking)
     {
-      m_undo_stack.push_back(std::move(changes));
+      m_undo_stack.push_back(std::move(change_set));
       m_redo_stack.clear();
       undo_stack_cleanup();
     }
