@@ -157,11 +157,10 @@ private:
   float m_target_speed_y;
   float m_speed_fade_time_remaining_y;
 
-  float m_fog_opacity;
-
   int m_current_amount;
   int m_current_real_amount;
 
+  float m_fog_opacity;
 private:
   CloudParticleSystem(const CloudParticleSystem&) = delete;
   CloudParticleSystem& operator=(const CloudParticleSystem&) = delete;
