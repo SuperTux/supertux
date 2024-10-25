@@ -411,6 +411,12 @@ Editor::get_tileselect_move_mode() const
 }
 
 void
+Editor::update_autotileset()
+{
+  m_overlay_widget->update_autotileset();
+}
+
+void
 Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
