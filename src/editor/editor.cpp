@@ -35,7 +35,7 @@
 #include "editor/button_widget.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/network_protocol.hpp"
-#include "editor/network_user.hpp"
+#include "editor/network_server_user.hpp"
 #include "editor/object_info.hpp"
 #include "editor/particle_editor.hpp"
 #include "editor/resize_marker.hpp"
@@ -135,7 +135,6 @@ Editor::Editor() :
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
-  m_network_users(),
   m_network_server(),
   m_network_client(),
   m_network_server_peer(),
@@ -211,9 +210,12 @@ Editor::draw(Compositor& compositor)
       context.set_translation(m_sector->get_camera().get_translation());
       context.transform().max_layer = LAYER_GUI - 20;
 
-      for (const auto& user : m_network_users)
-        if (user->sector == m_sector->get_name())
-          user->mouse_cursor.draw(context, 0.5f, user->nickname, user->nickname_color);
+      for (const auto& user : m_server_users)
+      {
+        EditorServerUser* editor_user = static_cast<EditorServerUser*>(user.get());
+        if (editor_user->sector == m_sector->get_name())
+          editor_user->mouse_cursor.draw(context, 0.5f, editor_user->nickname, editor_user->nickname_color);
+      }
 
       context.pop_transform();
     }
@@ -458,62 +460,6 @@ Editor::get_server_address() const
   return network::Address();
 }
 
-EditorNetworkUser*
-Editor::get_network_user(const std::string& nickname) const
-{
-  auto it = std::find_if(m_network_users.begin(), m_network_users.end(),
-                         [nickname](const auto& user)
-    {
-      return user->nickname == nickname;
-    });
-
-  if (it == m_network_users.end())
-    return nullptr;
-
-  return it->get();
-}
-
-void
-Editor::parse_network_users(const std::string& data)
-{
-  auto doc = ReaderDocument::from_string(data, "editor-network-users");
-  auto root = doc.get_root();
-  if (root.get_name() != "supertux-editor-network-users")
-    throw std::runtime_error("Cannot parse editor network users: Data is not 'supertux-editor-network-users'.");
-
-  auto iter = root.get_mapping().get_iter();
-  while (iter.next())
-  {
-    if (iter.get_key() != "user")
-    {
-      log_warning << "Unknown key '" << iter.get_key() << "' in editor network users data." << std::endl;
-      continue;
-    }
-
-    m_network_users.push_back(std::make_unique<EditorNetworkUser>(iter.as_mapping()));
-  }
-}
-
-std::string
-Editor::save_network_users(EditorNetworkUser* except) const
-{
-  std::ostringstream stream;
-  Writer writer(stream);
-
-  writer.start_list("supertux-editor-network-users");
-  for (const auto& user : m_network_users)
-  {
-    if (user.get() == except) continue;
-
-    writer.start_list("user");
-    user->write(writer);
-    writer.end_list("user");
-  }
-  writer.end_list("supertux-editor-network-users");
-
-  return stream.str();
-}
-
 size_t
 Editor::get_connected_peers() const
 {
@@ -521,6 +467,18 @@ Editor::get_connected_peers() const
     return m_network_server->get_connected_peers();
 
   return 0;
+}
+
+std::unique_ptr<network::ServerUser>
+Editor::create_server_user(const std::string& nickname) const
+{
+  return std::make_unique<EditorServerUser>(nickname);
+}
+
+std::unique_ptr<network::ServerUser>
+Editor::create_server_user(const ReaderMapping& reader) const
+{
+  return std::make_unique<EditorServerUser>(reader);
 }
 
 void
@@ -912,7 +870,7 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port,
   m_network_server_peer = connection.peer;
 
   // Request registration on the server.
-  EditorNetworkUser user(nickname, nickname_color);
+  network::ServerUser user(nickname, nickname_color);
   m_network_client->send_request(m_network_server_peer,
                                  std::make_unique<network::Request>(
                                    std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_USER_REGISTER,
@@ -936,6 +894,9 @@ Editor::reload_remote_level()
 void
 Editor::host_level(uint16_t port)
 {
+  if (m_network_server)
+    return;
+
   try
   {
     m_network_server = &network::HostManager::current()->create<network::Server>(port, 32);
@@ -943,7 +904,7 @@ Editor::host_level(uint16_t port)
   catch (const std::exception& err)
   {
     log_warning << "Error starting network server: " << err.what() << std::endl;
-    Dialog::show_message(_("Error starting network server:") + "\n \n" + err.what());
+    Dialog::show_message(_("Error starting network server:") + "\n\n" + err.what());
     return;
   }
 
@@ -953,7 +914,7 @@ Editor::host_level(uint16_t port)
 void
 Editor::stop_hosting_level()
 {
-  m_network_users.clear();
+  m_server_users.clear();
 
   m_network_server->destroy();
   m_network_server = nullptr;
@@ -972,7 +933,7 @@ Editor::close_connections()
   // Erase temporary network levels directory
   physfsutil::remove_with_content(NETWORK_LEVEL_DIR);
 
-  m_network_users.clear();
+  m_server_users.clear();
 
   if (m_network_server_peer) // Client - disconnect from server
   {

@@ -30,6 +30,8 @@ public:
   Client(size_t outgoing_connections, size_t channel_limit = 1,
          uint32_t incoming_bandwidth = 0, uint32_t outgoing_bandwidth = 0);
 
+  bool is_server() const override { return false; }
+
   /** Connect/disconnect from a peer.
       On connection, if a protocol is binded, the provided
       allocated channel count will be ignored. */

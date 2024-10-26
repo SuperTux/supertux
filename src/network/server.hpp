@@ -32,6 +32,8 @@ public:
          uint32_t incoming_bandwidth = 0, uint32_t outgoing_bandwidth = 0);
   ~Server() override;
 
+  bool is_server() const override { return true; }
+
   void disconnect(ENetPeer* peer, uint32_t code = 0);
 
   /** Server moderation */

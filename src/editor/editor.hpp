@@ -17,6 +17,10 @@
 #ifndef HEADER_SUPERTUX_EDITOR_EDITOR_HPP
 #define HEADER_SUPERTUX_EDITOR_EDITOR_HPP
 
+#include "network/user_manager.hpp"
+#include "supertux/screen.hpp"
+#include "util/currenton.hpp"
+
 #include <functional>
 #include <vector>
 #include <string>
@@ -29,17 +33,13 @@
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
 #include "network/host.hpp"
-#include "supertux/screen.hpp"
 #include "supertux/world.hpp"
-#include "util/currenton.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 #include "video/surface_ptr.hpp"
 
 class ButtonWidget;
-class EditorNetworkProtocol;
-class EditorNetworkUser;
 class GameObject;
 class Level;
 class ObjectGroup;
@@ -55,7 +55,8 @@ class Server;
 } // namespace network
 
 class Editor final : public Screen,
-                     public Currenton<Editor>
+                     public Currenton<Editor>,
+                     public network::UserManager
 {
   friend class EditorNetworkProtocol;
   friend class EditorSectorHandler;
@@ -224,10 +225,9 @@ private:
   void post_undo_redo_actions();
 
   network::Host* get_network_host() const;
-  EditorNetworkUser* get_network_user(const std::string& nickname) const;
 
-  void parse_network_users(const std::string& data);
-  std::string save_network_users(EditorNetworkUser* except = nullptr) const;
+  std::unique_ptr<network::ServerUser> create_server_user(const std::string& nickname) const override;
+  std::unique_ptr<network::ServerUser> create_server_user(const ReaderMapping& reader) const override;
 
 protected:
   std::unique_ptr<Level> m_level;
@@ -270,7 +270,6 @@ private:
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
 
-  std::vector<std::unique_ptr<EditorNetworkUser>> m_network_users;
   network::Server* m_network_server;
   network::Client* m_network_client;
   ENetPeer* m_network_server_peer;

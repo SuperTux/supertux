@@ -14,36 +14,29 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_NETWORK_USER_HPP
-#define HEADER_SUPERTUX_EDITOR_NETWORK_USER_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_NETWORK_SERVER_USER_HPP
+#define HEADER_SUPERTUX_EDITOR_NETWORK_SERVER_USER_HPP
 
-#include <string>
+#include "network/server_user.hpp"
 
 #include "gui/mousecursor.hpp"
 
-class ReaderMapping;
-class Writer;
-
-/** Represents a remote peer, editing a level over the network. */
-class EditorNetworkUser final
+/** Represents a remote server user, editing a level over the network. */
+class EditorServerUser final : public network::ServerUser
 {
 public:
-  EditorNetworkUser(const std::string& nickname, Color nickname_color = Color(1, 1, 1, 1));
-  EditorNetworkUser(const ReaderMapping& reader);
+  EditorServerUser(const std::string& nickname, Color nickname_color = Color(1, 1, 1, 1));
+  EditorServerUser(const ReaderMapping& reader);
 
-  void write(Writer& writer) const;
-  std::string serialize() const;
+  void write(Writer& writer) const override;
 
 public:
-  std::string nickname;
-  Color nickname_color;
-
   std::string sector;
   MouseCursor mouse_cursor;
 
 private:
-  EditorNetworkUser(const EditorNetworkUser&) = delete;
-  EditorNetworkUser& operator=(const EditorNetworkUser&) = delete;
+  EditorServerUser(const EditorServerUser&) = delete;
+  EditorServerUser& operator=(const EditorServerUser&) = delete;
 };
 
 #endif

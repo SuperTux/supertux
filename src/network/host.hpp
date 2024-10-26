@@ -38,6 +38,8 @@ public:
   Host();
   virtual ~Host();
 
+  virtual bool is_server() const = 0;
+
   void destroy() { m_scheduled_for_removal = true; }
   bool is_valid() const { return !m_scheduled_for_removal; }
 
@@ -58,7 +60,7 @@ public:
   void set_protocol(std::unique_ptr<Protocol> protocol);
 
 protected:
-  virtual void process_event(const ENetEvent& event) {}
+  virtual void process_event(const ENetEvent& event) = 0;
 
 private:
   void flush_packets();

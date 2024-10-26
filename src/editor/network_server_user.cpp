@@ -14,30 +14,23 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/network_user.hpp"
+#include "editor/network_server_user.hpp"
 
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-EditorNetworkUser::EditorNetworkUser(const std::string& nickname_, Color nickname_color_) :
-  nickname(nickname_),
-  nickname_color(nickname_color_),
+EditorServerUser::EditorServerUser(const std::string& nickname_, Color nickname_color_) :
+  network::ServerUser(nickname_, nickname_color_),
   sector(),
   mouse_cursor()
 {
 }
 
-EditorNetworkUser::EditorNetworkUser(const ReaderMapping& reader) :
-  nickname(),
-  nickname_color(1, 1, 1, 1),
+EditorServerUser::EditorServerUser(const ReaderMapping& reader) :
+  network::ServerUser(reader),
   sector(),
   mouse_cursor()
 {
-  reader.get("nickname", nickname);
-  std::vector<float> v_nickcolor;
-  if (reader.get("nickname-color", v_nickcolor))
-    nickname_color = Color(v_nickcolor);
-
   reader.get("sector", sector);
 
   std::optional<ReaderMapping> cursor_mapping;
@@ -46,31 +39,15 @@ EditorNetworkUser::EditorNetworkUser(const ReaderMapping& reader) :
 }
 
 void
-EditorNetworkUser::write(Writer& writer) const
+EditorServerUser::write(Writer& writer) const
 {
-  writer.write("nickname", nickname);
-  auto v_nickcolor = nickname_color.toVector();
-  v_nickcolor.pop_back(); // Remove alpha
-  writer.write("nickname-color", v_nickcolor);
+  network::ServerUser::write(writer);
 
   writer.write("sector", sector);
 
   writer.start_list("cursor");
   mouse_cursor.write_state(writer);
   writer.end_list("cursor");
-}
-
-std::string
-EditorNetworkUser::serialize() const
-{
-  std::ostringstream stream;
-  Writer writer(stream);
-
-  writer.start_list("supertux-editor-network-user");
-  write(writer);
-  writer.end_list("supertux-editor-network-user");
-
-  return stream.str();
 }
 
 /* EOF */
