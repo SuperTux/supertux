@@ -744,7 +744,7 @@ TilesObjectOption::parse_state(const ReaderMapping& reader)
 {
   parse(reader);
 
-  std::vector<int> tile_changes; // Array of pairs (index, old/new tile ID).
+  std::vector<uint32_t> tile_changes; // Array of pairs (index, old/new tile ID).
   if (!reader.get("tile-changes", tile_changes))
     return;
 
@@ -752,7 +752,7 @@ TilesObjectOption::parse_state(const ReaderMapping& reader)
     throw std::runtime_error("'tile-changes' does not contain number pairs.");
 
   for (size_t i = 0; i < tile_changes.size(); i += 2)
-    m_value_pointer->change(tile_changes[i], static_cast<uint32_t>(tile_changes[i + 1]));
+    m_value_pointer->change(static_cast<int>(tile_changes[i]), tile_changes[i + 1]);
 }
 
 void
