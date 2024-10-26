@@ -474,7 +474,7 @@ WorldMapSector::finished_level(Level* gamelevel)
   // deal with statistics
   level->get_statistics().update(gamelevel->m_stats);
 
-  if (level->get_statistics().completed(level->get_statistics(), level->get_target_time())) {
+  if (level->get_statistics().completed(level->get_target_time())) {
     level->set_perfect(true);
   }
 

@@ -67,11 +67,11 @@ public:
                           std::vector<float> angles,
                           const Color& color,
                           int layer);
-  void draw_text(const FontPtr& font, const std::string& text,
-                 const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));
+  Rectf draw_text(const FontPtr& font, const std::string& text,
+                  const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));
   /** Draw text to the center of the screen */
-  void draw_center_text(const FontPtr& font, const std::string& text,
-                        const Vector& position, int layer, const Color& color = Color(1.0,1.0,1.0));
+  Rectf draw_center_text(const FontPtr& font, const std::string& text,
+                         const Vector& position, int layer, const Color& color = Color(1.0,1.0,1.0));
   void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction,
                      const Rectf& region, const Blend& blend = Blend());
   void draw_filled_rect(const Rectf& rect, const Color& color, int layer);

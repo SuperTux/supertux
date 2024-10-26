@@ -23,6 +23,9 @@
 
 #include "math/rect.hpp"
 #include "video/flip.hpp"
+#include "video/sampler.hpp"
+
+struct SDL_Surface;
 
 /** This class is a wrapper around a texture handle. It stores the
     texture width and height and provides convenience functions for
@@ -37,15 +40,23 @@ public:
 
 protected:
   Texture();
+  Texture(const Sampler& sampler);
 
 public:
   virtual ~Texture();
+
+  virtual void reload(const SDL_Surface& image) = 0;
 
   virtual int get_texture_width() const = 0;
   virtual int get_texture_height() const = 0;
 
   virtual int get_image_width() const = 0;
   virtual int get_image_height() const = 0;
+
+  const Sampler& get_sampler() const { return m_sampler; }
+
+protected:
+  Sampler m_sampler;
 
 private:
   std::optional<Key> m_cache_key;

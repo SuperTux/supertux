@@ -78,7 +78,9 @@ public:
 private:
   Vector get_layer_coords(const int pos) const;
   int get_layer_pos(const Vector& coords) const;
+
   void update_tip();
+  void remove_invalid_layers();
 
 private:
   Editor& m_editor;

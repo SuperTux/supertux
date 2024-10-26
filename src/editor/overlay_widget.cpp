@@ -16,6 +16,8 @@
 
 #include "editor/overlay_widget.hpp"
 
+#include <fmt/format.h>
+
 #include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
 #include "editor/object_menu.hpp"
@@ -53,6 +55,7 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_editor(editor),
   m_hovered_tile(0, 0),
   m_hovered_tile_prev(0, 0),
+  m_last_hovered_tile(0, 0),
   m_sector_pos(0, 0),
   m_mouse_pos(0, 0),
   m_previous_mouse_pos(0, 0),
@@ -66,6 +69,8 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_selected_object(nullptr),
   m_edited_path(nullptr),
   m_last_node_marker(nullptr),
+  m_available_autotilesets(),
+  m_current_autotileset(0),
   m_object_tip(new Tip()),
   m_obj_mouse_desync(0, 0),
   m_rectangle_preview(new TileSelection()),
@@ -170,7 +175,7 @@ EditorOverlayWidget::autotile(const Vector& pos, uint32_t tile)
   if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
 
   tilemap->save_state();
-  tilemap->autotile(static_cast<int>(pos.x), static_cast<int>(pos.y), tile);
+  tilemap->autotile(static_cast<int>(pos.x), static_cast<int>(pos.y), tile, get_current_autotileset());
 }
 
 void
@@ -196,7 +201,7 @@ EditorOverlayWidget::autotile_corner(const Vector& pos, uint32_t tile,
   if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
 
   tilemap->save_state();
-  tilemap->autotile_corner(static_cast<int>(pos.x), static_cast<int>(pos.y), tile, op);
+  tilemap->autotile_corner(static_cast<int>(pos.x), static_cast<int>(pos.y), tile, get_current_autotileset(), op);
 }
 
 void
@@ -220,36 +225,37 @@ EditorOverlayWidget::input_autotile_corner(const Vector& corner, uint32_t tile, 
 }
 
 void
-EditorOverlayWidget::put_tile(const Vector& target_tile)
+EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
 {
   m_editor.get_selected_tilemap()->save_state();
 
-  Vector hovered_corner = target_tile + Vector(0.5f, 0.5f);
-  auto tiles = m_editor.get_tiles();
+  const Vector hovered_corner = target_tile + Vector(0.5f, 0.5f);
   Vector add_tile(0.0f, 0.0f);
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--)
   {
     for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--)
     {
+      const uint32_t tile = tiles->pos(static_cast<int>(add_tile.x), static_cast<int>(add_tile.y));
 
-      uint32_t tile = tiles->pos(static_cast<int>(add_tile.x), static_cast<int>(add_tile.y));
-      auto tilemap = m_editor.get_selected_tilemap();
-
-      if (g_config->editor_autotile_mode && ((tilemap && tilemap->get_autotileset(tile)) || tile == 0))
+      if (g_config->editor_autotile_mode)
       {
-        if (tile == 0)
+        AutotileSet* autotileset = get_current_autotileset();
+        if (autotileset)
         {
-          tilemap->autotile_erase(target_tile + add_tile, hovered_corner + add_tile);
-        }
-        else if (tilemap->get_autotileset(tile)->is_corner())
-        {
-          input_autotile_corner(hovered_corner + add_tile,
-                                tile,
-                                target_tile + add_tile);
-        }
-        else
-        {
-          input_autotile(target_tile + add_tile, tile);
+          if (tile == 0)
+          {
+            m_editor.get_selected_tilemap()->autotile_erase(target_tile + add_tile, hovered_corner + add_tile, autotileset);
+          }
+          else if (autotileset->is_corner())
+          {
+            input_autotile_corner(hovered_corner + add_tile,
+                                  tile,
+                                  target_tile + add_tile);
+          }
+          else
+          {
+            input_autotile(target_tile + add_tile, tile);
+          }
         }
       }
       else
@@ -350,7 +356,7 @@ EditorOverlayWidget::put_next_tiles()
   {
     // Avoid drawing lines when the user has hold the left mouse button for some
     // time while not putting a tile
-    put_tile(m_hovered_tile);
+    put_tiles(m_hovered_tile, m_editor.get_tiles());
     m_hovered_tile_prev = m_hovered_tile;
     return;
   }
@@ -359,7 +365,7 @@ EditorOverlayWidget::put_next_tiles()
   for (const Vector &pos : rasterize_line_segment(m_hovered_tile_prev * 2.0f,
       m_hovered_tile * 2.0f))
   {
-    put_tile(pos * 0.5f);
+    put_tiles(pos * 0.5f, m_editor.get_tiles());
   }
   m_hovered_tile_prev = m_hovered_tile;
 }
@@ -387,30 +393,6 @@ EditorOverlayWidget::preview_rectangle()
   }
 }
 
-
-void
-EditorOverlayWidget::draw_rectangle()
-{
-  Rectf dr = drag_rect();
-  dr.set_p1(glm::floor(sp_to_tp(dr.p1())));
-  dr.set_p2(glm::floor(sp_to_tp(dr.p2())));
-  bool sgn_x = m_drag_start.x < m_sector_pos.x;
-  bool sgn_y = m_drag_start.y < m_sector_pos.y;
-
-  int x_ = sgn_x ? 0 : static_cast<int>(-dr.get_width());
-  for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++)
-  {
-    int y_ = sgn_y ? 0 : static_cast<int>(-dr.get_height());
-    for (int y = static_cast<int>(dr.get_top()); y <= static_cast<int>(dr.get_bottom()); y++, y_++)
-    {
-      if (g_config->editor_autotile_mode)
-        input_autotile(Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_));
-      else
-        input_tile(Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_));
-    }
-  }
-}
-
 bool
 EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
                                           uint32_t target_tile,
@@ -418,10 +400,8 @@ EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
 {
   if (g_config->editor_autotile_mode)
   {
-    return m_editor.get_tileset()->get_autotileset_from_tile(replace_tile)
-        == m_editor.get_tileset()->get_autotileset_from_tile(target_tile)
-      && m_editor.get_tileset()->get_autotileset_from_tile(replace_tile)
-        != m_editor.get_tileset()->get_autotileset_from_tile(third_tile);
+    return m_editor.get_tileset()->has_mutual_autotileset(replace_tile, target_tile) &&
+          !m_editor.get_tileset()->has_mutual_autotileset(replace_tile, third_tile);
   }
   else
   {
@@ -437,7 +417,7 @@ EditorOverlayWidget::fill()
   if (!tilemap) return;
 
   // The tile that is going to be replaced:
-  uint32_t replace_tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y));
+  uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
 
   if (replace_tile == tiles->pos(0, 0))
   {
@@ -479,7 +459,7 @@ EditorOverlayWidget::fill()
     if (pos_.x >= 0)
     {
       if (check_tiles_for_fill(replace_tile,
-          tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
+          tilemap->get_tile_id(pos_),
           tiles->pos(static_cast<int>(tpos.x - 1), static_cast<int>(tpos.y))))
       {
         pos_stack.push_back( pos_ );
@@ -492,7 +472,7 @@ EditorOverlayWidget::fill()
     if (pos_.x < static_cast<float>(tilemap->get_width()))
     {
       if (check_tiles_for_fill(replace_tile,
-          tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
+          tilemap->get_tile_id(pos_),
           tiles->pos(static_cast<int>(tpos.x + 1), static_cast<int>(tpos.y))))
       {
         pos_stack.push_back( pos_ );
@@ -505,7 +485,7 @@ EditorOverlayWidget::fill()
     if (pos_.y >= 0)
     {
       if (check_tiles_for_fill(replace_tile,
-          tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
+          tilemap->get_tile_id(pos_),
           tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y - 1))))
       {
         pos_stack.push_back( pos_ );
@@ -518,7 +498,7 @@ EditorOverlayWidget::fill()
     if (pos_.y < static_cast<float>(tilemap->get_height()))
     {
       if (check_tiles_for_fill(replace_tile,
-          tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
+          tilemap->get_tile_id(pos_),
           tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y + 1))))
       {
         pos_stack.push_back( pos_ );
@@ -539,7 +519,7 @@ void
 EditorOverlayWidget::replace()
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  uint32_t replace_tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y));
+  uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
 
   // Don't do anything if the old and new tiles are the same tile.
   if (m_editor.get_tiles()->m_width == 1 && m_editor.get_tiles()->m_height == 1 && replace_tile == m_editor.get_tiles()->pos(0, 0)) return;
@@ -920,7 +900,7 @@ EditorOverlayWidget::process_left_click()
       switch (m_editor.get_tileselect_select_mode())
       {
         case 0:
-          put_tile(m_hovered_tile);
+          put_tiles(m_hovered_tile, m_editor.get_tiles());
           m_hovered_tile_prev = m_hovered_tile;
           m_time_prev_put_tile = std::chrono::steady_clock::now();
           break;
@@ -1072,6 +1052,8 @@ EditorOverlayWidget::update_tile_selection()
       }
     }
   }
+
+  update_autotileset();
 }
 
 bool
@@ -1083,7 +1065,7 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
     {
       if (m_dragging && m_editor.get_tileselect_select_mode() == 1)
       {
-        draw_rectangle();
+        put_tiles(sp_to_tp(drag_rect().p1()), m_rectangle_preview.get());
         m_rectangle_preview->m_tiles.clear();
       }
 
@@ -1197,10 +1179,11 @@ bool
 EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
-  if (sym == SDLK_LSHIFT) {
+  if (sym == SDLK_LSHIFT)
+  {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
-  if (sym == SDLK_LCTRL || sym == SDLK_RCTRL)
+  else if (sym == SDLK_LCTRL || sym == SDLK_RCTRL)
   {
     if (action_pressed)
     {
@@ -1210,7 +1193,8 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
     // Hovered objects depend on which keys are pressed
     hover_object();
   }
-  if (sym == SDLK_LALT || sym == SDLK_RALT) {
+  else if (sym == SDLK_LALT || sym == SDLK_RALT)
+  {
     alt_pressed = false;
   }
   return true;
@@ -1220,21 +1204,33 @@ bool
 EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
-  if (sym == SDLK_F8) {
+
+  if (sym == SDLK_F8)
+  {
     g_config->editor_render_grid = !g_config->editor_render_grid;
   }
-  if (sym == SDLK_F7 || sym == SDLK_LSHIFT) {
+  else if (sym == SDLK_F7 || sym == SDLK_LSHIFT)
+  {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
-  if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed))
+  else if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed))
   {
     g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
     action_pressed = true;
     // Hovered objects depend on which keys are pressed
     hover_object();
   }
-  if (sym == SDLK_LALT || sym == SDLK_RALT) {
+  else if (sym == SDLK_LALT || sym == SDLK_RALT)
+  {
     alt_pressed = true;
+  }
+  else if (sym == SDLK_0)
+  {
+    m_current_autotileset = 0;
+  }
+  else if (sym > SDLK_0 && sym <= SDLK_9)
+  {
+    m_current_autotileset = static_cast<int>(sym - SDLK_0);
   }
   return true;
 }
@@ -1254,8 +1250,66 @@ EditorOverlayWidget::update_pos()
                  m_editor.get_sector()->get_camera().get_translation();
   m_hovered_tile = sp_to_tp(m_sector_pos);
 
+  if (m_last_hovered_tile != m_hovered_tile)
+  {
+    const uint32_t hovered_id = m_editor.get_selected_tilemap()->get_tile_id(m_hovered_tile);
+    if ((!m_dragging || hovered_id != 0) &&
+        m_editor.get_tiles()->pos(0, 0) == 0 && // Erasing
+        m_editor.get_selected_tilemap()->get_tile_id(m_last_hovered_tile) != hovered_id)
+    {
+      update_autotileset();
+    }
+
+    m_last_hovered_tile = m_hovered_tile;
+  }
+
   // update tip
   hover_object();
+}
+
+void
+EditorOverlayWidget::update_autotileset()
+{
+  AutotileSet* old_autotileset = get_current_autotileset();
+
+  if (m_editor.get_tiles()->pos(0, 0) == 0) // Erasing
+  {
+    const uint32_t current_tile = m_editor.get_selected_tilemap()->get_tile_id(m_hovered_tile);
+    m_available_autotilesets = m_editor.get_tileset()->get_autotilesets_from_tile(current_tile);
+  }
+  else
+  {
+    m_available_autotilesets = m_editor.get_tileset()->get_autotilesets_from_tile(m_editor.get_tiles()->pos(0, 0));
+  }
+
+  if (!old_autotileset)
+  {
+    m_current_autotileset = 0;
+    return;
+  }
+  auto it_autotileset = std::find(m_available_autotilesets.begin(), m_available_autotilesets.end(), old_autotileset);
+  m_current_autotileset = it_autotileset != m_available_autotilesets.end() ? static_cast<int>(it_autotileset - m_available_autotilesets.begin()) : 0;
+}
+
+AutotileSet*
+EditorOverlayWidget::get_current_autotileset() const
+{
+  if (m_available_autotilesets.empty())
+    return nullptr;
+
+  if (m_current_autotileset < 0 || m_current_autotileset > static_cast<int>(m_available_autotilesets.size() - 1))
+    return m_available_autotilesets.front();
+
+  return m_available_autotilesets[m_current_autotileset];
+}
+
+std::string
+EditorOverlayWidget::get_autotileset_key_range() const
+{
+  if (m_available_autotilesets.size() < 2)
+    return "";
+
+  return "(0-" + std::to_string(std::min(static_cast<int>(m_available_autotilesets.size() - 1), 9)) + ")";
 }
 
 void
@@ -1507,7 +1561,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
   {
     // Deprecated tiles in active tilemaps should have indication, when hovered
     auto sel_tilemap = m_editor.get_selected_tilemap();
-    if (m_editor.get_tileset()->get(sel_tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))).is_deprecated())
+    if (m_editor.get_tileset()->get(sel_tilemap->get_tile_id(m_hovered_tile)).is_deprecated())
       context.color().draw_text(Resources::normal_font, "!",
                                 tp_to_sp(Vector(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))) + Vector(16, 8),
                                 ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
@@ -1563,22 +1617,23 @@ EditorOverlayWidget::draw(DrawingContext& context)
 
   if (g_config->editor_autotile_help)
   {
-    if (m_editor.get_tileset()->get_autotileset_from_tile(m_editor.get_tiles()->pos(0, 0)) != nullptr)
+    if (g_config->editor_autotile_mode)
     {
-      if (g_config->editor_autotile_mode)
-      {
-        context.color().draw_text(Resources::normal_font, _("Autotile mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
-      }
-      else
-      {
-        context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
-      }
-    }
-    else if (g_config->editor_autotile_mode)
-    {
+      AutotileSet* autotileset = get_current_autotileset();
       if (m_editor.get_tiles()->pos(0, 0) == 0)
       {
-        context.color().draw_text(Resources::normal_font, _("Autotile erasing mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
+        if (autotileset)
+        {
+          context.color().draw_text(Resources::normal_font, fmt::format(fmt::runtime(_("Autotile erasing mode is on (\"{}\")")), autotileset->get_name()) + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
+        }
+        else
+        {
+          context.color().draw_text(Resources::normal_font, _("Autotile erasing cannot be performed here"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
+        }
+      }
+      else if (autotileset)
+      {
+        context.color().draw_text(Resources::normal_font, fmt::format(fmt::runtime(_("Autotile mode is on (\"{}\")")), autotileset->get_name()) + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
       }
       else
       {
@@ -1587,7 +1642,11 @@ EditorOverlayWidget::draw(DrawingContext& context)
     }
     else if (m_editor.get_tiles()->pos(0, 0) == 0)
     {
-      context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
+      context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing") + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
+    }
+    else
+    {
+      context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile") + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
     }
   }
 }
