@@ -38,13 +38,17 @@ Explosion::Explosion(const Vector& pos, float p_push_strength,
   push_strength(p_push_strength),
   num_particles(p_num_particles),
   m_state(E_STATE_WAITING),
-  m_lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
-  m_color(0.6f, 0.6f, 0.6f, 0.f),
+  m_lightsprite(SpriteManager::current()->create(p_short_fuse ?
+                                                 "images/objects/lightmap_light/lightmap_light-medium.sprite" :
+                                                 "images/objects/lightmap_light/lightmap_light-large.sprite")),
+  m_color(0.5f, 0.3f, 0.2f, 0.f),
   m_fading_timer(),
   short_fuse(p_short_fuse)
 {
-  SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
   set_pos(get_pos() - (m_col.m_bbox.get_middle() - get_pos()));
+
+  SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
+
   m_lightsprite->set_blend(Blend::ADD);
   m_lightsprite->set_color(m_color);
 }
@@ -55,12 +59,16 @@ Explosion::Explosion(const ReaderMapping& reader) :
   push_strength(-1),
   num_particles(100),
   m_state(E_STATE_WAITING),
-  m_lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
-  m_color(0.6f, 0.6f, 0.6f, 0.f),
+  m_lightsprite(nullptr),
+  m_color(0.5f, 0.3f, 0.2f, 0.f),
   m_fading_timer(),
   short_fuse(false)
 {
   SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
+
+  m_lightsprite = (SpriteManager::current()->create(short_fuse ?
+                                                    "images/objects/lightmap_light/lightmap_light-medium.sprite" :
+                                                    "images/objects/lightmap_light/lightmap_light-large.sprite"));
   m_lightsprite->set_blend(Blend::ADD);
   m_lightsprite->set_color(m_color);
 }
@@ -167,7 +175,7 @@ Explosion::update(float )
 
       if (m_fading_timer.check())
       {
-        m_fading_timer.start(hurt ? 1.5f : .85f);
+        m_fading_timer.start(short_fuse ? .85f : 1.5f);
         m_state = E_STATE_FADING;
       }
 
