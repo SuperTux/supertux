@@ -128,8 +128,10 @@ GameSession::reset_level()
 void
 GameSession::on_player_added(int id)
 {
-  if (m_savegame.get_player_status().m_num_players <= id)
-    m_savegame.get_player_status().add_player();
+  if (m_savegame.get_player_status().m_num_players > id)
+    return;
+
+  m_savegame.get_player_status().add_player();
 
   // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
   auto& player = m_currentsector->add<Player>(m_savegame.get_player_status(), "Tux" + std::to_string(id + 1), id);
@@ -140,7 +142,6 @@ GameSession::on_player_added(int id)
 void
 GameSession::on_player_removed(int id)
 {
-
   // Sectors in worldmaps have no Player's of that class
   if (m_currentsector)
   {

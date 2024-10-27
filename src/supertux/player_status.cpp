@@ -291,6 +291,20 @@ PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
 bool
 PlayerStatus::is_item_pocket_allowed() const
 {
+  if (!GameSession::current())
+  {
+    worldmap::WorldMap* worldmap = worldmap::WorldMap::current();
+    if (worldmap)
+    {
+      return worldmap->is_item_pocket_allowed();
+    }
+    else
+    {
+      // This level is probably in a levelset, pick ON.
+      return true;
+    }
+  }
+
   Level* level = Level::current();
   int allowed = static_cast<Level::Setting>(level->m_allow_item_pocket);
 
