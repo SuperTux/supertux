@@ -568,7 +568,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   s_timelog.log(nullptr);
 
-  m_savegame = std::make_unique<Savegame>(m_profile_manager->get_current_profile(), "");
+  m_savegame = std::make_unique<Savegame>(true);
 
   m_game_manager.reset(new GameManager());
   m_screen_manager.reset(new ScreenManager(*m_video_system, *m_input_manager));

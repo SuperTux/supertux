@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
+#include "gui/item_goto.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/fadetoblack.hpp"
@@ -53,6 +54,13 @@ MainMenu::MainMenu()
   // TODO: Manage to build OpenSSL for Emscripten so we can build CURL so we can
   //       build the add-ons so we can re-enable them.
   //       Also see src/addon/downloader.*pp
+  if (!g_config->disable_network)
+  {
+    add_submenu(_("Host Game"), MenuStorage::HOST_GAME_MENU)
+      .set_help(_("Host a game over the network."));
+    add_submenu(_("Join Game"), MenuStorage::JOIN_GAME_MENU)
+      .set_help(_("Join a game hosted over the network."));
+  }
   add_submenu(_("Add-ons"), MenuStorage::ADDON_MENU);
 #ifdef __EMSCRIPTEN__
   add_submenu(_("Manage Assets"), MenuStorage::ASSET_MENU);

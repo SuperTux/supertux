@@ -30,6 +30,7 @@
 #include "squirrel/squirrel_scheduler.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/level.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/sequence.hpp"
@@ -39,11 +40,14 @@
 class CodeController;
 class DrawingContext;
 class EndSequence;
-class Level;
 class Player;
 class Sector;
 class Statistics;
 class Savegame;
+
+namespace network {
+class Host;
+} // namespace network
 
 /** Screen that runs a Level, where Players run and jump through Sectors. */
 class GameSession final : public Screen,
@@ -78,7 +82,8 @@ private:
 
 public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr,
-              bool preserve_music = false);
+              bool preserve_music = false, const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt,
+              network::Host* host = nullptr);
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -115,12 +120,6 @@ public:
   void start_sequence(Player* caller, Sequence seq, const SequenceData* data = nullptr);
   void set_target_timer_paused(bool paused);
 
-  /**
-   * returns the "working directory" usually this is the directory where the
-   * currently played level resides. This is used when locating additional
-   * resources for the current level/world
-   */
-  std::string get_working_directory() const;
   const std::string& get_level_file() const { return m_levelfile; }
   bool has_active_sequence() const;
   int restart_level(bool after_death = false, bool preserve_music = false);
@@ -163,6 +162,8 @@ private:
   float m_speed_before_pause;
 
   std::string m_levelfile;
+
+  network::Host* m_network_host;
 
   // Spawnpoints
   std::vector<SpawnPoint> m_spawnpoints;

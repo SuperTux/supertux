@@ -73,6 +73,7 @@ public:
   static std::unique_ptr<Savegame> from_current_profile(const std::string& world_name, bool base_data = false);
 
 public:
+  Savegame(bool title_screen = false);
   Savegame(Profile& profile, const std::string& world_name);
 
   Profile& get_profile() const { return m_profile; }
@@ -94,7 +95,7 @@ public:
 
   void save();
 
-  bool is_title_screen() const;
+  bool is_title_screen() const { return m_title_screen; }
 
 private:
   void load(bool base_data = false);
@@ -105,6 +106,8 @@ private:
   std::string m_world_name;
   std::unique_ptr<PlayerStatus> m_player_status;
   ssq::Table m_state_table;
+
+  const bool m_title_screen;
 
 private:
   Savegame(const Savegame&) = delete;

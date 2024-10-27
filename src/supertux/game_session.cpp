@@ -23,6 +23,8 @@
 #include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
+#include "network/host.hpp"
+#include "network/server.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
 #include "object/endsequence_walk.hpp"
@@ -34,8 +36,8 @@
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
+#include "supertux/game_network_protocol.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/levelset_screen.hpp"
@@ -55,8 +57,9 @@ static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
 static const float TELEPORT_FADE_TIME = 1.0f;
 
 
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
-                         bool preserve_music) :
+GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics,
+                         bool preserve_music, const std::optional<std::pair<std::string, Vector>>& start_pos,
+                         network::Host* host) :
   reset_button(false),
   reset_checkpoint_button(false),
   m_prevent_death(false),
@@ -67,7 +70,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_end_sequence(nullptr),
   m_game_pause(false),
   m_speed_before_pause(ScreenManager::current()->get_speed()),
-  m_levelfile(levelfile_),
+  m_levelfile(levelfile),
+  m_network_host(host),
   m_spawnpoints(),
   m_activated_checkpoint(),
   m_newsector(),
@@ -89,7 +93,10 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_current_cutscene_text(),
   m_endsequence_timer()
 {
-  set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
+  if (start_pos)
+    set_start_pos(start_pos->first, start_pos->second);
+  else
+    set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
 
   m_boni_at_start.resize(InputManager::current()->get_num_users(), NO_BONUS);
   m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
@@ -163,13 +170,27 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 
   m_currentsector = nullptr;
 
-  const std::string base_dir = FileSystem::dirname(m_levelfile);
-  if (base_dir == "./") {
-    m_levelfile = FileSystem::basename(m_levelfile);
+  if (!m_network_host || (m_network_host && m_network_host->is_server()))
+  {
+    const std::string base_dir = FileSystem::dirname(m_levelfile);
+    if (base_dir == "./") {
+      m_levelfile = FileSystem::basename(m_levelfile);
+    }
   }
 
   try {
-    m_level = LevelParser::from_file(m_levelfile, false, false);
+    if (m_network_host && !m_network_host->is_server())
+    {
+      std::istringstream level_stream(m_levelfile);
+
+      GameObject::s_read_uid = true;
+      m_level = LevelParser::from_stream(level_stream, "remote-level", false, false);
+      GameObject::s_read_uid = false;
+    }
+    else
+    {
+      m_level = LevelParser::from_file(m_levelfile, false, false);
+    }
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
     const GameSession::SpawnPoint* spawnpoint = nullptr;
@@ -230,6 +251,20 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
     ScreenManager::current()->pop_screen();
     return (-1);
+  }
+
+  if (m_network_host && m_network_host->is_server())
+  {
+    // Request all clients to start a GameSession with this level to join the game.
+    GameObject::s_save_uid = true;
+    network::StagedPacket packet(GameNetworkProtocol::OP_GAME_JOIN,
+      {
+        m_level->save()
+        // TODO: Send first SpawnPoint.
+      });
+    GameObject::s_save_uid = false;
+
+    m_network_host->broadcast_packet(packet, true);
   }
 
   if (m_levelintro_shown)
@@ -812,12 +847,6 @@ const GameSession::SpawnPoint*
 GameSession::get_active_checkpoint_spawnpoint() const
 {
   return m_activated_checkpoint;
-}
-
-std::string
-GameSession::get_working_directory() const
-{
-  return FileSystem::dirname(m_levelfile);
 }
 
 bool

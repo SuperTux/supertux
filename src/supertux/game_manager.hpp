@@ -17,19 +17,35 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
 
+#include "network/user_manager.hpp"
 #include "util/currenton.hpp"
 
 #include <optional>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "math/vector.hpp"
 
+class Color;
+class GameNetworkUser;
+class GameSession;
 class Savegame;
+class Statistics;
 class World;
 
-class GameManager final : public Currenton<GameManager>
+namespace network {
+class Client;
+class Server;
+} // namespace network
+
+typedef struct _ENetPeer ENetPeer;
+
+class GameManager final : public Currenton<GameManager>,
+                          public network::UserManager
 {
+  friend class GameNetworkProtocol;
+
 public:
   GameManager();
 
@@ -39,10 +55,25 @@ public:
                       const std::optional<std::pair<std::string, Vector>>& start_pos);
   void start_level(const World& world, const std::string& level_filename,
                    const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
+  void start_worldmap_level(const std::string& level_filename, Savegame& savegame,
+                            Statistics* statistics);
 
   bool load_next_worldmap();
   void set_next_worldmap(const std::string& world, const std::string& sector = "",
                          const std::string& spawnpoint = "");
+
+  void host_game(uint16_t port);
+  void stop_hosting_game();
+
+  void connect_to_remote_game(const std::string& hostname, uint16_t port,
+                              const std::string& nickname, const Color& nickname_color);
+
+private:
+  GameSession* start_network_level(const std::string& level_content);
+
+  /** If server, stop hosting.
+      If client, disconnect from server. */
+  void close_connections();
 
 private:
   struct NextWorldMap
@@ -61,6 +92,10 @@ private:
   std::unique_ptr<Savegame> m_savegame;
 
   std::optional<NextWorldMap> m_next_worldmap;
+
+  network::Server* m_network_server;
+  network::Client* m_network_client;
+  ENetPeer* m_network_server_peer;
 
 private:
   GameManager(const GameManager&) = delete;

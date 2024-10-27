@@ -120,11 +120,21 @@ Savegame::from_current_profile(const std::string& world_name, bool base_data)
 }
 
 
+Savegame::Savegame(bool title_screen) :
+  m_profile(ProfileManager::current()->get_current_profile()),
+  m_world_name(),
+  m_player_status(new PlayerStatus(InputManager::current()->get_num_users())),
+  m_state_table(),
+  m_title_screen(title_screen)
+{
+}
+
 Savegame::Savegame(Profile& profile, const std::string& world_name) :
   m_profile(profile),
   m_world_name(world_name),
   m_player_status(new PlayerStatus(InputManager::current()->get_num_users())),
-  m_state_table()
+  m_state_table(),
+  m_title_screen(false)
 {
 }
 
@@ -132,13 +142,6 @@ std::string
 Savegame::get_filename() const
 {
   return FileSystem::join(m_profile.get_basedir(), m_world_name + ".stsg");
-}
-
-bool
-Savegame::is_title_screen() const
-{
-  // bit of a hack, TitleScreen uses a dummy savegame without a world name
-  return m_world_name.empty();
 }
 
 void

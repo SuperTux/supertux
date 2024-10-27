@@ -29,13 +29,15 @@
 
 LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& level_filename,
                                Savegame& savegame,
-                               const std::optional<std::pair<std::string, Vector>>& start_pos) :
+                               const std::optional<std::pair<std::string, Vector>>& start_pos,
+                               network::Host* host) :
   m_basedir(basedir),
   m_level_filename(level_filename),
   m_savegame(savegame),
   m_level_started(false),
   m_solved(false),
-  m_start_pos(start_pos)
+  m_start_pos(start_pos),
+  m_network_host(host)
 {
   Levelset levelset(basedir);
   for (int i = 0; i < levelset.get_num_levels(); ++i)
@@ -85,11 +87,8 @@ LevelsetScreen::setup()
       ScreenManager::current()->pop_screen();
     } else {
       auto screen = std::make_unique<GameSession>(FileSystem::join(m_basedir, m_level_filename),
-                                                  m_savegame);
-      if (m_start_pos) {
-        screen->set_start_pos(m_start_pos->first, m_start_pos->second);
-        screen->restart_level();
-      }
+                                                  m_savegame, nullptr, false,
+                                                  m_start_pos, m_network_host);
       ScreenManager::current()->push_screen(std::move(screen));
     }
   }

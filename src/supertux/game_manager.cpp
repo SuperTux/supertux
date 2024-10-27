@@ -17,7 +17,13 @@
 #include "supertux/game_manager.hpp"
 
 #include "editor/editor.hpp"
+#include "gui/dialog.hpp"
+#include "network/client.hpp"
+#include "network/host_manager.hpp"
+#include "network/server.hpp"
 #include "sdk/integration.hpp"
+#include "supertux/game_network_protocol.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/levelset_screen.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/profile.hpp"
@@ -36,7 +42,10 @@
 
 GameManager::GameManager() :
   m_savegame(),
-  m_next_worldmap()
+  m_next_worldmap(),
+  m_network_server(),
+  m_network_client(),
+  m_network_server_peer()
 {
 }
 
@@ -49,11 +58,41 @@ GameManager::start_level(const World& world, const std::string& level_filename,
   auto screen = std::make_unique<LevelsetScreen>(world.get_basedir(),
                                                  level_filename,
                                                  *m_savegame,
-                                                 start_pos);
+                                                 start_pos,
+                                                 m_network_server);
   ScreenManager::current()->push_screen(std::move(screen));
 
   if (!Editor::current())
     m_savegame->get_profile().set_last_world(world.get_basename());
+}
+
+void
+GameManager::start_worldmap_level(const std::string& level_filename, Savegame& savegame,
+                                  Statistics* statistics)
+{
+  auto screen = std::make_unique<GameSession>(level_filename,
+                                              savegame,
+                                              statistics,
+                                              false,
+                                              std::nullopt,
+                                              m_network_server);
+  ScreenManager::current()->push_screen(std::move(screen));
+}
+
+GameSession*
+GameManager::start_network_level(const std::string& level_content)
+{
+  m_savegame = std::make_unique<Savegame>();
+
+  auto screen = std::make_unique<GameSession>(level_content,
+                                              *m_savegame,
+                                              nullptr,
+                                              false,
+                                              std::nullopt, // TODO: Receive first GameSession::SpawnPoint.
+                                              m_network_client);
+  GameSession* session = screen.get();
+  ScreenManager::current()->push_screen(std::move(screen));
+  return session;
 }
 
 void
@@ -127,6 +166,127 @@ GameManager::set_next_worldmap(const std::string& world, const std::string& sect
                                const std::string& spawnpoint)
 {
   m_next_worldmap.emplace(world, sector, spawnpoint);
+}
+
+void
+GameManager::host_game(uint16_t port)
+{
+  if (m_network_server)
+  {
+    Dialog::show_message(_("A game is currently being hosted. Please try again later!"));
+    return;
+  }
+
+  try
+  {
+    m_network_server = &network::HostManager::current()->create<network::Server>(port, 32);
+  }
+  catch (const std::exception& err)
+  {
+    log_warning << "Error starting network server: " << err.what() << std::endl;
+    Dialog::show_message(_("Error starting network server:") + "\n\n" + err.what());
+    return;
+  }
+
+  m_network_server->set_protocol(std::make_unique<GameNetworkProtocol>(*this, *m_network_server));
+}
+
+void
+GameManager::connect_to_remote_game(const std::string& hostname, uint16_t port,
+                                    const std::string& nickname, const Color& nickname_color)
+{
+  if (m_network_server_peer)
+  {
+    Dialog::show_message(_("A connection is currently active. Please try again later!"));
+    return;
+  }
+
+  if (!GameNetworkProtocol::verify_nickname(nickname))
+  {
+    Dialog::show_message(_("The provided nickname is invalid. Please try again!"));
+    return;
+  }
+
+  close_connections();
+
+  try
+  {
+    m_network_client = &network::HostManager::current()->create<network::Client>(1);
+  }
+  catch (const std::exception& err)
+  {
+    log_warning << "Error starting network client: " << err.what() << std::endl;
+    Dialog::show_message(_("Error starting network client:") + "\n" + err.what());
+    return;
+  }
+
+  m_network_client->set_protocol(std::make_unique<GameNetworkProtocol>(*this, *m_network_client));
+
+  auto connection = m_network_client->connect(hostname.c_str(), port, 1500);
+  if (connection.status != network::ConnectionStatus::SUCCESS)
+  {
+    switch (connection.status)
+    {
+      case network::ConnectionStatus::FAILED_NO_PEERS:
+        Dialog::show_message(_("Failed to connect: No peers available."));
+        break;
+      case network::ConnectionStatus::FAILED_TIMED_OUT:
+        Dialog::show_message(_("Failed to connect: Connection request timed out."));
+        break;
+      case network::ConnectionStatus::FAILED_VERSION_MISMATCH:
+        Dialog::show_message(_("Failed to connect: Local and server SuperTux versions do not match."));
+        break;
+      case network::ConnectionStatus::FAILED_CONNECTION_REFUSED:
+        Dialog::show_message(_("Failed to connect: The server refused the connection."));
+        break;
+      default:
+        Dialog::show_message(_("Failed to connect!"));
+        break;
+    }
+
+    m_network_client->destroy();
+    m_network_client = nullptr;
+    m_network_server_peer = nullptr;
+    return;
+  }
+
+  m_network_server_peer = connection.peer;
+
+  // Request registration on the server.
+  network::ServerUser user(nickname, nickname_color);
+  m_network_client->send_request(m_network_server_peer,
+                                 std::make_unique<network::Request>(
+                                   std::make_unique<network::StagedPacket>(GameNetworkProtocol::OP_USER_REGISTER,
+                                     user.serialize(), 2.f),
+                                   4.f));
+}
+
+void
+GameManager::stop_hosting_game()
+{
+  // TODO: Leave active GameSession
+
+  m_server_users.clear();
+
+  m_network_server->destroy();
+  m_network_server = nullptr;
+}
+
+void
+GameManager::close_connections()
+{
+  m_server_users.clear();
+
+  if (m_network_server_peer) // Client - disconnect from server
+  {
+    m_network_client->set_protocol({});
+    m_network_client->disconnect(m_network_server_peer);
+    m_network_client->destroy();
+    m_network_client = nullptr;
+    m_network_server_peer = nullptr;
+  }
+  else if (m_network_server) // Server - stop hosting
+    stop_hosting_game();
 }
 
 /* EOF */

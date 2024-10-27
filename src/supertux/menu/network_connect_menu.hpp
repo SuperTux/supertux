@@ -14,21 +14,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_REMOTE_LEVEL_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_REMOTE_LEVEL_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_NETWORK_CONNECT_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_NETWORK_CONNECT_MENU_HPP
 
 #include "gui/menu.hpp"
 
 #include "video/color.hpp"
 
-class EditorRemoteLevelMenu final : public Menu
+class NetworkConnectMenu final : public Menu
 {
 public:
-  EditorRemoteLevelMenu(bool connect);
+  NetworkConnectMenu(bool game, bool connect);
 
   void menu_action(MenuItem& item) override;
 
 private:
+  /** True - regarding a remote game.
+      False - regarding remote level editing. */
+  const bool m_game;
   /** True - connecting to server.
       False - hosting level. */
   const bool m_connect;
@@ -40,8 +43,8 @@ private:
   Color m_nickname_color;
 
 private:
-  EditorRemoteLevelMenu(const EditorRemoteLevelMenu&) = delete;
-  EditorRemoteLevelMenu& operator=(const EditorRemoteLevelMenu&) = delete;
+  NetworkConnectMenu(const NetworkConnectMenu&) = delete;
+  NetworkConnectMenu& operator=(const NetworkConnectMenu&) = delete;
 };
 
 #endif

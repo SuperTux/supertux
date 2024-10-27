@@ -31,7 +31,6 @@
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
-#include "supertux/menu/editor_remote_level_menu.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
@@ -43,6 +42,7 @@
 #include "supertux/menu/main_menu.hpp"
 #include "supertux/menu/multiplayer_menu.hpp"
 #include "supertux/menu/multiplayer_players_menu.hpp"
+#include "supertux/menu/network_connect_menu.hpp"
 #include "supertux/menu/options_select_menu.hpp"
 #include "supertux/menu/particle_editor_menu.hpp"
 #include "supertux/menu/particle_editor_save_as.hpp"
@@ -171,10 +171,16 @@ MenuStorage::create(MenuId menu_id)
       return std::make_unique<EditorConvertersMenu>();
 
     case EDITOR_EDIT_REMOTE_LEVEL_MENU:
-      return std::make_unique<EditorRemoteLevelMenu>(true);
+      return std::make_unique<NetworkConnectMenu>(false, true);
 
     case EDITOR_HOST_LEVEL_MENU:
-      return std::make_unique<EditorRemoteLevelMenu>(false);
+      return std::make_unique<NetworkConnectMenu>(false, false);
+
+    case JOIN_GAME_MENU:
+      return std::make_unique<NetworkConnectMenu>(true, true);
+
+    case HOST_GAME_MENU:
+      return std::make_unique<NetworkConnectMenu>(true, false);
 
     case INTEGRATIONS_MENU:
       return std::make_unique<IntegrationsMenu>();

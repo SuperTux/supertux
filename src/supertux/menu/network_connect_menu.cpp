@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/editor_remote_level_menu.hpp"
+#include "supertux/menu/network_connect_menu.hpp"
 
 #include <fmt/format.h>
 
@@ -22,15 +22,18 @@
 #include "gui/dialog.hpp"
 #include "gui/item_intfield.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/game_manager.hpp"
 
-EditorRemoteLevelMenu::EditorRemoteLevelMenu(bool connect) :
+NetworkConnectMenu::NetworkConnectMenu(bool game, bool connect) :
+  m_game(game),
   m_connect(connect),
   m_host_address(),
   m_port(),
   m_nickname(),
   m_nickname_color(1, 1, 1, 1)
 {
-  add_label(m_connect ? _("Edit Remote Level") : _("Host Level"));
+  add_label(m_connect ? (m_game ? _("Join Remote Game") : _("Edit Remote Level")) :
+    (m_game ? _("Host Game") : _("Host Level")));
   add_hl();
 
   if (m_connect)
@@ -57,7 +60,7 @@ EditorRemoteLevelMenu::EditorRemoteLevelMenu(bool connect) :
 }
 
 void
-EditorRemoteLevelMenu::menu_action(MenuItem& item)
+NetworkConnectMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() != 1) return;
 
@@ -73,25 +76,40 @@ EditorRemoteLevelMenu::menu_action(MenuItem& item)
                                           m_host_address, m_port),
       [this]()
       {
-        auto callback = [this]()
-          {
-            Editor::current()->set_remote_level(m_host_address, static_cast<uint16_t>(m_port),
-                                                m_nickname, m_nickname_color);
-          };
-        if (Editor::current()->is_hosting_level())
-          Dialog::show_confirmation(_("Changing the level will stop hosting the current one. Are you sure?"), callback);
-        else if (Editor::current()->is_editing_remote_level())
-          Dialog::show_confirmation(_("Changing the level will end the current connection. Are you sure?"), callback);
+        if (m_game)
+        {
+          GameManager::current()->connect_to_remote_game(m_host_address, static_cast<uint16_t>(m_port),
+                                                         m_nickname, m_nickname_color);
+
+          MenuManager::instance().pop_menu();
+          MenuManager::instance().current_menu()->refresh();
+        }
         else
-          callback();
+        {
+          auto callback = [this]()
+            {
+              Editor::current()->set_remote_level(m_host_address, static_cast<uint16_t>(m_port),
+                                                  m_nickname, m_nickname_color);
+            };
+          if (Editor::current()->is_hosting_level())
+            Dialog::show_confirmation(_("Changing the level will stop hosting the current one. Are you sure?"), callback);
+          else if (Editor::current()->is_editing_remote_level())
+            Dialog::show_confirmation(_("Changing the level will end the current connection. Are you sure?"), callback);
+          else
+            callback();
+        }
       });
   }
   else
   {
-    Dialog::show_confirmation(_("You are about to host this level.\nKeep in mind any custom resources used should be shared with remote users for proper editing.\n\nProceed?"),
+    Dialog::show_confirmation((m_game ? _("You are about to host a game.") : _("You are about to host this level."))
+        + "\n" + _("Keep in mind any custom resources used should be shared with remote users.\n\nProceed?"),
       [this]()
       {
-        Editor::current()->host_level(static_cast<uint16_t>(m_port));
+        if (m_game)
+          GameManager::current()->host_game(static_cast<uint16_t>(m_port));
+        else
+          Editor::current()->host_level(static_cast<uint16_t>(m_port));
 
         MenuManager::instance().pop_menu();
         MenuManager::instance().current_menu()->refresh();

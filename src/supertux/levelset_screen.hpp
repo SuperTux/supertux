@@ -26,6 +26,10 @@
 
 class Savegame;
 
+namespace network {
+class Host;
+} // namespace network
+
 class LevelsetScreen final : public Screen,
                              public Currenton<LevelsetScreen>
 {
@@ -38,7 +42,8 @@ private:
 
 public:
   LevelsetScreen(const std::string& basedir, const std::string& level_filename, Savegame& savegame,
-                 const std::optional<std::pair<std::string, Vector>>& start_pos);
+                 const std::optional<std::pair<std::string, Vector>>& start_pos,
+                 network::Host* host);
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -53,6 +58,9 @@ public:
 private:
   std::optional<std::pair<std::string, Vector>> m_start_pos;
 
+  network::Host* m_network_host;
+
+private:
   LevelsetScreen(const LevelsetScreen&) = delete;
   LevelsetScreen& operator=(const LevelsetScreen&) = delete;
 };
