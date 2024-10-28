@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 7471
+  ;; next-id: 7474
   ;; free/skipped ids (please use before any other): 101
   ;; 2080-2084 are empty tiles, 4619-4660, 4719-4722, 5037-5092, 5205, 5268-5283, 5433-5527, 6962-6977, 7002 7005 7007 7008 7173
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
@@ -1342,7 +1342,9 @@
       7418 7421 7407 7408
       7403 7404 7409 7410
       7405 7406 7411 7412
-      7413 7414 7415 0
+      7471 7413 7414 7415 
+      7472 0    0    0    
+      7473 0    0    0    
 
       1348 1720 1719 1718
       79   80   1347 1722
@@ -8416,6 +8418,20 @@
     "tiles/castle/small_chain.png"
     )
   )
+  
+  (tiles
+  (width 1)(height 3)
+    (ids
+      7471
+      7472
+      7473
+    )
+    (images
+    "tiles/signs/vertical-rods.png"
+    )
+  )
+  
+  
   
   ;; Additional attributes
   (additional
