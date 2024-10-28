@@ -214,6 +214,15 @@ UserProtocol::on_request_receive(const ReceivedPacket& packet)
   {
     case OP_USER_REGISTER:
     {
+      if (!m_host.is_server())
+        throw std::runtime_error("Cannot perform user registration on non-server!");
+
+      if (packet.peer->enet.data)
+      {
+        const ServerUser* user = static_cast<ServerUser*>(packet.peer->enet.data);
+        throw std::runtime_error("User \"" + user->nickname + "\" tried to register again!");
+      }
+
       m_pending_users.erase(&packet.peer->enet);
 
       // Parse the server user
