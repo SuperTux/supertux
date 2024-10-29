@@ -41,7 +41,7 @@ Explosion::Explosion(const Vector& pos, float p_push_strength,
   m_lightsprite(SpriteManager::current()->create(p_short_fuse ?
                                                  "images/objects/lightmap_light/lightmap_light-medium.sprite" :
                                                  "images/objects/lightmap_light/lightmap_light-large.sprite")),
-  m_color(0.5f, 0.3f, 0.2f, 0.f),
+  m_color(1.f, 0.5f, 0.2f, 0.f),
   m_fading_timer(),
   short_fuse(p_short_fuse)
 {
@@ -60,7 +60,7 @@ Explosion::Explosion(const ReaderMapping& reader) :
   num_particles(100),
   m_state(E_STATE_WAITING),
   m_lightsprite(nullptr),
-  m_color(0.5f, 0.3f, 0.2f, 0.f),
+  m_color(1.f, 0.5f, 0.2f, 0.f),
   m_fading_timer(),
   short_fuse(false)
 {
