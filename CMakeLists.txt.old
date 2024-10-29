@@ -38,6 +38,7 @@ cmake_minimum_required(VERSION 3.14)
 
 project(SUPERTUX)
 
+
 ### CMake configuration
 
 set(CMAKE_CXX_STANDARD 17)
@@ -86,7 +87,19 @@ else()
 endif()
 
 if(EMSCRIPTEN)
-  include(SuperTux/Emscripten)
+  set(CMAKE_EXECUTABLE_SUFFIX .html)
+  set(IS_EMSCRIPTEN_BUILD ON)
+
+  set(EM_USE_FLAGS "-sDISABLE_EXCEPTION_CATCHING=0")
+  set(EM_LINK_FLAGS " -sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH=1 -sMAXIMUM_MEMORY=536870912 -sERROR_ON_UNDEFINED_SYMBOLS=0 --preload-file ${BUILD_CONFIG_DATA_DIR} --use-preload-plugins -lidbfs.js")
+  if(CMAKE_BUILD_TYPE MATCHES Debug)
+    set(EM_USE_FLAGS "${EM_USE_FLAGS} -fsanitize=undefined")
+    set(EM_LINK_FLAGS "${EM_LINK_FLAGS} -fsanitize=undefined -sSAFE_HEAP=1 -sASSERTIONS=1 -sDEMANGLE_SUPPORT=1")
+  endif()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EM_USE_FLAGS}")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EM_USE_FLAGS}")
+  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${EM_USE_FLAGS} ${EM_LINK_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${EM_USE_FLAGS} ${EM_LINK_FLAGS}")
 endif()
 
 if(EMSCRIPTEN OR UBUNTU_TOUCH OR ANDROID)
@@ -148,15 +161,12 @@ include(SuperTux/ProvidePhysfs)
 include(SuperTux/ProvideCurl)
 include(SuperTux/ProvideSimpleSquirrel)
 include(SuperTux/ProvideTinygettext)
-#include(SuperTux/ProvideSDL2_ttf)
+include(SuperTux/ProvideSDL2_ttf)
 include(SuperTux/ProvideDiscord)
 include(SuperTux/ProvideSexpcpp)
 include(SuperTux/ProvideSavePNG)
 include(SuperTux/ProvidePartioZip)
 include(SuperTux/ProvideOpenGL)
-
-# Find dependencies
-find_package(SDL2_ttf CONFIG REQUIRED)
 
 ## Build stuff
 include(SuperTux/BuildVersion)
@@ -212,6 +222,9 @@ target_link_libraries(supertux2 supertux2_lib)
 
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
+if(EMSCRIPTEN)
+  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
+endif()
 
 if(WIN32 AND NOT VCPKG_BUILD)
 if(NOT MINGW)
@@ -247,7 +260,7 @@ target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
 
 if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
+  target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
   target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)
   target_link_libraries(supertux2_lib PUBLIC LibCurl)
