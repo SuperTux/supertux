@@ -8186,6 +8186,18 @@
         (id 1874)
         (weight 0.3)
       )
+      (alt-id
+        (id 7050)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 7041)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 7167)
+        (weight 0.1)
+      )
       (solid #t)
       (mask "********")
       (mask "*1****1*")
@@ -8421,6 +8433,18 @@
       (alt-id
         (id 6852)
         (weight 0.3)
+      )
+      (alt-id
+        (id 6952)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6955)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6958)
+        (weight 0.1)
       )
       (solid #t)
       (mask "********")
