@@ -19,24 +19,26 @@
 
 #include "network/user_protocol.hpp"
 
-#include "network/server_user.hpp"
+#include "supertux/game_network_server_user.hpp"
 
 class GameManager;
 class GameSession;
 
 /** Handles online multiplayer events, like starting up a remote GameSession and updating object states. */
-class GameNetworkProtocol final : public network::UserProtocol<network::ServerUser>
+class GameNetworkProtocol final : public network::UserProtocol<GameServerUser>
 {
 public:
   enum Operation
   {
     OP_GAME_JOIN = OP_USER_END,
+    OP_CONTROLLER_UPDATE,
     OP_GAME_OBJECT_UPDATE,
     OP_END
   };
   enum Channel
   {
     CH_GAME_JOIN_REQUESTS = CH_USER_END,
+    CH_CONTROLLER_UPDATES,
     CH_GAME_OBJECT_UPDATES,
     CH_END
   };
@@ -48,6 +50,8 @@ public:
   size_t get_channel_count() const override { return CH_END; }
 
 private:
+  void update() override;
+
   void on_client_disconnect(network::Peer&, uint32_t code) override;
 
   bool verify_packet(network::StagedPacket& packet) const override;

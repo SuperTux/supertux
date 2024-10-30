@@ -36,6 +36,7 @@
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/game_network_protocol.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level_parser.hpp"
@@ -554,6 +555,23 @@ GameSession::update(float dt_sec, const Controller& controller)
     {
       toggle_pause();
       MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
+    }
+  }
+
+  if (m_network_host && !m_network_host->is_server())
+  {
+    ENetPeer* server_peer = GameManager::current()->get_server_peer();
+
+    // Notify the server of controller updates.
+    for (int user = 0; user < InputManager::current()->get_num_users(); user++)
+    {
+      const Controller& user_controller = InputManager::current()->get_controller(user);
+      if (user_controller.has_pressed_controls())
+      {
+        network::StagedPacket packet(GameNetworkProtocol::OP_CONTROLLER_UPDATE, std::to_string(user));
+        user_controller.push_packet_data(packet);
+        m_network_host->send_packet(server_peer, packet, false);
+      }
     }
   }
 

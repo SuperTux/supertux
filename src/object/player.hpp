@@ -36,6 +36,7 @@ class Climbable;
 class Controller;
 class CodeController;
 class Key;
+class NetworkController;
 class Portable;
 
 extern const float TUX_INVINCIBLE_TIME_WARNING;
@@ -78,7 +79,8 @@ public:
   static Color get_player_color(int id);
 
 public:
-  Player(PlayerStatus& player_status, const std::string& name, int player_id);
+  Player(PlayerStatus& player_status, const std::string& name, int player_id,
+         int remote_player_id = -1, NetworkController* network_controller = nullptr);
   ~Player() override;
 
   virtual void update(float dt_sec) override;
@@ -96,6 +98,9 @@ public:
 
   int get_id() const { return m_id; }
   void set_id(int id);
+
+  int get_remote_id() const { return m_remote_id; }
+  bool is_remote() const { return m_remote_id >= 0; }
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
@@ -471,6 +476,7 @@ private:
 
 private:
   int m_id;
+  int m_remote_id;
   std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */
   bool m_deactivated;
 

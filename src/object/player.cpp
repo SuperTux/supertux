@@ -153,11 +153,13 @@ const float BUTTJUMP_SPEED = 800.f;
 
 } // namespace
 
-Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
+Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id,
+               int remote_player_id, NetworkController* network_controller) :
   m_id(player_id),
+  m_remote_id(remote_player_id),
   m_target(nullptr),
   m_deactivated(false),
-  m_controller(&InputManager::current()->get_controller(player_id)),
+  m_controller(network_controller ? network_controller : &InputManager::current()->get_controller(player_id)),
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
   m_duck(false),

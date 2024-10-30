@@ -26,10 +26,22 @@
 #include "util/reader_mapping.hpp"
 
 GameNetworkProtocol::GameNetworkProtocol(GameManager& game_manager, network::Host& host) :
-  network::UserProtocol<network::ServerUser>(game_manager, host),
+  network::UserProtocol<GameServerUser>(game_manager, host),
   m_game_manager(game_manager),
   m_network_game_session()
 {
+}
+
+void
+GameNetworkProtocol::update()
+{
+  network::UserProtocol<GameServerUser>::update();
+
+  for (const auto& user : m_user_manager.get_server_users())
+  {
+    for (const auto& controller : user->player_controllers)
+      controller->update();
+  }
 }
 
 void
@@ -88,7 +100,7 @@ GameNetworkProtocol::on_client_disconnect(network::Peer&, uint32_t code)
 bool
 GameNetworkProtocol::verify_packet(network::StagedPacket& packet) const
 {
-  if (!network::UserProtocol<network::ServerUser>::verify_packet(packet))
+  if (!network::UserProtocol<GameServerUser>::verify_packet(packet))
     return false;
 
   if (packet.code < 0 || packet.code >= OP_END)
@@ -100,7 +112,7 @@ GameNetworkProtocol::verify_packet(network::StagedPacket& packet) const
 uint8_t
 GameNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) const
 {
-  const uint8_t channel = network::UserProtocol<network::ServerUser>::get_packet_channel(packet);
+  const uint8_t channel = network::UserProtocol<GameServerUser>::get_packet_channel(packet);
   if (channel != 0)
     return channel;
 
@@ -109,7 +121,10 @@ GameNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) con
     case OP_GAME_JOIN:
       return CH_GAME_JOIN_REQUESTS;
 
-    case CH_GAME_OBJECT_UPDATES:
+    case OP_CONTROLLER_UPDATE:
+      return CH_CONTROLLER_UPDATES;
+
+    case OP_GAME_OBJECT_UPDATE:
       return CH_GAME_OBJECT_UPDATES;
 
     default:
@@ -126,6 +141,20 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
     {
       m_network_game_session = m_game_manager.start_network_level(packet.data[0]);
       break;
+    }
+
+    case OP_CONTROLLER_UPDATE:
+    {
+      if (!m_host.is_server())
+        throw std::runtime_error("Cannot process controller update from \"" + user.nickname + "\": This host is not a server.");
+
+      GameServerUser* game_user = static_cast<GameServerUser*>(&user);
+
+      const int controller_user = std::stoi(packet.data[0]);
+      if (controller_user >= static_cast<int>(game_user->get_num_players()))
+        throw std::runtime_error("Cannot process controller update from \"" + user.nickname + "\": Remote controller user " + packet.data[0] + " doesn't exist.");
+
+      game_user->player_controllers[controller_user]->process_packet_data(packet, 1);
     }
 
     case OP_GAME_OBJECT_UPDATE:

@@ -18,6 +18,8 @@
 
 #include <ostream>
 
+#include "network/packet.hpp"
+
 namespace {
 
 const char* g_control_names[] = {
@@ -124,6 +126,17 @@ Controller::pressed(Control control) const
 }
 
 bool
+Controller::has_pressed_controls() const
+{
+  for (bool active : m_controls)
+  {
+    if (active)
+      return true;
+  }
+  return false;
+}
+
+bool
 Controller::released(Control control) const
 {
   return m_old_controls[static_cast<int>(control)] && !m_controls[static_cast<int>(control)];
@@ -140,6 +153,17 @@ Controller::update()
 {
   for (int i = 0; i < static_cast<int>(Control::CONTROLCOUNT); ++i) {
     m_old_controls[i] = m_controls[i];
+  }
+}
+
+void
+Controller::push_packet_data(network::StagedPacket& packet) const
+{
+  // Include all pressed controls.
+  for (int control = 0; control < static_cast<int>(Control::CONTROLCOUNT); control++)
+  {
+    if (m_controls[control])
+      packet.data.push_back(std::to_string(control));
   }
 }
 

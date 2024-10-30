@@ -16,6 +16,7 @@
 
 #include "supertux/game_manager.hpp"
 
+#include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "network/client.hpp"
@@ -253,7 +254,7 @@ GameManager::connect_to_remote_game(const std::string& hostname, uint16_t port,
   m_network_server_peer = connection.peer;
 
   // Request registration on the server.
-  network::ServerUser user(nickname, nickname_color);
+  GameServerUser user(nickname, nickname_color, InputManager::current()->get_num_users());
   m_network_client->send_request(m_network_server_peer,
                                  std::make_unique<network::Request>(
                                    std::make_unique<network::StagedPacket>(GameNetworkProtocol::OP_USER_REGISTER,

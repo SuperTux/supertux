@@ -26,6 +26,8 @@
 #include "object/coin.hpp"
 #include "object/player.hpp"
 #include "physfs/util.hpp"
+#include "supertux/game_manager.hpp"
+#include "supertux/game_network_server_user.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/player_status_hud.hpp"
 #include "supertux/savegame.hpp"
@@ -86,7 +88,10 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
   }
 
   Sector* sector = m_sectors.at(0).get();
-  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
+
+  /* Add local players */
+  int id = 0;
+  for (; id < InputManager::current()->get_num_users() || id == 0; id++)
   {
     if (!InputManager::current()->has_corresponsing_controller(id)
         && !InputManager::current()->m_uses_keyboard[id]
@@ -101,6 +106,21 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
     // Add all players in the first sector. They will be moved between sectors.
     sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
   }
+
+  /* Add remote players */
+  for (const auto& user : GameManager::current()->get_server_users())
+  {
+    for (int player_id = 0; player_id < static_cast<int>(user->get_num_players()); player_id++)
+    {
+      player_status.add_player();
+
+      // Add all players in the first sector. They will be moved between sectors.
+      sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id,
+                          player_id, user->player_controllers[player_id].get());
+      id++;
+    }
+  }
+
   sector->flush_game_objects();
 }
 

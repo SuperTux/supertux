@@ -26,7 +26,7 @@
 #include <vector>
 
 #include "math/vector.hpp"
-#include "network/server_user.hpp"
+#include "supertux/game_network_server_user.hpp"
 
 class Color;
 class GameSession;
@@ -42,7 +42,7 @@ class Server;
 typedef struct _ENetPeer ENetPeer;
 
 class GameManager final : public Currenton<GameManager>,
-                          public network::UserManager<network::ServerUser>
+                          public network::UserManager<GameServerUser>
 {
   friend class GameNetworkProtocol;
 
@@ -67,6 +67,8 @@ public:
 
   void connect_to_remote_game(const std::string& hostname, uint16_t port,
                               const std::string& nickname, const Color& nickname_color);
+
+  ENetPeer* get_server_peer() const { return m_network_server_peer; }
 
 private:
   GameSession* start_network_level(const std::string& level_content);

@@ -329,11 +329,13 @@ UserProtocol<U>::get_remote_user_data(RemoteUser& user) const
 /** Explicit template instantiations */
 
 #include "editor/network_server_user.hpp"
+#include "supertux/game_network_server_user.hpp"
 
 namespace network {
 
-template class UserProtocol<ServerUser>;
+//template class UserProtocol<ServerUser>;
 template class UserProtocol<EditorServerUser>;
+template class UserProtocol<GameServerUser>;
 
 } // namespace network
 
