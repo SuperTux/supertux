@@ -49,4 +49,14 @@ endif()
 add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
 add_definitions(-DWIN32)
 
+## On Windows, add an icon
+if(WIN32)
+  if(MINGW)
+    add_custom_command(
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
+      COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
+    set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
+  endif()
+endif()
+
 # EOF #

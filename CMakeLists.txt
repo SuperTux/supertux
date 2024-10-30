@@ -139,24 +139,29 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif()
 
 ## Add lots of dependencies to compiler switches
-include(SuperTux/ProvideGlm)
-include(SuperTux/ProvideFmt)
-include(SuperTux/ProvideSDL2)
-include(SuperTux/ProvideOpenAL)
-include(SuperTux/ProvideOggVorbis)
-include(SuperTux/ProvidePhysfs)
-include(SuperTux/ProvideCurl)
-include(SuperTux/ProvideSimpleSquirrel)
-include(SuperTux/ProvideTinygettext)
-#include(SuperTux/ProvideSDL2_ttf)
-include(SuperTux/ProvideDiscord)
-include(SuperTux/ProvideSexpcpp)
-include(SuperTux/ProvideSavePNG)
-include(SuperTux/ProvidePartioZip)
-include(SuperTux/ProvideOpenGL)
+#include(SuperTux/ProvideTinygettext)
+#include(SuperTux/ProvideSDL2_ttf) # add back?
+
 
 # Find dependencies
+find_package(SDL2 CONFIG REQUIRED)
+#find_package(PNG CONFIG REQUIRED)
+find_package(SDL2_image CONFIG REQUIRED)
 find_package(SDL2_ttf CONFIG REQUIRED)
+find_package(CURL CONFIG REQUIRED)
+find_package(OpenAL CONFIG REQUIRED)
+find_package(Ogg CONFIG REQUIRED)
+find_package(Vorbis CONFIG REQUIRED)
+find_package(glm CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
+find_package(PhysFS CONFIG REQUIRED)
+
+include(SuperTux/ProvideSavePNG)
+include(SuperTux/ProvideSimpleSquirrel)
+include(SuperTux/ProvideDiscord)
+include(SuperTux/ProvideSexpcpp)
+include(SuperTux/ProvidePartioZip)
+include(SuperTux/ProvideOpenGL)
 
 ## Build stuff
 include(SuperTux/BuildVersion)
@@ -178,16 +183,6 @@ endif()
 list(SORT SUPERTUX_SOURCES_C)
 list(SORT SUPERTUX_SOURCES_CXX)
 list(SORT SUPERTUX_RESOURCES)
-
-## On Windows, add an icon
-if(WIN32)
-  if(MINGW)
-    add_custom_command(
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
-      COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
-    set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
-  endif()
-endif()
 
 include(SuperTux/CompileAmalgation)
 
@@ -241,16 +236,19 @@ target_link_libraries(supertux2_lib PUBLIC LibTinygettext)
 target_link_libraries(supertux2_lib PUBLIC LibSexp)
 target_link_libraries(supertux2_lib PUBLIC LibSavePNG)
 target_link_libraries(supertux2_lib PUBLIC LibPartioZip)
-target_link_libraries(supertux2_lib PUBLIC LibOpenAL)
-target_link_libraries(supertux2_lib PUBLIC LibGlm)
-target_link_libraries(supertux2_lib PUBLIC LibFmt)
-target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
+target_link_libraries(supertux2_lib PUBLIC OpenAL::OpenAL)
+target_link_libraries(supertux2_lib PUBLIC glm::glm)
+target_link_libraries(supertux2_lib PUBLIC fmt::fmt)
+target_link_libraries(supertux2_lib PUBLIC $<IF:$<TARGET_EXISTS:PhysFS::PhysFS>,PhysFS::PhysFS,PhysFS::PhysFS-static>)
 
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
-  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
-  target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)
-  target_link_libraries(supertux2_lib PUBLIC LibCurl)
+  target_link_libraries(supertux2_lib PUBLIC
+      $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+	  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+      $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>)
+  target_link_libraries(supertux2_lib PUBLIC Ogg:ogg Vorbis::vorbis Vorbis::vorbisfile)
+  target_link_libraries(supertux2_lib PUBLIC CURL::libcurl)
 endif()
 
 if(HAVE_OPENGL)
