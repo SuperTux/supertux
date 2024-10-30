@@ -142,7 +142,6 @@ endif()
 #include(SuperTux/ProvideTinygettext)
 #include(SuperTux/ProvideSDL2_ttf) # add back?
 
-
 # Find dependencies
 find_package(SDL2 CONFIG REQUIRED)
 #find_package(PNG CONFIG REQUIRED)
@@ -162,6 +161,7 @@ include(SuperTux/ProvideDiscord)
 include(SuperTux/ProvideSexpcpp)
 include(SuperTux/ProvidePartioZip)
 include(SuperTux/ProvideOpenGL)
+include(SuperTux/ProvideTinygettext)
 
 ## Build stuff
 include(SuperTux/BuildVersion)
@@ -187,76 +187,74 @@ list(SORT SUPERTUX_RESOURCES)
 include(SuperTux/CompileAmalgation)
 
 ## Generate supertux executable in the right place
-
+# Is this needed? - Swagtoy
 #set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+#set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 ## Add target for supertux binary
 
-add_library(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
-add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
-target_include_directories(supertux2_lib PUBLIC ${CMAKE_BINARY_DIR} src/)
+add_executable(supertux2 WIN32 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+# TODO Is this even needed?
+# $<$<BOOL:WIN32>:{CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc>
+target_include_directories(supertux2 PUBLIC ${CMAKE_BINARY_DIR} src/)
 
-if(WIN32)
-  add_executable(supertux2 WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
-  target_link_libraries(supertux2 LibSDL2main)
-else()
-  add_executable(supertux2 src/main.cpp)
-endif()
-target_link_libraries(supertux2 supertux2_lib)
+set_target_properties(supertux2 PROPERTIES OUTPUT_NAME "supertux2")
+set_target_properties(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
-set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
-set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
-
-if(WIN32 AND NOT VCPKG_BUILD)
-if(NOT MINGW)
+#if(WIN32 AND NOT VCPKG_BUILD)
+#if(NOT MINGW)
   ## Copy dlls on windows
-  add_custom_command(TARGET supertux2_lib POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    "${DEPENDENCY_FOLDER}/dll"
-    $<TARGET_FILE_DIR:supertux2_lib>)
-endif()
-endif()
+#  add_custom_command(TARGET supertux2_lib POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy_directory
+#    "${DEPENDENCY_FOLDER}/dll"
+#    $<TARGET_FILE_DIR:supertux2_lib>)
+#endif()
+#endif()
 
 ## Some additional include paths
-target_include_directories(supertux2_lib SYSTEM PUBLIC
+target_include_directories(supertux2 SYSTEM PUBLIC
   external/findlocale/
   external/obstack/
   )
 
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
-  target_include_directories(supertux2_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
+  target_include_directories(supertux2 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
 endif()
 
 ## Link supertux binary with squirrel and other libraries
 
-target_link_libraries(supertux2_lib PUBLIC LibSimpleSquirrel)
-target_link_libraries(supertux2_lib PUBLIC LibTinygettext)
-target_link_libraries(supertux2_lib PUBLIC LibSexp)
-target_link_libraries(supertux2_lib PUBLIC LibSavePNG)
-target_link_libraries(supertux2_lib PUBLIC LibPartioZip)
-target_link_libraries(supertux2_lib PUBLIC OpenAL::OpenAL)
-target_link_libraries(supertux2_lib PUBLIC glm::glm)
-target_link_libraries(supertux2_lib PUBLIC fmt::fmt)
-target_link_libraries(supertux2_lib PUBLIC $<IF:$<TARGET_EXISTS:PhysFS::PhysFS>,PhysFS::PhysFS,PhysFS::PhysFS-static>)
+target_link_libraries(supertux2 PUBLIC LibSimpleSquirrel)
+target_link_libraries(supertux2 PUBLIC LibTinygettext)
+target_link_libraries(supertux2 PUBLIC LibSexp)
+target_link_libraries(supertux2 PUBLIC LibSavePNG)
+target_link_libraries(supertux2 PUBLIC LibPartioZip)
+target_link_libraries(supertux2 PUBLIC OpenAL::OpenAL)
+target_link_libraries(supertux2 PUBLIC glm::glm)
+target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
+target_link_libraries(supertux2 PUBLIC fmt::fmt)
+target_link_libraries(supertux2 PUBLIC $<IF:$<TARGET_EXISTS:PhysFS::PhysFS>,PhysFS::PhysFS,PhysFS::PhysFS-static>)
 
 if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
-  target_link_libraries(supertux2_lib PUBLIC
+  target_link_libraries(supertux2 PUBLIC
+      # SDL2_image
       $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+	  # SDL2_ttf
+	  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+	  # SDL2 main (windows?)
 	  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+	  # SDL2
       $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>)
-  target_link_libraries(supertux2_lib PUBLIC Ogg:ogg Vorbis::vorbis Vorbis::vorbisfile)
-  target_link_libraries(supertux2_lib PUBLIC CURL::libcurl)
+  target_link_libraries(supertux2 PUBLIC Ogg::ogg Vorbis::vorbis Vorbis::vorbisfile)
+  target_link_libraries(supertux2 PUBLIC CURL::libcurl)
 endif()
 
 if(HAVE_OPENGL)
-  target_link_libraries(supertux2_lib PUBLIC LibOpenGL)
+  target_link_libraries(supertux2 PUBLIC LibOpenGL)
 endif()
 
 if(ENABLE_DISCORD)
-  target_link_libraries(supertux2_lib PUBLIC LibDiscord)
+  target_link_libraries(supertux2 PUBLIC LibDiscord)
 endif()
 
 ## Install stuff
@@ -266,7 +264,8 @@ include(SuperTux/BuildInstall)
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
 ## Build tests
-include(SuperTux/BuildTests)
+# TODO Move to CMake Tests
+#include(SuperTux/BuildTests)
 
 ## CPack/Installation-specific stuff
 include(SuperTux/BuildCPack)
