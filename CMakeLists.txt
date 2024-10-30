@@ -144,15 +144,28 @@ endif()
 #include(SuperTux/ProvideTinygettext)
 #include(SuperTux/ProvideSDL2_ttf) # add back?
 
+find_package(PkgConfig)
+
 # Find dependencies
 find_package(SDL2 CONFIG REQUIRED)
 #find_package(PNG CONFIG REQUIRED)
 find_package(SDL2_image CONFIG REQUIRED)
 find_package(SDL2_ttf CONFIG REQUIRED)
-find_package(CURL CONFIG REQUIRED)
+find_package(CURL)
 find_package(OpenAL CONFIG REQUIRED)
-find_package(Ogg CONFIG REQUIRED)
-find_package(Vorbis CONFIG REQUIRED)
+find_package(Ogg CONFIG)
+find_package(Vorbis CONFIG)
+if (NOT (Ogg_FOUND OR Vorbis_FOUND))
+	message("OGG (or Vorbis) Not Found! Trying backup")
+	if (PkgConfig_FOUND)
+		pkg_check_modules(Ogg REQUIRED IMPORTED_TARGET ogg)
+		pkg_check_modules(Vorbis REQUIRED IMPORTED_TARGET vorbis vorbisfile)
+		#pkg_check_modules(VorbisFile REQUIRED IMPORTED_TARGET vorbisfile)
+		
+	else()
+		message(FATAL_ERROR "Could not find OGG. Giving up")
+	endif()
+endif()
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(PhysFS CONFIG REQUIRED)
@@ -247,7 +260,11 @@ if(NOT EMSCRIPTEN)
 	  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
 	  # SDL2
       $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>)
-  target_link_libraries(supertux2 PUBLIC Ogg::ogg Vorbis::vorbis Vorbis::vorbisfile)
+  target_link_libraries(supertux2 PUBLIC
+  	$<IF:$<TARGET_EXISTS:Ogg::ogg>,Ogg:ogg,PkgConfig::Ogg>
+	$<IF:$<TARGET_EXISTS:Vorbis::vorbis>,Vorbis::vorbis Vorbis::vorbisfile,
+		PkgConfig::Vorbis>
+  )
   target_link_libraries(supertux2 PUBLIC CURL::libcurl)
 endif()
 
