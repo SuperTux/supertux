@@ -31,6 +31,7 @@ public:
   enum Operation
   {
     OP_GAME_JOIN = OP_USER_END,
+    OP_GAME_START,
     OP_CONTROLLER_UPDATE,
     OP_GAME_OBJECT_UPDATE,
     OP_END

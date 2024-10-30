@@ -20,6 +20,8 @@
 #include "network/client.hpp"
 #include "network/server.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/levelintro.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
@@ -119,6 +121,7 @@ GameNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) con
   switch (packet.code)
   {
     case OP_GAME_JOIN:
+    case OP_GAME_START:
       return CH_GAME_JOIN_REQUESTS;
 
     case OP_CONTROLLER_UPDATE:
@@ -143,6 +146,15 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
       break;
     }
 
+    case OP_GAME_START:
+    {
+      if (!m_network_game_session || !ScreenManager::current()->get_top_screen<LevelIntro>())
+        throw std::runtime_error("Invalid game start packet received.");
+
+      LevelIntro::quit();
+      break;
+    }
+
     case OP_CONTROLLER_UPDATE:
     {
       if (!m_host.is_server())
@@ -155,6 +167,7 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
         throw std::runtime_error("Cannot process controller update from \"" + user.nickname + "\": Remote controller user " + packet.data[0] + " doesn't exist.");
 
       game_user->player_controllers[controller_user]->process_packet_data(packet, 1);
+      break;
     }
 
     case OP_GAME_OBJECT_UPDATE:

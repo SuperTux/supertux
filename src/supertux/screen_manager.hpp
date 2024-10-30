@@ -65,6 +65,15 @@ public:
 
   void loop_iter();
 
+  template<class C>
+  C* get_top_screen() const
+  {
+    if (m_screen_stack.empty())
+      return nullptr;
+
+    return dynamic_cast<C*>(m_screen_stack.back().get());
+  }
+
   const std::vector<std::unique_ptr<Screen>>& get_screen_stack() { return m_screen_stack; }
 
 private:

@@ -24,6 +24,7 @@
 #include "badguy/badguy.hpp"
 #include "control/codecontroller.hpp"
 #include "control/input_manager.hpp"
+#include "control/network_controller.hpp"
 #include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "math/random.hpp"

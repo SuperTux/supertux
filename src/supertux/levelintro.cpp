@@ -16,6 +16,8 @@
 
 #include "supertux/levelintro.hpp"
 
+#include <fmt/format.h>
+
 #include "control/input_manager.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
@@ -32,11 +34,15 @@
 #include "util/log.hpp"
 #include "video/compositor.hpp"
 
-#include <fmt/format.h>
+void
+LevelIntro::quit()
+{
+  ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.1f));
+}
 
 
-// TODO: Display all players on the intro scene
-LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status) :
+LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status,
+                       bool allow_quit) :
   m_level(level),
   m_best_level_statistics(best_level_statistics),
   m_player_sprite(),
@@ -44,9 +50,10 @@ LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statisti
   m_player_sprite_py(),
   m_player_sprite_vy(),
   m_player_sprite_jump_timer(),
-  m_player_status(player_status)
+  m_player_status(player_status),
+  m_allow_quit(allow_quit)
 {
-  for (int i = 0; i < InputManager::current()->get_num_users(); i++)
+  for (int i = 0; i < m_level.get_sector(0)->get_object_count<Player>(); i++)
   {
     push_player();
   }
@@ -65,22 +72,27 @@ void
 LevelIntro::update(float dt_sec, const Controller& controller)
 {
   // Check if it's time to exit the screen
-  if (controller.pressed_any(Control::JUMP, Control::ACTION, Control::MENU_SELECT,
-                             Control::START, Control::ESCAPE)) {
-    ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.1f));
+  if (m_allow_quit && controller.pressed_any(Control::JUMP, Control::ACTION, Control::MENU_SELECT,
+                                             Control::START, Control::ESCAPE))
+  {
+    quit();
   }
 
   // Check if players connected/disconnected
-  while(m_player_sprite.size() < static_cast<size_t>(InputManager::current()->get_num_users()))
+  const int player_count = m_level.get_sector(0)->get_object_count<Player>();
+
+  while(m_player_sprite.size() < static_cast<size_t>(player_count))
     push_player();
 
-  while(m_player_sprite.size() > static_cast<size_t>(InputManager::current()->get_num_users()))
+  while(m_player_sprite.size() > static_cast<size_t>(player_count))
     pop_player();
 
-  for (int i = 0; i < InputManager::current()->get_num_users(); i++)
+  const int num_users = InputManager::current()->get_num_users();
+  for (int i = 0; i < static_cast<int>(m_player_sprite.size()); i++)
   {
-    if (!InputManager::current()->has_corresponsing_controller(i)
-        && !InputManager::current()->m_uses_keyboard[i] && i != 0)
+    if (i != 0 && i < num_users &&
+        !InputManager::current()->has_corresponsing_controller(i) &&
+        !InputManager::current()->m_uses_keyboard[i])
       continue;
 
     auto bonus_prefix = m_player_status.get_bonus_prefix(i);
@@ -106,7 +118,8 @@ LevelIntro::update(float dt_sec, const Controller& controller)
   }
 }
 
-void LevelIntro::draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat, bool isPerfect)
+void
+LevelIntro::draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat, bool isPerfect)
 {
   std::stringstream ss;
   ss << name << ": " << stat;
@@ -141,10 +154,12 @@ LevelIntro::draw(Compositor& compositor)
 
   py += 96;
 
+  const int num_users = InputManager::current()->get_num_users();
   for (int i = 0; i < static_cast<int>(m_player_sprite.size()); i++)
   {
-    if (!InputManager::current()->has_corresponsing_controller(i)
-        && !InputManager::current()->m_uses_keyboard[i] && i != 0)
+    if (i != 0 && i < num_users &&
+        !InputManager::current()->has_corresponsing_controller(i) &&
+        !InputManager::current()->m_uses_keyboard[i])
       context.transform().alpha = 0.25f;
 
     float offset = (static_cast<float>(i) - static_cast<float>(m_player_sprite.size()) / 2.f + 0.5f) * 64.f;
@@ -228,7 +243,7 @@ LevelIntro::push_player()
 {
   int i = static_cast<int>(m_player_sprite.size());
 
-  if (i > InputManager::current()->get_num_users())
+  if (i > m_level.get_sector(0)->get_object_count<Player>())
   {
     log_warning << "Attempt to push more players in intro scene than connected" << std::endl;
     return;

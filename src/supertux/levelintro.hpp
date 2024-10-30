@@ -30,6 +30,9 @@ class Statistics;
 /** Screen that welcomes the player to a level */
 class LevelIntro final : public Screen
 {
+public:
+  static void quit();
+
 private:
   static Color s_header_color;
   static Color s_author_color;
@@ -38,7 +41,8 @@ private:
   static Color s_stat_perfect_color;
 
 public:
-  LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status);
+  LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status,
+             bool allow_quit);
   ~LevelIntro() override;
 
   virtual void setup() override;
@@ -60,6 +64,7 @@ private:
   std::vector<float> m_player_sprite_vy; /**< Velocity (y axis) for the player sprite */
   std::vector<std::unique_ptr<Timer>> m_player_sprite_jump_timer; /**< When timer fires, the player sprite will "jump" */
   const PlayerStatus& m_player_status; /**The player status passed from GameSession*/
+  const bool m_allow_quit;
 
 private:
   LevelIntro(const LevelIntro&) = delete;
