@@ -231,10 +231,16 @@ target_include_directories(supertux2 SYSTEM PUBLIC
   external/obstack/
   )
 
+
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
   target_include_directories(supertux2 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
 endif()
+
+# Linking fixes
+set_source_files_properties(external/findlocale/findlocale.c PROPERTIES COMPILE_FLAGS -fPIE)
+set_source_files_properties(external/obstack/obstack.c PROPERTIES COMPILE_FLAGS -fPIE)
+set_target_properties(LibSavePNG PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 ## Link supertux binary with squirrel and other libraries
 
