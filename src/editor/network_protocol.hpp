@@ -19,10 +19,12 @@
 
 #include "network/user_protocol.hpp"
 
+#include "editor/network_server_user.hpp"
+
 class Editor;
 
 /** Handles co-op level editing events in the editor. */
-class EditorNetworkProtocol final : public network::UserProtocol
+class EditorNetworkProtocol final : public network::UserProtocol<EditorServerUser>
 {
 public:
   enum Operation

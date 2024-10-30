@@ -17,40 +17,117 @@
 #ifndef HEADER_SUPERTUX_NETWORK_USER_MANAGER_HPP
 #define HEADER_SUPERTUX_NETWORK_USER_MANAGER_HPP
 
+#include <algorithm>
 #include <memory>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
 #include "network/server_user.hpp"
-
-class ReaderMapping;
+#include "util/log.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 namespace network {
 
+template<class U>
+class UserProtocol;
+
 /** Base class for classes, which manage server users. */
+template<class U = ServerUser>
 class UserManager
 {
-  friend class UserProtocol;
+  static_assert(std::is_base_of<ServerUser, U>::value, "U must derive from ServerUser!");
+
+  friend class UserProtocol<U>;
 
 public:
   UserManager();
 
+  const std::vector<std::unique_ptr<U>>& get_server_users() const { return m_server_users; }
+
 protected:
-  ServerUser* get_server_user(const std::string& nickname) const;
+  U* get_server_user(const std::string& nickname) const;
 
   void parse_server_users(const std::string& data);
   std::string save_server_users(ServerUser* except = nullptr) const;
 
-  virtual std::unique_ptr<ServerUser> create_server_user(const std::string& nickname) const;
-  virtual std::unique_ptr<ServerUser> create_server_user(const ReaderMapping& reader) const;
-
 protected:
-  std::vector<std::unique_ptr<ServerUser>> m_server_users;
+  std::vector<std::unique_ptr<U>> m_server_users;
 
 private:
   UserManager(const UserManager&) = delete;
   UserManager& operator=(const UserManager&) = delete;
 };
+
+
+/** SOURCE */
+
+template<class U>
+UserManager<U>::UserManager()
+{
+}
+
+template<class U>
+U*
+UserManager<U>::get_server_user(const std::string& nickname) const
+{
+  auto it = std::find_if(m_server_users.begin(), m_server_users.end(),
+                         [nickname](const auto& user)
+    {
+      return user->nickname == nickname;
+    });
+
+  if (it == m_server_users.end())
+    return nullptr;
+
+  return it->get();
+}
+
+template<class U>
+void
+UserManager<U>::parse_server_users(const std::string& data)
+{
+  auto doc = ReaderDocument::from_string(data, "server-users");
+  auto root = doc.get_root();
+  if (root.get_name() != "supertux-server-users")
+    throw std::runtime_error("Cannot parse server users: Data is not 'supertux-server-users'.");
+
+  auto iter = root.get_mapping().get_iter();
+  while (iter.next())
+  {
+    if (iter.get_key() != "user")
+    {
+      log_warning << "Unknown key '" << iter.get_key() << "' in server users data." << std::endl;
+      continue;
+    }
+
+    m_server_users.push_back(std::make_unique<U>(iter.as_mapping()));
+  }
+}
+
+template<class U>
+std::string
+UserManager<U>::save_server_users(ServerUser* except) const
+{
+  std::ostringstream stream;
+  Writer writer(stream);
+
+  writer.start_list("supertux-server-users");
+  for (const auto& user : m_server_users)
+  {
+    if (user.get() == except) continue;
+
+    writer.start_list("user");
+    user->write(writer);
+    writer.end_list("user");
+  }
+  writer.end_list("supertux-server-users");
+
+  return stream.str();
+}
 
 } // namespace network
 

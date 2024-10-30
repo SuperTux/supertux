@@ -25,11 +25,16 @@ namespace network {
 
 class Host;
 class ServerUser;
+
+template<class U>
 class UserManager;
 
 /** Abstract protocol, allowing for server user management and registration. */
+template<class U = ServerUser>
 class UserProtocol : public Protocol
 {
+  static_assert(std::is_base_of<ServerUser, U>::value, "U must derive from ServerUser!");
+
 public:
   static bool verify_nickname(const std::string& nickname);
 
@@ -55,7 +60,7 @@ public:
   };
 
 public:
-  UserProtocol(UserManager& user_manager, Host& host);
+  UserProtocol(UserManager<U>& user_manager, Host& host);
 
   virtual size_t get_channel_count() const override { return CH_USER_END; }
 
@@ -78,7 +83,7 @@ protected:
   virtual void get_remote_user_data(RemoteUser& user) const override;
 
 protected:
-  UserManager& m_user_manager;
+  UserManager<U>& m_user_manager;
   Host& m_host;
 
   /** Pending users without a received registration data packet. */

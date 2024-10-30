@@ -19,11 +19,13 @@
 
 #include "network/user_protocol.hpp"
 
+#include "network/server_user.hpp"
+
 class GameManager;
 class GameSession;
 
 /** Handles online multiplayer events, like starting up a remote GameSession and updating object states. */
-class GameNetworkProtocol final : public network::UserProtocol
+class GameNetworkProtocol final : public network::UserProtocol<network::ServerUser>
 {
 public:
   enum Operation

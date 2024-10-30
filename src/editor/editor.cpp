@@ -35,7 +35,6 @@
 #include "editor/button_widget.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/network_protocol.hpp"
-#include "editor/network_server_user.hpp"
 #include "editor/object_info.hpp"
 #include "editor/particle_editor.hpp"
 #include "editor/resize_marker.hpp"
@@ -467,18 +466,6 @@ Editor::get_connected_peers() const
     return m_network_server->get_connected_peers();
 
   return 0;
-}
-
-std::unique_ptr<network::ServerUser>
-Editor::create_server_user(const std::string& nickname) const
-{
-  return std::make_unique<EditorServerUser>(nickname);
-}
-
-std::unique_ptr<network::ServerUser>
-Editor::create_server_user(const ReaderMapping& reader) const
-{
-  return std::make_unique<EditorServerUser>(reader);
 }
 
 void

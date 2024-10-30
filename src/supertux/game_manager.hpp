@@ -26,9 +26,9 @@
 #include <vector>
 
 #include "math/vector.hpp"
+#include "network/server_user.hpp"
 
 class Color;
-class GameNetworkUser;
 class GameSession;
 class Savegame;
 class Statistics;
@@ -42,7 +42,7 @@ class Server;
 typedef struct _ENetPeer ENetPeer;
 
 class GameManager final : public Currenton<GameManager>,
-                          public network::UserManager
+                          public network::UserManager<network::ServerUser>
 {
   friend class GameNetworkProtocol;
 

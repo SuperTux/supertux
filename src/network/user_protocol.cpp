@@ -32,8 +32,9 @@ namespace network {
 static const std::string DEFAULT_SERVER_NICKNAME = "Host";
 static const float USER_REGISTER_TIME = 5.f;
 
+template<class U>
 bool
-UserProtocol::verify_nickname(const std::string& nickname)
+UserProtocol<U>::verify_nickname(const std::string& nickname)
 {
   // Must be between 3 and 20 characters.
   if (nickname.length() < 3 || nickname.length() > 20)
@@ -43,15 +44,17 @@ UserProtocol::verify_nickname(const std::string& nickname)
 }
 
 
-UserProtocol::UserProtocol(UserManager& user_manager, Host& host) :
+template<class U>
+UserProtocol<U>::UserProtocol(UserManager<U>& user_manager, Host& host) :
   m_user_manager(user_manager),
   m_host(host),
   m_pending_users()
 {
 }
 
+template<class U>
 void
-UserProtocol::update()
+UserProtocol<U>::update()
 {
   // Remove any timed-out pending (non-registered) peers
   {
@@ -71,8 +74,9 @@ UserProtocol::update()
   }
 }
 
+template<class U>
 void
-UserProtocol::on_server_connect(Peer& peer)
+UserProtocol<U>::on_server_connect(Peer& peer)
 {
   // Stage the user and wait for registration packet
   auto timer = std::make_unique<Timer>();
@@ -80,8 +84,9 @@ UserProtocol::on_server_connect(Peer& peer)
   m_pending_users[&peer.enet] = std::move(timer);
 }
 
+template<class U>
 void
-UserProtocol::on_server_disconnect(Peer& peer, uint32_t)
+UserProtocol<U>::on_server_disconnect(Peer& peer, uint32_t)
 {
   // Get server user (if it has been registered)
   if (peer.enet.data)
@@ -106,8 +111,9 @@ UserProtocol::on_server_disconnect(Peer& peer, uint32_t)
   }
 }
 
+template<class U>
 bool
-UserProtocol::allow_packet_send(Peer& peer) const
+UserProtocol<U>::allow_packet_send(Peer& peer) const
 {
   // Do not allow sending packets to any unregistered peers
   auto it = m_pending_users.begin();
@@ -122,8 +128,9 @@ UserProtocol::allow_packet_send(Peer& peer) const
   return true;
 }
 
+template<class U>
 bool
-UserProtocol::verify_packet(StagedPacket& packet) const
+UserProtocol<U>::verify_packet(StagedPacket& packet) const
 {
   if (packet.code == OP_USER_SERVER_CONNECT || packet.code == OP_USER_SERVER_DISCONNECT)
     return true; // User connect/disconnect events don't need a username
@@ -137,8 +144,9 @@ UserProtocol::verify_packet(StagedPacket& packet) const
   return true;
 }
 
+template<class U>
 uint8_t
-UserProtocol::get_packet_channel(const StagedPacket& packet) const
+UserProtocol<U>::get_packet_channel(const StagedPacket& packet) const
 {
   switch (packet.code)
   {
@@ -152,8 +160,9 @@ UserProtocol::get_packet_channel(const StagedPacket& packet) const
   }
 }
 
+template<class U>
 void
-UserProtocol::on_packet_receive(ReceivedPacket packet)
+UserProtocol<U>::on_packet_receive(ReceivedPacket packet)
 {
   /** Remote server connection */
   switch (packet.code)
@@ -165,7 +174,7 @@ UserProtocol::on_packet_receive(ReceivedPacket packet)
       if (root.get_name() != "supertux-server-user")
         throw std::runtime_error("Cannot parse server user: Data is not 'supertux-server-user'.");
 
-      m_user_manager.m_server_users.push_back(m_user_manager.create_server_user(root.get_mapping()));
+      m_user_manager.m_server_users.push_back(std::make_unique<U>(root.get_mapping()));
       return;
     }
     case OP_USER_SERVER_DISCONNECT:
@@ -207,8 +216,9 @@ UserProtocol::on_packet_receive(ReceivedPacket packet)
   on_user_packet_receive(packet, *user);
 }
 
+template<class U>
 StagedPacket
-UserProtocol::on_request_receive(const ReceivedPacket& packet)
+UserProtocol<U>::on_request_receive(const ReceivedPacket& packet)
 {
   switch (packet.code)
   {
@@ -257,7 +267,7 @@ UserProtocol::on_request_receive(const ReceivedPacket& packet)
       }
 
       // Create the server user
-      auto user = m_user_manager.create_server_user(reader);
+      auto user = std::make_unique<U>(reader);
       packet.peer->enet.data = user.get();
 
       // Notify all other peers of the newly connected user
@@ -277,8 +287,9 @@ UserProtocol::on_request_receive(const ReceivedPacket& packet)
   }
 }
 
+template<class U>
 void
-UserProtocol::on_request_response(const Request& request)
+UserProtocol<U>::on_request_response(const Request& request)
 {
   const ReceivedPacket& packet = *request.received;
   switch (packet.code)
@@ -287,7 +298,7 @@ UserProtocol::on_request_response(const Request& request)
     {
       // Add server at the beginning of server users list.
       m_user_manager.m_server_users.clear();
-      m_user_manager.m_server_users.push_back(m_user_manager.create_server_user(DEFAULT_SERVER_NICKNAME));
+      m_user_manager.m_server_users.push_back(std::make_unique<U>(DEFAULT_SERVER_NICKNAME));
 
       // Parse received server users.
       m_user_manager.parse_server_users(packet.data[0]);
@@ -300,8 +311,9 @@ UserProtocol::on_request_response(const Request& request)
 }
 
 
+template<class U>
 void
-UserProtocol::get_remote_user_data(RemoteUser& user) const
+UserProtocol<U>::get_remote_user_data(RemoteUser& user) const
 {
   if (user.peer.enet.data) // The peer has been registered
     user.display_text = static_cast<ServerUser*>(user.peer.enet.data)->nickname;
@@ -310,6 +322,18 @@ UserProtocol::get_remote_user_data(RemoteUser& user) const
 
   user.display_text += " (" + user.peer.address.to_string() + ")";
 }
+
+} // namespace network
+
+
+/** Explicit template instantiations */
+
+#include "editor/network_server_user.hpp"
+
+namespace network {
+
+template class UserProtocol<ServerUser>;
+template class UserProtocol<EditorServerUser>;
 
 } // namespace network
 

@@ -17,7 +17,6 @@
 #include "editor/network_protocol.hpp"
 
 #include "editor/editor.hpp"
-#include "editor/network_server_user.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "network/client.hpp"
@@ -31,7 +30,7 @@
 #include "util/reader_mapping.hpp"
 
 EditorNetworkProtocol::EditorNetworkProtocol(Editor& editor, network::Host& host) :
-  network::UserProtocol(editor, host),
+  network::UserProtocol<EditorServerUser>(editor, host),
   m_editor(editor)
 {
 }
@@ -41,7 +40,7 @@ EditorNetworkProtocol::on_server_connect(network::Peer& peer)
 {
   MenuManager::instance().refresh_menu<EditorMenu>();
 
-  network::UserProtocol::on_server_connect(peer);
+  network::UserProtocol<EditorServerUser>::on_server_connect(peer);
 }
 
 void
@@ -49,7 +48,7 @@ EditorNetworkProtocol::on_server_disconnect(network::Peer& peer, uint32_t code)
 {
   MenuManager::instance().refresh_menu<EditorMenu>();
 
-  network::UserProtocol::on_server_disconnect(peer, code);
+  network::UserProtocol<EditorServerUser>::on_server_disconnect(peer, code);
 }
 
 void
@@ -108,7 +107,7 @@ EditorNetworkProtocol::on_client_disconnect(network::Peer&, uint32_t code)
 bool
 EditorNetworkProtocol::verify_packet(network::StagedPacket& packet) const
 {
-  if (!network::UserProtocol::verify_packet(packet))
+  if (!network::UserProtocol<EditorServerUser>::verify_packet(packet))
     return false;
 
   if (packet.code < 0 || packet.code >= OP_END)
@@ -120,7 +119,7 @@ EditorNetworkProtocol::verify_packet(network::StagedPacket& packet) const
 uint8_t
 EditorNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) const
 {
-  const uint8_t channel = network::UserProtocol::get_packet_channel(packet);
+  const uint8_t channel = network::UserProtocol<EditorServerUser>::get_packet_channel(packet);
   if (channel != 0)
     return channel;
 
@@ -234,7 +233,7 @@ EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
 {
   try
   {
-    return network::UserProtocol::on_request_receive(packet);
+    return network::UserProtocol<EditorServerUser>::on_request_receive(packet);
   }
   catch (...)
   {
@@ -304,7 +303,7 @@ EditorNetworkProtocol::on_request_fail(const network::Request& request, network:
 void
 EditorNetworkProtocol::on_request_response(const network::Request& request)
 {
-  network::UserProtocol::on_request_response(request);
+  network::UserProtocol<EditorServerUser>::on_request_response(request);
 
   const network::ReceivedPacket& packet = *request.received;
   switch (packet.code)

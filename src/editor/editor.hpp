@@ -27,6 +27,7 @@
 
 #include <physfs.h>
 
+#include "editor/network_server_user.hpp"
 #include "editor/overlay_widget.hpp"
 #include "editor/tilebox.hpp"
 #include "editor/toolbox_widget.hpp"
@@ -56,7 +57,7 @@ class Server;
 
 class Editor final : public Screen,
                      public Currenton<Editor>,
-                     public network::UserManager
+                     public network::UserManager<EditorServerUser>
 {
   friend class EditorNetworkProtocol;
   friend class EditorSectorHandler;
@@ -225,9 +226,6 @@ private:
   void post_undo_redo_actions();
 
   network::Host* get_network_host() const;
-
-  std::unique_ptr<network::ServerUser> create_server_user(const std::string& nickname) const override;
-  std::unique_ptr<network::ServerUser> create_server_user(const ReaderMapping& reader) const override;
 
 protected:
   std::unique_ptr<Level> m_level;

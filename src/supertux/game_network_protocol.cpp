@@ -19,7 +19,6 @@
 #include "gui/dialog.hpp"
 #include "network/client.hpp"
 #include "network/server.hpp"
-#include "network/server_user.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
@@ -27,7 +26,7 @@
 #include "util/reader_mapping.hpp"
 
 GameNetworkProtocol::GameNetworkProtocol(GameManager& game_manager, network::Host& host) :
-  network::UserProtocol(game_manager, host),
+  network::UserProtocol<network::ServerUser>(game_manager, host),
   m_game_manager(game_manager),
   m_network_game_session()
 {
@@ -89,7 +88,7 @@ GameNetworkProtocol::on_client_disconnect(network::Peer&, uint32_t code)
 bool
 GameNetworkProtocol::verify_packet(network::StagedPacket& packet) const
 {
-  if (!network::UserProtocol::verify_packet(packet))
+  if (!network::UserProtocol<network::ServerUser>::verify_packet(packet))
     return false;
 
   if (packet.code < 0 || packet.code >= OP_END)
@@ -101,7 +100,7 @@ GameNetworkProtocol::verify_packet(network::StagedPacket& packet) const
 uint8_t
 GameNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) const
 {
-  const uint8_t channel = network::UserProtocol::get_packet_channel(packet);
+  const uint8_t channel = network::UserProtocol<network::ServerUser>::get_packet_channel(packet);
   if (channel != 0)
     return channel;
 
