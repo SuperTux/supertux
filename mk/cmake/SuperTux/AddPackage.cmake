@@ -33,7 +33,7 @@
 #   add_package(TARGET SDL2  <-- The output target, a "target alias" (sometimes)
 #      PKG SDL2              <-- The find_package package, in this case it gets SDL2
 #                                 (might look similar to the output target)
-#      PKG_USE SDL2::SDL2    <-- Specific "namespace" from the package we want to alias
+#      PKG_USE SDL2::SDL2    <-- Specific target from the package we want to alias
 #      CONFIG                <-- (optional) Passed to find_package if its a CONFIG
 #      REQUIRED              <-- (optional) NOT passed to find_package, just a check to
 #                                  throw an error if we've exhausted all options.
