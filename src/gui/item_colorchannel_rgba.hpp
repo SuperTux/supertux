@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_COLORCHANNEL_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_COLORCHANNEL_HPP
+#ifndef HEADER_SUPERTUX_GUI_ITEM_COLORCHANNEL_RGBA_HPP
+#define HEADER_SUPERTUX_GUI_ITEM_COLORCHANNEL_RGBA_HPP
 
 #include "gui/menu_item.hpp"
 
@@ -63,37 +63,6 @@ private:
 private:
   ItemColorChannelRGBA(const ItemColorChannelRGBA&) = delete;
   ItemColorChannelRGBA& operator=(const ItemColorChannelRGBA&) = delete;
-};
-
-
-class ItemColorChannelOKLab final : public MenuItem
-{
-public:
-  enum class ChannelType { CHANNEL_L, CHANNEL_C, CHANNEL_H };
-
-public:
-  ItemColorChannelOKLab(Color* col, int channel, Menu* menu);
-  virtual void draw(DrawingContext&, const Vector& pos, int menu_width,
-    bool active) override;
-  /** Returns the minimum width of the menu item. */
-  virtual int get_width() const override { return 64; }
-  virtual void process_action(const MenuAction& action) override;
-  virtual void event(const SDL_Event& ev) override;
-  virtual bool changes_width() const override { return true; }
-
-private:
-  void set_color(ColorOKLCh& col_oklch_clipped, ColorOKLCh& col_oklch_store);
-
-private:
-  Color* m_color;
-  ColorOKLCh m_col_prev;
-  ChannelType m_channel;
-  Menu* m_menu;
-  bool m_mousedown;
-
-private:
-  ItemColorChannelOKLab(const ItemColorChannelOKLab&) = delete;
-  ItemColorChannelOKLab& operator=(const ItemColorChannelOKLab&) = delete;
 };
 
 #endif
