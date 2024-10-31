@@ -140,34 +140,51 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif()
 
 ## Add lots of dependencies to compiler switches
-#include(SuperTux/ProvideTinygettext)
-#include(SuperTux/ProvideSDL2_ttf) # add back?
 
+# TODO Move this to its own file
 find_package(PkgConfig)
+function(add_package pkg_target)
+  cmake_parse_arguments(PARSE_ARGV 1 add_package
+	  "CONFIG;REQUIRED" "PROVIDES;PKG" "PKG_CONFIG"
+	)
+
+  set(fp_args)
+  # Note: We don't pass "REQUIRED" here because we choose to fallback if it doesn't exist.
+  #       Later, however, we do choose to throw an error based on this flag.
+  if (${add_package_CONFIG})
+	list(APPEND fp_args CONFIG)
+  endif()
+  
+  find_package(${add_package_PKG} ${fp_args})
+
+  if (NOT ${add_package_PKG}_FOUND)
+	message(STATUS "Package \"${add_package_PKG}\" doesn't exist, so falling back to PkgConfig")
+	
+	if (PkgConfig_FOUND)
+	  set(pkg_config_args)
+	  if (${add_package_REQUIRED})
+		list(APPEND pkg_config_args REQUIRED)
+	  endif()
+	  pkg_check_modules(${pkg_target} ${pkg_config_args} ${add_package_PKG_CONFIG})
+	elseif(add_package_REQUIRED)
+	  # TODO look in Provides
+	  message(FATAL_ERROR "Package \"${pkg_target}\" couldn't be found. I don't know what to do.")
+	endif()
+  endif()
+endfunction(add_package)
 
 # Find dependencies
-find_package(SDL2 CONFIG REQUIRED)
+add_package(SDL2::SDL2 PKG SDL2 CONFIG REQUIRED PKG_CONFIG sdl2)
 #find_package(PNG CONFIG REQUIRED)
-find_package(SDL2_image CONFIG REQUIRED)
-find_package(SDL2_ttf CONFIG REQUIRED)
-find_package(CURL)
-find_package(OpenAL CONFIG REQUIRED)
-find_package(Ogg CONFIG)
-find_package(Vorbis CONFIG)
-if (NOT (Ogg_FOUND OR Vorbis_FOUND))
-	message("OGG (or Vorbis) Not Found! Trying backup")
-	if (PkgConfig_FOUND)
-		pkg_check_modules(Ogg REQUIRED IMPORTED_TARGET ogg)
-		pkg_check_modules(Vorbis REQUIRED IMPORTED_TARGET vorbis vorbisfile)
-		#pkg_check_modules(VorbisFile REQUIRED IMPORTED_TARGET vorbisfile)
-		
-	else()
-		message(FATAL_ERROR "Could not find OGG. Giving up")
-	endif()
-endif()
-find_package(glm CONFIG REQUIRED)
-find_package(fmt CONFIG REQUIRED)
-find_package(PhysFS CONFIG REQUIRED)
+add_package(SDL2::SDL2_image PKG SDL2_image CONFIG REQUIRED PKG_CONFIG sdl2_image)
+add_package(SDL2::SDL2_ttf PKG SDL2_ttf CONFIG REQUIRED PKG_CONFIG sdl2_ttf)
+add_package(CURL PKG CURL PKG_CONFIG libcurl)
+add_package(OpenAL PKG OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL)
+add_package(Ogg PKG Ogg CONFIG REQUIRED PKG_CONFIG ogg)
+add_package(Vorbis PKG Vorbis CONFIG REQUIRED PKG_CONFIG vorbis vorbisfile)
+add_package(glm PKG glm CONFIG REQUIRED PKG_CONFIG glm)
+add_package(fmt PKG fmt CONFIG REQUIRED PKG_CONFIG fmt)
+add_package(PhysFS PKG PhysFS CONFIG REQUIRED PKG_CONFIG PhysFS PROVIDES ProvidePhysfs)
 
 include(SuperTux/ProvideSavePNG)
 include(SuperTux/ProvideSimpleSquirrel)
