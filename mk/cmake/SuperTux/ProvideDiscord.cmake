@@ -8,9 +8,9 @@ if(EMSCRIPTEN)
 endif()
 
 if(NOT ENABLE_DISCORD)
-  message(STATUS "## WARNING : Discord integration will NOT be compiled. To enable Discord, pass -DENABLE_DISCORD=On")
+  message(NOTICE "Discord integration will NOT be compiled. To enable Discord, pass -DENABLE_DISCORD=On")
 else()
-  message(STATUS "Discord WILL be compiled. To disable Discord, pass -DENABLE_DISCORD=Off")
+  message(NOTICE "Discord WILL be compiled. To disable Discord, pass -DENABLE_DISCORD=Off")
 
   set(BUILD_EXAMPLES OFF CACHE BOOL "Skip Discord's sample programs" FORCE)
 
