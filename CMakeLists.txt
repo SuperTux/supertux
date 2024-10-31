@@ -140,51 +140,20 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif()
 
 ## Add lots of dependencies to compiler switches
-
-# TODO Move this to its own file
-find_package(PkgConfig)
-function(add_package pkg_target)
-  cmake_parse_arguments(PARSE_ARGV 1 add_package
-	  "CONFIG;REQUIRED" "PROVIDES;PKG" "PKG_CONFIG"
-	)
-
-  set(fp_args)
-  # Note: We don't pass "REQUIRED" here because we choose to fallback if it doesn't exist.
-  #       Later, however, we do choose to throw an error based on this flag.
-  if (${add_package_CONFIG})
-	list(APPEND fp_args CONFIG)
-  endif()
-  
-  find_package(${add_package_PKG} ${fp_args})
-
-  if (NOT ${add_package_PKG}_FOUND)
-	message(STATUS "Package \"${add_package_PKG}\" doesn't exist, so falling back to PkgConfig")
-	
-	if (PkgConfig_FOUND)
-	  set(pkg_config_args)
-	  if (${add_package_REQUIRED})
-		list(APPEND pkg_config_args REQUIRED)
-	  endif()
-	  pkg_check_modules(${pkg_target} ${pkg_config_args} ${add_package_PKG_CONFIG})
-	elseif(add_package_REQUIRED)
-	  # TODO look in Provides
-	  message(FATAL_ERROR "Package \"${pkg_target}\" couldn't be found. I don't know what to do.")
-	endif()
-  endif()
-endfunction(add_package)
+include(SuperTux/AddPackage)
 
 # Find dependencies
-add_package(SDL2::SDL2 PKG SDL2 CONFIG REQUIRED PKG_CONFIG sdl2)
-#find_package(PNG CONFIG REQUIRED)
-add_package(SDL2::SDL2_image PKG SDL2_image CONFIG REQUIRED PKG_CONFIG sdl2_image)
-add_package(SDL2::SDL2_ttf PKG SDL2_ttf CONFIG REQUIRED PKG_CONFIG sdl2_ttf)
-add_package(CURL PKG CURL PKG_CONFIG libcurl)
-add_package(OpenAL PKG OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL)
-add_package(Ogg PKG Ogg CONFIG REQUIRED PKG_CONFIG ogg)
-add_package(Vorbis PKG Vorbis CONFIG REQUIRED PKG_CONFIG vorbis vorbisfile)
-add_package(glm PKG glm CONFIG REQUIRED PKG_CONFIG glm)
-add_package(fmt PKG fmt CONFIG REQUIRED PKG_CONFIG fmt)
-add_package(PhysFS PKG PhysFS CONFIG REQUIRED PKG_CONFIG PhysFS PROVIDES ProvidePhysfs)
+add_package(TARGET SDL2 PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2)
+add_package(TARGET SDL2_image PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG sdl2_image)
+add_package(TARGET SDL2_ttf PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG sdl2_ttf)
+add_package(TARGET CURL PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
+add_package(TARGET OpenAL PKG OpenAL PKG_USE OpenAL::OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL)
+add_package(TARGET Ogg PKG Ogg PKG_USE Ogg::ogg CONFIG REQUIRED PKG_CONFIG ogg)
+add_package(TARGET Vorbis PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_CONFIG vorbis)
+add_package(TARGET VorbisFile PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
+add_package(TARGET glm PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
+add_package(TARGET fmt PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
+add_package(TARGET PhysFS PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs PROVIDES ProvidePhysfs)
 
 include(SuperTux/ProvideSavePNG)
 include(SuperTux/ProvideSimpleSquirrel)
@@ -266,26 +235,26 @@ target_link_libraries(supertux2 PUBLIC LibTinygettext)
 target_link_libraries(supertux2 PUBLIC LibSexp)
 target_link_libraries(supertux2 PUBLIC LibSavePNG)
 target_link_libraries(supertux2 PUBLIC LibPartioZip)
-target_link_libraries(supertux2 PUBLIC OpenAL::OpenAL)
-target_link_libraries(supertux2 PUBLIC glm::glm)
+target_link_libraries(supertux2 PUBLIC OpenAL)
+target_link_libraries(supertux2 PUBLIC glm)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
-target_link_libraries(supertux2 PUBLIC fmt::fmt)
-target_link_libraries(supertux2 PUBLIC $<IF:$<TARGET_EXISTS:PhysFS::PhysFS>,PhysFS::PhysFS,PhysFS::PhysFS-static>)
+target_link_libraries(supertux2 PUBLIC fmt)
+target_link_libraries(supertux2 PUBLIC PhysFS)
 
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC
       # SDL2_image
-      $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+      SDL2_image
 	  # SDL2_ttf
-	  $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+	  SDL2_ttf
 	  # SDL2 main (windows?)
 	  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
 	  # SDL2
-      $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>)
+      SDL2)
   target_link_libraries(supertux2 PUBLIC
-  	$<IF:$<TARGET_EXISTS:Ogg::ogg>,Ogg:ogg,PkgConfig::Ogg>
-	$<IF:$<TARGET_EXISTS:Vorbis::vorbis>,Vorbis::vorbis Vorbis::vorbisfile,
-		PkgConfig::Vorbis>
+  	Ogg
+	Vorbis
+	VorbisFile
   )
   target_link_libraries(supertux2 PUBLIC CURL::libcurl)
 endif()
