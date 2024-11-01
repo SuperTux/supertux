@@ -14,14 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cassert>
+#include "st_assert.hpp"
 #include "math/aatriangle.hpp"
 
 int main(void)
 {
-  assert(33 == AATriangle::vertical_flip(30));
-  assert(19 == AATriangle::vertical_flip(40));
-  assert(49 == AATriangle::vertical_flip(50));
+  st_assert("Testing verticle_flip of 30", 33 == AATriangle::vertical_flip(30));
+  st_assert("Testing verticle_flip of 40", 19 == AATriangle::vertical_flip(40));
+  st_assert("Testing verticle_flip of 50", 50 == AATriangle::vertical_flip(50));
   
   return 0;
 }

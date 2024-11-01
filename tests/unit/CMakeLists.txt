@@ -24,7 +24,6 @@ make_unit_test(AATriangleTest SOURCE aatriangle_test.cpp
 	EXTERNAL math/aatriangle.cpp
 	LIBRARIES SDL2)
 
-#add_executable(AATriangleTest aatriangle_test.cpp)
-#target_include_directories(AATriangleTest PUBLIC ${SUPERTUX_SOURCE_DIR}/src)
-#add_test(NAME AATriangleTest
-#	COMMAND AATriangleTest)
+make_unit_test(CollisionTest SOURCE collision_test.cpp
+	EXTERNAL math/rectf.cpp
+	LIBRARIES SDL2)
