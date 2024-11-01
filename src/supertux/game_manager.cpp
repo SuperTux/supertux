@@ -81,11 +81,11 @@ GameManager::start_worldmap_level(const std::string& level_filename, Savegame& s
 }
 
 GameSession*
-GameManager::start_network_level(const std::string& remote_nickname, const std::string& player_status,
+GameManager::start_network_level(const std::string& remote_username, const std::string& player_status,
                                  const std::string& level_content)
 {
   m_savegame = std::make_unique<Savegame>();
-  m_savegame->get_player_status().read(player_status, m_self_user->nickname, remote_nickname);
+  m_savegame->get_player_status().read(player_status, m_self_user->username, remote_username);
 
   auto screen = std::make_unique<GameSession>(level_content,
                                               *m_savegame,
@@ -172,7 +172,7 @@ GameManager::set_next_worldmap(const std::string& world, const std::string& sect
 }
 
 void
-GameManager::host_game(uint16_t port, const std::string& nickname, const Color& nickname_color)
+GameManager::host_game(uint16_t port, const std::string& username, const Color& username_color)
 {
   if (m_network_server)
   {
@@ -191,13 +191,13 @@ GameManager::host_game(uint16_t port, const std::string& nickname, const Color& 
     return;
   }
 
-  m_self_user.emplace(nickname, nickname_color, InputManager::current()->get_num_users());
+  m_self_user.emplace(username, username_color, InputManager::current()->get_num_users());
   m_network_server->set_protocol(std::make_unique<GameNetworkProtocol>(*this, *m_network_server));
 }
 
 void
 GameManager::connect_to_remote_game(const std::string& hostname, uint16_t port,
-                                    const std::string& nickname, const Color& nickname_color)
+                                    const std::string& username, const Color& username_color)
 {
   if (m_network_server_peer)
   {
@@ -205,9 +205,9 @@ GameManager::connect_to_remote_game(const std::string& hostname, uint16_t port,
     return;
   }
 
-  if (!GameNetworkProtocol::verify_nickname(nickname))
+  if (!GameNetworkProtocol::verify_username(username))
   {
-    Dialog::show_message(_("The provided nickname is invalid. Please try again!"));
+    Dialog::show_message(_("The provided username is invalid. Please try again!"));
     return;
   }
 
@@ -224,7 +224,7 @@ GameManager::connect_to_remote_game(const std::string& hostname, uint16_t port,
     return;
   }
 
-  m_self_user.emplace(nickname, nickname_color, InputManager::current()->get_num_users());
+  m_self_user.emplace(username, username_color, InputManager::current()->get_num_users());
   m_network_client->set_protocol(std::make_unique<GameNetworkProtocol>(*this, *m_network_client));
 
   auto connection = m_network_client->connect(hostname.c_str(), port, 1500);

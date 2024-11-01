@@ -25,7 +25,7 @@
 class EditorServerUser final : public network::ServerUser
 {
 public:
-  EditorServerUser(const std::string& nickname, Color nickname_color = Color(1, 1, 1, 1));
+  EditorServerUser(const std::string& username, Color username_color = Color(1, 1, 1, 1));
   EditorServerUser(const ReaderMapping& reader);
 
   void write(Writer& writer) const override;

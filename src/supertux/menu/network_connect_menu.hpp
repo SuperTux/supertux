@@ -39,8 +39,8 @@ private:
   std::string m_host_address;
   int m_port;
 
-  std::string m_nickname;
-  Color m_nickname_color;
+  std::string m_username;
+  Color m_username_color;
 
 private:
   NetworkConnectMenu(const NetworkConnectMenu&) = delete;

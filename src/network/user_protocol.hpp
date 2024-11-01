@@ -36,15 +36,15 @@ class UserProtocol : public Protocol
   static_assert(std::is_base_of<ServerUser, U>::value, "U must derive from ServerUser!");
 
 public:
-  static bool verify_nickname(const std::string& nickname);
+  static bool verify_username(const std::string& username);
 
 public:
   enum DisconnectionReason
   {
     DISCONNECTED_REGISTER_TIMED_OUT // The time for the client to send a registration packet in has expired.
       = network::DISCONNECTION_REASONS_END,
-    DISCONNECTED_NICKNAME_INVALID, // The provided nickname is invalid.
-    DISCONNECTED_NICKNAME_TAKEN // The provided nickname has already been taken by another client.
+    DISCONNECTED_USERNAME_INVALID, // The provided username is invalid.
+    DISCONNECTED_USERNAME_TAKEN // The provided username has already been taken by another client.
   };
   enum Operation
   {

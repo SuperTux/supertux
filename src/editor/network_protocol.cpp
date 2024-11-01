@@ -83,12 +83,12 @@ EditorNetworkProtocol::on_client_disconnect(network::Peer&, uint32_t code)
       Dialog::show_message(_("Disconnected: No registration packet received for too long."));
       break;
 
-    case DISCONNECTED_NICKNAME_INVALID:
-      Dialog::show_message(_("Disconnected: The provided nickname is invalid."));
+    case DISCONNECTED_USERNAME_INVALID:
+      Dialog::show_message(_("Disconnected: The provided username is invalid."));
       break;
 
-    case DISCONNECTED_NICKNAME_TAKEN:
-      Dialog::show_message(_("Disconnected: The provided nickname has been taken."));
+    case DISCONNECTED_USERNAME_TAKEN:
+      Dialog::show_message(_("Disconnected: The provided username has been taken."));
       break;
 
     default:

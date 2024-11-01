@@ -213,7 +213,7 @@ Editor::draw(Compositor& compositor)
       {
         EditorServerUser* editor_user = static_cast<EditorServerUser*>(user.get());
         if (editor_user->sector == m_sector->get_name())
-          editor_user->mouse_cursor.draw(context, 0.5f, editor_user->nickname, editor_user->nickname_color);
+          editor_user->mouse_cursor.draw(context, 0.5f, editor_user->username, editor_user->username_color);
       }
 
       context.pop_transform();
@@ -795,7 +795,7 @@ Editor::set_level(const std::string& levelfile, bool reset,
 
 void
 Editor::set_remote_level(const std::string& hostname, uint16_t port,
-                         const std::string& nickname, const Color& nickname_color)
+                         const std::string& username, const Color& username_color)
 {
   if (!m_levelloaded && m_network_server_peer)
   {
@@ -803,9 +803,9 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port,
     return;
   }
 
-  if (!EditorNetworkProtocol::verify_nickname(nickname))
+  if (!EditorNetworkProtocol::verify_username(username))
   {
-    Dialog::show_message(_("The provided nickname is invalid. Please try again!"));
+    Dialog::show_message(_("The provided username is invalid. Please try again!"));
     return;
   }
 
@@ -824,7 +824,7 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port,
     return;
   }
 
-  m_self_user.emplace(nickname, nickname_color);
+  m_self_user.emplace(username, username_color);
   m_network_client->set_protocol(std::make_unique<EditorNetworkProtocol>(*this, *m_network_client));
 
   auto connection = m_network_client->connect(hostname.c_str(), port, 1500);
@@ -879,7 +879,7 @@ Editor::reload_remote_level()
 }
 
 void
-Editor::host_level(uint16_t port, const std::string& nickname, const Color& nickname_color)
+Editor::host_level(uint16_t port, const std::string& username, const Color& username_color)
 {
   if (m_network_server)
     return;
@@ -895,7 +895,7 @@ Editor::host_level(uint16_t port, const std::string& nickname, const Color& nick
     return;
   }
 
-  m_self_user.emplace(nickname, nickname_color);
+  m_self_user.emplace(username, username_color);
   m_network_server->set_protocol(std::make_unique<EditorNetworkProtocol>(*this, *m_network_server));
 }
 

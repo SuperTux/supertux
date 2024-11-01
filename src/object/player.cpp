@@ -162,7 +162,7 @@ Player::Player(PlayerStatus& player_status, int player_id, const GameServerUser*
   m_deactivated(false),
   m_controller(m_remote_user ? m_remote_user->player_controllers[m_id].get() : &InputManager::current()->get_controller(m_id)),
   m_scripting_controller(new CodeController()),
-  m_player_status(m_remote_user ? player_status.get_remote_player(m_remote_user->nickname, m_id) : player_status.get_local_player(m_id)),
+  m_player_status(m_remote_user ? player_status.get_remote_player(m_remote_user->username, m_id) : player_status.get_local_player(m_id)),
   m_duck(false),
   m_crawl(false),
   m_dead(false),
@@ -2084,9 +2084,9 @@ Player::draw(DrawingContext& context)
       Vector pos_surf(pos - Vector(static_cast<float>(m_multiplayer_arrow->get_width()) / 2.f, 0.f));
       m_multiplayer_arrow->draw(context.color(), pos_surf, LAYER_LIGHTMAP + 1);
       context.color().draw_text(Resources::normal_font,
-                                (m_remote_user ? (m_remote_user->nickname + ": ") : "") + std::to_string(m_id + 1),
+                                (m_remote_user ? (m_remote_user->username + ": ") : "") + std::to_string(m_id + 1),
                                 pos, FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
-                                m_remote_user ? m_remote_user->nickname_color : Color::WHITE);
+                                m_remote_user ? m_remote_user->username_color : Color::WHITE);
     }
     return;
   }
@@ -2110,11 +2110,11 @@ Player::draw(DrawingContext& context)
   }
   else if (m_remote_user && !is_dead())
   {
-    // Draw remote player nametag, containing nickname and player ID.
-    context.color().draw_text(Resources::normal_font, m_remote_user->nickname + ": " + std::to_string(m_id + 1),
+    // Draw remote player nametag, containing username and player ID.
+    context.color().draw_text(Resources::normal_font, m_remote_user->username + ": " + std::to_string(m_id + 1),
                               m_col.m_bbox.get_middle() - Vector(0.f, m_col.m_bbox.get_height() / 2 + 32.f),
                               FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
-                              m_remote_user->nickname_color);
+                              m_remote_user->username_color);
   }
 
   std::string sa_prefix = "";

@@ -80,22 +80,22 @@ public:
   void take_checkpoint_coins();
 
   std::string write(bool include_world_data = true) const;
-  void read(const std::string& data, const std::string& self_nickname = "", const std::string& remote_nickname = "");
+  void read(const std::string& data, const std::string& self_username = "", const std::string& remote_username = "");
 
   void write(Writer& writer, bool include_world_data = true) const;
-  void read(const ReaderMapping& mapping, const std::string& self_nickname = "", const std::string& remote_nickname = "");
+  void read(const ReaderMapping& mapping, const std::string& self_username = "", const std::string& remote_username = "");
 
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
   bool respawns_at_checkpoint() const;
 
   void add_local_player(int id);
-  void add_remote_player(const std::string& nickname, int id);
+  void add_remote_player(const std::string& username, int id);
   void remove_local_player(int id);
-  void remove_remote_player(const std::string& nickname, int id);
+  void remove_remote_player(const std::string& username, int id);
 
   Status& get_local_player(int id) { return *m_local_players[id]; }
-  Status& get_remote_player(const std::string& nickname, int id) { return *m_remote_players[nickname][id]; }
+  Status& get_remote_player(const std::string& username, int id) { return *m_remote_players[username][id]; }
 
   int get_num_local_players() const { return static_cast<int>(m_local_players.size()); }
   int get_num_remote_players() const { return static_cast<int>(m_remote_players.size()); }

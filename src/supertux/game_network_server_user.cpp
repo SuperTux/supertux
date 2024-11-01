@@ -19,9 +19,9 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-GameServerUser::GameServerUser(const std::string& nickname_, Color nickname_color_,
+GameServerUser::GameServerUser(const std::string& username_, Color username_color_,
                                int num_players) :
-  network::ServerUser(nickname_, nickname_color_),
+  network::ServerUser(username_, username_color_),
   player_controllers()
 {
   for (int i = 0; i < num_players; i++)

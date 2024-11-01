@@ -122,10 +122,10 @@ public:
   void set_level(const std::string& levelfile, bool reset = true,
                  bool remote = false, bool remote_worldmap = false);
   void set_remote_level(const std::string& hostname, uint16_t port,
-                        const std::string& nickname, const Color& nickname_color);
+                        const std::string& username, const Color& username_color);
   void reload_remote_level();
 
-  void host_level(uint16_t port, const std::string& nickname, const Color& nickname_color);
+  void host_level(uint16_t port, const std::string& username, const Color& username_color);
   void stop_hosting_level();
 
   void open_server_menu() const;

@@ -33,10 +33,10 @@ static const float USER_REGISTER_TIME = 5.f;
 
 template<class U>
 bool
-UserProtocol<U>::verify_nickname(const std::string& nickname)
+UserProtocol<U>::verify_username(const std::string& username)
 {
   // Must be between 3 and 20 characters.
-  if (nickname.length() < 3 || nickname.length() > 20)
+  if (username.length() < 3 || username.length() > 20)
     return false;
 
   return true;
@@ -94,7 +94,7 @@ UserProtocol<U>::on_server_disconnect(Peer& peer, uint32_t)
     ServerUser* user = static_cast<ServerUser*>(peer.enet.data);
 
     // Notify all other peers of the disconnect user
-    StagedPacket packet(OP_USER_SERVER_DISCONNECT, user->nickname);
+    StagedPacket packet(OP_USER_SERVER_DISCONNECT, user->username);
     m_host.broadcast_packet(packet, true, &peer.enet);
 
     // Remove the server user
@@ -139,7 +139,7 @@ UserProtocol<U>::verify_packet(StagedPacket& packet) const
   // Set username as the default username for servers.
   if (!packet.foreign_broadcast && !packet.is_part_of_request() &&
       m_host.is_server())
-    packet.data.insert(packet.data.begin(), m_user_manager.m_self_user->nickname);
+    packet.data.insert(packet.data.begin(), m_user_manager.m_self_user->username);
 
   return true;
 }
@@ -182,7 +182,7 @@ UserProtocol<U>::on_packet_receive(ReceivedPacket packet)
       auto it = m_user_manager.m_server_users.begin();
       while (it != m_user_manager.m_server_users.end())
       {
-        if ((*it)->nickname == packet.data[0])
+        if ((*it)->username == packet.data[0])
         {
           m_user_manager.m_server_users.erase(it);
           break;
@@ -201,16 +201,16 @@ UserProtocol<U>::on_packet_receive(ReceivedPacket packet)
     user = static_cast<ServerUser*>(packet.peer->enet.data);
 
     StagedPacket broadcasted_packet(packet);
-    broadcasted_packet.data.insert(broadcasted_packet.data.begin(), user->nickname);
+    broadcasted_packet.data.insert(broadcasted_packet.data.begin(), user->username);
     m_host.broadcast_packet(broadcasted_packet, true, &packet.peer->enet);
   }
   else // Client: Get user from users list.
   {
     user = m_user_manager.get_server_user(packet.data[0]);
     if (!user)
-      throw std::runtime_error("Unknown user nickname: '" + packet.data[0] + "'.");
+      throw std::runtime_error("Unknown user username: '" + packet.data[0] + "'.");
 
-    packet.data.erase(packet.data.begin()); // Remove user nickname
+    packet.data.erase(packet.data.begin()); // Remove user username
   }
 
   on_user_packet_receive(packet, *user);
@@ -230,7 +230,7 @@ UserProtocol<U>::on_request_receive(const ReceivedPacket& packet)
       if (packet.peer->enet.data)
       {
         const ServerUser* user = static_cast<ServerUser*>(packet.peer->enet.data);
-        throw std::runtime_error("User \"" + user->nickname + "\" tried to register again!");
+        throw std::runtime_error("User \"" + user->username + "\" tried to register again!");
       }
 
       m_pending_users.erase(&packet.peer->enet);
@@ -242,34 +242,34 @@ UserProtocol<U>::on_request_receive(const ReceivedPacket& packet)
         throw std::runtime_error("Cannot parse server user: Data is not 'supertux-server-user'.");
 
       auto reader = root.get_mapping();
-      std::string nickname;
-      reader.get("nickname", nickname);
+      std::string username;
+      reader.get("username", username);
 
-      // Check if nickname is valid
-      if (!verify_nickname(nickname))
+      // Check if username is valid
+      if (!verify_username(username))
       {
         Server& server = static_cast<Server&>(m_host);
-        server.disconnect(&packet.peer->enet, DISCONNECTED_NICKNAME_INVALID);
+        server.disconnect(&packet.peer->enet, DISCONNECTED_USERNAME_INVALID);
 
-        throw std::runtime_error("Cannot register user: Provided nickname is invalid.");
+        throw std::runtime_error("Cannot register user: Provided username is invalid.");
       }
 
-      // Check if nickname is taken
-      if (m_user_manager.m_self_user->nickname == nickname)
+      // Check if username is taken
+      if (m_user_manager.m_self_user->username == username)
       {
         Server& server = static_cast<Server&>(m_host);
-        server.disconnect(&packet.peer->enet, DISCONNECTED_NICKNAME_TAKEN);
+        server.disconnect(&packet.peer->enet, DISCONNECTED_USERNAME_TAKEN);
 
-        throw std::runtime_error("Cannot register user: Provided nickname taken.");
+        throw std::runtime_error("Cannot register user: Provided username taken.");
       }
       for (const auto& user : m_user_manager.m_server_users)
       {
-        if (user->nickname == nickname)
+        if (user->username == username)
         {
           Server& server = static_cast<Server&>(m_host);
-          server.disconnect(&packet.peer->enet, DISCONNECTED_NICKNAME_TAKEN);
+          server.disconnect(&packet.peer->enet, DISCONNECTED_USERNAME_TAKEN);
 
-          throw std::runtime_error("Cannot register user: Provided nickname taken.");
+          throw std::runtime_error("Cannot register user: Provided username taken.");
         }
       }
 
@@ -319,7 +319,7 @@ void
 UserProtocol<U>::get_remote_user_data(RemoteUser& user) const
 {
   if (user.peer.enet.data) // The peer has been registered
-    user.display_text = static_cast<ServerUser*>(user.peer.enet.data)->nickname;
+    user.display_text = static_cast<ServerUser*>(user.peer.enet.data)->username;
   else
     user.display_text = "UNREGISTERED";
 

@@ -19,8 +19,8 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-EditorServerUser::EditorServerUser(const std::string& nickname_, Color nickname_color_) :
-  network::ServerUser(nickname_, nickname_color_),
+EditorServerUser::EditorServerUser(const std::string& username_, Color username_color_) :
+  network::ServerUser(username_, username_color_),
   sector(),
   mouse_cursor()
 {

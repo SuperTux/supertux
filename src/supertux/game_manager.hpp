@@ -62,16 +62,16 @@ public:
   void set_next_worldmap(const std::string& world, const std::string& sector = "",
                          const std::string& spawnpoint = "");
 
-  void host_game(uint16_t port, const std::string& nickname, const Color& nickname_color);
+  void host_game(uint16_t port, const std::string& username, const Color& username_color);
   void stop_hosting_game();
 
   void connect_to_remote_game(const std::string& hostname, uint16_t port,
-                              const std::string& nickname, const Color& nickname_color);
+                              const std::string& username, const Color& username_color);
 
   ENetPeer* get_server_peer() const { return m_network_server_peer; }
 
 private:
-  GameSession* start_network_level(const std::string& remote_nickname, const std::string& player_status,
+  GameSession* start_network_level(const std::string& remote_username, const std::string& player_status,
                                    const std::string& level_content);
 
   /** If server, stop hosting.

@@ -110,7 +110,7 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
   {
     for (int id = 0; id < user->get_num_players(); id++)
     {
-      player_status.add_remote_player(user->nickname, id);
+      player_status.add_remote_player(user->username, id);
 
       // Add all players in the first sector. They will be moved between sectors.
       sector->add<Player>(player_status, id, user.get());

@@ -161,10 +161,10 @@ LevelIntro::draw(Compositor& compositor)
 
     if (remote_user)
     {
-      context.color().draw_text(Resources::normal_font, remote_user->nickname,
+      context.color().draw_text(Resources::normal_font, remote_user->username,
                                 sprite_pos + Vector(m_player_sprite[i]->get_current_hitbox_width() / 2, -32.f),
                                 FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
-                                remote_user->nickname_color);
+                                remote_user->username_color);
     }
 
     Color power_color = (status.bonus == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :

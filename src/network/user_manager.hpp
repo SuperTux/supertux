@@ -51,7 +51,7 @@ public:
   const std::optional<const U>& get_self_user() const { return m_self_user; }
 
 protected:
-  U* get_server_user(const std::string& nickname) const;
+  U* get_server_user(const std::string& username) const;
 
   void parse_server_users(const std::string& data);
   std::string save_server_users(ServerUser* except = nullptr) const;
@@ -77,12 +77,12 @@ UserManager<U>::UserManager() :
 
 template<class U>
 U*
-UserManager<U>::get_server_user(const std::string& nickname) const
+UserManager<U>::get_server_user(const std::string& username) const
 {
   auto it = std::find_if(m_server_users.begin(), m_server_users.end(),
-                         [nickname](const auto& user)
+                         [username](const auto& user)
     {
-      return user->nickname == nickname;
+      return user->username == username;
     });
 
   if (it == m_server_users.end())

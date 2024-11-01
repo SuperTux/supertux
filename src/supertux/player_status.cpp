@@ -287,14 +287,14 @@ PlayerStatus::write(bool include_world_data) const
 }
 
 void
-PlayerStatus::read(const std::string& data, const std::string& self_nickname, const std::string& remote_nickname)
+PlayerStatus::read(const std::string& data, const std::string& self_username, const std::string& remote_username)
 {
-  auto doc = ReaderDocument::from_string(data, remote_nickname.empty() ? "player-status" : "remote-player-status");
+  auto doc = ReaderDocument::from_string(data, remote_username.empty() ? "player-status" : "remote-player-status");
   auto root = doc.get_root();
   if (root.get_name() != "supertux-player-status")
     throw std::runtime_error("PlayerStatus data is not in \"supertux-player-status\" format!");
 
-  read(root.get_mapping(), self_nickname, remote_nickname);
+  read(root.get_mapping(), self_username, remote_username);
 }
 
 void
@@ -310,13 +310,13 @@ PlayerStatus::write(Writer& writer, bool include_world_data) const
     if (i != 0)
       writer.end_list("tux" + std::to_string(i + 1));
   }
-  for (const auto& [nickname, players] : m_remote_players)
+  for (const auto& [username, players] : m_remote_players)
   {
     for (int i = 0; i < static_cast<int>(players.size()); i++)
     {
       writer.start_list("tux_remote");
 
-      writer.write("nickname", nickname);
+      writer.write("username", username);
       writer.write("id", i + 1);
       players[i]->write(writer);
 
@@ -335,7 +335,7 @@ PlayerStatus::write(Writer& writer, bool include_world_data) const
 }
 
 void
-PlayerStatus::read(const ReaderMapping& mapping, const std::string& self_nickname, const std::string& remote_nickname)
+PlayerStatus::read(const ReaderMapping& mapping, const std::string& self_username, const std::string& remote_username)
 {
   reset();
 
@@ -351,19 +351,19 @@ PlayerStatus::read(const ReaderMapping& mapping, const std::string& self_nicknam
         {
           auto iter_mapping = iter.as_mapping();
 
-          std::string nickname;
-          iter_mapping.get("nickname", nickname);
-          if (nickname.empty())
-            throw std::runtime_error("Remote player has no \"nickname\" set!");
+          std::string username;
+          iter_mapping.get("username", username);
+          if (username.empty())
+            throw std::runtime_error("Remote player has no \"username\" set!");
 
           int id = -1;
           iter_mapping.get("id", id);
           if (id < 0)
             throw std::runtime_error("Remote player has no \"id\" set!");
 
-          if (self_nickname.empty() || nickname != self_nickname)
+          if (self_username.empty() || username != self_username)
           {
-            auto& players = m_remote_players[nickname];
+            auto& players = m_remote_players[username];
             if (id >= players.size())
               expand(players, id);
 
@@ -387,7 +387,7 @@ PlayerStatus::read(const ReaderMapping& mapping, const std::string& self_nicknam
               "wrapper for retrocompatibiility");
           }
 
-          if (remote_nickname.empty())
+          if (remote_username.empty())
           {
             if (id >= m_local_players.size())
               expand(m_local_players, id);
@@ -396,7 +396,7 @@ PlayerStatus::read(const ReaderMapping& mapping, const std::string& self_nicknam
           }
           else
           {
-            auto& players = m_remote_players[remote_nickname];
+            auto& players = m_remote_players[remote_username];
             if (id >= players.size())
               expand(players, id);
 
@@ -412,13 +412,13 @@ PlayerStatus::read(const ReaderMapping& mapping, const std::string& self_nicknam
   }
 
   // Parse first player.
-  if (remote_nickname.empty())
+  if (remote_username.empty())
   {
     m_local_players[0]->parse(mapping);
   }
   else
   {
-    auto& players = m_remote_players[remote_nickname];
+    auto& players = m_remote_players[remote_username];
     if (players.empty())
       expand(players, 1);
 
@@ -440,9 +440,9 @@ PlayerStatus::add_local_player(int id)
 }
 
 void
-PlayerStatus::add_remote_player(const std::string& nickname, int id)
+PlayerStatus::add_remote_player(const std::string& username, int id)
 {
-  auto& players = m_remote_players[nickname];
+  auto& players = m_remote_players[username];
   if (id >= static_cast<int>(players.size()))
     expand(players, id + 1);
 }
@@ -455,9 +455,9 @@ PlayerStatus::remove_local_player(int id)
 }
 
 void
-PlayerStatus::remove_remote_player(const std::string& nickname, int id)
+PlayerStatus::remove_remote_player(const std::string& username, int id)
 {
-  auto& players = m_remote_players[nickname];
+  auto& players = m_remote_players[username];
   assert(id < static_cast<int>(players.size()));
   players.erase(players.begin() + id);
 }

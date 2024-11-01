@@ -30,15 +30,15 @@ namespace network {
 class ServerUser
 {
 public:
-  ServerUser(const std::string& nickname, Color nickname_color = Color(1, 1, 1, 1));
+  ServerUser(const std::string& username, Color username_color = Color(1, 1, 1, 1));
   ServerUser(const ReaderMapping& reader);
 
   virtual void write(Writer& writer) const;
   std::string serialize() const;
 
 public:
-  std::string nickname;
-  Color nickname_color;
+  std::string username;
+  Color username_color;
 
 private:
   ServerUser(const ServerUser&) = delete;

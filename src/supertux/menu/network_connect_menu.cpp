@@ -29,8 +29,8 @@ NetworkConnectMenu::NetworkConnectMenu(bool game, bool connect) :
   m_connect(connect),
   m_host_address(),
   m_port(),
-  m_nickname(),
-  m_nickname_color(1, 1, 1, 1)
+  m_username(),
+  m_username_color(1, 1, 1, 1)
 {
   add_label(m_connect ? (m_game ? _("Join Remote Game") : _("Edit Remote Level")) :
     (m_game ? _("Host Game") : _("Host Level")));
@@ -43,9 +43,9 @@ NetworkConnectMenu::NetworkConnectMenu(bool game, bool connect) :
   if (!m_connect)
     port_field.set_help(_("Port number must be between 1024 and 65535.\nSet to 0 for random port."));
 
-  add_textfield(_("Nickname"), &m_nickname)
-    .set_help(_("Nickname character count must be between 3 and 20."));
-  add_color(_("Nickname Color"), &m_nickname_color, false);
+  add_textfield(_("Username"), &m_username)
+    .set_help(_("Username character count must be between 3 and 20."));
+  add_color(_("Username Color"), &m_username_color, false);
   add_hl();
 
   add_entry(1, m_connect ? _("Connect") : _("Host"));
@@ -74,7 +74,7 @@ NetworkConnectMenu::menu_action(MenuItem& item)
         if (m_game)
         {
           GameManager::current()->connect_to_remote_game(m_host_address, static_cast<uint16_t>(m_port),
-                                                         m_nickname, m_nickname_color);
+                                                         m_username, m_username_color);
 
           MenuManager::instance().pop_menu();
           MenuManager::instance().current_menu()->refresh();
@@ -84,7 +84,7 @@ NetworkConnectMenu::menu_action(MenuItem& item)
           auto callback = [this]()
             {
               Editor::current()->set_remote_level(m_host_address, static_cast<uint16_t>(m_port),
-                                                  m_nickname, m_nickname_color);
+                                                  m_username, m_username_color);
             };
           if (Editor::current()->is_hosting_level())
             Dialog::show_confirmation(_("Changing the level will stop hosting the current one. Are you sure?"), callback);
@@ -102,9 +102,9 @@ NetworkConnectMenu::menu_action(MenuItem& item)
       [this]()
       {
         if (m_game)
-          GameManager::current()->host_game(static_cast<uint16_t>(m_port), m_nickname, m_nickname_color);
+          GameManager::current()->host_game(static_cast<uint16_t>(m_port), m_username, m_username_color);
         else
-          Editor::current()->host_level(static_cast<uint16_t>(m_port), m_nickname, m_nickname_color);
+          Editor::current()->host_level(static_cast<uint16_t>(m_port), m_username, m_username_color);
 
         MenuManager::instance().pop_menu();
         MenuManager::instance().current_menu()->refresh();

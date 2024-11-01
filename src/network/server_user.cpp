@@ -23,29 +23,29 @@
 
 namespace network {
 
-ServerUser::ServerUser(const std::string& nickname_, Color nickname_color_) :
-  nickname(nickname_),
-  nickname_color(nickname_color_)
+ServerUser::ServerUser(const std::string& username_, Color username_color_) :
+  username(username_),
+  username_color(username_color_)
 {
 }
 
 ServerUser::ServerUser(const ReaderMapping& reader) :
-  nickname(),
-  nickname_color(1, 1, 1, 1)
+  username(),
+  username_color(1, 1, 1, 1)
 {
-  reader.get("nickname", nickname);
+  reader.get("username", username);
   std::vector<float> v_nickcolor;
-  if (reader.get("nickname-color", v_nickcolor))
-    nickname_color = Color(v_nickcolor);
+  if (reader.get("username-color", v_nickcolor))
+    username_color = Color(v_nickcolor);
 }
 
 void
 ServerUser::write(Writer& writer) const
 {
-  writer.write("nickname", nickname);
-  auto v_nickcolor = nickname_color.toVector();
+  writer.write("username", username);
+  auto v_nickcolor = username_color.toVector();
   v_nickcolor.pop_back(); // Remove alpha
-  writer.write("nickname-color", v_nickcolor);
+  writer.write("username-color", v_nickcolor);
 }
 
 std::string

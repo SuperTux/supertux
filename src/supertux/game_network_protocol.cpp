@@ -78,12 +78,12 @@ GameNetworkProtocol::on_client_disconnect(network::Peer&, uint32_t code)
       Dialog::show_message(_("Disconnected: No registration packet received for too long."));
       break;
 
-    case DISCONNECTED_NICKNAME_INVALID:
-      Dialog::show_message(_("Disconnected: The provided nickname is invalid."));
+    case DISCONNECTED_USERNAME_INVALID:
+      Dialog::show_message(_("Disconnected: The provided username is invalid."));
       break;
 
-    case DISCONNECTED_NICKNAME_TAKEN:
-      Dialog::show_message(_("Disconnected: The provided nickname has been taken."));
+    case DISCONNECTED_USERNAME_TAKEN:
+      Dialog::show_message(_("Disconnected: The provided username has been taken."));
       break;
 
     default:
@@ -143,10 +143,10 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
     case OP_GAME_JOIN:
     {
       if (m_host.is_server())
-        throw std::runtime_error("Cannot process game join from \"" + user.nickname + "\": This host is a server.");
+        throw std::runtime_error("Cannot process game join from \"" + user.username + "\": This host is a server.");
 
       m_network_game_session = m_game_manager.start_network_level(
-        user.nickname,
+        user.username,
         packet.data[0],
         packet.data[1]
       );
@@ -156,7 +156,7 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
     case OP_GAME_START:
     {
       if (m_host.is_server())
-        throw std::runtime_error("Cannot process game start from \"" + user.nickname + "\": This host is a server.");
+        throw std::runtime_error("Cannot process game start from \"" + user.username + "\": This host is a server.");
 
       if (!m_network_game_session || !ScreenManager::current()->get_top_screen<LevelIntro>())
         throw std::runtime_error("Invalid game start packet received.");
@@ -168,13 +168,13 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
     case OP_CONTROLLER_UPDATE:
     {
       if (!m_host.is_server())
-        throw std::runtime_error("Cannot process controller update from \"" + user.nickname + "\": This host is not a server.");
+        throw std::runtime_error("Cannot process controller update from \"" + user.username + "\": This host is not a server.");
 
       GameServerUser* game_user = static_cast<GameServerUser*>(&user);
 
       const int controller_user = std::stoi(packet.data[0]);
       if (controller_user >= static_cast<int>(game_user->get_num_players()))
-        throw std::runtime_error("Cannot process controller update from \"" + user.nickname + "\": Remote controller user " + packet.data[0] + " doesn't exist.");
+        throw std::runtime_error("Cannot process controller update from \"" + user.username + "\": Remote controller user " + packet.data[0] + " doesn't exist.");
 
       game_user->player_controllers[controller_user]->process_packet_data(packet, 1);
       break;

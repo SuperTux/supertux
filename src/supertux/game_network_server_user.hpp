@@ -29,7 +29,7 @@
 class GameServerUser final : public network::ServerUser
 {
 public:
-  GameServerUser(const std::string& nickname, Color nickname_color = Color(1, 1, 1, 1),
+  GameServerUser(const std::string& username, Color username_color = Color(1, 1, 1, 1),
                  int num_players = 1);
   GameServerUser(const ReaderMapping& reader);
 
