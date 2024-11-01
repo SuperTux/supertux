@@ -14,15 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <gtest/gtest.h>
-
+#include <cassert>
 #include "math/aatriangle.hpp"
 
-TEST(AATriangleTest, vertical_flip_test)
+int main(void)
 {
-  ASSERT_EQ(33, AATriangle::vertical_flip(30));
-  ASSERT_EQ(19, AATriangle::vertical_flip(40));
-  ASSERT_EQ(49, AATriangle::vertical_flip(50));
+  assert(33 == AATriangle::vertical_flip(30));
+  assert(19 == AATriangle::vertical_flip(40));
+  assert(49 == AATriangle::vertical_flip(50));
+  
+  return 0;
 }
 
 /* EOF */

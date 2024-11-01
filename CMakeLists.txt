@@ -276,10 +276,8 @@ configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 ## Build tests
 # TODO Move to CMake Tests
 #include(SuperTux/BuildTests)
-option(BUILD_TESTS "Build tests" OFF)
-if(BUILD_TESTS)
-	add_subdirectory(tests)
-endif()
+enable_testing()
+add_subdirectory(tests)
 
 ## CPack/Installation-specific stuff
 include(SuperTux/BuildCPack)
