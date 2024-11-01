@@ -24,7 +24,6 @@
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/savegame.hpp"
-#include "supertux/sector.hpp"
 #include "util/log.hpp"
 
 GameControllerManager::GameControllerManager(InputManager* parent) :

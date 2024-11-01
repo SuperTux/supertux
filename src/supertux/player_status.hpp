@@ -25,6 +25,7 @@
 
 #include "object/powerup.hpp"
 #include "supertux/timer.hpp"
+#include "supertux/level.hpp"
 
 class DrawingContext;
 class ReaderMapping;
@@ -98,6 +99,7 @@ public:
   int m_num_players;
 
   std::vector<BonusType> m_item_pockets;
+  Level::Setting m_override_item_pocket;
 
   int coins;
   std::vector<BonusType> bonus;

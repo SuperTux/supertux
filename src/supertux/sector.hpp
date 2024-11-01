@@ -178,10 +178,16 @@ public:
 
   /**
    * @scripting
-   * @description Allows/disallows usage of the Item Pocket.
-   * @param bool $allow
+   * @description Override the Item Pocket setting set by the level with the given value.
+   * @param string $allow Can be "on", "off", or "inherit" (use the level setting (default))
    */
-  void set_allow_item_pocket(bool allow);
+  void override_allow_item_pocket(const std::string& allow);
+
+  /**
+   * @scripting
+   * @description Checks if the Item Pocket is currently allowed.
+   */
+  std::string is_item_pocket_overridden();
 
   /**
    * @scripting

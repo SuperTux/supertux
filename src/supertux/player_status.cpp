@@ -23,7 +23,6 @@
 #include "object/player.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -37,6 +36,7 @@ static const int MAX_COINS = 9999;
 PlayerStatus::PlayerStatus(int num_players) :
   m_num_players(num_players),
   m_item_pockets(num_players),
+  m_override_item_pocket(Level::INHERIT),
   coins(START_COINS),
   bonus(num_players),
   worldmap_sprite("images/worldmap/common/tux.sprite"),

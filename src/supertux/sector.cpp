@@ -590,10 +590,14 @@ Sector::is_free_of_specifically_movingstatics(float left, float top, float right
 }
 
 void
-Sector::set_allow_item_pocket(bool allow)
+Sector::override_allow_item_pocket(bool allow)
 {
-  //FIXME
-  //m_level.m_allow_item_pocket = allow;
+
+}
+
+std::string Sector::is_item_pocket_overridden()
+{
+  return m_level.m_allow_item_pocket;
 }
 
 bool
