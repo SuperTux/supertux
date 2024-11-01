@@ -20,7 +20,7 @@
 #include <assert.h>
 #include <iosfwd>
 
-#include <SDL.h>
+#include <SDL_rect.h>
 
 #include "math/anchor_point.hpp"
 #include "math/sizef.hpp"
