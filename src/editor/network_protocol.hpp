@@ -50,7 +50,7 @@ public:
   };
 
 public:
-  EditorNetworkProtocol(Editor& editor, network::Host& host);
+  EditorNetworkProtocol(Editor& editor, network::Host& host, const std::string& self_nickname);
 
   std::string get_name() const override { return "editor"; }
   size_t get_channel_count() const override { return CH_END; }

@@ -27,8 +27,8 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 
-GameNetworkProtocol::GameNetworkProtocol(GameManager& game_manager, network::Host& host) :
-  network::UserProtocol<GameServerUser>(game_manager, host),
+GameNetworkProtocol::GameNetworkProtocol(GameManager& game_manager, network::Host& host, const std::string& self_nickname) :
+  network::UserProtocol<GameServerUser>(game_manager, host, self_nickname),
   m_game_manager(game_manager),
   m_network_game_session()
 {
@@ -142,12 +142,23 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
   {
     case OP_GAME_JOIN:
     {
-      m_network_game_session = m_game_manager.start_network_level(packet.data[0]);
+      if (m_host.is_server())
+        throw std::runtime_error("Cannot process game join from \"" + user.nickname + "\": This host is a server.");
+
+      m_network_game_session = m_game_manager.start_network_level(
+        m_self_nickname,
+        user.nickname,
+        packet.data[0],
+        packet.data[1]
+      );
       break;
     }
 
     case OP_GAME_START:
     {
+      if (m_host.is_server())
+        throw std::runtime_error("Cannot process game start from \"" + user.nickname + "\": This host is a server.");
+
       if (!m_network_game_session || !ScreenManager::current()->get_top_screen<LevelIntro>())
         throw std::runtime_error("Invalid game start packet received.");
 

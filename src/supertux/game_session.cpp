@@ -84,10 +84,6 @@ GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Stati
   m_savegame(savegame),
   m_play_time(0),
   m_levelintro_shown(false),
-  m_coins_at_start(),
-  m_boni_at_start(),
-  m_max_fire_bullets_at_start(),
-  m_max_ice_bullets_at_start(),
   m_active(false),
   m_end_seq_started(false),
   m_pause_target_timer(false),
@@ -99,10 +95,6 @@ GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Stati
   else
     set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
 
-  m_boni_at_start.resize(InputManager::current()->get_num_users(), NO_BONUS);
-  m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
-  m_max_ice_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
-
   m_data_table.clear();
 
   if (restart_level(false, preserve_music) != 0)
@@ -112,22 +104,10 @@ GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Stati
 void
 GameSession::reset_level()
 {
-  for (const auto& p : m_currentsector->get_players())
-  {
-    try
-    {
-      p->set_bonus(m_boni_at_start.at(p->get_id()));
-    }
-    catch(const std::out_of_range&)
-    {
-    }
-  }
+  m_savegame.get_player_status().restore_state();
 
-  PlayerStatus& currentStatus = m_savegame.get_player_status();
-  currentStatus.coins = m_coins_at_start;
-  currentStatus.bonus = m_boni_at_start;
-  currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
-  currentStatus.max_ice_bullets = m_max_ice_bullets_at_start;
+  for (const auto& p : m_currentsector->get_players())
+    p->set_bonus(p->get_status().bonus);
 
   clear_respawn_points();
   m_activated_checkpoint = nullptr;
@@ -140,13 +120,10 @@ GameSession::reset_level()
 int
 GameSession::restart_level(bool after_death, bool preserve_music)
 {
-  const PlayerStatus& currentStatus = m_savegame.get_player_status();
-  m_coins_at_start = currentStatus.coins;
-  m_max_fire_bullets_at_start = currentStatus.max_fire_bullets;
-  m_max_ice_bullets_at_start = currentStatus.max_ice_bullets;
-  m_boni_at_start = currentStatus.bonus;
+  m_savegame.get_player_status().save_state();
 
   // Needed for the title screen apparently.
+  /*
   if (m_currentsector)
   {
     try
@@ -161,6 +138,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     {
     }
   }
+  */
 
   m_game_pause   = false;
   m_end_sequence = nullptr;
@@ -260,6 +238,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     GameObject::s_save_uid = true;
     network::StagedPacket packet(GameNetworkProtocol::OP_GAME_JOIN,
       {
+        m_savegame.get_player_status().write(false),
         m_level->save()
         // TODO: Send first SpawnPoint.
       });
@@ -413,21 +392,11 @@ GameSession::abort_level()
   MenuManager::instance().clear_menu_stack();
   ScreenManager::current()->pop_screen();
 
-  for (const auto& p : m_currentsector->get_players())
-  {
-    try
-    {
-      p->set_bonus(m_boni_at_start.at(p->get_id()));
-    }
-    catch(const std::out_of_range&)
-    {
-    }
-  }
+  m_savegame.get_player_status().restore_state();
 
-  PlayerStatus& currentStatus = m_savegame.get_player_status();
-  currentStatus.coins = m_coins_at_start;
-  currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
-  currentStatus.max_ice_bullets = m_max_ice_bullets_at_start;
+  for (const auto& p : m_currentsector->get_players())
+    p->set_bonus(p->get_status().bonus);
+
   SoundManager::current()->stop_sounds();
 }
 
@@ -504,7 +473,7 @@ GameSession::setup()
   {
     m_levelintro_shown = true;
     m_active = false;
-    ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame.get_player_status(),
+    ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics,
                                                                        !(m_network_host && !m_network_host->is_server())));
     ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, TELEPORT_FADE_TIME));
   }

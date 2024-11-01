@@ -45,9 +45,10 @@ UserProtocol<U>::verify_nickname(const std::string& nickname)
 
 
 template<class U>
-UserProtocol<U>::UserProtocol(UserManager<U>& user_manager, Host& host) :
+UserProtocol<U>::UserProtocol(UserManager<U>& user_manager, Host& host, const std::string& self_nickname) :
   m_user_manager(user_manager),
   m_host(host),
+  m_self_nickname(self_nickname),
   m_pending_users()
 {
 }

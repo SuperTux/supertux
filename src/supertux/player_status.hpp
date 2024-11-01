@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 class DrawingContext;
@@ -39,35 +40,79 @@ enum BonusType {
 class PlayerStatus final
 {
 public:
-  PlayerStatus(int num_players);
-  void reset(int num_players);
+  class Status final
+  {
+  private:
+    Status(const PlayerStatus::Status& other);
+
+  public:
+    Status(PlayerStatus& status);
+
+    void save_state();
+    void restore_state();
+
+    void parse(const ReaderMapping& reader);
+    void write(Writer& writer) const;
+
+    std::string get_bonus_prefix() const; /** Returns the prefix of the animations that should be displayed */
+    bool has_hat_sprite() const { return bonus > GROWUP_BONUS; }
+
+  public:
+    PlayerStatus& general_status;
+
+    BonusType bonus;
+    int max_fire_bullets; /**< maximum number of fire bullets in play */
+    int max_ice_bullets; /**< maximum number of ice bullets in play */
+    int max_air_time; /**<determines maximum number of seconds player can float in air */
+    int max_earth_time; /**< determines maximum number of seconds player can turn to stone */
+
+  private:
+    std::unique_ptr<Status> m_saved_state;
+  };
+
+public:
+  PlayerStatus();
+
+  void save_state();
+  void restore_state();
+
   void add_coins(int count, bool play_sound = true);
   void take_checkpoint_coins();
 
-  void write(Writer& writer);
-  void read(const ReaderMapping& mapping);
+  std::string write(bool include_world_data = true) const;
+  void read(const std::string& data, const std::string& self_nickname = "", const std::string& remote_nickname = "");
+
+  void write(Writer& writer, bool include_world_data = true) const;
+  void read(const ReaderMapping& mapping, const std::string& self_nickname = "", const std::string& remote_nickname = "");
 
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
   bool respawns_at_checkpoint() const;
-  std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
-  bool has_hat_sprite(int player_id) const { return bonus[player_id] > GROWUP_BONUS; }
 
-  void add_player();
-  void remove_player(int player_id);
+  void add_local_player(int id);
+  void add_remote_player(const std::string& nickname, int id);
+  void remove_local_player(int id);
+  void remove_remote_player(const std::string& nickname, int id);
+
+  Status& get_local_player(int id) { return *m_local_players[id]; }
+  Status& get_remote_player(const std::string& nickname, int id) { return *m_remote_players[nickname][id]; }
+
+  int get_num_local_players() const { return static_cast<int>(m_local_players.size()); }
+  int get_num_remote_players() const { return static_cast<int>(m_remote_players.size()); }
+  int get_num_players() const { return get_num_local_players() + get_num_remote_players(); }
 
 private:
-  void parse_bonus_mapping(const ReaderMapping& map, int id);
+  void reset();
+  void expand(std::vector<std::unique_ptr<Status>>& vec, int n);
+
+private:
+  std::vector<std::unique_ptr<Status>> m_local_players;
+  std::unordered_map<std::string, std::vector<std::unique_ptr<Status>>> m_remote_players;
+
+  int m_saved_coins;
 
 public:
-  int m_num_players;
-
   int coins;
-  std::vector<BonusType> bonus;
-  std::vector<int> max_fire_bullets; /**< maximum number of fire bullets in play */
-  std::vector<int> max_ice_bullets; /**< maximum number of ice bullets in play */
-  std::vector<int> max_air_time; /**<determines maximum number of seconds player can float in air */
-  std::vector<int> max_earth_time; /**< determines maximum number of seconds player can turn to stone */
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */

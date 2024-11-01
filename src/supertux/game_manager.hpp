@@ -71,7 +71,8 @@ public:
   ENetPeer* get_server_peer() const { return m_network_server_peer; }
 
 private:
-  GameSession* start_network_level(const std::string& level_content);
+  GameSession* start_network_level(const std::string& self_nickname, const std::string& remote_nickname,
+                                   const std::string& player_status, const std::string& level_content);
 
   /** If server, stop hosting.
       If client, disconnect from server. */

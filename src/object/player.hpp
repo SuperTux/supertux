@@ -35,8 +35,8 @@ class BadGuy;
 class Climbable;
 class Controller;
 class CodeController;
+class GameServerUser;
 class Key;
-class NetworkController;
 class Portable;
 
 extern const float TUX_INVINCIBLE_TIME_WARNING;
@@ -79,8 +79,7 @@ public:
   static Color get_player_color(int id);
 
 public:
-  Player(PlayerStatus& player_status, const std::string& name, int player_id,
-         int remote_player_id = -1, NetworkController* network_controller = nullptr);
+  Player(PlayerStatus& player_status, int player_id, const GameServerUser* remote_user = nullptr);
   ~Player() override;
 
   virtual void update(float dt_sec) override;
@@ -97,10 +96,7 @@ public:
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Player)); }
 
   int get_id() const { return m_id; }
-  void set_id(int id);
-
-  int get_remote_id() const { return m_remote_id; }
-  bool is_remote() const { return m_remote_id >= 0; }
+  const GameServerUser* get_remote_user() const { return m_remote_user; }
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
@@ -214,7 +210,7 @@ public:
 
   std::string bonus_to_string() const;
 
-  PlayerStatus& get_status() const { return m_player_status; }
+  PlayerStatus::Status& get_status() const { return m_player_status; }
 
   /**
    * @scripting
@@ -475,14 +471,14 @@ private:
   void stop_rolling(bool violent = true);
 
 private:
-  int m_id;
-  int m_remote_id;
+  const int m_id;
+  const GameServerUser* m_remote_user;
   std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */
   bool m_deactivated;
 
   const Controller* m_controller;
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
-  PlayerStatus& m_player_status;
+  PlayerStatus::Status& m_player_status;
   bool m_duck;
   bool m_crawl;
   bool m_dead;

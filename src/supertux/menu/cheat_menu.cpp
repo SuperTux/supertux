@@ -84,28 +84,28 @@ CheatMenu::menu_action(MenuItem& item)
     case MNID_FIRE:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
         player.set_bonus(FIRE_BONUS);
-        player.get_status().max_fire_bullets[player.get_id()] = count;
+        player.get_status().max_fire_bullets = count;
       }));
       break;
 
     case MNID_ICE:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
         player.set_bonus(ICE_BONUS);
-        player.get_status().max_ice_bullets[player.get_id()] = count;
+        player.get_status().max_ice_bullets = count;
       }));
       break;
 
     case MNID_AIR:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
         player.set_bonus(AIR_BONUS);
-        player.get_status().max_air_time[player.get_id()] = count;
+        player.get_status().max_air_time = count;
       }));
       break;
 
     case MNID_EARTH:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
         player.set_bonus(EARTH_BONUS);
-        player.get_status().max_earth_time[player.get_id()] = count;
+        player.get_status().max_earth_time = count;
       }));
       break;
 

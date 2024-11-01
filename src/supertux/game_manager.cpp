@@ -81,9 +81,11 @@ GameManager::start_worldmap_level(const std::string& level_filename, Savegame& s
 }
 
 GameSession*
-GameManager::start_network_level(const std::string& level_content)
+GameManager::start_network_level(const std::string& self_nickname, const std::string& remote_nickname,
+                                 const std::string& player_status, const std::string& level_content)
 {
   m_savegame = std::make_unique<Savegame>();
+  m_savegame->get_player_status().read(player_status, self_nickname, remote_nickname);
 
   auto screen = std::make_unique<GameSession>(level_content,
                                               *m_savegame,
@@ -189,7 +191,7 @@ GameManager::host_game(uint16_t port)
     return;
   }
 
-  m_network_server->set_protocol(std::make_unique<GameNetworkProtocol>(*this, *m_network_server));
+  m_network_server->set_protocol(std::make_unique<GameNetworkProtocol>(*this, *m_network_server, ""));
 }
 
 void
@@ -221,7 +223,7 @@ GameManager::connect_to_remote_game(const std::string& hostname, uint16_t port,
     return;
   }
 
-  m_network_client->set_protocol(std::make_unique<GameNetworkProtocol>(*this, *m_network_client));
+  m_network_client->set_protocol(std::make_unique<GameNetworkProtocol>(*this, *m_network_client, nickname));
 
   auto connection = m_network_client->connect(hostname.c_str(), port, 1500);
   if (connection.status != network::ConnectionStatus::SUCCESS)

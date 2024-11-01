@@ -22,31 +22,185 @@
 #include "audio/sound_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/player_status.hpp"
 #include "util/log.hpp"
+#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
 static const int START_COINS = 100;
 static const int MAX_COINS = 9999;
 
-PlayerStatus::PlayerStatus(int num_players) :
-  m_num_players(num_players),
+PlayerStatus::Status::Status(PlayerStatus& status) :
+  general_status(status),
+  bonus(NO_BONUS),
+  max_fire_bullets(),
+  max_ice_bullets(),
+  max_air_time(),
+  max_earth_time(),
+  m_saved_state()
+{
+}
+
+PlayerStatus::Status::Status(const PlayerStatus::Status& other) :
+  general_status(other.general_status),
+  bonus(other.bonus),
+  max_fire_bullets(other.max_fire_bullets),
+  max_ice_bullets(other.max_ice_bullets),
+  max_air_time(other.max_air_time),
+  max_earth_time(other.max_earth_time),
+  m_saved_state()
+{
+}
+
+void
+PlayerStatus::Status::save_state()
+{
+  m_saved_state.reset(new Status(*this));
+}
+
+void
+PlayerStatus::Status::restore_state()
+{
+  if (!m_saved_state) return;
+
+  bonus = m_saved_state->bonus;
+  max_fire_bullets = m_saved_state->max_fire_bullets;
+  max_ice_bullets = m_saved_state->max_ice_bullets;
+  max_air_time = m_saved_state->max_air_time;
+  max_earth_time = m_saved_state->max_earth_time;
+
+  m_saved_state.reset();
+}
+
+void
+PlayerStatus::Status::parse(const ReaderMapping& reader)
+{
+  std::string bonusname;
+  if (reader.get("bonus", bonusname)) {
+    if (bonusname == "none") {
+      bonus = NO_BONUS;
+    } else if (bonusname == "growup") {
+      bonus = GROWUP_BONUS;
+    } else if (bonusname == "fireflower") {
+      bonus = FIRE_BONUS;
+    } else if (bonusname == "iceflower") {
+      bonus = ICE_BONUS;
+    } else if (bonusname == "airflower") {
+      bonus = AIR_BONUS;
+    } else if (bonusname == "earthflower") {
+      bonus = EARTH_BONUS;
+    } else {
+      log_warning << "Unknown bonus '" << bonusname << "' in savefile for player" << std::endl;
+      bonus = NO_BONUS;
+    }
+  }
+  reader.get("fireflowers", max_fire_bullets);
+  reader.get("iceflowers", max_ice_bullets);
+  reader.get("airflowers", max_air_time);
+  reader.get("earthflowers", max_earth_time);
+}
+
+void
+PlayerStatus::Status::write(Writer& writer) const
+{
+  switch (bonus)
+  {
+    case NO_BONUS:
+      writer.write("bonus", "none");
+      break;
+    case GROWUP_BONUS:
+      writer.write("bonus", "growup");
+      break;
+    case FIRE_BONUS:
+      writer.write("bonus", "fireflower");
+      break;
+    case ICE_BONUS:
+      writer.write("bonus", "iceflower");
+      break;
+    case AIR_BONUS:
+      writer.write("bonus", "airflower");
+      break;
+    case EARTH_BONUS:
+      writer.write("bonus", "earthflower");
+      break;
+    default:
+      log_warning << "Unknown bonus type." << std::endl;
+      writer.write("bonus", "none");
+      break;
+  }
+
+  writer.write("fireflowers", max_fire_bullets);
+  writer.write("iceflowers", max_ice_bullets);
+  writer.write("airflowers", max_air_time);
+  writer.write("earthflowers", max_earth_time);
+}
+
+std::string
+PlayerStatus::Status::get_bonus_prefix() const
+{
+  switch (bonus)
+  {
+    default:
+    case NO_BONUS:
+      return "small";
+    case GROWUP_BONUS:
+      return "big";
+    case FIRE_BONUS:
+      return "fire";
+    case ICE_BONUS:
+      return "ice";
+    case AIR_BONUS:
+      return "air";
+    case EARTH_BONUS:
+      return "earth";
+  }
+}
+
+
+PlayerStatus::PlayerStatus() :
+  m_local_players(),
+  m_remote_players(),
+  m_saved_coins(START_COINS),
   coins(START_COINS),
-  bonus(num_players),
-  max_fire_bullets(num_players),
-  max_ice_bullets(num_players),
-  max_air_time(num_players),
-  max_earth_time(num_players),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
   last_worldmap(),
   title_level()
 {
-  reset(num_players);
-
   // FIXME: Move sound handling into PlayerStatusHUD
   if (SoundManager::current()) {
     SoundManager::current()->preload("sounds/coin.wav");
     SoundManager::current()->preload("sounds/lifeup.wav");
+  }
+}
+
+void
+PlayerStatus::save_state()
+{
+  m_saved_coins = coins;
+
+  for (auto& player : m_local_players)
+    player->save_state();
+
+  for (auto& [_, players] : m_remote_players)
+  {
+    for (auto& player : players)
+      player->save_state();
+  }
+}
+
+void
+PlayerStatus::restore_state()
+{
+  coins = m_saved_coins;
+
+  for (auto& player : m_local_players)
+    player->restore_state();
+
+  for (auto& [_, players] : m_remote_players)
+  {
+    for (auto& player : players)
+      player->restore_state();
   }
 }
 
@@ -60,23 +214,27 @@ PlayerStatus::take_checkpoint_coins()
     coins = 0;
 }
 
-void PlayerStatus::reset(int num_players)
+void
+PlayerStatus::reset()
 {
+  m_local_players.clear();
+  m_local_players.push_back(std::make_unique<Status>(*this)); // Always have status for player 1.
+
+  m_remote_players.clear();
+
+  m_saved_coins = START_COINS;
   coins = START_COINS;
 
-  // Keep in sync with a section in read()
-  bonus.clear();
-  bonus.resize(num_players, NO_BONUS);
-  max_fire_bullets.clear();
-  max_fire_bullets.resize(num_players, 0);
-  max_ice_bullets.clear();
-  max_ice_bullets.resize(num_players, 0);
-  max_air_time.clear();
-  max_air_time.resize(num_players, 0);
-  max_earth_time.clear();
-  max_earth_time.resize(num_players, 0);
+  worldmap_sprite.clear();
+  last_worldmap.clear();
+  title_level.clear();
+}
 
-  m_num_players = num_players;
+void
+PlayerStatus::expand(std::vector<std::unique_ptr<Status>>& vec, int n)
+{
+  while (static_cast<int>(vec.size()) < n)
+    vec.push_back(std::make_unique<Status>(*this));
 }
 
 int
@@ -115,107 +273,136 @@ PlayerStatus::add_coins(int count, bool play_sound)
   }
 }
 
-void
-PlayerStatus::write(Writer& writer)
+std::string
+PlayerStatus::write(bool include_world_data) const
 {
-  writer.write("num_players", m_num_players);
+  std::ostringstream stream;
+  Writer writer(stream);
 
-  for (int i = 0; i < m_num_players; i++)
+  writer.start_list("supertux-player-status");
+  write(writer, include_world_data);
+  writer.end_list("supertux-player-status");
+
+  return stream.str();
+}
+
+void
+PlayerStatus::read(const std::string& data, const std::string& self_nickname, const std::string& remote_nickname)
+{
+  auto doc = ReaderDocument::from_string(data, remote_nickname.empty() ? "player-status" : "remote-player-status");
+  auto root = doc.get_root();
+  if (root.get_name() != "supertux-player-status")
+    throw std::runtime_error("PlayerStatus data is not in \"supertux-player-status\" format!");
+
+  read(root.get_mapping(), self_nickname, remote_nickname);
+}
+
+void
+PlayerStatus::write(Writer& writer, bool include_world_data) const
+{
+  for (int i = 0; i < get_num_local_players(); i++)
   {
     if (i != 0)
-    {
       writer.start_list("tux" + std::to_string(i + 1));
-    }
 
-    switch (bonus[i]) {
-      case NO_BONUS:
-        writer.write("bonus", "none");
-        break;
-      case GROWUP_BONUS:
-        writer.write("bonus", "growup");
-        break;
-      case FIRE_BONUS:
-        writer.write("bonus", "fireflower");
-        break;
-      case ICE_BONUS:
-        writer.write("bonus", "iceflower");
-        break;
-      case AIR_BONUS:
-        writer.write("bonus", "airflower");
-        break;
-      case EARTH_BONUS:
-        writer.write("bonus", "earthflower");
-        break;
-      default:
-        log_warning << "Unknown bonus type." << std::endl;
-        writer.write("bonus", "none");
-    }
-
-    writer.write("fireflowers", max_fire_bullets[i]);
-    writer.write("iceflowers", max_ice_bullets[i]);
-    writer.write("airflowers", max_air_time[i]);
-    writer.write("earthflowers", max_earth_time[i]);
+    m_local_players[i]->write(writer);
 
     if (i != 0)
-    {
       writer.end_list("tux" + std::to_string(i + 1));
+  }
+  for (const auto& [nickname, players] : m_remote_players)
+  {
+    for (int i = 0; i < static_cast<int>(players.size()); i++)
+    {
+      writer.start_list("tux_remote");
+
+      writer.write("nickname", nickname);
+      writer.write("id", i + 1);
+      players[i]->write(writer);
+
+      writer.end_list("tux_remote");
     }
   }
 
   writer.write("coins", coins);
 
-  writer.write("worldmap-sprite", worldmap_sprite, false);
-  writer.write("last-worldmap", last_worldmap, false);
-  writer.write("title-level", title_level);
+  if (include_world_data)
+  {
+    writer.write("worldmap-sprite", worldmap_sprite);
+    writer.write("last-worldmap", last_worldmap);
+    writer.write("title-level", title_level);
+  }
 }
 
 void
-PlayerStatus::read(const ReaderMapping& mapping)
+PlayerStatus::read(const ReaderMapping& mapping, const std::string& self_nickname, const std::string& remote_nickname)
 {
-  int num_players_in_file = 1;
-  mapping.get("num_players", num_players_in_file);
-
-  reset(std::max(m_num_players, num_players_in_file));
+  reset();
 
   auto iter = mapping.get_iter();
-
   while (iter.next())
   {
     try
     {
       if (iter.get_key().size() > 3 && iter.get_key().substr(0, 3) == "tux")
       {
-        int id = std::stoi(iter.get_key().substr(3)) - 1;
-
-        if (id >= m_num_players)
+        const std::string postfix = iter.get_key().substr(3);
+        if (postfix == "_remote")
         {
-          log_warning << "ID larger than amount of players when reading player state: " << id << std::endl;
+          auto iter_mapping = iter.as_mapping();
 
-          // Keep this in sync with reset()
-          if (bonus.size() < static_cast<size_t>(id))
-            bonus.resize(id, NO_BONUS);
+          std::string nickname;
+          iter_mapping.get("nickname", nickname);
+          if (nickname.empty())
+            throw std::runtime_error("Remote player has no \"nickname\" set!");
 
-          if (max_fire_bullets.size() < static_cast<size_t>(id))
-            max_fire_bullets.resize(id, 0);
+          int id = -1;
+          iter_mapping.get("id", id);
+          if (id < 0)
+            throw std::runtime_error("Remote player has no \"id\" set!");
 
-          if (max_ice_bullets.size() < static_cast<size_t>(id))
-            max_ice_bullets.resize(id, 0);
+          if (self_nickname.empty() || nickname != self_nickname)
+          {
+            auto& players = m_remote_players[nickname];
+            if (id >= players.size())
+              expand(players, id);
 
-          if (max_air_time.size() < static_cast<size_t>(id))
-            max_air_time.resize(id, 0);
+            players[id - 1]->parse(iter.as_mapping());
+          }
+          else
+          {
+            if (id >= m_local_players.size())
+              expand(m_local_players, id);
 
-          if (max_earth_time.size() < static_cast<size_t>(id))
-            max_earth_time.resize(id, 0);
+            m_local_players[id - 1]->parse(iter.as_mapping());
+          }
         }
-        else if (id == 0)
+        else
         {
-          log_warning << "Refusing to parse player 1 when reading player state,"
-                         "please don't put player 1 data in a (tux1 ...)"
-                         "wrapper for retrocompatibiility" << std::endl;
-        }
+          const int id = std::stoi(postfix);
+          if (id == 1)
+          {
+            throw std::runtime_error("Refusing to parse player 1 when reading player state,"
+              "please don't put player 1 data in a (tux1 ...)"
+              "wrapper for retrocompatibiility");
+          }
 
-        auto map = iter.as_mapping();
-        parse_bonus_mapping(map, id);
+          if (remote_nickname.empty())
+          {
+            if (id >= m_local_players.size())
+              expand(m_local_players, id);
+
+            m_local_players[id - 1]->parse(iter.as_mapping());
+          }
+          else
+          {
+            auto& players = m_remote_players[remote_nickname];
+            if (id >= players.size())
+              expand(players, id);
+
+            players[id - 1]->parse(iter.as_mapping());
+          }
+        }
       }
     }
     catch (const std::exception& e)
@@ -224,7 +411,19 @@ PlayerStatus::read(const ReaderMapping& mapping)
     }
   }
 
-  parse_bonus_mapping(mapping, 0);
+  // Parse first player.
+  if (remote_nickname.empty())
+  {
+    m_local_players[0]->parse(mapping);
+  }
+  else
+  {
+    auto& players = m_remote_players[remote_nickname];
+    if (players.empty())
+      expand(players, 1);
+
+    players[0]->parse(mapping);
+  }
 
   mapping.get("coins", coins);
 
@@ -234,84 +433,33 @@ PlayerStatus::read(const ReaderMapping& mapping)
 }
 
 void
-PlayerStatus::parse_bonus_mapping(const ReaderMapping& map, int id)
+PlayerStatus::add_local_player(int id)
 {
-  std::string bonusname;
-  if (map.get("bonus", bonusname)) {
-    if (bonusname == "none") {
-      bonus[id] = NO_BONUS;
-    } else if (bonusname == "growup") {
-      bonus[id] = GROWUP_BONUS;
-    } else if (bonusname == "fireflower") {
-      bonus[id] = FIRE_BONUS;
-    } else if (bonusname == "iceflower") {
-      bonus[id] = ICE_BONUS;
-    } else if (bonusname == "airflower") {
-      bonus[id] = AIR_BONUS;
-    } else if (bonusname == "earthflower") {
-      bonus[id] = EARTH_BONUS;
-    } else {
-      log_warning << "Unknown bonus '" << bonusname << "' in savefile for player " << (id + 1) << std::endl;
-      bonus[id] = NO_BONUS;
-    }
-  }
-  map.get("fireflowers", max_fire_bullets[id]);
-  map.get("iceflowers", max_ice_bullets[id]);
-  map.get("airflowers", max_air_time[id]);
-  map.get("earthflowers", max_earth_time[id]);
-}
-
-std::string
-PlayerStatus::get_bonus_prefix(int player_id) const
-{
-  switch (bonus[player_id]) {
-    default:
-    case NO_BONUS:
-      return "small";
-    case GROWUP_BONUS:
-      return "big";
-    case FIRE_BONUS:
-      return "fire";
-    case ICE_BONUS:
-      return "ice";
-    case AIR_BONUS:
-      return "air";
-    case EARTH_BONUS:
-      return "earth";
-  }
+  if (id >= get_num_local_players())
+    expand(m_local_players, id + 1);
 }
 
 void
-PlayerStatus::add_player()
+PlayerStatus::add_remote_player(const std::string& nickname, int id)
 {
-  m_num_players++;
-
-  bonus.resize(m_num_players, NO_BONUS);
-  max_fire_bullets.resize(m_num_players, 0);
-  max_ice_bullets.resize(m_num_players, 0);
-  max_air_time.resize(m_num_players, 0);
-  max_earth_time.resize(m_num_players, 0);
+  auto& players = m_remote_players[nickname];
+  if (id >= static_cast<int>(players.size()))
+    expand(players, id + 1);
 }
 
 void
-PlayerStatus::remove_player(int player_id)
+PlayerStatus::remove_local_player(int id)
 {
-  m_num_players--;
+  assert(id < get_num_local_players());
+  m_local_players.erase(m_local_players.begin() + id);
+}
 
-  for (int i = player_id; i < m_num_players; i++)
-  {
-    bonus[i] = bonus[i + 1];
-    max_fire_bullets[i] = max_fire_bullets[i + 1];
-    max_ice_bullets[i] = max_ice_bullets[i + 1];
-    max_air_time[i] = max_air_time[i + 1];
-    max_earth_time[i] = max_earth_time[i + 1];
-  }
-
-  bonus.resize(m_num_players, NO_BONUS);
-  max_fire_bullets.resize(m_num_players, 0);
-  max_ice_bullets.resize(m_num_players, 0);
-  max_air_time.resize(m_num_players, 0);
-  max_earth_time.resize(m_num_players, 0);
+void
+PlayerStatus::remove_remote_player(const std::string& nickname, int id)
+{
+  auto& players = m_remote_players[nickname];
+  assert(id < static_cast<int>(players.size()));
+  players.erase(players.begin() + id);
 }
 
 /* EOF */

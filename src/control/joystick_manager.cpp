@@ -99,11 +99,9 @@ JoystickManager::on_joystick_added(int joystick_index)
         auto& sector = GameSession::current()->get_current_sector();
         auto& player_status = GameSession::current()->get_savegame().get_player_status();
 
-        if (player_status.m_num_players <= id)
-          player_status.add_player();
+        player_status.add_local_player(id);
 
-        // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-        auto& player = sector.add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
+        auto& player = sector.add<Player>(player_status, id);
 
         player.multiplayer_prepare_spawn();
       }

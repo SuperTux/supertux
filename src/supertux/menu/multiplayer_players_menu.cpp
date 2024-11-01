@@ -46,9 +46,9 @@ MultiplayerPlayersMenu::MultiplayerPlayersMenu()
   add_entry(_("Add Player"), [] {
     InputManager::current()->push_user();
 
-    if (GameSession::current() && GameSession::current()->get_savegame().get_player_status().m_num_players < InputManager::current()->get_num_users())
+    if (GameSession::current() && GameSession::current()->get_savegame().get_player_status().get_num_local_players() < InputManager::current()->get_num_users())
     {
-      GameSession::current()->get_savegame().get_player_status().add_player();
+      GameSession::current()->get_savegame().get_player_status().add_local_player(GameSession::current()->get_savegame().get_player_status().get_num_local_players());
     }
 
     MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayersMenu>());

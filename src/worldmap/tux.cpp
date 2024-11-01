@@ -59,7 +59,7 @@ Tux::draw(DrawingContext& context)
 {
   if (m_worldmap->get_sector().get_camera().is_panning()) return;
 
-  std::string action = get_action_prefix_for_bonus(m_worldmap->get_savegame().get_player_status().bonus[0]);
+  std::string action = get_action_prefix_for_bonus(m_worldmap->get_savegame().get_player_status().get_local_player(0).bonus);
   if (!action.empty())
   {
     if (m_moving && (get_axis().x != 0 || get_axis().y != 0))

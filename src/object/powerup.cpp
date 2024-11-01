@@ -235,7 +235,7 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
       player->make_invincible();
       break;
     case ONEUP:
-      player->get_status().add_coins(100);
+      player->get_status().general_status.add_coins(100);
       break;
     case FLIP:
       FlipLevelTransformer flip_transformer;

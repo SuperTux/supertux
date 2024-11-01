@@ -70,40 +70,40 @@ PlayerStatusHUD::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.transform().scale = 1.f;
-  if (!Editor::is_active())
-  {
-    if (coin_surface)
-    {
-      context.color().draw_surface(coin_surface,
-                                  Vector(context.get_width() - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
-                                         hudpos),
-                                  LAYER_HUD);
-    }
 
-    context.color().draw_text(Resources::fixed_font,
-                              coins_text,
-                              Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                                    hudpos + 13.f),
-                              ALIGN_LEFT,
-                              LAYER_HUD,
-                              PlayerStatusHUD::text_color);
+  if (coin_surface)
+  {
+    context.color().draw_surface(coin_surface,
+                                Vector(context.get_width() - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
+                                       hudpos),
+                                LAYER_HUD);
   }
+
+  context.color().draw_text(Resources::fixed_font,
+                            coins_text,
+                            Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
+                                  hudpos + 13.f),
+                            ALIGN_LEFT,
+                            LAYER_HUD,
+                            PlayerStatusHUD::text_color);
 
   hudpos += 8.f;
   for (int target = 0; target < InputManager::current()->get_num_users(); target++)
   {
+    const PlayerStatus::Status& status = m_player_status.get_local_player(target);
+
     SurfacePtr surface;
     std::string ammo_text;
 
-    if (m_player_status.bonus[target] == FIRE_BONUS)
+    if (status.bonus == FIRE_BONUS)
     {
       surface = fire_surface;
-      ammo_text = std::to_string(m_player_status.max_fire_bullets[target]);
+      ammo_text = std::to_string(status.max_fire_bullets);
     }
-    else if (m_player_status.bonus[target] == ICE_BONUS)
+    else if (status.bonus == ICE_BONUS)
     {
       surface = ice_surface;
-      ammo_text = std::to_string(m_player_status.max_ice_bullets[target]);
+      ammo_text = std::to_string(status.max_ice_bullets);
     }
     else
     {

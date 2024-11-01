@@ -824,7 +824,7 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port,
     return;
   }
 
-  m_network_client->set_protocol(std::make_unique<EditorNetworkProtocol>(*this, *m_network_client));
+  m_network_client->set_protocol(std::make_unique<EditorNetworkProtocol>(*this, *m_network_client, nickname));
 
   auto connection = m_network_client->connect(hostname.c_str(), port, 1500);
   if (connection.status != network::ConnectionStatus::SUCCESS)
@@ -895,7 +895,7 @@ Editor::host_level(uint16_t port)
     return;
   }
 
-  m_network_server->set_protocol(std::make_unique<EditorNetworkProtocol>(*this, *m_network_server));
+  m_network_server->set_protocol(std::make_unique<EditorNetworkProtocol>(*this, *m_network_server, ""));
 }
 
 void

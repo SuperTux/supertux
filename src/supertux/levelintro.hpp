@@ -17,14 +17,15 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_LEVELINTRO_HPP
 #define HEADER_SUPERTUX_SUPERTUX_LEVELINTRO_HPP
 
-#include "sprite/sprite_ptr.hpp"
 #include "supertux/screen.hpp"
+
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/timer.hpp"
 #include "video/color.hpp"
 
 class DrawingContext;
 class Level;
-class PlayerStatus;
+class Player;
 class Statistics;
 
 /** Screen that welcomes the player to a level */
@@ -41,8 +42,7 @@ private:
   static Color s_stat_perfect_color;
 
 public:
-  LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status,
-             bool allow_quit);
+  LevelIntro(const Level& level, const Statistics* best_level_statistics, bool allow_quit);
   ~LevelIntro() override;
 
   virtual void setup() override;
@@ -52,19 +52,21 @@ public:
 
 private:
   void draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat, bool isPerfect);
-  void push_player();
-  void pop_player();
+
+  void push_player(const Player* player);
+  void pop_player(const Player* player);
 
 private:
   const Level& m_level; /**< The level of which this is the intro screen */
   const Statistics* m_best_level_statistics; /**< Best level statistics of the level of which is the intro screen */
+  const bool m_allow_quit;
+
+  std::vector<const Player*> m_players;
   std::vector<SpritePtr> m_player_sprite; /**< Sprite representing the player */
   std::vector<SpritePtr> m_santa_sprite;
   std::vector<float> m_player_sprite_py; /**< Position (y axis) for the player sprite */
   std::vector<float> m_player_sprite_vy; /**< Velocity (y axis) for the player sprite */
   std::vector<std::unique_ptr<Timer>> m_player_sprite_jump_timer; /**< When timer fires, the player sprite will "jump" */
-  const PlayerStatus& m_player_status; /**The player status passed from GameSession*/
-  const bool m_allow_quit;
 
 private:
   LevelIntro(const LevelIntro&) = delete;

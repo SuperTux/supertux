@@ -132,7 +132,7 @@ Brick::try_break(Player* player, bool slider)
     Sector::get().add<BouncyCoin>(get_pos(), true);
     m_coin_counter--;
     Player& player_one = *Sector::get().get_players()[0];
-    player_one.get_status().add_coins(1);
+    player_one.get_status().general_status.add_coins(1);
     if (m_coin_counter == 0)
       set_action("empty");
     start_bounce(player);

@@ -35,7 +35,7 @@ public:
 
   void write(Writer& writer) const override;
 
-  size_t get_num_players() const { return player_controllers.size(); }
+  int get_num_players() const { return static_cast<int>(player_controllers.size()); }
 
 public:
   // Used by servers to manage remote player input.

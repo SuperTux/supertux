@@ -318,7 +318,7 @@ Camera::update(float dt_sec)
 
   switch (m_mode) {
     case Mode::NORMAL:
-      if (Sector::current() && Sector::current()->get_object_count<Player>([](const Player& p) { return !p.is_remote(); }) > 1)
+      if (Sector::current() && Sector::current()->get_object_count<Player>([](const Player& p) { return !p.get_remote_user(); }) > 1)
       {
         update_scroll_normal_multiplayer(dt_sec);
       }
@@ -572,7 +572,7 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
 
   for (const auto* p : Sector::get().get_players())
   {
-    if (!p->is_alive() || p->is_remote())
+    if (!p->is_alive() || p->get_remote_user())
       continue;
 
     float lft = p->get_bbox().get_left() - HORIZONTAL_MARGIN;

@@ -348,7 +348,7 @@ BonusBlock::try_open(Player* player)
     {
       Sector::get().add<BouncyCoin>(get_pos(), true, m_coin_sprite);
       SoundManager::current()->play("sounds/coin.wav", get_pos());
-      player->get_status().add_coins(1, false);
+      player->get_status().general_status.add_coins(1, false);
       if (m_hit_counter != 0 && !m_parent_dispenser)
         Sector::get().get_level().m_stats.increment_coins();
       break;
@@ -649,7 +649,7 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
                                const std::string& growup_sprite, const std::string& flower_sprite)
 {
   std::unique_ptr<MovingObject> obj;
-  if (player->get_status().bonus[player->get_id()] == NO_BONUS)
+  if (player->get_status().bonus == NO_BONUS)
   {
     obj = std::make_unique<GrowUp>(get_pos(), dir, growup_sprite);
   }
@@ -666,7 +666,7 @@ void
 BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bool& countdown,
                               const std::string& growup_sprite)
 {
-  if (player->get_status().bonus[player->get_id()] == NO_BONUS)
+  if (player->get_status().bonus == NO_BONUS)
   {
     Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir, growup_sprite);
   }

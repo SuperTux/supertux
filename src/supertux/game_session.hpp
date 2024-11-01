@@ -31,7 +31,6 @@
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
@@ -184,11 +183,6 @@ private:
   float m_play_time; /**< total time in seconds that this session ran interactively */
 
   bool m_levelintro_shown; /**< true if the LevelIntro screen was already shown */
-
-  int m_coins_at_start; /** How many coins does the player have at the start */
-  std::vector<BonusType> m_boni_at_start; /** What boni does the player have at the start */
-  std::vector<int> m_max_fire_bullets_at_start; /** How many fire bullets does the player have */
-  std::vector<int> m_max_ice_bullets_at_start; /** How many ice bullets does the player have */
 
   bool m_active; /** Game active? **/
 

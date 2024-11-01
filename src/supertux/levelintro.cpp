@@ -18,12 +18,12 @@
 
 #include <fmt/format.h>
 
-#include "control/input_manager.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/fadetoblack.hpp"
+#include "supertux/game_network_server_user.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
 #include "supertux/player_status.hpp"
@@ -41,22 +41,19 @@ LevelIntro::quit()
 }
 
 
-LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status,
-                       bool allow_quit) :
+LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statistics, bool allow_quit) :
   m_level(level),
   m_best_level_statistics(best_level_statistics),
+  m_allow_quit(allow_quit),
+  m_players(),
   m_player_sprite(),
   m_santa_sprite(),
   m_player_sprite_py(),
   m_player_sprite_vy(),
-  m_player_sprite_jump_timer(),
-  m_player_status(player_status),
-  m_allow_quit(allow_quit)
+  m_player_sprite_jump_timer()
 {
-  for (int i = 0; i < m_level.get_sector(0)->get_object_count<Player>(); i++)
-  {
-    push_player();
-  }
+  for (const GameObject* player_obj : m_level.get_sector(0)->get_objects_by_type_index(typeid(Player)))
+    push_player(static_cast<const Player*>(player_obj));
 }
 
 LevelIntro::~LevelIntro()
@@ -78,28 +75,13 @@ LevelIntro::update(float dt_sec, const Controller& controller)
     quit();
   }
 
-  // Check if players connected/disconnected
-  const int player_count = m_level.get_sector(0)->get_object_count<Player>();
-
-  while(m_player_sprite.size() < static_cast<size_t>(player_count))
-    push_player();
-
-  while(m_player_sprite.size() > static_cast<size_t>(player_count))
-    pop_player();
-
-  const int num_users = InputManager::current()->get_num_users();
-  for (int i = 0; i < static_cast<int>(m_player_sprite.size()); i++)
+  for (int i = 0; i < static_cast<int>(m_players.size()); i++)
   {
-    if (i != 0 && i < num_users &&
-        !InputManager::current()->has_corresponsing_controller(i) &&
-        !InputManager::current()->m_uses_keyboard[i])
-      continue;
+    const PlayerStatus::Status& status = m_players[i]->get_status();
 
-    auto bonus_prefix = m_player_status.get_bonus_prefix(i);
-    if (m_player_status.bonus[i] == FIRE_BONUS && g_config->christmas_mode)
-    {
+    auto bonus_prefix = status.get_bonus_prefix();
+    if (status.bonus == FIRE_BONUS && g_config->christmas_mode)
       bonus_prefix = "big";
-    }
 
     m_player_sprite_py[i] += m_player_sprite_vy[i] * dt_sec;
     m_player_sprite_vy[i] += 100 * dt_sec * Sector::get().get_gravity();
@@ -140,10 +122,8 @@ LevelIntro::draw(Compositor& compositor)
   context.set_ambient_color(Color(1.0f, 1.0f, 1.0f, 1.0f));
   context.color().draw_filled_rect(context.get_rect(), Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
 
-  {
-    context.color().draw_center_text(Resources::normal_font, m_level.get_name(), Vector(0, static_cast<float>(py)), LAYER_FOREGROUND1, s_header_color);
-    py += static_cast<int>(Resources::normal_font->get_height());
-  }
+  context.color().draw_center_text(Resources::normal_font, m_level.get_name(), Vector(0, static_cast<float>(py)), LAYER_FOREGROUND1, s_header_color);
+  py += static_cast<int>(Resources::normal_font->get_height());
 
   std::string author = m_level.get_author();
   if ((!author.empty()) && (author != "SuperTux Team")) {
@@ -154,32 +134,52 @@ LevelIntro::draw(Compositor& compositor)
 
   py += 96;
 
-  const int num_users = InputManager::current()->get_num_users();
-  for (int i = 0; i < static_cast<int>(m_player_sprite.size()); i++)
+  for (int i = 0; i < static_cast<int>(m_players.size()); i++)
   {
+    /*
     if (i != 0 && i < num_users &&
         !InputManager::current()->has_corresponsing_controller(i) &&
         !InputManager::current()->m_uses_keyboard[i])
       context.transform().alpha = 0.25f;
+    */
+
+    const Player* player = m_players[i];
+    const PlayerStatus::Status& status = player->get_status();
+    const GameServerUser* remote_user = player->get_remote_user();
 
     float offset = (static_cast<float>(i) - static_cast<float>(m_player_sprite.size()) / 2.f + 0.5f) * 64.f;
 
-    m_player_sprite[i]->draw(context.color(), Vector((context.get_width() - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
-                                                static_cast<float>(py) + m_player_sprite_py[i] - m_player_sprite[i]->get_current_hitbox_height()), LAYER_FOREGROUND1);
+    const Vector sprite_pos((context.get_width() - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
+                            static_cast<float>(py) + m_player_sprite_py[i] - m_player_sprite[i]->get_current_hitbox_height());
 
-    Color power_color = (m_player_status.bonus[i] == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
-      m_player_status.bonus[i] == ICE_BONUS ? Color(0.7f, 1.f, 1.f) :
-      m_player_status.bonus[i] == AIR_BONUS ? Color(0.7f, 1.f, 0.5f) :
-      m_player_status.bonus[i] == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
+    m_player_sprite[i]->draw(context.color(), sprite_pos, LAYER_FOREGROUND1);
+
+    context.color().draw_text(Resources::normal_font, std::to_string(player->get_id() + 1),
+                              sprite_pos + Vector(m_player_sprite[i]->get_current_hitbox_width() / 2,
+                                                  m_player_sprite[i]->get_current_hitbox_height() / 2),
+                              FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1);
+
+    if (remote_user)
+    {
+      context.color().draw_text(Resources::normal_font, remote_user->nickname,
+                                sprite_pos + Vector(m_player_sprite[i]->get_current_hitbox_width() / 2, -32.f),
+                                FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
+                                remote_user->nickname_color);
+    }
+
+    Color power_color = (status.bonus == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
+      status.bonus == ICE_BONUS ? Color(0.7f, 1.f, 1.f) :
+      status.bonus == AIR_BONUS ? Color(0.7f, 1.f, 0.5f) :
+      status.bonus == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
       Color(1.f, 1.f, 1.f));
 
     m_player_sprite[i]->set_color(power_color);
-    /*if (m_player_status.bonus[i] > GROWUP_BONUS) {
+    /*if (status.bonus > GROWUP_BONUS) {
       m_santa_sprite[i]->draw(context.color(), Vector((context.get_width() - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
                                                   static_cast<float>(py) + m_player_sprite_py[i] - m_player_sprite[i]->get_current_hitbox_height()), LAYER_FOREGROUND1);
     }*/
 
-    context.transform().alpha = 1.f;
+    //context.transform().alpha = 1.f;
   }
 
   py += 32;
@@ -239,16 +239,9 @@ LevelIntro::get_status() const
 }
 
 void
-LevelIntro::push_player()
+LevelIntro::push_player(const Player* player)
 {
-  int i = static_cast<int>(m_player_sprite.size());
-
-  if (i > m_level.get_sector(0)->get_object_count<Player>())
-  {
-    log_warning << "Attempt to push more players in intro scene than connected" << std::endl;
-    return;
-  }
-
+  m_players.push_back(player);
   m_player_sprite.push_back(SpriteManager::current()->create("images/creatures/tux/tux.sprite"));
   m_santa_sprite.push_back(SpriteManager::current()->create("images/creatures/tux/santahat.sprite"));
   m_player_sprite_py.push_back(0);
@@ -256,25 +249,27 @@ LevelIntro::push_player()
   m_player_sprite_jump_timer.push_back(std::make_unique<Timer>());
 
   //Show appropriate tux animation for player status.
-  if (m_player_status.bonus[i] == FIRE_BONUS && g_config->christmas_mode)
+  if (player->get_status().bonus == FIRE_BONUS && g_config->christmas_mode)
   {
-    m_player_sprite[i]->set_action("big-walk-right");
-    m_santa_sprite[i]->set_action("default");
+    m_player_sprite.back()->set_action("big-walk-right");
+    m_santa_sprite.back()->set_action("default");
   }
   else
   {
-    m_player_sprite[i]->set_action(m_player_status.get_bonus_prefix(i) + "-walk-right");
+    m_player_sprite.back()->set_action(player->get_status().get_bonus_prefix() + "-walk-right");
   }
 
-  m_player_sprite_jump_timer[i]->start(graphicsRandom.randf(5,10));
+  m_player_sprite_jump_timer.back()->start(graphicsRandom.randf(5,10));
 
   /* Set Tux powerup sprite action */
   //m_santa_sprite[i]->set_action(m_player_sprite[i]->get_action());
 }
 
 void
-LevelIntro::pop_player()
+LevelIntro::pop_player(const Player* player)
 {
+  // TODO: Remove exact player
+
   if (m_player_sprite.size() <= 1)
   {
     log_warning << "Attempt to pop last player in intro scene" << std::endl;

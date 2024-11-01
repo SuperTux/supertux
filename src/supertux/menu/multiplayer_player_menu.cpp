@@ -121,11 +121,9 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
         // TODO: This is probably needed because adding/removing users manually
         // or automatically by plugging in controllers might not always fix the
         // player_status object; check if that statement is correct
-        if (player_status.m_num_players <= player_id)
-          player_status.add_player();
+        player_status.add_local_player(player_id);
 
-        // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-        auto& player = sector.add<Player>(player_status, "Tux" + std::to_string(player_id + 1), player_id);
+        auto& player = sector.add<Player>(player_status, player_id);
 
         player.multiplayer_prepare_spawn();
       });

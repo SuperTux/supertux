@@ -45,7 +45,7 @@ public:
   };
 
 public:
-  GameNetworkProtocol(GameManager& game_manager, network::Host& host);
+  GameNetworkProtocol(GameManager& game_manager, network::Host& host, const std::string& self_nickname);
 
   std::string get_name() const override { return "game"; }
   size_t get_channel_count() const override { return CH_END; }

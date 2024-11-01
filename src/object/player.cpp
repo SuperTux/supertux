@@ -41,6 +41,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/game_network_server_user.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/resources.hpp"
@@ -154,15 +155,14 @@ const float BUTTJUMP_SPEED = 800.f;
 
 } // namespace
 
-Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id,
-               int remote_player_id, NetworkController* network_controller) :
+Player::Player(PlayerStatus& player_status, int player_id, const GameServerUser* remote_user) :
   m_id(player_id),
-  m_remote_id(remote_player_id),
+  m_remote_user(remote_user),
   m_target(nullptr),
   m_deactivated(false),
-  m_controller(network_controller ? network_controller : &InputManager::current()->get_controller(player_id)),
+  m_controller(m_remote_user ? m_remote_user->player_controllers[m_id].get() : &InputManager::current()->get_controller(m_id)),
   m_scripting_controller(new CodeController()),
-  m_player_status(player_status),
+  m_player_status(m_remote_user ? player_status.get_remote_player(m_remote_user->nickname, m_id) : player_status.get_local_player(m_id)),
   m_duck(false),
   m_crawl(false),
   m_dead(false),
@@ -246,7 +246,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_is_slidejump_falling(false),
   m_was_crawling_before_slide(false)
 {
-  m_name = name_;
+  m_name = "Tux" + (m_id == 0 ? "" : std::to_string(m_id + 1)); // TODO: Proper scripting names?
   m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
 
   SoundManager::current()->preload("sounds/bigjump.wav");
@@ -285,13 +285,6 @@ void
 Player::set_speedlimit(float newlimit)
 {
   m_speedlimit = newlimit;
-}
-
-void
-Player::set_id(int id)
-{
-  m_id = id;
-  m_controller = &(InputManager::current()->get_controller(id));
 }
 
 void
@@ -1652,9 +1645,9 @@ Player::handle_input()
   auto active_bullets = Sector::get().get_object_count<Bullet>([this](const Bullet& b){ return &b.get_player() == this; });
   if (m_controller->pressed(Control::ACTION) && (get_bonus() == FIRE_BONUS || get_bonus() == ICE_BONUS) && !just_grabbed) {
     if ((get_bonus() == FIRE_BONUS &&
-      active_bullets < m_player_status.max_fire_bullets[get_id()]) ||
+      active_bullets < m_player_status.max_fire_bullets) ||
       (get_bonus() == ICE_BONUS &&
-      active_bullets < m_player_status.max_ice_bullets[get_id()]))
+      active_bullets < m_player_status.max_ice_bullets))
     {
       Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f);
       Direction swim_dir;
@@ -1901,13 +1894,13 @@ Player::handle_input_ghost()
 void
 Player::add_coins(int count)
 {
-  m_player_status.add_coins(count);
+  m_player_status.general_status.add_coins(count);
 }
 
 int
 Player::get_coins() const
 {
-  return m_player_status.coins;
+  return m_player_status.general_status.coins;
 }
 
 BonusType
@@ -2022,18 +2015,18 @@ Player::set_bonus(BonusType type, bool animate, bool increment_powerup_counter)
   }
 
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
-    m_player_status.max_fire_bullets[get_id()] = 0;
-    m_player_status.max_ice_bullets[get_id()] = 0;
-    m_player_status.max_air_time[get_id()] = 0;
-    m_player_status.max_earth_time[get_id()] = 0;
+    m_player_status.max_fire_bullets = 0;
+    m_player_status.max_ice_bullets = 0;
+    m_player_status.max_air_time = 0;
+    m_player_status.max_earth_time = 0;
   }
 
   if (increment_powerup_counter)
   {
-    if (type == FIRE_BONUS) m_player_status.max_fire_bullets[get_id()]++;
-    if (type == ICE_BONUS) m_player_status.max_ice_bullets[get_id()]++;
-    if (type == AIR_BONUS) m_player_status.max_air_time[get_id()]++;
-    if (type == EARTH_BONUS) m_player_status.max_earth_time[get_id()]++;
+    if (type == FIRE_BONUS) m_player_status.max_fire_bullets++;
+    if (type == ICE_BONUS) m_player_status.max_ice_bullets++;
+    if (type == AIR_BONUS) m_player_status.max_air_time++;
+    if (type == EARTH_BONUS) m_player_status.max_earth_time++;
   }
 
   if (!m_second_growup_sound_timer.started() &&
@@ -2042,14 +2035,14 @@ Player::set_bonus(BonusType type, bool animate, bool increment_powerup_counter)
     m_second_growup_sound_timer.start(0.5);
   }
 
-  m_player_status.bonus[get_id()] = type;
+  m_player_status.bonus = type;
   return true;
 }
 
 BonusType
 Player::get_bonus() const
 {
-  return m_player_status.bonus[m_id];
+  return m_player_status.bonus;
 }
 
 void
@@ -2090,27 +2083,38 @@ Player::draw(DrawingContext& context)
       Vector pos(target->get_bbox().get_middle().x, target->get_bbox().get_top() - static_cast<float>(m_multiplayer_arrow->get_height()) * 1.5f);
       Vector pos_surf(pos - Vector(static_cast<float>(m_multiplayer_arrow->get_width()) / 2.f, 0.f));
       m_multiplayer_arrow->draw(context.color(), pos_surf, LAYER_LIGHTMAP + 1);
-      context.color().draw_text(Resources::normal_font, std::to_string(get_id() + 1), pos,
-                                FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1);
+      context.color().draw_text(Resources::normal_font,
+                                (m_remote_user ? (m_remote_user->nickname + ": ") : "") + std::to_string(m_id + 1),
+                                pos, FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
+                                m_remote_user ? m_remote_user->nickname_color : Color::WHITE);
     }
     return;
   }
 
-  if (m_tag_alpha > 0.f)
+  if (!m_remote_user && m_tag_alpha > 0.f)
   {
-    context.color().draw_text(Resources::normal_font, std::to_string(get_id() + 1),
+    context.color().draw_text(Resources::normal_font, std::to_string(m_id + 1),
                               m_col.m_bbox.get_middle() - Vector(0.f, Resources::normal_font->get_height() / 2.f),
                               FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
                               Color(1.f, 1.f, 1.f, m_tag_alpha));
   }
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (m_col.m_bbox.get_bottom() - 16 < Sector::get().get_camera().get_translation().y) {
+  if (m_col.m_bbox.get_bottom() - 16 < Sector::get().get_camera().get_translation().y)
+  {
     float px = m_col.m_bbox.get_left() + (m_col.m_bbox.get_right() - m_col.m_bbox.get_left() - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
     px += context.get_time_offset() * m_physic.get_velocity().x;
     float py = Sector::get().get_camera().get_translation().y;
     py += std::min(((py - (m_col.m_bbox.get_bottom() + 16)) / 4), 16.0f);
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
+  }
+  else if (m_remote_user && !is_dead())
+  {
+    // Draw remote player nametag, containing nickname and player ID.
+    context.color().draw_text(Resources::normal_font, m_remote_user->nickname + ": " + std::to_string(m_id + 1),
+                              m_col.m_bbox.get_middle() - Vector(0.f, m_col.m_bbox.get_height() / 2 + 32.f),
+                              FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
+                              m_remote_user->nickname_color);
   }
 
   std::string sa_prefix = "";
@@ -2563,7 +2567,7 @@ Player::kill(bool completely)
 
     if (!alive_players)
     {
-      if (m_player_status.respawns_at_checkpoint())
+      if (m_player_status.general_status.respawns_at_checkpoint())
       {
         for (int i = 0; i < 5; i++)
         {
@@ -2572,7 +2576,7 @@ Player::kill(bool completely)
                                                         Vector(graphicsRandom.randf(5.0f), graphicsRandom.randf(-32.0f, 18.0f)),
                                                         graphicsRandom.randf(-100.0f, 100.0f));
         }
-        m_player_status.take_checkpoint_coins();
+        m_player_status.general_status.take_checkpoint_coins();
       }
 
       Sector::get().get_effect().fade_out(3.0);

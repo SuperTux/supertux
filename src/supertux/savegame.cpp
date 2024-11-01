@@ -20,7 +20,6 @@
 #include <algorithm>
 #include <physfs.h>
 
-#include "control/input_manager.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/util.hpp"
 #include "squirrel/serialize.hpp"
@@ -123,7 +122,7 @@ Savegame::from_current_profile(const std::string& world_name, bool base_data)
 Savegame::Savegame(bool title_screen) :
   m_profile(ProfileManager::current()->get_current_profile()),
   m_world_name(),
-  m_player_status(new PlayerStatus(InputManager::current()->get_num_users())),
+  m_player_status(new PlayerStatus()),
   m_state_table(),
   m_title_screen(title_screen)
 {
@@ -132,7 +131,7 @@ Savegame::Savegame(bool title_screen) :
 Savegame::Savegame(Profile& profile, const std::string& world_name) :
   m_profile(profile),
   m_world_name(world_name),
-  m_player_status(new PlayerStatus(InputManager::current()->get_num_users())),
+  m_player_status(new PlayerStatus()),
   m_state_table(),
   m_title_screen(false)
 {

@@ -38,7 +38,7 @@
 #include "util/string_util.hpp"
 #include "util/writer.hpp"
 
-static PlayerStatus s_dummy_player_status(1);
+static PlayerStatus s_dummy_player_status;
 
 Level* Level::s_current = nullptr;
 
@@ -100,24 +100,21 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
         && id != 0)
       continue;
 
-    if (id > 0 && !savegame)
-      s_dummy_player_status.add_player();
+    player_status.add_local_player(id);
 
     // Add all players in the first sector. They will be moved between sectors.
-    sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+    sector->add<Player>(player_status, id);
   }
 
   /* Add remote players */
   for (const auto& user : GameManager::current()->get_server_users())
   {
-    for (int player_id = 0; player_id < static_cast<int>(user->get_num_players()); player_id++)
+    for (int player_id = 0; player_id < user->get_num_players(); player_id++)
     {
-      player_status.add_player();
+      player_status.add_remote_player(user->nickname, player_id);
 
       // Add all players in the first sector. They will be moved between sectors.
-      sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id,
-                          player_id, user->player_controllers[player_id].get());
-      id++;
+      sector->add<Player>(player_status, player_id, user.get());
     }
   }
 
