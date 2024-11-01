@@ -20,6 +20,7 @@
 #include "supertux/statistics.hpp"
 
 class Player;
+class PlayerStatus;
 class ReaderMapping;
 class Sector;
 class Writer;
@@ -105,6 +106,8 @@ public:
   std::string m_tileset;
 
   int m_allow_item_pocket; ///< This is actually a Level::Setting. It's an int because casting is wack.
+
+  PlayerStatus* m_player_status;
 
   bool m_suppress_pause_menu;
   bool m_is_in_cutscene;

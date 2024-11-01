@@ -43,6 +43,8 @@ enum BonusType {
     example when switching maps in the worldmap) */
 class PlayerStatus final
 {
+public:
+  static PlayerStatus s_dummy_player_status;
 
 public:
   PlayerStatus(int num_players);

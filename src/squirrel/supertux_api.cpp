@@ -787,22 +787,36 @@ static void resume_target_timer()
   GameSession::current()->set_target_timer_paused(false);
 }
 
+/**
+ * @scripting
+ * @description Override the Item Pocket setting in the Level.
+ * @param string allow Can be "on", "off", or "inherit" (use the setting in the Level)
+ */
 static void override_allow_item_pocket(const std::string& allow)
 {
   if (!GameSession::current()) return;
-  GameSession::current()->get_savegame().get_player_status().m_override_item_pocket = ::Level::get_setting_from_name(allow);
+  GameSession::current()->get_current_level().m_player_status->m_override_item_pocket = ::Level::get_setting_from_name(allow);
 }
 
+/**
+ * @scripting
+ * @description Get the override value for the Item Pocket.
+ * Can be "on", "off", or "inherit" (use the setting in the Level)
+ */
 static std::string is_item_pocket_overridden()
 {
-  if (!GameSession::current()) return;
-  return ::Level::get_setting_name(GameSession::current()->get_savegame().get_player_status().m_override_item_pocket);
+  if (!GameSession::current()) return "off";
+  return ::Level::get_setting_name(GameSession::current()->get_current_level().m_player_status->m_override_item_pocket);
 }
 
+/**
+ * @scripting
+ * @description Check if the Item Pocket is allowed in this level.
+ */
 static bool is_item_pocket_allowed()
 {
-  if (!GameSession::current()) return;
-  return GameSession::current()->get_savegame().get_player_status().is_item_pocket_allowed();
+  if (!GameSession::current()) return false;
+  return GameSession::current()->get_current_level().m_player_status->is_item_pocket_allowed();
 }
 
 } // namespace Level
