@@ -589,23 +589,6 @@ Sector::is_free_of_specifically_movingstatics(float left, float top, float right
   return m_collision_system->is_free_of_specifically_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
 }
 
-void
-Sector::override_allow_item_pocket(bool allow)
-{
-
-}
-
-std::string Sector::is_item_pocket_overridden()
-{
-  return m_level.m_allow_item_pocket;
-}
-
-bool
-Sector::is_item_pocket_allowed()
-{
-  return m_level.m_allow_item_pocket;
-}
-
 CollisionSystem::RaycastResult
 Sector::get_first_line_intersection(const Vector& line_start,
                                     const Vector& line_end,

@@ -176,25 +176,6 @@ public:
    */
   bool is_free_of_specifically_movingstatics(float left, float top, float right, float bottom) const;
 
-  /**
-   * @scripting
-   * @description Override the Item Pocket setting set by the level with the given value.
-   * @param string $allow Can be "on", "off", or "inherit" (use the level setting (default))
-   */
-  void override_allow_item_pocket(const std::string& allow);
-
-  /**
-   * @scripting
-   * @description Checks if the Item Pocket is currently allowed.
-   */
-  std::string is_item_pocket_overridden();
-
-  /**
-   * @scripting
-   * @description Checks if the Item Pocket is currently allowed.
-   */
-  bool is_item_pocket_allowed();
-
   CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
                                                              const Vector& line_end,
                                                              bool ignore_objects,

@@ -787,6 +787,24 @@ static void resume_target_timer()
   GameSession::current()->set_target_timer_paused(false);
 }
 
+static void override_allow_item_pocket(const std::string& allow)
+{
+  if (!GameSession::current()) return;
+  GameSession::current()->get_savegame().get_player_status().m_override_item_pocket = ::Level::get_setting_from_name(allow);
+}
+
+static std::string is_item_pocket_overridden()
+{
+  if (!GameSession::current()) return;
+  return ::Level::get_setting_name(GameSession::current()->get_savegame().get_player_status().m_override_item_pocket);
+}
+
+static bool is_item_pocket_allowed()
+{
+  if (!GameSession::current()) return;
+  return GameSession::current()->get_savegame().get_player_status().is_item_pocket_allowed();
+}
+
 } // namespace Level
 
 } // namespace scripting
@@ -872,6 +890,9 @@ void register_supertux_scripting_api(ssq::VM& vm)
   level.addFunc("toggle_pause", &scripting::Level::toggle_pause);
   level.addFunc("pause_target_timer", &scripting::Level::pause_target_timer);
   level.addFunc("resume_target_timer", &scripting::Level::resume_target_timer);
+  level.addFunc("override_item_pocket", &scripting::Level::override_allow_item_pocket);
+  level.addFunc("is_item_pocket_overridden", &scripting::Level::is_item_pocket_overridden);
+  level.addFunc("is_item_pocket_allowed", &scripting::Level::is_item_pocket_allowed);
 }
 
 /* EOF */

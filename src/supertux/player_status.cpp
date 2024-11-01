@@ -291,7 +291,13 @@ PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
 bool
 PlayerStatus::is_item_pocket_allowed() const
 {
-  if (!GameSession::current())
+  if (m_override_item_pocket != Level::INHERIT)
+  {
+    return m_override_item_pocket == Level::ON;
+  }
+
+  GameSession* session = GameSession::current();
+  if (!session)
   {
     worldmap::WorldMap* worldmap = worldmap::WorldMap::current();
     if (worldmap)
@@ -300,17 +306,17 @@ PlayerStatus::is_item_pocket_allowed() const
     }
     else
     {
-      // This level is probably in a levelset, pick ON.
+      // Not in a level nor in a worldmap. Return true, I guess.
       return true;
     }
   }
 
-  Level* level = Level::current();
-  int allowed = static_cast<Level::Setting>(level->m_allow_item_pocket);
+  Level& level = session->get_current_level();
+  int allowed = static_cast<Level::Setting>(level.m_allow_item_pocket);
 
   if (allowed != Level::INHERIT)
   {
-    return allowed == Level::ON ? true : false;
+    return allowed == Level::ON;
   }
   else
   {
