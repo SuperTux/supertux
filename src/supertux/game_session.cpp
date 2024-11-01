@@ -47,6 +47,9 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "util/file_system.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
@@ -57,9 +60,76 @@ static const float SAFE_TIME = 1.0f;
 static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
 static const float TELEPORT_FADE_TIME = 1.0f;
 
+GameSession::SpawnPoint::SpawnPoint(const std::string& sector_,
+                                    const Vector& position_,
+                                    bool is_checkpoint_) :
+  sector(sector_),
+  spawnpoint(),
+  position(position_),
+  is_checkpoint(is_checkpoint_)
+{
+}
+
+GameSession::SpawnPoint::SpawnPoint(const std::string& sector_,
+                                    const std::string& spawnpoint_,
+                                    bool is_checkpoint_) :
+  sector(sector_),
+  spawnpoint(spawnpoint_),
+  position(),
+  is_checkpoint(is_checkpoint_)
+{
+}
+
+GameSession::SpawnPoint::SpawnPoint(const std::string& data) :
+  sector(),
+  spawnpoint(),
+  position(),
+  is_checkpoint()
+{
+  auto doc = ReaderDocument::from_string(data, "spawnpoint");
+  auto root = doc.get_root();
+  if (root.get_name() != "supertux-spawnpoint")
+    throw std::runtime_error("Couldn't parse spawnpoint: Data is not 'supertux-spawnpoint'.");
+
+  auto reader = root.get_mapping();
+
+  reader.get("sector", sector);
+  if (!reader.get("spawnpoint", spawnpoint))
+  {
+    reader.get("position_x", position.x);
+    reader.get("position_y", position.y);
+  }
+  reader.get("is_checkpoint", is_checkpoint);
+}
+
+std::string
+GameSession::SpawnPoint::serialize() const
+{
+  std::ostringstream stream;
+  Writer writer(stream);
+
+  writer.start_list("supertux-spawnpoint");
+  {
+    writer.write("sector", sector);
+    if (spawnpoint.empty())
+    {
+      writer.write("position_x", position.x);
+      writer.write("position_y", position.y);
+    }
+    else
+    {
+      writer.write("spawnpoint", spawnpoint);
+    }
+    writer.write("is_checkpoint", is_checkpoint);
+  }
+  writer.end_list("supertux-spawnpoint");
+
+  return stream.str();
+}
+
 
 GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics,
-                         bool preserve_music, const std::optional<std::pair<std::string, Vector>>& start_pos,
+                         bool preserve_music, const std::optional<SpawnPoint>& spawnpoint,
                          network::Host* host) :
   reset_button(false),
   reset_checkpoint_button(false),
@@ -90,8 +160,8 @@ GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Stati
   m_current_cutscene_text(),
   m_endsequence_timer()
 {
-  if (start_pos)
-    set_start_pos(start_pos->first, start_pos->second);
+  if (spawnpoint)
+    m_spawnpoints.push_back(*spawnpoint);
   else
     set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
 
@@ -239,8 +309,8 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     network::StagedPacket packet(GameNetworkProtocol::OP_GAME_JOIN,
       {
         m_savegame.get_player_status().write(false),
-        m_level->save()
-        // TODO: Send first SpawnPoint.
+        m_level->save(),
+        m_spawnpoints.front().serialize()
       });
     GameObject::s_save_uid = false;
 
@@ -794,27 +864,27 @@ GameSession::set_start_point(const std::string& sector,
                              const std::string& spawnpoint)
 {
   if (!m_spawnpoints.empty()) m_spawnpoints.erase(m_spawnpoints.begin());
-  m_spawnpoints.insert(m_spawnpoints.begin(), { sector, spawnpoint });
+  m_spawnpoints.insert(m_spawnpoints.begin(), SpawnPoint(sector, spawnpoint));
 }
 
 void
 GameSession::set_start_pos(const std::string& sector, const Vector& pos)
 {
   if (!m_spawnpoints.empty()) m_spawnpoints.erase(m_spawnpoints.begin());
-  m_spawnpoints.insert(m_spawnpoints.begin(), { sector, pos });
+  m_spawnpoints.insert(m_spawnpoints.begin(), SpawnPoint(sector, pos));
 }
 
 void
 GameSession::set_respawn_point(const std::string& sector,
                                const std::string& spawnpoint)
 {
-  m_spawnpoints.push_back({ sector, spawnpoint });
+  m_spawnpoints.push_back(SpawnPoint(sector, spawnpoint));
 }
 
 void
 GameSession::set_respawn_pos(const std::string& sector, const Vector& pos)
 {
-  m_spawnpoints.push_back({ sector, pos });
+  m_spawnpoints.push_back(SpawnPoint(sector, pos));
 }
 
 void

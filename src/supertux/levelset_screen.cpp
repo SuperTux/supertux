@@ -86,9 +86,13 @@ LevelsetScreen::setup()
       log_warning << "Editor is still active, quitting Levelset screen" << std::endl;
       ScreenManager::current()->pop_screen();
     } else {
+      std::optional<GameSession::SpawnPoint> spawnpoint;
+      if (m_start_pos)
+        spawnpoint.emplace(m_start_pos->first, m_start_pos->second);
+
       auto screen = std::make_unique<GameSession>(FileSystem::join(m_basedir, m_level_filename),
                                                   m_savegame, nullptr, false,
-                                                  m_start_pos, m_network_host);
+                                                  spawnpoint, m_network_host);
       ScreenManager::current()->push_screen(std::move(screen));
     }
   }

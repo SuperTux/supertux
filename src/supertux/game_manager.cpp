@@ -82,7 +82,7 @@ GameManager::start_worldmap_level(const std::string& level_filename, Savegame& s
 
 GameSession*
 GameManager::start_network_level(const std::string& remote_username, const std::string& player_status,
-                                 const std::string& level_content)
+                                 const std::string& level_content, const std::string& start_pos)
 {
   m_savegame = std::make_unique<Savegame>();
   m_savegame->get_player_status().read(player_status, m_self_user->username, remote_username);
@@ -91,7 +91,7 @@ GameManager::start_network_level(const std::string& remote_username, const std::
                                               *m_savegame,
                                               nullptr,
                                               false,
-                                              std::nullopt, // TODO: Receive first GameSession::SpawnPoint.
+                                              GameSession::SpawnPoint(start_pos),
                                               m_network_client);
   GameSession* session = screen.get();
   ScreenManager::current()->push_screen(std::move(screen));

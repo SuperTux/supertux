@@ -148,7 +148,8 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
       m_network_game_session = m_game_manager.start_network_level(
         user.username,
         packet.data[0],
-        packet.data[1]
+        packet.data[1],
+        packet.data[2]
       );
       break;
     }

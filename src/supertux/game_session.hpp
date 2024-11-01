@@ -52,27 +52,22 @@ class Host;
 class GameSession final : public Screen,
                           public Currenton<GameSession>
 {
-private:
+public:
   struct SpawnPoint
   {
+  public:
     /* If a spawnpoint is set, the spawn position shall not, and vice versa. */
-    SpawnPoint(const std::string& sector_,
-               const Vector& position_,
-               bool is_checkpoint_ = false) :
-      sector(sector_),
-      spawnpoint(),
-      position(position_),
-      is_checkpoint(is_checkpoint_)
-    {}
-    SpawnPoint(const std::string& sector_,
-               const std::string& spawnpoint_,
-               bool is_checkpoint_ = false) :
-      sector(sector_),
-      spawnpoint(spawnpoint_),
-      position(),
-      is_checkpoint(is_checkpoint_)
-    {}
+    SpawnPoint(const std::string& sector,
+               const Vector& position,
+               bool is_checkpoint = false);
+    SpawnPoint(const std::string& sector,
+               const std::string& spawnpoint,
+               bool is_checkpoint = false);
+    SpawnPoint(const std::string& data);
 
+    std::string serialize() const;
+
+  public:
     std::string sector;
     std::string spawnpoint;
     Vector position;
@@ -81,7 +76,7 @@ private:
 
 public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr,
-              bool preserve_music = false, const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt,
+              bool preserve_music = false, const std::optional<SpawnPoint>& spawnpoint = std::nullopt,
               network::Host* host = nullptr);
 
   virtual void draw(Compositor& compositor) override;

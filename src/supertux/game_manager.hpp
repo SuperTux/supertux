@@ -72,7 +72,7 @@ public:
 
 private:
   GameSession* start_network_level(const std::string& remote_username, const std::string& player_status,
-                                   const std::string& level_content);
+                                   const std::string& level_content, const std::string& start_pos);
 
   /** If server, stop hosting.
       If client, disconnect from server. */
