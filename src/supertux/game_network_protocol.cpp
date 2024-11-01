@@ -27,8 +27,8 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 
-GameNetworkProtocol::GameNetworkProtocol(GameManager& game_manager, network::Host& host, const std::string& self_nickname) :
-  network::UserProtocol<GameServerUser>(game_manager, host, self_nickname),
+GameNetworkProtocol::GameNetworkProtocol(GameManager& game_manager, network::Host& host) :
+  network::UserProtocol<GameServerUser>(game_manager, host),
   m_game_manager(game_manager),
   m_network_game_session()
 {
@@ -146,7 +146,6 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
         throw std::runtime_error("Cannot process game join from \"" + user.nickname + "\": This host is a server.");
 
       m_network_game_session = m_game_manager.start_network_level(
-        m_self_nickname,
         user.nickname,
         packet.data[0],
         packet.data[1]

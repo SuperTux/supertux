@@ -41,17 +41,12 @@ NetworkConnectMenu::NetworkConnectMenu(bool game, bool connect) :
 
   auto& port_field = add_intfield(_("Port"), &m_port, -1, true);
   if (!m_connect)
-  {
     port_field.set_help(_("Port number must be between 1024 and 65535.\nSet to 0 for random port."));
-  }
-  else
-  {
-    add_textfield(_("Nickname"), &m_nickname)
-      .set_help(_("Nickname character count must be between 3 and 20."));
-    add_color(_("Nickname Color"), &m_nickname_color, false);
 
-    add_hl();
-  }
+  add_textfield(_("Nickname"), &m_nickname)
+    .set_help(_("Nickname character count must be between 3 and 20."));
+  add_color(_("Nickname Color"), &m_nickname_color, false);
+  add_hl();
 
   add_entry(1, m_connect ? _("Connect") : _("Host"));
 
@@ -107,9 +102,9 @@ NetworkConnectMenu::menu_action(MenuItem& item)
       [this]()
       {
         if (m_game)
-          GameManager::current()->host_game(static_cast<uint16_t>(m_port));
+          GameManager::current()->host_game(static_cast<uint16_t>(m_port), m_nickname, m_nickname_color);
         else
-          Editor::current()->host_level(static_cast<uint16_t>(m_port));
+          Editor::current()->host_level(static_cast<uint16_t>(m_port), m_nickname, m_nickname_color);
 
         MenuManager::instance().pop_menu();
         MenuManager::instance().current_menu()->refresh();

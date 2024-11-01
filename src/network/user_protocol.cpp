@@ -29,7 +29,6 @@
 
 namespace network {
 
-static const std::string DEFAULT_SERVER_NICKNAME = "Host";
 static const float USER_REGISTER_TIME = 5.f;
 
 template<class U>
@@ -45,12 +44,12 @@ UserProtocol<U>::verify_nickname(const std::string& nickname)
 
 
 template<class U>
-UserProtocol<U>::UserProtocol(UserManager<U>& user_manager, Host& host, const std::string& self_nickname) :
+UserProtocol<U>::UserProtocol(UserManager<U>& user_manager, Host& host) :
   m_user_manager(user_manager),
   m_host(host),
-  m_self_nickname(self_nickname),
   m_pending_users()
 {
+  assert(m_user_manager.m_self_user);
 }
 
 template<class U>
@@ -140,7 +139,7 @@ UserProtocol<U>::verify_packet(StagedPacket& packet) const
   // Set username as the default username for servers.
   if (!packet.foreign_broadcast && !packet.is_part_of_request() &&
       m_host.is_server())
-    packet.data.insert(packet.data.begin(), DEFAULT_SERVER_NICKNAME);
+    packet.data.insert(packet.data.begin(), m_user_manager.m_self_user->nickname);
 
   return true;
 }
@@ -256,6 +255,13 @@ UserProtocol<U>::on_request_receive(const ReceivedPacket& packet)
       }
 
       // Check if nickname is taken
+      if (m_user_manager.m_self_user->nickname == nickname)
+      {
+        Server& server = static_cast<Server&>(m_host);
+        server.disconnect(&packet.peer->enet, DISCONNECTED_NICKNAME_TAKEN);
+
+        throw std::runtime_error("Cannot register user: Provided nickname taken.");
+      }
       for (const auto& user : m_user_manager.m_server_users)
       {
         if (user->nickname == nickname)
@@ -297,10 +303,6 @@ UserProtocol<U>::on_request_response(const Request& request)
   {
     case OP_USER_REGISTER: /** This client has been registered on the remote server. */
     {
-      // Add server at the beginning of server users list.
-      m_user_manager.m_server_users.clear();
-      m_user_manager.m_server_users.push_back(std::make_unique<U>(DEFAULT_SERVER_NICKNAME));
-
       // Parse received server users.
       m_user_manager.parse_server_users(packet.data[0]);
       break;

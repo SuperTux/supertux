@@ -60,7 +60,7 @@ public:
   };
 
 public:
-  UserProtocol(UserManager<U>& user_manager, Host& host, const std::string& self_nickname);
+  UserProtocol(UserManager<U>& user_manager, Host& host);
 
   virtual size_t get_channel_count() const override { return CH_USER_END; }
 
@@ -85,8 +85,6 @@ protected:
 protected:
   UserManager<U>& m_user_manager;
   Host& m_host;
-
-  const std::string m_self_nickname;
 
   /** Pending users without a received registration data packet. */
   std::unordered_map<ENetPeer*, std::unique_ptr<Timer>> m_pending_users;

@@ -125,7 +125,7 @@ public:
                         const std::string& nickname, const Color& nickname_color);
   void reload_remote_level();
 
-  void host_level(uint16_t port);
+  void host_level(uint16_t port, const std::string& nickname, const Color& nickname_color);
   void stop_hosting_level();
 
   void open_server_menu() const;

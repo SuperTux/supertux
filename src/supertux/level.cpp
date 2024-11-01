@@ -90,8 +90,7 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
   Sector* sector = m_sectors.at(0).get();
 
   /* Add local players */
-  int id = 0;
-  for (; id < InputManager::current()->get_num_users() || id == 0; id++)
+  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
   {
     if (!InputManager::current()->has_corresponsing_controller(id)
         && !InputManager::current()->m_uses_keyboard[id]
@@ -109,12 +108,12 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
   /* Add remote players */
   for (const auto& user : GameManager::current()->get_server_users())
   {
-    for (int player_id = 0; player_id < user->get_num_players(); player_id++)
+    for (int id = 0; id < user->get_num_players(); id++)
     {
-      player_status.add_remote_player(user->nickname, player_id);
+      player_status.add_remote_player(user->nickname, id);
 
       // Add all players in the first sector. They will be moved between sectors.
-      sector->add<Player>(player_status, player_id, user.get());
+      sector->add<Player>(player_status, id, user.get());
     }
   }
 

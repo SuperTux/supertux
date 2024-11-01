@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -47,6 +48,7 @@ public:
   UserManager();
 
   const std::vector<std::unique_ptr<U>>& get_server_users() const { return m_server_users; }
+  const std::optional<const U>& get_self_user() const { return m_self_user; }
 
 protected:
   U* get_server_user(const std::string& nickname) const;
@@ -56,6 +58,7 @@ protected:
 
 protected:
   std::vector<std::unique_ptr<U>> m_server_users;
+  std::optional<const U> m_self_user;
 
 private:
   UserManager(const UserManager&) = delete;
@@ -66,7 +69,9 @@ private:
 /** SOURCE */
 
 template<class U>
-UserManager<U>::UserManager()
+UserManager<U>::UserManager() :
+  m_server_users(),
+  m_self_user()
 {
 }
 
@@ -116,6 +121,12 @@ UserManager<U>::save_server_users(ServerUser* except) const
   Writer writer(stream);
 
   writer.start_list("supertux-server-users");
+  if (m_self_user)
+  {
+    writer.start_list("user");
+    m_self_user->write(writer);
+    writer.end_list("user");
+  }
   for (const auto& user : m_server_users)
   {
     if (user.get() == except) continue;

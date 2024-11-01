@@ -824,7 +824,8 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port,
     return;
   }
 
-  m_network_client->set_protocol(std::make_unique<EditorNetworkProtocol>(*this, *m_network_client, nickname));
+  m_self_user.emplace(nickname, nickname_color);
+  m_network_client->set_protocol(std::make_unique<EditorNetworkProtocol>(*this, *m_network_client));
 
   auto connection = m_network_client->connect(hostname.c_str(), port, 1500);
   if (connection.status != network::ConnectionStatus::SUCCESS)
@@ -857,11 +858,10 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port,
   m_network_server_peer = connection.peer;
 
   // Request registration on the server.
-  network::ServerUser user(nickname, nickname_color);
   m_network_client->send_request(m_network_server_peer,
                                  std::make_unique<network::Request>(
                                    std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_USER_REGISTER,
-                                     user.serialize(), 2.f),
+                                     m_self_user->serialize(), 2.f),
                                    4.f));
 }
 
@@ -879,7 +879,7 @@ Editor::reload_remote_level()
 }
 
 void
-Editor::host_level(uint16_t port)
+Editor::host_level(uint16_t port, const std::string& nickname, const Color& nickname_color)
 {
   if (m_network_server)
     return;
@@ -895,7 +895,8 @@ Editor::host_level(uint16_t port)
     return;
   }
 
-  m_network_server->set_protocol(std::make_unique<EditorNetworkProtocol>(*this, *m_network_server, ""));
+  m_self_user.emplace(nickname, nickname_color);
+  m_network_server->set_protocol(std::make_unique<EditorNetworkProtocol>(*this, *m_network_server));
 }
 
 void

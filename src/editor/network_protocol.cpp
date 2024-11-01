@@ -29,8 +29,8 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 
-EditorNetworkProtocol::EditorNetworkProtocol(Editor& editor, network::Host& host, const std::string& self_nickname) :
-  network::UserProtocol<EditorServerUser>(editor, host, self_nickname),
+EditorNetworkProtocol::EditorNetworkProtocol(Editor& editor, network::Host& host) :
+  network::UserProtocol<EditorServerUser>(editor, host),
   m_editor(editor)
 {
 }
