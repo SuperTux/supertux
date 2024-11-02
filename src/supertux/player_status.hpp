@@ -44,9 +44,6 @@ enum BonusType {
 class PlayerStatus final
 {
 public:
-  static PlayerStatus s_dummy_player_status;
-
-public:
   PlayerStatus(int num_players);
   void reset(int num_players);
   void add_coins(int count, bool play_sound = true);

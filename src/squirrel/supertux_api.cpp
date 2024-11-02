@@ -795,7 +795,7 @@ static void resume_target_timer()
 static void override_allow_item_pocket(const std::string& allow)
 {
   if (!GameSession::current()) return;
-  GameSession::current()->get_current_level().m_player_status->m_override_item_pocket = ::Level::get_setting_from_name(allow);
+  GameSession::current()->get_savegame().get_player_status().m_override_item_pocket = ::Level::get_setting_from_name(allow);
 }
 
 /**
@@ -806,7 +806,7 @@ static void override_allow_item_pocket(const std::string& allow)
 static std::string is_item_pocket_overridden()
 {
   if (!GameSession::current()) return "off";
-  return ::Level::get_setting_name(GameSession::current()->get_current_level().m_player_status->m_override_item_pocket);
+  return ::Level::get_setting_name(GameSession::current()->get_savegame().get_player_status().m_override_item_pocket);
 }
 
 /**
@@ -816,7 +816,7 @@ static std::string is_item_pocket_overridden()
 static bool is_item_pocket_allowed()
 {
   if (!GameSession::current()) return false;
-  return GameSession::current()->get_current_level().m_player_status->is_item_pocket_allowed();
+  return GameSession::current()->get_savegame().get_player_status().is_item_pocket_allowed();
 }
 
 } // namespace Level

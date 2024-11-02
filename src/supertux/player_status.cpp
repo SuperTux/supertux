@@ -30,7 +30,6 @@
 #include "worldmap/level_tile.hpp"
 #include "worldmap/worldmap.hpp"
 
-PlayerStatus PlayerStatus::s_dummy_player_status(1);
 static const int START_COINS = 100;
 static const int MAX_COINS = 9999;
 

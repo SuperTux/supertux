@@ -36,6 +36,7 @@
 #include "util/string_util.hpp"
 #include "util/writer.hpp"
 
+static PlayerStatus s_dummy_player_status(1);
 Level* Level::s_current = nullptr;
 
 Level::Level(bool worldmap) :
@@ -51,7 +52,6 @@ Level::Level(bool worldmap) :
   m_target_time(),
   m_tileset("images/tiles.strf"),
   m_allow_item_pocket(ON),
-  m_player_status(nullptr),
   m_suppress_pause_menu(),
   m_is_in_cutscene(false),
   m_skip_cutscene(false),
@@ -80,14 +80,14 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
 
   m_stats.init(*this, stat_preferences);
 
-  Savegame* savegame = (GameSession::current() && !Editor::current() ?
+  Savegame* savegame = (GameSession::current() && !Editor::is_active() ?
     &GameSession::current()->get_savegame() : nullptr);
-  m_player_status = savegame ? &savegame->get_player_status() : &PlayerStatus::s_dummy_player_status;
+  PlayerStatus& player_status = savegame ? savegame->get_player_status() : s_dummy_player_status;
 
   if (Editor::current() || (savegame && !savegame->is_title_screen() && !m_suppress_pause_menu))
   {
     for (auto& sector : m_sectors)
-      sector->add<PlayerStatusHUD>(*m_player_status);
+      sector->add<PlayerStatusHUD>(player_status);
   }
 
   Sector* sector = m_sectors.at(0).get();
@@ -101,10 +101,10 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
       continue;
 
     if (id > 0 && !savegame)
-      PlayerStatus::s_dummy_player_status.add_player();
+      s_dummy_player_status.add_player();
 
     // Add all players in the first sector. They will be moved between sectors.
-    sector->add<Player>(*m_player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+    sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
   }
   sector->flush_game_objects();
 }
