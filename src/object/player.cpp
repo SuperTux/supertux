@@ -631,7 +631,7 @@ Player::update(float dt_sec)
 
   if (m_dying && m_dying_timer.check()) {
 
-    set_bonus(NO_BONUS, true);
+    set_bonus(BONUS_NONE, true);
     m_dead = true;
 
     if (!Sector::get().get_object_count<Player>([](const Player& p) { return p.is_alive(); }))
@@ -1268,9 +1268,9 @@ Player::handle_horizontal_input()
       ax = dirsign * RUN_ACCELERATION_X;
     }
     // limit speed
-    if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((get_bonus() == AIR_BONUS) ? 1 : 0)) {
+    if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((get_bonus() == BONUS_AIR) ? 1 : 0)) {
       ax = std::min(ax, -OVERSPEED_DECELERATION);
-    } else if (vx <= -MAX_RUN_XM - BONUS_RUN_XM * ((get_bonus() == AIR_BONUS) ? 1 : 0)) {
+    } else if (vx <= -MAX_RUN_XM - BONUS_RUN_XM * ((get_bonus() == BONUS_AIR) ? 1 : 0)) {
       ax = std::max(ax, OVERSPEED_DECELERATION);
     }
   }
@@ -1415,7 +1415,7 @@ Player::do_backflip() {
 
   m_backflip_direction = (m_dir == Direction::LEFT)?(+1):(-1);
   m_backflipping = true;
-  do_jump((get_bonus() == AIR_BONUS) ? -720.0f : -580.0f);
+  do_jump((get_bonus() == BONUS_AIR) ? -720.0f : -580.0f);
   SoundManager::current()->play("sounds/flip.wav", get_pos());
   m_backflip_timer.start(TUX_BACKFLIP_TIME);
 }
@@ -1493,7 +1493,7 @@ Player::handle_vertical_input()
     } else {
       // airflower allows for higher jumps-
       // jump a bit higher if we are running; else do a normal jump
-      if (get_bonus() == AIR_BONUS)
+      if (get_bonus() == BONUS_AIR)
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620.0f : -580.0f);
       else
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
@@ -1502,7 +1502,7 @@ Player::handle_vertical_input()
     m_coyote_timer.stop();
     // airflower glide only when holding jump key
   }
-  else if (m_controller->hold(Control::JUMP) && get_bonus() == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
+  else if (m_controller->hold(Control::JUMP) && get_bonus() == BONUS_AIR && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
     // glide stops if buttjump is initiated
     if (!m_controller->hold(Control::DOWN))
     {
@@ -1558,7 +1558,7 @@ Player::handle_vertical_input()
   if (m_controller->pressed(Control::JUMP) && m_can_walljump && !m_backflipping)
   {
     SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav", get_pos());
-    m_physic.set_velocity_x(get_bonus() == AIR_BONUS ?
+    m_physic.set_velocity_x(get_bonus() == BONUS_AIR ?
       m_on_left_wall ? 480.f : -480.f : m_on_left_wall ? 380.f : -380.f);
     do_jump(-520.f);
   }
@@ -1650,9 +1650,9 @@ Player::handle_input()
 
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>([this](const Bullet& b){ return &b.get_player() == this; });
-  if (m_controller->pressed(Control::ACTION) && (get_bonus() == FIRE_BONUS || get_bonus() == ICE_BONUS) && !just_grabbed) {
-    if ((get_bonus() == FIRE_BONUS && active_bullets < MAX_FIRE_BULLETS) ||
-        (get_bonus() == ICE_BONUS  && active_bullets < MAX_ICE_BULLETS))
+  if (m_controller->pressed(Control::ACTION) && (get_bonus() == BONUS_FIRE || get_bonus() == BONUS_ICE) && !just_grabbed) {
+    if ((get_bonus() == BONUS_FIRE && active_bullets < MAX_FIRE_BULLETS) ||
+        (get_bonus() == BONUS_ICE  && active_bullets < MAX_ICE_BULLETS))
     {
       Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f);
       Direction swim_dir;
@@ -1671,7 +1671,7 @@ Player::handle_input()
   }
 
   /* Turn to Stone */
-  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 150.f) && get_bonus() == EARTH_BONUS && !m_growing) {
+  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 150.f) && get_bonus() == BONUS_EARTH && !m_growing) {
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     adjust_height(TUX_WIDTH);
     m_stone = true;
@@ -1780,7 +1780,7 @@ Player::handle_input()
   else if (!m_sliding && (m_coyote_timer.started()) && !m_skidding_timer.started() &&
     (m_floor_normal.y != 0 || (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)))
     && m_controller->pressed(Control::DOWN) && std::abs(m_physic.get_velocity_x()) > 1.f &&
-    get_bonus()!= EARTH_BONUS)
+    get_bonus()!= BONUS_EARTH)
   {
     sideways_push(m_dir == Direction::LEFT ? -100.f : 100.f);
     adjust_height(DUCKED_TUX_HEIGHT);
@@ -1910,20 +1910,20 @@ Player::get_coins() const
 
 BonusType
 Player::string_to_bonus(const std::string& bonus) const {
-  BonusType type = NO_BONUS;
+  BonusType type = BONUS_NONE;
 
   if (bonus == "grow") {
-    type = GROWUP_BONUS;
+    type = BONUS_GROWUP;
   } else if (bonus == "fireflower") {
-    type = FIRE_BONUS;
+    type = BONUS_FIRE;
   } else if (bonus == "iceflower") {
-    type = ICE_BONUS;
+    type = BONUS_ICE;
   } else if (bonus == "airflower") {
-    type = AIR_BONUS;
+    type = BONUS_AIR;
   } else if (bonus == "earthflower") {
-    type = EARTH_BONUS;
+    type = BONUS_EARTH;
   } else if (bonus == "none") {
-    type = NO_BONUS;
+    type = BONUS_NONE;
   } else {
     std::ostringstream msg;
     msg << "Unknown bonus type "  << bonus;
@@ -1938,15 +1938,15 @@ Player::bonus_to_string() const
 {
   switch(get_bonus())
   {
-    case GROWUP_BONUS:
+    case BONUS_GROWUP:
       return "grow";
-    case FIRE_BONUS:
+    case BONUS_FIRE:
       return "fireflower";
-    case ICE_BONUS:
+    case BONUS_ICE:
       return "iceflower";
-    case AIR_BONUS:
+    case BONUS_AIR:
       return "airflower";
-    case EARTH_BONUS:
+    case BONUS_EARTH:
       return "earthflower";
     default:
       return "none";
@@ -1969,13 +1969,13 @@ bool
 Player::add_bonus(BonusType type, bool animate)
 {
   // always ignore NO_BONUS
-  if (type == NO_BONUS) {
+  if (type == BONUS_NONE) {
     return true;
   }
 
   // ignore GROWUP_BONUS if we're already big
-  if (type == GROWUP_BONUS) {
-    if (get_bonus() != NO_BONUS)
+  if (type == BONUS_GROWUP) {
+    if (get_bonus() != BONUS_NONE)
       return true;
   }
 
@@ -1989,7 +1989,7 @@ Player::set_bonus(BonusType type, bool animate)
     return false;
   }
 
-  if ((get_bonus() == NO_BONUS) && (type != NO_BONUS || m_stone)) {
+  if ((get_bonus() == BONUS_NONE) && (type != BONUS_NONE || m_stone)) {
     if (!m_swimming && !m_sliding)
     {
       if (!adjust_height(BIG_TUX_HEIGHT))
@@ -2011,7 +2011,7 @@ Player::set_bonus(BonusType type, bool animate)
     }
   }
 
-  if (type == NO_BONUS) {
+  if (type == BONUS_NONE) {
     if (!adjust_height(SMALL_TUX_HEIGHT)) {
       log_debug << "Can't adjust Tux height" << std::endl;
       return false;
@@ -2019,7 +2019,7 @@ Player::set_bonus(BonusType type, bool animate)
     if (m_does_buttjump) m_does_buttjump = false;
   }
 
-  if (type > GROWUP_BONUS)
+  if (type > BONUS_GROWUP)
   {
     m_player_status.add_item_to_pocket(get_bonus(), this);
 
@@ -2103,15 +2103,15 @@ Player::draw(DrawingContext& context)
   std::string sa_prefix = "";
   std::string sa_postfix = "";
 
-  if (get_bonus() == GROWUP_BONUS)
+  if (get_bonus() == BONUS_GROWUP)
     sa_prefix = "big";
-  else if (get_bonus() == FIRE_BONUS)
+  else if (get_bonus() == BONUS_FIRE)
     sa_prefix = "fire";
-  else if (get_bonus() == ICE_BONUS)
+  else if (get_bonus() == BONUS_ICE)
     sa_prefix = "ice";
-  else if (get_bonus() == AIR_BONUS)
+  else if (get_bonus() == BONUS_AIR)
     sa_prefix = "air";
-  else if (get_bonus() == EARTH_BONUS)
+  else if (get_bonus() == BONUS_EARTH)
     sa_prefix = "earth";
   else
     sa_prefix = "small";
@@ -2318,10 +2318,10 @@ Player::draw(DrawingContext& context)
     m_sprite->draw(context.color(), draw_pos, LAYER_OBJECTS + 1);
 
   //TODO: Replace recoloring with proper costumes
-  Color power_color = (get_bonus() == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
-    get_bonus() == ICE_BONUS ? Color(0.7f, 1.f, 1.f) :
-    get_bonus() == AIR_BONUS ? Color(0.7f, 1.f, 0.5f) :
-    get_bonus() == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
+  Color power_color = (get_bonus() == BONUS_FIRE ? Color(1.f, 0.7f, 0.5f) :
+    get_bonus() == BONUS_ICE ? Color(0.7f, 1.f, 1.f) :
+    get_bonus() == BONUS_AIR ? Color(0.7f, 1.f, 0.5f) :
+    get_bonus() == BONUS_EARTH ? Color(1.f, 0.9f, 0.6f) :
     Color(1.f, 1.f, 1.f));
 
   for (auto& bubble_sprite : m_active_bubbles)
@@ -2509,20 +2509,20 @@ Player::kill(bool completely)
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
 
-    if (get_bonus() > GROWUP_BONUS)
+    if (get_bonus() > BONUS_GROWUP)
     {
       m_safe_timer.start(TUX_SAFE_TIME);
       m_is_intentionally_safe = false;
-      set_bonus(GROWUP_BONUS, true);
+      set_bonus(BONUS_GROWUP, true);
     }
-    else if (get_bonus() == GROWUP_BONUS)
+    else if (get_bonus() == BONUS_GROWUP)
     {
       m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_is_intentionally_safe = false;
       m_duck = false;
       m_crawl = false;
       stop_backflipping();
-      set_bonus(NO_BONUS, true);
+      set_bonus(BONUS_NONE, true);
     }
   } else {
     SoundManager::current()->play("sounds/kill.wav", get_pos());
@@ -2541,7 +2541,7 @@ Player::kill(bool completely)
     m_invincible_timer.stop();
     m_physic.set_acceleration(0, 0);
     m_physic.set_velocity(0, -700);
-    set_bonus(NO_BONUS, true);
+    set_bonus(BONUS_NONE, true);
     m_dying = true;
     m_dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
@@ -2683,7 +2683,7 @@ Player::set_velocity(float x, float y)
 void
 Player::bounce(BadGuy& )
 {
-  if (!(get_bonus() == AIR_BONUS))
+  if (!(get_bonus() == BONUS_AIR))
     m_physic.set_velocity_y(m_controller->hold(Control::JUMP) ? -520.0f : -300.0f);
   else {
     m_physic.set_velocity_y(m_controller->hold(Control::JUMP) ? -580.0f : -340.0f);
@@ -2805,7 +2805,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
   if (m_controller->hold(Control::JUMP) && !m_controller->hold(Control::DOWN)) {
     m_on_ground_flag = true;
     m_jump_early_apex = false;
-    do_jump(get_bonus() == AIR_BONUS ? -540.0f : -480.0f);
+    do_jump(get_bonus() == BONUS_AIR ? -540.0f : -480.0f);
   }
   else if (m_controller->hold(Control::UP)) {
     m_on_ground_flag = true;
@@ -2860,7 +2860,7 @@ Player::handle_input_rolling()
     if (!m_controller->hold(Control::DOWN)) {
       stop_rolling(false);
     }
-    else if (get_bonus() != EARTH_BONUS) {
+    else if (get_bonus() != BONUS_EARTH) {
       stop_rolling();
     }
   }
@@ -2943,6 +2943,24 @@ Player::stop_backflipping()
   m_backflip_direction = 0;
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);
+}
+
+void
+Player::eject_item_pocket()
+{
+  m_player_status.give_item_from_pocket(this);
+}
+
+int
+Player::get_item_pocket() const
+{
+  return m_player_status.get_item_pocket(this);
+}
+
+void
+Player::set_item_pocket(int bonus)
+{
+  m_player_status.add_item_to_pocket(static_cast<BonusType>(bonus), this);
 }
 
 bool
@@ -3181,6 +3199,9 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("get_input_pressed", &Player::get_input_pressed);
   cls.addFunc("get_input_held", &Player::get_input_held);
   cls.addFunc("get_input_released", &Player::get_input_released);
+  cls.addFunc("eject_item_pocket", &Player::eject_item_pocket);
+  cls.addFunc("get_item_pocket", &Player::get_item_pocket);
+  cls.addFunc("set_item_pocket", &Player::set_item_pocket);
 
   cls.addVar("visible", &Player::m_visible);
 }

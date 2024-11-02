@@ -40,10 +40,10 @@ PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status) :
   m_bonus_sprites(),
   m_item_pocket_border(Surface::from_file("images/engine/hud/item_pocket.png"))
 {
-  m_bonus_sprites[FIRE_BONUS]  = SpriteManager::current()->create("images/powerups/fireflower/fireflower.sprite");
-  m_bonus_sprites[ICE_BONUS]   = SpriteManager::current()->create("images/powerups/iceflower/iceflower.sprite");
-  m_bonus_sprites[AIR_BONUS]   = SpriteManager::current()->create("images/powerups/airflower/airflower.sprite");
-  m_bonus_sprites[EARTH_BONUS] = SpriteManager::current()->create("images/powerups/earthflower/earthflower.sprite");
+  m_bonus_sprites[BONUS_FIRE]  = SpriteManager::current()->create("images/powerups/fireflower/fireflower.sprite");
+  m_bonus_sprites[BONUS_ICE]   = SpriteManager::current()->create("images/powerups/iceflower/iceflower.sprite");
+  m_bonus_sprites[BONUS_AIR]   = SpriteManager::current()->create("images/powerups/airflower/airflower.sprite");
+  m_bonus_sprites[BONUS_EARTH] = SpriteManager::current()->create("images/powerups/earthflower/earthflower.sprite");
 }
 
 void

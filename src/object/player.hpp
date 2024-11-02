@@ -290,7 +290,7 @@ public:
   void override_velocity() { m_velocity_override = true; }
 
   bool is_dead() const { return m_dead; }
-  bool is_big() const { return get_bonus() != NO_BONUS; }
+  bool is_big() const { return get_bonus() != BONUS_NONE; }
   bool is_stone() const { return m_stone; }
   bool is_sliding() const { return m_sliding; }
   bool is_swimming() const { return m_swimming; }
@@ -380,7 +380,7 @@ public:
   /**
    * @scripting
    * @description Gets whether the current input on the keyboard/controller/touchpad has been pressed.
-   * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”,
+   * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, "item", “start”, “escape”,
       “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
       “peek-left”, “peek-right”, “peek-up” or “peek-down”.
    */
@@ -411,6 +411,24 @@ public:
    */
   void set_dir(bool right);
   void stop_backflipping();
+
+  /**
+   * @scripting
+   * @description Ejects the item in the player's Item Pocket.
+   */
+  void eject_item_pocket();
+
+  /**
+   * @scripting
+   * @description Returns the item currently in the player's Item Pocket as a ""BONUS"" enum value.
+   */
+  int get_item_pocket() const;
+
+  /**
+   * @scripting
+   * @description Ejects the item in the player's Item Pocket.
+   */
+  void set_item_pocket(int bonus);
 
   void position_grabbed_object(bool teleport = false);
   bool try_grab();

@@ -617,7 +617,7 @@ HitResponse
 BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
   if (is_frozen()) {
-    if (bullet.get_type() == FIRE_BONUS) {
+    if (bullet.get_type() == BONUS_FIRE) {
       // Fire bullet thaws frozen badguys.
       unfreeze();
       bullet.remove_me();
@@ -629,7 +629,7 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
     }
   }
   else if (is_ignited()) {
-    if (bullet.get_type() == ICE_BONUS) {
+    if (bullet.get_type() == BONUS_ICE) {
       // Ice bullets extinguish ignited badguys.
       extinguish();
       bullet.remove_me();
@@ -640,13 +640,13 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
       return FORCE_MOVE;
     }
   }
-  else if (bullet.get_type() == FIRE_BONUS && is_flammable()) {
+  else if (bullet.get_type() == BONUS_FIRE && is_flammable()) {
     // Fire bullets ignite flammable badguys.
     ignite();
     bullet.remove_me();
     return ABORT_MOVE;
   }
-  else if (bullet.get_type() == ICE_BONUS && is_freezable()) {
+  else if (bullet.get_type() == BONUS_ICE && is_freezable()) {
     // Ice bullets freeze freezable badguys.
     freeze();
     bullet.remove_me();

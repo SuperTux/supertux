@@ -35,8 +35,19 @@ class Writer;
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
 
+/**
+ * NOTE: Make sure to expose any new enumerators to Squirrel.
+ *
+ * @scripting
+ * @prefix BONUS_
+ */
 enum BonusType {
-  NO_BONUS = 0, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS, AIR_BONUS, EARTH_BONUS
+  BONUS_NONE = 0, /*!< No bonus. */
+  BONUS_GROWUP, /*!< Growup (a.k.a. egg) bonus. */
+  BONUS_FIRE, /*!< Fire bonus. */
+  BONUS_ICE, /*!< Ice bonus. */
+  BONUS_AIR, /*!< Air bonus. */
+  BONUS_EARTH /*!< Earth bonus. */
 };
 
 /** This class keeps player status between different game sessions (for
@@ -54,13 +65,14 @@ public:
 
   void give_item_from_pocket(Player* player);
   void add_item_to_pocket(BonusType bonustype, Player* player);
+  BonusType get_item_pocket(const Player* player) const;
 
   bool is_item_pocket_allowed() const;
 
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
   bool respawns_at_checkpoint() const;
-  bool has_hat_sprite(int player_id) const { return bonus[player_id] > GROWUP_BONUS; }
+  bool has_hat_sprite(int player_id) const { return bonus[player_id] > BONUS_GROWUP; }
 
   static std::string get_bonus_name(BonusType bonustype);
   static BonusType get_bonus_from_name(const std::string& name);

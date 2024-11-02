@@ -69,9 +69,9 @@ PlayerStatus::reset(int num_players)
 
   // Keep in sync with a section in read()
   bonus.clear();
-  bonus.resize(num_players, NO_BONUS);
+  bonus.resize(num_players, BONUS_NONE);
   m_item_pockets.clear();
-  m_item_pockets.resize(num_players, NO_BONUS);
+  m_item_pockets.resize(num_players, BONUS_NONE);
 
   m_num_players = num_players;
 }
@@ -99,17 +99,17 @@ std::string
 PlayerStatus::get_bonus_name(BonusType bonustype)
 {
   switch (bonustype) {
-    case FIRE_BONUS:
+    case BONUS_FIRE:
       return "fireflower";
-    case ICE_BONUS:
+    case BONUS_ICE:
       return "iceflower";
-    case AIR_BONUS:
+    case BONUS_AIR:
       return "airflower";
-    case EARTH_BONUS:
+    case BONUS_EARTH:
       return "earthflower";
-    case GROWUP_BONUS:
+    case BONUS_GROWUP:
       return "egg";
-    case NO_BONUS:
+    case BONUS_NONE:
       return "none";
     default:
       log_warning << "Unknown bonus " << static_cast<int>(bonustype) << std::endl;
@@ -121,20 +121,20 @@ BonusType
 PlayerStatus::get_bonus_from_name(const std::string& name)
 {
   if (name == "none") {
-    return NO_BONUS;
+    return BONUS_NONE;
   } else if (name == "growup") {
-    return GROWUP_BONUS;
+    return BONUS_GROWUP;
   } else if (name == "fireflower") {
-    return FIRE_BONUS;
+    return BONUS_FIRE;
   } else if (name == "iceflower") {
-    return ICE_BONUS;
+    return BONUS_ICE;
   } else if (name == "airflower") {
-    return AIR_BONUS;
+    return BONUS_AIR;
   } else if (name == "earthflower") {
-    return EARTH_BONUS;
+    return BONUS_EARTH;
   } else {
     log_warning << "Unknown bonus '" << name << "' in savefile"<< std::endl;
-    return NO_BONUS;
+    return BONUS_NONE;
   }
 }
 
@@ -142,15 +142,15 @@ std::string
 PlayerStatus::get_bonus_sprite(BonusType bonustype)
 {
   switch (bonustype) {
-    case FIRE_BONUS:
+    case BONUS_FIRE:
       return "images/powerups/fireflower/fireflower.sprite";
-    case ICE_BONUS:
+    case BONUS_ICE:
       return "images/powerups/iceflower/iceflower.sprite";
-    case AIR_BONUS:
+    case BONUS_AIR:
       return "images/powerups/airflower/airflower.sprite";
-    case EARTH_BONUS:
+    case BONUS_EARTH:
       return "images/powerups/earthflower/earthflower.sprite";
-    case GROWUP_BONUS:
+    case BONUS_GROWUP:
       return "images/powerups/egg/egg.sprite";
     default:
       return "";
@@ -226,10 +226,10 @@ PlayerStatus::read(const ReaderMapping& mapping)
 
           // Keep this in sync with reset()
           if (bonus.size() < static_cast<size_t>(id))
-            bonus.resize(id, NO_BONUS);
+            bonus.resize(id, BONUS_NONE);
 
           if (m_item_pockets.size() < static_cast<size_t>(id))
-            m_item_pockets.resize(id, NO_BONUS);
+            m_item_pockets.resize(id, BONUS_NONE);
         }
         else if (id == 0)
         {
@@ -264,10 +264,10 @@ PlayerStatus::give_item_from_pocket(Player* player)
     return;
 
   BonusType bonustype = m_item_pockets[player->get_id()];
-  if (bonustype == NO_BONUS)
+  if (bonustype == BONUS_NONE)
     return;
 
-  m_item_pockets[player->get_id()] = NO_BONUS;
+  m_item_pockets[player->get_id()] = BONUS_NONE;
 
   auto& powerup = Sector::get().add<PocketPowerUp>(bonustype, Vector(0,0));
   powerup.set_pos(player->get_pos() - Vector(0.f, powerup.get_bbox().get_height() + 15));
@@ -279,10 +279,16 @@ PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
   if (!is_item_pocket_allowed())
     return;
 
-  if (bonustype <= GROWUP_BONUS)
+  if (bonustype <= BONUS_GROWUP)
     return;
 
   m_item_pockets[player->get_id()] = bonustype;
+}
+
+BonusType
+PlayerStatus::get_item_pocket(const Player* player) const
+{
+  return m_item_pockets[player->get_id()];
 }
 
 bool
@@ -348,17 +354,17 @@ PlayerStatus::get_bonus_prefix(int player_id) const
 {
   switch (bonus[player_id]) {
     default:
-    case NO_BONUS:
+    case BONUS_NONE:
       return "small";
-    case GROWUP_BONUS:
+    case BONUS_GROWUP:
       return "big";
-    case FIRE_BONUS:
+    case BONUS_FIRE:
       return "fire";
-    case ICE_BONUS:
+    case BONUS_ICE:
       return "ice";
-    case AIR_BONUS:
+    case BONUS_AIR:
       return "air";
-    case EARTH_BONUS:
+    case BONUS_EARTH:
       return "earth";
   }
 }
@@ -368,8 +374,8 @@ PlayerStatus::add_player()
 {
   m_num_players++;
 
-  bonus.resize(m_num_players, NO_BONUS);
-  m_item_pockets.resize(m_num_players, NO_BONUS);
+  bonus.resize(m_num_players, BONUS_NONE);
+  m_item_pockets.resize(m_num_players, BONUS_NONE);
 }
 
 void
@@ -383,8 +389,8 @@ PlayerStatus::remove_player(int player_id)
     m_item_pockets[i] = m_item_pockets[i + 1];
   }
 
-  bonus.resize(m_num_players, NO_BONUS);
-  m_item_pockets.resize(m_num_players, NO_BONUS);
+  bonus.resize(m_num_players, BONUS_NONE);
+  m_item_pockets.resize(m_num_players, BONUS_NONE);
 }
 
 

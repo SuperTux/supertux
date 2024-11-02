@@ -205,28 +205,28 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   {
     case EGG:
     case MINTS:
-      if (!player->add_bonus(GROWUP_BONUS, true))
+      if (!player->add_bonus(BONUS_GROWUP, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/grow.ogg", get_pos());
       break;
     case FIRE:
     case COFFEE:
-      if (!player->add_bonus(FIRE_BONUS, true))
+      if (!player->add_bonus(BONUS_FIRE, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
       break;
     case ICE:
-      if (!player->add_bonus(ICE_BONUS, true))
+      if (!player->add_bonus(BONUS_ICE, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
       break;
     case AIR:
-      if (!player->add_bonus(AIR_BONUS, true))
+      if (!player->add_bonus(BONUS_AIR, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
       break;
     case EARTH:
-      if (!player->add_bonus(EARTH_BONUS, true))
+      if (!player->add_bonus(BONUS_EARTH, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
       break;
@@ -252,19 +252,19 @@ PowerUp::get_type_from_bonustype(int type)
 {
   switch (type)
   {
-    case GROWUP_BONUS:
+    case BONUS_GROWUP:
       return EGG;
 
-    case FIRE_BONUS:
+    case BONUS_FIRE:
       return FIRE;
 
-    case ICE_BONUS:
+    case BONUS_ICE:
       return ICE;
 
-    case AIR_BONUS:
+    case BONUS_AIR:
       return AIR;
 
-    case EARTH_BONUS:
+    case BONUS_EARTH:
       return EARTH;
 
     default:

@@ -91,7 +91,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
 {
   set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
 
-  m_boni_at_start.resize(InputManager::current()->get_num_users(), NO_BONUS);
+  m_boni_at_start.resize(InputManager::current()->get_num_users(), BONUS_NONE);
 
   m_data_table.clear();
 

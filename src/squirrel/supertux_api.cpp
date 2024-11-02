@@ -845,6 +845,13 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.setConst<int>("ANCHOR_BOTTOM", AnchorPoint::ANCHOR_BOTTOM);
   vm.setConst<int>("ANCHOR_BOTTOM_RIGHT", AnchorPoint::ANCHOR_BOTTOM_RIGHT);
 
+  vm.setConst<int>("BONUS_NONE", BonusType::BONUS_NONE);
+  vm.setConst<int>("BONUS_GROWUP", BonusType::BONUS_GROWUP);
+  vm.setConst<int>("BONUS_FIRE", BonusType::BONUS_FIRE);
+  vm.setConst<int>("BONUS_AIR", BonusType::BONUS_AIR);
+  vm.setConst<int>("BONUS_EARTH", BonusType::BONUS_EARTH);
+  vm.setConst<int>("BONUS_ICE", BonusType::BONUS_ICE);
+
   /* Global functions */
   vm.addFunc("display", &scripting::Globals::display);
   vm.addFunc("print_stacktrace", &scripting::Globals::print_stacktrace);
