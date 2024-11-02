@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "st_assert.hpp"
+#define GLM_ENABLE_EXPERIMENTAL
 #include "math/aatriangle.hpp"
 
 int main(void)
