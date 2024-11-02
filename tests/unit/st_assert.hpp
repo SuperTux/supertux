@@ -1,5 +1,4 @@
-// AddPackage.cmake - Portable find_package approach
-//
+// st_assert.hpp - Assert function for tests
 // Copyright (C) 2024 Hyland B. <me@ow.swag.toys>
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,8 +23,12 @@
 
 namespace {
 
+#define ST_ASSERT(name, expr) st_assert(__FILE__, __LINE__, name, expr)
+
 // TODO Make macros for these assert functions to also pass a line number
-void st_assert(const std::optional<std::string_view>& name,
+void st_assert(const std::string_view filename,
+               int linenum,
+               const std::optional<std::string_view>& name,
                bool expr)
 {
 	if (expr)
@@ -36,7 +39,7 @@ void st_assert(const std::optional<std::string_view>& name,
 	}
 	
 	if (name.has_value())
-		std::cerr << "!!! Test \"" << *name << "\" failed!" << std::endl;
+		std::cerr << "\e[31m(" << filename << ":" << linenum << ")\n-- Test \"" << *name << "\" failed!\e[0m" << std::endl;
 	abort();
 }
 

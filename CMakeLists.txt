@@ -31,7 +31,7 @@
 #   make
 #
 
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.16)
 
 ## Project name to use as command prefix.
 
@@ -276,6 +276,7 @@ configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 ## Build tests
 # TODO Move to CMake Tests
 #include(SuperTux/BuildTests)
+set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
 enable_testing()
 add_subdirectory(tests)
 

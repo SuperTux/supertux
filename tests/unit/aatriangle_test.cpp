@@ -19,9 +19,9 @@
 
 int main(void)
 {
-  st_assert("Testing verticle_flip of 30", 33 == AATriangle::vertical_flip(30));
-  st_assert("Testing verticle_flip of 40", 19 == AATriangle::vertical_flip(40));
-  st_assert("Testing verticle_flip of 50", 50 == AATriangle::vertical_flip(50));
+  ST_ASSERT("verticle_flip of 30", 33 == AATriangle::vertical_flip(30));
+  ST_ASSERT("verticle_flip of 40", 19 == AATriangle::vertical_flip(40));
+  ST_ASSERT("verticle_flip of 50", 49 == AATriangle::vertical_flip(50));
   
   return 0;
 }
