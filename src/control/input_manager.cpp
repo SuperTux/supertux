@@ -147,7 +147,7 @@ InputManager::process_event(const SDL_Event& event)
 void
 InputManager::push_user()
 {
-  if (can_add_user())
+  if (!can_add_user())
     return;
 
   m_controllers.push_back(std::make_unique<Controller>());
