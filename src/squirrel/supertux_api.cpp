@@ -790,9 +790,9 @@ static void resume_target_timer()
 /**
  * @scripting
  * @description Override the Item Pocket setting in the Level.
- * @param string allow Can be "on", "off", or "inherit" (use the setting in the Level)
+ * @param string $allow Can be "on", "off", or "inherit" (use the setting in the Level)
  */
-static void override_allow_item_pocket(const std::string& allow)
+static void override_item_pocket(const std::string& allow)
 {
   if (!GameSession::current()) return;
   GameSession::current()->get_savegame().get_player_status().m_override_item_pocket = ::Level::get_setting_from_name(allow);
@@ -904,7 +904,7 @@ void register_supertux_scripting_api(ssq::VM& vm)
   level.addFunc("toggle_pause", &scripting::Level::toggle_pause);
   level.addFunc("pause_target_timer", &scripting::Level::pause_target_timer);
   level.addFunc("resume_target_timer", &scripting::Level::resume_target_timer);
-  level.addFunc("override_item_pocket", &scripting::Level::override_allow_item_pocket);
+  level.addFunc("override_item_pocket", &scripting::Level::override_item_pocket);
   level.addFunc("is_item_pocket_overridden", &scripting::Level::is_item_pocket_overridden);
   level.addFunc("is_item_pocket_allowed", &scripting::Level::is_item_pocket_allowed);
 }
