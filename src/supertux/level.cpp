@@ -87,33 +87,34 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
       sector->add<PlayerStatusHUD>(player_status);
   }
 
+  // All players will be added to the first sector. They are moved between sectors.
   Sector* sector = m_sectors.at(0).get();
 
-  /* Add local players */
-  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
+  player_status.add_local_player(0);
+  sector->add<Player>(player_status, 0);
+
+  if (!savegame->is_title_screen())
   {
-    if (!InputManager::current()->has_corresponsing_controller(id)
-        && !InputManager::current()->m_uses_keyboard[id]
-        && savegame
-        && !savegame->is_title_screen()
-        && id != 0)
-      continue;
-
-    player_status.add_local_player(id);
-
-    // Add all players in the first sector. They will be moved between sectors.
-    sector->add<Player>(player_status, id);
-  }
-
-  /* Add remote players */
-  for (const auto& user : GameManager::current()->get_server_users())
-  {
-    for (int id = 0; id < user->get_num_players(); id++)
+    /* Add local players */
+    for (int id = 1; id < InputManager::current()->get_num_users(); id++)
     {
-      player_status.add_remote_player(user->username, id);
+      if (!InputManager::current()->has_corresponsing_controller(id)
+          && !InputManager::current()->m_uses_keyboard[id]
+          && savegame)
+        continue;
 
-      // Add all players in the first sector. They will be moved between sectors.
-      sector->add<Player>(player_status, id, user.get());
+      player_status.add_local_player(id);
+      sector->add<Player>(player_status, id);
+    }
+
+    /* Add remote players */
+    for (const auto& user : GameManager::current()->get_server_users())
+    {
+      for (int id = 0; id < user->get_num_players(); id++)
+      {
+        player_status.add_remote_player(user->username, id);
+        sector->add<Player>(player_status, id, user.get());
+      }
     }
   }
 
