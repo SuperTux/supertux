@@ -50,23 +50,31 @@ public:
   virtual void update(float dt_sec, const Controller& controller) override;
   virtual IntegrationStatus get_status() const override;
 
+  void push_player(const Player* player);
+  void pop_player(const Player* player);
+
 private:
   void draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat, bool isPerfect);
 
-  void push_player(const Player* player);
-  void pop_player(const Player* player);
+private:
+  struct PlayerData final
+  {
+    PlayerData() = default;
+
+    const Player* player;
+    SpritePtr sprite; /**< Sprite representing the player */
+    SpritePtr santa_sprite;
+    float sprite_py; /**< Position (y axis) for the player sprite */
+    float sprite_vy; /**< Velocity (y axis) for the player sprite */
+    Timer sprite_jump_timer; /**< When timer fires, the player sprite will "jump" */
+  };
 
 private:
   const Level& m_level; /**< The level of which this is the intro screen */
   const Statistics* m_best_level_statistics; /**< Best level statistics of the level of which is the intro screen */
   const bool m_allow_quit;
 
-  std::vector<const Player*> m_players;
-  std::vector<SpritePtr> m_player_sprite; /**< Sprite representing the player */
-  std::vector<SpritePtr> m_santa_sprite;
-  std::vector<float> m_player_sprite_py; /**< Position (y axis) for the player sprite */
-  std::vector<float> m_player_sprite_vy; /**< Velocity (y axis) for the player sprite */
-  std::vector<std::unique_ptr<Timer>> m_player_sprite_jump_timer; /**< When timer fires, the player sprite will "jump" */
+  std::vector<std::unique_ptr<PlayerData>> m_players;
 
 private:
   LevelIntro(const LevelIntro&) = delete;

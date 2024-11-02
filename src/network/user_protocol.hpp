@@ -75,12 +75,16 @@ protected:
   virtual uint8_t get_packet_channel(const StagedPacket& packet) const override;
 
   virtual void on_packet_receive(ReceivedPacket packet) override;
-  virtual void on_user_packet_receive(const ReceivedPacket& packet, ServerUser& user) {}
 
   virtual StagedPacket on_request_receive(const ReceivedPacket& packet) override;
   virtual void on_request_response(const Request& request) override;
 
   virtual void get_remote_user_data(RemoteUser& user) const override;
+
+  /** User-oriented virtual functions */
+  virtual void on_user_connect(U& user) {}
+  virtual void on_user_disconnect(U& user) {}
+  virtual void on_user_packet_receive(const ReceivedPacket& packet, U& user) {}
 
 protected:
   UserManager<U>& m_user_manager;

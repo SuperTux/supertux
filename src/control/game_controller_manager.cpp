@@ -19,12 +19,9 @@
 #include <algorithm>
 
 #include "control/input_manager.hpp"
-#include "object/player.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/savegame.hpp"
-#include "supertux/sector.hpp"
+#include "supertux/globals.hpp"
 #include "util/log.hpp"
 
 GameControllerManager::GameControllerManager(InputManager* parent) :
@@ -238,17 +235,8 @@ GameControllerManager::on_controller_added(int joystick_index)
 
         m_game_controllers[game_controller] = id;
 
-        if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen() && id != 0)
-        {
-          auto& sector = GameSession::current()->get_current_sector();
-          auto& player_status = GameSession::current()->get_savegame().get_player_status();
-
-          player_status.add_local_player(id);
-
-          auto& player = sector.add<Player>(player_status, id);
-
-          player.multiplayer_prepare_spawn();
-        }
+        if (GameSession::current() && id != 0)
+          GameSession::current()->on_local_player_added(id);
       }
     }
   }
@@ -270,22 +258,10 @@ GameControllerManager::on_controller_removed(int instance_id)
     m_game_controllers.erase(it);
 
     if (m_parent->m_use_game_controller && g_config->multiplayer_auto_manage_players
-        && deleted_player_id != 0 && !m_parent->m_uses_keyboard[deleted_player_id])
+        && deleted_player_id != 0 && !m_parent->m_uses_keyboard[deleted_player_id]
+        && GameSession::current())
     {
-      // Sectors in worldmaps have no Player's of that class.
-      if (Sector::current() && Sector::current()->get_object_count<Player>() > 0)
-      {
-        auto players = Sector::current()->get_objects_by_type<Player>();
-        auto it_players = players.begin();
-
-        while (it_players != players.end())
-        {
-          if (it_players->get_id() == deleted_player_id)
-            it_players->remove_me();
-
-          it_players++;
-        }
-      }
+      GameSession::current()->on_local_player_removed(deleted_player_id);
     }
   }
   else

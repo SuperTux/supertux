@@ -153,6 +153,7 @@ GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Stati
   m_best_level_statistics(statistics),
   m_savegame(savegame),
   m_play_time(0),
+  m_levelintro(),
   m_levelintro_shown(false),
   m_active(false),
   m_end_seq_started(false),
@@ -169,6 +170,108 @@ GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Stati
 
   if (restart_level(false, preserve_music) != 0)
     throw std::runtime_error ("Initializing the level failed.");
+}
+
+void
+GameSession::on_local_player_added(int id)
+{
+  assert(id > 0);
+  if (m_savegame.is_title_screen())
+    return;
+
+  m_savegame.get_player_status().add_local_player(id);
+
+  Player& player = m_currentsector->add<Player>(m_savegame.get_player_status(), id);
+  m_currentsector->flush_game_objects();
+
+  if (m_levelintro)
+  {
+    m_levelintro->push_player(&player);
+
+    // Activate on either the spawnpoint (if set), or the spawn position.
+    if (m_spawnpoints.front().spawnpoint.empty())
+      m_currentsector->activate(m_spawnpoints.front().position);
+    else
+      m_currentsector->activate(m_spawnpoints.front().spawnpoint);
+  }
+  else
+  {
+    player.multiplayer_prepare_spawn();
+  }
+}
+
+bool
+GameSession::on_local_player_removed(int id)
+{
+  assert(id > 0);
+  if (m_savegame.is_title_screen())
+    return false;
+
+  for (const auto& sector : m_level->get_sectors())
+  {
+    for (Player* player : sector->get_players())
+    {
+      if (!player->get_remote_user() && player->get_id() == id)
+      {
+        if (m_levelintro)
+          m_levelintro->pop_player(player);
+
+        player->remove_me();
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+void
+GameSession::on_remote_player_added(const GameServerUser& user, int id)
+{
+  if (m_savegame.is_title_screen())
+    return;
+
+  m_savegame.get_player_status().add_remote_player(user.username, id);
+
+  Player& player = m_currentsector->add<Player>(m_savegame.get_player_status(), id, &user);
+  m_currentsector->flush_game_objects();
+
+  if (m_levelintro)
+  {
+    m_levelintro->push_player(&player);
+
+    // Activate on either the spawnpoint (if set), or the spawn position.
+    if (m_spawnpoints.front().spawnpoint.empty())
+      m_currentsector->activate(m_spawnpoints.front().position);
+    else
+      m_currentsector->activate(m_spawnpoints.front().spawnpoint);
+  }
+  else
+  {
+    player.multiplayer_prepare_spawn();
+  }
+}
+
+bool
+GameSession::on_remote_player_removed(const GameServerUser& user, int id)
+{
+  if (m_savegame.is_title_screen())
+    return false;
+
+  for (const auto& sector : m_level->get_sectors())
+  {
+    for (Player* player : sector->get_players())
+    {
+      if (player->get_remote_user() == &user && player->get_id() == id)
+      {
+        if (m_levelintro)
+          m_levelintro->pop_player(player);
+
+        player->remove_me();
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 void
@@ -543,12 +646,18 @@ GameSession::setup()
   {
     m_levelintro_shown = true;
     m_active = false;
-    ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics,
-                                                                       !(m_network_host && !m_network_host->is_server())));
-    ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, TELEPORT_FADE_TIME));
+
+    auto levelintro = std::make_unique<LevelIntro>(*m_level, m_best_level_statistics,
+                                                   !(m_network_host && !m_network_host->is_server()));
+    m_levelintro = levelintro.get();
+
+    ScreenManager::current()->push_screen(std::move(levelintro),
+                                          std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, TELEPORT_FADE_TIME));
   }
   else
   {
+    m_levelintro = nullptr;
+
     if (m_network_host && m_network_host->is_server())
     {
       network::StagedPacket packet(GameNetworkProtocol::OP_GAME_START, "");

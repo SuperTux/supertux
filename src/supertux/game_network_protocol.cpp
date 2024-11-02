@@ -20,6 +20,7 @@
 #include "network/client.hpp"
 #include "network/server.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
@@ -44,6 +45,26 @@ GameNetworkProtocol::update()
     for (const auto& controller : user->player_controllers)
       controller->update();
   }
+}
+
+void
+GameNetworkProtocol::on_user_connect(GameServerUser& user)
+{
+  if (!GameSession::current())
+    return;
+
+  for (int i = 0; i < user.get_num_players(); i++)
+    GameSession::current()->on_remote_player_added(user, i);
+}
+
+void
+GameNetworkProtocol::on_user_disconnect(GameServerUser& user)
+{
+  if (!GameSession::current())
+    return;
+
+  for (int i = user.get_num_players() - 1; i >= 0; i--)
+    GameSession::current()->on_remote_player_removed(user, i);
 }
 
 void
@@ -136,7 +157,7 @@ GameNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) con
 }
 
 void
-GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packet, network::ServerUser& user)
+GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packet, GameServerUser& user)
 {
   switch (packet.code)
   {
@@ -171,13 +192,11 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
       if (!m_host.is_server())
         throw std::runtime_error("Cannot process controller update from \"" + user.username + "\": This host is not a server.");
 
-      GameServerUser* game_user = static_cast<GameServerUser*>(&user);
-
       const int controller_user = std::stoi(packet.data[0]);
-      if (controller_user >= static_cast<int>(game_user->get_num_players()))
+      if (controller_user >= static_cast<int>(user.get_num_players()))
         throw std::runtime_error("Cannot process controller update from \"" + user.username + "\": Remote controller user " + packet.data[0] + " doesn't exist.");
 
-      game_user->player_controllers[controller_user]->process_packet_data(packet, 1);
+      user.player_controllers[controller_user]->process_packet_data(packet, 1);
       break;
     }
 

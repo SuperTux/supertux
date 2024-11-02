@@ -36,19 +36,15 @@ EditorNetworkProtocol::EditorNetworkProtocol(Editor& editor, network::Host& host
 }
 
 void
-EditorNetworkProtocol::on_server_connect(network::Peer& peer)
+EditorNetworkProtocol::on_user_connect(EditorServerUser&)
 {
   MenuManager::instance().refresh_menu<EditorMenu>();
-
-  network::UserProtocol<EditorServerUser>::on_server_connect(peer);
 }
 
 void
-EditorNetworkProtocol::on_server_disconnect(network::Peer& peer, uint32_t code)
+EditorNetworkProtocol::on_user_disconnect(EditorServerUser&)
 {
   MenuManager::instance().refresh_menu<EditorMenu>();
-
-  network::UserProtocol<EditorServerUser>::on_server_disconnect(peer, code);
 }
 
 void
@@ -159,7 +155,7 @@ EditorNetworkProtocol::on_packet_abort(network::ReceivedPacket packet)
 }
 
 void
-EditorNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packet, network::ServerUser& user)
+EditorNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packet, EditorServerUser& user)
 {
   switch (packet.code)
   {
@@ -217,9 +213,8 @@ EditorNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& pac
       if (root.get_name() != "supertux-mouse-cursor-state")
         throw std::runtime_error("Cannot parse editor network cursor update: Data is not 'supertux-mouse-cursor-state'.");
 
-      EditorServerUser* editor_user = static_cast<EditorServerUser*>(&user);
-      editor_user->sector = packet.data[0];
-      editor_user->mouse_cursor.parse_state(root.get_mapping());
+      user.sector = packet.data[0];
+      user.mouse_cursor.parse_state(root.get_mapping());
       break;
     }
 

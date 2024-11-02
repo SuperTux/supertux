@@ -39,6 +39,8 @@
 class CodeController;
 class DrawingContext;
 class EndSequence;
+class GameServerUser;
+class LevelIntro;
 class Player;
 class Sector;
 class Statistics;
@@ -84,6 +86,11 @@ public:
   virtual void setup() override;
   virtual void leave() override;
   virtual IntegrationStatus get_status() const override;
+
+  void on_local_player_added(int id);
+  bool on_local_player_removed(int id);
+  void on_remote_player_added(const GameServerUser& user, int id);
+  bool on_remote_player_removed(const GameServerUser& user, int id);
 
   /** ends the current level */
   void finish(bool win = true);
@@ -177,6 +184,7 @@ private:
   //       but NOT if Tux respawns at a checkpoint (for LevelTimes to work)
   float m_play_time; /**< total time in seconds that this session ran interactively */
 
+  LevelIntro* m_levelintro;
   bool m_levelintro_shown; /**< true if the LevelIntro screen was already shown */
 
   bool m_active; /** Game active? **/

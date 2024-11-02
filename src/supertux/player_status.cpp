@@ -38,7 +38,7 @@ PlayerStatus::Status::Status(PlayerStatus& status) :
   max_ice_bullets(),
   max_air_time(),
   max_earth_time(),
-  m_saved_state()
+  m_saved_state(new Status(*this))
 {
 }
 
@@ -62,7 +62,7 @@ PlayerStatus::Status::save_state()
 void
 PlayerStatus::Status::restore_state()
 {
-  if (!m_saved_state) return;
+  assert(m_saved_state);
 
   bonus = m_saved_state->bonus;
   max_fire_bullets = m_saved_state->max_fire_bullets;

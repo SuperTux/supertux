@@ -45,15 +45,10 @@ LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statisti
   m_level(level),
   m_best_level_statistics(best_level_statistics),
   m_allow_quit(allow_quit),
-  m_players(),
-  m_player_sprite(),
-  m_santa_sprite(),
-  m_player_sprite_py(),
-  m_player_sprite_vy(),
-  m_player_sprite_jump_timer()
+  m_players()
 {
-  for (const GameObject* player_obj : m_level.get_sector(0)->get_objects_by_type_index(typeid(Player)))
-    push_player(static_cast<const Player*>(player_obj));
+  for (const Player* player : m_level.get_players())
+    push_player(player);
 }
 
 LevelIntro::~LevelIntro()
@@ -75,27 +70,28 @@ LevelIntro::update(float dt_sec, const Controller& controller)
     quit();
   }
 
-  for (int i = 0; i < static_cast<int>(m_players.size()); i++)
+  for (const auto& player : m_players)
   {
-    const PlayerStatus::Status& status = m_players[i]->get_status();
-
-    auto bonus_prefix = status.get_bonus_prefix();
-    if (status.bonus == FIRE_BONUS && g_config->christmas_mode)
+    auto bonus_prefix = player->player->get_status().get_bonus_prefix();
+    if (player->player->get_status().bonus == FIRE_BONUS && g_config->christmas_mode)
       bonus_prefix = "big";
 
-    m_player_sprite_py[i] += m_player_sprite_vy[i] * dt_sec;
-    m_player_sprite_vy[i] += 100 * dt_sec * Sector::get().get_gravity();
-    if (m_player_sprite_py[i] >= 0) {
-      m_player_sprite_py[i] = 0;
-      m_player_sprite_vy[i] = 0;
-      m_player_sprite[i]->set_action(bonus_prefix + "-walk-right");
-    } else {
-
-      m_player_sprite[i]->set_action(bonus_prefix + "-jump-right");
+    player->sprite_py += player->sprite_vy * dt_sec;
+    player->sprite_vy += 100 * dt_sec * Sector::get().get_gravity();
+    if (player->sprite_py >= 0)
+    {
+      player->sprite_py = 0;
+      player->sprite_vy = 0;
+      player->sprite->set_action(bonus_prefix + "-walk-right");
     }
-    if (m_player_sprite_jump_timer[i]->check()) {
-      m_player_sprite_vy[i] = -300;
-      m_player_sprite_jump_timer[i]->start(graphicsRandom.randf(2,3));
+    else
+    {
+      player->sprite->set_action(bonus_prefix + "-jump-right");
+    }
+    if (player->sprite_jump_timer.check())
+    {
+      player->sprite_vy = -300;
+      player->sprite_jump_timer.start(graphicsRandom.randf(2,3));
     }
   }
 }
@@ -126,7 +122,8 @@ LevelIntro::draw(Compositor& compositor)
   py += static_cast<int>(Resources::normal_font->get_height());
 
   std::string author = m_level.get_author();
-  if ((!author.empty()) && (author != "SuperTux Team")) {
+  if ((!author.empty()) && (author != "SuperTux Team"))
+  {
     std::string author_text = fmt::format(fmt::runtime(_("contributed by {}")), author);
     context.color().draw_center_text(Resources::small_font, author_text, Vector(0, static_cast<float>(py)), LAYER_FOREGROUND1, s_author_color);
     py += static_cast<int>(Resources::small_font->get_height());
@@ -143,26 +140,26 @@ LevelIntro::draw(Compositor& compositor)
       context.transform().alpha = 0.25f;
     */
 
-    const Player* player = m_players[i];
-    const PlayerStatus::Status& status = player->get_status();
-    const GameServerUser* remote_user = player->get_remote_user();
+    const PlayerData& player = *m_players[i];
+    const GameServerUser* remote_user = player.player->get_remote_user();
+    const PlayerStatus::Status& status = player.player->get_status();
 
-    float offset = (static_cast<float>(i) - static_cast<float>(m_player_sprite.size()) / 2.f + 0.5f) * 64.f;
+    float offset = (static_cast<float>(i) - static_cast<float>(m_players.size()) / 2.f + 0.5f) * 64.f;
 
-    const Vector sprite_pos((context.get_width() - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
-                            static_cast<float>(py) + m_player_sprite_py[i] - m_player_sprite[i]->get_current_hitbox_height());
+    const Vector sprite_pos((context.get_width() - player.sprite->get_current_hitbox_width()) / 2 - offset,
+                            static_cast<float>(py) + player.sprite_py - player.sprite->get_current_hitbox_height());
 
-    m_player_sprite[i]->draw(context.color(), sprite_pos, LAYER_FOREGROUND1);
+    player.sprite->draw(context.color(), sprite_pos, LAYER_FOREGROUND1);
 
-    context.color().draw_text(Resources::normal_font, std::to_string(player->get_id() + 1),
-                              sprite_pos + Vector(m_player_sprite[i]->get_current_hitbox_width() / 2,
-                                                  m_player_sprite[i]->get_current_hitbox_height() / 2),
+    context.color().draw_text(Resources::normal_font, std::to_string(player.player->get_id() + 1),
+                              sprite_pos + Vector(player.sprite->get_current_hitbox_width() / 2,
+                                                  player.sprite->get_current_hitbox_height() / 2),
                               FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1);
 
     if (remote_user)
     {
       context.color().draw_text(Resources::normal_font, remote_user->username,
-                                sprite_pos + Vector(m_player_sprite[i]->get_current_hitbox_width() / 2, -32.f),
+                                sprite_pos + Vector(player.sprite->get_current_hitbox_width() / 2, -32.f),
                                 FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
                                 remote_user->username_color);
     }
@@ -173,10 +170,10 @@ LevelIntro::draw(Compositor& compositor)
       status.bonus == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
       Color(1.f, 1.f, 1.f));
 
-    m_player_sprite[i]->set_color(power_color);
+    player.sprite->set_color(power_color);
     /*if (status.bonus > GROWUP_BONUS) {
-      m_santa_sprite[i]->draw(context.color(), Vector((context.get_width() - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
-                                                  static_cast<float>(py) + m_player_sprite_py[i] - m_player_sprite[i]->get_current_hitbox_height()), LAYER_FOREGROUND1);
+      player.santa_sprite->draw(context.color(), Vector((context.get_width() - player.sprite->get_current_hitbox_width()) / 2 - offset,
+                                                  static_cast<float>(py) + player.sprite_py - player.sprite->get_current_hitbox_height()), LAYER_FOREGROUND1);
     }*/
 
     //context.transform().alpha = 1.f;
@@ -217,16 +214,17 @@ LevelIntro::draw(Compositor& compositor)
     draw_stats_line(context, py, _("Best time"),
                     Statistics::time_to_string(m_best_level_statistics->get_time()), targetTimeBeaten);
 
-    if (m_level.m_target_time != 0.0f) {
+    if (m_level.m_target_time != 0.0f)
+    {
       draw_stats_line(context, py, _("Level target time"),
                       Statistics::time_to_string(m_level.m_target_time), targetTimeBeaten);
     }
   }
+
   py += 32;
-  if (!m_level.m_note.empty()) {
+
+  if (!m_level.m_note.empty())
     context.color().draw_center_text(Resources::normal_font, m_level.m_note, Vector(0, py), LAYER_FOREGROUND1);
-  }
-  
 }
 
 IntegrationStatus
@@ -241,46 +239,63 @@ LevelIntro::get_status() const
 void
 LevelIntro::push_player(const Player* player)
 {
-  m_players.push_back(player);
-  m_player_sprite.push_back(SpriteManager::current()->create("images/creatures/tux/tux.sprite"));
-  m_santa_sprite.push_back(SpriteManager::current()->create("images/creatures/tux/santahat.sprite"));
-  m_player_sprite_py.push_back(0);
-  m_player_sprite_vy.push_back(0);
-  m_player_sprite_jump_timer.push_back(std::make_unique<Timer>());
+  auto player_data = std::make_unique<PlayerData>();
 
-  //Show appropriate tux animation for player status.
+  player_data->player = player;
+  player_data->sprite = SpriteManager::current()->create("images/creatures/tux/tux.sprite");
+  player_data->santa_sprite = SpriteManager::current()->create("images/creatures/tux/santahat.sprite");
+  player_data->sprite_py = 0;
+  player_data->sprite_vy = 0;
+
+  // Show appropriate tux animation for player status.
   if (player->get_status().bonus == FIRE_BONUS && g_config->christmas_mode)
   {
-    m_player_sprite.back()->set_action("big-walk-right");
-    m_santa_sprite.back()->set_action("default");
+    player_data->sprite->set_action("big-walk-right");
+    player_data->santa_sprite->set_action("default");
   }
   else
   {
-    m_player_sprite.back()->set_action(player->get_status().get_bonus_prefix() + "-walk-right");
+    player_data->sprite->set_action(player->get_status().get_bonus_prefix() + "-walk-right");
   }
 
-  m_player_sprite_jump_timer.back()->start(graphicsRandom.randf(5,10));
+  player_data->sprite_jump_timer.start(graphicsRandom.randf(5,10));
 
   /* Set Tux powerup sprite action */
-  //m_santa_sprite[i]->set_action(m_player_sprite[i]->get_action());
+  //player_data.santa_sprite->set_action(player_data.sprite->get_action());
+
+  m_players.push_back(std::move(player_data));
+
+  // Sort players by username (local players go first).
+  std::sort(m_players.begin(), m_players.end(),
+    [](const auto& lhs, const auto& rhs)
+    {
+      const GameServerUser* lhs_remote = lhs->player->get_remote_user();
+      const GameServerUser* rhs_remote = rhs->player->get_remote_user();
+
+      if (lhs_remote == rhs_remote) // Also true if both are nullptr.
+        return lhs->player->get_id() > rhs->player->get_id();
+      if (lhs_remote && rhs_remote)
+        return lhs_remote->username > rhs_remote->username;
+
+      return !rhs_remote;
+    });
 }
 
 void
 LevelIntro::pop_player(const Player* player)
 {
-  // TODO: Remove exact player
-
-  if (m_player_sprite.size() <= 1)
+  if (m_players.size() <= 1)
   {
     log_warning << "Attempt to pop last player in intro scene" << std::endl;
     return;
   }
 
-  m_player_sprite.pop_back();
-  m_santa_sprite.pop_back();
-  m_player_sprite_py.pop_back();
-  m_player_sprite_vy.pop_back();
-  m_player_sprite_jump_timer.pop_back();
+  m_players.erase(std::remove_if(m_players.begin(), m_players.end(),
+    [player](const auto& player_data)
+    {
+      return player_data->player == player;
+    }),
+    m_players.end());
 }
 
 /* EOF */

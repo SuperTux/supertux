@@ -91,7 +91,8 @@ UserProtocol<U>::on_server_disconnect(Peer& peer, uint32_t)
   // Get server user (if it has been registered)
   if (peer.enet.data)
   {
-    ServerUser* user = static_cast<ServerUser*>(peer.enet.data);
+    U* user = static_cast<U*>(peer.enet.data);
+    on_user_disconnect(*user);
 
     // Notify all other peers of the disconnect user
     StagedPacket packet(OP_USER_SERVER_DISCONNECT, user->username);
@@ -174,7 +175,9 @@ UserProtocol<U>::on_packet_receive(ReceivedPacket packet)
       if (root.get_name() != "supertux-server-user")
         throw std::runtime_error("Cannot parse server user: Data is not 'supertux-server-user'.");
 
-      m_user_manager.m_server_users.push_back(std::make_unique<U>(root.get_mapping()));
+      auto user = std::make_unique<U>(root.get_mapping());
+      on_user_connect(*user);
+      m_user_manager.m_server_users.push_back(std::move(user));
       return;
     }
     case OP_USER_SERVER_DISCONNECT:
@@ -184,6 +187,7 @@ UserProtocol<U>::on_packet_receive(ReceivedPacket packet)
       {
         if ((*it)->username == packet.data[0])
         {
+          on_user_disconnect(**it);
           m_user_manager.m_server_users.erase(it);
           break;
         }
@@ -194,11 +198,11 @@ UserProtocol<U>::on_packet_receive(ReceivedPacket packet)
   }
 
   /** Operations from existing user */
-  ServerUser* user;
+  U* user;
   if (m_host.is_server()) // Server: Get user via peer userdata. Broadcast to all other peers.
   {
     assert(packet.peer && packet.peer->enet.data);
-    user = static_cast<ServerUser*>(packet.peer->enet.data);
+    user = static_cast<U*>(packet.peer->enet.data);
 
     StagedPacket broadcasted_packet(packet);
     broadcasted_packet.data.insert(broadcasted_packet.data.begin(), user->username);
@@ -276,6 +280,8 @@ UserProtocol<U>::on_request_receive(const ReceivedPacket& packet)
       // Create the server user
       auto user = std::make_unique<U>(reader);
       packet.peer->enet.data = user.get();
+
+      on_user_connect(*user);
 
       // Notify all other peers of the newly connected user
       StagedPacket staged_packet(OP_USER_SERVER_CONNECT, user->serialize());

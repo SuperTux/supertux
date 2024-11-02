@@ -58,9 +58,11 @@ private:
   bool verify_packet(network::StagedPacket& packet) const override;
   uint8_t get_packet_channel(const network::StagedPacket& packet) const override;
 
-  void on_user_packet_receive(const network::ReceivedPacket& packet, network::ServerUser& user) override;
-
   void on_request_fail(const network::Request& request, network::Request::FailReason reason) override;
+
+  void on_user_connect(GameServerUser& user) override;
+  void on_user_disconnect(GameServerUser& user) override;
+  void on_user_packet_receive(const network::ReceivedPacket& packet, GameServerUser& user) override;
 
 private:
   GameManager& m_game_manager;

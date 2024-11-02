@@ -23,12 +23,12 @@
 #include "control/input_manager.hpp"
 #include "control/joystick_manager.hpp"
 #include "gui/dialog.hpp"
+#include "object/player.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
-#include "object/player.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
@@ -42,18 +42,18 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
   if (player_id != 0 && GameSession::current()
       && !GameSession::current()->get_savegame().is_title_screen())
   {
-    bool player_is_in_sector = false;
+    bool player_in_level = false;
 
-    for (const auto* player : GameSession::current()->get_current_sector().get_players())
+    for (const Player* player : GameSession::current()->get_current_level().get_players())
     {
-      if (player->get_id() == player_id)
+      if (!player->get_remote_user() && player->get_id() == player_id)
       {
-        player_is_in_sector = true;
+        player_in_level = true;
         break;
       }
     }
 
-    if (player_is_in_sector)
+    if (player_in_level)
     {
       add_entry(_("Remove Player"), [player_id] {
         // Re-check everything that concerns the sector, it might have changed
@@ -65,18 +65,12 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
           return;
         }
 
-        for (auto* player : GameSession::current()->get_current_sector().get_players())
+        if (!GameSession::current()->on_local_player_removed(player_id))
         {
-          if (player->get_id() == player_id)
-          {
-            player->remove_me();
-            return;
-          }
+          log_warning << "Could not find player with ID " << player_id
+                      << " (number " << (player_id + 1) << "in sector"
+                      << std::endl;
         }
-
-        log_warning << "Could not find player with ID " << player_id
-                    << " (number " << (player_id + 1) << "in sector"
-                    << std::endl;
       });
 
       add_entry(_("Respawn Player"), [player_id] {
@@ -91,7 +85,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
 
         for (auto* player : GameSession::current()->get_current_sector().get_players())
         {
-          if (player->get_id() == player_id)
+          if (!player->get_remote_user() && player->get_id() == player_id)
           {
             player->multiplayer_prepare_spawn();
             return;
@@ -115,17 +109,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
           return;
         }
 
-        auto& sector = GameSession::current()->get_current_sector();
-        auto& player_status = GameSession::current()->get_savegame().get_player_status();
-
-        // TODO: This is probably needed because adding/removing users manually
-        // or automatically by plugging in controllers might not always fix the
-        // player_status object; check if that statement is correct
-        player_status.add_local_player(player_id);
-
-        auto& player = sector.add<Player>(player_status, player_id);
-
-        player.multiplayer_prepare_spawn();
+        GameSession::current()->on_local_player_added(player_id);
       });
     }
   }
