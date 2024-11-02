@@ -204,9 +204,12 @@ UserProtocol<U>::on_packet_receive(ReceivedPacket packet)
     assert(packet.peer && packet.peer->enet.data);
     user = static_cast<U*>(packet.peer->enet.data);
 
-    StagedPacket broadcasted_packet(packet);
-    broadcasted_packet.data.insert(broadcasted_packet.data.begin(), user->username);
-    m_host.broadcast_packet(broadcasted_packet, true, &packet.peer->enet);
+    if (on_user_packet_receive(packet, *user))
+    {
+      StagedPacket broadcasted_packet(packet);
+      broadcasted_packet.data.insert(broadcasted_packet.data.begin(), user->username);
+      m_host.broadcast_packet(broadcasted_packet, true, &packet.peer->enet);
+    }
   }
   else // Client: Get user from users list.
   {
@@ -215,9 +218,9 @@ UserProtocol<U>::on_packet_receive(ReceivedPacket packet)
       throw std::runtime_error("Unknown user username: '" + packet.data[0] + "'.");
 
     packet.data.erase(packet.data.begin()); // Remove user username
-  }
 
-  on_user_packet_receive(packet, *user);
+    on_user_packet_receive(packet, *user);
+  }
 }
 
 template<class U>

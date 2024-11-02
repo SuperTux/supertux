@@ -84,7 +84,9 @@ protected:
   /** User-oriented virtual functions */
   virtual void on_user_connect(U& user) {}
   virtual void on_user_disconnect(U& user) {}
-  virtual void on_user_packet_receive(const ReceivedPacket& packet, U& user) {}
+
+  /* If the host is a server, the return value indicates whether the packet should be broadcasted to all other users. */
+  virtual bool on_user_packet_receive(const ReceivedPacket& packet, U& user) { return false; }
 
 protected:
   UserManager<U>& m_user_manager;

@@ -69,7 +69,7 @@ private:
 
   void on_user_connect(EditorServerUser& user) override;
   void on_user_disconnect(EditorServerUser& user) override;
-  void on_user_packet_receive(const network::ReceivedPacket& packet, EditorServerUser& user) override;
+  bool on_user_packet_receive(const network::ReceivedPacket& packet, EditorServerUser& user) override;
 
 private:
   Editor& m_editor;

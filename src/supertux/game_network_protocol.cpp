@@ -156,7 +156,7 @@ GameNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) con
   }
 }
 
-void
+bool
 GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packet, GameServerUser& user)
 {
   switch (packet.code)
@@ -208,6 +208,9 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
     default:
       break;
   }
+
+  // No packets should be broadcasted to other server users.
+  return false;
 }
 
 void

@@ -62,7 +62,7 @@ private:
 
   void on_user_connect(GameServerUser& user) override;
   void on_user_disconnect(GameServerUser& user) override;
-  void on_user_packet_receive(const network::ReceivedPacket& packet, GameServerUser& user) override;
+  bool on_user_packet_receive(const network::ReceivedPacket& packet, GameServerUser& user) override;
 
 private:
   GameManager& m_game_manager;

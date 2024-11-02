@@ -154,7 +154,7 @@ EditorNetworkProtocol::on_packet_abort(network::ReceivedPacket packet)
   }
 }
 
-void
+bool
 EditorNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packet, EditorServerUser& user)
 {
   switch (packet.code)
@@ -165,10 +165,7 @@ EditorNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& pac
       auto doc = ReaderDocument::from_stream(stream);
       auto root = doc.get_root();
       if (root.get_name() != "supertux-sector-changes")
-      {
-        log_warning << "Ignoring incoming sector changes data: Not 'supertux-sector-changes' data." << std::endl;
-        return;
-      }
+        throw std::runtime_error("Cannot process incoming sector changes data: Data is not 'supertux-sector-changes'.");
 
       auto reader = root.get_mapping();
 
@@ -177,11 +174,7 @@ EditorNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& pac
 
       Sector* sector = m_editor.get_level()->get_sector(sector_name);
       if (!sector)
-      {
-        log_warning << "Ignoring incoming sector changes data: No sector with name '" << sector_name
-                    << "' found." << std::endl;
-        return;
-      }
+        throw std::runtime_error("Cannot process incoming sector changes data: No sector with name '" + sector_name + "' found.");
 
       BIND_SECTOR(*sector);
       sector->parse_properties(reader);
@@ -221,6 +214,9 @@ EditorNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& pac
     default:
       break;
   }
+
+  // All packets should be broadcasted to other server users.
+  return true;
 }
 
 network::StagedPacket
