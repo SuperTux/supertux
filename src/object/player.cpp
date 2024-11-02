@@ -2084,7 +2084,9 @@ Player::draw(DrawingContext& context)
       Vector pos_surf(pos - Vector(static_cast<float>(m_multiplayer_arrow->get_width()) / 2.f, 0.f));
       m_multiplayer_arrow->draw(context.color(), pos_surf, LAYER_LIGHTMAP + 1);
       context.color().draw_text(Resources::normal_font,
-                                (m_remote_user ? (m_remote_user->username + ": ") : "") + std::to_string(m_id + 1),
+                                m_remote_user
+                                  ? m_remote_user->username + (m_remote_user->player_controllers.size() > 1 ? (": " + std::to_string(m_id + 1)) : "")
+                                  : std::to_string(m_id + 1),
                                 pos, FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
                                 m_remote_user ? m_remote_user->username_color : Color::WHITE);
     }
@@ -2111,7 +2113,8 @@ Player::draw(DrawingContext& context)
   else if (m_remote_user && !is_dead())
   {
     // Draw remote player nametag, containing username and player ID.
-    context.color().draw_text(Resources::normal_font, m_remote_user->username + ": " + std::to_string(m_id + 1),
+    context.color().draw_text(Resources::normal_font, m_remote_user->username
+                                + (m_remote_user->player_controllers.size() > 1 ? (": " + std::to_string(m_id + 1)) : ""),
                               m_col.m_bbox.get_middle() - Vector(0.f, m_col.m_bbox.get_height() / 2 + 32.f),
                               FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
                               m_remote_user->username_color);
@@ -2484,7 +2487,9 @@ Player::on_flip(float height)
 void
 Player::remove_me()
 {
-  InputManager::current()->on_player_removed(get_id());
+  if (!m_remote_user)
+    InputManager::current()->on_player_removed(m_id);
+
   MovingObject::remove_me();
 }
 

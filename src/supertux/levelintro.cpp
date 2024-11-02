@@ -18,6 +18,7 @@
 
 #include <fmt/format.h>
 
+#include "control/input_manager.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -144,17 +145,21 @@ LevelIntro::draw(Compositor& compositor)
     const GameServerUser* remote_user = player.player->get_remote_user();
     const PlayerStatus::Status& status = player.player->get_status();
 
-    float offset = (static_cast<float>(i) - static_cast<float>(m_players.size()) / 2.f + 0.5f) * 64.f;
+    const float offset = (static_cast<float>(i) - static_cast<float>(m_players.size()) / 2.f + 0.5f) * 64.f;
 
     const Vector sprite_pos((context.get_width() - player.sprite->get_current_hitbox_width()) / 2 - offset,
                             static_cast<float>(py) + player.sprite_py - player.sprite->get_current_hitbox_height());
 
     player.sprite->draw(context.color(), sprite_pos, LAYER_FOREGROUND1);
 
-    context.color().draw_text(Resources::normal_font, std::to_string(player.player->get_id() + 1),
-                              sprite_pos + Vector(player.sprite->get_current_hitbox_width() / 2,
-                                                  player.sprite->get_current_hitbox_height() / 2),
-                              FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1);
+    if ((!remote_user && InputManager::current()->get_num_users() > 1) ||
+        (remote_user && remote_user->player_controllers.size() > 1))
+    {
+      context.color().draw_text(Resources::normal_font, std::to_string(player.player->get_id() + 1),
+                                sprite_pos + Vector(player.sprite->get_current_hitbox_width() / 2,
+                                                    player.sprite->get_current_hitbox_height() / 2),
+                                FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1);
+    }
 
     if (remote_user)
     {
