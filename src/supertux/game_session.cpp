@@ -137,20 +137,22 @@ GameSession::on_player_added(int id)
   player.multiplayer_prepare_spawn();
 }
 
-void
+bool
 GameSession::on_player_removed(int id)
 {
   // Sectors in worldmaps have no Player's of that class
-  if (m_currentsector)
+  if (!m_currentsector)
+    return false;
+
+  for (Player* player : m_currentsector->get_players())
   {
-    for (Player* player : m_currentsector->get_players())
+    if (player->get_id() == id)
     {
-      if (player->get_id() == id)
-        player->remove_me();
+      player->remove_me();
+      return true;
     }
   }
-
-  m_savegame.get_player_status().remove_player(id);
+  return false;
 }
 
 int

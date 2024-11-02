@@ -98,7 +98,7 @@ public:
   void reset_level();
 
   void on_player_added(int id);
-  void on_player_removed(int id);
+  bool on_player_removed(int id);
 
   void set_start_point(const std::string& sectorname,
                        const std::string& spawnpointname);
