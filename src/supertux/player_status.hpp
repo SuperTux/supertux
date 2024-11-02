@@ -28,9 +28,9 @@
 #include "supertux/level.hpp"
 
 class DrawingContext;
+class Player;
 class ReaderMapping;
 class Writer;
-class Player;
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;

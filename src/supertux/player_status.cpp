@@ -270,10 +270,7 @@ PlayerStatus::give_item_from_pocket(Player* player)
   m_item_pockets[player->get_id()] = NO_BONUS;
 
   auto& powerup = Sector::get().add<PocketPowerUp>(bonustype, Vector(0,0));
-  Vector pos = player->get_pos();
-  pos.x = player->get_bbox().get_left();
-  pos.y = player->get_bbox().get_top() - powerup.get_bbox().get_height() - 15;
-  powerup.set_pos(pos);
+  powerup.set_pos(player->get_pos() - Vector(0.f, powerup.get_bbox().get_height() + 15));
 }
 
 void
@@ -389,6 +386,7 @@ PlayerStatus::remove_player(int player_id)
   bonus.resize(m_num_players, NO_BONUS);
   m_item_pockets.resize(m_num_players, NO_BONUS);
 }
+
 
 PlayerStatus::PocketPowerUp::PocketPowerUp(BonusType bonustype, Vector pos):
   PowerUp(pos, PowerUp::get_type_from_bonustype(bonustype)),

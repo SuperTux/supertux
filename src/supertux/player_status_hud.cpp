@@ -16,6 +16,8 @@
 
 #include "supertux/player_status_hud.hpp"
 
+#include <iostream>
+
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
@@ -27,8 +29,6 @@
 #include "video/surface.hpp"
 #include "editor/editor.hpp"
 #include "worldmap/worldmap_sector.hpp"
-
-#include <iostream>
 
 static const int DISPLAYED_COINS_UNSET = -1;
 
