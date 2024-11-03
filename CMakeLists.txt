@@ -64,8 +64,6 @@ set(BUILD_CONFIG_DATA_DIR "${CMAKE_BINARY_DIR}/data")
 
 ## Add definitions
 if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
-  add_definitions(-DRELEASE) # FIXME Unnecessary?
-elseif(CMAKE_BUILD_TYPE MATCHES Debug)
   add_definitions(-DDEBUG)
 endif()
 
@@ -98,6 +96,9 @@ endif()
 
 option(STEAM_BUILD "Prepare build for Steam" OFF)
 option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" OFF)
+if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
+  target_compile_definitions(SUPERTUX PUBLIC SUPERTUX_RELEASE)
+endif()
 
 set(SUPERTUX_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
 set(VCPKG_BUILD OFF CACHE BOOL "Use dependencies installed via vcpkg (not dependency package)")
@@ -111,13 +112,6 @@ if(UBUNTU_TOUCH OR ANDROID)
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" ON)
 else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
-endif()
-
-# Configure main menu logo
-if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
-  set(LOGO_FILE "logo.png")
-else()
-  set(LOGO_FILE "logo_dev.png")
 endif()
 
 if(WIN32)
