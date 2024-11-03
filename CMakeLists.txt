@@ -221,7 +221,6 @@ endif()
 # Linking fixes
 set_source_files_properties(external/findlocale/findlocale.c PROPERTIES COMPILE_FLAGS -fPIE)
 set_source_files_properties(external/obstack/obstack.c PROPERTIES COMPILE_FLAGS -fPIE)
-set_target_properties(LibSavePNG PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 ## Link supertux binary with squirrel and other libraries
 
