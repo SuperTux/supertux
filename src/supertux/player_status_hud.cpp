@@ -88,7 +88,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
                             PlayerStatusHUD::text_color);
 
   hudpos += 8.f;
-  for (int target = 0; target < InputManager::current()->get_num_users(); target++)
+  for (int target = 0; target < InputManager::current()->get_num_users() && target < m_player_status.get_num_local_players(); target++)
   {
     const PlayerStatus::Status& status = m_player_status.get_local_player(target);
 

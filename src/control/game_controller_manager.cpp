@@ -236,7 +236,7 @@ GameControllerManager::on_controller_added(int joystick_index)
         m_game_controllers[game_controller] = id;
 
         if (GameSession::current() && id != 0)
-          GameSession::current()->on_local_player_added(id);
+          GameSession::current()->spawn_local_player(id);
       }
     }
   }
@@ -261,7 +261,7 @@ GameControllerManager::on_controller_removed(int instance_id)
         && deleted_player_id != 0 && !m_parent->m_uses_keyboard[deleted_player_id]
         && GameSession::current())
     {
-      GameSession::current()->on_local_player_removed(deleted_player_id);
+      GameSession::current()->despawn_local_player(deleted_player_id);
     }
   }
   else

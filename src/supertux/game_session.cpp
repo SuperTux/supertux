@@ -173,7 +173,7 @@ GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Stati
 }
 
 void
-GameSession::on_local_player_added(int id)
+GameSession::spawn_local_player(int id)
 {
   assert(id > 0);
   if (m_savegame.is_title_screen())
@@ -198,34 +198,43 @@ GameSession::on_local_player_added(int id)
   {
     player.multiplayer_prepare_spawn();
   }
+
+  if (m_network_host)
+  {
+    network::StagedPacket packet(GameNetworkProtocol::OP_PLAYER_SPAWN, std::to_string(id));
+    m_network_host->broadcast_packet(packet, true);
+  }
 }
 
 bool
-GameSession::on_local_player_removed(int id)
+GameSession::despawn_local_player(int id)
 {
   assert(id > 0);
   if (m_savegame.is_title_screen())
     return false;
 
-  for (const auto& sector : m_level->get_sectors())
+  for (Player* player : m_level->get_players())
   {
-    for (Player* player : sector->get_players())
+    if (!player->get_remote_user() && player->get_id() == id)
     {
-      if (!player->get_remote_user() && player->get_id() == id)
-      {
-        if (m_levelintro)
-          m_levelintro->pop_player(player);
+      if (m_levelintro)
+        m_levelintro->pop_player(player);
 
-        player->remove_me();
-        return true;
+      if (m_network_host)
+      {
+        network::StagedPacket packet(GameNetworkProtocol::OP_PLAYER_DESPAWN, std::to_string(id));
+        m_network_host->broadcast_packet(packet, true);
       }
+
+      player->remove_me();
+      return true;
     }
   }
   return false;
 }
 
 void
-GameSession::on_remote_player_added(const GameServerUser& user, int id)
+GameSession::spawn_remote_player(const GameServerUser& user, int id)
 {
   if (m_savegame.is_title_screen())
     return;
@@ -252,23 +261,20 @@ GameSession::on_remote_player_added(const GameServerUser& user, int id)
 }
 
 bool
-GameSession::on_remote_player_removed(const GameServerUser& user, int id)
+GameSession::despawn_remote_player(const GameServerUser& user, int id)
 {
   if (m_savegame.is_title_screen())
     return false;
 
-  for (const auto& sector : m_level->get_sectors())
+  for (Player* player : m_level->get_players())
   {
-    for (Player* player : sector->get_players())
+    if (player->get_remote_user() == &user && player->get_id() == id)
     {
-      if (player->get_remote_user() == &user && player->get_id() == id)
-      {
-        if (m_levelintro)
-          m_levelintro->pop_player(player);
+      if (m_levelintro)
+        m_levelintro->pop_player(player);
 
-        player->remove_me();
-        return true;
-      }
+      player->remove_me();
+      return true;
     }
   }
   return false;

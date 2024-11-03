@@ -54,7 +54,7 @@ GameNetworkProtocol::on_user_connect(GameServerUser& user)
     return;
 
   for (int i = 0; i < user.get_num_players(); i++)
-    GameSession::current()->on_remote_player_added(user, i);
+    GameSession::current()->spawn_remote_player(user, i);
 }
 
 void
@@ -64,7 +64,7 @@ GameNetworkProtocol::on_user_disconnect(GameServerUser& user)
     return;
 
   for (int i = user.get_num_players() - 1; i >= 0; i--)
-    GameSession::current()->on_remote_player_removed(user, i);
+    GameSession::current()->despawn_remote_player(user, i);
 }
 
 void
@@ -145,6 +145,12 @@ GameNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) con
     case OP_GAME_START:
       return CH_GAME_JOIN_REQUESTS;
 
+    case OP_PLAYER_ADD:
+    case OP_PLAYER_REMOVE:
+    case OP_PLAYER_SPAWN:
+    case OP_PLAYER_DESPAWN:
+      return CH_PLAYER_UPDATES;
+
     case OP_CONTROLLER_UPDATE:
       return CH_CONTROLLER_UPDATES;
 
@@ -185,6 +191,48 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
 
       LevelIntro::quit();
       break;
+    }
+
+    case OP_PLAYER_ADD:
+    {
+      // TODO: Make sure user players are lower than max local players
+      user.push_player();
+      return true;
+    }
+    case OP_PLAYER_REMOVE:
+    {
+      if (user.get_num_players() <= 1)
+        throw std::runtime_error("Cannot process player removal from \"" + user.username + "\": Attempted to remove the last player of this user.");
+
+      if (GameSession::current())
+        GameSession::current()->despawn_remote_player(user, user.get_num_players() - 1);
+
+      user.pop_player();
+      return true;
+    }
+    case OP_PLAYER_SPAWN:
+    {
+      if (!GameSession::current())
+        throw std::runtime_error("Cannot process player spawn from \"" + user.username + "\": No active GameSession.");
+
+      const int player_id = std::stoi(packet.data[0]);
+      if (player_id >= user.get_num_players())
+        throw std::runtime_error("Cannot process player spawn from \"" + user.username + "\": Player " + std::to_string(player_id + 1) + " does not exist.");
+
+      GameSession::current()->spawn_remote_player(user, player_id);
+      return true;
+    }
+    case OP_PLAYER_DESPAWN:
+    {
+      if (!GameSession::current())
+        throw std::runtime_error("Cannot process player despawn from \"" + user.username + "\": No active GameSession.");
+
+      const int player_id = std::stoi(packet.data[0]);
+      if (player_id >= user.get_num_players())
+        throw std::runtime_error("Cannot process player despawn from \"" + user.username + "\": Player " + std::to_string(player_id + 1) + " does not exist.");
+
+      GameSession::current()->despawn_remote_player(user, player_id);
+      return true;
     }
 
     case OP_CONTROLLER_UPDATE:

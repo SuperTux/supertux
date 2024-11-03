@@ -35,6 +35,9 @@ public:
 
   void write(Writer& writer) const override;
 
+  void push_player();
+  void pop_player();
+
   int get_num_players() const { return static_cast<int>(player_controllers.size()); }
 
 public:

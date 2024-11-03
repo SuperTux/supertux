@@ -87,10 +87,10 @@ public:
   virtual void leave() override;
   virtual IntegrationStatus get_status() const override;
 
-  void on_local_player_added(int id);
-  bool on_local_player_removed(int id);
-  void on_remote_player_added(const GameServerUser& user, int id);
-  bool on_remote_player_removed(const GameServerUser& user, int id);
+  void spawn_local_player(int id);
+  bool despawn_local_player(int id);
+  void spawn_remote_player(const GameServerUser& user, int id);
+  bool despawn_remote_player(const GameServerUser& user, int id);
 
   /** ends the current level */
   void finish(bool win = true);

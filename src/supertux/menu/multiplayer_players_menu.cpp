@@ -22,11 +22,10 @@
 #include "control/input_manager.hpp"
 #include "control/joystick_manager.hpp"
 #include "gui/dialog.hpp"
-#include "supertux/game_session.hpp"
-#include "supertux/menu/multiplayer_player_menu.hpp"
-#include "supertux/savegame.hpp"
-#include "supertux/sector.hpp"
 #include "object/player.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/level.hpp"
+#include "supertux/menu/multiplayer_player_menu.hpp"
 #include "util/gettext.hpp"
 
 MultiplayerPlayersMenu::MultiplayerPlayersMenu()
@@ -45,45 +44,31 @@ MultiplayerPlayersMenu::MultiplayerPlayersMenu()
 
   add_entry(_("Add Player"), [] {
     InputManager::current()->push_user();
-
-    if (GameSession::current() && GameSession::current()->get_savegame().get_player_status().get_num_local_players() < InputManager::current()->get_num_users())
-    {
-      GameSession::current()->get_savegame().get_player_status().add_local_player(GameSession::current()->get_savegame().get_player_status().get_num_local_players());
-    }
-
     MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayersMenu>());
   });
 
   if (InputManager::current()->get_num_users() > 1)
   {
     add_entry(_("Remove Last Player"), [] {
-      if (Sector::current() && Sector::current()->get_object_count<Player>() >= InputManager::current()->get_num_users())
+      if (GameSession::current())
       {
-        Dialog::show_confirmation(_("Warning: The player you are trying to\nremove is currently in-game.\n\nDo you wish to remove them anyways?"), [] {
-
-          // Remove the player before the controller, else it'll behave funny
-          auto num = InputManager::current()->get_num_users();
-          // FIXME: Probably not a good idea to get a player by name
-          auto player = Sector::current()->get_object_by_name<Player>("Tux" + std::to_string(num));
-
-          if (player)
+        const int player_id = InputManager::current()->get_num_users() - 1;
+        for (const Player* player : GameSession::current()->get_current_level().get_players())
+        {
+          if (!player->get_remote_user() && player->get_id() == player_id)
           {
-            player->remove_me();
+            Dialog::show_confirmation(_("Warning: The player you are trying to\nremove is currently in-game.\n\nDo you wish to remove them anyways?"), []
+            {
+              InputManager::current()->pop_user();
+              MenuManager::instance().pop_menu();
+            });
+            return;
           }
-          else
-          {
-            log_warning << "Cannot disconnect player #" << num << " in a sector with " << Sector::current()->get_object_count<Player>() << std::endl;
-          }
+        }
+      }
 
-          InputManager::current()->pop_user();
-          MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayersMenu>());
-        });
-      }
-      else
-      {
-        InputManager::current()->pop_user();
-        MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayersMenu>());
-      }
+      InputManager::current()->pop_user();
+      MenuManager::instance().pop_menu();
     });
   }
 

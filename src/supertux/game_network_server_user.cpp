@@ -46,4 +46,18 @@ GameServerUser::write(Writer& writer) const
   writer.write("num-players", static_cast<int>(player_controllers.size()));
 }
 
+void
+GameServerUser::push_player()
+{
+  player_controllers.push_back(std::make_unique<NetworkController>());
+}
+
+void
+GameServerUser::pop_player()
+{
+  if (player_controllers.size() <= 1) return;
+
+  player_controllers.pop_back();
+}
+
 /* EOF */

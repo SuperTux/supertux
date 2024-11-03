@@ -68,6 +68,9 @@ public:
   void connect_to_remote_game(const std::string& hostname, uint16_t port,
                               const std::string& username, const Color& username_color);
 
+  void on_local_player_add();
+  void on_local_player_remove();
+
   ENetPeer* get_server_peer() const { return m_network_server_peer; }
 
 private:

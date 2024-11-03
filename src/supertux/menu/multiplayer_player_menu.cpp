@@ -28,7 +28,6 @@
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/savegame.hpp"
-#include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
@@ -43,7 +42,6 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       && !GameSession::current()->get_savegame().is_title_screen())
   {
     bool player_in_level = false;
-
     for (const Player* player : GameSession::current()->get_current_level().get_players())
     {
       if (!player->get_remote_user() && player->get_id() == player_id)
@@ -55,7 +53,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
 
     if (player_in_level)
     {
-      add_entry(_("Remove Player"), [player_id] {
+      add_entry(_("Despawn Player"), [player_id] {
         // Re-check everything that concerns the sector, it might have changed
         // (e. g. when unplugging a controller with auto-management enabled)
         if (!GameSession::current() || GameSession::current()->get_savegame().is_title_screen())
@@ -65,7 +63,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
           return;
         }
 
-        if (!GameSession::current()->on_local_player_removed(player_id))
+        if (!GameSession::current()->despawn_local_player(player_id))
         {
           log_warning << "Could not find player with ID " << player_id
                       << " (number " << (player_id + 1) << "in sector"
@@ -83,18 +81,14 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
           return;
         }
 
-        for (auto* player : GameSession::current()->get_current_sector().get_players())
+        if (!GameSession::current()->despawn_local_player(player_id))
         {
-          if (!player->get_remote_user() && player->get_id() == player_id)
-          {
-            player->multiplayer_prepare_spawn();
-            return;
-          }
+          log_warning << "Could not find player with ID " << player_id
+                      << " (number " << (player_id + 1) << "in sector"
+                      << std::endl;
+          return;
         }
-
-        log_warning << "Could not find player with ID " << player_id
-                    << " (number " << (player_id + 1) << "in sector"
-                    << std::endl;
+        GameSession::current()->spawn_local_player(player_id);
       });
     }
     else
@@ -109,7 +103,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
           return;
         }
 
-        GameSession::current()->on_local_player_added(player_id);
+        GameSession::current()->spawn_local_player(player_id);
       });
     }
   }

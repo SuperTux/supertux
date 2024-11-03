@@ -172,6 +172,32 @@ GameManager::set_next_worldmap(const std::string& world, const std::string& sect
 }
 
 void
+GameManager::on_local_player_add()
+{
+  if (m_savegame && !m_savegame->is_title_screen())
+    m_savegame->get_player_status().add_local_player(InputManager::current()->get_num_users() - 1);
+
+  network::StagedPacket packet(GameNetworkProtocol::OP_PLAYER_ADD, "");
+  if (m_network_server)
+    m_network_server->broadcast_packet(packet, true);
+  else if (m_network_client)
+    m_network_client->send_packet(m_network_server_peer, packet, true);
+}
+
+void
+GameManager::on_local_player_remove()
+{
+  if (GameSession::current())
+    GameSession::current()->despawn_local_player(InputManager::current()->get_num_users() - 1);
+
+  network::StagedPacket packet(GameNetworkProtocol::OP_PLAYER_REMOVE, "");
+  if (m_network_server)
+    m_network_server->broadcast_packet(packet, true);
+  else if (m_network_client)
+    m_network_client->send_packet(m_network_server_peer, packet, true);
+}
+
+void
 GameManager::host_game(uint16_t port, const std::string& username, const Color& username_color)
 {
   if (m_network_server)

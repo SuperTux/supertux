@@ -212,7 +212,7 @@ EditorNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& pac
     }
 
     default:
-      break;
+      return false;
   }
 
   // All packets should be broadcasted to other server users.

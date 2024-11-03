@@ -21,6 +21,7 @@
 #include "control/joystick_config.hpp"
 #include "control/joystick_manager.hpp"
 #include "control/keyboard_manager.hpp"
+#include "supertux/game_manager.hpp"
 #include "util/log.hpp"
 
 InputManager::InputManager(KeyboardConfig& keyboard_config,
@@ -140,6 +141,8 @@ void
 InputManager::push_user()
 {
   m_controllers.push_back(std::make_unique<Controller>());
+
+  GameManager::current()->on_local_player_add();
 }
 
 void
@@ -147,6 +150,8 @@ InputManager::pop_user()
 {
   if (m_controllers.size() <= 1)
     throw std::runtime_error("Attempt to pop the first player's controller");
+
+  GameManager::current()->on_local_player_remove();
 
   m_controllers.pop_back();
 }
