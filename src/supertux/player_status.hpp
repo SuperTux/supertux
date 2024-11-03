@@ -36,10 +36,7 @@ static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
 
 /**
- * NOTE: Make sure to expose any new enumerators to Squirrel.
- *
  * @scripting
- * @prefix BONUS_
  */
 enum BonusType {
   BONUS_NONE = 0, /*!< No bonus. */
