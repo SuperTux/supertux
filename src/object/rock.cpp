@@ -24,6 +24,7 @@
 #include "object/lit_object.hpp"
 #include "object/pushbutton.hpp"
 #include "object/trampoline.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "object/player.hpp"
@@ -45,8 +46,7 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   m_on_grab_script(),
   m_on_ungrab_script(),
   m_running_grab_script(),
-  m_running_ungrab_script(),
-  m_last_sector_gravity(10.0f)
+  m_running_ungrab_script()
 {
   parse_type(reader);
   reader.get("on-grab-script", m_on_grab_script, "");
@@ -300,6 +300,13 @@ Rock::ungrab(MovingObject& object, Direction dir)
     Sector::get().run_script(m_on_ungrab_script, "Rock::on_ungrab");
   }
   Portable::ungrab(object, dir);
+}
+
+void
+Rock::draw(DrawingContext& context)
+{
+  Vector offset = m_physic.get_velocity() * context.get_time_offset();
+  m_sprite->draw(context.color(), get_pos() + offset, m_layer, m_flip);
 }
 
 ObjectSettings

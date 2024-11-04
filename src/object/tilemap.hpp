@@ -31,6 +31,7 @@
 #include "video/flip.hpp"
 #include "video/drawing_target.hpp"
 
+class AutotileSet;
 class CollisionObject;
 class CollisionGroundMovementManager;
 class DrawingContext;
@@ -56,6 +57,8 @@ public:
   TileMap(const TileSet *tileset);
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   ~TileMap() override;
+
+  void parse_tiles(const ReaderMapping& reader);
 
   virtual void finish_construction() override;
 
@@ -169,6 +172,7 @@ public:
    * @param int $y
    */
   uint32_t get_tile_id(int x, int y) const;
+  uint32_t get_tile_id(const Vector& pos) const;
   /**
    * @scripting
    * @description Returns the ID of the tile at the given position (in world coordinates).
@@ -187,6 +191,7 @@ public:
    * @param int $newtile
    */
   void change(int x, int y, uint32_t newtile);
+  void change(int idx, uint32_t newtile);
   /**
    * @scripting
    * @description Changes the tile at the given position (in-world coordinates) to ""newtile"".
@@ -205,7 +210,7 @@ public:
   void change_all(uint32_t oldtile, uint32_t newtile);
 
   /** Puts the correct autotile block at the given position */
-  void autotile(int x, int y, uint32_t tile);
+  void autotile(int x, int y, uint32_t tile, AutotileSet* autotileset);
 
   enum class AutotileCornerOperation {
     ADD_TOP_LEFT,
@@ -219,13 +224,13 @@ public:
   };
 
   /** Puts the correct autotile blocks at the tiles around the given corner */
-  void autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op);
+  void autotile_corner(int x, int y, uint32_t tile, AutotileSet* autotileset, AutotileCornerOperation op);
 
   /** Erases in autotile mode */
-  void autotile_erase(const Vector& pos, const Vector& corner_pos);
+  void autotile_erase(const Vector& pos, const Vector& corner_pos, AutotileSet* autotileset);
 
-  /** Returns the Autotileset associated with the given tile */
-  AutotileSet* get_autotileset(uint32_t tile) const;
+  /** Returns the Autotilesets associated with the given tile */
+  std::vector<AutotileSet*> get_autotilesets(uint32_t tile) const;
 
   void set_flip(Flip flip) { m_flip = flip; }
   Flip get_flip() const { return m_flip; }
