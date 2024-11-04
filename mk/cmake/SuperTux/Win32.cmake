@@ -49,14 +49,18 @@ endif()
 add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
 add_definitions(-DWIN32)
 
+## When using MinGW, add special flags
+if(MINGW)
+  #set(CMAKE_CXX_FLAGS "-pg ${CMAKE_CXX_FLAGS}")
+  #set(CMAKE_LINKER_FLAGS "-pg ${CMAKE_LINKER_FLAGS}")
+endif()
+
 ## On Windows, add an icon
-if(WIN32)
-  if(MINGW)
-    add_custom_command(
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
-      COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
-    set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
-  endif()
+if(WIN32 AND MINGW)
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
+    COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
+  set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
 endif()
 
 # EOF #

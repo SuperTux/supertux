@@ -160,8 +160,6 @@ add_subdirectory(external/partio_zip)
 add_subdirectory(external/tinygettext) # NOTE need libiconv for this
 include(SuperTux/ProvideOpenGL)
 
-target_link_libraries(supertux2 PUBLIC OpenAL)
-
 ## Build stuff
 include(SuperTux/BuildVersion)
 include(SuperTux/BuildDocumentation)
@@ -231,7 +229,7 @@ set_source_files_properties(external/obstack/obstack.c PROPERTIES COMPILE_FLAGS 
 target_link_libraries(supertux2 PUBLIC simplesquirrel)
 target_link_libraries(supertux2 PUBLIC tinygettext)
 target_link_libraries(supertux2 PUBLIC sexp)
-target_link_libraries(supertux2 PUBLIC SDLSavePNG)
+target_link_libraries(supertux2 PUBLIC SDL_SavePNG)
 target_link_libraries(supertux2 PUBLIC PartioZip)
 target_link_libraries(supertux2 PUBLIC OpenAL)
 target_link_libraries(supertux2 PUBLIC glm)

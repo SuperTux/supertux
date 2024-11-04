@@ -25,6 +25,7 @@
 #include <csignal>
 #include <sstream>
 #include <string>
+#include <cstring>
 
 #include <SDL.h>
 
