@@ -43,7 +43,7 @@ public:
   virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(WalkingCandle)); }
 
 private:
-  Color lightcolor;
+  Color m_lightcolor;
 
 private:
   WalkingCandle(const WalkingCandle&) = delete;

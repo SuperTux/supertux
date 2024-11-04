@@ -33,7 +33,7 @@
 #include "util/writer.hpp"
 
 WeakBlock::WeakBlock(const ReaderMapping& mapping) :
-  MovingSprite(mapping, "images/objects/weak_block/meltbox.sprite", LAYER_TILES, COLGROUP_STATIC),
+  MovingSprite(mapping, "images/objects/weak_block/meltbox.sprite", LAYER_OBJECTS + 10, COLGROUP_STATIC),
   state(STATE_NORMAL),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
@@ -213,9 +213,7 @@ WeakBlock::update(float )
 void
 WeakBlock::draw(DrawingContext& context)
 {
-  //Draw the Sprite just in front of other objects
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10, m_flip);
-
+  MovingSprite::draw(context);
   if (m_type == HAY && (state != STATE_NORMAL))
   {
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);

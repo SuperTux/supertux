@@ -44,6 +44,7 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
+  void draw(DrawingContext& context) override;
 
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);

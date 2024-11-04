@@ -21,6 +21,7 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
 Spotlight::Direction
@@ -87,7 +88,7 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   if (mapping.get("color", vColor))
     m_color = Color(vColor);
 
-  mapping.get("layer", m_layer, 0);
+  m_layer = reader_get_layer(mapping, LAYER_TILES);
   mapping.get("enabled", m_enabled, true);
 }
 
@@ -108,9 +109,9 @@ Spotlight::get_settings()
                   {_("Clockwise"), _("Counter-clockwise"), _("Stopped")},
                   {"clockwise", "counter-clockwise", "stopped"},
                   static_cast<int>(Direction::CLOCKWISE), "r-direction");
-  result.add_int(_("Layer"), &m_layer, "layer", 0);
+  result.add_int(_("Z-pos"), &m_layer, "z-pos", 0);
 
-  result.reorder({"angle", "color", "layer", "x", "y"});
+  result.reorder({"angle", "color", "z-pos", "x", "y"});
 
   return result;
 }

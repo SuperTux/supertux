@@ -144,6 +144,7 @@ const float SWIM_BOOST_SPEED = 600.f;
 const float SWIM_TO_BOOST_ACCEL = 15.f;
 const float TURN_MAGNITUDE = 0.15f;
 const float TURN_MAGNITUDE_BOOST = 0.2f;
+const std::array<std::string, 2> BUBBLE_ACTIONS = { "normal", "small" };
 
 /* Buttjump variables */
 
@@ -226,6 +227,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_swimming_accel_modifier(100.f),
   m_water_jump(false),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
+  m_bubbles_sprite(SpriteManager::current()->create("images/particles/air_bubble.sprite")),
   m_floor_normal(0.0f, 0.0f),
   m_ghost_mode(false),
   m_unduck_hurt_timer(),
@@ -254,6 +256,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   SoundManager::current()->preload("sounds/invincible_start.ogg");
   SoundManager::current()->preload("sounds/splash.wav");
   SoundManager::current()->preload("sounds/grow.wav");
+  m_bubble_timer.start(3.0f + graphicsRandom.randf(2));
+
   m_col.set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
 
   m_sprite->set_angle(0.0f);
@@ -412,6 +416,23 @@ Player::update(float dt_sec)
     }
   }
 
+  if (!m_active_bubbles.empty())
+  {
+    for (auto& bubble : m_active_bubbles)
+    {
+      bubble.second.y -= dt_sec * 40.0f;
+      bubble.second.x += std::sin(bubble.second.y * 0.1f) * dt_sec * 5.0f;
+    }
+
+    m_active_bubbles.remove_if([&](const std::pair<SpritePtr, Vector>& bubble)
+      {
+        Rectf bubble_box(bubble.second.x, bubble.second.y, bubble.second.x + 16.f, bubble.second.y + 16.f);
+        bool is_out_of_water = Sector::get().is_free_of_tiles(bubble_box, true, Tile::WATER);
+        bool hits_solid = !Sector::get().is_free_of_tiles(bubble_box, false, Tile::SOLID);
+        return is_out_of_water || hits_solid;
+      });
+  }
+
   // Skip if in multiplayer respawn
   if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p) { return p.is_active() && &p != this; }))
   {
@@ -513,6 +534,71 @@ Player::update(float dt_sec)
         m_water_jump = true;
         if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
           m_physic.set_velocity_y(-350.f);
+      }
+
+      if (m_bubble_timer.check())
+      {
+        Vector beak_local_offset(30.f, 0.0f);
+        float big_offset_x = is_big() ? 4.0f : 0.0f;
+
+        // Calculate the offsets based on the sprite angle
+        float offset_x = std::cos(m_swimming_angle) * 10.0f;
+        float offset_y = std::sin(m_swimming_angle) * 10.0f;
+
+        // Rotate the beak offset based on the sprite's angle
+        float rotated_beak_offset_x = beak_local_offset.x * std::cos(m_swimming_angle) - beak_local_offset.y * std::sin(m_swimming_angle);
+        float rotated_beak_offset_y = beak_local_offset.x * std::sin(m_swimming_angle) + beak_local_offset.y * std::cos(m_swimming_angle);
+
+        Vector player_center = m_col.m_bbox.get_middle();
+        Vector beak_position;
+
+        // Determine direction based on the radians
+        if (std::abs(m_swimming_angle) > static_cast<float>(math::PI_2)) // Facing left
+        {
+          beak_position = player_center + Vector(rotated_beak_offset_x - big_offset_x * 2, rotated_beak_offset_y);
+        }
+        else // Facing right (including straight up or down)
+        {
+          beak_position = player_center + Vector(rotated_beak_offset_x - 4.0f + big_offset_x, rotated_beak_offset_y);
+        }
+
+        int num_bubbles = graphicsRandom.rand(1, 3);
+
+        for (int i = 0; i < num_bubbles; ++i)
+        {
+          int random_action_index = graphicsRandom.rand(0, 2);
+          std::string selected_action = BUBBLE_ACTIONS[random_action_index];
+
+          SpritePtr bubble_sprite = m_bubbles_sprite->clone();
+          bubble_sprite->set_animation_loops(1);
+          bubble_sprite->set_action(selected_action);
+
+          Vector bubble_pos(0.f, 0.f);
+          if (std::abs(m_swimming_angle) > static_cast<float>(math::PI_2)) // Facing left
+          {
+            bubble_pos = beak_position + Vector(offset_x - big_offset_x * 2, offset_y);
+          }
+          else // Facing right (including straight up or down)
+          {
+            bubble_pos = beak_position + Vector(offset_x - 4.0f + big_offset_x, offset_y);
+          }
+
+          if (num_bubbles > 1)
+          {
+            float burst_offset_x = graphicsRandom.randf(-5.0f, 5.0f);
+            float burst_offset_y = graphicsRandom.randf(-5.0f, 5.0f);
+            bubble_pos.x += burst_offset_x;
+            bubble_pos.y += burst_offset_y;
+          }
+
+          if (bubble_pos.y > -1)
+          {
+            m_active_bubbles.emplace_back(std::make_pair(std::move(bubble_sprite), bubble_pos));
+          }
+        }
+
+        // Restart the timer for the next wave of bubbles
+        m_bubble_timer.start(0.8f + graphicsRandom.randf(0.0f, 0.6f));
       }
     }
     else
@@ -1389,7 +1475,7 @@ Player::handle_vertical_input()
   if (m_controller->pressed(Control::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
   if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && (m_can_jump || m_coyote_timer.started())) {
     m_jump_button_timer.stop();
-    if (m_duck) {
+    if (m_duck && !m_sliding) {
       // when running, only jump a little bit; else do a backflip
       if ((m_physic.get_velocity_x() != 0) ||
           (m_controller->hold(Control::LEFT)) ||
@@ -1736,7 +1822,7 @@ Player::position_grabbed_object(bool teleport)
 bool
 Player::try_grab()
 {
-  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !m_duck && !m_released_object)
+  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !(m_duck ^ m_crawl) && !m_released_object)
   {
 
     Vector pos(0.0f, 0.0f);
@@ -1823,27 +1909,23 @@ Player::get_coins() const
 
 BonusType
 Player::string_to_bonus(const std::string& bonus) const {
-  BonusType type = NO_BONUS;
-
   if (bonus == "grow") {
-    type = GROWUP_BONUS;
+    return GROWUP_BONUS;
   } else if (bonus == "fireflower") {
-    type = FIRE_BONUS;
+    return FIRE_BONUS;
   } else if (bonus == "iceflower") {
-    type = ICE_BONUS;
+    return ICE_BONUS;
   } else if (bonus == "airflower") {
-    type = AIR_BONUS;
+    return AIR_BONUS;
   } else if (bonus == "earthflower") {
-    type = EARTH_BONUS;
+    return EARTH_BONUS;
   } else if (bonus == "none") {
-    type = NO_BONUS;
+    return NO_BONUS;
   } else {
     std::ostringstream msg;
     msg << "Unknown bonus type "  << bonus;
     throw std::runtime_error(msg.str());
   }
-
-  return type;
 }
 
 std::string
@@ -2018,6 +2100,7 @@ Player::draw(DrawingContext& context)
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
   if (m_col.m_bbox.get_bottom() - 16 < Sector::get().get_camera().get_translation().y) {
     float px = m_col.m_bbox.get_left() + (m_col.m_bbox.get_right() - m_col.m_bbox.get_left() - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
+    px += context.get_time_offset() * m_physic.get_velocity().x;
     float py = Sector::get().get_camera().get_translation().y;
     py += std::min(((py - (m_col.m_bbox.get_bottom() + 16)) / 4), 16.0f);
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
@@ -2247,9 +2330,12 @@ Player::draw(DrawingContext& context)
     get_bonus() == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
     Color(1.f, 1.f, 1.f));
 
+  for (auto& bubble_sprite : m_active_bubbles)
+  {
+    bubble_sprite.first->draw(context.color(), bubble_sprite.second, LAYER_TILES - 5);
+  }
   m_sprite->set_color(m_stone ? Color(1.f, 1.f, 1.f) : power_color);
 }
-
 
 void
 Player::collision_tile(uint32_t tile_attributes)
@@ -2432,17 +2518,18 @@ Player::kill(bool completely)
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
 
-    if (get_bonus() == FIRE_BONUS
-      || get_bonus() == ICE_BONUS
-      || get_bonus() == AIR_BONUS
-      || get_bonus() == EARTH_BONUS) {
+    if (get_bonus() > GROWUP_BONUS)
+    {
       m_safe_timer.start(TUX_SAFE_TIME);
       m_is_intentionally_safe = false;
       set_bonus(GROWUP_BONUS, true);
-    } else if (get_bonus() == GROWUP_BONUS) {
+    }
+    else if (get_bonus() == GROWUP_BONUS)
+    {
       m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_is_intentionally_safe = false;
       m_duck = false;
+      m_crawl = false;
       stop_backflipping();
       set_bonus(NO_BONUS, true);
     }

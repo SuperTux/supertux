@@ -411,6 +411,12 @@ Editor::get_tileselect_move_mode() const
 }
 
 void
+Editor::update_autotileset()
+{
+  m_overlay_widget->update_autotileset();
+}
+
+void
 Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
@@ -727,20 +733,14 @@ Editor::convert_tiles_by_file(const std::string& file)
   {
     IFileStream in(file);
     if (!in.good())
-    {
-      log_warning << "Couldn't open conversion file '" << file << "'." << std::endl;
-      return;
-    }
+      throw std::runtime_error("Error opening file stream!");
 
     int a, b;
     std::string delimiter;
     while (in >> a >> delimiter >> b)
     {
       if (delimiter != "->")
-      {
-        log_warning << "Couldn't parse conversion file '" << file << "'." << std::endl;
-        return;
-      }
+        throw std::runtime_error("Expected '->' delimiter!");
 
       tiles[a] = b;
     }
@@ -748,6 +748,7 @@ Editor::convert_tiles_by_file(const std::string& file)
   catch (std::exception& err)
   {
     log_warning << "Couldn't parse conversion file '" << file << "': " << err.what() << std::endl;
+    return;
   }
 
   for (const auto& sector : m_level->get_sectors())

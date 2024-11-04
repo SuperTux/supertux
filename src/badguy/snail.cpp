@@ -23,6 +23,7 @@
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
@@ -390,6 +391,7 @@ Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
   if (m_frozen)
     BadGuy::grab(object, pos, dir_);
   m_col.set_movement(pos - get_pos());
+  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   if (!m_frozen)
   {
