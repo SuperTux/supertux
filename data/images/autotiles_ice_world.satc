@@ -339,84 +339,101 @@
 	)
   )
   
-  (autotileset
+  (autotileset-corner
     (name "snow")
     (default 105)
-    (autotile
-      (id 109)
-      (solid #f)
-      (mask "10000000")
-  )
-    (autotile
-      (id 113)
-      (solid #f)
-      (mask "00*0110*")
-      (mask "00100*1*")
-      (mask "00*01*1*")
-  )
-    (autotile
-      (id 112)
-      (solid #f)
-      (mask "10000*1*")
-      (mask "*0010*1*")
-      (mask "*0010*01")
-  )
-    (autotile
-      (id 111)
-      (solid #f)
-      (mask "10*0100*")
-      (mask "*1*0100*")
-      (mask "*1*00001")
-  )
-    (autotile
-      (id 110)
-      (solid #f)
-      (mask "*1*10*00")
-      (mask "*1*00100")
-      (mask "*0110*00")
-  )
-    (autotile
-      (id 101)
-      (solid #f)
-      (mask "00000001")
-  )
-    (autotile
-      (id 102)
-      (solid #f)
-      (mask "00000*1*")
-  )
-    (autotile
-      (id 103)
-      (solid #f)
-      (mask "00000100")
-  )
-    (autotile
-      (id 104)
-      (solid #f)
-      (mask "00*0100*")
-  )
+    
+    ;; CENTER
     (autotile
       (id 105)
-      (solid #t)
-      (mask "********")
-      (mask "*1****1*")
-      (mask "***11***")
-  )
+      (mask "1111")
+      )
+    
+    
+    ;; TOP LEFT
+    (autotile
+      (id 101)
+      (mask "0001")
+    )
+    
+    ;; TOP 
+    (autotile
+      (id 102)
+      (mask "0011")
+    )
+        
+    ;; TOP RIGHT
+    (autotile
+      (id 103)
+      (mask "0010")
+    )
+            
+    ;; LEFT
+    (autotile
+      (id 104)
+      (mask "0101")
+    )
+                
+    ;; RIGHT
     (autotile
       (id 106)
-      (solid #f)
-      (mask "*0010*00")
-  )
+      (mask "1010")
+    )
+                    
+    ;; BOTTOM LEFT
     (autotile
       (id 107)
-      (solid #f)
-      (mask "00100000")
-  )
+      (mask "0100")
+    )
+                        
+    ;; BOTTOM
     (autotile
       (id 108)
-      (solid #f)
-      (mask "*1*00000")
+      (mask "1100")
     )
+                            
+    ;; BOTTOM RIGHT
+    (autotile
+      (id 109)
+      (mask "1000")
+    )
+                                
+    ;; CORNER TOP LEFT
+    (autotile
+      (id 110)
+      (mask "1110")
+    )
+                                    
+    ;; CORNER TOP RIGHT
+    (autotile
+      (id 111)
+      (mask "1101")
+    )
+                                        
+    ;; CORNER BOTTOM LEFT
+    (autotile
+      (id 112)
+      (mask "1011")
+    )
+                                            
+    ;; CORNER BOTTOM RIGHT
+    (autotile
+      (id 113)
+      (mask "0111")
+    )
+                                                
+    ;; INTERSECTION DOWN-UP
+    (autotile
+      (id 554)
+      (mask "0110")
+    )
+                                                    
+    ;; INTERSECTION UP-DOWN
+    (autotile
+      (id 555)
+      (mask "1001")
+    )
+    
   )
   
   (autotileset
