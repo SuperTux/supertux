@@ -114,10 +114,6 @@ else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
-if(WIN32)
-  include(SuperTux/Win32)
-endif()
-
 ## Check platform-dependent build options
 include(ConfigureChecks)
 
@@ -198,6 +194,10 @@ add_executable(supertux2 WIN32 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_
 # TODO Is this even needed?
 # $<$<BOOL:WIN32>:{CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc>
 target_include_directories(supertux2 PUBLIC ${CMAKE_BINARY_DIR} src/)
+
+if(WIN32)
+  include(SuperTux/Win32)
+endif()
 
 set_target_properties(supertux2 PROPERTIES OUTPUT_NAME "supertux2")
 set_target_properties(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
