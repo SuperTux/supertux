@@ -240,8 +240,6 @@ UserProtocol<U>::on_request_receive(const ReceivedPacket& packet)
         throw std::runtime_error("User \"" + user->username + "\" tried to register again!");
       }
 
-      m_pending_users.erase(&packet.peer->enet);
-
       // Parse the server user
       auto doc = ReaderDocument::from_string(packet.data[0], "server-user");
       auto root = doc.get_root();
@@ -294,13 +292,31 @@ UserProtocol<U>::on_request_receive(const ReceivedPacket& packet)
       m_user_manager.m_server_users.push_back(std::move(user));
       MenuManager::instance().refresh_menu<ServerManagementMenu>();
 
+      // Remove peer from pending users
+      m_pending_users.erase(&packet.peer->enet);
+
       // Indicate success. Return a list of all registered users.
       return StagedPacket(OP_USER_REGISTER, m_user_manager.save_server_users(static_cast<ServerUser*>(packet.peer->enet.data)));
     }
 
     default:
+    {
+      if (m_host.is_server()) // Server: Get user via peer userdata.
+      {
+        assert(packet.peer && packet.peer->enet.data);
+        return on_server_user_request_receive(packet, *static_cast<U*>(packet.peer->enet.data));
+      }
+
       throw std::runtime_error("Invalid request code!");
+    }
   }
+}
+
+template<class U>
+network::StagedPacket
+UserProtocol<U>::on_server_user_request_receive(const ReceivedPacket&, U&)
+{
+  throw std::runtime_error("Invalid request code!");
 }
 
 template<class U>

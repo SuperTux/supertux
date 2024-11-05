@@ -192,6 +192,17 @@ Server::ban(ENetPeer* peer)
   MenuManager::instance().refresh_menu<ServerManagementMenu>();
 }
 
+ENetPeer*
+Server::get_peer_from_user(const ServerUser& user) const
+{
+  for (ENetPeer* peer = m_host->peers; peer < &m_host->peers[m_host->peerCount]; peer++)
+  {
+    if (peer->data == &user)
+      return peer;
+  }
+  return nullptr;
+}
+
 std::vector<RemoteUser>
 Server::get_users() const
 {

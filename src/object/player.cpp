@@ -3079,8 +3079,29 @@ Player::prev_target()
 }
 
 void
-Player::multiplayer_prepare_spawn()
+Player::set_target(const GameServerUser* target_user, int target_id)
 {
+  const auto& players = Sector::get().get_players();
+  for (auto* player : players)
+  {
+    if (player->get_remote_user() == target_user &&
+        player->get_id() == target_id)
+    {
+      m_target.reset(new UID());
+      *m_target = player->get_uid();
+      break;
+    }
+  }
+}
+
+void
+Player::multiplayer_prepare_spawn(const GameServerUser* target_user, int target_id)
+{
+  if (target_id < 0)
+    next_target();
+  else
+    set_target(target_user, target_id);
+
   m_physic.enable_gravity(true);
   m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
   m_safe_timer.stop();
@@ -3090,8 +3111,6 @@ Player::multiplayer_prepare_spawn()
   m_dying = true;
   set_group(COLGROUP_DISABLED);
   m_dead = true;
-
-  next_target();
 }
 
 void

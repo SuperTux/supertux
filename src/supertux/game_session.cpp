@@ -173,13 +173,24 @@ GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Stati
 }
 
 void
-GameSession::spawn_local_player(int id)
+GameSession::spawn_local_player(int id, const GameServerUser* target_user, int target_id)
 {
   assert(id > 0);
   if (m_savegame.is_title_screen())
     return;
 
   m_savegame.get_player_status().add_local_player(id);
+
+  // If we are a client and no target user for the player was provided,
+  // notify the user of this player spawning and request the target user and ID for it.
+  if (!m_levelintro && m_network_host && !m_network_host->is_server() && target_id < 0)
+  {
+    m_network_host->send_request(GameManager::current()->get_server_peer(),
+                                 std::make_unique<network::Request>(
+                                   std::make_unique<network::StagedPacket>(GameNetworkProtocol::OP_PLAYER_SPAWN, std::to_string(id), 2.f),
+                                   5.f));
+    return;
+  }
 
   Player& player = m_currentsector->add<Player>(m_savegame.get_player_status(), id);
   m_currentsector->flush_game_objects();
@@ -196,13 +207,26 @@ GameSession::spawn_local_player(int id)
   }
   else
   {
-    player.multiplayer_prepare_spawn();
-  }
+    player.multiplayer_prepare_spawn(target_user == &*GameManager::current()->get_self_user() ? nullptr : target_user, target_id);
 
-  if (m_network_host)
-  {
-    network::StagedPacket packet(GameNetworkProtocol::OP_PLAYER_SPAWN, std::to_string(id));
-    m_network_host->broadcast_packet(packet, true);
+    if (!player.get_target())
+      return;
+
+    if (m_network_host && m_network_host->is_server())
+    {
+      const Player* target = m_currentsector->get_object_by_uid<Player>(*player.get_target());
+      const GameServerUser* target_user = target->get_remote_user();
+      if (!target_user)
+        target_user = &*GameManager::current()->get_self_user();
+
+      network::StagedPacket packet(GameNetworkProtocol::OP_PLAYER_SPAWN, {
+           GameManager::current()->get_self_user()->username,
+           std::to_string(id),
+           target_user->username,
+           std::to_string(target->get_id())
+        });
+      m_network_host->broadcast_packet(packet, true);
+    }
   }
 }
 
@@ -233,11 +257,12 @@ GameSession::despawn_local_player(int id)
   return false;
 }
 
-void
-GameSession::spawn_remote_player(const GameServerUser& user, int id)
+std::pair<const GameServerUser*, int>
+GameSession::spawn_remote_player(const GameServerUser& user, int id,
+                                 const GameServerUser* target_user, int target_id)
 {
   if (m_savegame.is_title_screen())
-    return;
+    return { nullptr, -1 };
 
   m_savegame.get_player_status().add_remote_player(user.username, id);
 
@@ -256,8 +281,33 @@ GameSession::spawn_remote_player(const GameServerUser& user, int id)
   }
   else
   {
-    player.multiplayer_prepare_spawn();
+    player.multiplayer_prepare_spawn(target_user == &*GameManager::current()->get_self_user() ? nullptr : target_user, target_id);
+
+    if (!player.get_target())
+      return { nullptr, -1 };
+
+    const Player* target = m_currentsector->get_object_by_uid<Player>(*player.get_target());
+    const GameServerUser* target_user = target->get_remote_user();
+    if (!target_user)
+      target_user = &*GameManager::current()->get_self_user();
+
+    if (m_network_host && m_network_host->is_server())
+    {
+      network::StagedPacket packet(GameNetworkProtocol::OP_PLAYER_SPAWN, {
+          user.username,
+          std::to_string(id),
+          target_user->username,
+          std::to_string(target->get_id())
+        });
+
+      network::Server* server = static_cast<network::Server*>(m_network_host);
+      m_network_host->broadcast_packet(packet, true, server->get_peer_from_user(user));
+    }
+
+    return { target_user, target->get_id() };
   }
+
+  return { nullptr, -1 };
 }
 
 bool

@@ -48,17 +48,17 @@ public:
   UserManager();
 
   const std::vector<std::unique_ptr<U>>& get_server_users() const { return m_server_users; }
-  const std::optional<const U>& get_self_user() const { return m_self_user; }
+  const std::optional<U>& get_self_user() const { return m_self_user; }
 
 protected:
-  U* get_server_user(const std::string& username) const;
+  U* get_server_user(const std::string& username);
 
   void parse_server_users(const std::string& data);
   std::string save_server_users(ServerUser* except = nullptr) const;
 
 protected:
   std::vector<std::unique_ptr<U>> m_server_users;
-  std::optional<const U> m_self_user;
+  std::optional<U> m_self_user;
 
 private:
   UserManager(const UserManager&) = delete;
@@ -77,8 +77,11 @@ UserManager<U>::UserManager() :
 
 template<class U>
 U*
-UserManager<U>::get_server_user(const std::string& username) const
+UserManager<U>::get_server_user(const std::string& username)
 {
+  if (m_self_user && username == m_self_user->username)
+    return &*m_self_user;
+
   auto it = std::find_if(m_server_users.begin(), m_server_users.end(),
                          [username](const auto& user)
     {

@@ -64,10 +64,12 @@ private:
   uint8_t get_packet_channel(const network::StagedPacket& packet) const override;
 
   void on_request_fail(const network::Request& request, network::Request::FailReason reason) override;
+  void on_request_response(const network::Request& request) override;
 
   void on_user_connect(GameServerUser& user) override;
   void on_user_disconnect(GameServerUser& user) override;
   bool on_user_packet_receive(const network::ReceivedPacket& packet, GameServerUser& user) override;
+  network::StagedPacket on_server_user_request_receive(const network::ReceivedPacket& packet, GameServerUser& user) override;
 
 private:
   GameManager& m_game_manager;

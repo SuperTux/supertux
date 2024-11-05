@@ -419,7 +419,7 @@ public:
   /** Boosts Tux in a certain direction, sideways. Useful for bumpers/walljumping. */
   void sideways_push(float delta);
 
-  void multiplayer_prepare_spawn();
+  void multiplayer_prepare_spawn(const GameServerUser* target_user = nullptr, int target_id = -1);
 
   void set_ending_direction(int direction) { m_ending_direction = direction; }
   int get_ending_direction() const { return m_ending_direction; }
@@ -429,6 +429,8 @@ public:
   void remove_collected_key(Key* key);
 
   bool track_state() const override { return false; }
+
+  const UID* get_target() const { return m_target.get(); }
 
 private:
   void handle_input();
@@ -465,6 +467,7 @@ private:
 
   void next_target();
   void prev_target();
+  void set_target(const GameServerUser* target_user, int target_id);
 
   void multiplayer_respawn();
 

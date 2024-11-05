@@ -40,7 +40,7 @@ GameNetworkProtocol::update()
 {
   network::UserProtocol<GameServerUser>::update();
 
-  for (const auto& user : m_user_manager.get_server_users())
+  for (const auto& user : m_game_manager.get_server_users())
   {
     for (const auto& controller : user->player_controllers)
       controller->update();
@@ -212,14 +212,30 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
     }
     case OP_PLAYER_SPAWN:
     {
+      if (m_host.is_server()) // Servers are supposed to process player spawns as Requests (so they can return info about target player).
+        throw std::runtime_error("Cannot process player spawn from \"" + user.username + "\": This host is a server.");
+
       if (!GameSession::current())
-        throw std::runtime_error("Cannot process player spawn from \"" + user.username + "\": No active GameSession.");
+        throw std::runtime_error("Cannot process player spawn from server: No active GameSession.");
 
-      const int player_id = std::stoi(packet.data[0]);
-      if (player_id >= user.get_num_players())
-        throw std::runtime_error("Cannot process player spawn from \"" + user.username + "\": Player " + std::to_string(player_id + 1) + " does not exist.");
+      const GameServerUser* user = m_game_manager.get_server_user(packet.data[0]);
+      if (!user)
+        throw std::runtime_error("Cannot process player spawn from server: Unknown user username: '" + packet.data[0] + "'.");
 
-      GameSession::current()->spawn_remote_player(user, player_id);
+      const int player_id = std::stoi(packet.data[1]);
+      if (player_id < 0 || player_id >= user->get_num_players())
+        throw std::runtime_error("Cannot process player spawn from \"" + user->username + "\": Player " + std::to_string(player_id + 1) + " does not exist.");
+
+      const GameServerUser* target_user = m_game_manager.get_server_user(packet.data[2]);
+      if (!target_user)
+        throw std::runtime_error("Cannot process player spawn from \"" + user->username + "\": Unknown target user username: '" + packet.data[2] + "'.");
+
+      const int target_player_id = std::stoi(packet.data[3]);
+      if (target_player_id < 0 || target_player_id >= target_user->get_num_players())
+        throw std::runtime_error("Cannot process player spawn from \"" + user->username +
+            "\": Player " + std::to_string(target_player_id + 1) + " does not exist under user \"" + target_user->username + "\".");
+
+      GameSession::current()->spawn_remote_player(*user, player_id, target_user, target_player_id);
       return true;
     }
     case OP_PLAYER_DESPAWN:
@@ -228,7 +244,7 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
         throw std::runtime_error("Cannot process player despawn from \"" + user.username + "\": No active GameSession.");
 
       const int player_id = std::stoi(packet.data[0]);
-      if (player_id >= user.get_num_players())
+      if (player_id < 0 || player_id >= user.get_num_players())
         throw std::runtime_error("Cannot process player despawn from \"" + user.username + "\": Player " + std::to_string(player_id + 1) + " does not exist.");
 
       GameSession::current()->despawn_remote_player(user, player_id);
@@ -261,6 +277,36 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
   return false;
 }
 
+network::StagedPacket
+GameNetworkProtocol::on_server_user_request_receive(const network::ReceivedPacket& packet, GameServerUser& user)
+{
+  switch (packet.code)
+  {
+    case OP_PLAYER_SPAWN:
+    {
+      if (!GameSession::current())
+        throw std::runtime_error("Cannot process player spawn request from \"" + user.username + "\": No active GameSession.");
+
+      const int player_id = std::stoi(packet.data[0]);
+      if (player_id < 0 || player_id >= user.get_num_players())
+        throw std::runtime_error("Cannot process player spawn request from \"" + user.username + "\": Player " + std::to_string(player_id + 1) + " does not exist.");
+
+      auto target_player = GameSession::current()->spawn_remote_player(user, player_id);
+      if (!target_player.first)
+        throw std::runtime_error("Cannot process player spawn request from \"" + user.username + "\": Target player user not available!");
+
+      // Plater was spawned. Return info about its target player.
+      return network::StagedPacket(OP_PLAYER_SPAWN, {
+          target_player.first->username,
+          std::to_string(target_player.second)
+        }, 2.f);
+    }
+
+    default:
+      throw std::runtime_error("Invalid request code!");
+  }
+}
+
 void
 GameNetworkProtocol::on_request_fail(const network::Request& request, network::Request::FailReason reason)
 {
@@ -282,6 +328,40 @@ GameNetworkProtocol::on_request_fail(const network::Request& request, network::R
     {
       Dialog::show_message(_("Disconnected: Registration request failed:") + "\n \n" + fail_reason);
       // TODO: Close
+      break;
+    }
+
+    default:
+      break;
+  }
+}
+
+void
+GameNetworkProtocol::on_request_response(const network::Request& request)
+{
+  network::UserProtocol<GameServerUser>::on_request_response(request);
+
+  const network::ReceivedPacket& packet = *request.received;
+  switch (packet.code)
+  {
+    case OP_PLAYER_SPAWN:
+    {
+      if (m_host.is_server())
+        throw std::runtime_error("Cannot process player spawn request response on non-server!");
+
+      if (!GameSession::current())
+        throw std::runtime_error("Cannot process player spawn request response from server: No active GameSession.");
+
+      const GameServerUser* target_user = m_game_manager.get_server_user(packet.data[0]);
+      if (!target_user)
+        throw std::runtime_error("Cannot process player spawn request response from server: Unknown target user username: '" + packet.data[0] + "'.");
+
+      const int target_player_id = std::stoi(packet.data[1]);
+      if (target_player_id < 0 || target_player_id >= target_user->get_num_players())
+        throw std::runtime_error("Cannot process player spawn request response from server: Player " +
+            std::to_string(target_player_id + 1) + " does not exist on target user '" + target_user->username + "'.");
+
+      GameSession::current()->spawn_local_player(std::stoi(request.staged->data[0]), target_user, target_player_id);
       break;
     }
 

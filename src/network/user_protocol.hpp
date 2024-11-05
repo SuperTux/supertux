@@ -87,6 +87,7 @@ protected:
 
   /* If the host is a server, the return value indicates whether the packet should be broadcasted to all other users. */
   virtual bool on_user_packet_receive(const ReceivedPacket& packet, U& user) { return false; }
+  virtual StagedPacket on_server_user_request_receive(const ReceivedPacket& packet, U& user);
 
 protected:
   UserManager<U>& m_user_manager;

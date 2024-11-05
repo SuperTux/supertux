@@ -24,6 +24,8 @@
 
 namespace network {
 
+class ServerUser;
+
 /** A server, which clients can connect to. */
 class Server final : public Host
 {
@@ -39,6 +41,8 @@ public:
   /** Server moderation */
   void kick(ENetPeer* peer);
   void ban(ENetPeer* peer);
+
+  ENetPeer* get_peer_from_user(const ServerUser& user) const;
 
   std::vector<RemoteUser> get_users() const;
   Address get_address() const;

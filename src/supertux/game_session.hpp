@@ -87,9 +87,10 @@ public:
   virtual void leave() override;
   virtual IntegrationStatus get_status() const override;
 
-  void spawn_local_player(int id);
+  void spawn_local_player(int id, const GameServerUser* target_user = nullptr, int target_id = -1);
   bool despawn_local_player(int id);
-  void spawn_remote_player(const GameServerUser& user, int id);
+  std::pair<const GameServerUser*, int> spawn_remote_player(const GameServerUser& user, int id,
+                                                            const GameServerUser* target_user = nullptr, int target_id = -1);
   bool despawn_remote_player(const GameServerUser& user, int id);
 
   /** ends the current level */
