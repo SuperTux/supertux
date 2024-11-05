@@ -148,15 +148,17 @@ add_package(TARGET Vorbis PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_
 add_package(TARGET VorbisFile PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
 add_package(TARGET glm PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
 add_package(TARGET fmt PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
-# TODO
 add_package(TARGET PhysFS PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs)
 add_package(TARGET ZLIB PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
+# add_package(TARGET Iconv PKG Iconv PKG_USE Iconv::Iconv PKG_CONFIG libiconv) # probably wrong
 
 add_subdirectory(external/SDL_SavePNG)
 add_subdirectory(external/simplesquirrel)
 add_subdirectory(external/discord-sdk)
 add_subdirectory(external/sexp-cpp)
 add_subdirectory(external/partio_zip)
+# Workaround tinygettext wanting Iconv
+SET(HAVE_SDL TRUE CACHE BOOL "Use SDL_iconv instead of system iconv")
 add_subdirectory(external/tinygettext) # NOTE need libiconv for this
 include(SuperTux/ProvideOpenGL)
 
