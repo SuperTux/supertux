@@ -38,46 +38,46 @@
 #      REQUIRED              <-- (optional) NOT passed to find_package, just a check to
 #                                  throw an error if we've exhausted all options.
 #      PKG_CONFIG sdl2 sdl2_ttf   <-- (optional, recommended) List of packages for PkgConfig
-#      PROVIDES ProvideSDL2       <-- (optional) Fallback to just look at the provided file. 
+#      PROVIDES ProvideSDL2       <-- (optional) Fallback to just look at the provided file.
 #   )                                  Undecided if I should fall back to a FindXXXX.cmake yet
-	
+
 find_package(PkgConfig)
 macro(add_package)
   cmake_parse_arguments(addpackage_args
-	  "CONFIG;REQUIRED" "TARGET;PROVIDES;PKG;PKG_USE" "PKG_CONFIG"
-	  ${ARGN}
-	)
+    "CONFIG;REQUIRED" "TARGET;PROVIDES;PKG;PKG_USE" "PKG_CONFIG"
+    ${ARGN}
+  )
 
   # Note: We don't pass "REQUIRED" here because we choose to fallback if it doesn't exist.
   #       Later, however, we do choose to throw an error based on this flag.
   set(addpackage_fp_args "")
   if (${addpackage_args_CONFIG})
-	string(APPEND addpackage_fp_args "CONFIG")
+    string(APPEND addpackage_fp_args "CONFIG")
   endif()
-  
+
   find_package(${addpackage_args_PKG} ${addpackage_fp_args})
-  
+
   if(${addpackage_args_PKG}_FOUND)
-  	# See if its an alias (Is this needed?)
-	get_target_property(addpackage_pkg_alias_check ${addpackage_args_PKG_USE} ALIASED_TARGET)
-	if (addpackage_pkg_alias_check STREQUAL "addpackage_pkg_alias_check-NOTFOUND")
-		add_library(${addpackage_args_TARGET} ALIAS ${addpackage_args_PKG_USE})
-	else()
-		message(STATUS "Package \"${addpackage_args_PKG}\" is an alias. Realiasing it.")
-		# "unalias" it, aka just export the "alias" as the new target, so a re-alias, really...
-		get_target_property(${addpackage_args_TARGET} ${addpackage_args_PKG_USE} ALIASED_TARGET)
-	endif()
+    # See if its an alias (Is this needed?)
+    get_target_property(addpackage_pkg_alias_check ${addpackage_args_PKG_USE} ALIASED_TARGET)
+    if (addpackage_pkg_alias_check STREQUAL "addpackage_pkg_alias_check-NOTFOUND")
+      add_library(${addpackage_args_TARGET} ALIAS ${addpackage_args_PKG_USE})
+    else()
+      message(STATUS "Package \"${addpackage_args_PKG}\" is an alias. Realiasing it.")
+      # "unalias" it, aka just export the "alias" as the new target, so a re-alias, really...
+      get_target_property(${addpackage_args_TARGET} ${addpackage_args_PKG_USE} ALIASED_TARGET)
+    endif()
   else()
-	#message(STATUS "CMake Package \"${addpackage_args_PKG}\" doesn't exist, so falling back to PkgConfig")
-	
-	if (PkgConfig_FOUND)
-	  if (${addpackage_args_REQUIRED})
-		list(APPEND addpackage_args_pkg_config_args REQUIRED)
-	  endif()
-	  pkg_check_modules(${addpackage_args_TARGET} ${addpackage_args_pkg_config_args} ${addpackage_args_PKG_CONFIG})
-	elseif(addpackage_args_REQUIRED)
-	  # TODO look in Provides
-	  message(FATAL_ERROR "Package \"${addpackage_args_TARGET}\" couldn't be found, but it's required.\nI don't know what to do. Is it installed?")
-	endif()
+    #message(STATUS "CMake Package \"${addpackage_args_PKG}\" doesn't exist, so falling back to PkgConfig")
+
+    if (PkgConfig_FOUND)
+      if (${addpackage_args_REQUIRED})
+        list(APPEND addpackage_args_pkg_config_args REQUIRED)
+      endif()
+      pkg_check_modules(${addpackage_args_TARGET} ${addpackage_args_pkg_config_args} ${addpackage_args_PKG_CONFIG})
+    elseif(addpackage_args_REQUIRED)
+      # TODO look in Provides
+      message(FATAL_ERROR "Package \"${addpackage_args_TARGET}\" couldn't be found, but it's required.\nI don't know what to do. Is it installed?")
+    endif()
   endif()
 endmacro(add_package)

@@ -239,19 +239,19 @@ target_link_libraries(supertux2 PUBLIC PhysFS)
 
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC
-      # SDL2_image
-      SDL2_image
-	  # SDL2_ttf
-	  SDL2_ttf
-	  # SDL2 main (windows?)
-	  $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-	  # SDL2
-      SDL2)
+    # SDL2_image
+    SDL2_image
+    # SDL2_ttf
+    SDL2_ttf
+    # SDL2 main (windows?)
+    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+    # SDL2
+    SDL2)
   target_link_libraries(supertux2 PUBLIC
-  	Ogg
-	Vorbis
-	VorbisFile
-  )
+    Ogg
+    Vorbis
+    VorbisFile
+    )
   target_link_libraries(supertux2 PUBLIC CURL::libcurl)
 endif()
 
