@@ -41,7 +41,9 @@
 #include <DbgHelp.h>
 //#include <VersionHelpers.h>
 
+#ifdef _MSC_VER
 #pragma comment(lib, "DbgHelp.lib")
+#endif
 #elif defined(UNIX)
 #include <sys/utsname.h>
 #include <execinfo.h>

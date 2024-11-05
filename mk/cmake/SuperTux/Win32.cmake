@@ -55,6 +55,8 @@ if(MINGW)
   #set(CMAKE_LINKER_FLAGS "-pg ${CMAKE_LINKER_FLAGS}")
 endif()
 
+
+
 ## On Windows, add an icon
 if(WIN32 AND MINGW)
   add_custom_command(
