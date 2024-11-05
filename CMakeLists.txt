@@ -159,7 +159,9 @@ add_subdirectory(external/sexp-cpp)
 add_subdirectory(external/partio_zip)
 # Workaround tinygettext wanting Iconv
 SET(HAVE_SDL TRUE CACHE BOOL "Use SDL_iconv instead of system iconv")
-add_subdirectory(external/tinygettext) # NOTE need libiconv for this
+add_subdirectory(external/tinygettext)
+add_subdirectory(external/findlocale)
+add_subdirectory(external/obstack)
 include(SuperTux/ProvideOpenGL)
 
 ## Build stuff
@@ -168,7 +170,7 @@ include(SuperTux/BuildDocumentation)
 include(SuperTux/BuildMessagePot)
 
 ## Build list of sources for supertux binary
-file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
+set(SUPERTUX_SOURCES_C ${CMAKE_CURRENT_SOURCE_DIR})
 
 file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
@@ -210,34 +212,16 @@ set_target_properties(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARN
 #endif()
 #endif()
 
-## Some additional include paths
-target_include_directories(supertux2 SYSTEM PUBLIC
-  external/findlocale/
-  external/obstack/
-  )
-
-
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
   target_include_directories(supertux2 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
 endif()
 
-# Linking fixes
-set_source_files_properties(external/findlocale/findlocale.c PROPERTIES COMPILE_FLAGS -fPIE)
-set_source_files_properties(external/obstack/obstack.c PROPERTIES COMPILE_FLAGS -fPIE)
-
 ## Link supertux binary with squirrel and other libraries
-
-target_link_libraries(supertux2 PUBLIC simplesquirrel)
-target_link_libraries(supertux2 PUBLIC tinygettext)
-target_link_libraries(supertux2 PUBLIC sexp)
-target_link_libraries(supertux2 PUBLIC SDL_SavePNG)
-target_link_libraries(supertux2 PUBLIC PartioZip)
-target_link_libraries(supertux2 PUBLIC OpenAL)
-target_link_libraries(supertux2 PUBLIC glm)
+target_link_libraries(supertux2 PUBLIC
+  simplesquirrel tinygettext sexp SDL_SavePNG
+  PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
-target_link_libraries(supertux2 PUBLIC fmt)
-target_link_libraries(supertux2 PUBLIC PhysFS)
 
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC
