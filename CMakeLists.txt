@@ -188,9 +188,16 @@ include(SuperTux/CompileAmalgation)
 #set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 #set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-## Add target for supertux binary
 
-add_executable(supertux2 WIN32 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+## Set windowed mode when building in release
+## because the console is very useful for debugging on Windows.
+set(SUPERTUX_WIN32_OPTION)
+if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
+  set(SUPERTUX_WIN32_OPTION WIN32)
+endif()
+
+## Add target for supertux binary
+add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 # TODO Is this even needed?
 # $<$<BOOL:WIN32>:{CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc>
 target_include_directories(supertux2 PUBLIC ${CMAKE_BINARY_DIR} src/)
@@ -218,8 +225,13 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
 endif()
 
 ## Link supertux binary with squirrel and other libraries
+if(MSVC)
+  target_link_libraries(supertux2 PUBLIC simplesquirrel_static)
+else()
+  target_link_libraries(supertux2 PUBLIC simplesquirrel)
+endif()
 target_link_libraries(supertux2 PUBLIC
-  simplesquirrel tinygettext sexp SDL_SavePNG
+  tinygettext sexp SDL_SavePNG
   PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
 
@@ -238,7 +250,7 @@ if(NOT EMSCRIPTEN)
     Vorbis
     VorbisFile
     )
-  target_link_libraries(supertux2 PUBLIC CURL)
+  target_link_libraries(supertux2 PUBLIC CURL::libcurl)
 endif()
 
 if(HAVE_OPENGL)
@@ -256,19 +268,13 @@ include(SuperTux/BuildInstall)
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
 ## Build tests
-# TODO Move to CMake Tests
-#include(SuperTux/BuildTests)
-set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
-enable_testing()
-# Allow tests to be built from the root
-set(all_test_targets "" CACHE INTERNAL "tests")
-
-add_subdirectory(tests)
-list(POP_FRONT all_test_targets)
-
-# Create meta target for building tests
-add_custom_target(ALL_TESTS
-  DEPENDS ${all_test_targets})
+if(BUILD_TESTING)
+  # TODO Move to CMake Tests
+  #include(SuperTux/BuildTests)
+  set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
+  enable_testing()
+  add_subdirectory(tests)
+endif()
 
 ## CPack/Installation-specific stuff
 include(SuperTux/BuildCPack)
