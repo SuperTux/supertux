@@ -35,7 +35,7 @@
 #include <curl/curl.h>
 #endif
 
-#include <SDL.h>
+#include <SDL2/SDL_misc.h>
 
 #include "gui/dialog.hpp"
 #include "util/log.hpp"

@@ -14,25 +14,23 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <gtest/gtest.h>
-
+#include "st_assert.hpp"
 #include "util/file_system.hpp"
 
-TEST(FileSystemTest, relpath)
-{
-  ASSERT_EQ(FileSystem::relpath("/levels/juser/level.stl", "/"), "levels/juser/level.stl");
-  ASSERT_EQ(FileSystem::relpath("/levels/juser/level.stl", "/levels"), "juser/level.stl");
-  ASSERT_EQ(FileSystem::relpath("/levels/juser/level.stl", "/levels/juser"), "level.stl");
-}
 
-TEST(FileSystemTest, join)
+int main(void)
 {
-  ASSERT_EQ(FileSystem::join("foo/bar", ""), "foo/bar/");
-  ASSERT_EQ(FileSystem::join("", "foo/bar"), "foo/bar");
-  ASSERT_EQ(FileSystem::join("foo/bar", "baz/boing"), "foo/bar/baz/boing");
-  ASSERT_EQ(FileSystem::join("foo/bar", "/baz/boing"), "foo/bar/baz/boing");
-  ASSERT_EQ(FileSystem::join("foo/bar/", "/baz/boing"), "foo/bar/baz/boing");
-  ASSERT_EQ(FileSystem::join("/foo/bar", "baz/boing"), "/foo/bar/baz/boing");
+  ST_ASSERT(std::nullopt, FileSystem::join("foo/bar", "") == "foo/bar/");
+  ST_ASSERT(std::nullopt, FileSystem::join("", "foo/bar") == "foo/bar");
+  ST_ASSERT(std::nullopt, FileSystem::join("foo/bar", "baz/boing") == "foo/bar/baz/boing");
+  ST_ASSERT(std::nullopt, FileSystem::join("foo/bar", "/baz/boing") == "foo/bar/baz/boing");
+  ST_ASSERT(std::nullopt, FileSystem::join("foo/bar/", "/baz/boing") == "foo/bar/baz/boing");
+  ST_ASSERT(std::nullopt, FileSystem::join("/foo/bar", "baz/boing") == "/foo/bar/baz/boing");
+  
+  // Relpath tests
+  ST_ASSERT(std::nullopt, FileSystem::relpath("/levels/juser/level.stl", "/") == "levels/juser/level.stl");
+  ST_ASSERT(std::nullopt, FileSystem::relpath("/levels/juser/level.stl", "/levels") == "juser/level.stl");
+  ST_ASSERT(std::nullopt, FileSystem::relpath("/levels/juser/level.stl", "/levels/juser") == "level.stl");
 }
 
 /* EOF */
