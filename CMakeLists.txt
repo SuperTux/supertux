@@ -238,7 +238,7 @@ if(NOT EMSCRIPTEN)
     Vorbis
     VorbisFile
     )
-  target_link_libraries(supertux2 PUBLIC CURL::libcurl)
+  target_link_libraries(supertux2 PUBLIC CURL)
 endif()
 
 if(HAVE_OPENGL)
@@ -260,7 +260,15 @@ configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 #include(SuperTux/BuildTests)
 set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
 enable_testing()
+# Allow tests to be built from the root
+set(all_test_targets "" CACHE INTERNAL "tests")
+
 add_subdirectory(tests)
+list(POP_FRONT all_test_targets)
+
+# Create meta target for building tests
+add_custom_target(ALL_TESTS
+  DEPENDS ${all_test_targets})
 
 ## CPack/Installation-specific stuff
 include(SuperTux/BuildCPack)

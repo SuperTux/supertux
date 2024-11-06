@@ -16,17 +16,28 @@ function(make_unit_test test_name)
   if (mtargs_LIBRARIES)
     target_link_libraries(${test_name} PUBLIC ${mtargs_LIBRARIES})
   endif()
+  set(all_test_targets "${all_test_targets};${test_name}" CACHE INTERNAL "")
   add_test(NAME ${test_name}
     COMMAND ${test_name})
 endfunction(make_unit_test)
 
 make_unit_test(MD5Test SOURCE md5_test.cpp
   EXTERNAL addon/md5.cpp)
+
 make_unit_test(AATriangleTest SOURCE aatriangle_test.cpp
   EXTERNAL math/aatriangle.cpp
   LIBRARIES SDL2 DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
+
 make_unit_test(CollisionTest SOURCE collision_test.cpp
   EXTERNAL math/rectf.cpp
   LIBRARIES SDL2 DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
-# make_unit_test(DynamicScopedTest SOURCE dynamic_scoped_test.cpp
-#   LIBRARIES SDL2)
+
+make_unit_test(CollisionTest SOURCE collision_test.cpp
+  EXTERNAL math/rectf.cpp
+  LIBRARIES PhysFS DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
+#make_unit_test(DynamicScopedTest SOURCE dynamic_scoped_test.cpp
+#  LIBRARIES SDL2)
+#make_unit_test(FileSystemTest SOURCE file_system_test.cpp
+#  EXTERNAL util/file_system.cpp util/log.cpp
+#  LIBRARIES SDL2 tinygettext CURL simplesquirrel LibOpenGL obstack GLEW::GLEW DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
+
