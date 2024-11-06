@@ -14,6 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+//
+// TEST DISABLED:
+//  - I could not get it to work because i bad
+//
+
 #include "st_assert.hpp"
 #include "util/dynamic_scoped_ref.hpp"
 

@@ -14,6 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+//
+// TEST DISABLED:
+//  - We should eventually remove our own file_system stuff and just use std::filesystem
+//  - Dependencies on SDL2.. OpenGL.. Gettext.. etc.. Wtf?
+//
+
 #include "st_assert.hpp"
 #include "util/file_system.hpp"
 
