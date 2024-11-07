@@ -39,8 +39,8 @@ NodeMarker::update_iterator()
   } else {
     m_node = m_path->m_nodes.begin() + m_id;
 
-    BezierMarker* before = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_before);
-    BezierMarker* after = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_after);
+    BezierMarker* before = get_parent()->get_object_by_uid<BezierMarker>(m_bezier_before);
+    BezierMarker* after = get_parent()->get_object_by_uid<BezierMarker>(m_bezier_after);
 
     if (before)
       before->update_iterator(&(*m_node), &(m_node->bezier_before));
@@ -52,8 +52,8 @@ NodeMarker::update_iterator()
 void
 NodeMarker::remove_me()
 {
-  BezierMarker* before = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_before);
-  BezierMarker* after = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_after);
+  BezierMarker* before = get_parent()->get_object_by_uid<BezierMarker>(m_bezier_before);
+  BezierMarker* after = get_parent()->get_object_by_uid<BezierMarker>(m_bezier_after);
 
   if (before)
     before->remove_me();
@@ -89,8 +89,8 @@ NodeMarker::get_offset() const
 void
 NodeMarker::move_to(const Vector& pos)
 {
-  BezierMarker* before = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_before);
-  BezierMarker* after = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_after);
+  BezierMarker* before = get_parent()->get_object_by_uid<BezierMarker>(m_bezier_before);
+  BezierMarker* after = get_parent()->get_object_by_uid<BezierMarker>(m_bezier_after);
 
   if (before)
     before->move_to(pos + (before->get_pos() - get_pos()));
@@ -210,7 +210,7 @@ NodeMarker::move_other_marker(UID marker, Vector position)
 {
   assert(marker == m_bezier_before || marker == m_bezier_after);
 
-  auto bm = Sector::current()->get_object_by_uid<BezierMarker>(
+  auto bm = get_parent()->get_object_by_uid<BezierMarker>(
                 (marker == m_bezier_before) ? m_bezier_after : m_bezier_before);
 
   if (bm)

@@ -62,7 +62,7 @@ LevelTime::update(float dt_sec)
 {
   if (!running) return;
 
-  int players_alive = Sector::current() ? Sector::current()->get_object_count<Player>([](const Player& p) {
+  int players_alive = get_parent() ? get_parent()->get_object_count<Player>([](const Player& p) {
     return p.is_active();
   }) : 0;
 
@@ -76,9 +76,9 @@ LevelTime::update(float dt_sec)
     if (GameSession::current())
       GameSession::current()->clear_respawn_points();
 
-    if (time_left <= -5 || !Sector::get().get_players()[0]->get_coins())
+    if (time_left <= -5 || !get_parent_sector()->get_players()[0]->get_coins())
     {
-      for (auto& p : Sector::get().get_players())
+      for (auto& p : get_parent_sector()->get_players())
       {
         p->kill(true);
       }
@@ -87,7 +87,7 @@ LevelTime::update(float dt_sec)
 
     if (prev_time != static_cast<int>(floorf(time_left*5)))
     {
-      for (auto& p : Sector::get().get_players())
+      for (auto& p : get_parent_sector()->get_players())
       {
         if (!p->is_active())
           continue;

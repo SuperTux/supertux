@@ -67,7 +67,7 @@ RCrystallo::initialize()
   magnetic_box.set_top(m_col.m_bbox.get_top() - 80.f);
   if (m_state != RCRYSTALLO_DETECT)
   {
-    m_state = Sector::get().is_free_of_statics(magnetic_box) ? RCRYSTALLO_FALLING : RCRYSTALLO_ROOF;
+    m_state = get_parent_sector()->is_free_of_statics(magnetic_box) ? RCRYSTALLO_FALLING : RCRYSTALLO_ROOF;
   }
   else
   {
@@ -109,13 +109,13 @@ RCrystallo::active_update(float dt_sec)
     reversefallbox.set_top(m_col.m_bbox.get_top() - 33.f);
     reversefallbox.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -5.f : 34.f));
     reversefallbox.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::LEFT ? -34.f : 5.f));
-    if (Sector::get().is_free_of_statics(reversefallbox))
+    if (get_parent_sector()->is_free_of_statics(reversefallbox))
       turn_around();
     // Detect player and fall when it is time.
     if (player && player->get_bbox().get_right() > m_col.m_bbox.get_left() - 192.f
       && player->get_bbox().get_left() < m_col.m_bbox.get_right() + 192.f
       && player->get_bbox().get_bottom() > m_col.m_bbox.get_top()
-      && Sector::get().free_line_of_sight(m_col.m_bbox.get_middle() + Vector(0, 20),
+      && get_parent_sector()->free_line_of_sight(m_col.m_bbox.get_middle() + Vector(0, 20),
         player->get_bbox().get_middle() - Vector(0, 40), false, player))
     {
       // Center enemy, begin falling.
@@ -197,10 +197,10 @@ RCrystallo::kill_fall()
     {
       remove_me();
       // Create 4 shards that the enemy splits into, which serve as an additional threat.
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(100.f, -500.f));
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(270.f, -350.f));
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(-100.f, -500.f));
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(-270.f, -350.f));
+      get_parent()->add<Shard>(m_col.m_bbox.get_middle(), Vector(100.f, -500.f));
+      get_parent()->add<Shard>(m_col.m_bbox.get_middle(), Vector(270.f, -350.f));
+      get_parent()->add<Shard>(m_col.m_bbox.get_middle(), Vector(-100.f, -500.f));
+      get_parent()->add<Shard>(m_col.m_bbox.get_middle(), Vector(-270.f, -350.f));
     }
     run_dead_script();
   }
@@ -222,7 +222,7 @@ RCrystallo::on_flip(float height)
 {
   WalkingBadguy::on_flip(height);
 
-  Sector::get().add<Crystallo>(get_pos(), m_start_position, get_velocity_x(),
+  get_parent()->add<Crystallo>(get_pos(), m_start_position, get_velocity_x(),
                                std::move(m_sprite), m_dir, m_radius, m_dead_script);
   remove_me();
 }

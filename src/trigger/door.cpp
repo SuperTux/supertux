@@ -133,7 +133,7 @@ Door::update(float )
     case UNLOCKING:
       if (m_unlocking_timer.check())
       {
-        Sector::get().add<SpriteParticle>("images/objects/door/door_lock.sprite",
+        get_parent()->add<SpriteParticle>("images/objects/door/door_lock.sprite",
           "default", get_bbox().get_middle(), ANCHOR_MIDDLE, Vector(0.f, -300.f), Vector(0.f, 1000.f), LAYER_OBJECTS - 2, true, m_lock_color);
         m_unlocking_timer.stop();
         m_state = DoorState::CLOSED;
@@ -220,7 +220,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
           m_triggering_player = player;
 
           if (!m_script.empty()) {
-            Sector::get().run_script(m_script, "Door");
+            get_parent_sector()->run_script(m_script, "Door");
           }
           if (!m_target_sector.empty())
           {
@@ -231,7 +231,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
                                                       m_target_spawnpoint,
                                                       ScreenFade::FadeType::CIRCLE,
                                                       get_bbox().get_middle(),
-                                                      true);
+                                                      true, m_triggering_player->get_remote_user(), false);
           }
         }
       }

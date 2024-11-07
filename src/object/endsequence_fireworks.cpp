@@ -41,7 +41,7 @@ EndSequenceFireworks::starting()
 {
   EndSequence::starting();
   endsequence_timer.start(7.3f * ScreenManager::current()->get_speed());
-  Sector::get().add<Fireworks>();
+  get_parent()->add<Fireworks>();
 }
 
 void
@@ -49,7 +49,7 @@ EndSequenceFireworks::running(float dt_sec)
 {
   EndSequence::running(dt_sec);
 
-  for (const auto& player : Sector::get().get_players())
+  for (const auto& player : get_parent_sector()->get_players())
     if (!m_tux_is_stopped[player->get_id()])
       get_code_controller(player->get_id())->press(Control::JUMP);
 

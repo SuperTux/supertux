@@ -17,9 +17,11 @@
 
 #include "supertux/physic.hpp"
 
+#include "supertux/moving_object.hpp"
 #include "supertux/sector.hpp"
 
-Physic::Physic() :
+Physic::Physic(MovingObject& parent) :
+  m_parent(parent),
   ax(0), ay(0),
   vx(0), vy(0),
   gravity_enabled_flag(true),
@@ -65,7 +67,8 @@ Physic::set_acceleration(const Vector& vector)
 Vector
 Physic::get_movement(float dt_sec)
 {
-  float grav = gravity_enabled_flag ? (Sector::get().get_gravity() * gravity_modifier * 100.0f) : 0;
+  assert(m_parent.get_parent_sector());
+  float grav = gravity_enabled_flag ? (m_parent.get_parent_sector()->get_gravity() * gravity_modifier * 100.0f) : 0;
 
   // Semi-implicit Euler integration
   // with constant acceleration, this will result in a position delta of

@@ -115,7 +115,7 @@ PneumaticPlatform::update(float dt_sec)
     child->m_contacts.clear();
   }
 
-  const float gravity = Sector::get().get_gravity();
+  const float gravity = get_parent_sector()->get_gravity();
 
   m_speed_y += (static_cast<float>(contact_diff) * dt_sec) * 12.8f;
   m_speed_y -= (m_offset_y * dt_sec * 0.05f);

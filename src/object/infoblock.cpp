@@ -57,7 +57,7 @@ InfoBlock::InfoBlock(const ReaderMapping& mapping) :
   mapping.get("fadetransition", m_fadetransition, true);
   //stopped = false;
   //ringing = new AmbientSound(get_pos(), 0.5, 300, 1, "sounds/phone.wav");
-  //Sector::get().add_object(ringing);
+  //get_parent_sector()->add_object(ringing);
 
   // Split text string lines into a vector
   m_lines = InfoBoxLine::split(m_message, 400);
@@ -101,7 +101,7 @@ InfoBlock::hit(Player& player)
   if (m_dest_pct != 1) {
 
     // first hide all other InfoBlocks' messages in same sector
-    for (auto& block : Sector::get().get_objects_by_type<InfoBlock>())
+    for (auto& block : get_parent()->get_objects_by_type<InfoBlock>())
     {
       if (&block != this)
       {
@@ -109,7 +109,7 @@ InfoBlock::hit(Player& player)
       }
     }
 
-    Camera& cam = Sector::get().get_singleton_by_type<Camera>();
+    Camera& cam = get_parent()->get_singleton_by_type<Camera>();
     if (m_original_y - m_lines_height - 10.f < cam.get_translation().y)
       m_initial_y = cam.get_translation().y + 10.0f;
     else
@@ -136,7 +136,7 @@ InfoBlock::collision(GameObject& other, const CollisionHit& hit_)
 Player*
 InfoBlock::get_nearest_player() const
 {
-  return Sector::get().get_nearest_player (m_col.m_bbox);
+  return get_parent_sector()->get_nearest_player (m_col.m_bbox);
 }
 
 void
@@ -191,8 +191,8 @@ InfoBlock::draw(DrawingContext& context)
     x2 = width;
   }
 
-  if (x2 > Sector::get().get_width()) {
-    x2 = Sector::get().get_width();
+  if (x2 > get_parent_sector()->get_width()) {
+    x2 = get_parent_sector()->get_width();
     x1 = x2 - width;
   }
 

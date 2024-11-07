@@ -96,7 +96,7 @@ void CloudParticleSystem::update(float dt_sec)
     }
   }
 
-  auto& cam = Sector::get().get_singleton_by_type<Camera>();
+  auto& cam = get_parent()->get_singleton_by_type<Camera>();
   auto scale = cam.get_current_scale();
   auto screen_width = static_cast<float>(SCREEN_WIDTH) / scale;
   auto screen_height = static_cast<float>(SCREEN_HEIGHT) / scale;
@@ -238,7 +238,7 @@ void CloudParticleSystem::draw(DrawingContext& context)
   if (!enabled)
     return;
 
-  const auto& region = Sector::current()->get_active_region();
+  const auto& region = get_parent_sector()->get_active_region();
 
   context.push_transform();
 

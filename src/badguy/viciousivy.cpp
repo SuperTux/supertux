@@ -92,17 +92,17 @@ ViciousIvy::active_update(float dt_sec)
   {
     Rectf floatbox = get_bbox();
     floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
-    bool float_here = (Sector::get().is_free_of_statics(floatbox));
+    bool float_here = (get_parent_sector()->is_free_of_statics(floatbox));
 
-    bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+    bool in_water = !get_parent_sector()->is_free_of_tiles(get_bbox(), true, Tile::WATER);
 
     Rectf watertopbox = get_bbox();
     watertopbox.set_top(get_bbox().get_bottom() - get_bbox().get_height()/3.f);
     Rectf wateroutbox = get_bbox();
     wateroutbox.set_bottom(get_bbox().get_top() + (2*get_bbox().get_height()/3.f));
 
-    bool on_top_of_water = (!Sector::get().is_free_of_tiles(watertopbox, true, Tile::WATER) &&
-      Sector::get().is_free_of_tiles(wateroutbox, true, Tile::WATER));
+    bool on_top_of_water = (!get_parent_sector()->is_free_of_tiles(watertopbox, true, Tile::WATER) &&
+      get_parent_sector()->is_free_of_tiles(wateroutbox, true, Tile::WATER));
 
     if (in_water)
     {

@@ -61,10 +61,8 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-Sector* Sector::s_current = nullptr;
-
 Sector::Sector(Level& parent) :
-  Base::Sector("sector"),
+  Base::Sector("sector", true),
   m_level(parent),
   m_fully_constructed(false),
   m_foremost_layer(),
@@ -83,7 +81,7 @@ Sector::~Sector()
 {
   try
   {
-    deactivate();
+    unexpose();
   }
   catch(const std::exception& err)
   {
@@ -196,54 +194,50 @@ Sector::get_spawn_point_position(const std::string& spawnpoint)
 }
 
 void
-Sector::activate(const std::string& spawnpoint)
+Sector::spawn_players(const std::string& spawnpoint, const GameServerUser* user, bool all_users)
 {
   SpawnPointMarker* sp = get_spawn_point(spawnpoint);
 
-  if (!sp) {
+  if (!sp)
+  {
     if (!m_level.is_worldmap())
       log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-    if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
-      activate(DEFAULT_SPAWNPOINT_NAME);
-    } else {
-      activate(Vector(0, 0));
-    }
-  } else {
-    activate(sp->get_pos());
+
+    if (spawnpoint != DEFAULT_SPAWNPOINT_NAME)
+      spawn_players(DEFAULT_SPAWNPOINT_NAME, user, all_users);
+    else
+      spawn_players(Vector(0, 0), user, all_users);
+  }
+  else
+  {
+    spawn_players(sp->get_pos(), user, all_users);
   }
 }
 
 void
-Sector::activate(const Vector& player_pos)
+Sector::spawn_players(const Vector& player_pos, const GameServerUser* user, bool all_users)
 {
   BIND_SECTOR(*this);
 
-  // Make sure all players are moved to this sector.
+  // Make sure all local players are moved to this sector.
   for (auto& player : m_level.get_players())
-    player->move_to_sector(*this);
-
-  if (s_current != this) {
-    if (s_current != nullptr)
-      s_current->deactivate();
-    s_current = this;
-
-    m_squirrel_environment->expose_self();
-
-    for (const auto& object : get_objects()) {
-      m_squirrel_environment->expose(*object, object->get_name());
-    }
+  {
+    if (all_users || player->get_remote_user() == user)
+      player->move_to_sector(*this);
   }
-
-  // The Sector object is called 'settings' as it is accessed as 'sector.settings'
-  m_squirrel_environment->expose(*this, "settings");
 
   if (Editor::is_active())
     return;
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
+  const auto players = get_objects_by_type_index(typeid(Player));
+  for (auto player_ptr : players)
+  {
     Player& player = *static_cast<Player*>(player_ptr);
+    if (!all_users && player.get_remote_user() != user)
+      continue;
+
     // spawn smalltux below spawnpoint
     if (!player.is_big()) {
       player.set_pos(player_pos + Vector(0,32));
@@ -260,9 +254,9 @@ Sector::activate(const Vector& player_pos)
   }
 
   //FIXME: This is a really dirty workaround for this strange camera jump
-  if (get_players().size() > 0)
+  if (players.size() > 0)
   {
-    Player& player = *(get_players()[0]);
+    Player& player = *static_cast<Player*>(players[0]);
     Camera& camera = get_camera();
     player.set_pos(player.get_pos()+Vector(-32, 0));
     camera.reset(player.get_pos());
@@ -273,43 +267,44 @@ Sector::activate(const Vector& player_pos)
 
   flush_game_objects();
 
-  //Run default.nut just before init script
-  //Check to see if it's in a levelset (info file)
-  std::string basedir = FileSystem::dirname(get_level().m_filename);
-  if (PHYSFS_exists((basedir + "/info").c_str())) {
-    try {
-      IFileStream in(basedir + "/default.nut");
-      m_squirrel_environment->run_script(in, "default.nut");
-    } catch(std::exception& ) {
-      // doesn't exist or erroneous; do nothing
-    }
-  }
-
-  // Run init script
-  if (!m_init_script.empty() && !Editor::is_active()) {
-    run_script(m_init_script, "init-script");
-  }
-
   // Do not interpolate camera after it has been warped
   pause_camera_interpolation();
 }
 
 void
-Sector::deactivate()
+Sector::expose()
 {
-  BIND_SECTOR(*this);
-
-  if (s_current != this)
+  if (!m_squirrel_environment)
     return;
 
-  m_squirrel_environment->unexpose_self();
+  Base::Sector::expose();
 
-  for (const auto& object : get_objects())
-    m_squirrel_environment->unexpose(object->get_name());
+  // TODO: Do not run any scripts if in a client GameSession!
 
-  m_squirrel_environment->unexpose("settings");
+  // Run default.nut on sector expose.
+  // Check to see if it's in a levelset (info file).
+  std::string basedir = FileSystem::dirname(m_level.m_filename);
+  if (PHYSFS_exists((basedir + "/info").c_str()))
+  {
+    try
+    {
+      IFileStream in(basedir + "/default.nut");
+      m_squirrel_environment->run_script(in, "default.nut");
+    }
+    catch (const std::exception&)
+    {
+      // doesn't exist or erroneous; do nothing
+    }
+  }
+}
 
-  s_current = nullptr;
+void
+Sector::run_init_script()
+{
+  // TODO: Do not run any scripts if in a client GameSession!
+
+  if (!m_init_script.empty() && !Editor::is_active())
+    run_script(m_init_script, "init-script");
 }
 
 Rectf
@@ -381,7 +376,8 @@ Sector::update(float dt_sec)
   m_last_translation = camera.get_translation();
   m_last_dt = dt_sec;
 
-  m_squirrel_environment->update(dt_sec);
+  if (m_squirrel_environment)
+    m_squirrel_environment->update(dt_sec);
 
   GameObjectManager::update(dt_sec);
 
@@ -407,21 +403,19 @@ Sector::before_object_add(GameObject& object)
   {
     m_collision_system->add(movingobject->get_collision_object());
   }
-
-  if (auto* tilemap = dynamic_cast<TileMap*>(&object))
+  else if (auto* tilemap = dynamic_cast<TileMap*>(&object))
   {
     tilemap->set_ground_movement_manager(m_collision_system->get_ground_movement_manager());
   }
 
-  if (s_current == this) {
-    m_squirrel_environment->expose(object, object.get_name());
-  }
+  Base::Sector::before_object_add(object);
 
   if (m_fully_constructed) {
     try_process_resolve_requests();
     object.finish_construction();
   }
 
+  object.m_parent_sector = this;
   return true;
 }
 
@@ -433,8 +427,9 @@ Sector::before_object_remove(GameObject& object)
     m_collision_system->remove(moving_object->get_collision_object());
   }
 
-  if (s_current == this)
-    m_squirrel_environment->unexpose(object.get_name());
+  Base::Sector::before_object_remove(object);
+
+  object.m_parent_sector = nullptr;
 }
 
 void

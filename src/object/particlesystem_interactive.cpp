@@ -55,7 +55,7 @@ ParticleSystem_Interactive::draw(DrawingContext& context)
     return;
 
   context.push_transform();
-  const auto& region = Sector::current()->get_active_region();
+  const auto& region = get_parent_sector()->get_active_region();
   std::unordered_map<SurfacePtr, SurfaceBatch> batches;
   for (const auto& particle : particles) {
     if(!region.contains(particle->pos))
@@ -116,7 +116,7 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
   dest.move(movement);
   Constraints constraints;
 
-  for (const auto& solids : Sector::get().get_solid_tilemaps()) {
+  for (const auto& solids : get_parent_sector()->get_solid_tilemaps()) {
     // FIXME Handle a nonzero tilemap offset
     for (int x = starttilex; x*32 < max_x; ++x) {
       for (int y = starttiley; y*32 < max_y; ++y) {

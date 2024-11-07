@@ -506,51 +506,6 @@ static void play_sound(const std::string& filename)
 
 /**
  * @scripting
- * @description Speeds Tux up.
- */
-static void grease()
-{
-  if (!Sector::current()) return;
-  // FIXME: This only has effect on the first player.
-  ::Player& tux = *(::Sector::get().get_players()[0]); // scripting::Player != ::Player
-  tux.get_physic().set_velocity_x(tux.get_physic().get_velocity_x()*3);
-}
-/**
- * @scripting
- * @description Makes Tux invincible for 10000 units of time.
- */
-static void invincible()
-{
-  if (!Sector::current()) return;
-  // FIXME: This only has effect on the first player.
-  ::Player& tux = *(::Sector::get().get_players()[0]);
-  tux.m_invincible_timer.start(10000);
-}
-/**
- * @scripting
- * @description Makes Tux a ghost, i.e. lets him float around and through solid objects.
- */
-static void ghost()
-{
-  if (!Sector::current()) return;
-  // FIXME: This only has effect on the first player.
-  ::Player& tux = *(::Sector::get().get_players()[0]);
-  tux.set_ghost_mode(true);
-}
-/**
- * @scripting
- * @description Recalls Tux's invincibility and ghost status.
- */
-static void mortal()
-{
-  if (!Sector::current()) return;
-  // FIXME: This only has effect on the first player.
-  ::Player& tux = *(::Sector::get().get_players()[0]);
-  tux.m_invincible_timer.stop();
-  tux.set_ghost_mode(false);
-}
-/**
- * @scripting
  * @description Re-initializes and respawns Tux at the beginning of the current level.
  */
 static void restart()
@@ -562,34 +517,6 @@ static void restart()
     return;
   }
   session->reset_button = true;
-}
-/**
- * @scripting
- * @description Moves Tux near the end of the current level.
- */
-static void gotoend()
-{
-  if (!Sector::current()) return;
-  // FIXME: This only has effect on the first player.
-  ::Player& tux = *(::Sector::get().get_players()[0]);
-  tux.set_pos(Vector((::Sector::get().get_width()) - (static_cast<float>(SCREEN_WIDTH) * 2.0f), 0));
-  ::Sector::get().get_camera().reset(
-    Vector(tux.get_pos().x, tux.get_pos().y));
-}
-/**
- * @scripting
- * @description Moves Tux to the X and Y blocks, relative to his position.
- * @param float $offset_x
- * @param float $offset_y
- */
-static void warp(float offset_x, float offset_y)
-{
-  if (!Sector::current()) return;
-  // FIXME: This only has effect on the first player.
-  ::Player& tux = *(::Sector::get().get_players()[0]);
-  tux.set_pos(Vector(tux.get_pos().x + (offset_x*32), tux.get_pos().y - (offset_y*32)));
-  ::Sector::get().get_camera().reset(
-    Vector(tux.get_pos().x, tux.get_pos().y));
 }
 
 /**
@@ -753,7 +680,7 @@ static void set_respawn_pos(const std::string& sector, float x, float y)
 static void flip_vertically()
 {
   if (!GameSession::current()) return;
-  BIND_SECTOR(::Sector::get());
+  //BIND_SECTOR(GameSession::current()->get_current_sector()); // TODO: Is this really needed?
   FlipLevelTransformer flip_transformer;
   flip_transformer.transform(GameSession::current()->get_current_level());
 }
@@ -847,13 +774,7 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("resume_music", &scripting::Globals::resume_music);
   vm.addFunc("pause_music", &scripting::Globals::pause_music);
   vm.addFunc("play_sound", &scripting::Globals::play_sound);
-  vm.addFunc("grease", &scripting::Globals::grease);
-  vm.addFunc("invincible", &scripting::Globals::invincible);
-  vm.addFunc("ghost", &scripting::Globals::ghost);
-  vm.addFunc("mortal", &scripting::Globals::mortal);
   vm.addFunc("restart", &scripting::Globals::restart);
-  vm.addFunc("gotoend", &scripting::Globals::gotoend);
-  vm.addFunc("warp", &scripting::Globals::warp);
   vm.addFunc("set_gamma", &scripting::Globals::set_gamma);
   vm.addFunc("rand", &scripting::Globals::rand);
   vm.addFunc("set_title_frame", &scripting::Globals::set_title_frame);

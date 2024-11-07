@@ -83,7 +83,7 @@ Totem::active_update(float dt_sec)
     }
 
     // Jump slightly if we encounter a suitable totem.
-    for (auto& t : Sector::get().get_objects_by_type<Totem>()) {
+    for (auto& t : get_parent()->get_objects_by_type<Totem>()) {
       // Skip if we are not approaching each other.
       if (!((m_dir == Direction::LEFT) && (t.m_dir == Direction::RIGHT))) continue;
 

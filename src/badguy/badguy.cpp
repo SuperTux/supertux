@@ -54,7 +54,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
-  m_physic(),
+  m_physic(*this),
   m_countMe(true),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
@@ -97,7 +97,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
                Direction default_direction, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
-  m_physic(),
+  m_physic(*this),
   m_countMe(true),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
@@ -190,7 +190,7 @@ BadGuy::update(float dt_sec)
   {
     Rectf playerbox = get_bbox().grown(-2.f);
     playerbox.set_bottom(get_bbox().get_bottom() + 7.f);
-    for (auto& player : Sector::get().get_objects_by_type<Player>())
+    for (auto& player : get_parent()->get_objects_by_type<Player>())
     {
       if (playerbox.overlaps(player.get_bbox()) && m_physic.get_velocity_y() > 0.f && is_portable()) {
         m_physic.set_velocity_y(-250.f);
@@ -202,8 +202,8 @@ BadGuy::update(float dt_sec)
     if (m_unfreeze_timer.check())
       unfreeze(false);
   }
-  if (get_pos().x > Sector::get().get_width() || get_pos().x < -get_bbox().get_width() ||
-    get_pos().y > Sector::get().get_height()) {
+  if (get_pos().x > get_parent_sector()->get_width() || get_pos().x < -get_bbox().get_width() ||
+    get_pos().y > get_parent_sector()->get_height()) {
     auto this_portable = dynamic_cast<Portable*> (this);
     if (!this_portable || !this_portable->is_grabbed())
     {
@@ -217,7 +217,7 @@ BadGuy::update(float dt_sec)
         int path_chars = badguy.rfind("/",badguy.length());
         badguy = badguy.substr(path_chars + 1, badguy.length() - path_chars);
         // log warning since badguys_killed can no longer reach total_badguys
-        std::string current_level = "[" + Sector::get().get_level()->filename + "] ";
+        std::string current_level = "[" + get_parent_sector()->get_level()->filename + "] ";
         log_warning << current_level << "Counted badguy " << badguy << " starting at " << start_position << " has left the sector" <<std::endl;
       }*/
       return;
@@ -231,7 +231,7 @@ BadGuy::update(float dt_sec)
     set_state(STATE_INACTIVE);
   }
 
-  if (Sector::get().is_free_of_tiles(get_bbox().grown(1.f), true, Tile::WATER) && m_in_water) {
+  if (get_parent_sector()->is_free_of_tiles(get_bbox().grown(1.f), true, Tile::WATER) && m_in_water) {
     m_in_water = false;
   }
 
@@ -241,11 +241,11 @@ BadGuy::update(float dt_sec)
   Rectf wateroutbox = get_bbox();
   wateroutbox.set_bottom(get_bbox().get_top() + get_bbox().get_height() / 3.f);
 
-  bool middle_has_water = !Sector::get().is_free_of_tiles(watertopbox, true, Tile::WATER);
+  bool middle_has_water = !get_parent_sector()->is_free_of_tiles(watertopbox, true, Tile::WATER);
   bool on_top_of_water = (middle_has_water &&
-    Sector::get().is_free_of_tiles(wateroutbox, true, Tile::WATER));
+    get_parent_sector()->is_free_of_tiles(wateroutbox, true, Tile::WATER));
 
-  bool in_water_bigger = !Sector::get().is_free_of_tiles(get_bbox().grown(-4.f), true, Tile::WATER); // *supposedly* prevents a weird sound glitch
+  bool in_water_bigger = !get_parent_sector()->is_free_of_tiles(get_bbox().grown(-4.f), true, Tile::WATER); // *supposedly* prevents a weird sound glitch
 
   if (m_physic.gravity_enabled()) {
     m_physic.set_gravity_modifier(middle_has_water ? m_frozen ? -1.f : 0.3f : 1.f);
@@ -295,7 +295,7 @@ BadGuy::update(float dt_sec)
     case STATE_INIT:
     case STATE_INACTIVE:
       m_is_active_flag = false;
-      m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox().grown(-4.f), false, Tile::WATER);
+      m_in_water = !get_parent_sector()->is_free_of_tiles(m_col.get_bbox().grown(-4.f), false, Tile::WATER);
       inactive_update(dt_sec);
       try_activate();
       break;
@@ -322,7 +322,7 @@ BadGuy::update(float dt_sec)
       m_is_active_flag = false;
       m_col.set_movement(m_physic.get_movement(dt_sec));
       if ( m_sprite->animation_done() || on_ground() ) {
-        Sector::get().add<WaterDrop>(m_col.m_bbox.p1(), get_water_sprite(), m_physic.get_velocity());
+        get_parent()->add<WaterDrop>(m_col.m_bbox.p1(), get_water_sprite(), m_physic.get_velocity());
         remove_me();
         break;
       }
@@ -347,9 +347,9 @@ BadGuy::update(float dt_sec)
       float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
       float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
       Vector ppos = Vector(px, py);
-      Sector::get().add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
+      get_parent()->add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
                                              ppos, ANCHOR_MIDDLE,
-                                             Vector(0, 0), Vector(0, 100 * Sector::get().get_gravity()),
+                                             Vector(0, 0), Vector(0, 100 * get_parent_sector()->get_gravity()),
                                              LAYER_OBJECTS-1);
     } break;
 
@@ -427,7 +427,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   if (tile_attributes & Tile::HURTS && is_hurtable())
   {
     Rectf hurtbox = get_bbox().grown(-6.f);
-    if (!Sector::get().is_free_of_tiles(hurtbox, true, Tile::HURTS) || tile_attributes & Tile::UNISOLID)
+    if (!get_parent_sector()->is_free_of_tiles(hurtbox, true, Tile::HURTS) || tile_attributes & Tile::UNISOLID)
     {
       if (tile_attributes & Tile::FIRE)
       {
@@ -691,14 +691,14 @@ BadGuy::kill_fall()
     for (pr_pos.x = 0.f; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x +=  18.f) {
       for (pr_pos.y = 0.f; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 18.f) {
         Vector speed = Vector((pr_pos.x - cx) * 3.f, (pr_pos.y - cy) * 2.f);
-        Sector::get().add<SpriteParticle>(
+        get_parent()->add<SpriteParticle>(
             "images/particles/ice_piece"+std::to_string(graphicsRandom.rand(1, 3))+".sprite", "default",
             m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
             //SPEED: Add current enemy speed, but do not add downwards velocity because it looks bad.
             Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())
             //SPEED: Add specified speed and randomization.
           + speed + Vector(graphicsRandom.randf(-30.f, 30.f), graphicsRandom.randf(-30.f, 30.f)),
-            Vector(0, Sector::get().get_gravity() * graphicsRandom.randf(100.f, 120.f)), LAYER_OBJECTS - 1, true);
+            Vector(0, get_parent_sector()->get_gravity() * graphicsRandom.randf(100.f, 120.f)), LAYER_OBJECTS - 1, true);
       }
     }
     // Start the dead-script.
@@ -713,7 +713,7 @@ BadGuy::kill_fall()
 
     // Set the badguy layer to be the foremost, so that
     // this does not reveal secret tilemaps:
-    m_layer = Sector::get().get_foremost_opaque_layer() + 1;
+    m_layer = get_parent_sector()->get_foremost_opaque_layer() + 1;
     // Start the dead-script.
     run_dead_script();
   }
@@ -729,7 +729,7 @@ BadGuy::run_dead_script()
   m_is_active_flag = false;
 
   if (m_countMe)
-    Sector::get().get_level().m_stats.increment_badguys();
+    get_parent_sector()->get_level().m_stats.increment_badguys();
 
   if (m_parent_dispenser != nullptr)
   {
@@ -738,7 +738,7 @@ BadGuy::run_dead_script()
 
   // Start the dead-script.
   if (!m_dead_script.empty()) {
-    Sector::get().run_script(m_dead_script, "dead-script");
+    get_parent_sector()->run_script(m_dead_script, "dead-script");
   }
 }
 
@@ -786,7 +786,7 @@ BadGuy::is_offscreen() const
 {
   Vector cam_dist(0.0f, 0.0f);
   Vector player_dist(0.0f, 0.0f);
-  Camera& cam = Sector::get().get_camera();
+  Camera& cam = get_parent_sector()->get_camera();
   cam_dist = cam.get_center() - m_col.m_bbox.get_middle();
   if (Editor::is_active()) {
       if ((fabsf(cam_dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(cam_dist.y) <= Y_OFFSCREEN_DISTANCE)) {
@@ -855,13 +855,13 @@ BadGuy::might_fall(int height) const
   }
   const Rectf rect = Rectf(x1, y1, x2, y2);
 
-  return Sector::get().is_free_of_statics(rect) && Sector::get().is_free_of_specifically_movingstatics(rect);
+  return get_parent_sector()->is_free_of_statics(rect) && get_parent_sector()->is_free_of_specifically_movingstatics(rect);
 }
 
 Player*
 BadGuy::get_nearest_player() const
 {
-  return Sector::get().get_nearest_player(m_col.m_bbox);
+  return get_parent_sector()->get_nearest_player(m_col.m_bbox);
 }
 
 void
@@ -948,7 +948,7 @@ BadGuy::ungrab(MovingObject& object, Direction dir_)
       else if (dir_ == Direction::DOWN)
       {
         Vector mov(0, 32);
-        if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this))
+        if (get_parent_sector()->is_free_of_statics(get_bbox().moved(mov), this))
         {
           // There is free space, so throw it down.
           m_physic.set_velocity_y(500.f);
@@ -1028,14 +1028,14 @@ BadGuy::unfreeze(bool melt)
   for (pr_pos.x = 0; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x += 16.f) {
     for (pr_pos.y = 0; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 16.f) {
       Vector speed = Vector((pr_pos.x - cx) * 2.f, 0.f);
-      Sector::get().add<SpriteParticle>(
+      get_parent()->add<SpriteParticle>(
         particle_sprite_name + std::to_string(graphicsRandom.rand(1, 3)) + ".sprite", "default",
         m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
         //SPEED: add current enemy speed but do not add downwards velocity because it looks bad.
         Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())
         //SPEED: add specified speed and randomization.
         + speed + Vector(graphicsRandom.randf(-30.f, 30.f), 0.f),
-        Vector(0.f, Sector::get().get_gravity() * graphicsRandom.randf(100.f, 120.f)), LAYER_OBJECTS + 1, true);
+        Vector(0.f, get_parent_sector()->get_gravity() * graphicsRandom.randf(100.f, 120.f)), LAYER_OBJECTS + 1, true);
     }
   }
 }

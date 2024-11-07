@@ -226,7 +226,7 @@ Yeti::active_update(float dt_sec)
         if (m_dir != newdir && m_dir == Direction::RIGHT) {
           SoundManager::current()->play("sounds/stomp.wav", get_pos());
           add_snow_explosions();
-          Sector::get().get_camera().shake(.05f, 0, 5);
+          get_parent_sector()->get_camera().shake(.05f, 0, 5);
         }
         m_dir = newdir;
         set_action("jump", m_dir);
@@ -359,7 +359,7 @@ void Yeti::take_hit(Player& )
 
     // Set the badguy layer to be above the foremost, so that
     // this does not reveal secret tilemaps:
-    m_layer = Sector::get().get_foremost_opaque_layer() + 1;
+    m_layer = get_parent_sector()->get_foremost_opaque_layer() + 1;
     m_state = SQUISHED;
     m_state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
@@ -380,12 +380,12 @@ void
 Yeti::drop_stalactite()
 {
   // Make a stalactite fall down and shake the camera a bit.
-  Sector::get().get_camera().shake(.1f, 0, 20.f);
+  get_parent_sector()->get_camera().shake(.1f, 0, 20.f);
 
   auto player = get_nearest_player();
   if (!player) return;
 
-  for (auto& stalactite : Sector::get().get_objects_by_type<YetiStalactite>())
+  for (auto& stalactite : get_parent()->get_objects_by_type<YetiStalactite>())
   {
     if (stalactite.is_hanging()) {
       if (!m_pinch_mode) {
@@ -408,14 +408,14 @@ void
 Yeti::summon_snowball()
 {
   Vector bs_pos = get_pos() + Vector(m_dir == Direction::LEFT ? -32.f : (get_bbox().get_width() + 1.f), 0.f);
-  Sector::get().add<BouncingSnowball>(bs_pos, m_dir, 150.f * (m_pinch_mode ? 1.2f : 1.f));
+  get_parent()->add<BouncingSnowball>(bs_pos, m_dir, 150.f * (m_pinch_mode ? 1.2f : 1.f));
 }
 
 void
 Yeti::summon_big_snowball()
 {
   Vector bs_pos = Vector(get_bbox().get_middle().x - 44.f, get_bbox().get_top() - 89.f);
-  Sector::get().add<BigSnowball>(bs_pos, m_dir, true);
+  get_parent()->add<BigSnowball>(bs_pos, m_dir, true);
 }
 
 void
@@ -498,7 +498,7 @@ Yeti::add_snow_explosions()
     pos.x += static_cast<float>(m_sprite->get_width()) * graphicsRandom.randf(0.3f, 0.5f) * ((velocity.x > 0) ? 1.0f : -1.0f);
     pos.y += static_cast<float>(m_sprite->get_height()) * graphicsRandom.randf(-0.3f, 0.3f);
     velocity.x += m_physic.get_velocity_x();
-    Sector::get().add<SnowExplosionParticle>(pos, velocity);
+    get_parent()->add<SnowExplosionParticle>(pos, velocity);
   }
 }
 
@@ -508,7 +508,7 @@ Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vect
   m_physic.set_velocity(velocity);
   m_physic.enable_gravity(true);
   set_state(STATE_FALLING);
-  m_layer = Sector::get().get_foremost_opaque_layer() + 1;
+  m_layer = get_parent_sector()->get_foremost_opaque_layer() + 1;
 }
 
 std::vector<Direction>

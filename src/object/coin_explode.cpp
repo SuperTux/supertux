@@ -46,7 +46,7 @@ CoinExplode::update(float )
   for(const auto& vector: coin_velocities)
   {
     auto velocity = vector * (mag - gameRandom.randf(rand));
-    Sector::get().add<HeavyCoin>(position, velocity, m_count_stats, m_sprite);
+    get_parent()->add<HeavyCoin>(position, velocity, m_count_stats, m_sprite);
   }
 
   remove_me();

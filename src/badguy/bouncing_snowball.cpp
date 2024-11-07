@@ -67,7 +67,7 @@ BouncingSnowball::active_update(float dt_sec)
   lookbelow.set_left(get_bbox().get_left() + 10);
   lookbelow.set_right(get_bbox().get_right() - 10);
   lookbelow.set_top(get_bbox().get_top() + 31);
-  bool groundBelow = !Sector::get().is_free_of_statics(lookbelow);
+  bool groundBelow = !get_parent_sector()->is_free_of_statics(lookbelow);
   if (groundBelow && (m_physic.get_velocity_y() >= 64.0f))
   {
     set_action(m_dir, "down");
@@ -82,7 +82,7 @@ BouncingSnowball::active_update(float dt_sec)
   Rectf side_look_box = get_bbox().grown(-1.f);
   side_look_box.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -1.f : 1.f));
   side_look_box.set_right(get_bbox().get_right() + (m_dir == Direction::LEFT ? -1.f : 1.f));
-  if (!Sector::get().is_free_of_statics(side_look_box))
+  if (!get_parent_sector()->is_free_of_statics(side_look_box))
   {
     m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
     set_action(m_dir);

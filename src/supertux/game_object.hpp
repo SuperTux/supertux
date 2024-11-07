@@ -36,6 +36,7 @@ class GameObjectComponent;
 class GameObjectManager;
 class ObjectRemoveListener;
 class ReaderMapping;
+class Sector;
 class Writer;
 
 namespace ssq {
@@ -84,6 +85,7 @@ struct GameObjectClasses
 class GameObject : public ExposableClass
 {
   friend class GameObjectManager;
+  friend class Sector;
 
 public:
   static void register_class(ssq::VM& vm);
@@ -261,7 +263,8 @@ public:
       together (e.g. platform on a path) */
   virtual void editor_update() {}
 
-  GameObjectManager* get_parent() const { return m_parent; }
+  inline GameObjectManager* get_parent() const { return m_parent; }
+  inline Sector* get_parent_sector() const { return m_parent_sector; }
 
 protected:
   /** Parse object type. **/
@@ -281,6 +284,9 @@ private:
 private:
   /** The parent GameObjectManager. Set by the manager itself. */
   GameObjectManager* m_parent;
+
+  /** The parent Sector. Set by the manager itself, if it's a Sector. */
+  Sector* m_parent_sector;
 
 protected:
   /** a name for the gameobject, this is mostly a hint for scripts and

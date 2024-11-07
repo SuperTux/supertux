@@ -76,7 +76,7 @@ Owl::initialize()
     else
     {
       carried_object->grab(*this, get_pos(), m_dir);
-      Sector::get().add_object(std::move(game_object));
+      get_parent()->add_object(std::move(game_object));
     }
   }
 }
@@ -84,7 +84,7 @@ Owl::initialize()
 bool
 Owl::is_above_player() const
 {
-  auto player = Sector::get().get_nearest_player(m_col.m_bbox);
+  auto player = get_parent_sector()->get_nearest_player(m_col.m_bbox);
   if (!player)
     return false;
 
@@ -119,7 +119,7 @@ Owl::active_update (float dt_sec)
       obj_pos.y += 3.f; /* Move a little away from the hitbox (the body). Looks nicer. */
 
       // Drop carried object before leaving the screen
-      if (obj_pos.x<=16 || obj_pos.x+16>=Sector::get().get_width()){
+      if (obj_pos.x<=16 || obj_pos.x+16>=get_parent_sector()->get_width()){
         carried_object->ungrab (*this, m_dir);
         carried_object = nullptr;
       }
@@ -143,7 +143,7 @@ Owl::collision_squished(GameObject& object)
   if (m_frozen)
     return BadGuy::collision_squished(object);
 
-  auto player = Sector::get().get_nearest_player(m_col.m_bbox);
+  auto player = get_parent_sector()->get_nearest_player(m_col.m_bbox);
   if (player)
     player->bounce (*this);
 

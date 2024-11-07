@@ -21,7 +21,7 @@
 
 OneUp::OneUp(const Vector& pos, Direction direction) :
   MovingSprite(pos, "images/powerups/1up/1up.sprite", LAYER_FLOATINGOBJECTS, COLGROUP_TOUCHABLE),
-  physic()
+  physic(*this)
 {
   physic.set_velocity( (direction == Direction::LEFT) ? -100.0f : 100.0f, -400.0f);
   if (direction == Direction::DOWN) // this causes the doll to drop when opened with a butt-jump
@@ -31,7 +31,7 @@ OneUp::OneUp(const Vector& pos, Direction direction) :
 void
 OneUp::update(float dt_sec)
 {
-  if (!Sector::get().inside(m_col.m_bbox))
+  if (!get_parent_sector()->inside(m_col.m_bbox))
     remove_me();
 
   m_col.set_movement(physic.get_movement(dt_sec));

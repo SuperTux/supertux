@@ -29,7 +29,7 @@
 FallBlock::FallBlock(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/fallblock/cave-4x4.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   m_state(IDLE),
-  m_physic(),
+  m_physic(*this),
   m_timer()
 {
   SoundManager::current()->preload("sounds/cracking.wav");
@@ -97,7 +97,7 @@ FallBlock::collision_solid(const CollisionHit& hit)
 
   if (m_state == FALL && hit.bottom)
   {
-    Sector::get().get_camera().shake(0.125f, 0.0f, 10.0f);
+    get_parent_sector()->get_camera().shake(0.125f, 0.0f, 10.0f);
     SoundManager::current()->play("sounds/thud.ogg", get_pos());
     m_state = LAND;
   }
@@ -119,7 +119,7 @@ FallBlock::draw(DrawingContext& context)
 bool
 FallBlock::found_victim_down() const
 {
-  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+  if (auto* player = get_parent_sector()->get_nearest_player(m_col.m_bbox))
   {
     const Rectf& player_bbox = player->get_bbox();
     Rectf crush_area_down = Rectf(m_col.m_bbox.get_left()+1, m_col.m_bbox.get_bottom(),
@@ -127,7 +127,7 @@ FallBlock::found_victim_down() const
     if ((player_bbox.get_top() >= m_col.m_bbox.get_bottom())
         && (player_bbox.get_right() > (m_col.m_bbox.get_left() - 4))
         && (player_bbox.get_left() < (m_col.m_bbox.get_right() + 4))
-        && (Sector::get().is_free_of_statics(crush_area_down, this, false)))
+        && (get_parent_sector()->is_free_of_statics(crush_area_down, this, false)))
     {
       return true;
     }

@@ -335,7 +335,7 @@ BonusBlock::try_open(Player* player)
     return;
 
   if (player == nullptr)
-    player = Sector::get().get_nearest_player(m_col.m_bbox);
+    player = get_parent_sector()->get_nearest_player(m_col.m_bbox);
 
   if (player == nullptr)
     return;
@@ -346,11 +346,11 @@ BonusBlock::try_open(Player* player)
   switch (m_contents) {
     case Content::COIN:
     {
-      Sector::get().add<BouncyCoin>(get_pos(), true, m_coin_sprite);
+      get_parent()->add<BouncyCoin>(get_pos(), true, m_coin_sprite);
       SoundManager::current()->play("sounds/coin.wav", get_pos());
       player->get_status().general_status.add_coins(1, false);
       if (m_hit_counter != 0 && !m_parent_dispenser)
-        Sector::get().get_level().m_stats.increment_coins();
+        get_parent_sector()->get_level().m_stats.increment_coins();
       break;
     }
 
@@ -387,14 +387,14 @@ BonusBlock::try_open(Player* player)
 
     case Content::STAR:
     {
-      Sector::get().add<Star>(get_pos() + Vector(0, -32), direction);
+      get_parent()->add<Star>(get_pos() + Vector(0, -32), direction);
       play_upgrade_sound = true;
       break;
     }
 
     case Content::RETROSTAR:
     {
-      Sector::get().add<Star>(get_pos() + Vector(0, -32), direction,
+      get_parent()->add<Star>(get_pos() + Vector(0, -32), direction,
                               "images/powerups/retro/golden_herring.png");
       play_upgrade_sound = true;
       break;
@@ -402,7 +402,7 @@ BonusBlock::try_open(Player* player)
 
     case Content::ONEUP:
     {
-      Sector::get().add<OneUp>(get_pos(), direction);
+      get_parent()->add<OneUp>(get_pos(), direction);
       play_upgrade_sound = true;
       break;
     }
@@ -411,7 +411,7 @@ BonusBlock::try_open(Player* player)
     {
       auto moving_obj_copy = to_moving_object(GameObjectFactory::instance().create(m_object->get_class_name(), get_pos() + Vector(0, -32),
                                                                                    direction, m_object->save()));
-      Sector::get().add<SpecialRiser>(get_pos(), std::move(moving_obj_copy), true);
+      get_parent()->add<SpecialRiser>(get_pos(), std::move(moving_obj_copy), true);
       play_upgrade_sound = true;
       break;
     }
@@ -431,35 +431,35 @@ BonusBlock::try_open(Player* player)
     }
     case Content::TRAMPOLINE:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), Trampoline::STATIONARY), true);
+      get_parent()->add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), Trampoline::STATIONARY), true);
       play_upgrade_sound = true;
       break;
     }
     case Content::PORTABLE_TRAMPOLINE:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), Trampoline::PORTABLE), true);
+      get_parent()->add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), Trampoline::PORTABLE), true);
       play_upgrade_sound = true;
       break;
     }
     case Content::ROCK:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Rock>(get_pos()));
+      get_parent()->add<SpecialRiser>(get_pos(), std::make_unique<Rock>(get_pos()));
       break;
     }
     case Content::POTION:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<PowerUp>(get_pos(), PowerUp::FLIP));
+      get_parent()->add<SpecialRiser>(get_pos(), std::make_unique<PowerUp>(get_pos(), PowerUp::FLIP));
       break;
     }
     case Content::RAIN:
     {
-      Sector::get().add<CoinRain>(get_pos(), true, !m_parent_dispenser, m_coin_sprite);
+      get_parent()->add<CoinRain>(get_pos(), true, !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       break;
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40), !m_parent_dispenser, m_coin_sprite);
+      get_parent()->add<CoinExplode>(get_pos() + Vector (0, -40), !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       break;
     }
@@ -469,7 +469,7 @@ BonusBlock::try_open(Player* player)
     SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
 
   if (!m_script.empty()) { // Scripts always run if defined.
-    Sector::get().run_script(m_script, "BonusBlockScript");
+    get_parent_sector()->run_script(m_script, "BonusBlockScript");
   }
 
   start_bounce(player);
@@ -495,14 +495,14 @@ BonusBlock::try_drop(Player *player)
   dest_.set_right(m_col.m_bbox.get_right() - 1);
   dest_.set_bottom(dest_.get_top() + 30);
 
-  if (!Sector::get().is_free_of_statics(dest_, this, true) && !(m_contents == Content::ONEUP))
+  if (!get_parent_sector()->is_free_of_statics(dest_, this, true) && !(m_contents == Content::ONEUP))
   {
     try_open(player);
     return;
   }
 
   if (player == nullptr)
-    player = Sector::get().get_nearest_player(m_col.m_bbox);
+    player = get_parent_sector()->get_nearest_player(m_col.m_bbox);
 
   if (player == nullptr)
     return;
@@ -552,7 +552,7 @@ BonusBlock::try_drop(Player *player)
 
     case Content::STAR:
     {
-      Sector::get().add<Star>(get_pos() + Vector(0, 32), direction);
+      get_parent()->add<Star>(get_pos() + Vector(0, 32), direction);
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -560,7 +560,7 @@ BonusBlock::try_drop(Player *player)
 
     case Content::RETROSTAR:
     {
-      Sector::get().add<Star>(get_pos() + Vector(0, 32), direction,
+      get_parent()->add<Star>(get_pos() + Vector(0, 32), direction,
                               "images/powerups/retro/golden_herring.png");
       play_upgrade_sound = true;
       countdown = true;
@@ -569,7 +569,7 @@ BonusBlock::try_drop(Player *player)
 
     case Content::ONEUP:
     {
-      Sector::get().add<OneUp>(get_pos(), Direction::DOWN);
+      get_parent()->add<OneUp>(get_pos(), Direction::DOWN);
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -581,7 +581,7 @@ BonusBlock::try_drop(Player *player)
 
       auto obj_copy = GameObjectFactory::instance().create(m_object->get_class_name(), get_pos() + Vector(0, 32),
                                                            direction, m_object->save());
-      Sector::get().add_object(std::move(obj_copy));
+      get_parent()->add_object(std::move(obj_copy));
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -603,25 +603,25 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::ROCK:
     {
-      Sector::get().add<Rock>(get_pos() + Vector(0, 32),  "images/objects/rock/rock.sprite");
+      get_parent()->add<Rock>(get_pos() + Vector(0, 32),  "images/objects/rock/rock.sprite");
       countdown = true;
       break;
     }
     case Content::PORTABLE_TRAMPOLINE:
     {
-      Sector::get().add<Trampoline>(get_pos() + Vector(0, 32), true);
+      get_parent()->add<Trampoline>(get_pos() + Vector(0, 32), true);
       countdown = true;
       break;
     }
     case Content::POTION:
     {
-      Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), PowerUp::FLIP);
+      get_parent()->add<PowerUp>(get_pos() + Vector(0, 32), PowerUp::FLIP);
       countdown = true;
       break;
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40), !m_parent_dispenser, m_coin_sprite);
+      get_parent()->add<CoinExplode>(get_pos() + Vector (0, 40), !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -632,7 +632,7 @@ BonusBlock::try_drop(Player *player)
     SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
 
   if (!m_script.empty()) { // Scripts always run if defined.
-    Sector::get().run_script(m_script, "powerup-script");
+    get_parent_sector()->run_script(m_script, "powerup-script");
   }
 
   if (countdown) { // Only decrease the hit counter if try_open was not called.
@@ -658,7 +658,7 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
     obj = std::make_unique<Flower>(bonus, flower_sprite);
   }
 
-  Sector::get().add<SpecialRiser>(get_pos(), std::move(obj));
+  get_parent()->add<SpecialRiser>(get_pos(), std::move(obj));
   SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
 }
 
@@ -668,11 +668,11 @@ BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bo
 {
   if (player->get_status().bonus == NO_BONUS)
   {
-    Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir, growup_sprite);
+    get_parent()->add<GrowUp>(get_pos() + Vector(0, 32), dir, growup_sprite);
   }
   else
   {
-    Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), type);
+    get_parent()->add<PowerUp>(get_pos() + Vector(0, 32), type);
   }
   SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
   countdown = true;

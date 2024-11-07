@@ -34,7 +34,7 @@ Key::Key(const ReaderMapping& reader) :
   m_state(KeyState::NORMAL),
   m_wait_timer(),
   m_unlock_timer(),
-  m_physic(),
+  m_physic(*this),
   m_chain_pos(1),
   m_my_door_pos(0.f, 0.f),
   m_color(Color::WHITE),
@@ -73,7 +73,7 @@ Key::update(float dt_sec)
     bool spawn_particle_now = (graphicsRandom.rand(0, upper_limit) == 5);
     if (spawn_particle_now)
     {
-      Sector::get().add<SpriteParticle>(
+      get_parent()->add<SpriteParticle>(
         "images/particles/sparkle.sprite", "small",
         ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS + 6, false, m_color);
     }
@@ -95,14 +95,14 @@ Key::update(float dt_sec)
     m_pos_list.pop_back();
 
   // use
-  for (auto& door : Sector::get().get_objects_by_type<Door>()) {
+  for (auto& door : get_parent()->get_objects_by_type<Door>()) {
     if (m_state == KeyState::FOLLOW && door.is_locked() && glm::length(get_pos() - door.get_pos()) < 100.f &&
       // color matches
       std::abs(door.get_lock_color().red - m_color.red) <= 0.1f &&
       std::abs(door.get_lock_color().green - m_color.green) <= 0.1f &&
       std::abs(door.get_lock_color().blue - m_color.blue) <= 0.1f) {
       m_owner->remove_collected_key(this);
-      for (auto& key : Sector::get().get_objects_by_type<Key>()) {
+      for (auto& key : get_parent()->get_objects_by_type<Key>()) {
         if (key.m_chain_pos > m_chain_pos)
           key.m_chain_pos -= 1;
       }
@@ -147,7 +147,7 @@ Key::update(float dt_sec)
     break;
   case USE:
     m_col.set_movement(m_physic.get_movement(dt_sec));
-    if (get_pos().y > Sector::get().get_height())
+    if (get_pos().y > get_parent_sector()->get_height())
       remove_me();
     break;
   }
@@ -219,7 +219,7 @@ Key::spawn_use_particles()
   for (int i = 1; i < 9; i++)
   {
     Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
-    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-key-collect",
+    get_parent()->add<SpriteParticle>("images/particles/sparkle.sprite", "small-key-collect",
       get_bbox().get_middle(),
       ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false, m_color);
   }

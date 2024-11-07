@@ -191,7 +191,7 @@ SkyDive::explode()
     BadGuy::kill_fall();
   else
   {
-    Sector::get().add<Explosion>(
+    get_parent()->add<Explosion>(
       get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM), EXPLOSION_STRENGTH_DEFAULT);
 
     remove_me();

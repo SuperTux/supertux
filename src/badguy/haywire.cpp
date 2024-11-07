@@ -144,7 +144,7 @@ Haywire::active_update(float dt_sec)
       exception_box.set_top(m_col.m_bbox.get_top() - 32.f);
       exception_box.set_bottom(m_col.m_bbox.get_bottom() - 48.f);
 
-      if (!Sector::get().is_free_of_statics(jump_box) && Sector::get().is_free_of_statics(exception_box))
+      if (!get_parent_sector()->is_free_of_statics(jump_box) && get_parent_sector()->is_free_of_statics(exception_box))
       {
         m_physic.set_velocity_y(-325.f);
         m_jumping = true;
@@ -158,7 +158,7 @@ Haywire::active_update(float dt_sec)
         gap_box.set_top(m_col.m_bbox.get_top());
         gap_box.set_bottom(m_col.m_bbox.get_bottom() + 28.f);
 
-        if (Sector::get().is_free_of_statics(gap_box))
+        if (get_parent_sector()->is_free_of_statics(gap_box))
         {
           m_physic.set_velocity_y(-325.f);
           m_jumping = true;
@@ -251,7 +251,7 @@ Haywire::kill_fall()
     else
     {
       remove_me();
-      Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+      get_parent()->add<Explosion>(m_col.m_bbox.get_middle(),
         EXPLOSION_STRENGTH_DEFAULT);
       run_dead_script();
     }

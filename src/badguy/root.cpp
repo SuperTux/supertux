@@ -119,16 +119,16 @@ Root::initialize()
     default: assert(false); break;
   }
 
-  const float gravity = Sector::get().get_gravity() * 100.f;
+  const float gravity = get_parent_sector()->get_gravity() * 100.f;
   for (int i = 0; i < 5; i++)
   {
     const Vector velocity(graphicsRandom.randf(-100, 100),
                           graphicsRandom.randf(-400, -300));
-    Sector::get().add<SpriteParticle>("images/particles/corrupted_rock.sprite",
-                                      "piece-" + std::to_string(i),
-                                      basepos, ANCHOR_MIDDLE,
-                                      velocity, Vector(0, gravity),
-                                      LAYER_OBJECTS + 3, true);
+    get_parent()->add<SpriteParticle>("images/particles/corrupted_rock.sprite",
+                                  "piece-" + std::to_string(i),
+                                  basepos, ANCHOR_MIDDLE,
+                                  velocity, Vector(0, gravity),
+                                  LAYER_OBJECTS + 3, true);
   }
 
   m_timer.start(m_delay);

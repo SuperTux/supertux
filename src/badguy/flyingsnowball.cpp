@@ -97,7 +97,7 @@ FlyingSnowBall::active_update(float dt_sec)
     Vector ppos = m_col.m_bbox.get_middle();
     Vector pspeed = Vector(graphicsRandom.randf(-10, 10), 150);
     Vector paccel = Vector(0,0);
-    Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
+    get_parent()->add<SpriteParticle>("images/particles/smoke.sprite",
                                            "default",
                                            ppos, ANCHOR_MIDDLE, pspeed, paccel,
                                            LAYER_OBJECTS-1);

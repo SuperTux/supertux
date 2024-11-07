@@ -18,12 +18,11 @@
 
 #include "editor/node_marker.hpp"
 #include "object/path_gameobject.hpp"
-#include "supertux/sector.hpp"
 
 BezierMarker::BezierMarker(Path::Node* node, Vector* bezier_pos) :
   m_node(node),
   m_pos(bezier_pos),
-  m_parent()
+  m_parent_marker()
 {
   set_pos(*m_pos - Vector(8, 8));
 }
@@ -60,10 +59,16 @@ BezierMarker::update_iterator(Path::Node* node, Vector* bezier_pos)
   m_pos = bezier_pos;
 }
 
-NodeMarker*
-BezierMarker::get_parent() const
+void
+BezierMarker::set_parent_marker(const NodeMarker& marker)
 {
-  return Sector::current()->get_object_by_uid<NodeMarker>(m_parent);
+  m_parent_marker = &marker;
+}
+
+NodeMarker*
+BezierMarker::get_parent_marker() const
+{
+  return m_parent_marker.get();
 }
 
 void

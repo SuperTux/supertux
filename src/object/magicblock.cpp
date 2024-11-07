@@ -123,8 +123,8 @@ MagicBlock::update(float dt_sec)
 {
   // Check if center of this block is on screen.
   // Don't update if not, because there is no light off screen.
-  float screen_left = Sector::get().get_camera().get_translation().x;
-  float screen_top = Sector::get().get_camera().get_translation().y;
+  float screen_left = get_parent_sector()->get_camera().get_translation().x;
+  float screen_top = get_parent_sector()->get_camera().get_translation().y;
   float screen_right = screen_left + static_cast<float>(SCREEN_WIDTH);
   float screen_bottom = screen_top + static_cast<float>(SCREEN_HEIGHT);
   if ((m_center.x > screen_right ) || (m_center.y > screen_bottom) ||
@@ -158,7 +158,7 @@ MagicBlock::update(float dt_sec)
     // lighting suggests going solid
 
     if (!m_is_solid) {
-      if (Sector::get().is_free_of_movingstatics(m_solid_box, this)) {
+      if (get_parent_sector()->is_free_of_movingstatics(m_solid_box, this)) {
         m_is_solid = true;
         m_solid_time = 0;
         m_switch_delay = SWITCH_DELAY;

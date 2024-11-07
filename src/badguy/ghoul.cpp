@@ -47,7 +47,7 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
 bool
 Ghoul::collision_squished(GameObject& object)
 {
-  auto player = Sector::get().get_nearest_player(m_col.m_bbox);
+  auto player = get_parent_sector()->get_nearest_player(m_col.m_bbox);
   if (player)
     player->bounce (*this);
   set_action("squished", 1);

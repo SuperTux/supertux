@@ -68,7 +68,7 @@ Explosion::explode()
     return;
   state = STATE_EXPLODING;
 
-  Sector::get().get_camera().shake(.1f, 0.f, 10.f);
+  get_parent_sector()->get_camera().shake(.1f, 0.f, 10.f);
 
   set_action(hurt ? "default" : "pop", 1);
   m_sprite->set_animation_loops(1); //TODO: This is necessary because set_action will not set "loops" when "action" is the default action.
@@ -80,17 +80,17 @@ Explosion::explode()
   bool does_push = push_strength > 0;
 
   // Spawn some particles.
-  Vector accel = Vector(0, Sector::get().get_gravity()*100);
-  Sector::get().add<Particles>(
+  Vector accel = Vector(0, get_parent_sector()->get_gravity()*100);
+  get_parent()->add<Particles>(
     m_col.m_bbox.get_middle(), -360, 360, 450.0f, 900.0f, accel, num_particles,
     Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1);
 
   if (does_push) {
     Vector center = m_col.m_bbox.get_middle ();
-    auto near_objects = Sector::get().get_nearby_objects (center, 128.0 * 32.0);
+    auto near_objects = get_parent_sector()->get_nearby_objects (center, 128.0 * 32.0);
 
     for (auto& obj: near_objects) {
-      if(!Sector::current()->free_line_of_sight(center, obj->get_pos(), true))
+      if (!get_parent_sector()->free_line_of_sight(center, obj->get_pos(), true))
         continue;
 
       Vector obj_vector = obj->get_bbox ().get_middle ();

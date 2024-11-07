@@ -23,18 +23,24 @@
 
 namespace Base {
 
-Sector::Sector(const std::string& type) :
+Sector::Sector(const std::string& type, bool squirrel_subtable) :
+  m_type_string(type),
+  m_use_squirrel_subtable(squirrel_subtable),
   m_name(),
   m_init_script(),
-  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), type))
+  m_squirrel_environment()
 {
 }
 
 void
-Sector::finish_construction(bool)
+Sector::finish_construction(bool editable)
 {
   for (auto& object : get_objects())
     object->finish_construction();
+
+  if (!editable)
+    m_squirrel_environment = std::make_unique<SquirrelEnvironment>(SquirrelVirtualMachine::current()->get_vm(),
+                                                                   m_type_string, m_use_squirrel_subtable ? m_name : "");
 }
 
 void
@@ -64,20 +70,53 @@ Sector::get_properties() const
 void
 Sector::run_script(const std::string& script, const std::string& sourcename)
 {
-  m_squirrel_environment->run_script(script, sourcename);
+  if (m_squirrel_environment)
+    m_squirrel_environment->run_script(script, sourcename);
+}
+
+void
+Sector::expose()
+{
+  if (!m_squirrel_environment)
+    return;
+
+  m_squirrel_environment->expose_self();
+
+  for (const auto& object : get_objects())
+    m_squirrel_environment->expose(*object, object->get_name());
+
+  // The Sector object is called 'settings' as it is accessed as 'sector.settings'
+  m_squirrel_environment->expose(*this, "settings");
+}
+
+void
+Sector::unexpose()
+{
+  if (!m_squirrel_environment)
+    return;
+
+  m_squirrel_environment->unexpose_self();
+
+  for (const auto& object : get_objects())
+    m_squirrel_environment->unexpose(object->get_name());
+
+  m_squirrel_environment->unexpose("settings");
 }
 
 bool
 Sector::before_object_add(GameObject& object)
 {
-  m_squirrel_environment->expose(object, object.get_name());
+  if (m_squirrel_environment)
+    m_squirrel_environment->expose(object, object.get_name());
+
   return true;
 }
 
 void
 Sector::before_object_remove(GameObject& object)
 {
-  m_squirrel_environment->unexpose(object.get_name());
+  if (m_squirrel_environment)
+    m_squirrel_environment->unexpose(object.get_name());
 }
 
 Sector::EventHandler&

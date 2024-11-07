@@ -720,7 +720,7 @@ CustomParticleSystem::update(float dt_sec)
       particle->speedX *= 1.f - particle->frictionX * dt_sec;
       particle->speedY *= 1.f - particle->frictionY * dt_sec;
 
-      if (Sector::current() && collision(particle,
+      if (get_parent_sector() && collision(particle,
                     Vector(particle->speedX,particle->speedY) * dt_sec) > 0) {
         switch(particle->collision_mode) {
         case CollisionMode::Ignore:
@@ -952,7 +952,7 @@ CustomParticleSystem::collision(Particle* object, const Vector& movement)
   dest.move(movement);
   Constraints constraints;
 
-  for (const auto& solids : Sector::get().get_solid_tilemaps()) {
+  for (const auto& solids : get_parent_sector()->get_solid_tilemaps()) {
     // FIXME: Handle a nonzero tilemap offset.
     // Check if it gets fixed in particlesystem_interactive.cpp.
     for (int x = starttilex; x*32 < max_x; ++x) {
@@ -1038,7 +1038,7 @@ CustomParticleSystem::get_collision(Particle* object, const Vector& movement)
   dest.move(movement);
   Constraints constraints;
 
-  for (const auto& solids : Sector::get().get_solid_tilemaps()) {
+  for (const auto& solids : get_parent_sector()->get_solid_tilemaps()) {
     // FIXME: Handle a nonzero tilemap offset.
     // Check if it gets fixed in particlesystem_interactive.cpp.
     for (int x = starttilex; x*32 < max_x; ++x) {
@@ -1089,11 +1089,11 @@ CustomParticleSystem::get_zones() const
 {
   std::vector<ParticleZone::ZoneDetails> list;
 
-  //if (!!GameSession::current() && Sector::current()) {
+  //if (!get_parent()) {
   if (!ParticleEditor::current()) {
 
     // In game or in level editor.
-    for (auto& zone : GameSession::current()->get_current_sector().get_objects_by_type<ParticleZone>()) {
+    for (auto& zone : get_parent()->get_objects_by_type<ParticleZone>()) {
       list.push_back(zone.get_details());
     }
 
@@ -1116,13 +1116,13 @@ CustomParticleSystem::get_zones() const
 float
 CustomParticleSystem::get_abs_x() const
 {
-  return (Sector::current()) ? Sector::get().get_camera().get_translation().x : 0.f;
+  return get_parent_sector() ? get_parent_sector()->get_camera().get_translation().x : 0.f;
 }
 
 float
 CustomParticleSystem::get_abs_y() const
 {
-  return (Sector::current()) ? Sector::get().get_camera().get_translation().y : 0.f;
+  return get_parent_sector() ? get_parent_sector()->get_camera().get_translation().y : 0.f;
 }
 
 /** Initializes and adds a single particle to the stack. Performs

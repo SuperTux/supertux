@@ -19,7 +19,7 @@
 
 #include "util/uid.hpp"
 
-#include "supertux/sector.hpp"
+#include "supertux/game_object_manager.hpp"
 
 /**
  * Typed UIDs allows storing GameObjects as UID while offering to option to use
@@ -31,16 +31,23 @@ class TypedUID : public UID
 {
 public:
   TypedUID() : UID() {}
-  TypedUID(const T* object) : UID() { if (object) *this = object->get_uid(); }
+  TypedUID(const T* object) : UID()
+  {
+    if (object)
+    {
+      *this = object->get_uid();
+      m_object_manager = object->get_parent();
+    }
+  }
   TypedUID(const TypedUID& other) = default;
   TypedUID& operator=(const TypedUID& other) = default;
 
   inline T* get() const
   {
-    if (m_value == 0 || !Sector::current())
+    if (m_value == 0 || !m_object_manager)
       return nullptr;
 
-    auto* object = Sector::get().get_object_by_uid<T>(*this);
+    auto* object = m_object_manager->get_object_by_uid<T>(*this);
 
     // Would break const correctness
 #if 0
@@ -56,12 +63,17 @@ public:
   inline TypedUID& operator=(const T* object)
   {
     *this = object ? object->get_uid() : UID();
+    m_object_manager = object ? object->get_parent() : nullptr;
     return *this;
   }
 
-  inline TypedUID& operator=(const UID& other)
+  template<class C>
+  inline TypedUID& operator=(const TypedUID<C>& other)
   {
-    UID::operator=(other);
+    static_assert(std::is_base_of<T, C>::value, "TypedUID object type must inherit target TypedUID object type!");
+
+    *this = other;
+    m_object_manager = other.get_object_manager();
     return *this;
   }
 
@@ -89,9 +101,22 @@ public:
     return object ? object->get_uid() != *this : m_value == 0;
   }
 
-  inline operator bool() const {
-    return m_value != 0 && Sector::current() && Sector::get().get_object_by_uid<T>(*this);
+  inline operator bool() const
+  {
+    return m_value != 0 && m_object_manager && m_object_manager->get_object_by_uid<T>(*this);
   }
+
+  inline GameObjectManager* get_object_manager() const { return m_object_manager; }
+
+private:
+  inline TypedUID& operator=(const UID& other)
+  {
+    UID::operator=(other);
+    return *this;
+  }
+
+private:
+  GameObjectManager* m_object_manager;
 };
 
 template<class T>

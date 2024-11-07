@@ -20,6 +20,7 @@
 #include <simplesquirrel/vm.hpp>
 
 #include "control/input_manager.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 
 TextArrayObject::TextArrayObject(const std::string& name) :
@@ -441,10 +442,11 @@ TextArrayObject::register_class(ssq::VM& vm)
 {
   ssq::Class cls = vm.addClass("TextArrayObject", []()
     {
-      if (!Sector::current())
-        throw std::runtime_error("Tried to create 'TextArrayObject' without an active sector.");
+      if (!GameSession::current())
+        throw std::runtime_error("Tried to create 'TextArrayObject' without an active game session.");
 
-      return &Sector::get().add<TextArrayObject>();
+      // TODO: Specify which sector to add to
+      return &GameSession::current()->get_current_sector().add<TextArrayObject>();
     },
     false /* Do not free pointer from Squirrel */,
     vm.findClass("GameObject"));

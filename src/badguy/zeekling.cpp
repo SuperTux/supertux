@@ -156,7 +156,7 @@ Zeekling::should_we_dive()
   if (!math::in_bounds(xdist, MIN_DETECT_RANGE_X, MAX_DETECT_RANGE_X))
     return false;
 
-  RaycastResult result = Sector::get().get_first_line_intersection(eye, playermiddle, false, nullptr);
+  RaycastResult result = get_parent_sector()->get_first_line_intersection(eye, playermiddle, false, nullptr);
 
   auto* resultobj = std::get_if<CollisionObject*>(&result.hit);
   

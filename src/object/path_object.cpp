@@ -30,6 +30,7 @@
 
 PathObject::PathObject() :
   m_path_handle(),
+  m_path_sector(),
   m_path_uid(),
   m_walker()
 {
@@ -54,17 +55,19 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
     handle_map->get("offset_y", m_path_handle.m_pixel_offset.y);
   }
 
+  m_path_sector = d_sector.get();
+
   std::string path_ref;
   std::optional<ReaderMapping> path_mapping;
   if (mapping.get("path", path_mapping))
   {
-    auto& path_gameobject = d_gameobject_manager->add<PathGameObject>(*path_mapping, true);
+    auto& path_gameobject = m_path_sector->add<PathGameObject>(*path_mapping, true);
     m_path_uid = path_gameobject.get_uid();
     m_walker.reset(new PathWalker(m_path_uid, running));
   }
   else if (mapping.get("path-ref", path_ref))
   {
-    d_gameobject_manager->request_name_resolve(path_ref, [this, running](UID uid){
+    m_path_sector->request_name_resolve(path_ref, [this, running](UID uid){
         if (!m_path_uid) m_path_uid = uid;
         m_walker.reset(new PathWalker(m_path_uid, running));
       });
@@ -83,7 +86,7 @@ void
 PathObject::goto_node(int node_idx)
 {
   if (!m_walker) return;
-  BIND_SECTOR(Sector::get());
+  BIND_SECTOR(*m_path_sector);
   m_walker->goto_node(node_idx);
 }
 
@@ -91,7 +94,7 @@ void
 PathObject::set_node(int node_idx)
 {
   if (!m_walker) return;
-  BIND_SECTOR(Sector::get());
+  BIND_SECTOR(*m_path_sector);
   m_walker->jump_to_node(node_idx, true);
 }
 
@@ -128,10 +131,10 @@ PathObject::check_state() const
 PathGameObject*
 PathObject::get_path_gameobject() const
 {
-  if(!d_gameobject_manager)
+  if (!m_path_sector)
     return nullptr;
 
-  return d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid);
+  return m_path_sector->get_object_by_uid<PathGameObject>(m_path_uid);
 }
 
 Path*

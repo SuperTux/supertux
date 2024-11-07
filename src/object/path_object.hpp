@@ -25,6 +25,8 @@
 #include "object/path_walker.hpp"
 #include "util/uid.hpp"
 
+class Sector;
+
 namespace ssq {
 class Class;
 } // namespace ssq
@@ -89,6 +91,7 @@ protected:
   PathWalker::Handle m_path_handle;
 
 private:
+  Sector* m_path_sector;
   UID m_path_uid;
   std::unique_ptr<PathWalker> m_walker;
 

@@ -45,12 +45,12 @@ void
 VerticalStripes::draw(DrawingContext& context)
 {
   float screen_width = context.get_width();
-  float level_width = Sector::get().get_width();
+  float level_width = get_parent_sector()->get_width();
   if (m_visible && level_width < screen_width)
   {
     // Drawing two black stripes at each side of a screen
     float screen_height = context.get_height();
-    float level_height = Sector::get().get_height();
+    float level_height = get_parent_sector()->get_height();
 
     Canvas& canvas = context.get_canvas(DrawingTarget::COLORMAP);
 

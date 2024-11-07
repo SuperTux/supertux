@@ -60,7 +60,7 @@ Stalactite::active_update(float dt_sec)
          && player->get_bbox().get_left() < m_col.m_bbox.get_right() + SHAKE_RANGE_X
          && player->get_bbox().get_bottom() > m_col.m_bbox.get_top()
          && player->get_bbox().get_top() < m_col.m_bbox.get_bottom() + SHAKE_RANGE_Y
-         && Sector::get().can_see_player(m_col.m_bbox.get_middle())) {
+         && get_parent_sector()->can_see_player(m_col.m_bbox.get_middle())) {
         timer.start(SHAKE_TIME);
         state = STALACTITE_SHAKING;
         SoundManager::current()->play("sounds/cracking.wav", get_pos());

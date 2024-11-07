@@ -23,26 +23,36 @@
 #include "video/viewport.hpp"
 
 FallingCoin::FallingCoin(const Vector& start_position, float vel_x) :
-  physic(),
-  pos(start_position),
+  physic(*this),
   sprite(SpriteManager::current()->create("images/objects/coin/coin.sprite"))
 {
+  set_group(COLGROUP_DISABLED);
+  m_col.m_bbox.set_pos(start_position);
+  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(),
+                        sprite->get_current_hitbox_height());
+
   physic.set_velocity(vel_x, -800.0f);
 }
 
 void
 FallingCoin::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), pos, LAYER_FLOATINGOBJECTS + 5);
+  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_FLOATINGOBJECTS + 5);
 }
 
 void
 FallingCoin::update(float dt_sec)
 {
-  pos += physic.get_movement(dt_sec);
-  if (pos.y > static_cast<float>(SCREEN_HEIGHT) &&
+  m_col.m_bbox.move(physic.get_movement(dt_sec));
+  if (m_col.m_bbox.get_top() > static_cast<float>(SCREEN_HEIGHT) &&
       physic.get_velocity_y() > 0.0f)
     remove_me();
+}
+
+int
+FallingCoin::get_layer() const
+{
+  return LAYER_FLOATINGOBJECTS + 5;
 }
 
 /* EOF */

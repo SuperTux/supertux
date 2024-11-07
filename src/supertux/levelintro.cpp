@@ -78,7 +78,7 @@ LevelIntro::update(float dt_sec, const Controller& controller)
       bonus_prefix = "big";
 
     player->sprite_py += player->sprite_vy * dt_sec;
-    player->sprite_vy += 100 * dt_sec * Sector::get().get_gravity();
+    player->sprite_vy += 1000.f * dt_sec;
     if (player->sprite_py >= 0)
     {
       player->sprite_py = 0;

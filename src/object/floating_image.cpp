@@ -21,6 +21,7 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 
@@ -173,10 +174,11 @@ FloatingImage::register_class(ssq::VM& vm)
 {
   ssq::Class cls = vm.addClass("FloatingImage", [](const std::string& spritefile)
     {
-      if (!Sector::current())
-        throw std::runtime_error("Tried to create 'FloatingImage' without an active sector.");
+      if (!GameSession::current())
+        throw std::runtime_error("Tried to create 'FloatingImage' without an active game session.");
 
-      return &Sector::get().add<FloatingImage>(spritefile);
+      // TODO: Specify which sector to add to
+      return &GameSession::current()->get_current_sector().add<FloatingImage>(spritefile);
     },
     false /* Do not free pointer from Squirrel */,
     vm.findClass("GameObject"));

@@ -94,7 +94,7 @@ void
 FishJumping::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
-  m_in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  m_in_water = !get_parent_sector()->is_free_of_tiles(get_bbox(), true, Tile::WATER);
 
   if (m_beached_timer.check())
   {

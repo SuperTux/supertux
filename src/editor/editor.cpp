@@ -595,7 +595,7 @@ Editor::set_sector(Sector* sector)
   if (!sector) return;
 
   m_sector = sector;
-  m_sector->activate(DEFAULT_SPAWNPOINT_NAME);
+  m_sector->spawn_players(DEFAULT_SPAWNPOINT_NAME);
 
   { // Initialize badguy sprites and perform other GameObject related tasks.
     BIND_SECTOR(*m_sector);
@@ -739,7 +739,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   if (m_sector != nullptr)
   {
-    m_sector->activate(sector_name);
+    m_sector->spawn_players(sector_name);
     m_sector->get_camera().set_mode(Camera::Mode::MANUAL);
 
     if (!reset) {
@@ -1201,7 +1201,7 @@ Editor::setup()
     Tile::draw_editor_images = true;
     m_level->reactivate();
 
-    m_sector->activate(Vector(0,0));
+    m_sector->spawn_players(Vector(0,0));
 
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();

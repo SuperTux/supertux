@@ -81,7 +81,7 @@ void
 GranitoBig::carry(Granito* granito)
 {
   m_carrying = granito;
-  Sector::get().run_script(m_carried_script, "carrying-script");
+  get_parent_sector()->run_script(m_carried_script, "carrying-script");
 }
 
 void

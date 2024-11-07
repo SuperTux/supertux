@@ -63,7 +63,7 @@ ScriptTrigger::event(Player& , EventType type)
   if (type != triggerevent || (oneshot && runcount >= 1))
     return;
 
-  Sector::get().run_script(script, "ScriptTrigger");
+  get_parent_sector()->run_script(script, "ScriptTrigger");
   runcount++;
 }
 

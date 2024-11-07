@@ -125,7 +125,7 @@ AmbientSound::play_looping_sounds()
 void
 AmbientSound::update(float dt_sec)
 {
-  const Player* const nearest_player = Sector::get().get_nearest_player(get_bbox().get_middle());
+  const Player* const nearest_player = get_parent_sector()->get_nearest_player(get_bbox().get_middle());
   if (!nearest_player)
     return;
   const Rectf& player_bbox = nearest_player->get_bbox();

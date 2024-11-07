@@ -34,7 +34,7 @@
 class SquirrelEnvironment final
 {
 public:
-  SquirrelEnvironment(ssq::VM& vm, const std::string& name);
+  SquirrelEnvironment(ssq::VM& vm, const std::string& base_name, const std::string& name = "");
   virtual ~SquirrelEnvironment();
 
 public:
@@ -68,7 +68,8 @@ private:
 private:
   ssq::VM& m_vm;
   ssq::Table m_table;
-  std::string m_name;
+  const std::string m_base_name;
+  const std::string m_name;
   std::vector<ssq::VM> m_scripts;
   std::unique_ptr<SquirrelScheduler> m_scheduler;
 

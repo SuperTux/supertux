@@ -32,6 +32,7 @@ bool GameObject::s_save_uid = false;
 
 GameObject::GameObject() :
   m_parent(),
+  m_parent_sector(),
   m_name(),
   m_type(0),
   m_fade_helpers(),
@@ -48,6 +49,7 @@ GameObject::GameObject() :
 
 GameObject::GameObject(const std::string& name) :
   m_parent(),
+  m_parent_sector(),
   m_name(name),
   m_type(0),
   m_fade_helpers(),

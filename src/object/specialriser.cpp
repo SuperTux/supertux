@@ -44,7 +44,7 @@ SpecialRiser::update(float dt_sec)
   m_offset += 50 * dt_sec;
   set_pos(m_start_pos - Vector(0, m_offset));
   if (m_offset > 32) {
-    Sector::get().add_object(std::move(m_child));
+    get_parent()->add_object(std::move(m_child));
     remove_me();
   }
 }

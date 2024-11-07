@@ -91,7 +91,7 @@ Ispy::update(float dt_sec)
       default: break;
     }
 
-    if (Sector::get().can_see_player(eye))
+    if (get_parent_sector()->can_see_player(eye))
     {
       set_action("alert", m_dir, 1);
       m_state = ISPYSTATE_ALERT;
@@ -104,7 +104,7 @@ Ispy::update(float dt_sec)
       set_action("hiding", m_dir, 1);
       m_state = ISPYSTATE_HIDING;
 
-      Sector::get().run_script(m_script, "Ispy");
+      get_parent_sector()->run_script(m_script, "Ispy");
     }
   }
   if (m_state == ISPYSTATE_HIDING)

@@ -91,10 +91,10 @@ CorruptedGranitoBig::kill_fall()
 
   run_dead_script();
 
-  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f), SHARD_SPRITE);
-  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f), SHARD_SPRITE);
-  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f),SHARD_SPRITE);
-  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f),SHARD_SPRITE);
+  get_parent()->add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f), SHARD_SPRITE);
+  get_parent()->add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f), SHARD_SPRITE);
+  get_parent()->add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f),SHARD_SPRITE);
+  get_parent()->add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f),SHARD_SPRITE);
 
   crack_effects(6);
 }
@@ -110,7 +110,7 @@ CorruptedGranitoBig::try_cracking()
   const Vector middle = get_bbox().get_middle();
   const Vector player_middle = player->get_bbox().get_middle();
 
-  RaycastResult result = Sector::get().get_first_line_intersection(middle, player_middle,
+  RaycastResult result = get_parent_sector()->get_first_line_intersection(middle, player_middle,
                                                                    false, get_collision_object());
 
   auto* obj = std::get_if<CollisionObject*>(&result.hit);
@@ -160,15 +160,15 @@ CorruptedGranitoBig::crack_effects(int particles)
   SoundManager::current()->play("sounds/brick.wav", get_pos());
   m_shake_timer.start(SHAKE_TIME);
 
-  const float gravity = Sector::get().get_gravity() * 100.f;
+  const float gravity = get_parent_sector()->get_gravity() * 100.f;
   for (int i = 0; i < particles; i++)
   {
     const Vector velocity(graphicsRandom.randf(-100, 100),
                           graphicsRandom.randf(-400, -300));
-    Sector::get().add<SpriteParticle>(m_rock_particles->clone(), "piece-" + std::to_string(i),
-                                      get_bbox().get_middle(), ANCHOR_MIDDLE,
-                                      velocity, Vector(0, gravity),
-                                      LAYER_OBJECTS + 3, true);
+    get_parent()->add<SpriteParticle>(m_rock_particles->clone(), "piece-" + std::to_string(i),
+                                  get_bbox().get_middle(), ANCHOR_MIDDLE,
+                                  velocity, Vector(0, gravity),
+                                  LAYER_OBJECTS + 3, true);
   }
 }
 

@@ -137,10 +137,10 @@ FishSwimming::update(float dt_sec)
 {
   // Don't allow dying by going below the sector.
   if (BadGuy::get_state() != STATE_FALLING && !m_frozen &&
-      m_in_water && get_bbox().get_bottom() >= Sector::get().get_height())
+      m_in_water && get_bbox().get_bottom() >= get_parent_sector()->get_height())
   {
     set_pos(Vector(get_bbox().get_left(),
-                   Sector::get().get_height() - m_col.m_bbox.get_height()));
+                   get_parent_sector()->get_height() - m_col.m_bbox.get_height()));
   }
   BadGuy::update(dt_sec);
   //m_col.set_movement(m_physic.get_movement(dt_sec));
@@ -150,7 +150,7 @@ void
 FishSwimming::active_update(float dt_sec) {
   // Perform basic updates.
   BadGuy::active_update(dt_sec);
-  m_in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  m_in_water = !get_parent_sector()->is_free_of_tiles(get_bbox(), true, Tile::WATER);
   m_physic.enable_gravity((!m_frozen && m_in_water) ? false : true);
 
   // Handle beached state when the fish is in water and beached_timer is active.

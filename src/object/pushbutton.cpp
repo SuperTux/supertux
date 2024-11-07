@@ -133,7 +133,7 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   SoundManager::current()->play(BUTTON_SOUND, get_pos());
 
   // run script
-  Sector::get().run_script(m_script, "PushButton");
+  get_parent_sector()->run_script(m_script, "PushButton");
 
   return FORCE_MOVE;
 }

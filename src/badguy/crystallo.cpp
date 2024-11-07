@@ -91,7 +91,7 @@ Crystallo::on_flip(float height)
 {
   WalkingBadguy::on_flip(height);
 
-  Sector::get().add<RCrystallo>(get_pos(), m_start_position, get_velocity_x(),
+  get_parent()->add<RCrystallo>(get_pos(), m_start_position, get_velocity_x(),
                                 std::move(m_sprite), m_dir, m_radius, m_dead_script);
   remove_me();
 }

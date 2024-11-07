@@ -63,7 +63,7 @@ WorldMapSector::current()
 
 
 WorldMapSector::WorldMapSector(WorldMap& parent) :
-  Base::Sector("worldmap"),
+  Base::Sector("worldmap", false),
   m_parent(parent),
   m_camera(new Camera(*this)),
   m_tux(&add<Tux>(&parent)),
@@ -130,24 +130,25 @@ WorldMapSector::setup()
 
   m_tux->setup();
 
-  // register worldmap_table as "worldmap" in scripting
-  m_squirrel_environment->expose_self();
-  m_squirrel_environment->expose(*this, "settings");
-
   /** Perform scripting related actions. **/
-  // Run default.nut just before init script
-  try
+  if (m_squirrel_environment)
   {
-    IFileStream in(m_parent.get_levels_path() + "default.nut");
-    m_squirrel_environment->run_script(in, "WorldMapSector::default.nut");
-  }
-  catch (...)
-  {
-    // doesn't exist or erroneous; do nothing
-  }
+    expose();
 
-  if (!m_init_script.empty())
-    m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
+    // Run default.nut just before init script
+    try
+    {
+      IFileStream in(m_parent.get_levels_path() + "default.nut");
+      m_squirrel_environment->run_script(in, "WorldMapSector::default.nut");
+    }
+    catch (...)
+    {
+      // doesn't exist or erroneous; do nothing
+    }
+
+    if (!m_init_script.empty())
+      m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
+  }
 
   // Check if Tux is on an auto-playing level.
   // No need to play music in that case.
@@ -164,8 +165,7 @@ WorldMapSector::leave()
 {
   BIND_WORLDMAP_SECTOR(*this);
 
-  // remove worldmap_table from roottable
-  m_squirrel_environment->unexpose_self();
+  unexpose();
 }
 
 

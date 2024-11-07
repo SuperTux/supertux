@@ -34,7 +34,7 @@ Coin::Coin(const Vector& pos, bool count_stats, const std::string& sprite_path) 
   m_offset(0.0f, 0.0f),
   m_from_tilemap(false),
   m_add_path(false),
-  m_physic(),
+  m_physic(*this),
   m_collect_script(),
   m_starting_node(0),
   m_count_stats(count_stats)
@@ -48,7 +48,7 @@ Coin::Coin(const ReaderMapping& reader, bool count_stats) :
   m_offset(0.0f, 0.0f),
   m_from_tilemap(false),
   m_add_path(false),
-  m_physic(),
+  m_physic(*this),
   m_collect_script(),
   m_starting_node(0),
   m_count_stats(count_stats)
@@ -225,14 +225,14 @@ Coin::collect()
   soundSource->play();
   SoundManager::current()->manage_source(std::move(soundSource));
 
-  Sector::get().get_players()[0]->get_status().general_status.add_coins(1, false);
-  Sector::get().add<BouncyCoin>(get_pos(), false, get_sprite_name());
+  get_parent_sector()->get_players()[0]->get_status().general_status.add_coins(1, false);
+  get_parent()->add<BouncyCoin>(get_pos(), false, get_sprite_name());
   if (m_count_stats && !m_parent_dispenser)
-    Sector::get().get_level().m_stats.increment_coins();
+    get_parent_sector()->get_level().m_stats.increment_coins();
   remove_me();
 
   if (!m_collect_script.empty()) {
-    Sector::get().run_script(m_collect_script, "collect-script");
+    get_parent_sector()->run_script(m_collect_script, "collect-script");
   }
 }
 
@@ -250,7 +250,7 @@ Coin::collision(GameObject& other, const CollisionHit& )
 /* The following defines a coin subject to gravity. */
 HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity, bool count_stats, const std::string& sprite_path) :
   Coin(pos, count_stats, sprite_path),
-  m_physic(),
+  m_physic(*this),
   m_last_hit()
 {
   m_physic.enable_gravity(true);
@@ -261,7 +261,7 @@ HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity, bool count_
 
 HeavyCoin::HeavyCoin(const ReaderMapping& reader, bool count_stats) :
   Coin(reader, count_stats),
-  m_physic(),
+  m_physic(*this),
   m_last_hit()
 {
   m_physic.enable_gravity(true);

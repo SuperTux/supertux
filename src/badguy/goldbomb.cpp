@@ -89,7 +89,7 @@ GoldBomb::active_update(float dt_sec)
   // Look for any of these in safe distance:
   // Player, ticking Haywire, ticking Bomb or ticking GoldBomb
   MovingObject* obj = nullptr;
-  std::vector<MovingObject*> objs = Sector::get().get_nearby_objects(get_bbox().get_middle(), SAFE_DIST);
+  std::vector<MovingObject*> objs = get_parent_sector()->get_nearby_objects(get_bbox().get_middle(), SAFE_DIST);
   for (MovingObject* currobj : objs)
   {
     obj = currobj;
@@ -155,7 +155,7 @@ GoldBomb::active_update(float dt_sec)
       // one of the upper corners of the hitbox.
       // (grown 1 just to make sure it doesnt interfere.)
       const Rectf eye = get_bbox().grown(1.f);
-      if (!Sector::get().free_line_of_sight(
+      if (!get_parent_sector()->free_line_of_sight(
         vecdist.x <= 0 ? eye.p1() : Vector(eye.get_right(), eye.get_top()),
         obj->get_bbox().get_middle(),
         false,
@@ -193,7 +193,7 @@ GoldBomb::active_update(float dt_sec)
 void GoldBomb::explode()
 {
   MrBomb::explode();
-  Sector::get().add<CoinExplode>(get_pos(), !m_parent_dispenser);
+  get_parent()->add<CoinExplode>(get_pos(), !m_parent_dispenser);
 }
 
 void

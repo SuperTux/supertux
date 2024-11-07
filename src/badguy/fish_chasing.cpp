@@ -63,12 +63,12 @@ void
 FishChasing::active_update(float dt_sec) {
   // Perform basic updates.
   BadGuy::active_update(dt_sec);
-  m_in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  m_in_water = !get_parent_sector()->is_free_of_tiles(get_bbox(), true, Tile::WATER);
 
   Rectf top_of_fish = get_bbox();
   top_of_fish.set_height(1.0f);
 
-  const bool is_completely_in_water = !Sector::get().is_free_of_tiles(top_of_fish, true, Tile::WATER);
+  const bool is_completely_in_water = !get_parent_sector()->is_free_of_tiles(top_of_fish, true, Tile::WATER);
   m_physic.enable_gravity(m_frozen || !is_completely_in_water);
 
   // Handle beached state when the fish is in water and beached_timer is active.
@@ -90,7 +90,7 @@ FishChasing::active_update(float dt_sec) {
   const Vector dist = (p2 - p1);
   const bool is_player_in_water = player->is_swimming() || player->is_swimboosting() || player->is_water_jumping();
   const bool is_facing_player = (m_dir == Direction::LEFT && dist.x <= 0.0f) || (m_dir == Direction::RIGHT && dist.x >= 0.0f );
-  const bool can_see_player = Sector::get().free_line_of_sight(p1,p2, true, this);
+  const bool can_see_player = get_parent_sector()->free_line_of_sight(p1,p2, true, this);
 
   switch (m_chase_state)
   {

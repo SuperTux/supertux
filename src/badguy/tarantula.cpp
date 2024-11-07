@@ -67,7 +67,7 @@ Tarantula::initialize()
   m_last_height = m_start_position.y;
   Rectf ceiling(Vector(get_bbox().get_left(), get_bbox().get_top() - 2.5f),
                 Sizef(get_bbox().get_width(), 2.5f));
-  m_attach_ceiling = !Sector::get().is_free_of_tiles(ceiling);
+  m_attach_ceiling = !get_parent_sector()->is_free_of_tiles(ceiling);
 }
 
 bool
@@ -95,7 +95,7 @@ Tarantula::active_update(float dt_sec)
   Player* player = get_nearest_player();
   if (player)
   {
-    if (!Sector::get().is_free_of_statics(Rectf(Vector(player->get_bbox().get_left(),
+    if (!get_parent_sector()->is_free_of_statics(Rectf(Vector(player->get_bbox().get_left(),
                                                        player->get_bbox().get_bottom()+1.f),
                                                 Sizef(player->get_bbox().get_width(), 1.f))))
     {
@@ -183,7 +183,7 @@ Tarantula::try_approach()
   if (std::abs(dist) > APPROACH_RANGE)
     return NONE;
 
-  if (!Sector::get().can_see_player(eye))
+  if (!get_parent_sector()->can_see_player(eye))
     return NONE;
 
   if (std::abs(dist) <= DROP_RANGE)
@@ -198,7 +198,7 @@ Tarantula::try_approach()
     if (dist < 0)
       pos.x += 32.f;
 
-    if (Sector::get().is_free_of_tiles(Rectf(pos, Sizef(2.5f, 32.f))))
+    if (get_parent_sector()->is_free_of_tiles(Rectf(pos, Sizef(2.5f, 32.f))))
       return NONE;
   }
 
@@ -219,14 +219,14 @@ Tarantula::try_drop()
   // Assuming the player has already been checked...
 
   Vector eye(get_bbox().get_middle().x, get_bbox().get_bottom() + 1);
-  RaycastResult result = Sector::get().get_first_line_intersection(eye,
+  RaycastResult result = get_parent_sector()->get_first_line_intersection(eye,
                                                                    Vector(eye.x, eye.y + DROP_DETECT_RANGE),
                                                                    true,
                                                                    nullptr);
 
   if (!result.is_valid)
   {
-    float sectorheight = static_cast<float>(Sector::get().get_editor_size().height * 32);
+    float sectorheight = static_cast<float>(get_parent_sector()->get_editor_size().height * 32);
     if (sectorheight <= eye.y + DROP_DETECT_RANGE + 1.f)
     {
       // Out of bounds. Drop to the lowest point possible by faking

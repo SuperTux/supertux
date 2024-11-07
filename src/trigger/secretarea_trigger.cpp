@@ -88,12 +88,12 @@ SecretAreaTrigger::event(Player& , EventType type)
     if (!message_displayed) {
       message_timer.start(MESSAGE_TIME);
       message_displayed = true;
-      Sector::get().get_level().m_stats.increment_secrets();
+      get_parent_sector()->get_level().m_stats.increment_secrets();
       SoundManager::current()->play("sounds/welldone.ogg");
 
       if (!fade_tilemap.empty()) {
         // fade away tilemaps
-        for (auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
+        for (auto& tm : get_parent()->get_objects_by_type<TileMap>()) {
           if (tm.get_name() == fade_tilemap) {
             tm.fade(0.0, 1.0);
           }
@@ -101,7 +101,7 @@ SecretAreaTrigger::event(Player& , EventType type)
       }
 
       if (!script.empty()) {
-        Sector::get().run_script(script, "SecretAreaScript");
+        get_parent_sector()->run_script(script, "SecretAreaScript");
       }
     }
   }

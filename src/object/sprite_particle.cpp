@@ -90,7 +90,7 @@ SpriteParticle::update(float dt_sec)
   velocity.y += acceleration.y * dt_sec;
 
   // die when too far offscreen
-  Camera& camera = Sector::get().get_camera();
+  Camera& camera = get_parent_sector()->get_camera();
   if (!camera.get_rect().contains(position)) {
     remove_me();
   }

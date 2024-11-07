@@ -217,7 +217,7 @@ Player::Player(PlayerStatus& player_status, int player_id, const GameServerUser*
   m_second_growup_sound_timer(),
   m_growing(false),
   m_backflip_timer(),
-  m_physic(),
+  m_physic(*this),
   m_visible(true),
   m_grabbed_object(nullptr),
   m_grabbed_object_remove_listener(new GrabListener(*this)),
@@ -354,7 +354,7 @@ Player::adjust_height(float new_height, float bottom_offset)
   if (new_height > m_col.m_bbox.get_height()) {
     //Rectf additional_space = bbox2;
     //additional_space.set_height(new_height - m_col.m_bbox.get_height());
-    if (!Sector::get().is_free_of_statics(bbox2, this, true))
+    if (!get_parent_sector()->is_free_of_statics(bbox2, this, true))
       return false;
   }
 
@@ -389,7 +389,7 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
 void
 Player::update(float dt_sec)
 {
-  if (is_dead() || Sector::get().get_object_count<Player>() == 1)
+  if (is_dead() || get_parent_sector()->get_object_count<Player>() == 1)
   {
     m_tag_timer.stop();
     m_tag_fade = nullptr;
@@ -423,16 +423,16 @@ Player::update(float dt_sec)
     m_active_bubbles.remove_if([&](const std::pair<SpritePtr, Vector>& bubble)
       {
         Rectf bubble_box(bubble.second.x, bubble.second.y, bubble.second.x + 16.f, bubble.second.y + 16.f);
-        bool is_out_of_water = Sector::get().is_free_of_tiles(bubble_box, true, Tile::WATER);
-        bool hits_solid = !Sector::get().is_free_of_tiles(bubble_box, false, Tile::SOLID);
+        bool is_out_of_water = get_parent_sector()->is_free_of_tiles(bubble_box, true, Tile::WATER);
+        bool hits_solid = !get_parent_sector()->is_free_of_tiles(bubble_box, false, Tile::SOLID);
         return is_out_of_water || hits_solid;
       });
   }
 
   // Skip if in multiplayer respawn
-  if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p) { return p.is_active() && &p != this; }))
+  if (is_dead() && m_target && get_parent_sector()->get_object_count<Player>([this](const Player& p) { return p.is_active() && &p != this; }))
   {
-    auto* target = Sector::get().get_object_by_uid<Player>(*m_target);
+    auto* target = get_parent_sector()->get_object_by_uid<Player>(*m_target);
     if (!target || !target->is_active())
     {
       next_target();
@@ -516,7 +516,7 @@ Player::update(float dt_sec)
 
     Rectf swim_here_box = get_bbox();
     swim_here_box.set_bottom(m_col.m_bbox.get_bottom() - 16.f);
-    bool can_swim_here = !Sector::get().is_free_of_tiles(swim_here_box, true, Tile::WATER);
+    bool can_swim_here = !get_parent_sector()->is_free_of_tiles(swim_here_box, true, Tile::WATER);
 
     if (m_swimming)
     {
@@ -627,9 +627,9 @@ Player::update(float dt_sec)
     set_bonus(NO_BONUS, true);
     m_dead = true;
 
-    if (!Sector::get().get_object_count<Player>([](const Player& p) { return p.is_alive(); }))
+    if (!get_parent_sector()->get_object_count<Player>([](const Player& p) { return p.is_alive(); }))
     {
-      Sector::get().stop_looping_sounds();
+      get_parent_sector()->stop_looping_sounds();
     }
     else
     {
@@ -654,11 +654,11 @@ Player::update(float dt_sec)
 
   Rectf wallclingleft = get_bbox();
   wallclingleft.set_left(wallclingleft.get_left() - 8.f);
-  m_on_left_wall = !Sector::get().is_free_of_statics(wallclingleft);
+  m_on_left_wall = !get_parent_sector()->is_free_of_statics(wallclingleft);
 
   Rectf wallclingright = get_bbox();
   wallclingright.set_right(wallclingright.get_right() + 8.f);
-  m_on_right_wall = !Sector::get().is_free_of_statics(wallclingright);
+  m_on_right_wall = !get_parent_sector()->is_free_of_statics(wallclingright);
 
   m_can_walljump = ((m_on_right_wall || m_on_left_wall) && !on_ground() && !m_swimming && m_in_walljump_tile && !m_stone);
   if (m_can_walljump && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_physic.get_velocity_y() >= 0.f && !m_controller->pressed(Control::JUMP))
@@ -792,7 +792,7 @@ Player::update(float dt_sec)
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
-      Sector::get().add<SpriteParticle>(
+      get_parent()->add<SpriteParticle>(
         "images/particles/sparkle.sprite",
         // draw bright sparkle when there is lots of time left,
         // dark sparkle when invincibility is about to end
@@ -910,7 +910,7 @@ Player::update(float dt_sec)
     sidebrickbox.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -12.f : 1.f));
     sidebrickbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 12.f : -1.f));
 
-    for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
+    for (auto& brick : get_parent()->get_objects_by_type<Brick>()) {
       if (sidebrickbox.overlaps(brick.get_bbox()) && (m_stone || (m_sliding && brick.get_class_name() != "heavy-brick")) &&
         std::abs(m_physic.get_velocity_x()) >= 150.f) {
         brick.try_break(this, is_big());
@@ -923,12 +923,12 @@ Player::update(float dt_sec)
     Rectf downbox = get_bbox().grown(-1.f);
     downbox.set_top(get_bbox().get_bottom());
     downbox.set_bottom(downbox.get_bottom() + 16.f);
-    for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
+    for (auto& brick : get_parent()->get_objects_by_type<Brick>()) {
       // stoneform breaks through any kind of bricks
       if (downbox.overlaps(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick)))
         brick.try_break(this, is_big());
     }
-    for (auto& badguy : Sector::get().get_objects_by_type<BadGuy>()) {
+    for (auto& badguy : get_parent()->get_objects_by_type<BadGuy>()) {
       if (downbox.overlaps(badguy.get_bbox()) && badguy.is_snipable() && !badguy.is_grabbed())
         badguy.kill_fall();
     }
@@ -939,7 +939,7 @@ Player::update(float dt_sec)
   {
     Rectf topbox = get_bbox().grown(-1.f);
     topbox.set_top(get_bbox().get_top() - 16.f);
-    for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
+    for (auto& brick : get_parent()->get_objects_by_type<Brick>()) {
       if (topbox.overlaps(brick.get_bbox()))
         brick.try_break(this, is_big());
     }
@@ -952,7 +952,7 @@ Player::update(float dt_sec)
   launchbox.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -32.f : 33.f));
   launchbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 32.f : -33.f));
   if (m_sliding && on_ground() && m_floor_normal.y != 0 && m_floor_normal.x * m_physic.get_velocity_x() < 0.f &&
-    Sector::get().is_free_of_statics(launchbox) && !m_slidejumping)
+    get_parent_sector()->is_free_of_statics(launchbox) && !m_slidejumping)
   {
     m_slidejumping = true;
     m_physic.set_velocity_y(-glm::length(m_physic.get_velocity()) * std::abs(m_floor_normal.x));
@@ -987,7 +987,7 @@ Player::slide()
   Rectf pre_slide_box = get_bbox();
   float fast_fall_speed = m_physic.get_velocity_y() <= 400.f ? 0.f : m_physic.get_velocity_y()*0.03f;
   pre_slide_box.set_bottom(m_col.m_bbox.get_bottom() + fast_fall_speed + 16.f);
-  bool pre_slide = !Sector::get().is_free_of_statics(pre_slide_box);
+  bool pre_slide = !get_parent_sector()->is_free_of_statics(pre_slide_box);
 
   if (std::abs(m_physic.get_velocity_x()) > MAX_SLIDE_SPEED) {
     m_physic.set_acceleration_x(-m_physic.get_velocity_x());
@@ -1287,7 +1287,7 @@ Player::handle_horizontal_input()
         m_skidding_timer.start(SKID_TIME);
         SoundManager::current()->play("sounds/skid.wav", get_pos());
         // dust some particles
-        Sector::get().add<Particles>(
+        get_parent()->add<Particles>(
             Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
             m_dir == Direction::LEFT ? 50 : -70, m_dir == Direction::LEFT ? 70 : -50, 260.0f, 280.0f,
             Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
@@ -1335,7 +1335,7 @@ Player::do_duck() {
     return;
   if (!is_big())
     return;
-  if (m_sliding && Sector::get().is_free_of_statics(Rectf(get_bbox().get_left(), get_bbox().get_top() - 32.f,
+  if (m_sliding && get_parent_sector()->is_free_of_statics(Rectf(get_bbox().get_left(), get_bbox().get_top() - 32.f,
     get_bbox().get_right(), get_bbox().get_bottom())))
     return;
 
@@ -1375,7 +1375,7 @@ Player::do_standup(bool force_standup)
   float new_height = m_swimming ? TUX_WIDTH : BIG_TUX_HEIGHT;
   new_bbox.move(Vector(0, m_col.m_bbox.get_height() - new_height));
   new_bbox.set_height(new_height);
-  if (!Sector::get().is_free_of_movingstatics(new_bbox, this) && !force_standup)
+  if (!get_parent_sector()->is_free_of_movingstatics(new_bbox, this) && !force_standup)
   {
     m_crawl = true;
     return;
@@ -1642,7 +1642,7 @@ Player::handle_input()
   bool just_grabbed = try_grab();
 
   /* Shoot! */
-  auto active_bullets = Sector::get().get_object_count<Bullet>([this](const Bullet& b){ return &b.get_player() == this; });
+  auto active_bullets = get_parent_sector()->get_object_count<Bullet>([this](const Bullet& b){ return &b.get_player() == this; });
   if (m_controller->pressed(Control::ACTION) && (get_bonus() == FIRE_BONUS || get_bonus() == ICE_BONUS) && !just_grabbed) {
     if ((get_bonus() == FIRE_BONUS &&
       active_bullets < m_player_status.max_fire_bullets) ||
@@ -1657,7 +1657,7 @@ Player::handle_input()
       {
         m_dir = swim_dir;
       }
-      Sector::get().add<Bullet>(pos, (m_swimming || m_water_jump) ?
+      get_parent()->add<Bullet>(pos, (m_swimming || m_water_jump) ?
         m_physic.get_velocity() + (Vector(std::cos(m_swimming_angle), std::sin(m_swimming_angle)) * 600.f) :
         Vector(((m_dir == Direction::RIGHT ? 600.f : -600.f) + m_physic.get_velocity_x()), 0.f),
         m_dir, get_bonus(), *this);
@@ -1708,7 +1708,7 @@ Player::handle_input()
       {
         Rectf player_head_clear_box = get_bbox().grown(-2.f);
         player_head_clear_box.set_top(get_bbox().get_top() - 2.f);
-        if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, moving_object, true)) {
+        if ((is_big() && !m_duck) || get_parent_sector()->is_free_of_statics(player_head_clear_box, moving_object, true)) {
           dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
         }
         else {
@@ -1728,8 +1728,8 @@ Player::handle_input()
         }
       }
 
-      if (Sector::get().is_free_of_tiles(dest_, true) &&
-         Sector::get().is_free_of_statics(dest_, moving_object, true))
+      if (get_parent_sector()->is_free_of_tiles(dest_, true) &&
+         get_parent_sector()->is_free_of_statics(dest_, moving_object, true))
       {
         moving_object->set_pos(dest_.p1());
         if (m_controller->hold(Control::UP))
@@ -1839,7 +1839,7 @@ Player::try_grab()
                    m_col.m_bbox.get_top() + 16.f + (std::sin(m_swimming_angle) * 48.f));
     }
 
-    for (auto& moving_object : Sector::get().get_objects_by_type<MovingObject>())
+    for (auto& moving_object : get_parent()->get_objects_by_type<MovingObject>())
     {
       Portable* portable = dynamic_cast<Portable*>(&moving_object);
       if (portable && portable->is_portable())
@@ -2075,9 +2075,9 @@ Player::draw(DrawingContext& context)
   if(Editor::is_active())
     return;
 
-  if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p){ return p.is_active() && &p != this; }))
+  if (is_dead() && m_target && get_parent_sector()->get_object_count<Player>([this](const Player& p){ return p.is_active() && &p != this; }))
   {
-    auto* target = Sector::get().get_object_by_uid<Player>(*m_target);
+    auto* target = get_parent_sector()->get_object_by_uid<Player>(*m_target);
     if (target)
     {
       Vector pos(target->get_bbox().get_middle().x, target->get_bbox().get_top() - static_cast<float>(m_multiplayer_arrow->get_height()) * 1.5f);
@@ -2102,11 +2102,11 @@ Player::draw(DrawingContext& context)
   }
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (m_col.m_bbox.get_bottom() - 16 < Sector::get().get_camera().get_translation().y)
+  if (m_col.m_bbox.get_bottom() - 16 < get_parent_sector()->get_camera().get_translation().y)
   {
     float px = m_col.m_bbox.get_left() + (m_col.m_bbox.get_right() - m_col.m_bbox.get_left() - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
     px += context.get_time_offset() * m_physic.get_velocity().x;
-    float py = Sector::get().get_camera().get_translation().y;
+    float py = get_parent_sector()->get_camera().get_translation().y;
     py += std::min(((py - (m_col.m_bbox.get_bottom() + 16)) / 4), 16.0f);
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
   }
@@ -2333,7 +2333,7 @@ Player::draw(DrawingContext& context)
   }  // don't draw Tux
 
   else if (m_dying)
-    m_sprite->draw(context.color(), draw_pos, Sector::get().get_foremost_opaque_layer() + 1);
+    m_sprite->draw(context.color(), draw_pos, get_parent_sector()->get_foremost_opaque_layer() + 1);
   else
     m_sprite->draw(context.color(), draw_pos, LAYER_OBJECTS + 1);
 
@@ -2361,7 +2361,7 @@ Player::collision_tile(uint32_t tile_attributes)
     else
     {
       Rectf hurtbox = get_bbox().grown(-6.f);
-      if (!Sector::get().is_free_of_tiles(hurtbox, false, Tile::HURTS))
+      if (!get_parent_sector()->is_free_of_tiles(hurtbox, false, Tile::HURTS))
         kill(false);
     }
   }
@@ -2396,15 +2396,15 @@ Player::collision_solid(const CollisionHit& hit)
       m_buttjump_stomp = true;
       m_physic.set_velocity_y(-300);
       m_on_ground_flag = false;
-      Sector::get().add<Particles>(
+      get_parent()->add<Particles>(
         m_col.m_bbox.p2(),
         50, 70, 260, 280, Vector(0, 300), 3,
         Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().add<Particles>(
+      get_parent()->add<Particles>(
         Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
         -70, -50, 260, 280, Vector(0, 300), 3,
         Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().get_camera().shake(.1f, 0.f, 10.f);
+      get_parent_sector()->get_camera().shake(.1f, 0.f, 10.f);
     }
 
   } else if (hit.top) {
@@ -2499,7 +2499,7 @@ Player::make_invincible()
   // No get_pos() here since the music affects the whole sector
   SoundManager::current()->play("sounds/invincible_start.ogg");
   m_invincible_timer.start(TUX_INVINCIBLE_TIME);
-  Sector::get().get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
+  get_parent()->get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
 }
 
 void
@@ -2568,7 +2568,7 @@ Player::kill(bool completely)
     m_dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
 
-    auto alive_players = Sector::get().get_object_count<Player>([](const Player& p){ return p.is_alive(); });
+    auto alive_players = get_parent_sector()->get_object_count<Player>([](const Player& p){ return p.is_alive(); });
 
     if (!alive_players)
     {
@@ -2577,19 +2577,19 @@ Player::kill(bool completely)
         for (int i = 0; i < 5; i++)
         {
           // the numbers: starting x, starting y, velocity y
-          Sector::get().add<FallingCoin>(get_pos() +
-                                                        Vector(graphicsRandom.randf(5.0f), graphicsRandom.randf(-32.0f, 18.0f)),
-                                                        graphicsRandom.randf(-100.0f, 100.0f));
+          get_parent()->add<FallingCoin>(get_pos() +
+                                         Vector(graphicsRandom.randf(5.0f), graphicsRandom.randf(-32.0f, 18.0f)),
+                                         graphicsRandom.randf(-100.0f, 100.0f));
         }
         m_player_status.general_status.take_checkpoint_coins();
       }
 
-      Sector::get().get_effect().fade_out(3.0);
+      get_parent_sector()->get_effect().fade_out(3.0);
       SoundManager::current()->pause_music(3.0);
     }
   }
 
-  //Sector::get().get_camera().shake(0.1f, m_dying ? 32.f : 0.f, m_dying ? 20.f : 10.f);
+  //get_parent_sector()->get_camera().shake(0.1f, m_dying ? 32.f : 0.f, m_dying ? 20.f : 10.f);
 }
 
 void
@@ -2636,22 +2636,22 @@ Player::check_bounds()
     m_col.set_pos(Vector(0, get_pos().y));
   }
 
-  if (m_col.m_bbox.get_right() > Sector::get().get_width()) {
+  if (m_col.m_bbox.get_right() > get_parent_sector()->get_width()) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the right side
-    m_col.set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(),
+    m_col.set_pos(Vector(get_parent_sector()->get_width() - m_col.m_bbox.get_width(),
                          m_col.m_bbox.get_top()));
   }
 
   // If Tux is swimming, don't allow him to go below the sector
   if (m_swimming && !m_ghost_mode && is_alive()
-      && m_col.m_bbox.get_bottom() > Sector::get().get_height()) {
+      && m_col.m_bbox.get_bottom() > get_parent_sector()->get_height()) {
     m_col.set_pos(Vector(m_col.m_bbox.get_left(),
-                         Sector::get().get_height() - m_col.m_bbox.get_height()));
+                         get_parent_sector()->get_height() - m_col.m_bbox.get_height()));
   }
 
   /* fallen out of the level? */
-  if ((get_pos().y > Sector::get().get_height())
+  if ((get_pos().y > get_parent_sector()->get_height())
       && !m_ghost_mode
       && !(m_is_intentionally_safe && m_safe_timer.started())) {
     kill(true);
@@ -3009,7 +3009,7 @@ Player::ungrab_object(GameObject* gameobject)
 void
 Player::next_target()
 {
-  const auto& players = Sector::get().get_players();
+  const auto& players = get_parent_sector()->get_players();
 
   Player* first = nullptr;
   bool is_next = false;
@@ -3050,7 +3050,7 @@ Player::next_target()
 void
 Player::prev_target()
 {
-  const auto& players = Sector::get().get_players();
+  const auto& players = get_parent_sector()->get_players();
 
   Player* last = nullptr;
   for (auto* player : players)
@@ -3081,7 +3081,7 @@ Player::prev_target()
 void
 Player::set_target(const GameServerUser* target_user, int target_id)
 {
-  const auto& players = Sector::get().get_players();
+  const auto& players = get_parent_sector()->get_players();
   for (auto* player : players)
   {
     if (player->get_remote_user() == target_user &&
@@ -3122,7 +3122,7 @@ Player::multiplayer_respawn()
     return;
   }
 
-  auto target = Sector::get().get_object_by_uid<Player>(*m_target);
+  auto target = get_parent_sector()->get_object_by_uid<Player>(*m_target);
 
   if (!target)
   {
@@ -3159,7 +3159,7 @@ Player::stop_rolling(bool violent)
     {
       Vector pspeed = Vector(graphicsRandom.randf(-100.f, 100.f)*(static_cast<float>(i)-2), graphicsRandom.randf(-200.f, -150.f));
       Vector paccel = Vector(0, 1000.f + graphicsRandom.randf(-100.f, 100.f));
-      Sector::get().add<SpriteParticle>(
+      get_parent()->add<SpriteParticle>(
         "images/particles/rock.sprite", "rock-"+std::to_string(i),
         get_bbox().get_middle(),
         ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS + 6, true);

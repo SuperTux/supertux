@@ -36,7 +36,7 @@ namespace {
 
 BigSnowball::BigSnowball(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/big_snowball/big_snowball.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
-  m_physic(),
+  m_physic(*this),
   m_dir(Direction::LEFT),
   m_speed(),
   m_break_on_impact(),
@@ -55,7 +55,7 @@ BigSnowball::BigSnowball(const ReaderMapping& reader) :
 
 BigSnowball::BigSnowball(const Vector& pos, const Direction& dir, bool bounce) :
   MovingSprite(pos, "images/objects/big_snowball/big_snowball.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
-  m_physic(),
+  m_physic(*this),
   m_dir(Direction::LEFT),
   m_speed(),
   m_break_on_impact(),
@@ -89,7 +89,7 @@ BigSnowball::get_settings()
 void
 BigSnowball::update(float dt_sec)
 {
-  if (get_bbox().get_top() > Sector::get().get_height()) {
+  if (get_bbox().get_top() > get_parent_sector()->get_height()) {
     remove_me();
   }
 
@@ -98,7 +98,7 @@ BigSnowball::update(float dt_sec)
   Rectf side_look_box = get_bbox().grown(-1.f);
   side_look_box.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -1.f : 1.f));
   side_look_box.set_right(get_bbox().get_right() + (m_dir == Direction::LEFT ? -1.f : 1.f));
-  if (!Sector::get().is_free_of_statics(side_look_box))
+  if (!get_parent_sector()->is_free_of_statics(side_look_box))
   {
     if (m_break_on_impact) {
       spawn_particles();
@@ -113,11 +113,11 @@ BigSnowball::update(float dt_sec)
 
   Rectf spikebox = get_bbox().grown(-6.f);
   spikebox.set_bottom(get_bbox().get_bottom() - (m_physic.get_velocity_y() > 300.f ? 6.f : 40.f));
-  if (!Sector::get().is_free_of_tiles(spikebox, false, Tile::HURTS)) {
+  if (!get_parent_sector()->is_free_of_tiles(spikebox, false, Tile::HURTS)) {
     spawn_particles();
   }
 
-  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  bool in_water = !get_parent_sector()->is_free_of_tiles(get_bbox(), true, Tile::WATER);
 
   Vector movement = m_physic.get_movement(dt_sec) * Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f);
   m_sprite->set_angle(m_sprite->get_angle() + movement.x * 3.141592653898f / 2.f);
@@ -211,7 +211,7 @@ BigSnowball::spawn_particles()
 {
   for (int i = 0; i < 8; i++)
   {
-    Sector::get().add<SpriteParticle>(m_sprite_name, "particle",
+    get_parent()->add<SpriteParticle>(m_sprite_name, "particle",
       get_bbox().get_middle() + (15.f * Vector(std::cos(math::PI_4*static_cast<float>(i)), std::sin(math::PI_4*static_cast<float>(i)))),
       ANCHOR_MIDDLE, (150.f * (glm::normalize(Vector(std::cos(math::PI_4*static_cast<float>(i)), std::sin(math::PI_4*static_cast<float>(i)))))) +
                       Vector(gameRandom.randf(-40.f, 40.f), gameRandom.randf(-40.f, 40.f)),

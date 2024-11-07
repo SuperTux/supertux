@@ -44,7 +44,7 @@ ShortFuse::explode()
     BadGuy::kill_fall();
   else
   {
-    Sector::get().add<Explosion>(get_bbox().get_middle(), 
+    get_parent()->add<Explosion>(get_bbox().get_middle(),
       EXPLOSION_STRENGTH_NEAR, 8, true);
 
     run_dead_script();

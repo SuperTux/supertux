@@ -27,9 +27,10 @@
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 
-SquirrelEnvironment::SquirrelEnvironment(ssq::VM& vm, const std::string& name) :
+SquirrelEnvironment::SquirrelEnvironment(ssq::VM& vm, const std::string& base_name, const std::string& name) :
   m_vm(vm),
   m_table(m_vm.newTable()),
+  m_base_name(base_name),
   m_name(name),
   m_scripts(),
   m_scheduler(std::make_unique<SquirrelScheduler>(m_vm))
@@ -52,13 +53,19 @@ SquirrelEnvironment::~SquirrelEnvironment()
 void
 SquirrelEnvironment::expose_self()
 {
-  m_vm.set(m_name.c_str(), m_table);
+  if (m_name.empty())
+    m_vm.set(m_base_name.c_str(), m_table);
+  else
+    m_vm.getOrCreateTable(m_base_name.c_str()).set(m_name.c_str(), m_table);
 }
 
 void
 SquirrelEnvironment::unexpose_self()
 {
-  m_vm.remove(m_name.c_str());
+  if (m_name.empty())
+    m_vm.remove(m_base_name.c_str());
+  else
+    m_vm.findTable(m_base_name.c_str()).remove(m_name.c_str());
 }
 
 void

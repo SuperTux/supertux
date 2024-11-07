@@ -170,8 +170,8 @@ TileMap::parse_tiles(const ReaderMapping& reader)
     m_width = 0;
     m_height = 0;
     m_tiles.clear();
-    resize(static_cast<int>(Sector::get().get_width() / 32.0f),
-           static_cast<int>(Sector::get().get_height() / 32.0f));
+    resize(static_cast<int>(get_parent_sector()->get_width() / 32.0f),
+           static_cast<int>(get_parent_sector()->get_height() / 32.0f));
     m_editor_active = false;
   }
   else

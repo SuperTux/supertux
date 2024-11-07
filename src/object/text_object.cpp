@@ -23,6 +23,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
@@ -324,10 +325,11 @@ TextObject::register_class(ssq::VM& vm)
 {
   ssq::Class cls = vm.addClass("TextObject", []()
     {
-      if (!Sector::current())
-        throw std::runtime_error("Tried to create 'TextObject' without an active sector.");
+      if (!GameSession::current())
+        throw std::runtime_error("Tried to create 'TextObject' without an active game session.");
 
-      return &Sector::get().add<TextObject>();
+      // TODO: Specify which sector to add to
+      return &GameSession::current()->get_current_sector().add<TextObject>();
     },
     false /* Do not free pointer from Squirrel */,
     vm.findClass("GameObject"));

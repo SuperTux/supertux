@@ -164,7 +164,7 @@ SnowParticleSystem::update(float dt_sec)
       assert(false);
   }
 
-  float sq_g = sqrtf(Sector::get().get_gravity());
+  float sq_g = sqrtf(get_parent_sector()->get_gravity());
 
   for (auto& part : particles)
   {

@@ -50,7 +50,7 @@ Boss::boss_update(float dt_sec)
   if (!m_pinch_mode && (m_lives <= m_pinch_lives))
   {
     m_pinch_mode = true;
-    Sector::get().run_script(m_pinch_activation_script, "pinch-activation-script");
+    get_parent_sector()->run_script(m_pinch_activation_script, "pinch-activation-script");
   }
 }
 

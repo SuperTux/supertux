@@ -18,6 +18,7 @@
 
 #include <optional>
 
+#include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
 #include "object/path.hpp"
 #include "object/path_object.hpp"
@@ -192,9 +193,9 @@ PathGameObject::editor_deselect()
 void
 PathGameObject::remove_me()
 {
-  if (Sector::current())
+  if (get_parent())
   {
-    auto handles = Sector::get().get_objects_by_type<NodeMarker>();
+    auto handles = get_parent()->get_objects_by_type<NodeMarker>();
 
     for (auto& handle : handles)
       handle.remove_me(); // Removing a node handle also removes its bezier handles
@@ -212,10 +213,10 @@ PathGameObject::copy_into(PathGameObject& other)
 bool
 PathGameObject::is_saveable() const
 {
-  if (!Sector::current())
+  if (!Editor::is_active())
     return false;
 
-  for (const auto& sector : Level::current()->get_sectors())
+  for (const auto& sector : Editor::current()->get_level()->get_sectors())
   {
     for (const auto& path_obj : sector->get_objects_by_type<PathObject>())
       if (path_obj.get_path_gameobject() == this)

@@ -122,10 +122,10 @@ LiveFire::kill_fall()
   Vector ppos = m_col.m_bbox.get_middle();
   Vector pspeed = Vector(0, -150);
   Vector paccel = Vector(0,0);
-  Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
-                                         "default", ppos, ANCHOR_MIDDLE,
-                                         pspeed, paccel,
-                                         LAYER_BACKGROUNDTILES+2);
+  get_parent()->add<SpriteParticle>("images/particles/smoke.sprite",
+                                "default", ppos, ANCHOR_MIDDLE,
+                                pspeed, paccel,
+                                LAYER_BACKGROUNDTILES+2);
   // Extinguish the flame.
   set_action("extinguish", m_dir, 1);
   m_physic.set_velocity_y(0);

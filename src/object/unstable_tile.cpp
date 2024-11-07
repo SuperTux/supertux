@@ -37,7 +37,7 @@ static const float DELAY_IF_TUX = 0.001f;
 
 UnstableTile::UnstableTile(const ReaderMapping& mapping, int type) :
   MovingSprite(mapping, "images/objects/unstable_tile/snow.sprite", LAYER_TILES, COLGROUP_STATIC),
-  physic(),
+  physic(*this),
   state(STATE_NORMAL),
   slowfall_timer(),
   m_revive_timer(),
@@ -269,7 +269,7 @@ UnstableTile::update(float dt_sec)
       {
         if (m_revive_timer.check())
         {
-          if (Sector::get().is_free_of_movingstatics(Rectf(m_original_pos, get_bbox().get_size()).grown(-1.f)))
+          if (get_parent_sector()->is_free_of_movingstatics(Rectf(m_original_pos, get_bbox().get_size()).grown(-1.f)))
           {
             revive();
           }

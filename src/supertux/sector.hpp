@@ -38,6 +38,7 @@ class Camera;
 class CollisionGroundMovementManager;
 class DisplayEffect;
 class DrawingContext;
+class GameServerUser;
 class Level;
 class MovingObject;
 class Player;
@@ -66,14 +67,6 @@ class Sector final : public Base::Sector
 public:
   static void register_class(ssq::VM& vm);
 
-private:
-  static Sector* s_current;
-
-public:
-  /** get currently activated sector. */
-  static Sector& get() { assert(s_current != nullptr); return *s_current; }
-  static Sector* current() { return s_current; }
-
 public:
   typedef Base::Sector::EventHandler EventHandler;
 
@@ -89,10 +82,8 @@ public:
   TileSet* get_tileset() const override;
   bool in_worldmap() const override;
 
-  /** activates this sector (change music, initialize player class, ...) */
-  void activate(const std::string& spawnpoint);
-  void activate(const Vector& player_pos);
-  void deactivate();
+  void spawn_players(const std::string& spawnpoint, const GameServerUser* user = nullptr, bool all_users = true);
+  void spawn_players(const Vector& player_pos, const GameServerUser* user = nullptr, bool all_users = true);
 
   void draw(DrawingContext& context) override;
   void update(float dt_sec) override;
@@ -100,6 +91,9 @@ public:
   void parse_properties(const ReaderMapping& reader) override;
   void save_properties(Writer& writer) const override;
   void save(Writer &writer);
+
+  void expose() override;
+  void run_init_script();
 
   /** stops all looping sounds in whole sector. */
   void stop_looping_sounds();

@@ -24,7 +24,7 @@ Electrifier::Electrifier(TileChangeMap replacements, float seconds) :
 {
   duration.start(seconds);
   for (auto& tile : change_map) {
-    Sector::get().change_solid_tiles(tile.first, tile.second);
+    get_parent_sector()->change_solid_tiles(tile.first, tile.second);
   }
 }
 
@@ -34,7 +34,7 @@ Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds) :
 {
   duration.start(seconds);
   for (auto& tile : change_map) {
-    Sector::get().change_solid_tiles(tile.first, tile.second);
+    get_parent_sector()->change_solid_tiles(tile.first, tile.second);
   }
 }
 
@@ -43,7 +43,7 @@ Electrifier::update(float )
 {
   if (duration.check()) {
     for (const auto& tile : change_map){
-      Sector::get().change_solid_tiles(tile.second, tile.first);
+      get_parent_sector()->change_solid_tiles(tile.second, tile.first);
     }
     remove_me();
   }

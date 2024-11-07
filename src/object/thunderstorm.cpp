@@ -148,7 +148,7 @@ Thunderstorm::lightning_general(bool is_scripted)
   flash();
   electrify();
   if (!m_strike_script.empty()) {
-    Sector::get().run_script(m_strike_script, "strike-script");
+    get_parent_sector()->run_script(m_strike_script, "strike-script");
   }
 
   change_background_colors(true, is_scripted);
@@ -195,14 +195,14 @@ Thunderstorm::flash()
 void
 Thunderstorm::electrify()
 {
-  Sector::get().add<Electrifier>(changing_tiles, ELECTRIFY_TIME);
+  get_parent()->add<Electrifier>(changing_tiles, ELECTRIFY_TIME);
 }
 
 void
 Thunderstorm::change_background_colors(bool is_lightning, bool is_scripted)
 {
   auto factor = is_lightning ? (1.0f / 0.7f) : 0.7f;
-  auto backgrounds = Sector::current()->get_objects_by_type<Background>();
+  auto backgrounds = get_parent()->get_objects_by_type<Background>();
   for(auto& background : backgrounds)
   {
     auto color = background.get_color();
@@ -221,7 +221,7 @@ Thunderstorm::change_background_colors(bool is_lightning, bool is_scripted)
 void
 Thunderstorm::restore_background_colors()
 {
-  auto backgrounds = Sector::current()->get_objects_by_type<Background>();
+  auto backgrounds = get_parent()->get_objects_by_type<Background>();
   for (auto& background : backgrounds)
   {
     auto color = m_background_colors.front();

@@ -95,12 +95,14 @@ public:
 
   /** ends the current level */
   void finish(bool win = true);
-  void respawn(const std::string& sectorname, const std::string& spawnpointname);
+  void respawn(const std::string& sectorname, const std::string& spawnpointname,
+               const GameServerUser* user = nullptr, bool all_users = true);
   void respawn_with_fade(const std::string& sectorname,
                          const std::string& spawnpointname,
                          const ScreenFade::FadeType fade_type,
                          const Vector &fade_point,
-                         const bool make_invincible = false);
+                         const bool make_invincible = false,
+                         const GameServerUser* user = nullptr, bool all_users = true);
   void reset_level();
 
   void set_start_point(const std::string& sectorname,
@@ -171,12 +173,20 @@ private:
   std::vector<SpawnPoint> m_spawnpoints;
   const SpawnPoint* m_activated_checkpoint;
 
-  // the sector and spawnpoint we should spawn after this frame
-  std::string m_newsector;
-  std::string m_newspawnpoint;
-  ScreenFade::FadeType m_spawn_fade_type;
-  Timer m_spawn_fade_timer;
-  bool m_spawn_with_invincibility;
+  struct SpawnRequest final
+  {
+    SpawnRequest();
+
+    const GameServerUser* user; /**< the remote user whose players should be spawned. If nullptr, the request refers to local players. */
+    bool all_users; /**< true if all local and remote players should be spawned. In that case, `user` is disregarded */
+
+    std::string sector;
+    std::string spawnpoint;
+    ScreenFade::FadeType fade_type;
+    std::unique_ptr<Timer> fade_timer;
+    bool with_invincibility;
+  };
+  std::vector<SpawnRequest> m_spawn_requests;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;

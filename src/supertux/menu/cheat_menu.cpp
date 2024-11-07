@@ -25,7 +25,7 @@
 
 CheatMenu::CheatMenu()
 {
-  const auto& players = Sector::get().get_players();
+
 
   add_label(_("Cheats"));
   add_hl();
@@ -38,16 +38,26 @@ CheatMenu::CheatMenu()
   add_entry(MNID_SHRINK, _("Shrink Tux"));
   add_entry(MNID_KILL, _("Kill Tux"));
   add_entry(MNID_FINISH, _("Finish Level"));
-  if (players.size() == 1)
+  if (GameSession::current())
   {
-    add_entry(MNID_GHOST, players[0]->get_ghost_mode() ?
-              _("Leave Ghost Mode") : _("Activate Ghost Mode"));
-  }
-  else
-  {
-    // In multiplayer, different players may have different ghost states.
-    add_entry(MNID_GHOST, _("Activate Ghost Mode"));
-    add_entry(MNID_UNGHOST, _("Leave Ghost Mode"));
+    std::vector<Player*> local_players;
+    for (Player* player : GameSession::current()->get_current_sector().get_players())
+    {
+      if (!player->get_remote_user())
+        local_players.push_back(player);
+    }
+
+    if (local_players.size() == 1)
+    {
+      add_entry(MNID_GHOST, local_players[0]->get_ghost_mode() ?
+                _("Leave Ghost Mode") : _("Activate Ghost Mode"));
+    }
+    else
+    {
+      // In multiplayer, different players may have different ghost states.
+      add_entry(MNID_GHOST, _("Activate Ghost Mode"));
+      add_entry(MNID_UNGHOST, _("Leave Ghost Mode"));
+    }
   }
 
   if (GameSession::current())
@@ -60,10 +70,18 @@ CheatMenu::CheatMenu()
 void
 CheatMenu::menu_action(MenuItem& item)
 {
-  if (!Sector::current()) return;
+  if (!GameSession::current()) return;
 
-  const auto& players = Sector::get().get_players();
-  Player* single_player = (players.size() == 1) ? players[0] : nullptr;
+  // TODO: Cheat menu support for remote players
+  Player* single_player = nullptr;
+  for (Player* player : GameSession::current()->get_current_level().get_players())
+  {
+    if (!player->get_remote_user())
+    {
+      single_player = player;
+      break;
+    }
+  }
 
   switch (item.get_id())
   {
@@ -152,28 +170,22 @@ CheatMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_FINISH:
-      if (GameSession::current())
-      {
-        GameSession::current()->finish(true);
-      }
+      GameSession::current()->finish(true);
       MenuManager::instance().clear_menu_stack();
       break;
 
     case MNID_GHOST:
     case MNID_UNGHOST:
-      if (GameSession::current())
+      if (single_player)
       {
-        if (single_player)
-        {
-          single_player->set_ghost_mode(!single_player->get_ghost_mode());
-          MenuManager::instance().clear_menu_stack();
-        }
-        else
-        {
-          MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([&item](Player& player){
-            player.set_ghost_mode(item.get_id() == MNID_GHOST);
-          }));
-        }
+        single_player->set_ghost_mode(!single_player->get_ghost_mode());
+        MenuManager::instance().clear_menu_stack();
+      }
+      else
+      {
+        MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([&item](Player& player){
+          player.set_ghost_mode(item.get_id() == MNID_GHOST);
+        }));
       }
       break;
 

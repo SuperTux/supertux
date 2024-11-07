@@ -186,7 +186,7 @@ void
 MrBomb::explode()
 {
   remove_me();
-  Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+  get_parent()->add<Explosion>(m_col.m_bbox.get_middle(),
     EXPLOSION_STRENGTH_DEFAULT);
   run_dead_script();
 }

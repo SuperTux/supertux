@@ -318,7 +318,7 @@ Camera::update(float dt_sec)
 
   switch (m_mode) {
     case Mode::NORMAL:
-      if (Sector::current() && Sector::current()->get_object_count<Player>([](const Player& p) { return !p.get_remote_user(); }) > 1)
+      if (get_parent() && get_parent()->get_object_count<Player>([](const Player& p) { return !p.get_remote_user(); }) > 1)
       {
         update_scroll_normal_multiplayer(dt_sec);
       }
@@ -565,12 +565,12 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
 {
   m_enfore_minimum_scale = true;
 
-  float x1 = Sector::get().get_width();
-  float y1 = Sector::get().get_height();
+  float x1 = get_parent_sector()->get_width();
+  float y1 = get_parent_sector()->get_height();
   float x2 = 0.f;
   float y2 = 0.f;
 
-  for (const auto* p : Sector::get().get_players())
+  for (const auto* p : get_parent_sector()->get_players())
   {
     if (!p->is_alive() || p->get_remote_user())
       continue;
@@ -602,13 +602,13 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
 
   Rectf cover(std::max(0.f, x1),
               std::max(0.f, y1),
-              std::min(Sector::get().get_width(), x2),
-              std::min(Sector::get().get_height(), y2));
+              std::min(get_parent_sector()->get_width(), x2),
+              std::min(get_parent_sector()->get_height(), y2));
 
   float scale = std::min(static_cast<float>(SCREEN_WIDTH) / static_cast<float>(cover.get_width()),
                          static_cast<float>(SCREEN_HEIGHT) / static_cast<float>(cover.get_height()));
-  float max_scale = std::max(static_cast<float>(SCREEN_WIDTH) / Sector::get().get_width(),
-                             static_cast<float>(SCREEN_HEIGHT) / Sector::get().get_height());
+  float max_scale = std::max(static_cast<float>(SCREEN_WIDTH) / get_parent_sector()->get_width(),
+                             static_cast<float>(SCREEN_HEIGHT) / get_parent_sector()->get_height());
 
   // Capping at `m_scale` allows fixing a minor bug where the camera would
   // sometimes be slightly off-sector if scaling goes faster than moving.
@@ -624,10 +624,10 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
     rect.move(Vector(-true_rect.get_left(), 0.f));
   if (true_rect.get_top() < 0.f)
     rect.move(Vector(0.f, -true_rect.get_top()));
-  if (true_rect.get_right() > Sector::get().get_width())
-    rect.move(Vector(Sector::get().get_width() - true_rect.get_right(), 0.f));
-  if (true_rect.get_bottom() > Sector::get().get_height())
-    rect.move(Vector(0.f, Sector::get().get_height() - true_rect.get_bottom()));
+  if (true_rect.get_right() > get_parent_sector()->get_width())
+    rect.move(Vector(get_parent_sector()->get_width() - true_rect.get_right(), 0.f));
+  if (true_rect.get_bottom() > get_parent_sector()->get_height())
+    rect.move(Vector(0.f, get_parent_sector()->get_height() - true_rect.get_bottom()));
 
   m_translation = m_translation * (1.f - MULTIPLAYER_CAM_WEIGHT) + rect.p1() * MULTIPLAYER_CAM_WEIGHT;
   m_minimum_scale = m_minimum_scale * (1.f - MULTIPLAYER_CAM_WEIGHT) + scale * MULTIPLAYER_CAM_WEIGHT;
@@ -717,7 +717,7 @@ Camera::update_scale(float dt_sec)
     return;
 
   // FIXME: Poor design: This shouldn't pose a problem to multiplayer.
-  if (m_mode == Mode::NORMAL && Sector::current()->get_object_count<Player>() > 1)
+  if (m_mode == Mode::NORMAL && get_parent()->get_object_count<Player>() > 1)
     return;
 
   Vector screen_size = m_screen_size.as_vector();

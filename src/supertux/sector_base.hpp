@@ -46,7 +46,7 @@ public:
   };
 
 public:
-  Sector(const std::string& type);
+  Sector(const std::string& type, bool squirrel_subtable);
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */
@@ -62,6 +62,9 @@ public:
   virtual TileSet* get_tileset() const = 0;
   virtual bool in_worldmap() const = 0;
 
+  virtual void expose();
+  virtual void unexpose();
+
   void set_name(const std::string& name) { m_name = name; }
   const std::string& get_name() const { return m_name; }
 
@@ -75,6 +78,9 @@ protected:
   EventHandler& get_event_handler() const;
 
 protected:
+  const std::string m_type_string;
+  const bool m_use_squirrel_subtable;
+
   std::string m_name;
   std::string m_init_script;
 

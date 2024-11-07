@@ -33,7 +33,7 @@ const float BOUNCE_X = 700.0f;
 
 Bumper::Bumper(const ReaderMapping& reader) :
   StickyObject(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
-  m_physic(),
+  m_physic(*this),
   m_dir(Direction::RIGHT),
   m_original_pos(get_pos())
 {
@@ -69,7 +69,7 @@ Bumper::update(float dt_sec)
 
   Rectf small_overlap_box = get_bbox().grown(1.f);
 
-  for (auto& rock : Sector::get().get_objects_by_type<Rock>())
+  for (auto& rock : get_parent()->get_objects_by_type<Rock>())
   {
     if (small_overlap_box.overlaps(rock.get_bbox()))
     {

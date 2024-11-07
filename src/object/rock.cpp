@@ -38,7 +38,7 @@ namespace {
 
 Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   MovingSprite(reader, spritename),
-  physic(),
+  physic(*this),
   on_ground(false),
   on_ice(false),
   last_movement(0.0f, 0.0f),
@@ -57,7 +57,7 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
 
 Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
-  physic(),
+  physic(*this),
   on_ground(false),
   on_ice(false),
   last_movement(0.0f, 0.0f),
@@ -96,21 +96,21 @@ Rock::update(float dt_sec)
 {
   if (!is_grabbed()) {
 
-    if (get_bbox().get_top() > Sector::get().get_height()) {
+    if (get_bbox().get_top() > get_parent_sector()->get_height()) {
       remove_me();
     }
 
     Rectf icebox = get_bbox().grown(-1.f);
     icebox.set_bottom(get_bbox().get_bottom() + 8.f);
-    on_ice = !Sector::get().is_free_of_tiles(icebox, true, Tile::ICE);
+    on_ice = !get_parent_sector()->is_free_of_tiles(icebox, true, Tile::ICE);
 
-    bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+    bool in_water = !get_parent_sector()->is_free_of_tiles(get_bbox(), true, Tile::WATER);
     physic.set_gravity_modifier(in_water ? 0.2f : 1.f);
 
     Rectf trampolinebox = get_bbox().grown(-1.f);
     trampolinebox.set_bottom(get_bbox().get_bottom() + 8.f);
 
-    for (auto& trampoline : Sector::get().get_objects_by_type<Trampoline>()) {
+    for (auto& trampoline : get_parent()->get_objects_by_type<Trampoline>()) {
       if (trampolinebox.overlaps(trampoline.get_bbox()) && !trampoline.is_grabbed() &&
         (glm::length((get_bbox().get_middle() - trampoline.get_bbox().get_middle())) >= 10.f) &&
         is_portable()) {
@@ -121,7 +121,7 @@ Rock::update(float dt_sec)
 
     Rectf playerbox = get_bbox().grown(-2.f);
     playerbox.set_bottom(get_bbox().get_bottom() + 7.f);
-    for (auto& player : Sector::get().get_objects_by_type<Player>()) {
+    for (auto& player : get_parent()->get_objects_by_type<Player>()) {
       if (playerbox.overlaps(player.get_bbox()) && physic.get_velocity_y() > 0.f && is_portable()) {
         physic.set_velocity_y(-250.f);
       }
@@ -239,7 +239,7 @@ Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
   if (!on_grab_script.empty() && !running_grab_script)
   {
     running_grab_script = true;
-    Sector::get().run_script(on_grab_script, "Rock::on_grab");
+    get_parent_sector()->run_script(on_grab_script, "Rock::on_grab");
   }
 }
 
@@ -269,7 +269,7 @@ Rock::ungrab(MovingObject& object, Direction dir)
   if (!on_ungrab_script.empty() && !running_ungrab_script)
   {
     running_ungrab_script = true;
-    Sector::get().run_script(on_ungrab_script, "Rock::on_ungrab");
+    get_parent_sector()->run_script(on_ungrab_script, "Rock::on_ungrab");
   }
   Portable::ungrab(object, dir);
 }

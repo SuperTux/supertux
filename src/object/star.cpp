@@ -29,7 +29,7 @@ static const float JUMPSTAR_SPEED = -300;
 
 Star::Star(const Vector& pos, Direction direction, const std::string& custom_sprite) :
   MovingSprite(pos, custom_sprite.empty() ? "images/powerups/star/star.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
-  physic(),
+  physic(*this),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   physic.set_velocity((direction == Direction::LEFT) ? -STAR_SPEED : STAR_SPEED, INITIALJUMP);
@@ -44,7 +44,7 @@ Star::update(float dt_sec)
   m_col.set_movement(physic.get_movement(dt_sec));
 
   // when near Tux, spawn particles
-  if (auto* player = Sector::get().get_nearest_player (m_col.m_bbox)) {
+  if (auto* player = get_parent_sector()->get_nearest_player (m_col.m_bbox)) {
     float disp_x = player->get_bbox().get_left() - m_col.m_bbox.get_left();
     float disp_y = player->get_bbox().get_top() - m_col.m_bbox.get_top();
     if (disp_x*disp_x + disp_y*disp_y <= 256*256)
@@ -55,7 +55,7 @@ Star::update(float dt_sec)
         Vector ppos = Vector(px, py);
         Vector pspeed = Vector(0, 0);
         Vector paccel = Vector(0, 0);
-        Sector::get().add<SpriteParticle>(
+        get_parent()->add<SpriteParticle>(
           "images/particles/sparkle.sprite",
           // draw bright sparkles when very close to Tux, dark sparkles when slightly further
           (disp_x*disp_x + disp_y*disp_y <= 128*128) ?

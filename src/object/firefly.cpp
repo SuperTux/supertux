@@ -85,7 +85,7 @@ Firefly::update_state()
 
   auto* active_checkpoint_spawnpoint = GameSession::current()->get_active_checkpoint_spawnpoint();
   if (active_checkpoint_spawnpoint &&
-      active_checkpoint_spawnpoint->sector == Sector::get().get_name() &&
+      active_checkpoint_spawnpoint->sector == get_parent_sector()->get_name() &&
       active_checkpoint_spawnpoint->position == initial_position) // Is activated.
   {
     set_action("ringing");
@@ -116,7 +116,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
       float vy = -cosf(angle)*velocity;
       Vector pspeed = Vector(vx, vy);
       Vector paccel = Vector(0.0f, 1000.0f);
-      Sector::get().add<SpriteParticle>("images/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1);
+      get_parent()->add<SpriteParticle>("images/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1);
     }
 
     if ( m_sprite_name.find("vbell", 0) != std::string::npos ) {
@@ -130,7 +130,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     }
 
     set_action("ringing");
-    GameSession::current()->set_checkpoint_pos(Sector::get().get_name(),
+    GameSession::current()->set_checkpoint_pos(get_parent_sector()->get_name(),
                                                initial_position);
   }
 

@@ -179,7 +179,7 @@ Flame::freeze()
 
   SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
   set_action("fade", 1);
-  Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
+  get_parent()->add<SpriteParticle>("images/particles/smoke.sprite",
                                          "default",
                                          m_col.m_bbox.get_middle(), ANCHOR_MIDDLE,
                                          Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2);
@@ -197,7 +197,7 @@ Flame::ignite()
 
   SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
   set_action("fade", 1);
-  Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
+  get_parent()->add<SpriteParticle>("images/particles/smoke.sprite",
                                          "default",
                                          m_col.m_bbox.get_middle(), ANCHOR_MIDDLE,
                                          Vector(0, -150), Vector(0,0),

@@ -29,7 +29,7 @@
 
 PowerUp::PowerUp(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
-  physic(),
+  physic(*this),
   script(),
   no_physics(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
@@ -42,7 +42,7 @@ PowerUp::PowerUp(const ReaderMapping& mapping) :
 
 PowerUp::PowerUp(const Vector& pos, int type) :
   MovingSprite(pos, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
-  physic(),
+  physic(*this),
   script(),
   no_physics(false),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
@@ -196,7 +196,7 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
 
   if (!script.empty())
   {
-    Sector::get().run_script(script, "powerup-script");
+    get_parent_sector()->run_script(script, "powerup-script");
     remove_me();
     return ABORT_MOVE;
   }
@@ -256,7 +256,7 @@ PowerUp::update(float dt_sec)
   // Stars and herrings should sparkle when close to Tux.
   if (m_type == STAR || m_type == HERRING)
   {
-    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+    if (auto* player = get_parent_sector()->get_nearest_player(m_col.m_bbox))
     {
       float disp_x = player->get_bbox().get_left() - m_col.m_bbox.get_left();
       float disp_y = player->get_bbox().get_top() - m_col.m_bbox.get_top();
@@ -268,7 +268,7 @@ PowerUp::update(float dt_sec)
           Vector ppos = Vector(px, py);
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);
-          Sector::get().add<SpriteParticle>(
+          get_parent()->add<SpriteParticle>(
             "images/particles/sparkle.sprite",
             // draw bright sparkles when very close to Tux, dark sparkles when slightly further
             (disp_x*disp_x + disp_y*disp_y <= 128*128) ?

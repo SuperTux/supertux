@@ -105,7 +105,7 @@ MrTree::collision_squished(GameObject& object)
   Vector stumpy_pos = get_pos();
   stumpy_pos.x += 8;
   stumpy_pos.y += 28;
-  auto& stumpy = Sector::get().add<Stumpy>(stumpy_pos, m_dir);
+  auto& stumpy = get_parent()->add<Stumpy>(stumpy_pos, m_dir);
   remove_me();
 
   // Give feedback.
@@ -122,8 +122,8 @@ MrTree::collision_squished(GameObject& object)
     float vx = sinf(angle)*velocity;
     float vy = -cosf(angle)*velocity;
     Vector pspeed = Vector(vx, vy);
-    Vector paccel = Vector(0, Sector::get().get_gravity()*10);
-    Sector::get().add<SpriteParticle>("images/particles/leaf.sprite",
+    Vector paccel = Vector(0, get_parent_sector()->get_gravity()*10);
+    get_parent()->add<SpriteParticle>("images/particles/leaf.sprite",
                                            "default",
                                            ppos, ANCHOR_MIDDLE,
                                            pspeed, paccel,
@@ -134,16 +134,16 @@ MrTree::collision_squished(GameObject& object)
     // Spawn ViciousIvy.
     Vector leaf1_pos(stumpy_pos.x - VICIOUSIVY_WIDTH - 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
     Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + VICIOUSIVY_WIDTH, leaf1_pos.y + VICIOUSIVY_HEIGHT);
-    if (Sector::get().is_free_of_movingstatics(leaf1_bbox, this)) {
-      auto& leaf1 = Sector::get().add<ViciousIvy>(leaf1_bbox.p1(), Direction::LEFT);
+    if (get_parent_sector()->is_free_of_movingstatics(leaf1_bbox, this)) {
+      auto& leaf1 = get_parent()->add<ViciousIvy>(leaf1_bbox.p1(), Direction::LEFT);
       leaf1.m_countMe = false;
     }
 
     // Spawn ViciousIvy.
     Vector leaf2_pos(stumpy_pos.x + m_sprite->get_current_hitbox_width() + 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
     Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + VICIOUSIVY_WIDTH, leaf2_pos.y + VICIOUSIVY_HEIGHT);
-    if (Sector::get().is_free_of_movingstatics(leaf2_bbox, this)) {
-      auto& leaf2 = Sector::get().add<ViciousIvy>(leaf2_bbox.p1(), Direction::RIGHT);
+    if (get_parent_sector()->is_free_of_movingstatics(leaf2_bbox, this)) {
+      auto& leaf2 = get_parent()->add<ViciousIvy>(leaf2_bbox.p1(), Direction::RIGHT);
       leaf2.m_countMe = false;
     }
   }

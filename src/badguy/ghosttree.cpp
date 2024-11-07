@@ -131,7 +131,7 @@ GhostTree::active_update(float dt_sec)
         Vector pos(m_col.m_bbox.get_width() / 2,
                    m_col.m_bbox.get_height() / 2 + (m_flip == NO_FLIP ? (willo_spawn_y + WILLOWISP_TOP_OFFSET) :
                                                                        -(willo_spawn_y + WILLOWISP_TOP_OFFSET + 32.0f)));
-        auto& willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
+        auto& willowisp = get_parent()->add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
         willowisps.push_back(&willowisp);
 
         willo_spawn_y -= 40;
@@ -170,7 +170,7 @@ GhostTree::active_update(float dt_sec)
       //TODO: indicate root with an animation.
       auto player = get_nearest_player();
       if (player)
-        Sector::get().add<Root>(Vector(player->get_bbox().get_left(), (m_flip == NO_FLIP ? (m_col.m_bbox.get_bottom() + ROOT_TOP_OFFSET) : (m_col.m_bbox.get_top() - ROOT_TOP_OFFSET - ROOT_HEIGHT))), m_flip);
+        get_parent()->add<Root>(Vector(player->get_bbox().get_left(), (m_flip == NO_FLIP ? (m_col.m_bbox.get_bottom() + ROOT_TOP_OFFSET) : (m_col.m_bbox.get_top() - ROOT_TOP_OFFSET - ROOT_HEIGHT))), m_flip);
     }
     */
   } else if (mystate == STATE_SWALLOWING) {
@@ -277,7 +277,7 @@ GhostTree::collision(GameObject& other, const CollisionHit& )
 void
 GhostTree::spawn_lantern()
 {
-  Sector::get().add<Lantern>(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET);
+  get_parent()->add<Lantern>(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET);
 }
 
 std::vector<Direction>

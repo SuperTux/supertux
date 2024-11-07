@@ -284,7 +284,7 @@ Dispenser::launch_object()
           m_current_badguys++;
       }
 
-      Sector::get().add_object(std::move(game_object));
+      get_parent()->add_object(std::move(game_object));
     }
     catch(const std::exception& e)
     {

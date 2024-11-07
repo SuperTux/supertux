@@ -24,7 +24,7 @@
 
 WaterDrop::WaterDrop(const Vector& pos, const std::string& sprite_path_, const Vector& velocity) :
   MovingSprite(pos, sprite_path_, LAYER_OBJECTS - 1, COLGROUP_MOVING_ONLY_STATIC),
-  physic(),
+  physic(*this),
   wd_state(WDS_FALLING),
   sprite_path(sprite_path_)
 {
@@ -60,10 +60,10 @@ WaterDrop::collision_solid(const CollisionHit& hit)
       Vector pspeed = ppos - m_col.m_bbox.get_middle();
       pspeed.x *= 12;
       pspeed.y *= 12;
-      Sector::get().add<SpriteParticle>(sprite_path, "particle_" + std::to_string(pa),
-                                        ppos, ANCHOR_MIDDLE,
-                                        pspeed, Vector(0, 100 * Sector::get().get_gravity()),
-                                        LAYER_OBJECTS + 1);
+      get_parent()->add<SpriteParticle>(sprite_path, "particle_" + std::to_string(pa),
+                                    ppos, ANCHOR_MIDDLE,
+                                    pspeed, Vector(0, 100 * get_parent_sector()->get_gravity()),
+                                    LAYER_OBJECTS + 1);
     }
   }
 }

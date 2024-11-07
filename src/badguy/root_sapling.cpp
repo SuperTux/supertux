@@ -131,7 +131,7 @@ RootSapling::get_allowed_directions() const
 void
 RootSapling::summon_root()
 {
-  for (Player* player : Sector::get().get_players())
+  for (Player* player : get_parent_sector()->get_players())
   {
     Vector pos;
     float* axis = nullptr;
@@ -157,7 +157,7 @@ RootSapling::summon_root()
       (*axis) = player->get_bbox().get_bottom() + 1;
 
       bool should_summon = false;
-      for (TileMap* tilemap : Sector::get().get_solid_tilemaps())
+      for (TileMap* tilemap : get_parent_sector()->get_solid_tilemaps())
       {
         const Tile& tile = tilemap->get_tile_at(pos);
         if (tile.is_solid())
@@ -199,7 +199,7 @@ RootSapling::summon_root()
       }
 
       RaycastResult result = m_dir == Direction::LEFT || m_dir == Direction::UP ?
-                             Sector::get().get_first_line_intersection(eye, end, true, nullptr) :
+                             get_parent_sector()->get_first_line_intersection(eye, end, true, nullptr) :
                              reverse_raycast(eye, end);
 
       auto tile_p = std::get_if<const Tile*>(&result.hit);
@@ -261,7 +261,7 @@ RootSapling::summon_root()
       if (!should_summon_root(space.grown(-1)))
         continue;
 
-      Sector::get().add<Root>(pos, m_dir, "images/creatures/mole/corrupted/root.sprite");
+      get_parent()->add<Root>(pos, m_dir, "images/creatures/mole/corrupted/root.sprite");
     }
   }
 }
@@ -269,7 +269,7 @@ RootSapling::summon_root()
 bool
 RootSapling::should_summon_root(const Rectf& bbox)
 {
-  for (const auto& solids : Sector::get().get_solid_tilemaps())
+  for (const auto& solids : get_parent_sector()->get_solid_tilemaps())
   {
     if (solids->get_path())
       continue; // Do not support moving tilemaps. Not planned.
@@ -329,7 +329,7 @@ RootSapling::reverse_raycast(const Vector& line_start, const Vector& line_end)
 
   for (float test_x = lsx; test_x >= lex; test_x -= 16) { // NOLINT.
     for (float test_y = lsy; test_y >= ley; test_y -= 16) { // NOLINT.
-      for (const auto& solids : Sector::get().get_solid_tilemaps()) {
+      for (const auto& solids : get_parent_sector()->get_solid_tilemaps()) {
         Vector test_vector(test_x, test_y);
         if (solids->is_outside_bounds(test_vector))
           continue;

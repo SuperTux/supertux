@@ -311,7 +311,7 @@ TextScroller::update(float dt_sec)
     m_scroll = 0;
   if (!m_finish_script.empty())
   {
-    Sector::get().run_script(m_finish_script, "finishscript");
+    get_parent_sector()->run_script(m_finish_script, "finishscript");
   }
   else
   {

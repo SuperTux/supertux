@@ -27,7 +27,7 @@
 
 Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_, Player& player) :
   m_player(player),
-  physic(),
+  physic(*this),
   life_count(3),
   sprite(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
@@ -74,9 +74,9 @@ Bullet::update(float dt_sec)
     return;
   }
 
-  float scroll_x = Sector::get().get_camera().get_translation().x;
-  float scroll_y = Sector::get().get_camera().get_translation().y;
-  float scale = Sector::get().get_camera().get_current_scale();
+  float scroll_x = get_parent_sector()->get_camera().get_translation().x;
+  float scroll_y = get_parent_sector()->get_camera().get_translation().y;
+  float scale = get_parent_sector()->get_camera().get_current_scale();
   if (get_pos().x < scroll_x ||
       get_pos().x > scroll_x + static_cast<float>(SCREEN_WIDTH) / scale ||
       //     get_pos().y < scroll_y ||
@@ -85,7 +85,7 @@ Bullet::update(float dt_sec)
     return;
   }
 
-  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  bool in_water = !get_parent_sector()->is_free_of_tiles(get_bbox(), true, Tile::WATER);
   physic.set_gravity_modifier(in_water ? 0.3f : 1.f);
   m_col.set_movement(physic.get_movement(dt_sec) * (in_water ? 0.5f : 1.f));
 }

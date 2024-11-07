@@ -93,7 +93,7 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
   player_status.add_local_player(0);
   sector->add<Player>(player_status, 0);
 
-  if (!savegame->is_title_screen())
+  if (savegame && !savegame->is_title_screen())
   {
     /* Add local players */
     for (int id = 1; id < InputManager::current()->get_num_users(); id++)

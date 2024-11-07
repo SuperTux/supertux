@@ -18,7 +18,9 @@
 #define HEADER_SUPERTUX_EDITOR_BEZIER_MARKER_HPP
 
 #include "editor/marker_object.hpp"
+
 #include "object/path.hpp"
+#include "util/typed_uid.hpp"
 
 class NodeMarker;
 
@@ -37,8 +39,8 @@ public:
 
   void update_iterator(Path::Node* it, Vector* bezier_pos);
 
-  void set_parent(UID uid) { m_parent = uid; }
-  NodeMarker* get_parent() const;
+  void set_parent_marker(const NodeMarker& marker);
+  NodeMarker* get_parent_marker() const;
 
   void save_state() override;
   void check_state() override;
@@ -46,7 +48,7 @@ public:
 private:
   Path::Node* m_node;
   Vector* m_pos;
-  UID m_parent;
+  TypedUID<NodeMarker> m_parent_marker;
 
 private:
   BezierMarker(const BezierMarker&) = delete;

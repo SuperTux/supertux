@@ -71,7 +71,6 @@ TitleScreen::setup()
 void
 TitleScreen::leave()
 {
-  m_titlesession->get_current_sector().deactivate();
   m_titlesession->leave();
   MenuManager::instance().clear_menu_stack();
 }
@@ -79,8 +78,6 @@ TitleScreen::leave()
 void
 TitleScreen::refresh_level()
 {
-  bool level_init = false;
-
   if (g_config->custom_title_levels)
   {
     /** Check the savegame of the previously entered world on the current profile.
@@ -124,22 +121,16 @@ TitleScreen::refresh_level()
       }
 
       if (new_session)
-      {
         m_titlesession = std::move(new_session);
-        level_init = true;
-      }
     }
   }
   else if (!m_titlesession || m_titlesession->get_level_file() != DEFAULT_TITLE_LEVEL)
   {
     m_titlesession = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
-    level_init = true;
   }
 
   /** Initialize the main sector. */
-  Sector& sector = m_titlesession->get_current_sector();
-  if (level_init || Sector::current() != &sector)
-    setup_sector(sector);
+  setup_sector(m_titlesession->get_current_sector());
 }
 
 void
@@ -148,11 +139,16 @@ TitleScreen::setup_sector(Sector& sector)
   auto& music = sector.get_singleton_by_type<MusicObject>();
   music.resume_music(true);
 
-  Player& player = *(sector.get_players()[0]);
+  Player& player = *(m_titlesession->get_current_level().get_players()[0]);
 
-  // sector.activate(Vector) expects position calculated for big tux, but tux
+  // sector.spawn_players(Vector) expects position calculated for big tux, but tux
   // might be small on the title screen
-  sector.activate(player.get_pos() - Vector(0.f, player.is_big() ? 0.f : 32.f));
+  sector.spawn_players(player.get_pos() - Vector(0.f, player.is_big() ? 0.f : 32.f));
+
+  for (const auto& sector : m_titlesession->get_current_level().get_sectors())
+    sector->expose();
+
+  sector.run_init_script();
 
   player.set_controller(m_controller.get());
   player.set_speedlimit(230.f);
@@ -256,7 +252,7 @@ TitleScreen::update_level(float dt_sec)
   // Wrap around at the end of the level back to the beginning
   if (sector.get_width() - 320.f < player.get_pos().x)
   {
-    sector.activate(DEFAULT_SECTOR_NAME);
+    sector.spawn_players(DEFAULT_SPAWNPOINT_NAME);
     sector.get_camera().reset(player.get_pos());
   }
 }

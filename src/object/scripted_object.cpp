@@ -30,7 +30,7 @@
 
 ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/bonus_block/brick.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
-  physic(),
+  physic(*this),
   solid(),
   physic_enabled(),
   visible(),
@@ -183,7 +183,7 @@ ScriptedObject::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player && !hit_script.empty()) {
-    Sector::get().run_script(hit_script, "hit-script");
+    get_parent_sector()->run_script(hit_script, "hit-script");
   }
 
   return FORCE_MOVE;

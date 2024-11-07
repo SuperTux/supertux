@@ -21,6 +21,7 @@
 #include "editor/bezier_marker.hpp"
 #include "editor/node_marker.hpp"
 #include "math/easing.hpp"
+#include "object/path_gameobject.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -227,11 +228,11 @@ Path::edit_path()
 {
   int id = 0;
   for (auto i = m_nodes.begin(); i != m_nodes.end(); ++i) {
-    auto& before = Sector::get().add<BezierMarker>(&(*i), &(i->bezier_before));
-    auto& after = Sector::get().add<BezierMarker>(&(*i), &(i->bezier_after));
-    auto& nm = Sector::get().add<NodeMarker>(i, id, before.get_uid(), after.get_uid());
-    before.set_parent(nm.get_uid());
-    after.set_parent(nm.get_uid());
+    auto& before = m_parent_gameobject.get_parent()->add<BezierMarker>(&(*i), &(i->bezier_before));
+    auto& after = m_parent_gameobject.get_parent()->add<BezierMarker>(&(*i), &(i->bezier_after));
+    auto& nm = m_parent_gameobject.get_parent()->add<NodeMarker>(i, id, before.get_uid(), after.get_uid());
+    before.set_parent_marker(nm);
+    after.set_parent_marker(nm);
     id++;
   }
 }

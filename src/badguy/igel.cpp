@@ -158,10 +158,10 @@ Igel::run_dead_script()
 {
   if (m_type == CORRUPTED)
   {
-    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f), CORRUPTED_SHARD_SPRITE);
-    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f), CORRUPTED_SHARD_SPRITE);
-    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f),CORRUPTED_SHARD_SPRITE);
-    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f),CORRUPTED_SHARD_SPRITE);
+    get_parent()->add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f), CORRUPTED_SHARD_SPRITE);
+    get_parent()->add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f), CORRUPTED_SHARD_SPRITE);
+    get_parent()->add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f),CORRUPTED_SHARD_SPRITE);
+    get_parent()->add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f),CORRUPTED_SHARD_SPRITE);
   }
 
   WalkingBadguy::run_dead_script();
@@ -223,7 +223,7 @@ Igel::should_roll() const
 
   Rectf box = get_bbox().grown(1.f);
   Vector eye = {m_dir == Direction::LEFT ? box.get_left() : box.get_right(), box.get_middle().y};
-  bool can_see_player = Sector::get().free_line_of_sight(eye, player_box.get_middle(), true);
+  bool can_see_player = get_parent_sector()->free_line_of_sight(eye, player_box.get_middle(), true);
 
   return in_reach_left && in_reach_right && in_reach_top && in_reach_bottom && can_see_player;
 }

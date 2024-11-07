@@ -61,7 +61,7 @@ Granito::active_update(float dt_sec)
   Rectf airbornebox = get_bbox();
   airbornebox.set_bottom(get_bbox().get_bottom() + 8.f);
   bool airbornebefore = m_airborne;
-  m_airborne = (Sector::get().is_free_of_statics(airbornebox));
+  m_airborne = (get_parent_sector()->is_free_of_statics(airbornebox));
 
   if (m_airborne && get_velocity_y() != 0)
   {
@@ -237,7 +237,7 @@ Granito::collision(GameObject& other, const CollisionHit& hit)
 
     // Yay!
     m_state = STATE_SIT;
-    Sector::get().run_script(m_carried_script, "carried-script");
+    get_parent_sector()->run_script(m_carried_script, "carried-script");
   }
 
   return WalkingBadguy::collision(other, hit);
@@ -307,7 +307,7 @@ Granito::after_editor_set()
 GranitoBig*
 Granito::get_carrier() const
 {
-  for (auto& granito : Sector::get().get_objects_by_type<GranitoBig>())
+  for (auto& granito : get_parent()->get_objects_by_type<GranitoBig>())
   {
     if (granito.get_carrying() == this)
       return &granito;
@@ -381,7 +381,7 @@ Granito::try_wave()
   if (std::abs(xdist) > 32.f*4.f)
     return false;
 
-  RaycastResult result = Sector::get().get_first_line_intersection(mid, plrmid, false, get_collision_object());
+  RaycastResult result = get_parent_sector()->get_first_line_intersection(mid, plrmid, false, get_collision_object());
 
   CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
   if (resultobj && *resultobj == player->get_collision_object())
@@ -390,7 +390,7 @@ Granito::try_wave()
     if (xdist == std::abs(xdist) * (m_dir == Direction::LEFT ? -1 : 1))
       return false;
 
-    Sector::get().run_script(m_detect_script, "detect-script");
+    get_parent_sector()->run_script(m_detect_script, "detect-script");
     if (m_type == SCRIPTABLE)
       m_has_waved = true;
     else
@@ -513,7 +513,7 @@ Granito::try_jump()
   float eye = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
   float inc = (m_dir == Direction::LEFT ? -32.f : 32.f);
 
-  RaycastResult result = Sector::get().get_first_line_intersection({eye, get_bbox().get_middle().y},
+  RaycastResult result = get_parent_sector()->get_first_line_intersection({eye, get_bbox().get_middle().y},
                                                                    {eye + inc, get_bbox().get_middle().y},
                                                                    false,
                                                                    get_collision_object());
@@ -537,7 +537,7 @@ Granito::try_jump()
                             get_bbox().get_top() - (32.f*2)),
                      get_bbox().get_size());
 
-  if (!Sector::get().is_free_of_tiles(detect.grown(-1.f))) return false;
+  if (!get_parent_sector()->is_free_of_tiles(detect.grown(-1.f))) return false;
 
   jump();
   return true;

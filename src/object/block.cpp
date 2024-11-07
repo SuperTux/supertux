@@ -183,14 +183,14 @@ Block::start_break(GameObject* hitter)
 void
 Block::break_me()
 {
-  const auto gravity = Sector::get().get_gravity() * 100;
+  const auto gravity = get_parent_sector()->get_gravity() * 100;
   Vector pos = get_pos() + Vector(16.0f, 16.0f);
 
   for (const char* action : {"piece1", "piece2", "piece3", "piece4", "piece5", "piece6"})
   {
     Vector velocity(graphicsRandom.randf(-100, 100),
                     graphicsRandom.randf(-400, -300));
-    Sector::get().add<SpriteParticle>(m_sprite->clone(), action,
+    get_parent()->add<SpriteParticle>(m_sprite->clone(), action,
                                 pos, ANCHOR_MIDDLE,
                                 velocity, Vector(0, gravity),
                                 m_layer);

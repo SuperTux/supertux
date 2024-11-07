@@ -26,7 +26,7 @@
 
 Shard::Shard(const ReaderMapping& reader) :
   StickyObject(reader, "images/creatures/crystallo/shard.sprite", LAYER_TILES - 2, COLGROUP_MOVING),
-  m_physic(),
+  m_physic(*this),
   m_stick_timer()
 {
   m_physic.enable_gravity(true);
@@ -35,7 +35,7 @@ Shard::Shard(const ReaderMapping& reader) :
 
 Shard::Shard(const Vector& pos, const Vector& velocity, const std::string& sprite) :
   StickyObject(pos, sprite, LAYER_TILES - 2, COLGROUP_MOVING),
-  m_physic(),
+  m_physic(*this),
   m_stick_timer()
 {
   m_physic.enable_gravity(true);

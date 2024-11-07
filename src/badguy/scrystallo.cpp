@@ -118,8 +118,8 @@ SCrystallo::active_update(float dt_sec)
 
       if (m_flip == VERTICAL_FLIP)
       {
-        Sector::get().add<RCrystallo>(get_pos(), m_start_position, get_velocity_x(),
-                                      std::move(m_sprite), m_dir, m_radius, m_dead_script, true);
+        get_parent()->add<RCrystallo>(get_pos(), m_start_position, get_velocity_x(),
+                                  std::move(m_sprite), m_dir, m_radius, m_dead_script, true);
         remove_me();
         return;
       }
@@ -135,7 +135,7 @@ SCrystallo::active_update(float dt_sec)
   case SCRYSTALLO_JUMPING:
     // Popping out of the hole, ends when near the ground.
     downbox.set_bottom(get_bbox().get_bottom() + 10.f);
-    if (!Sector::get().is_free_of_statics(downbox))
+    if (!get_parent_sector()->is_free_of_statics(downbox))
     {
       m_radius_anchor = get_pos();
       m_state = SCRYSTALLO_WALKING;
@@ -195,8 +195,8 @@ SCrystallo::on_flip(float height)
   }
   else
   {
-    Sector::get().add<RCrystallo>(get_pos(), m_start_position, get_velocity_x(),
-                                  std::move(m_sprite), m_dir, m_radius, m_dead_script);
+    get_parent()->add<RCrystallo>(get_pos(), m_start_position, get_velocity_x(),
+                              std::move(m_sprite), m_dir, m_radius, m_dead_script);
     remove_me();
   }
 }

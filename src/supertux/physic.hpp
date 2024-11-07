@@ -20,6 +20,8 @@
 
 #include "math/vector.hpp"
 
+class MovingObject;
+
 /// Physics engine.
 /** This is a very simplistic physics engine handling accelerated and constant
  * movement along with gravity.
@@ -27,7 +29,7 @@
 class Physic final
 {
 public:
-  Physic();
+  Physic(MovingObject& parent);
 
   /// Resets all velocities and accelerations to 0.
   void reset();
@@ -73,6 +75,9 @@ public:
   Vector get_movement(float dt_sec);
 
 private:
+  /** the parent MovingObject containing this object */
+  MovingObject& m_parent;
+
   /** horizontal and vertical acceleration */
   float ax, ay;
 

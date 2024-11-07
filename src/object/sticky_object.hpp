@@ -45,7 +45,7 @@ private:
   template<class T>
   void sticky_update()
   {
-    for (auto& obj : Sector::get().get_objects_by_type<T>())
+    for (auto& obj : get_parent()->get_objects_by_type<T>())
     {
       if (m_col.m_bbox.grown(8.f).overlaps(obj.get_bbox()))
       {
@@ -95,7 +95,7 @@ private:
   template<class T>
   void sticky_update()
   {
-    for (auto& obj : Sector::get().get_objects_by_type<T>())
+    for (auto& obj : get_parent()->get_objects_by_type<T>())
     {
       if (m_col.m_bbox.grown(8.f).overlaps(obj.get_bbox()))
       {
