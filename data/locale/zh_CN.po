@@ -5174,7 +5174,7 @@ msgstr "腐烂背景"
 
 #: data/images/tiles.strf:1181
 msgid "Jagged Rocks"
-msgstr ""
+msgstr "锯齿状岩石"
 
 #: data/images/tiles.strf:1225
 msgid "Block + Bonus"
@@ -5242,10 +5242,10 @@ msgstr "用于在 0.6.3 之前的版本创建的关卡，这些关卡使用水�
 
 #: data/images/converters/data.stcd:13
 msgid "Jagged Rock Tiles from Addon"
-msgstr ""
+msgstr "来自扩展的锯齿状岩石图块"
 
 #: data/images/converters/data.stcd:15
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
-msgstr ""
+msgstr "用于使用岩石图块扩展创建的关卡，将它们的 ID 转换为原始的岩石图块 ID。"

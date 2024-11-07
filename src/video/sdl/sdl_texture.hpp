@@ -23,14 +23,14 @@
 
 #include "video/sampler.hpp"
 
-struct SDL_Texture;
-
 class SDLTexture final : public Texture
 {
 public:
   SDLTexture(SDL_Texture* texture, int width, int height, const Sampler& sampler);
-  SDLTexture(const SDL_Surface& sdl_surface, const Sampler& sampler);
+  SDLTexture(const SDL_Surface& image, const Sampler& sampler);
   ~SDLTexture() override;
+
+  virtual void reload(const SDL_Surface& image) override;
 
   virtual int get_texture_width() const override { return m_width; }
   virtual int get_texture_height() const override { return m_height; }
@@ -45,7 +45,6 @@ private:
   SDL_Texture* m_texture;
   int m_width;
   int m_height;
-  Sampler m_sampler;
 
 private:
   SDLTexture(const SDLTexture&) = delete;

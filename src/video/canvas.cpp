@@ -17,6 +17,7 @@
 #include "video/canvas.hpp"
 
 #include <algorithm>
+#include <array>
 
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -329,6 +330,26 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
   request->color.alpha = color.alpha * m_context.transform().alpha;
 
   m_requests.push_back(request);
+}
+
+void
+Canvas::draw_hexagon(const Vector& pos, float radius, const Color& color,
+  int layer)
+{
+  float radius2 = radius * sqrtf(0.8f);
+  float x_off_small = radius * sqrtf(0.2f);
+  std::array<Vector, 6> offsets{
+    Vector(-x_off_small, -radius2),
+    Vector(x_off_small, -radius2),
+    Vector(-radius, 0),
+    Vector(radius, 0),
+    Vector(-x_off_small, radius2),
+    Vector(x_off_small, radius2),
+  };
+  for (size_t i = 0; i < offsets.size() - 2; ++i) {
+    draw_triangle(pos + offsets[i], pos + offsets[i + 1], pos + offsets[i + 2],
+      color, layer);
+  }
 }
 
 void

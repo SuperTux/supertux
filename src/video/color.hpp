@@ -95,7 +95,7 @@ public:
 
   Color(float red_, float green_, float blue_, float alpha_ = 1.0);
 
-  Color(const std::vector<float>& vals);
+  Color(const std::vector<float>& vals, bool use_alpha = true);
 
   bool operator==(const Color& other) const;
   bool operator!=(const Color& other) const;

@@ -201,15 +201,15 @@ msgstr "Pechar"
 
 #: src/supertux/statistics.cpp:70
 msgid "Enable Coins Statistic"
-msgstr ""
+msgstr "Activar estatísticas de moedas"
 
 #: src/supertux/statistics.cpp:71
 msgid "Enable Badguys Statistic"
-msgstr ""
+msgstr "Activar estatísticas dos inimigos"
 
 #: src/supertux/statistics.cpp:72
 msgid "Enable Secrets Statistic"
-msgstr ""
+msgstr "Activar estatísticas dos segredos"
 
 #: src/supertux/statistics.cpp:93
 msgid "Max coins collected:"
@@ -616,7 +616,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Atallos de teclado:\n---------------------\nEsc = Abrir menú\nCtrl+S = Gardar\nCtrl+T = Probar\nCtrl+Z = Desfacer\nCtrl+Y = Refacer\nF5 = Activar/desactivar autotile\nF6 = Renderizar luz\nF7 = Axustar á cuadrícula\nF8 = Amosar cuadrícula\nCtrl++ ou Ctrl+Despr. arriba = Achegar\nCtrl+- ou Ctrl+Despr. abaixo = Alonxar\nCtrl+D = Restablecer o zoom\n\nAtallos de script:\n ------------- \nInicio = Ir ao comezo da liña\nFin = Ir ao final da liña\nFlecha esquerda = Retroceder no texto\nFlecha dereita = Avanzar no texto\nRetroceso = Eliminar diante do cursor de texto\nSuprimir = Eliminar detrás do cursor de texto\nCtrl+X = Cortar toda a liña\nCtrl+C = Copiar toda a liña\nCtrl+V = Pegar\nCtrl+D = Duplicar liña\nCtrl+Z = Desfacer\nCtrl+Y = Refacer"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
@@ -624,7 +624,7 @@ msgstr "Os bloques obsoletos aínda están presentes no nivel."
 
 #: src/supertux/menu/editor_menu.cpp:239
 msgid "Do you want to show all deprecated tiles on active tilemaps?"
-msgstr "Queres mostrar todos os bloques obsoletos nos mapas de bloques ativos?"
+msgstr "Queres mostrar todos os bloques obsoletos nos mapas de bloques activos?"
 
 #: src/supertux/menu/editor_menu.cpp:246
 msgid "There are no more deprecated tiles in the level!"
@@ -672,7 +672,7 @@ msgstr "Utilizar Fontes Bitmap"
 
 #: src/supertux/menu/debug_menu.cpp:74
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr ""
+msgstr "Amosar IDs das celas na caixa de ferramentas do editor"
 
 #: src/supertux/menu/debug_menu.cpp:75
 msgid "Dump Texture Cache"
@@ -732,7 +732,7 @@ msgstr "Nota do Nivel"
 
 #: src/supertux/menu/editor_level_menu.cpp:38
 msgid "Tileset"
-msgstr "Conxunto de Teselas"
+msgstr "Conxunto de Bloques"
 
 #: src/supertux/menu/editor_level_menu.cpp:42
 msgid "Target Time"
@@ -753,7 +753,7 @@ msgstr "Introduce unha licenza para este nivel."
 #: src/supertux/menu/editor_tilegroup_menu.cpp:26 src/object/tilemap.cpp:297
 #: src/editor/toolbox_widget.cpp:74
 msgid "Tiles"
-msgstr "Tesela"
+msgstr "Bloques"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:50
 #: src/supertux/menu/editor_level_select_menu.cpp:97
@@ -957,15 +957,15 @@ msgstr "Non hai Complementos instalados"
 
 #: src/supertux/menu/addon_menu.cpp:125
 msgid "{} *UPDATE*"
-msgstr ""
+msgstr "{} *ACTUALIZACIÓN*"
 
 #: src/supertux/menu/addon_menu.cpp:127
 msgid "{} [DISABLED] *UPDATE*"
-msgstr ""
+msgstr "\"{} [DESACTIVADO] *ACTUALIZACIÓN*"
 
 #: src/supertux/menu/addon_menu.cpp:136
 msgid "{} [DISABLED]"
-msgstr ""
+msgstr "{} [DESACTIVADO]"
 
 #: src/supertux/menu/addon_menu.cpp:146
 msgid "No updates available."
@@ -1502,24 +1502,24 @@ msgstr "Axustar a resolución ó tamaño do navegador"
 
 #: src/supertux/menu/options_menu.cpp:113
 msgid "Frame prediction"
-msgstr ""
+msgstr "Predición de fotogramas"
 
 #: src/supertux/menu/options_menu.cpp:114
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
-msgstr ""
+msgstr "Movemento suave da cámara, xerando fotogramas intermedios. Isto ten un efecto notable en monitores a máis de 60 Hz. Os obxectos en movemento poden verse borrosos."
 
 #: src/supertux/menu/options_menu.cpp:122
 msgid "Camera Peek Multiplier"
-msgstr ""
+msgstr "Multiplicador de vista da cámara"
 
 #: src/supertux/menu/options_menu.cpp:123
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
-msgstr ""
+msgstr "A distancia fraccionaria cara á posición de vista da cámara que se move en cada fotograma.\n\n0 = Sen vista, 1 = Vista instantánea."
 
 #: src/supertux/menu/options_menu.cpp:125
 msgid "Change Video System"
@@ -1751,11 +1751,11 @@ msgstr "Axustar o volume da música"
 
 #: src/supertux/menu/options_menu.cpp:548
 msgid "Flash Intensity"
-msgstr ""
+msgstr "Intensidade do flash"
 
 #: src/supertux/menu/options_menu.cpp:549
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr ""
+msgstr "Axustar a intensidade do flash producido pola tormenta eléctrica"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "On-screen controls scale"
@@ -2452,7 +2452,7 @@ msgstr "Tesela Inestable"
 
 #: src/object/rock.hpp:40 src/object/bonus_block.cpp:269
 msgid "Rock"
-msgstr "Pedra"
+msgstr "Rocha"
 
 #: src/object/snow_particle_system.cpp:114
 msgid "Epsilon"
@@ -2625,7 +2625,7 @@ msgstr "Fondo"
 
 #: src/object/bigsnowball.hpp:39
 msgid "Big Snowball"
-msgstr ""
+msgstr "Gran bola de neve"
 
 #: src/object/shard.hpp:35
 msgid "Shard"
@@ -2727,7 +2727,7 @@ msgstr "Partículas Extravagantes"
 
 #: src/object/wind.cpp:88
 msgid "Particles Enabled"
-msgstr ""
+msgstr "Partículas activadas"
 
 #: src/object/ambient_light.hpp:37
 msgid "Ambient Light"
@@ -3234,11 +3234,11 @@ msgstr "Script de golpe"
 
 #: src/object/bigsnowball.cpp:83
 msgid "Break on impact?"
-msgstr ""
+msgstr "Romper ao impactar?"
 
 #: src/object/bigsnowball.cpp:84
 msgid "Bounce?"
-msgstr ""
+msgstr "Rebotar?"
 
 #: src/object/fallblock.hpp:41
 msgid "Falling Platform"
@@ -3246,7 +3246,7 @@ msgstr "Plataforma que cae"
 
 #: src/object/ambient_sound.cpp:87
 msgid "Radius (in tiles)"
-msgstr "Radio (en mosaicos)"
+msgstr "Radio (en bloques)"
 
 #: src/object/cloud_particle_system.hpp:50
 msgid "Cloud Particles"
@@ -3286,7 +3286,7 @@ msgstr "Tronada"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
-msgstr ""
+msgstr "Adherente"
 
 #: src/object/level_time.hpp:75
 msgid "Time Limit"
@@ -3789,7 +3789,7 @@ msgstr "Sector: {}"
 
 #: src/editor/layers_widget.cpp:464
 msgid "Add Layer"
-msgstr ""
+msgstr "Engadir capa"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -4399,7 +4399,7 @@ msgstr "Bala de folla"
 
 #: src/badguy/mole_rock.hpp:44
 msgid "Mole's rock"
-msgstr "Pedras da toupeira"
+msgstr "Rochas da toupeira"
 
 #: src/badguy/dispenser.hpp:68
 msgid "Dispenser"
@@ -4532,7 +4532,7 @@ msgstr "Vidas"
 #. mode is activated.
 #: src/badguy/boss.cpp:94
 msgid "Lives to Pinch Mode"
-msgstr ""
+msgstr "Vidas para o modo de pinzar"
 
 #. l10n: Pinch Mode refers to a particular boss mode that gets
 #. activated once the boss has lost the specified amounts of lives.
@@ -4540,7 +4540,7 @@ msgstr ""
 #. mode.
 #: src/badguy/boss.cpp:99
 msgid "Pinch Mode Activation Script"
-msgstr ""
+msgstr "Script de activación do modo de pinzar"
 
 #: src/badguy/smartball.cpp:35
 msgid "Pumpkin"
@@ -4564,11 +4564,11 @@ msgstr "Dardo"
 
 #: src/badguy/granito.cpp:259
 msgid "Detect script"
-msgstr ""
+msgstr "Script de detección"
 
 #: src/badguy/granito.cpp:260
 msgid "Carried script"
-msgstr ""
+msgstr "Script de transporte"
 
 #: src/badguy/granito.cpp:277 src/badguy/granito_big.cpp:73
 msgid "Default"
@@ -4584,7 +4584,7 @@ msgstr "Camiñando"
 
 #: src/badguy/granito.cpp:280 src/badguy/granito_big.cpp:76
 msgid "Scriptable"
-msgstr ""
+msgstr "Scriptable"
 
 #: src/badguy/granito.cpp:283
 msgid "Sitting"
@@ -4628,7 +4628,7 @@ msgstr "Peixe inofensivo"
 
 #: src/badguy/granito_big.cpp:64
 msgid "Carrying Script"
-msgstr ""
+msgstr "Script de transporte"
 
 #: src/badguy/fish_swimming.hpp:40
 msgid "Swimming Fish"
@@ -5122,7 +5122,7 @@ msgstr "Cova de Xeo & Cristal"
 
 #: data/images/ice_world.strf:169
 msgid "Snow Embellishments"
-msgstr ""
+msgstr "Adornos de neve"
 
 #: data/images/ice_world.strf:339
 msgid "Underground Forest"
@@ -5130,7 +5130,7 @@ msgstr "Bosque Subterráneo"
 
 #: data/images/ice_world.strf:417
 msgid "Trees & Rocks"
-msgstr ""
+msgstr "Árbores e Rochas"
 
 #: data/images/ice_world.strf:494
 msgid "Seasonal"
@@ -5170,7 +5170,7 @@ msgstr "Fondo corrompido"
 
 #: data/images/tiles.strf:1181
 msgid "Jagged Rocks"
-msgstr ""
+msgstr "Rochas irregulares"
 
 #: data/images/tiles.strf:1225
 msgid "Block + Bonus"
@@ -5238,10 +5238,10 @@ msgstr "Para niveis creados en versións anteriores á -0.6.3, que usan bloques 
 
 #: data/images/converters/data.stcd:13
 msgid "Jagged Rock Tiles from Addon"
-msgstr ""
+msgstr "Bloques de rocha irregular do complemento"
 
 #: data/images/converters/data.stcd:15
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
-msgstr ""
+msgstr "Para os niveis creados co complemento de bloques de rocha, converte os seus IDs aos IDs de bloques de rocha por defecto"

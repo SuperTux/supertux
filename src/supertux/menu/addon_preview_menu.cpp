@@ -22,6 +22,8 @@
 #include "addon/addon_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/menu/download_dialog.hpp"
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
@@ -146,6 +148,10 @@ AddonPreviewMenu::rebuild_menu()
       {
         add_inactive(_("Failed to load all available screenshot previews."));
       }
+    }
+    else if (g_config->disable_network)
+    {
+      add_inactive(_("To fetch add-on screenshots, you must enable networking."));
     }
     else
     {

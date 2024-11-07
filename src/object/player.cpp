@@ -1909,28 +1909,25 @@ Player::get_coins() const
 }
 
 BonusType
-Player::string_to_bonus(const std::string& bonus) const {
-  BonusType type = BONUS_NONE;
-
+Player::string_to_bonus(const std::string& bonus) const
+{
   if (bonus == "grow") {
-    type = BONUS_GROWUP;
+    return BONUS_GROWUP;
   } else if (bonus == "fireflower") {
-    type = BONUS_FIRE;
+    return BONUS_FIRE;
   } else if (bonus == "iceflower") {
-    type = BONUS_ICE;
+    return BONUS_ICE;
   } else if (bonus == "airflower") {
-    type = BONUS_AIR;
+    return BONUS_AIR;
   } else if (bonus == "earthflower") {
-    type = BONUS_EARTH;
+    return BONUS_EARTH;
   } else if (bonus == "none") {
-    type = BONUS_NONE;
+    return BONUS_NONE;
   } else {
     std::ostringstream msg;
     msg << "Unknown bonus type "  << bonus;
     throw std::runtime_error(msg.str());
   }
-
-  return type;
 }
 
 std::string

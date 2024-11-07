@@ -98,7 +98,9 @@ Sprite::set_action(const std::string& name, int loops)
 
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
-    log_warning << "Action '" << name << "' not found." << std::endl;
+    // HACK: Lots of things trigger this message therefore turning it into a warning
+    // would make it quite annoying
+    log_debug << "Action '" << name << "' not found." << std::endl;
     return;
   }
 
