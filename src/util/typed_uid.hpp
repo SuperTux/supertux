@@ -35,7 +35,7 @@ public:
   {
     if (object)
     {
-      *this = object->get_uid();
+      UID::operator=(object->get_uid());
       m_object_manager = object->get_parent();
     }
   }
@@ -62,7 +62,7 @@ public:
 
   inline TypedUID& operator=(const T* object)
   {
-    *this = object ? object->get_uid() : UID();
+    UID::operator=(object ? object->get_uid() : UID());
     m_object_manager = object ? object->get_parent() : nullptr;
     return *this;
   }
@@ -72,7 +72,7 @@ public:
   {
     static_assert(std::is_base_of<T, C>::value, "TypedUID object type must inherit target TypedUID object type!");
 
-    *this = other;
+    UID::operator=(other);
     m_object_manager = other.get_object_manager();
     return *this;
   }
@@ -107,13 +107,6 @@ public:
   }
 
   inline GameObjectManager* get_object_manager() const { return m_object_manager; }
-
-private:
-  inline TypedUID& operator=(const UID& other)
-  {
-    UID::operator=(other);
-    return *this;
-  }
 
 private:
   GameObjectManager* m_object_manager;
