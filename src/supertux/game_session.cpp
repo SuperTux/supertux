@@ -779,10 +779,8 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
   }
 
-  if (m_network_host && !m_network_host->is_server())
+  if (m_network_host)
   {
-    ENetPeer* server_peer = GameManager::current()->get_server_peer();
-
     // Notify the server of controller updates.
     for (int user = 0; user < InputManager::current()->get_num_users(); user++)
     {
@@ -791,7 +789,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       {
         network::StagedPacket packet(GameNetworkProtocol::OP_CONTROLLER_UPDATE, std::to_string(user));
         user_controller.push_packet_data(packet);
-        m_network_host->send_packet(server_peer, packet, false);
+        m_network_host->broadcast_packet(packet, false);
       }
     }
   }

@@ -253,15 +253,12 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
 
     case OP_CONTROLLER_UPDATE:
     {
-      if (!m_host.is_server())
-        throw std::runtime_error("Cannot process controller update from \"" + user.username + "\": This host is not a server.");
-
       const int controller_user = std::stoi(packet.data[0]);
       if (controller_user >= static_cast<int>(user.get_num_players()))
         throw std::runtime_error("Cannot process controller update from \"" + user.username + "\": Remote controller user " + packet.data[0] + " doesn't exist.");
 
       user.player_controllers[controller_user]->process_packet_data(packet, 1);
-      break;
+      return true;
     }
 
     case OP_GAME_OBJECT_UPDATE:
@@ -273,7 +270,6 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
       break;
   }
 
-  // No packets should be broadcasted to other server users.
   return false;
 }
 
