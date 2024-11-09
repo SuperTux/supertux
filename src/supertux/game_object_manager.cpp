@@ -316,11 +316,10 @@ GameObjectManager::update_tilemaps()
 {
   m_solid_tilemaps.clear();
   m_all_tilemaps.clear();
-  for (auto tilemap : get_objects_by_type_index(typeid(TileMap)))
+  for (auto& tm : get_objects_by_type<TileMap>())
   {
-    TileMap* tm = static_cast<TileMap*>(tilemap);
-    if (tm->is_solid()) m_solid_tilemaps.push_back(tm);
-    m_all_tilemaps.push_back(tm);
+    if (tm.is_solid()) m_solid_tilemaps.push_back(&tm);
+    m_all_tilemaps.push_back(&tm);
   }
 }
 

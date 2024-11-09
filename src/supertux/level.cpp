@@ -332,8 +332,8 @@ Level::get_players() const
 {
   std::vector<Player*> players;
   for (const auto& sector : m_sectors)
-    for (const auto& player : sector->get_objects_by_type_index(typeid(Player)))
-      players.push_back(static_cast<Player*>(player));
+    for (auto& player : sector->get_objects_by_type<Player>())
+      players.push_back(&player);
 
   return players;
 }
