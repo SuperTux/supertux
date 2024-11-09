@@ -244,12 +244,10 @@ public:
   int get_object_count(std::function<bool(const T&)> predicate = nullptr) const
   {
     int total = 0;
-    for (const auto& obj : get_objects_by_type_index(typeid(T))) {
-      auto object = static_cast<T*>(obj);
-      if (object && (predicate == nullptr || predicate(*object)))
-      {
+    for (auto& obj : get_objects_by_type<T>())
+    {
+      if (predicate == nullptr || predicate(obj))
         total += 1;
-      }
     }
     return total;
   }

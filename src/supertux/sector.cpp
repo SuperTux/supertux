@@ -241,8 +241,8 @@ Sector::activate(const Vector& player_pos)
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
-    Player& player = *static_cast<Player*>(player_ptr);
+  const auto players = get_objects_by_type<Player>();
+  for (auto& player : players) {
     // spawn smalltux below spawnpoint
     if (!player.is_big()) {
       player.set_pos(player_pos + Vector(0,32));
@@ -259,9 +259,9 @@ Sector::activate(const Vector& player_pos)
   }
 
   //FIXME: This is a really dirty workaround for this strange camera jump
-  if (get_players().size() > 0)
+  if (players.begin() != players.end())
   {
-    Player& player = *(get_players()[0]);
+    Player& player = *players.begin();
     Camera& camera = get_camera();
     player.set_pos(player.get_pos()+Vector(-32, 0));
     camera.reset(player.get_pos());
@@ -607,8 +607,8 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, boo
 bool
 Sector::can_see_player(const Vector& eye) const
 {
-  for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
-    Player& player = *static_cast<Player*>(player_ptr);
+  for (auto& player : get_objects_by_type<Player>())
+  {
     // test for free line of sight to any of all four corners and the middle of the player's bounding box
     if (free_line_of_sight(eye, player.get_bbox().p1(), false, &player)) return true;
     if (free_line_of_sight(eye, Vector(player.get_bbox().get_right(), player.get_bbox().get_top()), false, &player)) return true;
