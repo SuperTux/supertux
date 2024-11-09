@@ -88,7 +88,6 @@ TextScrollerScreen::~TextScrollerScreen()
 void
 TextScrollerScreen::setup()
 {
-  Level::current()->m_suppress_pause_menu = true;
   SoundManager::current()->play_music(m_music);
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.5f));
 }
@@ -135,12 +134,6 @@ TextScrollerScreen::draw(Compositor& compositor)
   }
 
   m_text_scroller->draw(context);
-}
-
-void
-TextScrollerScreen::leave()
-{
-  Level::current()->m_suppress_pause_menu = false;
 }
 
 IntegrationStatus
