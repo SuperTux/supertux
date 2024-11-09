@@ -38,9 +38,14 @@ public:
       // A dynamic_cast is needed to perform sidecasts (a.k.a. crosscasts)
       // T may be one of multiple base classes of the object and need not inherit GameObject
       if constexpr (std::is_base_of<GameObject, T>::value)
+      {
         m_object = static_cast<T*>(*m_it);
+      }
       else
+      {
         m_object = dynamic_cast<T*>(*m_it);
+        assert(m_object);
+      }
     }
   }
 
@@ -50,9 +55,14 @@ public:
     if (m_it != m_end)
     {
       if constexpr (std::is_base_of<GameObject, T>::value)
+      {
         m_object = static_cast<T*>(*m_it);
+      }
       else
+      {
         m_object = dynamic_cast<T*>(*m_it);
+        assert(m_object);
+      }
     }
     return *this;
   }
