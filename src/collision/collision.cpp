@@ -127,7 +127,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   std::cout << "Norm: " << normal << " Depth: " << depth << "\n";
 #endif
 
-  Vector outvec = normal * (depth + 0.2f);
+  Vector outvec = normal * (depth + 0.1f);
 
   const float RDELTA = 1.5f;
   if (p1.x < area.get_left() - RDELTA || p1.x > area.get_right() + RDELTA
@@ -146,7 +146,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
       constraints->constrain_bottom(rect.get_bottom() + outvec.y);
       constraints->hit.bottom = true;
       hits_rectangle_bottom = true;
-    } else {
+    } else if(outvec.y > 0 && normal.y > 0){
       constraints->constrain_top(rect.get_top() + outvec.y);
       constraints->hit.top = true;
     }
