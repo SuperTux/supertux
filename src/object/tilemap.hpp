@@ -212,19 +212,8 @@ public:
   /** Puts the correct autotile block at the given position */
   void autotile(int x, int y, uint32_t tile, AutotileSet* autotileset);
 
-  enum class AutotileCornerOperation {
-    ADD_TOP_LEFT,
-    ADD_TOP_RIGHT,
-    ADD_BOTTOM_LEFT,
-    ADD_BOTTOM_RIGHT,
-    REMOVE_TOP_LEFT,
-    REMOVE_TOP_RIGHT,
-    REMOVE_BOTTOM_LEFT,
-    REMOVE_BOTTOM_RIGHT,
-  };
-
   /** Puts the correct autotile blocks at the tiles around the given corner */
-  void autotile_corner(int x, int y, uint32_t tile, AutotileSet* autotileset, AutotileCornerOperation op);
+  void autotile_corner(int x, int y, uint32_t tile, AutotileSet* autotileset, bool add);
 
   /** Erases in autotile mode */
   void autotile_erase(const Vector& pos, const Vector& corner_pos, AutotileSet* autotileset);
@@ -284,7 +273,21 @@ private:
   void update_effective_solid(bool update_manager = true);
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
-  bool is_corner(uint32_t tile) const;
+  bool might_be_corner(uint32_t tile) const;
+
+  enum class AutotileCornerOperation {
+    ADD_TOP_LEFT,
+    ADD_TOP_RIGHT,
+    ADD_BOTTOM_LEFT,
+    ADD_BOTTOM_RIGHT,
+    REMOVE_TOP_LEFT,
+    REMOVE_TOP_RIGHT,
+    REMOVE_BOTTOM_LEFT,
+    REMOVE_BOTTOM_RIGHT,
+  };
+
+  /** Puts the correct autotile blocks at the tiles around the given corner */
+  void autotile_corner(int x, int y, uint32_t tile, AutotileSet* autotileset, AutotileCornerOperation op);
 
   void apply_offset_x(int fill_id, int xoffset);
   void apply_offset_y(int fill_id, int yoffset);

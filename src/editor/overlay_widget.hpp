@@ -79,10 +79,9 @@ private:
 
 private:
   void input_tile(const Vector& pos, uint32_t tile);
-  void autotile(const Vector& pos, uint32_t tile);
   void input_autotile(const Vector& pos, uint32_t tile);
-  void autotile_corner(const Vector& pos, uint32_t tile, TileMap::AutotileCornerOperation op);
-  void input_autotile_corner(const Vector& corner, uint32_t tile, const Vector& override_pos = Vector(-1.f, -1.f));
+  void input_autotile_corner(const Vector& corner, uint32_t tile /*, const Vector& override_pos = Vector(-1.f, -1.f) */);
+  void input_autotile_erase(const Vector& pos, const Vector& corner_pos);
   void put_tiles(const Vector& target_tile, TileSelection* tiles);
   void put_next_tiles();
   void draw_rectangle();
@@ -121,7 +120,6 @@ private:
   Vector sp_to_tp(const Vector& sp, int tile_size = 32) const;
   Vector tile_screen_pos(const Vector& tp, int tile_size = 32) const;
   Vector align_to_tilemap(const Vector& sp, int tile_size = 32) const;
-  bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos) const;
 
   // in sector position
   Rectf drag_rect() const;
