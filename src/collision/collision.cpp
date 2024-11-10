@@ -54,141 +54,57 @@ inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
   c /= nval;
 }
 
-}
-
-bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
-                          const AATriangle& triangle)
+/*
+bool
+rectangle_aatriangle_deform_rect(Constraints* constraints, const Rectf& rect,
+                                 const AATriangle& triangle, const Rectf& trirect)
 {
-  bool dummy;
-  return rectangle_aatriangle(constraints, rect, triangle, dummy);
-}
-
-bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
-                          const AATriangle& triangle,
-                          bool& hits_rectangle_bottom)
-{
-  // Welcome to the slope collision algorithm. Enjoy your stay!
-
-#if 1
-  if (!rect.overlaps(triangle.bbox))
-    return false;
-
-  // For more information on the two following variables, read
-  // https://github.com/SuperTux/supertux/wiki/Tileset#slope-types
-
-  // The deform represents the shape of the slope ("normal", "steep", "gentle").
-  int deform = triangle.get_deform();
-
-  // The direction represents the orientation of the slope.
-  int dir = triangle.get_dir();
-
-  // These are both the angles in the triangle.
-  // angx is the triangle on the left or right, aligned with the 90º angle.
-  // angy is the triangle at the top or bottom, aligned with the 90º angle.
-  float angx, angy;
-
-  // This is the bounding box of the triangle, which can be different depending on the
-  // deform.
-  Rectf trirect;
-
-  switch (deform)
-  {
-    case 0:
-      trirect = triangle.bbox;
-      angx = 45.f;
-      angy = 45.f;
-      break;
-    case AATriangle::DEFORM_BOTTOM:
-      trirect.set_p1(Vector(triangle.bbox.get_left(), triangle.bbox.get_top() + triangle.bbox.get_height()/2));
-      trirect.set_p2(triangle.bbox.p2());
-
-      angx = triangle.is_north() ? 26.56f : 63.43f;
-      angy = triangle.is_north() ? 63.43f : 26.56f;
-
-      break;
-    case AATriangle::DEFORM_TOP:
-      trirect.set_p1(triangle.bbox.p1());
-      trirect.set_p2(Vector(triangle.bbox.get_right(), triangle.bbox.get_top() + triangle.bbox.get_height()/2));
-
-      angx = triangle.is_north() ? 26.56f : 63.43f;
-      angy = triangle.is_north() ? 63.43f : 26.56f;
-
-      break;
-    case AATriangle::DEFORM_LEFT:
-      trirect.set_p1(triangle.bbox.p1());
-      trirect.set_p2(Vector(triangle.bbox.get_left() + triangle.bbox.get_width()/2, triangle.bbox.get_bottom()));
-
-      angx = triangle.is_north() ? 63.43f : 26.56f;
-      angy = triangle.is_north() ? 26.56f : 63.43f;
-
-      break;
-    case AATriangle::DEFORM_RIGHT:
-      trirect.set_p1(Vector(triangle.bbox.get_left() + triangle.bbox.get_width()/2, triangle.bbox.get_top()));
-      trirect.set_p2(triangle.bbox.p2());
-
-      angx = triangle.is_north() ? 63.43f : 26.56f;
-      angy = triangle.is_north() ? 26.56f : 63.43f;
-
-      break;
-    default:
-      assert(false);
-  }
-
-  Vector trip1 = trirect.p1();
-  Vector trip2 = trirect.p2();
-  Sizef trisz = trirect.get_size();
-
-  Vector sp, ar, diff;
-
-  switch (dir)
-  {
-    case AATriangle::SOUTHWEST:
-      sp = { rect.p1().x, rect.p2().y };
-      ar = { trip1.x, trip2.y };
-      diff = { sp.x - ar.x, ar.y - sp.y };
-      break;
-    case AATriangle::NORTHEAST:
-      sp = { rect.p2().x, rect.p1().y };
-      ar = { trip2.x, trip1.y };
-      diff = { ar.x - sp.x, sp.y - ar.y };
-      break;
-    case AATriangle::SOUTHEAST:
-      sp = rect.p2();
-      ar = trip2;
-      diff = ar - sp;
-      break;
-    case AATriangle::NORTHWEST:
-      sp = rect.p1();
-      ar = trip1;
-      diff = sp - ar;
-      break;
-    default:
-      assert(false);
-  }
-
+  // This is the half of the triangl
   Rectf halftri;
-  halftri.set_size(trirect.get_width(), trirect.get_height());
+  halftri.set_size(trirect.get_width(), trirect.get_width());
   halftri.set_pos({ triangle.bbox.get_left(), triangle.bbox.get_top() });
 
+  // Check for collision on the other part of the deformed triangle
+  if (triangle.is_east() &&
+      triangle.get_deform() == AATriangle::DEFORM_RIGHT)
+  {
+    halftri.set_left(halftri.get_left() + trirect.get_width());
+  }
+  else if (!triangle.is_east() &&
+           triangle.get_deform() == AATriangle::DEFORM_LEFT)
+  {
+    halftri.set_right(halftri.get_right() - trirect.get_width());
+  }
+  else if (triangle.is_north() &&
+      triangle.get_deform() == AATriangle::DEFORM_BOTTOM)
+  {
+    halftri.set_bottom(halftri.get_bottom() - trirect.get_height());
+  }
+  else if (!triangle.is_north() &&
+           triangle.get_deform() == AATriangle::DEFORM_TOP)
+  {
+    halftri.set_top(halftri.get_top() + trirect.get_height());
+  }
+  else
+  {
+    return false;
+  }
+
+  set_rectangle_rectangle_constraints(constraints, rect, halftri);
+
+  if (constraints->has_constraints())
+    return true;
+
+  /*
   if (triangle.is_east())
   {
-    // Check for collision on the other part of the deformed triangle
-    switch (triangle.get_deform())
-    {
-      case AATriangle::DEFORM_LEFT:
-        halftri.set_left(halftri.get_left() + trirect.get_width());
-        break;
+    if (!math::in_bounds(rect.p1().y, trip1.y - rect.get_height(), trip2.y) ||
+        rect.p1().x < trip2.x)
+      goto continue_collision;
 
-      case AATriangle::DEFORM_TOP:
-        halftri.set_top(halftri.get_bottom() + trirect.get_height());
-        break;
-    }
-
-    set_rectangle_rectangle_constraints(constraints, rect, halftri);
-
-    if (constraints->has_constraints())
-      return true;
-
+    constraints->hit.left = true;
+    constraints->constrain_left(trip2.x);
+  }
     if (!math::in_bounds(rect.p1().y, trip1.y - rect.get_height(), trip2.y) ||
         rect.p1().x < trip2.x)
       goto continue_collision;
@@ -226,17 +142,143 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
     constraints->constrain_top(trip1.y);
   }
 
-continue_collision:
+  return false;
+}
+*/
+
+}
+
+bool
+rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
+                     const AATriangle& triangle)
+{
+  bool dummy;
+  return rectangle_aatriangle(constraints, rect, triangle, dummy);
+}
+
+bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
+                          const AATriangle& triangle,
+                          bool& hits_rectangle_bottom)
+{
+  // Welcome to the slope collision algorithm. Enjoy your stay!
+
+#if 1
+  if (!rect.overlaps(triangle.bbox))
+    return false;
+
+  // For more information on the two following variables, read
+  // https://github.com/SuperTux/supertux/wiki/Tileset#slope-types
+
+  // The deform represents the shape of the slope ("normal", "steep", "gentle").
+  int deform = triangle.get_deform();
+
+  // The direction represents the orientation of the slope.
+  int dir = triangle.get_dir();
+
+  // These are both the angles in the triangle.
+  // angx is the angle on the left or right, aligned with the 90º angle.
+  // angy is the angle at the top or bottom, aligned with the 90º angle.
+  float angx, angy;
+
+  // This is the bounding box of the triangle, which can be different depending on the
+  // deform value.
+  Rectf trirect;
+
+  switch (deform)
+  {
+    case 0:
+      trirect = triangle.bbox;
+      angx = 45.f;
+      angy = 45.f;
+      break;
+
+    case AATriangle::DEFORM_BOTTOM:
+      trirect.set_p1(Vector(triangle.bbox.get_left(), triangle.bbox.get_top() + triangle.bbox.get_height()/2));
+      trirect.set_p2(triangle.bbox.p2());
+
+      angx = triangle.is_north() ? 26.56f : 63.43f;
+      angy = triangle.is_north() ? 63.43f : 26.56f;
+
+      break;
+
+    case AATriangle::DEFORM_TOP:
+      trirect.set_p1(triangle.bbox.p1());
+      trirect.set_p2(Vector(triangle.bbox.get_right(), triangle.bbox.get_top() + triangle.bbox.get_height()/2));
+
+      angx = triangle.is_north() ? 26.56f : 63.43f;
+      angy = triangle.is_north() ? 63.43f : 26.56f;
+
+      break;
+
+    case AATriangle::DEFORM_LEFT:
+      trirect.set_p1(triangle.bbox.p1());
+      trirect.set_p2(Vector(triangle.bbox.get_left() + triangle.bbox.get_width()/2, triangle.bbox.get_bottom()));
+
+      angx = triangle.is_north() ? 63.43f : 26.56f;
+      angy = triangle.is_north() ? 26.56f : 63.43f;
+
+      break;
+
+    case AATriangle::DEFORM_RIGHT:
+      trirect.set_p1(Vector(triangle.bbox.get_left() + triangle.bbox.get_width()/2, triangle.bbox.get_top()));
+      trirect.set_p2(triangle.bbox.p2());
+
+      angx = triangle.is_north() ? 63.43f : 26.56f;
+      angy = triangle.is_north() ? 26.56f : 63.43f;
+
+      break;
+
+    default:
+      assert(false);
+  }
+
+  Vector trip1 = trirect.p1();
+  Vector trip2 = trirect.p2();
+  Sizef trisz = trirect.get_size();
+
+  Vector sp, ar, diff;
+
+  switch (dir)
+  {
+    case AATriangle::SOUTHWEST:
+      sp = { rect.p1().x, rect.p2().y };
+      ar = { trip1.x, trip2.y };
+      diff = { sp.x - ar.x, ar.y - sp.y };
+      break;
+    case AATriangle::NORTHEAST:
+      sp = { rect.p2().x, rect.p1().y };
+      ar = { trip2.x, trip1.y };
+      diff = { ar.x - sp.x, sp.y - ar.y };
+      break;
+    case AATriangle::SOUTHEAST:
+      sp = rect.p2();
+      ar = trip2;
+      diff = ar - sp;
+      break;
+    case AATriangle::NORTHWEST:
+      sp = rect.p1();
+      ar = trip1;
+      diff = sp - ar;
+      break;
+    default:
+      assert(false);
+  }
 
   /*
+  if (triangle.get_deform() != 0 &&
+      rectangle_aatriangle_deform_rect(constraints, rect, triangle, trirect))
+  {
+    return true;
+  }
+  */
+
   // If colliding with the vertice that contains the x angle,
   // check if ar.y is above sp.y in a south triangle or below sp.y in a north triangle.
-  // If it isn't, ignore. This prevents teleporting to the triangle when touching its ledge.
+  // If it isn't, ignore. This prevents "teleporting" to the triangle when touching its ledge.
   if (triangle.is_north() ? sp.y < ar.y : sp.y > ar.y)
   {
     return false;
   }
-  */
 
   float ratio = 1;
   if (trisz.height > 0)
@@ -254,17 +296,15 @@ continue_collision:
       dc = trisz.height - diff.y;
     }
 
+    /*
     if (triangle.is_north())
     {
       //dc = -dc;
     }
     //dc -= 1.f;
 
-    std::cout << "dc: " << dc << " sp: " << sp << std::endl;
-
-    //col_p1[1]=spx
-    //col_p1[2]=spy
-
+    //std::cout << "dc: " << dc << " sp: " << sp << std::endl;
+    */
 
     if (triangle.is_east())
     {

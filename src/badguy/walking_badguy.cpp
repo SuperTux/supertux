@@ -87,7 +87,7 @@ void
 WalkingBadguy::set_walk_speed (float ws)
 {
   walk_speed = fabsf(ws);
-  /* physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed); */
+  // physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
 }
 
 void WalkingBadguy::set_ledge_behavior(LedgeBehavior behavior)
@@ -123,36 +123,42 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
 {
   BadGuy::active_update(dt_sec);
 
-  float current_x_velocity = m_physic.get_velocity_x ();
+  float current_x_velocity = m_physic.get_velocity_x();
+
+  //dest_x_velocity = std::max(0.f, dest_x_velocity + (m_floor_normal.y * 25));
+  //std::cout << m_floor_normal << " " << dest_x_velocity << std::endl;
 
   if (m_frozen)
     return;
-  /* We're very close to our target speed. Just set it to avoid oscillation */
+
+  //m_physic.set_velocity_x (dest_x_velocity);
+
+  // We're very close to our target speed. Just set it to avoid oscillation
   if ((current_x_velocity > (dest_x_velocity - 5.0f)) &&
            (current_x_velocity < (dest_x_velocity + 5.0f)))
   {
     m_physic.set_velocity_x (dest_x_velocity);
     m_physic.set_acceleration_x (0.0);
   }
-  /* Check if we're going too slow or even in the wrong direction */
+  // Check if we're going too slow or even in the wrong direction
   else if (((dest_x_velocity <= 0.0f) && (current_x_velocity > dest_x_velocity)) ||
            ((dest_x_velocity > 0.0f) && (current_x_velocity < dest_x_velocity)))
   {
-    /* acceleration == walk-speed => it will take one second to get from zero
-     * to full speed. */
+    // acceleration == walk-speed => it will take one second to get from zero
+    // to full speed.
     m_physic.set_acceleration_x (dest_x_velocity * modifier);
   }
-  /* Check if we're going too fast */
+  // Check if we're going too fast
   else if (((dest_x_velocity <= 0.0f) && (current_x_velocity < dest_x_velocity)) ||
            ((dest_x_velocity > 0.0f) && (current_x_velocity > dest_x_velocity)))
   {
-    /* acceleration == walk-speed => it will take one second to get twice the
-     * speed to normal speed. */
+    // acceleration == walk-speed => it will take one second to get twice the
+    // speed to normal speed.
     m_physic.set_acceleration_x ((-1.f) * dest_x_velocity);
   }
   else
   {
-    /* The above should have covered all cases. */
+    // The above should have covered all cases.
     assert(false);
   }
 
@@ -160,13 +166,15 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
     turn_around();
   m_stay_on_platform_overridden = false;
 
+
+
   if ((m_dir == Direction::LEFT) && (m_physic.get_velocity_x () > 0.0f)) {
     m_dir = Direction::RIGHT;
-    set_action (walk_right_action, /* loops = */ -1);
+    set_action (walk_right_action, -1);
   }
   else if ((m_dir == Direction::RIGHT) && (m_physic.get_velocity_x () < 0.0f)) {
     m_dir = Direction::LEFT;
-    set_action (walk_left_action, /* loops = */ -1);
+    set_action (walk_left_action, -1);
   }
 }
 
@@ -261,4 +269,4 @@ WalkingBadguy::set_velocity_y(float vy)
   m_physic.set_velocity_y(vy);
 }
 
-/* EOF */
+// EOF

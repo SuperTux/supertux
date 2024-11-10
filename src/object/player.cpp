@@ -1212,10 +1212,14 @@ Player::handle_horizontal_input()
     ax *= ICE_ACCELERATION_MULTIPLIER;
   }
 
+  vx += m_floor_normal.x*10;
+  std::cout << m_floor_normal << std::endl;
+
   if(get_collision_object()->get_pressure() != Vector(0.0f, 0.0f)) {
     vx = 0.0f; vy = 0.0f;
     ax = 0.0f; ay = 0.0f;
   }
+
 
   m_physic.set_velocity(vx, vy);
   m_physic.set_acceleration(ax, ay);
