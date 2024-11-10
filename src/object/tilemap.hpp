@@ -273,7 +273,7 @@ private:
   void update_effective_solid(bool update_manager = true);
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
-  bool might_be_corner(uint32_t tile) const;
+  void autotile_single(int x, int y, AutotileSet* autotileset);
 
   enum class AutotileCornerOperation {
     ADD_TOP_LEFT,
