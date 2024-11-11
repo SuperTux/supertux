@@ -7600,7 +7600,7 @@
   
   (autotileset
     (name "diagonal_pole")
-    (default 1)
+    (default 3019)
     
     ;; CENTER
     (autotile
@@ -8432,7 +8432,7 @@
     
   )
   
-  (autotileset
+  (autotileset-corner
     (name "snow_holes")
     (default 11)
     
@@ -8455,120 +8455,96 @@
         (id 5369)
         (weight 0.2)
       )
-      (solid #t)
-      (mask "********")
-      (mask "*1****1*")
-      (mask "***11***")
+      (mask "1111")
     )
-
-    ;; DECO TOP LEFT
+    
+    ;; TOP LEFT
     (autotile
       (id 2121)
-      (solid #f)
-      (mask "00000001")
+      (mask "0001")
     )
     
-    ;; DECO TOP
+    ;; TOP 
     (autotile
       (id 2122)
-      (solid #f)
-      (mask "00000*1*")
+      (mask "0011")
     )
     
-    ;; DECO TOP RIGHT
+    ;; TOP RIGHT
     (autotile
       (id 2123)
-      (solid #f)
-      (mask "00000100")
+      (mask "0010")
     )
     
-    ;; DECO LEFT
+    ;; LEFT
     (autotile
       (id 2126)
-      (solid #f)
-      (mask "00*0100*")
+      (mask "0101")
     )
     
-    ;; DECO RIGHT
+    ;; RIGHT
     (autotile
       (id 2128)
-      (solid #f)
-      (mask "*0010*00")
+      (mask "1010")
     )
     
-    ;; DECO BOTTOM LEFT
+    ;; BOTTOM LEFT
     (autotile
       (id 2131)
-      (solid #f)
-      (mask "00100000")
+      (mask "0100")
     )
     
-    ;; DECO BOTTOM
+    ;; BOTTOM
     (autotile
       (id 2132)
-      (solid #f)
-      (mask "*1*00000")
+      (mask "1100")
     )
     
-    ;; DECO BOTTOM RIGHT
+    ;; BOTTOM RIGHT
     (autotile
-        (id 2133)
-        (solid #f)
-        (mask "10000000")
+      (id 2133)
+      (mask "1000")
     )
     
-    ;; DECO CORNER BOTTOM RIGHT
-    (autotile
-      (id 2130)
-      (solid #f)
-      (mask "00*0110*")
-      (mask "00100*1*")
-      (mask "00*01*1*")
-    )
-    
-    ;; DECO CORNER BOTTOM LEFT
-    (autotile
-      (id 2129)
-      (solid #f)
-      (mask "10000*1*")
-      (mask "*0010*1*")
-      (mask "*0010*01")
-    )
-    
-    ;; DECO CORNER TOP RIGHT
-    (autotile
-      (id 2125)
-      (solid #f)
-      (mask "10*0100*")
-      (mask "*1*0100*")
-      (mask "*1*00001")
-    )
-    
-    ;; DECO CORNER TOP LEFT
+    ;; CORNER TOP LEFT
     (autotile
       (id 2124)
-      (solid #f)
-      (mask "*1*10*00")
-      (mask "*1*00100")
-      (mask "*0110*00")
+      (mask "1110")
     )
     
-    ;; DECO INTERSECTION DOWN-UP
+    ;; CORNER TOP RIGHT
+    (autotile
+      (id 2125)
+      (mask "1101")
+    )
+    
+    ;; CORNER BOTTOM LEFT
+    (autotile
+      (id 2129)
+      (mask "1011")
+    )
+    
+    ;; CORNER BOTTOM RIGHT
+    (autotile
+      (id 2130)
+      (mask "0111")
+    )
+    
+    ;; INTERSECTION DOWN-UP
     (autotile
       (id 7474)
-      (solid #f)
-      (mask "00100100")
+      (mask "0110")
     )
     
-    ;; DECO INTERSECTION UP-DOWN
+    ;; INTERSECTION UP-DOWN
     (autotile
       (id 7475)
-      (solid #f)
-      (mask "10000001")
+      (mask "1001")
     )
+    
   )
   
-  (autotileset
+  (autotileset-corner
     (name "snow_underground_holes")
     (default 2391)
     
@@ -8591,117 +8567,93 @@
         (id 2399)
         (weight 0.1)
       )
-      (solid #t)
-      (mask "********")
-      (mask "*1****1*")
-      (mask "***11***")
+      (mask "1111")
     )
-
-    ;; DECO TOP LEFT
+    
+    ;; TOP LEFT
     (autotile
       (id 7039)
-      (solid #f)
-      (mask "00000001")
+      (mask "0001")
     )
     
-    ;; DECO TOP
+    ;; TOP 
     (autotile
       (id 7033)
-      (solid #f)
-      (mask "00000*1*")
+      (mask "0011")
     )
     
-    ;; DECO TOP RIGHT
+    ;; TOP RIGHT
     (autotile
       (id 7040)
-      (solid #f)
-      (mask "00000100")
+      (mask "0010")
     )
     
-    ;; DECO LEFT
+    ;; LEFT
     (autotile
       (id 7027)
-      (solid #f)
-      (mask "00*0100*")
+      (mask "0101")
     )
     
-    ;; DECO RIGHT
+    ;; RIGHT
     (autotile
       (id 7025)
-      (solid #f)
-      (mask "*0010*00")
+      (mask "1010")
     )
     
-    ;; DECO BOTTOM LEFT
+    ;; BOTTOM LEFT
     (autotile
       (id 7046)
-      (solid #f)
-      (mask "00100000")
+      (mask "0100")
     )
     
-    ;; DECO BOTTOM
+    ;; BOTTOM
     (autotile
       (id 7019)
-      (solid #f)
-      (mask "*1*00000")
+      (mask "1100")
     )
     
-    ;; DECO BOTTOM RIGHT
+    ;; BOTTOM RIGHT
     (autotile
-        (id 7047)
-        (solid #f)
-        (mask "10000000")
+      (id 7047)
+      (mask "1000")
     )
     
-    ;; DECO CORNER BOTTOM RIGHT
-    (autotile
-      (id 7034)
-      (solid #f)
-      (mask "00*0110*")
-      (mask "00100*1*")
-      (mask "00*01*1*")
-    )
-    
-    ;; DECO CORNER BOTTOM LEFT
-    (autotile
-      (id 7032)
-      (solid #f)
-      (mask "10000*1*")
-      (mask "*0010*1*")
-      (mask "*0010*01")
-    )
-    
-    ;; DECO CORNER TOP RIGHT
-    (autotile
-      (id 7020)
-      (solid #f)
-      (mask "10*0100*")
-      (mask "*1*0100*")
-      (mask "*1*00001")
-    )
-    
-    ;; DECO CORNER TOP LEFT
+    ;; CORNER TOP LEFT
     (autotile
       (id 7018)
-      (solid #f)
-      (mask "*1*10*00")
-      (mask "*1*00100")
-      (mask "*0110*00")
+      (mask "1110")
     )
     
-    ;; DECO INTERSECTION DOWN-UP
+    ;; CORNER TOP RIGHT
+    (autotile
+      (id 7020)
+      (mask "1101")
+    )
+    
+    ;; CORNER BOTTOM LEFT
+    (autotile
+      (id 7032)
+      (mask "1011")
+    )
+    
+    ;; CORNER BOTTOM RIGHT
+    (autotile
+      (id 7034)
+      (mask "0111")
+    )
+    
+    ;; INTERSECTION DOWN-UP
     (autotile
       (id 7476)
-      (solid #f)
-      (mask "00100100")
+      (mask "0110")
     )
     
-    ;; DECO INTERSECTION UP-DOWN
+    ;; INTERSECTION UP-DOWN
     (autotile
       (id 7477)
-      (solid #f)
-      (mask "10000001")
+      (mask "1001")
     )
+    
   )
   
   (autotileset
@@ -9108,7 +9060,7 @@
     
   )
   
-  (autotileset
+  (autotileset-corner
     (name "forest_holes")
     (default 1009)
     
@@ -9127,121 +9079,97 @@
         (id 1014)
         (weight 0.3)
       )
-      (solid #t)
-      (mask "********")
-      (mask "*1****1*")
-      (mask "***11***")
+      (mask "1111")
     )
-
-    ;; DECO TOP LEFT
+    
+    ;; TOP LEFT
     (autotile
       (id 5627)
-      (solid #f)
-      (mask "00000001")
+      (mask "0001")
     )
     
-    ;; DECO TOP
+    ;; TOP 
     (autotile
       (id 5621)
-      (solid #f)
-      (mask "00000*1*")
+      (mask "0011")
     )
     
-    ;; DECO TOP RIGHT
+    ;; TOP RIGHT
     (autotile
       (id 5628)
-      (solid #f)
-      (mask "00000100")
+      (mask "0010")
     )
     
-    ;; DECO LEFT
+    ;; LEFT
     (autotile
       (id 5615)
-      (solid #f)
-      (mask "00*0100*")
+      (mask "0101")
     )
     
-    ;; DECO RIGHT
+    ;; RIGHT
     (autotile
       (id 5613)
-      (solid #f)
-      (mask "*0010*00")
+      (mask "1010")
     )
     
-    ;; DECO BOTTOM LEFT
+    ;; BOTTOM LEFT
     (autotile
       (id 5634)
-      (solid #f)
-      (mask "00100000")
+      (mask "0100")
     )
     
-    ;; DECO BOTTOM
+    ;; BOTTOM
     (autotile
       (id 5607)
-      (solid #f)
-      (mask "*1*00000")
+      (mask "1100")
     )
     
-    ;; DECO BOTTOM RIGHT
+    ;; BOTTOM RIGHT
     (autotile
-        (id 5635)
-        (solid #f)
-        (mask "10000000")
+      (id 5635)
+      (mask "1000")
     )
     
-    ;; DECO CORNER BOTTOM RIGHT
-    (autotile
-      (id 5622)
-      (solid #f)
-      (mask "00*0110*")
-      (mask "00100*1*")
-      (mask "00*01*1*")
-    )
-    
-    ;; DECO CORNER BOTTOM LEFT
-    (autotile
-      (id 5620)
-      (solid #f)
-      (mask "10000*1*")
-      (mask "*0010*1*")
-      (mask "*0010*01")
-    )
-    
-    ;; DECO CORNER TOP RIGHT
-    (autotile
-      (id 5608)
-      (solid #f)
-      (mask "10*0100*")
-      (mask "*1*0100*")
-      (mask "*1*00001")
-    )
-    
-    ;; DECO CORNER TOP LEFT
+    ;; CORNER TOP LEFT
     (autotile
       (id 5606)
-      (solid #f)
-      (mask "*1*10*00")
-      (mask "*1*00100")
-      (mask "*0110*00")
+      (mask "1110")
     )
     
-    ;; DECO INTERSECTION DOWN-UP
+    ;; CORNER TOP RIGHT
+    (autotile
+      (id 5608)
+      (mask "1101")
+    )
+    
+    ;; CORNER BOTTOM LEFT
+    (autotile
+      (id 5620)
+      (mask "1011")
+    )
+    
+    ;; CORNER BOTTOM RIGHT
+    (autotile
+      (id 5622)
+      (mask "0111")
+    )
+    
+    ;; INTERSECTION DOWN-UP
     (autotile
       (id 7478)
-      (solid #f)
-      (mask "00100100")
+      (mask "0110")
     )
     
-    ;; DECO INTERSECTION UP-DOWN
+    ;; INTERSECTION UP-DOWN
     (autotile
       (id 7479)
-      (solid #f)
-      (mask "10000001")
+      (mask "1001")
     )
+    
   )
   
-  (autotileset
-    (name "underground_forest_holes")
+  (autotileset-corner
+    (name "forest_underground_holes")
     (default 1869)
     
     ;; CENTER
@@ -9271,120 +9199,96 @@
         (id 7167)
         (weight 0.1)
       )
-      (solid #t)
-      (mask "********")
-      (mask "*1****1*")
-      (mask "***11***")
+      (mask "1111")
     )
-
-    ;; DECO TOP LEFT
+    
+    ;; TOP LEFT
     (autotile
       (id 7093)
-      (solid #f)
-      (mask "00000001")
+      (mask "0001")
     )
     
-    ;; DECO TOP
+    ;; TOP 
     (autotile
       (id 7087)
-      (solid #f)
-      (mask "00000*1*")
+      (mask "0011")
     )
     
-    ;; DECO TOP RIGHT
+    ;; TOP RIGHT
     (autotile
       (id 7094)
-      (solid #f)
-      (mask "00000100")
+      (mask "0010")
     )
     
-    ;; DECO LEFT
+    ;; LEFT
     (autotile
       (id 7081)
-      (solid #f)
-      (mask "00*0100*")
+      (mask "0101")
     )
     
-    ;; DECO RIGHT
+    ;; RIGHT
     (autotile
       (id 7079)
-      (solid #f)
-      (mask "*0010*00")
+      (mask "1010")
     )
     
-    ;; DECO BOTTOM LEFT
+    ;; BOTTOM LEFT
     (autotile
       (id 7100)
-      (solid #f)
-      (mask "00100000")
+      (mask "0100")
     )
     
-    ;; DECO BOTTOM
+    ;; BOTTOM
     (autotile
       (id 7073)
-      (solid #f)
-      (mask "*1*00000")
+      (mask "1100")
     )
     
-    ;; DECO BOTTOM RIGHT
+    ;; BOTTOM RIGHT
     (autotile
-        (id 7101)
-        (solid #f)
-        (mask "10000000")
+      (id 7101)
+      (mask "1000")
     )
     
-    ;; DECO CORNER BOTTOM RIGHT
-    (autotile
-      (id 7088)
-      (solid #f)
-      (mask "00*0110*")
-      (mask "00100*1*")
-      (mask "00*01*1*")
-    )
-    
-    ;; DECO CORNER BOTTOM LEFT
-    (autotile
-      (id 7086)
-      (solid #f)
-      (mask "10000*1*")
-      (mask "*0010*1*")
-      (mask "*0010*01")
-    )
-    
-    ;; DECO CORNER TOP RIGHT
-    (autotile
-      (id 7074)
-      (solid #f)
-      (mask "10*0100*")
-      (mask "*1*0100*")
-      (mask "*1*00001")
-    )
-    
-    ;; DECO CORNER TOP LEFT
+    ;; CORNER TOP LEFT
     (autotile
       (id 7072)
-      (solid #f)
-      (mask "*1*10*00")
-      (mask "*1*00100")
-      (mask "*0110*00")
+      (mask "1110")
     )
     
-    ;; DECO INTERSECTION DOWN-UP
+    ;; CORNER TOP RIGHT
+    (autotile
+      (id 7074)
+      (mask "1101")
+    )
+    
+    ;; CORNER BOTTOM LEFT
+    (autotile
+      (id 7086)
+      (mask "1011")
+    )
+    
+    ;; CORNER BOTTOM RIGHT
+    (autotile
+      (id 7088)
+      (mask "0111")
+    )
+    
+    ;; INTERSECTION DOWN-UP
     (autotile
       (id 7480)
-      (solid #f)
-      (mask "00100100")
+      (mask "0110")
     )
     
-    ;; DECO INTERSECTION UP-DOWN
+    ;; INTERSECTION UP-DOWN
     (autotile
       (id 7481)
-      (solid #f)
-      (mask "10000001")
+      (mask "1001")
     )
+    
   )
   
-  (autotileset
+  (autotileset-corner
     (name "corrupted_forest_holes")
     (default 1432)
     
@@ -9403,121 +9307,97 @@
         (id 1437)
         (weight 0.3)
       )
-      (solid #t)
-      (mask "********")
-      (mask "*1****1*")
-      (mask "***11***")
+      (mask "1111")
     )
-
-    ;; DECO TOP LEFT
+    
+    ;; TOP LEFT
     (autotile
       (id 6332)
-      (solid #f)
-      (mask "00000001")
+      (mask "0001")
     )
     
-    ;; DECO TOP
+    ;; TOP 
     (autotile
       (id 6326)
-      (solid #f)
-      (mask "00000*1*")
+      (mask "0011")
     )
     
-    ;; DECO TOP RIGHT
+    ;; TOP RIGHT
     (autotile
       (id 6333)
-      (solid #f)
-      (mask "00000100")
+      (mask "0010")
     )
     
-    ;; DECO LEFT
+    ;; LEFT
     (autotile
       (id 6320)
-      (solid #f)
-      (mask "00*0100*")
+      (mask "0101")
     )
     
-    ;; DECO RIGHT
+    ;; RIGHT
     (autotile
       (id 6318)
-      (solid #f)
-      (mask "*0010*00")
+      (mask "1010")
     )
     
-    ;; DECO BOTTOM LEFT
+    ;; BOTTOM LEFT
     (autotile
       (id 6339)
-      (solid #f)
-      (mask "00100000")
+      (mask "0100")
     )
     
-    ;; DECO BOTTOM
+    ;; BOTTOM
     (autotile
       (id 6312)
-      (solid #f)
-      (mask "*1*00000")
+      (mask "1100")
     )
     
-    ;; DECO BOTTOM RIGHT
+    ;; BOTTOM RIGHT
     (autotile
-        (id 6340)
-        (solid #f)
-        (mask "10000000")
+      (id 6340)
+      (mask "1000")
     )
     
-    ;; DECO CORNER BOTTOM RIGHT
-    (autotile
-      (id 6327)
-      (solid #f)
-      (mask "00*0110*")
-      (mask "00100*1*")
-      (mask "00*01*1*")
-    )
-    
-    ;; DECO CORNER BOTTOM LEFT
-    (autotile
-      (id 6325)
-      (solid #f)
-      (mask "10000*1*")
-      (mask "*0010*1*")
-      (mask "*0010*01")
-    )
-    
-    ;; DECO CORNER TOP RIGHT
-    (autotile
-      (id 6313)
-      (solid #f)
-      (mask "10*0100*")
-      (mask "*1*0100*")
-      (mask "*1*00001")
-    )
-    
-    ;; DECO CORNER TOP LEFT
+    ;; CORNER TOP LEFT
     (autotile
       (id 6311)
-      (solid #f)
-      (mask "*1*10*00")
-      (mask "*1*00100")
-      (mask "*0110*00")
+      (mask "1110")
     )
     
-    ;; DECO INTERSECTION DOWN-UP
+    ;; CORNER TOP RIGHT
+    (autotile
+      (id 6313)
+      (mask "1101")
+    )
+    
+    ;; CORNER BOTTOM LEFT
+    (autotile
+      (id 6325)
+      (mask "1011")
+    )
+    
+    ;; CORNER BOTTOM RIGHT
+    (autotile
+      (id 6327)
+      (mask "0111")
+    )
+    
+    ;; INTERSECTION DOWN-UP
     (autotile
       (id 7482)
-      (solid #f)
-      (mask "00100100")
+      (mask "0110")
     )
     
-    ;; DECO INTERSECTION UP-DOWN
+    ;; INTERSECTION UP-DOWN
     (autotile
       (id 7483)
-      (solid #f)
-      (mask "10000001")
+      (mask "1001")
     )
+    
   )
   
-  (autotileset
-    (name "underground_corrupted_holes")
+  (autotileset-corner
+    (name "underground_corrupted_forest_holes")
     (default 6837)
     
     ;; CENTER
@@ -9547,117 +9427,93 @@
         (id 6958)
         (weight 0.1)
       )
-      (solid #t)
-      (mask "********")
-      (mask "*1****1*")
-      (mask "***11***")
+      (mask "1111")
     )
-
-    ;; DECO TOP LEFT
+    
+    ;; TOP LEFT
     (autotile
       (id 6790)
-      (solid #f)
-      (mask "00000001")
+      (mask "0001")
     )
     
-    ;; DECO TOP
+    ;; TOP 
     (autotile
       (id 6784)
-      (solid #f)
-      (mask "00000*1*")
+      (mask "0011")
     )
     
-    ;; DECO TOP RIGHT
+    ;; TOP RIGHT
     (autotile
       (id 6791)
-      (solid #f)
-      (mask "00000100")
+      (mask "0010")
     )
     
-    ;; DECO LEFT
+    ;; LEFT
     (autotile
       (id 6778)
-      (solid #f)
-      (mask "00*0100*")
+      (mask "0101")
     )
     
-    ;; DECO RIGHT
+    ;; RIGHT
     (autotile
       (id 6776)
-      (solid #f)
-      (mask "*0010*00")
+      (mask "1010")
     )
     
-    ;; DECO BOTTOM LEFT
+    ;; BOTTOM LEFT
     (autotile
       (id 6797)
-      (solid #f)
-      (mask "00100000")
+      (mask "0100")
     )
     
-    ;; DECO BOTTOM
+    ;; BOTTOM
     (autotile
       (id 6770)
-      (solid #f)
-      (mask "*1*00000")
+      (mask "1100")
     )
     
-    ;; DECO BOTTOM RIGHT
+    ;; BOTTOM RIGHT
     (autotile
-        (id 6798)
-        (solid #f)
-        (mask "10000000")
+      (id 6798)
+      (mask "1000")
     )
     
-    ;; DECO CORNER BOTTOM RIGHT
-    (autotile
-      (id 6785)
-      (solid #f)
-      (mask "00*0110*")
-      (mask "00100*1*")
-      (mask "00*01*1*")
-    )
-    
-    ;; DECO CORNER BOTTOM LEFT
-    (autotile
-      (id 6783)
-      (solid #f)
-      (mask "10000*1*")
-      (mask "*0010*1*")
-      (mask "*0010*01")
-    )
-    
-    ;; DECO CORNER TOP RIGHT
-    (autotile
-      (id 6771)
-      (solid #f)
-      (mask "10*0100*")
-      (mask "*1*0100*")
-      (mask "*1*00001")
-    )
-    
-    ;; DECO CORNER TOP LEFT
+    ;; CORNER TOP LEFT
     (autotile
       (id 6769)
-      (solid #f)
-      (mask "*1*10*00")
-      (mask "*1*00100")
-      (mask "*0110*00")
+      (mask "1110")
     )
     
-    ;; DECO INTERSECTION DOWN-UP
+    ;; CORNER TOP RIGHT
+    (autotile
+      (id 6771)
+      (mask "1101")
+    )
+    
+    ;; CORNER BOTTOM LEFT
+    (autotile
+      (id 6783)
+      (mask "1011")
+    )
+    
+    ;; CORNER BOTTOM RIGHT
+    (autotile
+      (id 6785)
+      (mask "0111")
+    )
+    
+    ;; INTERSECTION DOWN-UP
     (autotile
       (id 7484)
-      (solid #f)
-      (mask "00100100")
+      (mask "0110")
     )
     
-    ;; DECO INTERSECTION UP-DOWN
+    ;; INTERSECTION UP-DOWN
     (autotile
       (id 7485)
-      (solid #f)
-      (mask "10000001")
+      (mask "1001")
     )
+    
   )
   
   (autotileset
