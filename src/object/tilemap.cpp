@@ -752,35 +752,51 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
 }
 
 void
-TileMap::autotile(int pos_x, int pos_y, uint32_t tile, AutotileSet* autotileset)
+TileMap::autotile(const Vector& pos, uint32_t tile, AutotileSet* autotileset)
 {
-  if (pos_x < 0 || pos_x >= m_width || pos_y < 0 || pos_y >= m_height)
-    return;
-
   if (!autotileset || !autotileset->is_member(tile))
     return;
 
-  m_tiles[pos_y*m_width + pos_x] = tile;
+  if (pos.x < 0.f || pos.x >= static_cast<float>(m_width) ||
+      pos.y < 0.f || pos.y >= static_cast<float>(m_height))
+    return;
 
-  for (int y = static_cast<int>(pos_y) - 1; y <= static_cast<int>(pos_y) + 1; y++)
+  if (autotileset->is_corner())
   {
-    if (y < 0 || y >= m_height)
-      continue;
+    const int x = static_cast<int>(pos.x + 0.5f), y = static_cast<int>(pos.y + 0.5f);
+    if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+      return;
 
-    for (int x = static_cast<int>(pos_x) - 1; x <= static_cast<int>(pos_x) + 1; x++)
+    autotile_single_corner(x-1, y-1, autotileset, AutotileCornerOperation::ADD_BOTTOM_RIGHT);
+    autotile_single_corner(x,   y-1, autotileset, AutotileCornerOperation::ADD_BOTTOM_LEFT);
+    autotile_single_corner(x-1, y, autotileset, AutotileCornerOperation::ADD_TOP_RIGHT);
+    autotile_single_corner(x,   y, autotileset, AutotileCornerOperation::ADD_TOP_LEFT);
+  }
+  else
+  {
+    const int pos_x = static_cast<int>(pos.x), pos_y = static_cast<int>(pos.y);
+    m_tiles[pos_y*m_width + pos_x] = tile;
+
+    for (int y = static_cast<int>(pos_y) - 1; y <= static_cast<int>(pos_y) + 1; y++)
     {
-      if (x < 0 || x >= m_width)
+      if (y < 0 || y >= m_height)
         continue;
 
-      if (x != pos_x || y != pos_y)
+      for (int x = static_cast<int>(pos_x) - 1; x <= static_cast<int>(pos_x) + 1; x++)
       {
-        // Do not allow replacing adjacent tiles if they are not a part of the current autotileset.
-        const uint32_t current_tile = m_tiles[y*m_width + x];
-        if (current_tile != 0 && !autotileset->is_member(current_tile))
+        if (x < 0 || x >= m_width)
           continue;
-      }
 
-      autotile_single(x, y, autotileset);
+        if (x != pos_x || y != pos_y)
+        {
+          // Do not allow replacing adjacent tiles if they are not a part of the current autotileset.
+          const uint32_t current_tile = m_tiles[y*m_width + x];
+          if (current_tile != 0 && !autotileset->is_member(current_tile))
+            continue;
+        }
+
+        autotile_single(x, y, autotileset);
+      }
     }
   }
 }
@@ -788,6 +804,8 @@ TileMap::autotile(int pos_x, int pos_y, uint32_t tile, AutotileSet* autotileset)
 void
 TileMap::autotile_single(int x, int y, AutotileSet* autotileset)
 {
+  // autotile() and autotile_erase() already perform validity checks for x, y and autotileset.
+
   m_tiles[y*m_width + x] = autotileset->get_autotile(m_tiles[y*m_width + x],
     autotileset->is_solid(get_tile_id(x-1, y-1)),
     autotileset->is_solid(get_tile_id(x  , y-1)),
@@ -802,38 +820,15 @@ TileMap::autotile_single(int x, int y, AutotileSet* autotileset)
 }
 
 void
-TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileSet* autotileset, bool add)
+TileMap::autotile_single_corner(int x, int y, AutotileSet* autotileset, AutotileCornerOperation op)
 {
+  // autotile() and autotile_erase() already perform a validity check for autotileset.
+
   if (x < 0 || x >= m_width || y < 0 || y >= m_height)
     return;
 
-  if (!autotileset || !autotileset->is_corner() || !autotileset->is_member(tile))
-    return;
-
-  if (add)
-  {
-    autotile_corner(x-1, y-1, tile, autotileset, AutotileCornerOperation::ADD_BOTTOM_RIGHT);
-    autotile_corner(x, y-1, tile, autotileset, AutotileCornerOperation::ADD_BOTTOM_LEFT);
-    autotile_corner(x-1, y, tile, autotileset, AutotileCornerOperation::ADD_TOP_RIGHT);
-    autotile_corner(x, y, tile, autotileset, AutotileCornerOperation::ADD_TOP_LEFT);
-  }
-  else
-  {
-    autotile_corner(x, y, tile, autotileset, AutotileCornerOperation::REMOVE_TOP_LEFT);
-    autotile_corner(x-1, y, tile, autotileset, AutotileCornerOperation::REMOVE_TOP_RIGHT);
-    autotile_corner(x, y-1, tile, autotileset, AutotileCornerOperation::REMOVE_BOTTOM_LEFT);
-    autotile_corner(x-1, y-1, tile, autotileset, AutotileCornerOperation::REMOVE_BOTTOM_RIGHT);
-  }
-}
-
-void
-TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileSet* autotileset, AutotileCornerOperation op)
-{
-  if (x < 0 || x >= m_width || y < 0 || y >= m_height)
-    return;
-
-  // If tile is not empty or already of the appropriate tileset, abort
   const uint32_t current_tile = m_tiles[y*m_width + x];
+  // Corner autotiling shouldn't replace existing tiles not from this autotileset.
   if (current_tile != 0 && !autotileset->is_member(current_tile))
     return;
 
@@ -862,30 +857,41 @@ TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileSet* autotileset, 
 }
 
 void
-TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos, AutotileSet* autotileset)
+TileMap::autotile_erase(const Vector& pos, AutotileSet* autotileset)
 {
+  if (!autotileset)
+    return;
+
   if (pos.x < 0.f || pos.x >= static_cast<float>(m_width) ||
       pos.y < 0.f || pos.y >= static_cast<float>(m_height))
     return;
 
-  if (corner_pos.x < 0.f || corner_pos.x >= static_cast<float>(m_width) ||
-      corner_pos.y < 0.f || corner_pos.y >= static_cast<float>(m_height))
-    return;
-
-  const uint32_t current_tile = m_tiles[static_cast<int>(pos.y)*m_width
-                                        + static_cast<int>(pos.x)];
-  if (!autotileset || !autotileset->is_member(current_tile))
-    return;
-
   if (autotileset->is_corner())
   {
-    autotile_corner(static_cast<int>(corner_pos.x), static_cast<int>(corner_pos.y),
-                    current_tile, autotileset, false);
+    const int x = static_cast<int>(pos.x + 0.5f), y = static_cast<int>(pos.y + 0.5f);
+    if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+      return;
+
+    const uint32_t current_tile = m_tiles[y*m_width + x];
+    // Allowing empty tiles allows for autotiling when erasing empty tiles adjacently to autotileable tiles.
+    if (current_tile != 0 && !autotileset->is_member(current_tile))
+      return;
+
+    autotile_single_corner(x,   y, autotileset, AutotileCornerOperation::REMOVE_TOP_LEFT);
+    autotile_single_corner(x-1, y, autotileset, AutotileCornerOperation::REMOVE_TOP_RIGHT);
+    autotile_single_corner(x,   y-1, autotileset, AutotileCornerOperation::REMOVE_BOTTOM_LEFT);
+    autotile_single_corner(x-1, y-1, autotileset, AutotileCornerOperation::REMOVE_BOTTOM_RIGHT);
   }
   else
   {
     const int pos_x = static_cast<int>(pos.x), pos_y = static_cast<int>(pos.y);
-    m_tiles[pos_y * m_width + pos_x] = 0;
+
+    const uint32_t current_tile = m_tiles[pos_y*m_width + pos_x];
+    // Allowing empty tiles allows for autotiling when erasing empty tiles adjacently to autotileable tiles.
+    if (current_tile != 0 && !autotileset->is_member(current_tile))
+      return;
+
+    m_tiles[pos_y*m_width + pos_x] = 0;
 
     for (int y = pos_y - 1; y <= pos_y + 1; y++)
     {
@@ -897,16 +903,13 @@ TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos, AutotileSet
         if ((x == pos_x && y == pos_y) || x < 0 || x >= m_width)
           continue;
 
-        const int change_tile = m_tiles[y * m_width + x];
-        if (change_tile == 0)
+        const uint32_t change_tile = m_tiles[y*m_width + x];
+        if (!autotileset->is_member(change_tile))
           continue;
 
-        if (autotileset->is_member(change_tile))
-        {
-          if (m_tiles[pos_y * m_width + pos_x] == 0)
-            autotile_single(pos_x, pos_y, autotileset);
-          autotile_single(x, y, autotileset);
-        }
+        if (m_tiles[pos_y*m_width + pos_x] == 0)
+          autotile_single(pos_x, pos_y, autotileset);
+        autotile_single(x, y, autotileset);
       }
     }
   }

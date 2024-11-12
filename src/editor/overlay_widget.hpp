@@ -80,8 +80,7 @@ private:
 private:
   void input_tile(const Vector& pos, uint32_t tile);
   void input_autotile(const Vector& pos, uint32_t tile);
-  void input_autotile_corner(const Vector& corner, uint32_t tile /*, const Vector& override_pos = Vector(-1.f, -1.f) */);
-  void input_autotile_erase(const Vector& pos, const Vector& corner_pos);
+  void input_autotile_erase(const Vector& pos);
   void put_tiles(const Vector& target_tile, TileSelection* tiles);
   void put_next_tiles();
   void draw_rectangle();

@@ -182,32 +182,17 @@ EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
   if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
 
   tilemap->save_state();
-  tilemap->autotile(static_cast<int>(pos.x), static_cast<int>(pos.y), tile, get_current_autotileset());
+  tilemap->autotile(pos, tile, get_current_autotileset());
 }
 
 void
-EditorOverlayWidget::input_autotile_corner(const Vector& corner, uint32_t tile /*, const Vector& override_pos */)
+EditorOverlayWidget::input_autotile_erase(const Vector& pos)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap) return;
-
-  // Erase the tile - the autotiling will add the necessary tile after
-  //if (override_pos != Vector(-1.f, -1.f))
-  //  tilemap->change(static_cast<int>(override_pos.x), static_cast<int>(override_pos.y), 0);
+  if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
 
   tilemap->save_state();
-  tilemap->autotile_corner(static_cast<int>(corner.x), static_cast<int>(corner.y),
-                           tile, get_current_autotileset(), true);
-}
-
-void
-EditorOverlayWidget::input_autotile_erase(const Vector& pos, const Vector& corner_pos)
-{
-  auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap) return;
-
-  tilemap->save_state();
-  tilemap->autotile_erase(pos, corner_pos, get_current_autotileset());
+  tilemap->autotile_erase(pos, get_current_autotileset());
 }
 
 void
@@ -215,7 +200,6 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
 {
   m_editor.get_selected_tilemap()->save_state();
 
-  const Vector hovered_corner = target_tile + Vector(0.5f, 0.5f);
   Vector add_tile(0.0f, 0.0f);
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--)
   {
@@ -229,18 +213,9 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
         if (autotileset)
         {
           if (tile == 0)
-          {
-            input_autotile_erase(target_tile + add_tile, hovered_corner + add_tile);
-          }
-          else if (autotileset->is_corner())
-          {
-            input_autotile_corner(hovered_corner + add_tile,
-                                  tile /*, target_tile + add_tile */);
-          }
+            input_autotile_erase(target_tile + add_tile);
           else
-          {
             input_autotile(target_tile + add_tile, tile);
-          }
           continue;
         }
       }
