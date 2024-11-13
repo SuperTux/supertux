@@ -93,12 +93,13 @@ public:
 
   inline bool operator==(const T* object) const
   {
-    return (!object && m_value == 0) || object->get_uid() == *this;
+    return (!object && m_value == 0) ||
+           (object->get_uid() == *this && object->get_parent() == m_object_manager);
   }
 
   inline bool operator!=(const T* object) const
   {
-    return object ? object->get_uid() != *this : m_value == 0;
+    return object ? (object->get_uid() != *this || object->get_parent() != m_object_manager) : m_value == 0;
   }
 
   inline operator bool() const

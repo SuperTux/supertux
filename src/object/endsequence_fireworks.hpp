@@ -25,15 +25,21 @@ class EndSequenceFireworks final : public EndSequence
 public:
   EndSequenceFireworks();
   ~EndSequenceFireworks() override;
+
   virtual GameObjectClasses get_class_types() const override { return EndSequence::get_class_types().add(typeid(EndSequenceFireworks)); }
+
   virtual void draw(DrawingContext& context) override;
 
 protected:
   virtual void starting() override; /**< called when EndSequence starts */
   virtual void running(float dt_sec) override; /**< called while the EndSequence is running */
-  virtual void stopping() override; /**< called when EndSequence stops */
 
+private:
   Timer endsequence_timer;
+
+private:
+  EndSequenceFireworks(const EndSequenceFireworks&) = delete;
+  EndSequenceFireworks& operator=(const EndSequenceFireworks&) = delete;
 };
 
 #endif

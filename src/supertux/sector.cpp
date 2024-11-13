@@ -892,7 +892,11 @@ Sector::get_camera() const
 std::vector<Player*>
 Sector::get_players() const
 {
-  return m_level.get_players();
+  std::vector<Player*> players;
+  for (auto& player : get_objects_by_type<Player>())
+    players.push_back(&player);
+
+  return players;
 }
 
 DisplayEffect&

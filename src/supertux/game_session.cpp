@@ -150,7 +150,6 @@ GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Stati
   m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
   m_data_table(SquirrelVirtualMachine::current()->get_vm().findTable("Level").getOrCreateTable("data")),
   m_currentsector(nullptr),
-  m_end_sequence(nullptr),
   m_game_pause(false),
   m_speed_before_pause(ScreenManager::current()->get_speed()),
   m_levelfile(levelfile),
@@ -376,8 +375,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   }
   */
 
-  m_game_pause   = false;
-  m_end_sequence = nullptr;
+  m_game_pause = false;
   m_endsequence_timer.stop();
 
   InputManager::current()->reset();
@@ -511,20 +509,28 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 void
 GameSession::on_escape_press(bool force_quick_respawn)
 {
-  auto players = m_currentsector->get_players();
+  auto players = m_level->get_players();
 
-  int alive = m_currentsector->get_object_count<Player>([](const Player& p) {
-    return p.is_alive();
-  });
+  bool has_alive_players = false;
+  for (const Player* player : players)
+  {
+    if (player->is_alive())
+    {
+      has_alive_players = true;
+      break;
+    }
+  }
 
-  if ((!alive && (m_play_time > 2.0f || force_quick_respawn)) || m_end_sequence)
+  EndSequence* sequence = m_currentsector->try_get_singleton_by_type<EndSequence>();
+  if ((!has_alive_players && (m_play_time > 2.0f || force_quick_respawn)) || sequence)
   {
     // Let the timers run out, we fast-forward them to force past a sequence.
-    if (m_end_sequence)
+    if (sequence)
     {
-      if (m_end_sequence->is_running())
+      if (sequence->is_running())
       {
-        m_end_sequence->stop();
+        for (const auto& sector : m_level->get_sectors())
+          sector->get_singleton_by_type<EndSequence>().stop();
       }
       else
       {
@@ -638,7 +644,14 @@ GameSession::abort_level()
 bool
 GameSession::is_active() const
 {
-  return !m_game_pause && m_active && !(m_end_sequence && m_end_sequence->is_running());
+  if (m_game_pause || !m_active)
+    return false;
+
+  const EndSequence* sequence = m_currentsector->try_get_singleton_by_type<EndSequence>();
+  if (sequence && sequence->is_running())
+    return false;
+
+  return true;
 }
 
 void
@@ -655,14 +668,18 @@ GameSession::check_end_conditions()
       break;
 
   /* End of level? */
-  if (m_endsequence_timer.check() || (all_dead_or_winning && m_end_sequence && m_endsequence_timer.get_period() > 0.f)) {
+  const EndSequence* sequence = m_currentsector->try_get_singleton_by_type<EndSequence>();
+  if (m_endsequence_timer.check() || (all_dead_or_winning && sequence && m_endsequence_timer.get_period() > 0.f))
+  {
     m_endsequence_timer.stop();
-    for (auto* p : m_currentsector->get_players())
-      p->set_winning();
     start_sequence(nullptr, Sequence::SEQ_ENDSEQUENCE);
-  } else if (m_end_sequence && m_end_sequence->is_done()) {
+  }
+  else if (sequence && sequence->is_done())
+  {
     finish(true);
-  } else if (!m_end_sequence && all_dead) {
+  }
+  else if (!sequence && all_dead)
+  {
     restart_level(true);
   }
 }
@@ -885,13 +902,14 @@ GameSession::update(float dt_sec, const Controller& controller)
     it_spawn_requests = m_spawn_requests.erase(it_spawn_requests);
   }
 
+  assert(m_currentsector);
+
   // Update the world state and all objects in the world.
+  const EndSequence* sequence = m_currentsector->try_get_singleton_by_type<EndSequence>();
   if (!m_game_pause || m_network_host)
   {
-    assert(m_currentsector);
-
     // Update the world.
-    if (!m_end_sequence || !m_end_sequence->is_running())
+    if (!sequence || !sequence->is_running())
     {
       if (!m_level->m_is_in_cutscene && !m_pause_target_timer)
       {
@@ -909,32 +927,44 @@ GameSession::update(float dt_sec, const Controller& controller)
     {
       bool are_all_stopped = true;
 
-      for (const auto& player : m_currentsector->get_players())
+      for (const auto& sector : m_level->get_sectors())
       {
-        if (!(m_end_sequence->is_tux_stopped(player->get_id())
-            || player->get_ending_direction() == 0))
+        auto& sector_sequence = sector->get_singleton_by_type<EndSequence>();
+        for (const auto& player : sector->get_objects_by_type<Player>())
         {
-          are_all_stopped = false;
-          break;
+          if (!sector_sequence.is_tux_stopped(player.get_uid()) && player.get_ending_direction() != 0)
+          {
+            are_all_stopped = false;
+            break;
+          }
         }
       }
 
-      if (!are_all_stopped) {
-        m_currentsector->update(dt_sec);
-      } else {
-        m_end_sequence->update(dt_sec);
+      if (!are_all_stopped)
+      {
+        for (const auto& sector : m_level->get_sectors())
+        {
+          if (sector->get_object_count<Player>() > 0)
+            sector->update(dt_sec);
+        }
+      }
+      else
+      {
+        for (const auto& sector : m_level->get_sectors())
+        {
+          sector->get_singleton_by_type<EndSequence>().update(dt_sec);
+          for (auto& player : sector->get_objects_by_type<Player>())
+            player.update(dt_sec);
+        }
       }
     }
   }
-
-  if (m_currentsector == nullptr)
-    return;
 
   // Update sounds.
   SoundManager::current()->set_listener_position(m_currentsector->get_camera().get_center());
 
   /* Handle music: */
-  if (m_end_sequence)
+  if (sequence && sequence->is_running())
     return;
 
   bool invincible_timer_started = false;
@@ -962,7 +992,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     reset_button = false;
     reset_level();
     restart_level();
-  } else if(reset_checkpoint_button) {
+  } else if(reset_checkpoint_button) { // TODO: Remote player/multi-sector support
     for (auto* p : m_currentsector->get_players())
       p->kill(true);
   }
@@ -1129,30 +1159,35 @@ GameSession::get_active_checkpoint_spawnpoint() const
 bool
 GameSession::has_active_sequence() const
 {
-  return m_end_sequence;
+  const EndSequence* sequence = m_currentsector->try_get_singleton_by_type<EndSequence>();
+  return sequence && sequence->is_running();
 }
 
 void
 GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* data)
 {
   // Handle special "stoptux" sequence.
-  if (seq == SEQ_STOPTUX) {
-    if (!m_end_sequence) {
-      log_warning << "Final target reached without an active end sequence" << std::endl;
-      start_sequence(caller, SEQ_ENDSEQUENCE);
-    }
-
-    // TODO: This probably doesn't work
-    if (m_end_sequence)
+  if (seq == SEQ_STOPTUX)
+  {
+    // TODO: This probably doesn't work with multiplayer
+    if (caller)
     {
-      if (caller)
+      EndSequence* sequence = caller->get_parent()->try_get_singleton_by_type<EndSequence>();
+      if (!sequence)
       {
-        m_end_sequence->stop_tux(caller->get_id());
+        log_warning << "Final target reached without an active end sequence" << std::endl;
+        start_sequence(caller, SEQ_ENDSEQUENCE);
+        sequence = &caller->get_parent()->get_singleton_by_type<EndSequence>();
       }
-      else
+      sequence->stop_tux(caller->get_uid());
+    }
+    else
+    {
+      for (const auto& sector : m_level->get_sectors())
       {
-        for (const auto* player : m_currentsector->get_players())
-          m_end_sequence->stop_tux(player->get_id());
+        auto& sequence = sector->get_singleton_by_type<EndSequence>();
+        for (const Player* player : sector->get_players())
+          sequence.stop_tux(player->get_uid());
       }
     }
     return;
@@ -1161,40 +1196,59 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
   if (caller)
     caller->set_winning();
 
-  int remaining_players = get_current_sector().get_object_count<Player>([](const Player& p){
-    return p.is_active();
-  });
-
   // Abort if a sequence is already playing.
-  if (m_end_sequence && m_end_sequence->is_running())
+  const EndSequence* sequence = m_currentsector->try_get_singleton_by_type<EndSequence>();
+  if (sequence && sequence->is_running())
     return;
 
   // Set the sequence to prepare it.
-  if (!m_end_sequence) {
-    std::unique_ptr<EndSequence> end_sequence;
-    if (seq == SEQ_ENDSEQUENCE) {
-      end_sequence = std::make_unique<EndSequenceWalk>();
-    } else if (seq == SEQ_FIREWORKS) {
-      end_sequence = std::make_unique<EndSequenceFireworks>();
-    } else {
+  if (!sequence)
+  {
+    if (seq == SEQ_ENDSEQUENCE)
+    {
+      for (const auto& sector : m_level->get_sectors())
+      {
+        sector->add<EndSequenceWalk>();
+        sector->flush_game_objects();
+      }
+    }
+    else if (seq == SEQ_FIREWORKS)
+    {
+      for (const auto& sector : m_level->get_sectors())
+      {
+        sector->add<EndSequenceFireworks>();
+        sector->flush_game_objects();
+      }
+    }
+    else
+    {
       log_warning << "Unknown sequence '" << static_cast<int>(seq) << "'. Ignoring." << std::endl;
       return;
     }
-
-    m_end_sequence = static_cast<EndSequence*>(&m_currentsector->add_object(std::move(end_sequence)));
   }
 
   if (caller)
   {
     caller->set_ending_direction((caller->get_physic().get_velocity_x() < 0) ? -1 : 1);
-    caller->set_controller(m_end_sequence->get_controller(caller->get_id()));
+    caller->set_controller(caller->get_parent()->get_singleton_by_type<EndSequence>().get_controller(caller->get_uid()));
     caller->set_speedlimit(230); // MAX_WALK_XM
   }
 
-  // Don't play the prepared sequence if there are more players that are still playing.
-  if (remaining_players > 0)
+  bool has_remaining_players = false;
+  for (const Player* player : m_level->get_players())
   {
-    if (!m_endsequence_timer.started())
+    if (player->is_active())
+    {
+      has_remaining_players = true;
+      break;
+    }
+  }
+
+  // Don't play the prepared sequence if there are more players that are still playing.
+  if (has_remaining_players)
+  {
+    // Only start the forced end sequence timer if not in a network game.
+    if (!m_network_host && !m_endsequence_timer.started())
       m_endsequence_timer.start(10.f);
 
     return;
@@ -1219,23 +1273,25 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
 
   /* Slow down the game for end-sequence. */
   ScreenManager::current()->set_speed(0.5f);
-
-  m_end_sequence->start();
-
   SoundManager::current()->play_music("music/misc/leveldone.ogg", false);
-  for (auto* p : m_currentsector->get_players())
-  {
-    p->set_winning();
-    p->set_controller(m_end_sequence->get_controller(p->get_id()));
-    p->set_speedlimit(230); // MAX_WALK_XM.
-  }
 
-  // Stop all clocks.
-  for (LevelTime& lt : m_currentsector->get_objects_by_type<LevelTime>())
+  for (const auto& sector : m_level->get_sectors())
   {
-    lt.stop();
+    auto& sector_sequence = sector->get_singleton_by_type<EndSequence>();
+    for (Player* player : sector->get_players())
+    {
+      player->set_winning();
+      player->set_controller(sector_sequence.get_controller(player->get_uid()));
+      player->set_speedlimit(230); // MAX_WALK_XM.
+    }
+    sector_sequence.start();
+
+    // Stop all clocks.
+    for (LevelTime& lt : sector->get_objects_by_type<LevelTime>())
+      lt.stop();
   }
 }
+
 void
 GameSession::set_target_timer_paused(bool paused)
 {
@@ -1254,9 +1310,9 @@ void
 GameSession::drawstatus(DrawingContext& context)
 {
   // Draw level stats while end_sequence is running.
-  if (m_end_sequence && m_end_sequence->is_running()) {
+  const EndSequence* sequence = m_currentsector->try_get_singleton_by_type<EndSequence>();
+  if (sequence && sequence->is_running())
     m_level->m_stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop, m_level->m_target_time);
-  }
 
   m_level->m_stats.draw_ingame_stats(context, m_game_pause);
 }

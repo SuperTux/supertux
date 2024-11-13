@@ -160,8 +160,6 @@ private:
 
   Sector* m_currentsector;
 
-  EndSequence* m_end_sequence;
-
   bool  m_game_pause;
   float m_speed_before_pause;
 

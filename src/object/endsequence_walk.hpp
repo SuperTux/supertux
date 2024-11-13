@@ -25,17 +25,22 @@ class EndSequenceWalk final : public EndSequence
 public:
   EndSequenceWalk();
   ~EndSequenceWalk() override;
+
   virtual GameObjectClasses get_class_types() const override { return EndSequence::get_class_types().add(typeid(EndSequenceWalk)); }
+
   virtual void draw(DrawingContext& context) override;
 
 protected:
   virtual void starting() override; /**< called when EndSequence starts */
   virtual void running(float dt_sec) override; /**< called while the EndSequence is running */
-  virtual void stopping() override; /**< called when EndSequence stops */
 
 private:
-  float last_x_pos;
+  std::unordered_map<UID, float> m_players_last_x_pos;
   Timer endsequence_timer;
+
+private:
+  EndSequenceWalk(const EndSequenceWalk&) = delete;
+  EndSequenceWalk& operator=(const EndSequenceWalk&) = delete;
 };
 
 #endif

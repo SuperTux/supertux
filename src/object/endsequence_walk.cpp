@@ -22,7 +22,7 @@
 
 EndSequenceWalk::EndSequenceWalk() :
   EndSequence(),
-  last_x_pos(),
+  m_players_last_x_pos(),
   endsequence_timer()
 {
 }
@@ -40,7 +40,6 @@ void
 EndSequenceWalk::starting()
 {
   EndSequence::starting();
-  last_x_pos = -1;
   endsequence_timer.start(7.3f * ScreenManager::current()->get_speed());
 }
 
@@ -51,23 +50,20 @@ EndSequenceWalk::running(float dt_sec)
 
   for (auto* player : get_parent_sector()->get_players())
   {
+    auto& player_data = m_players[player->get_uid()];
+
     int dir = player->get_ending_direction();
-    if (dir && !m_tux_is_stopped[player->get_id()]) {
-      get_code_controller(player->get_id())->press(dir > 0 ? Control::RIGHT : Control::LEFT);
-      if (int(last_x_pos) == int(player->get_pos().x)) {
-        get_code_controller(player->get_id())->press(Control::JUMP);
-      }
-      last_x_pos = player->get_pos().x;
+    if (dir && !player_data.is_stopped)
+    {
+      player_data.controller.press(dir > 0 ? Control::RIGHT : Control::LEFT);
+      if (m_players_last_x_pos[player->get_uid()] == player->get_pos().x)
+        player_data.controller.press(Control::JUMP);
+
+      m_players_last_x_pos[player->get_uid()] = player->get_pos().x;
     }
   }
 
   if (endsequence_timer.check()) m_is_done = true;
-}
-
-void
-EndSequenceWalk::stopping()
-{
-  EndSequence::stopping();
 }
 
 /* EOF */

@@ -50,16 +50,13 @@ EndSequenceFireworks::running(float dt_sec)
   EndSequence::running(dt_sec);
 
   for (const auto& player : get_parent_sector()->get_players())
-    if (!m_tux_is_stopped[player->get_id()])
-      get_code_controller(player->get_id())->press(Control::JUMP);
+  {
+    auto& player_data = m_players[player->get_uid()];
+    if (!player_data.is_stopped)
+      player_data.controller.press(Control::JUMP);
+  }
 
   if (endsequence_timer.check()) m_is_done = true;
-}
-
-void
-EndSequenceFireworks::stopping()
-{
-  EndSequence::stopping();
 }
 
 /* EOF */

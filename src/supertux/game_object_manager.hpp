@@ -212,6 +212,14 @@ public:
     assert(range.begin()->is_singleton());
     return *range.begin();
   }
+  template<class T>
+  T* try_get_singleton_by_type() const
+  {
+    const auto& range = get_objects_by_type<T>();
+    if (range.begin() == range.end() || !range.begin()->is_singleton())
+      return nullptr;
+    return range.begin().get();
+  }
 
   template<class T>
   T* get_object_by_uid(const UID& uid) const

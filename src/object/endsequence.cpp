@@ -19,11 +19,17 @@
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 
+EndSequence::PlayerData::PlayerData() :
+  is_stopped(false),
+  controller()
+{
+}
+
+
 EndSequence::EndSequence() :
   m_is_running(false),
   m_is_done(false),
-  m_tux_is_stopped(),
-  m_end_sequence_controllers()
+  m_players()
 {
 }
 
@@ -54,9 +60,9 @@ EndSequence::start()
 }
 
 void
-EndSequence::stop_tux(int player)
+EndSequence::stop_tux(const UID& player)
 {
-  m_tux_is_stopped[player] = true;
+  m_players[player].is_stopped = true;
 }
 
 void
@@ -75,9 +81,9 @@ EndSequence::is_running() const
 }
 
 bool
-EndSequence::is_tux_stopped(int player)
+EndSequence::is_tux_stopped(const UID& player)
 {
-  return m_tux_is_stopped[player];
+  return m_players[player].is_stopped;
 }
 
 bool
@@ -94,9 +100,9 @@ EndSequence::starting()
 void
 EndSequence::running(float /*dt_sec*/)
 {
-  for (auto& ctrl : m_end_sequence_controllers)
+  for (auto& [_, player] : m_players)
   {
-    ctrl.second->update();
+    player.controller.update();
   }
 }
 
@@ -106,20 +112,9 @@ EndSequence::stopping()
 }
 
 const Controller*
-EndSequence::get_controller(int player)
+EndSequence::get_controller(const UID& player)
 {
-  return get_code_controller(player);
-}
-
-CodeController*
-EndSequence::get_code_controller(int player)
-{
-  auto& ctrl = m_end_sequence_controllers[player];
-
-  if (!ctrl)
-    ctrl.reset(new CodeController());
-
-  return ctrl.get();
+  return &m_players[player].controller;
 }
 
 /* EOF */
