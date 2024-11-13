@@ -253,11 +253,11 @@ ScreenManager::draw_player_pos(DrawingContext& context)
     Sector& sector = session->get_current_sector();
 
     float height = 0;
-    for (const auto* p : sector.get_players())
+    for (const auto& p : sector.get_objects_by_type<Player>())
     {
-      if (p->get_remote_user()) continue;
+      if (p.get_remote_user()) continue;
 
-      auto pos = p->get_pos();
+      auto pos = p.get_pos();
       auto pos_text = "X:" + std::to_string(int(pos.x)) + " Y:" + std::to_string(int(pos.y));
 
       context.color().draw_text(

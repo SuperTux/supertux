@@ -35,10 +35,10 @@ CheatApplyMenu::CheatApplyMenu(std::function<void(Player&)> callback) :
   add_hl();
 
   add_entry(-1, _("All Players"));
-  for (const auto player : GameSession::current()->get_current_sector().get_players())
+  for (const auto& player : GameSession::current()->get_current_sector().get_objects_by_type<Player>())
   {
-    if (!player->get_remote_user())
-      add_entry(player->get_id(), fmt::format(_("Player {}"), player->get_id() + 1));
+    if (!player.get_remote_user())
+      add_entry(player.get_id(), fmt::format(_("Player {}"), player.get_id() + 1));
   }
 
   add_hl();
@@ -58,10 +58,10 @@ CheatApplyMenu::CheatApplyMenu(std::function<void(Player&, int)> callback) :
   add_intfield(_("Count"), &m_stack_count, -2);
   add_hl();
   add_entry(-1, _("All Players"));
-  for (const auto player : GameSession::current()->get_current_sector().get_players())
+  for (const auto& player : GameSession::current()->get_current_sector().get_objects_by_type<Player>())
   {
-    if (!player->get_remote_user())
-      add_entry(player->get_id(), fmt::format(_("Player {}"), player->get_id() + 1));
+    if (!player.get_remote_user())
+      add_entry(player.get_id(), fmt::format(_("Player {}"), player.get_id() + 1));
   }
 
   add_hl();
@@ -76,15 +76,15 @@ CheatApplyMenu::menu_action(MenuItem& item)
   if (id < -1)
     return;
 
-  for (const auto& player : GameSession::current()->get_current_sector().get_players())
+  for (auto& player : GameSession::current()->get_current_sector().get_objects_by_type<Player>())
   {
-    if (id == -1 || id == player->get_id())
+    if (id == -1 || id == player.get_id())
     {
       if (m_callback_2)
-        m_callback_2(*player, m_stack_count);
+        m_callback_2(player, m_stack_count);
 
       if (m_callback_1)
-        m_callback_1(*player);
+        m_callback_1(player);
     }
   }
 

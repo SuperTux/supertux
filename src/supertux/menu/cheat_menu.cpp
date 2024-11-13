@@ -41,10 +41,10 @@ CheatMenu::CheatMenu()
   if (GameSession::current())
   {
     std::vector<Player*> local_players;
-    for (Player* player : GameSession::current()->get_current_sector().get_players())
+    for (Player& player : GameSession::current()->get_current_sector().get_objects_by_type<Player>())
     {
-      if (!player->get_remote_user())
-        local_players.push_back(player);
+      if (!player.get_remote_user())
+        local_players.push_back(&player);
     }
 
     if (local_players.size() == 1)

@@ -451,7 +451,7 @@ Camera::update_earthquake()
 void
 Camera::update_scroll_normal(float dt_sec)
 {
-  Player& player = *d_sector->get_players()[0];
+  Player& player = *d_sector->get_objects_by_type<Player>().begin();
   // TODO: Co-op mode needs a good camera.
   const Vector player_pos(player.get_bbox().get_left(),
                           player.get_bbox().get_bottom());
@@ -570,24 +570,24 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
   float x2 = 0.f;
   float y2 = 0.f;
 
-  for (const auto* p : get_parent_sector()->get_players())
+  for (const auto& p : get_parent()->get_objects_by_type<Player>())
   {
-    if (!p->is_alive() || p->get_remote_user())
+    if (!p.is_alive() || p.get_remote_user())
       continue;
 
-    float lft = p->get_bbox().get_left() - HORIZONTAL_MARGIN;
-    float rgt = p->get_bbox().get_right() + HORIZONTAL_MARGIN;
-    float top = p->get_bbox().get_top() - VERTICAL_MARGIN;
-    float btm = p->get_bbox().get_bottom() + VERTICAL_MARGIN;
+    float lft = p.get_bbox().get_left() - HORIZONTAL_MARGIN;
+    float rgt = p.get_bbox().get_right() + HORIZONTAL_MARGIN;
+    float top = p.get_bbox().get_top() - VERTICAL_MARGIN;
+    float btm = p.get_bbox().get_bottom() + VERTICAL_MARGIN;
 
-    if (p->peeking_direction_x() == Direction::LEFT)
+    if (p.peeking_direction_x() == Direction::LEFT)
       lft -= PEEK_ADD_HORIZONTAL_MARGIN;
-    else if (p->peeking_direction_x() == Direction::RIGHT)
+    else if (p.peeking_direction_x() == Direction::RIGHT)
       rgt += PEEK_ADD_HORIZONTAL_MARGIN;
 
-    if (p->peeking_direction_y() == Direction::UP)
+    if (p.peeking_direction_y() == Direction::UP)
       top -= PEEK_ADD_VERTICAL_MARGIN;
-    else if (p->peeking_direction_y() == Direction::DOWN)
+    else if (p.peeking_direction_y() == Direction::DOWN)
       btm += PEEK_ADD_VERTICAL_MARGIN;
 
     x1 = std::min(x1, lft);

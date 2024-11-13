@@ -218,7 +218,6 @@ public:
   float get_gravity() const;
 
   Camera& get_camera() const;
-  std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
   TextObject& get_text_object() const { return m_text_object; }
 

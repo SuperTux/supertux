@@ -3009,27 +3009,25 @@ Player::ungrab_object(GameObject* gameobject)
 void
 Player::next_target()
 {
-  const auto& players = get_parent_sector()->get_players();
-
   Player* first = nullptr;
   bool is_next = false;
-  for (auto* player : players)
+  for (auto& player : get_parent()->get_objects_by_type<Player>())
   {
-    if (player->is_active())
+    if (player.is_active())
     {
       if (!first)
       {
-        first = player;
+        first = &player;
       }
 
       if (is_next)
       {
         m_target.reset(new UID());
-        *m_target = player->get_uid();
+        *m_target = player.get_uid();
         return;
       }
 
-      if (m_target && player->get_uid() == *m_target)
+      if (m_target && player.get_uid() == *m_target)
       {
         is_next = true;
       }
@@ -3050,20 +3048,18 @@ Player::next_target()
 void
 Player::prev_target()
 {
-  const auto& players = get_parent_sector()->get_players();
-
   Player* last = nullptr;
-  for (auto* player : players)
+  for (auto& player : get_parent()->get_objects_by_type<Player>())
   {
-    if (player->is_active())
+    if (player.is_active())
     {
-      if (m_target && player->get_uid() == *m_target && last)
+      if (m_target && player.get_uid() == *m_target && last)
       {
         *m_target = last->get_uid();
         return;
       }
 
-      last = player;
+      last = &player;
     }
   }
 
@@ -3081,14 +3077,13 @@ Player::prev_target()
 void
 Player::set_target(const GameServerUser* target_user, int target_id)
 {
-  const auto& players = get_parent_sector()->get_players();
-  for (auto* player : players)
+  for (auto& player : get_parent()->get_objects_by_type<Player>())
   {
-    if (player->get_remote_user() == target_user &&
-        player->get_id() == target_id)
+    if (player.get_remote_user() == target_user &&
+        player.get_id() == target_id)
     {
       m_target.reset(new UID());
-      *m_target = player->get_uid();
+      *m_target = player.get_uid();
       break;
     }
   }

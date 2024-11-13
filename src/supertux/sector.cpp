@@ -889,16 +889,6 @@ Sector::get_camera() const
   return get_singleton_by_type<Camera>();
 }
 
-std::vector<Player*>
-Sector::get_players() const
-{
-  std::vector<Player*> players;
-  for (auto& player : get_objects_by_type<Player>())
-    players.push_back(&player);
-
-  return players;
-}
-
 DisplayEffect&
 Sector::get_effect() const
 {

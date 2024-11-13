@@ -39,7 +39,7 @@ FlipLevelTransformer::transform_sector(Sector& sector)
     object->on_flip(height);
   }
 
-  sector.get_camera().reset(sector.get_players()[0]->get_pos());
+  sector.get_camera().reset(sector.get_objects_by_type<Player>().begin()->get_pos());
 }
 
 void

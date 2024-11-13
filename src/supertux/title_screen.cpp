@@ -205,7 +205,7 @@ TitleScreen::update_level(float dt_sec)
   using RaycastResult = CollisionSystem::RaycastResult;
 
   Sector& sector = m_titlesession->get_current_sector();
-  Player& player = *(sector.get_players()[0]);
+  Player& player = *sector.get_objects_by_type<Player>().begin();
 
   // Restart level if Tux is dying
   if (player.is_dying())

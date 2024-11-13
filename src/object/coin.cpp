@@ -225,7 +225,7 @@ Coin::collect()
   soundSource->play();
   SoundManager::current()->manage_source(std::move(soundSource));
 
-  get_parent_sector()->get_players()[0]->get_status().general_status.add_coins(1, false);
+  get_parent()->get_objects_by_type<Player>().begin()->get_status().general_status.add_coins(1, false);
   get_parent()->add<BouncyCoin>(get_pos(), false, get_sprite_name());
   if (m_count_stats && !m_parent_dispenser)
     get_parent_sector()->get_level().m_stats.increment_coins();

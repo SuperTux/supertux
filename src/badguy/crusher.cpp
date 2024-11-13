@@ -500,9 +500,9 @@ Crusher::get_settings()
 bool
 Crusher::found_victim() const
 {
-  for (auto* player : get_parent_sector()->get_players())
+  for (auto& player : get_parent()->get_objects_by_type<Player>())
   {
-    const Rectf& player_bbox = player->get_bbox();
+    const Rectf& player_bbox = player.get_bbox();
 
     Rectf crush_area = get_bbox().grown(-1.f);
     if (!m_sideways)

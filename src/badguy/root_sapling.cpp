@@ -131,7 +131,7 @@ RootSapling::get_allowed_directions() const
 void
 RootSapling::summon_root()
 {
-  for (Player* player : get_parent_sector()->get_players())
+  for (Player& player : get_parent()->get_objects_by_type<Player>())
   {
     Vector pos;
     float* axis = nullptr;
@@ -139,22 +139,22 @@ RootSapling::summon_root()
     {
       case Direction::UP:
       case Direction::DOWN:
-        pos.x = player->get_bbox().get_middle().x;
+        pos.x = player.get_bbox().get_middle().x;
         axis = &pos.y;
         break;
 
       case Direction::LEFT:
       case Direction::RIGHT:
-        pos.y = player->get_bbox().get_middle().y;
+        pos.y = player.get_bbox().get_middle().y;
         axis = &pos.x;
         break;
 
       default: assert(false); break;
     }
 
-    if (player->on_ground() && m_dir == Direction::UP)
+    if (player.on_ground() && m_dir == Direction::UP)
     {
-      (*axis) = player->get_bbox().get_bottom() + 1;
+      (*axis) = player.get_bbox().get_bottom() + 1;
 
       bool should_summon = false;
       for (TileMap* tilemap : get_parent_sector()->get_solid_tilemaps())
@@ -176,22 +176,22 @@ RootSapling::summon_root()
       switch (m_dir)
       {
         case Direction::UP:
-          eye = { player->get_bbox().get_middle().x, player->get_bbox().get_bottom() + 1 };
+          eye = { player.get_bbox().get_middle().x, player.get_bbox().get_bottom() + 1 };
           end = { eye.x, eye.y + ROOT_SAPLING_RANGE };
           break;
 
         case Direction::DOWN:
-          eye = { player->get_bbox().get_middle().x, player->get_bbox().get_top() - 1 };
+          eye = { player.get_bbox().get_middle().x, player.get_bbox().get_top() - 1 };
           end = { eye.x, eye.y - ROOT_SAPLING_RANGE };
           break;
 
         case Direction::LEFT:
-          eye = { player->get_bbox().get_right() + 1, player->get_bbox().get_middle().y };
+          eye = { player.get_bbox().get_right() + 1, player.get_bbox().get_middle().y };
           end = { eye.x + ROOT_SAPLING_RANGE, eye.y };
           break;
 
         case Direction::RIGHT:
-          eye = { player->get_bbox().get_left() - 1, player->get_bbox().get_middle().y };
+          eye = { player.get_bbox().get_left() - 1, player.get_bbox().get_middle().y };
           end = { eye.x - ROOT_SAPLING_RANGE, eye.y };
           break;
 

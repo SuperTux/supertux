@@ -76,23 +76,24 @@ LevelTime::update(float dt_sec)
     if (GameSession::current())
       GameSession::current()->clear_respawn_points();
 
-    if (time_left <= -5 || !get_parent_sector()->get_players()[0]->get_coins())
+    auto players = get_parent()->get_objects_by_type<Player>();
+    if (time_left <= -5 || !players.begin()->get_coins())
     {
-      for (auto& p : get_parent_sector()->get_players())
+      for (auto& p : players)
       {
-        p->kill(true);
+        p.kill(true);
       }
       stop();
     }
 
     if (prev_time != static_cast<int>(floorf(time_left*5)))
     {
-      for (auto& p : get_parent_sector()->get_players())
+      for (auto& p : players)
       {
-        if (!p->is_active())
+        if (!p.is_active())
           continue;
 
-        p->add_coins(-1);
+        p.add_coins(-1);
         // FIXME: Find a cleaner way to handle this
         //        (Remove only one coin per second, not per player per second)
         break;

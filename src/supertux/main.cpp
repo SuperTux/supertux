@@ -634,8 +634,8 @@ Main::launch_game(const CommandLineArguments& args)
 
         if (g_config->tux_spawn_pos)
         {
-          // FIXME: Specify start pos for multiple players
-          session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
+          // TODO: FIXME: Specify start pos for multiple players
+          session->get_current_sector().get_objects_by_type<Player>().begin()->set_pos(*g_config->tux_spawn_pos);
         }
 
         m_screen_manager->push_screen(std::move(session));

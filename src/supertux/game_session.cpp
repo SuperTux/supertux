@@ -342,8 +342,8 @@ GameSession::reset_level()
 {
   m_savegame.get_player_status().restore_state();
 
-  for (const auto& p : m_currentsector->get_players())
-    p->set_bonus(p->get_status().bonus);
+  for (auto& p : m_currentsector->get_objects_by_type<Player>())
+    p.set_bonus(p.get_status().bonus);
 
   clear_respawn_points();
   m_activated_checkpoint = nullptr;
@@ -363,7 +363,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   {
     try
     {
-      for (const auto& p : m_currentsector->get_players())
+      for (const auto& p : m_currentsector->get_objects_by_type<Player>())
       {
         p->set_bonus(m_boni_at_start.at(p->get_id()), false, false);
         m_boni_at_start[p->get_id()] = currentStatus.bonus[p->get_id()];
@@ -581,11 +581,11 @@ GameSession::get_fade_point(const Vector& position) const
       Vector average_position(0.0f, 0.0f);
       size_t alive_players = 0U;
 
-      for (const auto* player : m_currentsector->get_players())
+      for (const auto& player : m_currentsector->get_objects_by_type<Player>())
       {
-        if (player->is_alive())
+        if (player.is_alive())
         {
-          average_position += player->get_bbox().get_middle();
+          average_position += player.get_bbox().get_middle();
           alive_players++;
         }
       }
@@ -635,8 +635,8 @@ GameSession::abort_level()
 
   m_savegame.get_player_status().restore_state();
 
-  for (const auto& p : m_currentsector->get_players())
-    p->set_bonus(p->get_status().bonus);
+  for (auto& p : m_currentsector->get_objects_by_type<Player>())
+    p.set_bonus(p.get_status().bonus);
 
   SoundManager::current()->stop_sounds();
 }
@@ -657,14 +657,16 @@ GameSession::is_active() const
 void
 GameSession::check_end_conditions()
 {
+  auto players = m_currentsector->get_objects_by_type<Player>();
+
   bool all_dead = true;
-  for (const auto* p : m_currentsector->get_players())
-    if (!(all_dead &= p->is_dead()))
+  for (const auto& p : players)
+    if (!(all_dead &= p.is_dead()))
       break;
 
   bool all_dead_or_winning = true;
-  for (const auto* p : m_currentsector->get_players())
-    if (!(all_dead_or_winning &= (!p->is_active())))
+  for (const auto& p : players)
+    if (!(all_dead_or_winning &= (!p.is_active())))
       break;
 
   /* End of level? */
@@ -714,7 +716,7 @@ GameSession::setup()
 {
   assert(m_currentsector);
 
-  m_currentsector->spawn_players(m_currentsector->get_players()[0]->get_pos(), nullptr, true);
+  m_currentsector->spawn_players(m_currentsector->get_objects_by_type<Player>().begin()->get_pos(), nullptr, true);
   m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
 
   for (const auto& sector : m_level->get_sectors())
@@ -970,10 +972,10 @@ GameSession::update(float dt_sec, const Controller& controller)
   bool invincible_timer_started = false;
   float max_invincible_timer_left = 0.f;
 
-  for (const auto* p : m_currentsector->get_players())
+  for (const auto& p : m_currentsector->get_objects_by_type<Player>())
   {
-    invincible_timer_started |= (p->m_invincible_timer.started() && !p->is_winning());
-    max_invincible_timer_left = std::max(max_invincible_timer_left, p->m_invincible_timer.get_timeleft());
+    invincible_timer_started |= (p.m_invincible_timer.started() && !p.is_winning());
+    max_invincible_timer_left = std::max(max_invincible_timer_left, p.m_invincible_timer.get_timeleft());
   }
 
   auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
@@ -993,8 +995,8 @@ GameSession::update(float dt_sec, const Controller& controller)
     reset_level();
     restart_level();
   } else if(reset_checkpoint_button) { // TODO: Remote player/multi-sector support
-    for (auto* p : m_currentsector->get_players())
-      p->kill(true);
+    for (auto& p : m_currentsector->get_objects_by_type<Player>())
+      p.kill(true);
   }
 }
 
@@ -1186,8 +1188,8 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
       for (const auto& sector : m_level->get_sectors())
       {
         auto& sequence = sector->get_singleton_by_type<EndSequence>();
-        for (const Player* player : sector->get_players())
-          sequence.stop_tux(player->get_uid());
+        for (const Player& player : sector->get_objects_by_type<Player>())
+          sequence.stop_tux(player.get_uid());
       }
     }
     return;
@@ -1278,11 +1280,11 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
   for (const auto& sector : m_level->get_sectors())
   {
     auto& sector_sequence = sector->get_singleton_by_type<EndSequence>();
-    for (Player* player : sector->get_players())
+    for (Player& player : sector->get_objects_by_type<Player>())
     {
-      player->set_winning();
-      player->set_controller(sector_sequence.get_controller(player->get_uid()));
-      player->set_speedlimit(230); // MAX_WALK_XM.
+      player.set_winning();
+      player.set_controller(sector_sequence.get_controller(player.get_uid()));
+      player.set_speedlimit(230); // MAX_WALK_XM.
     }
     sector_sequence.start();
 

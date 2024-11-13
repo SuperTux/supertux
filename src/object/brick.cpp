@@ -131,8 +131,7 @@ Brick::try_break(Player* player, bool slider)
   if (m_coin_counter > 0 ) {
     get_parent()->add<BouncyCoin>(get_pos(), true);
     m_coin_counter--;
-    Player& player_one = *get_parent_sector()->get_players()[0];
-    player_one.get_status().general_status.add_coins(1);
+    get_parent()->get_objects_by_type<Player>().begin()->get_status().general_status.add_coins(1);
     if (m_coin_counter == 0)
       set_action("empty");
     start_bounce(player);

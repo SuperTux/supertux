@@ -49,9 +49,9 @@ EndSequenceFireworks::running(float dt_sec)
 {
   EndSequence::running(dt_sec);
 
-  for (const auto& player : get_parent_sector()->get_players())
+  for (const auto& player : get_parent()->get_objects_by_type<Player>())
   {
-    auto& player_data = m_players[player->get_uid()];
+    auto& player_data = m_players[player.get_uid()];
     if (!player_data.is_stopped)
       player_data.controller.press(Control::JUMP);
   }
