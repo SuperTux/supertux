@@ -32,7 +32,6 @@ const float GLOBAL_SPEED_MULT = 0.8f; /**< The overall movement speed/rate. */
 FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite"),
   total_time_elapsed(),
-  prev_height(0.f),
   puff_timer()
 {
   m_physic.enable_gravity(false);
