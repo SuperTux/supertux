@@ -861,7 +861,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       sector = m_level->get_sector(m_spawnpoints.at(0).sector); // Assign start sector.
     }
 
-    const bool sector_has_players = sector->get_object_count<Player>() > 0;
+    const bool sector_has_players = sector->has_object<Player>();
     sector->spawn_players(request.spawnpoint, request.user, request.all_users);
     if (!sector_has_players)
       sector->run_init_script();
@@ -934,7 +934,7 @@ GameSession::update(float dt_sec, const Controller& controller)
 
       for (const auto& sector : m_level->get_sectors())
       {
-        if (sector->get_object_count<Player>() > 0)
+        if (sector->has_object<Player>())
           sector->update(dt_sec);
       }
     }
@@ -959,7 +959,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       {
         for (const auto& sector : m_level->get_sectors())
         {
-          if (sector->get_object_count<Player>() > 0)
+          if (sector->has_object<Player>())
             sector->update(dt_sec);
         }
       }

@@ -62,11 +62,7 @@ LevelTime::update(float dt_sec)
 {
   if (!running) return;
 
-  int players_alive = get_parent() ? get_parent()->get_object_count<Player>([](const Player& p) {
-    return p.is_active();
-  }) : 0;
-
-  if (!players_alive)
+  if (!get_parent() || !get_parent()->has_object<Player>([](const Player& p) { return p.is_active(); }))
     return;
 
   int prev_time = static_cast<int>(floorf(time_left*5));

@@ -274,6 +274,18 @@ public:
     }
   }
 
+  /** Check if a GameObject of given type exists */
+  template<class T>
+  bool has_object(std::function<bool(const T&)> predicate = nullptr) const
+  {
+    for (auto& obj : get_objects_by_type<T>())
+    {
+      if (!predicate || predicate(obj))
+        return true;
+    }
+    return false;
+  }
+
   /** Get total number of GameObjects of given type */
   template<class T>
   int get_object_count(std::function<bool(const T&)> predicate = nullptr) const
@@ -281,7 +293,7 @@ public:
     int total = 0;
     for (auto& obj : get_objects_by_type<T>())
     {
-      if (predicate == nullptr || predicate(obj))
+      if (!predicate || predicate(obj))
         total += 1;
     }
     return total;

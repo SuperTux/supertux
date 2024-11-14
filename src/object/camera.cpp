@@ -636,7 +636,7 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
 void
 Camera::update_scroll_autoscroll(float dt_sec)
 {
-  if (!get_parent()->get_object_count<Player>([](const Player& p) { return p.is_alive(); }))
+  if (!get_parent()->has_object<Player>([](const Player& p) { return p.is_alive(); }))
     return;
 
   get_walker()->update(dt_sec);
@@ -717,7 +717,7 @@ Camera::update_scale(float dt_sec)
     return;
 
   // FIXME: Poor design: This shouldn't pose a problem to multiplayer.
-  if (m_mode == Mode::NORMAL && get_parent()->get_object_count<Player>() > 1)
+  if (m_mode == Mode::NORMAL && get_parent()->get_object_count<Player>([](const Player& p) { return !p.get_remote_user(); }) > 1)
     return;
 
   Vector screen_size = m_screen_size.as_vector();

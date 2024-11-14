@@ -220,7 +220,7 @@ WorldMapState::load_tilemap_visibility(const ssq::Table& table)
 void
 WorldMapState::load_sprite_change_objects(const ssq::Table& table)
 {
-  if (m_worldmap.get_sector().get_object_count<SpriteChange>() <= 0) return;
+  if (!m_worldmap.get_sector().has_object<SpriteChange>()) return;
 
   const ssq::Table sprite_changes = table.findTable("sprite-changes");
   for (auto& sc : m_worldmap.get_sector().get_objects_by_type<SpriteChange>())
@@ -300,7 +300,7 @@ WorldMapState::save_state() const
     }
 
     /** Save sprite change objects **/
-    if (m_worldmap.get_sector().get_object_count<SpriteChange>() > 0)
+    if (m_worldmap.get_sector().has_object<SpriteChange>())
     {
       ssq::Table sprite_changes = sector_table.addTable("sprite-changes");
       for (const auto& sc : m_worldmap.get_sector().get_objects_by_type<SpriteChange>())

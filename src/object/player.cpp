@@ -430,7 +430,7 @@ Player::update(float dt_sec)
   }
 
   // Skip if in multiplayer respawn
-  if (is_dead() && m_target && get_parent_sector()->get_object_count<Player>([this](const Player& p) { return p.is_active() && &p != this; }))
+  if (is_dead() && m_target && get_parent_sector()->has_object<Player>([this](const Player& p) { return p.is_active() && &p != this; }))
   {
     auto* target = get_parent_sector()->get_object_by_uid<Player>(*m_target);
     if (!target || !target->is_active())
@@ -627,7 +627,7 @@ Player::update(float dt_sec)
     set_bonus(NO_BONUS, true);
     m_dead = true;
 
-    if (!get_parent_sector()->get_object_count<Player>([](const Player& p) { return p.is_alive(); }))
+    if (!get_parent_sector()->has_object<Player>([](const Player& p) { return p.is_alive(); }))
     {
       get_parent_sector()->stop_looping_sounds();
     }
@@ -2075,7 +2075,7 @@ Player::draw(DrawingContext& context)
   if(Editor::is_active())
     return;
 
-  if (is_dead() && m_target && get_parent_sector()->get_object_count<Player>([this](const Player& p){ return p.is_active() && &p != this; }))
+  if (is_dead() && m_target && get_parent_sector()->has_object<Player>([this](const Player& p){ return p.is_active() && &p != this; }))
   {
     auto* target = get_parent_sector()->get_object_by_uid<Player>(*m_target);
     if (target)
@@ -2568,9 +2568,7 @@ Player::kill(bool completely)
     m_dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
 
-    auto alive_players = get_parent_sector()->get_object_count<Player>([](const Player& p){ return p.is_alive(); });
-
-    if (!alive_players)
+    if (!get_parent_sector()->has_object<Player>([](const Player& p){ return p.is_alive(); }))
     {
       if (m_player_status.general_status.respawns_at_checkpoint())
       {
