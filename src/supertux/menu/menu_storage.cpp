@@ -34,7 +34,6 @@
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
-#include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/integrations_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
@@ -112,9 +111,6 @@ MenuStorage::create(MenuId menu_id)
 
     case WORLDMAP_LEVEL_SELECT_MENU:
       return std::make_unique<WorldmapLevelSelectMenu>();
-
-    case GAME_MENU:
-      return std::make_unique<GameMenu>();
 
     case CHEAT_MENU:
       return std::make_unique<CheatMenu>();

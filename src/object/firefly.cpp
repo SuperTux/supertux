@@ -81,7 +81,7 @@ Firefly::update(float dt_sec)
 void
 Firefly::update_state()
 {
-  if (!GameSession::current()) return;
+  if (!get_parent_sector() || !GameSession::current()) return;
 
   auto* active_checkpoint_spawnpoint = GameSession::current()->get_active_checkpoint_spawnpoint();
   if (active_checkpoint_spawnpoint &&

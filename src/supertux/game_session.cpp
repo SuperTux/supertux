@@ -42,6 +42,7 @@
 #include "supertux/level_parser.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/levelset_screen.hpp"
+#include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
@@ -152,7 +153,8 @@ GameSession::GameSession(const std::string& levelfile, Savegame& savegame, Stati
   m_currentsector(nullptr),
   m_game_pause(false),
   m_speed_before_pause(ScreenManager::current()->get_speed()),
-  m_levelfile(levelfile),
+  m_levelfile(host && !host->is_server() ? "" : levelfile),
+  m_levelfile_contents(host && !host->is_server() ? levelfile : ""),
   m_network_host(host),
   m_spawnpoints(),
   m_activated_checkpoint(),
@@ -382,26 +384,32 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 
   m_currentsector = nullptr;
 
-  if (!(m_network_host && !m_network_host->is_server()))
+  if (!m_levelfile.empty())
   {
     const std::string base_dir = FileSystem::dirname(m_levelfile);
-    if (base_dir == "./") {
+    if (base_dir == "./")
       m_levelfile = FileSystem::basename(m_levelfile);
-    }
   }
 
-  try {
-    if (m_network_host && !m_network_host->is_server())
+  try
+  {
+    bool initial_level_load = false;
+    if (m_levelfile_contents.empty())
     {
-      std::istringstream level_stream(m_levelfile);
+      initial_level_load = true;
+      m_level = LevelParser::from_file(m_levelfile, false, false);
 
-      GameObject::s_read_uid = true;
-      m_level = LevelParser::from_stream(level_stream, "remote-level", false, false);
-      GameObject::s_read_uid = false;
+      GameObject::s_save_uid = true;
+      m_levelfile_contents = m_level->save();
+      GameObject::s_save_uid = false;
     }
     else
     {
-      m_level = LevelParser::from_file(m_levelfile, false, false);
+      std::istringstream level_stream(m_levelfile_contents);
+
+      GameObject::s_read_uid = true;
+      m_level = LevelParser::from_stream(level_stream, "levelfile-contents", false, false);
+      GameObject::s_read_uid = false;
     }
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
@@ -455,26 +463,24 @@ GameSession::restart_level(bool after_death, bool preserve_music)
       m_currentsector->spawn_players(spawnpoint->spawnpoint);
 
     m_currentsector->run_init_script();
+
+    if (initial_level_load && m_network_host && m_network_host->is_server())
+    {
+      // Request all clients to start a GameSession with this level to join the game.
+      network::StagedPacket packet(GameNetworkProtocol::OP_GAME_JOIN,
+        {
+          m_savegame.get_player_status().write(false),
+          m_levelfile_contents,
+          spawnpoint->serialize()
+        });
+      m_network_host->broadcast_packet(packet, true);
+    }
   }
-  catch (std::exception& e) {
+  catch (const std::exception& e)
+  {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
     ScreenManager::current()->pop_screen();
     return (-1);
-  }
-
-  if (m_network_host && m_network_host->is_server())
-  {
-    // Request all clients to start a GameSession with this level to join the game.
-    GameObject::s_save_uid = true;
-    network::StagedPacket packet(GameNetworkProtocol::OP_GAME_JOIN,
-      {
-        m_savegame.get_player_status().write(false),
-        m_level->save(),
-        m_spawnpoints.front().serialize()
-      });
-    GameObject::s_save_uid = false;
-
-    m_network_host->broadcast_packet(packet, true);
   }
 
   if (m_levelintro_shown)
@@ -522,7 +528,7 @@ GameSession::on_escape_press(bool force_quick_respawn)
   }
 
   EndSequence* sequence = m_currentsector->try_get_singleton_by_type<EndSequence>();
-  if ((!has_alive_players && (m_play_time > 2.0f || force_quick_respawn)) || sequence)
+  if (!m_network_host && (sequence || (!has_alive_players && (m_play_time > 2.0f || force_quick_respawn))))
   {
     // Let the timers run out, we fast-forward them to force past a sequence.
     if (sequence)
@@ -613,7 +619,7 @@ GameSession::toggle_pause()
   if (!m_game_pause && !MenuManager::instance().is_active())
   {
     m_speed_before_pause = ScreenManager::current()->get_speed();
-    MenuManager::instance().set_menu(MenuStorage::GAME_MENU);
+    MenuManager::instance().set_menu(std::make_unique<GameMenu>(!m_network_host || m_network_host->is_server()));
     if (!m_network_host)
     {
       ScreenManager::current()->set_speed(0);
@@ -657,16 +663,16 @@ GameSession::is_active() const
 void
 GameSession::check_end_conditions()
 {
-  auto players = m_currentsector->get_objects_by_type<Player>();
+  auto players = m_level->get_players();
 
   bool all_dead = true;
-  for (const auto& p : players)
-    if (!(all_dead &= p.is_dead()))
+  for (const auto* p : players)
+    if (!(all_dead &= p->is_dead()))
       break;
 
   bool all_dead_or_winning = true;
-  for (const auto& p : players)
-    if (!(all_dead_or_winning &= (!p.is_active())))
+  for (const auto* p : players)
+    if (!(all_dead_or_winning &= !p->is_active()))
       break;
 
   /* End of level? */
@@ -756,6 +762,13 @@ GameSession::setup()
 void
 GameSession::leave()
 {
+  if (m_network_host && m_network_host->is_server())
+  {
+    // Notify clients to leave the level.
+    network::StagedPacket packet(GameNetworkProtocol::OP_GAME_LEAVE, "");
+    m_network_host->broadcast_packet(packet, true);
+  }
+
   for (const auto& sector : m_level->get_sectors())
     sector->unexpose();
 
@@ -990,13 +1003,33 @@ GameSession::update(float dt_sec, const Controller& controller)
   } else if (music_object.get_music_type() != LEVEL_MUSIC) {
     music_object.play_music(LEVEL_MUSIC);
   }
-  if (reset_button) {
+
+  /* Handle level restart */
+  if (reset_button)
+  {
     reset_button = false;
+
+    if (m_network_host && m_network_host->is_server())
+    {
+      network::StagedPacket packet(GameNetworkProtocol::OP_GAME_RESTART, "");
+      m_network_host->broadcast_packet(packet, true);
+    }
+
     reset_level();
     restart_level();
-  } else if(reset_checkpoint_button) { // TODO: Remote player/multi-sector support
-    for (auto& p : m_currentsector->get_objects_by_type<Player>())
-      p.kill(true);
+  }
+  else if (reset_checkpoint_button)
+  {
+    reset_checkpoint_button = false;
+
+    if (m_network_host && m_network_host->is_server())
+    {
+      network::StagedPacket packet(GameNetworkProtocol::OP_GAME_RESTART_CHECKPOINT, "");
+      m_network_host->broadcast_packet(packet, true);
+    }
+
+    for (auto* p : m_level->get_players())
+      p->kill(true);
   }
 }
 

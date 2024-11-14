@@ -143,7 +143,10 @@ GameNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) con
   {
     case OP_GAME_JOIN:
     case OP_GAME_START:
-      return CH_GAME_JOIN_REQUESTS;
+    case OP_GAME_RESTART:
+    case OP_GAME_RESTART_CHECKPOINT:
+    case OP_GAME_LEAVE:
+      return CH_GAME_UPDATES;
 
     case OP_PLAYER_ADD:
     case OP_PLAYER_REMOVE:
@@ -180,16 +183,41 @@ GameNetworkProtocol::on_user_packet_receive(const network::ReceivedPacket& packe
       );
       break;
     }
-
     case OP_GAME_START:
     {
       if (m_host.is_server())
         throw std::runtime_error("Cannot process game start from \"" + user.username + "\": This host is a server.");
 
-      if (!m_network_game_session || !ScreenManager::current()->get_top_screen<LevelIntro>())
-        throw std::runtime_error("Invalid game start packet received.");
+      if (!GameSession::current() || !ScreenManager::current()->get_top_screen<LevelIntro>())
+        throw std::runtime_error("Cannot process game start from server: No active GameSession or LevelIntro.");
 
       LevelIntro::quit();
+      break;
+    }
+    case OP_GAME_RESTART:
+    case OP_GAME_RESTART_CHECKPOINT:
+    {
+      if (m_host.is_server())
+        throw std::runtime_error("Cannot process game restart from \"" + user.username + "\": This host is a server.");
+
+      if (!GameSession::current())
+        throw std::runtime_error("Cannot process game restart from server: No active GameSession.");
+
+      if (packet.code == OP_GAME_RESTART)
+        GameSession::current()->reset_button = true;
+      else
+        GameSession::current()->reset_checkpoint_button = true;
+      break;
+    }
+    case OP_GAME_LEAVE:
+    {
+      if (m_host.is_server())
+        throw std::runtime_error("Cannot process game leave from \"" + user.username + "\": This host is a server.");
+
+      if (!ScreenManager::current()->get_top_screen<GameSession>())
+        throw std::runtime_error("Cannot process game leave from server: No active GameSession.");
+
+      ScreenManager::current()->pop_screen();
       break;
     }
 

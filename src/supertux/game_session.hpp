@@ -164,6 +164,7 @@ private:
   float m_speed_before_pause;
 
   std::string m_levelfile;
+  std::string m_levelfile_contents;
 
   network::Host* m_network_host;
 

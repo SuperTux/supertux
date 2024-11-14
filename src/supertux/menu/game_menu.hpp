@@ -32,7 +32,7 @@ private:
   std::function<void ()> abort_callback;
 
 public:
-  GameMenu();
+  GameMenu(bool allow_restart);
 
   void menu_action(MenuItem& item) override;
 

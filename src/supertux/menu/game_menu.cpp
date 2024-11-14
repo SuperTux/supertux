@@ -28,7 +28,7 @@
 #include "object/player.hpp"
 #include "util/gettext.hpp"
 
-GameMenu::GameMenu() :
+GameMenu::GameMenu(bool allow_restart) :
   reset_callback ( [] {
     MenuManager::instance().clear_menu_stack();
     GameSession::current()->toggle_pause();
@@ -49,11 +49,13 @@ GameMenu::GameMenu() :
   add_label(level.m_name);
   add_hl();
   add_entry(MNID_CONTINUE, _("Continue"));
-  add_entry(MNID_RESETLEVEL, _("Restart Level"));
 
-  // TODO: Restart level remote player support
-  if (level.get_players()[0]->get_status().general_status.can_reach_checkpoint()) {
-    add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart from Checkpoint"));
+  if (allow_restart)
+  {
+    add_entry(MNID_RESETLEVEL, _("Restart Level"));
+
+    if (level.get_players()[0]->get_status().general_status.can_reach_checkpoint())
+      add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart from Checkpoint"));
   }
 
   add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
