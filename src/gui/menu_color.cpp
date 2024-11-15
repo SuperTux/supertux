@@ -16,7 +16,6 @@
 
 #include "gui/menu_color.hpp"
 #include "menu_item.hpp"
-#include "item_action.hpp"
 
 #include "util/gettext.hpp"
 
@@ -52,8 +51,7 @@ ColorMenu::menu_action(MenuItem& item)
   {
     clipboard.set_color(*color);
     MenuItem& menu_paste_item = get_item_by_id(2);
-    if (&menu_paste_item)
-      menu_paste_item.set_text_color(*color);
+    menu_paste_item.set_text_color(*color);
   }
   else if (item.get_id() == 2)
   {

@@ -24,7 +24,7 @@
 class ColorClipboard 
 {
 public:
-  ColorClipboard();
+  ColorClipboard() : m_color(std::make_unique<Color>(Color::WHITE)) {}
   ~ColorClipboard() = default;
 
   static ColorClipboard& instance();

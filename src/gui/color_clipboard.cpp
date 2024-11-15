@@ -16,11 +16,6 @@
 
 #include "color_clipboard.hpp"
 
-ColorClipboard::ColorClipboard()
-{
-  m_color = std::make_unique<Color>(Color::WHITE);
-}
-
 ColorClipboard&
 ColorClipboard::instance()
 {
