@@ -1182,13 +1182,17 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
   {
     alt_pressed = true;
   }
-  else if (sym == SDLK_0)
+  else if (sym == SDLK_0 || sym == SDLK_KP_0)
   {
     m_current_autotileset = 0;
   }
-  else if (sym > SDLK_0 && sym <= SDLK_9)
+  else if (sym >= SDLK_1 && sym <= SDLK_9)
   {
-    m_current_autotileset = static_cast<int>(sym - SDLK_0);
+    m_current_autotileset = static_cast<int>(sym - SDLK_1 + 1);
+  }
+  else if (sym >= SDLK_KP_1 && sym <= SDLK_KP_9)
+  {
+    m_current_autotileset = static_cast<int>(sym - SDLK_KP_1 + 1);
   }
   return true;
 }
