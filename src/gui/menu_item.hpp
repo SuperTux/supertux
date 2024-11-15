@@ -19,11 +19,12 @@
 #define HEADER_SUPERTUX_GUI_MENU_ITEM_HPP
 
 #include "gui/menu.hpp"
+#include <optional>
 
 class MenuItem
 {
 public:
-  MenuItem(const std::string& text, int id = -1);
+  MenuItem(const std::string& text, int id = -1, const std::optional<Color>& text_color = std::nullopt);
   virtual ~MenuItem();
 
   int get_id() const { return m_id; }
@@ -65,6 +66,7 @@ public:
   virtual void event(const SDL_Event& ev) { }
 
   virtual Color get_color() const;
+  virtual void set_text_color(const Color& color);
 
   /** Returns true when the MenuManager shouldn't do anything else. */
   virtual bool no_other_action() const {
@@ -86,6 +88,7 @@ private:
   std::string m_text;
   std::string m_help;
   FontPtr m_font;
+  std::optional<Color> m_text_color;
 
 private:
   MenuItem(const MenuItem&) = delete;

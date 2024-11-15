@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2024 bruhmoent
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,28 +14,28 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_COLOR_HPP
-#define HEADER_SUPERTUX_GUI_MENU_COLOR_HPP
-
-#include "gui/menu.hpp"
 #include "color_clipboard.hpp"
 
-class ColorMenu final : public Menu
+ColorClipboard::ColorClipboard()
 {
-public:
-  ColorMenu(Color* color_);
+  m_color = std::make_unique<Color>(Color::WHITE);
+}
 
-  void menu_action(MenuItem& item) override;
+ColorClipboard&
+ColorClipboard::instance()
+{
+  static ColorClipboard instance;
+  return instance;
+}
 
-private:
-  Color* color;
-  ColorClipboard& clipboard;
+void
+ColorClipboard::set_color(const Color& color)
+{
+  m_color = std::make_unique<Color>(color);
+}
 
-private:
-  ColorMenu(const ColorMenu&) = delete;
-  ColorMenu& operator=(const ColorMenu&) = delete;
-};
-
-#endif
-
-/* EOF */
+const
+Color* ColorClipboard::get_color() const
+{
+  return m_color.get();
+}

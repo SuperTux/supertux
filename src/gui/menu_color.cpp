@@ -15,11 +15,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gui/menu_color.hpp"
+#include "menu_item.hpp"
+#include "item_action.hpp"
 
 #include "util/gettext.hpp"
 
 ColorMenu::ColorMenu(Color* color_) :
-  color(color_)
+  color(color_),
+  clipboard(ColorClipboard::instance())
 {
   add_label(_("Mix the colour"));
   add_hl();
@@ -32,12 +35,32 @@ ColorMenu::ColorMenu(Color* color_) :
   add_color_display(color);
 
   add_hl();
+  add_item(std::make_unique<MenuItem>(_("Copy"), 1));
+  add_item(std::make_unique<MenuItem>(
+    _("Paste"),
+    2,
+    clipboard.get_color() ? std::make_optional(*clipboard.get_color()) : std::nullopt));
+
+  add_hl();
   add_back(_("OK"));
 }
 
 void
 ColorMenu::menu_action(MenuItem& item)
 {
+  if (item.get_id() == 1)
+  {
+    clipboard.set_color(*color);
+    MenuItem& menu_paste_item = get_item_by_id(2);
+    if (&menu_paste_item)
+      menu_paste_item.set_text_color(*color);
+  }
+  else if (item.get_id() == 2)
+  {
+    const Color* clipboard_color = clipboard.get_color();
+    if (clipboard_color)
+      *color = *clipboard_color;
+  }
 }
 
 /* EOF */
