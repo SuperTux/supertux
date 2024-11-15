@@ -27,6 +27,8 @@ const Color Color::MAGENTA(1.0, 0.0, 1.0);
 const Color Color::YELLOW(1.0, 1.0, 0.0);
 const Color Color::WHITE(1.0, 1.0, 1.0);
 
+std::unique_ptr<Color> Color::s_clipboard_color = nullptr;
+
 Color::Color() :
   red(0),
   green(0),

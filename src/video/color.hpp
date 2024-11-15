@@ -20,6 +20,7 @@
 #include <string>
 #include <vector>
 #include <math.h>
+#include <memory>
 
 #include <SDL_image.h>
 
@@ -64,6 +65,8 @@ public:
   static const Color MAGENTA;
   static const Color YELLOW;
   static const Color WHITE;
+
+  static std::unique_ptr<Color> s_clipboard_color;
 
 public:
   static Color from_rgb888(uint8_t r, uint8_t g, uint8_t b)

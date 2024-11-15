@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_GUI_MENU_COLOR_HPP
 
 #include "gui/menu.hpp"
-#include "color_clipboard.hpp"
 
 class ColorMenu final : public Menu
 {
@@ -29,11 +28,17 @@ public:
 
 private:
   Color* color;
-  ColorClipboard& clipboard;
 
 private:
   ColorMenu(const ColorMenu&) = delete;
   ColorMenu& operator=(const ColorMenu&) = delete;
+
+private:
+  enum MenuIDs
+  {
+    MNID_COPY = 1,
+    MNID_PASTE
+  };
 };
 
 #endif

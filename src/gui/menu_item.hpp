@@ -24,7 +24,7 @@
 class MenuItem
 {
 public:
-  MenuItem(const std::string& text, int id = -1, const std::optional<Color>& text_color = std::nullopt);
+  explicit MenuItem(const std::string& text, int id = -1, const std::optional<Color>& text_color = std::nullopt);
   virtual ~MenuItem();
 
   int get_id() const { return m_id; }
