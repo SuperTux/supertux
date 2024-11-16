@@ -23,6 +23,7 @@
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
 
@@ -58,10 +59,13 @@ ParticleEditorOpen::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_OPEN:
-      std::replace(m_filename.begin(), m_filename.end(), '\\', '/');
-      ParticleEditor::current()->open("/particles/" + m_filename);
+    {
+      m_filename = FileSystem::normalize(m_filename);
+      const auto& filepath = FileSystem::join("/particles/", m_filename);
+      ParticleEditor::current()->open(filepath);
       MenuManager::instance().clear_menu_stack();
-      break;
+    }
+    break;
 
     case MNID_CANCEL:
       MenuManager::instance().clear_menu_stack();
