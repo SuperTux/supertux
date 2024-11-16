@@ -73,6 +73,12 @@ public:
       position */
   int tile_data_at(const Vector& pos) const;
 
+  /**
+   * returns true if the specified position contains a valid path.
+   * @param pos Position to check
+   */
+  bool is_valid_path_at(const Vector& pos) const;
+
   size_t level_count() const;
   size_t solved_level_count() const;
 

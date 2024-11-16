@@ -337,19 +337,19 @@ WorldMapSector::update(float dt_sec)
     {
       /* Check level action */
       auto level_ = at_object<LevelTile>();
+      auto tux_pos = m_tux->get_tile_pos();
       if (!level_) {
-        //Respawn if player on a tile with no level and nowhere to go.
-        int tile_data = tile_data_at(m_tux->get_tile_pos());
-        if (!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
-          log_warning << "Player at illegal position " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << " respawning." << std::endl;
+        // Respawn if player on a tile with no level and nowhere to go.
+        if (!is_valid_path_at(tux_pos)) {
+          log_warning << "Player at illegal position " << tux_pos.x << ", " << tux_pos.y << " respawning." << std::endl;
           move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
           return;
         }
-        log_warning << "No level to enter at: " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << std::endl;
+        log_warning << "No level to enter at: " << tux_pos.x << ", " << tux_pos.y << std::endl;
         return;
       }
 
-      if (level_->get_tile_pos() == m_tux->get_tile_pos()) {
+      if (level_->get_tile_pos() == tux_pos) {
         try {
           Vector shrinkpos = Vector(level_->get_pos().x + 16 - m_camera->get_offset().x,
                                     level_->get_pos().y +  8 - m_camera->get_offset().y);
@@ -437,6 +437,13 @@ WorldMapSector::tile_data_at(const Vector& p) const
   return dirs;
 }
 
+bool
+WorldMapSector::is_valid_path_at(const Vector& p) const
+{
+  const auto tile_data = tile_data_at(p);
+  return tile_data & (Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH |
+                      Tile::WORLDMAP_WEST  | Tile::WORLDMAP_EAST); 
+}
 
 size_t
 WorldMapSector::level_count() const
