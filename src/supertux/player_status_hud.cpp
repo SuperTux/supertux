@@ -100,7 +100,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
   if (m_player_status.is_item_pocket_allowed())
   {
-    for (int i = 0; i < m_player_status.m_num_players; i++)
+    for (int i = 0; i < InputManager::current()->get_num_users(); i++)
     {
       float ypos = static_cast<float>(m_item_pocket_border->get_height() * i);
       Vector pos(BORDER_X, BORDER_Y + ypos);
