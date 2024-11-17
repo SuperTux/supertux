@@ -71,8 +71,6 @@ public:
   static const Color YELLOW;
   static const Color WHITE;
 
-  static std::unique_ptr<Color> s_clipboard_color;
-
 public:
   static Color from_rgb888(uint8_t r, uint8_t g, uint8_t b)
   {
@@ -89,49 +87,8 @@ public:
                  static_cast<float>(a) / 255.0f);
   }
 
-  static std::optional<Color> from_rgb_string(const std::string& rgb_string)
-  {
-    const std::regex rgb_format(R"(^\s*rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$)");
-    std::smatch matches;
-
-    if (std::regex_match(rgb_string, matches, rgb_format))
-    {
-      const int r = std::stoi(matches[1].str());
-      const int g = std::stoi(matches[2].str());
-      const int b = std::stoi(matches[3].str());
-
-      if (math::in_bounds(r, 0, 255) && math::in_bounds(g, 0, 255) && math::in_bounds(b, 0, 255))
-      {
-        return Color(static_cast<float>(r) / 255.0f,
-                     static_cast<float>(g) / 255.0f,
-                     static_cast<float>(b) / 255.0f,
-                     1.0f);
-      }
-    }
-    return std::nullopt;
-  }
-
-  static std::optional<Color> from_hex_string(const std::string& hex_string)
-  {
-    const std::regex hex_format(R"(^\s*#([A-Fa-f0-9]{6})\s*$)");
-    std::smatch matches;
-
-    if (std::regex_match(hex_string, matches, hex_format))
-    {
-      const std::string hex_value = matches[1].str();
-      unsigned int hex_color;
-      std::stringstream ss;
-      ss << std::hex << hex_value;
-      ss >> hex_color;
-
-      const float r = ((hex_color >> 16) & 0xFF) / 255.0f;
-      const float g = ((hex_color >> 8) & 0xFF) / 255.0f;
-      const float b = (hex_color & 0xFF) / 255.0f;
-
-      return Color(r, g, b, 1.0f);
-    }
-    return std::nullopt;
-  }
+  static std::optional<Color> from_rgb_string(const std::string& rgb_string);
+  static std::optional<Color> from_hex_string(const std::string& hex_string);
 
   static Color from_linear(float r, float g, float b, float a = 1.0f)
   {

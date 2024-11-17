@@ -35,9 +35,24 @@ ColorMenu::ColorMenu(Color* color_) :
   add_color_display(color);
 
   add_hl();
-  add_entry(MNID_COPY_CLIPBOARD, _("Copy from clipboard"));
-  if (Color::s_clipboard_color != nullptr)
-    add_entry(MNID_PASTE_CLIPBOARD, _("Paste from clipboard"), *Color::s_clipboard_color);
+  add_entry(MNID_COPY_CLIPBOARD, _("Copy to clipboard"));
+  if (SDL_HasClipboardText())
+  {
+    const char* clipboard_text = SDL_GetClipboardText();
+    std::optional<Color> new_color;
+
+    if (clipboard_text)
+    {
+      const std::string text(clipboard_text);
+      SDL_free(const_cast<char*>(clipboard_text));
+
+      new_color = Color::from_rgb_string(text);
+      if (!new_color)
+        new_color = Color::from_hex_string(text);
+    }
+
+    add_entry(MNID_PASTE_CLIPBOARD, _("Paste from clipboard"), new_color.value_or(Color(1.f, 1.f, 1.f)));
+  }
   else
     add_entry(MNID_PASTE_CLIPBOARD, _("Paste from clipboard"), Color(1.f, 1.f, 1.f));
 
@@ -52,20 +67,20 @@ ColorMenu::menu_action(MenuItem& item)
   {
     if (color)
     {
-      Color::s_clipboard_color = std::make_unique<Color>(*color);
-      MenuItem& menu_paste_item = get_item_by_id(MNID_PASTE_CLIPBOARD);
-      menu_paste_item.set_text_color(*color);
-
       std::stringstream ss;
-      ss << "rgb("
-         << static_cast<int>(color->red * 255.f) << ","
-         << static_cast<int>(color->green * 255.f) << ","
-         << static_cast<int>(color->blue * 255.f) << ")";
+      ss << "#"
+         << std::hex << std::setfill('0') << std::uppercase
+         << std::setw(2) << static_cast<int>(color->red * 255.f)
+         << std::setw(2) << static_cast<int>(color->green * 255.f)
+         << std::setw(2) << static_cast<int>(color->blue * 255.f);
 
       const std::string clipboard_text = ss.str();
 
       if (SDL_SetClipboardText(clipboard_text.c_str()) != 0)
         log_warning << "Failed to set SDL clipboard text: " << SDL_GetError() << std::endl;
+
+      MenuItem& menu_paste_item = get_item_by_id(MNID_PASTE_CLIPBOARD);
+      menu_paste_item.set_text_color(*color);
     }
   }
   else if (item.get_id() == MNID_PASTE_CLIPBOARD)
@@ -88,7 +103,6 @@ ColorMenu::menu_action(MenuItem& item)
       if (new_color)
       {
         *color = *new_color;
-        Color::s_clipboard_color = std::make_unique<Color>(*new_color);
         MenuItem& menu_paste_item = get_item_by_id(MNID_PASTE_CLIPBOARD);
         menu_paste_item.set_text_color(*new_color);
       }

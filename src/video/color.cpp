@@ -27,8 +27,6 @@ const Color Color::MAGENTA(1.0, 0.0, 1.0);
 const Color Color::YELLOW(1.0, 1.0, 0.0);
 const Color Color::WHITE(1.0, 1.0, 1.0);
 
-std::unique_ptr<Color> Color::s_clipboard_color = nullptr;
-
 Color::Color() :
   red(0),
   green(0),
@@ -116,6 +114,52 @@ Color::toVector()
   result.push_back(blue);
   result.push_back(alpha);
   return result;
+}
+
+std::optional<Color>
+Color::from_rgb_string(const std::string & rgb_string)
+{
+  const std::regex rgb_format(R"(^\s*rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$)");
+  std::smatch matches;
+
+  if (std::regex_match(rgb_string, matches, rgb_format))
+  {
+    const int r = std::stoi(matches[1].str());
+    const int g = std::stoi(matches[2].str());
+    const int b = std::stoi(matches[3].str());
+
+    if (math::in_bounds(r, 0, 255) && math::in_bounds(g, 0, 255) && math::in_bounds(b, 0, 255))
+    {
+      return Color(static_cast<float>(r) / 255.0f,
+                   static_cast<float>(g) / 255.0f,
+                   static_cast<float>(b) / 255.0f,
+                   1.0f);
+    }
+  }
+  return std::nullopt;
+}
+
+std::optional<Color>
+Color::from_hex_string(const std::string& hex_string)
+{
+  const std::regex hex_format(R"(^\s*#([A-Fa-f0-9]{6})\s*$)");
+  std::smatch matches;
+
+  if (std::regex_match(hex_string, matches, hex_format))
+  {
+    const std::string hex_value = matches[1].str();
+    unsigned int hex_color;
+    std::stringstream ss;
+    ss << std::hex << hex_value;
+    ss >> hex_color;
+
+    const float r = ((hex_color >> 16) & 0xFF) / 255.0f;
+    const float g = ((hex_color >> 8) & 0xFF) / 255.0f;
+    const float b = (hex_color & 0xFF) / 255.0f;
+
+    return Color(r, g, b, 1.0f);
+  }
+  return std::nullopt;
 }
 
 /* EOF */
