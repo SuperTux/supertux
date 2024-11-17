@@ -1,6 +1,6 @@
 (supertux-sprite
       (action 
-          (name "normal")
+          (name "default")
           (fps 15.0)
           (images "retro_coin-0.png"
                   "retro_coin-1.png"
