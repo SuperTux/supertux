@@ -133,7 +133,7 @@ Spotlight::update(float dt_sec)
   case Direction::COUNTERCLOCKWISE:
     m_angle -= dt_sec * m_speed;
     break;
-  
+
   case Direction::STOPPED:
     break;
   }
@@ -152,6 +152,7 @@ Spotlight::draw(DrawingContext& context)
     //m_lightcone->set_angle(angle);
     //m_lightcone->draw(context.color(), position, m_layer);
 
+    m_lights->set_color(m_color);
     m_lights->set_angle(m_angle);
     m_lights->draw(context.color(), m_col.m_bbox.p1(), m_layer);
   }
@@ -163,6 +164,7 @@ Spotlight::draw(DrawingContext& context)
 
   if (m_enabled)
   {
+    m_lightcone->set_color(m_color);
     m_lightcone->set_angle(m_angle);
     m_lightcone->draw(context.color(), m_col.m_bbox.p1(), LAYER_FOREGROUND1 + 10);
   }
