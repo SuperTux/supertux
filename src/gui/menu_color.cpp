@@ -23,37 +23,38 @@
 
 #include "util/gettext.hpp"
 
-ColorMenu::ColorMenu(Color* color_) :
-  color(color_)
+ColorMenu::ColorMenu(Color* color) :
+  m_color(color)
 {
   add_label(_("Mix the colour"));
   add_hl();
 
-  add_color_picker_2d(*color);
-  add_color_channel_rgba(&(color->red), Color::RED);
-  add_color_channel_rgba(&(color->green), Color::GREEN);
-  add_color_channel_rgba(&(color->blue), Color::BLUE);
-  add_color_channel_rgba(&(color->alpha), Color::BLACK, -1, true);
-  add_color_display(color);
+  add_color_picker_2d(*m_color);
+  add_color_channel_rgba(&(m_color->red), Color::RED);
+  add_color_channel_rgba(&(m_color->green), Color::GREEN);
+  add_color_channel_rgba(&(m_color->blue), Color::BLUE);
+  add_color_channel_rgba(&(m_color->alpha), Color::BLACK, -1, true);
+  add_color_display(m_color);
 
   add_hl();
-  add_entry(MNID_COPY_CLIPBOARD, _("Copy to clipboard"));
+  add_entry(MNID_COPY_CLIPBOARD_RGB, _("Copy to clipboard (rgb)"));
+  add_entry(MNID_COPY_CLIPBOARD_HEX, _("Copy to clipboard (hex)"));
   if (SDL_HasClipboardText())
   {
     const char* clipboard_text = SDL_GetClipboardText();
-    std::optional<Color> new_color;
+    std::optional<Color> clipboard_color;
 
     if (clipboard_text)
     {
       const std::string text(clipboard_text);
       SDL_free(const_cast<char*>(clipboard_text));
 
-      new_color = Color::from_rgb_string(text);
-      if (!new_color)
-        new_color = Color::from_hex_string(text);
+      clipboard_color = Color::deserialize_color_from_rgb(text);
+      if (!clipboard_color)
+        clipboard_color = Color::deserialize_color_from_hex(text);
     }
 
-    add_entry(MNID_PASTE_CLIPBOARD, _("Paste from clipboard"), new_color.value_or(Color(1.f, 1.f, 1.f)));
+    add_entry(MNID_PASTE_CLIPBOARD, _("Paste from clipboard"), clipboard_color.value_or(Color(1.f, 1.f, 1.f)));
   }
   else
     add_entry(MNID_PASTE_CLIPBOARD, _("Paste from clipboard"), Color(1.f, 1.f, 1.f));
@@ -63,26 +64,32 @@ ColorMenu::ColorMenu(Color* color_) :
 }
 
 void
+ColorMenu::set_clipboard_and_update_paste_item(const std::string& color_str)
+{
+  if (SDL_SetClipboardText(color_str.c_str()) != 0)
+    log_warning << "Failed to set SDL clipboard text: " << SDL_GetError() << std::endl;
+
+  MenuItem& menu_paste_item = get_item_by_id(MNID_PASTE_CLIPBOARD);
+  menu_paste_item.set_text_color(*m_color);
+}
+
+void
 ColorMenu::menu_action(MenuItem& item)
 {
-  if (item.get_id() == MNID_COPY_CLIPBOARD)
+  if (item.get_id() == MNID_COPY_CLIPBOARD_RGB)
   {
-    if (color)
+    if (m_color)
     {
-      std::stringstream ss;
-      ss << "#"
-         << std::hex << std::setfill('0') << std::uppercase
-         << std::setw(2) << static_cast<int>(color->red * 255.f)
-         << std::setw(2) << static_cast<int>(color->green * 255.f)
-         << std::setw(2) << static_cast<int>(color->blue * 255.f);
-
-      const std::string clipboard_text = ss.str();
-
-      if (SDL_SetClipboardText(clipboard_text.c_str()) != 0)
-        log_warning << "Failed to set SDL clipboard text: " << SDL_GetError() << std::endl;
-
-      MenuItem& menu_paste_item = get_item_by_id(MNID_PASTE_CLIPBOARD);
-      menu_paste_item.set_text_color(*color);
+      const std::string clipboard_text(Color::serialize_color_to_rgb(*m_color));
+      set_clipboard_and_update_paste_item(clipboard_text);
+    }
+  }
+  else if (item.get_id() == MNID_COPY_CLIPBOARD_HEX)
+  {
+    if (m_color)
+    {
+      const std::string clipboard_text(Color::serialize_color_to_hex(*m_color));
+      set_clipboard_and_update_paste_item(clipboard_text);
     }
   }
   else if (item.get_id() == MNID_PASTE_CLIPBOARD)
@@ -96,17 +103,15 @@ ColorMenu::menu_action(MenuItem& item)
       const std::string text(clipboard_text);
       SDL_free(const_cast<char*>(clipboard_text));
 
-      std::optional<Color> new_color;
-      new_color = Color::from_rgb_string(text);
+      std::optional<Color> clipboard_color = Color::deserialize_color_from_rgb(text);
+      if (!clipboard_color)
+        clipboard_color = Color::deserialize_color_from_hex(text);
 
-      if (!new_color)
-        new_color = Color::from_hex_string(text);
-
-      if (new_color)
+      if (clipboard_color)
       {
-        *color = *new_color;
+        *m_color = *clipboard_color;
         MenuItem& menu_paste_item = get_item_by_id(MNID_PASTE_CLIPBOARD);
-        menu_paste_item.set_text_color(*new_color);
+        menu_paste_item.set_text_color(*clipboard_color);
       }
       else
         log_warning << "Invalid color format: " << text << ". Supported formats: rgb(r,g,b) and #rrggbb" << std::endl;

@@ -18,6 +18,7 @@
 #include "video/color.hpp"
 
 #include <assert.h>
+#include <iomanip>
 #include <regex>
 #include <sstream>
 
@@ -120,7 +121,7 @@ Color::toVector()
 }
 
 std::optional<Color>
-Color::from_rgb_string(const std::string & rgb_string)
+Color::deserialize_color_from_rgb(const std::string & rgb_string)
 {
   const std::regex rgb_format(R"(^\s*rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$)");
   std::smatch matches;
@@ -143,7 +144,7 @@ Color::from_rgb_string(const std::string & rgb_string)
 }
 
 std::optional<Color>
-Color::from_hex_string(const std::string& hex_string)
+Color::deserialize_color_from_hex(const std::string& hex_string)
 {
   const std::regex hex_format(R"(^\s*#([A-Fa-f0-9]{6})\s*$)");
   std::smatch matches;
@@ -163,6 +164,29 @@ Color::from_hex_string(const std::string& hex_string)
     return Color(r, g, b, 1.0f);
   }
   return std::nullopt;
+}
+
+std::string
+Color::serialize_color_to_hex(const Color& color)
+{
+  std::stringstream ss;
+  ss << "#"
+     << std::hex << std::setfill('0') << std::uppercase
+     << std::setw(2) << static_cast<int>(color.red * 255.f)
+     << std::setw(2) << static_cast<int>(color.green * 255.f)
+     << std::setw(2) << static_cast<int>(color.blue * 255.f);
+  return ss.str();
+}
+
+std::string
+Color::serialize_color_to_rgb(const Color& color)
+{
+  std::stringstream ss;
+  ss << "rgb("
+     << static_cast<int>(color.red * 255.f) << ","
+     << static_cast<int>(color.green * 255.f) << ","
+     << static_cast<int>(color.blue * 255.f) << ")";
+  return ss.str();
 }
 
 /* EOF */
