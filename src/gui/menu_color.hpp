@@ -36,8 +36,7 @@ private:
 private:
   enum MenuIDs
   {
-    MNID_COPY = 1,
-    MNID_PASTE,
+    MNID_COPY_CLIPBOARD = 1,
     MNID_PASTE_CLIPBOARD
   };
 };
