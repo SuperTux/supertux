@@ -14,9 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "../math/util.hpp"
 #include "video/color.hpp"
 
 #include <assert.h>
+#include <regex>
+#include <sstream>
 
 const Color Color::BLACK(0.0, 0.0, 0.0);
 const Color Color::RED(1.0, 0.0, 0.0);

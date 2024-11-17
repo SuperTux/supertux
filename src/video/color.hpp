@@ -17,15 +17,10 @@
 #ifndef HEADER_SUPERTUX_VIDEO_COLOR_HPP
 #define HEADER_SUPERTUX_VIDEO_COLOR_HPP
 
-#include "../math/util.hpp"
-
-#include <string>
-#include <sstream>
-#include <vector>
 #include <math.h>
-#include <memory>
+#include <string>
 #include <optional>
-#include <regex>
+#include <vector>
 
 #include <SDL_image.h>
 

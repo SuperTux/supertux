@@ -15,6 +15,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <sstream>
+
 #include "gui/menu_color.hpp"
 #include "menu_item.hpp"
 #include "../util/log.hpp"
