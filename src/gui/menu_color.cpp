@@ -78,7 +78,7 @@ ColorMenu::menu_action(MenuItem& item)
       return;
 
     const std::string text(clipboard_text);
-    SDL_free((void*)clipboard_text);
+    SDL_free(const_cast<char*>(clipboard_text));
 
     Color new_color;
     bool is_valid_format = false;
@@ -95,7 +95,7 @@ ColorMenu::menu_action(MenuItem& item)
 
       if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255)
       {
-        new_color = Color(r/255.0f, g/255.0f, b/255.0f, 1.0f);
+        new_color = Color(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
         is_valid_format = true;
       }
     }
@@ -113,9 +113,9 @@ ColorMenu::menu_action(MenuItem& item)
         ss << std::hex << hex_value;
         ss >> hex_color;
 
-        const float r = ((hex_color >> 16) & 0xFF)/255.0f;
-        const float g = ((hex_color >> 8) & 0xFF)/255.0f;
-        const float b = (hex_color & 0xFF)/255.0f;
+        const float r = ((hex_color >> 16) & 0xFF) / 255.0f;
+        const float g = ((hex_color >> 8) & 0xFF) / 255.0f;
+        const float b = (hex_color & 0xFF) / 255.0f;
 
         new_color = Color(r, g, b, 1.0f);
         is_valid_format = true;
