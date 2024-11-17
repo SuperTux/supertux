@@ -16,8 +16,8 @@
 
 #include "gui/item_action.hpp"
 
-ItemAction::ItemAction(const std::string& text, int id, std::function<void()> callback) :
-  MenuItem(text, id),
+ItemAction::ItemAction(const std::string& text, int id, std::function<void()> callback, const Color& text_color) :
+  MenuItem(text, id, text_color),
   m_callback(std::move(callback))
 {
 }
@@ -25,8 +25,10 @@ ItemAction::ItemAction(const std::string& text, int id, std::function<void()> ca
 void
 ItemAction::process_action(const MenuAction& action)
 {
-  if (action == MenuAction::HIT) {
-    if (m_callback) {
+  if (action == MenuAction::HIT)
+  {
+    if (m_callback)
+    {
       m_callback();
     }
   }
