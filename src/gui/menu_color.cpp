@@ -95,7 +95,7 @@ ColorMenu::menu_action(MenuItem& item)
 
       if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255)
       {
-        new_color = Color(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
+        new_color = Color(static_cast<float>(r) / 255.0f, static_cast<float>(g) / 255.0f, static_cast<float>(b) / 255.0f, 1.0f);
         is_valid_format = true;
       }
     }
