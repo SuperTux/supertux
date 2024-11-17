@@ -19,6 +19,8 @@
 
 #include "object/moving_sprite.hpp"
 
+#include "supertux/timer.hpp"
+
 #define EXPLOSION_STRENGTH_DEFAULT (1464.8f * 32.0f * 32.0f)
 #define EXPLOSION_STRENGTH_NEAR (1000.f * 32.0f * 32.0f)
 
@@ -50,16 +52,19 @@ private:
 
 private:
   enum State {
-    STATE_WAITING,
-    STATE_EXPLODING
+    E_STATE_WAITING,
+    E_STATE_EXPLODING,
+    E_STATE_FADING
   };
 
 private:
   bool hurt;
   float push_strength;
   int num_particles;
-  State state;
-  SpritePtr lightsprite;
+  State m_state;
+  SpritePtr m_lightsprite;
+  Color m_color;
+  Timer m_fading_timer;
   bool short_fuse;
 
 private:
