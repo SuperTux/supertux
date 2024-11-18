@@ -1,7 +1,6 @@
 (supertux-sprite
   (action
     (name "default")
-    (fps 15)
     (hitbox 16 16 0 0)
     (images "dart_light.png")
   )

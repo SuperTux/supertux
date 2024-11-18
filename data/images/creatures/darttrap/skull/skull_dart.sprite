@@ -21,6 +21,6 @@
   )
 
   (linked-sprites
-    (light "images/creatures/darttrap/skull/dart_light.sprite" "" 1 1 1)
+    (light "dart_light.sprite" "" 1 1 1)
   )
 )
