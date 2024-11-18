@@ -1,2 +1,4 @@
 @echo off
-start "" "%~dp0\bin\supertux2.exe" %*
+pushd "%~dp0"
+start "" "bin\supertux2.exe" %*
+popd

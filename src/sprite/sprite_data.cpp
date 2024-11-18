@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023-2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -30,6 +31,7 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/reader_object.hpp"
+#include "util/string_util.hpp"
 #include "video/surface.hpp"
 #include "video/texture_manager.hpp"
 
@@ -52,20 +54,112 @@ SpriteData::Action::Action() :
 {
 }
 
-SpriteData::SpriteData(const ReaderMapping& mapping) :
+void
+SpriteData::Action::reset(SurfacePtr surface)
+{
+  x_offset = 0;
+  y_offset = 0;
+  hitbox_w = static_cast<float>(surface->get_width());
+  hitbox_h = static_cast<float>(surface->get_height());
+  hitbox_unisolid = false;
+  fps = 10;
+  loops = -1;
+  loop_frame = 1;
+  has_custom_loops = false;
+  family_name.clear();
+  surfaces = { surface };
+}
+
+
+SpriteData::SpriteData(const std::string& filename) :
+  m_filename(filename),
+  m_load_successful(false),
   actions(),
-  name(),
   linked_light_sprite(),
   linked_sprites()
+{
+  load();
+}
+
+void
+SpriteData::load()
+{
+  // Reset all existing actions to a dummy texture
+  if (!actions.empty())
+  {
+    auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
+    for (const auto& action : actions)
+      action.second->reset(surface);
+  }
+
+  if (StringUtil::has_suffix(m_filename, ".sprite"))
+  {
+    try
+    {
+      auto doc = ReaderDocument::from_file(m_filename);
+      auto root = doc.get_root();
+
+      if (root.get_name() != "supertux-sprite")
+      {
+        std::ostringstream msg;
+        msg << "'" << m_filename << "' is not a 'supertux-sprite' file!";
+        throw std::runtime_error(msg.str());
+      }
+      else
+      {
+        // Load ".sprite" file
+        parse(root.get_mapping());
+      }
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Parse error when trying to load sprite '" << m_filename
+                  << "': " << err.what() << std::endl;
+
+      // Load initial dummy texture
+      if (actions.empty())
+      {
+        auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
+        auto action = std::make_unique<Action>();
+        action->name = "default";
+        action->reset(surface);
+        actions[action->name] = std::move(action);
+      }
+
+      m_load_successful = false;
+      return;
+    }
+  }
+  else
+  {
+    // Load single image
+    auto surface = Surface::from_file(m_filename);
+    if (!TextureManager::current()->last_load_successful())
+      throw std::runtime_error("Cannot load image.");
+
+    // Create action, if it doesn't exist
+    {
+      auto i = actions.find("default");
+      if (i == actions.end())
+      {
+        auto action = std::make_unique<Action>();
+        action->name = "default";
+        actions["default"] = std::move(action);
+      }
+    }
+    actions["default"]->reset(surface);
+  }
+
+  m_load_successful = true;
+}
+
+void
+SpriteData::parse(const ReaderMapping& mapping)
 {
   auto iter = mapping.get_iter();
   while (iter.next())
   {
-    if (iter.get_key() == "name")
-    {
-      iter.get(name);
-    }
-    else if (iter.get_key() == "action")
+    if (iter.get_key() == "action")
     {
       parse_action(iter.as_mapping());
     }
@@ -87,12 +181,14 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
           linked_light_sprite = LinkedLightSprite(filepath);
 
           if (arr.size() >= 3) // Default action has been specified
+          {
             linked_light_sprite->action = arr[2].as_string();
 
-          if (arr.size() >= 6) // Color has been specified
-          {
-            linked_light_sprite->color = Color(arr[3].as_float(), arr[4].as_float(),
-                                               arr[5].as_float());
+            if (arr.size() >= 6) // Color has been specified
+            {
+              linked_light_sprite->color = Color(arr[3].as_float(), arr[4].as_float(),
+                                                 arr[5].as_float());
+            }
           }
         }
         else
@@ -116,59 +212,33 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
       log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;
     }
   }
+
   if (actions.empty())
     throw std::runtime_error("Error: Sprite without actions.");
-}
-
-SpriteData::SpriteData(const std::string& image) :
-  actions(),
-  name(),
-  linked_light_sprite(),
-  linked_sprites()
-{
-  auto surface = Surface::from_file(image);
-  if (!TextureManager::current()->last_load_successful())
-    throw std::runtime_error("Cannot load image.");
-
-  auto action = create_action_from_surface(surface);
-  action->name = "default";
-  actions[action->name] = std::move(action);
-}
-
-SpriteData::SpriteData() :
-  actions(),
-  name(),
-  linked_light_sprite(),
-  linked_sprites()
-{
-  auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
-  auto action = create_action_from_surface(surface);
-  action->name = "default";
-  actions[action->name] = std::move(action);
-}
-
-std::unique_ptr<SpriteData::Action>
-SpriteData::create_action_from_surface(SurfacePtr surface)
-{
-  auto action = std::make_unique<Action>();
-
-  action->hitbox_w = static_cast<float>(surface->get_width());
-  action->hitbox_h = static_cast<float>(surface->get_height());
-  action->surfaces.push_back(surface);
-
-  return action;
 }
 
 void
 SpriteData::parse_action(const ReaderMapping& mapping)
 {
-  auto action = std::make_unique<Action>();
+  std::string name;
+  mapping.get("name", name);
 
-  if (!mapping.get("name", action->name))
+  // Create action, if it doesn't exist
   {
-    if (!actions.empty())
-      throw std::runtime_error("If there are more than one action, they need names!");
+    auto i = actions.find(name);
+    if (i == actions.end())
+    {
+      auto action = std::make_unique<Action>();
+      action->name = name;
+      actions[name] = std::move(action);
+    }
   }
+  Action* action = actions[name].get();
+
+  // Reset action
+  action->hitbox_w = 0;
+  action->hitbox_h = 0;
+  action->surfaces.clear();
 
   std::vector<float> hitbox;
   if (mapping.get("hitbox", hitbox))
@@ -185,7 +255,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         break;
 
       default:
-        throw std::runtime_error("hitbox should specify 2/4 coordinates");
+        throw std::runtime_error("Hitbox should specify 2/4 coordinates!");
     }
   }
   mapping.get("flip-offset", action->flip_offset);
@@ -199,7 +269,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   {
     if (action->loop_frame < 1)
     {
-      log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << name << "' set to a value below 1." << std::endl;
+      log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << m_filename << "' set to a value below 1." << std::endl;
       action->loop_frame = 1;
     }
   }
@@ -228,12 +298,14 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         action->linked_light_sprite = LinkedLightSprite(filepath);
 
         if (arr.size() >= 3) // Default action has been specified
+        {
           action->linked_light_sprite->action = arr[2].as_string();
 
-        if (arr.size() >= 6) // Color has been specified
-        {
-          action->linked_light_sprite->color = Color(arr[3].as_float(), arr[4].as_float(),
-                                                     arr[5].as_float());
+          if (arr.size() >= 6) // Color has been specified
+          {
+            action->linked_light_sprite->color = Color(arr[3].as_float(), arr[4].as_float(),
+                                                       arr[5].as_float());
+          }
         }
       }
       else
@@ -445,7 +517,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         else
         {
           std::stringstream msg;
-          msg << "Sprite '" << name << "' unknown tag in 'surfaces' << " << i.get_name();
+          msg << "Sprite '" << m_filename << "' unknown tag in 'surfaces' << " << i.get_name();
           throw std::runtime_error(msg.str());
         }
       }
@@ -464,7 +536,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
     else
     {
       std::stringstream msg;
-      msg << "Sprite '" << name << "' contains no images in action '"
+      msg << "Sprite '" << m_filename << "' contains no images in action '"
           << action->name << "'.";
       throw std::runtime_error(msg.str());
     }
@@ -474,11 +546,9 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   const int frames = static_cast<int>(action->surfaces.size());
   if (action->loop_frame > frames && frames > 0)
   {
-    log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << name << "' not-in-range of total frames." << std::endl;
+    log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << m_filename << "' not-in-range of total frames." << std::endl;
     action->loop_frame = 1;
   }
-
-  actions[action->name] = std::move(action);
 }
 
 const SpriteData::Action*

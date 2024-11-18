@@ -50,8 +50,6 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
-  virtual int get_layer() const override { return m_layer; }
-
   virtual void on_flip(float height) override;
 
   /**

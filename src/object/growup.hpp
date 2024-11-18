@@ -41,10 +41,10 @@ protected:
   LinkedSprites get_linked_sprites() override;
 
 private:
-  Physic physic;
+  Physic m_physic;
 
   const bool m_custom_sprite;
-  SpritePtr shadesprite;
+  SpritePtr m_shadesprite;
 
 private:
   GrowUp(const GrowUp&) = delete;

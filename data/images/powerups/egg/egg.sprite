@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (name "default")
+    (name "normal")
     (images "egg.png")
   )
   (action

@@ -31,6 +31,7 @@
 #include "video/flip.hpp"
 #include "video/drawing_target.hpp"
 
+class AutotileSet;
 class CollisionObject;
 class CollisionGroundMovementManager;
 class DrawingContext;
@@ -56,6 +57,8 @@ public:
   TileMap(const TileSet *tileset);
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   ~TileMap() override;
+
+  void parse_tiles(const ReaderMapping& reader);
 
   virtual void finish_construction() override;
 
@@ -169,6 +172,7 @@ public:
    * @param int $y
    */
   uint32_t get_tile_id(int x, int y) const;
+  uint32_t get_tile_id(const Vector& pos) const;
   /**
    * @scripting
    * @description Returns the ID of the tile at the given position (in world coordinates).
@@ -187,6 +191,7 @@ public:
    * @param int $newtile
    */
   void change(int x, int y, uint32_t newtile);
+  void change(int idx, uint32_t newtile);
   /**
    * @scripting
    * @description Changes the tile at the given position (in-world coordinates) to ""newtile"".
@@ -204,28 +209,14 @@ public:
    */
   void change_all(uint32_t oldtile, uint32_t newtile);
 
-  /** Puts the correct autotile block at the given position */
-  void autotile(int x, int y, uint32_t tile);
-
-  enum class AutotileCornerOperation {
-    ADD_TOP_LEFT,
-    ADD_TOP_RIGHT,
-    ADD_BOTTOM_LEFT,
-    ADD_BOTTOM_RIGHT,
-    REMOVE_TOP_LEFT,
-    REMOVE_TOP_RIGHT,
-    REMOVE_BOTTOM_LEFT,
-    REMOVE_BOTTOM_RIGHT,
-  };
-
-  /** Puts the correct autotile blocks at the tiles around the given corner */
-  void autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op);
+  /** Puts the correct autotile blocks at the given position */
+  void autotile(const Vector& pos, uint32_t tile, AutotileSet* autotileset);
 
   /** Erases in autotile mode */
-  void autotile_erase(const Vector& pos, const Vector& corner_pos);
+  void autotile_erase(const Vector& pos, AutotileSet* autotileset);
 
-  /** Returns the Autotileset associated with the given tile */
-  AutotileSet* get_autotileset(uint32_t tile) const;
+  /** Returns the Autotilesets associated with the given tile */
+  std::vector<AutotileSet*> get_autotilesets(uint32_t tile) const;
 
   void set_flip(Flip flip) { m_flip = flip; }
   Flip get_flip() const { return m_flip; }
@@ -279,7 +270,22 @@ private:
   void update_effective_solid(bool update_manager = true);
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
-  bool is_corner(uint32_t tile) const;
+  /** Puts the correct single autotile block at the given position */
+  void autotile_single(int x, int y, AutotileSet* autotileset);
+
+  enum class AutotileCornerOperation {
+    ADD_TOP_LEFT,
+    ADD_TOP_RIGHT,
+    ADD_BOTTOM_LEFT,
+    ADD_BOTTOM_RIGHT,
+    REMOVE_TOP_LEFT,
+    REMOVE_TOP_RIGHT,
+    REMOVE_BOTTOM_LEFT,
+    REMOVE_BOTTOM_RIGHT,
+  };
+
+  /** Puts the correct autotile blocks at the tiles around the single given corner */
+  void autotile_single_corner(int x, int y, AutotileSet* autotileset, AutotileCornerOperation op);
 
   void apply_offset_x(int fill_id, int xoffset);
   void apply_offset_y(int fill_id, int yoffset);

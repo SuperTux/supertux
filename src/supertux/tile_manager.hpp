@@ -28,12 +28,18 @@ class TileSet;
 class TileManager final : public Currenton<TileManager>
 {
 private:
-  std::map<std::string, std::unique_ptr<TileSet> > m_tilesets;
+  std::map<std::string, std::unique_ptr<TileSet>> m_tilesets;
 
 public:
   TileManager();
 
   TileSet* get_tileset(const std::string &filename);
+
+  void reload();
+
+private:
+  TileManager(const TileManager&) = delete;
+  TileManager& operator=(const TileManager&) = delete;
 };
 
 #endif

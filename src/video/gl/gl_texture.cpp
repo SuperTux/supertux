@@ -24,7 +24,6 @@
 
 GLTexture::GLTexture(int width, int height, std::optional<Color> fill_color) :
   m_handle(),
-  m_sampler(),
   m_texture_width(),
   m_texture_height(),
   m_image_width(),
@@ -68,14 +67,22 @@ GLTexture::GLTexture(int width, int height, std::optional<Color> fill_color) :
 }
 
 GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
+  Texture(sampler),
   m_handle(),
-  m_sampler(sampler),
   m_texture_width(),
   m_texture_height(),
   m_image_width(),
   m_image_height()
 {
+  reload(image);
+}
+
+void
+GLTexture::reload(const SDL_Surface& image)
+{
   assert_gl();
+
+  glDeleteTextures(1, &m_handle);
 
   if (gl_needs_power_of_two())
   {

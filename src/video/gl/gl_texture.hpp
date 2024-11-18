@@ -24,8 +24,6 @@
 #include "video/sampler.hpp"
 #include "video/texture.hpp"
 
-class Sampler;
-
 /** This class is a wrapper around a texture handle. It stores the
     texture width and height and provides convenience functions for
     uploading SDL_Surfaces into the texture. */
@@ -35,6 +33,8 @@ public:
   GLTexture(int width, int height, std::optional<Color> fill_color = std::nullopt);
   GLTexture(const SDL_Surface& image, const Sampler& sampler);
   ~GLTexture() override;
+
+  virtual void reload(const SDL_Surface& image) override;
 
   virtual int get_texture_width() const override { return m_texture_width; }
   virtual int get_texture_height() const override { return m_texture_height; }
@@ -55,7 +55,6 @@ private:
 
 private:
   GLuint m_handle;
-  Sampler m_sampler;
   int m_texture_width;
   int m_texture_height;
   int m_image_width;

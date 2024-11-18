@@ -21,6 +21,7 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
 Spotlight::Direction
@@ -87,7 +88,7 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   if (mapping.get("color", vColor))
     m_color = Color(vColor);
 
-  mapping.get("layer", m_layer, 0);
+  m_layer = reader_get_layer(mapping, LAYER_TILES);
   mapping.get("enabled", m_enabled, true);
 }
 
@@ -108,9 +109,9 @@ Spotlight::get_settings()
                   {_("Clockwise"), _("Counter-clockwise"), _("Stopped")},
                   {"clockwise", "counter-clockwise", "stopped"},
                   static_cast<int>(Direction::CLOCKWISE), "r-direction");
-  result.add_int(_("Layer"), &m_layer, "layer", 0);
+  result.add_int(_("Z-pos"), &m_layer, "z-pos", 0);
 
-  result.reorder({"angle", "color", "layer", "x", "y"});
+  result.reorder({"angle", "color", "z-pos", "x", "y"});
 
   return result;
 }
@@ -132,7 +133,7 @@ Spotlight::update(float dt_sec)
   case Direction::COUNTERCLOCKWISE:
     m_angle -= dt_sec * m_speed;
     break;
-  
+
   case Direction::STOPPED:
     break;
   }
@@ -151,6 +152,7 @@ Spotlight::draw(DrawingContext& context)
     //m_lightcone->set_angle(angle);
     //m_lightcone->draw(context.color(), position, m_layer);
 
+    m_lights->set_color(m_color);
     m_lights->set_angle(m_angle);
     m_lights->draw(context.color(), m_col.m_bbox.p1(), m_layer);
   }
@@ -162,6 +164,7 @@ Spotlight::draw(DrawingContext& context)
 
   if (m_enabled)
   {
+    m_lightcone->set_color(m_color);
     m_lightcone->set_angle(m_angle);
     m_lightcone->draw(context.color(), m_col.m_bbox.p1(), LAYER_FOREGROUND1 + 10);
   }

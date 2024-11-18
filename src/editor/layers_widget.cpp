@@ -148,17 +148,7 @@ EditorLayersWidget::draw(DrawingContext& context)
 void
 EditorLayersWidget::update(float dt_sec)
 {
-  auto it = m_layer_icons.begin();
-  while (it != m_layer_icons.end())
-  {
-    auto layer_icon = (*it).get();
-    if (!layer_icon->is_valid())
-    {
-      it = m_layer_icons.erase(it);
-      continue;
-    }
-    ++it;
-  }
+  remove_invalid_layers();
 
   TileMap* selected_tilemap = get_selected_tilemap();
   if (selected_tilemap)
@@ -460,6 +450,8 @@ EditorLayersWidget::add_layer(GameObject* layer, bool initial)
 void
 EditorLayersWidget::update_tip()
 {
+  remove_invalid_layers();
+
   if (m_hovered_layer == m_layer_icons.size())
      m_object_tip->set_info(_("Add Layer"));
   else if (m_hovered_layer > m_layer_icons.size())
@@ -475,6 +467,22 @@ EditorLayersWidget::update_current_tip()
     return;
 
   update_tip();
+}
+
+void
+EditorLayersWidget::remove_invalid_layers()
+{
+  auto it = m_layer_icons.begin();
+  while (it != m_layer_icons.end())
+  {
+    auto layer_icon = (*it).get();
+    if (!layer_icon->is_valid())
+    {
+      it = m_layer_icons.erase(it);
+      continue;
+    }
+    ++it;
+  }
 }
 
 TileMap*

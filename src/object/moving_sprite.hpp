@@ -17,10 +17,13 @@
 #ifndef HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
 #define HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
 
+#include "supertux/moving_object.hpp"
+
+#include <unordered_map>
+
 #include "math/anchor_point.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
-#include "supertux/moving_object.hpp"
 #include "video/drawing_context.hpp"
 #include "video/flip.hpp"
 
@@ -63,7 +66,7 @@ public:
   virtual void after_editor_set() override;
   virtual void on_type_change(int old_type) override;
 
-  virtual int get_layer() const override { return m_layer; }
+  int get_layer() const override { return m_layer; }
 
   bool has_found_sprite() const { return m_sprite_found; }
   const std::string& get_sprite_name() const { return m_sprite_name; }
@@ -142,7 +145,7 @@ public:
   void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
 
 public:
-  typedef std::map<std::string, SpritePtr&> LinkedSprites;
+  typedef std::unordered_map<std::string, SpritePtr&> LinkedSprites;
 
 protected:
   /** Provides all linked sprites of the object, so they can be updated on main sprite change. */

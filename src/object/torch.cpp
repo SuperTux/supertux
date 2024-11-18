@@ -26,14 +26,14 @@
 #include "util/reader_mapping.hpp"
 
 Torch::Torch(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/torch/torch1.sprite"),
+  MovingSprite(reader, "images/objects/torch/torch1.sprite", LAYER_TILES),
   m_light_color(1.f, 1.f, 1.f),
   m_flame(m_sprite->get_linked_sprite("flame")),
   m_flame_glow(m_sprite->get_linked_sprite("glow")),
   m_burning(true)
 {
   reader.get("burning", m_burning, true);
-  reader.get("layer", m_layer, 0);
+  reader.get("layer", m_layer); // Backwards compatibility
 
   std::vector<float> vColor;
   if (!reader.get("color", vColor)) vColor = { 1.f, 1.f, 1.f };
@@ -106,10 +106,9 @@ Torch::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_bool(_("Burning"), &m_burning, "burning", true);
-  result.add_int(_("Layer"), &m_layer, "layer", 0);
   result.add_color(_("Color"), &m_light_color, "color", Color::WHITE);
 
-  result.reorder({"burning", "sprite", "layer", "color", "x", "y"});
+  result.reorder({"burning", "sprite", "z-pos", "color", "x", "y"});
 
   return result;
 }

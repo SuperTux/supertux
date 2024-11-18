@@ -747,6 +747,9 @@ Camera::reload_scale()
 void
 Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
 {
+  if (m_scale == scale)
+    return;
+
   m_scale_anchor = anchor;
 
   if (time <= 0.f)

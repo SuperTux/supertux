@@ -54,12 +54,11 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
     parse_type(mapping);
   }
 
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
-
   if (m_type == HAY)
   {
     lightsprite = m_sprite->get_linked_sprite("burn-light");
+    lightsprite->set_blend(Blend::ADD);
+    lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
     SoundManager::current()->preload("sounds/fire.ogg"); // TODO: Use own sound?
   }
   else
@@ -231,7 +230,7 @@ WeakBlock::draw(DrawingContext& context)
 {
   MovingSprite::draw(context);
 
-  if (lightsprite && (state != STATE_NORMAL))
+  if (lightsprite && state != STATE_NORMAL)
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 

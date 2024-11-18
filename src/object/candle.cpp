@@ -36,7 +36,7 @@ Candle::Candle(const ReaderMapping& mapping) :
 {
   mapping.get("burning", burning, true);
   mapping.get("flicker", flicker, true);
-  mapping.get("layer", m_layer, 0);
+  mapping.get("layer", m_layer); // Backwards compatibility
 
   std::vector<float> vColor;
   if (!mapping.get("color", vColor)) vColor = {1.f, 1.f, 1.f};
@@ -100,9 +100,8 @@ Candle::get_settings()
   result.add_bool(_("Burning"), &burning, "burning", true);
   result.add_bool(_("Flicker"), &flicker, "flicker", true);
   result.add_color(_("Color"), &lightcolor, "color", Color::WHITE);
-  result.add_int(_("Layer"), &m_layer, "layer", 0);
 
-  result.reorder({"burning", "flicker", "name", "sprite", "color", "layer", "x", "y"});
+  result.reorder({"burning", "flicker", "name", "sprite", "color", "z-pos", "x", "y"});
 
   return result;
 }

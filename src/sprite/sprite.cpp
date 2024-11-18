@@ -99,7 +99,9 @@ Sprite::set_action(const std::string& name, int loops)
 
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
-    log_warning << "Action '" << name << "' not found." << std::endl;
+    // HACK: Lots of things trigger this message therefore turning it into a warning
+    // would make it quite annoying
+    log_debug << "Action '" << name << "' not found." << std::endl;
     return false;
   }
 
@@ -201,7 +203,12 @@ Sprite::draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
   context.set_flip(context.get_flip() ^ flip);
   context.set_alpha(context.get_alpha() * m_alpha);
 
-  canvas.draw_surface_scaled(m_action->surfaces[m_frameidx], dest_rect, layer);
+  PaintStyle style;
+  style.set_color(m_color);
+  style.set_alpha(m_color.alpha);
+  style.set_blend(m_blend);
+
+  canvas.draw_surface_scaled(m_action->surfaces[m_frameidx], dest_rect, layer, style);
 
   context.pop_transform();
 }
@@ -243,7 +250,6 @@ Sprite::get_linked_sprite(const std::string& key) const
   if (m_action->linked_sprites.find(key) != m_action->linked_sprites.end())
   {
     const SpriteData::LinkedSprite& linked_sprite = m_action->linked_sprites.at(key);
-log_warning << linked_sprite.action << std::endl;
     if (!linked_sprite.action.empty())
       sprite->set_action(linked_sprite.action, linked_sprite.loops);
   }

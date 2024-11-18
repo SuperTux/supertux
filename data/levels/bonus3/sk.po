@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Slovak (http://app.transifex.com/arctic-games/supertux/language/sk/)\n"
@@ -29,7 +29,7 @@ msgstr "Úroveň predtým známa ako \"-89,2 stupňa\""
 msgid "Global Warming"
 msgstr "Globálne otepľovanie"
 
-#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
+#: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
 msgstr "Jedna noc na oblohe"
 
@@ -81,7 +81,7 @@ msgstr "#Dobrá práca! Ešte stále máš červený lampáš! Sice to nebolo tr
 msgid "Coconut Fortress"
 msgstr "Kokosová pevnosť"
 
-#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
+#: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
 msgstr "Kryštálový súmrak"
 
@@ -142,7 +142,7 @@ msgstr "Kvetinový bonus"
 msgid "After the Glaciers"
 msgstr "Po ľadovcoch"
 
-#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
+#: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
 msgstr "Visiaci zo strechy"
 
@@ -218,7 +218,7 @@ msgstr "Snežný kopec"
 msgid "Three Frosty Icebergs"
 msgstr "Tri mrazivé ľadovce"
 
-#: ⁨data/levels/bonus3/under ice.stl⁩:3
+#: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
 msgstr "Pod ľadom"
 
