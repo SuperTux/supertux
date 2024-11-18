@@ -71,9 +71,9 @@ Candle::get_linked_sprites()
 }
 
 void
-Candle::after_editor_set()
+Candle::on_sprite_update()
 {
-  MovingSprite::after_editor_set();
+  MovingSprite::on_sprite_update();
 
   candle_light_1->set_blend(Blend::ADD);
   candle_light_2->set_blend(Blend::ADD);
@@ -83,13 +83,19 @@ Candle::after_editor_set()
   {
     candle_light_1->set_color(lightcolor);
     candle_light_2->set_color(lightcolor);
+  }
+}
 
+void
+Candle::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+
+  // Change the light color if defined.
+  if (lightcolor.greyscale() < 1.f)
     set_action(burning ? "on-white" : "off-white");
-  }
   else
-  {
     set_action(burning ? "on" : "off");
-  }
 }
 
 ObjectSettings

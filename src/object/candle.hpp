@@ -67,6 +67,9 @@ public:
    */
   void set_burning(bool burning);
 
+protected:
+  void on_sprite_update() override;
+
 private:
   /**
    * @scripting
