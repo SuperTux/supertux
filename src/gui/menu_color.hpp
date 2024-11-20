@@ -27,7 +27,7 @@ public:
   void menu_action(MenuItem& item) override;
 
 private:
-  void set_clipboard_and_update_paste_item(const std::string& color_str);
+  void copy_to_clipboard(const std::string& color_str);
 
 private:
   enum MenuIDs

@@ -18,8 +18,8 @@
 #include <sstream>
 
 #include "gui/menu_color.hpp"
-#include "menu_item.hpp"
-#include "../util/log.hpp"
+#include "gui/menu_item.hpp"
+#include "util/log.hpp"
 
 #include "util/gettext.hpp"
 
@@ -41,17 +41,17 @@ ColorMenu::ColorMenu(Color* color) :
   add_entry(MNID_COPY_CLIPBOARD_HEX, _("Copy to clipboard (hex)"));
   if (SDL_HasClipboardText())
   {
-    const char* clipboard_text = SDL_GetClipboardText();
+    char* clipboard_text = SDL_GetClipboardText();
     std::optional<Color> clipboard_color;
 
     if (clipboard_text)
     {
-      const std::string text(clipboard_text);
-      SDL_free(const_cast<char*>(clipboard_text));
+      std::string text(clipboard_text);
+      SDL_free(clipboard_text);
 
-      clipboard_color = Color::deserialize_color_from_rgb(text);
+      clipboard_color = Color::deserialize_from_rgb(text);
       if (!clipboard_color)
-        clipboard_color = Color::deserialize_color_from_hex(text);
+        clipboard_color = Color::deserialize_from_hex(text);
     }
 
     add_entry(MNID_PASTE_CLIPBOARD, _("Paste from clipboard"), clipboard_color.value_or(Color(1.f, 1.f, 1.f)));
@@ -64,7 +64,7 @@ ColorMenu::ColorMenu(Color* color) :
 }
 
 void
-ColorMenu::set_clipboard_and_update_paste_item(const std::string& color_str)
+ColorMenu::copy_to_clipboard(const std::string& color_str)
 {
   if (SDL_SetClipboardText(color_str.c_str()) != 0)
     log_warning << "Failed to set SDL clipboard text: " << SDL_GetError() << std::endl;
@@ -80,16 +80,16 @@ ColorMenu::menu_action(MenuItem& item)
   {
     if (m_color)
     {
-      const std::string clipboard_text(Color::serialize_color_to_rgb(*m_color));
-      set_clipboard_and_update_paste_item(clipboard_text);
+      const std::string clipboard_text(Color::serialize_to_rgb(*m_color));
+      copy_to_clipboard(clipboard_text);
     }
   }
   else if (item.get_id() == MNID_COPY_CLIPBOARD_HEX)
   {
     if (m_color)
     {
-      const std::string clipboard_text(Color::serialize_color_to_hex(*m_color));
-      set_clipboard_and_update_paste_item(clipboard_text);
+      const std::string clipboard_text(Color::serialize_to_hex(*m_color));
+      copy_to_clipboard(clipboard_text);
     }
   }
   else if (item.get_id() == MNID_PASTE_CLIPBOARD)
@@ -103,9 +103,9 @@ ColorMenu::menu_action(MenuItem& item)
       const std::string text(clipboard_text);
       SDL_free(const_cast<char*>(clipboard_text));
 
-      std::optional<Color> clipboard_color = Color::deserialize_color_from_rgb(text);
+      std::optional<Color> clipboard_color = Color::deserialize_from_rgb(text);
       if (!clipboard_color)
-        clipboard_color = Color::deserialize_color_from_hex(text);
+        clipboard_color = Color::deserialize_from_hex(text);
 
       if (clipboard_color)
       {

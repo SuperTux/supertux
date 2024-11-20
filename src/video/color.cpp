@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "../math/util.hpp"
+#include "math/util.hpp"
 #include "video/color.hpp"
 
 #include <assert.h>
@@ -121,7 +121,7 @@ Color::toVector()
 }
 
 std::optional<Color>
-Color::deserialize_color_from_rgb(const std::string & rgb_string)
+Color::deserialize_from_rgb(const std::string & rgb_string)
 {
   const std::regex rgb_format(R"(^\s*rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$)");
   std::smatch matches;
@@ -144,7 +144,7 @@ Color::deserialize_color_from_rgb(const std::string & rgb_string)
 }
 
 std::optional<Color>
-Color::deserialize_color_from_hex(const std::string& hex_string)
+Color::deserialize_from_hex(const std::string& hex_string)
 {
   const std::regex hex_format(R"(^\s*#([A-Fa-f0-9]{6})\s*$)");
   std::smatch matches;
@@ -167,7 +167,7 @@ Color::deserialize_color_from_hex(const std::string& hex_string)
 }
 
 std::string
-Color::serialize_color_to_hex(const Color& color)
+Color::serialize_to_hex(const Color& color)
 {
   std::stringstream ss;
   ss << "#"
@@ -179,7 +179,7 @@ Color::serialize_color_to_hex(const Color& color)
 }
 
 std::string
-Color::serialize_color_to_rgb(const Color& color)
+Color::serialize_to_rgb(const Color& color)
 {
   std::stringstream ss;
   ss << "rgb("

@@ -82,11 +82,11 @@ public:
                  static_cast<float>(a) / 255.0f);
   }
 
-  static std::optional<Color> deserialize_color_from_rgb(const std::string& rgb_string);
-  static std::optional<Color> deserialize_color_from_hex(const std::string& hex_string);
+  static std::optional<Color> deserialize_from_rgb(const std::string& rgb_string);
+  static std::optional<Color> deserialize_from_hex(const std::string& hex_string);
 
-  static std::string serialize_color_to_rgb(const Color& color);
-  static std::string serialize_color_to_hex(const Color& color);
+  static std::string serialize_to_rgb(const Color& color);
+  static std::string serialize_to_hex(const Color& color);
 
   static Color from_linear(float r, float g, float b, float a = 1.0f)
   {
