@@ -790,7 +790,7 @@ static void resume_target_timer()
 /**
  * @scripting
  * @description Override the Item Pocket setting in the Level.
- * @param string $allow Can be "on", "off", or "inherit" (use the setting in the Level)
+ * @param string $allow Can be "on", "off", or "inherit" (use the setting in the Level).
  */
 static void override_item_pocket(const std::string& allow)
 {
@@ -801,7 +801,7 @@ static void override_item_pocket(const std::string& allow)
 /**
  * @scripting
  * @description Get the override value for the Item Pocket.
- * Can be "on", "off", or "inherit" (use the setting in the Level)
+ * Can be "on", "off", or "inherit" (use the setting in the Level).
  */
 static std::string is_item_pocket_overridden()
 {
