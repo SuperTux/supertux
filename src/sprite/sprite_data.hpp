@@ -29,16 +29,17 @@
 
 class ReaderMapping;
 
-class SpriteData final
+class LinkedSpritesContainer
 {
   friend class Sprite;
 
+protected:
+  LinkedSpritesContainer();
+
 public:
-  SpriteData(const std::string& filename);
+  void parse_linked_sprites(const ReaderMapping& mapping);
 
-  void load();
-
-private:
+public:
   struct LinkedSprite final
   {
     LinkedSprite(const std::string& file_ = {}) :
@@ -57,11 +58,26 @@ private:
 
     std::string file;
     std::string action;
-    Color color;
+    std::optional<Color> color;
   };
   typedef std::unordered_map<std::string, LinkedSprite> LinkedSprites;
 
-  struct Action final
+protected:
+  std::optional<LinkedLightSprite> linked_light_sprite;
+  LinkedSprites linked_sprites;
+};
+
+class SpriteData final : public LinkedSpritesContainer
+{
+  friend class Sprite;
+
+public:
+  SpriteData(const std::string& filename);
+
+  void load();
+
+private:
+  struct Action final : public LinkedSpritesContainer
   {
     Action();
 
@@ -103,9 +119,6 @@ private:
     std::string family_name;
 
     std::vector<SurfacePtr> surfaces;
-
-    std::optional<LinkedLightSprite> linked_light_sprite;
-    LinkedSprites linked_sprites;
   };
 
 private:
@@ -120,9 +133,6 @@ private:
 
   typedef std::unordered_map<std::string, std::unique_ptr<Action>> Actions;
   Actions actions;
-
-  std::optional<LinkedLightSprite> linked_light_sprite;
-  LinkedSprites linked_sprites;
 
 private:
   SpriteData(const SpriteData& other);

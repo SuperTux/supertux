@@ -72,7 +72,7 @@ Key::update(float dt_sec)
     if (spawn_particle_now)
     {
       Sector::get().add<SpriteParticle>(
-        m_sprite->get_linked_sprite_file("sparkle"), "small",
+        m_sprite->get_linked_sprite("sparkle-spawn"),
         ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS + 6, false, m_color);
     }
 
@@ -219,7 +219,7 @@ Key::spawn_use_particles()
   for (int i = 1; i < 9; i++)
   {
     Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
-    Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite_file("sparkle"), "small-key-collect",
+    Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite("sparkle-collect"),
       get_bbox().get_middle(),
       ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false, m_color);
   }

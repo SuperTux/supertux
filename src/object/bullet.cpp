@@ -51,7 +51,7 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
       break;
   }
 
-  lightsprite = sprite->get_linked_light_sprite();
+  lightsprite = sprite->create_linked_light_sprite();
   if (lightsprite)
     lightsprite->set_blend(Blend::ADD);
 

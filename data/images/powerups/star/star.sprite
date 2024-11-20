@@ -12,5 +12,6 @@
 
   (linked-sprites
     (light "images/objects/lightmap_light/lightmap_light-small.sprite" "default" 0.4 0.4 0.4)
+    (sparkle "images/particles/sparkle.sprite")
   )
 )

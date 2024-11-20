@@ -39,19 +39,19 @@ public:
                 const std::string& walk_left_action,
                 const std::string& walk_right_action,
                 int layer = LAYER_OBJECTS,
-                const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+                const std::string& burn_light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
   WalkingBadguy(const Vector& pos, Direction direction,
                 const std::string& sprite_name,
                 const std::string& walk_left_action,
                 const std::string& walk_right_action,
                 int layer = LAYER_OBJECTS,
-                const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+                const std::string& burn_light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
   WalkingBadguy(const ReaderMapping& reader,
                 const std::string& sprite_name,
                 const std::string& walk_left_action,
                 const std::string& walk_right_action,
                 int layer = LAYER_OBJECTS,
-                const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+                const std::string& burn_light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
   virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(WalkingBadguy)); }
 
   virtual void initialize() override;

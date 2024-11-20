@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_OBJECT_SPRITE_PARTICLE_HPP
 
 #include "math/anchor_point.hpp"
+#include "sprite/sprite_data.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
@@ -30,6 +31,10 @@ class SpriteParticle final : public GameObject
 {
 public:
   SpriteParticle(SpritePtr sprite, const std::string& action,
+                 const Vector& position, AnchorPoint anchor,
+                 const Vector& velocity, const Vector& acceleration,
+                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE);
+  SpriteParticle(const SpriteData::LinkedSprite& linked_sprite,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
                  int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE);

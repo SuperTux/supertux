@@ -45,7 +45,7 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   willo_radius(200),
   willo_speed(1.8f),
   willo_color(0),
-  glow_sprite(m_sprite->get_linked_sprite("glow")),
+  glow_sprite(m_sprite->create_linked_sprite("glow")),
   colorchange_timer(),
   suck_timer(),
   root_timer(),

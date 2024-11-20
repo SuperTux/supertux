@@ -93,7 +93,7 @@ PowerUp::get_default_sprite_name() const
     case COFFEE:
       return "images/powerups/retro/coffee.png";
     case HERRING:
-      return "images/powerups/retro/golden_herring.png";
+      return "images/powerups/retro/golden_herring.sprite";
     default:
       return m_default_sprite_name;
   }
@@ -225,7 +225,7 @@ PowerUp::update(float dt_sec)
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);
           Sector::get().add<SpriteParticle>(
-            "images/particles/sparkle.sprite",
+            m_sprite->create_linked_sprite("sparkle"),
             // draw bright sparkles when very close to Tux, dark sparkles when slightly further
             (disp_x*disp_x + disp_y*disp_y <= 128*128) ?
             // make every other a longer sparkle to make trail a bit fuzzy

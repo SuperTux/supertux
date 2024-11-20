@@ -89,7 +89,7 @@ CorruptedGranitoBig::kill_fall()
 
   run_dead_script();
 
-  const std::string shard_sprite = m_sprite->get_linked_sprite_file("shard");
+  const std::string& shard_sprite = m_sprite->get_linked_sprite("shard").file;
   Sector::get().add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f), shard_sprite);
   Sector::get().add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f), shard_sprite);
   Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f),shard_sprite);
@@ -164,7 +164,7 @@ CorruptedGranitoBig::crack_effects(int particles)
   {
     const Vector velocity(graphicsRandom.randf(-100, 100),
                           graphicsRandom.randf(-400, -300));
-    Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite("rock-particles"),
+    Sector::get().add<SpriteParticle>(m_sprite->create_linked_sprite("rock-particles"),
                                       "piece-" + std::to_string(i),
                                       get_bbox().get_middle(), ANCHOR_MIDDLE,
                                       velocity, Vector(0, gravity),

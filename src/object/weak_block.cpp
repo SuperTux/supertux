@@ -56,7 +56,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
 
   if (m_type == HAY)
   {
-    lightsprite = m_sprite->get_linked_sprite("burn-light");
+    lightsprite = m_sprite->create_linked_sprite("burn-light");
     lightsprite->set_blend(Blend::ADD);
     lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
     SoundManager::current()->preload("sounds/fire.ogg"); // TODO: Use own sound?
@@ -209,7 +209,7 @@ WeakBlock::update(float )
           set_action("disintegrating", 1);
           spreadHit();
           set_group(COLGROUP_DISABLED);
-          lightsprite = m_sprite->get_linked_sprite("disintegrate-light");
+          lightsprite = m_sprite->create_linked_sprite("disintegrate-light");
           lightsprite->set_blend(Blend::ADD);
           lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }

@@ -31,8 +31,8 @@ Candle::Candle(const ReaderMapping& mapping) :
   burning(true),
   flicker(true),
   lightcolor(1.0f, 1.0f, 1.0f),
-  candle_light_1(m_sprite->get_linked_sprite("light-1")),
-  candle_light_2(m_sprite->get_linked_sprite("light-2"))
+  candle_light_1(m_sprite->create_linked_sprite("light-1")),
+  candle_light_2(m_sprite->create_linked_sprite("light-2"))
 {
   mapping.get("burning", burning, true);
   mapping.get("flicker", flicker, true);
@@ -144,8 +144,7 @@ Candle::puff_smoke()
   Vector ppos = m_col.m_bbox.get_middle();
   Vector pspeed = Vector(0, -150);
   Vector paccel = Vector(0,0);
-  Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
-                                         "default",
+  Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite("smoke"),
                                          ppos, ANCHOR_MIDDLE,
                                          pspeed, paccel,
                                          LAYER_BACKGROUNDTILES+2);

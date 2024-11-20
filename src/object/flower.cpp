@@ -50,7 +50,7 @@ Flower::Flower(BonusType _type, const std::string& custom_sprite) :
     assert(false);
   }
 
-  lightsprite = sprite->get_linked_light_sprite();
+  lightsprite = sprite->create_linked_light_sprite();
   if (lightsprite)
     lightsprite->set_blend(Blend::ADD);
 

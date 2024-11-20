@@ -18,5 +18,8 @@
 "firefly6.png"
 
   )
- )              
+ )        
+  (linked-sprites
+    (reset "images/particles/reset.sprite")
+  )
 )

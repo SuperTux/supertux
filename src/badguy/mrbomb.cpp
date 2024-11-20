@@ -34,7 +34,7 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
   m_state(MB_STATE_NORMAL),
   m_ticking_sound(),
-  m_exploding_sprite(m_sprite->get_linked_sprite("ticking-glow"))
+  m_exploding_sprite(m_sprite->create_linked_sprite("ticking-glow"))
 {
   walk_speed = 80;
   set_ledge_behavior(LedgeBehavior::SMART);
@@ -46,7 +46,7 @@ MrBomb::MrBomb(const ReaderMapping& reader, const std::string& sprite):
   WalkingBadguy(reader, sprite, "left", "right"),
   m_state(MB_STATE_NORMAL),
   m_ticking_sound(),
-  m_exploding_sprite(m_sprite->get_linked_sprite("ticking-glow"))
+  m_exploding_sprite(m_sprite->create_linked_sprite("ticking-glow"))
 {
   walk_speed = 80;
   set_ledge_behavior(LedgeBehavior::SMART);

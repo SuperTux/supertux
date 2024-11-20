@@ -138,7 +138,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   if (m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON)
   {
     SoundManager::current()->preload("sounds/switch.ogg");
-    m_lightsprite = m_sprite->get_linked_sprite("on-light");
+    m_lightsprite = m_sprite->create_linked_sprite("on-light");
     if (m_contents == Content::LIGHT_ON)
       set_action("on");
     else
@@ -406,7 +406,7 @@ BonusBlock::try_open(Player* player)
     case Content::RETROSTAR:
     {
       Sector::get().add<Star>(get_pos() + Vector(0, -32), direction,
-                              "images/powerups/retro/golden_herring.png");
+                              "images/powerups/retro/golden_herring.sprite");
       play_upgrade_sound = true;
       break;
     }
@@ -572,7 +572,7 @@ BonusBlock::try_drop(Player *player)
     case Content::RETROSTAR:
     {
       Sector::get().add<Star>(get_pos() + Vector(0, 32), direction,
-                              "images/powerups/retro/golden_herring.png");
+                              "images/powerups/retro/golden_herring.sprite");
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -759,7 +759,7 @@ BonusBlock::preload_contents(int d)
     case 6: // Light.
     case 15: // Light (On).
       SoundManager::current()->preload("sounds/switch.ogg");
-      m_lightsprite = m_sprite->get_linked_sprite("light");
+      m_lightsprite = m_sprite->create_linked_sprite("light");
       break;
 
     case 7:

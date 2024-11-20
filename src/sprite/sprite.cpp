@@ -101,7 +101,7 @@ Sprite::set_action(const std::string& name, int loops)
   if (!newaction) {
     // HACK: Lots of things trigger this message therefore turning it into a warning
     // would make it quite annoying
-    log_debug << "Action '" << name << "' not found." << std::endl;
+    log_debug << m_data.m_filename << ": Action '" << name << "' not found." << std::endl;
     return false;
   }
 
@@ -213,71 +213,60 @@ Sprite::draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
   context.pop_transform();
 }
 
-SpritePtr
+const std::optional<SpriteData::LinkedLightSprite>&
 Sprite::get_linked_light_sprite() const
 {
-  if (!m_data.linked_light_sprite && !m_action->linked_light_sprite)
-    return nullptr;
-
-  SpritePtr sprite;
-  if (m_action->linked_light_sprite)
-    sprite = SpriteManager::current()->create(m_action->linked_light_sprite->file);
-  else
-    sprite = SpriteManager::current()->create(m_data.linked_light_sprite->file);
-
-  if (m_action->linked_light_sprite && !m_action->linked_light_sprite->action.empty())
-    sprite->set_action(m_action->linked_light_sprite->action);
-  else if (m_data.linked_light_sprite && !m_data.linked_light_sprite->action.empty())
-    sprite->set_action(m_data.linked_light_sprite->action);
-
-  sprite->set_blend(Blend::ADD);
-  sprite->set_color(m_data.linked_light_sprite->color);
-  return sprite;
-}
-
-std::string
-Sprite::get_linked_light_sprite_file() const
-{
-  return m_action->linked_light_sprite ? m_action->linked_light_sprite->file :
-         (m_data.linked_light_sprite ? m_data.linked_light_sprite->file : "");
+  return m_action->linked_light_sprite ? m_action->linked_light_sprite : m_data.linked_light_sprite;
 }
 
 SpritePtr
-Sprite::get_linked_sprite(const std::string& key) const
+Sprite::create_linked_light_sprite() const
 {
-  SpritePtr sprite = SpriteManager::current()->create(get_linked_sprite_file(key));
+  const auto& sprite_data = get_linked_light_sprite();
 
-  if (m_action->linked_sprites.find(key) != m_action->linked_sprites.end())
+  SpritePtr sprite;
+  if (sprite_data)
   {
-    const SpriteData::LinkedSprite& linked_sprite = m_action->linked_sprites.at(key);
-    if (!linked_sprite.action.empty())
-      sprite->set_action(linked_sprite.action, linked_sprite.loops);
+    sprite = SpriteManager::current()->create(sprite_data->file);
+    if (!sprite_data->action.empty())
+      sprite->set_action(sprite_data->action);
+    if (sprite_data->color)
+      sprite->set_color(*sprite_data->color);
+    sprite->set_blend(Blend::ADD);
   }
-  else if (m_data.linked_sprites.find(key) != m_data.linked_sprites.end())
-  {
-    const SpriteData::LinkedSprite& linked_sprite = m_data.linked_sprites.at(key);
-    if (!linked_sprite.action.empty())
-      sprite->set_action(linked_sprite.action, linked_sprite.loops);
-  }
-
   return sprite;
 }
 
-std::string
-Sprite::get_linked_sprite_file(const std::string& key) const
+const SpriteData::LinkedSprite&
+Sprite::get_linked_sprite(const std::string& key) const
 {
   auto it = m_action->linked_sprites.find(key);
   if (it != m_action->linked_sprites.end())
-    return it->second.file;
+    return it->second;
 
   it = m_data.linked_sprites.find(key);
   if (it == m_data.linked_sprites.end()) // No linked sprite with such key
   {
-    log_warning << "No linked sprite with key '" << key << "'." << std::endl;
-    return ""; // Empty sprite name leads to a dummy sprite
+    log_warning << m_data.m_filename << ": No linked sprite with key '" << key << "'." << std::endl;
+
+    static SpriteData::LinkedSprite dummy_sprite_data;
+    return dummy_sprite_data; // Empty linked sprite with an empty filename leads to a dummy sprite
   }
 
-  return it->second.file;
+  return it->second;
+}
+
+SpritePtr
+Sprite::create_linked_sprite(const std::string& key) const
+{
+  const auto& sprite_data = get_linked_sprite(key);
+
+  SpritePtr sprite = SpriteManager::current()->create(sprite_data.file);
+  if (sprite_data.action.empty())
+    sprite->set_animation_loops(sprite_data.loops);
+  else
+    sprite->set_action(sprite_data.action, sprite_data.loops);
+  return sprite;
 }
 
 int

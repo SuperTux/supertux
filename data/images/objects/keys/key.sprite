@@ -11,6 +11,7 @@
 
   (linked-sprites
     (light "images/objects/lightmap_light/lightmap_light-small.sprite")
-    (sparkle "images/particles/sparkle.sprite")
+    (sparkle-small "images/particles/sparkle.sprite" "small")
+    (sparkle-collect "images/particles/sparkle.sprite" "small-key-collect")
   )
 )

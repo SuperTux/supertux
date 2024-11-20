@@ -52,5 +52,6 @@
   (linked-sprites
     (light-1 "candle-light-1.sprite")
     (light-2 "candle-light-2.sprite")
+    (smoke "images/particles/smoke.sprite")
   )
 )

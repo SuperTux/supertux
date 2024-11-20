@@ -28,8 +28,8 @@
 Torch::Torch(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/torch/torch1.sprite", LAYER_TILES),
   m_light_color(1.f, 1.f, 1.f),
-  m_flame(m_sprite->get_linked_sprite("flame")),
-  m_flame_glow(m_sprite->get_linked_sprite("glow")),
+  m_flame(m_sprite->create_linked_sprite("flame")),
+  m_flame_glow(m_sprite->create_linked_sprite("glow")),
   m_burning(true)
 {
   reader.get("burning", m_burning, true);

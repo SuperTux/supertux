@@ -39,7 +39,7 @@ Door::Door(const ReaderMapping& mapping) :
   m_target_sector(),
   m_target_spawnpoint(),
   m_script(),
-  m_lock_sprite(m_sprite->get_linked_sprite("lock")),
+  m_lock_sprite(m_sprite->create_linked_sprite("lock")),
   m_stay_open_timer(),
   m_unlocking_timer(),
   m_lock_warn_timer(),
@@ -141,8 +141,8 @@ Door::update(float )
     case UNLOCKING:
       if (m_unlocking_timer.check())
       {
-        Sector::get().add<SpriteParticle>("images/objects/door/door_lock.sprite",
-          "default", get_bbox().get_middle(), ANCHOR_MIDDLE, Vector(0.f, -300.f), Vector(0.f, 1000.f), LAYER_OBJECTS - 2, true, m_lock_color);
+        Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite("lock"),
+          get_bbox().get_middle(), ANCHOR_MIDDLE, Vector(0.f, -300.f), Vector(0.f, 1000.f), LAYER_OBJECTS - 2, true, m_lock_color);
         m_unlocking_timer.stop();
         m_state = DoorState::CLOSED;
       }

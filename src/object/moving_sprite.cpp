@@ -216,12 +216,12 @@ MovingSprite::on_sprite_update()
   update_hitbox();
 
   // Update light sprite
-  m_light_sprite = m_sprite->get_linked_light_sprite();
+  m_light_sprite = m_sprite->create_linked_light_sprite();
 
   // Update other linked sprites
   auto linked_sprites = get_linked_sprites();
   for (const auto& [key, sprite] : linked_sprites)
-    sprite = m_sprite->get_linked_sprite(key);
+    sprite = m_sprite->create_linked_sprite(key);
 }
 
 bool

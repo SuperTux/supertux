@@ -43,7 +43,7 @@ Haywire::Haywire(const ReaderMapping& reader) :
   time_until_explosion(0.0f),
   is_stunned(false),
   time_stunned(0.0f),
-  m_exploding_sprite(m_sprite->get_linked_sprite("ticking-glow")),
+  m_exploding_sprite(m_sprite->create_linked_sprite("ticking-glow")),
   m_jumping(false),
   m_skid_timer(),
   m_last_player_direction(Direction::LEFT),

@@ -10,5 +10,10 @@
   (images "iceflame-fade-0.png"
           "iceflame-fade-1.png"
           "iceflame-fade-2.png"))
+
+  (linked-sprites
+    (light "images/objects/lightmap_light/lightmap_light-small.sprite" "" 0 0.13 0.18)
+    (smoke "images/particles/smoke.sprite")
+  )
 )
 

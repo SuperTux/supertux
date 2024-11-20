@@ -27,7 +27,7 @@ GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom
   MovingSprite(pos, custom_sprite.empty() ? "images/powerups/egg/egg.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
   m_physic(),
   m_custom_sprite(!custom_sprite.empty()),
-  m_shadesprite(m_sprite->get_linked_sprite("shade"))
+  m_shadesprite(m_sprite->create_linked_sprite("shade"))
 {
   m_physic.enable_gravity(true);
   m_physic.set_velocity_x((direction == Direction::LEFT) ? -100.0f : 100.0f);
