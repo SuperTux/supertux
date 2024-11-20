@@ -39,12 +39,12 @@ static const float BORDER_Y = 10;
  * @scripting
  */
 enum BonusType {
-  BONUS_NONE = 0, /*!< No bonus. */
-  BONUS_GROWUP, /*!< Growup (a.k.a. egg) bonus. */
-  BONUS_FIRE, /*!< Fire bonus. */
-  BONUS_ICE, /*!< Ice bonus. */
-  BONUS_AIR, /*!< Air bonus. */
-  BONUS_EARTH /*!< Earth bonus. */
+  BONUS_NONE = 0, /*!< @description No bonus. */
+  BONUS_GROWUP,   /*!< @description Growup (a.k.a. egg) bonus. */
+  BONUS_FIRE,     /*!< @description Fire bonus. */
+  BONUS_ICE,      /*!< @description Ice bonus. */
+  BONUS_AIR,      /*!< @description Air bonus. */
+  BONUS_EARTH     /*!< @description Earth bonus. */
 };
 
 /** This class keeps player status between different game sessions (for
