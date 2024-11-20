@@ -46,7 +46,7 @@ ColorMenu::ColorMenu(Color* color) :
 
     if (clipboard_text)
     {
-      std::string text(clipboard_text);
+      const std::string text(clipboard_text);
       SDL_free(clipboard_text);
 
       clipboard_color = Color::deserialize_from_rgb(text);
@@ -96,12 +96,12 @@ ColorMenu::menu_action(MenuItem& item)
   {
     if (SDL_HasClipboardText())
     {
-      const char* clipboard_text = SDL_GetClipboardText();
+      char* clipboard_text = SDL_GetClipboardText();
       if (!clipboard_text)
         return;
 
       const std::string text(clipboard_text);
-      SDL_free(const_cast<char*>(clipboard_text));
+      SDL_free(clipboard_text);
 
       std::optional<Color> clipboard_color = Color::deserialize_from_rgb(text);
       if (!clipboard_color)
