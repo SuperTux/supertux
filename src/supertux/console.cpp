@@ -31,7 +31,6 @@
 static const float FADE_SPEED = 1;
 
 ConsoleBuffer::ConsoleBuffer() :
-  m_lines(),
   m_console(nullptr)
 {
 }
@@ -45,63 +44,20 @@ ConsoleBuffer::set_console(Console* console)
   m_console = console;
 }
 
-void
-ConsoleBuffer::addLines(const std::string& s)
+int
+ConsoleBuffer::add_line(const std::string& s)
 {
-  std::istringstream iss(s);
-  std::string line;
-  while (std::getline(iss, line, '\n'))
-  {
-    addLine(line);
-  }
-}
-
-void
-ConsoleBuffer::addLine(const std::string& s_)
-{
-  std::string s = s_;
-
   // Output line to stderr.
   get_logging_instance(false) << s << std::endl;
 
-  // Wrap long lines.
-  std::string overflow;
-  int line_count = 0;
-  do {
-    m_lines.push_front(Font::wrap_to_chars(s, 99, &overflow));
-    line_count += 1;
-    s = overflow;
-  } while (s.length() > 0);
-
-  // Trim scrollback buffer.
-  while (m_lines.size() >= 1000)
-  {
-    m_lines.pop_back();
-  }
+  const int line_count = StreamLineBuffer::add_line(s);
 
   if (m_console)
-  {
     m_console->on_buffer_change(line_count);
-  }
+
+  return line_count;
 }
 
-void
-ConsoleBuffer::flush(ConsoleStreamBuffer& buffer)
-{
-  if (&buffer == &s_outputBuffer)
-  {
-    std::string s = s_outputBuffer.str();
-    if ((s.length() > 0) && ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r')))
-    {
-      while ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r'))
-      {
-        s.erase(s.length()-1);
-      }
-      addLines(s);
-      s_outputBuffer.str("");
-    }
-  }
-}
 
 Console::Console(ConsoleBuffer& buffer) :
   m_buffer(buffer),
@@ -180,11 +136,11 @@ Console::execute_script(const std::string& command)
     ssq::Object ret = m_vm.runAndReturn(m_vm.compileSource(command.c_str()));
 
     if (ret.getType() != ssq::Type::NULLPTR)
-      m_buffer.addLines(squirrel_to_string(ret));
+      m_buffer.add_lines(squirrel_to_string(ret));
   }
   catch (const std::exception& e)
   {
-    m_buffer.addLines(e.what());
+    m_buffer.add_lines(e.what());
   }
 
   if (m_vm.getTop() < old_top)
@@ -224,7 +180,7 @@ Console::eraseChar()
 void
 Console::enter()
 {
-  m_buffer.addLines("> " + m_inputBuffer);
+  m_buffer.add_lines("> " + m_inputBuffer);
   parse(m_inputBuffer);
   m_inputBuffer = "";
   m_inputBufferPosition = 0;
@@ -343,7 +299,7 @@ Console::autocomplete()
     autocompleteFrom = 0;
   }
   std::string prefix = m_inputBuffer.substr(autocompleteFrom, m_inputBufferPosition - autocompleteFrom);
-  m_buffer.addLines("> " + prefix);
+  m_buffer.add_lines("> " + prefix);
 
   std::list<std::string> cmds;
 
@@ -368,7 +324,7 @@ Console::autocomplete()
   // Depending on number of hits, show matches or autocomplete.
   if (cmds.empty())
   {
-    m_buffer.addLines("No known command starts with \"" + prefix + "\"");
+    m_buffer.add_lines("No known command starts with \"" + prefix + "\"");
   }
 
   if (cmds.size() == 1)
@@ -386,7 +342,7 @@ Console::autocomplete()
     while (cmds.begin() != cmds.end()) {
       std::string cmd = cmds.front();
       cmds.pop_front();
-      m_buffer.addLines(cmd);
+      m_buffer.add_lines(cmd);
       for (int n = static_cast<int>(commonPrefix.length()); n >= 1; n--) {
         if (cmd.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;
       }
@@ -428,7 +384,7 @@ Console::parse(const std::string& s)
   try {
     execute_script(s);
   } catch(std::exception& e) {
-    m_buffer.addLines(e.what());
+    m_buffer.add_lines(e.what());
   }
 }
 
@@ -559,7 +515,7 @@ Console::draw(DrawingContext& context) const
   }
 
   int skipLines = -m_offset;
-  for (std::list<std::string>::iterator i = m_buffer.m_lines.begin(); i != m_buffer.m_lines.end(); ++i)
+  for (auto i = m_buffer.get_lines().begin(); i != m_buffer.get_lines().end(); ++i)
   {
     if (skipLines-- > 0) continue;
     lineNo++;
@@ -570,7 +526,7 @@ Console::draw(DrawingContext& context) const
   context.pop_transform();
 }
 
-ConsoleStreamBuffer ConsoleBuffer::s_outputBuffer;
+StreamBuffer<ConsoleBuffer> ConsoleBuffer::s_outputBuffer;
 std::ostream ConsoleBuffer::output(&ConsoleBuffer::s_outputBuffer);
 
 /* EOF */
