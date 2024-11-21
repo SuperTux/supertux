@@ -20,6 +20,7 @@
 #include "supertux/statistics.hpp"
 
 class Player;
+class PlayerStatus;
 class ReaderMapping;
 class Sector;
 class Writer;
@@ -76,17 +77,36 @@ private:
   void load_old_format(const ReaderMapping& reader);
 
 public:
+  enum Setting
+  {
+    OFF,
+    ON,
+
+    /// Inherit setting from worldmap.
+    /// If level is in a levelset, this defaults to ON.
+    INHERIT
+  };
+  static std::string get_setting_name(Setting setting);
+  static Setting get_setting_from_name(std::string setting);
+
   bool m_is_worldmap;
+
   std::string m_name;
   std::string m_author;
   std::string m_contact;
   std::string m_license;
   std::string m_filename;
   std::string m_note;
+
   std::vector<std::unique_ptr<Sector> > m_sectors;
+
   Statistics m_stats;
   float m_target_time;
+
   std::string m_tileset;
+
+  int m_allow_item_pocket; ///< This is actually a Level::Setting. It's an int because casting is wack.
+
   bool m_suppress_pause_menu;
   bool m_is_in_cutscene;
   bool m_skip_cutscene;
