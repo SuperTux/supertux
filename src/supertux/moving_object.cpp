@@ -81,42 +81,6 @@ MovingObject::set_parent_dispenser(Dispenser* dispenser)
   }
 }
 
-float
-MovingObject::get_x() const
-{
-  return m_col.m_bbox.get_left();
-}
-
-float
-MovingObject::get_y() const
-{
-  return m_col.m_bbox.get_top();
-}
-
-void
-MovingObject::set_pos(float x, float y)
-{
-  set_pos(Vector(x, y));
-}
-
-void
-MovingObject::move(float x, float y)
-{
-  move(Vector(x, y));
-}
-
-float
-MovingObject::get_width() const
-{
-  return m_col.m_bbox.get_width();
-}
-
-float
-MovingObject::get_height() const
-{
-  return m_col.m_bbox.get_height();
-}
-
 void
 MovingObject::editor_select()
 {

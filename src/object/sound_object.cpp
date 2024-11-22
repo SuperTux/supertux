@@ -129,12 +129,6 @@ SoundObject::set_volume(float volume)
   m_sound_source->set_gain(volume);
 }
 
-float
-SoundObject::get_volume() const
-{
-  return m_volume;
-}
-
 
 void
 SoundObject::register_class(ssq::VM& vm)

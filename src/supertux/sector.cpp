@@ -343,18 +343,6 @@ Sector::calculate_foremost_layer(bool including_transparent) const
   return layer;
 }
 
-int
-Sector::get_foremost_opaque_layer() const
-{
-  return m_foremost_opaque_layer;
-}
-
-int
-Sector::get_foremost_layer() const
-{
-  return m_foremost_layer;
-}
-
 TileSet*
 Sector::get_tileset() const
 {
@@ -700,18 +688,6 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
   }
 }
 
-void
-Sector::set_gravity(float gravity)
-{
-  m_gravity = gravity;
-}
-
-float
-Sector::get_gravity() const
-{
-  return m_gravity;
-}
-
 Player*
 Sector::get_nearest_player(const Vector& pos) const
 {
@@ -888,16 +864,16 @@ Sector::get_camera() const
   return get_singleton_by_type<Camera>();
 }
 
-std::vector<Player*>
-Sector::get_players() const
-{
-  return m_level.get_players();
-}
-
 DisplayEffect&
 Sector::get_effect() const
 {
   return get_singleton_by_type<DisplayEffect>();
+}
+
+std::vector<Player*>
+Sector::get_players() const
+{
+  return m_level.get_players();
 }
 
 

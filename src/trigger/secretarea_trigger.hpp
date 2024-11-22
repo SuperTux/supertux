@@ -43,7 +43,7 @@ public:
   virtual void event(Player& player, EventType type) override;
   virtual void draw(DrawingContext& context) override;
 
-  const std::string& get_fade_tilemap_name() const { return fade_tilemap; }
+  inline const std::string& get_fade_tilemap_name() const { return fade_tilemap; }
 
 private:
   Timer message_timer;

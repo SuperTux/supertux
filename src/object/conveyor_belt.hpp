@@ -84,7 +84,7 @@ public:
    * @scripting
    * @description Returns the shifting speed of the conveyor.
    */
-  float get_speed() const;
+  inline float get_speed() const { return m_speed; }
 
 private:
   void update_hitbox() override;

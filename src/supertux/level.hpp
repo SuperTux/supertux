@@ -47,18 +47,18 @@ public:
   void save(std::ostream& stream);
 
   void add_sector(std::unique_ptr<Sector> sector);
-  const std::string& get_name() const { return m_name; }
-  const std::string& get_author() const { return m_author; }
+  inline const std::string& get_name() const { return m_name; }
+  inline const std::string& get_author() const { return m_author; }
 
   Sector* get_sector(const std::string& name) const;
 
   size_t get_sector_count() const;
   Sector* get_sector(size_t num) const;
-  const std::vector<std::unique_ptr<Sector> >& get_sectors() const { return m_sectors; }
+  inline const std::vector<std::unique_ptr<Sector>>& get_sectors() const { return m_sectors; }
 
   std::vector<Player*> get_players() const;
 
-  const std::string& get_tileset() const { return m_tileset; }
+  inline const std::string& get_tileset() const { return m_tileset; }
 
   int get_total_coins() const;
   int get_total_badguys() const;
@@ -66,9 +66,9 @@ public:
 
   void reactivate();
 
-  bool is_worldmap() const { return m_is_worldmap; }
+  inline bool is_worldmap() const { return m_is_worldmap; }
 
-  const std::string& get_license() const { return m_license; }
+  inline const std::string& get_license() const { return m_license; }
 
 private:
   void initialize(const Statistics::Preferences& stat_preferences);

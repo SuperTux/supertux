@@ -33,42 +33,50 @@ public:
   void reset();
 
   /// Sets velocity to a fixed value.
-  void set_velocity(float nvx, float nvy);
+  inline void set_velocity(float nvx, float nvy)
+  {
+    vx = nvx;
+    vy = nvy;
+  }
   void set_velocity(const Vector& vector);
 
-  void set_velocity_x(float nvx) { vx = nvx; }
-  void set_velocity_y(float nvy) { vy = nvy; }
+  inline void set_velocity_x(float nvx) { vx = nvx; }
+  inline void set_velocity_y(float nvy) { vy = nvy; }
 
   /// Velocity inversion.
   void inverse_velocity_x() { vx = -vx; }
   void inverse_velocity_y() { vy = -vy; }
 
-  Vector get_velocity() const { return Vector(vx, vy); }
-  float get_velocity_x() const { return vx; }
-  float get_velocity_y() const { return vy; }
+  inline Vector get_velocity() const { return Vector(vx, vy); }
+  inline float get_velocity_x() const { return vx; }
+  inline float get_velocity_y() const { return vy; }
 
   /// Set acceleration.
   /** Sets acceleration applied to the object. (Note that gravity is
    * eventually added to the vertical acceleration)
    */
-  void set_acceleration(float nax, float nay);
+  inline void set_acceleration(float nax, float nay)
+  {
+    ax = nax;
+    ay = nay;
+  }
   void set_acceleration(const Vector& vector);
 
-  void set_acceleration_x(float nax) { ax = nax; }
-  void set_acceleration_y(float nay) { ay = nay; }
+  inline void set_acceleration_x(float nax) { ax = nax; }
+  inline void set_acceleration_y(float nay) { ay = nay; }
 
-  Vector get_acceleration() const { return Vector(ax, ay); }
-  float get_acceleration_x() const { return ax; }
-  float get_acceleration_y() const { return ay; }
+  inline Vector get_acceleration() const { return Vector(ax, ay); }
+  inline float get_acceleration_x() const { return ax; }
+  inline float get_acceleration_y() const { return ay; }
 
   /// Enables or disables handling of gravity.
-  void enable_gravity(bool enable) { gravity_enabled_flag = enable; }
-  bool gravity_enabled() const { return gravity_enabled_flag; }
+  inline void enable_gravity(bool enable) { gravity_enabled_flag = enable; }
+  inline bool gravity_enabled() const { return gravity_enabled_flag; }
 
   /** Set gravity modifier factor to apply to object when enabled */
-  void set_gravity_modifier(float modifier) { gravity_modifier = modifier; }
+  inline void set_gravity_modifier(float modifier) { gravity_modifier = modifier; }
 
-  float get_gravity_modifier() const { return gravity_modifier; }
+  inline float get_gravity_modifier() const { return gravity_modifier; }
 
   Vector get_movement(float dt_sec);
 

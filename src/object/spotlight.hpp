@@ -69,12 +69,12 @@ public:
    * @description Enables/disables the spotlight.
    * @param bool $enabled
    */
-  void set_enabled(bool enabled);
+  inline void set_enabled(bool enabled) { m_enabled = enabled; }
   /**
    * @scripting
    * @description Returns ""true"" if the spotlight is enabled.
    */
-  bool is_enabled();
+  inline bool is_enabled() { return m_enabled; }
 
   /**
    * @scripting
@@ -88,14 +88,14 @@ public:
    * @description Sets the angle of the spotlight.
    * @param float $angle
    */
-  void set_angle(float angle);
+  inline void set_angle(float angle) { m_angle = angle; }
   /**
    * @scripting
    * @description Fades the angle of the spotlight in ""time"" seconds.
    * @param float $angle
    * @param float $time
    */
-  void fade_angle(float angle, float time);
+  inline void fade_angle(float angle, float time) { ease_angle(time, angle); }
   /**
    * @scripting
    * @description Fades the angle of the spotlight in ""time"" seconds, with easing.
@@ -110,14 +110,14 @@ public:
    * @description Sets the speed of the spotlight.
    * @param float $speed
    */
-  void set_speed(float speed);
+  inline void set_speed(float speed) { m_speed = speed; }
   /**
    * @scripting
    * @description Fades the speed of the spotlight in ""time"" seconds.
    * @param float $speed
    * @param float $time
    */
-  void fade_speed(float speed, float time);
+  inline void fade_speed(float speed, float time) { ease_speed(time, speed); }
   /**
    * @scripting
    * @description Fades the speed of the spotlight in ""time"" seconds, with easing.
@@ -135,7 +135,7 @@ public:
    * @param float $b
    * @param float $a
    */
-  void set_color_rgba(float r, float g, float b, float a);
+  inline void set_color_rgba(float r, float g, float b, float a) { m_color = Color(r, g, b, a); }
   /**
    * @scripting
    * @description Fades the spotlight to a new RGBA color in ""time"" seconds.
@@ -145,7 +145,7 @@ public:
    * @param float $a
    * @param float $time
    */
-  void fade_color_rgba(float r, float g, float b, float a, float time);
+  inline void fade_color_rgba(float r, float g, float b, float a, float time) { ease_color(time, Color(r, g, b, a)); }
   /**
    * @scripting
    * @description Fades the spotlight to a new RGBA color in ""time"" seconds, with easing.

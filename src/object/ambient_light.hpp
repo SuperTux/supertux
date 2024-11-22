@@ -41,8 +41,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  void set_ambient_light(const Color& ambient_light);
-  Color get_ambient_light() const;
+  inline void set_ambient_light(const Color& ambient_light) { m_ambient_light = ambient_light; }
+  inline Color get_ambient_light() const { return m_ambient_light; }
 
   /** Fades to the target ambient light */
   void fade_to_ambient_light(float red, float green, float blue, float seconds);

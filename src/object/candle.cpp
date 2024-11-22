@@ -120,12 +120,6 @@ Candle::puff_smoke()
                                          LAYER_BACKGROUNDTILES+2);
 }
 
-bool
-Candle::get_burning() const
-{
-  return burning;
-}
-
 void
 Candle::set_burning(bool burning_)
 {

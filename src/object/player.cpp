@@ -275,29 +275,11 @@ Player::~Player()
   if (m_climbing) stop_climbing(*m_climbing);
 }
 
-float
-Player::get_speedlimit() const
-{
-  return m_speedlimit;
-}
-
-void
-Player::set_speedlimit(float newlimit)
-{
-  m_speedlimit = newlimit;
-}
-
 void
 Player::set_id(int id)
 {
   m_id = id;
   m_controller = &(InputManager::current()->get_controller(id));
-}
-
-void
-Player::set_controller(const Controller* controller_)
-{
-  m_controller = controller_;
 }
 
 void
@@ -1174,18 +1156,6 @@ Player::swim(float pointx, float pointy, bool boost)
   }
 }
 
-bool
-Player::on_ground() const
-{
-  return m_on_ground_flag;
-}
-
-void
-Player::set_on_ground(bool flag)
-{
-  m_on_ground_flag = flag;
-}
-
 void
 Player::apply_friction()
 {
@@ -1896,18 +1866,6 @@ Player::handle_input_ghost()
   m_physic.set_acceleration(0, 0);
 }
 
-void
-Player::add_coins(int count)
-{
-  m_player_status.add_coins(count);
-}
-
-int
-Player::get_coins() const
-{
-  return m_player_status.coins;
-}
-
 BonusType
 Player::string_to_bonus(const std::string& bonus) const
 {
@@ -2028,24 +1986,6 @@ Player::set_bonus(BonusType type, bool animate)
 
   m_player_status.bonus[get_id()] = type;
   return true;
-}
-
-BonusType
-Player::get_bonus() const
-{
-  return m_player_status.bonus[m_id];
-}
-
-void
-Player::set_visible(bool visible)
-{
-  m_visible = visible;
-}
-
-bool
-Player::get_visible() const
-{
-  return m_visible;
 }
 
 void
@@ -2653,30 +2593,6 @@ Player::add_velocity(const Vector& velocity, const Vector& end_speed)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
 }
 
-Vector
-Player::get_velocity() const
-{
-  return m_physic.get_velocity();
-}
-
-float
-Player::get_velocity_x() const
-{
-  return m_physic.get_velocity_x();
-}
-
-float
-Player::get_velocity_y() const
-{
-  return m_physic.get_velocity_y();
-}
-
-void
-Player::set_velocity(float x, float y)
-{
-  m_physic.set_velocity(x, y);
-}
-
 void
 Player::bounce(BadGuy& )
 {
@@ -2728,12 +2644,6 @@ Player::get_input_released(const std::string& input)
 }
 
 void
-Player::walk(float speed)
-{
-  m_physic.set_velocity_x(speed);
-}
-
-void
 Player::set_dir(bool right)
 {
   m_dir = right ? Direction::RIGHT : Direction::LEFT;
@@ -2760,12 +2670,6 @@ Player::set_ghost_mode(bool enable)
     m_physic.enable_gravity(true);
     log_debug << "You feel solid again." << std::endl;
   }
-}
-
-bool
-Player::get_ghost_mode() const
-{
-  return m_ghost_mode;
 }
 
 void

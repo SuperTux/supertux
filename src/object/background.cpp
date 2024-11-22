@@ -337,12 +337,6 @@ Background::update(float dt_sec)
 }
 
 void
-Background::set_color(float red, float green, float blue, float alpha)
-{
-  m_color = Color(red, green, blue, alpha);
-}
-
-void
 Background::fade_color(Color color, float time)
 {
   m_src_color = m_color;
@@ -351,12 +345,6 @@ Background::fade_color(Color color, float time)
   m_timer_color.start(time, false);
 
   m_color = m_src_color;
-}
-
-void
-Background::fade_color(float red, float green, float blue, float alpha, float time)
-{
-  fade_color(Color(red, green, blue, alpha), time);
 }
 
 void
@@ -386,30 +374,6 @@ Background::set_speed(float speed)
 {
   m_parallax_speed.x = speed;
   m_parallax_speed.y = speed;
-}
-
-float
-Background::get_color_red() const
-{
-  return m_color.red;
-}
-
-float
-Background::get_color_green() const
-{
-  return m_color.green;
-}
-
-float
-Background::get_color_blue() const
-{
-  return m_color.blue;
-}
-
-float
-Background::get_color_alpha() const
-{
-  return m_color.alpha;
 }
 
 void

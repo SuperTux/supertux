@@ -86,8 +86,8 @@ public:
    */
   void fade_out(float time);
 
-  void set_visible(bool v) { m_visible = v; }
-  bool is_visible() const { return m_visible; }
+  inline void set_visible(bool v) { m_visible = v; }
+  inline bool is_visible() const { return m_visible; }
 
 private:
   std::string m_default_action;

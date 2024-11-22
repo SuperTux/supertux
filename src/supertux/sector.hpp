@@ -82,7 +82,7 @@ public:
 
   std::string get_exposed_class_name() const override { return "Sector"; }
 
-  Level& get_level() const { return m_level; }
+  inline Level& get_level() const { return m_level; }
   TileSet* get_tileset() const override;
   bool in_worldmap() const override;
 
@@ -193,8 +193,8 @@ public:
 
   Rectf get_active_region() const;
 
-  int get_foremost_opaque_layer() const;
-  int get_foremost_layer() const;
+  inline int get_foremost_opaque_layer() const { return m_foremost_opaque_layer; }
+  inline int get_foremost_layer() const { return m_foremost_layer; }
 
   /** returns the editor size (in tiles) of a sector */
   Size get_editor_size() const;
@@ -210,18 +210,19 @@ public:
    * Sets the sector's gravity.
    * @param float $gravity
    */
-  void set_gravity(float gravity);
+  inline void set_gravity(float gravity) { m_gravity = gravity; }
   /**
    * @scripting
    * Returns the sector's gravity.
    * @param float $gravity
    */
-  float get_gravity() const;
+  inline float get_gravity() const { return m_gravity; }
 
   Camera& get_camera() const;
-  std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
-  TextObject& get_text_object() const { return m_text_object; }
+  inline TextObject& get_text_object() const { return m_text_object; }
+
+  std::vector<Player*> get_players() const;
 
   Vector get_spawn_point_position(const std::string& spawnpoint);
 

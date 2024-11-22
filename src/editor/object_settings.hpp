@@ -48,7 +48,7 @@ public:
 
   ObjectSettings& operator=(ObjectSettings&&) = default;
 
-  const std::string& get_name() const { return m_name; }
+  inline const std::string& get_name() const { return m_name; }
 
   void add_bool(const std::string& text, bool* value_ptr,
                 const std::string& key = {},
@@ -164,7 +164,7 @@ public:
   // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
   void add_button(const std::string& text, const std::function<void()>& callback);
 
-  const std::vector<std::unique_ptr<BaseObjectOption> >& get_options() const { return m_options; }
+  inline const std::vector<std::unique_ptr<BaseObjectOption>>& get_options() const { return m_options; }
 
   /** Reorder the options in the given order, this is a hack to get
       saving identical to the other editor */

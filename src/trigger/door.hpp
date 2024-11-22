@@ -43,10 +43,10 @@ public:
 
   virtual void on_flip(float height) override;
 
-  bool is_locked() const { return m_locked; }
+  inline bool is_locked() const { return m_locked; }
   void unlock();
 
-  Color get_lock_color() const { return m_lock_color; }
+  inline Color get_lock_color() const { return m_lock_color; }
 
 private:
   enum DoorState {

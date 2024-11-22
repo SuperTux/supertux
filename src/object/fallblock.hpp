@@ -45,7 +45,7 @@ public:
   virtual void on_flip(float height) override;
 
 public:
-  Physic& get_physic() { return m_physic; }
+  inline Physic& get_physic() { return m_physic; }
 
   enum State
   {
@@ -55,7 +55,7 @@ public:
     LAND
   };
 
-  State get_state() const { return m_state; }
+  inline State get_state() const { return m_state; }
 
 private:
   State m_state;

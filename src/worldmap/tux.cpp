@@ -175,24 +175,6 @@ Tux::stop()
 }
 
 void
-Tux::set_direction(Direction dir)
-{
-  m_input_direction = dir;
-}
-
-void
-Tux::set_ghost_mode(bool enabled)
-{
-  m_ghost_mode = enabled;
-}
-
-bool
-Tux::get_ghost_mode() const
-{
-  return m_ghost_mode;
-}
-
-void
 Tux::try_start_walking()
 {
   if (m_moving)

@@ -268,19 +268,6 @@ WorldMap::set_levels_solved(bool solved, bool perfect)
   }
 }
 
-void
-WorldMap::set_passive_message(const std::string& message, float time)
-{
-  m_passive_message = message;
-  m_passive_message_timer.start(time);
-}
-
-void
-WorldMap::set_initial_spawnpoint(const std::string& spawnpoint)
-{
-  m_force_spawnpoint = spawnpoint;
-}
-
 
 WorldMapSector*
 WorldMap::get_sector(const std::string& name) const

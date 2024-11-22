@@ -60,15 +60,15 @@ public:
 
   void set_gradient(const Color& top, const Color& bottom);
   void fade_gradient(const Color& top, const Color& bottom, float time);
-  Color get_gradient_top() const { return m_gradient_top; }
-  Color get_gradient_bottom() const { return m_gradient_bottom; }
+  inline Color get_gradient_top() const { return m_gradient_top; }
+  inline Color get_gradient_bottom() const { return m_gradient_bottom; }
 
-  GradientDirection get_direction() const { return m_gradient_direction; }
+  inline GradientDirection get_direction() const { return m_gradient_direction; }
   std::string get_direction_string() const;
-  void set_direction(const GradientDirection& direction);
+  inline void set_direction(const GradientDirection& direction) { m_gradient_direction = direction; }
 
-  void set_layer(int layer) { m_layer = layer; }
-  int get_layer() const { return m_layer; }
+  inline void set_layer(int layer) { m_layer = layer; }
+  inline int get_layer() const { return m_layer; }
 
   /**
    * @scripting

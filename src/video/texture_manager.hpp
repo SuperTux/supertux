@@ -59,7 +59,7 @@ public:
 
   void debug_print(std::ostream& out) const;
 
-  bool last_load_successful() const { return m_load_successful; }
+  inline bool last_load_successful() const { return m_load_successful; }
 
 private:
   const SDL_Surface& get_surface(const std::string& filename);

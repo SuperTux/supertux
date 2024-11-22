@@ -154,12 +154,6 @@ TreeWillOWisp::set_color(const Color& color_)
   m_sprite->set_color(color_);
 }
 
-Color
-TreeWillOWisp::get_color() const
-{
-  return color;
-}
-
 void TreeWillOWisp::stop_looping_sounds()
 {
   if (sound_source) {

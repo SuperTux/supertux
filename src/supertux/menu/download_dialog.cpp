@@ -75,12 +75,6 @@ DownloadDialog::update()
 }
 
 void
-DownloadDialog::set_title(const std::string& title)
-{
-  m_title = title;
-}
-
-void
 DownloadDialog::update_text()
 {
   std::ostringstream out;

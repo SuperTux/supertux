@@ -58,7 +58,7 @@ public:
    * @scripting
    * @description Returns ""true"" if the candle is lit up.
    */
-  bool get_burning() const;
+  inline bool get_burning() const { return burning; }
   /**
    * @scripting
    * @description Sets the burning state of the candle.

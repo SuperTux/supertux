@@ -98,12 +98,6 @@ TextObject::set_text(const std::string& text)
   wrap_text();
 }
 
-const std::string&
-TextObject::get_text() const
-{
-  return m_text;
-}
-
 void
 TextObject::grow_in(float fadetime)
 {
@@ -153,72 +147,6 @@ TextObject::set_visible(bool visible)
   }
 }
 
-bool
-TextObject::get_visible() const
-{
-  return m_visible;
-}
-
-void
-TextObject::set_centered(bool centered)
-{
-  m_centered = centered;
-}
-
-bool
-TextObject::get_centered() const
-{
-  return m_centered;
-}
-
-void
-TextObject::set_pos(float x, float y)
-{
-  m_pos = Vector(x, y);
-}
-
-float
-TextObject::get_x() const
-{
-  return m_pos.x;
-}
-
-float
-TextObject::get_y() const
-{
-  return m_pos.y;
-}
-
-void
-TextObject::set_anchor_point(int anchor)
-{
-  m_anchor = static_cast<AnchorPoint>(anchor);
-}
-
-int
-TextObject::get_anchor_point() const
-{
-  return static_cast<int>(m_anchor);
-}
-
-void
-TextObject::set_anchor_offset(float x, float y)
-{
-  m_anchor_offset = Vector(x, y);
-}
-
-float
-TextObject::get_wrap_width() const
-{
-  return m_wrap_width;
-}
-
-void
-TextObject::set_wrap_width(float width)
-{
-  m_wrap_width = width;
-}
-
 void
 TextObject::set_front_fill_color(float red, float green, float blue, float alpha)
 {
@@ -235,18 +163,6 @@ void
 TextObject::set_text_color(float red, float green, float blue, float alpha)
 {
   m_text_color = Color(red, green, blue, alpha);
-}
-
-void
-TextObject::set_roundness(float roundness)
-{
-  m_roundness = roundness;
-}
-
-float
-TextObject::get_roundness() const
-{
-  return m_roundness;
 }
 
 void

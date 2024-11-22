@@ -133,7 +133,7 @@ public:
    * @scripting
    * @description Gets the current Granito state. Value is any of the ""GRANITO_STATE"" enumerators.
    */
-  int get_state() const { return static_cast<int>(m_state); }
+  inline int get_state() const { return static_cast<int>(m_state); }
 
   /**
    * @scripting

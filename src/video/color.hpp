@@ -38,7 +38,7 @@ public:
     {
     }
 
-    Color validate() const { return Color(r, g, b, a); }
+    inline Color validate() const { return Color(r, g, b, a); }
 
     CalculateColor operator+(const CalculateColor& o) const { return CalculateColor(r + o.r, g + o.g, b + o.b, a + o.a); }
     CalculateColor operator-(const CalculateColor& o) const { return CalculateColor(r - o.r, g - o.g, b - o.b, a - o.a); }
