@@ -27,7 +27,6 @@
 #include "math/rectf.hpp"
 
 class CollisionGroundMovementManager;
-class GameObject;
 class MovingObject;
 
 class CollisionObject
