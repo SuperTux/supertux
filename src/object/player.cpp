@@ -524,6 +524,11 @@ Player::update(float dt_sec)
     Rectf swim_here_box = get_bbox();
     swim_here_box.set_bottom(m_col.m_bbox.get_bottom() - 16.f);
     bool can_swim_here = !Sector::get().is_free_of_tiles(swim_here_box, true, Tile::WATER);
+    
+    if(can_swim_here && !m_invincible_timer.started())
+    {
+      can_swim_here = Sector::get().is_free_of_tiles(swim_here_box, true, Tile::HURTS);
+    }
 
     if (m_swimming)
     {
