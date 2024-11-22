@@ -290,7 +290,7 @@ public:
   inline void override_velocity() { m_velocity_override = true; }
 
   inline bool is_dead() const { return m_dead; }
-  inline bool is_big() const { return get_bonus() != NO_BONUS; }
+  inline bool is_big() const { return get_bonus() != BONUS_NONE; }
   inline bool is_stone() const { return m_stone; }
   inline bool is_sliding() const { return m_sliding; }
   inline bool is_swimming() const { return m_swimming; }
