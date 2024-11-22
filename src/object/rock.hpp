@@ -29,7 +29,7 @@ public:
   Rock(const Vector& pos, const std::string& spritename = "images/objects/rock/rock.sprite");
 
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;

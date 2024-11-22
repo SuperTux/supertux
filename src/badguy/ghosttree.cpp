@@ -245,7 +245,7 @@ GhostTree::draw(DrawingContext& context)
 }
 
 bool
-GhostTree::collides(GameObject& other, const CollisionHit& ) const
+GhostTree::collides(MovingObject& other, const CollisionHit& ) const
 {
   if (mystate != STATE_SUCKING) return false;
   if (dynamic_cast<Lantern*>(&other)) return true;
@@ -254,7 +254,7 @@ GhostTree::collides(GameObject& other, const CollisionHit& ) const
 }
 
 HitResponse
-GhostTree::collision(GameObject& other, const CollisionHit& )
+GhostTree::collision(MovingObject& other, const CollisionHit& )
 {
   if (mystate != STATE_SUCKING) return ABORT_MOVE;
 

@@ -39,7 +39,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& ) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& ) override;
 
   static std::string class_name() { return "torch"; }
   virtual std::string get_class_name() const override { return class_name(); }

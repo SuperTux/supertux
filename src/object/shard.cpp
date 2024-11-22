@@ -73,7 +73,7 @@ Shard::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Shard::collision(GameObject& other, const CollisionHit&)
+Shard::collision(MovingObject& other, const CollisionHit&)
 {
   // ignore collisions with other shards
   auto shard = dynamic_cast<Shard*>(&other);

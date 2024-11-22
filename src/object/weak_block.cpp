@@ -141,7 +141,7 @@ WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 }
 
 HitResponse
-WeakBlock::collision(GameObject& other, const CollisionHit& hit)
+WeakBlock::collision(MovingObject& other, const CollisionHit& hit)
 {
   switch (state) {
 

@@ -49,7 +49,7 @@ public:
   Color get_color() const;
 
 protected:
-  virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
+  virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
 private:

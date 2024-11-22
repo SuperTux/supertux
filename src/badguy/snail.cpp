@@ -337,7 +337,7 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
 }
 
 bool
-Snail::collision_squished(GameObject& object)
+Snail::collision_squished(MovingObject& object)
 {
   if (m_frozen || state == STATE_GUARD)
     return WalkingBadguy::collision_squished(object);
@@ -366,8 +366,7 @@ Snail::collision_squished(GameObject& object)
     case STATE_WAKING:
       SoundManager::current()->play("sounds/kick.wav", get_pos());
       {
-        MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
-        if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+        if (object.get_pos().x < get_pos().x) {
           m_dir = Direction::RIGHT;
         } else {
           m_dir = Direction::LEFT;

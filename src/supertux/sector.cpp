@@ -738,10 +738,7 @@ Sector::get_nearby_objects(const Vector& center, float max_distance) const
   std::vector<MovingObject*> result;
   for (auto& object : m_collision_system->get_nearby_objects(center, max_distance))
   {
-    auto* moving_object = dynamic_cast<MovingObject*>(&object->get_listener());
-    if (moving_object) {
-      result.push_back(moving_object);
-    }
+    result.push_back(&object->get_parent());
   }
   return result;
 }

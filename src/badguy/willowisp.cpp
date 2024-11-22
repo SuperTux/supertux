@@ -225,7 +225,7 @@ WillOWisp::vanish()
 }
 
 bool
-WillOWisp::collides(GameObject& other, const CollisionHit& ) const {
+WillOWisp::collides(MovingObject& other, const CollisionHit& ) const {
   auto lantern = dynamic_cast<Lantern*>(&other);
 
   //                                 vv  'xor'

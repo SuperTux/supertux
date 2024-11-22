@@ -51,7 +51,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit_) override;
 
   static std::string class_name() { return "spotlight"; }
   virtual std::string get_class_name() const override { return class_name(); }

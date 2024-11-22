@@ -54,7 +54,7 @@ public:
   BonusBlock(const ReaderMapping& mapping);
 
   virtual void hit(Player& player) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
 
   static std::string class_name() { return "bonusblock"; }

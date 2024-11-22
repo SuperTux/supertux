@@ -70,11 +70,12 @@ ConveyorBelt::get_settings()
 }
 
 HitResponse
-ConveyorBelt::collision(GameObject &other, const CollisionHit &hit)
+ConveyorBelt::collision(MovingObject& other, const CollisionHit& hit)
 {
   WalkingBadguy* walking_badguy = dynamic_cast<WalkingBadguy*>(&other);
   if (walking_badguy)
     walking_badguy->override_stay_on_platform();
+
   return FORCE_MOVE;
 }
 

@@ -305,7 +305,7 @@ BonusBlock::hit(Player& player)
 }
 
 HitResponse
-BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
+BonusBlock::collision(MovingObject& other, const CollisionHit& hit_)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
@@ -334,8 +334,7 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
 
   auto portable = dynamic_cast<Portable*> (&other);
   if (portable && !badguy) {
-    auto moving = dynamic_cast<MovingObject*> (&other);
-    if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       try_open(player);
     }
   }

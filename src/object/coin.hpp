@@ -36,7 +36,7 @@ public:
   Coin(const ReaderMapping& reader, bool count_stats = true);
   virtual void finish_construction() override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void update(float dt_sec) override;
   static std::string class_name() { return "coin"; }
