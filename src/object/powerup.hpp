@@ -20,8 +20,23 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
 
-class PowerUp final : public MovingSprite
+class PowerUp : public MovingSprite
 {
+public:
+  enum Type {
+    EGG,
+    FIRE,
+    ICE,
+    AIR,
+    EARTH,
+    STAR,
+    ONEUP,
+    FLIP,
+    MINTS,
+    COFFEE,
+    HERRING
+  };
+
 public:
   PowerUp(const ReaderMapping& mapping);
   PowerUp(const Vector& pos, int type);
@@ -41,29 +56,16 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(PowerUp)); }
 
+  static Type get_type_from_bonustype(int type);
+
   std::vector<std::string> get_patches() const override;
   virtual ObjectSettings get_settings() override;
 
-private:
+protected:
   /** Initialize power up sprites and other defaults */
   void initialize();
 
-public:
-  enum Type {
-    EGG,
-    FIRE,
-    ICE,
-    AIR,
-    EARTH,
-    STAR,
-    ONEUP,
-    FLIP,
-    MINTS,
-    COFFEE,
-    HERRING
-  };
-
-private:
+protected:
   Physic physic;
   std::string script;
   bool no_physics;

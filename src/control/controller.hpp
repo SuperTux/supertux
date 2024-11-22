@@ -29,6 +29,7 @@ enum class Control {
 
   JUMP,
   ACTION,
+  ITEM,
 
   START,
   ESCAPE,

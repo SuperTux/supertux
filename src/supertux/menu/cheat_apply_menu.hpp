@@ -25,15 +25,11 @@ class CheatApplyMenu final : public Menu
 {
 public:
   CheatApplyMenu(std::function<void(Player&)> callback);
-  /** Use this for cheats that need a stack count, e. g. giving fire flowers */
-  CheatApplyMenu(std::function<void(Player&, int)> callback);
 
   void menu_action(MenuItem& item) override;
 
 private:
-  std::function<void(Player&)> m_callback_1;
-  std::function<void(Player&, int)> m_callback_2;
-  int m_stack_count;
+  std::function<void(Player&)> m_callback;
 
 private:
   CheatApplyMenu(const CheatApplyMenu&) = delete;

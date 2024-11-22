@@ -67,6 +67,7 @@ public:
   virtual void on_type_change(int old_type) override;
 
   int get_layer() const override { return m_layer; }
+  void set_layer(int layer) { m_layer = layer; }
 
   bool has_found_sprite() const { return m_sprite_found; }
   const std::string& get_sprite_name() const { return m_sprite_name; }

@@ -30,19 +30,19 @@ Flower::Flower(BonusType _type, const std::string& custom_sprite) :
 {
   m_col.m_bbox.set_size(32, 32);
 
-  if (type == FIRE_BONUS) {
+  if (type == BONUS_FIRE) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/fireflower/fireflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
   }
-  else if (type == ICE_BONUS) {
+  else if (type == BONUS_ICE) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/iceflower/iceflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
   }
-  else if (type == AIR_BONUS) {
+  else if (type == BONUS_AIR) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/airflower/airflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
   }
-  else if (type == EARTH_BONUS) {
+  else if (type == BONUS_EARTH) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/earthflower/earthflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
   }
