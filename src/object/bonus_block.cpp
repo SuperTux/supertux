@@ -282,6 +282,21 @@ BonusBlock::get_settings()
   return result;
 }
 
+int
+BonusBlock::get_coins() const
+{
+  if (m_contents == BonusBlock::Content::COIN)
+    return m_hit_counter;
+
+  if (m_contents == BonusBlock::Content::RAIN ||
+      m_contents == BonusBlock::Content::EXPLODE)
+  {
+    return m_hit_counter * 10;
+  }
+
+  return 0;
+}
+
 
 void
 BonusBlock::hit(Player& player)

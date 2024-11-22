@@ -46,10 +46,6 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(PathGameObject)); }
 
-  virtual const std::string get_icon_path() const override {
-    return "images/engine/editor/path.png";
-  }
-
   virtual void editor_select() override;
   virtual void editor_deselect() override;
 

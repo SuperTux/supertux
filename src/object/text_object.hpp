@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
 
 #include "math/anchor_point.hpp"
 #include "video/color.hpp"
@@ -35,7 +35,7 @@ class ReaderMapping;
  * @instances A ""TextObject"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class TextObject final : public GameObject
+class TextObject final : public LayerObject
 {
   static Color default_color;
 

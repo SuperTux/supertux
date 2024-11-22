@@ -61,8 +61,7 @@ struct GameObjectClasses
 
   GameObjectClasses& add(const std::type_info& info)
   {
-    std::type_index idx(info);
-    types.push_back(idx);
+    types.emplace_back(info);
     return *this;
   }
 };
@@ -89,8 +88,7 @@ public:
   static void register_class(ssq::VM& vm);
 
 public:
-  GameObject();
-  GameObject(const std::string& name);
+  GameObject(const std::string& name = "");
   GameObject(const ReaderMapping& reader);
   virtual ~GameObject() override;
 
@@ -164,6 +162,10 @@ public:
   /** Indicates if the object should be added at the beginning of the object list. */
   virtual bool has_object_manager_priority() const { return false; }
 
+  /** Returns the amount of coins that this object is worth.
+      This is considered when calculating all coins in a level. */
+  virtual int get_coins() const { return 0; }
+
   /** Indicates if get_settings() is implemented. If true the editor
       will display Tip and ObjectMenu. */
   virtual bool has_settings() const { return is_saveable(); }
@@ -202,10 +204,6 @@ public:
    * @description Returns the name of the object.
    */
   const std::string& get_name() const;
-
-  virtual const std::string get_icon_path() const {
-    return "images/tiles/auxiliary/notile.png";
-  }
 
   /** stops all looping sounds */
   virtual void stop_looping_sounds() {}

@@ -27,7 +27,7 @@
 #include "util/reader_mapping.hpp"
 
 SoundObject::SoundObject(const ReaderMapping& mapping) :
-  GameObject(mapping),
+  LayerObject(mapping),
   m_sample(),
   m_sound_source(),
   m_volume(),

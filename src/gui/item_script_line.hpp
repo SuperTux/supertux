@@ -20,6 +20,8 @@
 
 #include "gui/item_textfield.hpp"
 
+class ScriptMenu;
+
 class ItemScriptLine final : public ItemTextField
 {
 public:
@@ -45,6 +47,9 @@ public:
   virtual void paste() override;
   virtual void new_line();
   virtual void duplicate_line();
+
+private:
+  ScriptMenu* const m_script_menu;
 
 private:
   ItemScriptLine(const ItemScriptLine&) = delete;

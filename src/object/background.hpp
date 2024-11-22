@@ -17,9 +17,10 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
+#include "editor/layer_object.hpp"
+
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
-#include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 #include "video/blend.hpp"
 #include "video/drawing_context.hpp"
@@ -32,7 +33,7 @@ class ReaderMapping;
  * @summary A ""Background"" that was given a name can be manipulated by scripts.
  * @instances A ""Background"" can be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class Background final : public GameObject
+class Background final : public LayerObject
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -65,7 +66,7 @@ public:
 
   const std::string& get_image() const { return m_imagefile; }
   float get_speed() const { return m_parallax_speed.x; }
-  int get_layer() const { return m_layer; }
+  int get_layer() const override { return m_layer; }
 
   Color get_color() const { return m_color; }
   void fade_color(Color color, float time);

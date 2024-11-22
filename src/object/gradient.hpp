@@ -17,7 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 #define HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
+
 #include "video/drawing_context.hpp"
 
 class ReaderMapping;
@@ -28,7 +29,7 @@ class ReaderMapping;
  * @instances A ""Gradient"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class Gradient final : public GameObject
+class Gradient final : public LayerObject
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -68,7 +69,7 @@ public:
   void set_direction(const GradientDirection& direction);
 
   void set_layer(int layer) { m_layer = layer; }
-  int get_layer() const { return m_layer; }
+  int get_layer() const override { return m_layer; }
 
   /**
    * @scripting

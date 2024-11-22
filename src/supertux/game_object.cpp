@@ -27,22 +27,6 @@
 #include "util/writer.hpp"
 #include "video/color.hpp"
 
-GameObject::GameObject() :
-  m_parent(),
-  m_name(),
-  m_type(0),
-  m_fade_helpers(),
-  m_track_undo(true),
-  m_previous_type(-1),
-  m_version(1),
-  m_uid(),
-  m_scheduled_for_removal(false),
-  m_last_state(),
-  m_components(),
-  m_remove_listeners()
-{
-}
-
 GameObject::GameObject(const std::string& name) :
   m_parent(),
   m_name(name),

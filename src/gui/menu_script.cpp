@@ -74,7 +74,8 @@ ScriptMenu::remove_line() {
 }
 
 ItemScriptLine*
-ScriptMenu::add_line() {
+ScriptMenu::add_line()
+{
   auto new_line = std::make_unique<std::string>();
   script_strings.insert(script_strings.begin() + (m_active_item - 1), std::move(new_line));
 
@@ -83,7 +84,7 @@ ScriptMenu::add_line() {
   add_item(std::move(line_item), m_active_item+1);
   m_active_item++;
 
-  return dynamic_cast<ItemScriptLine*>(m_items[m_active_item].get());
+  return static_cast<ItemScriptLine*>(m_items[m_active_item].get());
 }
 
 void

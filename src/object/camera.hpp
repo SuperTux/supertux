@@ -18,13 +18,14 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 #define HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 
+#include "editor/layer_object.hpp"
+
 #include <string>
 
 #include "math/anchor_point.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
 #include "object/path_object.hpp"
-#include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
 class Path;
@@ -37,7 +38,7 @@ class ReaderMapping;
  * @instances An instance named ""Camera"" (""sector.Camera"" in the console) is available.${SRG_NEWPARAGRAPH}
               The mode of the camera is either ""normal"" (the camera is following the player) or ""autoscroll"". In the latter mode, the camera is forced along a specified path.
  */
-class Camera final : public GameObject,
+class Camera final : public LayerObject,
                      public PathObject
 {
 public:

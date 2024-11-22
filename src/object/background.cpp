@@ -158,7 +158,7 @@ Background::Background() :
 }
 
 Background::Background(const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   m_alignment(NO_ALIGNMENT),
   m_fill(false),
   m_layer(LAYER_BACKGROUND0),

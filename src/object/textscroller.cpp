@@ -45,6 +45,7 @@ const float SCROLL_JUMP = 60;
 } // namespace
 
 TextScroller::TextScroller(const ReaderMapping& mapping) :
+  LayerObject(mapping),
   controller(&InputManager::current()->get_controller()),
   m_filename(),
   m_finish_script(),

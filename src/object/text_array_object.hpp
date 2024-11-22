@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TEXT_ARRAY_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_TEXT_ARRAY_OBJECT_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
 
 #include <memory>
 
@@ -38,7 +38,7 @@ typedef size_t ta_index;
  * @instances A ""TextArrayObject"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class TextArrayObject final : public GameObject
+class TextArrayObject final : public LayerObject
 {
 public:
   static void register_class(ssq::VM& vm);

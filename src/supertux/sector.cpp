@@ -102,21 +102,15 @@ Sector::finish_construction(bool editable)
   // but I don't know if it's going to introduce other bugs..   ~ Semphris
   try_process_resolve_requests();
 
-  if (!editable) {
+  if (!editable)
+  {
     convert_tiles2gameobject();
 
-    if (!m_level.is_worldmap())
+    if (!m_level.is_worldmap() &&
+        (get_object_count<Background>() <= 0 || get_object_count<Gradient>() <= 0))
     {
-      bool has_background = std::any_of(get_objects().begin(), get_objects().end(),
-                                        [](const auto& obj) {
-                                          return (dynamic_cast<Background*>(obj.get()) ||
-                                                  dynamic_cast<Gradient*>(obj.get()));
-                                        });
-      if (!has_background)
-      {
-        auto& gradient = add<Gradient>();
-        gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
-      }
+      auto& gradient = add<Gradient>();
+      gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
     }
   }
 
@@ -406,8 +400,7 @@ Sector::before_object_add(GameObject& object)
   {
     m_collision_system->add(movingobject->get_collision_object());
   }
-
-  if (auto* tilemap = dynamic_cast<TileMap*>(&object))
+  else if (auto* tilemap = dynamic_cast<TileMap*>(&object))
   {
     tilemap->set_ground_movement_manager(m_collision_system->get_ground_movement_manager());
   }
@@ -657,37 +650,33 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
 {
   BIND_SECTOR(*this);
 
-  bool is_offset = resize_offset.width || resize_offset.height;
-  Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
-                            static_cast<float>(resize_offset.height) * 32.0f);
+  const bool is_offset = resize_offset.width || resize_offset.height;
+  const Vector obj_shift(static_cast<float>(resize_offset.width) * 32.0f,
+                         static_cast<float>(resize_offset.height) * 32.0f);
 
-  for (const auto& object : get_objects())
+  for (auto* tilemap : get_all_tilemaps())
   {
-    auto tilemap = dynamic_cast<TileMap*>(object.get());
-    if (tilemap)
+    if (tilemap->get_size() == old_size)
     {
-      if (tilemap->get_size() == old_size)
-      {
-        tilemap->save_state();
-        tilemap->resize(new_size, resize_offset);
-        tilemap->check_state();
-      }
-      else if (is_offset)
-      {
-        tilemap->save_state();
-        tilemap->move_by(obj_shift);
-        tilemap->check_state();
-      }
+      tilemap->save_state();
+      tilemap->resize(new_size, resize_offset);
+      tilemap->check_state();
     }
     else if (is_offset)
     {
-      auto moving_object = dynamic_cast<MovingObject*>(object.get());
-      if (moving_object)
-      {
-        moving_object->save_state();
-        moving_object->move_to(moving_object->get_pos() + obj_shift);
-        moving_object->check_state();
-      }
+      tilemap->save_state();
+      tilemap->move_by(obj_shift);
+      tilemap->check_state();
+    }
+  }
+
+  if (is_offset)
+  {
+    for (auto& object : get_objects_by_type<MovingObject>())
+    {
+      object.save_state();
+      object.move_to(object.get_pos() + obj_shift);
+      object.check_state();
     }
   }
 }

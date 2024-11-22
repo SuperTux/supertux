@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 #define HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 
+#include "editor/layer_object.hpp"
+
 #include <algorithm>
 #include <unordered_set>
 
@@ -26,7 +28,6 @@
 #include "object/path_object.hpp"
 #include "object/path_walker.hpp"
 #include "supertux/autotile.hpp"
-#include "supertux/game_object.hpp"
 #include "video/color.hpp"
 #include "video/flip.hpp"
 #include "video/drawing_target.hpp"
@@ -47,7 +48,7 @@ class TileSet;
  * @instances A ""TileMap"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class TileMap final : public GameObject,
+class TileMap final : public LayerObject,
                       public PathObject
 {
 public:
@@ -143,7 +144,7 @@ public:
   void hits_object_bottom(CollisionObject& object);
   void notify_object_removal(CollisionObject* other);
 
-  int get_layer() const { return m_z_pos; }
+  int get_layer() const override { return m_z_pos; }
   void set_layer(int layer) { m_z_pos = layer; }
 
   bool is_solid() const { return m_real_solid && m_effective_solid; }

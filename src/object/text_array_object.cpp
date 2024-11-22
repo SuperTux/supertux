@@ -23,6 +23,7 @@
 #include "supertux/sector.hpp"
 
 TextArrayObject::TextArrayObject(const std::string& name) :
+  LayerObject(name),
   m_finished(false),
   m_is_auto(false),
   m_keep_visible(false),
@@ -33,7 +34,6 @@ TextArrayObject::TextArrayObject(const std::string& name) :
   m_lastTextIndex(0),
   m_waiting()
 {
-  m_name = name;
 }
 
 void

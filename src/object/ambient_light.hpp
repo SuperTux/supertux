@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_AMBIENT_LIGHT_HPP
 #define HEADER_SUPERTUX_OBJECT_AMBIENT_LIGHT_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
 
 #include "video/color.hpp"
 
-class AmbientLight : public GameObject
+class AmbientLight : public LayerObject
 {
 public:
   AmbientLight(const Color& color);

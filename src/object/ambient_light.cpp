@@ -36,6 +36,7 @@ AmbientLight::AmbientLight(const Color& color) :
 }
 
 AmbientLight::AmbientLight(const ReaderMapping& mapping) :
+  LayerObject(mapping),
   m_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
   m_ambient_light_fading(false),
   m_source_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),

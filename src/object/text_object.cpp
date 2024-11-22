@@ -29,7 +29,7 @@
 #include "video/drawing_context.hpp"
 
 TextObject::TextObject(const std::string& name) :
-  GameObject(name),
+  LayerObject(name),
   m_font(Resources::normal_font),
   m_text(),
   m_wrapped_text(),
