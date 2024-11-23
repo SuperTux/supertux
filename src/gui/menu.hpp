@@ -32,7 +32,7 @@ class ItemAction;
 class ItemBack;
 class ItemColor;
 class ItemColorChannelRGBA;
-class ItemColorChannelOKLab;
+class ItemColorPicker2D;
 class ItemColorDisplay;
 class ItemControlField;
 class ItemFloatField;
@@ -107,7 +107,7 @@ public:
   ItemColorDisplay& add_color_display(Color* color, int id = -1);
   ItemColorChannelRGBA& add_color_channel_rgba(float* input, Color channel, int id = -1,
     bool is_linear = false);
-  ItemColorChannelOKLab& add_color_channel_oklab(Color* color, int channel);
+  ItemColorPicker2D& add_color_picker_2d(Color& color);
   ItemPaths& add_path_settings(const std::string& text, PathObject& target, const std::string& path_ref);
   ItemStringArray& add_string_array(const std::string& text, std::vector<std::string>& items, int id = -1);
   ItemImages& add_images(const std::string& image_path, int max_image_width = 0, int max_image_height = 0, int id = -1);
@@ -141,6 +141,14 @@ public:
 protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item);
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
+  template<typename T, typename... Args>
+  T& add_item(Args&&... args)
+  {
+    auto item = std::make_unique<T>(std::forward<Args>(args)...);
+    auto item_ptr = item.get();
+    add_item(std::move(item));
+    return *item_ptr;
+  }
   void delete_item(int pos_);
 
   /** Recalculates the width for this menu */

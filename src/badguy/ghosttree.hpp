@@ -40,6 +40,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Ghost Tree"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Boss::get_class_types().add(typeid(GhostTree)); }
 
   virtual void on_flip(float height) override;
 

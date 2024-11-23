@@ -46,41 +46,45 @@ public:
   virtual std::string get_exposed_class_name() const override { return "ConveyorBelt"; }
   static std::string display_name() { return _("Conveyor Belt"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(ConveyorBelt)); }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-
-  virtual int get_layer() const override { return LAYER_TILES; }
 
   virtual void after_editor_set() override;
 
   /** @name Scriptable Methods */
   /**
    * @scripting
-   * Starts the conveyor belt.
+   * @description Starts the conveyor belt.
    */
   void start();
   /**
    * @scripting
-   * Stops the conveyor belt.
+   * @description Stops the conveyor belt.
    */
   void stop();
   /**
    * @scripting
-   * Makes the conveyor shift objects to the left.
+   * @description Makes the conveyor shift objects to the left.
    */
   void move_left();
   /**
    * @scripting
-   * Makes the conveyor shift objects to the right.
+   * @description Makes the conveyor shift objects to the right.
    */
   void move_right();
   /**
    * @scripting
-   * Change the shifting speed of the conveyor.
+   * @description Change the shifting speed of the conveyor.
    * @param float $target_speed
    */
   void set_speed(float target_speed);
+  /**
+   * @scripting
+   * @description Returns the shifting speed of the conveyor.
+   */
+  float get_speed() const;
 
 private:
   void update_hitbox() override;
@@ -89,6 +93,10 @@ private:
   bool m_running;
   Direction m_dir;
   int m_length;
+  /**
+   * @scripting
+   * @description The shifting speed of the conveyor.
+   */
   float m_speed;
 
   float m_frame;

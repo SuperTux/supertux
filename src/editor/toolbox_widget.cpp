@@ -108,6 +108,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (m_tilebox->on_mouse_button_down(button))
   {
+    m_editor.update_autotileset();
     update_mouse_icon();
     return true;
   }
@@ -150,6 +151,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           case 0:
             m_tilebox->get_tiles()->set_tile(0);
             m_tilebox->set_object("");
+            m_editor.update_autotileset();
             update_mouse_icon();
             break;
 
@@ -252,7 +254,7 @@ EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 }
 
 void
-EditorToolboxWidget::resize()
+EditorToolboxWidget::on_window_resize()
 {
   m_pos_x = static_cast<float>(SCREEN_WIDTH - 128);
   m_tilebox->set_rect(Rectf(Vector(m_pos_x, 96.f),
@@ -264,7 +266,7 @@ EditorToolboxWidget::resize()
   m_move_mode->m_pos        = Vector(m_pos_x + 64.0f, 64.0f);
   m_undo_mode->m_pos        = Vector(m_pos_x + 96.0f, 64.0f);
 
-  m_tilebox->resize();
+  m_tilebox->on_window_resize();
 }
 
 void
@@ -272,7 +274,7 @@ EditorToolboxWidget::setup()
 {
   m_tilebox->setup();
 
-  resize();
+  on_window_resize();
   m_tilebox->get_tiles()->set_tile(0);
 }
 

@@ -82,8 +82,8 @@ public:
 
   virtual IntegrationStatus get_status() const override;
 
-  void event(const SDL_Event& ev);
-  void resize();
+  void event(const SDL_Event& ev) override;
+  void on_window_resize() override;
 
   void disable_keyboard() { m_enabled = false; }
 
@@ -123,6 +123,8 @@ public:
 
   void check_deprecated_tiles(bool focus = false);
   bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
+
+  void update_autotileset();
 
   /** Checks whether the level can be saved and does not contain
       obvious issues (currently: check if main sector and a spawn point

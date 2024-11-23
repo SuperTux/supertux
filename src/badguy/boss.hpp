@@ -30,12 +30,14 @@ public:
   virtual void draw(DrawingContext& context) override;
   void draw_hit_points(DrawingContext& context);
   virtual ObjectSettings get_settings() override;
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Boss)); }
 
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
 
 protected:
   int m_lives;
+  int m_max_lives;
   int m_pinch_lives;
   SurfacePtr m_hud_head;
   std::string m_hud_icon;

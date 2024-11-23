@@ -31,6 +31,11 @@ class WorldMap;
 
 /** Represents one of (potentially) multiple, separate parts of a WorldMap.
     WorldMap variant of Sector, utilizing only its base features. */
+/**
+ * @scripting
+ * @summary This class provides additional controlling functions for a worldmap sector, other than the ones listed at ${SRG_REF_GameObjectManager}.
+ * @instances An instance under ""worldmap.settings"" is available from scripts and the console.
+ */
 class WorldMapSector final : public Base::Sector
 {
   friend class WorldMapSectorParser;
@@ -68,6 +73,12 @@ public:
       position */
   int tile_data_at(const Vector& pos) const;
 
+  /**
+   * returns true if the specified position contains a valid path.
+   * @param pos Position to check
+   */
+  bool is_valid_path_at(const Vector& pos) const;
+
   size_t level_count() const;
   size_t solved_level_count() const;
 
@@ -104,40 +115,47 @@ public:
   bool in_worldmap() const override { return true; }
 
   /**
-   * Returns Tux's X position on the worldmap.
+   * @scripting
+   * @description Returns Tux's X position on the worldmap.
    */
   float get_tux_x() const;
   /**
-   * Returns Tux's Y position on the worldmap.
+   * @scripting
+   * @description Returns Tux's Y position on the worldmap.
    */
   float get_tux_y() const;
 
   /**
-   * Changes the current sector of the worldmap to a specified new sector.
+   * @scripting
+   * @description Changes the current sector of the worldmap to a specified new sector.
    * @param string $sector
    */
   void set_sector(const std::string& sector);
   /**
-   * Changes the current sector of the worldmap to a specified new sector,
-     moving Tux to the specified spawnpoint.
+   * @scripting
+   * @description Changes the current sector of the worldmap to a specified new sector,
+                  moving Tux to the specified spawnpoint.
    * @param string $sector
    * @param string $spawnpoint
    */
   void spawn(const std::string& sector, const std::string& spawnpoint);
   /**
-   * Moves Tux to the specified spawnpoint.
+   * @scripting
+   * @description Moves Tux to the specified spawnpoint.
    * @param string $spawnpoint
    */
   void move_to_spawnpoint(const std::string& spawnpoint);
   void move_to_spawnpoint(const std::string& spawnpoint, bool pan);
 
   /**
-   * Gets the path to the worldmap file. Useful for saving worldmap-specific data.
+   * @scripting
+   * @description Gets the path to the worldmap file. Useful for saving worldmap-specific data.
    */
   std::string get_filename() const;
   /**
-   * Overrides the "Title Screen Level" property for the world with ""filename"".
-     The newly set level will be used for the title screen, after exiting the world.
+   * @scripting
+   * @description Overrides the "Title Screen Level" property for the world with ""filename"".
+                  The newly set level will be used for the title screen, after exiting the world.
    * @param string $filename
    */
   void set_title_level(const std::string& filename);

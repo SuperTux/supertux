@@ -30,13 +30,12 @@ public:
   Block(const Vector& pos, const std::string& sprite_file);
   Block(const ReaderMapping& mapping, const std::string& sprite_file);
 
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Block)); }
+
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
 
   virtual void on_flip(float height) override;
-
-  virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
   void start_bounce(GameObject* hitter);
 

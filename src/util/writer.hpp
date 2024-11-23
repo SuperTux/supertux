@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+#include "util/uid.hpp"
+
 namespace sexp {
 class Value;
 } // namespace sexp
@@ -38,6 +40,7 @@ public:
   void write(const std::string& name, bool value);
   void write(const std::string& name, int value);
   void write(const std::string& name, float value);
+  void write(const std::string& name, const UID& uid);
   void write(const std::string& name, const char* value);
   void write(const std::string& name, const std::string& value, bool translatable = false);
   void write(const std::string& name, const std::vector<int>& value);

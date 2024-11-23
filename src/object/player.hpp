@@ -28,6 +28,9 @@
 #include "video/layer.hpp"
 #include "video/surface_ptr.hpp"
 
+#include <array>
+#include <list>
+
 class BadGuy;
 class Climbable;
 class Controller;
@@ -89,6 +92,7 @@ public:
   virtual bool has_object_manager_priority() const override { return true; }
   virtual std::string get_exposed_class_name() const override { return "Player"; }
   virtual void remove_me() override;
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Player)); }
 
   int get_id() const { return m_id; }
   void set_id(int id);
@@ -133,6 +137,18 @@ public:
 
   bool is_invincible() const { return m_invincible_timer.started(); }
   bool is_dying() const { return m_dying; }
+
+  /**
+   * Returns true if the player is currently alive
+   * (not dying or dead)
+   */
+  bool is_alive() const { return !is_dying() && !is_dead(); }
+
+  /**
+   * Returns true if the player can be controlled.
+   * (alive and not currently in a win sequence)
+   */
+  bool is_active() const { return is_alive() && !is_winning(); }
 
   Direction peeking_direction_x() const { return m_peekingX; }
   Direction peeking_direction_y() const { return m_peekingY; }
@@ -188,7 +204,7 @@ public:
   bool add_bonus(BonusType type, bool animate = false);
 
   /** like add_bonus, but can also downgrade the bonus items carried */
-  bool set_bonus(BonusType type, bool animate = false, bool increment_powerup_counter = true);
+  bool set_bonus(BonusType type, bool animate = false);
   BonusType get_bonus() const;
 
   std::string bonus_to_string() const;
@@ -274,7 +290,7 @@ public:
   void override_velocity() { m_velocity_override = true; }
 
   bool is_dead() const { return m_dead; }
-  bool is_big() const { return get_bonus() != NO_BONUS; }
+  bool is_big() const { return get_bonus() != BONUS_NONE; }
   bool is_stone() const { return m_stone; }
   bool is_sliding() const { return m_sliding; }
   bool is_swimming() const { return m_swimming; }
@@ -285,14 +301,12 @@ public:
 
   /**
    * @scripting
-   * @deprecated
    * @description Set Tux visible or invisible.
    * @param bool $visible
    */
   void set_visible(bool visible);
   /**
    * @scripting
-   * @deprecated
    * @description Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
    */
   bool get_visible() const;
@@ -366,7 +380,7 @@ public:
   /**
    * @scripting
    * @description Gets whether the current input on the keyboard/controller/touchpad has been pressed.
-   * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”,
+   * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, "item", “start”, “escape”,
       “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
       “peek-left”, “peek-right”, “peek-up” or “peek-down”.
    */
@@ -397,6 +411,24 @@ public:
    */
   void set_dir(bool right);
   void stop_backflipping();
+
+  /**
+   * @scripting
+   * @description Ejects the item in the player's Item Pocket.
+   */
+  void eject_item_pocket();
+
+  /**
+   * @scripting
+   * @description Returns the item currently in the player's Item Pocket as a ""BONUS"" enum value.
+   */
+  int get_item_pocket() const;
+
+  /**
+   * @scripting
+   * @description Ejects the item in the player's Item Pocket.
+   */
+  void set_item_pocket(int bonus);
 
   void position_grabbed_object(bool teleport = false);
   bool try_grab();
@@ -538,6 +570,10 @@ private:
 
   Physic m_physic;
 
+  /**
+   * @scripting
+   * @description Determines whether Tux is visible.
+   */
   bool m_visible;
 
   Portable* m_grabbed_object;
@@ -551,6 +587,10 @@ private:
   bool m_water_jump;
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
+
+  SpritePtr m_bubbles_sprite; /**< bubble particles sprite for swimming */
+  Timer m_bubble_timer; /**< timer for spawning bubble particles */
+  std::list<std::pair<SpritePtr, Vector>> m_active_bubbles; /**< active bubble particles */
 
   Vector m_floor_normal;
 

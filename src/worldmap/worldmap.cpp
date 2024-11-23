@@ -27,6 +27,7 @@
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/player_status_hud.hpp"
@@ -64,6 +65,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   m_next_worldmap(),
   m_passive_message(),
   m_passive_message_timer(),
+  m_allow_item_pocket(true),
   m_enter_level(false),
   m_in_level(false),
   m_in_world_select(false),
@@ -86,6 +88,10 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   std::string tileset_name;
   mapping.get("tileset", tileset_name, "images/ice_world.strf");
   m_tileset = TileManager::current()->get_tileset(tileset_name);
+
+  std::string name = "on";
+  mapping.get("allow-item-pocket", name);
+  m_allow_item_pocket = (Level::get_setting_from_name(name) == Level::ON);
 
   auto iter = mapping.get_iter();
   while (iter.next())

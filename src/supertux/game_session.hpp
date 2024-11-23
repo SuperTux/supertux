@@ -23,6 +23,7 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
+#include <queue>
 
 #include <simplesquirrel/table.hpp>
 
@@ -96,6 +97,9 @@ public:
                          const bool make_invincible = false);
   void reset_level();
 
+  void on_player_added(int id);
+  bool on_player_removed(int id);
+
   void set_start_point(const std::string& sectorname,
                        const std::string& spawnpointname);
   void set_start_pos(const std::string& sectorname, const Vector& pos);
@@ -141,8 +145,7 @@ private:
 
   void on_escape_press(bool force_quick_respawn);
 
-  Vector get_fade_point() const;
-  Vector get_fade_point(const Vector& position) const;
+  Vector get_fade_point(const Vector& position = Vector(0, 0)) const;
 
 public:
   bool reset_button;
