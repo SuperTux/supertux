@@ -52,8 +52,6 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
   }
 
   lightsprite = sprite->create_linked_light_sprite();
-  if (lightsprite)
-    lightsprite->set_blend(Blend::ADD);
 
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());

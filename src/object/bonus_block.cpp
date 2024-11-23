@@ -759,7 +759,7 @@ BonusBlock::preload_contents(int d)
     case 6: // Light.
     case 15: // Light (On).
       SoundManager::current()->preload("sounds/switch.ogg");
-      m_lightsprite = m_sprite->create_linked_sprite("light");
+      m_lightsprite = m_sprite->create_linked_sprite("on-light");
       break;
 
     case 7:
