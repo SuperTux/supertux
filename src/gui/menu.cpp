@@ -617,8 +617,8 @@ Menu::draw_preview(DrawingContext& context)
     const float width_diff = preview_size.width - static_cast<float>(preview->get_width());
     const float height_diff = preview_size.height - static_cast<float>(preview->get_height());
     // If the preview is smaller than the maximal size, make sure to draw it with its original size and adjust position to center.
-    Rectf preview_rect(Vector(static_cast<float>(context.get_width()) * 0.73f - preview_size.width / 2 + std::max(width_diff / 2, 0),
-                              static_cast<float>(context.get_height()) / 2 - preview_size.height / 2 + std::max(height_diff / 2, 0)),
+    Rectf preview_rect(Vector(static_cast<float>(context.get_width()) * 0.73f - preview_size.width / 2 + std::max(width_diff / 2, 0.f),
+                              static_cast<float>(context.get_height()) / 2 - preview_size.height / 2 + std::max(height_diff / 2, 0.f)),
                        Sizef(width_diff > 0 ? static_cast<float>(preview->get_width()) : preview_size.width,
                              height_diff > 0 ? static_cast<float>(preview->get_height()) : preview_size.height));
 
