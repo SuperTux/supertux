@@ -93,6 +93,7 @@ public:
   SpritePtr create_linked_light_sprite() const;
 
   /** Get linked sprite by key */
+  bool has_linked_sprite(const std::string& key) const;
   const SpriteData::LinkedSprite& get_linked_sprite(const std::string& key) const;
   SpritePtr create_linked_sprite(const std::string& key) const;
 

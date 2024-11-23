@@ -237,6 +237,13 @@ Sprite::create_linked_light_sprite() const
   return sprite;
 }
 
+bool
+Sprite::has_linked_sprite(const std::string& key) const
+{
+  return m_action->linked_sprites.find(key) != m_action->linked_sprites.end() ||
+         m_data.linked_sprites.find(key) != m_data.linked_sprites.end();
+}
+
 const SpriteData::LinkedSprite&
 Sprite::get_linked_sprite(const std::string& key) const
 {

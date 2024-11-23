@@ -65,7 +65,16 @@ Crusher::Crusher(const ReaderMapping& reader) :
   // TODO: Add distinct sounds for crusher hitting the ground and hitting Tux.
   SoundManager::current()->preload(not_ice() ? "sounds/thud.ogg" : "sounds/brick.wav");
   set_state(m_state, true);
-  after_sprite_set();
+}
+
+MovingSprite::LinkedSprites
+Crusher::get_linked_sprites()
+{
+  return {
+    { "left-eye", m_lefteye },
+    { "right-eye", m_righteye },
+    { "whites", m_whites }
+  };
 }
 
 GameObjectTypes
@@ -117,6 +126,13 @@ Crusher::on_type_change(int old_type)
   }
 
   MovingSprite::on_type_change(old_type);
+}
+
+void
+Crusher::on_sprite_update()
+{
+  MovingSprite::on_sprite_update();
+  set_state(m_state, true);
 }
 
 HitResponse
@@ -472,24 +488,15 @@ Crusher::draw(DrawingContext& context)
   const Vector draw_pos = get_pos() + draw_offset;
 
   m_sprite->draw(context.color(), draw_pos, m_layer + 2, m_flip);
-  if (m_sprite->has_action("whites"))
-  {
-    // Draw crusher's eyes slightly behind.
-    m_lefteye->draw(context.color(), draw_pos + eye_position(false), m_layer + 1, m_flip);
-    m_righteye->draw(context.color(), draw_pos + eye_position(true), m_layer + 1, m_flip);
-    // Draw the whites of crusher's eyes even further behind.
-    m_whites->draw(context.color(), draw_pos, m_layer, m_flip);
-  }
+
+  // Draw crusher's eyes slightly behind.
+  m_lefteye->draw(context.color(), draw_pos + eye_position(false), m_layer + 1, m_flip);
+  m_righteye->draw(context.color(), draw_pos + eye_position(true), m_layer + 1, m_flip);
+  // Draw the whites of crusher's eyes even further behind.
+  m_whites->draw(context.color(), draw_pos, m_layer, m_flip);
 
   if (m_light_sprite)
     m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, m_layer + 3);
-}
-
-void
-Crusher::after_editor_set()
-{
-  MovingSprite::after_editor_set();
-  after_sprite_set();
 }
 
 ObjectSettings
@@ -583,26 +590,6 @@ Crusher::set_state(CrusherState state_, bool force)
   }
   m_physic.enable_gravity(false);
   m_state = state_;
-}
-
-void
-Crusher::after_sprite_set()
-{
-  if (!m_sprite->has_action("whites"))
-  {
-    m_lefteye.reset();
-    m_righteye.reset();
-    m_whites.reset();
-  }
-  else
-  {
-    m_lefteye = m_sprite->clone();
-    m_lefteye->set_action("lefteye");
-    m_righteye = m_sprite->clone();
-    m_righteye->set_action("righteye");
-    m_whites = m_sprite->clone();
-    m_whites->set_action("whites");
-  }
 }
 
 Vector
