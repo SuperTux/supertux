@@ -34,7 +34,7 @@
 WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/weak_block/meltbox.sprite", LAYER_OBJECTS + 10, COLGROUP_STATIC),
   state(STATE_NORMAL),
-  lightsprite()
+  m_burn_sprite()
 {
   // Older levels utilize hardcoded behaviour from the "linked" property.
   if (get_version() == 1)
@@ -56,9 +56,9 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
 
   if (m_type == HAY)
   {
-    lightsprite = m_sprite->create_linked_sprite("burn-light");
-    lightsprite->set_blend(Blend::ADD);
-    lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
+    m_burn_sprite = m_sprite->create_linked_sprite("burn-light");
+    m_burn_sprite->set_blend(Blend::ADD);
+    m_burn_sprite->set_color(Color(0.3f, 0.2f, 0.1f));
     SoundManager::current()->preload("sounds/fire.ogg"); // TODO: Use own sound?
   }
   else
@@ -75,7 +75,7 @@ WeakBlock::get_linked_sprites()
   if (m_type == HAY)
   {
     return {
-      { "burn-light", lightsprite }
+      { "burn-light", m_burn_sprite }
     };
   }
   return {};
@@ -197,11 +197,11 @@ WeakBlock::update(float )
         // cause burn light to flicker randomly
         if (m_type == HAY) {
           if (graphicsRandom.rand(10) >= 7) {
-            lightsprite->set_color(Color(0.2f + graphicsRandom.randf(20.0f) / 100.0f,
-                                         0.1f + graphicsRandom.randf(20.0f)/100.0f,
-                                         0.1f));
+            m_burn_sprite->set_color(Color(0.2f + graphicsRandom.randf(20.0f) / 100.0f,
+                                           0.1f + graphicsRandom.randf(20.0f)/100.0f,
+                                           0.1f));
           } else
-            lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
+            m_burn_sprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }
 
         if (m_sprite->animation_done()) {
@@ -227,8 +227,8 @@ WeakBlock::draw(DrawingContext& context)
 {
   MovingSprite::draw(context);
 
-  if (lightsprite && state != STATE_NORMAL)
-    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  if (m_burn_sprite && state != STATE_NORMAL)
+    m_burn_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void

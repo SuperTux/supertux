@@ -74,7 +74,7 @@ private:
 
 private:
   State state;
-  SpritePtr lightsprite;
+  SpritePtr m_burn_sprite;
 
 private:
   WeakBlock(const WeakBlock&) = delete;
