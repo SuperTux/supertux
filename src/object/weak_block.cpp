@@ -209,9 +209,6 @@ WeakBlock::update(float )
           set_action("disintegrating", 1);
           spreadHit();
           set_group(COLGROUP_DISABLED);
-          lightsprite = m_sprite->create_linked_sprite("disintegrate-light");
-          lightsprite->set_blend(Blend::ADD);
-          lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }
         break;
 

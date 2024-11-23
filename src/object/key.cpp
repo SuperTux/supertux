@@ -72,7 +72,7 @@ Key::update(float dt_sec)
     if (spawn_particle_now)
     {
       Sector::get().add<SpriteParticle>(
-        m_sprite->get_linked_sprite("sparkle-spawn"),
+        m_sprite->get_linked_sprite("sparkle-small"),
         ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS + 6, false, m_color);
     }
 
