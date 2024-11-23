@@ -164,7 +164,7 @@ public:
 
   /** Returns the amount of coins that this object is worth.
       This is considered when calculating all coins in a level. */
-  virtual int get_coins() const { return 0; }
+  virtual int get_coins_worth() const { return 0; }
 
   /** Indicates if get_settings() is implemented. If true the editor
       will display Tip and ObjectMenu. */

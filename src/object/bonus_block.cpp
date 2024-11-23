@@ -283,7 +283,7 @@ BonusBlock::get_settings()
 }
 
 int
-BonusBlock::get_coins() const
+BonusBlock::get_coins_worth() const
 {
   if (m_contents == BonusBlock::Content::COIN)
     return m_hit_counter;

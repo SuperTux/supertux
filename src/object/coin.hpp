@@ -52,7 +52,7 @@ public:
   virtual void after_editor_set() override;
   virtual void editor_update() override;
 
-  int get_coins() const override { return 1; }
+  int get_coins_worth() const override { return 1; }
 
   void save_state() override;
   void check_state() override;

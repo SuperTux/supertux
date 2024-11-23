@@ -295,7 +295,7 @@ Level::get_total_coins() const
   for (auto const& sector : m_sectors)
   {
     for (const auto& obj : sector->get_objects())
-      total_coins += obj->get_coins();
+      total_coins += obj->get_coins_worth();
   }
   return total_coins;
 }
