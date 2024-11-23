@@ -468,7 +468,9 @@ Crusher::spawn_roots(Direction direction)
 void
 Crusher::draw(DrawingContext& context)
 {
-  Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
+  const Vector draw_offset = m_physic.get_velocity() * context.get_time_offset();
+  const Vector draw_pos = get_pos() + draw_offset;
+
   m_sprite->draw(context.color(), draw_pos, m_layer + 2, m_flip);
   if (m_sprite->has_action("whites"))
   {
@@ -478,6 +480,9 @@ Crusher::draw(DrawingContext& context)
     // Draw the whites of crusher's eyes even further behind.
     m_whites->draw(context.color(), draw_pos, m_layer, m_flip);
   }
+
+  if (m_light_sprite)
+    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, m_layer + 3);
 }
 
 void
