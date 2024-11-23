@@ -382,10 +382,11 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
   }
   if (dir_ == Direction::UP) {
     m_physic.set_velocity_y(-KICKSPEED);
-    if (fabsf(player->get_physic().get_velocity_x()) < 1.0f) {
+    if (std::abs(player->get_physic().get_velocity_x()) < 1.0f) {
       set_state(ICESTATE_FLAT);
     }
-    else {
+    else
+    {
       m_dir = (m_physic.get_velocity_x() > 0) ? Direction::RIGHT : Direction::LEFT;
       set_state(ICESTATE_KICKED);
     }
