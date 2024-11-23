@@ -525,8 +525,10 @@ Player::update(float dt_sec)
     swim_here_box.set_bottom(m_col.m_bbox.get_bottom() - 16.f);
     bool can_swim_here = !Sector::get().is_free_of_tiles(swim_here_box, true, Tile::WATER);
     
-    if(can_swim_here && !m_invincible_timer.started())
+    if (can_swim_here && !m_invincible_timer.started())
     {
+      // HACK: Very disgusting! In a perfect world we'd call this function only once.
+      // But we don't live in a perfect world where this function is actually good.
       can_swim_here = Sector::get().is_free_of_tiles(swim_here_box, true, Tile::HURTS);
     }
 
