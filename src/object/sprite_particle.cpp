@@ -64,7 +64,6 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
   lightsprite = sprite->create_linked_light_sprite();
   if (lightsprite)
   {
-    lightsprite->set_blend(Blend::ADD);
     if (!sprite->get_linked_light_sprite()->color)
       lightsprite->set_color(color_);
   }

@@ -129,7 +129,6 @@ LiveFire::kill_fall()
   m_physic.set_velocity_y(0);
   m_physic.set_acceleration_y(0);
   m_physic.enable_gravity(false);
-  m_light_sprite->set_blend(Blend::ADD);
   m_light_sprite->set_color(Color(1.0f, 0.9f, 0.8f));
   set_group(COLGROUP_DISABLED);
   state = STATE_DEAD;

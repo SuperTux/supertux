@@ -51,8 +51,6 @@ Flower::Flower(BonusType _type, const std::string& custom_sprite) :
   }
 
   lightsprite = sprite->create_linked_light_sprite();
-  if (lightsprite)
-    lightsprite->set_blend(Blend::ADD);
 
   set_group(COLGROUP_TOUCHABLE);
 }
