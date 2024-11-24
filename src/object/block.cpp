@@ -20,7 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "badguy/bomb.hpp"
+#include "badguy/mrbomb.hpp"
 #include "math/random.hpp"
 #include "object/coin.hpp"
 #include "object/growup.hpp"
@@ -37,7 +37,7 @@ static const float BOUNCY_BRICK_SPEED = 90;
 static const float BUMP_ROTATION_ANGLE = 10;
 
 Block::Block(const Vector& pos, const std::string& sprite_file) :
-  MovingSprite(pos, sprite_file),
+  MovingSprite(pos, sprite_file, LAYER_OBJECTS + 1),
   m_bouncing(false),
   m_breaking(false),
   m_bounce_dir(0),
@@ -51,7 +51,7 @@ Block::Block(const Vector& pos, const std::string& sprite_file) :
 }
 
 Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
-  MovingSprite(mapping, sprite_file),
+  MovingSprite(mapping, sprite_file, LAYER_OBJECTS + 1),
   m_bouncing(false),
   m_breaking(false),
   m_bounce_dir(0),
@@ -99,11 +99,9 @@ Block::collision(GameObject& other, const CollisionHit& )
   auto badguy = dynamic_cast<BadGuy*> (&other);
   auto portable = dynamic_cast<Portable*> (&other);
   auto moving_object = dynamic_cast<MovingObject*> (&other);
-  auto bomb = dynamic_cast<Bomb*> (&other);
   bool is_portable = ((portable != nullptr) && portable->is_portable());
-  bool is_bomb = (bomb != nullptr); // bombs need to explode, although they are considered portable
   bool hit_mo_from_below = ((moving_object == nullptr) || (moving_object->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + SHIFT_DELTA)));
-  if (m_bouncing && (!is_portable || badguy || is_bomb) && hit_mo_from_below) {
+  if (m_bouncing && (!is_portable || badguy) && hit_mo_from_below) {
 
     // Badguys get killed.
     if (badguy) {
@@ -152,12 +150,6 @@ Block::update(float dt_sec)
 }
 
 void
-Block::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+1, m_flip);
-}
-
-void
 Block::start_bounce(GameObject* hitter)
 {
   if (m_original_y == -1){
@@ -201,7 +193,7 @@ Block::break_me()
     Sector::get().add<SpriteParticle>(m_sprite->clone(), action,
                                 pos, ANCHOR_MIDDLE,
                                 velocity, Vector(0, gravity),
-                                LAYER_OBJECTS + 3);
+                                m_layer);
   }
 
   remove_me();

@@ -39,6 +39,8 @@ public:
   /** Draw sprite, automatically calculates next frame */
   void draw(Canvas& canvas, const Vector& pos, int layer,
             Flip flip = NO_FLIP);
+  void draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
+                   Flip flip = NO_FLIP);
 
   /** Set action (or state) */
   void set_action(const std::string& name, int loops = -1);
@@ -69,7 +71,6 @@ public:
   void stop_animation() { m_animation_loops = 0; }
 
   void pause_animation() { m_is_paused = true; }
-
   void resume_animation() { m_is_paused = false; }
 
   /** Check if animation is stopped or not */
@@ -83,9 +84,6 @@ public:
 
   /** Get current frame progress */
   float get_current_frame_progress() const { return m_frame; }
-
-  /** Get sprite's name */
-  const std::string& get_name() const { return m_data.name; }
 
   /** Get current action name */
   const std::string& get_action() const { return m_action->name; }
@@ -125,6 +123,8 @@ public:
 
   bool has_action (const std::string& name) const { return (m_data.get_action(name) != nullptr); }
   size_t get_actions_count() const { return m_data.actions.size(); }
+
+  bool load_successful() const { return m_data.m_load_successful; }
 
 private:
   void update();

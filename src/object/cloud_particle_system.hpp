@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2024 bruhmoent
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -49,6 +50,7 @@ public:
   virtual std::string get_exposed_class_name() const override { return "CloudParticleSystem"; }
   static std::string display_name() { return _("Cloud Particles"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return ParticleSystem::get_class_types().add(typeid(CloudParticleSystem)); }
   virtual ObjectSettings get_settings() override;
 
   virtual const std::string get_icon_path() const override {
@@ -57,11 +59,12 @@ public:
 
   /**
    * @scripting
-   * @description Smoothly changes the rain speed to the given value in ""time"" seconds.
-   * @param float $speed
+   * @description Smoothly changes the clouds' X and Y speed to the given value in ""time"" seconds.
+   * @param float $speed_x
+   * @param float $speed_y
    * @param float $time
    */
-  void fade_speed(float speed, float time);
+  void fade_speed(float speed_x, float speed_y, float time);
   /**
    * @scripting
    * @description Smoothly changes the amount of particles to the given value in ""time"" seconds.
@@ -82,12 +85,52 @@ public:
   static int constexpr const max_amount = 500;
   static int constexpr const min_amount = 0;
 
+  /**
+   * @scripting
+   * @description Sets the horizontal speed of the cloud particles.
+   * @param float $speed
+   */
+  void set_x_speed(float speed);
+  /**
+   * @scripting
+   * @description Gets the horizontal speed of the cloud particles.
+   * @return float
+   */
+  float get_x_speed() const;
+  /**
+   * @scripting
+   * @description Sets the vertical speed of the cloud particles.
+   * @param float $speed
+   */
+  void set_y_speed(float speed);
+  /**
+   * @scripting
+   * @description Gets the vertical speed of the cloud particles.
+   * @return float
+   */
+  float get_y_speed() const;
+  /**
+  * @scripting
+  * @description Sets the fog's opacity.
+  * @param float opacity
+  */
+  void set_fog_opacity(float opacity);
+  /**
+  * @scripting
+  * @description Gets the fog's opacity.
+  * @return float
+  */
+  float get_fog_opacity() const;
+
 private:
   /** Returns the amount that got inserted (In case max_amount got hit) */
   int add_clouds(int amount, float fade_time);
 
   /** Returns the amount that got removed (In case min_amount got hit) */
   int remove_clouds(int amount, float fade_time);
+
+  /** Applies the fog effect based on the intensity */
+  void apply_fog_effect(DrawingContext& context);
 
 private:
   class CloudParticle : public Particle
@@ -104,15 +147,20 @@ private:
     {}
   };
 
-  SurfacePtr cloudimage;
+  SurfacePtr cloud_image;
 
-  float m_current_speed;
-  float m_target_speed;
-  float m_speed_fade_time_remaining;
+  float m_current_speed_x;
+  float m_target_speed_x;
+  float m_speed_fade_time_remaining_x;
+
+  float m_current_speed_y;
+  float m_target_speed_y;
+  float m_speed_fade_time_remaining_y;
 
   int m_current_amount;
   int m_current_real_amount;
 
+  float m_fog_opacity;
 private:
   CloudParticleSystem(const CloudParticleSystem&) = delete;
   CloudParticleSystem& operator=(const CloudParticleSystem&) = delete;

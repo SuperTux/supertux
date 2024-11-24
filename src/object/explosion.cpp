@@ -37,14 +37,20 @@ Explosion::Explosion(const Vector& pos, float p_push_strength,
   hurt(!p_short_fuse),
   push_strength(p_push_strength),
   num_particles(p_num_particles),
-  state(STATE_WAITING),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
+  m_state(E_STATE_WAITING),
+  m_lightsprite(SpriteManager::current()->create(p_short_fuse ?
+                                                 "images/objects/lightmap_light/lightmap_light-medium.sprite" :
+                                                 "images/objects/lightmap_light/lightmap_light-large.sprite")),
+  m_color(1.f, 0.5f, 0.2f, 0.f),
+  m_fading_timer(),
   short_fuse(p_short_fuse)
 {
-  SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
   set_pos(get_pos() - (m_col.m_bbox.get_middle() - get_pos()));
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
+
+  SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
+
+  m_lightsprite->set_blend(Blend::ADD);
+  m_lightsprite->set_color(m_color);
 }
 
 Explosion::Explosion(const ReaderMapping& reader) :
@@ -52,21 +58,27 @@ Explosion::Explosion(const ReaderMapping& reader) :
   hurt(true),
   push_strength(-1),
   num_particles(100),
-  state(STATE_WAITING),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
+  m_state(E_STATE_WAITING),
+  m_lightsprite(nullptr),
+  m_color(1.f, 0.5f, 0.2f, 0.f),
+  m_fading_timer(),
   short_fuse(false)
 {
   SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
+
+  m_lightsprite = (SpriteManager::current()->create(short_fuse ?
+                                                    "images/objects/lightmap_light/lightmap_light-medium.sprite" :
+                                                    "images/objects/lightmap_light/lightmap_light-large.sprite"));
+  m_lightsprite->set_blend(Blend::ADD);
+  m_lightsprite->set_color(m_color);
 }
 
 void
 Explosion::explode()
 {
-  if (state != STATE_WAITING)
+  if (m_state != E_STATE_WAITING)
     return;
-  state = STATE_EXPLODING;
+  m_state = E_STATE_EXPLODING;
 
   Sector::get().get_camera().shake(.1f, 0.f, 10.f);
 
@@ -151,14 +163,32 @@ Explosion::explode()
 void
 Explosion::update(float )
 {
-  switch (state) {
-    case STATE_WAITING:
+  switch (m_state)
+  {
+    case E_STATE_WAITING:
       explode();
+      m_fading_timer.start(0.15f);
       break;
-    case STATE_EXPLODING:
-      if (m_sprite->animation_done()) {
+
+    case E_STATE_EXPLODING:
+      m_color.alpha = std::min(m_fading_timer.get_progress(), 1.f);
+
+      if (m_fading_timer.check())
+      {
+        m_fading_timer.start(short_fuse ? .85f : 1.5f);
+        m_state = E_STATE_FADING;
+      }
+
+      break;
+
+    case E_STATE_FADING:
+      m_color.alpha = std::max(1.f - m_fading_timer.get_progress(), 0.f);
+
+      if (m_fading_timer.check())
+      {
         remove_me();
       }
+
       break;
   }
 }
@@ -167,13 +197,14 @@ void
 Explosion::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+40);
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  m_lightsprite->set_color(m_color);
+  m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 HitResponse
 Explosion::collision(GameObject& other, const CollisionHit& )
 {
-  if ((state != STATE_EXPLODING) || !hurt || m_sprite->get_current_frame() > 8)
+  if ((m_state != E_STATE_EXPLODING) || !hurt || m_sprite->get_current_frame() > 8)
     return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*>(&other);

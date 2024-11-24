@@ -145,6 +145,8 @@ SoundObject::register_class(ssq::VM& vm)
   cls.addFunc("stop_playing", &SoundObject::stop_looping_sounds);
   cls.addFunc("set_volume", &SoundObject::set_volume);
   cls.addFunc("get_volume", &SoundObject::get_volume);
+
+  cls.addVar("volume", &SoundObject::get_volume, &SoundObject::set_volume);
 }
 
 /* EOF */

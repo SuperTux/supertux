@@ -153,13 +153,17 @@ LevelParser::load(const ReaderDocument& doc)
     throw std::runtime_error("file is not a supertux-level file.");
 
   auto level = root.get_mapping();
+  Statistics::Preferences stat_preferences;
 
   int version = 1;
   level.get("version", version);
-  if (version == 1) {
+  if (version == 1)
+  {
     log_info << "[" << doc.get_filename() << "] level uses old format: version 1" << std::endl;
     load_old_format(level);
-  } else if (version == 2 || version == 3) {
+  }
+  else if (version == 2 || version == 3)
+  {
     level.get("tileset", m_level.m_tileset);
 
     level.get("name", m_level.m_name);
@@ -172,6 +176,14 @@ LevelParser::load(const ReaderDocument& doc)
     level.get("icon", m_level.m_icon);
     level.get("icon-locked", m_level.m_icon_locked);
     level.get("bkg", m_level.m_wmselect_bkg);
+
+    std::string name = m_level.m_is_worldmap ? "on" : "inherit";
+    level.get("allow-item-pocket", name);
+    m_level.m_allow_item_pocket = Level::get_setting_from_name(name);
+
+    std::optional<ReaderMapping> level_stat_preferences;
+    if (level.get("statistics", level_stat_preferences))
+      stat_preferences.parse(*level_stat_preferences);
 
     auto iter = level.get_iter();
     while (iter.next())
@@ -189,11 +201,13 @@ LevelParser::load(const ReaderDocument& doc)
                   << m_level.m_name << "\". You might not be allowed to share it."
                   << std::endl;
     }
-  } else {
+  }
+  else
+  {
     log_warning << "[" << doc.get_filename() << "] level format version " << version << " is not supported" << std::endl;
   }
 
-  m_level.initialize();
+  m_level.initialize(stat_preferences);
 }
 
 void
@@ -204,8 +218,6 @@ LevelParser::load_old_format(const ReaderMapping& reader)
 
   auto sector = SectorParser::from_reader_old_format(m_level, reader, m_editable);
   m_level.add_sector(std::move(sector));
-
-  m_level.initialize();
 }
 
 void

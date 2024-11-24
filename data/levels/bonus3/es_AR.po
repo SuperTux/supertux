@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-10-20 09:04+0000\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: Salomón Duarte <juanaestelaruizdiaz@gmail.com>, 2021\n"
 "Language-Team: Spanish (Argentina) (http://app.transifex.com/arctic-games/supertux/language/es_AR/)\n"
@@ -27,7 +27,7 @@ msgstr "-89,2 Grados"
 msgid "Global Warming"
 msgstr "Calentamiento global"
 
-#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
+#: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
 msgstr "Una noche en el cielo"
 
@@ -79,7 +79,7 @@ msgstr "#¡Buen trabajo! ¡Te quedaste con la linterna roja! Sin embargo, no era
 msgid "Coconut Fortress"
 msgstr "Fortaleza de Coco"
 
-#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
+#: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
 msgstr "La puesta de sol del cristal"
 
@@ -140,7 +140,7 @@ msgstr "El bonus de la flor"
 msgid "After the Glaciers"
 msgstr "Después de los glaciares"
 
-#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
+#: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
 msgstr "Colgando del techo"
 
@@ -216,7 +216,7 @@ msgstr "Una colina muy nevada"
 msgid "Three Frosty Icebergs"
 msgstr "Los tres Icebergs escarchados"
 
-#: ⁨data/levels/bonus3/under ice.stl⁩:3
+#: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
 msgstr "Debajo del hielo"
 

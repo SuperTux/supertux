@@ -241,8 +241,8 @@ Sector::activate(const Vector& player_pos)
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
-    Player& player = *static_cast<Player*>(player_ptr);
+  const auto players = get_objects_by_type<Player>();
+  for (auto& player : players) {
     // spawn smalltux below spawnpoint
     if (!player.is_big()) {
       player.set_pos(player_pos + Vector(0,32));
@@ -252,8 +252,6 @@ Sector::activate(const Vector& player_pos)
 
     // spawning tux in the ground would kill him
     if (!is_free_of_tiles(player.get_bbox())) {
-      std::string current_level = "[" + Sector::get().get_level().m_filename + "] ";
-      log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
       Vector npos = player.get_bbox().p1();
       npos.y-=32;
       player.set_pos(npos);
@@ -261,9 +259,9 @@ Sector::activate(const Vector& player_pos)
   }
 
   //FIXME: This is a really dirty workaround for this strange camera jump
-  if (get_players().size() > 0)
+  if (players.begin() != players.end())
   {
-    Player& player = *(get_players()[0]);
+    Player& player = *players.begin();
     Camera& camera = get_camera();
     player.set_pos(player.get_pos()+Vector(-32, 0));
     camera.reset(player.get_pos());
@@ -609,8 +607,8 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, boo
 bool
 Sector::can_see_player(const Vector& eye) const
 {
-  for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
-    Player& player = *static_cast<Player*>(player_ptr);
+  for (auto& player : get_objects_by_type<Player>())
+  {
     // test for free line of sight to any of all four corners and the middle of the player's bounding box
     if (free_line_of_sight(eye, player.get_bbox().p1(), false, &player)) return true;
     if (free_line_of_sight(eye, Vector(player.get_bbox().get_right(), player.get_bbox().get_top()), false, &player)) return true;
@@ -705,11 +703,6 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 void
 Sector::set_gravity(float gravity)
 {
-  if (gravity != 10.0f)
-  {
-    log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects: " << gravity << std::endl;
-  }
-
   m_gravity = gravity;
 }
 
@@ -720,21 +713,29 @@ Sector::get_gravity() const
 }
 
 Player*
-Sector::get_nearest_player (const Vector& pos) const
+Sector::get_nearest_player(const Vector& pos) const
 {
-  Player *nearest_player = nullptr;
+  auto players = get_objects_by_type_index(typeid(Player));
+  if (players.size() == 1)
+  {
+    Player* player = static_cast<Player*>(players[0]);
+    return (!player->is_alive() ? nullptr : player);
+  }
+
+  Player* nearest_player = nullptr;
   float nearest_dist = std::numeric_limits<float>::max();
 
-  for (auto player_ptr : get_objects_by_type_index(typeid(Player)))
+  for (auto player_ptr : players)
   {
-    Player& player = *static_cast<Player*>(player_ptr);
-    if (player.is_dying() || player.is_dead())
+    Player* player = static_cast<Player*>(player_ptr);
+    if (!player->is_alive())
       continue;
 
-    float dist = player.get_bbox ().distance(pos);
+    float dist = player->get_bbox().distance(pos);
 
-    if (dist < nearest_dist) {
-      nearest_player = &player;
+    if (dist < nearest_dist)
+    {
+      nearest_player = player;
       nearest_dist = dist;
     }
   }

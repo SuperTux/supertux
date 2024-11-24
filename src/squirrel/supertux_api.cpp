@@ -787,6 +787,38 @@ static void resume_target_timer()
   GameSession::current()->set_target_timer_paused(false);
 }
 
+/**
+ * @scripting
+ * @description Override the Item Pocket setting in the Level.
+ * @param string $allow Can be "on", "off", or "inherit" (use the setting in the Level).
+ */
+static void override_item_pocket(const std::string& allow)
+{
+  if (!GameSession::current()) return;
+  GameSession::current()->get_savegame().get_player_status().m_override_item_pocket = ::Level::get_setting_from_name(allow);
+}
+
+/**
+ * @scripting
+ * @description Get the override value for the Item Pocket.
+ * Can be "on", "off", or "inherit" (use the setting in the Level).
+ */
+static std::string is_item_pocket_overridden()
+{
+  if (!GameSession::current()) return "off";
+  return ::Level::get_setting_name(GameSession::current()->get_savegame().get_player_status().m_override_item_pocket);
+}
+
+/**
+ * @scripting
+ * @description Check if the Item Pocket is allowed in this level.
+ */
+static bool is_item_pocket_allowed()
+{
+  if (!GameSession::current()) return false;
+  return GameSession::current()->get_savegame().get_player_status().is_item_pocket_allowed();
+}
+
 } // namespace Level
 
 } // namespace scripting
@@ -812,6 +844,13 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.setConst<int>("ANCHOR_BOTTOM_LEFT", AnchorPoint::ANCHOR_BOTTOM_LEFT);
   vm.setConst<int>("ANCHOR_BOTTOM", AnchorPoint::ANCHOR_BOTTOM);
   vm.setConst<int>("ANCHOR_BOTTOM_RIGHT", AnchorPoint::ANCHOR_BOTTOM_RIGHT);
+
+  vm.setConst<int>("BONUS_NONE", BonusType::BONUS_NONE);
+  vm.setConst<int>("BONUS_GROWUP", BonusType::BONUS_GROWUP);
+  vm.setConst<int>("BONUS_FIRE", BonusType::BONUS_FIRE);
+  vm.setConst<int>("BONUS_AIR", BonusType::BONUS_AIR);
+  vm.setConst<int>("BONUS_EARTH", BonusType::BONUS_EARTH);
+  vm.setConst<int>("BONUS_ICE", BonusType::BONUS_ICE);
 
   /* Global functions */
   vm.addFunc("display", &scripting::Globals::display);
@@ -872,6 +911,9 @@ void register_supertux_scripting_api(ssq::VM& vm)
   level.addFunc("toggle_pause", &scripting::Level::toggle_pause);
   level.addFunc("pause_target_timer", &scripting::Level::pause_target_timer);
   level.addFunc("resume_target_timer", &scripting::Level::resume_target_timer);
+  level.addFunc("override_item_pocket", &scripting::Level::override_item_pocket);
+  level.addFunc("is_item_pocket_overridden", &scripting::Level::is_item_pocket_overridden);
+  level.addFunc("is_item_pocket_allowed", &scripting::Level::is_item_pocket_allowed);
 }
 
 /* EOF */

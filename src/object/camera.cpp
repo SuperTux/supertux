@@ -572,7 +572,7 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
 
   for (const auto* p : Sector::get().get_players())
   {
-    if (p->is_dead() || p->is_dying())
+    if (!p->is_alive())
       continue;
 
     float lft = p->get_bbox().get_left() - HORIZONTAL_MARGIN;
@@ -636,7 +636,7 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
 void
 Camera::update_scroll_autoscroll(float dt_sec)
 {
-  if (!get_parent()->get_object_count<Player>([](const Player& p) { return !p.is_dead() && !p.is_dying(); }))
+  if (!get_parent()->get_object_count<Player>([](const Player& p) { return p.is_alive(); }))
     return;
 
   get_walker()->update(dt_sec);
@@ -747,6 +747,9 @@ Camera::reload_scale()
 void
 Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
 {
+  if (m_scale == scale)
+    return;
+
   m_scale_anchor = anchor;
 
   if (time <= 0.f)

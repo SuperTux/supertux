@@ -37,6 +37,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Yeti"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Boss::get_class_types().add(typeid(Yeti)); }
 
   virtual ObjectSettings get_settings() override;
 
@@ -93,6 +94,7 @@ private:
   {
   public:
     SnowExplosionParticle(const Vector& pos, const Vector& velocity);
+    virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Yeti::SnowExplosionParticle)); }
   };
 
 private:

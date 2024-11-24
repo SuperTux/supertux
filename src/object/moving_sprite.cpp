@@ -123,6 +123,12 @@ MovingSprite::matches_sprite(const std::string& sprite_file) const
   return m_sprite_name == sprite_file || m_sprite_name == "/" + sprite_file;
 }
 
+void
+MovingSprite::set_sprite(const std::string& file)
+{
+  change_sprite(file);
+}
+
 std::string
 MovingSprite::get_action() const
 {
@@ -203,7 +209,7 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
   m_sprite_name = new_sprite_name;
   update_hitbox();
 
-  return SpriteManager::current()->last_load_successful();
+  return m_sprite->load_successful();
 }
 
 ObjectSettings
@@ -264,6 +270,8 @@ MovingSprite::register_class(ssq::VM& vm)
   cls.addFunc("get_action", &MovingSprite::get_action);
   cls.addFunc<void, MovingSprite, const std::string&>("set_action", &MovingSprite::set_action);
   cls.addFunc("set_action_loops", &MovingSprite::set_action_loops);
+
+  cls.addVar("sprite", &MovingSprite::get_sprite_name, &MovingSprite::set_sprite);
 }
 
 /* EOF */

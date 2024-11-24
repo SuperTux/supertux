@@ -356,31 +356,31 @@ BonusBlock::try_open(Player* player)
 
     case Content::FIREGROW:
     {
-      raise_growup_bonus(player, FIRE_BONUS, direction);
+      raise_growup_bonus(player, BONUS_FIRE, direction);
       break;
     }
 
     case Content::ICEGROW:
     {
-      raise_growup_bonus(player, ICE_BONUS, direction);
+      raise_growup_bonus(player, BONUS_ICE, direction);
       break;
     }
 
     case Content::AIRGROW:
     {
-      raise_growup_bonus(player, AIR_BONUS, direction);
+      raise_growup_bonus(player, BONUS_AIR, direction);
       break;
     }
 
     case Content::EARTHGROW:
     {
-      raise_growup_bonus(player, EARTH_BONUS, direction);
+      raise_growup_bonus(player, BONUS_EARTH, direction);
       break;
     }
 
     case Content::RETROGROW:
     {
-      raise_growup_bonus(player, FIRE_BONUS, direction,
+      raise_growup_bonus(player, BONUS_FIRE, direction,
                          "images/powerups/retro/mints.png", "images/powerups/retro/coffee.png");
       break;
     }
@@ -649,7 +649,7 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
                                const std::string& growup_sprite, const std::string& flower_sprite)
 {
   std::unique_ptr<MovingObject> obj;
-  if (player->get_status().bonus[player->get_id()] == NO_BONUS)
+  if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
   {
     obj = std::make_unique<GrowUp>(get_pos(), dir, growup_sprite);
   }
@@ -666,7 +666,7 @@ void
 BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bool& countdown,
                               const std::string& growup_sprite)
 {
-  if (player->get_status().bonus[player->get_id()] == NO_BONUS)
+  if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
   {
     Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir, growup_sprite);
   }

@@ -5,6 +5,8 @@
 # 
 # Translators:
 # Diego Enmanuel Rosales Santander, 2024
+# Unknown, 2024
+# Ulices, 2024
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:59+0000\n"
-"Last-Translator: Diego Enmanuel Rosales Santander, 2024\n"
+"Last-Translator: Ulices, 2024\n"
 "Language-Team: Spanish (https://app.transifex.com/arctic-games/teams/95/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +33,11 @@ msgstr "Problemas Dobles"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:82
 msgid "-Concentrate! Tux! It's not Mario!"
-msgstr ""
+msgstr "-¡Concentráte! Tux! ¡No es Mario!"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:142
 msgid "You found a secret area!"
-msgstr ""
+msgstr "¡Has encontrado un área secreta!"
 
 #: data/levels/community2016/Entrance_To_Cave (gelada).stl:3
 msgid "The Entrance To The Cave"
@@ -51,40 +53,40 @@ msgstr "¡Bola de Nieve HMS a la Vista!"
 
 #: data/levels/community2016/Into_The_Palace (ThomyW).stl:3
 msgid "Into The Palace"
-msgstr ""
+msgstr "En el palacio"
 
 #: data/levels/community2016/Is_The_Biggest_Fish (cookie monster).stl:3
 msgid "Is The Biggest Fish"
-msgstr ""
+msgstr "Es el Pez Más Grande"
 
 #: data/levels/community2016/Problem_With_Green (herobrine).stl:3
 msgid "The Problem With GREEN"
-msgstr ""
+msgstr "El Problema Con VERDE"
 
 #: data/levels/community2016/Sunny_Hills (Serano).stl:3
 msgid "Sunny Hills"
-msgstr ""
+msgstr "Colinas Soleadas"
 
 #: data/levels/community2016/The_Mountains (gelada).stl:3
 msgid "The Mountains"
-msgstr ""
+msgstr "Las Montañas"
 
 #: data/levels/community2016/The_Strange_Thing (herobrine).stl:3
 msgid "The Strange Thing"
-msgstr ""
+msgstr "La Cosa Extraña"
 
 #: data/levels/community2016/Uncontrolled_Lift (gelada).stl:3
 msgid "Uncontrolled Lift"
-msgstr ""
+msgstr "Subida Descontrolada"
 
 #: data/levels/community2016/Up_Or_Down (Serano).stl:3
 msgid "Up, Or Down?"
-msgstr ""
+msgstr "¿Arriba o Abajo?"
 
 #: data/levels/community2016/Welcome_To_Icy_Island (gelada).stl:3
 msgid "Welcome To The Icy Island"
-msgstr ""
+msgstr "Bienvenido a la Isla De Hielo"
 
 #: data/levels/community2016/worldmap.stwm:3
 msgid "Community Island 2016"
-msgstr ""
+msgstr "Isla de comunidad 2016"

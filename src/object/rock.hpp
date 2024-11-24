@@ -39,10 +39,12 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Rock"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Portable)).add(typeid(Rock)); }
 
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
+  void draw(DrawingContext& context) override;
 
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);

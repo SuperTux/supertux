@@ -74,7 +74,7 @@ jobs:
           sed -i "s/AppVersionCode.*/AppVersionCode=$VERSION_CODE/g" project/jni/application/supertux/AndroidAppSettings.cfg
 
       - name: Copy precompiled libraries from cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: cache
         with:
           # The same SDL revision will produce the same libraries

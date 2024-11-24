@@ -31,22 +31,22 @@ Flower::Flower(BonusType _type, const std::string& custom_sprite) :
   m_col.m_bbox.set_size(32, 32);
   lightsprite->set_blend(Blend::ADD);
 
-  if (type == FIRE_BONUS) {
+  if (type == BONUS_FIRE) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/fireflower/fireflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
     lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
   }
-  else if (type == ICE_BONUS) {
+  else if (type == BONUS_ICE) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/iceflower/iceflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
     lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
   }
-  else if (type == AIR_BONUS) {
+  else if (type == BONUS_AIR) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/airflower/airflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
     lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
   }
-  else if (type == EARTH_BONUS) {
+  else if (type == BONUS_EARTH) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/earthflower/earthflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
     lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));

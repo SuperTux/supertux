@@ -18,6 +18,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_MANAGER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_MANAGER_HPP
 
+#include <chrono>
 #include <memory>
 #include <SDL.h>
 
@@ -52,6 +53,8 @@ public:
   float get_speed() const;
   bool has_pending_fadeout() const;
 
+  void on_window_resize();
+
   // push new screen on screen_stack
   void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
   void pop_screen(std::unique_ptr<ScreenFade> fade = {});
@@ -78,9 +81,8 @@ private:
   std::unique_ptr<ControllerHUD> m_controller_hud;
   MobileController m_mobile_controller;
 
-  Uint32 last_ticks;
-  Uint32 elapsed_ticks;
-  const Uint32 ms_per_step;
+  std::chrono::steady_clock::time_point last_time;
+  float elapsed_time;
   const float seconds_per_step;
   std::unique_ptr<FPS_Stats> m_fps_statistics;
 

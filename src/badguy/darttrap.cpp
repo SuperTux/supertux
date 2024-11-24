@@ -49,7 +49,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/dartfire.wav");
   if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
   m_state = IDLE;
-  set_colgroup_active(COLGROUP_DISABLED);
+  set_group(COLGROUP_DISABLED);
 
   if (!Editor::is_active()) {
     if (m_initial_delay == 0) m_initial_delay = 0.1f;
@@ -183,6 +183,10 @@ DartTrap::get_default_sprite_name() const
       return "images/creatures/darttrap/granito/darttrap_granito.sprite";
   }
   return "images/creatures/darttrap/granito/darttrap_granito.sprite";
+}
+
+void DartTrap::kill_fall()
+{
 }
 
 std::vector<Direction>

@@ -59,7 +59,7 @@ public:
   virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
 
   virtual void setup() override;
-  virtual void resize() override;
+  virtual void on_window_resize() override;
 
   void refresh();
 
@@ -78,7 +78,9 @@ public:
 private:
   Vector get_layer_coords(const int pos) const;
   int get_layer_pos(const Vector& coords) const;
+
   void update_tip();
+  void remove_invalid_layers();
 
 private:
   Editor& m_editor;

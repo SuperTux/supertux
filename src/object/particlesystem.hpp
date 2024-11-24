@@ -63,18 +63,17 @@ public:
   virtual std::string get_exposed_class_name() const override { return "ParticleSystem"; }
   static std::string display_name() { return _("Particle system"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(ParticleSystem)); }
   virtual ObjectSettings get_settings() override;
 
   /**
    * @scripting
-   * @deprecated Use the ""enabled"" property instead!
    * @description Enables/disables the system.
    * @param bool $enable
    */
   void set_enabled(bool enable);
   /**
    * @scripting
-   * @deprecated Use the ""enabled"" property instead!
    * @description Returns ""true"" if the system is enabled.
    */
   bool get_enabled() const;
