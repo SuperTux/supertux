@@ -1152,7 +1152,7 @@ BadGuy::after_editor_set()
   MovingSprite::after_editor_set();
 
   const std::string direction_str = m_start_dir == Direction::AUTO ? "left" : dir_to_string(m_start_dir);
-  const std::string actions[] = {"editor", "normal", "idle", "flying", "walking", "standing", "swim"};
+  const std::string actions[] = {"editor", "default", "idle", "flying", "walking", "standing", "swim"};
   bool action_set = false;
 
   for (const auto& action_str : actions)

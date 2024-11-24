@@ -45,7 +45,7 @@ Bumper::Bumper(const ReaderMapping& reader) :
     m_dir = string_to_dir(dir_str);
   else if (reader.get("left", old_facing_left) && old_facing_left)
     m_dir = Direction::LEFT;
-  set_action("normal", m_dir);
+  set_action("default", m_dir);
   m_physic.enable_gravity(false);
 }
 
@@ -63,7 +63,7 @@ void
 Bumper::update(float dt_sec)
 {
   if (m_sprite->animation_done())
-    set_action("normal", m_dir);
+    set_action("default", m_dir);
 
   // Pushing rocks, as well as dynamic with tilemap, platform, and fallblock.
 
@@ -132,7 +132,7 @@ Bumper::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  set_action("normal", m_dir);
+  set_action("default", m_dir);
 }
 
 void

@@ -62,7 +62,7 @@ MouseCursor::apply_state(MouseCursorState state)
     switch(state)
     {
       case MouseCursorState::NORMAL:
-        m_sprite->set_action("normal");
+        m_sprite->set_action("default");
         break;
 
       case MouseCursorState::CLICK:
