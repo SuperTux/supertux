@@ -47,8 +47,8 @@ Rectf::fit_centered(const Sizef& target_size)
 {
   fit(target_size);
 
-  m_p1 += Vector(target_size.width / 2 - m_size.width / 2,
-                 target_size.height / 2 - m_size.height / 2);
+  m_p1 += Vector((target_size.width - m_size.width) / 2.f,
+                 (target_size.height - m_size.height) / 2.f);
 }
 
 Rect

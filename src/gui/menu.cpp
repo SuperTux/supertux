@@ -547,10 +547,10 @@ Menu::draw(DrawingContext& context)
     const int text_width = static_cast<int>(Resources::normal_font->get_text_width(m_items[m_active_item]->get_help()));
     const int text_height = static_cast<int>(Resources::normal_font->get_text_height(m_items[m_active_item]->get_help()));
 
-    const Rectf text_rect(static_cast<float>(SCREEN_WIDTH) / 2 - static_cast<float>(text_width) / 2.0f - 8.0f,
-                          static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
-                          static_cast<float>(SCREEN_WIDTH) / 2 + static_cast<float>(text_width) / 2.0f + 8.0f,
-                          static_cast<float>(SCREEN_HEIGHT) - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
+    const Rectf text_rect(context.get_width() / 2 - static_cast<float>(text_width) / 2.0f - 8.0f,
+                          context.get_height() - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
+                          context.get_width() / 2 + static_cast<float>(text_width) / 2.0f + 8.0f,
+                          context.get_height() - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
 
     context.color().draw_filled_rect(text_rect.grown(4),
                                      g_config->menuhelpbackcolor,
@@ -563,7 +563,7 @@ Menu::draw(DrawingContext& context)
                                      LAYER_GUI);
 
     context.color().draw_text(Resources::normal_font, m_items[m_active_item]->get_help(),
-                              Vector(static_cast<float>(SCREEN_WIDTH) / 2, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
+                              Vector(context.get_width() / 2, context.get_height() - 48.0f - static_cast<float>(text_height) / 2.0f),
                               ALIGN_CENTER, LAYER_GUI);
   }
 
@@ -612,10 +612,10 @@ Menu::draw_preview(DrawingContext& context)
   if (valid_last_index)
   {
     // Draw progress preview of current item.
-    const Sizef preview_size(static_cast<float>(context.get_width()) / 2.5f, static_cast<float>(context.get_height()) / 2.5f);
+    const Sizef preview_size(context.get_width() / 2.5f, context.get_height() / 2.5f);
     SurfacePtr preview = m_items[m_last_preview_item]->get_preview();
-    Rectf preview_rect(Vector(static_cast<float>(context.get_width()) * 0.73f - preview_size.width / 2,
-                              static_cast<float>(context.get_height()) / 2 - preview_size.height / 2),
+    Rectf preview_rect(Vector(context.get_width() * 0.73f - preview_size.width / 2,
+                              context.get_height() / 2 - preview_size.height / 2),
                        Sizef(static_cast<float>(preview->get_width()),
                              static_cast<float>(preview->get_height())));
     preview_rect.fit_centered(preview_size);
