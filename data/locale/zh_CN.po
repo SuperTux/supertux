@@ -1308,15 +1308,15 @@ msgstr "文本"
 
 #: src/object/cloud_particle_system.cpp:124
 msgid "Fog Opacity"
-msgstr ""
+msgstr "雾的不透明度"
 
 #: src/object/cloud_particle_system.cpp:125
 msgid "X Speed"
-msgstr ""
+msgstr "X 速度"
 
 #: src/object/cloud_particle_system.cpp:126
 msgid "Y Speed"
-msgstr ""
+msgstr "Y 速度"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
@@ -1602,15 +1602,15 @@ msgstr "无法选择已废弃的图块"
 
 #: src/editor/overlay_widget.cpp:1610
 msgid "Autotile erasing mode is on (\"{}\")"
-msgstr ""
+msgstr "自动擦除模式已启用 (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1614
 msgid "Autotile erasing cannot be performed here"
-msgstr ""
+msgstr "无法在此执行自动擦除"
 
 #: src/editor/overlay_widget.cpp:1619
 msgid "Autotile mode is on (\"{}\")"
-msgstr ""
+msgstr "自动放置模式已启用 (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1623
 msgid "Selected tile isn't autotileable"
@@ -2350,11 +2350,11 @@ msgstr "从文件安装"
 
 #: src/supertux/menu/addon_menu.cpp:175
 msgid "To browse through the add-on catalog, you must enable networking."
-msgstr ""
+msgstr "要浏览扩展目录，您必须启用网络。"
 
 #: src/supertux/menu/addon_menu.cpp:212
 msgid "To check for add-on updates, you must enable networking."
-msgstr ""
+msgstr "要检查扩展更新，您必须启用网络。"
 
 #: src/supertux/menu/addon_menu.cpp:220
 msgid "Checking for updates..."
@@ -2545,11 +2545,11 @@ msgstr "在编辑器工具箱中显示图块 ID"
 
 #: src/supertux/menu/debug_menu.cpp:80
 msgid "Reload Resources"
-msgstr ""
+msgstr "重新加载资源"
 
 #: src/supertux/menu/debug_menu.cpp:87
 msgid "Reloads all fonts, textures, sprites and tilesets."
-msgstr ""
+msgstr "重新加载所有字体、纹理、贴图和图块集。"
 
 #: src/supertux/menu/debug_menu.cpp:89
 msgid "Dump Texture Cache"
@@ -2988,7 +2988,7 @@ msgstr "无法加载所有可用的屏幕截图预览。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:154
 msgid "To fetch add-on screenshots, you must enable networking."
-msgstr ""
+msgstr "要加载扩展截图，您必须启用网络。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:158
 msgid "Show screenshots"
@@ -3081,14 +3081,14 @@ msgid ""
 "Would you allow SuperTux to connect to the Internet?\n"
 "\n"
 "This enables additional features, such as the in-game add-on catalog."
-msgstr ""
+msgstr "您想允许 SuperTux 访问互联网吗？\n\n您将可以使用额外的功能，例如在游戏内查看扩展目录。"
 
 #: src/supertux/menu/main_menu.cpp:82
 msgid ""
 "Would you allow SuperTux to check for new releases on startup?\n"
 "\n"
 "You will be notified if any are found."
-msgstr ""
+msgstr "您想允许 SuperTux 在启动时检查新版本吗？\n\n如果发现了新版本，您将收到通知。"
 
 #: src/supertux/menu/main_menu.cpp:125
 msgid ""
@@ -3661,11 +3661,11 @@ msgstr "允许游戏在启动时检查 SuperTux 的新版本，并在找到时�
 
 #: src/supertux/menu/options_menu.cpp:236
 msgid "Disable network"
-msgstr ""
+msgstr "禁用网络"
 
 #: src/supertux/menu/options_menu.cpp:237
 msgid "Prevents the game from connecting online"
-msgstr ""
+msgstr "阻止游戏联网"
 
 #: src/supertux/menu/options_menu.cpp:304
 msgid "Magnification"
