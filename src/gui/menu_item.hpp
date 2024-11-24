@@ -40,8 +40,8 @@ public:
   const FontPtr& get_font() const { return m_font; }
 
   void set_preview(const std::string& preview_file);
-  void set_preview(SurfacePtr preview) { m_preview = preview; }
-  SurfacePtr get_preview() const { return m_preview; }
+  inline void set_preview(SurfacePtr preview) { m_preview = preview; }
+  inline SurfacePtr get_preview() const { return m_preview; }
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);

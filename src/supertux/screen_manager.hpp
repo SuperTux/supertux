@@ -50,7 +50,7 @@ public:
   void run();
   void quit(std::unique_ptr<ScreenFade> fade = {});
 
-  void set_draw_hud(bool enabled) { m_draw_hud = enabled; }
+  inline void set_draw_hud(bool enabled) { m_draw_hud = enabled; }
   void set_speed(float speed);
   float get_speed() const;
   bool has_pending_fadeout() const;

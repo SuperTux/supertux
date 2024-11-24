@@ -28,8 +28,8 @@
 #include "util/gettext.hpp"
 #include "util/string_util.hpp"
 
-const size_t FileSystemMenu::s_title_max_chars = 30;
-const std::vector<std::string> FileSystemMenu::s_image_extensions = { ".jpg", ".png", ".surface" };
+static const size_t MAX_TITLE_CHARS = 30;
+static const std::vector<std::string> IMAGE_EXTENSIONS = { ".jpg", ".png", ".surface" };
 
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
                                const std::string& basedir, bool path_relative_to_basedir, std::function<void(const std::string&)> callback,
@@ -70,11 +70,11 @@ FileSystemMenu::refresh_items()
 
   // Make sure label doesn't get too long.
   std::string title = m_directory;
-  const bool title_large = title.size() > s_title_max_chars;
-  while (title.size() > s_title_max_chars) title = title.substr(title.size() - s_title_max_chars);
-  if (title_large) title = "..." + title;
+  const bool title_large = title.size() > MAX_TITLE_CHARS;
+  while (title.size() > MAX_TITLE_CHARS)
+    title = title.substr(title.size() - MAX_TITLE_CHARS);
 
-  add_label(title);
+  add_label((title_large ? "..." : "") + title);
   add_hl();
 
   int item_id = 0;
@@ -154,7 +154,7 @@ FileSystemMenu::has_right_suffix(const std::string& file) const
 bool
 FileSystemMenu::is_image(const std::string& file) const
 {
-  for (const auto& extension : s_image_extensions)
+  for (const auto& extension : IMAGE_EXTENSIONS)
     if (StringUtil::has_suffix(file, extension))
       return true;
 
