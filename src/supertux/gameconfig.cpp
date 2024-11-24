@@ -81,8 +81,8 @@ Config::Config() :
   custom_mouse_cursor(true),
   do_release_check(false),
   disable_network(true),
-  custom_title_levels(true),
   show_world_previews(true),
+  custom_title_levels(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif

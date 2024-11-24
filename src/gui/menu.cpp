@@ -614,31 +614,19 @@ Menu::draw_preview(DrawingContext& context)
     // Draw progress preview of current item.
     const Sizef preview_size(static_cast<float>(context.get_width()) / 2.5f, static_cast<float>(context.get_height()) / 2.5f);
     SurfacePtr preview = m_items[m_last_preview_item]->get_preview();
-    const float width_diff = preview_size.width - static_cast<float>(preview->get_width());
-    const float height_diff = preview_size.height - static_cast<float>(preview->get_height());
-    // If the preview is smaller than the maximal size, make sure to draw it with its original size and adjust position to center.
-    Rectf preview_rect(Vector(static_cast<float>(context.get_width()) * 0.73f - preview_size.width / 2 + std::max(width_diff / 2, 0.f),
-                              static_cast<float>(context.get_height()) / 2 - preview_size.height / 2 + std::max(height_diff / 2, 0.f)),
-                       Sizef(width_diff > 0 ? static_cast<float>(preview->get_width()) : preview_size.width,
-                             height_diff > 0 ? static_cast<float>(preview->get_height()) : preview_size.height));
+    Rectf preview_rect(Vector(static_cast<float>(context.get_width()) * 0.73f - preview_size.width / 2,
+                              static_cast<float>(context.get_height()) / 2 - preview_size.height / 2),
+                       Sizef(static_cast<float>(preview->get_width()),
+                             static_cast<float>(preview->get_height())));
+    preview_rect.fit_centered(preview_size);
 
-    // If the preview starts overlapping the menu, due to a smaller screen resolution, do not draw it.
-    // Instead, set the Y position to half the height, so preview data, if available, can still be drawn.
-    if (preview_rect.get_left() <= m_pos.x + m_menu_width / 2)
-    {
-      preview_rect.set_top(preview_rect.get_top() + preview_rect.get_height() / 2);
-      preview_rect.set_height(0.f);
-    }
-    else
-    {
-      PaintStyle style;
-      style.set_alpha(alpha);
-      context.color().draw_surface_scaled(preview, preview_rect, LAYER_GUI + 1, style);
+    PaintStyle style;
+    style.set_alpha(alpha);
+    context.color().draw_surface_scaled(preview, preview_rect, LAYER_GUI + 1, style);
 
-      // Draw a border around the preview.
-      context.color().draw_filled_rect(preview_rect.grown(2.f),
-                                       Color(1.f, 1.f, 1.f, alpha), 2.f, LAYER_GUI);
-    }
+    // Draw a border around the preview.
+    context.color().draw_filled_rect(preview_rect.grown(2.f),
+                                     Color(1.f, 1.f, 1.f, alpha), 2.f, LAYER_GUI);
 
     // Draw other data, alongside the preview, if available.
     draw_preview_data(context, preview_rect, alpha);
