@@ -58,6 +58,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_offset(Vector(0,0)),
   m_movement(0, 0),
   m_converted_objects(),
+  m_converted_lights(),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -93,6 +94,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_offset(Vector(0, 0)),
   m_movement(Vector(0, 0)),
   m_converted_objects(),
+  m_converted_lights(),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -411,10 +413,16 @@ TileMap::update(float dt_sec)
           }
         }
 
-        // Move all objects, converted from tiles in this tilemap
+        // Move all objects (including lights), converted from tiles in this tilemap
         for (const UID& uid : m_converted_objects)
         {
           MovingObject* obj = get_parent()->get_object_by_uid<MovingObject>(uid);
+          if (obj)
+            obj->move(m_movement);
+        }
+        for (const UID& uid : m_converted_lights)
+        {
+          Light* obj = get_parent()->get_object_by_uid<Light>(uid);
           if (obj)
             obj->move(m_movement);
         }
@@ -1037,7 +1045,7 @@ TileMap::convert_tiles_to_objects()
             if (dynamic_cast<MovingObject*>(&obj))
               m_converted_objects.push_back(obj.get_uid());
 
-            change(x, y, 0);
+            m_tiles[y*m_width + x] = 0;
           }
           catch (const std::exception& err)
           {
@@ -1062,16 +1070,18 @@ TileMap::convert_tiles_to_objects()
                 (get_tile(x, y - 1).get_attributes() != attributes || y % 3 == 0))
             {
               float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
-              get_parent()->add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
-                                              (Color(1.0f, 0.3f, 0.0f, 1.0f) * m_current_tint).validate());
+              GameObject& obj = get_parent()->add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
+                                                                (Color(1.0f, 0.3f, 0.0f, 1.0f) * m_current_tint).validate());
+              m_converted_lights.push_back(obj.get_uid());
             }
           }
           else
           {
             // Torch
-            float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
-            get_parent()->add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
-                                            (Color(1.0f, 1.0f, 0.6f, 1.0f) * m_current_tint).validate());
+            const float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
+            GameObject& obj = get_parent()->add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
+                                                              (Color(1.0f, 1.0f, 0.6f, 1.0f) * m_current_tint).validate());
+            m_converted_lights.push_back(obj.get_uid());
           }
         }
       }

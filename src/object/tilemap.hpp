@@ -325,9 +325,10 @@ private:
   Vector m_offset;
   Vector m_movement; /**< The movement that happened last frame */
 
-  /** UIDs of MovingObjects, which have been converted from tiles in this tilemap.
+  /** UIDs of MovingObjects and Lights, which have been created from tiles in this tilemap.
       Will be moved together with this tilemap. */
   std::vector<UID> m_converted_objects;
+  std::vector<UID> m_converted_lights;
 
   /** Objects that were touching the top of a solid tile at the last frame */
   std::unordered_set<CollisionObject*> m_objects_hit_bottom;
