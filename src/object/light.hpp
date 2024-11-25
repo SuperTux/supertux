@@ -36,6 +36,8 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
+  inline void move(const Vector& dist) { position += dist; }
+
 protected:
   Vector position;
   Color color;
