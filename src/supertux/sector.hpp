@@ -242,7 +242,6 @@ private:
 private:
   Level& m_level; // Parent level
 
-  bool m_fully_constructed;
   int m_foremost_layer;
   int m_foremost_opaque_layer;
 

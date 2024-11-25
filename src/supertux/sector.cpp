@@ -65,7 +65,6 @@ Sector* Sector::s_current = nullptr;
 Sector::Sector(Level& parent) :
   Base::Sector("sector"),
   m_level(parent),
-  m_fully_constructed(false),
   m_foremost_layer(),
   m_foremost_opaque_layer(),
   m_gravity(10.0f),
@@ -96,6 +95,7 @@ void
 Sector::finish_construction(bool editable)
 {
   flush_game_objects();
+  m_initialized = false; // flush_game_objects() sets this flag to true. Sector is not yet constructed though.
 
   // FIXME: Is it a good idea to process some resolve requests this early?
   // I added this to fix https://github.com/SuperTux/supertux/issues/1378
@@ -154,8 +154,8 @@ Sector::finish_construction(bool editable)
     add<VerticalStripes>();
   }
 
-  m_initialized = false;
   flush_game_objects();
+  m_initialized = false; // flush_game_objects() sets this flag to true. Sector is not yet constructed though.
 
   m_foremost_layer = calculate_foremost_layer(false);
   m_foremost_opaque_layer = calculate_foremost_layer();
@@ -164,10 +164,7 @@ Sector::finish_construction(bool editable)
 
   Base::Sector::finish_construction(editable);
 
-  m_initialized = false;
   flush_game_objects();
-
-  m_fully_constructed = true;
 }
 
 SpawnPointMarker*
@@ -370,7 +367,7 @@ Sector::in_worldmap() const
 void
 Sector::update(float dt_sec)
 {
-  assert(m_fully_constructed);
+  assert(m_initialized);
 
   BIND_SECTOR(*this);
 
@@ -416,7 +413,7 @@ Sector::before_object_add(GameObject& object)
     m_squirrel_environment->expose(object, object.get_name());
   }
 
-  if (m_fully_constructed) {
+  if (m_initialized) {
     try_process_resolve_requests();
     object.finish_construction();
   }
