@@ -46,6 +46,7 @@ public:
 
   void setup();
   void leave();
+  void quit();
 
   void draw(DrawingContext& context);
   void update(float dt_sec);
@@ -91,6 +92,8 @@ public:
   bool is_item_pocket_allowed() const { return m_allow_item_pocket; }
 
 private:
+  void take_preview_screenshot();
+
   void on_escape_press();
 
 private:
@@ -117,6 +120,7 @@ private:
   bool m_enter_level;
   bool m_in_level;
   bool m_in_world_select;
+  bool m_screenshot_request;
 
 private:
   WorldMap(const WorldMap&) = delete;

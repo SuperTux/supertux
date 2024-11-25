@@ -49,6 +49,8 @@ public:
 
   void run();
   void quit(std::unique_ptr<ScreenFade> fade = {});
+
+  inline void set_draw_hud(bool enabled) { m_draw_hud = enabled; }
   void set_speed(float speed);
   float get_speed() const;
   bool has_pending_fadeout() const;
@@ -104,6 +106,12 @@ private:
 
   std::unique_ptr<ScreenFade> m_screen_fade;
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
+
+  bool m_draw_hud;
+
+private:
+  ScreenManager(const ScreenManager&) = delete;
+  ScreenManager& operator=(const ScreenManager&) = delete;
 };
 
 #endif

@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2021 mrkubax10 <mrkubax10@onet.pl>
+//                2022-2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,55 +17,51 @@
 
 #include "supertux/menu/sorted_contrib_menu.hpp"
 
-#include <sstream>
-#include "util/gettext.hpp"
-#include "supertux/savegame.hpp"
-#include "supertux/player_status.hpp"
-#include "supertux/levelset.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/menu/contrib_levelset_menu.hpp"
-#include "gui/menu_manager.hpp"
-#include "gui/menu_item.hpp"
 #include "gui/item_action.hpp"
-SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type, const std::string& title, const std::string& empty_message) :
-  m_world_folders()
+#include "supertux/world.hpp"
+#include "util/file_system.hpp"
+#include "util/gettext.hpp"
+
+SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type,
+                                     const std::string& title, const std::string& empty_message)
 {
   add_label(title);
   add_hl();
-  int world_id = 0;
-  for (unsigned int i = 0; i < worlds.size(); i++)
+
+  bool has_worlds = false;
+  for (const auto& world : worlds)
   {
-    if (worlds[i]->get_contrib_type() == contrib_type)
+    if (world->get_contrib_type() == contrib_type)
     {
-      m_world_folders.push_back(worlds[i]->get_basedir());
-      std::string title_str = worlds[i]->get_title();
-      if (worlds[i]->is_levelset())
-        title_str = "[" + title_str + "]";
-      add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
+      has_worlds = true;
+
+      const auto savegame = Savegame::from_current_profile(world->get_basename());
+
+      ItemAction* item;
+      if (world->is_levelset())
+      {
+        item = &add_world("[" + world->get_title() + "]", world->get_basedir(),
+                          savegame->get_levelset_progress());
+      }
+      else
+      {
+        const std::string preview_file = FileSystem::join("previews", FileSystem::strip_extension(FileSystem::basename(world->get_basename())) + ".png");
+        SurfacePtr preview = find_preview(preview_file, world->get_basedir());
+
+        item = &add_world(world->get_title(), world->get_basedir(),
+                          savegame->get_worldmap_progress(), preview);
+      }
+      item->set_help(world->get_description());
     }
   }
-  if (world_id == 0)
+  if (!has_worlds)
   {
     add_inactive(empty_message);
   }
   add_hl();
   add_back(_("Back"));
+
+  align_for_previews();
 }
-void
-SortedContribMenu::menu_action(MenuItem& item)
-{
-  int index = item.get_id();
-  if (index >= 0)
-  {
-    std::unique_ptr<World> world = World::from_directory(m_world_folders[index]);
-    if (world->is_levelset())
-    {
-      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribLevelsetMenu(std::move(world))));
-    }
-    else
-    {
-      GameManager::current()->start_worldmap(*world);
-    }
-  }
-}
+
 /* EOF */
