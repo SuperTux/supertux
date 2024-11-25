@@ -2722,18 +2722,6 @@ Player::deactivate()
   if (m_climbing) stop_climbing(*m_climbing);
 }
 
-void
-Player::enable_fancy_idling()
-{
-  m_should_fancy_idle = true;
-}
-
-void
-Player::disable_fancy_idling()
-{
-  m_should_fancy_idle = false;
-}
-
 bool
 Player::get_input_pressed(const std::string& input)
 {
