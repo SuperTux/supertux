@@ -285,16 +285,9 @@ BonusBlock::get_settings()
 int
 BonusBlock::get_coins_worth() const
 {
-  if (m_contents == BonusBlock::Content::COIN)
-    return m_hit_counter;
-
-  if (m_contents == BonusBlock::Content::RAIN ||
-      m_contents == BonusBlock::Content::EXPLODE)
-  {
-    return m_hit_counter * 10;
-  }
-
-  return 0;
+  return m_contents == BonusBlock::Content::COIN ? m_hit_counter :
+         (m_contents == BonusBlock::Content::RAIN ||
+          m_contents == BonusBlock::Content::EXPLODE) ? m_hit_counter * 10 : 0;
 }
 
 
