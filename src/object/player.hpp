@@ -381,12 +381,12 @@ public:
    * @scripting
    * @description Enables Tux's fancy idle animations.
    */ 
-  inline void enable_fancy_idling();
+  inline void enable_fancy_idling() { m_should_fancy_idle = true; }
   /**
    * @scripting
    * @description Disables Tux's fancy idle animations.
    */
-  inline void disable_fancy_idling();
+  inline void disable_fancy_idling() { m_should_fancy_idle = false; }
 
   /**
    * @scripting
