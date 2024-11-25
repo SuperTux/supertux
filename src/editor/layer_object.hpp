@@ -23,8 +23,12 @@
 class LayerObject : public GameObject
 {
 public:
-  LayerObject(const std::string& name = "");
-  LayerObject(const ReaderMapping& reader);
+  LayerObject(const std::string& name = "") :
+    GameObject(name)
+  {}
+  LayerObject(const ReaderMapping& reader) :
+    GameObject(reader)
+  {}
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(LayerObject)); }
 
   virtual const std::string get_icon_path() const = 0;
