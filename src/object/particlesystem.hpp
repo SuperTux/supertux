@@ -71,14 +71,14 @@ public:
    * @description Enables/disables the system.
    * @param bool $enable
    */
-  void set_enabled(bool enable);
+  inline void set_enabled(bool enable) { enabled = enable; }
   /**
    * @scripting
    * @description Returns ""true"" if the system is enabled.
    */
-  bool get_enabled() const;
+  inline bool get_enabled() const { return enabled; }
 
-  int get_layer() const { return z_pos; }
+  inline int get_layer() const { return z_pos; }
 
 protected:
   class Particle

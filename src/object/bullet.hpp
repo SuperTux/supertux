@@ -47,9 +47,9 @@ public:
       bullet. */
   void ricochet(GameObject& other, const CollisionHit& hit);
 
-  BonusType get_type() const { return type; }
+  inline BonusType get_type() const { return type; }
 
-  Player& get_player() const { return m_player; }
+  inline Player& get_player() const { return m_player; }
 
 private:
   Player& m_player;

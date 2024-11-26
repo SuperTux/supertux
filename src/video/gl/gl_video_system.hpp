@@ -58,7 +58,7 @@ public:
 
   virtual SDLSurfacePtr make_screenshot() override;
 
-  GLContext& get_context() const { return *m_context; }
+  inline GLContext& get_context() const { return *m_context; }
 
 private:
   void create_gl_window();

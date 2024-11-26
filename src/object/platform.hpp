@@ -62,8 +62,8 @@ public:
   void save_state() override;
   void check_state() override;
 
-  const Vector& get_speed() const { return m_speed; }
-  const Vector& get_movement() const { return m_movement; }
+  inline const Vector& get_speed() const { return m_speed; }
+  inline const Vector& get_movement() const { return m_movement; }
 
   /** Moves platform instantly to given node.
       Replaces PathObject::set_node's implementation in scripting. */

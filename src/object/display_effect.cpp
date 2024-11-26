@@ -153,18 +153,6 @@ DisplayEffect::fade_in(float fadetime)
 }
 
 void
-DisplayEffect::set_black(bool enabled)
-{
-  black = enabled;
-}
-
-bool
-DisplayEffect::is_black() const
-{
-  return black;
-}
-
-void
 DisplayEffect::sixteen_to_nine(float fadetime)
 {
   if (fadetime == 0) {

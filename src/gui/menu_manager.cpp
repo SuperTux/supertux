@@ -286,18 +286,6 @@ MenuManager::on_window_resize()
 }
 
 
-bool
-MenuManager::is_active() const
-{
-  return !m_menu_stack.empty();
-}
-
-bool
-MenuManager::has_dialog() const
-{
-  return m_dialog.current || m_dialog.has_next;
-}
-
 Menu*
 MenuManager::current_menu() const
 {

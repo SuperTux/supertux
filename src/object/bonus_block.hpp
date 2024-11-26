@@ -67,8 +67,8 @@ public:
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
 
-  Content get_contents() const { return m_contents; }
-  int get_hit_counter() const { return m_hit_counter; }
+  inline Content get_contents() const { return m_contents; }
+  inline int get_hit_counter() const { return m_hit_counter; }
 
   void try_open(Player* player);
 

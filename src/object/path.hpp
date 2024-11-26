@@ -74,7 +74,7 @@ public:
       easing()
     {}
 
-    Path& get_parent() const { return *parent; }
+    inline Path& get_parent() const { return *parent; }
   };
 
 public:
@@ -101,9 +101,9 @@ public:
   /** Returns false when has no nodes */
   bool is_valid() const;
 
-  const std::vector<Node>& get_nodes() const { return m_nodes; }
+  inline const std::vector<Node>& get_nodes() const { return m_nodes; }
 
-  PathGameObject& get_gameobject() const { return m_parent_gameobject; }
+  inline PathGameObject& get_gameobject() const { return m_parent_gameobject; }
 
 private:
   PathGameObject& m_parent_gameobject;

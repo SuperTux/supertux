@@ -26,16 +26,16 @@ public:
   MenuItem(const std::string& text, int id = -1);
   virtual ~MenuItem();
 
-  int get_id() const { return m_id; }
+  inline int get_id() const { return m_id; }
 
   void set_help(const std::string& help_text);
-  const std::string& get_help() const { return m_help; }
+  inline const std::string& get_help() const { return m_help; }
 
-  void set_text(const std::string& text) { m_text = text; }
-  const std::string& get_text() const { return m_text; }
+  inline void set_text(const std::string& text) { m_text = text; }
+  inline const std::string& get_text() const { return m_text; }
 
-  void set_font(const FontPtr font) { m_font = font; }
-  const FontPtr& get_font() const { return m_font; }
+  inline void set_font(const FontPtr font) { m_font = font; }
+  inline const FontPtr& get_font() const { return m_font; }
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);

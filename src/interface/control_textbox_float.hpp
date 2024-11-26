@@ -26,14 +26,14 @@ public:
 
   virtual void update(float dt_sec) override;
 
-  float get_value() const { return *m_value; }
-  void set_value(float value) { *m_value = value; revert_value(); }
+  inline float get_value() const { return *m_value; }
+  inline void set_value(float value) { *m_value = value; revert_value(); }
   /** Binds a float to this textbox. Set m_validate_float(float) if you want
    *  custom validation. (You may also use m_validate_string(string), though
    *  it's not recommended)
    *  @param value A pointer to the value to be bound. MUST NOT BE NULL (FIXME)
    */
-  void bind_value(float* value) { m_value = value; revert_value(); }
+  inline void bind_value(float* value) { m_value = value; revert_value(); }
 
 protected:
   virtual bool parse_value(bool call_on_change = true) override;

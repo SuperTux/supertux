@@ -787,7 +787,6 @@ GameSession::respawn_with_fade(const std::string& sector,
       player->make_temporarily_safe(TELEPORT_FADE_TIME);
     }
   }
-
 }
 
 void
@@ -806,30 +805,11 @@ GameSession::set_start_pos(const std::string& sector, const Vector& pos)
 }
 
 void
-GameSession::set_respawn_point(const std::string& sector,
-                               const std::string& spawnpoint)
-{
-  m_spawnpoints.push_back({ sector, spawnpoint });
-}
-
-void
-GameSession::set_respawn_pos(const std::string& sector, const Vector& pos)
-{
-  m_spawnpoints.push_back({ sector, pos });
-}
-
-void
 GameSession::clear_respawn_points()
 {
   // Delete all respawn points (all, other than the start one).
   if (m_spawnpoints.size() > 1)
     m_spawnpoints.erase(m_spawnpoints.begin() + 1, m_spawnpoints.end());
-}
-
-const GameSession::SpawnPoint&
-GameSession::get_last_spawnpoint() const
-{
-  return m_spawnpoints.back();
 }
 
 void
@@ -839,22 +819,10 @@ GameSession::set_checkpoint_pos(const std::string& sector, const Vector& pos)
   m_activated_checkpoint = &m_spawnpoints.back();
 }
 
-const GameSession::SpawnPoint*
-GameSession::get_active_checkpoint_spawnpoint() const
-{
-  return m_activated_checkpoint;
-}
-
 std::string
 GameSession::get_working_directory() const
 {
   return FileSystem::dirname(m_levelfile);
-}
-
-bool
-GameSession::has_active_sequence() const
-{
-  return m_end_sequence;
 }
 
 void

@@ -132,18 +132,6 @@ ParticleSystem::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-void
-ParticleSystem::set_enabled(bool enabled_)
-{
-  enabled = enabled_;
-}
-
-bool
-ParticleSystem::get_enabled() const
-{
-  return enabled;
-}
-
 
 void
 ParticleSystem::register_class(ssq::VM& vm)

@@ -121,8 +121,8 @@ public:
   int get_active_item_id() const;
   void set_active_item(int id);
 
-  Vector get_center_pos() const { return m_pos; }
-  void set_center_pos(float x, float y);
+  inline Vector get_center_pos() const { return m_pos; }
+  inline void set_center_pos(float x, float y) { m_pos.x = x; m_pos.y = y; }
 
   float get_width() const;
   float get_height() const;

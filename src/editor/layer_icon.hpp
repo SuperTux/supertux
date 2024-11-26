@@ -34,7 +34,7 @@ public:
   int get_zpos() const;
   bool is_valid() const;
 
-  GameObject* get_layer() const { return m_layer; }
+  inline GameObject* get_layer() const { return m_layer; }
   bool is_tilemap() const;
 
 private:

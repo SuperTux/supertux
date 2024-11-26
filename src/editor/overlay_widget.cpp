@@ -1651,11 +1651,4 @@ EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size) const
   return glm::trunc(sp_) * static_cast<float>(tile_size);
 }
 
-void
-EditorOverlayWidget::set_warning(const std::string& text, float time)
-{
-  m_warning_text = text;
-  m_warning_timer.start(time);
-}
-
 /* EOF */
