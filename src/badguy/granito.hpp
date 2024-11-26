@@ -44,7 +44,7 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "granito"; }
   virtual std::string get_class_name() const override { return class_name(); }

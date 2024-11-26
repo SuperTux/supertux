@@ -20,10 +20,7 @@
 
 #include <physfs.h>
 
-#include "badguy/goldbomb.hpp"
 #include "editor/editor.hpp"
-#include "object/bonus_block.hpp"
-#include "object/coin.hpp"
 #include "object/player.hpp"
 #include "physfs/util.hpp"
 #include "supertux/game_session.hpp"
@@ -299,32 +296,10 @@ int
 Level::get_total_coins() const
 {
   int total_coins = 0;
-  for (auto const& sector : m_sectors) {
-    for (const auto& o: sector->get_objects()) {
-      auto coin = dynamic_cast<Coin*>(o.get());
-      if (coin)
-      {
-        total_coins++;
-        continue;
-      }
-      auto block = dynamic_cast<BonusBlock*>(o.get());
-      if (block)
-      {
-        if (block->get_contents() == BonusBlock::Content::COIN)
-        {
-          total_coins += block->get_hit_counter();
-          continue;
-        } else if (block->get_contents() == BonusBlock::Content::RAIN ||
-                   block->get_contents() == BonusBlock::Content::EXPLODE)
-        {
-          total_coins += 10 * block->get_hit_counter();
-          continue;
-        }
-      }
-      auto goldbomb = dynamic_cast<GoldBomb*>(o.get());
-      if (goldbomb)
-        total_coins += 10;
-    }
+  for (auto const& sector : m_sectors)
+  {
+    for (const auto& obj : sector->get_objects())
+      total_coins += obj->get_coins_worth();
   }
   return total_coins;
 }

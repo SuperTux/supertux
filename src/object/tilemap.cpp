@@ -74,7 +74,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   PathObject(),
   m_editor_active(true),
   m_tileset(tileset_),

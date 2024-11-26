@@ -86,7 +86,7 @@ public:
 protected:
   void add_object(std::unique_ptr<GameObject> object);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   void launch_object();
 
   void on_type_change(int old_type) override;

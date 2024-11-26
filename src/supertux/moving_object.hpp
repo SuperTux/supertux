@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MOVING_OBJECT_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MOVING_OBJECT_HPP
 
+#include "supertux/game_object.hpp"
+
 #include "collision/collision_hit.hpp"
 #include "collision/collision_object.hpp"
-#include "collision/collision_listener.hpp"
 #include "math/rectf.hpp"
-#include "supertux/game_object.hpp"
 
 class Dispenser;
 class Sector;
@@ -32,8 +32,7 @@ class Sector;
             contains things for handling the bounding boxes and collision
             feedback.
  */
-class MovingObject : public GameObject,
-                     public CollisionListener
+class MovingObject : public GameObject
 {
   friend class ResizeMarker;
   friend class Sector;
@@ -46,18 +45,20 @@ public:
   MovingObject();
   MovingObject(const ReaderMapping& reader);
   ~MovingObject() override;
-  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(CollisionListener)).add(typeid(MovingObject)); }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(MovingObject)); }
 
-  virtual void collision_solid(const CollisionHit& /*hit*/) override
+  virtual void collision_solid(const CollisionHit& /*hit*/)
   {
   }
 
-  virtual bool collides(GameObject& /*other*/, const CollisionHit& /*hit*/) const override
+  virtual bool collides(MovingObject& /*other*/, const CollisionHit& /*hit*/) const
   {
     return true;
   }
 
-  virtual void collision_tile(uint32_t /*tile_attributes*/) override
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) = 0;
+
+  virtual void collision_tile(uint32_t /*tile_attributes*/)
   {
   }
 
@@ -74,8 +75,6 @@ public:
   {
     m_col.m_bbox.move(dist);
   }
-
-  virtual bool listener_is_valid() const override { return is_valid(); }
 
   Vector get_pos() const
   {

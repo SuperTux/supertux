@@ -91,7 +91,7 @@ Trampoline::update(float dt_sec)
 }
 
 HitResponse
-Trampoline::collision(GameObject& other, const CollisionHit& hit)
+Trampoline::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto heavy_coin = dynamic_cast<HeavyCoin*> (&other);
   if (heavy_coin) {

@@ -202,7 +202,7 @@ Explosion::draw(DrawingContext& context)
 }
 
 HitResponse
-Explosion::collision(GameObject& other, const CollisionHit& )
+Explosion::collision(MovingObject& other, const CollisionHit& )
 {
   if ((m_state != E_STATE_EXPLODING) || !hurt || m_sprite->get_current_frame() > 8)
     return ABORT_MOVE;

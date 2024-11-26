@@ -78,7 +78,7 @@ public:
   /** Called when a collision with another object occurred. The
       default implementation calls collision_player, collision_solid,
       collision_badguy and collision_squished */
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   /** Called when a collision with tile with special attributes
       occurred */
@@ -188,7 +188,7 @@ protected:
   /** Called when the player hit the badguy from above. You should
       return true if the badguy was squished, false if squishing
       wasn't possible */
-  virtual bool collision_squished(GameObject& object);
+  virtual bool collision_squished(MovingObject& object);
 
   /** Called when the badguy collided with a bullet */
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);

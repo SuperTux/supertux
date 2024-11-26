@@ -223,17 +223,22 @@ GameObjectManager::update(float dt_sec)
 void
 GameObjectManager::draw(DrawingContext& context)
 {
+  if (s_draw_solids_only)
+  {
+    for (auto* tilemap : m_solid_tilemaps)
+    {
+      if (!tilemap->is_valid())
+        continue;
+
+      tilemap->draw(context);
+    }
+    return;
+  }
+
   for (const auto& object : m_gameobjects)
   {
     if (!object->is_valid())
       continue;
-
-    if (s_draw_solids_only)
-    {
-      auto tm = dynamic_cast<TileMap*>(object.get());
-      if (tm && !tm->is_solid())
-        continue;
-    }
 
     object->draw(context);
   }

@@ -18,7 +18,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_MUSIC_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_MUSIC_OBJECT_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
 
 enum MusicType {
   LEVEL_MUSIC,
@@ -26,7 +26,7 @@ enum MusicType {
   HERRING_WARNING_MUSIC
 };
 
-class MusicObject : public GameObject
+class MusicObject : public LayerObject
 {
 public:
   MusicObject();

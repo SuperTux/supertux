@@ -156,7 +156,7 @@ Key::update(float dt_sec)
 }
 
 HitResponse
-Key::collision(GameObject& other, const CollisionHit& hit_)
+Key::collision(MovingObject& other, const CollisionHit& hit_)
 {
   if (m_state == KeyState::NORMAL)
   {

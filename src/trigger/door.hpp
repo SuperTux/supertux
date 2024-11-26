@@ -39,7 +39,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void on_flip(float height) override;
 

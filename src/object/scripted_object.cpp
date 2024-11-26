@@ -137,7 +137,7 @@ ScriptedObject::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-ScriptedObject::collision(GameObject& other, const CollisionHit& )
+ScriptedObject::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player && !hit_script.empty()) {

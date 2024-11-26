@@ -84,7 +84,7 @@ protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
-  virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
+  virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
 private:

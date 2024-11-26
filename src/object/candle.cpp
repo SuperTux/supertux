@@ -102,7 +102,7 @@ Candle::draw(DrawingContext& context)
 }
 
 HitResponse
-Candle::collision(GameObject&, const CollisionHit& )
+Candle::collision(MovingObject&, const CollisionHit& )
 {
   return FORCE_MOVE;
 }

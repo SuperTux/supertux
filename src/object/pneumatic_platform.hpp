@@ -30,7 +30,7 @@ public:
   ~PneumaticPlatformChild() override;
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(PneumaticPlatformChild)); }
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual bool is_saveable() const override { return false; }
   virtual void on_flip(float height) override;

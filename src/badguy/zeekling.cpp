@@ -58,7 +58,7 @@ Zeekling::initialize()
 }
 
 bool
-Zeekling::collision_squished(GameObject& object)
+Zeekling::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);

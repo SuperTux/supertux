@@ -202,7 +202,7 @@ Door::event(Player& , EventType type)
 }
 
 HitResponse
-Door::collision(GameObject& other, const CollisionHit& hit_)
+Door::collision(MovingObject& other, const CollisionHit& hit_)
 {
   switch (m_state) {
     case CLOSED:

@@ -41,7 +41,7 @@ public:
   Decal(const ReaderMapping& reader);
   ~Decal() override;
 
-  virtual HitResponse collision(GameObject& , const CollisionHit& ) override { return FORCE_MOVE; }
+  virtual HitResponse collision(MovingObject& , const CollisionHit& ) override { return FORCE_MOVE; }
 
   static std::string class_name() { return "decal"; }
   virtual std::string get_class_name() const override { return class_name(); }

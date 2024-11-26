@@ -29,6 +29,7 @@ MusicObject::MusicObject() :
 }
 
 MusicObject::MusicObject(const ReaderMapping& mapping) :
+  LayerObject(mapping),
   m_currentmusic(LEVEL_MUSIC),
   m_music()
 {

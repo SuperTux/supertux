@@ -199,8 +199,7 @@ void RainParticleSystem::update(float dt_sec)
   float abs_y = cam_translation.y;
 
   for (auto& it : particles) {
-    auto particle = dynamic_cast<RainParticle*>(it.get());
-    assert(particle);
+    auto particle = static_cast<RainParticle*>(it.get());
 
     float movement = particle->speed * movement_multiplier;
     particle->pos.y += movement * cosf((particle->angle + 45.f) * 3.14159265f / 180.f);

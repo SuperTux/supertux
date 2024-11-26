@@ -93,7 +93,7 @@ AmbientSound::get_settings()
 }
 
 HitResponse
-AmbientSound::collision(GameObject& other, const CollisionHit& hit_)
+AmbientSound::collision(MovingObject& other, const CollisionHit& hit_)
 {
   return ABORT_MOVE;
 }

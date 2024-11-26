@@ -171,7 +171,7 @@ Spotlight::draw(DrawingContext& context)
 }
 
 HitResponse
-Spotlight::collision(GameObject& other, const CollisionHit& hit_)
+Spotlight::collision(MovingObject& other, const CollisionHit& hit_)
 {
   return FORCE_MOVE;
 }

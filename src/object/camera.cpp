@@ -51,7 +51,7 @@ static const float PEEK_ADD_VERTICAL_MARGIN = 320.f; // 10 tiles.
 static const float MULTIPLAYER_CAM_WEIGHT = 0.1f;
 
 Camera::Camera(const std::string& name) :
-  GameObject(name),
+  LayerObject(name),
   m_mode(Mode::NORMAL),
   m_defaultmode(Mode::NORMAL),
   m_screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)),
@@ -87,7 +87,7 @@ Camera::Camera(const std::string& name) :
 }
 
 Camera::Camera(const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   m_mode(Mode::NORMAL),
   m_defaultmode(Mode::NORMAL),
   m_screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)),

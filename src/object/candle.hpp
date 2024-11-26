@@ -36,7 +36,7 @@ public:
   Candle(const ReaderMapping& mapping);
   virtual void draw(DrawingContext& context) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   static std::string class_name() { return "candle"; }
   virtual std::string get_class_name() const override { return class_name(); }
   virtual std::string get_exposed_class_name() const override { return "Candle"; }

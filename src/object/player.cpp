@@ -1666,70 +1666,69 @@ Player::handle_input()
 
   /* Drop grabbed object when releasing the Action button on keyboard or gamepad, and on the second button press when using touchscreen */
   if ((m_controller->is_touchscreen() ? m_controller->pressed(Control::ACTION) : !m_controller->hold(Control::ACTION)) &&
-      m_grabbed_object && !just_grabbed) {
-    auto moving_object = dynamic_cast<MovingObject*> (m_grabbed_object);
-    if (moving_object) {
-      // move the grabbed object a bit away from tux
-      Rectf grabbed_bbox = moving_object->get_bbox();
-      Rectf dest_;
-      if (m_swimming || m_water_jump)
+      m_grabbed_object && !just_grabbed)
+  {
+    auto moving_object = dynamic_cast<MovingObject*>(m_grabbed_object);
+    assert(moving_object);
+
+    // move the grabbed object a bit away from tux
+    Rectf grabbed_bbox = moving_object->get_bbox();
+    Rectf dest_;
+    if (m_swimming || m_water_jump)
+    {
+      dest_.set_bottom(m_col.m_bbox.get_bottom() + (std::sin(m_swimming_angle) * 32.f));
+      dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
+      dest_.set_left(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f));
+      dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
+    }
+    else
+    {
+      Rectf player_head_clear_box = get_bbox().grown(-2.f);
+      player_head_clear_box.set_top(get_bbox().get_top() - 2.f);
+      if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, moving_object, true)) {
+        dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+      }
+      else {
+        dest_.set_bottom(m_col.m_bbox.get_bottom() + 2.f);
+      }
+      dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
+
+      if (m_dir == Direction::LEFT)
       {
-        dest_.set_bottom(m_col.m_bbox.get_bottom() + (std::sin(m_swimming_angle) * 32.f));
-        dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
-        dest_.set_left(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f));
-        dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
+        dest_.set_right(m_col.m_bbox.get_left() - 1);
+        dest_.set_left(dest_.get_right() - grabbed_bbox.get_width());
       }
       else
       {
-        Rectf player_head_clear_box = get_bbox().grown(-2.f);
-        player_head_clear_box.set_top(get_bbox().get_top() - 2.f);
-        if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, moving_object, true)) {
-          dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
-        }
-        else {
-          dest_.set_bottom(m_col.m_bbox.get_bottom() + 2.f);
-        }
-        dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
-
-        if (m_dir == Direction::LEFT)
-        {
-          dest_.set_right(m_col.m_bbox.get_left() - 1);
-          dest_.set_left(dest_.get_right() - grabbed_bbox.get_width());
-        }
-        else
-        {
-          dest_.set_left(m_col.m_bbox.get_right() + 1);
-          dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
-        }
+        dest_.set_left(m_col.m_bbox.get_right() + 1);
+        dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
       }
+    }
 
-      if (Sector::get().is_free_of_tiles(dest_, true) &&
-         Sector::get().is_free_of_statics(dest_, moving_object, true))
+    if (Sector::get().is_free_of_tiles(dest_, true) &&
+       Sector::get().is_free_of_statics(dest_, moving_object, true))
+    {
+      moving_object->set_pos(dest_.p1());
+      if (m_controller->hold(Control::UP))
       {
-        moving_object->set_pos(dest_.p1());
-        if (m_controller->hold(Control::UP))
-        {
-          m_grabbed_object->ungrab(*this, Direction::UP);
-        }
-        else if (m_controller->hold(Control::DOWN))
-        {
-          m_grabbed_object->ungrab(*this, Direction::DOWN);
-        }
-        else if (m_swimming || m_water_jump)
-        {
-          m_grabbed_object->ungrab(*this,
-            std::abs(m_swimming_angle) <= math::PI_2 ? Direction::RIGHT : Direction::LEFT);
-        }
-        else
-        {
-          m_grabbed_object->ungrab(*this, m_dir);
-        }
-        moving_object->del_remove_listener(m_grabbed_object_remove_listener.get());
-        m_grabbed_object = nullptr;
-        m_released_object = true;
+        m_grabbed_object->ungrab(*this, Direction::UP);
       }
-    } else {
-      log_debug << "Non MovingObject grabbed?!?" << std::endl;
+      else if (m_controller->hold(Control::DOWN))
+      {
+        m_grabbed_object->ungrab(*this, Direction::DOWN);
+      }
+      else if (m_swimming || m_water_jump)
+      {
+        m_grabbed_object->ungrab(*this,
+          std::abs(m_swimming_angle) <= math::PI_2 ? Direction::RIGHT : Direction::LEFT);
+      }
+      else
+      {
+        m_grabbed_object->ungrab(*this, m_dir);
+      }
+      moving_object->del_remove_listener(m_grabbed_object_remove_listener.get());
+      m_grabbed_object = nullptr;
+      m_released_object = true;
     }
   }
 
@@ -2355,7 +2354,7 @@ Player::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Player::collision(GameObject& other, const CollisionHit& hit)
+Player::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto bullet = dynamic_cast<Bullet*> (&other);
   if (bullet) {
@@ -2370,9 +2369,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   if (hit.left || hit.right) {
     try_grab(); //grab objects right now, in update it will be too late
   }
-  assert(dynamic_cast<MovingObject*> (&other) != nullptr);
-  auto moving_object = static_cast<MovingObject*> (&other);
-  if (moving_object->get_group() == COLGROUP_TOUCHABLE) {
+  if (other.get_group() == COLGROUP_TOUCHABLE) {
     auto trigger = dynamic_cast<TriggerBase*> (&other);
     if (trigger && !m_deactivated) {
       if (m_controller->pressed(Control::UP))
