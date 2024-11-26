@@ -46,7 +46,7 @@ public:
   void start_sucking(const Vector& suck_target);
 
   void set_color(const Color& color);
-  Color get_color() const;
+  inline Color get_color() const { return color; }
 
 protected:
   virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;

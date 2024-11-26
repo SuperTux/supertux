@@ -1319,19 +1319,19 @@ msgstr "Text"
 
 #: src/object/cloud_particle_system.cpp:124
 msgid "Fog Opacity"
-msgstr ""
+msgstr "Nebel-Deckkraft"
 
 #: src/object/cloud_particle_system.cpp:125
 msgid "X Speed"
-msgstr ""
+msgstr "X-Geschwindigkeit"
 
 #: src/object/cloud_particle_system.cpp:126
 msgid "Y Speed"
-msgstr ""
+msgstr "Y-Geschwindigkeit"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
-msgstr ""
+msgstr "Klebend"
 
 #: src/object/rock.cpp:77
 msgid "Small"
@@ -1621,7 +1621,7 @@ msgstr ""
 
 #: src/editor/overlay_widget.cpp:1619
 msgid "Autotile mode is on (\"{}\")"
-msgstr ""
+msgstr "Autokachel-Modus ist an (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1623
 msgid "Selected tile isn't autotileable"
@@ -2361,11 +2361,11 @@ msgstr "Aus Datei installieren"
 
 #: src/supertux/menu/addon_menu.cpp:175
 msgid "To browse through the add-on catalog, you must enable networking."
-msgstr ""
+msgstr "Um den Add-on-Katalog zu durchsuchen, muss der Netzwerkzugriff aktiviert sein."
 
 #: src/supertux/menu/addon_menu.cpp:212
 msgid "To check for add-on updates, you must enable networking."
-msgstr ""
+msgstr "Zur Überprüfung auf Updates muss der Netzwerkzugriff aktiviert sein."
 
 #: src/supertux/menu/addon_menu.cpp:220
 msgid "Checking for updates..."
@@ -2556,11 +2556,11 @@ msgstr "Tile-IDs in der Editor-Werkzeugleiste anzeigen"
 
 #: src/supertux/menu/debug_menu.cpp:80
 msgid "Reload Resources"
-msgstr ""
+msgstr "Ressourcen neu laden"
 
 #: src/supertux/menu/debug_menu.cpp:87
 msgid "Reloads all fonts, textures, sprites and tilesets."
-msgstr ""
+msgstr "Alle Schriftarten, Texturen, Sprites und Tilesets neu laden."
 
 #: src/supertux/menu/debug_menu.cpp:89
 msgid "Dump Texture Cache"
@@ -3000,7 +3000,7 @@ msgstr "Es konnten nicht alle verfügbaren Screenshots für die Vorschau geladen
 
 #: src/supertux/menu/addon_preview_menu.cpp:154
 msgid "To fetch add-on screenshots, you must enable networking."
-msgstr ""
+msgstr "Um Add-on-Screenshots anzeigen zu können, muss der Netzwerkzugriff aktiviert sein"
 
 #: src/supertux/menu/addon_preview_menu.cpp:158
 msgid "Show screenshots"
@@ -3673,7 +3673,7 @@ msgstr "Erlaubt es dem Spiel, beim Start eine Überprüfung auf neue Versionen d
 
 #: src/supertux/menu/options_menu.cpp:236
 msgid "Disable network"
-msgstr ""
+msgstr "Netzwerk deaktivieren"
 
 #: src/supertux/menu/options_menu.cpp:237
 msgid "Prevents the game from connecting online"
@@ -4174,7 +4174,7 @@ msgstr "Unsichtbar"
 
 #: src/badguy/granito_big.cpp:64
 msgid "Carrying Script"
-msgstr ""
+msgstr "Trage-Skript"
 
 #: src/badguy/granito_big.cpp:73 src/badguy/granito.cpp:277
 msgid "Default"

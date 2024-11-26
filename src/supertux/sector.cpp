@@ -65,7 +65,6 @@ Sector* Sector::s_current = nullptr;
 Sector::Sector(Level& parent) :
   Base::Sector("sector"),
   m_level(parent),
-  m_fully_constructed(false),
   m_foremost_layer(),
   m_foremost_opaque_layer(),
   m_gravity(10.0f),
@@ -96,6 +95,7 @@ void
 Sector::finish_construction(bool editable)
 {
   flush_game_objects();
+  m_initialized = false; // flush_game_objects() sets this flag to true. Sector is not yet constructed though.
 
   // FIXME: Is it a good idea to process some resolve requests this early?
   // I added this to fix https://github.com/SuperTux/supertux/issues/1378
@@ -148,8 +148,8 @@ Sector::finish_construction(bool editable)
     add<VerticalStripes>();
   }
 
-  m_initialized = false;
   flush_game_objects();
+  m_initialized = false; // flush_game_objects() sets this flag to true. Sector is not yet constructed though.
 
   m_foremost_layer = calculate_foremost_layer(false);
   m_foremost_opaque_layer = calculate_foremost_layer();
@@ -158,10 +158,7 @@ Sector::finish_construction(bool editable)
 
   Base::Sector::finish_construction(editable);
 
-  m_initialized = false;
   flush_game_objects();
-
-  m_fully_constructed = true;
 }
 
 SpawnPointMarker*
@@ -337,18 +334,6 @@ Sector::calculate_foremost_layer(bool including_transparent) const
   return layer;
 }
 
-int
-Sector::get_foremost_opaque_layer() const
-{
-  return m_foremost_opaque_layer;
-}
-
-int
-Sector::get_foremost_layer() const
-{
-  return m_foremost_layer;
-}
-
 TileSet*
 Sector::get_tileset() const
 {
@@ -364,7 +349,7 @@ Sector::in_worldmap() const
 void
 Sector::update(float dt_sec)
 {
-  assert(m_fully_constructed);
+  assert(m_initialized);
 
   BIND_SECTOR(*this);
 
@@ -409,7 +394,7 @@ Sector::before_object_add(GameObject& object)
     m_squirrel_environment->expose(object, object.get_name());
   }
 
-  if (m_fully_constructed) {
+  if (m_initialized) {
     try_process_resolve_requests();
     object.finish_construction();
   }
@@ -689,18 +674,6 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
   }
 }
 
-void
-Sector::set_gravity(float gravity)
-{
-  m_gravity = gravity;
-}
-
-float
-Sector::get_gravity() const
-{
-  return m_gravity;
-}
-
 Player*
 Sector::get_nearest_player(const Vector& pos) const
 {
@@ -874,16 +847,16 @@ Sector::get_camera() const
   return get_singleton_by_type<Camera>();
 }
 
-std::vector<Player*>
-Sector::get_players() const
-{
-  return m_level.get_players();
-}
-
 DisplayEffect&
 Sector::get_effect() const
 {
   return get_singleton_by_type<DisplayEffect>();
+}
+
+std::vector<Player*>
+Sector::get_players() const
+{
+  return m_level.get_players();
 }
 
 

@@ -57,13 +57,13 @@ public:
    * @scripting
    * @description Returns ""true"" if the torch is burning.
    */
-  bool get_burning() const;
+  inline bool get_burning() const { return m_burning; }
   /**
    * @scripting
    * @description Switches the burning state of the torch.
    * @param bool $burning
    */
-  void set_burning(bool burning);
+  inline void set_burning(bool burning) { m_burning = burning; }
 
 private:
   Color m_light_color;

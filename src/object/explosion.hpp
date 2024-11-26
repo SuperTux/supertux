@@ -43,8 +43,8 @@ public:
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual bool is_saveable() const override { return false; }
 
-  bool hurts() const { return hurt; }
-  void hurts (bool val) { hurt = val; }
+  inline bool hurts() const { return hurt; }
+  inline void hurts(bool val) { hurt = val; }
 
 private:
   /** plays sound, starts animation */

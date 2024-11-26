@@ -88,18 +88,6 @@ AmbientLight::draw(DrawingContext& context)
 }
 
 void
-AmbientLight::set_ambient_light(const Color& ambient_light)
-{
-  m_ambient_light = ambient_light;
-}
-
-Color
-AmbientLight::get_ambient_light() const
-{
-  return m_ambient_light;
-}
-
-void
 AmbientLight::fade_to_ambient_light(float red, float green, float blue, float seconds)
 {
   if (seconds == 0)

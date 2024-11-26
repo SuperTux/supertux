@@ -47,7 +47,7 @@ public:
   bool is_open() const;
 
   /** returns the lamp's color */
-  Color get_color() const { return lightcolor; }
+  inline Color get_color() const { return lightcolor; }
   void add_color(const Color& c);
 
 private:

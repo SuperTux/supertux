@@ -44,7 +44,7 @@ public:
   virtual void freeze() override;
   virtual bool is_freezable() const override;
 
-  bool is_ticking() const { return m_state == MB_STATE_TICKING; }
+  inline bool is_ticking() const { return m_state == MB_STATE_TICKING; }
   virtual void trigger(Player* player);
   virtual void explode();
 

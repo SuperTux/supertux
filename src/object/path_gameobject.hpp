@@ -57,7 +57,7 @@ public:
 
   void regenerate_name();
 
-  Path& get_path() { return *m_path; }
+  inline Path& get_path() { return *m_path; }
 
   void copy_into(PathGameObject& other);
 

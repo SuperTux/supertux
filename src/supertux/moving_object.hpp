@@ -105,7 +105,7 @@ public:
   }
 
   void set_parent_dispenser(Dispenser* dispenser);
-  Dispenser* get_parent_dispenser() const { return m_parent_dispenser; }
+  inline Dispenser* get_parent_dispenser() const { return m_parent_dispenser; }
 
   static std::string class_name() { return "moving-object"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -122,37 +122,37 @@ public:
    * @scripting
    * @description Returns the object's X coordinate.
    */
-  float get_x() const;
+  inline float get_x() const { return m_col.m_bbox.get_left(); }
   /**
    * @scripting
    * @description Returns the object's Y coordinate.
    */
-  float get_y() const;
+  inline float get_y() const { return m_col.m_bbox.get_top(); }
   /**
    * @scripting
    * @description Sets the position of the object.
    * @param float $x
    * @param float $y
    */
-  void set_pos(float x, float y);
+  inline void set_pos(float x, float y) { set_pos(Vector(x, y)); }
   /**
    * @scripting
    * @description Moves the object by ""x"" units to the right and ""y"" down, relative to its current position.
    * @param float $x
    * @param float $y
    */
-  void move(float x, float y);
+  inline void move(float x, float y) { move(Vector(x, y)); }
 
   /**
    * @scripting
    * @description Returns the object's hitbox width.
    */
-  float get_width() const;
+  inline float get_width() const { return m_col.m_bbox.get_width(); }
   /**
    * @scripting
    * @description Returns the object's hitbox height.
    */
-  float get_height() const;
+  inline float get_height() const { return m_col.m_bbox.get_height(); }
 
 protected:
   void set_group(CollisionGroup group)

@@ -232,30 +232,6 @@ Addon::get_filename() const
   return get_id() + ".zip";
 }
 
-const std::string&
-Addon::get_install_filename() const
-{
-  return m_install_filename;
-}
-
-bool
-Addon::is_installed() const
-{
-  return !m_install_filename.empty();
-}
-
-bool
-Addon::is_enabled() const
-{
-  return m_enabled;
-}
-
-bool
-Addon::is_visible() const
-{
-  return true;
-}
-
 bool
 Addon::is_levelset() const
 {
@@ -275,19 +251,6 @@ Addon::requires_restart() const
 {
   // Determines if the add-on requires a restart.
   return m_type == LANGUAGEPACK || m_type == RESOURCEPACK;
-}
-
-void
-Addon::set_install_filename(const std::string& absolute_filename, const std::string& md5)
-{
-  m_install_filename = absolute_filename;
-  m_md5 = md5;
-}
-
-void
-Addon::set_enabled(bool v)
-{
-  m_enabled = v;
 }
 
 /* EOF */

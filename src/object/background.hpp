@@ -64,11 +64,11 @@ public:
 
   void draw_image(DrawingContext& context, const Vector& pos);
 
-  const std::string& get_image() const { return m_imagefile; }
-  float get_speed() const { return m_parallax_speed.x; }
+  inline const std::string& get_image() const { return m_imagefile; }
+  inline float get_speed() const { return m_parallax_speed.x; }
   int get_layer() const override { return m_layer; }
 
-  Color get_color() const { return m_color; }
+  inline Color get_color() const { return m_color; }
   void fade_color(Color color, float time);
 
   /**
@@ -97,22 +97,22 @@ public:
    * @scripting
    * @description Returns the red color value.
    */
-  float get_color_red() const;
+  inline float get_color_red() const { return m_color.red; }
   /**
    * @scripting
    * @description Returns the green color value.
    */
-  float get_color_green() const;
+  inline float get_color_green() const { return m_color.green; }
   /**
    * @scripting
    * @description Returns the blue color value.
    */
-  float get_color_blue() const;
+  inline float get_color_blue() const { return m_color.blue; }
   /**
    * @scripting
    * @description Returns the alpha color value.
    */
-  float get_color_alpha() const;
+  inline float get_color_alpha() const { return m_color.alpha; }
   /**
    * @scripting
    * @description Sets the background color.
@@ -121,7 +121,7 @@ public:
    * @param float $blue
    * @param float $alpha
    */
-  void set_color(float red, float green, float blue, float alpha);
+  inline void set_color(float red, float green, float blue, float alpha) { m_color = Color(red, green, blue, alpha); }
   /**
    * @scripting
    * @description Fades to specified background color in ""time"" seconds.
@@ -131,7 +131,7 @@ public:
    * @param float $alpha
    * @param float $time
    */
-  void fade_color(float red, float green, float blue, float alpha, float time);
+  inline void fade_color(float red, float green, float blue, float alpha, float time) { fade_color(Color(red, green, blue, alpha), time); }
   /**
    * Sets the sprite action for the top image.
    * @param string $action

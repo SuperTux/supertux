@@ -132,20 +132,6 @@ LevelTile::update_sprite_action()
     m_sprite->set_action((m_sprite->has_action("perfect") && m_perfect) ? "perfect" : "solved");
 }
 
-void
-LevelTile::set_solved(bool v)
-{
-  m_solved = v;
-  update_sprite_action();
-}
-
-void
-LevelTile::set_perfect(bool v)
-{
-  m_perfect = v;
-  update_sprite_action();
-}
-
 ObjectSettings
 LevelTile::get_settings()
 {

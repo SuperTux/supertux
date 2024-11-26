@@ -73,13 +73,6 @@ Menu::~Menu()
 {
 }
 
-void
-Menu::set_center_pos(float x, float y)
-{
-  m_pos.x = x;
-  m_pos.y = y;
-}
-
 /* Add an item to a menu */
 MenuItem&
 Menu::add_item(std::unique_ptr<MenuItem> new_item)

@@ -78,7 +78,7 @@ public:
   /** make WillOWisp vanish */
   void vanish();
 
-  Color get_color() const { return m_color; }
+  inline Color get_color() const { return m_color; }
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;

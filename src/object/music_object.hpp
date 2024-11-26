@@ -48,10 +48,10 @@ public:
 
   void play_music(MusicType musictype);
   void resume_music(bool instantly = false);
-  MusicType get_music_type() const;
+  inline MusicType get_music_type() const { return m_currentmusic; }
 
-  void set_music(const std::string& music);
-  const std::string& get_music() const;
+  inline void set_music(const std::string& music) { m_music = music; }
+  inline const std::string& get_music() const { return m_music; }
 
 private:
   MusicType m_currentmusic;

@@ -48,9 +48,10 @@ public:
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(TextScroller)); }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/textscroller.png"; }
 
-  void set_default_speed(float default_speed);
   void scroll(float offset);
-  bool is_finished() const { return m_finished; }
+
+  inline void set_default_speed(float default_speed) { m_default_speed = default_speed; }
+  inline bool is_finished() const { return m_finished; }
   
 protected:
   const Controller* controller;

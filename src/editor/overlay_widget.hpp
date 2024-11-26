@@ -126,7 +126,11 @@ private:
   Rectf selection_draw_rect() const;
   void update_tile_selection();
 
-  void set_warning(const std::string& text, float time);
+  inline void set_warning(const std::string& text, float time)
+  {
+    m_warning_text = text;
+    m_warning_timer.start(time);
+  }
 
 private:
   Editor& m_editor;

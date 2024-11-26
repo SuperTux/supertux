@@ -55,30 +55,30 @@ public:
 
   void notify_object_removal(CollisionObject* other);
 
-  void set_ground_movement_manager(const std::shared_ptr<CollisionGroundMovementManager>& movement_manager)
+  inline void set_ground_movement_manager(const std::shared_ptr<CollisionGroundMovementManager>& movement_manager)
   {
     m_ground_movement_manager = movement_manager;
   }
 
   void clear_bottom_collision_list();
 
-  bool is_unisolid() const { return m_unisolid; }
-  void set_unisolid(bool unisolid) { m_unisolid = unisolid; }
+  inline bool is_unisolid() const { return m_unisolid; }
+  inline void set_unisolid(bool unisolid) { m_unisolid = unisolid; }
 
   /** returns the bounding box of the Object */
-  const Rectf& get_bbox() const
+  inline const Rectf& get_bbox() const
   {
     return m_bbox;
   }
 
-  void set_movement(const Vector& movement)
+  inline void set_movement(const Vector& movement)
   {
     m_movement = movement;
   }
 
   void propagate_movement(const Vector& movement);
 
-  const Vector& get_movement() const
+  inline const Vector& get_movement() const
   {
     return m_movement;
   }
@@ -92,12 +92,12 @@ public:
     m_bbox.set_pos(pos);
   }
 
-  Vector get_pos() const
+  inline Vector get_pos() const
   {
     return m_bbox.p1();
   }
 
-  Vector get_pressure() const
+  inline Vector get_pressure() const
   {
     return m_pressure;
   }
@@ -105,7 +105,7 @@ public:
   /** moves entire object to a specific position, including all
       points those the object has, exactly like the object has
       spawned in that given pos instead.*/
-  void move_to(const Vector& pos)
+  inline void move_to(const Vector& pos)
   {
     set_pos(pos);
   }
@@ -128,7 +128,7 @@ public:
     m_bbox.set_size(w, h);
   }
 
-  CollisionGroup get_group() const
+  inline CollisionGroup get_group() const
   {
     return m_group;
   }

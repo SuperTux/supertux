@@ -69,12 +69,6 @@ TextArrayObject::set_text_index(ta_index index)
 }
 
 void
-TextArrayObject::set_fade_time(float fadetime)
-{
-  m_fadetime = fadetime;
-}
-
-void
 TextArrayObject::next_text()
 {
   if (m_finished)
@@ -106,18 +100,6 @@ TextArrayObject::prev_text()
   reset_automation();
 }
 
-void
-TextArrayObject::set_keep_visible(bool keep_visible)
-{
-  m_keep_visible = keep_visible;
-}
-
-void
-TextArrayObject::set_fade_transition(bool fade_transition)
-{
-  m_fade_transition = fade_transition;
-}
-
 TextArrayItem*
 TextArrayObject::get_text_item(ta_index index) const
 {
@@ -139,12 +121,6 @@ TextArrayItem*
 TextArrayObject::get_last_text_item() const
 {
   return get_text_item(m_lastTextIndex);
-}
-
-void
-TextArrayObject::set_done(bool done)
-{
-  m_finished = done;
 }
 
 void

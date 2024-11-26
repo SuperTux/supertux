@@ -69,20 +69,24 @@ public:
   void set_levels_solved(bool solved, bool perfect);
 
   /** Sets the passive message with specific time **/
-  void set_passive_message(const std::string& message, float time);
+  inline void set_passive_message(const std::string& message, float time)
+  {
+    m_passive_message = message;
+    m_passive_message_timer.start(time);
+  }
 
   /** Sets the initial spawnpoint to be forced on next setup */
-  void set_initial_spawnpoint(const std::string& spawnpoint);
+  inline void set_initial_spawnpoint(const std::string& spawnpoint) { m_force_spawnpoint = spawnpoint; }
 
-  const std::string& get_title() const { return m_name; }
-  Savegame& get_savegame() const { return m_savegame; }
-  const std::string& get_levels_path() const { return m_levels_path; }
+  inline const std::string& get_title() const { return m_name; }
+  inline Savegame& get_savegame() const { return m_savegame; }
+  inline const std::string& get_levels_path() const { return m_levels_path; }
 
   WorldMapSector* get_sector(const std::string& name) const;
   WorldMapSector* get_sector(int index) const;
 
   void add_sector(std::unique_ptr<WorldMapSector> sector);
-  WorldMapSector& get_sector() const { return *m_sector; }
+  inline WorldMapSector& get_sector() const { return *m_sector; }
   void set_sector(const std::string& name, const std::string& spawnpoint = "",
                   bool perform_full_setup = true);
 

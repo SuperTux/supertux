@@ -52,7 +52,7 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
 
-  Vector get_tile_pos() const { return { m_tile_x, m_tile_y }; }
+  inline Vector get_tile_pos() const { return { m_tile_x, m_tile_y }; }
 
 private:
   void initialize();

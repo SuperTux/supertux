@@ -111,18 +111,6 @@ Torch::after_editor_set()
   m_flame_light->set_color(m_light_color);
 }
 
-bool
-Torch::get_burning() const
-{
-  return m_burning;
-}
-
-void
-Torch::set_burning(bool burning)
-{
-  m_burning = burning;
-}
-
 void
 Torch::on_flip(float height)
 {

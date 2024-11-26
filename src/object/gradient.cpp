@@ -211,12 +211,6 @@ Gradient::get_direction_string() const
 }
 
 void
-Gradient::set_direction(const GradientDirection& direction)
-{
-  m_gradient_direction = direction;
-}
-
-void
 Gradient::set_direction(const std::string& direction)
 {
   if (direction == "horizontal")

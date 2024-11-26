@@ -326,12 +326,6 @@ TextScroller::update(float dt_sec)
 }
 
 void
-TextScroller::set_default_speed(float default_speed)
-{
-  m_default_speed = default_speed;
-}
-
-void
 TextScroller::scroll(float offset)
 {
   m_scroll += offset;

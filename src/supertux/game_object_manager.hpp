@@ -252,14 +252,14 @@ public:
     return total;
   }
 
-  const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
-  const std::vector<TileMap*>& get_all_tilemaps() const { return m_all_tilemaps; }
+  inline const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
+  inline const std::vector<TileMap*>& get_all_tilemaps() const { return m_all_tilemaps; }
   
   void update_solid(TileMap* solid);
 
   /** Toggle object change tracking for undo/redo. */
   void toggle_undo_tracking(bool enabled);
-  bool undo_tracking_enabled() const { return m_undo_tracking; }
+  inline bool undo_tracking_enabled() const { return m_undo_tracking; }
 
   /** Set undo stack size. */
   void set_undo_stack_size(int size);

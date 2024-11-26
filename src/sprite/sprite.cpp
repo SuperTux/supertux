@@ -231,88 +231,10 @@ Sprite::get_action_surfaces(const std::string& name) const
   return action->surfaces;
 }
 
-bool
-Sprite::is_current_hitbox_unisolid() const
-{
-  return m_action->hitbox_unisolid;
-}
-
-float
-Sprite::get_current_hitbox_x_offset() const
-{
-  return m_action->x_offset;
-}
-
-float
-Sprite::get_current_hitbox_y_offset() const
-{
-  return m_action->y_offset;
-}
-
-float
-Sprite::get_current_hitbox_width() const
-{
-  return m_action->hitbox_w;
-}
-
-float
-Sprite::get_current_hitbox_height() const
-{
-  return m_action->hitbox_h;
-}
-
 Rectf
 Sprite::get_current_hitbox() const
 {
   return Rectf(m_action->x_offset, m_action->y_offset, m_action->x_offset + m_action->hitbox_w, m_action->y_offset + m_action->hitbox_h);
-}
-
-void
-Sprite::set_angle(float a)
-{
-  m_angle = a;
-}
-
-float
-Sprite::get_angle() const
-{
-  return m_angle;
-}
-
-void
-Sprite::set_alpha(float a)
-{
-  m_alpha = a;
-}
-
-float
-Sprite::get_alpha() const
-{
-  return m_alpha;
-}
-
-void
-Sprite::set_color(const Color& c)
-{
-  m_color = c;
-}
-
-Color
-Sprite::get_color() const
-{
-  return m_color;
-}
-
-void
-Sprite::set_blend(const Blend& b)
-{
-  m_blend = b;
-}
-
-Blend
-Sprite::get_blend() const
-{
-  return m_blend;
 }
 
 /* EOF */

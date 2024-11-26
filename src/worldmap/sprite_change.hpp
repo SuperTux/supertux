@@ -59,7 +59,7 @@ public:
    */
   SpritePtr clone_sprite() const;
 
-  bool change_on_touch() const { return m_change_on_touch; }
+  inline bool change_on_touch() const { return m_change_on_touch; }
 
 private:
   /** should Tux's sprite change when the tile has been completely entered,

@@ -259,18 +259,6 @@ AddonManager::get_installed_addons() const
   return get_addons(m_installed_addons);
 }
 
-bool
-AddonManager::has_online_support() const
-{
-  return true;
-}
-
-bool
-AddonManager::has_been_updated() const
-{
-  return m_has_been_updated;
-}
-
 TransferStatusPtr
 AddonManager::request_check_online()
 {

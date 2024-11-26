@@ -128,28 +128,10 @@ GameObject::get_settings()
   return result;
 }
 
-const std::string&
-GameObject::get_name() const
-{
-  return m_name;
-}
-
-int
-GameObject::get_type() const
-{
-  return m_type;
-}
-
 std::vector<std::string>
 GameObject::get_patches() const
 {
   return {};
-}
-
-int
-GameObject::get_version() const
-{
-  return m_version;
 }
 
 int

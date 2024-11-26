@@ -92,26 +92,26 @@ public:
    * @description If set, keeps the current text object visible.
    * @param bool $keep_visible
    */
-  void set_keep_visible(bool keep_visible);
+  inline void set_keep_visible(bool keep_visible) { m_keep_visible = keep_visible; }
   /**
    * @scripting
    * @description If set, allows for a fade-in and fade-out transition.
    * @param bool $fade_transition
    */
-  void set_fade_transition(bool fade_transition);
+  inline void set_fade_transition(bool fade_transition) { m_fade_transition = fade_transition; }
   /**
    * @scripting
    * @description Sets the fade-in and fade-out time.
    * @param float $fadetime
    */
-  void set_fade_time(float fadetime);
+  inline void set_fade_time(float fadetime) { m_fadetime = fadetime; }
   /**
    * @scripting
    * @description If set, sets the text array as finished going through all text objects.
                   Alternatively, the "finished" property can be modified.
    * @param bool $done
    */
-  void set_done(bool done);
+  inline void set_done(bool done) { m_finished = done; }
   /**
    * @scripting
    * @description If set, lets the text array automatically go through all text objects.

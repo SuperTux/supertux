@@ -49,10 +49,10 @@ public:
   virtual Rectf draw_text(Canvas& canvas, const std::string& text,
                           const Vector& pos, FontAlignment alignment, int layer, const Color& color) override;
 
-  int get_shadow_size() const { return m_shadow_size; }
-  int get_border() const { return m_border; }
+  inline int get_shadow_size() const { return m_shadow_size; }
+  inline int get_border() const { return m_border; }
 
-  TTF_Font* get_ttf_font() const { return m_font; }
+  inline TTF_Font* get_ttf_font() const { return m_font; }
 
 private:
   TTF_Font* m_font;

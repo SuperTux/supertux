@@ -47,7 +47,7 @@ public:
   BitmapFont(GlyphWidth glyph_width, const std::string& fontfile, int shadowsize = 2);
   ~BitmapFont() override;
 
-  int get_shadow_size() const { return shadowsize; }
+  inline int get_shadow_size() const { return shadowsize; }
 
   /** returns the width of a given text. (Note that I won't add a normal
    * get_width function here, as we might switch to variable width fonts in the

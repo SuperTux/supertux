@@ -73,7 +73,7 @@ public:
   void set_particle_name(std::string& particle_name) {m_particle_name = particle_name;}
 
   /** Returns the name of the particle object for this area */
-  const std::string& get_particle_name() const { return m_particle_name; }
+  inline const std::string& get_particle_name() const { return m_particle_name; }
 
   /** Move the area around. Multiple calls stack (e. g. calling one before
    *  the other finished will play both movements simultaneously)
@@ -86,10 +86,10 @@ public:
   //void resize(int width, int height, float time, std::string easing);
 
   /** Returns the current X position of the zone */
-  float current_x() const { return m_col.m_bbox.get_left(); }
+  inline float current_x() const { return m_col.m_bbox.get_left(); }
 
   /** Returns the current Y position of the zone */
-  float current_y() const { return m_col.m_bbox.get_top(); }
+  inline float current_y() const { return m_col.m_bbox.get_top(); }
 
   /** Returns the target X position of the zone */
   //float target_x() {return m_col.m_bbox.get_left();}

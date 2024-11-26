@@ -1225,12 +1225,6 @@ CustomParticleSystem::spawn_particles(float lifetime)
 // SCRIPTING
 
 void
-CustomParticleSystem::clear()
-{
-  custom_particles.clear();
-}
-
-void
 CustomParticleSystem::ease_value(float* value, float target, float time, easing func)
 {
   assert(value);
@@ -1263,30 +1257,6 @@ CustomParticleSystem::spawn_particles(int amount, bool instantly)
 // =============================================================================
 // ============================   ATTRIBUTES   =================================
 // =============================================================================
-
-int
-CustomParticleSystem::get_max_amount() const
-{
-  return m_max_amount;
-}
-
-void
-CustomParticleSystem::set_max_amount(int amount)
-{
-  m_max_amount = amount;
-}
-
-bool
-CustomParticleSystem::get_cover_screen() const
-{
-  return m_cover_screen;
-}
-
-void
-CustomParticleSystem::set_cover_screen(bool cover)
-{
-  m_cover_screen = cover;
-}
 
 std::string
 CustomParticleSystem::get_birth_mode() const
@@ -1449,18 +1419,6 @@ CustomParticleSystem::set_offscreen_mode(const std::string& mode)
 //   Delay
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_delay() const
-{
-  return m_delay;
-}
-
-void
-CustomParticleSystem::set_delay(float delay)
-{
-  m_delay = delay;
-}
-
 void
 CustomParticleSystem::fade_delay(float delay, float time)
 {
@@ -1476,18 +1434,6 @@ CustomParticleSystem::ease_delay(float delay, float time, const std::string& eas
 // =============================================================================
 //   Lifetime
 // -----------------------------------------------------------------------------
-
-float
-CustomParticleSystem::get_lifetime() const
-{
-  return m_particle_lifetime;
-}
-
-void
-CustomParticleSystem::set_lifetime(float lifetime)
-{
-  m_particle_lifetime = lifetime;
-}
 
 void
 CustomParticleSystem::fade_lifetime(float lifetime, float time)
@@ -1505,18 +1451,6 @@ CustomParticleSystem::ease_lifetime(float lifetime, float time, const std::strin
 //   Lifetime variation
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_lifetime_variation() const
-{
-  return m_particle_lifetime_variation;
-}
-
-void
-CustomParticleSystem::set_lifetime_variation(float lifetime_variation)
-{
-  m_particle_lifetime_variation = lifetime_variation;
-}
-
 void
 CustomParticleSystem::fade_lifetime_variation(float lifetime_variation, float time)
 {
@@ -1532,18 +1466,6 @@ CustomParticleSystem::ease_lifetime_variation(float lifetime_variation, float ti
 // =============================================================================
 //   Birth time
 // -----------------------------------------------------------------------------
-
-float
-CustomParticleSystem::get_birth_time() const
-{
-  return m_particle_birth_time;
-}
-
-void
-CustomParticleSystem::set_birth_time(float birth_time)
-{
-  m_particle_birth_time = birth_time;
-}
 
 void
 CustomParticleSystem::fade_birth_time(float birth_time, float time)
@@ -1561,18 +1483,6 @@ CustomParticleSystem::ease_birth_time(float birth_time, float time, const std::s
 //   Birth time variation
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_birth_time_variation() const
-{
-  return m_particle_birth_time_variation;
-}
-
-void
-CustomParticleSystem::set_birth_time_variation(float birth_time_variation)
-{
-  m_particle_birth_time_variation = birth_time_variation;
-}
-
 void
 CustomParticleSystem::fade_birth_time_variation(float birth_time_variation, float time)
 {
@@ -1588,18 +1498,6 @@ CustomParticleSystem::ease_birth_time_variation(float birth_time_variation, floa
 // =============================================================================
 //   Death time
 // -----------------------------------------------------------------------------
-
-float
-CustomParticleSystem::get_death_time() const
-{
-  return m_particle_death_time;
-}
-
-void
-CustomParticleSystem::set_death_time(float death_time)
-{
-  m_particle_death_time = death_time;
-}
 
 void
 CustomParticleSystem::fade_death_time(float death_time, float time)
@@ -1618,17 +1516,6 @@ CustomParticleSystem::ease_death_time(float death_time, float time, const std::s
 // =============================================================================
 //   Death time variation
 // -----------------------------------------------------------------------------
-float
-CustomParticleSystem::get_death_time_variation() const
-{
-  return m_particle_death_time_variation;
-}
-
-void
-CustomParticleSystem::set_death_time_variation(float death_time_variation)
-{
-  m_particle_death_time_variation = death_time_variation;
-}
 
 void
 CustomParticleSystem::fade_death_time_variation(float death_time_variation, float time)
@@ -1646,18 +1533,6 @@ CustomParticleSystem::ease_death_time_variation(float death_time_variation, floa
 //   X speed
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_speed_x() const
-{
-  return m_particle_speed_x;
-}
-
-void
-CustomParticleSystem::set_speed_x(float speed_x)
-{
-  m_particle_speed_x = speed_x;
-}
-
 void
 CustomParticleSystem::fade_speed_x(float speed_x, float time)
 {
@@ -1673,18 +1548,6 @@ CustomParticleSystem::ease_speed_x(float speed_x, float time, const std::string&
 // =============================================================================
 //   Y speed
 // -----------------------------------------------------------------------------
-
-float
-CustomParticleSystem::get_speed_y() const
-{
-  return m_particle_speed_y;
-}
-
-void
-CustomParticleSystem::set_speed_y(float speed_y)
-{
-  m_particle_speed_y = speed_y;
-}
 
 void
 CustomParticleSystem::fade_speed_y(float speed_y, float time)
@@ -1702,18 +1565,6 @@ CustomParticleSystem::ease_speed_y(float speed_y, float time, const std::string&
 //   X speed variation
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_speed_variation_x() const
-{
-  return m_particle_speed_variation_x;
-}
-
-void
-CustomParticleSystem::set_speed_variation_x(float speed_variation_x)
-{
-  m_particle_speed_variation_x = speed_variation_x;
-}
-
 void
 CustomParticleSystem::fade_speed_variation_x(float speed_variation_x, float time)
 {
@@ -1729,18 +1580,6 @@ CustomParticleSystem::ease_speed_variation_x(float speed_variation_x, float time
 // =============================================================================
 //   Y speed variation
 // -----------------------------------------------------------------------------
-
-float
-CustomParticleSystem::get_speed_variation_y() const
-{
-  return m_particle_speed_variation_y;
-}
-
-void
-CustomParticleSystem::set_speed_variation_y(float speed_variation_y)
-{
-  m_particle_speed_variation_y = speed_variation_y;
-}
 
 void
 CustomParticleSystem::fade_speed_variation_y(float speed_variation_y, float time)
@@ -1758,18 +1597,6 @@ CustomParticleSystem::ease_speed_variation_y(float speed_variation_y, float time
 //   X acceleration
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_acceleration_x() const
-{
-  return m_particle_acceleration_x;
-}
-
-void
-CustomParticleSystem::set_acceleration_x(float acceleration_x)
-{
-  m_particle_acceleration_x = acceleration_x;
-}
-
 void
 CustomParticleSystem::fade_acceleration_x(float acceleration_x, float time)
 {
@@ -1785,18 +1612,6 @@ CustomParticleSystem::ease_acceleration_x(float acceleration_x, float time, cons
 // =============================================================================
 //   Y acceleration
 // -----------------------------------------------------------------------------
-
-float
-CustomParticleSystem::get_acceleration_y() const
-{
-  return m_particle_acceleration_y;
-}
-
-void
-CustomParticleSystem::set_acceleration_y(float acceleration_y)
-{
-  m_particle_acceleration_y = acceleration_y;
-}
 
 void
 CustomParticleSystem::fade_acceleration_y(float acceleration_y, float time)
@@ -1814,18 +1629,6 @@ CustomParticleSystem::ease_acceleration_y(float acceleration_y, float time, cons
 //   X friction
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_friction_x() const
-{
-  return m_particle_friction_x;
-}
-
-void
-CustomParticleSystem::set_friction_x(float friction_x)
-{
-  m_particle_friction_x = friction_x;
-}
-
 void
 CustomParticleSystem::fade_friction_x(float friction_x, float time)
 {
@@ -1841,18 +1644,6 @@ CustomParticleSystem::ease_friction_x(float friction_x, float time, const std::s
 // =============================================================================
 //   Y friction
 // -----------------------------------------------------------------------------
-
-float
-CustomParticleSystem::get_friction_y() const
-{
-  return m_particle_friction_y;
-}
-
-void
-CustomParticleSystem::set_friction_y(float friction_y)
-{
-  m_particle_friction_y = friction_y;
-}
 
 void
 CustomParticleSystem::fade_friction_y(float friction_y, float time)
@@ -1870,18 +1661,6 @@ CustomParticleSystem::ease_friction_y(float friction_y, float time, const std::s
 //   Feather factor
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_feather_factor() const
-{
-  return m_particle_feather_factor;
-}
-
-void
-CustomParticleSystem::set_feather_factor(float feather_factor)
-{
-  m_particle_feather_factor = feather_factor;
-}
-
 void
 CustomParticleSystem::fade_feather_factor(float feather_factor, float time)
 {
@@ -1897,18 +1676,6 @@ CustomParticleSystem::ease_feather_factor(float feather_factor, float time, cons
 // =============================================================================
 //   Rotation
 // -----------------------------------------------------------------------------
-
-float
-CustomParticleSystem::get_rotation() const
-{
-  return m_particle_rotation;
-}
-
-void
-CustomParticleSystem::set_rotation(float rotation)
-{
-  m_particle_rotation = rotation;
-}
 
 void
 CustomParticleSystem::fade_rotation(float rotation, float time)
@@ -1926,18 +1693,6 @@ CustomParticleSystem::ease_rotation(float rotation, float time, const std::strin
 //   Rotation variation
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_rotation_variation() const
-{
-  return m_particle_rotation_variation;
-}
-
-void
-CustomParticleSystem::set_rotation_variation(float rotation_variation)
-{
-  m_particle_rotation_variation = rotation_variation;
-}
-
 void
 CustomParticleSystem::fade_rotation_variation(float rotation_variation, float time)
 {
@@ -1953,18 +1708,6 @@ CustomParticleSystem::ease_rotation_variation(float rotation_variation, float ti
 // =============================================================================
 //   Rotation speed
 // -----------------------------------------------------------------------------
-
-float
-CustomParticleSystem::get_rotation_speed() const
-{
-  return m_particle_rotation_speed;
-}
-
-void
-CustomParticleSystem::set_rotation_speed(float rotation_speed)
-{
-  m_particle_rotation_speed = rotation_speed;
-}
 
 void
 CustomParticleSystem::fade_rotation_speed(float rotation_speed, float time)
@@ -1982,18 +1725,6 @@ CustomParticleSystem::ease_rotation_speed(float rotation_speed, float time, cons
 //   Rotation speed variation
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_rotation_speed_variation() const
-{
-  return m_particle_rotation_speed_variation;
-}
-
-void
-CustomParticleSystem::set_rotation_speed_variation(float rotation_speed_variation)
-{
-  m_particle_rotation_speed_variation = rotation_speed_variation;
-}
-
 void
 CustomParticleSystem::fade_rotation_speed_variation(float rotation_speed_variation, float time)
 {
@@ -2010,18 +1741,6 @@ CustomParticleSystem::ease_rotation_speed_variation(float rotation_speed_variati
 //   Rotation acceleration
 // -----------------------------------------------------------------------------
 
-float
-CustomParticleSystem::get_rotation_acceleration() const
-{
-  return m_particle_rotation_acceleration;
-}
-
-void
-CustomParticleSystem::set_rotation_acceleration(float rotation_acceleration)
-{
-  m_particle_rotation_acceleration = rotation_acceleration;
-}
-
 void
 CustomParticleSystem::fade_rotation_acceleration(float rotation_acceleration, float time)
 {
@@ -2037,18 +1756,6 @@ CustomParticleSystem::ease_rotation_acceleration(float rotation_acceleration, fl
 // =============================================================================
 //   Rotation decceleration
 // -----------------------------------------------------------------------------
-
-float
-CustomParticleSystem::get_rotation_decceleration() const
-{
-  return m_particle_rotation_decceleration;
-}
-
-void
-CustomParticleSystem::set_rotation_decceleration(float rotation_decceleration)
-{
-  m_particle_rotation_decceleration = rotation_decceleration;
-}
 
 void
 CustomParticleSystem::fade_rotation_decceleration(float rotation_decceleration, float time)

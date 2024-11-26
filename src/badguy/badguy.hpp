@@ -102,8 +102,8 @@ public:
       current form. */
   virtual bool can_break() const { return false; }
 
-  Vector get_start_position() const { return m_start_position; }
-  void set_start_position(const Vector& vec) { m_start_position = vec; }
+  inline Vector get_start_position() const { return m_start_position; }
+  inline void set_start_position(const Vector& vec) { m_start_position = vec; }
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
@@ -157,7 +157,7 @@ public:
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
-  Physic& get_physic() { return m_physic; }
+  inline Physic& get_physic() { return m_physic; }
 
 protected:
   enum State {
@@ -216,7 +216,7 @@ protected:
   void kill_squished(GameObject& object);
 
   void set_state(State state);
-  State get_state() const { return m_state; }
+  inline State get_state() const { return m_state; }
 
   bool check_state_timer() {
     return m_state_timer.check();

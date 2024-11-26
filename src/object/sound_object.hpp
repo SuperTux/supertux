@@ -74,7 +74,7 @@ public:
    * @scripting
    * @description Returns the volume of the played sound.
    */
-  float get_volume() const;
+  inline float get_volume() const { return m_volume; }
 
   /** @} */
 

@@ -54,7 +54,7 @@ public:
 
   virtual void on_flip(float height) override;
 
-  void set_flip(Flip flip);
+  inline void set_flip(Flip flip) { m_flip = flip; }
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
