@@ -91,21 +91,23 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
       sector->add<PlayerStatusHUD>(player_status);
   }
 
+  // All players will be added to the first sector. They are moved between sectors.
   Sector* sector = m_sectors.at(0).get();
-  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
+  sector->add<Player>(player_status, "Tux", 0);
+
+  if (savegame && !savegame->is_title_screen())
   {
-    if (!InputManager::current()->has_corresponsing_controller(id)
-        && !InputManager::current()->m_uses_keyboard[id]
-        && savegame
-        && !savegame->is_title_screen()
-        && id != 0)
-      continue;
+    for (int id = 1; id < InputManager::current()->get_num_users() || id == 0; id++)
+    {
+      if (!InputManager::current()->has_corresponsing_controller(id)
+          && !InputManager::current()->m_uses_keyboard[id])
+        continue;
 
-    if (id > 0 && !savegame)
-      s_dummy_player_status.add_player();
+      if (!savegame)
+        s_dummy_player_status.add_player();
 
-    // Add all players in the first sector. They will be moved between sectors.
-    sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+      sector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
+    }
   }
   sector->flush_game_objects();
 }
