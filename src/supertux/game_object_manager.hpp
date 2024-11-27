@@ -216,7 +216,8 @@ public:
     }
   }
 
-  /** Move an object to another GameObjectManager. */
+  /** Move an object to another GameObjectManager.
+      NOTE: The UID of the object will be re-generated. */
   void move_object(const UID& uid, GameObjectManager& other);
 
   /** Register a callback to be called once the given name can be

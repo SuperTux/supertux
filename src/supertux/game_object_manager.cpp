@@ -130,11 +130,11 @@ GameObjectManager::get_objects() const
 GameObject&
 GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 {
-  assert(object);
+  assert(object && !object->m_parent);
 
   object->m_parent = this;
 
-  if (!object->get_uid())
+  if (!object->get_uid()) // Undo/redo requires re-creating objects with the same UID.
   {
     object->set_uid(m_uid_generator.next());
 
@@ -334,9 +334,8 @@ GameObjectManager::move_object(const UID& uid, GameObjectManager& other)
                          });
   if (it == m_gameobjects.end())
   {
-    std::ostringstream err;
-    err << "Object with UID " << uid << " not found.";
-    throw std::runtime_error(err.str());
+    log_warning << "Couldn't move object: Object with UID " << uid << " not found." << std::endl;
+    return;
   }
 
   this_before_object_remove(**it);
@@ -679,6 +678,9 @@ GameObjectManager::this_before_object_remove(GameObject& object)
       vec.erase(it);
     }
   }
+
+  object.m_uid = 0;
+  object.m_parent = nullptr;
 }
 
 void
