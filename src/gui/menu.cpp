@@ -167,12 +167,6 @@ Menu::add_script(const std::string& text, std::string* script, int id)
   return add_item<ItemScript>(text, script, id);
 }
 
-ItemScriptLine&
-Menu::add_script_line(std::string* input, int id)
-{
-  return add_item<ItemScriptLine>(input, id);
-}
-
 ItemIntField&
 Menu::add_intfield(const std::string& text, int* input, int id, bool positive)
 {

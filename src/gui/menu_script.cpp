@@ -58,7 +58,7 @@ void
 ScriptMenu::push_string(const std::string& new_line)
 {
   script_strings.push_back(std::make_unique<std::string>(new_line));
-  add_script_line( (script_strings.end()-1)->get() );
+  add_item(std::make_unique<ItemScriptLine>(*this, (script_strings.end()-1)->get()));
 }
 
 void
@@ -79,8 +79,7 @@ ScriptMenu::add_line()
   auto new_line = std::make_unique<std::string>();
   script_strings.insert(script_strings.begin() + (m_active_item - 1), std::move(new_line));
 
-  auto line_item = std::unique_ptr<ItemScriptLine>(
-        new ItemScriptLine( (script_strings.begin()+(m_active_item-1))->get() ));
+  auto line_item = std::make_unique<ItemScriptLine>(*this, (script_strings.begin()+(m_active_item-1))->get());
   add_item(std::move(line_item), m_active_item+1);
   m_active_item++;
 

@@ -25,7 +25,7 @@ class ScriptMenu;
 class ItemScriptLine final : public ItemTextField
 {
 public:
-  ItemScriptLine(std::string* input_, int id_ = -1);
+  ItemScriptLine(ScriptMenu& script_menu, std::string* input_, int id_ = -1);
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
@@ -49,7 +49,7 @@ public:
   virtual void duplicate_line();
 
 private:
-  ScriptMenu* const m_script_menu;
+  ScriptMenu& m_script_menu;
 
 private:
   ItemScriptLine(const ItemScriptLine&) = delete;
