@@ -66,6 +66,8 @@ Key::update(float dt_sec)
     m_col.set_movement(Vector(0.f, m_target_speed*dt_sec));
   }
 
+  if (!m_owner || !m_owner->is_dead())
+  {
     float px = graphicsRandom.randf(get_bbox().get_left(), get_bbox().get_right());
     float py = graphicsRandom.randf(get_bbox().get_top(), get_bbox().get_bottom());
     Vector ppos = Vector(px, py);
@@ -77,6 +79,7 @@ Key::update(float dt_sec)
         "images/particles/sparkle.sprite", "small",
         ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS + 6, false, m_color);
     }
+  }
 
   if (!m_owner)
     return;
@@ -128,7 +131,7 @@ Key::update(float dt_sec)
     m_total_time_elapsed += dt_sec;
     m_col.set_movement(((m_goal_pos - get_pos()) * (std::max(0.f, distance-(50.f*float(m_chain_pos)))/300.f))+
       Vector(0.f, m_target_speed * dt_sec));
-    if (m_owner->is_dying())
+    if (Sector::get().get_object_count<Player>([](const Player& player) { return !player.is_dead(); }) <= 0)
       m_state = KeyState::FOUND;
     break;
   case FOUND:
@@ -180,6 +183,9 @@ Key::collision(MovingObject& other, const CollisionHit& hit_)
 void
 Key::draw(DrawingContext& context)
 {
+  if (m_owner && m_owner->is_dead())
+    return;
+
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
   m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer+1);
 }
