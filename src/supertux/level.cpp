@@ -103,8 +103,7 @@ Level::initialize(const Statistics::Preferences& stat_preferences)
           && !InputManager::current()->m_uses_keyboard[id])
         continue;
 
-      if (!savegame)
-        s_dummy_player_status.add_player();
+      s_dummy_player_status.add_player();
 
       sector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
     }
