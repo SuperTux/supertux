@@ -98,6 +98,8 @@ Door::after_editor_set()
 void
 Door::update(float )
 {
+  TriggerBase::update();
+
   switch (m_state) {
     case CLOSED:
       m_transition_triggered = false;
@@ -143,16 +145,9 @@ Door::update(float )
 
   if (m_triggering_player)
   {
-    // Check if Tux should move a bit closer to the door so that he could go through smoothly
+    // Check if Tux has moved close enough to the door
     const Vector diff_to_center = get_bbox().get_middle() - m_triggering_player->get_bbox().get_middle();
-
-    if (fabs(diff_to_center.x) >= CENTER_EPSILON)
-    {
-      const bool move_right = diff_to_center.x > 0.0f;
-      m_triggering_player->set_dir(move_right);
-      m_triggering_player->walk(move_right ? WALK_SPEED : -WALK_SPEED);
-    }
-    else
+    if (fabs(diff_to_center.x) < CENTER_EPSILON)
     {
       m_triggering_player->walk(0.0f);
       m_triggering_player = nullptr;
@@ -174,8 +169,16 @@ Door::draw(DrawingContext& context)
 }
 
 void
-Door::event(Player& , EventType type)
+Door::event(Player& player, EventType type)
 {
+  // If the player is no longer touching the door, they should stop walking.
+  if (type == EVENT_LOSETOUCH && m_triggering_player == &player)
+  {
+    m_triggering_player->walk(0.0f);
+    m_triggering_player = nullptr;
+    return;
+  }
+
   switch (m_state) {
     case CLOSED:
       // If door was activated, start opening it.
@@ -227,6 +230,16 @@ Door::collision(MovingObject& other, const CollisionHit& hit_)
             // Disable controls, GameSession will make safe Tux during fade animation.
             // Controls will be reactivated after spawn
             m_triggering_player->deactivate();
+
+            // Check if Tux should move a bit closer to the door so that he could go through smoothly
+            const Vector diff_to_center = get_bbox().get_middle() - m_triggering_player->get_bbox().get_middle();
+            if (fabs(diff_to_center.x) >= CENTER_EPSILON)
+            {
+              const bool move_right = diff_to_center.x > 0.0f;
+              m_triggering_player->set_dir(move_right);
+              m_triggering_player->walk(move_right ? WALK_SPEED : -WALK_SPEED);
+            }
+
             GameSession::current()->respawn_with_fade(m_target_sector,
                                                       m_target_spawnpoint,
                                                       ScreenFade::FadeType::CIRCLE,
