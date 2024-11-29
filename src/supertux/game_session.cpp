@@ -249,7 +249,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     }
   }
   catch (std::exception& e) {
-    throw std::runtime_error(fmt::format("Couldn't start level: {}", e.what()));
+    throw std::runtime_error(std::string("Couldn't start level: ") + e.what());
     ScreenManager::current()->pop_screen();
   }
 
