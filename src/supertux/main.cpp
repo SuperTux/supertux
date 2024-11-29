@@ -624,7 +624,6 @@ Main::launch_game(const CommandLineArguments& args)
           std::string spawnpointname = args.spawnpoint.value_or(default_spawnpoint);
 
           session->set_start_point(sectorname, spawnpointname);
-          session->restart_level();
         }
 
         if (g_config->tux_spawn_pos)
@@ -633,6 +632,7 @@ Main::launch_game(const CommandLineArguments& args)
           session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
         }
 
+        session->restart_level();
         m_screen_manager->push_screen(std::move(session));
       }
     }

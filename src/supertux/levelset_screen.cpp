@@ -27,6 +27,8 @@
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 
+// TODO: wtf?????????
+
 LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& level_filename,
                                Savegame& savegame,
                                const std::optional<std::pair<std::string, Vector>>& start_pos) :
@@ -88,8 +90,8 @@ LevelsetScreen::setup()
                                                   m_savegame);
       if (m_start_pos) {
         screen->set_start_pos(m_start_pos->first, m_start_pos->second);
-        screen->restart_level();
       }
+      screen->restart_level();
       ScreenManager::current()->push_screen(std::move(screen));
     }
   }

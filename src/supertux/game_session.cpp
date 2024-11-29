@@ -94,9 +94,6 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_boni_at_start.resize(InputManager::current()->get_num_users(), BONUS_NONE);
 
   m_data_table.clear();
-
-  if (restart_level(false, preserve_music) != 0)
-    throw std::runtime_error ("Initializing the level failed.");
 }
 
 void

@@ -122,7 +122,6 @@ TitleScreen::refresh_level()
         if (!m_titlesession || m_titlesession->get_level_file() != DEFAULT_TITLE_LEVEL)
           new_session = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
       }
-
       if (new_session)
       {
         m_titlesession = std::move(new_session);
@@ -135,6 +134,7 @@ TitleScreen::refresh_level()
     m_titlesession = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
     level_init = true;
   }
+  m_titlesession->restart_level();
 
   /** Initialize the main sector. */
   Sector& sector = m_titlesession->get_current_sector();
