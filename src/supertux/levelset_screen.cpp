@@ -27,8 +27,6 @@
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 
-// TODO: wtf?????????
-
 LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& level_filename,
                                Savegame& savegame,
                                const std::optional<std::pair<std::string, Vector>>& start_pos) :

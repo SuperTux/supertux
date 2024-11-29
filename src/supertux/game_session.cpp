@@ -55,8 +55,7 @@ static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
 static const float TELEPORT_FADE_TIME = 1.0f;
 
 
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
-                         bool preserve_music) :
+GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
   reset_button(false),
   reset_checkpoint_button(false),
   m_prevent_death(false),

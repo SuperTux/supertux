@@ -78,8 +78,7 @@ private:
   };
 
 public:
-  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr,
-              bool preserve_music = false);
+  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
