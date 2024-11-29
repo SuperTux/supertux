@@ -130,7 +130,7 @@ public:
   std::string get_working_directory() const;
   inline const std::string& get_level_file() const { return m_levelfile; }
   inline bool has_active_sequence() const { return m_end_sequence; }
-  int restart_level(bool after_death = false, bool preserve_music = false);
+  void restart_level(bool after_death = false, bool preserve_music = false);
 
   void toggle_pause();
   void abort_level();
