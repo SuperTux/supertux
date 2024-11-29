@@ -244,12 +244,13 @@ if(NOT EMSCRIPTEN)
     # SDL2 main (windows?)
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
     # SDL2
-    SDL2)
+    SDL2
+  )
   target_link_libraries(supertux2 PUBLIC
     Ogg
     Vorbis
     VorbisFile
-    )
+  )
   target_link_libraries(supertux2 PUBLIC CURL::libcurl)
 endif()
 
@@ -265,7 +266,7 @@ endif()
 include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
-configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
+configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 
 ## Build tests
 if(BUILD_TESTING)
