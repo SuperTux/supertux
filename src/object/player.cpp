@@ -52,108 +52,107 @@
 
 #define SWIMMING
 
-const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
+constexpr float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
 
 namespace {
 
 /* Times: */
-const float TUX_SAFE_TIME = 1.8f;
-const float TUX_INVINCIBLE_TIME = 14.0f;
-const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results in a loss of control
+constexpr float TUX_SAFE_TIME = 1.8f;
+constexpr float TUX_INVINCIBLE_TIME = 14.0f;
+constexpr float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results in a loss of control
 
-const int TIME_UNTIL_IDLE = 5000;
+constexpr int TIME_UNTIL_IDLE = 5000;
 /** idle stages */
-const std::vector<std::string> IDLE_STAGES
-({
+constexpr std::array<std::string_view, 3> IDLE_STAGES = {
   "stand",
   "scratch",
   "idle"
-});
+};
 
 /** acceleration in horizontal direction when walking
  * (all accelerations are in  pixel/s^2) */
-const float WALK_ACCELERATION_X = 300;
+constexpr float WALK_ACCELERATION_X = 300;
 /** acceleration in horizontal direction when running */
-const float RUN_ACCELERATION_X = 400;
+constexpr float RUN_ACCELERATION_X = 400;
 /** acceleration when skidding */
-const float SKID_XM = 200;
+constexpr float SKID_XM = 200;
 /** time of skidding in seconds */
-const float SKID_TIME = .3f;
+constexpr float SKID_TIME = .3f;
 /** maximum walk velocity (pixel/s) */
-const float MAX_WALK_XM = 230;
+constexpr float MAX_WALK_XM = 230;
 /** maximum run velocity (pixel/s) */
-const float MAX_RUN_XM = 320;
+constexpr float MAX_RUN_XM = 320;
 /** bonus run velocity addition (pixel/s) */
-const float BONUS_RUN_XM = 80;
+constexpr float BONUS_RUN_XM = 80;
 /** maximum horizontal climb velocity */
-const float MAX_CLIMB_XM = 96;
+constexpr float MAX_CLIMB_XM = 96;
 /** maximum vertical climb velocity */
-const float MAX_CLIMB_YM = 128;
+constexpr float MAX_CLIMB_YM = 128;
 /** maximum vertical glide velocity */
-const float MAX_GLIDE_YM = 128;
+constexpr float MAX_GLIDE_YM = 128;
 /** sliding down walls velocity */
-const float MAX_WALLCLING_YM = 64;
+constexpr float MAX_WALLCLING_YM = 64;
 /** instant velocity when tux starts to walk */
-const float WALK_SPEED = 100;
+constexpr float WALK_SPEED = 100;
 /** rate at which m_boost decreases */
-const float BOOST_DECREASE_RATE = 500;
+constexpr float BOOST_DECREASE_RATE = 500;
 /** rate at which the speed decreases if going above maximum */
-const float OVERSPEED_DECELERATION = 100;
+constexpr float OVERSPEED_DECELERATION = 100;
 
 /** multiplied by WALK_ACCELERATION to give friction */
-const float NORMAL_FRICTION_MULTIPLIER = 1.5f;
+constexpr float NORMAL_FRICTION_MULTIPLIER = 1.5f;
 /** multiplied by WALK_ACCELERATION to give friction */
-const float ICE_FRICTION_MULTIPLIER = 0.1f;
-const float ICE_ACCELERATION_MULTIPLIER = 0.25f;
+constexpr float ICE_FRICTION_MULTIPLIER = 0.1f;
+constexpr float ICE_ACCELERATION_MULTIPLIER = 0.25f;
 
 /** time of the kick (kicking mriceblock) animation */
-const float KICK_TIME = .3f;
+constexpr float KICK_TIME = .3f;
 
 /** if Tux cannot unduck for this long, he will get hurt */
-const float UNDUCK_HURT_TIME = 0.25f;
+constexpr float UNDUCK_HURT_TIME = 0.25f;
 /** gravity is higher after the jump key is released before
     the apex of the jump is reached */
-const float JUMP_EARLY_APEX_FACTOR = 3.0;
+constexpr float JUMP_EARLY_APEX_FACTOR = 3.0;
 
-const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
-const float COYOTE_TIME = 0.1f; /**< time between the moment leaving a platform without jumping and being able to jump anyways despite being in the air */
+constexpr float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
+constexpr float COYOTE_TIME = 0.1f; /**< time between the moment leaving a platform without jumping and being able to jump anyways despite being in the air */
 
-const float MAX_SLIDE_SPEED = 700.f; /**< Max speed for sliding */
-const float MAX_FALL_SLIDE_SPEED = 475.f; /**< Max slide speed that Tux can get from falling */
-const float DOWN_SLIDE_ACCEL = 1000.f; /** < Acceleration for sliding DOWN slopes */
-const float UP_SLIDE_ACCEL = 1100.f; /**< Acceleration for sliding UP slopes */
+constexpr float MAX_SLIDE_SPEED = 700.f; /**< Max speed for sliding */
+constexpr float MAX_FALL_SLIDE_SPEED = 475.f; /**< Max slide speed that Tux can get from falling */
+constexpr float DOWN_SLIDE_ACCEL = 1000.f; /** < Acceleration for sliding DOWN slopes */
+constexpr float UP_SLIDE_ACCEL = 1100.f; /**< Acceleration for sliding UP slopes */
 
-const float MAX_SLIDE_ROTATING_TIME = 0.15f;
-const float MIN_SLIDE_ROTATING_TIME = 0.075f;
+constexpr float MAX_SLIDE_ROTATING_TIME = 0.15f;
+constexpr float MIN_SLIDE_ROTATING_TIME = 0.075f;
 
 /* Tux's collision rectangle */
-const float TUX_WIDTH = 31.8f;
-const float RUNNING_TUX_WIDTH = 34;
-const float SMALL_TUX_HEIGHT = 30.8f;
-const float BIG_TUX_HEIGHT = 62.8f;
-const float DUCKED_TUX_HEIGHT = 31.8f;
+constexpr float TUX_WIDTH = 31.8f;
+constexpr float RUNNING_TUX_WIDTH = 34;
+constexpr float SMALL_TUX_HEIGHT = 30.8f;
+constexpr float BIG_TUX_HEIGHT = 62.8f;
+constexpr float DUCKED_TUX_HEIGHT = 31.8f;
 
 /* Stone Tux variables */
-const float MAX_STONE_SPEED = 500.f;
-const float STONE_KEY_ACCELERATION = 200.f;
-const float STONE_DOWN_ACCELERATION = 300.f;
-const float STONE_UP_ACCELERATION = 400.f;
+constexpr float MAX_STONE_SPEED = 500.f;
+constexpr float STONE_KEY_ACCELERATION = 200.f;
+constexpr float STONE_DOWN_ACCELERATION = 300.f;
+constexpr float STONE_UP_ACCELERATION = 400.f;
 
 /* Swim variables */
-const float SWIM_SPEED = 300.f;
-const float SWIM_BOOST_SPEED = 600.f;
-const float SWIM_TO_BOOST_ACCEL = 15.f;
-const float TURN_MAGNITUDE = 0.15f;
-const float TURN_MAGNITUDE_BOOST = 0.2f;
-const std::array<std::string, 2> BUBBLE_ACTIONS = { "normal", "small" };
+constexpr float SWIM_SPEED = 300.f;
+constexpr float SWIM_BOOST_SPEED = 600.f;
+constexpr float SWIM_TO_BOOST_ACCEL = 15.f;
+constexpr float TURN_MAGNITUDE = 0.15f;
+constexpr float TURN_MAGNITUDE_BOOST = 0.2f;
+constexpr std::string_view BUBBLE_ACTIONS[] = { "normal", "small" };
 
 /* Buttjump variables */
 
-const float BUTTJUMP_WAIT_TIME = 0.2f; // the length of time that the buttjump action is being played
-const float BUTTJUMP_SPEED = 800.f;
+constexpr float BUTTJUMP_WAIT_TIME = 0.2f; // the length of time that the buttjump action is being played
+constexpr float BUTTJUMP_SPEED = 800.f;
 
-const int MAX_FIRE_BULLETS = 2;
-const int MAX_ICE_BULLETS  = 2;
+constexpr int MAX_FIRE_BULLETS = 2;
+constexpr int MAX_ICE_BULLETS  = 2;
 
 } // namespace
 
@@ -165,6 +164,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_controller(&InputManager::current()->get_controller(player_id)),
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
+  m_state(),
   m_duck(false),
   m_crawl(false),
   m_dead(false),
@@ -2063,6 +2063,8 @@ Player::draw(DrawingContext& context)
       || (m_water_jump && std::abs(m_physic.get_velocity_x()) < 10.f))
       ? "-right" : "-left";
   }
+  
+  std::string idle_stage(IDLE_STAGES[m_idle_stage]);
 
   /* Set Tux sprite action */
   if (m_dying) {
@@ -2178,6 +2180,7 @@ Player::draw(DrawingContext& context)
   }
   else
   {
+    
     if (fabsf(m_physic.get_velocity_x()) < 1.0f) {
       if (std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
             [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; }))
@@ -2185,23 +2188,23 @@ Player::draw(DrawingContext& context)
         m_idle_stage = 0;
         m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
 
-        set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
+        set_action(sa_prefix+("-" + idle_stage)+sa_postfix, Sprite::LOOPS_CONTINUED);
       }
       else if (m_idle_timer.check() || m_sprite->animation_done()) {
         m_idle_stage++;
         if (m_idle_stage >= static_cast<unsigned int>(IDLE_STAGES.size()))
         {
           m_idle_stage = static_cast<int>(IDLE_STAGES.size()) - 1;
-          set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
+          set_action(sa_prefix+("-" + idle_stage)+sa_postfix);
           m_sprite->set_animation_loops(-1);
         }
         else
         {
-          set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, 1);
+          set_action(sa_prefix+("-" + idle_stage)+sa_postfix, 1);
         }
       }
       else {
-        set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
+        set_action(sa_prefix+("-" + idle_stage)+sa_postfix, Sprite::LOOPS_CONTINUED);
       }
     }
     else

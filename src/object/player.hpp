@@ -28,7 +28,7 @@
 #include "supertux/timer.hpp"
 #include "video/layer.hpp"
 #include "video/surface_ptr.hpp"
-
+#include <bitset>
 #include <array>
 #include <list>
 
@@ -40,6 +40,32 @@ class Key;
 class Portable;
 
 extern const float TUX_INVINCIBLE_TIME_WARNING;
+
+enum PlayerState : uint8_t
+{
+  PLAYER_IDLE = 0,
+  PLAYER_JUMPING,
+  PLAYER_DUCK,
+  PLAYER_DEAD,
+  PLAYER_DYING,
+  PLAYER_WINNING,
+  PLAYER_BACKFLIPPING,
+  PLAYER_BUTTJUMPING,
+  PLAYER_WANTS_BUTTJUMP,
+  PLAYER_CAN_JUMP,
+  PLAYER_SLIDING,
+  PLAYER_SLIDE_JUMPING,
+  PLAYER_SWIMMING,
+  PLAYER_SWIMBOOSTING,
+  PLAYER_CRAWLING,
+  PLAYER_STONE,
+  PLAYER_ON_ICE,
+  PLAYER_IS_GROWING,
+  PLAYER_GHOST,
+  PLAYER_FALLING,
+  PLAYER_PLAYERSTATE_SIZE,
+};
+
 
 /**
  * @scripting
@@ -496,6 +522,9 @@ private:
   const Controller* m_controller;
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
+  
+  std::bitset<PLAYER_PLAYERSTATE_SIZE> m_state;
+  
   bool m_duck;
   bool m_crawl;
   bool m_dead;
