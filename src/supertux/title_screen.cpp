@@ -120,8 +120,11 @@ TitleScreen::refresh_level()
         log_warning << "Error loading custom title screen level '" << title_level << "': " << err.what() << std::endl;
 
         if (!m_titlesession || m_titlesession->get_level_file() != DEFAULT_TITLE_LEVEL)
+        {
           new_session = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
+        }
       }
+      new_session->restart_level();
       if (new_session)
       {
         m_titlesession = std::move(new_session);
@@ -132,9 +135,9 @@ TitleScreen::refresh_level()
   else if (!m_titlesession || m_titlesession->get_level_file() != DEFAULT_TITLE_LEVEL)
   {
     m_titlesession = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
+    m_titlesession->restart_level();
     level_init = true;
   }
-  m_titlesession->restart_level();
 
   /** Initialize the main sector. */
   Sector& sector = m_titlesession->get_current_sector();
