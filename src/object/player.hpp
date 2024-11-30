@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 #define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 
+#include "object_state.hpp"
 #include "moving_sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/direction.hpp"
@@ -63,7 +64,7 @@ enum PlayerState : uint8_t
   PLAYER_IS_GROWING,
   PLAYER_GHOST,
   PLAYER_FALLING,
-  PLAYER_PLAYERSTATE_SIZE,
+  PLAYERSTATE_SIZE,
 };
 
 
@@ -523,7 +524,7 @@ private:
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
   
-  std::bitset<PLAYER_PLAYERSTATE_SIZE> m_state;
+  ObjectState m_state;
   
   bool m_duck;
   bool m_crawl;

@@ -52,7 +52,7 @@
 
 #define SWIMMING
 
-constexpr float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
+const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
 
 namespace {
 
@@ -63,7 +63,7 @@ constexpr float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip resu
 
 constexpr int TIME_UNTIL_IDLE = 5000;
 /** idle stages */
-constexpr std::array<std::string_view, 3> IDLE_STAGES = {
+const std::array<const char*, 3> IDLE_STAGES = {
   "stand",
   "scratch",
   "idle"
@@ -144,7 +144,7 @@ constexpr float SWIM_BOOST_SPEED = 600.f;
 constexpr float SWIM_TO_BOOST_ACCEL = 15.f;
 constexpr float TURN_MAGNITUDE = 0.15f;
 constexpr float TURN_MAGNITUDE_BOOST = 0.2f;
-constexpr std::string_view BUBBLE_ACTIONS[] = { "normal", "small" };
+const char* BUBBLE_ACTIONS[] = { "normal", "small" };
 
 /* Buttjump variables */
 
@@ -164,7 +164,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_controller(&InputManager::current()->get_controller(player_id)),
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
-  m_state(),
+  m_state(PLAYERSTATE_SIZE),
   m_duck(false),
   m_crawl(false),
   m_dead(false),
