@@ -111,7 +111,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
         pos += 20;
 
         Sprite* sprite = m_bonus_sprites[m_player_status.m_item_pockets[i]].get();
-        if (sprite != nullptr)
+        if (sprite)
           sprite->draw(context.color(), pos, LAYER_HUD);
       }
     }
