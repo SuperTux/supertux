@@ -133,19 +133,32 @@ endif()
 include(SuperTux/AddPackage)
 
 # Find dependencies
-add_package(TARGET SDL2 PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2)
-add_package(TARGET PNG PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED) # lol
-add_package(TARGET SDL2_image PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image)
-add_package(TARGET SDL2_ttf PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
-add_package(TARGET CURL PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
-add_package(TARGET OpenAL PKG OpenAL PKG_USE OpenAL::OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL openal)
-add_package(TARGET Ogg PKG Ogg PKG_USE Ogg::ogg CONFIG REQUIRED PKG_CONFIG ogg)
-add_package(TARGET Vorbis PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_CONFIG vorbis)
-add_package(TARGET VorbisFile PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
-add_package(TARGET glm PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
-add_package(TARGET fmt PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
-add_package(TARGET PhysFS PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs)
-add_package(TARGET ZLIB PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
+add_package(TARGET SDL2
+	PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2)
+add_package(TARGET PNG
+	PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED) # lol
+add_package(TARGET SDL2_image
+	PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image)
+add_package(TARGET SDL2_ttf
+	PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
+add_package(TARGET LibCURL
+	PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
+add_package(TARGET OpenAL
+	PKG OpenAL PKG_USE OpenAL::OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL openal)
+add_package(TARGET Ogg
+	PKG Ogg PKG_USE Ogg::ogg CONFIG REQUIRED PKG_CONFIG ogg)
+add_package(TARGET Vorbis
+	PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_CONFIG vorbis)
+add_package(TARGET VorbisFile
+	PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
+add_package(TARGET glm
+	PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
+add_package(TARGET fmt
+	PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
+add_package(TARGET PhysFS
+	PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs)
+add_package(TARGET ZLIB
+	PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
 # add_package(TARGET Iconv PKG Iconv PKG_USE Iconv::Iconv PKG_CONFIG libiconv) # probably wrong
 
 add_subdirectory(external/SDL_SavePNG)
@@ -251,7 +264,7 @@ if(NOT EMSCRIPTEN)
     Vorbis
     VorbisFile
   )
-  target_link_libraries(supertux2 PUBLIC CURL::libcurl)
+  target_link_libraries(supertux2 PUBLIC LibCURL)
 endif()
 
 if(HAVE_OPENGL)

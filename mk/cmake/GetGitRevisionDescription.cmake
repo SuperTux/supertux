@@ -34,7 +34,7 @@ macro(git_run)
     if(${${GIT_RUN_RESULT}} EQUAL 0)
       string(REPLACE "\n" "" ${GIT_RUN_OUTPUT} "${${GIT_RUN_OUTPUT}}")
     else()
-      message(STATUS "\"${GIT_EXECUTABLE} ${GIT_RUN_COMMAND}\" failed with result \"${${GIT_RUN_RESULT}}\".")
+      # message(STATUS "\"${GIT_EXECUTABLE} ${GIT_RUN_COMMAND}\" failed with result \"${${GIT_RUN_RESULT}}\".")
       set(${GIT_RUN_OUTPUT} ${GIT_RUN_OUTPUT}-NOTFOUND)
     endif()
   endif()
@@ -42,28 +42,28 @@ endmacro()
 
 macro(git_project_version out is_release)
   if(NOT GIT_FOUND OR NOT EXISTS "${PROJECT_SOURCE_DIR}/.git")
-    set(${out} ${out}-NOTFOUND)
-    set(${is_release} NO)
-    # Can't use a return command here because... Macro.
+    set(gitout ${out}-NOTFOUND)
+    set(is_release NO)
   else()
     # Tag
     git_run(COMMAND describe --tags --abbrev=0 OUTPUT _tag RESULT _result)
 
     # Commits since tag
     git_run(COMMAND rev-list ${_tag}..HEAD --count OUTPUT _tagn RESULT _result)
+	
+	# Commit hash
+    git_run(COMMAND rev-parse --short HEAD OUTPUT _hash RESULT _result)
 
-    if(_tagn STREQUAL "0")
-      set(${is_release} YES)
-      set(${out} "${_tag}")
+    # Branch
+    git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT _branch RESULT _result)
+      
+    if(${_tag} STREQUAL _tag-NOTFOUND)
+      set(is_release YES) # ???
+      set(gitout "${_hash} (${_branch})")
     else()
-      # Commit hash
-      git_run(COMMAND rev-parse --short HEAD OUTPUT _hash RESULT _result)
-
-      # Branch
-      git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT _branch RESULT _result)
-
-      set(${is_release} NO)
-      set(${out} "${_tag} (${_tagn}) - ${_hash} (${_branch})")
+      set(is_release NO)
+      set(gitout "${_tag} (${_tagn}) - ${_hash} (${_branch})")
     endif()
+	message("Got ${gitout}")
   endif()
 endmacro()
