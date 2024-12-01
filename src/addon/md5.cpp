@@ -158,7 +158,7 @@ std::string MD5::hex_digest() {
 
   finalize();
 
-  for (i=0; i<16; i++) sprintf(s+i*2, "%02x", digest[i]);
+  for (i=0; i<16; i++) snprintf(s+i*2, sizeof(s+i*2), "%02x", digest[i]);
 
   s[32]='\0';
 
