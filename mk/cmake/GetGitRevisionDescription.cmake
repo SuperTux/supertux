@@ -43,25 +43,21 @@ endmacro()
 macro(git_project_version out is_release)
   if(NOT GIT_FOUND OR NOT EXISTS "${PROJECT_SOURCE_DIR}/.git")
     set(gitout ${out}-NOTFOUND)
-    set(is_release NO)
   else()
     # Tag
-    git_run(COMMAND describe --tags --abbrev=0 OUTPUT _tag RESULT _result)
-
-    # Commits since tag
-    git_run(COMMAND rev-list ${_tag}..HEAD --count OUTPUT _tagn RESULT _result)
+    git_run(COMMAND describe --tags --abbrev=0 OUTPUT _tag RESULT _tag_result)
 	
 	# Commit hash
-    git_run(COMMAND rev-parse --short HEAD OUTPUT _hash RESULT _result)
+    git_run(COMMAND rev-parse --short HEAD OUTPUT _hash RESULT _hash_result)
 
     # Branch
-    git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT _branch RESULT _result)
+    git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT _branch RESULT _branch_result)
       
-    if(${_tag} STREQUAL _tag-NOTFOUND)
-      set(is_release YES) # ???
+    if(${_tag_result} EQUAL 128)
+      # Commits since tag
+      git_run(COMMAND rev-list ${_tag}..HEAD --count OUTPUT _tagn RESULT _tagn_result)
       set(gitout "${_hash} (${_branch})")
     else()
-      set(is_release NO)
       set(gitout "${_tag} (${_tagn}) - ${_hash} (${_branch})")
     endif()
 	message("Got ${gitout}")
