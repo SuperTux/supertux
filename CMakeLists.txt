@@ -156,7 +156,8 @@ add_package(TARGET glm
 add_package(TARGET fmt
 	PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
 add_package(TARGET PhysFS
-	PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs)
+	PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs
+	WORKAROUND_MODULES Arch)
 add_package(TARGET ZLIB
 	PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
 # add_package(TARGET Iconv PKG Iconv PKG_USE Iconv::Iconv PKG_CONFIG libiconv) # probably wrong

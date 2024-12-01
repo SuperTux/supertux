@@ -41,6 +41,9 @@
 #      PROVIDES ProvideSDL2       <-- (optional) Fallback to just look at the provided file.
 #   )                                  Undecided if I should fall back to a FindXXXX.cmake yet
 
+# HACK: Don't use the LSB commands for now, these depend on another program, and grepping the file seems to work
+file(READ "/etc/os-release" OS_RELEASE_CONTENT)
+
 find_package(PkgConfig)
 macro(add_package)
   cmake_parse_arguments(addpackage_args
