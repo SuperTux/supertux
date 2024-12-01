@@ -355,6 +355,10 @@ private:
   /** container for newly created objects, they'll be added in flush_game_objects() */
   std::vector<std::unique_ptr<GameObject>> m_gameobjects_new;
 
+  /** Former UIDs of all objects moved to another GameObjectManager.
+      Will be assigned back to any of the objects if they are moved back here. */
+  std::unordered_map<GameObject*, UID> m_moved_object_uids;
+
   /** Fast access to solid tilemaps */
   std::vector<TileMap*> m_solid_tilemaps;
 
