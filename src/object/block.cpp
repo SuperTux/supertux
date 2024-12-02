@@ -158,6 +158,8 @@ Block::start_bounce(MovingObject* hitter)
   m_bounce_dir = -BOUNCY_BRICK_SPEED;
   m_bounce_offset = 0;
 
+  if (!hitter) return;
+
   float center_of_hitter = hitter->get_bbox().get_middle().x;
   float offset = (m_col.m_bbox.get_middle().x - center_of_hitter)*2 / m_col.m_bbox.get_width();
 
