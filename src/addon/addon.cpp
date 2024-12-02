@@ -53,6 +53,10 @@ Addon::Type addon_type_from_string(const std::string& type)
   {
     return Addon::RESOURCEPACK;
   }
+  else if (type == "weakresourcepack")
+  {
+    return Addon::WEAKRESOURCEPACK;
+  }
   else if (type == "addon")
   {
     return Addon::ADDON;
@@ -83,6 +87,7 @@ std::string addon_type_to_translated_string(Addon::Type type)
       return _("Language Pack");
 
     case Addon::RESOURCEPACK:
+    case Addon::WEAKRESOURCEPACK:
       return _("Resource Pack");
 
     default:
