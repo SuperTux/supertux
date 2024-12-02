@@ -254,8 +254,8 @@ Addon::overrides_data() const
 bool
 Addon::requires_restart() const
 {
-  // Determines if the add-on requires a restart.
-  return m_type == LANGUAGEPACK || m_type == RESOURCEPACK;
+  // Determines if the add-on requires a restart to function after enabled.
+  return m_type == LANGUAGEPACK;
 }
 
 /* EOF */
