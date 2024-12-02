@@ -101,7 +101,7 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader, bool corner)
     log_warning << "No default tile for autotileset " << name << std::endl;
   }
 
-  if (default_id < m_start || (m_end && default_id > m_end))
+  if (default_id < static_cast<uint32_t>(m_start) || (m_end && default_id > static_cast<uint32_t>(m_end)))
     default_id = 0;
   else
     default_id += m_offset;
@@ -146,7 +146,7 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
     throw std::runtime_error("Missing 'id' parameter in autotileset config file.");
   }
 
-  if (tile_id < m_start || (m_end && tile_id > m_end))
+  if (tile_id < static_cast<uint32_t>(m_start) || (m_end && tile_id > static_cast<uint32_t>(m_end)))
     return nullptr;
 
   tile_id += m_offset;
@@ -191,7 +191,7 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
         continue;
       }
 
-      if (alt_id < m_start || (m_end && alt_id > m_end))
+      if (alt_id < static_cast<uint32_t>(m_start) || (m_end && alt_id > static_cast<uint32_t>(m_end)))
         continue;
 
       alt_id += m_offset;
