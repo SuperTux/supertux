@@ -196,8 +196,8 @@ TileSetParser::parse(bool imported)
             if (tiles.size() % 2 != 0) tiles.pop_back(); // If the number of tiles isn't even, remove last tile.
             for (int i = 0; i < static_cast<int>(tiles.size()); i += 2)
             {
-              if (tiles[i] < m_start || (m_end && tiles[i] > m_end) ||
-                  tiles[i + 1] < m_start || (m_end && tiles[i + 1] > m_end))
+              if (tiles[i] < static_cast<uint32_t>(m_start) || (m_end && tiles[i] > static_cast<uint32_t>(m_end)) ||
+                  tiles[i + 1] < static_cast<uint32_t>(m_start) || (m_end && tiles[i + 1] > static_cast<uint32_t>(m_end)))
                 continue; // Both tiles have to fit in the tile range.
 
               m_tileset.m_thunderstorm_tiles.insert({ tiles[i] + m_offset, tiles[i + 1] + m_offset });
