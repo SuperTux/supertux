@@ -249,6 +249,58 @@ Writer::write(const std::string& name, const sexp::Value& value)
 }
 
 void
+Writer::write_merge(const std::string& name, const std::vector<unsigned int>& value, unsigned int merge_value, int width)
+{
+  indent();
+  *out << '(' << name;
+  if (width > 0)
+  {
+    *out << "\n";
+    indent();
+  }
+
+  int count = 0;
+  int merge_count = 0;
+  for (const auto& i : value)
+  {
+    const bool merge_value_match = (i == merge_value);
+    if (merge_value_match)
+    {
+      ++merge_count;
+    }
+    else
+    {
+      if (merge_count)
+      {
+        *out << -merge_count << " ";
+        merge_count = 0;
+      }
+      *out << i;
+    }
+    ++count;
+
+    if (width > 0 && count >= width)
+    {
+      count = 0;
+      if (merge_count)
+      {
+        *out << -merge_count;
+        merge_count = 0;
+      }
+
+      *out << "\n";
+      indent();
+    }
+    else if (!merge_value_match)
+    {
+      *out << " ";
+    }
+  }
+
+  *out << ")\n";
+}
+
+void
 Writer::write_escaped_string(const std::string& str)
 {
   *out << '"';

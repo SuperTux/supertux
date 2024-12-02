@@ -201,6 +201,29 @@ ReaderMapping::get(const char* key, std::vector<unsigned int>& value,
   GET_VALUES_MACRO("unsigned int", is_integer, as_int)
 }
 
+bool
+ReaderMapping::get_merge(const char* key, std::vector<unsigned int>& value, unsigned int merge_value) const
+{
+  const auto sx = get_item(key);
+  if (!sx)
+    return false;
+
+  assert_is_array(m_doc, *sx);
+  value.clear();
+  const auto& item = sx->as_array();
+  for (size_t i = 1; i < item.size(); ++i)
+  {
+    assert_is_integer(m_doc, item[i]);
+
+    const int val = item[i].as_int();
+    if (val < 0)
+      value.insert(value.end(), -val, merge_value);
+    else
+      value.emplace_back(val);
+  }
+  return true;
+}
+
 #undef GET_VALUES_MACRO
 
 bool
