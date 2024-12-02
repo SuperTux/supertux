@@ -27,16 +27,36 @@
 #include "util/reader_mapping.hpp"
 #include "util/file_system.hpp"
 
-AutotileParser::AutotileParser(std::vector<std::unique_ptr<AutotileSet>>& autotilesets, const std::string& filename) :
+AutotileParser::AutotileParser(std::vector<std::unique_ptr<AutotileSet>>& autotilesets, const std::string& filename,
+                               int32_t start, int32_t end, int32_t offset) :
   m_autotilesets(autotilesets),
   m_filename(filename),
-  m_tiles_path()
+  m_tiles_path(),
+  m_start(start),
+  m_end(end),
+  m_offset(offset)
 {
 }
 
 void
 AutotileParser::parse()
 {
+  if (m_offset && m_start + m_offset < 1)
+  {
+    m_start = -m_offset + 1;
+    log_warning << "The defined offset would assign non-positive IDs to autotiles, autotiles below " << -m_offset + 1 << " will be ignored." << std::endl;
+  }
+  if (m_end < 0)
+  {
+    log_warning << "Cannot import autotiles with negative IDs." << std::endl;
+    return;
+  }
+  if (m_start < 0)
+  {
+    log_warning << "Cannot import autotiles with negative IDs. Importing will start at ID 1." << std::endl;
+    m_start = 1;
+  }
+
   m_tiles_path = FileSystem::dirname(m_filename);
 
   auto doc = ReaderDocument::from_file(m_filename);
@@ -51,13 +71,11 @@ AutotileParser::parse()
   {
     if (iter.get_key() == "autotileset")
     {
-      ReaderMapping tile_mapping = iter.as_mapping();
-      parse_autotileset(tile_mapping, false);
+      parse_autotileset(iter.as_mapping(), false);
     }
     else if (iter.get_key() == "autotileset-corner")
     {
-      ReaderMapping tile_mapping = iter.as_mapping();
-      parse_autotileset(tile_mapping, true);
+      parse_autotileset(iter.as_mapping(), true);
     }
     else
     {
@@ -83,13 +101,19 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader, bool corner)
     log_warning << "No default tile for autotileset " << name << std::endl;
   }
 
+  if (default_id < m_start || (m_end && default_id > m_end))
+    default_id = 0;
+  else
+    default_id += m_offset;
+
   auto iter = reader.get_iter();
   while (iter.next())
   {
     if (iter.get_key() == "autotile")
     {
-      ReaderMapping tile_mapping = iter.as_mapping();
-      autotiles.push_back(parse_autotile(tile_mapping, corner));
+      Autotile* autotile = parse_autotile(iter.as_mapping(), corner);
+      if (autotile)
+        autotiles.push_back(autotile);
     }
     else if (iter.get_key() != "name" && iter.get_key() != "default")
     {
@@ -97,11 +121,14 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader, bool corner)
     }
   }
 
-  std::unique_ptr<AutotileSet> autotileset = std::make_unique<AutotileSet>(autotiles, default_id, name, corner);
+  if (autotiles.empty())
+    return;
+
+  std::unique_ptr<AutotileSet> autotileset = std::make_unique<AutotileSet>(std::move(autotiles), default_id, name, corner);
 
   if (g_config->developer_mode)
   {
-    autotileset->validate();
+    autotileset->validate(m_start, m_end);
   }
 
   m_autotilesets.push_back(std::move(autotileset));
@@ -119,6 +146,11 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
     throw std::runtime_error("Missing 'id' parameter in autotileset config file.");
   }
 
+  if (tile_id < m_start || (m_end && tile_id > m_end))
+    return nullptr;
+
+  tile_id += m_offset;
+
   bool solid;
   if (!reader.get("solid", solid))
   {
@@ -128,7 +160,7 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
   else
   {
     if (corner)
-      throw std::runtime_error("'solid' parameter not needed for corner-based tiles in autotileset config file.");
+      log_warning << "'solid' parameter not needed for corner-based tiles in autotileset config file." << std::endl;
   }
 
   auto iter = reader.get_iter();
@@ -156,12 +188,19 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
       if (!alt_reader.get("id", alt_id))
       {
         log_warning << "No alt tile for autotileset" << std::endl;
+        continue;
       }
+
+      if (alt_id < m_start || (m_end && alt_id > m_end))
+        continue;
+
+      alt_id += m_offset;
 
       float weight = 0.0f;
       if (!alt_reader.get("weight", weight))
       {
         log_warning << "No weight for alt tile id" << std::endl;
+        continue;
       }
 
       if (alt_id != 0 && weight != 0.0f)
@@ -175,7 +214,7 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
     }
   }
 
-  return new Autotile(tile_id, alt_ids, autotile_masks, solid);
+  return new Autotile(tile_id, std::move(alt_ids), std::move(autotile_masks), solid);
 }
 
 void
