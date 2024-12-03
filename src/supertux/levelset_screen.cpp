@@ -26,7 +26,6 @@
 #include "supertux/screen_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
-#include <SDL_atomic.h>
 
 LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& level_filename,
                                Savegame& savegame,
