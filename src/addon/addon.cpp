@@ -53,6 +53,10 @@ Addon::Type addon_type_from_string(const std::string& type)
   {
     return Addon::RESOURCEPACK;
   }
+  else if (type == "weakresourcepack")
+  {
+    return Addon::WEAKRESOURCEPACK;
+  }
   else if (type == "addon")
   {
     return Addon::ADDON;
@@ -83,6 +87,7 @@ std::string addon_type_to_translated_string(Addon::Type type)
       return _("Language Pack");
 
     case Addon::RESOURCEPACK:
+    case Addon::WEAKRESOURCEPACK:
       return _("Resource Pack");
 
     default:
@@ -249,8 +254,8 @@ Addon::overrides_data() const
 bool
 Addon::requires_restart() const
 {
-  // Determines if the add-on requires a restart.
-  return m_type == LANGUAGEPACK || m_type == RESOURCEPACK;
+  // Determines if the add-on requires a restart to function after enabled.
+  return m_type == LANGUAGEPACK;
 }
 
 /* EOF */

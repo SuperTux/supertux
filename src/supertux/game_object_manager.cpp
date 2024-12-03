@@ -47,6 +47,7 @@ GameObjectManager::GameObjectManager(bool undo_tracking) :
   m_last_saved_change(),
   m_gameobjects(),
   m_gameobjects_new(),
+  m_moved_object_uids(),
   m_solid_tilemaps(),
   m_all_tilemaps(),
   m_objects_by_name(),
@@ -136,12 +137,20 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 
   if (!object->get_uid()) // Undo/redo requires re-creating objects with the same UID.
   {
-    object->set_uid(m_uid_generator.next());
+    if (m_moved_object_uids.find(object.get()) == m_moved_object_uids.end())
+    {
+      object->set_uid(m_uid_generator.next());
 
-    // No object UID would indicate the object is not a result of undo/redo.
-    // Any newly placed object in the editor should be on its latest version.
-    if (m_initialized && Editor::is_active())
-      object->update_version();
+      // No object UID would indicate the object is not a result of undo/redo.
+      // Any newly placed object in the editor should be on its latest version.
+      if (m_initialized && Editor::is_active())
+        object->update_version();
+    }
+    else
+    {
+      object->set_uid(m_moved_object_uids[object.get()]);
+      m_moved_object_uids.erase(object.get());
+    }
   }
 
   // Make sure the object isn't already in the list.
@@ -337,11 +346,14 @@ GameObjectManager::move_object(const UID& uid, GameObjectManager& other)
     log_warning << "Couldn't move object: Object with UID " << uid << " not found." << std::endl;
     return;
   }
+  auto& obj = *it;
 
-  this_before_object_remove(**it);
-  before_object_remove(**it);
+  m_moved_object_uids[obj.get()] = uid;
 
-  other.add_object(std::move(*it));
+  this_before_object_remove(*obj);
+  before_object_remove(*obj);
+
+  other.add_object(std::move(obj));
   m_gameobjects.erase(it);
 
   other.flush_game_objects();

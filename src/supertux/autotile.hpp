@@ -118,7 +118,7 @@ public:
 
   // TODO : Validate autotile config files by checking if each mask has
   //        one and only one corresponding tile.
-  void validate() const;
+  void validate(int32_t start, int32_t end) const;
 
 public:
   static std::vector<std::unique_ptr<AutotileSet>> m_autotilesets;
