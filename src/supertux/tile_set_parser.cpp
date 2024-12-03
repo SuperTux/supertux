@@ -90,21 +90,18 @@ TileSetParser::parse(bool imported)
       reader.get("offset", tiles_offset);
 
       bool has_valid_tile = false;
-      if (m_offset || tiles_offset)
+      for (int& tile : tilegroup.tiles)
       {
-        for (int& tile : tilegroup.tiles)
-        {
-          if (tile == 0) continue;
+        if (tile == 0) continue;
 
-          if (tile < m_start || (m_end && tile > m_end))
-          {
-            tile = 0;
-          }
-          else
-          {
-            tile += m_offset + tiles_offset;
-            has_valid_tile = true;
-          }
+        if (tile < m_start || (m_end && tile > m_end))
+        {
+          tile = 0;
+        }
+        else
+        {
+          tile += m_offset + tiles_offset;
+          has_valid_tile = true;
         }
       }
 
