@@ -570,10 +570,19 @@ void
 Editor::reload_level()
 {
   ReaderMapping::s_translations_enabled = false;
-  set_level(LevelParser::from_file(m_world ?
-                                   FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
-                                   StringUtil::has_suffix(m_levelfile, ".stwm"),
-                                   true));
+  try
+  {
+    set_level(LevelParser::from_file(m_world ?
+                                     FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
+                                     StringUtil::has_suffix(m_levelfile, ".stwm"),
+                                     true));
+  }
+  catch (const std::exception& err)
+  {
+    log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
+    reset_level();
+    return;
+  }
   ReaderMapping::s_translations_enabled = true;
 
   retoggle_undo_tracking();
@@ -584,6 +593,21 @@ Editor::reload_level()
   m_levelfile = get_levelname_from_autosave(m_levelfile);
   m_autosave_levelfile = FileSystem::join(get_level_directory(),
                                           get_autosave_from_levelname(m_levelfile));
+}
+
+void
+Editor::reset_level()
+{
+  m_levelloaded = false;
+  m_level.reset();
+  m_world.reset();
+  m_levelfile.clear();
+  m_sector = nullptr;
+
+  m_reload_request = false;
+
+  MouseCursor::current()->set_icon(nullptr);
+  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
 }
 
 void
