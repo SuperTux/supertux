@@ -47,6 +47,7 @@ enum PlayerState : uint8_t
   PLAYER_IDLE = 0,
   PLAYER_JUMPING,
   PLAYER_DUCK,
+  PLAYER_CRAWL,
   PLAYER_DEAD,
   PLAYER_DYING,
   PLAYER_WINNING,
@@ -293,7 +294,7 @@ public:
 
   /** Adds velocity to the player until given end speed is reached */
   void add_velocity(const Vector& velocity, const Vector& end_speed);
-
+  
   /** Returns the current velocity of the player */
   inline Vector get_velocity() const { return m_physic.get_velocity(); }
   /**
@@ -525,9 +526,6 @@ private:
   PlayerStatus& m_player_status;
   
   ObjectState m_state;
-  
-  bool m_duck;
-  bool m_crawl;
   bool m_dead;
   bool m_dying;
   bool m_winning;

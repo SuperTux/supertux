@@ -29,10 +29,6 @@ public:
   virtual ~ExposableClass() override {}
 
   virtual std::string get_exposed_class_name() const = 0;
-
-private:
-  ExposableClass(const ExposableClass&) = delete;
-  ExposableClass& operator=(const ExposableClass&) = delete;
 };
 
 #endif

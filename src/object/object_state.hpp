@@ -16,16 +16,16 @@
 
 #ifndef HEADER_SUPERTUX_OBJECT_OBJECT_STATE_HPP
 #define HEADER_SUPERTUX_OBJECT_OBJECT_STATE_HPP
+#include <simplesquirrel/vm.hpp>
 
 #include <cstdint>
 #include <vector>
-#include "squirrel/supertux_api.hpp"
 #include "squirrel/exposable_class.hpp"
 
 class ObjectState : public ExposableClass
 {
 public:
-  static void register_class(ssq::VM& vm);
+  static void expose(ssq::VM& vm);
   
 public:
   ObjectState();
@@ -34,17 +34,16 @@ public:
   virtual std::string get_class_name() const { return "object-state"; }
   virtual std::string get_exposed_class_name() const { return "ObjectState"; }
   
-  inline bool get_state(std::size_t idx) const {
+  inline bool get(std::size_t idx) const {
     return m_state[idx];
   }
-  inline void set_state(std::size_t idx, bool state) {
-    m_state[idx] = static_cast<int>(state);
+  inline void set(std::size_t idx, bool state) {
+    m_state[idx] = state;
   }
   
   // Note: Operator[] is not overloaded because aesthetically it doesn't fit this case
-  
 private:
-  std::vector<bool> m_state; // :)
+  std::vector<bool> m_state;
 };
 
 #endif // HEADER_SUPERTUX_OBJECT_STATE_HPP

@@ -15,6 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_state.hpp"
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
 
 ObjectState::ObjectState() :
   m_state()
@@ -26,10 +28,10 @@ ObjectState::ObjectState(const std::size_t size) :
 }
 
 void
-ObjectState::register_class(ssq::VM& vm)
+ObjectState::expose(ssq::VM& vm)
 {
-  ssq::Class cls = vm.addAbstractClass<ObjectState>("ObjectState");
+  ssq::Class cls = vm.addClass<ObjectState>("ObjectState");
   
-  cls.addFunc("set_state", &ObjectState::set_state);
-  cls.addFunc("get_state", &ObjectState::get_state);
+  cls.addFunc("set_state", &ObjectState::set);
+  cls.addFunc("get_state", &ObjectState::get);
 }
