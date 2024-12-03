@@ -521,12 +521,13 @@ std::vector<std::string>
 AddonManager::get_local_addon_screenshots(const AddonId& addon_id)
 {
   std::vector<std::string> screenshots;
-  physfsutil::enumerate_files(m_screenshots_cache_directory, [&screenshots, &addon_id, this](const std::string& filename) {
+  physfsutil::enumerate_files_alphabetical(m_screenshots_cache_directory, [&screenshots, &addon_id, this](const std::string& filename) {
     // Push any files from the cache directory, starting with the ID of the add-on.
     if (StringUtil::starts_with(filename, addon_id))
     {
       screenshots.push_back(FileSystem::join(m_screenshots_cache_directory, filename));
     }
+    return false;
   });
   return screenshots;
 }
@@ -734,6 +735,7 @@ AddonManager::scan_for_archives() const
         }
       }
     }
+    return false;
   });
 
   return archives;
@@ -759,9 +761,11 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
         if (realdir == archive_os_path)
         {
           nfoFilename = nfo_filename;
+          return true;
         }
       }
     }
+    return false;
   });
 
   return nfoFilename;

@@ -52,10 +52,6 @@ class Editor final : public Screen,
 public:
   static bool is_active();
 
-  static PHYSFS_EnumerateCallbackResult foreach_recurse(void *data,
-                                                        const char *origdir,
-                                                        const char *fname);
-
 private:
   static bool is_autosave_file(const std::string& filename) {
     return StringUtil::has_suffix(filename, "~");
