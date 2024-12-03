@@ -26,6 +26,7 @@
 #include "supertux/screen_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include <SDL_atomic.h>
 
 LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& level_filename,
                                Savegame& savegame,
@@ -89,8 +90,17 @@ LevelsetScreen::setup()
       if (m_start_pos) {
         screen->set_start_pos(m_start_pos->first, m_start_pos->second);
       }
-      screen->restart_level();
-      ScreenManager::current()->push_screen(std::move(screen));
+      
+      try
+      {
+        screen->restart_level();
+        ScreenManager::current()->push_screen(std::move(screen));
+      }
+      catch (const std::runtime_error& e)
+      {
+        log_warning << "Couldn't load level: " << e.what() << std::endl;
+        ScreenManager::current()->pop_screen();
+      }
     }
   }
 }
