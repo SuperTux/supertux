@@ -166,8 +166,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
   m_state(PLAYERSTATE_SIZE),
-  m_dead(false),
-  m_dying(false),
   m_winning(false),
   m_backflipping(false),
   m_backflip_direction(0),
@@ -612,10 +610,10 @@ Player::update(float dt_sec)
 
   //end of swimming handling
 
-  if (m_dying && m_dying_timer.check()) {
+  if (m_state.get(PLAYER_DYING) && m_dying_timer.check()) {
 
     set_bonus(BONUS_NONE, true);
-    m_dead = true;
+    m_state.set(PLAYER_DEAD, true);
 
     if (!Sector::get().get_object_count<Player>([](const Player& p) { return p.is_alive(); }))
     {
@@ -628,7 +626,7 @@ Player::update(float dt_sec)
     return;
   }
 
-  if (!m_dying && !m_deactivated)
+  if (!m_state.get(PLAYER_DYING) && !m_deactivated)
     handle_input();
 
   /*
@@ -695,7 +693,7 @@ Player::update(float dt_sec)
   }
 
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
-  if (on_ground() && !m_swimming && !m_dying) {
+  if (on_ground() && !m_swimming && !m_state.get(PLAYER_DYING)) {
     if (m_floor_normal.y != 0) {
       if ((m_floor_normal.x * m_physic.get_velocity_x()) >= 0) {
         m_physic.set_velocity_y((std::abs(m_physic.get_velocity_x()) * std::abs(m_floor_normal.x)) + 100.f);
@@ -704,7 +702,7 @@ Player::update(float dt_sec)
   }
 
   // handle backflipping
-  if (m_backflipping && !m_dying) {
+  if (m_backflipping && !m_state.get(PLAYER_DYING)) {
     //prevent player from changing direction when backflipping
     m_dir = (m_backflip_direction == 1) ? Direction::LEFT : Direction::RIGHT;
     if (m_backflip_timer.started()) m_physic.set_velocity_x(100.0f * static_cast<float>(m_backflip_direction));
@@ -761,12 +759,12 @@ Player::update(float dt_sec)
   // calculate movement for this frame
   m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0));
 
-  if (m_grabbed_object != nullptr && !m_dying)
+  if (m_grabbed_object != nullptr && !m_state.get(PLAYER_DYING))
   {
     position_grabbed_object();
   }
 
-  if (m_dying)
+  if (m_state.get(PLAYER_DYING))
     ungrab_object();
 
   if (!m_ice_this_frame && on_ground())
@@ -1940,9 +1938,8 @@ Player::add_bonus(BonusType type, bool animate)
 bool
 Player::set_bonus(BonusType type, bool animate)
 {
-  if (m_dying) {
+  if (m_state.get(PLAYER_DYING))
     return false;
-  }
 
   if ((get_bonus() == BONUS_NONE) && (type != BONUS_NONE || m_stone)) {
     if (!m_swimming && !m_sliding)
@@ -2066,7 +2063,7 @@ Player::draw(DrawingContext& context)
   std::string idle_stage(IDLE_STAGES[m_idle_stage]);
 
   /* Set Tux sprite action */
-  if (m_dying) {
+  if (m_state.get(PLAYER_DYING)) {
     m_sprite->set_angle(0.0f);
     set_action("gameover");
   }
@@ -2252,7 +2249,7 @@ Player::draw(DrawingContext& context)
   {
   }  // don't draw Tux
 
-  else if (m_dying)
+  else if (m_state.get(PLAYER_DYING))
     m_sprite->draw(context.color(), draw_pos, Sector::get().get_foremost_opaque_layer() + 1);
   else
     m_sprite->draw(context.color(), draw_pos, LAYER_OBJECTS + 1);
@@ -2428,7 +2425,7 @@ Player::make_temporarily_safe(float safe_time)
 void
 Player::kill(bool completely)
 {
-  if (m_dying || m_deactivated || is_winning() )
+  if (m_state.get(PLAYER_DYING) || m_deactivated || is_winning() )
     return;
 
   if (!completely && (m_safe_timer.started() || m_invincible_timer.started()))
@@ -2480,7 +2477,7 @@ Player::kill(bool completely)
     m_physic.set_acceleration(0, 0);
     m_physic.set_velocity(0, -700);
     set_bonus(BONUS_NONE, true);
-    m_dying = true;
+    m_state.set(PLAYER_DYING, true);
     m_dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
 
@@ -2866,6 +2863,12 @@ Player::set_item_pocket(int bonus)
 }
 
 bool
+Player::get_state(int id) const
+{
+  return m_state.get(id);
+}
+
+bool
 Player::has_grabbed(const std::string& object_name) const
 {
   if (object_name.empty())
@@ -2985,9 +2988,9 @@ Player::multiplayer_prepare_spawn()
   m_invincible_timer.stop();
   m_physic.set_acceleration(0, -9999);
   m_physic.set_velocity(0, -9999);
-  m_dying = true;
+  m_state.set(PLAYER_DYING, true);
   set_group(COLGROUP_DISABLED);
-  m_dead = true;
+  m_state.set(PLAYER_DEAD, true);
 
   next_target();
 }
@@ -3009,8 +3012,8 @@ Player::multiplayer_respawn()
     return;
   }
 
-  m_dying = false;
-  m_dead = false;
+  m_state.set(PLAYER_DYING, false);
+  m_state.set(PLAYER_DEAD, false);
   m_deactivated = false;
   m_ghost_mode = false;
   set_group(COLGROUP_MOVING);
@@ -3101,9 +3104,12 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("get_input_pressed", &Player::get_input_pressed);
   cls.addFunc("get_input_held", &Player::get_input_held);
   cls.addFunc("get_input_released", &Player::get_input_released);
+  // Item pocket
   cls.addFunc("eject_item_pocket", &Player::eject_item_pocket);
   cls.addFunc("get_item_pocket", &Player::get_item_pocket);
   cls.addFunc("set_item_pocket", &Player::set_item_pocket);
+  // State
+  cls.addFunc("get_state", &Player::get_state);
   
   cls.addVar("visible", &Player::m_visible);
 }

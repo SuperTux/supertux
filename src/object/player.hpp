@@ -165,7 +165,7 @@ public:
   void make_temporarily_safe(float safe_time);
 
   inline bool is_invincible() const { return m_invincible_timer.started(); }
-  inline bool is_dying() const { return m_dying; }
+  inline bool is_dying() const { return m_state.get(PLAYER_DYING); }
 
   /**
    * Returns true if the player is currently alive
@@ -318,7 +318,7 @@ public:
   void bounce(BadGuy& badguy);
   inline void override_velocity() { m_velocity_override = true; }
 
-  inline bool is_dead() const { return m_dead; }
+  inline bool is_dead() const { return m_state.get(PLAYER_DEAD); }
   inline bool is_big() const { return get_bonus() != BONUS_NONE; }
   inline bool is_stone() const { return m_stone; }
   inline bool is_sliding() const { return m_sliding; }
@@ -458,6 +458,13 @@ public:
    * @description Ejects the item in the player's Item Pocket.
    */
   void set_item_pocket(int bonus);
+  
+  /**
+   * @scripting
+   * @description Returns the specified state of the player as an integer.
+   * @param bool $id The specific state ID, typically from a constant enum-like value.
+   */
+  bool get_state(int id) const;
 
   void position_grabbed_object(bool teleport = false);
   bool try_grab();
