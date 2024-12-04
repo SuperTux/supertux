@@ -19,7 +19,7 @@
 #define HEADER_SUPERTUX_VIDEO_CANVAS_HPP
 
 #include <string>
-#include <map>
+#include <vector>
 #include <memory>
 #include <obstack.h>
 
@@ -107,9 +107,7 @@ private:
 private:
   DrawingContext& m_context;
   obstack& m_obst;
-
-  /* DrawingRequest vectors for each requested layer, sorted in ascending order by layer. */
-  std::map<int, std::vector<DrawingRequest*>, std::less<int>> m_requests;
+  std::vector<DrawingRequest*> m_requests;
 
 private:
   Canvas(const Canvas&) = delete;

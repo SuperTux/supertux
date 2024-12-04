@@ -38,6 +38,7 @@ enum class RequestType
 
 struct DrawingRequest
 {
+  int layer;
   Flip flip;
   float alpha;
   Blend blend;
@@ -45,6 +46,7 @@ struct DrawingRequest
 
   DrawingRequest() = delete;
   DrawingRequest(const DrawingTransform& transform) :
+    layer(),
     flip(transform.flip),
     alpha(transform.alpha),
     blend(),
