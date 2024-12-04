@@ -40,6 +40,11 @@ public:
   inline void set(std::size_t idx, bool state) {
     m_state[idx] = state;
   }
+  // Convenience utility for common scenario, also useful for grepping
+  inline constexpr void set_if(bool cond, std::size_t idx, bool state) {
+    if (cond)
+      set(idx, state);
+  }
   
   // Note: Operator[] is not overloaded because aesthetically it doesn't fit this case
 private:

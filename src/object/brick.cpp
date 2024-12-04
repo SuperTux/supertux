@@ -86,7 +86,7 @@ HitResponse
 Brick::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*> (&other);
-  if (player && player->m_does_buttjump) try_break(player);
+  if (player && player->m_state.get(PLAYER_BUTTJUMPING)) try_break(player);
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy) {
@@ -180,7 +180,7 @@ HitResponse
 HeavyBrick::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*>(&other);
-  if (player && player->m_does_buttjump) ricochet(&other);
+  if (player && player->m_state.get(PLAYER_BUTTJUMPING)) ricochet(&other);
 
   auto crusher = dynamic_cast<Crusher*>(&other);
   if (crusher)

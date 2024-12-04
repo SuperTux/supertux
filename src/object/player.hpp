@@ -52,19 +52,26 @@ enum PlayerState : uint8_t
   PLAYER_DYING,
   PLAYER_WINNING,
   PLAYER_BACKFLIPPING,
-  PLAYER_BUTTJUMPING,
   PLAYER_WANTS_BUTTJUMP,
+  PLAYER_BUTTJUMPING,
+  PLAYER_BUTTJUMP_STOMP,
   PLAYER_CAN_JUMP,
+  PLAYER_CAN_WALLJUMP,
   PLAYER_SLIDING,
-  PLAYER_SLIDE_JUMPING,
+  PLAYER_SLIDEJUMPING,
+  PLAYER_SLIDEJUMP,
   PLAYER_SWIMMING,
   PLAYER_SWIMBOOSTING,
+  PLAYER_WATER_JUMP,
   PLAYER_CRAWLING,
+  PLAYER_GROWING,
   PLAYER_STONE,
   PLAYER_ON_ICE,
+  PLAYER_ON_GROUND,
   PLAYER_IS_GROWING,
   PLAYER_GHOST,
   PLAYER_FALLING,
+  PLAYER_NO_WATER,
   PLAYERSTATE_SIZE,
 };
 
@@ -320,11 +327,11 @@ public:
 
   inline bool is_dead() const { return m_state.get(PLAYER_DEAD); }
   inline bool is_big() const { return get_bonus() != BONUS_NONE; }
-  inline bool is_stone() const { return m_stone; }
-  inline bool is_sliding() const { return m_sliding; }
-  inline bool is_swimming() const { return m_swimming; }
-  inline bool is_swimboosting() const { return m_swimboosting; }
-  inline bool is_water_jumping() const { return m_water_jump; }
+  inline bool is_stone() const { return m_state.get(PLAYER_STONE); }
+  inline bool is_sliding() const { return m_state.get(PLAYER_SLIDING); }
+  inline bool is_swimming() const { return m_state.get(PLAYER_SWIMMING); }
+  inline bool is_swimboosting() const { return m_state.get(PLAYER_SWIMBOOSTING); }
+  inline bool is_water_jumping() const { return m_state.get(PLAYER_WATER_JUMP); }
   inline bool is_skidding() const { return m_skidding_timer.started(); }
   inline float get_swimming_angle() const { return m_swimming_angle; }
 
@@ -340,8 +347,8 @@ public:
    */
   inline bool get_visible() const { return m_visible; }
 
-  inline bool on_ground() const { return m_on_ground_flag; }
-  inline void set_on_ground(bool flag) { m_on_ground_flag = flag; }
+  inline bool on_ground() const { return m_state.get(PLAYER_ON_GROUND); }
+  inline void set_on_ground(bool flag) { m_state.set(PLAYER_ON_GROUND, flag); }
 
   inline Portable* get_grabbed_object() const { return m_grabbed_object; }
   inline void stop_grabbing() { ungrab_object(); }
@@ -363,7 +370,7 @@ public:
    * @scripting
    * @description Returns whether ghost mode is currently enabled.
    */
-  inline bool get_ghost_mode() const { return m_ghost_mode; }
+  inline bool get_ghost_mode() const { return m_state.get(PLAYER_GHOST); }
 
   /** Changes height of bounding box.
       Returns true if successful, false otherwise */
@@ -523,6 +530,9 @@ private:
 
   void stop_rolling(bool violent = true);
 
+public:  
+  ObjectState m_state;
+
 private:
   int m_id;
   std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */
@@ -531,27 +541,18 @@ private:
   const Controller* m_controller;
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
-  
-  ObjectState m_state;
+
   int  m_backflip_direction;
   Direction m_peekingX;
   Direction m_peekingY;
-  bool m_stone;
-  bool m_sliding;
-  bool m_slidejumping;
-  bool m_swimming;
-  bool m_swimboosting;
-  bool m_no_water;
   bool m_on_left_wall;
   bool m_on_right_wall;
   bool m_in_walljump_tile;
-  bool m_can_walljump;
   float m_boost;
   float m_speedlimit;
   bool m_velocity_override;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
-  bool m_on_ice;
   bool m_ice_this_frame;
   //SpritePtr m_santahatsprite;
   SpritePtr m_multiplayer_arrow;
@@ -573,16 +574,10 @@ public:
   FallMode m_fall_mode;
 
 private:
-  bool m_on_ground_flag;
-  bool m_jumping;
-  bool m_can_jump;
   Timer m_jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
   Timer m_coyote_timer; /**< started when Tux falls off a ledge; runs until Tux jumps or COYOTE_TIME runs out */
-  bool m_wants_buttjump;
-  bool m_buttjump_stomp;
 
 public:
-  bool m_does_buttjump;
   Timer m_invincible_timer;
 
 private:
@@ -597,7 +592,6 @@ public:
 
 private:
   Timer m_second_growup_sound_timer;
-  bool m_growing;
   Timer m_backflip_timer;
 
   Physic m_physic;
@@ -614,7 +608,6 @@ private:
 
   float m_swimming_angle;
   float m_swimming_accel_modifier;
-  bool m_water_jump;
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
@@ -624,7 +617,6 @@ private:
 
   Vector m_floor_normal;
 
-  bool m_ghost_mode; /**< indicates if Tux should float around and through solid objects */
 
   Timer m_unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
 

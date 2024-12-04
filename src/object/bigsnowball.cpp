@@ -142,7 +142,7 @@ BigSnowball::collision(MovingObject& other, const CollisionHit& hit)
   }
 
   auto player = dynamic_cast<Player*>(&other); // cppcheck-suppress constVariablePointer
-  if (player && player->m_does_buttjump && hit.top)
+  if (player && player->m_state.get(PLAYER_BUTTJUMPING) && hit.top)
   {
     spawn_particles();
     return ABORT_MOVE;

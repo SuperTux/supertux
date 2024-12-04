@@ -302,7 +302,7 @@ BonusBlock::collision(MovingObject& other, const CollisionHit& hit_)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
-    if (player->m_does_buttjump ||
+    if (player->m_state.get(PLAYER_BUTTJUMPING) ||
       (player->is_swimboosting() && player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA))
     {
       try_drop(player);
