@@ -166,8 +166,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
   m_state(PLAYERSTATE_SIZE),
-  m_winning(false),
-  m_backflipping(false),
   m_backflip_direction(0),
   m_peekingX(Direction::AUTO),
   m_peekingY(Direction::AUTO),
@@ -285,7 +283,7 @@ void
 Player::set_winning()
 {
   if (!is_winning()) {
-    m_winning = true;
+    m_state.set(PLAYER_WINNING, true);
     m_invincible_timer.start(10000.0f);
   }
 }
@@ -450,7 +448,7 @@ Player::update(float dt_sec)
 
   //catch-all for other circumstances in which Tux's hitbox can't be properly adjusted
   if (is_big() &&
-    !m_state.get(PLAYER_DUCK) && !m_swimming && !m_water_jump && !m_backflipping && !m_sliding && !m_stone &&
+    !m_state.get(PLAYER_DUCK) && !m_swimming && !m_water_jump && !m_state.get(PLAYER_BACKFLIPPING) && !m_sliding && !m_stone &&
     !adjust_height(BIG_TUX_HEIGHT))
   {
     //Force Tux's box up a little in order to not phase into floor
@@ -600,7 +598,8 @@ Player::update(float dt_sec)
         m_swimming_angle = math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()));
         if (is_big())
           adjust_height(TUX_WIDTH);
-        m_wants_buttjump = m_does_buttjump = m_backflipping = false;
+        m_wants_buttjump = m_does_buttjump = false;
+        m_state.set(PLAYER_BACKFLIPPING, false);
         m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
         SoundManager::current()->play("sounds/splash.wav", get_pos());
       }
@@ -702,7 +701,7 @@ Player::update(float dt_sec)
   }
 
   // handle backflipping
-  if (m_backflipping && !m_state.get(PLAYER_DYING)) {
+  if (m_state.get(PLAYER_BACKFLIPPING) && !m_state.get(PLAYER_DYING)) {
     //prevent player from changing direction when backflipping
     m_dir = (m_backflip_direction == 1) ? Direction::LEFT : Direction::RIGHT;
     if (m_backflip_timer.started()) m_physic.set_velocity_x(100.0f * static_cast<float>(m_backflip_direction));
@@ -727,8 +726,8 @@ Player::update(float dt_sec)
   // check if we landed
   if (on_ground()) {
     m_jumping = false;
-    if (m_backflipping && (m_backflip_timer.get_timegone() > 0.15f)) {
-      m_backflipping = false;
+    if (m_state.get(PLAYER_BACKFLIPPING) && (m_backflip_timer.get_timegone() > 0.15f)) {
+      m_state.set(PLAYER_BACKFLIPPING, false);
       m_backflip_direction = 0;
       m_physic.set_velocity_x(0);
       if (!m_stone && !m_sliding) {
@@ -1341,7 +1340,7 @@ Player::do_standup()
 void
 Player::do_standup(bool force_standup)
 {
-  if (!m_state.get(PLAYER_DUCK) || !is_big() || m_backflipping || m_stone)
+  if (!m_state.get(PLAYER_DUCK) || !is_big() || m_state.get(PLAYER_BACKFLIPPING) || m_stone)
   {
     m_state.set(PLAYER_CRAWL, false);
     return;
@@ -1379,7 +1378,7 @@ Player::do_backflip() {
     return;
 
   m_backflip_direction = (m_dir == Direction::LEFT)?(+1):(-1);
-  m_backflipping = true;
+  m_state.set(PLAYER_BACKFLIPPING, true);
   do_jump((get_bonus() == BONUS_AIR) ? -720.0f : -580.0f);
   SoundManager::current()->play("sounds/flip.wav", get_pos());
   m_backflip_timer.start(TUX_BACKFLIP_TIME);
@@ -1479,7 +1478,7 @@ Player::handle_vertical_input()
 
   // Let go of jump key
   else if (!m_controller->hold(Control::JUMP)) {
-    if (!m_backflipping && m_jumping && m_physic.get_velocity_y() < 0) {
+    if (!m_state.get(PLAYER_BACKFLIPPING) && m_jumping && m_physic.get_velocity_y() < 0) {
       m_jumping = false;
 
       if (m_sliding)
@@ -1520,7 +1519,7 @@ Player::handle_vertical_input()
   }
 
   //The real walljumping magic
-  if (m_controller->pressed(Control::JUMP) && m_can_walljump && !m_backflipping)
+  if (m_controller->pressed(Control::JUMP) && m_can_walljump && !m_state.get(PLAYER_BACKFLIPPING))
   {
     SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav", get_pos());
     m_physic.set_velocity_x(get_bonus() == BONUS_AIR ?
@@ -1570,7 +1569,7 @@ Player::handle_input()
 
   if (!m_swimming)
   {
-    if (!m_water_jump && !m_backflipping && !m_sliding)
+    if (!m_water_jump && !m_state.get(PLAYER_BACKFLIPPING) && !m_sliding)
     {
       m_sprite->set_angle(0);
       //m_santahatsprite->set_angle(0);
@@ -1601,7 +1600,7 @@ Player::handle_input()
     m_peekingY = Direction::DOWN;
 
   /* Handle horizontal movement: */
-  if (!m_backflipping && !m_stone && !m_swimming && !m_sliding) handle_horizontal_input();
+  if (!m_state.get(PLAYER_BACKFLIPPING) && !m_stone && !m_swimming && !m_sliding) handle_horizontal_input();
 
   /* Jump/jumping? */
   if (on_ground())
@@ -1735,7 +1734,7 @@ Player::handle_input()
   }
 
   /* stop backflipping at will */
-  if ( m_backflipping && ( !m_controller->hold(Control::JUMP) && !m_backflip_timer.started()) ){
+  if ( m_state.get(PLAYER_BACKFLIPPING) && ( !m_controller->hold(Control::JUMP) && !m_backflip_timer.started()) ){
     stop_backflipping();
   }
 
@@ -2094,7 +2093,7 @@ Player::draw(DrawingContext& context)
     if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
       m_sprite->pause_animation();
   }
-  else if (m_backflipping) {
+  else if (m_state.get(PLAYER_BACKFLIPPING)) {
     set_action(sa_prefix+"-backflip"+sa_postfix);
   }
   else if (m_sliding) {
@@ -2682,7 +2681,7 @@ Player::start_climbing(Climbable& climbable)
   m_physic.enable_gravity(false);
   m_physic.set_velocity(0, 0);
   m_physic.set_acceleration(0, 0);
-  if (m_backflipping) {
+  if (m_state.get(PLAYER_BACKFLIPPING)) {
     stop_backflipping();
     do_standup(true);
   }
@@ -2775,7 +2774,7 @@ Player::handle_input_rolling()
 
   // Let go of jump key
   else if (!m_controller->hold(Control::JUMP)) {
-    if (!m_backflipping && m_jumping && m_physic.get_velocity_y() < 0) {
+    if (!m_state.get(PLAYER_BACKFLIPPING) && m_jumping && m_physic.get_velocity_y() < 0) {
       m_jumping = false;
       early_jump_apex();
     }
@@ -2838,7 +2837,7 @@ Player::handle_input_rolling()
 void
 Player::stop_backflipping()
 {
-  m_backflipping = false;
+  m_state.set(PLAYER_BACKFLIPPING, false);
   m_backflip_direction = 0;
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);

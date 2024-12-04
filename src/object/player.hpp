@@ -131,7 +131,7 @@ public:
   inline void set_controller(const Controller* controller) { m_controller = controller; }
   /** Level solved. Don't kill Tux any more. */
   void set_winning();
-  inline bool is_winning() const { return m_winning; }
+  inline bool is_winning() const { return m_state.get(PLAYER_WINNING); }
 
   // Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
   inline void set_speedlimit(float limit) { m_speedlimit = limit; }
@@ -533,10 +533,6 @@ private:
   PlayerStatus& m_player_status;
   
   ObjectState m_state;
-  bool m_dead;
-  bool m_dying;
-  bool m_winning;
-  bool m_backflipping;
   int  m_backflip_direction;
   Direction m_peekingX;
   Direction m_peekingY;
