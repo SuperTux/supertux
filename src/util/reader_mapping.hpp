@@ -54,8 +54,9 @@ public:
   bool get(const char* key, std::vector<std::string>& value, const std::optional<std::vector<std::string>>& default_value = std::nullopt) const;
   bool get(const char* key, std::vector<unsigned int>& value, const std::optional<std::vector<unsigned int>>& default_value = std::nullopt) const;
 
-  // Reads vector by merging all negative values into "merge_value", repeated as much as the absolute value of the negative value.
-  bool get_merge(const char* key, std::vector<unsigned int>& value, unsigned int merge_value) const;
+  // Reads vector by using any negative integer values as a multiplier for the next value.
+  bool get_compressed(const char* key, std::vector<unsigned int>& value,
+                      const std::optional<std::vector<unsigned int>>& default_value = std::nullopt) const;
 
   bool get(const char* key, std::optional<ReaderMapping>&) const;
   bool get(const char* key, std::optional<ReaderCollection>&) const;

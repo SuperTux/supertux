@@ -176,7 +176,7 @@ TileMap::parse_tiles(const ReaderMapping& reader)
   }
   else
   {
-    reader.get_merge("tiles", m_tiles, 0);
+    reader.get_compressed("tiles", m_tiles);
     if (m_tiles.empty())
       throw std::runtime_error("No tiles in tilemap.");
 
@@ -211,7 +211,7 @@ TileMap::write_tiles(Writer& writer) const
 {
   writer.write("width", m_width);
   writer.write("height", m_height);
-  writer.write_merge("tiles", m_tiles, 0, m_width);
+  writer.write_compressed("tiles", m_tiles, m_width);
 }
 
 void

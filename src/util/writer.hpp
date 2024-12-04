@@ -50,8 +50,8 @@ public:
   void write(const std::string& name, const sexp::Value& value);
   // add more write-functions when needed...
 
-  // Writes vector by merging all occurences of "merge_value" into -{occurences}.
-  void write_merge(const std::string& name, const std::vector<unsigned int>& value, unsigned int merge_value, int width = 0);
+  // Writes vector by using negative integer values as multipliers for repeating values.
+  void write_compressed(const std::string& name, const std::vector<unsigned int>& value, int width = 0);
 
   void end_list(const std::string& listname);
 

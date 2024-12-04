@@ -249,7 +249,7 @@ Writer::write(const std::string& name, const sexp::Value& value)
 }
 
 void
-Writer::write_merge(const std::string& name, const std::vector<unsigned int>& value, unsigned int merge_value, int width)
+Writer::write_compressed(const std::string& name, const std::vector<unsigned int>& value, int width)
 {
   indent();
   *out << '(' << name;
@@ -260,40 +260,41 @@ Writer::write_merge(const std::string& name, const std::vector<unsigned int>& va
   }
 
   int count = 0;
-  int merge_count = 0;
+  int multiplier = 0;
+  unsigned int multiplied_value = 0;
   for (const auto& i : value)
   {
-    const bool merge_value_match = (i == merge_value);
-    if (merge_value_match)
+    const bool width_limit = (width > 0 && count >= width);
+
+    ++count;
+    if (multiplier > 0 && i == multiplied_value)
     {
-      ++merge_count;
+      ++multiplier;
     }
     else
     {
-      if (merge_count)
-      {
-        *out << -merge_count << " ";
-        merge_count = 0;
-      }
-      *out << i;
+      if (multiplier > 1)
+        *out << -multiplier << " " << multiplied_value << (width_limit ? "" : " ");
+      else if (multiplier == 1)
+        *out << multiplied_value << (width_limit ? "" : " ");
+
+      multiplier = 1;
+      multiplied_value = i;
     }
-    ++count;
 
     if (width > 0 && count >= width)
     {
+      if (multiplier > 1)
+        *out << -multiplier << " " << multiplied_value;
+      else if (multiplier == 1)
+        *out << multiplied_value;
+
       count = 0;
-      if (merge_count)
-      {
-        *out << -merge_count;
-        merge_count = 0;
-      }
+      multiplier = 0;
+      multiplied_value = 0;
 
       *out << "\n";
       indent();
-    }
-    else if (!merge_value_match)
-    {
-      *out << " ";
     }
   }
 

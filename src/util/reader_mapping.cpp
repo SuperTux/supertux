@@ -201,30 +201,53 @@ ReaderMapping::get(const char* key, std::vector<unsigned int>& value,
   GET_VALUES_MACRO("unsigned int", is_integer, as_int)
 }
 
+#undef GET_VALUES_MACRO
+
 bool
-ReaderMapping::get_merge(const char* key, std::vector<unsigned int>& value, unsigned int merge_value) const
+ReaderMapping::get_compressed(const char* key, std::vector<unsigned int>& value,
+                              const std::optional<std::vector<unsigned int>>& default_value) const
 {
   const auto sx = get_item(key);
   if (!sx)
+  {
+    if (default_value)
+      value = *default_value;
     return false;
+  }
 
   assert_is_array(m_doc, *sx);
   value.clear();
   const auto& item = sx->as_array();
+  int multiplier = 0;
   for (size_t i = 1; i < item.size(); ++i)
   {
     assert_is_integer(m_doc, item[i]);
 
     const int val = item[i].as_int();
-    if (val < 0)
-      value.insert(value.end(), -val, merge_value);
+    if (multiplier)
+    {
+      if (val < 0)
+      {
+        raise_exception(m_doc, item[i], "expected positive integer after multiplier");
+      }
+      value.insert(value.end(), multiplier, val);
+      multiplier = 0;
+    }
+    else if (val < 0)
+    {
+      multiplier = -val;
+    }
     else
-      value.emplace_back(val);
+    {
+      value.push_back(val);
+    }
+  }
+  if (multiplier)
+  {
+    raise_exception(m_doc, item.back(), "expected positive integer after multiplier");
   }
   return true;
 }
-
-#undef GET_VALUES_MACRO
 
 bool
 ReaderMapping::get(const char* key, std::optional<ReaderMapping>& value) const
