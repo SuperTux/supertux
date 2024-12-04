@@ -260,38 +260,38 @@ Writer::write_compressed(const std::string& name, const std::vector<unsigned int
   }
 
   int count = 0;
-  int multiplier = 0;
-  unsigned int multiplied_value = 0;
+  int repeater = 0;
+  unsigned int repeated_value = 0;
   for (const auto& i : value)
   {
     const bool width_limit = (width > 0 && count >= width);
 
     ++count;
-    if (multiplier > 0 && i == multiplied_value)
+    if (repeater > 0 && i == repeated_value)
     {
-      ++multiplier;
+      ++repeater;
     }
     else
     {
-      if (multiplier > 1)
-        *out << -multiplier << " " << multiplied_value << (width_limit ? "" : " ");
-      else if (multiplier == 1)
-        *out << multiplied_value << (width_limit ? "" : " ");
+      if (repeater > 1)
+        *out << -repeater << " " << repeated_value << (width_limit ? "" : " ");
+      else if (repeater == 1)
+        *out << repeated_value << (width_limit ? "" : " ");
 
-      multiplier = 1;
-      multiplied_value = i;
+      repeater = 1;
+      repeated_value = i;
     }
 
     if (width > 0 && count >= width)
     {
-      if (multiplier > 1)
-        *out << -multiplier << " " << multiplied_value;
-      else if (multiplier == 1)
-        *out << multiplied_value;
+      if (repeater > 1)
+        *out << -repeater << " " << repeated_value;
+      else if (repeater == 1)
+        *out << repeated_value;
 
       count = 0;
-      multiplier = 0;
-      multiplied_value = 0;
+      repeater = 0;
+      repeated_value = 0;
 
       *out << "\n";
       indent();
