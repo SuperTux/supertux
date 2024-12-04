@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13]
+        os: [macos-latest]
         build_type: [Debug, Release]
         glbinding: [ON, OFF]
         include:
@@ -49,7 +49,7 @@ jobs:
           submodules: recursive
 
       - name: Install macos dependencies
-        if: ${{ matrix.os == 'macos-12' }}
+        if: ${{ matrix.os == 'macos-latest' }}
         run: |
           # Use GLM 1.0.0 as later versions don't build with clang
           HOMEBREW_NO_AUTO_UPDATE=1 brew install --formula ./mk/brew/glm.rb --build-from-source
