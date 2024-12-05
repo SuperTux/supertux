@@ -106,12 +106,12 @@ For ease of use, here are some installation lines for some Linux distributions:
 
 - Ubuntu 18.04/20.04:
   ```
-  sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libsdl2-dev libsdl2-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev
+  sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libsdl2-dev libsdl2-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev libfmt-dev libsdl2-ttf-dev libphysfs-dev
   ```
 
 - ArchLinux (using sudo, as of August 28th 2024)
   ```
-  sudo pacman -S cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib
+  sudo pacman -S cmake base-devel libogg libvorbis openal sdl2 sdl2_image sdl2_ttf freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib fmt physfs
   ```
 
 ### Linux/UNIX using CMake
