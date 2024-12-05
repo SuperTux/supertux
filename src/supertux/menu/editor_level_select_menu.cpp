@@ -83,7 +83,9 @@ EditorLevelSelectMenu::initialize()
   }
 
   add_hl();
-  
+  add_entry(-7, _("Compress All"));
+
+  add_hl();
   add_entry(-1, _("Create Level"));
 
   std::string worldmap_file = FileSystem::join(basedir, "worldmap.stwm");
@@ -219,6 +221,17 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
       case -6:
         create_worldmap();
         break;
+      case -7:
+      {
+        for (int i = 0; i < m_levelset->get_num_levels(); ++i)
+        {
+          const std::string full_filename = FileSystem::join(get_world()->get_basedir(), m_levelset->get_level_filename(i));
+          LevelParser::from_file(full_filename, false, true)->save(full_filename);
+        }
+        const std::string full_filename = FileSystem::join(get_world()->get_basedir(), "worldmap.stwm");
+        LevelParser::from_file(full_filename, false, true)->save(full_filename);
+        break;
+      }
       default:
         break;
     }
