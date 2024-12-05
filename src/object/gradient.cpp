@@ -34,8 +34,8 @@
 
 Gradient::Gradient() :
   m_layer(LAYER_BACKGROUND0),
-  m_gradient_top(),
-  m_gradient_bottom(),
+  m_gradient_top(0.3f, 0.4f, 0.75f),
+  m_gradient_bottom(1, 1, 1),
   m_gradient_direction(),
   m_blend(),
   m_target(DrawingTarget::COLORMAP),
@@ -51,8 +51,8 @@ Gradient::Gradient() :
 Gradient::Gradient(const ReaderMapping& reader) :
   LayerObject(reader),
   m_layer(LAYER_BACKGROUND0),
-  m_gradient_top(),
-  m_gradient_bottom(),
+  m_gradient_top(0.3f, 0.4f, 0.75f),
+  m_gradient_bottom(1, 1, 1),
   m_gradient_direction(),
   m_blend(),
   m_target(DrawingTarget::COLORMAP),
@@ -75,17 +75,11 @@ Gradient::Gradient(const ReaderMapping& reader) :
     set_direction(VERTICAL);
   }
 
-  if (reader.get("top_color", bkgd_top_color)) {
+  if (reader.get("top_color", bkgd_top_color))
     m_gradient_top = Color(bkgd_top_color);
-  } else {
-    m_gradient_top = Color(0.3f, 0.4f, 0.75f);
-  }
 
-  if (reader.get("bottom_color", bkgd_bottom_color)) {
+  if (reader.get("bottom_color", bkgd_bottom_color))
     m_gradient_bottom = Color(bkgd_bottom_color);
-  } else {
-    m_gradient_bottom = Color(1, 1, 1);
-  }
 
   reader.get_custom("blend", m_blend, Blend_from_string);
   reader.get_custom("target", m_target, DrawingTarget_from_string);

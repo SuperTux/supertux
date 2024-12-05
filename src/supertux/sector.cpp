@@ -107,10 +107,10 @@ Sector::finish_construction(bool editable)
     convert_tiles2gameobject();
 
     if (!m_level.is_worldmap() &&
-        (get_object_count<Background>() <= 0 || get_object_count<Gradient>() <= 0))
+        (get_object_count<Background>() <= 0 && get_object_count<Gradient>() <= 0))
     {
-      auto& gradient = add<Gradient>();
-      gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
+      log_warning << "sector '" << get_name() << "' does not contain a background or gradient. Setting a default gradient." << std::endl;
+      add<Gradient>();
     }
   }
 
