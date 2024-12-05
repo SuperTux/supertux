@@ -179,6 +179,6 @@
   (mirror-action "ticking-left"))
 
   (linked-sprites
-    (ticking-glow "images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite")
+    (ticking-glow "images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite" "exploding")
   )
 )

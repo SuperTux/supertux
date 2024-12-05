@@ -82,6 +82,18 @@ WeakBlock::get_linked_sprites()
 }
 
 void
+WeakBlock::on_sprite_update()
+{
+  MovingSprite::on_sprite_update();
+
+  if (m_type == HAY)
+  {
+    m_burn_sprite->set_blend(Blend::ADD);
+    m_burn_sprite->set_color(Color(0.3f, 0.2f, 0.1f));
+  }
+}
+
+void
 WeakBlock::update_version()
 {
   // Use ICE as default, when migrating from version 1.

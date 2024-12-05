@@ -51,6 +51,8 @@ public:
 protected:
   LinkedSprites get_linked_sprites() override;
 
+  void on_sprite_update() override;
+
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 
