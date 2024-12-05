@@ -229,7 +229,7 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
           LevelParser::from_file(full_filename, false, true)->save(full_filename);
         }
         const std::string full_filename = FileSystem::join(get_world()->get_basedir(), "worldmap.stwm");
-        LevelParser::from_file(full_filename, false, true)->save(full_filename);
+        LevelParser::from_file(full_filename, true, true)->save(full_filename);
         break;
       }
       default:
