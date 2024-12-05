@@ -19,6 +19,7 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 #define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 
+#include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
 #include "control/controller.hpp"
@@ -30,7 +31,8 @@ class TileSet;
 
 namespace worldmap {
 
-class WorldMap final : public Currenton<WorldMap>
+class WorldMap final : public Screen,
+                       public Currenton<WorldMap>
 {
   friend class WorldMapSector;
   friend class WorldMapState;
@@ -44,12 +46,13 @@ public:
   WorldMap(const std::string& filename, Savegame& savegame,
            const std::string& force_sector = "", const std::string& force_spawnpoint = "");
 
-  void setup();
-  void leave();
+  void setup() override;
+  void leave() override;
 
-  void draw(DrawingContext& context);
-  void update(float dt_sec);
-  void process_input(const Controller& controller);
+  void draw(Compositor& compositor) override;
+  void update(float dt_sec, const Controller& controller) override;
+
+  IntegrationStatus get_status() const override;
 
   size_t level_count() const;
   size_t solved_level_count() const;
@@ -95,6 +98,8 @@ public:
   bool is_item_pocket_allowed() const { return m_allow_item_pocket; }
 
 private:
+  void process_input(const Controller& controller);
+
   void on_escape_press();
 
 private:

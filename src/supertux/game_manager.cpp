@@ -32,7 +32,6 @@
 #include "util/reader_mapping.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
-#include "worldmap/worldmap_screen.hpp"
 
 GameManager::GameManager() :
   m_savegame(),
@@ -81,8 +80,7 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
     }
 
     auto worldmap = std::make_unique<worldmap::WorldMap>(filename, *m_savegame, sector, spawnpoint);
-    auto worldmap_screen = std::make_unique<worldmap::WorldMapScreen>(std::move(worldmap));
-    ScreenManager::current()->push_screen(std::move(worldmap_screen));
+    ScreenManager::current()->push_screen(std::move(worldmap));
 
     if (!Editor::current())
       m_savegame->get_profile().set_last_world(world.get_basename());

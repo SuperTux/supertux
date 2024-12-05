@@ -88,7 +88,6 @@ extern "C" {
 #include "video/sdl_surface_ptr.hpp"
 #include "video/ttf_surface_manager.hpp"
 #include "worldmap/worldmap.hpp"
-#include "worldmap/worldmap_screen.hpp"
 
 static Timelog s_timelog;
 
@@ -604,8 +603,7 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else if (StringUtil::has_suffix(start_level, ".stwm"))
       {
-        m_screen_manager->push_screen(std::make_unique<worldmap::WorldMapScreen>(
-                                     std::make_unique<worldmap::WorldMap>(filename, *m_savegame)));
+        m_screen_manager->push_screen(std::make_unique<worldmap::WorldMap>(filename, *m_savegame));
       }
       else
       { // launch game
