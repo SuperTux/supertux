@@ -157,6 +157,7 @@ ReaderMapping::get(const char* key, std::string& value, const std::optional<cons
     assert_is_array(m_doc, *sx);                                        \
     value.clear();                                                      \
     auto const& item = sx->as_array();                                  \
+    value.reserve(item.size());                                         \
     for (size_t i = 1; i < item.size(); ++i)                            \
     {                                                                   \
       assert_##checker(m_doc, item[i]);                                 \
@@ -218,6 +219,8 @@ ReaderMapping::get_compressed(const char* key, std::vector<unsigned int>& value,
   assert_is_array(m_doc, *sx);
   value.clear();
   const auto& item = sx->as_array();
+  value.reserve(item.size());
+
   int repeater = 0;
   for (size_t i = 1; i < item.size(); ++i)
   {
@@ -228,7 +231,7 @@ ReaderMapping::get_compressed(const char* key, std::vector<unsigned int>& value,
     {
       if (val < 0)
       {
-        raise_exception(m_doc, item[i], "expected positive integer after multiplier");
+        raise_exception(m_doc, item[i], "expected positive integer after repeater");
       }
       value.insert(value.end(), repeater, val);
       repeater = 0;
@@ -244,7 +247,7 @@ ReaderMapping::get_compressed(const char* key, std::vector<unsigned int>& value,
   }
   if (repeater)
   {
-    raise_exception(m_doc, item.back(), "expected positive integer after multiplier");
+    raise_exception(m_doc, item.back(), "expected positive integer after repeater");
   }
   return true;
 }
