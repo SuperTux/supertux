@@ -70,12 +70,12 @@ Level::~Level()
 }
 
 void
-Level::initialize(const Statistics::Preferences& stat_preferences)
+Level::initialize()
 {
   if (m_sectors.empty())
     throw std::runtime_error("Level has no sectors!");
 
-  m_stats.init(*this, stat_preferences);
+  m_stats.init(*this);
 
   Savegame* savegame = (GameSession::current() && !Editor::is_active() ?
     &GameSession::current()->get_savegame() : nullptr);

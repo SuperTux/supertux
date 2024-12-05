@@ -71,7 +71,7 @@ public:
   inline const std::string& get_license() const { return m_license; }
 
 private:
-  void initialize(const Statistics::Preferences& stat_preferences);
+  void initialize();
 
   void save(Writer& writer);
   void load_old_format(const ReaderMapping& reader);
