@@ -252,7 +252,7 @@ void
 Writer::write_compressed(const std::string& name, const std::vector<unsigned int>& value)
 {
   indent();
-  *out << '(' << name;
+  *out << '(' << name << ' ';
 
   int repeater = 0;
   unsigned int repeated_value = 0;
@@ -265,21 +265,18 @@ Writer::write_compressed(const std::string& name, const std::vector<unsigned int
     else
     {
       if (repeater > 1)
-        *out << -repeater << " " << repeated_value;
+        *out << -repeater << ' ' << repeated_value << (i == value.size() - 1 ? "" : " ");
       else if (repeater == 1)
-        *out << repeated_value;
-
-      if (i != value.size() - 1)
-        *out << " ";
+        *out << repeated_value << (i == value.size() - 1 ? "" : " ");
 
       repeater = 1;
       repeated_value = value[i];
     }
   }
   if (repeater > 1)
-    *out << " " << -repeater << " " << repeated_value;
+    *out << ' ' << -repeater << ' ' << repeated_value;
   else if (repeater == 1)
-    *out << " " << repeated_value;
+    *out << ' ' << repeated_value;
 
   *out << ")\n";
 }
