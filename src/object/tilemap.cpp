@@ -176,7 +176,7 @@ TileMap::parse_tiles(const ReaderMapping& reader)
   }
   else
   {
-    reader.get("tiles", m_tiles);
+    reader.get_compressed("tiles", m_tiles);
     if (m_tiles.empty())
       throw std::runtime_error("No tiles in tilemap.");
 
@@ -204,6 +204,14 @@ TileMap::parse_tiles(const ReaderMapping& reader)
   m_new_size_y = m_height;
   m_new_offset_x = 0;
   m_new_offset_y = 0;
+}
+
+void
+TileMap::write_tiles(Writer& writer) const
+{
+  writer.write("width", m_width);
+  writer.write("height", m_height);
+  writer.write_compressed("tiles", m_tiles);
 }
 
 void
