@@ -211,7 +211,7 @@ TileMap::write_tiles(Writer& writer) const
 {
   writer.write("width", m_width);
   writer.write("height", m_height);
-  writer.write_compressed("tiles", m_tiles, m_width);
+  writer.write_compressed("tiles", m_tiles);
 }
 
 void

@@ -249,54 +249,37 @@ Writer::write(const std::string& name, const sexp::Value& value)
 }
 
 void
-Writer::write_compressed(const std::string& name, const std::vector<unsigned int>& value, int width)
+Writer::write_compressed(const std::string& name, const std::vector<unsigned int>& value)
 {
   indent();
   *out << '(' << name;
-  if (width > 0)
-  {
-    *out << "\n";
-    indent();
-  }
 
-  int count = 0;
   int repeater = 0;
   unsigned int repeated_value = 0;
-  for (const auto& i : value)
+  for (size_t i = 0; i < value.size(); ++i)
   {
-    const bool width_limit = (width > 0 && count >= width);
-
-    ++count;
-    if (repeater > 0 && i == repeated_value)
+    if (repeater > 0 && value[i] == repeated_value)
     {
       ++repeater;
     }
     else
     {
       if (repeater > 1)
-        *out << -repeater << " " << repeated_value << (width_limit ? "" : " ");
-      else if (repeater == 1)
-        *out << repeated_value << (width_limit ? "" : " ");
-
-      repeater = 1;
-      repeated_value = i;
-    }
-
-    if (width > 0 && count >= width)
-    {
-      if (repeater > 1)
         *out << -repeater << " " << repeated_value;
       else if (repeater == 1)
         *out << repeated_value;
 
-      count = 0;
-      repeater = 0;
-      repeated_value = 0;
+      if (i != value.size() - 1)
+        *out << " ";
 
-      *out << "\n";
-      indent();
+      repeater = 1;
+      repeated_value = value[i];
     }
   }
+  if (repeater > 1)
+    *out << " " << -repeater << " " << repeated_value;
+  else if (repeater == 1)
+    *out << " " << repeated_value;
 
   *out << ")\n";
 }
