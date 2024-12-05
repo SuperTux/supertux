@@ -493,7 +493,7 @@ Statistics::update_timers(float dt_sec)
 }
 
 void
-Statistics::init(const Level& level, const Statistics::Preferences& preferences)
+Statistics::init(const Level& level)
 {
   m_status = ACCUMULATING;
 
@@ -504,8 +504,6 @@ Statistics::init(const Level& level, const Statistics::Preferences& preferences)
   m_total_coins = level.get_total_coins();
   m_total_badguys = level.get_total_badguys();
   m_total_secrets = level.get_total_secrets();
-
-  m_preferences = preferences;
 }
 
 void

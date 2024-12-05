@@ -13,7 +13,7 @@
 # Jiří Paleček <narre@protonmail.com>, 2016,2018,2020
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2014
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2006
-# fri, 2013,2018,2021
+# fri, 2013,2018,2021,2024
 # Hume2 <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2024\n"
+"Last-Translator: fri, 2013,2018,2021,2024\n"
 "Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -508,7 +508,7 @@ msgstr "Trampolína"
 
 #: src/object/bonus_block.cpp:269
 msgid "Portable trampoline"
-msgstr "Přenosná trampolna"
+msgstr "Přenosná trampolína"
 
 #: src/object/bonus_block.cpp:269
 msgid "Coin rain"
@@ -938,7 +938,7 @@ msgstr "Hořící"
 
 #: src/object/explosion.hpp:35
 msgid "Explosion"
-msgstr "Exploze"
+msgstr "Výbuch"
 
 #: src/object/particle_zone.cpp:49 src/object/spotlight.cpp:104
 #: src/object/particlesystem.cpp:65
@@ -1130,11 +1130,11 @@ msgstr "Počáteční akce vzhledu světla"
 
 #: src/object/lit_object.cpp:75
 msgid "Light sprite offset X"
-msgstr "Vodorovný offset světla"
+msgstr "Vodorovný posun světla"
 
 #: src/object/lit_object.cpp:76
 msgid "Light sprite offset Y"
-msgstr "Svislý offset světla"
+msgstr "Svislý posun světla"
 
 #: src/object/fallblock.hpp:41
 msgid "Falling Platform"
@@ -1310,7 +1310,7 @@ msgstr "Text"
 
 #: src/object/cloud_particle_system.cpp:124
 msgid "Fog Opacity"
-msgstr "Neprůhledost mlhy"
+msgstr "Neprůhlednost mlhy"
 
 #: src/object/cloud_particle_system.cpp:125
 msgid "X Speed"
@@ -1413,11 +1413,11 @@ msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
-msgstr "Tato úroveň obsahuje deprekované dlaždice.\nDoporučujeme je všechny nahradit, abys\nv budoucnosti předešel ztrátě kompatibility."
+msgstr "Tato úroveň obsahuje neschválené dlaždice.\nDoporučujeme je všechny nahradit, abys\nv budoucnosti předešel ztrátě kompatibility."
 
 #: src/editor/editor.cpp:587
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
-msgstr "Tip: Zapni možnost \"Zobrazit deprekované dlaždice\" z nabídky editoru."
+msgstr "Rada: Zapni možnost \"Zobrazit neschválené dlaždice\" z nabídky editoru."
 
 #: src/editor/editor.cpp:634
 msgid ""
@@ -1556,7 +1556,7 @@ msgid ""
 "\n"
 "Keep in mind this is very likely to break the proper behaviour of the object.\n"
 "Make sure to re-check any behaviour, related to the object."
-msgstr "Tato akce aktualizuje objekt pro nenovější funkcionalitu.\nPodívej se na \"Poznámky k verzi\" pro více informací.\n\nPamatuj, že tato akce pravděpodobně rozbije správné chování objektu.\nPo aktualizaci se ujisti, že vše funguje tak, jak má."
+msgstr "Tato akce aktualizuje objekt pro nejnovější funkcionalitu.\nPodívej se na \"Poznámky k verzi\" pro více informací.\n\nPamatuj, že tato akce pravděpodobně rozbije správné chování objektu.\nPo aktualizaci se ujisti, že vše funguje tak, jak má."
 
 #: src/editor/object_menu.cpp:98
 msgid "Patch notes for v{}:"
@@ -1584,11 +1584,11 @@ msgstr "Výška"
 
 #: src/editor/object_option.cpp:939
 msgid "Offset X"
-msgstr "Vodorovný offset"
+msgstr "Vodorovný posun"
 
 #: src/editor/object_option.cpp:940
 msgid "Offset Y"
-msgstr "Svislý offset"
+msgstr "Svislý posun"
 
 #: src/editor/object_option.cpp:961
 msgid "Test from here"
@@ -1600,11 +1600,11 @@ msgstr "Otevřít editor částic"
 
 #: src/editor/overlay_widget.cpp:1027
 msgid "Cannot select deprecated tiles"
-msgstr "Nelze vybrat deprekované dlaždice"
+msgstr "Nelze vybrat neschválené dlaždice"
 
 #: src/editor/overlay_widget.cpp:1610
 msgid "Autotile erasing mode is on (\"{}\")"
-msgstr "Režim mazání automatického vyhlazováí je zapnutý (\"{}\")"
+msgstr "Režim mazání automatického vyhlazování je zapnut (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1614
 msgid "Autotile erasing cannot be performed here"
@@ -1612,7 +1612,7 @@ msgstr "Mazání automatického vyhlazování zde nemůže být provedeno"
 
 #: src/editor/overlay_widget.cpp:1619
 msgid "Autotile mode is on (\"{}\")"
-msgstr "Automatické vyhlazování je zapnuté (\"{}\")"
+msgstr "Automatické vyhlazování je zapnuto (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1623
 msgid "Selected tile isn't autotileable"
@@ -1630,7 +1630,7 @@ msgstr "Podrž Ctrl pro použití automatického vyhlazování"
 msgid ""
 "This object's current functionality is deprecated.\n"
 "Updating to get its latest functionality is recommended."
-msgstr "Funkcionalita tohoto objektu je deprekovaná.\nDoporučujeme objekt aktualizovat."
+msgstr "Funkcionalita tohoto objektu je neschválená.\nDoporučujeme objekt aktualizovat."
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -1747,11 +1747,11 @@ msgstr "Velikost (x, y)"
 
 #: src/editor/particle_editor.cpp:332
 msgid "Hitbox scale (x, y)"
-msgstr "Velikost hitboxu (x, y)"
+msgstr "Velikost pole pro zásah (x, y)"
 
 #: src/editor/particle_editor.cpp:353
 msgid "Hitbox offset relative to scale"
-msgstr "Offset hitboxu relativně k velikosti"
+msgstr "Posun pole pro zásah poměrně k velikosti"
 
 #: src/editor/particle_editor.cpp:372
 msgid "Change texture..."
@@ -1835,7 +1835,7 @@ msgstr "doplňky"
 
 #: src/addon/addon_manager.cpp:563
 msgid "Only one resource pack is allowed to be enabled at a time."
-msgstr "Najednou nemůže být aktivních více balíčků zdrojů."
+msgstr "Najednou nemůže být činných více balíčků zdrojů."
 
 #: src/addon/addon_manager.cpp:827
 msgid "Add-on {} by {} is already installed."
@@ -2311,7 +2311,7 @@ msgstr "{} *AKTUALIZOVAT*"
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "{} [DISABLED] *UPDATE*"
-msgstr "{} [NEKATIVNÍ] *AKTUALIZOVAT*"
+msgstr "{} [NEAKTIVNÍ] *AKTUALIZOVAT*"
 
 #: src/supertux/menu/addon_menu.cpp:138
 msgid "{} [DISABLED]"
@@ -2360,7 +2360,7 @@ msgstr "Pro kontrolu aktualizací doplňků je nutné povolit přístup k Intern
 
 #: src/supertux/menu/addon_menu.cpp:220
 msgid "Checking for updates..."
-msgstr "Hledám aktualizace..."
+msgstr "Hledají se aktualizace..."
 
 #: src/supertux/menu/web_asset_menu.cpp:38 src/supertux/menu/main_menu.cpp:58
 msgid "Manage Assets"
@@ -2551,7 +2551,7 @@ msgstr "Znovu načíst zdroje"
 
 #: src/supertux/menu/debug_menu.cpp:87
 msgid "Reloads all fonts, textures, sprites and tilesets."
-msgstr "Znovu načíst všechny fonty, animace a sady dlaždic."
+msgstr "Znovu načíst všechna písma, animace a sady dlaždic."
 
 #: src/supertux/menu/debug_menu.cpp:89
 msgid "Dump Texture Cache"
@@ -2576,7 +2576,7 @@ msgstr "Konvertovat dlaždice podle souboru"
 
 #: src/supertux/menu/editor_converters_menu.cpp:76
 msgid "Convert all tiles in the current level by a file, specified above."
-msgstr "Konvertuje všechny dlaždice v současné úrovni podle výše specifikovaného souboru."
+msgstr "Konvertuje všechny dlaždice v současné úrovni podle výše zadaného souboru."
 
 #: src/supertux/menu/editor_converters_menu.cpp:89
 msgid "No tile conversion file selected."
@@ -2588,7 +2588,7 @@ msgid ""
 "\n"
 "Note: This should not be ran more than once on a level.\n"
 "Creating a separate copy of the level is highly recommended."
-msgstr "Tato akce konvertuje všechny dlaždice v úrovni. Pokračovat?\n\nPoznámka: tato akce by neměla být spuštěna více než jednou v jedné úrovni.\nDoporučujeme vytvořit oddělenou kopii této úrovně."
+msgstr "Tato akce převede všechny dlaždice v úrovni. Pokračovat?\n\nPoznámka: tato akce by neměla být spuštěna více než jednou v jedné úrovni.\nDoporučujeme vytvořit oddělenou kopii této úrovně."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:72
 msgid "Empty World"
@@ -2693,7 +2693,7 @@ msgstr "Zabít Tuxe"
 
 #: src/supertux/menu/cheat_menu.cpp:54
 msgid "Prevent Death"
-msgstr "Prevence smrti"
+msgstr "Zabránění smrti"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:71
 msgid "Choose World"
@@ -2834,21 +2834,21 @@ msgstr "Četnost automatického ukládání"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Check for Deprecated Tiles"
-msgstr "Zkontrolovat přítomnost deprekovaných dlaždic"
+msgstr "Zkontrolovat přítomnost neschválených dlaždic"
 
 #: src/supertux/menu/editor_menu.cpp:109
 msgid "Check if any deprecated tiles are currently present in the level."
-msgstr "Zkontroluje, zda tato úroveň obsahuje deprekované dlaždice."
+msgstr "Zkontroluje, zda tato úroveň obsahuje neschválené dlaždice."
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Show Deprecated Tiles"
-msgstr "Zobrazit deprekované dlaždice"
+msgstr "Zobrazit neschválené dlaždice"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Indicate all deprecated tiles on the active tilemap, without the need of "
 "hovering over."
-msgstr "Indikuje všechny deprekované dlaždice na aktivní mapě dlaždic bez nutnosti na ně ukázat myši."
+msgstr "Označuje všechny neschválené dlaždice na aktivní mapě dlaždic bez nutnosti na ně ukázat myší."
 
 #: src/supertux/menu/editor_menu.cpp:116
 #: src/supertux/menu/editor_level_menu.cpp:31
@@ -2912,7 +2912,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr "Klávesové zkratky:\n---------------------\nEsc = otevřít nabídku\nCtrl+S = uložit\nCtrl+T = otestovat úroveň\nCtrl+Z = krok zpět\nCtrl+Y = krok vpřed\nF5 = přepnout automatické vyhlazování\nF6 = vykreslovat světlo\nF7 = zarovnávat k mřížce\nF8 = ukázat/skrýt mřížku\nCtrl++ nebo Ctrl+kolečko myši nahoru = přiblížit\nCtrl+- nebo Ctrl+kolečko myši dolů = oddálit\nCtrl+D = resetovat přiblížení\n\nSkriptovací klávesové zkratky:\n---------------------\nHome = jít na začátek řádky\nEnd = jít na konec řádky\nŠipka doleva = jít zpět v textu\nŠipka doprava = jít vpřed v textu\nBackspace = mazat před kurzorem\nDelete = mazat za kurzorem\nCtrl+X = vyjmout celou řádku\nCtrl+C = kopírovat celou řádku\nCtrl+V = vložit\nCtrl+D = duplikovat řádku\nCtrl+Z = krok zpět\nCtrl+Y = krok vpřed"
+msgstr "Klávesové zkratky:\n---------------------\nEsc = otevřít nabídku\nCtrl+S = uložit\nCtrl+T = odzkoušet úroveň\nCtrl+Z = krok zpět\nCtrl+Y = krok vpřed\nF5 = přepnout automatické vyhlazování\nF6 = vykreslovat světlo\nF7 = zarovnávat k mřížce\nF8 = ukázat/skrýt mřížku\nCtrl++ nebo Ctrl+kolečko myši nahoru = přiblížit\nCtrl+- nebo Ctrl+kolečko myši dolů = oddálit\nCtrl+D = resetovat přiblížení\n\nSkriptovací klávesové zkratky:\n---------------------\nHome = jít na začátek řádky\nEnd = jít na konec řádky\nŠipka doleva = jít zpět v textu\nŠipka doprava = jít vpřed v textu\nBackspace = mazat před kurzorem\nDelete = mazat za kurzorem\nCtrl+X = vyjmout celou řádku\nCtrl+C = kopírovat celou řádku\nCtrl+V = vložit\nCtrl+D = duplikovat řádku\nCtrl+Z = krok zpět\nCtrl+Y = krok vpřed"
 
 #: src/supertux/menu/editor_menu.cpp:206
 #: src/supertux/menu/particle_editor_menu.cpp:122
@@ -2921,15 +2921,15 @@ msgstr "Rozumím!"
 
 #: src/supertux/menu/editor_menu.cpp:232
 msgid "Deprecated tiles are still present in the level."
-msgstr "V úrovni jsou stále přítomné deprekované dlaždice"
+msgstr "V úrovni jsou stále přítomné neschválené dlaždice"
 
 #: src/supertux/menu/editor_menu.cpp:239
 msgid "Do you want to show all deprecated tiles on active tilemaps?"
-msgstr "Chceš zobrazit všechny deprekované dlaždice na aktivních mapách dlaždic?"
+msgstr "Chceš zobrazit všechny neschválené dlaždice na aktivních mapách dlaždic?"
 
 #: src/supertux/menu/editor_menu.cpp:246
 msgid "There are no more deprecated tiles in the level!"
-msgstr "V úrovni již nejsou žádné deprekované dlaždice!"
+msgstr "V úrovni již nejsou žádné neschválené dlaždice!"
 
 #: src/supertux/menu/addon_preview_menu.cpp:84
 msgid "{} \"{}\""
@@ -2941,7 +2941,7 @@ msgstr "Některé informace o tomto doplňku jsou nedostupné."
 
 #: src/supertux/menu/addon_preview_menu.cpp:90
 msgid "Perform a \"Check Online\" to try retrieving it."
-msgstr "Zkusit získat online"
+msgstr "Zkusit získat na internetu"
 
 #: src/supertux/menu/addon_preview_menu.cpp:94
 msgid "No author specified."
@@ -2957,7 +2957,7 @@ msgstr "Typ: {}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:96
 msgid "No license specified."
-msgstr "Není specifikovaná licence."
+msgstr "Není specifikována licence."
 
 #: src/supertux/menu/addon_preview_menu.cpp:96
 msgid "License: {}"
@@ -2985,7 +2985,7 @@ msgstr "Popis:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:125
 msgid "No description available."
-msgstr "Popis není k dispozici."
+msgstr "Popis není dostupný."
 
 #: src/supertux/menu/addon_preview_menu.cpp:149
 msgid "Failed to load all available screenshot previews."
@@ -2993,7 +2993,7 @@ msgstr "Nepodařilo se načíst všechny dostupné náhledy."
 
 #: src/supertux/menu/addon_preview_menu.cpp:154
 msgid "To fetch add-on screenshots, you must enable networking."
-msgstr "Pro stažení snímků obrazovky je nutné povolit přístup k Internetu."
+msgstr "Pro stažení snímků obrazovky je nutné povolit přístup k internetu."
 
 #: src/supertux/menu/addon_preview_menu.cpp:158
 msgid "Show screenshots"
@@ -3005,7 +3005,7 @@ msgstr "Náhledy jsou pro automatické instalace vypnuty."
 
 #: src/supertux/menu/addon_preview_menu.cpp:175
 msgid "No screenshot previews available."
-msgstr "Náhledy nejsou k dispozici."
+msgstr "Náhledy nejsou dostupné."
 
 #: src/supertux/menu/addon_preview_menu.cpp:183
 msgid "Install"
@@ -3035,19 +3035,19 @@ msgstr "POZNÁMKA: Doplněk \"{}\" je závislostí {} {}.\nJsi si jistý?"
 msgid ""
 "Cannot toggle add-on \"{}\":\n"
 "{}"
-msgstr "Nelze aktivovat/deaktivovat doplněk \"{}\":\n{}"
+msgstr "Nelze zapnout/vypnout doplněk \"{}\":\n{}"
 
 #: src/supertux/menu/addon_preview_menu.cpp:285
 msgid "Fetching screenshot previews..."
-msgstr "Načítám náhledy..."
+msgstr "Načítají se náhledy..."
 
 #: src/supertux/menu/addon_preview_menu.cpp:306
 msgid "Updating"
-msgstr "Aktualizuji"
+msgstr "Aktualizuje se"
 
 #: src/supertux/menu/addon_preview_menu.cpp:306
 msgid "Downloading"
-msgstr "Stahuji"
+msgstr "Stahuje se"
 
 #: src/supertux/menu/addon_preview_menu.cpp:334
 msgid "Add-on uninstalled successfully."
@@ -3086,7 +3086,7 @@ msgid ""
 "Would you allow SuperTux to connect to the Internet?\n"
 "\n"
 "This enables additional features, such as the in-game add-on catalog."
-msgstr "Přeješ si povolit SuperTuxovi přístup k Internetu?\n\nToto aktivuje dodatečné funkce, jako třeba katalog doplňků."
+msgstr "Přeješ si povolit SuperTuxovi přístup k internetu?\n\nToto zapne dodatečné funkce, jako třeba katalog doplňků."
 
 #: src/supertux/menu/main_menu.cpp:82
 msgid ""
@@ -3338,11 +3338,11 @@ msgstr "Automaticky přidá a odebere hráče, když jsou připojeny či odpojen
 
 #: src/supertux/menu/multiplayer_menu.cpp:33
 msgid "Allow Multibind"
-msgstr "Povolit více joysticků"
+msgstr "Povolit více joysticků (pákových ovladačů)"
 
 #: src/supertux/menu/multiplayer_menu.cpp:34
 msgid "Allow binding multiple joysticks to a single player"
-msgstr "Povoli přidělit jednomu hráči více joysticků"
+msgstr "Povolit přidělit jednomu hráči více joysticků"
 
 #: src/supertux/menu/multiplayer_menu.cpp:36
 msgid "Manage Players"
@@ -3371,7 +3371,7 @@ msgstr "Pojmenuj, prosím, sadu úrovní."
 #: src/supertux/menu/cheat_apply_menu.cpp:32
 #: src/supertux/menu/cheat_apply_menu.cpp:50
 msgid "Apply cheat to player"
-msgstr "Aplikovat podvod na hráče"
+msgstr "Použít podvod na hráče"
 
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:56
 #: src/supertux/menu/cheat_apply_menu.cpp:35
@@ -3503,7 +3503,7 @@ msgstr "Předpoveď snímků"
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
-msgstr "Vyhlazený pohyb kamery pomocí generace mezisnímků. Tato možnost má zásadní vliv na vykreslování na monitorech > 60 Hz. Pohyblivé objekty mohou být romazané."
+msgstr "Vyhlazený pohyb kamery pomocí generace mezisnímků. Tato možnost má zásadní vliv na vykreslování na monitorech > 60 Hz. Pohyblivé objekty mohou být rozmazané."
 
 #: src/supertux/menu/options_menu.cpp:132
 msgid "Camera Peek Multiplier"
@@ -3560,7 +3560,7 @@ msgstr "Povolí vibrace na ovladačích, které tuto funkci podporují"
 
 #: src/supertux/menu/options_menu.cpp:170
 msgid "This feature is currently only used in the multiplayer options menu."
-msgstr "Tato funkce je momentálně dostupná pouze v nastavení hry více hráčů"
+msgstr "Tato funkce je nyní dostupná pouze v nastavení hry více hráčů"
 
 #: src/supertux/menu/options_menu.cpp:173
 msgid "Configure key-action mappings"
@@ -3662,15 +3662,15 @@ msgstr "Ověřit dostupnost nových verzí"
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
-msgstr "Povolí hře při spuštění zkontrolovat, zda jsou k dispozici nové verze, a případně upozornit uživatele."
+msgstr "Povolí hře při spuštění zkontrolovat, zda jsou dostupné nové verze, a případně upozornit uživatele."
 
 #: src/supertux/menu/options_menu.cpp:236
 msgid "Disable network"
-msgstr "Zakázat přístup k Internetu"
+msgstr "Zakázat přístup k internetu"
 
 #: src/supertux/menu/options_menu.cpp:237
 msgid "Prevents the game from connecting online"
-msgstr "Zakáže hře přistupovat k Internetu"
+msgstr "Zakáže hře přistupovat k internetu"
 
 #: src/supertux/menu/options_menu.cpp:304
 msgid "Magnification"
@@ -3748,11 +3748,11 @@ msgstr "Upravit hlasitost hudby"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "Flash Intensity"
-msgstr "Intenzita blesků"
+msgstr "Síla blesků"
 
 #: src/supertux/menu/options_menu.cpp:563
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr "Nastavení intenzity blikání obrazovky při úderu blesku"
+msgstr "Nastavení ostrosti blikání obrazovky při úderu blesku"
 
 #: src/supertux/menu/options_menu.cpp:576
 msgid "On-screen controls scale"
@@ -3826,13 +3826,13 @@ msgstr "Tato kopie SuperTuxe nepodporuje ovladače s vibracemi;\nZkontroluj, pro
 msgid ""
 "This joystick does not support rumbling;\n"
 "please check the joysticks manually."
-msgstr "Tento joystick nepodporuje vibrace;\nZkontroluj, prosím, joysticky ručně."
+msgstr "Tento pákový ovladač nepodporuje vibrace;\nZkontroluj, prosím, joysticky ručně."
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:189
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "joysticks; please check the joysticks manually."
-msgstr "Tato kopie SuperTuxe nepodporuje joysticky s vibracemi;\nZkontroluj, prosím, joysticky ručně."
+msgstr "Tato kopie SuperTuxe nepodporuje pákové ovladače s vibracemi;\nZkontroluj, prosím, joysticky ručně."
 
 #: src/supertux/menu/video_system_menu.cpp:36
 msgid "Select Video System"
@@ -4078,11 +4078,11 @@ msgid ""
 "For more information, you can visit the SuperTux website.\n"
 "\n"
 "Do you want to visit the website now?"
-msgstr "Nová verze SuperTuxe (v{}) je dostupná!\nPro více informací můžeš navštívit web SuperTuxe.\n\nChceš web navštívit nyní?"
+msgstr "Nová verze SuperTuxe (v{}) je dostupná!\nPro více informací můžeš navštívit web SuperTuxe.\n\nChceš stránku navštívit nyní?"
 
 #: src/supertux/main.cpp:818
 msgid "Checking for new releases..."
-msgstr "Hledám nové verze..."
+msgstr "Hledají se nové verze..."
 
 #: src/supertux/game_object.hpp:124
 msgid "Unknown object"
@@ -4733,7 +4733,7 @@ msgid ""
 "An error occurred and the game could\n"
 "not clone the path. Please contact\n"
 "the developers for support."
-msgstr "Došlo k chybě a nebylo možné\nnaklonovat cestu. Pro podporu\nkontaktuj, prosím, vývojáře."
+msgstr "Došlo k chybě a nebylo možné\nnaklonovat cestu. Pro podporu\nse, prosím, spoj s vývojáři."
 
 #: src/gui/menu_paths.cpp:44
 msgid "Bind"
@@ -4744,7 +4744,7 @@ msgid ""
 "Do you wish to clone the path to edit it separately,\n"
 "or do you want to bind both paths together\n"
 "so that any edit on one edits the other?"
-msgstr "Přeješ si cestu naklonovat a upravovat ji separátně,\nnebo chceš obě cesty propojit, aby úpravy jedné\nautomaticky upravily i tu druhou?"
+msgstr "Přeješ si cestu naklonovat a upravovat ji zvlášť,\nnebo chceš obě cesty propojit, aby úpravy jedné\nautomaticky upravily i tu druhou?"
 
 #: src/gui/menu_paths.cpp:56
 msgid "Path {}"
@@ -4752,7 +4752,7 @@ msgstr "Cesta {}"
 
 #: src/gui/notification.cpp:57
 msgid "Click for more details."
-msgstr "Klikni pro více informací."
+msgstr "Klepni pro více informací."
 
 #: src/gui/notification.cpp:150
 msgid "Do not show again"
@@ -4812,11 +4812,11 @@ msgstr "Doba skrytí/odkrytí"
 
 #: src/trigger/text_area.cpp:148
 msgid "Anchor offset X"
-msgstr "Vodorovný offset ukotvení"
+msgstr "Vodorovný posun ukotvení"
 
 #: src/trigger/text_area.cpp:149
 msgid "Anchor offset Y"
-msgstr "Svislý offset ukotvení"
+msgstr "Svislý posun ukotvení"
 
 #: src/trigger/text_area.cpp:150
 msgid "Texts"
@@ -5304,4 +5304,4 @@ msgstr "Rozeklané skály z doplňku"
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
-msgstr "Pro úrovně vytvořené s doplňkem pro skalnaté dlaždice, konvertuje jejich ID na základní dlaždice hry"
+msgstr "Pro úrovně vytvořené s doplňkem pro skalnaté dlaždice, převeďte jejich ID na základní dlaždice hry"

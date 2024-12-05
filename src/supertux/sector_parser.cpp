@@ -94,7 +94,10 @@ SectorParser::parse_object(const std::string& name, const ReaderMapping& reader)
   }
   catch (std::exception& err)
   {
-    log_warning << err.what() << std::endl;
+    std::string obj_name;
+    reader.get("name", obj_name);
+
+    log_warning << "Couldn't parse object of type '" << name << "' with name '" << obj_name << "': " << err.what() << std::endl;
     return {};
   }
 }

@@ -271,7 +271,7 @@ AutotileSet::get_mask_from_tile(uint32_t tile) const
 }
 
 void
-AutotileSet::validate() const
+AutotileSet::validate(int32_t start, int32_t end) const
 {
   // Corner autotiles are always empty if all 4 corners are, but regular
   // autotiles should have a valid tile ID that can be surrounded by emptiness.
@@ -288,7 +288,9 @@ AutotileSet::validate() const
       {
         if (tile_exists)
         {
-          log_warning << "Autotileset '" << m_name << "': mask " << (m_corner ? std::bitset<4>(mask).to_string() : std::bitset<8>(mask).to_string()) << " corresponds both to tile " << tile_with_that_mask << " and " << autotile->get_tile_id() << std::endl;
+          log_warning << "Autotileset '" << m_name
+                      << "' (range " << (start ? std::to_string(start) : "...") << "-" << (end ? std::to_string(end) : "...") << "): mask "
+                      << (m_corner ? std::bitset<4>(mask).to_string() : std::bitset<8>(mask).to_string()) << " corresponds both to tile " << tile_with_that_mask << " and " << autotile->get_tile_id() << std::endl;
         }
         else
         {
@@ -301,7 +303,9 @@ AutotileSet::validate() const
       {
         if (tile_nonsolid)
         {
-          log_warning << "Autotileset '" << m_name << "': non-solid mask " << (m_corner ? std::bitset<4>(mask).to_string() : std::bitset<8>(mask).to_string()) << " corresponds both to tile " << tile_with_that_mask << " and " << autotile->get_tile_id() << std::endl;
+          log_warning << "Autotileset '" << m_name
+                      << "' (range " << (start ? std::to_string(start) : "...") << "-" << (end ? std::to_string(end) : "...") << "): non-solid mask "
+                      << (m_corner ? std::bitset<4>(mask).to_string() : std::bitset<8>(mask).to_string()) << " corresponds both to tile " << tile_with_that_mask << " and " << autotile->get_tile_id() << std::endl;
         }
         else
         {
@@ -312,7 +316,9 @@ AutotileSet::validate() const
 
     if (!tile_exists)
     {
-      log_warning << "Autotileset '" << m_name << "': mask " << (m_corner ? std::bitset<4>(mask).to_string() : std::bitset<8>(mask).to_string()) << " has no corresponding tile" << std::endl;
+      log_warning << "Autotileset '" << m_name
+                  << "' (range " << (start ? std::to_string(start) : "...") << "-" << (end ? std::to_string(end) : "...") << "): mask "
+                  << (m_corner ? std::bitset<4>(mask).to_string() : std::bitset<8>(mask).to_string()) << " has no corresponding tile" << std::endl;
     }
   }
 }

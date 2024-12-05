@@ -74,13 +74,13 @@ FileSystemMenu::refresh_items()
   if (m_directory != "/") {
     m_directories.push_back("..");
   }
-  physfsutil::enumerate_files(m_directory, [this](const std::string& file) {
+  physfsutil::enumerate_files_alphabetical(m_directory, [this](const std::string& file) {
     std::string filepath = FileSystem::join(m_directory, file);
     if (physfsutil::is_directory(filepath))
     {
       // Do not show directories, containing deprecated files
       if (file == "deprecated")
-        return;
+        return false;
 
       m_directories.push_back(file);
     }
@@ -89,13 +89,14 @@ FileSystemMenu::refresh_items()
       // Do not show deprecated, or unrelated add-on files
       if (FileSystem::extension(FileSystem::strip_extension(file)) == ".deprecated" ||
           AddonManager::current()->is_from_old_addon(filepath))
-        return;
+        return false;
 
       if (has_right_suffix(file))
       {
         m_files.push_back(file);
       }
     }
+    return false;
   });
 
   for (const auto& item : m_directories)

@@ -30,6 +30,9 @@ class MouseCursor;
 class Resources final
 {
 public:
+  static void reload_all();
+
+public:
   static std::unique_ptr<MouseCursor> mouse_cursor;
 
   /** Font that can display English glyphs */

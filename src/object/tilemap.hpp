@@ -59,8 +59,6 @@ public:
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   ~TileMap() override;
 
-  void parse_tiles(const ReaderMapping& reader);
-
   virtual void finish_construction() override;
 
   static std::string class_name() { return "tilemap"; }
@@ -83,6 +81,9 @@ public:
   virtual void editor_update() override;
 
   virtual void on_flip(float height) override;
+
+  void parse_tiles(const ReaderMapping& reader);
+  void write_tiles(Writer& writer) const;
 
   void set(int width, int height, const std::vector<unsigned int>& vec,
            int z_pos, bool solid);

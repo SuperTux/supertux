@@ -23,18 +23,17 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-//static const float FLICK_CURSOR_TIME = 0.5f;
-
-MenuItem::MenuItem(const std::string& text, int id) :
+MenuItem::MenuItem(const std::string& text, int id, const std::optional<Color>& text_color) :
   m_id(id),
   m_text(text),
   m_help(),
-  m_font(Resources::normal_font)
+  m_font(Resources::normal_font),
+  m_text_color(text_color)
 {
 }
 
-MenuItem::~MenuItem() {
-
+MenuItem::~MenuItem()
+{
 }
 
 void
@@ -59,12 +58,20 @@ MenuItem::draw(DrawingContext& context, const Vector& pos, int menu_width, bool 
 }
 
 Color
-MenuItem::get_color() const {
-  return ColorScheme::Menu::default_color;
+MenuItem::get_color() const
+{
+  return m_text_color.value_or(ColorScheme::Menu::default_color);
+}
+
+void
+MenuItem::set_text_color(const Color& color)
+{
+  m_text_color = color;
 }
 
 int
-MenuItem::get_width() const {
+MenuItem::get_width() const
+{
   return static_cast<int>(m_font->get_text_width(m_text)) + 16;
 }
 

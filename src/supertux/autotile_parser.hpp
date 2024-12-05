@@ -31,8 +31,13 @@ private:
   std::string m_filename;
   std::string m_tiles_path;
 
+  int32_t m_start;
+  const int32_t m_end;
+  const int32_t m_offset;
+
 public:
-  AutotileParser(std::vector<std::unique_ptr<AutotileSet>>& autotilesets, const std::string& filename);
+  AutotileParser(std::vector<std::unique_ptr<AutotileSet>>& autotilesets, const std::string& filename,
+                 int32_t start = 0, int32_t end = 0, int32_t offset = 0);
 
   void parse();
 

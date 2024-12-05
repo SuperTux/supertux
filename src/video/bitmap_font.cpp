@@ -72,9 +72,11 @@ BitmapFont::BitmapFont(GlyphWidth glyph_width_,
 
   // scan for prefix-filename in addons search path.
   physfsutil::enumerate_files(fontdir, [fontdir, fontname, this](const std::string& file) {
-    std::string filepath = FileSystem::join(fontdir, file);
-    if (file.rfind(fontname) != std::string::npos) {
-      try {
+    const std::string filepath = FileSystem::join(fontdir, file);
+    if (file.rfind(fontname) != std::string::npos)
+    {
+      try
+      {
         loadFontFile(filepath);
       }
       catch(const std::exception& e)
@@ -82,6 +84,7 @@ BitmapFont::BitmapFont(GlyphWidth glyph_width_,
         log_fatal << "Couldn't load font file: " << e.what() << std::endl;
       }
     }
+    return false;
   });
 }
 

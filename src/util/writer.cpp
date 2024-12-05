@@ -249,6 +249,44 @@ Writer::write(const std::string& name, const sexp::Value& value)
 }
 
 void
+Writer::write_compressed(const std::string& name, const std::vector<unsigned int>& value)
+{
+  indent();
+  if (value.empty())
+  {
+    *out << '(' << name << ")\n";
+    return;
+  }
+  *out << '(' << name << ' ';
+
+  int repeater = 0;
+  unsigned int repeated_value = 0;
+  for (const auto& i : value)
+  {
+    if (repeater && i == repeated_value)
+    {
+      ++repeater;
+    }
+    else
+    {
+      if (repeater > 1)
+        *out << -repeater << ' ' << repeated_value << ' ';
+      else if (repeater == 1)
+        *out << repeated_value << ' ';
+
+      repeater = 1;
+      repeated_value = i;
+    }
+  }
+  if (repeater > 1)
+    *out << -repeater << ' ' << repeated_value;
+  else
+    *out << repeated_value;
+
+  *out << ")\n";
+}
+
+void
 Writer::write_escaped_string(const std::string& str)
 {
   *out << '"';

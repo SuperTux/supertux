@@ -22,12 +22,23 @@
 class ColorMenu final : public Menu
 {
 public:
-  ColorMenu(Color* color_);
+  ColorMenu(Color* color);
 
   void menu_action(MenuItem& item) override;
 
 private:
-  Color* color;
+  void copy_to_clipboard(const std::string& color_str);
+
+private:
+  enum MenuIDs
+  {
+    MNID_COPY_CLIPBOARD_RGB = 1,
+    MNID_COPY_CLIPBOARD_HEX,
+    MNID_PASTE_CLIPBOARD
+  };
+
+private:
+  Color* m_color;
 
 private:
   ColorMenu(const ColorMenu&) = delete;

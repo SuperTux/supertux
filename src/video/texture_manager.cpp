@@ -418,7 +418,16 @@ TextureManager::reload()
   // Reload surfaces
   for (auto& surface : m_surfaces)
   {
-    SDLSurfacePtr surface_new = create_image_surface(surface.first);
+    SDLSurfacePtr surface_new;
+    try
+    {
+      surface_new = create_image_surface(surface.first);
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Couldn't load texture '" << surface.first << "' (now using dummy texture): " << err.what() << std::endl;
+      surface_new = create_dummy_surface();
+    }
     surface.second.reset(surface_new);
   }
 

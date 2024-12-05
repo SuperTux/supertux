@@ -17,6 +17,8 @@
 #include "supertux/game_session.hpp"
 
 #include <cfloat>
+#include <fmt/format.h>
+#include <stdexcept>
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
@@ -55,8 +57,7 @@ static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
 static const float TELEPORT_FADE_TIME = 1.0f;
 
 
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
-                         bool preserve_music) :
+GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
   reset_button(false),
   reset_checkpoint_button(false),
   m_prevent_death(false),
@@ -94,9 +95,6 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_boni_at_start.resize(InputManager::current()->get_num_users(), BONUS_NONE);
 
   m_data_table.clear();
-
-  if (restart_level(false, preserve_music) != 0)
-    throw std::runtime_error ("Initializing the level failed.");
 }
 
 void
@@ -155,7 +153,7 @@ GameSession::on_player_removed(int id)
   return false;
 }
 
-int
+void
 GameSession::restart_level(bool after_death, bool preserve_music)
 {
   const PlayerStatus& currentStatus = m_savegame.get_player_status();
@@ -238,7 +236,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     m_currentsector = m_level->get_sector(spawnpoint->sector);
     if (!m_currentsector)
     {
-      throw std::runtime_error("Couldn't find sector '" + spawnpoint->sector + "' to spawn/respawn Tux.");
+      throw std::runtime_error(fmt::format("Couldn't find sector '{}' to spawn/respawn Tux.", spawnpoint->sector));
     }
     // Activate on either the spawnpoint (if set), or the spawn position.
     if (spawnpoint->spawnpoint.empty())
@@ -251,9 +249,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     }
   }
   catch (std::exception& e) {
-    log_fatal << "Couldn't start level: " << e.what() << std::endl;
-    ScreenManager::current()->pop_screen();
-    return (-1);
+    throw std::runtime_error(std::string("Couldn't start level: ") + e.what());
   }
 
   if (m_levelintro_shown)
@@ -281,8 +277,6 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     it->set_time(it->get_time() - m_play_time);
     it++;
   }
-
-  return (0);
 }
 
 void

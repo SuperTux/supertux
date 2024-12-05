@@ -50,6 +50,9 @@ public:
   void write(const std::string& name, const sexp::Value& value);
   // add more write-functions when needed...
 
+  // Writes vector by using negative integer values as repeaters for repeating values.
+  void write_compressed(const std::string& name, const std::vector<unsigned int>& value);
+
   void end_list(const std::string& listname);
 
 private:

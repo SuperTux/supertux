@@ -42,7 +42,13 @@ void remove_content(const std::string& dir);
 void remove_with_content(const std::string& dir);
 
 /** Open directory and call callback for each file */
-bool enumerate_files(const std::string& pathname, std::function<void(const std::string&)> callback);
+bool enumerate_files(const std::string& pathname, std::function<bool(const std::string&)> callback);
+
+/** Open directory and call callback for each file in alphabetical order */
+bool enumerate_files_alphabetical(const std::string& pathname, std::function<bool(const std::string&)> callback);
+
+/** Open directory and call callback for each file recursively (including child directories) */
+bool enumerate_files_recurse(const std::string& pathname, std::function<bool(const std::string&)> callback);
 
 } // namespace physfsutil
 

@@ -52,10 +52,6 @@ class Editor final : public Screen,
 public:
   static bool is_active();
 
-  static PHYSFS_EnumerateCallbackResult foreach_recurse(void *data,
-                                                        const char *origdir,
-                                                        const char *fname);
-
 private:
   static bool is_autosave_file(const std::string& filename) {
     return StringUtil::has_suffix(filename, "~");
@@ -174,6 +170,7 @@ private:
   void set_sector(Sector* sector);
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
+  void reset_level();
   void quit_editor();
   /**
    * @param filename    If non-empty, save to this file instead.

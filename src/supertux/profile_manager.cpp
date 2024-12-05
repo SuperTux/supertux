@@ -55,6 +55,7 @@ ProfileManager::get_profiles()
   physfsutil::enumerate_files("/", [&ids](const std::string& filename) {
       if (filename.substr(0, 7) == "profile")
         ids.push_back(std::stoi(filename.substr(7)));
+      return false;
     });
   std::sort(ids.begin(), ids.end());
 

@@ -78,6 +78,7 @@ public:
   /** unserialize statistics object from squirrel table "statistics" */
   void unserialize_from_squirrel(const ssq::Table& table);
 
+  inline Preferences& get_preferences() { return m_preferences; }
   inline const Preferences& get_preferences() const { return m_preferences; }
   void add_preferences_to_menu(Menu& menu);
 
@@ -88,7 +89,7 @@ public:
   /** Updates the timers for in-game stats rendering. Should be used from the same object that calls draw_ingame_stats(). */
   void update_timers(float dt_sec);
 
-  void init(const Level& level, const Preferences& preferences);
+  void init(const Level& level);
   void finish(float time);
   void invalidate();
 

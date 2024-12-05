@@ -191,6 +191,18 @@ Menu::add_entry(const std::string& text, const std::function<void()>& callback)
   return add_item<ItemAction>(text, -1, callback);
 }
 
+ItemAction&
+Menu::add_entry(int id, const std::string& text, const Color& text_color)
+{
+  return add_item<ItemAction>(text, id, [](){}, text_color);
+}
+
+ItemAction&
+Menu::add_entry(const std::string& text, const std::function<void()>& callback, const Color& text_color)
+{
+  return add_item<ItemAction>(text, -1, callback, text_color);
+}
+
 ItemInactive&
 Menu::add_inactive(const std::string& text, bool default_color)
 {
