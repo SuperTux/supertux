@@ -127,7 +127,7 @@ Bullet::ricochet(GameObject& , const CollisionHit& hit)
 }
 
 HitResponse
-Bullet::collision(GameObject& , const CollisionHit& )
+Bullet::collision(MovingObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
 }

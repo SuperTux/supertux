@@ -78,7 +78,7 @@ RootSapling::collision_badguy(BadGuy& other, const CollisionHit& hit)
 }
 
 bool
-RootSapling::collision_squished(GameObject& object)
+RootSapling::collision_squished(MovingObject& object)
 {
   m_dead = true;
 

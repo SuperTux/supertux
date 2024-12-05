@@ -28,7 +28,7 @@ public:
 
   virtual void kill_fall() override;
   virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual void active_update(float) override;
   virtual void draw(DrawingContext& context) override;

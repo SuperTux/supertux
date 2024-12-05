@@ -36,7 +36,7 @@ public:
   virtual bool is_snipable() const override { return true; }
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:

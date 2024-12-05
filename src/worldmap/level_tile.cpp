@@ -71,6 +71,8 @@ LevelTile::LevelTile(const ReaderMapping& mapping) :
 
   if (in_worldmap())
     load_level_information();
+
+  set_action("default");
 }
 
 LevelTile::~LevelTile()
@@ -108,15 +110,19 @@ LevelTile::load_level_information()
 
       mapping.get("name", m_title);
       mapping.get("target-time", m_target_time);
+
+      std::optional<ReaderMapping> level_stat_preferences;
+      if (mapping.get("statistics", level_stat_preferences))
+        m_statistics.get_preferences().parse(*level_stat_preferences);
     }
-    catch (std::exception& err)
+    catch (const std::exception& err)
     {
       std::stringstream out;
       out << "Cannot read level info: " << err.what() << std::endl;
       throw std::runtime_error(out.str());
     }
   }
-  catch (std::exception& err)
+  catch (const std::exception& err)
   {
     log_warning << "Problem when reading level information: " << err.what() << std::endl;
     return;
@@ -130,20 +136,6 @@ LevelTile::update_sprite_action()
     m_sprite->set_action("default");
   else
     m_sprite->set_action((m_sprite->has_action("perfect") && m_perfect) ? "perfect" : "solved");
-}
-
-void
-LevelTile::set_solved(bool v)
-{
-  m_solved = v;
-  update_sprite_action();
-}
-
-void
-LevelTile::set_perfect(bool v)
-{
-  m_perfect = v;
-  update_sprite_action();
 }
 
 ObjectSettings

@@ -19,6 +19,8 @@
 
 #include "gui/menu.hpp"
 
+class ItemScriptLine;
+
 class ScriptMenu final : public Menu
 {
 public:

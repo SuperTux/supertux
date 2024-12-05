@@ -90,11 +90,11 @@ public:
   void stop_sounds();
   void set_sound_volume(int volume);
 
-  bool is_music_enabled() const { return m_music_enabled; }
-  bool is_sound_enabled() const { return m_sound_enabled; }
+  inline bool is_music_enabled() const { return m_music_enabled; }
+  inline bool is_sound_enabled() const { return m_sound_enabled; }
 
-  bool is_audio_enabled() const { return m_device != nullptr && m_context != nullptr; }
-  const std::string& get_current_music() const { return m_current_music; }
+  inline bool is_audio_enabled() const { return m_device != nullptr && m_context != nullptr; }
+  inline const std::string& get_current_music() const { return m_current_music; }
   void update();
 
   /** Tell soundmanager to call update() for stream_sound_source. */

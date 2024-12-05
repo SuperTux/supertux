@@ -58,7 +58,7 @@ private:
 public:
   Crusher(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -75,11 +75,11 @@ public:
 
   virtual void on_flip(float height) override;
 
-  virtual bool is_sideways() const { return m_sideways; }
+  inline bool is_sideways() const { return m_sideways; }
 
-  Physic& get_physic() { return m_physic; }
-  bool is_big() const { return m_ic_size == LARGE; }
-  CrusherState get_state() const { return m_state; }
+  inline Physic& get_physic() { return m_physic; }
+  inline bool is_big() const { return m_ic_size == LARGE; }
+  inline CrusherState get_state() const { return m_state; }
 
 protected:
   LinkedSprites get_linked_sprites() override;
@@ -121,12 +121,12 @@ public:
   CrusherRoot(Vector position, Crusher::Direction direction, float delay, int layer);
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(CrusherRoot)); }
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
 private:
   void start_animation();
-  bool delay_gone() const { return m_delay_remaining <= 0.f; }
+  inline bool delay_gone() const { return m_delay_remaining <= 0.f; }
 
 private:
   Vector m_original_pos;

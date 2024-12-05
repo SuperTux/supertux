@@ -37,7 +37,7 @@ public:
   virtual bool is_snipable() const override { return true; }
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual void kill_collision();
 
@@ -72,7 +72,7 @@ public:
   std::string get_default_sprite_name() const override;
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 private:
   enum Type {

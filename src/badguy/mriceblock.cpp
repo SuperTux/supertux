@@ -192,7 +192,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-MrIceBlock::collision(GameObject& object, const CollisionHit& hit)
+MrIceBlock::collision(MovingObject& object, const CollisionHit& hit)
 {
   if (m_frozen)
   {
@@ -251,7 +251,7 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 bool
-MrIceBlock::collision_squished(GameObject& object)
+MrIceBlock::collision_squished(MovingObject& object)
 {
   Player* player = dynamic_cast<Player*>(&object);
   if (player && (player->m_does_buttjump || player->is_invincible())) {
@@ -290,8 +290,7 @@ MrIceBlock::collision_squished(GameObject& object)
   case ICESTATE_FLAT:
   case ICESTATE_WAKING:
   {
-    auto movingobject = dynamic_cast<MovingObject*>(&object);
-    if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+    if (object.get_pos().x < get_pos().x) {
       m_dir = Direction::RIGHT;
     }
     else {
@@ -382,7 +381,14 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
   }
   if (dir_ == Direction::UP) {
     m_physic.set_velocity_y(-KICKSPEED);
-    set_state(ICESTATE_FLAT);
+    if (std::abs(player->get_physic().get_velocity_x()) < 1.0f) {
+      set_state(ICESTATE_FLAT);
+    }
+    else
+    {
+      m_dir = (m_physic.get_velocity_x() > 0) ? Direction::RIGHT : Direction::LEFT;
+      set_state(ICESTATE_KICKED);
+    }
   }
   else if (dir_ == Direction::DOWN) {
     Vector mov(0, 32);

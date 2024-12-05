@@ -79,7 +79,7 @@ MrBomb::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-MrBomb::collision(GameObject& object, const CollisionHit& hit)
+MrBomb::collision(MovingObject& object, const CollisionHit& hit)
 {
   if (m_state == MB_STATE_TICKING)
   {
@@ -123,7 +123,7 @@ MrBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 bool
-MrBomb::collision_squished(GameObject& object)
+MrBomb::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);

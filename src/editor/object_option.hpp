@@ -73,9 +73,9 @@ public:
   virtual void save_old_state(std::ostream& out) const;
   virtual void save_new_state(Writer& writer) const;
 
-  const std::string& get_key() const { return m_key; }
-  const std::string& get_text() const { return m_text; }
-  unsigned int get_flags() const { return m_flags; }
+  inline const std::string& get_key() const { return m_key; }
+  inline const std::string& get_text() const { return m_text; }
+  inline unsigned int get_flags() const { return m_flags; }
 
 protected:
   const std::string m_text;
@@ -96,7 +96,7 @@ public:
   ObjectOption(const std::string& text, const std::string& key, unsigned int flags, T* pointer = nullptr);
   virtual ~ObjectOption() override = default;
 
-  virtual T* get_value() const { return m_value_pointer; }
+  inline T* get_value() const { return m_value_pointer; }
 
 protected:
   T* const m_value_pointer;

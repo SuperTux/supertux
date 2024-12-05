@@ -141,7 +141,7 @@ PowerUp::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-PowerUp::collision(GameObject& other, const CollisionHit&)
+PowerUp::collision(MovingObject& other, const CollisionHit&)
 {
   Player* player = dynamic_cast<Player*>(&other);
   if (!player)

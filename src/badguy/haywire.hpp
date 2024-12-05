@@ -51,7 +51,7 @@ public:
   inline bool is_exploding() const { return m_is_exploding; }
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
   LinkedSprites get_linked_sprites() override;

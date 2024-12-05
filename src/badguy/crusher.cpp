@@ -136,7 +136,7 @@ Crusher::on_sprite_update()
 }
 
 HitResponse
-Crusher::collision(GameObject& other, const CollisionHit& hit)
+Crusher::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto* player = dynamic_cast<Player*>(&other);
 
@@ -678,7 +678,7 @@ CrusherRoot::CrusherRoot(Vector position, Crusher::Direction direction, float de
 }
 
 HitResponse
-CrusherRoot::collision(GameObject& other, const CollisionHit& hit)
+CrusherRoot::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (delay_gone())
   {

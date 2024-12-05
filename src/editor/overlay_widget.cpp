@@ -540,7 +540,7 @@ EditorOverlayWidget::hover_object()
         //   3. If many objects are on the highest layer, pick the last created one
         //      (Which will be the one rendererd on top)
 
-        bool is_marker = static_cast<bool>(dynamic_cast<MarkerObject*>(&moving_object));
+        bool is_marker = dynamic_cast<MarkerObject*>(&moving_object);
         // The "=" part of ">=" ensures that for equal layer, the last object is picked; don't remove the "="!
         if ((is_marker && !cache_is_marker) || moving_object.get_layer() >= cache_layer)
         {
@@ -631,9 +631,10 @@ EditorOverlayWidget::grab_object()
       m_dragged_object->save_state();
 
       auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object.get());
-      if (!pm) select_object();
-
-      m_last_node_marker = dynamic_cast<NodeMarker*>(pm);
+      if (pm)
+        m_last_node_marker = dynamic_cast<NodeMarker*>(pm);
+      else
+        select_object();
     }
   }
   else
@@ -828,16 +829,18 @@ EditorOverlayWidget::put_object()
     auto object = GameObjectFactory::instance().create(object_class, target_pos);
     object->after_editor_set();
 
-    auto* mo = dynamic_cast<MovingObject*> (object.get());
-    if (mo && !g_config->editor_snap_to_grid)
+    auto* mo = dynamic_cast<MovingObject*>(object.get());
+    if (mo)
     {
-      auto bbox = mo->get_bbox();
-      mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
-    }
+      if (!g_config->editor_snap_to_grid)
+      {
+        auto bbox = mo->get_bbox();
+        mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
+      }
 
-    auto* wo = dynamic_cast<worldmap::WorldMapObject*>(object.get());
-    if (wo) {
-      wo->move_to(wo->get_pos() / 32.0f);
+      auto* wo = dynamic_cast<worldmap::WorldMapObject*>(mo);
+      if (wo)
+        wo->move_to(wo->get_pos() / 32.0f);
     }
 
     m_editor.get_sector()->add_object(std::move(object));
@@ -1649,13 +1652,6 @@ EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size) const
 
   Vector sp_ = sp + tilemap->get_offset() / static_cast<float>(tile_size);
   return glm::trunc(sp_) * static_cast<float>(tile_size);
-}
-
-void
-EditorOverlayWidget::set_warning(const std::string& text, float time)
-{
-  m_warning_text = text;
-  m_warning_timer.start(time);
 }
 
 /* EOF */

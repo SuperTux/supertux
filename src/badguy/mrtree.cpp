@@ -89,7 +89,7 @@ MrTree::is_freezable() const
 }
 
 bool
-MrTree::collision_squished(GameObject& object)
+MrTree::collision_squished(MovingObject& object)
 {
   if (m_type == CORRUPTED || m_frozen)
     return WalkingBadguy::collision_squished(object);

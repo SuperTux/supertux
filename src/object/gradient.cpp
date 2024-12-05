@@ -49,7 +49,7 @@ Gradient::Gradient() :
 }
 
 Gradient::Gradient(const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   m_layer(LAYER_BACKGROUND0),
   m_gradient_top(),
   m_gradient_bottom(),
@@ -208,12 +208,6 @@ Gradient::get_direction_string() const
     return "vertical_sector";
 
   return nullptr;
-}
-
-void
-Gradient::set_direction(const GradientDirection& direction)
-{
-  m_gradient_direction = direction;
 }
 
 void

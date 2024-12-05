@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 #define HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 
+#include "editor/layer_object.hpp"
+
 #include <algorithm>
 #include <unordered_set>
 
@@ -26,7 +28,6 @@
 #include "object/path_object.hpp"
 #include "object/path_walker.hpp"
 #include "supertux/autotile.hpp"
-#include "supertux/game_object.hpp"
 #include "video/color.hpp"
 #include "video/flip.hpp"
 #include "video/drawing_target.hpp"
@@ -47,7 +48,7 @@ class TileSet;
  * @instances A ""TileMap"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class TileMap final : public GameObject,
+class TileMap final : public LayerObject,
                       public PathObject
 {
 public:
@@ -92,12 +93,12 @@ public:
               int xoffset = 0, int yoffset = 0);
   void resize(const Size& newsize, const Size& resize_offset);
 
-  int get_width() const { return m_width; }
-  int get_height() const { return m_height; }
-  Size get_size() const { return Size(m_width, m_height); }
+  inline int get_width() const { return m_width; }
+  inline int get_height() const { return m_height; }
+  inline Size get_size() const { return Size(m_width, m_height); }
 
-  void set_offset(const Vector &offset_) { m_offset = offset_; }
-  Vector get_offset() const { return m_offset; }
+  inline void set_offset(const Vector &offset_) { m_offset = offset_; }
+  inline Vector get_offset() const { return m_offset; }
 
   void set_ground_movement_manager(const std::shared_ptr<CollisionGroundMovementManager>& movement_manager)
   {
@@ -143,10 +144,10 @@ public:
   void hits_object_bottom(CollisionObject& object);
   void notify_object_removal(CollisionObject* other);
 
-  int get_layer() const { return m_z_pos; }
-  void set_layer(int layer) { m_z_pos = layer; }
+  int get_layer() const override { return m_z_pos; }
+  inline void set_layer(int layer) { m_z_pos = layer; }
 
-  bool is_solid() const { return m_real_solid && m_effective_solid; }
+  inline bool is_solid() const { return m_real_solid && m_effective_solid; }
 
   /**
    * @scripting
@@ -159,7 +160,7 @@ public:
    * @scripting
    * @description Returns the effective solidity of the tilemap.
    */
-  bool get_solid() const;
+  inline bool get_solid() const { return m_effective_solid; }
 
   bool is_outside_bounds(const Vector& pos) const;
   const Tile& get_tile(int x, int y) const;
@@ -218,8 +219,8 @@ public:
   /** Returns the Autotilesets associated with the given tile */
   std::vector<AutotileSet*> get_autotilesets(uint32_t tile) const;
 
-  void set_flip(Flip flip) { m_flip = flip; }
-  Flip get_flip() const { return m_flip; }
+  inline void set_flip(Flip flip) { m_flip = flip; }
+  inline Flip get_flip() const { return m_flip; }
 
   /**
    * @scripting
@@ -245,7 +246,7 @@ public:
    */
   void tint_fade(float time, float red, float green, float blue, float alpha);
 
-  Color get_current_tint() const { return m_current_tint; }
+  inline Color get_current_tint() const { return m_current_tint; }
 
   /**
    * @scripting
@@ -260,11 +261,11 @@ public:
    */
   float get_alpha() const;
 
-  float get_target_alpha() const { return m_alpha; }
+  inline float get_target_alpha() const { return m_alpha; }
 
-  void set_tileset(const TileSet* new_tileset);
+  inline void set_tileset(const TileSet* tileset) { m_tileset = tileset; }
 
-  const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
+  inline const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
 
 private:
   void update_effective_solid(bool update_manager = true);

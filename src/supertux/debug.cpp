@@ -38,16 +38,11 @@ Debug::set_use_bitmap_fonts(bool value)
   Resources::load();
 }
 
-bool
-Debug::get_use_bitmap_fonts() const
-{
-  return m_use_bitmap_fonts;
-}
-
 void
 Debug::set_game_speed_multiplier(float v)
 {
   m_game_speed_multiplier = v;
   log_info << m_game_speed_multiplier << std::endl;
 }
+
 /* EOF */

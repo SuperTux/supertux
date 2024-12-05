@@ -393,30 +393,6 @@ Editor::open_level_directory()
 }
 
 void
-Editor::set_world(std::unique_ptr<World> w)
-{
-  m_world = std::move(w);
-}
-
-int
-Editor::get_tileselect_select_mode() const
-{
-  return m_toolbox_widget->get_tileselect_select_mode();
-}
-
-int
-Editor::get_tileselect_move_mode() const
-{
-  return m_toolbox_widget->get_tileselect_move_mode();
-}
-
-void
-Editor::update_autotileset()
-{
-  m_overlay_widget->update_autotileset();
-}
-
-void
 Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
@@ -594,10 +570,19 @@ void
 Editor::reload_level()
 {
   ReaderMapping::s_translations_enabled = false;
-  set_level(LevelParser::from_file(m_world ?
-                                   FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
-                                   StringUtil::has_suffix(m_levelfile, ".stwm"),
-                                   true));
+  try
+  {
+    set_level(LevelParser::from_file(m_world ?
+                                     FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
+                                     StringUtil::has_suffix(m_levelfile, ".stwm"),
+                                     true));
+  }
+  catch (const std::exception& err)
+  {
+    log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
+    reset_level();
+    return;
+  }
   ReaderMapping::s_translations_enabled = true;
 
   retoggle_undo_tracking();
@@ -608,6 +593,21 @@ Editor::reload_level()
   m_levelfile = get_levelname_from_autosave(m_levelfile);
   m_autosave_levelfile = FileSystem::join(get_level_directory(),
                                           get_autosave_from_levelname(m_levelfile));
+}
+
+void
+Editor::reset_level()
+{
+  m_levelloaded = false;
+  m_level.reset();
+  m_world.reset();
+  m_levelfile.clear();
+  m_sector = nullptr;
+
+  m_reload_request = false;
+
+  MouseCursor::current()->set_icon(nullptr);
+  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
 }
 
 void
@@ -1118,28 +1118,6 @@ Editor::get_status() const
   return status;
 }
 
-PHYSFS_EnumerateCallbackResult
-Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
-{
-  auto full_path = FileSystem::join(origdir, fname);
-
-  PHYSFS_Stat ps;
-  PHYSFS_stat(full_path.c_str(), &ps);
-  if (ps.filetype == PHYSFS_FILETYPE_DIRECTORY)
-  {
-    PHYSFS_enumerate(full_path.c_str(), foreach_recurse, data);
-  }
-  else
-  {
-    auto* zip = static_cast<Partio::ZipFileWriter*>(data);
-    auto os = zip->Add_File(full_path);
-    auto filename = FileSystem::join(PHYSFS_getWriteDir(), full_path);
-    *os << std::ifstream(filename).rdbuf();
-  }
-
-  return PHYSFS_ENUM_OK;
-}
-
 void
 Editor::pack_addon()
 {
@@ -1147,25 +1125,34 @@ Editor::pack_addon()
   auto output_file_path = FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip");
 
   int version = 0;
-  try
+  if (PHYSFS_exists(output_file_path.c_str()))
   {
-    Partio::ZipFileReader zipold(output_file_path);
-    auto info_file = zipold.Get_File(id + ".nfo");
-    if (info_file)
+    try
     {
-      auto info_stream = ReaderDocument::from_stream(*info_file);
-      auto a = info_stream.get_root().get_mapping();
-      a.get("version", version);
+      Partio::ZipFileReader zipold(output_file_path);
+      auto info_file = zipold.Get_File(id + ".nfo");
+      if (info_file)
+      {
+        auto info_stream = ReaderDocument::from_stream(*info_file);
+        auto a = info_stream.get_root().get_mapping();
+        a.get("version", version);
+      }
     }
-  }
-  catch(const std::exception& e)
-  {
-    log_warning << e.what() << std::endl;
+    catch(const std::exception& e)
+    {
+      log_warning << e.what() << std::endl;
+    }
   }
   version++;
 
   Partio::ZipFileWriter zip(output_file_path);
-  PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
+  physfsutil::enumerate_files_recurse(get_world()->get_basedir(),
+    [&zip](const std::string& full_path)
+    {
+      auto os = zip.Add_File(full_path);
+      *os << std::ifstream(FileSystem::join(PHYSFS_getWriteDir(), full_path)).rdbuf();
+      return false;
+    });
 
   std::stringstream ss;
   Writer info(ss);

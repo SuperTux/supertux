@@ -98,7 +98,7 @@ public:
   void clear();
   void render(Renderer& renderer, Filter filter);
 
-  DrawingContext& get_context() { return m_context; }
+  inline DrawingContext& get_context() { return m_context; }
 
 private:
   Vector apply_translate(const Vector& pos) const;

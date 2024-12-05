@@ -293,6 +293,14 @@ BonusBlock::get_settings()
   return result;
 }
 
+int
+BonusBlock::get_coins_worth() const
+{
+  return m_contents == BonusBlock::Content::COIN ? m_hit_counter :
+         (m_contents == BonusBlock::Content::RAIN ||
+          m_contents == BonusBlock::Content::EXPLODE) ? m_hit_counter * 10 : 0;
+}
+
 
 void
 BonusBlock::hit(Player& player)
@@ -301,7 +309,7 @@ BonusBlock::hit(Player& player)
 }
 
 HitResponse
-BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
+BonusBlock::collision(MovingObject& other, const CollisionHit& hit_)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
@@ -330,8 +338,7 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
 
   auto portable = dynamic_cast<Portable*> (&other);
   if (portable && !badguy) {
-    auto moving = dynamic_cast<MovingObject*> (&other);
-    if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       try_open(player);
     }
   }

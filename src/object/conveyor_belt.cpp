@@ -70,11 +70,12 @@ ConveyorBelt::get_settings()
 }
 
 HitResponse
-ConveyorBelt::collision(GameObject &other, const CollisionHit &hit)
+ConveyorBelt::collision(MovingObject& other, const CollisionHit& hit)
 {
   WalkingBadguy* walking_badguy = dynamic_cast<WalkingBadguy*>(&other);
   if (walking_badguy)
     walking_badguy->override_stay_on_platform();
+
   return FORCE_MOVE;
 }
 
@@ -166,14 +167,7 @@ ConveyorBelt::move_right()
 void
 ConveyorBelt::set_speed(float target_speed)
 {
-  target_speed = math::clamp(target_speed, 0.0f, MAX_SPEED);
-  m_speed = target_speed;
-}
-
-float
-ConveyorBelt::get_speed() const
-{
-  return m_speed;
+  m_speed = math::clamp(target_speed, 0.0f, MAX_SPEED);
 }
 
 

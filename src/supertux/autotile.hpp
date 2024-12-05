@@ -30,7 +30,7 @@ public:
 
   bool matches(uint8_t mask, bool center) const;
 
-  uint8_t get_mask() const { return m_mask; }
+  inline uint8_t get_mask() const { return m_mask; }
 
 private:
   uint8_t m_mask;
@@ -48,7 +48,7 @@ public:
   bool matches(uint8_t mask, bool center) const;
 
   /** @deprecated Returns the base tile ID. */
-  uint32_t get_tile_id() const { return m_tile_id; }
+  inline uint32_t get_tile_id() const { return m_tile_id; }
 
   /** Picks a tile randomly amongst the possible ones for this autotile. */
   uint32_t pick_tile(int x, int y) const;
@@ -60,10 +60,10 @@ public:
   uint8_t get_first_mask() const;
 
   /** Returns all possible tiles for this autotile */
-  const std::vector<std::pair<uint32_t, float>>& get_all_tile_ids() const { return m_alt_tiles; }
+  inline const std::vector<std::pair<uint32_t, float>>& get_all_tile_ids() const { return m_alt_tiles; }
 
   /** Returns true if the "center" bool of masks are true. All masks of given Autotile must have the same value for their "center" property.*/
-  bool is_solid() const { return m_solid; }
+  inline bool is_solid() const { return m_solid; }
 
 private:
   uint32_t m_tile_id;
@@ -98,9 +98,9 @@ public:
   ) const;
 
   /** Returns the id of the first block in the autotileset. Used for erronous configs. */
-  uint32_t get_default_tile() const { return m_default; }
+  inline uint32_t get_default_tile() const { return m_default; }
 
-  const std::string& get_name() const { return m_name; }
+  inline const std::string& get_name() const { return m_name; }
 
   /** true if the given tile is present in the autotileset */
   bool is_member(uint32_t tile_id) const;
@@ -109,7 +109,7 @@ public:
   bool is_solid(uint32_t tile_id) const;
 
   /** true if this is a corner-based autotileset */
-  bool is_corner() const { return m_corner; }
+  inline bool is_corner() const { return m_corner; }
   
   /** Returns the first mask corresponding to the current tile
    *  (useful for corners-based autotilesets)
@@ -118,7 +118,7 @@ public:
 
   // TODO : Validate autotile config files by checking if each mask has
   //        one and only one corresponding tile.
-  void validate() const;
+  void validate(int32_t start, int32_t end) const;
 
 public:
   static std::vector<std::unique_ptr<AutotileSet>> m_autotilesets;

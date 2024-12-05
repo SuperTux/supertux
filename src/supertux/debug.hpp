@@ -23,10 +23,10 @@ public:
   Debug();
 
   void set_use_bitmap_fonts(bool value);
-  bool get_use_bitmap_fonts() const;
+  inline bool get_use_bitmap_fonts() const { return m_use_bitmap_fonts; }
 
   void set_game_speed_multiplier(float v);
-  float get_game_speed_multiplier() const { return m_game_speed_multiplier; }
+  inline float get_game_speed_multiplier() const { return m_game_speed_multiplier; }
 
 public:
   /** Show collision rectangles of moving objects */

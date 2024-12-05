@@ -40,7 +40,7 @@ public:
   virtual bool is_snipable() const override { return true; }
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
   virtual void kill_fall() override;
 
   void jump_on(Totem* target); /**< jump on target */

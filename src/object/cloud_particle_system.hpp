@@ -79,7 +79,7 @@ public:
    * @param int $amount
    * @param float $time
    */
-  void set_amount(int amount, float time);
+  inline void set_amount(int amount, float time) { fade_amount(amount, time, 0.f); }
 
   // Minimum and maximum multiplier for the amount of clouds
   static int constexpr const max_amount = 500;
@@ -90,25 +90,25 @@ public:
    * @description Sets the horizontal speed of the cloud particles.
    * @param float $speed
    */
-  void set_x_speed(float speed);
+  inline void set_x_speed(float speed) { m_current_speed_x = speed; }
   /**
    * @scripting
    * @description Gets the horizontal speed of the cloud particles.
    * @return float
    */
-  float get_x_speed() const;
+  inline float get_x_speed() const { return m_current_speed_x; }
   /**
    * @scripting
    * @description Sets the vertical speed of the cloud particles.
    * @param float $speed
    */
-  void set_y_speed(float speed);
+  inline void set_y_speed(float speed) { m_current_speed_y = speed; }
   /**
    * @scripting
    * @description Gets the vertical speed of the cloud particles.
    * @return float
    */
-  float get_y_speed() const;
+  inline float get_y_speed() const { return m_current_speed_y; }
   /**
   * @scripting
   * @description Sets the fog's opacity.
@@ -120,7 +120,7 @@ public:
   * @description Gets the fog's opacity.
   * @return float
   */
-  float get_fog_opacity() const;
+  inline float get_fog_opacity() const { return m_fog_opacity; }
 
 private:
   /** Returns the amount that got inserted (In case max_amount got hit) */
@@ -161,6 +161,7 @@ private:
   int m_current_real_amount;
 
   float m_fog_opacity;
+
 private:
   CloudParticleSystem(const CloudParticleSystem&) = delete;
   CloudParticleSystem& operator=(const CloudParticleSystem&) = delete;

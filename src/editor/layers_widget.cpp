@@ -214,7 +214,7 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         else
         {
-          TileMap* tilemap = dynamic_cast<TileMap*>(m_layer_icons[m_hovered_layer]->get_layer());
+          TileMap* tilemap = m_layer_icons[m_hovered_layer]->get_layer_tilemap();
           if (tilemap) {
             set_selected_tilemap(tilemap);
             m_editor.edit_path(tilemap->get_path_gameobject(), tilemap);
@@ -379,8 +379,7 @@ EditorLayersWidget::refresh_layers()
   TileMap* first_tilemap = nullptr;
   for (const auto& icon : m_layer_icons)
   {
-    auto* go = icon->get_layer();
-    auto tm = dynamic_cast<TileMap*>(go);
+    auto* tm = icon->get_layer_tilemap();
     if (!tm)
       continue;
 
@@ -415,17 +414,21 @@ EditorLayersWidget::sort_layers()
 }
 
 void
-EditorLayersWidget::add_layer(GameObject* layer, bool initial)
+EditorLayersWidget::add_layer(GameObject* object, bool initial)
 {
-  if (!layer->has_settings() ||
-      dynamic_cast<MovingObject*>(layer) ||
-      dynamic_cast<PathGameObject*>(layer))
-  {
+  if (!object->has_settings())
     return;
-  }
+
+  auto* layer = dynamic_cast<LayerObject*>(object);
+  if (!layer)
+    return;
 
   auto icon = std::make_unique<LayerIcon>(layer);
   int z_pos = icon->get_zpos();
+
+  // Newly added tilemaps shouldn't be active
+  if (icon->get_layer_tilemap())
+    icon->get_layer_tilemap()->m_editor_active = false;
 
   // The icon is inserted to the correct position.
   bool inserted = false;
@@ -440,11 +443,6 @@ EditorLayersWidget::add_layer(GameObject* layer, bool initial)
 
   if (!inserted)
     m_layer_icons.push_back(std::move(icon));
-
-  // Newly added tilemaps shouldn't be active
-  TileMap* tilemap = dynamic_cast<TileMap*>(layer);
-  if (tilemap)
-    tilemap->m_editor_active = false;
 }
 
 void

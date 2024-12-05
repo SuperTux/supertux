@@ -67,7 +67,7 @@ WalkingCandle::unfreeze(bool melt)
 }
 
 HitResponse
-WalkingCandle::collision(GameObject& other, const CollisionHit& hit)
+WalkingCandle::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto lantern = dynamic_cast<Lantern*>(&other);
   if (lantern && !m_frozen) if (lantern->get_bbox().get_bottom() < m_col.m_bbox.get_top())

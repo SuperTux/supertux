@@ -126,7 +126,7 @@ BigSnowball::update(float dt_sec)
 }
 
 HitResponse
-BigSnowball::collision(GameObject& other, const CollisionHit& hit)
+BigSnowball::collision(MovingObject& other, const CollisionHit& hit)
 {
   // ignore collisions with yeti
   auto yeti = dynamic_cast<Yeti*>(&other); // cppcheck-suppress constVariablePointer

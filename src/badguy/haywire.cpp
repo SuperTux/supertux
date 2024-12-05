@@ -72,7 +72,7 @@ Haywire::get_player_direction(const Player* player) const
 }
 
 bool
-Haywire::collision_squished(GameObject& object)
+Haywire::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);

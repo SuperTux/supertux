@@ -121,11 +121,8 @@ JoystickMenu::menu_action(MenuItem& item)
 {
   if (0 <= item.get_id() && item.get_id() < static_cast<int>(Control::CONTROLCOUNT))
   {
-    ItemControlField* micf = dynamic_cast<ItemControlField*>(&item);
-    if (!micf) {
-      return;
-    }
-    micf->change_input(_("Press Button"));
+    ItemControlField& field = static_cast<ItemControlField&>(item);
+    field.change_input(_("Press Button"));
     m_input_manager.joystick_manager->bind_next_event_to(static_cast<Control>(item.get_id()));
   }
   else if (item.get_id() == MNID_AUTO_JOYSTICK_CFG)

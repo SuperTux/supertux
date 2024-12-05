@@ -69,7 +69,7 @@ Ispy::after_editor_set()
 }
 
 HitResponse
-Ispy::collision(GameObject& , const CollisionHit& )
+Ispy::collision(MovingObject& , const CollisionHit& )
 {
   return ABORT_MOVE;
 }

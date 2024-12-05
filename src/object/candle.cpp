@@ -133,7 +133,7 @@ Candle::draw(DrawingContext& context)
 }
 
 HitResponse
-Candle::collision(GameObject&, const CollisionHit& )
+Candle::collision(MovingObject&, const CollisionHit& )
 {
   return FORCE_MOVE;
 }
@@ -148,12 +148,6 @@ Candle::puff_smoke()
                                          ppos, ANCHOR_MIDDLE,
                                          pspeed, paccel,
                                          LAYER_BACKGROUNDTILES+2);
-}
-
-bool
-Candle::get_burning() const
-{
-  return burning;
 }
 
 void

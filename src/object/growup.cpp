@@ -83,7 +83,7 @@ GrowUp::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-GrowUp::collision(GameObject& other, const CollisionHit& hit )
+GrowUp::collision(MovingObject& other, const CollisionHit& hit )
 {
   auto player = dynamic_cast<Player*>(&other);
   if (player != nullptr) {

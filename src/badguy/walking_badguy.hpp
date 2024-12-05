@@ -65,16 +65,17 @@ public:
   /** used by objects that should make badguys not turn around when they are walking on them */
   void override_stay_on_platform() { m_stay_on_platform_overridden = true; }
 
-  float get_velocity_x() const { return m_physic.get_velocity_x(); }
-  float get_velocity_y() const { return m_physic.get_velocity_y(); }
-  void set_velocity_y(float vy);
+  inline float get_velocity_x() const { return m_physic.get_velocity_x(); }
+  inline float get_velocity_y() const { return m_physic.get_velocity_y(); }
+  inline void set_velocity_x(float vx) { m_physic.set_velocity_x(vx); }
+  inline void set_velocity_y(float vy) { m_physic.set_velocity_y(vy); }
 
   /** Adds velocity to the badguy (be careful when using this) */
   void add_velocity(const Vector& velocity);
 
-  float get_walk_speed() const { return walk_speed; }
+  inline float get_walk_speed() const { return walk_speed; }
   void set_walk_speed (float);
-  bool is_active() const { return BadGuy::is_active(); }
+  inline bool is_active() const { return BadGuy::is_active(); }
 
   /** Set max_drop_height depending on the given behavior */
   void set_ledge_behavior(LedgeBehavior behavior);

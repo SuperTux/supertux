@@ -161,9 +161,9 @@ public:
   void set_title_level(const std::string& filename);
 
   TileSet* get_tileset() const override;
-  WorldMap& get_worldmap() const { return m_parent; }
-  Camera& get_camera() const { return *m_camera; }
-  Tux& get_tux() const { return *m_tux; }
+  inline WorldMap& get_worldmap() const { return m_parent; }
+  inline Camera& get_camera() const { return *m_camera; }
+  inline Tux& get_tux() const { return *m_tux; }
   Vector get_tux_pos() const;
 
 protected:

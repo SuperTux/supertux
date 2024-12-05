@@ -30,7 +30,7 @@ public:
   Key(const ReaderMapping& reader);
 
   virtual void update(float dt_sec) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit_) override;
   virtual void draw(DrawingContext& context) override;
 
   static std::string class_name() { return "key"; }

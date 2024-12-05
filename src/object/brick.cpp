@@ -83,7 +83,7 @@ Brick::hit(Player& player)
 }
 
 HitResponse
-Brick::collision(GameObject& other, const CollisionHit& hit)
+Brick::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player && player->m_does_buttjump) try_break(player);
@@ -99,8 +99,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
   }
   auto portable = dynamic_cast<Portable*> (&other);
   if (portable && !badguy) {
-    auto moving = dynamic_cast<MovingObject*> (&other);
-    if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       try_break(nullptr);
     }
   }
@@ -178,12 +177,12 @@ HeavyBrick::HeavyBrick(const ReaderMapping& mapping) :
 }
 
 HitResponse
-HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
+HeavyBrick::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*>(&other);
   if (player && player->m_does_buttjump) ricochet(&other);
 
-  auto crusher = dynamic_cast<Crusher*> (&other);
+  auto crusher = dynamic_cast<Crusher*>(&other);
   if (crusher)
   {
     if (crusher->is_big())
@@ -192,15 +191,14 @@ HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
       ricochet(&other);
   }
 
-  auto badguy = dynamic_cast<BadGuy*> (&other);
+  auto badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy && badguy->can_break() && (badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ))
     ricochet(&other);
 
-  auto portable = dynamic_cast<Portable*> (&other);
+  auto portable = dynamic_cast<Portable*>(&other);
   if (portable)
   {
-    auto moving = dynamic_cast<MovingObject*> (&other);
-    if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA)
+    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA)
       ricochet(&other);
   }
 
@@ -211,7 +209,7 @@ HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-HeavyBrick::ricochet(GameObject* collider)
+HeavyBrick::ricochet(MovingObject* collider)
 {
   SoundManager::current()->play("sounds/metal_hit.ogg", get_pos());
   start_bounce(collider);

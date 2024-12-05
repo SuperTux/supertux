@@ -37,15 +37,6 @@ ConsoleBuffer::ConsoleBuffer() :
 }
 
 void
-ConsoleBuffer::set_console(Console* console)
-{
-  assert((console && !m_console) ||
-         (m_console && !console));
-
-  m_console = console;
-}
-
-void
 ConsoleBuffer::addLines(const std::string& s)
 {
   std::istringstream iss(s);

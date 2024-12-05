@@ -69,8 +69,8 @@ public:
   int get_layer() const override { return m_layer; }
   void set_layer(int layer) { m_layer = layer; }
 
-  bool has_found_sprite() const { return m_sprite_found; }
-  const std::string& get_sprite_name() const { return m_sprite_name; }
+  inline bool has_found_sprite() const { return m_sprite_found; }
+  inline const std::string& get_sprite_name() const { return m_sprite_name; }
   virtual std::string get_default_sprite_name() const { return m_default_sprite_name; }
 
   bool matches_sprite(const std::string& sprite_file) const;
@@ -78,10 +78,10 @@ public:
   void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
   /** Get various sprite properties. **/
-  Sprite* get_sprite() const { return m_sprite.get(); }
+  inline Sprite* get_sprite() const { return m_sprite.get(); }
 
   /** "void" wrapper for "change_sprite()" to be used for the "sprite" scripting property. **/
-  void set_sprite(const std::string& file);
+  inline void set_sprite(const std::string& file) { change_sprite(file); }
 
 #ifdef DOXYGEN_SCRIPTING
   /**
@@ -115,7 +115,7 @@ public:
    * @param string $name
    * @param int $loops
    */
-  void set_action_loops(const std::string& name, int loops);
+  inline void set_action_loops(const std::string& name, int loops) { set_action(name, loops); }
 
   /** Sets the action from an action name, as well as the number of times it should loop. */
   void set_action(const std::string& name, int loops);

@@ -38,7 +38,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float) override;
 
-  virtual HitResponse collision(GameObject&, const CollisionHit&) override { return ABORT_MOVE; }
+  virtual HitResponse collision(MovingObject&, const CollisionHit&) override { return ABORT_MOVE; }
 
   static std::string class_name() { return "lit-object"; }
   virtual std::string get_class_name() const override { return class_name(); }

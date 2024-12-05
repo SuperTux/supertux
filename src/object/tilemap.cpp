@@ -74,7 +74,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   PathObject(),
   m_editor_active(true),
   m_tileset(tileset_),
@@ -643,13 +643,7 @@ void
 TileMap::set_solid(bool solid)
 {
   m_real_solid = solid;
-  update_effective_solid ();
-}
-
-bool
-TileMap::get_solid() const
-{
-  return m_effective_solid;
+  update_effective_solid();
 }
 
 uint32_t
@@ -979,12 +973,6 @@ TileMap::update_effective_solid(bool update_manager)
 
   if (update_manager)
     get_parent()->update_solid(this);
-}
-
-void
-TileMap::set_tileset(const TileSet* new_tileset)
-{
-  m_tileset = new_tileset;
 }
 
 

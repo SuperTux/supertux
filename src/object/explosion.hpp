@@ -39,11 +39,11 @@ public:
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Explosion)); }
 
   virtual void update(float dt_sec) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual bool is_saveable() const override { return false; }
 
-  bool hurts() const { return hurt; }
-  void hurts (bool val) { hurt = val; }
+  inline bool hurts() const { return hurt; }
+  inline void hurts(bool val) { hurt = val; }
 
 protected:
   void on_sprite_update() override;

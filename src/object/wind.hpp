@@ -34,7 +34,7 @@ public:
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual bool has_variable_size() const override { return true; }
   static std::string class_name() { return "wind"; }
