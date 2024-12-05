@@ -254,7 +254,7 @@ Writer::write_compressed(const std::string& name, const std::vector<unsigned int
   indent();
   if (value.empty())
   {
-    *out << '(' << name << ')\n';
+    *out << '(' << name << ")\n";
     return;
   }
   *out << '(' << name << ' ';
