@@ -54,7 +54,7 @@ public:
   bool get(const char* key, std::vector<std::string>& value, const std::optional<std::vector<std::string>>& default_value = std::nullopt) const;
   bool get(const char* key, std::vector<unsigned int>& value, const std::optional<std::vector<unsigned int>>& default_value = std::nullopt) const;
 
-  // Reads vector by using the absolute value of any negative integer values as a repeater for the next value.
+  // Reads vector by using the absolute value of any negative integer value as a repeater for the next value.
   bool get_compressed(const char* key, std::vector<unsigned int>& value,
                       const std::optional<std::vector<unsigned int>>& default_value = std::nullopt) const;
 
