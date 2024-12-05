@@ -839,6 +839,17 @@
     (music
       (file "/music/retro/cave_old.music")
     )
+    (path
+      (name "gen16513141143178496197520")
+      (path
+        (mode "oneshot")
+        (adapt_speed #f)
+        (node
+          (x 9728)
+          (y 32)
+        )
+      )
+    )
     (secretarea
       (width 704)
       (height 448)
