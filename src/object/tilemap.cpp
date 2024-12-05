@@ -166,7 +166,9 @@ TileMap::parse_tiles(const ReaderMapping& reader)
   reader.get("height", m_height);
   if (m_width < 0 || m_height < 0)
   {
-    //throw std::runtime_error("Invalid/No width/height specified in tilemap.");
+    if (!Sector::current())
+      throw std::runtime_error("Invalid/No width/height specified in tilemap.");
+
     m_width = 0;
     m_height = 0;
     m_tiles.clear();
