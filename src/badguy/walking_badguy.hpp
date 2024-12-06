@@ -84,9 +84,6 @@ protected:
   void turn_around();
 
 protected:
-  static const int s_normal_max_drop_height = 600;
-
-protected:
   std::string walk_left_action;
   std::string walk_right_action;
   float walk_speed;

@@ -63,6 +63,17 @@ public:
   {
   }
 
+  // Meant for checking directions
+  explicit AATriangle(int newdir) :
+    bbox(),
+    dir(newdir)
+  {
+  }
+
+  inline int get_dir() const { return dir; }
+  inline bool is_south() const { return (dir & DIRECTION_MASK) == SOUTHWEST || (dir & DIRECTION_MASK) == SOUTHEAST; }
+  inline bool is_east() const { return (dir & DIRECTION_MASK) == NORTHEAST || (dir & DIRECTION_MASK) == SOUTHEAST; }
+
 public:
   Rectf bbox;
   int dir;
