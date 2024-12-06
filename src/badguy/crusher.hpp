@@ -63,9 +63,6 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual void after_editor_set() override;
-  inline bool is_sideways() const { return m_sideways; }
-
   static std::string class_name() { return "crusher"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Crusher"); }
@@ -78,9 +75,16 @@ public:
 
   virtual void on_flip(float height) override;
 
+  inline bool is_sideways() const { return m_sideways; }
+
   inline Physic& get_physic() { return m_physic; }
   inline bool is_big() const { return m_ic_size == LARGE; }
   inline CrusherState get_state() const { return m_state; }
+
+protected:
+  LinkedSprites get_linked_sprites() override;
+
+  void on_sprite_update() override;
 
 private:
   void spawn_roots(Direction direction);
@@ -88,7 +92,6 @@ private:
   bool found_victim() const;
   bool not_ice() const;
   void set_state(CrusherState state, bool force = false);
-  void after_sprite_set();
   Vector eye_position(bool right) const;
 
   void on_type_change(int old_type) override;

@@ -20,4 +20,8 @@
         (hitbox 8 28 34 39)
         (images "lantern-1.png")
       )
+
+  (linked-sprites
+    (light "images/objects/lightmap_light/lightmap_light.sprite")
+  )
 )

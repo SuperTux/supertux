@@ -82,4 +82,8 @@
     (name "squished-right")
     (mirror-action "squished-left")
   )
+
+  (linked-sprites
+    (bark "images/particles/bark.sprite")
+  )
 )

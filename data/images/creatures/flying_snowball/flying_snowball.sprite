@@ -37,4 +37,8 @@
   (fps 20)
   (hitbox 8 8 32 32)
   (mirror-action "melting-left"))
+
+  (linked-sprites
+    (smoke "images/particles/smoke.sprite")
+  )
 )

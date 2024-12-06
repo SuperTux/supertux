@@ -37,12 +37,14 @@ public:
 
   void do_jump();
 
+protected:
+  LinkedSprites get_linked_sprites() override;
+
 private:
   Physic m_physic;
 
   const bool m_custom_sprite;
   SpritePtr m_shadesprite;
-  SpritePtr m_lightsprite;
 
 private:
   GrowUp(const GrowUp&) = delete;

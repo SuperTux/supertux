@@ -17,7 +17,6 @@
 #define HEADER_SUPERTUX_OBJECT_RUBLIGHT_HPP
 
 #include "object/moving_sprite.hpp"
-#include "sprite/sprite_ptr.hpp"
 #include "video/color.hpp"
 
 /** A triboluminescent (or something similar) block */
@@ -29,6 +28,7 @@ public:
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
+
   static std::string class_name() { return "rublight"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Rublight"); }
@@ -56,6 +56,7 @@ private:
   void rub(float strength);
   float get_brightness() const;
 
+private:
   RubLight(const RubLight&) = delete;
   RubLight& operator=(const RubLight&) = delete;
 };

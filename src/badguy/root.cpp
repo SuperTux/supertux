@@ -124,7 +124,7 @@ Root::initialize()
   {
     const Vector velocity(graphicsRandom.randf(-100, 100),
                           graphicsRandom.randf(-400, -300));
-    Sector::get().add<SpriteParticle>("images/particles/corrupted_rock.sprite",
+    Sector::get().add<SpriteParticle>(m_sprite->create_linked_sprite("rock"),
                                       "piece-" + std::to_string(i),
                                       basepos, ANCHOR_MIDDLE,
                                       velocity, Vector(0, gravity),

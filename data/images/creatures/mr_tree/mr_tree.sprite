@@ -52,4 +52,8 @@
     (name "iced-right")
     (mirror-action "iced-left")
   )
+
+  (linked-sprites
+    (leaf "images/particles/leaf.sprite")
+  )
 )

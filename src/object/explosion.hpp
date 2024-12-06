@@ -39,12 +39,14 @@ public:
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Explosion)); }
 
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual bool is_saveable() const override { return false; }
 
   inline bool hurts() const { return hurt; }
   inline void hurts(bool val) { hurt = val; }
+
+protected:
+  void on_sprite_update() override;
 
 private:
   /** plays sound, starts animation */
@@ -62,10 +64,8 @@ private:
   float push_strength;
   int num_particles;
   State m_state;
-  SpritePtr m_lightsprite;
-  Color m_color;
   Timer m_fading_timer;
-  bool short_fuse;
+  const bool short_fuse;
 
 private:
   Explosion(const Explosion&) = delete;

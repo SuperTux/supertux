@@ -18,6 +18,7 @@
 
 #include <assert.h>
 
+#include "sprite/sprite_manager.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -66,42 +67,42 @@ Sprite::clone() const
   return SpritePtr(new Sprite(*this));
 }
 
-void
+bool
 Sprite::set_action(const std::string& name, const Direction& dir, int loops)
 {
   if (dir == Direction::NONE)
-    set_action(name, loops);
+    return set_action(name, loops);
   else
-    set_action(name + "-" + dir_to_string(dir), loops);
+    return set_action(name + "-" + dir_to_string(dir), loops);
 }
 
-void
+bool
 Sprite::set_action(const Direction& dir, const std::string& name, int loops)
 {
   if (dir == Direction::NONE)
-    set_action(name, loops);
+    return set_action(name, loops);
   else
-    set_action(dir_to_string(dir) + "-" + name, loops);
+    return set_action(dir_to_string(dir) + "-" + name, loops);
 }
 
-void
+bool
 Sprite::set_action(const Direction& dir, int loops)
 {
-  set_action(dir_to_string(dir), loops);
+  return set_action(dir_to_string(dir), loops);
 }
 
-void
+bool
 Sprite::set_action(const std::string& name, int loops)
 {
   if (m_action && m_action->name == name)
-    return;
+    return false;
 
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
     // HACK: Lots of things trigger this message therefore turning it into a warning
     // would make it quite annoying
-    log_debug << "Action '" << name << "' not found." << std::endl;
-    return;
+    log_debug << m_data.m_filename << ": Action '" << name << "' not found." << std::endl;
+    return false;
   }
 
   // Automatically resume if a new action is set
@@ -112,7 +113,7 @@ Sprite::set_action(const std::string& name, int loops)
   {
     m_action = newaction;
     update();
-    return;
+    return true;
   }
 
   // If the new action has a loops property,
@@ -126,6 +127,7 @@ Sprite::set_action(const std::string& name, int loops)
   }
 
   m_action = newaction;
+  return true;
 }
 
 bool
@@ -140,7 +142,8 @@ Sprite::update()
   float frame_inc = m_action->fps * (g_game_time - m_last_ticks);
   m_last_ticks = g_game_time;
 
-  if (m_is_paused) return;
+  if (m_is_paused)
+    return;
 
   m_frame += frame_inc;
 
@@ -177,11 +180,12 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
   context.set_alpha(context.get_alpha() * m_alpha);
 
   canvas.draw_surface(m_action->surfaces[m_frameidx],
-                    pos - Vector(m_action->x_offset, flip == NO_FLIP ? m_action->y_offset : (static_cast<float>(m_action->surfaces[m_frameidx]->get_height()) - m_action->y_offset - m_action->hitbox_h)),
-                    m_angle,
-                    m_color,
-                    m_blend,
-                    layer);
+                      pos - Vector(m_action->x_offset, flip == NO_FLIP ? m_action->y_offset :
+                                   (static_cast<float>(m_action->surfaces[m_frameidx]->get_height()) - m_action->y_offset - m_action->hitbox_h + m_action->flip_offset)),
+                      m_angle,
+                      m_color,
+                      m_blend,
+                      layer);
 
   context.pop_transform();
 }
@@ -207,6 +211,69 @@ Sprite::draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
   canvas.draw_surface_scaled(m_action->surfaces[m_frameidx], dest_rect, layer, style);
 
   context.pop_transform();
+}
+
+const std::optional<SpriteData::LinkedLightSprite>&
+Sprite::get_linked_light_sprite() const
+{
+  return m_action->linked_light_sprite ? m_action->linked_light_sprite : m_data.linked_light_sprite;
+}
+
+SpritePtr
+Sprite::create_linked_light_sprite() const
+{
+  const auto& sprite_data = get_linked_light_sprite();
+
+  SpritePtr sprite;
+  if (sprite_data)
+  {
+    sprite = SpriteManager::current()->create(sprite_data->file);
+    if (!sprite_data->action.empty())
+      sprite->set_action(sprite_data->action);
+    if (sprite_data->color)
+      sprite->set_color(*sprite_data->color);
+    sprite->set_blend(Blend::ADD);
+  }
+  return sprite;
+}
+
+bool
+Sprite::has_linked_sprite(const std::string& key) const
+{
+  return m_action->linked_sprites.find(key) != m_action->linked_sprites.end() ||
+         m_data.linked_sprites.find(key) != m_data.linked_sprites.end();
+}
+
+const SpriteData::LinkedSprite&
+Sprite::get_linked_sprite(const std::string& key) const
+{
+  auto it = m_action->linked_sprites.find(key);
+  if (it != m_action->linked_sprites.end())
+    return it->second;
+
+  it = m_data.linked_sprites.find(key);
+  if (it == m_data.linked_sprites.end()) // No linked sprite with such key
+  {
+    log_warning << m_data.m_filename << ": No linked sprite with key '" << key << "'." << std::endl;
+
+    static SpriteData::LinkedSprite dummy_sprite_data;
+    return dummy_sprite_data; // Empty linked sprite with an empty filename leads to a dummy sprite
+  }
+
+  return it->second;
+}
+
+SpritePtr
+Sprite::create_linked_sprite(const std::string& key) const
+{
+  const auto& sprite_data = get_linked_sprite(key);
+
+  SpritePtr sprite = SpriteManager::current()->create(sprite_data.file);
+  if (sprite_data.action.empty())
+    sprite->set_animation_loops(sprite_data.loops);
+  else
+    sprite->set_action(sprite_data.action, sprite_data.loops);
+  return sprite;
 }
 
 int
