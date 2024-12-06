@@ -409,6 +409,27 @@ void parse_parameterlist(tinyxml2::XMLElement* p_memberdef, Function& func)
 
     p_parameteritem = p_parameteritem->NextSiblingElement("parameteritem");
   }
+
+  // Get default parameter values
+  tinyxml2::XMLElement* p_param = p_memberdef->FirstChildElement("param");
+  while (p_param)
+  {
+    tinyxml2::XMLElement* p_defval = p_param->FirstChildElement("defval");
+    if (p_defval)
+    {
+      tinyxml2::XMLElement* p_declname = p_param->FirstChildElement("declname");
+      for (Parameter& param : func.parameters)
+      {
+        if (!strcmp(p_declname->GetText(), param.name.c_str()))
+        {
+          param.default_value = p_defval->GetText();
+          break;
+        }
+      }
+    }
+
+    p_param = p_param->NextSiblingElement("param");
+  }
 }
 
 

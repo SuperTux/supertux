@@ -76,7 +76,7 @@ bool attr_equal(tinyxml2::XMLElement* el, const char* attr, const std::string& r
   if (!attr_obj) return false;
 
   const char* val = attr_obj->Value();
-  return val == NULL ? rhs.empty() : std::string(val) == rhs;
+  return val == NULL ? rhs.empty() : !strcmp(val, rhs.c_str());
 }
 
 bool el_equal(tinyxml2::XMLElement* el, const char* child_el, const std::string& rhs)
@@ -85,7 +85,7 @@ bool el_equal(tinyxml2::XMLElement* el, const char* child_el, const std::string&
   if (!child_el_obj) return false;
 
   const char* text = child_el_obj->GetText();
-  return text == NULL ? rhs.empty() : std::string(text) == rhs;
+  return text == NULL ? rhs.empty() : !strcmp(text, rhs.c_str());
 }
 
 
