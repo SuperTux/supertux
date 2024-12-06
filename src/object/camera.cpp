@@ -747,24 +747,21 @@ Camera::reload_scale()
 void
 Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
 {
-  if (m_scale == scale)
+  if (m_scale == scale && m_scale_target == scale)
     return;
 
+  m_scale_target = scale;
+  m_scale_time_total = time;
+  m_scale_easing = ease;
   m_scale_anchor = anchor;
+
+  reload_scale();
 
   if (time <= 0.f)
   {
     m_scale = scale;
     if (m_mode == Mode::MANUAL)
-      m_translation = get_scale_anchor_target();
-  }
-  else
-  {
-    m_scale_target = scale;
-    m_scale_time_total = time;
-    m_scale_easing = ease;
-
-    reload_scale();
+      m_translation = m_scale_target_translation;
   }
 }
 
