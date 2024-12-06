@@ -66,7 +66,7 @@ public:
   void stop_moving();
 
   /** returns true if PathWalker is currently moving */
-  bool is_running() const { return m_running; }
+  inline bool is_running() const { return m_running; }
 
 private:
   void advance_node();

@@ -35,12 +35,12 @@
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/direction.hpp"
 #include "worldmap/level_tile.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/world_select.hpp"
-#include "worldmap/worldmap_screen.hpp"
 #include "worldmap/worldmap_sector.hpp"
 #include "worldmap/worldmap_sector_parser.hpp"
 #include "worldmap/worldmap_state.hpp"
@@ -129,17 +129,18 @@ WorldMap::leave()
 
 
 void
-WorldMap::draw(DrawingContext& context)
+WorldMap::draw(Compositor& compositor)
 {
+  auto& context = compositor.make_context();
   m_sector->draw(context);
-
-  context.pop_transform();
 }
 
 void
-WorldMap::update(float dt_sec)
+WorldMap::update(float dt_sec, const Controller& controller)
 {
   if (m_in_world_select) return;
+
+  process_input(controller);
 
   if (m_in_level) return;
   if (MenuManager::instance().is_active()) return;
@@ -148,7 +149,7 @@ WorldMap::update(float dt_sec)
   {
     m_savegame.get_player_status().last_worldmap = m_next_worldmap->m_map_filename;
     ScreenManager::current()->pop_screen();
-    ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(std::move(m_next_worldmap)));
+    ScreenManager::current()->push_screen(std::move(m_next_worldmap));
     return;
   }
 
@@ -159,9 +160,6 @@ void
 WorldMap::process_input(const Controller& controller)
 {
   m_enter_level = false;
-
-  if (m_in_world_select)
-    return;
 
   if (controller.pressed(Control::ACTION) && !m_in_level)
   {
@@ -196,6 +194,15 @@ WorldMap::process_input(const Controller& controller)
   {
     MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
   }
+}
+
+IntegrationStatus
+WorldMap::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("In worldmap");
+  status.m_details.push_back(m_name);
+  return status;
 }
 
 
@@ -266,19 +273,6 @@ WorldMap::set_levels_solved(bool solved, bool perfect)
     level.set_solved(solved);
     level.set_perfect(perfect);
   }
-}
-
-void
-WorldMap::set_passive_message(const std::string& message, float time)
-{
-  m_passive_message = message;
-  m_passive_message_timer.start(time);
-}
-
-void
-WorldMap::set_initial_spawnpoint(const std::string& spawnpoint)
-{
-  m_force_spawnpoint = spawnpoint;
 }
 
 

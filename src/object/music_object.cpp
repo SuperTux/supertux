@@ -29,6 +29,7 @@ MusicObject::MusicObject() :
 }
 
 MusicObject::MusicObject(const ReaderMapping& mapping) :
+  LayerObject(mapping),
   m_currentmusic(LEVEL_MUSIC),
   m_music()
 {
@@ -81,24 +82,6 @@ MusicObject::resume_music(bool instantly)
     SoundManager::current()->stop_music();
     SoundManager::current()->play_music(m_music, true);
   }
-}
-
-MusicType
-MusicObject::get_music_type() const
-{
-  return m_currentmusic;
-}
-
-void
-MusicObject::set_music(const std::string& music)
-{
-  m_music = music;
-}
-
-const std::string&
-MusicObject::get_music() const
-{
-  return m_music;
 }
 
 ObjectSettings

@@ -48,7 +48,7 @@ public:
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 protected:
   enum Type { TARANTULA, SPIDERMITE };

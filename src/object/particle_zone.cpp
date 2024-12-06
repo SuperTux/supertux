@@ -108,7 +108,7 @@ ParticleZone::draw(DrawingContext& context)
 }
 
 HitResponse
-ParticleZone::collision(GameObject& other, const CollisionHit& hit)
+ParticleZone::collision(MovingObject& other, const CollisionHit& hit)
 {
   return ABORT_MOVE;
 }

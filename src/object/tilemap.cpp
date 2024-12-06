@@ -74,7 +74,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   PathObject(),
   m_editor_active(true),
   m_tileset(tileset_),
@@ -166,7 +166,9 @@ TileMap::parse_tiles(const ReaderMapping& reader)
   reader.get("height", m_height);
   if (m_width < 0 || m_height < 0)
   {
-    //throw std::runtime_error("Invalid/No width/height specified in tilemap.");
+    if (!Sector::current())
+      throw std::runtime_error("Invalid/No width/height specified in tilemap.");
+
     m_width = 0;
     m_height = 0;
     m_tiles.clear();
@@ -176,7 +178,7 @@ TileMap::parse_tiles(const ReaderMapping& reader)
   }
   else
   {
-    reader.get("tiles", m_tiles);
+    reader.get_compressed("tiles", m_tiles);
     if (m_tiles.empty())
       throw std::runtime_error("No tiles in tilemap.");
 
@@ -204,6 +206,14 @@ TileMap::parse_tiles(const ReaderMapping& reader)
   m_new_size_y = m_height;
   m_new_offset_x = 0;
   m_new_offset_y = 0;
+}
+
+void
+TileMap::write_tiles(Writer& writer) const
+{
+  writer.write("width", m_width);
+  writer.write("height", m_height);
+  writer.write_compressed("tiles", m_tiles);
 }
 
 void
@@ -643,13 +653,7 @@ void
 TileMap::set_solid(bool solid)
 {
   m_real_solid = solid;
-  update_effective_solid ();
-}
-
-bool
-TileMap::get_solid() const
-{
-  return m_effective_solid;
+  update_effective_solid();
 }
 
 uint32_t
@@ -979,12 +983,6 @@ TileMap::update_effective_solid(bool update_manager)
 
   if (update_manager)
     get_parent()->update_solid(this);
-}
-
-void
-TileMap::set_tileset(const TileSet* new_tileset)
-{
-  m_tileset = new_tileset;
 }
 
 

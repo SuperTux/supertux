@@ -52,10 +52,10 @@ public:
     return *this;
   }
 
-  const Color& get_color() const { return m_color; }
-  const float& get_alpha() const { return m_alpha; }
-  const Blend& get_blend() const { return m_blend; }
-  const Flip& get_flip() const { return m_flip; }
+  inline const Color& get_color() const { return m_color; }
+  inline const float& get_alpha() const { return m_alpha; }
+  inline const Blend& get_blend() const { return m_blend; }
+  inline const Flip& get_flip() const { return m_flip; }
 
 private:
   Color m_color;

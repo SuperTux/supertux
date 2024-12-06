@@ -32,7 +32,7 @@ public:
     return false;
   }
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit) override {
+  HitResponse collision(MovingObject& other, const CollisionHit& hit) override {
     return FORCE_MOVE;
   }
 

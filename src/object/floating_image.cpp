@@ -63,60 +63,6 @@ FloatingImage::update(float dt_sec)
 }
 
 void
-FloatingImage::set_layer(int layer)
-{
-  m_layer = layer;
-}
-
-int
-FloatingImage::get_layer() const
-{
-  return m_layer;
-}
-
-void
-FloatingImage::set_pos(float x, float y)
-{
-  m_pos = Vector(x, y);
-}
-
-float
-FloatingImage::get_x() const
-{
-  return m_pos.x;
-}
-
-float
-FloatingImage::get_y() const
-{
-  return m_pos.y;
-}
-
-void
-FloatingImage::set_anchor_point(int anchor)
-{
-  m_anchor = static_cast<AnchorPoint>(anchor);
-}
-
-int
-FloatingImage::get_anchor_point() const
-{
-  return static_cast<int>(m_anchor);
-}
-
-bool
-FloatingImage::get_visible() const
-{
-  return m_visible;
-}
-
-void
-FloatingImage::set_visible(bool visible)
-{
-  m_visible = visible;
-}
-
-void
 FloatingImage::set_action(const std::string& action)
 {
   m_sprite->set_action(action);

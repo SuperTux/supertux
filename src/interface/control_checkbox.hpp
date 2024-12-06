@@ -29,9 +29,9 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
 
-  bool get_value() const { return *m_value; }
-  void set_value(bool value) { *m_value = value; }
-  void bind_value(bool* value) { m_value = value; }
+  inline bool get_value() const { return *m_value; }
+  inline void set_value(bool value) { *m_value = value; }
+  inline void bind_value(bool* value) { m_value = value; }
 
 private:
   bool* m_value;

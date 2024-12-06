@@ -30,7 +30,7 @@ public:
   virtual void freeze() override;
   virtual void unfreeze(bool melt = true) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void kill_fall() override;
 

@@ -447,7 +447,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
 }
 
 HitResponse
-BadGuy::collision(GameObject& other, const CollisionHit& hit)
+BadGuy::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (!is_active()) return ABORT_MOVE;
 
@@ -598,7 +598,7 @@ BadGuy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 bool
-BadGuy::collision_squished(GameObject& object)
+BadGuy::collision_squished(MovingObject& object)
 {
   // Frozen badguys can be killed with butt-jump.
   if (m_frozen)

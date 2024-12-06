@@ -49,7 +49,7 @@ public:
 
 protected:
   void update();
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
+  HitResponse collision(MovingObject& other, const CollisionHit& hit);
 
 private:
   std::vector<Player*> m_hit;
@@ -74,7 +74,7 @@ public:
   {
     TriggerBase::update();
   }
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override
   {
     return TriggerBase::collision(other, hit);
   }
@@ -101,7 +101,7 @@ public:
   {
     TriggerBase::update();
   }
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override
   {
     return TriggerBase::collision(other, hit);
   }
@@ -127,7 +127,7 @@ public:
     StickyObject::update(dt_sec);
     TriggerBase::update();
   }
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override
   {
     return TriggerBase::collision(other, hit);
   }

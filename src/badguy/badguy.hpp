@@ -78,7 +78,7 @@ public:
   /** Called when a collision with another object occurred. The
       default implementation calls collision_player, collision_solid,
       collision_badguy and collision_squished */
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   /** Called when a collision with tile with special attributes
       occurred */
@@ -102,8 +102,8 @@ public:
       current form. */
   virtual bool can_break() const { return false; }
 
-  Vector get_start_position() const { return m_start_position; }
-  void set_start_position(const Vector& vec) { m_start_position = vec; }
+  inline Vector get_start_position() const { return m_start_position; }
+  inline void set_start_position(const Vector& vec) { m_start_position = vec; }
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
@@ -157,7 +157,7 @@ public:
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
-  Physic& get_physic() { return m_physic; }
+  inline Physic& get_physic() { return m_physic; }
 
 protected:
   enum State {
@@ -188,7 +188,7 @@ protected:
   /** Called when the player hit the badguy from above. You should
       return true if the badguy was squished, false if squishing
       wasn't possible */
-  virtual bool collision_squished(GameObject& object);
+  virtual bool collision_squished(MovingObject& object);
 
   /** Called when the badguy collided with a bullet */
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
@@ -216,7 +216,7 @@ protected:
   void kill_squished(GameObject& object);
 
   void set_state(State state);
-  State get_state() const { return m_state; }
+  inline State get_state() const { return m_state; }
 
   bool check_state_timer() {
     return m_state_timer.check();

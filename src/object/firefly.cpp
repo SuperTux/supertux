@@ -97,7 +97,7 @@ Firefly::update_state()
 }
 
 HitResponse
-Firefly::collision(GameObject& other, const CollisionHit& )
+Firefly::collision(MovingObject& other, const CollisionHit& )
 {
   // If the bell is already activated, don't ring it again!
   if (activated || m_sprite->get_action() == "ringing")

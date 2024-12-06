@@ -80,39 +80,9 @@ CloudParticleSystem::init()
 }
 
 void
-CloudParticleSystem::set_x_speed(float speed)
-{
-  m_current_speed_x = speed;
-}
-
-float
-CloudParticleSystem::get_x_speed() const
-{
-  return m_current_speed_x;
-}
-
-void
-CloudParticleSystem::set_y_speed(float speed)
-{
-  m_current_speed_y = speed;
-}
-
-float
-CloudParticleSystem::get_y_speed() const
-{
-  return m_current_speed_y;
-}
-
-void
 CloudParticleSystem::set_fog_opacity(float opacity)
 {
   m_fog_opacity = std::clamp(opacity, 0.f, 100.f);
-}
-
-float
-CloudParticleSystem::get_fog_opacity() const
-{
-  return m_fog_opacity;
 }
 
 ObjectSettings
@@ -323,12 +293,6 @@ CloudParticleSystem::fade_amount(int new_amount, float fade_time, float time_bet
   {
     add_clouds(delta, fade_time);
   }
-}
-
-void
-CloudParticleSystem::set_amount(int amount, float time)
-{
-  fade_amount(amount, time, 0.f);
 }
 
 void

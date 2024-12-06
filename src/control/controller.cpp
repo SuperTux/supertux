@@ -106,12 +106,6 @@ Controller::set_jump_key_with_up(bool value)
   }
 }
 
-void
-Controller::set_touchscreen(bool value)
-{
-  m_touchscreen = value;
-}
-
 bool
 Controller::hold(Control control) const
 {
@@ -128,12 +122,6 @@ bool
 Controller::released(Control control) const
 {
   return m_old_controls[static_cast<int>(control)] && !m_controls[static_cast<int>(control)];
-}
-
-bool
-Controller::is_touchscreen() const
-{
-  return m_touchscreen;
 }
 
 void

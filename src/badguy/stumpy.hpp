@@ -45,7 +45,7 @@ protected:
   };
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 private:
   MyState mystate;

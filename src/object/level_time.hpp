@@ -17,7 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_LEVEL_TIME_HPP
 #define HEADER_SUPERTUX_OBJECT_LEVEL_TIME_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
+
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -29,7 +30,7 @@ class ReaderMapping;
  * @instances A ""LevelTime"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class LevelTime final : public GameObject
+class LevelTime final : public LayerObject
 {
   static Color text_color;
 

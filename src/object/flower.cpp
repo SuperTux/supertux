@@ -70,7 +70,7 @@ Flower::draw(DrawingContext& context)
 }
 
 HitResponse
-Flower::collision(GameObject& other, const CollisionHit& )
+Flower::collision(MovingObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*>(&other);
   if (!player)
