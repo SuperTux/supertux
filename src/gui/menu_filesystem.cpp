@@ -29,8 +29,9 @@
 #include "util/string_util.hpp"
 
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(const std::string&)> callback,
-                               const std::function<void (MenuItem&)>& item_processor) :
+                               const std::string& basedir, bool path_relative_to_basedir,
+                               std::function<void(const std::string&)> callback,
+                               const std::function<void (MenuItem&, const std::string&, bool)> item_processor) :
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
@@ -108,9 +109,10 @@ FileSystemMenu::refresh_items()
   const bool in_basedir = m_directory == FileSystem::normalize(m_basedir);
   for (const auto& item : m_files)
   {
+    std::string file_path = FileSystem::join(m_directory, item);
     MenuItem& menu_item = add_entry(item_id, item);
-    if (in_basedir && m_item_processor)
-      m_item_processor(menu_item);
+    if (m_item_processor)
+      m_item_processor(menu_item, file_path, in_basedir);
 
     item_id++;
   }

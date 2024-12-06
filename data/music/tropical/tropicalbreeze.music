@@ -1,5 +1,8 @@
 (supertux-music
   (file "tropicalbreeze.ogg")
+  (authors "Flan")
+  (license "CC-BY-SA 4.0")
+  (title "Tropical Breeze")
   (loop-begin 0)
   (loop-at    73)
 )
