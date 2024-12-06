@@ -783,7 +783,7 @@ Camera::set_mode(const std::string& mode)
 }
 
 void
-Camera::scale(float scale, float time, int anchor, const std::string& ease)
+Camera::set_scale(float scale, float time, int anchor, const std::string& ease)
 {
   ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)), static_cast<AnchorPoint>(anchor));
 }
@@ -862,12 +862,12 @@ Camera::register_class(ssq::VM& vm)
   cls.addFunc<void, Camera, float, float, float>("scroll_to", &Camera::scroll_to);
   cls.addFunc("get_current_scale", &Camera::get_current_scale);
   cls.addFunc("get_target_scale", &Camera::get_target_scale);
-  cls.addFunc("set_scale", &Camera::set_scale); // Deprecated
+  cls.addFunc("set_scale", &Camera::set_scale, ssq::DefaultArguments<float, int, std::string>(0.f, AnchorPoint::ANCHOR_MIDDLE, ""));
   cls.addFunc("set_scale_anchor", &Camera::set_scale_anchor); // Deprecated
-  cls.addFunc("scale", &Camera::scale, ssq::DefaultArguments<float, int, std::string>(0.f, AnchorPoint::ANCHOR_MIDDLE, ""));
+  cls.addFunc("scale", &Camera::scale); // Deprecated
   cls.addFunc("scale_anchor", &Camera::scale_anchor); // Deprecated
   cls.addFunc<void, Camera, float, float, const std::string&>("ease_scale", &Camera::ease_scale); // Deprecated
-  cls.addFunc("ease_scale_anchor", &Camera::scale); // Deprecated
+  cls.addFunc("ease_scale_anchor", &Camera::set_scale); // Deprecated
   cls.addFunc("get_screen_width", &Camera::get_screen_width);
   cls.addFunc("get_screen_height", &Camera::get_screen_height);
   cls.addFunc("get_x", &Camera::get_x);
