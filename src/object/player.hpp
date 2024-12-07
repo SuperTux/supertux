@@ -425,7 +425,6 @@ public:
   void remove_collected_key(Key* key);
 
   bool track_state() const override { return false; }
-  void ignore_sideways_crush() { m_ignore_sideways_crush = true; }
 
 private:
   void handle_input();
@@ -501,7 +500,6 @@ private:
   bool m_jump_early_apex;
   bool m_on_ice;
   bool m_ice_this_frame;
-  bool m_ignore_sideways_crush;
   //SpritePtr m_santahatsprite;
   SpritePtr m_multiplayer_arrow;
 

@@ -131,21 +131,18 @@ Crusher::collision(GameObject& other, const CollisionHit& hit)
 
   // If the other object is the player, and the collision is at the
   // bottom of the crusher, hurt the player.
-  if (player && is_crushing && 
-    ((crushed_bottom && player->on_ground()) || crushed_sideways)) {
+  if (player && is_crushing &&
+    ((crushed_bottom && player->on_ground()) || crushed_sideways))
+  {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
     set_state(RECOVERING);
+
     if (player->is_invincible()) {
       return ABORT_MOVE;
     }
-    if(crushed_sideways)
-    {
-      // TODO: Is there a better method than introducing 
-      // a completely new player method (e.g. by returning 
-      // ABORT_MOVE from this function)?
-      player->ignore_sideways_crush();
-    }
+
     player->kill(false);
+
     return FORCE_MOVE;
   }
 
