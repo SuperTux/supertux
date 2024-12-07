@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2024 Vankata453
+//  Copyright (C) 2024 Hyland B. <me@ow.swag.toys>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,23 +14,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_EXPOSABLE_CLASS_HPP
-#define HEADER_SUPERTUX_SQUIRREL_EXPOSABLE_CLASS_HPP
+#include "object_state.hpp"
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
 
-#include <simplesquirrel/exposable_class.hpp>
+ObjectState::ObjectState() :
+  m_state()
+{ }
 
-#include <string>
-
-/** Represents a class, which can be exposed to scripting. */
-class ExposableClass : public ssq::ExposableClass
+ObjectState::ObjectState(const std::size_t size) :
+  m_state(size+1)
 {
-public:
-  ExposableClass() {}
-  virtual ~ExposableClass() override {}
+}
 
-  virtual std::string get_exposed_class_name() const = 0;
-};
-
-#endif
-
-/* EOF */
+void
+ObjectState::expose(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addClass<ObjectState>("ObjectState");
+  
+  cls.addFunc("set_state", &ObjectState::set);
+  cls.addFunc("get_state", &ObjectState::get);
+}
