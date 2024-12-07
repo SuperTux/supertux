@@ -190,12 +190,6 @@
     )
     (switch
       (script "wind2.start();")
-      (off-script "door1.goto_node(0);
-door2.goto_node(0);
-door3.goto_node(0);
-door4.goto_node(0);
-door5.goto_node(0);
-door6.goto_node(0);")
       (sprite "/images/objects/switch/right.sprite")
       (x 8000)
       (y 1376)
