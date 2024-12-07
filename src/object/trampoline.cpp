@@ -84,7 +84,7 @@ void
 Trampoline::update(float dt_sec)
 {
   if (m_sprite->animation_done()) {
-    set_action("normal");
+    set_action("default");
   }
 
   Rock::update(dt_sec);

@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (name "normal")
+    (name "default")
 	(fps 15)
     (hitbox 14 7 32 44)
     (images "skydive-0.png"
