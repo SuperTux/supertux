@@ -50,4 +50,14 @@
   (name "iced-right")
   (hitbox 20 15 64 64)
   (mirror-action "iced-left"))
+
+ (action
+  (hitbox 20 15 64 64)
+  (name "burning-left")
+  (clone-action "iced-left"))
+
+ (action
+  (hitbox 20 15 64 64)
+  (name "burning-right")
+  (mirror-action "burning-left"))
 )
