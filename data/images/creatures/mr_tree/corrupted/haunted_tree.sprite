@@ -23,30 +23,6 @@
     (mirror-action "left")
   )
   (action
-    (hitbox 14 10 62 78)
-    (name "burning-left")
-    (fps 15)
-    (images 
-      "../burning-0.png"
-      "../burning-1.png"
-      "../burning-2.png"
-      "../burning-3.png"
-      "../burning-4.png"
-      "../burning-5.png"
-      "../burning-6.png"
-      "../burning-7.png"
-      "../burning-8.png"
-      "../burning-9.png"
-      "../burning-10.png"
-    )
-  )
-  (action
-    (hitbox 14 10 62 78)
-    (fps 15)
-    (name "burning-right")
-    (mirror-action "burning-left")
-  )
-  (action
     (hitbox 2 0 96 96)
     (name "iced-left")
     (images "haunted_tree-0.png")
@@ -55,5 +31,15 @@
     (hitbox 2 0 96 96)
     (name "iced-right")
     (mirror-action "iced-left")
+  )
+    (action
+    (hitbox 2 0 96 96)
+    (name "burning-left")
+    (clone-action "iced-left")
+  )
+  (action
+    (hitbox 2 0 96 96)
+    (name "burning-right")
+    (mirror-action "burning-left")
   )
 )
