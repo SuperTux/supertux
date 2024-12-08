@@ -25,7 +25,7 @@ static const float HORIZONTAL_SPEED = 220; /**< X-speed when jumping. */
 static const float VERTICAL_SPEED = -450;   /**< Y-speed when jumping. */
 
 CorruptedGranito::CorruptedGranito(const ReaderMapping& reader) :
-  StickyBadguy(reader, "images/creatures/granito/corrupted/corrupted_granito.sprite"),
+  BadGuy(reader, "images/creatures/granito/corrupted/corrupted_granito.sprite"),
   recover_timer(),
   state()
 {
