@@ -107,99 +107,100 @@ Tile::draw_debug(Canvas& canvas, const Vector& pos, int z_pos, const Color& colo
   else
   {
     int slope_info = get_data();
+    Color tricolor = color.multiply_linearly(0.25f);
 
     switch (slope_info)
     {
       case AATriangle::SOUTHWEST:
-        canvas.draw_triangle({pos.x, pos.y}, {pos.x, pos.y + 32.0f}, {pos.x + 32.0f, pos.y + 32.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y}, {pos.x, pos.y + 32.0f}, {pos.x + 32.0f, pos.y + 32.0f}, tricolor, z_pos);
         break;
 
       case AATriangle::NORTHEAST:
-        canvas.draw_triangle({pos.x, pos.y}, {pos.x + 32.0f, pos.y}, {pos.x + 32.0f, pos.y + 32.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y}, {pos.x + 32.0f, pos.y}, {pos.x + 32.0f, pos.y + 32.0f}, tricolor, z_pos);
         break;
 
       case AATriangle::SOUTHEAST:
-        canvas.draw_triangle({pos.x, pos.y + 32.0f}, {pos.x + 32.0f, pos.y}, {pos.x + 32.0f, pos.y + 32.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y + 32.0f}, {pos.x + 32.0f, pos.y}, {pos.x + 32.0f, pos.y + 32.0f}, tricolor, z_pos);
         break;
 
       case AATriangle::NORTHWEST:
-        canvas.draw_triangle({pos.x, pos.y}, {pos.x + 32.0f, pos.y}, {pos.x, pos.y + 32.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y}, {pos.x + 32.0f, pos.y}, {pos.x, pos.y + 32.0f}, tricolor, z_pos);
         break;
 
 
       case AATriangle::SOUTHWEST | AATriangle::DEFORM_BOTTOM:
-        canvas.draw_triangle({pos.x, pos.y + 16.0f}, {pos.x, pos.y + 32.0f}, {pos.x + 32.0f, pos.y + 32.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y + 16.0f}, {pos.x, pos.y + 32.0f}, {pos.x + 32.0f, pos.y + 32.0f}, tricolor, z_pos);
         break;
 
       case AATriangle::NORTHEAST | AATriangle::DEFORM_BOTTOM:
         canvas.draw_filled_rect(Rectf(pos.x, pos.y, pos.x + 32.0f, pos.y + 16.0f), color, z_pos);
-        canvas.draw_triangle({pos.x, pos.y + 16.0f}, {pos.x + 32.0f, pos.y + 16.0f}, {pos.x + 32.0f, pos.y + 32.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y + 16.0f}, {pos.x + 32.0f, pos.y + 16.0f}, {pos.x + 32.0f, pos.y + 32.0f}, tricolor, z_pos);
         break;
 
       case AATriangle::SOUTHEAST | AATriangle::DEFORM_BOTTOM:
-        canvas.draw_triangle({pos.x + 32.0f, pos.y + 32.0f}, {pos.x, pos.y + 32.0f}, {pos.x + 32.0f, pos.y + 16.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x + 32.0f, pos.y + 32.0f}, {pos.x, pos.y + 32.0f}, {pos.x + 32.0f, pos.y + 16.0f}, tricolor, z_pos);
         break;
 
       case AATriangle::NORTHWEST | AATriangle::DEFORM_BOTTOM:
         canvas.draw_filled_rect(Rectf(pos.x, pos.y, pos.x + 32.0f, pos.y + 16.0f), color, z_pos);
-        canvas.draw_triangle({pos.x, pos.y + 32.0f}, {pos.x + 32.0f, pos.y + 16.0f}, {pos.x, pos.y + 16.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y + 32.0f}, {pos.x + 32.0f, pos.y + 16.0f}, {pos.x, pos.y + 16.0f}, tricolor, z_pos);
         break;
 
 
       case AATriangle::SOUTHWEST | AATriangle::DEFORM_TOP:
         canvas.draw_filled_rect(Rectf(pos.x, pos.y + 16.0f, pos.x + 32.0f, pos.y + 32.0f), color, z_pos);
-        canvas.draw_triangle({pos.x, pos.y + 16.0f}, {pos.x + 32.0f, pos.y + 16.0f}, {pos.x, pos.y}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y + 16.0f}, {pos.x + 32.0f, pos.y + 16.0f}, {pos.x, pos.y}, tricolor, z_pos);
         break;
 
       case AATriangle::NORTHEAST | AATriangle::DEFORM_TOP:
-        canvas.draw_triangle({pos.x + 32.0f, pos.y}, {pos.x + 32.0f, pos.y + 16.0f}, {pos.x, pos.y}, color, z_pos);
+        canvas.draw_triangle({pos.x + 32.0f, pos.y}, {pos.x + 32.0f, pos.y + 16.0f}, {pos.x, pos.y}, tricolor, z_pos);
         break;
 
       case AATriangle::SOUTHEAST | AATriangle::DEFORM_TOP:
         canvas.draw_filled_rect(Rectf(pos.x, pos.y + 16.0f, pos.x + 32.0f, pos.y + 32.0f), color, z_pos);
-        canvas.draw_triangle({pos.x + 32.0f, pos.y + 16.0f}, {pos.x, pos.y + 16.0f}, {pos.x + 32.0f, pos.y}, color, z_pos);
+        canvas.draw_triangle({pos.x + 32.0f, pos.y + 16.0f}, {pos.x, pos.y + 16.0f}, {pos.x + 32.0f, pos.y}, tricolor, z_pos);
         break;
 
       case AATriangle::NORTHWEST | AATriangle::DEFORM_TOP:
-        canvas.draw_triangle({pos.x, pos.y}, {pos.x + 32.0f, pos.y}, {pos.x, pos.y + 16.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y}, {pos.x + 32.0f, pos.y}, {pos.x, pos.y + 16.0f}, tricolor, z_pos);
         break;
 
 
       case AATriangle::SOUTHWEST | AATriangle::DEFORM_LEFT:
-        canvas.draw_triangle({pos.x, pos.y + 32.0f}, {pos.x, pos.y}, {pos.x + 16.0f, pos.y + 32.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y + 32.0f}, {pos.x, pos.y}, {pos.x + 16.0f, pos.y + 32.0f}, tricolor, z_pos);
         break;
 
       case AATriangle::NORTHEAST | AATriangle::DEFORM_LEFT:
         canvas.draw_filled_rect(Rectf(pos.x + 16.0f, pos.y, pos.x + 32.0f, pos.y + 32.0f), color, z_pos);
-        canvas.draw_triangle({pos.x + 16.0f, pos.y}, {pos.x + 16.0f, pos.y + 32.0f}, {pos.x, pos.y}, color, z_pos);
+        canvas.draw_triangle({pos.x + 16.0f, pos.y}, {pos.x + 16.0f, pos.y + 32.0f}, {pos.x, pos.y}, tricolor, z_pos);
         break;
 
       case AATriangle::SOUTHEAST | AATriangle::DEFORM_LEFT:
         canvas.draw_filled_rect(Rectf(pos.x + 16.0f, pos.y, pos.x + 32.0f, pos.y + 32.0f), color, z_pos);
-        canvas.draw_triangle({pos.x + 16.0f, pos.y + 32.0f}, {pos.x, pos.y + 32.0f}, {pos.x + 16.0f, pos.y}, color, z_pos);
+        canvas.draw_triangle({pos.x + 16.0f, pos.y + 32.0f}, {pos.x, pos.y + 32.0f}, {pos.x + 16.0f, pos.y}, tricolor, z_pos);
         break;
 
       case AATriangle::NORTHWEST | AATriangle::DEFORM_LEFT:
-        canvas.draw_triangle({pos.x, pos.y}, {pos.x + 16.0f, pos.y}, {pos.x, pos.y + 16.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x, pos.y}, {pos.x + 16.0f, pos.y}, {pos.x, pos.y + 16.0f}, tricolor, z_pos);
         break;
 
 
       case AATriangle::SOUTHWEST | AATriangle::DEFORM_RIGHT:
         canvas.draw_filled_rect(Rectf(pos.x, pos.y, pos.x + 16.0f, pos.y + 32.0f), color, z_pos);
-        canvas.draw_triangle({pos.x + 16.0f, pos.y + 32.0f}, {pos.x + 16.0f, pos.y}, {pos.x + 32.0f, pos.y + 32.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x + 16.0f, pos.y + 32.0f}, {pos.x + 16.0f, pos.y}, {pos.x + 32.0f, pos.y + 32.0f}, tricolor, z_pos);
         break;
 
       case AATriangle::NORTHEAST | AATriangle::DEFORM_RIGHT:
-        canvas.draw_triangle({pos.x + 32.0f, pos.y}, {pos.x + 32.0f, pos.y + 32.0f}, {pos.x + 16.0f, pos.y}, color, z_pos);
+        canvas.draw_triangle({pos.x + 32.0f, pos.y}, {pos.x + 32.0f, pos.y + 32.0f}, {pos.x + 16.0f, pos.y}, tricolor, z_pos);
         break;
 
       case AATriangle::SOUTHEAST | AATriangle::DEFORM_RIGHT:
-        canvas.draw_triangle({pos.x + 32.0f, pos.y + 32.0f}, {pos.x + 16.0f, pos.y + 32.0f}, {pos.x + 32.0f, pos.y}, color, z_pos);
+        canvas.draw_triangle({pos.x + 32.0f, pos.y + 32.0f}, {pos.x + 16.0f, pos.y + 32.0f}, {pos.x + 32.0f, pos.y}, tricolor, z_pos);
         break;
 
       case AATriangle::NORTHWEST | AATriangle::DEFORM_RIGHT:
         canvas.draw_filled_rect(Rectf(pos.x, pos.y, pos.x + 16.0f, pos.y + 32.0f), color, z_pos);
-        canvas.draw_triangle({pos.x + 16.0f, pos.y}, {pos.x + 32.0f, pos.y}, {pos.x + 16.0f, pos.y + 32.0f}, color, z_pos);
+        canvas.draw_triangle({pos.x + 16.0f, pos.y}, {pos.x + 32.0f, pos.y}, {pos.x + 16.0f, pos.y + 32.0f}, tricolor, z_pos);
         break;
     }
   }
