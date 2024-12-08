@@ -50,13 +50,13 @@ public:
          const std::string& ice_sprite_name = BADGUY_ICE_SPRITE_NAME);
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = BADGUY_LIGHT_SPRITE_NAME,
-         const std::string& ice_sprite_name = BADGUY_LIGHT_SPRITE_NAME);
+         const std::string& ice_sprite_name = BADGUY_ICE_SPRITE_NAME);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = BADGUY_LIGHT_SPRITE_NAME,
-         const std::string& ice_sprite_name = BADGUY_LIGHT_SPRITE_NAME);
+         const std::string& ice_sprite_name = BADGUY_ICE_SPRITE_NAME);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = BADGUY_LIGHT_SPRITE_NAME,
-         const std::string& ice_sprite_name = BADGUY_LIGHT_SPRITE_NAME);
+         const std::string& ice_sprite_name = BADGUY_ICE_SPRITE_NAME);
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
