@@ -21,28 +21,6 @@
     (mirror-action "left")
   )
   (action
-    (hitbox 20 23 42 62)
-    (fps 15)
-    (name "burning-left")
-    (images "small-burning-0.png"
-            "small-burning-1.png"
-            "small-burning-2.png"
-            "small-burning-3.png"
-            "small-burning-4.png"
-            "small-burning-5.png"
-            "small-burning-6.png"
-            "small-burning-7.png"
-            "small-burning-8.png"
-            "small-burning-9.png"
-            "small-burning-10.png")
-  )
-  (action
-    (hitbox 20 23 42 62)
-    (name "burning-right")
-    (fps 15)
-    (mirror-action "burning-left")
-  )
-  (action
     (hitbox 12 30 64 64)
     (name "iced-left")
     (images "stumpy-7.png")
@@ -51,6 +29,16 @@
     (hitbox 12 30 64 64)
     (name "iced-right")
     (mirror-action "iced-left")
+  )
+  (action
+    (hitbox 12 30 64 64)
+    (name "burning-left")
+    (clone-action "iced-left")
+  )
+  (action
+    (hitbox 12 30 64 64)
+    (name "burning-right")
+    (mirror-action "burning-left")
   )
   (action
     (hitbox 22 38 46 50)

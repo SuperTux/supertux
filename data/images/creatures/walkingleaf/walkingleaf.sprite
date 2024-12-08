@@ -52,13 +52,24 @@
   (hitbox 3 6 64 43)
   (mirror-action "iced-left")
  )
+
+ (action
+  (hitbox 3 6 64 43)
+  (name "burning-left")
+  (clone-action "iced-left")
+  )
+
+ (action
+  (hitbox 3 6 64 43)
+  (name "burning-right")
+  (mirror-action "burning-left")
+ )
  
  (action
   (name "squished-left")
   (hitbox 9 12 32 32)
   (images "squished.png")
  )
-
  
  (action
   (name "squished-right")
@@ -66,24 +77,4 @@
   (mirror-action "squished-left")
  )
 
- (action
-  (name "burning-left")
-  (hitbox 9 12 32 32)
-  (fps 15)
-  (images "burning-0.png"
-		  "burning-1.png"
-		  "burning-2.png"
-		  "burning-3.png"
-		  "burning-4.png"
-		  "burning-5.png"
-		  "burning-6.png"
-		  "burning-7.png"
-		  "burning-8.png"
-		  "burning-9.png"))
-
- (action
-  (name "burning-right")
-  (hitbox 9 12 32 32)
-  (mirror-action "burning-left")
- )
 )
