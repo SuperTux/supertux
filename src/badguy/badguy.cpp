@@ -48,13 +48,15 @@ static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name,
+               const std::string& fire_sprite_name) :
   BadGuy(pos, Direction::LEFT, sprite_name, layer, light_sprite_name)
 {
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name,
+               const std::string& fire_sprite_name) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
   m_countMe(true),
@@ -69,6 +71,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
+  m_firesprite(SpriteManager::current()->create(fire_sprite_name)),
   m_glowing(false),
   m_water_affected(true),
   m_unfreeze_timer(),
@@ -79,7 +82,9 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_state_timer(),
   m_on_ground_flag(false),
   m_colgroup_active(COLGROUP_MOVING),
-  m_alpha_before_fadeout(1.0f)
+  m_alpha_before_fadeout(1.0f),
+  m_flame_color(1.f, 0.5f, 0.2f, 1.f),
+  m_flame_timer()
 {
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
@@ -89,17 +94,21 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 
   m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
   m_lightsprite->set_blend(Blend::ADD);
+  m_lightsprite->set_color(m_flame_color);
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  BadGuy(reader, sprite_name, Direction::AUTO, layer, light_sprite_name, ice_sprite_name)
+               const std::string& light_sprite_name, const std::string& ice_sprite_name,
+               const std::string& fire_sprite_name) :
+  BadGuy(reader, sprite_name, Direction::AUTO, layer, light_sprite_name, ice_sprite_name,
+         fire_sprite_name)
 {
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
                Direction default_direction, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name,
+               const std::string& fire_sprite_name) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
   m_countMe(true),
@@ -114,6 +123,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
+  m_firesprite(SpriteManager::current()->create(fire_sprite_name)),
   m_glowing(false),
   m_water_affected(true),
   m_unfreeze_timer(),
@@ -123,7 +133,9 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_is_active_flag(),
   m_state_timer(),
   m_on_ground_flag(false),
-  m_colgroup_active(COLGROUP_MOVING)
+  m_colgroup_active(COLGROUP_MOVING),
+  m_flame_color(1.f, 0.5f, 0.2f, 1.f),
+  m_flame_timer()
 {
   std::string dir_str;
   if (reader.get("direction", dir_str))
@@ -140,6 +152,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
 
   m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
   m_lightsprite->set_blend(Blend::ADD);
+  m_lightsprite->set_color(m_flame_color);
 }
 
 void
@@ -175,9 +188,26 @@ BadGuy::draw(DrawingContext& context)
       }
       else
       {
-        if (m_frozen && is_portable())
+        if (m_frozen && is_portable()) {
           m_freezesprite->draw(context.color(), draw_pos, m_layer);
+        }
+
+        if (m_state != STATE_BURNING || (m_state == STATE_BURNING && m_firesprite->get_current_frame() < 5))
         m_sprite->draw(context.color(), draw_pos, m_layer - (m_frozen ? 1 : 0), m_flip);
+      }
+
+      if (m_state == STATE_BURNING) {
+        // char the enemy
+        m_sprite->set_color(Color(m_sprite->get_color().red - 0.05f, m_sprite->get_color().green - 0.05f,
+          m_sprite->get_color().blue - 0.05f, m_sprite->get_alpha()));
+
+        // draw the flame sprite
+        m_firesprite->draw(context.color(), draw_pos, m_layer);
+        m_firesprite->set_action(get_overlay_size(), 1);
+      }
+      else {
+        m_firesprite->set_frame(0);
+        m_firesprite->pause_animation();
       }
 
       if (m_glowing)
@@ -307,8 +337,18 @@ BadGuy::update(float dt_sec)
 
     case STATE_BURNING: {
       m_is_active_flag = false;
+      if (!m_flame_timer.started()) {
+        m_lightsprite->set_alpha(std::min(m_lightsprite->get_alpha() + (10.f * dt_sec), 1.f));
+        if (m_lightsprite->get_alpha() >= 1.f) {
+          m_flame_timer.start(1.5f);
+        }
+      }
+      else {
+        m_lightsprite->set_alpha(std::max(0.f, 1 - m_flame_timer.get_progress()));
+      }
+
       m_col.set_movement(m_physic.get_movement(dt_sec));
-      if ( m_sprite->animation_done() ) {
+      if (m_firesprite->animation_done() && m_flame_timer.check()) {
         remove_me();
       }
     } break;
@@ -1180,7 +1220,10 @@ BadGuy::ignite()
     m_glowing = true;
     SoundManager::current()->play("sounds/fire.ogg", get_pos());
     set_action("burning", m_dir, 1);
+    m_lightsprite->set_alpha(0.05f);
     set_state(STATE_BURNING);
+    //m_firesprite->set_action(get_overlay_size(), 1);
+    //m_firesprite->set_frame(0);
     run_dead_script();
   } else if (m_sprite->has_action("inside-melting-left")) {
     // melt it inside!

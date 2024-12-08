@@ -27,6 +27,16 @@
     (mirror-action "iced-left")
   )
   (action
+    (hitbox 5 17 36 26)
+    (name "burning-left")
+    (clone-action "iced-left")
+  )
+  (action
+    (hitbox 23 17 36 26)
+    (name "burning-right")
+    (mirror-action "burning-left")
+  )
+  (action
     (name "squished-left")
 	(hitbox 9 12 32 32)
     (images "../../vicious_ivy/corrupted/squished.png")
@@ -45,21 +55,5 @@
     (name "collision-right")
     (hitbox 23 17 36 26)
     (mirror-action "collision-left")
-  )
-  (action
-    (name "burning-left")
-    (hitbox 4 28 36 18)
-    (images "../burning-0.png"
-            "../burning-1.png"
-            "../burning-2.png"
-            "../burning-3.png"
-            "../burning-4.png"
-            "../burning-5.png"
-            "../burning-6.png"
-            "../burning-7.png")
-  )
-  (action
-    (name "burning-right")
-    (mirror-action "burning-left")
   )
 )
