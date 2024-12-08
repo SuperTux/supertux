@@ -21,6 +21,7 @@
 #include "gui/menu_filesystem.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "physfs/util.hpp"
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -107,8 +108,11 @@ ParticleEditorMenu::menu_action(MenuItem& item)
         "/particles",
         true,
         [](const std::string& new_filename) {
-          ParticleEditor::current()->open("/particles/" +
+          // realpath() is necessary for particle files outside the particles/ folder
+          std::string path = physfsutil::realpath("/particles/" +
                                         ParticleEditor::current()->m_filename);
+
+          ParticleEditor::current()->open(path);
           MenuManager::instance().clear_menu_stack();
         }
       ));

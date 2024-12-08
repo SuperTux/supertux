@@ -265,7 +265,12 @@ Editor::update(float dt_sec, const Controller& controller)
     m_particle_editor_request = false;
     std::unique_ptr<Screen> screen(new ParticleEditor());
     if (m_particle_editor_filename)
-      static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
+    {
+      // realpath() is necessary for particle files outside the particles/ folder
+      std::string path = physfsutil::realpath("particles/" + *m_particle_editor_filename);
+
+      static_cast<ParticleEditor*>(screen.get())->open(path);
+    }
     ScreenManager::current()->push_screen(std::move(screen));
     return;
   }
