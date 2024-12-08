@@ -187,7 +187,7 @@ BadGuy::draw(DrawingContext& context)
           m_freezesprite->draw(context.color(), draw_pos, m_layer);
         }
 
-        if (m_state != STATE_BURNING || (m_state == STATE_BURNING && m_firesprite->get_current_frame() < 5))
+        if (m_state != STATE_BURNING || m_firesprite->get_current_frame() < 5)
         m_sprite->draw(context.color(), draw_pos, m_layer - (m_frozen ? 1 : 0), m_flip);
       }
 
