@@ -197,10 +197,6 @@ BadGuy::draw(DrawingContext& context)
       }
 
       if (m_state == STATE_BURNING) {
-        // char the enemy
-        m_sprite->set_color(Color(m_sprite->get_color().red - 0.05f, m_sprite->get_color().green - 0.05f,
-          m_sprite->get_color().blue - 0.05f, m_sprite->get_alpha()));
-
         // draw the flame sprite
         m_firesprite->draw(context.color(), draw_pos, m_layer);
         m_firesprite->set_action(get_overlay_size(), 1);
@@ -337,6 +333,12 @@ BadGuy::update(float dt_sec)
 
     case STATE_BURNING: {
       m_is_active_flag = false;
+      // char the enemy
+      m_sprite->set_color(Color(std::max(m_sprite->get_color().red - (5.f * dt_sec), 0.f),
+                                std::max(m_sprite->get_color().green - (5.f * dt_sec), 0.f),
+                                std::max(m_sprite->get_color().blue - (5.f * dt_sec), 0.f),
+                                m_sprite->get_alpha()));
+
       if (!m_flame_timer.started()) {
         m_lightsprite->set_alpha(std::min(m_lightsprite->get_alpha() + (10.f * dt_sec), 1.f));
         if (m_lightsprite->get_alpha() >= 1.f) {
