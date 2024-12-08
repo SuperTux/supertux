@@ -28,4 +28,14 @@
     (hitbox 8 15 48 35)
     (mirror-action "iced-left"))
 
+  (action
+    (hitbox 8 15 48 35)
+    (name "burning-left")
+    (clone-action "iced-left"))
+
+  (action
+    (hitbox 8 15 48 35)
+    (name "burning-right")
+    (mirror-action "burning-left"))
+
 )
