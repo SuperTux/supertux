@@ -18,9 +18,10 @@
 #define HEADER_SUPERTUX_BADGUY_CORRUPTEDGRANITO_HPP
 
 #include "badguy/badguy.hpp"
+#include "object/sticky_object.hpp"
 
 /** An "Evil" Granito. */
-class CorruptedGranito final : public BadGuy
+class CorruptedGranito final : public StickyBadguy
 {
 public:
   enum Type {

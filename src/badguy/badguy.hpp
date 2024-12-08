@@ -27,6 +27,9 @@ enum class Direction;
 class Player;
 class Bullet;
 
+static const char* BADGUY_LIGHT_SPRITE_NAME = "images/objects/lightmap_light/lightmap_light-medium.sprite";
+static const char* BADGUY_ICE_SPRITE_NAME   = "images/creatures/overlays/iceoverlay/iceoverlay.sprite";
+
 /**
  * Base class for moving sprites that can hurt the Player.
 
@@ -43,17 +46,17 @@ public:
 
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = BADGUY_LIGHT_SPRITE_NAME,
+         const std::string& ice_sprite_name = BADGUY_ICE_SPRITE_NAME);
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = BADGUY_LIGHT_SPRITE_NAME,
+         const std::string& ice_sprite_name = BADGUY_ICE_SPRITE_NAME);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = BADGUY_LIGHT_SPRITE_NAME,
+         const std::string& ice_sprite_name = BADGUY_ICE_SPRITE_NAME);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = BADGUY_LIGHT_SPRITE_NAME,
+         const std::string& ice_sprite_name = BADGUY_ICE_SPRITE_NAME);
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */

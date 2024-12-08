@@ -31,8 +31,8 @@ static const float ROOT_SAPLING_RANGE = 32.f * 20;
 static const float ROOT_SAPLING_SPAWN_TIME = 1.35f;
 
 RootSapling::RootSapling(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", Direction::UP,
-         LAYER_TILES - 15, "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
+  StickyBadguy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", Direction::UP,
+               LAYER_TILES - 15, COLGROUP_MOVING, "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
   m_root_timer(),
   m_dead(false)
 {
