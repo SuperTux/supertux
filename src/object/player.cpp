@@ -676,8 +676,18 @@ Player::update(float dt_sec)
       m_boost = 0.f;
   }
 
+
+  Vector slopemult(1, 1);
+  bool climbing_slope = (get_velocity().x > 0.f && m_floor_normal.x < 0.f) ||
+                        (get_velocity().x < 0.f && m_floor_normal.x > 0.f);
+  if (climbing_slope)
+  {
+    slopemult.x = (-m_floor_normal.y);
+    std::cout << m_floor_normal << " " << slopemult.x << " " << m_floor_normal.length() << std::endl;
+  }
+
   // calculate movement for this frame
-  m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0));
+  m_col.set_movement((m_physic.get_movement(dt_sec) ^ slopemult) + Vector(m_boost * dt_sec, 0));
 
   if (m_grabbed_object != nullptr && !m_dying)
   {
@@ -862,7 +872,7 @@ Player::update(float dt_sec)
     Sector::get().is_free_of_statics(launchbox) && !m_slidejumping)
   {
     m_slidejumping = true;
-    m_physic.set_velocity_y(-(m_physic.get_velocity().length()) * std::abs(m_floor_normal.x));
+    //m_physic.set_velocity_y(-(m_physic.get_velocity().length()) * std::abs(m_floor_normal.x));
   }
   else if (m_sliding && on_ground()) {
     m_slidejumping = false;
@@ -1211,9 +1221,6 @@ Player::handle_horizontal_input()
   if (m_on_ice && on_ground()) {
     ax *= ICE_ACCELERATION_MULTIPLIER;
   }
-
-  vx += m_floor_normal.x*10;
-  std::cout << m_floor_normal << std::endl;
 
   if(get_collision_object()->get_pressure() != Vector(0.0f, 0.0f)) {
     vx = 0.0f; vy = 0.0f;

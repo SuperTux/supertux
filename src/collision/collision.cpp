@@ -236,28 +236,30 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   Vector trip2 = trirect.p2();
   Sizef trisz = trirect.get_size();
 
-  Vector sp, ar, diff;
+  // ar represents the vertice of the triangle that contains the 90º angle
+  // sp represents the same thing but relative to rect instead of trirect
+  Vector ar, sp, diff;
 
   switch (dir)
   {
     case AATriangle::SOUTHWEST:
-      sp = { rect.p1().x, rect.p2().y };
       ar = { trip1.x, trip2.y };
+      sp = { rect.p1().x, rect.p2().y };
       diff = { sp.x - ar.x, ar.y - sp.y };
       break;
     case AATriangle::NORTHEAST:
-      sp = { rect.p2().x, rect.p1().y };
       ar = { trip2.x, trip1.y };
+      sp = { rect.p2().x, rect.p1().y };
       diff = { ar.x - sp.x, sp.y - ar.y };
       break;
     case AATriangle::SOUTHEAST:
-      sp = rect.p2();
       ar = trip2;
+      sp = rect.p2();
       diff = ar - sp;
       break;
     case AATriangle::NORTHWEST:
-      sp = rect.p1();
       ar = trip1;
+      sp = rect.p1();
       diff = sp - ar;
       break;
     default:
@@ -272,19 +274,35 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   }
   */
 
+
+
+  float ratio = 1.f;
+  if (trisz.height > 0.f)
+    ratio = std::abs(trisz.width / trisz.height);
+
+  float sum = diff.x + (diff.y * ratio);
+
   // If colliding with the vertice that contains the x angle,
   // check if ar.y is above sp.y in a south triangle or below sp.y in a north triangle.
   // If it isn't, ignore. This prevents "teleporting" to the triangle when touching its ledge.
-  if (triangle.is_north() ? sp.y < ar.y : sp.y > ar.y)
+  if (diff.y * ratio <= 0.f)
   {
     return false;
   }
 
-  float ratio = 1;
-  if (trisz.height > 0)
-    ratio = std::abs(trisz.width / trisz.height);
+  // Do something similar for the x axis
+  if (diff.x <= 0.f)
+  {
+    if (triangle.is_north())
+      constraints->hit.top = true;
+    else
+    {
+      hits_rectangle_bottom = true;
+      constraints->hit.bottom = true;
+    }
 
-  float sum = diff.x + (diff.y * ratio);
+    return true;
+  }
 
   float trisum = (trisz.width + (trisz.height * ratio)) / 2;
   if (sum <= trisum)
