@@ -97,7 +97,8 @@ Mole::throw_rock()
 void
 Mole::active_update(float dt_sec)
 {
-  BadGuy::active_update(dt_sec);
+  if (m_sticky) sticky_update(dt_sec);
+  StickyBadguy::active_update(dt_sec);
 
   switch (state) {
     case PRE_THROWING:
