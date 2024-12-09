@@ -17,6 +17,9 @@
 
 #include "object/player.hpp"
 
+#include <algorithm>
+
+#include <glm/geometric.hpp>
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
 
@@ -27,6 +30,7 @@
 #include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "math/random.hpp"
+#include "math/vector.hpp"
 #include "object/brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -39,6 +43,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
@@ -139,9 +144,10 @@ const float STONE_DOWN_ACCELERATION = 300.f;
 const float STONE_UP_ACCELERATION = 400.f;
 
 /* Swim variables */
-const float SWIM_SPEED = 300.f;
-const float SWIM_BOOST_SPEED = 600.f;
-const float SWIM_TO_BOOST_ACCEL = 15.f;
+const float SWIM_SPEED = 200.f;
+const float SWIM_BOOST_SPEED = 400.f;
+const float SWIM_ACCEL = 600.f;
+const float SWIM_BOOST_ACCEL = 2400.f;
 const float TURN_MAGNITUDE = 0.15f;
 const float TURN_MAGNITUDE_BOOST = 0.2f;
 const std::array<std::string, 2> BUBBLE_ACTIONS = { "normal", "small" };
@@ -182,6 +188,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_on_right_wall(false),
   m_in_walljump_tile(false),
   m_can_walljump(false),
+  m_dive_speed(0.f),
   m_boost(0.f),
   m_speedlimit(0), //no special limit
   m_velocity_override(),
@@ -227,7 +234,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   // constructor
   m_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
   m_swimming_angle(0),
-  m_swimming_accel_modifier(100.f),
   m_water_jump(false),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_bubbles_sprite(SpriteManager::current()->create("images/particles/air_bubble.sprite")),
@@ -378,6 +384,11 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
 void
 Player::update(float dt_sec)
 {
+  if (m_col.m_colliding_wind.empty()) {
+    m_physic.set_wind_acceleration(0);
+    m_physic.set_wind_velocity(0, 0);
+  }
+
   if (is_dead() || Sector::get().get_object_count<Player>() == 1)
   {
     m_tag_timer.stop();
@@ -598,7 +609,9 @@ Player::update(float dt_sec)
         m_no_water = false;
         m_water_jump = false;
         m_swimming = true;
+        m_dive_speed = glm::length(m_physic.get_velocity());
         m_swimming_angle = math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()));
+        m_physic.set_acceleration(0.0f, 0.0f);
         if (is_big())
           adjust_height(TUX_WIDTH);
         m_wants_buttjump = m_does_buttjump = m_backflipping = false;
@@ -1037,6 +1050,10 @@ Player::swim(float pointx, float pointy, bool boost)
     if (m_swimming)
       m_physic.set_gravity_modifier(.0f);
 
+    if (pointy != -1) {
+      m_dive_speed = 0.f;
+    }
+
     // Angle
     bool is_ang_defined = (pointx != 0) || (pointy != 0);
     float pointed_angle = math::angle(Vector(pointx, pointy));
@@ -1064,71 +1081,54 @@ Player::swim(float pointx, float pointy, bool boost)
 
     if (m_swimming && !m_water_jump)
     {
+      float speed = is_ang_defined ? 1.f : 0.f;
+      speed *= boost ? SWIM_BOOST_SPEED : SWIM_SPEED;
+      float accel_mag = boost ? SWIM_BOOST_ACCEL : SWIM_ACCEL;
 
-      if(is_ang_defined && std::abs(delta) < 0.01f)
-        m_swimming_angle = pointed_angle;
-
-      m_swimming_accel_modifier = is_ang_defined ? 600.f : 0.f;
-      Vector swimming_direction = math::vec2_from_polar(m_swimming_accel_modifier, pointed_angle);
-
-      m_physic.set_acceleration_x((swimming_direction.x - 1.0f * vx) * 2.f);
-      m_physic.set_acceleration_y((swimming_direction.y - 1.0f * vy) * 2.f);
-
-      // Limit speed, if you go above this speed your acceleration is set to opposite (?)
-      if (glm::length(m_physic.get_velocity()) > SWIM_SPEED)
-      {
-        m_physic.set_acceleration(-vx,-vy);   // Was too lazy to set it properly ~~zwatotem
+      if (boost) {
+        m_swimboosting = true;
+      } else {
+        if (glm::length(m_physic.get_velocity()) < SWIM_SPEED + 10.f) {
+          m_swimboosting = false;
+        }
       }
 
-      // Natural friction
-      if (!is_ang_defined)
+      if (is_ang_defined)
       {
-        m_physic.set_acceleration(-3.f*vx, -3.f*vy);
+        if (std::abs(delta) < 0.01f)
+          m_swimming_angle = pointed_angle;
+
+        Vector acceleration = math::vec2_from_polar(accel_mag, pointed_angle);
+        acceleration += Vector(0, -m_dive_speed*2.f);
+       
+        // Don't let Tux go too fast.
+        if (vx * pointx > speed)
+          acceleration.x = 0;
+        if (m_dive_speed != 0.f) {
+          if (vy * pointy > m_dive_speed)
+            acceleration.y = 0;
+        }
+        else if (vy * pointy > speed)
+          acceleration.y = 0;
+          
+
+        m_physic.set_acceleration(acceleration);
+      } else {
+        m_physic.set_acceleration(Vector(0.f));
       }
 
-      //not boosting? let's slow this penguin down!!!
-      if (!boost && is_ang_defined && glm::length(m_physic.get_velocity()) > (SWIM_SPEED + 10.f))
-      {
-        m_physic.set_acceleration(-5.f*vx, -5.f*vy);
-      }
+      apply_friction();
 
       // Snapping to prevent unwanted floating
-        if (!is_ang_defined && glm::length(Vector(vx,vy)) < 100.f)
+      if (!is_ang_defined && glm::length(Vector(vx,vy)) < 100.f)
       {
         vx = 0;
         vy = 0;
       }
-
-      // Turbo, using pointsign
-      float minboostspeed = 100.f;
-      if (boost && glm::length(m_physic.get_velocity()) > minboostspeed)
-      {
-        if (glm::length(m_physic.get_velocity()) < SWIM_BOOST_SPEED)
-        {
-          m_swimboosting = true;
-          if (is_ang_defined)
-          {
-            vx += SWIM_TO_BOOST_ACCEL * pointx;
-            vy += SWIM_TO_BOOST_ACCEL * pointy;
-          }
-        }
-        else
-        {
-          //cap on boosting
-          m_physic.set_acceleration(-vx, -vy);
-        }
-        m_physic.set_velocity(vx, vy);
-      }
-      else
-      {
-          if (glm::length(m_physic.get_velocity()) < (SWIM_SPEED + 10.f))
-        {
-          m_swimboosting = false;
-        }
-      }
     }
     if (m_water_jump && !m_swimming)
     {
+      m_dive_speed = 0.f;
       m_swimming_angle = math::angle(Vector(vx, vy));
     }
 
@@ -1151,7 +1151,7 @@ Player::swim(float pointx, float pointy, bool boost)
     //Force the speed to point in the direction Tux is going unless Tux is being pushed by something else
     if (m_swimming && !m_water_jump && boost && m_boost == 0.f && !m_velocity_override)
     {
-      m_physic.set_velocity(math::at_angle(m_physic.get_velocity(), m_swimming_angle));
+      // m_physic.set_velocity(math::at_angle(m_physic.get_velocity(), m_swimming_angle));
     }
   }
 }
@@ -1161,22 +1161,39 @@ Player::apply_friction()
 {
   bool is_on_ground = on_ground();
   float velx = m_physic.get_velocity_x();
+
   if (is_on_ground && (fabsf(velx) < (m_stone ? 5.f : WALK_SPEED))) {
     m_physic.set_velocity_x(0);
     m_physic.set_acceleration_x(0);
     return;
   }
+
   float friction = WALK_ACCELERATION_X;
   if (m_on_ice && is_on_ground)
     //we need this or else sliding on ice will cause Tux to go on for a very long time
     friction *= (ICE_FRICTION_MULTIPLIER*(m_sliding ? 4.f : m_stone ? 5.f : 1.f));
   else
     friction *= (NORMAL_FRICTION_MULTIPLIER*(m_sliding ? 0.8f : m_stone ? 0.4f : 1.f));
-  if (velx < 0) {
-    m_physic.set_acceleration_x(friction);
-  } else if (velx > 0) {
-    m_physic.set_acceleration_x(-friction);
-  } // no friction for physic.get_velocity_x() == 0
+
+  if (m_swimming && glm::length(m_physic.get_velocity()) != 0.f)
+  {
+    // Friction factor in water is how similar Tux's swimming direction is to his actual direction,
+    // mapped between 0.95 and 0.99. Tux is more aerodynamic going forwards than backwards.
+    Vector swimming_direction = math::vec2_from_polar(1.f, m_swimming_angle);
+    Vector fac = swimming_direction - glm::normalize(m_physic.get_velocity());
+    float modifier = m_swimboosting ? 0.5f : 2.0f;
+
+    fac = Vector(0.99f) - glm::abs(fac) / modifier * 0.04;
+
+    m_physic.set_velocity(m_physic.get_velocity() * fac);
+  } else
+  {
+    if (velx < 0) {
+      m_physic.set_acceleration_x(friction);
+    } else if (velx > 0) {
+      m_physic.set_acceleration_x(-friction);
+    } // no friction for physic.get_velocity_x() == 0
+  }
 }
 
 void
@@ -1262,7 +1279,11 @@ Player::handle_horizontal_input()
       // let's skid!
       if (fabsf(vx)>SKID_XM && !m_skidding_timer.started()) {
         m_skidding_timer.start(SKID_TIME);
-        SoundManager::current()->play("sounds/skid.wav", get_pos());
+
+        // skidding sound disabled in wind because it becomes too repetitive
+        if (m_col.m_colliding_wind.empty())
+          SoundManager::current()->play("sounds/skid.wav", get_pos());
+
         // dust some particles
         Sector::get().add<Particles>(
             Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
@@ -3058,7 +3079,6 @@ Player::remove_collected_key(Key* key)
                                      key),
                          m_collected_keys.end());
 }
-
 
 void
 Player::register_class(ssq::VM& vm)
