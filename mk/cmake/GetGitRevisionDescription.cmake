@@ -34,32 +34,29 @@ macro(git_run)
     if(${${GIT_RUN_RESULT}} EQUAL 0)
       string(REPLACE "\n" "" ${GIT_RUN_OUTPUT} "${${GIT_RUN_OUTPUT}}")
     else()
-      # message(STATUS "\"${GIT_EXECUTABLE} ${GIT_RUN_COMMAND}\" failed with result \"${${GIT_RUN_RESULT}}\".")
+      message(STATUS "\"${GIT_EXECUTABLE} ${GIT_RUN_COMMAND}\" failed with result \"${${GIT_RUN_RESULT}}\".")
       set(${GIT_RUN_OUTPUT} ${GIT_RUN_OUTPUT}-NOTFOUND)
     endif()
   endif()
 endmacro()
 
-macro(git_project_version out is_release)
+macro(git_project_version out)
   if(NOT GIT_FOUND OR NOT EXISTS "${PROJECT_SOURCE_DIR}/.git")
-    set(gitout ${out}-NOTFOUND)
+    set(${out} ${out}-NOTFOUND)
   else()
     # Tag
-    git_run(COMMAND describe --tags --abbrev=0 OUTPUT _tag RESULT _tag_result)
-	
-	# Commit hash
-    git_run(COMMAND rev-parse --short HEAD OUTPUT _hash RESULT _hash_result)
+    git_run(COMMAND describe --tags --abbrev=0 OUTPUT GIT_TAG RESULT _tag_result)
+
+    # Commit hash
+    git_run(COMMAND rev-parse --short HEAD OUTPUT GIT_HASH RESULT _hash_result)
 
     # Branch
-    git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT _branch RESULT _branch_result)
-      
+    git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT GIT_BRANCH RESULT _branch_result)
+
     if(${_tag_result} EQUAL 128)
-      # Commits since tag
-      git_run(COMMAND rev-list ${_tag}..HEAD --count OUTPUT _tagn RESULT _tagn_result)
-      set(gitout "${_hash} (${_branch})")
+      set(${out} "${GIT_HASH} (${GIT_BRANCH})")
     else()
-      set(gitout "${_tag} (${_tagn}) - ${_hash} (${_branch})")
+      set(${out} "${GIT_TAG} - ${GIT_HASH} (${GIT_BRANCH})")
     endif()
-	message("Got ${gitout}")
   endif()
 endmacro()
