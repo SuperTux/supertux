@@ -62,6 +62,8 @@ jobs:
           sudo mv /Library/Frameworks/Mono.framework                           \
                   /Library/Frameworks/Mono.framework-disabled
 
+          brew ls --verbose sdl2_image
+
       - name: Set compiler
         run: |
           # This ensures for now we use clang11
