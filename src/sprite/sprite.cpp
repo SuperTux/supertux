@@ -34,7 +34,7 @@ Sprite::Sprite(SpriteData& newdata) :
   m_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_blend(),
   m_is_paused(false),
-  m_action(m_data.get_action("normal"))
+  m_action(m_data.get_action("default"))
 {
   if (!m_action)
     m_action = m_data.actions.begin()->second.get();

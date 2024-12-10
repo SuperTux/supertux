@@ -1,7 +1,7 @@
 (supertux-sprite
       (action
          (fps 15)
-         (name "normal")
+         (name "default")
          (images "purple-0.png"
                  "purple-1.png"
                  "purple-2.png"

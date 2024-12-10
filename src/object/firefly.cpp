@@ -92,7 +92,7 @@ Firefly::update_state()
   }
   else // Is deactivated.
   {
-    set_action("normal");
+    set_action("default");
   }
 }
 

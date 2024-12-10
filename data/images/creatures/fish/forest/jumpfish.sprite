@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (name "normal")
+    (name "default")
     (fps 18)
     (loops 1)
     (hitbox 12 24 40 46)

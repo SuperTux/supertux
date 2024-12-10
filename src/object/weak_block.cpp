@@ -63,7 +63,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   else
     SoundManager::current()->preload("sounds/sizzle.ogg");
 
-  set_action("normal");
+  set_action("default");
 }
 
 void

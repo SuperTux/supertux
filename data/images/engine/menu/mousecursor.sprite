@@ -1,6 +1,6 @@
 (supertux-sprite
  (action
-  (name "normal")
+  (name "default")
   (images "mousecursor.png"))
 
  (action

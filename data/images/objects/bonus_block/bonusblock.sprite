@@ -1,7 +1,7 @@
 (supertux-sprite
       (action
          (fps 15)
-         (name "normal")
+         (name "default")
          (images "full-0.png"
                  "full-1.png"
                  "full-2.png"
