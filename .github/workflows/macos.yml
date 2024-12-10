@@ -58,10 +58,10 @@ jobs:
                        fribidi glib gtk-doc glbinding@2 libraqm zlib
           brew link glbinding@2
 
-          # install_name_tool -change \
-          #  '@rpath/libsharpyuv.0.dylib' \
-          #  /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
-          #  /usr/local/opt/webp/lib/libwebp.7.dylib
+          install_name_tool -change \
+           '@rpath/libsharpyuv.0.dylib' \
+           /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
+           /usr/local/opt/webp/lib/libwebp.7.dylib
           install_name_tool -change \
            '@rpath/libjxl_cms.0.11.dylib' \
            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
