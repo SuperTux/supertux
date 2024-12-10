@@ -30,40 +30,42 @@
 
 # Usage:
 #
-#   add_package(TARGET SDL2  <-- The output target, a "target alias" (sometimes)
-#      PKG SDL2              <-- The find_package package, in this case it gets SDL2
-#                                 (might look similar to the output target)
-#      PKG_USE SDL2::SDL2    <-- Specific target from the package we want to alias
-#      CONFIG                <-- (optional) Passed to find_package if its a CONFIG
-#      REQUIRED              <-- (optional) NOT passed to find_package, just a check to
-#                                  throw an error if we've exhausted all options.
-#      PKG_CONFIG sdl2 sdl2_ttf   <-- (optional, recommended) List of packages for PkgConfig
-#      PROVIDES ProvideSDL2       <-- (optional) Fallback to just look at the provided file.
-#   )                                  Undecided if I should fall back to a FindXXXX.cmake yet
-
-# HACK: Don't use the LSB commands for now, these depend on another program, and grepping the file seems to work
-file(READ "/etc/os-release" OS_RELEASE_CONTENT)
+#   add_package(TARGET SDL2       <-- The output target, a "target alias" (sometimes).
+#      PKG SDL2                   <-- The find_package package, in this case it gets SDL2
+#                                     (might look similar to the output target).
+#      PKG_USE SDL2::SDL2         <-- Specific target from the package we want to alias.
+#      CONFIG                     <-- (optional) Passed to find_package if its a CONFIG.
+#      REQUIRED                   <-- (optional) NOT passed to find_package, just a check to
+#                                     throw an error if we've exhausted all options.
+#      PKG_CONFIG sdl2 sdl2_ttf   <-- (optional, recommended) List of packages for pkg-config.
+#      PREFER_PKGCONFIG           <-- (optional) If the host machine is running a unix-like,
+#   )                                 skip the find_package call and use pkg-config.
 
 find_package(PkgConfig)
-macro(add_package)
+function(add_package)
   cmake_parse_arguments(addpackage_args
-    "CONFIG;REQUIRED" "TARGET;PROVIDES;PKG;PKG_USE" "PKG_CONFIG"
+    "CONFIG;REQUIRED;PREFER_PKGCONFIG" "TARGET;PROVIDES;PKG;PKG_USE" "PKG_CONFIG"
     ${ARGN}
   )
 
-  # Note: We don't pass "REQUIRED" here because we choose to fallback if it doesn't exist.
-  #       Later, however, we do choose to throw an error based on this flag.
-  set(addpackage_fp_args "")
-  if (${addpackage_args_CONFIG})
-    string(APPEND addpackage_fp_args "CONFIG")
+  if(NOT UNIX)
+    set(addpackage_args_PREFER_PKGCONFIG NO)
   endif()
 
-  find_package(${addpackage_args_PKG} ${addpackage_fp_args})
+  if(NOT addpackage_args_PREFER_PKGCONFIG)
+    # NOTE: We don't pass "REQUIRED" here because we choose to fallback if it doesn't exist.
+    #       Later, however, we do choose to throw an error based on this flag.
+    set(addpackage_fp_args "")
+    if(addpackage_args_CONFIG)
+      string(APPEND addpackage_fp_args "CONFIG")
+    endif()
 
-  if(${addpackage_args_PKG}_FOUND)
-    # See if its an alias (Is this needed?)
+    find_package(${addpackage_args_PKG} ${addpackage_fp_args})
+  endif()
+
+  if(${addpackage_args_PKG}_FOUND AND NOT addpackage_args_PREFER_PKGCONFIG)
     get_target_property(addpackage_pkg_alias_check ${addpackage_args_PKG_USE} ALIASED_TARGET)
-    if (addpackage_pkg_alias_check STREQUAL "addpackage_pkg_alias_check-NOTFOUND")
+    if(addpackage_pkg_alias_check STREQUAL "addpackage_pkg_alias_check-NOTFOUND")
       add_library(${addpackage_args_TARGET} ALIAS ${addpackage_args_PKG_USE})
     else()
       message(STATUS "Package \"${addpackage_args_PKG}\" is an alias. Realiasing it.")
@@ -71,15 +73,26 @@ macro(add_package)
       get_target_property(${addpackage_args_TARGET} ${addpackage_args_PKG_USE} ALIASED_TARGET)
     endif()
   else()
-    #message(STATUS "CMake Package \"${addpackage_args_PKG}\" doesn't exist, so falling back to PkgConfig")
+    if(NOT addpackage_args_PREFER_PKGCONFIG)
+      message(DEBUG "CMake Package \"${addpackage_args_PKG}\" doesn't exist, so falling back to PkgConfig")
+    endif()
 
-    if (PkgConfig_FOUND)
-      if (${addpackage_args_REQUIRED})
-        list(APPEND addpackage_args_pkg_config_args REQUIRED)
+    if(PkgConfig_FOUND)
+      if(addpackage_args_REQUIRED)
+        list(APPEND addpackage_args_pkg_config_args REQUIRED IMPORTED_TARGET GLOBAL)
       endif()
+
       pkg_search_module(${addpackage_args_TARGET} ${addpackage_args_pkg_config_args} ${addpackage_args_PKG_CONFIG})
+
+      if(NOT PKG_FOUND AND addpackage_args_REQUIRED)
+        message(FATAL_ERROR "Package \"${addpackage_args_TARGET}\" couldn't be found with pkg-config, but it's required.\n"
+                            "I don't know what to do. Is it installed?\n"
+                            "Tried: ${addpackage_args_PKG_CONFIG}")
+      endif()
+
+      add_library(${addpackage_args_TARGET} ALIAS PkgConfig::${addpackage_args_TARGET})
     elseif(addpackage_args_REQUIRED)
       message(FATAL_ERROR "Package \"${addpackage_args_TARGET}\" couldn't be found, but it's required.\nI don't know what to do. Is it installed?")
     endif()
   endif()
-endmacro(add_package)
+endfunction()
