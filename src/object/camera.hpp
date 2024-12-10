@@ -161,44 +161,55 @@ public:
   inline void scroll_to(float x, float y, float scrolltime) { scroll_to(Vector(x, y), scrolltime); }
   /**
    * @scripting
-   * @description Sets the scale factor.
+   * @description Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
+                  NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
+   * @param float $time
+   * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants.
+                        Optional, default is ""ANCHOR_MIDDLE"" (see ${SRG_REF_AnchorPoints}).
+   * @param string $ease Optional, empty by default.
    */
-  inline void set_scale(float scale) { ease_scale(scale, 0.f, ""); }
+  void set_scale(float scale, float time = 0.f, int anchor = ANCHOR_MIDDLE, const std::string& ease = "");
   /**
    * @scripting
+   * @deprecated Use ""set_scale()"" instead!
    * @description Sets the scale factor and the target position anchor.
                   NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
    */
-  inline void set_scale_anchor(float scale, int anchor) { ease_scale_anchor(scale, 0, anchor, ""); }
+  inline void set_scale_anchor(float scale, int anchor) { set_scale(scale, 0, anchor, ""); }
   /**
    * @scripting
+   * @deprecated Use ""set_scale()"" instead!
    * @description Fades to a specified scale factor in ""time"" seconds.
    * @param float $scale
    * @param float $time
    */
-  inline void scale(float scale, float time) { ease_scale(scale, time, ""); }
+  inline void scale(float scale, float time) { set_scale(scale, time, AnchorPoint::ANCHOR_MIDDLE, ""); }
   /**
    * @scripting
+   * @deprecated Use ""set_scale()"" instead!
    * @description Fades to a specified scale factor and target position anchor in ""time"" seconds.
                   NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
    * @param float $time
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
    */
-  inline void scale_anchor(float scale, float time, int anchor) { ease_scale_anchor(scale, time, anchor, ""); }
+  inline void scale_anchor(float scale, float time, int anchor) { set_scale(scale, time, anchor, ""); }
   /**
    * @scripting
+   * @deprecated Use ""set_scale()"" instead!
    * @description Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
    * @param float $scale
    * @param float $time
    * @param string $ease
    */
-  inline void ease_scale(float scale, float time, const std::string& ease) { ease_scale_anchor(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease); }
+  inline void ease_scale(float scale, float time, const std::string& ease) { set_scale(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease); }
+#ifdef DOXYGEN_SCRIPTING
   /**
    * @scripting
+   * @deprecated Use ""set_scale()"" instead!
    * @description Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
                   NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
@@ -207,6 +218,7 @@ public:
    * @param string $ease
    */
   void ease_scale_anchor(float scale, float time, int anchor, const std::string& ease);
+#endif
   /**
    * @scripting
    * @description Gets the current width of the screen.
