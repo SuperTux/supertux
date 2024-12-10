@@ -1,5 +1,8 @@
 (supertux-music
   (file "beneath_the_rabbit_hole.ogg")
+  (authors "Jason Lavallée")
+  (license "CC-BY-SA / GPL 2+")
+  (title "Beneath the Rabbit Holes")
   (loop-begin 0)
   (loop-at    178)
 )
