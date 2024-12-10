@@ -414,7 +414,10 @@ GameSession::abort_level()
 bool
 GameSession::is_active() const
 {
-  return !m_game_pause && m_active && !(m_end_sequence && m_end_sequence->is_running());
+  return !m_game_pause &&
+         m_active &&
+         !(m_end_sequence && m_end_sequence->is_running()) &&
+         ScreenManager::current()->get_screen_stack().front().get() == static_cast<const Screen*>(this);
 }
 
 void
@@ -505,12 +508,9 @@ void
 GameSession::update(float dt_sec, const Controller& controller)
 {
   // Set active flag.
-  if (!m_active)
-  {
-    m_active = true;
-  }
-  // Handle controller.
+  m_active = true;
 
+  // Handle controller.
   if (controller.pressed_any(Control::ESCAPE, Control::START))
   {
     on_escape_press(controller.hold(Control::LEFT)
