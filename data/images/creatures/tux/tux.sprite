@@ -3057,4 +3057,9 @@
 		 (fps 10.0)
 		 (hitbox 16 14 32 64)
 		 (mirror-action "credits-right"))
+
+  (linked-sprites
+    (sparkle-invincible "images/particles/sparkle.sprite")
+    (rock-particle "images/particles/rock.sprite")
+  )
 )

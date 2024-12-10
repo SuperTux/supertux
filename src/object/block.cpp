@@ -184,14 +184,17 @@ Block::break_me()
   const auto gravity = Sector::get().get_gravity() * 100;
   Vector pos = get_pos() + Vector(16.0f, 16.0f);
 
-  for (const char* action : {"piece1", "piece2", "piece3", "piece4", "piece5", "piece6"})
+  if (m_sprite->has_linked_sprite("break-particles"))
   {
-    Vector velocity(graphicsRandom.randf(-100, 100),
-                    graphicsRandom.randf(-400, -300));
-    Sector::get().add<SpriteParticle>(m_sprite->clone(), action,
-                                pos, ANCHOR_MIDDLE,
-                                velocity, Vector(0, gravity),
-                                m_layer);
+    for (const char* action : {"piece1", "piece2", "piece3", "piece4", "piece5", "piece6"})
+    {
+      Vector velocity(graphicsRandom.randf(-100, 100),
+                      graphicsRandom.randf(-400, -300));
+      Sector::get().add<SpriteParticle>(m_sprite->create_linked_sprite("break-particles"), action,
+                                        pos, ANCHOR_MIDDLE,
+                                        velocity, Vector(0, gravity),
+                                        m_layer);
+    }
   }
 
   remove_me();

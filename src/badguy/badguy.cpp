@@ -47,13 +47,13 @@ static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  BadGuy(pos, Direction::LEFT, sprite_name, layer, light_sprite_name)
+               const std::string& burn_light_sprite_name, const std::string& ice_sprite_name) :
+  BadGuy(pos, Direction::LEFT, sprite_name, layer, burn_light_sprite_name)
 {
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+               const std::string& burn_light_sprite_name, const std::string& ice_sprite_name) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
   m_countMe(true),
@@ -66,9 +66,9 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_in_water(false),
   m_dead_script(),
   m_melting_time(0),
-  m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
+  m_burn_light_sprite(SpriteManager::current()->create(burn_light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
-  m_glowing(false),
+  m_burning(false),
   m_water_affected(true),
   m_unfreeze_timer(),
   m_floor_normal(0.0f, 0.0f),
@@ -86,18 +86,18 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   SoundManager::current()->preload("sounds/fire.ogg");
 
   m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
-  m_lightsprite->set_blend(Blend::ADD);
+  m_burn_light_sprite->set_blend(Blend::ADD);
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  BadGuy(reader, sprite_name, Direction::AUTO, layer, light_sprite_name, ice_sprite_name)
+               const std::string& burn_light_sprite_name, const std::string& ice_sprite_name) :
+  BadGuy(reader, sprite_name, Direction::AUTO, layer, burn_light_sprite_name, ice_sprite_name)
 {
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
                Direction default_direction, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+               const std::string& burn_light_sprite_name, const std::string& ice_sprite_name) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
   m_countMe(true),
@@ -110,9 +110,9 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_in_water(false),
   m_dead_script(),
   m_melting_time(0),
-  m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
+  m_burn_light_sprite(SpriteManager::current()->create(burn_light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
-  m_glowing(false),
+  m_burning(false),
   m_water_affected(true),
   m_unfreeze_timer(),
   m_floor_normal(0.0f, 0.0f),
@@ -137,7 +137,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   SoundManager::current()->preload("sounds/fire.ogg");
 
   m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
-  m_lightsprite->set_blend(Blend::ADD);
+  m_burn_light_sprite->set_blend(Blend::ADD);
 }
 
 void
@@ -150,9 +150,8 @@ BadGuy::draw(DrawingContext& context)
 
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
-    if (Editor::is_active()) {
-      m_sprite->draw(context.color(), draw_pos, m_layer, m_flip);
-    }
+    if (Editor::is_active())
+      MovingSprite::draw(context);
   }
   else
   {
@@ -160,7 +159,7 @@ BadGuy::draw(DrawingContext& context)
     {
       context.push_transform();
       context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
-      m_sprite->draw(context.color(), draw_pos, m_layer, m_flip);
+      MovingSprite::draw(context);
       context.pop_transform();
     }
     else
@@ -174,13 +173,17 @@ BadGuy::draw(DrawingContext& context)
       else
       {
         if (m_frozen && is_portable())
-          m_freezesprite->draw(context.color(), draw_pos, m_layer);
-        m_sprite->draw(context.color(), draw_pos, m_layer - (m_frozen ? 1 : 0), m_flip);
+          m_freezesprite->draw(context.color(), get_pos(), m_layer);
+
+        m_sprite->draw(context.color(), get_pos(), m_layer - 1, m_flip);
       }
 
-      if (m_glowing)
+      if (!m_frozen)
       {
-        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, 0);
+        if (m_burning)
+          m_burn_light_sprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, 0);
+        else if (m_light_sprite)
+          m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, 0);
       }
     }
   }
@@ -1162,7 +1165,7 @@ BadGuy::ignite()
 
   } else if (m_sprite->has_action("burning-left")) {
     // Burn it!
-    m_glowing = true;
+    m_burning = true;
     SoundManager::current()->play("sounds/fire.ogg", get_pos());
     set_action("burning", m_dir, 1);
     set_state(STATE_BURNING);

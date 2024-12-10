@@ -211,7 +211,7 @@ BigSnowball::spawn_particles()
 {
   for (int i = 0; i < 8; i++)
   {
-    Sector::get().add<SpriteParticle>(m_sprite_name, "particle",
+    Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite("particle"),
       get_bbox().get_middle() + (15.f * Vector(std::cos(math::PI_4*static_cast<float>(i)), std::sin(math::PI_4*static_cast<float>(i)))),
       ANCHOR_MIDDLE, (150.f * (glm::normalize(Vector(std::cos(math::PI_4*static_cast<float>(i)), std::sin(math::PI_4*static_cast<float>(i)))))) +
                       Vector(gameRandom.randf(-40.f, 40.f), gameRandom.randf(-40.f, 40.f)),

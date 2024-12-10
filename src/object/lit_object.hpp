@@ -69,7 +69,6 @@ private:
   std::string m_light_sprite_name;
   std::string m_sprite_action;
   std::string m_light_sprite_action;
-  SpritePtr m_light_sprite;
 
 #ifdef DOXYGEN_SCRIPTING
   /**

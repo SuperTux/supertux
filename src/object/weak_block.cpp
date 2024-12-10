@@ -27,7 +27,6 @@
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -35,7 +34,7 @@
 WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/weak_block/meltbox.sprite", LAYER_OBJECTS + 10, COLGROUP_STATIC),
   state(STATE_NORMAL),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  m_burn_sprite()
 {
   // Older levels utilize hardcoded behaviour from the "linked" property.
   if (get_version() == 1)
@@ -55,15 +54,43 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
     parse_type(mapping);
   }
 
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
-
   if (m_type == HAY)
+  {
+    m_burn_sprite = m_sprite->create_linked_sprite("burn-light");
+    m_burn_sprite->set_blend(Blend::ADD);
+    m_burn_sprite->set_color(Color(0.3f, 0.2f, 0.1f));
     SoundManager::current()->preload("sounds/fire.ogg"); // TODO: Use own sound?
+  }
   else
+  {
     SoundManager::current()->preload("sounds/sizzle.ogg");
+  }
 
   set_action("normal");
+}
+
+MovingSprite::LinkedSprites
+WeakBlock::get_linked_sprites()
+{
+  if (m_type == HAY)
+  {
+    return {
+      { "burn-light", m_burn_sprite }
+    };
+  }
+  return {};
+}
+
+void
+WeakBlock::on_sprite_update()
+{
+  MovingSprite::on_sprite_update();
+
+  if (m_type == HAY)
+  {
+    m_burn_sprite->set_blend(Blend::ADD);
+    m_burn_sprite->set_color(Color(0.3f, 0.2f, 0.1f));
+  }
 }
 
 void
@@ -182,11 +209,11 @@ WeakBlock::update(float )
         // cause burn light to flicker randomly
         if (m_type == HAY) {
           if (graphicsRandom.rand(10) >= 7) {
-            lightsprite->set_color(Color(0.2f + graphicsRandom.randf(20.0f) / 100.0f,
-                                         0.1f + graphicsRandom.randf(20.0f)/100.0f,
-                                         0.1f));
+            m_burn_sprite->set_color(Color(0.2f + graphicsRandom.randf(20.0f) / 100.0f,
+                                           0.1f + graphicsRandom.randf(20.0f)/100.0f,
+                                           0.1f));
           } else
-            lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
+            m_burn_sprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }
 
         if (m_sprite->animation_done()) {
@@ -194,9 +221,6 @@ WeakBlock::update(float )
           set_action("disintegrating", 1);
           spreadHit();
           set_group(COLGROUP_DISABLED);
-          lightsprite = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite");
-          lightsprite->set_blend(Blend::ADD);
-          lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }
         break;
 
@@ -214,10 +238,9 @@ void
 WeakBlock::draw(DrawingContext& context)
 {
   MovingSprite::draw(context);
-  if (m_type == HAY && (state != STATE_NORMAL))
-  {
-    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
-  }
+
+  if (m_burn_sprite && state != STATE_NORMAL)
+    m_burn_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void

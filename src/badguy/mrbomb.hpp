@@ -26,8 +26,7 @@ class MrBomb : public WalkingBadguy
 {
 public:
   MrBomb(const ReaderMapping& reader);
-  MrBomb(const ReaderMapping& reader, const std::string& sprite,
-         const std::string& glow_sprite = "images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite");
+  MrBomb(const ReaderMapping& reader, const std::string& sprite);
 
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(MovingObject& object, const CollisionHit& hit) override;
@@ -64,6 +63,8 @@ protected:
   void update_ticking(float dt_sec);
 
   virtual bool collision_squished(MovingObject& object) override;
+
+  LinkedSprites get_linked_sprites() override;
 
 protected:
   enum State : uint8_t {

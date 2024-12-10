@@ -45,6 +45,7 @@ public:
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Candle)); }
 
   virtual ObjectSettings get_settings() override;
+  virtual LinkedSprites get_linked_sprites() override;
   virtual void after_editor_set() override;
 
   virtual void on_flip(float height) override;
@@ -65,6 +66,9 @@ public:
    * @param bool $burning If ""true"", the candle is lit up. If ""false"", it's extinguished.
    */
   void set_burning(bool burning);
+
+protected:
+  void on_sprite_update() override;
 
 private:
   /**

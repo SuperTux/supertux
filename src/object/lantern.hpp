@@ -51,9 +51,10 @@ public:
   void add_color(const Color& c);
 
 private:
-  Color lightcolor;
-  SpritePtr lightsprite;
   void updateColor();
+
+private:
+  Color lightcolor;
 
 private:
   Lantern(const Lantern&) = delete;

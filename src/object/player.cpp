@@ -782,7 +782,7 @@ Player::update(float dt_sec)
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
       Sector::get().add<SpriteParticle>(
-        "images/particles/sparkle.sprite",
+        m_sprite->create_linked_sprite("sparkle-invincible"),
         // draw bright sparkle when there is lots of time left,
         // dark sparkle when invincibility is about to end
         (m_invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
@@ -3035,7 +3035,7 @@ Player::stop_rolling(bool violent)
       Vector pspeed = Vector(graphicsRandom.randf(-100.f, 100.f)*(static_cast<float>(i)-2), graphicsRandom.randf(-200.f, -150.f));
       Vector paccel = Vector(0, 1000.f + graphicsRandom.randf(-100.f, 100.f));
       Sector::get().add<SpriteParticle>(
-        "images/particles/rock.sprite", "rock-"+std::to_string(i),
+        m_sprite->create_linked_sprite("rock-particle"), "rock-"+std::to_string(i),
         get_bbox().get_middle(),
         ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS + 6, true);
     }

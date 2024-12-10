@@ -60,18 +60,15 @@ public:
 
   std::vector<std::string> get_patches() const override;
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
 
 protected:
   /** Initialize power up sprites and other defaults */
   void initialize();
-  void setup_lightsprite();
 
 protected:
   Physic physic;
   std::string script;
   bool no_physics;
-  SpritePtr lightsprite;
 
 private:
   PowerUp(const PowerUp&) = delete;
