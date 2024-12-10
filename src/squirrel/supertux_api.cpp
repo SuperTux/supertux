@@ -909,7 +909,7 @@ void register_supertux_scripting_api(ssq::VM& vm)
   ssq::Table level = vm.addTable("Level");
   level.addFunc("finish", &scripting::Level::finish);
   level.addFunc("has_active_sequence", &scripting::Level::has_active_sequence);
-  level.addFunc("spawn", &scripting::Level::spawn, ssq::DefaultArguments<std::string>(""));
+  level.addFunc("spawn", &scripting::Level::spawn, ssq::DefaultArguments<const std::string&>(""));
   level.addFunc("spawn_transition", &scripting::Level::spawn); // Deprecated
   level.addFunc("set_start_point", &scripting::Level::set_start_point);
   level.addFunc("set_start_pos", &scripting::Level::set_start_pos);
