@@ -123,6 +123,11 @@ World::save(bool retry)
   {
     { // make sure the levelset directory exists
       std::string dirname = FileSystem::dirname(filepath);
+      if (dirname == "./")
+      {
+        dirname = "";
+      }
+
       if (!PHYSFS_exists(dirname.c_str()))
       {
         if (!PHYSFS_mkdir(dirname.c_str()))
@@ -165,6 +170,10 @@ World::save(bool retry)
       log_warning << "Failed to save the levelset info, retrying..." << std::endl;
       { // create the levelset directory again
         std::string dirname = FileSystem::dirname(filepath);
+        if (dirname == "./")
+        {
+          dirname = "";
+        }
         if (!PHYSFS_mkdir(dirname.c_str()))
         {
           std::ostringstream msg;
