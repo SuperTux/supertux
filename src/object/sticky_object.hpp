@@ -78,9 +78,13 @@ class StickyBadguy : public BadGuy
 {
 public:
   StickyBadguy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction,
-               int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
+               int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING,
+               const std::string& light_sprite_name = BADGUY_LIGHT_SPRITE_NAME,
+               const std::string& ice_sprite_name = BADGUY_ICE_SPRITE_NAME);
   StickyBadguy(const ReaderMapping& reader, const std::string& sprite_name,
-               int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
+               int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING,
+               const std::string& light_sprite_name = BADGUY_LIGHT_SPRITE_NAME,
+               const std::string& ice_sprite_name = BADGUY_ICE_SPRITE_NAME);
   virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(StickyBadguy)); }
 
   virtual void sticky_update(float dt_sec);
