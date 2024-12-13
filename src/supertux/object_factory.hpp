@@ -64,9 +64,9 @@ public:
 
   bool has_params(const std::string& name, uint8_t params);
 
-  std::vector<std::string>& get_registered_badguys() { return m_badguys_names; }
+  inline std::vector<std::string>& get_registered_badguys() { return m_badguys_names; }
   std::vector<std::string> get_registered_badguys(uint8_t params);
-  std::vector<std::string>& get_registered_objects() { return m_objects_names; }
+  inline std::vector<std::string>& get_registered_objects() { return m_objects_names; }
   std::vector<std::string> get_registered_objects(uint8_t params);
 
 protected:

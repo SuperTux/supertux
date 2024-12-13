@@ -34,11 +34,11 @@ public:
   virtual void draw(DrawingContext& context) override { if (m_label) m_label->draw(context); }
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override { if (m_label) m_label->on_mouse_motion(motion); return false; }
 
-  void set_focus(bool focus) { m_has_focus = focus; }
-  bool has_focus() const { return m_has_focus; }
+  inline void set_focus(bool focus) { m_has_focus = focus; }
+  inline bool has_focus() const { return m_has_focus; }
 
-  void set_rect(const Rectf& rect) { m_rect = rect; }
-  Rectf get_rect() const { return m_rect; }
+  inline void set_rect(const Rectf& rect) { m_rect = rect; }
+  inline Rectf get_rect() const { return m_rect; }
 
 public:
   /** Optional; a function that will be called each time the bound value

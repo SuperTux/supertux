@@ -34,14 +34,14 @@ jobs:
         arch: [32, 64]
         os: [ubuntu-20.04]
         compiler: [gcc, clang]
-        build_type: [Debug, RelWithDebInfo]
+        build_type: [Debug, Release]
         glbinding: [ON, OFF]
         exclude:
           - arch: 32
             glbinding: ON
         include:
           - os: ubuntu-20.04
-            build_type: RelWithDebInfo
+            build_type: Release
             compiler: gcc
             arch: 64
             glbinding: OFF
@@ -62,7 +62,7 @@ jobs:
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Install 64-bit dependencies
         if: ${{ matrix.arch == 64 }}
@@ -212,7 +212,7 @@ jobs:
           doxygen docs/Doxyfile
 
       - name: Package
-        if: ${{ matrix.arch != '32' }}
+        if: matrix.arch != '32'
         env:
           OS_NAME: ${{ matrix.os }}
           ARCH: ${{ matrix.arch }} # TODO: Working Linux 32-bit packaging
@@ -224,6 +224,7 @@ jobs:
         run: ../.ci_scripts/package.sh
 
       - name: Upload AppImage
+        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
         uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-appimage"

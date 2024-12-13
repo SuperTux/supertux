@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [Debug, RelWithDebInfo]
+        build_type: [Debug, Release]
         arch: [amd64, arm64, armhf]
         # glbinding is missing as it isn't available on Ubuntu 16.04
         opengl: [glew, sdl]
@@ -45,7 +45,7 @@ jobs:
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Install clickable
         run: |
@@ -88,6 +88,7 @@ jobs:
           ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}
 
       - uses: actions/upload-artifact@v4
+        if: matrix.build_type != 'Debug'
         with:
           name: "clickable-${{ matrix.arch }}-${{ matrix.build_type }}-${{ matrix.opengl }}-click"
           path: build.clickable/*.click

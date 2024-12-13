@@ -23,6 +23,7 @@
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
@@ -336,7 +337,7 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
 }
 
 bool
-Snail::collision_squished(GameObject& object)
+Snail::collision_squished(MovingObject& object)
 {
   if (m_frozen || state == STATE_GUARD)
     return WalkingBadguy::collision_squished(object);
@@ -365,8 +366,7 @@ Snail::collision_squished(GameObject& object)
     case STATE_WAKING:
       SoundManager::current()->play("sounds/kick.wav", get_pos());
       {
-        MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
-        if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+        if (object.get_pos().x < get_pos().x) {
           m_dir = Direction::RIGHT;
         } else {
           m_dir = Direction::LEFT;
@@ -390,6 +390,7 @@ Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
   if (m_frozen)
     BadGuy::grab(object, pos, dir_);
   m_col.set_movement(pos - get_pos());
+  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   if (!m_frozen)
   {

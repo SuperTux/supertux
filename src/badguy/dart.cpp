@@ -149,12 +149,6 @@ Dart::play_looping_sounds()
   }
 }
 
-void
-Dart::set_flip(Flip flip)
-{
-  m_flip = flip;
-}
-
 std::vector<Direction>
 Dart::get_allowed_directions() const
 {

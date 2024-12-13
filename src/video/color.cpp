@@ -14,9 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "math/util.hpp"
 #include "video/color.hpp"
 
 #include <assert.h>
+#include <iomanip>
+#include <regex>
+#include <sstream>
 
 const Color Color::BLACK(0.0, 0.0, 0.0);
 const Color Color::RED(1.0, 0.0, 0.0);
@@ -45,7 +49,7 @@ Color::Color(float red_, float green_, float blue_, float alpha_) :
   assert(0 <= blue  && blue <= 1.0f);
 }
 
-Color::Color(const std::vector<float>& vals) :
+Color::Color(const std::vector<float>& vals, bool use_alpha) :
   red(),
   green(),
   blue(),
@@ -61,7 +65,7 @@ Color::Color(const std::vector<float>& vals) :
   red   = vals[0];
   green = vals[1];
   blue  = vals[2];
-  if (vals.size() > 3)
+  if (use_alpha && vals.size() > 3)
     alpha = vals[3];
   else
     alpha = 1.0;
@@ -114,6 +118,75 @@ Color::toVector()
   result.push_back(blue);
   result.push_back(alpha);
   return result;
+}
+
+std::optional<Color>
+Color::deserialize_from_rgb(const std::string & rgb_string)
+{
+  const std::regex rgb_format(R"(^\s*rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$)");
+  std::smatch matches;
+
+  if (std::regex_match(rgb_string, matches, rgb_format))
+  {
+    const int r = std::stoi(matches[1].str());
+    const int g = std::stoi(matches[2].str());
+    const int b = std::stoi(matches[3].str());
+
+    if (math::in_bounds(r, 0, 255) && math::in_bounds(g, 0, 255) && math::in_bounds(b, 0, 255))
+    {
+      return Color(static_cast<float>(r) / 255.0f,
+                   static_cast<float>(g) / 255.0f,
+                   static_cast<float>(b) / 255.0f,
+                   1.0f);
+    }
+  }
+  return std::nullopt;
+}
+
+std::optional<Color>
+Color::deserialize_from_hex(const std::string& hex_string)
+{
+  const std::regex hex_format(R"(^\s*#([A-Fa-f0-9]{6})\s*$)");
+  std::smatch matches;
+
+  if (std::regex_match(hex_string, matches, hex_format))
+  {
+    const std::string hex_value = matches[1].str();
+    unsigned int hex_color;
+    std::stringstream ss;
+    ss << std::hex << hex_value;
+    ss >> hex_color;
+
+    const float r = ((hex_color >> 16) & 0xFF) / 255.0f;
+    const float g = ((hex_color >> 8) & 0xFF) / 255.0f;
+    const float b = (hex_color & 0xFF) / 255.0f;
+
+    return Color(r, g, b, 1.0f);
+  }
+  return std::nullopt;
+}
+
+std::string
+Color::serialize_to_hex(const Color& color)
+{
+  std::stringstream ss;
+  ss << "#"
+     << std::hex << std::setfill('0') << std::uppercase
+     << std::setw(2) << static_cast<int>(color.red * 255.f)
+     << std::setw(2) << static_cast<int>(color.green * 255.f)
+     << std::setw(2) << static_cast<int>(color.blue * 255.f);
+  return ss.str();
+}
+
+std::string
+Color::serialize_to_rgb(const Color& color)
+{
+  std::stringstream ss;
+  ss << "rgb("
+     << static_cast<int>(color.red * 255.f) << ","
+     << static_cast<int>(color.green * 255.f) << ","
+     << static_cast<int>(color.blue * 255.f) << ")";
+  return ss.str();
 }
 
 /* EOF */

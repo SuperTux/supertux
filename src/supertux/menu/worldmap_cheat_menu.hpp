@@ -49,7 +49,6 @@ public:
 
 private:
   void do_cheat(PlayerStatus& status, std::function<void(int)> callback);
-  void do_cheat(PlayerStatus& status, std::function<void(int, int)> callback);
 
 private:
   WorldmapCheatMenu(const WorldmapCheatMenu&) = delete;

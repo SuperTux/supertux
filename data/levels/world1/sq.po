@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# 111More1, 2022
+# IAN RODRÍGUEZ Lorenzo, 2022
 # Indrit Bashkimi <indrit.bashkimi@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: 111More1, 2022\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
 "Language-Team: Albanian (http://app.transifex.com/arctic-games/supertux/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,7 @@ msgstr "23 Ajror"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
 msgstr "Gjete një zonë sekrete!"
 

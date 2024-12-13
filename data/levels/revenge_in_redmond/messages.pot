@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.6.3-1080-g2e08c1b7f\n"
+"Project-Id-Version: SuperTux v0.6.3-1449-gecd70425c\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,13 +25,16 @@ msgstr ""
 msgid "Get to da Choppa!"
 msgstr ""
 
+#: data/levels/revenge_in_redmond/intro.stl:3
+msgid "A Blast From The Past"
+msgstr ""
+
 #: data/levels/revenge_in_redmond/long_office_nights.stl:3
 msgid "Long Office Nights"
 msgstr ""
 
-#: data/levels/revenge_in_redmond/long_office_nights.stl:568
-msgid ""
-"#Only those wielding the legendary coffee and mints shall pass this barrier!"
+#: data/levels/revenge_in_redmond/outro.stl:3
+msgid "Where Is Everyone?"
 msgstr ""
 
 #: data/levels/revenge_in_redmond/redmond_headquarters.stl:3

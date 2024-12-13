@@ -47,19 +47,17 @@ PneumaticPlatformChild::update(float dt_sec)
 }
 
 HitResponse
-PneumaticPlatformChild::collision(GameObject& other, const CollisionHit& )
+PneumaticPlatformChild::collision(MovingObject& other, const CollisionHit& )
 {
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
-  auto mo = dynamic_cast<MovingObject*>(&other);
-  if (!mo) return FORCE_MOVE;
-  if ((mo->get_bbox().get_bottom()) > (m_col.m_bbox.get_top() + 2)) return FORCE_MOVE;
+  if (other.get_bbox().get_bottom() > m_col.m_bbox.get_top() + 2) return FORCE_MOVE;
 
-  auto pl = dynamic_cast<Player*>(mo);
+  auto pl = dynamic_cast<Player*>(&other);
   if (pl) {
     if (pl->is_big()) m_contacts.insert(nullptr);
-    auto po = pl->get_grabbed_object();
-    auto pomo = dynamic_cast<MovingObject*>(po);
-    if (pomo) m_contacts.insert(pomo);
+    auto pomo = dynamic_cast<MovingObject*>(pl->get_grabbed_object());
+    assert(pomo);
+    m_contacts.insert(pomo);
   }
 
   m_contacts.insert(&other);

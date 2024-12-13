@@ -42,6 +42,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Skydive"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(SkyDive)); }
   virtual bool is_snipable() const override { return true; }
 
 protected:
@@ -49,7 +50,7 @@ protected:
 
 private:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
-  virtual bool collision_squished (GameObject& obj) override;
+  virtual bool collision_squished(MovingObject& obj) override;
 
   void explode();
   virtual bool is_portable() const override;

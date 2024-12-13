@@ -45,28 +45,44 @@ class GameObject;
 class Menu;
 class Path;
 class PathObject;
+class ReaderMapping;
 class Rectf;
 class TileMap;
 class Writer;
 
 class BaseObjectOption
 {
+protected:
+  /** If set, options with their default value set will be saved. */
+  static bool s_allow_saving_defaults;
+
 public:
   BaseObjectOption(const std::string& text, const std::string& key, unsigned int flags);
   virtual ~BaseObjectOption() = default;
 
-  virtual void save(Writer& write) const = 0;
+  virtual void parse(const ReaderMapping& reader) = 0;
+  virtual void save(Writer& writer) const = 0;
   virtual std::string to_string() const = 0;
   virtual void add_to_menu(Menu& menu) const = 0;
 
-  const std::string& get_key() const { return m_key; }
-  const std::string& get_text() const { return m_text; }
-  unsigned int get_flags() const { return m_flags; }
+  std::string save() const;
+
+  virtual void save_state();
+  bool has_state_changed() const;
+  virtual void parse_state(const ReaderMapping& reader);
+  virtual void save_old_state(std::ostream& out) const;
+  virtual void save_new_state(Writer& writer) const;
+
+  inline const std::string& get_key() const { return m_key; }
+  inline const std::string& get_text() const { return m_text; }
+  inline unsigned int get_flags() const { return m_flags; }
 
 protected:
   const std::string m_text;
   const std::string m_key;
   const unsigned int m_flags;
+
+  std::string m_last_state;
 
 private:
   BaseObjectOption(const BaseObjectOption&) = delete;
@@ -80,7 +96,7 @@ public:
   ObjectOption(const std::string& text, const std::string& key, unsigned int flags, T* pointer = nullptr);
   virtual ~ObjectOption() override = default;
 
-  virtual T* get_value() const { return m_value_pointer; }
+  inline T* get_value() const { return m_value_pointer; }
 
 protected:
   T* const m_value_pointer;
@@ -97,7 +113,8 @@ public:
                    std::optional<bool> default_value,
                    unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -116,7 +133,8 @@ public:
                   std::optional<int> default_value,
                   unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -134,7 +152,8 @@ public:
   LabelObjectOption(const std::string& text,
                   unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override {}
+  virtual void save(Writer& writer) const override {}
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -149,7 +168,8 @@ public:
   RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
                     unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -169,7 +189,8 @@ public:
                     std::optional<float> default_value,
                     unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -188,7 +209,8 @@ public:
                      std::optional<std::string> default_value,
                      unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -207,7 +229,8 @@ public:
                      std::optional<std::string> default_value,
                      unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -226,7 +249,8 @@ public:
                            std::optional<int> default_value,
                            const std::string& key, unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -248,7 +272,8 @@ public:
                    std::optional<int> default_value,
                    const std::string& key, unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -268,7 +293,8 @@ public:
   ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key,
                      unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -288,7 +314,8 @@ public:
                    bool path_relative_to_basedir,
                    unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -310,7 +337,8 @@ public:
                     std::optional<Color> default_value, bool use_alpha,
                     unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -330,7 +358,8 @@ public:
                            uint8_t get_objects_param, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func,
                            const std::string& key, unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -349,12 +378,29 @@ public:
   TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,
                     unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
+  virtual void save_state() override;
+  virtual void parse_state(const ReaderMapping& reader) override;
+  virtual void save_old_state(std::ostream& out) const override;
+  virtual void save_new_state(Writer& writer) const override;
+
 private:
-  TileMap* m_tilemap;
+  void save_tile_changes(Writer& writer, bool new_tiles) const;
+
+private:
+  struct TilesState final
+  {
+    TilesState();
+
+    int width;
+    int height;
+    std::vector<uint32_t> tiles;
+  };
+  TilesState m_last_tiles_state;
 
 private:
   TilesObjectOption(const TilesObjectOption&) = delete;
@@ -367,7 +413,8 @@ public:
   PathObjectOption(const std::string& text, Path* path, const std::string& key,
                     unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -382,7 +429,8 @@ public:
   PathRefObjectOption(const std::string& text, PathObject& target, const std::string& path_ref,
                       const std::string& key, unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -399,7 +447,8 @@ class SExpObjectOption final : public ObjectOption<sexp::Value>
 public:
   SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value, unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -414,7 +463,8 @@ public:
   PathHandleOption(const std::string& text, PathWalker::Handle& handle,
                    const std::string& key, unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -431,7 +481,8 @@ class RemoveObjectOption final : public ObjectOption<>
 public:
   RemoveObjectOption();
 
-  virtual void save(Writer& write) const override {}
+  virtual void parse(const ReaderMapping& reader) override {}
+  virtual void save(Writer& writer) const override {}
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -445,7 +496,8 @@ class TestFromHereOption final : public ObjectOption<>
 public:
   TestFromHereOption();
 
-  virtual void save(Writer& write) const override {}
+  virtual void parse(const ReaderMapping& reader) override {}
+  virtual void save(Writer& writer) const override {}
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -459,7 +511,8 @@ class ParticleEditorOption final : public ObjectOption<>
 public:
   ParticleEditorOption();
 
-  virtual void save(Writer& write) const override {}
+  virtual void parse(const ReaderMapping& reader) override {}
+  virtual void save(Writer& writer) const override {}
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -473,7 +526,8 @@ class ButtonOption final : public ObjectOption<>
 public:
   ButtonOption(const std::string& text, std::function<void()> callback);
 
-  virtual void save(Writer& write) const override {}
+  virtual void parse(const ReaderMapping& reader) override {}
+  virtual void save(Writer& writer) const override {}
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -490,7 +544,8 @@ class StringArrayOption final : public ObjectOption<>
 public:
   StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>& items);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override { return "text-area"; }
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -507,7 +562,8 @@ class ListOption final : public ObjectOption<std::string>
 public:
   ListOption(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override { return *m_value_pointer; }
   virtual void add_to_menu(Menu& menu) const override;
 
@@ -526,7 +582,8 @@ public:
                   std::vector<Direction> possible_directions,
                   const std::string& key, unsigned int flags);
 
-  virtual void save(Writer& write) const override;
+  virtual void parse(const ReaderMapping& reader) override;
+  virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 

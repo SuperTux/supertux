@@ -44,6 +44,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Owl"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Owl)); }
 
   virtual ObjectSettings get_settings() override;
   virtual bool is_snipable() const override { return true; }
@@ -52,7 +53,7 @@ protected:
   bool is_above_player() const;
   void ungrab_carried_object();
   virtual void active_update (float dt_sec) override;
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
   std::string carried_obj_name;
   Portable *carried_object;

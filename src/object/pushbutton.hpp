@@ -25,12 +25,13 @@ class PushButton final : public StickyObject
 public:
   PushButton(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   static std::string class_name() { return "pushbutton"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Button"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return StickyObject::get_class_types().add(typeid(PushButton)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

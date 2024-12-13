@@ -19,6 +19,7 @@
 #include <ctime>
 
 #include "editor/overlay_widget.hpp"
+#include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
@@ -34,6 +35,7 @@
 #endif
 
 Config::Config() :
+  m_initial(true),
   profile(1),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
@@ -56,10 +58,12 @@ Config::Config() :
   show_fps(false),
   show_player_pos(false),
   show_controller(false),
+  camera_peek_multiplier(0.03f),
   sound_enabled(true),
   music_enabled(true),
   sound_volume(100),
   music_volume(50),
+  flash_intensity(50),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
   tux_spawn_pos(),
@@ -75,11 +79,8 @@ Config::Config() :
   confirmation_dialog(false),
   pause_on_focusloss(true),
   custom_mouse_cursor(true),
-#ifdef __EMSCRIPTEN__
   do_release_check(false),
-#else
-  do_release_check(true),
-#endif
+  disable_network(true),
   custom_title_levels(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
@@ -141,15 +142,18 @@ Config::load()
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
 
+  config_mapping.get("flash_intensity", flash_intensity);
   config_mapping.get("frame_prediction", frame_prediction);
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
+  config_mapping.get("camera_peek_multiplier", camera_peek_multiplier);
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("do_release_check", do_release_check);
+  config_mapping.get("disable_network", disable_network);
   config_mapping.get("custom_title_levels", custom_title_levels);
 
   std::optional<ReaderMapping> config_integrations_mapping;
@@ -344,11 +348,16 @@ Config::load()
       }
     }
   }
+
+  check_values();
+  m_initial = false;
 }
 
 void
 Config::save()
 {
+  check_values();
+
   Writer writer("config");
 
   writer.start_list("supertux-config");
@@ -359,11 +368,13 @@ Config::save()
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
   writer.write("show_controller", show_controller);
+  writer.write("camera_peek_multiplier", camera_peek_multiplier);
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
   writer.write("do_release_check", do_release_check);
+  writer.write("disable_network", disable_network);
   writer.write("custom_title_levels", custom_title_levels);
 
   writer.start_list("integrations");
@@ -433,6 +444,8 @@ Config::save()
   writer.write("aspect_width",  aspect_size.width);
   writer.write("aspect_height", aspect_size.height);
 
+  writer.write("flash_intensity", flash_intensity);
+
 #ifdef __EMSCRIPTEN__
   // Forcibly set autofit to true
   // TODO: Remove the autofit parameter entirely - it should always be true
@@ -494,6 +507,11 @@ Config::save()
   writer.end_list("supertux-config");
 }
 
+void
+Config::check_values()
+{
+  camera_peek_multiplier = math::clamp(camera_peek_multiplier, 0.f, 1.f);
+}
 
 bool
 Config::is_christmas() const

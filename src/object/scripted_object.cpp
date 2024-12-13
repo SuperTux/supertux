@@ -16,6 +16,9 @@
 
 #include "object/scripted_object.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
@@ -27,7 +30,6 @@
 
 ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/bonus_block/brick.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
-  ExposedObject<ScriptedObject, scripting::ScriptedObject>(this),
   physic(),
   solid(),
   physic_enabled(),
@@ -78,52 +80,10 @@ ScriptedObject::get_settings()
 }
 
 void
-ScriptedObject::move(float x, float y)
-{
-  m_col.m_bbox.move(Vector(x, y));
-}
-
-float
-ScriptedObject::get_pos_x() const
-{
-  return get_pos().x;
-}
-
-float
-ScriptedObject::get_pos_y() const
-{
-  return get_pos().y;
-}
-
-void
 ScriptedObject::set_velocity(float x, float y)
 {
   new_vel = Vector(x, y);
   new_vel_set = true;
-}
-
-float
-ScriptedObject::get_velocity_x() const
-{
-  return physic.get_velocity_x();
-}
-
-float
-ScriptedObject::get_velocity_y() const
-{
-  return physic.get_velocity_y();
-}
-
-void
-ScriptedObject::set_visible(bool visible_)
-{
-  visible = visible_;
-}
-
-bool
-ScriptedObject::is_visible() const
-{
-  return visible;
 }
 
 void
@@ -135,24 +95,6 @@ ScriptedObject::set_solid(bool solid_)
   } else {
     set_group( COLGROUP_DISABLED );
   }
-}
-
-bool
-ScriptedObject::is_solid() const
-{
-  return solid;
-}
-
-bool
-ScriptedObject::gravity_enabled() const
-{
-	return physic.gravity_enabled();
-}
-
-void
-ScriptedObject::enable_gravity(bool f)
-{
-	physic.enable_gravity(f);
 }
 
 void
@@ -195,7 +137,7 @@ ScriptedObject::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-ScriptedObject::collision(GameObject& other, const CollisionHit& )
+ScriptedObject::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player && !hit_script.empty()) {
@@ -211,6 +153,28 @@ ScriptedObject::on_flip(float height)
   MovingSprite::on_flip(height);
   if(!physic_enabled)
     FlipLevelTransformer::transform_flip(m_flip);
+}
+
+
+void
+ScriptedObject::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<ScriptedObject>("ScriptedObject", vm.findClass("MovingSprite"));
+
+  cls.addFunc("get_pos_x", &MovingObject::get_x); // Deprecated
+  cls.addFunc("get_pos_y", &MovingObject::get_y); // Deprecated
+  cls.addFunc("set_velocity", &ScriptedObject::set_velocity);
+  cls.addFunc("get_velocity_x", &ScriptedObject::get_velocity_x);
+  cls.addFunc("get_velocity_y", &ScriptedObject::get_velocity_y);
+  cls.addFunc("enable_gravity", &ScriptedObject::enable_gravity);
+  cls.addFunc("gravity_enabled", &ScriptedObject::gravity_enabled);
+  cls.addFunc("set_visible", &ScriptedObject::set_visible);
+  cls.addFunc("is_visible", &ScriptedObject::is_visible);
+  cls.addFunc("set_solid", &ScriptedObject::set_solid);
+  cls.addFunc("is_solid", &ScriptedObject::is_solid);
+
+  cls.addVar("visible", &ScriptedObject::visible);
+  cls.addVar("solid", &ScriptedObject::is_solid, &ScriptedObject::set_solid);
 }
 
 /* EOF */

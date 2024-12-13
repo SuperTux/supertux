@@ -39,7 +39,8 @@ SmokeCloud::update(float dt_sec)
 void
 SmokeCloud::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), position, LAYER_OBJECTS + 1);
+  Vector draw_pos = position - Vector(0.f, 120.f) * std::min(context.get_time_offset(), timer.get_timeleft());
+  sprite->draw(context.color(), draw_pos, LAYER_OBJECTS + 1);
 }
 
 /* EOF */

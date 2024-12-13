@@ -24,6 +24,7 @@
 #include "object/lit_object.hpp"
 #include "object/pushbutton.hpp"
 #include "object/trampoline.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "object/player.hpp"
@@ -37,7 +38,6 @@ namespace {
 
 Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   MovingSprite(reader, spritename),
-  ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
   on_ice(false),
@@ -57,7 +57,6 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
 
 Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
-  ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
   on_ice(false),
@@ -162,7 +161,7 @@ Rock::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Rock::collision(GameObject& other, const CollisionHit& hit)
+Rock::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto heavy_coin = dynamic_cast<HeavyCoin*> (&other);
   if (heavy_coin) {
@@ -231,6 +230,7 @@ Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
   Portable::grab(object, pos, dir_);
   Vector movement = pos - get_pos();
   m_col.set_movement(movement);
+  physic.set_velocity(movement * LOGICAL_FPS);
   last_movement = movement;
   set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
   on_ground = false;
@@ -272,6 +272,13 @@ Rock::ungrab(MovingObject& object, Direction dir)
     Sector::get().run_script(on_ungrab_script, "Rock::on_ungrab");
   }
   Portable::ungrab(object, dir);
+}
+
+void
+Rock::draw(DrawingContext& context)
+{
+  Vector offset = physic.get_velocity() * context.get_time_offset();
+  m_sprite->draw(context.color(), get_pos() + offset, m_layer, m_flip);
 }
 
 ObjectSettings

@@ -164,6 +164,9 @@ Coin::collect()
 
   int tile = static_cast<int>(get_pos().y / 32);
 
+  if (!is_valid())
+    return;
+
   if (!sound_timer.started()) {
     pitch_one = tile;
     pitch = 1;
@@ -234,7 +237,7 @@ Coin::collect()
 }
 
 HitResponse
-Coin::collision(GameObject& other, const CollisionHit& )
+Coin::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*>(&other);
   if (player == nullptr)

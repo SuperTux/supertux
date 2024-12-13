@@ -54,7 +54,7 @@ Snowman::loose_head()
 HitResponse
 Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
-  if (bullet.get_type() == FIRE_BONUS) {
+  if (bullet.get_type() == BONUS_FIRE) {
     // Fire bullets destroy snowman's body.
     Vector snowball_pos = get_pos();
     // Hard-coded values from sprites.
@@ -79,7 +79,7 @@ Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 }
 
 bool
-Snowman::collision_squished(GameObject& object)
+Snowman::collision_squished(MovingObject& object)
 {
   auto player = dynamic_cast<Player*>(&object);
   if (player && (player->m_does_buttjump || player->is_invincible())) {

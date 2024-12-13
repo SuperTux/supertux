@@ -148,7 +148,8 @@ void
 RCrystallo::draw(DrawingContext& context)
 {
   context.push_transform();
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
+  m_sprite->draw(context.color(), draw_pos, m_layer);
   context.pop_transform();
 }
 

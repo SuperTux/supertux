@@ -25,6 +25,7 @@ Debug::Debug() :
   show_collision_rects(false),
   show_worldmap_path(false),
   draw_redundant_frames(false),
+  show_toolbox_tile_ids(false),
   m_use_bitmap_fonts(false),
   m_game_speed_multiplier(1.0f)
 {
@@ -37,16 +38,11 @@ Debug::set_use_bitmap_fonts(bool value)
   Resources::load();
 }
 
-bool
-Debug::get_use_bitmap_fonts() const
-{
-  return m_use_bitmap_fonts;
-}
-
 void
 Debug::set_game_speed_multiplier(float v)
 {
   m_game_speed_multiplier = v;
   log_info << m_game_speed_multiplier << std::endl;
 }
+
 /* EOF */

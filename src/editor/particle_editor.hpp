@@ -59,7 +59,7 @@ public:
 
   virtual IntegrationStatus get_status() const override;
 
-  void event(const SDL_Event& ev);
+  void event(const SDL_Event& ev) override;
   void update_keyboard(const Controller& controller);
   void check_unsaved_changes(const std::function<void ()>& action);
   void quit_editor();
@@ -73,7 +73,7 @@ public:
   void save(Writer& writer);
   void request_save(bool is_save_as = false,
     const std::function<void(bool)>& callback = [](bool was_saved){});
-  void open(const std::string& filename) { m_filename = filename; reload(); }
+  inline void open(const std::string& filename) { m_filename = filename; reload(); }
   void new_file() { m_filename = ""; reload(); }
 
   /** Reloads the particle object from the filename in m_filename.

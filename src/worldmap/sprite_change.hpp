@@ -34,6 +34,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Sprite Change"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return WorldMapObject::get_class_types().add(typeid(SpriteChange)); }
 
   virtual void draw_worldmap(DrawingContext& context) override;
 
@@ -58,7 +59,7 @@ public:
    */
   SpritePtr clone_sprite() const;
 
-  bool change_on_touch() const { return m_change_on_touch; }
+  inline bool change_on_touch() const { return m_change_on_touch; }
 
 private:
   /** should Tux's sprite change when the tile has been completely entered,

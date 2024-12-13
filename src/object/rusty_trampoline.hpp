@@ -28,7 +28,7 @@ class RustyTrampoline final : public Rock
 public:
   RustyTrampoline(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
@@ -39,6 +39,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Rusty Trampoline"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Rock::get_class_types().add(typeid(RustyTrampoline)); }
 
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override { return {}; }

@@ -27,6 +27,7 @@ class TreeWillOWisp final : public BadGuy
 public:
   TreeWillOWisp(GhostTree* tree, const Vector& pos, float radius, float speed);
   ~TreeWillOWisp() override;
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(TreeWillOWisp)); }
 
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
@@ -45,10 +46,10 @@ public:
   void start_sucking(const Vector& suck_target);
 
   void set_color(const Color& color);
-  Color get_color() const;
+  inline Color get_color() const { return color; }
 
 protected:
-  virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
+  virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
 private:

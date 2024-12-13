@@ -63,6 +63,13 @@ public:
   {
   }
 
+  // Meant for checking directions
+  explicit AATriangle(int newdir) :
+    bbox(),
+    dir(newdir)
+  {
+  }
+
   inline int get_dir() const { return dir & DIRECTION_MASK; }
   inline int get_deform() const { return dir & DEFORM_MASK; }
 

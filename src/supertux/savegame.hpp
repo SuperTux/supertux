@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 
+#include <simplesquirrel/table.hpp>
+
 class PlayerStatus;
 class Profile;
 
@@ -73,11 +75,11 @@ public:
 public:
   Savegame(Profile& profile, const std::string& world_name);
 
-  Profile& get_profile() const { return m_profile; }
+  inline Profile& get_profile() const { return m_profile; }
   std::string get_filename() const;
 
   /** Returns content of (tux ...) entry */
-  PlayerStatus& get_player_status() const { return *m_player_status; }
+  inline PlayerStatus& get_player_status() const { return *m_player_status; }
 
   std::string get_title() const;
 
@@ -102,6 +104,7 @@ private:
   Profile& m_profile;
   std::string m_world_name;
   std::unique_ptr<PlayerStatus> m_player_status;
+  ssq::Table m_state_table;
 
 private:
   Savegame(const Savegame&) = delete;

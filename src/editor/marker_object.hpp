@@ -28,11 +28,12 @@ class MarkerObject : public MovingObject
 public:
   MarkerObject(const Vector& pos);
   MarkerObject();
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(MarkerObject)); }
 
   virtual void update(float dt_sec) override {}
   virtual void draw(DrawingContext& context) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
 
   virtual Vector get_point_vector() const = 0;
   virtual Vector get_offset() const = 0;

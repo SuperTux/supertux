@@ -22,31 +22,31 @@
 Vector
 Vector::polar() const
 {
-  return x==0 && y==0 ? Vector(0,0) : Vector(length(),angle());
+  return x==0 && y==0 ? Vector(0, 0) : Vector(length(), angle());
 }
 
 Vector
 Vector::rectangular() const
 {
-  return Vector(cosf(y),sinf(y))*x;
+  return Vector(std::cos(y), std::sin(y)) * x;
 }
 
 Vector
 Vector::trunc() const
 {
-  return Vector(truncf(x), truncf(y));
+  return Vector(std::trunc(x), std::trunc(y));
 }
 
 float
 Vector::distance(const Vector& other) const
 {
-  return sqrtf((other.x - x)*2 + (other.y - y)*2);
+  return std::sqrt((other.x - x) * 2 + (other.y - y) * 2);
 }
 
 Vector
 Vector::floor() const
 {
-  return Vector(floorf(x), floorf(y));
+  return Vector(std::floor(x), std::floor(y));
 }
 
 Vector
@@ -64,13 +64,13 @@ Vector::normalize() const
 float
 Vector::length() const
 {
-  return sqrtf(x*x + y*y);
+  return std::sqrt(x*x + y*y);
 }
 
 float
 Vector::angle() const
 {
-  return (x==0&&y==0) ? 0 : atan2(y,x);
+  return (x==0 && y==0) ? 0 : std::atan2(y, x);
 }
 
 std::ostream&
