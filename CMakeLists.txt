@@ -236,7 +236,7 @@ endif()
 target_link_libraries(supertux2 supertux2_lib)
 
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
-set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
+set_source_files_properties(${SUPERTUX_SOURCES_CXX} PROPERTIES COMPILE_OPTIONS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 if(EMSCRIPTEN)
   target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
 endif()
