@@ -145,7 +145,7 @@ BadGuy::draw(DrawingContext& context)
 {
   if (!m_sprite.get()) return;
 
-  Vector draw_offset = context.get_time_offset() * m_physic.get_velocity();
+  Vector draw_offset = m_physic.get_velocity() * context.get_time_offset();
   Vector draw_pos = get_pos() + draw_offset;
 
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
@@ -394,10 +394,10 @@ BadGuy::active_update(float dt_sec)
     if (is_in_water() && m_water_affected)
     {
       if (m_frozen) {
-        m_col.set_movement(m_physic.get_movement(dt_sec) * Vector(0.1f, 0.6f));
+        m_col.set_movement(m_physic.get_movement(dt_sec) ^ Vector(0.1f, 0.6f));
       }
       else {
-        m_col.set_movement(m_physic.get_movement(dt_sec) * Vector(0.7f, 0.3f));
+        m_col.set_movement(m_physic.get_movement(dt_sec) ^ Vector(0.7f, 0.3f));
       }
     }
     else {
@@ -497,7 +497,7 @@ BadGuy::collision(MovingObject& other, const CollisionHit& hit)
     }
 
     if (player->is_stone()) {
-      if (glm::length(player->get_physic().get_movement(.1f)) > 16.f)
+      if (player->get_physic().get_movement(.1f).length() > 16.f)
       {
         kill_fall();
         return ABORT_MOVE;
@@ -871,7 +871,7 @@ BadGuy::might_fall(int height)
     {
       AATriangle tri((*tile_p)->get_data());
 
-      if (tri.is_south() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
+      if (!tri.is_north() && (m_dir == Direction::LEFT ? tri.is_east() : !tri.is_east()))
       {
         // Switch to slope mode.
         m_detected_slope = tri.dir;
