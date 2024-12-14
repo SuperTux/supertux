@@ -163,9 +163,6 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   // Welcome to the slope collision algorithm. Enjoy your stay!
 
 #if 1
-  if (!rect.overlaps(triangle.bbox))
-    return false;
-
   // For more information on the two following variables, read
   // https://github.com/SuperTux/supertux/wiki/Tileset#slope-types
 
@@ -232,6 +229,9 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
       assert(false);
   }
 
+  if (!trirect.overlaps(rect))
+    return false;
+
   Vector trip1 = trirect.p1();
   Vector trip2 = trirect.p2();
   Sizef trisz = trirect.get_size();
@@ -287,18 +287,27 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   // If it isn't, ignore. This prevents "teleporting" to the triangle when touching its ledge.
   if (diff.y * ratio <= 0.f)
   {
-    return false;
+    if (triangle.is_east())
+      constraints->hit.right = true;
+    else
+      constraints->hit.left = true;
+
+    return true;
   }
 
   // Do something similar for the x axis
   if (diff.x <= 0.f)
   {
     if (triangle.is_north())
+    {
       constraints->hit.top = true;
+      constraints->constrain_top(trirect.get_bottom());
+    }
     else
     {
       hits_rectangle_bottom = true;
       constraints->hit.bottom = true;
+      constraints->constrain_bottom(trirect.get_top());
     }
 
     return true;

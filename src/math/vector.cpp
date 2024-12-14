@@ -56,6 +56,12 @@ Vector::from_angle(float angle)
 }
 
 Vector
+Vector::abs() const
+{
+  return Vector(std::abs(x), std::abs(y));
+}
+
+Vector
 Vector::normalize() const
 {
   return *this / length();

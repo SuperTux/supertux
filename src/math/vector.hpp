@@ -143,6 +143,7 @@ public:
     return Vector(x*other.x, y*other.y);
   }
 
+  Vector abs() const;
   Vector normalize() const;
   float length() const;
   float angle() const;
