@@ -315,7 +315,7 @@ Yeti::be_angry()
 }
 
 bool
-Yeti::collision_squished(GameObject& object)
+Yeti::collision_squished(MovingObject& object)
 {
   if (m_state != YetiState::JUMP_UP && m_state != YetiState::RUN && m_state != YetiState::BE_ANGRY) {
     return false;

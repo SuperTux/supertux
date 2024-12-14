@@ -36,7 +36,7 @@ public:
 
   void check_values();
 
-  bool is_initial() const { return m_initial; }
+  inline bool is_initial() const { return m_initial; }
 
 private:
   bool m_initial;

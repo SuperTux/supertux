@@ -27,7 +27,7 @@ public:
              const std::string& sprite_name = "images/creatures/iceblock/iceblock.sprite");
 
   virtual void initialize() override;
-  virtual HitResponse collision(GameObject& object, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& object, const CollisionHit& hit) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
@@ -68,7 +68,7 @@ protected:
   };
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
   void set_state(IceState state);
 
 private:

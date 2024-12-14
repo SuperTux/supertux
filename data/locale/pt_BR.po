@@ -1313,15 +1313,15 @@ msgstr "Texto"
 
 #: src/object/cloud_particle_system.cpp:124
 msgid "Fog Opacity"
-msgstr ""
+msgstr "Opacidade da Névoa"
 
 #: src/object/cloud_particle_system.cpp:125
 msgid "X Speed"
-msgstr ""
+msgstr "Velocidade X"
 
 #: src/object/cloud_particle_system.cpp:126
 msgid "Y Speed"
-msgstr ""
+msgstr "Velocidade Y"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
@@ -1607,15 +1607,15 @@ msgstr "Não é possível selecionar blocos obsoletos."
 
 #: src/editor/overlay_widget.cpp:1610
 msgid "Autotile erasing mode is on (\"{}\")"
-msgstr ""
+msgstr "O modo de eliminação do Piso Automático está ativado (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1614
 msgid "Autotile erasing cannot be performed here"
-msgstr ""
+msgstr "A exclusão do Piso Automático não pode ser realizada aqui"
 
 #: src/editor/overlay_widget.cpp:1619
 msgid "Autotile mode is on (\"{}\")"
-msgstr ""
+msgstr "O modo Piso Automático está ativado (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1623
 msgid "Selected tile isn't autotileable"
@@ -2355,11 +2355,11 @@ msgstr "Instalar do arquivo"
 
 #: src/supertux/menu/addon_menu.cpp:175
 msgid "To browse through the add-on catalog, you must enable networking."
-msgstr ""
+msgstr "Para navegar pelo catálogo de complementos, você deve habilitar a rede."
 
 #: src/supertux/menu/addon_menu.cpp:212
 msgid "To check for add-on updates, you must enable networking."
-msgstr ""
+msgstr "Para verificar atualizações de complementos, você deve habilitar a rede."
 
 #: src/supertux/menu/addon_menu.cpp:220
 msgid "Checking for updates..."
@@ -2550,11 +2550,11 @@ msgstr "Mostrar IDs de blocos na caixa de ferramentas do Editor"
 
 #: src/supertux/menu/debug_menu.cpp:80
 msgid "Reload Resources"
-msgstr ""
+msgstr "Recarergar Recursos"
 
 #: src/supertux/menu/debug_menu.cpp:87
 msgid "Reloads all fonts, textures, sprites and tilesets."
-msgstr ""
+msgstr "Recarrega todas as fontes, texturas, sprites e conjuntos de blocos."
 
 #: src/supertux/menu/debug_menu.cpp:89
 msgid "Dump Texture Cache"
@@ -2995,7 +2995,7 @@ msgstr "Falhou em carregar todas as capturas de tela disponíveis."
 
 #: src/supertux/menu/addon_preview_menu.cpp:154
 msgid "To fetch add-on screenshots, you must enable networking."
-msgstr ""
+msgstr "Para obter capturas de tela do complemento, você deve habilitar a rede."
 
 #: src/supertux/menu/addon_preview_menu.cpp:158
 msgid "Show screenshots"
@@ -3088,14 +3088,14 @@ msgid ""
 "Would you allow SuperTux to connect to the Internet?\n"
 "\n"
 "This enables additional features, such as the in-game add-on catalog."
-msgstr ""
+msgstr "Você permite que o SuperTux se conecte à Internet?\n\nIsso habilitará recursos adicionais, como o catálogo de complementos do jogo."
 
 #: src/supertux/menu/main_menu.cpp:82
 msgid ""
 "Would you allow SuperTux to check for new releases on startup?\n"
 "\n"
 "You will be notified if any are found."
-msgstr ""
+msgstr "Você permite que o SuperTux verifique novos lançamentos na inicialização?\n\nVocê será notificado se algum for encontrado."
 
 #: src/supertux/menu/main_menu.cpp:125
 msgid ""
@@ -3668,11 +3668,11 @@ msgstr "Permite que o jogo execute verificações por novos lançamentos do Supe
 
 #: src/supertux/menu/options_menu.cpp:236
 msgid "Disable network"
-msgstr ""
+msgstr "Desabilitar rede"
 
 #: src/supertux/menu/options_menu.cpp:237
 msgid "Prevents the game from connecting online"
-msgstr ""
+msgstr "Impede que o jogo se conecte online"
 
 #: src/supertux/menu/options_menu.cpp:304
 msgid "Magnification"

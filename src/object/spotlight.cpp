@@ -171,21 +171,9 @@ Spotlight::draw(DrawingContext& context)
 }
 
 HitResponse
-Spotlight::collision(GameObject& other, const CollisionHit& hit_)
+Spotlight::collision(MovingObject& other, const CollisionHit& hit_)
 {
   return FORCE_MOVE;
-}
-
-void
-Spotlight::set_enabled(bool enabled)
-{
-  m_enabled = enabled;
-}
-
-bool
-Spotlight::is_enabled()
-{
-  return m_enabled;
 }
 
 void
@@ -195,51 +183,15 @@ Spotlight::set_direction(const std::string& direction)
 }
 
 void
-Spotlight::set_speed(float speed)
-{
-  m_speed = speed;
-}
-
-void
-Spotlight::fade_speed(float speed, float time)
-{
-  ease_speed(time, speed);
-}
-
-void
 Spotlight::ease_speed(float speed, float time, const std::string& easing_)
 {
   ease_speed(time, speed, EasingMode_from_string(easing_));
 }
 
 void
-Spotlight::set_angle(float angle)
-{
-  m_angle = angle;
-}
-
-void
-Spotlight::fade_angle(float angle, float time)
-{
-  ease_angle(time, angle);
-}
-
-void
 Spotlight::ease_angle(float angle, float time, const std::string& easing_)
 {
   ease_angle(time, angle, EasingMode_from_string(easing_));
-}
-
-void
-Spotlight::set_color_rgba(float r, float g, float b, float a)
-{
-  m_color = Color(r, g, b, a);
-}
-
-void
-Spotlight::fade_color_rgba(float r, float g, float b, float a, float time)
-{
-  ease_color(time, Color(r, g, b, a));
 }
 
 void

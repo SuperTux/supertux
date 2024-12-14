@@ -51,8 +51,9 @@ public:
   void quit(std::unique_ptr<ScreenFade> fade = {});
 
   inline void set_draw_hud(bool enabled) { m_draw_hud = enabled; }
-  void set_speed(float speed);
-  float get_speed() const;
+  inline void set_speed(float speed) { m_speed = speed; }
+  inline float get_speed() const { return m_speed; }
+
   bool has_pending_fadeout() const;
 
   void on_window_resize();
@@ -64,7 +65,7 @@ public:
 
   void loop_iter();
 
-  const std::vector<std::unique_ptr<Screen>>& get_screen_stack() { return m_screen_stack; }
+  inline const std::vector<std::unique_ptr<Screen>>& get_screen_stack() { return m_screen_stack; }
 
 private:
   struct FPS_Stats;

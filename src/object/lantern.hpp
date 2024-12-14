@@ -28,7 +28,7 @@ public:
 
   virtual void draw(DrawingContext& context) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
@@ -47,7 +47,7 @@ public:
   bool is_open() const;
 
   /** returns the lamp's color */
-  Color get_color() const { return lightcolor; }
+  inline Color get_color() const { return lightcolor; }
   void add_color(const Color& c);
 
 private:

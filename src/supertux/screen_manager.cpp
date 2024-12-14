@@ -103,9 +103,9 @@ struct ScreenManager::FPS_Stats
     max_us = 0;
   }
 
-  float get_fps() const { return last_fps; }
-  float get_fps_min() const { return last_fps_min; }
-  float get_fps_max() const { return last_fps_max; }
+  inline float get_fps() const { return last_fps; }
+  inline float get_fps_min() const { return last_fps_min; }
+  inline float get_fps_max() const { return last_fps_max; }
 
   // This returns the highest measured delay between two frames from the
   // previous and current 0.5 s measuring intervals
@@ -190,18 +190,6 @@ ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 
   set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::QUIT_ACTION);
-}
-
-void
-ScreenManager::set_speed(float speed)
-{
-  m_speed = speed;
-}
-
-float
-ScreenManager::get_speed() const
-{
-  return m_speed;
 }
 
 void

@@ -44,6 +44,7 @@ public:
 
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return true; }
+  virtual bool track_state() const override { return false; }
 
   void reset();
 

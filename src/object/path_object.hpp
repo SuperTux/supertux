@@ -49,7 +49,7 @@ public:
 
   PathGameObject* get_path_gameobject() const;
   Path* get_path() const;
-  PathWalker* get_walker() const { return m_walker.get(); }
+  inline PathWalker* get_walker() const { return m_walker.get(); }
 
   void editor_clone_path(PathGameObject* path_object);
 

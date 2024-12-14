@@ -19,25 +19,26 @@
 #define HEADER_SUPERTUX_GUI_MENU_ITEM_HPP
 
 #include "gui/menu.hpp"
+#include <optional>
 
 #include "video/surface_ptr.hpp"
 
 class MenuItem
 {
 public:
-  MenuItem(const std::string& text, int id = -1);
+  explicit MenuItem(const std::string& text, int id = -1, const std::optional<Color>& text_color = std::nullopt);
   virtual ~MenuItem();
 
-  int get_id() const { return m_id; }
+  inline int get_id() const { return m_id; }
 
   void set_help(const std::string& help_text);
-  const std::string& get_help() const { return m_help; }
+  inline const std::string& get_help() const { return m_help; }
 
-  void set_text(const std::string& text) { m_text = text; }
-  const std::string& get_text() const { return m_text; }
+  inline void set_text(const std::string& text) { m_text = text; }
+  inline const std::string& get_text() const { return m_text; }
 
-  void set_font(const FontPtr font) { m_font = font; }
-  const FontPtr& get_font() const { return m_font; }
+  inline void set_font(const FontPtr font) { m_font = font; }
+  inline const FontPtr& get_font() const { return m_font; }
 
   void set_preview(const std::string& preview_file);
   inline void set_preview(SurfacePtr preview) { m_preview = preview; }
@@ -71,6 +72,7 @@ public:
   virtual void event(const SDL_Event& ev) { }
 
   virtual Color get_color() const;
+  virtual void set_text_color(const Color& color);
 
   /** Returns true when the MenuManager shouldn't do anything else. */
   virtual bool no_other_action() const {
@@ -92,6 +94,7 @@ private:
   std::string m_text;
   std::string m_help;
   FontPtr m_font;
+  std::optional<Color> m_text_color;
   SurfacePtr m_preview;
 
 private:

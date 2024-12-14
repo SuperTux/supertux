@@ -38,17 +38,17 @@ private:
 
 public:
   std::string get_basename() const;
-  const std::string& get_basedir() const { return m_basedir; }
-  const std::string& get_title() const { return m_title; }
-  const std::string& get_description() const { return m_description; }
+  inline const std::string& get_basedir() const { return m_basedir; }
+  inline const std::string& get_title() const { return m_title; }
+  inline const std::string& get_description() const { return m_description; }
 
-  bool hide_from_contribs() const { return m_hide_from_contribs && !g_config->developer_mode; }
+  inline bool hide_from_contribs() const { return m_hide_from_contribs && !g_config->developer_mode; }
 
-  bool is_levelset() const { return m_is_levelset; }
-  bool is_worldmap() const { return !m_is_levelset; }
+  inline bool is_levelset() const { return m_is_levelset; }
+  inline bool is_worldmap() const { return !m_is_levelset; }
 
-  const std::string& get_contrib_type() const { return m_contrib_type; }
-  const std::string& get_title_level() const { return m_title_level; }
+  inline const std::string& get_contrib_type() const { return m_contrib_type; }
+  inline const std::string& get_title_level() const { return m_title_level; }
 
   std::string get_worldmap_filename() const;
 

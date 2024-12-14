@@ -91,7 +91,7 @@ TreeWillOWisp::collision_player(Player& player, const CollisionHit& hit)
 }
 
 bool
-TreeWillOWisp::collides(GameObject& other, const CollisionHit& ) const
+TreeWillOWisp::collides(MovingObject& other, const CollisionHit& ) const
 {
   auto lantern = dynamic_cast<Lantern*>(&other);
   if (lantern && lantern->is_open())
@@ -152,12 +152,6 @@ TreeWillOWisp::set_color(const Color& color_)
 {
   color = color_;
   m_sprite->set_color(color_);
-}
-
-Color
-TreeWillOWisp::get_color() const
-{
-  return color;
 }
 
 void TreeWillOWisp::stop_looping_sounds()

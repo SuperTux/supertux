@@ -82,13 +82,6 @@ Menu::~Menu()
 }
 
 void
-Menu::set_center_pos(float x, float y)
-{
-  m_pos.x = x;
-  m_pos.y = y;
-}
-
-void
 Menu::align_for_previews(float x_offset)
 {
   for (const auto& item : m_items)
@@ -199,12 +192,6 @@ Menu::add_script(const std::string& text, std::string* script, int id)
   return add_item<ItemScript>(text, script, id);
 }
 
-ItemScriptLine&
-Menu::add_script_line(std::string* input, int id)
-{
-  return add_item<ItemScriptLine>(input, id);
-}
-
 ItemIntField&
 Menu::add_intfield(const std::string& text, int* input, int id, bool positive)
 {
@@ -227,6 +214,18 @@ ItemAction&
 Menu::add_entry(const std::string& text, const std::function<void()>& callback)
 {
   return add_item<ItemAction>(text, -1, callback);
+}
+
+ItemAction&
+Menu::add_entry(int id, const std::string& text, const Color& text_color)
+{
+  return add_item<ItemAction>(text, id, [](){}, text_color);
+}
+
+ItemAction&
+Menu::add_entry(const std::string& text, const std::function<void()>& callback, const Color& text_color)
+{
+  return add_item<ItemAction>(text, -1, callback, text_color);
 }
 
 ItemInactive&

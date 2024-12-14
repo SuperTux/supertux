@@ -37,11 +37,11 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  const std::string& get_worldmap() const { return m_worldmap; }
-  const std::string& get_sector() const { return m_sector; }
-  const std::string& get_spawnpoint() const { return m_spawnpoint; }
-  bool is_automatic() const { return m_automatic; }
-  const std::string& get_message() const { return m_message; }
+  inline const std::string& get_worldmap() const { return m_worldmap; }
+  inline const std::string& get_sector() const { return m_sector; }
+  inline const std::string& get_spawnpoint() const { return m_spawnpoint; }
+  inline bool is_automatic() const { return m_automatic; }
+  inline const std::string& get_message() const { return m_message; }
 
 private:
   /** Worldmap filename (relative to data root) to teleport to. Leave empty to use current word */

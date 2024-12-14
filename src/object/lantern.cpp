@@ -95,7 +95,7 @@ Lantern::draw(DrawingContext& context){
   lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
-HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
+HitResponse Lantern::collision(MovingObject& other, const CollisionHit& hit) {
 
   WillOWisp* wow = dynamic_cast<WillOWisp*>(&other);
 
