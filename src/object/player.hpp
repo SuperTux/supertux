@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 #define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 
+#include "object_state.hpp"
+#include "moving_sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
@@ -27,7 +29,7 @@
 #include "supertux/timer.hpp"
 #include "video/layer.hpp"
 #include "video/surface_ptr.hpp"
-
+#include <bitset>
 #include <array>
 #include <list>
 
@@ -40,14 +42,48 @@ class Portable;
 
 extern const float TUX_INVINCIBLE_TIME_WARNING;
 
+enum PlayerState : uint8_t
+{
+  PLAYER_IDLE = 0,
+  PLAYER_JUMPING,
+  PLAYER_DUCK,
+  PLAYER_CRAWL,
+  PLAYER_DEAD,
+  PLAYER_DYING,
+  PLAYER_WINNING,
+  PLAYER_BACKFLIPPING,
+  PLAYER_WANTS_BUTTJUMP,
+  PLAYER_BUTTJUMPING,
+  PLAYER_BUTTJUMP_STOMP,
+  PLAYER_CAN_JUMP,
+  PLAYER_CAN_WALLJUMP,
+  PLAYER_SLIDING,
+  PLAYER_SLIDEJUMPING,
+  PLAYER_SLIDEJUMP,
+  PLAYER_SWIMMING,
+  PLAYER_SWIMBOOSTING,
+  PLAYER_WATER_JUMP,
+  PLAYER_CRAWLING,
+  PLAYER_GROWING,
+  PLAYER_STONE,
+  PLAYER_ON_ICE,
+  PLAYER_ON_GROUND,
+  PLAYER_IS_GROWING,
+  PLAYER_GHOST,
+  PLAYER_FALLING,
+  PLAYER_NO_WATER,
+  PLAYERSTATE_SIZE,
+};
+
+
 /**
  * @scripting
- * @summary This module contains methods controlling the player. (No, SuperTux doesn't use mind control. ""Player"" refers to the type of the player object.)
+ * @summary This module contains methods controlling the player.
  * @instances The first player can be accessed using ""Tux"", or ""sector.Tux"" from the console.
               All following players (2nd, 3rd, etc...) can be accessed by ""Tux{index}"".
               For example, to access the 2nd player, use ""Tux1"" (or ""sector.Tux1"" from the console).
  */
-class Player final : public MovingObject
+class Player final : public MovingSprite
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -102,7 +138,7 @@ public:
   inline void set_controller(const Controller* controller) { m_controller = controller; }
   /** Level solved. Don't kill Tux any more. */
   void set_winning();
-  inline bool is_winning() const { return m_winning; }
+  inline bool is_winning() const { return m_state.get(PLAYER_WINNING); }
 
   // Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
   inline void set_speedlimit(float limit) { m_speedlimit = limit; }
@@ -136,7 +172,7 @@ public:
   void make_temporarily_safe(float safe_time);
 
   inline bool is_invincible() const { return m_invincible_timer.started(); }
-  inline bool is_dying() const { return m_dying; }
+  inline bool is_dying() const { return m_state.get(PLAYER_DYING); }
 
   /**
    * Returns true if the player is currently alive
@@ -265,7 +301,7 @@ public:
 
   /** Adds velocity to the player until given end speed is reached */
   void add_velocity(const Vector& velocity, const Vector& end_speed);
-
+  
   /** Returns the current velocity of the player */
   inline Vector get_velocity() const { return m_physic.get_velocity(); }
   /**
@@ -289,13 +325,13 @@ public:
   void bounce(BadGuy& badguy);
   inline void override_velocity() { m_velocity_override = true; }
 
-  inline bool is_dead() const { return m_dead; }
+  inline bool is_dead() const { return m_state.get(PLAYER_DEAD); }
   inline bool is_big() const { return get_bonus() != BONUS_NONE; }
-  inline bool is_stone() const { return m_stone; }
-  inline bool is_sliding() const { return m_sliding; }
-  inline bool is_swimming() const { return m_swimming; }
-  inline bool is_swimboosting() const { return m_swimboosting; }
-  inline bool is_water_jumping() const { return m_water_jump; }
+  inline bool is_stone() const { return m_state.get(PLAYER_STONE); }
+  inline bool is_sliding() const { return m_state.get(PLAYER_SLIDING); }
+  inline bool is_swimming() const { return m_state.get(PLAYER_SWIMMING); }
+  inline bool is_swimboosting() const { return m_state.get(PLAYER_SWIMBOOSTING); }
+  inline bool is_water_jumping() const { return m_state.get(PLAYER_WATER_JUMP); }
   inline bool is_skidding() const { return m_skidding_timer.started(); }
   inline float get_swimming_angle() const { return m_swimming_angle; }
 
@@ -311,8 +347,8 @@ public:
    */
   inline bool get_visible() const { return m_visible; }
 
-  inline bool on_ground() const { return m_on_ground_flag; }
-  inline void set_on_ground(bool flag) { m_on_ground_flag = flag; }
+  inline bool on_ground() const { return m_state.get(PLAYER_ON_GROUND); }
+  inline void set_on_ground(bool flag) { m_state.set(PLAYER_ON_GROUND, flag); }
 
   inline Portable* get_grabbed_object() const { return m_grabbed_object; }
   inline void stop_grabbing() { ungrab_object(); }
@@ -334,7 +370,7 @@ public:
    * @scripting
    * @description Returns whether ghost mode is currently enabled.
    */
-  inline bool get_ghost_mode() const { return m_ghost_mode; }
+  inline bool get_ghost_mode() const { return m_state.get(PLAYER_GHOST); }
 
   /** Changes height of bounding box.
       Returns true if successful, false otherwise */
@@ -429,6 +465,13 @@ public:
    * @description Ejects the item in the player's Item Pocket.
    */
   void set_item_pocket(int bonus);
+  
+  /**
+   * @scripting
+   * @description Returns the specified state of the player as an integer.
+   * @param bool $id The specific state ID, typically from a constant enum-like value.
+   */
+  bool get_state(int id) const;
 
   void position_grabbed_object(bool teleport = false);
   bool try_grab();
@@ -487,6 +530,9 @@ private:
 
   void stop_rolling(bool violent = true);
 
+public:  
+  ObjectState m_state;
+
 private:
   int m_id;
   std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */
@@ -495,31 +541,18 @@ private:
   const Controller* m_controller;
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
-  bool m_duck;
-  bool m_crawl;
-  bool m_dead;
-  bool m_dying;
-  bool m_winning;
-  bool m_backflipping;
+
   int  m_backflip_direction;
   Direction m_peekingX;
   Direction m_peekingY;
-  bool m_stone;
-  bool m_sliding;
-  bool m_slidejumping;
-  bool m_swimming;
-  bool m_swimboosting;
-  bool m_no_water;
   bool m_on_left_wall;
   bool m_on_right_wall;
   bool m_in_walljump_tile;
-  bool m_can_walljump;
   float m_boost;
   float m_speedlimit;
   bool m_velocity_override;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
-  bool m_on_ice;
   bool m_ice_this_frame;
   //SpritePtr m_santahatsprite;
   SpritePtr m_multiplayer_arrow;
@@ -541,16 +574,10 @@ public:
   FallMode m_fall_mode;
 
 private:
-  bool m_on_ground_flag;
-  bool m_jumping;
-  bool m_can_jump;
   Timer m_jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
   Timer m_coyote_timer; /**< started when Tux falls off a ledge; runs until Tux jumps or COYOTE_TIME runs out */
-  bool m_wants_buttjump;
-  bool m_buttjump_stomp;
 
 public:
-  bool m_does_buttjump;
   Timer m_invincible_timer;
 
 private:
@@ -565,7 +592,6 @@ public:
 
 private:
   Timer m_second_growup_sound_timer;
-  bool m_growing;
   Timer m_backflip_timer;
 
   Physic m_physic;
@@ -580,11 +606,8 @@ private:
   std::unique_ptr<ObjectRemoveListener> m_grabbed_object_remove_listener;
   bool m_released_object;
 
-  SpritePtr m_sprite; /**< The main sprite representing Tux */
-
   float m_swimming_angle;
   float m_swimming_accel_modifier;
-  bool m_water_jump;
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
@@ -594,7 +617,6 @@ private:
 
   Vector m_floor_normal;
 
-  bool m_ghost_mode; /**< indicates if Tux should float around and through solid objects */
 
   Timer m_unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
 

@@ -126,7 +126,7 @@ HitResponse
 InfoBlock::collision(MovingObject& other, const CollisionHit& hit_)
 {
   auto player = dynamic_cast<Player*> (&other);
-  if (player && player->m_does_buttjump)
+  if (player && player->m_state.get(PLAYER_BUTTJUMPING))
   {
     InfoBlock::hit(*player);
   }

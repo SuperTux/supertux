@@ -102,8 +102,8 @@ Trampoline::collision(MovingObject& other, const CollisionHit& hit)
   if (player && !is_grabbed())
   {
     player->override_velocity();
-    if (player->m_does_buttjump)
-      player->m_does_buttjump = false;
+    if (player->m_state.get(PLAYER_BUTTJUMPING))
+      player->m_state.set(PLAYER_BUTTJUMPING, false);
     float vy = player->get_physic().get_velocity_y();
     //player is falling down on trampoline
     if (hit.top && vy >= 0)

@@ -559,7 +559,7 @@ HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& hit)
 {
   if (player.is_invincible() ||
-    (is_snipable() && (player.m_does_buttjump || player.is_sliding()))) {
+    (is_snipable() && (player.m_state.get(PLAYER_BUTTJUMPING) || player.is_sliding()))) {
     kill_fall();
     return ABORT_MOVE;
   }
@@ -607,7 +607,7 @@ BadGuy::collision_squished(MovingObject& object)
   if (m_frozen)
   {
     auto player = dynamic_cast<Player*>(&object);
-    if (player && (player->m_does_buttjump)) {
+    if (player && (player->m_state.get(PLAYER_BUTTJUMPING))) {
       player->bounce(*this);
       kill_fall();
       return true;
