@@ -171,6 +171,7 @@ private:
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
   void reset_level();
+  void reactivate();
   void quit_editor();
   /**
    * @param filename    If non-empty, save to this file instead.

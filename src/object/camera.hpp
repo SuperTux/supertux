@@ -164,7 +164,7 @@ public:
    * @description Sets the scale factor.
    * @param float $scale
    */
-  inline void set_scale(float scale) { m_scale = scale; }
+  inline void set_scale(float scale) { ease_scale(scale, 0.f, ""); }
   /**
    * @scripting
    * @description Sets the scale factor and the target position anchor.

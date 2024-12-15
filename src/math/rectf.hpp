@@ -161,7 +161,7 @@ public:
   // leave these two public to save the headaches of set/get functions for such
   // simple things :)
 
-  inline Vector p1() const { return m_p1; }
+  inline const Vector& p1() const { return m_p1; }
   inline Vector p2() const { return Vector(m_p1.x + m_size.width, m_p1.y + m_size.height); }
 
   void set_p1(const Vector& p) {

@@ -128,7 +128,8 @@ public:
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC.
       Note that this does not include badguys or players. */
-  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr, const bool ignoreUnisolid = false) const;
+  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr,
+                          const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   /**
    * @scripting
    * @description Checks if the specified sector-relative rectangle is free of both:
@@ -178,8 +179,14 @@ public:
 
   CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
                                                              const Vector& line_end,
+                                                             CollisionSystem::RaycastIgnore ignore,
+                                                             const CollisionObject* ignore_object) const;
+
+  CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
+                                                             const Vector& line_end,
                                                              bool ignore_objects,
                                                              const CollisionObject* ignore_object) const;
+
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects = false, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;
 

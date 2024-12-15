@@ -376,11 +376,13 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 
   if (!m_level->is_worldmap())
   {
+    // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
+    //       If not, call reactivate().
     GameManager::current()->start_level(*current_world, backup_filename, test_pos);
   }
-  else
+  else if (!GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos))
   {
-    GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos);
+    reactivate();
   }
 }
 
@@ -824,20 +826,28 @@ Editor::setup()
   m_layers_widget->setup();
 
   // Reactivate the editor after level test.
-  if (m_leveltested) {
-    m_leveltested = false;
-    Tile::draw_editor_images = true;
-    m_level->reactivate();
+  reactivate();
+}
 
-    m_sector->activate(Vector(0,0));
+void
+Editor::reactivate()
+{
+  // Reactivate the editor after level test.
+  if (!m_leveltested)
+    return;
 
-    MenuManager::instance().clear_menu_stack();
-    SoundManager::current()->stop_music();
+  m_leveltested = false;
+  Tile::draw_editor_images = true;
+  m_level->reactivate();
 
-    m_deactivate_request = false;
-    m_enabled = true;
-    m_toolbox_widget->update_mouse_icon();
-  }
+  m_sector->activate(Vector(0,0));
+
+  MenuManager::instance().clear_menu_stack();
+  SoundManager::current()->stop_music();
+
+  m_deactivate_request = false;
+  m_enabled = true;
+  m_toolbox_widget->update_mouse_icon();
 }
 
 void
