@@ -303,7 +303,7 @@ static void load_worldmap(const std::string& filename, const std::string& sector
  */
 static void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint)
 {
- //TODO: remove this function
+  // TODO: remove this function
   GameManager::current()->set_next_worldmap(dirname, sector, spawnpoint);
 }
 /**
