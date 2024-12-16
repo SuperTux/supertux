@@ -158,55 +158,47 @@ static bool check_cutscene()
  * @scripting
  * @description Suspends the script execution for a specified number of seconds.
  * @param float $seconds
+ * @param bool $forced Optional, enforces waiting while a cutscene is being skipped.
  * @returns void
  */
-static SQInteger wait(HSQUIRRELVM vm, float seconds)
+static SQInteger wait(HSQUIRRELVM vm, float seconds, bool forced = false)
 {
   ssq::VM* ssq_vm = ssq::VM::get(vm);
   if (ssq_vm && !ssq_vm->isThread()) return 0;
 
-  auto session = GameSession::current();
-  if (session && session->get_current_level().m_skip_cutscene)
+  if (!forced)
   {
-    if (ssq_vm && ssq_vm->getForeignPtr())
+    auto session = GameSession::current();
+    if (session && session->get_current_level().m_skip_cutscene)
     {
-      auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
-      // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`.
-      return squirrelenv->wait_for_seconds(vm, 0);
-    }
-    else
-    {
+      if (ssq_vm && ssq_vm->getForeignPtr())
+      {
+        auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
+        // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`.
+        return squirrelenv->wait_for_seconds(vm, 0);
+      }
       auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
       return squirrelvm->wait_for_seconds(vm, 0);
     }
-  }
-  else if (session && session->get_current_level().m_is_in_cutscene)
-  {
-    if (ssq_vm && ssq_vm->getForeignPtr())
+    if (session && session->get_current_level().m_is_in_cutscene)
     {
-      auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
-      // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game.
-      return squirrelenv->skippable_wait_for_seconds(vm, seconds);
-    }
-    else
-    {
+      if (ssq_vm && ssq_vm->getForeignPtr())
+      {
+        auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
+        // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game.
+        return squirrelenv->skippable_wait_for_seconds(vm, seconds);
+      }
       auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
       return squirrelvm->skippable_wait_for_seconds(vm, seconds);
     }
   }
-  else
+  if (ssq_vm && ssq_vm->getForeignPtr())
   {
-    if (ssq_vm && ssq_vm->getForeignPtr())
-    {
-      auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
-      return squirrelenv->wait_for_seconds(vm, seconds);
-    }
-    else
-    {
-      auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
-      return squirrelvm->wait_for_seconds(vm, seconds);
-    }
+    auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
+    return squirrelenv->wait_for_seconds(vm, seconds);
   }
+  auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
+  return squirrelvm->wait_for_seconds(vm, seconds);
 }
 
 /**
@@ -665,26 +657,18 @@ static bool has_active_sequence()
                 If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
  * @param string $sector
  * @param string $spawnpoint
- */
-static void spawn(const std::string& sector, const std::string& spawnpoint)
-{
-  if (!GameSession::current()) return;
-  GameSession::current()->respawn(sector, spawnpoint);
-}
-
-/**
- * @scripting
- * @description Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"" with the given transition ""transition"".${SRG_TABLENEWPARAGRAPH}
-                Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
-                If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.
-                If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
- * @param string $sector
- * @param string $spawnpoint
  * @param string $transition Valid transitions are ""circle"" and ""fade"". If any other value is specified, no transition effect is drawn.
+                             Optional, empty by default.
  */
-static void spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition)
+static void spawn(const std::string& sector, const std::string& spawnpoint, const std::string& transition = "")
 {
   if (!GameSession::current()) return;
+
+  if (transition.empty())
+  {
+    GameSession::current()->respawn(sector, spawnpoint);
+    return;
+  }
 
   ScreenFade::FadeType fade_type = ScreenFade::FadeType::NONE;
 
@@ -697,6 +681,22 @@ static void spawn_transition(const std::string& sector, const std::string& spawn
 
   GameSession::current()->respawn_with_fade(sector, spawnpoint, fade_type, {0.0f, 0.0f}, true);
 }
+#ifdef DOXYGEN_SCRIPTING
+/**
+ * @scripting
+ * @deprecated Use ""spawn()"" instead!
+ * @description Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"" with the given transition ""transition"".${SRG_TABLENEWPARAGRAPH}
+                Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
+                If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.
+                If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
+ * @param string $sector
+ * @param string $spawnpoint
+ * @param string $transition Valid transitions are ""circle"" and ""fade"". If any other value is specified, no transition effect is drawn.
+ */
+static void spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition)
+{
+}
+#endif
 
 /**
  * @scripting
@@ -860,7 +860,7 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("start_cutscene", &scripting::Globals::start_cutscene);
   vm.addFunc("end_cutscene", &scripting::Globals::end_cutscene);
   vm.addFunc("check_cutscene", &scripting::Globals::check_cutscene);
-  vm.addFunc("wait", &scripting::Globals::wait);
+  vm.addFunc("wait", &scripting::Globals::wait, ssq::DefaultArguments<bool>(false));
   vm.addFunc("wait_for_screenswitch", &scripting::Globals::wait_for_screenswitch);
   vm.addFunc("exit_screen", &scripting::Globals::exit_screen);
   vm.addFunc("translate", &scripting::Globals::translate);
@@ -901,8 +901,8 @@ void register_supertux_scripting_api(ssq::VM& vm)
   ssq::Table level = vm.addTable("Level");
   level.addFunc("finish", &scripting::Level::finish);
   level.addFunc("has_active_sequence", &scripting::Level::has_active_sequence);
-  level.addFunc("spawn", &scripting::Level::spawn);
-  level.addFunc("spawn_transition", &scripting::Level::spawn_transition);
+  level.addFunc("spawn", &scripting::Level::spawn, ssq::DefaultArguments<const std::string&>(""));
+  level.addFunc("spawn_transition", &scripting::Level::spawn); // Deprecated
   level.addFunc("set_start_point", &scripting::Level::set_start_point);
   level.addFunc("set_start_pos", &scripting::Level::set_start_pos);
   level.addFunc("set_respawn_point", &scripting::Level::set_respawn_point);
