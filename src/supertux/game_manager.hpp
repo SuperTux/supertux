@@ -20,6 +20,7 @@
 #include "util/currenton.hpp"
 
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "math/vector.hpp"

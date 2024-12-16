@@ -34,8 +34,7 @@
 #include "worldmap/worldmap.hpp"
 
 GameManager::GameManager() :
-  m_savegame(),
-  m_next_worldmap()
+  m_savegame()
 {
 }
 
