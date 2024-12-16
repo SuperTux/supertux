@@ -265,14 +265,11 @@ PowerUp::update(float dt_sec)
 void
 PowerUp::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  MovingSprite::draw(context);
 
   // Stars and herrings are brighter.
   if (m_type == STAR || m_type == HERRING)
     m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-
-  if (m_light_sprite)
-    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 ObjectSettings

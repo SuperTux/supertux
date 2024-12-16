@@ -36,6 +36,8 @@ public:
 
   SpritePtr clone() const;
 
+  void apply_config(const SpriteConfig& config);
+
   /** Draw sprite, automatically calculates next frame */
   void draw(Canvas& canvas, const Vector& pos, int layer,
             Flip flip = NO_FLIP);
@@ -88,9 +90,9 @@ public:
   /** Get current action name */
   inline const std::string& get_action() const { return m_action->name; }
 
-  /** Get linked light sprite */
-  const std::optional<SpriteData::LinkedLightSprite>& get_linked_light_sprite() const;
-  SpritePtr create_linked_light_sprite() const;
+  /** Get custom linked sprites */
+  const std::vector<SpriteData::LinkedSprite>& get_custom_linked_sprites() const;
+  std::vector<SpritePtr> create_custom_linked_sprites(bool light) const;
 
   /** Get linked sprite by key */
   bool has_linked_sprite(const std::string& key) const;
@@ -145,13 +147,14 @@ private:
   float m_frame;
   // between 0 and get_frames()
   int m_frameidx;
-  int m_animation_loops;
   float m_last_ticks;
+  bool m_is_paused;
+
+  int m_animation_loops;
   float m_angle;
   float m_alpha;
   Color m_color;
   Blend m_blend;
-  bool m_is_paused;
 
   const SpriteData::Action* m_action;
 

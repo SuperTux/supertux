@@ -15,8 +15,14 @@
 	(hitbox 2 22 32 32)
 	(fps 16)
     (linked-sprites
-      (light-1 "candle-light-1.sprite" "white")
-      (light-2 "candle-light-2.sprite" "white")
+      (light-1
+        (file "candle-light-1.sprite")
+        (action "white")
+      )
+      (light-2
+        (file "candle-light-2.sprite")
+        (action "white")
+      )
     )
     (images 
       "candle-1.png"
@@ -38,8 +44,14 @@
 	(hitbox 2 22 32 32)
 	(fps 16)
     (linked-sprites
-      (light-1 "candle-light-1.sprite" "white")
-      (light-2 "candle-light-2.sprite" "white")
+      (light-1
+        (file "candle-light-1.sprite")
+        (action "white")
+      )
+      (light-2
+        (file "candle-light-2.sprite")
+        (action "white")
+      )
     )
     (images 
       "candle-1.png"
@@ -50,8 +62,14 @@
   )
 
   (linked-sprites
-    (light-1 "candle-light-1.sprite")
-    (light-2 "candle-light-2.sprite")
-    (smoke "images/particles/smoke.sprite")
+    (light-1
+      (file "candle-light-1.sprite")
+    )
+    (light-2
+      (file "candle-light-2.sprite")
+    )
+    (smoke
+      (file "images/particles/smoke.sprite")
+    )
   )
 )

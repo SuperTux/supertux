@@ -78,12 +78,12 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   SoundManager::current()->preload(SOUNDFILE);
   SoundManager::current()->preload("sounds/warp.wav");
 
-  if (m_light_sprite)
-  {
-    m_light_sprite->set_color(Color(m_color.red * 0.2f,
-                                    m_color.green * 0.2f,
-                                    m_color.blue * 0.2f));
-  }
+
+  const Color light_color(m_color.red * 0.2f,
+                          m_color.green * 0.2f,
+                          m_color.blue * 0.2f);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(light_color);
   m_sprite->set_color(m_color);
 
   set_action("idle");
@@ -102,12 +102,11 @@ WillOWisp::after_editor_set()
 {
   BadGuy::after_editor_set();
 
-  if (m_light_sprite)
-  {
-    m_light_sprite->set_color(Color(m_color.red * 0.2f,
-                                    m_color.green * 0.2f,
-                                    m_color.blue * 0.2f));
-  }
+  const Color light_color(m_color.red * 0.2f,
+                          m_color.green * 0.2f,
+                          m_color.blue * 0.2f);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(light_color);
   m_sprite->set_color(m_color);
 }
 

@@ -9,8 +9,13 @@
           "ghostflame-4.png"))
 
   (linked-sprites
-    (light "images/objects/lightmap_light/lightmap_light-small.sprite" "" 0.21 0 0.21)
-    (smoke "images/particles/smoke.sprite")
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+      (color 0.21 0 0.21)
+    )
+    (smoke
+      (file "images/particles/smoke.sprite")
+    )
   )
 )
 

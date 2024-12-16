@@ -9,6 +9,10 @@
                  "fire_flower-1.png"))
 
   (linked-sprites
-    (light "images/objects/lightmap_light/lightmap_light-small.sprite" "default" 0.3 0 0)
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+      (action "default")
+      (color 0.3 0 0)
+    )
   )
 )

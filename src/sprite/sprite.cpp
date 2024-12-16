@@ -28,13 +28,13 @@ Sprite::Sprite(SpriteData& newdata) :
   m_data(newdata),
   m_frame(0),
   m_frameidx(0),
-  m_animation_loops(-1),
   m_last_ticks(),
+  m_is_paused(false),
+  m_animation_loops(-1),
   m_angle(0.0f),
   m_alpha(1.0f),
   m_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_blend(),
-  m_is_paused(false),
   m_action(m_data.get_action("normal"))
 {
   if (!m_action)
@@ -46,8 +46,8 @@ Sprite::Sprite(const Sprite& other) :
   m_data(other.m_data),
   m_frame(other.m_frame),
   m_frameidx(other.m_frameidx),
-  m_animation_loops(other.m_animation_loops),
   m_last_ticks(g_game_time),
+  m_animation_loops(other.m_animation_loops),
   m_angle(0.0f), // FIXME: this can't be right
   m_alpha(1.0f),
   m_color(1.0f, 1.0f, 1.0f, 1.0f),
@@ -65,6 +65,18 @@ SpritePtr
 Sprite::clone() const
 {
   return SpritePtr(new Sprite(*this));
+}
+
+void
+Sprite::apply_config(const SpriteConfig& config)
+{
+  set_action(config.action);
+
+  m_animation_loops = config.loops;
+  m_angle = config.angle;
+  m_alpha = config.alpha;
+  m_color = config.color;
+  m_blend = config.blend;
 }
 
 bool
@@ -213,28 +225,31 @@ Sprite::draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
   context.pop_transform();
 }
 
-const std::optional<SpriteData::LinkedLightSprite>&
-Sprite::get_linked_light_sprite() const
+const std::vector<SpriteData::LinkedSprite>&
+Sprite::get_custom_linked_sprites() const
 {
-  return m_action->linked_light_sprite ? m_action->linked_light_sprite : m_data.linked_light_sprite;
+  return m_action->custom_linked_sprites.empty() ? m_data.custom_linked_sprites : m_action->custom_linked_sprites;
 }
 
-SpritePtr
-Sprite::create_linked_light_sprite() const
+std::vector<SpritePtr>
+Sprite::create_custom_linked_sprites(bool light) const
 {
-  const auto& sprite_data = get_linked_light_sprite();
+  const auto& sprites_data = get_custom_linked_sprites();
 
-  SpritePtr sprite;
-  if (sprite_data)
+  std::vector<SpritePtr> result;
+  for (const SpriteData::LinkedSprite& sprite_data : sprites_data)
   {
-    sprite = SpriteManager::current()->create(sprite_data->file);
-    if (!sprite_data->action.empty())
-      sprite->set_action(sprite_data->action);
-    if (sprite_data->color)
-      sprite->set_color(*sprite_data->color);
-    sprite->set_blend(Blend::ADD);
+    if (sprite_data.light != light)
+      continue;
+
+    SpritePtr sprite = SpriteManager::current()->create(sprite_data.file);
+    sprite->apply_config(sprite_data.config);
+    if (sprite_data.light)
+      sprite->set_blend(Blend::ADD);
+
+    result.push_back(std::move(sprite));
   }
-  return sprite;
+  return result;
 }
 
 bool
@@ -269,10 +284,8 @@ Sprite::create_linked_sprite(const std::string& key) const
   const auto& sprite_data = get_linked_sprite(key);
 
   SpritePtr sprite = SpriteManager::current()->create(sprite_data.file);
-  if (sprite_data.action.empty())
-    sprite->set_animation_loops(sprite_data.loops);
-  else
-    sprite->set_action(sprite_data.action, sprite_data.loops);
+  sprite->apply_config(sprite_data.config);
+
   return sprite;
 }
 

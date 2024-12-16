@@ -155,8 +155,6 @@ MrBomb::active_update(float dt_sec)
 void
 MrBomb::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-
   if (m_state == MB_STATE_TICKING)
   {
     m_exploding_sprite->set_blend(Blend::ADD);

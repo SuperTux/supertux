@@ -11,7 +11,13 @@
                  "star-1.png"))
 
   (linked-sprites
-    (light "images/objects/lightmap_light/lightmap_light-small.sprite" "default" 0.4 0.4 0.4)
-    (sparkle "images/particles/sparkle.sprite")
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+      (action "default")
+      (color 0.4 0.4 0.4)
+    )
+    (sparkle
+      (file "images/particles/sparkle.sprite")
+    )
   )
 )

@@ -495,8 +495,11 @@ Crusher::draw(DrawingContext& context)
   // Draw the whites of crusher's eyes even further behind.
   m_whites->draw(context.color(), draw_pos, m_layer, m_flip);
 
-  if (m_light_sprite)
-    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, m_layer + 3);
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.color(), draw_pos, m_layer + 2, m_flip);
+
+  for (auto& sprite : m_light_sprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, m_layer + 3);
 }
 
 ObjectSettings

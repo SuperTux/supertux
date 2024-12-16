@@ -277,8 +277,14 @@ Rock::ungrab(MovingObject& object, Direction dir)
 void
 Rock::draw(DrawingContext& context)
 {
-  Vector offset = physic.get_velocity() * context.get_time_offset();
+  const Vector offset = physic.get_velocity() * context.get_time_offset();
   m_sprite->draw(context.color(), get_pos() + offset, m_layer, m_flip);
+
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.color(), get_pos() + offset, m_layer, m_flip);
+
+  for (auto& sprite : m_light_sprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 ObjectSettings

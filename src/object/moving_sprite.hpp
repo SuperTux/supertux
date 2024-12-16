@@ -166,7 +166,8 @@ protected:
             so support for sprite switching for object types is retained. */
   std::string m_default_sprite_name;
   SpritePtr m_sprite;
-  SpritePtr m_light_sprite;
+  std::vector<SpritePtr> m_light_sprites;
+  std::vector<SpritePtr> m_custom_sprites;
   int m_layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 
   Flip m_flip;

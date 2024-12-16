@@ -32,8 +32,8 @@ WalkingCandle::WalkingCandle(const ReaderMapping& reader) :
     m_lightcolor = Color(vColor);
 
   m_sprite->set_color(m_lightcolor);
-  if (m_light_sprite)
-    m_light_sprite->set_color(m_lightcolor);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(m_lightcolor);
 
   m_countMe = false;
 }
@@ -62,8 +62,8 @@ WalkingCandle::unfreeze(bool melt)
   BadGuy::unfreeze(melt);
   initialize();
   m_sprite->set_color(m_lightcolor);
-  if (m_light_sprite)
-    m_light_sprite->set_color(m_lightcolor);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(m_lightcolor);
 }
 
 HitResponse
@@ -105,8 +105,8 @@ WalkingCandle::after_editor_set()
   WalkingBadguy::after_editor_set();
 
   m_sprite->set_color(m_lightcolor);
-  if (m_light_sprite)
-    m_light_sprite->set_color(m_lightcolor);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(m_lightcolor);
 }
 
 /* EOF */

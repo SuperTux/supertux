@@ -58,9 +58,8 @@ private:
   Vector velocity;
   Vector acceleration;
   int drawing_layer;
-  SpritePtr lightsprite;
+  std::vector<SpritePtr> lightsprites;
   bool no_time_out;
-  Color color;
 
 private:
   SpriteParticle(const SpriteParticle&) = delete;

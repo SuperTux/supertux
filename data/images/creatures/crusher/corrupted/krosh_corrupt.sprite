@@ -34,8 +34,17 @@
  )
 
  (linked-sprites
-   (left-eye "krosh_corrupt.sprite" "left-eye")
-   (right-eye "krosh_corrupt.sprite" "right-eye")
-   (whites "krosh_corrupt.sprite" "whites")
+   (left-eye
+     (file "krosh_corrupt.sprite")
+     (action "left-eye")
+   )
+   (right-eye
+     (file "krosh_corrupt.sprite")
+     (action "right-eye")
+   )
+   (whites
+     (file "krosh_corrupt.sprite")
+     (action "whites")
+   )
  )
 )

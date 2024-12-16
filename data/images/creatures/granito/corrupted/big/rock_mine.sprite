@@ -42,7 +42,11 @@
 	)
 
 	(linked-sprites
-	  (rock-particles "images/particles/granito_piece.sprite")
-	  (shard "root_spike.sprite")
+		(rock-particles
+			(file "images/particles/granito_piece.sprite")
+		)
+		(shard
+			(file "root_spike.sprite")
+		)
 	)
 )

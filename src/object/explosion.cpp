@@ -62,8 +62,8 @@ void
 Explosion::on_sprite_update()
 {
   MovingSprite::on_sprite_update();
-  if (m_light_sprite)
-    m_light_sprite->get_color().alpha = 0.f;
+  for (auto& sprite : m_light_sprites)
+    sprite->get_color().alpha = 0.f;
 }
 
 void
@@ -164,27 +164,31 @@ Explosion::update(float )
       break;
 
     case E_STATE_EXPLODING:
-      if (m_light_sprite)
-        m_light_sprite->get_color().alpha = std::min(m_fading_timer.get_progress(), 1.f);
+    {
+      const float light_alpha = std::min(m_fading_timer.get_progress(), 1.f);
+      for (auto& sprite : m_light_sprites)
+        sprite->get_color().alpha = light_alpha;
 
       if (m_fading_timer.check())
       {
         m_fading_timer.start(short_fuse ? .85f : 1.5f);
         m_state = E_STATE_FADING;
       }
-
-      break;
+    }
+    break;
 
     case E_STATE_FADING:
-      if (m_light_sprite)
-        m_light_sprite->get_color().alpha = std::max(1.f - m_fading_timer.get_progress(), 0.f);
+    {
+      const float light_alpha = std::min(m_fading_timer.get_progress(), 1.f);
+      for (auto& sprite : m_light_sprites)
+        sprite->get_color().alpha = light_alpha;
 
       if (m_fading_timer.check())
       {
         remove_me();
       }
-
-      break;
+    }
+    break;
   }
 }
 

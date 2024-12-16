@@ -11,6 +11,8 @@
   (images "../../tiles/blocks/brick2.png"))
 
   (linked-sprites
-    (break-particles "brick.sprite")
+    (break-particles
+      (file "brick.sprite")
+    )
   )
  )

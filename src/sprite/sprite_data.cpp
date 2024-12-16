@@ -35,8 +35,23 @@
 #include "video/surface.hpp"
 #include "video/texture_manager.hpp"
 
+LinkedSpritesContainer::LinkedSprite::LinkedSprite() :
+  file(),
+  config(),
+  light(false)
+{
+}
+
+LinkedSpritesContainer::LinkedSprite::LinkedSprite(const std::string& file_, SpriteConfig config_,
+                                                   bool light_) :
+  file(file_),
+  config(std::move(config_)),
+  light(light_)
+{
+}
+
 LinkedSpritesContainer::LinkedSpritesContainer() :
-  linked_light_sprite(),
+  custom_linked_sprites(),
   linked_sprites()
 {
 }
@@ -44,46 +59,24 @@ LinkedSpritesContainer::LinkedSpritesContainer() :
 void
 LinkedSpritesContainer::parse_linked_sprites(const ReaderMapping& mapping)
 {
-  auto iter_sprites = mapping.get_iter();
-  while (iter_sprites.next())
+  auto iter = mapping.get_iter();
+  while (iter.next())
   {
-    const auto& sx = iter_sprites.as_mapping().get_sexp();
-    const auto& arr = sx.as_array();
+    auto mapping = iter.as_mapping();
 
-    std::string filepath = FileSystem::join(mapping.get_doc().get_directory(), arr[1].as_string());
+    std::string file;
+    mapping.get("file", file);
+
+    std::string filepath = FileSystem::join(mapping.get_doc().get_directory(), file);
     if (!PHYSFS_exists(filepath.c_str())) // If file path is not relative to current directory, make it relative to root
-      filepath = arr[1].as_string();
+      filepath = file;
 
-    const std::string key = arr[0].as_string();
-    if (key == "light") // The key "light" is reserved for light sprites
-    {
-      linked_light_sprite = LinkedLightSprite(filepath);
-
-      if (arr.size() >= 3) // Default action has been specified
-      {
-        linked_light_sprite->action = arr[2].as_string();
-
-        if (arr.size() >= 6) // Color has been specified
-        {
-          linked_light_sprite->color = Color(arr[3].as_float(), arr[4].as_float(),
-                                             arr[5].as_float());
-        }
-      }
-    }
+    if (iter.get_key() == "custom")
+      custom_linked_sprites.emplace_back(filepath, SpriteConfig(iter.as_mapping()), false);
+    else if (iter.get_key() == "custom-light")
+      custom_linked_sprites.emplace_back(filepath, SpriteConfig(iter.as_mapping()), true);
     else
-    {
-      LinkedSprite linked_sprite = LinkedSprite(filepath);
-
-      if (arr.size() >= 3) // Default action has been specified
-      {
-        linked_sprite.action = arr[2].as_string();
-
-        if (arr.size() >= 4) // Default action loops have been specified
-          linked_sprite.loops = arr[3].as_int();
-      }
-
-      linked_sprites[key] = std::move(linked_sprite);
-    }
+      linked_sprites[iter.get_key()] = LinkedSprite(filepath, SpriteConfig(iter.as_mapping()), false);
   }
 }
 

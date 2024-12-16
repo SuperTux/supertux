@@ -230,7 +230,6 @@ Haywire::active_update(float dt_sec)
 void
 Haywire::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
   if (stomped_timer.get_timeleft() < 0.05f && m_is_exploding)
   {
     m_exploding_sprite->set_blend(Blend::ADD);

@@ -41,6 +41,8 @@
     (mirror-action "base-left"))
 
   (linked-sprites
-    (rock "images/particles/corrupted_rock.sprite")
+    (rock
+      (file "images/particles/corrupted_rock.sprite")
+    )
   )
 )

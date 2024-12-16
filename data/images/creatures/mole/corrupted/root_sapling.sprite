@@ -95,6 +95,8 @@
   )
 
   (linked-sprites
-    (light "core_glow/core_glow.sprite")
+    (custom-light
+      (file "core_glow/core_glow.sprite")
+    )
   )
 )

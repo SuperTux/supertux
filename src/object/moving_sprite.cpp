@@ -35,7 +35,8 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
   m_sprite(),
-  m_light_sprite(),
+  m_light_sprites(),
+  m_custom_sprites(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false),
@@ -58,7 +59,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
   m_sprite(),
-  m_light_sprite(),
+  m_light_sprites(),
+  m_custom_sprites(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false),
@@ -81,7 +83,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite_name(),
   m_default_sprite_name(),
   m_sprite(),
-  m_light_sprite(),
+  m_light_sprites(),
+  m_custom_sprites(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false),
@@ -100,8 +103,11 @@ MovingSprite::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  if (m_light_sprite)
-    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+  for (auto& sprite : m_light_sprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void
@@ -203,8 +209,9 @@ MovingSprite::on_sprite_update()
   // Update hitbox
   update_hitbox();
 
-  // Update light sprite
-  m_light_sprite = m_sprite->create_linked_light_sprite();
+  // Update custom sprites
+  m_light_sprites = m_sprite->create_custom_linked_sprites(true);
+  m_custom_sprites = m_sprite->create_custom_linked_sprites(false);
 
   // Update other linked sprites
   auto linked_sprites = get_linked_sprites();

@@ -53,8 +53,14 @@ Firefly::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  if (m_light_sprite && (activated || m_sprite->get_action() == "ringing"))
-    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0, m_flip);
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+  if (activated || m_sprite->get_action() == "ringing")
+  {
+    for (auto& sprite : m_light_sprites)
+      sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0, m_flip);
+  }
 }
 
 void

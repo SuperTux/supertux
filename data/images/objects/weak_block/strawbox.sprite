@@ -32,6 +32,8 @@
   )
 
   (linked-sprites
-    (burn-light "images/objects/lightmap_light/lightmap_light-small.sprite")
+    (burn-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+    )
   )
 )

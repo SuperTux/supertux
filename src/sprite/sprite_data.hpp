@@ -24,6 +24,7 @@
 #include <optional>
 #include <unordered_map>
 
+#include "sprite/sprite_config.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -42,29 +43,18 @@ public:
 public:
   struct LinkedSprite final
   {
-    LinkedSprite(const std::string& file_ = {}) :
-      file(file_), action(), loops(-1)
-    {}
+    LinkedSprite();
+    LinkedSprite(const std::string& file, SpriteConfig config,
+                 bool light = false);
 
     std::string file;
-    std::string action;
-    int loops;
+    SpriteConfig config;
+    bool light;
   };
-  struct LinkedLightSprite final
-  {
-    LinkedLightSprite(const std::string& file_ = {}) :
-      file(file_), action(), color()
-    {}
 
-    std::string file;
-    std::string action;
-    std::optional<Color> color;
-  };
-  typedef std::unordered_map<std::string, LinkedSprite> LinkedSprites;
-
-protected:
-  std::optional<LinkedLightSprite> linked_light_sprite;
-  LinkedSprites linked_sprites;
+public:
+  std::vector<LinkedSprite> custom_linked_sprites;
+  std::unordered_map<std::string, LinkedSprite> linked_sprites;
 };
 
 class SpriteData final : public LinkedSpritesContainer

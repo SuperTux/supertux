@@ -36,8 +36,17 @@
  )
 
  (linked-sprites
-   (left-eye "krush_rock.sprite" "left-eye")
-   (right-eye "krush_rock.sprite" "right-eye")
-   (whites "krush_rock.sprite" "whites")
+   (left-eye
+     (file "krush_rock.sprite")
+     (action "left-eye")
+   )
+   (right-eye
+     (file "krush_rock.sprite")
+     (action "right-eye")
+   )
+   (whites
+     (file "krush_rock.sprite")
+     (action "whites")
+   )
  )
 )

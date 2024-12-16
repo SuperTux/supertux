@@ -62,9 +62,12 @@ Decal::~Decal()
 void
 Decal::draw(DrawingContext& context)
 {
-  if (m_visible || m_fade_timer.started())
-    m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-  if (m_visible && m_sprite_timer.started())
+  if (!m_visible)
+    return;
+
+  if (m_fade_timer.started())
+    MovingSprite::draw(context);
+  if (m_sprite_timer.started())
     m_fade_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 

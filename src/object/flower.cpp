@@ -26,7 +26,7 @@ Flower::Flower(BonusType _type, const std::string& custom_sprite) :
   type(_type),
   sprite(),
   flip(NO_FLIP),
-  lightsprite()
+  lightsprites()
 {
   m_col.m_bbox.set_size(32, 32);
 
@@ -50,7 +50,7 @@ Flower::Flower(BonusType _type, const std::string& custom_sprite) :
     assert(false);
   }
 
-  lightsprite = sprite->create_linked_light_sprite();
+  lightsprites = sprite->create_custom_linked_sprites(true);
 
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -64,8 +64,8 @@ void
 Flower::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS, flip);
-  if (lightsprite)
-    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  for (auto& sprite : lightsprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 HitResponse

@@ -54,6 +54,8 @@
   )
 
   (linked-sprites
-    (leaf "images/particles/leaf.sprite")
+    (leaf
+      (file "images/particles/leaf.sprite")
+    )
   )
 )

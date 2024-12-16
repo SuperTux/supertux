@@ -62,7 +62,12 @@
   (mirror-action "extinguish-left"))
 
   (linked-sprites
-    (light "images/objects/lightmap_light/lightmap_light-medium.sprite" "" 0.89 0.75 0.44)
-    (smoke "images/particles/smoke.sprite")
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-medium.sprite")
+      (color 0.89 0.75 0.44)
+    )
+    (smoke
+      (file "images/particles/smoke.sprite")
+    )
   )
 )

@@ -21,6 +21,8 @@
            (displacement-texture (file "displacement.png")))))
 
   (linked-sprites
-    (on-light "images/objects/lightmap_light/bonusblock_light.png")
+    (on-light
+      (file "images/objects/lightmap_light/bonusblock_light.png")
+    )
   )
 )

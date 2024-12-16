@@ -33,7 +33,10 @@
   (fps 20.0)
   (hitbox 14 19 32 32)
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite" "run")
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+      (action "run")
+    )
   )
   (images "chase-0.png"
           "chase-1.png"
@@ -48,7 +51,10 @@
   (fps 20.0)
   (hitbox 14 19 32 32)
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite" "run")
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+      (action "run")
+    )
   )
   (mirror-action "ticking-left"))
 
@@ -85,7 +91,11 @@
   (fps 20.0)
   (hitbox 14 19 32 32)
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite" "skid" 1)
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+      (action "skid")
+      (loops 1)
+    )
   )
   (images "skid-0.png"
 		  "skid-1.png"
@@ -98,7 +108,11 @@
   (fps 20.0)
   (hitbox 14 19 32 32)
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite" "skid" 1)
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+      (action "skid")
+      (loops 1)
+    )
   )
   (mirror-action "skid-left"))
 
@@ -108,7 +122,11 @@
   (fps 20.0)
   (hitbox 14 19 32 32)
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite" "jump" 1)
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+      (action "jump")
+      (loops 1)
+    )
   )
   (images "jump-0.png"
 		  "jump-1.png"
@@ -121,11 +139,17 @@
   (fps 20.0)
   (hitbox 14 19 32 32)
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite" "jump" 1)
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+      (action "jump")
+      (loops 1)
+    )
   )
   (mirror-action "jump-left"))
 
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite")
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+    )
   )
 )

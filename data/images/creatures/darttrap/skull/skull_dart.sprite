@@ -21,6 +21,9 @@
   )
 
   (linked-sprites
-    (light "dart_light.sprite" "" 1 1 1)
+    (custom-light
+      (file "dart_light.sprite")
+      (color 1 1 1)
+    )
   )
 )

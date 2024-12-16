@@ -39,6 +39,8 @@
   (mirror-action "melting-left"))
 
   (linked-sprites
-    (smoke "images/particles/smoke.sprite")
+    (smoke
+      (file "images/particles/smoke.sprite")
+    )
   )
 )

@@ -37,7 +37,10 @@
   (fps 15.0)
   (hitbox 14 19 32 32)
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite" "ticking")
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+      (action "ticking")
+    )
   )
   (images "ticking-0.png"
           "ticking-1.png"
@@ -56,11 +59,17 @@
   (fps 15.0)
   (hitbox 14 19 32 32)
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite" "ticking")
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+      (action "ticking")
+    )
   )
   (mirror-action "ticking-left"))
 
  (linked-sprites
-   (ticking-glow "ticking_glow/ticking_glow.sprite" "idle")
+   (ticking-glow
+     (file "ticking_glow/ticking_glow.sprite")
+     (action "idle")
+   )
  )
 )

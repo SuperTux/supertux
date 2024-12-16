@@ -19,6 +19,8 @@
   )
  )        
   (linked-sprites
-    (reset "images/particles/reset.sprite")
+    (reset
+      (file "images/particles/reset.sprite")
+    )
   )
 )

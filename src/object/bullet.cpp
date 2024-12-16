@@ -30,7 +30,7 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
   physic(),
   life_count(3),
   sprite(),
-  lightsprite(),
+  lightsprites(),
   type(type_)
 {
   physic.set_velocity(xm);
@@ -51,7 +51,7 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
       break;
   }
 
-  lightsprite = sprite->create_linked_light_sprite();
+  lightsprites = sprite->create_custom_linked_sprites(true);
 
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
@@ -61,18 +61,22 @@ void
 Bullet::update(float dt_sec)
 {
   // Cause fireball color to flicker randomly.
-  if (lightsprite)
+  if (!lightsprites.empty())
   {
+    Color light_color;
     if (graphicsRandom.rand(5) != 0)
     {
-      lightsprite->set_color(Color(0.3f + graphicsRandom.randf(10) / 100.0f,
-                                   0.1f + graphicsRandom.randf(20.0f) / 100.0f,
-                                   graphicsRandom.randf(10.0f) / 100.0f));
+      light_color = Color(0.3f + graphicsRandom.randf(10) / 100.0f,
+                          0.1f + graphicsRandom.randf(20.0f) / 100.0f,
+                          graphicsRandom.randf(10.0f) / 100.0f);
     }
     else
     {
-      lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
+      light_color = Color(0.3f, 0.1f, 0.0f);
     }
+
+    for (auto& sprite : lightsprites)
+      sprite->set_color(light_color);
   }
 
   if (life_count <= 0)
@@ -101,8 +105,8 @@ void
 Bullet::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
-  if (lightsprite)
-    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  for (auto& sprite : lightsprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void

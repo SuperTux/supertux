@@ -33,7 +33,9 @@
     )
 
   (linked-sprites
-    (light "images/objects/lightmap_light/lightmap_light-small.sprite")
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+    )
   )
 )
 

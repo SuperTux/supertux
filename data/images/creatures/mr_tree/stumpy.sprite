@@ -84,6 +84,8 @@
   )
 
   (linked-sprites
-    (bark "images/particles/bark.sprite")
+    (bark
+      (file "images/particles/bark.sprite")
+    )
   )
 )

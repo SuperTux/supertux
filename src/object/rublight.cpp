@@ -135,14 +135,18 @@ RubLight::draw(DrawingContext& context)
   {
     float brightness = get_brightness();
     Color col = color.multiply_linearly(brightness);
-    if (m_light_sprite)
+
+    for (auto& sprite : m_light_sprites)
     {
-      m_light_sprite->set_color(col);
-      m_light_sprite->draw(context.light(), get_pos(), m_layer);
+      sprite->set_color(col);
+      sprite->draw(context.light(), get_pos(), m_layer);
     }
   }
 
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.light(), get_pos(), m_layer, m_flip);
 }
 
 void

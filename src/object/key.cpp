@@ -45,8 +45,8 @@ Key::Key(const ReaderMapping& reader) :
   if (reader.get("color", vColor)) {
     m_color = Color(vColor);
   }
-  if (m_light_sprite)
-    m_light_sprite->set_color(m_color);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(m_color);
 
   // TODO: Add proper sound
   SoundManager::current()->preload("sounds/metal_hit.ogg");
@@ -186,8 +186,11 @@ Key::draw(DrawingContext& context)
 
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  if (m_light_sprite)
-    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer + 1);
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.light(), get_pos(), m_layer, m_flip);
+
+  for (auto& sprite : m_light_sprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer + 1);
 }
 
 ObjectSettings
@@ -207,8 +210,8 @@ Key::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  if (m_light_sprite)
-    m_light_sprite->set_color(m_color);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(m_color);
   m_sprite->set_color(m_color);
 }
 

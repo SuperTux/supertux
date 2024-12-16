@@ -21,6 +21,8 @@
   )
 
   (linked-sprites
-    (light "images/objects/lightmap_light/lightmap_light.sprite")
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light.sprite")
+    )
   )
 )

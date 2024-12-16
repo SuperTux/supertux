@@ -19,6 +19,8 @@
   (hitbox 8 5 32 32)
  )
   (linked-sprites
-    (reset "images/particles/reset.sprite")
+    (reset
+      (file "images/particles/reset.sprite")
+    )
   )
 )

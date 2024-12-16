@@ -10,6 +10,9 @@
       (images "big_snowball_particle.png"))
 
   (linked-sprites
-    (particle "big_snowball.sprite" "particle")
+    (particle
+      (file "big_snowball.sprite")
+      (action "particle")
+    )
   )
 )

@@ -6,8 +6,14 @@
   )
 
   (linked-sprites
-    (flame "flame.sprite")
-    (glow "flame_glow.sprite")
-    (light "flame_light.sprite")
+    (flame
+      (file "flame.sprite")
+    )
+    (glow
+      (file "flame_glow.sprite")
+    )
+    (custom-light
+      (file "flame_light.sprite")
+    )
   )
 )

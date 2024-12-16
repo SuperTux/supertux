@@ -166,9 +166,14 @@ BadGuy::draw(DrawingContext& context)
     {
       if (m_unfreeze_timer.started() && m_unfreeze_timer.get_timeleft() <= 1.f)
       {
-        m_sprite->draw(context.color(), draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer - 1, m_flip);
+        const Vector draw_pos_shake = draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f);
+
+        m_sprite->draw(context.color(), draw_pos_shake, m_layer - 1, m_flip);
         if (is_portable())
-          m_freezesprite->draw(context.color(), draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer);
+          m_freezesprite->draw(context.color(), draw_pos_shake, m_layer);
+
+        for (auto& sprite : m_custom_sprites)
+          sprite->draw(context.color(), draw_pos_shake, m_layer - 1, m_flip);
       }
       else
       {
@@ -176,14 +181,22 @@ BadGuy::draw(DrawingContext& context)
           m_freezesprite->draw(context.color(), get_pos(), m_layer);
 
         m_sprite->draw(context.color(), get_pos(), m_layer - 1, m_flip);
+
+        for (auto& sprite : m_custom_sprites)
+          sprite->draw(context.color(), get_pos(), m_layer - 1, m_flip);
       }
 
       if (!m_frozen)
       {
         if (m_burning)
+        {
           m_burn_light_sprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, 0);
-        else if (m_light_sprite)
-          m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, 0);
+        }
+        else
+        {
+          for (auto& sprite : m_light_sprites)
+            sprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, 0);
+        }
       }
     }
   }

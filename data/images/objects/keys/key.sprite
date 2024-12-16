@@ -10,8 +10,16 @@
 		(mirror-action "silver-right"))
 
   (linked-sprites
-    (light "images/objects/lightmap_light/lightmap_light-small.sprite")
-    (sparkle-small "images/particles/sparkle.sprite" "small")
-    (sparkle-collect "images/particles/sparkle.sprite" "small-key-collect")
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+    )
+    (sparkle-small
+      (file "images/particles/sparkle.sprite")
+      (action "small")
+    )
+    (sparkle-collect
+      (file "images/particles/sparkle.sprite")
+      (action "small-key-collect")
+    )
   )
 )

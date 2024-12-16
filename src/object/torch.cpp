@@ -44,12 +44,13 @@ Torch::Torch(const ReaderMapping& reader) :
     m_light_color = Color(vColor);
     m_flame->set_color(m_light_color);
     m_flame_glow->set_color(m_light_color);
-    if (m_light_sprite)
-      m_light_sprite->set_color(m_light_color);
+    for (auto& sprite : m_light_sprites)
+      sprite->set_color(m_light_color);
   }
 
   m_flame->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
-  m_light_sprite->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
+  for (auto& sprite : m_light_sprites)
+    sprite->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
   m_flame_glow->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
 
   set_group(COLGROUP_TOUCHABLE);
@@ -73,15 +74,16 @@ Torch::draw(DrawingContext& context)
     if (m_flip != NO_FLIP) pos.y -= 24.0f;
     m_flame->draw(context.color(), pos, m_layer - 1, m_flip);
 
-    if (m_light_sprite)
-    {
-      m_light_sprite->draw(context.light(), pos, m_layer);
-    }
+    for (auto& sprite : m_light_sprites)
+      sprite->draw(context.light(), pos, m_layer);
 
     m_flame_glow->draw(context.color(), pos, m_layer - 1, m_flip);
   }
 
   m_sprite->draw(context.color(), get_pos(), m_layer - 1, m_flip);
+
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.color(), get_pos(), m_layer - 1, m_flip);
 }
 
 void
@@ -120,11 +122,12 @@ Torch::after_editor_set()
 
   m_flame->set_color(m_light_color);
   m_flame_glow->set_color(m_light_color);
-  if (m_light_sprite)
-    m_light_sprite->set_color(m_light_color);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(m_light_color);
 
   m_flame->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
-  m_light_sprite->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
+  for (auto& sprite : m_light_sprites)
+    sprite->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
   m_flame_glow->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
 }
 

@@ -34,7 +34,10 @@
   (loops 1)
   (hitbox 14 19 32 32)
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite" "exploding")
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+      (action "exploding")
+    )
   )
   (images "ticking-0.png"
           "ticking-1.png"
@@ -111,11 +114,17 @@
   (loops 1)
   (hitbox 14 19 32 32)
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite" "exploding" 1)
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+      (action "exploding")
+      (loops 1)
+    )
   )
   (mirror-action "ticking-left"))
 
   (linked-sprites
-    (ticking-glow "ticking_glow/ticking_glow.sprite")
+    (ticking-glow
+      (file "ticking_glow/ticking_glow.sprite")
+    )
   )
 )

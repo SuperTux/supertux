@@ -56,7 +56,7 @@ private:
   Physic physic;
   int life_count;
   SpritePtr sprite;
-  SpritePtr lightsprite;
+  std::vector<SpritePtr> lightsprites;
   BonusType type;
 
 private:

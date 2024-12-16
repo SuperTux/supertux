@@ -34,8 +34,17 @@
  )
 
  (linked-sprites
-   (left-eye "krosh_ice.sprite" "left-eye")
-   (right-eye "krosh_ice.sprite" "right-eye")
-   (whites "krosh_ice.sprite" "whites")
+   (left-eye
+     (file "krosh_ice.sprite")
+     (action "left-eye")
+   )
+   (right-eye
+     (file "krosh_ice.sprite")
+     (action "right-eye")
+   )
+   (whites
+     (file "krosh_ice.sprite")
+     (action "whites")
+   )
  )
 )

@@ -5,6 +5,8 @@
   )
 
   (linked-sprites
-    (base "root_base.sprite")
+    (base
+      (file "root_base.sprite")
+    )
   )
 )

@@ -192,13 +192,30 @@ Stalactite::draw(DrawingContext& context)
   if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE)
     return;
 
-  if (state == STALACTITE_SQUISHED) {
+  if (state == STALACTITE_SQUISHED)
+  {
     m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
-  } else if (state == STALACTITE_SHAKING) {
-    m_sprite->draw(context.color(), get_pos() + shake_delta, m_layer, m_flip);
-  } else {
-    m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+    for (auto& sprite : m_custom_sprites)
+      sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
   }
+  else if (state == STALACTITE_SHAKING)
+  {
+    m_sprite->draw(context.color(), get_pos() + shake_delta, m_layer, m_flip);
+
+    for (auto& sprite : m_custom_sprites)
+      sprite->draw(context.color(), get_pos() + shake_delta, m_layer, m_flip);
+  }
+  else
+  {
+    m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+    for (auto& sprite : m_custom_sprites)
+      sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  }
+
+  for (auto& sprite : m_light_sprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void

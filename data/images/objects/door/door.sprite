@@ -43,6 +43,8 @@
   )
 
   (linked-sprites
-    (lock "door_lock.sprite")
+    (lock
+      (file "door_lock.sprite")
+    )
   )
 )

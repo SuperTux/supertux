@@ -72,8 +72,8 @@ Lantern::after_editor_set()
 void
 Lantern::updateColor()
 {
-  if (m_light_sprite)
-    m_light_sprite->set_color(lightcolor);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(lightcolor);
   //Turn lantern off if light is black
   if (lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
     set_action("off");
@@ -90,8 +90,8 @@ Lantern::draw(DrawingContext& context
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Let there be light.
-  if (m_light_sprite)
-    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  for (auto& sprite : m_light_sprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 HitResponse
