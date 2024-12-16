@@ -296,18 +296,6 @@ static void load_worldmap(const std::string& filename, const std::string& sector
 }
 /**
  * @scripting
- * @description Switches to a different worldmap after unloading the current one, after ""exit_screen()"" is called.
- * @param string $dirname The world directory, where the "worldmap.stwm" file is located.
- * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
- * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
- */
-static void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint)
-{
-  // TODO: remove this function
-  GameManager::current()->set_next_worldmap(dirname, sector, spawnpoint);
-}
-/**
- * @scripting
  * @description Loads and displays a level (on next screenswitch), using the savegame of the current level.
  * @param string $filename
  */
@@ -851,7 +839,6 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("__", &scripting::Globals::translate_plural);
   vm.addFunc("display_text_file", &scripting::Globals::display_text_file);
   vm.addFunc("load_worldmap", &scripting::Globals::load_worldmap);
-  vm.addFunc("set_next_worldmap", &scripting::Globals::set_next_worldmap);
   vm.addFunc("load_level", &scripting::Globals::load_level);
   vm.addFunc("import", &scripting::Globals::import);
   vm.addFunc("debug_collrects", &scripting::Globals::debug_collrects);
