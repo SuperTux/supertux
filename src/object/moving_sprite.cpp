@@ -137,13 +137,6 @@ MovingSprite::update_hitbox()
 }
 
 void
-MovingSprite::set_action(const std::string& name)
-{
-  m_sprite->set_action(name);
-  update_hitbox();
-}
-
-void
 MovingSprite::set_action(const std::string& name, int loops)
 {
   m_sprite->set_action(name, loops);
@@ -256,8 +249,8 @@ MovingSprite::register_class(ssq::VM& vm)
   cls.addFunc("set_sprite", &MovingSprite::change_sprite);
   cls.addFunc("get_sprite", &MovingSprite::get_sprite_name);
   cls.addFunc("get_action", &MovingSprite::get_action);
-  cls.addFunc<void, MovingSprite, const std::string&>("set_action", &MovingSprite::set_action);
-  cls.addFunc("set_action_loops", &MovingSprite::set_action_loops);
+  cls.addFunc<void, MovingSprite, const std::string&, int>("set_action", &MovingSprite::set_action, ssq::DefaultArguments<int>(-1));
+  cls.addFunc<void, MovingSprite, const std::string&, int>("set_action_loops", &MovingSprite::set_action); // Deprecated
 
   cls.addVar("sprite", &MovingSprite::get_sprite_name, &MovingSprite::set_sprite);
 }
