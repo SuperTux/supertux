@@ -1,7 +1,11 @@
 if(WIN32 AND NOT UNIX)
-  #install(DIRECTORY $<TARGET_FILE_DIR:supertux2>/
-  #        DESTINATION ${INSTALL_SUBDIR_BIN}
-  #        FILES_MATCHING PATTERN "*.dll")
+  # HACK?: This assumes that all DLLs are in the binary
+  #        directory, which is not how CMake wants you to think.
+  install(CODE "
+    file(GLOB DLLS \"${CMAKE_CURRENT_BINARY_DIR}/*.dll\")
+    file(INSTALL \${DLLS}
+         DESTINATION \"$<INSTALL_PREFIX>/${INSTALL_SUBDIR_BIN}\")
+  ")
 
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png
                 ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico
@@ -71,33 +75,37 @@ if(EMSCRIPTEN)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2_bkg.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2_bkg.png COPYONLY)
 endif()
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL.md ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt ${CMAKE_CURRENT_SOURCE_DIR}/NEWS.md DESTINATION ${INSTALL_SUBDIR_DOC})
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.md
+              ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt
+              ${CMAKE_CURRENT_SOURCE_DIR}/NEWS.md
+        DESTINATION ${INSTALL_SUBDIR_DOC})
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/credits.stxt DESTINATION ${INSTALL_SUBDIR_SHARE})
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/credits.stxt
+        DESTINATION ${INSTALL_SUBDIR_SHARE})
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/org.supertuxproject.SuperTux.metainfo.xml DESTINATION "share/metainfo" )
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/org.supertuxproject.SuperTux.metainfo.xml
+        DESTINATION "share/metainfo")
 
-install(DIRECTORY
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/images
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/fonts
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/music
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/particles
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/scripts
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/shader
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/speech
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/sounds
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/locale
-  DESTINATION ${INSTALL_SUBDIR_SHARE})
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/images
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/fonts
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/music
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/particles
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/scripts
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/shader
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/speech
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/sounds
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/locale
+        DESTINATION ${INSTALL_SUBDIR_SHARE})
 
 if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
-    DESTINATION ${INSTALL_SUBDIR_SHARE}
-    PATTERN "data/levels/test" EXCLUDE
-    PATTERN "data/levels/test_old" EXCLUDE
-    PATTERN "data/levels/incubator" EXCLUDE)
+          DESTINATION ${INSTALL_SUBDIR_SHARE}
+          PATTERN "data/levels/test" EXCLUDE
+          PATTERN "data/levels/test_old" EXCLUDE
+          PATTERN "data/levels/incubator" EXCLUDE)
 else()
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
-    DESTINATION ${INSTALL_SUBDIR_SHARE})
+          DESTINATION ${INSTALL_SUBDIR_SHARE})
 endif()
 
 # move some config clutter to the advanced section
@@ -105,6 +113,6 @@ mark_as_advanced(
   INSTALL_SUBDIR_BIN
   INSTALL_SUBDIR_SHARE
   INSTALL_SUBDIR_DOC
-  )
+)
 
 # EOF #
