@@ -22,13 +22,14 @@
 
 namespace Writer {
 
-static std::string format_description(std::string desc)
+std::string format_description(std::string desc)
 {
   replace(desc, "\"\"", "`");
   replace(desc, "NOTE:", "<br /><br />**NOTE:**");
   replace(desc, "Note:", "<br /><br />**NOTE:**");
   return desc;
 }
+
 
 std::string write_file_notice(const std::string& template_file)
 {
