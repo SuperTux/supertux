@@ -1002,7 +1002,7 @@ TileMap::register_class(ssq::VM& vm)
   cls.addFunc<void, TileMap, float, float, float, float, float>("tint_fade", &TileMap::tint_fade);
   cls.addFunc("set_alpha", &TileMap::set_alpha);
   cls.addFunc("get_alpha", &TileMap::get_alpha);
-  cls.addFunc("set_solid", &TileMap::set_solid);
+  cls.addFunc("set_solid", &TileMap::set_solid, ssq::DefaultArguments<bool>(true));
   cls.addFunc("get_solid", &TileMap::get_solid);
 
   cls.addVar("alpha", &TileMap::get_alpha, &TileMap::set_alpha);
