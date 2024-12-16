@@ -313,27 +313,6 @@ end_cutscene();
     (music
       (file "/music/antarctic/crystalmine_intro.music")
     )
-    (particle-zone
-      (particle-name "should feel a bit narrow, suffocating")
-      (width 32)
-      (height 32)
-      (x 32)
-      (y 992)
-    )
-    (particle-zone
-      (particle-name "really foggy, poor visibility")
-      (width 32)
-      (height 32)
-      (x 32)
-      (y 1056)
-    )
-    (particle-zone
-      (particle-name "candles blow out behind you, camera zoomed in")
-      (width 32)
-      (height 32)
-      (x 32)
-      (y 1120)
-    )
     (path
       (name "gen17333669741885473189568")
       (path
@@ -500,7 +479,7 @@ wait(1);
 //sector.set_volume(2);
 //play_sound(\"sounds/evil_nolok_jingle.ogg\");
 wait(2);
-fade_in_music(\"music/antarctic/crystalmine_intro.music\", 3);
+fade_in_music(\"music/antarctic/crystalmine_intro.ogg\", 3);
 wait(1);
 
 Tux.activate();
