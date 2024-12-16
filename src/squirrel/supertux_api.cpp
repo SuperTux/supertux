@@ -219,14 +219,6 @@ static SQInteger wait_for_screenswitch(HSQUIRRELVM vm)
   auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
   return squirrelvm->wait_for_screenswitch(vm);
 }
-/**
- * @scripting
- * @description Exits the currently running screen (for example, force exits from worldmap or scrolling text).
- */
-static void exit_screen()
-{
-  ScreenManager::current()->pop_screen();
-}
 
 /**
  * @scripting
@@ -311,6 +303,7 @@ static void load_worldmap(const std::string& filename, const std::string& sector
  */
 static void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint)
 {
+ //TODO: remove this function
   GameManager::current()->set_next_worldmap(dirname, sector, spawnpoint);
 }
 /**
@@ -594,16 +587,6 @@ static void warp(float offset_x, float offset_y)
 
 /**
  * @scripting
- * @description Adjusts the gamma.
- * @param float $gamma
- */
-static void set_gamma(float gamma)
-{
-  VideoSystem::current()->set_gamma(gamma);
-}
-
-/**
- * @scripting
  * @description Returns a random integer.
  */
 static int rand()
@@ -862,7 +845,6 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("check_cutscene", &scripting::Globals::check_cutscene);
   vm.addFunc("wait", &scripting::Globals::wait);
   vm.addFunc("wait_for_screenswitch", &scripting::Globals::wait_for_screenswitch);
-  vm.addFunc("exit_screen", &scripting::Globals::exit_screen);
   vm.addFunc("translate", &scripting::Globals::translate);
   vm.addFunc("_", &scripting::Globals::translate);
   vm.addFunc("translate_plural", &scripting::Globals::translate_plural);
@@ -893,7 +875,6 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("restart", &scripting::Globals::restart);
   vm.addFunc("gotoend", &scripting::Globals::gotoend);
   vm.addFunc("warp", &scripting::Globals::warp);
-  vm.addFunc("set_gamma", &scripting::Globals::set_gamma);
   vm.addFunc("rand", &scripting::Globals::rand);
   vm.addFunc("set_title_frame", &scripting::Globals::set_title_frame);
 
