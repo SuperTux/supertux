@@ -31,7 +31,7 @@
 #   make
 #
 
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.19)
 
 ## Project name to use as command prefix.
 
@@ -62,11 +62,6 @@ set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 set(BUILD_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/data")
 set(BUILD_CONFIG_DATA_DIR "${CMAKE_BINARY_DIR}/data")
 
-## Add definitions
-if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
-  add_definitions(-DDEBUG)
-endif()
-
 # Options for install
 if(WIN32 AND NOT UNIX)
   set(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
@@ -94,11 +89,14 @@ else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
 endif()
 
-option(STEAM_BUILD "Prepare build for Steam" OFF)
-option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" OFF)
-if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
-  target_compile_definitions(SUPERTUX PUBLIC SUPERTUX_RELEASE)
+if(CMAKE_BUILD_TYPE MATCHES "Rel")
+  set(SUPERTUX_RELEASE_DEFAULT TRUE)
+else()
+  set(SUPERTUX_RELEASE_DEFAULT FALSE)
 endif()
+option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" ${SUPERTUX_RELEASE_DEFAULT})
+
+option(STEAM_BUILD "Prepare build for Steam" OFF)
 
 set(SUPERTUX_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
 set(VCPKG_BUILD OFF CACHE BOOL "Use dependencies installed via vcpkg (not dependency package)")
@@ -125,7 +123,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing")
 endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
 endif()
 
@@ -162,16 +160,16 @@ add_package(TARGET ZLIB
   PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
 # add_package(TARGET Iconv PKG Iconv PKG_USE Iconv::Iconv PKG_CONFIG libiconv) # probably wrong
 
-add_subdirectory(external/SDL_SavePNG)
-add_subdirectory(external/simplesquirrel)
-add_subdirectory(external/discord-sdk)
-add_subdirectory(external/sexp-cpp)
-add_subdirectory(external/partio_zip)
+add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
+add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
+add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
+add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
+add_subdirectory(external/partio_zip EXCLUDE_FROM_ALL)
 # Workaround tinygettext wanting Iconv
 SET(HAVE_SDL TRUE CACHE BOOL "Use SDL_iconv instead of system iconv")
-add_subdirectory(external/tinygettext)
-add_subdirectory(external/findlocale)
-add_subdirectory(external/obstack)
+add_subdirectory(external/tinygettext EXCLUDE_FROM_ALL)
+add_subdirectory(external/findlocale EXCLUDE_FROM_ALL)
+add_subdirectory(external/obstack EXCLUDE_FROM_ALL)
 include(SuperTux/ProvideOpenGL)
 
 ## Build stuff
@@ -202,9 +200,8 @@ include(SuperTux/CompileAmalgation)
 #set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 #set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-
-## Set windowed mode when building in release
-## because the console is very useful for debugging on Windows.
+# Set windowed mode when building in release
+# because the console is very useful for debugging on Windows.
 set(SUPERTUX_WIN32_OPTION)
 if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
   set(SUPERTUX_WIN32_OPTION WIN32)
@@ -212,6 +209,11 @@ endif()
 
 ## Add target for supertux binary
 add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+
+if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
+  target_compile_definitions(supertux2 PUBLIC SUPERTUX_RELEASE)
+endif()
+
 # TODO Is this even needed?
 # $<$<BOOL:WIN32>:{CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc>
 target_include_directories(supertux2 PUBLIC ${CMAKE_BINARY_DIR} src/)
