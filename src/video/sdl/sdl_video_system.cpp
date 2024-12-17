@@ -67,6 +67,7 @@ SDLVideoSystem::create_window()
   log_info << "Creating SDLVideoSystem" << std::endl;
 
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+  SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
 
   create_sdl_window(0);
 
