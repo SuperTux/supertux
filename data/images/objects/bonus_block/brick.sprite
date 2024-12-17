@@ -7,7 +7,7 @@
         (displacement-texture (file "displacement.png")))))
 
  (action
-  (name "normal")
+  (name "default")
   (images "../../tiles/blocks/brick0.png"))
 
  (action

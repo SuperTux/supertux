@@ -144,7 +144,7 @@ const float SWIM_BOOST_SPEED = 600.f;
 const float SWIM_TO_BOOST_ACCEL = 15.f;
 const float TURN_MAGNITUDE = 0.15f;
 const float TURN_MAGNITUDE_BOOST = 0.2f;
-const std::array<std::string, 2> BUBBLE_ACTIONS = { "normal", "small" };
+const std::array<std::string, 2> BUBBLE_ACTIONS = { "default", "small" };
 
 /* Buttjump variables */
 

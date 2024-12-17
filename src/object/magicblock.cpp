@@ -180,7 +180,7 @@ MagicBlock::update(float dt_sec)
     set_group(COLGROUP_STATIC);
   } else {
     m_color.alpha = ALPHA_NONSOLID;
-    set_action("normal");
+    set_action("default");
     set_group(COLGROUP_DISABLED);
   }
 }

@@ -1,6 +1,6 @@
 (supertux-sprite
  (action
-  (name "normal")
+  (name "default")
   (x-offset 0)
   (y-offset 0)
   (images "vbell-m.png")
