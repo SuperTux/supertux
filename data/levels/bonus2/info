@@ -1,7 +1,0 @@
-(supertux-level-subset
-  (title (_ "Bonus Island II"))
-  (contrib-type "official")
-  (description (_ "Compilation of more early fan-submitted levels. Added in 0.1.3"))
-  (levelset #f)
-  (hide-from-contribs #f)
-)
