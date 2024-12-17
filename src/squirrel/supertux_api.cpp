@@ -211,14 +211,6 @@ static SQInteger wait_for_screenswitch(HSQUIRRELVM vm)
   auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
   return squirrelvm->wait_for_screenswitch(vm);
 }
-/**
- * @scripting
- * @description Exits the currently running screen (for example, force exits from worldmap or scrolling text).
- */
-static void exit_screen()
-{
-  ScreenManager::current()->pop_screen();
-}
 
 /**
  * @scripting
@@ -293,17 +285,6 @@ static void load_worldmap(const std::string& filename, const std::string& sector
   {
     WorldMap::current()->change(filename, sector, spawnpoint);
   }
-}
-/**
- * @scripting
- * @description Switches to a different worldmap after unloading the current one, after ""exit_screen()"" is called.
- * @param string $dirname The world directory, where the "worldmap.stwm" file is located.
- * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
- * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
- */
-static void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint)
-{
-  GameManager::current()->set_next_worldmap(dirname, sector, spawnpoint);
 }
 /**
  * @scripting
@@ -586,16 +567,6 @@ static void warp(float offset_x, float offset_y)
 
 /**
  * @scripting
- * @description Adjusts the gamma.
- * @param float $gamma
- */
-static void set_gamma(float gamma)
-{
-  VideoSystem::current()->set_gamma(gamma);
-}
-
-/**
- * @scripting
  * @description Returns a random integer.
  */
 static int rand()
@@ -862,14 +833,12 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("check_cutscene", &scripting::Globals::check_cutscene);
   vm.addFunc("wait", &scripting::Globals::wait, ssq::DefaultArguments<bool>(false));
   vm.addFunc("wait_for_screenswitch", &scripting::Globals::wait_for_screenswitch);
-  vm.addFunc("exit_screen", &scripting::Globals::exit_screen);
   vm.addFunc("translate", &scripting::Globals::translate);
   vm.addFunc("_", &scripting::Globals::translate);
   vm.addFunc("translate_plural", &scripting::Globals::translate_plural);
   vm.addFunc("__", &scripting::Globals::translate_plural);
   vm.addFunc("display_text_file", &scripting::Globals::display_text_file);
   vm.addFunc("load_worldmap", &scripting::Globals::load_worldmap);
-  vm.addFunc("set_next_worldmap", &scripting::Globals::set_next_worldmap);
   vm.addFunc("load_level", &scripting::Globals::load_level);
   vm.addFunc("import", &scripting::Globals::import);
   vm.addFunc("debug_collrects", &scripting::Globals::debug_collrects);
@@ -893,7 +862,6 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("restart", &scripting::Globals::restart);
   vm.addFunc("gotoend", &scripting::Globals::gotoend);
   vm.addFunc("warp", &scripting::Globals::warp);
-  vm.addFunc("set_gamma", &scripting::Globals::set_gamma);
   vm.addFunc("rand", &scripting::Globals::rand);
   vm.addFunc("set_title_frame", &scripting::Globals::set_title_frame);
 

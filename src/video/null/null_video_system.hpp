@@ -47,7 +47,6 @@ public:
 
   virtual void set_vsync(int mode) override;
   virtual int get_vsync() const override;
-  virtual void set_gamma(float gamma) override;
   virtual void set_title(const std::string& title) override;
   virtual void set_icon(const SDL_Surface& icon) override;
   virtual SDLSurfacePtr make_screenshot() override;
