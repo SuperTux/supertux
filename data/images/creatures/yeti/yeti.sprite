@@ -81,7 +81,7 @@
  )
   
  (action
-  (name "idle-left")
+  (name "rage-left")
   (fps 18)
   (loops 1)
   (hitbox 31 27 72 100)
@@ -124,11 +124,11 @@
 		  "stand-0.png")
  )
  (action
-  (name "idle-right")
+  (name "rage-right")
   (fps 18)
   (loops 1)
   (hitbox 37 27 72 100)
-  (mirror-action "idle-left")
+  (mirror-action "rage-left")
  )
  
  (action
