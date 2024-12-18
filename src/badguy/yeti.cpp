@@ -57,7 +57,7 @@ const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs. */
 
 Yeti::Yeti(const ReaderMapping& reader) :
   Boss(reader, "images/creatures/yeti/yeti.sprite"),
-  m_state(),
+  m_state(ANNOUNCE),
   m_state_timer(),
   m_safe_timer(),
   m_stomp_count(),
@@ -76,7 +76,7 @@ Yeti::Yeti(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/yeti_gna.wav");
   SoundManager::current()->preload("sounds/yeti_roar.wav");
 
-  initialize();
+  //initialize();
 
   reader.get("fixed-pos", m_fixed_pos, false);
   if (m_fixed_pos) {
@@ -93,7 +93,7 @@ void
 Yeti::initialize()
 {
   m_dir = Direction::RIGHT;
-  run();
+  announce();
 }
 
 void
@@ -130,142 +130,19 @@ Yeti::active_update(float dt_sec)
   float push_distance;
   push_distance = player ? (glm::length(get_bbox().get_middle() - player->get_bbox().get_middle())) : 0.f;
 
-  if (on_ground() && (m_state == BE_ANGRY || m_state == THROW) && push_distance <= 160.f && m_physic.get_velocity_x() == 0.f)
+  if (on_ground() && (m_state == STOMP || m_state == THROW) && push_distance <= 160.f && m_physic.get_velocity_x() == 0.f)
   {
     m_state_timer.stop();
     m_physic.enable_gravity(false);
     set_group(COLGROUP_DISABLED);
-    m_state = REMOVE_TUX;
+    m_state = PREVENT_TUX;
   }
 
   switch (m_state) {
-    case RUN:
-      if (!m_just_threw || m_state_timer.check())
-      {
-        set_action("jump", m_dir);
-        m_just_threw = false;
-        if (!m_jumped && (push_distance >= 160.f)) {
-          m_physic.set_velocity_y(STOMP_VY * 2.5f / 3.f);
-          m_jumped = true;
-        }
+    case ANNOUNCE:
+      break;
 
-        if (m_pinch_mode)
-        {
-          if (std::abs(m_physic.get_velocity_x()) < (RUN_PINCH_VX - 10.f)) {
-            m_physic.set_acceleration_x(5.f * (m_dir == Direction::RIGHT ? RUN_PINCH_VX : -RUN_PINCH_VX));
-          }
-          else
-          {
-            m_physic.set_acceleration_x(0.f);
-            m_physic.set_velocity_x(RUN_PINCH_VX * (m_dir == Direction::RIGHT ? 1.f : -1.f));
-          }
-        }
-        else
-        {
-          if (std::abs(m_physic.get_velocity_x()) < (RUN_VX - 10.f)) {
-            m_physic.set_acceleration_x(5.f * (m_dir == Direction::RIGHT ? RUN_VX : -RUN_VX));
-          }
-          else
-          {
-            m_physic.set_acceleration_x(0.f);
-            m_physic.set_velocity_x(RUN_VX * (m_dir == Direction::RIGHT ? 1.f : -1.f));
-          }
-        }
-
-        if (((m_dir == Direction::RIGHT) && (get_pos().x >= m_right_jump_x)) || ((m_dir == Direction::LEFT) && (get_pos().x <= m_left_jump_x))) jump_up();
-      }
-      break;
-    case JUMP_UP:
-      if (((m_dir == Direction::RIGHT) && (get_pos().x >= m_right_stand_x)) || ((m_dir == Direction::LEFT) && (get_pos().x <= m_left_stand_x)))
-      {
-        m_jumped = false;
-        m_dir = (m_dir == Direction::RIGHT) ? Direction::LEFT : Direction::RIGHT;
-        throw_snowballs();
-      }
-      break;
-    case THROW:
-      m_physic.set_velocity_x((std::abs(m_physic.get_velocity_x()) > 10.f) ? (m_physic.get_velocity_x() / 1.125f) : 0.f);
-      if (m_state_timer.check())
-      {
-        summon_snowball();
-        set_action("stand", m_dir);
-        m_stomp_count++;
-        if ((m_pinch_mode && m_stomp_count == 3) || (!m_pinch_mode && m_stomp_count == 2)) {
-          be_angry();
-        } else {
-          m_state_timer.start(BALL_WAIT / (m_pinch_mode ? 1.2f : 1.f));
-        }
-      }
-      break;
-    case THROW_BIG:
-      if (m_state_timer.check())
-      {
-        summon_big_snowball();
-        set_action("stand", m_dir);
-        m_stomp_count++;
-        if ((m_lives == 1 && m_stomp_count == 3) || (m_lives > 1 && m_stomp_count == 1)) {
-          m_just_threw = true;
-          run();
-        }
-        else {
-          m_state_timer.start(BALL_WAIT);
-        }
-      }
-      break;
-    case BE_ANGRY:
-      if (m_state_timer.check() && on_ground())
-      {
-        m_physic.set_velocity_y(STOMP_VY);
-        set_action("stomp", m_dir);
-        SoundManager::current()->play("sounds/yeti_gna.wav", get_pos());
-      }
-      break;
-    case SQUISHED:
-      {
-        Direction newdir = (int(m_state_timer.get_timeleft() * SNOW_EXPLOSIONS_FREQUENCY) % 2) ? Direction::LEFT : Direction::RIGHT;
-        if (m_dir != newdir && m_dir == Direction::RIGHT) {
-          SoundManager::current()->play("sounds/stomp.wav", get_pos());
-          add_snow_explosions();
-          Sector::get().get_camera().shake(.05f, 0, 5);
-        }
-        m_dir = newdir;
-        set_action("jump", m_dir);
-      }
-      if (m_state_timer.check())
-      {
-        BadGuy::kill_fall();
-        m_state = FALLING;
-        m_physic.set_velocity_y(JUMP_UP_VY / 2); // Move up a bit before falling
-        // Add some extra explosions.
-        for (int i = 0; i < 10; i++) {
-          add_snow_explosions();
-        }
-        run_dead_script();
-      }
-      break;
-    case FALLING:
-      break;
-    case REMOVE_TUX:
-      if (push_distance < 160.f && player)
-      {
-        if (!m_grabbed_tux) {
-          player->get_physic().set_velocity(5.f * Vector(get_bbox().get_middle().x - player->get_bbox().get_middle().x,
-                                                         get_bbox().get_middle().y - player->get_bbox().get_middle().y));
-        }
-        if (!m_grabbed_tux && push_distance < 10.f)
-        {
-          m_state_timer.start(BALL_WAIT / 2.f);
-          m_grabbed_tux = true;
-          player->get_physic().set_velocity(m_dir == Direction::RIGHT ? 600.f : -600.f, -200.f);
-        }
-      }
-      if (m_state_timer.check())
-      {
-        set_group(COLGROUP_MOVING);
-        m_physic.enable_gravity(true);
-        m_grabbed_tux = false;
-        throw_snowballs();
-      }
+    default:
       break;
   }
 
@@ -273,22 +150,31 @@ Yeti::active_update(float dt_sec)
 }
 
 void
+Yeti::announce()
+{
+  set_action("rage", m_dir);
+  m_state = ANNOUNCE;
+  SoundManager::current()->play("sounds/yeti_roar.wav", get_pos());
+}
+
+void
 Yeti::run()
 {
+  set_action("walk", m_dir);
   m_state = RUN;
   m_state_timer.start(BEFORE_WAIT);
 }
 
 void
-Yeti::jump_up()
+Yeti::jump()
 {
   set_action("jump", m_dir);
   m_physic.set_velocity_y(JUMP_UP_VY);
-  m_state = JUMP_UP;
+  m_state = JUMP;
 }
 
 void
-Yeti::throw_snowballs()
+Yeti::throw_snowball()
 {
   // Turn around.
   set_action("stand", m_dir);
@@ -299,7 +185,7 @@ Yeti::throw_snowballs()
 }
 
 void
-Yeti::throw_big_snowballs()
+Yeti::throw_big_snowball()
 {
   m_stomp_count = 0;
   m_state = THROW_BIG;
@@ -307,17 +193,17 @@ Yeti::throw_big_snowballs()
 }
 
 void
-Yeti::be_angry()
+Yeti::stomp()
 {
   m_stomp_count = 0;
-  m_state = BE_ANGRY;
+  m_state = STOMP;
   m_state_timer.start(BALL_WAIT);
 }
 
 bool
 Yeti::collision_squished(MovingObject& object)
 {
-  if (m_state != YetiState::JUMP_UP && m_state != YetiState::RUN && m_state != YetiState::BE_ANGRY) {
+  if (m_state != YetiState::JUMP && m_state != YetiState::RUN && m_state != YetiState::STOMP) {
     return false;
   }
 
@@ -342,7 +228,8 @@ Yeti::kill_squished(GameObject& object)
   }
 }
 
-void Yeti::take_hit(Player& )
+void
+Yeti::take_hit(Player& )
 {
   if (m_safe_timer.started() || m_just_hit ||
     std::abs(m_left_stand_x - get_pos().x) < 80 || std::abs(m_right_stand_x - get_pos().x) < 80)
@@ -360,7 +247,7 @@ void Yeti::take_hit(Player& )
     // Set the badguy layer to be above the foremost, so that
     // this does not reveal secret tilemaps:
     m_layer = Sector::get().get_foremost_opaque_layer() + 1;
-    m_state = SQUISHED;
+    m_state = DIZZY;
     m_state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
     // sprite->setAction("dead");
@@ -427,21 +314,18 @@ Yeti::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_y(0);
     switch (m_state) {
       case RUN:
-        if (!m_just_threw) {
-          set_action("walking", m_dir);
-        }
         break;
-      case JUMP_UP:
+      case JUMP:
         break;
       case THROW:
         break;
       case THROW_BIG:
         break;
-      case BE_ANGRY:
+      case STOMP:
         // We just landed.
         if (!m_state_timer.started())
         {
-          set_action("stand", m_dir);
+          set_action("stomp", m_dir);
           m_stomp_count++;
           drop_stalactite();
 
@@ -450,7 +334,7 @@ Yeti::collision_solid(const CollisionHit& hit)
           {
             m_just_hit = false;
             if (m_pinch_mode) {
-              throw_big_snowballs();
+              throw_big_snowball();
             }
             else {
               run();
@@ -463,17 +347,15 @@ Yeti::collision_solid(const CollisionHit& hit)
           }
         }
         break;
-      case SQUISHED:
+      case DIZZY:
         break;
-      case FALLING:
-        break;
-      case REMOVE_TUX:
+      case PREVENT_TUX:
         break;
     }
   } else if (hit.left || hit.right) {
     // Hit wall.
-    if(m_state != SQUISHED && m_state != FALLING)
-      jump_up();
+    if(m_state != DIZZY)
+      jump();
   }
 }
 
@@ -490,6 +372,8 @@ Yeti::get_settings()
 void
 Yeti::add_snow_explosions()
 {
+  // TODO: WAOW! This is terrible! Remove this!
+  /*
   for (int i = 0; i < SNOW_EXPLOSIONS_COUNT; i++) {
     Vector pos = get_pos();
     Vector velocity(SNOW_EXPLOSIONS_VX * graphicsRandom.randf(0.5f, 2.0f) * (graphicsRandom.rand(2) ? 1.0f : -1.0f),
@@ -500,6 +384,7 @@ Yeti::add_snow_explosions()
     velocity.x += m_physic.get_velocity_x();
     Sector::get().add<SnowExplosionParticle>(pos, velocity);
   }
+  */
 }
 
 Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vector& velocity)

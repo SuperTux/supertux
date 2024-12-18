@@ -47,11 +47,26 @@ protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
+  enum YetiState {
+    ANNOUNCE,
+    RUN,
+    JUMP,
+    IDLE,
+    THROW,
+    THROW_BIG,
+    STOMP,
+    DIZZY,
+    PREVENT_TUX /// Yeti grabs Tux and throws him away. Take that!
+  };
+
+private:
+  void announce();
   void run();
-  void jump_up();
-  void throw_snowballs();
-  void throw_big_snowballs();
-  void be_angry();
+  void jump();
+  void throw_snowball();
+  void throw_big_snowball();
+  void stomp();
+
   void drop_stalactite();
   void summon_snowball();
   void summon_big_snowball();
@@ -60,18 +75,6 @@ private:
 
   void add_snow_explosions();
   void recalculate_pos();
-
-private:
-  enum YetiState {
-    RUN,
-    JUMP_UP,
-    THROW,
-    THROW_BIG,
-    BE_ANGRY,
-    SQUISHED,
-    FALLING,
-    REMOVE_TUX
-  };
 
 private:
   YetiState m_state;
