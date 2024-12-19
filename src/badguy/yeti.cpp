@@ -61,7 +61,7 @@ const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs. */
 Yeti::Yeti(const ReaderMapping& reader) :
   Boss(reader, "images/creatures/yeti/yeti.sprite"),
   m_state(ANNOUNCE),
-  m_next_state(),
+  m_next_state(RUN),
   m_state_timer(),
   m_safe_timer(),
   m_attacked(false),
@@ -86,7 +86,7 @@ Yeti::Yeti(const ReaderMapping& reader) :
   if (m_fixed_pos) {
     m_left_stand_x = 216;
     m_right_stand_x = 994;
-    m_left_jump_x = 528;
+    m_left_jump_x = 544;
     m_right_jump_x = 692;
   } else {
     recalculate_pos();
@@ -97,6 +97,7 @@ void
 Yeti::initialize()
 {
   m_dir = Direction::RIGHT;
+  m_next_state = RUN;
   announce();
 }
 
@@ -144,8 +145,16 @@ Yeti::active_update(float dt_sec)
     case ANNOUNCE:
       if (m_state_timer.check())
       {
-        run(false);
-        jump(STOMP_VY);
+        if (m_next_state == RUN)
+        {
+          run(false);
+          jump(STOMP_VY);
+        }
+        else
+        {
+          m_pinch_announced = true;
+          idle(false, BEFORE_WAIT);
+        }
       }
 
       if (m_sprite->animation_done())
@@ -190,6 +199,12 @@ Yeti::active_update(float dt_sec)
 
       if (m_state_timer.check())
       {
+        if (!m_pinch_announced && m_pinch_mode)
+        {
+          announce();
+          break;
+        }
+
         switch (m_next_state)
         {
           case RUN:
@@ -345,7 +360,10 @@ Yeti::run(bool change_state)
     m_state_timer.start(BEFORE_WAIT);
   }
 
-  m_physic.set_velocity_x(RUN_VX * (m_dir == Direction::RIGHT ? 1.f : -1.f));
+  if (m_pinch_mode)
+    m_physic.set_velocity_x(RUN_PINCH_VX * (m_dir == Direction::RIGHT ? 1.f : -1.f));
+  else
+    m_physic.set_velocity_x(RUN_VX * (m_dir == Direction::RIGHT ? 1.f : -1.f));
 }
 
 void
@@ -439,6 +457,7 @@ Yeti::bust()
   set_action("busted", invert_dir(m_dir));
 
   m_physic.set_velocity_x(0);
+  run_dead_script();
 }
 
 bool
@@ -540,8 +559,11 @@ Yeti::summon_snowball()
 void
 Yeti::summon_big_snowball()
 {
-  Vector bs_pos = Vector(get_bbox().get_middle().x - 44.f, get_bbox().get_top() - 89.f);
-  Sector::get().add<BigSnowball>(bs_pos, m_dir, true);
+  auto& ball = Sector::get().add<BigSnowball>(Vector(0,0), m_dir, true);
+
+  float x = m_dir == Direction::LEFT ? get_bbox().get_left() - 32.f : get_bbox().get_right();
+  Vector pos(x, get_bbox().get_top());
+  ball.set_pos(pos);
 }
 
 void
