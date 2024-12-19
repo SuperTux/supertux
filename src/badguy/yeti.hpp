@@ -57,6 +57,7 @@ private:
     THROW_BIG,
     STOMP,
     DIZZY,
+    BUSTED,
     THROW_TUX /// Yeti grabs Tux and throws him away. Take that!
   };
 
@@ -69,6 +70,8 @@ private:
   void throw_big_snowball();
   void stomp();
   void throw_tux();
+  void turn_dizzy();
+  void bust();
 
   bool is_idle();
 

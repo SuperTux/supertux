@@ -310,6 +310,12 @@ Yeti::active_update(float dt_sec)
 
       break;
 
+    case DIZZY:
+      if (might_fall(BadGuy::s_normal_max_drop_height))
+      {
+        bust();
+      }
+
       break;
 
     default:
@@ -407,6 +413,34 @@ Yeti::throw_tux()
   set_group(COLGROUP_DISABLED);
 }
 
+void
+Yeti::turn_dizzy()
+{
+  // We're dead.
+  Direction old_dir = m_dir;
+  m_dir = invert_dir(old_dir);
+
+  m_physic.set_velocity((m_dir == Direction::RIGHT ? RUN_VX : -RUN_VX) / 5, 0);
+  set_action("dizzy", old_dir);
+
+  // NOTE: What?
+  // Set the badguy layer to be above the foremost, so that
+  // this does not reveal secret tilemaps:
+  //m_layer = Sector::get().get_foremost_opaque_layer() + 1;
+
+  m_state = DIZZY;
+  set_group(COLGROUP_MOVING_ONLY_STATIC);
+}
+
+void
+Yeti::bust()
+{
+  m_state = BUSTED;
+  set_action("busted", invert_dir(m_dir));
+
+  m_physic.set_velocity_x(0);
+}
+
 bool
 Yeti::is_idle()
 {
@@ -456,21 +490,10 @@ Yeti::take_hit(Player& )
   SoundManager::current()->play("sounds/yeti_roar.wav", get_pos());
   m_lives--;
 
-  if (m_lives <= 0) {
-    // We're dead.
-    m_physic.set_velocity((m_dir == Direction::RIGHT ? RUN_VX : -RUN_VX) / 5, 0);
-
-    // Set the badguy layer to be above the foremost, so that
-    // this does not reveal secret tilemaps:
-    m_layer = Sector::get().get_foremost_opaque_layer() + 1;
-    m_state = DIZZY;
-    m_state_timer.start(YETI_SQUISH_TIME);
-    set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
-    // sprite->setAction("dead");
-  }
-  else {
+  if (m_lives <= 0)
+    turn_dizzy();
+  else
     m_safe_timer.start(SAFE_TIME);
-  }
 }
 
 void
