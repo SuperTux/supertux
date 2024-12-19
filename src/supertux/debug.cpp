@@ -26,6 +26,7 @@ Debug::Debug() :
   show_worldmap_path(false),
   draw_redundant_frames(false),
   show_toolbox_tile_ids(false),
+  hide_player_hud(false),
   m_use_bitmap_fonts(false),
   m_game_speed_multiplier(1.0f)
 {

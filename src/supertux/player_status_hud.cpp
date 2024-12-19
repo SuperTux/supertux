@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "sprite/sprite_manager.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
 #include "supertux/player_status.hpp"
@@ -60,7 +61,7 @@ PlayerStatusHUD::update(float dt_sec)
 void
 PlayerStatusHUD::draw(DrawingContext& context)
 {
-  if (Editor::is_active())
+  if (g_debug.hide_player_hud || Editor::is_active())
     return;
 
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
