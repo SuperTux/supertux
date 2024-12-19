@@ -59,13 +59,12 @@ BigSnowball::BigSnowball(const Vector& pos, const Direction& dir, bool bounce) :
   m_dir(Direction::LEFT),
   m_speed(),
   m_break_on_impact(),
-  m_bounce()
+  m_bounce(bounce)
 {
   // settings used by Yeti when it throws it
   m_dir = dir;
   m_speed = SPEED_X;
   m_break_on_impact = true;
-  m_bounce = false;
   m_physic.set_velocity_x(m_dir == Direction::RIGHT ? SPEED_X : -SPEED_X);
   if (bounce) {
     m_physic.set_velocity_y(SPEED_Y);
