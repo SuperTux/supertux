@@ -131,15 +131,13 @@ Yeti::active_update(float dt_sec)
   Boss::boss_update(dt_sec);
   auto player = get_nearest_player();
 
+  Vector grab_pos = get_bbox().get_middle() + Vector(32.f * (m_dir == Direction::RIGHT ? -1.f : 1.f), -32.f);
   float push_distance;
-  push_distance = player ? (glm::length(get_bbox().get_middle() - player->get_bbox().get_middle())) : 0.f;
+  push_distance = player ? (glm::length(grab_pos - player->get_bbox().get_middle())) : 0.f;
 
-  if (on_ground() && (m_state == STOMP || m_state == THROW) && push_distance <= 160.f && m_physic.get_velocity_x() == 0.f)
+  if (on_ground() && is_idle() && push_distance <= 160.f && m_physic.get_velocity_x() == 0.f)
   {
-    m_state_timer.stop();
-    m_physic.enable_gravity(false);
-    set_group(COLGROUP_DISABLED);
-    m_state = PREVENT_TUX;
+    throw_tux();
   }
 
   switch (m_state) {
@@ -285,6 +283,35 @@ Yeti::active_update(float dt_sec)
 
       break;
 
+    case THROW_TUX:
+      if (!m_grabbed_tux && push_distance < 160.f && player)
+      {
+        player->get_physic().set_velocity(5.f * (grab_pos - player->get_bbox().get_middle()));
+
+        if (push_distance < 10.f)
+        {
+          m_state_timer.start(BALL_WAIT / 2.f);
+          m_grabbed_tux = true;
+
+          m_sprite->resume_animation();
+          player->get_physic().set_velocity(m_dir == Direction::RIGHT ? 600.f : -600.f, -200.f);
+        }
+      }
+
+      if (m_state_timer.check())
+      {
+        set_group(COLGROUP_MOVING);
+        m_physic.enable_gravity(true);
+        m_grabbed_tux = false;
+
+        m_next_state = THROW;
+        idle(false, BALL_WAIT);
+      }
+
+      break;
+
+      break;
+
     default:
       break;
   }
@@ -352,7 +379,7 @@ void
 Yeti::throw_big_snowball()
 {
   m_state = THROW_BIG;
-  set_action("big-throw", m_dir);
+  set_action("big-throw", m_dir, 0);
 
   m_state_timer.start(BALL_WAIT);
 }
@@ -364,6 +391,29 @@ Yeti::stomp()
   set_action("leap", m_dir);
 
   m_physic.set_velocity_y(STOMP_VY);
+}
+
+void
+Yeti::throw_tux()
+{
+  m_state = THROW_TUX;
+  set_action("tux-throw", m_dir, 1);
+  m_sprite->pause_animation();
+  m_attacked = false;
+  m_attack_count = 0;
+
+  m_state_timer.stop();
+  m_physic.enable_gravity(false);
+  set_group(COLGROUP_DISABLED);
+}
+
+bool
+Yeti::is_idle()
+{
+  return m_state == IDLE ||
+         m_state == THROW ||
+         m_state == THROW_BIG ||
+         m_state == STOMP;
 }
 
 bool
@@ -501,7 +551,7 @@ Yeti::collision_solid(const CollisionHit& hit)
         break;
       case DIZZY:
         break;
-      case PREVENT_TUX:
+      case THROW_TUX:
         break;
     }
   } else if (hit.left || hit.right) {

@@ -199,7 +199,29 @@
   (hitbox 37 27 72 100)
  )
 
-(action
+ (action
+  (name "tux-throw-left")
+  (fps 12)
+  (hitbox 31 27 72 100)
+  (loops 1)
+  (images
+   "throw-4.png"
+   "throw-5.png"
+   "throw-6.png"
+   "throw-7.png"
+   "throw-8.png"
+   "throw-9.png"
+   "stand-0.png"
+   )
+  )
+  (action
+   (name "tux-throw-right")
+   (loops 1)
+   (mirror-action "tux-throw-left")
+   (hitbox 37 27 72 100)
+  )
+
+ (action
   (name "big-throw-left")
   (fps 20)
   (loops 1)

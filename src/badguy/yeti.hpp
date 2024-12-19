@@ -57,7 +57,7 @@ private:
     THROW_BIG,
     STOMP,
     DIZZY,
-    PREVENT_TUX /// Yeti grabs Tux and throws him away. Take that!
+    THROW_TUX /// Yeti grabs Tux and throws him away. Take that!
   };
 
 private:
@@ -68,6 +68,9 @@ private:
   void throw_snowball();
   void throw_big_snowball();
   void stomp();
+  void throw_tux();
+
+  bool is_idle();
 
   void drop_stalactite();
   void summon_snowball();
