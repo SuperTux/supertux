@@ -97,7 +97,7 @@ FishChasing::active_update(float dt_sec) {
   case NORMAL:
     FishSwimming::active_update(dt_sec);
 
-    if (glm::length(dist) <= m_track_distance && m_in_water && !m_frozen && is_player_in_water && is_facing_player && can_see_player)
+    if (dist.length() <= m_track_distance && m_in_water && !m_frozen && is_player_in_water && is_facing_player && can_see_player)
     {
       m_realization_timer.start(REALIZATION_TIME);
       m_chase_state = ChaseState::FOUND;
@@ -107,7 +107,7 @@ FishChasing::active_update(float dt_sec) {
     if (!m_frozen)
       set_action("notice", m_dir, 1);
 
-    if (std::abs(glm::length(m_physic.get_velocity())) >= 1.f) {
+    if (std::abs(m_physic.get_velocity().length()) >= 1.f) {
       m_physic.set_velocity(m_physic.get_velocity() / 1.25f);
     }
 
@@ -120,16 +120,16 @@ FishChasing::active_update(float dt_sec) {
     }
     break;
   case CHASING:
-    if (glm::length(dist) > m_lost_distance || !is_player_in_water || !can_see_player)
+    if (dist.length() > m_lost_distance || !is_player_in_water || !can_see_player)
     {
-      m_last_chase_velocity = glm::length(m_physic.get_velocity());
+      m_last_chase_velocity = m_physic.get_velocity().length();
       m_acceleration_timer.start(DECELERATION_TIME);
       m_is_accelerating = true;
       m_chase_state = ChaseState::LOST;
     }
-    else if (glm::length(dist) >= 1 && m_in_water && !m_frozen)
+    else if (dist.length() >= 1 && m_in_water && !m_frozen)
     {
-      const Vector dir = glm::normalize(dist);
+      const Vector dir = dist.normalize();
       float swim_velocity = m_chase_speed;
 
       if (m_acceleration_timer.check())
@@ -172,7 +172,7 @@ FishChasing::active_update(float dt_sec) {
         else
         {
           const float swim_velocity = m_last_chase_velocity * (m_acceleration_timer.get_timeleft() / DECELERATION_TIME);
-          m_physic.set_velocity(glm::normalize(m_physic.get_velocity()) * swim_velocity);
+          m_physic.set_velocity(m_physic.get_velocity().normalize() * swim_velocity);
         }
       }
     }

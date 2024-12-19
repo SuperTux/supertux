@@ -125,8 +125,8 @@ PathGameObject::draw(DrawingContext& context)
         const Vector p1 = *previous_node;
         const Vector p2 = node.position;
         const Vector diff = (p2 - p1);
-        const float length = glm::length(diff);
-        const Vector unit = glm::normalize(diff);
+        const float length = diff.length();
+        const Vector unit = diff.normalize();
         float dot_distance = 16.0f;
 
         // Recalculate the dot distance to evenly spread across the
