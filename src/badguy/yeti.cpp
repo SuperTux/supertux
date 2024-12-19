@@ -23,6 +23,7 @@
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/yeti_stalactite.hpp"
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/bigsnowball.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -33,10 +34,12 @@
 
 namespace
 {
+const float ANNOUNCE_INTERVAL = 0.1f;
+
 const float RUN_VX = 350; /**< Horizontal speed while running. */
 const float RUN_PINCH_VX = 400; /**< Horizontal speed while running. */
 
-const float JUMP_UP_VY = -750; /**< Vertical speed while jumping on the dais. */
+const float JUMP_UP_VY = -800; /**< Vertical speed while jumping on the dais. */
 
 const float STOMP_VY = -300; /**< Vertical speed while stomping on the dais. */
 
@@ -58,6 +61,7 @@ const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs. */
 Yeti::Yeti(const ReaderMapping& reader) :
   Boss(reader, "images/creatures/yeti/yeti.sprite"),
   m_state(ANNOUNCE),
+  m_next_state(),
   m_state_timer(),
   m_safe_timer(),
   m_stomp_count(),
@@ -140,6 +144,58 @@ Yeti::active_update(float dt_sec)
 
   switch (m_state) {
     case ANNOUNCE:
+      if (m_state_timer.check())
+      {
+        run(false);
+        jump(STOMP_VY);
+      }
+
+      if (m_sprite->animation_done())
+      {
+        set_action("stand", m_dir);
+        m_state_timer.start(ANNOUNCE_INTERVAL);
+      }
+
+      break;
+
+    case JUMP:
+      if (m_sprite->animation_done())
+        set_action("fall", m_dir);
+
+      if (on_ground())
+        run(true);
+
+      break;
+
+    case RUN:
+      if ((m_dir == Direction::RIGHT && get_pos().x >= m_right_stand_x + get_bbox().get_size().width) ||
+          (m_dir == Direction::LEFT && get_pos().x <= m_left_stand_x))
+      {
+        idle();
+      }
+
+      if ((m_dir == Direction::RIGHT && math::in_bounds(get_pos().x, m_right_jump_x, m_right_jump_x + 64.f)) ||
+          (m_dir == Direction::LEFT && math::in_bounds(get_pos().x, m_left_jump_x - 64.f, m_left_jump_x)))
+      {
+        jump(JUMP_UP_VY);
+      }
+
+      break;
+
+    case IDLE:
+      if (m_sprite->animation_done())
+      {
+        m_dir = invert_dir(m_dir);
+        set_action("stand", m_dir);
+        m_state_timer.start(BALL_WAIT);
+      }
+
+      if (m_state_timer.check())
+      {
+        run(false);
+        jump(STOMP_VY);
+      }
+
       break;
 
     default:
@@ -152,25 +208,42 @@ Yeti::active_update(float dt_sec)
 void
 Yeti::announce()
 {
-  set_action("rage", m_dir);
   m_state = ANNOUNCE;
+  set_action("rage", m_dir);
+  m_state_timer.stop();
+
   SoundManager::current()->play("sounds/yeti_roar.wav", get_pos());
 }
 
 void
-Yeti::run()
+Yeti::run(bool change_state)
 {
-  set_action("walk", m_dir);
-  m_state = RUN;
-  m_state_timer.start(BEFORE_WAIT);
+  if (change_state)
+  {
+    m_state = RUN;
+    set_action("walk", m_dir);
+    m_state_timer.start(BEFORE_WAIT);
+  }
+
+  m_physic.set_velocity_x(RUN_VX * (m_dir == Direction::RIGHT ? 1.f : -1.f));
 }
 
 void
-Yeti::jump()
+Yeti::jump(float velocity)
 {
-  set_action("jump", m_dir);
-  m_physic.set_velocity_y(JUMP_UP_VY);
   m_state = JUMP;
+  set_action("jump", m_dir);
+
+  m_physic.set_velocity_y(velocity);
+}
+
+void
+Yeti::idle()
+{
+  m_state = IDLE;
+  set_action("stomp", m_dir);
+
+  m_physic.set_velocity_x(0);
 }
 
 void
@@ -337,7 +410,7 @@ Yeti::collision_solid(const CollisionHit& hit)
               throw_big_snowball();
             }
             else {
-              run();
+              run(true);
             }
           }
           else
@@ -355,7 +428,7 @@ Yeti::collision_solid(const CollisionHit& hit)
   } else if (hit.left || hit.right) {
     // Hit wall.
     if(m_state != DIZZY)
-      jump();
+      jump(JUMP_UP_VY);
   }
 }
 

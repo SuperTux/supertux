@@ -50,6 +50,7 @@ private:
   enum YetiState {
     ANNOUNCE,
     RUN,
+    FALL,
     JUMP,
     IDLE,
     THROW,
@@ -61,8 +62,9 @@ private:
 
 private:
   void announce();
-  void run();
-  void jump();
+  void run(bool change_state);
+  void jump(float velocity);
+  void idle();
   void throw_snowball();
   void throw_big_snowball();
   void stomp();
@@ -78,6 +80,7 @@ private:
 
 private:
   YetiState m_state;
+  YetiState m_next_state;
   Timer m_state_timer;
   Timer m_safe_timer;
   int m_stomp_count;
