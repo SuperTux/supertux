@@ -64,7 +64,7 @@ private:
   void announce();
   void run(bool change_state);
   void jump(float velocity);
-  void idle(bool stomp);
+  void idle(bool stomp, float waitduration = 0);
   void throw_snowball();
   void throw_big_snowball();
   void stomp();
@@ -94,9 +94,8 @@ private:
 
   bool m_fixed_pos;
   bool m_just_hit;
-  bool m_just_threw;
+  bool m_pinch_announced;
   bool m_grabbed_tux;
-  bool m_jumped;
 
   class SnowExplosionParticle: public BadGuy
   {

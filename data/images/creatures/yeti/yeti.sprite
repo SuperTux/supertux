@@ -177,6 +177,7 @@
   (name "throw-left")
   (fps 12)
   (hitbox 31 27 72 100)
+  (loops 1)
   (images
    "throw-0.png"
    "throw-1.png"
@@ -193,6 +194,7 @@
   )
  (action
   (name "throw-right")
+  (loops 1)
   (mirror-action "throw-left")
   (hitbox 37 27 72 100)
  )

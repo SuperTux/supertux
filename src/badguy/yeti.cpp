@@ -39,16 +39,16 @@ const float ANNOUNCE_INTERVAL = 0.1f;
 const float RUN_VX = 350; /**< Horizontal speed while running. */
 const float RUN_PINCH_VX = 400; /**< Horizontal speed while running. */
 
-const float JUMP_UP_VY = -800; /**< Vertical speed while jumping on the dais. */
-
+const float JUMP_UP_VY = -775; /**< Vertical speed while jumping on the dais. */
 const float STOMP_VY = -300; /**< Vertical speed while stomping on the dais. */
+
+const float BEFORE_WAIT = 1;
+const float BALL_WAIT = 1;
+const float STOMP_WAIT = 0.25; /**< Time we stay on the dais before jumping again. */
+const float SAFE_TIME = 1; /**< The time we are safe when Tux just hit us. */
 
 const float RUN_DISTANCE = 1060; /**< Distance between the x-coordinates of left and right end positions. */
 const float JUMP_SPACE = 448; /**< Distance between the jump position and the stand position. */
-const float BEFORE_WAIT = 3;
-const float BALL_WAIT = 2;
-const float STOMP_WAIT = 0.5; /**< Time we stay on the dais before jumping again. */
-const float SAFE_TIME = 1; /**< The time we are safe when Tux just hit us. */
 
 const float YETI_SQUISH_TIME = 3;
 
@@ -72,9 +72,8 @@ Yeti::Yeti(const ReaderMapping& reader) :
   m_right_jump_x(),
   m_fixed_pos(),
   m_just_hit(),
-  m_just_threw(),
-  m_grabbed_tux(),
-  m_jumped()
+  m_pinch_announced(),
+  m_grabbed_tux()
 {
   reader.get("hud-icon", m_hud_icon, "images/creatures/yeti/hudlife.png");
   m_hud_head = Surface::from_file(m_hud_icon);
@@ -86,7 +85,7 @@ Yeti::Yeti(const ReaderMapping& reader) :
   reader.get("fixed-pos", m_fixed_pos, false);
   if (m_fixed_pos) {
     m_left_stand_x = 216;
-    m_right_stand_x = 1014;
+    m_right_stand_x = 994;
     m_left_jump_x = 528;
     m_right_jump_x = 692;
   } else {
@@ -188,7 +187,7 @@ Yeti::active_update(float dt_sec)
       {
         m_dir = invert_dir(m_dir);
         set_action("stand", m_dir);
-        m_state_timer.start(BALL_WAIT);
+        m_state_timer.start(BEFORE_WAIT);
       }
 
       if (m_state_timer.check())
@@ -202,6 +201,14 @@ Yeti::active_update(float dt_sec)
 
           case THROW:
             throw_snowball();
+            break;
+
+          case STOMP:
+            stomp();
+            break;
+
+          case THROW_BIG:
+            throw_big_snowball();
             break;
 
           default:
@@ -224,14 +231,56 @@ Yeti::active_update(float dt_sec)
       {
         if (m_attack_count >= (m_pinch_mode ? 3 : 2))
         {
-          m_next_state = RUN;
+          m_next_state = STOMP;
           m_attack_count = 0;
         }
         else
           m_next_state = THROW;
 
         m_attacked = false;
-        idle(false);
+        idle(false, BALL_WAIT);
+      }
+
+      break;
+
+    case STOMP:
+      if (m_attacked && m_sprite->animation_done())
+      {
+        if (m_attack_count >= 3)
+        {
+          m_next_state = m_pinch_mode ? THROW_BIG : RUN;
+          m_attack_count = 0;
+        }
+        else
+          m_next_state = STOMP;
+
+        m_attacked = false;
+        idle(false, STOMP_WAIT);
+      }
+
+      break;
+
+    case THROW_BIG:
+      if (!m_attacked && m_sprite->get_current_frame() == 16)
+      {
+        summon_big_snowball();
+        m_attacked = true;
+        m_attack_count++;
+        break;
+      }
+
+      if (m_sprite->animation_done())
+      {
+        if (m_attack_count >= 1)
+        {
+          m_next_state = RUN;
+          m_attack_count = 0;
+        }
+        else
+          m_next_state = THROW_BIG;
+
+        m_attacked = false;
+        idle(false, BALL_WAIT);
       }
 
       break;
@@ -276,15 +325,16 @@ Yeti::jump(float velocity)
 }
 
 void
-Yeti::idle(bool stomp)
+Yeti::idle(bool stomp, float waitduration)
 {
   m_state = IDLE;
   set_action(stomp ? "stomp" : "stand", m_dir);
+  m_just_hit = false;
 
-  if (!stomp)
-    m_state_timer.start(1);
-  else
+  if (stomp)
     m_next_state = THROW;
+  else
+    m_state_timer.start(waitduration);
 
   m_physic.set_velocity_x(0);
 }
@@ -295,24 +345,25 @@ Yeti::throw_snowball()
   m_state = THROW;
   set_action("throw", m_dir);
 
-  //m_attack_count = 0;
   m_state_timer.start(STOMP_WAIT / (m_pinch_mode ? 1.2f : 1.f));
 }
 
 void
 Yeti::throw_big_snowball()
 {
-  //m_attack_count = 0;
   m_state = THROW_BIG;
+  set_action("big-throw", m_dir);
+
   m_state_timer.start(BALL_WAIT);
 }
 
 void
 Yeti::stomp()
 {
-  m_attack_count = 0;
   m_state = STOMP;
-  m_state_timer.start(BALL_WAIT);
+  set_action("leap", m_dir);
+
+  m_physic.set_velocity_y(STOMP_VY);
 }
 
 bool
@@ -438,29 +489,15 @@ Yeti::collision_solid(const CollisionHit& hit)
         break;
       case STOMP:
         // We just landed.
-        if (!m_state_timer.started())
-        {
-          set_action("stomp", m_dir);
-          m_attack_count++;
-          drop_stalactite();
 
-          // Go to the other side after 3 jumps.
-          if (m_attack_count == 3)
-          {
-            m_just_hit = false;
-            if (m_pinch_mode) {
-              throw_big_snowball();
-            }
-            else {
-              run(true);
-            }
-          }
-          else
-          {
-            // Jump again.
-            m_state_timer.start(STOMP_WAIT / (m_pinch_mode ? 1.2f : 1.f));
-          }
-        }
+        if (m_attacked)
+          break;
+
+        set_action("stomp", m_dir);
+        m_attack_count++;
+        m_attacked = true;
+        drop_stalactite();
+
         break;
       case DIZZY:
         break;
