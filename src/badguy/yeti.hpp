@@ -64,7 +64,7 @@ private:
   void announce();
   void run(bool change_state);
   void jump(float velocity);
-  void idle();
+  void idle(bool stomp);
   void throw_snowball();
   void throw_big_snowball();
   void stomp();
@@ -83,7 +83,9 @@ private:
   YetiState m_next_state;
   Timer m_state_timer;
   Timer m_safe_timer;
-  int m_stomp_count;
+
+  bool m_attacked;
+  int m_attack_count;
 
   float m_left_stand_x;
   float m_right_stand_x;

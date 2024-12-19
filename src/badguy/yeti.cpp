@@ -64,7 +64,8 @@ Yeti::Yeti(const ReaderMapping& reader) :
   m_next_state(),
   m_state_timer(),
   m_safe_timer(),
-  m_stomp_count(),
+  m_attacked(false),
+  m_attack_count(),
   m_left_stand_x(),
   m_right_stand_x(),
   m_left_jump_x(),
@@ -171,7 +172,7 @@ Yeti::active_update(float dt_sec)
       if ((m_dir == Direction::RIGHT && get_pos().x >= m_right_stand_x + get_bbox().get_size().width) ||
           (m_dir == Direction::LEFT && get_pos().x <= m_left_stand_x))
       {
-        idle();
+        idle(true);
       }
 
       if ((m_dir == Direction::RIGHT && math::in_bounds(get_pos().x, m_right_jump_x, m_right_jump_x + 64.f)) ||
@@ -192,8 +193,45 @@ Yeti::active_update(float dt_sec)
 
       if (m_state_timer.check())
       {
-        run(false);
-        jump(STOMP_VY);
+        switch (m_next_state)
+        {
+          case RUN:
+            run(false);
+            jump(STOMP_VY);
+            break;
+
+          case THROW:
+            throw_snowball();
+            break;
+
+          default:
+            break;
+        }
+      }
+
+      break;
+
+    case THROW:
+      if (!m_attacked && m_sprite->get_current_frame() == 5)
+      {
+        summon_snowball();
+        m_attacked = true;
+        m_attack_count++;
+        break;
+      }
+
+      if (m_sprite->animation_done())
+      {
+        if (m_attack_count >= (m_pinch_mode ? 3 : 2))
+        {
+          m_next_state = RUN;
+          m_attack_count = 0;
+        }
+        else
+          m_next_state = THROW;
+
+        m_attacked = false;
+        idle(false);
       }
 
       break;
@@ -238,10 +276,15 @@ Yeti::jump(float velocity)
 }
 
 void
-Yeti::idle()
+Yeti::idle(bool stomp)
 {
   m_state = IDLE;
-  set_action("stomp", m_dir);
+  set_action(stomp ? "stomp" : "stand", m_dir);
+
+  if (!stomp)
+    m_state_timer.start(1);
+  else
+    m_next_state = THROW;
 
   m_physic.set_velocity_x(0);
 }
@@ -249,18 +292,17 @@ Yeti::idle()
 void
 Yeti::throw_snowball()
 {
-  // Turn around.
-  set_action("stand", m_dir);
-
-  m_stomp_count = 0;
   m_state = THROW;
+  set_action("throw", m_dir);
+
+  //m_attack_count = 0;
   m_state_timer.start(STOMP_WAIT / (m_pinch_mode ? 1.2f : 1.f));
 }
 
 void
 Yeti::throw_big_snowball()
 {
-  m_stomp_count = 0;
+  //m_attack_count = 0;
   m_state = THROW_BIG;
   m_state_timer.start(BALL_WAIT);
 }
@@ -268,7 +310,7 @@ Yeti::throw_big_snowball()
 void
 Yeti::stomp()
 {
-  m_stomp_count = 0;
+  m_attack_count = 0;
   m_state = STOMP;
   m_state_timer.start(BALL_WAIT);
 }
@@ -351,13 +393,13 @@ Yeti::drop_stalactite()
       if (!m_pinch_mode) {
         // Drop stalactites within 3 units of player, going out with each jump.
         float distancex = fabsf(stalactite.get_bbox().get_middle().x - player->get_bbox().get_middle().x);
-        if (distancex < static_cast<float>(m_stomp_count) * 32.0f) {
+        if (distancex < static_cast<float>(m_attack_count) * 32.0f) {
           stalactite.start_shaking();
         }
       }
       else { /* if (hitpoints < 3) */
         // Drop every 3rd pair of stalactites.
-        if ((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (m_stomp_count % 3))
+        if ((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (m_attack_count % 3))
           stalactite.start_shaking();
       }
     }
@@ -399,11 +441,11 @@ Yeti::collision_solid(const CollisionHit& hit)
         if (!m_state_timer.started())
         {
           set_action("stomp", m_dir);
-          m_stomp_count++;
+          m_attack_count++;
           drop_stalactite();
 
           // Go to the other side after 3 jumps.
-          if (m_stomp_count == 3)
+          if (m_attack_count == 3)
           {
             m_just_hit = false;
             if (m_pinch_mode) {
