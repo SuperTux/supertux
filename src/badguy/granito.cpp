@@ -208,7 +208,7 @@ Granito::collision_player(Player& player, const CollisionHit& hit)
 }
 
 HitResponse
-Granito::collision(GameObject& other, const CollisionHit& hit)
+Granito::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (hit.top)
     m_col.propagate_movement(m_col.get_movement());
@@ -529,7 +529,7 @@ Granito::try_jump()
   else
   {
     auto result_obj = std::get_if<CollisionObject*>(&result.hit);
-    if (result_obj && !dynamic_cast<Granito*>(&(*result_obj)->get_listener()))
+    if (result_obj && !dynamic_cast<Granito*>(&(*result_obj)->get_parent()))
       return false;
   }
 

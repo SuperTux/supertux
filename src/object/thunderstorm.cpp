@@ -40,7 +40,7 @@ const float RESTORE_BACKGROUND_COLOR_TIME = 0.1f;
 } // namespace
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   running(true),
   interval(10.0f),
   layer(LAYER_BACKGROUNDTILES-1),

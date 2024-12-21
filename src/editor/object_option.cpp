@@ -711,11 +711,9 @@ TilesObjectOption::parse(const ReaderMapping& reader)
 }
 
 void
-TilesObjectOption::save(Writer& write) const
+TilesObjectOption::save(Writer& writer) const
 {
-  write.write("width", m_value_pointer->get_width());
-  write.write("height", m_value_pointer->get_height());
-  write.write("tiles", m_value_pointer->get_tiles(), m_value_pointer->get_width());
+  m_value_pointer->write_tiles(writer);
 }
 
 std::string

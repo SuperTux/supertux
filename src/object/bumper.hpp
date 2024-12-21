@@ -31,7 +31,7 @@ public:
   virtual ObjectSettings get_settings() override;
 
   virtual void update(float dt_sec) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "bumper"; }
   virtual std::string get_class_name() const override { return class_name(); }

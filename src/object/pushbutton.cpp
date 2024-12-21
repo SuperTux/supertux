@@ -85,7 +85,7 @@ PushButton::update(float dt_sec)
 }
 
 HitResponse
-PushButton::collision(GameObject& other, const CollisionHit& hit)
+PushButton::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*>(&other);
   auto rock = dynamic_cast<Rock*>(&other);

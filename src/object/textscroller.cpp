@@ -45,6 +45,7 @@ const float SCROLL_JUMP = 60;
 } // namespace
 
 TextScroller::TextScroller(const ReaderMapping& mapping) :
+  LayerObject(mapping),
   controller(&InputManager::current()->get_controller()),
   m_filename(),
   m_finish_script(),
@@ -322,12 +323,6 @@ TextScroller::update(float dt_sec)
       ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25f)));
     }
   }
-}
-
-void
-TextScroller::set_default_speed(float default_speed)
-{
-  m_default_speed = default_speed;
 }
 
 void

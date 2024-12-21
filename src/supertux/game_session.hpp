@@ -23,6 +23,7 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
+#include <queue>
 
 #include <simplesquirrel/table.hpp>
 
@@ -77,8 +78,7 @@ private:
   };
 
 public:
-  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr,
-              bool preserve_music = false);
+  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -96,21 +96,28 @@ public:
                          const bool make_invincible = false);
   void reset_level();
 
-  void set_start_point(const std::string& sectorname,
-                       const std::string& spawnpointname);
-  void set_start_pos(const std::string& sectorname, const Vector& pos);
-  void set_respawn_point(const std::string& sectorname,
-                         const std::string& spawnpointname);
-  void set_respawn_pos(const std::string& sectorname, const Vector& pos);
+  void on_player_added(int id);
+  bool on_player_removed(int id);
+
+  void set_start_point(const std::string& sector, const std::string& spawnpoint);
+  void set_start_pos(const std::string& sector, const Vector& pos);
+  inline void set_respawn_point(const std::string& sector, const std::string& spawnpoint)
+  {
+    m_spawnpoints.push_back({ sector, spawnpoint });
+  }
+  inline void set_respawn_pos(const std::string& sector, const Vector& pos)
+  {
+    m_spawnpoints.push_back({ sector, pos });
+  }
   void clear_respawn_points();
 
-  const SpawnPoint& get_last_spawnpoint() const;
+  inline const SpawnPoint& get_last_spawnpoint() const { return m_spawnpoints.back(); }
 
   void set_checkpoint_pos(const std::string& sectorname, const Vector& pos);
-  const SpawnPoint* get_active_checkpoint_spawnpoint() const;
+  inline const SpawnPoint* get_active_checkpoint_spawnpoint() const { return m_activated_checkpoint; }
 
-  Sector& get_current_sector() const { return *m_currentsector; }
-  Level& get_current_level() const { return *m_level; }
+  inline Sector& get_current_sector() const { return *m_currentsector; }
+  inline Level& get_current_level() const { return *m_level; }
 
   void start_sequence(Player* caller, Sequence seq, const SequenceData* data = nullptr);
   void set_target_timer_paused(bool paused);
@@ -121,15 +128,15 @@ public:
    * resources for the current level/world
    */
   std::string get_working_directory() const;
-  const std::string& get_level_file() const { return m_levelfile; }
-  bool has_active_sequence() const;
-  int restart_level(bool after_death = false, bool preserve_music = false);
+  inline const std::string& get_level_file() const { return m_levelfile; }
+  inline bool has_active_sequence() const { return m_end_sequence; }
+  void restart_level(bool after_death = false, bool preserve_music = false);
 
   void toggle_pause();
   void abort_level();
   bool is_active() const;
 
-  Savegame& get_savegame() const { return m_savegame; }
+  inline Savegame& get_savegame() const { return m_savegame; }
 
   void set_scheduler(SquirrelScheduler& new_scheduler);
 

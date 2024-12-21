@@ -69,7 +69,7 @@ Mole::collision_badguy(BadGuy& , const CollisionHit& )
 }
 
 bool
-Mole::collision_squished(GameObject& obj)
+Mole::collision_squished(MovingObject& obj)
 {
   set_state(DEAD);
 

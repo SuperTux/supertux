@@ -153,7 +153,6 @@ LevelParser::load(const ReaderDocument& doc)
     throw std::runtime_error("file is not a supertux-level file.");
 
   auto level = root.get_mapping();
-  Statistics::Preferences stat_preferences;
 
   int version = 1;
   level.get("version", version);
@@ -177,9 +176,13 @@ LevelParser::load(const ReaderDocument& doc)
     level.get("icon-locked", m_level.m_icon_locked);
     level.get("bkg", m_level.m_wmselect_bkg);
 
+    std::string name = m_level.m_is_worldmap ? "on" : "inherit";
+    level.get("allow-item-pocket", name);
+    m_level.m_allow_item_pocket = Level::get_setting_from_name(name);
+
     std::optional<ReaderMapping> level_stat_preferences;
     if (level.get("statistics", level_stat_preferences))
-      stat_preferences.parse(*level_stat_preferences);
+      m_level.m_stats.get_preferences().parse(*level_stat_preferences);
 
     auto iter = level.get_iter();
     while (iter.next())
@@ -203,7 +206,7 @@ LevelParser::load(const ReaderDocument& doc)
     log_warning << "[" << doc.get_filename() << "] level format version " << version << " is not supported" << std::endl;
   }
 
-  m_level.initialize(stat_preferences);
+  m_level.initialize();
 }
 
 void

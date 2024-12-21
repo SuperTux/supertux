@@ -84,7 +84,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void collision_tile(uint32_t tile_attributes) override;
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
@@ -94,21 +94,21 @@ public:
   virtual void remove_me() override;
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Player)); }
 
-  int get_id() const { return m_id; }
+  inline int get_id() const { return m_id; }
   void set_id(int id);
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
-  void set_controller(const Controller* controller);
+  inline void set_controller(const Controller* controller) { m_controller = controller; }
   /** Level solved. Don't kill Tux any more. */
   void set_winning();
-  bool is_winning() const { return m_winning; }
+  inline bool is_winning() const { return m_winning; }
 
   // Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
-  void set_speedlimit(float newlimit);
-  float get_speedlimit() const;
+  inline void set_speedlimit(float limit) { m_speedlimit = limit; }
+  inline float get_speedlimit() const { return m_speedlimit; }
 
-  const Controller& get_controller() const { return *m_controller; }
+  inline const Controller& get_controller() const { return *m_controller; }
 
   /**
    * @scripting
@@ -135,23 +135,23 @@ public:
   void make_invincible();
   void make_temporarily_safe(float safe_time);
 
-  bool is_invincible() const { return m_invincible_timer.started(); }
-  bool is_dying() const { return m_dying; }
+  inline bool is_invincible() const { return m_invincible_timer.started(); }
+  inline bool is_dying() const { return m_dying; }
 
   /**
-   * Returns true if the player is currently alive 
+   * Returns true if the player is currently alive
    * (not dying or dead)
    */
-  bool is_alive() const { return !is_dying() && !is_dead(); }
-  
+  inline bool is_alive() const { return !is_dying() && !is_dead(); }
+
   /**
    * Returns true if the player can be controlled.
    * (alive and not currently in a win sequence)
    */
-  bool is_active() const { return is_alive() && !is_winning(); }
+  inline bool is_active() const { return is_alive() && !is_winning(); }
 
-  Direction peeking_direction_x() const { return m_peekingX; }
-  Direction peeking_direction_y() const { return m_peekingY; }
+  inline Direction peeking_direction_x() const { return m_peekingX; }
+  inline Direction peeking_direction_y() const { return m_peekingY; }
 
   /**
    * @scripting
@@ -190,12 +190,12 @@ public:
                   will stop changing).
    * @param int $count
    */
-  void add_coins(int count);
+  inline void add_coins(int count) { m_player_status.add_coins(count); }
   /**
    * @scripting
    * @description Returns the number of coins the player currently has.
    */
-  int get_coins() const;
+  inline int get_coins() const { return m_player_status.coins; }
 
   /** picks up a bonus, taking care not to pick up lesser bonus items than we already have
 
@@ -204,12 +204,12 @@ public:
   bool add_bonus(BonusType type, bool animate = false);
 
   /** like add_bonus, but can also downgrade the bonus items carried */
-  bool set_bonus(BonusType type, bool animate = false, bool increment_powerup_counter = true);
-  BonusType get_bonus() const;
+  bool set_bonus(BonusType type, bool animate = false);
+  inline BonusType get_bonus() const { return m_player_status.bonus[m_id]; }
 
   std::string bonus_to_string() const;
 
-  PlayerStatus& get_status() const { return m_player_status; }
+  inline PlayerStatus& get_status() const { return m_player_status; }
 
   /**
    * @scripting
@@ -267,55 +267,55 @@ public:
   void add_velocity(const Vector& velocity, const Vector& end_speed);
 
   /** Returns the current velocity of the player */
-  Vector get_velocity() const;
+  inline Vector get_velocity() const { return m_physic.get_velocity(); }
   /**
    * @scripting
    * @description Returns Tux’s velocity in X direction.
    */
-  float get_velocity_x() const;
+  inline float get_velocity_x() const { return m_physic.get_velocity_x(); }
   /**
    * @scripting
    * @description Returns Tux’s velocity in Y direction.
    */
-  float get_velocity_y() const;
+  inline float get_velocity_y() const { return m_physic.get_velocity_y(); }
   /**
    * @scripting
    * @description Sets the velocity of the player to a programmable/variable speed.
    * @param float $x The speed Tux will move on the x axis.
    * @param float $y The speed Tux will move on the y axis.
    */
-  void set_velocity(float x, float y);
+  inline void set_velocity(float x, float y) { m_physic.set_velocity(x, y); }
 
   void bounce(BadGuy& badguy);
-  void override_velocity() { m_velocity_override = true; }
+  inline void override_velocity() { m_velocity_override = true; }
 
-  bool is_dead() const { return m_dead; }
-  bool is_big() const { return get_bonus() != NO_BONUS; }
-  bool is_stone() const { return m_stone; }
-  bool is_sliding() const { return m_sliding; }
-  bool is_swimming() const { return m_swimming; }
-  bool is_swimboosting() const { return m_swimboosting; }
-  bool is_water_jumping() const { return m_water_jump; }
-  bool is_skidding() const { return m_skidding_timer.started(); }
-  float get_swimming_angle() const { return m_swimming_angle; }
+  inline bool is_dead() const { return m_dead; }
+  inline bool is_big() const { return get_bonus() != BONUS_NONE; }
+  inline bool is_stone() const { return m_stone; }
+  inline bool is_sliding() const { return m_sliding; }
+  inline bool is_swimming() const { return m_swimming; }
+  inline bool is_swimboosting() const { return m_swimboosting; }
+  inline bool is_water_jumping() const { return m_water_jump; }
+  inline bool is_skidding() const { return m_skidding_timer.started(); }
+  inline float get_swimming_angle() const { return m_swimming_angle; }
 
   /**
    * @scripting
    * @description Set Tux visible or invisible.
    * @param bool $visible
    */
-  void set_visible(bool visible);
+  inline void set_visible(bool visible) { m_visible = visible; }
   /**
    * @scripting
    * @description Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
    */
-  bool get_visible() const;
+  inline bool get_visible() const { return m_visible; }
 
-  bool on_ground() const;
-  void set_on_ground(bool flag);
+  inline bool on_ground() const { return m_on_ground_flag; }
+  inline void set_on_ground(bool flag) { m_on_ground_flag = flag; }
 
-  Portable* get_grabbed_object() const { return m_grabbed_object; }
-  void stop_grabbing() { ungrab_object(); }
+  inline Portable* get_grabbed_object() const { return m_grabbed_object; }
+  inline void stop_grabbing() { ungrab_object(); }
 
   /**
    * @scripting
@@ -334,7 +334,7 @@ public:
    * @scripting
    * @description Returns whether ghost mode is currently enabled.
    */
-  bool get_ghost_mode() const;
+  inline bool get_ghost_mode() const { return m_ghost_mode; }
 
   /** Changes height of bounding box.
       Returns true if successful, false otherwise */
@@ -363,7 +363,7 @@ public:
   /** Requests that the player stop climbing the given Climbable */
   void stop_climbing(Climbable& climbable);
 
-  Physic& get_physic() { return m_physic; }
+  inline Physic& get_physic() { return m_physic; }
 
   /**
    * @scripting
@@ -380,7 +380,7 @@ public:
   /**
    * @scripting
    * @description Gets whether the current input on the keyboard/controller/touchpad has been pressed.
-   * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”,
+   * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, "item", “start”, “escape”,
       “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
       “peek-left”, “peek-right”, “peek-up” or “peek-down”.
    */
@@ -403,7 +403,7 @@ public:
    * @description Makes Tux walk.
    * @param float $speed
    */
-  void walk(float speed);
+  inline void walk(float speed) { m_physic.set_velocity_x(speed); }
   /**
    * @scripting
    * @description Face Tux in the proper direction.
@@ -411,6 +411,24 @@ public:
    */
   void set_dir(bool right);
   void stop_backflipping();
+
+  /**
+   * @scripting
+   * @description Ejects the item in the player's Item Pocket.
+   */
+  void eject_item_pocket();
+
+  /**
+   * @scripting
+   * @description Returns the item currently in the player's Item Pocket as a ""BONUS"" enum value.
+   */
+  int get_item_pocket() const;
+
+  /**
+   * @scripting
+   * @description Ejects the item in the player's Item Pocket.
+   */
+  void set_item_pocket(int bonus);
 
   void position_grabbed_object(bool teleport = false);
   bool try_grab();
@@ -420,10 +438,10 @@ public:
 
   void multiplayer_prepare_spawn();
 
-  void set_ending_direction(int direction) { m_ending_direction = direction; }
-  int get_ending_direction() const { return m_ending_direction; }
+  inline void set_ending_direction(int direction) { m_ending_direction = direction; }
+  inline int get_ending_direction() const { return m_ending_direction; }
 
-  const std::vector<Key*>& get_collected_keys() const { return m_collected_keys; }
+  inline const std::vector<Key*>& get_collected_keys() const { return m_collected_keys; }
   void add_collected_key(Key* key);
   void remove_collected_key(Key* key);
 

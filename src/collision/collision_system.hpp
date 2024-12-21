@@ -38,7 +38,7 @@ class CollisionSystem final
 public:
   struct RaycastResult
   {
-    bool is_valid; /**< true if raycast hit something */
+    bool is_valid = false; /**< true if raycast hit something */
     std::variant<const Tile*, CollisionObject*> hit; /**< tile/object that the raycast hit */
     Rectf box = {}; /**< hitbox of tile/object */
   };
@@ -63,15 +63,20 @@ public:
   }
 
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
-  bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const;
+  bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype = Tile::SOLID) const;
   bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignore_unisolid = false) const;
   bool is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
 
+  enum RaycastIgnore {
+    IGNORE_NONE,
+    IGNORE_TILES,
+    IGNORE_OBJECTS
+  };
 
   RaycastResult get_first_line_intersection(const Vector& line_start,
                                             const Vector& line_end,
-                                            bool ignore_objects,
-                                            const CollisionObject* ignore_object) const;
+                                            RaycastIgnore ignore = IGNORE_NONE,
+                                            const CollisionObject* ignore_object = nullptr) const;
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const;
 
   std::vector<CollisionObject*> get_nearby_objects(const Vector& center, float max_distance) const;

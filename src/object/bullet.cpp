@@ -36,13 +36,13 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
   physic.set_velocity(xm);
 
   switch (type) {
-    case FIRE_BONUS:
+    case BONUS_FIRE:
       sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
       lightsprite->set_blend(Blend::ADD);
       lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
       break;
 
-    case ICE_BONUS:
+    case BONUS_ICE:
       sprite = SpriteManager::current()->create("images/objects/bullets/icebullet.sprite");
       break;
 
@@ -94,7 +94,7 @@ void
 Bullet::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
-  if (type == FIRE_BONUS){
+  if (type == BONUS_FIRE){
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
   }
 }
@@ -106,7 +106,7 @@ Bullet::collision_solid(const CollisionHit& hit)
     physic.set_velocity_y(-physic.get_velocity_y());
     life_count--;
   } else if (hit.left || hit.right) {
-    if (type == ICE_BONUS) {
+    if (type == BONUS_ICE) {
       physic.set_velocity_x(-physic.get_velocity_x());
       life_count--;
     } else
@@ -121,7 +121,7 @@ Bullet::ricochet(GameObject& , const CollisionHit& hit)
 }
 
 HitResponse
-Bullet::collision(GameObject& , const CollisionHit& )
+Bullet::collision(MovingObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
 }

@@ -91,7 +91,7 @@ Trampoline::update(float dt_sec)
 }
 
 HitResponse
-Trampoline::collision(GameObject& other, const CollisionHit& hit)
+Trampoline::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto heavy_coin = dynamic_cast<HeavyCoin*> (&other);
   if (heavy_coin) {
@@ -108,11 +108,11 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
     //player is falling down on trampoline
     if (hit.top && vy >= 0)
     {
-      if (!(player->get_status().bonus[player->get_id()] == AIR_BONUS))
+      if (!(player->get_status().bonus[player->get_id()] == BONUS_AIR))
       {
         if (player->get_controller().hold(Control::JUMP))
           vy = VY_MIN;
-        else if (player->get_controller().hold(Control::DOWN))
+        else if (player->is_big() && player->get_controller().hold(Control::DOWN))
           vy = VY_MIN + 100;
         else
           vy = VY_INITIAL;

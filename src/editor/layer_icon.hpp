@@ -18,14 +18,14 @@
 #define HEADER_SUPERTUX_EDITOR_LAYER_ICON_HPP
 
 #include "editor/object_icon.hpp"
-#include "math/fwd.hpp"
 
-class GameObject;
+class LayerObject;
+class TileMap;
 
 class LayerIcon : public ObjectIcon
 {
 public:
-  LayerIcon(GameObject* layer);
+  LayerIcon(LayerObject* layer);
   ~LayerIcon() override {}
 
   virtual void draw(DrawingContext& context, const Vector& pos) override;
@@ -34,11 +34,13 @@ public:
   int get_zpos() const;
   bool is_valid() const;
 
-  GameObject* get_layer() const { return m_layer; }
-  bool is_tilemap() const;
+  inline LayerObject* get_layer() const { return m_layer; }
+  inline TileMap* get_layer_tilemap() const { return m_layer_tilemap; }
 
 private:
-  GameObject* m_layer;
+  LayerObject* m_layer;
+  TileMap* m_layer_tilemap;
+
   SurfacePtr m_selection;
 
 private:

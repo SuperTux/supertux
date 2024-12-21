@@ -42,7 +42,7 @@ public:
   /** Returns the directory of the document */
   std::string get_directory() const;
 
-  const sexp::Value& get_sexp() const { return m_sx; }
+  inline const sexp::Value& get_sexp() const { return m_sx; }
 
 private:
   std::string m_filename;

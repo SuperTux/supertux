@@ -118,7 +118,7 @@ BouncingSnowball::is_freezable() const
 }
 
 bool
-BouncingSnowball::collision_squished(GameObject& object)
+BouncingSnowball::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);

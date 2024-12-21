@@ -52,14 +52,6 @@ SDLBaseVideoSystem::set_title(const std::string& title)
 }
 
 void
-SDLBaseVideoSystem::set_gamma(float gamma)
-{
-  Uint16 ramp[256];
-  SDL_CalculateGammaRamp(gamma, ramp);
-  SDL_SetWindowGammaRamp(m_sdl_window.get(), ramp, ramp, ramp);
-}
-
-void
 SDLBaseVideoSystem::set_icon(const SDL_Surface& icon)
 {
   SDL_SetWindowIcon(m_sdl_window.get(), const_cast<SDL_Surface*>(&icon));

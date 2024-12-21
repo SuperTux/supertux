@@ -52,7 +52,7 @@ public:
   virtual void grab(MovingObject&, const Vector& pos, Direction dir_) override;
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 private:
   void be_normal(); /**< switch to state STATE_NORMAL */

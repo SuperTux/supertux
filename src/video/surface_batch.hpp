@@ -35,11 +35,11 @@ public:
   void draw(const Rectf& dstrect, float angle = 0.0f);
   void draw(const Rectf& srcrect, const Rectf& dstrect, float angle = 0.0f);
 
-  std::vector<Rectf> move_srcrects() { return std::move(m_srcrects); }
-  std::vector<Rectf> move_dstrects() { return std::move(m_dstrects); }
-  std::vector<float> move_angles() { return std::move(m_angles); }
+  inline std::vector<Rectf> move_srcrects() { return std::move(m_srcrects); }
+  inline std::vector<Rectf> move_dstrects() { return std::move(m_dstrects); }
+  inline std::vector<float> move_angles() { return std::move(m_angles); }
 
-  Color get_color() const { return m_color; }
+  inline Color get_color() const { return m_color; }
 
 private:
   SurfacePtr m_surface;
