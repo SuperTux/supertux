@@ -53,7 +53,7 @@ public:
   virtual int get_image_width() const = 0;
   virtual int get_image_height() const = 0;
 
-  const Sampler& get_sampler() const { return m_sampler; }
+  inline const Sampler& get_sampler() const { return m_sampler; }
 
 protected:
   Sampler m_sampler;

@@ -71,7 +71,7 @@ RustyTrampoline::get_settings()
 }
 
 HitResponse
-RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
+RustyTrampoline::collision(MovingObject& other, const CollisionHit& hit)
 {
   //Trampoline has to be on ground to work.
   if (m_on_ground) {

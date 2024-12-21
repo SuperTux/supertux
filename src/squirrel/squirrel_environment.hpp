@@ -38,7 +38,7 @@ public:
   virtual ~SquirrelEnvironment();
 
 public:
-  ssq::VM& get_vm() const { return m_vm; }
+  inline ssq::VM& get_vm() const { return m_vm; }
 
   /** Expose this engine under 'name' */
   void expose_self();

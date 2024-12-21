@@ -378,12 +378,6 @@ EditorTilebox::select_tilegroup(int id)
 }
 
 void
-EditorTilebox::set_tilegroup(std::unique_ptr<Tilegroup> tilegroup)
-{
-  m_active_tilegroup = std::move(tilegroup);
-}
-
-void
 EditorTilebox::select_objectgroup(int id)
 {
   m_active_objectgroup = &m_object_info->m_groups[id];

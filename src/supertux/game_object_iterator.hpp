@@ -22,7 +22,7 @@
 #include "game_object_manager.hpp"
 
 template<typename T>
-class GameObjectIterator
+class GameObjectIterator final
 {
 public:
   typedef std::vector<GameObject* >::const_iterator Iterator;
@@ -37,8 +37,15 @@ public:
     {
       // A dynamic_cast is needed to perform sidecasts (a.k.a. crosscasts)
       // T may be one of multiple base classes of the object and need not inherit GameObject
-      m_object = dynamic_cast<T*>(*m_it);
-      assert(m_object);
+      if constexpr (std::is_base_of<GameObject, T>::value)
+      {
+        m_object = static_cast<T*>(*m_it);
+      }
+      else
+      {
+        m_object = dynamic_cast<T*>(*m_it);
+        assert(m_object);
+      }
     }
   }
 
@@ -47,8 +54,15 @@ public:
     ++m_it;
     if (m_it != m_end)
     {
-      m_object = dynamic_cast<T*>(*m_it);
-      assert(m_object);
+      if constexpr (std::is_base_of<GameObject, T>::value)
+      {
+        m_object = static_cast<T*>(*m_it);
+      }
+      else
+      {
+        m_object = dynamic_cast<T*>(*m_it);
+        assert(m_object);
+      }
     }
     return *this;
   }
@@ -60,28 +74,30 @@ public:
     return tmp;
   }
 
-  T* operator->() {
+  inline T* get() const { return m_object; }
+
+  inline T* operator->() {
     return m_object;
   }
 
-  const T* operator->() const {
+  inline const T* operator->() const {
     return m_object;
   }
 
-  T& operator*() const {
+  inline T& operator*() const {
     return *m_object;
   }
 
-  T& operator*() {
+  inline T& operator*() {
     return *m_object;
   }
 
-  bool operator==(const GameObjectIterator& other) const
+  inline bool operator==(const GameObjectIterator& other) const
   {
     return m_it == other.m_it;
   }
 
-  bool operator!=(const GameObjectIterator& other) const
+  inline bool operator!=(const GameObjectIterator& other) const
   {
     return !(*this == other);
   }
@@ -93,7 +109,7 @@ private:
 };
 
 template<typename T>
-class GameObjectRange
+class GameObjectRange final
 {
 public:
   GameObjectRange(const GameObjectManager& manager) :

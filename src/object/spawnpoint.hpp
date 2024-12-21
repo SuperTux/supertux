@@ -41,7 +41,7 @@ public:
     // This function wouldn't be called anyway.
   }
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
 
   static std::string class_name() { return "spawnpoint"; }
   virtual std::string get_class_name() const override { return class_name(); }

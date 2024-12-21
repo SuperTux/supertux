@@ -32,12 +32,12 @@ public:
 
   void add_icon(const std::string& object, const std::string& icon_path);
 
-  const std::string& get_name() const { return m_name; }
+  inline const std::string& get_name() const { return m_name; }
 
   bool is_worldmap() const { return m_for_worldmap;  }
 
-  const std::vector<ObjectIcon>& get_icons() const { return m_icons; }
-  std::vector<ObjectIcon>& get_icons() { return m_icons; }
+  inline const std::vector<ObjectIcon>& get_icons() const { return m_icons; }
+  inline std::vector<ObjectIcon>& get_icons() { return m_icons; }
 
 private:
   std::string m_name;

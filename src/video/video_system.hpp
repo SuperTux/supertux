@@ -72,7 +72,6 @@ public:
 
   virtual void set_vsync(int mode) = 0;
   virtual int get_vsync() const = 0;
-  virtual void set_gamma(float gamma) = 0;
   virtual void set_title(const std::string& title) = 0;
   virtual void set_icon(const SDL_Surface& icon) = 0;
   virtual SDLSurfacePtr make_screenshot() = 0;

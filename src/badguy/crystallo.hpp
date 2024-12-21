@@ -41,7 +41,7 @@ public:
   virtual void on_flip(float height) override;
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 private:
   float m_radius;

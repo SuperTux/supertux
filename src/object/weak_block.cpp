@@ -118,7 +118,7 @@ WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 
     case STATE_NORMAL:
       //Ensure only fire destroys weakblock
-      if (bullet.get_type() == FIRE_BONUS) {
+      if (bullet.get_type() == BONUS_FIRE) {
         startBurning();
         bullet.remove_me();
       }
@@ -141,7 +141,7 @@ WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 }
 
 HitResponse
-WeakBlock::collision(GameObject& other, const CollisionHit& hit)
+WeakBlock::collision(MovingObject& other, const CollisionHit& hit)
 {
   switch (state) {
 

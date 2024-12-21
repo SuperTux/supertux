@@ -237,7 +237,7 @@ Coin::collect()
 }
 
 HitResponse
-Coin::collision(GameObject& other, const CollisionHit& )
+Coin::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*>(&other);
   if (player == nullptr)

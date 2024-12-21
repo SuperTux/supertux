@@ -33,7 +33,7 @@ public:
 protected:
   void loose_head();
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit) override;
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 private:
   Snowman(const Snowman&) = delete;

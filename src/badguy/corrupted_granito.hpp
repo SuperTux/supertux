@@ -34,7 +34,7 @@ public:
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
   virtual void active_update(float dt_sec) override;
 
   virtual void unfreeze(bool melt = true) override;

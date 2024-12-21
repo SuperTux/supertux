@@ -42,7 +42,6 @@ class ItemIntField;
 class ItemLabel;
 class ItemPaths;
 class ItemScript;
-class ItemScriptLine;
 class ItemList;
 class ItemStringSelect;
 class ItemTextField;
@@ -77,7 +76,9 @@ public:
   ItemHorizontalLine& add_hl();
   ItemLabel& add_label(const std::string& text);
   ItemAction& add_entry(int id, const std::string& text);
+  ItemAction& add_entry(int id, const std::string& text, const Color& text_color);
   ItemAction& add_entry(const std::string& text, const std::function<void()>& callback);
+  ItemAction& add_entry(const std::string& text, const std::function<void()>& callback, const Color& text_color);
   ItemToggle& add_toggle(int id, const std::string& text, bool* toggled, bool center_text = false);
   ItemToggle& add_toggle(int id, const std::string& text,
                          const std::function<bool()>& get_func,
@@ -91,7 +92,6 @@ public:
   ItemStringSelect& add_string_select(int id, const std::string& text, int default_item, const std::vector<std::string>& strings);
   ItemTextField& add_textfield(const std::string& text, std::string* input, int id = -1);
   ItemScript& add_script(const std::string& text, std::string* script, int id = -1);
-  ItemScriptLine& add_script_line(std::string* input, int id = -1);
   ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false);
   ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
   ItemAction& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
@@ -121,8 +121,8 @@ public:
   int get_active_item_id() const;
   void set_active_item(int id);
 
-  Vector get_center_pos() const { return m_pos; }
-  void set_center_pos(float x, float y);
+  inline Vector get_center_pos() const { return m_pos; }
+  inline void set_center_pos(float x, float y) { m_pos.x = x; m_pos.y = y; }
 
   float get_width() const;
   float get_height() const;

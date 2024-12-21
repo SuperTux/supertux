@@ -78,7 +78,8 @@ public:
   /** unserialize statistics object from squirrel table "statistics" */
   void unserialize_from_squirrel(const ssq::Table& table);
 
-  const Preferences& get_preferences() const { return m_preferences; }
+  inline Preferences& get_preferences() { return m_preferences; }
+  inline const Preferences& get_preferences() const { return m_preferences; }
   void add_preferences_to_menu(Menu& menu);
 
   void draw_worldmap_info(DrawingContext& context, float target_time); /**< draw worldmap stat HUD */
@@ -88,18 +89,18 @@ public:
   /** Updates the timers for in-game stats rendering. Should be used from the same object that calls draw_ingame_stats(). */
   void update_timers(float dt_sec);
 
-  void init(const Level& level, const Preferences& preferences);
+  void init(const Level& level);
   void finish(float time);
   void invalidate();
 
   void update(const Statistics& stats); /**< Given another Statistics object finds the best of each one */
   bool completed(const float target_time) const; /* Check if stats match total stats */
 
-  int get_coins() const { return m_coins; }
-  int get_badguys() const { return m_badguys; }
-  int get_secrets() const { return m_secrets; }
-  float get_time() const { return m_time; }
-  Status get_status() const { return m_status; }
+  inline int get_coins() const { return m_coins; }
+  inline int get_badguys() const { return m_badguys; }
+  inline int get_secrets() const { return m_secrets; }
+  inline float get_time() const { return m_time; }
+  inline Status get_status() const { return m_status; }
 
   void increment_coins() { m_coins++; check_coins(); }
   void increment_badguys() { m_badguys++; check_badguys(); }

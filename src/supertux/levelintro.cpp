@@ -84,7 +84,7 @@ LevelIntro::update(float dt_sec, const Controller& controller)
       continue;
 
     auto bonus_prefix = m_player_status.get_bonus_prefix(i);
-    if (m_player_status.bonus[i] == FIRE_BONUS && g_config->christmas_mode)
+    if (m_player_status.bonus[i] == BONUS_FIRE && g_config->christmas_mode)
     {
       bonus_prefix = "big";
     }
@@ -152,10 +152,10 @@ LevelIntro::draw(Compositor& compositor)
     m_player_sprite[i]->draw(context.color(), Vector((context.get_width() - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
                                                 static_cast<float>(py) + m_player_sprite_py[i] - m_player_sprite[i]->get_current_hitbox_height()), LAYER_FOREGROUND1);
 
-    Color power_color = (m_player_status.bonus[i] == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
-      m_player_status.bonus[i] == ICE_BONUS ? Color(0.7f, 1.f, 1.f) :
-      m_player_status.bonus[i] == AIR_BONUS ? Color(0.7f, 1.f, 0.5f) :
-      m_player_status.bonus[i] == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
+    Color power_color = (m_player_status.bonus[i] == BONUS_FIRE ? Color(1.f, 0.7f, 0.5f) :
+      m_player_status.bonus[i] == BONUS_ICE ? Color(0.7f, 1.f, 1.f) :
+      m_player_status.bonus[i] == BONUS_AIR ? Color(0.7f, 1.f, 0.5f) :
+      m_player_status.bonus[i] == BONUS_EARTH ? Color(1.f, 0.9f, 0.6f) :
       Color(1.f, 1.f, 1.f));
 
     m_player_sprite[i]->set_color(power_color);
@@ -241,7 +241,7 @@ LevelIntro::push_player()
   m_player_sprite_jump_timer.push_back(std::make_unique<Timer>());
 
   //Show appropriate tux animation for player status.
-  if (m_player_status.bonus[i] == FIRE_BONUS && g_config->christmas_mode)
+  if (m_player_status.bonus[i] == BONUS_FIRE && g_config->christmas_mode)
   {
     m_player_sprite[i]->set_action("big-walk-right");
     m_santa_sprite[i]->set_action("default");

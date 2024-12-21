@@ -140,7 +140,7 @@ SkyDive::collision_player(Player&, const CollisionHit& hit)
 }
 
 bool
-SkyDive::collision_squished(GameObject& obj)
+SkyDive::collision_squished(MovingObject& obj)
 {
   if (m_frozen)
     return BadGuy::collision_squished(obj);

@@ -184,7 +184,7 @@ Rock::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Rock::collision(GameObject& other, const CollisionHit& hit)
+Rock::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto heavy_coin = dynamic_cast<HeavyCoin*> (&other);
   if (heavy_coin) {

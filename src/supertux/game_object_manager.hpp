@@ -216,7 +216,8 @@ public:
     }
   }
 
-  /** Move an object to another GameObjectManager. */
+  /** Move an object to another GameObjectManager.
+      NOTE: The UID of the object will be re-generated. */
   void move_object(const UID& uid, GameObjectManager& other);
 
   /** Register a callback to be called once the given name can be
@@ -244,24 +245,22 @@ public:
   int get_object_count(std::function<bool(const T&)> predicate = nullptr) const
   {
     int total = 0;
-    for (const auto& obj : get_objects_by_type_index(typeid(T))) {
-      auto object = static_cast<T*>(obj);
-      if (object && (predicate == nullptr || predicate(*object)))
-      {
+    for (auto& obj : get_objects_by_type<T>())
+    {
+      if (predicate == nullptr || predicate(obj))
         total += 1;
-      }
     }
     return total;
   }
 
-  const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
-  const std::vector<TileMap*>& get_all_tilemaps() const { return m_all_tilemaps; }
+  inline const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
+  inline const std::vector<TileMap*>& get_all_tilemaps() const { return m_all_tilemaps; }
   
   void update_solid(TileMap* solid);
 
   /** Toggle object change tracking for undo/redo. */
   void toggle_undo_tracking(bool enabled);
-  bool undo_tracking_enabled() const { return m_undo_tracking; }
+  inline bool undo_tracking_enabled() const { return m_undo_tracking; }
 
   /** Set undo stack size. */
   void set_undo_stack_size(int size);
@@ -355,6 +354,10 @@ private:
 
   /** container for newly created objects, they'll be added in flush_game_objects() */
   std::vector<std::unique_ptr<GameObject>> m_gameobjects_new;
+
+  /** Former UIDs of all objects moved to another GameObjectManager.
+      Will be assigned back to any of the objects if they are moved back here. */
+  std::unordered_map<GameObject*, UID> m_moved_object_uids;
 
   /** Fast access to solid tilemaps */
   std::vector<TileMap*> m_solid_tilemaps;

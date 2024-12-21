@@ -116,7 +116,7 @@ Totem::active_update(float dt_sec)
 }
 
 bool
-Totem::collision_squished(GameObject& object)
+Totem::collision_squished(MovingObject& object)
 {
   /// Tux shouldn't be able to bisect totem stack by sacrificing his powerup.
   /// --Hume2
