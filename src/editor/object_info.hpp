@@ -26,8 +26,8 @@ class ObjectInfo final
 public:
   ObjectInfo();
 
-  int get_num_worldmap_groups() const { return get_num_groups(true); }
-  int get_num_level_groups() const { return get_num_groups(false); }
+  inline int get_num_worldmap_groups() const { return get_num_groups(true); }
+  inline int get_num_level_groups() const { return get_num_groups(false); }
 
   int get_first_worldmap_group_index() const;
 

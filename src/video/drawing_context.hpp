@@ -48,72 +48,67 @@ public:
   /** Returns the visible area in world coordinates */
   Rectf get_cliprect() const;
 
-  Canvas& color() { return m_colormap_canvas; }
-  Canvas& light() { assert(!m_overlay); return m_lightmap_canvas; }
-  Canvas& get_canvas(DrawingTarget target) {
-    switch (target)
-    {
-      case DrawingTarget::LIGHTMAP:
-        return light();
+  inline Canvas& color() { return m_colormap_canvas; }
+  inline Canvas& light() { assert(!m_overlay); return m_lightmap_canvas; }
+  Canvas& get_canvas(DrawingTarget target);
 
-      default:
-        return color();
-    }
+  inline void set_ambient_color(Color ambient_color) { m_ambient_color = ambient_color; }
+  inline Color get_ambient_color() const { return m_ambient_color; }
+
+  inline void push_transform()
+  {
+    m_transform_stack.push_back(transform());
+  }
+  inline void pop_transform()
+  {
+    m_transform_stack.pop_back();
+    assert(!m_transform_stack.empty());
+  }
+  inline DrawingTransform& transform()
+  {
+    assert(!m_transform_stack.empty());
+    return m_transform_stack.back();
+  }
+  inline const DrawingTransform& transform() const
+  {
+    assert(!m_transform_stack.empty());
+    return m_transform_stack.back();
   }
 
-  void set_ambient_color(Color ambient_color);
-  Color get_ambient_color() const { return m_ambient_color; }
+  inline const Vector& get_translation() const { return transform().translation; }
+  inline void set_translation(const Vector& translation) { transform().translation = translation; }
 
-  void push_transform();
-  void pop_transform();
-  DrawingTransform& transform();
-  const DrawingTransform& transform() const;
-
-  const Vector& get_translation() const
-  {  return transform().translation;  }
-
-  void set_translation(const Vector& newtranslation)
-  {  transform().translation = newtranslation;  }
-
-  float get_scale() const { return transform().scale; }
-  void scale(float scale) { transform().scale *= scale; }
+  inline float get_scale() const { return transform().scale; }
+  inline void scale(float scale) { transform().scale *= scale; }
+  
+  /** Recalculates the scaling factor for parallax layers.*/
+  bool perspective_scale(float speed_x, float speed_y);
 
   /** Apply that flip in the next draws (flips are listed on surface.h). */
-  void set_flip(Flip flip);
-  Flip get_flip() const;
+  inline void set_flip(Flip flip) { transform().flip = flip; }
+  inline Flip get_flip() const { return transform().flip; }
 
   /** apply that alpha in the next draws (1.0 means fully opaque) */
-  void set_alpha(float alpha);
-  float get_alpha() const;
+  inline void set_alpha(float alpha) { transform().alpha = alpha; } 
+  inline float get_alpha() const { return transform().alpha; }
 
   /** For position extrapolation at high frame rates: real time since last game update step */
-  void set_time_offset(float time_offset) { m_time_offset = time_offset; }
-  float get_time_offset() const { return m_time_offset; }
+  inline void set_time_offset(float time_offset) { m_time_offset = time_offset; }
+  inline float get_time_offset() const { return m_time_offset; }
 
-  void clear()
-  {
-    m_lightmap_canvas.clear();
-    m_colormap_canvas.clear();
-  }
+  void clear();
 
-  void set_viewport(const Rect& viewport)
-  {
-    transform().viewport = viewport;
-  }
-
-  const Rect& get_viewport() const;
+  inline void set_viewport(const Rect& viewport) { transform().viewport = viewport; }
+  inline const Rect& get_viewport() const { return transform().viewport; }
 
   float get_width() const;
   float get_height() const;
   Vector get_size() const;
-  Rectf get_rect() const { return Rectf(Vector(0, 0), get_size()); }
+  inline Rectf get_rect() const { return Rectf(Vector(0, 0), get_size()); }
 
-  bool use_lightmap() const
-  {
-    return !m_overlay && m_ambient_color != Color::WHITE;
-  }
+  bool use_lightmap() const;
 
-  bool is_overlay() const { return m_overlay; }
+  inline bool is_overlay() const { return m_overlay; }
 
 private:
   VideoSystem& m_video_system;

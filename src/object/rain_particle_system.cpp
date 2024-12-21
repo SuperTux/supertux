@@ -19,8 +19,12 @@
 #include <assert.h>
 #include <math.h>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "math/easing.hpp"
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
 #include "supertux/sector.hpp"
@@ -32,18 +36,15 @@
 #include "video/viewport.hpp"
 
 RainParticleSystem::RainParticleSystem() :
-  ExposedObject<RainParticleSystem, scripting::Rain>(this),
   m_current_speed(1.f),
   m_target_speed(1.f),
   m_speed_fade_time_remaining(0.f),
-
   m_begin_angle(45.f),
   m_current_angle(45.f),
   m_target_angle(45.f),
   m_angle_fade_time_remaining(0.f),
   m_angle_fade_time_total(0.f),
   m_angle_easing(getEasingByName(EaseNone)),
-
   m_current_amount(1.f),
   m_target_amount(1.f),
   m_amount_fade_time_remaining(0.f),
@@ -54,18 +55,15 @@ RainParticleSystem::RainParticleSystem() :
 
 RainParticleSystem::RainParticleSystem(const ReaderMapping& reader) :
   ParticleSystem_Interactive(reader),
-  ExposedObject<RainParticleSystem, scripting::Rain>(this),
   m_current_speed(1.f),
   m_target_speed(1.f),
   m_speed_fade_time_remaining(0.f),
-
   m_begin_angle(45.f),
   m_current_angle(45.f),
   m_target_angle(45.f),
   m_angle_fade_time_remaining(0.f),
   m_angle_fade_time_total(0.f),
   m_angle_easing(getEasingByName(EaseNone)),
-
   m_current_amount(1.f),
   m_target_amount(1.f),
   m_amount_fade_time_remaining(0.f),
@@ -109,9 +107,7 @@ RainParticleSystem::get_settings()
 void RainParticleSystem::set_amount(float amount)
 {
   // Don't spawn too many particles to avoid destroying the player's computer
-  float real_amount = amount < min_amount ? min_amount
-    : amount > max_amount ? max_amount
-    : amount;
+  float real_amount = math::clamp(amount, min_amount, max_amount);
 
   int old_raindropcount = static_cast<int>(virtual_width*m_current_real_amount/6.0f);
   int new_raindropcount = static_cast<int>(virtual_width*real_amount/6.0f);
@@ -203,8 +199,7 @@ void RainParticleSystem::update(float dt_sec)
   float abs_y = cam_translation.y;
 
   for (auto& it : particles) {
-    auto particle = dynamic_cast<RainParticle*>(it.get());
-    assert(particle);
+    auto particle = static_cast<RainParticle*>(it.get());
 
     float movement = particle->speed * movement_multiplier;
     particle->pos.y += movement * cosf((particle->angle + 45.f) * 3.14159265f / 180.f);
@@ -252,6 +247,26 @@ void RainParticleSystem::fade_speed(float new_speed, float fade_time)
   m_speed_fade_time_remaining = fade_time;
 }
 
+void RainParticleSystem::fade_amount(float new_amount, float fade_time)
+{
+  // No check to enabled; change the fading even if it's disabled
+
+  // If time is 0 (or smaller?), then update() will never change m_current_amount
+  if (fade_time <= 0.f)
+  {
+    m_current_amount = new_amount;
+  }
+
+  m_target_amount = new_amount;
+  m_amount_fade_time_remaining = fade_time;
+}
+
+void
+RainParticleSystem::fade_angle(float angle, float time, const std::string& ease)
+{
+  fade_angle(angle, time, getEasingByName(EasingMode_from_string(ease)));
+}
+
 void RainParticleSystem::fade_angle(float new_angle, float fade_time, easing ease_func)
 {
   // No check to enabled; change the fading even if it's disabled
@@ -267,20 +282,6 @@ void RainParticleSystem::fade_angle(float new_angle, float fade_time, easing eas
   m_angle_fade_time_total = fade_time;
   m_angle_fade_time_remaining = fade_time;
   m_angle_easing = ease_func;
-}
-
-void RainParticleSystem::fade_amount(float new_amount, float fade_time)
-{
-  // No check to enabled; change the fading even if it's disabled
-
-  // If time is 0 (or smaller?), then update() will never change m_current_amount
-  if (fade_time <= 0.f)
-  {
-    m_current_amount = new_amount;
-  }
-
-  m_target_amount = new_amount;
-  m_amount_fade_time_remaining = fade_time;
 }
 
 void RainParticleSystem::draw(DrawingContext& context)
@@ -300,8 +301,19 @@ void RainParticleSystem::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
   context.color().draw_filled_rect(context.get_rect(),
                                    Color(0.3f, 0.38f, 0.4f, opacity),
-                                   199); // TODO: Change the hardcoded layer value with the rain's layer
+                                   z_pos);
   context.pop_transform();
+}
+
+
+void
+RainParticleSystem::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<RainParticleSystem>("RainParticleSystem", vm.findClass("ParticleSystem"));
+
+  cls.addFunc("fade_speed", &RainParticleSystem::fade_speed);
+  cls.addFunc("fade_amount", &RainParticleSystem::fade_amount);
+  cls.addFunc<void, RainParticleSystem, float, float, const std::string&>("fade_angle", &RainParticleSystem::fade_angle);
 }
 
 /* EOF */

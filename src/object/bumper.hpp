@@ -31,17 +31,20 @@ public:
   virtual ObjectSettings get_settings() override;
 
   virtual void update(float dt_sec) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "bumper"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Bumper"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return StickyObject::get_class_types().add(typeid(Bumper)); }
 
   virtual void after_editor_set() override;
   virtual void on_flip(float height) override;
 
   Physic& get_physic();
+
+  void bounce();
 
 private:
   Physic m_physic;

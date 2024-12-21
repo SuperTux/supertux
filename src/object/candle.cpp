@@ -16,6 +16,9 @@
 
 #include "object/candle.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "math/random.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
@@ -26,7 +29,6 @@
 
 Candle::Candle(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED),
-  ExposedObject<Candle, scripting::Candle>(this),
   burning(true),
   flicker(true),
   lightcolor(1.0f, 1.0f, 1.0f),
@@ -37,7 +39,7 @@ Candle::Candle(const ReaderMapping& mapping) :
   mapping.get("flicker", flicker, true);
   std::vector<float> vColor;
   if (!mapping.get("color", vColor)) vColor = {1.0f, 1.0f, 1.0f};
-  mapping.get("layer", m_layer, 0);
+  mapping.get("layer", m_layer); // Backwards compatibility
 
   // Change the light color if defined.
   if (vColor.size() >= 3) {
@@ -73,9 +75,8 @@ Candle::get_settings()
   result.add_bool(_("Burning"), &burning, "burning", true);
   result.add_bool(_("Flicker"), &flicker, "flicker", true);
   result.add_color(_("Color"), &lightcolor, "color", Color::WHITE);
-  result.add_int(_("Layer"), &m_layer, "layer", 0);
 
-  result.reorder({"burning", "flicker", "name", "sprite", "color", "layer", "x", "y"});
+  result.reorder({"burning", "flicker", "name", "sprite", "color", "z-pos", "x", "y"});
 
   return result;
 }
@@ -101,7 +102,7 @@ Candle::draw(DrawingContext& context)
 }
 
 HitResponse
-Candle::collision(GameObject&, const CollisionHit& )
+Candle::collision(MovingObject&, const CollisionHit& )
 {
   return FORCE_MOVE;
 }
@@ -117,12 +118,6 @@ Candle::puff_smoke()
                                          ppos, ANCHOR_MIDDLE,
                                          pspeed, paccel,
                                          LAYER_BACKGROUNDTILES+2);
-}
-
-bool
-Candle::get_burning() const
-{
-  return burning;
 }
 
 void
@@ -144,6 +139,19 @@ Candle::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+
+void
+Candle::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Candle>("Candle", vm.findClass("MovingSprite"));
+
+  cls.addFunc("puff_smoke", &Candle::puff_smoke);
+  cls.addFunc("get_burning", &Candle::get_burning);
+  cls.addFunc("set_burning", &Candle::set_burning);
+
+  cls.addVar("burning", &Candle::get_burning, &Candle::set_burning);
 }
 
 /* EOF */

@@ -54,20 +54,23 @@ public:
   BonusBlock(const ReaderMapping& mapping);
 
   virtual void hit(Player& player) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
 
   static std::string class_name() { return "bonusblock"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Bonus Block"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Block::get_class_types().add(typeid(BonusBlock)); }
 
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
 
-  Content get_contents() const { return m_contents; }
-  int get_hit_counter() const { return m_hit_counter; }
+  int get_coins_worth() const override;
+
+  inline Content get_contents() const { return m_contents; }
+  inline int get_hit_counter() const { return m_hit_counter; }
 
   void try_open(Player* player);
 

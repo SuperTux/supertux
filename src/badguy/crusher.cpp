@@ -120,7 +120,7 @@ Crusher::on_type_change(int old_type)
 }
 
 HitResponse
-Crusher::collision(GameObject& other, const CollisionHit& hit)
+Crusher::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto* player = dynamic_cast<Player*>(&other);
 
@@ -468,14 +468,15 @@ Crusher::spawn_roots(Direction direction)
 void
 Crusher::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer + 2, m_flip);
+  Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
+  m_sprite->draw(context.color(), draw_pos, m_layer + 2, m_flip);
   if (m_sprite->has_action("whites"))
   {
     // Draw crusher's eyes slightly behind.
-    m_lefteye->draw(context.color(), get_pos() + eye_position(false), m_layer + 1, m_flip);
-    m_righteye->draw(context.color(), get_pos() + eye_position(true), m_layer + 1, m_flip);
+    m_lefteye->draw(context.color(), draw_pos + eye_position(false), m_layer + 1, m_flip);
+    m_righteye->draw(context.color(), draw_pos + eye_position(true), m_layer + 1, m_flip);
     // Draw the whites of crusher's eyes even further behind.
-    m_whites->draw(context.color(), get_pos(), m_layer, m_flip);
+    m_whites->draw(context.color(), draw_pos, m_layer, m_flip);
   }
 }
 
@@ -685,7 +686,7 @@ CrusherRoot::CrusherRoot(Vector position, Crusher::Direction direction, float de
 }
 
 HitResponse
-CrusherRoot::collision(GameObject& other, const CollisionHit& hit)
+CrusherRoot::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (delay_gone())
   {

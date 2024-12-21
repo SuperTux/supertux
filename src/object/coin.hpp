@@ -36,13 +36,14 @@ public:
   Coin(const ReaderMapping& reader, bool count_stats = true);
   virtual void finish_construction() override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void update(float dt_sec) override;
   static std::string class_name() { return "coin"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Coin"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(PathObject)).add(typeid(Coin)); }
 
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override;
@@ -50,6 +51,8 @@ public:
 
   virtual void after_editor_set() override;
   virtual void editor_update() override;
+
+  int get_coins_worth() const override { return 1; }
 
   void save_state() override;
   void check_state() override;
@@ -96,6 +99,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Heavy Coin"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Coin::get_class_types().add(typeid(HeavyCoin)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

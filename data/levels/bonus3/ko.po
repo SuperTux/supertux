@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
 "Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
@@ -29,7 +29,7 @@ msgstr "\"영하89,2도\"로 알려진 레벨"
 msgid "Global Warming"
 msgstr "지구 온난화"
 
-#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
+#: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
 msgstr "하늘에서의 첫날 밤"
 
@@ -81,7 +81,7 @@ msgstr "#잘했어요! 빨간 랜턴을 가지고 계셨군요! 여러분은 그
 msgid "Coconut Fortress"
 msgstr "코코넛 요새"
 
-#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
+#: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
 msgstr "크리스탈 석양"
 
@@ -142,7 +142,7 @@ msgstr "꽃 보너스"
 msgid "After the Glaciers"
 msgstr "빙하 이후"
 
-#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
+#: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
 msgstr "지붕에 매달리기"
 
@@ -218,7 +218,7 @@ msgstr "눈 덮힌 언덕"
 msgid "Three Frosty Icebergs"
 msgstr "서리가 내린 빙산 셋"
 
-#: ⁨data/levels/bonus3/under ice.stl⁩:3
+#: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
 msgstr "얼음 밑으로"
 

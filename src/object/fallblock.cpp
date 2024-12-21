@@ -68,7 +68,7 @@ FallBlock::update(float dt_sec)
 }
 
 HitResponse
-FallBlock::collision(GameObject& other, const CollisionHit& hit)
+FallBlock::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto fallblock = dynamic_cast<FallBlock*> (&other);
   if (fallblock && hit.bottom && (m_state == FALL || m_state == LAND))

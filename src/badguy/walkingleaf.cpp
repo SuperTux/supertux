@@ -118,7 +118,7 @@ WalkingLeaf::active_update(float dt_sec)
 }
 
 bool
-WalkingLeaf::collision_squished(GameObject& object)
+WalkingLeaf::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);

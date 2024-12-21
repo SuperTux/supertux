@@ -46,6 +46,13 @@ language.settings.xml
 # JetBrains IDE project files
 .idea/
 
+# Emacs
+*~
+\#*\#
+.\#*
+.dir-locals.el
+.projectile
+
 # Windows build dependencies
 dependencies*/
 

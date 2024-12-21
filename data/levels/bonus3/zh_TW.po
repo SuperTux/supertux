@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>, 2019\n"
 "Language-Team: Chinese (Taiwan) (http://app.transifex.com/arctic-games/supertux/language/zh_TW/)\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "Global Warming"
 msgstr "全球暖化"
 
-#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
+#: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
 msgstr "某晚的夜空"
 
@@ -79,7 +79,7 @@ msgstr "#做得好！您保留了紅燈籠！您雖然不需要，所以就有�
 msgid "Coconut Fortress"
 msgstr "椰子要塞"
 
-#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
+#: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
 msgstr "水晶日落"
 
@@ -140,7 +140,7 @@ msgstr "花兒紅利"
 msgid "After the Glaciers"
 msgstr "冰川之後"
 
-#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
+#: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
 msgstr "吊在天花板"
 
@@ -216,7 +216,7 @@ msgstr "一座雪山"
 msgid "Three Frosty Icebergs"
 msgstr "三個結凍的冰堡"
 
-#: ⁨data/levels/bonus3/under ice.stl⁩:3
+#: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
 msgstr "冰之下"
 

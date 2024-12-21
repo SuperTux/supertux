@@ -19,20 +19,17 @@
 
 #include "object/moving_sprite.hpp"
 #include "object/portable.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/rock.hpp"
 #include "supertux/physic.hpp"
 
 class Rock : public MovingSprite,
-             public Portable,
-             public ExposedObject<Rock, scripting::Rock>
+             public Portable
 {
 public:
   Rock(const ReaderMapping& reader, const std::string& spritename = "images/objects/rock/rock.sprite");
   Rock(const Vector& pos, const std::string& spritename = "images/objects/rock/rock.sprite");
 
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
@@ -42,14 +39,16 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Rock"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Portable)).add(typeid(Rock)); }
 
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
+  void draw(DrawingContext& context) override;
 
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
-  Physic& get_physic() { return physic; }
+  inline Physic& get_physic() { return physic; }
 
 private:
   enum Type {

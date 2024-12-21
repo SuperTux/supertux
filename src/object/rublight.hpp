@@ -26,13 +26,14 @@ class RubLight final : public MovingSprite
 public:
   RubLight(const ReaderMapping& mapping);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   static std::string class_name() { return "rublight"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Rublight"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(RubLight)); }
   virtual ObjectSettings get_settings() override;
 
   virtual void on_flip(float height) override;

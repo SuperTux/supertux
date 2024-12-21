@@ -39,8 +39,8 @@ public:
   void update();
   void draw(DrawingContext& context);
 
-  void set(const Rectf& rect) { m_to_rect = m_from_rect = rect; }
-  bool is_active() const { return m_is_active; }
+  inline void set(const Rectf& rect) { m_to_rect = m_from_rect = rect; }
+  inline bool is_active() const { return m_is_active; }
 };
 
 #endif

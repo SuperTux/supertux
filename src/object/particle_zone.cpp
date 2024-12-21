@@ -23,7 +23,6 @@
 
 ParticleZone::ParticleZone(const ReaderMapping& reader) :
   MovingObject(reader),
-  //ExposedObject<ParticleZone, scripting::Wind>(this),
   m_enabled(),
   m_particle_name()
 {
@@ -109,7 +108,7 @@ ParticleZone::draw(DrawingContext& context)
 }
 
 HitResponse
-ParticleZone::collision(GameObject& other, const CollisionHit& hit)
+ParticleZone::collision(MovingObject& other, const CollisionHit& hit)
 {
   return ABORT_MOVE;
 }

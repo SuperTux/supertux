@@ -70,7 +70,7 @@ Toad::set_state(ToadState newState)
 }
 
 bool
-Toad::collision_squished(GameObject& object)
+Toad::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);

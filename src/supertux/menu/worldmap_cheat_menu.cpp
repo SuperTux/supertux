@@ -71,41 +71,37 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
   {
     case MNID_GROW:
       do_cheat(status, [&status](int player) {
-        status.bonus[player] = GROWUP_BONUS;
+        status.bonus[player] = BONUS_GROWUP;
       });
       break;
 
     case MNID_FIRE:
-      do_cheat(status, [&status](int player, int count) {
-        status.bonus[player] = FIRE_BONUS;
-        status.max_fire_bullets[player] = count;
+      do_cheat(status, [&status](int player) {
+        status.bonus[player] = BONUS_FIRE;
       });
       break;
 
     case MNID_ICE:
-      do_cheat(status, [&status](int player, int count) {
-        status.bonus[player] = ICE_BONUS;
-        status.max_ice_bullets[player] = count;
+      do_cheat(status, [&status](int player) {
+        status.bonus[player] = BONUS_ICE;
       });
       break;
 
     case MNID_AIR:
-      do_cheat(status, [&status](int player, int count) {
-        status.bonus[player] = AIR_BONUS;
-        status.max_air_time[player] = count;
+      do_cheat(status, [&status](int player) {
+        status.bonus[player] = BONUS_AIR;
       });
       break;
 
     case MNID_EARTH:
-      do_cheat(status, [&status](int player, int count) {
-        status.bonus[player] = EARTH_BONUS;
-        status.max_earth_time[player] = count;
+      do_cheat(status, [&status](int player) {
+        status.bonus[player] = BONUS_EARTH;
       });
       break;
 
     case MNID_SHRINK:
       do_cheat(status, [&status](int player) {
-        status.bonus[player] = NO_BONUS;
+        status.bonus[player] = BONUS_NONE;
       });
       break;
 
@@ -172,13 +168,6 @@ WorldmapCheatMenu::do_cheat(PlayerStatus& status,
   {
     MenuManager::instance().push_menu(std::make_unique<WorldmapCheatApplyMenu>(status.m_num_players, callback));
   }
-}
-
-void
-WorldmapCheatMenu::do_cheat(PlayerStatus& status,
-                            std::function<void(int, int)> callback)
-{
-  MenuManager::instance().push_menu(std::make_unique<WorldmapCheatApplyMenu>(status.m_num_players, callback));
 }
 
 WorldmapLevelSelectMenu::WorldmapLevelSelectMenu()

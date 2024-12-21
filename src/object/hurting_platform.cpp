@@ -26,7 +26,7 @@ HurtingPlatform::HurtingPlatform(const ReaderMapping& reader)
 }
 
 HitResponse
-HurtingPlatform::collision(GameObject& other, const CollisionHit& )
+HurtingPlatform::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*>(&other);
   if (player) {

@@ -54,7 +54,7 @@ public:
   ReaderMapping as_mapping() const;
 
   const sexp::Value& get_sexp() const;
-  const ReaderDocument& get_doc() const { return m_doc; }
+  inline const ReaderDocument& get_doc() const { return m_doc; }
 
 private:
   const ReaderDocument& m_doc;

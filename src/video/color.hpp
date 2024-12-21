@@ -17,9 +17,10 @@
 #ifndef HEADER_SUPERTUX_VIDEO_COLOR_HPP
 #define HEADER_SUPERTUX_VIDEO_COLOR_HPP
 
-#include <string>
-#include <vector>
 #include <math.h>
+#include <string>
+#include <optional>
+#include <vector>
 
 #include <SDL_image.h>
 
@@ -38,7 +39,7 @@ public:
     {
     }
 
-    Color validate() const { return Color(r, g, b, a); }
+    inline Color validate() const { return Color(r, g, b, a); }
 
     CalculateColor operator+(const CalculateColor& o) const { return CalculateColor(r + o.r, g + o.g, b + o.b, a + o.a); }
     CalculateColor operator-(const CalculateColor& o) const { return CalculateColor(r - o.r, g - o.g, b - o.b, a - o.a); }
@@ -81,6 +82,12 @@ public:
                  static_cast<float>(a) / 255.0f);
   }
 
+  static std::optional<Color> deserialize_from_rgb(const std::string& rgb_string);
+  static std::optional<Color> deserialize_from_hex(const std::string& hex_string);
+
+  static std::string serialize_to_rgb(const Color& color);
+  static std::string serialize_to_hex(const Color& color);
+
   static Color from_linear(float r, float g, float b, float a = 1.0f)
   {
     return Color(add_gamma(r), add_gamma(g), add_gamma(b), a);
@@ -95,7 +102,7 @@ public:
 
   Color(float red_, float green_, float blue_, float alpha_ = 1.0);
 
-  Color(const std::vector<float>& vals);
+  Color(const std::vector<float>& vals, bool use_alpha = true);
 
   bool operator==(const Color& other) const;
   bool operator!=(const Color& other) const;

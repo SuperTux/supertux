@@ -35,19 +35,20 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Special Tile"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return WorldMapObject::get_class_types().add(typeid(SpecialTile)); }
 
   virtual void draw_worldmap(DrawingContext& context) override;
 
   virtual ObjectSettings get_settings() override;
 
-  const std::string& get_map_message() const { return m_map_message; }
-  bool is_passive_message() const { return m_passive_message; }
-  const std::string& get_script() const { return m_script; }
+  inline const std::string& get_map_message() const { return m_map_message; }
+  inline bool is_passive_message() const { return m_passive_message; }
+  inline const std::string& get_script() const { return m_script; }
 
-  bool get_apply_action_north() const { return m_apply_action_north; }
+  inline bool get_apply_action_north() const { return m_apply_action_north; }
   bool get_apply_action_east() const  { return m_apply_action_east; }
-  bool get_apply_action_south() const { return m_apply_action_south; }
-  bool get_apply_action_west() const { return m_apply_action_west; }
+  inline bool get_apply_action_south() const { return m_apply_action_south; }
+  inline bool get_apply_action_west() const { return m_apply_action_west; }
 
 private:
   /** Message to show in the Map */

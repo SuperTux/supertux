@@ -31,10 +31,10 @@ public:
   Viewport(const Rect& rect, const Vector& scale);
 
   /** The size of the viewport in window coordinates */
-  Rect get_rect() const { return m_rect; }
+  inline Rect get_rect() const { return m_rect; }
 
   /** The amount by which the content of the viewport is scaled */
-  Vector get_scale() const { return m_scale; }
+  inline Vector get_scale() const { return m_scale; }
 
   /** The width of the resulting logical screen */
   int get_screen_width() const;
