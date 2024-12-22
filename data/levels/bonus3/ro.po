@@ -5,7 +5,7 @@
 # Translators:
 # IAN RODRÍGUEZ Lorenzo, 2023
 # Nicolae Crefelean, 2015-2016,2019
-# drazvan, 2019
+# 71d45c7c1a9179c8a452e884483fb30c_8a14ce5, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
