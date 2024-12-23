@@ -17,7 +17,7 @@
 
 #include "badguy/yeti.hpp"
 
-#include <math.h>
+#include <cmath>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/bouncing_snowball.hpp"
@@ -79,8 +79,6 @@ Yeti::Yeti(const ReaderMapping& reader) :
   m_hud_head = Surface::from_file(m_hud_icon);
   SoundManager::current()->preload("sounds/yeti_gna.wav");
   SoundManager::current()->preload("sounds/yeti_roar.wav");
-
-  //initialize();
 
   reader.get("fixed-pos", m_fixed_pos, false);
   if (m_fixed_pos) {
@@ -326,10 +324,17 @@ Yeti::active_update(float dt_sec)
       break;
 
     case DIZZY:
-      if (might_fall(BadGuy::s_normal_max_drop_height))
+      if (m_state_timer.check() ||
+          might_fall(BadGuy::s_normal_max_drop_height))
       {
         bust();
       }
+
+      break;
+
+    case BUSTED:
+      if (m_state_timer.check())
+        run_dead_script();
 
       break;
 
@@ -448,16 +453,19 @@ Yeti::turn_dizzy()
 
   m_state = DIZZY;
   set_group(COLGROUP_MOVING_ONLY_STATIC);
+
+  m_state_timer.start(4.f);
 }
 
 void
-Yeti::bust()
+Yeti::bust() // You see, it's funny because
 {
   m_state = BUSTED;
   set_action("busted", invert_dir(m_dir));
 
   m_physic.set_velocity_x(0);
-  run_dead_script();
+  Sector::get().get_camera().shake(.1f, 0, 16.f);
+  m_state_timer.start(1.5f);
 }
 
 bool
