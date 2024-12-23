@@ -29,7 +29,7 @@ function Ncutscene(){
 
 start_cutscene();
 Camera.set_mode(\"manual\");
-Effect.sixteen_to_nine(1);
+Effect.sixteen_to_nine(1);`
 Tux.deactivate();
 wait(0.7);
 
@@ -312,6 +312,14 @@ end_cutscene();
     )
     (music
       (file "/music/antarctic/crystalmine_intro.music")
+    )
+    (particle-zone
+      (enabled #f)
+      (particle-name "Requires dispenser fix PR, please remove cutscene and platform and add init script to disable dispenser; add script to enable dispenser")
+      (width 32)
+      (height 32)
+      (x 416)
+      (y 1216)
     )
     (path
       (name "gen17333669741885473189568")
