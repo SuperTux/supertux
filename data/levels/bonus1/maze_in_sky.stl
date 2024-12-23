@@ -412,7 +412,7 @@
     (firefly
       (z-pos 0)
       (x 7584)
-      (y 704)
+      (y 784)
     )
     (gradient
       (top_color 0.5 0.7 0.6)
@@ -536,7 +536,7 @@
     (key
       (z-pos 50)
       (x 7576)
-      (y 768)
+      (y 704)
     )
     (mrbomb
       (z-pos 50)
@@ -1034,7 +1034,7 @@ wait(2);
 Level.spawn(\"go-back\", \"main\");")
       (button #f)
       (x 7576)
-      (y 768)
+      (y 704)
     )
     (scripttrigger
       (width 128)
