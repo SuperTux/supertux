@@ -1,7 +1,7 @@
 (supertux-level
   (version 3)
   (name (_ "High Gravity"))
-  (author "bruhmoent and FrostC")
+  (author "bruhmoent & FrostC")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 200)
   (allow-item-pocket "inherit")

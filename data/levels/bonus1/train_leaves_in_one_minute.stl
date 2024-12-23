@@ -1,7 +1,7 @@
 (supertux-level
   (version 3)
   (name (_ "Train Leaves in One Minute"))
-  (author "bruhmoent, Servalot, FrostC")
+  (author "bruhmoent, Servalot & FrostC")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 60)
   (allow-item-pocket "inherit")

@@ -1,7 +1,7 @@
 (supertux-level
   (version 3)
   (name (_ "Another Cold Day..."))
-  (author "Daniel Ward and FrostC")
+  (author "Daniel Ward & FrostC")
   (license "CC-BY-SA 4.0 International")
   (target-time 67)
   (allow-item-pocket "inherit")

@@ -1,7 +1,7 @@
 (supertux-level
   (version 3)
   (name (_ "Luft Airship"))
-  (author "Sevenberry and Daniel Ward")
+  (author "Sevenberry & Daniel Ward")
   (license "CC-BY-SA 4.0 International")
   (target-time 126)
   (allow-item-pocket "inherit")

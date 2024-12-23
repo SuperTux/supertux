@@ -1,7 +1,7 @@
 (supertux-level
   (version 3)
   (name (_ "Semi-Frozen"))
-  (author "Daniel Ward and Servalot")
+  (author "Daniel Ward & Servalot")
   (license "CC-BY-SA 4.0 International")
   (target-time 162)
   (allow-item-pocket "inherit")
