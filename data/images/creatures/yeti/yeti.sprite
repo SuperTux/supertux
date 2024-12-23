@@ -195,6 +195,7 @@
  (action
   (name "throw-right")
   (mirror-action "throw-left")
+  (fps 12)
   (loops 1)
   (hitbox 37 27 72 100)
  )
@@ -300,6 +301,7 @@
  (action
   (name "grab-right")
   (mirror-action "grab-left")
+  (fps 12)
   (loops 1)
   (hitbox 37 27 72 100)
   )
@@ -322,6 +324,7 @@
  (action
   (name "push-right")
   (mirror-action "push-left")
+  (fps 12)
   (loops 1)
   (hitbox 37 27 72 100)
   )
