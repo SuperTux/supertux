@@ -51,6 +51,7 @@ const float RUN_DISTANCE = 1060; /**< Distance between the x-coordinates of left
 const float JUMP_SPACE = 448; /**< Distance between the jump position and the stand position. */
 
 const float YETI_SQUISH_TIME = 3;
+const float TUX_GRAB_DISTANCE = 100.f;
 
 const float SNOW_EXPLOSIONS_FREQUENCY = 8; /**< Number of snowball explosions per second. */
 const int SNOW_EXPLOSIONS_COUNT = 5; /**< Number of snowballs per explosion. */
@@ -130,11 +131,11 @@ Yeti::active_update(float dt_sec)
   Boss::boss_update(dt_sec);
   auto player = get_nearest_player();
 
-  Vector grab_pos = get_bbox().get_middle() + Vector(32.f * (m_dir == Direction::RIGHT ? -1.f : 1.f), -32.f);
+  Vector grab_pos = get_bbox().get_middle();
   float push_distance;
   push_distance = player ? (glm::length(grab_pos - player->get_bbox().get_middle())) : 0.f;
 
-  if (on_ground() && is_idle() && push_distance <= 160.f && m_physic.get_velocity_x() == 0.f)
+  if (on_ground() && is_idle() && push_distance <= TUX_GRAB_DISTANCE && m_physic.get_velocity_x() == 0.f)
   {
     throw_tux();
   }
@@ -297,7 +298,7 @@ Yeti::active_update(float dt_sec)
       break;
 
     case THROW_TUX:
-      if (!m_grabbed_tux && push_distance < 160.f && player)
+      if (!m_grabbed_tux && push_distance < TUX_GRAB_DISTANCE && player)
       {
         player->get_physic().set_velocity(5.f * (grab_pos - player->get_bbox().get_middle()));
 
@@ -306,7 +307,7 @@ Yeti::active_update(float dt_sec)
           m_state_timer.start(BALL_WAIT / 2.f);
           m_grabbed_tux = true;
 
-          m_sprite->resume_animation();
+          set_action("push", m_dir);
           player->get_physic().set_velocity(m_dir == Direction::RIGHT ? 600.f : -600.f, -200.f);
         }
       }
@@ -426,8 +427,7 @@ void
 Yeti::throw_tux()
 {
   m_state = THROW_TUX;
-  set_action("tux-throw", m_dir, 1);
-  m_sprite->pause_animation();
+  set_action("grab", m_dir, 1);
   m_attacked = false;
   m_attack_count = 0;
 
