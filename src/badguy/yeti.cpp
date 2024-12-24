@@ -44,14 +44,14 @@ const float JUMP_UP_VY = -775; /**< Vertical speed while jumping on the dais. */
 const float STOMP_VY = -300; /**< Vertical speed while stomping on the dais. */
 
 const float BALL_SPEED = 1.3f;
-const float BALL_PINCH_SPEED = 1.6f;
+const float BALL_PINCH_SPEED = 1.5f;
 
-const float BEFORE_WAIT = 1;
-const float BALL_WAIT = 1;
-const float STOMP_WAIT = 0.25; /**< Time we stay on the dais before jumping again. */
-const float SAFE_TIME = 1; /**< The time we are safe when Tux just hit us. */
+const float BEFORE_WAIT = 1.f;
+const float BALL_WAIT = 0.8f;
+const float STOMP_WAIT = 0.25f; /**< Time we stay on the dais before jumping again. */
+const float SAFE_TIME = 1.f; /**< The time we are safe when Tux just hit us. */
 
-const float JUMP_SPACE = 13.f * 32.f; /**< Distance between the jump position and the stand position. */
+const float JUMP_SPACE = 13.5f * 32.f; /**< Distance between the jump position and the stand position. */
 
 const float YETI_SQUISH_TIME = 3;
 const float TUX_GRAB_DISTANCE = 100.f;
@@ -80,6 +80,8 @@ Yeti::Yeti(const ReaderMapping& reader) :
 {
   reader.get("hud-icon", m_hud_icon, "images/creatures/yeti/hudlife.png");
   m_hud_head = Surface::from_file(m_hud_icon);
+
+  SoundManager::current()->preload("sounds/thud.ogg");
   SoundManager::current()->preload("sounds/yeti_gna.wav");
   SoundManager::current()->preload("sounds/yeti_roar.wav");
 }
@@ -87,8 +89,17 @@ Yeti::Yeti(const ReaderMapping& reader) :
 void
 Yeti::initialize()
 {
-  m_next_state = RUN;
   recalculate_pos();
+
+  // Force all players to face the yeti because this way it looks epic...
+  // ... i think
+  bool playerdir = (invert_dir(m_dir) == Direction::RIGHT);
+  for (Player* player : Sector::get().get_players())
+  {
+    player->set_dir(playerdir);
+  }
+
+  m_next_state = RUN;
   announce(false);
 }
 
@@ -439,6 +450,7 @@ Yeti::stomp()
   set_action("leap", m_dir);
 
   m_physic.set_velocity_y(STOMP_VY);
+  SoundManager::current()->play("sounds/yeti_gna.wav", get_pos());
 }
 
 void
@@ -550,6 +562,8 @@ Yeti::kill_fall()
 void
 Yeti::drop_stalactite()
 {
+  SoundManager::current()->play("sounds/thud.ogg", get_pos());
+
   // Make a stalactite fall down and shake the camera a bit.
   Sector::get().get_camera().shake(.1f, 0, 20.f);
 
