@@ -22,6 +22,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/yeti_stalactite.hpp"
+#include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/bigsnowball.hpp"
@@ -42,13 +43,15 @@ const float RUN_PINCH_VX = 400; /**< Horizontal speed while running. */
 const float JUMP_UP_VY = -775; /**< Vertical speed while jumping on the dais. */
 const float STOMP_VY = -300; /**< Vertical speed while stomping on the dais. */
 
+const float BALL_SPEED = 1.3f;
+const float BALL_PINCH_SPEED = 1.6f;
+
 const float BEFORE_WAIT = 1;
 const float BALL_WAIT = 1;
 const float STOMP_WAIT = 0.25; /**< Time we stay on the dais before jumping again. */
 const float SAFE_TIME = 1; /**< The time we are safe when Tux just hit us. */
 
-const float RUN_DISTANCE = 1060; /**< Distance between the x-coordinates of left and right end positions. */
-const float JUMP_SPACE = 448; /**< Distance between the jump position and the stand position. */
+const float JUMP_SPACE = 13.f * 32.f; /**< Distance between the jump position and the stand position. */
 
 const float YETI_SQUISH_TIME = 3;
 const float TUX_GRAB_DISTANCE = 100.f;
@@ -71,7 +74,6 @@ Yeti::Yeti(const ReaderMapping& reader) :
   m_right_stand_x(),
   m_left_jump_x(),
   m_right_jump_x(),
-  m_fixed_pos(),
   m_just_hit(),
   m_pinch_announced(),
   m_grabbed_tux()
@@ -80,35 +82,27 @@ Yeti::Yeti(const ReaderMapping& reader) :
   m_hud_head = Surface::from_file(m_hud_icon);
   SoundManager::current()->preload("sounds/yeti_gna.wav");
   SoundManager::current()->preload("sounds/yeti_roar.wav");
-
-  reader.get("fixed-pos", m_fixed_pos, false);
-  if (m_fixed_pos) {
-    m_left_stand_x = 216;
-    m_right_stand_x = 994;
-    m_left_jump_x = 544;
-    m_right_jump_x = 692;
-  } else {
-    recalculate_pos();
-  }
 }
 
 void
 Yeti::initialize()
 {
-  m_dir = Direction::RIGHT;
   m_next_state = RUN;
+  recalculate_pos();
   announce();
 }
 
 void
 Yeti::recalculate_pos()
 {
+  float sectorw = Sector::get().get_width();
+
   if (m_dir == Direction::RIGHT) {
     m_left_stand_x = m_col.m_bbox.get_left();
-    m_right_stand_x = m_left_stand_x + RUN_DISTANCE;
+    m_right_stand_x = sectorw - m_left_stand_x - m_col.m_bbox.get_width();
   } else {
     m_right_stand_x = m_col.m_bbox.get_left();
-    m_left_stand_x = m_right_stand_x - RUN_DISTANCE;
+    m_left_stand_x = sectorw - m_right_stand_x;
   }
 
   m_left_jump_x = m_left_stand_x + JUMP_SPACE;
@@ -169,20 +163,37 @@ Yeti::active_update(float dt_sec)
         set_action("fall", m_dir);
 
       if (on_ground())
-        run(true);
+      {
+        switch (m_next_state)
+        {
+          case RUN:
+            run(true);
+            break;
+
+          case STOMP:
+            idle(true);
+            break;
+
+          default:
+            break;
+        }
+      }
 
       break;
 
     case RUN:
-      if ((m_dir == Direction::RIGHT && get_pos().x >= m_right_stand_x + get_bbox().get_size().width) ||
+      /*
+      if ((m_dir == Direction::RIGHT && get_pos().x >= m_right_stand_x) ||
           (m_dir == Direction::LEFT && get_pos().x <= m_left_stand_x))
       {
         idle(true);
       }
+      */
 
       if ((m_dir == Direction::RIGHT && math::in_bounds(get_pos().x, m_right_jump_x, m_right_jump_x + 64.f)) ||
           (m_dir == Direction::LEFT && math::in_bounds(get_pos().x, m_left_jump_x - 64.f, m_left_jump_x)))
       {
+        m_next_state = STOMP;
         jump(JUMP_UP_VY);
       }
 
@@ -388,6 +399,8 @@ Yeti::idle(bool stomp, float waitduration)
   set_action(stomp ? "stomp" : "stand", m_dir);
   m_just_hit = false;
 
+  m_state_timer.stop();
+
   if (stomp)
     m_next_state = THROW;
   else
@@ -561,7 +574,7 @@ void
 Yeti::summon_snowball()
 {
   Vector bs_pos = get_pos() + Vector(m_dir == Direction::LEFT ? -32.f : (get_bbox().get_width() + 1.f), 0.f);
-  Sector::get().add<BouncingSnowball>(bs_pos, m_dir, 150.f * (m_pinch_mode ? 1.2f : 1.f));
+  Sector::get().add<BouncingSnowball>(bs_pos, m_dir, 150.f * (m_pinch_mode ? BALL_PINCH_SPEED : BALL_SPEED));
 }
 
 void
@@ -614,16 +627,6 @@ Yeti::collision_solid(const CollisionHit& hit)
   }
 }
 
-ObjectSettings
-Yeti::get_settings()
-{
-  ObjectSettings result = Boss::get_settings();
-
-  result.add_bool(_("Fixed position"), &m_fixed_pos, "fixed-pos", false);
-
-  return result;
-}
-
 void
 Yeti::add_snow_explosions()
 {
@@ -654,7 +657,7 @@ Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vect
 std::vector<Direction>
 Yeti::get_allowed_directions() const
 {
-  return {};
+  return { Direction::LEFT, Direction::RIGHT };
 }
 
 /* EOF */

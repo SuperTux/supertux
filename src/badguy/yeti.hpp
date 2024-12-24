@@ -39,8 +39,6 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return Boss::get_class_types().add(typeid(Yeti)); }
 
-  virtual ObjectSettings get_settings() override;
-
   void kill_squished(GameObject& object);
 
 protected:
