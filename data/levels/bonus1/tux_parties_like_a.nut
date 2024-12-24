@@ -17,7 +17,7 @@ function dance_floor() {
 		df3.tint_fade(0, 0, 1, 0.87, 1)
 		df2.tint_fade(0, 0, 0.6, 1, 1)
 		df1.tint_fade(0, 0.8, 1, 0, 1)
-		wait(1)
+		wait(1, true)
 		if(!sector.keep_looping) return
 		df6.tint_fade(0, 0.86, 0, 1, 1)
 		df5.tint_fade(0, 1, 0.35, 0, 1)
@@ -25,7 +25,7 @@ function dance_floor() {
 		df3.tint_fade(0, 0, 0.6, 1, 1)
 		df2.tint_fade(0, 0.8, 1, 0, 1)
 		df1.tint_fade(0, 1, 0, 0.14, 1)
-		wait(1)
+		wait(1, true)
 		if(!sector.keep_looping) return
 		df6.tint_fade(0, 1, 0.35, 0, 1)
 		df5.tint_fade(0, 0, 1, 0.87, 1)
@@ -33,7 +33,7 @@ function dance_floor() {
 		df3.tint_fade(0, 0.8, 1, 0, 1)
 		df2.tint_fade(0, 1, 0, 0.14, 1)
 		df1.tint_fade(0, 0.86, 0, 1, 1)
-		wait(1)
+		wait(1, true)
 		if(!sector.keep_looping) return
 		df6.tint_fade(0, 0, 1, 0.87, 1)
 		df5.tint_fade(0, 0, 0.6, 1, 1)
@@ -41,7 +41,7 @@ function dance_floor() {
 		df3.tint_fade(0, 1, 0, 0.14, 1)
 		df2.tint_fade(0, 0.86, 0, 1, 1)
 		df1.tint_fade(0, 1, 0.35, 0, 1)
-		wait(1)
+		wait(1, true)
 		if(!sector.keep_looping) return
 		df6.tint_fade(0, 0, 0.6, 1, 1)
 		df5.tint_fade(0, 0.8, 1, 0, 1)
@@ -49,7 +49,7 @@ function dance_floor() {
 		df3.tint_fade(0, 0.86, 0, 1, 1)
 		df2.tint_fade(0, 1, 0.35, 0, 1)
 		df1.tint_fade(0, 0, 1, 0.87, 1)
-		wait(1)
+		wait(1, true)
 		if(!sector.keep_looping) return
 		df6.tint_fade(0, 0.8, 1, 0, 1)
 		df5.tint_fade(0, 1, 0, 0.14, 1)
@@ -57,45 +57,45 @@ function dance_floor() {
 		df3.tint_fade(0, 1, 0.35, 0, 1)
 		df2.tint_fade(0, 0, 1, 0.87, 1)
 		df1.tint_fade(0, 0, 0.6, 1, 1)
-		wait(1)
+		wait(1, true)
 		if(!sector.keep_looping) return
 	}
 }
 
 /*function lights() {
 	while(sector.keep_looping) {
-		partylights2.tint_fade(0, 134, 217, 0, 0.2) //green
-		wait(1)
-		partylights2.tint_fade(0, 205, 0, 96, 0.2) //purple
-		wait(1)
-		partylights2.tint_fade(0, 232, 214, 0, 0.2) //yellow
-		wait(1)
-		partylights2.tint_fade(0, 0, 205, 253, 0.2) //lightblue
-		wait(1)
-		partylights2.tint_fade(0, 255, 113, 45, 0.2) //orange
-		wait(1)
-		partylights2.tint_fade(0, 171, 52, 255, 0.2) //magenta
-		wait(1)
-		partylights2.tint_fade(0, 248, 0, 58, 0.2) //red
-		wait(1)
-		partylights2.tint_fade(0, 0, 106, 236, 0.2) //darkblue second cycle
-		wait(1)
-		partylights2.tint_fade(0, 232, 214, 0, 0.2) //yellow
-		wait(1)
-		partylights2.tint_fade(0, 171, 52, 255, 0.2) //magenta
-		wait(1)
-		partylights2.tint_fade(0, 134, 217, 0, 0.2) //green
-		wait(1)
-		partylights2.tint_fade(0, 205, 0, 96, 0.2) //purple
-		wait(1)
-		partylights2.tint_fade(0, 248, 0, 58, 0.2) //red
-		wait(1)
-		partylights2.tint_fade(0, 0, 205, 253, 0.2) //lightblue
-		wait(1)
-		partylights2.tint_fade(0, 255, 113, 45, 0.2) //orange
-		wait(1)
-		partylights2.tint_fade(0, 0, 106, 236, 0.2) //darkblue
-		wait(1)
+		partylights.tint_fade(0, 134, 217, 0, 0.2) //green
+		wait(1, true)
+		partylights.tint_fade(0, 205, 0, 96, 0.2) //purple
+		wait(1, true)
+		partylights.tint_fade(0, 232, 214, 0, 0.2) //yellow
+		wait(1, true)
+		partylights.tint_fade(0, 0, 205, 253, 0.2) //lightblue
+		wait(1, true)
+		partylights.tint_fade(0, 255, 113, 45, 0.2) //orange
+		wait(1, true)
+		partylights.tint_fade(0, 171, 52, 255, 0.2) //magenta
+		wait(1, true)
+		partylights.tint_fade(0, 248, 0, 58, 0.2) //red
+		wait(1, true)
+		partylights.tint_fade(0, 0, 106, 236, 0.2) //darkblue second cycle
+		wait(1, true)
+		partylights.tint_fade(0, 232, 214, 0, 0.2) //yellow
+		wait(1, true)
+		partylights.tint_fade(0, 171, 52, 255, 0.2) //magenta
+		wait(1, true)
+		partylights.tint_fade(0, 134, 217, 0, 0.2) //green
+		wait(1, true)
+		partylights.tint_fade(0, 205, 0, 96, 0.2) //purple
+		wait(1, true)
+		partylights.tint_fade(0, 248, 0, 58, 0.2) //red
+		wait(1, true)
+		partylights.tint_fade(0, 0, 205, 253, 0.2) //lightblue
+		wait(1, true)
+		partylights.tint_fade(0, 255, 113, 45, 0.2) //orange
+		wait(1, true)
+		partylights.tint_fade(0, 0, 106, 236, 0.2) //darkblue
+		wait(1, true)
 	}
 }*/
 
@@ -213,7 +213,7 @@ function tuxrap() {
 	ss6.set_enabled(false)
 
 	end_cutscene()
-	fade_in_music("anatarctic/crystalmine_main.music", 2)
+	fade_in_music("castle/fortress.music", 1)
 	Effect.four_to_three(1)
 	wait(0.5)
 	Tux.activate()
