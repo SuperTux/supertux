@@ -32,10 +32,13 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+const Color Gradient::DEFAULT_GRADIENT_TOP(0.3f, 0.4f, 0.75f);
+const Color Gradient::DEFAULT_GRADIENT_BOTTOM(Color::WHITE);
+
 Gradient::Gradient() :
   m_layer(LAYER_BACKGROUND0),
-  m_gradient_top(0.3f, 0.4f, 0.75f),
-  m_gradient_bottom(1, 1, 1),
+  m_gradient_top(DEFAULT_GRADIENT_TOP),
+  m_gradient_bottom(DEFAULT_GRADIENT_BOTTOM),
   m_gradient_direction(),
   m_blend(),
   m_target(DrawingTarget::COLORMAP),
@@ -51,8 +54,8 @@ Gradient::Gradient() :
 Gradient::Gradient(const ReaderMapping& reader) :
   LayerObject(reader),
   m_layer(LAYER_BACKGROUND0),
-  m_gradient_top(0.3f, 0.4f, 0.75f),
-  m_gradient_bottom(1, 1, 1),
+  m_gradient_top(DEFAULT_GRADIENT_TOP),
+  m_gradient_bottom(DEFAULT_GRADIENT_BOTTOM),
   m_gradient_direction(),
   m_blend(),
   m_target(DrawingTarget::COLORMAP),
