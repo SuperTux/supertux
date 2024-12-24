@@ -130,6 +130,29 @@
   (hitbox 37 27 72 100)
   (mirror-action "rage-left")
  )
+
+ (action
+  (name "taunt-left")
+  (fps 18)
+  (loop-frame 4)
+  (hitbox 31 27 72 100)
+  (images "idle-0.png"
+          "idle-1.png"
+          "idle-2.png"
+          "idle-3.png"
+          "idle-4.png"
+          "idle-5.png"
+          "idle-3.png"
+          "idle-6.png"
+          "idle-7.png")
+ )
+ (action
+  (name "taunt-right")
+  (fps 18)
+  (loop-frame 4)
+  (hitbox 37 27 72 100)
+  (mirror-action "taunt-left")
+ )
  
  (action
   (name "leap-left")

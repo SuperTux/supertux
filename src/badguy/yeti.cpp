@@ -89,7 +89,7 @@ Yeti::initialize()
 {
   m_next_state = RUN;
   recalculate_pos();
-  announce();
+  announce(false);
 }
 
 void
@@ -123,19 +123,24 @@ void
 Yeti::active_update(float dt_sec)
 {
   Boss::boss_update(dt_sec);
-  auto player = get_nearest_player();
 
   Vector grab_pos = get_bbox().get_middle();
   float push_distance;
-  push_distance = player ? (glm::length(grab_pos - player->get_bbox().get_middle())) : 0.f;
+  auto player = get_nearest_player();
 
-  if (on_ground() && is_idle() && push_distance <= TUX_GRAB_DISTANCE && m_physic.get_velocity_x() == 0.f)
+  push_distance = player ? glm::length(grab_pos - player->get_bbox().get_middle()) : 0.f;
+
+  if (player && on_ground() && is_idle() &&
+      push_distance <= TUX_GRAB_DISTANCE && m_physic.get_velocity_x() == 0.f)
   {
     throw_tux();
   }
 
   switch (m_state) {
     case ANNOUNCE:
+      if (m_next_state == ANNOUNCE)
+        break;
+
       if (m_state_timer.check())
       {
         if (m_next_state == RUN)
@@ -170,7 +175,7 @@ Yeti::active_update(float dt_sec)
             run(true);
             break;
 
-          case STOMP:
+          case IDLE:
             idle(true);
             break;
 
@@ -182,18 +187,10 @@ Yeti::active_update(float dt_sec)
       break;
 
     case RUN:
-      /*
-      if ((m_dir == Direction::RIGHT && get_pos().x >= m_right_stand_x) ||
-          (m_dir == Direction::LEFT && get_pos().x <= m_left_stand_x))
-      {
-        idle(true);
-      }
-      */
-
       if ((m_dir == Direction::RIGHT && math::in_bounds(get_pos().x, m_right_jump_x, m_right_jump_x + 64.f)) ||
           (m_dir == Direction::LEFT && math::in_bounds(get_pos().x, m_left_jump_x - 64.f, m_left_jump_x)))
       {
-        m_next_state = STOMP;
+        m_next_state = IDLE;
         jump(JUMP_UP_VY);
       }
 
@@ -209,9 +206,17 @@ Yeti::active_update(float dt_sec)
 
       if (m_state_timer.check())
       {
+        // If the player is dead, laugh at him. Forever.
+        if (!player)
+        {
+          m_next_state = ANNOUNCE;
+          announce(true);
+          break;
+        }
+
         if (!m_pinch_announced && m_pinch_mode)
         {
-          announce();
+          announce(false);
           break;
         }
 
@@ -358,10 +363,10 @@ Yeti::active_update(float dt_sec)
 }
 
 void
-Yeti::announce()
+Yeti::announce(bool taunt)
 {
   m_state = ANNOUNCE;
-  set_action("rage", m_dir);
+  set_action(taunt ? "taunt" : "rage", m_dir);
   m_state_timer.stop();
 
   SoundManager::current()->play("sounds/yeti_roar.wav", get_pos());
@@ -591,39 +596,25 @@ void
 Yeti::collision_solid(const CollisionHit& hit)
 {
   update_on_ground_flag(hit);
-  if (hit.top || hit.bottom) {
-    // Hit floor or roof.
-    m_physic.set_velocity_y(0);
-    switch (m_state) {
-      case RUN:
-        break;
-      case JUMP:
-        break;
-      case THROW:
-        break;
-      case THROW_BIG:
-        break;
-      case STOMP:
-        // We just landed.
+  if (!hit.bottom)
+    return;
 
-        if (m_attacked)
-          break;
+  m_physic.set_velocity_y(0);
+  switch (m_state)
+  {
+    case STOMP:
+      if (m_attacked)
+        break;
 
-        set_action("stomp", m_dir);
-        m_attack_count++;
-        m_attacked = true;
-        drop_stalactite();
+      set_action("stomp", m_dir);
+      m_attack_count++;
+      m_attacked = true;
+      drop_stalactite();
 
-        break;
-      case DIZZY:
-        break;
-      case THROW_TUX:
-        break;
-    }
-  } else if (hit.left || hit.right) {
-    // Hit wall.
-    if(m_state != DIZZY)
-      jump(JUMP_UP_VY);
+      break;
+
+    default:
+      break;
   }
 }
 

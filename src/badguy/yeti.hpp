@@ -60,7 +60,7 @@ private:
   };
 
 private:
-  void announce();
+  void announce(bool taunt);
   void run(bool change_state);
   void jump(float velocity);
   void idle(bool stomp, float waitduration = 0);
