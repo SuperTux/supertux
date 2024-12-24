@@ -18,7 +18,7 @@
 
 function candleBlow(){
 candlesCount++;
-
+print(candlesCount);
 if (candlesCount == 4){
 Ncutscene();
 }
@@ -29,7 +29,7 @@ function Ncutscene(){
 
 start_cutscene();
 Camera.set_mode(\"manual\");
-Effect.sixteen_to_nine(1);`
+Effect.sixteen_to_nine(1);
 Tux.deactivate();
 wait(0.7);
 
