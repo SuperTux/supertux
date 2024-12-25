@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
+# Diego Enmanuel Rosales Santander, 2024
 # Fernando Carmona <ferkiwi@gmail.com>, 2006
 # 69fe870410d3e630a708a509aed5c0f9_e3efcca <3d48305986fd1b36087a0ec11b9a769d_288033>, 2016
 # Gastón <gastbr@gmail.com>, 2016
@@ -27,9 +28,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-11-11 21:50+0000\n"
+"POT-Creation-Date: 2024-12-24 23:23+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Unknown, 2024\n"
+"Last-Translator: Diego Enmanuel Rosales Santander, 2024\n"
 "Language-Team: Spanish (http://app.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,58 +38,58 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
-#: src/object/tilemap.cpp:281 src/object/decal.cpp:50
+#: src/object/tilemap.cpp:291 src/object/decal.cpp:50
 #: src/object/scripted_object.cpp:72
 msgid "Solid"
 msgstr "Sólido"
 
-#: src/object/tilemap.cpp:282
+#: src/object/tilemap.cpp:292
 msgid "Resize offset x"
 msgstr "Cambiar tamaño en eje X"
 
-#: src/object/tilemap.cpp:283
+#: src/object/tilemap.cpp:293
 msgid "Resize offset y"
 msgstr "Cambiar tamaño en eje Y"
 
-#: src/object/tilemap.cpp:285 src/editor/object_option.cpp:247
+#: src/object/tilemap.cpp:295 src/editor/object_option.cpp:247
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Width"
 msgstr "Ancho"
 
-#: src/object/tilemap.cpp:286 src/editor/object_option.cpp:248
+#: src/object/tilemap.cpp:296 src/editor/object_option.cpp:248
 #: src/supertux/menu/editor_sector_menu.cpp:42
 msgid "Height"
 msgstr "Altura"
 
-#: src/object/tilemap.cpp:288
+#: src/object/tilemap.cpp:298
 msgid "Alpha"
 msgstr "Transparencia alfa"
 
-#: src/object/tilemap.cpp:289
+#: src/object/tilemap.cpp:299
 msgid "Speed x"
 msgstr "Velocidad eje X"
 
-#: src/object/tilemap.cpp:290
+#: src/object/tilemap.cpp:300
 msgid "Speed y"
 msgstr "Velocidad eje Y"
 
-#: src/object/tilemap.cpp:291
+#: src/object/tilemap.cpp:301
 msgid "Tint"
 msgstr "Tinte"
 
-#: src/object/tilemap.cpp:292 src/object/gradient.cpp:102
+#: src/object/tilemap.cpp:302 src/object/gradient.cpp:99
 #: src/object/background.cpp:285 src/object/spotlight.cpp:112
-#: src/object/particlesystem.cpp:66 src/object/thunderstorm.cpp:78
-#: src/object/moving_sprite.cpp:221
+#: src/object/particlesystem.cpp:65 src/object/thunderstorm.cpp:78
+#: src/object/moving_sprite.cpp:202
 msgid "Z-pos"
 msgstr "Posición eje Z"
 
-#: src/object/tilemap.cpp:293 src/object/gradient.cpp:109
+#: src/object/tilemap.cpp:303 src/object/gradient.cpp:106
 #: src/object/background.cpp:300
 msgid "Draw target"
 msgstr "Alternar tipo de dibujado"
 
-#: src/object/tilemap.cpp:294 src/object/gradient.cpp:110
+#: src/object/tilemap.cpp:304 src/object/gradient.cpp:107
 #: src/object/invisible_block.cpp:37 src/object/coin.cpp:69
 #: src/object/background.cpp:301 src/object/brick.cpp:59
 #: src/badguy/walkingleaf.cpp:35 src/badguy/snail.cpp:70
@@ -99,117 +100,117 @@ msgstr "Alternar tipo de dibujado"
 msgid "Normal"
 msgstr "Normal"
 
-#: src/object/tilemap.cpp:294 src/object/gradient.cpp:110
+#: src/object/tilemap.cpp:304 src/object/gradient.cpp:107
 #: src/object/background.cpp:301
 msgid "Lightmap"
 msgstr "Mapa de luz"
 
-#: src/object/tilemap.cpp:299 src/object/path_gameobject.cpp:175
+#: src/object/tilemap.cpp:309 src/object/path_gameobject.cpp:175
 #: src/object/platform.cpp:78 src/object/coin.cpp:327
 #: src/object/path_gameobject.hpp:45 src/object/camera.cpp:166
 #: src/badguy/willowisp.cpp:309
 msgid "Path"
 msgstr "Ruta"
 
-#: src/object/tilemap.cpp:300 src/object/platform.cpp:83
+#: src/object/tilemap.cpp:310 src/object/platform.cpp:83
 #: src/object/coin.cpp:334 src/badguy/willowisp.cpp:310
 msgid "Starting Node"
 msgstr "Nodo inicial"
 
-#: src/object/tilemap.cpp:302 src/object/coin.cpp:329
+#: src/object/tilemap.cpp:312 src/object/coin.cpp:329
 msgid "Following path"
 msgstr "Siguiendo ruta"
 
-#: src/object/tilemap.cpp:305 src/object/platform.cpp:79
+#: src/object/tilemap.cpp:315 src/object/platform.cpp:79
 #: src/object/coin.cpp:332 src/object/camera.cpp:169
 msgid "Path Mode"
 msgstr "Modo de ruta"
 
-#: src/object/tilemap.cpp:306 src/object/platform.cpp:80
+#: src/object/tilemap.cpp:316 src/object/platform.cpp:80
 #: src/object/coin.cpp:333 src/object/camera.cpp:170
 #: src/badguy/willowisp.cpp:314
 msgid "Adapt Speed"
 msgstr "Adaptar velocidad"
 
-#: src/object/tilemap.cpp:307 src/object/platform.cpp:82
+#: src/object/tilemap.cpp:317 src/object/platform.cpp:82
 #: src/object/conveyor_belt.cpp:64 src/object/thunderstorm.cpp:79
 msgid "Running"
 msgstr "En marcha"
 
-#: src/object/tilemap.cpp:308 src/object/platform.cpp:84
+#: src/object/tilemap.cpp:318 src/object/platform.cpp:84
 #: src/object/coin.cpp:335 src/object/camera.cpp:171
 #: src/badguy/willowisp.cpp:315
 msgid "Handle"
 msgstr "Agarrar"
 
-#: src/object/tilemap.cpp:311 src/editor/toolbox_widget.cpp:74
+#: src/object/tilemap.cpp:321 src/editor/toolbox_widget.cpp:74
 #: src/supertux/menu/editor_tilegroup_menu.cpp:26
 msgid "Tiles"
 msgstr "Teselas"
 
 #: src/object/conveyor_belt.hpp:47
 msgid "Conveyor Belt"
-msgstr ""
+msgstr "Cinta Transportadora"
 
 #: src/object/bicycle_platform.hpp:68
 msgid "Bicycle Platform"
 msgstr "Plataforma de Bicicleta"
 
-#: src/object/gradient.cpp:99
+#: src/object/gradient.cpp:96
 msgid "Primary Colour"
 msgstr "Color principal"
 
-#: src/object/gradient.cpp:100
+#: src/object/gradient.cpp:97
 msgid "Secondary Colour"
 msgstr "Color secundario"
 
-#: src/object/gradient.cpp:104 src/object/bumper.cpp:57
+#: src/object/gradient.cpp:101 src/object/bumper.cpp:57
 #: src/object/spotlight.cpp:108 src/object/conveyor_belt.cpp:62
 #: src/object/ispy.cpp:56 src/object/bigsnowball.cpp:81
 #: src/object/pushbutton.cpp:64 src/worldmap/spawn_point.cpp:79
-#: src/worldmap/special_tile.cpp:78 src/badguy/badguy.cpp:1141
+#: src/worldmap/special_tile.cpp:78 src/badguy/badguy.cpp:1212
 #: src/trigger/switch.cpp:63
 msgid "Direction"
 msgstr "Dirección"
 
-#: src/object/gradient.cpp:105
+#: src/object/gradient.cpp:102
 msgid "Vertical"
 msgstr "Vertical"
 
-#: src/object/gradient.cpp:105
+#: src/object/gradient.cpp:102
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: src/object/gradient.cpp:105
+#: src/object/gradient.cpp:102
 msgid "Vertical (whole sector)"
 msgstr "Vertical (sector completo)"
 
-#: src/object/gradient.cpp:105
+#: src/object/gradient.cpp:102
 msgid "Horizontal (whole sector)"
 msgstr "Horizontal (sector completo)"
 
-#: src/object/gradient.cpp:115
+#: src/object/gradient.cpp:112
 msgid "Blend mode"
 msgstr "Mezcla de colores"
 
-#: src/object/gradient.cpp:116
+#: src/object/gradient.cpp:113
 msgid "Blend"
 msgstr "Mezcla"
 
-#: src/object/gradient.cpp:116
+#: src/object/gradient.cpp:113
 msgid "Additive"
 msgstr "Aditiva"
 
-#: src/object/gradient.cpp:116
+#: src/object/gradient.cpp:113
 msgid "Modulate"
 msgstr "Modular"
 
-#: src/object/gradient.cpp:116 src/object/custom_particle_system.cpp:428
+#: src/object/gradient.cpp:113 src/object/custom_particle_system.cpp:428
 #: src/object/custom_particle_system.cpp:463
 #: src/editor/object_settings.cpp:146 src/editor/particle_editor.cpp:162
-#: src/editor/particle_editor.cpp:168 src/supertux/menu/keyboard_menu.cpp:80
-#: src/supertux/menu/joystick_menu.cpp:108
-#: src/supertux/menu/joystick_menu.cpp:215 src/gui/menu_string_array.cpp:40
+#: src/editor/particle_editor.cpp:168 src/supertux/menu/keyboard_menu.cpp:81
+#: src/supertux/menu/joystick_menu.cpp:109
+#: src/supertux/menu/joystick_menu.cpp:213 src/gui/menu_string_array.cpp:40
 #: src/gui/menu_string_array.cpp:78
 msgid "None"
 msgstr "Ninguno"
@@ -244,7 +245,7 @@ msgstr "Muñeco de Tux"
 
 #: src/object/powerup.cpp:68
 msgid "Flip Potion"
-msgstr ""
+msgstr "Poción de Giro"
 
 #: src/object/powerup.cpp:69
 msgid "Mints"
@@ -252,13 +253,13 @@ msgstr "Mentas"
 
 #: src/object/powerup.cpp:70
 msgid "Coffee"
-msgstr ""
+msgstr "Café"
 
 #: src/object/powerup.cpp:71
 msgid "Herring"
 msgstr "Arenque"
 
-#: src/object/powerup.cpp:301 src/object/bonus_block.cpp:264
+#: src/object/powerup.cpp:326 src/object/bonus_block.cpp:264
 #: src/object/bonus_block.cpp:268 src/object/ispy.cpp:55
 #: src/object/pushbutton.cpp:65 src/worldmap/special_tile.cpp:76
 #: src/trigger/door.cpp:79 src/trigger/secretarea_trigger.cpp:58
@@ -266,29 +267,29 @@ msgstr "Arenque"
 msgid "Script"
 msgstr "Script"
 
-#: src/object/powerup.cpp:302
+#: src/object/powerup.cpp:327
 msgid "Disable gravity"
 msgstr "Desactivar gravedad"
 
-#: src/object/powerup.cpp:312 src/object/weak_block.cpp:264
+#: src/object/powerup.cpp:337 src/object/weak_block.cpp:264
 msgid ""
 "Sprites no longer define the behaviour of the object.\n"
 "Object types are used instead."
 msgstr ""
 
-#: src/object/background.hpp:51
+#: src/object/background.hpp:52
 msgid "Background"
 msgstr "Fondo"
 
-#: src/object/key.cpp:192 src/object/torch.cpp:97
-#: src/object/ambient_light.cpp:122 src/object/spotlight.cpp:106
+#: src/object/key.cpp:198 src/object/torch.cpp:97
+#: src/object/ambient_light.cpp:111 src/object/spotlight.cpp:106
 #: src/object/magicblock.cpp:95 src/object/lantern.cpp:62
 #: src/object/rublight.cpp:55 src/object/candle.cpp:77
 #: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:97
 msgid "Color"
 msgstr "Color"
 
-#: src/object/tilemap.hpp:69
+#: src/object/tilemap.hpp:68
 msgid "Tilemap"
 msgstr "Mosaico"
 
@@ -300,18 +301,18 @@ msgstr "Plataforma"
 msgid "Cloud Particles"
 msgstr "Partículas de Nubes‮"
 
-#: src/object/pneumatic_platform.cpp:161 src/object/moving_sprite.cpp:220
+#: src/object/pneumatic_platform.cpp:159 src/object/moving_sprite.cpp:201
 msgid "Sprite"
 msgstr "Sprite"
 
-#: src/object/pneumatic_platform.cpp:162 src/object/bicycle_platform.cpp:203
-#: src/object/background.cpp:281 src/supertux/menu/joystick_menu.cpp:172
+#: src/object/pneumatic_platform.cpp:160 src/object/bicycle_platform.cpp:201
+#: src/object/background.cpp:281 src/supertux/menu/joystick_menu.cpp:170
 #: src/supertux/moving_object.cpp:68 src/worldmap/worldmap_object.cpp:77
 msgid "X"
 msgstr "X"
 
-#: src/object/pneumatic_platform.cpp:163 src/object/bicycle_platform.cpp:204
-#: src/object/background.cpp:282 src/supertux/menu/joystick_menu.cpp:174
+#: src/object/pneumatic_platform.cpp:161 src/object/bicycle_platform.cpp:202
+#: src/object/background.cpp:282 src/supertux/menu/joystick_menu.cpp:172
 #: src/supertux/moving_object.cpp:69 src/worldmap/worldmap_object.cpp:78
 msgid "Y"
 msgstr "S"
@@ -324,11 +325,11 @@ msgstr "Llave"
 msgid "Hurting Platform"
 msgstr "Plataforma que hace daño"
 
-#: src/object/powerup.hpp:40
+#: src/object/powerup.hpp:55
 msgid "Powerup"
 msgstr "Potenciador "
 
-#: src/object/thunderstorm.hpp:52
+#: src/object/thunderstorm.hpp:53
 msgid "Thunderstorm"
 msgstr "Tormenta eléctrica"
 
@@ -357,56 +358,56 @@ msgstr "Objeto iluminado"
 msgid "Custom Particles from file"
 msgstr "Partículas propias desde archivo"
 
-#: src/object/textscroller.cpp:348 src/object/music_object.cpp:109
+#: src/object/textscroller.cpp:343 src/object/music_object.cpp:92
 #: src/object/custom_particle_system_file.cpp:53
 #: src/supertux/menu/particle_editor_open.cpp:38
 msgid "File"
 msgstr "Archivo"
 
-#: src/object/textscroller.cpp:349
+#: src/object/textscroller.cpp:344
 msgid "Finish Script"
 msgstr "Script de fin de nivel"
 
-#: src/object/textscroller.cpp:350 src/object/circleplatform.cpp:58
+#: src/object/textscroller.cpp:345 src/object/circleplatform.cpp:58
 #: src/object/rain_particle_system.cpp:100 src/object/spotlight.cpp:107
 #: src/object/conveyor_belt.cpp:63 src/object/bigsnowball.cpp:82
 #: src/editor/node_marker.cpp:125 src/badguy/flame.cpp:110
 msgid "Speed"
 msgstr "Velocidad"
 
-#: src/object/textscroller.cpp:351
+#: src/object/textscroller.cpp:346
 msgid "X-offset"
 msgstr "Desplazar en X"
 
-#: src/object/textscroller.cpp:352
+#: src/object/textscroller.cpp:347
 msgid "Controllable"
 msgstr "Se puede controlar"
 
-#: src/object/textscroller.cpp:353 src/trigger/text_area.cpp:144
+#: src/object/textscroller.cpp:348 src/trigger/text_area.cpp:144
 msgid "Anchor"
 msgstr "Anclado"
 
-#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+#: src/object/textscroller.cpp:349 src/object/textscroller.cpp:353
 #: src/math/anchor_point.cpp:36 src/supertux/menu/keyboard_menu.cpp:38
 #: src/supertux/menu/joystick_menu.cpp:73
 msgid "Left"
 msgstr "Izquierda"
 
-#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+#: src/object/textscroller.cpp:349 src/object/textscroller.cpp:353
 msgid "Center"
 msgstr "Centrado"
 
-#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+#: src/object/textscroller.cpp:349 src/object/textscroller.cpp:353
 #: src/math/anchor_point.cpp:38 src/supertux/menu/keyboard_menu.cpp:39
 #: src/supertux/menu/joystick_menu.cpp:74
 msgid "Right"
 msgstr "Derecha"
 
-#: src/object/textscroller.cpp:357
+#: src/object/textscroller.cpp:352
 msgid "Text Alignment"
 msgstr "Alineación del texto"
 
-#: src/object/textscroller.hpp:45
+#: src/object/textscroller.hpp:46
 msgid "Text Scroller"
 msgstr "Texto animado"
 
@@ -423,7 +424,7 @@ msgstr "Linterna"
 msgid "Retro"
 msgstr "Retro"
 
-#: src/object/circleplatform.cpp:57 src/object/bicycle_platform.cpp:207
+#: src/object/circleplatform.cpp:57 src/object/bicycle_platform.cpp:205
 #: src/badguy/flame.cpp:109 src/badguy/fish_swimming.cpp:81
 #: src/badguy/rcrystallo.cpp:83 src/badguy/crystallo.cpp:50
 msgid "Radius"
@@ -458,7 +459,7 @@ msgstr "Naranja"
 msgid "Purple"
 msgstr "Púrpura"
 
-#: src/object/bonus_block.cpp:265 src/supertux/menu/cheat_apply_menu.cpp:53
+#: src/object/bonus_block.cpp:265
 msgid "Count"
 msgstr "Recuento"
 
@@ -542,7 +543,7 @@ msgstr "Contenido propio"
 msgid "Coin sprite"
 msgstr "Imagen de moneda"
 
-#: src/object/particlesystem.hpp:64
+#: src/object/particlesystem.hpp:65
 msgid "Particle system"
 msgstr "Sistema de partículas"
 
@@ -559,7 +560,7 @@ msgid "Texture"
 msgstr "Textura"
 
 #: src/object/custom_particle_system.cpp:423
-#: src/object/cloud_particle_system.cpp:123
+#: src/object/cloud_particle_system.cpp:93
 msgid "Amount"
 msgstr "Cantidad"
 
@@ -944,13 +945,13 @@ msgstr "Luz ambiental"
 msgid "Burning"
 msgstr "Encendido"
 
-#: src/object/explosion.hpp:35
+#: src/object/explosion.hpp:37
 msgid "Explosion"
 msgstr "Explosión"
 
 #: src/object/particle_zone.cpp:49 src/object/spotlight.cpp:104
-#: src/object/particlesystem.cpp:65
-#: src/supertux/menu/addon_preview_menu.cpp:195 src/badguy/darttrap.cpp:156
+#: src/object/particlesystem.cpp:64
+#: src/supertux/menu/addon_preview_menu.cpp:201 src/badguy/darttrap.cpp:156
 msgid "Enabled"
 msgstr "Activado"
 
@@ -982,11 +983,11 @@ msgstr "Desvanecer partículas"
 msgid "Collect script"
 msgstr "Script al tocar"
 
-#: src/object/bicycle_platform.cpp:206
+#: src/object/bicycle_platform.cpp:204
 msgid "Platforms"
 msgstr "Plataformas"
 
-#: src/object/bicycle_platform.cpp:208
+#: src/object/bicycle_platform.cpp:206
 msgid "Momentum change rate"
 msgstr "Variación de fuerza del impulso"
 
@@ -1170,7 +1171,7 @@ msgstr "Bloque invisible "
 msgid "Unstable Tile"
 msgstr "Tesela inestable"
 
-#: src/object/level_time.hpp:75
+#: src/object/level_time.hpp:76
 msgid "Time Limit"
 msgstr "Límite de tiempo"
 
@@ -1199,7 +1200,7 @@ msgstr "Cantidad de brillo"
 msgid "Radius (in tiles)"
 msgstr "Radio (en teselas)"
 
-#: src/object/camera.hpp:68
+#: src/object/camera.hpp:69
 msgid "Camera"
 msgstr "Cámara"
 
@@ -1248,7 +1249,7 @@ msgstr ""
 msgid "Wind Speed"
 msgstr ""
 
-#: src/object/brick.cpp:166
+#: src/object/brick.cpp:165
 msgid "Breakable"
 msgstr "Frágil"
 
@@ -1272,7 +1273,7 @@ msgstr "Fragmento"
 msgid "Weak Tile"
 msgstr "Tesela frágil"
 
-#: src/object/gradient.hpp:49
+#: src/object/gradient.hpp:50
 msgid "Gradient"
 msgstr "Degradado"
 
@@ -1304,7 +1305,7 @@ msgstr "Visible"
 msgid "Hit script"
 msgstr "Script de golpe"
 
-#: src/object/coin.hpp:98
+#: src/object/coin.hpp:100
 msgid "Heavy Coin"
 msgstr "Moneda Pesada "
 
@@ -1316,15 +1317,15 @@ msgstr "Calcomanía"
 msgid "Text"
 msgstr "Texto"
 
-#: src/object/cloud_particle_system.cpp:124
+#: src/object/cloud_particle_system.cpp:94
 msgid "Fog Opacity"
 msgstr ""
 
-#: src/object/cloud_particle_system.cpp:125
+#: src/object/cloud_particle_system.cpp:95
 msgid "X Speed"
 msgstr ""
 
-#: src/object/cloud_particle_system.cpp:126
+#: src/object/cloud_particle_system.cpp:96
 msgid "Y Speed"
 msgstr ""
 
@@ -1416,18 +1417,18 @@ msgstr "Partículas chulas"
 msgid "Particles Enabled"
 msgstr ""
 
-#: src/editor/editor.cpp:585
+#: src/editor/editor.cpp:563
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr "Este nivel contiene teselas descatalogadas.\nTe recomendamos cambiarlas por otras más nuevas si no quieres que dejen de funcionar en versiones futuras."
 
-#: src/editor/editor.cpp:587
+#: src/editor/editor.cpp:565
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr "Consejo: Activa «Mostrar teselas antiguas» en el menú del editor de niveles."
 
-#: src/editor/editor.cpp:634
+#: src/editor/editor.cpp:636
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1435,25 +1436,29 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "No te olvides de que ni tus niveles ni datos\npersisten entre sesiones de juego.\nSi quieres guardar los niveles utiliza la función de descargar\n desde el menú de «gestionar datos»."
 
-#: src/editor/editor.cpp:669
+#: src/editor/editor.cpp:671
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "No se han guardado los cambios del nivel, ¿quieres hacerlo ahora?"
 
-#: src/editor/editor.cpp:670
+#: src/editor/editor.cpp:672
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr "Este nivel puede contener datos sin guardar, ¿quieres guardar ahora?"
 
-#: src/editor/editor.cpp:671
-#: src/supertux/menu/editor_level_select_menu.cpp:181 src/gui/dialog.hpp:96
+#: src/editor/editor.cpp:673
+#: src/supertux/menu/editor_level_select_menu.cpp:181
+#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/supertux/menu/editor_level_menu.cpp:40 src/gui/dialog.hpp:96
 msgid "Yes"
 msgstr "Sí"
 
-#: src/editor/editor.cpp:678 src/editor/particle_editor.cpp:781
-#: src/supertux/menu/editor_level_select_menu.cpp:185 src/gui/dialog.hpp:97
+#: src/editor/editor.cpp:680 src/editor/particle_editor.cpp:781
+#: src/supertux/menu/editor_level_select_menu.cpp:185
+#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/supertux/menu/editor_level_menu.cpp:40 src/gui/dialog.hpp:97
 msgid "No"
 msgstr "No"
 
-#: src/editor/editor.cpp:682 src/editor/particle_editor.cpp:785
+#: src/editor/editor.cpp:684 src/editor/particle_editor.cpp:785
 #: src/supertux/menu/particle_editor_open.cpp:43
 #: src/supertux/menu/editor_sectors_menu.cpp:45
 #: src/supertux/menu/editor_sectors_menu.cpp:94
@@ -1463,11 +1468,11 @@ msgstr "No"
 #: src/supertux/menu/editor_tilegroup_menu.cpp:36
 #: src/supertux/menu/editor_objectgroup_menu.cpp:42
 #: src/supertux/menu/particle_editor_save_as.cpp:42 src/gui/menu_list.cpp:38
-#: src/gui/menu_paths.cpp:48 src/gui/menu_filesystem.cpp:120
+#: src/gui/menu_paths.cpp:48 src/gui/menu_filesystem.cpp:121
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/editor/editor.cpp:800
+#: src/editor/editor.cpp:802
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with default Super Tux structure.\n"
@@ -1475,26 +1480,26 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Algunos mods obsoletos aún están activos y pueden dar problemas con las estructura de archivos normal de SuperTux.\nSi quieres reactivarlos en un futuro puedes hacerlo desde el menú de mods. Al desactivarlos no perderás tu progreso en la partida."
 
-#: src/editor/editor.cpp:803
+#: src/editor/editor.cpp:805
 msgid "Disable add-ons"
 msgstr "Desactivar mods"
 
-#: src/editor/editor.cpp:808
+#: src/editor/editor.cpp:810
 msgid "Ignore (not advised)"
 msgstr "Ignorar (no recomendable)"
 
-#: src/editor/editor.cpp:812
+#: src/editor/editor.cpp:814
 msgid "Leave editor"
 msgstr "Salir del editor"
 
-#: src/editor/editor.cpp:1023
+#: src/editor/editor.cpp:1033
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
 msgstr "No se halló un área \"principal\"\nPor favor, cambie el nombre del área donde\ndesea que el jugador comience como \"principal\""
 
-#: src/editor/editor.cpp:1027
+#: src/editor/editor.cpp:1037
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
@@ -1539,21 +1544,21 @@ msgstr "Objetos"
 msgid "Patch Notes"
 msgstr "Listado de cambios"
 
-#: src/editor/object_menu.cpp:61 src/supertux/menu/addon_preview_menu.cpp:183
+#: src/editor/object_menu.cpp:61 src/supertux/menu/addon_preview_menu.cpp:189
 #: src/gui/menu_string_array.cpp:81
 msgid "Update"
 msgstr "Actualizar"
 
-#: src/editor/object_menu.cpp:67 src/editor/object_option.cpp:944
+#: src/editor/object_menu.cpp:67 src/editor/object_option.cpp:942
 msgid "Remove"
 msgstr "Quitar"
 
 #: src/editor/object_menu.cpp:71 src/supertux/menu/editor_sector_menu.cpp:48
-#: src/supertux/menu/editor_level_menu.cpp:49
+#: src/supertux/menu/editor_level_menu.cpp:56
 #: src/supertux/menu/editor_new_levelset_menu.cpp:37
 #: src/supertux/menu/editor_levelset_menu.cpp:58
 #: src/gui/menu_object_select.cpp:61 src/gui/menu_string_array.cpp:84
-#: src/gui/dialog.hpp:87 src/gui/menu_color.cpp:35 src/gui/menu_script.cpp:46
+#: src/gui/dialog.hpp:87 src/gui/menu_color.cpp:63 src/gui/menu_script.cpp:46
 msgid "OK"
 msgstr "Aceptar"
 
@@ -1582,55 +1587,55 @@ msgstr "falso"
 msgid "invalid"
 msgstr "inválido"
 
-#: src/editor/object_option.cpp:937
+#: src/editor/object_option.cpp:935
 msgid "Scale X"
 msgstr "Escala en X"
 
-#: src/editor/object_option.cpp:938
+#: src/editor/object_option.cpp:936
 msgid "Scale Y"
 msgstr "Escala en Y"
 
-#: src/editor/object_option.cpp:939
+#: src/editor/object_option.cpp:937
 msgid "Offset X"
 msgstr "Desplazar X"
 
-#: src/editor/object_option.cpp:940
+#: src/editor/object_option.cpp:938
 msgid "Offset Y"
 msgstr "Desplazar Y"
 
-#: src/editor/object_option.cpp:961
+#: src/editor/object_option.cpp:959
 msgid "Test from here"
 msgstr "Probar desde aquí"
 
-#: src/editor/object_option.cpp:978
+#: src/editor/object_option.cpp:976
 msgid "Open Particle Editor"
 msgstr "Abrir el editor de partículas"
 
-#: src/editor/overlay_widget.cpp:1027
+#: src/editor/overlay_widget.cpp:1005
 msgid "Cannot select deprecated tiles"
 msgstr "No se pueden seleccionar las teselas antiguas"
 
-#: src/editor/overlay_widget.cpp:1610
+#: src/editor/overlay_widget.cpp:1592
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1614
+#: src/editor/overlay_widget.cpp:1596
 msgid "Autotile erasing cannot be performed here"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1619
+#: src/editor/overlay_widget.cpp:1601
 msgid "Autotile mode is on (\"{}\")"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1623
+#: src/editor/overlay_widget.cpp:1605
 msgid "Selected tile isn't autotileable"
 msgstr "La tesela actual no se puede autoteselar"
 
-#: src/editor/overlay_widget.cpp:1628
+#: src/editor/overlay_widget.cpp:1610
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "Mantén pulsado Ctrl para autoborrar teselas"
 
-#: src/editor/overlay_widget.cpp:1632
+#: src/editor/overlay_widget.cpp:1614
 msgid "Hold Ctrl to enable autotile"
 msgstr "Mantén pulsado Ctrl para activar el autoteselado"
 
@@ -1784,7 +1789,7 @@ msgstr "Guardar como"
 msgid "Sector: {}"
 msgstr "Sector: {}"
 
-#: src/editor/layers_widget.cpp:456
+#: src/editor/layers_widget.cpp:454
 msgid "Add Layer"
 msgstr ""
 
@@ -1800,56 +1805,56 @@ msgstr "Pulsa Ctrl para mover los puntos de control Bézier"
 msgid "Easing"
 msgstr "Transición animada"
 
-#: src/addon/addon.cpp:71 src/supertux/menu/editor_levelset_menu.cpp:54
+#: src/addon/addon.cpp:75 src/supertux/menu/editor_levelset_menu.cpp:54
 msgid "Levelset"
 msgstr "Conjunto de niveles"
 
-#: src/addon/addon.cpp:74 src/supertux/menu/editor_levelset_menu.cpp:54
+#: src/addon/addon.cpp:78 src/supertux/menu/editor_levelset_menu.cpp:54
 #: data/images/engine/editor/objects.stoi:390
 msgid "Worldmap"
 msgstr "Mapa global"
 
-#: src/addon/addon.cpp:77
+#: src/addon/addon.cpp:81
 msgid "World"
 msgstr "Mundo"
 
-#: src/addon/addon.cpp:80
+#: src/addon/addon.cpp:84
 msgid "Add-on"
 msgstr "Mods"
 
-#: src/addon/addon.cpp:83
+#: src/addon/addon.cpp:87
 msgid "Language Pack"
 msgstr "Paquete de idiomas"
 
-#: src/addon/addon.cpp:86
+#: src/addon/addon.cpp:91
 msgid "Resource Pack"
 msgstr "Paquete de recursos"
 
-#: src/addon/addon.cpp:89
+#: src/addon/addon.cpp:94
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: src/addon/addon.cpp:100
+#: src/addon/addon.cpp:105
 msgid "{} \"{}\" by \"{}\""
 msgstr "{} \"{}\" por \"{}\""
 
-#: src/addon/addon.cpp:114
+#: src/addon/addon.cpp:119
 msgid "add-on"
 msgstr "mod"
 
-#: src/addon/addon.cpp:114
+#: src/addon/addon.cpp:119
 msgid "add-ons"
 msgstr "mods"
 
-#: src/addon/addon_manager.cpp:563
+#: src/addon/addon_manager.cpp:553
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr ""
 
-#: src/addon/addon_manager.cpp:827
+#: src/addon/addon_manager.cpp:810
 msgid "Add-on {} by {} is already installed."
 msgstr "El mod «{}» de «{}» ya estaba instalado."
 
-#: src/addon/addon_manager.cpp:847
+#: src/addon/addon_manager.cpp:830
 msgid "Add-on {} by {} successfully installed."
 msgstr "El mod «{}» de «{}» se ha instalado."
 
@@ -1881,11 +1886,11 @@ msgstr ""
 msgid "Bottom Right"
 msgstr ""
 
-#: src/supertux/title_screen.cpp:269
+#: src/supertux/title_screen.cpp:272
 msgid "Copyright"
 msgstr "Derechos de autor"
 
-#: src/supertux/title_screen.cpp:270
+#: src/supertux/title_screen.cpp:273
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
@@ -1960,73 +1965,71 @@ msgstr "abajo"
 msgid "auto"
 msgstr "autom."
 
-#: src/supertux/menu/contrib_menu.cpp:68
+#: src/supertux/menu/contrib_menu.cpp:71
 #: src/supertux/menu/world_set_menu.cpp:31
 msgid "Contrib Levels"
 msgstr "Niveles aportados"
 
-#: src/supertux/menu/contrib_menu.cpp:98
-#: src/supertux/menu/contrib_menu.cpp:112
+#: src/supertux/menu/contrib_menu.cpp:101
+#: src/supertux/menu/contrib_menu.cpp:115
 msgid "Official Contrib Levels"
 msgstr "Niveles oficiales de contribución"
 
-#: src/supertux/menu/contrib_menu.cpp:99
-#: src/supertux/menu/contrib_menu.cpp:118
+#: src/supertux/menu/contrib_menu.cpp:102
+#: src/supertux/menu/contrib_menu.cpp:121
 msgid "Community Contrib Levels"
 msgstr "Niveles de contribución por la Comunidad"
 
-#: src/supertux/menu/contrib_menu.cpp:100
-#: src/supertux/menu/contrib_menu.cpp:124
+#: src/supertux/menu/contrib_menu.cpp:103
+#: src/supertux/menu/contrib_menu.cpp:127
 msgid "User Contrib Levels"
 msgstr "Niveles de contribución por Usuarios"
 
-#: src/supertux/menu/contrib_menu.cpp:102
+#: src/supertux/menu/contrib_menu.cpp:105
 #: src/supertux/menu/integrations_menu.cpp:60
-#: src/supertux/menu/keyboard_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:72
 #: src/supertux/menu/worldmap_cheat_menu.cpp:57
-#: src/supertux/menu/worldmap_cheat_menu.cpp:196
+#: src/supertux/menu/worldmap_cheat_menu.cpp:185
 #: src/supertux/menu/addon_menu.cpp:161
 #: src/supertux/menu/web_asset_menu.cpp:48
 #: src/supertux/menu/profile_name_menu.cpp:45
 #: src/supertux/menu/language_menu.cpp:63
 #: src/supertux/menu/custom_menu_menu.cpp:65
-#: src/supertux/menu/world_set_menu.cpp:33 src/supertux/menu/debug_menu.cpp:92
+#: src/supertux/menu/world_set_menu.cpp:33 src/supertux/menu/debug_menu.cpp:84
 #: src/supertux/menu/editor_converters_menu.cpp:79
 #: src/supertux/menu/editor_level_select_menu.cpp:98
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:69
 #: src/supertux/menu/cheat_menu.cpp:57
-#: src/supertux/menu/editor_levelset_select_menu.cpp:114
-#: src/supertux/menu/addon_preview_menu.cpp:199
+#: src/supertux/menu/editor_levelset_select_menu.cpp:115
+#: src/supertux/menu/addon_preview_menu.cpp:205
 #: src/supertux/menu/addon_browse_menu.cpp:162
-#: src/supertux/menu/multiplayer_players_menu.cpp:91
+#: src/supertux/menu/multiplayer_players_menu.cpp:94
 #: src/supertux/menu/profile_menu.cpp:118
 #: src/supertux/menu/multiplayer_menu.cpp:39
 #: src/supertux/menu/editor_new_levelset_menu.cpp:40
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:41
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:62
-#: src/supertux/menu/joystick_menu.cpp:99
+#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:39
+#: src/supertux/menu/joystick_menu.cpp:100
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
 #: src/supertux/menu/options_menu.cpp:245
 #: src/supertux/menu/editor_delete_level_menu.cpp:68
-#: src/supertux/menu/multiplayer_player_menu.cpp:205
+#: src/supertux/menu/multiplayer_player_menu.cpp:187
 #: src/supertux/menu/video_system_menu.cpp:45
 #: src/supertux/menu/options_select_menu.cpp:44
 #: src/supertux/menu/addon_file_install_menu.cpp:36
 #: src/supertux/menu/sorted_contrib_menu.cpp:51
-#: src/supertux/menu/cheat_apply_menu.cpp:42
-#: src/supertux/menu/cheat_apply_menu.cpp:62 src/gui/menu_paths.cpp:67
+#: src/supertux/menu/cheat_apply_menu.cpp:40 src/gui/menu_paths.cpp:67
 msgid "Back"
 msgstr "Volver"
 
-#: src/supertux/menu/contrib_menu.cpp:113
+#: src/supertux/menu/contrib_menu.cpp:116
 msgid "How is this possible? There are no Official Contrib Levels!"
 msgstr ""
 
-#: src/supertux/menu/contrib_menu.cpp:119
+#: src/supertux/menu/contrib_menu.cpp:122
 msgid "No Community Contrib Levels yet. Download them from the Add-ons Menu."
 msgstr "Todavía no tienes niveles creados por la comunidad; descárgalos desde el menú de mods."
 
-#: src/supertux/menu/contrib_menu.cpp:125
+#: src/supertux/menu/contrib_menu.cpp:128
 msgid "No User Contrib Levels yet. Create some with the Level Editor."
 msgstr ""
 
@@ -2114,113 +2117,116 @@ msgstr "Abajo"
 msgid "Jump"
 msgstr "Saltar"
 
-#: src/supertux/menu/keyboard_menu.cpp:43
-#: src/supertux/menu/joystick_menu.cpp:78
-msgid "Peek Left"
-msgstr "Mirar a la izquierda"
+#: src/supertux/menu/keyboard_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:77
+msgid "Item Pocket"
+msgstr ""
 
 #: src/supertux/menu/keyboard_menu.cpp:44
 #: src/supertux/menu/joystick_menu.cpp:79
-msgid "Peek Right"
-msgstr "Mirar a la derecha"
+msgid "Peek Left"
+msgstr "Mirar a la izquierda"
 
 #: src/supertux/menu/keyboard_menu.cpp:45
 #: src/supertux/menu/joystick_menu.cpp:80
-msgid "Peek Up"
-msgstr "Mirar arriba"
+msgid "Peek Right"
+msgstr "Mirar a la derecha"
 
 #: src/supertux/menu/keyboard_menu.cpp:46
 #: src/supertux/menu/joystick_menu.cpp:81
+msgid "Peek Up"
+msgstr "Mirar arriba"
+
+#: src/supertux/menu/keyboard_menu.cpp:47
+#: src/supertux/menu/joystick_menu.cpp:82
 msgid "Peek Down"
 msgstr "Mirar abajo"
 
-#: src/supertux/menu/keyboard_menu.cpp:51
-#: src/supertux/menu/joystick_menu.cpp:83
+#: src/supertux/menu/keyboard_menu.cpp:52
+#: src/supertux/menu/joystick_menu.cpp:84
 msgid "Console"
 msgstr "Consola"
 
-#: src/supertux/menu/keyboard_menu.cpp:52
-#: src/supertux/menu/joystick_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:53
+#: src/supertux/menu/joystick_menu.cpp:85
 msgid "Cheat Menu"
 msgstr "Menú de trucos"
 
-#: src/supertux/menu/keyboard_menu.cpp:53
-#: src/supertux/menu/joystick_menu.cpp:85
+#: src/supertux/menu/keyboard_menu.cpp:54
+#: src/supertux/menu/joystick_menu.cpp:86
 msgid "Debug Menu"
 msgstr "Depurar Menu"
 
-#: src/supertux/menu/keyboard_menu.cpp:56
-#: src/supertux/menu/joystick_menu.cpp:87
+#: src/supertux/menu/keyboard_menu.cpp:57
+#: src/supertux/menu/joystick_menu.cpp:88
 msgid "Jump with Up"
 msgstr "Saltar con flecha arriba"
 
-#: src/supertux/menu/keyboard_menu.cpp:63
+#: src/supertux/menu/keyboard_menu.cpp:64
 #: src/supertux/menu/multiplayer_players_menu.cpp:39
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:38
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:59
+#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:36
 #: src/supertux/menu/multiplayer_player_menu.cpp:37
-#: src/supertux/menu/cheat_apply_menu.cpp:38
-#: src/supertux/menu/cheat_apply_menu.cpp:58
+#: src/supertux/menu/cheat_apply_menu.cpp:36
 msgid "Player {}"
 msgstr "Jugador {}"
 
-#: src/supertux/menu/keyboard_menu.cpp:82
+#: src/supertux/menu/keyboard_menu.cpp:83
 msgid "Up cursor"
 msgstr "Arriba"
 
-#: src/supertux/menu/keyboard_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:85
 msgid "Down cursor"
 msgstr "Abajo"
 
-#: src/supertux/menu/keyboard_menu.cpp:86
+#: src/supertux/menu/keyboard_menu.cpp:87
 msgid "Left cursor"
 msgstr "Izquierda"
 
-#: src/supertux/menu/keyboard_menu.cpp:88
+#: src/supertux/menu/keyboard_menu.cpp:89
 msgid "Right cursor"
 msgstr "Derecha"
 
-#: src/supertux/menu/keyboard_menu.cpp:90
+#: src/supertux/menu/keyboard_menu.cpp:91
 msgid "Return"
 msgstr "Enter"
 
-#: src/supertux/menu/keyboard_menu.cpp:92
+#: src/supertux/menu/keyboard_menu.cpp:93
 msgid "Space"
 msgstr "Espacio"
 
-#: src/supertux/menu/keyboard_menu.cpp:94
+#: src/supertux/menu/keyboard_menu.cpp:95
 msgid "Right Shift"
 msgstr "Mayús derecho"
 
-#: src/supertux/menu/keyboard_menu.cpp:96
+#: src/supertux/menu/keyboard_menu.cpp:97
 msgid "Left Shift"
 msgstr "Mayús izquierdo"
 
-#: src/supertux/menu/keyboard_menu.cpp:98
+#: src/supertux/menu/keyboard_menu.cpp:99
 msgid "Right Control"
 msgstr "Ctrl derecho"
 
-#: src/supertux/menu/keyboard_menu.cpp:100
+#: src/supertux/menu/keyboard_menu.cpp:101
 msgid "Left Control"
 msgstr "Ctrl izquierdo"
 
-#: src/supertux/menu/keyboard_menu.cpp:102
+#: src/supertux/menu/keyboard_menu.cpp:103
 msgid "Right Alt"
 msgstr "Alt derecho"
 
-#: src/supertux/menu/keyboard_menu.cpp:104
+#: src/supertux/menu/keyboard_menu.cpp:105
 msgid "Left Alt"
 msgstr "Alt izquierdo"
 
-#: src/supertux/menu/keyboard_menu.cpp:106
+#: src/supertux/menu/keyboard_menu.cpp:107
 msgid "Right Command"
 msgstr "Control derecho"
 
-#: src/supertux/menu/keyboard_menu.cpp:108
+#: src/supertux/menu/keyboard_menu.cpp:109
 msgid "Left Command"
 msgstr "Control izquierdo"
 
-#: src/supertux/menu/keyboard_menu.cpp:122
+#: src/supertux/menu/keyboard_menu.cpp:121
 msgid "Press Key"
 msgstr "Pulsa la tecla"
 
@@ -2293,7 +2299,7 @@ msgstr "Ir a nivel"
 msgid "Go to main spawnpoint"
 msgstr "Ir al punto de aparición principal"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:188
+#: src/supertux/menu/worldmap_cheat_menu.cpp:177
 msgid "Select level"
 msgstr "Elegir nivel"
 
@@ -2399,7 +2405,7 @@ msgstr "Añadir perfil"
 #: src/supertux/menu/editor_level_menu.cpp:33
 #: src/supertux/menu/editor_new_levelset_menu.cpp:34
 #: src/supertux/menu/editor_levelset_menu.cpp:52
-#: src/supertux/game_object.cpp:127 src/trigger/secretarea_trigger.cpp:55
+#: src/supertux/game_object.cpp:111 src/trigger/secretarea_trigger.cpp:55
 msgid "Name"
 msgstr "Nombre"
 
@@ -2436,7 +2442,7 @@ msgid ""
 "{}"
 msgstr "Error:\n{}"
 
-#: src/supertux/menu/download_dialog.cpp:124 src/gui/notification.cpp:157
+#: src/supertux/menu/download_dialog.cpp:118 src/gui/notification.cpp:157
 msgid "Close"
 msgstr "Cerrar"
 
@@ -2509,59 +2515,59 @@ msgstr "Comenzar el juego"
 msgid "Story Mode"
 msgstr "Modo historia"
 
-#: src/supertux/menu/debug_menu.cpp:38
+#: src/supertux/menu/debug_menu.cpp:36
 msgid "Debug"
 msgstr "Depurar"
 
-#: src/supertux/menu/debug_menu.cpp:62
+#: src/supertux/menu/debug_menu.cpp:60
 msgid "Game Speed"
 msgstr "Velocidad del juego"
 
-#: src/supertux/menu/debug_menu.cpp:63
+#: src/supertux/menu/debug_menu.cpp:61
 msgid "Adjust Game Speed"
 msgstr "Ajustar la velocidad del juego durante la partida"
 
-#: src/supertux/menu/debug_menu.cpp:69
+#: src/supertux/menu/debug_menu.cpp:67
 msgid "Show Collision Rects"
 msgstr "Mostrar colisión entre objetos"
 
-#: src/supertux/menu/debug_menu.cpp:70
+#: src/supertux/menu/debug_menu.cpp:68
 msgid "Show Worldmap Path"
 msgstr "Mostrar las rutas en el mapamundi"
 
-#: src/supertux/menu/debug_menu.cpp:71
+#: src/supertux/menu/debug_menu.cpp:69
 msgid "Show Controller"
 msgstr "Ver el controlador"
 
-#: src/supertux/menu/debug_menu.cpp:72
+#: src/supertux/menu/debug_menu.cpp:70
 msgid "Show Framerate"
 msgstr "Mostrar FPS"
 
-#: src/supertux/menu/debug_menu.cpp:73
+#: src/supertux/menu/debug_menu.cpp:71
 msgid "Draw Redundant Frames"
 msgstr "Dibujar fotogramas redundantes"
 
-#: src/supertux/menu/debug_menu.cpp:74
+#: src/supertux/menu/debug_menu.cpp:72
 msgid "Show Player Position"
 msgstr "Mostrar posición de jugador"
 
-#: src/supertux/menu/debug_menu.cpp:75
+#: src/supertux/menu/debug_menu.cpp:73
 msgid "Use Bitmap Fonts"
 msgstr "Utilizar fuentes del mapa de bits"
 
-#: src/supertux/menu/debug_menu.cpp:78
+#: src/supertux/menu/debug_menu.cpp:76
 msgid "Show Tile IDs in Editor Toolbox"
 msgstr ""
 
-#: src/supertux/menu/debug_menu.cpp:80
+#: src/supertux/menu/debug_menu.cpp:78
 msgid "Reload Resources"
 msgstr ""
 
-#: src/supertux/menu/debug_menu.cpp:87
+#: src/supertux/menu/debug_menu.cpp:79
 msgid "Reloads all fonts, textures, sprites and tilesets."
 msgstr ""
 
-#: src/supertux/menu/debug_menu.cpp:89
+#: src/supertux/menu/debug_menu.cpp:81
 msgid "Dump Texture Cache"
 msgstr "Vuelca caché de textura "
 
@@ -2675,7 +2681,7 @@ msgid "Resize"
 msgstr "Redimensionar"
 
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:41
-#: src/supertux/menu/editor_levelset_select_menu.cpp:113
+#: src/supertux/menu/editor_levelset_select_menu.cpp:114
 msgid "Delete World"
 msgstr "Borrar mundo"
 
@@ -2703,18 +2709,18 @@ msgstr "Matar a Tux"
 msgid "Prevent Death"
 msgstr "Evitar morir"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:71
+#: src/supertux/menu/editor_levelset_select_menu.cpp:72
 msgid "Choose World"
 msgstr "Elegir un mundo"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:99
+#: src/supertux/menu/editor_levelset_select_menu.cpp:100
 msgid "{} level"
 msgid_plural "{} levels"
 msgstr[0] "{} nivel"
 msgstr[1] "{} niveles"
 msgstr[2] "{} niveles"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:112
+#: src/supertux/menu/editor_levelset_select_menu.cpp:113
 msgid "Create World"
 msgstr "Crear un mundo"
 
@@ -2938,135 +2944,139 @@ msgstr ""
 msgid "There are no more deprecated tiles in the level!"
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:84
+#: src/supertux/menu/addon_preview_menu.cpp:87
 msgid "{} \"{}\""
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:89
+#: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "Some information about this add-on is not available."
 msgstr "A este mod le falta información."
 
-#: src/supertux/menu/addon_preview_menu.cpp:90
+#: src/supertux/menu/addon_preview_menu.cpp:93
 msgid "Perform a \"Check Online\" to try retrieving it."
 msgstr "Realice una \"Verificar en línea\" para intentar recuperarlo."
 
-#: src/supertux/menu/addon_preview_menu.cpp:94
+#: src/supertux/menu/addon_preview_menu.cpp:97
 msgid "No author specified."
 msgstr "Autor no disponible"
 
-#: src/supertux/menu/addon_preview_menu.cpp:94
+#: src/supertux/menu/addon_preview_menu.cpp:97
 msgid "Author: {}"
 msgstr "Autor: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:95
+#: src/supertux/menu/addon_preview_menu.cpp:98
 msgid "Type: {}"
 msgstr "Tipo: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:96
+#: src/supertux/menu/addon_preview_menu.cpp:99
 msgid "No license specified."
 msgstr "Licencia de uso desconocida."
 
-#: src/supertux/menu/addon_preview_menu.cpp:96
+#: src/supertux/menu/addon_preview_menu.cpp:99
 msgid "License: {}"
 msgstr "Licencia: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:101
+#: src/supertux/menu/addon_preview_menu.cpp:104
 msgid "Dependencies:"
 msgstr "Dependencias:"
 
-#: src/supertux/menu/addon_preview_menu.cpp:110
+#: src/supertux/menu/addon_preview_menu.cpp:113
 msgid "Installed"
 msgstr "Instalado"
 
-#: src/supertux/menu/addon_preview_menu.cpp:110
+#: src/supertux/menu/addon_preview_menu.cpp:113
 msgid "Not installed"
 msgstr "Sin instalar"
 
-#: src/supertux/menu/addon_preview_menu.cpp:115
+#: src/supertux/menu/addon_preview_menu.cpp:118
 msgid "Not available!"
 msgstr "No disponible"
 
-#: src/supertux/menu/addon_preview_menu.cpp:122
+#: src/supertux/menu/addon_preview_menu.cpp:125
 msgid "Description:"
 msgstr "Descripción:"
 
-#: src/supertux/menu/addon_preview_menu.cpp:125
+#: src/supertux/menu/addon_preview_menu.cpp:128
 msgid "No description available."
 msgstr "Parece que no tiene descripción."
 
-#: src/supertux/menu/addon_preview_menu.cpp:149
+#: src/supertux/menu/addon_preview_menu.cpp:141
+msgid "Overrides Data: "
+msgstr ""
+
+#: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
 msgstr "No se pudieron cargar las capturas de pantalla."
 
-#: src/supertux/menu/addon_preview_menu.cpp:154
+#: src/supertux/menu/addon_preview_menu.cpp:160
 msgid "To fetch add-on screenshots, you must enable networking."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:158
+#: src/supertux/menu/addon_preview_menu.cpp:164
 msgid "Show screenshots"
 msgstr "Ver capturas de pantalla"
 
-#: src/supertux/menu/addon_preview_menu.cpp:171
+#: src/supertux/menu/addon_preview_menu.cpp:177
 msgid "Screenshot previews are disabled for automatic installs."
 msgstr "Las imágenes de vista previa están desactivadas en las descargas automáticas."
 
-#: src/supertux/menu/addon_preview_menu.cpp:175
+#: src/supertux/menu/addon_preview_menu.cpp:181
 msgid "No screenshot previews available."
 msgstr "No parece que haya ninguna captura disponible."
 
-#: src/supertux/menu/addon_preview_menu.cpp:183
+#: src/supertux/menu/addon_preview_menu.cpp:189
 msgid "Install"
 msgstr "Instalar"
 
-#: src/supertux/menu/addon_preview_menu.cpp:196
+#: src/supertux/menu/addon_preview_menu.cpp:202
 msgid "Uninstall"
 msgstr "Desinstalar"
 
-#: src/supertux/menu/addon_preview_menu.cpp:220
+#: src/supertux/menu/addon_preview_menu.cpp:226
 msgid "Are you sure you want to uninstall \"{}\"?"
 msgstr "¿Seguro que quieres desinstalar «{}»?"
 
-#: src/supertux/menu/addon_preview_menu.cpp:221
+#: src/supertux/menu/addon_preview_menu.cpp:227
 msgid ""
 "\n"
 "Your progress won't be lost."
 msgstr "\nNo perderás ningún progreso."
 
-#: src/supertux/menu/addon_preview_menu.cpp:233
+#: src/supertux/menu/addon_preview_menu.cpp:239
 msgid ""
 "NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\n"
 "Are you sure you wish to uninstall?"
 msgstr "NOTA: De este mod «{}» dependen {} otros {} instalados.\n¿Seguro que quieres borrarlo?"
 
-#: src/supertux/menu/addon_preview_menu.cpp:252
+#: src/supertux/menu/addon_preview_menu.cpp:258
 msgid ""
 "Cannot toggle add-on \"{}\":\n"
 "{}"
 msgstr "No se puede cambiar el estado del mod «{}»:\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:285
+#: src/supertux/menu/addon_preview_menu.cpp:291
 msgid "Fetching screenshot previews..."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:306
+#: src/supertux/menu/addon_preview_menu.cpp:312
 msgid "Updating"
 msgstr "Actualizando"
 
-#: src/supertux/menu/addon_preview_menu.cpp:306
+#: src/supertux/menu/addon_preview_menu.cpp:312
 msgid "Downloading"
 msgstr "Descargando"
 
-#: src/supertux/menu/addon_preview_menu.cpp:334
+#: src/supertux/menu/addon_preview_menu.cpp:340
 msgid "Add-on uninstalled successfully."
 msgstr "El mod se ha quitado."
 
-#: src/supertux/menu/addon_preview_menu.cpp:339
+#: src/supertux/menu/addon_preview_menu.cpp:345
 msgid ""
 "Error uninstalling add-on:\n"
 "{}"
 msgstr "Hubo un error al quitar el mod:\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:367
+#: src/supertux/menu/addon_preview_menu.cpp:373
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
@@ -3180,19 +3190,27 @@ msgstr "Nota del nivel"
 msgid "Tileset"
 msgstr "Esquema de teselas"
 
-#: src/supertux/menu/editor_level_menu.cpp:42
+#: src/supertux/menu/editor_level_menu.cpp:43
+msgid "Inherit"
+msgstr ""
+
+#: src/supertux/menu/editor_level_menu.cpp:45
+msgid "Allow Item Pocket"
+msgstr ""
+
+#: src/supertux/menu/editor_level_menu.cpp:49
 msgid "Target Time"
 msgstr "Tiempo Objetivo"
 
-#: src/supertux/menu/editor_level_menu.cpp:87
+#: src/supertux/menu/editor_level_menu.cpp:94
 msgid "Please enter a name for this level."
 msgstr "Por favor ingrese un nombre para este nivel."
 
-#: src/supertux/menu/editor_level_menu.cpp:91
+#: src/supertux/menu/editor_level_menu.cpp:98
 msgid "Please enter a level author for this level."
 msgstr "Por favor ingrese un nombre de autor para este nivel."
 
-#: src/supertux/menu/editor_level_menu.cpp:95
+#: src/supertux/menu/editor_level_menu.cpp:102
 msgid "Please enter a license for this level."
 msgstr "Por favor ingrese una licencia para este nivel."
 
@@ -3247,15 +3265,15 @@ msgstr "Descargando el índice con todos los mods"
 msgid "Multiplayer"
 msgstr "Multijugador"
 
-#: src/supertux/menu/multiplayer_players_menu.cpp:46
+#: src/supertux/menu/multiplayer_players_menu.cpp:48
 msgid "Add Player"
 msgstr "Añadir jugador"
 
-#: src/supertux/menu/multiplayer_players_menu.cpp:59
+#: src/supertux/menu/multiplayer_players_menu.cpp:62
 msgid "Remove Last Player"
 msgstr "Quitar último jugador"
 
-#: src/supertux/menu/multiplayer_players_menu.cpp:62
+#: src/supertux/menu/multiplayer_players_menu.cpp:65
 msgid ""
 "Warning: The player you are trying to\n"
 "remove is currently in-game.\n"
@@ -3373,18 +3391,10 @@ msgstr "Descripción"
 msgid "Please enter a name for this level subset."
 msgstr "Por favor ingrese un nombre para este subconjunto de nivel."
 
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:34
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:51
-#: src/supertux/menu/cheat_apply_menu.cpp:32
-#: src/supertux/menu/cheat_apply_menu.cpp:50
+#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:32
+#: src/supertux/menu/cheat_apply_menu.cpp:30
 msgid "Apply cheat to player"
 msgstr "Trucos para el jugador"
-
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:56
-#: src/supertux/menu/cheat_apply_menu.cpp:35
-#: src/supertux/menu/cheat_apply_menu.cpp:55
-msgid "All Players"
-msgstr "Todos los jugadores"
 
 #: src/supertux/menu/joystick_menu.cpp:54
 #: src/supertux/menu/options_menu.cpp:176
@@ -3400,55 +3410,55 @@ msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
 msgstr "Usar la configuración manual para mandos en vez de las plantillas de botones de SDL2"
 
-#: src/supertux/menu/joystick_menu.cpp:77
+#: src/supertux/menu/joystick_menu.cpp:78
 msgid "Pause/Menu"
 msgstr "Pausa/Menú"
 
-#: src/supertux/menu/joystick_menu.cpp:93
+#: src/supertux/menu/joystick_menu.cpp:94
 msgid "No Joysticks found"
 msgstr "No se ha encontrado ningún joystick"
 
-#: src/supertux/menu/joystick_menu.cpp:94
+#: src/supertux/menu/joystick_menu.cpp:95
 msgid "Scan for Joysticks"
 msgstr "Buscar joysticks"
 
-#: src/supertux/menu/joystick_menu.cpp:127
+#: src/supertux/menu/joystick_menu.cpp:125
 msgid "Press Button"
 msgstr "Presiona un botón"
 
-#: src/supertux/menu/joystick_menu.cpp:164
+#: src/supertux/menu/joystick_menu.cpp:162
 msgid "Axis "
 msgstr "Eje"
 
-#: src/supertux/menu/joystick_menu.cpp:167
+#: src/supertux/menu/joystick_menu.cpp:165
 msgid "-"
 msgstr "-"
 
-#: src/supertux/menu/joystick_menu.cpp:169
+#: src/supertux/menu/joystick_menu.cpp:167
 msgid "+"
 msgstr "+"
 
-#: src/supertux/menu/joystick_menu.cpp:176
+#: src/supertux/menu/joystick_menu.cpp:174
 msgid "X2"
 msgstr "X2"
 
-#: src/supertux/menu/joystick_menu.cpp:178
+#: src/supertux/menu/joystick_menu.cpp:176
 msgid "Y2"
 msgstr "Y2"
 
-#: src/supertux/menu/joystick_menu.cpp:191
+#: src/supertux/menu/joystick_menu.cpp:189
 msgid "Hat Up"
 msgstr "Inclinar hacia arriba"
 
-#: src/supertux/menu/joystick_menu.cpp:195
+#: src/supertux/menu/joystick_menu.cpp:193
 msgid "Hat Down"
 msgstr "Inclinar hacia abajo"
 
-#: src/supertux/menu/joystick_menu.cpp:199
+#: src/supertux/menu/joystick_menu.cpp:197
 msgid "Hat Left"
 msgstr "Inclinar a la izquierda"
 
-#: src/supertux/menu/joystick_menu.cpp:203
+#: src/supertux/menu/joystick_menu.cpp:201
 msgid "Hat Right"
 msgstr "Inclinar a la derecha"
 
@@ -3785,7 +3795,7 @@ msgid "You are about to delete level \"{}\". Are you sure?"
 msgstr "Estas a punto de borrar el nivel «{}». ¿Seguro que quieres hacerlo?"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:54
-#: src/supertux/game_object.cpp:141
+#: src/supertux/game_object.cpp:125
 msgid "Type"
 msgstr "Tipo"
 
@@ -3805,37 +3815,37 @@ msgstr "Jugar con el teclado"
 msgid "Remove Player"
 msgstr "Borrar al jugador"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:82
+#: src/supertux/menu/multiplayer_player_menu.cpp:76
 msgid "Respawn Player"
 msgstr "Reiniciar el jugador"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:108
+#: src/supertux/menu/multiplayer_player_menu.cpp:102
 msgid "Spawn Player"
 msgstr "Crear jugador"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:136
+#: src/supertux/menu/multiplayer_player_menu.cpp:118
 msgid "Controllers"
 msgstr "Mandos"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:152
+#: src/supertux/menu/multiplayer_player_menu.cpp:134
 msgid ""
 "This controller does not support rumbling;\n"
 "please check the controllers manually."
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:157
+#: src/supertux/menu/multiplayer_player_menu.cpp:139
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "controllers; please check the controllers manually."
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:184
+#: src/supertux/menu/multiplayer_player_menu.cpp:166
 msgid ""
 "This joystick does not support rumbling;\n"
 "please check the joysticks manually."
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:189
+#: src/supertux/menu/multiplayer_player_menu.cpp:171
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "joysticks; please check the joysticks manually."
@@ -3882,15 +3892,19 @@ msgstr "Suelta aquí un archivo .zip con un mod dentro"
 msgid "Save particle as"
 msgstr "Guardar partícula como"
 
+#: src/supertux/menu/cheat_apply_menu.cpp:33
+msgid "All Players"
+msgstr "Todos los jugadores"
+
 #: src/supertux/moving_object.cpp:66
 msgid "Region"
 msgstr "Región"
 
-#: src/supertux/sector.cpp:528
+#: src/supertux/sector.cpp:514
 msgid "Press escape to skip"
 msgstr "Pulsa escape para saltar"
 
-#: src/supertux/game_object.cpp:126
+#: src/supertux/game_object.cpp:110
 msgid "Version"
 msgstr "Versión"
 
@@ -4075,11 +4089,11 @@ msgstr "Tiempo a batir"
 msgid "Others"
 msgstr "Otros"
 
-#: src/supertux/main.cpp:804
+#: src/supertux/main.cpp:802
 msgid "New release: SuperTux v{}!"
 msgstr "Nueva versión: SuperTux v{}!"
 
-#: src/supertux/main.cpp:807
+#: src/supertux/main.cpp:805
 msgid ""
 "A new release of SuperTux (v{}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -4087,15 +4101,15 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "Hay una versión nueva de SuperTux (v{}) disponible.\nPuedes visitar nuestra web para descargarla y ver más cosas.\n\n¿Quieres ir a la web ahora?"
 
-#: src/supertux/main.cpp:818
+#: src/supertux/main.cpp:816
 msgid "Checking for new releases..."
 msgstr "Buscando una versión más reciente..."
 
-#: src/supertux/game_object.hpp:124
+#: src/supertux/game_object.hpp:122
 msgid "Unknown object"
 msgstr "Objeto desconocido"
 
-#: src/control/joystick_config.cpp:85
+#: src/control/joystick_config.cpp:86
 msgid "Joystick Mappings"
 msgstr "Mapear joystick"
 
@@ -4120,23 +4134,23 @@ msgstr "Mapa de mundo objetivo"
 msgid "Teleporter"
 msgstr "Teletransportador"
 
-#: src/worldmap/level_tile.hpp:36 src/worldmap/level_tile.cpp:161
+#: src/worldmap/level_tile.hpp:36 src/worldmap/level_tile.cpp:153
 msgid "Level"
 msgstr "Nivel"
 
-#: src/worldmap/level_tile.cpp:84
+#: src/worldmap/level_tile.cpp:86
 msgid "<no title>"
 msgstr "<sin título>"
 
-#: src/worldmap/level_tile.cpp:162
+#: src/worldmap/level_tile.cpp:154
 msgid "Outro script"
 msgstr "Script de cierre"
 
-#: src/worldmap/level_tile.cpp:163
+#: src/worldmap/level_tile.cpp:155
 msgid "Auto play"
 msgstr "Reproducción automática"
 
-#: src/worldmap/level_tile.cpp:164
+#: src/worldmap/level_tile.cpp:156
 msgid "Title colour"
 msgstr "Color del título"
 
@@ -4405,11 +4419,11 @@ msgstr "Límite máximo de malos"
 
 #: src/badguy/dispenser.cpp:437
 msgid "Dropper"
-msgstr ""
+msgstr "Soltador"
 
 #: src/badguy/dispenser.cpp:438
 msgid "Cannon"
-msgstr ""
+msgstr "Cañón"
 
 #: src/badguy/mrbomb.hpp:55
 msgid "Mr. Bomb"
@@ -4435,7 +4449,7 @@ msgstr "Kugelblitz"
 msgid "Plant"
 msgstr "Planta"
 
-#: src/badguy/badguy.cpp:1142
+#: src/badguy/badguy.cpp:1213
 msgid "Death script"
 msgstr "Script muerto"
 
@@ -4477,7 +4491,7 @@ msgstr "Velocidad de vuelo"
 
 #: src/badguy/tarantula.hpp:39 src/badguy/tarantula.cpp:353
 msgid "Tarantula"
-msgstr ""
+msgstr "Tarántula"
 
 #: src/badguy/jumpy.cpp:45
 msgid "Wooden"
@@ -4531,7 +4545,7 @@ msgstr "Piedra furiosa"
 msgid "Crusher"
 msgstr ""
 
-#: src/badguy/boss.cpp:88
+#: src/badguy/boss.cpp:95
 msgid "Lives"
 msgstr "Vidas"
 
@@ -4539,7 +4553,7 @@ msgstr "Vidas"
 #. activated once the boss has lost the specified amounts of lives.
 #. This setting specifies how many lives need to be spent until pinch
 #. mode is activated.
-#: src/badguy/boss.cpp:94
+#: src/badguy/boss.cpp:101
 msgid "Lives to Pinch Mode"
 msgstr ""
 
@@ -4547,7 +4561,7 @@ msgstr ""
 #. activated once the boss has lost the specified amounts of lives.
 #. This setting specifies the squirrel script that gets run to activate boss
 #. mode.
-#: src/badguy/boss.cpp:99
+#: src/badguy/boss.cpp:106
 msgid "Pinch Mode Activation Script"
 msgstr ""
 
@@ -4765,11 +4779,23 @@ msgstr "Haz clic aquí para más información."
 msgid "Do not show again"
 msgstr "No volver a mostrar"
 
-#: src/gui/menu_color.cpp:24
+#: src/gui/menu_color.cpp:29
 msgid "Mix the colour"
 msgstr "Mezclar el color"
 
-#: src/gui/menu_filesystem.cpp:118
+#: src/gui/menu_color.cpp:40
+msgid "Copy to clipboard (rgb)"
+msgstr ""
+
+#: src/gui/menu_color.cpp:41
+msgid "Copy to clipboard (hex)"
+msgstr ""
+
+#: src/gui/menu_color.cpp:57 src/gui/menu_color.cpp:60
+msgid "Paste from clipboard"
+msgstr ""
+
+#: src/gui/menu_filesystem.cpp:119
 msgid "Open Directory"
 msgstr "Abrir carpeta"
 
