@@ -33,7 +33,7 @@
 
 #include "util/file_system.hpp"
 
-#if (defined(__unix__) || defined(__APPLE__)) && !(defined(__EMSCRIPTEN__))
+#if (defined(__unix__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__)) && !(defined(__EMSCRIPTEN__))
 #define UNIX
 #endif
 

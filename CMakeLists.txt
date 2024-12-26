@@ -218,6 +218,10 @@ endif()
 # $<$<BOOL:WIN32>:{CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc>
 target_include_directories(supertux2 PUBLIC ${CMAKE_BINARY_DIR} src/)
 
+if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD|NetBSD")
+  target_link_options(supertux2 PUBLIC -lexecinfo)
+endif()
+
 if(WIN32)
   include(SuperTux/Win32)
 endif()
