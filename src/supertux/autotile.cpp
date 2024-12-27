@@ -36,7 +36,7 @@ AutotileMask::matches(uint8_t mask, bool center) const
 
 // Autotile.
 
-Autotile::Autotile(uint32_t tile_id, const std::vector<std::pair<uint32_t, float>>& alt_tiles, const std::vector<AutotileMask>& masks, bool solid) :
+Autotile::Autotile(uint32_t tile_id, const std::vector<std::pair<uint32_t, AltCondition>>& alt_tiles, const std::vector<AutotileMask>& masks, bool solid) :
   m_tile_id(tile_id),
   m_alt_tiles(alt_tiles),
   m_masks(std::move(masks)),
@@ -62,7 +62,7 @@ Autotile::pick_tile(int x, int y) const
 {
   // Needed? Not needed?
   // Could avoid pointless computation.
-  if (m_alt_tiles.size() == 0)
+  if (m_alt_tiles.empty())
     return m_tile_id;
 
   // srand() and rand() are inconsistent across platforms (Windows)
@@ -77,11 +77,22 @@ Autotile::pick_tile(int x, int y) const
 
   for (const auto& pair : m_alt_tiles)
   {
-    rnd_val -= pair.second;
-    if (rnd_val <= 0)
+    const AltCondition& cond = pair.second;
+    if (!cond.period_x.first && !cond.period_y.first && cond.weight <= 0.f)
+      continue;
+
+    if (cond.period_x.first && x % cond.period_x.first != cond.period_x.second)
+      continue;
+    if (cond.period_y.first && y % cond.period_y.first != cond.period_y.second)
+      continue;
+    if (cond.weight > 0.f)
     {
-      return pair.first;
+      rnd_val -= cond.weight;
+      if (rnd_val > 0.f)
+        continue;
     }
+
+    return pair.first;
   }
 
   return m_tile_id;
