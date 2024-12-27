@@ -766,13 +766,19 @@ PathObjectOption::PathObjectOption(const std::string& text, Path* path, const st
 void
 PathObjectOption::parse(const ReaderMapping& reader)
 {
-  m_value_pointer->read(reader);
+  std::optional<ReaderMapping> path_mapping;
+  if (reader.get("path", path_mapping))
+    m_value_pointer->read(*path_mapping);
 }
 
 void
-PathObjectOption::save(Writer& write) const
+PathObjectOption::save(Writer& writer) const
 {
-  m_value_pointer->save(write);
+  if (!m_value_pointer->is_valid()) return;
+
+  writer.start_list("path");
+  m_value_pointer->save(writer);
+  writer.end_list("path");
 }
 
 std::string
@@ -981,9 +987,9 @@ StringArrayOption::parse(const ReaderMapping& reader)
 }
 
 void
-StringArrayOption::save(Writer& write) const
+StringArrayOption::save(Writer& writer) const
 {
-  write.write("strings", m_items);
+  writer.write("strings", m_items);
 }
 
 void
