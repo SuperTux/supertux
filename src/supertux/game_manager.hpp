@@ -33,9 +33,9 @@ class GameManager final : public Currenton<GameManager>
 public:
   GameManager();
 
-  void start_worldmap(const World& world, const std::string& worldmap_filename = "",
+  bool start_worldmap(const World& world, const std::string& worldmap_filename = "",
                       const std::string& sector = "", const std::string& spawnpoint = "");
-  void start_worldmap(const World& world, const std::string& worldmap_filename,
+  bool start_worldmap(const World& world, const std::string& worldmap_filename,
                       const std::optional<std::pair<std::string, Vector>>& start_pos);
   void start_level(const World& world, const std::string& level_filename,
                    const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);

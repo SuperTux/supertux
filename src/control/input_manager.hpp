@@ -53,13 +53,13 @@ public:
   void reset();
 
   void use_game_controller(bool v);
-  bool use_game_controller() const { return m_use_game_controller; }
+  inline bool use_game_controller() const { return m_use_game_controller; }
 
   const Controller& get_controller(int player_id = 0) const;
   Controller& get_controller(int player_id = 0);
 
-  int get_num_users() const { return static_cast<int>(m_controllers.size()); }
-
+  inline int get_num_users() const { return static_cast<int>(m_controllers.size()); }
+  bool can_add_user() const;
   void push_user();
   void pop_user();
 

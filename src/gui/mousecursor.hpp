@@ -54,10 +54,10 @@ public:
 
   void draw(DrawingContext& context);
 
-  void set_state(MouseCursorState state);
-  void set_icon(SurfacePtr icon);
+  inline void set_state(MouseCursorState state) { m_state = state; }
+  inline void set_icon(SurfacePtr icon) { m_icon = std::move(icon); }
 
-  void set_pos(int x, int y) { m_mobile_mode = true; m_x = x; m_y = y; }
+  inline void set_pos(int x, int y) { m_mobile_mode = true; m_x = x; m_y = y; }
 
 private:
   void apply_state(MouseCursorState state);

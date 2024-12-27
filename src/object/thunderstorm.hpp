@@ -17,10 +17,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 #define HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 
+#include "editor/layer_object.hpp"
+
 #include <list>
 #include <map>
 
-#include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
 class DrawingContext;
@@ -35,7 +36,7 @@ class ReaderMapping;
  * @instances A ""Thunderstorm"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class Thunderstorm final : public GameObject
+class Thunderstorm final : public LayerObject
 {
 public:
   static void register_class(ssq::VM& vm);

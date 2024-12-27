@@ -34,7 +34,7 @@
 static const float TIME_WARNING = 20;
 
 LevelTime::LevelTime(const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   time_surface(Surface::from_file("images/engine/hud/time-0.png")),
   running(!Editor::is_active()),
   time_left()

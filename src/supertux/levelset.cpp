@@ -48,7 +48,7 @@ void
 Levelset::walk_directory(const std::string& directory, bool recursively)
 {
   bool is_basedir = (directory == m_basedir);
-  bool enumerateSuccess = physfsutil::enumerate_files(directory, [directory, is_basedir, recursively, this](const auto& filename) {
+  bool enumerateSuccess = physfsutil::enumerate_files_alphabetical(directory, [directory, is_basedir, recursively, this](const auto& filename) {
     auto filepath = FileSystem::join(directory, filename);
     if (physfsutil::is_directory(filepath) && recursively)
     {
@@ -67,6 +67,7 @@ Levelset::walk_directory(const std::string& directory, bool recursively)
         m_levels.push_back(filepath);
       }
     }
+    return false;
   });
 
   if (!enumerateSuccess)

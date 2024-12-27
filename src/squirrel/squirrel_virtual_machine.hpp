@@ -32,7 +32,7 @@ public:
   SquirrelVirtualMachine(bool enable_debugger);
   ~SquirrelVirtualMachine() override;
 
-  ssq::VM& get_vm() { return m_vm; }
+  inline ssq::VM& get_vm() { return m_vm; }
 
   SQInteger wait_for_seconds(HSQUIRRELVM vm, float seconds);
   SQInteger skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds);

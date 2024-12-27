@@ -128,7 +128,7 @@ Dispenser::deactivate()
 }
 
 HitResponse
-Dispenser::collision(GameObject& other, const CollisionHit& hit)
+Dispenser::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto bullet = dynamic_cast<Bullet*> (&other);
   if (bullet)

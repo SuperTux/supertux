@@ -119,16 +119,18 @@ TitleScreen::refresh_level()
       std::unique_ptr<GameSession> new_session;
       try
       {
-        new_session = std::make_unique<GameSession>(title_level, m_savegame, nullptr, true);
+        new_session = std::make_unique<GameSession>(title_level, m_savegame, nullptr);
       }
       catch (const std::exception& err)
       {
         log_warning << "Error loading custom title screen level '" << title_level << "': " << err.what() << std::endl;
 
         if (!m_titlesession || m_titlesession->get_level_file() != DEFAULT_TITLE_LEVEL)
-          new_session = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
+        {
+          new_session = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr);
+        }
       }
-
+      new_session->restart_level(false, true);
       if (new_session)
       {
         m_titlesession = std::move(new_session);
@@ -138,7 +140,8 @@ TitleScreen::refresh_level()
   }
   else if (!m_titlesession || m_titlesession->get_level_file() != DEFAULT_TITLE_LEVEL)
   {
-    m_titlesession = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
+    m_titlesession = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr);
+    m_titlesession->restart_level(false, true);
     level_init = true;
   }
 

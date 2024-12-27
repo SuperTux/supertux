@@ -376,11 +376,13 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 
   if (!m_level->is_worldmap())
   {
+    // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
+    //       If not, call reactivate().
     GameManager::current()->start_level(*current_world, backup_filename, test_pos);
   }
-  else
+  else if (!GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos))
   {
-    GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos);
+    reactivate();
   }
 }
 
@@ -390,30 +392,6 @@ Editor::open_level_directory()
   m_level->save(FileSystem::join(get_level_directory(), m_levelfile));
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
   FileSystem::open_path(path);
-}
-
-void
-Editor::set_world(std::unique_ptr<World> w)
-{
-  m_world = std::move(w);
-}
-
-int
-Editor::get_tileselect_select_mode() const
-{
-  return m_toolbox_widget->get_tileselect_select_mode();
-}
-
-int
-Editor::get_tileselect_move_mode() const
-{
-  return m_toolbox_widget->get_tileselect_move_mode();
-}
-
-void
-Editor::update_autotileset()
-{
-  m_overlay_widget->update_autotileset();
 }
 
 void
@@ -594,10 +572,19 @@ void
 Editor::reload_level()
 {
   ReaderMapping::s_translations_enabled = false;
-  set_level(LevelParser::from_file(m_world ?
-                                   FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
-                                   StringUtil::has_suffix(m_levelfile, ".stwm"),
-                                   true));
+  try
+  {
+    set_level(LevelParser::from_file(m_world ?
+                                     FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
+                                     StringUtil::has_suffix(m_levelfile, ".stwm"),
+                                     true));
+  }
+  catch (const std::exception& err)
+  {
+    log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
+    reset_level();
+    return;
+  }
   ReaderMapping::s_translations_enabled = true;
 
   retoggle_undo_tracking();
@@ -608,6 +595,21 @@ Editor::reload_level()
   m_levelfile = get_levelname_from_autosave(m_levelfile);
   m_autosave_levelfile = FileSystem::join(get_level_directory(),
                                           get_autosave_from_levelname(m_levelfile));
+}
+
+void
+Editor::reset_level()
+{
+  m_levelloaded = false;
+  m_level.reset();
+  m_world.reset();
+  m_levelfile.clear();
+  m_sector = nullptr;
+
+  m_reload_request = false;
+
+  MouseCursor::current()->set_icon(nullptr);
+  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
 }
 
 void
@@ -824,20 +826,28 @@ Editor::setup()
   m_layers_widget->setup();
 
   // Reactivate the editor after level test.
-  if (m_leveltested) {
-    m_leveltested = false;
-    Tile::draw_editor_images = true;
-    m_level->reactivate();
+  reactivate();
+}
 
-    m_sector->activate(Vector(0,0));
+void
+Editor::reactivate()
+{
+  // Reactivate the editor after level test.
+  if (!m_leveltested)
+    return;
 
-    MenuManager::instance().clear_menu_stack();
-    SoundManager::current()->stop_music();
+  m_leveltested = false;
+  Tile::draw_editor_images = true;
+  m_level->reactivate();
 
-    m_deactivate_request = false;
-    m_enabled = true;
-    m_toolbox_widget->update_mouse_icon();
-  }
+  m_sector->activate(Vector(0,0));
+
+  MenuManager::instance().clear_menu_stack();
+  SoundManager::current()->stop_music();
+
+  m_deactivate_request = false;
+  m_enabled = true;
+  m_toolbox_widget->update_mouse_icon();
 }
 
 void
@@ -858,16 +868,14 @@ Editor::event(const SDL_Event& ev)
   {
     if (ev.type == SDL_KEYDOWN)
     {
-      if (ev.key.keysym.mod & KMOD_CTRL)
+      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+
+      if (m_ctrl_pressed)
         m_scroll_speed = 16.0f;
       else if (ev.key.keysym.mod & KMOD_RSHIFT)
         m_scroll_speed = 96.0f;
 
-      if (ev.key.keysym.sym == SDLK_LCTRL)
-      {
-        m_ctrl_pressed = true;
-      }
-      else if (ev.key.keysym.sym == SDLK_F6)
+      if (ev.key.keysym.sym == SDLK_F6)
       {
         Compositor::s_render_lighting = !Compositor::s_render_lighting;
         return;
@@ -904,11 +912,10 @@ Editor::event(const SDL_Event& ev)
     }
     else if (ev.type == SDL_KEYUP)
     {
-      if (!(ev.key.keysym.mod & KMOD_CTRL) && !(ev.key.keysym.mod & KMOD_RSHIFT))
-        m_scroll_speed = 32.0f;
+      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
 
-      if (ev.key.keysym.sym == SDLK_LCTRL)
-        m_ctrl_pressed = false;
+      if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
+        m_scroll_speed = 32.0f;
     }
     else if (ev.type == SDL_MOUSEMOTION)
     {
@@ -1121,28 +1128,6 @@ Editor::get_status() const
   return status;
 }
 
-PHYSFS_EnumerateCallbackResult
-Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
-{
-  auto full_path = FileSystem::join(origdir, fname);
-
-  PHYSFS_Stat ps;
-  PHYSFS_stat(full_path.c_str(), &ps);
-  if (ps.filetype == PHYSFS_FILETYPE_DIRECTORY)
-  {
-    PHYSFS_enumerate(full_path.c_str(), foreach_recurse, data);
-  }
-  else
-  {
-    auto* zip = static_cast<Partio::ZipFileWriter*>(data);
-    auto os = zip->Add_File(full_path);
-    auto filename = FileSystem::join(PHYSFS_getWriteDir(), full_path);
-    *os << std::ifstream(filename).rdbuf();
-  }
-
-  return PHYSFS_ENUM_OK;
-}
-
 void
 Editor::pack_addon()
 {
@@ -1150,25 +1135,34 @@ Editor::pack_addon()
   auto output_file_path = FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip");
 
   int version = 0;
-  try
+  if (PHYSFS_exists(output_file_path.c_str()))
   {
-    Partio::ZipFileReader zipold(output_file_path);
-    auto info_file = zipold.Get_File(id + ".nfo");
-    if (info_file)
+    try
     {
-      auto info_stream = ReaderDocument::from_stream(*info_file);
-      auto a = info_stream.get_root().get_mapping();
-      a.get("version", version);
+      Partio::ZipFileReader zipold(output_file_path);
+      auto info_file = zipold.Get_File(id + ".nfo");
+      if (info_file)
+      {
+        auto info_stream = ReaderDocument::from_stream(*info_file);
+        auto a = info_stream.get_root().get_mapping();
+        a.get("version", version);
+      }
     }
-  }
-  catch(const std::exception& e)
-  {
-    log_warning << e.what() << std::endl;
+    catch(const std::exception& e)
+    {
+      log_warning << e.what() << std::endl;
+    }
   }
   version++;
 
   Partio::ZipFileWriter zip(output_file_path);
-  PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
+  physfsutil::enumerate_files_recurse(get_world()->get_basedir(),
+    [&zip](const std::string& full_path)
+    {
+      auto os = zip.Add_File(full_path);
+      *os << std::ifstream(FileSystem::join(PHYSFS_getWriteDir(), full_path)).rdbuf();
+      return false;
+    });
 
   std::stringstream ss;
   Writer info(ss);

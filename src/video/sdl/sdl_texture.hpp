@@ -38,8 +38,8 @@ public:
   virtual int get_image_width() const override { return m_width; }
   virtual int get_image_height() const override { return m_height; }
 
-  SDL_Texture *get_texture() const { return m_texture; }
-  const Sampler& get_sampler() const { return m_sampler; }
+  inline SDL_Texture *get_texture() const { return m_texture; }
+  inline const Sampler& get_sampler() const { return m_sampler; }
 
 private:
   SDL_Texture* m_texture;

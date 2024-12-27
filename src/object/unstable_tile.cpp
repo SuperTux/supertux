@@ -88,7 +88,7 @@ UnstableTile::get_default_sprite_name() const
 }
 
 HitResponse
-UnstableTile::collision(GameObject& other, const CollisionHit& )
+UnstableTile::collision(MovingObject& other, const CollisionHit& )
 {
   if (state == STATE_NORMAL)
   {

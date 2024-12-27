@@ -51,7 +51,7 @@ static const float PEEK_ADD_VERTICAL_MARGIN = 320.f; // 10 tiles.
 static const float MULTIPLAYER_CAM_WEIGHT = 0.1f;
 
 Camera::Camera(const std::string& name) :
-  GameObject(name),
+  LayerObject(name),
   m_mode(Mode::NORMAL),
   m_defaultmode(Mode::NORMAL),
   m_screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)),
@@ -87,7 +87,7 @@ Camera::Camera(const std::string& name) :
 }
 
 Camera::Camera(const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   m_mode(Mode::NORMAL),
   m_defaultmode(Mode::NORMAL),
   m_screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)),
@@ -747,28 +747,22 @@ Camera::reload_scale()
 void
 Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
 {
+  if (m_scale == scale && m_scale_target == scale)
+    return;
+
+  m_scale_target = scale;
+  m_scale_time_total = time;
+  m_scale_easing = ease;
   m_scale_anchor = anchor;
+
+  reload_scale();
 
   if (time <= 0.f)
   {
     m_scale = scale;
     if (m_mode == Mode::MANUAL)
-      m_translation = get_scale_anchor_target();
+      m_translation = m_scale_target_translation;
   }
-  else
-  {
-    m_scale_target = scale;
-    m_scale_time_total = time;
-    m_scale_easing = ease;
-
-    reload_scale();
-  }
-}
-
-void
-Camera::set_pos(float x, float y)
-{
-  scroll_to(Vector(x, y), 0.0f);
 }
 
 void
@@ -786,42 +780,6 @@ Camera::set_mode(const std::string& mode)
     m_mode = Mode::MANUAL;
   else
     log_warning << "Camera mode '" << mode << "' unknown." << std::endl;
-}
-
-void
-Camera::scroll_to(float x, float y, float scrolltime)
-{
-  scroll_to(Vector(x, y), scrolltime);
-}
-
-void
-Camera::set_scale(float scale)
-{
-  m_scale = scale;
-}
-
-void
-Camera::set_scale_anchor(float scale, int anchor)
-{
-  ease_scale_anchor(scale, 0, anchor, "");
-}
-
-void
-Camera::scale(float scale, float time)
-{
-  ease_scale(scale, time, "");
-}
-
-void
-Camera::scale_anchor(float scale, float time, int anchor)
-{
-  ease_scale_anchor(scale, time, anchor, "");
-}
-
-void
-Camera::ease_scale(float scale, float time, const std::string& ease)
-{
-  ease_scale_anchor(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease);
 }
 
 void

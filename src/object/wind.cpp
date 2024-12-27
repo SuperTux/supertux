@@ -129,7 +129,7 @@ Wind::draw(DrawingContext& context)
 }
 
 HitResponse
-Wind::collision(GameObject& other, const CollisionHit& )
+Wind::collision(MovingObject& other, const CollisionHit& )
 {
   if (!blowing) return ABORT_MOVE;
 

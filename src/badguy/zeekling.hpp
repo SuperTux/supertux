@@ -44,7 +44,7 @@ public:
   virtual void on_flip(float height) override;
 
 private:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
   bool should_we_dive();
 

@@ -32,9 +32,9 @@ public:
   void update(float dt_sec);
 
   void pan();
-  bool is_panning() const { return m_panning; }
+  inline bool is_panning() const { return m_panning; }
 
-  Vector get_offset() const { return m_camera_offset; }
+  inline Vector get_offset() const { return m_camera_offset; }
 
 private:
   Vector get_camera_pos_for_tux() const;

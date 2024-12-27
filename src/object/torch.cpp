@@ -78,7 +78,7 @@ Torch::update(float)
 }
 
 HitResponse
-Torch::collision(GameObject& other, const CollisionHit& )
+Torch::collision(MovingObject& other, const CollisionHit& )
 {
   const auto* player = dynamic_cast<Player*>(&other);
   if (player != nullptr && !m_burning)
@@ -109,18 +109,6 @@ Torch::after_editor_set()
   m_flame->set_color(m_light_color);
   m_flame_glow->set_color(m_light_color);
   m_flame_light->set_color(m_light_color);
-}
-
-bool
-Torch::get_burning() const
-{
-  return m_burning;
-}
-
-void
-Torch::set_burning(bool burning)
-{
-  m_burning = burning;
 }
 
 void

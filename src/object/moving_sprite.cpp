@@ -123,12 +123,6 @@ MovingSprite::matches_sprite(const std::string& sprite_file) const
   return m_sprite_name == sprite_file || m_sprite_name == "/" + sprite_file;
 }
 
-void
-MovingSprite::set_sprite(const std::string& file)
-{
-  change_sprite(file);
-}
-
 std::string
 MovingSprite::get_action() const
 {
@@ -147,12 +141,6 @@ MovingSprite::set_action(const std::string& name)
 {
   m_sprite->set_action(name);
   update_hitbox();
-}
-
-void
-MovingSprite::set_action_loops(const std::string& name, int loops)
-{
-  set_action(name, loops);
 }
 
 void

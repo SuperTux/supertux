@@ -35,8 +35,8 @@ public:
 
   std::vector<ReaderObject> get_objects() const;
 
-  const ReaderDocument& get_doc() const { return m_doc; }
-  const sexp::Value& get_sexp() const { return m_sx; }
+  inline const ReaderDocument& get_doc() const { return m_doc; }
+  inline const sexp::Value& get_sexp() const { return m_sx; }
 
 private:
   const ReaderDocument& m_doc;

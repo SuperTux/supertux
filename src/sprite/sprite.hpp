@@ -61,11 +61,11 @@ public:
   void set_action(const Direction& dir, int loops = -1);
 
   /** Set number of animation cycles until animation stops */
-  void set_animation_loops(int loops = -1) { m_animation_loops = loops; }
+  inline void set_animation_loops(int loops = -1) { m_animation_loops = loops; }
 
-  void set_frame_progress(float frame_progress) { m_frame = frame_progress; }
+  inline void set_frame_progress(float frame_progress) { m_frame = frame_progress; }
 
-  void set_frame(int frame) { m_frameidx = frame; }
+  inline void set_frame(int frame) { m_frameidx = frame; }
 
   /* Stop animation */
   void stop_animation() { m_animation_loops = 0; }
@@ -77,16 +77,16 @@ public:
   bool animation_done() const;
 
   /** Get current action total frames */
-  int get_frames() const { return static_cast<int>(m_action->surfaces.size()); }
+  inline int get_frames() const { return static_cast<int>(m_action->surfaces.size()); }
 
   /** Get currently drawn frame */
-  int get_current_frame() const { return m_frameidx; }
+  inline int get_current_frame() const { return m_frameidx; }
 
   /** Get current frame progress */
-  float get_current_frame_progress() const { return m_frame; }
+  inline float get_current_frame_progress() const { return m_frame; }
 
   /** Get current action name */
-  const std::string& get_action() const { return m_action->name; }
+  inline const std::string& get_action() const { return m_action->name; }
 
   int get_width() const;
   int get_height() const;
@@ -94,37 +94,37 @@ public:
   const std::optional<std::vector<SurfacePtr>> get_action_surfaces(const std::string& name) const;
 
   /** Return the "unisolid" property for the current action's hitbox. */
-  bool is_current_hitbox_unisolid() const;
+  inline bool is_current_hitbox_unisolid() const { return m_action->hitbox_unisolid; }
   /** return x-offset of current action's hitbox, relative to start of image */
-  float get_current_hitbox_x_offset() const;
+  inline float get_current_hitbox_x_offset() const { return m_action->x_offset; }
   /** return y-offset of current action's hitbox, relative to start of image */
-  float get_current_hitbox_y_offset() const;
+  inline float get_current_hitbox_y_offset() const { return m_action->y_offset; }
   /** return width of current action's hitbox */
-  float get_current_hitbox_width() const;
+  inline float get_current_hitbox_width() const { return m_action->hitbox_w; }
   /** return height of current action's hitbox */
-  float get_current_hitbox_height() const;
+  inline float get_current_hitbox_height() const { return m_action->hitbox_h; }
   /** return current action's hitbox, relative to 0,0 */
   Rectf get_current_hitbox() const;
 
   /** Set the angle of the sprite rotation in degree */
-  void set_angle(float angle);
+  inline void set_angle(float angle) { m_angle = angle; }
 
   /** Get the angle of the sprite rotation in degree */
-  float get_angle() const;
+  inline float get_angle() const { return m_angle; }
 
-  void set_color(const Color& color);
-  Color get_color() const;
+  inline void set_color(const Color& color) { m_color = color; }
+  inline Color get_color() const { return m_color; }
 
-  void set_alpha(float alpha);
-  float get_alpha() const;
+  inline void set_alpha(float alpha) { m_alpha = alpha; }
+  inline float get_alpha() const { return m_alpha; }
 
-  void set_blend(const Blend& blend);
-  Blend get_blend() const;
+  inline void set_blend(const Blend& blend) { m_blend = blend; }
+  inline Blend get_blend() const { return m_blend; }
 
-  bool has_action (const std::string& name) const { return (m_data.get_action(name) != nullptr); }
-  size_t get_actions_count() const { return m_data.actions.size(); }
+  inline bool has_action(const std::string& name) const { return m_data.get_action(name); }
+  inline size_t get_actions_count() const { return m_data.actions.size(); }
 
-  bool load_successful() const { return m_data.m_load_successful; }
+  inline bool load_successful() const { return m_data.m_load_successful; }
 
 private:
   void update();

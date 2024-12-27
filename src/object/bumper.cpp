@@ -94,7 +94,7 @@ Bumper::update(float dt_sec)
 }
 
 HitResponse
-Bumper::collision(GameObject& other, const CollisionHit& hit)
+Bumper::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player)

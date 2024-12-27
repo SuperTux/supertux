@@ -98,15 +98,15 @@ public:
             top <= other.top && other.bottom <= bottom);
   }
 
-  const int& get_left() const { return left; }
-  const int& get_right() const { return right; }
-  const int& get_top() const { return top; }
-  const int& get_bottom() const { return bottom; }
+  inline const int& get_left() const { return left; }
+  inline const int& get_right() const { return right; }
+  inline const int& get_top() const { return top; }
+  inline const int& get_bottom() const { return bottom; }
 
   int get_width()  const { return right - left; }
-  int get_height() const { return bottom - top; }
-  Size get_size() const { return Size(right - left, bottom - top); }
-  int get_area() const { return get_width() * get_height(); }
+  inline int get_height() const { return bottom - top; }
+  inline Size get_size() const { return Size(right - left, bottom - top); }
+  inline int get_area() const { return get_width() * get_height(); }
 
   bool empty() const
   {

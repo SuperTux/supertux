@@ -217,7 +217,7 @@ SoundManager::manage_source(std::unique_ptr<SoundSource> source)
   assert(source);
   if (dynamic_cast<OpenALSoundSource*>(source.get()))
   {
-    std::unique_ptr<OpenALSoundSource> openal_source(dynamic_cast<OpenALSoundSource*>(source.release()));
+    std::unique_ptr<OpenALSoundSource> openal_source(static_cast<OpenALSoundSource*>(source.release()));
     m_sources.push_back(std::move(openal_source));
   }
 }
