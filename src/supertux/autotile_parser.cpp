@@ -138,7 +138,7 @@ Autotile*
 AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
 {
   std::vector<AutotileMask> autotile_masks;
-  std::vector<std::pair<uint32_t, Autotile::AltCondition>> alt_ids;
+  std::vector<std::pair<uint32_t, Autotile::AltConditions>> alt_ids;
 
   uint32_t tile_id;
   if (!reader.get("id", tile_id))
@@ -212,7 +212,7 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
         continue;
       }
 
-      alt_ids.push_back(std::pair<uint32_t, Autotile::AltCondition>(alt_id, {
+      alt_ids.push_back(std::pair<uint32_t, Autotile::AltConditions>(alt_id, {
           { period_x[0], period_x[1] },
           { period_y[0], period_y[1] },
           weight

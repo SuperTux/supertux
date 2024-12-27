@@ -36,7 +36,7 @@
 ;;   The alternative id : (id 123456)
 ;;   The X/Y period : (period-x 2 1) / (period-y 2 0)
 ;;     Both contain 2 unsigned integer values: first is the divider and second is
-;;     the desired remainder after dividing the X/Y position in the tile, relative
+;;     the desired remainder after dividing the X/Y position of the tile, relative
 ;;     to its tilemap.
 ;;   The weight : (weight 0.2)
 ;;     The weight is the odds of this tile to happen. 0 is never, 1 is always.

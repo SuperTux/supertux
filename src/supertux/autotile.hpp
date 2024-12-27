@@ -40,7 +40,7 @@ private:
 class Autotile final
 {
 public:
-  struct AltCondition final
+  struct AltConditions final
   {
     std::pair<uint32_t, uint32_t> period_x;
     std::pair<uint32_t, uint32_t> period_y;
@@ -49,7 +49,7 @@ public:
 
 public:
   Autotile(uint32_t tile_id,
-    const std::vector<std::pair<uint32_t, AltCondition>>& alt_tiles,
+    const std::vector<std::pair<uint32_t, AltConditions>>& alt_tiles,
     const std::vector<AutotileMask>& masks,
     bool solid);
 
@@ -68,14 +68,14 @@ public:
   uint8_t get_first_mask() const;
 
   /** Returns all possible tiles for this autotile */
-  inline const std::vector<std::pair<uint32_t, AltCondition>>& get_all_tile_ids() const { return m_alt_tiles; }
+  inline const std::vector<std::pair<uint32_t, AltConditions>>& get_all_tile_ids() const { return m_alt_tiles; }
 
   /** Returns true if the "center" bool of masks are true. All masks of given Autotile must have the same value for their "center" property.*/
   inline bool is_solid() const { return m_solid; }
 
 private:
   uint32_t m_tile_id;
-  std::vector<std::pair<uint32_t, AltCondition>> m_alt_tiles;
+  std::vector<std::pair<uint32_t, AltConditions>> m_alt_tiles;
   std::vector<AutotileMask> m_masks;
   bool m_solid;
 
