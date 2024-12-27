@@ -34,12 +34,18 @@
 ;;  V
 ;; Contains :
 ;;   The alternative id : (id 123456)
+;;   The X/Y period : (period-x 2 1) / (period-y 2 0)
+;;     Both contain 2 unsigned integer values: first is the divider and second is
+;;     the desired remainder after dividing the X/Y position of the tile, relative
+;;     to its tilemap.
 ;;   The weight : (weight 0.2)
 ;;     The weight is the odds of this tile to happen. 0 is never, 1 is always.
 ;;     The autotile's default ID's odds of occuring are (1 - sum of all weights).
 ;;     Ideally, the sum of all weights for an autotile should be below 1. If it
 ;;     is 1, the the regular ID for that autotile will never occur. If it is
 ;;     greater than 1, then certains alt ID's might never occur either.
+;;
+;;   NOTE: For an "alt-id" to be chosen, all of its conditions ("period", random "weight") must be met.
 ;;
 ;; ===== MASK INFO =====
 ;;
@@ -6365,7 +6371,6 @@
       (solid #t)
       (mask "*0****0*")
     )
-  
   )
   
   (autotileset
@@ -6377,7 +6382,13 @@
       (id 4566)
       (alt-id
         (id 4565)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4565)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11111111")
@@ -6389,8 +6400,6 @@
       
       (mask "01011*0*")
       (mask "*0*11010")
-      
-      
     )
     
     ;; LEFT
@@ -6398,7 +6407,13 @@
       (id 4564)
       (alt-id
         (id 4557)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4557)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "*1101*11")
@@ -6415,7 +6430,13 @@
       (id 4567)
       (alt-id
         (id 4558)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4558)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11*1011*")
@@ -6441,7 +6462,6 @@
       (solid #t)
       (mask "*0*01*11")
       (mask "01001*11")
-      
     )
     
     ;; TOP CENTER
@@ -6449,7 +6469,13 @@
       (id 4569)
       (alt-id
         (id 4555)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4555)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (alt-id
         (id 4554)
@@ -6494,15 +6520,13 @@
       (id 4580)
       (alt-id
         (id 4577)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
       )
       (alt-id
-        (id 4579)
-        (weight -1)
-      )
-      (alt-id
-        (id 4576)
-        (weight -1)
+        (id 4577)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11111*0*")
@@ -6530,7 +6554,13 @@
       (id 4592)
       (alt-id
         (id 4570)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4570)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11111110")
@@ -6555,7 +6585,13 @@
       (id 4593)
       (alt-id
         (id 4571)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4571)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11111011")
@@ -6580,7 +6616,13 @@
       (id 4581)
       (alt-id
         (id 4559)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4559)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11011111")
@@ -6605,7 +6647,13 @@
       (id 4582)
       (alt-id
         (id 4560)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4560)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "01111111")
@@ -6760,7 +6808,13 @@
       (id 4480)
       (alt-id
         (id 4479)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4479)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11111111")
@@ -6781,7 +6835,13 @@
       (id 4478)
       (alt-id
         (id 4467)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4467)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "*1101*11")
@@ -6798,7 +6858,13 @@
       (id 4481)
       (alt-id
         (id 4468)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4468)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11*1011*")
@@ -6832,15 +6898,13 @@
       (id 4483)
       (alt-id
         (id 4465)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
       )
       (alt-id
-        (id 4482)
-        (weight -1)
-      )
-      (alt-id
-        (id 4464)
-        (weight -1)
+        (id 4465)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "*0*11111")
@@ -6877,7 +6941,13 @@
       (id 4498)
       (alt-id
         (id 4495)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4495)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (alt-id
         (id 4497)
@@ -6913,7 +6983,13 @@
       (id 4514)
       (alt-id
         (id 4484)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4484)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11111110")
@@ -6938,7 +7014,13 @@
       (id 4515)
       (alt-id
         (id 4485)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4485)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11111011")
@@ -6963,7 +7045,13 @@
       (id 4499)
       (alt-id
         (id 4469)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4469)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "11011111")
@@ -6988,7 +7076,13 @@
       (id 4500)
       (alt-id
         (id 4470)
-        (weight -1)
+        (period-x 2 0)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4470)
+        (period-x 2 1)
+        (period-y 2 1)
       )
       (solid #t)
       (mask "01111111")
