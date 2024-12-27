@@ -96,10 +96,10 @@ PathObject::set_node(int node_idx)
 }
 
 void
-PathObject::start_moving()
+PathObject::start_moving(bool backwards)
 {
   if (!m_walker) return;
-  m_walker->start_moving();
+  m_walker->start_moving(backwards);
 }
 
 void

@@ -71,8 +71,9 @@ public:
   /**
    * @scripting
    * @description Starts moving the path object automatically.
+   * @param bool $backwards If true, the path object is moved backwards instead of forwards
    */
-  void start_moving();
+  void start_moving(bool backwards = false);
   /**
    * @scripting
    * @description Stops moving the path object.

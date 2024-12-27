@@ -167,8 +167,12 @@ PathWalker::jump_to_node(int node_idx, bool instantaneous)
 }
 
 void
-PathWalker::start_moving()
+PathWalker::start_moving(bool backwards)
 {
+  if(backwards && m_walking_speed > 0 ||
+    !backwards && m_walking_speed < 0)
+    m_walking_speed = -m_walking_speed;
+
   m_running = true;
   m_stop_at_node_nr = -1;
 }
