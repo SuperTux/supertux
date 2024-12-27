@@ -320,7 +320,7 @@ TileMap::get_settings()
 
   result.add_tiles(_("Tiles"), this, "tiles");
 
-  result.reorder({"solid", "running", "speed-x", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "width", "height", "tiles"});
+  result.reorder({"solid", "running", "speed-x", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "tiles"});
 
   if (!m_editor_active) {
     result.add_remove();

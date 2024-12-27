@@ -58,7 +58,7 @@ Climbable::get_settings()
 
   result.add_translatable_text(_("Message"), &message, "message");
 
-  result.reorder({"message", "region", "x", "y"});
+  result.reorder({"message", "width", "height", "x", "y"});
 
   return result;
 }

@@ -63,9 +63,6 @@ public:
                const std::optional<int>& default_value = {},
                unsigned int flags = 0);
   void add_label(const std::string& text, unsigned int flags = 0);
-  void add_rectf(const std::string& text, Rectf* value_ptr,
-                 const std::string& key = {},
-                 unsigned int flags = 0);
   void add_worldmap_direction(const std::string& text, worldmap::Direction* value_ptr,
                               std::optional<worldmap::Direction> default_value = {},
                               const std::string& key = {}, unsigned int flags = 0);
