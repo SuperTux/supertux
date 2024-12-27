@@ -78,12 +78,12 @@ Autotile::pick_tile(int x, int y) const
   for (const auto& pair : m_alt_tiles)
   {
     const AltConditions& cond = pair.second;
-    if (cond.weight <= 0.f && !cond.period_x.first && !cond.period_y.first)
+    if (cond.weight <= 0.f && cond.period_x.first == 0 && cond.period_y.first == 0)
       continue;
 
-    if (cond.period_x.first && x % cond.period_x.first != cond.period_x.second)
+    if (cond.period_x.first != 0 && x % cond.period_x.first != cond.period_x.second)
       continue;
-    if (cond.period_y.first && y % cond.period_y.first != cond.period_y.second)
+    if (cond.period_y.first != 0 && y % cond.period_y.first != cond.period_y.second)
       continue;
     if (cond.weight > 0.f)
     {
