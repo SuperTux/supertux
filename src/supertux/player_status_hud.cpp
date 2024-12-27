@@ -18,6 +18,7 @@
 
 #include <iostream>
 
+#include "object/display_effect.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/game_object.hpp"
@@ -26,6 +27,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/screen_manager.hpp"
+#include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "editor/editor.hpp"
@@ -61,7 +63,8 @@ PlayerStatusHUD::update(float dt_sec)
 void
 PlayerStatusHUD::draw(DrawingContext& context)
 {
-  if (g_debug.hide_player_hud || Editor::is_active())
+  if (g_debug.hide_player_hud || Editor::is_active() ||
+      (Sector::current() && Sector::current()->get_effect().has_active_borders()))
     return;
 
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||

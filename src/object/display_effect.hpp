@@ -42,6 +42,8 @@ public:
   virtual bool is_saveable() const override { return false; }
   virtual std::string get_exposed_class_name() const override { return "DisplayEffect"; }
 
+  inline bool has_active_borders() const { return borders; }
+
   /** @name Scriptable Methods
       @{ */
 
