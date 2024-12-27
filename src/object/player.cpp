@@ -2453,8 +2453,6 @@ Player::kill(bool completely)
       set_bonus(BONUS_NONE, true);
     }
   } else {
-    SoundManager::current()->play("sounds/kill.wav", get_pos());
-
     auto* session = GameSession::current();
     if (session && session->m_prevent_death &&
                    !session->reset_checkpoint_button)
@@ -2462,6 +2460,8 @@ Player::kill(bool completely)
       set_ghost_mode(true);
       return;
     }
+
+    SoundManager::current()->play("sounds/kill.wav", get_pos());
 
     m_physic.enable_gravity(true);
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
