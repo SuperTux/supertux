@@ -2340,14 +2340,8 @@ Player::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_x(0);
   }
 
-  // crushed?
-  if (hit.crush) {
-    if (hit.left || hit.right) {
-      kill(true);
-    } else if (hit.top || hit.bottom) {
-      kill(false);
-    }
-  }
+  if (hit.crush)
+    kill(false);
 
   if ((hit.left && m_boost < 0.f) || (hit.right && m_boost > 0.f))
     m_boost = 0.f;
