@@ -94,13 +94,6 @@ public:
 
   void keep_in_bounds(const Rectf& bounds);
 
-  /** shake camera in a direction 1 time */
-  void shake(float duration, float x, float y);
-
-  /** Shake the camera vertically with a specified average strength, at a certain minimal delay, until stopped. */
-  void start_earthquake(float strength, float delay);
-  void stop_earthquake();
-
   /** scroll the upper left edge of the camera in scrolltime seconds
       to the position goal */
   void scroll_to(const Vector& goal, float scrolltime);
@@ -121,16 +114,30 @@ public:
 
   inline Mode get_mode() const { return m_mode; }
 
-  /** get the exact scale at this exact moment */
-  inline float get_current_scale() const { return m_enfore_minimum_scale ? std::min(m_minimum_scale, m_scale) : m_scale; }
-
-  /** get the scale towards which the camera is moving */
-  inline float get_target_scale() const { return m_scale_target; }
-
   /** smoothly slide the scale and anchor position of the camera towards a new value */
   void ease_scale(float scale, float time, easing ease, AnchorPoint anchor = AnchorPoint::ANCHOR_MIDDLE);
   /** @} */
 
+  /**
+   * @scripting
+   * @description Shakes the camera in a certain direction only 1 time.
+   * @param float $duration
+   * @param float $x
+   * @param float $y
+   */
+  void shake(float duration, float x, float y);
+  /**
+   * @scripting
+   * @description Starts "earthquake" mode, which shakes the camera vertically with a specified average ""strength"", at a certain minimal ""delay"", until stopped.
+   * @param float $strength
+   * @param float $delay
+   */
+  void start_earthquake(float strength, float delay);
+  /**
+   * @scripting
+   * @description Stops "earthquake" mode.
+   */
+  void stop_earthquake();
   /**
    * @scripting
    * @description Moves the camera to the specified absolute position. The origin is at the top left.
@@ -159,6 +166,16 @@ public:
    * @param float $scrolltime
    */
   inline void scroll_to(float x, float y, float scrolltime) { scroll_to(Vector(x, y), scrolltime); }
+  /**
+   * @scripting
+   * @description Returns the current scale factor of the camera.
+   */
+  float get_current_scale() const;
+  /**
+   * @scripting
+   * @description Returns the scale factor the camera is fading towards.
+   */
+  inline float get_target_scale() const { return m_scale_target; }
   /**
    * @scripting
    * @description Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
@@ -223,22 +240,22 @@ public:
    * @scripting
    * @description Gets the current width of the screen.
    */
-  float get_screen_width() const;
+  inline float get_screen_width() const { return m_screen_size.width; }
   /**
    * @scripting
    * @description Gets the current height of the screen.
    */
-  float get_screen_height() const;
+  inline float get_screen_height() const { return m_screen_size.height; }
   /**
    * @scripting
    * @description Gets the X coordinate of the top-left corner of the screen.
    */
-  float get_x() const;
+  inline float get_x() const { return m_translation.x; }
   /**
    * @scripting
    * @description Gets the Y coordinate of the top-left corner of the screen.
    */
-  float get_y() const;
+  inline float get_y() const { return m_translation.y; }
 
 private:
   void keep_in_bounds(Vector& vector);

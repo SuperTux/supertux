@@ -724,6 +724,12 @@ Camera::update_scale(float dt_sec)
   m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
 }
 
+float
+Camera::get_current_scale() const
+{
+  return m_enfore_minimum_scale ? std::min(m_minimum_scale, m_scale) : m_scale;
+}
+
 /** Get target scale position from the anchor point (m_scale_anchor). */
 Vector
 Camera::get_scale_anchor_target() const
@@ -786,30 +792,6 @@ void
 Camera::set_scale(float scale, float time, int anchor, const std::string& ease)
 {
   ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)), static_cast<AnchorPoint>(anchor));
-}
-
-float
-Camera::get_screen_width() const
-{
-  return m_screen_size.width;
-}
-
-float
-Camera::get_screen_height() const
-{
-  return m_screen_size.height;
-}
-
-float
-Camera::get_x() const
-{
-  return m_translation.x;
-}
-
-float
-Camera::get_y() const
-{
-  return m_translation.y;
 }
 
 Vector
