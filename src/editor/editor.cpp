@@ -1091,7 +1091,7 @@ Editor::undo()
 {
   BIND_SECTOR(*m_sector);
   m_sector->undo();
-  post_undo_redo_actions();
+  m_layers_widget->update_current_tip();
 }
 
 void
@@ -1099,13 +1099,6 @@ Editor::redo()
 {
   BIND_SECTOR(*m_sector);
   m_sector->redo();
-  post_undo_redo_actions();
-}
-
-void
-Editor::post_undo_redo_actions()
-{
-  m_overlay_widget->delete_markers();
   m_layers_widget->update_current_tip();
 }
 
