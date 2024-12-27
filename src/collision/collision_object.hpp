@@ -60,6 +60,10 @@ public:
     m_ground_movement_manager = movement_manager;
   }
 
+  void collide_wind(CollisionObject& other);
+
+  void clear_wind_collision_list();
+
   void clear_bottom_collision_list();
 
   inline bool is_unisolid() const { return m_unisolid; }
@@ -144,6 +148,9 @@ public:
   /** The bounding box of the object (as used for collision detection,
       this isn't necessarily the bounding box for graphics) */
   Rectf m_bbox;
+
+  /** All wind areas that the player is currently touching */
+  std::unordered_set<CollisionObject*> m_colliding_wind;
 
   /** The collision group */
   CollisionGroup m_group;
