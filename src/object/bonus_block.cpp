@@ -71,7 +71,7 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_lightsprite(),
   m_coin_sprite(get_default_coin_sprite())
 {
-  set_action("normal");
+  set_action("default");
   m_contents = get_content_by_data(tile_data);
   preload_contents(tile_data);
 }
