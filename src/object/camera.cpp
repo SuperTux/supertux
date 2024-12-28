@@ -503,24 +503,12 @@ Camera::update_scroll_normal(float dt_sec)
     const float left_end = m_screen_size.width * 0.4f;
     const float right_end = m_screen_size.width * 0.6f;
 
-    if (player_delta.x < -CAMERA_EPSILON)
-    {
-      // Walking left.
+    if (player_delta.x < -CAMERA_EPSILON) // Walking left.
       m_lookahead_pos.x -= player_delta.x * 0.8f;
-      if (m_lookahead_pos.x > right_end)
-        m_lookahead_pos.x = right_end;
-    }
-    else if (player_delta.x > CAMERA_EPSILON)
-    {
-      // Walking right.
+    else if (player_delta.x > CAMERA_EPSILON) // Walking right.
       m_lookahead_pos.x -= player_delta.x * 0.8f;
-      if (m_lookahead_pos.x < left_end)
-        m_lookahead_pos.x = left_end;
-    }
-    else
-    {
-      m_lookahead_pos.x = math::clamp(m_lookahead_pos.x, left_end, right_end);
-    }
+
+    m_lookahead_pos.x = math::clamp(m_lookahead_pos.x, left_end, right_end);
 
     // Adjust for level ends.
     if (player_pos.x < left_end)
