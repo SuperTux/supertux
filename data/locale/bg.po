@@ -2105,7 +2105,7 @@ msgstr "Скок"
 #: src/supertux/menu/keyboard_menu.cpp:42
 #: src/supertux/menu/joystick_menu.cpp:77
 msgid "Item Pocket"
-msgstr ""
+msgstr "Контейнер за елементи"
 
 #: src/supertux/menu/keyboard_menu.cpp:44
 #: src/supertux/menu/joystick_menu.cpp:79
@@ -2986,7 +2986,7 @@ msgstr "Няма налично описание"
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 msgid "Overrides Data: "
-msgstr ""
+msgstr "Замества данни:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
@@ -3176,11 +3176,11 @@ msgstr "Плочен набор"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Inherit"
-msgstr ""
+msgstr "Наследяване"
 
 #: src/supertux/menu/editor_level_menu.cpp:45
 msgid "Allow Item Pocket"
-msgstr ""
+msgstr "Разрешаване на контейнерите за елементи"
 
 #: src/supertux/menu/editor_level_menu.cpp:49
 msgid "Target Time"
@@ -4769,15 +4769,15 @@ msgstr "Смесване на цвета"
 
 #: src/gui/menu_color.cpp:40
 msgid "Copy to clipboard (rgb)"
-msgstr ""
+msgstr "Копиране в буфера (чзс)"
 
 #: src/gui/menu_color.cpp:41
 msgid "Copy to clipboard (hex)"
-msgstr ""
+msgstr "Копиране в буфера (шестнадесетичен код)"
 
 #: src/gui/menu_color.cpp:57 src/gui/menu_color.cpp:60
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Поставяне от буфера"
 
 #: src/gui/menu_filesystem.cpp:119
 msgid "Open Directory"

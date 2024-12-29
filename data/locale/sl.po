@@ -2349,11 +2349,11 @@ msgstr "Namesti iz datoteke"
 
 #: src/supertux/menu/addon_menu.cpp:175
 msgid "To browse through the add-on catalog, you must enable networking."
-msgstr "Če želite brskati po katalogu dodatkov, omogočite povezavo z internetom."
+msgstr "Če želiš brskati po katalogu dodatkov, omogoči povezavo z internetom."
 
 #: src/supertux/menu/addon_menu.cpp:212
 msgid "To check for add-on updates, you must enable networking."
-msgstr "Če želite preveriti za posodobitve dodatkov, omogočite povezavo z internetom."
+msgstr "Če želiš preveriti za posodobitve dodatkov, omogoči povezavo z internetom."
 
 #: src/supertux/menu/addon_menu.cpp:220
 msgid "Checking for updates..."
@@ -2909,7 +2909,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Bližnjice na tipkovnici:\n---------------------\nEsc = Odpri meni\nCtrl+S = Shrani\nCtrl+T = Testiraj\nCtrl+Z = Razveljavi\nCtrl+Y = Obnovi\nF5 = Preklopi samo-gradnjo\nF6 = Upodobi svetlobo\nF7 = Pripni na mrežo\nF8 = Pokaži mrežo\nCtrl++ ali Ctrl+Scroll Up = Približaj\nCtrl+- ali Ctrl+Scroll Down = Oddalji\nCtrl+D = Ponastavi oddaljenost\n\nBližnjice za pisanje skript:\n    -------------    \nHome = Pojdi na začetek vrstice\nEnd = Pojdi na konec vrstice\nPuščica levo = Pojdi nazaj po besedilu\nPuščica desno = Pojdi naprej po besedilu\nBackspace = Briši besedilo pred kazalcem\nDelete = Briši besedilo za kazalcem\nCtrl+X = Izreži celo vrstico\nCtrl+C = Kopiraj celo vrstico\nCtrl+V = Prilepi\nCtrl+D = Podvoji vrstico\nCtrl+Z = Razveljavi\nCtrl+Y = Obnovi"
 
 #: src/supertux/menu/editor_menu.cpp:206
 #: src/supertux/menu/particle_editor_menu.cpp:122
@@ -2986,7 +2986,7 @@ msgstr "Opis ni na voljo."
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 msgid "Overrides Data: "
-msgstr ""
+msgstr "Povozi podatke:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
@@ -2994,7 +2994,7 @@ msgstr "Nalaganje vseh zaslonskih predogledov ni uspelo."
 
 #: src/supertux/menu/addon_preview_menu.cpp:160
 msgid "To fetch add-on screenshots, you must enable networking."
-msgstr ""
+msgstr "Če želiš pridobiti slike dodatkov, omogoči povezavo z internetom."
 
 #: src/supertux/menu/addon_preview_menu.cpp:164
 msgid "Show screenshots"
@@ -3087,14 +3087,14 @@ msgid ""
 "Would you allow SuperTux to connect to the Internet?\n"
 "\n"
 "This enables additional features, such as the in-game add-on catalog."
-msgstr ""
+msgstr "Ali dovoliš SuperTuxu, da se poveže na internet?\n\nTo omogoči dodatne funkcionalnosti, recimo katalog dodatkov v igri."
 
 #: src/supertux/menu/main_menu.cpp:82
 msgid ""
 "Would you allow SuperTux to check for new releases on startup?\n"
 "\n"
 "You will be notified if any are found."
-msgstr ""
+msgstr "Ali dovoliš SuperTuxu, da ob zagonu preveri za nove različice?\n\nČe kakšno najde, boš o tem obveščen/a."
 
 #: src/supertux/menu/main_menu.cpp:125
 msgid ""
@@ -3176,7 +3176,7 @@ msgstr "Nabor podlag"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Inherit"
-msgstr ""
+msgstr "Podeduj"
 
 #: src/supertux/menu/editor_level_menu.cpp:45
 msgid "Allow Item Pocket"
@@ -3498,24 +3498,24 @@ msgstr "Prilagodi ločljivost velikosti tvojega brskalnika"
 
 #: src/supertux/menu/options_menu.cpp:123
 msgid "Frame prediction"
-msgstr ""
+msgstr "Napoved sličic"
 
 #: src/supertux/menu/options_menu.cpp:124
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
-msgstr ""
+msgstr "Gladko gibanje kamere, pri katerem generiramo vmesne sličice. Učinek je opazen na monitorjih, ki imajo hitrost osveževanja več kot 60 Hz. Premikajoči se predmeti bodo morda zabrisani."
 
 #: src/supertux/menu/options_menu.cpp:132
 msgid "Camera Peek Multiplier"
-msgstr ""
+msgstr "Množitelj kukanja kamere"
 
 #: src/supertux/menu/options_menu.cpp:133
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
-msgstr ""
+msgstr "Delež razdalje do položaja, ko kamera kuka na stran. Za ta delež se kamera premakne vsako sličico.\n\n0 = Brez kukanja, 1 = Takojšnje kukanje"
 
 #: src/supertux/menu/options_menu.cpp:135
 msgid "Change Video System"
@@ -3667,11 +3667,11 @@ msgstr "Omogoča igri, da ob zagonu preveri, ali obstaja kakšna novejša izdaja
 
 #: src/supertux/menu/options_menu.cpp:236
 msgid "Disable network"
-msgstr ""
+msgstr "Onemogoči internetno povezavo"
 
 #: src/supertux/menu/options_menu.cpp:237
 msgid "Prevents the game from connecting online"
-msgstr ""
+msgstr "Prepreči igri, da se poveže na internet"
 
 #: src/supertux/menu/options_menu.cpp:304
 msgid "Magnification"
@@ -3749,11 +3749,11 @@ msgstr "Nastavi glasnost glasbe"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "Flash Intensity"
-msgstr ""
+msgstr "Jakost bliska"
 
 #: src/supertux/menu/options_menu.cpp:563
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr ""
+msgstr "Prilagodi jakost bliska, ki ga proizvede nevihta"
 
 #: src/supertux/menu/options_menu.cpp:576
 msgid "On-screen controls scale"
@@ -4172,7 +4172,7 @@ msgstr "Neviden"
 
 #: src/badguy/granito_big.cpp:64
 msgid "Carrying Script"
-msgstr ""
+msgstr "Skripta med nošenjem"
 
 #: src/badguy/granito_big.cpp:73 src/badguy/granito.cpp:277
 msgid "Default"
@@ -4188,7 +4188,7 @@ msgstr "Hodeč"
 
 #: src/badguy/granito_big.cpp:76 src/badguy/granito.cpp:280
 msgid "Scriptable"
-msgstr ""
+msgstr "Programabilen"
 
 #: src/badguy/walkingleaf.cpp:36 src/badguy/snail.cpp:71
 #: src/badguy/fish_swimming.cpp:58 src/badguy/viciousivy.cpp:45
@@ -4563,11 +4563,11 @@ msgstr "Nepremičen"
 
 #: src/badguy/granito.cpp:259
 msgid "Detect script"
-msgstr ""
+msgstr "Zaznaj skripto"
 
 #: src/badguy/granito.cpp:260
 msgid "Carried script"
-msgstr ""
+msgstr "Nošena skripta"
 
 #: src/badguy/granito.cpp:283
 msgid "Sitting"
@@ -4769,15 +4769,15 @@ msgstr "Zmešaj barvo"
 
 #: src/gui/menu_color.cpp:40
 msgid "Copy to clipboard (rgb)"
-msgstr ""
+msgstr "Kopiraj v odložišče (RGB)"
 
 #: src/gui/menu_color.cpp:41
 msgid "Copy to clipboard (hex)"
-msgstr ""
+msgstr "Kopiraj v odložišče (šestnajstiško)"
 
 #: src/gui/menu_color.cpp:57 src/gui/menu_color.cpp:60
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Prilepi iz odložišča"
 
 #: src/gui/menu_filesystem.cpp:119
 msgid "Open Directory"
@@ -5199,7 +5199,7 @@ msgstr "Ledena jama in kristal"
 
 #: data/images/ice_world.strf:169
 msgid "Snow Embellishments"
-msgstr ""
+msgstr "Snežni okraski"
 
 #: data/images/ice_world.strf:339
 msgid "Underground Forest"
@@ -5207,7 +5207,7 @@ msgstr "Podzemni gozd"
 
 #: data/images/ice_world.strf:417
 msgid "Trees & Rocks"
-msgstr ""
+msgstr "Drevesa in skale"
 
 #: data/images/ice_world.strf:494
 msgid "Seasonal"
@@ -5247,7 +5247,7 @@ msgstr "Skvarjeno ozadje"
 
 #: data/images/tiles.strf:1194
 msgid "Jagged Rocks"
-msgstr ""
+msgstr "Nazobčane skale"
 
 #: data/images/tiles.strf:1238
 msgid "Block + Bonus"
@@ -5315,10 +5315,10 @@ msgstr "Za stopnje, ustvarjene pred različico 0.6.3, ki uporabljajo kristalne p
 
 #: data/images/converters/data.stcd:13
 msgid "Jagged Rock Tiles from Addon"
-msgstr ""
+msgstr "Podlage nazobčanih skal iz dodatkov"
 
 #: data/images/converters/data.stcd:15
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
-msgstr ""
+msgstr "V stopnjah, ki vsebujejo skalnate podlage iz dodatkov, pretvori njihove identifikatorje v identifikatorje osnovnih skalnatih podlag"

@@ -11,6 +11,7 @@
 # Gastón <gastbr@gmail.com>, 2016
 # Germana <germanaoliveirab@gmail.com>, 2013
 # Javier Beaumont <demonight@users.sourceforge.net>, 2004
+# Jorge <jorgesumle@freakspot.net>, 2024
 # José Fryxell, 2022
 # Juan Jaramillo <juanda097@protonmail.ch>, 2016
 # Juan Jaramillo <juanda097@protonmail.ch>, 2019
@@ -30,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-12-24 23:23+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Diego Enmanuel Rosales Santander, 2024\n"
+"Last-Translator: Jorge <jorgesumle@freakspot.net>, 2024\n"
 "Language-Team: Spanish (http://app.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -517,7 +518,7 @@ msgstr "Trampolín"
 
 #: src/object/bonus_block.cpp:269
 msgid "Portable trampoline"
-msgstr ""
+msgstr "Trampolín portable"
 
 #: src/object/bonus_block.cpp:269
 msgid "Coin rain"
@@ -1105,7 +1106,7 @@ msgstr "Sistema de partículas interactivo"
 
 #: src/object/bigsnowball.hpp:39
 msgid "Big Snowball"
-msgstr ""
+msgstr "Bola de nieve grande"
 
 #: src/object/sound_object.cpp:70 src/object/sound_object.hpp:41
 #: src/object/ambient_sound.cpp:86 src/supertux/menu/options_menu.cpp:146
@@ -1161,7 +1162,7 @@ msgstr "Hielo"
 
 #: src/object/weak_block.cpp:98
 msgid "Hay"
-msgstr ""
+msgstr "Heno"
 
 #: src/object/invisible_block.hpp:30
 msgid "Invisible Block"
@@ -1323,11 +1324,11 @@ msgstr ""
 
 #: src/object/cloud_particle_system.cpp:95
 msgid "X Speed"
-msgstr ""
+msgstr "Velocidad X"
 
 #: src/object/cloud_particle_system.cpp:96
 msgid "Y Speed"
-msgstr ""
+msgstr "Velocidad Y"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
@@ -1791,7 +1792,7 @@ msgstr "Sector: {}"
 
 #: src/editor/layers_widget.cpp:454
 msgid "Add Layer"
-msgstr ""
+msgstr "Añadir capa"
 
 #: src/editor/node_marker.cpp:122
 msgid "Path Node"
@@ -4475,7 +4476,7 @@ msgstr ""
 
 #: src/badguy/fish_harmless.hpp:30
 msgid "Harmless Fish"
-msgstr ""
+msgstr "Pez inofensivo"
 
 #: src/badguy/willowisp.cpp:306
 msgid "Track range"
@@ -4623,7 +4624,7 @@ msgstr "hielo"
 
 #: src/badguy/stalactite.cpp:163
 msgid "rock"
-msgstr ""
+msgstr "roca"
 
 #: src/badguy/owl.hpp:45
 msgid "Owl"

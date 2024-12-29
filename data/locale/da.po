@@ -2102,7 +2102,7 @@ msgstr "Hop"
 #: src/supertux/menu/keyboard_menu.cpp:42
 #: src/supertux/menu/joystick_menu.cpp:77
 msgid "Item Pocket"
-msgstr ""
+msgstr "Lomme"
 
 #: src/supertux/menu/keyboard_menu.cpp:44
 #: src/supertux/menu/joystick_menu.cpp:79
@@ -2983,7 +2983,7 @@ msgstr "Ingen beskrivelse er tilgængelig."
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 msgid "Overrides Data: "
-msgstr ""
+msgstr "Tilsidesæt data:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
@@ -3173,11 +3173,11 @@ msgstr "Feltsæt"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Inherit"
-msgstr ""
+msgstr "Nedarv"
 
 #: src/supertux/menu/editor_level_menu.cpp:45
 msgid "Allow Item Pocket"
-msgstr ""
+msgstr "Tillad lomme"
 
 #: src/supertux/menu/editor_level_menu.cpp:49
 msgid "Target Time"
@@ -4766,15 +4766,15 @@ msgstr "Bland farven"
 
 #: src/gui/menu_color.cpp:40
 msgid "Copy to clipboard (rgb)"
-msgstr ""
+msgstr "Kopiér til udklipsholder (rgb)"
 
 #: src/gui/menu_color.cpp:41
 msgid "Copy to clipboard (hex)"
-msgstr ""
+msgstr "Kopiér til udklipsholder (hex)"
 
 #: src/gui/menu_color.cpp:57 src/gui/menu_color.cpp:60
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Sæt ind fra udklipsholder"
 
 #: src/gui/menu_filesystem.cpp:119
 msgid "Open Directory"
