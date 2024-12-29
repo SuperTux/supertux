@@ -32,10 +32,13 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+const Color Gradient::DEFAULT_GRADIENT_TOP(0.3f, 0.4f, 0.75f);
+const Color Gradient::DEFAULT_GRADIENT_BOTTOM(Color::WHITE);
+
 Gradient::Gradient() :
   m_layer(LAYER_BACKGROUND0),
-  m_gradient_top(0.3f, 0.4f, 0.75f),
-  m_gradient_bottom(1, 1, 1),
+  m_gradient_top(DEFAULT_GRADIENT_TOP),
+  m_gradient_bottom(DEFAULT_GRADIENT_BOTTOM),
   m_gradient_direction(),
   m_blend(),
   m_target(DrawingTarget::COLORMAP),
@@ -51,8 +54,8 @@ Gradient::Gradient() :
 Gradient::Gradient(const ReaderMapping& reader) :
   LayerObject(reader),
   m_layer(LAYER_BACKGROUND0),
-  m_gradient_top(0.3f, 0.4f, 0.75f),
-  m_gradient_bottom(1, 1, 1),
+  m_gradient_top(DEFAULT_GRADIENT_TOP),
+  m_gradient_bottom(DEFAULT_GRADIENT_BOTTOM),
   m_gradient_direction(),
   m_blend(),
   m_target(DrawingTarget::COLORMAP),
@@ -140,19 +143,10 @@ Gradient::update(float delta)
   }
   
   float progress = m_fade_time / m_fade_total_time;
-  
-  m_gradient_top = Color(
-    m_fade_gradient_top.red + (m_start_gradient_top.red - m_fade_gradient_top.red) * progress,
-    m_fade_gradient_top.green + (m_start_gradient_top.green - m_fade_gradient_top.green) * progress,
-    m_fade_gradient_top.blue + (m_start_gradient_top.blue - m_fade_gradient_top.blue) * progress,
-    m_fade_gradient_top.alpha + (m_start_gradient_top.alpha - m_fade_gradient_top.alpha) * progress
-  );
-  m_gradient_bottom = Color(
-    m_fade_gradient_bottom.red + (m_start_gradient_bottom.red - m_fade_gradient_bottom.red) * progress,
-    m_fade_gradient_bottom.green + (m_start_gradient_bottom.green - m_fade_gradient_bottom.green) * progress,
-    m_fade_gradient_bottom.blue + (m_start_gradient_bottom.blue - m_fade_gradient_bottom.blue) * progress,
-    m_fade_gradient_bottom.alpha + (m_start_gradient_bottom.alpha - m_fade_gradient_bottom.alpha) * progress
-  );
+  m_gradient_top =
+    (m_fade_gradient_top + (m_start_gradient_top - m_fade_gradient_top) * progress).validate();
+  m_gradient_bottom =
+    (m_fade_gradient_bottom + (m_start_gradient_bottom - m_fade_gradient_bottom) * progress).validate();
 }
 
 void

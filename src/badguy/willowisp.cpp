@@ -315,7 +315,7 @@ WillOWisp::get_settings()
     result.add_path_handle(_("Handle"), m_path_handle, "handle");
   }
 
-  result.reorder({"sector", "spawnpoint", "flyspeed", "track-range", "hit-script", "vanish-range", "name", "path-ref", "region", "x", "y"});
+  result.reorder({"sector", "spawnpoint", "flyspeed", "track-range", "hit-script", "vanish-range", "name", "path-ref", "width", "height", "x", "y"});
 
   return result;
 }

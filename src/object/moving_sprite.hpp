@@ -100,22 +100,23 @@ public:
   std::string get_action() const;
   /**
    * @scripting
-   * @description Sets the current action of the sprite and resizes the bounding box.
-                  NOTE: Use with care as you can easily get stuck when resizing the bounding box.
-   * @param string $name
-   */
-  void set_action(const std::string& name);
-  /**
-   * @scripting
    * @description Sets the current action of the sprite, as well as the number of times it should loop, and resizes the bounding box.
                   NOTE: Use with care as you can easily get stuck when resizing the bounding box.
    * @param string $name
-   * @param int $loops
+   * @param int $loops Optional, -1 by default (negative value means infinite). Set to -100 to continue looping from the previous action.
    */
-  inline void set_action_loops(const std::string& name, int loops) { set_action(name, loops); }
-
-  /** Sets the action from an action name, as well as the number of times it should loop. */
-  void set_action(const std::string& name, int loops);
+  void set_action(const std::string& name, int loops = -1);
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @deprecated Use ""set_action()"" instead!
+   * @description Sets the current action of the sprite, as well as the number of times it should loop, and resizes the bounding box.
+                  NOTE: Use with care as you can easily get stuck when resizing the bounding box.
+   * @param string $name
+   * @param int $loops Negative value means infinite. Set to -100 to continue looping from the previous action.
+   */
+  void set_action_loops(const std::string& name, int loops);
+#endif
 
   /** Sets the action from an action name and a particular direction
       in the form of "name-direction", eg. "walk-left".

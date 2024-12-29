@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (name "normal")
+    (name "default")
     (hitbox 2 32 32 32)
     (images "trampoline2-0.png")
   )

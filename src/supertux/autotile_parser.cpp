@@ -138,7 +138,7 @@ Autotile*
 AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
 {
   std::vector<AutotileMask> autotile_masks;
-  std::vector<std::pair<uint32_t, float>> alt_ids;
+  std::vector<std::pair<uint32_t, Autotile::AltConditions>> alt_ids;
 
   uint32_t tile_id;
   if (!reader.get("id", tile_id))
@@ -196,17 +196,27 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
 
       alt_id += m_offset;
 
-      float weight = 0.0f;
-      if (!alt_reader.get("weight", weight))
+      if (!alt_id)
+        continue;
+
+      std::vector<uint32_t> period_x = { 0, 0 };
+      std::vector<uint32_t> period_y = { 0, 0 };
+      float weight = 0.f;
+      alt_reader.get("period-x", period_x);
+      alt_reader.get("period-y", period_y);
+      alt_reader.get("weight", weight);
+
+      if (period_x.size() != 2 || period_y.size() != 2)
       {
-        log_warning << "No weight for alt tile id" << std::endl;
+        log_warning << "X/Y period for alt tile must contain exactly 2 values" << std::endl;
         continue;
       }
 
-      if (alt_id != 0 && weight != 0.0f)
-      {
-        alt_ids.push_back(std::pair<uint32_t, float>(alt_id, weight));
-      }
+      alt_ids.push_back(std::pair<uint32_t, Autotile::AltConditions>(alt_id, {
+          { period_x[0], period_x[1] },
+          { period_y[0], period_y[1] },
+          weight
+        }));
     }
     else if (iter.get_key() != "id" && iter.get_key() != "solid")
     {

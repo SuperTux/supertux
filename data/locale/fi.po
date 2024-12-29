@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-11-11 21:50+0000\n"
+"POT-Creation-Date: 2024-12-24 23:23+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>, 2024\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -27,58 +27,58 @@ msgstr ""
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/object/tilemap.cpp:281 src/object/decal.cpp:50
+#: src/object/tilemap.cpp:291 src/object/decal.cpp:50
 #: src/object/scripted_object.cpp:72
 msgid "Solid"
 msgstr "Umpinainen"
 
-#: src/object/tilemap.cpp:282
+#: src/object/tilemap.cpp:292
 msgid "Resize offset x"
 msgstr "Muuta korvikkeen x kokoa"
 
-#: src/object/tilemap.cpp:283
+#: src/object/tilemap.cpp:293
 msgid "Resize offset y"
 msgstr "Muuta korvikkeen y kokoa"
 
-#: src/object/tilemap.cpp:285 src/editor/object_option.cpp:247
+#: src/object/tilemap.cpp:295 src/editor/object_option.cpp:247
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Width"
 msgstr "Leveys"
 
-#: src/object/tilemap.cpp:286 src/editor/object_option.cpp:248
+#: src/object/tilemap.cpp:296 src/editor/object_option.cpp:248
 #: src/supertux/menu/editor_sector_menu.cpp:42
 msgid "Height"
 msgstr "Korkeus"
 
-#: src/object/tilemap.cpp:288
+#: src/object/tilemap.cpp:298
 msgid "Alpha"
 msgstr "Alfa"
 
-#: src/object/tilemap.cpp:289
+#: src/object/tilemap.cpp:299
 msgid "Speed x"
 msgstr "Nopeus x"
 
-#: src/object/tilemap.cpp:290
+#: src/object/tilemap.cpp:300
 msgid "Speed y"
 msgstr "Nopeus y"
 
-#: src/object/tilemap.cpp:291
+#: src/object/tilemap.cpp:301
 msgid "Tint"
 msgstr "Sävy"
 
-#: src/object/tilemap.cpp:292 src/object/gradient.cpp:102
+#: src/object/tilemap.cpp:302 src/object/gradient.cpp:99
 #: src/object/background.cpp:285 src/object/spotlight.cpp:112
-#: src/object/particlesystem.cpp:66 src/object/thunderstorm.cpp:78
-#: src/object/moving_sprite.cpp:221
+#: src/object/particlesystem.cpp:65 src/object/thunderstorm.cpp:78
+#: src/object/moving_sprite.cpp:202
 msgid "Z-pos"
 msgstr "Z-sijainti"
 
-#: src/object/tilemap.cpp:293 src/object/gradient.cpp:109
+#: src/object/tilemap.cpp:303 src/object/gradient.cpp:106
 #: src/object/background.cpp:300
 msgid "Draw target"
 msgstr "Piirrä kohde"
 
-#: src/object/tilemap.cpp:294 src/object/gradient.cpp:110
+#: src/object/tilemap.cpp:304 src/object/gradient.cpp:107
 #: src/object/invisible_block.cpp:37 src/object/coin.cpp:69
 #: src/object/background.cpp:301 src/object/brick.cpp:59
 #: src/badguy/walkingleaf.cpp:35 src/badguy/snail.cpp:70
@@ -89,50 +89,50 @@ msgstr "Piirrä kohde"
 msgid "Normal"
 msgstr "Tavallinen"
 
-#: src/object/tilemap.cpp:294 src/object/gradient.cpp:110
+#: src/object/tilemap.cpp:304 src/object/gradient.cpp:107
 #: src/object/background.cpp:301
 msgid "Lightmap"
 msgstr "Valaistuskartta"
 
-#: src/object/tilemap.cpp:299 src/object/path_gameobject.cpp:175
+#: src/object/tilemap.cpp:309 src/object/path_gameobject.cpp:175
 #: src/object/platform.cpp:78 src/object/coin.cpp:327
 #: src/object/path_gameobject.hpp:45 src/object/camera.cpp:166
 #: src/badguy/willowisp.cpp:309
 msgid "Path"
 msgstr "Polku"
 
-#: src/object/tilemap.cpp:300 src/object/platform.cpp:83
+#: src/object/tilemap.cpp:310 src/object/platform.cpp:83
 #: src/object/coin.cpp:334 src/badguy/willowisp.cpp:310
 msgid "Starting Node"
 msgstr "Aloitusnivel"
 
-#: src/object/tilemap.cpp:302 src/object/coin.cpp:329
+#: src/object/tilemap.cpp:312 src/object/coin.cpp:329
 msgid "Following path"
 msgstr "Seuraava polku"
 
-#: src/object/tilemap.cpp:305 src/object/platform.cpp:79
+#: src/object/tilemap.cpp:315 src/object/platform.cpp:79
 #: src/object/coin.cpp:332 src/object/camera.cpp:169
 msgid "Path Mode"
 msgstr "Polkutila"
 
-#: src/object/tilemap.cpp:306 src/object/platform.cpp:80
+#: src/object/tilemap.cpp:316 src/object/platform.cpp:80
 #: src/object/coin.cpp:333 src/object/camera.cpp:170
 #: src/badguy/willowisp.cpp:314
 msgid "Adapt Speed"
 msgstr "Sovita nopeus"
 
-#: src/object/tilemap.cpp:307 src/object/platform.cpp:82
+#: src/object/tilemap.cpp:317 src/object/platform.cpp:82
 #: src/object/conveyor_belt.cpp:64 src/object/thunderstorm.cpp:79
 msgid "Running"
 msgstr "Liikkuva"
 
-#: src/object/tilemap.cpp:308 src/object/platform.cpp:84
+#: src/object/tilemap.cpp:318 src/object/platform.cpp:84
 #: src/object/coin.cpp:335 src/object/camera.cpp:171
 #: src/badguy/willowisp.cpp:315
 msgid "Handle"
 msgstr ""
 
-#: src/object/tilemap.cpp:311 src/editor/toolbox_widget.cpp:74
+#: src/object/tilemap.cpp:321 src/editor/toolbox_widget.cpp:74
 #: src/supertux/menu/editor_tilegroup_menu.cpp:26
 msgid "Tiles"
 msgstr "Ruudut"
@@ -145,61 +145,61 @@ msgstr ""
 msgid "Bicycle Platform"
 msgstr "Polkupyöräalusta"
 
-#: src/object/gradient.cpp:99
+#: src/object/gradient.cpp:96
 msgid "Primary Colour"
 msgstr "Ensisijainen väri"
 
-#: src/object/gradient.cpp:100
+#: src/object/gradient.cpp:97
 msgid "Secondary Colour"
 msgstr "Toissijainen väri"
 
-#: src/object/gradient.cpp:104 src/object/bumper.cpp:57
+#: src/object/gradient.cpp:101 src/object/bumper.cpp:57
 #: src/object/spotlight.cpp:108 src/object/conveyor_belt.cpp:62
 #: src/object/ispy.cpp:56 src/object/bigsnowball.cpp:81
 #: src/object/pushbutton.cpp:64 src/worldmap/spawn_point.cpp:79
-#: src/worldmap/special_tile.cpp:78 src/badguy/badguy.cpp:1141
+#: src/worldmap/special_tile.cpp:78 src/badguy/badguy.cpp:1212
 #: src/trigger/switch.cpp:63
 msgid "Direction"
 msgstr "Suunta"
 
-#: src/object/gradient.cpp:105
+#: src/object/gradient.cpp:102
 msgid "Vertical"
 msgstr "Sivusuuntainen"
 
-#: src/object/gradient.cpp:105
+#: src/object/gradient.cpp:102
 msgid "Horizontal"
 msgstr "Pystysuuntainen"
 
-#: src/object/gradient.cpp:105
+#: src/object/gradient.cpp:102
 msgid "Vertical (whole sector)"
 msgstr "Sivusuuntainen (koko sektori)"
 
-#: src/object/gradient.cpp:105
+#: src/object/gradient.cpp:102
 msgid "Horizontal (whole sector)"
 msgstr "Pystysuuntainen (koko sektori)"
 
-#: src/object/gradient.cpp:115
+#: src/object/gradient.cpp:112
 msgid "Blend mode"
 msgstr "Sekoitustila"
 
-#: src/object/gradient.cpp:116
+#: src/object/gradient.cpp:113
 msgid "Blend"
 msgstr "Sekoitus"
 
-#: src/object/gradient.cpp:116
+#: src/object/gradient.cpp:113
 msgid "Additive"
 msgstr "Lisä"
 
-#: src/object/gradient.cpp:116
+#: src/object/gradient.cpp:113
 msgid "Modulate"
 msgstr "Moduloi"
 
-#: src/object/gradient.cpp:116 src/object/custom_particle_system.cpp:428
+#: src/object/gradient.cpp:113 src/object/custom_particle_system.cpp:428
 #: src/object/custom_particle_system.cpp:463
 #: src/editor/object_settings.cpp:146 src/editor/particle_editor.cpp:162
-#: src/editor/particle_editor.cpp:168 src/supertux/menu/keyboard_menu.cpp:80
-#: src/supertux/menu/joystick_menu.cpp:108
-#: src/supertux/menu/joystick_menu.cpp:215 src/gui/menu_string_array.cpp:40
+#: src/editor/particle_editor.cpp:168 src/supertux/menu/keyboard_menu.cpp:81
+#: src/supertux/menu/joystick_menu.cpp:109
+#: src/supertux/menu/joystick_menu.cpp:213 src/gui/menu_string_array.cpp:40
 #: src/gui/menu_string_array.cpp:78
 msgid "None"
 msgstr "Tyhjä"
@@ -248,7 +248,7 @@ msgstr "Kahvi"
 msgid "Herring"
 msgstr "Silakka"
 
-#: src/object/powerup.cpp:301 src/object/bonus_block.cpp:264
+#: src/object/powerup.cpp:326 src/object/bonus_block.cpp:264
 #: src/object/bonus_block.cpp:268 src/object/ispy.cpp:55
 #: src/object/pushbutton.cpp:65 src/worldmap/special_tile.cpp:76
 #: src/trigger/door.cpp:79 src/trigger/secretarea_trigger.cpp:58
@@ -256,29 +256,29 @@ msgstr "Silakka"
 msgid "Script"
 msgstr "Scripti"
 
-#: src/object/powerup.cpp:302
+#: src/object/powerup.cpp:327
 msgid "Disable gravity"
 msgstr "Poista painovoima"
 
-#: src/object/powerup.cpp:312 src/object/weak_block.cpp:264
+#: src/object/powerup.cpp:337 src/object/weak_block.cpp:264
 msgid ""
 "Sprites no longer define the behaviour of the object.\n"
 "Object types are used instead."
 msgstr ""
 
-#: src/object/background.hpp:51
+#: src/object/background.hpp:52
 msgid "Background"
 msgstr "Taustakuva"
 
-#: src/object/key.cpp:192 src/object/torch.cpp:97
-#: src/object/ambient_light.cpp:122 src/object/spotlight.cpp:106
+#: src/object/key.cpp:198 src/object/torch.cpp:97
+#: src/object/ambient_light.cpp:111 src/object/spotlight.cpp:106
 #: src/object/magicblock.cpp:95 src/object/lantern.cpp:62
 #: src/object/rublight.cpp:55 src/object/candle.cpp:77
 #: src/badguy/willowisp.cpp:311 src/badguy/walking_candle.cpp:97
 msgid "Color"
 msgstr "Väri"
 
-#: src/object/tilemap.hpp:69
+#: src/object/tilemap.hpp:68
 msgid "Tilemap"
 msgstr "Ruutukartta"
 
@@ -290,18 +290,18 @@ msgstr "Alusta"
 msgid "Cloud Particles"
 msgstr "Pilvipartikkelit"
 
-#: src/object/pneumatic_platform.cpp:161 src/object/moving_sprite.cpp:220
+#: src/object/pneumatic_platform.cpp:159 src/object/moving_sprite.cpp:201
 msgid "Sprite"
 msgstr "Ulkonäkö"
 
-#: src/object/pneumatic_platform.cpp:162 src/object/bicycle_platform.cpp:203
-#: src/object/background.cpp:281 src/supertux/menu/joystick_menu.cpp:172
+#: src/object/pneumatic_platform.cpp:160 src/object/bicycle_platform.cpp:201
+#: src/object/background.cpp:281 src/supertux/menu/joystick_menu.cpp:170
 #: src/supertux/moving_object.cpp:68 src/worldmap/worldmap_object.cpp:77
 msgid "X"
 msgstr "X"
 
-#: src/object/pneumatic_platform.cpp:163 src/object/bicycle_platform.cpp:204
-#: src/object/background.cpp:282 src/supertux/menu/joystick_menu.cpp:174
+#: src/object/pneumatic_platform.cpp:161 src/object/bicycle_platform.cpp:202
+#: src/object/background.cpp:282 src/supertux/menu/joystick_menu.cpp:172
 #: src/supertux/moving_object.cpp:69 src/worldmap/worldmap_object.cpp:78
 msgid "Y"
 msgstr "Y"
@@ -314,11 +314,11 @@ msgstr ""
 msgid "Hurting Platform"
 msgstr "Satuttava alusta"
 
-#: src/object/powerup.hpp:40
+#: src/object/powerup.hpp:55
 msgid "Powerup"
 msgstr "Lisävoima"
 
-#: src/object/thunderstorm.hpp:52
+#: src/object/thunderstorm.hpp:53
 msgid "Thunderstorm"
 msgstr "Ukkosmyrsky"
 
@@ -347,56 +347,56 @@ msgstr ""
 msgid "Custom Particles from file"
 msgstr "Omanlaiset hiukkaset tiedostosta haettuna"
 
-#: src/object/textscroller.cpp:348 src/object/music_object.cpp:109
+#: src/object/textscroller.cpp:343 src/object/music_object.cpp:92
 #: src/object/custom_particle_system_file.cpp:53
 #: src/supertux/menu/particle_editor_open.cpp:38
 msgid "File"
 msgstr "Tiedosto"
 
-#: src/object/textscroller.cpp:349
+#: src/object/textscroller.cpp:344
 msgid "Finish Script"
 msgstr "Viimeistele scripti"
 
-#: src/object/textscroller.cpp:350 src/object/circleplatform.cpp:58
+#: src/object/textscroller.cpp:345 src/object/circleplatform.cpp:58
 #: src/object/rain_particle_system.cpp:100 src/object/spotlight.cpp:107
 #: src/object/conveyor_belt.cpp:63 src/object/bigsnowball.cpp:82
 #: src/editor/node_marker.cpp:125 src/badguy/flame.cpp:110
 msgid "Speed"
 msgstr "Nopeus"
 
-#: src/object/textscroller.cpp:351
+#: src/object/textscroller.cpp:346
 msgid "X-offset"
 msgstr "X-suunnan poikkeama"
 
-#: src/object/textscroller.cpp:352
+#: src/object/textscroller.cpp:347
 msgid "Controllable"
 msgstr "Ohjattavissa"
 
-#: src/object/textscroller.cpp:353 src/trigger/text_area.cpp:144
+#: src/object/textscroller.cpp:348 src/trigger/text_area.cpp:144
 msgid "Anchor"
 msgstr "Ankkuri"
 
-#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+#: src/object/textscroller.cpp:349 src/object/textscroller.cpp:353
 #: src/math/anchor_point.cpp:36 src/supertux/menu/keyboard_menu.cpp:38
 #: src/supertux/menu/joystick_menu.cpp:73
 msgid "Left"
 msgstr "Vasen"
 
-#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+#: src/object/textscroller.cpp:349 src/object/textscroller.cpp:353
 msgid "Center"
 msgstr "Keski"
 
-#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+#: src/object/textscroller.cpp:349 src/object/textscroller.cpp:353
 #: src/math/anchor_point.cpp:38 src/supertux/menu/keyboard_menu.cpp:39
 #: src/supertux/menu/joystick_menu.cpp:74
 msgid "Right"
 msgstr "Oikea"
 
-#: src/object/textscroller.cpp:357
+#: src/object/textscroller.cpp:352
 msgid "Text Alignment"
 msgstr "Tekstin ryhmittäminen"
 
-#: src/object/textscroller.hpp:45
+#: src/object/textscroller.hpp:46
 msgid "Text Scroller"
 msgstr "Tekstivieritin"
 
@@ -413,7 +413,7 @@ msgstr "Lyhty"
 msgid "Retro"
 msgstr ""
 
-#: src/object/circleplatform.cpp:57 src/object/bicycle_platform.cpp:207
+#: src/object/circleplatform.cpp:57 src/object/bicycle_platform.cpp:205
 #: src/badguy/flame.cpp:109 src/badguy/fish_swimming.cpp:81
 #: src/badguy/rcrystallo.cpp:83 src/badguy/crystallo.cpp:50
 msgid "Radius"
@@ -448,7 +448,7 @@ msgstr "Oranssi"
 msgid "Purple"
 msgstr "Purppura"
 
-#: src/object/bonus_block.cpp:265 src/supertux/menu/cheat_apply_menu.cpp:53
+#: src/object/bonus_block.cpp:265
 msgid "Count"
 msgstr "Lasku"
 
@@ -532,7 +532,7 @@ msgstr "Custom-sisältö"
 msgid "Coin sprite"
 msgstr ""
 
-#: src/object/particlesystem.hpp:64
+#: src/object/particlesystem.hpp:65
 msgid "Particle system"
 msgstr "Partikkelijärjestelmä"
 
@@ -549,7 +549,7 @@ msgid "Texture"
 msgstr "Tekstuuri"
 
 #: src/object/custom_particle_system.cpp:423
-#: src/object/cloud_particle_system.cpp:123
+#: src/object/cloud_particle_system.cpp:93
 msgid "Amount"
 msgstr "Määrä"
 
@@ -934,13 +934,13 @@ msgstr "Ympäristövalo"
 msgid "Burning"
 msgstr "Palava"
 
-#: src/object/explosion.hpp:35
+#: src/object/explosion.hpp:37
 msgid "Explosion"
 msgstr ""
 
 #: src/object/particle_zone.cpp:49 src/object/spotlight.cpp:104
-#: src/object/particlesystem.cpp:65
-#: src/supertux/menu/addon_preview_menu.cpp:195 src/badguy/darttrap.cpp:156
+#: src/object/particlesystem.cpp:64
+#: src/supertux/menu/addon_preview_menu.cpp:201 src/badguy/darttrap.cpp:156
 msgid "Enabled"
 msgstr "Käytössä"
 
@@ -972,11 +972,11 @@ msgstr "Tyhjennä hiukkaset"
 msgid "Collect script"
 msgstr "Keräämisscripti"
 
-#: src/object/bicycle_platform.cpp:206
+#: src/object/bicycle_platform.cpp:204
 msgid "Platforms"
 msgstr "Alustat"
 
-#: src/object/bicycle_platform.cpp:208
+#: src/object/bicycle_platform.cpp:206
 msgid "Momentum change rate"
 msgstr "Vauhdin muutosnopeus"
 
@@ -1160,7 +1160,7 @@ msgstr "Näkymätön palikka"
 msgid "Unstable Tile"
 msgstr "Epävakaa ruutu"
 
-#: src/object/level_time.hpp:75
+#: src/object/level_time.hpp:76
 msgid "Time Limit"
 msgstr "Aikarajoitus"
 
@@ -1189,7 +1189,7 @@ msgstr "Kimallevoima"
 msgid "Radius (in tiles)"
 msgstr ""
 
-#: src/object/camera.hpp:68
+#: src/object/camera.hpp:69
 msgid "Camera"
 msgstr "Kamera"
 
@@ -1238,7 +1238,7 @@ msgstr ""
 msgid "Wind Speed"
 msgstr ""
 
-#: src/object/brick.cpp:166
+#: src/object/brick.cpp:165
 msgid "Breakable"
 msgstr "Rikottava"
 
@@ -1262,7 +1262,7 @@ msgstr "Sirpale"
 msgid "Weak Tile"
 msgstr "Heikko ruutu"
 
-#: src/object/gradient.hpp:49
+#: src/object/gradient.hpp:50
 msgid "Gradient"
 msgstr "Nousu"
 
@@ -1294,7 +1294,7 @@ msgstr "Näkyvä"
 msgid "Hit script"
 msgstr "Osumisscripti"
 
-#: src/object/coin.hpp:98
+#: src/object/coin.hpp:100
 msgid "Heavy Coin"
 msgstr "Raskas kolikko"
 
@@ -1306,15 +1306,15 @@ msgstr "Siirrettävä kuva"
 msgid "Text"
 msgstr "Teksti"
 
-#: src/object/cloud_particle_system.cpp:124
+#: src/object/cloud_particle_system.cpp:94
 msgid "Fog Opacity"
 msgstr ""
 
-#: src/object/cloud_particle_system.cpp:125
+#: src/object/cloud_particle_system.cpp:95
 msgid "X Speed"
 msgstr ""
 
-#: src/object/cloud_particle_system.cpp:126
+#: src/object/cloud_particle_system.cpp:96
 msgid "Y Speed"
 msgstr ""
 
@@ -1406,18 +1406,18 @@ msgstr "Hienot hiukkaset"
 msgid "Particles Enabled"
 msgstr ""
 
-#: src/editor/editor.cpp:585
+#: src/editor/editor.cpp:563
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr ""
 
-#: src/editor/editor.cpp:587
+#: src/editor/editor.cpp:565
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr ""
 
-#: src/editor/editor.cpp:634
+#: src/editor/editor.cpp:636
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -1425,25 +1425,29 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr "Ethän unohda, että tasosi sekä työkalusi\neivät tallennu istuntojen välissä!\nMikäli haluat säilyttää tasotyöskentelysi, lataa ne\n\"Hallitse työkaluja\" -valikosta."
 
-#: src/editor/editor.cpp:669
+#: src/editor/editor.cpp:671
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Tässä kentässä on tallentamattomia muutoksia, haluatko tallentaa?"
 
-#: src/editor/editor.cpp:670
+#: src/editor/editor.cpp:672
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr ""
 
-#: src/editor/editor.cpp:671
-#: src/supertux/menu/editor_level_select_menu.cpp:181 src/gui/dialog.hpp:96
+#: src/editor/editor.cpp:673
+#: src/supertux/menu/editor_level_select_menu.cpp:181
+#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/supertux/menu/editor_level_menu.cpp:40 src/gui/dialog.hpp:96
 msgid "Yes"
 msgstr "Kyllä"
 
-#: src/editor/editor.cpp:678 src/editor/particle_editor.cpp:781
-#: src/supertux/menu/editor_level_select_menu.cpp:185 src/gui/dialog.hpp:97
+#: src/editor/editor.cpp:680 src/editor/particle_editor.cpp:781
+#: src/supertux/menu/editor_level_select_menu.cpp:185
+#: src/supertux/menu/addon_preview_menu.cpp:141
+#: src/supertux/menu/editor_level_menu.cpp:40 src/gui/dialog.hpp:97
 msgid "No"
 msgstr "Ei"
 
-#: src/editor/editor.cpp:682 src/editor/particle_editor.cpp:785
+#: src/editor/editor.cpp:684 src/editor/particle_editor.cpp:785
 #: src/supertux/menu/particle_editor_open.cpp:43
 #: src/supertux/menu/editor_sectors_menu.cpp:45
 #: src/supertux/menu/editor_sectors_menu.cpp:94
@@ -1453,11 +1457,11 @@ msgstr "Ei"
 #: src/supertux/menu/editor_tilegroup_menu.cpp:36
 #: src/supertux/menu/editor_objectgroup_menu.cpp:42
 #: src/supertux/menu/particle_editor_save_as.cpp:42 src/gui/menu_list.cpp:38
-#: src/gui/menu_paths.cpp:48 src/gui/menu_filesystem.cpp:120
+#: src/gui/menu_paths.cpp:48 src/gui/menu_filesystem.cpp:121
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: src/editor/editor.cpp:800
+#: src/editor/editor.cpp:802
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with default Super Tux structure.\n"
@@ -1465,26 +1469,26 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Jotkut vanhentuneet lisäosat ovat vielä aktiivisia ja ne\nsaattavat aiheuttaa ristiriitoja SuperTuxin perusrakenteen kanssa.\nVoit silti ottaa nämä lisäosat käyttöön valikosta.\nNäiden lisäosien sammuttaminen ei poista edistystäsi pelissä."
 
-#: src/editor/editor.cpp:803
+#: src/editor/editor.cpp:805
 msgid "Disable add-ons"
 msgstr "Poista lisäosat käytöstä"
 
-#: src/editor/editor.cpp:808
+#: src/editor/editor.cpp:810
 msgid "Ignore (not advised)"
 msgstr "Sivuuta (ei suositella)"
 
-#: src/editor/editor.cpp:812
+#: src/editor/editor.cpp:814
 msgid "Leave editor"
 msgstr "Sulje editori"
 
-#: src/editor/editor.cpp:1023
+#: src/editor/editor.cpp:1033
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
 msgstr "\"pääsektoria\" ei voitu löytää.\nMuuta sen sektorin nimeä, minkä haluat olevan\npelaajan aloittamisen \"pääsektori\""
 
-#: src/editor/editor.cpp:1027
+#: src/editor/editor.cpp:1037
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
@@ -1529,21 +1533,21 @@ msgstr "Objektit"
 msgid "Patch Notes"
 msgstr ""
 
-#: src/editor/object_menu.cpp:61 src/supertux/menu/addon_preview_menu.cpp:183
+#: src/editor/object_menu.cpp:61 src/supertux/menu/addon_preview_menu.cpp:189
 #: src/gui/menu_string_array.cpp:81
 msgid "Update"
 msgstr "Päivitä"
 
-#: src/editor/object_menu.cpp:67 src/editor/object_option.cpp:944
+#: src/editor/object_menu.cpp:67 src/editor/object_option.cpp:942
 msgid "Remove"
 msgstr "Poista"
 
 #: src/editor/object_menu.cpp:71 src/supertux/menu/editor_sector_menu.cpp:48
-#: src/supertux/menu/editor_level_menu.cpp:49
+#: src/supertux/menu/editor_level_menu.cpp:56
 #: src/supertux/menu/editor_new_levelset_menu.cpp:37
 #: src/supertux/menu/editor_levelset_menu.cpp:58
 #: src/gui/menu_object_select.cpp:61 src/gui/menu_string_array.cpp:84
-#: src/gui/dialog.hpp:87 src/gui/menu_color.cpp:35 src/gui/menu_script.cpp:46
+#: src/gui/dialog.hpp:87 src/gui/menu_color.cpp:63 src/gui/menu_script.cpp:46
 msgid "OK"
 msgstr "OK"
 
@@ -1572,55 +1576,55 @@ msgstr "ei totta"
 msgid "invalid"
 msgstr "pätemätön"
 
-#: src/editor/object_option.cpp:937
+#: src/editor/object_option.cpp:935
 msgid "Scale X"
 msgstr ""
 
-#: src/editor/object_option.cpp:938
+#: src/editor/object_option.cpp:936
 msgid "Scale Y"
 msgstr ""
 
-#: src/editor/object_option.cpp:939
+#: src/editor/object_option.cpp:937
 msgid "Offset X"
 msgstr ""
 
-#: src/editor/object_option.cpp:940
+#: src/editor/object_option.cpp:938
 msgid "Offset Y"
 msgstr ""
 
-#: src/editor/object_option.cpp:961
+#: src/editor/object_option.cpp:959
 msgid "Test from here"
 msgstr "Kokeile tästä"
 
-#: src/editor/object_option.cpp:978
+#: src/editor/object_option.cpp:976
 msgid "Open Particle Editor"
 msgstr "Avaa hiukkasmuokkain"
 
-#: src/editor/overlay_widget.cpp:1027
+#: src/editor/overlay_widget.cpp:1005
 msgid "Cannot select deprecated tiles"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1610
+#: src/editor/overlay_widget.cpp:1592
 msgid "Autotile erasing mode is on (\"{}\")"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1614
+#: src/editor/overlay_widget.cpp:1596
 msgid "Autotile erasing cannot be performed here"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1619
+#: src/editor/overlay_widget.cpp:1601
 msgid "Autotile mode is on (\"{}\")"
 msgstr ""
 
-#: src/editor/overlay_widget.cpp:1623
+#: src/editor/overlay_widget.cpp:1605
 msgid "Selected tile isn't autotileable"
 msgstr "Valittu laatta ei ole automaattilatoitettava"
 
-#: src/editor/overlay_widget.cpp:1628
+#: src/editor/overlay_widget.cpp:1610
 msgid "Hold Ctrl to enable autotile erasing"
 msgstr "Pidä alaspainettuna Ctrl-näppäintä kytkeäksesi päälle automaattilaattojen pyyhkimistilan"
 
-#: src/editor/overlay_widget.cpp:1632
+#: src/editor/overlay_widget.cpp:1614
 msgid "Hold Ctrl to enable autotile"
 msgstr "Pidä Ctrl-näppäintä alaspainettuna kytkeäksesi automaattilaatat päälle"
 
@@ -1772,11 +1776,11 @@ msgstr "Tallenna nimellä"
 
 #: src/editor/layers_widget.cpp:371
 msgid "Sector: {}"
-msgstr ""
+msgstr "Sektori: {}"
 
-#: src/editor/layers_widget.cpp:456
+#: src/editor/layers_widget.cpp:454
 msgid "Add Layer"
-msgstr ""
+msgstr "Lisää taso"
 
 #: src/editor/node_marker.cpp:122
 msgid "Path Node"
@@ -1790,56 +1794,56 @@ msgstr "Paina CTRL-näppäintä liikuttaaksesti Bezier-kahvoja"
 msgid "Easing"
 msgstr "Helpoitus"
 
-#: src/addon/addon.cpp:71 src/supertux/menu/editor_levelset_menu.cpp:54
+#: src/addon/addon.cpp:75 src/supertux/menu/editor_levelset_menu.cpp:54
 msgid "Levelset"
 msgstr "Kenttäsetti"
 
-#: src/addon/addon.cpp:74 src/supertux/menu/editor_levelset_menu.cpp:54
+#: src/addon/addon.cpp:78 src/supertux/menu/editor_levelset_menu.cpp:54
 #: data/images/engine/editor/objects.stoi:390
 msgid "Worldmap"
 msgstr "Maailmankartta"
 
-#: src/addon/addon.cpp:77
+#: src/addon/addon.cpp:81
 msgid "World"
 msgstr "Maa"
 
-#: src/addon/addon.cpp:80
+#: src/addon/addon.cpp:84
 msgid "Add-on"
 msgstr "Lisäosa"
 
-#: src/addon/addon.cpp:83
+#: src/addon/addon.cpp:87
 msgid "Language Pack"
 msgstr "Kielipaketti"
 
-#: src/addon/addon.cpp:86
+#: src/addon/addon.cpp:91
 msgid "Resource Pack"
 msgstr "Resurssipaketti"
 
-#: src/addon/addon.cpp:89
+#: src/addon/addon.cpp:94
 msgid "Unknown"
 msgstr "Tuntematon"
 
-#: src/addon/addon.cpp:100
+#: src/addon/addon.cpp:105
 msgid "{} \"{}\" by \"{}\""
 msgstr "{} \"{}\", tekijä \"{}\""
 
-#: src/addon/addon.cpp:114
+#: src/addon/addon.cpp:119
 msgid "add-on"
 msgstr "lisäosa"
 
-#: src/addon/addon.cpp:114
+#: src/addon/addon.cpp:119
 msgid "add-ons"
 msgstr "lisäosaa"
 
-#: src/addon/addon_manager.cpp:563
+#: src/addon/addon_manager.cpp:553
 msgid "Only one resource pack is allowed to be enabled at a time."
 msgstr "Vain yksi resurssipaketti voi olla käytössä samanaikaisesti."
 
-#: src/addon/addon_manager.cpp:827
+#: src/addon/addon_manager.cpp:810
 msgid "Add-on {} by {} is already installed."
 msgstr "Lisäosa {}, jonka tekijä on {}, on jo asennettu."
 
-#: src/addon/addon_manager.cpp:847
+#: src/addon/addon_manager.cpp:830
 msgid "Add-on {} by {} successfully installed."
 msgstr "Lisäosa {}, jonka tekijä on {}, on asennettu."
 
@@ -1871,11 +1875,11 @@ msgstr ""
 msgid "Bottom Right"
 msgstr ""
 
-#: src/supertux/title_screen.cpp:269
+#: src/supertux/title_screen.cpp:272
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/supertux/title_screen.cpp:270
+#: src/supertux/title_screen.cpp:273
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
@@ -1950,73 +1954,71 @@ msgstr "alas"
 msgid "auto"
 msgstr "automaattinen"
 
-#: src/supertux/menu/contrib_menu.cpp:68
+#: src/supertux/menu/contrib_menu.cpp:71
 #: src/supertux/menu/world_set_menu.cpp:31
 msgid "Contrib Levels"
 msgstr "Lisäkentät"
 
-#: src/supertux/menu/contrib_menu.cpp:98
-#: src/supertux/menu/contrib_menu.cpp:112
+#: src/supertux/menu/contrib_menu.cpp:101
+#: src/supertux/menu/contrib_menu.cpp:115
 msgid "Official Contrib Levels"
 msgstr ""
 
-#: src/supertux/menu/contrib_menu.cpp:99
-#: src/supertux/menu/contrib_menu.cpp:118
+#: src/supertux/menu/contrib_menu.cpp:102
+#: src/supertux/menu/contrib_menu.cpp:121
 msgid "Community Contrib Levels"
 msgstr ""
 
-#: src/supertux/menu/contrib_menu.cpp:100
-#: src/supertux/menu/contrib_menu.cpp:124
+#: src/supertux/menu/contrib_menu.cpp:103
+#: src/supertux/menu/contrib_menu.cpp:127
 msgid "User Contrib Levels"
 msgstr ""
 
-#: src/supertux/menu/contrib_menu.cpp:102
+#: src/supertux/menu/contrib_menu.cpp:105
 #: src/supertux/menu/integrations_menu.cpp:60
-#: src/supertux/menu/keyboard_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:72
 #: src/supertux/menu/worldmap_cheat_menu.cpp:57
-#: src/supertux/menu/worldmap_cheat_menu.cpp:196
+#: src/supertux/menu/worldmap_cheat_menu.cpp:185
 #: src/supertux/menu/addon_menu.cpp:161
 #: src/supertux/menu/web_asset_menu.cpp:48
 #: src/supertux/menu/profile_name_menu.cpp:45
 #: src/supertux/menu/language_menu.cpp:63
 #: src/supertux/menu/custom_menu_menu.cpp:65
-#: src/supertux/menu/world_set_menu.cpp:33 src/supertux/menu/debug_menu.cpp:92
+#: src/supertux/menu/world_set_menu.cpp:33 src/supertux/menu/debug_menu.cpp:84
 #: src/supertux/menu/editor_converters_menu.cpp:79
 #: src/supertux/menu/editor_level_select_menu.cpp:98
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:69
 #: src/supertux/menu/cheat_menu.cpp:57
-#: src/supertux/menu/editor_levelset_select_menu.cpp:114
-#: src/supertux/menu/addon_preview_menu.cpp:199
+#: src/supertux/menu/editor_levelset_select_menu.cpp:115
+#: src/supertux/menu/addon_preview_menu.cpp:205
 #: src/supertux/menu/addon_browse_menu.cpp:162
-#: src/supertux/menu/multiplayer_players_menu.cpp:91
+#: src/supertux/menu/multiplayer_players_menu.cpp:94
 #: src/supertux/menu/profile_menu.cpp:118
 #: src/supertux/menu/multiplayer_menu.cpp:39
 #: src/supertux/menu/editor_new_levelset_menu.cpp:40
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:41
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:62
-#: src/supertux/menu/joystick_menu.cpp:99
+#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:39
+#: src/supertux/menu/joystick_menu.cpp:100
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
 #: src/supertux/menu/options_menu.cpp:245
 #: src/supertux/menu/editor_delete_level_menu.cpp:68
-#: src/supertux/menu/multiplayer_player_menu.cpp:205
+#: src/supertux/menu/multiplayer_player_menu.cpp:187
 #: src/supertux/menu/video_system_menu.cpp:45
 #: src/supertux/menu/options_select_menu.cpp:44
 #: src/supertux/menu/addon_file_install_menu.cpp:36
 #: src/supertux/menu/sorted_contrib_menu.cpp:51
-#: src/supertux/menu/cheat_apply_menu.cpp:42
-#: src/supertux/menu/cheat_apply_menu.cpp:62 src/gui/menu_paths.cpp:67
+#: src/supertux/menu/cheat_apply_menu.cpp:40 src/gui/menu_paths.cpp:67
 msgid "Back"
 msgstr "Takaisin"
 
-#: src/supertux/menu/contrib_menu.cpp:113
+#: src/supertux/menu/contrib_menu.cpp:116
 msgid "How is this possible? There are no Official Contrib Levels!"
 msgstr ""
 
-#: src/supertux/menu/contrib_menu.cpp:119
+#: src/supertux/menu/contrib_menu.cpp:122
 msgid "No Community Contrib Levels yet. Download them from the Add-ons Menu."
 msgstr ""
 
-#: src/supertux/menu/contrib_menu.cpp:125
+#: src/supertux/menu/contrib_menu.cpp:128
 msgid "No User Contrib Levels yet. Create some with the Level Editor."
 msgstr ""
 
@@ -2042,7 +2044,7 @@ msgstr "Salli Discordin integraatio"
 msgid ""
 "Sends information to your Discord application about what you're doing in the"
 " game."
-msgstr ""
+msgstr "Lähettää tietoja Discord-sovellukseen pelissä tekemistäsi asioista."
 
 #: src/supertux/menu/integrations_menu.cpp:57
 msgid "Discord (disabled; not compiled)"
@@ -2104,113 +2106,116 @@ msgstr "Alas"
 msgid "Jump"
 msgstr "Hyppy"
 
-#: src/supertux/menu/keyboard_menu.cpp:43
-#: src/supertux/menu/joystick_menu.cpp:78
-msgid "Peek Left"
-msgstr "Katso vasemmalle"
+#: src/supertux/menu/keyboard_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:77
+msgid "Item Pocket"
+msgstr ""
 
 #: src/supertux/menu/keyboard_menu.cpp:44
 #: src/supertux/menu/joystick_menu.cpp:79
-msgid "Peek Right"
-msgstr "Katso oikealle"
+msgid "Peek Left"
+msgstr "Katso vasemmalle"
 
 #: src/supertux/menu/keyboard_menu.cpp:45
 #: src/supertux/menu/joystick_menu.cpp:80
-msgid "Peek Up"
-msgstr "Katso ylös"
+msgid "Peek Right"
+msgstr "Katso oikealle"
 
 #: src/supertux/menu/keyboard_menu.cpp:46
 #: src/supertux/menu/joystick_menu.cpp:81
+msgid "Peek Up"
+msgstr "Katso ylös"
+
+#: src/supertux/menu/keyboard_menu.cpp:47
+#: src/supertux/menu/joystick_menu.cpp:82
 msgid "Peek Down"
 msgstr "Katso alas"
 
-#: src/supertux/menu/keyboard_menu.cpp:51
-#: src/supertux/menu/joystick_menu.cpp:83
+#: src/supertux/menu/keyboard_menu.cpp:52
+#: src/supertux/menu/joystick_menu.cpp:84
 msgid "Console"
 msgstr "Konsoli"
 
-#: src/supertux/menu/keyboard_menu.cpp:52
-#: src/supertux/menu/joystick_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:53
+#: src/supertux/menu/joystick_menu.cpp:85
 msgid "Cheat Menu"
 msgstr "Huijausvalikko"
 
-#: src/supertux/menu/keyboard_menu.cpp:53
-#: src/supertux/menu/joystick_menu.cpp:85
+#: src/supertux/menu/keyboard_menu.cpp:54
+#: src/supertux/menu/joystick_menu.cpp:86
 msgid "Debug Menu"
 msgstr "Buginpoistovalikko"
 
-#: src/supertux/menu/keyboard_menu.cpp:56
-#: src/supertux/menu/joystick_menu.cpp:87
+#: src/supertux/menu/keyboard_menu.cpp:57
+#: src/supertux/menu/joystick_menu.cpp:88
 msgid "Jump with Up"
 msgstr "Hyppy ylänuolesta"
 
-#: src/supertux/menu/keyboard_menu.cpp:63
+#: src/supertux/menu/keyboard_menu.cpp:64
 #: src/supertux/menu/multiplayer_players_menu.cpp:39
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:38
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:59
+#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:36
 #: src/supertux/menu/multiplayer_player_menu.cpp:37
-#: src/supertux/menu/cheat_apply_menu.cpp:38
-#: src/supertux/menu/cheat_apply_menu.cpp:58
+#: src/supertux/menu/cheat_apply_menu.cpp:36
 msgid "Player {}"
 msgstr "Pelaaja {}"
 
-#: src/supertux/menu/keyboard_menu.cpp:82
+#: src/supertux/menu/keyboard_menu.cpp:83
 msgid "Up cursor"
 msgstr "Ylös"
 
-#: src/supertux/menu/keyboard_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:85
 msgid "Down cursor"
 msgstr "Alas"
 
-#: src/supertux/menu/keyboard_menu.cpp:86
+#: src/supertux/menu/keyboard_menu.cpp:87
 msgid "Left cursor"
 msgstr "Vasen"
 
-#: src/supertux/menu/keyboard_menu.cpp:88
+#: src/supertux/menu/keyboard_menu.cpp:89
 msgid "Right cursor"
 msgstr "Oikea"
 
-#: src/supertux/menu/keyboard_menu.cpp:90
+#: src/supertux/menu/keyboard_menu.cpp:91
 msgid "Return"
 msgstr "Enter"
 
-#: src/supertux/menu/keyboard_menu.cpp:92
+#: src/supertux/menu/keyboard_menu.cpp:93
 msgid "Space"
 msgstr "Välilyönti"
 
-#: src/supertux/menu/keyboard_menu.cpp:94
+#: src/supertux/menu/keyboard_menu.cpp:95
 msgid "Right Shift"
 msgstr "Oikea Shift"
 
-#: src/supertux/menu/keyboard_menu.cpp:96
+#: src/supertux/menu/keyboard_menu.cpp:97
 msgid "Left Shift"
 msgstr "Vasen Shift"
 
-#: src/supertux/menu/keyboard_menu.cpp:98
+#: src/supertux/menu/keyboard_menu.cpp:99
 msgid "Right Control"
 msgstr "Oikea Ctrl"
 
-#: src/supertux/menu/keyboard_menu.cpp:100
+#: src/supertux/menu/keyboard_menu.cpp:101
 msgid "Left Control"
 msgstr "Vasen Ctrl"
 
-#: src/supertux/menu/keyboard_menu.cpp:102
+#: src/supertux/menu/keyboard_menu.cpp:103
 msgid "Right Alt"
 msgstr "Alt Gr"
 
-#: src/supertux/menu/keyboard_menu.cpp:104
+#: src/supertux/menu/keyboard_menu.cpp:105
 msgid "Left Alt"
 msgstr "Alt (vasen)"
 
-#: src/supertux/menu/keyboard_menu.cpp:106
+#: src/supertux/menu/keyboard_menu.cpp:107
 msgid "Right Command"
 msgstr "Oikea Command/Windows"
 
-#: src/supertux/menu/keyboard_menu.cpp:108
+#: src/supertux/menu/keyboard_menu.cpp:109
 msgid "Left Command"
 msgstr "Vasen Command/Windows"
 
-#: src/supertux/menu/keyboard_menu.cpp:122
+#: src/supertux/menu/keyboard_menu.cpp:121
 msgid "Press Key"
 msgstr "Paina näppäintä"
 
@@ -2283,7 +2288,7 @@ msgstr "Siirry kenttään"
 msgid "Go to main spawnpoint"
 msgstr "Siirry pääsyntymäpisteeseen"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:188
+#: src/supertux/menu/worldmap_cheat_menu.cpp:177
 msgid "Select level"
 msgstr "Valitse kenttä"
 
@@ -2389,7 +2394,7 @@ msgstr "Lisää profiili"
 #: src/supertux/menu/editor_level_menu.cpp:33
 #: src/supertux/menu/editor_new_levelset_menu.cpp:34
 #: src/supertux/menu/editor_levelset_menu.cpp:52
-#: src/supertux/game_object.cpp:127 src/trigger/secretarea_trigger.cpp:55
+#: src/supertux/game_object.cpp:111 src/trigger/secretarea_trigger.cpp:55
 msgid "Name"
 msgstr "Nimi"
 
@@ -2426,7 +2431,7 @@ msgid ""
 "{}"
 msgstr "Virhe:\n{}"
 
-#: src/supertux/menu/download_dialog.cpp:124 src/gui/notification.cpp:157
+#: src/supertux/menu/download_dialog.cpp:118 src/gui/notification.cpp:157
 msgid "Close"
 msgstr "Sulje"
 
@@ -2499,59 +2504,59 @@ msgstr "Aloita peli"
 msgid "Story Mode"
 msgstr "Tarinapeli"
 
-#: src/supertux/menu/debug_menu.cpp:38
+#: src/supertux/menu/debug_menu.cpp:36
 msgid "Debug"
 msgstr "Buginpoisto"
 
-#: src/supertux/menu/debug_menu.cpp:62
+#: src/supertux/menu/debug_menu.cpp:60
 msgid "Game Speed"
 msgstr "Pelinopeus"
 
-#: src/supertux/menu/debug_menu.cpp:63
+#: src/supertux/menu/debug_menu.cpp:61
 msgid "Adjust Game Speed"
 msgstr "Säädä pelinopeutta"
 
-#: src/supertux/menu/debug_menu.cpp:69
+#: src/supertux/menu/debug_menu.cpp:67
 msgid "Show Collision Rects"
 msgstr "Näytä törmäyssuunnat"
 
-#: src/supertux/menu/debug_menu.cpp:70
+#: src/supertux/menu/debug_menu.cpp:68
 msgid "Show Worldmap Path"
 msgstr "Näytä maailmankartan polku"
 
-#: src/supertux/menu/debug_menu.cpp:71
+#: src/supertux/menu/debug_menu.cpp:69
 msgid "Show Controller"
 msgstr "Näytä ohjain"
 
-#: src/supertux/menu/debug_menu.cpp:72
+#: src/supertux/menu/debug_menu.cpp:70
 msgid "Show Framerate"
 msgstr "Näytä ruudunpäivitysnopeus"
 
-#: src/supertux/menu/debug_menu.cpp:73
+#: src/supertux/menu/debug_menu.cpp:71
 msgid "Draw Redundant Frames"
 msgstr "Näytä ylimääräiset framet"
 
-#: src/supertux/menu/debug_menu.cpp:74
+#: src/supertux/menu/debug_menu.cpp:72
 msgid "Show Player Position"
 msgstr "Näytä pelaajan sijainti"
 
-#: src/supertux/menu/debug_menu.cpp:75
+#: src/supertux/menu/debug_menu.cpp:73
 msgid "Use Bitmap Fonts"
 msgstr "Käytä Bittikarttafontteja"
 
-#: src/supertux/menu/debug_menu.cpp:78
+#: src/supertux/menu/debug_menu.cpp:76
 msgid "Show Tile IDs in Editor Toolbox"
 msgstr ""
 
-#: src/supertux/menu/debug_menu.cpp:80
+#: src/supertux/menu/debug_menu.cpp:78
 msgid "Reload Resources"
-msgstr ""
+msgstr "Lataa resurssit uudelleen"
 
-#: src/supertux/menu/debug_menu.cpp:87
+#: src/supertux/menu/debug_menu.cpp:79
 msgid "Reloads all fonts, textures, sprites and tilesets."
 msgstr ""
 
-#: src/supertux/menu/debug_menu.cpp:89
+#: src/supertux/menu/debug_menu.cpp:81
 msgid "Dump Texture Cache"
 msgstr "Dumppaa tekstuurien välimuisti"
 
@@ -2642,7 +2647,7 @@ msgstr "Tämä poistaa automaattitallennustiedoston. Oletko varma?"
 
 #: src/supertux/menu/editor_sector_menu.cpp:34
 msgid "Sector {}"
-msgstr ""
+msgstr "Sektori {}"
 
 #: src/supertux/menu/editor_sector_menu.cpp:37
 msgid "Initialization script"
@@ -2665,7 +2670,7 @@ msgid "Resize"
 msgstr "Määrittele koko uudelleen"
 
 #: src/supertux/menu/editor_delete_levelset_menu.cpp:41
-#: src/supertux/menu/editor_levelset_select_menu.cpp:113
+#: src/supertux/menu/editor_levelset_select_menu.cpp:114
 msgid "Delete World"
 msgstr "Poista maailma"
 
@@ -2693,17 +2698,17 @@ msgstr "Tapa Tux"
 msgid "Prevent Death"
 msgstr ""
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:71
+#: src/supertux/menu/editor_levelset_select_menu.cpp:72
 msgid "Choose World"
 msgstr "Valitse maailma"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:99
+#: src/supertux/menu/editor_levelset_select_menu.cpp:100
 msgid "{} level"
 msgid_plural "{} levels"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:112
+#: src/supertux/menu/editor_levelset_select_menu.cpp:113
 msgid "Create World"
 msgstr "Luo maailma"
 
@@ -2838,7 +2843,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Show Deprecated Tiles"
-msgstr ""
+msgstr "Näytä vanhennetut tiilet"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
@@ -2927,135 +2932,139 @@ msgstr ""
 msgid "There are no more deprecated tiles in the level!"
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:84
+#: src/supertux/menu/addon_preview_menu.cpp:87
 msgid "{} \"{}\""
-msgstr ""
+msgstr "{} \"{}\""
 
-#: src/supertux/menu/addon_preview_menu.cpp:89
+#: src/supertux/menu/addon_preview_menu.cpp:92
 msgid "Some information about this add-on is not available."
-msgstr ""
+msgstr "Joitain tämän lisäosan tietoja ei ole saatavilla."
 
-#: src/supertux/menu/addon_preview_menu.cpp:90
+#: src/supertux/menu/addon_preview_menu.cpp:93
 msgid "Perform a \"Check Online\" to try retrieving it."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:94
+#: src/supertux/menu/addon_preview_menu.cpp:97
 msgid "No author specified."
 msgstr "Tekijää ei ole määritetty."
 
-#: src/supertux/menu/addon_preview_menu.cpp:94
+#: src/supertux/menu/addon_preview_menu.cpp:97
 msgid "Author: {}"
 msgstr "Tekijä: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:95
+#: src/supertux/menu/addon_preview_menu.cpp:98
 msgid "Type: {}"
 msgstr "Tyyppi: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:96
+#: src/supertux/menu/addon_preview_menu.cpp:99
 msgid "No license specified."
 msgstr "Lisenssiä ei ole määritetty."
 
-#: src/supertux/menu/addon_preview_menu.cpp:96
+#: src/supertux/menu/addon_preview_menu.cpp:99
 msgid "License: {}"
 msgstr "Lisenssi: {}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:101
+#: src/supertux/menu/addon_preview_menu.cpp:104
 msgid "Dependencies:"
 msgstr "Riippuvuudet:"
 
-#: src/supertux/menu/addon_preview_menu.cpp:110
+#: src/supertux/menu/addon_preview_menu.cpp:113
 msgid "Installed"
 msgstr "Asennettu"
 
-#: src/supertux/menu/addon_preview_menu.cpp:110
+#: src/supertux/menu/addon_preview_menu.cpp:113
 msgid "Not installed"
 msgstr "Ei asennettu"
 
-#: src/supertux/menu/addon_preview_menu.cpp:115
+#: src/supertux/menu/addon_preview_menu.cpp:118
 msgid "Not available!"
 msgstr "Ei saatavilla!"
 
-#: src/supertux/menu/addon_preview_menu.cpp:122
+#: src/supertux/menu/addon_preview_menu.cpp:125
 msgid "Description:"
 msgstr "Kuvaus:"
 
-#: src/supertux/menu/addon_preview_menu.cpp:125
+#: src/supertux/menu/addon_preview_menu.cpp:128
 msgid "No description available."
 msgstr "Kuvausta ei ole saatavilla."
 
-#: src/supertux/menu/addon_preview_menu.cpp:149
+#: src/supertux/menu/addon_preview_menu.cpp:141
+msgid "Overrides Data: "
+msgstr ""
+
+#: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:154
+#: src/supertux/menu/addon_preview_menu.cpp:160
 msgid "To fetch add-on screenshots, you must enable networking."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:158
+#: src/supertux/menu/addon_preview_menu.cpp:164
 msgid "Show screenshots"
-msgstr ""
+msgstr "Näytä kuvakaappaukset"
 
-#: src/supertux/menu/addon_preview_menu.cpp:171
+#: src/supertux/menu/addon_preview_menu.cpp:177
 msgid "Screenshot previews are disabled for automatic installs."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:175
+#: src/supertux/menu/addon_preview_menu.cpp:181
 msgid "No screenshot previews available."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:183
+#: src/supertux/menu/addon_preview_menu.cpp:189
 msgid "Install"
 msgstr "Asenna"
 
-#: src/supertux/menu/addon_preview_menu.cpp:196
+#: src/supertux/menu/addon_preview_menu.cpp:202
 msgid "Uninstall"
 msgstr "Poista asennus"
 
-#: src/supertux/menu/addon_preview_menu.cpp:220
+#: src/supertux/menu/addon_preview_menu.cpp:226
 msgid "Are you sure you want to uninstall \"{}\"?"
 msgstr "Haluatko varmasti poistaa \"{}\"?"
 
-#: src/supertux/menu/addon_preview_menu.cpp:221
+#: src/supertux/menu/addon_preview_menu.cpp:227
 msgid ""
 "\n"
 "Your progress won't be lost."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:233
+#: src/supertux/menu/addon_preview_menu.cpp:239
 msgid ""
 "NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\n"
 "Are you sure you wish to uninstall?"
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:252
+#: src/supertux/menu/addon_preview_menu.cpp:258
 msgid ""
 "Cannot toggle add-on \"{}\":\n"
 "{}"
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:285
+#: src/supertux/menu/addon_preview_menu.cpp:291
 msgid "Fetching screenshot previews..."
 msgstr ""
 
-#: src/supertux/menu/addon_preview_menu.cpp:306
+#: src/supertux/menu/addon_preview_menu.cpp:312
 msgid "Updating"
 msgstr "Päivitetään"
 
-#: src/supertux/menu/addon_preview_menu.cpp:306
+#: src/supertux/menu/addon_preview_menu.cpp:312
 msgid "Downloading"
 msgstr "Ladataan"
 
-#: src/supertux/menu/addon_preview_menu.cpp:334
+#: src/supertux/menu/addon_preview_menu.cpp:340
 msgid "Add-on uninstalled successfully."
 msgstr "Lisäosa poistettu."
 
-#: src/supertux/menu/addon_preview_menu.cpp:339
+#: src/supertux/menu/addon_preview_menu.cpp:345
 msgid ""
 "Error uninstalling add-on:\n"
 "{}"
 msgstr "Virhe poistaessa lisäosaa:\n{}"
 
-#: src/supertux/menu/addon_preview_menu.cpp:367
+#: src/supertux/menu/addon_preview_menu.cpp:373
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
@@ -3169,19 +3178,27 @@ msgstr "Tasoilmoite"
 msgid "Tileset"
 msgstr "Ruutusetti"
 
-#: src/supertux/menu/editor_level_menu.cpp:42
+#: src/supertux/menu/editor_level_menu.cpp:43
+msgid "Inherit"
+msgstr ""
+
+#: src/supertux/menu/editor_level_menu.cpp:45
+msgid "Allow Item Pocket"
+msgstr ""
+
+#: src/supertux/menu/editor_level_menu.cpp:49
 msgid "Target Time"
 msgstr "Tavoiteaika"
 
-#: src/supertux/menu/editor_level_menu.cpp:87
+#: src/supertux/menu/editor_level_menu.cpp:94
 msgid "Please enter a name for this level."
 msgstr "Anna tälle kentälle nimi."
 
-#: src/supertux/menu/editor_level_menu.cpp:91
+#: src/supertux/menu/editor_level_menu.cpp:98
 msgid "Please enter a level author for this level."
 msgstr "Merkitse tämän kentän luoja."
 
-#: src/supertux/menu/editor_level_menu.cpp:95
+#: src/supertux/menu/editor_level_menu.cpp:102
 msgid "Please enter a license for this level."
 msgstr "Merkitse tämän kentän lisenssi."
 
@@ -3236,15 +3253,15 @@ msgstr "Ladataan lisäosien Säilytysindeksiä"
 msgid "Multiplayer"
 msgstr "Moninpeli"
 
-#: src/supertux/menu/multiplayer_players_menu.cpp:46
+#: src/supertux/menu/multiplayer_players_menu.cpp:48
 msgid "Add Player"
 msgstr "Lisää pelaaja"
 
-#: src/supertux/menu/multiplayer_players_menu.cpp:59
+#: src/supertux/menu/multiplayer_players_menu.cpp:62
 msgid "Remove Last Player"
 msgstr "Poista viimeinen pelaaja"
 
-#: src/supertux/menu/multiplayer_players_menu.cpp:62
+#: src/supertux/menu/multiplayer_players_menu.cpp:65
 msgid ""
 "Warning: The player you are trying to\n"
 "remove is currently in-game.\n"
@@ -3342,7 +3359,7 @@ msgstr ""
 
 #: src/supertux/menu/multiplayer_menu.cpp:36
 msgid "Manage Players"
-msgstr ""
+msgstr "Hallinnoi pelaajia"
 
 #: src/supertux/menu/editor_save_as.cpp:37
 #: src/supertux/menu/particle_editor_save_as.cpp:37
@@ -3362,18 +3379,10 @@ msgstr "Kuvaus"
 msgid "Please enter a name for this level subset."
 msgstr "Anna tälle kentän alasetille nimi."
 
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:34
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:51
-#: src/supertux/menu/cheat_apply_menu.cpp:32
-#: src/supertux/menu/cheat_apply_menu.cpp:50
+#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:32
+#: src/supertux/menu/cheat_apply_menu.cpp:30
 msgid "Apply cheat to player"
 msgstr ""
-
-#: src/supertux/menu/worldmap_cheat_apply_menu.cpp:56
-#: src/supertux/menu/cheat_apply_menu.cpp:35
-#: src/supertux/menu/cheat_apply_menu.cpp:55
-msgid "All Players"
-msgstr "Kaikki pelaajat"
 
 #: src/supertux/menu/joystick_menu.cpp:54
 #: src/supertux/menu/options_menu.cpp:176
@@ -3389,62 +3398,62 @@ msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
 msgstr "Käytä manuaalisia asetuksia SDL2:n automaattisen peliohjaintuen sijaan"
 
-#: src/supertux/menu/joystick_menu.cpp:77
+#: src/supertux/menu/joystick_menu.cpp:78
 msgid "Pause/Menu"
 msgstr "Tauko/Valikko"
 
-#: src/supertux/menu/joystick_menu.cpp:93
+#: src/supertux/menu/joystick_menu.cpp:94
 msgid "No Joysticks found"
 msgstr "Peliohjaimia ei löydetty"
 
-#: src/supertux/menu/joystick_menu.cpp:94
+#: src/supertux/menu/joystick_menu.cpp:95
 msgid "Scan for Joysticks"
 msgstr "Etsi peliohjaimia"
 
-#: src/supertux/menu/joystick_menu.cpp:127
+#: src/supertux/menu/joystick_menu.cpp:125
 msgid "Press Button"
 msgstr "Paina nappia"
 
-#: src/supertux/menu/joystick_menu.cpp:164
+#: src/supertux/menu/joystick_menu.cpp:162
 msgid "Axis "
 msgstr "Akseli"
 
-#: src/supertux/menu/joystick_menu.cpp:167
+#: src/supertux/menu/joystick_menu.cpp:165
 msgid "-"
 msgstr "-"
 
-#: src/supertux/menu/joystick_menu.cpp:169
+#: src/supertux/menu/joystick_menu.cpp:167
 msgid "+"
 msgstr "+"
 
-#: src/supertux/menu/joystick_menu.cpp:176
+#: src/supertux/menu/joystick_menu.cpp:174
 msgid "X2"
 msgstr "X2"
 
-#: src/supertux/menu/joystick_menu.cpp:178
+#: src/supertux/menu/joystick_menu.cpp:176
 msgid "Y2"
 msgstr "Y2"
 
-#: src/supertux/menu/joystick_menu.cpp:191
+#: src/supertux/menu/joystick_menu.cpp:189
 msgid "Hat Up"
 msgstr "Ristiohjain Ylös"
 
-#: src/supertux/menu/joystick_menu.cpp:195
+#: src/supertux/menu/joystick_menu.cpp:193
 msgid "Hat Down"
 msgstr "Ristiohjain Alas"
 
-#: src/supertux/menu/joystick_menu.cpp:199
+#: src/supertux/menu/joystick_menu.cpp:197
 msgid "Hat Left"
 msgstr "Ristiohjain Vasen"
 
-#: src/supertux/menu/joystick_menu.cpp:203
+#: src/supertux/menu/joystick_menu.cpp:201
 msgid "Hat Right"
 msgstr "Ristiohjain Oikea"
 
 #: src/supertux/menu/options_menu.cpp:83
 #: src/supertux/menu/options_select_menu.cpp:35
 msgid "Locale"
-msgstr ""
+msgstr "Maa-asetusto"
 
 #: src/supertux/menu/options_menu.cpp:87
 msgid "Select Language"
@@ -3465,7 +3474,7 @@ msgstr "Kielipaketit sisältävät päivitettyjä käännöksiä"
 #: src/supertux/menu/options_menu.cpp:99
 #: src/supertux/menu/options_select_menu.cpp:37
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: src/supertux/menu/options_menu.cpp:102
 msgid "Window Resizable"
@@ -3523,7 +3532,7 @@ msgstr ""
 #: src/supertux/menu/options_menu.cpp:142
 #: src/supertux/menu/options_select_menu.cpp:38
 msgid "Audio"
-msgstr ""
+msgstr "Ääni"
 
 #: src/supertux/menu/options_menu.cpp:147
 msgid "Disable all sound effects"
@@ -3662,11 +3671,11 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:236
 msgid "Disable network"
-msgstr ""
+msgstr "Poista verkko käytöstä"
 
 #: src/supertux/menu/options_menu.cpp:237
 msgid "Prevents the game from connecting online"
-msgstr ""
+msgstr "Estää peliä yhdistämästä verkkoon"
 
 #: src/supertux/menu/options_menu.cpp:304
 msgid "Magnification"
@@ -3774,7 +3783,7 @@ msgid "You are about to delete level \"{}\". Are you sure?"
 msgstr ""
 
 #: src/supertux/menu/editor_levelset_menu.cpp:54
-#: src/supertux/game_object.cpp:141
+#: src/supertux/game_object.cpp:125
 msgid "Type"
 msgstr "Tyyppi"
 
@@ -3794,37 +3803,37 @@ msgstr "Pelaa näppäimistöllä"
 msgid "Remove Player"
 msgstr "Poista pelaaja"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:82
+#: src/supertux/menu/multiplayer_player_menu.cpp:76
 msgid "Respawn Player"
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:108
+#: src/supertux/menu/multiplayer_player_menu.cpp:102
 msgid "Spawn Player"
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:136
+#: src/supertux/menu/multiplayer_player_menu.cpp:118
 msgid "Controllers"
-msgstr ""
+msgstr "Ohjaimet"
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:152
+#: src/supertux/menu/multiplayer_player_menu.cpp:134
 msgid ""
 "This controller does not support rumbling;\n"
 "please check the controllers manually."
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:157
+#: src/supertux/menu/multiplayer_player_menu.cpp:139
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "controllers; please check the controllers manually."
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:184
+#: src/supertux/menu/multiplayer_player_menu.cpp:166
 msgid ""
 "This joystick does not support rumbling;\n"
 "please check the joysticks manually."
 msgstr ""
 
-#: src/supertux/menu/multiplayer_player_menu.cpp:189
+#: src/supertux/menu/multiplayer_player_menu.cpp:171
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "joysticks; please check the joysticks manually."
@@ -3871,15 +3880,19 @@ msgstr "Vedä ja pudota lisäosan ZIP-tiedosto"
 msgid "Save particle as"
 msgstr "Tallenna partikkeli nimellä"
 
+#: src/supertux/menu/cheat_apply_menu.cpp:33
+msgid "All Players"
+msgstr "Kaikki pelaajat"
+
 #: src/supertux/moving_object.cpp:66
 msgid "Region"
 msgstr "Alue"
 
-#: src/supertux/sector.cpp:528
+#: src/supertux/sector.cpp:514
 msgid "Press escape to skip"
 msgstr "Paina ESC ohittaaksesi"
 
-#: src/supertux/game_object.cpp:126
+#: src/supertux/game_object.cpp:110
 msgid "Version"
 msgstr "Versio"
 
@@ -4064,11 +4077,11 @@ msgstr "Kentän tavoiteaika"
 msgid "Others"
 msgstr "Muut"
 
-#: src/supertux/main.cpp:804
+#: src/supertux/main.cpp:802
 msgid "New release: SuperTux v{}!"
 msgstr "Uusi julkaisu: SuperTux v{}!"
 
-#: src/supertux/main.cpp:807
+#: src/supertux/main.cpp:805
 msgid ""
 "A new release of SuperTux (v{}) is available!\n"
 "For more information, you can visit the SuperTux website.\n"
@@ -4076,15 +4089,15 @@ msgid ""
 "Do you want to visit the website now?"
 msgstr "Uusi versio SuperTuxista (v{}) on saatavilla!\nLisätietoja on saatavilla SuperTuxin verkkosivustolla.\n\nHaluatko käydä verkkosivustolla nyt?"
 
-#: src/supertux/main.cpp:818
+#: src/supertux/main.cpp:816
 msgid "Checking for new releases..."
 msgstr "Tarkistetaan uudet julkaisut..."
 
-#: src/supertux/game_object.hpp:124
+#: src/supertux/game_object.hpp:122
 msgid "Unknown object"
 msgstr "Tuntematon objekti"
 
-#: src/control/joystick_config.cpp:85
+#: src/control/joystick_config.cpp:86
 msgid "Joystick Mappings"
 msgstr "Määritä peliohjain"
 
@@ -4109,23 +4122,23 @@ msgstr "Kohdista maailmankarttaan"
 msgid "Teleporter"
 msgstr "Teleportti"
 
-#: src/worldmap/level_tile.hpp:36 src/worldmap/level_tile.cpp:161
+#: src/worldmap/level_tile.hpp:36 src/worldmap/level_tile.cpp:153
 msgid "Level"
 msgstr "Taso"
 
-#: src/worldmap/level_tile.cpp:84
+#: src/worldmap/level_tile.cpp:86
 msgid "<no title>"
 msgstr "<ei nimeä>"
 
-#: src/worldmap/level_tile.cpp:162
+#: src/worldmap/level_tile.cpp:154
 msgid "Outro script"
 msgstr "Loppukohtauksen scripti"
 
-#: src/worldmap/level_tile.cpp:163
+#: src/worldmap/level_tile.cpp:155
 msgid "Auto play"
 msgstr "Pyöritä automaattisesti"
 
-#: src/worldmap/level_tile.cpp:164
+#: src/worldmap/level_tile.cpp:156
 msgid "Title colour"
 msgstr "Otsikon väri"
 
@@ -4424,7 +4437,7 @@ msgstr "Pallosalama"
 msgid "Plant"
 msgstr "Kasvi"
 
-#: src/badguy/badguy.cpp:1142
+#: src/badguy/badguy.cpp:1213
 msgid "Death script"
 msgstr "Kuolemisscripti"
 
@@ -4520,7 +4533,7 @@ msgstr "Vihainen Kivi"
 msgid "Crusher"
 msgstr ""
 
-#: src/badguy/boss.cpp:88
+#: src/badguy/boss.cpp:95
 msgid "Lives"
 msgstr "Elämiä"
 
@@ -4528,7 +4541,7 @@ msgstr "Elämiä"
 #. activated once the boss has lost the specified amounts of lives.
 #. This setting specifies how many lives need to be spent until pinch
 #. mode is activated.
-#: src/badguy/boss.cpp:94
+#: src/badguy/boss.cpp:101
 msgid "Lives to Pinch Mode"
 msgstr ""
 
@@ -4536,7 +4549,7 @@ msgstr ""
 #. activated once the boss has lost the specified amounts of lives.
 #. This setting specifies the squirrel script that gets run to activate boss
 #. mode.
-#: src/badguy/boss.cpp:99
+#: src/badguy/boss.cpp:106
 msgid "Pinch Mode Activation Script"
 msgstr ""
 
@@ -4754,11 +4767,23 @@ msgstr "Napsauta saadaksesi lisätietoja."
 msgid "Do not show again"
 msgstr "Älä näytä uudelleen"
 
-#: src/gui/menu_color.cpp:24
+#: src/gui/menu_color.cpp:29
 msgid "Mix the colour"
 msgstr "Sekoita väri"
 
-#: src/gui/menu_filesystem.cpp:118
+#: src/gui/menu_color.cpp:40
+msgid "Copy to clipboard (rgb)"
+msgstr ""
+
+#: src/gui/menu_color.cpp:41
+msgid "Copy to clipboard (hex)"
+msgstr ""
+
+#: src/gui/menu_color.cpp:57 src/gui/menu_color.cpp:60
+msgid "Paste from clipboard"
+msgstr ""
+
+#: src/gui/menu_filesystem.cpp:119
 msgid "Open Directory"
 msgstr "Avaa kansio"
 
@@ -4876,7 +4901,7 @@ msgstr "Nykyinen SuperTux-tiimi"
 
 #: data/credits.stxt:30
 msgid "Maintainer, Programming"
-msgstr ""
+msgstr "Ylläpitäjä, ohjelmointi"
 
 #: data/credits.stxt:35
 msgid "Graphics, Level Design, Story"

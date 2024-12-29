@@ -185,8 +185,6 @@ private:
 
   void keep_camera_in_bounds();
 
-  void post_undo_redo_actions();
-
 protected:
   std::unique_ptr<Level> m_level;
   std::unique_ptr<World> m_world;

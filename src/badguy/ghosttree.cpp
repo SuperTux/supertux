@@ -199,7 +199,7 @@ GhostTree::active_update(float dt_sec)
           die();
         }
         if (m_lives > 0) {
-          set_action("normal");
+          set_action("default");
           mystate = STATE_IDLE;
           spawn_lantern();
         }

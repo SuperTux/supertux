@@ -144,7 +144,7 @@ const float SWIM_BOOST_SPEED = 600.f;
 const float SWIM_TO_BOOST_ACCEL = 15.f;
 const float TURN_MAGNITUDE = 0.15f;
 const float TURN_MAGNITUDE_BOOST = 0.2f;
-const std::array<std::string, 2> BUBBLE_ACTIONS = { "normal", "small" };
+const std::array<std::string, 2> BUBBLE_ACTIONS = { "default", "small" };
 
 /* Buttjump variables */
 
@@ -2340,14 +2340,8 @@ Player::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_x(0);
   }
 
-  // crushed?
-  if (hit.crush) {
-    if (hit.left || hit.right) {
-      kill(true);
-    } else if (hit.top || hit.bottom) {
-      kill(false);
-    }
-  }
+  if (hit.crush)
+    kill(false);
 
   if ((hit.left && m_boost < 0.f) || (hit.right && m_boost > 0.f))
     m_boost = 0.f;
@@ -2459,8 +2453,6 @@ Player::kill(bool completely)
       set_bonus(BONUS_NONE, true);
     }
   } else {
-    SoundManager::current()->play("sounds/kill.wav", get_pos());
-
     auto* session = GameSession::current();
     if (session && session->m_prevent_death &&
                    !session->reset_checkpoint_button)
@@ -2468,6 +2460,8 @@ Player::kill(bool completely)
       set_ghost_mode(true);
       return;
     }
+
+    SoundManager::current()->play("sounds/kill.wav", get_pos());
 
     m_physic.enable_gravity(true);
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex

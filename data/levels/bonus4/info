@@ -1,7 +1,0 @@
-(supertux-level-subset
-  (title (_ "Bonus Island IV"))
-  (description (_ "Collection of levels with many varying themes. Added in 0.6.1"))
-  (levelset #f)
-  (contrib-type "official")
-  (hide-from-contribs #f)
-)
