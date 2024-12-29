@@ -353,8 +353,6 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
-  m_overlay_widget->reset_action_press();
-
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);

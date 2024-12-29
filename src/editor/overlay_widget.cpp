@@ -207,7 +207,7 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
     {
       const uint32_t tile = tiles->pos(static_cast<int>(add_tile.x), static_cast<int>(add_tile.y));
 
-      if (g_config->editor_autotile_mode)
+      if (m_autotile_mode)
       {
         AutotileSet* autotileset = get_current_autotileset();
         if (autotileset)
@@ -356,7 +356,7 @@ EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
                                           uint32_t target_tile,
                                           uint32_t third_tile) const
 {
-  if (g_config->editor_autotile_mode)
+  if (m_autotile_mode)
   {
     return m_editor.get_tileset()->has_mutual_autotileset(replace_tile, target_tile) &&
           !m_editor.get_tileset()->has_mutual_autotileset(replace_tile, third_tile);
@@ -465,7 +465,7 @@ EditorOverlayWidget::fill()
     }
 
     // Autotile happens after directional detection (because of borders; see snow tileset)
-    if (g_config->editor_autotile_mode)
+    if (m_autotile_mode)
       input_autotile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
 
     // When tiles on each side are already filled or occupied by another tiles, it ends.
@@ -521,7 +521,7 @@ EditorOverlayWidget::hover_object()
         auto* bezier_marker = dynamic_cast<BezierMarker*>(&moving_object);
         if (bezier_marker)
         {
-          if (!action_pressed)
+          if (!m_editor.m_ctrl_pressed)
           {
             marker_hovered_without_ctrl = bezier_marker;
             continue;
@@ -581,16 +581,6 @@ EditorOverlayWidget::edit_path(PathGameObject* path, GameObject* new_marked_obje
   m_edited_path->get_path().edit_path();
   if (new_marked_object) {
     m_selected_object = new_marked_object;
-  }
-}
-
-void
-EditorOverlayWidget::reset_action_press()
-{
-  if (action_pressed)
-  {
-    g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
-    action_pressed = false;
   }
 }
 
@@ -1139,22 +1129,20 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
-  auto sym = key.keysym.sym;
-  if (sym == SDLK_LSHIFT)
+  std::uint16_t mod = key.keysym.mod;
+
+  if (mod & KMOD_SHIFT)
   {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
-  else if (sym == SDLK_LCTRL || sym == SDLK_RCTRL)
+  else if (!m_editor.m_ctrl_pressed)
   {
-    if (action_pressed)
-    {
-      g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
-      action_pressed = false;
-    }
-    // Hovered objects depend on which keys are pressed
+    m_autotile_mode = g_config->editor_autotile_mode;
+
+    // Hovered objects depend on if ctrl is pressed
     hover_object();
   }
-  else if (sym == SDLK_LALT || sym == SDLK_RALT)
+  else if (mod & KMOD_ALT)
   {
     alt_pressed = false;
   }
@@ -1164,24 +1152,29 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 bool
 EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
-  auto sym = key.keysym.sym;
+  SDL_Keycode sym = key.keysym.sym;
+  std::uint16_t mod = key.keysym.mod;
 
   if (sym == SDLK_F8)
   {
     g_config->editor_render_grid = !g_config->editor_render_grid;
   }
-  else if (sym == SDLK_F7 || sym == SDLK_LSHIFT)
+  else if (sym == SDLK_F7 || mod & KMOD_SHIFT)
   {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
-  else if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed))
+  else if (sym == SDLK_F5)
   {
     g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
-    action_pressed = true;
-    // Hovered objects depend on which keys are pressed
+    m_autotile_mode = g_config->editor_autotile_mode;
+  }
+  else if (m_editor.m_ctrl_pressed)
+  {
+    m_autotile_mode = !g_config->editor_autotile_mode;
+    // Hovered objects depend on if ctrl is pressed.
     hover_object();
   }
-  else if (sym == SDLK_LALT || sym == SDLK_RALT)
+  else if (mod & KMOD_ALT)
   {
     alt_pressed = true;
   }
@@ -1582,7 +1575,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
 
   if (g_config->editor_autotile_help)
   {
-    if (g_config->editor_autotile_mode)
+    if (m_autotile_mode)
     {
       AutotileSet* autotileset = get_current_autotileset();
       if (m_editor.get_tiles()->pos(0, 0) == 0)
