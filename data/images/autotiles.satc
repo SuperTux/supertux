@@ -2421,11 +2421,11 @@
       )
       (alt-id
         (id 7041)
-        (weight 0.1)
+        (weight -1)
       )
       (alt-id
         (id 7167)
-        (weight 0.1)
+        (weight -1)
       )
       (solid #t)
       (mask "11111111")
@@ -3413,11 +3413,11 @@
       )
       (alt-id
         (id 6851)
-        (weight 0.3)
+        (weight 0.1)
       )
       (alt-id
         (id 6852)
-        (weight 0.3)
+        (weight 0.1)
       )
       (alt-id
         (id 6952)
@@ -3425,11 +3425,11 @@
       )
       (alt-id
         (id 6955)
-        (weight 0.1)
+        (weight -1)
       )
       (alt-id
         (id 6958)
-        (weight 0.1)
+        (weight -1)
       )
       (solid #t)
       (mask "11111111")
@@ -10476,11 +10476,11 @@
       )
       (alt-id
         (id 7041)
-        (weight 0.1)
+        (weight -1)
       )
       (alt-id
         (id 7167)
-        (weight 0.1)
+        (weight -1)
       )
       (mask "1111")
     )
@@ -10692,11 +10692,11 @@
       )
       (alt-id
         (id 6851)
-        (weight 0.3)
+        (weight 0.1)
       )
       (alt-id
         (id 6852)
-        (weight 0.3)
+        (weight 0.1)
       )
       (alt-id
         (id 6952)
@@ -10704,11 +10704,11 @@
       )
       (alt-id
         (id 6955)
-        (weight 0.1)
+        (weight -1)
       )
       (alt-id
         (id 6958)
-        (weight 0.1)
+        (weight -1)
       )
       (mask "1111")
     )
