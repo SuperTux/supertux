@@ -83,7 +83,8 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_rectangle_preview(new TileSelection()),
   m_warning_timer(),
   m_warning_text(),
-  m_selection_warning(false)
+  m_selection_warning(false),
+  m_autotile_mode(g_config->editor_autotile_mode)
 {
 }
 
