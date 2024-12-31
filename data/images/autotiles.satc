@@ -10452,7 +10452,7 @@
   )
   
   (autotileset-corner
-    (name "forest_underground_holes")
+    (name "underground_forest_holes")
     (default 1869)
     
     ;; CENTER
