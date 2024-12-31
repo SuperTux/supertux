@@ -110,6 +110,7 @@ Editor::Editor() :
   m_particle_editor_request(false),
   m_test_pos(),
   m_particle_editor_filename(),
+  m_ctrl_pressed(false),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
@@ -127,7 +128,6 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
-  m_ctrl_pressed(false),
   m_mouse_pos(0.f, 0.f)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
@@ -353,8 +353,6 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
-  m_overlay_widget->reset_action_press();
-
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);

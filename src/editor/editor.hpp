@@ -207,6 +207,8 @@ public:
 
   std::string* m_particle_editor_filename;
 
+  bool m_ctrl_pressed;
+
 private:
   Sector* m_sector;
 
@@ -232,7 +234,6 @@ private:
   float m_scroll_speed;
   float m_new_scale;
 
-  bool m_ctrl_pressed;
   Vector m_mouse_pos;
 
 private:
