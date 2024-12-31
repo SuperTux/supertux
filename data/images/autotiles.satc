@@ -2352,7 +2352,7 @@
     )
   )
   (autotileset
-    (name "underground_forest")
+    (name "forest_underground")
     (default 1870)
     (autotile
       (id 1860)
@@ -3356,7 +3356,7 @@
     ;; 6589 to 6598 - grassless...
   )
   (autotileset
-    (name "underground_corrupted_forest")
+    (name "corrupted_forest_underground")
     (default 3697)
     (autotile
       (id 6808)
@@ -10452,7 +10452,7 @@
   )
   
   (autotileset-corner
-    (name "underground_forest_holes")
+    (name "forest_underground_holes")
     (default 1869)
     
     ;; CENTER
@@ -10680,7 +10680,7 @@
   )
   
   (autotileset-corner
-    (name "underground_corrupted_forest_holes")
+    (name "corrupted_forest_underground_holes")
     (default 6837)
     
     ;; CENTER
