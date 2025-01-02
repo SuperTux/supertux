@@ -2352,7 +2352,7 @@
     )
   )
   (autotileset
-    (name "underground_forest")
+    (name "forest_underground")
     (default 1870)
     (autotile
       (id 1860)
@@ -2421,11 +2421,11 @@
       )
       (alt-id
         (id 7041)
-        (weight 0.1)
+        (weight -1)
       )
       (alt-id
         (id 7167)
-        (weight 0.1)
+        (weight -1)
       )
       (solid #t)
       (mask "11111111")
@@ -3356,7 +3356,7 @@
     ;; 6589 to 6598 - grassless...
   )
   (autotileset
-    (name "underground_corrupted_forest")
+    (name "corrupted_forest_underground")
     (default 3697)
     (autotile
       (id 6808)
@@ -3413,11 +3413,11 @@
       )
       (alt-id
         (id 6851)
-        (weight 0.3)
+        (weight 0.1)
       )
       (alt-id
         (id 6852)
-        (weight 0.3)
+        (weight 0.1)
       )
       (alt-id
         (id 6952)
@@ -3425,11 +3425,11 @@
       )
       (alt-id
         (id 6955)
-        (weight 0.1)
+        (weight -1)
       )
       (alt-id
         (id 6958)
-        (weight 0.1)
+        (weight -1)
       )
       (solid #t)
       (mask "11111111")
@@ -6806,6 +6806,60 @@
     ;; CENTER
     (autotile
       (id 4480)
+      
+      ;; cracked bricks
+      (alt-id
+        (id 4516)
+        (period-x 2 1)
+        (period-y 2 0)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 4516)
+        (period-x 2 0)
+        (period-y 2 1)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 4530)
+        (period-x 2 1)
+        (period-y 2 0)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 4530)
+        (period-x 2 0)
+        (period-y 2 1)
+        (weight 0.1)
+      )
+      
+      ;; cracked edges
+      (alt-id
+        (id 4529)
+        (period-x 2 0)
+        (period-y 2 0)
+        (weight 0.05)
+      )
+      (alt-id
+        (id 4529)
+        (period-x 2 1)
+        (period-y 2 1)
+        (weight 0.05)
+      )
+      (alt-id
+        (id 4531)
+        (period-x 2 0)
+        (period-y 2 0)
+        (weight 0.05)
+      )
+      (alt-id
+        (id 4531)
+        (period-x 2 1)
+        (period-y 2 1)
+        (weight 0.05)
+      )
+      
+      ;; brick edges
       (alt-id
         (id 4479)
         (period-x 2 0)
@@ -6816,6 +6870,7 @@
         (period-x 2 1)
         (period-y 2 1)
       )
+      
       (solid #t)
       (mask "11111111")
       (mask "*0*11*0*")
@@ -8128,6 +8183,1140 @@
   
   )
   
+  (autotileset
+    (name "ruin_bricks")
+    (default 4689)
+    
+    ;; CENTER
+    (autotile
+      (id 4689)
+      
+      (alt-id
+        (id 4690)
+        (period-x 4 1)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4694)
+        (period-x 4 2)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4695)
+        (period-x 4 3)
+        (period-y 2 0)
+      )
+      
+      (alt-id
+        (id 4690)
+        (period-x 4 2)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4694)
+        (period-x 4 3)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4695)
+        (period-x 4 0)
+        (period-y 2 1)
+      )
+      
+      (solid #t)
+      (mask "***11***")
+    )
+    
+    ;; LEFT
+    (autotile
+      (id 4689)
+      
+      (alt-id
+        (id 4696)
+        (period-x 4 1)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4694)
+        (period-x 4 2)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 4 3)
+        (period-y 2 0)
+      )
+      
+      (alt-id
+        (id 4696)
+        (period-x 4 2)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4694)
+        (period-x 4 3)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 4 0)
+        (period-y 2 1)
+      )
+      
+      (solid #t)
+      (mask "***01***")
+    )
+    
+    ;; RIGHT
+    (autotile
+      (id 4696)
+      
+      (alt-id
+        (id 4690)
+        (period-x 4 1)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 4 2)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4695)
+        (period-x 4 3)
+        (period-y 2 0)
+      )
+      
+      (alt-id
+        (id 4690)
+        (period-x 4 2)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4696)
+        (period-x 4 3)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4695)
+        (period-x 4 0)
+        (period-y 2 1)
+      )
+      
+      (solid #t)
+      (mask "***10***")
+    )
+    ;; THIN
+    (autotile
+      (id 4696)
+      
+      (alt-id
+        (id 4691)
+        (period-x 4 2)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 4 3)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 4 0)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 4 3)
+        (period-y 2 1)
+      )
+      
+      (solid #t)
+      (mask "***00***")
+    )
+    
+  )
+  
+  (autotileset
+    (name "mossy_ruin_bricks")
+    (default 4699)
+    
+    ;; CENTER
+    (autotile
+      (id 4699)
+      
+      (alt-id
+        (id 4700)
+        (period-x 4 1)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4704)
+        (period-x 4 2)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4705)
+        (period-x 4 3)
+        (period-y 2 0)
+      )
+      
+      (alt-id
+        (id 4700)
+        (period-x 4 2)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4704)
+        (period-x 4 3)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4705)
+        (period-x 4 0)
+        (period-y 2 1)
+      )
+      
+      (solid #t)
+      (mask "***11***")
+    )
+    
+    ;; LEFT
+    (autotile
+      (id 4699)
+      
+      (alt-id
+        (id 4701)
+        (period-x 4 1)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4704)
+        (period-x 4 2)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4701)
+        (period-x 4 3)
+        (period-y 2 0)
+      )
+      
+      (alt-id
+        (id 4701)
+        (period-x 4 2)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4704)
+        (period-x 4 3)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4701)
+        (period-x 4 0)
+        (period-y 2 1)
+      )
+      
+      (solid #t)
+      (mask "***01***")
+    )
+    
+    ;; RIGHT
+    (autotile
+      (id 4701)
+      
+      (alt-id
+        (id 4700)
+        (period-x 4 1)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4705)
+        (period-x 4 3)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4700)
+        (period-x 4 2)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4705)
+        (period-x 4 0)
+        (period-y 2 1)
+      )
+      
+      (solid #t)
+      (mask "***10***")
+    )
+    ;; THIN
+    (autotile
+      (id 4701)      
+      (solid #t)
+      (mask "***00***")
+    )
+    
+  )
+  
+  (autotileset
+    (name "corrupted_mossy_ruin_bricks")
+    (default 4709)
+    
+    ;; CENTER
+    (autotile
+      (id 4709)
+      
+      (alt-id
+        (id 4710)
+        (period-x 4 1)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4714)
+        (period-x 4 2)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4715)
+        (period-x 4 3)
+        (period-y 2 0)
+      )
+      
+      (alt-id
+        (id 4710)
+        (period-x 4 2)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4714)
+        (period-x 4 3)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4715)
+        (period-x 4 0)
+        (period-y 2 1)
+      )
+      
+      (solid #t)
+      (mask "***11***")
+    )
+    
+    ;; LEFT
+    (autotile
+      (id 4709)
+      
+      (alt-id
+        (id 4706)
+        (period-x 4 1)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4714)
+        (period-x 4 2)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4706)
+        (period-x 4 3)
+        (period-y 2 0)
+      )
+      
+      (alt-id
+        (id 4706)
+        (period-x 4 2)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4714)
+        (period-x 4 3)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4706)
+        (period-x 4 0)
+        (period-y 2 1)
+      )
+      
+      (solid #t)
+      (mask "***01***")
+    )
+    
+    ;; RIGHT
+    (autotile
+      (id 4706)
+      
+      (alt-id
+        (id 4710)
+        (period-x 4 1)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4715)
+        (period-x 4 3)
+        (period-y 2 0)
+      )
+      (alt-id
+        (id 4710)
+        (period-x 4 2)
+        (period-y 2 1)
+      )
+      (alt-id
+        (id 4715)
+        (period-x 4 0)
+        (period-y 2 1)
+      )
+      
+      (solid #t)
+      (mask "***10***")
+    )
+    ;; THIN
+    (autotile
+      (id 4706)      
+      (solid #t)
+      (mask "***00***")
+    )
+    
+  )
+  
+  (autotileset
+    (name "ruin_bricks_vertical")
+    (default 4693)
+    
+    ;; CENTER
+    (autotile
+      (id 4693)
+      
+      (alt-id
+        (id 4698)
+        (period-x 2 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 4692)
+        (period-x 2 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4697)
+        (period-x 2 0)
+        (period-y 4 3)
+      )
+      
+      (alt-id
+        (id 4698)
+        (period-x 2 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4692)
+        (period-x 2 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 4697)
+        (period-x 2 1)
+        (period-y 4 0)
+      )
+      
+      (solid #t)
+      (mask "*1****1*")
+    )
+    ;; TOP
+    (autotile
+      (id 4693)
+      
+      (alt-id
+        (id 4696)
+        (period-x 2 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 4692)
+        (period-x 2 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 2 0)
+        (period-y 4 3)
+      )
+      
+      (alt-id
+        (id 4696)
+        (period-x 2 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4692)
+        (period-x 2 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 2 1)
+        (period-y 4 0)
+      )
+      
+      (solid #t)
+      (mask "*0****1*")
+    )
+    
+    ;; BOTTOM
+    (autotile
+      (id 4696)
+      
+      (alt-id
+        (id 4698)
+        (period-x 2 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 2 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4697)
+        (period-x 2 0)
+        (period-y 4 3)
+      )
+      
+      (alt-id
+        (id 4698)
+        (period-x 2 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 2 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 4697)
+        (period-x 2 1)
+        (period-y 4 0)
+      )
+      
+      (solid #t)
+      (mask "*1****0*")
+    )
+    
+    ;; THIN
+    (autotile
+      (id 4696)
+      
+      (alt-id
+        (id 4691)
+        (period-x 2 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 2 0)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 2 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 4691)
+        (period-x 2 1)
+        (period-y 4 0)
+      )
+      
+      (solid #t)
+      (mask "*0****0*")
+    )
+    
+  )
+  
+  (autotileset
+    (name "mossy_ruin_bricks_vertical")
+    (default 4703)
+    
+    ;; CENTER
+    (autotile
+      (id 4703)
+      
+      (alt-id
+        (id 4708)
+        (period-x 2 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 4702)
+        (period-x 2 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4707)
+        (period-x 2 0)
+        (period-y 4 3)
+      )
+      
+      (alt-id
+        (id 4708)
+        (period-x 2 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4702)
+        (period-x 2 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 4707)
+        (period-x 2 1)
+        (period-y 4 0)
+      )
+      
+      (solid #t)
+      (mask "*1****1*")
+    )
+    ;; TOP
+    (autotile
+      (id 4703)
+      
+      (alt-id
+        (id 4701)
+        (period-x 2 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 4702)
+        (period-x 2 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4701)
+        (period-x 2 0)
+        (period-y 4 3)
+      )
+      
+      (alt-id
+        (id 4701)
+        (period-x 2 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4702)
+        (period-x 2 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 4701)
+        (period-x 2 1)
+        (period-y 4 0)
+      )
+      
+      (solid #t)
+      (mask "*0****1*")
+    )
+    
+    ;; BOTTOM
+    (autotile
+      (id 4701)
+      
+      (alt-id
+        (id 4708)
+        (period-x 2 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 4707)
+        (period-x 2 0)
+        (period-y 4 3)
+      )
+      
+      (alt-id
+        (id 4708)
+        (period-x 2 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4707)
+        (period-x 2 1)
+        (period-y 4 0)
+      )
+      
+      (solid #t)
+      (mask "*1****0*")
+    )
+    
+    ;; THIN
+    (autotile
+      (id 4701)
+      (solid #t)
+      (mask "*0****0*")
+    )
+    
+  )
+  
+  (autotileset
+    (name "corrupted_mossy_ruin_bricks_vertical")
+    (default 4713)
+    
+    ;; CENTER
+    (autotile
+      (id 4713)
+      
+      (alt-id
+        (id 4718)
+        (period-x 2 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 4712)
+        (period-x 2 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4717)
+        (period-x 2 0)
+        (period-y 4 3)
+      )
+      
+      (alt-id
+        (id 4718)
+        (period-x 2 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4712)
+        (period-x 2 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 4717)
+        (period-x 2 1)
+        (period-y 4 0)
+      )
+      
+      (solid #t)
+      (mask "*1****1*")
+    )
+    ;; TOP
+    (autotile
+      (id 4713)
+      
+      (alt-id
+        (id 4706)
+        (period-x 2 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 4712)
+        (period-x 2 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4706)
+        (period-x 2 0)
+        (period-y 4 3)
+      )
+      
+      (alt-id
+        (id 4706)
+        (period-x 2 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4712)
+        (period-x 2 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 4706)
+        (period-x 2 1)
+        (period-y 4 0)
+      )
+      
+      (solid #t)
+      (mask "*0****1*")
+    )
+    
+    ;; BOTTOM
+    (autotile
+      (id 4706)
+      
+      (alt-id
+        (id 4718)
+        (period-x 2 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 4717)
+        (period-x 2 0)
+        (period-y 4 3)
+      )
+      
+      (alt-id
+        (id 4718)
+        (period-x 2 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 4717)
+        (period-x 2 1)
+        (period-y 4 0)
+      )
+      
+      (solid #t)
+      (mask "*1****0*")
+    )
+    
+    ;; THIN
+    (autotile
+      (id 4706)
+      (solid #t)
+      (mask "*0****0*")
+    )
+    
+  )
+  
+  (autotileset
+    (name "water")
+    (default 2020)
+    
+    (autotile
+      (id 2020)
+      (solid #t)
+      (mask "*1******")
+    )
+    
+    (autotile
+      (id 2019)
+      
+      (alt-id
+        (id 2140)
+        (period-x 4 1)
+      )
+      (alt-id
+        (id 2141)
+        (period-x 4 2)
+      )
+      (alt-id
+        (id 2142)
+        (period-x 4 3)
+      )
+      
+      (solid #t)
+      (mask "*0******")
+    )
+    
+  )
+  
+  (autotileset
+    (name "lava")
+    (default 4004)
+    
+    (autotile
+      (id 4004)
+      (solid #t)
+      (mask "*1******")
+    )
+    
+    (autotile
+      (id 2136)
+      
+      (alt-id
+        (id 2137)
+        (period-x 4 1)
+      )
+      (alt-id
+        (id 2138)
+        (period-x 4 2)
+      )
+      (alt-id
+        (id 2139)
+        (period-x 4 3)
+      )
+      
+      (solid #t)
+      (mask "*0******")
+    )
+    
+  )
+  
+  (autotileset
+    (name "snow_cave_wall")
+    (default 3541)
+
+    (autotile
+      (id 3541)
+      
+      (alt-id
+        (id 3542)
+        (period-x 4 1)
+        (period-y 4 0)
+      )
+      (alt-id
+        (id 3543)
+        (period-x 4 2)
+        (period-y 4 0)
+      )
+      (alt-id
+        (id 3544)
+        (period-x 4 3)
+        (period-y 4 0)
+      )
+
+      (alt-id
+        (id 3545)
+        (period-x 4 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 3546)
+        (period-x 4 1)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 3547)
+        (period-x 4 2)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 3548)
+        (period-x 4 3)
+        (period-y 4 1)
+      )
+
+      (alt-id
+        (id 3549)
+        (period-x 4 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 3550)
+        (period-x 4 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 3551)
+        (period-x 4 2)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 3552)
+        (period-x 4 3)
+        (period-y 4 2)
+      )
+
+      (alt-id
+        (id 3553)
+        (period-x 4 0)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 3554)
+        (period-x 4 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 3555)
+        (period-x 4 2)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 3556)
+        (period-x 4 3)
+        (period-y 4 3)
+      )
+
+      (solid #t)
+      (mask "********")
+    )
+    
+  )
+  
+  (autotileset
+    (name "forest_cave_wall_1")
+    (default 1900)
+
+    (autotile
+      (id 1900)
+      
+      (alt-id
+        (id 1901)
+        (period-x 4 1)
+        (period-y 4 0)
+      )
+      (alt-id
+        (id 1902)
+        (period-x 4 2)
+        (period-y 4 0)
+      )
+      (alt-id
+        (id 1903)
+        (period-x 4 3)
+        (period-y 4 0)
+      )
+
+      (alt-id
+        (id 1904)
+        (period-x 4 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 1905)
+        (period-x 4 1)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 1906)
+        (period-x 4 2)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 1907)
+        (period-x 4 3)
+        (period-y 4 1)
+      )
+
+      (alt-id
+        (id 1908)
+        (period-x 4 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 1909)
+        (period-x 4 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 1910)
+        (period-x 4 2)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 1911)
+        (period-x 4 3)
+        (period-y 4 2)
+      )
+
+      (alt-id
+        (id 1912)
+        (period-x 4 0)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 1913)
+        (period-x 4 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 1914)
+        (period-x 4 2)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 1915)
+        (period-x 4 3)
+        (period-y 4 3)
+      )
+
+      (solid #t)
+      (mask "********")
+    )
+    
+  )
+  
+  (autotileset
+    (name "forest_cave_wall_2")
+    (default 1956)
+
+    (autotile
+      (id 1956)
+      
+      (alt-id
+        (id 1957)
+        (period-x 4 1)
+        (period-y 4 0)
+      )
+      (alt-id
+        (id 1958)
+        (period-x 4 2)
+        (period-y 4 0)
+      )
+      (alt-id
+        (id 1959)
+        (period-x 4 3)
+        (period-y 4 0)
+      )
+
+      (alt-id
+        (id 1960)
+        (period-x 4 0)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 1961)
+        (period-x 4 1)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 1962)
+        (period-x 4 2)
+        (period-y 4 1)
+      )
+      (alt-id
+        (id 1963)
+        (period-x 4 3)
+        (period-y 4 1)
+      )
+
+      (alt-id
+        (id 1964)
+        (period-x 4 0)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 1965)
+        (period-x 4 1)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 1966)
+        (period-x 4 2)
+        (period-y 4 2)
+      )
+      (alt-id
+        (id 1967)
+        (period-x 4 3)
+        (period-y 4 2)
+      )
+
+      (alt-id
+        (id 1968)
+        (period-x 4 0)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 1969)
+        (period-x 4 1)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 1970)
+        (period-x 4 2)
+        (period-y 4 3)
+      )
+      (alt-id
+        (id 1971)
+        (period-x 4 3)
+        (period-y 4 3)
+      )
+
+      (solid #t)
+      (mask "********")
+    )
+    
+  )
+  
   ;; SUPPORT MULTIPLE AUTOTILESETS PER TILE - START
   
   (autotileset
@@ -9287,11 +10476,11 @@
       )
       (alt-id
         (id 7041)
-        (weight 0.1)
+        (weight -1)
       )
       (alt-id
         (id 7167)
-        (weight 0.1)
+        (weight -1)
       )
       (mask "1111")
     )
@@ -9491,7 +10680,7 @@
   )
   
   (autotileset-corner
-    (name "underground_corrupted_forest_holes")
+    (name "corrupted_forest_underground_holes")
     (default 6837)
     
     ;; CENTER
@@ -9503,11 +10692,11 @@
       )
       (alt-id
         (id 6851)
-        (weight 0.3)
+        (weight 0.1)
       )
       (alt-id
         (id 6852)
-        (weight 0.3)
+        (weight 0.1)
       )
       (alt-id
         (id 6952)
@@ -9515,11 +10704,11 @@
       )
       (alt-id
         (id 6955)
-        (weight 0.1)
+        (weight -1)
       )
       (alt-id
         (id 6958)
-        (weight 0.1)
+        (weight -1)
       )
       (mask "1111")
     )
