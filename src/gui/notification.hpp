@@ -55,7 +55,7 @@ public:
 
   void set_text(const std::string& text);
   void set_mini_text(const std::string& text);
-  void on_press(const std::function<void ()>& callback) { m_callback = callback; }
+  inline void on_press(const std::function<void ()>& callback) { m_callback = callback; }
 
   void event(const SDL_Event& event);
   void process_input(const Controller& controller);

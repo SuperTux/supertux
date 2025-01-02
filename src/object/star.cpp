@@ -87,7 +87,7 @@ Star::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Star::collision(GameObject& other, const CollisionHit& )
+Star::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {

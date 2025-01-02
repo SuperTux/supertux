@@ -38,7 +38,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float) override;
 
-  virtual HitResponse collision(GameObject&, const CollisionHit&) override { return ABORT_MOVE; }
+  virtual HitResponse collision(MovingObject&, const CollisionHit&) override { return ABORT_MOVE; }
 
   static std::string class_name() { return "lit-object"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -49,8 +49,6 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
-
-  virtual int get_layer() const override { return m_layer; }
 
   virtual void on_flip(float height) override;
 

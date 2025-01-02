@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_SOUND_OBJECT_HPP
 #define HEADER_SUPERTUX_SOUND_OBJECT_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
 
 class SoundSource;
 
 /** Plays sound at given interval with specified volume hearable in entire Sector */
-class SoundObject final : public GameObject
+class SoundObject final : public LayerObject
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -74,7 +74,7 @@ public:
    * @scripting
    * @description Returns the volume of the played sound.
    */
-  float get_volume() const;
+  inline float get_volume() const { return m_volume; }
 
   /** @} */
 

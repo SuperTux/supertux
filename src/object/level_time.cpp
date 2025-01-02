@@ -23,6 +23,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
@@ -34,7 +35,7 @@
 static const float TIME_WARNING = 20;
 
 LevelTime::LevelTime(const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   time_surface(Surface::from_file("images/engine/hud/time-0.png")),
   running(!Editor::is_active()),
   time_left()
@@ -104,8 +105,9 @@ LevelTime::update(float dt_sec)
 void
 LevelTime::draw(DrawingContext& context)
 {
-  if (Editor::is_active())
+  if (g_debug.hide_player_hud || Editor::is_active())
     return;
+
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.transform().scale = 1.f;

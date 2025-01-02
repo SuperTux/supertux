@@ -89,7 +89,7 @@ Platform::get_settings()
 }
 
 HitResponse
-Platform::collision(GameObject& other, const CollisionHit& )
+Platform::collision(MovingObject& other, const CollisionHit& )
 {
   if (dynamic_cast<Player*>(&other)) {
     m_player_contact = true;

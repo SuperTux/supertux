@@ -42,8 +42,10 @@ ControllerHUD::ControllerHUD() :
   m_controls[Control::ACTION] = Rectf::from_center(btn_pos + Vector(-20.0f, 0.0f), btn_size);
   m_controls[Control::JUMP] = Rectf::from_center(btn_pos + Vector(0.0f, 20.0f), btn_size);
 
-  m_controls[Control::START] = Rectf::from_center(pos + Vector(16.0f, 24.0f), Sizef(16, 8));
-  m_controls[Control::ESCAPE] = Rectf::from_center(pos + Vector(-16.0f, 24.0f), Sizef(16, 8));
+  m_controls[Control::ITEM] = Rectf::from_center(pos + Vector(-24.f, 24.0f), Sizef(16, 8));
+  m_controls[Control::ESCAPE] = Rectf::from_center(pos + Vector(0.0f, 24.0f), Sizef(16, 8));
+  m_controls[Control::START] = Rectf::from_center(pos + Vector(24.0f, 24.0f), Sizef(16, 8));
+
 }
 
 void

@@ -64,7 +64,7 @@ Haywire::get_player_direction(const Player* player) const
 }
 
 bool
-Haywire::collision_squished(GameObject& object)
+Haywire::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);
@@ -233,7 +233,7 @@ Haywire::draw(DrawingContext& context)
   {
     m_exploding_sprite->set_blend(Blend::ADD);
     m_exploding_sprite->draw(context.light(),
-      get_pos()+Vector(get_bbox().get_width()/2, get_bbox().get_height()/2), m_layer, m_flip);
+      get_pos() + (get_bbox().get_size().as_vector() / 2.0f), m_layer, m_flip);
   }
   WalkingBadguy::draw(context);
 }

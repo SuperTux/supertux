@@ -70,7 +70,7 @@ Crystallo::active_update(float dt_sec)
 }
 
 bool
-Crystallo::collision_squished(GameObject& object)
+Crystallo::collision_squished(MovingObject& object)
 {
   set_action(m_dir == Direction::LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);

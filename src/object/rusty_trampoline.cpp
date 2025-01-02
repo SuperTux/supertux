@@ -49,7 +49,7 @@ RustyTrampoline::update(float dt_sec)
     if (counter < 1) {
       remove_me();
     } else {
-      set_action("normal");
+      set_action("default");
     }
 
   }
@@ -71,7 +71,7 @@ RustyTrampoline::get_settings()
 }
 
 HitResponse
-RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
+RustyTrampoline::collision(MovingObject& other, const CollisionHit& hit)
 {
   //Trampoline has to be on ground to work.
   if (on_ground) {

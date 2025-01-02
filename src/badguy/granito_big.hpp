@@ -49,7 +49,7 @@ public:
   virtual GameObjectTypes get_types() const override;
 
   void carry(Granito* granito);
-  Granito* get_carrying() const { return m_carrying; }
+  inline Granito* get_carrying() const { return m_carrying; }
 
   /**
    * @scripting

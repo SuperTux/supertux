@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (name "normal")
+    (name "default")
     (hitbox 230 300 40 60)
     (images
       "ghosttree.png"

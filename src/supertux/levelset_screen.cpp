@@ -88,9 +88,18 @@ LevelsetScreen::setup()
                                                   m_savegame);
       if (m_start_pos) {
         screen->set_start_pos(m_start_pos->first, m_start_pos->second);
-        screen->restart_level();
       }
-      ScreenManager::current()->push_screen(std::move(screen));
+      
+      try
+      {
+        screen->restart_level();
+        ScreenManager::current()->push_screen(std::move(screen));
+      }
+      catch (const std::runtime_error& e)
+      {
+        log_warning << "Couldn't load level: " << e.what() << std::endl;
+        ScreenManager::current()->pop_screen();
+      }
     }
   }
 }

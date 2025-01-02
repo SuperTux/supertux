@@ -78,7 +78,7 @@ CorruptedGranito::set_state(CorruptedGranitoState newState)
 }
 
 bool
-CorruptedGranito::collision_squished(GameObject& object)
+CorruptedGranito::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);

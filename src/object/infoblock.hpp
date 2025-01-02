@@ -45,7 +45,7 @@ public:
 
 private:
   virtual void hit(Player& player) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   Player* get_nearest_player() const;
 

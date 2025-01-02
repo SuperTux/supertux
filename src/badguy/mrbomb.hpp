@@ -30,7 +30,7 @@ public:
          const std::string& glow_sprite = "images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite");
 
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& object, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& object, const CollisionHit& hit) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
@@ -44,7 +44,7 @@ public:
   virtual void freeze() override;
   virtual bool is_freezable() const override;
 
-  bool is_ticking() const { return m_state == MB_STATE_TICKING; }
+  inline bool is_ticking() const { return m_state == MB_STATE_TICKING; }
   virtual void trigger(Player* player);
   virtual void explode();
 
@@ -63,7 +63,7 @@ public:
 protected:
   void update_ticking(float dt_sec);
 
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 protected:
   enum State : uint8_t {

@@ -39,7 +39,7 @@ public:
 
   ObjectSettings get_settings() override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "conveyor-belt"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -50,8 +50,6 @@ public:
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-
-  virtual int get_layer() const override { return LAYER_TILES; }
 
   virtual void after_editor_set() override;
 
@@ -86,7 +84,7 @@ public:
    * @scripting
    * @description Returns the shifting speed of the conveyor.
    */
-  float get_speed() const;
+  inline float get_speed() const { return m_speed; }
 
 private:
   void update_hitbox() override;

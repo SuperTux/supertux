@@ -73,7 +73,7 @@ public:
   void save(Writer& writer);
   void request_save(bool is_save_as = false,
     const std::function<void(bool)>& callback = [](bool was_saved){});
-  void open(const std::string& filename) { m_filename = filename; reload(); }
+  inline void open(const std::string& filename) { m_filename = filename; reload(); }
   void new_file() { m_filename = ""; reload(); }
 
   /** Reloads the particle object from the filename in m_filename.

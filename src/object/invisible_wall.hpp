@@ -29,7 +29,7 @@ class InvisibleWall final : public MovingObject
 public:
   InvisibleWall(const ReaderMapping& mapping);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
 
   static std::string class_name() { return "invisible_wall"; }

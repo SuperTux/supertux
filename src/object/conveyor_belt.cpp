@@ -26,8 +26,8 @@
 #include "math/util.hpp"
 #include "util/reader_mapping.hpp"
 
-ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
-  MovingSprite(reader, "images/objects/conveyor_belt/conveyor.sprite"),
+ConveyorBelt::ConveyorBelt(const ReaderMapping& reader) :
+  MovingSprite(reader, "images/objects/conveyor_belt/conveyor.sprite", LAYER_TILES),
   m_running(true),
   m_dir(Direction::LEFT),
   m_length(1),
@@ -70,11 +70,12 @@ ConveyorBelt::get_settings()
 }
 
 HitResponse
-ConveyorBelt::collision(GameObject &other, const CollisionHit &hit)
+ConveyorBelt::collision(MovingObject& other, const CollisionHit& hit)
 {
   WalkingBadguy* walking_badguy = dynamic_cast<WalkingBadguy*>(&other);
   if (walking_badguy)
     walking_badguy->override_stay_on_platform();
+
   return FORCE_MOVE;
 }
 
@@ -110,9 +111,7 @@ ConveyorBelt::draw(DrawingContext &context)
   for (int i = 0; i < m_length; i++)
   {
     m_sprite->set_frame(frame_index);
-    Vector pos = get_pos();
-    pos.x += static_cast<float>(i) * 32.0f;
-    m_sprite->draw(context.color(), pos, get_layer());
+    m_sprite->draw(context.color(), get_pos() + Vector(static_cast<float>(i) * 32.f, 0.f), m_layer);
   }
 }
 
@@ -168,14 +167,7 @@ ConveyorBelt::move_right()
 void
 ConveyorBelt::set_speed(float target_speed)
 {
-  target_speed = math::clamp(target_speed, 0.0f, MAX_SPEED);
-  m_speed = target_speed;
-}
-
-float
-ConveyorBelt::get_speed() const
-{
-  return m_speed;
+  m_speed = math::clamp(target_speed, 0.0f, MAX_SPEED);
 }
 
 

@@ -74,6 +74,7 @@ JoystickMenu::recreate_menu()
       add_controlfield(static_cast<int>(Control::RIGHT),       _("Right"));
       add_controlfield(static_cast<int>(Control::JUMP),        _("Jump"));
       add_controlfield(static_cast<int>(Control::ACTION),      _("Action"));
+      add_controlfield(static_cast<int>(Control::ITEM),        _("Item Pocket"));
       add_controlfield(static_cast<int>(Control::START),       _("Pause/Menu"));
       add_controlfield(static_cast<int>(Control::PEEK_LEFT),   _("Peek Left"));
       add_controlfield(static_cast<int>(Control::PEEK_RIGHT),  _("Peek Right"));
@@ -120,11 +121,8 @@ JoystickMenu::menu_action(MenuItem& item)
 {
   if (0 <= item.get_id() && item.get_id() < static_cast<int>(Control::CONTROLCOUNT))
   {
-    ItemControlField* micf = dynamic_cast<ItemControlField*>(&item);
-    if (!micf) {
-      return;
-    }
-    micf->change_input(_("Press Button"));
+    ItemControlField& field = static_cast<ItemControlField&>(item);
+    field.change_input(_("Press Button"));
     m_input_manager.joystick_manager->bind_next_event_to(static_cast<Control>(item.get_id()));
   }
   else if (item.get_id() == MNID_AUTO_JOYSTICK_CFG)
@@ -228,6 +226,7 @@ JoystickMenu::refresh()
 
     refresh_menu_item(Control::JUMP);
     refresh_menu_item(Control::ACTION);
+    refresh_menu_item(Control::ITEM);
     refresh_menu_item(Control::START);
     refresh_menu_item(Control::PEEK_LEFT);
     refresh_menu_item(Control::PEEK_RIGHT);
