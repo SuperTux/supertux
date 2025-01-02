@@ -301,8 +301,8 @@ public:
 
   /**
    * @scripting
-   * @description Set Tux visible or invisible.
-   * @param bool $visible
+   * @description Set Tux safe or invisible.
+   * @param bool $safe
    */
   inline void set_visible(bool visible) { m_visible = visible; }
   /**
@@ -310,6 +310,18 @@ public:
    * @description Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
    */
   inline bool get_visible() const { return m_visible; }
+
+  /**
+   * @scripting
+   * @description Set Tux visible or invisible.
+   * @param bool $visible
+   */
+  void set_is_intentionally_safe(bool safe);
+  /**
+   * @scripting
+   * @description Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
+   */
+  bool get_is_intentionally_safe() const;
 
   inline bool on_ground() const { return m_on_ground_flag; }
   inline void set_on_ground(bool flag) { m_on_ground_flag = flag; }
@@ -556,7 +568,13 @@ public:
 private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
+
+  /**
+   * @scripting
+   * @description Determines whether Tux is invincible.
+   */
   bool m_is_intentionally_safe;
+
   Timer m_kick_timer;
   Timer m_buttjump_timer;
 
