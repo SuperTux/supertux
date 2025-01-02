@@ -60,7 +60,7 @@ public:
   void jump_to_node(int node_idx, bool instantaneous = false);
 
   /** start advancing automatically */
-  void start_moving();
+  void start_moving(bool backwards = false);
 
   /** stop advancing automatically */
   void stop_moving();

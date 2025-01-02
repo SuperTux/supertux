@@ -96,10 +96,10 @@ PathObject::set_node(int node_idx)
 }
 
 void
-PathObject::start_moving()
+PathObject::start_moving(bool backwards)
 {
   if (!m_walker) return;
-  m_walker->start_moving();
+  m_walker->start_moving(backwards);
 }
 
 void
@@ -188,7 +188,7 @@ PathObject::register_members(ssq::Class& cls)
 {
   cls.addFunc("goto_node", &PathObject::goto_node);
   cls.addFunc("set_node", &PathObject::set_node);
-  cls.addFunc("start_moving", &PathObject::start_moving);
+  cls.addFunc("start_moving", &PathObject::start_moving, ssq::DefaultArguments<bool>(false));
   cls.addFunc("stop_moving", &PathObject::stop_moving);
 }
 
