@@ -65,6 +65,9 @@ public:
 
   inline bool has_mouse_focus() const { return m_has_mouse_focus; }
 
+  void show_tile_in_toolbox(uint32_t tile);
+  void show_object_in_toolbox(const std::string& classname);
+
 private:
   Vector get_tool_coords(int pos) const;
   int get_tool_pos(const Vector& coords) const;
