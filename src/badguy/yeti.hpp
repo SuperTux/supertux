@@ -39,19 +39,40 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return Boss::get_class_types().add(typeid(Yeti)); }
 
-  virtual ObjectSettings get_settings() override;
-
   void kill_squished(GameObject& object);
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
-  void run();
-  void jump_up();
-  void throw_snowballs();
-  void throw_big_snowballs();
-  void be_angry();
+  enum YetiState {
+    ANNOUNCE,
+    RUN,
+    FALL,
+    JUMP,
+    IDLE,
+    THROW,
+    THROW_BIG,
+    STOMP,
+    DIZZY,
+    BUSTED,
+    THROW_TUX /// Yeti grabs Tux and throws him away. Take that!
+  };
+
+private:
+  void announce(bool taunt);
+  void run(bool change_state);
+  void jump(float velocity);
+  void idle(bool stomp, float waitduration = 0);
+  void throw_snowball();
+  void throw_big_snowball();
+  void stomp();
+  void throw_tux();
+  void turn_dizzy();
+  void bust();
+
+  bool is_idle();
+
   void drop_stalactite();
   void summon_snowball();
   void summon_big_snowball();
@@ -62,22 +83,13 @@ private:
   void recalculate_pos();
 
 private:
-  enum YetiState {
-    RUN,
-    JUMP_UP,
-    THROW,
-    THROW_BIG,
-    BE_ANGRY,
-    SQUISHED,
-    FALLING,
-    REMOVE_TUX
-  };
-
-private:
   YetiState m_state;
+  YetiState m_next_state;
   Timer m_state_timer;
   Timer m_safe_timer;
-  int m_stomp_count;
+
+  bool m_attacked;
+  int m_attack_count;
 
   float m_left_stand_x;
   float m_right_stand_x;
@@ -86,9 +98,8 @@ private:
 
   bool m_fixed_pos;
   bool m_just_hit;
-  bool m_just_threw;
+  bool m_pinch_announced;
   bool m_grabbed_tux;
-  bool m_jumped;
 
   class SnowExplosionParticle: public BadGuy
   {
