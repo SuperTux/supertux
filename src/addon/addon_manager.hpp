@@ -45,6 +45,7 @@ private:
   const std::string m_screenshots_cache_directory;
   std::string m_repository_url;
   std::vector<Config::Addon>& m_addon_config;
+  std::map<std::string, std::string>& m_nfo_filename_hints;
 
   AddonMap m_installed_addons;
   AddonMap m_repository_addons;
@@ -56,7 +57,8 @@ private:
 
 public:
   AddonManager(const std::string& addon_directory,
-               std::vector<Config::Addon>& addon_config);
+               std::vector<Config::Addon>& addon_config,
+               std::map<std::string, std::string>& addon_nfo_filename_hints);
   ~AddonManager() override;
 
   void empty_cache_directory();
