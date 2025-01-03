@@ -318,7 +318,6 @@ private:
       update_on_ground_flag was called last frame */
   bool m_on_ground_flag;
 
-
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup m_colgroup_active;
 
