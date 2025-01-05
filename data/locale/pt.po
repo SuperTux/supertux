@@ -8,6 +8,7 @@
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # BlaCoiso, 2016
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
+# FunGame, 2024-2025
 # Hugo Carvalho <hugokarvalho@hotmail.com>, 2022-2024
 # Ian Rodríguez Lorenzo, 2022
 # João Frade <100nome.portugal@gmail.com>, 2023
@@ -28,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-12-24 23:23+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: lecalam, 2024\n"
+"Last-Translator: FunGame, 2024-2025\n"
 "Language-Team: Portuguese (http://app.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,11 +44,11 @@ msgstr "Sólido"
 
 #: src/object/tilemap.cpp:292
 msgid "Resize offset x"
-msgstr "Desvio ao redimensionar (X)"
+msgstr "Redimensionar Deslocamento X"
 
 #: src/object/tilemap.cpp:293
 msgid "Resize offset y"
-msgstr "Desvio ao redimensionar (Y)"
+msgstr "Redimensionar Deslocamento Y"
 
 #: src/object/tilemap.cpp:295 src/editor/object_option.cpp:247
 #: src/supertux/menu/editor_sector_menu.cpp:41
@@ -1103,7 +1104,7 @@ msgstr "Sistema de partículas interativo"
 
 #: src/object/bigsnowball.hpp:39
 msgid "Big Snowball"
-msgstr ""
+msgstr "Grande Bola de Neve"
 
 #: src/object/sound_object.cpp:70 src/object/sound_object.hpp:41
 #: src/object/ambient_sound.cpp:86 src/supertux/menu/options_menu.cpp:146
@@ -1253,11 +1254,11 @@ msgstr "Quebrável"
 
 #: src/object/bigsnowball.cpp:83
 msgid "Break on impact?"
-msgstr ""
+msgstr "Quebrar no impacto?"
 
 #: src/object/bigsnowball.cpp:84
 msgid "Bounce?"
-msgstr ""
+msgstr "Pular?"
 
 #: src/object/torch.hpp:47
 msgid "Torch"
@@ -1317,19 +1318,19 @@ msgstr "Texto"
 
 #: src/object/cloud_particle_system.cpp:94
 msgid "Fog Opacity"
-msgstr ""
+msgstr "Opacidade do Nevoeiro"
 
 #: src/object/cloud_particle_system.cpp:95
 msgid "X Speed"
-msgstr ""
+msgstr "Velocidade X"
 
 #: src/object/cloud_particle_system.cpp:96
 msgid "Y Speed"
-msgstr ""
+msgstr "Velocidade Y"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
-msgstr ""
+msgstr "Pegajoso"
 
 #: src/object/rock.cpp:77
 msgid "Small"
@@ -1413,7 +1414,7 @@ msgstr "Partículas extravagantes"
 
 #: src/object/wind.cpp:88
 msgid "Particles Enabled"
-msgstr ""
+msgstr "Partículas Ativadas"
 
 #: src/editor/editor.cpp:563
 msgid ""
@@ -1615,15 +1616,15 @@ msgstr "Não é possível selecionar peças obsoletas"
 
 #: src/editor/overlay_widget.cpp:1592
 msgid "Autotile erasing mode is on (\"{}\")"
-msgstr ""
+msgstr "Modo de eliminação de Peça Automática está ativa (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1596
 msgid "Autotile erasing cannot be performed here"
-msgstr ""
+msgstr "A exclusão da Peça Automática não pode ser realizada aqui"
 
 #: src/editor/overlay_widget.cpp:1601
 msgid "Autotile mode is on (\"{}\")"
-msgstr ""
+msgstr "O modo de Peça Automática está ativa (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1605
 msgid "Selected tile isn't autotileable"
@@ -1789,7 +1790,7 @@ msgstr "Sector: {}"
 
 #: src/editor/layers_widget.cpp:454
 msgid "Add Layer"
-msgstr ""
+msgstr "Adicionar Camada"
 
 #: src/editor/node_marker.cpp:122
 msgid "Path Node"
@@ -1896,15 +1897,15 @@ msgstr "Este jogo é disponibilizado ABSOLUTAMENTE SEM GARANTIAS. Isto é um pro
 
 #: src/supertux/statistics.cpp:70
 msgid "Enable Coins Statistic"
-msgstr ""
+msgstr "Ativar Estatísticas de Moedas"
 
 #: src/supertux/statistics.cpp:71
 msgid "Enable Badguys Statistic"
-msgstr ""
+msgstr "Ativar Estatísticas de Inimigos"
 
 #: src/supertux/statistics.cpp:72
 msgid "Enable Secrets Statistic"
-msgstr ""
+msgstr "Ativar Estatísticas de Segredos"
 
 #: src/supertux/statistics.cpp:93
 msgid "Max coins collected:"
@@ -2118,7 +2119,7 @@ msgstr "Saltar"
 #: src/supertux/menu/keyboard_menu.cpp:42
 #: src/supertux/menu/joystick_menu.cpp:77
 msgid "Item Pocket"
-msgstr ""
+msgstr "Bolso de Itens"
 
 #: src/supertux/menu/keyboard_menu.cpp:44
 #: src/supertux/menu/joystick_menu.cpp:79
@@ -2319,15 +2320,15 @@ msgstr "Não está instalada nenhuma Extensão"
 
 #: src/supertux/menu/addon_menu.cpp:127
 msgid "{} *UPDATE*"
-msgstr ""
+msgstr "{} *ATUALIZAÇÃO*"
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "{} [DISABLED] *UPDATE*"
-msgstr ""
+msgstr "{} [DESATIVADO] *ATUALIZAÇÃO*"
 
 #: src/supertux/menu/addon_menu.cpp:138
 msgid "{} [DISABLED]"
-msgstr ""
+msgstr "{} [DESATIVADO]"
 
 #: src/supertux/menu/addon_menu.cpp:148
 msgid "No updates available."
@@ -2364,11 +2365,11 @@ msgstr "Instalar a partir do ficheiro"
 
 #: src/supertux/menu/addon_menu.cpp:175
 msgid "To browse through the add-on catalog, you must enable networking."
-msgstr ""
+msgstr "Para navegar pelo catálogo de complementos, você deve habilitar a rede."
 
 #: src/supertux/menu/addon_menu.cpp:212
 msgid "To check for add-on updates, you must enable networking."
-msgstr ""
+msgstr "Para verificar atualizações de complementos, você deve habilitar a rede."
 
 #: src/supertux/menu/addon_menu.cpp:220
 msgid "Checking for updates..."
@@ -2511,7 +2512,7 @@ msgstr "Começar o jogo"
 
 #: src/supertux/menu/world_set_menu.cpp:30
 msgid "Story Mode"
-msgstr "Modo estória"
+msgstr "Modo de História"
 
 #: src/supertux/menu/debug_menu.cpp:36
 msgid "Debug"
@@ -2555,15 +2556,15 @@ msgstr "Usar fontes bitmap"
 
 #: src/supertux/menu/debug_menu.cpp:76
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr ""
+msgstr "Mostrar IDs de peças na caixa de ferramentas do Editor"
 
 #: src/supertux/menu/debug_menu.cpp:78
 msgid "Reload Resources"
-msgstr ""
+msgstr "Recarregar Recursos"
 
 #: src/supertux/menu/debug_menu.cpp:79
 msgid "Reloads all fonts, textures, sprites and tilesets."
-msgstr ""
+msgstr "Recarrega todas as fontes, texturas, sprites e conjuntos de peças."
 
 #: src/supertux/menu/debug_menu.cpp:81
 msgid "Dump Texture Cache"
@@ -2668,11 +2669,11 @@ msgstr "Gravidade"
 
 #: src/supertux/menu/editor_sector_menu.cpp:43
 msgid "Resize offset X"
-msgstr "Desvio ao redimensionar (X)"
+msgstr "Redimensionar Deslocamento (X)"
 
 #: src/supertux/menu/editor_sector_menu.cpp:44
 msgid "Resize offset Y"
-msgstr "Desvio ao redimensionar (Y)"
+msgstr "Redimensionar Deslocamento (Y)"
 
 #: src/supertux/menu/editor_sector_menu.cpp:45
 msgid "Resize"
@@ -2923,7 +2924,7 @@ msgid ""
 "Ctrl+D = Duplicate line\n"
 "Ctrl+Z = Undo\n"
 "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Atalhos de Teclado:\n---------------------\nEsc = Abrir Menu\nCtrl+S = Salvar\nCtrl+T = Testar\nCtrl+Z = Desfazer\nCtrl+Y = Refazer\nF5 = Alternar Peça Automática\nF6 = Renderizar Luz\nF7 = Encaixar na Grade\nF8 = Mostrar Grade\nCtrl++ or Ctrl+Scroll Up = Aumentar Zoom\nCtrl+- or Ctrl+Scroll Down = Diminuir Zoom\nCtrl+D = Redefinir Zoom\n\nAtalhos de Script:\n------------- \nHome = Ir para o início da linha\nEnd = Ir para o fim da linha\nLeft arrow = Voltar no texto\nRight arrow = Avançar no texto\nBackspace = Apagar na frente do cursor de texto\nDelete = Apagar atrás do cursor de texto\nCtrl+X = Cortar linha inteira\nCtrl+C = Copiar linha inteira\nCtrl+V = Colar\nCtrl+D = Duplicar linha\nCtrl+Z = Desfazer\nCtrl+Y = Refazer"
 
 #: src/supertux/menu/editor_menu.cpp:206
 #: src/supertux/menu/particle_editor_menu.cpp:122
@@ -3000,7 +3001,7 @@ msgstr "Nenhuma descrição disponível."
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 msgid "Overrides Data: "
-msgstr ""
+msgstr "Substitui Dados:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
@@ -3008,7 +3009,7 @@ msgstr "Falha ao carregar todas as pré-visualizações de capturas de ecrã dis
 
 #: src/supertux/menu/addon_preview_menu.cpp:160
 msgid "To fetch add-on screenshots, you must enable networking."
-msgstr ""
+msgstr "Para obter capturas de tela do complemento, você deve habilitar a rede."
 
 #: src/supertux/menu/addon_preview_menu.cpp:164
 msgid "Show screenshots"
@@ -3101,14 +3102,14 @@ msgid ""
 "Would you allow SuperTux to connect to the Internet?\n"
 "\n"
 "This enables additional features, such as the in-game add-on catalog."
-msgstr ""
+msgstr "Você permite que o SuperTux se conecte à Internet?\n\nIsso habilitará recursos adicionais, como o catálogo de complementos do jogo."
 
 #: src/supertux/menu/main_menu.cpp:82
 msgid ""
 "Would you allow SuperTux to check for new releases on startup?\n"
 "\n"
 "You will be notified if any are found."
-msgstr ""
+msgstr "Você permite que o SuperTux verifique novos lançamentos na inicialização?\n\nVocê será notificado se algum for encontrado."
 
 #: src/supertux/menu/main_menu.cpp:125
 msgid ""
@@ -3190,11 +3191,11 @@ msgstr "Conjunto de peças (tileset)"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Inherit"
-msgstr ""
+msgstr "Herdar"
 
 #: src/supertux/menu/editor_level_menu.cpp:45
 msgid "Allow Item Pocket"
-msgstr ""
+msgstr "Permitir bolso do item"
 
 #: src/supertux/menu/editor_level_menu.cpp:49
 msgid "Target Time"
@@ -3512,24 +3513,24 @@ msgstr "Ajustar a resolução ao tamanho do teu navegador"
 
 #: src/supertux/menu/options_menu.cpp:123
 msgid "Frame prediction"
-msgstr ""
+msgstr "Previsão de quadros"
 
 #: src/supertux/menu/options_menu.cpp:124
 msgid ""
 "Smooth camera motion, generating intermediate frames. This has a noticeable "
 "effect on monitors at >> 60Hz. Moving objects may be blurry."
-msgstr ""
+msgstr "Movimento suave da câmara, gerando quadros intermediários. Isso tem um efeito percetível em monitores em >> 60Hz. Objetos em movimento podem ficar desfocados."
 
 #: src/supertux/menu/options_menu.cpp:132
 msgid "Camera Peek Multiplier"
-msgstr ""
+msgstr "Multiplicador de Espiada da Câmera"
 
 #: src/supertux/menu/options_menu.cpp:133
 msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
-msgstr ""
+msgstr "A distância fracionária em direção à posição de pico da câmera para mover cada quadro.\n\n0 = Sem espiada, 1 = Espiada instantânea"
 
 #: src/supertux/menu/options_menu.cpp:135
 msgid "Change Video System"
@@ -3681,11 +3682,11 @@ msgstr "Permite que o jogo verifique se há novas versões do SuperTux na inicia
 
 #: src/supertux/menu/options_menu.cpp:236
 msgid "Disable network"
-msgstr ""
+msgstr "Desabilitar rede"
 
 #: src/supertux/menu/options_menu.cpp:237
 msgid "Prevents the game from connecting online"
-msgstr ""
+msgstr "Impede que o jogo se conecte online"
 
 #: src/supertux/menu/options_menu.cpp:304
 msgid "Magnification"
@@ -3763,11 +3764,11 @@ msgstr "Ajustar volume da música"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "Flash Intensity"
-msgstr ""
+msgstr "Intensidade do Flash"
 
 #: src/supertux/menu/options_menu.cpp:563
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr ""
+msgstr "Ajuste a intensidade do flash produzido pela tempestade"
 
 #: src/supertux/menu/options_menu.cpp:576
 msgid "On-screen controls scale"
@@ -4186,7 +4187,7 @@ msgstr "Invisível"
 
 #: src/badguy/granito_big.cpp:64
 msgid "Carrying Script"
-msgstr ""
+msgstr "Script ao Carregar"
 
 #: src/badguy/granito_big.cpp:73 src/badguy/granito.cpp:277
 msgid "Default"
@@ -4202,7 +4203,7 @@ msgstr "Andando"
 
 #: src/badguy/granito_big.cpp:76 src/badguy/granito.cpp:280
 msgid "Scriptable"
-msgstr ""
+msgstr "Scriptable"
 
 #: src/badguy/walkingleaf.cpp:36 src/badguy/snail.cpp:71
 #: src/badguy/fish_swimming.cpp:58 src/badguy/viciousivy.cpp:45
@@ -4553,7 +4554,7 @@ msgstr "Vidas"
 #. mode is activated.
 #: src/badguy/boss.cpp:101
 msgid "Lives to Pinch Mode"
-msgstr ""
+msgstr "Vidas para Modo Crítico"
 
 #. l10n: Pinch Mode refers to a particular boss mode that gets
 #. activated once the boss has lost the specified amounts of lives.
@@ -4561,7 +4562,7 @@ msgstr ""
 #. mode.
 #: src/badguy/boss.cpp:106
 msgid "Pinch Mode Activation Script"
-msgstr ""
+msgstr "Script de Ativação do Modo Crítico"
 
 #: src/badguy/spiky.hpp:31
 msgid "Spiky"
@@ -4577,11 +4578,11 @@ msgstr "Posição fixa"
 
 #: src/badguy/granito.cpp:259
 msgid "Detect script"
-msgstr ""
+msgstr "Detectar script"
 
 #: src/badguy/granito.cpp:260
 msgid "Carried script"
-msgstr ""
+msgstr "Script ao Carregar"
 
 #: src/badguy/granito.cpp:283
 msgid "Sitting"
@@ -4783,15 +4784,15 @@ msgstr "Misturar a cor"
 
 #: src/gui/menu_color.cpp:40
 msgid "Copy to clipboard (rgb)"
-msgstr ""
+msgstr "Copiar para a área de transferência (rgb)"
 
 #: src/gui/menu_color.cpp:41
 msgid "Copy to clipboard (hex)"
-msgstr ""
+msgstr "Copiar para a área de transferência (hex)"
 
 #: src/gui/menu_color.cpp:57 src/gui/menu_color.cpp:60
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Colar da área de transferência"
 
 #: src/gui/menu_filesystem.cpp:119
 msgid "Open Directory"
@@ -4915,11 +4916,11 @@ msgstr "Manutenção, Programação"
 
 #: data/credits.stxt:35
 msgid "Graphics, Level Design, Story"
-msgstr "Gráficos, Design de Níveis, Estória"
+msgstr "Gráficos, Design de Níveis, História"
 
 #: data/credits.stxt:40
 msgid "Level Design, Story, Optimisation, Coordination"
-msgstr "Design de Níveis, Estória, Otimização, Coordenação"
+msgstr "Design de Níveis, História, Otimização, Coordenação"
 
 #: data/credits.stxt:45 data/credits.stxt:120 data/credits.stxt:206
 #: data/credits.stxt:538
@@ -4979,7 +4980,7 @@ msgstr "Programação, Design de Níveis"
 
 #: data/credits.stxt:138
 msgid "Graphics, Story"
-msgstr "Gráficos, Estória"
+msgstr "Gráficos, História"
 
 #: data/credits.stxt:144
 msgid "Programming, Documentation"
@@ -5213,7 +5214,7 @@ msgstr "Caverna de Gelo e Cristal"
 
 #: data/images/ice_world.strf:169
 msgid "Snow Embellishments"
-msgstr ""
+msgstr "Embelezamentos de Neve"
 
 #: data/images/ice_world.strf:339
 msgid "Underground Forest"
@@ -5221,7 +5222,7 @@ msgstr "Floresta Subterrânea"
 
 #: data/images/ice_world.strf:417
 msgid "Trees & Rocks"
-msgstr ""
+msgstr "Árvores e Rochas"
 
 #: data/images/ice_world.strf:494
 msgid "Seasonal"
@@ -5261,7 +5262,7 @@ msgstr "Fundo Corrompido"
 
 #: data/images/tiles.strf:1194
 msgid "Jagged Rocks"
-msgstr ""
+msgstr "Rochas Irregulares"
 
 #: data/images/tiles.strf:1238
 msgid "Block + Bonus"
@@ -5329,10 +5330,10 @@ msgstr "Para níveis, criados em versões anteriores à 0.6.3, que utilizam mosa
 
 #: data/images/converters/data.stcd:13
 msgid "Jagged Rock Tiles from Addon"
-msgstr ""
+msgstr "Pedras de Rochas Irregulares do Complemento"
 
 #: data/images/converters/data.stcd:15
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
-msgstr ""
+msgstr "Para níveis, criados com o complemento de peças de pedra, converte seus IDs em IDs de peças de pedra vanilla"
