@@ -18,9 +18,10 @@
 #define HEADER_SUPERTUX_BADGUY_CORRUPTED_GRANITO_BIG_HPP
 
 #include "badguy/badguy.hpp"
+#include "object/sticky_object.hpp"
 
 /** Granito, which explodes into shards when player comes close to it. */
-class CorruptedGranitoBig final : public BadGuy
+class CorruptedGranitoBig final : public StickyBadguy
 {
 public:
   explicit CorruptedGranitoBig(const ReaderMapping& reader);

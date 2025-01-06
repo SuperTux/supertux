@@ -82,8 +82,9 @@ StickyObject::move_for_owner(MovingObject& object)
   m_col.set_pos(object.get_pos() + m_displacement_from_owner);
 }
 
-StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name, Direction default_direction, int layer, CollisionGroup collision_group) :
-  BadGuy(mapping, sprite_name, default_direction, layer),
+StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name, Direction default_direction, int layer, CollisionGroup collision_group,
+                           const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+  BadGuy(mapping, sprite_name, default_direction, layer, light_sprite_name, ice_sprite_name),
   m_sticky(),
   m_sticking(),
   m_displacement_from_owner()
@@ -91,8 +92,8 @@ StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& spri
   set_group(collision_group);
 }
 
-StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name, int layer, CollisionGroup collision_group) :
-  BadGuy(mapping, sprite_name, layer),
+StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name, int layer, CollisionGroup collision_group, const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+  BadGuy(mapping, sprite_name, layer, light_sprite_name, ice_sprite_name),
   m_sticky(),
   m_sticking(),
   m_displacement_from_owner()
