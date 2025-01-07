@@ -125,14 +125,14 @@ Ghoul::active_update(float dt_sec)
       break;
 
     case STATE_IDLE:
-      if (glm::length(dist) <= m_track_range) {
+      if (dist.length() <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }
       break;
 
     case STATE_TRACKING:
-      if (glm::length(dist) >= 1) {
-        Vector dir_ = glm::normalize(dist);
+      if (dist.length() >= 1) {
+        Vector dir_ = dist.normalize();
         m_col.set_movement(dir_ * dt_sec * m_flyspeed);
       } else {
         /* We somehow landed right on top of the player without colliding.
@@ -146,7 +146,7 @@ Ghoul::active_update(float dt_sec)
         return;
       get_walker()->update(dt_sec);
       m_col.set_movement(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos());
-      if (m_mystate == STATE_PATHMOVING_TRACK && glm::length(dist) <= m_track_range) {
+      if (m_mystate == STATE_PATHMOVING_TRACK && dist.length() <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }
       break;

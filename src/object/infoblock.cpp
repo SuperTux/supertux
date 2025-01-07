@@ -152,7 +152,7 @@ InfoBlock::update(float dt_sec)
       Vector p1 = m_col.m_bbox.get_middle();
       Vector p2 = player->get_bbox().get_middle();
       Vector dist = (p2 - p1);
-      float d = glm::length(dist);
+      float d = dist.length();
       if (d > 128) m_dest_pct = 0;
     }
   }

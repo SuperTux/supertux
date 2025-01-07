@@ -116,7 +116,7 @@ CorruptedGranitoBig::try_cracking()
   auto* obj = std::get_if<CollisionObject*>(&result.hit);
   if (!obj || *obj != player->get_collision_object()) return false;
 
-  if (glm::distance(middle, player_middle) > 32.f * RANGE) return false;
+  if (middle.distance(player_middle) > 32.f * RANGE) return false;
 
   crack();
   return true;

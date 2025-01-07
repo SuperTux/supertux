@@ -165,7 +165,7 @@ DiveMine::active_update(float dt_sec)
   Vector dist = player->get_bbox().get_middle() - m_col.m_bbox.get_middle();
   if (m_chasing)
   {
-    if (glm::length(dist) > s_trigger_radius) // Player is out of trigger radius.
+    if (dist.length() > s_trigger_radius) // Player is out of trigger radius.
     {
       stop_chasing();
       return;
@@ -174,12 +174,12 @@ DiveMine::active_update(float dt_sec)
     set_action("ticking", m_dir);
     m_ticking_glow->set_action("ticking");
 
-    m_physic.set_velocity(glm::normalize(dist) * s_swim_speed);
+    m_physic.set_velocity(dist.normalize() * s_swim_speed);
   }
   else
   {
     set_action(m_dir);
-    m_chasing = (glm::length(dist) <= s_trigger_radius);
+    m_chasing = (dist.length() <= s_trigger_radius);
   }
 }
 

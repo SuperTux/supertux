@@ -17,7 +17,9 @@
 #ifndef HEADER_SUPERTUX_MATH_UTIL_HPP
 #define HEADER_SUPERTUX_MATH_UTIL_HPP
 
-#include <math.h>
+#include <cmath>
+
+#include "vector.hpp"
 
 namespace math {
 
