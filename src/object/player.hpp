@@ -301,8 +301,8 @@ public:
 
   /**
    * @scripting
-   * @description Set Tux safe or invisible.
-   * @param bool $safe
+   * @description Set Tux visible or invisible.
+   * @param bool $visible
    */
   inline void set_visible(bool visible) { m_visible = visible; }
   /**
@@ -313,13 +313,13 @@ public:
 
   /**
    * @scripting
-   * @description Set Tux visible or invisible.
-   * @param bool $visible
+   * @description Make tux invincible without the star effect.
+   * @param bool $safe
    */
   void set_is_intentionally_safe(bool safe);
   /**
    * @scripting
-   * @description Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
+   * @description Returns ""true"" if Tux is currently intentionally safe.
    */
   bool get_is_intentionally_safe() const;
 
