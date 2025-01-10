@@ -24,10 +24,14 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
+static const float STICKING_TIME = 0.7f;
+static const float FADEOUT_TIME = 0.3f;
+
 Shard::Shard(const ReaderMapping& reader) :
   StickyObject(reader, "images/creatures/crystallo/shard.sprite", LAYER_TILES - 2, COLGROUP_MOVING),
   m_physic(),
-  m_stick_timer()
+  m_stick_timer(),
+  m_fadeout_timer()
 {
   m_physic.enable_gravity(true);
   SoundManager::current()->preload("sounds/crystallo-shardhit.ogg");
@@ -36,7 +40,8 @@ Shard::Shard(const ReaderMapping& reader) :
 Shard::Shard(const Vector& pos, const Vector& velocity, const std::string& sprite) :
   StickyObject(pos, sprite, LAYER_TILES - 2, COLGROUP_MOVING),
   m_physic(),
-  m_stick_timer()
+  m_stick_timer(),
+  m_fadeout_timer()
 {
   m_physic.enable_gravity(true);
   m_physic.set_velocity(velocity);
@@ -51,8 +56,14 @@ Shard::update(float dt_sec)
 
   if (m_physic.get_velocity() != Vector(0.f, 0.f) && !m_sticking)
     m_sprite->set_angle(math::degrees(math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()))));
+
   if (m_stick_timer.check())
+    m_fadeout_timer.start(FADEOUT_TIME);
+
+  if (m_fadeout_timer.check())
     remove_me();
+  else if (m_fadeout_timer.started())
+    m_sprite->set_alpha(1.0f - m_fadeout_timer.get_progress());
 
   m_col.set_movement(m_physic.get_movement(dt_sec));
 
@@ -65,9 +76,11 @@ Shard::collision_solid(const CollisionHit& hit)
   m_physic.set_velocity(0.f, 0.f);
   m_physic.set_acceleration(0.f, 0.f);
   m_physic.enable_gravity(hit.bottom);
+  m_sticking = true;
+
   if (!m_stick_timer.started())
   {
-    m_stick_timer.start(5.f);
+    m_stick_timer.start(STICKING_TIME);
     SoundManager::current()->play("sounds/crystallo-shardhit.ogg", get_pos());
   }
 }
@@ -75,6 +88,10 @@ Shard::collision_solid(const CollisionHit& hit)
 HitResponse
 Shard::collision(MovingObject& other, const CollisionHit&)
 {
+  // Do not hurt anyone while fading out
+  if (m_fadeout_timer.started())
+    return ABORT_MOVE;
+
   // ignore collisions with other shards
   auto shard = dynamic_cast<Shard*>(&other);
   if (&other == shard)
