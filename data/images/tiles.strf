@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 7585
+  ;; next-id: 7631
   ;; free/skipped ids (please use before any other): 101
   ;; 2080-2084 are empty tiles, 4619-4660, 4719-4722, 5037-5092, 5205, 5268-5283, 5433-5527, 6962-6977, 7002 7005 7007 7008 7173
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
@@ -600,7 +600,9 @@
       3479 3480 3481 3482
     
 	  7541 7542 7543 7546
-	  7544 0    7545 7547
+	  7544 0    0    7547
+	  7545 0    0    0
+	  7585 0    0    0
 	
       0    0    3483 3483
       7136 7137 3484 3484
@@ -1034,6 +1036,23 @@
       6816 6817 6832 6833
       6936 6937 6942 6943
       6940 6941 6946 6947
+	  
+	  7586 7587 7588 7589
+	  7590 0    0    7591
+	  7592 0    0    0
+	  7593 0    0    0
+	  
+	  0    7594 7597 0
+	  7595 7596 7598 7599
+	  0    0    7604 7607
+	  7600 7602 7605 7608
+	  7601 7603 7606 7609
+	  
+	  0    7594 7597 0
+	  7610 7596 7598 7611
+	  0    0    7604 7607
+	  7600 7602 7605 7608
+	  7612 7613 7614 7615
 
       6731 6732 0    0
       6735 6736 6737 6738
@@ -1086,6 +1105,11 @@
       6699 6700 0    0
       6701 6702 0    0
       6703 6704 0    0
+	  
+	  7616 7617 7618 7619
+	  7620 7621 7622 7623
+	  7624 7625 7626 7627
+	  7628 7629 7630 0
     )
   )
 
@@ -5936,15 +5960,15 @@
   )
   
   (tiles
-    (width 4)
+    (width 5)
     (height 2)
     (ids
-      7541 7542 7543 7546
-	  7544 0    7545 7547
+      7541 7542 7543 7546 7545
+	  7544 0    0    7547 7585
     )
     (attributes
-      0 0 0 0
-      1 0 1 1
+      0 0 0 0 1
+      1 0 0 1 1
     )
     (images "tiles/forest/underground/convex_nograss.png")
   )
@@ -7978,6 +8002,59 @@
       0 0 0 0 0 0 0
     )
     (images "tiles/ghostwood/underground/ghostwood-13_under.png")
+  )
+  
+  (tiles
+    (width 5)
+    (height 2)
+    (ids
+      7586 7587 7588 7589 7592
+	  7590 0    0    7591 7593
+    )
+    (attributes
+      0 0 0 0 1
+      1 0 0 1 1
+    )
+    (images "tiles/ghostwood/underground/corrupt_convex_nograss.png")
+  )
+  
+  (tiles
+    (width 8)
+    (height 3)
+    (ids
+      7610 7611 7612 7613 7614 7615 7604 7607
+	  0    7594 7597 0    7600 7602 7605 7608
+	  7595 7596 7598 7599 7601 7603 7606 7609
+    )
+    (attributes
+      17 17 17 17 17 17 0  0
+	  0  0  0  0  0  0  17 17
+	  17 17 17 17 17 17 17 17
+    )
+    (datas
+      18 16 2  0  50 64 0  0
+	  0  0  0  0  0  0  66 48
+	  18 34 32 16 2  0  50 64
+    )
+    (images "tiles/ghostwood/underground/corrupt_slope_nograss.png")
+  )
+  
+  (tiles
+    (width 4)
+    (height 4)
+    (ids
+      7616 7617 7618 7619
+	  7620 7621 7622 7623
+	  7624 7625 7626 7627
+	  7628 7629 7630 0
+    )
+    (attributes
+      1 1 1 1
+	  1 1 1 1
+	  1 1 1 1
+	  1 1 1 0
+	)
+    (images "tiles/ghostwood/underground/corrupt_special_nograss.png")
   )
 
   (tiles
