@@ -131,7 +131,7 @@ Trigger::is_triggering_for_object(const MovingObject& object) const
 }
 
 void
-Trigger::draw(DrawingContext& context, const Color& color)
+Trigger::draw_debug(DrawingContext& context, const Color& color)
 {
   if (!Editor::is_active() && !g_debug.show_collision_rects)
     return;

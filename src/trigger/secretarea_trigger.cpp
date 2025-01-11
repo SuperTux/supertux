@@ -75,7 +75,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.pop_transform();
   }
   if (Editor::is_active() || g_debug.show_collision_rects) {
-    Trigger::draw(context, Color(0.0f, 1.0f, 0.0f, 0.6f));
+    Trigger::draw_debug(context, Color(0.0f, 1.0f, 0.0f, 0.6f));
   } else if (message_timer.check()) {
     remove_me();
   }

@@ -80,7 +80,7 @@ SequenceTrigger::get_sequence_name() const
 void
 SequenceTrigger::draw(DrawingContext& context)
 {
-  Trigger::draw(context, Color(1.0f, 0.0f, 0.0f, 0.6f));
+  Trigger::draw_debug(context, Color(1.0f, 0.0f, 0.0f, 0.6f));
 }
 
 /* EOF */

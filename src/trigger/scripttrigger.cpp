@@ -71,7 +71,7 @@ ScriptTrigger::event(Player& player, EventType type)
 void
 ScriptTrigger::draw(DrawingContext& context)
 {
-  Trigger::draw(context, Color(1.0f, 0.0f, 1.0f, 0.6f));
+  Trigger::draw_debug(context, Color(1.0f, 0.0f, 1.0f, 0.6f));
 }
 
 /* EOF */
