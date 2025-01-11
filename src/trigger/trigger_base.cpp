@@ -16,8 +16,10 @@
 
 #include "trigger/trigger_base.hpp"
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "util/reader_mapping.hpp"
 
 TriggerBase::TriggerBase() :
   m_hit(),
@@ -78,7 +80,8 @@ TriggerBase::object_removed(GameObject* object)
 
 
 Trigger::Trigger(const ReaderMapping& reader) :
-  MovingObject(reader)
+  MovingObject(reader),
+  m_trigger_direction(Direction::AUTO)
 {
   set_group(COLGROUP_TOUCHABLE);
 
@@ -87,8 +90,90 @@ Trigger::Trigger(const ReaderMapping& reader) :
 
   if (m_col.m_bbox.get_height() == 0.f)
     m_col.m_bbox.set_height(32.f);
+
+  std::string trigger_direction;
+  reader.get("trigger-direction", trigger_direction, dir_to_string(Direction::AUTO).c_str());
+  m_trigger_direction = string_to_dir(trigger_direction);
 }
 
+ObjectSettings
+Trigger::get_settings()
+{
+  ObjectSettings result = MovingObject::get_settings();
+  auto available_directions = { Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
+  result.add_direction(_("Trigger Direction"), &m_trigger_direction, 
+                       available_directions, "trigger-direction");
+
+  return result;
+}
+
+bool
+Trigger::is_triggering_for_object(const MovingObject& object) const
+{
+  if(m_trigger_direction == Direction::AUTO)
+    return true;
+
+  const auto& pos = get_pos();
+  const auto& object_pos = object.get_pos();
+  Direction object_direction = Direction::NONE;
+
+  if (object_pos.x < pos.x)
+    object_direction = Direction::LEFT;
+  if (object_pos.x + object.get_width() > pos.x + get_width())
+    object_direction = Direction::RIGHT;
+  if (object_pos.y < pos.y)
+    object_direction = Direction::UP;
+  if (object_pos.y + object.get_height() > pos.y + get_height())
+    object_direction = Direction::DOWN;
+
+  return object_direction == m_trigger_direction;
+}
+
+void
+Trigger::draw(DrawingContext& context, const Color& color, float transparency, int layer)
+{
+  if (!Editor::is_active() || m_trigger_direction == Direction::NONE)
+    return;
+
+  const auto& bbox = m_col.m_bbox;
+  const float indicator_width = 2.0f;
+  const float indicator_length = 50.0f;
+  std::vector<Rectf> indicators;
+
+  Rectf left_indicator = Rectf(bbox.get_left() - indicator_length,
+                                bbox.get_middle().y - indicator_width, 
+                                bbox.get_left(),
+                                bbox.get_middle().y + indicator_width);
+  
+  Rectf right_indicator = Rectf(bbox.get_right(),
+                                bbox.get_middle().y - indicator_width,
+                                bbox.get_right() + indicator_length,
+                                bbox.get_middle().y + indicator_width);
+
+  Rectf up_indicator = Rectf(bbox.get_middle().x - indicator_width,
+                              bbox.get_top() - indicator_length, 
+                              bbox.get_middle().x + indicator_width,
+                              bbox.get_top());
+
+  Rectf down_indicator = Rectf(bbox.get_middle().x - indicator_width,
+                                bbox.get_bottom(), 
+                                bbox.get_middle().x + indicator_width,
+                                bbox.get_bottom() + indicator_length);
+
+  if(m_trigger_direction == Direction::LEFT  || m_trigger_direction == Direction::AUTO)
+    indicators.push_back(left_indicator);
+  if(m_trigger_direction == Direction::RIGHT || m_trigger_direction == Direction::AUTO)
+    indicators.push_back(right_indicator);
+  if(m_trigger_direction == Direction::UP    || m_trigger_direction == Direction::AUTO)
+    indicators.push_back(up_indicator);
+  if(m_trigger_direction == Direction::DOWN  || m_trigger_direction == Direction::AUTO)
+    indicators.push_back(down_indicator);
+  
+  for(const auto& dir_indicator : indicators)
+  {
+    context.color().draw_filled_rect(dir_indicator, color, transparency, layer);
+  }
+}
 
 SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_TOUCHABLE)

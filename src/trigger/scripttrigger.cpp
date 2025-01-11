@@ -27,16 +27,11 @@
 ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   Trigger(reader),
   triggerevent(),
-  m_trigger_direction(Direction::AUTO),
   script(),
   must_activate(false),
   oneshot(false),
   runcount(0)
 {
-  std::string trigger_direction;
-  reader.get("trigger-direction", trigger_direction, dir_to_string(Direction::AUTO).c_str());
-  m_trigger_direction = string_to_dir(trigger_direction);
-
   reader.get("script", script);
   reader.get("button", must_activate);
   reader.get("oneshot", oneshot);
@@ -57,8 +52,6 @@ ScriptTrigger::get_settings()
   result.add_script(_("Script"), &script, "script");
   result.add_bool(_("Button"), &must_activate, "button");
   result.add_bool(_("Oneshot"), &oneshot, "oneshot", false);
-  result.add_direction(_("Trigger Direction"), &m_trigger_direction,
-                        { Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "trigger-direction");
 
   result.reorder({"script", "button", "width", "height", "x", "y"});
 
@@ -68,27 +61,8 @@ ScriptTrigger::get_settings()
 void
 ScriptTrigger::event(Player& player, EventType type)
 {
-  if (type != triggerevent || (oneshot && runcount >= 1))
+  if (type != triggerevent || (oneshot && runcount >= 1) || !is_triggering_for_object(player))
     return;
-
-  if(m_trigger_direction != Direction::AUTO)
-  {
-    const auto& pos = get_pos();
-    const auto& player_pos = player.get_pos();
-    Direction player_direction = Direction::NONE;
-
-    if (player_pos.x < pos.x)
-      player_direction = Direction::LEFT;
-    if (player_pos.x + player.get_width() > pos.x + get_width())
-      player_direction = Direction::RIGHT;
-    if (player_pos.y < pos.y)
-      player_direction = Direction::UP;
-    if (player_pos.y + player.get_height() > pos.y + get_height())
-      player_direction = Direction::DOWN;
-
-    if (player_direction != m_trigger_direction)
-      return;
-  }
 
   Sector::get().run_script(script, "ScriptTrigger");
   runcount++;
@@ -105,47 +79,7 @@ ScriptTrigger::draw(DrawingContext& context)
     const int layer = LAYER_OBJECTS;
 
     context.color().draw_filled_rect(bbox, color, transparency, layer);
-
-    if (Editor::is_active() && m_trigger_direction != Direction::NONE)
-    {
-      const float indicator_width = 2.0f;
-      const float indicator_length = 50.0f;
-      std::vector<Rectf> indicators;
-
-      Rectf left_indicator = Rectf(bbox.get_left() - indicator_length,
-                                   bbox.get_middle().y - indicator_width, 
-                                   bbox.get_left(),
-                                   bbox.get_middle().y + indicator_width);
-      
-      Rectf right_indicator = Rectf(bbox.get_right(),
-                                    bbox.get_middle().y - indicator_width,
-                                    bbox.get_right() + indicator_length,
-                                    bbox.get_middle().y + indicator_width);
-
-      Rectf up_indicator = Rectf(bbox.get_middle().x - indicator_width,
-                                 bbox.get_top() - indicator_length, 
-                                 bbox.get_middle().x + indicator_width,
-                                 bbox.get_top());
-
-      Rectf down_indicator = Rectf(bbox.get_middle().x - indicator_width,
-                                   bbox.get_bottom(), 
-                                   bbox.get_middle().x + indicator_width,
-                                   bbox.get_bottom() + indicator_length);
-
-      if(m_trigger_direction == Direction::LEFT  || m_trigger_direction == Direction::AUTO)
-        indicators.push_back(left_indicator);
-      if(m_trigger_direction == Direction::RIGHT || m_trigger_direction == Direction::AUTO)
-        indicators.push_back(right_indicator);
-      if(m_trigger_direction == Direction::UP    || m_trigger_direction == Direction::AUTO)
-        indicators.push_back(up_indicator);
-      if(m_trigger_direction == Direction::DOWN  || m_trigger_direction == Direction::AUTO)
-        indicators.push_back(down_indicator);
-      
-      for(const auto& dir_indicator : indicators)
-      {
-        context.color().draw_filled_rect(dir_indicator, color, transparency, layer);
-      }
-    }  
+    Trigger::draw(context, color, transparency, layer);
   }
 }
 
