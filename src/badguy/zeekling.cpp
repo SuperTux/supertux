@@ -53,8 +53,7 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
 void
 Zeekling::initialize()
 {
-  m_physic.set_velocity_x(m_physic.get_velocity_x() * (m_dir == Direction::LEFT ? -1 : 1));
-  set_action(m_dir);
+  fly();
 }
 
 bool
@@ -159,7 +158,7 @@ Zeekling::should_we_dive()
   RaycastResult result = Sector::get().get_first_line_intersection(eye, playermiddle, false, nullptr);
 
   auto* resultobj = std::get_if<CollisionObject*>(&result.hit);
-  
+
   if (result.is_valid && resultobj &&
       *resultobj == player->get_collision_object())
   {
@@ -176,7 +175,8 @@ Zeekling::set_speed(float speed)
   m_physic.set_velocity_x(speed * (m_dir == Direction::LEFT ? -1 : 1));
 }
 
-void Zeekling::fly()
+void
+Zeekling::fly()
 {
   m_state = FLYING;
   set_speed(FLYING_SPEED);
@@ -184,7 +184,8 @@ void Zeekling::fly()
   set_action(m_dir);
 }
 
-void Zeekling::charge()
+void
+Zeekling::charge()
 {
   m_state = CHARGING;
   m_timer.start(CHARGING_DURATION);
@@ -192,7 +193,8 @@ void Zeekling::charge()
   set_action("charge", m_dir);
 }
 
-void Zeekling::dive()
+void
+Zeekling::dive()
 {
   m_state = DIVING;
   m_timer.start(DIVING_DURATION);
@@ -200,7 +202,8 @@ void Zeekling::dive()
   set_action("dive", m_dir);
 }
 
-void Zeekling::recover()
+void
+Zeekling::recover()
 {
   m_state = RECOVERING;
   m_catch_pos = get_pos().y;
@@ -209,8 +212,17 @@ void Zeekling::recover()
 }
 
 void
-Zeekling::active_update(float dt_sec) {
-  switch (m_state) {
+Zeekling::active_update(float dt_sec)
+{
+  if (m_frozen)
+  {
+    std::cout << g_game_time << " frozen" << std::endl;
+    BadGuy::active_update(dt_sec);
+    return;
+  }
+
+  switch (m_state)
+  {
     case FLYING:
       if (!should_we_dive())
         break;
@@ -279,7 +291,6 @@ Zeekling::unfreeze(bool melt)
 {
   BadGuy::unfreeze(melt);
   m_physic.enable_gravity(false);
-  m_state = FLYING;
   initialize();
 }
 
@@ -289,7 +300,8 @@ Zeekling::is_freezable() const
   return true;
 }
 
-void Zeekling::on_flip(float height)
+void
+Zeekling::on_flip(float height)
 {
   BadGuy::on_flip(height);
   m_start_position.y = get_pos().y;
