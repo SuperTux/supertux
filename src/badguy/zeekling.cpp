@@ -34,7 +34,7 @@ static const float DIVING_DURATION = 1.5f;
 static const float RECOVER_DURATION = 2.8f;
 
 static const float MIN_DETECT_RANGE_Y = 32.f * 4.5f;
-static const float MAX_DETECT_RANGE_Y = 512.f;
+static const float MAX_DETECT_RANGE_Y = 32.f * 10.f;
 static const float MIN_DETECT_RANGE_X = 10.f;
 static const float MAX_DETECT_RANGE_X = 32.f * 15.f;
 
