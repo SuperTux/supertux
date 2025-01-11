@@ -529,8 +529,6 @@ Editor::update(float dt_sec, const Controller& controller)
     m_new_scale = 0.f;
   }
 
-  m_sector->pause_camera_interpolation();
-
   camera.update(dt_sec);
 }
 
