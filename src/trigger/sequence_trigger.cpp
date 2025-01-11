@@ -80,16 +80,7 @@ SequenceTrigger::get_sequence_name() const
 void
 SequenceTrigger::draw(DrawingContext& context)
 {
-  if (Editor::is_active() || g_debug.show_collision_rects)
-  {
-    const auto& bbox = m_col.m_bbox;
-    const auto& color = Color(1.0f, 0.0f, 0.0f, 0.6f);
-    const float transparency = 0.0f;
-    const int layer = LAYER_OBJECTS;
-
-    context.color().draw_filled_rect(bbox, color, transparency, layer);
-    Trigger::draw(context, color, transparency, layer);
-  }
+  Trigger::draw(context, Color(1.0f, 0.0f, 0.0f, 0.6f));
 }
 
 /* EOF */

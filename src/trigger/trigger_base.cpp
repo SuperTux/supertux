@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/debug.hpp"
 #include "util/reader_mapping.hpp"
 
 TriggerBase::TriggerBase() :
@@ -130,12 +131,20 @@ Trigger::is_triggering_for_object(const MovingObject& object) const
 }
 
 void
-Trigger::draw(DrawingContext& context, const Color& color, float transparency, int layer)
+Trigger::draw(DrawingContext& context, const Color& color)
 {
-  if (!Editor::is_active() || m_trigger_direction == Direction::NONE)
+  if (!Editor::is_active() && !g_debug.show_collision_rects)
     return;
 
   const auto& bbox = m_col.m_bbox;
+  const float transparency = 0.0f;
+  const int layer = LAYER_OBJECTS;
+
+  context.color().draw_filled_rect(bbox, color, transparency, layer);
+
+  if (!Editor::is_active() || m_trigger_direction == Direction::NONE)
+    return;
+
   const float indicator_width = 2.0f;
   const float indicator_length = 50.0f;
   std::vector<Rectf> indicators;
