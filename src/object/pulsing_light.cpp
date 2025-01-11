@@ -17,7 +17,7 @@
 #include "object/pulsing_light.hpp"
 
 #include <assert.h>
-#include <math.h>
+#include <cmath>
 
 #include "object/tilemap.hpp"
 #include "math/random.hpp"
@@ -55,7 +55,7 @@ PulsingLight::update(float dt_sec)
 void
 PulsingLight::draw(DrawingContext& context)
 { 
-  const float alpha = min_alpha + ((max_alpha - min_alpha) * cosf(math::TAU * t / cycle_len));
+  const float alpha = min_alpha + ((max_alpha - min_alpha) * std::cos(math::TAU * t / cycle_len));
   if (parent_tilemap) {
     position = rel_position + parent_tilemap->get_offset();
     color = (rel_color * parent_tilemap->get_current_tint()).validate();
