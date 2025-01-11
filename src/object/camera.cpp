@@ -25,6 +25,7 @@
 #include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
@@ -82,7 +83,9 @@ Camera::Camera(const std::string& name) :
   m_scale_easing(),
   m_scale_anchor(),
   m_minimum_scale(1.f),
-  m_enfore_minimum_scale(false)
+  m_enfore_minimum_scale(false),
+  m_last_translation(0.0f, 0.0f),
+  m_last_scale(1.0f)
 {
 }
 
@@ -118,7 +121,9 @@ Camera::Camera(const ReaderMapping& reader) :
   m_scale_easing(),
   m_scale_anchor(),
   m_minimum_scale(1.f),
-  m_enfore_minimum_scale(false)
+  m_enfore_minimum_scale(false),
+  m_last_translation(0.0f, 0.0f),
+  m_last_scale(1.0f)
 {
   std::string modename;
 
@@ -211,6 +216,26 @@ Camera::check_state()
   PathObject::check_state();
 }
 
+void Camera::reset_prediction_state()
+{
+  m_last_translation = get_translation();
+  m_last_scale = get_current_scale();
+}
+
+std::pair<Vector, float>
+Camera::get_predicted_transform(float time_offset) const
+{
+  if (g_config->frame_prediction) {
+    // TODO: extrapolate forwards instead of interpolating over the last frame
+    float x = time_offset * LOGICAL_FPS;
+    Vector translation = get_translation() * x + (1.f - x) * m_last_translation;
+    float scale = get_current_scale() * x + (1.f - x) * m_last_scale;
+    return std::pair(translation, scale);
+  } else {
+    return std::pair(get_translation(), get_current_scale());
+  }
+}
+
 const Vector
 Camera::get_translation() const
 {
@@ -222,6 +247,7 @@ void
 Camera::set_translation_centered(const Vector& translation)
 {
   m_translation = translation - m_screen_size.as_vector() / 2;
+  reset_prediction_state();
 }
 
 Rectf
@@ -243,6 +269,7 @@ Camera::reset(const Vector& tuxpos)
     keep_in_bounds(m_translation);
 
   m_cached_translation = m_translation;
+  reset_prediction_state();
 }
 
 void
@@ -293,6 +320,7 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
     m_translation.y = goal.y;
     if (m_mode != Mode::FREE)
       m_mode = Mode::MANUAL;
+    reset_prediction_state();
     return;
   }
 
@@ -309,6 +337,10 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
 void
 Camera::update(float dt_sec)
 {
+  // For use by camera position prediction
+  m_last_scale = get_current_scale();
+  m_last_translation = get_translation();
+
   // Fetch the current screen size from the VideoSystem. The main loop always
   // processes input and window events, updates game logic, and then draws zero
   // or more frames, in that order, so this screen size will be used by the next
@@ -366,6 +398,8 @@ Camera::keep_in_bounds(const Rectf& bounds)
 
   // Remove any scale factor we may have added in the checks above.
   m_translation -= scale_factor;
+
+  reset_prediction_state();
 }
 
 void
@@ -761,6 +795,8 @@ Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
     m_scale = scale;
     if (m_mode == Mode::MANUAL || m_mode == Mode::FREE)
       m_translation = m_scale_target_translation;
+
+    reset_prediction_state();
   }
 }
 
