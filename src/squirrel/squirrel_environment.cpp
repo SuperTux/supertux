@@ -33,9 +33,6 @@ SquirrelEnvironment::SquirrelEnvironment(ssq::VM& vm, const std::string& name) :
   m_scripts(),
   m_scheduler(std::make_unique<SquirrelScheduler>(m_vm))
 {
-  // Garbage collector has to be invoked manually!
-  sq_collectgarbage(m_vm.getHandle());
-
   // Set the root table as delegate.
   m_table.setDelegate(m_vm);
 }
@@ -44,8 +41,6 @@ SquirrelEnvironment::~SquirrelEnvironment()
 {
   m_scripts.clear();
   m_table.reset();
-
-  sq_collectgarbage(m_vm.getHandle());
 }
 
 void
