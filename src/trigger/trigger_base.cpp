@@ -114,17 +114,17 @@ Trigger::is_triggering_for_object(const MovingObject& object) const
   if(m_trigger_direction == Direction::AUTO)
     return true;
 
-  const auto& pos = get_pos();
-  const auto& object_pos = object.get_pos();
+  const auto& bbox = get_bbox();
+  const auto& object_bbox = object.get_bbox();
   Direction object_direction = Direction::NONE;
 
-  if (object_pos.x < pos.x)
+  if (object_bbox.get_left() < bbox.get_left())
     object_direction = Direction::LEFT;
-  if (object_pos.x + object.get_width() > pos.x + get_width())
+  if (object_bbox.get_right() > bbox.get_right())
     object_direction = Direction::RIGHT;
-  if (object_pos.y < pos.y)
+  if (object_bbox.get_top() < bbox.get_top())
     object_direction = Direction::UP;
-  if (object_pos.y + object.get_height() > pos.y + get_height())
+  if (object_bbox.get_bottom() > bbox.get_bottom())
     object_direction = Direction::DOWN;
 
   return object_direction == m_trigger_direction;
