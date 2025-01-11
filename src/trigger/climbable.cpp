@@ -113,8 +113,13 @@ Climbable::draw(DrawingContext& context)
     context.pop_transform();
   }
   if (Editor::is_active() || g_debug.show_collision_rects) {
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 1.0f, 0.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+    const auto& bbox = m_col.m_bbox;
+    const auto& color = Color(1.0f, 1.0f, 0.0f, 0.6f);
+    const float transparency = 0.0f;
+    const int layer = LAYER_OBJECTS;
+
+    context.color().draw_filled_rect(bbox, color, transparency, layer);
+    Trigger::draw(context, color, transparency, layer);
   }
 }
 
@@ -166,7 +171,7 @@ Climbable::may_climb(const Player& player) const
   if (player.get_bbox().get_right() > m_col.m_bbox.get_right() + GRACE_DX) return false;
   if (player.get_bbox().get_top() < m_col.m_bbox.get_top() - GRACE_DY) return false;
   if (player.get_bbox().get_bottom() > m_col.m_bbox.get_bottom() + GRACE_DY) return false;
-  return true;
+  return is_triggering_for_object(player);
 }
 
 /* EOF */
