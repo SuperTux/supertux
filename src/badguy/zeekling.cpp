@@ -216,7 +216,6 @@ Zeekling::active_update(float dt_sec)
 {
   if (m_frozen)
   {
-    std::cout << g_game_time << " frozen" << std::endl;
     BadGuy::active_update(dt_sec);
     return;
   }
