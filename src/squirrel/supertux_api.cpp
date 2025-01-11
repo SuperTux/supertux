@@ -882,6 +882,12 @@ void register_supertux_scripting_api(ssq::VM& vm)
   level.addFunc("override_item_pocket", &scripting::Level::override_item_pocket);
   level.addFunc("is_item_pocket_overridden", &scripting::Level::is_item_pocket_overridden);
   level.addFunc("is_item_pocket_allowed", &scripting::Level::is_item_pocket_allowed);
+
+  /* "Level" global functions (0.6.3 backward compatibility) */
+  vm.addFunc("Level_finish", &scripting::Level::finish);
+  vm.addFunc("Level_spawn", &scripting::Level::spawn, ssq::DefaultArguments<const std::string&>(""));
+  vm.addFunc("Level_flip_vertically", &scripting::Level::flip_vertically);
+  vm.addFunc("Level_toggle_pause", &scripting::Level::toggle_pause);
 }
 
 /* EOF */
