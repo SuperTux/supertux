@@ -62,7 +62,7 @@ msgstr "Altura"
 
 #: src/object/tilemap.cpp:298
 msgid "Alpha"
-msgstr "Alfa"
+msgstr "Opacidade"
 
 #: src/object/tilemap.cpp:299
 msgid "Speed x"
@@ -240,7 +240,7 @@ msgstr "Estrela"
 
 #: src/object/powerup.cpp:67
 msgid "Tux Doll"
-msgstr "Boneca Tux"
+msgstr "Boneco Tux"
 
 #: src/object/powerup.cpp:68
 msgid "Flip Potion"
