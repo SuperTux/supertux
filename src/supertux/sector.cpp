@@ -833,7 +833,7 @@ Sector::convert_tiles2gameobject()
         {
           // add lights for fire tiles
           uint32_t attributes = tile.get_attributes();
-          Vector pos = tm.get_tile_position(x, y) + tm_offset;
+          Vector pos = tm.get_tile_position(x, y);
           Vector center = pos + Vector(16, 16);
 
           if (attributes & Tile::FIRE) {
@@ -844,13 +844,13 @@ Sector::convert_tiles2gameobject()
                   && (tm.get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
                 float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
                 add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
-                                  (Color(1.0f, 0.3f, 0.0f, 1.0f) * tm.get_current_tint()).validate());
+                                  Color(1.0f, 0.3f, 0.0f, 1.0f), &tm);
               }
             } else {
               // torch
               float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
               add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
-                                (Color(1.0f, 1.0f, 0.6f, 1.0f) * tm.get_current_tint()).validate());
+                                Color(1.0f, 1.0f, 0.6f, 1.0f), &tm);
             }
           }
         }
