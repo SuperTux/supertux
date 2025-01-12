@@ -1,5 +1,7 @@
 (supertux-music
   (file "treeboss.ogg")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
   (loop-begin 32.15)
   (loop-at    -1)
 )

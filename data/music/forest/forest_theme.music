@@ -1,5 +1,8 @@
 (supertux-music
   (file "forest_theme.ogg")
+  (authors "Marek \"Wansti\" Moeckel" "Tobias \"ToBeFree\" Frei")
+  (license "CC-BY-SA / GPL 2+")
+  (title "Forest Prophecy reEducated")
   (loop-begin 0)
   (loop-at    -1)
 )
