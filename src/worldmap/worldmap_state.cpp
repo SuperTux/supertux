@@ -37,6 +37,7 @@ namespace worldmap {
 
 WorldMapState::WorldMapState(WorldMap& worldmap) :
   m_worldmap(worldmap),
+  m_sector(),
   m_position_was_reset(false)
 {
 }
@@ -61,47 +62,36 @@ WorldMapState::load_state()
     /** Get state table for the current worldmap. **/
     ssq::Table worldmap_table = worlds_table.findTable(m_worldmap.m_map_filename.c_str());
 
-    // Load the current sector.
-    ssq::Table sector_table;
-    if (worldmap_table.hasEntry("sector")) // Load the current sector only if a "sector" property exists.
-    {
-      const std::string sector_name = worldmap_table.get<std::string>("sector");
-      if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the new sector.
-        m_worldmap.set_sector(sector_name, "", false);
-
-      /** Get state table for the current sector. **/
-      sector_table = worldmap_table.findTable(m_worldmap.get_sector().get_name().c_str());
-    }
-    else // Sector property does not exist, which may indicate outdated save file.
+    // If the "sector" property doesn't exist, that may indicate an outdated savefile.
+    // To support savefiles before the implementation of worldmap sectors, we load the state table for the only "main" sector.
+    if (!worldmap_table.hasEntry("sector"))
     {
       if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the main one.
         m_worldmap.set_sector(DEFAULT_SECTOR_NAME, "", false);
 
-      sector_table = worldmap_table;
+      if (!m_worldmap.m_sector)
+        throw std::runtime_error("No sector set.");
+
+      m_sector = m_worldmap.m_sector;
+      load(worldmap_table);
+      return;
     }
 
-    if (!m_worldmap.m_sector)
-    {
-      // Quit loading worldmap state, if there is still no current sector loaded.
-      throw std::runtime_error("No sector set.");
-    }
-    
-    try
-    {
-      ssq::Object music = sector_table.find("music");
-      auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
-      music_object.set_music(music.toString());
-    }
-    catch (const ssq::NotFoundException&)
-    {
-      log_debug << "Could not find \"music\" in the worldmap sector state table." << std::endl;
-    }
+    const std::string sector_name = worldmap_table.get<std::string>("sector");
+    if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the new sector.
+      m_worldmap.set_sector(sector_name, "", false);
 
-    /** Load objects. **/
-    load_tux(sector_table);
-    load_levels(sector_table);
-    load_tilemap_visibility(sector_table);
-    load_sprite_change_objects(sector_table);
+    /** Load state table for all sectors in the worldmap. **/
+    for (auto& sector : m_worldmap.m_sectors)
+    {
+      // Only load sector table, if it exists.
+      if (!worldmap_table.hasEntry(sector->get_name().c_str()))
+        continue;
+
+      ssq::Table sector_table = worldmap_table.findTable(sector->get_name().c_str());
+      m_sector = sector.get();
+      load(sector_table);
+    }
   }
   catch (const std::exception& err)
   {
@@ -119,15 +109,39 @@ WorldMapState::load_state()
 }
 
 
+void
+WorldMapState::load(const ssq::Table& table)
+{
+  try
+  {
+    ssq::Object music = table.find("music");
+    auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+    music_object.set_music(music.toString());
+  }
+  catch (const ssq::NotFoundException&)
+  {
+    log_warning << "Couldn't find \"music\" in worldmap sector state table." << std::endl;
+  }
+
+  /** Load objects. **/
+  load_tux(table);
+  load_levels(table);
+  load_tilemap_visibility(table);
+  load_sprite_change_objects(table);
+}
+
 /** Load Tux **/
 void
 WorldMapState::load_tux(const ssq::Table& table)
 {
   WorldMapSector& sector = m_worldmap.get_sector();
 
+  // Indicate if Tux is being loaded for the current sector.
+  const bool current_sector = m_sector == &m_worldmap.get_sector();
+
   const ssq::Table tux = table.findTable("tux");
   Vector p(0.0f, 0.0f);
-  if (!tux.get("x", p.x) || !tux.get("y", p.y))
+  if ((!tux.get("x", p.x) || !tux.get("y", p.y)) && current_sector)
   {
     log_warning << "Player position not set, respawning." << std::endl;
     sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
@@ -140,7 +154,8 @@ WorldMapState::load_tux(const ssq::Table& table)
   sector.m_tux->set_tile_pos(p);
 
   int tile_data = sector.tile_data_at(p);
-  if (!(tile_data & (Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST)))
+  if (!(tile_data & (Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST)) &&
+      current_sector)
   {
     log_warning << "Player at illegal position " << p.x << ", " << p.y << " respawning." << std::endl;
     sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
@@ -248,10 +263,8 @@ WorldMapState::load_sprite_change_objects(const ssq::Table& table)
 
 
 void
-WorldMapState::save_state() const
+WorldMapState::save_state()
 {
-  WorldMapSector& sector = m_worldmap.get_sector();
-
   ssq::VM& vm = SquirrelVirtualMachine::current()->get_vm();
   try
   {
@@ -262,53 +275,58 @@ WorldMapState::save_state() const
     ssq::Table worldmap_table = worlds_table.getOrCreateTable(m_worldmap.m_map_filename.c_str());
 
     // Save the current sector.
-    worldmap_table.set("sector", sector.get_name());
+    worldmap_table.set("sector", m_worldmap.get_sector().get_name());
 
-    /** Delete the table entry for the current sector and construct a new one. **/
-    worldmap_table.remove(sector.get_name().c_str());
-    ssq::Table sector_table = worldmap_table.addTable(sector.get_name().c_str());
-
-    /** Save Music **/
-    auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
-    sector_table.set("music", music_object.get_music());
-
-    /** Save Tux **/
-    ssq::Table tux = sector_table.addTable("tux");
-    tux.set("x", sector.m_tux->get_tile_pos().x);
-    tux.set("y", sector.m_tux->get_tile_pos().y);
-    tux.set("back", direction_to_string(sector.m_tux->m_back_direction));
-
-    /** Save levels **/
-    ssq::Table levels = sector_table.addTable("levels");
-    for (const auto& level_tile : m_worldmap.get_sector().get_objects_by_type<LevelTile>())
+    for (auto& sector : m_worldmap.m_sectors)
     {
-      ssq::Table level = levels.addTable(level_tile.get_level_filename().c_str());
-      level.set("solved", level_tile.is_solved());
-      level.set("perfect", level_tile.is_perfect());
-      level_tile.get_statistics().serialize_to_squirrel(level);
-    }
+      m_sector = sector.get();
 
-    /** Save tilemap visibility **/
-    ssq::Table tilemaps = sector_table.addTable("tilemaps");
-    for (auto& tilemap : m_worldmap.get_sector().get_objects_by_type<::TileMap>())
-    {
-      if (!tilemap.get_name().empty())
+      /** Delete the table entry for the current sector and construct a new one. **/
+      worldmap_table.remove(sector->get_name().c_str());
+      ssq::Table sector_table = worldmap_table.addTable(sector->get_name().c_str());
+
+      /** Save music **/
+      auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+      sector_table.set("music", music_object.get_music());
+
+      /** Save Tux **/
+      ssq::Table tux = sector_table.addTable("tux");
+      tux.set("x", sector->m_tux->get_tile_pos().x);
+      tux.set("y", sector->m_tux->get_tile_pos().y);
+      tux.set("back", direction_to_string(sector->m_tux->m_back_direction));
+
+      /** Save levels **/
+      ssq::Table levels = sector_table.addTable("levels");
+      for (const auto& level_tile : m_worldmap.get_sector().get_objects_by_type<LevelTile>())
       {
-        ssq::Table tilemap_table = tilemaps.addTable(tilemap.get_name().c_str());
-        tilemap_table.set("alpha", tilemap.get_target_alpha());
+        ssq::Table level = levels.addTable(level_tile.get_level_filename().c_str());
+        level.set("solved", level_tile.is_solved());
+        level.set("perfect", level_tile.is_perfect());
+        level_tile.get_statistics().serialize_to_squirrel(level);
       }
-    }
 
-    /** Save sprite change objects **/
-    if (m_worldmap.get_sector().get_object_count<SpriteChange>() > 0)
-    {
-      ssq::Table sprite_changes = sector_table.addTable("sprite-changes");
-      for (const auto& sc : m_worldmap.get_sector().get_objects_by_type<SpriteChange>())
+      /** Save tilemap visibility **/
+      ssq::Table tilemaps = sector_table.addTable("tilemaps");
+      for (auto& tilemap : m_worldmap.get_sector().get_objects_by_type<::TileMap>())
       {
-        const std::string key = std::to_string(static_cast<int>(sc.get_pos().x)) + "_" +
-                                std::to_string(static_cast<int>(sc.get_pos().y));
-        ssq::Table sprite_change = sprite_changes.addTable(key.c_str());
-        sprite_change.set("show-stay-action", sc.show_stay_action());
+        if (!tilemap.get_name().empty())
+        {
+          ssq::Table tilemap_table = tilemaps.addTable(tilemap.get_name().c_str());
+          tilemap_table.set("alpha", tilemap.get_target_alpha());
+        }
+      }
+
+      /** Save sprite change objects **/
+      if (m_worldmap.get_sector().get_object_count<SpriteChange>() > 0)
+      {
+        ssq::Table sprite_changes = sector_table.addTable("sprite-changes");
+        for (const auto& sc : m_worldmap.get_sector().get_objects_by_type<SpriteChange>())
+        {
+          const std::string key = std::to_string(static_cast<int>(sc.get_pos().x)) + "_" +
+                                  std::to_string(static_cast<int>(sc.get_pos().y));
+          ssq::Table sprite_change = sprite_changes.addTable(key.c_str());
+          sprite_change.set("show-stay-action", sc.show_stay_action());
+        }
       }
     }
   }
