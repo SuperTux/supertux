@@ -19,7 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_OBJECT_FACTORY_HPP
 
 #include <assert.h>
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <functional>
 #include <vector>
@@ -37,7 +37,7 @@ private:
     std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> create = nullptr;
     std::function<std::string ()> get_display_name = nullptr;
   };
-  typedef std::map<std::string, FactoryFunctions> Factories;
+  typedef std::unordered_map<std::string, FactoryFunctions> Factories;
 
   Factories factories;
   std::vector<std::string> m_badguys_names;

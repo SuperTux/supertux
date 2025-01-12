@@ -20,7 +20,7 @@
 
 #include "util/currenton.hpp"
 
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <string>
 
@@ -31,7 +31,7 @@ class SpriteData;
 class SpriteManager final : public Currenton<SpriteManager>
 {
 private:
-  typedef std::map<std::string, std::unique_ptr<SpriteData>> Sprites;
+  typedef std::unordered_map<std::string, std::unique_ptr<SpriteData>> Sprites;
   Sprites m_sprites;
 
 public:
