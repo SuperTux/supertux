@@ -299,20 +299,14 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
 }
 
 void
-Camera::draw(DrawingContext& context)
-{
-  context.push_transform();
-  context.transform().scale = get_current_scale();
-
-  m_screen_size = Sizef(context.get_width(),
-                        context.get_height());
-
-  context.pop_transform();
-}
-
-void
 Camera::update(float dt_sec)
 {
+  // Fetch the current screen size from the VideoSystem. The main loop always
+  // processes input and window events, updates game logic, and then draws zero
+  // or more frames, in that order, so this screen size will be used by the next
+  // draw() operation.
+  m_screen_size = Sizef(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)) / get_current_scale();
+
   // Minimum scale should be set during the update sequence; else, reset it.
   m_enfore_minimum_scale = false;
 
