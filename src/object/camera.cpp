@@ -348,15 +348,17 @@ Camera::update(float dt_sec)
 void
 Camera::keep_in_bounds(const Rectf& bounds)
 {
+  Sizef screen_size = Sizef(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)) / get_current_scale();
+
   // Determines the difference between normal and scaled translation.
-  const Vector scale_factor = (m_screen_size.as_vector() * (get_current_scale() - 1.f)) / 2.f;
+  const Vector scale_factor = (screen_size.as_vector() * (get_current_scale() - 1.f)) / 2.f;
 
   // Keep the translation's scaled position in provided bounds.
-  m_translation.x = (bounds.get_width() > m_screen_size.width ?
-      math::clamp(m_translation.x + scale_factor.x, bounds.get_left(), bounds.get_right() - m_screen_size.width) :
+  m_translation.x = (bounds.get_width() > screen_size.width ?
+      math::clamp(m_translation.x + scale_factor.x, bounds.get_left(), bounds.get_right() - screen_size.width) :
       bounds.get_left());
-  m_translation.y = (bounds.get_height() > m_screen_size.height ?
-      math::clamp(m_translation.y + scale_factor.y, bounds.get_top(), bounds.get_bottom() - m_screen_size.height) :
+  m_translation.y = (bounds.get_height() > screen_size.height ?
+      math::clamp(m_translation.y + scale_factor.y, bounds.get_top(), bounds.get_bottom() - screen_size.height) :
       bounds.get_top());
 
   // Remove any scale factor we may have added in the checks above.
