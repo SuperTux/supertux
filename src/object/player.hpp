@@ -514,6 +514,7 @@ private:
   bool m_on_right_wall;
   bool m_in_walljump_tile;
   bool m_can_walljump;
+  float m_dive_speed; // Speed at which Tux entered water.
   float m_boost;
   float m_speedlimit;
   bool m_velocity_override;
@@ -583,7 +584,6 @@ private:
   SpritePtr m_sprite; /**< The main sprite representing Tux */
 
   float m_swimming_angle;
-  float m_swimming_accel_modifier;
   bool m_water_jump;
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */

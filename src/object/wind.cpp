@@ -20,6 +20,7 @@
 #include <simplesquirrel/vm.hpp>
 
 #include "badguy/badguy.hpp"
+#include "badguy/dive_mine.hpp"
 #include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/particles.hpp"
@@ -28,6 +29,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -39,6 +41,7 @@ Wind::Wind(const ReaderMapping& reader) :
   acceleration(),
   new_size(0.0f, 0.0f),
   dt_sec(0),
+  feather_distance(0.f),
   affects_badguys(),
   affects_objects(),
   affects_player(),
@@ -46,6 +49,7 @@ Wind::Wind(const ReaderMapping& reader) :
   particles_enabled(true)
 {
   float w,h;
+  parse_type(reader);
   reader.get("x", m_col.m_bbox.get_left(), 0.0f);
   reader.get("y", m_col.m_bbox.get_top(), 0.0f);
   reader.get("width", w, 32.0f);
@@ -54,6 +58,7 @@ Wind::Wind(const ReaderMapping& reader) :
 
   reader.get("blowing", blowing, true);
 
+  reader.get("feather-distance", feather_distance, 16.f);
   reader.get("speed-x", speed.x, 0.0f);
   reader.get("speed-y", speed.y, 0.0f);
 
@@ -80,6 +85,7 @@ Wind::get_settings()
   result.add_float(_("Speed X"), &speed.x, "speed-x");
   result.add_float(_("Speed Y"), &speed.y, "speed-y");
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
+  result.add_float(_("Feather Distance"), &feather_distance, "feather-distance");
   result.add_bool(_("Blowing"), &blowing, "blowing", true);
   result.add_bool(_("Affects Badguys"), &affects_badguys, "affects-badguys", false);
   result.add_bool(_("Affects Objects"), &affects_objects, "affects-objects", false);
@@ -87,9 +93,17 @@ Wind::get_settings()
   result.add_bool(_("Fancy Particles"), &fancy_wind, "fancy-wind", true);
   result.add_bool(_("Particles Enabled"), &particles_enabled, "particles-enabled", true);
 
-  result.reorder({ "blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "affects-objects", "affects-player", "fancy-wind", "particles-enabled", "width", "height", "name", "x", "y" });
+  result.reorder({ "blowing", "speed-x", "speed-y", "acceleration", "feather-distance", "affects-badguys", "affects-objects", "affects-player", "fancy-wind", "particles-enabled", "width", "height", "region", "name", "x", "y" });
 
   return result;
+}
+
+GameObjectTypes
+Wind::get_types() const {
+  return {
+    { "wind", _("Wind") },
+    { "current", _("Current") }
+  };
 }
 
 void
@@ -110,7 +124,14 @@ Wind::update(float dt_sec_)
     // Emit a particle
 	  if (fancy_wind)
     {
-	    Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1); 
+      switch (m_type) {
+        case WIND: // Normal wind
+          Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1);
+          break;
+        case CURRENT: // Current variant
+          Sector::get().add<SpriteParticle>("images/particles/water_piece1.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1);
+          break;
+      }
 	  }
 	  else
     {
@@ -137,34 +158,31 @@ Wind::collision(MovingObject& other, const CollisionHit& )
   if (player && affects_player)
   {
     player->override_velocity();
-    if (!player->on_ground())
-	  {
-      player->add_velocity(speed * acceleration * dt_sec, speed);
-    }
-    else
-    {
-      if (player->get_controller().hold(Control::RIGHT) || player->get_controller().hold(Control::LEFT))
-	    {
-	      player->add_velocity(Vector(speed.x, 0) * acceleration * dt_sec, speed);
-	    }
-	    else
-      {
-	      // When on ground, get blown slightly differently, but the max speed is less than it would be otherwise seen as we take "friction" into account
-	      player->add_velocity((Vector(speed.x, 0) * 0.1f) * (acceleration+1), (Vector(speed.x, speed.y) * 0.5f));
-	    }
-    }
+    player->get_physic().set_wind_acceleration(
+      this->acceleration * get_wind_strength(player->get_bbox().get_middle())
+    );
+    player->get_physic().set_wind_velocity(this->speed);
   }
 
   auto badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy && affects_badguys && badguy->can_be_affected_by_wind())
   {
-    badguy->add_wind_velocity(speed * acceleration * dt_sec, speed);
+    if (m_type == CURRENT && dynamic_cast<DiveMine*>(badguy)) { // Dive mines are not affected by currents
+      return ABORT_MOVE;
+    }
+    badguy->get_physic().set_wind_acceleration(
+      this->acceleration * get_wind_strength(badguy->get_bbox().get_middle())
+    );
+    badguy->get_physic().set_wind_velocity(this->speed);
   }
 
   auto rock = dynamic_cast<Rock*>(&other);
   if (rock && affects_objects)
   {
-    rock->add_wind_velocity(speed * acceleration * dt_sec, speed);
+    rock->get_physic().set_wind_acceleration(
+      this->acceleration * get_wind_strength(rock->get_bbox().get_middle())
+    );
+    rock->get_physic().set_wind_velocity(this->speed);
   }
 
   return ABORT_MOVE;
@@ -189,6 +207,24 @@ Wind::on_flip(float height)
   speed.y = -speed.y;
 }
 
+float
+Wind::get_wind_strength(Vector pos) {
+  // Point isn't inside the wind
+  if (!m_col.m_bbox.contains(pos))
+    return 0.0;
+
+  float strength = 1.0;
+
+
+  float dl = pos.x - m_col.m_bbox.get_left();
+  float dr = m_col.m_bbox.get_right() - pos.x;
+  float dt = pos.y - m_col.m_bbox.get_top();
+  float db = m_col.m_bbox.get_bottom() - pos.y;
+
+  strength = std::clamp(std::min({dl, dr, dt, db}) / feather_distance, 0.f, 1.f);
+
+  return strength;
+}
 
 void
 Wind::register_class(ssq::VM& vm)

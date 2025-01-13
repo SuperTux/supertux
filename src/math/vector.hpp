@@ -42,6 +42,34 @@ inline Vector at_angle(Vector const& v, float angle)
   return vec2_from_polar(glm::length(v), angle);
 }
 
+// Move vector towards a new vector by a scalar delta.
+inline Vector move_towards(Vector const& from, Vector const& to, float d) {
+  // Based on Godot's implementation
+  Vector vd = to - from;
+  float len = vd.length();
+  return len <= d ? to : from + vd / len * d;
+}
+
+// Change a velocity vector towards another, but do not change a component towards zero unless their signs are opposite.
+inline Vector push_to_velocity(Vector const& from, Vector const& to, float d) {
+  if (d == 0.f) return from;
+  if (from == to) return from;
+
+  Vector diff = glm::normalize(to - from) * d;
+  Vector result = from;
+
+  if (to.x > 0 && from.x < to.x)
+    result.x = std::min(from.x + diff.x, to.x);
+  if (to.x < 0 && from.x > to.x)
+    result.x = std::max(from.x + diff.x, to.x);
+  if (to.y > 0 && from.y < to.y)
+    result.y = std::min(from.y + diff.y, to.y);
+  if (to.y < 0 && from.y > to.y)
+    result.y = std::max(from.y + diff.y, to.y);
+
+  return result;
+}
+
 } // namespace math
 
 #endif

@@ -245,6 +245,7 @@ Zeekling::active_update(float dt_sec)
         break;
       }
 
+
       const float dist = m_target_y - m_start_position.y;
       const double progress = CubicEaseIn(static_cast<double>(1.f - m_timer.get_progress()));
       const float value = m_target_y - (static_cast<float>(progress) * dist);
