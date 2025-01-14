@@ -104,92 +104,6 @@
     )
     (coin
       (z-pos 49)
-      (handle
-        (scale_x 0)
-        (scale_y 0)
-        (offset_x 0)
-        (offset_y 0)
-      )
-      (path-ref "gen1666533225326861920")
-    )
-    (coin
-      (z-pos 49)
-      (starting-node 3)
-      (handle
-        (scale_x 0)
-        (scale_y 0)
-        (offset_x 0)
-        (offset_y 0)
-      )
-      (path-ref "gen1666533225326861920")
-    )
-    (coin
-      (z-pos 49)
-      (starting-node 2)
-      (handle
-        (scale_x 0)
-        (scale_y 0)
-        (offset_x 0)
-        (offset_y 0)
-      )
-      (path-ref "gen1666533225326861920")
-    )
-    (coin
-      (z-pos 49)
-      (starting-node 1)
-      (handle
-        (scale_x 0)
-        (scale_y 0)
-        (offset_x 0)
-        (offset_y 0)
-      )
-      (path-ref "gen1666533225326861920")
-    )
-    (coin
-      (z-pos 49)
-      (handle
-        (scale_x 0)
-        (scale_y 0)
-        (offset_x 0)
-        (offset_y 0)
-      )
-      (path-ref "gen1666534942326975008")
-    )
-    (coin
-      (z-pos 49)
-      (starting-node 3)
-      (handle
-        (scale_x 0)
-        (scale_y 0)
-        (offset_x 0)
-        (offset_y 0)
-      )
-      (path-ref "gen1666534942326975008")
-    )
-    (coin
-      (z-pos 49)
-      (starting-node 2)
-      (handle
-        (scale_x 0)
-        (scale_y 0)
-        (offset_x 0)
-        (offset_y 0)
-      )
-      (path-ref "gen1666534942326975008")
-    )
-    (coin
-      (z-pos 49)
-      (starting-node 1)
-      (handle
-        (scale_x 0)
-        (scale_y 0)
-        (offset_x 0)
-        (offset_y 0)
-      )
-      (path-ref "gen1666534942326975008")
-    )
-    (coin
-      (z-pos 49)
       (x 800)
       (y 1104)
     )
@@ -610,58 +524,6 @@
       )
     )
     (path
-      (name "gen1666533225326861920")
-      (path
-        (adapt_speed #f)
-        (node
-          (x 2540)
-          (y 3152)
-          (easing "EaseQuadInOut")
-        )
-        (node
-          (x 2476)
-          (y 3220)
-          (easing "EaseQuadInOut")
-        )
-        (node
-          (x 2544)
-          (y 3288)
-          (easing "EaseQuadInOut")
-        )
-        (node
-          (x 2608)
-          (y 3220)
-          (easing "EaseQuadInOut")
-        )
-      )
-    )
-    (path
-      (name "gen1666534942326975008")
-      (path
-        (adapt_speed #f)
-        (node
-          (x 4400)
-          (y 2956)
-          (easing "EaseQuadInOut")
-        )
-        (node
-          (x 4344)
-          (y 3016)
-          (easing "EaseQuadInOut")
-        )
-        (node
-          (x 4404)
-          (y 3072)
-          (easing "EaseQuadInOut")
-        )
-        (node
-          (x 4456)
-          (y 3012)
-          (easing "EaseQuadInOut")
-        )
-      )
-    )
-    (path
       (name "gen17097591202323855432624")
       (path
         (mode "oneshot")
@@ -762,10 +624,10 @@ wall3.start_moving();")
       (y 1120)
     )
     (scripttrigger
-      (width 128)
-      (height 144)
       (script "wall.start_moving();")
       (button #f)
+      (width 128)
+      (height 144)
       (x 4144)
       (y 1360)
     )
