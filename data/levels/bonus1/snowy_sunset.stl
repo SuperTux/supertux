@@ -399,7 +399,7 @@
       (y 432)
     )
     (music
-      (file "/music/misc/calm_ocean.music")
+      (file "/music/antarctic/underwater.music")
     )
     (path
       (name "gen17264279791700918125472")
@@ -1300,7 +1300,7 @@
       (y 864)
     )
     (music
-      (file "/music/misc/calm_ocean.music")
+      (file "/music/antarctic/underwater.music")
     )
     (path
       (name "gen17267709392585815690752")
