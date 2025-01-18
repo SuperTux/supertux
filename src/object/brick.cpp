@@ -73,6 +73,18 @@ Brick::get_default_sprite_name() const
   }
 }
 
+bool
+Brick::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("retro_brick") != std::string::npos)
+  {
+    type = "retro";
+    return true;
+  }
+
+  return false;
+}
+
 void
 Brick::hit(Player& player)
 {

@@ -172,6 +172,18 @@ DartTrap::get_types() const
   };
 }
 
+bool
+DartTrap::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("darttrap.sprite") != std::string::npos)
+  {
+    type = "skull";
+    return true;
+  }
+
+  return false;
+}
+
 std::string
 DartTrap::get_default_sprite_name() const
 {

@@ -47,6 +47,7 @@ public:
 
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override;
+  bool get_type_from_sprite(const std::string& sprite_name, std::string& type) const override;
   std::string get_default_sprite_name() const override;
 
   virtual void after_editor_set() override;

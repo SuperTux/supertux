@@ -176,6 +176,18 @@ Stalactite::get_default_sprite_name() const
   }
 }
 
+bool
+Stalactite::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("forest_stalactite") != std::string::npos)
+  {
+    type = "rock";
+    return true;
+  }
+
+  return false;
+}
+
 void
 Stalactite::kill_fall()
 {

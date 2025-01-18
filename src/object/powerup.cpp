@@ -102,6 +102,72 @@ PowerUp::get_default_sprite_name() const
   }
 }
 
+bool
+PowerUp::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("fireflower") != std::string::npos)
+  {
+    type = "fire";
+    return true;
+  }
+
+  if (sprite_name.find("iceflower") != std::string::npos)
+  {
+    type = "ice";
+    return true;
+  }
+
+  if (sprite_name.find("airflower") != std::string::npos)
+  {
+    type = "air";
+    return true;
+  }
+
+  if (sprite_name.find("earthflower") != std::string::npos)
+  {
+    type = "earth";
+    return true;
+  }
+
+  if (sprite_name.find("star") != std::string::npos)
+  {
+    type = "star";
+    return true;
+  }
+
+  if (sprite_name.find("1up") != std::string::npos)
+  {
+    type = "oneup";
+    return true;
+  }
+
+  if (sprite_name.find("potion") != std::string::npos)
+  {
+    type = "flip";
+    return true;
+  }
+
+  if (sprite_name.find("mints") != std::string::npos)
+  {
+    type = "mints";
+    return true;
+  }
+
+  if (sprite_name.find("coffee") != std::string::npos)
+  {
+    type = "coffee";
+    return true;
+  }
+
+  if (sprite_name.find("herring") != std::string::npos)
+  {
+    type = "herring";
+    return true;
+  }
+
+  return false;
+}
+
 void
 PowerUp::initialize()
 {

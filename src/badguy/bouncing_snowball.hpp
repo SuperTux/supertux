@@ -42,6 +42,7 @@ public:
   virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(BouncingSnowball)); }
 
   virtual GameObjectTypes get_types() const override;
+  virtual bool get_type_from_sprite(const std::string& sprite_name, std::string& type) const override;
   virtual std::string get_default_sprite_name() const override;
 
   virtual void after_editor_set() override;

@@ -74,6 +74,7 @@ public:
 
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override;
+  virtual bool get_type_from_sprite(const std::string& sprite_name, std::string& type) const override;
   std::string get_default_sprite_name() const override;
 
   virtual void on_flip(float height) override;

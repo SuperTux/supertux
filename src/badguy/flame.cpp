@@ -101,6 +101,24 @@ Flame::get_default_sprite_name() const
   }
 }
 
+bool
+Flame::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name == "images/creatures/flame/ghostflame.sprite")
+  {
+    type = "ghost";
+    return true;
+  }
+
+  if (sprite_name == "images/creatures/flame/iceflame.sprite")
+  {
+    type = "ice";
+    return true;
+  }
+
+  return false;
+}
+
 ObjectSettings
 Flame::get_settings()
 {

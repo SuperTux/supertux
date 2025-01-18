@@ -81,6 +81,24 @@ Crusher::get_types() const
   };
 }
 
+bool
+Crusher::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("krosh") != std::string::npos)
+  {
+    type = "ice-krosh";
+    return true;
+  }
+  if ((sprite_name.find("rock_crusher") != std::string::npos) ||
+      (sprite_name.find("moss_crusher") != std::string::npos))
+  {
+    type = "rock-crush";
+    return true;
+  }
+
+  return false;
+}
+
 std::string
 Crusher::get_default_sprite_name() const
 {

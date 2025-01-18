@@ -207,6 +207,23 @@ GameObject::parse_type(const ReaderMapping& reader)
         log_warning << "Unknown type of " << get_class_name() << ": '" << type << "', using default." << std::endl;
     }
   }
+  else // Fallback / backward compatibility for older versions of SuperTux
+  {
+    std::string sprite_file;
+    if (reader.get("sprite", sprite_file))
+    {
+      // This only assigns an object type if the actual sprite
+      // file couldn't be found (so user-skinning still works.)
+      // Is this what we want?
+      if (!PHYSFS_exists(sprite_file.c_str()))
+      {
+        if (get_type_from_sprite(sprite_file, type))
+        {
+          m_type = type_id_to_value(type);
+        }
+      }
+    }
+  }
 
   on_type_change(TypeChange::INITIAL); // Initial object type initialization
 }
@@ -215,6 +232,12 @@ GameObjectTypes
 GameObject::get_types() const
 {
   return {};
+}
+
+bool
+GameObject::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  return false;
 }
 
 void
