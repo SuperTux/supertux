@@ -24,6 +24,11 @@ EditorComment::EditorComment(const ReaderMapping& reader):
 void
 EditorComment::draw(DrawingContext& context)
 {
+  // TODO: There should be an object factory param
+  // for objects that only exist when testing in editor.
+  if (!Editor::current())
+    return;
+
   float y = get_y();
   for (std::unique_ptr<InfoBoxLine>& line : m_lines)
   {

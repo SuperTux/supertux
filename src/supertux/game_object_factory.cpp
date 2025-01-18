@@ -318,7 +318,7 @@ GameObjectFactory::init_factories()
 
   // Editor stuff.
   add_factory<SpawnPointMarker>("spawnpoint");
-  add_factory<EditorComment>("editor-comment", OBJ_PARAM_EDITOR);
+  add_factory<EditorComment>("editor-comment");
 
   // Worldmap objects.
   add_factory<worldmap::LevelTile>("level", OBJ_PARAM_WORLDMAP);
