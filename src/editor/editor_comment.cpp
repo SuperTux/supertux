@@ -39,7 +39,7 @@ EditorComment::draw(DrawingContext& context)
 }
 
 void
-EditorComment::after_editor_set()
+EditorComment::check_state()
 {
   refresh_comment();
 }

@@ -81,6 +81,8 @@ ResizeMarker::refresh_pos()
 void
 ResizeMarker::move_to(const Vector& pos)
 {
+  Rectf old = *m_rect;
+
   switch (m_vert) {
     case Side::NONE:
       break;

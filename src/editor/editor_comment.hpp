@@ -15,7 +15,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override { MovingObject::update(dt_sec); }
   virtual HitResponse collision(MovingObject&, const CollisionHit&) override { return ABORT_MOVE; }
-  virtual void after_editor_set() override;
+  virtual void check_state() override;
 
   virtual bool has_variable_size() const override { return true; }
   static std::string class_name() { return "editor-comment"; }
@@ -26,7 +26,7 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  virtual int get_layer() const override { return LAYER_HUD - 5; }
+  virtual int get_layer() const override { return LAYER_FOREGROUND1 - 5; }
 
 private:
   void refresh_comment();
