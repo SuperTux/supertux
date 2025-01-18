@@ -10,6 +10,15 @@ class InfoBoxLine;
 class EditorComment : public MovingObject
 {
 public:
+  enum Type
+  {
+    NOTE,
+    TODO,
+    FIXME,
+    HACK
+  };
+
+public:
   EditorComment(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
@@ -24,12 +33,14 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(EditorComment)); }
 
+  virtual GameObjectTypes get_types() const override;
   virtual ObjectSettings get_settings() override;
 
   virtual int get_layer() const override { return LAYER_FOREGROUND1 - 5; }
 
 private:
   void refresh_comment();
+  Color get_color();
 
 private:
   std::string m_comment;

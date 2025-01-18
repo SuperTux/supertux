@@ -40,13 +40,38 @@ EditorComment::draw(DrawingContext& context)
   }
 
   if (Editor::is_active())
-    context.color().draw_filled_rect(get_bbox(), Color(0.5f, 0.2f, 0.f, 0.6f), 0.f, get_layer());
+    context.color().draw_filled_rect(get_bbox(), get_color(), 0.f, get_layer());
 }
 
 void
 EditorComment::check_state()
 {
   refresh_comment();
+}
+
+GameObjectTypes
+EditorComment::get_types() const
+{
+  return {
+    /* l10n: A note refers to a reminder left for future
+       level designers to read in order to better understand
+       the usage of certain features in a level, for example. */
+    { "note", _("Note") },
+
+    /* l10n: A to-do refers to a reminder left for the
+       author of the comment to finish designing something in
+       a level. */
+    { "todo", _("To-do") },
+
+    /* l10n: A fix-me refers to a reminder left for the
+       author of the comment to fix a flaw with the level
+       design. */
+    { "fixme", _("Fix-me") },
+
+    /* l10n: A hack refers to usage of an unintended or
+       non-ideal way of implementing a level design idea. */
+    { "hack", _("Hack") }
+  };
 }
 
 ObjectSettings
@@ -69,6 +94,19 @@ EditorComment::refresh_comment()
 
   for (const auto& line : m_lines)
     m_lines_height += line->get_height();
+}
+
+Color
+EditorComment::get_color()
+{
+  switch (m_type)
+  {
+    case NOTE: return Color(0.19f, 0.65f, 0.32f, 0.6f);
+    case TODO: return Color(0.26f, 0.53f, 0.96f, 0.6f);
+    case FIXME: return Color(1.f, 0.44f, 0.11f, 0.6f);
+    case HACK: return Color(0.96f, 0.23f, 0.23f, 0.6f);
+    default: return Color();
+  }
 }
 
 /* EOF */
