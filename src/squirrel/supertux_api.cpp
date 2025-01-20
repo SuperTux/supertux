@@ -164,6 +164,7 @@ static bool check_cutscene()
 static SQInteger wait(HSQUIRRELVM vm, float seconds, bool forced = false)
 {
   ssq::VM* ssq_vm = ssq::VM::get(vm);
+  assert(ssq_vm);
   if (ssq_vm && !ssq_vm->isThread()) return 0;
 
   if (!forced)
@@ -310,10 +311,11 @@ static void load_level(const std::string& filename)
  */
 static void import(HSQUIRRELVM vm, const std::string& filename)
 {
-  ssq::VM ssq_vm(vm);
+  ssq::VM* ssq_vm = ssq::VM::get(vm);
+  assert(ssq_vm);
 
   IFileStream in(filename);
-  ssq_vm.run(ssq_vm.compileSource(in, filename.c_str()));
+  ssq_vm->run(ssq_vm->compileSource(in, filename.c_str()));
 }
 
 /**
@@ -882,6 +884,12 @@ void register_supertux_scripting_api(ssq::VM& vm)
   level.addFunc("override_item_pocket", &scripting::Level::override_item_pocket);
   level.addFunc("is_item_pocket_overridden", &scripting::Level::is_item_pocket_overridden);
   level.addFunc("is_item_pocket_allowed", &scripting::Level::is_item_pocket_allowed);
+
+  /* "Level" global functions (0.6.3 backward compatibility) */
+  vm.addFunc("Level_finish", &scripting::Level::finish);
+  vm.addFunc("Level_spawn", &scripting::Level::spawn, ssq::DefaultArguments<const std::string&>(""));
+  vm.addFunc("Level_flip_vertically", &scripting::Level::flip_vertically);
+  vm.addFunc("Level_toggle_pause", &scripting::Level::toggle_pause);
 }
 
 /* EOF */

@@ -2109,7 +2109,7 @@ msgstr "跳跃"
 #: src/supertux/menu/keyboard_menu.cpp:42
 #: src/supertux/menu/joystick_menu.cpp:77
 msgid "Item Pocket"
-msgstr ""
+msgstr "道具口袋"
 
 #: src/supertux/menu/keyboard_menu.cpp:44
 #: src/supertux/menu/joystick_menu.cpp:79
@@ -2989,7 +2989,7 @@ msgstr "没有可用的描述。"
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 msgid "Overrides Data: "
-msgstr ""
+msgstr "覆盖数据："
 
 #: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
@@ -3179,11 +3179,11 @@ msgstr "图块集"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Inherit"
-msgstr ""
+msgstr "继承"
 
 #: src/supertux/menu/editor_level_menu.cpp:45
 msgid "Allow Item Pocket"
-msgstr ""
+msgstr "允许道具口袋"
 
 #: src/supertux/menu/editor_level_menu.cpp:49
 msgid "Target Time"
@@ -4772,15 +4772,15 @@ msgstr "混合颜色"
 
 #: src/gui/menu_color.cpp:40
 msgid "Copy to clipboard (rgb)"
-msgstr ""
+msgstr "复制到剪贴板（rgb）"
 
 #: src/gui/menu_color.cpp:41
 msgid "Copy to clipboard (hex)"
-msgstr ""
+msgstr "复制到剪贴板（hex）"
 
 #: src/gui/menu_color.cpp:57 src/gui/menu_color.cpp:60
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "从剪贴板粘贴"
 
 #: src/gui/menu_filesystem.cpp:119
 msgid "Open Directory"
@@ -5324,4 +5324,4 @@ msgstr "来自扩展的锯齿状岩石图块"
 msgid ""
 "For levels, created with the rock tiles addon, converts their IDs to vanilla"
 " rock tile IDs"
-msgstr "用于使用岩石图块扩展创建的关卡，将它们的 ID 转换为原始的岩石图块 ID。"
+msgstr "用于使用岩石图块扩展创建的关卡，将它们的 ID 转换为原始的岩石图块 ID"

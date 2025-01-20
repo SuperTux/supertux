@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
-# Diego Enmanuel Rosales Santander, 2024
+# Diego Enmanuel Rosales Santander, 2024-2025
 # Fernando Carmona <ferkiwi@gmail.com>, 2006
 # 69fe870410d3e630a708a509aed5c0f9_e3efcca <3d48305986fd1b36087a0ec11b9a769d_288033>, 2016
 # Gastón <gastbr@gmail.com>, 2016
@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-12-24 23:23+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Jorge <jorgesumle@freakspot.net>, 2024\n"
+"Last-Translator: Diego Enmanuel Rosales Santander, 2024-2025\n"
 "Language-Team: Spanish (http://app.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -276,7 +276,7 @@ msgstr "Desactivar gravedad"
 msgid ""
 "Sprites no longer define the behaviour of the object.\n"
 "Object types are used instead."
-msgstr ""
+msgstr "Las imágenes ya no definen el comportamiento del objeto.\nLos tipos de objetos son usados para definirlo."
 
 #: src/object/background.hpp:52
 msgid "Background"
@@ -442,11 +442,11 @@ msgstr "Portable"
 
 #: src/object/trampoline.cpp:67
 msgid "Stationary"
-msgstr ""
+msgstr "Estacionario"
 
 #: src/object/bonus_block.cpp:154
 msgid "Only one custom object is allowed inside bonus blocks."
-msgstr ""
+msgstr "Solo un objeto personalizado esta permitido en los bloques de bonificación."
 
 #: src/object/bonus_block.cpp:172
 msgid "Blue"
@@ -1248,7 +1248,7 @@ msgstr ""
 
 #: src/object/snow_particle_system.cpp:117
 msgid "Wind Speed"
-msgstr ""
+msgstr "Velocidad del Viento"
 
 #: src/object/brick.cpp:165
 msgid "Breakable"
@@ -1256,7 +1256,7 @@ msgstr "Frágil"
 
 #: src/object/bigsnowball.cpp:83
 msgid "Break on impact?"
-msgstr ""
+msgstr "¿Romperse con impacto?"
 
 #: src/object/bigsnowball.cpp:84
 msgid "Bounce?"
@@ -1332,7 +1332,7 @@ msgstr "Velocidad Y"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
-msgstr ""
+msgstr "Pegable"
 
 #: src/object/rock.cpp:77
 msgid "Small"
@@ -2024,7 +2024,7 @@ msgstr "Volver"
 
 #: src/supertux/menu/contrib_menu.cpp:116
 msgid "How is this possible? There are no Official Contrib Levels!"
-msgstr ""
+msgstr "¿Como es esto posible? ¡No hay niveles contribuidos oficiales!"
 
 #: src/supertux/menu/contrib_menu.cpp:122
 msgid "No Community Contrib Levels yet. Download them from the Add-ons Menu."
@@ -2603,7 +2603,7 @@ msgid ""
 "\n"
 "Note: This should not be ran more than once on a level.\n"
 "Creating a separate copy of the level is highly recommended."
-msgstr ""
+msgstr "Esto convertirá todas las teselas en el nivel. ¿Proceder?\n\nNota: Esto no se debe correr más de una vez en un nivel.\nCrear una copia del nivel es muy recomendado."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:72
 msgid "Empty World"

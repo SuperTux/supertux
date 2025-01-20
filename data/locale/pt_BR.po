@@ -7,7 +7,7 @@
 # Caio César Tavares <caiotava@gmail.com>, 2021
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
 # Filipe Oliveira <contato@fmoliveira.com.br>, 2013
-# Fúlvio Alves <fga.fulvio@gmail.com>, 2020-2021,2023-2024
+# Fúlvio Alves <fga.fulvio@gmail.com>, 2020-2021,2023-2025
 # Herval Ribeiro <heraze@gmail.com>, 2006
 # Jesusaves <jesusalva@themanaworld.org>, 2019
 # Jesusaves <jesusalva@themanaworld.org>, 2020
@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-12-24 23:23+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Fúlvio Alves <fga.fulvio@gmail.com>, 2020-2021,2023-2024\n"
+"Last-Translator: Fúlvio Alves <fga.fulvio@gmail.com>, 2020-2021,2023-2025\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2114,7 +2114,7 @@ msgstr "Pular"
 #: src/supertux/menu/keyboard_menu.cpp:42
 #: src/supertux/menu/joystick_menu.cpp:77
 msgid "Item Pocket"
-msgstr ""
+msgstr "Bolso de Itens"
 
 #: src/supertux/menu/keyboard_menu.cpp:44
 #: src/supertux/menu/joystick_menu.cpp:79
@@ -2996,7 +2996,7 @@ msgstr "Nenhuma descrição disponível."
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 msgid "Overrides Data: "
-msgstr ""
+msgstr "Substitui dados:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
@@ -3186,11 +3186,11 @@ msgstr "Conjunto de blocos"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Inherit"
-msgstr ""
+msgstr "Herdar"
 
 #: src/supertux/menu/editor_level_menu.cpp:45
 msgid "Allow Item Pocket"
-msgstr ""
+msgstr "Permitir Bolso de Itens"
 
 #: src/supertux/menu/editor_level_menu.cpp:49
 msgid "Target Time"
@@ -4779,15 +4779,15 @@ msgstr "Misturar a cor"
 
 #: src/gui/menu_color.cpp:40
 msgid "Copy to clipboard (rgb)"
-msgstr ""
+msgstr "Copiar para a área de transferência (rgb)"
 
 #: src/gui/menu_color.cpp:41
 msgid "Copy to clipboard (hex)"
-msgstr ""
+msgstr "Copiar para a área de transferência (hex)"
 
 #: src/gui/menu_color.cpp:57 src/gui/menu_color.cpp:60
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Colar da área de transferência"
 
 #: src/gui/menu_filesystem.cpp:119
 msgid "Open Directory"
