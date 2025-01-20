@@ -165,7 +165,7 @@ static SQInteger wait(HSQUIRRELVM vm, float seconds, bool forced = false)
 {
   ssq::VM* ssq_vm = ssq::VM::get(vm);
   assert(ssq_vm);
-  if (!ssq_vm->isThread()) return 0;
+  if (ssq_vm && !ssq_vm->isThread()) return 0;
 
   if (!forced)
   {
