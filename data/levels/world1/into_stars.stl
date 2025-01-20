@@ -42,7 +42,9 @@
       (z-pos 200)
     )
     (background
+      (scroll-offset-y 50)
       (color 0.1 0.2 0.35)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/antarctic/ice_mountains_panorama.png")

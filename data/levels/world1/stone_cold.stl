@@ -18,6 +18,7 @@
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/antarctic/snowmountain_panorama.png")
@@ -45,6 +46,15 @@
       (speed 0)
       (image "/images/background/misc/clouds.png")
       (z-pos -280)
+    )
+    (background
+      (scroll-offset-y 50)
+      (color 1 1 1)
+      (speed 0.3)
+      (image-top "/images/background/misc/transparent_up.png")
+      (image "/images/background/antarctic/snow_hills.png")
+      (image-bottom "/images/background/antarctic/snow_bottom.png")
+      (z-pos -220)
     )
     (bonusblock
       (type "orange")

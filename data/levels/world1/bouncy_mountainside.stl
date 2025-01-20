@@ -24,15 +24,6 @@
       (z-pos -290)
     )
     (background
-      (scroll-offset-y 150)
-      (color 1 1 1)
-      (speed 0.1)
-      (image-top "/images/background/misc/transparent_up.png")
-      (image "/images/background/antarctic/snow_hills.png")
-      (image-bottom "/images/background/antarctic/snow_bottom.png")
-      (z-pos -200)
-    )
-    (background
       (color 1 1 1)
       (scroll-speed-x -2)
       (speed 0)
@@ -40,7 +31,9 @@
       (z-pos -280)
     )
     (background
+      (scroll-offset-x -120)
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/antarctic/snowmountain_panorama.png")
@@ -197,10 +190,6 @@
       (name "main")
       (x 96)
       (y 1600)
-    )
-    (spawnpoint
-      (x 4064)
-      (y 1472)
     )
     (tilemap
       (solid #f)

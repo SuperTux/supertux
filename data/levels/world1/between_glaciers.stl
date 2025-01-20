@@ -18,6 +18,7 @@
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/antarctic/snow_panorama.png")
@@ -33,6 +34,7 @@
     (background
       (scroll-offset-y 10)
       (color 1 1 1)
+      (alignment "bottom")
       (scroll-speed-x -3)
       (speed 0.03)
       (speed-y 0)
@@ -41,6 +43,7 @@
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (scroll-speed-x -1)
       (speed 0.01)
       (speed-y 0)
@@ -842,6 +845,7 @@ Camera.set_scale(1.5);")
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0)
       (image "/images/background/antarctic/snow_panorama.png")
       (z-pos -250)

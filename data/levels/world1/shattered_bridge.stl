@@ -18,6 +18,7 @@
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/antarctic/snow_panorama.png")
@@ -32,6 +33,7 @@
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0.01)
       (speed-y 0)
       (image "/images/background/antarctic/ice_floes_back.png")
@@ -40,6 +42,7 @@
     (background
       (scroll-offset-y 10)
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0.03)
       (speed-y 0)
       (image "/images/background/antarctic/ice_floes_front.png")

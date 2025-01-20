@@ -20,10 +20,10 @@
       (scroll-offset-x 450)
       (scroll-offset-y 120)
       (color 1 0.8 1)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/antarctic/snowmountain_panorama.png")
-      (image-bottom "/images/background/bluemountain/bluemountain-bottom.png")
       (z-pos -250)
     )
     (background
