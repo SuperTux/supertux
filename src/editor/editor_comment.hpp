@@ -45,7 +45,6 @@ private:
 private:
   std::string m_comment;
   std::vector<std::unique_ptr<InfoBoxLine>> m_lines;
-  float m_lines_height;
 };
 
 #endif // EDITOR_COMMENT_HPP

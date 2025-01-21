@@ -10,6 +10,8 @@ EditorComment::EditorComment(const ReaderMapping& reader):
   m_lines(),
   m_comment("")
 {
+  parse_type(reader);
+
   float w,h;
   reader.get("x", m_col.m_bbox.get_left(), 0.f);
   reader.get("y", m_col.m_bbox.get_top(), 0.f);
@@ -35,12 +37,11 @@ EditorComment::draw(DrawingContext& context)
     if (y >= get_bbox().get_bottom())
       break;
 
-    line->draw(context, Rectf(get_x(), y, get_width() / 2, y), get_layer() + 1, InfoBoxLine::LEFT);
+    line->draw(context, Rectf(Vector(get_x(), y), Sizef(get_width() / 2, y)), get_layer() + 1, InfoBoxLine::LEFT);
     y += line->get_height();
   }
 
-  if (Editor::is_active())
-    context.color().draw_filled_rect(get_bbox(), get_color(), 0.f, get_layer());
+  context.color().draw_filled_rect(get_bbox(), get_color(), 0.f, get_layer());
 }
 
 void
@@ -91,9 +92,6 @@ EditorComment::refresh_comment()
     line.reset();
 
   m_lines = InfoBoxLine::split(m_comment, get_width(), true);
-
-  for (const auto& line : m_lines)
-    m_lines_height += line->get_height();
 }
 
 Color
