@@ -289,8 +289,9 @@ include(SuperTux/BuildInstall)
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 
 ## Build tests
+# TODO Finish porting tests to CTest
+set(BUILD_TESTING OFF)
 if(BUILD_TESTING)
-  # TODO Move to CMake Tests
   #include(SuperTux/BuildTests)
   set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
   enable_testing()
