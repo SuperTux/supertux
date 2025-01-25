@@ -7,8 +7,8 @@
 
 EditorComment::EditorComment(const ReaderMapping& reader):
   MovingObject(reader),
-  m_lines(),
-  m_comment("")
+  m_comment(""),
+  m_lines()
 {
   parse_type(reader);
 
