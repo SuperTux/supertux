@@ -37,6 +37,14 @@ World::from_directory(const std::string& directory)
   try
   {
     register_translation_directory(info_filename);
+    
+    if (!PHYSFS_exists(info_filename.c_str()) && 
+        !FileSystem::exists(info_filename))
+    {
+      world->m_hide_from_contribs = true;
+      return world;
+    }
+
     auto doc = ReaderDocument::from_file(info_filename);
     auto root = doc.get_root();
 
