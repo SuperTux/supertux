@@ -185,8 +185,6 @@ private:
 
   void keep_camera_in_bounds();
 
-  void post_undo_redo_actions();
-
 protected:
   std::unique_ptr<Level> m_level;
   std::unique_ptr<World> m_world;
@@ -208,6 +206,8 @@ public:
   std::optional<std::pair<std::string, Vector>> m_test_pos;
 
   std::string* m_particle_editor_filename;
+
+  bool m_ctrl_pressed;
 
 private:
   Sector* m_sector;
@@ -234,7 +234,6 @@ private:
   float m_scroll_speed;
   float m_new_scale;
 
-  bool m_ctrl_pressed;
   Vector m_mouse_pos;
 
 private:

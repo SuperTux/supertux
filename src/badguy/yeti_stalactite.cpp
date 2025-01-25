@@ -59,7 +59,7 @@ YetiStalactite::update(float dt_sec)
     set_state(STATE_ACTIVE);
     state = STALACTITE_HANGING;
     // Attempt to minimize any potential collisions during this process.
-    set_action("normal");
+    set_action("default");
     set_pos(m_start_position);
     set_colgroup_active(COLGROUP_TOUCHABLE);
   }

@@ -50,7 +50,7 @@ BigSnowball::BigSnowball(const ReaderMapping& reader) :
     m_dir = string_to_dir(dir_str);
   }
   m_physic.set_velocity_x(m_dir == Direction::RIGHT ? m_speed : -m_speed);
-  set_action("normal", m_dir);
+  set_action("default", m_dir);
 }
 
 BigSnowball::BigSnowball(const Vector& pos, const Direction& dir, bool bounce) :
@@ -70,7 +70,7 @@ BigSnowball::BigSnowball(const Vector& pos, const Direction& dir, bool bounce) :
   if (bounce) {
     m_physic.set_velocity_y(SPEED_Y);
   }
-  set_action("normal", m_dir);
+  set_action("default", m_dir);
 }
 
 ObjectSettings

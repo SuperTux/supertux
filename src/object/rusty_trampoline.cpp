@@ -49,7 +49,7 @@ RustyTrampoline::update(float dt_sec)
     if (counter < 1) {
       remove_me();
     } else {
-      set_action("normal");
+      set_action("default");
     }
 
   }

@@ -23,7 +23,6 @@
 #include "physfs/util.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
-#include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -123,8 +122,6 @@ WorldMap::leave()
 {
   save_state();
   m_sector->leave();
-
-  GameManager::current()->load_next_worldmap();
 }
 
 

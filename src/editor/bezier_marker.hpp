@@ -46,6 +46,7 @@ public:
 private:
   Path::Node* m_node;
   Vector* m_pos;
+  Vector m_offset;
   UID m_parent;
 
 private:
