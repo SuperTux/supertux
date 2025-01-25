@@ -170,7 +170,20 @@ SET(HAVE_SDL TRUE CACHE BOOL "Use SDL_iconv instead of system iconv")
 add_subdirectory(external/tinygettext EXCLUDE_FROM_ALL)
 add_subdirectory(external/findlocale EXCLUDE_FROM_ALL)
 add_subdirectory(external/obstack EXCLUDE_FROM_ALL)
-include(SuperTux/ProvideOpenGL)
+
+option(ENABLE_OPENGL "Enable OpenGL support" ON)
+set(HAVE_OPENGL NO)
+if(ENABLE_OPENGL)
+  set(OpenGL_GL_PREFERENCE "LEGACY")
+  find_package(OpenGL)
+
+  if(OPENGL_FOUND)
+    set(HAVE_OPENGL YES)
+    find_package(GLEW REQUIRED)
+  endif()
+endif()
+
+#include(SuperTux/ProvideOpenGL)
 
 ## Build stuff
 include(SuperTux/BuildVersion)
@@ -275,7 +288,7 @@ if(NOT EMSCRIPTEN)
 endif()
 
 if(HAVE_OPENGL)
-  target_link_libraries(supertux2 PUBLIC LibOpenGL)
+  target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW::GLEW)
 endif()
 
 if(ENABLE_DISCORD)
