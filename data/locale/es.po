@@ -13,8 +13,8 @@
 # Javier Beaumont <demonight@users.sourceforge.net>, 2004
 # Jorge <jorgesumle@freakspot.net>, 2024
 # José Fryxell, 2022
-# Juan Jaramillo <juanda097@protonmail.ch>, 2016
-# Juan Jaramillo <juanda097@protonmail.ch>, 2019
+# JUAN DAVID JARAMILLO ORTIZ <juanda097@protonmail.ch>, 2016
+# JUAN DAVID JARAMILLO ORTIZ <juanda097@protonmail.ch>, 2019
 # Juan José Trujillo <juanjosetrujillo@gmx.de>, 2018
 # Kory Giles <korygiles65@gmail.com>, 2020
 # Martin, 2022
