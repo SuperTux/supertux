@@ -85,6 +85,7 @@ jobs:
             libcurl4-openssl-dev \
             libglm-dev \
             libfmt-dev \
+            libphysfs-dev \
             zlib1g-dev \
             lcov \
             doxygen
@@ -134,6 +135,7 @@ jobs:
             libcurl4-openssl-dev:i386 \
             zlib1g-dev:i386 \
             libfmt-dev:i386 \
+            libphysfs-dev:i386 \
             libglm-dev
 
           # Nethier GLEW nor glbinding exist in 32-bit for Ubuntu 20.04, so snatch the debs from 16.04 instead
