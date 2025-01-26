@@ -194,7 +194,7 @@ EditorMenu::menu_action(MenuItem& item)
     case MNID_SHARE:
     {
       Dialog::show_confirmation(_("We encourage you to share your levels in the SuperTux forum.\nTo find your level, click the\n\"Open Level directory\" menu item.\nDo you want to go to the forum now?"), [] {
-        FileSystem::open_url("https://groups.f-hub.org/g/8AKEaTgZ");
+        FileSystem::open_url("https://groups.f-hub.org/supertux");
       });
     }
     break;
