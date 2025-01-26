@@ -78,9 +78,6 @@ jobs:
             libsdl2-dev \
             libsdl2-image-dev \
             libsdl2-ttf-dev \
-            #libfreetype6-dev \
-            #libharfbuzz-dev \
-            #libfribidi-dev \
             libglib2.0-dev \
             libraqm-dev \
             libglew-dev \
@@ -88,7 +85,7 @@ jobs:
             libcurl4-openssl-dev \
             libglm-dev \
             zlib1g-dev \
-            #lcov \
+            lcov \
             doxygen
 
       - name: Install 32-bit dependencies
@@ -134,8 +131,6 @@ jobs:
             libsdl2-ttf-dev:i386 \
             libfreetype6-dev:i386 \
             libcurl4-openssl-dev:i386 \
-            #libharfbuzz-dev:i386 \
-            #libfribidi-dev:i386 \
             libglm-dev \
             zlib1g-dev
 
