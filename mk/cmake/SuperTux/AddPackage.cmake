@@ -63,7 +63,9 @@ function(add_package)
     find_package(${addpackage_args_PKG} ${addpackage_fp_args})
   endif()
 
-  if(${addpackage_args_PKG}_FOUND AND NOT addpackage_args_PREFER_PKGCONFIG)
+  if(${addpackage_args_PKG}_FOUND AND
+     NOT addpackage_args_PREFER_PKGCONFIG AND
+     TARGET ${PKG_USE})
     get_target_property(addpackage_pkg_alias_check ${addpackage_args_PKG_USE} ALIASED_TARGET)
     if(addpackage_pkg_alias_check STREQUAL "addpackage_pkg_alias_check-NOTFOUND")
       add_library(${addpackage_args_TARGET} ALIAS ${addpackage_args_PKG_USE})
