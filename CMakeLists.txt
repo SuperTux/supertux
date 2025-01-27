@@ -127,6 +127,13 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
 endif()
 
+# Fedora Linux stores the glm CMake config files in /usr/share/cmake/glm/.
+# If you wanna know how this hack works, read this:
+# https://cmake.org/cmake/help/v3.31/command/find_package.html#config-mode-search-procedure
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+  list(APPEND CMAKE_PREFIX_PATH "/usr")
+endif()
+
 ## Add lots of dependencies to compiler switches
 include(SuperTux/AddPackage)
 
@@ -149,8 +156,6 @@ add_package(TARGET Vorbis
   PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_CONFIG vorbis)
 add_package(TARGET VorbisFile
   PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
-add_package(TARGET glm
-  PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
 add_package(TARGET fmt
   PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
 add_package(TARGET PhysFS
@@ -158,7 +163,8 @@ add_package(TARGET PhysFS
   PREFER_PKGCONFIG)
 add_package(TARGET ZLIB
   PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
-# add_package(TARGET Iconv PKG Iconv PKG_USE Iconv::Iconv PKG_CONFIG libiconv) # probably wrong
+add_package(TARGET glm
+  PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
 
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
 add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)

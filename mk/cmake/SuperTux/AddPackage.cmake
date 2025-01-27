@@ -63,9 +63,8 @@ function(add_package)
     find_package(${addpackage_args_PKG} ${addpackage_fp_args})
   endif()
 
-  if(${addpackage_args_PKG}_FOUND AND
-     NOT addpackage_args_PREFER_PKGCONFIG AND
-     TARGET ${PKG_USE})
+  if((${addpackage_args_PKG}_FOUND OR TARGET ${addpackage_args_PKG_USE})
+     AND NOT addpackage_args_PREFER_PKGCONFIG)
     get_target_property(addpackage_pkg_alias_check ${addpackage_args_PKG_USE} ALIASED_TARGET)
     if(addpackage_pkg_alias_check STREQUAL "addpackage_pkg_alias_check-NOTFOUND")
       add_library(${addpackage_args_TARGET} ALIAS ${addpackage_args_PKG_USE})
@@ -74,15 +73,20 @@ function(add_package)
       # "unalias" it, aka just export the "alias" as the new target, so a re-alias, really...
       get_target_property(${addpackage_args_TARGET} ${addpackage_args_PKG_USE} ALIASED_TARGET)
     endif()
+
+    message(STATUS "Package \"${addpackage_args_PKG}\" was found successfuly!")
   else()
     if(NOT addpackage_args_PREFER_PKGCONFIG)
       message(DEBUG "CMake Package \"${addpackage_args_PKG}\" doesn't exist, so falling back to PkgConfig")
     endif()
 
     if(PkgConfig_FOUND)
+      set(addpackage_args_pkg_config_args)
       if(addpackage_args_REQUIRED)
-        list(APPEND addpackage_args_pkg_config_args REQUIRED IMPORTED_TARGET GLOBAL)
+        list(APPEND addpackage_args_pkg_config_args REQUIRED)
       endif()
+
+      list(APPEND addpackage_args_pkg_config_args IMPORTED_TARGET GLOBAL)
 
       pkg_search_module(${addpackage_args_TARGET} ${addpackage_args_pkg_config_args} ${addpackage_args_PKG_CONFIG})
 
