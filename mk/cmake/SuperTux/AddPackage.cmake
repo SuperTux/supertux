@@ -63,8 +63,10 @@ function(add_package)
     find_package(${addpackage_args_PKG} ${addpackage_fp_args})
   endif()
 
-  if((${addpackage_args_PKG}_FOUND OR TARGET ${addpackage_args_PKG_USE})
-     AND NOT addpackage_args_PREFER_PKGCONFIG)
+  # PKG_FOUND is not as reliable as I thought it would be.
+  # It sometimes marks true without adding the proposed target and other times
+  # marks false even when adding the propsed target!
+  if((TARGET ${addpackage_args_PKG_USE}) AND NOT addpackage_args_PREFER_PKGCONFIG)
     get_target_property(addpackage_pkg_alias_check ${addpackage_args_PKG_USE} ALIASED_TARGET)
     if(addpackage_pkg_alias_check STREQUAL "addpackage_pkg_alias_check-NOTFOUND")
       add_library(${addpackage_args_TARGET} ALIAS ${addpackage_args_PKG_USE})
