@@ -167,10 +167,10 @@ add_package(TARGET ZLIB
 add_package(TARGET glm
   PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
 
+add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
 add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
 add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
-add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
 add_subdirectory(external/partio_zip EXCLUDE_FROM_ALL)
 # Workaround tinygettext wanting Iconv
 SET(HAVE_SDL TRUE CACHE BOOL "Use SDL_iconv instead of system iconv")
