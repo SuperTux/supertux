@@ -228,6 +228,7 @@ endif()
 
 ## Add target for supertux binary
 add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+target_compile_features(supertux2 PUBLIC cxx_std_17)
 
 if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
   target_compile_definitions(supertux2 PUBLIC SUPERTUX_RELEASE)
