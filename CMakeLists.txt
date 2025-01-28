@@ -32,6 +32,7 @@
 #
 
 cmake_minimum_required(VERSION 3.19)
+cmake_policy(SET CMP0128 OLD)
 
 ## Project name to use as command prefix.
 
@@ -45,6 +46,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Stop CMake from whining about 3.5 or future versions that other FindXXXXX.cmake files (seen from vcpkg) use
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 
+set_target_properties
 if(${PLATFORM} MATCHES "arm64")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_ARM64_ /DMY_CPU_LE")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_ARM64_ /DMY_CPU_LE")
