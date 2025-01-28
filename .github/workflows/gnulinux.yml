@@ -157,7 +157,7 @@ jobs:
       - name: Configure build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-          ARCH: ${{ matrix.arch == 32 && '-DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32' || '' }}
+          ARCH: ${{ matrix.arch == 32 && '-m32' || '' }}
           MAKE_DOCS: ${{ matrix.documentation }}
           GLBINDING: ${{ matrix.glbinding }}
           TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
@@ -166,10 +166,14 @@ jobs:
           $CXX --version
           mkdir "build"
           cd "build"
+
+          # FIXME I'm not sure what's going on but for some reason we need to
+          # add the CXX_STANDARD flags manually
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH \
                    -DWARNINGS=ON -DWERROR=ON \
                    -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr   \
-                   -DBUILD_DOCUMENTATION=$MAKE_DOCS -DENABLE_DISCORD=ON
+                   -DBUILD_DOCUMENTATION=$MAKE_DOCS -DENABLE_DISCORD=ON \
+                   -DCMAKE_CXX_FLAGS="$ARCH -std=c++17" -DCMAKE_C_FLAGS="$ARCH"
 
       - name: Build and install
         working-directory: build
