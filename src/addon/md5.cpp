@@ -164,8 +164,6 @@ std::string MD5::hex_digest() {
     snprintf(so, sizeof(so), "%02x", digest[i]);
   }
 
-  s[32]='\0';
-
   // Create string from 's'
   std::string s_str = std::string(s);
   delete[] s;
