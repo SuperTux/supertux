@@ -161,7 +161,7 @@ std::string MD5::hex_digest() {
   for (i=0; i<16; i++)
   {
     char* so = s + i * 2;
-    snprintf(so, sizeof(so), "%02x", digest[i]);
+    snprintf(so, 3, "%02x", digest[i]);
   }
 
   // Create string from 's'
