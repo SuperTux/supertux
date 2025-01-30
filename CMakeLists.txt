@@ -31,8 +31,7 @@
 #   make
 #
 
-cmake_minimum_required(VERSION 3.9)
-cmake_policy(SET CMP0128 OLD)
+cmake_minimum_required(VERSION 3.19)
 
 ## Project name to use as command prefix.
 
