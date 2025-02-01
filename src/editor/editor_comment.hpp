@@ -19,7 +19,7 @@ public:
   };
 
 public:
-  EditorComment(const ReaderMapping& reader);
+  explicit EditorComment(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override { MovingObject::update(dt_sec); }
