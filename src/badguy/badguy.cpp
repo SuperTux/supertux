@@ -42,6 +42,7 @@
 static const float SQUISH_TIME = 2;
 static const float GEAR_TIME = 2;
 static const float BURN_TIME = 1;
+static const float FADEOUT_TIME = 0.2f;
 
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
@@ -77,7 +78,8 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_is_active_flag(),
   m_state_timer(),
   m_on_ground_flag(false),
-  m_colgroup_active(COLGROUP_MOVING)
+  m_colgroup_active(COLGROUP_MOVING),
+  m_alpha_before_fadeout(1.0f)
 {
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
@@ -315,12 +317,22 @@ BadGuy::update(float dt_sec)
     case STATE_SQUISHED:
       m_is_active_flag = false;
       if (m_state_timer.check()) {
-        remove_me();
+        if (m_sprite->get_alpha() > 0.0f) {
+          m_alpha_before_fadeout = m_sprite->get_alpha();
+          set_state(STATE_SQUISHED_FADING_OUT);
+        }
+        else
+          remove_me();
         break;
       }
       m_col.set_movement(m_physic.get_movement(dt_sec));
       break;
-
+    case STATE_SQUISHED_FADING_OUT:
+      if (m_state_timer.check())
+        remove_me();
+      else
+        m_sprite->set_alpha(m_alpha_before_fadeout - (m_alpha_before_fadeout * m_state_timer.get_progress()));
+      break;
     case STATE_MELTING: {
       m_is_active_flag = false;
       m_col.set_movement(m_physic.get_movement(dt_sec));
@@ -759,6 +771,9 @@ BadGuy::set_state(State state_)
       break;
     case STATE_SQUISHED:
       m_state_timer.start(SQUISH_TIME);
+      break;
+    case STATE_SQUISHED_FADING_OUT:
+      m_state_timer.start(FADEOUT_TIME * m_sprite->get_alpha());
       break;
     case STATE_GEAR:
       m_state_timer.start(GEAR_TIME);
