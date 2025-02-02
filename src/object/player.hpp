@@ -568,7 +568,8 @@ public:
 
 private:
   Timer m_skidding_timer;
-  Timer m_safe_timer;
+  Timer m_post_damage_safety_timer;
+  Timer m_temp_safety_timer;
 
   /**
    * @scripting

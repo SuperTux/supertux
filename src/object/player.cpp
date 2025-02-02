@@ -209,7 +209,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_does_buttjump(false),
   m_invincible_timer(),
   m_skidding_timer(),
-  m_safe_timer(),
+  m_post_damage_safety_timer(),
+  m_temp_safety_timer(),
   m_is_intentionally_safe(false),
   m_kick_timer(),
   m_buttjump_timer(),
@@ -2256,7 +2257,7 @@ Player::draw(DrawingContext& context)
   Vector draw_pos = get_pos() + context.get_time_offset() * m_physic.get_velocity();
 
   /* Draw Tux */
-  if (!m_visible || (m_safe_timer.started() && !m_is_intentionally_safe && size_t(g_game_time * 40) % 2))
+  if (!m_visible || (m_post_damage_safety_timer.started() && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
@@ -2387,7 +2388,7 @@ Player::collision(MovingObject& other, const CollisionHit& hit)
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy != nullptr) {
-    if (m_is_intentionally_safe || m_safe_timer.started() || m_invincible_timer.started())
+    if (m_is_intentionally_safe || m_post_damage_safety_timer.started() || m_temp_safety_timer.started() || m_invincible_timer.started())
       return FORCE_MOVE;
     if (m_stone)
       return ABORT_MOVE;
@@ -2423,8 +2424,7 @@ Player::make_invincible()
 void
 Player::make_temporarily_safe(float safe_time)
 {
-  m_safe_timer.start(safe_time);
-  m_is_intentionally_safe = true;
+  m_temp_safety_timer.start(safe_time);
 }
 
 void
@@ -2433,7 +2433,7 @@ Player::kill(bool completely)
   if (m_dying || m_deactivated || is_winning() )
     return;
 
-  if (!completely && (m_is_intentionally_safe || m_safe_timer.started() || m_invincible_timer.started()))
+  if (!completely && (m_is_intentionally_safe || m_post_damage_safety_timer.started() || m_temp_safety_timer.started() || m_invincible_timer.started()))
     return;
 
   m_growing = false;
@@ -2451,14 +2451,12 @@ Player::kill(bool completely)
 
     if (get_bonus() > BONUS_GROWUP)
     {
-      m_safe_timer.start(TUX_SAFE_TIME);
-      m_is_intentionally_safe = false;
+      m_post_damage_safety_timer.start(TUX_SAFE_TIME);
       set_bonus(BONUS_GROWUP, true);
     }
     else if (get_bonus() == BONUS_GROWUP)
     {
-      m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-      m_is_intentionally_safe = false;
+      m_post_damage_safety_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_duck = false;
       m_crawl = false;
       stop_backflipping();
@@ -2477,7 +2475,8 @@ Player::kill(bool completely)
 
     m_physic.enable_gravity(true);
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
-    m_safe_timer.stop();
+    m_post_damage_safety_timer.stop();
+    m_temp_safety_timer.stop();
     m_invincible_timer.stop();
     m_physic.set_acceleration(0, 0);
     m_physic.set_velocity(0, -700);
@@ -2571,7 +2570,7 @@ Player::check_bounds()
   /* fallen out of the level? */
   if ((get_pos().y > Sector::get().get_height())
       && !m_ghost_mode
-      && !(m_is_intentionally_safe && m_safe_timer.started())) {
+      && !m_temp_safety_timer.started()) {
     kill(true);
     return;
   }
@@ -2983,7 +2982,8 @@ Player::multiplayer_prepare_spawn()
 {
   m_physic.enable_gravity(true);
   m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
-  m_safe_timer.stop();
+  m_post_damage_safety_timer.stop();
+  m_temp_safety_timer.stop();
   m_invincible_timer.stop();
   m_physic.set_acceleration(0, -9999);
   m_physic.set_velocity(0, -9999);
