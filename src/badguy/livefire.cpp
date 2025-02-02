@@ -149,12 +149,20 @@ LiveFireAsleep::LiveFireAsleep(const ReaderMapping& reader) :
 }
 
 void
+LiveFireAsleep::after_editor_set()
+{
+  set_action("sleeping", m_dir);
+}
+
+void
 LiveFireAsleep::draw(DrawingContext& context)
 {
-  if (Editor::is_active()) {
-    set_action("sleeping", m_dir);
+  if (Editor::is_active())
+  {
     BadGuy::draw(context);
-  } else {
+  }
+  else
+  {
     LiveFire::draw(context);
   }
 }
@@ -175,12 +183,20 @@ LiveFireDormant::LiveFireDormant(const ReaderMapping& reader) :
 }
 
 void
+LiveFireDormant::after_editor_set()
+{
+  set_action("sleeping", m_dir);
+}
+
+void
 LiveFireDormant::draw(DrawingContext& context)
 {
-  if (Editor::is_active()) {
-    set_action("sleeping", m_dir);
+  if (Editor::is_active())
+  {
     BadGuy::draw(context);
-  } else {
+  }
+  else
+  {
     LiveFire::draw(context);
   }
 }

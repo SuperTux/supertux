@@ -622,7 +622,9 @@ GameSession::update(float dt_sec, const Controller& controller)
 
       for (Player* player : m_currentsector->get_players())
       {
-        if (player->get_controller().pressed(Control::ITEM) && m_savegame.get_player_status().m_item_pockets.size() > 0)
+        if (player->is_active() && player->is_scripting_activated() &&
+            player->get_controller().pressed(Control::ITEM) &&
+            m_savegame.get_player_status().m_item_pockets.size() > 0)
         {
           player->get_status().give_item_from_pocket(player);
         }
