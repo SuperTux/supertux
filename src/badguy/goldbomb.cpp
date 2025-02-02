@@ -159,7 +159,7 @@ GoldBomb::active_update(float dt_sec)
         vecdist.x <= 0 ? eye.p1() : Vector(eye.get_right(), eye.get_top()),
         obj->get_bbox().get_middle(),
         false,
-        obj
+        { obj->get_collision_object() }
       )) break;
 
       // Hop before fleeing.

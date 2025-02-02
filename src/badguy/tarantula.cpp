@@ -222,7 +222,7 @@ Tarantula::try_drop()
   RaycastResult result = Sector::get().get_first_line_intersection(eye,
                                                                    Vector(eye.x, eye.y + DROP_DETECT_RANGE),
                                                                    true,
-                                                                   nullptr);
+                                                                   {});
 
   if (!result.is_valid)
   {

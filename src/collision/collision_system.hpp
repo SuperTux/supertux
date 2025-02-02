@@ -63,9 +63,9 @@ public:
   }
 
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
-  bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype = Tile::SOLID) const;
-  bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
-  bool is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
+  bool is_free_of_statics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore, const bool ignoreUnisolid, uint32_t tiletype = Tile::SOLID) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore) const;
+  bool is_free_of_specifically_movingstatics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore) const;
 
   enum RaycastIgnore {
     IGNORE_NONE,
@@ -76,8 +76,8 @@ public:
   RaycastResult get_first_line_intersection(const Vector& line_start,
                                             const Vector& line_end,
                                             RaycastIgnore ignore = IGNORE_NONE,
-                                            const CollisionObject* ignore_object = nullptr) const;
-  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const;
+                                            const std::vector<const CollisionObject*>& objects_to_ignore = {}) const;
+  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const std::vector<const CollisionObject*>& objects_to_ignore) const;
 
   std::vector<CollisionObject*> get_nearby_objects(const Vector& center, float max_distance) const;
 

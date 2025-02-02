@@ -381,7 +381,7 @@ Granito::try_wave()
   if (std::abs(xdist) > 32.f*4.f)
     return false;
 
-  RaycastResult result = Sector::get().get_first_line_intersection(mid, plrmid, false, get_collision_object());
+  RaycastResult result = Sector::get().get_first_line_intersection(mid, plrmid, false, { get_collision_object() });
 
   CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
   if (resultobj && *resultobj == player->get_collision_object())
@@ -516,7 +516,7 @@ Granito::try_jump()
   RaycastResult result = Sector::get().get_first_line_intersection({eye, get_bbox().get_middle().y},
                                                                    {eye + inc, get_bbox().get_middle().y},
                                                                    false,
-                                                                   get_collision_object());
+                                                                   { get_collision_object() });
 
   if (!result.is_valid) return false;
 
