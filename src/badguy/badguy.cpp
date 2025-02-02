@@ -850,6 +850,14 @@ BadGuy::might_fall(int height)
   float oy = get_bbox().get_bottom() + 1.f;
 
   float fh = static_cast<float>(height);
+  std::vector<const CollisionObject*> ignore_objects = {};
+
+  for(const auto& player : Sector::current()->get_players())
+  {
+    ignore_objects.push_back(player->get_collision_object());
+  }
+
+  ignore_objects.push_back(&m_col);
 
   if (m_detected_slope == 0)
   {
@@ -858,7 +866,7 @@ BadGuy::might_fall(int height)
 
     Vector end(eye.x, eye.y + fh + 2.f);
 
-    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, { &m_col });
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, ignore_objects);
 
     if (!result.is_valid)
     {
