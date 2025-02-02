@@ -1816,7 +1816,7 @@ Player::try_grab()
     for (auto& moving_object : Sector::get().get_objects_by_type<MovingObject>())
     {
       Portable* portable = dynamic_cast<Portable*>(&moving_object);
-      if (portable && portable->is_portable())
+      if (portable && portable->is_portable() && !portable->is_grabbed())
       {
         // make sure the Portable isn't currently non-solid
         if (moving_object.get_group() == COLGROUP_DISABLED) continue;
