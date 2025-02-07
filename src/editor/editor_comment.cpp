@@ -1,3 +1,19 @@
+//  SuperTux
+//  Copyright (C) 2025 MatusGuy <matusguy@supertux.org>
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include "editor_comment.hpp"
 
 #include "editor/editor.hpp"
@@ -13,8 +29,6 @@ EditorComment::EditorComment(const ReaderMapping& reader):
   parse_type(reader);
 
   float w,h;
-  reader.get("x", m_col.m_bbox.get_left(), 0.f);
-  reader.get("y", m_col.m_bbox.get_top(), 0.f);
   reader.get("width", w, 32.f * 3);
   reader.get("height", h, 32.f * 3);
   m_col.m_bbox.set_size(w, h);
@@ -88,14 +102,11 @@ EditorComment::get_settings()
 void
 EditorComment::refresh_comment()
 {
-  for (auto& line : m_lines)
-    line.reset();
-
   m_lines = InfoBoxLine::split(m_comment, get_width(), true);
 }
 
 Color
-EditorComment::get_color()
+EditorComment::get_color() const
 {
   switch (m_type)
   {

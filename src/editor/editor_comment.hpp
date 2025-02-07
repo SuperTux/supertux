@@ -1,5 +1,21 @@
-#ifndef EDITOR_COMMENT_HPP
-#define EDITOR_COMMENT_HPP
+//  SuperTux
+//  Copyright (C) 2025 MatusGuy <matusguy@supertux.org>
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef HEADER_SUPERTUX_EDITOR_EDITOR_COMMENT_HPP
+#define HEADER_SUPERTUX_EDITOR_EDITOR_COMMENT_HPP
 
 #include "supertux/moving_object.hpp"
 #include "video/layer.hpp"
@@ -22,7 +38,6 @@ public:
   explicit EditorComment(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
-  virtual void update(float dt_sec) override { MovingObject::update(dt_sec); }
   virtual HitResponse collision(MovingObject&, const CollisionHit&) override { return ABORT_MOVE; }
   virtual void check_state() override;
 
@@ -40,11 +55,15 @@ public:
 
 private:
   void refresh_comment();
-  Color get_color();
+  Color get_color() const;
 
 private:
   std::string m_comment;
   std::vector<std::unique_ptr<InfoBoxLine>> m_lines;
+
+private:
+  EditorComment(const EditorComment&) = delete;
+  EditorComment& operator=(const EditorComment&) = delete;
 };
 
-#endif // EDITOR_COMMENT_HPP
+#endif // HEADER_SUPERTUX_EDITOR_EDITOR_COMMENT_HPP
