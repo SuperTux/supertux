@@ -35,7 +35,7 @@ public:
   };
 
 public:
-  explicit EditorComment(const ReaderMapping& reader);
+  EditorComment(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
   virtual HitResponse collision(MovingObject&, const CollisionHit&) override { return ABORT_MOVE; }
