@@ -156,7 +156,7 @@ InfoBoxLine::split(const std::string& text, float width, bool small)
 }
 
 Vector
-InfoBoxLine::calc_text_pos(const Rectf& bbox, float textwidth, LineAlignment alignment)
+InfoBoxLine::calc_text_pos(const Rectf& bbox, float textwidth, LineAlignment alignment) const
 {
   float x = 0.f;
   switch (alignment)

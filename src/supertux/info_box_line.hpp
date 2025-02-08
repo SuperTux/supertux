@@ -62,8 +62,7 @@ public:
   }
 
 private:
-  Vector calc_text_pos(const Rectf& bbox, float textwidth, LineAlignment alignment);
-
+  Vector calc_text_pos(const Rectf& bbox, float textwidth, LineAlignment alignment) const;
 private:
   InfoBoxLine::LineType lineType;
   FontPtr font;
