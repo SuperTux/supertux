@@ -34,7 +34,7 @@ jobs:
       - name: Update translations
         env:
           TX_TOKEN: ${{ secrets.TRANSIFEX_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           # Installs transifex client:
           curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
