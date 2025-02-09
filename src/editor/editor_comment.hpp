@@ -38,6 +38,7 @@ public:
   EditorComment(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
+  virtual void update(float dt_sec) override { MovingObject::update(dt_sec); }
   virtual HitResponse collision(MovingObject&, const CollisionHit&) override { return ABORT_MOVE; }
   virtual void check_state() override;
 
