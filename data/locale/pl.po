@@ -7,6 +7,7 @@
 # Arkadiusz Chojnicki <bunx12@gmail.com>, 2018-2019
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # Grzegorz Przybylski <zwatotem@gmail.com>, 2024
+# Grzegorz Szymaszek, 2025
 # Krzysztof Szeląg, 2016,2018
 # Krzysztof Szeląg, 2016,2018-2019
 # Krzysztof Szeląg, 2019
@@ -30,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Grzegorz Przybylski <zwatotem@gmail.com>, 2024\n"
+"Last-Translator: Grzegorz Szymaszek, 2025\n"
 "Language-Team: Polish (http://app.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -173,7 +174,7 @@ msgstr "Dynamiczne cząsteczki"
 
 #: src/object/wind.cpp:88
 msgid "Particles Enabled"
-msgstr ""
+msgstr "Cząsteczki włączone"
 
 #: src/object/lit_object.hpp:46
 msgid "Lit object"
@@ -716,7 +717,7 @@ msgstr "W ruchu"
 #: src/object/coin.cpp:335 src/object/platform.cpp:84
 #: src/badguy/willowisp.cpp:315
 msgid "Handle"
-msgstr ""
+msgstr "Uchwyt"
 
 #: src/object/tilemap.cpp:321 src/supertux/menu/editor_tilegroup_menu.cpp:26
 #: src/editor/toolbox_widget.cpp:74
@@ -875,7 +876,7 @@ msgstr "Niestandardowe cząsteczki"
 
 #: src/object/bigsnowball.hpp:39
 msgid "Big Snowball"
-msgstr ""
+msgstr "Duża kula śnieżna"
 
 #: src/object/powerup.cpp:61
 msgid "Egg"
@@ -985,15 +986,15 @@ msgstr "Tablica informacyjna"
 
 #: src/object/cloud_particle_system.cpp:94
 msgid "Fog Opacity"
-msgstr ""
+msgstr "Nieprzezroczystość mgły"
 
 #: src/object/cloud_particle_system.cpp:95
 msgid "X Speed"
-msgstr ""
+msgstr "Szybkość X"
 
 #: src/object/cloud_particle_system.cpp:96
 msgid "Y Speed"
-msgstr ""
+msgstr "Szybkość Y"
 
 #: src/object/lit_object.cpp:70
 msgid "Light sprite"
@@ -1587,7 +1588,7 @@ msgstr "Nieznany obiekt"
 
 #: src/supertux/levelintro.cpp:137
 msgid "contributed by {}"
-msgstr ""
+msgstr "autorstwa {}"
 
 #: src/supertux/levelintro.cpp:175 src/supertux/statistics.cpp:192
 msgid "Best Level Statistics"
@@ -1833,7 +1834,7 @@ msgstr "SUPERTUX2_DATA_DIR                    Ścieżka dla danych gry"
 
 #: src/supertux/main.cpp:802
 msgid "New release: SuperTux v{}!"
-msgstr ""
+msgstr "Nowe wydanie: SuperTux v{}!"
 
 #: src/supertux/main.cpp:805
 msgid ""
@@ -1841,11 +1842,11 @@ msgid ""
 "For more information, you can visit the SuperTux website.\n"
 "\n"
 "Do you want to visit the website now?"
-msgstr ""
+msgstr "Nowe wydanie SuperTux (v{}) jest dostępne!\nWięcej informacji znajdziesz na stronie internetowej SuperTux.\n\nCzy chcesz odwiedzić tę stronę teraz?"
 
 #: src/supertux/main.cpp:816
 msgid "Checking for new releases..."
-msgstr ""
+msgstr "Sprawdzanie nowych wydań…"
 
 #: src/supertux/game_object.cpp:110
 msgid "Version"
@@ -2047,7 +2048,7 @@ msgstr "Nie udało się załadować wszystkich dostępnych podglądów zrzutów 
 
 #: src/supertux/menu/addon_preview_menu.cpp:160
 msgid "To fetch add-on screenshots, you must enable networking."
-msgstr ""
+msgstr "Aby pobrać zrzuty ekranu dodatków, musisz włączyć sieć."
 
 #: src/supertux/menu/addon_preview_menu.cpp:164
 msgid "Show screenshots"
@@ -2681,99 +2682,99 @@ msgstr "Zachęcamy Cię do udostępniania swoich poziomów na forum SuperTux.\nA
 
 #: src/supertux/menu/editor_menu.cpp:206
 msgid "Keyboard Shortcuts:"
-msgstr ""
+msgstr "Skróty klawiszowe:"
 
 #: src/supertux/menu/editor_menu.cpp:208
 msgid "Esc = Open Menu"
-msgstr ""
+msgstr "Esc = Otwórz menu"
 
 #: src/supertux/menu/editor_menu.cpp:209
 msgid "Ctrl+S = Save"
-msgstr ""
+msgstr "Ctrl+S = Zapisz"
 
 #: src/supertux/menu/editor_menu.cpp:210
 msgid "Ctrl+T = Test"
-msgstr ""
+msgstr "Ctrl+T = Testuj"
 
 #: src/supertux/menu/editor_menu.cpp:211 src/supertux/menu/editor_menu.cpp:232
 msgid "Ctrl+Z = Undo"
-msgstr ""
+msgstr "Ctrl+Z = Cofnij"
 
 #: src/supertux/menu/editor_menu.cpp:212 src/supertux/menu/editor_menu.cpp:233
 msgid "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Ctrl+Y = Ponów"
 
 #: src/supertux/menu/editor_menu.cpp:213
 msgid "F5 = Toggle Autotiling"
-msgstr ""
+msgstr "F5 = Przełącz autokaflowanie"
 
 #: src/supertux/menu/editor_menu.cpp:214
 msgid "F6 = Render Light"
-msgstr ""
+msgstr "F6 = Renderuj światło"
 
 #: src/supertux/menu/editor_menu.cpp:215
 msgid "F7 = Grid Snapping"
-msgstr ""
+msgstr "F7 = Przyciąganie do siatki"
 
 #: src/supertux/menu/editor_menu.cpp:216
 msgid "F8 = Show Grid"
-msgstr ""
+msgstr "F8 = Pokaż siatkę"
 
 #: src/supertux/menu/editor_menu.cpp:217
 msgid "Ctrl++ or Ctrl+Scroll Up = Zoom In"
-msgstr ""
+msgstr "Ctrl++ lub Ctrl+przewiń w górę = Powiększ"
 
 #: src/supertux/menu/editor_menu.cpp:218
 msgid "Ctrl+- or Ctrl+Scroll Down = Zoom Out"
-msgstr ""
+msgstr "Ctrl+- lub Ctrl+przewiń w dół = pomniejsz"
 
 #: src/supertux/menu/editor_menu.cpp:219
 msgid "Ctrl+D = Reset Zoom"
-msgstr ""
+msgstr "Ctrl+D = Resetuj powiększenie"
 
 #: src/supertux/menu/editor_menu.cpp:220
 msgid "Scripting Shortcuts:"
-msgstr ""
+msgstr "Skróty skryptowania:"
 
 #: src/supertux/menu/editor_menu.cpp:222
 msgid "Home = Go to beginning of line"
-msgstr ""
+msgstr "Home = Przejdź do początku linii"
 
 #: src/supertux/menu/editor_menu.cpp:223
 msgid "End = Go to end of line"
-msgstr ""
+msgstr "End = Przejdź do końca linii"
 
 #: src/supertux/menu/editor_menu.cpp:224
 msgid "Left arrow = Go back in text"
-msgstr ""
+msgstr "Strzałka w lewo = Idź wstecz w tekście"
 
 #: src/supertux/menu/editor_menu.cpp:225
 msgid "Right arrow = Go forward in text"
-msgstr ""
+msgstr "Strzałka w prawo = Idź naprzód w tekście"
 
 #: src/supertux/menu/editor_menu.cpp:226
 msgid "Backspace = Delete in front of text cursor"
-msgstr ""
+msgstr "Backspace = Kasuj przed kursorem"
 
 #: src/supertux/menu/editor_menu.cpp:227
 msgid "Delete = Delete behind text cursor"
-msgstr ""
+msgstr "Delete = Kasuj za kursorem"
 
 #: src/supertux/menu/editor_menu.cpp:228
 msgid "Ctrl+X = Cut whole line"
-msgstr ""
+msgstr "Ctrl+X = Wytnij całą linię"
 
 #: src/supertux/menu/editor_menu.cpp:229
 msgid "Ctrl+C = Copy whole line"
-msgstr ""
+msgstr "Ctrl+C = Kopiuj całą linię"
 
 #: src/supertux/menu/editor_menu.cpp:230
 msgid "Ctrl+V = Paste"
-msgstr ""
+msgstr "Ctrl+V = Wklej"
 
 #: src/supertux/menu/editor_menu.cpp:231
 msgid "Ctrl+D = Duplicate line"
-msgstr ""
+msgstr "Ctrl+D = Duplikuj linię"
 
 #: src/supertux/menu/editor_menu.cpp:262
 msgid "Deprecated tiles are still present in the level."
@@ -3979,15 +3980,15 @@ msgstr "Zmieszaj kolor"
 
 #: src/gui/menu_color.cpp:40
 msgid "Copy to clipboard (rgb)"
-msgstr ""
+msgstr "Kopiuj do schowka (RGB)"
 
 #: src/gui/menu_color.cpp:41
 msgid "Copy to clipboard (hex)"
-msgstr ""
+msgstr "Kopiuj do schowka (heks.)"
 
 #: src/gui/menu_color.cpp:57 src/gui/menu_color.cpp:60
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Wklej ze schowka"
 
 #: src/gui/menu_string_array.cpp:40 src/gui/menu_string_array.cpp:78
 msgid "Selected item: {}"
@@ -4069,7 +4070,7 @@ msgstr "Sektor: {}"
 
 #: src/editor/layers_widget.cpp:454
 msgid "Add Layer"
-msgstr ""
+msgstr "Dodaj warstwę"
 
 #: src/editor/object_menu.cpp:60
 msgid "Patch Notes"
@@ -4086,11 +4087,11 @@ msgid ""
 "\n"
 "Keep in mind this is very likely to break the proper behaviour of the object.\n"
 "Make sure to re-check any behaviour, related to the object."
-msgstr ""
+msgstr "To zaktualizuje obiekt do jego najnowszej funkcjonalności.\nSprawdź „Informacje do łatki”.\n\nPamiętaj, że to może z wysokim prawdopodobieństwem zepsuć prawidłowe zachowanie obiektu.\nSprawdź ponownie wszelkie związane z obiektem zachowania."
 
 #: src/editor/object_menu.cpp:98
 msgid "Patch notes for v{}:"
-msgstr ""
+msgstr "Informacje do łatki dla v{}:"
 
 #: src/editor/object_settings.cpp:138
 msgid "West"
@@ -4311,7 +4312,7 @@ msgstr "Nie znaleziono \"głównego\" punktu startu.\nZmień nazwę tego punktu 
 msgid ""
 "This object's current functionality is deprecated.\n"
 "Updating to get its latest functionality is recommended."
-msgstr ""
+msgstr "Obecna funkcjonalność obiektu jest wycofana.\nAktualizacja do pobrania jego najnowszej funkcjonalności jest zalecana."
 
 #: src/editor/overlay_widget.cpp:996
 msgid "Cannot select deprecated tiles"
@@ -4627,7 +4628,7 @@ msgstr ""
 
 #: src/badguy/kamikazesnowball.hpp:34
 msgid "Kamikaze Snowball"
-msgstr ""
+msgstr "Kula Śnieżna Kamikaze"
 
 #: src/badguy/kamikazesnowball.hpp:65
 msgid "Leafshot"
@@ -4635,7 +4636,7 @@ msgstr "Wystrzelony liść"
 
 #: src/badguy/walkingleaf.hpp:33
 msgid "Walking Leaf"
-msgstr ""
+msgstr "Chodzący Liść"
 
 #: src/badguy/walking_candle.hpp:41
 msgid "Walking Candle"
@@ -4651,7 +4652,7 @@ msgstr "Duch"
 
 #: src/badguy/smartblock.hpp:30
 msgid "Mrs. Iceblock"
-msgstr ""
+msgstr "Pani Kostka Lodu"
 
 #: src/badguy/bouncing_snowball.hpp:40
 msgid "Bouncing Snowball"
@@ -4659,7 +4660,7 @@ msgstr "Skacząca kula śnieżna"
 
 #: src/badguy/smartball.hpp:32
 msgid "Mrs. Snowball"
-msgstr ""
+msgstr "Pani Kula Śnieżna"
 
 #: src/badguy/stumpy.hpp:38
 msgid "Stumpy"
@@ -4731,11 +4732,11 @@ msgstr "Maksimum jednoczesnych wrogów"
 
 #: src/badguy/dispenser.cpp:437
 msgid "Dropper"
-msgstr ""
+msgstr "Wyrzutnia"
 
 #: src/badguy/dispenser.cpp:438
 msgid "Cannon"
-msgstr ""
+msgstr "Armata"
 
 #: src/badguy/dispenser.cpp:439 src/worldmap/special_tile.cpp:77
 msgid "Invisible"
@@ -4751,7 +4752,7 @@ msgstr "Niegroźna ryba"
 
 #: src/badguy/snowball.hpp:30
 msgid "Mr. Snowball"
-msgstr ""
+msgstr "Pan Kula Śnieżna"
 
 #: src/badguy/yeti_stalactite.hpp:34
 msgid "Yeti's Stalactite"
@@ -4877,7 +4878,7 @@ msgstr ""
 
 #: src/badguy/mriceblock.hpp:49
 msgid "Mr. Iceblock"
-msgstr ""
+msgstr "Pan Kostka Lodu"
 
 #: src/badguy/fish_swimming.cpp:57 data/images/ice_world.strf:255
 #: data/images/tiles.strf:473 data/images/worldmap.strf:67
@@ -4886,11 +4887,11 @@ msgstr "Las"
 
 #: src/badguy/stalactite.cpp:162
 msgid "ice"
-msgstr ""
+msgstr "lód"
 
 #: src/badguy/stalactite.cpp:163
 msgid "rock"
-msgstr ""
+msgstr "skała"
 
 #: src/badguy/totem.hpp:37
 msgid "Totem"
@@ -4986,7 +4987,7 @@ msgstr "Obecny zespół SuperTuxa"
 
 #: data/credits.stxt:30
 msgid "Maintainer, Programming"
-msgstr ""
+msgstr "Opieka, programowanie"
 
 #: data/credits.stxt:35
 msgid "Graphics, Level Design, Story"
@@ -5288,7 +5289,7 @@ msgstr "Lodowa i kryształowa grota"
 
 #: data/images/ice_world.strf:171
 msgid "Snow Embellishments"
-msgstr ""
+msgstr "Upiększenia śniegu"
 
 #: data/images/ice_world.strf:343
 msgid "Underground Forest"
@@ -5296,7 +5297,7 @@ msgstr "Podziemny las"
 
 #: data/images/ice_world.strf:423
 msgid "Trees & Rocks"
-msgstr ""
+msgstr "Drzewa i skały"
 
 #: data/images/ice_world.strf:500
 msgid "Seasonal"
@@ -5396,11 +5397,11 @@ msgstr ""
 
 #: data/images/converters/data.stcd:8
 msgid "Pre-0.6.3 Crystal Tiles"
-msgstr ""
+msgstr "Kryształowe kafle sprzed 0.6.3"
 
 #: data/images/converters/data.stcd:10
 msgid "For levels, created in pre-0.6.3 versions, which use crystal tiles."
-msgstr ""
+msgstr "Dla poziomów utworzonych w wersjach przed 0.6.3, które używają kryształowych kafli."
 
 #: data/images/converters/data.stcd:13
 msgid "Jagged Rock Tiles from Addon"

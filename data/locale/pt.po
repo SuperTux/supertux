@@ -30,7 +30,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Vankata 453, 2025\n"
+"Last-Translator: lecalam, 2024-2025\n"
 "Language-Team: Portuguese (http://app.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2680,99 +2680,99 @@ msgstr "Encorajamos-te a partilhar os teus níveis no fórum do SuperTux.\nPara 
 
 #: src/supertux/menu/editor_menu.cpp:206
 msgid "Keyboard Shortcuts:"
-msgstr ""
+msgstr "Atalhos de teclado:"
 
 #: src/supertux/menu/editor_menu.cpp:208
 msgid "Esc = Open Menu"
-msgstr ""
+msgstr "Esc = Abrir o menu"
 
 #: src/supertux/menu/editor_menu.cpp:209
 msgid "Ctrl+S = Save"
-msgstr ""
+msgstr "Ctrl+S = Guardar"
 
 #: src/supertux/menu/editor_menu.cpp:210
 msgid "Ctrl+T = Test"
-msgstr ""
+msgstr "Ctrl+T = Testar"
 
 #: src/supertux/menu/editor_menu.cpp:211 src/supertux/menu/editor_menu.cpp:232
 msgid "Ctrl+Z = Undo"
-msgstr ""
+msgstr "Ctrl+Z = Desfazer"
 
 #: src/supertux/menu/editor_menu.cpp:212 src/supertux/menu/editor_menu.cpp:233
 msgid "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Ctrl+Y = Refazer"
 
 #: src/supertux/menu/editor_menu.cpp:213
 msgid "F5 = Toggle Autotiling"
-msgstr ""
+msgstr "F5 = Alternar peça automática"
 
 #: src/supertux/menu/editor_menu.cpp:214
 msgid "F6 = Render Light"
-msgstr ""
+msgstr "F6 = Renderizar luz"
 
 #: src/supertux/menu/editor_menu.cpp:215
 msgid "F7 = Grid Snapping"
-msgstr ""
+msgstr "F7 = Alinhar na grelha"
 
 #: src/supertux/menu/editor_menu.cpp:216
 msgid "F8 = Show Grid"
-msgstr ""
+msgstr "F8 = Mostrar grelha"
 
 #: src/supertux/menu/editor_menu.cpp:217
 msgid "Ctrl++ or Ctrl+Scroll Up = Zoom In"
-msgstr ""
+msgstr "Ctrl++ or Ctrl+Scroll Up = Ampliar"
 
 #: src/supertux/menu/editor_menu.cpp:218
 msgid "Ctrl+- or Ctrl+Scroll Down = Zoom Out"
-msgstr ""
+msgstr "Ctrl+- or Ctrl+Scroll Down = Diminuir"
 
 #: src/supertux/menu/editor_menu.cpp:219
 msgid "Ctrl+D = Reset Zoom"
-msgstr ""
+msgstr "Ctrl+D = Repor ampliação"
 
 #: src/supertux/menu/editor_menu.cpp:220
 msgid "Scripting Shortcuts:"
-msgstr ""
+msgstr "Atalhos de script:"
 
 #: src/supertux/menu/editor_menu.cpp:222
 msgid "Home = Go to beginning of line"
-msgstr ""
+msgstr "Home = Ir para o início da linha"
 
 #: src/supertux/menu/editor_menu.cpp:223
 msgid "End = Go to end of line"
-msgstr ""
+msgstr "End = Ir para o fim da linha"
 
 #: src/supertux/menu/editor_menu.cpp:224
 msgid "Left arrow = Go back in text"
-msgstr ""
+msgstr "Seta esquerda = Voltar no texto"
 
 #: src/supertux/menu/editor_menu.cpp:225
 msgid "Right arrow = Go forward in text"
-msgstr ""
+msgstr "Seta direita = Avançar no texto"
 
 #: src/supertux/menu/editor_menu.cpp:226
 msgid "Backspace = Delete in front of text cursor"
-msgstr ""
+msgstr "Backspace = Apagar na frente do cursor de texto"
 
 #: src/supertux/menu/editor_menu.cpp:227
 msgid "Delete = Delete behind text cursor"
-msgstr ""
+msgstr "Delete = Apagar atrás do cursor de texto"
 
 #: src/supertux/menu/editor_menu.cpp:228
 msgid "Ctrl+X = Cut whole line"
-msgstr ""
+msgstr "Ctrl+X = Recortar linha inteira"
 
 #: src/supertux/menu/editor_menu.cpp:229
 msgid "Ctrl+C = Copy whole line"
-msgstr ""
+msgstr "Ctrl+C = Copiar linha inteira"
 
 #: src/supertux/menu/editor_menu.cpp:230
 msgid "Ctrl+V = Paste"
-msgstr ""
+msgstr "Ctrl+V = Colar"
 
 #: src/supertux/menu/editor_menu.cpp:231
 msgid "Ctrl+D = Duplicate line"
-msgstr ""
+msgstr "Ctrl+D = Duplicar linha"
 
 #: src/supertux/menu/editor_menu.cpp:262
 msgid "Deprecated tiles are still present in the level."
@@ -2974,7 +2974,7 @@ msgstr "Mostrar IDs de peças na caixa de ferramentas do editor"
 
 #: src/supertux/menu/debug_menu.cpp:77
 msgid "Hide Player HUD"
-msgstr ""
+msgstr "Ocultar HUD do jogador"
 
 #: src/supertux/menu/debug_menu.cpp:79
 msgid "Reload Resources"
