@@ -53,4 +53,4 @@ jobs:
           git config --global user.email "SuperTux-bot@users.noreply.github.com"
           git config --global user.name "SuperTux Bot"
           git commit -am "Update translations" || true
-          git push https://git:$GITHUB_TOKEN@github.com/SuperTux/supertux.git master
+          git push https://git:$GH_TOKEN@github.com/SuperTux/supertux.git master
