@@ -141,7 +141,8 @@ Main::Main() :
   m_game_manager(),
   m_screen_manager(),
   m_savegame(),
-  m_downloader() // Used for getting the version of the latest SuperTux release.
+  m_downloader(), // Used for getting the version of the latest SuperTux release.
+  m_version_info()
 {
 }
 
@@ -774,16 +775,18 @@ Main::release_check()
 
   // Detect a potential new release of SuperTux. If a release, other than
   // the current one is indicated on the given web file, show a notification on the main menu screen.
-  const std::string target_file = "ver_info.nfo";
-  TransferStatusPtr status = m_downloader.request_download("https://raw.githubusercontent.com/SuperTux/addons/master/ver_info.nfo", target_file);
-  status->then([target_file, status](bool success)
+  TransferStatusPtr status = m_downloader.request_string_download(
+    "https://raw.githubusercontent.com/SuperTux/addons/master/ver_info.nfo",
+    m_version_info
+  );
+  status->then([this, status](bool success)
   {
     if (!success)
     {
       log_warning << "Error performing new release check: Failed to download \"supertux-versioninfo\" file: " << status->error_msg << std::endl;
       return;
     }
-    auto doc = ReaderDocument::from_file(target_file);
+    auto doc = ReaderDocument::from_string(m_version_info, "ver_info.nfo");
     auto root = doc.get_root();
     if (root.get_name() != "supertux-versioninfo")
     {
