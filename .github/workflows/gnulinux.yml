@@ -122,7 +122,7 @@ jobs:
             rpm \
             rename \
             sshpass \
-            clang-12
+            clang-12 \
             gcc-10-multilib \
             g++-10-multilib \
             libgtest-dev:i386 \

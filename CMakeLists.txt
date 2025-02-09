@@ -156,8 +156,6 @@ add_package(TARGET Vorbis
   PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_CONFIG vorbis)
 add_package(TARGET VorbisFile
   PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
-add_package(TARGET fmt
-  PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
 add_package(TARGET PhysFS
   PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs
   PREFER_PKGCONFIG)
@@ -166,6 +164,7 @@ add_package(TARGET ZLIB
 add_package(TARGET glm
   PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
 
+add_subdirectory(external/fmt EXCLUDE_FROM_ALL)
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
 add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)

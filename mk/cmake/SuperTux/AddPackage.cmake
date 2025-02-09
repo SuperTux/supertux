@@ -60,7 +60,7 @@ function(add_package)
       string(APPEND addpackage_fp_args "CONFIG")
     endif()
 
-    find_package(${addpackage_args_PKG} ${addpackage_fp_args})
+    find_package(${addpackage_args_PKG} ${addpackage_fp_args} QUIET)
   endif()
 
   # PKG_FOUND is not as reliable as I thought it would be.
@@ -76,7 +76,7 @@ function(add_package)
       get_target_property(${addpackage_args_TARGET} ${addpackage_args_PKG_USE} ALIASED_TARGET)
     endif()
 
-    message(STATUS "Package \"${addpackage_args_PKG}\" was found successfuly!")
+    message(STATUS "Package \"${addpackage_args_PKG}\" was found successfully!")
   else()
     if(NOT addpackage_args_PREFER_PKGCONFIG)
       message(DEBUG "CMake Package \"${addpackage_args_PKG}\" doesn't exist, so falling back to PkgConfig")
@@ -99,6 +99,7 @@ function(add_package)
       endif()
 
       add_library(${addpackage_args_TARGET} ALIAS PkgConfig::${addpackage_args_TARGET})
+      message(STATUS "Package \"${addpackage_args_PKG}\" was found successfully using pkg-config!")
     elseif(addpackage_args_REQUIRED)
       message(FATAL_ERROR "Package \"${addpackage_args_TARGET}\" couldn't be found, but it's required.\nI don't know what to do. Is it installed?")
     endif()
