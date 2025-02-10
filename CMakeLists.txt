@@ -298,7 +298,7 @@ if(HAVE_OPENGL)
 endif()
 
 if(ENABLE_DISCORD)
-  target_link_libraries(supertux2 PUBLIC DiscordRPC)
+  target_link_libraries(supertux2 PUBLIC discord-rpc)
 endif()
 
 ## Install stuff
