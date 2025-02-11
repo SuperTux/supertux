@@ -21,7 +21,7 @@ on:
 
 jobs:
   update-all-templates:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout SuperTux repository
         uses: actions/checkout@v4
