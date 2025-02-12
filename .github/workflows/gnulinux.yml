@@ -126,6 +126,8 @@ jobs:
             libcurl4-openssl-dev:i386 \
             libharfbuzz-dev:i386 \
             libfribidi-dev:i386 \
+            libglu1-mesa-dev:i386 \
+            libglu-dev:i386 \
             libglm-dev \
             zlib1g-dev
 
