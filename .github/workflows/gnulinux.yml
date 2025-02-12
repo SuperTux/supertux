@@ -76,8 +76,8 @@ jobs:
             rpm \
             rename \
             sshpass \
-            clang-6.0 \
-            g++-8 \
+            clang \
+            g++ \
             gcc-multilib \
             g++-multilib \
             libgtest-dev \
