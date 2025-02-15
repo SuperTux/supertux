@@ -68,8 +68,8 @@ jobs:
             rpm \
             rename \
             sshpass \
-            clang-12 \
-            g++-10 \
+            clang \
+            g++ \
             libgtest-dev \
             libc++-dev \
             libogg-dev \
@@ -122,9 +122,9 @@ jobs:
             rpm \
             rename \
             sshpass \
-            clang-12 \
-            gcc-10-multilib \
-            g++-10-multilib \
+            clang \
+            gcc-multilib \
+            g++-multilib \
             libgtest-dev:i386 \
             libogg-dev:i386 \
             libvorbis-dev:i386 \
