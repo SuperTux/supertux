@@ -34,7 +34,7 @@ jobs:
         # TODO Working Linux 32-bit packaging
         # TODO CTest workflow implement
         arch: [32, 64]
-        os: [ubuntu-20.04]
+        os: [ubuntu-latest]
         compiler: [gcc, clang]
         build_type: [Debug, Release]
         include:
