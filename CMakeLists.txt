@@ -164,17 +164,23 @@ add_package(TARGET ZLIB
 add_package(TARGET glm
   PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
 
-add_subdirectory(external/fmt EXCLUDE_FROM_ALL)
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
 add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
-add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
 add_subdirectory(external/partio_zip EXCLUDE_FROM_ALL)
-# Workaround tinygettext wanting Iconv
-SET(HAVE_SDL TRUE CACHE BOOL "Use SDL_iconv instead of system iconv")
-add_subdirectory(external/tinygettext EXCLUDE_FROM_ALL)
 add_subdirectory(external/findlocale EXCLUDE_FROM_ALL)
 add_subdirectory(external/obstack EXCLUDE_FROM_ALL)
+
+set(FMT_PEDANTIC OFF)
+add_subdirectory(external/fmt EXCLUDE_FROM_ALL)
+
+# Workaround tinygettext wanting Iconv
+set(HAVE_SDL YES CACHE BOOL "Use SDL_iconv instead of system iconv")
+add_subdirectory(external/tinygettext EXCLUDE_FROM_ALL)
+
+if(ENABLE_DISCORD)
+  add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
+endif()
 
 option(ENABLE_OPENGL "Enable OpenGL support" ON)
 set(HAVE_OPENGL NO)
@@ -247,16 +253,6 @@ endif()
 
 set_target_properties(supertux2 PROPERTIES OUTPUT_NAME "supertux2")
 set_target_properties(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
-
-#if(WIN32 AND NOT VCPKG_BUILD)
-#if(NOT MINGW)
-  ## Copy dlls on windows
-#  add_custom_command(TARGET supertux2_lib POST_BUILD
-#    COMMAND ${CMAKE_COMMAND} -E copy_directory
-#    "${DEPENDENCY_FOLDER}/dll"
-#    $<TARGET_FILE_DIR:supertux2_lib>)
-#endif()
-#endif()
 
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
