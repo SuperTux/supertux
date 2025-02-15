@@ -38,7 +38,7 @@ jobs:
         compiler: [gcc, clang]
         build_type: [Debug, Release]
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             build_type: Release
             compiler: gcc
             arch: 64
