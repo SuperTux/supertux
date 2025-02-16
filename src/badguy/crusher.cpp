@@ -526,7 +526,7 @@ Crusher::found_victim() const
       {
         if ((player_bbox.get_right() > (get_bbox().get_left() - DROP_ACTIVATION_DISTANCE))
           && (player_bbox.get_left() < (get_bbox().get_right() + DROP_ACTIVATION_DISTANCE))
-          && (Sector::get().is_free_of_statics(crush_area, this, false)) /* and area to player is free of objects */) {
+          && (Sector::get().is_free_of_statics(crush_area, { get_collision_object() }, false)) /* and area to player is free of objects */) {
           return true;
         }
       }
@@ -540,7 +540,7 @@ Crusher::found_victim() const
         if (((player_bbox.get_left()) <= get_bbox().get_left())
           && (player_bbox.get_bottom() + 5 > (get_bbox().get_top() - DROP_ACTIVATION_DISTANCE))
           && (player_bbox.get_top() < (get_bbox().get_bottom() + DROP_ACTIVATION_DISTANCE))
-          && (Sector::get().is_free_of_statics(crush_area, this, false))		/* and area to player is free of objects */) {
+          && (Sector::get().is_free_of_statics(crush_area, { get_collision_object() }, false))		/* and area to player is free of objects */) {
           return true;
         }
       }
@@ -551,7 +551,7 @@ Crusher::found_victim() const
         if (((player_bbox.get_right()) >= get_bbox().get_right())
           && (player_bbox.get_bottom() + 5 > (get_bbox().get_top() - DROP_ACTIVATION_DISTANCE))
           && (player_bbox.get_top() < (get_bbox().get_bottom() + DROP_ACTIVATION_DISTANCE))
-          && (Sector::get().is_free_of_statics(crush_area, this, false))		/* and area to player is free of objects */) {
+          && (Sector::get().is_free_of_statics(crush_area, { get_collision_object() }, false))		/* and area to player is free of objects */) {
           return true;
         }
       }

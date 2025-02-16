@@ -233,7 +233,7 @@ TitleScreen::update_level(float dt_sec)
   const Vector eye(bbox.get_right(), bbox.get_top() + bbox.get_height() / 2);
   const Vector end(eye.x + 46.f, eye.y);
 
-  RaycastResult result = sector.get_first_line_intersection(eye, end, false, player.get_collision_object());
+  RaycastResult result = sector.get_first_line_intersection(eye, end, false, { player.get_collision_object() });
 
   bool shouldjump = result.is_valid;
   if (shouldjump)
