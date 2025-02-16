@@ -21,7 +21,7 @@
 
 #include <algorithm>
 #include <tuple>
-#include <SDL.h>
+#include <SDL_rect.h>
 
 #include "math/size.hpp"
 

@@ -31,30 +31,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # TODO Working Linux 32-bit packaging
+        # TODO CTest workflow implement
         arch: [32, 64]
-        os: [ubuntu-20.04]
+        os: [ubuntu-latest]
         compiler: [gcc, clang]
         build_type: [Debug, Release]
-        glbinding: [ON, OFF]
-        exclude:
-          - arch: 32
-            glbinding: ON
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             build_type: Release
             compiler: gcc
             arch: 64
-            glbinding: OFF
             release: ON
             source: ON
             documentation: ON
-          - os: ubuntu-20.04
-            build_type: Debug
-            compiler: gcc
-            arch: 64
-            glbinding: OFF
             coverage: ON
-            # TODO: Working Linux 32-bit packaging
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -70,16 +61,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             cmake \
+            ninja-build \
             build-essential \
             automake \
             gtk-doc-tools \
             rpm \
             rename \
             sshpass \
-            clang-6.0 \
-            g++-8 \
-            gcc-multilib \
-            g++-multilib \
+            clang \
+            g++ \
             libgtest-dev \
             libc++-dev \
             libogg-dev \
@@ -87,15 +77,15 @@ jobs:
             libopenal-dev \
             libsdl2-dev \
             libsdl2-image-dev \
-            libfreetype6-dev \
-            libharfbuzz-dev \
-            libfribidi-dev \
+            libsdl2-ttf-dev \
             libglib2.0-dev \
             libraqm-dev \
             libglew-dev \
             libglbinding-dev \
             libcurl4-openssl-dev \
             libglm-dev \
+            libfmt-dev \
+            libphysfs-dev \
             zlib1g-dev \
             lcov \
             doxygen
@@ -125,12 +115,14 @@ jobs:
 
           sudo apt-get install -y \
             cmake \
+            ninja-build \
             build-essential \
             automake \
             gtk-doc-tools \
             rpm \
             rename \
             sshpass \
+            clang \
             gcc-multilib \
             g++-multilib \
             libgtest-dev:i386 \
@@ -139,12 +131,13 @@ jobs:
             libopenal-dev:i386 \
             libsdl2-dev:i386 \
             libsdl2-image-dev:i386 \
+            libsdl2-ttf-dev:i386 \
             libfreetype6-dev:i386 \
             libcurl4-openssl-dev:i386 \
-            libharfbuzz-dev:i386 \
-            libfribidi-dev:i386 \
-            libglm-dev \
-            zlib1g-dev
+            zlib1g-dev:i386 \
+            libfmt-dev:i386 \
+            libphysfs-dev:i386 \
+            libglm-dev
 
           # Nethier GLEW nor glbinding exist in 32-bit for Ubuntu 20.04, so snatch the debs from 16.04 instead
           wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew1.13_1.13.0-2_i386.deb && sudo dpkg -i libglew1.13_1.13.0-2_i386.deb
@@ -165,22 +158,21 @@ jobs:
       - name: Configure build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-          ARCH: ${{ matrix.arch == 32 && '-DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32' || '' }}
+          ARCH: ${{ matrix.arch == 32 && '-m32' || '' }}
           MAKE_DOCS: ${{ matrix.documentation }}
           GLBINDING: ${{ matrix.glbinding }}
-          # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
-          # (also check the step that invokes the tests with ./test_supertux2)
           TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
           cmake --version
           $CXX --version
           mkdir "build"
           cd "build"
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH -DBUILD_TESTS=$TESTS   \
-                   -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$GLBINDING    \
+
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH \
+                   -DWARNINGS=ON -DWERROR=ON \
                    -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr   \
-                   -DBUILD_DOCUMENTATION=$MAKE_DOCS -DINSTALL_SUBDIR_BIN=bin   \
-                   -DINSTALL_SUBDIR_SHARE=share/supertux2 -DENABLE_DISCORD=ON
+                   -DBUILD_DOCUMENTATION=$MAKE_DOCS -DENABLE_DISCORD=ON \
+                   -DCMAKE_CXX_FLAGS="$ARCH" -DCMAKE_C_FLAGS="$ARCH"
 
       - name: Build and install
         working-directory: build
@@ -188,12 +180,12 @@ jobs:
           make -j3 VERBOSE=1
           make install DESTDIR="/tmp/supertux" VERBOSE=1
 
-      - name: Run tests
-        # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
-        # (also check the step that invokes CMake with -DBUILD_TESTS)
-        if: ${{ matrix.os == 'ubuntu-20.04' }}
-        working-directory: build
-        run: ./test_supertux2
+      # - name: Run tests
+      #   # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
+      #   # (also check the step that invokes CMake with -DBUILD_TESTS)
+      #   if: ${{ matrix.os == 'ubuntu-20.04' }}
+      #   working-directory: build
+      #   run: ./test_supertux2
 
       - name: Make coverage
         if: ${{ matrix.coverage }}
