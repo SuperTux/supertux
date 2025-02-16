@@ -24,6 +24,7 @@
 #include <sexp/value.hpp>
 
 #include "gui/menu_action.hpp"
+#include "gui/menu_item.hpp"
 #include "object/path_walker.hpp"
 #include "video/color.hpp"
 
@@ -291,7 +292,8 @@ public:
                    std::vector<std::string> filter,
                    const std::string& basedir,
                    bool path_relative_to_basedir,
-                   unsigned int flags);
+                   unsigned int flags,
+                   const std::function<void (MenuItem&, const std::string&, bool)> item_processor = {});
 
   virtual void parse(const ReaderMapping& reader) override;
   virtual void save(Writer& writer) const override;
@@ -303,6 +305,7 @@ private:
   const std::vector<std::string> m_filter;
   std::string m_basedir;
   bool m_path_relative_to_basedir;
+  const std::function<void (MenuItem&, const std::string&, bool)> m_item_processor;
 
 private:
   FileObjectOption(const FileObjectOption&) = delete;
