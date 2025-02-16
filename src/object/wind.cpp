@@ -34,6 +34,7 @@
 
 Wind::Wind(const ReaderMapping& reader) :
   MovingObject(reader),
+  m_layer(LAYER_BACKGROUNDTILES + 1),
   blowing(),
   speed(0.0f, 0.0f),
   acceleration(),
@@ -51,6 +52,8 @@ Wind::Wind(const ReaderMapping& reader) :
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
   m_col.m_bbox.set_size(w, h);
+
+  reader.get("z-pos", m_layer, LAYER_BACKGROUNDTILES + 1);
 
   reader.get("blowing", blowing, true);
 
@@ -77,6 +80,7 @@ Wind::get_settings()
 
   ObjectSettings result = MovingObject::get_settings();
 
+  result.add_int(_("Z-pos"), &m_layer, "z-pos");
   result.add_float(_("Speed X"), &speed.x, "speed-x");
   result.add_float(_("Speed Y"), &speed.y, "speed-y");
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
@@ -110,11 +114,11 @@ Wind::update(float dt_sec_)
     // Emit a particle
 	  if (fancy_wind)
     {
-	    Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1); 
+	    Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer); 
 	  }
 	  else
     {
-	    Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, LAYER_BACKGROUNDTILES + 1);
+	    Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, m_layer);
 	  }
   }
 }
@@ -197,6 +201,8 @@ Wind::register_class(ssq::VM& vm)
 
   cls.addFunc("start", &Wind::start);
   cls.addFunc("stop", &Wind::stop);
+  cls.addFunc("get_layer", &Wind::get_layer);
+  cls.addFunc("set_layer", &Wind::set_layer);
 }
 
 /* EOF */
