@@ -262,6 +262,8 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
 {
   if (m_status != FINAL) return;
 
+  int layer = LAYER_GUI + 50;
+
   int box_w = 220+110+110;
   int box_h = 30+20+20+20;
   int box_x = static_cast<int>((static_cast<int>(context.get_width()) - box_w) / 2);
@@ -288,12 +290,12 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
 
   context.push_transform();
   context.set_alpha(0.5f);
-  context.color().draw_surface(backdrop, Vector(static_cast<float>(bd_x), static_cast<float>(bd_y)), LAYER_HUD);
+  context.color().draw_surface(backdrop, Vector(static_cast<float>(bd_x), static_cast<float>(bd_y)), layer);
   context.pop_transform();
 
-  context.color().draw_text(Resources::normal_font, _("You"), Vector(col2_x, y), ALIGN_LEFT, LAYER_HUD, Statistics::header_color);
+  context.color().draw_text(Resources::normal_font, _("You"), Vector(col2_x, y), ALIGN_LEFT, layer, Statistics::header_color);
   if (best_stats)
-    context.color().draw_text(Resources::normal_font, _("Best"), Vector(col3_x, y), ALIGN_LEFT, LAYER_HUD, Statistics::header_color);
+    context.color().draw_text(Resources::normal_font, _("Best"), Vector(col3_x, y), ALIGN_LEFT, layer, Statistics::header_color);
 
   y += 10.f + y_offset;
 
@@ -301,8 +303,8 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
   if (target_time == 0.0f || (m_time != 0.0f && m_time < target_time))
     tcolor = Statistics::perfect_color;
 
-  context.color().draw_text(Resources::normal_font, _("Time"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
-  context.color().draw_text(Resources::normal_font, time_to_string(m_time), Vector(col2_x, y), ALIGN_LEFT, LAYER_HUD, tcolor);
+  context.color().draw_text(Resources::normal_font, _("Time"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, layer, Statistics::header_color);
+  context.color().draw_text(Resources::normal_font, time_to_string(m_time), Vector(col2_x, y), ALIGN_LEFT, layer, tcolor);
   if (best_stats)
   {
     float time_best = (best_stats->m_time < m_time && best_stats->m_time > 0.0f) ? best_stats->m_time : m_time;
@@ -310,20 +312,20 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
       tcolor = Statistics::perfect_color;
     else
       tcolor = Statistics::text_color;
-    context.color().draw_text(Resources::normal_font, time_to_string(time_best), Vector(col3_x, y), ALIGN_LEFT, LAYER_HUD, tcolor);
+    context.color().draw_text(Resources::normal_font, time_to_string(time_best), Vector(col3_x, y), ALIGN_LEFT, layer, tcolor);
   }
 
   if (m_preferences.enable_coins)
   {
     y += y_offset;
 
-    context.color().draw_text(Resources::normal_font, _("Coins"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
+    context.color().draw_text(Resources::normal_font, _("Coins"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, layer, Statistics::header_color);
 
     if (m_coins >= m_total_coins)
       tcolor = Statistics::perfect_color;
     else
       tcolor = Statistics::text_color;
-    context.color().draw_text(Resources::normal_font, coins_to_string(m_coins, m_total_coins), Vector(col2_x, y), ALIGN_LEFT, LAYER_HUD, tcolor);
+    context.color().draw_text(Resources::normal_font, coins_to_string(m_coins, m_total_coins), Vector(col2_x, y), ALIGN_LEFT, layer, tcolor);
 
     if (best_stats)
     {
@@ -333,7 +335,7 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
         tcolor = Statistics::perfect_color;
       else
         tcolor = Statistics::text_color;
-      context.color().draw_text(Resources::normal_font, coins_to_string(coins_best, total_coins_best), Vector(col3_x, y), ALIGN_LEFT, LAYER_HUD, tcolor);
+      context.color().draw_text(Resources::normal_font, coins_to_string(coins_best, total_coins_best), Vector(col3_x, y), ALIGN_LEFT, layer, tcolor);
     }
   }
 
@@ -345,8 +347,8 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
       tcolor = Statistics::perfect_color;
     else
       tcolor = Statistics::text_color;
-    context.color().draw_text(Resources::normal_font, _("Badguys"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
-    context.color().draw_text(Resources::normal_font, frags_to_string(m_badguys, m_total_badguys), Vector(col2_x, y), ALIGN_LEFT, LAYER_HUD, tcolor);
+    context.color().draw_text(Resources::normal_font, _("Badguys"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, layer, Statistics::header_color);
+    context.color().draw_text(Resources::normal_font, frags_to_string(m_badguys, m_total_badguys), Vector(col2_x, y), ALIGN_LEFT, layer, tcolor);
 
     if (best_stats)
     {
@@ -356,7 +358,7 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
               tcolor = Statistics::perfect_color;
             else
               tcolor = Statistics::text_color;
-      context.color().draw_text(Resources::normal_font, frags_to_string(badguys_best, total_badguys_best), Vector(col3_x, y), ALIGN_LEFT, LAYER_HUD, tcolor);
+      context.color().draw_text(Resources::normal_font, frags_to_string(badguys_best, total_badguys_best), Vector(col3_x, y), ALIGN_LEFT, layer, tcolor);
     }
   }
 
@@ -368,8 +370,8 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
       tcolor = Statistics::perfect_color;
     else
       tcolor = Statistics::text_color;
-    context.color().draw_text(Resources::normal_font, _("Secrets"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
-    context.color().draw_text(Resources::normal_font, secrets_to_string(m_secrets, m_total_secrets), Vector(col2_x, y), ALIGN_LEFT, LAYER_HUD, tcolor);
+    context.color().draw_text(Resources::normal_font, _("Secrets"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, layer, Statistics::header_color);
+    context.color().draw_text(Resources::normal_font, secrets_to_string(m_secrets, m_total_secrets), Vector(col2_x, y), ALIGN_LEFT, layer, tcolor);
 
     if (best_stats)
     {
@@ -379,7 +381,7 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
         tcolor = Statistics::perfect_color;
       else
         tcolor = Statistics::text_color;
-      context.color().draw_text(Resources::normal_font, secrets_to_string(secrets_best, total_secrets_best), Vector(col3_x, y), ALIGN_LEFT, LAYER_HUD, tcolor);
+      context.color().draw_text(Resources::normal_font, secrets_to_string(secrets_best, total_secrets_best), Vector(col3_x, y), ALIGN_LEFT, layer, tcolor);
     }
   }
 }
