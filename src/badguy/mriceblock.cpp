@@ -138,6 +138,13 @@ MrIceBlock::active_update(float dt_sec)
     return;
   }
 
+  if (!m_col.m_colliding_wind.empty()) {
+    if (on_ground() && m_wind_velocity.y > 0.f)
+      m_wind_velocity.y = 0.f;
+
+    m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
+  }
+
   BadGuy::active_update(dt_sec);
 }
 

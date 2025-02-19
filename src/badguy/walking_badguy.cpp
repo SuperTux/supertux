@@ -134,6 +134,14 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
     assert(false);
   }
 
+  if (!m_col.m_colliding_wind.empty()) {
+    if (on_ground() && m_wind_velocity.y > 0.f)
+      m_wind_velocity.y = 0.f;
+
+    m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
+  }
+
+
   if (max_drop_height > -1 && on_ground() && might_fall(max_drop_height+1) && !m_stay_on_platform_overridden)
     turn_around();
   m_stay_on_platform_overridden = false;

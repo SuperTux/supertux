@@ -17,6 +17,10 @@
 
 #include "object/player.hpp"
 
+#include <algorithm>
+
+#include <glm/geometric.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "control/codecontroller.hpp"
@@ -37,6 +41,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/resources.hpp"
@@ -546,8 +551,12 @@ Player::update(float dt_sec)
   if (!m_dying && !m_deactivated)
     handle_input();
 
-  if (!m_col.m_colliding_wind.empty())
+  if (!m_col.m_colliding_wind.empty()) {
+    if (on_ground() && m_wind_velocity.y > 0.f)
+      m_wind_velocity.y = 0.f;
+
     m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
+  }
   /*
   // handle_input() calls apply_friction() when Tux is not walking, so we'll have to do this ourselves
   if (deactivated)
@@ -1056,6 +1065,10 @@ Player::apply_friction()
   else
     friction *= (NORMAL_FRICTION_MULTIPLIER*(m_sliding ? 0.8f : m_stone ? 0.4f : 1.f));
 
+  // Air friction does not make sense when the air is moving with you!
+  if (!is_on_ground && !m_col.m_colliding_wind.empty() && std::abs(m_wind_velocity.x) > 0.f)
+    friction = 0.f;
+
   if (velx < 0) {
     m_physic.set_acceleration_x(friction);
   } else if (velx > 0) {
@@ -1143,16 +1156,14 @@ Player::handle_horizontal_input()
   // changing directions?
   if ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0)) {
     if (on_ground()) {
-      // Better acceleration in wind when we are on the ground
-      bool wind_control = false;
-      if (!m_col.m_colliding_wind.empty()) {
-        ax *= 3.f;
-        wind_control = true;
-      }
       // let's skid!
-      if (fabsf(vx)>SKID_XM && !m_skidding_timer.started() && !wind_control) {
+      if (fabsf(vx)>SKID_XM && !m_skidding_timer.started()) {
         m_skidding_timer.start(SKID_TIME);
-        SoundManager::current()->play("sounds/skid.wav", get_pos());
+
+        // skidding sound disabled in wind because it becomes too repetitive
+        if (m_col.m_colliding_wind.empty())
+          SoundManager::current()->play("sounds/skid.wav", get_pos());
+
         // dust some particles
         Sector::get().add<Particles>(
             Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
@@ -2898,20 +2909,23 @@ Player::remove_collected_key(Key* key)
 }
 
 void
-Player::add_wind_velocity(const Vector& speed, const float acceleration, const Vector& end_speed)
+Player::add_wind_velocity(const float acceleration, const Vector& end_speed, const float dt_sec)
 {
-  Vector velocity = glm::normalize(end_speed) * acceleration;
+  Vector adjusted_end_speed = glm::normalize(end_speed) * acceleration;
+
+  Vector vec_acceleration = adjusted_end_speed * dt_sec;
+
   m_wind_acceleration = acceleration;
   Vector end_velocity = Vector(0.f, 0.f);
   // Only add velocity in the same direction as the wind.
-  if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
-    end_velocity.x = std::min(m_wind_velocity.x + velocity.x, end_speed.x);
-  if (end_speed.x < 0 && m_physic.get_velocity_x() > end_speed.x)
-    end_velocity.x = std::max(m_wind_velocity.x + velocity.x, end_speed.x);
-  if (end_speed.y > 0 && m_physic.get_velocity_y() < end_speed.y)
-    end_velocity.y = std::min(m_wind_velocity.y + velocity.y, end_speed.y);
-  if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
-    end_velocity.y = std::max(m_wind_velocity.y + velocity.y, end_speed.y);
+  if (adjusted_end_speed.x > 0 && m_physic.get_velocity_x() + m_wind_velocity.x < end_speed.x)
+    end_velocity.x = std::min(vec_acceleration.x, adjusted_end_speed.x);
+  if (adjusted_end_speed.x < 0 && m_physic.get_velocity_x() + m_wind_velocity.x > end_speed.x)
+    end_velocity.x = std::max(vec_acceleration.x, adjusted_end_speed.x);
+  if (adjusted_end_speed.y > 0 && m_physic.get_velocity_y() + m_wind_velocity.y < end_speed.y)
+    end_velocity.y = std::min(vec_acceleration.y, adjusted_end_speed.y);
+  if (adjusted_end_speed.y < 0 && m_physic.get_velocity_y() + m_wind_velocity.y > end_speed.y)
+    end_velocity.y = std::max(vec_acceleration.y, adjusted_end_speed.y);
 
   m_wind_velocity = glm::lerp(m_wind_velocity, end_velocity, 0.5f);
 }

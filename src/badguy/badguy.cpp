@@ -52,6 +52,8 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
+  m_wind_velocity(),
+  m_wind_acceleration(0.f),
   m_countMe(true),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
@@ -95,6 +97,8 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
+  m_wind_velocity(),
+  m_wind_acceleration(0.f),
   m_countMe(true),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
@@ -323,6 +327,11 @@ BadGuy::get_allowed_directions() const
 void
 BadGuy::active_update(float dt_sec)
 {
+  if (m_col.m_colliding_wind.empty()) {
+    m_wind_velocity = Vector(0.f, 0.f);
+    m_wind_acceleration = 0.0;
+  }
+
   if (!is_grabbed())
     m_col.set_movement(m_physic.get_movement(dt_sec));
   if (m_frozen)
@@ -1107,21 +1116,29 @@ BadGuy::after_editor_set()
 bool
 BadGuy::can_be_affected_by_wind() const
 {
-  return !on_ground();
+  return true;
 }
 
 void
-BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
+BadGuy::add_wind_velocity(const float acceleration, const Vector& end_speed, const float dt_sec)
 {
+  Vector adjusted_end_speed = glm::normalize(end_speed) * acceleration;
+
+  Vector vec_acceleration = adjusted_end_speed * dt_sec;
+
+  m_wind_acceleration = acceleration;
+  Vector end_velocity = Vector(0.f, 0.f);
   // Only add velocity in the same direction as the wind.
-  if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
-    m_physic.set_velocity_x(std::min(m_physic.get_velocity_x() + velocity.x, end_speed.x));
-  if (end_speed.x < 0 && m_physic.get_velocity_x() > end_speed.x)
-    m_physic.set_velocity_x(std::max(m_physic.get_velocity_x() + velocity.x, end_speed.x));
-  if (end_speed.y > 0 && m_physic.get_velocity_y() < end_speed.y)
-    m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
-  if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
-    m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
+  if (adjusted_end_speed.x > 0 && m_physic.get_velocity_x() + m_wind_velocity.x < end_speed.x)
+    end_velocity.x = std::min(vec_acceleration.x, adjusted_end_speed.x);
+  if (adjusted_end_speed.x < 0 && m_physic.get_velocity_x() + m_wind_velocity.x > end_speed.x)
+    end_velocity.x = std::max(vec_acceleration.x, adjusted_end_speed.x);
+  if (adjusted_end_speed.y > 0 && m_physic.get_velocity_y() + m_wind_velocity.y < end_speed.y)
+    end_velocity.y = std::min(vec_acceleration.y, adjusted_end_speed.y);
+  if (adjusted_end_speed.y < 0 && m_physic.get_velocity_y() + m_wind_velocity.y > end_speed.y)
+    end_velocity.y = std::max(vec_acceleration.y, adjusted_end_speed.y);
+
+  m_wind_velocity = glm::lerp(m_wind_velocity, end_velocity, 0.5f);
 }
 
 /* EOF */

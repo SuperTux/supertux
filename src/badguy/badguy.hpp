@@ -133,8 +133,8 @@ public:
   /** Returns true if the badguy can currently be affected by wind */
   virtual bool can_be_affected_by_wind() const;
 
-  /** Adds velocity from wind */
-  virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
+  /** Version of `add_velocity` with modifications for wind physics */
+  void add_wind_velocity(const float acceleration, const Vector& end_speed, const float dt_sec);
 
 protected:
   enum State {
@@ -238,6 +238,9 @@ private:
 
 protected:
   Physic m_physic;
+
+  Vector m_wind_velocity;
+  float m_wind_acceleration;
 
 public:
   /** Count this badguy to the statistics? This value should not be
