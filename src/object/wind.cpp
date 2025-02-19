@@ -152,7 +152,7 @@ Wind::collision(GameObject& other, const CollisionHit& )
   if (player && affects_player)
   {
     player->override_velocity();
-    player->add_wind_velocity(speed * acceleration * dt_sec, speed);
+    player->add_wind_velocity(speed * dt_sec, acceleration, speed);
   }
 
   auto badguy = dynamic_cast<BadGuy*>(&other);

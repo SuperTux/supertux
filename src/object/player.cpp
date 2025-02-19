@@ -209,6 +209,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_backflip_timer(),
   m_physic(),
   m_wind_velocity(),
+  m_wind_acceleration(),
   m_visible(true),
   m_grabbed_object(nullptr),
   m_grabbed_object_remove_listener(new GrabListener(*this)),
@@ -1473,6 +1474,7 @@ Player::handle_input()
 
   m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
   m_wind_velocity = Vector(0.f, 0.f);
+  m_wind_acceleration = 0.0;
 
   /* grabbing */
   bool just_grabbed = try_grab();
@@ -2886,8 +2888,10 @@ Player::remove_collected_key(Key* key)
 }
 
 void
-Player::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
+Player::add_wind_velocity(const Vector& speed, const float acceleration, const Vector& end_speed)
 {
+  Vector velocity = speed * acceleration;
+  m_wind_acceleration = acceleration;
   // Only add velocity in the same direction as the wind.
   if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
     m_wind_velocity.x = std::min(m_wind_velocity.x + velocity.x, end_speed.x);
