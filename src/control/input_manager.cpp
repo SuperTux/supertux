@@ -159,6 +159,8 @@ InputManager::pop_user()
   if (m_controllers.size() <= 1)
     throw std::runtime_error("Attempt to pop the first player's controller");
 
+  on_player_removed(static_cast<int>(m_controllers.size()) - 1);
+
   m_controllers.pop_back();
 }
 
