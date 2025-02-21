@@ -161,6 +161,8 @@ add_package(TARGET PhysFS
   PREFER_PKGCONFIG)
 add_package(TARGET ZLIB
   PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
+add_package(TARGET fmt
+  PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
 add_package(TARGET glm
   PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
 
@@ -170,10 +172,6 @@ add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
 add_subdirectory(external/partio_zip EXCLUDE_FROM_ALL)
 add_subdirectory(external/findlocale EXCLUDE_FROM_ALL)
 add_subdirectory(external/obstack EXCLUDE_FROM_ALL)
-
-set(FMT_PEDANTIC OFF)
-set(FMT_WERROR OFF)
-add_subdirectory(external/fmt EXCLUDE_FROM_ALL)
 
 # Workaround tinygettext wanting Iconv
 set(HAVE_SDL YES CACHE BOOL "Use SDL_iconv instead of system iconv")
