@@ -185,7 +185,7 @@ jobs:
           doxygen docs/Doxyfile
 
       - name: Package
-        if: matrix.arch != '32'
+        if: matrix.arch != '32' && matrix.build_type != 'Debug'
         env:
           OS_NAME: ${{ matrix.os }}
           ARCH: ${{ matrix.arch }} # TODO: Working Linux 32-bit packaging
