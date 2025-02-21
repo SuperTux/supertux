@@ -172,6 +172,7 @@ add_subdirectory(external/findlocale EXCLUDE_FROM_ALL)
 add_subdirectory(external/obstack EXCLUDE_FROM_ALL)
 
 set(FMT_PEDANTIC OFF)
+set(FMT_WERROR OFF)
 add_subdirectory(external/fmt EXCLUDE_FROM_ALL)
 
 # Workaround tinygettext wanting Iconv

@@ -32,7 +32,7 @@ jobs:
       fail-fast: false
       matrix:
         # TODO Working Linux 32-bit packaging
-        # TODO CTest workflow implement
+        # TODO CTest & coverage workflow implement
         arch: [32, 64]
         os: [ubuntu-latest]
         compiler: [gcc, clang]
@@ -187,15 +187,15 @@ jobs:
       #   working-directory: build
       #   run: ./test_supertux2
 
-      - name: Make coverage
-        if: ${{ matrix.coverage }}
-        working-directory: build
-        run: |
-          lcov --capture --directory . --exclude '/usr/*' --exclude '*/tests/*'\
-               --exclude '*/external/*' --output-file coverage.info
-          mkdir coverage
-          cd coverage
-          genhtml ../coverage.info
+      # - name: Make coverage
+      #   if: ${{ matrix.coverage }}
+      #   working-directory: build
+      #   run: |
+      #     lcov --capture --directory . --exclude '/usr/*' --exclude '*/tests/*'\
+      #          --exclude '*/external/*' --output-file coverage.info
+      #     mkdir coverage
+      #     cd coverage
+      #     genhtml ../coverage.info
 
       - name: Make documentation
         if: ${{ matrix.documentation }}
