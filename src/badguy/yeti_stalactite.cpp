@@ -52,6 +52,17 @@ YetiStalactite::active_update(float dt_sec)
 }
 
 void
+YetiStalactite::after_editor_set()
+{
+  auto target_action = "yeti-stalactite";
+  if (m_sprite->get_action() != target_action &&
+      m_sprite->has_action(target_action))
+  {
+    set_action(target_action);
+  }
+}
+
+void
 YetiStalactite::update(float dt_sec)
 {
   // Respawn instead of removing once squished.
@@ -71,13 +82,9 @@ YetiStalactite::update(float dt_sec)
 void
 YetiStalactite::draw(DrawingContext& context)
 {
-  if (Editor::is_active() &&
-      m_sprite->get_action() != "yeti-stalactite" &&
-      m_sprite->has_action("yeti-stalactite"))
+  if (Editor::is_active())
   {
-    set_action("yeti-stalactite");
     BadGuy::draw(context);
-    return;
   }
   else
   {

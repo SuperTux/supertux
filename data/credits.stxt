@@ -1277,7 +1277,7 @@
       )
       (text
         (type "reference")
-        (string "http://forum.freegamedev.net/viewforum.php?f=66")
+        (string "https://groups.f-hub.org/supertux")
       )
       (blank)
       (text
