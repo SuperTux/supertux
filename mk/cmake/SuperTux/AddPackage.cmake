@@ -54,6 +54,7 @@ function(add_package)
 
   if(NOT addpackage_args_PREFER_PKGCONFIG)
     message(STATUS "Looking for ${addpackage_args_PKG} using find_package.")
+
     # NOTE: We don't pass "REQUIRED" here because we choose to fallback if it doesn't exist.
     #       Later, however, we do choose to throw an error based on this flag.
     set(addpackage_fp_args "")
@@ -79,9 +80,7 @@ function(add_package)
 
     message(STATUS "Package \"${addpackage_args_PKG}\" was found successfully!")
   else()
-    if(NOT addpackage_args_PREFER_PKGCONFIG)
-      message(DEBUG "CMake Package \"${addpackage_args_PKG}\" doesn't exist, so falling back to PkgConfig")
-    endif()
+    message(STATUS "CMake Package \"${addpackage_args_PKG}\" doesn't exist, so falling back to PkgConfig")
 
     if(PkgConfig_FOUND)
       set(addpackage_args_pkg_config_args)
