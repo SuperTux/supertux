@@ -55,6 +55,7 @@ jobs:
           ARCH_X86: ${{ matrix.arch == 32 }}
           MAKE_DOCS: ${{ matrix.documentation }}
         run: |
+          echo $Env:ARCH_X86
           echo $(if ($Env:ARCH_X86) {"-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
                                      "-DVCPKG_TARGET_TRIPLET=x86-linux "
                                      "-DPhysFS_PREFER_FIND_PACKAGE=ON"})
