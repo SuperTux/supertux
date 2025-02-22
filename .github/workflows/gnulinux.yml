@@ -65,6 +65,7 @@ jobs:
             build-essential \
             automake \
             gtk-doc-tools \
+            fuse \
             rpm \
             rename \
             sshpass \
@@ -102,6 +103,7 @@ jobs:
             build-essential \
             automake \
             gtk-doc-tools \
+            fuse \
             rpm \
             rename \
             sshpass \
