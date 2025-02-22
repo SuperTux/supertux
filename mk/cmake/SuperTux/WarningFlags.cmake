@@ -84,6 +84,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-duplicate-enum "
         "-Wno-unreachable-code "
         "-Wno-unsafe-buffer-usage "
+        "-Wno-switch-default "
       )
 
       # This snipped adapted from AOMediaCodec cmakefile
