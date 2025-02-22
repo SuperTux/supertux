@@ -49,19 +49,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - name: TEST (DELETEME)
-        shell: pwsh
-        env:
-          ARCH_X86: ${{ matrix.arch == 32 }}
-          MAKE_DOCS: ${{ matrix.documentation }}
-        run: |
-          echo $Env:ARCH_X86
-          echo $(if ($Env:ARCH_X86) {"-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
-                                     "-DVCPKG_TARGET_TRIPLET=x86-linux "
-                                     "-DPhysFS_PREFER_FIND_PACKAGE=ON"})
-          echo $Env:MAKE_DOCS
-          exit 1
-
       - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
@@ -168,9 +155,11 @@ jobs:
           # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
           # vcpkg for physfs for 32bit
           & cmake .. -DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE `
-                     $(if ($Env:32BIT) {"-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
-                                        "-DVCPKG_TARGET_TRIPLET=x86-linux "
-                                        "-DPhysFS_PREFER_FIND_PACKAGE=ON"}) `
+                     $(if ("$Env:32BIT" == "true") {
+                       "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
+                       "-DVCPKG_TARGET_TRIPLET=x86-linux "
+                       "-DPhysFS_PREFER_FIND_PACKAGE=ON"
+                     }) `
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
                      -DBUILD_DOCUMENTATION=$Env:MAKE_DOCS -DENABLE_DISCORD=ON `
                      -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT) {"-m32"})" -DCMAKE_C_FLAGS="$(if ($Env:32BIT) {"-m32"})" `
