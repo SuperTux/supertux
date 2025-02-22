@@ -149,11 +149,13 @@ jobs:
           mkdir "build"
           cd "build"
 
+          # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
+          # vcpkg for physfs for 32bit
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-                   -DWARNINGS=ON -DWERROR=ON \
+                   -DWARNINGS=ON -DWERROR=ON -DPhysFS_PREFER_FIND_PACKAGE=ON \
                    -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr   \
                    -DBUILD_DOCUMENTATION=$MAKE_DOCS -DENABLE_DISCORD=ON \
-                   -DCMAKE_CXX_FLAGS="$ARCH" -DCMAKE_C_FLAGS="$ARCH"
+                   -DCMAKE_CXX_FLAGS="$ARCH" -DCMAKE_C_FLAGS="$ARCH" \
 
       - name: Build and install
         working-directory: build

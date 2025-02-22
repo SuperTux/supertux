@@ -48,7 +48,7 @@ function(add_package)
     ${ARGN}
   )
 
-  if(NOT UNIX)
+  if(NOT UNIX OR ${addpackage_args_PKG}_PREFER_FIND_PACKAGE)
     set(addpackage_args_PREFER_PKGCONFIG NO)
   endif()
 
