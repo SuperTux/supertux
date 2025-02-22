@@ -140,6 +140,7 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           ARCH: ${{ matrix.arch == 32 && '-m32' || '' }}
+          CMAKE_ARGS: ${{ matrix.arch == 32 && '-DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x86-linux' || '' }}
           MAKE_DOCS: ${{ matrix.documentation }}
           GLBINDING: ${{ matrix.glbinding }}
           TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
@@ -151,8 +152,7 @@ jobs:
 
           # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
           # vcpkg for physfs for 32bit
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-                   -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $CMAKE_ARGS \
                    -DPhysFS_PREFER_FIND_PACKAGE=ON \
                    -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr   \
                    -DBUILD_DOCUMENTATION=$MAKE_DOCS -DENABLE_DISCORD=ON \
