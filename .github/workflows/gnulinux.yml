@@ -44,7 +44,7 @@ jobs:
             arch: 64
             release: ON
             source: ON
-            documentation: ON
+            documentation: true
             coverage: ON
 
     runs-on: ${{ matrix.os }}
@@ -143,7 +143,7 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           32BIT: ${{ matrix.arch == 32 }}
-          MAKE_DOCS: ${{ matrix.documentation == ON && 'ON' || 'OFF' }}
+          MAKE_DOCS: ${{ matrix.documentation }}
           GLBINDING: ${{ matrix.glbinding }}
           TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
