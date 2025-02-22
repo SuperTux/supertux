@@ -19,6 +19,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 struct PHYSFS_File;
 
@@ -38,7 +39,10 @@ public:
     m_channels(),
     m_rate(),
     m_bits_per_sample(),
-    m_size()
+    m_size(),
+    m_authors(),
+    m_license(),
+    m_title()
   {}
 
   virtual ~SoundFile() {}
@@ -52,6 +56,9 @@ public:
   int m_bits_per_sample;
   /// size in bytes
   size_t m_size;
+  std::vector<std::string> m_authors;
+  std::string m_license;
+  std::string m_title;
 
 private:
   SoundFile(const SoundFile&) = delete;
