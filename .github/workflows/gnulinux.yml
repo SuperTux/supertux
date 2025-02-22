@@ -140,7 +140,7 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           ARCH: ${{ matrix.arch == 32 && '-m32' || '' }}
-          CMAKE_ARGS: ${{ matrix.arch == 32 && '-DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x86-linux' || '' }}
+          CMAKE_ARGS: ${{ matrix.arch == 32 && '-DCMAKE_TOOLCHAIN_FILE=${ENV:VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x86-linux' || '' }}
           MAKE_DOCS: ${{ matrix.documentation }}
           GLBINDING: ${{ matrix.glbinding }}
           TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
