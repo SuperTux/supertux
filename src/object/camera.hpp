@@ -21,6 +21,7 @@
 #include "editor/layer_object.hpp"
 
 #include <string>
+#include <utility>
 
 #include "math/anchor_point.hpp"
 #include "math/size.hpp"
@@ -87,9 +88,14 @@ public:
   /** reset camera position */
   void reset(const Vector& tuxpos);
 
+  /** Get the predicted translation and scale of the camera, time_offset seconds from now. */
+  std::pair<Vector, float> get_predicted_transform(float time_offset) const;
+
   /** return camera position */
   const Vector get_translation() const;
-  inline void set_translation(const Vector& translation) { m_translation = translation; }
+  inline void set_translation(const Vector& translation) {
+    m_translation = translation; reset_prediction_state();
+  }
   void set_translation_centered(const Vector& translation);
 
   void keep_in_bounds(const Rectf& bounds);
@@ -271,6 +277,10 @@ private:
   Vector get_scale_anchor_target() const;
   void reload_scale();
 
+  /** This function should be called whenever the last updates/changes
+   * to the camera should not be interpolated or extrapolated. */
+  void reset_prediction_state();
+
 private:
   Mode m_mode;
   Mode m_defaultmode;
@@ -318,6 +328,13 @@ private:
   float m_minimum_scale;
   bool m_enfore_minimum_scale;
 
+  // Remember last camera position, to linearly interpolate camera position
+  // when drawing frames that are predicted forward a fraction of a game step.
+  // This is somewhat of a hack: ideally these variables would not be necessary
+  // and one could predict the next camera scale/translation directly from the
+  // current camera member variable values.
+  Vector m_last_translation;
+  float m_last_scale;
 private:
   Camera(const Camera&) = delete;
   Camera& operator=(const Camera&) = delete;
