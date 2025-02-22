@@ -53,6 +53,7 @@ function(add_package)
   endif()
 
   if(NOT addpackage_args_PREFER_PKGCONFIG)
+    message(STATUS "Looking for ${addpackage_args_PKG} using find_package.")
     # NOTE: We don't pass "REQUIRED" here because we choose to fallback if it doesn't exist.
     #       Later, however, we do choose to throw an error based on this flag.
     set(addpackage_fp_args "")
