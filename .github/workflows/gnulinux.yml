@@ -37,6 +37,9 @@ jobs:
         os: [ubuntu-latest]
         compiler: [gcc, clang]
         build_type: [Debug, Release]
+        documentation: [OFF, ON]
+        exclude:
+          - documentation: ON
         include:
           - os: ubuntu-latest
             build_type: Release
@@ -206,11 +209,15 @@ jobs:
         working-directory: build
         run: ../.ci_scripts/package.sh
 
+        - name: "Run slugify"
+          id: slugify
+          uses: eltimn/slugify-action@v2
+
       - name: Upload AppImage
         if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
         uses: actions/upload-artifact@v4
         with:
-          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-appimage"
+          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-${{ matrix.build_type }}-appimage"
           path: build/upload/*.AppImage
           if-no-files-found: ignore
 
