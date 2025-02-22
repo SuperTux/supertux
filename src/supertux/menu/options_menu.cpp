@@ -196,6 +196,9 @@ OptionsMenu::refresh()
       add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled)
         .set_help(_("Enable screen transitions and smooth menu animation"));
 
+      add_toggle(MNID_WORLD_PREVIEWS, _("Show world previews"), &g_config->show_world_previews)
+        .set_help(_("Show screenshot previews of the last worldmap state, when hovering over a world."));
+
       add_toggle(MNID_CUSTOM_TITLE_LEVELS, _("Custom title screen levels"), &g_config->custom_title_levels)
         .set_help(_("Allow overriding the title screen level, when loading certain worlds"));
 
