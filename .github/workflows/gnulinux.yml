@@ -209,9 +209,9 @@ jobs:
         working-directory: build
         run: ../.ci_scripts/package.sh
 
-        - name: "Run slugify"
-          id: slugify
-          uses: eltimn/slugify-action@v2
+      - name: "Run slugify"
+        id: slugify
+        uses: eltimn/slugify-action@v2
 
       - name: Upload AppImage
         if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
