@@ -37,9 +37,6 @@ jobs:
         os: [ubuntu-latest]
         compiler: [gcc, clang]
         build_type: [Debug, Release]
-        documentation: [OFF, ON]
-        exclude:
-          - documentation: ON
         include:
           - os: ubuntu-latest
             build_type: Release
@@ -146,7 +143,7 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           32BIT: ${{ matrix.arch == 32 }}
-          MAKE_DOCS: ${{ matrix.documentation && 'ON' || 'OFF' }}
+          MAKE_DOCS: ${{ matrix.documentation }}
           GLBINDING: ${{ matrix.glbinding }}
           TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
@@ -175,8 +172,6 @@ jobs:
           make install DESTDIR="/tmp/supertux" VERBOSE=1
 
       # - name: Run tests
-      #   # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
-      #   # (also check the step that invokes CMake with -DBUILD_TESTS)
       #   if: ${{ matrix.os == 'ubuntu-20.04' }}
       #   working-directory: build
       #   run: ./test_supertux2
@@ -211,7 +206,7 @@ jobs:
 
       - name: "Run slugify"
         id: slugify
-        uses: eltimn/slugify-action@v2
+        uses: eltimn/slugify-action@v2.0.2
 
       - name: Upload AppImage
         if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
