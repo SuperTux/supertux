@@ -49,6 +49,18 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
+      - name: TEST (DELETEME)
+        shell: pwsh
+        env:
+          32BIT: ${{ matrix.arch == 32 }}
+          MAKE_DOCS: ${{ matrix.documentation }}
+        run: |
+          echo $(if ($Env:32BIT) {"-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
+                                  "-DVCPKG_TARGET_TRIPLET=x86-linux "
+                                  "-DPhysFS_PREFER_FIND_PACKAGE=ON"})
+          echo $Env:MAKE_DOCS
+          exit 1
+
       - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
