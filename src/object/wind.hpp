@@ -46,8 +46,6 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  virtual int get_layer() const override { return LAYER_OBJECTS; }
-
   virtual void on_flip(float height) override;
 
   /**
@@ -59,7 +57,21 @@ public:
    */
   void stop();
 
+  /**
+   * @scripting
+   * @description Sets the layer of the wind particles.
+   * @param int $layer
+   */
+  inline void set_layer(int layer) { m_layer = layer; }
+
+  /**
+   * @scripting
+   * @description Returns the layer the wind particles are on.
+   */
+  virtual int get_layer() const override { return m_layer; }
+
 private:
+  int m_layer;
   bool blowing; /**< true if wind is currently switched on */
   Vector speed;
   float acceleration;
