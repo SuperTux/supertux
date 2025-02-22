@@ -152,6 +152,12 @@ jobs:
           mkdir "build"
           cd "build"
 
+          echo $Env:32BIT
+          echo $(if ($Env:32BIT) {"-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
+                                  "-DVCPKG_TARGET_TRIPLET=x86-linux "
+                                  "-DPhysFS_PREFER_FIND_PACKAGE=ON"})
+          echo $Env:MAKE_DOCS
+
           # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
           # vcpkg for physfs for 32bit
           & cmake .. -DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE `
