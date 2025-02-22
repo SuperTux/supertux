@@ -37,7 +37,7 @@ jobs:
         os: [ubuntu-latest]
         compiler: [gcc, clang]
         build_type: [Debug, Release]
-        documentation: OFF
+        documentation: "OFF"
         include:
           - os: ubuntu-latest
             build_type: Release
