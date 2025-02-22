@@ -139,26 +139,28 @@ jobs:
           echo "CC=clang" >> $GITHUB_ENV
 
       - name: Configure build
+        shell: pwsh
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-          ARCH: ${{ matrix.arch == 32 && '-m32' || '' }}
-          CMAKE_ARGS: ${{ matrix.arch == 32 && '-DCMAKE_TOOLCHAIN_FILE=${ENV:VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x86-linux' || '' }}
+          32BIT: ${{ matrix.arch == 32 && 1 || 0 }}
           MAKE_DOCS: ${{ matrix.documentation }}
           GLBINDING: ${{ matrix.glbinding }}
           TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
-          cmake --version
-          $CXX --version
+          & cmake --version
+          & $Env:CXX --version
           mkdir "build"
           cd "build"
 
           # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
           # vcpkg for physfs for 32bit
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $CMAKE_ARGS \
-                   -DPhysFS_PREFER_FIND_PACKAGE=ON \
-                   -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr   \
-                   -DBUILD_DOCUMENTATION=$MAKE_DOCS -DENABLE_DISCORD=ON \
-                   -DCMAKE_CXX_FLAGS="$ARCH" -DCMAKE_C_FLAGS="$ARCH" \
+          & cmake .. -DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE `
+                     $(if ($Env:32BIT) {"-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake " +
+                                        "-DVCPKG_TARGET_TRIPLET=x86-linux " +
+                                        "-DPhysFS_PREFER_FIND_PACKAGE=ON"}) `
+                     -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
+                     -DBUILD_DOCUMENTATION=$Env:MAKE_DOCS -DENABLE_DISCORD=ON `
+                     -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT) {"-m32"})" -DCMAKE_C_FLAGS="$(if ($Env:32BIT) {"-m32"})" `
 
       - name: Build and install
         working-directory: build
