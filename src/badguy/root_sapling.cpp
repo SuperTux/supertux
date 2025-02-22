@@ -199,7 +199,7 @@ RootSapling::summon_root()
       }
 
       RaycastResult result = m_dir == Direction::LEFT || m_dir == Direction::UP ?
-                             Sector::get().get_first_line_intersection(eye, end, true, nullptr) :
+                             Sector::get().get_first_line_intersection(eye, end, true, {}) :
                              reverse_raycast(eye, end);
 
       auto tile_p = std::get_if<const Tile*>(&result.hit);

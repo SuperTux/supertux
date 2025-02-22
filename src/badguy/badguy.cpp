@@ -850,6 +850,14 @@ BadGuy::might_fall(int height)
   float oy = get_bbox().get_bottom() + 1.f;
 
   float fh = static_cast<float>(height);
+  std::vector<const CollisionObject*> ignore_objects = {};
+
+  for(const auto& player : Sector::current()->get_players())
+  {
+    ignore_objects.push_back(player->get_collision_object());
+  }
+
+  ignore_objects.push_back(&m_col);
 
   if (m_detected_slope == 0)
   {
@@ -858,7 +866,7 @@ BadGuy::might_fall(int height)
 
     Vector end(eye.x, eye.y + fh + 2.f);
 
-    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, &m_col);
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, ignore_objects);
 
     if (!result.is_valid)
     {
@@ -899,7 +907,7 @@ BadGuy::might_fall(int height)
 
     // The resulting line segment (eye, end) should result in a downwards facing diagonal direction.
 
-    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, &m_col);
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, { &m_col });
 
     if (!result.is_valid)
     {
@@ -1019,7 +1027,7 @@ BadGuy::ungrab(MovingObject& object, Direction dir_)
       else if (dir_ == Direction::DOWN)
       {
         Vector mov(0, 32);
-        if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this))
+        if (Sector::get().is_free_of_statics(get_bbox().moved(mov), { get_collision_object() }))
         {
           // There is free space, so throw it down.
           m_physic.set_velocity_y(500.f);

@@ -111,7 +111,7 @@ CorruptedGranitoBig::try_cracking()
   const Vector player_middle = player->get_bbox().get_middle();
 
   RaycastResult result = Sector::get().get_first_line_intersection(middle, player_middle,
-                                                                   false, get_collision_object());
+                                                                   false, { get_collision_object() });
 
   auto* obj = std::get_if<CollisionObject*>(&result.hit);
   if (!obj || *obj != player->get_collision_object()) return false;
