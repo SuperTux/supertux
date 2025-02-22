@@ -37,6 +37,7 @@ jobs:
         os: [ubuntu-latest]
         compiler: [gcc, clang]
         build_type: [Debug, Release]
+        documentation: OFF
         include:
           - os: ubuntu-latest
             build_type: Release
@@ -152,12 +153,6 @@ jobs:
           mkdir "build"
           cd "build"
 
-          echo $Env:32BIT
-          echo $(if ($Env:32BIT) {"-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
-                                  "-DVCPKG_TARGET_TRIPLET=x86-linux "
-                                  "-DPhysFS_PREFER_FIND_PACKAGE=ON"})
-          echo $Env:MAKE_DOCS
-
           # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
           # vcpkg for physfs for 32bit
           & cmake .. -DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE `
@@ -168,7 +163,8 @@ jobs:
                      }) `
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
                      -DBUILD_DOCUMENTATION=$Env:MAKE_DOCS -DENABLE_DISCORD=ON `
-                     -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT) {"-m32"})" -DCMAKE_C_FLAGS="$(if ($Env:32BIT) {"-m32"})" `
+                     -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
+                     -DCMAKE_C_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
 
       - name: Build and install
         working-directory: build
