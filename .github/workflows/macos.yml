@@ -54,7 +54,6 @@ jobs:
           brew install cmake bash rename libogg libvorbis glew \
                        openal-soft sdl2 sdl2_image sdl2_ttf \
                        glib gtk-doc zlib physfs fmt
-          brew link glbinding@2
 
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
