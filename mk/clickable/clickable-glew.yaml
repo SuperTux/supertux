@@ -2,6 +2,8 @@ clickable_minimum_required: 7
 framework: "ubuntu-sdk-20.04"
 builder: "cmake"
 build_dir: "build.clickable"
+dependencies_ppa:
+  - ppa:savoury1/backports
 dependencies_target:
   - "libogg-dev"
   - "libvorbis-dev"
@@ -15,7 +17,7 @@ dependencies_target:
   - "libfribidi-dev"
   - "libglm-dev"
   - "zlib1g-dev"
-  - "libfmt-dev/noble-backports"
+  - "libfmt-dev"
 install_lib:
   - "/usr/lib/${ARCH_TRIPLET}/libogg.so*"
   - "/usr/lib/${ARCH_TRIPLET}/libvorbis.so*"
