@@ -74,6 +74,7 @@ jobs:
           vcpkg install glm:$Env:ARCH-windows
           vcpkg install zlib:$Env:ARCH-windows
           vcpkg install fmt:$Env:ARCH-windows
+          vcpkg install physfs:$Env:ARCH-windows
 
       - name: Configure bulid
         env:
