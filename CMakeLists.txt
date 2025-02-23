@@ -188,8 +188,12 @@ if(ENABLE_OPENGL)
   find_package(OpenGL)
 
   if(OPENGL_FOUND)
-    set(HAVE_OPENGL YES)
     find_package(GLEW REQUIRED)
+  endif()
+
+  if(GLEW_FOUND)
+    set(HAVE_OPENGL YES)
+    message(STATUS "OpenGL & GLEW found, enabling OpenGL support.")
   endif()
 endif()
 

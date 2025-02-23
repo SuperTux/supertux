@@ -156,11 +156,11 @@ jobs:
           # vcpkg for physfs for 32bit
           & cmake .. "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE -DENABLE_DISCORD=ON " `
                      "-DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr " `
-                     $(if ($Env:32BIT -eq "true") {
+                     "$(if ($Env:32BIT -eq "true") {
                        "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
                        "-DVCPKG_TARGET_TRIPLET=x86-linux "
                        "-DPhysFS_PREFER_FIND_PACKAGE=ON"
-                     }) `
+                     })" `
                      "-DBUILD_DOCUMENTATION=$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
                      "-DCMAKE_CXX_FLAGS=`"$(if ($Env:32BIT -eq "true") {"-m32"})`"" `
                      "-DCMAKE_C_FLAGS=`"$(if ($Env:32BIT -eq "true") {"-m32"})`""
