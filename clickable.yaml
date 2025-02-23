@@ -15,7 +15,7 @@ dependencies_target:
   - "libcurl4-openssl-dev"
   - "libglm-dev"
   - "zlib1g-dev"
-  - "libfmt-dev"
+  - "libfmt-dev=9.1.0+ds1-2~20.04.sav1"
 install_lib:
   - "/usr/lib/${ARCH_TRIPLET}/libogg.so*"
   - "/usr/lib/${ARCH_TRIPLET}/libvorbis.so*"
