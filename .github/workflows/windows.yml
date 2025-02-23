@@ -103,7 +103,7 @@ jobs:
       #     "./$Env:BUILD_TYPE/run_tests.exe"
 
       - name: Package MSI Installer
-        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
+        if: matrix.build_type != 'Debug'
         shell: pwsh
         working-directory: build
         env:
