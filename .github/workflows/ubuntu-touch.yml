@@ -32,14 +32,13 @@ jobs:
       matrix:
         build_type: [Debug, Release]
         arch: [amd64, arm64, armhf]
-        # glbinding is missing as it isn't available on Ubuntu 16.04
         opengl: [glew, sdl]
         exclude:
             # FIXME: Debug builds don't work for arm64
           - arch: arm64
             build_type: Debug
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -69,15 +68,6 @@ jobs:
         run: |
           ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}  \
                                       --config mk/clickable/clickable-glew.yaml
-
-      - name: Build (OpenGL with GLbinding)
-        if: ${{ matrix.opengl == 'glbinding' }}
-        env:
-          BUILD_TYPE: ${{ (matrix.build_type == 'Debug') && '--debug' || '' }}
-          ARCH: ${{ matrix.arch }}
-        run: |
-          ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}  \
-                                 --config mk/clickable/clickable-glbinding.yaml
 
       - name: Build (no OpenGL)
         if: ${{ matrix.opengl == 'sdl' }}

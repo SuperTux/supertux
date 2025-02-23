@@ -65,7 +65,6 @@ jobs:
           vcpkg install curl:$Env:ARCH-windows
           vcpkg install glew:$Env:ARCH-windows
           vcpkg install libogg:$Env:ARCH-windows
-          vcpkg install libraqm:$Env:ARCH-windows
           vcpkg install libvorbis:$Env:ARCH-windows
           vcpkg install openal-soft:$Env:ARCH-windows
           vcpkg install sdl2:$Env:ARCH-windows
