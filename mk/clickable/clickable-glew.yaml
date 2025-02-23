@@ -15,7 +15,7 @@ dependencies_target:
   - "libfribidi-dev"
   - "libglm-dev"
   - "zlib1g-dev"
-  - "libfmt-dev"
+  - "libfmt-dev/noble-backports"
 install_lib:
   - "/usr/lib/${ARCH_TRIPLET}/libogg.so*"
   - "/usr/lib/${ARCH_TRIPLET}/libvorbis.so*"

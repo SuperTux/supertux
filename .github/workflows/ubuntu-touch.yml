@@ -38,7 +38,7 @@ jobs:
           - arch: arm64
             build_type: Debug
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -77,10 +77,14 @@ jobs:
         run: |
           ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}
 
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
+
       - uses: actions/upload-artifact@v4
         if: matrix.build_type != 'Debug'
         with:
-          name: "clickable-${{ matrix.arch }}-${{ matrix.build_type }}-${{ matrix.opengl }}-click"
+          name: "clickable-${{ matrix.arch }}-${{ matrix.build_type }}-${{ matrix.opengl }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-click"
           path: build.clickable/*.click
           if-no-files-found: ignore
 
