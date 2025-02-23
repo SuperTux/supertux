@@ -71,6 +71,7 @@ jobs:
             sshpass \
             clang \
             g++ \
+            libglu1-mesa-dev \
             libgtest-dev \
             libc++-dev \
             libogg-dev \
@@ -82,7 +83,6 @@ jobs:
             libglib2.0-dev \
             libraqm-dev \
             libglew-dev \
-            libglbinding-dev \
             libcurl4-openssl-dev \
             libglm-dev \
             libfmt-dev \
@@ -110,7 +110,7 @@ jobs:
             clang \
             gcc-multilib \
             g++-multilib \
-            libgtest-dev:i386 \
+            libglu1-mesa-dev:i386 \
             libogg-dev:i386 \
             libvorbis-dev:i386 \
             libopenal-dev:i386 \
