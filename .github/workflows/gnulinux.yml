@@ -154,8 +154,8 @@ jobs:
 
           # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
           # vcpkg for physfs for 32bit
-          & cmake .. "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE -DENABLE_DISCORD=ON " `
-                     "-DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr " `
+          & cmake .. -DCMAKE_BUILD_TYPE="$Env:BUILD_TYPE" -DENABLE_DISCORD=ON `
+                     -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
                      $(if ($Env:32BIT -eq "true") {
                        "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
                        "-DVCPKG_TARGET_TRIPLET=x86-linux "
