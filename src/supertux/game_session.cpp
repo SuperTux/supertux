@@ -119,6 +119,7 @@ GameSession::reset_level()
   m_activated_checkpoint = nullptr;
   m_pause_target_timer = false;
   m_spawn_with_invincibility = false;
+  m_spawn_fade_timer.stop();
 
   m_data_table.clear();
 }
