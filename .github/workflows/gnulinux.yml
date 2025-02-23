@@ -161,9 +161,9 @@ jobs:
                        "-DVCPKG_TARGET_TRIPLET=x86-linux "
                        "-DPhysFS_PREFER_FIND_PACKAGE=ON"
                      }) `
-                     "-DBUILD_DOCUMENTATION=$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
-                     -DCMAKE_CXX_FLAGS=`"$(if ($Env:32BIT -eq "true") {"-m32"})`" `
-                     -DCMAKE_C_FLAGS=`"$(if ($Env:32BIT -eq "true") {"-m32"})`"
+                     -DBUILD_DOCUMENTATION="$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
+                     -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
+                     -DCMAKE_C_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})"
 
       - name: Build and install
         working-directory: build
