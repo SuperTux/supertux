@@ -2,8 +2,9 @@ clickable_minimum_required: 7
 framework: "ubuntu-sdk-20.04"
 builder: "cmake"
 build_dir: "build.clickable"
-dependencies_ppa:
-  - ppa:savoury1/backports
+image_setup:
+  run:
+    - ./mk/clickable/get_fmt.sh
 dependencies_target:
   - "libogg-dev"
   - "libvorbis-dev"
@@ -17,7 +18,6 @@ dependencies_target:
   - "libfribidi-dev"
   - "libglm-dev"
   - "zlib1g-dev"
-  - "libfmt-dev=9.1.0+ds1-2~20.04.sav1"
 install_lib:
   - "/usr/lib/${ARCH_TRIPLET}/libogg.so*"
   - "/usr/lib/${ARCH_TRIPLET}/libvorbis.so*"
