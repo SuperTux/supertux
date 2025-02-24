@@ -3,6 +3,8 @@ framework: "ubuntu-sdk-20.04"
 builder: "cmake"
 build_dir: "build.clickable"
 image_setup:
+  env:
+    PWD: ${PROJECT_DIR}
   run:
     - ./mk/clickable/get_fmt.sh
 dependencies_target:

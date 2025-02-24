@@ -65,6 +65,7 @@ jobs:
         env:
           BUILD_TYPE: ${{ (matrix.build_type == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
+          PROJECT_DIR: ${{ github.workspace }}
         run: |
           ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}  \
                                       --config mk/clickable/clickable-glew.yaml
@@ -74,6 +75,7 @@ jobs:
         env:
           BUILD_TYPE: ${{ (matrix.build_type == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
+          PROJECT_DIR: ${{ github.workspace }}
         run: |
           ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}
 
