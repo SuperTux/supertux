@@ -6,8 +6,8 @@ image_setup:
   env:
     BUILD_ARCH: $ARCH
   run:
-    - wget ftp.debian.org/debian/pool/main/f/fmtlib/libfmt9_9.1.0+ds1-2_${BUILD_ARCH}.deb | dpkg -i libfmt9_9.1.0+ds1-2_${BUILD_ARCH}.deb
-    - wget ftp.debian.org/debian/pool/main/f/fmtlib/libfmt-dev_9.1.0+ds1-2_${BUILD_ARCH}.deb | dpkg -i libfmt-dev_9.1.0+ds1-2_${BUILD_ARCH}.deb
+    - wget ftp.debian.org/debian/pool/main/f/fmtlib/libfmt9_9.1.0+ds1-2_${BUILD_ARCH}.deb && dpkg -i libfmt9_9.1.0+ds1-2_${BUILD_ARCH}.deb
+    - wget ftp.debian.org/debian/pool/main/f/fmtlib/libfmt-dev_9.1.0+ds1-2_${BUILD_ARCH}.deb && dpkg -i libfmt-dev_9.1.0+ds1-2_${BUILD_ARCH}.deb
 dependencies_target:
   - "libogg-dev"
   - "libvorbis-dev"
