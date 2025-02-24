@@ -3,9 +3,8 @@ framework: "ubuntu-sdk-20.04"
 builder: "cmake"
 build_dir: "build.clickable"
 image_setup:
-  env:
-    PROJECT_DIR: $PROJECT_DIR
   run:
+    - pwd
     - ${PROJECT_DIR}/mk/clickable/get_fmt.sh
 dependencies_target:
   - "libogg-dev"
