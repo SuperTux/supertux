@@ -8,13 +8,13 @@ image_setup:
   run:
     - wget ftp.debian.org/debian/pool/main/f/fmtlib/libfmt9_9.1.0+ds1-2_${BUILD_ARCH}.deb    && dpkg --force-all -i libfmt9_9.1.0+ds1-2_${BUILD_ARCH}.deb
     - wget ftp.debian.org/debian/pool/main/f/fmtlib/libfmt-dev_9.1.0+ds1-2_${BUILD_ARCH}.deb && dpkg --force-all -i libfmt-dev_9.1.0+ds1-2_${BUILD_ARCH}.deb
+    - wget ftp.debian.org/debian/pool/main/libs/libsdl2/libsdl2-2.0-0_2.26.5+dfsg-1_${BUILD_ARCH}.deb && dpkg --force-all -i libsdl2-2.0-0_2.26.5+dfsg-1_${BUILD_ARCH}.deb
+    - wget ftp.debian.org/debian/pool/main/libs/libsdl2/libsdl2-dev_2.26.5+dfsg-1_${BUILD_ARCH}.deb && dpkg --force-all -i libsdl2-dev_2.26.5+dfsg-1_${BUILD_ARCH}.deb
+    - apt-get install -y libsdl2-image-dev libsdl2-ttf-dev
 dependencies_target:
   - "libogg-dev"
   - "libvorbis-dev"
   - "libopenal-dev"
-  - "libsdl2-dev"
-  - "libsdl2-image-dev"
-  - "libsdl2-ttf-dev"
   - "libphysfs-dev"
   - "libcurl4-openssl-dev"
   - "libglm-dev"
