@@ -13,5 +13,19 @@
           "flame-fade-1.png"
           "flame-fade-2.png"
           "flame-fade-3.png"))
+  (action
+  (hitbox 0 0 31.8 31.8)
+  (name "greyscale")
+  (images "greyscale/flame-0.png"
+          "greyscale/flame-1.png"))
+ (action
+  (hitbox 0 0 31.8 31.8)
+  (name "greyscale_fade")
+  (fps 5)
+  (images "greyscale/flame-1.png"
+          "greyscale/flame-fade-0.png"
+          "greyscale/flame-fade-1.png"
+          "greyscale/flame-fade-2.png"
+          "greyscale/flame-fade-3.png"))
 )
 
