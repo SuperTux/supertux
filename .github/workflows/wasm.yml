@@ -52,6 +52,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          source ~/emsdk/emsdk_env.sh
           vcpkg integrate install
           vcpkg install curl:wasm32-emscripten
           vcpkg install glew:wasm32-emscripten
