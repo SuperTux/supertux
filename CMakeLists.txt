@@ -184,12 +184,18 @@ if(ENABLE_OPENGL)
   set(OpenGL_GL_PREFERENCE "LEGACY")
   find_package(OpenGL)
 
-  if(OPENGL_FOUND)
-    find_package(GLEW REQUIRED)
+  if(EMSCRIPTEN)
+    # Emscripten has its own GLEW.
+    set(HAVE_OPENGL ${OPENGL_FOUND})
+  else()
+    if(OPENGL_FOUND)
+      find_package(GLEW REQUIRED)
+    endif()
+
+    set(HAVE_OPENGL ${GLEW_FOUND})
   endif()
 
-  if(GLEW_FOUND)
-    set(HAVE_OPENGL YES)
+  if(HAVE_OPENGL)
     message(STATUS "OpenGL & GLEW found, enabling OpenGL support.")
   endif()
 endif()
