@@ -55,6 +55,9 @@ jobs:
                        openal-soft sdl2 sdl2_image sdl2_ttf \
                        glib gtk-doc zlib physfs fmt
 
+          export PKG_CONFIG_PATH="/usr/local/opt/openal-soft/lib/pkgconfig:$PKG_CONFIG_PATH"
+          export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig:$PKG_CONFIG_PATH"
+
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
             /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
