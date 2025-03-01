@@ -6,14 +6,8 @@ image_setup:
   env:
     BUILD_ARCH: $ARCH
   run:
-    - >
-      wget -O fmtlib.tar.gz https://github.com/fmtlib/fmt/archive/refs/tags/fmt-9.1.0.tar.gz &&
-      tar -xvzf fmtlib.tar.gz &&
-      cd fmt-9.1.0 &&
-      mkdir build && cd build &&
-      cmake .. -DCMAKE_BUILD_TYPE=Release &&
-      cmake --build . &&
-      sudo cmake --install .
+    # I don't know how to split this and honestly I don't care
+    - wget -O fmtlib.tar.gz https://github.com/fmtlib/fmt/archive/refs/tags/fmt-9.1.0.tar.gz && tar -xvzf fmtlib.tar.gz && cd fmt-9.1.0 && mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && cmake --build . && sudo cmake --install .
 dependencies_target:
   - "libogg-dev"
   - "libvorbis-dev"
