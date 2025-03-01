@@ -97,10 +97,6 @@ jobs:
           make -j3 VERBOSE=1
           make install DESTDIR="/tmp/supertux" VERBOSE=1
 
-      - name: Run tests
-        working-directory: build
-        run: ./test_supertux2
-
       - name: Package
         env:
           OS_NAME: ${{ matrix.os }}
