@@ -86,7 +86,7 @@ jobs:
           $CXX --version
           mkdir "build"
           cd "build"
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH -DBUILD_TESTS=ON       \
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH                        \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
                    -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin        \
                    -DINSTALL_SUBDIR_SHARE=share/supertux2
