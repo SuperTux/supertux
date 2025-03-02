@@ -28,16 +28,15 @@ public:
 
   virtual void activate() override;
   virtual void deactivate() override;
-  virtual void after_editor_set();
+  virtual void after_editor_set() override;
   virtual void active_update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void kill_fall() override;
-
   virtual void freeze() override;
   virtual void ignite() override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
-
+  void spawn_flame_sprites(int count, const std::string& sprite_path, Color color_);
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
@@ -70,8 +69,8 @@ private:
   std::unique_ptr<SoundSource> sound_source;
   SurfacePtr m_radius_indicator;
 private:
-  Color lightcolor;
-  void updateColor();
+  Color m_light_color;
+  void update_color();
 private:
   Flame(const Flame&) = delete;
   Flame& operator=(const Flame&) = delete;

@@ -100,7 +100,6 @@ SpriteParticle::update(float dt_sec)
   if (!camera.get_rect().contains(position)) {
     remove_me();
   }
-
 }
 
 void
