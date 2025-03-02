@@ -43,6 +43,11 @@
 
 find_package(PkgConfig)
 function(add_package)
+  if(TARGET ${addpackage_args_TARGET})
+    message(STATUS "Target \"${addpackage_args_TARGET}\" already exists. Skipping")
+    return()
+  endif()
+
   cmake_parse_arguments(addpackage_args
     "CONFIG;REQUIRED;PREFER_PKGCONFIG" "TARGET;PROVIDES;PKG;PKG_USE" "PKG_CONFIG"
     ${ARGN}
@@ -63,6 +68,11 @@ function(add_package)
     endif()
 
     find_package(${addpackage_args_PKG} ${addpackage_fp_args} QUIET)
+  endif()
+
+  if(TARGET ${addpackage_args_TARGET})
+    message(STATUS "Package \"${addpackage_args_PKG}\" was found successfully!")
+    return()
   endif()
 
   # PKG_FOUND is not as reliable as I thought it would be.

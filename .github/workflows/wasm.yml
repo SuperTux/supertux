@@ -61,10 +61,8 @@ jobs:
         run: |
           source ~/emsdk/emsdk_env.sh
           vcpkg integrate install
-          vcpkg install curl:wasm32-emscripten
           vcpkg install libogg:wasm32-emscripten
           vcpkg install libvorbis:wasm32-emscripten
-          vcpkg install openal-soft:wasm32-emscripten
           vcpkg install sdl2:wasm32-emscripten
           vcpkg install sdl2-image:wasm32-emscripten
           vcpkg install sdl2-ttf:wasm32-emscripten

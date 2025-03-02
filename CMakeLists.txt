@@ -79,9 +79,6 @@ else()
   endif()
 endif()
 
-if(EMSCRIPTEN)
-  include(SuperTux/Emscripten)
-endif()
 
 if(EMSCRIPTEN OR UBUNTU_TOUCH OR ANDROID)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
@@ -243,6 +240,10 @@ target_compile_features(supertux2 PUBLIC cxx_std_17)
 
 if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
   target_compile_definitions(supertux2 PUBLIC SUPERTUX_RELEASE)
+endif()
+
+if(EMSCRIPTEN)
+  include(SuperTux/Emscripten)
 endif()
 
 # TODO Is this even needed?
