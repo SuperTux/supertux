@@ -58,9 +58,11 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/wasm.yml') }}
 
       - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
           source ~/emsdk/emsdk_env.sh
           vcpkg integrate install
+          vcpkg install libpng:wasm32-emscripten
           vcpkg install glm:wasm32-emscripten
           vcpkg install zlib:wasm32-emscripten
           vcpkg install fmt:wasm32-emscripten
