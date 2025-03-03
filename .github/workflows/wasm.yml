@@ -55,7 +55,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.VCPKG_INSTALLATION_ROOT }}/installed
-          key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/wasm.yml') }}
+          key: wasm-dependencies-${{ hashFiles('.github/workflows/wasm.yml') }}
 
       - name: Install dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
