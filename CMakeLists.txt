@@ -288,14 +288,14 @@ if(NOT EMSCRIPTEN)
     VorbisFile
   )
   target_link_libraries(supertux2 PUBLIC LibCURL)
-endif()
 
-if(HAVE_OPENGL)
-  target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW::GLEW)
-endif()
+  if(HAVE_OPENGL)
+    target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW::GLEW)
+  endif()
 
-if(ENABLE_DISCORD)
-  target_link_libraries(supertux2 PUBLIC discord-rpc)
+  if(ENABLE_DISCORD)
+    target_link_libraries(supertux2 PUBLIC discord-rpc)
+  endif()
 endif()
 
 ## Install stuff
