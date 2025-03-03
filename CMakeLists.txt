@@ -79,10 +79,6 @@ else()
   endif()
 endif()
 
-if(EMSCRIPTEN)
-  include(SuperTux/Emscripten)
-endif()
-
 if(EMSCRIPTEN OR UBUNTU_TOUCH OR ANDROID)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
@@ -249,6 +245,10 @@ endif()
 
 if(WIN32)
   include(SuperTux/Win32)
+endif()
+
+if(EMSCRIPTEN)
+  include(SuperTux/Emscripten)
 endif()
 
 set_target_properties(supertux2 PROPERTIES OUTPUT_NAME "supertux2")
