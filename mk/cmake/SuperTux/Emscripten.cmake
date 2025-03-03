@@ -1,7 +1,7 @@
 set(CMAKE_EXECUTABLE_SUFFIX .html)
 set(IS_EMSCRIPTEN_BUILD ON)
 
-set(EM_USE_FLAGS "-sDISABLE_EXCEPTION_CATCHING=0 -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sSDL2_IMAGE_FORMATS='[\"png\",\"jpg\"]' -sUSE_SDL_TTF=2 -lopenal -sUSE_VORBIS=1")
+set(EM_USE_FLAGS "-sDISABLE_EXCEPTION_CATCHING=0 -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sSDL2_IMAGE_FORMATS='[\"png\",\"jpg\"]' -sUSE_SDL_TTF=2 -sUSE_VORBIS=1")
 if(ENABLE_OPENGL)
   set(EM_USE_FLAGS "${EM_USE_FLAGS} -sFULL_ES2=1")
 endif()
@@ -18,3 +18,9 @@ set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${EM_USE_FLAGS} ${EM_LINK_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${EM_USE_FLAGS} ${EM_LINK_FLAGS}")
 
 target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
+
+add_library(OpenAL INTERFACE IMPORTED)
+set_target_properties(OpenAL PROPERTIES
+  INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/mk/emscripten/AL"
+  INTERFACE_LINK_LIBRARIES "-lopenal"
+)

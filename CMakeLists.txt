@@ -268,7 +268,7 @@ else()
 endif()
 target_link_libraries(supertux2 PUBLIC
   tinygettext sexp SDL_SavePNG
-  PartioZip FindLocale obstack glm fmt PhysFS)
+  PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
 
 if(NOT EMSCRIPTEN)
@@ -288,7 +288,6 @@ if(NOT EMSCRIPTEN)
     VorbisFile
   )
   target_link_libraries(supertux2 PUBLIC LibCURL)
-  target_link_libraries(supertux2 PUBLIC OpenAL)
 endif()
 
 if(HAVE_OPENGL)
