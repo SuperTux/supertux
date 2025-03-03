@@ -79,6 +79,9 @@ else()
   endif()
 endif()
 
+if(EMSCRIPTEN)
+  include(SuperTux/Emscripten)
+endif()
 
 if(EMSCRIPTEN OR UBUNTU_TOUCH OR ANDROID)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
@@ -135,24 +138,8 @@ endif()
 include(SuperTux/AddPackage)
 
 # Find dependencies
-add_package(TARGET SDL2
-  PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2)
 add_package(TARGET PNG
   PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED) # lol
-add_package(TARGET SDL2_image
-  PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image)
-add_package(TARGET SDL2_ttf
-  PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
-add_package(TARGET LibCURL
-  PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
-add_package(TARGET OpenAL
-  PKG OpenAL PKG_USE OpenAL::OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL openal)
-add_package(TARGET Ogg
-  PKG Ogg PKG_USE Ogg::ogg CONFIG REQUIRED PKG_CONFIG ogg)
-add_package(TARGET Vorbis
-  PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_CONFIG vorbis)
-add_package(TARGET VorbisFile
-  PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
 add_package(TARGET PhysFS
   PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs
   PREFER_PKGCONFIG)
@@ -162,6 +149,25 @@ add_package(TARGET fmt
   PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
 add_package(TARGET glm
   PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
+
+if(NOT EMSCRIPTEN)
+  add_package(TARGET SDL2
+    PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2)
+  add_package(TARGET SDL2_image
+    PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image)
+  add_package(TARGET SDL2_ttf
+    PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
+  add_package(TARGET LibCURL
+    PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
+  add_package(TARGET OpenAL
+    PKG OpenAL PKG_USE OpenAL::OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL openal)
+  add_package(TARGET Ogg
+    PKG Ogg PKG_USE Ogg::ogg CONFIG REQUIRED PKG_CONFIG ogg)
+  add_package(TARGET Vorbis
+    PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_CONFIG vorbis)
+  add_package(TARGET VorbisFile
+    PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
+endif()
 
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
@@ -197,8 +203,6 @@ if(ENABLE_OPENGL)
   endif()
 endif()
 
-#include(SuperTux/ProvideOpenGL)
-
 ## Build stuff
 include(SuperTux/BuildVersion)
 include(SuperTux/BuildDocumentation)
@@ -222,11 +226,6 @@ list(SORT SUPERTUX_RESOURCES)
 
 include(SuperTux/CompileAmalgation)
 
-## Generate supertux executable in the right place
-# Is this needed? - Swagtoy
-#set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-#set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-
 # Set windowed mode when building in release
 # because the console is very useful for debugging on Windows.
 set(SUPERTUX_WIN32_OPTION)
@@ -242,12 +241,6 @@ if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
   target_compile_definitions(supertux2 PUBLIC SUPERTUX_RELEASE)
 endif()
 
-if(EMSCRIPTEN)
-  include(SuperTux/Emscripten)
-endif()
-
-# TODO Is this even needed?
-# $<$<BOOL:WIN32>:{CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc>
 target_include_directories(supertux2 PUBLIC ${CMAKE_BINARY_DIR} src/)
 
 if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD|NetBSD")
@@ -274,7 +267,7 @@ else()
 endif()
 target_link_libraries(supertux2 PUBLIC
   tinygettext sexp SDL_SavePNG
-  PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
+  PartioZip FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
 
 if(NOT EMSCRIPTEN)
@@ -294,6 +287,7 @@ if(NOT EMSCRIPTEN)
     VorbisFile
   )
   target_link_libraries(supertux2 PUBLIC LibCURL)
+  target_link_libraries(supertux2 PUBLIC OpenAL)
 endif()
 
 if(HAVE_OPENGL)
