@@ -184,20 +184,16 @@ endif()
 
 option(ENABLE_OPENGL "Enable OpenGL support" ON)
 set(HAVE_OPENGL NO)
-if(ENABLE_OPENGL)
+# OpenGL for Emscripten is added in Emscripten.cmake
+if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
   set(OpenGL_GL_PREFERENCE "LEGACY")
   find_package(OpenGL)
 
-  if(EMSCRIPTEN)
-    # Emscripten has its own GLEW.
-    set(HAVE_OPENGL ${OPENGL_FOUND})
-  else()
-    if(OPENGL_FOUND)
-      find_package(GLEW REQUIRED)
-    endif()
-
-    set(HAVE_OPENGL ${GLEW_FOUND})
+  if(OPENGL_FOUND)
+    find_package(GLEW REQUIRED)
   endif()
+
+  set(HAVE_OPENGL ${GLEW_FOUND})
 
   if(HAVE_OPENGL)
     message(STATUS "OpenGL & GLEW found, enabling OpenGL support.")
