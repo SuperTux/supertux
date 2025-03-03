@@ -165,6 +165,11 @@ if(NOT EMSCRIPTEN)
     PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
 endif()
 
+if(EMSCRIPTEN)
+  set(SQ_DISABLE_INSTALLER YES)
+  set(SSQ_BUILD_INSTALL NO)
+endif()
+
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
 add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
