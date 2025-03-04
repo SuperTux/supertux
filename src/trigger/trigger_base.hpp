@@ -74,12 +74,21 @@ public:
   {
     TriggerBase::update();
   }
+  
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override
   {
     return TriggerBase::collision(other, hit);
   }
 
+  void draw_debug(DrawingContext& context, const Color& color);
+
   int get_layer() const override { return LAYER_TILES + 1; }
+  bool is_triggering_for_object(const MovingObject& object) const;
+
+  ObjectSettings get_settings() override;
+
+private:
+  Direction m_trigger_direction;
 
 private:
   Trigger(const Trigger&) = delete;
