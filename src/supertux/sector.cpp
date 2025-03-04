@@ -534,10 +534,10 @@ Sector::is_free_of_solid_tiles(float left, float top, float right, float bottom,
 }
 
 bool
-Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype) const
+Sector::is_free_of_statics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore, const bool ignoreUnisolid, uint32_t tiletype) const
 {
   return m_collision_system->is_free_of_statics(rect,
-                                                ignore_object ? ignore_object->get_collision_object() : nullptr,
+                                                objects_to_ignore,
                                                 ignoreUnisolid,
                                                 tiletype);
 }
@@ -547,57 +547,54 @@ Sector::is_free_of_statics(float left, float top, float right, float bottom,
                            bool ignore_unisolid) const
 {
   return m_collision_system->is_free_of_statics(Rectf(Vector(left, top), Vector(right, bottom)),
-                                                nullptr, ignore_unisolid);
+                                                {}, ignore_unisolid);
 }
 
 bool
-Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
+Sector::is_free_of_movingstatics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore) const
 {
-  return m_collision_system->is_free_of_movingstatics(rect,
-                                                      ignore_object ? ignore_object->get_collision_object() : nullptr);
+  return m_collision_system->is_free_of_movingstatics(rect, objects_to_ignore);
 }
 
 bool
 Sector::is_free_of_movingstatics(float left, float top, float right, float bottom) const
 {
-  return m_collision_system->is_free_of_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
+  return m_collision_system->is_free_of_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), {});
 }
 
 bool
-Sector::is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
+Sector::is_free_of_specifically_movingstatics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore) const
 {
-  return m_collision_system->is_free_of_specifically_movingstatics(rect,
-                                                      ignore_object ? ignore_object->get_collision_object() : nullptr);
+  return m_collision_system->is_free_of_specifically_movingstatics(rect, objects_to_ignore);
 }
 
 bool
 Sector::is_free_of_specifically_movingstatics(float left, float top, float right, float bottom) const
 {
-  return m_collision_system->is_free_of_specifically_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
+  return m_collision_system->is_free_of_specifically_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), {});
 }
 
 CollisionSystem::RaycastResult
 Sector::get_first_line_intersection(const Vector& line_start,
                                     const Vector& line_end,
                                     CollisionSystem::RaycastIgnore ignore,
-                                    const CollisionObject* ignore_object) const {
-  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore, ignore_object);
+                                    const std::vector<const CollisionObject*>& objects_to_ignore) const {
+  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore, objects_to_ignore);
 }
 
 CollisionSystem::RaycastResult
 Sector::get_first_line_intersection(const Vector& line_start,
                                     const Vector& line_end,
                                     bool ignore_objects,
-                                    const CollisionObject* ignore_object) const {
+                                    const std::vector<const CollisionObject*>& objects_to_ignore) const {
   auto ignore = (ignore_objects ? CollisionSystem::IGNORE_OBJECTS : CollisionSystem::IGNORE_NONE);
-  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore, ignore_object);
+  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore, objects_to_ignore);
 }
 
 bool
-Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const MovingObject* ignore_object) const
+Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const std::vector<const CollisionObject*>& objects_to_ignore) const
 {
-  return m_collision_system->free_line_of_sight(line_start, line_end, ignore_objects,
-                                                ignore_object ? ignore_object->get_collision_object() : nullptr);
+  return m_collision_system->free_line_of_sight(line_start, line_end, ignore_objects, objects_to_ignore);
 }
 
 bool
@@ -606,11 +603,11 @@ Sector::can_see_player(const Vector& eye) const
   for (auto& player : get_objects_by_type<Player>())
   {
     // test for free line of sight to any of all four corners and the middle of the player's bounding box
-    if (free_line_of_sight(eye, player.get_bbox().p1(), false, &player)) return true;
-    if (free_line_of_sight(eye, Vector(player.get_bbox().get_right(), player.get_bbox().get_top()), false, &player)) return true;
-    if (free_line_of_sight(eye, player.get_bbox().p2(), false, &player)) return true;
-    if (free_line_of_sight(eye, Vector(player.get_bbox().get_left(), player.get_bbox().get_bottom()), false, &player)) return true;
-    if (free_line_of_sight(eye, player.get_bbox().get_middle(), false, &player)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().p1(), false, { player.get_collision_object() })) return true;
+    if (free_line_of_sight(eye, Vector(player.get_bbox().get_right(), player.get_bbox().get_top()), false, { player.get_collision_object() })) return true;
+    if (free_line_of_sight(eye, player.get_bbox().p2(), false, { player.get_collision_object() })) return true;
+    if (free_line_of_sight(eye, Vector(player.get_bbox().get_left(), player.get_bbox().get_bottom()), false, { player.get_collision_object() })) return true;
+    if (free_line_of_sight(eye, player.get_bbox().get_middle(), false, { player.get_collision_object() })) return true;
   }
   return false;
 }
