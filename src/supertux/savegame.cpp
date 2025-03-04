@@ -25,7 +25,6 @@
 #include "physfs/util.hpp"
 #include "squirrel/serialize.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/profile_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
@@ -102,6 +101,12 @@ LevelsetState::get_level_state(const std::string& filename) const
   }
 }
 
+uint32_t
+Savegame::Progress::get_percentage() const
+{
+  // Calculate the percentage using both the solved and perfected level counts.
+  return solved > 0 ? static_cast<uint32_t>(static_cast<float>(solved + perfect) / static_cast<float>(total * 2) * 100) : 0;
+}
 
 std::unique_ptr<Savegame>
 Savegame::from_profile(int profile, const std::string& world_name, bool base_data)
@@ -245,16 +250,6 @@ Savegame::save()
   writer.start_list("supertux-savegame");
   writer.write("version", 1);
 
-  using namespace worldmap;
-  if (WorldMap::current() != nullptr)
-  {
-    std::ostringstream title;
-    title << WorldMap::current()->get_title();
-    title << " (" << WorldMap::current()->solved_level_count()
-          << "/" << WorldMap::current()->level_count() << ")";
-    writer.write("title", title.str());
-  }
-
   writer.start_list("tux");
   m_player_status->write(writer);
   writer.end_list("tux");
@@ -310,8 +305,21 @@ Savegame::get_worldmap_state(const std::string& name)
         worlds.rename(old_map_filename.c_str(), name.c_str());
     }
 
-    ssq::Table levels = worlds.getOrCreateTable(name.c_str()).getOrCreateTable("levels");
-    result.level_states = get_level_states(levels);
+    ssq::Table world = worlds.getOrCreateTable(name.c_str());
+    for (const auto& [_, value] : world.convertRaw())
+    {
+      if (value.getType() != ssq::Type::TABLE)
+        continue;
+
+      ssq::Table sector = value.toTable();
+
+      if (sector.hasEntry("levels"))
+      {
+        ssq::Table levels = sector.findTable("levels");
+        for (const auto& level_state : get_level_states(levels))
+          result.level_states.push_back(std::move(level_state));
+      }
+    }
   }
   catch(const std::exception& err)
   {
@@ -379,6 +387,54 @@ Savegame::set_levelset_state(const std::string& basedir,
   {
     log_warning << err.what() << std::endl;
   }
+}
+
+Savegame::Progress
+Savegame::get_levelset_progress()
+{
+  Progress progress;
+
+  for (const std::string& levelset : get_levelsets())
+  {
+    for (const auto& level_state : get_levelset_state(levelset).level_states)
+    {
+      if (level_state.filename.empty())
+        continue;
+
+      if (level_state.solved)
+        progress.solved++;
+      if (level_state.perfect)
+        progress.perfect++;
+
+      progress.total++;
+    }
+  }
+
+  return progress;
+}
+
+Savegame::Progress
+Savegame::get_worldmap_progress()
+{
+  Progress progress;
+
+  for (const std::string& map : get_worldmaps())
+  {
+    for (const auto& level_state : get_worldmap_state(map).level_states)
+    {
+      if (level_state.filename.empty())
+        continue;
+
+      if (level_state.solved)
+        progress.solved++;
+      if (level_state.perfect)
+        progress.perfect++;
+
+      progress.total++;
+    }
+  }
+
+  return progress;
 }
 
 /* EOF */

@@ -48,6 +48,7 @@ public:
 
   void setup() override;
   void leave() override;
+  void quit();
 
   void draw(Compositor& compositor) override;
   void update(float dt_sec, const Controller& controller) override;
@@ -101,6 +102,7 @@ private:
   void process_input(const Controller& controller);
 
   void on_escape_press();
+  void take_preview_screenshot();
 
 private:
   WorldMapSector* m_sector; /* The currently active sector. */
@@ -126,6 +128,7 @@ private:
   bool m_enter_level;
   bool m_in_level;
   bool m_in_world_select;
+  bool m_screenshot_request;
 
 private:
   WorldMap(const WorldMap&) = delete;
