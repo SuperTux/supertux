@@ -151,6 +151,16 @@
     )
     (blank)
     (person
+      (name "Tobias \"tobgle\" Gläßer")
+      (info (_ "Programming, Previous Maintainer"))
+    )
+    (blank)
+    (person
+      (name "Ricardo \"blacksheep\" Cruz")
+      (info (_ "Programming"))
+    )
+    (blank)
+    (person
       (name "Mathnerd314")
       (info (_ "Programming"))
     )
@@ -542,16 +552,8 @@
       (info (_ "Contrib Programming"))
     )
     (person
-      (name "Ricardo \"blacksheep\" Cruz")
-      (info (_ "Programming"))
-    )
-    (person
       (name "Richard Smith")
       (info (_ "Contrib Programming"))
-    )
-    (person
-      (name "Tobias \"tobgle\" Gläßer")
-      (info (_ "Programming, Previous Maintainer"))
     )
 	(person
       (name "martinvanzijl")
