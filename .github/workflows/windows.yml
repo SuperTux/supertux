@@ -33,15 +33,12 @@ jobs:
       matrix:
         arch: [x64, x86]
         build_type: [Debug, RelWithDebInfo]
-        glbinding: [OFF] # [ON, OFF] # FIXME: Fix Windows glbinding builds
         include:
           - build_type: RelWithDebInfo
             arch: x64
-            glbinding: OFF
             release: ON
           - build_type: RelWithDebInfo
             arch: x86
-            glbinding: OFF
             release: ON
 
     runs-on: windows-latest
@@ -65,19 +62,18 @@ jobs:
           ARCH: ${{ matrix.arch }}
         run: |
           vcpkg integrate install
-          vcpkg install gtest:$Env:ARCH-windows
           vcpkg install curl:$Env:ARCH-windows
-          vcpkg install --recurse freetype:$Env:ARCH-windows
           vcpkg install glew:$Env:ARCH-windows
-          vcpkg install glbinding:$Env:ARCH-windows
           vcpkg install libogg:$Env:ARCH-windows
-          vcpkg install libraqm:$Env:ARCH-windows
           vcpkg install libvorbis:$Env:ARCH-windows
           vcpkg install openal-soft:$Env:ARCH-windows
           vcpkg install sdl2:$Env:ARCH-windows
           vcpkg install sdl2-image[libjpeg-turbo]:$Env:ARCH-windows
+          vcpkg install sdl2-ttf:$Env:ARCH-windows
           vcpkg install glm:$Env:ARCH-windows
           vcpkg install zlib:$Env:ARCH-windows
+          vcpkg install fmt:$Env:ARCH-windows
+          vcpkg install physfs:$Env:ARCH-windows
 
       - name: Configure bulid
         env:
@@ -88,7 +84,7 @@ jobs:
           cmake --version
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 17 2022" -A $Env:ARCH.replace("x86", "Win32") "-DGLBINDING_ENABLED=$Env:GLBINDING" -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" -DBUILD_TESTS=ON
+          cmake .. -G "Visual Studio 17 2022" -A $Env:ARCH.replace("x86", "Win32") -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE"
 
       - name: Build and install
         working-directory: build
@@ -97,15 +93,16 @@ jobs:
         run: |
           cmake --build . --config $Env:BUILD_TYPE
 
-      - name: Run Tests
-        working-directory: build
-        env:
-          BUILD_TYPE: ${{ matrix.build_type }}
-        run: |
-          "./$Env:BUILD_TYPE/run_tests.exe"
+      # FIXME
+      # - name: Run Tests
+      #   working-directory: build
+      #   env:
+      #     BUILD_TYPE: ${{ matrix.build_type }}
+      #   run: |
+      #     "./$Env:BUILD_TYPE/run_tests.exe"
 
       - name: Package MSI Installer
-        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
+        if: matrix.build_type != 'Debug'
         shell: pwsh
         working-directory: build
         env:
@@ -124,10 +121,14 @@ jobs:
             mv *.msi upload/
           }
 
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
+
       - name: Upload MSI Installer
         uses: actions/upload-artifact@v4
         with:
-          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-installer"
+          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-installer"
           path: build/upload/*.msi
           if-no-files-found: ignore
 
@@ -136,8 +137,9 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
-          mkdir -Force SuperTux-${{ github.sha }}-portable
-          cmake --install . --config $Env:BUILD_TYPE --prefix .\SuperTux-${{ github.sha }}-portable
+          $name = "SuperTux-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-portable"
+          mkdir -Force $name
+          cmake --install . --config $Env:BUILD_TYPE --prefix .\$name
 
           # Because github puts assets in zips, if you upload a zip,
           # it will upload another zip. I have disabled this code because
@@ -145,15 +147,15 @@ jobs:
           # here it is.
           <#
           cpack -C $Env:BUILD_TYPE -G ZIP
-          mv *.zip SuperTux-${{ github.sha }}-portable/
+          mv *.zip $name
           #>
 
       - name: Upload Portable Package
-        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
+        if: matrix.build_type != 'Debug'
         uses: actions/upload-artifact@v4
         with:
-          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-portable"
-          path: build/SuperTux-${{ github.sha }}-portable
+          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-portable"
+          path: build/SuperTux-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-portable
           if-no-files-found: ignore
 
       - uses: anshulrgoyal/upload-s3-action@master

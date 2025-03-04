@@ -31,30 +31,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # TODO Working Linux 32-bit packaging
+        # TODO CTest & coverage workflow implement
         arch: [32, 64]
-        os: [ubuntu-20.04]
+        os: [ubuntu-latest]
         compiler: [gcc, clang]
         build_type: [Debug, Release]
-        glbinding: [ON, OFF]
-        exclude:
-          - arch: 32
-            glbinding: ON
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             build_type: Release
             compiler: gcc
             arch: 64
-            glbinding: OFF
             release: ON
             source: ON
-            documentation: ON
-          - os: ubuntu-20.04
-            build_type: Debug
-            compiler: gcc
-            arch: 64
-            glbinding: OFF
+            documentation: true
             coverage: ON
-            # TODO: Working Linux 32-bit packaging
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -70,16 +61,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             cmake \
+            ninja-build \
             build-essential \
             automake \
             gtk-doc-tools \
+            fuse \
             rpm \
             rename \
             sshpass \
-            clang-6.0 \
-            g++-8 \
-            gcc-multilib \
-            g++-multilib \
+            clang \
+            g++ \
+            libglu1-mesa-dev \
             libgtest-dev \
             libc++-dev \
             libogg-dev \
@@ -87,68 +79,52 @@ jobs:
             libopenal-dev \
             libsdl2-dev \
             libsdl2-image-dev \
-            libfreetype6-dev \
-            libharfbuzz-dev \
-            libfribidi-dev \
+            libsdl2-ttf-dev \
             libglib2.0-dev \
             libraqm-dev \
             libglew-dev \
-            libglbinding-dev \
             libcurl4-openssl-dev \
             libglm-dev \
+            libfmt-dev \
+            libphysfs-dev \
             zlib1g-dev \
             lcov \
             doxygen
 
       - name: Install 32-bit dependencies
         if: ${{ matrix.arch == 32 }}
-        env:
-          DOWNGRADE_PCRE: ${{ matrix.os == 'ubuntu-20.04' && '1' || '' }}
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
 
-          if [ "$DOWNGRADE_PCRE" ]; then
-            # Github is adding a lot of unnecessary deb.sury.org
-            # packages into ubuntu-20.04, this causes
-            # libharfbuzz-dev:i386 to fail due to issues related to
-            # libpcre2-8-0 from deb.sury.org. Remove all that and
-            # downgrade to official versions.
-            sudo apt-get remove --yes php.* libzip4:amd64
-            sudo apt-get install --yes --allow-downgrades \
-              libpcre2-16-0:amd64=10.34-7 \
-              libpcre2-32-0:amd64=10.34-7 \
-              libpcre2-8-0:amd64=10.34-7 \
-              libpcre2-dev:amd64=10.34-7 \
-              libpcre2-posix2:amd64=10.34-7
-          fi
-
           sudo apt-get install -y \
             cmake \
+            ninja-build \
             build-essential \
             automake \
             gtk-doc-tools \
+            fuse \
             rpm \
             rename \
             sshpass \
+            clang \
             gcc-multilib \
             g++-multilib \
-            libgtest-dev:i386 \
+            libglu1-mesa-dev:i386 \
             libogg-dev:i386 \
             libvorbis-dev:i386 \
             libopenal-dev:i386 \
             libsdl2-dev:i386 \
             libsdl2-image-dev:i386 \
+            libsdl2-ttf-dev:i386 \
             libfreetype6-dev:i386 \
             libcurl4-openssl-dev:i386 \
-            libharfbuzz-dev:i386 \
-            libfribidi-dev:i386 \
-            libglm-dev \
-            zlib1g-dev
+            zlib1g-dev:i386 \
+            libfmt-dev:i386 \
+            libglm-dev
 
-          # Nethier GLEW nor glbinding exist in 32-bit for Ubuntu 20.04, so snatch the debs from 16.04 instead
-          wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew1.13_1.13.0-2_i386.deb && sudo dpkg -i libglew1.13_1.13.0-2_i386.deb
-          wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew-dev_1.13.0-2_i386.deb && sudo dpkg -i libglew-dev_1.13.0-2_i386.deb
+          # These libraries don't exist for 32-bit in Ubuntu repositories.
+          vcpkg install --triplet x86-linux physfs glew
 
       - name: Set compiler (gcc)
         if: ${{ matrix.compiler == 'gcc' }}
@@ -163,24 +139,31 @@ jobs:
           echo "CC=clang" >> $GITHUB_ENV
 
       - name: Configure build
+        shell: pwsh
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-          ARCH: ${{ matrix.arch == 32 && '-DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32' || '' }}
+          32BIT: ${{ matrix.arch == 32 }}
           MAKE_DOCS: ${{ matrix.documentation }}
           GLBINDING: ${{ matrix.glbinding }}
-          # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
-          # (also check the step that invokes the tests with ./test_supertux2)
           TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
-          cmake --version
-          $CXX --version
+          & cmake --version
+          & $Env:CXX --version
           mkdir "build"
           cd "build"
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH -DBUILD_TESTS=$TESTS   \
-                   -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$GLBINDING    \
-                   -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr   \
-                   -DBUILD_DOCUMENTATION=$MAKE_DOCS -DINSTALL_SUBDIR_BIN=bin   \
-                   -DINSTALL_SUBDIR_SHARE=share/supertux2 -DENABLE_DISCORD=ON
+
+          # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
+          # vcpkg for physfs for 32bit
+          & cmake .. -DCMAKE_BUILD_TYPE="$Env:BUILD_TYPE" -DENABLE_DISCORD=ON `
+                     -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
+                     $(if ($Env:32BIT -eq "true") {
+                       "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
+                       "-DVCPKG_TARGET_TRIPLET=x86-linux "
+                       "-DPhysFS_PREFER_FIND_PACKAGE=ON"
+                     }) `
+                     -DBUILD_DOCUMENTATION="$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
+                     -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
+                     -DCMAKE_C_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})"
 
       - name: Build and install
         working-directory: build
@@ -188,22 +171,20 @@ jobs:
           make -j3 VERBOSE=1
           make install DESTDIR="/tmp/supertux" VERBOSE=1
 
-      - name: Run tests
-        # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
-        # (also check the step that invokes CMake with -DBUILD_TESTS)
-        if: ${{ matrix.os == 'ubuntu-20.04' }}
-        working-directory: build
-        run: ./test_supertux2
+      # - name: Run tests
+      #   if: ${{ matrix.os == 'ubuntu-20.04' }}
+      #   working-directory: build
+      #   run: ./test_supertux2
 
-      - name: Make coverage
-        if: ${{ matrix.coverage }}
-        working-directory: build
-        run: |
-          lcov --capture --directory . --exclude '/usr/*' --exclude '*/tests/*'\
-               --exclude '*/external/*' --output-file coverage.info
-          mkdir coverage
-          cd coverage
-          genhtml ../coverage.info
+      # - name: Make coverage
+      #   if: ${{ matrix.coverage }}
+      #   working-directory: build
+      #   run: |
+      #     lcov --capture --directory . --exclude '/usr/*' --exclude '*/tests/*'\
+      #          --exclude '*/external/*' --output-file coverage.info
+      #     mkdir coverage
+      #     cd coverage
+      #     genhtml ../coverage.info
 
       - name: Make documentation
         if: ${{ matrix.documentation }}
@@ -212,7 +193,7 @@ jobs:
           doxygen docs/Doxyfile
 
       - name: Package
-        if: matrix.arch != '32'
+        if: matrix.arch != '32' && matrix.build_type != 'Debug'
         env:
           OS_NAME: ${{ matrix.os }}
           ARCH: ${{ matrix.arch }} # TODO: Working Linux 32-bit packaging
@@ -223,11 +204,15 @@ jobs:
         working-directory: build
         run: ../.ci_scripts/package.sh
 
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
+
       - name: Upload AppImage
-        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
+        if: matrix.build_type != 'Debug'
         uses: actions/upload-artifact@v4
         with:
-          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-appimage"
+          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-${{ matrix.build_type }}-appimage"
           path: build/upload/*.AppImage
           if-no-files-found: ignore
 

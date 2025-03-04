@@ -76,6 +76,7 @@ if(WIN32 AND NOT UNIX)
 
   set(CPACK_WIX_UI_BANNER "${CMAKE_CURRENT_SOURCE_DIR}/mk/wix/banner.png")
   set(CPACK_WIX_UI_DIALOG "${CMAKE_CURRENT_SOURCE_DIR}/mk/wix/dialog.png")
+  set(CPACK_COMPONENTS_ALL Unspecified)
   set(CPACK_GENERATOR WIX)
 endif()
 
