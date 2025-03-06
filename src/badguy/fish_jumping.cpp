@@ -33,6 +33,7 @@ FishJumping::FishJumping(const ReaderMapping& reader) :
   m_stop_y(0)
 {
   m_physic.enable_gravity(true);
+  m_water_affected = false;
 }
 
 void
@@ -70,7 +71,7 @@ FishJumping::hit(const CollisionHit& hit_)
 void
 FishJumping::collision_tile(uint32_t tile_attributes)
 {
-  if ((tile_attributes & Tile::WATER) && (m_physic.get_velocity_y() >= 0)) {
+  if ((tile_attributes & Tile::WATER) && (m_physic.get_velocity_y() >= 0) && !m_frozen) {
     if (m_beached_timer.started())
       m_beached_timer.stop();
     // Initialize stop position if uninitialized.
@@ -110,7 +111,7 @@ FishJumping::active_update(float dt_sec)
   // Set sprite.
   if (!m_frozen && !is_ignited())
     set_action((m_physic.get_velocity_y() == 0.f && m_in_water) ? "wait" :
-      m_physic.get_velocity_y() < 0.f ? "normal" : "down");
+      m_physic.get_velocity_y() < 0.f ? "default" : "down");
 
   // We can't afford flying out of the tilemap, 'cause the engine would remove us.
   if ((get_pos().y - 31.8f) < 0) // Too high, let us fall.
@@ -143,7 +144,7 @@ FishJumping::freeze()
 {
   BadGuy::freeze();
   m_physic.enable_gravity(true);
-  set_action(m_physic.get_velocity_y() < 0 ? "iced" : "iced-down");
+  set_action("iced");
   m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   m_wait_timer.stop();
   if (m_beached_timer.started())
@@ -161,7 +162,7 @@ void
 FishJumping::kill_fall()
 {
   if (!is_ignited())
-  set_action("normal");
+  set_action("default");
   BadGuy::kill_fall();
 }
 

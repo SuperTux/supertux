@@ -26,17 +26,15 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool overlay) :
+DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool overlay, float time_offset) :
   m_video_system(video_system_),
   m_obst(obst),
   m_overlay(overlay),
-  m_viewport(0, 0,
-             m_video_system.get_viewport().get_screen_width(),
-             m_video_system.get_viewport().get_screen_height()),
   m_ambient_color(Color::WHITE),
-  m_transform_stack(1),
+  m_transform_stack({ DrawingTransform(m_video_system.get_viewport()) }),
   m_colormap_canvas(*this, m_obst),
-  m_lightmap_canvas(*this, m_obst)
+  m_lightmap_canvas(*this, m_obst),
+  m_time_offset(time_offset)
 {
 }
 
@@ -46,9 +44,10 @@ DrawingContext::~DrawingContext()
 }
 
 void
-DrawingContext::set_ambient_color(Color ambient_color)
+DrawingContext::clear()
 {
-  m_ambient_color = ambient_color;
+  m_lightmap_canvas.clear();
+  m_colormap_canvas.clear();
 }
 
 Rectf
@@ -56,83 +55,68 @@ DrawingContext::get_cliprect() const
 {
   return Rectf(get_translation().x,
                get_translation().y,
-               get_translation().x + static_cast<float>(m_viewport.get_width()) / transform().scale,
-               get_translation().y + static_cast<float>(m_viewport.get_height()) / transform().scale);
+               get_translation().x + static_cast<float>(transform().viewport.get_width()) / transform().scale,
+               get_translation().y + static_cast<float>(transform().viewport.get_height()) / transform().scale);
 }
 
-void
-DrawingContext::set_flip(Flip flip)
+Canvas&
+DrawingContext::get_canvas(DrawingTarget target)
 {
-  transform().flip = flip;
-}
+  switch (target)
+  {
+    case DrawingTarget::LIGHTMAP:
+      return light();
 
-Flip
-DrawingContext::get_flip() const
-{
-  return transform().flip;
-}
-
-void
-DrawingContext::set_alpha(float alpha)
-{
-  transform().alpha = alpha;
-}
-
-float
-DrawingContext::get_alpha() const
-{
-  return transform().alpha;
-}
-
-DrawingTransform&
-DrawingContext::transform()
-{
-  assert(!m_transform_stack.empty());
-  return m_transform_stack.back();
-}
-
-const DrawingTransform&
-DrawingContext::transform() const
-{
-  assert(!m_transform_stack.empty());
-  return m_transform_stack.back();
-}
-
-void
-DrawingContext::push_transform()
-{
-  m_transform_stack.push_back(transform());
-}
-
-void
-DrawingContext::pop_transform()
-{
-  m_transform_stack.pop_back();
-  assert(!m_transform_stack.empty());
-}
-
-const Rect
-DrawingContext::get_viewport() const
-{
-  return m_viewport;
+    default:
+      return color();
+  }
 }
 
 float
 DrawingContext::get_width() const
 {
-  return static_cast<float>(m_viewport.get_width()) / transform().scale;
+  return static_cast<float>(transform().viewport.get_width()) / transform().scale;
 }
 
 float
 DrawingContext::get_height() const
 {
-  return static_cast<float>(m_viewport.get_height()) / transform().scale;
+  return static_cast<float>(transform().viewport.get_height()) / transform().scale;
 }
 
 Vector
 DrawingContext::get_size() const
 {
   return Vector(get_width(), get_height()) * transform().scale;
+}
+
+bool
+DrawingContext::use_lightmap() const
+{
+  return !m_overlay && m_ambient_color != Color::WHITE;
+}
+
+bool
+DrawingContext::perspective_scale(float speed_x, float speed_y)
+{
+  DrawingTransform& tfm = transform();
+  if (tfm.scale == 1 || speed_x < 0 || speed_y < 0) {
+    //Trivial or unreal situation: Do not apply perspective.
+    return true;
+  }
+  const float speed = sqrt(speed_x * speed_y);
+  if (speed == 0) {
+    //Special case: The object appears to be infinitely far.
+    tfm.scale = 1.0;
+    return true;
+  }
+  const float t = tfm.scale * (1 / speed - 1) + 1;
+  if (t <= 0) {
+    //The object will appear behind the camera, therefore we shall not see it.
+    return false;
+  }
+  tfm.scale /= speed * t;
+  return true;
 }
 
 /* EOF */

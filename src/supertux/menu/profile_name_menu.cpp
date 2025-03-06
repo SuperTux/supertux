@@ -17,7 +17,6 @@
 #include "supertux/menu/profile_name_menu.hpp"
 
 #include <fmt/format.h>
-#include <physfs.h>
 
 #include "gui/dialog.hpp"
 #include "gui/item_textfield.hpp"
@@ -25,23 +24,22 @@
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/menu/profile_menu.hpp"
+#include "supertux/profile.hpp"
+#include "supertux/profile_manager.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
-ProfileNameMenu::ProfileNameMenu(bool rename, int id, std::string name) :
-  m_rename(rename),
-  m_current_profile_id(id),
-  m_current_profile_name(name),
+ProfileNameMenu::ProfileNameMenu(Profile* profile) :
+  m_profile(profile),
   m_profile_name()
 {
-  add_label(m_rename ? fmt::format(fmt::runtime(_("Rename \"{}\"")), m_current_profile_name) : _("Add profile"));
+  add_label(m_profile ? fmt::format(fmt::runtime(_("Rename \"{}\"")), m_profile->get_name()) : _("Add profile"));
   add_hl();
 
   add_textfield(_("Name"), &m_profile_name)
     .set_help(_("Profile names must have a maximum of 20 characters."));
 
-  add_entry(1, m_rename ? _("Rename") : _("Create"));
+  add_entry(1, m_profile ? _("Rename") : _("Create"));
 
   add_hl();
   add_back(_("Back"));
@@ -59,43 +57,33 @@ ProfileNameMenu::menu_action(MenuItem& item)
     return;
   }
 
-  if (!m_rename)
+  if (!m_profile) /** Add profile */
   {
     //Find the smallest available profile ID.
-    const std::vector<int> savegames = savegames_util::get_savegames();
+    const auto profiles = ProfileManager::current()->get_profiles();
     int id = 1;
-    if (!savegames.empty()) id = savegames.back() + 1;
+    if (!profiles.empty())
+      id = profiles.back()->get_id() + 1;
 
-    const std::string profile_path = "profile" + std::to_string(id);
-    if (!PHYSFS_mkdir(profile_path.c_str()))
+    try
     {
-      log_warning << "Error creating folder for profile " << id << std::endl;
+      Profile& profile = ProfileManager::current()->get_profile(id);
+      profile.set_name(m_profile_name);
+      profile.save();
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Error creating profile " << id << ": " << err.what() << std::endl;
       Dialog::show_message(_("An error occurred while creating the profile."));
       return;
     }
 
-    //Delete ID from profile config data, in case it exists.
-    g_config->profiles.erase(
-      std::remove_if(g_config->profiles.begin(),
-      g_config->profiles.end(),
-      [id](const auto& profile) { 
-          return profile.id == id;
-      }), g_config->profiles.end());
-
-    if (!m_profile_name.empty()) g_config->profiles.push_back({id, m_profile_name});
     g_config->profile = id;
   }
-  else
+  else /** Rename profile */
   {
-    //Delete ID from profile config data, in case it exists.
-    g_config->profiles.erase(
-      std::remove_if(g_config->profiles.begin(),
-      g_config->profiles.end(),
-      [this](const auto& profile) { 
-          return profile.id == m_current_profile_id;
-      }), g_config->profiles.end());
-
-    if (!m_profile_name.empty()) g_config->profiles.push_back({m_current_profile_id, m_profile_name});
+    m_profile->set_name(m_profile_name);
+    m_profile->save();
   }
 
   MenuManager::instance().pop_menu();

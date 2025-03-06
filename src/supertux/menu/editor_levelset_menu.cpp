@@ -17,6 +17,7 @@
 #include "supertux/menu/editor_levelset_menu.hpp"
 
 #include "editor/editor.hpp"
+#include "gui/item_action.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
@@ -51,6 +52,8 @@ EditorLevelsetMenu::initialize()
   add_textfield(_("Name"), &m_world->m_title);
   add_textfield(_("Description"), &m_world->m_description);
   add_string_select(1, _("Type"), &m_levelset_type, {_("Worldmap"), _("Levelset")});
+  add_file(_("Title Screen Level"), &m_world->m_title_level, { ".stl" }, m_world->m_basedir, false)
+    .set_help(_("A level to be used for the title screen, after exiting the world."));
   add_hl();
   add_back(_("OK"));
 }

@@ -24,6 +24,7 @@
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
@@ -42,7 +43,7 @@ MrIceBlock::MrIceBlock(const ReaderMapping& reader, const std::string& sprite_na
   parse_type(reader);
 
   walk_speed = 80;
-  max_drop_height = 600;
+  set_ledge_behavior(LedgeBehavior::FALL);
   SoundManager::current()->preload("sounds/iceblock_bump.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
   SoundManager::current()->preload("sounds/kick.wav");
@@ -191,7 +192,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-MrIceBlock::collision(GameObject& object, const CollisionHit& hit)
+MrIceBlock::collision(MovingObject& object, const CollisionHit& hit)
 {
   if (m_frozen)
   {
@@ -250,7 +251,7 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 bool
-MrIceBlock::collision_squished(GameObject& object)
+MrIceBlock::collision_squished(MovingObject& object)
 {
   Player* player = dynamic_cast<Player*>(&object);
   if (player && (player->m_does_buttjump || player->is_invincible())) {
@@ -289,8 +290,7 @@ MrIceBlock::collision_squished(GameObject& object)
   case ICESTATE_FLAT:
   case ICESTATE_WAKING:
   {
-    auto movingobject = dynamic_cast<MovingObject*>(&object);
-    if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+    if (object.get_pos().x < get_pos().x) {
       m_dir = Direction::RIGHT;
     }
     else {
@@ -356,6 +356,7 @@ MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 
   Portable::grab(object, pos, dir_);
   m_col.set_movement(pos - get_pos());
+  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   set_action("flat", m_dir, /* loops = */ -1);
   set_state(ICESTATE_GRABBED);
@@ -380,7 +381,14 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
   }
   if (dir_ == Direction::UP) {
     m_physic.set_velocity_y(-KICKSPEED);
-    set_state(ICESTATE_FLAT);
+    if (std::abs(player->get_physic().get_velocity_x()) < 1.0f) {
+      set_state(ICESTATE_FLAT);
+    }
+    else
+    {
+      m_dir = (m_physic.get_velocity_x() > 0) ? Direction::RIGHT : Direction::LEFT;
+      set_state(ICESTATE_KICKED);
+    }
   }
   else if (dir_ == Direction::DOWN) {
     Vector mov(0, 32);

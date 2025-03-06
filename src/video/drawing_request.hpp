@@ -23,43 +23,44 @@
 #include "math/rectf.hpp"
 #include "math/sizef.hpp"
 #include "math/vector.hpp"
+#include "video/blend.hpp"
 #include "video/color.hpp"
-#include "video/drawing_context.hpp"
+#include "video/drawing_transform.hpp"
 #include "video/font.hpp"
+#include "video/gradient.hpp"
 
 class Surface;
 
-enum RequestType
+enum class RequestType
 {
   TEXTURE, GRADIENT, FILLRECT, INVERSEELLIPSE, GETPIXEL, LINE, TRIANGLE
 };
 
 struct DrawingRequest
 {
-  RequestType type;
-
   int layer;
   Flip flip;
   float alpha;
   Blend blend;
-  Rect viewport;
+  const Rect viewport;
 
   DrawingRequest() = delete;
-  DrawingRequest(RequestType type_) :
-    type(type_),
+  DrawingRequest(const DrawingTransform& transform) :
     layer(),
-    flip(),
-    alpha(),
+    flip(transform.flip),
+    alpha(transform.alpha),
     blend(),
-    viewport(INT_MIN, INT_MIN, INT_MAX, INT_MAX)
+    viewport(transform.viewport)
   {}
   virtual ~DrawingRequest() {}
+
+  virtual RequestType get_type() const = 0;
 };
 
 struct TextureRequest : public DrawingRequest
 {
-  TextureRequest() :
-    DrawingRequest(TEXTURE),
+  TextureRequest(const DrawingTransform& transform) :
+    DrawingRequest(transform),
     texture(),
     displacement_texture(),
     srcrects(),
@@ -67,6 +68,8 @@ struct TextureRequest : public DrawingRequest
     angles(),
     color(1.0f, 1.0f, 1.0f)
   {}
+
+  RequestType get_type() const override { return RequestType::TEXTURE; }
 
   const Texture* texture;
   const Texture* displacement_texture;
@@ -82,8 +85,8 @@ private:
 
 struct GradientRequest : public DrawingRequest
 {
-  GradientRequest()  :
-    DrawingRequest(GRADIENT),
+  GradientRequest(const DrawingTransform& transform)  :
+    DrawingRequest(transform),
     pos(0.0f, 0.0f),
     size(0.0f, 0.0f),
     top(),
@@ -91,6 +94,8 @@ struct GradientRequest : public DrawingRequest
     direction(),
     region()
   {}
+
+  RequestType get_type() const override { return RequestType::GRADIENT; }
 
   Vector pos;
   Vector size;
@@ -102,12 +107,14 @@ struct GradientRequest : public DrawingRequest
 
 struct FillRectRequest : public DrawingRequest
 {
-  FillRectRequest() :
-    DrawingRequest(FILLRECT),
+  FillRectRequest(const DrawingTransform& transform) :
+    DrawingRequest(transform),
     rect(),
     color(),
     radius()
   {}
+
+  RequestType get_type() const override { return RequestType::FILLRECT; }
 
   Rectf rect;
   Color color;
@@ -116,12 +123,14 @@ struct FillRectRequest : public DrawingRequest
 
 struct InverseEllipseRequest : public DrawingRequest
 {
-  InverseEllipseRequest() :
-    DrawingRequest(INVERSEELLIPSE),
+  InverseEllipseRequest(const DrawingTransform& transform) :
+    DrawingRequest(transform),
     pos(0.0f, 0.0f),
     size(0.0f, 0.0f),
     color()
   {}
+
+  RequestType get_type() const override { return RequestType::INVERSEELLIPSE; }
 
   Vector pos;
   Vector size;
@@ -130,12 +139,14 @@ struct InverseEllipseRequest : public DrawingRequest
 
 struct LineRequest : public DrawingRequest
 {
-  LineRequest() :
-    DrawingRequest(LINE),
+  LineRequest(const DrawingTransform& transform) :
+    DrawingRequest(transform),
     pos(0.0f, 0.0f),
     dest_pos(0.0f, 0.0f),
     color()
   {}
+
+  RequestType get_type() const override { return RequestType::LINE; }
 
   Vector pos;
   Vector dest_pos;
@@ -144,13 +155,15 @@ struct LineRequest : public DrawingRequest
 
 struct TriangleRequest : public DrawingRequest
 {
-  TriangleRequest() :
-    DrawingRequest(TRIANGLE),
+  TriangleRequest(const DrawingTransform& transform) :
+    DrawingRequest(transform),
     pos1(0.0f, 0.0f),
     pos2(0.0f, 0.0f),
     pos3(0.0f, 0.0f),
     color()
   {}
+
+  RequestType get_type() const override { return RequestType::TRIANGLE; }
 
   Vector pos1, pos2, pos3;
   Color  color;
@@ -158,10 +171,13 @@ struct TriangleRequest : public DrawingRequest
 
 struct GetPixelRequest : public DrawingRequest
 {
-  GetPixelRequest() :
-    DrawingRequest(GETPIXEL),
+  GetPixelRequest(const DrawingTransform& transform) :
+    DrawingRequest(transform),
     pos(0.0f, 0.0f),
-    color_ptr() {}
+    color_ptr()
+  {}
+
+  RequestType get_type() const override { return RequestType::GETPIXEL; }
 
   Vector pos;
   std::shared_ptr<Color> color_ptr;

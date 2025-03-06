@@ -24,14 +24,13 @@ TEST(RectfTest, contains_point)
   ASSERT_FALSE(Rectf(100.0f, 100.0f, 200.0f, 200.0f).contains(Vector(250.0f, 150.0f)));
 }
 
-/* FIXME: Current implementation is actually overlaps(), not contains()
-TEST(RectfTest, contains_rect)
+TEST(RectfTest, overlaps_rect)
 {
-  ASSERT_TRUE(Rectf(100.0f, 100.0f, 200.0f, 200.0f).contains(Rectf(150.0f, 150.0f, 190.0f, 190.0f)));
-  ASSERT_TRUE(Rectf(100.0f, 100.0f, 200.0f, 200.0f).contains(Rectf(100.0f, 100.0f, 200.0f, 200.0f)));
-  ASSERT_FALSE(Rectf(100.0f, 100.0f, 200.0f, 200.0f).contains(Rectf(150.0f, 150.0f, 250.0f, 250.0f)));
+  ASSERT_TRUE(Rectf(100.0f, 100.0f, 200.0f, 200.0f).overlaps(Rectf(150.0f, 150.0f, 190.0f, 190.0f)));
+  ASSERT_TRUE(Rectf(100.0f, 100.0f, 200.0f, 200.0f).overlaps(Rectf(100.0f, 100.0f, 200.0f, 200.0f)));
+  ASSERT_FALSE(Rectf(100.0f, 100.0f, 200.0f, 200.0f).overlaps(Rectf(250.0f, 250.0f, 300.0f, 300.0f)));
 }
-*/
+
 
 TEST(RectfTest, moved)
 {

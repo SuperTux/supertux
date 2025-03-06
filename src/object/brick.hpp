@@ -27,12 +27,13 @@ public:
   Brick(const Vector& pos, int data, const std::string& sprite_name);
   Brick(const ReaderMapping& mapping, const std::string& sprite_name = "images/objects/bonus_block/brick.sprite");
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual ObjectSettings get_settings() override;
   static std::string class_name() { return "brick"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Brick"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Block::get_class_types().add(typeid(Brick)); }
 
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
@@ -64,11 +65,12 @@ public:
   HeavyBrick(const Vector& pos, int data, const std::string& spriteName);
   HeavyBrick(const ReaderMapping& mapping);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   static std::string class_name() { return "heavy-brick"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Heavy Brick"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Brick::get_class_types().add(typeid(HeavyBrick)); }
 
   GameObjectTypes get_types() const override { return {}; }
 
@@ -76,7 +78,7 @@ protected:
   virtual void hit(Player& player) override;
 
 private:
-  void ricochet(GameObject* collider);
+  void ricochet(MovingObject* collider);
 
 private:
   HeavyBrick(const HeavyBrick&) = delete;

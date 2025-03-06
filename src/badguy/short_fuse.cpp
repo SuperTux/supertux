@@ -29,7 +29,7 @@ ShortFuse::ShortFuse(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/short_fuse/short_fuse.sprite", "left", "right")
 {
   walk_speed = 100;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/firecracker.ogg");
 }
@@ -53,7 +53,7 @@ ShortFuse::explode()
 }
 
 bool
-ShortFuse::collision_squished(GameObject& obj)
+ShortFuse::collision_squished(MovingObject& obj)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(obj);
@@ -71,7 +71,7 @@ ShortFuse::collision_squished(GameObject& obj)
 }
 
 HitResponse
-ShortFuse::collision_player (Player& player, const CollisionHit&)
+ShortFuse::collision_player(Player& player, const CollisionHit&)
 {
   if (!m_frozen)
   {

@@ -90,6 +90,28 @@ WalkingBadguy::set_walk_speed (float ws)
   /* physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed); */
 }
 
+void WalkingBadguy::set_ledge_behavior(LedgeBehavior behavior)
+{
+  switch (behavior)
+  {
+    case LedgeBehavior::STRICT:
+      max_drop_height = 0;
+      break;
+
+    case LedgeBehavior::SMART:
+      max_drop_height = 16.f;
+      break;
+
+    case LedgeBehavior::NORMAL:
+      max_drop_height = s_normal_max_drop_height;
+      break;
+
+    case LedgeBehavior::FALL:
+      max_drop_height = -1;
+      break;
+  }
+}
+
 void
 WalkingBadguy::add_velocity (const Vector& velocity)
 {
@@ -100,6 +122,11 @@ void
 WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier)
 {
   BadGuy::active_update(dt_sec);
+
+  // Walk down slopes smoothly.
+  if (on_ground() && m_floor_normal.y != 0 && (m_floor_normal.x * m_physic.get_velocity_x()) >= 0) {
+    m_physic.set_velocity_y((std::abs(m_physic.get_velocity_x()) * std::abs(m_floor_normal.x)) + 100.f);
+  }
 
   float current_x_velocity = m_physic.get_velocity_x ();
 
@@ -173,8 +200,10 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
     if (m_physic.get_velocity_y() > 0) m_physic.set_velocity_y(0);
   }
 
-  if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))) {
-    turn_around();
+  if ( hit.slope_normal.x == 0.0f &&
+      ((hit.left && m_dir == Direction::LEFT) ||
+      (hit.right && m_dir == Direction::RIGHT)) ) {
+      turn_around();
   }
 
 }
@@ -229,12 +258,6 @@ WalkingBadguy::unfreeze(bool melt)
 {
   BadGuy::unfreeze(melt);
   WalkingBadguy::initialize();
-}
-
-void
-WalkingBadguy::set_velocity_y(float vy)
-{
-  m_physic.set_velocity_y(vy);
 }
 
 /* EOF */

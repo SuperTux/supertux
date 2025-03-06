@@ -27,7 +27,22 @@ static constexpr const char DELIMITER = ':';
 
 KeyboardConfig::KeyboardConfig() :
   m_keymap(),
-  m_configurable_controls(),
+  m_configurable_controls({
+    Control::UP,
+    Control::DOWN,
+    Control::LEFT,
+    Control::RIGHT,
+    Control::JUMP,
+    Control::ACTION,
+    Control::ITEM,
+    Control::PEEK_LEFT,
+    Control::PEEK_RIGHT,
+    Control::PEEK_UP,
+    Control::PEEK_DOWN,
+    Control::CONSOLE,
+    Control::CHEAT_MENU,
+    Control::DEBUG_MENU
+  }),
   m_jump_with_up_kbd(false)
 {
   // initialize default keyboard map
@@ -37,6 +52,7 @@ KeyboardConfig::KeyboardConfig() :
   m_keymap[SDLK_DOWN]      = {0, Control::DOWN};
   m_keymap[SDLK_SPACE]     = {0, Control::JUMP};
   m_keymap[SDLK_LCTRL]     = {0, Control::ACTION};
+  m_keymap[SDLK_LSHIFT]    = {0, Control::ITEM};
   m_keymap[SDLK_ESCAPE]    = {0, Control::ESCAPE};
   m_keymap[SDLK_p]         = {0, Control::START};
   m_keymap[SDLK_PAUSE]     = {0, Control::START};
@@ -50,36 +66,6 @@ KeyboardConfig::KeyboardConfig() :
   m_keymap[SDLK_F1]        = {0, Control::CHEAT_MENU};
   m_keymap[SDLK_F2]        = {0, Control::DEBUG_MENU};
   m_keymap[SDLK_BACKSPACE] = {0, Control::REMOVE};
-
-  m_keymap[SDLK_a]         = {1, Control::LEFT};
-  m_keymap[SDLK_d]         = {1, Control::RIGHT};
-  m_keymap[SDLK_w]         = {1, Control::UP};
-  m_keymap[SDLK_s]         = {1, Control::DOWN};
-  m_keymap[SDLK_e]         = {1, Control::JUMP};
-  m_keymap[SDLK_q]         = {1, Control::ACTION};
-
-  m_keymap[SDLK_j]         = {2, Control::LEFT};
-  m_keymap[SDLK_l]         = {2, Control::RIGHT};
-  m_keymap[SDLK_i]         = {2, Control::UP};
-  m_keymap[SDLK_k]         = {2, Control::DOWN};
-  m_keymap[SDLK_o]         = {2, Control::JUMP};
-  m_keymap[SDLK_u]         = {2, Control::ACTION};
-
-  m_configurable_controls = {
-    Control::UP,
-    Control::DOWN,
-    Control::LEFT,
-    Control::RIGHT,
-    Control::JUMP,
-    Control::ACTION,
-    Control::PEEK_LEFT,
-    Control::PEEK_RIGHT,
-    Control::PEEK_UP,
-    Control::PEEK_DOWN,
-    Control::CONSOLE,
-    Control::CHEAT_MENU,
-    Control::DEBUG_MENU
-  };
 }
 
 void

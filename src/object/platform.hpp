@@ -19,15 +19,22 @@
 
 #include "object/moving_sprite.hpp"
 #include "object/path_object.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/platform.hpp"
 
-/** This class is the base class for platforms that tux can stand
-    on */
+/**
+ * This is the base class for platforms that Tux can stand on.
+
+ * @scripting
+ * @summary A ""Platform"" that was given a name can be controlled by scripts.
+            It moves along a specified path.
+ * @instances A ""Platform"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+*/
 class Platform : public MovingSprite,
-                 public ExposedObject<Platform, scripting::Platform>,
                  public PathObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Platform(const ReaderMapping& reader);
   Platform(const ReaderMapping& reader, const std::string& default_sprite);
@@ -36,15 +43,17 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
   virtual void move_to(const Vector& pos) override;
 
   static std::string class_name() { return "platform"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Platform"; }
   static std::string display_name() { return _("Platform"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(PathObject)).add(typeid(Platform)); }
 
   virtual void editor_update() override;
 
@@ -53,26 +62,16 @@ public:
   void save_state() override;
   void check_state() override;
 
-  const Vector& get_speed() const { return m_speed; }
+  inline const Vector& get_speed() const { return m_speed; }
+  inline const Vector& get_movement() const { return m_movement; }
 
-  /** @name Scriptable Methods
-      @{ */
-
-  /** Move platform until at given node, then stop */
-  void goto_node(int node_no);
-
-  /** Move platform instantly to given node */
-  void jump_to_node(int node_no);
-
-  /** Start moving platform */
-  void start_moving();
-
-  /** Stop platform at next node */
-  void stop_moving();
-  /** @} */
+  /** Moves platform instantly to given node.
+      Replaces PathObject::set_node's implementation in scripting. */
+  void jump_to_node(int node_idx);
 
 private:
   Vector m_speed;
+  Vector m_movement;
 
   /** true if Platform will automatically pick a destination based on
       collisions and current Player position */

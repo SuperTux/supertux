@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 #define HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 
+#include "editor/layer_object.hpp"
+
 #include <algorithm>
 #include <unordered_set>
 
@@ -25,26 +27,33 @@
 #include "math/size.hpp"
 #include "object/path_object.hpp"
 #include "object/path_walker.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/tilemap.hpp"
 #include "supertux/autotile.hpp"
-#include "supertux/game_object.hpp"
 #include "video/color.hpp"
 #include "video/flip.hpp"
 #include "video/drawing_target.hpp"
 
-class DrawingContext;
+class AutotileSet;
 class CollisionObject;
 class CollisionGroundMovementManager;
+class DrawingContext;
 class Tile;
 class TileSet;
 
-/** This class is responsible for drawing the level tiles */
-class TileMap final :
-  public GameObject,
-  public ExposedObject<TileMap, scripting::TileMap>,
-  public PathObject
+/**
+ * This class is responsible for managing an array of tiles.
+
+ * @scripting
+ * @summary A ""TileMap"" that was given a name can be controlled by scripts.
+            The tilemap can be moved by specifying a path for it.
+ * @instances A ""TileMap"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class TileMap final : public LayerObject,
+                      public PathObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   TileMap(const TileSet *tileset);
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
@@ -54,12 +63,17 @@ public:
 
   static std::string class_name() { return "tilemap"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "TileMap"; }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
   static std::string display_name() { return _("Tilemap"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(PathObject)).add(typeid(TileMap)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+
+  void save_state() override;
+  void check_state() override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -68,17 +82,8 @@ public:
 
   virtual void on_flip(float height) override;
 
-  /** Move tilemap until at given node, then stop */
-  void goto_node(int node_no);
-
-  /** Instantly jump to the given node */
-  void jump_to_node(int node_no);
-
-  /** Start moving tilemap */
-  void start_moving();
-
-  /** Stop tilemap at next node */
-  void stop_moving();
+  void parse_tiles(const ReaderMapping& reader);
+  void write_tiles(Writer& writer) const;
 
   void set(int width, int height, const std::vector<unsigned int>& vec,
            int z_pos, bool solid);
@@ -89,12 +94,12 @@ public:
               int xoffset = 0, int yoffset = 0);
   void resize(const Size& newsize, const Size& resize_offset);
 
-  int get_width() const { return m_width; }
-  int get_height() const { return m_height; }
-  Size get_size() const { return Size(m_width, m_height); }
+  inline int get_width() const { return m_width; }
+  inline int get_height() const { return m_height; }
+  inline Size get_size() const { return Size(m_width, m_height); }
 
-  void set_offset(const Vector &offset_) { m_offset = offset_; }
-  Vector get_offset() const { return m_offset; }
+  inline void set_offset(const Vector &offset_) { m_offset = offset_; }
+  inline Vector get_offset() const { return m_offset; }
 
   void set_ground_movement_manager(const std::shared_ptr<CollisionGroundMovementManager>& movement_manager)
   {
@@ -111,9 +116,9 @@ public:
   {
     if (actual) {
       return m_movement;
-    } else {
-      return Vector(m_movement.x, std::max(0.0f, m_movement.y));
     }
+
+    return Vector(m_movement.x, std::max(0.0f, m_movement.y));
   }
 
   /** Returns the position of the upper-left corner of tile (x, y) in
@@ -140,31 +145,136 @@ public:
   void hits_object_bottom(CollisionObject& object);
   void notify_object_removal(CollisionObject* other);
 
-  int get_layer() const { return m_z_pos; }
-  void set_layer(int layer_) { m_z_pos = layer_; }
+  int get_layer() const override { return m_z_pos; }
+  inline void set_layer(int layer) { m_z_pos = layer; }
 
-  bool is_solid() const { return m_real_solid && m_effective_solid; }
+  inline bool is_solid() const { return m_real_solid && m_effective_solid; }
 
-  /** Changes Tilemap's solidity, i.e. whether to consider it when
-      doing collision detection. */
+  /**
+   * @scripting
+   * @description Switches the tilemap's real solidity to ""solid"".${SRG_TABLENEWPARAGRAPH}
+                  Note: The effective solidity is also influenced by the alpha of the tilemap.
+   * @param bool $solid
+   */
   void set_solid(bool solid = true);
+  /**
+   * @scripting
+   * @description Returns the effective solidity of the tilemap.
+   */
+  inline bool get_solid() const { return m_effective_solid; }
 
   bool is_outside_bounds(const Vector& pos) const;
   const Tile& get_tile(int x, int y) const;
   const Tile& get_tile_at(const Vector& pos) const;
+  /**
+   * @scripting
+   * @description Returns the ID of the tile at the given coordinates or 0 if out of bounds.
+                  The origin is at the top left.
+   * @param int $x
+   * @param int $y
+   */
   uint32_t get_tile_id(int x, int y) const;
+  uint32_t get_tile_id(const Vector& pos) const;
+  /**
+   * @scripting
+   * @description Returns the ID of the tile at the given position (in world coordinates).
+   * @param float $x
+   * @param float $y
+   */
+  uint32_t get_tile_id_at(float x, float y) const;
   uint32_t get_tile_id_at(const Vector& pos) const;
 
+  /**
+   * @scripting
+   * @description Changes the tile at the given coordinates to ""newtile"".
+                  The origin is at the top left.
+   * @param int $x
+   * @param int $y
+   * @param int $newtile
+   */
   void change(int x, int y, uint32_t newtile);
-
+  void change(int idx, uint32_t newtile);
+  /**
+   * @scripting
+   * @description Changes the tile at the given position (in-world coordinates) to ""newtile"".
+   * @param float $x
+   * @param float $y
+   * @param int $newtile
+   */
+  void change_at(float x, float y, uint32_t newtile);
   void change_at(const Vector& pos, uint32_t newtile);
-
-  /** changes all tiles with the given ID */
+  /**
+   * @scripting
+   * @description Changes all tiles with the given ID.
+   * @param int $oldtile
+   * @param int $newtile
+   */
   void change_all(uint32_t oldtile, uint32_t newtile);
 
-  /** Puts the correct autotile block at the given position */
-  void autotile(int x, int y, uint32_t tile);
-  
+  /** Puts the correct autotile blocks at the given position */
+  void autotile(const Vector& pos, uint32_t tile, AutotileSet* autotileset);
+
+  /** Erases in autotile mode */
+  void autotile_erase(const Vector& pos, AutotileSet* autotileset);
+
+  /** Returns the Autotilesets associated with the given tile */
+  std::vector<AutotileSet*> get_autotilesets(uint32_t tile) const;
+
+  inline void set_flip(Flip flip) { m_flip = flip; }
+  inline Flip get_flip() const { return m_flip; }
+
+  /**
+   * @scripting
+   * @description Starts fading the tilemap to the opacity given by ""alpha"".
+                  Destination opacity will be reached after ""time"" seconds. Also influences solidity.
+   * @param float $alpha
+   * @param float $time
+   */
+  void fade(float alpha, float time);
+
+  /** Start fading the tilemap to tint given by RGBA.
+      Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity. */
+  void tint_fade(const Color& new_tint, float time = 0.f);
+  /**
+   * @scripting
+   * @description Starts fading the tilemap to tint given by RGBA.
+                  Destination opacity will be reached after ""time"" seconds. Doesn't influence solidity.
+   * @param float $time
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
+  void tint_fade(float time, float red, float green, float blue, float alpha);
+
+  inline Color get_current_tint() const { return m_current_tint; }
+
+  /**
+   * @scripting
+   * @description Instantly switches the tilemap's opacity to ""alpha"". Also influences solidity.
+   * @param float $alpha
+   */
+  void set_alpha(float alpha);
+  /**
+   * @scripting
+   * @description Returns the tilemap's opacity.${SRG_TABLENEWPARAGRAPH}
+                  Note: While the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
+   */
+  float get_alpha() const;
+
+  inline float get_target_alpha() const { return m_alpha; }
+
+  inline void set_tileset(const TileSet* tileset) { m_tileset = tileset; }
+
+  inline const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
+
+private:
+  void update_effective_solid(bool update_manager = true);
+  void float_channel(float target, float &current, float remaining_time, float dt_sec);
+
+  /** Puts the correct single autotile block at the given position */
+  void autotile_single(int x, int y, AutotileSet* autotileset);
+
   enum class AutotileCornerOperation {
     ADD_TOP_LEFT,
     ADD_TOP_RIGHT,
@@ -175,47 +285,9 @@ public:
     REMOVE_BOTTOM_LEFT,
     REMOVE_BOTTOM_RIGHT,
   };
-  
-  /** Puts the correct autotile blocks at the tiles around the given corner */
-  void autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op);
-  
-  /** Erases in autotile mode */
-  void autotile_erase(const Vector& pos, const Vector& corner_pos);
 
-  /** Returns the Autotileset associated with the given tile */
-  AutotileSet* get_autotileset(uint32_t tile) const;
-
-  void set_flip(Flip flip) { m_flip = flip; }
-  Flip get_flip() const { return m_flip; }
-
-  /** Start fading the tilemap to opacity given by @c alpha.
-      Destination opacity will be reached after @c seconds seconds.
-      Also influences solidity. */
-  void fade(float alpha, float seconds = 0);
-
-  /** Start fading the tilemap to tint given by RGBA.
-      Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity. */
-  void tint_fade(const Color& new_tint, float seconds = 0);
-
-  Color get_current_tint() const { return m_current_tint; }
-
-  /** Instantly switch tilemap's opacity to @c alpha. Also influences solidity. */
-  void set_alpha(float alpha);
-
-  /** Return tilemap's opacity. Note that while the tilemap is fading
-      in or out, this will return the current alpha value, not the
-      target alpha. */
-  float get_alpha() const;
-
-  void set_tileset(const TileSet* new_tileset);
-
-  const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
-
-private:
-  void update_effective_solid();
-  void float_channel(float target, float &current, float remaining_time, float dt_sec);
-
-  bool is_corner(uint32_t tile);
+  /** Puts the correct autotile blocks at the tiles around the single given corner */
+  void autotile_single_corner(int x, int y, AutotileSet* autotileset, AutotileCornerOperation op);
 
   void apply_offset_x(int fill_id, int xoffset);
   void apply_offset_y(int fill_id, int yoffset);
@@ -228,6 +300,14 @@ private:
 
   typedef std::vector<uint32_t> Tiles;
   Tiles m_tiles;
+
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description Equivalent to ""get_solid()"" and ""set_solid()"".
+   */
+  bool m_solid;
+#endif
 
   /* read solid: In *general*, is this a solid layer? effective solid:
      is the layer *currently* solid? A generally solid layer may be
@@ -249,6 +329,10 @@ private:
   std::shared_ptr<CollisionGroundMovementManager> m_ground_movement_manager;
 
   Flip m_flip;
+  /**
+   * @scripting
+   * @description Determines the tilemap's current opacity.
+   */
   float m_alpha; /**< requested tilemap opacity */
   float m_current_alpha; /**< current tilemap opacity */
   float m_remaining_fade_time; /**< seconds until requested tilemap opacity is reached */

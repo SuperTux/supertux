@@ -37,12 +37,12 @@ public:
   ReaderObject get_root() const;
 
   /** Returns the filename of the document */
-  std::string get_filename() const;
+  const std::string& get_filename() const;
 
   /** Returns the directory of the document */
   std::string get_directory() const;
 
-  const sexp::Value& get_sexp() const { return m_sx; }
+  inline const sexp::Value& get_sexp() const { return m_sx; }
 
 private:
   std::string m_filename;

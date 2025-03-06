@@ -32,11 +32,11 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
 
-  void set_rect(const Rectf& rect) { m_rect = rect; }
-  Rectf get_rect() const { return m_rect; }
+  inline void set_rect(const Rectf& rect) { m_rect = rect; }
+  inline Rectf get_rect() const { return m_rect; }
 
-  void set_label(const std::string& label) { m_label = label; }
-  std::string get_label() const { return m_label; }
+  inline void set_label(const std::string& label) { m_label = label; }
+  inline const std::string& get_label() const { return m_label; }
 
   bool fits(const std::string& text) const;
   std::string get_truncated_text() const;

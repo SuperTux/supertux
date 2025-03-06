@@ -16,6 +16,9 @@
 
 #include "supertux/moving_object.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/resize_marker.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -60,8 +63,10 @@ MovingObject::get_settings()
   }
 
   if (has_variable_size())
-    result.add_rectf(_("Region"), &m_col.m_bbox, "region", OPTION_HIDDEN);
-
+  {
+    result.add_float(_("Width"), &m_col.m_bbox.get_width(), "width", {}, OPTION_HIDDEN);
+    result.add_float(_("Height"), &m_col.m_bbox.get_height(), "height", {}, OPTION_HIDDEN);
+  }
   result.add_float(_("X"), &m_col.m_bbox.get_left(), "x", {}, OPTION_HIDDEN);
   result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y", {}, OPTION_HIDDEN);
 
@@ -97,6 +102,20 @@ MovingObject::on_flip(float height)
   Vector pos = get_pos();
   pos.y = height - pos.y - get_bbox().get_height();
   set_pos(pos);
+}
+
+
+void
+MovingObject::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<MovingObject>("MovingObject", vm.findClass("GameObject"));
+
+  cls.addFunc("get_x", &MovingObject::get_x);
+  cls.addFunc("get_y", &MovingObject::get_y);
+  cls.addFunc<void, MovingObject, float, float>("set_pos", &MovingObject::set_pos);
+  cls.addFunc<void, MovingObject, float, float>("move", &MovingObject::move);
+  cls.addFunc("get_width", &MovingObject::get_width);
+  cls.addFunc("get_height", &MovingObject::get_height);
 }
 
 /* EOF */

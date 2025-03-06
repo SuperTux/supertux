@@ -41,18 +41,6 @@ MouseCursor::MouseCursor(SpritePtr sprite) :
 }
 
 void
-MouseCursor::set_state(MouseCursorState state)
-{
-  m_state = state;
-}
-
-void
-MouseCursor::set_icon(SurfacePtr icon)
-{
-  m_icon = std::move(icon);
-}
-
-void
 MouseCursor::apply_state(MouseCursorState state)
 {
   if (m_applied_state != state)
@@ -62,7 +50,7 @@ MouseCursor::apply_state(MouseCursorState state)
     switch(state)
     {
       case MouseCursorState::NORMAL:
-        m_sprite->set_action("normal");
+        m_sprite->set_action("default");
         break;
 
       case MouseCursorState::CLICK:
@@ -109,7 +97,7 @@ MouseCursor::draw(DrawingContext& context)
 
     if (m_icon) {
       context.color().draw_surface(m_icon,
-                                   Vector(mouse_pos.x,
+                                   Vector(mouse_pos.x + static_cast<float>(m_icon->get_width()) / 2,
                                           mouse_pos.y - static_cast<float>(m_icon->get_height())),
                                    LAYER_GUI + 100);
     }

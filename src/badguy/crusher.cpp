@@ -28,6 +28,7 @@
 #include "object/camera.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
+#include "object/rock.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -115,29 +116,49 @@ Crusher::on_type_change(int old_type)
       break;
   }
 
-  MovingSprite::on_type_change();
+  MovingSprite::on_type_change(old_type);
 }
 
 HitResponse
-Crusher::collision(GameObject& other, const CollisionHit& hit)
+Crusher::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto* player = dynamic_cast<Player*>(&other);
+  bool crushed_bottom = m_state == CRUSHING && !m_sideways && hit.bottom;
+  bool crushed_sideways = m_state == CRUSHING && m_sideways &&
+    ((hit.left && m_physic.get_velocity_x() < 0.f) ||
+     (hit.right && m_physic.get_velocity_x() > 0.f));
+  bool is_crushing = crushed_bottom || crushed_sideways;
 
   // If the other object is the player, and the collision is at the
   // bottom of the crusher, hurt the player.
-  if (player && hit.bottom && player->on_ground() && m_state == CRUSHING) {
+  if (player && is_crushing &&
+    ((crushed_bottom && player->on_ground()) || crushed_sideways))
+  {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
     set_state(RECOVERING);
+
     if (player->is_invincible()) {
       return ABORT_MOVE;
     }
+
     player->kill(false);
+
     return FORCE_MOVE;
   }
 
   auto* badguy = dynamic_cast<BadGuy*>(&other);
-  if (badguy && m_state == CRUSHING) {
+  if (badguy && is_crushing)
+  {
     badguy->kill_fall();
+  }
+
+  auto* rock = dynamic_cast<Rock*>(&other);
+  if (rock && !rock->is_grabbed() && is_crushing)
+  {
+    SoundManager::current()->play("sounds/brick.wav", get_pos());
+    m_physic.reset();
+    set_state(RECOVERING);
+    return ABORT_MOVE;
   }
 
   const auto* heavy_coin = dynamic_cast<HeavyCoin*>(&other);
@@ -211,14 +232,20 @@ Crusher::collision_solid(const CollisionHit& hit)
         }
       }
     }
-    if (hit.bottom)
-      spawn_roots(Direction::DOWN);
-    else if (hit.top)
-      spawn_roots(Direction::UP);
-    else if (hit.left)
-      spawn_roots(Direction::LEFT);
-    else if (hit.right)
-      spawn_roots(Direction::RIGHT);
+    if(m_sideways)
+    {
+      if (hit.left)
+        spawn_roots(Direction::LEFT);
+      else if (hit.right)
+        spawn_roots(Direction::RIGHT);
+    }
+    else
+    {
+      if (hit.bottom)
+        spawn_roots(Direction::DOWN);
+      else if (hit.top)
+        spawn_roots(Direction::UP);
+    }
     break;
   default:
     log_debug << "Crusher in invalid state" << std::endl;
@@ -229,7 +256,8 @@ Crusher::collision_solid(const CollisionHit& hit)
 void
 Crusher::update(float dt_sec)
 {
-  Vector movement = m_physic.get_movement(dt_sec);
+  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  Vector movement = m_physic.get_movement(dt_sec) * (in_water ? 0.6f : 1.f);
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
   if (m_cooldown_timer >= dt_sec)
@@ -257,7 +285,7 @@ Crusher::update(float dt_sec)
     brickbox.set_right((m_sideways && m_physic.get_velocity_x() > 0.f) ?
       get_bbox().get_right() + 9.f : get_bbox().get_right() - 1.f);
 
-    if (brickbox.contains(brick.get_bbox()))
+    if (brickbox.overlaps(brick.get_bbox()))
     {
       if (brick.get_class_name() != "heavy-brick")
       {
@@ -328,7 +356,7 @@ Crusher::update(float dt_sec)
   switch (m_state)
   {
   case IDLE:
-    m_start_position = get_pos();
+    //m_start_position = get_pos();
     if (found_victim())
     {
       set_state(CRUSHING);
@@ -360,9 +388,11 @@ Crusher::update(float dt_sec)
   case RECOVERING:
     if (returned_down || returned_up || returned_left || returned_right)
     {
-      set_pos(Vector(m_sideways ? m_start_position.x : get_pos().x,
-        m_sideways ? get_pos().y : m_start_position.y));
-      m_physic.set_velocity(0.f, 0.f);
+      m_physic.reset();
+      // we have to offset the crusher when we bring it back to its original position because otherwise it will gain an ugly offset. #JustPhysicErrorThings
+      set_pos(Vector(m_sideways ? m_start_position.x + (2.6f * (m_side_dir == Direction::LEFT ? -1.f : 1.f)) : get_pos().x,
+        m_sideways ? get_pos().y : m_start_position.y + (2.6f * (m_flip ? -1.f : 1.f))));
+
       if (m_ic_size == LARGE)
         m_cooldown_timer = PAUSE_TIME_LARGE;
       else
@@ -450,14 +480,15 @@ Crusher::spawn_roots(Direction direction)
 void
 Crusher::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer + 2, m_flip);
+  Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
+  m_sprite->draw(context.color(), draw_pos, m_layer + 2, m_flip);
   if (m_sprite->has_action("whites"))
   {
     // Draw crusher's eyes slightly behind.
-    m_lefteye->draw(context.color(), get_pos() + eye_position(false), m_layer + 1, m_flip);
-    m_righteye->draw(context.color(), get_pos() + eye_position(true), m_layer + 1, m_flip);
+    m_lefteye->draw(context.color(), draw_pos + eye_position(false), m_layer + 1, m_flip);
+    m_righteye->draw(context.color(), draw_pos + eye_position(true), m_layer + 1, m_flip);
     // Draw the whites of crusher's eyes even further behind.
-    m_whites->draw(context.color(), get_pos(), m_layer, m_flip);
+    m_whites->draw(context.color(), draw_pos, m_layer, m_flip);
   }
 }
 
@@ -564,6 +595,9 @@ Crusher::set_state(CrusherState state_, bool force)
 void
 Crusher::after_sprite_set()
 {
+  // HACK: Force update sprite
+  set_state(m_state, true);
+
   if (!m_sprite->has_action("whites"))
   {
     m_lefteye.reset();
@@ -619,18 +653,27 @@ Crusher::eye_position(bool right) const
     }
     break;
   case RECOVERING:
+  {
+    // Amplitude dependent on size.
+    auto amplitude = static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f;
+
+    //Phase factor due to cooldown timer.
+    auto cooldown_phase_factor = (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f;
+
+    // Phase factor due to y position.
+    auto y_position_phase_factor = !m_sideways ? get_pos().y / 13 : get_pos().x / 13;
+
+    auto phase_factor = y_position_phase_factor - cooldown_phase_factor;
+
     // Eyes spin while crusher is recovering, giving a dazed impression.
     return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other.
-      ((!m_sideways ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position.
-      (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f)) * //Phase factor due to cooldown timer.
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f - (right ? 1 : -1) * // Amplitude dependent on size.
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f, // Offset to keep eyes visible.
+      phase_factor) * amplitude - (right ? 1 : -1) *
+      amplitude, // Offset to keep eyes visible.
 
       cosf((right ? 3.1415f : 0.0f) + // Eyes spin out of phase of eachother.
-      (!m_sideways ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position.
-        (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f) * //Phase factor due to cooldown timer.
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size.
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible.
+      phase_factor) * amplitude -
+      amplitude); // Offset to keep eyes visible.
+  }
   default:
     log_debug << "Crusher in invalid state" << std::endl;
     break;
@@ -667,7 +710,7 @@ CrusherRoot::CrusherRoot(Vector position, Crusher::Direction direction, float de
 }
 
 HitResponse
-CrusherRoot::collision(GameObject& other, const CollisionHit& hit)
+CrusherRoot::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (delay_gone())
   {

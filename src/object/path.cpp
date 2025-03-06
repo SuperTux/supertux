@@ -83,9 +83,11 @@ Path::Path(const Vector& pos, PathGameObject& parent) :
 void
 Path::read(const ReaderMapping& reader)
 {
-  auto iter = reader.get_iter();
-
+  m_nodes.clear();
   m_mode = WalkMode::CIRCULAR;
+  m_adapt_speed = false;
+
+  auto iter = reader.get_iter();
   while (iter.next()) {
     if (iter.get_key() == "mode") {
       std::string mode_string;
@@ -132,7 +134,6 @@ Path::save(Writer& writer)
 {
   if (!is_valid()) return;
 
-  writer.start_list("path");
   if (m_mode != WalkMode::CIRCULAR) {
     writer.write("mode", walk_mode_to_string(m_mode), false);
   }
@@ -166,8 +167,6 @@ Path::save(Writer& writer)
     }
     writer.end_list("node");
   }
-
-  writer.end_list("path");
 }
 
 Vector
@@ -180,7 +179,7 @@ Path::get_base() const
 }
 
 int
-Path::get_nearest_node_no(const Vector& reference_point) const
+Path::get_nearest_node_idx(const Vector& reference_point) const
 {
   int nearest_node_id = -1;
   float nearest_node_dist = 0;
@@ -196,7 +195,7 @@ Path::get_nearest_node_no(const Vector& reference_point) const
 }
 
 int
-Path::get_farthest_node_no(const Vector& reference_point) const
+Path::get_farthest_node_idx(const Vector& reference_point) const
 {
   int farthest_node_id = -1;
   float farthest_node_dist = 0;

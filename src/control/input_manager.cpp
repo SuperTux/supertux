@@ -23,6 +23,8 @@
 #include "control/keyboard_manager.hpp"
 #include "util/log.hpp"
 
+static constexpr int MAX_PLAYERS = 4;
+
 InputManager::InputManager(KeyboardConfig& keyboard_config,
                            JoystickConfig& joystick_config) :
   m_controllers(),
@@ -49,6 +51,12 @@ Controller&
 InputManager::get_controller(int player_id)
 {
   return *m_controllers[player_id];
+}
+
+bool
+InputManager::can_add_user() const
+{
+  return get_num_users() < MAX_PLAYERS;
 }
 
 void
@@ -139,6 +147,9 @@ InputManager::process_event(const SDL_Event& event)
 void
 InputManager::push_user()
 {
+  if (!can_add_user())
+    return;
+
   m_controllers.push_back(std::make_unique<Controller>());
 }
 
@@ -147,6 +158,8 @@ InputManager::pop_user()
 {
   if (m_controllers.size() <= 1)
     throw std::runtime_error("Attempt to pop the first player's controller");
+
+  on_player_removed(static_cast<int>(m_controllers.size()) - 1);
 
   m_controllers.pop_back();
 }

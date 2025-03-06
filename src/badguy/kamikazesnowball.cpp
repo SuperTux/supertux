@@ -49,7 +49,7 @@ KamikazeSnowball::active_update(float dt_sec) {
 }
 
 bool
-KamikazeSnowball::collision_squished(GameObject& object)
+KamikazeSnowball::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
@@ -162,7 +162,7 @@ LeafShot::unfreeze(bool melt)
 }
 
 bool
-LeafShot::collision_squished(GameObject& object)
+LeafShot::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);

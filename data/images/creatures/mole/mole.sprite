@@ -1,14 +1,14 @@
 (supertux-sprite
   (action
     (name "idle")
-    (hitbox 18 22 32 40)
+    (hitbox 26 22 32 64)
 	(fps 12)
     (images "mole_hill.png"
     )
   )
   (action
     (name "peeking")
-    (hitbox 18 22 32 40)
+    (hitbox 26 22 32 40)
     (fps 12)
     (images "mole_hill.png"
 			"up-0.png"
@@ -44,7 +44,7 @@
   )
   (action
     (name "burning")
-    (hitbox 18 22 32 40)
+    (hitbox 26 22 32 64)
     (fps 15)
 	(loops 1)
     (images "mole_hill.png"
@@ -54,8 +54,9 @@
 	(name "squished")
 	(fps 12)
 	(loops 1)
-	(hitbox 18 22 32 40)
-	(images "down-0.png"
+	(hitbox 26 22 32 64)
+	(images "up-3.png"
+			"down-0.png"
 			"down-1.png"
 			"down-2.png"
 			"mole_hill.png"

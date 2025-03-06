@@ -158,9 +158,11 @@ std::string MD5::hex_digest() {
 
   finalize();
 
-  for (i=0; i<16; i++) sprintf(s+i*2, "%02x", digest[i]);
-
-  s[32]='\0';
+  for (i=0; i<16; i++)
+  {
+    char* so = s + i * 2;
+    snprintf(so, 3, "%02x", digest[i]);
+  }
 
   // Create string from 's'
   std::string s_str = std::string(s);
@@ -170,7 +172,7 @@ std::string MD5::hex_digest() {
 }
 
 std::ostream& operator<<(std::ostream &stream, MD5 context) {
-  stream << context.hex_digest().c_str();
+  stream << context.hex_digest();
   return stream;
 }
 

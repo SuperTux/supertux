@@ -1,11 +1,11 @@
 (supertux-sprite
  (action
-  (name "center")
+  (name "auto")
   (hitbox 4 4 32 64)
   (images "cannon_middle.png"))
 
  (action
-  (name "iced-center")
+  (name "iced-auto")
   (loops 1)
   (fps 24)
   (hitbox 4 4 32 64)

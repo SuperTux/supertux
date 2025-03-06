@@ -26,16 +26,15 @@
 #include "collision/collision_hit.hpp"
 #include "math/rectf.hpp"
 
-class CollisionListener;
 class CollisionGroundMovementManager;
-class GameObject;
+class MovingObject;
 
 class CollisionObject
 {
   friend class CollisionSystem;
 
 public:
-  CollisionObject(CollisionGroup group, CollisionListener& parent);
+  CollisionObject(CollisionGroup group, MovingObject& parent);
 
   /** this function is called when the object collided with something solid */
   void collision_solid(const CollisionHit& hit);
@@ -56,7 +55,7 @@ public:
 
   void notify_object_removal(CollisionObject* other);
 
-  void set_ground_movement_manager(const std::shared_ptr<CollisionGroundMovementManager>& movement_manager)
+  inline void set_ground_movement_manager(const std::shared_ptr<CollisionGroundMovementManager>& movement_manager)
   {
     m_ground_movement_manager = movement_manager;
   }
@@ -67,23 +66,23 @@ public:
 
   void clear_bottom_collision_list();
 
-  bool is_unisolid() const { return m_unisolid; }
-  void set_unisolid(bool unisolid) { m_unisolid = unisolid; }
+  inline bool is_unisolid() const { return m_unisolid; }
+  inline void set_unisolid(bool unisolid) { m_unisolid = unisolid; }
 
   /** returns the bounding box of the Object */
-  const Rectf& get_bbox() const
+  inline const Rectf& get_bbox() const
   {
     return m_bbox;
   }
 
-  void set_movement(const Vector& movement)
+  inline void set_movement(const Vector& movement)
   {
     m_movement = movement;
   }
 
   void propagate_movement(const Vector& movement);
 
-  const Vector& get_movement() const
+  inline const Vector& get_movement() const
   {
     return m_movement;
   }
@@ -97,15 +96,20 @@ public:
     m_bbox.set_pos(pos);
   }
 
-  Vector get_pos() const
+  inline Vector get_pos() const
   {
     return m_bbox.p1();
+  }
+
+  inline Vector get_pressure() const
+  {
+    return m_pressure;
   }
 
   /** moves entire object to a specific position, including all
       points those the object has, exactly like the object has
       spawned in that given pos instead.*/
-  void move_to(const Vector& pos)
+  inline void move_to(const Vector& pos)
   {
     set_pos(pos);
   }
@@ -128,20 +132,17 @@ public:
     m_bbox.set_size(w, h);
   }
 
-  CollisionGroup get_group() const
+  inline CollisionGroup get_group() const
   {
     return m_group;
   }
 
   bool is_valid() const;
 
-  CollisionListener& get_listener()
-  {
-    return m_listener;
-  }
+  inline MovingObject& get_parent() { return m_parent; }
 
 private:
-  CollisionListener& m_listener;
+  MovingObject& m_parent;
 
 public:
   /** The bounding box of the object (as used for collision detection,
@@ -170,6 +171,11 @@ private:
       Only bottom constraints to the top of the bounding box would be applied for objects,
       colliding with unisolid objects. */
   bool m_unisolid;
+
+  /**
+   * Contains the current pressure on this object
+   */
+  Vector m_pressure;
 
   /** Objects that were touching the top of this object at the last frame,
       if this object was static or moving static. */

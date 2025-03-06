@@ -42,7 +42,7 @@ Owl::Owl(const ReaderMapping& reader) :
   carried_object(nullptr)
 {
   reader.get("carry", carried_obj_name, "skydive");
-  set_action (m_dir, /* loops = */ -1);
+  set_action("fly", m_dir);
   if (Editor::is_active() && s_portable_objects.empty())
     s_portable_objects = GameObjectFactory::instance().get_registered_objects(ObjectFactory::OBJ_PARAM_PORTABLE);
 }
@@ -52,7 +52,6 @@ Owl::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  set_action(m_dir);
 
   // If we add the carried object to the sector while we're editing
   // a level with the editor, it gets written to the level file,
@@ -76,6 +75,7 @@ Owl::initialize()
     }
     else
     {
+      carried_object->grab(*this, get_pos(), m_dir);
       Sector::get().add_object(std::move(game_object));
     }
   }
@@ -109,7 +109,10 @@ Owl::active_update (float dt_sec)
   if (m_frozen)
     return;
 
-  if (carried_object != nullptr) {
+  if (carried_object)
+  {
+    set_action("carry", m_dir);
+
     if (!is_above_player ()) {
       Vector obj_pos = get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM);
       auto obj = dynamic_cast<MovingObject*>(carried_object);
@@ -130,10 +133,14 @@ Owl::active_update (float dt_sec)
       ungrab_carried_object();
     }
   }
+  else /* if (carried_object) */
+  {
+    set_action("fly", m_dir);
+  }
 }
 
 bool
-Owl::collision_squished(GameObject& object)
+Owl::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
@@ -182,7 +189,6 @@ Owl::unfreeze(bool melt)
   BadGuy::unfreeze(melt);
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  set_action(m_dir);
 }
 
 bool
@@ -203,12 +209,10 @@ Owl::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_y(0);
   } else if (hit.left || hit.right) {
     if (m_dir == Direction::LEFT) {
-      set_action ("right", /* loops = */ -1);
       m_dir = Direction::RIGHT;
       m_physic.set_velocity_x (FLYING_SPEED);
     }
     else {
-      set_action ("left", /* loops = */ -1);
       m_dir = Direction::LEFT;
       m_physic.set_velocity_x (-FLYING_SPEED);
     }

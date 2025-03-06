@@ -1772,8 +1772,8 @@ msgstr "Premeu Esc per saltar"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Ús: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Ús: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2496,13 +2496,13 @@ msgstr "Redimensionar"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Perfil %s]"
+msgid "[Profile {}]"
+msgstr "[Perfil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Perfil %s"
+msgid "Profile {}"
+msgstr "Perfil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2550,8 +2550,8 @@ msgstr "Desconegut"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" per \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" per \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2563,13 +2563,13 @@ msgstr "No s'ha trobat cap complement"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Instal·lar %s *NOU*"
+msgid "Install {} *NEW*"
+msgstr "Instal·lar {} *NOU*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Instal·lar %s"
+msgid "Install {}"
+msgstr "Instal·lar {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2589,8 +2589,8 @@ msgstr "Descarregant l'índex del repositori de complements"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Descarregant %s"
+msgid "Downloading {}"
+msgstr "Descarregant {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3103,8 +3103,8 @@ msgstr "No podeu suprimir el nivell que esteu editant!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "aportat per %s"
+msgid "contributed by {}"
+msgstr "aportat per {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

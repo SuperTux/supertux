@@ -23,6 +23,7 @@
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
@@ -48,7 +49,7 @@ Snail::Snail(const ReaderMapping& reader) :
   parse_type(reader);
 
   walk_speed = 80;
-  max_drop_height = 600;
+  set_ledge_behavior(LedgeBehavior::SMART);
   SoundManager::current()->preload("sounds/iceblock_bump.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
   SoundManager::current()->preload("sounds/kick.wav");
@@ -212,7 +213,7 @@ Snail::active_update(float dt_sec)
 
     case STATE_KICKED:
       m_physic.set_velocity_x(m_physic.get_velocity_x() * powf(0.99f, dt_sec/0.02f));
-      if (fabsf(m_physic.get_velocity_x()) < walk_speed) be_normal();
+      if (on_ground() && (fabsf(m_physic.get_velocity_x()) < walk_speed)) be_normal();
       break;
 
     case STATE_GRABBED:
@@ -260,7 +261,7 @@ Snail::collision_solid(const CollisionHit& hit)
           m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
           set_action("flat", m_dir, /* loops = */ -1);
 
-          m_physic.set_velocity_x(-m_physic.get_velocity_x());
+          m_physic.set_velocity(-m_physic.get_velocity_x(), -std::abs(m_physic.get_velocity_x()));
         }
       }
       [[fallthrough]];
@@ -326,6 +327,7 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
     } else if (hit.right) {
       m_dir = Direction::LEFT;
     }
+    SoundManager::current()->play("sounds/kick.wav", get_pos());
     player.kick();
     be_kicked(false);
     return FORCE_MOVE;
@@ -335,7 +337,7 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
 }
 
 bool
-Snail::collision_squished(GameObject& object)
+Snail::collision_squished(MovingObject& object)
 {
   if (m_frozen || state == STATE_GUARD)
     return WalkingBadguy::collision_squished(object);
@@ -364,14 +366,13 @@ Snail::collision_squished(GameObject& object)
     case STATE_WAKING:
       SoundManager::current()->play("sounds/kick.wav", get_pos());
       {
-        MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
-        if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+        if (object.get_pos().x < get_pos().x) {
           m_dir = Direction::RIGHT;
         } else {
           m_dir = Direction::LEFT;
         }
       }
-      be_kicked(true);
+      be_kicked(false);
       break;
 
     default:
@@ -389,6 +390,7 @@ Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
   if (m_frozen)
     BadGuy::grab(object, pos, dir_);
   m_col.set_movement(pos - get_pos());
+  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   if (!m_frozen)
   {
@@ -404,12 +406,50 @@ Snail::ungrab(MovingObject& object, Direction dir_)
 {
   if (!m_frozen)
   {
-    if (dir_ == Direction::UP) {
-      be_flat();
+    const Player* player = dynamic_cast<Player*>(&object);
+    const Owl* owl = dynamic_cast<Owl*>(&object);
+
+    if (player)
+    {
+      SoundManager::current()->play("sounds/kick.wav", get_pos());
+      if (!player->is_swimming() && !player->is_water_jumping())
+      {
+        switch (dir_)
+        {
+        case Direction::UP:
+          if (std::abs(player->get_velocity().x) < 4.f) {
+            be_flat();
+            m_physic.set_velocity_y(SNAIL_KICK_SPEED_Y);
+          }
+          else {
+            be_kicked(true);
+          }
+          break;
+        case Direction::LEFT:
+        case Direction::RIGHT:
+          m_dir = dir_;
+          be_kicked(false);
+          break;
+        case Direction::DOWN:
+          m_dir = player->m_dir;
+          be_kicked(false);
+          m_physic.set_velocity_y(500.f);
+          break;
+        default:
+          break;
+        }
+      }
+      else
+      {
+        float swimangle = player->get_swimming_angle();
+        m_col.m_bbox.move(Vector(std::cos(swimangle) * 48.f, std::sin(swimangle) * 48.f));
+        be_kicked(false);
+        m_physic.set_velocity(SNAIL_KICK_SPEED * 1.5f * Vector(std::cos(swimangle), std::sin(swimangle)));
+        m_dir = m_physic.get_velocity_x() > 0.f ? Direction::RIGHT : Direction::LEFT;
+      }
     }
-    else {
-      m_dir = dir_;
-      be_kicked(dynamic_cast<Owl*>(&object) ? false : true);
+    else if (owl) {
+      be_kicked(false);
     }
   }
   else

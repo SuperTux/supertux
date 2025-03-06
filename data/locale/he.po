@@ -1771,8 +1771,8 @@ msgstr "לחץ על Escape כדי לדלג"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "שימוש: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "שימוש: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2497,13 +2497,13 @@ msgstr "שינוי גודל"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[פרופיל %s]"
+msgid "[Profile {}]"
+msgstr "[פרופיל {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "פרופיל %s"
+msgid "Profile {}"
+msgstr "פרופיל {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2551,8 +2551,8 @@ msgstr "לא ידוע"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" על ידי \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" על ידי \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2564,13 +2564,13 @@ msgstr "לא נמצאו תוספים"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "התקנת %s *חדש*"
+msgid "Install {} *NEW*"
+msgstr "התקנת {} *חדש*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "התקנת %s"
+msgid "Install {}"
+msgstr "התקנת {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2590,8 +2590,8 @@ msgstr "בהורדת אינדקס מאגר תוספים"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "בהורדת %s"
+msgid "Downloading {}"
+msgstr "בהורדת {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3104,8 +3104,8 @@ msgstr "אתה לא יכול למחוק את הרמה שאתה עורך!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "נוצר על ידי %s"
+msgid "contributed by {}"
+msgstr "נוצר על ידי {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

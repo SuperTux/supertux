@@ -86,12 +86,12 @@ public:
   float get_position_left   () const { return position_left;   }
   float get_position_right  () const { return position_right;  }
   float get_position_top    () const { return position_top;    }
-  float get_position_bottom () const { return position_bottom; }
+  inline float get_position_bottom () const { return position_bottom; }
 
-  float get_height () const { return (position_bottom - position_top); }
-  float get_width  () const { return (position_right - position_left); }
+  inline float get_height () const { return (position_bottom - position_top); }
+  inline float get_width  () const { return (position_right - position_left); }
 
-  float get_x_midpoint () const { return (.5f * (position_left + position_right)); }
+  inline float get_x_midpoint () const { return (.5f * (position_left + position_right)); }
 
   CollisionHit hit;
 
@@ -101,9 +101,6 @@ private:
   float position_top;
   float position_bottom;
 };
-
-/** checks if 2 rectangle intersect each other */
-bool intersects(const Rectf& r1, const Rectf& r2);
 
 /** does collision detection between a rectangle and an axis aligned triangle
  * Returns true in case of a collision and fills in the hit structure then.

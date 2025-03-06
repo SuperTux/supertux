@@ -72,7 +72,6 @@ AngryStone::collision_badguy(BadGuy& badguy, const CollisionHit& )
   if (m_state == ATTACKING) 
   {
     badguy.kill_fall();
-    return FORCE_MOVE;
   }
 
   return FORCE_MOVE;

@@ -19,11 +19,14 @@
 #include <fstream>
 #include <sstream>
 #include <limits>
+#include <unordered_map>
 
 #ifdef EMSCRIPTEN
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #endif
+
+#include <fmt/format.h>
 
 #include "zip_manager.hpp"
 
@@ -45,9 +48,11 @@
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "physfs/util.hpp"
 #include "sdk/integration.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -69,6 +74,11 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+
+static const float CAMERA_MIN_ZOOM = 0.5f;
+static const float CAMERA_MAX_ZOOM = 3.0f;
+static const float CAMERA_ZOOM_SENSITIVITY = 0.05f;
+static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
 
 bool Editor::s_resaving_in_progress = false;
 
@@ -99,13 +109,14 @@ Editor::Editor() :
   m_test_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
-  m_savegame(),
   m_particle_editor_filename(),
+  m_ctrl_pressed(false),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
   m_after_setup(false),
   m_tileset(nullptr),
+  m_has_deprecated_tiles(false),
   m_widgets(),
   m_undo_widget(),
   m_redo_widget(),
@@ -115,7 +126,9 @@ Editor::Editor() :
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_time_since_last_save(0.f),
-  m_scroll_speed(32.0f)
+  m_scroll_speed(32.0f),
+  m_new_scale(0.f),
+  m_mouse_pos(0.f, 0.f)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -143,6 +156,31 @@ Editor::draw(Compositor& compositor)
     for(const auto& widget : m_widgets) {
       widget->draw(context);
     }
+
+    // If camera scale must be changed, change it here.
+    if (m_new_scale != 0.f)
+    {
+      // Do not clamp, as to prevent pointless calls to EditorOverlayWidget::update_pos().
+      if (m_new_scale >= CAMERA_MIN_ZOOM && m_new_scale <= CAMERA_MAX_ZOOM)
+      {
+        Camera& camera = m_sector->get_camera();
+        const bool zooming_in = camera.get_current_scale() < m_new_scale;
+
+        camera.set_scale(m_new_scale);
+
+        // When zooming in, focus on the position of the mouse.
+        if (zooming_in)
+          camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
+                                            static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
+
+        // Update the camera's screen size variable, so it can properly be kept in sector bounds.
+        camera.draw(context);
+        keep_camera_in_bounds();
+      }
+      m_new_scale = 0.f;
+    }
+
+    m_sector->pause_camera_interpolation();
 
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
@@ -252,7 +290,8 @@ Editor::update(float dt_sec, const Controller& controller)
 
     // Now that all widgets have been updated, which should have relinquished
     // pointers to objects marked for deletion, we can actually delete them.
-    m_sector->flush_game_objects();
+    for (auto& sector : m_level->get_sectors())
+      sector->flush_game_objects();
 
     update_keyboard(controller);
   }
@@ -285,7 +324,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
 
   for (const auto& sector : m_level->m_sectors)
   {
-    sector->clear_undo_stack();
+    sector->on_editor_save();
   }
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
@@ -308,14 +347,12 @@ Editor::get_level_directory() const
   {
     basedir = FileSystem::dirname(m_levelfile);
   }
-  return std::string(basedir);
+  return basedir;
 }
 
 void
 Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
-  m_overlay_widget->reset_action_press();
-
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);
@@ -337,11 +374,13 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 
   if (!m_level->is_worldmap())
   {
+    // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
+    //       If not, call reactivate().
     GameManager::current()->start_level(*current_world, backup_filename, test_pos);
   }
-  else
+  else if (!GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos))
   {
-    GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos);
+    reactivate();
   }
 }
 
@@ -354,37 +393,21 @@ Editor::open_level_directory()
 }
 
 void
-Editor::set_world(std::unique_ptr<World> w)
-{
-  m_world = std::move(w);
-}
-
-int
-Editor::get_tileselect_select_mode() const
-{
-  return m_toolbox_widget->get_tileselect_select_mode();
-}
-
-int
-Editor::get_tileselect_move_mode() const
-{
-  return m_toolbox_widget->get_tileselect_move_mode();
-}
-
-void
 Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
 
-  Rectf bounds(0.0f,
-               0.0f,
-               std::max(0.0f, m_sector->get_width() - static_cast<float>(SCREEN_WIDTH - 128)),
-               std::max(0.0f, m_sector->get_height() - static_cast<float>(SCREEN_HEIGHT - 32)));
+  m_sector->get_camera().move(velocity / m_sector->get_camera().get_current_scale());
+  keep_camera_in_bounds();
+}
+
+void
+Editor::keep_camera_in_bounds()
+{
   Camera& camera = m_sector->get_camera();
-  Vector pos = camera.get_translation() + velocity;
-  pos = Vector(math::clamp(pos.x, bounds.get_left(), bounds.get_right()),
-               math::clamp(pos.y, bounds.get_top(), bounds.get_bottom()));
-  camera.set_translation(pos);
+  camera.keep_in_bounds(Rectf(0.f, 0.f,
+                              std::max(0.0f, m_sector->get_editor_width() + 128.f / camera.get_current_scale()),
+                              std::max(0.0f, m_sector->get_editor_height() + 32.f / camera.get_current_scale())));
 
   m_overlay_widget->update_pos();
 }
@@ -400,38 +423,38 @@ Editor::esc_press()
 void
 Editor::update_keyboard(const Controller& controller)
 {
-  if (!m_enabled){
+  if (!m_enabled) {
     return;
   }
 
-  if (MenuManager::instance().current_menu() == nullptr)
+  if (MenuManager::instance().is_active() || MenuManager::instance().has_dialog())
+    return;
+
+  if (controller.pressed(Control::ESCAPE)) {
+    esc_press();
+    return;
+  }
+  if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
   {
-    if (controller.pressed(Control::ESCAPE)) {
-      esc_press();
-      return;
-    }
-    if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
-    {
-      m_enabled = false;
-      m_overlay_widget->delete_markers();
-      MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
-      return;
-    }
-    if (controller.hold(Control::LEFT)) {
-      scroll({ -m_scroll_speed, 0.0f });
-    }
+    m_enabled = false;
+    m_overlay_widget->delete_markers();
+    MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
+    return;
+  }
+  if (controller.hold(Control::LEFT)) {
+    scroll({ -m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::RIGHT)) {
-      scroll({ m_scroll_speed, 0.0f });
-    }
+  if (controller.hold(Control::RIGHT)) {
+    scroll({ m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::UP)) {
-      scroll({ 0.0f, -m_scroll_speed });
-    }
+  if (controller.hold(Control::UP)) {
+    scroll({ 0.0f, -m_scroll_speed });
+  }
 
-    if (controller.hold(Control::DOWN)) {
-      scroll({ 0.0f, m_scroll_speed });
-    }
+  if (controller.hold(Control::DOWN)) {
+    scroll({ 0.0f, m_scroll_speed });
   }
 }
 
@@ -455,7 +478,7 @@ Editor::set_sector(Sector* sector)
   if (!sector) return;
 
   m_sector = sector;
-  m_sector->activate("main");
+  m_sector->activate(DEFAULT_SPAWNPOINT_NAME);
 
   { // Initialize badguy sprites and perform other GameObject related tasks.
     BIND_SECTOR(*m_sector);
@@ -488,7 +511,7 @@ Editor::delete_current_sector()
 void
 Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
-  std::string sector_name = "main";
+  std::string sector_name = DEFAULT_SECTOR_NAME;
   Vector translation(0.0f, 0.0f);
 
   if (!reset && m_sector) {
@@ -500,7 +523,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_enabled = true;
 
   if (reset) {
-    m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+    m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   }
 
   // Reload level.
@@ -528,16 +551,38 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
+
+  if (!reset) return;
+
+  // Warn the user if any deprecated tiles are used throughout the level
+  check_deprecated_tiles();
+  if (m_has_deprecated_tiles)
+  {
+    std::string message = _("This level contains deprecated tiles.\nIt is strongly recommended to replace all deprecated tiles\nto avoid loss of compatibility in future versions.");
+    if (!g_config->editor_show_deprecated_tiles)
+      message += "\n\n" + _("Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu.");
+
+    Dialog::show_message(message);
+  }
 }
 
 void
 Editor::reload_level()
 {
   ReaderMapping::s_translations_enabled = false;
-  set_level(LevelParser::from_file(m_world ?
-                                   FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
-                                   StringUtil::has_suffix(m_levelfile, ".stwm"),
-                                   true));
+  try
+  {
+    set_level(LevelParser::from_file(m_world ?
+                                     FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
+                                     StringUtil::has_suffix(m_levelfile, ".stwm"),
+                                     true));
+  }
+  catch (const std::exception& err)
+  {
+    log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
+    reset_level();
+    return;
+  }
   ReaderMapping::s_translations_enabled = true;
 
   retoggle_undo_tracking();
@@ -548,6 +593,21 @@ Editor::reload_level()
   m_levelfile = get_levelname_from_autosave(m_levelfile);
   m_autosave_levelfile = FileSystem::join(get_level_directory(),
                                           get_autosave_from_levelname(m_levelfile));
+}
+
+void
+Editor::reset_level()
+{
+  m_levelloaded = false;
+  m_level.reset();
+  m_world.reset();
+  m_levelfile.clear();
+  m_sector = nullptr;
+
+  m_reload_request = false;
+
+  MouseCursor::current()->set_icon(nullptr);
+  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
 }
 
 void
@@ -631,6 +691,94 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
 }
 
 void
+Editor::check_deprecated_tiles(bool focus)
+{
+  // Check for any deprecated tiles, used throughout the entire level
+  m_has_deprecated_tiles = false;
+  for (const auto& sector : m_level->get_sectors())
+  {
+    for (auto& tilemap : sector->get_objects_by_type<TileMap>())
+    {
+      int pos = -1;
+      for (const uint32_t& tile_id : tilemap.get_tiles())
+      {
+        pos++;
+        if (m_tileset->get(tile_id).is_deprecated())
+        {
+          // Focus on deprecated tile
+          if (focus)
+          {
+            set_sector(sector.get());
+            m_layers_widget->set_selected_tilemap(&tilemap);
+
+            const int width = tilemap.get_width();
+            m_sector->get_camera().set_translation_centered(Vector(pos % width, pos / width) * 32.f);
+            keep_camera_in_bounds();
+          }
+
+          m_has_deprecated_tiles = true;
+          return;
+        }
+      }
+    }
+  }
+}
+
+void
+Editor::convert_tiles_by_file(const std::string& file)
+{
+  std::unordered_map<int, int> tiles;
+
+  try
+  {
+    IFileStream in(file);
+    if (!in.good())
+      throw std::runtime_error("Error opening file stream!");
+
+    int a, b;
+    std::string delimiter;
+    while (in >> a >> delimiter >> b)
+    {
+      if (delimiter != "->")
+        throw std::runtime_error("Expected '->' delimiter!");
+
+      tiles[a] = b;
+    }
+  }
+  catch (std::exception& err)
+  {
+    log_warning << "Couldn't parse conversion file '" << file << "': " << err.what() << std::endl;
+    return;
+  }
+
+  for (const auto& sector : m_level->get_sectors())
+  {
+    for (auto& tilemap : sector->get_objects_by_type<TileMap>())
+    {
+      tilemap.save_state();
+      // Can't use change_all(), if there's like `1 -> 2`and then
+      // `2 -> 3`, it'll do a double replacement
+      for (int x = 0; x < tilemap.get_width(); x++)
+      {
+        for (int y = 0; y < tilemap.get_height(); y++)
+        {
+          auto tile = tilemap.get_tile_id(x, y);
+          try
+          {
+            tilemap.change(x, y, tiles.at(tile));
+          }
+          catch (std::out_of_range&)
+          {
+            // Expected for tiles that don't need to be replaced
+          }
+        }
+      }
+      tilemap.check_state();
+    }
+  }
+}
+
+void
 Editor::leave()
 {
   MouseCursor::current()->set_icon(nullptr);
@@ -674,97 +822,117 @@ Editor::setup()
   }
   m_toolbox_widget->setup();
   m_layers_widget->setup();
-  m_savegame = Savegame::from_file("levels/misc");
 
   // Reactivate the editor after level test.
-  if (m_leveltested) {
-    m_leveltested = false;
-    Tile::draw_editor_images = true;
-    m_level->reactivate();
-    m_sector->activate(m_sector->get_players()[0]->get_pos());
-    MenuManager::instance().clear_menu_stack();
-    SoundManager::current()->stop_music();
-    m_deactivate_request = false;
-    m_enabled = true;
-    m_toolbox_widget->update_mouse_icon();
-  }
+  reactivate();
 }
 
 void
-Editor::resize()
+Editor::reactivate()
 {
-  // Calls on window resize.
-  m_toolbox_widget->resize();
-  m_layers_widget->resize();
-  m_overlay_widget->update_pos();
+  // Reactivate the editor after level test.
+  if (!m_leveltested)
+    return;
+
+  m_leveltested = false;
+  Tile::draw_editor_images = true;
+  m_level->reactivate();
+
+  m_sector->activate(Vector(0,0));
+
+  MenuManager::instance().clear_menu_stack();
+  SoundManager::current()->stop_music();
+
+  m_deactivate_request = false;
+  m_enabled = true;
+  m_toolbox_widget->update_mouse_icon();
+}
+
+void
+Editor::on_window_resize()
+{
+  for(const auto& widget: m_widgets)
+  {
+    widget->on_window_resize();
+  }
 }
 
 void
 Editor::event(const SDL_Event& ev)
 {
-  if (!m_enabled) return;
+  if (!m_enabled || !m_levelloaded) return;
 
   try
   {
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_t &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		test_level(std::nullopt);
-		}
-
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_s &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		save_level();
-		}
-
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_z &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		undo();
-		}
-
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_y &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		redo();
-		}
-
-  if (ev.type == SDL_KEYDOWN)
-  {
-    if (ev.key.keysym.mod & KMOD_RSHIFT)
+    if (ev.type == SDL_KEYDOWN)
     {
-      m_scroll_speed = 96.0f;
-    }
-    else if (ev.key.keysym.mod & KMOD_CTRL)
-    {
-      m_scroll_speed = 16.0f;
-    }
-    else
-    {
-      m_scroll_speed = 32.0f;
-    }
-  }
+      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
 
-    if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
-      Compositor::s_render_lighting = !Compositor::s_render_lighting;
-      return;
+      if (m_ctrl_pressed)
+        m_scroll_speed = 16.0f;
+      else if (ev.key.keysym.mod & KMOD_RSHIFT)
+        m_scroll_speed = 96.0f;
+
+      if (ev.key.keysym.sym == SDLK_F6)
+      {
+        Compositor::s_render_lighting = !Compositor::s_render_lighting;
+        return;
+      }
+      else if (m_ctrl_pressed)
+      {
+        switch (ev.key.keysym.sym)
+        {
+          case SDLK_t:
+            test_level(std::nullopt);
+            break;
+          case SDLK_s:
+            save_level();
+            break;
+          case SDLK_z:
+            undo();
+            break;
+          case SDLK_y:
+            redo();
+            break;
+          case SDLK_PLUS: // Zoom in
+          case SDLK_KP_PLUS:
+            m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
+            break;
+          case SDLK_MINUS: // Zoom out
+          case SDLK_KP_MINUS:
+            m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
+            break;
+          case SDLK_d: // Reset zoom
+            m_new_scale = 1.f;
+            break;
+        }
+      }
+    }
+    else if (ev.type == SDL_KEYUP)
+    {
+      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+
+      if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
+        m_scroll_speed = 32.0f;
+    }
+    else if (ev.type == SDL_MOUSEMOTION)
+    {
+      m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
+    }
+    else if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
+    {
+      // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
+      // The toolbox does scrolling independently from the main area.
+      if (m_ctrl_pressed)
+        m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY;
+      else
+        scroll({ static_cast<float>(ev.wheel.x * -32), static_cast<float>(ev.wheel.y * -32) });
     }
 
     BIND_SECTOR(*m_sector);
-
-    for(const auto& widget : m_widgets) {
+    for (const auto& widget : m_widgets)
       if (widget->event(ev))
         break;
-    }
-
-    // Scroll with mouse wheel, if the mouse is not over the toolbox.
-    // The toolbox does scrolling independently from the main area.
-    if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus()) {
-      float scroll_x = static_cast<float>(ev.wheel.x * -32);
-      float scroll_y = static_cast<float>(ev.wheel.y * -32);
-      scroll({scroll_x, scroll_y});
-    }
   }
   catch(const std::exception& err)
   {
@@ -806,7 +974,7 @@ void
 Editor::change_tileset()
 {
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+  m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_tileset);
@@ -823,7 +991,7 @@ Editor::select_objectgroup(int id)
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return m_toolbox_widget->get_object_info().m_groups;
+  return m_toolbox_widget->get_tilebox().get_object_info().m_groups;
 }
 
 void
@@ -838,12 +1006,12 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
   bool sector_valid = false, spawnpoint_valid = false;
   for (const auto& sector : m_level->m_sectors)
   {
-    if (sector->get_name() == "main")
+    if (sector->get_name() == DEFAULT_SECTOR_NAME)
     {
       sector_valid = true;
       for (const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
       {
-        if (spawnpoint.get_name() == "main")
+        if (spawnpoint.get_name() == DEFAULT_SPAWNPOINT_NAME)
         {
           spawnpoint_valid = true;
         }
@@ -921,7 +1089,7 @@ Editor::undo()
 {
   BIND_SECTOR(*m_sector);
   m_sector->undo();
-  post_undo_redo_actions();
+  m_layers_widget->update_current_tip();
 }
 
 void
@@ -929,13 +1097,6 @@ Editor::redo()
 {
   BIND_SECTOR(*m_sector);
   m_sector->redo();
-  post_undo_redo_actions();
-}
-
-void
-Editor::post_undo_redo_actions()
-{
-  m_overlay_widget->delete_markers();
   m_layers_widget->update_current_tip();
 }
 
@@ -958,53 +1119,41 @@ Editor::get_status() const
   return status;
 }
 
-PHYSFS_EnumerateCallbackResult
-Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
-{
-  auto full_path = FileSystem::join(std::string(origdir), std::string(fname));
-
-  PHYSFS_Stat ps;
-  PHYSFS_stat(full_path.c_str(), &ps);
-  if (ps.filetype == PHYSFS_FILETYPE_DIRECTORY)
-  {
-    PHYSFS_enumerate(full_path.c_str(), foreach_recurse, data);
-  }
-  else
-  {
-    auto* zip = static_cast<Partio::ZipFileWriter*>(data);
-    auto os = zip->Add_File(full_path);
-    auto filename = FileSystem::join(std::string(PHYSFS_getWriteDir()), full_path);
-    *os << std::ifstream(filename).rdbuf();
-  }
-
-  return PHYSFS_ENUM_OK;
-}
-
 void
 Editor::pack_addon()
 {
   auto id = FileSystem::basename(get_world()->get_basedir());
+  auto output_file_path = FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip");
 
   int version = 0;
-  try
+  if (PHYSFS_exists(output_file_path.c_str()))
   {
-    Partio::ZipFileReader zipold(FileSystem::join(std::string(PHYSFS_getWriteDir()), "addons/" + id + ".zip"));
-    auto info_file = zipold.Get_File(id + ".nfo");
-    if (info_file)
+    try
     {
-      auto info_stream = ReaderDocument::from_stream(*info_file);
-      auto a = info_stream.get_root().get_mapping();
-      a.get("version", version);
+      Partio::ZipFileReader zipold(output_file_path);
+      auto info_file = zipold.Get_File(id + ".nfo");
+      if (info_file)
+      {
+        auto info_stream = ReaderDocument::from_stream(*info_file);
+        auto a = info_stream.get_root().get_mapping();
+        a.get("version", version);
+      }
     }
-  }
-  catch(const std::exception& e)
-  {
-    log_warning << e.what() << std::endl;
+    catch(const std::exception& e)
+    {
+      log_warning << e.what() << std::endl;
+    }
   }
   version++;
 
-  Partio::ZipFileWriter zip(FileSystem::join(std::string(PHYSFS_getWriteDir()), "addons/" + id + ".zip"));
-  PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
+  Partio::ZipFileWriter zip(output_file_path);
+  physfsutil::enumerate_files_recurse(get_world()->get_basedir(),
+    [&zip](const std::string& full_path)
+    {
+      auto os = zip.Add_File(full_path);
+      *os << std::ifstream(FileSystem::join(PHYSFS_getWriteDir(), full_path)).rdbuf();
+      return false;
+    });
 
   std::stringstream ss;
   Writer info(ss);

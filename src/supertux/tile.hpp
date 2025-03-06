@@ -102,8 +102,8 @@ public:
   Tile(const std::vector<SurfacePtr>& images,
        const std::vector<SurfacePtr>& editor_images,
        uint32_t attributes, uint32_t data, float fps,
-       const std::string& obj_name = "", const std::string& obj_data = "",
-       bool deprecated = false);
+       bool deprecated = false,
+       const std::string& obj_name = "", const std::string& obj_data = "");
 
   /** Draw a tile on the screen */
   void draw(Canvas& canvas, const Vector& pos, int z_pos, const Color& color = Color(1, 1, 1)) const;
@@ -112,11 +112,11 @@ public:
   SurfacePtr get_current_surface() const;
   SurfacePtr get_current_editor_surface() const;
 
-  uint32_t get_attributes() const { return m_attributes; }
-  int get_data() const { return m_data; }
+  inline uint32_t get_attributes() const { return m_attributes; }
+  inline int get_data() const { return m_data; }
 
   /** Checks the SLOPE attribute. Returns "true" if set, "false" otherwise. */
-  bool is_slope() const { return (m_attributes & SLOPE) != 0; }
+  inline bool is_slope() const { return (m_attributes & SLOPE) != 0; }
 
   /** Determine the solidity of a tile. This version behaves correctly
       for unisolid tiles by taking position and movement of the object
@@ -130,7 +130,7 @@ public:
       unisolid tiles. To determine the *current* solidity of unisolid
       tiles, use the "is_solid" method that takes position and
       movement into account (see above). */
-  bool is_solid() const { return (m_attributes & SOLID) != 0; }
+  inline bool is_solid() const { return (m_attributes & SOLID) != 0; }
 
   /** Determines whether the tile's attributes are important to
       calculate the collisions. The tile may be unisolid and therefore
@@ -138,12 +138,12 @@ public:
   bool is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const;
 
   /** Checks the UNISOLID attribute. Returns "true" if set, "false" otherwise. */
-  bool is_unisolid() const { return (m_attributes & UNISOLID) != 0; }
+  inline bool is_unisolid() const { return (m_attributes & UNISOLID) != 0; }
 
-  bool is_deprecated() const { return m_deprecated; }
+  inline bool is_deprecated() const { return m_deprecated; }
 
-  const std::string& get_object_name() const { return m_object_name; }
-  const std::string& get_object_data() const { return m_object_data; }
+  inline const std::string& get_object_name() const { return m_object_name; }
+  inline const std::string& get_object_data() const { return m_object_data; }
 
 private:
   /** Returns zero if a unisolid tile is non-solid due to the movement
@@ -170,7 +170,7 @@ private:
   std::string m_object_name;
   std::string m_object_data;
 
-  /** Discourage use of this tile by not making it available in the editor */
+  /** Prevent the addition of this tile to tilegroups, place restrictions in editor. */
   bool m_deprecated;
 
 private:

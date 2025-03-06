@@ -112,7 +112,6 @@ EOF
 
               pkgs.physfs
               pkgs.libpng
-              pkgs.boost
               pkgs.curl
               pkgs.fmt_8
               pkgs.libGL

@@ -53,6 +53,14 @@ TileSelection::set_tile(uint32_t tile)
   m_tiles.push_back(tile);
 }
 
+void
+TileSelection::clear()
+{
+  m_tiles.clear();
+  m_width = 0;
+  m_height = 0;
+}
+
 bool
 TileSelection::empty() const
 {

@@ -39,30 +39,33 @@ ContribMenu::ContribMenu() :
 {
   // Generating contrib levels list by making use of Level Subset.
   std::vector<std::string> level_worlds;
-  physfsutil::enumerate_files("levels", [&level_worlds](const std::string& filename) {
+  physfsutil::enumerate_files_alphabetical("levels", [&level_worlds](const std::string& filename) {
     std::string filepath = FileSystem::join("levels", filename);
     if (physfsutil::is_directory(filepath))
     {
       level_worlds.push_back(filepath);
     }
+    return false;
   });
 
-  physfsutil::enumerate_files("custom", [&level_worlds](const std::string& addon_filename) {
+  physfsutil::enumerate_files_alphabetical("custom", [&level_worlds](const std::string& addon_filename) {
     std::string addonpath = FileSystem::join("custom", addon_filename);
     if (physfsutil::is_directory(addonpath))
     {
-      std::string addonlevelpath = FileSystem::join(addonpath.c_str(), "levels");
+      std::string addonlevelpath = FileSystem::join(addonpath, "levels");
       if (physfsutil::is_directory(addonlevelpath))
       {
-        physfsutil::enumerate_files(addonlevelpath, [addonlevelpath, &level_worlds](const std::string& filename) {
-          std::string filepath = FileSystem::join(addonlevelpath.c_str(), filename);
+        physfsutil::enumerate_files_alphabetical(addonlevelpath, [addonlevelpath, &level_worlds](const std::string& filename) {
+          std::string filepath = FileSystem::join(addonlevelpath, filename);
           if (physfsutil::is_directory(filepath))
           {
             level_worlds.push_back(filepath);
           }
+          return false;
         });
       }
     }
+    return false;
   });
 
   add_label(_("Contrib Levels"));

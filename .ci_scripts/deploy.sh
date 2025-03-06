@@ -13,10 +13,11 @@ for file in upload/SuperTux*; do
         shasum=$(shasum -a 256 "$file" | cut -d " " -f 1)
     fi
     echo "Checksum: $shasum";
+    echo "Branch: $BRANCH_NAME";
     curl --data "apikey=$DOWNLOAD_APIKEY" \
          --data "url=$url" \
          --data "size=$size" \
-         --data "branch=$(git branch --show-current)" \
+         --data "branch=$BRANCH_NAME" \
          --data "shasum=$shasum" \
          -L -s https://download.supertux.org/submit.php
 done

@@ -67,8 +67,6 @@ public:
 
   std::vector<std::string> filenames;
   std::optional<bool> enable_script_debugger;
-  std::optional<std::string> start_demo;
-  std::optional<std::string> record_demo;
   std::optional<Vector> tux_spawn_pos;
   std::optional<std::string> sector;
   std::optional<std::string> spawnpoint;
@@ -87,8 +85,8 @@ public:
 public:
   CommandLineArguments();
 
-  Action get_action() const { return m_action; }
-  LogLevel get_log_level() const { return m_log_level; }
+  inline Action get_action() const { return m_action; }
+  inline LogLevel get_log_level() const { return m_log_level; }
 
   void parse_args(int argc, char** argv);
 

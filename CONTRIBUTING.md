@@ -6,7 +6,7 @@
   however English is generally preferred so everyone can understand what's happening.
 - Please check for duplicate issues on GitHub, as they're wasting the developers'
   time.
-- Also try to check if your issue has been resolved in the development version.
+- Check if your issue has been resolved in the latest development version.
 - Separate issues and feature requests. Don't put all in the same issue.
 - If you made a mistake in your bug report, please use GitHub's edit feature
   to correct the wrong detail, instead of closing the old issue and opening a
@@ -23,18 +23,21 @@ Please include the following details in your issue report so that we can investi
   and version details.
 - If possible, provide steps to reproduce your issue.
 - If available, it's a great help for the developers to include a backtrace from
-  gdb or a core dump. If you're on GNU/Linux and your distro is using systemd, it's
+  `gdb` or a core dump. If you're on GNU/Linux and your distro is using systemd, it's
   highly likely that a core dump is available using `coredumpctl(1)`.
 
 ### Add-on related issues
 
+Issues regarding add-ons found in the official SuperTux Add-on repository
+should be filed at [SuperTux/addons](https://github.com/SuperTux/addons/issues).
+
 No support is provided for third-party add-ons (that doesn't include official
-add-ons or language packs). However, a pull request against the SuperTux/addons
-repository containing a fix is always welcome.
+add-ons or language packs). However, a pull request against the [SuperTux/addons](https://github.com/SuperTux/addons)
+repository, containing a fix, is always welcome!
 
 ### Translation issues
 
-Please use Transifex to fix or report translation related issues.
+Please use [Transifex](https://explore.transifex.com/arctic-games/supertux/) to fix or report translation related issues.
 
 ## Pull requests
 

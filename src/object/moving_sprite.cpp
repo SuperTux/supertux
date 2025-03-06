@@ -17,7 +17,9 @@
 #include "object/moving_sprite.hpp"
 
 #include <math.h>
-#include <physfs.h>
+
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
 
 #include "editor/editor.hpp"
 #include "math/random.hpp"
@@ -35,7 +37,8 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   m_sprite(SpriteManager::current()->create(m_sprite_name)),
   m_layer(layer_),
   m_flip(NO_FLIP),
-  m_sprite_found(false)
+  m_sprite_found(false),
+  m_custom_layer(false)
 {
   m_col.m_bbox.set_pos(pos);
   update_hitbox();
@@ -55,15 +58,15 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
-  m_sprite_found(false)
+  m_sprite_found(false),
+  m_custom_layer(reader.get("z-pos", m_layer))
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid or sprite change fails
-  if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str()) ||
-      !change_sprite(m_sprite_name))
+  if (m_sprite_name.empty() || !change_sprite(m_sprite_name))
   {
     change_sprite(m_default_sprite_name);
     m_sprite_found = false;
@@ -79,7 +82,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
-  m_sprite_found(false)
+  m_sprite_found(false),
+  m_custom_layer(reader.get("z-pos", m_layer))
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
@@ -102,25 +106,27 @@ MovingSprite::update(float )
 {
 }
 
-bool
-MovingSprite::has_found_sprite()
-{
-  bool found = m_sprite_found;
-  m_sprite_found = false; // After the first call, indicate that a custom sprite has not been found.
-  return found;
-}
-
 void
 MovingSprite::on_type_change(int old_type)
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+  /** Don't change the sprite/layer to the default one for the current type,
+      if this is the initial `on_type_change()` call, and a custom sprite/layer has just been loaded. */
+  if (old_type >= 0 || !m_sprite_found)
     change_sprite(get_default_sprite_name());
+  if (old_type >= 0 || !m_custom_layer)
+    m_layer = get_layer();
 }
 
 bool
-MovingSprite::matches_sprite(const std::string& sprite_file)
+MovingSprite::matches_sprite(const std::string& sprite_file) const
 {
   return m_sprite_name == sprite_file || m_sprite_name == "/" + sprite_file;
+}
+
+std::string
+MovingSprite::get_action() const
+{
+  return m_sprite->get_action();
 }
 
 void
@@ -184,7 +190,7 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
   m_sprite_name = new_sprite_name;
   update_hitbox();
 
-  return SpriteManager::current()->last_load_successful();
+  return m_sprite->load_successful();
 }
 
 ObjectSettings
@@ -193,8 +199,9 @@ MovingSprite::get_settings()
   ObjectSettings result = MovingObject::get_settings();
 
   result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name());
+  result.add_int(_("Z-pos"), &m_layer, "z-pos");
 
-  result.reorder({"sprite", "x", "y"});
+  result.reorder({"sprite", "z-pos", "x", "y"});
 
   return result;
 }
@@ -231,6 +238,21 @@ MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
                                              pspeed, paccel,
                                              LAYER_OBJECTS-1);
   }
+}
+
+
+void
+MovingSprite::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<MovingSprite>("MovingSprite", vm.findClass("MovingObject"));
+
+  cls.addFunc("set_sprite", &MovingSprite::change_sprite);
+  cls.addFunc("get_sprite", &MovingSprite::get_sprite_name);
+  cls.addFunc("get_action", &MovingSprite::get_action);
+  cls.addFunc<void, MovingSprite, const std::string&, int>("set_action", &MovingSprite::set_action, ssq::DefaultArguments<int>(-1));
+  cls.addFunc<void, MovingSprite, const std::string&, int>("set_action_loops", &MovingSprite::set_action); // Deprecated
+
+  cls.addVar("sprite", &MovingSprite::get_sprite_name, &MovingSprite::set_sprite);
 }
 
 /* EOF */

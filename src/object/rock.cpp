@@ -23,6 +23,8 @@
 #include "object/explosion.hpp"
 #include "object/lit_object.hpp"
 #include "object/pushbutton.hpp"
+#include "object/trampoline.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "object/player.hpp"
@@ -39,6 +41,7 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   m_physic(),
   m_on_ground(false),
   m_on_ice(false),
+  m_at_ceiling(false),
   m_last_movement(0.0f, 0.0f),
   m_on_grab_script(),
   m_on_ungrab_script(),
@@ -62,7 +65,8 @@ Rock::Rock(const Vector& pos, const std::string& spritename) :
   m_on_grab_script(),
   m_on_ungrab_script(),
   m_running_grab_script(),
-  m_running_ungrab_script()
+  m_running_ungrab_script(),
+  m_last_sector_gravity(10.0f)
 {
   SoundManager::current()->preload(ROCK_SOUND);
   set_group(COLGROUP_MOVING_STATIC);
@@ -92,8 +96,55 @@ Rock::get_default_sprite_name() const
 void
 Rock::update(float dt_sec)
 {
-  if (!is_grabbed())
-    m_col.set_movement(m_physic.get_movement(dt_sec));
+  if (!is_grabbed()) {
+
+    if (get_bbox().get_top() > Sector::get().get_height()) {
+      remove_me();
+    }
+
+    Rectf icebox = get_bbox().grown(-1.f);
+    icebox.set_bottom(get_bbox().get_bottom() + 8.f);
+    m_on_ice = !Sector::get().is_free_of_tiles(icebox, true, Tile::ICE);
+
+    bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+    m_physic.set_gravity_modifier(in_water ? 0.2f : 1.f);
+
+    Rectf trampolinebox = get_bbox().grown(-1.f);
+    trampolinebox.set_bottom(get_bbox().get_bottom() + 8.f);
+
+    for (auto& trampoline : Sector::get().get_objects_by_type<Trampoline>()) {
+      if (trampolinebox.overlaps(trampoline.get_bbox()) && !trampoline.is_grabbed() &&
+        (glm::length((get_bbox().get_middle() - trampoline.get_bbox().get_middle())) >= 10.f) &&
+        is_portable()) {
+        trampoline.bounce();
+        m_physic.set_velocity_y(-500.f);
+      }
+    }
+
+    Rectf playerbox = get_bbox().grown(-2.f);
+    playerbox.set_bottom(get_bbox().get_bottom() + 7.f);
+    for (auto& player : Sector::get().get_objects_by_type<Player>()) {
+      if (playerbox.overlaps(player.get_bbox()) && m_physic.get_velocity_y() > 0.f && is_portable()) {
+        m_physic.set_velocity_y(-250.f);
+      }
+    }
+
+    m_col.set_movement(m_physic.get_movement(dt_sec) *
+      Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f));
+
+    const float sector_gravity = Sector::get().get_gravity();
+    if (m_last_sector_gravity != sector_gravity)
+    {
+      if ((sector_gravity < 0.0f && m_last_sector_gravity >= 0.0f) ||
+          (sector_gravity >= 0.0f && m_last_sector_gravity < 0.0f))
+      {
+        // gravity has changed direction, reset flags
+        m_on_ground = false;
+        m_at_ceiling = false;
+      }
+      m_last_sector_gravity = sector_gravity;
+    }
+  }
 }
 
 void
@@ -118,6 +169,7 @@ Rock::collision_solid(const CollisionHit& hit)
   }
   if (hit.top || hit.bottom)
     m_physic.set_velocity_y(0);
+
   if (hit.left || hit.right) {
     // Bounce back slightly when hitting a wall
     float velx = m_physic.get_velocity_x();
@@ -126,10 +178,16 @@ Rock::collision_solid(const CollisionHit& hit)
   if (hit.crush)
     m_physic.set_velocity(0, 0);
 
-  if (hit.bottom  && !m_on_ground && !is_grabbed() && !m_on_ice) {
+  if (hit.bottom && !m_on_ground && !is_grabbed() && !m_on_ice) {
     SoundManager::current()->play(ROCK_SOUND, get_pos());
     m_physic.set_velocity_x(0);
     m_on_ground = true;
+  }
+
+  if (hit.top && !m_at_ceiling && !is_grabbed()) {
+    SoundManager::current()->play(ROCK_SOUND, get_pos());
+    m_physic.set_velocity_x(0);
+    m_at_ceiling = true;
   }
 
   if (m_on_ground || (hit.bottom && m_on_ice)) {
@@ -139,7 +197,7 @@ Rock::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Rock::collision(GameObject& other, const CollisionHit& hit)
+Rock::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto heavy_coin = dynamic_cast<HeavyCoin*> (&other);
   if (heavy_coin) {
@@ -182,15 +240,18 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
   // Don't fall further if we are on a rock which is on the ground.
   // This is to avoid jittering.
   auto rock = dynamic_cast<Rock*> (&other);
-  if (rock && rock->m_on_ground && hit.bottom) {
-    m_physic.set_velocity_y(rock->get_physic().get_velocity_y());
-    return CONTINUE;
+  if (rock) {
+    if ((rock->m_on_ground && hit.bottom) || (rock->m_at_ceiling && hit.top))
+    {
+      m_physic.set_velocity_y(0);
+      m_physic.set_acceleration_y(0);
+    }
+    return FORCE_MOVE;
   }
 
   if (!m_on_ground) {
     if (hit.bottom && m_physic.get_velocity_y() > 200) {
       auto badguy = dynamic_cast<BadGuy*> (&other);
-      auto player = dynamic_cast<Player*> (&other);
       if (badguy && badguy->get_group() != COLGROUP_TOUCHABLE) {
         //Getting a rock on the head hurts. A lot.
         badguy->kill_fall();
@@ -212,6 +273,7 @@ Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
   m_last_movement = movement;
   set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
   m_on_ground = false;
+  m_at_ceiling = false;
 
   m_running_ungrab_script = false;
   if (!m_on_grab_script.empty() && !m_running_grab_script)
@@ -227,6 +289,7 @@ Rock::ungrab(MovingObject& object, Direction dir)
   auto player = dynamic_cast<Player*> (&object);
   set_group(COLGROUP_MOVING_STATIC);
   m_on_ground = false;
+  m_at_ceiling = false;
   if (player)
   {
     if (player->is_swimming() || player->is_water_jumping())
@@ -250,6 +313,13 @@ Rock::ungrab(MovingObject& object, Direction dir)
     Sector::get().run_script(m_on_ungrab_script, "Rock::on_ungrab");
   }
   Portable::ungrab(object, dir);
+}
+
+void
+Rock::draw(DrawingContext& context)
+{
+  Vector offset = m_physic.get_velocity() * context.get_time_offset();
+  m_sprite->draw(context.color(), get_pos() + offset, m_layer, m_flip);
 }
 
 ObjectSettings

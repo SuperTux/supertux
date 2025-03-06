@@ -17,7 +17,6 @@
 #include "object/particlesystem_interactive.hpp"
 
 #include "collision/collision.hpp"
-#include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/globals.hpp"
@@ -36,9 +35,6 @@ ParticleSystem_Interactive::ParticleSystem_Interactive() :
 {
   virtual_width = static_cast<float>(SCREEN_WIDTH);
   virtual_height = static_cast<float>(SCREEN_HEIGHT);
-  if (!Editor::is_active()) {
-    z_pos = 0;
-  }
 }
 
 ParticleSystem_Interactive::ParticleSystem_Interactive(const ReaderMapping& mapping) :
@@ -46,9 +42,6 @@ ParticleSystem_Interactive::ParticleSystem_Interactive(const ReaderMapping& mapp
 {
   virtual_width = static_cast<float>(SCREEN_WIDTH);
   virtual_height = static_cast<float>(SCREEN_HEIGHT);
-  if (!Editor::is_active()) {
-    z_pos = 0;
-  }
 }
 
 ParticleSystem_Interactive::~ParticleSystem_Interactive()
@@ -142,7 +135,7 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
               water = true;
           }
         } else { // normal rectangular tile
-          if (intersects(dest, rect)) {
+          if (dest.overlaps(rect)) {
             if (tile.get_attributes() & Tile::WATER)
               water = true;
             set_rectangle_rectangle_constraints(&constraints, dest, rect);

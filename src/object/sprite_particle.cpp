@@ -93,20 +93,20 @@ SpriteParticle::update(float dt_sec)
   Camera& camera = Sector::get().get_camera();
   if (!camera.get_rect().contains(position)) {
     remove_me();
-    return;
   }
 }
 
 void
 SpriteParticle::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), position, drawing_layer);
+  Vector draw_pos = position + velocity * context.get_time_offset();
+  sprite->draw(context.color(), draw_pos, drawing_layer);
 
   //Sparkles glow in the dark
   if (glow)
   {
-    sprite->draw(context.light(), position, drawing_layer);
-    lightsprite->draw(context.light(), position + Vector(12,12), 0);
+    sprite->draw(context.light(), draw_pos, drawing_layer);
+    lightsprite->draw(context.light(), draw_pos + Vector(12, 12), 0);
   }
 
 }

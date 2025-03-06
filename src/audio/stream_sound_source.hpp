@@ -35,14 +35,15 @@ public:
   StreamSoundSource();
   ~StreamSoundSource() override;
 
+  virtual void resume() override;
   virtual void update() override;
   virtual void set_looping(bool looping_) override { m_looping = looping_; }
 
   void set_sound_file(std::unique_ptr<SoundFile> newfile);
 
   void set_fading(FadeState state, float fadetime);
-  FadeState get_fade_state() const { return m_fade_state; }
-  bool get_looping() const { return m_looping; }
+  inline FadeState get_fade_state() const { return m_fade_state; }
+  inline bool get_looping() const { return m_looping; }
 
 private:
   bool fillBufferAndQueue(ALuint buffer);

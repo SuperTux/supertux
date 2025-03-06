@@ -19,7 +19,7 @@
 
 #include <SDL.h>
 
-/** Simple Wrapper class around SDL_Surface that provides execption
+/** Simple Wrapper class around SDL_Surface that provides exception
     safety */
 class SDLSurfacePtr final
 {
@@ -80,6 +80,13 @@ public:
   {
     SDL_FreeSurface(m_surface);
     m_surface = surface;
+  }
+
+  void reset(SDLSurfacePtr& other)
+  {
+    SDL_FreeSurface(m_surface);
+    m_surface = other.m_surface;
+    other.m_surface = nullptr;
   }
 
   SDL_Surface* get() const

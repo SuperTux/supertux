@@ -29,8 +29,7 @@ CaptainSnowball::CaptainSnowball(const ReaderMapping& reader) :
   m_jumping(false)
 {
   walk_speed = BOARDING_SPEED;
-  max_drop_height = -1;
-  m_physic.set_velocity_y(-400);
+  set_ledge_behavior(LedgeBehavior::FALL);
 }
 
 bool
@@ -92,7 +91,7 @@ CaptainSnowball::collision_solid(const CollisionHit& hit)
 }
 
 bool
-CaptainSnowball::collision_squished(GameObject& object)
+CaptainSnowball::collision_squished(MovingObject& object)
 {
   set_action("squished", m_dir);
   kill_squished(object);

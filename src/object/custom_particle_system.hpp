@@ -17,20 +17,27 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CUSTOM_PARTICLE_SYSTEM_HPP
 #define HEADER_SUPERTUX_OBJECT_CUSTOM_PARTICLE_SYSTEM_HPP
 
+#include "object/particlesystem_interactive.hpp"
+
 #include "math/easing.hpp"
 #include "math/vector.hpp"
-#include "object/particlesystem_interactive.hpp"
 #include "object/particle_zone.hpp"
-#include "scripting/custom_particles.hpp"
 #include "video/surface.hpp"
 #include "video/surface_ptr.hpp"
 
-class CustomParticleSystem :
-  public ParticleSystem_Interactive,
-  public ExposedObject<CustomParticleSystem, scripting::CustomParticles>
+/**
+ * @scripting
+ * @summary A ""CustomParticleSystem"" that was given a name can be controlled by scripts.
+ * @instances A ""CustomParticleSystem"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class CustomParticleSystem : public ParticleSystem_Interactive
 {
   friend class ParticleEditor;
-  friend class scripting::CustomParticles;
+
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   CustomParticleSystem();
   CustomParticleSystem(const ReaderMapping& reader);
@@ -43,24 +50,19 @@ public:
 
   static std::string class_name() { return "particles-custom"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "CustomParticleSystem"; }
   static std::string display_name() { return _("Custom Particles"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return ParticleSystem_Interactive::get_class_types().add(typeid(CustomParticleSystem)); }
   virtual void save(Writer& writer) override;
   virtual ObjectSettings get_settings() override;
 
   virtual const std::string get_icon_path() const override {
-    return "images/engine/editor/sparkle.png";
-  }
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override {
-    ExposedObject<CustomParticleSystem, scripting::CustomParticles>::expose(vm, table_idx);
-  }
-
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override {
-    ExposedObject<CustomParticleSystem, scripting::CustomParticles>::unexpose(vm, table_idx);
+    return "images/engine/editor/particle.png";
   }
 
   //void fade_amount(int new_amount, float fade_time);
+
 protected:
   virtual int collision(Particle* particle, const Vector& movement) override;
   CollisionHit get_collision(Particle* particle, const Vector& movement);
@@ -80,18 +82,612 @@ private:
   void add_particle(float lifetime, float x, float y);
   void spawn_particles(float lifetime);
 
-  std::vector<ParticleZone::ZoneDetails> get_zones();
+  std::vector<ParticleZone::ZoneDetails> get_zones() const;
 
-  float get_abs_x();
-  float get_abs_y();
+  float get_abs_x() const;
+  float get_abs_y() const;
 
   float texture_sum_odds;
   float time_last_remaining;
 
 public:
   // Scripting
-  void clear() { custom_particles.clear(); }
   void ease_value(float* value, float target, float time, easing func);
+
+  /**
+   * @scripting
+   * @description Instantly removes all particles of that type on the screen.
+   */
+  inline void clear() { custom_particles.clear(); }
+
+  /**
+   * @scripting
+   * @description Spawns particles, regardless of whether or not particles are enabled.
+   * @param int $amount
+   * @param bool $instantly If ""true"", disregard the delay settings.
+   */
+  void spawn_particles(int amount, bool instantly);
+
+  /**
+   * @scripting
+   */
+  inline int get_max_amount() const { return m_max_amount; }
+  /**
+   * @scripting
+   * @param int $amount
+   */
+  inline void set_max_amount(int amount) { m_max_amount = amount; }
+
+  /**
+   * @scripting
+   * @description Returns "None", "Fade", "Shrink".
+   */
+  std::string get_birth_mode() const;
+  /**
+   * @scripting
+   * @param string $mode Possible values: "None", "Fade", "Shrink".
+   */
+  void set_birth_mode(const std::string& mode);
+
+  /**
+   * @scripting
+   * @description Returns "None", "Fade", "Shrink".
+   */
+  std::string get_death_mode() const;
+  /**
+   * @scripting
+   * @param string $mode Possible values: "None", "Fade", "Shrink".
+   */
+  void set_death_mode(const std::string& mode);
+
+  /**
+   * @scripting
+   * @description Returns "Fixed", "Facing", "Wiggling".
+   */
+  std::string get_rotation_mode() const;
+  /**
+   * @scripting
+   * @param string $mode Possible values: "Fixed", "Facing", "Wiggling".
+   */
+  void set_rotation_mode(const std::string& mode);
+
+  /**
+   * @scripting
+   * @description Returns "Ignore", "Stick", "StickForever", "BounceHeavy", "BounceLight", "Destroy".
+   */
+  std::string get_collision_mode() const;
+  /**
+   * @scripting
+   * @param string $mode Possible values: "Ignore", "Stick", "StickForever", "BounceHeavy", "BounceLight", "Destroy".
+   */
+  void set_collision_mode(const std::string& mode);
+
+  /**
+   * @scripting
+   * @description Returns "Never", "OnlyOnExit", "Always".
+   */
+  std::string get_offscreen_mode() const;
+  /**
+   * @scripting
+   * @param string $mode Possible values: "Never", "OnlyOnExit", "Always".
+   */
+  void set_offscreen_mode(const std::string& mode);
+
+  /**
+   * @scripting
+   */
+  inline bool get_cover_screen() const { return m_cover_screen; }
+  /**
+   * @scripting
+   * @param bool $cover
+   */
+  inline void set_cover_screen(bool cover) { m_cover_screen = cover; }
+
+  /**
+   * @scripting
+   */
+  inline float get_delay() const { return m_delay; }
+  /**
+   * @scripting
+   * @param float $delay
+   */
+  inline void set_delay(float delay) { m_delay = delay; }
+  /**
+   * @scripting
+   * @param float $delay
+   * @param float $time
+   */
+  void fade_delay(float delay, float time);
+  /**
+   * @scripting
+   * @param float $delay
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_delay(float delay, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_lifetime() const { return m_particle_lifetime; }
+  /**
+   * @scripting
+   * @param float $lifetime
+   */
+  inline void set_lifetime(float lifetime) { m_particle_lifetime = lifetime; }
+  /**
+   * @scripting
+   * @param float $lifetime
+   * @param float $time
+   */
+  void fade_lifetime(float lifetime, float time);
+  /**
+   * @scripting
+   * @param float $lifetime
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_lifetime(float lifetime, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_lifetime_variation() const { return m_particle_lifetime_variation; }
+  /**
+   * @scripting
+   * @param float $lifetime_variation
+   */
+  inline void set_lifetime_variation(float lifetime_variation) { m_particle_lifetime_variation = lifetime_variation; }
+  /**
+   * @scripting
+   * @param float $lifetime_variation
+   * @param float $time
+   */
+  void fade_lifetime_variation(float lifetime_variation, float time);
+  /**
+   * @scripting
+   * @param float $lifetime_variation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_lifetime_variation(float lifetime_variation, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_birth_time() const { return m_particle_birth_time; }
+  /**
+   * @scripting
+   * @param float $birth_time
+   */
+  inline void set_birth_time(float birth_time) { m_particle_birth_time = birth_time; }
+  /**
+   * @scripting
+   * @param float $birth_time
+   * @param float $time
+   */
+  void fade_birth_time(float birth_time, float time);
+  /**
+   * @scripting
+   * @param float $birth_time
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_birth_time(float birth_time, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_birth_time_variation() const { return m_particle_birth_time_variation; }
+  /**
+   * @scripting
+   * @param float $birth_time_variation
+   */
+  inline void set_birth_time_variation(float birth_time_variation) { m_particle_birth_time_variation = birth_time_variation; }
+  /**
+   * @scripting
+   * @param float $birth_time_variation
+   * @param float $time
+   */
+  void fade_birth_time_variation(float birth_time_variation, float time);
+  /**
+   * @scripting
+   * @param float $birth_time_variation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_birth_time_variation(float birth_time_variation, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_death_time() const { return m_particle_death_time; }
+  /**
+   * @scripting
+   * @param float $death_time
+   */
+  inline void set_death_time(float death_time) { m_particle_death_time = death_time; }
+  /**
+   * @scripting
+   * @param float $death_time
+   * @param float $time
+   */
+  void fade_death_time(float death_time, float time);
+  /**
+   * @scripting
+   * @param float $death_time
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_death_time(float death_time, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_death_time_variation() const { return m_particle_death_time_variation; }
+  /**
+   * @scripting
+   * @param float $death_time_variation
+   */
+  inline void set_death_time_variation(float death_time_variation) { m_particle_death_time_variation = death_time_variation; }
+  /**
+   * @scripting
+   * @param float $death_time_variation
+   * @param float $time
+   */
+  void fade_death_time_variation(float death_time_variation, float time);
+  /**
+   * @scripting
+   * @param float $death_time_variation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_death_time_variation(float death_time_variation, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_speed_x() const { return m_particle_speed_x; }
+  /**
+   * @scripting
+   * @param float $speed_x
+   */
+  inline void set_speed_x(float speed_x) { m_particle_speed_x = speed_x; }
+  /**
+   * @scripting
+   * @param float $speed_x
+   * @param float $time
+   */
+  void fade_speed_x(float speed_x, float time);
+  /**
+   * @scripting
+   * @param float $speed_x
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed_x(float speed_x, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_speed_y() const { return m_particle_speed_y; }
+  /**
+   * @scripting
+   * @param float $speed_y
+   */
+  inline void set_speed_y(float speed_y) { m_particle_speed_y = speed_y; }
+  /**
+   * @scripting
+   * @param float $speed_y
+   * @param float $time
+   */
+  void fade_speed_y(float speed_y, float time);
+  /**
+   * @scripting
+   * @param float $speed_y
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed_y(float speed_y, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_speed_variation_x() const { return m_particle_speed_variation_x; }
+  /**
+   * @scripting
+   * @param float $speed_variation_x
+   */
+  inline void set_speed_variation_x(float speed_variation_x) { m_particle_speed_variation_x = speed_variation_x; }
+  /**
+   * @scripting
+   * @param float $speed_variation_x
+   * @param float $time
+   */
+  void fade_speed_variation_x(float speed_variation_x, float time);
+  /**
+   * @scripting
+   * @param float $speed_variation_x
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed_variation_x(float speed_variation_x, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_speed_variation_y() const { return m_particle_speed_variation_y; }
+  /**
+   * @scripting
+   * @param float $speed_variation_y
+   */
+  inline void set_speed_variation_y(float speed_variation_y) { m_particle_speed_variation_y = speed_variation_y; }
+  /**
+   * @scripting
+   * @param float $speed_variation_y
+   * @param float $time
+   */
+  void fade_speed_variation_y(float speed_variation_y, float time);
+  /**
+   * @scripting
+   * @param float $speed_variation_y
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed_variation_y(float speed_variation_y, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_acceleration_x() const { return m_particle_acceleration_x; }
+  /**
+   * @scripting
+   * @param float $acceleration_x
+   */
+  inline void set_acceleration_x(float acceleration_x) { m_particle_acceleration_x = acceleration_x; }
+  /**
+   * @scripting
+   * @param float $acceleration_x
+   * @param float $time
+   */
+  void fade_acceleration_x(float acceleration_x, float time);
+  /**
+   * @scripting
+   * @param float $acceleration_x
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_acceleration_x(float acceleration_x, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_acceleration_y() const { return m_particle_acceleration_y; }
+  /**
+   * @scripting
+   * @param float $acceleration_y
+   */
+  inline void set_acceleration_y(float acceleration_y) { m_particle_acceleration_y = acceleration_y; }
+  /**
+   * @scripting
+   * @param float $acceleration_y
+   * @param float $time
+   */
+  void fade_acceleration_y(float acceleration_y, float time);
+  /**
+   * @scripting
+   * @param float $acceleration_y
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_acceleration_y(float acceleration_y, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_friction_x() const { return m_particle_friction_x; }
+  /**
+   * @scripting
+   * @param float $friction_x
+   */
+  inline void set_friction_x(float friction_x) { m_particle_friction_x = friction_x; }
+  /**
+   * @scripting
+   * @param float $friction_x
+   * @param float $time
+   */
+  void fade_friction_x(float friction_x, float time);
+  /**
+   * @scripting
+   * @param float $friction_x
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_friction_x(float friction_x, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_friction_y() const { return m_particle_friction_y; }
+  /**
+   * @scripting
+   * @param float $friction_y
+   */
+  inline void set_friction_y(float friction_y) { m_particle_friction_y = friction_y; }
+  /**
+   * @scripting
+   * @param float $friction_y
+   * @param float $time
+   */
+  void fade_friction_y(float friction_y, float time);
+  /**
+   * @scripting
+   * @param float $friction_y
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_friction_y(float friction_y, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_feather_factor() const { return m_particle_feather_factor; }
+  /**
+   * @scripting
+   * @param float $feather_factor
+   */
+  inline void set_feather_factor(float feather_factor) { m_particle_feather_factor = feather_factor; }
+  /**
+   * @scripting
+   * @param float $feather_factor
+   * @param float $time
+   */
+  void fade_feather_factor(float feather_factor, float time);
+  /**
+   * @scripting
+   * @param float $feather_factor
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_feather_factor(float feather_factor, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_rotation() const { return m_particle_rotation; }
+  /**
+   * @scripting
+   * @param float $rotation
+   */
+  inline void set_rotation(float rotation) { m_particle_rotation = rotation; }
+  /**
+   * @scripting
+   * @param float $rotation
+   * @param float $time
+   */
+  void fade_rotation(float rotation, float time);
+  /**
+   * @scripting
+   * @param float $rotation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation(float rotation, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_rotation_variation() const { return m_particle_rotation_variation; }
+  /**
+   * @scripting
+   * @param float $rotation_variation
+   */
+  inline void set_rotation_variation(float rotation_variation) { m_particle_rotation_variation = rotation_variation; }
+  /**
+   * @scripting
+   * @param float $rotation_variation
+   * @param float $time
+   */
+  void fade_rotation_variation(float rotation_variation, float time);
+  /**
+   * @scripting
+   * @param float $rotation_variation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation_variation(float rotation_variation, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_rotation_speed() const { return m_particle_rotation_speed; }
+  /**
+   * @scripting
+   * @param float $rotation_speed
+   */
+  inline void set_rotation_speed(float rotation_speed) { m_particle_rotation_speed = rotation_speed; }
+  /**
+   * @scripting
+   * @param float $rotation_speed
+   * @param float $time
+   */
+  void fade_rotation_speed(float rotation_speed, float time);
+  /**
+   * @scripting
+   * @param float $rotation_speed
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation_speed(float rotation_speed, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_rotation_speed_variation() const { return m_particle_rotation_speed_variation; }
+  /**
+   * @scripting
+   * @param float $rotation_speed_variation
+   */
+  inline void set_rotation_speed_variation(float rotation_speed_variation) { m_particle_rotation_speed_variation = rotation_speed_variation; }
+  /**
+   * @scripting
+   * @param float $rotation_speed_variation
+   * @param float $time
+   */
+  void fade_rotation_speed_variation(float rotation_speed_variation, float time);
+  /**
+   * @scripting
+   * @param float $rotation_speed_variation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation_speed_variation(float rotation_speed_variation, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_rotation_acceleration() const { return m_particle_rotation_acceleration; }
+  /**
+   * @scripting
+   * @param float $rotation_acceleration
+   */
+  inline void set_rotation_acceleration(float rotation_acceleration) { m_particle_rotation_acceleration = rotation_acceleration; }
+  /**
+   * @scripting
+   * @param float $rotation_acceleration
+   * @param float $time
+   */
+  void fade_rotation_acceleration(float rotation_acceleration, float time);
+  /**
+   * @scripting
+   * @param float $rotation_acceleration
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation_acceleration(float rotation_acceleration, float time, const std::string& easing);
+
+  /**
+   * @scripting
+   */
+  inline float get_rotation_decceleration() const { return m_particle_rotation_decceleration; }
+  /**
+   * @scripting
+   * @param float $rotation_decceleration
+   */
+  inline void set_rotation_decceleration(float rotation_decceleration) { m_particle_rotation_decceleration = rotation_decceleration; }
+  /**
+   * @scripting
+   * @param float $rotation_decceleration
+   * @param float $time
+   */
+  void fade_rotation_decceleration(float rotation_decceleration, float time);
+  /**
+   * @scripting
+   * @param float $rotation_decceleration
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation_decceleration(float rotation_decceleration, float time, const std::string& easing);
 
 private:
   std::vector<ease_request> script_easings;
@@ -137,7 +733,7 @@ private:
     SpriteProperties() :
       likeliness(1.f),
       color(1.f, 1.f, 1.f, 1.f),
-      texture(Surface::from_file("images/engine/editor/sparkle.png")),
+      texture(Surface::from_file("images/engine/editor/particle.png")),
       scale(1.f, 1.f),
       hb_scale(1.f, 1.f),
       hb_offset(0.f, 0.f)
@@ -179,7 +775,7 @@ private:
     }
   };
 
-  SpriteProperties get_random_texture();
+  SpriteProperties get_random_texture() const;
 
   class CustomParticle : public Particle
   {
@@ -241,36 +837,113 @@ private:
   std::vector<std::unique_ptr<CustomParticle> > custom_particles;
 
   std::string m_particle_main_texture;
+
+  /**
+   * @scripting
+   */
   int m_max_amount;
+  /**
+   * @scripting
+   */
   float m_delay;
+  /**
+   * @scripting
+   */
   float m_particle_lifetime;
+  /**
+   * @scripting
+   */
   float m_particle_lifetime_variation;
-  float m_particle_birth_time,
-        m_particle_birth_time_variation,
-        m_particle_death_time,
-        m_particle_death_time_variation;
+  /**
+   * @scripting
+   */
+  float m_particle_birth_time;
+  /**
+   * @scripting
+   */
+  float m_particle_birth_time_variation;
+  /**
+   * @scripting
+   */
+  float m_particle_death_time;
+  /**
+   * @scripting
+   */
+  float m_particle_death_time_variation;
+
   FadeMode m_particle_birth_mode,
            m_particle_death_mode;
   EasingMode m_particle_birth_easing,
              m_particle_death_easing;
-  float m_particle_speed_x,
-        m_particle_speed_y,
-        m_particle_speed_variation_x,
-        m_particle_speed_variation_y,
-        m_particle_acceleration_x,
-        m_particle_acceleration_y,
-        m_particle_friction_x,
-        m_particle_friction_y;
+
+  /**
+   * @scripting
+   */
+  float m_particle_speed_x;
+  /**
+   * @scripting
+   */
+  float m_particle_speed_y;
+  /**
+   * @scripting
+   */
+  float m_particle_speed_variation_x;
+  /**
+   * @scripting
+   */
+  float m_particle_speed_variation_y;
+  /**
+   * @scripting
+   */
+  float m_particle_acceleration_x;
+  /**
+   * @scripting
+   */
+  float m_particle_acceleration_y;
+  /**
+   * @scripting
+   */
+  float m_particle_friction_x;
+  /**
+   * @scripting
+   */
+  float m_particle_friction_y;
+  /**
+   * @scripting
+   */
   float m_particle_feather_factor;
-  float m_particle_rotation,
-        m_particle_rotation_variation,
-        m_particle_rotation_speed,
-        m_particle_rotation_speed_variation,
-        m_particle_rotation_acceleration,
-        m_particle_rotation_decceleration;
+  /**
+   * @scripting
+   */
+  float m_particle_rotation;
+  /**
+   * @scripting
+   */
+  float m_particle_rotation_variation;
+  /**
+   * @scripting
+   */
+  float m_particle_rotation_speed;
+  /**
+   * @scripting
+   */
+  float m_particle_rotation_speed_variation;
+  /**
+   * @scripting
+   */
+  float m_particle_rotation_acceleration;
+  /**
+   * @scripting
+   */
+  float m_particle_rotation_decceleration;
+
   RotationMode m_particle_rotation_mode;
   CollisionMode m_particle_collision_mode;
   OffscreenMode m_particle_offscreen_mode;
+
+  /**
+   * @scripting
+   */
   bool m_cover_screen;
 
 public:

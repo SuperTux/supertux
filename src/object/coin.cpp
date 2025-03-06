@@ -114,7 +114,7 @@ Coin::update(float dt_sec)
       v = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle);
     }
 
-    if (get_path()->is_valid()) {
+    if (get_path() && get_path()->is_valid()) {
       m_col.set_movement(v - get_pos());
     }
   }
@@ -141,6 +141,20 @@ Coin::editor_update()
 }
 
 void
+Coin::save_state()
+{
+  MovingSprite::save_state();
+  PathObject::save_state();
+}
+
+void
+Coin::check_state()
+{
+  MovingSprite::check_state();
+  PathObject::check_state();
+}
+
+void
 Coin::collect()
 {
   static Timer sound_timer;
@@ -149,6 +163,9 @@ Coin::collect()
   float pitch = 1;
 
   int tile = static_cast<int>(get_pos().y / 32);
+
+  if (!is_valid())
+    return;
 
   if (!sound_timer.started()) {
     pitch_one = tile;
@@ -220,12 +237,12 @@ Coin::collect()
 }
 
 HitResponse
-Coin::collision(GameObject& other, const CollisionHit& )
+Coin::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*>(&other);
   if (player == nullptr)
     return ABORT_MOVE;
-  if (m_col.get_bbox().contains(player->get_bbox().grown(-0.1f)))
+  if (m_col.get_bbox().overlaps(player->get_bbox().grown(-0.1f)))
     collect();
   return ABORT_MOVE;
 }
@@ -311,7 +328,7 @@ Coin::get_settings()
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
-  if (get_walker() && get_path()->is_valid()) {
+  if (get_walker() && get_path() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
     result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);

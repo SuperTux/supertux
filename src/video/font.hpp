@@ -52,8 +52,8 @@ public:
 
   virtual std::string wrap_to_width(const std::string& text, float width, std::string* overflow) = 0;
 
-  virtual void draw_text(Canvas& canvas, const std::string& text,
-                         const Vector& pos, FontAlignment alignment, int layer, const Color& color) = 0;
+  virtual Rectf draw_text(Canvas& canvas, const std::string& text,
+                          const Vector& pos, FontAlignment alignment, int layer, const Color& color) = 0;
 };
 
 #endif

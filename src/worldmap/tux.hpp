@@ -39,20 +39,21 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
   virtual bool is_singleton() const override { return true; }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(Tux)); }
 
   void setup(); /**< called prior to first update */
 
-  void set_direction(Direction dir);
+  inline void set_direction(Direction dir) { m_input_direction = dir; }
 
-  void set_ghost_mode(bool enabled);
-  bool get_ghost_mode() const;
+  inline void set_ghost_mode(bool enabled) { m_ghost_mode = enabled; }
+  inline bool get_ghost_mode() const { return m_ghost_mode; }
 
-  bool is_moving() const { return m_moving; }
+  inline bool is_moving() const { return m_moving; }
   Vector get_pos() const;
   Vector get_axis() const;
-  Vector get_tile_pos() const { return m_tile_pos; }
-  void set_initial_pos(const Vector& pos) { m_initial_tile_pos = pos / 32.f; }
-  void set_tile_pos(const Vector& pos) { m_tile_pos = pos; }
+  inline Vector get_tile_pos() const { return m_tile_pos; }
+  inline void set_initial_pos(const Vector& pos) { m_initial_tile_pos = pos / 32.f; }
+  inline void set_tile_pos(const Vector& pos) { m_tile_pos = pos; }
 
   void process_special_tile(SpecialTile* special_tile);
 

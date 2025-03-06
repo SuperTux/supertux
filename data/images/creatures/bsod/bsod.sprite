@@ -28,4 +28,16 @@
     (hitbox 1 -19 31.8 31.8)
     (mirror-action "squished-left")
   )
+
+  (action
+    (name "iced-left")
+    (hitbox 0 3 45 43)
+    (fps 12)
+    (images "bsod-0.png"))
+
+  (action
+    (name "iced-right")
+    (hitbox 0 3 45 43)
+    (fps 12)
+    (mirror-action "iced-left"))
 )

@@ -19,7 +19,7 @@
 SmartBlock::SmartBlock(const ReaderMapping& reader) :
   MrIceBlock(reader, "images/creatures/iceblock/smart_block.sprite")
 {
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 }
 
 /* EOF */

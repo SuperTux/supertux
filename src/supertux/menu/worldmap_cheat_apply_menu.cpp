@@ -21,40 +21,16 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/player.hpp"
-#include "scripting/functions.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 
 WorldmapCheatApplyMenu::WorldmapCheatApplyMenu(int num_players,
-                                            std::function<void(int)> callback) :
+                                               std::function<void(int)> callback) :
   m_num_players(num_players),
-  m_callback_1(callback),
-  m_callback_2(nullptr),
-  m_stack_count(-1)
+  m_callback(callback)
 {
   add_label(_("Apply cheat to player"));
   add_hl();
-
-  for (int i = 0; i < m_num_players; i++)
-    add_entry(i, fmt::format(_("Player {}"), i + 1));
-
-  add_hl();
-  add_back(_("Back"));
-}
-
-WorldmapCheatApplyMenu::WorldmapCheatApplyMenu(int num_players,
-                                       std::function<void(int, int)> callback) :
-  m_num_players(num_players),
-  m_callback_1(nullptr),
-  m_callback_2(callback),
-  m_stack_count(1)
-{
-  add_label(_("Apply cheat to player"));
-  add_hl();
-
-  add_intfield("Count", &m_stack_count, -2);
-  add_hl();
-  add_entry(-1, _("All Players"));
 
   for (int i = 0; i < m_num_players; i++)
     add_entry(i, fmt::format(_("Player {}"), i + 1));
@@ -75,20 +51,14 @@ WorldmapCheatApplyMenu::menu_action(MenuItem& item)
   {
     for (int i = 0; i < m_num_players; i++)
     {
-      if (m_callback_2)
-        m_callback_2(i, m_stack_count);
-
-      if (m_callback_1)
-        m_callback_1(i);
+      if (m_callback)
+        m_callback(i);
     }
   }
   else
   {
-    if (m_callback_2)
-      m_callback_2(id, m_stack_count);
-
-    if (m_callback_1)
-      m_callback_1(id);
+    if (m_callback)
+      m_callback(id);
   }
 
   MenuManager::instance().clear_menu_stack();

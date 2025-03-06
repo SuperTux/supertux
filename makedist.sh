@@ -12,7 +12,7 @@ fi
 echo "Creating directory $DISTDIR"
 mkdir "$DISTDIR" || exit 1
 
-cp "CMakeLists.txt" "LICENSE.txt" "INSTALL.md" "README.md" "NEWS.md" "config.h.cmake" "makedist.sh" "makepot.sh" "supertux2.appdata.xml" "supertux2.desktop" "version.cmake" "version.cmake.in" "version.h.in" $DISTDIR
+cp "CMakeLists.txt" "LICENSE.txt" "INSTALL.md" "README.md" "NEWS.md" "config.h.cmake" "makedist.sh" "makepot.sh" "org.supertuxproject.SuperTux.metainfo.xml" "supertux2.desktop" "version.cmake" "version.cmake.in" "version.h.in" $DISTDIR
 cp --parents mk/cmake/*.cmake $DISTDIR
 cp --parents mk/msvc/* $DISTDIR
 

@@ -19,17 +19,21 @@
 
 #include "math/vector.hpp"
 #include "video/texture.hpp"
+#include "video/viewport.hpp"
 
 class DrawingTransform final
 {
 public:
   Vector translation;
+  Rect viewport;
   Flip flip;
   float alpha;
   float scale;
 
-  DrawingTransform() :
+  DrawingTransform(const Viewport& viewport_) :
     translation(0.0f, 0.0f),
+    viewport(0, 0,
+             viewport_.get_screen_width(), viewport_.get_screen_height()),
     flip(NO_FLIP),
     alpha(1.0f),
     scale(1.0f)

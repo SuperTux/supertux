@@ -31,7 +31,7 @@ RCrystallo::RCrystallo(const ReaderMapping& reader) :
   m_radius()
 {
   walk_speed = 80;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
   reader.get("radius", m_radius, 100.0f);
   SoundManager::current()->preload("sounds/crystallo-shatter.ogg");
 }
@@ -56,7 +56,7 @@ RCrystallo::RCrystallo(const Vector& pos, const Vector& start_pos, float vel_x, 
   m_dead_script = script;
   m_start_position = start_pos;
   walk_speed = 80;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
   SoundManager::current()->preload("sounds/crystallo-shatter.ogg");
 }
 
@@ -126,8 +126,9 @@ RCrystallo::active_update(float dt_sec)
     WalkingBadguy::active_update(dt_sec, targetwalk, 2.f);
     break;
   case RCRYSTALLO_DETECT:
-    m_physic.set_velocity_x(0.f);
-    m_physic.set_acceleration_x(0.f);
+    m_physic.set_velocity(0.f, 0.f);
+    m_physic.set_gravity_modifier(0.f);
+    m_physic.set_acceleration(0.f, 0.f);
     if (m_sprite->animation_done())
     {
 
@@ -147,7 +148,8 @@ void
 RCrystallo::draw(DrawingContext& context)
 {
   context.push_transform();
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
+  m_sprite->draw(context.color(), draw_pos, m_layer);
   context.pop_transform();
 }
 

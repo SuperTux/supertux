@@ -1,7 +1,7 @@
 (supertux-sprite
  (action
   (hitbox 0 0 31.8 31.8)
-  (name "normal")
+  (name "default")
   (images "flame-0.png"
           "flame-1.png"))
  (action
@@ -13,9 +13,5 @@
           "flame-fade-1.png"
           "flame-fade-2.png"
           "flame-fade-3.png"))
- (action
-  (hitbox 96 96 127.8 31.8)
-  (name "editor")
-  (images "flame-editor.png"))
 )
 

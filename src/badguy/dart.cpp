@@ -1,4 +1,4 @@
-//  Dart - Your average poison dart
+//  Dart - Sharp projectile commonly shot from DartTrap
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ const float DART_SPEED = 200;
 static const std::string DART_SOUND = "sounds/flame.wav";
 
 Dart::Dart(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/darttrap/skull_dart.sprite"),
+  BadGuy(reader, "images/creatures/darttrap/granito/root_dart.sprite"),
   parent(nullptr),
   sound_source()
 {
@@ -151,12 +151,6 @@ Dart::play_looping_sounds()
   if (sound_source) {
     sound_source->play();
   }
-}
-
-void
-Dart::set_flip(Flip flip)
-{
-  m_flip = flip;
 }
 
 std::vector<Direction>

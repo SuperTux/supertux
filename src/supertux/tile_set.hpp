@@ -47,8 +47,10 @@ public:
   static std::unique_ptr<TileSet> from_file(const std::string& filename);
 
 public:
-  TileSet();
+  TileSet(const std::string& filename);
   ~TileSet() = default;
+
+  void reload();
 
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
@@ -56,11 +58,15 @@ public:
       been assigned to any other group */
   void add_unassigned_tilegroup();
 
+  /** Check for and remove any deprecated tiles from tilegroups. */
+  void remove_deprecated_tiles();
+
   void add_tilegroup(const Tilegroup& tilegroup);
 
   const Tile& get(const uint32_t id) const;
   
-  AutotileSet* get_autotileset_from_tile(uint32_t tile_id) const;
+  std::vector<AutotileSet*> get_autotilesets_from_tile(uint32_t tile_id) const;
+  bool has_mutual_autotileset(uint32_t lhs, uint32_t rhs) const;
 
   uint32_t get_max_tileid() const {
     return static_cast<uint32_t>(m_tiles.size());
@@ -70,8 +76,11 @@ public:
     return m_tilegroups;
   }
 
-  void print_debug_info(const std::string& filename);
+  void print_debug_info();
   
+private:
+  const std::string m_filename;
+
 public:
   // Must be public because of tile_set_parser.cpp
   std::vector<std::unique_ptr<AutotileSet>> m_autotilesets;

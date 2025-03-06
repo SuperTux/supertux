@@ -20,22 +20,34 @@
 
 #include <algorithm>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
+#include "object/ambient_light.hpp"
+#include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/moving_object.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
 GameObjectManager::GameObjectManager(bool undo_tracking) :
   m_initialized(false),
   m_uid_generator(),
+  m_change_uid_generator(),
   m_undo_tracking(undo_tracking),
   m_undo_stack_size(20),
   m_undo_stack(),
   m_redo_stack(),
+  m_pending_change_stack(),
+  m_last_saved_change(),
   m_gameobjects(),
   m_gameobjects_new(),
+  m_moved_object_uids(),
   m_solid_tilemaps(),
   m_all_tilemaps(),
   m_objects_by_name(),
@@ -61,7 +73,10 @@ GameObjectManager::request_name_resolve(const std::string& name, std::function<v
 void
 GameObjectManager::process_resolve_requests()
 {
-  assert(m_gameobjects_new.empty());
+  // FIXME: Why is this assertion needed?
+  // Removed to allow for resolving name requests in Sector before object creation,
+  // despite there being queued objects.
+  //assert(m_gameobjects_new.empty());
 
   for (const auto& request : m_name_resolve_requests)
   {
@@ -82,7 +97,11 @@ GameObjectManager::process_resolve_requests()
 void
 GameObjectManager::try_process_resolve_requests()
 {
-  assert(m_gameobjects_new.empty());
+  // FIXME: Why is this assertion needed?
+  // Removed to allow for resolving name requests in Sector before object creation,
+  // despite there being queued objects.
+  //assert(m_gameobjects_new.empty());
+
   std::vector<GameObjectManager::NameResolveRequest> new_list;
 
   for (const auto& request : m_name_resolve_requests)
@@ -112,18 +131,26 @@ GameObjectManager::get_objects() const
 GameObject&
 GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 {
-  assert(object);
+  assert(object && !object->m_parent);
 
   object->m_parent = this;
 
-  if (!object->get_uid())
+  if (!object->get_uid()) // Undo/redo requires re-creating objects with the same UID.
   {
-    object->set_uid(m_uid_generator.next());
+    if (m_moved_object_uids.find(object.get()) == m_moved_object_uids.end())
+    {
+      object->set_uid(m_uid_generator.next());
 
-    // No object UID would indicate the object is not a result of undo/redo.
-    // Any newly placed object in the editor should be on its latest version.
-    if (m_initialized && Editor::is_active())
-      object->update_version();
+      // No object UID would indicate the object is not a result of undo/redo.
+      // Any newly placed object in the editor should be on its latest version.
+      if (m_initialized && Editor::is_active())
+        object->update_version();
+    }
+    else
+    {
+      object->set_uid(m_moved_object_uids[object.get()]);
+      m_moved_object_uids.erase(object.get());
+    }
   }
 
   // Make sure the object isn't already in the list.
@@ -143,6 +170,14 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));
   return tmp;
+}
+
+void
+GameObjectManager::add_object(const std::string& class_name, const std::string& name,
+                              float pos_x, float pos_y, const std::string& direction,
+                              const std::string& data)
+{
+  add_object_scripting(class_name, name, Vector(pos_x, pos_y), direction, data);
 }
 
 MovingObject&
@@ -197,17 +232,22 @@ GameObjectManager::update(float dt_sec)
 void
 GameObjectManager::draw(DrawingContext& context)
 {
+  if (s_draw_solids_only)
+  {
+    for (auto* tilemap : m_solid_tilemaps)
+    {
+      if (!tilemap->is_valid())
+        continue;
+
+      tilemap->draw(context);
+    }
+    return;
+  }
+
   for (const auto& object : m_gameobjects)
   {
     if (!object->is_valid())
       continue;
-
-    if (s_draw_solids_only)
-    {
-      auto tm = dynamic_cast<TileMap*>(object.get());
-      if (tm && !tm->is_solid())
-        continue;
-    }
 
     object->draw(context);
   }
@@ -243,12 +283,27 @@ GameObjectManager::flush_game_objects()
         {
           if (!m_initialized) object->m_track_undo = false;
           this_before_object_add(*object);
-          m_gameobjects.push_back(std::move(object));
+
+          if (object->has_object_manager_priority())
+            m_gameobjects.insert(m_gameobjects.begin(), std::move(object));
+          else
+            m_gameobjects.push_back(std::move(object));
         }
       }
     }
   }
   update_tilemaps();
+
+  // A resolve request may depend on an object being added.
+  try_process_resolve_requests();
+
+  // If object changes have been performed since last flush, push them to the undo stack.
+  if (m_undo_tracking && !m_pending_change_stack.empty())
+  {
+    m_undo_stack.emplace_back(m_change_uid_generator.next(), std::move(m_pending_change_stack));
+    m_redo_stack.clear();
+    undo_stack_cleanup();
+  }
 
   m_initialized = true;
 }
@@ -269,11 +324,10 @@ GameObjectManager::update_tilemaps()
 {
   m_solid_tilemaps.clear();
   m_all_tilemaps.clear();
-  for (auto tilemap : get_objects_by_type_index(typeid(TileMap)))
+  for (auto& tm : get_objects_by_type<TileMap>())
   {
-    TileMap* tm = static_cast<TileMap*>(tilemap);
-    if (tm->is_solid()) m_solid_tilemaps.push_back(tm);
-    m_all_tilemaps.push_back(tm);
+    if (tm.is_solid()) m_solid_tilemaps.push_back(&tm);
+    m_all_tilemaps.push_back(&tm);
   }
 }
 
@@ -289,15 +343,17 @@ GameObjectManager::move_object(const UID& uid, GameObjectManager& other)
                          });
   if (it == m_gameobjects.end())
   {
-    std::ostringstream err;
-    err << "Object with UID " << uid << " not found.";
-    throw std::runtime_error(err.str());
+    log_warning << "Couldn't move object: Object with UID " << uid << " not found." << std::endl;
+    return;
   }
+  auto& obj = *it;
 
-  this_before_object_remove(**it);
-  before_object_remove(**it);
+  m_moved_object_uids[obj.get()] = uid;
 
-  other.add_object(std::move(*it));
+  this_before_object_remove(*obj);
+  before_object_remove(*obj);
+
+  other.add_object(std::move(obj));
   m_gameobjects.erase(it);
 
   other.flush_game_objects();
@@ -333,14 +389,98 @@ GameObjectManager::undo_stack_cleanup()
 }
 
 void
+GameObjectManager::on_editor_save()
+{
+  m_last_saved_change = (m_undo_stack.empty() ? UID() : m_undo_stack.back().uid);
+}
+
+void
+GameObjectManager::apply_object_change(const GameObjectChange& change, bool track_undo)
+{
+  GameObject* object = get_object_by_uid<GameObject>(change.uid);
+  switch (change.action)
+  {
+    case GameObjectChange::ACTION_CREATE:
+    {
+      create_object_from_change(change, track_undo);
+    }
+    break;
+
+    case GameObjectChange::ACTION_DELETE:
+    {
+      if (!object)
+        throw std::runtime_error("Object '" + change.name + "' does not exist.");
+
+      object->m_track_undo = track_undo;
+      object->remove_me();
+    }
+    break;
+
+    case GameObjectChange::ACTION_MODIFY:
+    {
+      if (!object)
+        throw std::runtime_error("Object '" + change.name + "' does not exist.");
+
+      auto settings = object->get_settings();
+      if (track_undo)
+        settings.save_state();
+
+      parse_object_settings(settings, change.data); // Parse settings
+      object->after_editor_set();
+
+      if (track_undo)
+        save_object_change(*object, settings);
+    }
+    break;
+
+    default:
+      break;
+  }
+}
+
+void
+GameObjectManager::apply_object_changes(const GameObjectChangeSet& change_set, bool track_undo)
+{
+  for (const auto& change : change_set.changes)
+  {
+    try
+    {
+      apply_object_change(change, track_undo);
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Cannot process object state change for object with UID "
+                  << change.uid << ": " << err.what() << std::endl;
+    }
+  }
+}
+
+void
 GameObjectManager::undo()
 {
   if (m_undo_stack.empty()) return;
-  ObjectChange& change = m_undo_stack.back();
+  GameObjectChangeSet& change_set = m_undo_stack.back();
 
-  process_object_change(change);
+  auto it = change_set.changes.begin();
+  while (it != change_set.changes.end())
+  {
+    try
+    {
+      process_object_change(*it);
+      it++;
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Cannot process object change: " << err.what() << std::endl;
+      it = change_set.changes.erase(it); // Drop invalid changes
+    }
+  }
 
-  m_redo_stack.push_back(change);
+  if (!change_set.changes.empty())
+  {
+    // Changes have been reversed for redo
+    m_redo_stack.push_back(std::move(change_set));
+  }
   m_undo_stack.pop_back();
 }
 
@@ -348,67 +488,139 @@ void
 GameObjectManager::redo()
 {
   if (m_redo_stack.empty()) return;
-  ObjectChange& change = m_redo_stack.back();
+  GameObjectChangeSet& change_set = m_redo_stack.back();
 
-  process_object_change(change);
+  auto it = change_set.changes.begin();
+  while (it != change_set.changes.end())
+  {
+    try
+    {
+      process_object_change(*it);
+      it++;
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Cannot process object change: " << err.what() << std::endl;
+      it = change_set.changes.erase(it); // Drop invalid changes
+    }
+  }
 
-  m_undo_stack.push_back(change);
+  if (!change_set.changes.empty())
+  {
+    // Changes have been reversed for undo
+    m_undo_stack.push_back(std::move(change_set));
+  }
   m_redo_stack.pop_back();
 }
 
 void
-GameObjectManager::create_object_from_change(const ObjectChange& change)
+GameObjectManager::create_object_from_change(const GameObjectChange& change, bool track_undo)
 {
   auto object = GameObjectFactory::instance().create(change.name, change.data);
-  object->m_track_undo = false;
+  object->m_track_undo = track_undo;
   object->set_uid(change.uid);
   object->after_editor_set();
   add_object(std::move(object));
 }
 
 void
-GameObjectManager::process_object_change(ObjectChange& change)
+GameObjectManager::parse_object_settings(ObjectSettings& settings, const std::string& data)
+{
+  std::istringstream stream(data);
+  auto doc = ReaderDocument::from_stream(stream);
+  auto root = doc.get_root();
+  if (root.get_name() != "supertux-game-object")
+    throw std::runtime_error("Data is not 'supertux-game-object'.");
+
+  settings.parse_state(root.get_mapping());
+}
+
+std::string
+GameObjectManager::save_object_settings_state(const ObjectSettings& settings, bool new_state)
+{
+  std::ostringstream stream;
+  Writer writer(stream);
+
+  writer.start_list("supertux-game-object");
+  if (new_state)
+    settings.save_new_state(writer);
+  else
+    settings.save_old_state(stream);
+  writer.end_list("supertux-game-object");
+
+  return stream.str();
+}
+
+void
+GameObjectManager::process_object_change(GameObjectChange& change)
 {
   GameObject* object = get_object_by_uid<GameObject>(change.uid);
-  if (object) // Object exists, remove it.
+  switch (change.action)
   {
-    object->m_track_undo = false;
-    object->remove_me();
+    case GameObjectChange::ACTION_CREATE: /** Object was added, remove it. */
+    {
+      if (!object)
+        throw std::runtime_error("Object '" + change.name + "' no longer exists.");
 
-    const std::string data = object->save();
+      object->m_track_undo = false;
+      object->remove_me();
 
-    // If settings have changed, re-create object with old settings.
-    if (!change.creation && change.data != data)
-      create_object_from_change(change);
+      // Prepare for redo
+      change.data = object->save();
+      change.action = GameObjectChange::ACTION_DELETE;
+    }
+    break;
 
-    change.data = std::move(data);
-  }
-  else // Object doesn't exist, create it.
-  {
-    create_object_from_change(change);
+    case GameObjectChange::ACTION_DELETE: /** Object was deleted, create it. */
+    {
+      create_object_from_change(change, false);
+
+      // Prepare for redo
+      change.action = GameObjectChange::ACTION_CREATE;
+    }
+    break;
+
+    case GameObjectChange::ACTION_MODIFY: /** Object was modified, revert settings. */
+    {
+      if (!object)
+        throw std::runtime_error("Object '" + change.name + "' no longer exists.");
+
+      auto settings = object->get_settings();
+      settings.save_state();
+
+      parse_object_settings(settings, change.data); // Parse old settings
+      object->after_editor_set();
+
+      // Prepare for redo
+      change.data = save_object_settings_state(settings, false);
+      change.new_data = save_object_settings_state(settings, true);
+    }
+    break;
+
+    default:
+      break;
   }
 }
 
 void
-GameObjectManager::save_object_change(GameObject& object, bool creation)
+GameObjectManager::save_object_state(GameObject& object, GameObjectChange::Action action)
 {
-  if (m_undo_tracking && object.track_state() && object.m_track_undo)
-  {
-    m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), object.save(), creation });
-    m_redo_stack.clear();
-    undo_stack_cleanup();
-  }
+  if (object.track_state() && object.m_track_undo)
+    m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(),
+                                       object.save(), "", action });
+
   object.m_track_undo = true;
 }
 
 void
-GameObjectManager::save_object_change(GameObject& object, const std::string& data)
+GameObjectManager::save_object_change(const GameObject& object, const ObjectSettings& settings)
 {
-  if (!m_undo_tracking) return;
+  if (!settings.has_state_changed()) return;
 
-  m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), data, false });
-  m_redo_stack.clear();
-  undo_stack_cleanup();
+  m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(),
+                                     save_object_settings_state(settings, false),
+                                     save_object_settings_state(settings, true),
+                                     GameObjectChange::ACTION_MODIFY });
 }
 
 void
@@ -416,12 +628,14 @@ GameObjectManager::clear_undo_stack()
 {
   m_undo_stack.clear();
   m_redo_stack.clear();
+  m_last_saved_change = UID();
 }
 
 bool
 GameObjectManager::has_object_changes() const
 {
-  return !m_undo_stack.empty();
+  return (m_undo_stack.empty() && m_last_saved_change) ||
+         (!m_undo_stack.empty() && m_undo_stack.back().uid != m_last_saved_change);
 }
 
 void
@@ -441,16 +655,19 @@ GameObjectManager::this_before_object_add(GameObject& object)
   }
 
   { // By type index:
-    m_objects_by_type_index[std::type_index(typeid(object))].push_back(&object);
+    for (const std::type_index& type : object.get_class_types().types)
+    {
+      m_objects_by_type_index[type].push_back(&object);
+    }
   }
 
-  save_object_change(object, true);
+  save_object_state(object, GameObjectChange::ACTION_CREATE);
 }
 
 void
 GameObjectManager::this_before_object_remove(GameObject& object)
 {
-  save_object_change(object);
+  save_object_state(object, GameObjectChange::ACTION_DELETE);
 
   { // By name:
     const std::string& name = object.get_name();
@@ -465,20 +682,61 @@ GameObjectManager::this_before_object_remove(GameObject& object)
   }
 
   { // By type index:
-    auto& vec = m_objects_by_type_index[std::type_index(typeid(object))];
-    auto it = std::find(vec.begin(), vec.end(), &object);
-    assert(it != vec.end());
-    vec.erase(it);
+    for (const std::type_index& type : object.get_class_types().types)
+    {
+      auto& vec = m_objects_by_type_index[type];
+      auto it = std::find(vec.begin(), vec.end(), &object);
+      assert(it != vec.end());
+      vec.erase(it);
+    }
   }
+
+  object.m_uid = 0;
+  object.m_parent = nullptr;
+}
+
+void
+GameObjectManager::fade_to_ambient_light(float red, float green, float blue, float fadetime)
+{
+  get_singleton_by_type<AmbientLight>().fade_to_ambient_light(red, green, blue, fadetime);
+}
+
+void
+GameObjectManager::set_ambient_light(float red, float green, float blue)
+{
+  get_singleton_by_type<AmbientLight>().set_ambient_light(Color(red, green, blue));
+}
+
+float
+GameObjectManager::get_ambient_red() const
+{
+  return get_singleton_by_type<AmbientLight>().get_ambient_light().red;
+}
+
+float
+GameObjectManager::get_ambient_green() const
+{
+  return get_singleton_by_type<AmbientLight>().get_ambient_light().green;
+}
+
+float
+GameObjectManager::get_ambient_blue() const
+{
+  return get_singleton_by_type<AmbientLight>().get_ambient_light().blue;
+}
+
+void
+GameObjectManager::set_music(const std::string& filename)
+{
+  get_singleton_by_type<MusicObject>().set_music(filename);
 }
 
 float
 GameObjectManager::get_width() const
 {
   float width = 0;
-  for (auto& tilemap: get_all_tilemaps()) {
+  for (auto& tilemap : get_solid_tilemaps())
     width = std::max(width, tilemap->get_bbox().get_right());
-  }
 
   return width;
 }
@@ -487,9 +745,28 @@ float
 GameObjectManager::get_height() const
 {
   float height = 0;
-  for (const auto& tilemap: get_all_tilemaps()) {
+  for (const auto& tilemap : get_solid_tilemaps())
     height = std::max(height, tilemap->get_bbox().get_bottom());
-  }
+
+  return height;
+}
+
+float
+GameObjectManager::get_editor_width() const
+{
+  float width = 0;
+  for (const auto& tilemap : get_all_tilemaps()) // Determine from all tilemaps
+    width = std::max(width, tilemap->get_bbox().get_right());
+
+  return width;
+}
+
+float
+GameObjectManager::get_editor_height() const
+{
+  float height = 0;
+  for (const auto& tilemap : get_all_tilemaps()) // Determine from all tilemaps
+    height = std::max(height, tilemap->get_bbox().get_bottom());
 
   return height;
 }
@@ -498,7 +775,8 @@ float
 GameObjectManager::get_tiles_width() const
 {
   float width = 0;
-  for (const auto& tilemap : get_all_tilemaps()) {
+  for (const auto& tilemap : get_solid_tilemaps())
+  {
     if (static_cast<float>(tilemap->get_width()) > width)
       width = static_cast<float>(tilemap->get_width());
   }
@@ -509,11 +787,28 @@ float
 GameObjectManager::get_tiles_height() const
 {
   float height = 0;
-  for (const auto& tilemap : get_all_tilemaps()) {
+  for (const auto& tilemap : get_solid_tilemaps())
+  {
     if (static_cast<float>(tilemap->get_height()) > height)
       height = static_cast<float>(tilemap->get_height());
   }
   return height;
+}
+
+
+void
+GameObjectManager::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<GameObjectManager>("GameObjectManager");
+
+  cls.addFunc("set_ambient_light", &GameObjectManager::set_ambient_light);
+  cls.addFunc("fade_to_ambient_light", &GameObjectManager::fade_to_ambient_light);
+  cls.addFunc("get_ambient_red", &GameObjectManager::get_ambient_red);
+  cls.addFunc("get_ambient_green", &GameObjectManager::get_ambient_green);
+  cls.addFunc("get_ambient_blue", &GameObjectManager::get_ambient_blue);
+  cls.addFunc("set_music", &GameObjectManager::set_music);
+  cls.addFunc<void, GameObjectManager, const std::string&, const std::string&,
+              float, float, const std::string&, const std::string&>("add_object", &GameObjectManager::add_object);
 }
 
 /* EOF */

@@ -33,6 +33,7 @@
 namespace {
 
 const float MAX_SPEED = 16.0f;
+static const float FORGIVENESS = 256.f; // 16.f * 16.f - half a tile by half a tile.
 
 } // namespace
 
@@ -56,7 +57,7 @@ CollisionSystem::remove(CollisionObject* object)
   m_objects.erase(
     std::find(m_objects.begin(), m_objects.end(),
               object));
-  
+
   // FIXME: This is a patch. A better way of fixing this is coming.
   for (auto* collision_object : m_objects) {
     collision_object->notify_object_removal(object);
@@ -118,9 +119,9 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
   // adjacent or at least extremely close.
   const Rectf grown_other_obj_rect = other_obj_rect.grown(EPSILON);
 
-  if (!collision::intersects(moving_obj_rect, grown_other_obj_rect))
+  if (!moving_obj_rect.overlaps(grown_other_obj_rect))
     return constraints;
-  
+
   const CollisionHit dummy;
 
   if (other_object != nullptr && moving_object != nullptr && !other_object->collides(*moving_object, dummy))
@@ -165,31 +166,40 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
       // Constrain only on fall on top of the unisolid object.
       if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top())
       {
-        constraints.constrain_bottom(grown_other_obj_rect.get_top());
+        constraints.constrain_bottom(other_obj_rect.get_top());
         constraints.hit.bottom = true;
       }
-
-      return constraints;
     }
+    else
+    {
+      const float vert_penetration = std::min(itop, ibottom);
+      const float horiz_penetration = std::min(ileft, iright);
 
-    const float vert_penetration = std::min(itop, ibottom);
-    const float horiz_penetration = std::min(ileft, iright);
-
-    if (vert_penetration < horiz_penetration) {
-      if (itop < ibottom) {
-        constraints.constrain_bottom(grown_other_obj_rect.get_top());
-        constraints.hit.bottom = true;
-      } else {
-        constraints.constrain_top(grown_other_obj_rect.get_bottom());
-        constraints.hit.top = true;
+      if (vert_penetration < horiz_penetration)
+      {
+        if (itop < ibottom)
+        {
+          constraints.constrain_bottom(grown_other_obj_rect.get_top());
+          constraints.hit.bottom = true;
+        }
+        else
+        {
+          constraints.constrain_top(grown_other_obj_rect.get_bottom());
+          constraints.hit.top = true;
+        }
       }
-    } else {
-      if (ileft < iright) {
-        constraints.constrain_right(grown_other_obj_rect.get_left());
-        constraints.hit.right = true;
-      } else {
-        constraints.constrain_left(grown_other_obj_rect.get_right());
-        constraints.hit.left = true;
+      else
+      {
+        if (ileft < iright)
+        {
+          constraints.constrain_right(grown_other_obj_rect.get_left());
+          constraints.hit.right = true;
+        }
+        else
+        {
+          constraints.constrain_left(grown_other_obj_rect.get_right());
+          constraints.hit.left = true;
+        }
       }
     }
     if (other_object && moving_object)
@@ -318,9 +328,13 @@ CollisionSystem::collision_tile_attributes(const Rectf& dest, const Vector& mov)
 }
 
 /** Fills the CollisionHit and Normal vector between two intersecting rectangles. */
-static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
-                           Vector& normal)
+void
+CollisionSystem::get_hit_normal(const CollisionObject* object1, const CollisionObject* object2,
+                                CollisionHit& hit, Vector& normal) const
 {
+  const Rectf& r1 = object1->m_dest;
+  const Rectf& r2 = object2->m_dest;
+
   const float itop = r1.get_bottom() - r2.get_top();
   const float ibottom = r2.get_bottom() - r1.get_top();
   const float ileft = r1.get_right() - r2.get_left();
@@ -328,6 +342,14 @@ static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
 
   const float vert_penetration = std::min(itop, ibottom);
   const float horiz_penetration = std::min(ileft, iright);
+
+  // Apply movement only on top collision with an unisolid object.
+  if (object1->is_unisolid() &&
+      r2.get_bottom() - object2->m_movement.y > r1.get_top())
+    return;
+  if (object2->is_unisolid() &&
+      r1.get_bottom() - object1->m_movement.y > r2.get_top())
+    return;
 
   if (vert_penetration < horiz_penetration) {
     if (itop < ibottom) {
@@ -357,9 +379,9 @@ CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* obj
   const Rectf& r2 = object2->m_dest;
 
   CollisionHit hit;
-  if (intersects(object1->m_dest, object2->m_dest)) {
+  if (r1.overlaps(r2)) {
     Vector normal(0.0f, 0.0f);
-    get_hit_normal(r1, r2, hit, normal);
+    get_hit_normal(object1, object2, hit, normal);
 
     if (!object1->collides(*object2, hit))
       return;
@@ -398,6 +420,13 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
   // Collision with other (static) objects.
   for (auto* static_object : m_objects)
   {
+    const float static_size = static_object->get_bbox().get_width() * static_object->get_bbox().get_height();
+    const float object_size = object.get_bbox().get_width() * object.get_bbox().get_height();
+    // let's skip this if two colgroup_moving_static's connect and our object is somewhat larger than the static object.
+    if ((object.get_group() == COLGROUP_MOVING_STATIC && static_object->get_group() == COLGROUP_MOVING_STATIC) &&
+      (object_size > static_size + FORGIVENESS)) {
+      continue;
+    }
     if ((
           static_object->get_group() == COLGROUP_STATIC ||
           static_object->get_group() == COLGROUP_MOVING_STATIC
@@ -443,6 +472,7 @@ CollisionSystem::collision_static_constrains(CollisionObject& object)
         // later if we're really crushed or things will solve itself when
         // looking at the vertical constraints.
         pressure.y += object.get_bbox().get_height() - height;
+        object.m_pressure.y = pressure.y;
       } else {
         dest.set_bottom(constraints.get_position_bottom() - EPSILON);
         dest.set_top(dest.get_bottom() - object.get_bbox().get_height());
@@ -476,6 +506,7 @@ CollisionSystem::collision_static_constrains(CollisionObject& object)
         // later if we're really crushed or things will solve itself when
         // looking at the horizontal constraints.
         pressure.x += object.get_bbox().get_width() - width;
+        object.m_pressure.x = pressure.x;
       } else {
         float xmid = constraints.get_x_midpoint ();
         dest.set_left(xmid - object.get_bbox().get_width()/2);
@@ -556,6 +587,7 @@ CollisionSystem::update()
     }
 
     object->m_dest = object->get_bbox();
+    object->m_pressure = Vector(0, 0);
     object->m_dest.move(object->get_movement());
     object->clear_bottom_collision_list();
     object->clear_wind_collision_list();
@@ -599,11 +631,10 @@ CollisionSystem::update()
          || !object_2->is_valid())
         continue;
 
-      if (intersects(object->m_dest, object_2->m_dest)) {
+      if (object->m_dest.overlaps(object_2->m_dest)) {
         Vector normal(0.0f, 0.0f);
         CollisionHit hit;
-        get_hit_normal(object->m_dest, object_2->m_dest,
-                       hit, normal);
+        get_hit_normal(object, object_2, hit, normal);
         if (!object->collides(*object_2, hit))
           continue;
         if (!object_2->collides(*object, hit))
@@ -620,9 +651,9 @@ CollisionSystem::update()
   {
     auto object = *i;
 
-    if ((object->get_group() != COLGROUP_MOVING
-        && object->get_group() != COLGROUP_MOVING_STATIC)
-       || !object->is_valid())
+    if (!object->is_valid() ||
+        (object->get_group() != COLGROUP_MOVING &&
+         object->get_group() != COLGROUP_MOVING_STATIC))
       continue;
 
     for (auto i2 = i+1; i2 != m_objects.end(); ++i2) {
@@ -673,22 +704,22 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
       }
     }
   }
-  
+
   return true;
 }
 
 bool
-CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const
+CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype) const
 {
   using namespace collision;
 
-  if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
+  if (!is_free_of_tiles(rect, ignoreUnisolid, tiletype)) return false;
 
   for (const auto& object : m_objects) {
     if (object == ignore_object) continue;
     if (!object->is_valid()) continue;
     if (object->get_group() == COLGROUP_STATIC) {
-      if (intersects(rect, object->get_bbox())) return false;
+      if (rect.overlaps(object->get_bbox())) return false;
     }
   }
 
@@ -708,8 +739,24 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
     if ((object->get_group() == COLGROUP_MOVING)
         || (object->get_group() == COLGROUP_MOVING_STATIC)
         || (object->get_group() == COLGROUP_STATIC)) {
-      if (intersects(rect, object->get_bbox())) return false;
+      if (rect.overlaps(object->get_bbox())) return false;
     }
+  }
+
+  return true;
+}
+
+bool
+CollisionSystem::is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+{
+  using namespace collision;
+
+  for (const auto& object : m_objects) {
+    if (object == ignore_object) continue;
+    if (!object->is_valid()) continue;
+    if ((object->get_group() == COLGROUP_MOVING_STATIC)
+        && (rect.overlaps(object->get_bbox())))
+      return false;
   }
 
   return true;
@@ -718,46 +765,49 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
 CollisionSystem::RaycastResult
 CollisionSystem::get_first_line_intersection(const Vector& line_start,
                                              const Vector& line_end,
-                                             bool ignore_objects,
+                                             RaycastIgnore ignore,
                                              const CollisionObject* ignore_object) const
 {
   using namespace collision;
-  RaycastResult result{};
+  RaycastResult tileresult;
 
-  // Check if no tile is in the way.
-  const float lsx = std::min(line_start.x, line_end.x);
-  const float lex = std::max(line_start.x, line_end.x);
-  const float lsy = std::min(line_start.y, line_end.y);
-  const float ley = std::max(line_start.y, line_end.y);
+  if (ignore != IGNORE_TILES)
+  {
+    // Check if no tile is in the way.
+    const float lsx = std::min(line_start.x, line_end.x);
+    const float lex = std::max(line_start.x, line_end.x);
+    const float lsy = std::min(line_start.y, line_end.y);
+    const float ley = std::max(line_start.y, line_end.y);
 
-  for (float test_x = lsx; test_x <= lex; test_x += 16) { // NOLINT.
-    for (float test_y = lsy; test_y <= ley; test_y += 16) { // NOLINT.
-      for (const auto& solids : m_sector.get_solid_tilemaps()) {
-        const auto& test_vector = Vector(test_x, test_y);
-        if(solids->is_outside_bounds(test_vector))
-        {
-          continue;
-        }
+    for (float test_x = lsx; test_x <= lex; test_x += 16) { // NOLINT.
+      for (float test_y = lsy; test_y <= ley; test_y += 16) { // NOLINT.
+        for (const auto& solids : m_sector.get_solid_tilemaps()) {
+          const auto& test_vector = Vector(test_x, test_y);
+          if(solids->is_outside_bounds(test_vector))
+          {
+            continue;
+          }
 
-        const Tile* tile = &solids->get_tile_at(test_vector);
+          const Tile* tile = &solids->get_tile_at(test_vector);
 
-        // FIXME: check collision with slope tiles
-        if ((tile->get_attributes() & Tile::SOLID))
-        {
-          result.is_valid = true;
-          result.hit = tile;
-          result.box = {glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f)};
-          return result;
+          // FIXME: check collision with slope tiles
+          if ((tile->get_attributes() & Tile::SOLID))
+          {
+            tileresult.is_valid = true;
+            tileresult.hit = tile;
+            tileresult.box = solids->get_tile_bbox(static_cast<int>(test_vector.x / 32.f), static_cast<int>(test_vector.y / 32.f));
+            goto finish_tiles;
+          }
         }
       }
     }
   }
 
-  if (ignore_objects)
-  {
-    result.is_valid = false;
-    return result;
-  }
+finish_tiles:
+  if (ignore == IGNORE_OBJECTS)
+    return tileresult;
+
+  RaycastResult objresult;
 
   // Check if no object is in the way.
   for (const auto& object : m_objects) {
@@ -769,22 +819,38 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
     {
       if (intersects_line(object->get_bbox(), line_start, line_end))
       {
-        result.is_valid = true;
-        result.hit = object;
-        result.box = object->get_bbox();
-        return result;
+        objresult.is_valid = true;
+        objresult.hit = object;
+        objresult.box = object->get_bbox();
+        break;
       }
     }
   }
 
-  result.is_valid = false;
-  return result;
+  if (ignore == IGNORE_TILES)
+    return objresult;
+
+  if (tileresult.is_valid && objresult.is_valid)
+  {
+    float tiledist = glm::distance(tileresult.box.get_middle(), line_start);
+    float objdist = glm::distance(objresult.box.get_middle(), line_start);
+    return tiledist < objdist ? tileresult : objresult;
+  }
+  else if (tileresult.is_valid)
+    return tileresult;
+  else if (objresult.is_valid)
+    return objresult;
+  else
+  {
+    return RaycastResult();
+  }
 }
 
 bool
 CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const
 {
-  return !get_first_line_intersection(line_start, line_end, ignore_objects, ignore_object).is_valid;
+  auto ignore = (ignore_objects ? IGNORE_OBJECTS : IGNORE_NONE);
+  return !get_first_line_intersection(line_start, line_end, ignore, ignore_object).is_valid;
 }
 
 std::vector<CollisionObject*>

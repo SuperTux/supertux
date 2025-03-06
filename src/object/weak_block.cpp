@@ -33,7 +33,7 @@
 #include "util/writer.hpp"
 
 WeakBlock::WeakBlock(const ReaderMapping& mapping) :
-  MovingSprite(mapping, "images/objects/weak_block/meltbox.sprite", LAYER_TILES, COLGROUP_STATIC),
+  MovingSprite(mapping, "images/objects/weak_block/meltbox.sprite", LAYER_OBJECTS + 10, COLGROUP_STATIC),
   state(STATE_NORMAL),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
@@ -48,7 +48,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
     if (linked)
       m_type = HAY;
 
-    on_type_change();
+    on_type_change(TypeChange::INITIAL);
   }
   else
   {
@@ -63,7 +63,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   else
     SoundManager::current()->preload("sounds/sizzle.ogg");
 
-  set_action("normal");
+  set_action("default");
 }
 
 void
@@ -73,7 +73,7 @@ WeakBlock::update_version()
   if (get_version() == 1)
   {
     m_type = ICE;
-    on_type_change();
+    on_type_change(m_type);
   }
 
   GameObject::update_version();
@@ -118,7 +118,7 @@ WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 
     case STATE_NORMAL:
       //Ensure only fire destroys weakblock
-      if (bullet.get_type() == FIRE_BONUS) {
+      if (bullet.get_type() == BONUS_FIRE) {
         startBurning();
         bullet.remove_me();
       }
@@ -141,7 +141,7 @@ WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 }
 
 HitResponse
-WeakBlock::collision(GameObject& other, const CollisionHit& hit)
+WeakBlock::collision(MovingObject& other, const CollisionHit& hit)
 {
   switch (state) {
 
@@ -213,9 +213,7 @@ WeakBlock::update(float )
 void
 WeakBlock::draw(DrawingContext& context)
 {
-  //Draw the Sprite just in front of other objects
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10, m_flip);
-
+  MovingSprite::draw(context);
   if (m_type == HAY && (state != STATE_NORMAL))
   {
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);

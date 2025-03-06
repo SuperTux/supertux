@@ -39,7 +39,7 @@ MrTree::MrTree(const ReaderMapping& reader) :
 {
   parse_type(reader);
 
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
   SoundManager::current()->preload("sounds/mr_tree.ogg");
 }
 
@@ -67,7 +67,7 @@ MrTree::get_default_sprite_name() const
 void
 MrTree::on_type_change(int old_type)
 {
-  MovingSprite::on_type_change();
+  MovingSprite::on_type_change(old_type);
 
   switch (m_type)
   {
@@ -89,7 +89,7 @@ MrTree::is_freezable() const
 }
 
 bool
-MrTree::collision_squished(GameObject& object)
+MrTree::collision_squished(MovingObject& object)
 {
   if (m_type == CORRUPTED || m_frozen)
     return WalkingBadguy::collision_squished(object);

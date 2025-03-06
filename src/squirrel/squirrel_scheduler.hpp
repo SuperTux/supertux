@@ -19,23 +19,23 @@
 
 #include <vector>
 
-#include <squirrel.h>
-
-class SquirrelVM;
+#include <simplesquirrel/vm.hpp>
 
 /** This class keeps a list of squirrel threads that are scheduled for a certain
     time. (the typical result of a wait() command in a squirrel script) */
 class SquirrelScheduler final
 {
 public:
-  SquirrelScheduler(SquirrelVM& vm);
+  SquirrelScheduler(ssq::VM& vm);
 
   /** time must be absolute time, not relative updates, i.e. g_game_time */
   void update(float time);
-  void schedule_thread(HSQUIRRELVM vm, float time, bool skippable);
+
+  SQInteger schedule_thread(HSQUIRRELVM vm, float time, bool skippable);
 
 private:
-  struct ScheduleEntry {
+  struct ScheduleEntry final
+  {
     /// weak reference to the squirrel vm object
     HSQOBJECT thread_ref;
     /// time when the thread should be woken up
@@ -51,7 +51,7 @@ private:
   };
 
 private:
-  SquirrelVM& m_vm;
+  ssq::VM& m_vm;
 
   typedef std::vector<ScheduleEntry> ScheduleHeap;
   ScheduleHeap schedule;

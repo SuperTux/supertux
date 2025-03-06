@@ -80,7 +80,7 @@ with polymorphism in mind.
 
 Mark all functions that override a virtual function in a base class with `override`.
 
-Write simple getters/setters inside a header file on a single line.
+Write simple getters/setters inside a header file on a single line. Mark them as `inline`.
 
 Properly separate data members and member functions. Do not mix them in the same
 `public`/`protected`/`private` section.
@@ -251,7 +251,7 @@ But don't use a space after a function name:
 Write simple getters/setters inside a header file on a single line:
 
 ```c++
-Vector get_pos() const { retun m_pos; }
+Vector get_pos() const { return m_pos; }
 ```
 
 Don't include more complex functions inside a header file, unless it's

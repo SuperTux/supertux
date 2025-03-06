@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (name "normal")
+    (name "default")
     (hitbox 0 32 128 96)
     (images "cave-4x3.png")
   )

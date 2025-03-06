@@ -28,7 +28,7 @@
 #include "gui/item_action.hpp"
 SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type, const std::string& title, const std::string& empty_message) :
   m_world_folders()
-{ 
+{
   add_label(title);
   add_hl();
   int world_id = 0;
@@ -37,11 +37,9 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
     if (worlds[i]->get_contrib_type() == contrib_type)
     {
       m_world_folders.push_back(worlds[i]->get_basedir());
-      std::string title_str;
+      std::string title_str = worlds[i]->get_title();
       if (worlds[i]->is_levelset())
-        title_str = "[" + worlds[i]->get_title() + "]";
-      else
-        title_str = worlds[i]->get_title();
+        title_str = "[" + title_str + "]";
       add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
     }
   }

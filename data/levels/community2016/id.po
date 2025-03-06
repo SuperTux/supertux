@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# CRS.ECHO51 <christian.elbrianno41@gmail.com>, 2019
+# Chris <christian.elbrianno41@gmail.com>, 2019
 # IAN RODRÍGUEZ Lorenzo, 2023
 # 
 #, fuzzy

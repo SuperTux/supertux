@@ -37,8 +37,7 @@
              (gnu packages squirrel)
              (gnu packages version-control)
              (gnu packages xiph)
-             (guix-cocfree utils)
-             (guix-cocfree packages boost))
+             (guix-cocfree utils))
 
 (define %source-dir (dirname (current-filename)))
 

@@ -50,7 +50,7 @@ FlyingSnowBall::activate()
 }
 
 bool
-FlyingSnowBall::collision_squished(GameObject& object)
+FlyingSnowBall::collision_squished(MovingObject& object)
 {
   set_action("squished", m_dir);
   m_physic.enable_gravity(true);

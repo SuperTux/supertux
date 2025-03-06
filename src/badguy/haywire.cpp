@@ -52,7 +52,7 @@ Haywire::Haywire(const ReaderMapping& reader) :
   stomped_timer()
 {
   walk_speed = NORMAL_WALK_SPEED;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/explosion.wav");
 }
@@ -64,7 +64,7 @@ Haywire::get_player_direction(const Player* player) const
 }
 
 bool
-Haywire::collision_squished(GameObject& object)
+Haywire::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);
@@ -151,15 +151,14 @@ Haywire::active_update(float dt_sec)
       }
       else
       {
-        // Jump over gaps if Tux isn't below.
+        // Jump over gaps
         Rectf gap_box = get_bbox();
         gap_box.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -38.f : 26.f));
         gap_box.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::LEFT ? -26.f : 38.f));
         gap_box.set_top(m_col.m_bbox.get_top());
         gap_box.set_bottom(m_col.m_bbox.get_bottom() + 28.f);
 
-        if (Sector::get().is_free_of_statics(gap_box)
-          && (player->get_bbox().get_bottom() <= m_col.m_bbox.get_bottom()))
+        if (Sector::get().is_free_of_statics(gap_box))
         {
           m_physic.set_velocity_y(-325.f);
           m_jumping = true;
@@ -234,7 +233,7 @@ Haywire::draw(DrawingContext& context)
   {
     m_exploding_sprite->set_blend(Blend::ADD);
     m_exploding_sprite->draw(context.light(),
-      get_pos()+Vector(get_bbox().get_width()/2, get_bbox().get_height()/2), m_layer, m_flip);
+      get_pos() + (get_bbox().get_size().as_vector() / 2.0f), m_layer, m_flip);
   }
   WalkingBadguy::draw(context);
 }
@@ -285,7 +284,7 @@ void
 Haywire::start_exploding()
 {
   set_walk_speed (EXPLODING_WALK_SPEED);
-  max_drop_height = -1;
+  set_ledge_behavior(LedgeBehavior::FALL);
   time_until_explosion = TIME_EXPLOSION;
   m_is_exploding = true;
 
@@ -307,7 +306,7 @@ Haywire::stop_exploding()
   walk_left_action = "left";
   walk_right_action = "right";
   set_walk_speed(NORMAL_WALK_SPEED);
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
   time_until_explosion = 0.0f;
   m_is_exploding = false;
 

@@ -39,6 +39,7 @@ public:
   OptionsMenu(Type type, bool complete);
   ~OptionsMenu() override;
 
+  void refresh() override;
   void on_window_resize() override;
 
   void menu_action(MenuItem& item) override;
@@ -53,6 +54,7 @@ private:
   void add_vsync();
   void add_sound_volume();
   void add_music_volume();
+  void add_flash_intensity();
   void add_mobile_control_scales();
 
 private:
@@ -65,18 +67,22 @@ private:
     MNID_MAGNIFICATION,
     MNID_ASPECTRATIO,
     MNID_VSYNC,
+    MNID_FRAME_PREDICTION,
     MNID_SOUND,
     MNID_MUSIC,
     MNID_SOUND_VOLUME,
     MNID_MUSIC_VOLUME,
+    MNID_FLASH_INTENSITY,
     MNID_RUMBLING,
     MNID_DEVELOPER_MODE,
     MNID_CHRISTMAS_MODE,
     MNID_TRANSITIONS,
+    MNID_CUSTOM_TITLE_LEVELS,
     MNID_CONFIRMATION_DIALOG,
     MNID_PAUSE_ON_FOCUSLOSS,
     MNID_CUSTOM_CURSOR,
     MNID_RELEASE_CHECK,
+    MNID_DISABLE_NETWORK,
     MNID_MOBILE_CONTROLS,
     MNID_MOBILE_CONTROLS_SCALE
   };
@@ -88,6 +94,9 @@ private:
   };
 
 private:
+  const Type m_type;
+  const bool m_complete;
+
   StringOption m_magnifications;
   StringOption m_aspect_ratios;
   StringOption m_window_resolutions;
@@ -95,6 +104,7 @@ private:
   StringOption m_vsyncs;
   StringOption m_sound_volumes;
   StringOption m_music_volumes;
+  StringOption m_flash_intensity_values;
   StringOption m_mobile_control_scales;
 
 private:

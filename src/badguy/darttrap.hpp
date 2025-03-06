@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
 #define HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
 
-#include "badguy/badguy.hpp"
+#include "object/sticky_object.hpp"
 
 /** Badguy "DartTrap" - Shoots a Dart at regular intervals */
-class DartTrap final : public BadGuy
+class DartTrap final : public StickyBadguy
 {
 public:
   DartTrap(const ReaderMapping& reader);
@@ -34,10 +34,15 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Dart Trap"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return StickyBadguy::get_class_types().add(typeid(DartTrap)); }
 
   virtual ObjectSettings get_settings() override;
+  virtual GameObjectTypes get_types() const override;
+  virtual std::string get_default_sprite_name() const override;
+  virtual void kill_fall() override;
 
   virtual void on_flip(float height) override;
+  virtual void on_type_change(int old_type) override;
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
@@ -45,6 +50,10 @@ protected:
 protected:
   enum State {
     IDLE, LOADING
+  };
+
+  enum Type {
+    GRANITO, SKULL
   };
 
   void load();

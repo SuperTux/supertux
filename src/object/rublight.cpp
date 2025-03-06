@@ -63,7 +63,7 @@ RubLight::get_settings()
 }
 
 HitResponse
-RubLight::collision(GameObject& other, const CollisionHit&)
+RubLight::collision(MovingObject& other, const CollisionHit&)
 {
   Player* player = dynamic_cast<Player*>(&other);
   if (player != nullptr &&

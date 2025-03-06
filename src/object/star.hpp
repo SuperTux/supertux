@@ -26,12 +26,13 @@ class Star final : public MovingSprite
 {
 public:
   Star(const Vector& pos, Direction direction = Direction::RIGHT, const std::string& custom_sprite = "");
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Star)); }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual bool is_saveable() const override { return false; }
 

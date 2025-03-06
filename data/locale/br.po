@@ -1168,8 +1168,8 @@ msgstr "Objed dianav"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Arver: %s [DIBARZHIOÙ] [RESTR LIVE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Arver: {} [DIBARZHIOÙ] [RESTR LIVE]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
@@ -1795,13 +1795,13 @@ msgstr "Adventañ"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Aelad %s]"
+msgid "[Profile {}]"
+msgstr "[Aelad {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "Aelad %s"
+msgid "Profile {}"
+msgstr "Aelad {}"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1829,8 +1829,8 @@ msgstr "Dianav"
 
 #: src/supertux/menu/addon_menu.cpp:68
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" gant \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" gant \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:126
 msgid "No Add-ons installed"
@@ -1842,13 +1842,13 @@ msgstr "N'eo bet kavet askouezh ebet"
 
 #: src/supertux/menu/addon_menu.cpp:176
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Staliañ %s *NEVEZ*"
+msgid "Install {} *NEW*"
+msgstr "Staliañ {} *NEVEZ*"
 
 #: src/supertux/menu/addon_menu.cpp:187
 #, c-format
-msgid "Install %s"
-msgstr "Staliañ %s"
+msgid "Install {}"
+msgstr "Staliañ {}"
 
 #: src/supertux/menu/addon_menu.cpp:196
 msgid "No new Add-ons found"
@@ -1868,8 +1868,8 @@ msgstr "O pellgargañ ibil mirlec'h al lugantoù"
 
 #: src/supertux/menu/addon_menu.cpp:298
 #, c-format
-msgid "Downloading %s"
-msgstr "O pellgargañ %s"
+msgid "Downloading {}"
+msgstr "O pellgargañ {}"
 
 #: src/supertux/menu/addon_menu.cpp:345
 msgid ""
@@ -2285,8 +2285,8 @@ msgstr ""
 
 #: src/supertux/levelintro.cpp:135
 #, c-format
-msgid "contributed by %s"
-msgstr "kinniget gant %s"
+msgid "contributed by {}"
+msgstr "kinniget gant {}"
 
 #: src/supertux/levelintro.cpp:167
 msgid "Badguys killed"

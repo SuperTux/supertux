@@ -50,14 +50,14 @@ UnstableTile::UnstableTile(const ReaderMapping& mapping, int type) :
   if (type >= 0)
   {
     m_type = type;
-    on_type_change();
+    on_type_change(TypeChange::INITIAL);
   }
   else
   {
     parse_type(mapping);
   }
 
-  set_action("normal");
+  set_action("default");
 
   physic.set_gravity_modifier(.98f);
   physic.enable_gravity(false);
@@ -88,7 +88,7 @@ UnstableTile::get_default_sprite_name() const
 }
 
 HitResponse
-UnstableTile::collision(GameObject& other, const CollisionHit& )
+UnstableTile::collision(MovingObject& other, const CollisionHit& )
 {
   if (state == STATE_NORMAL)
   {
@@ -199,7 +199,7 @@ UnstableTile::revive()
   m_col.set_movement(Vector(0.0f, 0.0f));
   m_revive_timer.stop();
   m_respawn.reset(new FadeHelper(&m_alpha, FADE_IN_TIME, 1.f));
-  set_action("normal");
+  set_action("default");
 }
 
 void
@@ -233,7 +233,7 @@ UnstableTile::update(float dt_sec)
       }
       else
       {
-        set_action("normal");
+        set_action("default");
         m_fall_timer.stop();
         m_col.set_pos(m_original_pos);
       }

@@ -47,19 +47,17 @@ PneumaticPlatformChild::update(float dt_sec)
 }
 
 HitResponse
-PneumaticPlatformChild::collision(GameObject& other, const CollisionHit& )
+PneumaticPlatformChild::collision(MovingObject& other, const CollisionHit& )
 {
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
-  auto mo = dynamic_cast<MovingObject*>(&other);
-  if (!mo) return FORCE_MOVE;
-  if ((mo->get_bbox().get_bottom()) > (m_col.m_bbox.get_top() + 2)) return FORCE_MOVE;
+  if (other.get_bbox().get_bottom() > m_col.m_bbox.get_top() + 2) return FORCE_MOVE;
 
-  auto pl = dynamic_cast<Player*>(mo);
+  auto pl = dynamic_cast<Player*>(&other);
   if (pl) {
     if (pl->is_big()) m_contacts.insert(nullptr);
-    auto po = pl->get_grabbed_object();
-    auto pomo = dynamic_cast<MovingObject*>(po);
-    if (pomo) m_contacts.insert(pomo);
+    auto pomo = dynamic_cast<MovingObject*>(pl->get_grabbed_object());
+    assert(pomo);
+    m_contacts.insert(pomo);
   }
 
   m_contacts.insert(&other);
@@ -158,7 +156,7 @@ PneumaticPlatform::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", std::string("images/objects/platforms/small.sprite"));
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", "images/objects/platforms/small.sprite");
   result.add_float(_("X"), &m_pos.x, "x", 0.0f, OPTION_HIDDEN);
   result.add_float(_("Y"), &m_pos.y, "y", 0.0f, OPTION_HIDDEN);
 

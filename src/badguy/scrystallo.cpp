@@ -33,7 +33,7 @@ SCrystallo::SCrystallo(const ReaderMapping& reader) :
   m_radius_anchor()
 {
   walk_speed = 80;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
   reader.get("roof", m_roof, false);
   reader.get("radius", m_radius, 100.0f);
   reader.get("range", m_range, 250.0f);
@@ -158,7 +158,7 @@ SCrystallo::active_update(float dt_sec)
 }
 
 bool
-SCrystallo::collision_squished(GameObject& object)
+SCrystallo::collision_squished(MovingObject& object)
 {
   set_action(m_dir == Direction::LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);

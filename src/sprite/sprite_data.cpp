@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023-2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,12 +21,16 @@
 #include <stdexcept>
 #include <sstream>
 
+#include <sexp/io.hpp>
+#include <sexp/value.hpp>
+
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/reader_object.hpp"
+#include "util/string_util.hpp"
 #include "video/surface.hpp"
 #include "video/texture_manager.hpp"
 
@@ -45,70 +50,141 @@ SpriteData::Action::Action() :
 {
 }
 
-SpriteData::SpriteData(const ReaderMapping& mapping) :
-  actions(),
-  name()
+void
+SpriteData::Action::reset(SurfacePtr surface)
+{
+  x_offset = 0;
+  y_offset = 0;
+  hitbox_w = static_cast<float>(surface->get_width());
+  hitbox_h = static_cast<float>(surface->get_height());
+  hitbox_unisolid = false;
+  fps = 10;
+  loops = -1;
+  loop_frame = 1;
+  has_custom_loops = false;
+  family_name.clear();
+  surfaces = { surface };
+}
+
+
+SpriteData::SpriteData(const std::string& filename) :
+  m_filename(filename),
+  m_load_successful(false),
+  actions()
+{
+  load();
+}
+
+void
+SpriteData::load()
+{
+  // Reset all existing actions to a dummy texture
+  if (!actions.empty())
+  {
+    auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
+    for (const auto& action : actions)
+      action.second->reset(surface);
+  }
+
+  if (StringUtil::has_suffix(m_filename, ".sprite"))
+  {
+    try
+    {
+      auto doc = ReaderDocument::from_file(m_filename);
+      auto root = doc.get_root();
+
+      if (root.get_name() != "supertux-sprite")
+      {
+        std::ostringstream msg;
+        msg << "'" << m_filename << "' is not a 'supertux-sprite' file!";
+        throw std::runtime_error(msg.str());
+      }
+      else
+      {
+        // Load ".sprite" file
+        parse(root.get_mapping());
+      }
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Parse error when trying to load sprite '" << m_filename
+                  << "': " << err.what() << std::endl;
+
+      // Load initial dummy texture
+      if (actions.empty())
+      {
+        auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
+        auto action = std::make_unique<Action>();
+        action->name = "default";
+        action->reset(surface);
+        actions[action->name] = std::move(action);
+      }
+
+      m_load_successful = false;
+      return;
+    }
+  }
+  else
+  {
+    // Load single image
+    auto surface = Surface::from_file(m_filename);
+    if (!TextureManager::current()->last_load_successful())
+      throw std::runtime_error("Cannot load image.");
+
+    // Create action, if it doesn't exist
+    {
+      auto i = actions.find("default");
+      if (i == actions.end())
+      {
+        auto action = std::make_unique<Action>();
+        action->name = "default";
+        actions["default"] = std::move(action);
+      }
+    }
+    actions["default"]->reset(surface);
+  }
+
+  m_load_successful = true;
+}
+
+void
+SpriteData::parse(const ReaderMapping& mapping)
 {
   auto iter = mapping.get_iter();
   while (iter.next())
   {
-    if (iter.get_key() == "name") {
-      iter.get(name);
-    } else if (iter.get_key() == "action") {
+    if (iter.get_key() == "action")
       parse_action(iter.as_mapping());
-    } else {
+    else
       log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;
-    }
   }
+
   if (actions.empty())
     throw std::runtime_error("Error: Sprite without actions.");
-}
-
-SpriteData::SpriteData(const std::string& image) :
-  actions(),
-  name()
-{
-  auto surface = Surface::from_file(image);
-  if (!TextureManager::current()->last_load_successful())
-    throw std::runtime_error("Cannot load image.");
-
-  auto action = create_action_from_surface(surface);
-  action->name = "default";
-  actions[action->name] = std::move(action);
-}
-
-SpriteData::SpriteData() :
-  actions(),
-  name()
-{
-  auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
-  auto action = create_action_from_surface(surface);
-  action->name = "default";
-  actions[action->name] = std::move(action);
-}
-
-std::unique_ptr<SpriteData::Action>
-SpriteData::create_action_from_surface(SurfacePtr surface)
-{
-  auto action = std::make_unique<Action>();
-
-  action->hitbox_w = static_cast<float>(surface->get_width());
-  action->hitbox_h = static_cast<float>(surface->get_height());
-  action->surfaces.push_back(surface);
-
-  return action;
 }
 
 void
 SpriteData::parse_action(const ReaderMapping& mapping)
 {
-  auto action = std::make_unique<Action>();
+  std::string name;
+  mapping.get("name", name);
 
-  if (!mapping.get("name", action->name))
+  // Create action, if it doesn't exist
   {
-    if (!actions.empty())
-      throw std::runtime_error("If there are more than one action, they need names!");
+    auto i = actions.find(name);
+    if (i == actions.end())
+    {
+      auto action = std::make_unique<Action>();
+      action->name = name;
+      actions[name] = std::move(action);
+    }
   }
+  Action* action = actions[name].get();
+
+  // Reset action
+  action->hitbox_w = 0;
+  action->hitbox_h = 0;
+  action->surfaces.clear();
 
   std::vector<float> hitbox;
   if (mapping.get("hitbox", hitbox))
@@ -125,7 +201,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         break;
 
       default:
-        throw std::runtime_error("hitbox should specify 2/4 coordinates");
+        throw std::runtime_error("Hitbox should specify 2/4 coordinates!");
     }
   }
   mapping.get("unisolid", action->hitbox_unisolid);
@@ -138,7 +214,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   {
     if (action->loop_frame < 1)
     {
-      log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << name << "' set to a value below 1." << std::endl;
+      log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << m_filename << "' set to a value below 1." << std::endl;
       action->loop_frame = 1;
     }
   }
@@ -272,7 +348,50 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   { // Load images
     std::optional<ReaderCollection> surfaces_collection;
     std::vector<std::string> images;
-    if (mapping.get("images", images))
+    std::optional<ReaderMapping> regions_mapping;
+    if (mapping.get("regions", regions_mapping)) // Regions from images
+    {
+      float max_w = 0;
+      float max_h = 0;
+
+      auto iter = regions_mapping->get_iter();
+      while (iter.next())
+      {
+        if (iter.get_key() != "region")
+        {
+          log_warning << "Unknown field '" << iter.get_key() << "' under 'regions'." << std::endl;
+          continue;
+        }
+
+        const auto& sx = iter.as_mapping().get_sexp();
+        const auto& arr = sx.as_array();
+        if (arr.size() != 6)
+        {
+          log_warning << "(region IMAGE_FILE X Y WIDTH HEIGHT) tag malformed: " << sx << std::endl;
+          continue;
+        }
+
+        Rect region;
+        region.left = arr[2].as_int();
+        region.top = arr[3].as_int();
+        const int w = arr[4].as_int();
+        const int h = arr[5].as_int();
+        region.right = region.left + w;
+        region.bottom = region.top + h;
+
+        max_w = std::max(max_w, static_cast<float>(w));
+        max_h = std::max(max_w, static_cast<float>(h));
+
+        auto surface = Surface::from_file(FileSystem::join(mapping.get_doc().get_directory(),
+                                                           arr[1].as_string()),
+                                          region);
+        action->surfaces.push_back(surface);
+      }
+
+      if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
+      if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
+    }
+    else if (mapping.get("images", images))
     {
       float max_w = 0;
       float max_h = 0;
@@ -297,7 +416,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         else
         {
           std::stringstream msg;
-          msg << "Sprite '" << name << "' unknown tag in 'surfaces' << " << i.get_name();
+          msg << "Sprite '" << m_filename << "' unknown tag in 'surfaces' << " << i.get_name();
           throw std::runtime_error(msg.str());
         }
       }
@@ -316,7 +435,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
     else
     {
       std::stringstream msg;
-      msg << "Sprite '" << name << "' contains no images in action '"
+      msg << "Sprite '" << m_filename << "' contains no images in action '"
           << action->name << "'.";
       throw std::runtime_error(msg.str());
     }
@@ -326,11 +445,9 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   const int frames = static_cast<int>(action->surfaces.size());
   if (action->loop_frame > frames && frames > 0)
   {
-    log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << name << "' not-in-range of total frames." << std::endl;
+    log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << m_filename << "' not-in-range of total frames." << std::endl;
     action->loop_frame = 1;
   }
-
-  actions[action->name] = std::move(action);
 }
 
 const SpriteData::Action*

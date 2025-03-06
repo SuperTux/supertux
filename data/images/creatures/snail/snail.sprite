@@ -41,12 +41,12 @@
 	
 	(action
 	  (name "iced-left")
-	  (hitbox 4 7 32 28)
+	  (hitbox -1 2 45 43)
 	  (images "rotate-0.png")
 	)
 	(action
 	  (name "iced-right")
-	  (hitbox 4 7 32 28)
+	  (hitbox -1 2 45 43)
 	  (mirror-action "iced-left")
 	)
 	(action

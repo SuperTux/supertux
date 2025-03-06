@@ -42,12 +42,12 @@
 
  (action
   (name "iced-left")
-  (hitbox 6 15 32 32)
+  (hitbox 1 0 45 64)
   (images "bag-bounce-0.png"))
 
  (action
   (name "iced-right")
-  (hitbox 6 15 32 32)
+  (hitbox 1 0 45 64)
   (mirror-action "iced-left"))
 
  (action

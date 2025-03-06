@@ -25,6 +25,7 @@ public:
   YetiStalactite(const ReaderMapping& mapping);
 
   virtual void active_update(float dt_sec) override;
+  virtual void after_editor_set() override;
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
@@ -33,6 +34,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Yeti's Stalactite"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return Stalactite::get_class_types().add(typeid(YetiStalactite)); }
 
   void start_shaking();
   bool is_hanging() const;

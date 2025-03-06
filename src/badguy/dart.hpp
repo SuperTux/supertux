@@ -1,4 +1,4 @@
-//  Dart - Your average poison dart
+//  Dart - Sharp projectile commonly shot from DartTrap
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -21,12 +21,12 @@
 
 class SoundSource;
 
-/** Badguy "Dart" - Your average poison dart */
+/** Badguy "Dart" - Sharp projectile commonly shot from DartTrap */
 class Dart final : public BadGuy
 {
 public:
   Dart(const ReaderMapping& reader);
-  Dart(const Vector& pos, Direction d, const BadGuy* parent, const std::string& sprite = "images/creatures/dart/dart.sprite");
+  Dart(const Vector& pos, Direction d, const BadGuy* parent, const std::string& sprite = "images/creatures/darttrap/granito/root_dart.sprite");
 
   virtual void initialize() override;
   virtual void activate() override;
@@ -43,6 +43,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Dart"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Dart)); }
 
   virtual bool is_flammable() const override;
 
@@ -53,7 +54,7 @@ public:
 
   virtual void on_flip(float height) override;
 
-  void set_flip(Flip flip);
+  inline void set_flip(Flip flip) { m_flip = flip; }
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;

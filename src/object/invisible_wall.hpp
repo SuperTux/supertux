@@ -29,13 +29,14 @@ class InvisibleWall final : public MovingObject
 public:
   InvisibleWall(const ReaderMapping& mapping);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
 
   static std::string class_name() { return "invisible_wall"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Invisible Wall"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(InvisibleWall)); }
 
   virtual bool has_variable_size() const override { return true; }
 

@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Alejo Fernandez <alejoo.fernandez.2003@gmail.com>, 2024
 # Salomón Duarte <juanaestelaruizdiaz@gmail.com>, 2021
 # Tam Ezquerra <namarie.tam@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-09-25 01:10+0000\n"
-"Last-Translator: Salomón Duarte <juanaestelaruizdiaz@gmail.com>\n"
-"Language-Team: Spanish (Argentina) (http://www.transifex.com/arctic-games/supertux/language/es_AR/)\n"
+"POT-Creation-Date: 2025-01-26 01:42+0000\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: Alejo Fernandez <alejoo.fernandez.2003@gmail.com>, 2024\n"
+"Language-Team: Spanish (Argentina) (http://app.transifex.com/arctic-games/supertux/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es_AR\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/world1/23rd_airborne.stl:3
 msgid "23rd Airborne"
@@ -32,7 +33,7 @@ msgstr "Aerotransporte N°23"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
 msgstr "¡Encontraste un área secreta!"
 
@@ -58,10 +59,6 @@ msgid ""
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
 msgstr "-Cristales\n#Este nivel contiene cuatro cristales de colores. ¿podés encontrarlos?\n#\n#Aviso: Estos cristales no tienen ningún propósito por ahora, pero puede que lo tengan en un lanzamiento futuro del juego."
-
-#: data/levels/world1/castle_cutscene.stl:3
-msgid "Empty Throne Room"
-msgstr "Cuarto del Trono Vacío"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -197,11 +194,11 @@ msgstr "En algún lado en las costas de la Antártida..."
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "Tux el pungüino iba a encontrarse con su amiga Penny para hacer un picnic."
+msgstr "Tux el pingüino iba a encontrarse con su amiga Penny para hacer un picnic."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "Tuz se despertó mareado, para encontrarse con que Penny estaba desaparecida!"
+msgstr "Tux se despertó mareado, para encontrarse con que Penny estaba desaparecida!"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
@@ -219,7 +216,7 @@ msgstr "\"El camino hacia mi fortaleza está infestado con mis ayudantes.\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "\"¡No tienes oportunidad de salvarla! Firma, Nolok\""
+msgstr "\"¡No tenés oportunidad de salvarla! Firma, Nolok\""
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""

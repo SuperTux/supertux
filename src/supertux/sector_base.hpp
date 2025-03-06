@@ -34,7 +34,7 @@ public:
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */
-  virtual void finish_construction(bool editable) {}
+  virtual void finish_construction(bool editable);
 
   virtual void draw(DrawingContext& context) = 0;
   virtual void update(float dt_sec) = 0;
@@ -42,10 +42,10 @@ public:
   virtual TileSet* get_tileset() const = 0;
   virtual bool in_worldmap() const = 0;
 
-  void set_name(const std::string& name) { m_name = name; }
-  const std::string& get_name() const { return m_name; }
+  inline void set_name(const std::string& name) { m_name = name; }
+  inline const std::string& get_name() const { return m_name; }
 
-  void set_init_script(const std::string& init_script) { m_init_script = init_script; }
+  inline void set_init_script(const std::string& init_script) { m_init_script = init_script; }
   void run_script(const std::string& script, const std::string& sourcename);
 
 protected:

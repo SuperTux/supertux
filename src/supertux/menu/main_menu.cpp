@@ -22,6 +22,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/fadetoblack.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
@@ -46,6 +47,8 @@
 #include <emscripten/html5.h>
 #endif
 
+bool MainMenu::s_shown_initial_dialogs = false;
+
 MainMenu::MainMenu()
 {
   add_submenu(_("Start Game"), MenuStorage::WORLDSET_MENU);
@@ -68,6 +71,25 @@ MainMenu::MainMenu()
 #endif
 
   on_window_resize();
+
+#ifndef __EMSCRIPTEN__
+  // Show network-related confirmation dialogs on first startup
+  if (g_config->is_initial() && !s_shown_initial_dialogs)
+  {
+    s_shown_initial_dialogs = true;
+    Dialog::show_confirmation(_("Would you allow SuperTux to connect to the Internet?\n\nThis enables additional features, such as the in-game add-on catalog."),
+      []()
+      {
+        g_config->disable_network = false;
+
+        Dialog::show_confirmation(_("Would you allow SuperTux to check for new releases on startup?\n\nYou will be notified if any are found."),
+          []()
+          {
+            g_config->do_release_check = true;
+          });
+      }, true);
+  }
+#endif
 }
 
 void

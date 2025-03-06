@@ -31,7 +31,8 @@ const float CAMERA_PAN_TIME_MAX = 0.52213f;
 
 namespace worldmap {
 
-Camera::Camera() :
+Camera::Camera(WorldMapSector& worldmap_sector) :
+  m_worldmap_sector(worldmap_sector),
   m_camera_offset(0.0f, 0.0f),
   m_pan_startpos(0.0f, 0.0f),
   m_pan_time_full(0),
@@ -82,7 +83,7 @@ Camera::pan()
 Vector
 Camera::get_camera_pos_for_tux() const
 {
-  auto& tux = WorldMapSector::current()->get_singleton_by_type<Tux>();
+  auto& tux = m_worldmap_sector.get_singleton_by_type<Tux>();
 
   Vector camera_offset_(0.0f, 0.0f);
   Vector tux_pos = tux.get_pos();
@@ -94,8 +95,6 @@ Camera::get_camera_pos_for_tux() const
 void
 Camera::clamp_camera_position(Vector& c) const
 {
-  auto& worldmap_sector = *WorldMapSector::current();
-
   if (c.x < 0) {
     c.x = 0;
   }
@@ -104,20 +103,20 @@ Camera::clamp_camera_position(Vector& c) const
     c.y = 0;
   }
 
-  if (c.x > worldmap_sector.get_width() - static_cast<float>(SCREEN_WIDTH)) {
-    c.x = worldmap_sector.get_width() - static_cast<float>(SCREEN_WIDTH);
+  if (c.x > m_worldmap_sector.get_width() - static_cast<float>(SCREEN_WIDTH)) {
+    c.x = m_worldmap_sector.get_width() - static_cast<float>(SCREEN_WIDTH);
   }
 
-  if (c.y > worldmap_sector.get_height() - static_cast<float>(SCREEN_HEIGHT)) {
-    c.y = worldmap_sector.get_height() - static_cast<float>(SCREEN_HEIGHT);
+  if (c.y > m_worldmap_sector.get_height() - static_cast<float>(SCREEN_HEIGHT)) {
+    c.y = m_worldmap_sector.get_height() - static_cast<float>(SCREEN_HEIGHT);
   }
 
-  if (worldmap_sector.get_width() < static_cast<float>(SCREEN_WIDTH)) {
-    c.x = (worldmap_sector.get_width() - static_cast<float>(SCREEN_WIDTH)) / 2.0f;
+  if (m_worldmap_sector.get_width() < static_cast<float>(SCREEN_WIDTH)) {
+    c.x = (m_worldmap_sector.get_width() - static_cast<float>(SCREEN_WIDTH)) / 2.0f;
   }
 
-  if (worldmap_sector.get_height() < static_cast<float>(SCREEN_HEIGHT)) {
-    c.y = (worldmap_sector.get_height() - static_cast<float>(SCREEN_HEIGHT)) / 2.0f;
+  if (m_worldmap_sector.get_height() < static_cast<float>(SCREEN_HEIGHT)) {
+    c.y = (m_worldmap_sector.get_height() - static_cast<float>(SCREEN_HEIGHT)) / 2.0f;
   }
 }
 

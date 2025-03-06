@@ -29,7 +29,7 @@ TEST(ReaderTest, get)
     "   (mystring \"Hello World\")\n"
     "   (mystringtrans (_ \"Hello World\"))\n"
     "   (myboolarray #t #f #t #f)\n"
-    "   (myintarray 5 4 3 2 1 0)\n"
+    "   (myintarray 5 5 4 4 3 2 1 0)\n"
     "   (myfloatarray 6.5 5.25 4.125 3.0625 2.0 1.0 0.5 0.25 0.125)\n"
     "   (mystringarray \"One\" \"Two\" \"Three\")\n"
     "   (mymapping (a 1) (b 2))\n"
@@ -79,7 +79,7 @@ TEST(ReaderTest, get)
   }
 
   {
-    std::vector<int> expected{ 5, 4, 3, 2, 1, 0 };
+    std::vector<int> expected{ 5, 5, 4, 4, 3, 2, 1, 0 };
     std::vector<int> result;
     mapping.get("myintarray", result);
     ASSERT_EQ(expected, result);
@@ -139,6 +139,26 @@ TEST(ReaderTest, get)
   }
 }
 
+TEST(ReaderTest, get_compressed)
+{
+  std::istringstream in(
+    "(supertux-test\n"
+    "   (mycompressedintarray -6 0 45 -4 1 -5 3 -2 0)\n"
+    ")\n");
+
+  auto doc = ReaderDocument::from_stream(in);
+  auto root = doc.get_root();
+  ASSERT_EQ("supertux-test", root.get_name());
+  auto mapping = root.get_mapping();
+
+  {
+    std::vector<unsigned int> expected{ 0, 0, 0, 0, 0, 0, 45, 1, 1, 1, 1, 3, 3, 3, 3, 3, 0, 0, };
+    std::vector<unsigned int> result;
+    mapping.get_compressed("mycompressedintarray", result);
+    ASSERT_EQ(expected, result);
+  }
+}
+
 TEST(ReaderTest, syntax_error)
 {
   std::istringstream in(
@@ -148,6 +168,8 @@ TEST(ReaderTest, syntax_error)
     "   (myfloat 1.125 err)\n\r"
     "   (mystring \"Hello World\" err)\n"
     "   (mystringtrans (_ \"Hello World\" err))\n"
+    "   (mycompressedintarray1 -5 0 43 -5 -12 3 -1 5)\n"
+    "   (mycompressedintarray2 -5 0 43 -5 12 -3 1 -5)\n"
     "   (mymapping err (a 1) (b 2))\n"
     ")\n");
 
@@ -159,11 +181,14 @@ TEST(ReaderTest, syntax_error)
   bool mybool;
   int myint;
   float myfloat;
-  std::optional<ReaderMapping> mymapping;
+  std::vector<unsigned int> mycompressedintarray;
   ASSERT_THROW({mapping.get("mybool", mybool);}, std::runtime_error);
   ASSERT_THROW({mapping.get("myint", myint);}, std::runtime_error);
   ASSERT_THROW({mapping.get("myfloat", myfloat);}, std::runtime_error);
+  ASSERT_THROW({mapping.get_compressed("mycompressedintarray1", mycompressedintarray);}, std::runtime_error);
+  ASSERT_THROW({mapping.get_compressed("mycompressedintarray2", mycompressedintarray);}, std::runtime_error);
 
+  std::optional<ReaderMapping> mymapping;
   mapping.get("mymapping", mymapping);
   ASSERT_THROW({mymapping->get("a", myint);}, std::runtime_error);
   ASSERT_THROW({mymapping->get("b", myint);}, std::runtime_error);

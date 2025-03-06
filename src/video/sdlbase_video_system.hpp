@@ -30,7 +30,6 @@ public:
 
   virtual void set_title(const std::string& title) override;
   virtual void set_icon(const SDL_Surface& icon) override;
-  virtual void set_gamma(float gamma) override;
 
   virtual Size get_window_size() const override;
   virtual void on_resize(int w, int h) override;

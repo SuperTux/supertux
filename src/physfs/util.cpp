@@ -16,12 +16,19 @@
 
 #include "physfs/util.hpp"
 
+#include <stdexcept>
+
 #include <physfs.h>
 
 #include "physfs/physfs_file_system.hpp"
 #include "util/file_system.hpp"
 
 namespace physfsutil {
+
+const char* get_last_error()
+{
+  return PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
+}
 
 std::string realpath(const std::string& path)
 {
@@ -72,6 +79,7 @@ void remove_content(const std::string& dir)
     if (is_directory(path))
       remove_with_content(path);
     PHYSFS_delete(path.c_str());
+    return false;
   });
 }
 
@@ -83,21 +91,75 @@ void remove_with_content(const std::string& dir)
   remove(dir);
 }
 
-bool enumerate_files(const std::string& pathname, std::function<void(const std::string&)> callback)
-{
-  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-  files(PHYSFS_enumerateFiles(pathname.c_str()),
-        PHYSFS_freeList);
+#undef PHYSFS_UTIL_DIRECTORY_GUARD
 
-  if(files == nullptr)
+/* Since PhysFS doesn't provide a way of knowing whether PHYSFS_enumerate has been stopped early
+   by the callback via PHYSFS_ENUM_STOP, we have to keep track of whether recursive enumeration
+   should stop here, to stop it altogether. */
+static bool s_physfs_enumerate_recurse_stop = false;
+
+static PHYSFS_EnumerateCallbackResult physfs_enumerate(void* data, const char*, const char* fname)
+{
+  auto* callback = static_cast<std::function<bool(const std::string&)>*>(data);
+  return callback->operator()(fname) ? PHYSFS_ENUM_STOP : PHYSFS_ENUM_OK;
+}
+
+static PHYSFS_EnumerateCallbackResult physfs_enumerate_recurse(void* data, const char* origdir, const char* fname)
+{
+  const std::string full_path = FileSystem::join(origdir, fname);
+
+  PHYSFS_Stat stat;
+  PHYSFS_stat(full_path.c_str(), &stat);
+  if (stat.filetype == PHYSFS_FILETYPE_DIRECTORY)
+  {
+    if (!PHYSFS_enumerate(full_path.c_str(), &physfs_enumerate_recurse, data))
+      throw std::runtime_error("Couldn't recursively enumerate directory '" + full_path + "'.");
+
+    if (s_physfs_enumerate_recurse_stop)
+      return PHYSFS_ENUM_STOP;
+  }
+  else
+  {
+    auto* callback = static_cast<std::function<bool(const std::string&)>*>(data);
+    if (callback->operator()(full_path))
+    {
+      s_physfs_enumerate_recurse_stop = true;
+      return PHYSFS_ENUM_STOP;
+    }
+  }
+
+  return PHYSFS_ENUM_OK;
+}
+
+bool enumerate_files(const std::string& pathname, std::function<bool(const std::string&)> callback)
+{
+  return PHYSFS_enumerate(pathname.c_str(), &physfs_enumerate, &callback);
+}
+
+bool enumerate_files_alphabetical(const std::string& pathname, std::function<bool(const std::string&)> callback)
+{
+  // PHYSFS_enumerateFiles guarantees alphabetical sorting.
+  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
+    files(PHYSFS_enumerateFiles(pathname.c_str()),
+          PHYSFS_freeList);
+
+  if (!files)
     return false;
 
-  for (const char* const* filename = files.get(); *filename != nullptr; ++filename)
+  for (const char* const* filename = files.get(); *filename; ++filename)
   {
-    callback(*filename);
+    if (callback(*filename))
+      break;
   }
 
   return true;
+}
+
+bool enumerate_files_recurse(const std::string& pathname, std::function<bool(const std::string&)> callback)
+{
+  const bool result = PHYSFS_enumerate(pathname.c_str(), &physfs_enumerate_recurse, &callback);
+  s_physfs_enumerate_recurse_stop = false;
+  return result;
 }
 
 } // namespace physfsutil

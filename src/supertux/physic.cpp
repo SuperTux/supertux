@@ -39,13 +39,6 @@ Physic::reset()
 }
 
 void
-Physic::set_velocity(float nvx, float nvy)
-{
-  vx = nvx;
-  vy = nvy;
-}
-
-void
 Physic::set_velocity(const Vector& vector)
 {
   vx = vector.x;
@@ -62,13 +55,6 @@ void
 Physic::set_wind_velocity(const Vector& vector) {
   wvx = vector.x;
   wvy = vector.y;
-}
-
-void
-Physic::set_acceleration(float nax, float nay)
-{
-  ax = nax;
-  ay = nay;
 }
 
 void

@@ -43,7 +43,7 @@ public:
   virtual TexturePtr get_texture() const override { return {}; }
 
   void flip();
-  SDL_Renderer* get_sdl_renderer() const { return m_renderer; }
+  inline SDL_Renderer* get_sdl_renderer() const { return m_renderer; }
 
 private:
   SDLVideoSystem& m_video_system;

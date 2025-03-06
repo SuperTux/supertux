@@ -45,10 +45,21 @@ YetiStalactite::is_hanging() const
 void
 YetiStalactite::active_update(float dt_sec)
 {
-  if (state == STALACTITE_HANGING)
+  if (state == STALACTITE_HANGING && !m_sticky)
     return;
 
   Stalactite::active_update(dt_sec);
+}
+
+void
+YetiStalactite::after_editor_set()
+{
+  auto target_action = "yeti-stalactite";
+  if (m_sprite->get_action() != target_action &&
+      m_sprite->has_action(target_action))
+  {
+    set_action(target_action);
+  }
 }
 
 void
@@ -59,7 +70,7 @@ YetiStalactite::update(float dt_sec)
     set_state(STATE_ACTIVE);
     state = STALACTITE_HANGING;
     // Attempt to minimize any potential collisions during this process.
-    set_action("normal");
+    set_action("default");
     set_pos(m_start_position);
     set_colgroup_active(COLGROUP_TOUCHABLE);
   }
@@ -71,13 +82,9 @@ YetiStalactite::update(float dt_sec)
 void
 YetiStalactite::draw(DrawingContext& context)
 {
-  if (Editor::is_active() &&
-      m_sprite->get_action() != "yeti-stalactite" &&
-      m_sprite->has_action("yeti-stalactite"))
+  if (Editor::is_active())
   {
-    set_action("yeti-stalactite");
     BadGuy::draw(context);
-    return;
   }
   else
   {

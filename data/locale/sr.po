@@ -1068,8 +1068,8 @@ msgstr "Ветар"
 
 #: src/supertux/command_line_arguments.cpp:79
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Употреба: %s [ОПЦИЈЕ] [ФАЈЛНИВОА]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Употреба: {} [ОПЦИЈЕ] [ФАЈЛНИВОА]"
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid "General Options:"
@@ -1247,8 +1247,8 @@ msgstr "Непознат објекат"
 
 #: src/supertux/levelintro.cpp:120
 #, c-format
-msgid "contributed by %s"
-msgstr "направио %s"
+msgid "contributed by {}"
+msgstr "направио {}"
 
 #: src/supertux/levelintro.cpp:141 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
@@ -1288,8 +1288,8 @@ msgstr "Свет"
 
 #: src/supertux/menu/addon_menu.cpp:83
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:139
 msgid "Language packs"
@@ -1325,13 +1325,13 @@ msgstr "Нису нађени додаци"
 
 #: src/supertux/menu/addon_menu.cpp:224
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Инсталирај %s *НОВО*"
+msgid "Install {} *NEW*"
+msgstr "Инсталирај {} *НОВО*"
 
 #: src/supertux/menu/addon_menu.cpp:235
 #, c-format
-msgid "Install %s"
-msgstr "Инсталирај %s"
+msgid "Install {}"
+msgstr "Инсталирај {}"
 
 #: src/supertux/menu/addon_menu.cpp:246
 msgid "No new Language packs found"
@@ -1370,8 +1370,8 @@ msgstr "Преузимам садржај ризнице додатака"
 
 #: src/supertux/menu/addon_menu.cpp:361
 #, c-format
-msgid "Downloading %s"
-msgstr "Преузимам %s"
+msgid "Downloading {}"
+msgstr "Преузимам {}"
 
 #: src/supertux/menu/addon_menu.cpp:408
 msgid ""
@@ -2032,13 +2032,13 @@ msgstr "Божићни режим"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Профил %s]"
+msgid "[Profile {}]"
+msgstr "[Профил {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "Профил %s"
+msgid "Profile {}"
+msgstr "Профил {}"
 
 #: src/supertux/menu/world_set_menu.cpp:41
 msgid "Story Mode"
