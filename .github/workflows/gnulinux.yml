@@ -79,8 +79,8 @@ jobs:
             libopenal-dev \
             libsdl2-dev \
             libsdl2-image-dev \
-            libsdl2-ttf-dev \
             libglib2.0-dev \
+            libfreetype6-dev \
             libraqm-dev \
             libglew-dev \
             libcurl4-openssl-dev \
@@ -116,7 +116,6 @@ jobs:
             libopenal-dev:i386 \
             libsdl2-dev:i386 \
             libsdl2-image-dev:i386 \
-            libsdl2-ttf-dev:i386 \
             libfreetype6-dev:i386 \
             libcurl4-openssl-dev:i386 \
             zlib1g-dev:i386 \
@@ -124,7 +123,7 @@ jobs:
             libglm-dev
 
           # These libraries don't exist for 32-bit in Ubuntu repositories.
-          vcpkg install --triplet x86-linux physfs glew
+          vcpkg install --triplet x86-linux physfs glew libraqm
 
       - name: Set compiler (gcc)
         if: ${{ matrix.compiler == 'gcc' }}
@@ -153,7 +152,7 @@ jobs:
           cd "build"
 
           # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
-          # vcpkg for physfs for 32bit
+          # vcpkg for physfs on 32bit
           & cmake .. -DCMAKE_BUILD_TYPE="$Env:BUILD_TYPE" -DENABLE_DISCORD=ON `
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
                      $(if ($Env:32BIT -eq "true") {

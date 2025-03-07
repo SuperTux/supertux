@@ -52,7 +52,7 @@ jobs:
           # Use GLM 1.0.0 as later versions don't build with clang
           HOMEBREW_NO_AUTO_UPDATE=1 brew install --formula ./mk/brew/glm.rb --build-from-source
           brew install cmake bash rename libogg libvorbis glew \
-                       openal-soft sdl2 sdl2_image sdl2_ttf \
+                       openal-soft sdl2 sdl2_image libraqm freetype \
                        glib gtk-doc zlib physfs fmt
 
           install_name_tool -change \

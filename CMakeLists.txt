@@ -145,14 +145,16 @@ add_package(TARGET fmt
   PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
 add_package(TARGET glm
   PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
+add_package(TARGET Freetype
+  PKG Freetype PKG_USE Freetype::Freetype CONFIG REQUIRED PKG_CONFIG freetype2)
+add_package(TARGET RAQM
+  PKG RAQM PKG_USE RAQM CONFIG PKG_CONFIG libraqm raqm)
 
 if(NOT EMSCRIPTEN)
   add_package(TARGET SDL2
     PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2)
   add_package(TARGET SDL2_image
     PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image)
-  add_package(TARGET SDL2_ttf
-    PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
   add_package(TARGET LibCURL
     PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
   add_package(TARGET OpenAL
@@ -170,7 +172,10 @@ if(EMSCRIPTEN)
   set(SSQ_BUILD_INSTALL NO)
 endif()
 
+set(SDL2TTF_RAQM ON)
+
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
+add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
 add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
 add_subdirectory(external/partio_zip EXCLUDE_FROM_ALL)

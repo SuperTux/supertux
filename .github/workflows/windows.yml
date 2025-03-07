@@ -69,11 +69,12 @@ jobs:
           vcpkg install openal-soft:$Env:ARCH-windows
           vcpkg install sdl2:$Env:ARCH-windows
           vcpkg install sdl2-image[libjpeg-turbo]:$Env:ARCH-windows
-          vcpkg install sdl2-ttf:$Env:ARCH-windows
           vcpkg install glm:$Env:ARCH-windows
           vcpkg install zlib:$Env:ARCH-windows
           vcpkg install fmt:$Env:ARCH-windows
           vcpkg install physfs:$Env:ARCH-windows
+          vcpkg install libraqm:$Env:ARCH-windows
+          vcpkg install freetype:$Env:ARCH-windows
 
       - name: Configure bulid
         env:

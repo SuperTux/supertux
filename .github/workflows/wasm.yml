@@ -67,6 +67,8 @@ jobs:
           vcpkg install zlib:wasm32-emscripten
           vcpkg install fmt:wasm32-emscripten
           vcpkg install physfs:wasm32-emscripten
+          vcpkg install libraqm:wasm32-emscripten
+          vcpkg install freetype:wasm32-emscripten
 
       - name: Configure build
         env:
