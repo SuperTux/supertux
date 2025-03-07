@@ -53,13 +53,7 @@ const float SAFE_TIME = 1.f; /**< The time we are safe when Tux just hit us. */
 
 const float JUMP_SPACE = 13.5f * 32.f; /**< Distance between the jump position and the stand position. */
 
-const float YETI_SQUISH_TIME = 3;
 const float TUX_GRAB_DISTANCE = 100.f;
-
-const float SNOW_EXPLOSIONS_FREQUENCY = 8; /**< Number of snowball explosions per second. */
-const int SNOW_EXPLOSIONS_COUNT = 5; /**< Number of snowballs per explosion. */
-const float SNOW_EXPLOSIONS_VX = 150; /**< Speed of snowballs. */
-const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs. */
 }
 
 Yeti::Yeti(const ReaderMapping& reader) :

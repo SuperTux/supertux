@@ -96,7 +96,6 @@ private:
   float m_left_jump_x;
   float m_right_jump_x;
 
-  bool m_fixed_pos;
   bool m_just_hit;
   bool m_pinch_announced;
   bool m_grabbed_tux;
