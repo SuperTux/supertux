@@ -3,7 +3,7 @@ Install instructions for SuperTux - <https://supertux.org/>
 Last update: August 28, 2024
 
 Quick links:
-- [Binaires](#binaries)
+- [Binaries](#binaries)
   - [Releases](#releases)
   - [Nightlies](#nightlies)
 - [Compiling](#compiling)

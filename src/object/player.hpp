@@ -297,6 +297,7 @@ public:
   inline bool is_swimboosting() const { return m_swimboosting; }
   inline bool is_water_jumping() const { return m_water_jump; }
   inline bool is_skidding() const { return m_skidding_timer.started(); }
+  inline bool is_scripting_activated() const { return !m_deactivated; }
   inline float get_swimming_angle() const { return m_swimming_angle; }
 
   /**
@@ -567,7 +568,8 @@ public:
 
 private:
   Timer m_skidding_timer;
-  Timer m_safe_timer;
+  Timer m_post_damage_safety_timer;
+  Timer m_temp_safety_timer;
 
   /**
    * @scripting

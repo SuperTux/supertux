@@ -1023,7 +1023,7 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 
       m_editor.get_selected_tilemap()->check_state();
     }
-    else if (m_editor.get_tileselect_input_type() == EditorTilebox::InputType::OBJECT)
+    else
     {
       if (m_dragging && m_dragged_object) {
         m_dragged_object->check_state();

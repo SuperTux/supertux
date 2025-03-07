@@ -102,13 +102,13 @@ InfoBoxLine::InfoBoxLine(char format_char, const std::string& text_) :
 }
 
 std::vector<std::unique_ptr<InfoBoxLine> >
-InfoBoxLine::split(const std::string& text, float width)
+InfoBoxLine::split(const std::string& text, float width, bool small)
 {
   std::vector<std::unique_ptr<InfoBoxLine> > lines;
 
   std::string::size_type i = 0;
   std::string::size_type l;
-  char format_char = '#';
+  char format_char = small ? ' ' : '#';
   while (i < text.size()) {
     // take care of empty lines - represent them as blank lines of normal text
     if (text[i] == '\n') {
@@ -125,7 +125,7 @@ InfoBoxLine::split(const std::string& text, float width)
     }
     else
     {
-      format_char = '#';
+      format_char = small ? ' ' : '#';
     }
     if (i >= text.size()) break;
 
@@ -155,22 +155,50 @@ InfoBoxLine::split(const std::string& text, float width)
   return lines;
 }
 
+Vector
+InfoBoxLine::calc_text_pos(const Rectf& bbox, float textwidth, LineAlignment alignment) const
+{
+  float x = 0.f;
+  switch (alignment)
+  {
+    case LineAlignment::LEFT:
+      x = bbox.get_left();
+      break;
+
+    case LineAlignment::RIGHT:
+      x = bbox.get_right() - textwidth;
+      break;
+
+    case LineAlignment::CENTER:
+      x = ((bbox.get_left() + bbox.get_right()) / 2 - (textwidth / 2));
+      break;
+
+    default:
+      break;
+  }
+
+  return Vector(x, bbox.get_top());
+}
+
 void
 InfoBoxLine::draw(DrawingContext& context, const Rectf& bbox, int layer, LineAlignment alignment)
 {
-  Vector position = bbox.p1();
-  switch (lineType) {
+  Vector pos;
+
+  switch (lineType)
+  {
     case IMAGE:
-      context.color().draw_surface(image, Vector(((bbox.get_left() + bbox.get_right() - static_cast<float>(image->get_width())) * 0.5f)
-        + (static_cast<float>(image->get_width()) * (alignment == LineAlignment::LEFT ? 0.5f : alignment == LineAlignment::RIGHT ? -0.5f : 0.f)), position.y), layer);
+      pos = calc_text_pos(bbox, static_cast<float>(image->get_width()), alignment);
+      context.color().draw_surface(image, pos, layer);
       break;
+
     case NORMAL_LEFT:
-      context.color().draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer, color);
+      context.color().draw_text(font, text, bbox.p1(), ALIGN_LEFT, layer, color);
       break;
+
     default:
-      context.color().draw_text(font, text, Vector((bbox.get_left() + bbox.get_right()) / 2.f, position.y),
-        alignment == LineAlignment::LEFT ? ALIGN_LEFT :
-        alignment == LineAlignment::RIGHT ? ALIGN_RIGHT : ALIGN_CENTER, layer, color);
+      pos = calc_text_pos(bbox, font->get_text_width(text), alignment);
+      context.color().draw_text(font, text, pos, ALIGN_LEFT, layer, color);
       break;
   }
 }

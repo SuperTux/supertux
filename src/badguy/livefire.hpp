@@ -67,6 +67,7 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual void initialize() override;
+  virtual void after_editor_set() override;
   static std::string class_name() { return "livefire_asleep"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Sleeping Flame"); }
@@ -86,6 +87,7 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual void initialize() override;
+  virtual void after_editor_set() override;
   static std::string class_name() { return "livefire_dormant"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Dormant Flame"); }
