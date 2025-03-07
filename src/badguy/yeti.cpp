@@ -310,7 +310,7 @@ Yeti::active_update(float dt_sec)
 
       if (m_sprite->animation_done())
       {
-        if (m_attack_count >= 1)
+        if (m_attack_count >= (m_lives == 1 ? 2 : 1))
         {
           m_next_state = RUN;
           m_attack_count = 0;
