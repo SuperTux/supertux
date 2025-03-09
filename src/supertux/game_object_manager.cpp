@@ -808,7 +808,8 @@ GameObjectManager::register_class(ssq::VM& vm)
   cls.addFunc("get_ambient_blue", &GameObjectManager::get_ambient_blue);
   cls.addFunc("set_music", &GameObjectManager::set_music);
   cls.addFunc<void, GameObjectManager, const std::string&, const std::string&,
-              float, float, const std::string&, const std::string&>("add_object", &GameObjectManager::add_object);
+              float, float, const std::string&, const std::string&>("add_object",
+                &GameObjectManager::add_object, ssq::DefaultArguments<const std::string&, const std::string&>("auto", ""));
 }
 
 /* EOF */
