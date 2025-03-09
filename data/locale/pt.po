@@ -8,9 +8,10 @@
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # BlaCoiso, 2016
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
-# FunGame, 2024-2025
+# João Carlos P.P., 2024-2025
 # Hugo Carvalho <hugokarvalho@hotmail.com>, 2022-2024
 # Ian Rodríguez Lorenzo, 2022
+# João Carlos P.P., 2025
 # João Frade <100nome.portugal@gmail.com>, 2023
 # José Fryxell, 2022
 # zecas <jjorge@free.fr>, 2008
@@ -30,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: lecalam, 2024-2025\n"
+"Last-Translator: João Carlos P.P., 2025\n"
 "Language-Team: Portuguese (http://app.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4056,7 +4057,7 @@ msgstr "Nó do caminho"
 
 #: src/editor/node_marker.cpp:123
 msgid "Press CTRL to move Bezier handles"
-msgstr "Prime CTRL para mover as alças de Bézier"
+msgstr "Pressione CTRL para mover as alças de Bézier"
 
 #: src/editor/node_marker.cpp:127
 msgid "Easing"
