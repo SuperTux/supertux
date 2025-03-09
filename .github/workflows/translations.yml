@@ -23,7 +23,7 @@ on:
 
 jobs:
   update-all-translations:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout SuperTux repository
         uses: actions/checkout@v4
