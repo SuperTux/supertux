@@ -8,7 +8,7 @@
   (icon-locked "")
   (sector
     (name "main")
-    (init-script "import(\"levels/world1_for_v0_7/worldmap.nut\");")
+    (init-script "import(\"levels/world1/worldmap.nut\");")
     (ambient-light
       (color 1 1 1)
     )

@@ -14,7 +14,7 @@
   )
   (sector
     (name "main")
-    (init-script "import(\"levels/world1_for_v0_7/crystal_mine.nut\");
+    (init-script "import(\"levels/world1/crystal_mine.nut\");
 
 Text.set_anchor_point(7);
 Text.set_anchor_offset(0, -160);
