@@ -129,11 +129,7 @@ ReaderMapping::get(const char* key, std::string& value, const std::optional<cons
     if (item[1].is_string()) {
       value = item[1].as_string();
       return true;
-    } else if (item[1].is_array() &&
-               item[1].as_array().size() == 2 &&
-               item[1].as_array()[0].is_symbol() &&
-               item[1].as_array()[0].as_string() == "_" &&
-               item[1].as_array()[1].is_string()) {
+    } else if (item[1].is_translatable_string()) {
       if (s_translations_enabled) {
         value = _(item[1].as_array()[1].as_string());
       } else {
