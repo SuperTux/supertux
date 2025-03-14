@@ -210,7 +210,7 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
 
       if (m_autotile_mode)
       {
-        AutotileSet* autotileset = get_current_autotileset();
+        auto autotileset = get_current_autotileset();
         if (autotileset)
         {
           if (tile == 0)
@@ -231,7 +231,11 @@ namespace {
   // segment from pos1 to pos2 (similarly to a line drawing algorithm)
   std::vector<Vector> rasterize_line_segment(Vector pos1, Vector pos2)
   {
-    if (pos1 == pos2) return std::vector<Vector> {pos1};
+    if (pos1 == pos2)
+    {
+      return std::vector<Vector>{ pos1 };
+    }
+
     // An integer position (x, y) contains all floating point vectors in
     // [x, x+1) x [y, y+1)
     std::vector<Vector> positions;
