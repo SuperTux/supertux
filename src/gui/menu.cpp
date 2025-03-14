@@ -45,15 +45,17 @@
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "math/util.hpp"
+#include "supertux/error_handler.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
+#include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-#include "supertux/error_handler.hpp"
+const float Menu::s_preview_fade_time = 0.1f;
 
 Menu::Menu() :
   m_pos(Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f,
@@ -65,12 +67,35 @@ Menu::Menu() :
   m_menu_help_height(0.0f),
   m_items(),
   m_arrange_left(0),
-  m_active_item(-1)
+  m_active_item(-1),
+  m_has_previews(false),
+  m_last_preview_item(-1),
+  m_preview_fade_timer(),
+  m_preview_fade_active(false),
+  m_preview_fading_out(false)
 {
+  m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0);
 }
 
 Menu::~Menu()
 {
+}
+
+void
+Menu::align_for_previews(float x_offset)
+{
+  for (const auto& item : m_items)
+  {
+    if (item->get_preview())
+    {
+      // Adjust center position to give space for displaying previews.
+      set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2 - get_width() / 2 - x_offset,
+                     static_cast<float>(SCREEN_HEIGHT) / 2);
+      m_has_previews = true;
+      return;
+    }
+  }
+  m_has_previews = false;
 }
 
 /* Add an item to a menu */
@@ -498,6 +523,7 @@ Menu::on_window_resize()
 
   calculate_width();
   calculate_height();
+  align_for_previews();
 
   for (auto& item : m_items)
     item->on_window_resize();
@@ -520,13 +546,12 @@ Menu::draw(DrawingContext& context)
     const int text_width = static_cast<int>(Resources::normal_font->get_text_width(m_items[m_active_item]->get_help()));
     const int text_height = static_cast<int>(Resources::normal_font->get_text_height(m_items[m_active_item]->get_help()));
 
-    const Rectf text_rect(m_pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
-                          static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
-                          m_pos.x + static_cast<float>(text_width) / 2.0f + 8.0f,
-                          static_cast<float>(SCREEN_HEIGHT) - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
+    const Rectf text_rect(context.get_width() / 2 - static_cast<float>(text_width) / 2.0f - 8.0f,
+                          context.get_height() - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
+                          context.get_width() / 2 + static_cast<float>(text_width) / 2.0f + 8.0f,
+                          context.get_height() - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
 
-    context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
-                                           text_rect.p2() + Vector(4,4)),
+    context.color().draw_filled_rect(text_rect.grown(4),
                                      g_config->menuhelpbackcolor,
                                      g_config->menuroundness + 4.f,
                                      LAYER_GUI);
@@ -537,9 +562,80 @@ Menu::draw(DrawingContext& context)
                                      LAYER_GUI);
 
     context.color().draw_text(Resources::normal_font, m_items[m_active_item]->get_help(),
-                              Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
+                              Vector(context.get_width() / 2, context.get_height() - 48.0f - static_cast<float>(text_height) / 2.0f),
                               ALIGN_CENTER, LAYER_GUI);
   }
+
+  if (m_has_previews) draw_preview(context);
+}
+
+void
+Menu::draw_preview(DrawingContext& context)
+{
+  bool valid_last_index = last_preview_index_valid();
+
+  // Update fade.
+  if (m_active_item != m_last_preview_item && !m_preview_fade_active) // Index has changed, there is no current fade.
+  {
+    if (valid_last_index) // Fade out only if the last index is valid.
+      m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0.f);
+    m_preview_fading_out = true;
+    m_preview_fade_active = true;
+  }
+  float timeleft = m_preview_fade_timer.get_timeleft();
+  if (timeleft < 0 && m_preview_fade_active) // Current fade is over.
+  {
+    m_last_preview_item = m_active_item;
+    valid_last_index = last_preview_index_valid(); // Repeat valid last index check
+    if (m_preview_fading_out) // After a fade-out, a fade-in should follow up.
+    {
+      m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0.f);
+      timeleft = m_preview_fade_timer.get_timeleft();
+      m_preview_fading_out = false;
+    }
+    else
+    {
+      m_preview_fade_active = false;
+    }
+  }
+
+  // Set alpha according to fade.
+  float alpha = 1.f;
+  if (timeleft > 0)
+  {
+    const float alpha_val = timeleft * (1.f / s_preview_fade_time);
+    alpha = m_preview_fading_out ? alpha_val : 1.f - alpha_val;
+  }
+
+  // Perform actions only if current index is a valid preview index.
+  if (valid_last_index)
+  {
+    // Draw progress preview of current item.
+    const Sizef preview_size(context.get_width() / 2.5f, context.get_height() / 2.5f);
+    SurfacePtr preview = m_items[m_last_preview_item]->get_preview();
+    Rectf preview_rect(Vector(context.get_width() * 0.73f - preview_size.width / 2,
+                              context.get_height() / 2 - preview_size.height / 2),
+                       Sizef(static_cast<float>(preview->get_width()),
+                             static_cast<float>(preview->get_height())));
+    preview_rect.fit_centered(preview_size);
+
+    PaintStyle style;
+    style.set_alpha(alpha);
+    context.color().draw_surface_scaled(preview, preview_rect, LAYER_GUI + 1, style);
+
+    // Draw a border around the preview.
+    context.color().draw_filled_rect(preview_rect.grown(2.f),
+                                     Color(1.f, 1.f, 1.f, alpha), 2.f, LAYER_GUI);
+
+    // Draw other data, alongside the preview, if available.
+    draw_preview_data(context, preview_rect, alpha);
+  }
+}
+
+bool
+Menu::last_preview_index_valid() const
+{
+  return m_last_preview_item > -1 && m_items[m_last_preview_item]->get_preview();
 }
 
 MenuItem&
