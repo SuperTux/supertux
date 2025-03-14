@@ -1,5 +1,7 @@
 (supertux-music
   (file "bright_thunders.ogg")
+  (authors "Chris \"Krobonil\" Leutwyler")
+  (license "CC-BY-SA")
   (loop-begin 0)
   (loop-at -1)
 )
