@@ -71,7 +71,7 @@ private:
 
   Rectf get_hovered_item_rect() const;
 
-  SurfacePtr get_mouse_icon() const;
+  ToolIcon* get_mouse_icon() const;
 
 private:
   Editor& m_editor;

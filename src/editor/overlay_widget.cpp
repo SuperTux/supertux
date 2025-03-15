@@ -68,7 +68,7 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_sector_pos(0, 0),
   m_mouse_pos(0, 0),
   m_previous_mouse_pos(0, 0),
-  m_time_prev_put_tile(std::chrono::steady_clock::now()),
+  m_time_prev_put_tile(steady_clock::now()),
   m_dragging(false),
   m_dragging_right(false),
   m_scrolling(false),
@@ -313,9 +313,8 @@ namespace {
 void
 EditorOverlayWidget::put_next_tiles()
 {
-  auto time_now = std::chrono::steady_clock::now();
-  int expired_ms = static_cast<int>(std::chrono::duration_cast<
-    std::chrono::milliseconds>(time_now - m_time_prev_put_tile).count());
+  auto time_now = steady_clock::now();
+  int expired_ms = static_cast<int>(duration_cast<milliseconds>(time_now - m_time_prev_put_tile).count());
   m_time_prev_put_tile = time_now;
   if (expired_ms > 70)
   {
@@ -519,7 +518,7 @@ EditorOverlayWidget::hover_object()
   BezierMarker* marker_hovered_without_ctrl = nullptr;
 
   bool cache_is_marker = false;
-  int cache_layer = -2147483648;
+  int cache_layer = INT_MIN;
 
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
