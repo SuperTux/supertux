@@ -127,7 +127,7 @@ FallBlock::found_victim_down() const
     if ((player_bbox.get_top() >= m_col.m_bbox.get_bottom())
         && (player_bbox.get_right() > (m_col.m_bbox.get_left() - 4))
         && (player_bbox.get_left() < (m_col.m_bbox.get_right() + 4))
-        && (Sector::get().is_free_of_statics(crush_area_down, this, false)))
+        && (Sector::get().is_free_of_statics(crush_area_down, { get_collision_object() }, false)))
     {
       return true;
     }
