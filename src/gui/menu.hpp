@@ -22,7 +22,9 @@
 #include <SDL.h>
 
 #include "gui/menu_action.hpp"
+#include "math/rectf.hpp"
 #include "math/vector.hpp"
+#include "supertux/timer.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
@@ -53,6 +55,9 @@ class PathObject;
 
 class Menu
 {
+protected:
+  static const float s_preview_fade_time;
+
 public:
   Menu();
   virtual ~Menu();
@@ -113,6 +118,9 @@ public:
   /** Remove all entries from the menu */
   void clear();
 
+  /** Align the menu to the left side, if any previews are available. */
+  void align_for_previews(float x_offset = 30.f);
+
   MenuItem& get_item(int index) { return *(m_items[index]); }
 
   MenuItem& get_item_by_id(int id);
@@ -148,9 +156,14 @@ protected:
   /** Recalculates the height for this menu */
   void calculate_height();
 
+  /** Draw additional data to accompany item previews. */
+  virtual void draw_preview_data(DrawingContext& context, const Rectf& preview_rect, float alpha) {}
+
 private:
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index, float y_pos);
+  void draw_preview(DrawingContext& context);
+  bool last_preview_index_valid() const;
 
 private:
   /** position of the menu (ie. center of the menu, not top/left) */
@@ -171,6 +184,13 @@ private:
 
 protected:
   int m_active_item;
+
+  /* Preview implementation variables. */
+  bool m_has_previews;
+  int m_last_preview_item;
+  Timer m_preview_fade_timer;
+  bool m_preview_fade_active;
+  bool m_preview_fading_out;
 
 private:
   Menu(const Menu&) = delete;
