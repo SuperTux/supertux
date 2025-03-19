@@ -590,6 +590,7 @@ CollisionSystem::update()
     object->m_pressure = Vector(0, 0);
     object->m_dest.move(object->get_movement());
     object->clear_bottom_collision_list();
+    object->clear_wind_collision_list();
   }
 
   // Part 1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap.
