@@ -1,96 +1,59 @@
 (supertux-sprite
   (action
     (name "idle")
-    (hitbox 458 360 95 70)
-	(fps 12)
+    (hitbox 526 520 48 48)
+	(fps 10)
     (images
-      "idle_0.png"
-	  "idle_0.png"
-	  "idle_1.png"
-	  "idle_1.png"
-	  "idle_2.png"
-	  "idle_3.png"
-	  "idle_4.png"
-	  "idle_5.png"
-	  "idle_5.png"
-	  "idle_5.png"
-	  "idle_5.png"
-	  "idle_5.png"
-	  "idle_5.png"
-	  "idle_5.png"
-	  "idle_5.png"
-	  "idle_5.png"
-	  "idle_4.png"
-	  "idle_3.png"
-	  "idle_2.png"
-	  "idle_1.png"
-	  "idle_1.png"
-	  "idle_0.png"
-	  "idle_0.png"
+      "idle-0.png"
     )
-  ) 
+  )
+  (action
+    (name "charge")
+    (hitbox 526 520 48 48)
+	(fps 10)
+    (images
+      "charge-0.png"
+    )
+  )
   (action
     (name "scream")
-    (hitbox 458 360 95 70)
-    (fps 12)
+    (hitbox 526 520 48 48)
+	(fps 10)
     (images
       "scream-0.png"
     )
   )
-  (action
-    (name "inhale")
-    (hitbox 458 360 95 70)
-    (fps 12)
-    (images
-      "inhale-0.png"
-    )
-  )
   
   (action
-    (name "red-burst")
-    (hitbox 458 360 95 70)
-    (fps 12)
+    (name "idle-pinch")
+    (hitbox 296 520 48 48)
+	(fps 10)
     (images
-      "redburst-0.png"
+      "pinch_idle-0.png"
     )
   )
   (action
-    (name "green-burst")
-    (hitbox 458 360 95 70)
-    (fps 12)
+    (name "charge-pinch")
+    (hitbox 296 520 48 48)
+	(fps 10)
     (images
-      "greenburst-0.png"
+      "pinch_charge-0.png"
     )
   )
   (action
-    (name "blue-burst")
-    (hitbox 458 360 95 70)
-    (fps 12)
+    (name "scream-pinch")
+    (hitbox 296 520 48 48)
+	(fps 10)
     (images
-      "blueburst-0.png"
-    )
-  )
-  
-  (action
-    (name "swallow")
-    (hitbox 458 360 95 70)
-    (fps 12)
-    (images
-      "swallow-0.png"
-      "swallow-1.png"
-      "swallow-2.png"
-      "swallow-3.png"
+      "pinch_scream-0.png"
     )
   )
   (action
-    (name "dying")
-    (hitbox 458 360 95 70)
-    (fps 12)
+    (name "busted")
+    (hitbox 296 520 48 48)
+	(fps 10)
     (images
-      "ghosttree-dying-0.png"
-      "ghosttree-dying-1.png"
-      "ghosttree-dying-2.png"
-      "ghosttree-dying-3.png"
+      "bust-0.png"
     )
   )
 )
