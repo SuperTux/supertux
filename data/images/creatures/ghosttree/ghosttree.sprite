@@ -1,31 +1,96 @@
 (supertux-sprite
   (action
-    (name "default")
-    (hitbox 230 300 40 60)
+    (name "idle")
+    (hitbox 458 360 95 70)
+	(fps 12)
     (images
-      "ghosttree.png"
+      "idle_0.png"
+	  "idle_0.png"
+	  "idle_1.png"
+	  "idle_1.png"
+	  "idle_2.png"
+	  "idle_3.png"
+	  "idle_4.png"
+	  "idle_5.png"
+	  "idle_5.png"
+	  "idle_5.png"
+	  "idle_5.png"
+	  "idle_5.png"
+	  "idle_5.png"
+	  "idle_5.png"
+	  "idle_5.png"
+	  "idle_5.png"
+	  "idle_4.png"
+	  "idle_3.png"
+	  "idle_2.png"
+	  "idle_1.png"
+	  "idle_1.png"
+	  "idle_0.png"
+	  "idle_0.png"
+    )
+  ) 
+  (action
+    (name "scream")
+    (hitbox 458 360 95 70)
+    (fps 12)
+    (images
+      "scream-0.png"
     )
   )
   (action
-    (name "swallow")
-    (hitbox 230 300 40 60)
-    (fps 16)
+    (name "inhale")
+    (hitbox 458 360 95 70)
+    (fps 12)
     (images
-      "ghosttree-swallow-0.png"
-      "ghosttree-swallow-1.png"
-      "ghosttree-swallow-2.png"
-      "ghosttree-swallow-3.png"
+      "inhale-0.png"
+    )
+  )
+  
+  (action
+    (name "red-burst")
+    (hitbox 458 360 95 70)
+    (fps 12)
+    (images
+      "redburst-0.png"
+    )
+  )
+  (action
+    (name "green-burst")
+    (hitbox 458 360 95 70)
+    (fps 12)
+    (images
+      "greenburst-0.png"
+    )
+  )
+  (action
+    (name "blue-burst")
+    (hitbox 458 360 95 70)
+    (fps 12)
+    (images
+      "blueburst-0.png"
+    )
+  )
+  
+  (action
+    (name "swallow")
+    (hitbox 458 360 95 70)
+    (fps 12)
+    (images
+      "swallow-0.png"
+      "swallow-1.png"
+      "swallow-2.png"
+      "swallow-3.png"
     )
   )
   (action
     (name "dying")
-    (hitbox 230 300 40 60)
-    (fps 4)
+    (hitbox 458 360 95 70)
+    (fps 12)
     (images
       "ghosttree-dying-0.png"
-      "ghosttree-dying-0.png"
-      "ghosttree-dying-0.png"
-      "ghosttree-dying-0.png"
+      "ghosttree-dying-1.png"
+      "ghosttree-dying-2.png"
+      "ghosttree-dying-3.png"
     )
   )
 )
