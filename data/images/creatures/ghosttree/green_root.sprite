@@ -1,0 +1,7 @@
+(supertux-sprite
+  (action
+    (name "default")
+	(hitbox 32 40 32 88)
+    (images "green_root.png")
+  )
+)
