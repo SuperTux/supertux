@@ -142,8 +142,7 @@ SDLBaseVideoSystem::apply_video_mode()
 
     Size window_size;
     SDL_GetWindowSize(m_sdl_window.get(), &window_size.width, &window_size.height);
-    if (g_config->window_size.width != window_size.width ||
-        g_config->window_size.height != window_size.height)
+    if (g_config->window_size != window_size)
     {
       SDL_SetWindowSize(m_sdl_window.get(), g_config->window_size.width, g_config->window_size.height);
     }
@@ -154,8 +153,7 @@ SDLBaseVideoSystem::apply_video_mode()
   }
   else
   {
-    if (g_config->fullscreen_size.width == 0 &&
-        g_config->fullscreen_size.height == 0)
+    if (g_config->fullscreen_size == Size(0, 0))
     {
       if (SDL_SetWindowFullscreen(m_sdl_window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
       {
