@@ -19,8 +19,41 @@
 
 #include <tinygettext/tinygettext.hpp>
 #include <memory>
+#include <regex>
+
+#include "control/controller.hpp"
+#include "control/keyboard_config.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/menu/keyboard_menu.hpp"
+#include "util/log.hpp"
 
 extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
+
+/**
+ * @brief Substitutes variables within translated text with their actual value
+ *        Currently, only {keyref} is supported for substitution.
+ *
+ * @param message The text to replace variables in
+ * @return std::string Text with replaced variables
+ */
+static inline std::string replace_variables(const std::string& message)
+{
+  std::string translated_message = message;
+  const std::regex keyref_format("\\{keyref\\s+(.+)\\}");
+  std::smatch matches;
+
+  while (std::regex_search(translated_message, matches, keyref_format))
+  {
+    const auto maybe_control = Control_from_string(matches[1].str());
+    if(maybe_control && maybe_control.has_value())
+    {
+      auto key_code = g_config->keyboard_config.reversemap_key(0, maybe_control.value());
+      translated_message = std::regex_replace(translated_message, keyref_format, KeyboardMenu::get_key_name(key_code));
+    }
+  }
+  return translated_message;
+}
 
 /*
  * If you need to do a nontrivial substitution of values into a pattern, use
@@ -57,32 +90,34 @@ extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
 
 static inline std::string _(const std::string& message)
 {
+  std::string translated_message = message;
   if (g_dictionary_manager)
   {
-    return g_dictionary_manager->get_dictionary().translate(message);
+    translated_message = g_dictionary_manager->get_dictionary().translate(message);
   }
-  else
-  {
-    return message;
-  }
+
+  return replace_variables(translated_message);
 }
 
 static inline std::string __(const std::string& message,
     const std::string& message_plural, int num)
 {
+  std::string translated_message = message;
   if (g_dictionary_manager)
   {
-    return g_dictionary_manager->get_dictionary().translate_plural(message,
+    translated_message = g_dictionary_manager->get_dictionary().translate_plural(message,
         message_plural, num);
   }
   else if (num == 1)
   {
-    return message;
+    translated_message = message;
   }
   else
   {
-    return message_plural;
+    translated_message = message_plural;
   }
+
+  return replace_variables(translated_message);
 }
 
 #endif

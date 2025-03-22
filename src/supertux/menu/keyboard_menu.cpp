@@ -74,7 +74,7 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager, int player_id) :
 }
 
 std::string
-KeyboardMenu::get_key_name(SDL_Keycode key) const
+KeyboardMenu::get_key_name(SDL_Keycode key)
 {
   switch (key) {
     case SDLK_UNKNOWN:
@@ -108,7 +108,7 @@ KeyboardMenu::get_key_name(SDL_Keycode key) const
     case SDLK_LGUI:
       return _("Left Command");
     default:
-      return SDL_GetKeyName(static_cast<SDL_Keycode>(key));
+      return SDL_GetKeyName(key);
   }
 }
 
@@ -140,7 +140,7 @@ KeyboardMenu::refresh()
 
   if (g_config->developer_mode && m_player_id == 0)
   {
-    for(const auto& control: developer_controls)
+    for(const auto& control : developer_controls)
     {
       refresh_control(control);
     }

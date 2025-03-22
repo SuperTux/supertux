@@ -29,7 +29,7 @@ public:
   KeyboardMenu(InputManager& input_manager, int player_id = 0);
 
   void refresh() override;
-  std::string get_key_name(SDL_Keycode key) const;
+  static std::string get_key_name(SDL_Keycode key);
   void menu_action(MenuItem& item) override;
 
 private:
