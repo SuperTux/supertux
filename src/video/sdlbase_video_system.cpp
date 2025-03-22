@@ -88,8 +88,7 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
     else
     {
       flags |= SDL_WINDOW_FULLSCREEN;
-      size.width  = g_config->fullscreen_size.width;
-      size.height = g_config->fullscreen_size.height;
+      size = g_config->fullscreen_size;
     }
   }
   else
