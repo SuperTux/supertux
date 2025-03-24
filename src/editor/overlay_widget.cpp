@@ -312,7 +312,7 @@ void
 EditorOverlayWidget::put_next_tiles()
 {
   auto time_now = std::chrono::steady_clock::now();
-  int expired_ms = static_cast<int>(duration_cast<std::chrono::milliseconds>(time_now - m_time_prev_put_tile).count());
+  int expired_ms = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(time_now - m_time_prev_put_tile).count());
   m_time_prev_put_tile = time_now;
   if (expired_ms > 70)
   {
