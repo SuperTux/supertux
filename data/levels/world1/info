@@ -1,6 +1,8 @@
-(supertux-world
-  (title (_ "Icy Island"))
-  (description "The first world of SuperTux.")
-  (hide-from-contribs #t)
+(supertux-level-subset
+  (title (_ "Icy Island v0.7"))
+  (description (_ "Work in Progress Icy Island for SuperTux v0.7."))
   (levelset #f)
+  (contrib-type "user")
+  (hide-from-contribs #f)
+  (title-level "/levels/misc/menu.stl")
 )
