@@ -129,14 +129,14 @@ RustyTrampoline::collision_solid(const CollisionHit& hit) {
 void
 RustyTrampoline::grab(MovingObject& object, const Vector& pos, Direction dir) {
   Rock::grab(object, pos, dir);
+  set_action("breaking", 1);
+  counter = 0; //remove in update()
 }
 
 void
 RustyTrampoline::ungrab(MovingObject& object, Direction dir)
 {
   Rock::ungrab(object, dir);
-  set_action("breaking", 1);
-  counter = 0; //remove in update()
 }
 
 bool
