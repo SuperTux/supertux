@@ -166,6 +166,9 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
       m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
       SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
       m_physic.set_velocity_x(-m_physic.get_velocity_x() * .975f);
+    } else if ((hit.left && m_dir == Direction::RIGHT) || (hit.right && m_dir == Direction::LEFT)) {
+      SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
+      m_physic.set_velocity_x(-m_physic.get_velocity_x() * .975f);
     }
     set_action("flat", m_dir, /* loops = */ -1);
     if (fabsf(m_physic.get_velocity_x()) < walk_speed * 1.5f)
