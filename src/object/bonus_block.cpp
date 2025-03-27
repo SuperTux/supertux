@@ -192,6 +192,30 @@ BonusBlock::get_default_sprite_name() const
   }
 }
 
+bool
+BonusBlock::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("orangeblock") != std::string::npos)
+  {
+    type = "orange";
+    return true;
+  }
+
+  if (sprite_name.find("purpleblock") != std::string::npos)
+  {
+    type = "purple";
+    return true;
+  }
+
+  if (sprite_name.find("retroblock") != std::string::npos)
+  {
+    type = "retro";
+    return true;
+  }
+
+  return false;
+}
+
 void
 BonusBlock::on_type_change(int old_type)
 {
