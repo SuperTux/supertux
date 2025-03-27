@@ -153,7 +153,7 @@ Rock::collision_solid(const CollisionHit& hit)
   if (is_grabbed()) {
     return;
   }
-  if (hit.top || hit.bottom)
+  if (!m_on_ice && (hit.top || hit.bottom))
     m_physic.set_velocity_y(0);
 
   if (hit.left || hit.right) {
