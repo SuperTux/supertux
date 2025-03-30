@@ -26,7 +26,12 @@ void
 FishHarmless::initialize()
 {
   FishSwimming::initialize();
-  set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+  set_colgroup_active(COLGROUP_MOVING);
+}
+
+HitResponse
+FishHarmless::collision_player(Player& player, const CollisionHit& hit) {
+  return HitResponse::ABORT_MOVE;
 }
 
 /* EOF */

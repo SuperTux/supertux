@@ -18,11 +18,13 @@
 #include "collision/collision_object.hpp"
 
 #include "collision/collision_movement_manager.hpp"
+#include "object/wind.hpp"
 #include "supertux/moving_object.hpp"
 
 CollisionObject::CollisionObject(CollisionGroup group, MovingObject& parent) :
   m_parent(parent),
   m_bbox(),
+  m_colliding_wind(),
   m_group(group),
   m_movement(0.0f, 0.0f),
   m_dest(),
@@ -48,6 +50,9 @@ CollisionObject::collides(CollisionObject& other, const CollisionHit& hit) const
 HitResponse
 CollisionObject::collision(CollisionObject& other, const CollisionHit& hit)
 {
+  if(dynamic_cast<Wind*>(&other.m_parent)) {
+    collide_wind(other);
+  }
   return m_parent.collision(other.m_parent, hit);
 }
 
@@ -71,6 +76,17 @@ void
 CollisionObject::notify_object_removal(CollisionObject* other)
 {
   m_objects_hit_bottom.erase(other);
+  m_colliding_wind.erase(other);
+}
+
+void
+CollisionObject::collide_wind(CollisionObject& other) {
+  m_colliding_wind.insert(&other);
+}
+
+void
+CollisionObject::clear_wind_collision_list() {
+  m_colliding_wind.clear();
 }
 
 void
