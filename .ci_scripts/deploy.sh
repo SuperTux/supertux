@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 shopt -s nullglob
+# git bash tries to be "helpful" and convert URL into a windows-based absolute path without this
+MSYS_NO_PATHCONV=1
 
 for file in upload/SuperTux*; do
     file_base=$(basename $file)
@@ -8,11 +10,11 @@ for file in upload/SuperTux*; do
     export URL="/${PREFIX}/$file_base"
     export SIZE=$(($(wc -c < "$file")))
     if [ $IS_WINDOWS = true ] ; then
-        export shasum=$(powershell -command "Get-FileHash \"$file\" -Algorithm SHA256 | Select-Object -ExpandProperty Hash")
+        export SHASUM=$(powershell -command "Get-FileHash \"$file\" -Algorithm SHA256 | Select-Object -ExpandProperty Hash")
     else
-        export shasum=$(shasum -a 256 "$file" | cut -d " " -f 1)
+        export SHASUM=$(shasum -a 256 "$file" | cut -d " " -f 1)
     fi
-    echo "Checksum: $shasum";
+    echo "Checksum: $SHASUM";
     echo "Branch: $BRANCH_NAME";
     jq -n '{"url": env["URL"], "shasum": env["SHASUM"], "size": env["SIZE"] | tonumber, "branch": env["BRANCH_NAME"] }' | \
         curl -X POST \
