@@ -5,8 +5,8 @@ shopt -s nullglob
 for file in upload/SuperTux*; do
     file_base=$(basename $file)
     echo "Uploading $file_base";
-    export URL="https://supertux-ci-downloads.s3-us-west-2.amazonaws.com/${PREFIX}/$file_base"
-    export size=$(($(wc -c < "$file")))
+    export URL="/${PREFIX}/$file_base"
+    export SIZE=$(($(wc -c < "$file")))
     if [ $IS_WINDOWS = true ] ; then
         export shasum=$(powershell -command "Get-FileHash \"$file\" -Algorithm SHA256 | Select-Object -ExpandProperty Hash")
     else
