@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 shopt -s nullglob
-# git bash tries to be "helpful" and convert URL into a windows-based absolute path without this
-MSYS_NO_PATHCONV=1
+# msys bash tries to be "helpful" and convert URL into a windows-based absolute path without this
+MSYS2_ARG_CONV_EXCL=URL
 
 for file in upload/SuperTux*; do
     file_base=$(basename $file)
