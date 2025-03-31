@@ -1,7 +1,7 @@
 (supertux-sprite
 
   (action
-    (name "normal-left")
+    (name "left")
     (fps 12)
     (loops 1)
     (hitbox 8 10 45 45)
@@ -30,11 +30,11 @@
             "g5.png"))
 
   (action
-    (name "normal-right")
+    (name "right")
     (fps 12)
     (loops 1)
     (hitbox 47 10 45 45)
-    (mirror-action "normal-left"))
+    (mirror-action "left"))
 
   (action
     (name "fast-left")
@@ -55,7 +55,7 @@
 
   (action
     (name "squished")
-    (hitbox 0 0 1 48)
+    (hitbox 27.5 0 45 45)
     (images "d1.png"))
 
 )
