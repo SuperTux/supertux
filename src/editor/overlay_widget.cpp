@@ -42,8 +42,6 @@
 #include "video/viewport.hpp"
 #include "worldmap/worldmap_object.hpp"
 
-using namespace std::chrono;
-
 namespace {
 
 const int snap_grid_sizes[4] = {4, 8, 16, 32};
@@ -68,7 +66,7 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_sector_pos(0, 0),
   m_mouse_pos(0, 0),
   m_previous_mouse_pos(0, 0),
-  m_time_prev_put_tile(steady_clock::now()),
+  m_time_prev_put_tile(std::chrono::steady_clock::now()),
   m_dragging(false),
   m_dragging_right(false),
   m_scrolling(false),
@@ -313,8 +311,8 @@ namespace {
 void
 EditorOverlayWidget::put_next_tiles()
 {
-  auto time_now = steady_clock::now();
-  int expired_ms = static_cast<int>(duration_cast<milliseconds>(time_now - m_time_prev_put_tile).count());
+  auto time_now = std::chrono::steady_clock::now();
+  int expired_ms = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(time_now - m_time_prev_put_tile).count());
   m_time_prev_put_tile = time_now;
   if (expired_ms > 70)
   {
@@ -483,15 +481,10 @@ void
 EditorOverlayWidget::replace()
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  auto tiles = m_editor.get_tiles();
-
   uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
 
   // Don't do anything if the old and new tiles are the same tile.
-  if (tiles->m_width == 1 && tiles->m_height == 1 && replace_tile == tiles->pos(0, 0))
-  {
-    return;
-  }
+  if (m_editor.get_tiles()->m_width == 1 && m_editor.get_tiles()->m_height == 1 && replace_tile == m_editor.get_tiles()->pos(0, 0)) return;
 
   tilemap->save_state();
   for (int x = 0; x < tilemap->get_width(); ++x)
@@ -500,9 +493,9 @@ EditorOverlayWidget::replace()
     {
       if (tilemap->get_tile_id(x, y) == replace_tile)
       {
-        tilemap->change(x, y, tiles->pos(
-          (x - static_cast<int>(m_hovered_tile.x)) % tiles->m_width,
-          (y - static_cast<int>(m_hovered_tile.y)) % tiles->m_height)
+        tilemap->change(x, y, m_editor.get_tiles()->pos(
+          (x - static_cast<int>(m_hovered_tile.x)) % m_editor.get_tiles()->m_width,
+          (y - static_cast<int>(m_hovered_tile.y)) % m_editor.get_tiles()->m_height)
         );
       }
     }
@@ -523,41 +516,43 @@ EditorOverlayWidget::hover_object()
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
     const Rectf& bbox = moving_object.get_bbox();
-    if (!bbox.contains(m_sector_pos) || &moving_object == m_hovered_object)
+    if (bbox.contains(m_sector_pos))
     {
-      continue;
-    }
-
-    // Ignore BezierMarkers if ctrl isn't pressed... (1/2)
-    auto* bezier_marker = dynamic_cast<BezierMarker*>(&moving_object);
-    if (bezier_marker)
-    {
-      if (!m_editor.m_ctrl_pressed)
+      if (&moving_object != m_hovered_object)
       {
-        marker_hovered_without_ctrl = bezier_marker;
-        continue;
-      }
-      else
-      {
-        cache_is_marker = true;
-        cache_layer = INT_MAX;
-        m_hovered_object = &moving_object;
-      }
-    }
 
-    // Pick objects in this priority:
-    //   1. Markers
-    //   2. Objects with a higher layer ID
-    //   3. If many objects are on the highest layer, pick the last created one
-    //      (Which will be the one rendererd on top)
+        // Ignore BezierMarkers if ctrl isn't pressed... (1/2)
+        auto* bezier_marker = dynamic_cast<BezierMarker*>(&moving_object);
+        if (bezier_marker)
+        {
+          if (!m_editor.m_ctrl_pressed)
+          {
+            marker_hovered_without_ctrl = bezier_marker;
+            continue;
+          }
+          else
+          {
+            cache_is_marker = true;
+            cache_layer = 2147483647;
+            m_hovered_object = &moving_object;
+          }
+        }
 
-    bool is_marker = dynamic_cast<MarkerObject*>(&moving_object);
-    // The "=" part of ">=" ensures that for equal layer, the last object is picked; don't remove the "="!
-    if ((is_marker && !cache_is_marker) || moving_object.get_layer() >= cache_layer)
-    {
-      cache_is_marker = is_marker;
-      cache_layer = moving_object.get_layer();
-      m_hovered_object = &moving_object;
+        // Pick objects in this priority:
+        //   1. Markers
+        //   2. Objects with a higher layer ID
+        //   3. If many objects are on the highest layer, pick the last created one
+        //      (Which will be the one rendererd on top)
+
+        bool is_marker = dynamic_cast<MarkerObject*>(&moving_object);
+        // The "=" part of ">=" ensures that for equal layer, the last object is picked; don't remove the "="!
+        if ((is_marker && !cache_is_marker) || moving_object.get_layer() >= cache_layer)
+        {
+          cache_is_marker = is_marker;
+          cache_layer = moving_object.get_layer();
+          m_hovered_object = &moving_object;
+        }
+      }
     }
   }
 
@@ -696,38 +691,40 @@ EditorOverlayWidget::show_object_menu(GameObject& object)
 void
 EditorOverlayWidget::move_object()
 {
-  if (m_dragged_object == nullptr || !m_dragged_object->is_valid())
+  if (m_dragged_object)
   {
-    m_dragged_object = nullptr;
-    return;
+    if (!m_dragged_object->is_valid())
+    {
+      m_dragged_object = nullptr;
+      return;
+    }
+    Vector new_pos = m_sector_pos - m_obj_mouse_desync;
+    if (g_config->editor_snap_to_grid)
+    {
+      auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
+      new_pos = glm::floor(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
+
+      auto pm = dynamic_cast<MarkerObject*>(m_dragged_object.get());
+      if (pm)
+        new_pos -= pm->get_offset();
+    }
+
+    // TODO: Temporarily disabled during ongoing discussion
+    // Special case: Bezier markers should influence each other when holding shift
+    //if (alt_pressed) {
+    //  auto bm = dynamic_cast<BezierMarker*>(m_dragged_object);
+    //  if (bm) {
+    //    auto nm = bm->get_parent();
+    //    if (nm) {
+    //      nm->move_other_marker(bm->get_uid(), nm->get_pos() * 2.f - new_pos);
+    //    } else {
+    //      log_warning << "Moving bezier handles without parent NodeMarker" << std::endl;
+    //    }
+    //  }
+    //}
+
+    m_dragged_object->move_to(new_pos);
   }
-
-  Vector new_pos = m_sector_pos - m_obj_mouse_desync;
-  if (g_config->editor_snap_to_grid)
-  {
-    auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
-    new_pos = glm::floor(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
-
-    auto pm = dynamic_cast<MarkerObject*>(m_dragged_object.get());
-    if (pm)
-      new_pos -= pm->get_offset();
-  }
-
-  // TODO: Temporarily disabled during ongoing discussion
-  // Special case: Bezier markers should influence each other when holding shift
-  //if (alt_pressed) {
-  //  auto bm = dynamic_cast<BezierMarker*>(m_dragged_object);
-  //  if (bm) {
-  //    auto nm = bm->get_parent();
-  //    if (nm) {
-  //      nm->move_other_marker(bm->get_uid(), nm->get_pos() * 2.f - new_pos);
-  //    } else {
-  //      log_warning << "Moving bezier handles without parent NodeMarker" << std::endl;
-  //    }
-  //  }
-  //}
-
-  m_dragged_object->move_to(new_pos);
 }
 
 void
@@ -778,18 +775,15 @@ EditorOverlayWidget::add_path_node()
 {
   m_edited_path->save_state();
 
-  auto& path = m_edited_path->get_path();
-  auto& path_nodes = path.m_nodes;
-
-  Path::Node new_node(&path);
+  Path::Node new_node(&m_edited_path->get_path());
   new_node.position = m_sector_pos;
   new_node.bezier_before = new_node.position;
   new_node.bezier_after = new_node.position;
   new_node.time = 1;
   m_edited_path->get_path().m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
-  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(path_nodes.end() - 1)), &((path_nodes.end() - 1)->bezier_before));
-  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(path_nodes.end() - 1)), &((path_nodes.end() - 1)->bezier_after));
-  auto& new_marker = Sector::get().add<NodeMarker>(path_nodes.end() - 1, path_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
+  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->get_path().m_nodes.end() - 1)), &((m_edited_path->get_path().m_nodes.end() - 1)->bezier_before));
+  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->get_path().m_nodes.end() - 1)), &((m_edited_path->get_path().m_nodes.end() - 1)->bezier_after));
+  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path->get_path().m_nodes.end() - 1, m_edited_path->get_path().m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
   bezier_before.set_parent(new_marker.get_uid());
   bezier_after.set_parent(new_marker.get_uid());
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
