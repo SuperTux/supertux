@@ -137,7 +137,7 @@ Ghoul::get_settings()
 }
 
 bool
-Ghoul::collision_squished(GameObject& object)
+Ghoul::collision_squished(MovingObject& object)
 {
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
   if (player)
