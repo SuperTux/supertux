@@ -39,8 +39,9 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   reader.get("speed", m_speed, DEFAULT_SPEED);
   reader.get("track-range", m_track_range, DEFAULT_TRACK_RANGE);
 
-  m_sprite->set_action(m_dir);
+  set_action(m_dir);
   m_physic.set_gravity_modifier(0.2f);
+  set_colgroup_active(COLGROUP_TOUCHABLE);
 
   SoundManager::current()->preload("sounds/fall.wav");
 }
@@ -55,7 +56,7 @@ Ghoul::active_update(float dt_sec)
   if (m_fake_dead && m_respawn_timer.check()) {
     initialize();
     m_physic.enable_gravity(true);
-    set_colgroup_active(COLGROUP_MOVING);
+    set_colgroup_active(COLGROUP_TOUCHABLE);
     m_fake_dead = false;
     m_respawn_timer.stop();
   }
@@ -77,14 +78,14 @@ Ghoul::active_update(float dt_sec)
   {
   case NORMAL:
     m_speed_modifier = std::max(0.f, m_speed_modifier - (dt_sec * 2.f));
-    m_sprite->set_action(player->get_bbox().get_middle().x < get_bbox().get_middle().x ? "normal-left" : "normal-right", 1);
+    set_action(player->get_bbox().get_middle().x < get_bbox().get_middle().x ? "left" : "right", 1);
     if (m_sprite->animation_done()) {
       m_chase_dir = glm::normalize(dist);
       m_sprite_state = SpriteState::FAST;
     }
     break;
   case FAST:
-    m_sprite->set_action(player->get_bbox().get_middle().x < get_bbox().get_middle().x ? "fast-left" : "fast-right", 1);
+    set_action(player->get_bbox().get_middle().x < get_bbox().get_middle().x ? "fast-left" : "fast-right", 1);
     m_speed_modifier = 3.5f;
     if (m_sprite->animation_done()) {
       m_sprite_state = SpriteState::NORMAL;
