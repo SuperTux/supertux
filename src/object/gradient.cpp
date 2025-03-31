@@ -152,24 +152,18 @@ Gradient::update(float delta)
 void
 Gradient::set_gradient(const Color& top, const Color& bottom)
 {
+  m_gradient_top.red = std::clamp(m_gradient_top.red, 0.f, 1.f);
+  m_gradient_top.green = std::clamp(m_gradient_top.green, 0.f, 1.f);
+  m_gradient_top.blue = std::clamp(m_gradient_top.blue, 0.f, 1.f);
+  m_gradient_top.alpha = std::clamp(m_gradient_top.alpha, 0.f, 1.f);
+
+  m_gradient_bottom.red = std::clamp(m_gradient_bottom.red, 0.f, 1.f);
+  m_gradient_bottom.green = std::clamp(m_gradient_bottom.green, 0.f, 1.f);
+  m_gradient_bottom.blue = std::clamp(m_gradient_bottom.blue, 0.f, 1.f);
+  m_gradient_bottom.alpha = std::clamp(m_gradient_bottom.alpha, 0.f, 1.f);
+
   m_gradient_top = top;
   m_gradient_bottom = bottom;
-
-  if (m_gradient_top.red > 1.0f ||
-      m_gradient_top.green > 1.0f ||
-      m_gradient_top.blue > 1.0f ||
-      m_gradient_top.alpha > 1.0f)
-  {
-    log_warning << "Top gradient color has values above 1.0." << std::endl;
-  }
-
-  if (m_gradient_bottom.red > 1.0f ||
-      m_gradient_bottom.green > 1.0f ||
-      m_gradient_bottom.blue > 1.0f ||
-      m_gradient_bottom.alpha > 1.0f)
-  {
-    log_warning << "Bottom gradient color has values above 1.0." << std::endl;
-  }
 }
 
 void

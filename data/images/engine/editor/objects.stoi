@@ -339,6 +339,9 @@
   (object
     (class "text-area")
     (icon "images/engine/editor/textarray.png"))
+  (object
+    (class "editor-comment")
+    (icon "images/engine/editor/editor-comment.png"))
  )
 
  (layers

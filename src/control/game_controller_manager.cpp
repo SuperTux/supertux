@@ -149,8 +149,14 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
   Controller& controller = m_parent->get_controller(player_id);
   auto set_control = [this, &controller](Control control, bool value)
   {
-    m_stick_state[static_cast<int>(control)] = value;
-    controller.set_control(control, m_button_state[static_cast<int>(control)] || m_stick_state[static_cast<int>(control)]);
+    // Check if the input hasn't been changed by anything else like the keyboard.
+    if (controller.hold(control) == m_stick_state[static_cast<int>(control)] &&
+        controller.hold(control) != value)
+    {
+      m_stick_state[static_cast<int>(control)] = value;
+      bool newstate = m_button_state[static_cast<int>(control)] || m_stick_state[static_cast<int>(control)];
+      controller.set_control(control, newstate);
+    }
   };
 
   auto axis2button = [this, &set_control](int value, Control control_left, Control control_right)
