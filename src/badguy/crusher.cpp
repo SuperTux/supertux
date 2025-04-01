@@ -62,6 +62,8 @@ Crusher::CrusherDirection_from_string(std::string_view str)
     return CrusherDirection::HORIZONTAL;
   if (str == "vertical")
     return CrusherDirection::VERTICAL;
+  if (str == "all")
+    return CrusherDirection::ALL;
 
   return CrusherDirection::DOWN;
 }
@@ -130,13 +132,21 @@ Crusher::should_crush()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
-  Rectf detectbox = get_detect_box();
-
   for (Player* player : Sector::get().get_players())
   {
     const Rectf& playerbbox = player->get_bbox();
-    if (!playerbbox.overlaps(detectbox))
-      continue;
+
+    if (m_dir == CrusherDirection::ALL)
+    {
+      if (!(playerbbox.overlaps(get_detect_box(CrusherDirection::HORIZONTAL)) ||
+            playerbbox.overlaps(get_detect_box(CrusherDirection::VERTICAL))))
+        continue;
+    }
+    else
+    {
+      if (!playerbbox.overlaps(get_detect_box()))
+        continue;
+    }
 
     RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
                                                                      playerbbox.get_middle(),
@@ -157,6 +167,9 @@ Crusher::should_crush()
 bool
 Crusher::should_finish_crushing(const CollisionHit& hit)
 {
+  if (m_dir == CrusherDirection::ALL)
+    return hit.bottom || hit.top || hit.left || hit.right;
+
   return ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::DOWN ) && hit.bottom) ||
          ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP   ) && hit.top   ) ||
          ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT ) && hit.left  ) ||
@@ -180,16 +193,22 @@ Crusher::has_recovered()
     case CrusherDirection::HORIZONTAL: return math::in_bounds(get_bbox().get_left(),
                                                               m_start_position.x - 1.5f,
                                                               m_start_position.x + 1.5f);
+
+    case CrusherDirection::ALL:
+      return Rectf(m_start_position - Vector(1.5f, 1.5f), Sizef(1.5f, 1.5f) * 2).contains(get_pos());
   }
 
   return false;
 }
 
 Rectf
-Crusher::get_detect_box()
+Crusher::get_detect_box(CrusherDirection dir)
 {
+  if (dir == CrusherDirection::ALL)
+    dir = m_dir;
+
   Vector pos = get_pos();
-  switch (m_dir)
+  switch (dir)
   {
     case CrusherDirection::VERTICAL: [[fallthrough]];
     case CrusherDirection::UP:
@@ -200,10 +219,13 @@ Crusher::get_detect_box()
     case CrusherDirection::LEFT:
       pos.x -= DETECT_RANGE;
       break;
+
+    default:
+      break;
   }
 
   Sizef size = get_bbox().get_size();
-  switch (m_dir)
+  switch (dir)
   {
     case CrusherDirection::VERTICAL:
       size.height += DETECT_RANGE * 2;
@@ -219,6 +241,9 @@ Crusher::get_detect_box()
     case CrusherDirection::LEFT: [[fallthrough]];
     case CrusherDirection::RIGHT:
       size.width += DETECT_RANGE;
+      break;
+
+    default:
       break;
   }
 
@@ -255,6 +280,46 @@ Crusher::get_direction_vector()
 
       Vector mid = get_bbox().get_middle();
       return mid.y <= m_target->get_bbox().get_top() ? Vector(0.f, 1.f) : Vector(0.f, -1.f);
+    }
+
+    case CrusherDirection::ALL:
+    {
+      if (!m_target)
+        return Vector(0.f, 0.f);
+
+      const Rectf& targetbox = m_target->get_bbox();
+      Rectf detectbox = Rectf(get_pos() - Vector(DETECT_RANGE, DETECT_RANGE),
+                              get_bbox().get_size() + (Sizef(DETECT_RANGE, DETECT_RANGE) * 2));
+
+      // Kind of similar to the collision code, isn't it?
+      // This checks which intersection with the detectbox
+      // (vertical or horizontal) is bigger in order to determine
+      // which coordinate to check to give the correct vector.
+      // Sorry if I couldn't explain this well enough
+      // ~ MatusGuy
+
+      float itop = detectbox.get_bottom() - targetbox.get_top();
+      float ibottom = targetbox.get_bottom() - detectbox.get_top();
+      float ileft = detectbox.get_right() - targetbox.get_left();
+      float iright = targetbox.get_right() - detectbox.get_left();
+
+      float vert_penetration = std::min(itop, ibottom);
+      float horiz_penetration = std::min(ileft, iright);
+      if (vert_penetration > horiz_penetration) {
+        if (itop < ibottom) {
+          return Vector(-1.f, 0.f);
+        } else {
+          return Vector(1.f, 0.f);
+        }
+      } else {
+        if (ileft < iright) {
+          return Vector(0.f, -1.f);
+        } else {
+          return Vector(0.f, 1.f);
+        }
+      }
+
+      return Vector(0.f, 0.f);
     }
 
     default:
@@ -389,8 +454,8 @@ Crusher::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
   result.add_enum(_("Direction"), reinterpret_cast<int*>(&m_dir),
-                  {_("Down"), _("Up"), _("Left"), _("Right"), _("Horizontal"), _("Vertical")},
-                  {"down", "up", "left", "right", "horizontal", "vertical"},
+                  {_("Down"), _("Up"), _("Left"), _("Right"), _("Horizontal"), _("Vertical"), _("All")},
+                  {"down", "up", "left", "right", "horizontal", "vertical", "all"},
                   static_cast<int>(CrusherDirection::DOWN),
                   "direction");
   result.reorder({ "direction", "sprite", "x", "y" });

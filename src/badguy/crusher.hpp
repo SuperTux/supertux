@@ -42,7 +42,9 @@ public:
     RIGHT,
 
     HORIZONTAL, // a.k.a. "sideways"
-    VERTICAL
+    VERTICAL,
+
+    ALL
   };
   static CrusherDirection CrusherDirection_from_string(std::string_view str);
 
@@ -90,7 +92,7 @@ private:
   bool should_crush();
   bool should_finish_crushing(const CollisionHit& hit);
   bool has_recovered();
-  Rectf get_detect_box();
+  Rectf get_detect_box(CrusherDirection dir = CrusherDirection::ALL);
   Vector get_direction_vector();
 
   void crush();
