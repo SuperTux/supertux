@@ -35,6 +35,17 @@ public:
     RECOVERING
   };
 
+  enum class CrusherDirection {
+    DOWN,
+    UP,
+    LEFT,
+    RIGHT,
+
+    HORIZONTAL, // a.k.a. "sideways"
+    VERTICAL
+  };
+  static CrusherDirection CrusherDirection_from_string(std::string_view str);
+
 private:
   enum CrusherSize
   {
@@ -59,7 +70,6 @@ public:
 
   virtual void after_editor_set() override;
   void after_sprite_set();
-  inline bool is_sideways() const { return m_sideways; }
 
   static std::string class_name() { return "crusher"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -78,9 +88,14 @@ public:
 
 private:
   bool should_crush();
+  bool should_finish_crushing(const CollisionHit& hit);
+  bool has_recovered();
+  Rectf get_detect_box();
+  Vector get_direction_vector();
 
   void crush();
   void recover();
+  void idle();
 
 private:
   CrusherState m_state;
@@ -89,7 +104,9 @@ private:
   Type m_ic_type;
   Vector m_start_position;
   Physic m_physic;
-  bool m_sideways;
+  CrusherDirection m_dir;
+  Vector m_dir_vector;
+  CollisionObject* m_target;
 
 private:
   Crusher(const Crusher&) = delete;

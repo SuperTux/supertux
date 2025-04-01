@@ -449,11 +449,6 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
       else if (new_constraints.hit.top)
         object.collision_moving_object_bottom(*static_object);
 
-      if (new_constraints.has_constraints() &&
-          object.m_parent.get_class_name() == "crusher" &&
-          static_object->m_parent.get_class_name() == "rock")
-        std::cout << "Case" << std::endl;
-
       constraints->merge_constraints(new_constraints);
     }
   }

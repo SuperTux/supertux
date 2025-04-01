@@ -23,6 +23,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "math/util.hpp"
 #include "object/brick.hpp"
 #include "object/coin.hpp"
 #include "object/camera.hpp"
@@ -46,6 +47,25 @@ namespace {
   const float DETECT_RANGE = 400.f;
 }
 
+Crusher::CrusherDirection
+Crusher::CrusherDirection_from_string(std::string_view str)
+{
+  if (str == "down")
+    return CrusherDirection::DOWN;
+  if (str == "up")
+    return CrusherDirection::UP;
+  if (str == "left")
+    return CrusherDirection::LEFT;
+  if (str == "right")
+    return CrusherDirection::RIGHT;
+  if (str == "horizontal")
+    return CrusherDirection::HORIZONTAL;
+  if (str == "vertical")
+    return CrusherDirection::VERTICAL;
+
+  return CrusherDirection::DOWN;
+}
+
 Crusher::Crusher(const ReaderMapping& reader) :
   MovingSprite(reader, "images/creatures/crusher/krush_ice.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   m_state(IDLE),
@@ -53,14 +73,25 @@ Crusher::Crusher(const ReaderMapping& reader) :
   m_ic_type(ICE),
   m_start_position(get_bbox().p1()),
   m_physic(),
-  m_sideways()
+  m_dir(CrusherDirection::DOWN),
+  m_dir_vector(get_direction_vector()),
+  m_target(nullptr)
 {
   parse_type(reader);
   after_sprite_set();
 
   m_physic.enable_gravity(false);
 
-  reader.get("sideways", m_sideways);
+  std::string dir = "";
+  reader.get("direction", dir);
+  m_dir = CrusherDirection_from_string(dir);
+
+  // The sideways option no longer exists.
+  // This is for compatibility.
+  bool sideways = false;
+  reader.get("sideways", sideways);
+  if (sideways)
+    m_dir = CrusherDirection::HORIZONTAL;
 
   // TODO: Add distinct sounds for crusher hitting the ground and hitting Tux.
   SoundManager::current()->preload(m_ic_type != ICE ? "sounds/thud.ogg" : "sounds/brick.wav");
@@ -99,9 +130,7 @@ Crusher::should_crush()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
-  Rectf detectbox;
-  detectbox.set_p1(get_pos());
-  detectbox.set_size(get_width(), get_height() + DETECT_RANGE);
+  Rectf detectbox = get_detect_box();
 
   for (Player* player : Sector::get().get_players())
   {
@@ -118,24 +147,145 @@ Crusher::should_crush()
     if (!obj_p || *obj_p != player->get_collision_object())
       continue;
 
+    m_target = *obj_p;
     return true;
   }
 
   return false;
 }
 
+bool
+Crusher::should_finish_crushing(const CollisionHit& hit)
+{
+  return ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::DOWN ) && hit.bottom) ||
+         ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP   ) && hit.top   ) ||
+         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT ) && hit.left  ) ||
+         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.right );
+}
+
+bool
+Crusher::has_recovered()
+{
+  switch (m_dir)
+  {
+    case CrusherDirection::DOWN:  return get_bbox().get_top() <= m_start_position.y;
+    case CrusherDirection::UP:    return get_bbox().get_bottom() >= m_start_position.y;
+    case CrusherDirection::LEFT:  return get_bbox().get_right() >= m_start_position.x;
+    case CrusherDirection::RIGHT: return get_bbox().get_left() <= m_start_position.x;
+
+    case CrusherDirection::VERTICAL: return math::in_bounds(get_bbox().get_top(),
+                                                            m_start_position.y - 1.5f,
+                                                            m_start_position.y + 1.5f);
+
+    case CrusherDirection::HORIZONTAL: return math::in_bounds(get_bbox().get_left(),
+                                                              m_start_position.x - 1.5f,
+                                                              m_start_position.x + 1.5f);
+  }
+
+  return false;
+}
+
+Rectf
+Crusher::get_detect_box()
+{
+  Vector pos = get_pos();
+  switch (m_dir)
+  {
+    case CrusherDirection::VERTICAL: [[fallthrough]];
+    case CrusherDirection::UP:
+      pos.y -= DETECT_RANGE;
+      break;
+
+    case CrusherDirection::HORIZONTAL: [[fallthrough]];
+    case CrusherDirection::LEFT:
+      pos.x -= DETECT_RANGE;
+      break;
+  }
+
+  Sizef size = get_bbox().get_size();
+  switch (m_dir)
+  {
+    case CrusherDirection::VERTICAL:
+      size.height += DETECT_RANGE * 2;
+      break;
+    case CrusherDirection::UP: [[fallthrough]];
+    case CrusherDirection::DOWN:
+      size.height += DETECT_RANGE;
+      break;
+
+    case CrusherDirection::HORIZONTAL:
+      size.width += DETECT_RANGE * 2;
+      break;
+    case CrusherDirection::LEFT: [[fallthrough]];
+    case CrusherDirection::RIGHT:
+      size.width += DETECT_RANGE;
+      break;
+  }
+
+  Rectf detectbox;
+  detectbox.set_p1(pos);
+  detectbox.set_size(size.width, size.height);
+
+  return detectbox.grown(-1.f);
+}
+
+Vector
+Crusher::get_direction_vector()
+{
+  switch (m_dir)
+  {
+    case CrusherDirection::DOWN:  return Vector(0.f, 1.f);
+    case CrusherDirection::UP:    return Vector(0.f, -1.f);
+    case CrusherDirection::LEFT:  return Vector(-1.f, 0.f);
+    case CrusherDirection::RIGHT: return Vector(1.f, 0.f);
+
+    case CrusherDirection::HORIZONTAL:
+    {
+      if (!m_target)
+        return Vector(0.f, 0.f);
+
+      Vector mid = get_bbox().get_middle();
+      return mid.x <= m_target->get_bbox().get_left() ? Vector(1.f, 0.f) : Vector(-1.f, 0.f);
+    }
+
+    case CrusherDirection::VERTICAL:
+    {
+      if (!m_target)
+        return Vector(0.f, 0.f);
+
+      Vector mid = get_bbox().get_middle();
+      return mid.y <= m_target->get_bbox().get_top() ? Vector(0.f, 1.f) : Vector(0.f, -1.f);
+    }
+
+    default:
+      return Vector(0.f, 0.f);
+  }
+}
+
 void
 Crusher::crush()
 {
   m_state = CRUSHING;
-  m_physic.set_acceleration_y(750.f);
+  m_dir_vector = get_direction_vector();
+  m_physic.set_acceleration(m_dir_vector * 750.f);
 }
 
 void
 Crusher::recover()
 {
   m_state = RECOVERING;
-  m_physic.set_velocity_y(-100.f);
+  m_physic.set_acceleration(Vector(0.f, 0.f));
+  m_physic.set_velocity(m_dir_vector * -100.f);
+}
+
+void
+Crusher::idle()
+{
+  m_state = IDLE;
+  m_physic.set_velocity(Vector(0.f, 0.f));
+
+  // Force start position.
+  set_pos(m_start_position);
 }
 
 void
@@ -170,12 +320,10 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
 void
 Crusher::collision_solid(const CollisionHit& hit)
 {
-  if (m_state == CRUSHING && hit.bottom)
+  if (m_state == CRUSHING && should_finish_crushing(hit))
   {
     m_state = DELAY;
-    //m_physic.set_acceleration_y(-200.f);
     m_physic.set_acceleration_y(0.f);
-    //m_physic.set_velocity_y(-100.f);
 
     m_state_timer.start(1.75f);
   }
@@ -201,12 +349,10 @@ Crusher::update(float dt_sec)
       break;
 
     case RECOVERING:
-      if (get_bbox().get_top() <= m_start_position.y)
-      {
-        m_state = IDLE;
-        m_physic.set_velocity_y(0.f);
-      }
+      if (has_recovered())
+        idle();
 
+      break;
 
     default:
       break;
@@ -242,8 +388,12 @@ ObjectSettings
 Crusher::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.add_bool(_("Sideways"), &m_sideways, "sideways", false);
-  result.reorder({ "sideways", "sprite", "x", "y" });
+  result.add_enum(_("Direction"), reinterpret_cast<int*>(&m_dir),
+                  {_("Down"), _("Up"), _("Left"), _("Right"), _("Horizontal"), _("Vertical")},
+                  {"down", "up", "left", "right", "horizontal", "vertical"},
+                  static_cast<int>(CrusherDirection::DOWN),
+                  "direction");
+  result.reorder({ "direction", "sprite", "x", "y" });
 
   return result;
 }
