@@ -191,7 +191,7 @@ Rock::collision(MovingObject& other, const CollisionHit& hit)
 
   auto crusher = dynamic_cast<Crusher*> (&other);
   if (crusher) {
-    return FORCE_MOVE;
+    return ABORT_MOVE;
   }
 
   if (hit.bottom) {

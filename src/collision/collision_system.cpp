@@ -114,6 +114,7 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
 {
   collision::Constraints constraints;
 
+
   // Slightly growing the static object's rectangle to detect a
   // collision not only when they overlap, but also when they're
   // adjacent or at least extremely close.
@@ -128,6 +129,10 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
     return constraints;
   if (moving_object != nullptr && other_object != nullptr && !moving_object->collides(*other_object, dummy))
     return constraints;
+
+  if (moving_object && moving_object->get_parent().get_class_name() == "crusher" &&
+      other_object && other_object->get_parent().get_class_name() == "rock")
+    std::cout << "Case2" << std::endl;
 
   // Calculate intersection.
   const float itop    = moving_obj_rect.get_bottom() - grown_other_obj_rect.get_top();
@@ -202,16 +207,17 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
         }
       }
     }
-    if (other_object && moving_object)
-    {
-      CollisionHit hit = constraints.hit;
-      moving_object->collision(*other_object, hit);
-      std::swap(hit.left, hit.right);
-      std::swap(hit.top, hit.bottom);
-      const HitResponse response = other_object->collision(*moving_object, hit);
-      if(response==ABORT_MOVE)
-        return collision::Constraints();
-    }
+  }
+
+  if (other_object && moving_object)
+  {
+    CollisionHit hit = constraints.hit;
+    moving_object->collision(*other_object, hit);
+    std::swap(hit.left, hit.right);
+    std::swap(hit.top, hit.bottom);
+    const HitResponse& response = other_object->collision(*moving_object, hit);
+    if (response == ABORT_MOVE)
+      return collision::Constraints();
   }
 
   return constraints;
@@ -375,6 +381,13 @@ CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* obj
 {
   using namespace collision;
 
+  // If both objects are moving statics, that means
+  // their collision callbacks have already been called.
+  // We don't need to call them again.
+  if (object1->get_group() == COLGROUP_MOVING_STATIC &&
+      object2->get_group() == COLGROUP_MOVING_STATIC)
+    return;
+
   const Rectf& r1 = object1->m_dest;
   const Rectf& r2 = object2->m_dest;
 
@@ -420,13 +433,6 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
   // Collision with other (static) objects.
   for (auto* static_object : m_objects)
   {
-    const float static_size = static_object->get_bbox().get_width() * static_object->get_bbox().get_height();
-    const float object_size = object.get_bbox().get_width() * object.get_bbox().get_height();
-    // let's skip this if two colgroup_moving_static's connect and our object is somewhat larger than the static object.
-    if ((object.get_group() == COLGROUP_MOVING_STATIC && static_object->get_group() == COLGROUP_MOVING_STATIC) &&
-      (object_size > static_size + FORGIVENESS)) {
-      continue;
-    }
     if ((
           static_object->get_group() == COLGROUP_STATIC ||
           static_object->get_group() == COLGROUP_MOVING_STATIC
@@ -434,6 +440,7 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
         static_object->is_valid() &&
         static_object != &object)
     {
+
       collision::Constraints new_constraints = check_collisions(
         movement, dest, static_object->m_dest, &object, static_object);
 
@@ -441,6 +448,11 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
         static_object->collision_moving_object_bottom(object);
       else if (new_constraints.hit.top)
         object.collision_moving_object_bottom(*static_object);
+
+      if (new_constraints.has_constraints() &&
+          object.m_parent.get_class_name() == "crusher" &&
+          static_object->m_parent.get_class_name() == "rock")
+        std::cout << "Case" << std::endl;
 
       constraints->merge_constraints(new_constraints);
     }
