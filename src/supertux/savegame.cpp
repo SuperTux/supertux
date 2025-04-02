@@ -398,7 +398,8 @@ Savegame::get_levelset_progress()
   {
     for (const auto& level_state : get_levelset_state(levelset).level_states)
     {
-      if (level_state.filename.empty())
+      // Don't count progress from temporary Editor levels
+      if (level_state.filename.empty() || level_state.filename.back() == '~')
         continue;
 
       if (level_state.solved)
@@ -420,9 +421,14 @@ Savegame::get_worldmap_progress()
 
   for (const std::string& map : get_worldmaps())
   {
+    // Don't count progress from temporary Editor worldmaps
+    if (map.empty() || map.back() == '~')
+      continue;
+
     for (const auto& level_state : get_worldmap_state(map).level_states)
     {
-      if (level_state.filename.empty())
+      // Don't count progress from temporary Editor levels
+      if (level_state.filename.empty() || level_state.filename.back() == '~')
         continue;
 
       if (level_state.solved)
