@@ -30,6 +30,8 @@ public:
 
   void menu_action(MenuItem& item) override;
 
+  bool force_previews() const override { return true; }
+
 protected:
   ItemAction& add_world(const std::string& title, const std::string& folder,
                         Savegame::Progress progress = {}, SurfacePtr preview = nullptr);

@@ -23,7 +23,7 @@
 #include "util/gettext.hpp"
 
 SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type,
-                                     const std::string& title, const std::string& empty_message)
+                                     const std::string& title, const std::vector<std::string>& empty_message_lines)
 {
   add_label(title);
   add_hl();
@@ -56,7 +56,8 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
   }
   if (!has_worlds)
   {
-    add_inactive(empty_message);
+    for (const std::string& line : empty_message_lines)
+      add_inactive(line);
   }
   add_hl();
   add_back(_("Back"));

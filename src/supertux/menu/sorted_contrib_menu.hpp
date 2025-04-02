@@ -26,7 +26,7 @@ class SortedContribMenu final : public WorldPreviewMenu
 {
 public:
   SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type,
-                    const std::string& title, const std::string& empty_message);
+                    const std::string& title, const std::vector<std::string>& empty_message_lines);
 
 private:
   SortedContribMenu(const SortedContribMenu&) = delete;

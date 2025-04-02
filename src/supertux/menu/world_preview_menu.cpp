@@ -44,28 +44,15 @@ WorldPreviewMenu::add_world(const std::string& title, const std::string& folder,
 {
   ItemAction& item = add_entry(static_cast<int>(m_world_entries.size()), title);
 
-  if (!preview || !g_config->show_world_previews) // No preview, or previews are not enabled, so progress should be shown on the menu item.
-  {
-    if (progress.total > 0) // Only show progress, if provided.
-    {
-      item.set_text(fmt::format(fmt::runtime("{} ({}/{}, {}/{}; {}%)"),
-          title, progress.solved, progress.total,
-          progress.perfect, progress.total, progress.get_percentage()));
-    }
-
-    m_world_entries.push_back({ folder, "" });
-  }
-  else // Progress can be shown under the preview.
-  {
+  if (g_config->show_world_previews && preview)
     item.set_preview(preview);
 
-    std::string progress_text;
-    if (progress.total > 0) // Only show progress, if provided.
-      progress_text = fmt::format(fmt::runtime(_("{}/{} finished, {}/{} perfected ({}%)")),
-          progress.solved, progress.total, progress.perfect, progress.total, progress.get_percentage());
+  std::string progress_text;
+  if (progress.total > 0) // Only show progress, if provided.
+    progress_text = fmt::format(fmt::runtime(_("{}/{} finished, {}/{} perfected ({}%)")),
+        progress.solved, progress.total, progress.perfect, progress.total, progress.get_percentage());
 
-    m_world_entries.push_back({ folder, progress_text });
-  }
+  m_world_entries.push_back({ folder, progress_text });
 
   return item;
 }
@@ -78,15 +65,12 @@ WorldPreviewMenu::find_preview(const std::string& preview_file, const std::strin
 
   std::string preview_path = FileSystem::join("profile" + std::to_string(g_config->profile), preview_file);
   if (PHYSFS_exists(preview_path.c_str())) // A preview exists.
-  {
     return Surface::from_file(preview_path);
-  }
-  else // Preview doesn't exist, so check for a placeholder.
-  {
-    preview_path = FileSystem::join(basedir, "preview.png");
-    if (PHYSFS_exists(preview_path.c_str())) // A preview placeholder exists.
-      return Surface::from_file(preview_path);
-  }
+
+  // Preview doesn't exist, so check for a placeholder.
+  preview_path = FileSystem::join(basedir, "preview.png");
+  if (PHYSFS_exists(preview_path.c_str())) // A preview placeholder exists.
+    return Surface::from_file(preview_path);
 
   return nullptr;
 }
@@ -99,10 +83,10 @@ WorldPreviewMenu::draw_preview_data(DrawingContext& context, const Rectf& previe
     return;
 
   // Draw world progress.
-  if (!m_world_entries[index].progress_text.empty())
-    context.color().draw_text(Resources::normal_font, m_world_entries[index].progress_text,
-                              Vector(preview_rect.get_left() + preview_rect.get_width() / 2, preview_rect.get_bottom() * 1.03f),
-                              ALIGN_CENTER, LAYER_GUI, Color(1, 1, 1, alpha));
+  const WorldEntry& entry = m_world_entries[index];
+  context.color().draw_text(Resources::normal_font, entry.progress_text.empty() ? _("No progression data available.") : entry.progress_text,
+                            Vector(preview_rect.get_left() + preview_rect.get_width() / 2, preview_rect.get_bottom() * 1.03f),
+                            ALIGN_CENTER, LAYER_GUI, Color(1, 1, 1, alpha));
 }
 
 void

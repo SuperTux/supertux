@@ -84,18 +84,24 @@ Menu::~Menu()
 void
 Menu::align_for_previews(float x_offset)
 {
-  for (const auto& item : m_items)
+  m_has_previews = force_previews();
+  if (!m_has_previews)
   {
-    if (item->get_preview())
+    for (const auto& item : m_items)
     {
-      // Adjust center position to give space for displaying previews.
-      set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2 - get_width() / 2 - x_offset,
-                     static_cast<float>(SCREEN_HEIGHT) / 2);
-      m_has_previews = true;
-      return;
+      if (item->get_preview())
+      {
+        m_has_previews = true;
+        break;
+      }
     }
+    if (!m_has_previews)
+      return;
   }
-  m_has_previews = false;
+
+  // Adjust center position to give space for displaying previews.
+  set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2 - get_width() / 2 - x_offset,
+                 static_cast<float>(SCREEN_HEIGHT) / 2);
 }
 
 /* Add an item to a menu */
@@ -572,12 +578,12 @@ Menu::draw(DrawingContext& context)
 void
 Menu::draw_preview(DrawingContext& context)
 {
-  bool valid_last_index = last_preview_index_valid();
+  bool valid_last_preview = last_preview_valid();
 
   // Update fade.
   if (m_active_item != m_last_preview_item && !m_preview_fade_active) // Index has changed, there is no current fade.
   {
-    if (valid_last_index) // Fade out only if the last index is valid.
+    if (valid_last_preview || (force_previews() && m_last_preview_item > -1)) // Fade out only if the last index is valid, or we force previews.
       m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0.f);
     m_preview_fading_out = true;
     m_preview_fade_active = true;
@@ -586,7 +592,7 @@ Menu::draw_preview(DrawingContext& context)
   if (timeleft < 0 && m_preview_fade_active) // Current fade is over.
   {
     m_last_preview_item = m_active_item;
-    valid_last_index = last_preview_index_valid(); // Repeat valid last index check
+    valid_last_preview = last_preview_valid(); // Repeat valid last index check
     if (m_preview_fading_out) // After a fade-out, a fade-in should follow up.
     {
       m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0.f);
@@ -607,16 +613,18 @@ Menu::draw_preview(DrawingContext& context)
     alpha = m_preview_fading_out ? alpha_val : 1.f - alpha_val;
   }
 
-  // Perform actions only if current index is a valid preview index.
-  if (valid_last_index)
+  const Sizef preview_size(context.get_width() / 2.5f, context.get_height() / 2.5f);
+  Rectf preview_rect(Vector(context.get_width() * 0.73f - preview_size.width / 2,
+                            context.get_height() / 2 - preview_size.height / 2),
+                     Sizef(preview_size.width, preview_size.height / 2));
+
+  // Perform actions only if current preview is valid.
+  if (valid_last_preview)
   {
     // Draw progress preview of current item.
-    const Sizef preview_size(context.get_width() / 2.5f, context.get_height() / 2.5f);
     SurfacePtr preview = m_items[m_last_preview_item]->get_preview();
-    Rectf preview_rect(Vector(context.get_width() * 0.73f - preview_size.width / 2,
-                              context.get_height() / 2 - preview_size.height / 2),
-                       Sizef(static_cast<float>(preview->get_width()),
-                             static_cast<float>(preview->get_height())));
+    preview_rect.set_size(static_cast<float>(preview->get_width()),
+                          static_cast<float>(preview->get_height()));
     preview_rect.fit_centered(preview_size);
 
     PaintStyle style;
@@ -630,10 +638,15 @@ Menu::draw_preview(DrawingContext& context)
     // Draw other data, alongside the preview, if available.
     draw_preview_data(context, preview_rect, alpha);
   }
+  else if (force_previews() && m_last_preview_item > -1)
+  {
+    // Draw other data, if available.
+    draw_preview_data(context, preview_rect, alpha);
+  }
 }
 
 bool
-Menu::last_preview_index_valid() const
+Menu::last_preview_valid() const
 {
   return m_last_preview_item > -1 && m_items[m_last_preview_item]->get_preview();
 }
