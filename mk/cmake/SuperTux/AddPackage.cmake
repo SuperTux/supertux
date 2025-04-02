@@ -53,7 +53,7 @@ function(add_package)
     return()
   endif()
 
-  if(NOT UNIX OR ${addpackage_args_PKG}_PREFER_FIND_PACKAGE)
+  if((NOT UNIX) OR ${addpackage_args_PKG}_PREFER_FIND_PACKAGE)
     set(addpackage_args_PREFER_PKGCONFIG NO)
   endif()
 
