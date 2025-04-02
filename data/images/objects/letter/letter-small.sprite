@@ -1,5 +1,5 @@
 (supertux-sprite
       (action
-        (name "normal")
+        (name "default")
         (images "letter-small.png"))
 )

@@ -355,7 +355,7 @@ SectorParser::create_sector()
 
     // Add background gradient to sector:
     auto& gradient = m_sector.add<Gradient>();
-    gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color::WHITE);
+    gradient.set_gradient(Gradient::DEFAULT_GRADIENT_TOP, Gradient::DEFAULT_GRADIENT_BOTTOM);
     gradient.set_layer(-301);
   }
   else

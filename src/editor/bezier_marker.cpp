@@ -23,9 +23,10 @@
 BezierMarker::BezierMarker(Path::Node* node, Vector* bezier_pos) :
   m_node(node),
   m_pos(bezier_pos),
+  m_offset(Vector(8, 8)),
   m_parent()
 {
-  set_pos(*m_pos - Vector(8, 8));
+  set_pos(*m_pos - m_offset);
 }
 
 Vector
@@ -37,7 +38,7 @@ BezierMarker::get_point_vector() const
 Vector
 BezierMarker::get_offset() const
 {
-  return Vector(8, 8);
+  return m_offset;
 }
 
 void
@@ -50,7 +51,7 @@ BezierMarker::move_to(const Vector& pos)
 void
 BezierMarker::editor_update()
 {
-  set_pos(*m_pos - Vector(8, 8));
+  set_pos(*m_pos - m_offset);
 }
 
 void

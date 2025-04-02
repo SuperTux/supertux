@@ -20,7 +20,6 @@
 
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
-#include <sqstdaux.h>
 
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
@@ -34,9 +33,6 @@ SquirrelEnvironment::SquirrelEnvironment(ssq::VM& vm, const std::string& name) :
   m_scripts(),
   m_scheduler(std::make_unique<SquirrelScheduler>(m_vm))
 {
-  // Garbage collector has to be invoked manually!
-  sq_collectgarbage(m_vm.getHandle());
-
   // Set the root table as delegate.
   m_table.setDelegate(m_vm);
 }
@@ -45,8 +41,6 @@ SquirrelEnvironment::~SquirrelEnvironment()
 {
   m_scripts.clear();
   m_table.reset();
-
-  sq_collectgarbage(m_vm.getHandle());
 }
 
 void
@@ -126,20 +120,13 @@ SquirrelEnvironment::run_script(std::istream& in, const std::string& sourcename)
     thread.setForeignPtr(this);
     thread.setRootTable(m_table);
 
-    thread.run(thread.compileSource(in, sourcename.c_str()));
+    thread.run(thread.compileSource(in, sourcename.c_str()), true);
 
     m_scripts.push_back(std::move(thread));
   }
-  catch (const ssq::Exception& e)
+  catch (const std::exception& err)
   {
-    if (e.vm)
-      sqstd_printcallstack(e.vm);
-
-    log_warning << e.what() << std::endl;
-  }
-  catch (const std::exception& e)
-  {
-    log_warning << e.what() << std::endl;
+    log_warning << err.what() << std::endl;
   }
 }
 

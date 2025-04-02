@@ -8,6 +8,7 @@
 # Anonymouse <anonymouse2048@gmail.com>, 2013
 # Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2013
 # Ettore Atalan <atalanttore@googlemail.com>, 2015
+# firewiremb, 2024
 # Marcel Haring <getting@autistici.org>, 2014
 # Marcel Haring <getting@autistici.org>, 2014
 # Matthias Braun <matze@braunis.de>, 2004
@@ -20,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-11-11 21:50+0000\n"
+"POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>, 2013\n"
+"Last-Translator: firewiremb, 2024\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +46,7 @@ msgstr "23. Luftlandedivision"
 #: data/levels/world1/shattered_bridge.stl:628
 #: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
-msgstr "Du hast ein Versteck gefunden!"
+msgstr "Du hast "
 
 #: data/levels/world1/above_arctic_skies.stl:3
 msgid "Above the Arctic Skies"

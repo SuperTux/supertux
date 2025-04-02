@@ -106,12 +106,6 @@ NullVideoSystem::get_vsync() const
 }
 
 void
-NullVideoSystem::set_gamma(float gamma)
-{
-  log_info << "VideoSystem::set_gamma(" << gamma << ")" << std::endl;
-}
-
-void
 NullVideoSystem::set_title(const std::string& title)
 {
   log_info << "VideoSystem::set_icon(\"" << title << "\")" << std::endl;
