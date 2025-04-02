@@ -295,7 +295,7 @@ Crusher::get_direction_vector()
       // This checks which intersection with the detectbox
       // (vertical or horizontal) is bigger in order to determine
       // which coordinate to check to give the correct vector.
-      // Sorry if I couldn't explain this well enough
+      // Sorry if I couldn't explain this well enough.
       // ~ MatusGuy
 
       float itop = detectbox.get_bottom() - targetbox.get_top();
@@ -390,7 +390,7 @@ Crusher::collision_solid(const CollisionHit& hit)
     m_state = DELAY;
     m_physic.set_acceleration_y(0.f);
 
-    m_state_timer.start(1.75f);
+    m_state_timer.start(m_ic_size == NORMAL ? PAUSE_TIME_NORMAL : PAUSE_TIME_LARGE);
   }
 }
 
