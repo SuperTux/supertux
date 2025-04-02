@@ -42,6 +42,9 @@ public:
 
   virtual void explode() override;
 
+  GameObjectTypes get_types() const override { return {}; }
+  std::string get_default_sprite_name() const override { return m_default_sprite_name; }
+
 private:
   void flee(Direction dir);
   void cornered();

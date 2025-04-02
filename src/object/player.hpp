@@ -297,6 +297,7 @@ public:
   inline bool is_swimboosting() const { return m_swimboosting; }
   inline bool is_water_jumping() const { return m_water_jump; }
   inline bool is_skidding() const { return m_skidding_timer.started(); }
+  inline bool is_scripting_activated() const { return !m_deactivated; }
   inline float get_swimming_angle() const { return m_swimming_angle; }
 
   /**
@@ -310,6 +311,18 @@ public:
    * @description Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
    */
   inline bool get_visible() const { return m_visible; }
+
+  /**
+   * @scripting
+   * @description Make tux invincible without the star effect.
+   * @param bool $safe
+   */
+  void set_is_intentionally_safe(bool safe);
+  /**
+   * @scripting
+   * @description Returns ""true"" if Tux is currently intentionally safe.
+   */
+  bool get_is_intentionally_safe() const;
 
   inline bool on_ground() const { return m_on_ground_flag; }
   inline void set_on_ground(bool flag) { m_on_ground_flag = flag; }
@@ -555,8 +568,15 @@ public:
 
 private:
   Timer m_skidding_timer;
-  Timer m_safe_timer;
+  Timer m_post_damage_safety_timer;
+  Timer m_temp_safety_timer;
+
+  /**
+   * @scripting
+   * @description Determines whether Tux is invincible.
+   */
   bool m_is_intentionally_safe;
+
   Timer m_kick_timer;
   Timer m_buttjump_timer;
 
