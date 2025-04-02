@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <cmath>
 #include <string>
+#include <optional>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
@@ -36,6 +37,7 @@
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/surface.hpp"
 
 namespace {
   /* Maximum movement speed in pixels per LOGICAL_FPS. */
@@ -77,7 +79,10 @@ Crusher::Crusher(const ReaderMapping& reader) :
   m_physic(),
   m_dir(CrusherDirection::DOWN),
   m_dir_vector(get_direction_vector()),
-  m_target(nullptr)
+  m_target(nullptr),
+  m_whites(),
+  m_lefteye(),
+  m_righteye()
 {
   parse_type(reader);
   after_sprite_set();
@@ -332,7 +337,7 @@ Crusher::crush()
 {
   m_state = CRUSHING;
   m_dir_vector = get_direction_vector();
-  m_physic.set_acceleration(m_dir_vector * 750.f);
+  m_physic.set_acceleration(m_dir_vector * 700.f);
 }
 
 void
@@ -340,7 +345,7 @@ Crusher::recover()
 {
   m_state = RECOVERING;
   m_physic.set_acceleration(Vector(0.f, 0.f));
-  m_physic.set_velocity(m_dir_vector * -100.f);
+  m_physic.set_velocity(m_dir_vector * -160.f);
 }
 
 void
@@ -349,8 +354,84 @@ Crusher::idle()
   m_state = IDLE;
   m_physic.set_velocity(Vector(0.f, 0.f));
 
-  // Force start position.
+  // Force start position. Current position shouldn't
+  // stray away from this value much so the effect of
+  // doing this shouldn't be noticeable.
   set_pos(m_start_position);
+}
+
+Vector
+Crusher::eye_position(bool right) const
+{
+  switch (m_state)
+  {
+    case IDLE:
+    {
+      Player* player = Sector::get().get_nearest_player(get_bbox());
+      if (!player)
+        break;
+
+      // Crusher focuses on approximate position of player's head.
+      const float player_focus_x = (player->get_bbox().get_right() + player->get_bbox().get_left()) * 0.5f;
+      const float player_focus_y = player->get_bbox().get_bottom() * 0.25f + player->get_bbox().get_top() * 0.75f;
+
+      // Crusher's approximate origin of line-of-sight.
+      const float crusher_origin_x = get_bbox().get_middle().x;
+      const float crusher_origin_y = get_bbox().get_middle().y;
+
+      // Line-of-sight displacement from crusher to player.
+      const float displacement_x = player_focus_x - crusher_origin_x;
+      const float displacement_y = player_focus_y - crusher_origin_y;
+      const float displacement_mag = std::pow(std::pow(displacement_x, 2.0f) + std::pow(displacement_y, 2.0f), 0.5f);
+
+      // Determine weighting for eye displacement along x given crusher eye shape.
+      int weight_x = m_sprite->get_width() / 64 * (((displacement_x > 0) == right) ? 1 : 4);
+      int weight_y = m_sprite->get_width() / 64 * 2;
+
+      return Vector(displacement_x / displacement_mag * static_cast<float>(weight_x),
+        displacement_y / displacement_mag * static_cast<float>(weight_y) - static_cast<float>(weight_y));
+    }
+
+    case CRUSHING:
+    {
+      const float displacement_x = m_dir_vector.x;
+      float weight_x = m_sprite->get_width() / 64.f * (((displacement_x > 0.f) == right) ? 1.f : 4.f);
+      float weight_y = m_sprite->get_width() / 64.f * 2.f;
+
+      return m_dir_vector * Vector(weight_x, weight_y);
+    }
+
+    case DELAY: [[fallthrough]];
+    case RECOVERING:
+    {
+      // Amplitude dependent on size.
+      float amplitude = static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f;
+
+      // Phase factor due to cooldown timer.
+      float spin_speed = m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE;
+      float cooldown_phase_factor = spin_speed + m_state_timer.get_progress() * 13.0f;
+
+      // Phase factor due to y position.
+      //auto y_position_phase_factor = !m_sideways ? get_pos().y / 13 : get_pos().x / 13;
+      float y_position_phase_factor = 1.f;
+
+      float phase_factor = y_position_phase_factor - cooldown_phase_factor;
+
+      // Eyes spin while crusher is recovering, giving a dazed impression.
+      return Vector(std::sin((right ? 1 : -1) * // X motion of each eye is opposite of the other.
+        phase_factor) * amplitude - (right ? 1 : -1) *
+        amplitude, // Offset to keep eyes visible.
+
+        std::cos((right ? math::PI : 0.0f) + // Eyes spin out of phase of eachother.
+        phase_factor) * amplitude -
+        amplitude); // Offset to keep eyes visible.
+    }
+
+    default:
+      break;
+  }
+
+  return Vector(0, 0);
 }
 
 void
@@ -431,8 +512,17 @@ Crusher::draw(DrawingContext& context)
 {
   Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
   m_sprite->draw(context.color(), draw_pos, m_layer + 2, m_flip);
+
   if (m_sprite->has_action("whites"))
   {
+    context.push_transform();
+    context.set_flip(m_flip);
+
+    context.color().draw_surface(m_lefteye, draw_pos + eye_position(false), m_layer + 1);
+    context.color().draw_surface(m_righteye, draw_pos + eye_position(true), m_layer + 1);
+    context.color().draw_surface(m_whites, draw_pos, m_layer);
+
+    context.pop_transform();
   }
 }
 
@@ -447,6 +537,30 @@ void
 Crusher::after_sprite_set()
 {
   set_action("idle");
+
+  if (m_sprite->has_action("whites"))
+  {
+    m_whites.reset();
+    m_lefteye.reset();
+    m_righteye.reset();
+
+    using Surfaces = const std::optional<std::vector<SurfacePtr>>;
+
+    Surfaces esurfaces = m_sprite->get_action_surfaces("whites");
+    if (!esurfaces.has_value())
+      return;
+    m_whites = esurfaces.value()[0];
+
+    Surfaces lsurfaces = m_sprite->get_action_surfaces("lefteye");
+    if (!lsurfaces.has_value())
+      return;
+    m_lefteye = lsurfaces.value()[0];
+
+    Surfaces rsurfaces = m_sprite->get_action_surfaces("righteye");
+    if (!rsurfaces.has_value())
+      return;
+    m_righteye = rsurfaces.value()[0];
+  }
 }
 
 ObjectSettings

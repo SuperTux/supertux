@@ -20,6 +20,7 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
+#include "video/surface_ptr.hpp"
 
 class Player;
 
@@ -55,7 +56,7 @@ private:
     LARGE
   };
 
-  enum Type
+  enum CrusherType
   {
     ICE,
     ROCK,
@@ -99,16 +100,23 @@ private:
   void recover();
   void idle();
 
+  Vector eye_position(bool right) const;
+
 private:
   CrusherState m_state;
-  Timer m_state_timer;
+  CrusherDirection m_dir;
   CrusherSize m_ic_size;
-  Type m_ic_type;
+  CrusherType m_ic_type;
+
+  Timer m_state_timer;
   Vector m_start_position;
   Physic m_physic;
-  CrusherDirection m_dir;
   Vector m_dir_vector;
   CollisionObject* m_target;
+
+  SurfacePtr m_whites;
+  SurfacePtr m_lefteye;
+  SurfacePtr m_righteye;
 
 private:
   Crusher(const Crusher&) = delete;
