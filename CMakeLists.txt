@@ -136,11 +136,11 @@ include(SuperTux/AddPackage)
 # Find dependencies
 add_package(TARGET PNG
   PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED) # lol
+add_package(TARGET ZLIB
+  PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
 add_package(TARGET PhysFS
   PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs
   PREFER_PKGCONFIG)
-add_package(TARGET ZLIB
-  PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
 add_package(TARGET fmt
   PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
 add_package(TARGET glm

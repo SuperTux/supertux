@@ -70,11 +70,6 @@ function(add_package)
     find_package(${addpackage_args_PKG} ${addpackage_fp_args} QUIET)
   endif()
 
-  if(TARGET ${addpackage_args_TARGET})
-    message(STATUS "Package \"${addpackage_args_PKG}\" was found successfully!")
-    return()
-  endif()
-
   # PKG_FOUND is not as reliable as I thought it would be.
   # It sometimes marks true without adding the proposed target and other times
   # marks false even when adding the propsed target!
