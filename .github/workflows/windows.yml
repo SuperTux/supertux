@@ -77,6 +77,7 @@ jobs:
           vcpkg install freetype:$Env:ARCH-windows
 
       - name: Configure bulid
+        shell: pwsh
         env:
           ARCH: ${{ matrix.arch }}
           BUILD_TYPE: ${{ matrix.build_type }}
@@ -85,7 +86,10 @@ jobs:
           cmake --version
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 17 2022" -A $Env:ARCH.replace("x86", "Win32") -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE"
+          cmake .. -G "Visual Studio 17 2022" -A $Env:ARCH.replace("x86", "Win32") `
+                   -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake `
+                   -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" `
+                   -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
       - name: Build and install
         working-directory: build

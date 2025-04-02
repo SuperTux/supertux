@@ -81,7 +81,7 @@ jobs:
           emcmake cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWARNINGS=ON \
                            -DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake \
                            -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=~/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
-                           -DVCPKG_TARGET_TRIPLET=wasm32-emscripten
+                           -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
       - name: Sync data folder
         working-directory: build
