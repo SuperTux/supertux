@@ -87,13 +87,7 @@ RustyTrampoline::collision(MovingObject& other, const CollisionHit& hit)
           vy = VY_BOUNCE;
         }
         player->get_physic().set_velocity_y(vy);
-        SoundManager::current()->play(BOUNCE_SOUND, get_pos());
-        counter--;
-        if (counter > 0) {
-          set_action("swinging", 1);
-        } else {
-          set_action("breaking", 1);
-        }
+        bounce();
 
         return FORCE_MOVE;
       }
@@ -106,19 +100,26 @@ RustyTrampoline::collision(MovingObject& other, const CollisionHit& hit)
       if (hit.top && vy >= 0) {
         vy = VY_BOUNCE;
         walking_badguy->set_velocity_y(vy);
-        SoundManager::current()->play(BOUNCE_SOUND, get_pos());
-        counter--;
-        if (counter > 0) {
-          set_action("swinging", 1);
-        } else {
-          set_action("breaking", 1);
-        }
+        bounce();
+
         return FORCE_MOVE;
       }
     }
   }
 
   return Rock::collision(other, hit);
+}
+
+void
+RustyTrampoline::bounce()
+{
+  SoundManager::current()->play(BOUNCE_SOUND, get_pos());
+  counter--;
+  if (counter > 0) {
+    set_action("swinging", 1);
+  } else {
+    set_action("breaking", 1);
+  }
 }
 
 void

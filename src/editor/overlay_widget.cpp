@@ -210,7 +210,7 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
 
       if (m_autotile_mode)
       {
-        AutotileSet* autotileset = get_current_autotileset();
+        auto autotileset = get_current_autotileset();
         if (autotileset)
         {
           if (tile == 0)
@@ -231,7 +231,11 @@ namespace {
   // segment from pos1 to pos2 (similarly to a line drawing algorithm)
   std::vector<Vector> rasterize_line_segment(Vector pos1, Vector pos2)
   {
-    if (pos1 == pos2) return std::vector<Vector> {pos1};
+    if (pos1 == pos2)
+    {
+      return std::vector<Vector>{ pos1 };
+    }
+
     // An integer position (x, y) contains all floating point vectors in
     // [x, x+1) x [y, y+1)
     std::vector<Vector> positions;
@@ -308,8 +312,7 @@ void
 EditorOverlayWidget::put_next_tiles()
 {
   auto time_now = std::chrono::steady_clock::now();
-  int expired_ms = static_cast<int>(std::chrono::duration_cast<
-    std::chrono::milliseconds>(time_now - m_time_prev_put_tile).count());
+  int expired_ms = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(time_now - m_time_prev_put_tile).count());
   m_time_prev_put_tile = time_now;
   if (expired_ms > 70)
   {
@@ -508,7 +511,7 @@ EditorOverlayWidget::hover_object()
   BezierMarker* marker_hovered_without_ctrl = nullptr;
 
   bool cache_is_marker = false;
-  int cache_layer = -2147483648;
+  int cache_layer = INT_MIN;
 
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {

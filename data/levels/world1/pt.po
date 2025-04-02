@@ -5,7 +5,7 @@
 # Translators:
 # André Pinheiro <andrepinheiro2004@gmail.com>, 2021
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
-# FunGame, 2025
+# João Carlos P.P., 2025
 # João Frade <100nome.portugal@gmail.com>, 2023
 # lecalam, 2024-2025
 # Rui <xymarior@yandex.com>, 2016,2018
