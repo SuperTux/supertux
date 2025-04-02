@@ -117,13 +117,14 @@ jobs:
             libsdl2-dev:i386 \
             libsdl2-image-dev:i386 \
             libfreetype6-dev:i386 \
+            libraqm-dev:i386 \
             libcurl4-openssl-dev:i386 \
             zlib1g-dev:i386 \
             libfmt-dev:i386 \
             libglm-dev
 
           # These libraries don't exist for 32-bit in Ubuntu repositories.
-          vcpkg install --triplet x86-linux physfs glew libraqm
+          vcpkg install --triplet x86-linux physfs glew
 
       - name: Set compiler (gcc)
         if: ${{ matrix.compiler == 'gcc' }}
