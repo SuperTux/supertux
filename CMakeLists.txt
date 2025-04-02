@@ -172,7 +172,9 @@ if(EMSCRIPTEN)
   set(SSQ_BUILD_INSTALL NO)
 endif()
 
-set(SDL2TTF_RAQM ON)
+if(TARGET RAQM)
+  set(SDL2TTF_RAQM ON)
+endif()
 
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
 add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)

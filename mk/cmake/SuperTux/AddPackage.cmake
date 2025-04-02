@@ -102,10 +102,16 @@ function(add_package)
 
       pkg_search_module(${addpackage_args_TARGET} ${addpackage_args_pkg_config_args} ${addpackage_args_PKG_CONFIG})
 
-      if(NOT ${addpackage_args_TARGET}_FOUND AND addpackage_args_REQUIRED)
-        message(FATAL_ERROR "Package \"${addpackage_args_TARGET}\" couldn't be found with pkg-config, but it's required.\n"
-                            "I don't know what to do. Is it installed?\n"
-                            "Tried: ${addpackage_args_PKG_CONFIG}")
+      if(NOT ${addpackage_args_TARGET}_FOUND)
+        if(addpackage_args_REQUIRED)
+          message(FATAL_ERROR "Package \"${addpackage_args_TARGET}\" couldn't be found with pkg-config, but it's required.\n"
+                              "I don't know what to do. Is it installed?\n"
+                              "Tried: ${addpackage_args_PKG_CONFIG}")
+        else()
+          message(STATUS "Package \"${addpackage_args_TARGET}\" couldn't be found with pkg-config."
+                         "Tried: ${addpackage_args_PKG_CONFIG}")
+          return()
+        endif()
       endif()
 
       add_library(${addpackage_args_TARGET} ALIAS PkgConfig::${addpackage_args_TARGET})
