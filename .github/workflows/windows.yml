@@ -57,7 +57,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: C:/vcpkg/installed
-          key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/windows.yml') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-deps-${{ hashFiles('.github/workflows/windows.yml') }}
 
       - name: Install dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
