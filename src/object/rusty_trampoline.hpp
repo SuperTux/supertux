@@ -45,6 +45,9 @@ public:
   GameObjectTypes get_types() const override { return {}; }
 
 private:
+  virtual void bounce();
+
+private:
   bool portable;
   int counter;
 

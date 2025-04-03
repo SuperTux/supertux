@@ -173,8 +173,6 @@ Editor::draw(Compositor& compositor)
           camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
                                             static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
 
-        // Update the camera's screen size variable, so it can properly be kept in sector bounds.
-        camera.draw(context);
         keep_camera_in_bounds();
       }
       m_new_scale = 0.f;
@@ -1028,11 +1026,17 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
   {
     if (!sector_valid)
     {
-      Dialog::show_message(_("Couldn't find a \"main\" sector.\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
+      /*
+      l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
+      */
+      Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
     }
     else if (!spawnpoint_valid)
     {
-      Dialog::show_message(_("Couldn't find a \"main\" spawnpoint.\n Please change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
+      /*
+      l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
+      */
+      Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
     }
   }
 
