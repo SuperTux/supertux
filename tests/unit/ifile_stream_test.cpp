@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <gtest/gtest.h>
-
+#include "st_assert.hpp"
 #include <array>
 #include <fstream>
 #include <iostream>
@@ -24,7 +23,7 @@
 
 #include "physfs/ifile_stream.hpp"
 
-TEST(IFileStreamTest, test)
+int main(void)
 {
   PHYSFS_init("ifile_stream_test");
   PHYSFS_mount("../tests/data", nullptr, 1);
