@@ -26,6 +26,7 @@
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -57,6 +58,27 @@ MrBomb::MrBomb(const ReaderMapping& reader, const std::string& sprite, const std
   m_exploding_sprite->set_action("default", 1);
 }
 
+GameObjectTypes
+MrBomb::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "classic", _("Classic") }
+  };
+}
+
+std::string
+MrBomb::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CLASSIC:
+      return "images/creatures/mr_bomb/old_bomb/old_bomb.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
 void
 MrBomb::collision_solid(const CollisionHit& hit)
 {
@@ -74,7 +96,7 @@ MrBomb::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-MrBomb::collision(GameObject& object, const CollisionHit& hit)
+MrBomb::collision(MovingObject& object, const CollisionHit& hit)
 {
   if (m_state == MB_STATE_TICKING)
   {
@@ -118,7 +140,7 @@ MrBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 bool
-MrBomb::collision_squished(GameObject& object)
+MrBomb::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);
@@ -242,6 +264,7 @@ MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
     set_action(dir_);
 
   m_col.set_movement(pos - get_pos());
+  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   set_colgroup_active(COLGROUP_DISABLED);
 }
@@ -341,3 +364,4 @@ MrBomb::update_ticking(float dt_sec)
 }
 
 /* EOF */
+

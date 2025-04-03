@@ -54,7 +54,7 @@ public:
 
   void bind_controller(SDL_GameController* controller, int player_id);
 
-  std::unordered_map<SDL_GameController*, int>& get_controller_mapping() { return m_game_controllers; }
+  inline std::unordered_map<SDL_GameController*, int>& get_controller_mapping() { return m_game_controllers; }
 
 private:
   InputManager* m_parent;

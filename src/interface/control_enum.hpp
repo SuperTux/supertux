@@ -36,9 +36,9 @@ public:
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
 
-  T get_value() const { return *m_value; }
-  void set_value(T value) { *m_value = value; }
-  void bind_value(T* value) { m_value = value; }
+  inline T get_value() const { return *m_value; }
+  inline void set_value(T value) { *m_value = value; }
+  inline void bind_value(T* value) { m_value = value; }
 
   void add_option(T key, const std::string& label) { m_options.push_back(std::make_pair(key, label)); }
 

@@ -84,6 +84,13 @@ TTFSurfaceManager::get_cached_surface_width(const TTFFont& font,
 }
 
 void
+TTFSurfaceManager::clear_cache()
+{
+  m_cache.clear();
+  m_cache_iter = m_cache.begin();
+}
+
+void
 TTFSurfaceManager::cache_cleanup_step()
 {
   if (m_cache.empty())

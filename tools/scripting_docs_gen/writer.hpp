@@ -24,6 +24,8 @@
 
 namespace Writer
 {
+  std::string format_description(std::string desc);
+
   std::string write_file_notice(const std::string& template_file);
 
   std::string write_inheritance_list(const std::vector<Class>& classes,

@@ -9,15 +9,16 @@
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # Dmitry <dmitrymq@gmail.com>, 2013
 # Dmitry <dmitrymq@gmail.com>, 2013
+# sdaladman asylum, 2025
 # Темак, 2022
 # Dmitry Anikonov <starwars32@yandex.ru>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Темак, 2022\n"
+"Last-Translator: sdaladman asylum, 2025\n"
 "Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,7 +45,7 @@ msgstr "Древние руины"
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:191
+#: data/levels/world2/worldmap.stwm:223
 msgid "You found a secret area!"
 msgstr "Вы нашли тайник!"
 
@@ -90,7 +91,7 @@ msgstr "Призрачное отчаяние"
 
 #: data/levels/world2/ghosttrees_challenges.stl:3
 msgid "Ghosttree's Challenges"
-msgstr "Трудности призрачного дерева"
+msgstr "Испытания призрачного дерева"
 
 #: data/levels/world2/ghouls_lair.stl:3
 msgid "Ghouls' Lair"
@@ -217,6 +218,6 @@ msgstr "Деревянные корни"
 msgid "Rooted Forest"
 msgstr "Корневой лес"
 
-#: data/levels/world2/worldmap.stwm:205
+#: data/levels/world2/worldmap.stwm:239
 msgid "To be continued..."
 msgstr "Продолжение следует…"

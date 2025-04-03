@@ -1,6 +1,6 @@
 (supertux-sprite
 	(action
-	  (name "normal")
+	  (name "default")
 	  (hitbox 0 15 32 48)
 	  (images "stalactite_ice.png"))
 	(action

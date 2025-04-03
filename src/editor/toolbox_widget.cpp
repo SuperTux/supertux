@@ -33,6 +33,8 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+using InputType = EditorTilebox::InputType;
+
 EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_editor(editor),
   m_tilebox(new EditorTilebox(editor, Rectf())),
@@ -82,12 +84,12 @@ EditorToolboxWidget::draw(DrawingContext& context)
   m_undo_mode->draw(context);
   switch (m_tilebox->get_input_type())
   {
-    case EditorTilebox::InputType::TILE:
+    case InputType::TILE:
       m_select_mode->draw(context);
       break;
 
-    case EditorTilebox::InputType::NONE:
-    case EditorTilebox::InputType::OBJECT:
+    case InputType::NONE:
+    case InputType::OBJECT:
       m_node_marker_mode->draw(context);
       m_move_mode->draw(context);
       break;
@@ -108,6 +110,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (m_tilebox->on_mouse_button_down(button))
   {
+    m_editor.update_autotileset();
     update_mouse_icon();
     return true;
   }
@@ -150,17 +153,18 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           case 0:
             m_tilebox->get_tiles()->set_tile(0);
             m_tilebox->set_object("");
+            m_editor.update_autotileset();
             update_mouse_icon();
             break;
 
           case 1:
             switch (m_tilebox->get_input_type())
             {
-              case EditorTilebox::InputType::TILE:
+              case InputType::TILE:
                 m_select_mode->next_mode();
                 break;
-              case EditorTilebox::InputType::NONE:
-              case EditorTilebox::InputType::OBJECT:
+              case InputType::NONE:
+              case InputType::OBJECT:
                 m_tilebox->set_object("#node");
                 break;
               default:
@@ -170,8 +174,8 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
  
            case 2:
-             if (m_tilebox->get_input_type() == EditorTilebox::InputType::OBJECT ||
-                 m_tilebox->get_input_type() == EditorTilebox::InputType::NONE)
+             if (m_tilebox->get_input_type() == InputType::OBJECT ||
+                 m_tilebox->get_input_type() == InputType::NONE)
                m_move_mode->next_mode();
              update_mouse_icon();
              break;
@@ -342,29 +346,29 @@ EditorToolboxWidget::get_hovered_item_rect() const
 void
 EditorToolboxWidget::update_mouse_icon()
 {
-  MouseCursor::current()->set_icon(get_mouse_icon());
+  MouseCursor::current()->set_icon(get_mouse_icon()->get_current_surface());
 }
 
-SurfacePtr
+ToolIcon*
 EditorToolboxWidget::get_mouse_icon() const
 {
   switch (m_tilebox->get_input_type())
   {
-    case EditorTilebox::InputType::NONE:
-    case EditorTilebox::InputType::OBJECT:
+    case InputType::NONE:
+    case InputType::OBJECT:
     {
       const std::string object = m_tilebox->get_object();
 
       if (object.empty())
-        return m_rubber->get_current_surface();
+        return m_rubber.get();
       if (object == "#node")
-        return m_node_marker_mode->get_current_surface();
+        return m_node_marker_mode.get();
 
-      return m_move_mode->get_current_surface();
+      return m_move_mode.get();
     }
 
-    case EditorTilebox::InputType::TILE:
-      return m_select_mode->get_current_surface();
+    case InputType::TILE:
+      return m_select_mode.get();
 
     default:
       return nullptr;

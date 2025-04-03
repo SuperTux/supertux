@@ -42,7 +42,7 @@ public:
   AmbientSound(const Vector& pos, float radius, float vol, const std::string& file);
   ~AmbientSound() override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit_) override;
 
   static std::string class_name() { return "ambient-sound"; }
   virtual std::string get_class_name() const override { return class_name(); }

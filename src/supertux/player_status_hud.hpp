@@ -21,11 +21,14 @@
 
 #include "supertux/game_object.hpp"
 
+#include <unordered_map>
+
+#include "sprite/sprite.hpp"
+#include "supertux/player_status.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;
-class PlayerStatus;
 
 class PlayerStatusHUD : public GameObject
 {
@@ -41,6 +44,7 @@ public:
 
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return true; }
+  virtual bool track_state() const override { return false; }
 
   void reset();
 
@@ -49,8 +53,9 @@ private:
   int displayed_coins;
   int displayed_coins_frame;
   SurfacePtr coin_surface;
-  SurfacePtr fire_surface;
-  SurfacePtr ice_surface;
+
+  std::unordered_map<BonusType, SpritePtr> m_bonus_sprites;
+  SurfacePtr m_item_pocket_border;
 
 private:
   PlayerStatusHUD(const PlayerStatusHUD&) = delete;

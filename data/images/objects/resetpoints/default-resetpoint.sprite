@@ -1,6 +1,6 @@
 (supertux-sprite
  (action
-  (name "normal")
+  (name "default")
   (images "bell-m.png")
   (hitbox 8 5 32 32)
  )

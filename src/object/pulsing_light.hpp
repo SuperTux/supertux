@@ -19,13 +19,15 @@
 
 #include "object/light.hpp"
 
+class TileMap;
+
 /**
  * Light source that changes alpha value to give the impression of a pulsating light
  */
 class PulsingLight final : public Light
 {
 public:
-  PulsingLight(const Vector& center, float cycle_len = 5.0, float min_alpha = 0.0, float max_alpha = 1.0, const Color& color = Color(1.0, 1.0, 1.0, 1.0));
+  PulsingLight(const Vector& center, float cycle_len = 5.0, float min_alpha = 0.0, float max_alpha = 1.0, const Color& color = Color(1.0, 1.0, 1.0, 1.0), const TileMap* parent_tilemap = nullptr);
   ~PulsingLight() override;
   virtual GameObjectClasses get_class_types() const override { return Light::get_class_types().add(typeid(PulsingLight)); }
 
@@ -36,6 +38,9 @@ protected:
   float min_alpha; /**< minimum alpha */
   float max_alpha; /**< maximum alpha */
   float cycle_len; /**< length in seconds of one cycle */
+  const TileMap* parent_tilemap; /**< A reference to Tilemap for which the PulsingLight was made for. optional */
+  Vector rel_position; /**< relative position w.r.t. tilemap */
+  Color rel_color; /**< relative color w.r.t. tilemap */
 
   float t; /**< local time in seconds */
 };

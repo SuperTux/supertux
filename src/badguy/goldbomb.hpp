@@ -38,7 +38,12 @@ public:
   virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(GoldBomb)); }
   virtual bool is_snipable() const override { return true; }
 
+  int get_coins_worth() const override { return 10; }
+
   virtual void explode() override;
+
+  GameObjectTypes get_types() const override { return {}; }
+  std::string get_default_sprite_name() const override { return m_default_sprite_name; }
 
 private:
   void flee(Direction dir);

@@ -24,7 +24,7 @@ class CirclePlatform : public MovingSprite
 public:
   CirclePlatform(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual ObjectSettings get_settings() override;
   virtual void update(float dt_sec) override;
   virtual void on_flip(float height) override;

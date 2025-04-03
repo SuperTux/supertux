@@ -18,11 +18,12 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TEXTSCROLLER_HPP
 #define HEADER_SUPERTUX_OBJECT_TEXTSCROLLER_HPP
 
+#include "editor/layer_object.hpp"
+
 #include <memory>
 #include <vector>
 
 #include "supertux/info_box_line.hpp"
-#include "supertux/game_object.hpp"
 #include "control/controller.hpp"
 
 class DrawingContext;
@@ -31,7 +32,7 @@ class ReaderCollection;
 class ReaderMapping;
 class ReaderObject;
 
-class TextScroller : public GameObject
+class TextScroller : public LayerObject
 {
 public:
   TextScroller(const ReaderMapping& mapping);
@@ -47,9 +48,10 @@ public:
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(TextScroller)); }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/textscroller.png"; }
 
-  void set_default_speed(float default_speed);
   void scroll(float offset);
-  bool is_finished() const { return m_finished; }
+
+  inline void set_default_speed(float default_speed) { m_default_speed = default_speed; }
+  inline bool is_finished() const { return m_finished; }
   
 protected:
   const Controller* controller;

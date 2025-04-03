@@ -32,14 +32,14 @@ public:
     return false;
   }
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit) override {
+  HitResponse collision(MovingObject& other, const CollisionHit& hit) override {
     return FORCE_MOVE;
   }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual int get_layer() const override { return m_child ? m_child->get_layer() : -2147483648; }
+  virtual int get_layer() const override { return m_child ? m_child->get_layer() : INT_MIN; }
 
 private:
   Vector m_start_pos; 

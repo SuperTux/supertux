@@ -75,11 +75,11 @@ public:
 public:
   Savegame(Profile& profile, const std::string& world_name);
 
-  Profile& get_profile() const { return m_profile; }
+  inline Profile& get_profile() const { return m_profile; }
   std::string get_filename() const;
 
   /** Returns content of (tux ...) entry */
-  PlayerStatus& get_player_status() const { return *m_player_status; }
+  inline PlayerStatus& get_player_status() const { return *m_player_status; }
 
   std::string get_title() const;
 

@@ -61,9 +61,9 @@ public:
 
   void update_mouse_icon();
 
-  EditorTilebox& get_tilebox() const { return *m_tilebox; }
+  inline EditorTilebox& get_tilebox() const { return *m_tilebox; }
 
-  bool has_mouse_focus() const { return m_has_mouse_focus; }
+  inline bool has_mouse_focus() const { return m_has_mouse_focus; }
 
 private:
   Vector get_tool_coords(int pos) const;
@@ -71,7 +71,7 @@ private:
 
   Rectf get_hovered_item_rect() const;
 
-  SurfacePtr get_mouse_icon() const;
+  ToolIcon* get_mouse_icon() const;
 
 private:
   Editor& m_editor;

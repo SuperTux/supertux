@@ -49,7 +49,11 @@ public:
 
   void flush(ConsoleStreamBuffer& buffer); /**< act upon changes in a ConsoleStreamBuffer */
 
-  void set_console(Console* console);
+  inline void set_console(Console* console)
+  {
+    assert((console && !m_console) || (m_console && !console));
+    m_console = console;
+  }
 
 private:
   ConsoleBuffer(const ConsoleBuffer&) = delete;

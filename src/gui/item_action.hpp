@@ -22,7 +22,7 @@
 class ItemAction final : public MenuItem
 {
 public:
-  ItemAction(const std::string& text, int id = -1, std::function<void()> callback = {});
+  ItemAction(const std::string& text, int id = -1, std::function<void()> callback = {}, const Color& text_color = Color(1.f, 1.f, 1.f));
 
   virtual void process_action(const MenuAction& action) override;
 

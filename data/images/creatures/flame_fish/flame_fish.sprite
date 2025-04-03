@@ -1,6 +1,6 @@
 (supertux-sprite
  (action
-  (name "normal")
+  (name "default")
   (hitbox 2 3 0 0)
   (images "left-0.png"
           "left-1.png"))

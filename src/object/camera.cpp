@@ -51,7 +51,7 @@ static const float PEEK_ADD_VERTICAL_MARGIN = 320.f; // 10 tiles.
 static const float MULTIPLAYER_CAM_WEIGHT = 0.1f;
 
 Camera::Camera(const std::string& name) :
-  GameObject(name),
+  LayerObject(name),
   m_mode(Mode::NORMAL),
   m_defaultmode(Mode::NORMAL),
   m_screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)),
@@ -87,7 +87,7 @@ Camera::Camera(const std::string& name) :
 }
 
 Camera::Camera(const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   m_mode(Mode::NORMAL),
   m_defaultmode(Mode::NORMAL),
   m_screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)),
@@ -503,24 +503,10 @@ Camera::update_scroll_normal(float dt_sec)
     const float left_end = m_screen_size.width * 0.4f;
     const float right_end = m_screen_size.width * 0.6f;
 
-    if (player_delta.x < -CAMERA_EPSILON)
-    {
-      // Walking left.
+    if (player_delta.x < -CAMERA_EPSILON || player_delta.x > CAMERA_EPSILON) // Walking left or right.
       m_lookahead_pos.x -= player_delta.x * 0.8f;
-      if (m_lookahead_pos.x > right_end)
-        m_lookahead_pos.x = right_end;
-    }
-    else if (player_delta.x > CAMERA_EPSILON)
-    {
-      // Walking right.
-      m_lookahead_pos.x -= player_delta.x * 0.8f;
-      if (m_lookahead_pos.x < left_end)
-        m_lookahead_pos.x = left_end;
-    }
-    else
-    {
-      m_lookahead_pos.x = math::clamp(m_lookahead_pos.x, left_end, right_end);
-    }
+
+    m_lookahead_pos.x = math::clamp(m_lookahead_pos.x, left_end, right_end);
 
     // Adjust for level ends.
     if (player_pos.x < left_end)
@@ -724,6 +710,12 @@ Camera::update_scale(float dt_sec)
   m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
 }
 
+float
+Camera::get_current_scale() const
+{
+  return m_enfore_minimum_scale ? std::min(m_minimum_scale, m_scale) : m_scale;
+}
+
 /** Get target scale position from the anchor point (m_scale_anchor). */
 Vector
 Camera::get_scale_anchor_target() const
@@ -747,28 +739,22 @@ Camera::reload_scale()
 void
 Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
 {
+  if (m_scale == scale && m_scale_target == scale)
+    return;
+
+  m_scale_target = scale;
+  m_scale_time_total = time;
+  m_scale_easing = ease;
   m_scale_anchor = anchor;
+
+  reload_scale();
 
   if (time <= 0.f)
   {
     m_scale = scale;
     if (m_mode == Mode::MANUAL)
-      m_translation = get_scale_anchor_target();
+      m_translation = m_scale_target_translation;
   }
-  else
-  {
-    m_scale_target = scale;
-    m_scale_time_total = time;
-    m_scale_easing = ease;
-
-    reload_scale();
-  }
-}
-
-void
-Camera::set_pos(float x, float y)
-{
-  scroll_to(Vector(x, y), 0.0f);
 }
 
 void
@@ -789,69 +775,9 @@ Camera::set_mode(const std::string& mode)
 }
 
 void
-Camera::scroll_to(float x, float y, float scrolltime)
-{
-  scroll_to(Vector(x, y), scrolltime);
-}
-
-void
-Camera::set_scale(float scale)
-{
-  m_scale = scale;
-}
-
-void
-Camera::set_scale_anchor(float scale, int anchor)
-{
-  ease_scale_anchor(scale, 0, anchor, "");
-}
-
-void
-Camera::scale(float scale, float time)
-{
-  ease_scale(scale, time, "");
-}
-
-void
-Camera::scale_anchor(float scale, float time, int anchor)
-{
-  ease_scale_anchor(scale, time, anchor, "");
-}
-
-void
-Camera::ease_scale(float scale, float time, const std::string& ease)
-{
-  ease_scale_anchor(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease);
-}
-
-void
-Camera::ease_scale_anchor(float scale, float time, int anchor, const std::string& ease)
+Camera::set_scale(float scale, float time, int anchor, const std::string& ease)
 {
   ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)), static_cast<AnchorPoint>(anchor));
-}
-
-float
-Camera::get_screen_width() const
-{
-  return m_screen_size.width;
-}
-
-float
-Camera::get_screen_height() const
-{
-  return m_screen_size.height;
-}
-
-float
-Camera::get_x() const
-{
-  return m_translation.x;
-}
-
-float
-Camera::get_y() const
-{
-  return m_translation.y;
 }
 
 Vector
@@ -904,12 +830,12 @@ Camera::register_class(ssq::VM& vm)
   cls.addFunc<void, Camera, float, float, float>("scroll_to", &Camera::scroll_to);
   cls.addFunc("get_current_scale", &Camera::get_current_scale);
   cls.addFunc("get_target_scale", &Camera::get_target_scale);
-  cls.addFunc("set_scale", &Camera::set_scale);
-  cls.addFunc("set_scale_anchor", &Camera::set_scale_anchor);
-  cls.addFunc("scale", &Camera::scale);
-  cls.addFunc("scale_anchor", &Camera::scale_anchor);
-  cls.addFunc<void, Camera, float, float, const std::string&>("ease_scale", &Camera::ease_scale);
-  cls.addFunc("ease_scale_anchor", &Camera::ease_scale_anchor);
+  cls.addFunc("set_scale", &Camera::set_scale, ssq::DefaultArguments<float, int, const std::string&>(0.f, AnchorPoint::ANCHOR_MIDDLE, ""));
+  cls.addFunc("set_scale_anchor", &Camera::set_scale_anchor); // Deprecated
+  cls.addFunc("scale", &Camera::scale); // Deprecated
+  cls.addFunc("scale_anchor", &Camera::scale_anchor); // Deprecated
+  cls.addFunc<void, Camera, float, float, const std::string&>("ease_scale", &Camera::ease_scale); // Deprecated
+  cls.addFunc("ease_scale_anchor", &Camera::set_scale); // Deprecated
   cls.addFunc("get_screen_width", &Camera::get_screen_width);
   cls.addFunc("get_screen_height", &Camera::get_screen_height);
   cls.addFunc("get_x", &Camera::get_x);

@@ -225,7 +225,7 @@ WillOWisp::vanish()
 }
 
 bool
-WillOWisp::collides(GameObject& other, const CollisionHit& ) const {
+WillOWisp::collides(MovingObject& other, const CollisionHit& ) const {
   auto lantern = dynamic_cast<Lantern*>(&other);
 
   //                                 vv  'xor'
@@ -315,7 +315,7 @@ WillOWisp::get_settings()
     result.add_path_handle(_("Handle"), m_path_handle, "handle");
   }
 
-  result.reorder({"sector", "spawnpoint", "flyspeed", "track-range", "hit-script", "vanish-range", "name", "path-ref", "region", "x", "y"});
+  result.reorder({"sector", "spawnpoint", "flyspeed", "track-range", "hit-script", "vanish-range", "name", "path-ref", "width", "height", "x", "y"});
 
   return result;
 }

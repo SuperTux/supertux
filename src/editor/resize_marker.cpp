@@ -25,12 +25,18 @@ ResizeMarker::ResizeMarker(MovingObject* obj, Side vert, Side horz) :
   m_vert(vert),
   m_horz(horz)
 {
-  editor_update();
+  refresh_pos();
 }
 
 void
 ResizeMarker::editor_update()
 {
+  if (!m_object->is_valid())
+  {
+    remove_me();
+    return;
+  }
+
   refresh_pos();
 }
 

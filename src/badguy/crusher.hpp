@@ -58,13 +58,13 @@ private:
 public:
   Crusher(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   virtual void after_editor_set() override;
-  virtual bool is_sideways() const { return m_sideways; }
+  inline bool is_sideways() const { return m_sideways; }
 
   static std::string class_name() { return "crusher"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -78,9 +78,9 @@ public:
 
   virtual void on_flip(float height) override;
 
-  Physic& get_physic() { return m_physic; }
-  bool is_big() const { return m_ic_size == LARGE; }
-  CrusherState get_state() const { return m_state; }
+  inline Physic& get_physic() { return m_physic; }
+  inline bool is_big() const { return m_ic_size == LARGE; }
+  inline CrusherState get_state() const { return m_state; }
 
 private:
   void spawn_roots(Direction direction);
@@ -118,12 +118,12 @@ public:
   CrusherRoot(Vector position, Crusher::Direction direction, float delay, int layer);
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(CrusherRoot)); }
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
 private:
   void start_animation();
-  bool delay_gone() const { return m_delay_remaining <= 0.f; }
+  inline bool delay_gone() const { return m_delay_remaining <= 0.f; }
 
 private:
   Vector m_original_pos;

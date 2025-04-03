@@ -70,16 +70,13 @@ ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world) :
 void
 ContribLevelsetMenu::menu_action(MenuItem& item)
 {
-  if (dynamic_cast<ItemAction*>(&item))
-  {
-    SoundManager::current()->stop_music();
+  SoundManager::current()->stop_music();
 
-    // Reload the World so that we have something that we can safely
-    // std::move() around without wreaking the ContribMenu.
-    std::unique_ptr<World> world = World::from_directory(m_world->get_basedir());
-    std::string filename = m_levelset->get_level_filename(item.get_id());
-    GameManager::current()->start_level(*world, filename);
-  }
+  // Reload the World so that we have something that we can safely
+  // std::move() around without wreaking the ContribMenu.
+  std::unique_ptr<World> world = World::from_directory(m_world->get_basedir());
+  std::string filename = m_levelset->get_level_filename(item.get_id());
+  GameManager::current()->start_level(*world, filename);
 }
 
 /* EOF */

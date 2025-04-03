@@ -5,8 +5,9 @@
 # Translators:
 # André Pinheiro <andrepinheiro2004@gmail.com>, 2021
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
+# João Carlos P.P., 2025
 # João Frade <100nome.portugal@gmail.com>, 2023
-# lecalam, 2024
+# lecalam, 2024-2025
 # Rui <xymarior@yandex.com>, 2016,2018
 # Tiago Correia <tiaguito05@gmail.com>, 2019
 # Rui <xymarior@yandex.com>, 2016
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: lecalam, 2024\n"
+"Last-Translator: lecalam, 2024-2025\n"
 "Language-Team: Portuguese (http://app.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +39,7 @@ msgstr "23º Aerotransporte"
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
 #: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:197
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
 msgid "You found a secret area!"
 msgstr "Descobriste uma área secreta!"
 
@@ -51,7 +52,7 @@ msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "Flor-de-Ar\n!images/powerups/airflower/air_flower-0.png\n#A Flor-de-Ar dá ao Tux o poder de deslizar no ar durante alguns segundos, enquanto for premida a tecla de SALTAR."
+msgstr "-Flor de Ar\n!images/powerups/airflower/air_flower-0.png\n#A Flor de Ar dá ao Tux o poder de planar no ar durante alguns segundos, enquanto for premida a tecla de SALTAR."
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
@@ -96,7 +97,7 @@ msgid ""
 "!images/objects/pushbutton/pushbutton-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
 "#There are also buttons that you can press by jumping on them."
-msgstr "-Interruptores\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Os interruptores podem ser utilizados em muitos casos. Prime a tecla SUBIR para utilizar o interruptor.\n#Há também botões que podes premir saltando sobre eles."
+msgstr "-Interruptores\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Os interruptores podem ser utilizados em muitos casos. Prime a tecla SETA CIMA para utilizar o interruptor.\n#Há também botões que podes premir saltando sobre eles."
 
 #: data/levels/world1/fork_in_the_road.stl:93
 msgid ""
@@ -314,7 +315,7 @@ msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Flor-de-Fogo\n!images/powerups/fireflower/fire_flower-0.png\n#A Flor-de-Fogo dá ao Tux o poder de atirar bolas de fogo com a tecla de Ação."
+msgstr "-Flor de Fogo\n!images/powerups/fireflower/fire_flower-0.png\n#A Flor de Fogo dá ao Tux o poder de atirar bolas de fogo com a tecla de Ação."
 
 #: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
