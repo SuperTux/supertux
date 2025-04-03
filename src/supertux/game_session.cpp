@@ -850,10 +850,6 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
   if (caller)
     caller->set_winning();
 
-  int remaining_players = get_current_sector().get_object_count<Player>([](const Player& p){
-    return p.is_active();
-  });
-
   // Abort if a sequence is already playing.
   if (m_end_sequence && m_end_sequence->is_running())
     return;
@@ -879,6 +875,10 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
     caller->set_controller(m_end_sequence->get_controller(caller->get_id()));
     caller->set_speedlimit(230); // MAX_WALK_XM
   }
+
+  int remaining_players = get_current_sector().get_object_count<Player>([](const Player& p){
+    return p.is_active();
+  });
 
   // Don't play the prepared sequence if there are more players that are still playing.
   if (remaining_players > 0)
