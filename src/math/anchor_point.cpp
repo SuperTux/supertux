@@ -21,7 +21,7 @@
 #include <stdexcept>
 #include <sstream>
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "util/log.hpp"
 #include "util/gettext.hpp"
 

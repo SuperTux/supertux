@@ -16,6 +16,7 @@
 
 #include "object/tilemap.hpp"
 
+#include <algorithm>
 #include <tuple>
 
 #include <simplesquirrel/class.hpp>
@@ -491,7 +492,7 @@ TileMap::draw(DrawingContext& context)
 
   Rectf draw_rect = context.get_cliprect();
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
-  Vector start = get_tile_position(t_draw_rect.left, t_draw_rect.top);
+  Vector start = get_tile_position(t_draw_rect.get_left(), t_draw_rect.get_top());
 
   Vector pos(0.0f, 0.0f);
   int tx, ty;
@@ -500,8 +501,10 @@ TileMap::draw(DrawingContext& context)
                      std::tuple<std::vector<Rectf>,
                                 std::vector<Rectf>>> batches;
 
-  for (pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
-    for (pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
+  for (pos.x = start.x, tx = t_draw_rect.get_left(); tx < t_draw_rect.get_right();
+       pos.x += 32, ++tx) {
+    for (pos.y = start.y, ty = t_draw_rect.get_top(); ty < t_draw_rect.get_bottom();
+         pos.y += 32, ++ty) {
       int index = ty*m_width + tx;
       assert (index >= 0);
       assert (index < (m_width * m_height));
@@ -624,16 +627,32 @@ void TileMap::resize(const Size& newsize, const Size& resize_offset) {
   resize(newsize.width, newsize.height, 0, resize_offset.width, resize_offset.height);
 }
 
-Rect
-TileMap::get_tiles_overlapping(const Rectf &rect) const
+//#include <iostream> // temp
+
+Rect TileMap::get_tiles_overlapping(const Rectf& rect) const
 {
   Rectf rect2 = rect;
   rect2.move(-m_offset);
 
-  int t_left   = std::max(0     , int(floorf(rect2.get_left  () / 32)));
+  int t_left   = std::max(0       , int(floorf(rect2.get_left  () / 32)));
   int t_right  = std::min(m_width , int(ceilf (rect2.get_right () / 32)));
-  int t_top    = std::max(0     , int(floorf(rect2.get_top   () / 32)));
+  int t_top    = std::max(0       , int(floorf(rect2.get_top   () / 32)));
   int t_bottom = std::min(m_height, int(ceilf (rect2.get_bottom() / 32)));
+
+  /*
+  int t_left   = floorf(rect2.get_left  () / 32);
+  int t_right  = ceilf (rect2.get_right () / 32);
+  int t_top    = floorf(rect2.get_top   () / 32);
+  int t_bottom = ceilf (rect2.get_bottom() / 32);
+
+  std::clamp(t_left  , 0     , int(rect2.get_right()) );
+  std::clamp(t_right , t_left, m_width                );
+  std::clamp(t_top   , 0     , int(rect2.get_bottom()));
+  std::clamp(t_bottom, t_top , m_height               );
+
+  std::cout << t_right - t_left << std::endl;
+  */
+
   return Rect(t_left, t_top, t_right, t_bottom);
 }
 

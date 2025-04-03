@@ -23,14 +23,13 @@
 #include <unordered_set>
 
 #include "math/rect.hpp"
-#include "math/rectf.hpp"
 #include "math/size.hpp"
 #include "object/path_object.hpp"
 #include "object/path_walker.hpp"
 #include "supertux/autotile.hpp"
 #include "video/color.hpp"
-#include "video/flip.hpp"
 #include "video/drawing_target.hpp"
+#include "video/flip.hpp"
 
 class AutotileSet;
 class CollisionObject;
@@ -138,7 +137,7 @@ public:
 
   /** Returns the half-open rectangle of (x, y) tile indices that
       overlap the given rectangle in the sector. */
-  Rect get_tiles_overlapping(const Rectf &rect) const;
+  Rect get_tiles_overlapping(const Rectf& rect) const;
 
   /** Called by the collision mechanism to indicate that this tilemap has been hit on
       the top, i.e. has hit a moving object on the bottom of its collision rectangle. */

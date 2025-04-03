@@ -372,12 +372,12 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         }
 
         Rect region;
-        region.left = arr[2].as_int();
-        region.top = arr[3].as_int();
+        region.get_left() = arr[2].as_int();
+        region.get_top() = arr[3].as_int();
         const int w = arr[4].as_int();
         const int h = arr[5].as_int();
-        region.right = region.left + w;
-        region.bottom = region.top + h;
+        region.set_right(region.get_left() + w);
+        region.set_bottom(region.get_top() + h);
 
         max_w = std::max(max_w, static_cast<float>(w));
         max_h = std::max(max_w, static_cast<float>(h));

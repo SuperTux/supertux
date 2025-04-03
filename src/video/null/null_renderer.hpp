@@ -20,7 +20,6 @@
 #include "video/renderer.hpp"
 
 class NullPainter;
-class Rect;
 struct DrawingRequest;
 struct SDL_Window;
 

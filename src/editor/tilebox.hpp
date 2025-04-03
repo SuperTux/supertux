@@ -24,14 +24,13 @@
 
 #include "editor/tip.hpp"
 #include "interface/control_scrollbar.hpp"
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "math/vector.hpp"
 #include "supertux/tile_set.hpp"
 
 class Editor;
 class ObjectGroup;
 class ObjectInfo;
-class Rectf;
 class TileSelection;
 
 /**

@@ -42,8 +42,6 @@ class Level;
 class MovingObject;
 class Player;
 class ReaderMapping;
-class Rectf;
-class Size;
 class SpawnPointMarker;
 class TextObject;
 class TileMap;

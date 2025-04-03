@@ -20,7 +20,7 @@
 
 #include <string>
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"

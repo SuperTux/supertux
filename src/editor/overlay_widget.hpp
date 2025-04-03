@@ -36,7 +36,6 @@ class GameObject;
 class MovingObject;
 class NodeMarker;
 class Path;
-class Rectf;
 class Tip;
 
 /** A widget that is drawn on top of the current sector and handles

@@ -26,7 +26,7 @@
 #include "control/controller.hpp"
 #include "gui/menu_action.hpp"
 #include "gui/menu_transition.hpp"
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 
 class Controller;
 class Dialog;

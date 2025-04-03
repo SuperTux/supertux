@@ -20,8 +20,8 @@
 #include <string>
 #include <memory>
 
-#include "math/rectf.hpp"
-#include "math/sizef.hpp"
+#include "math/rect.hpp"
+#include "math/size.hpp"
 #include "math/vector.hpp"
 #include "video/blend.hpp"
 #include "video/color.hpp"

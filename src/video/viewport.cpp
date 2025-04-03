@@ -48,10 +48,12 @@ apply_pixel_aspect_ratio_post(const Size& real_window_size, const Size& window_s
   Vector transform(static_cast<float>(real_window_size.width) / static_cast<float>(window_size.width),
                    static_cast<float>(real_window_size.height) / static_cast<float>(window_size.height));
 
-  out_viewport.left = static_cast<int>(static_cast<float>(out_viewport.left) * transform.x);
-  out_viewport.top = static_cast<int>(static_cast<float>(out_viewport.top) * transform.y);
-  out_viewport.right = static_cast<int>(static_cast<float>(out_viewport.right) * transform.x);
-  out_viewport.bottom = static_cast<int>(static_cast<float>(out_viewport.bottom) * transform.y);
+  out_viewport.set_left(static_cast<int>(static_cast<float>(out_viewport.get_left()) * transform.x));
+  out_viewport.set_top(static_cast<int>(static_cast<float>(out_viewport.get_top()) * transform.y));
+  out_viewport.set_right(
+      static_cast<int>(static_cast<float>(out_viewport.get_right()) * transform.x));
+  out_viewport.set_bottom(
+      static_cast<int>(static_cast<float>(out_viewport.get_bottom()) * transform.y));
 
   out_scale.x = scale * transform.x;
   out_scale.y = scale * transform.y;
@@ -101,11 +103,11 @@ calculate_viewport(const Size& max_size, const Size& window_size, float scale)
   // Center the viewport in the window
   Rect viewport;
 
-  viewport.left = std::max(0, (window_size.width - viewport_width) / 2);
-  viewport.top = std::max(0, (window_size.height - viewport_height) / 2);
+  viewport.set_left(std::max(0, (window_size.width - viewport_width) / 2));
+  viewport.set_top(std::max(0, (window_size.height - viewport_height) / 2));
 
-  viewport.right = viewport.left + viewport_width;
-  viewport.bottom = viewport.top + viewport_height;
+  viewport.set_right(viewport.get_left() + viewport_width);
+  viewport.set_bottom(viewport.get_top() + viewport_height);
 
   return viewport;
 }
@@ -209,14 +211,14 @@ Viewport::get_screen_size() const
 Vector
 Viewport::to_logical(int physical_x, int physical_y) const
 {
-  return Vector(static_cast<float>(physical_x - m_rect.left) / m_scale.x,
-                static_cast<float>(physical_y - m_rect.top) / m_scale.y);
+  return Vector(static_cast<float>(physical_x - m_rect.get_left()) / m_scale.x,
+                static_cast<float>(physical_y - m_rect.get_top()) / m_scale.y);
 }
 
 bool
 Viewport::needs_clear_screen() const
 {
-  return (m_rect.left != 0 || m_rect.top != 0);
+  return (m_rect.get_left() != 0 || m_rect.get_top() != 0);
 }
 
 /* EOF */

@@ -91,8 +91,8 @@ GL33CoreContext::bind()
 
   const float sx = tsx / static_cast<float>(rect.get_width());
   const float sy = tsy / static_cast<float>(rect.get_height());
-  const float tx = -static_cast<float>(rect.left) / static_cast<float>(rect.get_width());
-  const float ty = -static_cast<float>(rect.top) / static_cast<float>(rect.get_height());
+  const float tx = -static_cast<float>(rect.get_left()) / static_cast<float>(rect.get_width());
+  const float ty = -static_cast<float>(rect.get_top()) / static_cast<float>(rect.get_height());
 
   const float matrix[3*3] = {
     sx, 0.0, 0,

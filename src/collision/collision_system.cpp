@@ -237,10 +237,8 @@ CollisionSystem::collision_tilemap(collision::Constraints* constraints,
 
     bool hits_bottom = false;
 
-    for (int x = test_tiles.left; x < test_tiles.right; ++x)
-    {
-      for (int y = test_tiles.top; y < test_tiles.bottom; ++y)
-      {
+    for (int x = test_tiles.get_left(); x < test_tiles.get_right(); ++x) {
+      for (int y = test_tiles.get_top(); y < test_tiles.get_bottom(); ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
         // Skip non-solid tiles.
@@ -306,16 +304,16 @@ CollisionSystem::collision_tile_attributes(const Rectf& dest, const Vector& mov)
     // For ice (only), add a little fudge to recognize tiles Tux is standing on.
     const Rect test_tiles_ice = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2 + SHIFT_DELTA));
 
-    for (int x = test_tiles.left; x < test_tiles.right; ++x) {
+    for (int x = test_tiles.get_left(); x < test_tiles.get_right(); ++x) {
       int y;
-      for (y = test_tiles.top; y < test_tiles.bottom; ++y) {
+      for (y = test_tiles.get_top(); y < test_tiles.get_bottom(); ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
         if ( tile.is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
           result |= tile.get_attributes();
         }
       }
-      for (; y < test_tiles_ice.bottom; ++y) {
+      for (; y < test_tiles_ice.get_bottom(); ++y) {
         const Tile& tile = solids->get_tile(x, y);
         if ( tile.is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
           result |= (tile.get_attributes() & Tile::ICE);
@@ -682,8 +680,8 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
     // Test with all tiles in this rectangle.
     const Rect test_tiles = solids->get_tiles_overlapping(rect);
 
-    for (int x = test_tiles.left; x < test_tiles.right; ++x) {
-      for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
+    for (int x = test_tiles.get_left(); x < test_tiles.get_right(); ++x) {
+      for (int y = test_tiles.get_top(); y < test_tiles.get_bottom(); ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
         if (!(tile.get_attributes() & tiletype))

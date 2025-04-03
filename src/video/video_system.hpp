@@ -26,7 +26,6 @@
 #include "video/sampler.hpp"
 #include "video/texture_ptr.hpp"
 
-class Rect;
 class Renderer;
 class SDLSurfacePtr;
 class Sampler;

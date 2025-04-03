@@ -31,7 +31,6 @@ class GLScreenRenderer;
 class GLTexture;
 class GLTextureRenderer;
 class GLVertexArrays;
-class Rect;
 class TextureManager;
 struct SDL_Surface;
 

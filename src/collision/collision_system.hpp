@@ -30,7 +30,6 @@
 class CollisionObject;
 class CollisionGroundMovementManager;
 class DrawingContext;
-class Rectf;
 class Sector;
 
 class CollisionSystem final

@@ -23,21 +23,24 @@
 #include <glm/ext.hpp>
 #include <glm/gtx/io.hpp>
 
-using Vector = glm::vec2;
+#include "fwd.hpp"
 
 namespace math {
 
-inline Vector vec2_from_polar(float length, float angle)
+template<typename T>
+inline Vector_t<T> vec2_from_polar(T length, T angle)
 {
-  return Vector(cosf(angle), sinf(angle)) * length;
+  return Vector_t<T>(cosf(angle), sinf(angle)) * length;
 }
 
-inline float angle(Vector const& v)
+template<typename T>
+inline T angle(Vector_t<T> const& v)
 {
   return (v.x == 0 && v.y == 0) ? 0 : atan2f(v.y, v.x);
 }
 
-inline Vector at_angle(Vector const& v, float angle)
+template<typename T>
+inline Vector_t<T> at_angle(Vector_t<T> const& v, T angle)
 {
   return vec2_from_polar(glm::length(v), angle);
 }

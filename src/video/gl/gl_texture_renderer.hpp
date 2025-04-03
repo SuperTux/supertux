@@ -27,7 +27,6 @@
 class GLFramebuffer;
 class GLTexture;
 class GLVideoSystem;
-class Rect;
 class Texture;
 struct DrawingRequest;
 

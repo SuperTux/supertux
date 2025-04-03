@@ -19,7 +19,7 @@
 #include <algorithm>
 
 #include "math/aatriangle.hpp"
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 
 namespace collision {
 

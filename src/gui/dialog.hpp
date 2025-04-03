@@ -23,7 +23,7 @@
 #include <vector>
 
 #include "gui/menu_manager.hpp"
-#include "math/sizef.hpp"
+#include "math/size.hpp"
 #include "util/gettext.hpp"
 
 class Controller;

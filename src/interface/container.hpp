@@ -20,7 +20,7 @@
 #include <SDL.h>
 
 #include "interface/control.hpp"
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "video/drawing_context.hpp"
 
 /** Class that's designed to contain other controls */
