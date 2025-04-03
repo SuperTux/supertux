@@ -221,7 +221,6 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
   if (hit.top)
     m_col.propagate_movement(m_col.get_movement());
 
-
   if (hit.bottom)
   {
     if (m_state == STATE_SIT)
@@ -250,13 +249,11 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     Sector::get().run_script(m_carried_script, "carried-script");
   }
 
+  if (movingobject->get_group() == COLGROUP_MOVING_STATIC &&
+      m_dir == Direction::LEFT ? hit.left : hit.right)
   {
-    auto* movingobject = dynamic_cast<MovingObject*>(&other);
-    if (movingobject != nullptr && movingobject->get_group() == COLGROUP_MOVING_STATIC &&
-        m_dir == Direction::LEFT ? hit.left : hit.right) {
-      turn(invert_dir(m_dir));
-      return ABORT_MOVE;
-    }
+    turn(invert_dir(m_dir));
+    return ABORT_MOVE;
   }
 
 granito_collision_end:
