@@ -69,7 +69,9 @@ Sector::Sector(Level& parent) :
   m_foremost_opaque_layer(),
   m_gravity(10.0f),
   m_collision_system(new CollisionSystem(*this)),
-  m_text_object(add<TextObject>("Text"))
+  m_text_object(add<TextObject>("Text")),
+  m_init_script_run(),
+  m_init_script_run_once()
 {
   add<DisplayEffect>("Effect");
   add<TextArrayObject>("TextArray");
@@ -284,8 +286,10 @@ Sector::activate(const Vector& player_pos)
   }
 
   // Run init script
-  if (!m_init_script.empty() && !Editor::is_active()) {
+  if (!m_init_script.empty() && !Editor::is_active() &&
+      ((m_init_script_run_once && !m_init_script_run) || !m_init_script_run_once)) {
     run_script(m_init_script, "init-script");
+    m_init_script_run = true;
   }
 
   // Do not interpolate camera after it has been warped
@@ -772,6 +776,10 @@ Sector::save(Writer &writer)
 
   if (m_init_script.size()) {
     writer.write("init-script", m_init_script,false);
+  }
+
+  if (m_init_script_run_once) {
+    writer.write("init-script-run-once", m_init_script_run_once);
   }
 
   // saving objects;
