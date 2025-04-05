@@ -22,13 +22,15 @@
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 MenuItem::MenuItem(const std::string& text, int id, const std::optional<Color>& text_color) :
   m_id(id),
   m_text(text),
   m_help(),
   m_font(Resources::normal_font),
-  m_text_color(text_color)
+  m_text_color(text_color),
+  m_preview()
 {
 }
 
@@ -46,6 +48,12 @@ MenuItem::set_help(const std::string& help_text)
     m_help += "\n";
     m_help += m_font->wrap_to_width(overflow, 600, &overflow);
   }
+}
+
+void
+MenuItem::set_preview(const std::string& preview_file)
+{
+  m_preview = Surface::from_file(preview_file);
 }
 
 void
