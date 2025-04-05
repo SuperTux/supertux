@@ -108,7 +108,10 @@ FishChasing::active_update(float dt_sec) {
     break;
   case FOUND:
     if (!m_frozen)
-      set_action("notice", m_dir, 1);
+    {
+      Direction dir = m_physic.get_velocity_x() <= 0.f ? Direction::LEFT : Direction::RIGHT;
+      set_action("notice", dir, 1);
+    }
 
     if (std::abs(glm::length(m_physic.get_velocity())) >= 1.f) {
       m_physic.set_velocity(m_physic.get_velocity() / 1.25f);
