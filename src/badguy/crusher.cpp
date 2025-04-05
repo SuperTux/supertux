@@ -374,22 +374,21 @@ Crusher::eye_position(bool right) const
       // Crusher focuses on approximate position of player's head.
       const float player_focus_x = (player->get_bbox().get_right() + player->get_bbox().get_left()) * 0.5f;
       const float player_focus_y = player->get_bbox().get_bottom() * 0.25f + player->get_bbox().get_top() * 0.75f;
+      const Vector player_focus(player_focus_x, player_focus_y);
 
       // Crusher's approximate origin of line-of-sight.
-      const float crusher_origin_x = get_bbox().get_middle().x;
-      const float crusher_origin_y = get_bbox().get_middle().y;
+      const Vector crusher_origin = get_bbox().get_middle();
 
       // Line-of-sight displacement from crusher to player.
-      const float displacement_x = player_focus_x - crusher_origin_x;
-      const float displacement_y = player_focus_y - crusher_origin_y;
-      const float displacement_mag = std::pow(std::pow(displacement_x, 2.0f) + std::pow(displacement_y, 2.0f), 0.5f);
+      const Vector displacement = player_focus - crusher_origin;
+      const float displacement_mag = glm::length(displacement);
 
       // Determine weighting for eye displacement along x given crusher eye shape.
-      int weight_x = m_sprite->get_width() / 64 * (((displacement_x > 0) == right) ? 1 : 4);
+      int weight_x = m_sprite->get_width() / 64 * (((displacement.x > 0) == right) ? 1 : 4);
       int weight_y = m_sprite->get_width() / 64 * 2;
 
-      return Vector(displacement_x / displacement_mag * static_cast<float>(weight_x),
-        displacement_y / displacement_mag * static_cast<float>(weight_y) - static_cast<float>(weight_y));
+      return Vector(displacement.x / displacement_mag * static_cast<float>(weight_x),
+        displacement.y / displacement_mag * static_cast<float>(weight_y) - static_cast<float>(weight_y));
     }
 
     case CRUSHING:
@@ -413,7 +412,7 @@ Crusher::eye_position(bool right) const
 
       // Phase factor due to y position.
       //auto y_position_phase_factor = !m_sideways ? get_pos().y / 13 : get_pos().x / 13;
-      float y_position_phase_factor = 1.f;
+      float y_position_phase_factor = m_dir_vector.y;
 
       float phase_factor = y_position_phase_factor - cooldown_phase_factor;
 
@@ -510,17 +509,20 @@ Crusher::update(float dt_sec)
 void
 Crusher::draw(DrawingContext& context)
 {
-  Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
+  const Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
   m_sprite->draw(context.color(), draw_pos, m_layer + 2, m_flip);
 
-  if (m_sprite->has_action("whites"))
+  if (m_whites)
   {
     context.push_transform();
     context.set_flip(m_flip);
 
-    context.color().draw_surface(m_lefteye, draw_pos + eye_position(false), m_layer + 1);
-    context.color().draw_surface(m_righteye, draw_pos + eye_position(true), m_layer + 1);
-    context.color().draw_surface(m_whites, draw_pos, m_layer);
+    const Vector offset_pos = draw_pos - Vector(m_sprite->get_current_hitbox().p1());
+    context.color().draw_surface(m_whites, offset_pos, m_layer);
+
+    const Vector leye = Vector(m_sprite->get_width() / 64.f, (m_sprite->get_height() / 64.f) * 2.f);
+    context.color().draw_surface(m_lefteye, draw_pos + leye, m_layer + 1);
+    //context.color().draw_surface(m_righteye, eye_pos, m_layer + 1);
 
     context.pop_transform();
   }
@@ -538,12 +540,12 @@ Crusher::after_sprite_set()
 {
   set_action("idle");
 
+  m_whites.reset();
+  m_lefteye.reset();
+  m_righteye.reset();
+
   if (m_sprite->has_action("whites"))
   {
-    m_whites.reset();
-    m_lefteye.reset();
-    m_righteye.reset();
-
     using Surfaces = const std::optional<std::vector<SurfacePtr>>;
 
     Surfaces esurfaces = m_sprite->get_action_surfaces("whites");
