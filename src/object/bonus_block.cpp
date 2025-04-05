@@ -616,7 +616,7 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::PORTABLE_TRAMPOLINE:
     {
-      Sector::get().add<Trampoline>(get_pos() + Vector(0, 32), true);
+      Sector::get().add<Trampoline>(get_pos() + Vector(0, 32), false);
       countdown = true;
       break;
     }
@@ -638,7 +638,7 @@ BonusBlock::try_drop(Player *player)
   if (play_upgrade_sound)
     SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
 
-  if (!m_script.empty()) { // Scripts always run if defined.
+  if (!m_script.empty() && countdown) { // Scripts always run if defined.
     Sector::get().run_script(m_script, "powerup-script");
   }
 
