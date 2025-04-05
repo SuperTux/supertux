@@ -21,7 +21,7 @@
 #include <SDL.h>
 
 #include "math/vector.hpp"
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/video_system.hpp"

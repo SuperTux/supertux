@@ -14,21 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "math/size.hpp"
-
-#include <ostream>
-
-#include "math/sizef.hpp"
-
-Size::Size(const Sizef& rhs) :
-  width(static_cast<int>(rhs.width)),
-  height(static_cast<int>(rhs.height))
-{
-}
+#include "size.hpp"
 
 std::ostream& operator<<(std::ostream& s, const Size& size)
 {
   return s << "Size(" << size.width << ", " << size.height << ")";
 }
 
-/* EOF */
+std::ostream& operator<<(std::ostream& s, const Sizef& size)
+{
+  return s << "Sizef(" << size.width << ", " << size.height << ")";
+}

@@ -22,7 +22,7 @@
 #include <string>
 
 #include "control/controller.hpp"
-#include "math/sizef.hpp"
+#include "math/size.hpp"
 #include "video/drawing_context.hpp"
 
 class Notification

@@ -507,11 +507,11 @@ std::vector<SurfacePtr>
 
         if (surface_region)
         {
-          rect.left += surface_region->left;
-          rect.top += surface_region->top;
+          rect.set_left(rect.get_left() + surface_region->get_left());
+          rect.set_top(rect.get_top() + surface_region->get_top());
 
-          rect.right = rect.left + surface_region->get_width();
-          rect.bottom = rect.top + surface_region->get_height();
+          rect.set_right(rect.get_right() + rect.get_left() + surface_region->get_width());
+          rect.set_bottom(rect.get_bottom() + rect.get_top() + surface_region->get_height());
         }
 
         surfaces.push_back(Surface::from_file(FileSystem::join(m_tiles_path, file),

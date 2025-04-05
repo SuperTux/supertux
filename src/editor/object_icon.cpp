@@ -16,10 +16,10 @@
 
 #include "editor/object_icon.hpp"
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "util/reader_mapping.hpp"
-#include "video/surface.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 ObjectIcon::ObjectIcon(const std::string& object_class, const std::string& icon) :
   m_object_class(object_class),

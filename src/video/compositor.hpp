@@ -23,7 +23,6 @@
 #include "util/obstackpp.hpp"
 
 class DrawingContext;
-class Rect;
 class VideoSystem;
 
 class Compositor final

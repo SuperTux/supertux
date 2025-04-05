@@ -49,7 +49,7 @@ GLScreenRenderer::start_draw()
   const Viewport& viewport = m_video_system.get_viewport();
   const Rect& rect = viewport.get_rect();
 
-  glViewport(rect.left, rect.top, rect.get_width(), rect.get_height());
+  glViewport(rect.get_left(), rect.get_top(), rect.get_width(), rect.get_height());
 
   context.ortho(static_cast<float>(viewport.get_screen_width()),
                 static_cast<float>(viewport.get_screen_height()),

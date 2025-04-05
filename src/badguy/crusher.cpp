@@ -426,34 +426,34 @@ Crusher::spawn_roots(Direction direction)
     vertical = true;
     origin.x = m_col.m_bbox.get_middle().x - 16.f;
     origin.y = m_col.m_bbox.get_bottom();
-    test_empty_offset = Rectf(Vector(4, -4), Size(16, 1));
-    test_solid_offset_1 = Rectf(Vector(6, 8), Size(1, 1));
-    test_solid_offset_2 = Rectf(Vector(16, 8), Size(1, 1));
+    test_empty_offset = Rectf(Vector(4, -4), Sizef(16, 1));
+    test_solid_offset_1 = Rectf(Vector(6, 8), Sizef(1, 1));
+    test_solid_offset_2 = Rectf(Vector(16, 8), Sizef(1, 1));
     break;
 
   case Direction::UP:
     vertical = true;
     origin.x = m_col.m_bbox.get_middle().x - 16.f;
     origin.y = m_col.m_bbox.get_top() - 6.f;
-    test_empty_offset = Rectf(Vector(4, 4), Size(16, 1));
-    test_solid_offset_1 = Rectf(Vector(6, -8), Size(1, 1));
-    test_solid_offset_2 = Rectf(Vector(16, -8), Size(1, 1));
+    test_empty_offset = Rectf(Vector(4, 4), Sizef(16, 1));
+    test_solid_offset_1 = Rectf(Vector(6, -8), Sizef(1, 1));
+    test_solid_offset_2 = Rectf(Vector(16, -8), Sizef(1, 1));
     break;
 
   case Direction::LEFT:
     origin.x = m_col.m_bbox.get_left() - 6.f;
     origin.y = m_col.m_bbox.get_middle().y - 16.f;
-    test_empty_offset = Rectf(Vector(8, 0), Size(1, 16));
-    test_solid_offset_1 = Rectf(Vector(0, 4), Size(1, 1));
-    test_solid_offset_2 = Rectf(Vector(0, 12), Size(1, 1));
+    test_empty_offset = Rectf(Vector(8, 0), Sizef(1, 16));
+    test_solid_offset_1 = Rectf(Vector(0, 4), Sizef(1, 1));
+    test_solid_offset_2 = Rectf(Vector(0, 12), Sizef(1, 1));
     break;
 
   case Direction::RIGHT:
     origin.x = m_col.m_bbox.get_right() + 12.f;
     origin.y = m_col.m_bbox.get_middle().y - 16.f;
-    test_empty_offset = Rectf(Vector(-16, 0), Size(1, 16));
-    test_solid_offset_1 = Rectf(Vector(0, 4), Size(1, 1));
-    test_solid_offset_2 = Rectf(Vector(0, 12), Size(1, 1));
+    test_empty_offset = Rectf(Vector(-16, 0), Sizef(1, 16));
+    test_solid_offset_1 = Rectf(Vector(0, 4), Sizef(1, 1));
+    test_solid_offset_2 = Rectf(Vector(0, 12), Sizef(1, 1));
     break;
   }
 

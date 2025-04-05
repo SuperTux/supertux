@@ -277,10 +277,8 @@ RootSapling::should_summon_root(const Rectf& bbox)
     // Test with all tiles in the root's hitbox
     const Rect test_tiles = solids->get_tiles_overlapping(bbox);
 
-    for (int x = test_tiles.left; x < test_tiles.right; ++x)
-    {
-      for (int y = test_tiles.top; y < test_tiles.bottom; ++y)
-      {
+    for (int x = test_tiles.get_left(); x < test_tiles.get_right(); ++x) {
+      for (int y = test_tiles.get_top(); y < test_tiles.get_bottom(); ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
         if (!(tile.get_attributes() & Tile::SOLID))

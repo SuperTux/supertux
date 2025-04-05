@@ -16,7 +16,7 @@
 
 #include "video/surface_batch.hpp"
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "video/surface.hpp"
 
 SurfaceBatch::SurfaceBatch(const SurfacePtr& surface, const Color& color) :

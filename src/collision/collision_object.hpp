@@ -24,7 +24,7 @@
 
 #include "collision/collision_group.hpp"
 #include "collision/collision_hit.hpp"
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 
 class CollisionGroundMovementManager;
 class MovingObject;
