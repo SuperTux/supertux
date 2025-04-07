@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "math/random.hpp"
 #include "object/sprite_particle.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -37,11 +38,12 @@ Root::Root(const ReaderMapping& reader) :
 {
   reader.get("delay", m_delay, HATCH_TIME);
   reader.get("play-sound", m_play_sound, true);
+  set_action("root", m_dir);
   construct();
 }
 
 Root::Root(const Vector& pos, Direction dir, const std::string& sprite,
-           float delay, bool play_sound) :
+           float delay, bool play_sound, bool auto_construct) :
   BadGuy(pos, dir, sprite, LAYER_TILES - 10),
   m_base_surface(nullptr),
   m_timer(),
@@ -50,16 +52,17 @@ Root::Root(const Vector& pos, Direction dir, const std::string& sprite,
   m_maxheight(0.f),
   m_play_sound(play_sound)
 {
-  construct(delay, play_sound);
+  set_action("root", m_dir);
+  if (auto_construct)
+    construct();
 }
 
 void
-Root::construct(float delay, bool play_sound)
+Root::construct()
 {
   m_countMe = false;
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_DISABLED);
-  set_action("root", m_dir);
 
   Vector pos = get_pos();
   switch (m_dir)
@@ -93,6 +96,19 @@ Root::construct(float delay, bool play_sound)
     SoundManager::current()->preload("sounds/dartfire.wav");
     SoundManager::current()->preload("sounds/brick.wav");
   }
+}
+
+bool
+Root::try_spawn(const Vector& pos, const Direction& dir, std::string_view sprite)
+{
+  try_spawn(pos, dir, SpriteManager::current()->create(sprite));
+}
+
+bool
+Root::try_spawn(const Vector& pos, const Direction& dir, SpritePtr sprite)
+{
+  sprite->set_action("root");
+  sprite->get_current_hitbox();
 }
 
 void

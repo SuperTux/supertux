@@ -24,6 +24,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "badguy/root.hpp"
 #include "math/util.hpp"
 #include "object/brick.hpp"
 #include "object/coin.hpp"
@@ -311,6 +312,24 @@ Crusher::get_direction_vector()
   }
 }
 
+Direction
+Crusher::direction_from_vector(const Vector& vec)
+{
+  if (!(vec.x == 0 ^ vec.y == 0))
+    return Direction::NONE;
+
+  if (vec.x > 0)
+    return Direction::RIGHT;
+  else if (vec.x < 0)
+    return Direction::LEFT;
+  else if (vec.y > 0)
+    return Direction::DOWN;
+  else if (vec.y < 0)
+    return Direction::UP;
+
+  return Direction::AUTO;
+}
+
 void
 Crusher::crush()
 {
@@ -332,6 +351,9 @@ Crusher::crushed()
   const float shake_intensity = m_ic_size == LARGE ? 32.f : 16.f;
   const Vector shake = Vector(shake_intensity, shake_intensity) * m_dir_vector;
   Sector::get().get_camera().shake(shake_time, shake.x, shake.y);
+
+  if (m_ic_type == CORRUPTED)
+    spawn_roots();
 }
 
 void
@@ -352,6 +374,74 @@ Crusher::idle()
   // stray away from this value much so the effect of
   // doing this shouldn't be noticeable.
   set_pos(m_start_position);
+}
+
+void
+Crusher::spawn_roots()
+{
+  Vector pos(0, 0);
+  const Direction dir = direction_from_vector(m_dir_vector);
+  float* axis;
+  float origin, pos1, pos2;
+
+  switch (dir)
+  {
+    case Direction::UP:
+      origin = get_bbox().get_top();
+      axis = &pos.x;
+      pos1 = get_bbox().get_left();
+      pos2 = get_bbox().get_right();
+      break;
+
+    case Direction::DOWN:
+      origin = get_bbox().get_bottom();
+      axis = &pos.x;
+      pos1 = get_bbox().get_left();
+      pos2 = get_bbox().get_right();
+      break;
+
+    case Direction::LEFT:
+      origin = get_bbox().get_left();
+      axis = &pos.y;
+      pos1 = get_bbox().get_top();
+      pos2 = get_bbox().get_bottom();
+      break;
+
+    case Direction::RIGHT:
+      origin = get_bbox().get_right();
+      axis = &pos.y;
+      pos1 = get_bbox().get_top();
+      pos2 = get_bbox().get_bottom();
+      break;
+  }
+
+  *(axis == &pos.y ? &pos.x : &pos.y) = origin;
+
+  for (int i = 0; i < 3; ++i)
+  {
+    const float delay = (i + 1) * 0.6f;
+    Root& root = Sector::get().add<Root>(Vector(0.f, 0.f), invert_dir(dir),
+                                         "images/creatures/mole/corrupted/root.sprite",
+                                         delay, false, false);
+    const float dimension = (axis == &pos.y ? root.get_height() : root.get_width());
+
+    *axis = pos1 - 10.f - (((dimension / 2) + 50.f) * i);
+    root.set_pos(pos);
+    root.construct();
+  }
+
+  for (int i = 0; i < 3; ++i)
+  {
+    const float delay = (i + 1) * 0.6f;
+    Root& root = Sector::get().add<Root>(Vector(0.f, 0.f), invert_dir(dir),
+                                         "images/creatures/mole/corrupted/root.sprite",
+                                         delay, false, false);
+    const float dimension = (axis == &pos.y ? root.get_height() : root.get_width());
+
+    *axis = pos2 + 10.f + (((dimension / 2) + 50.f) * i);
+    root.set_pos(pos);
+    root.construct();
+  }
 }
 
 std::string

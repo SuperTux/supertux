@@ -95,12 +95,16 @@ private:
   bool should_finish_crushing(const CollisionHit& hit);
   bool has_recovered();
   Rectf get_detect_box(CrusherDirection dir = CrusherDirection::ALL);
+
   Vector get_direction_vector();
+  static Direction direction_from_vector(const Vector& vec);
 
   void crush();
   void crushed();
   void recover();
   void idle();
+
+  void spawn_roots();
 
   inline std::string get_crush_sound() const;
 
