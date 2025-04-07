@@ -36,7 +36,8 @@ public:
     RECOVERING
   };
 
-  enum class CrusherDirection {
+  enum class CrusherDirection
+  {
     DOWN,
     UP,
     LEFT,
@@ -97,8 +98,11 @@ private:
   Vector get_direction_vector();
 
   void crush();
+  void crushed();
   void recover();
   void idle();
+
+  inline std::string get_crush_sound() const;
 
   Vector eye_position(bool right) const;
 

@@ -101,7 +101,7 @@ Crusher::Crusher(const ReaderMapping& reader) :
     m_dir = CrusherDirection::HORIZONTAL;
 
   // TODO: Add distinct sounds for crusher hitting the ground and hitting Tux.
-  SoundManager::current()->preload(m_ic_type != ICE ? "sounds/thud.ogg" : "sounds/brick.wav");
+  SoundManager::current()->preload(get_crush_sound());
 }
 
 GameObjectTypes
@@ -292,39 +292,18 @@ Crusher::get_direction_vector()
       if (!m_target)
         return Vector(0.f, 0.f);
 
-      const Rectf& targetbox = m_target->get_bbox();
-      Rectf detectbox = Rectf(get_pos() - Vector(DETECT_RANGE, DETECT_RANGE),
-                              get_bbox().get_size() + (Sizef(DETECT_RANGE, DETECT_RANGE) * 2));
+      const Vector a = get_bbox().get_middle();
+      const Vector b = m_target->get_bbox().get_middle();
+      const Vector diff = b - a;
 
-      // Kind of similar to the collision code, isn't it?
-      // This checks which intersection with the detectbox
-      // (vertical or horizontal) is bigger in order to determine
-      // which coordinate to check to give the correct vector.
-      // Sorry if I couldn't explain this well enough.
-      // ~ MatusGuy
-
-      float itop = detectbox.get_bottom() - targetbox.get_top();
-      float ibottom = targetbox.get_bottom() - detectbox.get_top();
-      float ileft = detectbox.get_right() - targetbox.get_left();
-      float iright = targetbox.get_right() - detectbox.get_left();
-
-      float vert_penetration = std::min(itop, ibottom);
-      float horiz_penetration = std::min(ileft, iright);
-      if (vert_penetration > horiz_penetration) {
-        if (itop < ibottom) {
-          return Vector(-1.f, 0.f);
-        } else {
-          return Vector(1.f, 0.f);
-        }
-      } else {
-        if (ileft < iright) {
-          return Vector(0.f, -1.f);
-        } else {
-          return Vector(0.f, 1.f);
-        }
+      if (std::abs(diff.x) < std::abs(diff.y))
+      {
+        return Vector(0.f, (diff.y > 0 ? 1 : -1));
       }
-
-      return Vector(0.f, 0.f);
+      else
+      {
+        return Vector((diff.x > 0 ? 1 : -1), 0.f);
+      }
     }
 
     default:
@@ -338,6 +317,21 @@ Crusher::crush()
   m_state = CRUSHING;
   m_dir_vector = get_direction_vector();
   m_physic.set_acceleration(m_dir_vector * 700.f);
+}
+
+void
+Crusher::crushed()
+{
+  m_state = DELAY;
+  m_state_timer.start(m_ic_size == NORMAL ? PAUSE_TIME_NORMAL : PAUSE_TIME_LARGE, true);
+  m_physic.set_acceleration(Vector(0.f, 0.f));
+
+  SoundManager::current()->play(get_crush_sound(), get_pos());
+
+  const float shake_time = m_ic_size == LARGE ? 0.125f : 0.1f;
+  const float shake_intensity = m_ic_size == LARGE ? 32.f : 16.f;
+  const Vector shake = Vector(shake_intensity, shake_intensity) * m_dir_vector;
+  Sector::get().get_camera().shake(shake_time, shake.x, shake.y);
 }
 
 void
@@ -358,6 +352,12 @@ Crusher::idle()
   // stray away from this value much so the effect of
   // doing this shouldn't be noticeable.
   set_pos(m_start_position);
+}
+
+std::string
+Crusher::get_crush_sound() const
+{
+  return m_ic_type != ICE ? "sounds/thud.ogg" : "sounds/brick.wav";
 }
 
 Vector
@@ -393,11 +393,11 @@ Crusher::eye_position(bool right) const
 
     case CRUSHING:
     {
-      const float displacement_x = m_dir_vector.x;
-      float weight_x = m_sprite->get_width() / 64.f * (((displacement_x > 0.f) == right) ? 1.f : 4.f);
-      float weight_y = m_sprite->get_width() / 64.f * 2.f;
+      float step = m_sprite->get_width() / 64.f * 2.f;
+      float x = (right == (m_dir_vector.x < 0) ? 2 : 1) * step;
 
-      return m_dir_vector * Vector(weight_x, weight_y);
+      return Vector(x * m_dir_vector.x,
+                    -step + (step * m_dir_vector.y));
     }
 
     case DELAY: [[fallthrough]];
@@ -467,10 +467,7 @@ Crusher::collision_solid(const CollisionHit& hit)
 {
   if (m_state == CRUSHING && should_finish_crushing(hit))
   {
-    m_state = DELAY;
-    m_physic.set_acceleration_y(0.f);
-
-    m_state_timer.start(m_ic_size == NORMAL ? PAUSE_TIME_NORMAL : PAUSE_TIME_LARGE);
+    crushed();
   }
 }
 
@@ -520,9 +517,8 @@ Crusher::draw(DrawingContext& context)
     const Vector offset_pos = draw_pos - Vector(m_sprite->get_current_hitbox().p1());
     context.color().draw_surface(m_whites, offset_pos, m_layer);
 
-    const Vector leye = Vector(m_sprite->get_width() / 64.f, (m_sprite->get_height() / 64.f) * 2.f);
-    context.color().draw_surface(m_lefteye, draw_pos + leye, m_layer + 1);
-    //context.color().draw_surface(m_righteye, eye_pos, m_layer + 1);
+    context.color().draw_surface(m_lefteye, offset_pos + eye_position(false), m_layer + 1);
+    context.color().draw_surface(m_righteye, offset_pos + eye_position(true), m_layer + 1);
 
     context.pop_transform();
   }
