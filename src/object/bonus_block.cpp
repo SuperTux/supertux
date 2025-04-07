@@ -616,7 +616,7 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::PORTABLE_TRAMPOLINE:
     {
-      Sector::get().add<Trampoline>(get_pos() + Vector(0, 32), false);
+      Sector::get().add<Trampoline>(get_pos() + Vector(0, 32), Trampoline::PORTABLE);
       countdown = true;
       break;
     }
