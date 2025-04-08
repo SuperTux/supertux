@@ -42,6 +42,8 @@ public:
   virtual bool is_saveable() const override { return false; }
   virtual std::string get_exposed_class_name() const override { return "DisplayEffect"; }
 
+  inline bool has_active_borders() const { return borders; }
+
   /** @name Scriptable Methods
       @{ */
 
@@ -62,13 +64,13 @@ public:
    * @description Blackens or un-blackens the screen (depending on the value of ""black"").
    * @param bool $black
    */
-  void set_black(bool black);
+  inline void set_black(bool black_) { black = black_; }
   /**
    * @scripting
    * @description Returns ""true"" if the screen has been blackened by ""set_black"".
      Note: Calling ""fade_in"" or ""fade_out"" resets the return value to ""false"".
    */
-  bool is_black() const;
+  inline bool is_black() const { return black; }
   /**
    * @scripting
    * @description Sets the display ratio to 16:9, effectively adding black bars at the top and bottom of the screen.
@@ -100,6 +102,11 @@ private:
   float border_fading;
   float border_size;
 
+  /**
+   * @scripting
+   * @description Determines whether the screen has been blackened.
+                  Equivalent to ""set_black()"" and ""is_black()"".
+   */
   bool black;
   bool borders;
 

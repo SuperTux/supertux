@@ -138,7 +138,7 @@ Owl::active_update (float dt_sec)
 }
 
 bool
-Owl::collision_squished(GameObject& object)
+Owl::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);

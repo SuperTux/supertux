@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_SOUND_OBJECT_HPP
 #define HEADER_SUPERTUX_SOUND_OBJECT_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
 
 class SoundSource;
 
 /** Plays sound at given interval with specified volume hearable in entire Sector */
-class SoundObject final : public GameObject
+class SoundObject final : public LayerObject
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -53,30 +53,38 @@ public:
 
 #ifdef DOXYGEN_SCRIPTING
   /**
-   * Starts playing sound, if currently stopped.
+   * @scripting
+   * @description Starts playing sound, if currently stopped.
    */
   void start_playing();
   /**
-   * Stops playing sound.
+   * @scripting
+   * @description Stops playing sound.
    */
   void stop_playing();
 #endif
 
   /**
-   * Sets the volume of sound played by SoundObject.
+   * @scripting
+   * @description Sets the volume of the played sound.
    * @param float $volume
    */
   void set_volume(float volume);
   /**
-   * Returns the volume of sound played by SoundObject.
+   * @scripting
+   * @description Returns the volume of the played sound.
    */
-  float get_volume() const;
+  inline float get_volume() const { return m_volume; }
 
   /** @} */
 
 private:
   std::string m_sample;
   std::unique_ptr<SoundSource> m_sound_source;
+  /**
+   * @scripting
+   * @description The volume of the played sound.
+   */
   float m_volume;
   bool m_started;
 

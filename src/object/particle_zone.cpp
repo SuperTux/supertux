@@ -49,7 +49,7 @@ ParticleZone::get_settings()
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
   result.add_text(_("Particle Name"), &m_particle_name, "particle-name");
 
-  result.reorder({"region", "name", "x", "y"});
+  result.reorder({"width", "height", "name", "x", "y"});
 
   return result;
 }
@@ -108,7 +108,7 @@ ParticleZone::draw(DrawingContext& context)
 }
 
 HitResponse
-ParticleZone::collision(GameObject& other, const CollisionHit& hit)
+ParticleZone::collision(MovingObject& other, const CollisionHit& hit)
 {
   return ABORT_MOVE;
 }

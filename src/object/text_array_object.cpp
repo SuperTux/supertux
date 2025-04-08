@@ -23,6 +23,7 @@
 #include "supertux/sector.hpp"
 
 TextArrayObject::TextArrayObject(const std::string& name) :
+  LayerObject(name),
   m_finished(false),
   m_is_auto(false),
   m_keep_visible(false),
@@ -33,7 +34,6 @@ TextArrayObject::TextArrayObject(const std::string& name) :
   m_lastTextIndex(0),
   m_waiting()
 {
-  m_name = name;
 }
 
 void
@@ -69,12 +69,6 @@ TextArrayObject::set_text_index(ta_index index)
 }
 
 void
-TextArrayObject::set_fade_time(float fadetime)
-{
-  m_fadetime = fadetime;
-}
-
-void
 TextArrayObject::next_text()
 {
   if (m_finished)
@@ -106,18 +100,6 @@ TextArrayObject::prev_text()
   reset_automation();
 }
 
-void
-TextArrayObject::set_keep_visible(bool keep_visible)
-{
-  m_keep_visible = keep_visible;
-}
-
-void
-TextArrayObject::set_fade_transition(bool fade_transition)
-{
-  m_fade_transition = fade_transition;
-}
-
 TextArrayItem*
 TextArrayObject::get_text_item(ta_index index) const
 {
@@ -139,12 +121,6 @@ TextArrayItem*
 TextArrayObject::get_last_text_item() const
 {
   return get_text_item(m_lastTextIndex);
-}
-
-void
-TextArrayObject::set_done(bool done)
-{
-  m_finished = done;
 }
 
 void
@@ -276,6 +252,14 @@ TextArrayObject::should_fade() const
   if (item)                                       \
     return item->text_object.F;
 
+#define TEXT_OBJECT_FUNCTION_VOID_THROW(F)                              \
+  TEXT_OBJECT_FUNCTION_VOID(F)                                          \
+  throw std::runtime_error("No current TextObject in TextArrayObject!");
+
+#define TEXT_OBJECT_FUNCTION_RETURN_THROW(F)                            \
+  TEXT_OBJECT_FUNCTION_RETURN(F)                                        \
+  throw std::runtime_error("No current TextObject in TextArrayObject!");
+
 void
 TextArrayObject::set_text(const std::string& text)
 {
@@ -284,132 +268,148 @@ TextArrayObject::set_text(const std::string& text)
   add_text(text);
 }
 
+const std::string&
+TextArrayObject::get_text() const
+{
+  TEXT_OBJECT_FUNCTION_RETURN_THROW(get_text())
+}
+
 void
 TextArrayObject::set_font(const std::string& fontname)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_font(fontname))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_font(fontname))
 }
 
 void
 TextArrayObject::fade_in(float fadetime)
 {
-  TEXT_OBJECT_FUNCTION_VOID(fade_in(fadetime))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(fade_in(fadetime))
 }
 
 void
 TextArrayObject::fade_out(float fadetime)
 {
-  TEXT_OBJECT_FUNCTION_VOID(fade_out(fadetime))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(fade_out(fadetime))
 }
 
 void
 TextArrayObject::grow_in(float fadetime)
 {
-  TEXT_OBJECT_FUNCTION_VOID(grow_in(fadetime))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(grow_in(fadetime))
 }
 
 void
 TextArrayObject::grow_out(float fadetime)
 {
-  TEXT_OBJECT_FUNCTION_VOID(grow_out(fadetime))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(grow_out(fadetime))
 }
 
 void
 TextArrayObject::set_visible(bool visible)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_visible(visible))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_visible(visible))
+}
+
+bool
+TextArrayObject::get_visible() const
+{
+  TEXT_OBJECT_FUNCTION_RETURN_THROW(get_visible())
 }
 
 void
 TextArrayObject::set_centered(bool centered)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_centered(centered))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_centered(centered))
+}
+
+bool
+TextArrayObject::get_centered() const
+{
+  TEXT_OBJECT_FUNCTION_RETURN_THROW(get_centered())
 }
 
 void
 TextArrayObject::set_pos(float x, float y)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_pos(Vector(x, y)))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_pos(Vector(x, y)))
 }
 
 float
 TextArrayObject::get_x() const
 {
-  TEXT_OBJECT_FUNCTION_RETURN(get_pos().x)
-
-  log_warning << "'TextArrayObject' position is not set. Assuming (0,0)." << std::endl;
-  return 0;
+  TEXT_OBJECT_FUNCTION_RETURN_THROW(get_pos().x)
 }
 
 float
 TextArrayObject::get_y() const
 {
-  TEXT_OBJECT_FUNCTION_RETURN(get_pos().y)
-
-  log_warning << "'TextArrayObject' position is not set. Assuming (0,0)." << std::endl;
-  return 0;
+  TEXT_OBJECT_FUNCTION_RETURN_THROW(get_pos().y)
 }
 
 void
 TextArrayObject::set_anchor_point(int anchor)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_anchor_point(static_cast<AnchorPoint>(anchor)))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_anchor_point(static_cast<AnchorPoint>(anchor)))
 }
 
 int
 TextArrayObject::get_anchor_point() const
 {
-  TEXT_OBJECT_FUNCTION_RETURN(get_anchor_point())
-
-  return -1;
+  TEXT_OBJECT_FUNCTION_RETURN_THROW(get_anchor_point())
 }
 
 void
 TextArrayObject::set_anchor_offset(float x, float y)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_anchor_offset(x, y))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_anchor_offset(x, y))
 }
 
 float
 TextArrayObject::get_wrap_width() const
 {
-  TEXT_OBJECT_FUNCTION_RETURN(get_wrap_width())
-
-  return 0;
+  TEXT_OBJECT_FUNCTION_RETURN_THROW(get_wrap_width())
 }
 
 void
 TextArrayObject::set_wrap_width(float width)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_wrap_width(width))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_wrap_width(width))
 }
 
 void
 TextArrayObject::set_front_fill_color(float red, float green, float blue, float alpha)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_front_fill_color(red, green, blue, alpha))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_front_fill_color(red, green, blue, alpha))
 }
 
 void
 TextArrayObject::set_back_fill_color(float red, float green, float blue, float alpha)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_back_fill_color(red, green, blue, alpha))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_back_fill_color(red, green, blue, alpha))
 }
 
 void
 TextArrayObject::set_text_color(float red, float green, float blue, float alpha)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_text_color(red, green, blue, alpha))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_text_color(red, green, blue, alpha))
 }
 
 void
 TextArrayObject::set_roundness(float roundness)
 {
-  TEXT_OBJECT_FUNCTION_VOID(set_roundness(roundness))
+  TEXT_OBJECT_FUNCTION_VOID_THROW(set_roundness(roundness))
+}
+
+float
+TextArrayObject::get_roundness() const
+{
+  TEXT_OBJECT_FUNCTION_RETURN_THROW(get_roundness())
 }
 
 #undef TEXT_OBJECT_FUNCTION_VOID
 #undef TEXT_OBJECT_FUNCTION_RETURN
+#undef TEXT_OBJECT_FUNCTION_VOID_THROW
+#undef TEXT_OBJECT_FUNCTION_RETURN_THROW
 
 
 void
@@ -422,6 +422,7 @@ TextArrayObject::register_class(ssq::VM& vm)
 
       return &Sector::get().add<TextArrayObject>();
     },
+    {},
     false /* Do not free pointer from Squirrel */,
     vm.findClass("GameObject"));
 
@@ -437,15 +438,22 @@ TextArrayObject::register_class(ssq::VM& vm)
   cls.addFunc("next_text", &TextArrayObject::next_text);
   cls.addFunc("prev_text", &TextArrayObject::prev_text);
 
+  cls.addVar("keep_visible", &TextArrayObject::m_keep_visible);
+  cls.addVar("fade_transition", &TextArrayObject::m_fade_transition);
+  cls.addVar("finished", &TextArrayObject::m_finished);
+
   /* TextObject API related */
   cls.addFunc("set_text", &TextArrayObject::set_text);
+  cls.addFunc("get_text", &TextArrayObject::get_text);
   cls.addFunc("set_font", &TextArrayObject::set_font);
   cls.addFunc("fade_in", &TextArrayObject::fade_in);
   cls.addFunc("fade_out", &TextArrayObject::fade_out);
   cls.addFunc("grow_in", &TextArrayObject::grow_in);
   cls.addFunc("grow_out", &TextArrayObject::grow_out);
   cls.addFunc("set_visible", &TextArrayObject::set_visible);
+  cls.addFunc("get_visible", &TextArrayObject::get_visible);
   cls.addFunc("set_centered", &TextArrayObject::set_centered);
+  cls.addFunc("get_centered", &TextArrayObject::get_centered);
   cls.addFunc("set_pos", &TextArrayObject::set_pos);
   cls.addFunc("get_x", &TextArrayObject::get_x);
   cls.addFunc("get_y", &TextArrayObject::get_y);
@@ -460,10 +468,14 @@ TextArrayObject::register_class(ssq::VM& vm)
   cls.addFunc("set_back_fill_color", &TextArrayObject::set_back_fill_color);
   cls.addFunc("set_text_color", &TextArrayObject::set_text_color);
   cls.addFunc("set_roundness", &TextArrayObject::set_roundness);
+  cls.addFunc("get_roundness", &TextArrayObject::set_roundness);
 
-  cls.addVar("keep_visible", &TextArrayObject::m_keep_visible);
-  cls.addVar("fade_transition", &TextArrayObject::m_fade_transition);
-  cls.addVar("finished", &TextArrayObject::m_finished);
+  cls.addVar("text", &TextArrayObject::get_text, &TextArrayObject::set_text);
+  cls.addVar("visible", &TextArrayObject::get_visible, &TextArrayObject::set_visible);
+  cls.addVar("centered", &TextArrayObject::get_centered, &TextArrayObject::set_centered);
+  cls.addVar("anchor_point", &TextArrayObject::get_anchor_point, &TextArrayObject::set_anchor_point);
+  cls.addVar("wrap_width", &TextArrayObject::get_wrap_width, &TextArrayObject::set_wrap_width);
+  cls.addVar("roundness", &TextArrayObject::get_roundness, &TextArrayObject::set_roundness);
 }
 
 /* EOF */

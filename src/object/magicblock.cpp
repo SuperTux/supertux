@@ -180,7 +180,7 @@ MagicBlock::update(float dt_sec)
     set_group(COLGROUP_STATIC);
   } else {
     m_color.alpha = ALPHA_NONSOLID;
-    set_action("normal");
+    set_action("default");
     set_group(COLGROUP_DISABLED);
   }
 }
@@ -196,13 +196,13 @@ MagicBlock::draw(DrawingContext& context)
 }
 
 bool
-MagicBlock::collides(GameObject& /*other*/, const CollisionHit& /*hit*/) const
+MagicBlock::collides(MovingObject& /*other*/, const CollisionHit& /*hit*/) const
 {
   return m_is_solid;
 }
 
 HitResponse
-MagicBlock::collision(GameObject& /*other*/, const CollisionHit& /*hit*/)
+MagicBlock::collision(MovingObject& /*other*/, const CollisionHit& /*hit*/)
 {
   return FORCE_MOVE;
 }

@@ -32,9 +32,9 @@ class SpawnPoint final
 public:
   SpawnPoint(const ReaderMapping& mapping);
 
-  const std::string& get_name() const { return m_name; }
-  Vector get_pos() const { return m_pos; }
-  Direction get_auto_dir() const { return m_auto_dir; }
+  inline const std::string& get_name() const { return m_name; }
+  inline Vector get_pos() const { return m_pos; }
+  inline Direction get_auto_dir() const { return m_auto_dir; }
 
 private:
   std::string m_name;

@@ -33,6 +33,7 @@
 #endif
 
 #include "physfs/util.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
@@ -137,6 +138,7 @@ TransferStatusList::update()
 void
 TransferStatusList::push(TransferStatusPtr status)
 {
+  assert(!status->parent_list);
   status->parent_list = this;
 
   m_transfer_statuses.push_back(status);
@@ -469,6 +471,9 @@ Downloader::download(const std::string& url,
                      size_t (*write_func)(void* ptr, size_t size, size_t nmemb, void* userdata),
                      void* userdata)
 {
+  if (g_config->disable_network)
+    throw std::runtime_error("Networking is disabled");
+
   log_info << "Downloading " << url << std::endl;
 
 #ifndef EMSCRIPTEN
@@ -504,6 +509,9 @@ Downloader::download(const std::string& url,
 std::string
 Downloader::download(const std::string& url)
 {
+  if (g_config->disable_network)
+    throw std::runtime_error("Networking is disabled");
+
   std::string result;
   download(url, my_curl_string_append, &result);
   return result;
@@ -512,6 +520,9 @@ Downloader::download(const std::string& url)
 void
 Downloader::download(const std::string& url, const std::string& filename)
 {
+  if (g_config->disable_network)
+    throw std::runtime_error("Networking is disabled");
+
 #ifndef EMSCRIPTEN
   log_info << "download: " << url << " to " << filename << std::endl;
   std::unique_ptr<PHYSFS_file, int(*)(PHYSFS_File*)> fout(PHYSFS_openWrite(filename.c_str()),
@@ -562,6 +573,31 @@ Downloader::abort(TransferId id)
 void
 Downloader::update()
 {
+  if (g_config->disable_network)
+  {
+    // Remove any on-going transfers
+    for (const auto& transfer_data : m_transfers)
+    {
+      TransferStatusPtr status = transfer_data.second->get_status();
+      status->error_msg = "Networking is disabled";
+      for (const auto& callback : status->callbacks)
+      {
+        try
+        {
+          callback(false);
+        }
+        catch(const std::exception& err)
+        {
+          log_warning << "Illegal exception in Downloader: " << err.what() << std::endl;
+        }
+      }
+      if (status->parent_list)
+        status->parent_list->on_transfer_complete(status, false);
+    }
+    m_transfers.clear();
+    return;
+  }
+
 #ifndef EMSCRIPTEN
   // Prevent updating a Downloader multiple times in the same frame.
   if (m_last_update_time == g_real_time) return;

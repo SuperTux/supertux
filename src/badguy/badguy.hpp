@@ -27,6 +27,12 @@ enum class Direction;
 class Player;
 class Bullet;
 
+namespace
+{
+  static const std::string& DEFAULT_LIGHT_SPRITE = "images/objects/lightmap_light/lightmap_light-medium.sprite";
+  static const std::string& DEFAULT_ICE_SPRITE = "images/creatures/overlays/iceoverlay/iceoverlay.sprite";
+}
+
 /**
  * Base class for moving sprites that can hurt the Player.
 
@@ -43,17 +49,17 @@ public:
 
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -78,7 +84,7 @@ public:
   /** Called when a collision with another object occurred. The
       default implementation calls collision_player, collision_solid,
       collision_badguy and collision_squished */
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   /** Called when a collision with tile with special attributes
       occurred */
@@ -102,8 +108,8 @@ public:
       current form. */
   virtual bool can_break() const { return false; }
 
-  Vector get_start_position() const { return m_start_position; }
-  void set_start_position(const Vector& vec) { m_start_position = vec; }
+  inline Vector get_start_position() const { return m_start_position; }
+  inline void set_start_position(const Vector& vec) { m_start_position = vec; }
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
@@ -157,7 +163,7 @@ public:
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
-  Physic& get_physic() { return m_physic; }
+  inline Physic& get_physic() { return m_physic; }
 
 protected:
   enum State {
@@ -188,7 +194,7 @@ protected:
   /** Called when the player hit the badguy from above. You should
       return true if the badguy was squished, false if squishing
       wasn't possible */
-  virtual bool collision_squished(GameObject& object);
+  virtual bool collision_squished(MovingObject& object);
 
   /** Called when the badguy collided with a bullet */
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
@@ -216,7 +222,7 @@ protected:
   void kill_squished(GameObject& object);
 
   void set_state(State state);
-  State get_state() const { return m_state; }
+  inline State get_state() const { return m_state; }
 
   bool check_state_timer() {
     return m_state_timer.check();
@@ -231,7 +237,7 @@ protected:
 
   /** Returns true if we might soon fall at least @c height
       pixels. Minimum value for height is 1 pixel */
-  bool might_fall(int height = 1) const;
+  bool might_fall(int height = 1);
 
   /** Update on_ground_flag judging by solid collision @c hit. This
       gets called from the base implementation of collision_solid, so
@@ -258,6 +264,9 @@ protected:
 
 private:
   void try_activate();
+
+protected:
+  static const int s_normal_max_drop_height = 600;
 
 protected:
   Physic m_physic;
@@ -294,6 +303,14 @@ protected:
 
   Timer m_unfreeze_timer;
 
+  /** floor normal stored the last time when update_on_ground_flag was
+      called and we touched something solid from above */
+  Vector m_floor_normal;
+
+  /** Used for the might_fall function.
+      Represents the tile data of the detected slope. */
+  int m_detected_slope;
+
 private:
   State m_state;
 
@@ -307,9 +324,6 @@ private:
       update_on_ground_flag was called last frame */
   bool m_on_ground_flag;
 
-  /** floor normal stored the last time when update_on_ground_flag was
-      called and we touched something solid from above */
-  Vector m_floor_normal;
 
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup m_colgroup_active;

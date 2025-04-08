@@ -31,7 +31,7 @@ public:
   GLFramebuffer(/*GLVideoSystem& video_system,*/ GLTexture& texture);
   ~GLFramebuffer();
 
-  GLuint get_handle() const { return m_handle; }
+  inline GLuint get_handle() const { return m_handle; }
 
 private:
   //GLVideoSystem& m_video_system;

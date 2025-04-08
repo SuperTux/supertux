@@ -39,7 +39,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& ) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& ) override;
 
   static std::string class_name() { return "torch"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -51,23 +51,19 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
-  virtual int get_layer() const override { return m_layer; }
-
   virtual void on_flip(float height) override;
 
   /**
    * @scripting
-   * @deprecated Use the ""burning"" property instead!
    * @description Returns ""true"" if the torch is burning.
    */
-  bool get_burning() const;
+  inline bool get_burning() const { return m_burning; }
   /**
    * @scripting
-   * @deprecated Use the ""burning"" property instead!
    * @description Switches the burning state of the torch.
    * @param bool $burning
    */
-  void set_burning(bool burning);
+  inline void set_burning(bool burning) { m_burning = burning; }
 
 private:
   Color m_light_color;

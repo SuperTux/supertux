@@ -17,16 +17,20 @@
 #include "object/pulsing_light.hpp"
 
 #include <assert.h>
-#include <math.h>
+#include <cmath>
 
+#include "object/tilemap.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
 
-PulsingLight::PulsingLight(const Vector& center, float cycle_len_, float min_alpha_, float max_alpha_, const Color& color_) :
+PulsingLight::PulsingLight(const Vector& center, float cycle_len_, float min_alpha_, float max_alpha_, const Color& color_, const TileMap* parent_tilemap_) :
   Light(center, color_),
   min_alpha(min_alpha_),
   max_alpha(max_alpha_),
   cycle_len(cycle_len_),
+  parent_tilemap(parent_tilemap_),
+  rel_position(center),
+  rel_color(color_),
   t(0)
 {
   assert(cycle_len > 0);
@@ -50,13 +54,17 @@ PulsingLight::update(float dt_sec)
 
 void
 PulsingLight::draw(DrawingContext& context)
-{
-  Color old_color = color;
-
-  color.alpha *= min_alpha + ((max_alpha - min_alpha) * cosf(math::TAU * t / cycle_len));
+{ 
+  const float alpha = min_alpha + ((max_alpha - min_alpha) * std::cos(math::TAU * t / cycle_len));
+  if (parent_tilemap) {
+    position = rel_position + parent_tilemap->get_offset();
+    color = (rel_color * parent_tilemap->get_current_tint()).validate();
+    color.alpha *= alpha * parent_tilemap->get_alpha();
+  } else {
+    color.alpha = rel_color.alpha * alpha;
+  }
+  
   Light::draw(context);
-
-  color = old_color;
 }
 
 /* EOF */

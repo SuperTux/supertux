@@ -28,6 +28,7 @@
 #include "supertux/timer.hpp"
 #include "util/typed_uid.hpp"
 
+class AutotileSet;
 class Color;
 class DrawingContext;
 class Editor;
@@ -61,15 +62,16 @@ public:
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
-  virtual void resize() override;
+  virtual void on_window_resize() override;
 
   void update_pos();
+  void update_autotileset();
   void delete_markers();
   void update_node_iterators();
   void on_level_change();
 
   void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
-  void reset_action_press();
+  //void reset_action_press();
 
 private:
   static bool action_pressed;
@@ -77,11 +79,9 @@ private:
 
 private:
   void input_tile(const Vector& pos, uint32_t tile);
-  void autotile(const Vector& pos, uint32_t tile);
   void input_autotile(const Vector& pos, uint32_t tile);
-  void autotile_corner(const Vector& pos, uint32_t tile, TileMap::AutotileCornerOperation op);
-  void input_autotile_corner(const Vector& corner, uint32_t tile, const Vector& override_pos = Vector(-1.f, -1.f));
-  void put_tile(const Vector& target_tile);
+  void input_autotile_erase(const Vector& pos);
+  void put_tiles(const Vector& target_tile, TileSelection* tiles);
   void put_next_tiles();
   void draw_rectangle();
   void preview_rectangle();
@@ -101,6 +101,9 @@ private:
   void select_object();
   void add_path_node();
 
+  AutotileSet* get_current_autotileset() const;
+  std::string get_autotileset_key_range() const;
+
   void draw_tile_tip(DrawingContext&);
   void draw_tile_grid(DrawingContext&, int tile_size, bool draw_shadow) const;
   void draw_tilemap_border(DrawingContext&);
@@ -116,7 +119,6 @@ private:
   Vector sp_to_tp(const Vector& sp, int tile_size = 32) const;
   Vector tile_screen_pos(const Vector& tp, int tile_size = 32) const;
   Vector align_to_tilemap(const Vector& sp, int tile_size = 32) const;
-  bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos) const;
 
   // in sector position
   Rectf drag_rect() const;
@@ -124,12 +126,17 @@ private:
   Rectf selection_draw_rect() const;
   void update_tile_selection();
 
-  void set_warning(const std::string& text, float time);
+  inline void set_warning(const std::string& text, float time)
+  {
+    m_warning_text = text;
+    m_warning_timer.start(time);
+  }
 
 private:
   Editor& m_editor;
   Vector m_hovered_tile;
   Vector m_hovered_tile_prev;
+  Vector m_last_hovered_tile;
   Vector m_sector_pos;
   Vector m_mouse_pos;
   Vector m_previous_mouse_pos;
@@ -147,6 +154,9 @@ private:
   TypedUID<PathGameObject> m_edited_path;
   TypedUID<NodeMarker> m_last_node_marker;
 
+  std::vector<AutotileSet*> m_available_autotilesets;
+  int m_current_autotileset;
+
   std::unique_ptr<Tip> m_object_tip;
   Vector m_obj_mouse_desync;
 
@@ -157,6 +167,11 @@ private:
   std::string m_warning_text;
 
   bool m_selection_warning;
+
+  /// Not to be confused with g_config.editor_autotile_mode,
+  /// this variable is the one that *also* changes when holding CTRL.
+  /// The other one only changes hitting F5
+  bool m_autotile_mode;
 
 private:
   EditorOverlayWidget(const EditorOverlayWidget&) = delete;

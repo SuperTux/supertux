@@ -16,12 +16,22 @@
 
 #include "supertux/player_status_hud.hpp"
 
+#include <iostream>
+
+#include "object/display_effect.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/level.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/title_screen.hpp"
+#include "supertux/screen_manager.hpp"
+#include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "editor/editor.hpp"
+#include "worldmap/worldmap_sector.hpp"
 
 static const int DISPLAYED_COINS_UNSET = -1;
 
@@ -30,9 +40,13 @@ PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status) :
   displayed_coins(DISPLAYED_COINS_UNSET),
   displayed_coins_frame(0),
   coin_surface(Surface::from_file("images/engine/hud/coins-0.png")),
-  fire_surface(Surface::from_file("images/engine/hud/fire-0.png")),
-  ice_surface(Surface::from_file("images/engine/hud/ice-0.png"))
+  m_bonus_sprites(),
+  m_item_pocket_border(Surface::from_file("images/engine/hud/item_pocket.png"))
 {
+  m_bonus_sprites[BONUS_FIRE]  = SpriteManager::current()->create("images/powerups/fireflower/fireflower.sprite");
+  m_bonus_sprites[BONUS_ICE]   = SpriteManager::current()->create("images/powerups/iceflower/iceflower.sprite");
+  m_bonus_sprites[BONUS_AIR]   = SpriteManager::current()->create("images/powerups/airflower/airflower.sprite");
+  m_bonus_sprites[BONUS_EARTH] = SpriteManager::current()->create("images/powerups/earthflower/earthflower.sprite");
 }
 
 void
@@ -49,7 +63,8 @@ PlayerStatusHUD::update(float dt_sec)
 void
 PlayerStatusHUD::draw(DrawingContext& context)
 {
-  if (Editor::is_active())
+  if (g_debug.hide_player_hud || Editor::is_active() ||
+      (Sector::current() && Sector::current()->get_effect().has_active_borders()))
     return;
 
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
@@ -70,78 +85,40 @@ PlayerStatusHUD::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.transform().scale = 1.f;
-  if (!Editor::is_active())
+  if (coin_surface)
   {
-    if (coin_surface)
-    {
-      context.color().draw_surface(coin_surface,
-                                  Vector(context.get_width() - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
-                                         hudpos),
-                                  LAYER_HUD);
-    }
-
-    context.color().draw_text(Resources::fixed_font,
-                              coins_text,
-                              Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                                    hudpos + 13.f),
-                              ALIGN_LEFT,
-                              LAYER_HUD,
-                              PlayerStatusHUD::text_color);
+    context.color().draw_surface(coin_surface,
+                                Vector(context.get_width() - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
+                                       hudpos),
+                                LAYER_HUD);
   }
 
-  hudpos += 8.f;
-  for (int target = 0; target < InputManager::current()->get_num_users(); target++)
+  context.color().draw_text(Resources::fixed_font,
+                            coins_text,
+                            Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
+                                  hudpos + 13.f),
+                            ALIGN_LEFT,
+                            LAYER_HUD,
+                            PlayerStatusHUD::text_color);
+
+
+  if (m_player_status.is_item_pocket_allowed())
   {
-    SurfacePtr surface;
-    std::string ammo_text;
-
-    if (m_player_status.bonus[target] == FIRE_BONUS)
+    for (int i = 0; i < InputManager::current()->get_num_users(); i++)
     {
-      surface = fire_surface;
-      ammo_text = std::to_string(m_player_status.max_fire_bullets[target]);
+      float ypos = static_cast<float>(m_item_pocket_border->get_height() * i);
+      Vector pos(BORDER_X, BORDER_Y + ypos);
+      context.color().draw_surface(m_item_pocket_border, pos, LAYER_HUD);
+
+      if (m_bonus_sprites.find(m_player_status.m_item_pockets[i]) != m_bonus_sprites.end())
+      {
+        pos += 20;
+
+        Sprite* sprite = m_bonus_sprites[m_player_status.m_item_pockets[i]].get();
+        if (sprite)
+          sprite->draw(context.color(), pos, LAYER_HUD);
+      }
     }
-    else if (m_player_status.bonus[target] == ICE_BONUS)
-    {
-      surface = ice_surface;
-      ammo_text = std::to_string(m_player_status.max_ice_bullets[target]);
-    }
-    else
-    {
-      continue;
-    }
-
-    hudpos += static_cast<float>(surface->get_height());
-
-    const float ammo_text_width = Resources::fixed_font->get_text_width(ammo_text);
-
-    if (InputManager::current()->get_num_users() > 1)
-    {
-      const std::string player_text = std::to_string(target + 1) + ":";
-
-      context.color().draw_text(Resources::fixed_font,
-                                player_text,
-                                Vector(context.get_width() - BORDER_X - ammo_text_width -
-                                         static_cast<float>(surface->get_width()) -
-                                         Resources::fixed_font->get_text_width(player_text) - 3.f,
-                                       hudpos + 13.f),
-                                ALIGN_LEFT,
-                                LAYER_HUD,
-                                PlayerStatusHUD::text_color);
-    }
-
-    context.color().draw_surface(surface,
-                                 Vector(context.get_width() - BORDER_X - ammo_text_width -
-                                          static_cast<float>(surface->get_width()),
-                                        hudpos),
-                                 LAYER_HUD);
-
-    context.color().draw_text(Resources::fixed_font,
-                              ammo_text,
-                              Vector(context.get_width() - BORDER_X - ammo_text_width,
-                                     hudpos + 13.f),
-                              ALIGN_LEFT,
-                              LAYER_HUD,
-                              PlayerStatusHUD::text_color);
   }
 
   context.pop_transform();

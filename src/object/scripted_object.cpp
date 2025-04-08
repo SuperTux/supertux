@@ -86,30 +86,6 @@ ScriptedObject::set_velocity(float x, float y)
   new_vel_set = true;
 }
 
-float
-ScriptedObject::get_velocity_x() const
-{
-  return physic.get_velocity_x();
-}
-
-float
-ScriptedObject::get_velocity_y() const
-{
-  return physic.get_velocity_y();
-}
-
-void
-ScriptedObject::set_visible(bool visible_)
-{
-  visible = visible_;
-}
-
-bool
-ScriptedObject::is_visible() const
-{
-  return visible;
-}
-
 void
 ScriptedObject::set_solid(bool solid_)
 {
@@ -119,24 +95,6 @@ ScriptedObject::set_solid(bool solid_)
   } else {
     set_group( COLGROUP_DISABLED );
   }
-}
-
-bool
-ScriptedObject::is_solid() const
-{
-  return solid;
-}
-
-bool
-ScriptedObject::gravity_enabled() const
-{
-	return physic.gravity_enabled();
-}
-
-void
-ScriptedObject::enable_gravity(bool f)
-{
-	physic.enable_gravity(f);
 }
 
 void
@@ -179,7 +137,7 @@ ScriptedObject::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-ScriptedObject::collision(GameObject& other, const CollisionHit& )
+ScriptedObject::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player && !hit_script.empty()) {
@@ -216,6 +174,7 @@ ScriptedObject::register_class(ssq::VM& vm)
   cls.addFunc("is_solid", &ScriptedObject::is_solid);
 
   cls.addVar("visible", &ScriptedObject::visible);
+  cls.addVar("solid", &ScriptedObject::is_solid, &ScriptedObject::set_solid);
 }
 
 /* EOF */

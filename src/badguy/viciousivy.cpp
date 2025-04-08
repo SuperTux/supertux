@@ -132,7 +132,7 @@ ViciousIvy::active_update(float dt_sec)
 }
 
 bool
-ViciousIvy::collision_squished(GameObject& object)
+ViciousIvy::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);

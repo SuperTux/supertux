@@ -39,8 +39,9 @@ public:
   DownloadDialog(TransferStatusListPtr statuses, bool auto_close = false,
                  bool passive = false, bool no_error_msg = false);
 
-  void set_title(const std::string& title);
   void update() override;
+
+  inline void set_title(const std::string& title) { m_title = title; }
 
 private:
   void update_text();

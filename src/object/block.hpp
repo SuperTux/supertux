@@ -32,20 +32,17 @@ public:
 
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Block)); }
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
 
   virtual void on_flip(float height) override;
 
-  virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
-
-  void start_bounce(GameObject* hitter);
+  void start_bounce(MovingObject* hitter);
 
 protected:
   virtual void hit(Player& player) = 0;
 
-  void start_break(GameObject* hitter);
+  void start_break(MovingObject* hitter);
   void break_me();
 
 protected:

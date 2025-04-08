@@ -22,17 +22,17 @@
 
 WalkingCandle::WalkingCandle(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/mr_candle/mr-candle.sprite", "left", "right"),
-    lightcolor(1, 1, 1)
+    m_lightcolor(1, 1, 1)
 {
   walk_speed = 80;
   max_drop_height = 64;
 
   std::vector<float> vColor;
-  if (reader.get("color", vColor)) {
-    lightcolor = Color(vColor);
-  }
-  m_sprite->set_color(lightcolor);
-  m_lightsprite->set_color(lightcolor);
+  if (reader.get("color", vColor))
+    m_lightcolor = Color(vColor);
+
+  m_sprite->set_color(m_lightcolor);
+  m_lightsprite->set_color(m_lightcolor);
 
   m_countMe = false;
   m_glowing = true;
@@ -51,23 +51,29 @@ WalkingCandle::is_flammable() const
 }
 
 void
-WalkingCandle::freeze() {
+WalkingCandle::freeze()
+{
   BadGuy::freeze();
   m_glowing = false;
 }
 
 void
-WalkingCandle::unfreeze(bool melt) {
+WalkingCandle::unfreeze(bool melt)
+{
   BadGuy::unfreeze(melt);
   initialize();
+  m_sprite->set_color(m_lightcolor);
+  m_lightsprite->set_color(m_lightcolor);
   m_glowing = true;
 }
 
 HitResponse
-WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
-  auto l = dynamic_cast<Lantern*>(&other);
-  if (l && !m_frozen) if (l->get_bbox().get_bottom() < m_col.m_bbox.get_top()) {
-    l->add_color(lightcolor);
+WalkingCandle::collision(MovingObject& other, const CollisionHit& hit)
+{
+  auto lantern = dynamic_cast<Lantern*>(&other);
+  if (lantern && !m_frozen) if (lantern->get_bbox().get_bottom() < m_col.m_bbox.get_top())
+  {
+    lantern->add_color(m_lightcolor);
     run_dead_script();
     remove_me();
     return FORCE_MOVE;
@@ -88,8 +94,7 @@ WalkingCandle::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_color(_("Color"), &lightcolor, "color", Color::WHITE);
-
+  result.add_color(_("Color"), &m_lightcolor, "color", Color::WHITE);
   result.reorder({"color", "x", "y"});
 
   return result;
@@ -100,8 +105,8 @@ WalkingCandle::after_editor_set()
 {
   WalkingBadguy::after_editor_set();
 
-  m_sprite->set_color(lightcolor);
-  m_lightsprite->set_color(lightcolor);
+  m_sprite->set_color(m_lightcolor);
+  m_lightsprite->set_color(m_lightcolor);
 }
 
 /* EOF */

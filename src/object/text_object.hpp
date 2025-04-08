@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
 
 #include "math/anchor_point.hpp"
 #include "video/color.hpp"
@@ -35,7 +35,7 @@ class ReaderMapping;
  * @instances A ""TextObject"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class TextObject final : public GameObject
+class TextObject final : public LayerObject
 {
   static Color default_color;
 
@@ -65,6 +65,11 @@ public:
    * @param string $text
    */
   void set_text(const std::string& text);
+  /**
+   * @scripting
+   * @description Returns the displayed text.
+   */
+  inline const std::string& get_text() const { return m_text; }
   /**
    * @scripting
    * @description Sets the font of the text to be displayed.
@@ -97,35 +102,43 @@ public:
   void grow_out(float fadetime);
   /**
    * @scripting
-   * @deprecated Use the ""visible"" property instead! (Does not apply for usage from a ""TextArray"".)
    * @description Shows or hides the text abruptly (drastic counterpart to ""fade_in()"" and ""fade_out()"").
    * @param bool $visible
    */
   void set_visible(bool visible);
   /**
    * @scripting
-   * @deprecated Use the ""centered"" property instead! (Does not apply for usage from a ""TextArray"".)
+   * @description Returns ""true"" if the text is visible.
+   */
+  inline bool get_visible() const { return m_visible; }
+  /**
+   * @scripting
    * @description If ""centered"" is ""true"", the text will be centered on the screen. Otherwise, it will be left-aligned.
    * @param bool $centered
    */
-  void set_centered(bool centered);
+  inline void set_centered(bool centered) { m_centered = centered; }
+  /**
+   * @scripting
+   * @description Returns ""true"" if the text is centered.
+   */
+  inline bool get_centered() const { return m_centered; }
   /**
    * @scripting
    * @description Sets the offset of the text, relative to the anchor point.
    * @param float $x
    * @param float $y
    */
-  void set_pos(float x, float y);
+  inline void set_pos(float x, float y) { m_pos = Vector(x, y); }
   /**
    * @scripting
    * @description Returns the X offset of the text, relative to the anchor point.
    */
-  float get_x() const;
+  inline float get_x() const { return m_pos.x; }
   /**
    * @scripting
    * @description Returns the Y offset of the text, relative to the anchor point.
    */
-  float get_y() const;
+  inline float get_y() const { return m_pos.y; }
 #ifdef DOXYGEN_SCRIPTING
   /**
    * @scripting
@@ -145,32 +158,30 @@ public:
    * @description Sets the anchor point of the text.
    * @param int $anchor One of the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
    */
-  void set_anchor_point(int anchor);
+  inline void set_anchor_point(int anchor) { m_anchor = static_cast<AnchorPoint>(anchor); }
   /**
    * @scripting
    * @description Returns the current anchor point of the text (one of the ""ANCHOR_*"" constants; see ${SRG_REF_AnchorPoints}).
    */
-  int get_anchor_point() const;
+  inline int get_anchor_point() const { return static_cast<int>(m_anchor); }
   /**
    * @scripting
    * @description Sets the anchor offset of the text.
    * @param float $x
    * @param float $y
    */
-  void set_anchor_offset(float x, float y);
+  inline void set_anchor_offset(float x, float y) { m_anchor_offset = Vector(x, y); }
   /**
    * @scripting
-   * @deprecated Use the ""wrap_width"" property instead! (Does not apply for usage from a ""TextArray"".)
    * @description Gets the text wrap width of the text.
    */
-  float get_wrap_width() const;
+  inline float get_wrap_width() const { return m_wrap_width; }
   /**
    * @scripting
-   * @deprecated Use the ""wrap_width"" property instead! (Does not apply for usage from a ""TextArray"".)
    * @description Sets the text wrap width of the text.
    * @param float $width
    */
-  void set_wrap_width(float width);
+  inline void set_wrap_width(float width) { m_wrap_width = width; }
   /**
    * @scripting
    * @description Sets the front fill color of the text.
@@ -200,23 +211,31 @@ public:
   void set_text_color(float red, float green, float blue, float alpha);
   /**
    * @scripting
-   * @deprecated Use the ""roundness"" property instead! (Does not apply for usage from a ""TextArray"".)
    * @description Sets the frame's roundness.
    * @param float $roundness
    */
-  void set_roundness(float roundness);
+  inline void set_roundness(float roundness) { m_roundness = roundness; }
+  /**
+   * @scripting
+   * @description Returns the roundness of the text.
+   */
+  inline float get_roundness() const { return m_roundness; }
 
-  void set_anchor_point(AnchorPoint anchor) { m_anchor = anchor; }
-  void set_anchor_offset(const Vector& offset) { m_anchor_offset = offset; }
+  inline void set_anchor_point(AnchorPoint anchor) { m_anchor = anchor; }
+  inline void set_anchor_offset(const Vector& offset) { m_anchor_offset = offset; }
 
-  void set_pos(const Vector& pos) { m_pos = pos; }
-  const Vector& get_pos() const { return m_pos; }
+  inline void set_pos(const Vector& pos) { m_pos = pos; }
+  inline const Vector& get_pos() const { return m_pos; }
 
 private:
   void wrap_text();
 
 private:
   FontPtr m_font;
+  /**
+   * @scripting
+   * @description The displayed text.
+   */
   std::string m_text;
   std::string m_wrapped_text;
   float m_fade_progress;
@@ -232,6 +251,13 @@ private:
    */
   bool m_centered;
   AnchorPoint m_anchor;
+#ifdef DOXYGEN_SCRIPTING 
+  /**
+   * @scripting
+   * @description The current anchor point. 
+   */
+  int m_anchor_point;
+#endif
   Vector m_anchor_offset;
   Vector m_pos;
   /**

@@ -101,9 +101,6 @@ Stalactite::collision_solid(const CollisionHit& hit)
   if (state == STALACTITE_FALLING) {
     if (hit.bottom) squish();
   }
-  if (state == STALACTITE_SQUISHED) {
-    m_physic.set_velocity_y(0);
-  }
 }
 
 HitResponse
@@ -147,7 +144,7 @@ Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& hit)
     timer.start(SHAKE_TIME);
     state = STALACTITE_SHAKING;
     bullet.remove_me();
-    if (bullet.get_type() == FIRE_BONUS)
+    if (bullet.get_type() == BONUS_FIRE)
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
     SoundManager::current()->play("sounds/cracking.wav", get_pos());
   }

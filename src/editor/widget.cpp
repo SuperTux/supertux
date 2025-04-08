@@ -39,12 +39,6 @@ Widget::event(const SDL_Event& ev)
     case SDL_KEYUP:
       return on_key_up(ev.key);
 
-    case SDL_WINDOWEVENT:
-      if (ev.window.event == SDL_WINDOWEVENT_RESIZED) {
-        resize();
-      }
-      return false;
-
     default:
       return false;
   }

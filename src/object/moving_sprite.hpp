@@ -63,10 +63,11 @@ public:
   virtual void after_editor_set() override;
   virtual void on_type_change(int old_type) override;
 
-  virtual int get_layer() const override { return m_layer; }
+  int get_layer() const override { return m_layer; }
+  void set_layer(int layer) { m_layer = layer; }
 
-  bool has_found_sprite() const { return m_sprite_found; }
-  const std::string& get_sprite_name() const { return m_sprite_name; }
+  inline bool has_found_sprite() const { return m_sprite_found; }
+  inline const std::string& get_sprite_name() const { return m_sprite_name; }
   virtual std::string get_default_sprite_name() const { return m_default_sprite_name; }
 
   bool matches_sprite(const std::string& sprite_file) const;
@@ -74,15 +75,18 @@ public:
   void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
   /** Get various sprite properties. **/
-  Sprite* get_sprite() const { return m_sprite.get(); }
+  inline Sprite* get_sprite() const { return m_sprite.get(); }
+
+  /** "void" wrapper for "change_sprite()" to be used for the "sprite" scripting property. **/
+  inline void set_sprite(const std::string& file) { change_sprite(file); }
 
 #ifdef DOXYGEN_SCRIPTING
   /**
    * @scripting
-   * @description Sets the sprite of the object.
+   * @description Sets the sprite of the object. Returns ""true"" on success.
    * @param string $file
    */
-  void set_sprite(const std::string& file);
+  bool set_sprite(const std::string& file);
   /**
    * @scripting
    * @description Returns the file of the object's sprite.
@@ -96,22 +100,23 @@ public:
   std::string get_action() const;
   /**
    * @scripting
-   * @description Sets the current action of the sprite and resizes the bounding box.
-                  NOTE: Use with care as you can easily get stuck when resizing the bounding box.
-   * @param string $name
-   */
-  void set_action(const std::string& name);
-  /**
-   * @scripting
    * @description Sets the current action of the sprite, as well as the number of times it should loop, and resizes the bounding box.
                   NOTE: Use with care as you can easily get stuck when resizing the bounding box.
    * @param string $name
-   * @param int $loops
+   * @param int $loops Optional, -1 by default (negative value means infinite). Set to -100 to continue looping from the previous action.
+   */
+  void set_action(const std::string& name, int loops = -1);
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @deprecated Use ""set_action()"" instead!
+   * @description Sets the current action of the sprite, as well as the number of times it should loop, and resizes the bounding box.
+                  NOTE: Use with care as you can easily get stuck when resizing the bounding box.
+   * @param string $name
+   * @param int $loops Negative value means infinite. Set to -100 to continue looping from the previous action.
    */
   void set_action_loops(const std::string& name, int loops);
-
-  /** Sets the action from an action name, as well as the number of times it should loop. */
-  void set_action(const std::string& name, int loops);
+#endif
 
   /** Sets the action from an action name and a particular direction
       in the form of "name-direction", eg. "walk-left".

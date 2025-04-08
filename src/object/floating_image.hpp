@@ -47,34 +47,32 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""layer"" property instead!
    * @description Sets the layer of the floating image.
    * @param int $layer
    */
-  void set_layer(int layer);
+  inline void set_layer(int layer) { m_layer = layer; }
   /**
    * @scripting
-   * @deprecated Use the ""layer"" property instead!
    * @description Returns the layer the floating image is on.
    */
-  int get_layer() const;
+  inline int get_layer() const { return m_layer; }
   /**
    * @scripting
    * @description Sets the location of the image in relation to the current anchor point.
    * @param float $x
    * @param float $y
    */
-  void set_pos(float x, float y);
+  inline void set_pos(float x, float y) { m_pos = Vector(x, y); }
   /**
    * @scripting
    * @description Returns the image's X coordinate relative to the current anchor point.
    */
-  float get_x() const;
+  inline float get_x() const { return m_pos.x; }
   /**
    * @scripting
    * @description Returns the image's Y coordinate relative to the current anchor point.
    */
-  float get_y() const;
+  inline float get_y() const { return m_pos.y; }
 #ifdef DOXYGEN_SCRIPTING
   /**
    * @scripting
@@ -94,25 +92,23 @@ public:
    * @description Sets the image's anchor point.
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
    */
-  void set_anchor_point(int anchor);
+  inline void set_anchor_point(int anchor) { m_anchor = static_cast<AnchorPoint>(anchor); }
   /**
    * @scripting
    * @description Returns the current anchor point.
    */
-  int get_anchor_point() const;
+  inline int get_anchor_point() const { return static_cast<int>(m_anchor); }
   /**
    * @scripting
-   * @deprecated Use the ""visible"" property instead!
    * @description Sets the visibility of the floating image.
    * @param bool $visible
    */
-  void set_visible(bool visible);
+  inline void set_visible(bool visible) { m_visible = visible; }
   /**
    * @scripting
-   * @deprecated Use the ""visible"" property instead!
    * @description Returns the visibility state of the floating image.
    */
-  bool get_visible() const;
+  inline bool get_visible() const { return m_visible; }
   /**
    * @scripting
    * @description Sets the action of the image.
@@ -155,6 +151,14 @@ private:
   Vector m_pos;
   float m_fading;
   float m_fadetime;
+
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description The current anchor point.
+   */
+  int m_anchor_point;
+#endif
 };
 
 #endif

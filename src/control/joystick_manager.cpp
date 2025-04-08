@@ -26,7 +26,6 @@
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/savegame.hpp"
-#include "supertux/sector.hpp"
 #include "util/log.hpp"
 
 JoystickManager::JoystickManager(InputManager* parent_,
@@ -55,6 +54,10 @@ void
 JoystickManager::on_joystick_added(int joystick_index)
 {
   log_debug << "on_joystick_added(): " << joystick_index << std::endl;
+
+  if (!parent->can_add_user())
+    return;
+
   SDL_Joystick* joystick = SDL_JoystickOpen(joystick_index);
   if (!joystick)
   {
@@ -96,16 +99,7 @@ JoystickManager::on_joystick_added(int joystick_index)
 
       if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen() && id != 0)
       {
-        auto& sector = GameSession::current()->get_current_sector();
-        auto& player_status = GameSession::current()->get_savegame().get_player_status();
-
-        if (player_status.m_num_players <= id)
-          player_status.add_player();
-
-        // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-        auto& player = sector.add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
-
-        player.multiplayer_prepare_spawn();
+        GameSession::current()->on_player_added(id);
       }
     }
   }
@@ -115,8 +109,6 @@ void
 JoystickManager::on_joystick_removed(int instance_id)
 {
   log_debug << "on_joystick_removed: " << static_cast<int>(instance_id) << std::endl;
-
-  std::vector<SDL_Joystick*> erase_us;
 
   auto it = std::find_if(joysticks.begin(), joysticks.end(), [instance_id] (decltype(joysticks)::const_reference pair) {
     return SDL_JoystickInstanceID(pair.first) == instance_id;
@@ -131,22 +123,10 @@ JoystickManager::on_joystick_removed(int instance_id)
     joysticks.erase(it);
 
     if (!parent->m_use_game_controller && g_config->multiplayer_auto_manage_players
-        && deleted_player_id != 0 && !parent->m_uses_keyboard[deleted_player_id])
+        && deleted_player_id != 0 && !parent->m_uses_keyboard[deleted_player_id] &&
+        GameSession::current())
     {
-      // Sectors in worldmaps have no Player's of that class
-      if (Sector::current() && Sector::current()->get_object_count<Player>() > 0)
-      {
-        auto players = Sector::current()->get_objects_by_type<Player>();
-        auto it_players = players.begin();
-
-        while (it_players != players.end())
-        {
-          if (it_players->get_id() == deleted_player_id)
-            it_players->remove_me();
-
-          it_players++;
-        }
-      }
+      GameSession::current()->on_player_removed(deleted_player_id);
     }
   }
   else

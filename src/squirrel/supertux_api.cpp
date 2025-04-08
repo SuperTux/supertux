@@ -158,55 +158,48 @@ static bool check_cutscene()
  * @scripting
  * @description Suspends the script execution for a specified number of seconds.
  * @param float $seconds
+ * @param bool $forced Optional, enforces waiting while a cutscene is being skipped.
  * @returns void
  */
-static SQInteger wait(HSQUIRRELVM vm, float seconds)
+static SQInteger wait(HSQUIRRELVM vm, float seconds, bool forced = false)
 {
   ssq::VM* ssq_vm = ssq::VM::get(vm);
+  assert(ssq_vm);
   if (ssq_vm && !ssq_vm->isThread()) return 0;
 
-  auto session = GameSession::current();
-  if (session && session->get_current_level().m_skip_cutscene)
+  if (!forced)
   {
-    if (ssq_vm && ssq_vm->getForeignPtr())
+    auto session = GameSession::current();
+    if (session && session->get_current_level().m_skip_cutscene)
     {
-      auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
-      // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`.
-      return squirrelenv->wait_for_seconds(vm, 0);
-    }
-    else
-    {
+      if (ssq_vm && ssq_vm->getForeignPtr())
+      {
+        auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
+        // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`.
+        return squirrelenv->wait_for_seconds(vm, 0);
+      }
       auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
       return squirrelvm->wait_for_seconds(vm, 0);
     }
-  }
-  else if (session && session->get_current_level().m_is_in_cutscene)
-  {
-    if (ssq_vm && ssq_vm->getForeignPtr())
+    if (session && session->get_current_level().m_is_in_cutscene)
     {
-      auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
-      // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game.
-      return squirrelenv->skippable_wait_for_seconds(vm, seconds);
-    }
-    else
-    {
+      if (ssq_vm && ssq_vm->getForeignPtr())
+      {
+        auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
+        // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game.
+        return squirrelenv->skippable_wait_for_seconds(vm, seconds);
+      }
       auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
       return squirrelvm->skippable_wait_for_seconds(vm, seconds);
     }
   }
-  else
+  if (ssq_vm && ssq_vm->getForeignPtr())
   {
-    if (ssq_vm && ssq_vm->getForeignPtr())
-    {
-      auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
-      return squirrelenv->wait_for_seconds(vm, seconds);
-    }
-    else
-    {
-      auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
-      return squirrelvm->wait_for_seconds(vm, seconds);
-    }
+    auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
+    return squirrelenv->wait_for_seconds(vm, seconds);
   }
+  auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
+  return squirrelvm->wait_for_seconds(vm, seconds);
 }
 
 /**
@@ -218,14 +211,6 @@ static SQInteger wait_for_screenswitch(HSQUIRRELVM vm)
 {
   auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
   return squirrelvm->wait_for_screenswitch(vm);
-}
-/**
- * @scripting
- * @description Exits the currently running screen (for example, force exits from worldmap or scrolling text).
- */
-static void exit_screen()
-{
-  ScreenManager::current()->pop_screen();
 }
 
 /**
@@ -304,17 +289,6 @@ static void load_worldmap(const std::string& filename, const std::string& sector
 }
 /**
  * @scripting
- * @description Switches to a different worldmap after unloading the current one, after ""exit_screen()"" is called.
- * @param string $dirname The world directory, where the "worldmap.stwm" file is located.
- * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
- * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
- */
-static void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint)
-{
-  GameManager::current()->set_next_worldmap(dirname, sector, spawnpoint);
-}
-/**
- * @scripting
  * @description Loads and displays a level (on next screenswitch), using the savegame of the current level.
  * @param string $filename
  */
@@ -337,10 +311,11 @@ static void load_level(const std::string& filename)
  */
 static void import(HSQUIRRELVM vm, const std::string& filename)
 {
-  ssq::VM ssq_vm(vm);
+  ssq::VM* ssq_vm = ssq::VM::get(vm);
+  assert(ssq_vm);
 
   IFileStream in(filename);
-  ssq_vm.run(ssq_vm.compileSource(in, filename.c_str()));
+  ssq_vm->run(ssq_vm->compileSource(in, filename.c_str()));
 }
 
 /**
@@ -594,16 +569,6 @@ static void warp(float offset_x, float offset_y)
 
 /**
  * @scripting
- * @description Adjusts the gamma.
- * @param float $gamma
- */
-static void set_gamma(float gamma)
-{
-  VideoSystem::current()->set_gamma(gamma);
-}
-
-/**
- * @scripting
  * @description Returns a random integer.
  */
 static int rand()
@@ -665,26 +630,18 @@ static bool has_active_sequence()
                 If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
  * @param string $sector
  * @param string $spawnpoint
- */
-static void spawn(const std::string& sector, const std::string& spawnpoint)
-{
-  if (!GameSession::current()) return;
-  GameSession::current()->respawn(sector, spawnpoint);
-}
-
-/**
- * @scripting
- * @description Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"" with the given transition ""transition"".${SRG_TABLENEWPARAGRAPH}
-                Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
-                If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.
-                If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
- * @param string $sector
- * @param string $spawnpoint
  * @param string $transition Valid transitions are ""circle"" and ""fade"". If any other value is specified, no transition effect is drawn.
+                             Optional, empty by default.
  */
-static void spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition)
+static void spawn(const std::string& sector, const std::string& spawnpoint, const std::string& transition = "")
 {
   if (!GameSession::current()) return;
+
+  if (transition.empty())
+  {
+    GameSession::current()->respawn(sector, spawnpoint);
+    return;
+  }
 
   ScreenFade::FadeType fade_type = ScreenFade::FadeType::NONE;
 
@@ -697,6 +654,22 @@ static void spawn_transition(const std::string& sector, const std::string& spawn
 
   GameSession::current()->respawn_with_fade(sector, spawnpoint, fade_type, {0.0f, 0.0f}, true);
 }
+#ifdef DOXYGEN_SCRIPTING
+/**
+ * @scripting
+ * @deprecated Use ""spawn()"" instead!
+ * @description Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"" with the given transition ""transition"".${SRG_TABLENEWPARAGRAPH}
+                Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
+                If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.
+                If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
+ * @param string $sector
+ * @param string $spawnpoint
+ * @param string $transition Valid transitions are ""circle"" and ""fade"". If any other value is specified, no transition effect is drawn.
+ */
+static void spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition)
+{
+}
+#endif
 
 /**
  * @scripting
@@ -787,6 +760,38 @@ static void resume_target_timer()
   GameSession::current()->set_target_timer_paused(false);
 }
 
+/**
+ * @scripting
+ * @description Override the Item Pocket setting in the Level.
+ * @param string $allow Can be "on", "off", or "inherit" (use the setting in the Level).
+ */
+static void override_item_pocket(const std::string& allow)
+{
+  if (!GameSession::current()) return;
+  GameSession::current()->get_savegame().get_player_status().m_override_item_pocket = ::Level::get_setting_from_name(allow);
+}
+
+/**
+ * @scripting
+ * @description Get the override value for the Item Pocket.
+ * Can be "on", "off", or "inherit" (use the setting in the Level).
+ */
+static std::string is_item_pocket_overridden()
+{
+  if (!GameSession::current()) return "off";
+  return ::Level::get_setting_name(GameSession::current()->get_savegame().get_player_status().m_override_item_pocket);
+}
+
+/**
+ * @scripting
+ * @description Check if the Item Pocket is allowed in this level.
+ */
+static bool is_item_pocket_allowed()
+{
+  if (!GameSession::current()) return false;
+  return GameSession::current()->get_savegame().get_player_status().is_item_pocket_allowed();
+}
+
 } // namespace Level
 
 } // namespace scripting
@@ -813,6 +818,13 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.setConst<int>("ANCHOR_BOTTOM", AnchorPoint::ANCHOR_BOTTOM);
   vm.setConst<int>("ANCHOR_BOTTOM_RIGHT", AnchorPoint::ANCHOR_BOTTOM_RIGHT);
 
+  vm.setConst<int>("BONUS_NONE", BonusType::BONUS_NONE);
+  vm.setConst<int>("BONUS_GROWUP", BonusType::BONUS_GROWUP);
+  vm.setConst<int>("BONUS_FIRE", BonusType::BONUS_FIRE);
+  vm.setConst<int>("BONUS_AIR", BonusType::BONUS_AIR);
+  vm.setConst<int>("BONUS_EARTH", BonusType::BONUS_EARTH);
+  vm.setConst<int>("BONUS_ICE", BonusType::BONUS_ICE);
+
   /* Global functions */
   vm.addFunc("display", &scripting::Globals::display);
   vm.addFunc("print_stacktrace", &scripting::Globals::print_stacktrace);
@@ -821,16 +833,14 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("start_cutscene", &scripting::Globals::start_cutscene);
   vm.addFunc("end_cutscene", &scripting::Globals::end_cutscene);
   vm.addFunc("check_cutscene", &scripting::Globals::check_cutscene);
-  vm.addFunc("wait", &scripting::Globals::wait);
+  vm.addFunc("wait", &scripting::Globals::wait, ssq::DefaultArguments<bool>(false));
   vm.addFunc("wait_for_screenswitch", &scripting::Globals::wait_for_screenswitch);
-  vm.addFunc("exit_screen", &scripting::Globals::exit_screen);
   vm.addFunc("translate", &scripting::Globals::translate);
   vm.addFunc("_", &scripting::Globals::translate);
   vm.addFunc("translate_plural", &scripting::Globals::translate_plural);
   vm.addFunc("__", &scripting::Globals::translate_plural);
   vm.addFunc("display_text_file", &scripting::Globals::display_text_file);
   vm.addFunc("load_worldmap", &scripting::Globals::load_worldmap);
-  vm.addFunc("set_next_worldmap", &scripting::Globals::set_next_worldmap);
   vm.addFunc("load_level", &scripting::Globals::load_level);
   vm.addFunc("import", &scripting::Globals::import);
   vm.addFunc("debug_collrects", &scripting::Globals::debug_collrects);
@@ -854,7 +864,6 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("restart", &scripting::Globals::restart);
   vm.addFunc("gotoend", &scripting::Globals::gotoend);
   vm.addFunc("warp", &scripting::Globals::warp);
-  vm.addFunc("set_gamma", &scripting::Globals::set_gamma);
   vm.addFunc("rand", &scripting::Globals::rand);
   vm.addFunc("set_title_frame", &scripting::Globals::set_title_frame);
 
@@ -862,8 +871,8 @@ void register_supertux_scripting_api(ssq::VM& vm)
   ssq::Table level = vm.addTable("Level");
   level.addFunc("finish", &scripting::Level::finish);
   level.addFunc("has_active_sequence", &scripting::Level::has_active_sequence);
-  level.addFunc("spawn", &scripting::Level::spawn);
-  level.addFunc("spawn_transition", &scripting::Level::spawn_transition);
+  level.addFunc("spawn", &scripting::Level::spawn, ssq::DefaultArguments<const std::string&>(""));
+  level.addFunc("spawn_transition", &scripting::Level::spawn); // Deprecated
   level.addFunc("set_start_point", &scripting::Level::set_start_point);
   level.addFunc("set_start_pos", &scripting::Level::set_start_pos);
   level.addFunc("set_respawn_point", &scripting::Level::set_respawn_point);
@@ -872,6 +881,15 @@ void register_supertux_scripting_api(ssq::VM& vm)
   level.addFunc("toggle_pause", &scripting::Level::toggle_pause);
   level.addFunc("pause_target_timer", &scripting::Level::pause_target_timer);
   level.addFunc("resume_target_timer", &scripting::Level::resume_target_timer);
+  level.addFunc("override_item_pocket", &scripting::Level::override_item_pocket);
+  level.addFunc("is_item_pocket_overridden", &scripting::Level::is_item_pocket_overridden);
+  level.addFunc("is_item_pocket_allowed", &scripting::Level::is_item_pocket_allowed);
+
+  /* "Level" global functions (0.6.3 backward compatibility) */
+  vm.addFunc("Level_finish", &scripting::Level::finish);
+  vm.addFunc("Level_spawn", &scripting::Level::spawn, ssq::DefaultArguments<const std::string&>(""));
+  vm.addFunc("Level_flip_vertically", &scripting::Level::flip_vertically);
+  vm.addFunc("Level_toggle_pause", &scripting::Level::toggle_pause);
 }
 
 /* EOF */

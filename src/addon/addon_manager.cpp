@@ -28,6 +28,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/resources.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -259,24 +260,15 @@ AddonManager::get_installed_addons() const
   return get_addons(m_installed_addons);
 }
 
-bool
-AddonManager::has_online_support() const
-{
-  return true;
-}
-
-bool
-AddonManager::has_been_updated() const
-{
-  return m_has_been_updated;
-}
-
 TransferStatusPtr
 AddonManager::request_check_online()
 {
   empty_cache_directory();
 
-  TransferStatusPtr status = m_downloader.request_download(m_repository_url, ADDON_INFO_PATH);
+  // Since then() may be called immediately if networking is disabled,
+  // hold the status in a separate variable so that `m_transfer_status = {}`
+  // below doesn't cause this function to return nullptr.
+  auto status = m_downloader.request_download(m_repository_url, ADDON_INFO_PATH);
   status->then(
     [this](bool success)
     {
@@ -529,12 +521,13 @@ std::vector<std::string>
 AddonManager::get_local_addon_screenshots(const AddonId& addon_id)
 {
   std::vector<std::string> screenshots;
-  physfsutil::enumerate_files(m_screenshots_cache_directory, [&screenshots, &addon_id, this](const std::string& filename) {
+  physfsutil::enumerate_files_alphabetical(m_screenshots_cache_directory, [&screenshots, &addon_id, this](const std::string& filename) {
     // Push any files from the cache directory, starting with the ID of the add-on.
     if (StringUtil::starts_with(filename, addon_id))
     {
       screenshots.push_back(FileSystem::join(m_screenshots_cache_directory, filename));
     }
+    return false;
   });
   return screenshots;
 }
@@ -572,13 +565,6 @@ AddonManager::enable_addon(const AddonId& addon_id)
         break;
     }
 
-    // Only mount resource packs on startup (AddonManager initialization).
-    if (addon.get_type() == Addon::RESOURCEPACK && m_initialized)
-    {
-      addon.set_enabled(true);
-      return;
-    }
-
     log_debug << "Adding archive \"" << addon.get_install_filename() << "\" to search path" << std::endl;
     if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), !addon.overrides_data()) == 0)
     {
@@ -590,9 +576,11 @@ AddonManager::enable_addon(const AddonId& addon_id)
     else
     {
       if (addon.get_type() == Addon::LANGUAGEPACK)
-      {
         PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
-      }
+
+      if (m_initialized && addon.overrides_data())
+        Resources::reload_all();
+
       addon.set_enabled(true);
     }
   }
@@ -609,13 +597,6 @@ AddonManager::disable_addon(const AddonId& addon_id)
   }
   else
   {
-    // Don't unmount resource packs. Disabled resource packs will not be mounted on next startup.
-    if (addon.get_type() == Addon::RESOURCEPACK)
-    {
-      addon.set_enabled(false);
-      return;
-    }
-
     log_debug << "Removing archive \"" << addon.get_install_filename() << "\" from search path" << std::endl;
     if (PHYSFS_unmount(addon.get_install_filename().c_str()) == 0)
     {
@@ -627,9 +608,11 @@ AddonManager::disable_addon(const AddonId& addon_id)
     else
     {
       if (addon.get_type() == Addon::LANGUAGEPACK)
-      {
         PHYSFS_enumerate(addon.get_id().c_str(), remove_from_dictionary_path, nullptr);
-      }
+
+      if (m_initialized && addon.overrides_data())
+        Resources::reload_all();
+
       addon.set_enabled(false);
     }
   }
@@ -752,6 +735,7 @@ AddonManager::scan_for_archives() const
         }
       }
     }
+    return false;
   });
 
   return archives;
@@ -777,9 +761,11 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
         if (realdir == archive_os_path)
         {
           nfoFilename = nfo_filename;
+          return true;
         }
       }
     }
+    return false;
   });
 
   return nfoFilename;

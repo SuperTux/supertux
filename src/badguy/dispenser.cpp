@@ -128,7 +128,7 @@ Dispenser::deactivate()
 }
 
 HitResponse
-Dispenser::collision(GameObject& other, const CollisionHit& hit)
+Dispenser::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto bullet = dynamic_cast<Bullet*> (&other);
   if (bullet)
@@ -149,7 +149,7 @@ Dispenser::active_update(float dt_sec)
     auto player = get_nearest_player();
     if (player)
     {
-      if(player->is_dying() || player->is_dead())
+      if(!player->is_alive())
       {
         return;
       }

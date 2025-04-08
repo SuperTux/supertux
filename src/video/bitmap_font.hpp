@@ -47,7 +47,7 @@ public:
   BitmapFont(GlyphWidth glyph_width, const std::string& fontfile, int shadowsize = 2);
   ~BitmapFont() override;
 
-  int get_shadow_size() const { return shadowsize; }
+  inline int get_shadow_size() const { return shadowsize; }
 
   /** returns the width of a given text. (Note that I won't add a normal
    * get_width function here, as we might switch to variable width fonts in the
@@ -72,8 +72,8 @@ public:
    */
   virtual std::string wrap_to_width(const std::string& text, float width, std::string* overflow) override;
 
-  virtual void draw_text(Canvas& canvas, const std::string& text,
-                         const Vector& pos, FontAlignment alignment, int layer, const Color& color) override;
+  virtual Rectf draw_text(Canvas& canvas, const std::string& text,
+                          const Vector& pos, FontAlignment alignment, int layer, const Color& color) override;
 
 private:
   friend class DrawingContext;

@@ -592,10 +592,7 @@ EasingMode get_reverse_easing(const EasingMode& ease)
 
 std::string get_reverse_easing_str(const std::string& ease_name)
 {
-  if (ease_name == "EaseNone")
-    return "EaseNone";
-
-  if (StringUtil::has_suffix(ease_name, "InOut"))
+  if (StringUtil::has_suffix(ease_name, "InOut") || ease_name == "EaseNone")
     return ease_name;
 
   if (StringUtil::has_suffix(ease_name, "In"))

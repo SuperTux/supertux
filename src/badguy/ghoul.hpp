@@ -49,7 +49,7 @@ public:
   void move_to(const Vector& pos) override;
 
 protected:
-  bool collision_squished(GameObject& object) override;
+  bool collision_squished(MovingObject& object) override;
   std::vector<Direction> get_allowed_directions() const override;
   
 private:
