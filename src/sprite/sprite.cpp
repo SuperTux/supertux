@@ -126,6 +126,7 @@ Sprite::set_action(const std::string& name, int loops)
   }
 
   m_action = newaction;
+  m_last_ticks = g_game_time;
 }
 
 bool
@@ -143,7 +144,7 @@ Sprite::update()
   if (m_is_paused) return;
 
   m_frame += frame_inc;
-
+  
   while (m_frame >= 1.0f) {
     m_frame -= 1.0f;
     m_frameidx++;

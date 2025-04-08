@@ -95,6 +95,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
   m_lightsprite->set_blend(Blend::ADD);
   m_lightsprite->set_color(m_flame_color);
+  m_firesprite->pause_animation();
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer,
@@ -153,6 +154,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
   m_lightsprite->set_blend(Blend::ADD);
   m_lightsprite->set_color(m_flame_color);
+  m_firesprite->pause_animation();
 }
 
 void
@@ -193,17 +195,16 @@ BadGuy::draw(DrawingContext& context)
         }
 
         if (m_state != STATE_BURNING || m_firesprite->get_current_frame() < 5)
-        m_sprite->draw(context.color(), draw_pos, m_layer - (m_frozen ? 1 : 0), m_flip);
+          m_sprite->draw(context.color(), draw_pos, m_layer - (m_frozen ? 1 : 0), m_flip);
       }
 
       if (m_state == STATE_BURNING) {
         // draw the flame sprite
         m_firesprite->draw(context.color(), draw_pos, m_layer);
-        m_firesprite->set_action(get_overlay_size(), 1);
       }
       else {
-        m_firesprite->set_frame(0);
-        m_firesprite->pause_animation();
+        /*m_firesprite->set_frame(0);
+        m_firesprite->pause_animation();*/
       }
 
       if (m_glowing)
@@ -1224,8 +1225,9 @@ BadGuy::ignite()
     set_action("burning", m_dir, 1);
     m_lightsprite->set_alpha(0.05f);
     set_state(STATE_BURNING);
-    //m_firesprite->set_action(get_overlay_size(), 1);
-    //m_firesprite->set_frame(0);
+    m_firesprite->set_action(get_overlay_size(), 1);
+    m_firesprite->set_frame(0);
+    m_firesprite->set_frame_progress(0.0f);
     run_dead_script();
   } else if (m_sprite->has_action("inside-melting-left")) {
     // melt it inside!
