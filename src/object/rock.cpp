@@ -177,9 +177,13 @@ Rock::collision_solid(const CollisionHit& hit)
     m_at_ceiling = true;
   }
 
-  if (m_on_ground || (hit.bottom && m_on_ice)) {
+  if (m_on_ground && !m_on_ice) {
     // Full friction!
     m_physic.set_velocity_x(m_physic.get_velocity_x() * (1.f - (GROUND_FRICTION * (m_on_ice ? 0.5f : 1.f))));
+  }
+
+  if (hit.bottom && m_on_ice) {
+    m_physic.set_velocity_x(m_physic.get_velocity_x() * (1.f - (GROUND_FRICTION * (m_on_ice ? 0.2f : 1.f))));
   }
 }
 
@@ -286,8 +290,9 @@ Rock::ungrab(MovingObject& object, Direction dir)
     }
     else
     {
-      m_physic.set_velocity_x(fabsf(player->get_physic().get_velocity_x()) < 1.f ? 0.f :
-        player->m_dir == Direction::LEFT ? -200.f : 200.f);
+      //add minimum force when tux is still
+      float throw_force = std::max(fabsf(player->get_physic().get_velocity_x()), 50.f);  
+      m_physic.set_velocity_x(player->m_dir == Direction::LEFT ? -throw_force : throw_force);
       m_physic.set_velocity_y((dir == Direction::UP) ? -500.f : (dir == Direction::DOWN) ? 500.f :
         (glm::length(m_last_movement) > 1) ? -200.f : 0.f);
     }
