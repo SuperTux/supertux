@@ -19,6 +19,8 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
+#include "supertux/timer.hpp"
+#include "video/surface_ptr.hpp"
 
 class Player;
 
@@ -30,16 +32,23 @@ public:
   {
     IDLE,
     CRUSHING,
+    DELAY,
     RECOVERING
   };
 
-  enum class Direction
+  enum class CrusherDirection
   {
     DOWN,
     UP,
     LEFT,
-    RIGHT
+    RIGHT,
+
+    HORIZONTAL, // a.k.a. "sideways"
+    VERTICAL,
+
+    ALL
   };
+  static CrusherDirection CrusherDirection_from_string(std::string_view str);
 
 private:
   enum CrusherSize
@@ -48,7 +57,7 @@ private:
     LARGE
   };
 
-  enum Type
+  enum CrusherType
   {
     ICE,
     ROCK,
@@ -64,75 +73,58 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual void after_editor_set() override;
-  inline bool is_sideways() const { return m_sideways; }
+  void after_sprite_set();
 
   static std::string class_name() { return "crusher"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Crusher"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Crusher)); }
+  virtual void on_type_change(int old_type);
 
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
-
-  virtual void on_flip(float height) override;
 
   inline Physic& get_physic() { return m_physic; }
   inline bool is_big() const { return m_ic_size == LARGE; }
   inline CrusherState get_state() const { return m_state; }
 
 private:
-  void spawn_roots(Direction direction);
+  bool should_crush();
+  bool should_finish_crushing(const CollisionHit& hit);
+  bool has_recovered();
+  Rectf get_detect_box(CrusherDirection dir = CrusherDirection::ALL);
+  Vector get_direction_vector();
 
-  bool found_victim() const;
-  bool not_ice() const;
-  void set_state(CrusherState state, bool force = false);
-  void after_sprite_set();
+  void crush();
+  void crushed();
+  void recover();
+  void idle();
+
+  inline std::string get_crush_sound() const;
+
   Vector eye_position(bool right) const;
-
-  void on_type_change(int old_type) override;
 
 private:
   CrusherState m_state;
+  CrusherDirection m_dir;
   CrusherSize m_ic_size;
-  Type m_ic_type;
+  CrusherType m_ic_type;
+
+  Timer m_state_timer;
   Vector m_start_position;
   Physic m_physic;
-  float m_cooldown_timer;
-  bool m_sideways;
-  Direction m_side_dir;
+  Vector m_dir_vector;
+  CollisionObject* m_target;
 
-  SpritePtr m_lefteye;
-  SpritePtr m_righteye;
-  SpritePtr m_whites;
+  SurfacePtr m_whites;
+  SurfacePtr m_lefteye;
+  SurfacePtr m_righteye;
 
 private:
   Crusher(const Crusher&) = delete;
   Crusher& operator=(const Crusher&) = delete;
-};
-
-class CrusherRoot : public MovingSprite
-{
-public:
-  CrusherRoot(Vector position, Crusher::Direction direction, float delay, int layer);
-  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(CrusherRoot)); }
-
-  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
-  virtual void update(float dt_sec) override;
-
-private:
-  void start_animation();
-  inline bool delay_gone() const { return m_delay_remaining <= 0.f; }
-
-private:
-  Vector m_original_pos;
-  Crusher::Direction m_direction;
-  float m_delay_remaining;
-
-private:
-  CrusherRoot(const CrusherRoot&) = delete;
-  CrusherRoot& operator=(const CrusherRoot&) = delete;
 };
 
 #endif
