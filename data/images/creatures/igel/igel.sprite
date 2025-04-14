@@ -80,24 +80,13 @@
     (mirror-action "iced-left")
   )
   (action
+    (hitbox 2 4 64 43)
     (name "burning-left")
-    (hitbox 15 10 36 32)
-    (fps 15)
-    (images "burning-0.png"
-            "burning-1.png"
-            "burning-2.png"
-            "burning-3.png"
-            "burning-4.png"
-            "burning-5.png"
-            "burning-6.png"
-            "burning-7.png"
-            "burning-8.png"
-            "burning-9.png")
+    (clone-action "iced-left")
   )
   (action
+    (hitbox 2 4 64 43)
     (name "burning-right")
-    (fps 15)
-    (hitbox 17 10 36 32)
     (mirror-action "burning-left")
   )
 )
