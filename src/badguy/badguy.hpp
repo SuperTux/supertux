@@ -69,6 +69,10 @@ public:
       state and calls active_update and inactive_update */
   virtual void update(float dt_sec) override;
 
+  /** Called each frame during active_update. Applies velocity from
+   *  wind if the badguy is inside wind and resets it if not. */
+  virtual void handle_wind();
+
   static std::string class_name() { return "badguy"; }
   virtual std::string get_class_name() const override { return class_name(); }
   virtual std::string get_exposed_class_name() const override { return "BadGuy"; }
@@ -160,8 +164,8 @@ public:
   /** Returns true if the badguy can currently be affected by wind */
   virtual bool can_be_affected_by_wind() const;
 
-  /** Adds velocity from wind */
-  virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
+  /** Version of `add_velocity` with modifications for wind physics */
+  void add_wind_velocity(const float acceleration, const Vector& end_speed, const float dt_sec);
 
   inline Physic& get_physic() { return m_physic; }
 
@@ -270,6 +274,9 @@ protected:
 
 protected:
   Physic m_physic;
+
+  Vector m_wind_velocity;
+  float m_wind_acceleration;
 
 public:
   /** Count this badguy to the statistics? This value should not be
