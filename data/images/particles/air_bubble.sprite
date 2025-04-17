@@ -1,6 +1,6 @@
 (supertux-sprite
  (action
-  (name "normal")
+  (name "default")
   (fps 15)
   (loops 1)
   (images "air_bubble-0.png"

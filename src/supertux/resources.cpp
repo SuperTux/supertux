@@ -63,9 +63,12 @@ std::string Resources::current_font;
 void
 Resources::load(bool reload)
 {
-  // Load the mouse-cursor
-  mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
-  MouseCursor::set_current(mouse_cursor.get());
+  if (!reload)
+  {
+    // Load the mouse-cursor
+    mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
+    MouseCursor::set_current(mouse_cursor.get());
+  }
 
   default_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));
   if (g_debug.get_use_bitmap_fonts())

@@ -163,6 +163,10 @@ private:
   float m_fade_total_time;
   float m_fade_time;
 
+public:
+  static const Color DEFAULT_GRADIENT_TOP;
+  static const Color DEFAULT_GRADIENT_BOTTOM;
+
 private:
   Gradient(const Gradient&) = delete;
   Gradient& operator=(const Gradient&) = delete;

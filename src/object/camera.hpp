@@ -58,7 +58,7 @@ public:
   /** \addtogroup GameObject
       @{ */
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& ) override;
+  virtual void draw(DrawingContext& ) override {}
 
   virtual bool is_singleton() const override { return true; }
   virtual bool is_saveable() const override;
@@ -94,13 +94,6 @@ public:
 
   void keep_in_bounds(const Rectf& bounds);
 
-  /** shake camera in a direction 1 time */
-  void shake(float duration, float x, float y);
-
-  /** Shake the camera vertically with a specified average strength, at a certain minimal delay, until stopped. */
-  void start_earthquake(float strength, float delay);
-  void stop_earthquake();
-
   /** scroll the upper left edge of the camera in scrolltime seconds
       to the position goal */
   void scroll_to(const Vector& goal, float scrolltime);
@@ -121,16 +114,30 @@ public:
 
   inline Mode get_mode() const { return m_mode; }
 
-  /** get the exact scale at this exact moment */
-  inline float get_current_scale() const { return m_enfore_minimum_scale ? std::min(m_minimum_scale, m_scale) : m_scale; }
-
-  /** get the scale towards which the camera is moving */
-  inline float get_target_scale() const { return m_scale_target; }
-
   /** smoothly slide the scale and anchor position of the camera towards a new value */
   void ease_scale(float scale, float time, easing ease, AnchorPoint anchor = AnchorPoint::ANCHOR_MIDDLE);
   /** @} */
 
+  /**
+   * @scripting
+   * @description Shakes the camera in a certain direction only 1 time.
+   * @param float $duration
+   * @param float $x
+   * @param float $y
+   */
+  void shake(float duration, float x, float y);
+  /**
+   * @scripting
+   * @description Starts "earthquake" mode, which shakes the camera vertically with a specified average ""strength"", at a certain minimal ""delay"", until stopped.
+   * @param float $strength
+   * @param float $delay
+   */
+  void start_earthquake(float strength, float delay);
+  /**
+   * @scripting
+   * @description Stops "earthquake" mode.
+   */
+  void stop_earthquake();
   /**
    * @scripting
    * @description Moves the camera to the specified absolute position. The origin is at the top left.
@@ -161,44 +168,65 @@ public:
   inline void scroll_to(float x, float y, float scrolltime) { scroll_to(Vector(x, y), scrolltime); }
   /**
    * @scripting
-   * @description Sets the scale factor.
-   * @param float $scale
+   * @description Returns the current scale factor of the camera.
    */
-  inline void set_scale(float scale) { ease_scale(scale, 0.f, ""); }
+  float get_current_scale() const;
   /**
    * @scripting
+   * @description Returns the scale factor the camera is fading towards.
+   */
+  inline float get_target_scale() const { return m_scale_target; }
+  /**
+   * @scripting
+   * @description Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
+                  NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
+   * @param float $scale
+   * @param float $time
+   * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants.
+                        Optional, default is ""ANCHOR_MIDDLE"" (see ${SRG_REF_AnchorPoints}).
+   * @param string $ease Optional, empty by default.
+   */
+  void set_scale(float scale, float time = 0.f, int anchor = ANCHOR_MIDDLE, const std::string& ease = "");
+  /**
+   * @scripting
+   * @deprecated Use ""set_scale()"" instead!
    * @description Sets the scale factor and the target position anchor.
                   NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
    */
-  inline void set_scale_anchor(float scale, int anchor) { ease_scale_anchor(scale, 0, anchor, ""); }
+  inline void set_scale_anchor(float scale, int anchor) { set_scale(scale, 0, anchor, ""); }
   /**
    * @scripting
+   * @deprecated Use ""set_scale()"" instead!
    * @description Fades to a specified scale factor in ""time"" seconds.
    * @param float $scale
    * @param float $time
    */
-  inline void scale(float scale, float time) { ease_scale(scale, time, ""); }
+  inline void scale(float scale, float time) { set_scale(scale, time, AnchorPoint::ANCHOR_MIDDLE, ""); }
   /**
    * @scripting
+   * @deprecated Use ""set_scale()"" instead!
    * @description Fades to a specified scale factor and target position anchor in ""time"" seconds.
                   NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
    * @param float $time
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
    */
-  inline void scale_anchor(float scale, float time, int anchor) { ease_scale_anchor(scale, time, anchor, ""); }
+  inline void scale_anchor(float scale, float time, int anchor) { set_scale(scale, time, anchor, ""); }
   /**
    * @scripting
+   * @deprecated Use ""set_scale()"" instead!
    * @description Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
    * @param float $scale
    * @param float $time
    * @param string $ease
    */
-  inline void ease_scale(float scale, float time, const std::string& ease) { ease_scale_anchor(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease); }
+  inline void ease_scale(float scale, float time, const std::string& ease) { set_scale(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease); }
+#ifdef DOXYGEN_SCRIPTING
   /**
    * @scripting
+   * @deprecated Use ""set_scale()"" instead!
    * @description Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
                   NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
@@ -207,26 +235,27 @@ public:
    * @param string $ease
    */
   void ease_scale_anchor(float scale, float time, int anchor, const std::string& ease);
+#endif
   /**
    * @scripting
    * @description Gets the current width of the screen.
    */
-  float get_screen_width() const;
+  inline float get_screen_width() const { return m_screen_size.width; }
   /**
    * @scripting
    * @description Gets the current height of the screen.
    */
-  float get_screen_height() const;
+  inline float get_screen_height() const { return m_screen_size.height; }
   /**
    * @scripting
    * @description Gets the X coordinate of the top-left corner of the screen.
    */
-  float get_x() const;
+  inline float get_x() const { return m_translation.x; }
   /**
    * @scripting
    * @description Gets the Y coordinate of the top-left corner of the screen.
    */
-  float get_y() const;
+  inline float get_y() const { return m_translation.y; }
 
 private:
   void keep_in_bounds(Vector& vector);

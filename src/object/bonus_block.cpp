@@ -71,7 +71,7 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_lightsprite(),
   m_coin_sprite(get_default_coin_sprite())
 {
-  set_action("normal");
+  set_action("default");
   m_contents = get_content_by_data(tile_data);
   preload_contents(tile_data);
 }
@@ -616,7 +616,7 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::PORTABLE_TRAMPOLINE:
     {
-      Sector::get().add<Trampoline>(get_pos() + Vector(0, 32), true);
+      Sector::get().add<Trampoline>(get_pos() + Vector(0, 32), Trampoline::PORTABLE);
       countdown = true;
       break;
     }
@@ -638,7 +638,7 @@ BonusBlock::try_drop(Player *player)
   if (play_upgrade_sound)
     SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
 
-  if (!m_script.empty()) { // Scripts always run if defined.
+  if (!m_script.empty() && countdown) { // Scripts always run if defined.
     Sector::get().run_script(m_script, "powerup-script");
   }
 

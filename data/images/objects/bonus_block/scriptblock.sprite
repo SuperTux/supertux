@@ -1,7 +1,7 @@
 (supertux-sprite
       (action
          (fps 15)
-		 (name "normal")
+		 (name "default")
          (images "scriptblock-0.png"
                  "scriptblock-1.png"
                  "scriptblock-2.png"

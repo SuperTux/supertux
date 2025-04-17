@@ -46,7 +46,6 @@ class Menu;
 class Path;
 class PathObject;
 class ReaderMapping;
-class Rectf;
 class TileMap;
 class Writer;
 
@@ -160,26 +159,6 @@ public:
 private:
   LabelObjectOption(const LabelObjectOption&) = delete;
   LabelObjectOption& operator=(const LabelObjectOption&) = delete;
-};
-
-class RectfObjectOption final : public ObjectOption<Rectf>
-{
-public:
-  RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
-                    unsigned int flags);
-
-  virtual void parse(const ReaderMapping& reader) override;
-  virtual void save(Writer& writer) const override;
-  virtual std::string to_string() const override;
-  virtual void add_to_menu(Menu& menu) const override;
-
-private:
-  float m_width;
-  float m_height;
-
-private:
-  RectfObjectOption(const RectfObjectOption&) = delete;
-  RectfObjectOption& operator=(const RectfObjectOption&) = delete;
 };
 
 class FloatObjectOption final : public ObjectOption<float>

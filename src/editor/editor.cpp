@@ -110,6 +110,7 @@ Editor::Editor() :
   m_particle_editor_request(false),
   m_test_pos(),
   m_particle_editor_filename(),
+  m_ctrl_pressed(false),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
@@ -127,7 +128,6 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
-  m_ctrl_pressed(false),
   m_mouse_pos(0.f, 0.f)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
@@ -173,8 +173,6 @@ Editor::draw(Compositor& compositor)
           camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
                                             static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
 
-        // Update the camera's screen size variable, so it can properly be kept in sector bounds.
-        camera.draw(context);
         keep_camera_in_bounds();
       }
       m_new_scale = 0.f;
@@ -353,8 +351,6 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
-  m_overlay_widget->reset_action_press();
-
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);
@@ -1030,11 +1026,17 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
   {
     if (!sector_valid)
     {
-      Dialog::show_message(_("Couldn't find a \"main\" sector.\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
+      /*
+      l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
+      */
+      Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
     }
     else if (!spawnpoint_valid)
     {
-      Dialog::show_message(_("Couldn't find a \"main\" spawnpoint.\n Please change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
+      /*
+      l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
+      */
+      Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
     }
   }
 
@@ -1091,7 +1093,7 @@ Editor::undo()
 {
   BIND_SECTOR(*m_sector);
   m_sector->undo();
-  post_undo_redo_actions();
+  m_layers_widget->update_current_tip();
 }
 
 void
@@ -1099,13 +1101,6 @@ Editor::redo()
 {
   BIND_SECTOR(*m_sector);
   m_sector->redo();
-  post_undo_redo_actions();
-}
-
-void
-Editor::post_undo_redo_actions()
-{
-  m_overlay_widget->delete_markers();
   m_layers_widget->update_current_tip();
 }
 
@@ -1171,11 +1166,7 @@ Editor::pack_addon()
   {
     info.write("id", id);
     info.write("version", version);
-
-    if (get_world()->is_levelset())
-      info.write("type", "levelset");
-    else if (get_world()->is_worldmap())
-      info.write("type", "worldmap");
+    info.write("type", get_world()->get_type());
 
     info.write("title", get_world()->get_title());
     info.write("author", get_level()->get_author());
