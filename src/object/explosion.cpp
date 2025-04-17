@@ -107,7 +107,7 @@ Explosion::explode()
 
       Vector obj_vector = obj->get_bbox ().get_middle ();
       Vector direction = obj_vector - center;
-      float distance = glm::length(direction);
+      float distance = direction.length();
 
       /* If the distance is very small, for example because "obj" is the badguy
        * causing the explosion, skip this object. */
@@ -123,7 +123,7 @@ Explosion::explode()
       if (force > force_limit)
         force = force_limit;
 
-      Vector add_speed = glm::normalize(direction) * force;
+      Vector add_speed = direction.normalize() * force;
 
       auto player = dynamic_cast<Player*>(obj);
       if (player && !player->is_stone()) {

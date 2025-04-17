@@ -114,8 +114,9 @@ Rock::update(float dt_sec)
 
     for (auto& trampoline : Sector::get().get_objects_by_type<Trampoline>()) {
       if (trampolinebox.overlaps(trampoline.get_bbox()) && !trampoline.is_grabbed() &&
-        (glm::length((get_bbox().get_middle() - trampoline.get_bbox().get_middle())) >= 10.f) &&
-        is_portable()) {
+          (get_bbox().get_middle() - trampoline.get_bbox().get_middle()).length() >= 10.f &&
+          is_portable())
+      {
         trampoline.bounce();
         m_physic.set_velocity_y(-500.f);
       }
@@ -289,7 +290,7 @@ Rock::ungrab(MovingObject& object, Direction dir)
       m_physic.set_velocity_x(fabsf(player->get_physic().get_velocity_x()) < 1.f ? 0.f :
         player->m_dir == Direction::LEFT ? -200.f : 200.f);
       m_physic.set_velocity_y((dir == Direction::UP) ? -500.f : (dir == Direction::DOWN) ? 500.f :
-        (glm::length(m_last_movement) > 1) ? -200.f : 0.f);
+        (last_movement.length() > 1) ? -200.f : 0.f);
     }
   }
 
