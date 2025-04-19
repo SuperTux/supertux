@@ -42,7 +42,7 @@ VideoSystemMenu::refresh()
   for (int i = 0; i < static_cast<int>(video_systems.size()); ++i)
   {
     const VideoSystem::Info& video_system = video_systems.at(i);
-    add_entry(static_cast<int>(video_system.value), video_system.value == g_config->video ? '[' + video_system.name + ']' : video_system.name)
+    add_entry(static_cast<int>(video_system.value), video_system.value == g_config->video ? fmt::format("[{}]", video_system.name) : video_system.name)
       .set_help(video_system.description);
   }
 
