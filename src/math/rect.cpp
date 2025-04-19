@@ -14,34 +14,34 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "math/rect.hpp"
+#include "rect.hpp"
 
-#include <ostream>
-
-#include "math/rectf.hpp"
-
-Rect::Rect(const Rectf& other) :
-  left(static_cast<int>(other.get_left())),
-  top(static_cast<int>(other.get_top())),
-  right(static_cast<int>(other.get_right())),
-  bottom(static_cast<int>(other.get_bottom()))
+template<>
+Rect::SDL_Rect_Wrapper Rect::to_sdl() const
 {
+  SDL_Rect_Wrapper wrapper;
+  wrapper.rect_i = {m_pos.x, m_pos.y, m_size.width, m_size.height};
+  return wrapper;
 }
 
-Rectf
-Rect::to_rectf() const
+template<>
+Rectf::SDL_Rect_Wrapper Rectf::to_sdl() const
 {
-  return { static_cast<float>(left), static_cast<float>(top),
-           static_cast<float>(right), static_cast<float>(bottom) };
+  SDL_Rect_Wrapper wrapper;
+  wrapper.rect_f = {m_pos.x, m_pos.y, m_size.width, m_size.height};
+  return wrapper;
 }
 
 std::ostream& operator<<(std::ostream& out, const Rect& rect)
 {
-  out << "Rect("
-      << rect.left << ", " << rect.top << ", "
-      << rect.right << ", " << rect.bottom
-      << ")";
+  out << "Rect(" << rect.get_left() << ", " << rect.get_top() << ", " << rect.get_right() << ", "
+      << rect.get_bottom() << ")";
   return out;
 }
 
-/* EOF */
+std::ostream& operator<<(std::ostream& out, const Rectf& rect)
+{
+  out << "Rectf(" << rect.get_left() << ", " << rect.get_top() << ", " << rect.get_right() << ", "
+      << rect.get_bottom() << ")";
+  return out;
+}

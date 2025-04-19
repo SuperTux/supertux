@@ -18,7 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "math/rect.hpp"
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"

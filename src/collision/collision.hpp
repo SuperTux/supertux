@@ -23,7 +23,6 @@
 #include "collision/collision_hit.hpp"
 #include "math/fwd.hpp"
 
-class Rectf;
 class AATriangle;
 
 namespace collision {

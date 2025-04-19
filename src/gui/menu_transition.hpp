@@ -18,7 +18,7 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_TRANSITION_HPP
 #define HEADER_SUPERTUX_GUI_MENU_TRANSITION_HPP
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 
 class DrawingContext;
 

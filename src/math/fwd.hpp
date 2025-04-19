@@ -19,7 +19,23 @@
 
 #include <glm/fwd.hpp>
 
-using Vector = glm::vec2;
+template<typename T>
+using Vector_t = glm::vec<2, T, glm::qualifier::defaultp>;
+
+using Vector = Vector_t<float>;
+using Vectori = Vector_t<int>;
+
+template<typename T>
+class Rect_t;
+
+using Rect = Rect_t<int>;
+using Rectf = Rect_t<float>;
+
+template<typename T>
+class Size_t;
+
+using Size = Size_t<int>;
+using Sizef = Size_t<float>;
 
 #endif
 

@@ -482,8 +482,8 @@ GLPainter::get_pixel(const GetPixelRequest& request) const
   float x = request.pos.x * static_cast<float>(rect.get_width()) / static_cast<float>(logical_size.width);
   float y = request.pos.y * static_cast<float>(rect.get_height()) / static_cast<float>(logical_size.height);
 
-  x += static_cast<float>(rect.left);
-  y += static_cast<float>(rect.top);
+  x += static_cast<float>(rect.get_left());
+  y += static_cast<float>(rect.get_top());
 
 #if 0
   // #ifndef USE_OPENGLES2
@@ -516,8 +516,8 @@ GLPainter::set_clip_rect(const Rect& clip_rect)
   const Rect& rect = m_renderer.get_rect();
   const Size& logical_size = m_renderer.get_logical_size();
 
-  glScissor(rect.left + rect.get_width() * clip_rect.left / logical_size.width,
-            rect.bottom - rect.get_height() * clip_rect.bottom / logical_size.height,
+  glScissor(rect.get_left() + rect.get_width() * clip_rect.get_left() / logical_size.width,
+            rect.get_bottom() - rect.get_height() * clip_rect.get_bottom() / logical_size.height,
             rect.get_width() * clip_rect.get_width() / logical_size.width,
             rect.get_height() * clip_rect.get_height() / logical_size.height);
   glEnable(GL_SCISSOR_TEST);

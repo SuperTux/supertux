@@ -22,7 +22,9 @@
 
 #include "math/vector.hpp"
 
-class Rectf;
+template<typename T>
+class Rect_t;
+using Rectf = Rect_t<float>;
 
 #ifdef DOXYGEN_SCRIPTING
 /**

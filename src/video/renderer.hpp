@@ -23,7 +23,6 @@
 #include "video/texture_ptr.hpp"
 
 class Painter;
-class Rect;
 struct DrawingRequest;
 struct SDL_Window;
 
