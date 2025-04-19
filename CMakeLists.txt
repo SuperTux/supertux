@@ -130,10 +130,11 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
   list(APPEND CMAKE_PREFIX_PATH "/usr")
 endif()
 
-## Add lots of dependencies to compiler switches
-include(SuperTux/AddPackage)
+option(ENABLE_OPENGL "Enable OpenGL support" ON)
 
 # Find dependencies
+include(SuperTux/AddPackage)
+
 add_package(TARGET PNG
   PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED) # lol
 add_package(TARGET ZLIB
@@ -186,7 +187,6 @@ if(ENABLE_DISCORD)
   add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
 endif()
 
-option(ENABLE_OPENGL "Enable OpenGL support" ON)
 set(HAVE_OPENGL NO)
 # OpenGL for Emscripten is added in Emscripten.cmake
 if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
