@@ -271,7 +271,7 @@ else()
   target_link_libraries(supertux2 PUBLIC simplesquirrel)
 endif()
 target_link_libraries(supertux2 PUBLIC
-  tinygettext sexp SDL_SavePNG
+  tinygettext sexp SDL_SavePNG SDL2_ttf
   PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
 
@@ -279,8 +279,6 @@ if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC
     # SDL2_image
     SDL2_image
-    # SDL2_ttf
-    SDL2_ttf
     # SDL2 main (windows?)
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
     # SDL2
