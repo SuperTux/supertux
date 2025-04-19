@@ -135,12 +135,33 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
 void
 SDLBaseVideoSystem::apply_video_mode()
 {
+  const int displayidx = SDL_GetWindowDisplayIndex(m_sdl_window.get());
+  if (displayidx < 0)
+  {
+    log_warning << "Unable to get display index of window: "
+                << SDL_GetError() << std::endl;
+    return;
+  }
+
+  SDL_DisplayMode display;
+  if (SDL_GetDesktopDisplayMode(displayidx, &display) != 0)
+  {
+    log_warning << "Unable to get information for display number "
+                << displayidx << ": "
+                << SDL_GetError() << std::endl;
+    return;
+  }
+
+  m_desktop_size.width = display.w;
+  m_desktop_size.height = display.h;
+
   if (!g_config->use_fullscreen)
   {
     SDL_SetWindowFullscreen(m_sdl_window.get(), 0);
 
     Size window_size;
     SDL_GetWindowSize(m_sdl_window.get(), &window_size.width, &window_size.height);
+
     if (g_config->window_size != window_size)
     {
       SDL_SetWindowSize(m_sdl_window.get(), g_config->window_size.width, g_config->window_size.height);
