@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2022 mrkubax10 <mrkubax10@onet.pl>
+//                2025 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,6 +20,7 @@
 #include <fmt/format.h>
 
 #include "gui/dialog.hpp"
+#include "gui/item_action.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/gameconfig.hpp"
@@ -34,12 +36,15 @@ void
 VideoSystemMenu::refresh()
 {
   add_label(_("Select Video System"));
-  add_inactive(fmt::format(_("Used video system: {}"), VideoSystem::get_video_string(g_config->video)));
   add_hl();
 
-  std::vector<std::string> video_systems = VideoSystem::get_available_video_systems();
-  for(unsigned i = 0; i < video_systems.size(); i++)
-    add_entry(static_cast<int>(i), video_systems[i]);
+  const auto video_systems = VideoSystem::get_available_video_systems();
+  for (int i = 0; i < static_cast<int>(video_systems.size()); ++i)
+  {
+    const VideoSystem::Info& video_system = video_systems.at(i);
+    add_entry(static_cast<int>(video_system.value), video_system.value == g_config->video ? fmt::format("[{}]", video_system.name) : video_system.name)
+      .set_help(video_system.description);
+  }
 
   add_hl();
   add_back(_("Back"));
@@ -50,10 +55,10 @@ VideoSystemMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() >= 0)
   {
-    g_config->video = VideoSystem::get_video_system(item.get_text());
-    Dialog::show_message(_("Restart game for the changes to take effect"), false, false, []
+    g_config->video = static_cast<VideoSystem::Enum>(item.get_id());
+    Dialog::show_message(_("Restart game for the changes to take effect"), false, false, [this]
       {
-        MenuManager::instance().pop_menu();
+        refresh();
       });
   }
 }
