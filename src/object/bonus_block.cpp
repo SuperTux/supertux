@@ -502,7 +502,7 @@ BonusBlock::try_drop(Player *player)
   dest_.set_right(m_col.m_bbox.get_right() - 1);
   dest_.set_bottom(dest_.get_top() + 30);
 
-  if (!Sector::get().is_free_of_statics(dest_, this, true) && !(m_contents == Content::ONEUP))
+  if (!Sector::get().is_free_of_statics(dest_, { get_collision_object() }, true) && !(m_contents == Content::ONEUP))
   {
     try_open(player);
     return;

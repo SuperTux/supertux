@@ -708,14 +708,14 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
 }
 
 bool
-CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype) const
+CollisionSystem::is_free_of_statics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore, const bool ignoreUnisolid, uint32_t tiletype) const
 {
   using namespace collision;
 
   if (!is_free_of_tiles(rect, ignoreUnisolid, tiletype)) return false;
 
   for (const auto& object : m_objects) {
-    if (object == ignore_object) continue;
+    if (std::find(objects_to_ignore.begin(), objects_to_ignore.end(), object) != objects_to_ignore.end()) continue;
     if (!object->is_valid()) continue;
     if (object->get_group() == COLGROUP_STATIC) {
       if (rect.overlaps(object->get_bbox())) return false;
@@ -726,14 +726,14 @@ CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ig
 }
 
 bool
-CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore) const
 {
   using namespace collision;
 
   if (!is_free_of_tiles(rect)) return false;
 
   for (const auto& object : m_objects) {
-    if (object == ignore_object) continue;
+    if (std::find(objects_to_ignore.begin(), objects_to_ignore.end(), object) != objects_to_ignore.end()) continue;
     if (!object->is_valid()) continue;
     if ((object->get_group() == COLGROUP_MOVING)
         || (object->get_group() == COLGROUP_MOVING_STATIC)
@@ -746,12 +746,12 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
 }
 
 bool
-CollisionSystem::is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+CollisionSystem::is_free_of_specifically_movingstatics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore) const
 {
   using namespace collision;
 
   for (const auto& object : m_objects) {
-    if (object == ignore_object) continue;
+    if (std::find(objects_to_ignore.begin(), objects_to_ignore.end(), object) != objects_to_ignore.end()) continue;
     if (!object->is_valid()) continue;
     if ((object->get_group() == COLGROUP_MOVING_STATIC)
         && (rect.overlaps(object->get_bbox())))
@@ -765,7 +765,7 @@ CollisionSystem::RaycastResult
 CollisionSystem::get_first_line_intersection(const Vector& line_start,
                                              const Vector& line_end,
                                              RaycastIgnore ignore,
-                                             const CollisionObject* ignore_object) const
+                                             const std::vector<const CollisionObject*>& objects_to_ignore) const
 {
   using namespace collision;
   RaycastResult tileresult;
@@ -810,7 +810,7 @@ finish_tiles:
 
   // Check if no object is in the way.
   for (const auto& object : m_objects) {
-    if (object == ignore_object) continue;
+    if (std::find(objects_to_ignore.begin(), objects_to_ignore.end(), object) != objects_to_ignore.end()) continue;
     if (!object->is_valid()) continue;
     if ((object->get_group() == COLGROUP_MOVING)
         || (object->get_group() == COLGROUP_MOVING_STATIC)
@@ -846,10 +846,10 @@ finish_tiles:
 }
 
 bool
-CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const
+CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const std::vector<const CollisionObject*>& objects_to_ignore) const
 {
   auto ignore = (ignore_objects ? IGNORE_OBJECTS : IGNORE_NONE);
-  return !get_first_line_intersection(line_start, line_end, ignore, ignore_object).is_valid;
+  return !get_first_line_intersection(line_start, line_end, ignore, objects_to_ignore).is_valid;
 }
 
 std::vector<CollisionObject*>
