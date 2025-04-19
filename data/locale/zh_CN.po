@@ -2667,99 +2667,99 @@ msgstr "我们鼓励您在 SuperTux 论坛中分享您的关卡。\n要找到您
 
 #: src/supertux/menu/editor_menu.cpp:206
 msgid "Keyboard Shortcuts:"
-msgstr ""
+msgstr "键盘快捷键："
 
 #: src/supertux/menu/editor_menu.cpp:208
 msgid "Esc = Open Menu"
-msgstr ""
+msgstr "Esc = 打开菜单"
 
 #: src/supertux/menu/editor_menu.cpp:209
 msgid "Ctrl+S = Save"
-msgstr ""
+msgstr "Ctrl+S = 保存"
 
 #: src/supertux/menu/editor_menu.cpp:210
 msgid "Ctrl+T = Test"
-msgstr ""
+msgstr "Ctrl+T = 测试"
 
 #: src/supertux/menu/editor_menu.cpp:211 src/supertux/menu/editor_menu.cpp:232
 msgid "Ctrl+Z = Undo"
-msgstr ""
+msgstr "Ctrl+Z = 撤销"
 
 #: src/supertux/menu/editor_menu.cpp:212 src/supertux/menu/editor_menu.cpp:233
 msgid "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Ctrl+Y = 重做"
 
 #: src/supertux/menu/editor_menu.cpp:213
 msgid "F5 = Toggle Autotiling"
-msgstr ""
+msgstr "Ctrl+Y = 切换自动平铺"
 
 #: src/supertux/menu/editor_menu.cpp:214
 msgid "F6 = Render Light"
-msgstr ""
+msgstr "F6 = 渲染光线"
 
 #: src/supertux/menu/editor_menu.cpp:215
 msgid "F7 = Grid Snapping"
-msgstr ""
+msgstr "F7 = 对齐网格"
 
 #: src/supertux/menu/editor_menu.cpp:216
 msgid "F8 = Show Grid"
-msgstr ""
+msgstr "F8 = 显示网格"
 
 #: src/supertux/menu/editor_menu.cpp:217
 msgid "Ctrl++ or Ctrl+Scroll Up = Zoom In"
-msgstr ""
+msgstr "Ctrl++ 或 Ctrl+Scroll Up = 放大"
 
 #: src/supertux/menu/editor_menu.cpp:218
 msgid "Ctrl+- or Ctrl+Scroll Down = Zoom Out"
-msgstr ""
+msgstr "Ctrl+- 或 Ctrl+Scroll Down = 缩小"
 
 #: src/supertux/menu/editor_menu.cpp:219
 msgid "Ctrl+D = Reset Zoom"
-msgstr ""
+msgstr "Ctrl+D = 重置缩放"
 
 #: src/supertux/menu/editor_menu.cpp:220
 msgid "Scripting Shortcuts:"
-msgstr ""
+msgstr "脚本快捷键："
 
 #: src/supertux/menu/editor_menu.cpp:222
 msgid "Home = Go to beginning of line"
-msgstr ""
+msgstr "Home = 转到行首"
 
 #: src/supertux/menu/editor_menu.cpp:223
 msgid "End = Go to end of line"
-msgstr ""
+msgstr "End = 转到行末"
 
 #: src/supertux/menu/editor_menu.cpp:224
 msgid "Left arrow = Go back in text"
-msgstr ""
+msgstr "左箭头 = 在文本中后退"
 
 #: src/supertux/menu/editor_menu.cpp:225
 msgid "Right arrow = Go forward in text"
-msgstr ""
+msgstr "右箭头 = 在文本中前进"
 
 #: src/supertux/menu/editor_menu.cpp:226
 msgid "Backspace = Delete in front of text cursor"
-msgstr ""
+msgstr "Backspace = 删除光标前的内容"
 
 #: src/supertux/menu/editor_menu.cpp:227
 msgid "Delete = Delete behind text cursor"
-msgstr ""
+msgstr "Delete = 删除光标后的内容"
 
 #: src/supertux/menu/editor_menu.cpp:228
 msgid "Ctrl+X = Cut whole line"
-msgstr ""
+msgstr "Ctrl+X = 剪切整行"
 
 #: src/supertux/menu/editor_menu.cpp:229
 msgid "Ctrl+C = Copy whole line"
-msgstr ""
+msgstr "Ctrl+C = 复制整行"
 
 #: src/supertux/menu/editor_menu.cpp:230
 msgid "Ctrl+V = Paste"
-msgstr ""
+msgstr "Ctrl+V = 粘贴"
 
 #: src/supertux/menu/editor_menu.cpp:231
 msgid "Ctrl+D = Duplicate line"
-msgstr ""
+msgstr "Ctrl+D = 将行重复一次"
 
 #: src/supertux/menu/editor_menu.cpp:262
 msgid "Deprecated tiles are still present in the level."
@@ -2961,7 +2961,7 @@ msgstr "在编辑器工具箱中显示图块 ID"
 
 #: src/supertux/menu/debug_menu.cpp:77
 msgid "Hide Player HUD"
-msgstr ""
+msgstr "隐藏玩家 HUD"
 
 #: src/supertux/menu/debug_menu.cpp:79
 msgid "Reload Resources"
