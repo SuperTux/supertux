@@ -165,11 +165,8 @@ if(NOT EMSCRIPTEN)
     PKG Vorbis PKG_USE Vorbis::vorbis CONFIG REQUIRED PKG_CONFIG vorbis)
   add_package(TARGET VorbisFile
     PKG Vorbis PKG_USE Vorbis::vorbisfile CONFIG REQUIRED PKG_CONFIG vorbisfile)
-endif()
-
-if(EMSCRIPTEN)
-  set(SQ_DISABLE_INSTALLER YES)
-  set(SSQ_BUILD_INSTALL NO)
+else()
+  include(SuperTux/Emscripten)
 endif()
 
 if(TARGET RAQM)
@@ -256,7 +253,7 @@ if(WIN32)
 endif()
 
 if(EMSCRIPTEN)
-  include(SuperTux/Emscripten)
+  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
 endif()
 
 set_target_properties(supertux2 PROPERTIES OUTPUT_NAME "supertux2")
