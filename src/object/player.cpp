@@ -2392,6 +2392,32 @@ Player::collision(MovingObject& other, const CollisionHit& hit)
       return FORCE_MOVE;
     if (m_stone)
       return ABORT_MOVE;
+    if (badguy->is_frozen() && hit.bottom && badguy->get_physic().get_velocity_y() != 0) {
+      if (m_physic.get_velocity_y() > 0)
+        m_physic.set_velocity_y(0);
+
+      m_on_ground_flag = true;
+      m_floor_normal = hit.slope_normal;
+      m_is_slidejump_falling = false;
+      m_slidejumping = false;
+
+      // Butt Jump landed
+      if (m_does_buttjump) {
+        m_does_buttjump = false;
+        m_buttjump_stomp = true;
+        m_physic.set_velocity_y(-300);
+        m_on_ground_flag = false;
+        Sector::get().add<Particles>(
+          m_col.m_bbox.p2(),
+          50, 70, 260, 280, Vector(0, 300), 3,
+          Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+        Sector::get().add<Particles>(
+          Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
+          -70, -50, 260, 280, Vector(0, 300), 3,
+          Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+        Sector::get().get_camera().shake(.1f, 0.f, 10.f);
+      }
+    }
   }
 
   return CONTINUE;
