@@ -161,10 +161,13 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
 
   if (!shiftout)
   {
-    if (other_object && other_object->is_unisolid())
+    if (other_object && other_object->is_unisolid() &&
+        moving_object->get_group() != COLGROUP_MOVING_STATIC)
     {
       // Constrain only on fall on top of the unisolid object.
-      if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top())
+      // Here we are checking the movements of the objects to prevent
+      // overshoot if both objects are going in convergent directions
+      if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top() - (other_object->get_movement().y - 5.f))
       {
         constraints.constrain_bottom(other_obj_rect.get_top());
         constraints.hit.bottom = true;
@@ -396,6 +399,9 @@ CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* obj
     std::swap(hit.left, hit.right);
     std::swap(hit.top, hit.bottom);
     HitResponse response2 = object2->collision(*object1, hit);
+
+    //std::cout << response1 << response2 << std::endl;
+
     if (response1 == CONTINUE && response2 == CONTINUE) {
       normal *= (0.5f + EPSILON);
       object1->m_dest.move(-normal);
@@ -423,10 +429,17 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
     const float static_size = static_object->get_bbox().get_width() * static_object->get_bbox().get_height();
     const float object_size = object.get_bbox().get_width() * object.get_bbox().get_height();
     // let's skip this if two colgroup_moving_static's connect and our object is somewhat larger than the static object.
+
+    //if (object.get_group() == COLGROUP_MOVING_STATIC && static_object->get_group() == COLGROUP_MOVING_STATIC)
+    //  std::cout << object_size << " " << static_size + FORGIVENESS << std::endl;
+
     if ((object.get_group() == COLGROUP_MOVING_STATIC && static_object->get_group() == COLGROUP_MOVING_STATIC) &&
-      (object_size > static_size + FORGIVENESS)) {
+        ((object_size >= static_size + FORGIVENESS))
+       )
+    {
       continue;
     }
+
     if ((
           static_object->get_group() == COLGROUP_STATIC ||
           static_object->get_group() == COLGROUP_MOVING_STATIC
@@ -726,15 +739,16 @@ CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ig
 }
 
 bool
-CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
-  if (!is_free_of_tiles(rect)) return false;
+  if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
 
   for (const auto& object : m_objects) {
     if (object == ignore_object) continue;
     if (!object->is_valid()) continue;
+    if (object->is_unisolid() && ignoreUnisolid) continue;
     if ((object->get_group() == COLGROUP_MOVING)
         || (object->get_group() == COLGROUP_MOVING_STATIC)
         || (object->get_group() == COLGROUP_STATIC)) {
