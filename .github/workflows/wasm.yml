@@ -50,6 +50,26 @@ jobs:
           ./emsdk install latest
           ./emsdk activate latest
 
+      - name: Use cached dependencies
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.VCPKG_INSTALLATION_ROOT }}/installed
+          key: wasm-dependencies-${{ hashFiles('.github/workflows/wasm.yml') }}
+
+      - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        run: |
+          source ~/emsdk/emsdk_env.sh
+          vcpkg integrate install
+          vcpkg install libpng:wasm32-emscripten
+          vcpkg install glm:wasm32-emscripten
+          vcpkg install zlib:wasm32-emscripten
+          vcpkg install fmt:wasm32-emscripten
+          vcpkg install physfs:wasm32-emscripten
+          vcpkg install libraqm:wasm32-emscripten
+          vcpkg install freetype:wasm32-emscripten
+
       - name: Configure build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
@@ -58,7 +78,10 @@ jobs:
           mkdir build
           cd build
           # TODO: Re-add -DWERROR=ON when warnings will be fixed
-          emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWARNINGS=ON -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ..
+          emcmake cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWARNINGS=ON \
+                           -DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake \
+                           -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=~/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+                           -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
       - name: Sync data folder
         working-directory: build

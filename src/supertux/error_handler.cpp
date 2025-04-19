@@ -25,6 +25,7 @@
 #include <csignal>
 #include <sstream>
 #include <string>
+#include <cstring>
 
 #include <SDL.h>
 
@@ -32,7 +33,7 @@
 
 #include "util/file_system.hpp"
 
-#if (defined(__unix__) || defined(__APPLE__)) && !(defined(__EMSCRIPTEN__))
+#if (defined(__unix__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__)) && !(defined(__EMSCRIPTEN__))
 #define UNIX
 #endif
 
@@ -40,7 +41,9 @@
 #include <DbgHelp.h>
 //#include <VersionHelpers.h>
 
+#ifdef _MSC_VER
 #pragma comment(lib, "DbgHelp.lib")
+#endif
 #elif defined(UNIX)
 #include <sys/utsname.h>
 #include <execinfo.h>
