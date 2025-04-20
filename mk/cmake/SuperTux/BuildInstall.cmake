@@ -1,12 +1,4 @@
 if(WIN32 AND NOT UNIX)
-  # HACK?: This assumes that all DLLs are in the binary
-  #        directory, which is not how CMake wants you to think.
-  install(CODE "
-    file(GLOB DLLS \"${CMAKE_CURRENT_BINARY_DIR}/*.dll\")
-    file(INSTALL \${DLLS}
-         DESTINATION \"$<INSTALL_PREFIX>/${INSTALL_SUBDIR_BIN}\")
-  ")
-
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png
                 ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico
           DESTINATION ".")
@@ -64,9 +56,12 @@ else()
 endif()
 
 if(UBUNTU_TOUCH)
-  install(TARGETS supertux2 DESTINATION ".")
+  install(TARGETS supertux2
+          DESTINATION ".")
 else()
-  install(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
+  install(TARGETS supertux2
+          DESTINATION ${INSTALL_SUBDIR_BIN}
+          RUNTIME_DEPENDENCIES)
 endif()
 
 if(EMSCRIPTEN)
