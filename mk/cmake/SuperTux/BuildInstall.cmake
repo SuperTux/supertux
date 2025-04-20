@@ -61,7 +61,7 @@ if(UBUNTU_TOUCH)
 elseif(WIN32)
   install(TARGETS supertux2
           DESTINATION ${INSTALL_SUBDIR_BIN}
-          RUNTIME_DEPENDENCIES PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-")
+          RUNTIME_DEPENDENCIES PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-" "wpaxholder" "HvsiFileTrust")
 else()
   install(TARGETS supertux2
           DESTINATION ${INSTALL_SUBDIR_BIN})
