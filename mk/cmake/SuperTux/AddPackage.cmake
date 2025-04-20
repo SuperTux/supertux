@@ -1,6 +1,7 @@
 # AddPackage.cmake - Portable find_package approach
 #
 # Copyright (C) 2024 Hyland B. <me@ow.swag.toys>
+# Copyright (C) 2024-2025 MatusGuy <martusguy@proton.me>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,10 +24,7 @@
 # especially on *NIX machines or anything weird like that. So, being
 # clever, it then tries to go to PkgConfig, which (generally speaking)
 # tends to produce more accurate results on *NIX
-# machines. Unfortunately, this may not always work (and sometimes by
-# design), so then it finally falls back to Supertux's old, weird
-# Provide files. And if that fails, then that means the package
-# doesn't exist or wasn't installed.
+# machines.
 
 # Usage:
 #
@@ -40,6 +38,8 @@
 #      PKG_CONFIG sdl2 sdl2_ttf   <-- (optional, recommended) List of packages for pkg-config.
 #      PREFER_PKGCONFIG           <-- (optional) If the host machine is running a unix-like,
 #   )                                 skip the find_package call and use pkg-config.
+
+# NOTE: The PREFER_PKGCONFIG option gets ignored if ${PKG}_PREFER_FIND_PACKAGE is true.
 
 find_package(PkgConfig)
 function(add_package)

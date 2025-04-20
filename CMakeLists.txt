@@ -51,7 +51,6 @@ if(${PLATFORM} MATCHES "arm64")
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
-include(ConfigureFiles)
 include(ExternalProject)
 include(CheckCXXCompilerFlag)
 include(CheckSymbolExists)
