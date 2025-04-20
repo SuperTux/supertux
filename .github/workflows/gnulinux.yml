@@ -169,6 +169,8 @@ jobs:
 
       - name: Build and install
         working-directory: build
+        env:
+          CMAKE_POLICY_VERSION_MINIMUM: 3.5
         run: |
           make -j3 VERBOSE=1
           make install DESTDIR="/tmp/supertux" VERBOSE=1
