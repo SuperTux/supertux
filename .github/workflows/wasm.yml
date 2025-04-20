@@ -43,12 +43,16 @@ jobs:
       - name: Install emscripten tools
         run: |
           cd ~
+
           sudo apt-get update
           sudo apt-get install -y git cmake build-essential curl zip
+
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
           ./emsdk install latest
           ./emsdk activate latest
+
+          vcpkg integrate install
 
       - name: Use cached dependencies
         id: cache-dependencies
@@ -61,7 +65,6 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
           source ~/emsdk/emsdk_env.sh
-          vcpkg integrate install
           vcpkg install libpng:wasm32-emscripten
           vcpkg install glm:wasm32-emscripten
           vcpkg install zlib:wasm32-emscripten
