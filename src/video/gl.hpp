@@ -42,11 +42,6 @@ inline void glDeleteVertexArrays(GLsizei n, GLuint *arrays) {}
 inline void glBindVertexArray(GLuint vao) {}
 #endif
 
-#pragma message ("GL.HPP INCLUDED")
-#ifdef USE_OPENGLES2
-#pragma message ("WITH OPENGLES2")
-#endif
-
 #else
 
 // These are used by SDL code when OpenGL is completely disabled

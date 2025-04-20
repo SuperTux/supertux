@@ -37,6 +37,10 @@ cmake_minimum_required(VERSION 3.19)
 
 project(SUPERTUX)
 
+if(COMMAND cmake_policy)
+  cmake_policy(SET CMP0069 NEW)
+endif()
+
 ### CMake configuration
 
 set(CMAKE_CXX_STANDARD 17)
@@ -90,8 +94,25 @@ else()
   set(SUPERTUX_RELEASE_DEFAULT FALSE)
 endif()
 option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" ${SUPERTUX_RELEASE_DEFAULT})
-
 option(STEAM_BUILD "Prepare build for Steam" OFF)
+
+if(EMSCRIPTEN OR NOT IS_SUPERTUX_RELEASE)
+  # FIXME: As of writing, Emscripten fails with "wasm-ld: error: /path/to/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/thinlto/libc.a(fileno.o): attempt to add bitcode file after LTO (fileno)"
+  # Seems to be a known issue: https://github.com/emscripten-core/emscripten/issues/20275
+  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster executables)" OFF)
+else()
+  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster executables)" ON)
+endif()
+
+if(SUPERTUX_IPO)
+  include(CheckIPOSupported)
+  check_ipo_supported(RESULT result)
+  if(result)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON CACHE BOOL "" FORCE)
+  endif()
+else()
+  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF CACHE BOOL "" FORCE)
+endif()
 
 set(SUPERTUX_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
 set(VCPKG_BUILD OFF CACHE BOOL "Use dependencies installed via vcpkg (not dependency package)")
@@ -212,12 +233,15 @@ include(SuperTux/BuildMessagePot)
 set(SUPERTUX_SOURCES_C ${CMAKE_CURRENT_SOURCE_DIR})
 
 file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
+file(GLOB SUPERTUX_SOURCES_HXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.hpp src/supertux/menu/*.hpp src/video/sdl/*.hpp src/video/null/*.hpp)
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
 if(HAVE_OPENGL)
   message(STATUS "Adding OpenGL sources")
-  file(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.cpp)
-  set(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_OPENGL_SOURCES})
+  file(GLOB SUPERTUX_OPENGL_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.cpp)
+  file(GLOB SUPERTUX_OPENGL_SOURCES_HXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.hpp)
+  set(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_OPENGL_SOURCES_CXX})
+  set(SUPERTUX_SOURCES_HXX ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_OPENGL_SOURCES_HXX})
 endif()
 
 ## Sort source lists to have deterministic linking order
@@ -235,11 +259,22 @@ if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
 endif()
 
 ## Add target for supertux binary
-add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 target_compile_features(supertux2 PUBLIC cxx_std_17)
 
 if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
   target_compile_definitions(supertux2 PUBLIC SUPERTUX_RELEASE)
+endif()
+
+# Pre-compiled headers
+if(IS_SUPERTUX_RELEASE)
+  option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" ON)
+else()
+  option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" OFF)
+endif()
+
+if(SUPERTUX_PCH)
+  target_precompile_headers(supertux2 PRIVATE ${SUPERTUX_HEADERS})
 endif()
 
 target_include_directories(supertux2 PUBLIC ${CMAKE_BINARY_DIR} src/)
