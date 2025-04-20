@@ -96,13 +96,11 @@ endif()
 option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" ${SUPERTUX_RELEASE_DEFAULT})
 option(STEAM_BUILD "Prepare build for Steam" OFF)
 
-if(EMSCRIPTEN OR NOT IS_SUPERTUX_RELEASE)
+if(NOT EMSCRIPTEN)
   # FIXME: As of writing, Emscripten fails with "wasm-ld: error: /path/to/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/thinlto/libc.a(fileno.o): attempt to add bitcode file after LTO (fileno)"
   # Seems to be a known issue: https://github.com/emscripten-core/emscripten/issues/20275
   option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster executables)" OFF)
 else()
-  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster executables)" ON)
-endif()
 
 if(SUPERTUX_IPO)
   include(CheckIPOSupported)
