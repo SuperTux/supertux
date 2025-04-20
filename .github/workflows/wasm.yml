@@ -58,7 +58,7 @@ jobs:
         id: cache-dependencies
         uses: actions/cache@v4
         with:
-          path: ${{ env.VCPKG_INSTALLATION_ROOT }}/installed
+          path: /usr/local/share/vcpkg/installed
           key: wasm-dependencies-${{ hashFiles('.github/workflows/wasm.yml') }}
 
       - name: Install dependencies
