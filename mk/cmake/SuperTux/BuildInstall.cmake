@@ -58,10 +58,13 @@ endif()
 if(UBUNTU_TOUCH)
   install(TARGETS supertux2
           DESTINATION ".")
-else()
+elseif(WIN32)
   install(TARGETS supertux2
           DESTINATION ${INSTALL_SUBDIR_BIN}
-          RUNTIME_DEPENDENCIES)
+          RUNTIME_DEPENDENCIES POST_EXCLUDE_REGEXES ms-win)
+else()
+  install(TARGETS supertux2
+          DESTINATION ${INSTALL_SUBDIR_BIN})
 endif()
 
 if(EMSCRIPTEN)
