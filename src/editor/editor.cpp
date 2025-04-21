@@ -173,8 +173,6 @@ Editor::draw(Compositor& compositor)
           camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
                                             static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
 
-        // Update the camera's screen size variable, so it can properly be kept in sector bounds.
-        camera.draw(context);
         keep_camera_in_bounds();
       }
       m_new_scale = 0.f;
@@ -1168,11 +1166,7 @@ Editor::pack_addon()
   {
     info.write("id", id);
     info.write("version", version);
-
-    if (get_world()->is_levelset())
-      info.write("type", "levelset");
-    else if (get_world()->is_worldmap())
-      info.write("type", "worldmap");
+    info.write("type", get_world()->get_type());
 
     info.write("title", get_world()->get_title());
     info.write("author", get_level()->get_author());

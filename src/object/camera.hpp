@@ -58,7 +58,7 @@ public:
   /** \addtogroup GameObject
       @{ */
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& ) override;
+  virtual void draw(DrawingContext& ) override {}
 
   virtual bool is_singleton() const override { return true; }
   virtual bool is_saveable() const override;
