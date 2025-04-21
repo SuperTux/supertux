@@ -10,9 +10,6 @@ if(WIN32 AND NOT UNIX)
             OPTIONAL)
   endif()
 
-  install(FILES $<TARGET_RUNTIME_DLLS:supertux2>
-          DESTINATION ${INSTALL_SUBDIR_BIN})
-
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat
                 ${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux_portable.bat
           DESTINATION ".")
@@ -63,7 +60,10 @@ if(UBUNTU_TOUCH)
           DESTINATION ".")
 else()
   install(TARGETS supertux2
-          DESTINATION ${INSTALL_SUBDIR_BIN})
+          DESTINATION ${INSTALL_SUBDIR_BIN}
+          RUNTIME_DEPENDENCIES PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
+                               POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
+                               DIRECTORIES $<TARGET_RUNTIME_DLL_DIRS:supertux2>)
 endif()
 
 if(EMSCRIPTEN)
