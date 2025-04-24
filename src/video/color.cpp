@@ -193,4 +193,40 @@ Color::serialize_to_rgb(const Color& color)
   return ss.str();
 }
 
+Color
+Color::from_oklch(const ColorOKLCh& lch)
+{
+  // 1) LCh → OKLab (Lab) components
+  float L = lch.L;
+  float a = lch.C * cosf(lch.h);
+  float b = lch.C * sinf(lch.h);
+
+  // 2) OKLab → linear-srgb (matrix from Ottosson’s inverse)
+  //    see https://bottosson.github.io/posts/oklab/#converting-from-oklab-to-linear-srgb
+  float l_ = L + 0.3963377774f * a + 0.2158037573f * b;
+  float m_ = L - 0.1055613458f * a - 0.0638541728f * b;
+  float s_ = L - 0.0894841775f * a - 1.2914855480f * b;
+
+  float l = l_ * l_ * l_;
+  float m = m_ * m_ * m_;
+  float s = s_ * s_ * s_;
+
+  float r_lin = +4.0767416621f * l - 3.3077115913f * m + 0.2309699292f * s;
+  float g_lin = -1.2684380046f * l + 2.6097574011f * m - 0.3413193965f * s;
+  float b_lin = -0.0041960863f * l - 0.7034186147f * m + 1.7076147010f * s;
+
+  // 3) linear-srgb → gamma-encoded sRGB
+  float r = linear_to_srgb(r_lin);
+  float g = linear_to_srgb(g_lin);
+  float bl = linear_to_srgb(b_lin);
+
+  // 4) clamp to [0,1] and return
+  return Color(
+    std::clamp(r, 0.0f, 1.0f),
+    std::clamp(g, 0.0f, 1.0f),
+    std::clamp(bl,0.0f,1.0f),
+    1.0f
+  );
+}
+
 /* EOF */

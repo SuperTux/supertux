@@ -1,0 +1,23 @@
+src/video/color.cpp:17:0: information: Include file: "math/util.hpp" not found. [missingInclude]
+#include "math/util.hpp"
+^
+src/video/color.cpp:18:0: information: Include file: "video/color.hpp" not found. [missingInclude]
+#include "video/color.hpp"
+^
+src/video/color.cpp:20:0: information: Include file: <algorithm> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <algorithm>
+^
+src/video/color.cpp:21:0: information: Include file: <assert.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <assert.h>
+^
+src/video/color.cpp:22:0: information: Include file: <iomanip> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <iomanip>
+^
+src/video/color.cpp:23:0: information: Include file: <regex> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <regex>
+^
+src/video/color.cpp:24:0: information: Include file: <sstream> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <sstream>
+^
+nofile:0:0: information: Active checkers: 179/856 (use --checkers-report=<filename> to see details) [checkersReport]
+

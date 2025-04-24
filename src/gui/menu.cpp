@@ -21,6 +21,7 @@
 #include "gui/item_back.hpp"
 #include "gui/item_color.hpp"
 #include "gui/item_colorchannel_rgba.hpp"
+#include "gui/item_colorchannel_saturation.hpp"
 #include "gui/item_colordisplay.hpp"
 #include "gui/item_color_picker_2d.hpp"
 #include "gui/item_controlfield.hpp"
@@ -265,6 +266,11 @@ ItemColorChannelRGBA&
 Menu::add_color_channel_rgba(float* input, Color channel, int id, bool is_linear)
 {
   return add_item<ItemColorChannelRGBA>(input, channel, id, is_linear);
+}
+
+ItemColorChannelSaturation&
+Menu::add_color_channel_saturation(Color* color, ColorOKLCh* okl, int id) {
+  return add_item<ItemColorChannelSaturation>(color, okl, id);
 }
 
 ItemColorPicker2D&

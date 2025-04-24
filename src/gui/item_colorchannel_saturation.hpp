@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_COLORCHANNEL_RGBA_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_COLORCHANNEL_RGBA_HPP
+#ifndef HEADER_SUPERTUX_GUI_ITEM_COLORCHANNEL_SATURATION_HPP
+#define HEADER_SUPERTUX_GUI_ITEM_COLORCHANNEL_SATURATION_HPP
 
 #include "gui/menu_item.hpp"
 
@@ -23,11 +23,10 @@
 #include "video/color.hpp"
 
 
-class ItemColorChannelRGBA final : public MenuItem
+class ItemColorChannelSaturation final : public MenuItem
 {
 public:
-  ItemColorChannelRGBA(float* input_, Color channel_, int id_ = -1,
-    bool is_linear = false);
+  ItemColorChannelSaturation(Color* color, ColorOKLCh* okl, int id = -1);
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
@@ -41,7 +40,7 @@ public:
   /** Processes the given event. */
   virtual void event(const SDL_Event& ev) override;
 
-  virtual Color get_color() const override;
+  //virtual Color get_color() const override;
 
   virtual bool changes_width() const override { return true; }
 
@@ -53,16 +52,16 @@ private:
   void remove_char();
 
 private:
-  float* m_number;
-  float m_number_prev;
-  bool m_is_linear;
+  Color* m_color;
+  ColorOKLCh* m_okl;
+  float* m_sat;
+  float m_sat_prev;
   bool m_edit_mode;
   int m_flickw;
-  Color m_channel;
 
 private:
-  ItemColorChannelRGBA(const ItemColorChannelRGBA&) = delete;
-  ItemColorChannelRGBA& operator=(const ItemColorChannelRGBA&) = delete;
+  ItemColorChannelSaturation(const ItemColorChannelSaturation&) = delete;
+  ItemColorChannelSaturation& operator=(const ItemColorChannelSaturation&) = delete;
 };
 
 #endif
