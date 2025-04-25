@@ -200,12 +200,21 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
     if (m_physic.get_velocity_y() > 0) m_physic.set_velocity_y(0);
   }
 
-  if ( hit.slope_normal.x == 0.0f &&
-      ((hit.left && m_dir == Direction::LEFT) ||
-      (hit.right && m_dir == Direction::RIGHT)) ) {
+  if ((hit.left && m_dir == Direction::LEFT) ||
+      (hit.right && m_dir == Direction::RIGHT)) {
+    
+    // Enemies get stuck in some tiles #3239 FIX
+    // When a bad guy is about to step onto a slope, have it manually step onto it
+    if (std::abs(hit.slope_normal.x) > 0.0f && std::abs(hit.slope_normal.x) < 0.7f) {
+      Vector movement = m_col.get_movement();
+      movement.y -= 5;
+      m_col.set_movement(movement);
+      // setting the movement of the CollisionObject
+    } else {
+    // If it's anything but a sloped surface, turn around like normal
       turn_around();
+    }
   }
-
 }
 
 HitResponse
