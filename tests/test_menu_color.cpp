@@ -66,3 +66,5 @@ int main() {
     log_info << "All tests passed!" << std::endl;
     return 0;
 }
+
+/* EOF */

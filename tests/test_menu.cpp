@@ -62,3 +62,5 @@ TEST_CASE("Menu navigation", "[gui][menu]") {
     REQUIRE(menu.get_active_item_index() == 0);
   }
 }
+
+/* EOF */

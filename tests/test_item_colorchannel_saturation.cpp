@@ -62,3 +62,5 @@ int main() {
   std::cout << "All ItemColorChannelSaturation tests passed.\n";
   return 0;
 }
+
+/* EOF */
