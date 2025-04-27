@@ -39,7 +39,7 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   m_volume(),
   m_has_played_sound(false)
 {
-  m_col.m_group = COLGROUP_DISABLED;
+  set_group(COLGROUP_DISABLED);
 
   float w, h;
   mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
@@ -65,7 +65,7 @@ AmbientSound::AmbientSound(const Vector& pos, float radius, float vol, const std
   m_volume(vol),
   m_has_played_sound(false)
 {
-  m_col.m_group = COLGROUP_DISABLED;
+  set_group(COLGROUP_DISABLED);
 
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(32, 32);

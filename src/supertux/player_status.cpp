@@ -403,7 +403,7 @@ PlayerStatus::PocketPowerUp::PocketPowerUp(BonusType bonustype, Vector pos):
   physic.set_velocity_y(-325.f);
   physic.set_gravity_modifier(0.4f);
   set_layer(LAYER_FOREGROUND1);
-  m_col.m_group = COLGROUP_DISABLED;
+  set_group(COLGROUP_DISABLED);
 }
 
 void
@@ -422,7 +422,7 @@ PlayerStatus::PocketPowerUp::update(float dt_sec)
   {
     m_visible = true;
     m_blink_timer.stop();
-    m_col.m_group = COLGROUP_TOUCHABLE;
+    set_group(COLGROUP_TOUCHABLE);
   }
 
   if (m_blink_timer.check())

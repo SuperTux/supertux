@@ -212,6 +212,9 @@ public:
   /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
+  void add_to_collision_buckets(CollisionObject* object);
+  void remove_from_collision_buckets(CollisionObject* object);
+
   /**
    * @scripting
    * Sets the sector's gravity.
