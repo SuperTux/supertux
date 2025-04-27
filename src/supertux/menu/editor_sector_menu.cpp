@@ -76,7 +76,7 @@ EditorSectorMenu::menu_action(MenuItem& item)
   switch (item.get_id()) {
     case MNID_RESIZESECTOR:
       if (new_size.is_valid()) {
-        sector->resize_sector(size, new_size, offset);
+        sector->resize(size, new_size, offset);
         size = new_size;
       }
       break;
