@@ -30,7 +30,8 @@ public:
   virtual bool is_snipable() const override { return true; }
   virtual bool is_flammable() const override { return false; }
 
-  void active_update(float dt_sec) override;
+  virtual void active_update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void collision_tile(uint32_t tile_attributes) override;
@@ -44,17 +45,28 @@ private:
   float m_speed;
   float m_track_range;
   float m_speed_modifier;
-  bool m_fake_dead;
   Vector m_chase_dir;
+  Vector m_home_pos;
   Timer m_respawn_timer;
 
 private:
-  enum SpriteState {
-    NORMAL,
-    FAST
+  enum GhoulState {
+    ROAMING_DOWN,
+    ROAMING_ACCEL1,
+    ROAMING_ACCEL2,
+    ROAMING_UP,
+    CHASING_DOWN,
+    CHASING_ACCEL1,
+    CHASING_ACCEL2,
+    CHASING_UP,
+    STUNNED,
+    INVISIBLE,
+    RECOVERING,
   };
 
-  SpriteState m_sprite_state;
+  GhoulState m_state;
+  void set_state(GhoulState new_state);
+  void update_speed(const Vector& dist);
 
 private:
   Ghoul(const Ghoul&) = delete;

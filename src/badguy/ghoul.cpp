@@ -22,17 +22,21 @@
 
 static const float DEFAULT_SPEED = 40.0f;
 static const float DEFAULT_TRACK_RANGE = 2500.0f;
-static const float RESPAWN_TIME = 5.f;
+static const float RESPAWN_TIME = 5.0f;
+static const float DOWN_VELOCITY = 32.0f;
+static const float UP_VELOCITY = -256.0f;
+static const float UP_ACCELERATION = 256.0f;
+static const float VERT_OFFSET = 48.0f;
 
 Ghoul::Ghoul(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/ghoul/ghoul.sprite"),
   m_speed(),
   m_track_range(),
   m_speed_modifier(),
-  m_fake_dead(),
   m_chase_dir(),
+  m_home_pos(),
   m_respawn_timer(),
-  m_sprite_state(SpriteState::NORMAL)
+  m_state()
 {
   m_countMe = false;
 
@@ -40,10 +44,12 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   reader.get("track-range", m_track_range, DEFAULT_TRACK_RANGE);
 
   set_action(m_dir);
-  m_physic.set_gravity_modifier(0.2f);
-  set_colgroup_active(COLGROUP_TOUCHABLE);
+  m_physic.enable_gravity(false);
+  m_home_pos = get_pos();
+  set_state(ROAMING_DOWN);
 
-  SoundManager::current()->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/ghoul_stunned.ogg");
+  SoundManager::current()->preload("sounds/ghoul_recovering.ogg");
 }
 
 void
@@ -53,55 +59,183 @@ Ghoul::active_update(float dt_sec)
   if (m_frozen)
     return;
 
-  if (m_fake_dead && m_respawn_timer.check()) {
-    initialize();
-    m_physic.enable_gravity(true);
-    set_colgroup_active(COLGROUP_TOUCHABLE);
-    m_fake_dead = false;
-    m_respawn_timer.stop();
-  }
-
-  if (m_fake_dead)
-    return;
-
   auto player = get_nearest_player();
   if (!player)
-  {
-    m_physic.reset();
     return;
-  }
-  Vector p1 = m_col.m_bbox.get_middle();
+  
+  Vector p1 = get_bbox().get_middle();
   Vector p2 = player->get_bbox().get_middle();
-  Vector dist = (p2 - p1);
+  Vector dist = p2 - p1;
+  Direction new_dir = p2.x < p1.x ? Direction::LEFT : Direction::RIGHT;
+  bool dir_changed = new_dir != m_dir;
+  bool chase = glm::length(dist) < m_track_range;
 
-  switch (m_sprite_state)
+  switch (m_state)
   {
-  case NORMAL:
-    m_speed_modifier = std::max(0.f, m_speed_modifier - (dt_sec * 2.f));
-    set_action(player->get_bbox().get_middle().x < get_bbox().get_middle().x ? "left" : "right", 1);
-    if (m_sprite->animation_done()) {
-      m_chase_dir = glm::normalize(dist);
-      m_sprite_state = SpriteState::FAST;
+  case ROAMING_DOWN:
+    if (dir_changed) {
+      set_action(new_dir == Direction::LEFT ? "left" : "right");
+      m_dir = new_dir;
+    }
+    if (chase) {
+      set_state(CHASING_DOWN);
+    } else if (get_pos().y > m_home_pos.y + VERT_OFFSET) {
+      set_state(ROAMING_ACCEL1);
     }
     break;
-  case FAST:
-    set_action(player->get_bbox().get_middle().x < get_bbox().get_middle().x ? "fast-left" : "fast-right", 1);
-    m_speed_modifier = 3.5f;
+  case CHASING_DOWN:
+    update_speed(dist);
+    if (dir_changed) {
+      set_action(new_dir == Direction::LEFT ? "left" : "right");
+      m_dir = new_dir;
+    }
+    if (!chase) {
+      m_home_pos = get_pos();
+      set_state(ROAMING_DOWN);
+    } else if (dist.y < -VERT_OFFSET) {
+      set_state(CHASING_ACCEL1);
+    }
+    break;
+  case ROAMING_ACCEL1:
     if (m_sprite->animation_done()) {
-      m_sprite_state = SpriteState::NORMAL;
+      set_state(ROAMING_ACCEL2);
+    }
+    break;
+  case CHASING_ACCEL1:
+    update_speed(dist);
+    if (m_sprite->animation_done()) {
+      set_state(CHASING_ACCEL2);
+    }
+    break;
+  case ROAMING_ACCEL2:
+    if (m_sprite->animation_done()) {
+      set_state(ROAMING_UP);
+    }
+    break;
+  case CHASING_ACCEL2:
+    update_speed(dist);
+    if (m_sprite->animation_done()) {
+      set_state(CHASING_UP);
+    }
+    break;
+  case ROAMING_UP:
+    if (dir_changed) {
+      set_action(new_dir == Direction::LEFT ? "left-up" : "right-up");
+      m_dir = new_dir;
+    }
+    if (chase) {
+      set_state(CHASING_UP);
+    } else if (m_physic.get_velocity_y() > DOWN_VELOCITY) {
+      if (get_pos().y > m_home_pos.y + VERT_OFFSET) {
+        set_state(ROAMING_ACCEL1);
+      } else {
+        set_state(ROAMING_DOWN);
+      }
+    }
+    break;
+  case CHASING_UP:
+    update_speed(dist);
+    if (dir_changed) {
+      set_action(new_dir == Direction::LEFT ? "left-up" : "right-up");
+      m_dir = new_dir;
+    }
+    if (!chase) {
+      m_home_pos = get_pos();
+      set_state(ROAMING_UP);
+    } else if (m_physic.get_velocity_y() > DOWN_VELOCITY) {
+      if (dist.y < -VERT_OFFSET) {
+        set_state(CHASING_ACCEL1);
+      } else {
+        set_state(CHASING_DOWN);
+      }
+    }
+    break;
+  case STUNNED:
+    if (m_sprite->animation_done()) {
+      set_state(INVISIBLE);
+    }
+    break;
+  case INVISIBLE:
+    if (m_respawn_timer.check()) {
+      set_state(RECOVERING);    
+    }
+    break;
+  case RECOVERING:
+    if (m_sprite->animation_done()) {
+      set_state(ROAMING_DOWN);
     }
     break;
   }
 
-  if ((glm::length(dist) >= 1) && (glm::length(dist) < m_track_range))
-  {
-    m_physic.set_velocity(m_chase_dir * m_speed * m_speed_modifier);
+  m_dir = new_dir;
+}
+
+void
+Ghoul::update_speed(const Vector& dist)
+{
+  float vy = dist.y < 0 ? (UP_VELOCITY + DOWN_VELOCITY) / 2 : DOWN_VELOCITY;
+  float t = dist.y / vy;
+  if (t * m_speed > fabs(dist.x)) {
+    m_physic.set_velocity_x(dist.x / t);
+  } else {
+    m_physic.set_velocity_x(dist.x < 0 ? -m_speed : m_speed);
   }
-  else
+}
+
+void
+Ghoul::draw(DrawingContext& context)
+{
+  if (m_state != INVISIBLE) {
+    BadGuy::draw(context);
+  }
+}
+
+void
+Ghoul::set_state(GhoulState new_state)
+{
+  switch (new_state)
   {
+  case ROAMING_DOWN:
+    m_physic.set_velocity_x(0.0f);
+  case CHASING_DOWN:
+    set_colgroup_active(COLGROUP_TOUCHABLE);
+    m_physic.set_acceleration_y(0.0f);
+    m_physic.set_velocity_y(DOWN_VELOCITY);
+    set_action(m_dir == Direction::LEFT ? "left" : "right");
+    break;
+  case ROAMING_ACCEL1:
+  case CHASING_ACCEL1:
+    m_physic.set_velocity(0.f, 0.f);
+    set_action(m_dir == Direction::LEFT ? "accel1-left" : "accel1-right", 1);
+    break;
+  case ROAMING_ACCEL2:
+  case CHASING_ACCEL2:
+    set_action(m_dir == Direction::LEFT ? "accel2-left" : "accel2-right", 1);
+    m_physic.set_acceleration_y(UP_ACCELERATION);
+    m_physic.set_velocity_y(UP_VELOCITY);
+    break;
+  case ROAMING_UP:
+    m_physic.set_velocity_x(0.0f);
+  case CHASING_UP:
+    set_action(m_dir == Direction::LEFT ? "left-up" : "right-up");
+    break;
+  case STUNNED:
+    SoundManager::current()->play("sounds/ghoul_stunned.ogg", get_pos());
+    set_action(m_dir == Direction::LEFT ? "stunned-left" : "stunned-right", 1);
     m_physic.set_velocity(0.f, 0.f);
     m_physic.set_acceleration(0.f, 0.f);
+    set_colgroup_active(COLGROUP_DISABLED);
+    break;
+  case INVISIBLE:
+    m_respawn_timer.start(RESPAWN_TIME);
+    m_home_pos = get_pos();
+    break;
+  case RECOVERING:
+    SoundManager::current()->play("sounds/ghoul_recovering.ogg", get_pos());
+    set_action(m_dir == Direction::LEFT ? "recovering-left" : "recovering-right", 1);
+    break;
   }
+  m_state = new_state;
 }
 
 HitResponse
@@ -151,14 +285,7 @@ void
 Ghoul::kill_fall()
 {
   // "killing" the Ghoul doesn't actually kill it, because it is going to respawn, but it pretends to die.
-  set_action("squished");
-  SoundManager::current()->play("sounds/fall.wav", get_pos());
-  m_physic.enable_gravity(false);
-  m_physic.set_velocity(0.f, 0.f);
-  m_physic.set_acceleration(0.f, 0.f);
-  m_fake_dead = true;
-  set_colgroup_active(COLGROUP_DISABLED);
-  m_respawn_timer.start(RESPAWN_TIME);
+  set_state(STUNNED);
 }
 
 /* EOF */
