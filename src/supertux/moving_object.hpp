@@ -22,6 +22,7 @@
 #include "collision/collision_hit.hpp"
 #include "collision/collision_object.hpp"
 #include "math/rectf.hpp"
+#include "supertux/sector.hpp"
 
 class Dispenser;
 class Sector;
@@ -157,7 +158,16 @@ public:
 protected:
   void set_group(CollisionGroup group)
   {
+    /*if (Sector::current() != nullptr)
+    {
+      Sector::current()->remove_from_collision_buckets(&m_col);
+    }*/
     m_col.m_group = group;
+    /*
+    if (Sector::current() != nullptr)
+    {
+      Sector::current()->add_to_collision_buckets(&m_col);
+    }*/
   }
 
 protected:

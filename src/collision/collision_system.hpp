@@ -19,11 +19,14 @@
 #define HEADER_SUPERTUX_COLLISION_COLLISION_SYSTEM_HPP
 
 #include <vector>
+#include <map>
 #include <memory>
+#include <unordered_map>
 #include <variant>
 #include <stdint.h>
 
 #include "collision/collision.hpp"
+#include "collision/collision_group.hpp"
 #include "supertux/tile.hpp"
 #include "math/fwd.hpp"
 
@@ -47,7 +50,9 @@ public:
   CollisionSystem(Sector& sector);
 
   void add(CollisionObject* object);
+  void add_to_collision_buckets(CollisionObject* object);
   void remove(CollisionObject* object);
+  void remove_from_collision_buckets(CollisionObject* object);
 
   /** Draw collision shapes for debugging */
   void draw(DrawingContext& context);
@@ -111,6 +116,23 @@ private:
   Sector& m_sector;
 
   std::vector<CollisionObject*>  m_objects;
+
+  enum CollisionPart {
+    // Corresponds to:
+    // Part 1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap.
+    // Part 2: COLGROUP_MOVING vs tile attributes.
+    // Contains objects in collision groups COLGROUP_MOVING, COLGROUP_MOVING_STATIC, COLGROUP_ONLY_STATIC
+    MOVING_MOVING_STATIC_ONLY_STATIC,
+
+    // Corresponds to Part 2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE etc.
+    // Contains objects in collision groups COLGROUP_MOVING and COLGROUP_MOVING_STATIC
+    MOVING_MOVING_STATIC,
+
+    // Contains objects in collision group COLGROUP_TOUCHABLE
+    TOUCHABLE
+  };
+
+  std::unordered_map<CollisionPart, std::vector<CollisionObject*> > m_objects_by_collision_part;
 
   std::shared_ptr<CollisionGroundMovementManager> m_ground_movement_manager;
 

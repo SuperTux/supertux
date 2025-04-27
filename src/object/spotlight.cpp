@@ -67,7 +67,7 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   m_layer(0),
   m_enabled(true)
 {
-  m_col.m_group = COLGROUP_DISABLED;
+  set_group(COLGROUP_DISABLED);
 
   mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
   mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
