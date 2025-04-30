@@ -162,11 +162,10 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
     WalkingBadguy::collision_solid(hit);
     break;
   case ICESTATE_KICKED: {
-    if ((hit.right && m_dir == Direction::RIGHT) || (hit.left && m_dir == Direction::LEFT)) {
-      m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
-      SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
-      m_physic.set_velocity_x(-m_physic.get_velocity_x() * .975f);
-    } else if ((hit.left && m_dir == Direction::RIGHT) || (hit.right && m_dir == Direction::LEFT)) {
+    if (hit.left || hit.right) {
+      if ((hit.right && m_dir == Direction::RIGHT) || (hit.left && m_dir == Direction::LEFT)) {
+        m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
+      }
       SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
       m_physic.set_velocity_x(-m_physic.get_velocity_x() * .975f);
     }
