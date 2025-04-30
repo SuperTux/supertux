@@ -39,16 +39,19 @@ void Constraints::merge_constraints(const Constraints& other)
 
 //---------------------------------------------------------------------------
 
-namespace {
-inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
+/*inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 {
   n = Vector(p2.y - p1.y, p1.x - p2.x);
   c = -glm::dot(p2, n);
   float nval = glm::length(n);
   n /= nval;
   c /= nval;
-}
+}*/
 
+inline Vector make_normal(const Vector& p1, const Vector& p2){
+  Vector normal = Vector(p2.y - p1.y, p1.x - p2.x);
+  normal/=glm::length(normal);
+  return normal;
 }
 
 bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
@@ -59,6 +62,108 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
 }
 
 bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
+                          const AATriangle& triangle,
+                          bool& hits_rectangle_bottom)
+{
+  if (!rect.overlaps(triangle.bbox))
+    return false;
+
+  Vector normal(0.0f, 0.0f);
+  float c = 0.0;
+  Vector p_hit_box(0.0f, 0.0f);
+  Vector p_on_slope(0.0f,0.0f);
+  Rectf area;
+  switch (triangle.dir & AATriangle::DEFORM_MASK) {
+    case 0:
+      area.set_p1(triangle.bbox.p1());
+      area.set_p2(triangle.bbox.p2());
+      break;
+    case AATriangle::DEFORM_BOTTOM:
+      area.set_p1(Vector(triangle.bbox.get_left(), triangle.bbox.get_top() + triangle.bbox.get_height()/2));
+      area.set_p2(triangle.bbox.p2());
+      break;
+    case AATriangle::DEFORM_TOP:
+      area.set_p1(triangle.bbox.p1());
+      area.set_p2(Vector(triangle.bbox.get_right(), triangle.bbox.get_top() + triangle.bbox.get_height()/2));
+      break;
+    case AATriangle::DEFORM_LEFT:
+      area.set_p1(triangle.bbox.p1());
+      area.set_p2(Vector(triangle.bbox.get_left() + triangle.bbox.get_width()/2, triangle.bbox.get_bottom()));
+      break;
+    case AATriangle::DEFORM_RIGHT:
+      area.set_p1(Vector(triangle.bbox.get_left() + triangle.bbox.get_width()/2, triangle.bbox.get_top()));
+      area.set_p2(triangle.bbox.p2());
+      break;
+    default:
+      assert(false);
+  }
+
+  switch (triangle.dir & AATriangle::DIRECTION_MASK) {
+    case AATriangle::SOUTHWEST:
+      p_hit_box = Vector(rect.get_left(), rect.get_bottom());
+      p_on_slope = area.p1();
+      normal = make_normal(area.p1(), area.p2());
+      break;
+    case AATriangle::NORTHEAST:
+      p_hit_box = Vector(rect.get_right(), rect.get_top());
+      p_on_slope = area.p2();
+      normal = make_normal(area.p2(), area.p1());
+      break;
+    case AATriangle::SOUTHEAST:
+      p_hit_box = rect.p2();
+      p_on_slope = Vector(area.get_left(), area.get_bottom());
+      normal = make_normal(Vector(area.get_left(), area.get_bottom()),
+                Vector(area.get_right(), area.get_top()));
+      break;
+    case AATriangle::NORTHWEST:
+      p_hit_box = rect.p1();
+      p_on_slope = Vector(area.get_right(), area.get_top());
+      normal = make_normal(Vector(area.get_right(), area.get_top()),
+                Vector(area.get_left(), area.get_bottom()));
+      break;
+    default:
+      assert(false);
+  }
+
+  float depth = -glm::dot(normal, p_hit_box-p_on_slope);
+  if (depth < 0)
+    return false;
+
+#if 0
+  std::cout << "R: " << rect << " Tri: " << triangle << "\n";
+  std::cout << "Norm: " << normal << " Depth: " << depth << "\n";
+#endif
+
+  Vector outvec = normal * (depth + 0.2f);
+
+  const float RDELTA = 3;
+  if (p_hit_box.x < area.get_left() - RDELTA || p_hit_box.x > area.get_right() + RDELTA
+     || p_hit_box.y < area.get_top() - RDELTA || p_hit_box.y > area.get_bottom() + RDELTA) {
+    set_rectangle_rectangle_constraints(constraints, rect, area);
+  } else {
+    if (outvec.x < 0) {
+      constraints->constrain_right(rect.get_right() + outvec.x);
+      constraints->hit.right = true;
+    } else {
+      constraints->constrain_left(rect.get_left() + outvec.x);
+      constraints->hit.left = true;
+    }
+
+    if (outvec.y < 0) {
+      constraints->constrain_bottom(rect.get_bottom() + outvec.y);
+      constraints->hit.bottom = true;
+      hits_rectangle_bottom = true;
+    } else {
+      constraints->constrain_top(rect.get_top() + outvec.y);
+      constraints->hit.top = true;
+    }
+    constraints->hit.slope_normal = normal;
+  }
+
+  return true;
+}
+
+/*bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle,
                           bool& hits_rectangle_bottom)
 {
@@ -154,7 +259,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   }
 
   return true;
-}
+}*/
 
 void set_rectangle_rectangle_constraints(Constraints* constraints, const Rectf& r1, const Rectf& r2)
 {
