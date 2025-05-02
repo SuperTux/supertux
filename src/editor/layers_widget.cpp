@@ -42,6 +42,7 @@
 #include <fmt/format.h>
 
 EditorLayersWidget::EditorLayersWidget(Editor& editor) :
+  Widget(Vector(512, 448), Vector(SCREEN_HEIGHT - 32, SCREEN_WIDTH - 128)),
   m_editor(editor),
   m_layer_icons(),
   m_selected_tilemap(),
@@ -319,13 +320,14 @@ EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
     }
     else if ((wheel.x > 0 || wheel.y > 0) && !(wheel.x < 0 || wheel.y < 0))
     {
-      if (m_scroll < (static_cast<int>(m_layer_icons.size()) - 1) * 35)
+      auto last_item_position = (static_cast<int>(m_layer_icons.size()) - 1) * 35;
+      if (m_scroll < last_item_position)
       {
         m_scroll += 16;
       }
       else
       {
-        m_scroll = (static_cast<int>(m_layer_icons.size()) - 1) * 35;
+        m_scroll = last_item_position;
       }
       
     }
@@ -427,8 +429,8 @@ EditorLayersWidget::add_layer(GameObject* object, bool initial)
   int z_pos = icon->get_zpos();
 
   // Newly added tilemaps shouldn't be active
-  if (icon->get_layer_tilemap())
-    icon->get_layer_tilemap()->m_editor_active = false;
+  if (auto layer_tilemap = icon->get_layer_tilemap())
+    layer_tilemap->m_editor_active = false;
 
   // The icon is inserted to the correct position.
   bool inserted = false;
