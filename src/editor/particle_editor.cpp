@@ -662,8 +662,10 @@ ParticleEditor::draw(Compositor& compositor)
 
   if (m_in_texture_tab)
   {
-    context.color().draw_surface_scaled((m_particles->m_textures.begin() + m_texture_current)->texture,
-                                         Rect(75, 200, 275, 400), LAYER_GUI);
+    context.color()
+        .draw_surface_scaled((m_particles->m_textures.begin() + m_texture_current)->texture,
+                             Rectf(75, 200, 275, 400),
+                             LAYER_GUI);
     context.color().draw_text(Resources::control_font,
                               std::to_string(m_texture_current + 1) + "/"
                                   + std::to_string(m_particles->m_textures.size()),

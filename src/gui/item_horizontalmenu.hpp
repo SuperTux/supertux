@@ -21,7 +21,7 @@
 
 #include <vector>
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;

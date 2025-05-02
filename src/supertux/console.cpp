@@ -16,7 +16,7 @@
 
 #include "supertux/console.hpp"
 
-#include "math/sizef.hpp"
+#include "math/size.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"

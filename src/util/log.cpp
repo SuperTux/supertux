@@ -22,7 +22,7 @@
 #include <android/log.h>
 #endif
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"

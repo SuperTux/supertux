@@ -20,7 +20,7 @@
 #include <map>
 
 #include "control/controller.hpp"
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 
 class DrawingContext;
 

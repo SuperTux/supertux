@@ -20,7 +20,7 @@
 
 #include "editor/widget.hpp"
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "math/vector.hpp"
 
 /** A scrollbar, which manages a scroll progress variable. */

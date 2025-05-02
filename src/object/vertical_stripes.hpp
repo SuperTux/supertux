@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_OBJECT_VERTICAL_STRIPES_HPP
 
 #include "math/rect.hpp"
-#include "math/rectf.hpp"
 
 #include "supertux/game_object.hpp"
 
