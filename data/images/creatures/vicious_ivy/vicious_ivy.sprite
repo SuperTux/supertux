@@ -66,12 +66,12 @@
   (mirror-action "squished-left")
  )
  (action
-    (hitbox 3 6 64 43)
+    (hitbox 9 12 32 32)
     (name "burning-left")
-    (clone-action "iced-left")
+    (images "left-2.png")
  )
  (action
-    (hitbox 3 6 64 43)
+    (hitbox 19 12 32 32)
     (name "burning-right")
     (mirror-action "burning-left")
  )

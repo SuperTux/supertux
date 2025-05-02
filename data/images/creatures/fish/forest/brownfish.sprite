@@ -65,12 +65,12 @@
 
   (action
     (name "burning-left")
-    (hitbox -1 0 64 64)
-    (images "swim_blue-0.png"))
+    (hitbox 9 10 46 46)
+    (images "swim_brown-0.png"))
 
   (action
     (name "burning-right")
-    (hitbox 1 0 64 64)
+    (hitbox 11 10 46 46)
     (mirror-action "iced-left"))
 
 )

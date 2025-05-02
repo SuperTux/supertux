@@ -51,13 +51,13 @@
 	)
 
   (action
-    (hitbox -1 2 45 43)
+    (hitbox 4 7 32 28)
     (name "burning-left")
-    (clone-action "iced-left")
+    (images "rotate-0.png")
   )
 
   (action
-    (hitbox -1 2 45 43)
+    (hitbox 4 7 32 28)
     (name "burning-right")
     (mirror-action "burning-left")
   )

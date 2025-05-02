@@ -31,12 +31,12 @@
     (mirror-action "iced-left")
   )
   (action
-    (hitbox 12 30 64 64)
+    (hitbox 22 38 46 50)
     (name "burning-left")
-    (clone-action "iced-left")
+    (images "stumpy-7.png")
   )
   (action
-    (hitbox 12 30 64 64)
+    (hitbox 22 38 46 50)
     (name "burning-right")
     (mirror-action "burning-left")
   )
