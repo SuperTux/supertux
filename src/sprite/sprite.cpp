@@ -126,6 +126,7 @@ Sprite::set_action(const std::string& name, int loops)
   }
 
   m_action = newaction;
+  m_last_ticks = g_game_time;
 }
 
 bool
