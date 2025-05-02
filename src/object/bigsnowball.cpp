@@ -119,7 +119,7 @@ BigSnowball::update(float dt_sec)
 
   bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
 
-  Vector movement = m_physic.get_movement(dt_sec) * Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f);
+  Vector movement = m_physic.get_movement(dt_sec) ^ Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f);
   m_sprite->set_angle(m_sprite->get_angle() + movement.x * 3.141592653898f / 2.f);
   m_col.set_movement(movement);
   //m_col.propagate_movement(movement);
@@ -211,11 +211,16 @@ BigSnowball::spawn_particles()
 {
   for (int i = 0; i < 8; i++)
   {
+    Vector vec(std::cos(math::PI_4 * static_cast<float>(i)),
+               std::sin(math::PI_4 * static_cast<float>(i)));
+    Vector velocity(gameRandom.randf(-40.f, 40.f), gameRandom.randf(-40.f, 40.f));
+
     Sector::get().add<SpriteParticle>(m_sprite_name, "particle",
-      get_bbox().get_middle() + (15.f * Vector(std::cos(math::PI_4*static_cast<float>(i)), std::sin(math::PI_4*static_cast<float>(i)))),
-      ANCHOR_MIDDLE, (150.f * (glm::normalize(Vector(std::cos(math::PI_4*static_cast<float>(i)), std::sin(math::PI_4*static_cast<float>(i)))))) +
-                      Vector(gameRandom.randf(-40.f, 40.f), gameRandom.randf(-40.f, 40.f)),
-      Vector(0.f, 1000.f), LAYER_OBJECTS + 1, true);
+      get_bbox().get_middle() + vec,
+      ANCHOR_MIDDLE,
+      (vec.normalize() * 150.f) + velocity,
+      Vector(0.f, 1000.f),
+      LAYER_OBJECTS + 1, true);
   }
   remove_me();
 }

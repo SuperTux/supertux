@@ -582,8 +582,8 @@ CollisionSystem::update()
     const Vector& mov = object->get_movement();
 
     // Make sure movement is never faster than MAX_SPEED.
-    if (glm::length(mov) > MAX_SPEED) {
-      object->m_movement = glm::normalize(mov) * MAX_SPEED;
+    if (mov.length() > MAX_SPEED) {
+      object->m_movement = mov.normalize() * MAX_SPEED;
     }
 
     object->m_dest = object->get_bbox();
@@ -831,8 +831,8 @@ finish_tiles:
 
   if (tileresult.is_valid && objresult.is_valid)
   {
-    float tiledist = glm::distance(tileresult.box.get_middle(), line_start);
-    float objdist = glm::distance(objresult.box.get_middle(), line_start);
+    float tiledist = tileresult.box.get_middle().distance(line_start);
+    float objdist = objresult.box.get_middle().distance(line_start);
     return tiledist < objdist ? tileresult : objresult;
   }
   else if (tileresult.is_valid)
