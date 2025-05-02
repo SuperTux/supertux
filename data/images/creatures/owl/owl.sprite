@@ -50,4 +50,14 @@
   (name "iced-right")
   (hitbox 20 15 64 64)
   (mirror-action "iced-left"))
+
+ (action
+  (hitbox 24 15 45 44)
+  (name "burning-left")
+  (images "carry-8.png"))
+
+ (action
+  (hitbox 31 15 45 44)
+  (name "burning-right")
+  (mirror-action "burning-left"))
 )
