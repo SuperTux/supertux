@@ -59,7 +59,7 @@
   (action
     (hitbox 9 8 32 38)
     (name "burning-left")
-    (clone-action "iced-left"))
+    (images "stand-0.png"))
 
   (action
     (hitbox 9 8 32 38)

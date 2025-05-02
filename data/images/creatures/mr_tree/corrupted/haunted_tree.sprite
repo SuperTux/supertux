@@ -33,12 +33,12 @@
     (mirror-action "iced-left")
   )
     (action
-    (hitbox 2 0 96 96)
+    (hitbox 14 10 62 78)
     (name "burning-left")
-    (clone-action "iced-left")
+    (images "haunted_tree-0.png")
   )
   (action
-    (hitbox 2 0 96 96)
+    (hitbox 14 10 62 78)
     (name "burning-right")
     (mirror-action "burning-left")
   )
