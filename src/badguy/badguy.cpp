@@ -190,7 +190,8 @@ BadGuy::draw(DrawingContext& context)
       }
       else
       {
-        if (m_frozen && is_portable()) {
+        if (m_frozen && is_portable())
+        {
           m_freezesprite->draw(context.color(), draw_pos, m_layer);
         }
 
@@ -199,12 +200,7 @@ BadGuy::draw(DrawingContext& context)
       }
 
       if (m_state == STATE_BURNING) {
-        // draw the flame sprite
         m_firesprite->draw(context.color(), draw_pos, m_layer);
-      }
-      else {
-        /*m_firesprite->set_frame(0);
-        m_firesprite->pause_animation();*/
       }
 
       if (m_glowing)
