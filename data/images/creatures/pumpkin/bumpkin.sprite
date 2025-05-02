@@ -44,12 +44,12 @@
     (mirror-action "iced-left"))
 
   (action
-    (hitbox 6 10 45 43)
+    (hitbox 10 15 40 40)
     (name "burning-left")
-    (clone-action "iced-left"))
+    (images "walk-1-0.png"))
 
   (action
-    (hitbox 6 10 45 43)
+    (hitbox 6 15 40 40)
     (name "burning-right")
     (mirror-action "burning-left"))
 

@@ -48,7 +48,7 @@
 
   (action
     (name "burning-left")
-    (hitbox 9 24 45 64)
+    (hitbox 12 24 40 46)
     (images "jump_blue-0.png"))
 
 )

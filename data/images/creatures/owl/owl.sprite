@@ -52,12 +52,12 @@
   (mirror-action "iced-left"))
 
  (action
-  (hitbox 20 15 64 64)
+  (hitbox 24 15 45 44)
   (name "burning-left")
-  (clone-action "iced-left"))
+  (images "carry-8.png"))
 
  (action
-  (hitbox 20 15 64 64)
+  (hitbox 31 15 45 44)
   (name "burning-right")
   (mirror-action "burning-left"))
 )

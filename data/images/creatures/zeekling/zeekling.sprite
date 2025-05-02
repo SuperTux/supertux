@@ -106,13 +106,13 @@
  )
 
  (action
-  (hitbox 9 42 64 43)
+  (hitbox 12 42 44 34)
   (name "burning-left")
-  (clone-action "iced-left")
+  (images "charge-4.png")
  )
 
   (action
-  (hitbox 18 42 64 43)
+  (hitbox 36 42 44 34)
   (name "burning-right")
   (mirror-action "burning-left")
  )

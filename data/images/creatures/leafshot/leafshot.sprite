@@ -29,7 +29,7 @@
   (action
     (hitbox 5 17 36 26)
     (name "burning-left")
-    (clone-action "iced-left")
+    (images "leafshot-0.png")
   )
   (action
     (hitbox 23 17 36 26)
