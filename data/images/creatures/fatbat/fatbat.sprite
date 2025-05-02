@@ -69,13 +69,7 @@
   (hitbox 15 0 64 64)
   (loops 1)
   (fps 20)
-  (images "fatbat-0.png"
-		  "fatbat-1.png"
-		  "fatbat-2.png"
-		  "fatbat-3.png"
-		  "fatbat-4.png"
-		  "fatbat-5.png"
-		  "fatbat-4.png"))
+  (images "fatbat-0.png"))
 
  (action
   (name "iced-right")
@@ -85,12 +79,12 @@
   (mirror-action "left"))
 
   (action
-    (hitbox 15 0 64 64)
+    (hitbox 30 15 32 38)
     (name "burning-left")
-    (clone-action "iced-left")
+    (images "fatbat-0.png")
   )
   (action
-    (hitbox 15 0 64 64)
+    (hitbox 34 15 32 38)
     (name "burning-right")
     (mirror-action "burning-left")
   )

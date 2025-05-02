@@ -31,7 +31,7 @@
   (action
     (hitbox 8 15 48 35)
     (name "burning-left")
-    (clone-action "iced-left"))
+    (images "swim_blue-0.png"))
 
   (action
     (hitbox 8 15 48 35)
