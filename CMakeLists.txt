@@ -88,13 +88,10 @@ else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
 endif()
 
-if(CMAKE_BUILD_TYPE MATCHES "Rel")
-  set(SUPERTUX_RELEASE_DEFAULT TRUE)
-else()
-  set(SUPERTUX_RELEASE_DEFAULT FALSE)
+option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" NO)
+if(IS_SUPERTUX_RELEASE)
+  option(STEAM_BUILD "Prepare build for Steam" OFF)
 endif()
-option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" ${SUPERTUX_RELEASE_DEFAULT})
-option(STEAM_BUILD "Prepare build for Steam" OFF)
 
 if(NOT EMSCRIPTEN)
   # FIXME: As of writing, Emscripten fails with "wasm-ld: error: /path/to/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/thinlto/libc.a(fileno.o): attempt to add bitcode file after LTO (fileno)"
@@ -261,7 +258,7 @@ endif()
 add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 target_compile_features(supertux2 PUBLIC cxx_std_17)
 
-if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
+if(IS_SUPERTUX_RELEASE)
   target_compile_definitions(supertux2 PUBLIC SUPERTUX_RELEASE)
 endif()
 

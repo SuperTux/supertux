@@ -154,7 +154,7 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   }
 
   // Make sure the object isn't already in the list.
-#ifndef SUPERTUX_RELEASE
+#ifndef NDEBUG
   for (const auto& game_object : m_gameobjects) {
     assert(game_object != object);
   }
