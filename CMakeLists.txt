@@ -189,6 +189,7 @@ else()
 endif()
 
 if(TARGET RAQM)
+  message(STATUS "Compiling SDL_ttf with RAQM")
   set(SDL2TTF_RAQM ON)
 endif()
 
