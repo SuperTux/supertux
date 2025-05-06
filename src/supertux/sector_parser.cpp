@@ -145,6 +145,14 @@ SectorParser::parse(const ReaderMapping& reader)
       iter.get(value);
       m_sector.set_init_script(value);
     }
+    else if(iter.get_key() == "init-script-run-once")
+    {
+      auto sector = dynamic_cast<Sector*>(&m_sector);
+      if (!sector) continue;
+      bool value;
+      iter.get(value);
+      sector->set_init_script_run_once(value);
+    }
     else if (iter.get_key() == "ambient-light")
     {
       const auto& sx = iter.get_sexp();

@@ -85,6 +85,14 @@ public:
   inline Level& get_level() const { return m_level; }
   TileSet* get_tileset() const override;
   bool in_worldmap() const override;
+  void set_init_script_run_once(bool run_once)
+  {
+    m_init_script_run_once = run_once;
+  }
+  bool get_init_script_run_once() const
+  {
+    return m_init_script_run_once;
+  }
 
   /** activates this sector (change music, initialize player class, ...) */
   void activate(const std::string& spawnpoint);
@@ -266,6 +274,8 @@ private:
   Vector m_last_translation; // For camera interpolation at high frame rates
   float m_last_scale;
   float m_last_dt;
+  bool m_init_script_run;
+  bool m_init_script_run_once;
 
 private:
   Sector(const Sector&) = delete;
