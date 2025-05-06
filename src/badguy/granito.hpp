@@ -56,6 +56,7 @@ public:
   virtual bool is_snipable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
   virtual bool is_flammable() const override { return false; }
+  virtual bool is_heavy() const override { return true; }
 
   virtual void kill_fall() override;
 
