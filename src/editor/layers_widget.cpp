@@ -42,7 +42,6 @@
 #include <fmt/format.h>
 
 EditorLayersWidget::EditorLayersWidget(Editor& editor) :
-  Widget(Vector(512, 448), Vector(SCREEN_HEIGHT - 32, SCREEN_WIDTH - 128)),
   m_editor(editor),
   m_layer_icons(),
   m_selected_tilemap(),
