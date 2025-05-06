@@ -500,7 +500,7 @@ void
 Main::launch_game(const CommandLineArguments& args)
 {
   s_timelog.log("addons");
-  m_addon_manager.reset(new AddonManager("addons", g_config->addons));
+  m_addon_manager.reset(new AddonManager("addons", g_config->addons, g_config->addon_nfo_filename_hints));
 
   /** Add-ons or the user directory may have possibly overriden essential files,
       so re-mount the directories, containing those files. */
