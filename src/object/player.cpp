@@ -232,6 +232,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_water_jump(false),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_bubbles_sprite(SpriteManager::current()->create("images/particles/air_bubble.sprite")),
+  m_should_fancy_idle(true),
   m_floor_normal(0.0f, 0.0f),
   m_ghost_mode(false),
   m_unduck_hurt_timer(),
@@ -2189,41 +2190,53 @@ Player::draw(DrawingContext& context)
   }
   else
   {
-    if (fabsf(m_physic.get_velocity_x()) < 1.0f) {
+    if (fabsf(m_physic.get_velocity_x()) < 1.0f)
+    {
       if (std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
             [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; }))
       {
-        m_idle_stage = 0;
-        m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
+        if (m_idle_stage != 0)
+        {
+          m_idle_stage = 0;
+          m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
+        }
 
-        m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
+        m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, Sprite::LOOPS_CONTINUED);
       }
-      else if (m_idle_timer.check() || m_sprite->animation_done()) {
+      else if (m_idle_timer.check() || m_sprite->animation_done())
+      {
         m_idle_stage++;
+
+        if (!m_should_fancy_idle && m_idle_stage != 0)
+        {
+          m_idle_stage = 0;
+        }
+
         if (m_idle_stage >= static_cast<unsigned int>(IDLE_STAGES.size()))
         {
           m_idle_stage = static_cast<int>(IDLE_STAGES.size()) - 1;
-          m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
+          m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix);
           m_sprite->set_animation_loops(-1);
         }
         else
         {
-          m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, 1);
+          m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, 1);
         }
       }
-      else {
-        m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
+      else
+      {
+        m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, Sprite::LOOPS_CONTINUED);
       }
     }
     else
     {
-      if (std::abs(m_physic.get_velocity_x()) >= MAX_RUN_XM-3)
+      if (std::abs(m_physic.get_velocity_x()) >= MAX_RUN_XM - 3)
       {
-        m_sprite->set_action(sa_prefix+"-run"+sa_postfix);
+        m_sprite->set_action(sa_prefix + "-run" + sa_postfix);
       }
       else
       {
-        m_sprite->set_action(sa_prefix+"-walk"+sa_postfix);
+        m_sprite->set_action(sa_prefix + "-walk" + sa_postfix);
       }
     }
   }
@@ -3079,6 +3092,8 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("make_invincible", &Player::make_invincible);
   cls.addFunc("deactivate", &Player::deactivate);
   cls.addFunc("activate", &Player::activate);
+  cls.addFunc("enable_fancy_idling", &Player::enable_fancy_idling);
+  cls.addFunc("disable_fancy_idling", &Player::disable_fancy_idling);
   cls.addFunc("walk", &Player::walk);
   cls.addFunc("set_dir", &Player::set_dir);
   cls.addFunc("set_visible", &Player::set_visible);
