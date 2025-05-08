@@ -18,11 +18,13 @@
 #include "badguy/crusher.hpp"
 
 #include <algorithm>
-#include <math.h>
+#include <cmath>
 #include <string>
+#include <optional>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "math/util.hpp"
 #include "object/brick.hpp"
 #include "object/coin.hpp"
 #include "object/camera.hpp"
@@ -35,6 +37,7 @@
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/surface.hpp"
 
 namespace {
   /* Maximum movement speed in pixels per LOGICAL_FPS. */
@@ -43,6 +46,28 @@ namespace {
   const float DROP_ACTIVATION_DISTANCE = 4.0f;
   const float PAUSE_TIME_NORMAL = 0.5f;
   const float PAUSE_TIME_LARGE = 1.0f;
+  const float DETECT_RANGE = 400.f;
+}
+
+Crusher::CrusherDirection
+Crusher::CrusherDirection_from_string(std::string_view str)
+{
+  if (str == "down")
+    return CrusherDirection::DOWN;
+  if (str == "up")
+    return CrusherDirection::UP;
+  if (str == "left")
+    return CrusherDirection::LEFT;
+  if (str == "right")
+    return CrusherDirection::RIGHT;
+  if (str == "horizontal")
+    return CrusherDirection::HORIZONTAL;
+  if (str == "vertical")
+    return CrusherDirection::VERTICAL;
+  if (str == "all")
+    return CrusherDirection::ALL;
+
+  return CrusherDirection::DOWN;
 }
 
 Crusher::Crusher(const ReaderMapping& reader) :
@@ -52,20 +77,31 @@ Crusher::Crusher(const ReaderMapping& reader) :
   m_ic_type(ICE),
   m_start_position(get_bbox().p1()),
   m_physic(),
-  m_cooldown_timer(0.0),
-  m_sideways(),
-  m_side_dir(),
+  m_dir(CrusherDirection::DOWN),
+  m_dir_vector(get_direction_vector()),
+  m_target(nullptr),
+  m_whites(),
   m_lefteye(),
-  m_righteye(),
-  m_whites()
+  m_righteye()
 {
   parse_type(reader);
-
-  reader.get("sideways", m_sideways);
-  // TODO: Add distinct sounds for crusher hitting the ground and hitting Tux.
-  SoundManager::current()->preload(not_ice() ? "sounds/thud.ogg" : "sounds/brick.wav");
-  set_state(m_state, true);
   after_sprite_set();
+
+  m_physic.enable_gravity(false);
+
+  std::string dir = "";
+  reader.get("direction", dir);
+  m_dir = CrusherDirection_from_string(dir);
+
+  // The sideways option no longer exists.
+  // This is for compatibility.
+  bool sideways = false;
+  reader.get("sideways", sideways);
+  if (sideways)
+    m_dir = CrusherDirection::HORIZONTAL;
+
+  // TODO: Add distinct sounds for crusher hitting the ground and hitting Tux.
+  SoundManager::current()->preload(get_crush_sound());
 }
 
 GameObjectTypes
@@ -96,6 +132,307 @@ Crusher::get_default_sprite_name() const
   }
 }
 
+bool
+Crusher::should_crush()
+{
+  using RaycastResult = CollisionSystem::RaycastResult;
+
+  for (Player* player : Sector::get().get_players())
+  {
+    const Rectf& playerbbox = player->get_bbox();
+
+    if (m_dir == CrusherDirection::ALL)
+    {
+      if (!(playerbbox.overlaps(get_detect_box(CrusherDirection::HORIZONTAL)) ||
+            playerbbox.overlaps(get_detect_box(CrusherDirection::VERTICAL))))
+        continue;
+    }
+    else
+    {
+      if (!playerbbox.overlaps(get_detect_box()))
+        continue;
+    }
+
+    RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
+                                                                     playerbbox.get_middle(),
+                                                                     false,
+                                                                     get_collision_object());
+
+    auto obj_p = std::get_if<CollisionObject*>(&result.hit);
+    if (!obj_p || *obj_p != player->get_collision_object())
+      continue;
+
+    m_target = *obj_p;
+    return true;
+  }
+
+  return false;
+}
+
+bool
+Crusher::should_finish_crushing(const CollisionHit& hit)
+{
+  if (m_dir == CrusherDirection::ALL)
+    return hit.bottom || hit.top || hit.left || hit.right;
+
+  return ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::DOWN ) && hit.bottom) ||
+         ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP   ) && hit.top   ) ||
+         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT ) && hit.left  ) ||
+         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.right );
+}
+
+bool
+Crusher::has_recovered()
+{
+  switch (m_dir)
+  {
+    case CrusherDirection::DOWN:  return get_bbox().get_top() <= m_start_position.y;
+    case CrusherDirection::UP:    return get_bbox().get_bottom() >= m_start_position.y;
+    case CrusherDirection::LEFT:  return get_bbox().get_right() >= m_start_position.x;
+    case CrusherDirection::RIGHT: return get_bbox().get_left() <= m_start_position.x;
+
+    case CrusherDirection::VERTICAL: return math::in_bounds(get_bbox().get_top(),
+                                                            m_start_position.y - 1.5f,
+                                                            m_start_position.y + 1.5f);
+
+    case CrusherDirection::HORIZONTAL: return math::in_bounds(get_bbox().get_left(),
+                                                              m_start_position.x - 1.5f,
+                                                              m_start_position.x + 1.5f);
+
+    case CrusherDirection::ALL:
+      return Rectf(m_start_position - Vector(1.5f, 1.5f), Sizef(1.5f, 1.5f) * 2).contains(get_pos());
+  }
+
+  return false;
+}
+
+Rectf
+Crusher::get_detect_box(CrusherDirection dir)
+{
+  if (dir == CrusherDirection::ALL)
+    dir = m_dir;
+
+  Vector pos = get_pos();
+  switch (dir)
+  {
+    case CrusherDirection::VERTICAL: [[fallthrough]];
+    case CrusherDirection::UP:
+      pos.y -= DETECT_RANGE;
+      break;
+
+    case CrusherDirection::HORIZONTAL: [[fallthrough]];
+    case CrusherDirection::LEFT:
+      pos.x -= DETECT_RANGE;
+      break;
+
+    default:
+      break;
+  }
+
+  Sizef size = get_bbox().get_size();
+  switch (dir)
+  {
+    case CrusherDirection::VERTICAL:
+      size.height += DETECT_RANGE * 2;
+      break;
+    case CrusherDirection::UP: [[fallthrough]];
+    case CrusherDirection::DOWN:
+      size.height += DETECT_RANGE;
+      break;
+
+    case CrusherDirection::HORIZONTAL:
+      size.width += DETECT_RANGE * 2;
+      break;
+    case CrusherDirection::LEFT: [[fallthrough]];
+    case CrusherDirection::RIGHT:
+      size.width += DETECT_RANGE;
+      break;
+
+    default:
+      break;
+  }
+
+  Rectf detectbox;
+  detectbox.set_p1(pos);
+  detectbox.set_size(size.width, size.height);
+
+  return detectbox.grown(-1.f);
+}
+
+Vector
+Crusher::get_direction_vector()
+{
+  switch (m_dir)
+  {
+    case CrusherDirection::DOWN:  return Vector(0.f, 1.f);
+    case CrusherDirection::UP:    return Vector(0.f, -1.f);
+    case CrusherDirection::LEFT:  return Vector(-1.f, 0.f);
+    case CrusherDirection::RIGHT: return Vector(1.f, 0.f);
+
+    case CrusherDirection::HORIZONTAL:
+    {
+      if (!m_target)
+        return Vector(0.f, 0.f);
+
+      Vector mid = get_bbox().get_middle();
+      return mid.x <= m_target->get_bbox().get_left() ? Vector(1.f, 0.f) : Vector(-1.f, 0.f);
+    }
+
+    case CrusherDirection::VERTICAL:
+    {
+      if (!m_target)
+        return Vector(0.f, 0.f);
+
+      Vector mid = get_bbox().get_middle();
+      return mid.y <= m_target->get_bbox().get_top() ? Vector(0.f, 1.f) : Vector(0.f, -1.f);
+    }
+
+    case CrusherDirection::ALL:
+    {
+      if (!m_target)
+        return Vector(0.f, 0.f);
+
+      const Vector a = get_bbox().get_middle();
+      const Vector b = m_target->get_bbox().get_middle();
+      const Vector diff = b - a;
+
+      if (std::abs(diff.x) < std::abs(diff.y))
+      {
+        return Vector(0.f, (diff.y > 0 ? 1 : -1));
+      }
+      else
+      {
+        return Vector((diff.x > 0 ? 1 : -1), 0.f);
+      }
+    }
+
+    default:
+      return Vector(0.f, 0.f);
+  }
+}
+
+void
+Crusher::crush()
+{
+  m_state = CRUSHING;
+  m_dir_vector = get_direction_vector();
+  m_physic.set_acceleration(m_dir_vector * 700.f);
+}
+
+void
+Crusher::crushed()
+{
+  m_state = DELAY;
+  m_state_timer.start(m_ic_size == NORMAL ? PAUSE_TIME_NORMAL : PAUSE_TIME_LARGE, true);
+  m_physic.set_acceleration(Vector(0.f, 0.f));
+
+  SoundManager::current()->play(get_crush_sound(), get_pos());
+
+  const float shake_time = m_ic_size == LARGE ? 0.125f : 0.1f;
+  const float shake_intensity = m_ic_size == LARGE ? 32.f : 16.f;
+  const Vector shake = Vector(shake_intensity, shake_intensity) * m_dir_vector;
+  Sector::get().get_camera().shake(shake_time, shake.x, shake.y);
+}
+
+void
+Crusher::recover()
+{
+  m_state = RECOVERING;
+  m_physic.set_acceleration(Vector(0.f, 0.f));
+  m_physic.set_velocity(m_dir_vector * -160.f);
+}
+
+void
+Crusher::idle()
+{
+  m_state = IDLE;
+  m_physic.set_velocity(Vector(0.f, 0.f));
+
+  // Force start position. Current position shouldn't
+  // stray away from this value much so the effect of
+  // doing this shouldn't be noticeable.
+  set_pos(m_start_position);
+}
+
+std::string
+Crusher::get_crush_sound() const
+{
+  return m_ic_type != ICE ? "sounds/thud.ogg" : "sounds/brick.wav";
+}
+
+Vector
+Crusher::eye_position(bool right) const
+{
+  switch (m_state)
+  {
+    case IDLE:
+    {
+      Player* player = Sector::get().get_nearest_player(get_bbox());
+      if (!player)
+        break;
+
+      // Crusher focuses on approximate position of player's head.
+      const float player_focus_x = (player->get_bbox().get_right() + player->get_bbox().get_left()) * 0.5f;
+      const float player_focus_y = player->get_bbox().get_bottom() * 0.25f + player->get_bbox().get_top() * 0.75f;
+      const Vector player_focus(player_focus_x, player_focus_y);
+
+      // Crusher's approximate origin of line-of-sight.
+      const Vector crusher_origin = get_bbox().get_middle();
+
+      // Line-of-sight displacement from crusher to player.
+      const Vector displacement = player_focus - crusher_origin;
+      const float displacement_mag = glm::length(displacement);
+
+      // Determine weighting for eye displacement along x given crusher eye shape.
+      int weight_x = m_sprite->get_width() / 64 * (((displacement.x > 0) == right) ? 1 : 4);
+      int weight_y = m_sprite->get_width() / 64 * 2;
+
+      return Vector(displacement.x / displacement_mag * static_cast<float>(weight_x),
+        displacement.y / displacement_mag * static_cast<float>(weight_y) - static_cast<float>(weight_y));
+    }
+
+    case CRUSHING:
+    {
+      float step = m_sprite->get_width() / 64.f * 2.f;
+      float x = (right == (m_dir_vector.x < 0) ? 2 : 1) * step;
+
+      return Vector(x * m_dir_vector.x,
+                    -step + (step * m_dir_vector.y));
+    }
+
+    case DELAY: [[fallthrough]];
+    case RECOVERING:
+    {
+      // Amplitude dependent on size.
+      float amplitude = static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f;
+
+      // Phase factor due to cooldown timer.
+      float spin_speed = m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE;
+      float cooldown_phase_factor = spin_speed + m_state_timer.get_progress() * 13.0f;
+
+      // Phase factor due to y position.
+      //auto y_position_phase_factor = !m_sideways ? get_pos().y / 13 : get_pos().x / 13;
+      float y_position_phase_factor = m_dir_vector.y;
+
+      float phase_factor = y_position_phase_factor - cooldown_phase_factor;
+
+      // Eyes spin while crusher is recovering, giving a dazed impression.
+      return Vector(std::sin((right ? 1 : -1) * // X motion of each eye is opposite of the other.
+        phase_factor) * amplitude - (right ? 1 : -1) *
+        amplitude, // Offset to keep eyes visible.
+
+        std::cos((right ? math::PI : 0.0f) + // Eyes spin out of phase of eachother.
+        phase_factor) * amplitude -
+        amplitude); // Offset to keep eyes visible.
+    }
+
+    default:
+      break;
+  }
+
+  return Vector(0, 0);
+}
+
 void
 Crusher::on_type_change(int old_type)
 {
@@ -122,373 +459,68 @@ Crusher::on_type_change(int old_type)
 HitResponse
 Crusher::collision(MovingObject& other, const CollisionHit& hit)
 {
-  auto* player = dynamic_cast<Player*>(&other);
-  bool crushed_bottom = m_state == CRUSHING && !m_sideways && hit.bottom;
-  bool crushed_sideways = m_state == CRUSHING && m_sideways &&
-    ((hit.left && m_physic.get_velocity_x() < 0.f) ||
-     (hit.right && m_physic.get_velocity_x() > 0.f));
-  bool is_crushing = crushed_bottom || crushed_sideways;
-
-  // If the other object is the player, and the collision is at the
-  // bottom of the crusher, hurt the player.
-  if (player && is_crushing &&
-    ((crushed_bottom && player->on_ground()) || crushed_sideways))
-  {
-    SoundManager::current()->play("sounds/brick.wav", get_pos());
-    set_state(RECOVERING);
-
-    if (player->is_invincible()) {
-      return ABORT_MOVE;
-    }
-
-    player->kill(false);
-
-    return FORCE_MOVE;
-  }
-
-  auto* badguy = dynamic_cast<BadGuy*>(&other);
-  if (badguy && is_crushing)
-  {
-    badguy->kill_fall();
-  }
-
-  auto* rock = dynamic_cast<Rock*>(&other);
-  if (rock && !rock->is_grabbed() && is_crushing)
-  {
-    SoundManager::current()->play("sounds/brick.wav", get_pos());
-    m_physic.reset();
-    set_state(RECOVERING);
-    return ABORT_MOVE;
-  }
-
-  const auto* heavy_coin = dynamic_cast<HeavyCoin*>(&other);
-  if (heavy_coin) {
-    return ABORT_MOVE;
-  }
   return FORCE_MOVE;
 }
 
 void
 Crusher::collision_solid(const CollisionHit& hit)
 {
-  if (hit.left || hit.right)
-    m_physic.set_velocity_x(0.f);
-  if (hit.top || hit.bottom)
-    m_physic.set_velocity_y(0.f);
-
-  std::string crush_sound;
-  if (not_ice())
-    crush_sound = "sounds/thud.ogg";
-  else
-    crush_sound = "sounds/brick.wav";
-
-  float shake_time = m_ic_size == LARGE ? 0.125f : 0.1f;
-  float shake_x = (m_sideways ? m_ic_size == LARGE ? 32.f : 16.f : 0.f)*
-    (m_side_dir == Direction::LEFT ? -1.f : 1.f);
-  float shake_y = m_sideways ? 0.f : m_ic_size == LARGE ? 32.f : 16.f;
-
-
-  switch (m_state) {
-  case IDLE:
-    break;
-  case CRUSHING:
-    if ((!m_sideways && ((m_flip == NO_FLIP && hit.bottom) || (m_flip != NO_FLIP && hit.top))) ||
-      (m_sideways && ((m_side_dir == Direction::RIGHT && hit.right) ||
-      (m_side_dir == Direction::LEFT && hit.left))))
-    {
-      SoundManager::current()->play(crush_sound, get_pos());
-      Sector::get().get_camera().shake(shake_time, shake_x, shake_y);
-      m_cooldown_timer = m_ic_size == LARGE ? PAUSE_TIME_LARGE : PAUSE_TIME_NORMAL;
-      set_state(RECOVERING);
-
-      // Throw some particles.
-      for (int j = 0; j < 5; j++)
-      {
-        if (!m_sideways)
-        {
-          Sector::get().add<Particles>(
-            Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f,
-            (m_flip == NO_FLIP ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
-            0, 90 + 10 * j, 140, 260, Vector(0, 500),
-            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
-          Sector::get().add<Particles>(
-            Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f,
-            (m_flip == NO_FLIP ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
-            270 + 10 * j, 360, 140, 260, Vector(0, 500),
-            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
-        }
-        else
-        {
-          int min_angle = m_side_dir == Direction::LEFT ? 0 : 270 + 10 * j;
-          int max_angle = m_side_dir == Direction::LEFT ? 90 + 10 * j : 360;
-          Sector::get().add<Particles>(
-            Vector((m_side_dir == Direction::RIGHT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left()),
-            (m_col.m_bbox.get_top())), min_angle, max_angle, 140, 260, Vector(0, 500),
-            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
-          Sector::get().add<Particles>(
-            Vector((m_side_dir == Direction::RIGHT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left()),
-            (m_col.m_bbox.get_bottom())), min_angle, max_angle, 140, 260, Vector(0, 500),
-            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
-        }
-      }
-    }
-    if(m_sideways)
-    {
-      if (hit.left)
-        spawn_roots(Direction::LEFT);
-      else if (hit.right)
-        spawn_roots(Direction::RIGHT);
-    }
-    else
-    {
-      if (hit.bottom)
-        spawn_roots(Direction::DOWN);
-      else if (hit.top)
-        spawn_roots(Direction::UP);
-    }
-    break;
-  default:
-    log_debug << "Crusher in invalid state" << std::endl;
-    break;
+  if (m_state == CRUSHING && should_finish_crushing(hit))
+  {
+    crushed();
   }
 }
 
 void
 Crusher::update(float dt_sec)
 {
-  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
-  Vector movement = m_physic.get_movement(dt_sec) * (in_water ? 0.6f : 1.f);
-  m_col.set_movement(movement);
-  m_col.propagate_movement(movement);
-  if (m_cooldown_timer >= dt_sec)
-  {
-    m_cooldown_timer -= dt_sec;
-    return;
-  }
-  else if (m_cooldown_timer != 0.0f)
-  {
-    dt_sec -= m_cooldown_timer;
-    m_cooldown_timer = 0.0;
-  }
+  MovingSprite::update(dt_sec);
 
-  // Because this game's physics are so broken, we have to create faux collisions with bricks.
-
-  for (auto& brick : Sector::get().get_objects_by_type<Brick>())
-  {
-    Rectf brickbox = get_bbox().grown(-1);
-    brickbox.set_bottom(m_sideways ? get_bbox().get_bottom() - 1.f :
-      m_flip == NO_FLIP ? get_bbox().get_bottom() + 9.f : get_bbox().get_bottom() - 1.f);
-    brickbox.set_top(m_sideways ? get_bbox().get_top() + 1.f :
-      m_flip != NO_FLIP ? get_bbox().get_top() - 9.f : get_bbox().get_top() + 1.f);
-    brickbox.set_left((m_sideways && m_physic.get_velocity_x() < 0.f) ?
-      get_bbox().get_left() - 9.f : get_bbox().get_left() + 1.f);
-    brickbox.set_right((m_sideways && m_physic.get_velocity_x() > 0.f) ?
-      get_bbox().get_right() + 9.f : get_bbox().get_right() - 1.f);
-
-    if (brickbox.overlaps(brick.get_bbox()))
-    {
-      if (brick.get_class_name() != "heavy-brick")
-      {
-        brick.break_for_crusher(this);
-      }
-      else
-      {
-        if (is_big()) {
-          brick.break_for_crusher(this);
-        }
-      }
-    }
-  }
-
-  // Determine whether side-crushers will go left or right.
-
-  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
-  {
-    const Rectf& player_bbox = player->get_bbox();
-    if (m_state == IDLE) {
-      m_side_dir = (player_bbox.get_middle().x > get_bbox().get_middle().x) ? Direction::RIGHT : Direction::LEFT;
-    }
-  }
-
-  // Handle blockage.
-  Rectf recover_box = get_bbox().grown(-1);
-  if (!m_sideways)
-  {
-    recover_box.set_top(get_bbox().get_top() + (m_flip == NO_FLIP ? -1.f : 1.f));
-    recover_box.set_bottom(get_bbox().get_bottom() + (m_flip == NO_FLIP ? -1.f : 1.f));
-  }
-  else
-  {
-    if (m_side_dir == Direction::LEFT)
-    {
-      recover_box.set_right(get_bbox().get_right() + 1.f);
-      recover_box.set_left(get_bbox().get_left() + 1.f);
-    }
-    else
-    {
-      recover_box.set_right(get_bbox().get_right() - 1.f);
-      recover_box.set_left(get_bbox().get_left() - 1.f);
-    }
-  }
-  bool blocked = !Sector::get().is_free_of_statics(recover_box);
-
-  // Velocity for recovery speed.
-  float recover_x;
-  float recover_y;
-
-  if (!blocked)
-  {
-    recover_x = m_sideways ? m_side_dir == Direction::LEFT ? 160.f : -160.f : 0.f;
-    recover_y = m_sideways ? 0.f : m_flip == NO_FLIP ? -160.f : 160.f;
-  }
-  else
-  {
-    recover_x = 0.f;
-    recover_y = 0.f;
-  }
-
-  bool returned_down = m_flip == NO_FLIP && !m_sideways && get_bbox().get_top() <= m_start_position.y + 2.f;
-  bool returned_up = m_flip != NO_FLIP && !m_sideways && get_bbox().get_top() >= m_start_position.y - 2.f;
-  bool returned_left = m_sideways && m_side_dir == Direction::LEFT && get_bbox().get_left() >= m_start_position.x - 2.f;
-  bool returned_right = m_sideways && m_side_dir == Direction::RIGHT && get_bbox().get_left() <= m_start_position.x + 2.f;
-
-  // Handle crusher states.
   switch (m_state)
   {
-  case IDLE:
-    //m_start_position = get_pos();
-    if (found_victim())
-    {
-      set_state(CRUSHING);
-    }
-    break;
-  case CRUSHING:
-    if (!m_sideways)
-    {
-      if (m_flip == NO_FLIP)
-      {
-        if (m_physic.get_velocity_y() > 700.f)
-          m_physic.set_velocity_y(700.f);
-        else
-          m_physic.set_velocity_y(m_physic.get_velocity_y() + 15.f);
-      }
-      else
-      {
-        if (m_physic.get_velocity_y() < -700.f)
-          m_physic.set_velocity_y(-700.f);
-        else
-          m_physic.set_velocity_y(m_physic.get_velocity_y() - 15.f);
-      }
-    }
-    else
-    {
-      m_physic.set_velocity((m_physic.get_velocity_x() + (m_side_dir == Direction::LEFT ? -10.f : 10.f)), 0.f);
-    }
-    break;
-  case RECOVERING:
-    if (returned_down || returned_up || returned_left || returned_right)
-    {
-      m_physic.reset();
-      // we have to offset the crusher when we bring it back to its original position because otherwise it will gain an ugly offset. #JustPhysicErrorThings
-      set_pos(Vector(m_sideways ? m_start_position.x + (2.6f * (m_side_dir == Direction::LEFT ? -1.f : 1.f)) : get_pos().x,
-        m_sideways ? get_pos().y : m_start_position.y + (2.6f * (m_flip ? -1.f : 1.f))));
+    case IDLE:
+      if (should_crush())
+        crush();
 
-      if (m_ic_size == LARGE)
-        m_cooldown_timer = PAUSE_TIME_LARGE;
-      else
-        m_cooldown_timer = PAUSE_TIME_NORMAL;
-      set_state(IDLE);
-    }
-    else
-    {
-      m_physic.set_velocity(Vector(recover_x, recover_y)*(m_ic_size == LARGE ? 1.f : 1.125f));
-    }
-    break;
-  default:
-    log_debug << "Crusher in invalid state" << std::endl;
-    break;
-  }
-}
+      break;
 
-void
-Crusher::spawn_roots(Direction direction)
-{
-  if (m_ic_type != CORRUPTED)
-    return;
+    case DELAY:
+      if (m_state_timer.check())
+        recover();
 
-  Vector origin;
-  Rectf test_solid_offset_1, test_solid_offset_2, test_empty_offset;
-  bool vertical = false;
+      break;
 
-  switch (direction)
-  {
-  case Direction::DOWN:
-    vertical = true;
-    origin.x = m_col.m_bbox.get_middle().x - 16.f;
-    origin.y = m_col.m_bbox.get_bottom();
-    test_empty_offset = Rectf(Vector(4, -4), Size(16, 1));
-    test_solid_offset_1 = Rectf(Vector(6, 8), Size(1, 1));
-    test_solid_offset_2 = Rectf(Vector(16, 8), Size(1, 1));
-    break;
+    case RECOVERING:
+      if (has_recovered())
+        idle();
 
-  case Direction::UP:
-    vertical = true;
-    origin.x = m_col.m_bbox.get_middle().x - 16.f;
-    origin.y = m_col.m_bbox.get_top() - 6.f;
-    test_empty_offset = Rectf(Vector(4, 4), Size(16, 1));
-    test_solid_offset_1 = Rectf(Vector(6, -8), Size(1, 1));
-    test_solid_offset_2 = Rectf(Vector(16, -8), Size(1, 1));
-    break;
+      break;
 
-  case Direction::LEFT:
-    origin.x = m_col.m_bbox.get_left() - 6.f;
-    origin.y = m_col.m_bbox.get_middle().y - 16.f;
-    test_empty_offset = Rectf(Vector(8, 0), Size(1, 16));
-    test_solid_offset_1 = Rectf(Vector(0, 4), Size(1, 1));
-    test_solid_offset_2 = Rectf(Vector(0, 12), Size(1, 1));
-    break;
-
-  case Direction::RIGHT:
-    origin.x = m_col.m_bbox.get_right() + 12.f;
-    origin.y = m_col.m_bbox.get_middle().y - 16.f;
-    test_empty_offset = Rectf(Vector(-16, 0), Size(1, 16));
-    test_solid_offset_1 = Rectf(Vector(0, 4), Size(1, 1));
-    test_solid_offset_2 = Rectf(Vector(0, 12), Size(1, 1));
-    break;
+    default:
+      break;
   }
 
-  for (float dir = -1.f; dir <= 1.f; dir += 2.f)
-  {
-    for (float step = 0.f; step < 3.f; step++)
-    {
-      Vector pos = origin;
-      float dist = 32.f * step - 15.f;
-      (vertical ? pos.x : pos.y) += dir * (dist + (vertical ? m_col.m_bbox.get_width() : m_col.m_bbox.get_height()));
-
-      bool solid_1 = Sector::current()->is_free_of_tiles(test_solid_offset_1.moved(pos));
-      bool solid_2 = Sector::current()->is_free_of_tiles(test_solid_offset_2.moved(pos));
-      bool empty = Sector::current()->is_free_of_tiles(test_empty_offset.moved(pos));
-
-      if (!empty || solid_1 || solid_2)
-        break;
-
-      Sector::current()->add<CrusherRoot>(pos, direction, step * .1f, m_layer);
-    }
-  }
+  m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
 void
 Crusher::draw(DrawingContext& context)
 {
-  Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
+  const Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
   m_sprite->draw(context.color(), draw_pos, m_layer + 2, m_flip);
-  if (m_sprite->has_action("whites"))
+
+  if (m_whites)
   {
-    // Draw crusher's eyes slightly behind.
-    m_lefteye->draw(context.color(), draw_pos + eye_position(false), m_layer + 1, m_flip);
-    m_righteye->draw(context.color(), draw_pos + eye_position(true), m_layer + 1, m_flip);
-    // Draw the whites of crusher's eyes even further behind.
-    m_whites->draw(context.color(), draw_pos, m_layer, m_flip);
+    context.push_transform();
+    context.set_flip(m_flip);
+
+    const Vector offset_pos = draw_pos - Vector(m_sprite->get_current_hitbox().p1());
+    context.color().draw_surface(m_whites, offset_pos, m_layer);
+
+    context.color().draw_surface(m_lefteye, offset_pos + eye_position(false), m_layer + 1);
+    context.color().draw_surface(m_righteye, offset_pos + eye_position(true), m_layer + 1);
+
+    context.pop_transform();
   }
 }
 
@@ -499,293 +531,48 @@ Crusher::after_editor_set()
   after_sprite_set();
 }
 
+void
+Crusher::after_sprite_set()
+{
+  set_action("idle");
+
+  m_whites.reset();
+  m_lefteye.reset();
+  m_righteye.reset();
+
+  if (m_sprite->has_action("whites"))
+  {
+    using Surfaces = const std::optional<std::vector<SurfacePtr>>;
+
+    Surfaces esurfaces = m_sprite->get_action_surfaces("whites");
+    if (!esurfaces.has_value())
+      return;
+    m_whites = esurfaces.value()[0];
+
+    Surfaces lsurfaces = m_sprite->get_action_surfaces("lefteye");
+    if (!lsurfaces.has_value())
+      return;
+    m_lefteye = lsurfaces.value()[0];
+
+    Surfaces rsurfaces = m_sprite->get_action_surfaces("righteye");
+    if (!rsurfaces.has_value())
+      return;
+    m_righteye = rsurfaces.value()[0];
+  }
+}
+
 ObjectSettings
 Crusher::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.add_bool(_("Sideways"), &m_sideways, "sideways", false);
-  result.reorder({ "sideways", "sprite", "x", "y" });
+  result.add_enum(_("Direction"), reinterpret_cast<int*>(&m_dir),
+                  {_("Down"), _("Up"), _("Left"), _("Right"), _("Horizontal"), _("Vertical"), _("All")},
+                  {"down", "up", "left", "right", "horizontal", "vertical", "all"},
+                  static_cast<int>(CrusherDirection::DOWN),
+                  "direction");
+  result.reorder({ "direction", "sprite", "x", "y" });
 
   return result;
-}
-
-bool
-Crusher::found_victim() const
-{
-  for (auto* player : Sector::get().get_players())
-  {
-    const Rectf& player_bbox = player->get_bbox();
-
-    Rectf crush_area = get_bbox().grown(-1.f);
-    if (!m_sideways)
-    {
-      crush_area.set_bottom(m_flip == NO_FLIP ? player_bbox.get_top() - 1.f : get_bbox().get_bottom() - 1.f);
-      crush_area.set_top(m_flip != NO_FLIP ? player_bbox.get_bottom() + 1.f : get_bbox().get_top() + 1.f);
-      if ((m_flip == NO_FLIP && player_bbox.get_top() >= get_bbox().get_bottom()) ||
-        (m_flip != NO_FLIP && player_bbox.get_bottom() <= get_bbox().get_top()))
-      {
-        if ((player_bbox.get_right() > (get_bbox().get_left() - DROP_ACTIVATION_DISTANCE))
-          && (player_bbox.get_left() < (get_bbox().get_right() + DROP_ACTIVATION_DISTANCE))
-          && (Sector::get().is_free_of_statics(crush_area, this, false)) /* and area to player is free of objects */) {
-          return true;
-        }
-      }
-    }
-    else
-    {
-      if (m_side_dir == Direction::LEFT)
-      {
-        crush_area.set_left(player_bbox.get_right() + 1);
-        crush_area.set_right(get_bbox().get_right());
-        if (((player_bbox.get_left()) <= get_bbox().get_left())
-          && (player_bbox.get_bottom() + 5 > (get_bbox().get_top() - DROP_ACTIVATION_DISTANCE))
-          && (player_bbox.get_top() < (get_bbox().get_bottom() + DROP_ACTIVATION_DISTANCE))
-          && (Sector::get().is_free_of_statics(crush_area, this, false))		/* and area to player is free of objects */) {
-          return true;
-        }
-      }
-      else if (m_side_dir == Direction::RIGHT)
-      {
-        crush_area.set_right(player_bbox.get_left() - 1);
-        crush_area.set_left(get_bbox().get_left());
-        if (((player_bbox.get_right()) >= get_bbox().get_right())
-          && (player_bbox.get_bottom() + 5 > (get_bbox().get_top() - DROP_ACTIVATION_DISTANCE))
-          && (player_bbox.get_top() < (get_bbox().get_bottom() + DROP_ACTIVATION_DISTANCE))
-          && (Sector::get().is_free_of_statics(crush_area, this, false))		/* and area to player is free of objects */) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
-bool
-Crusher::not_ice() const
-{
-  return m_ic_type != ICE;
-}
-
-void
-Crusher::set_state(CrusherState state_, bool force)
-{
-  if ((m_state == state_) && (!force)) return;
-  switch (state_)
-  {
-  case IDLE:
-    set_action("idle");
-    break;
-  case CRUSHING:
-    m_physic.reset();
-    if (not_ice())
-      set_action("crushing");
-    break;
-  case RECOVERING:
-    if (not_ice())
-      set_action("recovering");
-    break;
-  default:
-    log_debug << "Crusher in invalid state" << std::endl;
-    break;
-  }
-  m_physic.enable_gravity(false);
-  m_state = state_;
-}
-
-void
-Crusher::after_sprite_set()
-{
-  // HACK: Force update sprite
-  set_state(m_state, true);
-
-  if (!m_sprite->has_action("whites"))
-  {
-    m_lefteye.reset();
-    m_righteye.reset();
-    m_whites.reset();
-  }
-  else
-  {
-    m_lefteye = m_sprite->clone();
-    m_lefteye->set_action("lefteye");
-    m_righteye = m_sprite->clone();
-    m_righteye->set_action("righteye");
-    m_whites = m_sprite->clone();
-    m_whites->set_action("whites");
-  }
-}
-
-Vector
-Crusher::eye_position(bool right) const
-{
-  switch (m_state)
-  {
-  case IDLE:
-    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
-    {
-      // Crusher focuses on approximate position of player's head.
-      const float player_focus_x = (player->get_bbox().get_right() + player->get_bbox().get_left()) * 0.5f;
-      const float player_focus_y = player->get_bbox().get_bottom() * 0.25f + player->get_bbox().get_top() * 0.75f;
-      // Crusher's approximate origin of line-of-sight.
-      const float crusher_origin_x = get_bbox().get_middle().x;
-      const float crusher_origin_y = get_bbox().get_middle().y;
-      // Line-of-sight displacement from crusher to player.
-      const float displacement_x = player_focus_x - crusher_origin_x;
-      const float displacement_y = player_focus_y - crusher_origin_y;
-      const float displacement_mag = powf(powf(displacement_x, 2.0f) + powf(displacement_y, 2.0f), 0.5f);
-      // Determine weighting for eye displacement along x given crusher eye shape.
-      int weight_x = m_sprite->get_width() / 64 * (((displacement_x > 0) == right) ? 1 : 4);
-      int weight_y = m_sprite->get_width() / 64 * 2;
-
-      return Vector(displacement_x / displacement_mag * static_cast<float>(weight_x),
-        displacement_y / displacement_mag * static_cast<float>(weight_y) - static_cast<float>(weight_y));
-    }
-    break;
-  case CRUSHING:
-    if (Sector::get().get_nearest_player(m_col.m_bbox))
-    {
-      const float displacement_x = m_side_dir == Direction::LEFT ? -1.f : 1.f;
-      int weight_x = m_sprite->get_width() / 64 * (((displacement_x > 0) == right) ? 1 : 4);
-      int weight_y = m_sprite->get_width() / 64 * 2;
-
-      return Vector(m_sideways ? static_cast<float>(weight_x) * (m_side_dir == Direction::LEFT ? -1 : 1.f) : 0.f,
-        m_sideways ? -static_cast<float>(weight_y) : 0.f);
-    }
-    break;
-  case RECOVERING:
-  {
-    // Amplitude dependent on size.
-    auto amplitude = static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f;
-
-    //Phase factor due to cooldown timer.
-    auto cooldown_phase_factor = (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f;
-
-    // Phase factor due to y position.
-    auto y_position_phase_factor = !m_sideways ? get_pos().y / 13 : get_pos().x / 13;
-
-    auto phase_factor = y_position_phase_factor - cooldown_phase_factor;
-
-    // Eyes spin while crusher is recovering, giving a dazed impression.
-    return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other.
-      phase_factor) * amplitude - (right ? 1 : -1) *
-      amplitude, // Offset to keep eyes visible.
-
-      cosf((right ? 3.1415f : 0.0f) + // Eyes spin out of phase of eachother.
-      phase_factor) * amplitude -
-      amplitude); // Offset to keep eyes visible.
-  }
-  default:
-    log_debug << "Crusher in invalid state" << std::endl;
-    break;
-  }
-  return Vector(0, 0);
-}
-
-void
-Crusher::on_flip(float height)
-{
-  MovingSprite::on_flip(height);
-  m_start_position.y = height - m_col.m_bbox.get_height() - m_start_position.y;
-  FlipLevelTransformer::transform_flip(m_flip);
-}
-
-CrusherRoot::CrusherRoot(Vector position, Crusher::Direction direction, float delay, int layer) :
-  MovingSprite(position, direction == Crusher::Direction::DOWN || direction == Crusher::Direction::UP ?
-    "images/creatures/crusher/roots/crusher_root.sprite" :
-    "images/creatures/crusher/roots/crusher_root_side.sprite"),
-  m_original_pos(position),
-  m_direction(direction),
-  m_delay_remaining(delay)
-{
-  m_layer = layer;
-
-  if (delay_gone())
-  {
-    start_animation();
-  }
-  else
-  {
-    m_col.m_group = COLGROUP_DISABLED;
-  }
-}
-
-HitResponse
-CrusherRoot::collision(MovingObject& other, const CollisionHit& hit)
-{
-  if (delay_gone())
-  {
-    auto player = dynamic_cast<Player*>(&other);
-
-    if (player)
-      player->kill(false);
-  }
-
-  return ABORT_MOVE;
-}
-
-void
-CrusherRoot::update(float dt_sec)
-{
-  if (m_delay_remaining > 0.f)
-  {
-    m_delay_remaining -= dt_sec;
-
-    if (delay_gone())
-    {
-      start_animation();
-    }
-    else
-    {
-      return;
-    }
-  }
-  else if (m_sprite->animation_done())
-  {
-    remove_me();
-    return;
-  }
-
-  switch (m_direction)
-  {
-  case Crusher::Direction::DOWN:
-    m_col.move_to(m_original_pos + Vector(0, -m_sprite->get_current_hitbox_height()));
-    break;
-
-  case Crusher::Direction::UP:
-  case Crusher::Direction::LEFT:
-    m_col.move_to(m_original_pos);
-    break;
-
-  case Crusher::Direction::RIGHT:
-    m_col.move_to(m_original_pos + Vector(-m_sprite->get_current_hitbox_width(), 0));
-    break;
-  }
-}
-
-void
-CrusherRoot::start_animation()
-{
-  m_col.m_group = COLGROUP_TOUCHABLE;
-
-  switch (m_direction)
-  {
-  case Crusher::Direction::DOWN:
-    set_action("downwards");
-    break;
-
-  case Crusher::Direction::UP:
-    set_action("upwards");
-    break;
-
-  case Crusher::Direction::LEFT:
-    set_action("sideways-left");
-    break;
-
-  case Crusher::Direction::RIGHT:
-    set_action("sideways-right");
-    break;
-  }
-  m_sprite->set_animation_loops(1);
 }
 
 /* EOF */
