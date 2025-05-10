@@ -735,6 +735,18 @@ Sector::get_nearby_objects(const Vector& center, float max_distance) const
 }
 
 void
+Sector::add_to_collision_buckets(CollisionObject* object)
+{
+  m_collision_system->add_to_collision_buckets(object);
+}
+
+void
+Sector::remove_from_collision_buckets(CollisionObject* object)
+{
+  m_collision_system->remove_from_collision_buckets(object);
+}
+
+void
 Sector::stop_looping_sounds()
 {
   for (auto& object : get_objects()) {

@@ -32,7 +32,7 @@ InvisibleWall::InvisibleWall(const ReaderMapping& mapping):
 
   m_col.m_bbox.set_size(width, height);
 
-  m_col.m_group = COLGROUP_STATIC;
+  set_group(COLGROUP_STATIC);
 }
 
 ObjectSettings

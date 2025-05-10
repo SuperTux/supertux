@@ -40,6 +40,7 @@ static const float FORGIVENESS = 256.f; // 16.f * 16.f - half a tile by half a t
 CollisionSystem::CollisionSystem(Sector& sector) :
   m_sector(sector),
   m_objects(),
+  m_objects_by_collision_part(),
   m_ground_movement_manager(new CollisionGroundMovementManager)
 {
 }
@@ -49,11 +50,36 @@ CollisionSystem::add(CollisionObject* object)
 {
   object->set_ground_movement_manager(m_ground_movement_manager);
   m_objects.push_back(object);
+  add_to_collision_buckets(object);
+}
+
+void
+CollisionSystem::add_to_collision_buckets(CollisionObject* object)
+{
+  if(object->get_group() == COLGROUP_MOVING || 
+     object->get_group() == COLGROUP_MOVING_STATIC ||
+     object->get_group() == COLGROUP_MOVING_ONLY_STATIC)
+  {
+    m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC_ONLY_STATIC].push_back(object);
+  }
+
+  if(object->get_group() == COLGROUP_MOVING || 
+     object->get_group() == COLGROUP_MOVING_STATIC)
+  {
+    m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC].push_back(object);
+  }
+
+  if(object->get_group() == COLGROUP_TOUCHABLE)
+  {
+    m_objects_by_collision_part[CollisionPart::TOUCHABLE].push_back(object);
+  }
 }
 
 void
 CollisionSystem::remove(CollisionObject* object)
 {
+  remove_from_collision_buckets(object);
+
   m_objects.erase(
     std::find(m_objects.begin(), m_objects.end(),
               object));
@@ -64,6 +90,46 @@ CollisionSystem::remove(CollisionObject* object)
   }
   for (auto* tilemap : m_sector.get_solid_tilemaps()) {
     tilemap->notify_object_removal(object);
+  }
+}
+
+void
+CollisionSystem::remove_from_collision_buckets(CollisionObject* object)
+{
+  if(object->get_group() == COLGROUP_MOVING || 
+     object->get_group() == COLGROUP_MOVING_STATIC ||
+     object->get_group() == COLGROUP_MOVING_ONLY_STATIC)
+  {
+    auto it = std::find(
+      m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC_ONLY_STATIC].begin(), 
+      m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC_ONLY_STATIC].end(),
+      object);
+
+    if(it != m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC_ONLY_STATIC].end())
+      m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC_ONLY_STATIC].erase(it);
+  }
+
+  if(object->get_group() == COLGROUP_MOVING || 
+     object->get_group() == COLGROUP_MOVING_STATIC)
+  {
+    auto it = std::find(
+      m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC].begin(), 
+      m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC].end(),
+      object);
+
+    if(it != m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC].end())
+      m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC].erase(it);
+  }
+  
+  if(object->get_group() == COLGROUP_TOUCHABLE)
+  {
+    auto it = std::find(
+      m_objects_by_collision_part[CollisionPart::TOUCHABLE].begin(), 
+      m_objects_by_collision_part[CollisionPart::TOUCHABLE].end(),
+      object);
+
+    if(it != m_objects_by_collision_part[CollisionPart::TOUCHABLE].end())
+      m_objects_by_collision_part[CollisionPart::TOUCHABLE].erase(it);
   }
 }
 
@@ -593,22 +659,16 @@ CollisionSystem::update()
   }
 
   // Part 1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap.
-  for (const auto& object : m_objects) {
-    if ((object->get_group() != COLGROUP_MOVING
-        && object->get_group() != COLGROUP_MOVING_STATIC
-        && object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
-       || !object->is_valid())
+  for (const auto& object : m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC_ONLY_STATIC]) {
+    if (object && !object->is_valid())
       continue;
 
     collision_static_constrains(*object);
   }
 
   // Part 2: COLGROUP_MOVING vs tile attributes.
-  for (const auto& object : m_objects) {
-    if ((object->get_group() != COLGROUP_MOVING
-        && object->get_group() != COLGROUP_MOVING_STATIC
-        && object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
-       || !object->is_valid())
+  for (const auto& object : m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC_ONLY_STATIC]) {
+    if (object && !object->is_valid())
       continue;
 
     uint32_t tile_attributes = collision_tile_attributes(object->m_dest, object->get_movement());
@@ -618,16 +678,13 @@ CollisionSystem::update()
   }
 
   // Part 2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE.
-  for (const auto& object : m_objects)
+  for (const auto& object : m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC])
   {
-    if ((object->get_group() != COLGROUP_MOVING
-        && object->get_group() != COLGROUP_MOVING_STATIC)
-       || !object->is_valid())
+    if (object && !object->is_valid())
       continue;
 
-    for (auto& object_2 : m_objects) {
-      if (object_2->get_group() != COLGROUP_TOUCHABLE
-         || !object_2->is_valid())
+    for (auto& object_2 : m_objects_by_collision_part[CollisionPart::TOUCHABLE]) {
+      if (!object_2->is_valid())
         continue;
 
       if (object->m_dest.overlaps(object_2->m_dest)) {
@@ -646,20 +703,16 @@ CollisionSystem::update()
   }
 
   // Part 3: COLGROUP_MOVING vs COLGROUP_MOVING.
-  for (auto i = m_objects.begin(); i != m_objects.end(); ++i)
+  for (auto i = m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC].begin(); i != m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC].end(); ++i)
   {
     auto object = *i;
 
-    if (!object->is_valid() ||
-        (object->get_group() != COLGROUP_MOVING &&
-         object->get_group() != COLGROUP_MOVING_STATIC))
+    if (object && !object->is_valid())
       continue;
 
-    for (auto i2 = i+1; i2 != m_objects.end(); ++i2) {
+    for (auto i2 = i+1; i2 != m_objects_by_collision_part[CollisionPart::MOVING_MOVING_STATIC].end(); ++i2) {
       auto object_2 = *i2;
-      if ((object_2->get_group() != COLGROUP_MOVING
-          && object_2->get_group() != COLGROUP_MOVING_STATIC)
-         || !object_2->is_valid())
+      if (!object_2->is_valid())
         continue;
 
       collision_object(object, object_2);

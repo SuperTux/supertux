@@ -705,7 +705,7 @@ CrusherRoot::CrusherRoot(Vector position, Crusher::Direction direction, float de
   }
   else
   {
-    m_col.m_group = COLGROUP_DISABLED;
+    set_group(COLGROUP_DISABLED);
   }
 }
 
@@ -765,7 +765,7 @@ CrusherRoot::update(float dt_sec)
 void
 CrusherRoot::start_animation()
 {
-  m_col.m_group = COLGROUP_TOUCHABLE;
+  set_group(COLGROUP_TOUCHABLE);
 
   switch (m_direction)
   {
