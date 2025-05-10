@@ -695,7 +695,9 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
           const Rectf tbbox = solids->get_tile_bbox(x, y);
           triangle = AATriangle(tbbox, tile.get_data());
           Constraints constraints;
-          if (!collision::rectangle_aatriangle(&constraints, rect, triangle))
+          
+          bool hits_rectangle_bottom_default_value = false;
+          if (!collision::rectangle_aatriangle(&constraints, rect, triangle, hits_rectangle_bottom_default_value))
             continue;
         }
         // We have a solid tile that overlaps the given rectangle.

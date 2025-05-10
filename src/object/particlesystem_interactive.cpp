@@ -130,7 +130,9 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
         if (tile.is_slope ()) { // slope tile
           AATriangle triangle = AATriangle(rect, tile.get_data());
 
-          if (rectangle_aatriangle(&constraints, dest, triangle)) {
+          //This value is not changed.
+          bool hits_rectangle_bottom_default_value = false;
+          if (rectangle_aatriangle(&constraints, dest, triangle, hits_rectangle_bottom_default_value)) {
             if (tile.get_attributes() & Tile::WATER)
               water = true;
           }

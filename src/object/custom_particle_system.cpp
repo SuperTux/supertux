@@ -967,7 +967,9 @@ CustomParticleSystem::collision(Particle* object, const Vector& movement)
         if (tile.is_slope ()) { // Slope tile.
           AATriangle triangle = AATriangle(rect, tile.get_data());
 
-          if (rectangle_aatriangle(&constraints, dest, triangle)) {
+          //This value is not changed.
+          bool hits_rectangle_bottom_default_value = false;
+          if (rectangle_aatriangle(&constraints, dest, triangle, hits_rectangle_bottom_default_value)) {
             if (tile.get_attributes() & Tile::WATER)
               water = true;
           }
@@ -1052,7 +1054,11 @@ CustomParticleSystem::get_collision(Particle* object, const Vector& movement)
         Rectf rect = solids->get_tile_bbox(x, y);
         if (tile.is_slope ()) { // Slope tile.
           AATriangle triangle = AATriangle(rect, tile.get_data());
-          rectangle_aatriangle(&constraints, dest, triangle);
+
+          //This value is not changed.
+          bool hits_rectangle_bottom_default_value = false;
+          rectangle_aatriangle(&constraints, dest, triangle, hits_rectangle_bottom_default_value);
+
         } else { // Normal rectangular tile.
           if (dest.overlaps(rect)) {
             set_rectangle_rectangle_constraints(&constraints, dest, rect);
