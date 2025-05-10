@@ -33,7 +33,6 @@
 namespace {
 
 const float MAX_SPEED = 16.0f;
-static const float FORGIVENESS = 256.f; // 16.f * 16.f - half a tile by half a tile.
 
 } // namespace
 
@@ -422,11 +421,7 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
   {
     const float static_size = static_object->get_bbox().get_width() * static_object->get_bbox().get_height();
     const float object_size = object.get_bbox().get_width() * object.get_bbox().get_height();
-    // let's skip this if two colgroup_moving_static's connect and our object is somewhat larger than the static object.
-    if ((object.get_group() == COLGROUP_MOVING_STATIC && static_object->get_group() == COLGROUP_MOVING_STATIC) &&
-      (object_size > static_size + FORGIVENESS)) {
-      continue;
-    }
+
     if ((
           static_object->get_group() == COLGROUP_STATIC ||
           static_object->get_group() == COLGROUP_MOVING_STATIC
