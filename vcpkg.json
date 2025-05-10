@@ -1,0 +1,19 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "dependencies": [
+        "fmt",
+        "openal-soft",
+        "libogg",
+        "libvorbis",
+        "libraqm",
+        "freetype",
+        "sdl2",
+        "sdl2-image",
+        "curl",
+        "glew",
+        "physfs",
+        "glm",
+        "libpng",
+        "zlib"
+    ]
+}
