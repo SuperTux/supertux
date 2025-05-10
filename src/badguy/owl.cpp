@@ -84,7 +84,7 @@ Owl::initialize()
 bool
 Owl::is_above_player() const
 {
-  auto player = Sector::get().get_nearest_player(m_col.m_bbox);
+  auto player = Sector::get().get_nearest_player(m_bbox);
   if (!player)
     return false;
 
@@ -94,9 +94,9 @@ Owl::is_above_player() const
 
   const Rectf& player_bbox = player->get_bbox();
 
-  return ((player_bbox.get_top() >= m_col.m_bbox.get_bottom()) /* player is below us */
-          && ((player_bbox.get_right() + x_offset) > m_col.m_bbox.get_left())
-          && ((player_bbox.get_left() + x_offset) < m_col.m_bbox.get_right()));
+  return ((player_bbox.get_top() >= m_bbox.get_bottom()) /* player is below us */
+          && ((player_bbox.get_right() + x_offset) > m_bbox.get_left())
+          && ((player_bbox.get_left() + x_offset) < m_bbox.get_right()));
 }
 
 void
@@ -112,7 +112,7 @@ Owl::active_update (float dt_sec)
     set_action("carry", m_dir);
 
     if (!is_above_player ()) {
-      Vector obj_pos = get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM);
+      Vector obj_pos = get_anchor_pos(m_bbox, ANCHOR_BOTTOM);
       auto obj = dynamic_cast<MovingObject*>(carried_object);
       auto verticalOffset = obj != nullptr ? obj->get_bbox().get_width() / 2.f : 16.f;
       obj_pos.x -= verticalOffset;
@@ -143,7 +143,7 @@ Owl::collision_squished(MovingObject& object)
   if (m_frozen)
     return BadGuy::collision_squished(object);
 
-  auto player = Sector::get().get_nearest_player(m_col.m_bbox);
+  auto player = Sector::get().get_nearest_player(m_bbox);
   if (player)
     player->bounce (*this);
 

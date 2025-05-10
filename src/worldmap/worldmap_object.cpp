@@ -57,10 +57,10 @@ void
 WorldMapObject::initialize()
 {
   // Set sector position from provided tile position
-  set_pos(Vector(32.0f * m_col.m_bbox.get_left() +
-                    (m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_width()) / 2 : 0),
-                 32.0f * m_col.m_bbox.get_top() +
-                    (m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_height()) / 2 : 0)));
+  set_pos(Vector(32.0f * m_bbox.get_left() +
+                    (m_bbox.get_width() < 32.f ? (32.f - m_bbox.get_width()) / 2 : 0),
+                 32.0f * m_bbox.get_top() +
+                    (m_bbox.get_width() < 32.f ? (32.f - m_bbox.get_height()) / 2 : 0)));
 
   update_pos();
   update_hitbox();
@@ -101,8 +101,8 @@ WorldMapObject::draw_normal(DrawingContext& context)
   if (!m_sprite) return;
 
   m_sprite->draw(context.color(),
-                 m_col.m_bbox.p1() + Vector((m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_width()) / 2 : 0),
-                                            (m_col.m_bbox.get_height() < 32.f ? (32.f - m_col.m_bbox.get_height()) / 2 : 0)),
+                 m_bbox.p1() + Vector((m_bbox.get_width() < 32.f ? (32.f - m_bbox.get_width()) / 2 : 0),
+                                            (m_bbox.get_height() < 32.f ? (32.f - m_bbox.get_height()) / 2 : 0)),
                  m_layer);
 }
 
@@ -115,8 +115,8 @@ WorldMapObject::update(float)
 void
 WorldMapObject::update_pos()
 {
-  m_tile_x = static_cast<int>(m_col.m_bbox.get_left()) / 32;
-  m_tile_y = static_cast<int>(m_col.m_bbox.get_top()) / 32;
+  m_tile_x = static_cast<int>(m_bbox.get_left()) / 32;
+  m_tile_y = static_cast<int>(m_bbox.get_top()) / 32;
 }
 
 void
@@ -124,9 +124,9 @@ WorldMapObject::move_to(const Vector& pos)
 {
   // Set sector position to the provided position, rounding it to be divisible by 32
   set_pos(Vector(32.0f * static_cast<float>(pos.x / 32) +
-                    (m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_width()) / 2 : 0),
+                    (m_bbox.get_width() < 32.f ? (32.f - m_bbox.get_width()) / 2 : 0),
                  32.0f * static_cast<float>(pos.y / 32) +
-                    (m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_height()) / 2 : 0)));
+                    (m_bbox.get_width() < 32.f ? (32.f - m_bbox.get_height()) / 2 : 0)));
   update_pos();
 }
 

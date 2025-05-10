@@ -61,8 +61,8 @@ Toad::set_state(ToadState newState)
       if (newState == FALLING) {
         Player* player = get_nearest_player();
         // Face the player.
-        if (player && (player->get_bbox().get_right() < m_col.m_bbox.get_left()) && (m_dir == Direction::RIGHT)) m_dir = Direction::LEFT;
-        if (player && (player->get_bbox().get_left() > m_col.m_bbox.get_right()) && (m_dir == Direction::LEFT)) m_dir = Direction::RIGHT;
+        if (player && (player->get_bbox().get_right() < m_bbox.get_left()) && (m_dir == Direction::RIGHT)) m_dir = Direction::LEFT;
+        if (player && (player->get_bbox().get_left() > m_bbox.get_right()) && (m_dir == Direction::LEFT)) m_dir = Direction::RIGHT;
         set_action("idle", m_dir);
       }
 

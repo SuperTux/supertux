@@ -207,13 +207,13 @@ Crusher::collision_solid(const CollisionHit& hit)
         if (!m_sideways)
         {
           Sector::get().add<Particles>(
-            Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f,
-            (m_flip == NO_FLIP ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
+            Vector(m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f,
+            (m_flip == NO_FLIP ? m_bbox.get_bottom() : m_bbox.get_top())),
             0, 90 + 10 * j, 140, 260, Vector(0, 500),
             1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
           Sector::get().add<Particles>(
-            Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f,
-            (m_flip == NO_FLIP ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
+            Vector(m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f,
+            (m_flip == NO_FLIP ? m_bbox.get_bottom() : m_bbox.get_top())),
             270 + 10 * j, 360, 140, 260, Vector(0, 500),
             1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
         }
@@ -222,12 +222,12 @@ Crusher::collision_solid(const CollisionHit& hit)
           int min_angle = m_side_dir == Direction::LEFT ? 0 : 270 + 10 * j;
           int max_angle = m_side_dir == Direction::LEFT ? 90 + 10 * j : 360;
           Sector::get().add<Particles>(
-            Vector((m_side_dir == Direction::RIGHT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left()),
-            (m_col.m_bbox.get_top())), min_angle, max_angle, 140, 260, Vector(0, 500),
+            Vector((m_side_dir == Direction::RIGHT ? m_bbox.get_right() : m_bbox.get_left()),
+            (m_bbox.get_top())), min_angle, max_angle, 140, 260, Vector(0, 500),
             1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
           Sector::get().add<Particles>(
-            Vector((m_side_dir == Direction::RIGHT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left()),
-            (m_col.m_bbox.get_bottom())), min_angle, max_angle, 140, 260, Vector(0, 500),
+            Vector((m_side_dir == Direction::RIGHT ? m_bbox.get_right() : m_bbox.get_left()),
+            (m_bbox.get_bottom())), min_angle, max_angle, 140, 260, Vector(0, 500),
             1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
         }
       }
@@ -258,8 +258,8 @@ Crusher::update(float dt_sec)
 {
   bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
   Vector movement = m_physic.get_movement(dt_sec) * (in_water ? 0.6f : 1.f);
-  m_col.set_movement(movement);
-  m_col.propagate_movement(movement);
+  set_movement(movement);
+  propagate_movement(movement);
   if (m_cooldown_timer >= dt_sec)
   {
     m_cooldown_timer -= dt_sec;
@@ -302,7 +302,7 @@ Crusher::update(float dt_sec)
 
   // Determine whether side-crushers will go left or right.
 
-  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+  if (auto* player = Sector::get().get_nearest_player(m_bbox))
   {
     const Rectf& player_bbox = player->get_bbox();
     if (m_state == IDLE) {
@@ -424,8 +424,8 @@ Crusher::spawn_roots(Direction direction)
   {
   case Direction::DOWN:
     vertical = true;
-    origin.x = m_col.m_bbox.get_middle().x - 16.f;
-    origin.y = m_col.m_bbox.get_bottom();
+    origin.x = m_bbox.get_middle().x - 16.f;
+    origin.y = m_bbox.get_bottom();
     test_empty_offset = Rectf(Vector(4, -4), Size(16, 1));
     test_solid_offset_1 = Rectf(Vector(6, 8), Size(1, 1));
     test_solid_offset_2 = Rectf(Vector(16, 8), Size(1, 1));
@@ -433,24 +433,24 @@ Crusher::spawn_roots(Direction direction)
 
   case Direction::UP:
     vertical = true;
-    origin.x = m_col.m_bbox.get_middle().x - 16.f;
-    origin.y = m_col.m_bbox.get_top() - 6.f;
+    origin.x = m_bbox.get_middle().x - 16.f;
+    origin.y = m_bbox.get_top() - 6.f;
     test_empty_offset = Rectf(Vector(4, 4), Size(16, 1));
     test_solid_offset_1 = Rectf(Vector(6, -8), Size(1, 1));
     test_solid_offset_2 = Rectf(Vector(16, -8), Size(1, 1));
     break;
 
   case Direction::LEFT:
-    origin.x = m_col.m_bbox.get_left() - 6.f;
-    origin.y = m_col.m_bbox.get_middle().y - 16.f;
+    origin.x = m_bbox.get_left() - 6.f;
+    origin.y = m_bbox.get_middle().y - 16.f;
     test_empty_offset = Rectf(Vector(8, 0), Size(1, 16));
     test_solid_offset_1 = Rectf(Vector(0, 4), Size(1, 1));
     test_solid_offset_2 = Rectf(Vector(0, 12), Size(1, 1));
     break;
 
   case Direction::RIGHT:
-    origin.x = m_col.m_bbox.get_right() + 12.f;
-    origin.y = m_col.m_bbox.get_middle().y - 16.f;
+    origin.x = m_bbox.get_right() + 12.f;
+    origin.y = m_bbox.get_middle().y - 16.f;
     test_empty_offset = Rectf(Vector(-16, 0), Size(1, 16));
     test_solid_offset_1 = Rectf(Vector(0, 4), Size(1, 1));
     test_solid_offset_2 = Rectf(Vector(0, 12), Size(1, 1));
@@ -463,7 +463,7 @@ Crusher::spawn_roots(Direction direction)
     {
       Vector pos = origin;
       float dist = 32.f * step - 15.f;
-      (vertical ? pos.x : pos.y) += dir * (dist + (vertical ? m_col.m_bbox.get_width() : m_col.m_bbox.get_height()));
+      (vertical ? pos.x : pos.y) += dir * (dist + (vertical ? m_bbox.get_width() : m_bbox.get_height()));
 
       bool solid_1 = Sector::current()->is_free_of_tiles(test_solid_offset_1.moved(pos));
       bool solid_2 = Sector::current()->is_free_of_tiles(test_solid_offset_2.moved(pos));
@@ -621,7 +621,7 @@ Crusher::eye_position(bool right) const
   switch (m_state)
   {
   case IDLE:
-    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+    if (auto* player = Sector::get().get_nearest_player(m_bbox))
     {
       // Crusher focuses on approximate position of player's head.
       const float player_focus_x = (player->get_bbox().get_right() + player->get_bbox().get_left()) * 0.5f;
@@ -642,7 +642,7 @@ Crusher::eye_position(bool right) const
     }
     break;
   case CRUSHING:
-    if (Sector::get().get_nearest_player(m_col.m_bbox))
+    if (Sector::get().get_nearest_player(m_bbox))
     {
       const float displacement_x = m_side_dir == Direction::LEFT ? -1.f : 1.f;
       int weight_x = m_sprite->get_width() / 64 * (((displacement_x > 0) == right) ? 1 : 4);
@@ -685,7 +685,7 @@ void
 Crusher::on_flip(float height)
 {
   MovingSprite::on_flip(height);
-  m_start_position.y = height - m_col.m_bbox.get_height() - m_start_position.y;
+  m_start_position.y = height - m_bbox.get_height() - m_start_position.y;
   FlipLevelTransformer::transform_flip(m_flip);
 }
 
@@ -705,7 +705,7 @@ CrusherRoot::CrusherRoot(Vector position, Crusher::Direction direction, float de
   }
   else
   {
-    m_col.m_group = COLGROUP_DISABLED;
+    m_group = COLGROUP_DISABLED;
   }
 }
 
@@ -748,16 +748,16 @@ CrusherRoot::update(float dt_sec)
   switch (m_direction)
   {
   case Crusher::Direction::DOWN:
-    m_col.move_to(m_original_pos + Vector(0, -m_sprite->get_current_hitbox_height()));
+    move_to(m_original_pos + Vector(0, -m_sprite->get_current_hitbox_height()));
     break;
 
   case Crusher::Direction::UP:
   case Crusher::Direction::LEFT:
-    m_col.move_to(m_original_pos);
+    move_to(m_original_pos);
     break;
 
   case Crusher::Direction::RIGHT:
-    m_col.move_to(m_original_pos + Vector(-m_sprite->get_current_hitbox_width(), 0));
+    move_to(m_original_pos + Vector(-m_sprite->get_current_hitbox_width(), 0));
     break;
   }
 }
@@ -765,7 +765,7 @@ CrusherRoot::update(float dt_sec)
 void
 CrusherRoot::start_animation()
 {
-  m_col.m_group = COLGROUP_TOUCHABLE;
+  m_group = COLGROUP_TOUCHABLE;
 
   switch (m_direction)
   {

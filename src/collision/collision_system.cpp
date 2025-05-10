@@ -29,6 +29,7 @@
 #include "supertux/tile.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
+#include "../supertux/moving_object.hpp"
 
 namespace {
 
@@ -45,14 +46,14 @@ CollisionSystem::CollisionSystem(Sector& sector) :
 }
 
 void
-CollisionSystem::add(CollisionObject* object)
+CollisionSystem::add(MovingObject* object)
 {
   object->set_ground_movement_manager(m_ground_movement_manager);
   m_objects.push_back(object);
 }
 
 void
-CollisionSystem::remove(CollisionObject* object)
+CollisionSystem::remove(MovingObject* object)
 {
   m_objects.erase(
     std::find(m_objects.begin(), m_objects.end(),
@@ -110,7 +111,7 @@ CollisionSystem::draw(DrawingContext& context)
 namespace {
 
 collision::Constraints check_collisions(const Vector& obj_movement, const Rectf& moving_obj_rect, const Rectf& other_obj_rect,
-                                        CollisionObject* moving_object = nullptr, CollisionObject* other_object = nullptr)
+                                        MovingObject* moving_object = nullptr, MovingObject* other_object = nullptr)
 {
   collision::Constraints constraints;
 
@@ -222,7 +223,7 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
 void
 CollisionSystem::collision_tilemap(collision::Constraints* constraints,
                                    const Vector& movement, const Rectf& dest,
-                                   CollisionObject& object) const
+                                   MovingObject& object) const
 {
   // calculate rectangle where the object will move
   const float x1 = dest.get_left();
@@ -329,7 +330,7 @@ CollisionSystem::collision_tile_attributes(const Rectf& dest, const Vector& mov)
 
 /** Fills the CollisionHit and Normal vector between two intersecting rectangles. */
 void
-CollisionSystem::get_hit_normal(const CollisionObject* object1, const CollisionObject* object2,
+CollisionSystem::get_hit_normal(const MovingObject* object1, const MovingObject* object2,
                                 CollisionHit& hit, Vector& normal) const
 {
   const Rectf& r1 = object1->m_dest;
@@ -371,7 +372,7 @@ CollisionSystem::get_hit_normal(const CollisionObject* object1, const CollisionO
 }
 
 void
-CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* object2) const
+CollisionSystem::collision_object(MovingObject* object1, MovingObject* object2) const
 {
   using namespace collision;
 
@@ -413,7 +414,7 @@ CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* obj
 void
 CollisionSystem::collision_static(collision::Constraints* constraints,
                                   const Vector& movement, const Rectf& dest,
-                                  CollisionObject& object)
+                                  MovingObject& object)
 {
   collision_tilemap(constraints, movement, dest, object);
 
@@ -448,7 +449,7 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
 }
 
 void
-CollisionSystem::collision_static_constrains(CollisionObject& object)
+CollisionSystem::collision_static_constrains(MovingObject& object)
 {
   using namespace collision;
 
@@ -710,7 +711,7 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
 }
 
 bool
-CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype) const
+CollisionSystem::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype) const
 {
   using namespace collision;
 
@@ -728,7 +729,7 @@ CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ig
 }
 
 bool
-CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
 {
   using namespace collision;
 
@@ -748,7 +749,7 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
 }
 
 bool
-CollisionSystem::is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+CollisionSystem::is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
 {
   using namespace collision;
 
@@ -767,7 +768,7 @@ CollisionSystem::RaycastResult
 CollisionSystem::get_first_line_intersection(const Vector& line_start,
                                              const Vector& line_end,
                                              RaycastIgnore ignore,
-                                             const CollisionObject* ignore_object) const
+                                             const MovingObject* ignore_object) const
 {
   using namespace collision;
   RaycastResult tileresult;
@@ -848,16 +849,16 @@ finish_tiles:
 }
 
 bool
-CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const
+CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const MovingObject* ignore_object) const
 {
   auto ignore = (ignore_objects ? IGNORE_OBJECTS : IGNORE_NONE);
   return !get_first_line_intersection(line_start, line_end, ignore, ignore_object).is_valid;
 }
 
-std::vector<CollisionObject*>
+std::vector<MovingObject*>
 CollisionSystem::get_nearby_objects (const Vector& center, float max_distance) const
 {
-  std::vector<CollisionObject*> ret;
+  std::vector<MovingObject*> ret;
 
   for (const auto& object : m_objects) {
     float distance = object->get_bbox().distance(center);

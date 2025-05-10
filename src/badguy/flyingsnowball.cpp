@@ -84,7 +84,7 @@ FlyingSnowBall::active_update(float dt_sec)
   targetHgt = targetHgt * 100.f + m_start_position.y;
   m_physic.set_velocity_y(targetHgt - get_pos().y);
 
-  m_col.set_movement(m_physic.get_movement(1.f));
+  set_movement(m_physic.get_movement(1.f));
 
   auto player = get_nearest_player();
   if (player) {
@@ -94,7 +94,7 @@ FlyingSnowBall::active_update(float dt_sec)
 
   // Spawn smoke puffs.
   if (puff_timer.check()) {
-    Vector ppos = m_col.m_bbox.get_middle();
+    Vector ppos = m_bbox.get_middle();
     Vector pspeed = Vector(graphicsRandom.randf(-10, 10), 150);
     Vector paccel = Vector(0,0);
     Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",

@@ -54,7 +54,7 @@ Shard::update(float dt_sec)
   if (m_stick_timer.check())
     remove_me();
 
-  m_col.set_movement(m_physic.get_movement(dt_sec));
+  set_movement(m_physic.get_movement(dt_sec));
 
   StickyObject::update(dt_sec);
 }

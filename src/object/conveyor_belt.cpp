@@ -85,7 +85,7 @@ ConveyorBelt::update(float dt_sec)
   if (m_running)
   {
     Vector shift_movement(m_speed * (m_dir == Direction::LEFT ? -1.0f : 1.0f) * 32.0f * dt_sec, 0.0f);
-    m_col.propagate_movement(shift_movement);
+    propagate_movement(shift_movement);
 
     int frames = m_sprite->get_frames();
 
@@ -120,7 +120,7 @@ ConveyorBelt::update_hitbox()
 {
   MovingSprite::update_hitbox();
 
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width() * static_cast<float>(m_length),
+  m_bbox.set_size(m_sprite->get_current_hitbox_width() * static_cast<float>(m_length),
                         m_sprite->get_current_hitbox_height());
 }
 

@@ -82,11 +82,11 @@ Trigger::Trigger(const ReaderMapping& reader) :
 {
   set_group(COLGROUP_TOUCHABLE);
 
-  if (m_col.m_bbox.get_width() == 0.f)
-    m_col.m_bbox.set_width(32.f);
+  if (m_bbox.get_width() == 0.f)
+    m_bbox.set_width(32.f);
 
-  if (m_col.m_bbox.get_height() == 0.f)
-    m_col.m_bbox.set_height(32.f);
+  if (m_bbox.get_height() == 0.f)
+    m_bbox.set_height(32.f);
 }
 
 

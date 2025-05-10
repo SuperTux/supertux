@@ -112,13 +112,13 @@ WillOWisp::active_update(float dt_sec)
 {
   if (Editor::is_active() && get_path() && get_path()->is_valid()) {
     get_walker()->update(dt_sec);
-    set_pos(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
+    set_pos(get_walker()->get_pos(m_bbox.get_size(), m_path_handle));
     return;
   }
 
   auto player = get_nearest_player();
   if (!player) return;
-  Vector p1 = m_col.m_bbox.get_middle();
+  Vector p1 = m_bbox.get_middle();
   Vector p2 = player->get_bbox().get_middle();
   Vector dist = (p2 - p1);
 
@@ -137,7 +137,7 @@ WillOWisp::active_update(float dt_sec)
         vanish();
       } else if (glm::length(dist) >= 1) {
         Vector dir_ = glm::normalize(dist);
-        m_col.set_movement(dir_ * dt_sec * m_flyspeed);
+        set_movement(dir_ * dt_sec * m_flyspeed);
       } else {
         /* We somehow landed right on top of the player without colliding.
          * Sit tight and avoid a division by zero. */
@@ -153,7 +153,7 @@ WillOWisp::active_update(float dt_sec)
 
     case STATE_VANISHING: {
       Vector dir_ = glm::normalize(dist);
-      m_col.set_movement(dir_ * dt_sec * m_flyspeed);
+      set_movement(dir_ * dt_sec * m_flyspeed);
       if (m_sprite->animation_done()) {
         remove_me();
       }
@@ -165,7 +165,7 @@ WillOWisp::active_update(float dt_sec)
       if (get_walker() == nullptr)
         return;
       get_walker()->update(dt_sec);
-      m_col.set_movement(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos());
+      set_movement(get_walker()->get_pos(m_bbox.get_size(), m_path_handle) - get_pos());
       if (m_mystate == STATE_PATHMOVING_TRACK && glm::length(dist) <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }
@@ -337,7 +337,7 @@ void WillOWisp::play_looping_sounds()
 void
 WillOWisp::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_col.m_bbox.p1();
+  Vector shift = pos - m_bbox.p1();
   if (get_path()) {
     get_path()->move_by(shift);
   }

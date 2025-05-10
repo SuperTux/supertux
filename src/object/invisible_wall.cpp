@@ -25,21 +25,21 @@ InvisibleWall::InvisibleWall(const ReaderMapping& mapping):
   width(),
   height()
 {
-  mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
-  mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
+  mapping.get("x", m_bbox.get_left(), 0.0f);
+  mapping.get("y", m_bbox.get_top(), 0.0f);
   mapping.get("width", width, 32.0f);
   mapping.get("height", height, 32.0f);
 
-  m_col.m_bbox.set_size(width, height);
+  m_bbox.set_size(width, height);
 
-  m_col.m_group = COLGROUP_STATIC;
+  m_group = COLGROUP_STATIC;
 }
 
 ObjectSettings
 InvisibleWall::get_settings()
 {
-  width = m_col.m_bbox.get_width();
-  height = m_col.m_bbox.get_height();
+  width = m_bbox.get_width();
+  height = m_bbox.get_height();
 
   ObjectSettings result = MovingObject::get_settings();
 
@@ -51,7 +51,7 @@ InvisibleWall::get_settings()
 
 void
 InvisibleWall::after_editor_set() {
-  m_col.m_bbox.set_size(width, height);
+  m_bbox.set_size(width, height);
 }
 
 HitResponse
@@ -64,7 +64,7 @@ void
 InvisibleWall::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
+    context.color().draw_filled_rect(m_bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

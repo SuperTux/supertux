@@ -80,14 +80,14 @@ Ispy::update(float dt_sec)
   if (m_state == ISPYSTATE_IDLE)
   {
     //Check if a player has been spotted
-    Vector eye = m_col.m_bbox.get_middle();
+    Vector eye = m_bbox.get_middle();
 
     switch (m_dir)
     {
-      case Direction::DOWN:  eye = Vector(m_col.m_bbox.get_middle().x, m_col.m_bbox.get_bottom());   break;
-      case Direction::UP:    eye = Vector(m_col.m_bbox.get_middle().x, m_col.m_bbox.get_top());      break;
-      case Direction::LEFT:  eye = Vector(m_col.m_bbox.get_left(),     m_col.m_bbox.get_middle().y); break;
-      case Direction::RIGHT: eye = Vector(m_col.m_bbox.get_right(),    m_col.m_bbox.get_middle().y); break;
+      case Direction::DOWN:  eye = Vector(m_bbox.get_middle().x, m_bbox.get_bottom());   break;
+      case Direction::UP:    eye = Vector(m_bbox.get_middle().x, m_bbox.get_top());      break;
+      case Direction::LEFT:  eye = Vector(m_bbox.get_left(),     m_bbox.get_middle().y); break;
+      case Direction::RIGHT: eye = Vector(m_bbox.get_right(),    m_bbox.get_middle().y); break;
       default: break;
     }
 

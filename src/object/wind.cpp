@@ -47,11 +47,11 @@ Wind::Wind(const ReaderMapping& reader) :
   particles_enabled(true)
 {
   float w,h;
-  reader.get("x", m_col.m_bbox.get_left(), 0.0f);
-  reader.get("y", m_col.m_bbox.get_top(), 0.0f);
+  reader.get("x", m_bbox.get_left(), 0.0f);
+  reader.get("y", m_bbox.get_top(), 0.0f);
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
-  m_col.m_bbox.set_size(w, h);
+  m_bbox.set_size(w, h);
 
   reader.get("z-pos", m_layer, LAYER_BACKGROUNDTILES + 1);
 
@@ -75,8 +75,8 @@ Wind::Wind(const ReaderMapping& reader) :
 ObjectSettings
 Wind::get_settings()
 {
-  new_size.x = m_col.m_bbox.get_width();
-  new_size.y = m_col.m_bbox.get_height();
+  new_size.x = m_bbox.get_width();
+  new_size.y = m_bbox.get_height();
 
   ObjectSettings result = MovingObject::get_settings();
 
@@ -102,14 +102,14 @@ Wind::update(float dt_sec_)
   dt_sec = dt_sec_;
 
   if (!blowing || !particles_enabled) return;
-  if (m_col.m_bbox.get_width() <= 16 || m_col.m_bbox.get_height() <= 16) return;
+  if (m_bbox.get_width() <= 16 || m_bbox.get_height() <= 16) return;
 
-  Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.get_left() + 8, m_col.m_bbox.get_right() - 8), graphicsRandom.randf(m_col.m_bbox.get_top() + 8, m_col.m_bbox.get_bottom() - 8));
+  Vector ppos = Vector(graphicsRandom.randf(m_bbox.get_left() + 8, m_bbox.get_right() - 8), graphicsRandom.randf(m_bbox.get_top() + 8, m_bbox.get_bottom() - 8));
   Vector pspeed = Vector(graphicsRandom.randf(speed.x - 20, speed.x + 20), graphicsRandom.randf(speed.y - 20, speed.y + 20));
 
   // TODO: Rotate sprite rather than just use 2 different actions
   // Approx. 1 particle per tile
-  if (graphicsRandom.randf(0.f, 100.f) < (m_col.m_bbox.get_width() / 32.f) * (m_col.m_bbox.get_height() / 32.f))
+  if (graphicsRandom.randf(0.f, 100.f) < (m_bbox.get_width() / 32.f) * (m_bbox.get_height() / 32.f))
   {
     // Emit a particle
 	  if (fancy_wind)
@@ -127,7 +127,7 @@ void
 Wind::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 1.0f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(m_bbox, Color(0.0f, 1.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

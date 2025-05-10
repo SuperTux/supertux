@@ -23,28 +23,44 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+#include "../collision/collision_movement_manager.hpp"
 
 MovingObject::MovingObject() :
-  m_col(COLGROUP_MOVING, *this),
-  m_parent_dispenser()
+  
+  m_parent_dispenser(),
+  m_group(COLGROUP_MOVING),
+  m_bbox(),
+  m_movement(0.0f, 0.0f),
+  m_dest(),
+  m_unisolid(false),
+  m_pressure(),
+  m_objects_hit_bottom(),
+  m_ground_movement_manager(nullptr)
 {
 }
 
 MovingObject::MovingObject(const ReaderMapping& reader) :
   GameObject(reader),
-  m_col(COLGROUP_MOVING, *this),
-  m_parent_dispenser()
+  m_parent_dispenser(),
+  m_group(COLGROUP_MOVING),
+  m_bbox(),
+  m_movement(0.0f, 0.0f),
+  m_dest(),
+  m_unisolid(false),
+  m_pressure(),
+  m_objects_hit_bottom(),
+  m_ground_movement_manager(nullptr)
 {
   float height, width;
 
   if (reader.get("width", width))
-    m_col.m_bbox.set_width(width);
+    m_bbox.set_width(width);
 
   if (reader.get("height", height))
-    m_col.m_bbox.set_height(height);
+    m_bbox.set_height(height);
 
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
+  reader.get("x", m_bbox.get_left());
+  reader.get("y", m_bbox.get_top());
 }
 
 MovingObject::~MovingObject()
@@ -64,11 +80,11 @@ MovingObject::get_settings()
 
   if (has_variable_size())
   {
-    result.add_float(_("Width"), &m_col.m_bbox.get_width(), "width", {}, OPTION_HIDDEN);
-    result.add_float(_("Height"), &m_col.m_bbox.get_height(), "height", {}, OPTION_HIDDEN);
+    result.add_float(_("Width"), &m_bbox.get_width(), "width", {}, OPTION_HIDDEN);
+    result.add_float(_("Height"), &m_bbox.get_height(), "height", {}, OPTION_HIDDEN);
   }
-  result.add_float(_("X"), &m_col.m_bbox.get_left(), "x", {}, OPTION_HIDDEN);
-  result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y", {}, OPTION_HIDDEN);
+  result.add_float(_("X"), &m_bbox.get_left(), "x", {}, OPTION_HIDDEN);
+  result.add_float(_("Y"), &m_bbox.get_top(), "y", {}, OPTION_HIDDEN);
 
   return result;
 }
@@ -104,6 +120,37 @@ MovingObject::on_flip(float height)
   set_pos(pos);
 }
 
+void
+MovingObject::collision_moving_object_bottom(MovingObject& other)
+{
+  if (m_group == COLGROUP_STATIC
+    || m_group == COLGROUP_MOVING_STATIC)
+  {
+    m_objects_hit_bottom.insert(&other);
+  }
+}
+
+void
+MovingObject::notify_object_removal(MovingObject* other)
+{
+  m_objects_hit_bottom.erase(other);
+}
+
+void
+MovingObject::clear_bottom_collision_list()
+{
+  m_objects_hit_bottom.clear();
+}
+
+void
+MovingObject::propagate_movement(const Vector& movement)
+{
+  for (MovingObject* other_object : m_objects_hit_bottom) {
+    if (other_object->get_group() == COLGROUP_STATIC) continue;
+    m_ground_movement_manager->register_movement(*this, *other_object, movement);
+    other_object->propagate_movement(movement);
+  }
+}
 
 void
 MovingObject::register_class(ssq::VM& vm)

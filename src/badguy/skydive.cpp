@@ -66,7 +66,7 @@ void
 SkyDive::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Vector movement = pos - get_pos();
-  m_col.set_movement(movement);
+  set_movement(movement);
   m_dir = dir_;
 
   if (!m_frozen)
@@ -192,7 +192,7 @@ SkyDive::explode()
   else
   {
     Sector::get().add<Explosion>(
-      get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM), EXPLOSION_STRENGTH_DEFAULT);
+      get_anchor_pos(m_bbox, ANCHOR_BOTTOM), EXPLOSION_STRENGTH_DEFAULT);
 
     remove_me();
   }

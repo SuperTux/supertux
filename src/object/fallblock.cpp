@@ -61,7 +61,7 @@ FallBlock::update(float dt_sec)
       break;
     case FALL:
     case LAND:
-      m_col.set_movement(m_physic.get_movement (dt_sec));
+      set_movement(m_physic.get_movement (dt_sec));
       set_group(COLGROUP_MOVING_STATIC);
       break;
   }
@@ -78,7 +78,7 @@ FallBlock::collision(MovingObject& other, const CollisionHit& hit)
   }
 
   auto player = dynamic_cast<Player*>(&other);
-  if (m_state == IDLE && player && player->get_bbox().get_bottom() < m_col.m_bbox.get_top())
+  if (m_state == IDLE && player && player->get_bbox().get_bottom() < m_bbox.get_top())
   {
     m_state = SHAKE;
     SoundManager::current()->play("sounds/cracking.wav", get_pos());
@@ -119,14 +119,14 @@ FallBlock::draw(DrawingContext& context)
 bool
 FallBlock::found_victim_down() const
 {
-  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+  if (auto* player = Sector::get().get_nearest_player(m_bbox))
   {
     const Rectf& player_bbox = player->get_bbox();
-    Rectf crush_area_down = Rectf(m_col.m_bbox.get_left()+1, m_col.m_bbox.get_bottom(),
-                                  m_col.m_bbox.get_right()-1, std::max(m_col.m_bbox.get_bottom(),player_bbox.get_top()-1));
-    if ((player_bbox.get_top() >= m_col.m_bbox.get_bottom())
-        && (player_bbox.get_right() > (m_col.m_bbox.get_left() - 4))
-        && (player_bbox.get_left() < (m_col.m_bbox.get_right() + 4))
+    Rectf crush_area_down = Rectf(m_bbox.get_left()+1, m_bbox.get_bottom(),
+                                  m_bbox.get_right()-1, std::max(m_bbox.get_bottom(),player_bbox.get_top()-1));
+    if ((player_bbox.get_top() >= m_bbox.get_bottom())
+        && (player_bbox.get_right() > (m_bbox.get_left() - 4))
+        && (player_bbox.get_left() < (m_bbox.get_right() + 4))
         && (Sector::get().is_free_of_statics(crush_area_down, this, false)))
     {
       return true;

@@ -42,10 +42,10 @@ private:
       m_moving_tilemaps()
     {}
 
-    void register_movement(CollisionObject& moving_object, const Vector& movement);
+    void register_movement(MovingObject& moving_object, const Vector& movement);
     void register_movement(TileMap& moving_tilemap, const Vector& movement);
 
-    const std::unordered_map<CollisionObject*, Vector>& get_objects_map() const
+    const std::unordered_map<MovingObject*, Vector>& get_objects_map() const
     {
       return m_moving_objects;
     }
@@ -56,7 +56,7 @@ private:
     }
     
   private:
-    std::unordered_map<CollisionObject*, Vector> m_moving_objects;
+    std::unordered_map<MovingObject*, Vector> m_moving_objects;
     std::unordered_map<TileMap*, Vector> m_moving_tilemaps;
   };
 
@@ -66,9 +66,9 @@ public:
     m_movements_per_target()
   {}
 
-  void register_movement(CollisionObject& moving_object, CollisionObject& target_object, const Vector& movement);
+  void register_movement(MovingObject& moving_object, MovingObject& target_object, const Vector& movement);
 
-  void register_movement(TileMap& moving_tilemap, CollisionObject& target_object, const Vector& movement);
+  void register_movement(TileMap& moving_tilemap, MovingObject& target_object, const Vector& movement);
 
   /** Moves all target objects according to their colliding object or tilemap whose movement
       vector has the lowest "y" coordinate.
@@ -81,7 +81,7 @@ private:
 
   /** Holds all movement operations performed by objects or tilemaps which had moving
       objects that collided on top of them. */
-  std::unordered_map<CollisionObject*, TargetMovementData> m_movements_per_target;
+  std::unordered_map<MovingObject*, TargetMovementData> m_movements_per_target;
 
 
 private:

@@ -62,8 +62,8 @@ ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
 ObjectSettings
 ScriptedObject::get_settings()
 {
-  new_size.x = m_col.m_bbox.get_width();
-  new_size.y = m_col.m_bbox.get_height();
+  new_size.x = m_bbox.get_width();
+  new_size.y = m_bbox.get_height();
 
   ObjectSettings result = MovingSprite::get_settings();
 
@@ -107,7 +107,7 @@ ScriptedObject::update(float dt_sec)
     physic.set_velocity(new_vel.x, new_vel.y);
     new_vel_set = false;
   }
-  m_col.set_movement(physic.get_movement(dt_sec));
+  set_movement(physic.get_movement(dt_sec));
 }
 
 void

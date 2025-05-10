@@ -31,7 +31,7 @@ EditorComment::EditorComment(const ReaderMapping& reader):
   float w,h;
   reader.get("width", w, 32.f * 3);
   reader.get("height", h, 32.f * 3);
-  m_col.m_bbox.set_size(w, h);
+  m_bbox.set_size(w, h);
 
   reader.get("comment", m_comment);
   refresh_comment();

@@ -126,9 +126,9 @@ PushButton::collision(MovingObject& other, const CollisionHit& hit)
 
   // change appearance
   m_state = ON;
-  float old_bbox_height = m_col.m_bbox.get_height();
+  float old_bbox_height = m_bbox.get_height();
   set_action("on", m_dir, -1);
-  float new_bbox_height = m_col.m_bbox.get_height();
+  float new_bbox_height = m_bbox.get_height();
   Vector delta(0, old_bbox_height - new_bbox_height);
   set_pos(get_pos() + delta * (m_dir == Direction::DOWN ? 0 : 1.f));
 

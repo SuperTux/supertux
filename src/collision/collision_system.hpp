@@ -27,11 +27,12 @@
 #include "supertux/tile.hpp"
 #include "math/fwd.hpp"
 
-class CollisionObject;
+class MovingObject;
 class CollisionGroundMovementManager;
 class DrawingContext;
 class Rectf;
 class Sector;
+class MovingObject;
 
 class CollisionSystem final
 {
@@ -39,15 +40,15 @@ public:
   struct RaycastResult
   {
     bool is_valid = false; /**< true if raycast hit something */
-    std::variant<const Tile*, CollisionObject*> hit; /**< tile/object that the raycast hit */
+    std::variant<const Tile*, MovingObject*> hit; /**< tile/object that the raycast hit */
     Rectf box = {}; /**< hitbox of tile/object */
   };
 
 public:
   CollisionSystem(Sector& sector);
 
-  void add(CollisionObject* object);
-  void remove(CollisionObject* object);
+  void add(MovingObject* object);
+  void remove(MovingObject* object);
 
   /** Draw collision shapes for debugging */
   void draw(DrawingContext& context);
@@ -63,9 +64,9 @@ public:
   }
 
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
-  bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype = Tile::SOLID) const;
-  bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
-  bool is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
+  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype = Tile::SOLID) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const;
+  bool is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const;
 
   enum RaycastIgnore {
     IGNORE_NONE,
@@ -76,10 +77,10 @@ public:
   RaycastResult get_first_line_intersection(const Vector& line_start,
                                             const Vector& line_end,
                                             RaycastIgnore ignore = IGNORE_NONE,
-                                            const CollisionObject* ignore_object = nullptr) const;
-  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const;
+                                            const MovingObject* ignore_object = nullptr) const;
+  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const MovingObject* ignore_object) const;
 
-  std::vector<CollisionObject*> get_nearby_objects(const Vector& center, float max_distance) const;
+  std::vector<MovingObject*> get_nearby_objects(const Vector& center, float max_distance) const;
 
 private:
   /** Does collision detection of an object against all other static
@@ -92,25 +93,25 @@ private:
       no collisions) */
   void collision_static(collision::Constraints* constraints,
                         const Vector& movement, const Rectf& dest,
-                        CollisionObject& object);
+                        MovingObject& object);
 
   void collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, const Rectf& dest,
-                         CollisionObject& object) const;
+                         MovingObject& object) const;
 
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
-  void collision_object(CollisionObject* object1, CollisionObject* object2) const;
+  void collision_object(MovingObject* object1, MovingObject* object2) const;
 
-  void collision_static_constrains(CollisionObject& object);
+  void collision_static_constrains(MovingObject& object);
 
-  void get_hit_normal(const CollisionObject* object1, const CollisionObject* object2,
+  void get_hit_normal(const MovingObject* object1, const MovingObject* object2,
                       CollisionHit& hit, Vector& normal) const;
 
 private:
   Sector& m_sector;
 
-  std::vector<CollisionObject*>  m_objects;
+  std::vector<MovingObject*>  m_objects;
 
   std::shared_ptr<CollisionGroundMovementManager> m_ground_movement_manager;
 

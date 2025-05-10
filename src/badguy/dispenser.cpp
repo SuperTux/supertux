@@ -238,13 +238,13 @@ Dispenser::launch_object()
         case DispenserType::DROPPER:
           if (m_flip == NO_FLIP)
           {
-            spawnpoint = get_anchor_pos (m_col.m_bbox, ANCHOR_BOTTOM);
+            spawnpoint = get_anchor_pos (m_bbox, ANCHOR_BOTTOM);
             spawnpoint.x -= 0.5f * object_bbox.get_width();
           }
           else
           {
-            spawnpoint = get_anchor_pos (m_col.m_bbox, ANCHOR_TOP);
-            spawnpoint.y -= m_col.m_bbox.get_height();
+            spawnpoint = get_anchor_pos (m_bbox, ANCHOR_TOP);
+            spawnpoint.y -= m_bbox.get_height();
             spawnpoint.x -= 0.5f * object_bbox.get_width();
           }
           break;
@@ -254,13 +254,13 @@ Dispenser::launch_object()
           if (launch_dir == Direction::LEFT)
             spawnpoint.x -= object_bbox.get_width() + 1;
           else
-            spawnpoint.x += m_col.m_bbox.get_width() + 1;
+            spawnpoint.x += m_bbox.get_width() + 1;
           if (m_flip != NO_FLIP)
-            spawnpoint.y += (m_col.m_bbox.get_height() - 20);
+            spawnpoint.y += (m_bbox.get_height() - 20);
           break;
 
         case DispenserType::POINT:
-          spawnpoint = m_col.m_bbox.p1();
+          spawnpoint = m_bbox.p1();
           break;
 
         default:

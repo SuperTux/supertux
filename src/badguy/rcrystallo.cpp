@@ -64,14 +64,14 @@ void
 RCrystallo::initialize()
 {
   Rectf magnetic_box = get_bbox();
-  magnetic_box.set_top(m_col.m_bbox.get_top() - 80.f);
+  magnetic_box.set_top(m_bbox.get_top() - 80.f);
   if (m_state != RCRYSTALLO_DETECT)
   {
     m_state = Sector::get().is_free_of_statics(magnetic_box) ? RCRYSTALLO_FALLING : RCRYSTALLO_ROOF;
   }
   else
   {
-    m_col.m_bbox.move(Vector(3.f, 0.f));
+    m_bbox.move(Vector(3.f, 0.f));
     set_action(m_dir == Direction::LEFT ? "roof-detected-left" : "roof-detected-right", 1, ANCHOR_TOP);
   }
 }
@@ -106,20 +106,20 @@ RCrystallo::active_update(float dt_sec)
         m_dir == Direction::LEFT ? "roof-slowdown-left" : "roof-slowdown-right" :
         m_dir == Direction::LEFT ? "roof-left" : "roof-right", -1);
     // Turn at holes.
-    reversefallbox.set_top(m_col.m_bbox.get_top() - 33.f);
-    reversefallbox.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -5.f : 34.f));
-    reversefallbox.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::LEFT ? -34.f : 5.f));
+    reversefallbox.set_top(m_bbox.get_top() - 33.f);
+    reversefallbox.set_left(m_bbox.get_left() + (m_dir == Direction::LEFT ? -5.f : 34.f));
+    reversefallbox.set_right(m_bbox.get_right() + (m_dir == Direction::LEFT ? -34.f : 5.f));
     if (Sector::get().is_free_of_statics(reversefallbox))
       turn_around();
     // Detect player and fall when it is time.
-    if (player && player->get_bbox().get_right() > m_col.m_bbox.get_left() - 192.f
-      && player->get_bbox().get_left() < m_col.m_bbox.get_right() + 192.f
-      && player->get_bbox().get_bottom() > m_col.m_bbox.get_top()
-      && Sector::get().free_line_of_sight(m_col.m_bbox.get_middle() + Vector(0, 20),
+    if (player && player->get_bbox().get_right() > m_bbox.get_left() - 192.f
+      && player->get_bbox().get_left() < m_bbox.get_right() + 192.f
+      && player->get_bbox().get_bottom() > m_bbox.get_top()
+      && Sector::get().free_line_of_sight(m_bbox.get_middle() + Vector(0, 20),
         player->get_bbox().get_middle() - Vector(0, 40), false, player))
     {
       // Center enemy, begin falling.
-      m_col.m_bbox.move(Vector(3.f, 0.f));
+      m_bbox.move(Vector(3.f, 0.f));
       set_action(m_dir == Direction::LEFT ? "roof-detected-left" : "roof-detected-right", 1, ANCHOR_TOP);
       m_state = RCRYSTALLO_DETECT;
     }
@@ -197,10 +197,10 @@ RCrystallo::kill_fall()
     {
       remove_me();
       // Create 4 shards that the enemy splits into, which serve as an additional threat.
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(100.f, -500.f));
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(270.f, -350.f));
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(-100.f, -500.f));
-      Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(-270.f, -350.f));
+      Sector::get().add<Shard>(m_bbox.get_middle(), Vector(100.f, -500.f));
+      Sector::get().add<Shard>(m_bbox.get_middle(), Vector(270.f, -350.f));
+      Sector::get().add<Shard>(m_bbox.get_middle(), Vector(-100.f, -500.f));
+      Sector::get().add<Shard>(m_bbox.get_middle(), Vector(-270.f, -350.f));
     }
     run_dead_script();
   }

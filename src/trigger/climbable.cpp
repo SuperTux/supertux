@@ -85,10 +85,10 @@ Climbable::update(float dt_sec)
     if (it2->m_activate_try_timer->started())
     {
       // The "-20" to y velocity prevents Tux from walking in place on the ground for horizonal adjustments.
-      if (it2->m_player->get_bbox().get_left() < m_col.m_bbox.get_left() - GRACE_DX) it2->m_player->add_velocity(Vector(POSITION_FIX_AX,-20));
-      if (it2->m_player->get_bbox().get_right() > m_col.m_bbox.get_right() + GRACE_DX) it2->m_player->add_velocity(Vector(-POSITION_FIX_AX,-20));
-      if (it2->m_player->get_bbox().get_top() < m_col.m_bbox.get_top() - GRACE_DY) it2->m_player->add_velocity(Vector(0,POSITION_FIX_AY));
-      if (it2->m_player->get_bbox().get_bottom() > m_col.m_bbox.get_bottom() + GRACE_DY) it2->m_player->add_velocity(Vector(0,-POSITION_FIX_AY));
+      if (it2->m_player->get_bbox().get_left() < m_bbox.get_left() - GRACE_DX) it2->m_player->add_velocity(Vector(POSITION_FIX_AX,-20));
+      if (it2->m_player->get_bbox().get_right() > m_bbox.get_right() + GRACE_DX) it2->m_player->add_velocity(Vector(-POSITION_FIX_AX,-20));
+      if (it2->m_player->get_bbox().get_top() < m_bbox.get_top() - GRACE_DY) it2->m_player->add_velocity(Vector(0,POSITION_FIX_AY));
+      if (it2->m_player->get_bbox().get_bottom() > m_bbox.get_bottom() + GRACE_DY) it2->m_player->add_velocity(Vector(0,-POSITION_FIX_AY));
     }
     if (may_climb(*(it2->m_player)))
     {
@@ -113,7 +113,7 @@ Climbable::draw(DrawingContext& context)
     context.pop_transform();
   }
   if (Editor::is_active() || g_debug.show_collision_rects) {
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 1.0f, 0.0f, 0.6f),
+    context.color().draw_filled_rect(m_bbox, Color(1.0f, 1.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }
@@ -162,10 +162,10 @@ bool
 Climbable::may_climb(const Player& player) const
 {
   if (player.is_swimming()) return false;
-  if (player.get_bbox().get_left() < m_col.m_bbox.get_left() - GRACE_DX) return false;
-  if (player.get_bbox().get_right() > m_col.m_bbox.get_right() + GRACE_DX) return false;
-  if (player.get_bbox().get_top() < m_col.m_bbox.get_top() - GRACE_DY) return false;
-  if (player.get_bbox().get_bottom() > m_col.m_bbox.get_bottom() + GRACE_DY) return false;
+  if (player.get_bbox().get_left() < m_bbox.get_left() - GRACE_DX) return false;
+  if (player.get_bbox().get_right() > m_bbox.get_right() + GRACE_DX) return false;
+  if (player.get_bbox().get_top() < m_bbox.get_top() - GRACE_DY) return false;
+  if (player.get_bbox().get_bottom() > m_bbox.get_bottom() + GRACE_DY) return false;
   return true;
 }
 

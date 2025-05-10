@@ -54,7 +54,7 @@ Flame::Flame(const ReaderMapping& reader, int type) :
 
   if (!Editor::is_active())
   {
-    m_col.m_bbox.set_pos(Vector(m_start_position.x + cosf(angle) * radius,
+    m_bbox.set_pos(Vector(m_start_position.x + cosf(angle) * radius,
                                 m_start_position.y + sinf(angle) * radius));
   }
   m_countMe = false;
@@ -121,7 +121,7 @@ Flame::active_update(float dt_sec)
   if (!Editor::is_active()) {
     Vector newpos(m_start_position.x + cosf(angle) * radius,
                   m_start_position.y + sinf(angle) * radius);
-    m_col.set_movement(newpos - get_pos());
+    set_movement(newpos - get_pos());
     sound_source->set_position(get_pos());
   }
 
@@ -181,7 +181,7 @@ Flame::freeze()
   set_action("fade", 1);
   Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
                                          "default",
-                                         m_col.m_bbox.get_middle(), ANCHOR_MIDDLE,
+                                         m_bbox.get_middle(), ANCHOR_MIDDLE,
                                          Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2);
   set_group(COLGROUP_DISABLED);
 
@@ -199,7 +199,7 @@ Flame::ignite()
   set_action("fade", 1);
   Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
                                          "default",
-                                         m_col.m_bbox.get_middle(), ANCHOR_MIDDLE,
+                                         m_bbox.get_middle(), ANCHOR_MIDDLE,
                                          Vector(0, -150), Vector(0,0),
                                          LAYER_BACKGROUNDTILES+2);
   set_group(COLGROUP_DISABLED);

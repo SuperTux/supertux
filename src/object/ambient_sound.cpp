@@ -39,14 +39,14 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   m_volume(),
   m_has_played_sound(false)
 {
-  m_col.m_group = COLGROUP_DISABLED;
+  m_group = COLGROUP_DISABLED;
 
   float w, h;
-  mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
-  mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
+  mapping.get("x", m_bbox.get_left(), 0.0f);
+  mapping.get("y", m_bbox.get_top(), 0.0f);
   mapping.get("width" , w, 32.0f);
   mapping.get("height", h, 32.0f);
-  m_col.m_bbox.set_size(w, h);
+  m_bbox.set_size(w, h);
 
   mapping.get("radius", m_radius, 1.0f);
   mapping.get("sample", m_sample, "");
@@ -65,10 +65,10 @@ AmbientSound::AmbientSound(const Vector& pos, float radius, float vol, const std
   m_volume(vol),
   m_has_played_sound(false)
 {
-  m_col.m_group = COLGROUP_DISABLED;
+  m_group = COLGROUP_DISABLED;
 
-  m_col.m_bbox.set_pos(pos);
-  m_col.m_bbox.set_size(32, 32);
+  m_bbox.set_pos(pos);
+  m_bbox.set_size(32, 32);
 
   prepare_sound_source();
 }
@@ -102,7 +102,7 @@ void
 AmbientSound::draw(DrawingContext& context)
 {
   if (Editor::is_active())
-    context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(m_bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
                                      0.0f, LAYER_OBJECTS);
 }
 

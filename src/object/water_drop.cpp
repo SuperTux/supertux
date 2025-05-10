@@ -35,7 +35,7 @@ WaterDrop::WaterDrop(const Vector& pos, const std::string& sprite_path_, const V
 void
 WaterDrop::update(float dt_sec)
 {
-  m_col.set_movement(physic.get_movement(dt_sec));
+  set_movement(physic.get_movement(dt_sec));
 
   if ( m_sprite->animation_done() ) {
     remove_me();
@@ -54,10 +54,10 @@ WaterDrop::collision_solid(const CollisionHit& hit)
     // spawn water particles
     for (int i = 50; i; i--) {
       int pa = graphicsRandom.rand(0, 3);
-      float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
-      float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
+      float px = graphicsRandom.randf(m_bbox.get_left(), m_bbox.get_right());
+      float py = graphicsRandom.randf(m_bbox.get_top(), m_bbox.get_bottom());
       Vector ppos = Vector(px, py);
-      Vector pspeed = ppos - m_col.m_bbox.get_middle();
+      Vector pspeed = ppos - m_bbox.get_middle();
       pspeed.x *= 12;
       pspeed.y *= 12;
       Sector::get().add<SpriteParticle>(sprite_path, "particle_" + std::to_string(pa),

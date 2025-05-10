@@ -29,11 +29,11 @@ ParticleZone::ParticleZone(const ReaderMapping& reader) :
   parse_type(reader);
 
   float w,h;
-  reader.get("x", m_col.m_bbox.get_left(), 0.0f);
-  reader.get("y", m_col.m_bbox.get_top(), 0.0f);
+  reader.get("x", m_bbox.get_left(), 0.0f);
+  reader.get("y", m_bbox.get_top(), 0.0f);
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
-  m_col.m_bbox.set_size(w, h);
+  m_bbox.set_size(w, h);
 
   reader.get("enabled", m_enabled, true);
   reader.get("particle-name", m_particle_name, "");
@@ -96,11 +96,11 @@ ParticleZone::draw(DrawingContext& context)
       break;
     }
 
-    context.color().draw_filled_rect(m_col.m_bbox, c,
+    context.color().draw_filled_rect(m_bbox, c,
                            0.0f, LAYER_OBJECTS);
     context.color().draw_text(Resources::small_font,
                           m_particle_name, 
-                          m_col.m_bbox.p1(),
+                          m_bbox.p1(),
                           FontAlignment::ALIGN_LEFT,
                           LAYER_OBJECTS,
                           Color::WHITE);

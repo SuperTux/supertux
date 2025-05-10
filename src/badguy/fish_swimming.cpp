@@ -140,7 +140,7 @@ FishSwimming::update(float dt_sec)
       m_in_water && get_bbox().get_bottom() >= Sector::get().get_height())
   {
     set_pos(Vector(get_bbox().get_left(),
-                   Sector::get().get_height() - m_col.m_bbox.get_height()));
+                   Sector::get().get_height() - m_bbox.get_height()));
   }
   BadGuy::update(dt_sec);
   //m_col.set_movement(m_physic.get_movement(dt_sec));

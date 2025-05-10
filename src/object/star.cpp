@@ -41,17 +41,17 @@ Star::Star(const Vector& pos, Direction direction, const std::string& custom_spr
 void
 Star::update(float dt_sec)
 {
-  m_col.set_movement(physic.get_movement(dt_sec));
+  set_movement(physic.get_movement(dt_sec));
 
   // when near Tux, spawn particles
-  if (auto* player = Sector::get().get_nearest_player (m_col.m_bbox)) {
-    float disp_x = player->get_bbox().get_left() - m_col.m_bbox.get_left();
-    float disp_y = player->get_bbox().get_top() - m_col.m_bbox.get_top();
+  if (auto* player = Sector::get().get_nearest_player (m_bbox)) {
+    float disp_x = player->get_bbox().get_left() - m_bbox.get_left();
+    float disp_y = player->get_bbox().get_top() - m_bbox.get_top();
     if (disp_x*disp_x + disp_y*disp_y <= 256*256)
     {
       if (graphicsRandom.rand(0, 2) == 0) {
-        float px = graphicsRandom.randf(m_col.m_bbox.get_left()+0, m_col.m_bbox.get_right()-0);
-        float py = graphicsRandom.randf(m_col.m_bbox.get_top()+0, m_col.m_bbox.get_bottom()-0);
+        float px = graphicsRandom.randf(m_bbox.get_left()+0, m_bbox.get_right()-0);
+        float py = graphicsRandom.randf(m_bbox.get_top()+0, m_bbox.get_bottom()-0);
         Vector ppos = Vector(px, py);
         Vector pspeed = Vector(0, 0);
         Vector paccel = Vector(0, 0);
@@ -71,7 +71,7 @@ void
 Star::draw(DrawingContext& context)
 {
   MovingSprite::draw(context);
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
 }
 
 void

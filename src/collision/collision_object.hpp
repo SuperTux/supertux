@@ -14,6 +14,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#ifdef INCLUDING_COLLISION_OBJECT_THIS_HEADER_IS_NEVER_DEFINED_IN_THIS_BUILD
 
 #ifndef HEADER_SUPERTUX_COLLISION_COLLISION_OBJECT_HPP
 #define HEADER_SUPERTUX_COLLISION_COLLISION_OBJECT_HPP
@@ -183,4 +184,5 @@ private:
 
 #endif
 
+#endif
 /* EOF */

@@ -65,16 +65,16 @@ LiveFire::active_update(float dt_sec) {
     return;
   }
 
-  if (state == STATE_SLEEPING && m_col.get_group() == COLGROUP_MOVING) {
+  if (state == STATE_SLEEPING && get_group() == COLGROUP_MOVING) {
 
     auto player = get_nearest_player();
     if (player) {
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.get_right() >= m_col.m_bbox.get_right()-((m_dir == Direction::LEFT) ? 256 : 0));
-      bool inReach_right = (pb.get_left() <= m_col.m_bbox.get_left()+((m_dir == Direction::RIGHT) ? 256 : 0));
-      bool inReach_top = (pb.get_bottom() >= m_col.m_bbox.get_top());
-      bool inReach_bottom = (pb.get_top() <= m_col.m_bbox.get_bottom());
+      bool inReach_left = (pb.get_right() >= m_bbox.get_right()-((m_dir == Direction::LEFT) ? 256 : 0));
+      bool inReach_right = (pb.get_left() <= m_bbox.get_left()+((m_dir == Direction::RIGHT) ? 256 : 0));
+      bool inReach_top = (pb.get_bottom() >= m_bbox.get_top());
+      bool inReach_bottom = (pb.get_top() <= m_bbox.get_bottom());
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // Wake up.
@@ -119,7 +119,7 @@ LiveFire::kill_fall()
 {
   SoundManager::current()->play(death_sound, get_pos());
   // Emit a puff of smoke.
-  Vector ppos = m_col.m_bbox.get_middle();
+  Vector ppos = m_bbox.get_middle();
   Vector pspeed = Vector(0, -150);
   Vector paccel = Vector(0,0);
   Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",

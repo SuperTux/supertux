@@ -136,7 +136,7 @@ InfoBlock::collision(MovingObject& other, const CollisionHit& hit_)
 Player*
 InfoBlock::get_nearest_player() const
 {
-  return Sector::get().get_nearest_player (m_col.m_bbox);
+  return Sector::get().get_nearest_player (m_bbox);
 }
 
 void
@@ -149,7 +149,7 @@ InfoBlock::update(float dt_sec)
   // hide message if player is too far away
   if (m_dest_pct > 0) {
     if (auto* player = get_nearest_player()) {
-      Vector p1 = m_col.m_bbox.get_middle();
+      Vector p1 = m_bbox.get_middle();
       Vector p2 = player->get_bbox().get_middle();
       Vector dist = (p2 - p1);
       float d = glm::length(dist);
@@ -182,8 +182,8 @@ InfoBlock::draw(DrawingContext& context)
   float border = 8;
   float width = 400; // this is the text width only
   float height = m_lines_height; // this is the text height only
-  float x1 = (m_col.m_bbox.get_left() + m_col.m_bbox.get_right())/2 - width/2;
-  float x2 = (m_col.m_bbox.get_left() + m_col.m_bbox.get_right())/2 + width/2;
+  float x1 = (m_bbox.get_left() + m_bbox.get_right())/2 - width/2;
+  float x2 = (m_bbox.get_left() + m_bbox.get_right())/2 + width/2;
   float y1 = m_initial_y;
 
   if (x1 < 0) {

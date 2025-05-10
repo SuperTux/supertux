@@ -40,7 +40,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   m_sprite_found(false),
   m_custom_layer(false)
 {
-  m_col.m_bbox.set_pos(pos);
+  m_bbox.set_pos(pos);
   update_hitbox();
   set_group(collision_group);
 }
@@ -48,7 +48,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
 MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int layer_, CollisionGroup collision_group) :
   MovingSprite(reader, layer_, collision_group)
 {
-  m_col.m_bbox.set_pos(pos);
+  m_bbox.set_pos(pos);
 }
 
 MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprite_name_, int layer_, CollisionGroup collision_group) :
@@ -61,8 +61,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite_found(false),
   m_custom_layer(reader.get("z-pos", m_layer))
 {
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
+  reader.get("x", m_bbox.get_left());
+  reader.get("y", m_bbox.get_top());
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid or sprite change fails
@@ -85,8 +85,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite_found(false),
   m_custom_layer(reader.get("z-pos", m_layer))
 {
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
+  reader.get("x", m_bbox.get_left());
+  reader.get("y", m_bbox.get_top());
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
   //m_default_sprite_name = m_sprite_name;
@@ -132,8 +132,8 @@ MovingSprite::get_action() const
 void
 MovingSprite::update_hitbox()
 {
-  m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
-  m_col.set_unisolid(m_sprite->is_current_hitbox_unisolid());
+  set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  set_unisolid(m_sprite->is_current_hitbox_unisolid());
 }
 
 void
@@ -167,16 +167,16 @@ MovingSprite::set_action(const Direction& dir, int loops)
 void
 MovingSprite::set_action_centered(const std::string& action, int loops)
 {
-  Vector old_size = m_col.m_bbox.get_size().as_vector();
+  Vector old_size = m_bbox.get_size().as_vector();
   m_sprite->set_action(action, loops);
   update_hitbox();
-  set_pos(get_pos() - (m_col.m_bbox.get_size().as_vector() - old_size) / 2.0f);
+  set_pos(get_pos() - (m_bbox.get_size().as_vector() - old_size) / 2.0f);
 }
 
 void
 MovingSprite::set_action(const std::string& action, int loops, AnchorPoint anchorPoint)
 {
-  Rectf old_bbox = m_col.m_bbox;
+  Rectf old_bbox = m_bbox;
   m_sprite->set_action(action, loops);
   update_hitbox();
   set_pos(get_anchor_pos(old_bbox, m_sprite->get_current_hitbox_width(),
@@ -225,7 +225,7 @@ void
 MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
 {
     for (int i = 0; i < count; i++) {
-      Vector ppos = m_col.m_bbox.get_middle();
+      Vector ppos = m_bbox.get_middle();
       float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
       float velocity = graphicsRandom.randf(350, 400);
       float vx = sinf(angle)*velocity;

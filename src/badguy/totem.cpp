@@ -87,7 +87,7 @@ Totem::active_update(float dt_sec)
       // Skip if we are not approaching each other.
       if (!((m_dir == Direction::LEFT) && (t.m_dir == Direction::RIGHT))) continue;
 
-      Vector p1 = m_col.m_bbox.p1();
+      Vector p1 = m_bbox.p1();
       Vector p2 = t.get_pos();
 
       // Skip if we are not on the same height.
@@ -131,7 +131,7 @@ Totem::collision_squished(MovingObject& object)
   }
 
   set_action("squished", m_dir);
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   kill_squished(object);
   return true;
@@ -218,7 +218,7 @@ Totem::jump_on(Totem* target)
 
   carried_by = target;
   initialize();
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   SoundManager::current()->play( LAND_ON_TOTEM_SOUND , get_pos());
 
@@ -237,7 +237,7 @@ Totem::jump_off() {
   carried_by = nullptr;
 
   initialize();
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   m_physic.set_velocity_y(JUMP_OFF_SPEED_Y);
 }

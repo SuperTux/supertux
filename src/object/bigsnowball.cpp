@@ -121,7 +121,7 @@ BigSnowball::update(float dt_sec)
 
   Vector movement = m_physic.get_movement(dt_sec) * Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f);
   m_sprite->set_angle(m_sprite->get_angle() + movement.x * 3.141592653898f / 2.f);
-  m_col.set_movement(movement);
+  set_movement(movement);
   //m_col.propagate_movement(movement);
 }
 

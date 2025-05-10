@@ -24,14 +24,14 @@
 
 MarkerObject::MarkerObject (const Vector& pos)
 {
-  m_col.m_bbox.set_p1(pos);
-  m_col.m_bbox.set_size(16, 16);
+  m_bbox.set_p1(pos);
+  m_bbox.set_size(16, 16);
 }
 
 MarkerObject::MarkerObject ()
 {
-  m_col.m_bbox.set_p1(Vector(0, 0));
-  m_col.m_bbox.set_p2(Vector(16, 16));
+  m_bbox.set_p1(Vector(0, 0));
+  m_bbox.set_p2(Vector(16, 16));
 }
 
 void
@@ -41,12 +41,12 @@ MarkerObject::draw(DrawingContext& context)
   if (dir.x == 0 && dir.y == 0) {
     if (hide_if_no_offset())
       return;
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1, 1, 1, 0.5), 7.5, LAYER_GUI-20);
+    context.color().draw_filled_rect(m_bbox, Color(1, 1, 1, 0.5), 7.5, LAYER_GUI-20);
   } else {
     // draw a triangle
     dir = 8.0f * glm::normalize(dir);
     Vector dir2 = Vector(-dir.y, dir.x);
-    Vector pos = m_col.m_bbox.get_middle();
+    Vector pos = m_bbox.get_middle();
     context.color().draw_triangle(pos + dir * 1.5f, pos - dir + dir2, pos - dir - dir2,
                                     Color(1, 1, 1, 0.5f), LAYER_GUI-20);
   }

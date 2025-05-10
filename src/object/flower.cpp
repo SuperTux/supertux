@@ -28,7 +28,7 @@ Flower::Flower(BonusType _type, const std::string& custom_sprite) :
   flip(NO_FLIP),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  m_col.m_bbox.set_size(32, 32);
+  m_bbox.set_size(32, 32);
   lightsprite->set_blend(Blend::ADD);
 
   if (type == BONUS_FIRE) {
@@ -66,7 +66,7 @@ void
 Flower::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS, flip);
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
 }
 
 HitResponse

@@ -113,7 +113,7 @@ ViciousIvy::active_update(float dt_sec)
       }
       else
       {
-        m_col.set_movement(Vector(m_col.get_movement().x, 0.f));
+        set_movement(Vector(get_movement().x, 0.f));
         m_physic.set_velocity_y(0.f);
         m_physic.set_acceleration_y(0.f);
         m_physic.set_gravity_modifier(0.f);

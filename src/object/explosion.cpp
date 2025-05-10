@@ -45,7 +45,7 @@ Explosion::Explosion(const Vector& pos, float p_push_strength,
   m_fading_timer(),
   short_fuse(p_short_fuse)
 {
-  set_pos(get_pos() - (m_col.m_bbox.get_middle() - get_pos()));
+  set_pos(get_pos() - (m_bbox.get_middle() - get_pos()));
 
   SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
 
@@ -94,11 +94,11 @@ Explosion::explode()
   // Spawn some particles.
   Vector accel = Vector(0, Sector::get().get_gravity()*100);
   Sector::get().add<Particles>(
-    m_col.m_bbox.get_middle(), -360, 360, 450.0f, 900.0f, accel, num_particles,
+    m_bbox.get_middle(), -360, 360, 450.0f, 900.0f, accel, num_particles,
     Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1);
 
   if (does_push) {
-    Vector center = m_col.m_bbox.get_middle ();
+    Vector center = m_bbox.get_middle ();
     auto near_objects = Sector::get().get_nearby_objects (center, 128.0 * 32.0);
 
     for (auto& obj: near_objects) {
@@ -198,7 +198,7 @@ Explosion::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+40);
   m_lightsprite->set_color(m_color);
-  m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  m_lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
 }
 
 HitResponse

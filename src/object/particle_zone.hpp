@@ -45,7 +45,7 @@ public:
 
   virtual int get_layer() const override { return LAYER_OBJECTS; }
 
-  Rectf get_rect() {return m_col.m_bbox;}
+  Rectf get_rect() {return m_bbox;}
 
   enum ParticleZoneType {
     /** Particles will spawn in this area */
@@ -86,10 +86,10 @@ public:
   //void resize(int width, int height, float time, std::string easing);
 
   /** Returns the current X position of the zone */
-  inline float current_x() const { return m_col.m_bbox.get_left(); }
+  inline float current_x() const { return m_bbox.get_left(); }
 
   /** Returns the current Y position of the zone */
-  inline float current_y() const { return m_col.m_bbox.get_top(); }
+  inline float current_y() const { return m_bbox.get_top(); }
 
   /** Returns the target X position of the zone */
   //float target_x() {return m_col.m_bbox.get_left();}
@@ -118,7 +118,7 @@ public:
   };
 
   ZoneDetails get_details() {
-    return ZoneDetails(m_particle_name, static_cast<ParticleZoneType>(m_type), m_col.m_bbox);
+    return ZoneDetails(m_particle_name, static_cast<ParticleZoneType>(m_type), m_bbox);
   }
 
 private:

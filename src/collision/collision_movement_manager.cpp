@@ -16,11 +16,12 @@
 
 #include "collision/collision_movement_manager.hpp"
 #include "object/player.hpp"
+#include "../supertux/moving_object.hpp"
 
 void
 CollisionGroundMovementManager::register_movement(
-  CollisionObject& moving_object,
-  CollisionObject& target_object,
+  MovingObject& moving_object,
+  MovingObject& target_object,
   const Vector& movement)
 {
   m_movements_per_target[&target_object].register_movement(moving_object, movement);
@@ -29,7 +30,7 @@ CollisionGroundMovementManager::register_movement(
 void
 CollisionGroundMovementManager::register_movement(
   TileMap& moving_tilemap,
-  CollisionObject& target_object,
+  MovingObject& target_object,
   const Vector& movement)
 {
   m_movements_per_target[&target_object].register_movement(moving_tilemap, movement);
@@ -66,7 +67,7 @@ CollisionGroundMovementManager::apply_all_ground_movement()
 
     if (!first_to_do) {
       // Move the object to the highest possible point.
-      CollisionObject& target = *movements_for_target.first;
+      MovingObject& target = *movements_for_target.first;
       target.set_movement(target.get_movement() + lowest_y_vector);
     }
   }
@@ -76,7 +77,7 @@ CollisionGroundMovementManager::apply_all_ground_movement()
 
 void
 CollisionGroundMovementManager::TargetMovementData::register_movement(
-  CollisionObject& moving_object,
+  MovingObject& moving_object,
   const Vector& movement)
 {
   m_moving_objects.emplace(&moving_object, movement);

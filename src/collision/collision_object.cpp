@@ -15,6 +15,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef INCLUDING_COLLISION_OBJECT_THIS_HEADER_IS_NEVER_DEFINED_IN_THIS_BUILD
+
 #include "collision/collision_object.hpp"
 
 #include "collision/collision_movement_manager.hpp"
@@ -96,3 +98,4 @@ CollisionObject::is_valid() const
 }
 
 /* EOF */
+#endif

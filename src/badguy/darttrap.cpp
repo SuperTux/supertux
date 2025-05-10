@@ -125,19 +125,19 @@ DartTrap::fire()
   {
     case Direction::RIGHT:
       pos = Vector(get_pos().x,
-                   get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2);
+                   get_pos().y + m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2);
       break;
     case Direction::UP:
-      pos = Vector(get_pos().x + m_col.m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2,
-                   get_pos().y + m_col.m_bbox.get_height() - dart.get_bbox().get_height());
+      pos = Vector(get_pos().x + m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2,
+                   get_pos().y + m_bbox.get_height() - dart.get_bbox().get_height());
       break;
     case Direction::DOWN:
-      pos = Vector(get_pos().x + m_col.m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2,
+      pos = Vector(get_pos().x + m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2,
                    get_pos().y);
       break;
     default:
-      pos = Vector(get_pos().x + m_col.m_bbox.get_width() - dart.get_bbox().get_width(),
-                   get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2);
+      pos = Vector(get_pos().x + m_bbox.get_width() - dart.get_bbox().get_width(),
+                   get_pos().y + m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2);
       break;
   }
 

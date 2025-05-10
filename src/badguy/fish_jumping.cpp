@@ -75,13 +75,13 @@ FishJumping::collision_tile(uint32_t tile_attributes)
     if (m_beached_timer.started())
       m_beached_timer.stop();
     // Initialize stop position if uninitialized.
-    if (m_stop_y == 0) m_stop_y = get_pos().y + m_col.m_bbox.get_height();
+    if (m_stop_y == 0) m_stop_y = get_pos().y + m_bbox.get_height();
 
     // Stop when we have reached the stop position.
     if (get_pos().y >= m_stop_y && m_physic.get_velocity_y() > 0.f) {
       if (!m_frozen)
         start_waiting();
-      m_col.set_movement(Vector(0, 0));
+      set_movement(Vector(0, 0));
       SoundManager::current()->play("sounds/splash.wav", get_pos());
     }
   }

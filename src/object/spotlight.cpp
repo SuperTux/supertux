@@ -67,11 +67,11 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   m_layer(0),
   m_enabled(true)
 {
-  m_col.m_group = COLGROUP_DISABLED;
+  m_group = COLGROUP_DISABLED;
 
-  mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
-  mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
-  m_col.m_bbox.set_size(32, 32);
+  mapping.get("x", m_bbox.get_left(), 0.0f);
+  mapping.get("y", m_bbox.get_top(), 0.0f);
+  m_bbox.set_size(32, 32);
 
   mapping.get("angle", m_angle, 0.0f);
   mapping.get("speed", m_speed, 50.0f);
@@ -147,26 +147,26 @@ Spotlight::draw(DrawingContext& context)
     m_light->set_color(m_color);
     m_light->set_blend(Blend::ADD);
     m_light->set_angle(m_angle);
-    m_light->draw(context.light(), m_col.m_bbox.p1(), m_layer);
+    m_light->draw(context.light(), m_bbox.p1(), m_layer);
 
     //m_lightcone->set_angle(angle);
     //m_lightcone->draw(context.color(), position, m_layer);
 
     m_lights->set_color(m_color);
     m_lights->set_angle(m_angle);
-    m_lights->draw(context.color(), m_col.m_bbox.p1(), m_layer);
+    m_lights->draw(context.color(), m_bbox.p1(), m_layer);
   }
 
   m_base->set_angle(m_angle);
-  m_base->draw(context.color(), m_col.m_bbox.p1(), m_layer);
+  m_base->draw(context.color(), m_bbox.p1(), m_layer);
 
-  m_center->draw(context.color(), m_col.m_bbox.p1(), m_layer);
+  m_center->draw(context.color(), m_bbox.p1(), m_layer);
 
   if (m_enabled)
   {
     m_lightcone->set_color(m_color);
     m_lightcone->set_angle(m_angle);
-    m_lightcone->draw(context.color(), m_col.m_bbox.p1(), LAYER_FOREGROUND1 + 10);
+    m_lightcone->draw(context.color(), m_bbox.p1(), LAYER_FOREGROUND1 + 10);
   }
 }
 

@@ -57,7 +57,7 @@ Platform::finish_construction()
   if (!get_path())
   {
     // If no path is given, make a one-node dummy path
-    init_path_pos(m_col.m_bbox.p1());
+    init_path_pos(m_bbox.p1());
   }
 
   if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
@@ -65,7 +65,7 @@ Platform::finish_construction()
 
   get_walker()->jump_to_node(m_starting_node);
 
-  m_col.m_bbox.set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
+  m_bbox.set_pos(m_path_handle.get_pos(m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
 }
 
 ObjectSettings
@@ -110,7 +110,7 @@ Platform::update(float dt_sec)
       // Player doesn't touch platform and Platform is not moving
 
       // Travel to node nearest to nearest player
-      if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox)) {
+      if (auto* player = Sector::get().get_nearest_player(m_bbox)) {
         int nearest_node_id = get_path()->get_nearest_node_idx(player->get_bbox().p2());
         if (nearest_node_id != -1) {
           goto_node(nearest_node_id);
@@ -134,9 +134,9 @@ Platform::update(float dt_sec)
   }
 
   get_walker()->update(dt_sec);
-  m_movement = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos();
-  m_col.set_movement(m_movement);
-  m_col.propagate_movement(m_movement);
+  m_movement = get_walker()->get_pos(m_bbox.get_size(), m_path_handle) - get_pos();
+  set_movement(m_movement);
+  propagate_movement(m_movement);
   m_speed = m_movement / dt_sec;
 }
 
@@ -149,20 +149,20 @@ Platform::editor_update()
   if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
     m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
-  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
+  set_pos(m_path_handle.get_pos(m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
 }
 
 void
 Platform::jump_to_node(int node_idx)
 {
   set_node(node_idx);
-  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[node_idx].position));
+  set_pos(m_path_handle.get_pos(m_bbox.get_size(), get_path()->get_nodes()[node_idx].position));
 }
 
 void
 Platform::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_col.m_bbox.p1();
+  Vector shift = pos - m_bbox.p1();
   if (get_path()) {
     get_path()->move_by(shift);
   }

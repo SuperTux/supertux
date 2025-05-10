@@ -53,8 +53,8 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
       break;
   }
 
-  m_col.m_bbox.set_pos(pos);
-  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_bbox.set_pos(pos);
+  m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 void
@@ -87,7 +87,7 @@ Bullet::update(float dt_sec)
 
   bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
   physic.set_gravity_modifier(in_water ? 0.3f : 1.f);
-  m_col.set_movement(physic.get_movement(dt_sec) * (in_water ? 0.5f : 1.f));
+  set_movement(physic.get_movement(dt_sec) * (in_water ? 0.5f : 1.f));
 }
 
 void
@@ -95,7 +95,7 @@ Bullet::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
   if (type == BONUS_FIRE){
-    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+    lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
   }
 }
 

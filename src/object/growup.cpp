@@ -47,7 +47,7 @@ GrowUp::update(float dt_sec)
   if (!m_custom_sprite && m_physic.get_velocity_x() != 0)
     m_sprite->set_angle(get_pos().x * 360.0f / (32.0f * math::PI));
 
-  m_col.set_movement(m_physic.get_movement(dt_sec));
+  set_movement(m_physic.get_movement(dt_sec));
 }
 
 void

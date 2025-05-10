@@ -93,13 +93,13 @@ Brick::collision(MovingObject& other, const CollisionHit& hit)
     // Hit contains no information for collisions with blocks.
     // Badguy's bottom has to be below the top of the brick
     // SHIFT_DELTA is required to slide over one tile gaps.
-    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
+    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_bbox.get_top() + SHIFT_DELTA ) ) {
       try_break(nullptr);
     }
   }
   auto portable = dynamic_cast<Portable*> (&other);
   if (portable && !badguy) {
-    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+    if (other.get_bbox().get_top() > m_bbox.get_bottom() - SHIFT_DELTA) {
       try_break(nullptr);
     }
   }
@@ -192,13 +192,13 @@ HeavyBrick::collision(MovingObject& other, const CollisionHit& hit)
   }
 
   auto badguy = dynamic_cast<BadGuy*>(&other);
-  if (badguy && badguy->can_break() && (badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ))
+  if (badguy && badguy->can_break() && (badguy->get_bbox().get_bottom() > m_bbox.get_top() + SHIFT_DELTA ))
     ricochet(&other);
 
   auto portable = dynamic_cast<Portable*>(&other);
   if (portable)
   {
-    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA)
+    if (other.get_bbox().get_top() > m_bbox.get_bottom() - SHIFT_DELTA)
       ricochet(&other);
   }
 

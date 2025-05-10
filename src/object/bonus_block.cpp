@@ -303,7 +303,7 @@ BonusBlock::collision(MovingObject& other, const CollisionHit& hit_)
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
     if (player->m_does_buttjump ||
-      (player->is_swimboosting() && player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA))
+      (player->is_swimboosting() && player->get_bbox().get_bottom() < m_bbox.get_top() + SHIFT_DELTA))
     {
       try_drop(player);
     }
@@ -314,7 +314,7 @@ BonusBlock::collision(MovingObject& other, const CollisionHit& hit_)
     // Hit contains no information for collisions with blocks.
     // Badguy's bottom has to be below the top of the block
     // SHIFT_DELTA is required to slide over one tile gaps.
-    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
+    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_bbox.get_top() + SHIFT_DELTA ) ) {
       try_open(player);
     }
   }
@@ -327,7 +327,7 @@ BonusBlock::collision(MovingObject& other, const CollisionHit& hit_)
 
   auto portable = dynamic_cast<Portable*> (&other);
   if (portable && !badguy) {
-    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+    if (other.get_bbox().get_top() > m_bbox.get_bottom() - SHIFT_DELTA) {
       try_open(player);
     }
   }
@@ -342,12 +342,12 @@ BonusBlock::try_open(Player* player)
     return;
 
   if (player == nullptr)
-    player = Sector::get().get_nearest_player(m_col.m_bbox);
+    player = Sector::get().get_nearest_player(m_bbox);
 
   if (player == nullptr)
     return;
 
-  Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? Direction::LEFT : Direction::RIGHT;
+  Direction direction = (player->get_bbox().get_middle().x > m_bbox.get_middle().x) ? Direction::LEFT : Direction::RIGHT;
 
   bool play_upgrade_sound = false;
   switch (m_contents) {
@@ -497,9 +497,9 @@ BonusBlock::try_drop(Player *player)
 
   // Determine the area below the bonus block. If it's solid, send it up regardless (except for dolls).
   Rectf dest_;
-  dest_.set_left(m_col.m_bbox.get_left() + 1);
-  dest_.set_top(m_col.m_bbox.get_bottom() + 1);
-  dest_.set_right(m_col.m_bbox.get_right() - 1);
+  dest_.set_left(m_bbox.get_left() + 1);
+  dest_.set_top(m_bbox.get_bottom() + 1);
+  dest_.set_right(m_bbox.get_right() - 1);
   dest_.set_bottom(dest_.get_top() + 30);
 
   if (!Sector::get().is_free_of_statics(dest_, this, true) && !(m_contents == Content::ONEUP))
@@ -509,12 +509,12 @@ BonusBlock::try_drop(Player *player)
   }
 
   if (player == nullptr)
-    player = Sector::get().get_nearest_player(m_col.m_bbox);
+    player = Sector::get().get_nearest_player(m_bbox);
 
   if (player == nullptr)
     return;
 
-  Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? Direction::LEFT : Direction::RIGHT;
+  Direction direction = (player->get_bbox().get_middle().x > m_bbox.get_middle().x) ? Direction::LEFT : Direction::RIGHT;
 
   bool countdown = false;
   bool play_upgrade_sound = false;
@@ -693,7 +693,7 @@ BonusBlock::draw(DrawingContext& context)
   // Draw the light if the bonus block is in the "on" state.
   if (m_sprite->get_action() == "on")
   {
-    Vector pos = get_pos() + (m_col.m_bbox.get_size().as_vector() - Vector(static_cast<float>(m_lightsprite->get_width()),
+    Vector pos = get_pos() + (m_bbox.get_size().as_vector() - Vector(static_cast<float>(m_lightsprite->get_width()),
                                                                    static_cast<float>(m_lightsprite->get_height()))) / 2.0f;
     context.light().draw_surface(m_lightsprite, pos, 10);
   }

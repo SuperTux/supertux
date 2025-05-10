@@ -276,20 +276,20 @@ void
 PowerUp::update(float dt_sec)
 {
   if (!no_physics)
-    m_col.set_movement(physic.get_movement(dt_sec));
+    set_movement(physic.get_movement(dt_sec));
 
   // Stars and herrings should sparkle when close to Tux.
   if (m_type == STAR || m_type == HERRING)
   {
-    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+    if (auto* player = Sector::get().get_nearest_player(m_bbox))
     {
-      float disp_x = player->get_bbox().get_left() - m_col.m_bbox.get_left();
-      float disp_y = player->get_bbox().get_top() - m_col.m_bbox.get_top();
+      float disp_x = player->get_bbox().get_left() - m_bbox.get_left();
+      float disp_y = player->get_bbox().get_top() - m_bbox.get_top();
       if (disp_x*disp_x + disp_y*disp_y <= 256*256)
       {
         if (graphicsRandom.rand(0, 2) == 0) {
-          float px = graphicsRandom.randf(m_col.m_bbox.get_left() * 1.0f, m_col.m_bbox.get_right() * 1.0f);
-          float py = graphicsRandom.randf(m_col.m_bbox.get_top() * 1.0f, m_col.m_bbox.get_bottom() * 1.0f);
+          float px = graphicsRandom.randf(m_bbox.get_left() * 1.0f, m_bbox.get_right() * 1.0f);
+          float py = graphicsRandom.randf(m_bbox.get_top() * 1.0f, m_bbox.get_bottom() * 1.0f);
           Vector ppos = Vector(px, py);
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);
@@ -315,7 +315,7 @@ PowerUp::draw(DrawingContext& context)
   if (m_type == STAR || m_type == HERRING)
     m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
 }
 
 ObjectSettings

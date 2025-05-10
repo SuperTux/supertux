@@ -38,6 +38,7 @@
 #include "supertux/tile.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+#include "../collision/collision_group.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float GEAR_TIME = 2;
@@ -58,7 +59,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
-  m_start_position(m_col.m_bbox.p1()),
+  m_start_position(m_bbox.p1()),
   m_dir(direction),
   m_start_dir(direction),
   m_frozen(false),
@@ -102,7 +103,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
-  m_start_position(m_col.m_bbox.p1()),
+  m_start_position(m_bbox.p1()),
   m_dir(Direction::LEFT),
   m_start_dir(default_direction),
   m_frozen(false),
@@ -180,7 +181,7 @@ BadGuy::draw(DrawingContext& context)
 
       if (m_glowing)
       {
-        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle() + draw_offset, 0);
+        m_lightsprite->draw(context.light(), m_bbox.get_middle() + draw_offset, 0);
       }
     }
   }
@@ -273,7 +274,7 @@ BadGuy::update(float dt_sec)
 
     if (on_top_of_water && (m_physic.get_velocity_y() <= 0.f))
     {
-      m_col.set_movement(Vector(m_col.get_movement().x, 0.f));
+      set_movement(Vector(get_movement().x, 0.f));
       m_physic.set_velocity_y(0.f);
       m_physic.set_acceleration_y(0.f);
       m_physic.set_gravity_modifier(0.f);
@@ -298,14 +299,14 @@ BadGuy::update(float dt_sec)
     case STATE_INIT:
     case STATE_INACTIVE:
       m_is_active_flag = false;
-      m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox().grown(-4.f), false, Tile::WATER);
+      m_in_water = !Sector::get().is_free_of_tiles(get_bbox().grown(-4.f), false, Tile::WATER);
       inactive_update(dt_sec);
       try_activate();
       break;
 
     case STATE_BURNING: {
       m_is_active_flag = false;
-      m_col.set_movement(m_physic.get_movement(dt_sec));
+      set_movement(m_physic.get_movement(dt_sec));
       if ( m_sprite->animation_done() ) {
         remove_me();
       }
@@ -318,14 +319,14 @@ BadGuy::update(float dt_sec)
         remove_me();
         break;
       }
-      m_col.set_movement(m_physic.get_movement(dt_sec));
+      set_movement(m_physic.get_movement(dt_sec));
       break;
 
     case STATE_MELTING: {
       m_is_active_flag = false;
-      m_col.set_movement(m_physic.get_movement(dt_sec));
+      set_movement(m_physic.get_movement(dt_sec));
       if ( m_sprite->animation_done() || on_ground() ) {
-        Sector::get().add<WaterDrop>(m_col.m_bbox.p1(), get_water_sprite(), m_physic.get_velocity());
+        Sector::get().add<WaterDrop>(m_bbox.p1(), get_water_sprite(), m_physic.get_velocity());
         remove_me();
         break;
       }
@@ -333,7 +334,7 @@ BadGuy::update(float dt_sec)
 
     case STATE_GROUND_MELTING:
       m_is_active_flag = false;
-      m_col.set_movement(m_physic.get_movement(dt_sec));
+      set_movement(m_physic.get_movement(dt_sec));
       if ( m_sprite->animation_done() ) {
         remove_me();
       }
@@ -341,14 +342,14 @@ BadGuy::update(float dt_sec)
 
     case STATE_INSIDE_MELTING: {
       m_is_active_flag = false;
-      m_col.set_movement(m_physic.get_movement(dt_sec));
+      set_movement(m_physic.get_movement(dt_sec));
       if ( on_ground() && m_sprite->animation_done() ) {
         set_action("gear", m_dir, 1);
         set_state(STATE_GEAR);
       }
       int pa = graphicsRandom.rand(0,3);
-      float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
-      float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
+      float px = graphicsRandom.randf(m_bbox.get_left(), m_bbox.get_right());
+      float py = graphicsRandom.randf(m_bbox.get_top(), m_bbox.get_bottom());
       Vector ppos = Vector(px, py);
       Sector::get().add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
                                              ppos, ANCHOR_MIDDLE,
@@ -358,7 +359,7 @@ BadGuy::update(float dt_sec)
 
     case STATE_FALLING:
       m_is_active_flag = false;
-      m_col.set_movement(m_physic.get_movement(dt_sec));
+      set_movement(m_physic.get_movement(dt_sec));
       break;
   }
 
@@ -394,14 +395,14 @@ BadGuy::active_update(float dt_sec)
     if (is_in_water() && m_water_affected)
     {
       if (m_frozen) {
-        m_col.set_movement(m_physic.get_movement(dt_sec) * Vector(0.1f, 0.6f));
+        set_movement(m_physic.get_movement(dt_sec) * Vector(0.1f, 0.6f));
       }
       else {
-        m_col.set_movement(m_physic.get_movement(dt_sec) * Vector(0.7f, 0.3f));
+        set_movement(m_physic.get_movement(dt_sec) * Vector(0.7f, 0.3f));
       }
     }
     else {
-      m_col.set_movement(m_physic.get_movement(dt_sec));
+      set_movement(m_physic.get_movement(dt_sec));
     }
   }
 
@@ -467,7 +468,7 @@ BadGuy::collision(MovingObject& other, const CollisionHit& hit)
     }
     return FORCE_MOVE;
   }
-  if (badguy && badguy->is_active() && badguy->m_col.get_group() == COLGROUP_MOVING) {
+  if (badguy && badguy->is_active() && badguy->get_group() == COLGROUP_MOVING) {
 
     /* Badguys don't let badguys squish other badguys. It's bad. */
 #if 0
@@ -486,7 +487,7 @@ BadGuy::collision(MovingObject& other, const CollisionHit& hit)
   if (player) {
 
     // Hit from above?
-    if (player->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + 16)) {
+    if (player->get_bbox().get_bottom() < (m_bbox.get_top() + 16)) {
       if (player->is_stone()) {
         kill_fall();
         return FORCE_MOVE;
@@ -689,14 +690,14 @@ BadGuy::kill_fall()
   if (m_frozen) {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
     Vector pr_pos(0.0f, 0.0f);
-    float cx = m_col.m_bbox.get_width() / 2.f;
-    float cy = m_col.m_bbox.get_height() / 2.f;
-    for (pr_pos.x = 0.f; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x +=  18.f) {
-      for (pr_pos.y = 0.f; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 18.f) {
+    float cx = m_bbox.get_width() / 2.f;
+    float cy = m_bbox.get_height() / 2.f;
+    for (pr_pos.x = 0.f; pr_pos.x < m_bbox.get_width(); pr_pos.x +=  18.f) {
+      for (pr_pos.y = 0.f; pr_pos.y < m_bbox.get_height(); pr_pos.y += 18.f) {
         Vector speed = Vector((pr_pos.x - cx) * 3.f, (pr_pos.y - cy) * 2.f);
         Sector::get().add<SpriteParticle>(
             "images/particles/ice_piece"+std::to_string(graphicsRandom.rand(1, 3))+".sprite", "default",
-            m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
+            m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
             //SPEED: Add current enemy speed, but do not add downwards velocity because it looks bad.
             Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())
             //SPEED: Add specified speed and randomization.
@@ -790,7 +791,7 @@ BadGuy::is_offscreen() const
   Vector cam_dist(0.0f, 0.0f);
   Vector player_dist(0.0f, 0.0f);
   Camera& cam = Sector::get().get_camera();
-  cam_dist = cam.get_center() - m_col.m_bbox.get_middle();
+  cam_dist = cam.get_center() - m_bbox.get_middle();
   if (Editor::is_active()) {
       if ((fabsf(cam_dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(cam_dist.y) <= Y_OFFSCREEN_DISTANCE)) {
         return false;
@@ -800,7 +801,7 @@ BadGuy::is_offscreen() const
   if (!player)
     return false;
   if (!Editor::is_active()) {
-    player_dist = player->get_bbox().get_middle() - m_col.m_bbox.get_middle();
+    player_dist = player->get_bbox().get_middle() - m_bbox.get_middle();
   }
   // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px.
   // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px.
@@ -825,7 +826,7 @@ BadGuy::try_activate()
       // If starting direction was set to AUTO, this is our chance to re-orient the badguy.
       if (m_start_dir == Direction::AUTO) {
         auto player_ = get_nearest_player();
-        if (player_ && (player_->get_bbox().get_left() > m_col.m_bbox.get_right())) {
+        if (player_ && (player_->get_bbox().get_left() > m_bbox.get_right())) {
           m_dir = Direction::RIGHT;
         } else {
           m_dir = Direction::LEFT;
@@ -858,7 +859,7 @@ BadGuy::might_fall(int height)
 
     Vector end(eye.x, eye.y + fh + 2.f);
 
-    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, &m_col);
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, this);
 
     if (!result.is_valid)
     {
@@ -899,7 +900,7 @@ BadGuy::might_fall(int height)
 
     // The resulting line segment (eye, end) should result in a downwards facing diagonal direction.
 
-    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, &m_col);
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, false, this);
 
     if (!result.is_valid)
     {
@@ -932,7 +933,7 @@ BadGuy::might_fall(int height)
 Player*
 BadGuy::get_nearest_player() const
 {
-  return Sector::get().get_nearest_player(m_col.m_bbox);
+  return Sector::get().get_nearest_player(m_bbox);
 }
 
 void
@@ -966,8 +967,8 @@ void
 BadGuy::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
-  m_col.set_movement(pos - get_pos());
-  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
+  set_movement(pos - get_pos());
+  m_physic.set_velocity(get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   if (m_frozen)
   {
@@ -1075,7 +1076,7 @@ BadGuy::freeze()
       m_sprite->stop_animation();
     }
   }
-  m_col.set_size(freezesize_x, freezesize_y);
+  set_size(freezesize_x, freezesize_y);
 }
 
 void
@@ -1090,18 +1091,18 @@ BadGuy::unfreeze(bool melt)
   }
   m_frozen = false;
   m_unfreeze_timer.stop();
-  m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   SoundManager::current()->play(melt ? "sounds/splash.ogg" : "sounds/brick.wav", get_pos());
   Vector pr_pos(0.0f, 0.0f);
-  float cx = m_col.m_bbox.get_width() / 2.f;
+  float cx = m_bbox.get_width() / 2.f;
   std::string particle_sprite_name = melt ? "images/particles/water_piece" : "images/particles/ice_piece";
-  for (pr_pos.x = 0; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x += 16.f) {
-    for (pr_pos.y = 0; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 16.f) {
+  for (pr_pos.x = 0; pr_pos.x < m_bbox.get_width(); pr_pos.x += 16.f) {
+    for (pr_pos.y = 0; pr_pos.y < m_bbox.get_height(); pr_pos.y += 16.f) {
       Vector speed = Vector((pr_pos.x - cx) * 2.f, 0.f);
       Sector::get().add<SpriteParticle>(
         particle_sprite_name + std::to_string(graphicsRandom.rand(1, 3)) + ".sprite", "default",
-        m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
+        m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
         //SPEED: add current enemy speed but do not add downwards velocity because it looks bad.
         Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())
         //SPEED: add specified speed and randomization.

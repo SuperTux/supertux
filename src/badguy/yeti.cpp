@@ -100,10 +100,10 @@ void
 Yeti::recalculate_pos()
 {
   if (m_dir == Direction::RIGHT) {
-    m_left_stand_x = m_col.m_bbox.get_left();
+    m_left_stand_x = m_bbox.get_left();
     m_right_stand_x = m_left_stand_x + RUN_DISTANCE;
   } else {
-    m_right_stand_x = m_col.m_bbox.get_left();
+    m_right_stand_x = m_bbox.get_left();
     m_left_stand_x = m_right_stand_x - RUN_DISTANCE;
   }
 
@@ -269,7 +269,7 @@ Yeti::active_update(float dt_sec)
       break;
   }
 
-  m_col.set_movement(m_physic.get_movement(dt_sec));
+  set_movement(m_physic.get_movement(dt_sec));
 }
 
 void

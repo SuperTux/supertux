@@ -45,7 +45,7 @@ void
 BezierMarker::move_to(const Vector& pos)
 {
   MovingObject::move_to(pos);
-  *m_pos = m_col.m_bbox.get_middle();
+  *m_pos = m_bbox.get_middle();
 }
 
 void

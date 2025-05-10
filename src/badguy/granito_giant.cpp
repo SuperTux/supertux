@@ -55,7 +55,7 @@ GranitoGiant::initialize()
   }
 
   set_colgroup_active(COLGROUP_MOVING_STATIC);
-  m_col.set_unisolid(true);
+  set_unisolid(true);
 }
 
 void

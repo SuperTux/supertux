@@ -93,10 +93,10 @@ Candle::draw(DrawingContext& context)
     // draw approx. 1 in 10 frames darker. Makes the candle flicker.
     if (graphicsRandom.rand(10) != 0 || !flicker) {
       // context.color().draw_surface(candle_light_1, pos, layer);
-      candle_light_1->draw(context.light(), m_col.m_bbox.get_middle(), m_layer);
+      candle_light_1->draw(context.light(), m_bbox.get_middle(), m_layer);
     } else {
       // context.color().draw_surface(candle_light_2, pos, layer);
-      candle_light_2->draw(context.light(), m_col.m_bbox.get_middle(), m_layer);
+      candle_light_2->draw(context.light(), m_bbox.get_middle(), m_layer);
     }
   }
 }
@@ -110,7 +110,7 @@ Candle::collision(MovingObject&, const CollisionHit& )
 void
 Candle::puff_smoke()
 {
-  Vector ppos = m_col.m_bbox.get_middle();
+  Vector ppos = m_bbox.get_middle();
   Vector pspeed = Vector(0, -150);
   Vector paccel = Vector(0,0);
   Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",

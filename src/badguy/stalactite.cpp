@@ -56,11 +56,11 @@ Stalactite::active_update(float dt_sec)
   if (state == STALACTITE_HANGING) {
     auto player = get_nearest_player();
     if (player && !player->get_ghost_mode()) {
-      if (player->get_bbox().get_right() > m_col.m_bbox.get_left() - SHAKE_RANGE_X
-         && player->get_bbox().get_left() < m_col.m_bbox.get_right() + SHAKE_RANGE_X
-         && player->get_bbox().get_bottom() > m_col.m_bbox.get_top()
-         && player->get_bbox().get_top() < m_col.m_bbox.get_bottom() + SHAKE_RANGE_Y
-         && Sector::get().can_see_player(m_col.m_bbox.get_middle())) {
+      if (player->get_bbox().get_right() > m_bbox.get_left() - SHAKE_RANGE_X
+         && player->get_bbox().get_left() < m_bbox.get_right() + SHAKE_RANGE_X
+         && player->get_bbox().get_bottom() > m_bbox.get_top()
+         && player->get_bbox().get_top() < m_bbox.get_bottom() + SHAKE_RANGE_Y
+         && Sector::get().can_see_player(m_bbox.get_middle())) {
         timer.start(SHAKE_TIME);
         state = STALACTITE_SHAKING;
         SoundManager::current()->play("sounds/cracking.wav", get_pos());
@@ -74,7 +74,7 @@ Stalactite::active_update(float dt_sec)
       set_colgroup_active(COLGROUP_MOVING);
     }
   } else if (state == STALACTITE_FALLING) {
-    m_col.set_movement(m_physic.get_movement(dt_sec));
+    set_movement(m_physic.get_movement(dt_sec));
   }
 
   if (state != STALACTITE_FALLING && m_sticky) {

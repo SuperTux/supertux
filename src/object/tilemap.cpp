@@ -39,6 +39,7 @@
 #include "video/drawing_context.hpp"
 #include "video/layer.hpp"
 #include "video/surface.hpp"
+#include "../supertux/moving_object.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
   PathObject(),
@@ -403,7 +404,7 @@ TileMap::update(float dt_sec)
       m_movement = v - get_offset();
       set_offset(v);
       if (m_ground_movement_manager != nullptr) {
-        for (CollisionObject* other_object : m_objects_hit_bottom) {
+        for (MovingObject* other_object : m_objects_hit_bottom) {
           m_ground_movement_manager->register_movement(*this, *other_object, m_movement);
           other_object->propagate_movement(m_movement);
         }
@@ -638,13 +639,13 @@ TileMap::get_tiles_overlapping(const Rectf &rect) const
 }
 
 void
-TileMap::hits_object_bottom(CollisionObject& object)
+TileMap::hits_object_bottom(MovingObject& object)
 {
   m_objects_hit_bottom.insert(&object);
 }
 
 void
-TileMap::notify_object_removal(CollisionObject* other)
+TileMap::notify_object_removal(MovingObject* other)
 {
   m_objects_hit_bottom.erase(other);
 }

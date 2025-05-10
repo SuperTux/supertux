@@ -83,8 +83,8 @@ MagicBlock::MagicBlock(const ReaderMapping& mapping) :
     }
   }
 
-  m_center = m_col.m_bbox.get_middle();
-  m_solid_box = Rectf(m_col.m_bbox.get_left() + SHIFT_DELTA, m_col.m_bbox.get_top() + SHIFT_DELTA, m_col.m_bbox.get_right() - SHIFT_DELTA, m_col.m_bbox.get_bottom() - SHIFT_DELTA);
+  m_center = m_bbox.get_middle();
+  m_solid_box = Rectf(m_bbox.get_left() + SHIFT_DELTA, m_bbox.get_top() + SHIFT_DELTA, m_bbox.get_right() - SHIFT_DELTA, m_bbox.get_bottom() - SHIFT_DELTA);
 }
 
 ObjectSettings
@@ -192,7 +192,7 @@ MagicBlock::draw(DrawingContext& context)
   context.light().get_pixel(m_center, m_light);
 
   MovingSprite::draw(context);
-  context.color().draw_filled_rect(m_col.m_bbox, m_color, m_layer);
+  context.color().draw_filled_rect(m_bbox, m_color, m_layer);
 }
 
 bool
@@ -212,7 +212,7 @@ MagicBlock::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
-  m_center = m_col.m_bbox.get_middle();
+  m_center = m_bbox.get_middle();
 }
 
 /* EOF */

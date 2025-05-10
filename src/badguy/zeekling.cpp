@@ -157,7 +157,7 @@ Zeekling::should_we_dive()
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, playermiddle, false, nullptr);
 
-  auto* resultobj = std::get_if<CollisionObject*>(&result.hit);
+  auto* resultobj = std::get_if<MovingObject*>(&result.hit);
 
   if (result.is_valid && resultobj &&
       *resultobj == player->get_collision_object())

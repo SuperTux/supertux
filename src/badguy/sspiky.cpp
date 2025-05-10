@@ -67,10 +67,10 @@ SSpiky::active_update(float dt_sec) {
     if (player) {
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.get_right() >= m_col.m_bbox.get_right()-((m_dir == Direction::LEFT) ? 256 : 0));
-      bool inReach_right = (pb.get_left() <= m_col.m_bbox.get_left()+((m_dir == Direction::RIGHT) ? 256 : 0));
-      bool inReach_top = (pb.get_bottom() >= m_col.m_bbox.get_top());
-      bool inReach_bottom = (pb.get_top() <= m_col.m_bbox.get_bottom());
+      bool inReach_left = (pb.get_right() >= m_bbox.get_right()-((m_dir == Direction::LEFT) ? 256 : 0));
+      bool inReach_right = (pb.get_left() <= m_bbox.get_left()+((m_dir == Direction::RIGHT) ? 256 : 0));
+      bool inReach_top = (pb.get_bottom() >= m_bbox.get_top());
+      bool inReach_bottom = (pb.get_top() <= m_bbox.get_bottom());
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // Wake up.

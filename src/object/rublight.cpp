@@ -67,7 +67,7 @@ RubLight::collision(MovingObject& other, const CollisionHit&)
 {
   Player* player = dynamic_cast<Player*>(&other);
   if (player != nullptr &&
-      player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA) {
+      player->get_bbox().get_bottom() < m_bbox.get_top() + SHIFT_DELTA) {
     Vector vel_player = player->get_velocity();
     float vel_horiz = fabsf(vel_player.x) / 32.0f;
     if (player->is_skidding())

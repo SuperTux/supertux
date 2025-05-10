@@ -580,7 +580,7 @@ CollisionSystem::RaycastResult
 Sector::get_first_line_intersection(const Vector& line_start,
                                     const Vector& line_end,
                                     CollisionSystem::RaycastIgnore ignore,
-                                    const CollisionObject* ignore_object) const {
+                                    const MovingObject* ignore_object) const {
   return m_collision_system->get_first_line_intersection(line_start, line_end, ignore, ignore_object);
 }
 
@@ -588,7 +588,7 @@ CollisionSystem::RaycastResult
 Sector::get_first_line_intersection(const Vector& line_start,
                                     const Vector& line_end,
                                     bool ignore_objects,
-                                    const CollisionObject* ignore_object) const {
+                                    const MovingObject* ignore_object) const {
   auto ignore = (ignore_objects ? CollisionSystem::IGNORE_OBJECTS : CollisionSystem::IGNORE_NONE);
   return m_collision_system->get_first_line_intersection(line_start, line_end, ignore, ignore_object);
 }
@@ -729,7 +729,7 @@ Sector::get_nearby_objects(const Vector& center, float max_distance) const
   std::vector<MovingObject*> result;
   for (auto& object : m_collision_system->get_nearby_objects(center, max_distance))
   {
-    result.push_back(&object->get_parent());
+    result.push_back(object);
   }
   return result;
 }

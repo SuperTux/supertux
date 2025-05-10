@@ -63,7 +63,7 @@ Key::update(float dt_sec)
   if (m_state == KeyState::NORMAL)
   {
     m_total_time_elapsed += dt_sec;
-    m_col.set_movement(Vector(0.f, m_target_speed*dt_sec));
+    set_movement(Vector(0.f, m_target_speed*dt_sec));
   }
 
   if (!m_owner || !m_owner->is_dead())
@@ -120,7 +120,7 @@ Key::update(float dt_sec)
   case NORMAL:
     break;
   case COLLECT:
-    m_col.set_movement(Vector(0, 0));
+    set_movement(Vector(0, 0));
     if (m_wait_timer.check())
     {
       m_wait_timer.stop();
@@ -129,13 +129,13 @@ Key::update(float dt_sec)
     break;
   case FOLLOW:
     m_total_time_elapsed += dt_sec;
-    m_col.set_movement(((m_goal_pos - get_pos()) * (std::max(0.f, distance-(50.f*float(m_chain_pos)))/300.f))+
+    set_movement(((m_goal_pos - get_pos()) * (std::max(0.f, distance-(50.f*float(m_chain_pos)))/300.f))+
       Vector(0.f, m_target_speed * dt_sec));
     if (Sector::get().get_object_count<Player>([](const Player& player) { return !player.is_dead(); }) <= 0)
       m_state = KeyState::FOUND;
     break;
   case FOUND:
-    m_col.set_movement((m_my_door_pos - Vector(get_bbox().get_width() / 2.f, get_bbox().get_height() / 2.f) -
+    set_movement((m_my_door_pos - Vector(get_bbox().get_width() / 2.f, get_bbox().get_height() / 2.f) -
       (get_pos()))
       *glm::length((m_my_door_pos - get_bbox().get_middle())*0.003f));
     if (m_unlock_timer.check() || m_owner->is_dying())
@@ -149,7 +149,7 @@ Key::update(float dt_sec)
     }
     break;
   case USE:
-    m_col.set_movement(m_physic.get_movement(dt_sec));
+    set_movement(m_physic.get_movement(dt_sec));
     if (get_pos().y > Sector::get().get_height())
       remove_me();
     break;
@@ -187,7 +187,7 @@ Key::draw(DrawingContext& context)
     return;
 
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-  m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer+1);
+  m_lightsprite->draw(context.light(), m_bbox.get_middle(), m_layer+1);
 }
 
 ObjectSettings
@@ -215,8 +215,8 @@ Key::after_editor_set()
 void
 Key::update_pos()
 {
-  m_col.m_bbox.set_pos(m_owner->get_bbox().get_middle() -
-    Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f - 10.f));
+  m_bbox.set_pos(m_owner->get_bbox().get_middle() -
+    Vector(m_bbox.get_width() / 2.f, m_bbox.get_height() / 2.f - 10.f));
 }
 
 void

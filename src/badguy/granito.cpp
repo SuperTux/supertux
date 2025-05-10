@@ -41,7 +41,7 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   m_countMe = false;
 
   set_colgroup_active(COLGROUP_MOVING_STATIC);
-  m_col.set_unisolid(true);
+  set_unisolid(true);
 
   reader.get("detect-script", m_detect_script);
   reader.get("carried-script", m_carried_script);
@@ -211,7 +211,7 @@ HitResponse
 Granito::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (hit.top)
-    m_col.propagate_movement(m_col.get_movement());
+    propagate_movement(get_movement());
 
   if (hit.bottom)
   {
@@ -360,7 +360,7 @@ void
 Granito::update_hitbox()
 {
   WalkingBadguy::update_hitbox();
-  m_col.set_unisolid(true);
+  set_unisolid(true);
 }
 
 bool
@@ -383,7 +383,7 @@ Granito::try_wave()
 
   RaycastResult result = Sector::get().get_first_line_intersection(mid, plrmid, false, get_collision_object());
 
-  CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
+  MovingObject** resultobj = std::get_if<MovingObject*>(&result.hit);
   if (resultobj && *resultobj == player->get_collision_object())
   {
     // Only wave if facing player.
@@ -528,8 +528,8 @@ Granito::try_jump()
   }
   else
   {
-    auto result_obj = std::get_if<CollisionObject*>(&result.hit);
-    if (result_obj && !dynamic_cast<Granito*>(&(*result_obj)->get_parent()))
+    auto result_obj = std::get_if<MovingObject*>(&result.hit);
+    if (result_obj && !dynamic_cast<Granito*>(*result_obj))
       return false;
   }
 

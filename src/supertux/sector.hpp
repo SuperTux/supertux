@@ -180,12 +180,12 @@ public:
   CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
                                                              const Vector& line_end,
                                                              CollisionSystem::RaycastIgnore ignore,
-                                                             const CollisionObject* ignore_object) const;
+                                                             const MovingObject* ignore_object) const;
 
   CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
                                                              const Vector& line_end,
                                                              bool ignore_objects,
-                                                             const CollisionObject* ignore_object) const;
+                                                             const MovingObject* ignore_object) const;
 
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects = false, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;

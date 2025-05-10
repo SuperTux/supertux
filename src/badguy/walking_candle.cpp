@@ -71,7 +71,7 @@ HitResponse
 WalkingCandle::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto lantern = dynamic_cast<Lantern*>(&other);
-  if (lantern && !m_frozen) if (lantern->get_bbox().get_bottom() < m_col.m_bbox.get_top())
+  if (lantern && !m_frozen) if (lantern->get_bbox().get_bottom() < m_bbox.get_top())
   {
     lantern->add_color(m_lightcolor);
     run_dead_script();

@@ -389,8 +389,8 @@ Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
   Portable::grab(object, pos, dir_);
   if (m_frozen)
     BadGuy::grab(object, pos, dir_);
-  m_col.set_movement(pos - get_pos());
-  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
+  set_movement(pos - get_pos());
+  m_physic.set_velocity(get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   if (!m_frozen)
   {
@@ -442,7 +442,7 @@ Snail::ungrab(MovingObject& object, Direction dir_)
       else
       {
         float swimangle = player->get_swimming_angle();
-        m_col.m_bbox.move(Vector(std::cos(swimangle) * 48.f, std::sin(swimangle) * 48.f));
+        m_bbox.move(Vector(std::cos(swimangle) * 48.f, std::sin(swimangle) * 48.f));
         be_kicked(false);
         m_physic.set_velocity(SNAIL_KICK_SPEED * 1.5f * Vector(std::cos(swimangle), std::sin(swimangle)));
         m_dir = m_physic.get_velocity_x() > 0.f ? Direction::RIGHT : Direction::LEFT;

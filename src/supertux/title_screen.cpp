@@ -240,7 +240,7 @@ TitleScreen::update_level(float dt_sec)
   {
     if (auto tile = std::get_if<const Tile*>(&result.hit))
       shouldjump = !(*tile)->is_slope();
-    else if (auto obj = std::get_if<CollisionObject*>(&result.hit))
+    else if (auto obj = std::get_if<MovingObject*>(&result.hit))
       shouldjump = ((*obj)->get_group() == COLGROUP_STATIC ||
                     (*obj)->get_group() == COLGROUP_MOVING_STATIC);
   }

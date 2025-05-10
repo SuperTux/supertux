@@ -330,7 +330,7 @@ MrIceBlock::set_state(IceState state_)
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KICKSPEED : KICKSPEED);
     set_action("flat", m_dir, /* loops = */ -1);
     // We should slide above 1 block holes now.
-    m_col.m_bbox.set_size(34, 31.8f);
+    m_bbox.set_size(34, 31.8f);
     break;
   case ICESTATE_GRABBED:
     flat_timer.stop();
@@ -355,8 +355,8 @@ MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
   }
 
   Portable::grab(object, pos, dir_);
-  m_col.set_movement(pos - get_pos());
-  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
+  set_movement(pos - get_pos());
+  m_physic.set_velocity(get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   set_action("flat", m_dir, /* loops = */ -1);
   set_state(ICESTATE_GRABBED);
@@ -377,7 +377,7 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
   {
     // Move the ice cube slightly away to avoid instantly killing Tux.
     float swimangle = player->get_swimming_angle();
-    m_col.m_bbox.move(Vector(std::cos(swimangle) * 48.f, std::sin(swimangle) * 48.f));
+    m_bbox.move(Vector(std::cos(swimangle) * 48.f, std::sin(swimangle) * 48.f));
   }
   if (dir_ == Direction::UP) {
     m_physic.set_velocity_y(-KICKSPEED);

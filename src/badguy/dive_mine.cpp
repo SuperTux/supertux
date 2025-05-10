@@ -61,7 +61,7 @@ void
 DiveMine::explode()
 {
   remove_me();
-  Sector::get().add<Explosion>(m_col.m_bbox.get_middle(), EXPLOSION_STRENGTH_DEFAULT);
+  Sector::get().add<Explosion>(m_bbox.get_middle(), EXPLOSION_STRENGTH_DEFAULT);
   run_dead_script();
 }
 
@@ -122,8 +122,8 @@ DiveMine::draw(DrawingContext& context)
 
   m_ticking_glow->set_blend(Blend::ADD);
   m_ticking_glow->draw(context.light(),
-                       Vector(m_col.m_bbox.get_left() + m_col.m_bbox.get_width() / 2,
-                              m_col.m_bbox.get_top() - 8.f),
+                       Vector(m_bbox.get_left() + m_bbox.get_width() / 2,
+                              m_bbox.get_top() - 8.f),
                        m_layer, m_flip);
 }
 
@@ -162,7 +162,7 @@ DiveMine::active_update(float dt_sec)
     return;
   }
 
-  Vector dist = player->get_bbox().get_middle() - m_col.m_bbox.get_middle();
+  Vector dist = player->get_bbox().get_middle() - m_bbox.get_middle();
   if (m_chasing)
   {
     if (glm::length(dist) > s_trigger_radius) // Player is out of trigger radius.

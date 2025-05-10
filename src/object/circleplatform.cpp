@@ -24,7 +24,7 @@
 
 CirclePlatform::CirclePlatform(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/platforms/icebridge1.png", LAYER_OBJECTS, COLGROUP_STATIC),
-  start_position(m_col.m_bbox.p1()),
+  start_position(m_bbox.p1()),
   angle(0.0),
   radius(),
   speed(),
@@ -37,7 +37,7 @@ CirclePlatform::CirclePlatform(const ReaderMapping& reader) :
   reader.get("time", time, 0.0f);
   if (!Editor::is_active())
   {
-    m_col.m_bbox.set_pos(Vector(start_position.x + cosf(angle) * radius,
+    m_bbox.set_pos(Vector(start_position.x + cosf(angle) * radius,
                                 start_position.y + sinf(angle) * radius));
     initialize();
   }
@@ -75,8 +75,8 @@ CirclePlatform::update(float dt_sec)
     {
       Vector newpos(start_position.x + cosf(angle) * radius,
                     start_position.y + sinf(angle) * radius);
-      m_col.set_movement(newpos - get_pos());
-      m_col.propagate_movement(newpos - get_pos());
+      set_movement(newpos - get_pos());
+      propagate_movement(newpos - get_pos());
     }
   }
 }

@@ -98,7 +98,7 @@ NodeMarker::move_to(const Vector& pos)
     after->move_to(pos + (after->get_pos() - get_pos()));
 
   MovingObject::move_to(pos);
-  m_node->position = m_col.m_bbox.get_middle();
+  m_node->position = m_bbox.get_middle();
   update_node_times();
 }
 

@@ -26,7 +26,7 @@ SpecialRiser::SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> chil
 {
   m_child->set_pos(pos - Vector(0,32));
   set_pos(m_start_pos);
-  m_col.m_bbox.set_size(m_child->get_bbox().get_width(), 32);
+  m_bbox.set_size(m_child->get_bbox().get_width(), 32);
 
   // Initial update of child object, in case it's required to be visible.
   // For example, badguys.

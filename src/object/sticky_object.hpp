@@ -47,9 +47,9 @@ private:
   {
     for (auto& obj : Sector::get().get_objects_by_type<T>())
     {
-      if (m_col.m_bbox.grown(8.f).overlaps(obj.get_bbox()))
+      if (m_bbox.grown(8.f).overlaps(obj.get_bbox()))
       {
-        m_col.set_movement(obj.get_movement());
+        set_movement(obj.get_movement());
         if (!m_sticking)
         {
           m_displacement_from_owner = get_pos() - obj.get_pos();
@@ -97,9 +97,9 @@ private:
   {
     for (auto& obj : Sector::get().get_objects_by_type<T>())
     {
-      if (m_col.m_bbox.grown(8.f).overlaps(obj.get_bbox()))
+      if (m_bbox.grown(8.f).overlaps(obj.get_bbox()))
       {
-        m_col.set_movement(obj.get_movement());
+        set_movement(obj.get_movement());
         if (!m_sticking)
         {
           m_displacement_from_owner = get_pos() - obj.get_pos();

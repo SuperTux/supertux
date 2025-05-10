@@ -262,7 +262,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   SoundManager::current()->preload("sounds/grow.wav");
   m_bubble_timer.start(3.0f + graphicsRandom.randf(2));
 
-  m_col.set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
+  set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
 
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);
@@ -336,22 +336,22 @@ Player::move_to_sector(Sector& other)
 bool
 Player::adjust_height(float new_height, float bottom_offset)
 {
-  Rectf bbox2 = m_col.m_bbox;
-  bbox2.move(Vector(0, m_col.m_bbox.get_height() - new_height - bottom_offset));
+  Rectf bbox2 = m_bbox;
+  bbox2.move(Vector(0, m_bbox.get_height() - new_height - bottom_offset));
   bbox2.set_height(new_height);
 
 
-  if (new_height > m_col.m_bbox.get_height()) {
+  if (new_height > m_bbox.get_height()) {
     //Rectf additional_space = bbox2;
-    //additional_space.set_height(new_height - m_col.m_bbox.get_height());
+    //additional_space.set_height(new_height - m_bbox.get_height());
     if (!Sector::get().is_free_of_statics(bbox2, this, true))
       return false;
   }
 
   // adjust bbox accordingly
   // note that we use members of moving_object for this, so we can run this during CD, too
-  m_col.set_pos(bbox2.p1());
-  m_col.set_size(bbox2.get_width(), bbox2.get_height());
+  set_pos(bbox2.p1());
+  set_size(bbox2.get_width(), bbox2.get_height());
   return true;
 }
 
@@ -500,12 +500,12 @@ Player::update(float dt_sec)
 
     if ((m_swimming || m_water_jump) && is_big())
     {
-      m_col.set_size(TUX_WIDTH, TUX_WIDTH);
+      set_size(TUX_WIDTH, TUX_WIDTH);
       adjust_height(TUX_WIDTH);
     }
 
     Rectf swim_here_box = get_bbox();
-    swim_here_box.set_bottom(m_col.m_bbox.get_bottom() - 16.f);
+    swim_here_box.set_bottom(m_bbox.get_bottom() - 16.f);
     bool can_swim_here = !Sector::get().is_free_of_tiles(swim_here_box, true, Tile::WATER);
 
     if (m_swimming)
@@ -535,7 +535,7 @@ Player::update(float dt_sec)
         float rotated_beak_offset_x = beak_local_offset.x * std::cos(m_swimming_angle) - beak_local_offset.y * std::sin(m_swimming_angle);
         float rotated_beak_offset_y = beak_local_offset.x * std::sin(m_swimming_angle) + beak_local_offset.y * std::cos(m_swimming_angle);
 
-        Vector player_center = m_col.m_bbox.get_middle();
+        Vector player_center = m_bbox.get_middle();
         Vector beak_position;
 
         // Determine direction based on the radians
@@ -688,10 +688,10 @@ Player::update(float dt_sec)
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
   if (fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) {
-    m_col.set_width(RUNNING_TUX_WIDTH);
+    set_width(RUNNING_TUX_WIDTH);
   }
   else {
-    m_col.set_width(TUX_WIDTH);
+    set_width(TUX_WIDTH);
   }
 
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
@@ -759,7 +759,7 @@ Player::update(float dt_sec)
   }
 
   // calculate movement for this frame
-  m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0));
+  set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0));
 
   if (m_grabbed_object != nullptr && !m_dying)
   {
@@ -777,8 +777,8 @@ Player::update(float dt_sec)
   {
     if (graphicsRandom.rand(0, 2) == 0)
     {
-      float px = graphicsRandom.randf(m_col.m_bbox.get_left() + 0, m_col.m_bbox.get_right() - 0);
-      float py = graphicsRandom.randf(m_col.m_bbox.get_top() + 0, m_col.m_bbox.get_bottom() - 0);
+      float px = graphicsRandom.randf(m_bbox.get_left() + 0, m_bbox.get_right() - 0);
+      float py = graphicsRandom.randf(m_bbox.get_top() + 0, m_bbox.get_bottom() - 0);
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
@@ -976,7 +976,7 @@ Player::slide()
   //pre_slide helps us detect the ground where Tux is about to slide on because sometimes on_ground() doesn't work or isn't relevant
   Rectf pre_slide_box = get_bbox();
   float fast_fall_speed = m_physic.get_velocity_y() <= 400.f ? 0.f : m_physic.get_velocity_y()*0.03f;
-  pre_slide_box.set_bottom(m_col.m_bbox.get_bottom() + fast_fall_speed + 16.f);
+  pre_slide_box.set_bottom(m_bbox.get_bottom() + fast_fall_speed + 16.f);
   bool pre_slide = !Sector::get().is_free_of_statics(pre_slide_box);
 
   if (std::abs(m_physic.get_velocity_x()) > MAX_SLIDE_SPEED) {
@@ -1266,7 +1266,7 @@ Player::handle_horizontal_input()
         SoundManager::current()->play("sounds/skid.wav", get_pos());
         // dust some particles
         Sector::get().add<Particles>(
-            Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
+            Vector(m_dir == Direction::LEFT ? m_bbox.get_right() : m_bbox.get_left(), m_bbox.get_bottom()),
             m_dir == Direction::LEFT ? 50 : -70, m_dir == Direction::LEFT ? 70 : -50, 260.0f, 280.0f,
             Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
 
@@ -1349,9 +1349,9 @@ Player::do_standup(bool force_standup)
     return;
   }
 
-  Rectf new_bbox = m_col.m_bbox;
+  Rectf new_bbox = m_bbox;
   float new_height = m_swimming ? TUX_WIDTH : BIG_TUX_HEIGHT;
-  new_bbox.move(Vector(0, m_col.m_bbox.get_height() - new_height));
+  new_bbox.move(Vector(0, m_bbox.get_height() - new_height));
   new_bbox.set_height(new_height);
   if (!Sector::get().is_free_of_movingstatics(new_bbox, this) && !force_standup)
   {
@@ -1625,7 +1625,7 @@ Player::handle_input()
     if ((get_bonus() == BONUS_FIRE && active_bullets < MAX_FIRE_BULLETS) ||
         (get_bonus() == BONUS_ICE  && active_bullets < MAX_ICE_BULLETS))
     {
-      Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f);
+      Vector pos = get_pos() + Vector(m_bbox.get_width() / 2.f, m_bbox.get_height() / 2.f);
       Direction swim_dir;
       swim_dir = ((std::abs(m_swimming_angle) <= math::PI_2)
         || (m_water_jump && std::abs(m_physic.get_velocity_x()) < 10.f)) ? Direction::RIGHT : Direction::LEFT;
@@ -1677,9 +1677,9 @@ Player::handle_input()
     Rectf dest_;
     if (m_swimming || m_water_jump)
     {
-      dest_.set_bottom(m_col.m_bbox.get_bottom() + (std::sin(m_swimming_angle) * 32.f));
+      dest_.set_bottom(m_bbox.get_bottom() + (std::sin(m_swimming_angle) * 32.f));
       dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
-      dest_.set_left(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f));
+      dest_.set_left(m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f));
       dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
     }
     else
@@ -1687,21 +1687,21 @@ Player::handle_input()
       Rectf player_head_clear_box = get_bbox().grown(-2.f);
       player_head_clear_box.set_top(get_bbox().get_top() - 2.f);
       if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, moving_object, true)) {
-        dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+        dest_.set_bottom(m_bbox.get_top() + m_bbox.get_height() * 0.66666f);
       }
       else {
-        dest_.set_bottom(m_col.m_bbox.get_bottom() + 2.f);
+        dest_.set_bottom(m_bbox.get_bottom() + 2.f);
       }
       dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
 
       if (m_dir == Direction::LEFT)
       {
-        dest_.set_right(m_col.m_bbox.get_left() - 1);
+        dest_.set_right(m_bbox.get_left() - 1);
         dest_.set_left(dest_.get_right() - grabbed_bbox.get_width());
       }
       else
       {
-        dest_.set_left(m_col.m_bbox.get_right() + 1);
+        dest_.set_left(m_bbox.get_right() + 1);
         dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
       }
     }
@@ -1772,8 +1772,8 @@ Player::position_grabbed_object(bool teleport)
   if (!m_swimming && !m_water_jump)
   {
     // Position where we will hold the lower-inner corner
-    pos = Vector(m_col.m_bbox.get_left() + m_col.m_bbox.get_width() / 2,
-                 m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+    pos = Vector(m_bbox.get_left() + m_bbox.get_width() / 2,
+                 m_bbox.get_top() + m_bbox.get_height() * 0.66666f);
     // Adjust to find the grabbed object's upper-left corner
     if (m_dir == Direction::LEFT)
       pos.x -= object_bbox.get_width();
@@ -1781,8 +1781,8 @@ Player::position_grabbed_object(bool teleport)
   }
   else
   {
-    pos = Vector(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f),
-                 m_col.m_bbox.get_top() + (std::sin(m_swimming_angle) * 32.f));
+    pos = Vector(m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f),
+                 m_bbox.get_top() + (std::sin(m_swimming_angle) * 32.f));
   }
 
   if (teleport)
@@ -1801,17 +1801,17 @@ Player::try_grab()
     {
       if (m_dir == Direction::LEFT)
       {
-        pos = Vector(m_col.m_bbox.get_left() - 5, m_col.m_bbox.get_bottom() - 16);
+        pos = Vector(m_bbox.get_left() - 5, m_bbox.get_bottom() - 16);
       }
       else
       {
-        pos = Vector(m_col.m_bbox.get_right() + 5, m_col.m_bbox.get_bottom() - 16);
+        pos = Vector(m_bbox.get_right() + 5, m_bbox.get_bottom() - 16);
       }
     }
     else
     {
-      pos = Vector(m_col.m_bbox.get_left() + 16.f + (std::cos(m_swimming_angle) * 48.f),
-                   m_col.m_bbox.get_top() + 16.f + (std::sin(m_swimming_angle) * 48.f));
+      pos = Vector(m_bbox.get_left() + 16.f + (std::cos(m_swimming_angle) * 48.f),
+                   m_bbox.get_top() + 16.f + (std::sin(m_swimming_angle) * 48.f));
     }
 
     for (auto& moving_object : Sector::get().get_objects_by_type<MovingObject>())
@@ -2035,17 +2035,17 @@ Player::draw(DrawingContext& context)
   if (m_tag_alpha > 0.f)
   {
     context.color().draw_text(Resources::normal_font, std::to_string(get_id() + 1),
-                              m_col.m_bbox.get_middle() - Vector(0.f, Resources::normal_font->get_height() / 2.f),
+                              m_bbox.get_middle() - Vector(0.f, Resources::normal_font->get_height() / 2.f),
                               FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
                               Color(1.f, 1.f, 1.f, m_tag_alpha));
   }
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (m_col.m_bbox.get_bottom() - 16 < Sector::get().get_camera().get_translation().y) {
-    float px = m_col.m_bbox.get_left() + (m_col.m_bbox.get_right() - m_col.m_bbox.get_left() - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
+  if (m_bbox.get_bottom() - 16 < Sector::get().get_camera().get_translation().y) {
+    float px = m_bbox.get_left() + (m_bbox.get_right() - m_bbox.get_left() - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
     px += context.get_time_offset() * m_physic.get_velocity().x;
     float py = Sector::get().get_camera().get_translation().y;
-    py += std::min(((py - (m_col.m_bbox.get_bottom() + 16)) / 4), 16.0f);
+    py += std::min(((py - (m_bbox.get_bottom() + 16)) / 4), 16.0f);
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
   }
 
@@ -2326,11 +2326,11 @@ Player::collision_solid(const CollisionHit& hit)
       m_physic.set_velocity_y(-300);
       m_on_ground_flag = false;
       Sector::get().add<Particles>(
-        m_col.m_bbox.p2(),
+        m_bbox.p2(),
         50, 70, 260, 280, Vector(0, 300), 3,
         Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
       Sector::get().add<Particles>(
-        Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
+        Vector(m_bbox.get_left(), m_bbox.get_bottom()),
         -70, -50, 260, 280, Vector(0, 300), 3,
         Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
       Sector::get().get_camera().shake(.1f, 0.f, 10.f);
@@ -2523,13 +2523,13 @@ Player::set_pos(const Vector& vector)
 void
 Player::set_pos_reset(const Vector& vector)
 {
-  m_col.set_pos(vector);
+  set_pos(vector);
 
   // Reset size to get correct hitbox if Tux was eg. ducked before moving
   if (is_big())
-    m_col.set_size(TUX_WIDTH, BIG_TUX_HEIGHT);
+    set_size(TUX_WIDTH, BIG_TUX_HEIGHT);
   else
-    m_col.set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
+    set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
   m_duck = false;
   stop_backflipping();
   m_last_ground_y = vector.y;
@@ -2550,21 +2550,21 @@ Player::check_bounds()
   if (get_pos().x < 0) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the left side
-    m_col.set_pos(Vector(0, get_pos().y));
+    set_pos(Vector(0, get_pos().y));
   }
 
-  if (m_col.m_bbox.get_right() > Sector::get().get_width()) {
+  if (m_bbox.get_right() > Sector::get().get_width()) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the right side
-    m_col.set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(),
-                         m_col.m_bbox.get_top()));
+    set_pos(Vector(Sector::get().get_width() - m_bbox.get_width(),
+                         m_bbox.get_top()));
   }
 
   // If Tux is swimming, don't allow him to go below the sector
   if (m_swimming && !m_ghost_mode && is_alive()
-      && m_col.m_bbox.get_bottom() > Sector::get().get_height()) {
-    m_col.set_pos(Vector(m_col.m_bbox.get_left(),
-                         Sector::get().get_height() - m_col.m_bbox.get_height()));
+      && m_bbox.get_bottom() > Sector::get().get_height()) {
+    set_pos(Vector(m_bbox.get_left(),
+                         Sector::get().get_height() - m_bbox.get_height()));
   }
 
   /* fallen out of the level? */
@@ -2728,18 +2728,18 @@ Player::handle_input_climbing()
   float vx = 0;
   float vy = 0;
   auto obj_bbox = m_climbing->get_bbox();
-  if (m_controller->hold(Control::LEFT) && m_col.m_bbox.get_left() > obj_bbox.get_left()) {
+  if (m_controller->hold(Control::LEFT) && m_bbox.get_left() > obj_bbox.get_left()) {
     m_dir = Direction::LEFT;
     vx -= MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Control::RIGHT) && m_col.m_bbox.get_right() < obj_bbox.get_right()) {
+  if (m_controller->hold(Control::RIGHT) && m_bbox.get_right() < obj_bbox.get_right()) {
     m_dir = Direction::RIGHT;
     vx += MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Control::UP) && m_col.m_bbox.get_top() > obj_bbox.get_top()) {
+  if (m_controller->hold(Control::UP) && m_bbox.get_top() > obj_bbox.get_top()) {
     vy -= MAX_CLIMB_YM;
   }
-  if (m_controller->hold(Control::DOWN) && m_col.m_bbox.get_bottom() < obj_bbox.get_bottom()) {
+  if (m_controller->hold(Control::DOWN) && m_bbox.get_bottom() < obj_bbox.get_bottom()) {
     vy += MAX_CLIMB_YM;
   }
   if (m_controller->hold(Control::JUMP)) {

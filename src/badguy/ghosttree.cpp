@@ -118,7 +118,7 @@ GhostTree::active_update(float dt_sec)
       for (const auto& willo : willowisps) {
         if (willo->get_color() == col) {
           willo->start_sucking(
-            m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET
+            m_bbox.get_middle() + SUCK_TARGET_OFFSET
             + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
                      gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
         }
@@ -128,8 +128,8 @@ GhostTree::active_update(float dt_sec)
 
     if (willowisp_timer.check()) {
       if (willowisps.size() < WILLOWISP_COUNT) {
-        Vector pos(m_col.m_bbox.get_width() / 2,
-                   m_col.m_bbox.get_height() / 2 + (m_flip == NO_FLIP ? (willo_spawn_y + WILLOWISP_TOP_OFFSET) :
+        Vector pos(m_bbox.get_width() / 2,
+                   m_bbox.get_height() / 2 + (m_flip == NO_FLIP ? (willo_spawn_y + WILLOWISP_TOP_OFFSET) :
                                                                        -(willo_spawn_y + WILLOWISP_TOP_OFFSET + 32.0f)));
         auto& willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
         willowisps.push_back(&willowisp);
@@ -178,7 +178,7 @@ GhostTree::active_update(float dt_sec)
       // Suck in the lantern.
       assert (suck_lantern);
       Vector pos = suck_lantern->get_pos();
-      Vector delta = m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
+      Vector delta = m_bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
       if (glm::length(delta) < 1) {
         suck_lantern->ungrab(*this, Direction::RIGHT);
         suck_lantern->remove_me();
@@ -277,7 +277,7 @@ GhostTree::collision(MovingObject& other, const CollisionHit& )
 void
 GhostTree::spawn_lantern()
 {
-  Sector::get().add<Lantern>(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET);
+  Sector::get().add<Lantern>(m_bbox.get_middle() + SUCK_TARGET_OFFSET);
 }
 
 std::vector<Direction>

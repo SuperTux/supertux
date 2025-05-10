@@ -91,7 +91,7 @@ Coin::finish_construction()
     if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
       m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
-    set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
+    set_pos(m_path_handle.get_pos(m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
     get_walker()->jump_to_node(m_starting_node);
   }
 
@@ -106,16 +106,16 @@ Coin::update(float dt_sec)
     Vector v(0.0f, 0.0f);
     if (m_from_tilemap)
     {
-      v = m_offset + get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle);
+      v = m_offset + get_walker()->get_pos(m_bbox.get_size(), m_path_handle);
     }
     else
     {
       get_walker()->update(dt_sec);
-      v = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle);
+      v = get_walker()->get_pos(m_bbox.get_size(), m_path_handle);
     }
 
     if (get_path() && get_path()->is_valid()) {
-      m_col.set_movement(v - get_pos());
+      set_movement(v - get_pos());
     }
   }
 }
@@ -125,9 +125,9 @@ Coin::editor_update()
 {
   if (get_walker()) {
     if (m_from_tilemap) {
-      set_pos(m_offset + get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
+      set_pos(m_offset + get_walker()->get_pos(m_bbox.get_size(), m_path_handle));
     } else {
-      set_pos(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
+      set_pos(get_walker()->get_pos(m_bbox.get_size(), m_path_handle));
 
       if (!get_path()) return;
       if (!get_path()->is_valid()) return;
@@ -135,7 +135,7 @@ Coin::editor_update()
       if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
         m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
-      set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
+      set_pos(m_path_handle.get_pos(m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
     }
   }
 }
@@ -242,7 +242,7 @@ Coin::collision(MovingObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*>(&other);
   if (player == nullptr)
     return ABORT_MOVE;
-  if (m_col.get_bbox().overlaps(player->get_bbox().grown(-0.1f)))
+  if (get_bbox().overlaps(player->get_bbox().grown(-0.1f)))
     collect();
   return ABORT_MOVE;
 }
@@ -273,7 +273,7 @@ void
 HeavyCoin::update(float dt_sec)
 {
   // Enable physics.
-  m_col.set_movement(m_physic.get_movement(dt_sec));
+  set_movement(m_physic.get_movement(dt_sec));
 }
 
 void
@@ -312,7 +312,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
 void
 Coin::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_col.m_bbox.p1();
+  Vector shift = pos - m_bbox.p1();
   if (get_path()) {
     get_path()->move_by(shift);
   }
@@ -353,7 +353,7 @@ Coin::after_editor_set()
     }
   } else {
     if (m_add_path) {
-      init_path_pos(m_col.m_bbox.p1());
+      init_path_pos(m_bbox.p1());
     }
   }
 }

@@ -135,14 +135,14 @@ Haywire::active_update(float dt_sec)
     {
       //jump over 1-tall roadblocks
       Rectf jump_box = get_bbox();
-      jump_box.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -48.f : 38.f));
-      jump_box.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::RIGHT ? 48.f : -38.f));
+      jump_box.set_left(m_bbox.get_left() + (m_dir == Direction::LEFT ? -48.f : 38.f));
+      jump_box.set_right(m_bbox.get_right() + (m_dir == Direction::RIGHT ? 48.f : -38.f));
 
       Rectf exception_box = get_bbox();
-      exception_box.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -48.f : 38.f));
-      exception_box.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::RIGHT ? 48.f : -38.f));
-      exception_box.set_top(m_col.m_bbox.get_top() - 32.f);
-      exception_box.set_bottom(m_col.m_bbox.get_bottom() - 48.f);
+      exception_box.set_left(m_bbox.get_left() + (m_dir == Direction::LEFT ? -48.f : 38.f));
+      exception_box.set_right(m_bbox.get_right() + (m_dir == Direction::RIGHT ? 48.f : -38.f));
+      exception_box.set_top(m_bbox.get_top() - 32.f);
+      exception_box.set_bottom(m_bbox.get_bottom() - 48.f);
 
       if (!Sector::get().is_free_of_statics(jump_box) && Sector::get().is_free_of_statics(exception_box))
       {
@@ -153,10 +153,10 @@ Haywire::active_update(float dt_sec)
       {
         // Jump over gaps
         Rectf gap_box = get_bbox();
-        gap_box.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -38.f : 26.f));
-        gap_box.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::LEFT ? -26.f : 38.f));
-        gap_box.set_top(m_col.m_bbox.get_top());
-        gap_box.set_bottom(m_col.m_bbox.get_bottom() + 28.f);
+        gap_box.set_left(m_bbox.get_left() + (m_dir == Direction::LEFT ? -38.f : 26.f));
+        gap_box.set_right(m_bbox.get_right() + (m_dir == Direction::LEFT ? -26.f : 38.f));
+        gap_box.set_top(m_bbox.get_top());
+        gap_box.set_bottom(m_bbox.get_bottom() + 28.f);
 
         if (Sector::get().is_free_of_statics(gap_box))
         {
@@ -251,7 +251,7 @@ Haywire::kill_fall()
     else
     {
       remove_me();
-      Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+      Sector::get().add<Explosion>(m_bbox.get_middle(),
         EXPLOSION_STRENGTH_DEFAULT);
       run_dead_script();
     }

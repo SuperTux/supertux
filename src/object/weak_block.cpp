@@ -216,7 +216,7 @@ WeakBlock::draw(DrawingContext& context)
   MovingSprite::draw(context);
   if (m_type == HAY && (state != STATE_NORMAL))
   {
-    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+    lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
   }
 }
 
@@ -241,8 +241,8 @@ WeakBlock::spreadHit()
     for (auto& wb : Sector::get().get_objects_by_type<WeakBlock>()) {
       if (&wb != this && wb.state == STATE_NORMAL)
       {
-        const float dx = fabsf(wb.get_pos().x - m_col.m_bbox.get_left());
-        const float dy = fabsf(wb.get_pos().y - m_col.m_bbox.get_top());
+        const float dx = fabsf(wb.get_pos().x - m_bbox.get_left());
+        const float dy = fabsf(wb.get_pos().y - m_bbox.get_top());
         if ((dx <= 32.5f) && (dy <= 32.5f)) {
           wb.startBurning();
         }

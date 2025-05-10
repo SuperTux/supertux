@@ -43,7 +43,7 @@ UnstableTile::UnstableTile(const ReaderMapping& mapping, int type) :
   m_revive_timer(),
   m_respawn(),
   m_alpha(1.f),
-  m_original_pos(m_col.get_pos()),
+  m_original_pos(get_pos()),
   m_fall_timer(),
   m_player_hit(false)
 {
@@ -94,8 +94,8 @@ UnstableTile::collision(MovingObject& other, const CollisionHit& )
   {
     Player* player = dynamic_cast<Player*>(&other);
     if (player != nullptr &&
-       (player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA ||
-       player->get_bbox().get_top() < m_col.m_bbox.get_bottom() + SHIFT_DELTA))
+       (player->get_bbox().get_bottom() < m_bbox.get_top() + SHIFT_DELTA ||
+       player->get_bbox().get_top() < m_bbox.get_bottom() + SHIFT_DELTA))
     {
       if (m_type == DELAYED)
         m_player_hit = true;
@@ -161,7 +161,7 @@ UnstableTile::slow_fall()
     set_action("fall-down", /* loops = */ 1);
     physic.set_gravity_modifier(.10f);
     physic.enable_gravity(true);
-    m_original_pos = m_col.get_pos();
+    m_original_pos = get_pos();
     slowfall_timer = 0.5f; /* Fall slowly for half a second. */
   }
   else
@@ -195,8 +195,8 @@ UnstableTile::revive()
   set_group(COLGROUP_STATIC);
   physic.enable_gravity(false);
   physic.set_velocity(Vector(0.0f, 0.0f));
-  m_col.set_pos(m_original_pos);
-  m_col.set_movement(Vector(0.0f, 0.0f));
+  set_pos(m_original_pos);
+  set_movement(Vector(0.0f, 0.0f));
   m_revive_timer.stop();
   m_respawn.reset(new FadeHelper(&m_alpha, FADE_IN_TIME, 1.f));
   set_action("default");
@@ -229,13 +229,13 @@ UnstableTile::update(float dt_sec)
         else if (!m_fall_timer.started())
           m_fall_timer.start(FALL_TIME);
         else if (m_fall_timer.get_timegone() > CRACK_TIME) // Should perform shake animation.
-          m_col.set_pos(m_original_pos + Vector(static_cast<float>(graphicsRandom.rand(-3, 3)), 0.f));
+          set_pos(m_original_pos + Vector(static_cast<float>(graphicsRandom.rand(-3, 3)), 0.f));
       }
       else
       {
         set_action("default");
         m_fall_timer.stop();
-        m_col.set_pos(m_original_pos);
+        set_pos(m_original_pos);
       }
 
       m_player_hit = false; // To be updated next frame in collision().
@@ -259,7 +259,7 @@ UnstableTile::update(float dt_sec)
 	      slowfall_timer -= dt_sec;
       else /* Switch to normal falling procedure */
 	      fall_down();
-      m_col.set_movement(physic.get_movement(dt_sec));
+      set_movement(physic.get_movement(dt_sec));
       break;
 
     case STATE_FALL:
@@ -285,7 +285,7 @@ UnstableTile::update(float dt_sec)
       }
       else if (m_alpha > 0.f)
       {
-        m_col.set_movement(physic.get_movement(dt_sec));
+        set_movement(physic.get_movement(dt_sec));
       }
       else
       {

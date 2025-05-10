@@ -49,13 +49,13 @@ StickyObject::update(float dt_sec)
     if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
       !Sector::get().is_free_of_statics(large_overlap_box))
     {
-      m_col.set_movement(tm.get_movement(true));
+      set_movement(tm.get_movement(true));
       if (!m_sticking)
       {
         m_displacement_from_owner = get_pos() - tm.get_bbox().p1();
         m_sticking = true;
       }
-      m_col.set_pos(tm.get_bbox().p1() + m_displacement_from_owner);
+      set_pos(tm.get_bbox().p1() + m_displacement_from_owner);
       return;
     }
   }
@@ -79,7 +79,7 @@ StickyObject::get_settings()
 void
 StickyObject::move_for_owner(MovingObject& object)
 {
-  m_col.set_pos(object.get_pos() + m_displacement_from_owner);
+  set_pos(object.get_pos() + m_displacement_from_owner);
 }
 
 StickyBadguy::StickyBadguy(const ReaderMapping& mapping, const std::string& sprite_name, Direction default_direction, int layer, CollisionGroup collision_group) :
@@ -109,13 +109,13 @@ StickyBadguy::sticky_update(float dt_sec)
     if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
       !Sector::get().is_free_of_statics(large_overlap_box))
     {
-      m_col.set_movement(tm.get_movement(true));
+      set_movement(tm.get_movement(true));
       if (!m_sticking)
       {
         m_displacement_from_owner = get_pos() - tm.get_bbox().p1();
         m_sticking = true;
       }
-      m_col.set_pos(tm.get_bbox().p1() + m_displacement_from_owner);
+      set_pos(tm.get_bbox().p1() + m_displacement_from_owner);
       return;
     }
   }
@@ -139,7 +139,7 @@ StickyBadguy::get_settings()
 void
 StickyBadguy::move_for_owner(MovingObject& object)
 {
-  m_col.set_pos(object.get_pos() + m_displacement_from_owner);
+  set_pos(object.get_pos() + m_displacement_from_owner);
 }
 
 /* EOF */

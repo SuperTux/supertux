@@ -66,7 +66,7 @@ Firefly::draw(DrawingContext& context)
 
   if (m_sprite_name.find("torch", 0) != std::string::npos && (activated ||
         m_sprite->get_action() == "ringing")) {
-    m_sprite_light->draw(context.light(), m_col.m_bbox.get_middle() + (m_flip == NO_FLIP ? -TORCH_LIGHT_OFFSET : TORCH_LIGHT_OFFSET), 0);
+    m_sprite_light->draw(context.light(), m_bbox.get_middle() + (m_flip == NO_FLIP ? -TORCH_LIGHT_OFFSET : TORCH_LIGHT_OFFSET), 0);
   }
 }
 
@@ -109,7 +109,7 @@ Firefly::collision(MovingObject& other, const CollisionHit& )
     // Spawn some particles.
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 5; i++) {
-      Vector ppos = m_col.m_bbox.get_middle();
+      Vector ppos = m_bbox.get_middle();
       float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
       float velocity = graphicsRandom.randf(450.0f, 900.0f);
       float vx = sinf(angle)*velocity;

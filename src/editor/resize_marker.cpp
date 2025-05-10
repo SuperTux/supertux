@@ -21,7 +21,7 @@
 
 ResizeMarker::ResizeMarker(MovingObject* obj, Side vert, Side horz) :
   m_object(obj),
-  m_rect(&obj->m_col.m_bbox),
+  m_rect(&obj->m_bbox),
   m_vert(vert),
   m_horz(horz)
 {

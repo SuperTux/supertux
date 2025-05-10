@@ -84,7 +84,7 @@ ShortFuse::collision_player(Player& player, const CollisionHit&)
 void
 ShortFuse::freeze()
 {
-  m_col.m_bbox.move(Vector(0.f, -100.f));
+  m_bbox.move(Vector(0.f, -100.f));
   BadGuy::freeze();
 }
 

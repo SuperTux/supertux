@@ -85,7 +85,7 @@ FishChasing::active_update(float dt_sec) {
   // Behavior - chase the nearest player.
   auto player = get_nearest_player();
   if (!player) return;
-  const Vector p1 = m_col.m_bbox.get_middle();
+  const Vector p1 = m_bbox.get_middle();
   const Vector p2 = player->get_bbox().get_middle();
   const Vector dist = (p2 - p1);
   const bool is_player_in_water = player->is_swimming() || player->is_swimboosting() || player->is_water_jumping();

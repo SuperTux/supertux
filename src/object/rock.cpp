@@ -129,7 +129,7 @@ Rock::update(float dt_sec)
       }
     }
 
-    m_col.set_movement(m_physic.get_movement(dt_sec) *
+    set_movement(m_physic.get_movement(dt_sec) *
       Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f));
 
     const float sector_gravity = Sector::get().get_gravity();
@@ -256,7 +256,7 @@ Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
   Vector movement = pos - get_pos();
-  m_col.set_movement(movement);
+  set_movement(movement);
   m_last_movement = movement;
   set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
   m_on_ground = false;

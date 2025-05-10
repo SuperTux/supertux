@@ -33,7 +33,7 @@
 #include "video/drawing_target.hpp"
 
 class AutotileSet;
-class CollisionObject;
+class MovingObject;
 class CollisionGroundMovementManager;
 class DrawingContext;
 class Tile;
@@ -142,8 +142,8 @@ public:
 
   /** Called by the collision mechanism to indicate that this tilemap has been hit on
       the top, i.e. has hit a moving object on the bottom of its collision rectangle. */
-  void hits_object_bottom(CollisionObject& object);
-  void notify_object_removal(CollisionObject* other);
+  void hits_object_bottom(MovingObject& object);
+  void notify_object_removal(MovingObject* other);
 
   int get_layer() const override { return m_z_pos; }
   inline void set_layer(int layer) { m_z_pos = layer; }
@@ -324,7 +324,7 @@ private:
   Vector m_movement; /**< The movement that happened last frame */
 
   /** Objects that were touching the top of a solid tile at the last frame */
-  std::unordered_set<CollisionObject*> m_objects_hit_bottom;
+  std::unordered_set<MovingObject*> m_objects_hit_bottom;
 
   std::shared_ptr<CollisionGroundMovementManager> m_ground_movement_manager;
 

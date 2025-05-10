@@ -207,7 +207,7 @@ void
 MrBomb::explode()
 {
   remove_me();
-  Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+  Sector::get().add<Explosion>(m_bbox.get_middle(),
     EXPLOSION_STRENGTH_DEFAULT);
   run_dead_script();
 }
@@ -263,8 +263,8 @@ MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
   else if (dynamic_cast<Owl*>(&object))
     set_action(dir_);
 
-  m_col.set_movement(pos - get_pos());
-  m_physic.set_velocity(m_col.get_movement() * LOGICAL_FPS);
+  set_movement(pos - get_pos());
+  m_physic.set_velocity(get_movement() * LOGICAL_FPS);
   m_dir = dir_;
   set_colgroup_active(COLGROUP_DISABLED);
 }
@@ -360,7 +360,7 @@ MrBomb::update_ticking(float dt_sec)
   if (m_sprite->animation_done())
     kill_fall();
   else if (!is_grabbed())
-    m_col.set_movement(m_physic.get_movement(dt_sec));
+    set_movement(m_physic.get_movement(dt_sec));
 }
 
 /* EOF */

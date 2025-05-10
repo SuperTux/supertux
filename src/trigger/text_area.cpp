@@ -54,7 +54,7 @@ void
 TextArea::draw(DrawingContext& context)
 {
   if (Editor::is_active())
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 1.0f, 1.0f, 0.6f), LAYER_OBJECTS);
+    context.color().draw_filled_rect(m_bbox, Color(1.0f, 1.0f, 1.0f, 0.6f), LAYER_OBJECTS);
 }
 
 void

@@ -83,7 +83,7 @@ Switch::update(float dt_sec)
     case TURN_ON:
       if (m_sprite->animation_done()) {
         std::ostringstream location;
-        location << "switch" << m_col.m_bbox.p1();
+        location << "switch" << m_bbox.p1();
         Sector::get().run_script(m_script, location.str());
 
         set_action("on", m_dir, 1);
@@ -100,7 +100,7 @@ Switch::update(float dt_sec)
       if (m_sprite->animation_done()) {
         if (m_bistable) {
           std::ostringstream location;
-          location << "switch" << m_col.m_bbox.p1();
+          location << "switch" << m_bbox.p1();
           Sector::get().run_script(m_off_script, location.str());
         }
 

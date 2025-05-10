@@ -71,7 +71,7 @@ void
 ScriptTrigger::draw(DrawingContext& context)
 {
   if (Editor::is_active() || g_debug.show_collision_rects)
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(m_bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
 }
 

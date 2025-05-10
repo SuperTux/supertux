@@ -44,7 +44,7 @@ Block::Block(const Vector& pos, const std::string& sprite_file) :
   m_bounce_offset(0),
   m_original_y(-1)
 {
-  m_col.m_bbox.set_size(32, 32.1f);
+  m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
   SoundManager::current()->preload("sounds/upgrade.wav");
   SoundManager::current()->preload("sounds/brick.wav");
@@ -58,7 +58,7 @@ Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
   m_bounce_offset(0),
   m_original_y(-1)
 {
-  m_col.m_bbox.set_size(32, 32.1f);
+  m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
   SoundManager::current()->preload("sounds/upgrade.wav");
   SoundManager::current()->preload("sounds/brick.wav");
@@ -82,9 +82,9 @@ Block::collision(MovingObject& other, const CollisionHit& )
     else if (!player->is_water_jumping() && !player->is_swimming())
     {
       bool x_coordinates_intersect =
-        player->get_bbox().get_right() >= m_col.m_bbox.get_left() &&
-        player->get_bbox().get_left() <= m_col.m_bbox.get_right();
-      if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA &&
+        player->get_bbox().get_right() >= m_bbox.get_left() &&
+        player->get_bbox().get_left() <= m_bbox.get_right();
+      if (player->get_bbox().get_top() > m_bbox.get_bottom() - SHIFT_DELTA &&
           x_coordinates_intersect)
       {
         hit(*player);
@@ -99,7 +99,7 @@ Block::collision(MovingObject& other, const CollisionHit& )
   auto badguy = dynamic_cast<BadGuy*> (&other);
   auto portable = dynamic_cast<Portable*> (&other);
   bool is_portable = ((portable != nullptr) && portable->is_portable());
-  bool hit_mo_from_below = other.get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA;
+  bool hit_mo_from_below = other.get_bbox().get_bottom() < m_bbox.get_top() + SHIFT_DELTA;
   if (m_bouncing && (!is_portable || badguy) && hit_mo_from_below) {
 
     // Badguys get killed.
@@ -134,17 +134,17 @@ Block::update(float dt_sec)
   float offset = m_original_y - get_pos().y;
   if (offset > BOUNCY_BRICK_MAX_OFFSET) {
     m_bounce_dir = BOUNCY_BRICK_SPEED;
-    m_col.set_movement(Vector(0, m_bounce_dir * dt_sec));
+    set_movement(Vector(0, m_bounce_dir * dt_sec));
     if (m_breaking){
       break_me();
     }
   } else if (offset < BOUNCY_BRICK_SPEED * dt_sec && m_bounce_dir > 0) {
-    m_col.set_movement(Vector(0, offset));
+    set_movement(Vector(0, offset));
     m_bounce_dir = 0;
     m_bouncing = false;
     m_sprite->set_angle(0);
   } else {
-    m_col.set_movement(Vector(0, m_bounce_dir * dt_sec));
+    set_movement(Vector(0, m_bounce_dir * dt_sec));
   }
 }
 
@@ -152,7 +152,7 @@ void
 Block::start_bounce(MovingObject* hitter)
 {
   if (m_original_y == -1){
-    m_original_y = m_col.m_bbox.get_top();
+    m_original_y = m_bbox.get_top();
   }
   m_bouncing = true;
   m_bounce_dir = -BOUNCY_BRICK_SPEED;
@@ -161,7 +161,7 @@ Block::start_bounce(MovingObject* hitter)
   if (!hitter) return;
 
   float center_of_hitter = hitter->get_bbox().get_middle().x;
-  float offset = (m_col.m_bbox.get_middle().x - center_of_hitter)*2 / m_col.m_bbox.get_width();
+  float offset = (m_bbox.get_middle().x - center_of_hitter)*2 / m_bbox.get_width();
 
   // Without this, hitting a multi-coin bonus block from the side (e. g. with
   // an ice block or a snail) would turn the block 90 degrees.
