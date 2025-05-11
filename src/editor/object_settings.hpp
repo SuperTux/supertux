@@ -22,6 +22,7 @@
 #include <algorithm>
 
 #include "editor/object_option.hpp"
+#include "gui/menu_item.hpp"
 #include "object/path_walker.hpp"
 
 class Color;
@@ -148,7 +149,8 @@ public:
                 const std::vector<std::string>& filter = {},
                 const std::string& basedir = {},
                 bool path_relative_to_basedir = true,
-                unsigned int flags = 0);
+                unsigned int flags = 0,
+                const std::function<void (MenuItem&, const std::string&, bool)> item_processor = {});
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
   void add_string_array(const std::string& text, const std::string& key, std::vector<std::string>& items);
