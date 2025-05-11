@@ -128,7 +128,7 @@ public:
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC.
       Note that this does not include badguys or players. */
-  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr,
+  bool is_free_of_statics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore = {},
                           const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   /**
    * @scripting
@@ -149,7 +149,7 @@ public:
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
       This includes badguys and players. */
-  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore = {}) const;
   /**
    * @scripting
    * @description Checks if the specified sector-relative rectangle is free of both:
@@ -165,7 +165,7 @@ public:
 
   /** Checks if the specified rectangle is free of MovingObjects in COLGROUP_MOVINGSTATIC.
       Note that this does not include moving badguys, or players */
-  bool is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+  bool is_free_of_specifically_movingstatics(const Rectf& rect, const std::vector<const CollisionObject*>& objects_to_ignore = {}) const;
   /**
    * @scripting
    * @description Checks if the specified sector-relative rectangle is free of ""MovingObject""s in ""COLGROUP_MOVINGSTATIC"".
@@ -180,14 +180,14 @@ public:
   CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
                                                              const Vector& line_end,
                                                              CollisionSystem::RaycastIgnore ignore,
-                                                             const CollisionObject* ignore_object) const;
+                                                             const std::vector<const CollisionObject*>& objects_to_ignore) const;
 
   CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
                                                              const Vector& line_end,
                                                              bool ignore_objects,
-                                                             const CollisionObject* ignore_object) const;
+                                                             const std::vector<const CollisionObject*>& objects_to_ignore) const;
 
-  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects = false, const MovingObject* ignore_object = nullptr) const;
+  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects = false, const std::vector<const CollisionObject*>& objects_to_ignore = {}) const;
   bool can_see_player(const Vector& eye) const;
 
   Player* get_nearest_player(const Vector& pos) const;
