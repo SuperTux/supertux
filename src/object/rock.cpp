@@ -148,6 +148,20 @@ Rock::update(float dt_sec)
 }
 
 void
+Rock::handle_wind()
+{
+  if (!m_col.m_colliding_wind.empty())
+  {
+    if (m_on_ground && m_physic.get_wind_velocity_y() > 0.f)
+      m_physic.set_wind_velocity_y(0.f);
+  }
+  else {
+    m_physic.set_wind_velocity(Vector(0.f));
+    m_physic.set_wind_acceleration(0.0);
+  }
+}
+
+void
 Rock::collision_solid(const CollisionHit& hit)
 {
   if (is_grabbed()) {
@@ -163,7 +177,6 @@ Rock::collision_solid(const CollisionHit& hit)
   }
   if (hit.crush)
     m_physic.set_velocity(0, 0);
-
 
   if (hit.bottom && !m_on_ground && !is_grabbed() && !m_on_ice) {
     SoundManager::current()->play(ROCK_SOUND, get_pos());
@@ -316,20 +329,6 @@ Rock::get_settings()
   result.add_script(_("On-grab script"), &m_on_grab_script, "on-grab-script");
   result.add_script(_("On-ungrab script"), &m_on_ungrab_script, "on-ungrab-script");
   return result;
-}
-
-void
-Rock::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
-{
-  // only add velocity in the same direction as the wind
-  if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
-    m_physic.set_velocity_x(std::min(m_physic.get_velocity_x() + velocity.x, end_speed.x));
-  if (end_speed.x < 0 && m_physic.get_velocity_x() > end_speed.x)
-    m_physic.set_velocity_x(std::max(m_physic.get_velocity_x() + velocity.x, end_speed.x));
-  if (end_speed.y > 0 && m_physic.get_velocity_y() < end_speed.y)
-    m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
-  if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
-    m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
 }
 
 /* EOF */

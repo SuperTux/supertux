@@ -45,6 +45,7 @@ public:
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Wind)); }
 
   virtual ObjectSettings get_settings() override;
+  virtual GameObjectTypes get_types() const override;
 
   virtual void on_flip(float height) override;
 
@@ -69,6 +70,16 @@ public:
    * @description Returns the layer the wind particles are on.
    */
   virtual int get_layer() const override { return m_layer; }
+  
+private:
+  /** Get the relative wind strength at a specific location */
+  virtual float get_wind_strength(Vector pos);
+
+private:
+  enum Type {
+    WIND,
+    CURRENT,
+  };
 
 private:
   int m_layer;
@@ -78,6 +89,7 @@ private:
   Vector new_size;
 
   float dt_sec; /**< stores last dt_sec gotten at update() */
+  float feather_distance; /**< the distance tux must go into the wind to experience full force */
 
   bool affects_badguys; /**< whether the wind can affect badguys */
   bool affects_objects; /**< whether the wind can affect objects */
