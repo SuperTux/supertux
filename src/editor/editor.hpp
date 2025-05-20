@@ -51,6 +51,7 @@ class Editor final : public Screen,
 {
 public:
   static bool is_active();
+  inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
 
 private:
   static bool is_autosave_file(const std::string& filename) {
