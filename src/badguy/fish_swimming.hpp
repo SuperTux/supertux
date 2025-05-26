@@ -31,6 +31,7 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void active_update(float dt_sec) override;
+  virtual void after_editor_set() override;
 
   virtual void freeze() override;
   virtual void unfreeze(bool melt = true) override;

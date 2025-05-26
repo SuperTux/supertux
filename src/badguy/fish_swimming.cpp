@@ -79,6 +79,18 @@ FishSwimming::get_allowed_directions() const
   return { Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
 }
 
+void
+FishSwimming::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+
+  if (m_start_dir == Direction::RIGHT || m_start_dir == Direction::DOWN) {
+      set_action("swim-right");
+  } else {
+      set_action("swim-left");
+  }
+}
+
 ObjectSettings
 FishSwimming::get_settings()
 {
