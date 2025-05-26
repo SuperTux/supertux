@@ -22,10 +22,10 @@
 
 static const float DEFAULT_SPEED = 40.0f;
 static const float DEFAULT_TRACK_RANGE = 2500.0f;
-static const float RESPAWN_TIME = 5.0f;
+static const float RESPAWN_TIME = 4.0f;
 static const float DOWN_VELOCITY = 32.0f;
 static const float UP_VELOCITY = -256.0f;
-static const float UP_ACCELERATION = 256.0f;
+static const float UP_ACCELERATION = 512.0f;
 static const float VERT_OFFSET = 48.0f;
 
 Ghoul::Ghoul(const ReaderMapping& reader) :
@@ -65,6 +65,7 @@ Ghoul::active_update(float dt_sec)
   
   Vector p1 = get_bbox().get_middle();
   Vector p2 = player->get_bbox().get_middle();
+  p2.y -= 32; //a little offset, so he doesn't hit Tux from below
   Vector dist = p2 - p1;
   Direction new_dir = p2.x < p1.x ? Direction::LEFT : Direction::RIGHT;
   bool dir_changed = new_dir != m_dir;
