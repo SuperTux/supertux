@@ -344,7 +344,7 @@ Player::adjust_height(float new_height, float bottom_offset)
   if (new_height > m_col.m_bbox.get_height()) {
     //Rectf additional_space = bbox2;
     //additional_space.set_height(new_height - m_col.m_bbox.get_height());
-    if (!Sector::get().is_free_of_statics(bbox2, this, true))
+    if (!Sector::get().is_free_of_statics(bbox2, { get_collision_object() }, true))
       return false;
   }
 
@@ -1353,7 +1353,7 @@ Player::do_standup(bool force_standup)
   float new_height = m_swimming ? TUX_WIDTH : BIG_TUX_HEIGHT;
   new_bbox.move(Vector(0, m_col.m_bbox.get_height() - new_height));
   new_bbox.set_height(new_height);
-  if (!Sector::get().is_free_of_movingstatics(new_bbox, this) && !force_standup)
+  if (!Sector::get().is_free_of_movingstatics(new_bbox, { get_collision_object() }) && !force_standup)
   {
     m_crawl = true;
     return;
@@ -1686,7 +1686,7 @@ Player::handle_input()
     {
       Rectf player_head_clear_box = get_bbox().grown(-2.f);
       player_head_clear_box.set_top(get_bbox().get_top() - 2.f);
-      if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, moving_object, true)) {
+      if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, { moving_object->get_collision_object() }, true)) {
         dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
       }
       else {
@@ -1707,7 +1707,7 @@ Player::handle_input()
     }
 
     if (Sector::get().is_free_of_tiles(dest_, true) &&
-       Sector::get().is_free_of_statics(dest_, moving_object, true))
+       Sector::get().is_free_of_statics(dest_, { moving_object->get_collision_object() }, true))
     {
       moving_object->set_pos(dest_.p1());
       if (m_controller->hold(Control::UP))
