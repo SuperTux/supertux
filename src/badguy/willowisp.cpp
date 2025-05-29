@@ -53,7 +53,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   {
     reader.get("sector", m_target_sector);
     reader.get("spawnpoint", m_target_spawnpoint);
-  } else
+  }
+  else
   {
     reader.get("sector", m_target_sector, DEFAULT_SECTOR_NAME.c_str());
     reader.get("spawnpoint", m_target_spawnpoint, DEFAULT_SPAWNPOINT_NAME.c_str());
