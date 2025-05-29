@@ -203,11 +203,13 @@ WillOWisp::active_update(float dt_sec)
       if (glm::length(dist) > m_vanish_range)
       {
         vanish();
-      } else if (glm::length(dist) >= 1)
+      }
+      else if (glm::length(dist) >= 1)
       {
         Vector dir_ = glm::normalize(dist);
         m_col.set_movement(dir_ * dt_sec * m_flyspeed);
-      } else
+      }
+      else
       {
         /* We somehow landed right on top of the player without colliding.
          * Sit tight and avoid a division by zero. */
@@ -333,7 +335,8 @@ WillOWisp::collision_player(Player& player, const CollisionHit&)
   if (!m_hit_script.empty())
   {
     Sector::get().run_script(m_hit_script, "hit-script");
-  } else
+  }
+  else
   {
     GameSession::current()->respawn(m_target_sector, m_target_spawnpoint);
   }
