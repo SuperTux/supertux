@@ -316,7 +316,6 @@ Gradient::register_class(ssq::VM& vm)
   cls.addFunc("fade_color1", &Gradient::fade_color1, ssq::DefaultArguments<float>(1.f));
   cls.addFunc("fade_color2", &Gradient::fade_color2, ssq::DefaultArguments<float>(1.f));
   cls.addFunc("fade_colors", &Gradient::fade_colors, ssq::DefaultArguments<float, float>(1.f, 1.f));
-
   cls.addFunc("swap_colors", &Gradient::swap_colors);
 }
 
