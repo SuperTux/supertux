@@ -18,9 +18,9 @@
 
 #include <assert.h>
 #include <sexp/value.hpp>
+#include <fmt/format.h>
 
 #include "audio/sound_file.hpp"
-#include "fmt/format.h"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
