@@ -331,7 +331,7 @@ BadGuy::update(float dt_sec)
       if (m_state_timer.check())
         remove_me();
       else
-        m_sprite->set_alpha(m_alpha_before_fadeout - (m_alpha_before_fadeout * m_state_timer.get_progress()));
+        m_sprite->set_alpha(m_alpha_before_fadeout * (1.0f - m_state_timer.get_progress()));
       break;
     case STATE_MELTING: {
       m_is_active_flag = false;
