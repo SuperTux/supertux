@@ -303,7 +303,8 @@ Gradient::on_flip(float height)
 }
 
 void
-Gradient::register_class(ssq::VM& vm) {
+Gradient::register_class(ssq::VM& vm)
+{
   ssq::Class cls = vm.addAbstractClass<Gradient>("Gradient", vm.findClass("GameObject"));
 
   cls.addFunc<void, Gradient, const std::string&>("set_direction", &Gradient::set_direction);
