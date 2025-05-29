@@ -302,6 +302,7 @@ Gradient::on_flip(float height)
     std::swap(m_gradient_top, m_gradient_bottom);
 }
 
+
 void
 Gradient::register_class(ssq::VM& vm)
 {
@@ -309,7 +310,6 @@ Gradient::register_class(ssq::VM& vm)
 
   cls.addFunc<void, Gradient, const std::string&>("set_direction", &Gradient::set_direction);
   cls.addFunc("get_direction", &Gradient::get_direction_string);
-
   cls.addFunc("set_color1", &Gradient::set_color1, ssq::DefaultArguments<float>(1.f));
   cls.addFunc("set_color2", &Gradient::set_color2, ssq::DefaultArguments<float>(1.f));
   cls.addFunc("set_colors", &Gradient::set_colors, ssq::DefaultArguments<float, float>(1.f, 1.f));
