@@ -1,0 +1,22 @@
+(supertux-sprite
+  (action
+    (name "left")
+	(hitbox 15 12 70 8)
+    (images "blue_root-left.png")
+  )
+  (action
+    (name "up")
+	(hitbox 12 15 8 70)
+    (images "blue_root-up.png")
+  )
+  (action
+    (name "right")
+	(hitbox 11 12 70 8)
+    (mirror-action "left")
+  )
+  (action
+    (name "down")
+	(hitbox 12 11 8 70)
+    (flip-action "down")
+  )
+)
