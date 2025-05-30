@@ -24,7 +24,7 @@
 
 class Player;
 
-/** This class is the base class for crushers that tux can stand on */
+/** This class is the base class for crushers that Tux can stand on */
 class Crusher final : public MovingSprite
 {
 public:
@@ -90,9 +90,13 @@ public:
   inline bool is_big() const { return m_ic_size == LARGE; }
   inline CrusherState get_state() const { return m_state; }
 
+  inline bool is_sideways() { return m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT || m_dir == CrusherDirection::RIGHT; }
+
+  virtual void on_flip(float height) override;
+
 private:
   bool should_crush();
-  bool should_finish_crushing(const CollisionHit& hit);
+  bool should_finish_crushing(const CollisionHit& hit) const;
   bool has_recovered();
   Rectf get_detect_box(CrusherDirection dir = CrusherDirection::ALL);
 
@@ -100,11 +104,13 @@ private:
   static Direction direction_from_vector(const Vector& vec);
 
   void crush();
-  void crushed();
+  void crushed(const CollisionHit& hit_info);
+  void run_crush_script();
   void recover();
   void idle();
 
   void spawn_roots();
+  void spawn_particles(const CollisionHit& hit_info);
 
   inline std::string get_crush_sound() const;
 
@@ -125,6 +131,8 @@ private:
   SurfacePtr m_whites;
   SurfacePtr m_lefteye;
   SurfacePtr m_righteye;
+
+  std::string m_crush_script;
 
 private:
   Crusher(const Crusher&) = delete;

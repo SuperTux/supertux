@@ -26,11 +26,9 @@ class Root final : public BadGuy
 public:
   Root(const ReaderMapping& reader);
   Root(const Vector& pos, Direction dir, const std::string& sprite,
-       float delay = -1, bool play_sound = true, bool auto_construct = true);
+    float delay = -1, bool play_sound = true, bool auto_construct = true);
 
   void construct();
-  static bool try_spawn(const Vector& pos, const Direction& dir, std::string_view sprite);
-  static bool try_spawn(const Vector& pos, const Direction& dir, SpritePtr sprite);
 
   virtual void initialize() override;
   virtual void draw(DrawingContext& context) override;
