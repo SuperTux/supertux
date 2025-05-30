@@ -30,11 +30,9 @@
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
-namespace {
-
+namespace
+{
   const float MAX_SPEED = 16.0f;
-  static const float FORGIVENESS = 256.f; // 16.f * 16.f - half a tile by half a tile.
-
 } // namespace
 
 CollisionSystem::CollisionSystem(Sector& sector) :
