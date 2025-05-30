@@ -38,10 +38,10 @@ class VideoSystem : public Currenton<VideoSystem>
 {
 public:
   enum Enum {
-    VIDEO_AUTO,
+    VIDEO_SDL,
+    VIDEO_OPENGL_AUTO,
     VIDEO_OPENGL33CORE,
     VIDEO_OPENGL20,
-    VIDEO_SDL,
     VIDEO_NULL
   };
 
@@ -49,7 +49,14 @@ public:
 
   static Enum get_video_system(const std::string &video);
   static std::string get_video_string(Enum video);
-  static std::vector<std::string> get_available_video_systems();
+
+  struct Info final
+  {
+    const Enum value;
+    const std::string name;
+    const std::string description;
+  };
+  static std::vector<Info> get_available_video_systems();
 
 public:
   VideoSystem() {}
