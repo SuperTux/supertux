@@ -2585,6 +2585,13 @@ Player::add_velocity(const Vector& velocity)
 void
 Player::add_velocity(const Vector& velocity, const Vector& end_speed)
 {
+  const Vector new_speed = m_physic.get_velocity() + velocity;
+  if (glm::dot(velocity, end_speed - new_speed) < 0) { // Do we overshot the end_speed?
+    m_physic.set_velocity(end_speed);
+  } else {
+    m_physic.set_velocity(new_speed);
+  }
+  /*
   if (end_speed.x > 0)
     m_physic.set_velocity_x(std::min(m_physic.get_velocity_x() + velocity.x, end_speed.x));
   if (end_speed.x < 0)
@@ -2593,6 +2600,7 @@ Player::add_velocity(const Vector& velocity, const Vector& end_speed)
     m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
   if (end_speed.y < 0)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
+  */
 }
 
 void
