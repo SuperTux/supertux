@@ -8,9 +8,10 @@ else()
 
   add_library(LibOggVorbis INTERFACE IMPORTED)
   set_target_properties(LibOggVorbis PROPERTIES
-    INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${VORBIS_INCLUDE_DIR}"
+    INTERFACE_INCLUDE_DIRECTORIES "${VORBIS_INCLUDE_DIR}"
     INTERFACE_LINK_LIBRARIES "${OGGVORBIS_LIBRARIES}"
     )
+  target_include_directories(LibOggVorbis SYSTEM PRIVATE ${VORBIS_INCLUDE_DIR})
 
   mark_as_advanced(
     OGG_LIBRARY
