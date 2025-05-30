@@ -80,7 +80,7 @@ public:
   static std::string display_name() { return _("Crusher"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Crusher)); }
-  virtual void on_type_change(int old_type);
+  virtual void on_type_change(int old_type) override;
 
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override;

@@ -51,7 +51,6 @@ namespace
   constexpr float DETECT_RANGE = std::numeric_limits<float>::infinity();
 
   constexpr float MAX_CRUSH_SPEED = 700.f;
-  constexpr float POSITION_RESET_OFFSET = 2.6f;
 
   constexpr float RECOVER_SPEED_MULTIPLIER_NORMAL = 1.125f;
   constexpr float RECOVER_SPEED_MULTIPLIER_LARGE = 1.0f;
@@ -86,8 +85,8 @@ Crusher::Crusher(const ReaderMapping& reader) :
   m_ic_size(NORMAL),
   m_ic_type(ICE),
   m_start_position(get_bbox().p1()),
-  m_physic(),
   m_dir(CrusherDirection::DOWN),
+  m_physic(),
   m_dir_vector(get_direction_vector()),
   m_target(nullptr),
   m_whites(),
@@ -207,9 +206,7 @@ bool
 Crusher::has_recovered()
 {
   const float current_top = get_bbox().get_top();
-  const float current_bottom = get_bbox().get_bottom();
   const float current_left = get_bbox().get_left();
-  const float current_right = get_bbox().get_right();
   Vector current_pos = get_pos();
 
   // Defines the zone around m_start_position to consider recovered.
@@ -481,6 +478,10 @@ Crusher::spawn_roots()
       pos1 = get_bbox().get_top();
       pos2 = get_bbox().get_bottom();
       break;
+    case Direction::AUTO:
+    case Direction::NONE:
+    default:
+      return;
   }
 
   *(axis == &pos.y ? &pos.x : &pos.y) = origin;
@@ -562,14 +563,14 @@ Crusher::idle()
   m_physic.set_acceleration(Vector(0.f, 0.f));
 
   Vector final_pos = m_start_position;
-  if (std::abs(m_dir_vector.x) > 0.1f) // Horizontal
+  if (std::abs(m_dir_vector.x) > 0.01f) // Horizontal
   {
-    final_pos.x = m_start_position.x - m_dir_vector.x * POSITION_RESET_OFFSET;
+    final_pos.x = m_start_position.x - m_dir_vector.x;
     final_pos.y = m_start_position.y;
   }
-  else if (std::abs(m_dir_vector.y) > 0.1f) // Vertical
+  else if (std::abs(m_dir_vector.y) > 0.01f) // Vertical
   {
-    final_pos.y = m_start_position.y - m_dir_vector.y * POSITION_RESET_OFFSET;
+    final_pos.y = m_start_position.y - m_dir_vector.y;
     final_pos.x = m_start_position.x;
   }
 
@@ -621,7 +622,7 @@ Crusher::eye_position(bool right) const
 
     case CRUSHING:
     {
-      const float step = m_sprite->get_width() / 64.f * 2.f;
+      const float step = static_cast<float>(m_sprite->get_width()) / 64.f * 2.f;
       const float x = (right == (m_dir_vector.x < 0) ? 2 : 1) * step;
 
       return Vector(x * m_dir_vector.x,
@@ -789,12 +790,12 @@ Crusher::update(float dt_sec)
       Rectf break_box = base_box;
 
       if (m_dir_vector.y > 0.5f) // Down
-      { 
+      {
         break_box.set_top(base_box.get_bottom());
         break_box.set_bottom(base_box.get_bottom() + BRICK_BREAK_PROBE_DISTANCE);
       }
       else if (m_dir_vector.y < -0.5f) // Up
-      { 
+      {
         break_box.set_top(base_box.get_top() - BRICK_BREAK_PROBE_DISTANCE);
         break_box.set_bottom(base_box.get_top());
       }
@@ -809,39 +810,43 @@ Crusher::update(float dt_sec)
         break_box.set_right(base_box.get_right() + BRICK_BREAK_PROBE_DISTANCE);
       }
 
-      for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
-        if (break_box.overlaps(brick.get_bbox())) {
-          if (brick.get_class_name() != "heavy-brick") {
+      for (auto& brick : Sector::get().get_objects_by_type<Brick>())
+      {
+        if (break_box.overlaps(brick.get_bbox()))
+        {
+          if (brick.get_class_name() != "heavy-brick")
+          {
             brick.break_for_crusher(this);
           }
-          else {
-            if (is_big()) {
+          else
+          {
+            if (is_big())
+            {
               brick.break_for_crusher(this);
             }
           }
         }
       }
-    }
 
-    Vector current_velocity = m_physic.get_velocity();
-    if (m_dir_vector.x != 0.f) // Horizontal
-    { 
-      if (std::abs(current_velocity.x) > MAX_CRUSH_SPEED)
+      Vector current_velocity = m_physic.get_velocity();
+      if (m_dir_vector.x != 0.f) // Horizontal
       {
-        current_velocity.x = std::copysign(MAX_CRUSH_SPEED, current_velocity.x);
-        m_physic.set_velocity(current_velocity);
+        if (std::abs(current_velocity.x) > MAX_CRUSH_SPEED)
+        {
+          current_velocity.x = std::copysign(MAX_CRUSH_SPEED, current_velocity.x);
+          m_physic.set_velocity(current_velocity);
+        }
       }
-    }
-    if (m_dir_vector.y != 0.f) // Vertical
-    { 
-      if (std::abs(current_velocity.y) > MAX_CRUSH_SPEED)
+      if (m_dir_vector.y != 0.f) // Vertical
       {
-        current_velocity.y = std::copysign(MAX_CRUSH_SPEED, current_velocity.y);
-        m_physic.set_velocity(current_velocity);
+        if (std::abs(current_velocity.y) > MAX_CRUSH_SPEED)
+        {
+          current_velocity.y = std::copysign(MAX_CRUSH_SPEED, current_velocity.y);
+          m_physic.set_velocity(current_velocity);
+        }
       }
+      break;
     }
-    break;
-
     case DELAY:
       if (m_state_timer.check())
       {
