@@ -91,6 +91,9 @@ jobs:
           mkdir "build"
           cd "build"
           # TODO add -DGLBINDING_ENABLED=$USE_GLBINDING
+          # NOTE: The `WERROR` flag is set to OFF in order to work around issues
+          #       where said flag applied to system includes as well, causing the
+          #       builds to fail. This issue requires further investigation!
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH -DBUILD_TESTS=ON       \
                    -DWARNINGS=ON -DWERROR=OFF -DGLBINDING_ENABLED=$GLBINDING    \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
