@@ -28,6 +28,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/physic.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -132,6 +133,25 @@ Wind::draw(DrawingContext& context)
   }
 }
 
+Vector
+Wind::get_induced_acceleration(const MovingObject* other, const Physic& physic)
+{
+  const float coef = 1/28.8;
+  const Vector rel_speed = speed - physic.get_velocity();
+  if (rel_speed.x == 0 && rel_speed.y == 0) {
+    return rel_speed; // no relative movement = no drag = no force = no acceleration
+  }
+  const float v2 = glm::length2(rel_speed);
+  const float v = std::sqrt(v2);
+  // "length" of the object in the direction of the wind
+  const float l = other->get_bbox().get_width() * std::fabs(rel_speed.x / v)
+                + other->get_bbox().get_height() * std::fabs(rel_speed.y / v);
+  // induced acceleration
+  const float a = coef * v2 / l;
+  return a * (rel_speed / v);
+}
+
+
 HitResponse
 Wind::collision(MovingObject& other, const CollisionHit& )
 {
@@ -141,7 +161,8 @@ Wind::collision(MovingObject& other, const CollisionHit& )
   if (player && affects_player)
   {
     player->override_velocity();
-    if (!player->on_ground())
+    player->add_velocity(get_induced_acceleration(player, player->get_physic()) * dt_sec, speed);
+    /*if (!player->on_ground())
 	  {
       player->add_velocity(speed * acceleration * dt_sec, speed);
     }
@@ -156,19 +177,19 @@ Wind::collision(MovingObject& other, const CollisionHit& )
 	      // When on ground, get blown slightly differently, but the max speed is less than it would be otherwise seen as we take "friction" into account
 	      player->add_velocity((Vector(speed.x, 0) * 0.1f) * (acceleration+1), (Vector(speed.x, speed.y) * 0.5f));
 	    }
-    }
+    }*/
   }
 
   auto badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy && affects_badguys && badguy->can_be_affected_by_wind())
   {
-    badguy->add_wind_velocity(speed * acceleration * dt_sec, speed);
+    badguy->add_wind_velocity(get_induced_acceleration(badguy, badguy->get_physic()) * dt_sec, speed);
   }
 
   auto rock = dynamic_cast<Rock*>(&other);
   if (rock && affects_objects)
   {
-    rock->add_wind_velocity(speed * acceleration * dt_sec, speed);
+    rock->add_wind_velocity(get_induced_acceleration(rock, rock->get_physic()) * dt_sec, speed);
   }
 
   return ABORT_MOVE;

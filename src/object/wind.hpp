@@ -21,6 +21,7 @@
 
 #include "video/layer.hpp"
 
+class Physic;
 class ReaderMapping;
 
 /** Defines an area that will gently push Players in one direction */
@@ -74,7 +75,7 @@ private:
   int m_layer;
   bool blowing; /**< true if wind is currently switched on */
   Vector speed;
-  float acceleration;
+  float acceleration; // legacy value
   Vector new_size;
 
   float dt_sec; /**< stores last dt_sec gotten at update() */
@@ -84,6 +85,8 @@ private:
   bool affects_player; /**< whether the wind can affect the player: useful for cinematic wind */
   bool fancy_wind;
   bool particles_enabled;
+  
+  Vector get_induced_acceleration(const MovingObject* other, const Physic& physic);
 
 private:
   Wind(const Wind&) = delete;
