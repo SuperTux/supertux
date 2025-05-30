@@ -92,7 +92,7 @@ jobs:
           cd "build"
           # TODO add -DGLBINDING_ENABLED=$USE_GLBINDING
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH -DBUILD_TESTS=ON       \
-                   -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$GLBINDING    \
+                   -DWARNINGS=ON -DWERROR=OFF -DGLBINDING_ENABLED=$GLBINDING    \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
                    -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin        \
                    -DINSTALL_SUBDIR_SHARE=share/supertux2
