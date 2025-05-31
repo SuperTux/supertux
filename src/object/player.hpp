@@ -392,6 +392,17 @@ public:
 
   /**
    * @scripting
+   * @description Enables Tux's fancy idle animations.
+   */ 
+  inline void enable_fancy_idling() { m_should_fancy_idle = true; }
+  /**
+   * @scripting
+   * @description Disables Tux's fancy idle animations.
+   */
+  inline void disable_fancy_idling() { m_should_fancy_idle = false; }
+
+  /**
+   * @scripting
    * @description Gets whether the current input on the keyboard/controller/touchpad has been pressed.
    * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, "item", “start”, “escape”,
       “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
@@ -611,6 +622,8 @@ private:
   SpritePtr m_bubbles_sprite; /**< bubble particles sprite for swimming */
   Timer m_bubble_timer; /**< timer for spawning bubble particles */
   std::list<std::pair<SpritePtr, Vector>> m_active_bubbles; /**< active bubble particles */
+
+  bool m_should_fancy_idle;
 
   Vector m_floor_normal;
 
