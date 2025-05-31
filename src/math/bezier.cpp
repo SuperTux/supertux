@@ -54,10 +54,10 @@ Bezier::get_length(const Vector& p1, const Vector& p2, const Vector& p3,
 
   for (int i = 1; i <= steps; i++)
   {
-    length += glm::length(
+    length += (
                 get_point(p1, p2, p3, p4, static_cast<float>(i) / fteps) -
                 get_point(p1, p2, p3, p4, static_cast<float>(i - 1) / fteps)
-              );
+              ).length();
   }
 
   return length;
@@ -76,7 +76,7 @@ Bezier::get_point_at_length(const Vector& p1, const Vector& p2, const Vector& p3
   {
     Vector lastpos = get_point(p1, p2, p3, p4, static_cast<float>(i) / fteps);
     Vector pos     = get_point(p1, p2, p3, p4, static_cast<float>(i - 1) / fteps);
-    float step = glm::length(lastpos - pos);
+    float step = (lastpos - pos).length();
     length -= step;
 
     if (length <= 0)

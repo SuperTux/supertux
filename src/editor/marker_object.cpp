@@ -44,7 +44,7 @@ MarkerObject::draw(DrawingContext& context)
     context.color().draw_filled_rect(m_col.m_bbox, Color(1, 1, 1, 0.5), 7.5, LAYER_GUI-20);
   } else {
     // draw a triangle
-    dir = 8.0f * glm::normalize(dir);
+    dir = dir.normalize() * 8.0f;
     Vector dir2 = Vector(-dir.y, dir.x);
     Vector pos = m_col.m_bbox.get_middle();
     context.color().draw_triangle(pos + dir * 1.5f, pos - dir + dir2, pos - dir - dir2,

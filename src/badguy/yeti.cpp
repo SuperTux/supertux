@@ -127,8 +127,8 @@ Yeti::active_update(float dt_sec)
   Boss::boss_update(dt_sec);
   auto player = get_nearest_player();
 
-  float push_distance;
-  push_distance = player ? (glm::length(get_bbox().get_middle() - player->get_bbox().get_middle())) : 0.f;
+  Vector diff = get_bbox().get_middle() - player->get_bbox().get_middle();
+  float push_distance = player ? diff.length() : 0.f;
 
   if (on_ground() && (m_state == BE_ANGRY || m_state == THROW) && push_distance <= 160.f && m_physic.get_velocity_x() == 0.f)
   {
@@ -249,8 +249,7 @@ Yeti::active_update(float dt_sec)
       if (push_distance < 160.f && player)
       {
         if (!m_grabbed_tux) {
-          player->get_physic().set_velocity(5.f * Vector(get_bbox().get_middle().x - player->get_bbox().get_middle().x,
-                                                         get_bbox().get_middle().y - player->get_bbox().get_middle().y));
+          player->get_physic().set_velocity(diff * 5.f);
         }
         if (!m_grabbed_tux && push_distance < 10.f)
         {

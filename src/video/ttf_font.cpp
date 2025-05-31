@@ -126,7 +126,7 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
       else if (alignment == ALIGN_RIGHT)
         new_pos.x -= width;
 
-      new_pos = glm::floor(new_pos);
+      new_pos = new_pos.floor();
 
       if (new_pos.x < min_x)
         min_x = new_pos.x;

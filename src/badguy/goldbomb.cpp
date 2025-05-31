@@ -136,7 +136,7 @@ GoldBomb::active_update(float dt_sec)
   const Vector vecdist = p2-p1;
 
   // But I only react to those who are in realize distance
-  if (glm::length(vecdist) > REALIZE_DIST && m_state == MB_STATE_NORMAL)
+  if (vecdist.length() > REALIZE_DIST && m_state == MB_STATE_NORMAL)
     return;
 
   // Someone's around!

@@ -37,10 +37,10 @@ CoinExplode::update(float )
 
   // Each coin in the explosion has a different velocity.
   static std::list<Vector> coin_velocities = {
-    { 2.5, -4.5 }, { 2, -5 },
-    { 1.5, -5.5 }, { 1, -6 }, { 0.5, -6.5 },
-    { -2.5, -4.5 }, { -2, -5 },
-    { -1.5, -5.5 }, { -1, -6 }, { -0.5, -6.5 }
+    { 2.5f, -4.5f }, { 2.f, -5.f },
+    { 1.5f, -5.5f }, { 1.f, -6.f }, { 0.5f, -6.5f },
+    { -2.5f, -4.5f }, { -2.f, -5.f },
+    { -1.5f, -5.5f }, { -1.f, -6.f }, { -0.5f, -6.5f }
   };
 
   for(const auto& vector: coin_velocities)
