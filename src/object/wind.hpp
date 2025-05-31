@@ -45,7 +45,8 @@ public:
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Wind)); }
 
   virtual ObjectSettings get_settings() override;
-
+  virtual GameObjectTypes get_types() const override;
+  
   virtual void on_flip(float height) override;
 
   /**
@@ -85,6 +86,11 @@ private:
   bool fancy_wind;
   bool particles_enabled;
 
+  enum Type {
+    WIND,
+    CURRENT,
+  };
+  
 private:
   Wind(const Wind&) = delete;
   Wind& operator=(const Wind&) = delete;
