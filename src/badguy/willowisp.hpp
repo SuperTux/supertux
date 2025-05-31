@@ -69,6 +69,7 @@ public:
   static std::string display_name() { return _("Will o' Wisp"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(PathObject)).add(typeid(WillOWisp)); }
+  virtual void editor_update() override;
 
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
