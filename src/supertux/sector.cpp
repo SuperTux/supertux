@@ -551,7 +551,7 @@ Sector::is_free_of_statics(float left, float top, float right, float bottom,
 }
 
 bool
-Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object, bool ignore_unisolid) const
+Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object, const bool ignore_unisolid) const
 {
   return m_collision_system->is_free_of_movingstatics(rect,
                                                       ignore_object ? ignore_object->get_collision_object() : nullptr,
@@ -561,7 +561,7 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 bool
 Sector::is_free_of_movingstatics(float left, float top, float right, float bottom) const
 {
-  return m_collision_system->is_free_of_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
+  return m_collision_system->is_free_of_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr, false);
 }
 
 bool
