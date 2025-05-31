@@ -249,7 +249,7 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     Sector::get().run_script(m_carried_script, "carried-script");
   }
 
-  if (movingobject->get_group() == COLGROUP_MOVING_STATIC &&
+  if (other.get_group() == COLGROUP_MOVING_STATIC &&
       m_dir == Direction::LEFT ? hit.left : hit.right)
   {
     turn(invert_dir(m_dir));
