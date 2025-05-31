@@ -116,7 +116,6 @@ Wind::update(float dt_sec_)
   Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.get_left() + 8, m_col.m_bbox.get_right() - 8), graphicsRandom.randf(m_col.m_bbox.get_top() + 8, m_col.m_bbox.get_bottom() - 8));
   Vector pspeed = Vector(graphicsRandom.randf(speed.x - 20, speed.x + 20), graphicsRandom.randf(speed.y - 20, speed.y + 20));
 
-  // TODO: Rotate sprite rather than just use 2 different actions
   // Approx. 1 particle per tile
   if (graphicsRandom.randf(0.f, 100.f) < (m_col.m_bbox.get_width() / 32.f) * (m_col.m_bbox.get_height() / 32.f))
   {
