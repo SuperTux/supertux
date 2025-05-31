@@ -35,21 +35,20 @@ public:
   /// Sets velocity to a fixed value.
   inline void set_velocity(float nvx, float nvy)
   {
-    vx = nvx;
-    vy = nvy;
+    v = Vector(nvx, nvy);
   }
   void set_velocity(const Vector& vector);
 
-  inline void set_velocity_x(float nvx) { vx = nvx; }
-  inline void set_velocity_y(float nvy) { vy = nvy; }
+  inline void set_velocity_x(float nvx) { v.x = nvx; }
+  inline void set_velocity_y(float nvy) { v.y = nvy; }
 
   /// Velocity inversion.
-  void inverse_velocity_x() { vx = -vx; }
-  void inverse_velocity_y() { vy = -vy; }
+  void inverse_velocity_x() { v.x = -v.x; }
+  void inverse_velocity_y() { v.y = -v.y; }
 
-  inline Vector get_velocity() const { return Vector(vx, vy); }
-  inline float get_velocity_x() const { return vx; }
-  inline float get_velocity_y() const { return vy; }
+  inline Vector get_velocity() const { return v; }
+  inline float get_velocity_x() const { return v.x; }
+  inline float get_velocity_y() const { return v.y; }
 
   /// Set acceleration.
   /** Sets acceleration applied to the object. (Note that gravity is
@@ -57,17 +56,16 @@ public:
    */
   inline void set_acceleration(float nax, float nay)
   {
-    ax = nax;
-    ay = nay;
+    a = Vector(nax, nay);
   }
   void set_acceleration(const Vector& vector);
 
-  inline void set_acceleration_x(float nax) { ax = nax; }
-  inline void set_acceleration_y(float nay) { ay = nay; }
+  inline void set_acceleration_x(float nax) { a.x = nax; }
+  inline void set_acceleration_y(float nay) { a.y = nay; }
 
-  inline Vector get_acceleration() const { return Vector(ax, ay); }
-  inline float get_acceleration_x() const { return ax; }
-  inline float get_acceleration_y() const { return ay; }
+  inline Vector get_acceleration() const { return a; }
+  inline float get_acceleration_x() const { return a.x; }
+  inline float get_acceleration_y() const { return a.y; }
 
   /// Enables or disables handling of gravity.
   inline void enable_gravity(bool enable) { gravity_enabled_flag = enable; }
@@ -79,13 +77,18 @@ public:
   inline float get_gravity_modifier() const { return gravity_modifier; }
 
   Vector get_movement(float dt_sec);
+  
+  // Accelerate the object but prevent overshooting the target velocity
+  void accelerate(const Vector& acceleration, float dt_sec, const Vector& target_velocity);
+  void accelerate_x(float acceleration, float dt_sec, float target_velocity);
+  void accelerate_y(float acceleration, float dt_sec, float target_velocity);
 
 private:
   /** horizontal and vertical acceleration */
-  float ax, ay;
+  Vector a;
 
   /** horizontal and vertical velocity */
-  float vx, vy;
+  Vector v;
 
   /** should we respect gravity in our calculations? */
   bool gravity_enabled_flag;

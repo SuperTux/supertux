@@ -20,8 +20,8 @@
 #include "supertux/sector.hpp"
 
 Physic::Physic() :
-  ax(0), ay(0),
-  vx(0), vy(0),
+  a(0, 0),
+  v(0, 0),
   gravity_enabled_flag(true),
   gravity_modifier(1.0f)
 {
@@ -30,22 +30,20 @@ Physic::Physic() :
 void
 Physic::reset()
 {
-  ax = ay = vx = vy = 0;
+  a.x = a.y = v.x = v.y = 0;
   gravity_enabled_flag = true;
 }
 
 void
 Physic::set_velocity(const Vector& vector)
 {
-  vx = vector.x;
-  vy = vector.y;
+  v = vector;
 }
 
 void
 Physic::set_acceleration(const Vector& vector)
 {
-  ax = vector.x;
-  ay = vector.y;
+  a = vector;
 }
 
 Vector
@@ -56,11 +54,47 @@ Physic::get_movement(float dt_sec)
   // Semi-implicit Euler integration
   // with constant acceleration, this will result in a position delta of
   // v t + .5 a t (t+dt_sec) at total time t
-  vx += ax * dt_sec;
-  vy += (ay + grav) * dt_sec;
-  Vector result(vx * dt_sec, vy * dt_sec);
+  v.x += a.x * dt_sec;
+  v.y += (a.y + grav) * dt_sec;
+  Vector result(v.x * dt_sec, v.y * dt_sec);
 
   return result;
+}
+
+void
+Physic::accelerate(const Vector& acceleration, float dt_sec, const Vector& target_velocity)
+{
+  const Vector v_contr = acceleration * dt_sec;
+  const Vector new_v = v + v_contr;
+  if (glm::dot(v_contr, target_velocity - new_v) < 0) {
+    v = target_velocity; // overshot detected, trimming velocity
+  } else {
+    v = new_v;
+  }
+}
+
+void
+Physic::accelerate_x(float acceleration, float dt_sec, float target_velocity)
+{
+  const float v_contr = acceleration * dt_sec;
+  const float new_v = v.x + v_contr;
+  if (v_contr * (target_velocity - new_v) < 0) {
+    v.x = target_velocity;
+  } else {
+    v.x = new_v;
+  }
+}
+
+void
+Physic::accelerate_y(float acceleration, float dt_sec, float target_velocity)
+{
+  const float v_contr = acceleration * dt_sec;
+  const float new_v = v.y + v_contr;
+  if (v_contr * (target_velocity - new_v) < 0) {
+    v.y = target_velocity;
+  } else {
+    v.y = new_v;
+  }
 }
 
 /* EOF */
