@@ -22,10 +22,10 @@
 #include "game_object_manager.hpp"
 
 template<typename T>
-class GameObjectIterator
+class GameObjectIterator final
 {
 public:
-  typedef std::vector<std::unique_ptr<GameObject> >::const_iterator Iterator;
+  typedef std::vector<GameObject* >::const_iterator Iterator;
 
 public:
   GameObjectIterator(Iterator it, Iterator end) :
@@ -35,69 +35,71 @@ public:
   {
     if (m_it != m_end)
     {
-      m_object = dynamic_cast<T*>(m_it->get());
-      if (!m_object)
+      // A dynamic_cast is needed to perform sidecasts (a.k.a. crosscasts)
+      // T may be one of multiple base classes of the object and need not inherit GameObject
+      if constexpr (std::is_base_of<GameObject, T>::value)
       {
-        skip_to_next();
+        m_object = static_cast<T*>(*m_it);
+      }
+      else
+      {
+        m_object = dynamic_cast<T*>(*m_it);
+        assert(m_object);
       }
     }
   }
 
   GameObjectIterator& operator++()
   {
-    skip_to_next();
+    ++m_it;
+    if (m_it != m_end)
+    {
+      if constexpr (std::is_base_of<GameObject, T>::value)
+      {
+        m_object = static_cast<T*>(*m_it);
+      }
+      else
+      {
+        m_object = dynamic_cast<T*>(*m_it);
+        assert(m_object);
+      }
+    }
     return *this;
   }
 
   GameObjectIterator operator++(int)
   {
     GameObjectIterator tmp(*this);
-    skip_to_next();
+    operator++();
     return tmp;
   }
 
-  T* operator->() {
+  inline T* get() const { return m_object; }
+
+  inline T* operator->() {
     return m_object;
   }
 
-  const T* operator->() const {
+  inline const T* operator->() const {
     return m_object;
   }
 
-  T& operator*() const {
+  inline T& operator*() const {
     return *m_object;
   }
 
-  T& operator*() {
+  inline T& operator*() {
     return *m_object;
   }
 
-  bool operator==(const GameObjectIterator& other) const
+  inline bool operator==(const GameObjectIterator& other) const
   {
     return m_it == other.m_it;
   }
 
-  bool operator!=(const GameObjectIterator& other) const
+  inline bool operator!=(const GameObjectIterator& other) const
   {
     return !(*this == other);
-  }
-
-private:
-  void skip_to_next()
-  {
-    do
-    {
-      ++m_it;
-      if (m_it == m_end)
-      {
-        break;
-      }
-      else
-      {
-        m_object = dynamic_cast<T*>(m_it->get());
-      }
-    }
-    while (!m_object);
   }
 
 private:
@@ -107,7 +109,7 @@ private:
 };
 
 template<typename T>
-class GameObjectRange
+class GameObjectRange final
 {
 public:
   GameObjectRange(const GameObjectManager& manager) :
@@ -115,11 +117,13 @@ public:
   {}
 
   GameObjectIterator<T> begin() const {
-    return GameObjectIterator<T>(m_manager.get_objects().begin(), m_manager.get_objects().end());
+    auto& objects = m_manager.get_objects_by_type_index(typeid(T));
+    return GameObjectIterator<T>(objects.begin(), objects.end());
   }
 
   GameObjectIterator<T> end() const {
-    return GameObjectIterator<T>(m_manager.get_objects().end(), m_manager.get_objects().end());
+    auto& objects = m_manager.get_objects_by_type_index(typeid(T));
+    return GameObjectIterator<T>(objects.end(), objects.end());
   }
 
 private:

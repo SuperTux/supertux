@@ -18,24 +18,20 @@
 
 #include <limits>
 
-#include "object/background.hpp"
-#include "object/gradient.hpp"
-#include "object/particlesystem.hpp"
-#include "object/particlesystem_interactive.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/resources.hpp"
+#include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-LayerIcon::LayerIcon(GameObject* layer) :
+LayerIcon::LayerIcon(LayerObject* layer) :
   ObjectIcon("", layer->get_icon_path()),
   m_layer(layer),
-  m_selection()
+  m_layer_tilemap(dynamic_cast<TileMap*>(layer)),
+  m_selection(m_layer_tilemap ? 
+                Surface::from_file("images/engine/editor/selection.png") : nullptr)
 {
-  if (dynamic_cast<TileMap*>(layer)) {
-    m_selection = Surface::from_file("images/engine/editor/selection.png");
-  }
 }
 
 void
@@ -45,15 +41,13 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos)
 
   ObjectIcon::draw(context, pos);
   int l = get_zpos();
-  if (l != std::numeric_limits<int>::min()) {
+  if (l != std::numeric_limits<int>::min())
+  {
     context.color().draw_text(Resources::small_font, std::to_string(l),
                                 pos + Vector(16,16),
                                 ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
-    if (TileMap* tilemap = dynamic_cast<TileMap*>(m_layer)) {
-      if (tilemap->m_editor_active) {
-        context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
-      }
-    }
+    if (m_layer_tilemap && m_layer_tilemap->m_editor_active)
+      context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
   }
 }
 
@@ -64,42 +58,18 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
 
   ObjectIcon::draw(context, pos, pixels_shown);
   int l = get_zpos();
-  if (l != std::numeric_limits<int>::min()) {
+  if (l != std::numeric_limits<int>::min())
+  {
     // Don't draw the text if the icon is not 100% visible
-    if (TileMap* tilemap = dynamic_cast<TileMap*>(m_layer)) {
-      if (tilemap->m_editor_active) {
-        context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
-      }
-    }
+    if (m_layer_tilemap && m_layer_tilemap->m_editor_active)
+      context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
   }
 }
 
 int
 LayerIcon::get_zpos() const
 {
-  if (!is_valid()) {
-    return std::numeric_limits<int>::min();
-  }
-
-  if (auto* tilemap = dynamic_cast<TileMap*>(m_layer)) {
-    return tilemap->get_layer();
-  } else if (auto* bkgrd = dynamic_cast<Background*>(m_layer)) {
-    return bkgrd->get_layer();
-  } else if (auto* grd = dynamic_cast<Gradient*>(m_layer)) {
-    return grd->get_layer();
-  } else if (auto* ps = dynamic_cast<ParticleSystem*>(m_layer)) {
-    return ps->get_layer();
-  } else if (auto* psi = dynamic_cast<ParticleSystem_Interactive*>(m_layer)) {
-    return psi->get_layer();
-  } else {
-    return std::numeric_limits<int>::min();
-  }
-}
-
-bool
-LayerIcon::is_tilemap() const
-{
-  return dynamic_cast<TileMap*>(m_layer) != nullptr;
+  return is_valid() ? m_layer->get_layer() : std::numeric_limits<int>::min();
 }
 
 bool

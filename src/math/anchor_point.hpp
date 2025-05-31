@@ -24,18 +24,33 @@
 
 class Rectf;
 
+#ifdef DOXYGEN_SCRIPTING
+/**
+ * @scripting
+ * @summary This module contains global anchor constants.
+ */
+namespace AnchorPoints {
+#endif
+
+/**
+ * @scripting
+ */
 enum AnchorPoint {
-  ANCHOR_TOP_LEFT,
-  ANCHOR_TOP,
-  ANCHOR_TOP_RIGHT,
-  ANCHOR_LEFT,
-  ANCHOR_MIDDLE,
-  ANCHOR_RIGHT,
-  ANCHOR_BOTTOM_LEFT,
-  ANCHOR_BOTTOM,
-  ANCHOR_BOTTOM_RIGHT,
+  ANCHOR_TOP_LEFT = 0,     /*!< @description Top-left anchor point. */
+  ANCHOR_TOP = 1,          /*!< @description Top anchor point. */
+  ANCHOR_TOP_RIGHT = 2,    /*!< @description Top-right anchor point. */
+  ANCHOR_LEFT = 3,         /*!< @description Left anchor point. */
+  ANCHOR_MIDDLE = 4,       /*!< @description Middle anchor point. */
+  ANCHOR_RIGHT = 5,        /*!< @description Right anchor point. */
+  ANCHOR_BOTTOM_LEFT = 6,  /*!< @description Bottom-left anchor point. */
+  ANCHOR_BOTTOM = 7,       /*!< @description Bottom anchor point. */
+  ANCHOR_BOTTOM_RIGHT = 8, /*!< @description Bottom-right anchor point. */
   ANCHOR_LAST = ANCHOR_BOTTOM_RIGHT
 };
+
+#ifdef DOXYGEN_SCRIPTING
+} // namespace AnchorPoints
+#endif
 
 const std::vector<std::string> g_anchor_keys = {
   "topleft", "top", "topright", "left", "middle", "right", "bottomleft",

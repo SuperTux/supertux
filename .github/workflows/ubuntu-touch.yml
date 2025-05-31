@@ -39,13 +39,13 @@ jobs:
           - arch: arm64
             build_type: Debug
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Install clickable
         run: |
@@ -88,6 +88,7 @@ jobs:
           ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}
 
       - uses: actions/upload-artifact@v4
+        if: matrix.build_type != 'Debug'
         with:
           name: "clickable-${{ matrix.arch }}-${{ matrix.build_type }}-${{ matrix.opengl }}-click"
           path: build.clickable/*.click

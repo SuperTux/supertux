@@ -61,8 +61,8 @@ public:
 
   void empty_cache_directory();
 
-  bool has_online_support() const;
-  bool has_been_updated() const;
+  inline bool has_online_support() const { return true; }
+  inline bool has_been_updated() const { return m_has_been_updated; }
   void check_online();
   TransferStatusPtr request_check_online();
 

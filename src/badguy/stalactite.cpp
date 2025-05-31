@@ -31,7 +31,7 @@ static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const ReaderMapping& mapping) :
-  BadGuy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1),
+  StickyBadguy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1, COLGROUP_MOVING),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
@@ -46,6 +46,8 @@ Stalactite::Stalactite(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/cracking.wav");
   SoundManager::current()->preload("sounds/sizzle.ogg");
   SoundManager::current()->preload("sounds/icecrash.ogg");
+
+  mapping.get("sticky", m_sticky, false);
 }
 
 void
@@ -74,6 +76,10 @@ Stalactite::active_update(float dt_sec)
   } else if (state == STALACTITE_FALLING) {
     m_col.set_movement(m_physic.get_movement(dt_sec));
   }
+
+  if (state != STALACTITE_FALLING && m_sticky) {
+    sticky_update(dt_sec);
+  }
 }
 
 void
@@ -94,9 +100,6 @@ Stalactite::collision_solid(const CollisionHit& hit)
 {
   if (state == STALACTITE_FALLING) {
     if (hit.bottom) squish();
-  }
-  if (state == STALACTITE_SQUISHED) {
-    m_physic.set_velocity_y(0);
   }
 }
 
@@ -141,7 +144,7 @@ Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& hit)
     timer.start(SHAKE_TIME);
     state = STALACTITE_SHAKING;
     bullet.remove_me();
-    if (bullet.get_type() == FIRE_BONUS)
+    if (bullet.get_type() == BONUS_FIRE)
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
     SoundManager::current()->play("sounds/cracking.wav", get_pos());
   }
@@ -213,6 +216,16 @@ Stalactite::on_flip(float height)
 {
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+ObjectSettings
+Stalactite::get_settings()
+{
+  ObjectSettings result = StickyBadguy::get_settings();
+
+  result.reorder({"sticky", "speed", "sprite", "x", "y" });
+
+  return result;
 }
 
 /* EOF */

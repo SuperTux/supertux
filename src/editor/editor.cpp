@@ -52,6 +52,7 @@
 #include "physfs/util.hpp"
 #include "sdk/integration.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -109,6 +110,7 @@ Editor::Editor() :
   m_particle_editor_request(false),
   m_test_pos(),
   m_particle_editor_filename(),
+  m_ctrl_pressed(false),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
@@ -126,7 +128,6 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
-  m_ctrl_pressed(false),
   m_mouse_pos(0.f, 0.f)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
@@ -172,12 +173,12 @@ Editor::draw(Compositor& compositor)
           camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
                                             static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
 
-        // Update the camera's screen size variable, so it can properly be kept in sector bounds.
-        camera.draw(context);
         keep_camera_in_bounds();
       }
       m_new_scale = 0.f;
     }
+
+    m_sector->pause_camera_interpolation();
 
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
@@ -350,8 +351,6 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
-  m_overlay_widget->reset_action_press();
-
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);
@@ -373,11 +372,13 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 
   if (!m_level->is_worldmap())
   {
+    // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
+    //       If not, call reactivate().
     GameManager::current()->start_level(*current_world, backup_filename, test_pos);
   }
-  else
+  else if (!GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos))
   {
-    GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos);
+    reactivate();
   }
 }
 
@@ -387,24 +388,6 @@ Editor::open_level_directory()
   m_level->save(FileSystem::join(get_level_directory(), m_levelfile));
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
   FileSystem::open_path(path);
-}
-
-void
-Editor::set_world(std::unique_ptr<World> w)
-{
-  m_world = std::move(w);
-}
-
-int
-Editor::get_tileselect_select_mode() const
-{
-  return m_toolbox_widget->get_tileselect_select_mode();
-}
-
-int
-Editor::get_tileselect_move_mode() const
-{
-  return m_toolbox_widget->get_tileselect_move_mode();
 }
 
 void
@@ -493,7 +476,7 @@ Editor::set_sector(Sector* sector)
   if (!sector) return;
 
   m_sector = sector;
-  m_sector->activate("main");
+  m_sector->activate(DEFAULT_SPAWNPOINT_NAME);
 
   { // Initialize badguy sprites and perform other GameObject related tasks.
     BIND_SECTOR(*m_sector);
@@ -526,7 +509,7 @@ Editor::delete_current_sector()
 void
 Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
-  std::string sector_name = "main";
+  std::string sector_name = DEFAULT_SECTOR_NAME;
   Vector translation(0.0f, 0.0f);
 
   if (!reset && m_sector) {
@@ -538,7 +521,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_enabled = true;
 
   if (reset) {
-    m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+    m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   }
 
   // Reload level.
@@ -585,10 +568,19 @@ void
 Editor::reload_level()
 {
   ReaderMapping::s_translations_enabled = false;
-  set_level(LevelParser::from_file(m_world ?
-                                   FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
-                                   StringUtil::has_suffix(m_levelfile, ".stwm"),
-                                   true));
+  try
+  {
+    set_level(LevelParser::from_file(m_world ?
+                                     FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
+                                     StringUtil::has_suffix(m_levelfile, ".stwm"),
+                                     true));
+  }
+  catch (const std::exception& err)
+  {
+    log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
+    reset_level();
+    return;
+  }
   ReaderMapping::s_translations_enabled = true;
 
   retoggle_undo_tracking();
@@ -599,6 +591,21 @@ Editor::reload_level()
   m_levelfile = get_levelname_from_autosave(m_levelfile);
   m_autosave_levelfile = FileSystem::join(get_level_directory(),
                                           get_autosave_from_levelname(m_levelfile));
+}
+
+void
+Editor::reset_level()
+{
+  m_levelloaded = false;
+  m_level.reset();
+  m_world.reset();
+  m_levelfile.clear();
+  m_sector = nullptr;
+
+  m_reload_request = false;
+
+  MouseCursor::current()->set_icon(nullptr);
+  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
 }
 
 void
@@ -724,20 +731,14 @@ Editor::convert_tiles_by_file(const std::string& file)
   {
     IFileStream in(file);
     if (!in.good())
-    {
-      log_warning << "Couldn't open conversion file '" << file << "'." << std::endl;
-      return;
-    }
+      throw std::runtime_error("Error opening file stream!");
 
     int a, b;
     std::string delimiter;
     while (in >> a >> delimiter >> b)
     {
       if (delimiter != "->")
-      {
-        log_warning << "Couldn't parse conversion file '" << file << "'." << std::endl;
-        return;
-      }
+        throw std::runtime_error("Expected '->' delimiter!");
 
       tiles[a] = b;
     }
@@ -745,6 +746,7 @@ Editor::convert_tiles_by_file(const std::string& file)
   catch (std::exception& err)
   {
     log_warning << "Couldn't parse conversion file '" << file << "': " << err.what() << std::endl;
+    return;
   }
 
   for (const auto& sector : m_level->get_sectors())
@@ -820,50 +822,56 @@ Editor::setup()
   m_layers_widget->setup();
 
   // Reactivate the editor after level test.
-  if (m_leveltested) {
-    m_leveltested = false;
-    Tile::draw_editor_images = true;
-    m_level->reactivate();
-
-    m_sector->activate(Vector(0,0));
-
-    MenuManager::instance().clear_menu_stack();
-    SoundManager::current()->stop_music();
-
-    m_deactivate_request = false;
-    m_enabled = true;
-    m_toolbox_widget->update_mouse_icon();
-  }
+  reactivate();
 }
 
 void
-Editor::resize()
+Editor::reactivate()
+{
+  // Reactivate the editor after level test.
+  if (!m_leveltested)
+    return;
+
+  m_leveltested = false;
+  Tile::draw_editor_images = true;
+  m_level->reactivate();
+
+  m_sector->activate(Vector(0,0));
+
+  MenuManager::instance().clear_menu_stack();
+  SoundManager::current()->stop_music();
+
+  m_deactivate_request = false;
+  m_enabled = true;
+  m_toolbox_widget->update_mouse_icon();
+}
+
+void
+Editor::on_window_resize()
 {
   for(const auto& widget: m_widgets)
   {
-    widget->resize();
+    widget->on_window_resize();
   }
 }
 
 void
 Editor::event(const SDL_Event& ev)
 {
-  if (!m_enabled) return;
+  if (!m_enabled || !m_levelloaded) return;
 
   try
   {
     if (ev.type == SDL_KEYDOWN)
     {
-      if (ev.key.keysym.mod & KMOD_CTRL)
+      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+
+      if (m_ctrl_pressed)
         m_scroll_speed = 16.0f;
       else if (ev.key.keysym.mod & KMOD_RSHIFT)
         m_scroll_speed = 96.0f;
 
-      if (ev.key.keysym.sym == SDLK_LCTRL)
-      {
-        m_ctrl_pressed = true;
-      }
-      else if (ev.key.keysym.sym == SDLK_F6)
+      if (ev.key.keysym.sym == SDLK_F6)
       {
         Compositor::s_render_lighting = !Compositor::s_render_lighting;
         return;
@@ -900,11 +908,10 @@ Editor::event(const SDL_Event& ev)
     }
     else if (ev.type == SDL_KEYUP)
     {
-      if (!(ev.key.keysym.mod & KMOD_CTRL) && !(ev.key.keysym.mod & KMOD_RSHIFT))
-        m_scroll_speed = 32.0f;
+      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
 
-      if (ev.key.keysym.sym == SDLK_LCTRL)
-        m_ctrl_pressed = false;
+      if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
+        m_scroll_speed = 32.0f;
     }
     else if (ev.type == SDL_MOUSEMOTION)
     {
@@ -965,7 +972,7 @@ void
 Editor::change_tileset()
 {
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+  m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_tileset);
@@ -982,7 +989,7 @@ Editor::select_objectgroup(int id)
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return m_toolbox_widget->get_object_info().m_groups;
+  return m_toolbox_widget->get_tilebox().get_object_info().m_groups;
 }
 
 void
@@ -997,12 +1004,12 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
   bool sector_valid = false, spawnpoint_valid = false;
   for (const auto& sector : m_level->m_sectors)
   {
-    if (sector->get_name() == "main")
+    if (sector->get_name() == DEFAULT_SECTOR_NAME)
     {
       sector_valid = true;
       for (const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
       {
-        if (spawnpoint.get_name() == "main")
+        if (spawnpoint.get_name() == DEFAULT_SPAWNPOINT_NAME)
         {
           spawnpoint_valid = true;
         }
@@ -1015,18 +1022,21 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
     callback();
     return;
   }
-  else
-  {
-    if (!sector_valid)
-    {
-      Dialog::show_message(_("Couldn't find a \"main\" sector.\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
-    }
-    else if (!spawnpoint_valid)
-    {
-      Dialog::show_message(_("Couldn't find a \"main\" spawnpoint.\n Please change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
-    }
-  }
 
+  if (!sector_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
+  }
+  else if (!spawnpoint_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
+  }
 }
 
 void
@@ -1080,7 +1090,7 @@ Editor::undo()
 {
   BIND_SECTOR(*m_sector);
   m_sector->undo();
-  post_undo_redo_actions();
+  m_layers_widget->update_current_tip();
 }
 
 void
@@ -1088,13 +1098,6 @@ Editor::redo()
 {
   BIND_SECTOR(*m_sector);
   m_sector->redo();
-  post_undo_redo_actions();
-}
-
-void
-Editor::post_undo_redo_actions()
-{
-  m_overlay_widget->delete_markers();
   m_layers_widget->update_current_tip();
 }
 
@@ -1117,28 +1120,6 @@ Editor::get_status() const
   return status;
 }
 
-PHYSFS_EnumerateCallbackResult
-Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
-{
-  auto full_path = FileSystem::join(origdir, fname);
-
-  PHYSFS_Stat ps;
-  PHYSFS_stat(full_path.c_str(), &ps);
-  if (ps.filetype == PHYSFS_FILETYPE_DIRECTORY)
-  {
-    PHYSFS_enumerate(full_path.c_str(), foreach_recurse, data);
-  }
-  else
-  {
-    auto* zip = static_cast<Partio::ZipFileWriter*>(data);
-    auto os = zip->Add_File(full_path);
-    auto filename = FileSystem::join(PHYSFS_getWriteDir(), full_path);
-    *os << std::ifstream(filename).rdbuf();
-  }
-
-  return PHYSFS_ENUM_OK;
-}
-
 void
 Editor::pack_addon()
 {
@@ -1146,25 +1127,34 @@ Editor::pack_addon()
   auto output_file_path = FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip");
 
   int version = 0;
-  try
+  if (PHYSFS_exists(output_file_path.c_str()))
   {
-    Partio::ZipFileReader zipold(output_file_path);
-    auto info_file = zipold.Get_File(id + ".nfo");
-    if (info_file)
+    try
     {
-      auto info_stream = ReaderDocument::from_stream(*info_file);
-      auto a = info_stream.get_root().get_mapping();
-      a.get("version", version);
+      Partio::ZipFileReader zipold(output_file_path);
+      auto info_file = zipold.Get_File(id + ".nfo");
+      if (info_file)
+      {
+        auto info_stream = ReaderDocument::from_stream(*info_file);
+        auto a = info_stream.get_root().get_mapping();
+        a.get("version", version);
+      }
     }
-  }
-  catch(const std::exception& e)
-  {
-    log_warning << e.what() << std::endl;
+    catch(const std::exception& e)
+    {
+      log_warning << e.what() << std::endl;
+    }
   }
   version++;
 
   Partio::ZipFileWriter zip(output_file_path);
-  PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
+  physfsutil::enumerate_files_recurse(get_world()->get_basedir(),
+    [&zip](const std::string& full_path)
+    {
+      auto os = zip.Add_File(full_path);
+      *os << std::ifstream(FileSystem::join(PHYSFS_getWriteDir(), full_path)).rdbuf();
+      return false;
+    });
 
   std::stringstream ss;
   Writer info(ss);
@@ -1173,11 +1163,7 @@ Editor::pack_addon()
   {
     info.write("id", id);
     info.write("version", version);
-
-    if (get_world()->is_levelset())
-      info.write("type", "levelset");
-    else if (get_world()->is_worldmap())
-      info.write("type", "worldmap");
+    info.write("type", get_world()->get_type());
 
     info.write("title", get_world()->get_title());
     info.write("author", get_level()->get_author());

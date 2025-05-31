@@ -35,27 +35,28 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Level"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return WorldMapObject::get_class_types().add(typeid(LevelTile)); }
 
   virtual ObjectSettings get_settings() override;
 
-  void set_solved(bool v);
-  bool is_solved() const { return m_solved; }
+  inline void set_solved(bool v) { m_solved = v; update_sprite_action(); }
+  inline bool is_solved() const { return m_solved; }
 
-  void set_perfect(bool v);
-  bool is_perfect() const { return m_perfect; }
+  inline void set_perfect(bool v) { m_perfect = v; update_sprite_action(); }
+  inline bool is_perfect() const { return m_perfect; }
 
-  Statistics& get_statistics() { return m_statistics; }
-  const Statistics& get_statistics() const { return m_statistics; }
+  inline Statistics& get_statistics() { return m_statistics; }
+  inline const Statistics& get_statistics() const { return m_statistics; }
 
   void update_sprite_action();
 
-  std::string get_title() const { return m_title; }
-  std::string get_level_filename() const { return m_level_filename; }
-  std::string get_basedir() const { return m_basedir; }
-  Color get_title_color() const { return m_title_color; }
-  std::string get_extro_script() const { return m_extro_script; }
-  float get_target_time() const { return m_target_time; }
-  bool is_auto_play() const { return m_auto_play; }
+  inline const std::string& get_title() const { return m_title; }
+  inline const std::string& get_level_filename() const { return m_level_filename; }
+  inline const std::string& get_basedir() const { return m_basedir; }
+  inline Color get_title_color() const { return m_title_color; }
+  inline const std::string& get_extro_script() const { return m_extro_script; }
+  inline float get_target_time() const { return m_target_time; }
+  inline bool is_auto_play() const { return m_auto_play; }
 
 private:
   void load_level_information();

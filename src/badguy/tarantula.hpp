@@ -38,6 +38,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Tarantula"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Tarantula)); }
   virtual bool is_snipable() const override;
 
   virtual void on_flip(float height) override;
@@ -49,7 +50,7 @@ public:
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 protected:
   enum Type { TARANTULA, SPIDERMITE };

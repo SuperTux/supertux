@@ -20,8 +20,6 @@
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
 #include "object/portable.hpp"
-#include "scripting/badguy.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
@@ -29,24 +27,44 @@ enum class Direction;
 class Player;
 class Bullet;
 
-/** Base class for moving sprites that can hurt the Player. */
+namespace
+{
+  static const std::string& DEFAULT_LIGHT_SPRITE = "images/objects/lightmap_light/lightmap_light-medium.sprite";
+  static const std::string& DEFAULT_ICE_SPRITE = "images/creatures/overlays/iceoverlay/iceoverlay.sprite";
+  static const std::string& DEFAULT_FIRE_SPRITE = "images/creatures/overlays/fireoverlay/fireoverlay.sprite";
+}
+
+/**
+ * Base class for moving sprites that can hurt the Player.
+
+ * @scripting
+ * @summary A ""BadGuy"" that was given a name can be controlled by scripts.
+ * @instances A ""BadGuy"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class BadGuy : public MovingSprite,
-               public ExposedObject<BadGuy, scripting::BadGuy>,
                public Portable
 {
 public:
+  static void register_class(ssq::VM& vm);
+
+public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string & fire_sprite_name = DEFAULT_FIRE_SPRITE);
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -58,8 +76,10 @@ public:
 
   static std::string class_name() { return "badguy"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "BadGuy"; }
   static std::string display_name() { return _("Badguy"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Portable)).add(typeid(BadGuy)); }
 
   virtual std::string get_overlay_size() const { return "1x1"; }
 
@@ -69,7 +89,7 @@ public:
   /** Called when a collision with another object occurred. The
       default implementation calls collision_player, collision_solid,
       collision_badguy and collision_squished */
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   /** Called when a collision with tile with special attributes
       occurred */
@@ -78,6 +98,13 @@ public:
   /** Set the badguy to kill/falling state, which makes him falling of
       the screen (his sprite is turned upside-down) */
   virtual void kill_fall();
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description Sets the badguy to kill/falling state, which makes it fall of the screen (its sprite is turned upside-down).
+   */
+  void kill();
+#endif
 
   /** Call this, if you use custom kill_fall() or kill_squashed(GameObject& object) */
   virtual void run_dead_script();
@@ -86,14 +113,17 @@ public:
       current form. */
   virtual bool can_break() const { return false; }
 
-  Vector get_start_position() const { return m_start_position; }
-  void set_start_position(const Vector& vec) { m_start_position = vec; }
+  inline Vector get_start_position() const { return m_start_position; }
+  inline void set_start_position(const Vector& vec) { m_start_position = vec; }
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
   virtual bool is_portable() const override;
 
-  /** Called when hit by a fire bullet, and is_flammable() returns true */
+  /**
+   * @scripting
+   * @description Kills the badguy by igniting it.
+   */
   virtual void ignite();
 
   /** Called to revert a badguy when is_ignited() returns true */
@@ -121,6 +151,8 @@ public:
     Returns false if enemy is spiky or too large */
   virtual bool is_snipable() const { return false; }
 
+  virtual bool always_active() const { return false; }
+
   bool is_frozen() const;
 
   bool is_in_water() const;
@@ -136,12 +168,15 @@ public:
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
+  inline Physic& get_physic() { return m_physic; }
+
 protected:
   enum State {
     STATE_INIT,
     STATE_INACTIVE,
     STATE_ACTIVE,
     STATE_SQUISHED,
+    STATE_SQUISHED_FADING_OUT,
     STATE_FALLING,
     STATE_BURNING,
     STATE_MELTING,
@@ -165,7 +200,7 @@ protected:
   /** Called when the player hit the badguy from above. You should
       return true if the badguy was squished, false if squishing
       wasn't possible */
-  virtual bool collision_squished(GameObject& object);
+  virtual bool collision_squished(MovingObject& object);
 
   /** Called when the badguy collided with a bullet */
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
@@ -193,7 +228,7 @@ protected:
   void kill_squished(GameObject& object);
 
   void set_state(State state);
-  State get_state() const { return m_state; }
+  inline State get_state() const { return m_state; }
 
   bool check_state_timer() {
     return m_state_timer.check();
@@ -208,7 +243,7 @@ protected:
 
   /** Returns true if we might soon fall at least @c height
       pixels. Minimum value for height is 1 pixel */
-  bool might_fall(int height = 1) const;
+  bool might_fall(int height = 1);
 
   /** Update on_ground_flag judging by solid collision @c hit. This
       gets called from the base implementation of collision_solid, so
@@ -235,6 +270,9 @@ protected:
 
 private:
   void try_activate();
+
+protected:
+  static const int s_normal_max_drop_height = 600;
 
 protected:
   Physic m_physic;
@@ -266,9 +304,19 @@ protected:
 
   SpritePtr m_lightsprite;
   SpritePtr m_freezesprite;
+  SpritePtr m_firesprite;
   bool m_glowing;
+  bool m_water_affected;
 
   Timer m_unfreeze_timer;
+
+  /** floor normal stored the last time when update_on_ground_flag was
+      called and we touched something solid from above */
+  Vector m_floor_normal;
+
+  /** Used for the might_fall function.
+      Represents the tile data of the detected slope. */
+  int m_detected_slope;
 
 private:
   State m_state;
@@ -283,12 +331,15 @@ private:
       update_on_ground_flag was called last frame */
   bool m_on_ground_flag;
 
-  /** floor normal stored the last time when update_on_ground_flag was
-      called and we touched something solid from above */
-  Vector m_floor_normal;
 
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup m_colgroup_active;
+
+  /** The alpha value at the time the Badguy begins to fadeout */
+  float m_alpha_before_fadeout;
+
+  Color m_flame_color;
+  Timer m_flame_timer;
 
 private:
   BadGuy(const BadGuy&) = delete;

@@ -35,8 +35,8 @@ public:
   void set_info(const std::string& text);
   void set_info(const std::string& header, const std::vector<std::string>& text);
   void set_info_for_object(GameObject& object);
-  void set_visible(bool visible) { m_visible = visible; }
-  bool get_visible() const { return m_visible; }
+  inline void set_visible(bool visible) { m_visible = visible; }
+  inline bool get_visible() const { return m_visible; }
 
 private:
   std::vector<std::string> m_strings;

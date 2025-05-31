@@ -23,10 +23,23 @@
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/tile_manager.hpp"
 #include "video/bitmap_font.hpp"
 #include "video/font.hpp"
 #include "video/surface.hpp"
+#include "video/texture_manager.hpp"
 #include "video/ttf_font.hpp"
+#include "video/ttf_surface_manager.hpp"
+
+void
+Resources::reload_all()
+{
+  TextureManager::current()->reload();
+
+  Resources::load(true);
+  SpriteManager::current()->reload();
+  TileManager::current()->reload();
+}
 
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
@@ -48,11 +61,14 @@ SurfacePtr Resources::no_tile;
 std::string Resources::current_font;
 
 void
-Resources::load()
+Resources::load(bool reload)
 {
-  // Load the mouse-cursor
-  mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
-  MouseCursor::set_current(mouse_cursor.get());
+  if (!reload)
+  {
+    // Load the mouse-cursor
+    mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
+    MouseCursor::set_current(mouse_cursor.get());
+  }
 
   default_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));
   if (g_debug.get_use_bitmap_fonts())
@@ -69,7 +85,7 @@ Resources::load()
     console_font.reset(new TTFFont("fonts/SourceCodePro-Medium.ttf", 12, 1.25f, 0, 1));
 
     auto font = get_font_for_locale(g_dictionary_manager->get_language());
-    if(font != current_font)
+    if(reload || font != current_font)
     {
       current_font = font;
       fixed_font.reset(new TTFFont(font, 18, 1.25f, 2, 1));
@@ -79,6 +95,7 @@ Resources::load()
       control_font.reset(new TTFFont("fonts/Roboto-Regular.ttf", 15, 1.25f, 0, 0));
     }
   }
+  TTFSurfaceManager::current()->clear_cache();
 
   /* Load menu images */
   checkbox = Surface::from_file("images/engine/menu/checkbox-unchecked.png");

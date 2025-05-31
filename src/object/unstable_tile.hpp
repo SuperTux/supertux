@@ -32,7 +32,7 @@ class UnstableTile final : public MovingSprite
 public:
   UnstableTile(const ReaderMapping& mapping, int type = -1);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void on_flip(float height) override;
@@ -41,6 +41,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Unstable Tile"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(UnstableTile)); }
 
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;

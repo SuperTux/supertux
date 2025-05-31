@@ -27,8 +27,9 @@
 class ReaderDocument final
 {
 public:
-  static ReaderDocument from_stream(std::istream& stream, const std::string& filename = "<stream>");
-  static ReaderDocument from_file(const std::string& filename);
+  static ReaderDocument from_string(const std::string& string, const std::string& filename = "<string>", int depth = -1);
+  static ReaderDocument from_stream(std::istream& stream, const std::string& filename = "<stream>", int depth = -1);
+  static ReaderDocument from_file(const std::string& filename, int depth = -1);
 
 public:
   ReaderDocument(const std::string& filename, sexp::Value sx);
@@ -37,12 +38,12 @@ public:
   ReaderObject get_root() const;
 
   /** Returns the filename of the document */
-  std::string get_filename() const;
+  const std::string& get_filename() const;
 
   /** Returns the directory of the document */
   std::string get_directory() const;
 
-  const sexp::Value& get_sexp() const { return m_sx; }
+  inline const sexp::Value& get_sexp() const { return m_sx; }
 
 private:
   std::string m_filename;

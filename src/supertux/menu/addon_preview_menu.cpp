@@ -22,6 +22,8 @@
 #include "addon/addon_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/menu/download_dialog.hpp"
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
@@ -56,6 +58,7 @@ AddonPreviewMenu::rebuild_menu()
   std::string desc;
   std::string license;
   std::vector<std::string> dependencies;
+  bool overrides_data = false;
   bool screenshots_available = false;
   bool info_unavailable = false;
   try
@@ -66,6 +69,7 @@ AddonPreviewMenu::rebuild_menu()
     desc = repository_addon.get_description();
     license = repository_addon.get_license();
     dependencies = repository_addon.get_dependencies();
+    overrides_data = repository_addon.overrides_data();
     screenshots_available = repository_addon.get_screenshots().size() > 0;
   }
   catch (std::exception& err)
@@ -74,6 +78,7 @@ AddonPreviewMenu::rebuild_menu()
     author = m_addon.get_author();
     type = addon_string_util::addon_type_to_translated_string(m_addon.get_type());
     license = m_addon.get_license();
+    overrides_data = m_addon.overrides_data();
     info_unavailable = true;
   }
 
@@ -133,6 +138,9 @@ AddonPreviewMenu::rebuild_menu()
   }
   add_inactive("");
 
+  add_inactive(_("Overrides Data: ") + (overrides_data ? _("Yes") : _("No")), true);
+  add_inactive("");
+
   if (screenshots_available && !m_auto_install)
   {
     if (m_show_screenshots)
@@ -146,6 +154,10 @@ AddonPreviewMenu::rebuild_menu()
       {
         add_inactive(_("Failed to load all available screenshot previews."));
       }
+    }
+    else if (g_config->disable_network)
+    {
+      add_inactive(_("To fetch add-on screenshots, you must enable networking."));
     }
     else
     {

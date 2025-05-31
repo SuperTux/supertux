@@ -42,4 +42,11 @@ TileManager::get_tileset(const std::string &filename)
   }
 }
 
+void
+TileManager::reload()
+{
+  for (const auto& tileset : m_tilesets)
+    tileset.second->reload();
+}
+
 /* EOF */

@@ -36,6 +36,7 @@ public:
   WorldMapObject(const ReaderMapping& mapping, const std::string& default_sprite);
   WorldMapObject(const ReaderMapping& mapping);
   WorldMapObject(const Vector& pos, const std::string& default_sprite);
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(WorldMapObject)); }
 
   static std::string class_name() { return "worldmap-object"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -47,11 +48,11 @@ public:
 
   void update(float) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
 
-  Vector get_tile_pos() const { return { m_tile_x, m_tile_y }; }
+  inline Vector get_tile_pos() const { return { m_tile_x, m_tile_y }; }
 
 private:
   void initialize();

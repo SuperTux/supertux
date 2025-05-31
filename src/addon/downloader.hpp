@@ -98,7 +98,7 @@ public:
 
   int get_download_now() const;
   int get_download_total() const;
-  const std::string& get_error() const { return m_error_msg; }
+  inline const std::string& get_error() const { return m_error_msg; }
 
   bool is_active() const;
 

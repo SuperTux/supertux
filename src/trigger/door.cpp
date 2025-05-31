@@ -35,7 +35,7 @@ static const float CENTER_EPSILON = 5.0f;
 static const float WALK_SPEED = 100.0f;
 
 Door::Door(const ReaderMapping& mapping) :
-  SpritedTrigger(mapping, "images/objects/door/door.sprite"),
+  SpritedTrigger(mapping, "images/objects/door/door.sprite", LAYER_BACKGROUNDTILES + 1),
   m_state(CLOSED),
   m_target_sector(),
   m_target_spawnpoint(),
@@ -98,6 +98,8 @@ Door::after_editor_set()
 void
 Door::update(float )
 {
+  TriggerBase::update();
+
   switch (m_state) {
     case CLOSED:
       m_transition_triggered = false;
@@ -143,16 +145,9 @@ Door::update(float )
 
   if (m_triggering_player)
   {
-    // Check if Tux should move a bit closer to the door so that he could go through smoothly
+    // Check if Tux has moved close enough to the door
     const Vector diff_to_center = get_bbox().get_middle() - m_triggering_player->get_bbox().get_middle();
-
-    if (fabs(diff_to_center.x) >= CENTER_EPSILON)
-    {
-      const bool move_right = diff_to_center.x > 0.0f;
-      m_triggering_player->set_dir(move_right);
-      m_triggering_player->walk(move_right ? WALK_SPEED : -WALK_SPEED);
-    }
-    else
+    if (fabs(diff_to_center.x) < CENTER_EPSILON)
     {
       m_triggering_player->walk(0.0f);
       m_triggering_player = nullptr;
@@ -163,20 +158,27 @@ Door::update(float )
 void
 Door::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_BACKGROUNDTILES+1, m_flip);
-
+  MovingSprite::draw(context);
   if (m_state == DoorState::LOCKED || m_state == DoorState::UNLOCKING)
   {
     Vector shake_delta = Vector(static_cast<float>(graphicsRandom.rand(-8, 8)), static_cast<float>(graphicsRandom.rand(-8, 8)));
     float shake_strength = m_lock_warn_timer.started() ? m_lock_warn_timer.get_timeleft() : 0.f;
     m_lock_sprite->draw(context.color(), get_bbox().get_middle() -
-      (Vector(m_lock_sprite->get_width() / 2, m_lock_sprite->get_height() / 2) + (shake_delta*shake_strength)), LAYER_BACKGROUNDTILES + 1, m_flip);
+      (Vector(m_lock_sprite->get_width() / 2, m_lock_sprite->get_height() / 2) + (shake_delta*shake_strength)), m_layer, m_flip);
   }
 }
 
 void
-Door::event(Player& , EventType type)
+Door::event(Player& player, EventType type)
 {
+  // If the player is no longer touching the door, they should stop walking.
+  if (type == EVENT_LOSETOUCH && m_triggering_player == &player)
+  {
+    m_triggering_player->walk(0.0f);
+    m_triggering_player = nullptr;
+    return;
+  }
+
   switch (m_state) {
     case CLOSED:
       // If door was activated, start opening it.
@@ -203,7 +205,7 @@ Door::event(Player& , EventType type)
 }
 
 HitResponse
-Door::collision(GameObject& other, const CollisionHit& hit_)
+Door::collision(MovingObject& other, const CollisionHit& hit_)
 {
   switch (m_state) {
     case CLOSED:
@@ -228,6 +230,16 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
             // Disable controls, GameSession will make safe Tux during fade animation.
             // Controls will be reactivated after spawn
             m_triggering_player->deactivate();
+
+            // Check if Tux should move a bit closer to the door so that he could go through smoothly
+            const Vector diff_to_center = get_bbox().get_middle() - m_triggering_player->get_bbox().get_middle();
+            if (fabs(diff_to_center.x) >= CENTER_EPSILON)
+            {
+              const bool move_right = diff_to_center.x > 0.0f;
+              m_triggering_player->set_dir(move_right);
+              m_triggering_player->walk(move_right ? WALK_SPEED : -WALK_SPEED);
+            }
+
             GameSession::current()->respawn_with_fade(m_target_sector,
                                                       m_target_spawnpoint,
                                                       ScreenFade::FadeType::CIRCLE,

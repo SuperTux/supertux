@@ -95,17 +95,17 @@ Tux::draw(DrawingContext& context)
 std::string
 Tux::get_action_prefix_for_bonus(const BonusType& bonus) const
 {
-  if (bonus == GROWUP_BONUS)
+  if (bonus == BONUS_GROWUP)
     return "large";
-  if (bonus == FIRE_BONUS)
+  if (bonus == BONUS_FIRE)
     return "fire";
-  if (bonus == ICE_BONUS)
+  if (bonus == BONUS_ICE)
     return "ice";
-  if (bonus == AIR_BONUS)
+  if (bonus == BONUS_AIR)
     return "air";
-  if (bonus == EARTH_BONUS)
+  if (bonus == BONUS_EARTH)
     return "earth";
-  if (bonus == NO_BONUS)
+  if (bonus == BONUS_NONE)
     return "small";
 
   return "";
@@ -172,24 +172,6 @@ Tux::stop()
   m_direction = Direction::NONE;
   m_input_direction = Direction::NONE;
   m_moving = false;
-}
-
-void
-Tux::set_direction(Direction dir)
-{
-  m_input_direction = dir;
-}
-
-void
-Tux::set_ghost_mode(bool enabled)
-{
-  m_ghost_mode = enabled;
-}
-
-bool
-Tux::get_ghost_mode() const
-{
-  return m_ghost_mode;
 }
 
 void

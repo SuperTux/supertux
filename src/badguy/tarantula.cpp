@@ -72,7 +72,7 @@ Tarantula::initialize()
 }
 
 bool
-Tarantula::collision_squished(GameObject& object)
+Tarantula::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);

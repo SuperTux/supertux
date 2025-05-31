@@ -37,6 +37,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Stumpy"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(Stumpy)); }
 
 protected:
   enum MyState {
@@ -44,7 +45,7 @@ protected:
   };
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 private:
   MyState mystate;

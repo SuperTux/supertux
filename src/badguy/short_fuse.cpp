@@ -53,7 +53,7 @@ ShortFuse::explode()
 }
 
 bool
-ShortFuse::collision_squished(GameObject& obj)
+ShortFuse::collision_squished(MovingObject& obj)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(obj);
@@ -71,7 +71,7 @@ ShortFuse::collision_squished(GameObject& obj)
 }
 
 HitResponse
-ShortFuse::collision_player (Player& player, const CollisionHit&)
+ShortFuse::collision_player(Player& player, const CollisionHit&)
 {
   if (!m_frozen)
   {

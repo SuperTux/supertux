@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_AMBIENT_LIGHT_HPP
 #define HEADER_SUPERTUX_OBJECT_AMBIENT_LIGHT_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
 
 #include "video/color.hpp"
 
-class AmbientLight : public GameObject
+class AmbientLight : public LayerObject
 {
 public:
   AmbientLight(const Color& color);
@@ -37,11 +37,12 @@ public:
   static std::string display_name() { return _("Ambient Light"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/ambient_light.png"; }
+  virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(AmbientLight)); }
 
   virtual ObjectSettings get_settings() override;
 
-  void set_ambient_light(const Color& ambient_light);
-  Color get_ambient_light() const;
+  inline void set_ambient_light(const Color& ambient_light) { m_ambient_light = ambient_light; }
+  inline Color get_ambient_light() const { return m_ambient_light; }
 
   /** Fades to the target ambient light */
   void fade_to_ambient_light(float red, float green, float blue, float seconds);

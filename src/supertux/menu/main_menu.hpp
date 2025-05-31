@@ -21,6 +21,9 @@
 
 class MainMenu final : public Menu
 {
+private:
+  static bool s_shown_initial_dialogs;
+
 public:
   MainMenu();
 

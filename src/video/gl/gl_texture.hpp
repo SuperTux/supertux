@@ -24,8 +24,6 @@
 #include "video/sampler.hpp"
 #include "video/texture.hpp"
 
-class Sampler;
-
 /** This class is a wrapper around a texture handle. It stores the
     texture width and height and provides convenience functions for
     uploading SDL_Surfaces into the texture. */
@@ -36,26 +34,27 @@ public:
   GLTexture(const SDL_Surface& image, const Sampler& sampler);
   ~GLTexture() override;
 
+  virtual void reload(const SDL_Surface& image) override;
+
   virtual int get_texture_width() const override { return m_texture_width; }
   virtual int get_texture_height() const override { return m_texture_height; }
 
   virtual int get_image_width() const override { return m_image_width; }
   virtual int get_image_height() const override { return m_image_height; }
 
-  void set_handle(GLuint handle) { m_handle = handle; }
-  const GLuint &get_handle() const { return m_handle; }
+  inline void set_handle(GLuint handle) { m_handle = handle; }
+  inline const GLuint &get_handle() const { return m_handle; }
 
-  const Sampler& get_sampler() const { return m_sampler; }
+  inline const Sampler& get_sampler() const { return m_sampler; }
 
-  void set_image_width(int width) { m_image_width = width; }
-  void set_image_height(int height) { m_image_height = height; }
+  inline void set_image_width(int width) { m_image_width = width; }
+  inline void set_image_height(int height) { m_image_height = height; }
 
 private:
   void set_texture_params();
 
 private:
   GLuint m_handle;
-  Sampler m_sampler;
   int m_texture_width;
   int m_texture_height;
   int m_image_width;

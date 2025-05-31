@@ -37,6 +37,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Walking Flame"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(LiveFire)); }
 
 private:
   std::string death_sound;
@@ -66,10 +67,12 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual void initialize() override;
+  virtual void after_editor_set() override;
   static std::string class_name() { return "livefire_asleep"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Sleeping Flame"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return LiveFire::get_class_types().add(typeid(LiveFireAsleep)); }
 
 private:
   LiveFireAsleep(const LiveFireAsleep&) = delete;
@@ -84,10 +87,12 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual void initialize() override;
+  virtual void after_editor_set() override;
   static std::string class_name() { return "livefire_dormant"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Dormant Flame"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return LiveFire::get_class_types().add(typeid(LiveFireDormant)); }
 
 private:
   LiveFireDormant(const LiveFireDormant&) = delete;

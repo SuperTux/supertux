@@ -33,14 +33,15 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Teleporter"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return WorldMapObject::get_class_types().add(typeid(Teleporter)); }
 
   virtual ObjectSettings get_settings() override;
 
-  const std::string& get_worldmap() const { return m_worldmap; }
-  const std::string& get_sector() const { return m_sector; }
-  const std::string& get_spawnpoint() const { return m_spawnpoint; }
-  bool is_automatic() const { return m_automatic; }
-  const std::string& get_message() const { return m_message; }
+  inline const std::string& get_worldmap() const { return m_worldmap; }
+  inline const std::string& get_sector() const { return m_sector; }
+  inline const std::string& get_spawnpoint() const { return m_spawnpoint; }
+  inline bool is_automatic() const { return m_automatic; }
+  inline const std::string& get_message() const { return m_message; }
 
 private:
   /** Worldmap filename (relative to data root) to teleport to. Leave empty to use current word */

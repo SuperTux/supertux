@@ -59,7 +59,7 @@ NodeMarker::remove_me()
     before->remove_me();
   if (after)
     after->remove_me();
-  
+
   MarkerObject::remove_me();
 }
 
@@ -109,8 +109,8 @@ NodeMarker::editor_delete()
   {
     return;
   }
-  std::vector<Path::Node>::iterator prev = prev_node();
-  std::vector<Path::Node>::const_iterator next = next_node();
+  auto prev = prev_node();
+  auto next = next_node();
   update_node_time(prev, next);
   m_path->m_nodes.erase(m_node);
   Editor::current()->update_node_iterators();
@@ -123,7 +123,7 @@ NodeMarker::get_settings()
   result.add_label(_("Press CTRL to move Bezier handles"));
   result.add_float(_("Time"), &(m_node->time));
   result.add_float(_("Speed"), &(m_node->speed));
-  
+
   result.add_enum(_("Easing"), reinterpret_cast<int*>(&(m_node->easing)),
                   {
                     _("No easing"),
@@ -191,17 +191,16 @@ void NodeMarker::update_node_times() {
 }
 
 void NodeMarker::update_node_time(std::vector<Path::Node>::iterator current, std::vector<Path::Node>::const_iterator next) {
-  if (current == m_path->m_nodes.end() || next == m_path->m_nodes.end()) {
+  if (current == m_path->m_nodes.end() || next == m_path->m_nodes.end() || current->speed <= 0) {
     return;  // Nothing to do.
   }
-  if (current->speed > 0) {
-    float delta = Bezier::get_length(current->position,
-                                     current->bezier_after,
-                                     next->bezier_before,
-                                     next->position);
-    if (delta > 0) {
-      current->time = delta / current->speed;
-    }
+
+  float delta = Bezier::get_length(current->position,
+                                    current->bezier_after,
+                                    next->bezier_before,
+                                    next->position);
+  if (delta > 0) {
+    current->time = delta / current->speed;
   }
 }
 

@@ -49,13 +49,22 @@ class TextObject;
 class TileMap;
 class Writer;
 
-/** Represents one of (potentially) multiple, separate parts of a Level.
-    Sectors contain GameObjects, e.g. Badguys and Players. */
+/**
+ * Represents one of (potentially) multiple, separate parts of a Level.
+   Sectors contain GameObjects, e.g. Badguys and Players.
+ */
+/**
+ * @scripting
+ * @summary This class provides additional controlling functions for a sector, other than the ones listed at ${SRG_REF_GameObjectManager}.
+ * @instances An instance under ""sector.settings"" is available from scripts and the console.
+ */
 class Sector final : public Base::Sector
 {
-public:
   friend class CollisionSystem;
   friend class EditorSectorMenu;
+
+public:
+  static void register_class(ssq::VM& vm);
 
 private:
   static Sector* s_current;
@@ -71,7 +80,9 @@ public:
 
   void finish_construction(bool editable) override;
 
-  Level& get_level() const { return m_level; }
+  std::string get_exposed_class_name() const override { return "Sector"; }
+
+  inline Level& get_level() const { return m_level; }
   TileSet* get_tileset() const override;
   bool in_worldmap() const override;
 
@@ -88,6 +99,9 @@ public:
   /** stops all looping sounds in whole sector. */
   void stop_looping_sounds();
 
+  /** Freeze camera position for this frame, preventing camera interpolation jumps and loops */
+  void pause_camera_interpolation();
+
   /** continues the looping sounds in whole sector. */
   void play_looping_sounds();
 
@@ -98,59 +112,125 @@ public:
   /** Checks if the specified rectangle is free of (solid) tiles.
       Note that this does not include static objects, e.g. bonus blocks. */
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
+  /**
+   * @scripting
+   * @description Checks if the specified sector-relative rectangle is free of solid tiles.
+   * @param float $left
+   * @param float $top
+   * @param float $right
+   * @param float $bottom
+   * @param bool $ignore_unisolid If ""true"", unisolid tiles will be ignored.
+   */
+  bool is_free_of_solid_tiles(float left, float top, float right, float bottom,
+                              bool ignore_unisolid) const;
 
   /** Checks if the specified rectangle is free of both
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC.
       Note that this does not include badguys or players. */
-  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr, const bool ignoreUnisolid = false) const;
+  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr,
+                          const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
+  /**
+   * @scripting
+   * @description Checks if the specified sector-relative rectangle is free of both:
+                    1) Solid tiles.
+                    2) ""MovingObject""s in ""COLGROUP_STATIC"".
+                  Note: This does not include badguys or players.
+   * @param float $left
+   * @param float $top
+   * @param float $right
+   * @param float $bottom
+   * @param bool $ignore_unisolid If ""true"", unisolid tiles will be ignored.
+   */
+  bool is_free_of_statics(float left, float top, float right, float bottom,
+                          bool ignore_unisolid) const;
 
   /** Checks if the specified rectangle is free of both
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
       This includes badguys and players. */
-  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr,
+                                bool ignore_unisolid = false) const;
+  /**
+   * @scripting
+   * @description Checks if the specified sector-relative rectangle is free of both:
+                    1) Solid tiles.
+                    2) ""MovingObject""s in ""COLGROUP_STATIC"", ""COLGROUP_MOVINGSTATIC"" or ""COLGROUP_MOVING"".
+                  This includes badguys and players.
+   * @param float $left
+   * @param float $top
+   * @param float $right
+   * @param float $bottom
+   */
+  bool is_free_of_movingstatics(float left, float top, float right, float bottom) const;
 
   /** Checks if the specified rectangle is free of MovingObjects in COLGROUP_MOVINGSTATIC.
       Note that this does not include moving badguys, or players */
   bool is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+  /**
+   * @scripting
+   * @description Checks if the specified sector-relative rectangle is free of ""MovingObject""s in ""COLGROUP_MOVINGSTATIC"".
+                  Note: This does not include moving badguys or players.
+   * @param float $left
+   * @param float $top
+   * @param float $right
+   * @param float $bottom
+   */
+  bool is_free_of_specifically_movingstatics(float left, float top, float right, float bottom) const;
+
+  CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
+                                                             const Vector& line_end,
+                                                             CollisionSystem::RaycastIgnore ignore,
+                                                             const CollisionObject* ignore_object) const;
 
   CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
                                                              const Vector& line_end,
                                                              bool ignore_objects,
                                                              const CollisionObject* ignore_object) const;
+
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects = false, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;
 
-  Player* get_nearest_player (const Vector& pos) const;
-  Player* get_nearest_player (const Rectf& pos) const {
-    return (get_nearest_player (get_anchor_pos (pos, ANCHOR_MIDDLE)));
+  Player* get_nearest_player(const Vector& pos) const;
+  Player* get_nearest_player(const Rectf& pos) const
+  {
+    return get_nearest_player(get_anchor_pos(pos, ANCHOR_MIDDLE));
   }
 
   std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance) const;
 
   Rectf get_active_region() const;
 
-  int get_foremost_opaque_layer() const;
-  int get_foremost_layer() const;
+  inline int get_foremost_opaque_layer() const { return m_foremost_opaque_layer; }
+  inline int get_foremost_layer() const { return m_foremost_layer; }
 
   /** returns the editor size (in tiles) of a sector */
   Size get_editor_size() const;
 
   /** resize all tilemaps with given size */
-  void resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset);
+  void resize(const Size& old_size, const Size& new_size, const Size& resize_offset);
 
   /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
-  /** set gravity throughout sector */
-  void set_gravity(float gravity);
-  float get_gravity() const { return m_gravity; }
+  /**
+   * @scripting
+   * Sets the sector's gravity.
+   * @param float $gravity
+   */
+  inline void set_gravity(float gravity) { m_gravity = gravity; }
+  /**
+   * @scripting
+   * Returns the sector's gravity.
+   * @param float $gravity
+   */
+  inline float get_gravity() const { return m_gravity; }
 
   Camera& get_camera() const;
-  std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
-  TextObject& get_text_object() const { return m_text_object; }
+  inline TextObject& get_text_object() const { return m_text_object; }
+
+  std::vector<Player*> get_players() const;
 
   Vector get_spawn_point_position(const std::string& spawnpoint);
 
@@ -171,15 +251,22 @@ private:
 private:
   Level& m_level; // Parent level
 
-  bool m_fully_constructed;
   int m_foremost_layer;
   int m_foremost_opaque_layer;
 
+  /**
+   * @scripting
+   * @description The sector's gravity.
+   */
   float m_gravity;
 
   std::unique_ptr<CollisionSystem> m_collision_system;
 
   TextObject& m_text_object;
+
+  Vector m_last_translation; // For camera interpolation at high frame rates
+  float m_last_scale;
+  float m_last_dt;
 
 private:
   Sector(const Sector&) = delete;

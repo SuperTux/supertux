@@ -24,11 +24,14 @@
 
 #include "editor/widget.hpp"
 
+#include "editor/object_icon.hpp"
+#include "editor/object_info.hpp"
 #include "math/fwd.hpp"
 #include "util/uid.hpp"
 
 class DrawingContext;
 class Editor;
+class EditorTilebox;
 class GameObject;
 class LayerIcon;
 class TileMap;
@@ -49,13 +52,14 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
+  virtual bool event(const SDL_Event& ev) override;
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
   virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
 
   virtual void setup() override;
-  virtual void resize() override;
+  virtual void on_window_resize() override;
 
   void refresh();
 
@@ -74,12 +78,18 @@ public:
 private:
   Vector get_layer_coords(const int pos) const;
   int get_layer_pos(const Vector& coords) const;
+
   void update_tip();
+  void remove_invalid_layers();
 
 private:
   Editor& m_editor;
   std::vector<std::unique_ptr<LayerIcon>> m_layer_icons;
   UID m_selected_tilemap;
+
+  ObjectIcon m_add_icon;
+  std::unique_ptr<EditorTilebox> m_add_layer_box;
+  bool m_add_layer_box_visible;
 
   int m_Ypos;
   const int m_Xpos = 32;

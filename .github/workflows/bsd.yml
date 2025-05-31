@@ -38,16 +38,17 @@ jobs:
 
     runs-on: macos-10.15
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Build in FreeBSD
         if: ${{ matrix.vm_os == 'freebsd' }}
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
+          CMAKE_POLICY_VERSION_MINIMUM: 3.5
           # GLBINDING: ${{ matrix.glbinding }} # TODO: Re-add if available
         uses: vmactions/freebsd-vm@v0.1.4
         with:
@@ -80,4 +81,3 @@ jobs:
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1
             ./test_supertux2
-actions/checkout@v4

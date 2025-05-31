@@ -34,7 +34,7 @@ Sprite::Sprite(SpriteData& newdata) :
   m_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_blend(),
   m_is_paused(false),
-  m_action(m_data.get_action("normal"))
+  m_action(m_data.get_action("default"))
 {
   if (!m_action)
     m_action = m_data.actions.begin()->second.get();
@@ -98,6 +98,8 @@ Sprite::set_action(const std::string& name, int loops)
 
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
+    // HACK: Lots of things trigger this message therefore turning it into a warning
+    // would make it quite annoying
     log_debug << "Action '" << name << "' not found." << std::endl;
     return;
   }
@@ -124,6 +126,7 @@ Sprite::set_action(const std::string& name, int loops)
   }
 
   m_action = newaction;
+  m_last_ticks = g_game_time;
 }
 
 bool
@@ -138,13 +141,10 @@ Sprite::update()
   float frame_inc = m_action->fps * (g_game_time - m_last_ticks);
   m_last_ticks = g_game_time;
 
-  if (m_is_paused)
-  {
-    return;
-  }
+  if (m_is_paused) return;
 
   m_frame += frame_inc;
-
+  
   while (m_frame >= 1.0f) {
     m_frame -= 1.0f;
     m_frameidx++;
@@ -168,9 +168,8 @@ void
 Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
              Flip flip)
 {
-  assert(m_action != nullptr);
+  assert(m_action);
   update();
-
 
   DrawingContext& context = canvas.get_context();
   context.push_transform();
@@ -184,6 +183,29 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
                     m_color,
                     m_blend,
                     layer);
+
+  context.pop_transform();
+}
+
+void
+Sprite::draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
+                    Flip flip)
+{
+  assert(m_action);
+  update();
+
+  DrawingContext& context = canvas.get_context();
+  context.push_transform();
+
+  context.set_flip(context.get_flip() ^ flip);
+  context.set_alpha(context.get_alpha() * m_alpha);
+
+  PaintStyle style;
+  style.set_color(m_color);
+  style.set_alpha(m_color.alpha);
+  style.set_blend(m_blend);
+
+  canvas.draw_surface_scaled(m_action->surfaces[m_frameidx], dest_rect, layer, style);
 
   context.pop_transform();
 }
@@ -210,88 +232,10 @@ Sprite::get_action_surfaces(const std::string& name) const
   return action->surfaces;
 }
 
-bool
-Sprite::is_current_hitbox_unisolid() const
-{
-  return m_action->hitbox_unisolid;
-}
-
-float
-Sprite::get_current_hitbox_x_offset() const
-{
-  return m_action->x_offset;
-}
-
-float
-Sprite::get_current_hitbox_y_offset() const
-{
-  return m_action->y_offset;
-}
-
-float
-Sprite::get_current_hitbox_width() const
-{
-  return m_action->hitbox_w;
-}
-
-float
-Sprite::get_current_hitbox_height() const
-{
-  return m_action->hitbox_h;
-}
-
 Rectf
 Sprite::get_current_hitbox() const
 {
   return Rectf(m_action->x_offset, m_action->y_offset, m_action->x_offset + m_action->hitbox_w, m_action->y_offset + m_action->hitbox_h);
-}
-
-void
-Sprite::set_angle(float a)
-{
-  m_angle = a;
-}
-
-float
-Sprite::get_angle() const
-{
-  return m_angle;
-}
-
-void
-Sprite::set_alpha(float a)
-{
-  m_alpha = a;
-}
-
-float
-Sprite::get_alpha() const
-{
-  return m_alpha;
-}
-
-void
-Sprite::set_color(const Color& c)
-{
-  m_color = c;
-}
-
-Color
-Sprite::get_color() const
-{
-  return m_color;
-}
-
-void
-Sprite::set_blend(const Blend& b)
-{
-  m_blend = b;
-}
-
-Blend
-Sprite::get_blend() const
-{
-  return m_blend;
 }
 
 /* EOF */
