@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "math/random.hpp"
 #include "object/sprite_particle.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -27,7 +28,7 @@ static const float APPEAR_TIME = 0.5f;
 static const float RETREAT_TIME = 1.f;
 
 Root::Root(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/corrupted/root.sprite" , LAYER_TILES-10),
+  BadGuy(reader, "images/creatures/mole/corrupted/root.sprite", LAYER_TILES - 10),
   m_base_surface(nullptr),
   m_timer(),
   m_state(STATE_HATCHING),
@@ -37,11 +38,12 @@ Root::Root(const ReaderMapping& reader) :
 {
   reader.get("delay", m_delay, HATCH_TIME);
   reader.get("play-sound", m_play_sound, true);
+  set_action("root", m_dir);
   construct();
 }
 
 Root::Root(const Vector& pos, Direction dir, const std::string& sprite,
-           float delay, bool play_sound) :
+  float delay, bool play_sound, bool auto_construct) :
   BadGuy(pos, dir, sprite, LAYER_TILES - 10),
   m_base_surface(nullptr),
   m_timer(),
@@ -50,35 +52,36 @@ Root::Root(const Vector& pos, Direction dir, const std::string& sprite,
   m_maxheight(0.f),
   m_play_sound(play_sound)
 {
-  construct(delay, play_sound);
+  set_action("root", m_dir);
+  if (auto_construct)
+    construct();
 }
 
 void
-Root::construct(float delay, bool play_sound)
+Root::construct()
 {
   m_countMe = false;
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_DISABLED);
-  set_action("root", m_dir);
 
   Vector pos = get_pos();
   switch (m_dir)
   {
-    case Direction::DOWN:
-      pos.y -= get_bbox().get_height();
-      [[fallthrough]];
-    case Direction::UP:
-      pos.x -= (get_bbox().get_width() / 2);
-      break;
+  case Direction::DOWN:
+    pos.y -= get_bbox().get_height();
+    [[fallthrough]];
+  case Direction::UP:
+    pos.x -= (get_bbox().get_width() / 2);
+    break;
 
-    case Direction::RIGHT:
-      pos.x -= get_bbox().get_width();
-      [[fallthrough]];
-    case Direction::LEFT:
-      pos.y -= (get_bbox().get_height() / 2);
-      break;
+  case Direction::RIGHT:
+    pos.x -= get_bbox().get_width();
+    [[fallthrough]];
+  case Direction::LEFT:
+    pos.y -= (get_bbox().get_height() / 2);
+    break;
 
-    default: assert(false); break;
+  default: assert(false); break;
   }
 
   set_pos(pos);
@@ -104,31 +107,31 @@ Root::initialize()
   Vector basepos = get_bbox().get_middle();
   switch (m_dir)
   {
-    case Direction::UP:
-      basepos.y = m_start_position.y - 10;
-      break;
-    case Direction::DOWN:
-      basepos.y = m_start_position.y + get_bbox().get_height() + 10;
-      break;
-    case Direction::LEFT:
-      basepos.x = m_start_position.x - 10;
-      break;
-    case Direction::RIGHT:
-      basepos.x = m_start_position.x + get_bbox().get_width() + 10;
-      break;
-    default: assert(false); break;
+  case Direction::UP:
+    basepos.y = m_start_position.y - 10;
+    break;
+  case Direction::DOWN:
+    basepos.y = m_start_position.y + get_bbox().get_height() + 10;
+    break;
+  case Direction::LEFT:
+    basepos.x = m_start_position.x - 10;
+    break;
+  case Direction::RIGHT:
+    basepos.x = m_start_position.x + get_bbox().get_width() + 10;
+    break;
+  default: assert(false); break;
   }
 
   const float gravity = Sector::get().get_gravity() * 100.f;
   for (int i = 0; i < 5; i++)
   {
     const Vector velocity(graphicsRandom.randf(-100, 100),
-                          graphicsRandom.randf(-400, -300));
+      graphicsRandom.randf(-400, -300));
     Sector::get().add<SpriteParticle>("images/particles/corrupted_rock.sprite",
-                                      "piece-" + std::to_string(i),
-                                      basepos, ANCHOR_MIDDLE,
-                                      velocity, Vector(0, gravity),
-                                      LAYER_OBJECTS + 3, true);
+      "piece-" + std::to_string(i),
+      basepos, ANCHOR_MIDDLE,
+      velocity, Vector(0, gravity),
+      LAYER_OBJECTS + 3, true);
   }
 
   m_timer.start(m_delay);
@@ -144,34 +147,34 @@ Root::draw(DrawingContext& context)
   Vector pos = m_start_position;
   switch (m_dir)
   {
-    case Direction::UP:
-      pos.x -= m_sprite->get_current_hitbox_x_offset();
-      pos.y -= get_bbox().get_height() + 17.5f;
-      break;
+  case Direction::UP:
+    pos.x -= m_sprite->get_current_hitbox_x_offset();
+    pos.y -= get_bbox().get_height() + 17.5f;
+    break;
 
-    case Direction::DOWN:
-      pos.x -= m_sprite->get_current_hitbox_x_offset();
-      pos.y += get_bbox().get_height() - 5;
-      break;
+  case Direction::DOWN:
+    pos.x -= m_sprite->get_current_hitbox_x_offset();
+    pos.y += get_bbox().get_height() - 5;
+    break;
 
-    case Direction::LEFT:
-      pos.x -= get_bbox().get_width() + 12.5f;
-      pos.y -= m_sprite->get_current_hitbox_y_offset();
-      break;
+  case Direction::LEFT:
+    pos.x -= get_bbox().get_width() + 12.5f;
+    pos.y -= m_sprite->get_current_hitbox_y_offset();
+    break;
 
-    case Direction::RIGHT:
-      pos.x += get_bbox().get_width() - 5;
-      pos.y -= m_sprite->get_current_hitbox_y_offset();
-      break;
+  case Direction::RIGHT:
+    pos.x += get_bbox().get_width() - 5;
+    pos.y -= m_sprite->get_current_hitbox_y_offset();
+    break;
 
-    default: assert(false); break;
+  default: assert(false); break;
   }
   context.color().draw_surface(m_base_surface,
-                               pos,
-                               m_sprite->get_angle(),
-                               m_sprite->get_color(),
-                               m_sprite->get_blend(),
-                               m_layer+1);
+    pos,
+    m_sprite->get_angle(),
+    m_sprite->get_color(),
+    m_sprite->get_blend(),
+    m_layer + 1);
 }
 
 void
@@ -181,76 +184,76 @@ Root::active_update(float dt_sec)
 
   switch (m_state)
   {
-    case STATE_HATCHING:
-      if (m_timer.check())
-      {
-        m_state = STATE_APPEARING;
-        set_colgroup_active(COLGROUP_TOUCHABLE);
-        m_timer.start(APPEAR_TIME);
-      }
-      break;
-
-    case STATE_APPEARING:
+  case STATE_HATCHING:
+    if (m_timer.check())
     {
-      const float size = (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
-                         ? get_bbox().get_width()
-                         : get_bbox().get_height();
-      float progress = m_timer.get_timegone() / m_timer.get_period();
-      float offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
+      m_state = STATE_APPEARING;
+      set_colgroup_active(COLGROUP_TOUCHABLE);
+      m_timer.start(APPEAR_TIME);
+    }
+    break;
 
-      Vector pos = m_start_position;
-      switch (m_dir)
-      {
-        case Direction::UP: pos.y -= offset; break;
-        case Direction::DOWN: pos.y += offset; break;
-        case Direction::LEFT: pos.x -= offset; break;
-        case Direction::RIGHT: pos.x += offset; break;
-        default: assert(false); break;
-      }
-      set_pos(pos);
+  case STATE_APPEARING:
+  {
+    const float size = (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+      ? get_bbox().get_width()
+      : get_bbox().get_height();
+    float progress = m_timer.get_timegone() / m_timer.get_period();
+    float offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
 
-      if (m_timer.check())
-      {
-        m_state = STATE_RETREATING;
-        m_maxheight = (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
-                      ? get_pos().x
-                      : get_pos().y;
+    Vector pos = m_start_position;
+    switch (m_dir)
+    {
+    case Direction::UP: pos.y -= offset; break;
+    case Direction::DOWN: pos.y += offset; break;
+    case Direction::LEFT: pos.x -= offset; break;
+    case Direction::RIGHT: pos.x += offset; break;
+    default: assert(false); break;
+    }
+    set_pos(pos);
 
-        if (m_play_sound)
-          SoundManager::current()->play("sounds/darthit.wav", get_pos());
+    if (m_timer.check())
+    {
+      m_state = STATE_RETREATING;
+      m_maxheight = (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+        ? get_pos().x
+        : get_pos().y;
 
-        m_timer.start(RETREAT_TIME);
-      }
+      if (m_play_sound)
+        SoundManager::current()->play("sounds/darthit.wav", get_pos());
 
-      break;
+      m_timer.start(RETREAT_TIME);
     }
 
-    case STATE_RETREATING:
+    break;
+  }
+
+  case STATE_RETREATING:
+  {
+    const float size = (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+      ? get_bbox().get_width()
+      : get_bbox().get_height();
+    float progress = m_timer.get_timegone() / m_timer.get_period();
+    float offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
+
+    Vector pos = m_start_position;
+    switch (m_dir)
     {
-      const float size = (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
-                         ? get_bbox().get_width()
-                         : get_bbox().get_height();
-      float progress = m_timer.get_timegone() / m_timer.get_period();
-      float offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
-
-      Vector pos = m_start_position;
-      switch (m_dir)
-      {
-        case Direction::UP: pos.y = m_maxheight + offset; break;
-        case Direction::DOWN: pos.y = m_maxheight - offset; break;
-        case Direction::LEFT: pos.x = m_maxheight + offset; break;
-        case Direction::RIGHT: pos.x = m_maxheight - offset; break;
-        default: assert(false); break;
-      }
-      set_pos(pos);
-
-      if (m_timer.check())
-      {
-        remove_me();
-      }
-
-      break;
+    case Direction::UP: pos.y = m_maxheight + offset; break;
+    case Direction::DOWN: pos.y = m_maxheight - offset; break;
+    case Direction::LEFT: pos.x = m_maxheight + offset; break;
+    case Direction::RIGHT: pos.x = m_maxheight - offset; break;
+    default: assert(false); break;
     }
+    set_pos(pos);
+
+    if (m_timer.check())
+    {
+      remove_me();
+    }
+
+    break;
+  }
   }
 }
 
