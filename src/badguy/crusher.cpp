@@ -153,7 +153,7 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
   }
 
   auto* rock = dynamic_cast<Rock*>(&other);
-  if (rock && !rock->is_grabbed() && is_crushing)
+  if (rock && !rock->is_grabbed() && is_crushing && hit.bottom)
   {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
     m_physic.reset();
