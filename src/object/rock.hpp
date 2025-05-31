@@ -46,9 +46,10 @@ public:
   std::string get_default_sprite_name() const override;
   void draw(DrawingContext& context) override;
 
-  /** Adds velocity from wind */
-  virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
   inline Physic& get_physic() { return m_physic; }
+
+protected:
+  virtual void handle_wind();
 
 private:
   enum Type {
