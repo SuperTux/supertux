@@ -110,7 +110,7 @@ Brick::collision(MovingObject& other, const CollisionHit& hit)
   }
 
   auto crusher = dynamic_cast<Crusher*> (&other);
-  if (crusher && m_coin_counter == 0)
+  if (crusher && crusher->get_state() == Crusher::CRUSHING && m_coin_counter == 0)
     try_break(nullptr);
 
   return Block::collision(other, hit);
@@ -184,7 +184,7 @@ HeavyBrick::collision(MovingObject& other, const CollisionHit& hit)
   if (player && player->m_does_buttjump) ricochet(&other);
 
   auto crusher = dynamic_cast<Crusher*>(&other);
-  if (crusher)
+  if (crusher && crusher->get_state() == Crusher::CRUSHING)
   {
     if (crusher->is_big())
       try_break(nullptr);

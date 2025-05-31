@@ -48,7 +48,7 @@ namespace
   constexpr float RECOVER_SPEED_LARGE = -2.0f;
   constexpr float PAUSE_TIME_NORMAL = 0.5f;
   constexpr float PAUSE_TIME_LARGE = 1.0f;
-  constexpr float DETECT_RANGE = std::numeric_limits<float>::infinity();
+  constexpr float DETECT_RANGE = 1000.f;
 
   constexpr float MAX_CRUSH_SPEED = 700.f;
 
@@ -565,12 +565,12 @@ Crusher::idle()
   Vector final_pos = m_start_position;
   if (std::abs(m_dir_vector.x) > 0.01f) // Horizontal
   {
-    final_pos.x = m_start_position.x - m_dir_vector.x;
+    final_pos.x = m_start_position.x - m_dir_vector.x * 0.5f;
     final_pos.y = m_start_position.y;
   }
   else if (std::abs(m_dir_vector.y) > 0.01f) // Vertical
   {
-    final_pos.y = m_start_position.y - m_dir_vector.y;
+    final_pos.y = m_start_position.y - m_dir_vector.y * 0.5f;
     final_pos.x = m_start_position.x;
   }
 
