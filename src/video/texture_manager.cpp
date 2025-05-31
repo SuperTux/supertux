@@ -185,11 +185,11 @@ TextureManager::get(const ReaderMapping& mapping, const std::optional<Rect>& reg
     }
     else
     {
-      rect->left += region->left;
-      rect->top += region->top;
+      rect->set_left(rect->get_left() + region->get_left());
+      rect->set_top(rect->get_top() += region->get_top());
 
-      rect->right = rect->left + region->get_width();
-      rect->bottom = rect->top + region->get_height();
+      rect->set_right(rect->get_left() + region->get_width());
+      rect->set_bottom(rect->get_top() + region->get_height());
     }
   }
 
@@ -333,26 +333,28 @@ TextureManager::create_image_surface_raw(const std::string& filename, const Rect
                                                   surface.format->Bmask,
                                                   surface.format->Amask));
 
-    Rect clipped_rect(std::max(0, rect.left),
-                      std::max(0, rect.top),
-                      std::min(subimage->w, rect.right),
-                      std::min(subimage->w, rect.bottom));
+    Rect clipped_rect(std::max(0, rect.get_left()),
+                      std::max(0, rect.get_top()),
+                      std::min(subimage->w, rect.get_right()),
+                      std::min(subimage->h, rect.get_bottom()));
 
     SDL_Rect srcrect = clipped_rect.to_sdl();
     SDL_BlitSurface(const_cast<SDL_Surface*>(&surface), &srcrect, subimage.get(), nullptr);
   }
   else
   {
-    subimage = SDLSurfacePtr(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(surface.pixels) +
-                                                      rect.top * surface.pitch +
-                                                      rect.left * surface.format->BytesPerPixel,
-                                                      rect.get_width(), rect.get_height(),
-                                                      surface.format->BitsPerPixel,
-                                                      surface.pitch,
-                                                      surface.format->Rmask,
-                                                      surface.format->Gmask,
-                                                      surface.format->Bmask,
-                                                      surface.format->Amask));
+    subimage = SDLSurfacePtr(
+        SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(surface.pixels)
+                                     + rect.get_top() * surface.pitch
+                                     + rect.get_left() * surface.format->BytesPerPixel,
+                                 rect.get_width(),
+                                 rect.get_height(),
+                                 surface.format->BitsPerPixel,
+                                 surface.pitch,
+                                 surface.format->Rmask,
+                                 surface.format->Gmask,
+                                 surface.format->Bmask,
+                                 surface.format->Amask));
     if (!subimage)
     {
       throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");

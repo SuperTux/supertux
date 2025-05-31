@@ -21,7 +21,7 @@
 
 #include <functional>
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 

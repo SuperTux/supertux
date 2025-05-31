@@ -22,8 +22,7 @@
 
 #include "config.h"
 
-
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 

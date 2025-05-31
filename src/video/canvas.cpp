@@ -382,8 +382,9 @@ Vector
 Canvas::apply_translate(const Vector& pos) const
 {
   const Vector& translation = m_context.transform().translation;
-  return (pos - translation) + Vector(static_cast<float>(m_context.get_viewport().left),
-                                      static_cast<float>(m_context.get_viewport().top));
+  return (pos - translation)
+         + Vector(static_cast<float>(m_context.get_viewport().get_left()),
+                  static_cast<float>(m_context.get_viewport().get_top()));
 }
 
 float

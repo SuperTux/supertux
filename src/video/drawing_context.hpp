@@ -23,7 +23,6 @@
 #include <optional>
 
 #include "math/rect.hpp"
-#include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/canvas.hpp"
 #include "video/color.hpp"

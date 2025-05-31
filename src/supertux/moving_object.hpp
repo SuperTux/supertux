@@ -21,7 +21,7 @@
 
 #include "collision/collision_hit.hpp"
 #include "collision/collision_object.hpp"
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 
 class Dispenser;
 class Sector;

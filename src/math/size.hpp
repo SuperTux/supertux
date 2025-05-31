@@ -14,111 +14,122 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_MATH_SIZE_HPP
-#define HEADER_SUPERTUX_MATH_SIZE_HPP
+#ifndef SIZE_HPP
+#define SIZE_HPP
 
-#include <iosfwd>
+#include "fwd.hpp"
+#include "vector.hpp"
 
-class Sizef;
-
-class Size final
+template<typename T>
+class Size_t final
 {
 public:
-  Size() :
-    width(0),
-    height(0)
+  using type = T;
+
+  Size_t()
+      : width(T(0))
+      , height(T(0))
   {}
 
-  Size(int width_, int height_) :
-    width(width_),
-    height(height_)
+  Size_t(T width_, T height_)
+      : width(width_)
+      , height(height_)
   {}
 
-  Size(const Size& rhs) = default;
-  Size& operator=(const Size& rhs) = default;
+  explicit Size_t(const Vector_t<T>& v)
+      : width(v.x)
+      , height(v.y)
+  {}
 
-  explicit Size(const Sizef& rhs);
+  Size_t(const Size_t& rhs) = default;
+  Size_t& operator=(const Size_t& rhs) = default;
 
-  Size& operator*=(int factor)
+  Size_t& operator*=(T factor)
   {
-    width  *= factor;
+    width *= factor;
     height *= factor;
     return *this;
   }
 
-  Size& operator/=(int divisor)
+  Size_t& operator/=(T divisor)
   {
-    width  /= divisor;
+    width /= divisor;
     height /= divisor;
     return *this;
   }
 
-  Size& operator+=(const Size& rhs)
+  Size_t& operator+=(const Size_t& rhs)
   {
-    width  += rhs.width;
+    width += rhs.width;
     height += rhs.height;
     return *this;
   }
 
-  Size& operator-=(const Size& rhs)
+  Size_t& operator-=(const Size_t& rhs)
   {
-    width  -= rhs.width;
+    width -= rhs.width;
     height -= rhs.height;
     return *this;
   }
 
-  bool is_valid() const 
+  inline Vector_t<T> as_vector() const { return Vector_t<T>(width, height); }
+
+  inline bool is_valid() const { return width > 0 && height > 0; }
+
+  template<typename U>
+  operator Size_t<U>() const
   {
-    return width > 0 && height > 0;
+    return Size_t<U>(U(width), U(height));
   }
 
 public:
-  int width;
-  int height;
+  T width;
+  T height;
 };
 
-inline Size operator*(const Size& lhs, int factor)
+template<typename T>
+inline Size_t<T> operator*(const Size_t<T>& lhs, T factor)
 {
-  return Size(lhs.width  * factor,
-              lhs.height * factor);
+  return Size_t<T>(lhs.width * factor, lhs.height * factor);
 }
 
-inline Size operator*(int factor, const Size& rhs)
+template<typename T>
+inline Size_t<T> operator*(T factor, const Size_t<T>& rhs)
 {
-  return Size(rhs.width  * factor,
-              rhs.height * factor);
+  return Size_t<T>(rhs.width * factor, rhs.height * factor);
 }
 
-inline Size operator/(const Size& lhs, int divisor)
+template<typename T>
+inline Size_t<T> operator/(const Size_t<T>& lhs, T divisor)
 {
-  return Size(lhs.width  / divisor,
-              lhs.height / divisor);
+  return Size_t<T>(lhs.width / divisor, lhs.height / divisor);
 }
 
-inline Size operator+(const Size& lhs, const Size& rhs)
+template<typename T>
+inline Size_t<T> operator+(const Size_t<T>& lhs, const Size_t<T>& rhs)
 {
-  return Size(lhs.width  + rhs.width,
-              lhs.height + rhs.height);
+  return Size_t<T>(lhs.width + rhs.width, lhs.height + rhs.height);
 }
 
-inline Size operator-(const Size& lhs, const Size& rhs)
+template<typename T>
+inline Size_t<T> operator-(const Size_t<T>& lhs, const Size_t<T>& rhs)
 {
-  return Size(lhs.width  - rhs.width,
-              lhs.height - rhs.height);
+  return Size_t<T>(lhs.width - rhs.width, lhs.height - rhs.height);
 }
 
-inline bool operator==(const Size& lhs, const Size& rhs)
+template<typename T>
+inline bool operator==(const Size_t<T>& lhs, const Size_t<T>& rhs)
 {
-  return (lhs.width == rhs.width) && (lhs.height == rhs.height);
+  return (lhs.width == rhs.width) && (rhs.height == rhs.height);
 }
 
-inline bool operator!=(const Size& lhs, const Size& rhs)
+template<typename T>
+inline bool operator!=(const Size_t<T>& lhs, const Size_t<T>& rhs)
 {
   return (lhs.width != rhs.width) || (lhs.height != rhs.height);
 }
 
 std::ostream& operator<<(std::ostream& s, const Size& size);
+std::ostream& operator<<(std::ostream& s, const Sizef& size);
 
-#endif
-
-/* EOF */
+#endif // SIZE_HPP

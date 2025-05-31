@@ -22,7 +22,7 @@
 #include <vector>
 #include <stdint.h>
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 

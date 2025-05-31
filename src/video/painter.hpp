@@ -22,7 +22,6 @@
 #include "math/vector.hpp"
 #include "video/color.hpp"
 
-class Rect;
 struct DrawingRequest;
 struct FillRectRequest;
 struct GetPixelRequest;

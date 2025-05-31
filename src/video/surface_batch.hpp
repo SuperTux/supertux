@@ -23,8 +23,6 @@
 #include "video/paint_style.hpp"
 #include "video/surface_ptr.hpp"
 
-class Rectf;
-
 class SurfaceBatch
 {
 public:

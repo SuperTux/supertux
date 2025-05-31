@@ -20,7 +20,7 @@
 #include <string.h>
 #include <memory>
 
-#include "math/sizef.hpp"
+#include "math/size.hpp"
 #include "object/path.hpp"
 #include "util/uid.hpp"
 

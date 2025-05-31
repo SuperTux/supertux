@@ -23,7 +23,7 @@
 #include <memory>
 #include <obstack.h>
 
-#include "math/rectf.hpp"
+#include "math/rect.hpp"
 #include "math/vector.hpp"
 #include "video/blend.hpp"
 #include "video/color.hpp"
