@@ -71,6 +71,9 @@ public:
    */
   virtual int get_layer() const override { return m_layer; }
 
+  // Returns induced acceleration onto an object, approximated from maximal speeds and accelerations
+  Vector get_induced_acceleration(const Rectf& bbox, const Physic& physic) const;
+  
 private:
   int m_layer;
   bool blowing; /**< true if wind is currently switched on */
@@ -86,7 +89,7 @@ private:
   bool fancy_wind;
   bool particles_enabled;
   
-  Vector get_induced_acceleration(const MovingObject* other, const Physic& physic);
+  void accelerate_object(const MovingObject* other, Physic& physic);
 
 private:
   Wind(const Wind&) = delete;
