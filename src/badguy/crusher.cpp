@@ -234,7 +234,18 @@ Crusher::has_recovered()
       recovered = math::in_bounds(current_left, m_start_position.x - tolerance, m_start_position.x + tolerance);
       break;
     case CrusherDirection::ALL:
-      recovered = Rectf(m_start_position - Vector(tolerance, tolerance), Sizef(tolerance, tolerance) * 2.f).contains(current_pos);
+      if (std::abs(m_dir_vector.y) > 0.1f)
+      {
+        recovered = math::in_bounds(current_pos.y, m_start_position.y - tolerance, m_start_position.y + tolerance);
+      }
+      else if (std::abs(m_dir_vector.x) > 0.1f)
+      {
+        recovered = math::in_bounds(current_pos.x, m_start_position.x - tolerance, m_start_position.x + tolerance);
+      }
+      else
+      {
+        recovered = Rectf(m_start_position - Vector(tolerance, tolerance), Sizef(tolerance, tolerance) * 2.f).contains(current_pos);
+      }
       break;
     default:
       recovered = false;
@@ -400,7 +411,8 @@ Crusher::spawn_particles(const CollisionHit& hit_info)
   }
 
   // Throw some particles.
-  for (int j = 0; j < 5; ++j) {
+  for (int j = 0; j < 5; ++j)
+  {
     Vector spawn_pos = impact_point;
     const float offset_dist = (static_cast<float>(j) - 2.0f) * 8.0f;
 
@@ -740,7 +752,7 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
   auto* rock = dynamic_cast<Rock*>(&other);
   if (rock && !rock->is_grabbed())
   {
-    if (m_dir != CrusherDirection::HORIZONTAL && m_dir != CrusherDirection::UP)
+    if (m_dir != CrusherDirection::HORIZONTAL && m_dir != CrusherDirection::UP && m_dir != CrusherDirection::ALL)
     {
       SoundManager::current()->play("sounds/brick.wav", get_pos());
       crushed(hit);
@@ -829,6 +841,8 @@ Crusher::update(float dt_sec)
 
   Vector frame_movement = m_physic.get_movement(dt_sec);
   m_col.propagate_movement(frame_movement);
+
+  const CrusherState old_state = m_state;
 
   switch (m_state)
   {
@@ -922,6 +936,12 @@ Crusher::update(float dt_sec)
     default:
       log_warning << "Crusher is in an invalid state." << std::endl;
       break;
+  }
+
+  // Prevent extra movement after idle() sets position.
+  if (old_state == RECOVERING && m_state == IDLE)
+  {
+    frame_movement = Vector(0.0f, 0.0f);
   }
 
   bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
