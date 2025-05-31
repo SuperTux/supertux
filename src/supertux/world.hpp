@@ -49,6 +49,7 @@ public:
 
   inline const std::string& get_contrib_type() const { return m_contrib_type; }
   inline const std::string& get_title_level() const { return m_title_level; }
+  inline const std::string get_type() const { return m_is_levelset ? "levelset" : "worldmap"; }
 
   std::string get_worldmap_filename() const;
 

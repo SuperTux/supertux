@@ -650,7 +650,7 @@ Sector::get_editor_size() const
 }
 
 void
-Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset)
+Sector::resize(const Size& old_size, const Size& new_size, const Size& resize_offset)
 {
   BIND_SECTOR(*this);
 

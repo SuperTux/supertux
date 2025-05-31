@@ -173,6 +173,7 @@ protected:
     STATE_INACTIVE,
     STATE_ACTIVE,
     STATE_SQUISHED,
+    STATE_SQUISHED_FADING_OUT,
     STATE_FALLING,
     STATE_BURNING,
     STATE_MELTING,
@@ -329,6 +330,9 @@ private:
 
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup m_colgroup_active;
+
+  /** The alpha value at the time the Badguy begins to fadeout */
+  float m_alpha_before_fadeout;
 
 private:
   BadGuy(const BadGuy&) = delete;

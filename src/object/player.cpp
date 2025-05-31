@@ -2392,6 +2392,9 @@ Player::collision(MovingObject& other, const CollisionHit& hit)
       return FORCE_MOVE;
     if (m_stone)
       return ABORT_MOVE;
+
+    if (hit.bottom && badguy->is_frozen())
+      m_on_ground_flag = true;
   }
 
   return CONTINUE;
