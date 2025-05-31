@@ -419,9 +419,6 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
   // Collision with other (static) objects.
   for (auto* static_object : m_objects)
   {
-    const float static_size = static_object->get_bbox().get_width() * static_object->get_bbox().get_height();
-    const float object_size = object.get_bbox().get_width() * object.get_bbox().get_height();
-
     if ((
           static_object->get_group() == COLGROUP_STATIC ||
           static_object->get_group() == COLGROUP_MOVING_STATIC
