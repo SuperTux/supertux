@@ -101,6 +101,7 @@ const float OVERSPEED_DECELERATION = 100;
 
 /** multiplied by WALK_ACCELERATION to give friction */
 const float NORMAL_FRICTION_MULTIPLIER = 1.5f;
+const float STATIC_FRICTION_MULTIPLIER = 2.0f;
 /** multiplied by WALK_ACCELERATION to give friction */
 const float ICE_FRICTION_MULTIPLIER = 0.1f;
 const float ICE_ACCELERATION_MULTIPLIER = 0.25f;
@@ -629,7 +630,7 @@ Player::update(float dt_sec)
   }
 
   if (!m_dying && !m_deactivated)
-    handle_input();
+    handle_input(dt_sec);
 
   /*
   // handle_input() calls apply_friction() when Tux is not walking, so we'll have to do this ourselves
@@ -956,7 +957,7 @@ Player::update(float dt_sec)
 }
 
 void
-Player::slide()
+Player::slide(float dt_sec)
 {
   if (m_swimming || m_water_jump || m_stone)
   {
@@ -1005,7 +1006,7 @@ Player::slide()
       if (m_floor_normal.y == 0.f && m_can_jump)
       {
         if (!m_slidejumping && !m_jumping) {
-          apply_friction();
+          apply_friction(dt_sec);
         }
       }
       else
@@ -1158,30 +1159,31 @@ Player::swim(float pointx, float pointy, bool boost)
 }
 
 void
-Player::apply_friction()
+Player::apply_friction(float dt_sec)
 {
   bool is_on_ground = on_ground();
   float velx = m_physic.get_velocity_x();
-  if (is_on_ground && (fabsf(velx) < (m_stone ? 5.f : WALK_SPEED))) {
+  /*if (is_on_ground && (fabsf(velx) < (m_stone ? 5.f : WALK_SPEED))) {
     m_physic.set_velocity_x(0);
     m_physic.set_acceleration_x(0);
     return;
-  }
+  }*/
   float friction = WALK_ACCELERATION_X;
   if (m_on_ice && is_on_ground)
     //we need this or else sliding on ice will cause Tux to go on for a very long time
     friction *= (ICE_FRICTION_MULTIPLIER*(m_sliding ? 4.f : m_stone ? 5.f : 1.f));
   else
     friction *= (NORMAL_FRICTION_MULTIPLIER*(m_sliding ? 0.8f : m_stone ? 0.4f : 1.f));
+  if (is_on_ground && (fabsf(velx) < (m_stone ? 5.f : WALK_SPEED))) friction *= STATIC_FRICTION_MULTIPLIER;
   if (velx < 0) {
-    m_physic.set_acceleration_x(friction);
+    m_physic.accelerate_x(friction, dt_sec, 0.0f);
   } else if (velx > 0) {
-    m_physic.set_acceleration_x(-friction);
+    m_physic.accelerate_x(-friction, dt_sec, 0.0f);
   } // no friction for physic.get_velocity_x() == 0
 }
 
 void
-Player::handle_horizontal_input()
+Player::handle_horizontal_input(float dt_sec)
 {
   float vx = m_physic.get_velocity_x();
   float vy = m_physic.get_velocity_y();
@@ -1295,7 +1297,7 @@ Player::handle_horizontal_input()
 
   // we get slower when not pressing any keys
   if (dirsign == 0) {
-    apply_friction();
+    apply_friction(dt_sec);
   }
 }
 
@@ -1538,7 +1540,7 @@ Player::handle_vertical_input()
 }
 
 void
-Player::handle_input()
+Player::handle_input(float dt_sec)
 {
   // Display the player's ID on top of them at the beginning of the level/sector
   // and persist the number until the player moves, because players will be
@@ -1560,7 +1562,7 @@ Player::handle_input()
     return;
   }
   if (m_stone) {
-    handle_input_rolling();
+    handle_input_rolling(dt_sec);
     return;
   }
   if (m_swimming) {
@@ -1607,7 +1609,7 @@ Player::handle_input()
     m_peekingY = Direction::DOWN;
 
   /* Handle horizontal movement: */
-  if (!m_backflipping && !m_stone && !m_swimming && !m_sliding) handle_horizontal_input();
+  if (!m_backflipping && !m_stone && !m_swimming && !m_sliding) handle_horizontal_input(dt_sec);
 
   /* Jump/jumping? */
   if (on_ground())
@@ -1654,7 +1656,7 @@ Player::handle_input()
   }
 
   if (m_stone)
-    apply_friction();
+    apply_friction(dt_sec);
 
   /* Duck or Standup! */
   if (((m_controller->pressed(Control::DOWN) && !m_growing && !m_stone) || ((m_duck || m_wants_buttjump || m_crawl) && m_controller->hold(Control::DOWN))) &&
@@ -1745,7 +1747,7 @@ Player::handle_input()
   if (m_sliding)
   {
     adjust_height(DUCKED_TUX_HEIGHT);
-    slide();
+    slide(dt_sec);
   }
   else if (!m_sliding && (m_coyote_timer.started()) && !m_skidding_timer.started() &&
     (m_floor_normal.y != 0 || (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)))
@@ -1754,7 +1756,7 @@ Player::handle_input()
   {
     sideways_push(m_dir == Direction::LEFT ? -100.f : 100.f);
     adjust_height(DUCKED_TUX_HEIGHT);
-    slide();
+    slide(dt_sec);
   }
 }
 
@@ -2585,13 +2587,6 @@ Player::add_velocity(const Vector& velocity)
 void
 Player::add_velocity(const Vector& velocity, const Vector& end_speed)
 {
-  const Vector new_speed = m_physic.get_velocity() + velocity;
-  if (glm::dot(velocity, end_speed - new_speed) < 0) { // Do we overshot the end_speed?
-    m_physic.set_velocity(end_speed);
-  } else {
-    m_physic.set_velocity(new_speed);
-  }
-  /*
   if (end_speed.x > 0)
     m_physic.set_velocity_x(std::min(m_physic.get_velocity_x() + velocity.x, end_speed.x));
   if (end_speed.x < 0)
@@ -2600,7 +2595,6 @@ Player::add_velocity(const Vector& velocity, const Vector& end_speed)
     m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
   if (end_speed.y < 0)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
-  */
 }
 
 void
@@ -2763,7 +2757,7 @@ Player::handle_input_climbing()
 }
 
 void
-Player::handle_input_rolling()
+Player::handle_input_rolling(float dt_sec)
 {
   // handle exiting
   if (m_stone)
@@ -2842,7 +2836,7 @@ Player::handle_input_rolling()
       m_physic.set_acceleration_x(ax + sx);
     }
     else {
-      apply_friction();
+      apply_friction(dt_sec);
     }
   }
 }

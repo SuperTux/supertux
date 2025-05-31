@@ -461,14 +461,14 @@ public:
   bool track_state() const override { return false; }
 
 private:
-  void handle_input();
+  void handle_input(float dt_sec);
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
-  void handle_input_rolling();
+  void handle_input_rolling(float dt_sec);
 
   void handle_input_swimming();
 
-  void handle_horizontal_input();
+  void handle_horizontal_input(float dt_sec);
   void handle_vertical_input();
 
   /** Set Tux's position, reset state and velocity. */
@@ -477,13 +477,13 @@ private:
   void do_jump_apex();
   void early_jump_apex();
 
-  void slide();
+  void slide(float dt_sec);
   void swim(float pointx, float pointy, bool boost);
 
   BonusType string_to_bonus(const std::string& bonus) const;
 
   /** slows Tux down a little, based on where he's standing */
-  void apply_friction();
+  void apply_friction(float dt_sec);
 
   void check_bounds();
 
