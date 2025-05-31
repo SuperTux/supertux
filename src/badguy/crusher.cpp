@@ -740,9 +740,64 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
   auto* rock = dynamic_cast<Rock*>(&other);
   if (rock && !rock->is_grabbed())
   {
-    SoundManager::current()->play("sounds/brick.wav", get_pos());
-    crushed(hit);
-    return ABORT_MOVE;
+    if (m_dir != CrusherDirection::HORIZONTAL && m_dir != CrusherDirection::UP)
+    {
+      SoundManager::current()->play("sounds/brick.wav", get_pos());
+      crushed(hit);
+      return ABORT_MOVE;
+    }
+    else
+    {
+      // Ensure the rock does not get stuck in a wall when pushed by the crusher.
+      const float probe_distance = 1.0f;
+      const Rectf rock_bbox = rock->get_bbox();
+      Rectf wall_check_bbox;
+
+      if (m_dir_vector.x > 0.5f) // Right
+      {
+        wall_check_bbox = Rectf(rock_bbox.get_right(),
+                                rock_bbox.get_top(),
+                                rock_bbox.get_right() + probe_distance,
+                                rock_bbox.get_bottom());
+      }
+      else if (m_dir_vector.x < -0.5f) // Left
+      {
+        wall_check_bbox = Rectf(rock_bbox.get_left() - probe_distance,
+                                rock_bbox.get_top(),
+                                rock_bbox.get_left(),
+                                rock_bbox.get_bottom());
+      }
+      else if (m_dir_vector.y < -0.5f) // Up
+      {
+        wall_check_bbox = Rectf(rock_bbox.get_left(),
+                                rock_bbox.get_top() - probe_distance,
+                                rock_bbox.get_right(),
+                                rock_bbox.get_top());
+      }
+      else if (m_dir_vector.y > 0.5f) // Down
+      {
+        wall_check_bbox = Rectf(rock_bbox.get_left(),
+                                rock_bbox.get_bottom(),
+                                rock_bbox.get_right(),
+                                rock_bbox.get_bottom() + probe_distance);
+      }
+      else
+      {
+        return FORCE_MOVE;
+      }
+
+      const bool rock_would_hit_wall = !Sector::get().is_free_of_tiles(wall_check_bbox, false, Tile::SOLID);
+
+      if (rock_would_hit_wall)
+      {
+        crushed(hit);
+        return ABORT_MOVE;
+      }
+      else
+      {
+        return FORCE_MOVE;
+      }
+    }
   }
 
   const auto* heavy_coin = dynamic_cast<HeavyCoin*>(&other);
@@ -771,6 +826,9 @@ void
 Crusher::update(float dt_sec)
 {
   MovingSprite::update(dt_sec);
+
+  Vector frame_movement = m_physic.get_movement(dt_sec);
+  m_col.propagate_movement(frame_movement);
 
   switch (m_state)
   {
@@ -865,8 +923,6 @@ Crusher::update(float dt_sec)
       log_warning << "Crusher is in an invalid state." << std::endl;
       break;
   }
-
-  Vector frame_movement = m_physic.get_movement(dt_sec);
 
   bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
   if (in_water)
