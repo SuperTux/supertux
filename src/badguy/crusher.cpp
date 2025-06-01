@@ -169,10 +169,9 @@ Crusher::should_crush()
 
         continue;
     }
-    else
+    else if (!playerbbox.overlaps(get_detect_box()))
     {
-      if (!playerbbox.overlaps(get_detect_box()))
-        continue;
+      continue;
     }
 
     RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
@@ -942,18 +941,6 @@ Crusher::update(float dt_sec)
 {
   MovingSprite::update(dt_sec);
 
-  Vector frame_movement;
-  if (m_state == AWAIT_IDLE)
-  {
-    frame_movement = Vector(0.f, 0.f);
-    m_physic.set_velocity(Vector(0.f, 0.f));
-  }
-  else
-  {
-    frame_movement = m_physic.get_movement(dt_sec);
-  }
-  m_col.propagate_movement(frame_movement);
-
   const CrusherState old_state = m_state;
 
   switch (m_state)
@@ -1002,36 +989,27 @@ Crusher::update(float dt_sec)
           {
             brick.break_for_crusher(this);
           }
-          else
+          else if (is_big())
           {
-            if (is_big())
-            {
-              brick.break_for_crusher(this);
-            }
+            brick.break_for_crusher(this);
           }
         }
       }
 
       Vector current_velocity = m_physic.get_velocity();
-      if (m_dir_vector.x != 0.f) // Horizontal
+      if (m_dir_vector.x != 0.f && std::abs(current_velocity.x) > MAX_CRUSH_SPEED) // Horizontal
       {
-        if (std::abs(current_velocity.x) > MAX_CRUSH_SPEED)
-        {
-          current_velocity.x = std::copysign(MAX_CRUSH_SPEED, current_velocity.x);
-          m_physic.set_velocity(current_velocity);
-        }
+        current_velocity.x = std::copysign(MAX_CRUSH_SPEED, current_velocity.x);
+        m_physic.set_velocity(current_velocity);
       }
-      if (m_dir_vector.y != 0.f) // Vertical
+      if (m_dir_vector.y != 0.f && std::abs(current_velocity.y) > MAX_CRUSH_SPEED) // Vertical
       {
-        if (std::abs(current_velocity.y) > MAX_CRUSH_SPEED)
-        {
-          current_velocity.y = std::copysign(MAX_CRUSH_SPEED, current_velocity.y);
-          m_physic.set_velocity(current_velocity);
-        }
+        current_velocity.y = std::copysign(MAX_CRUSH_SPEED, current_velocity.y);
+        m_physic.set_velocity(current_velocity);
       }
       break;
     }
-
+    
     case DELAY:
       if (m_state_timer.check())
       {
@@ -1052,12 +1030,9 @@ Crusher::update(float dt_sec)
       {
         idle();
       }
-      else
+      else if (is_recovery_path_clear_of_crushers())
       {
-        if (is_recovery_path_clear_of_crushers())
-        {
-          recover();
-        }
+        recover();
       }
       break;
 
@@ -1066,19 +1041,21 @@ Crusher::update(float dt_sec)
       break;
   }
 
+  Vector frame_movement;
+
   // Prevent extra movement after idle() sets position.
   if (old_state == RECOVERING && m_state == IDLE)
   {
     frame_movement = Vector(0.0f, 0.0f);
   }
-
-  if (m_state != AWAIT_IDLE)
+  else if (m_state != AWAIT_IDLE)
   {
     frame_movement = m_physic.get_movement(dt_sec);
   }
   else
   {
     frame_movement = Vector(0.0f, 0.0f);
+    m_physic.set_velocity(Vector(0.0f, 0.0f));
   }
 
   bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
