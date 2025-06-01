@@ -108,7 +108,7 @@ FileSystemMenu::refresh_items()
   const bool in_basedir = m_directory == FileSystem::normalize(m_basedir);
   for (const auto& item : m_files)
   {
-    std::string file_path = FileSystem::join(m_directory, item);
+    const std::string file_path = FileSystem::join(m_directory, item);
     MenuItem& menu_item = add_entry(item_id, item);
     if (m_item_processor)
       m_item_processor(menu_item, file_path, in_basedir);
