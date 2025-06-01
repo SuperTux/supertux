@@ -862,9 +862,8 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
       crushed(hit);
       return ABORT_MOVE;
     }
-    else
+    else // Ensure the rock does not get stuck in a wall when pushed by the crusher.
     {
-      // Ensure the rock does not get stuck in a wall when pushed by the crusher.
       const float probe_distance = 1.0f;
       const Rectf rock_bbox = rock->get_bbox();
       Rectf wall_check_bbox;
@@ -1028,6 +1027,7 @@ Crusher::update(float dt_sec)
       }
       break;
     }
+
     case DELAY:
       if (m_state_timer.check())
       {
@@ -1041,6 +1041,7 @@ Crusher::update(float dt_sec)
         idle();
       }
       break;
+
     // We want to ensure that the crusher still recovers after avoiding other crushers.
     case AWAIT_IDLE:
       if (has_recovered())
