@@ -33,7 +33,8 @@ public:
     IDLE,
     CRUSHING,
     DELAY,
-    RECOVERING
+    RECOVERING,
+    AWAIT_IDLE
   };
 
   enum class CrusherDirection
@@ -108,6 +109,7 @@ private:
   void run_crush_script();
   void recover();
   void idle();
+  bool is_recovery_path_clear_of_crushers() const;
 
   void spawn_roots();
   void spawn_particles(const CollisionHit& hit_info);

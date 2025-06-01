@@ -55,7 +55,8 @@ namespace
   constexpr float RECOVER_SPEED_MULTIPLIER_NORMAL = 1.125f;
   constexpr float RECOVER_SPEED_MULTIPLIER_LARGE = 1.0f;
 
-  constexpr float BRICK_BREAK_PROBE_DISTANCE = 9.f;
+  constexpr float BRICK_BREAK_PROBE_DISTANCE = 12.f;
+  constexpr float RECOVERY_PATH_PROBE_DISTANCE = 1.0f;
 }
 
 Crusher::CrusherDirection
@@ -164,7 +165,7 @@ Crusher::should_crush()
     if (m_dir == CrusherDirection::ALL)
     {
       if (!(playerbbox.overlaps(get_detect_box(CrusherDirection::HORIZONTAL)) ||
-        playerbbox.overlaps(get_detect_box(CrusherDirection::VERTICAL))))
+            playerbbox.overlaps(get_detect_box(CrusherDirection::VERTICAL))))
 
         continue;
     }
@@ -196,10 +197,64 @@ Crusher::should_finish_crushing(const CollisionHit& hit) const
   if (m_dir == CrusherDirection::ALL)
     return hit.bottom || hit.top || hit.left || hit.right;
 
-  return ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::DOWN) && hit.bottom) ||
-         ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP) && hit.top)      ||
-         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT) && hit.left)   ||
+  return ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::DOWN)  && hit.bottom) ||
+         ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP)    && hit.top)    ||
+         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT)  && hit.left)   ||
          ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.right);
+}
+
+bool
+Crusher::is_recovery_path_clear_of_crushers() const
+{
+  // We want to ensure that the crusher still recovers after avoiding other crushers.
+  Rectf current_bbox = get_bbox();
+  Rectf probe_box = current_bbox;
+
+  if (m_dir_vector.y > 0.5f) // Down
+  {
+    probe_box.set_bottom(current_bbox.get_top());
+    probe_box.set_top(current_bbox.get_top() - RECOVERY_PATH_PROBE_DISTANCE);
+  }
+  else if (m_dir_vector.y < -0.5f) // Up
+  {
+    probe_box.set_top(current_bbox.get_bottom());
+    probe_box.set_bottom(current_bbox.get_bottom() + RECOVERY_PATH_PROBE_DISTANCE);
+  }
+  else if (m_dir_vector.x > 0.5f) // Right
+  {
+    probe_box.set_right(current_bbox.get_left());
+    probe_box.set_left(current_bbox.get_left() - RECOVERY_PATH_PROBE_DISTANCE);
+  }
+  else if (m_dir_vector.x < -0.5f) // Left
+  {
+    probe_box.set_left(current_bbox.get_right());
+    probe_box.set_right(current_bbox.get_right() + RECOVERY_PATH_PROBE_DISTANCE);
+  }
+  else
+  {
+    return true;
+  }
+
+  if (probe_box.get_width() < 1.0f)
+    probe_box.set_width(1.0f);
+  if (probe_box.get_height() < 1.0f)
+    probe_box.set_height(1.0f);
+
+  for (Crusher& other_crusher : Sector::get().get_objects_by_type<Crusher>())
+  {
+    Crusher* other_crusher_ptr = &other_crusher;
+
+    if (other_crusher_ptr == this)
+    {
+      continue;
+    }
+
+    if (probe_box.overlaps(other_crusher_ptr->get_bbox()))
+    {
+      return false;
+    }
+  }
+  return true;
 }
 
 bool
@@ -707,14 +762,57 @@ Crusher::on_type_change(int old_type)
 HitResponse
 Crusher::collision(MovingObject& other, const CollisionHit& hit)
 {
+  if (m_state == RECOVERING)
+  {
+    auto* other_crusher = dynamic_cast<Crusher*>(&other);
+    if (other_crusher)
+    {
+      bool hit_in_recovery_path = false;
+
+      if (m_dir_vector.y > 0.5f && hit.top) // Down, hit top
+      {
+        hit_in_recovery_path = true;
+      }
+      else if (m_dir_vector.y < -0.5f && hit.bottom) // Up, hit bottom
+      {
+        hit_in_recovery_path = true;
+      }
+      else if (m_dir_vector.x > 0.5f && hit.left) // Right, hit left
+      {
+        hit_in_recovery_path = true;
+      }
+      else if (m_dir_vector.x < -0.5f && hit.right) // Left, hit right
+      {
+        hit_in_recovery_path = true;
+      }
+
+      if (hit_in_recovery_path)
+      {
+        m_state = AWAIT_IDLE;
+        m_physic.set_velocity(Vector(0.f, 0.f));
+        if (m_ic_type != ICE)
+          set_action("idle");
+        return ABORT_MOVE;
+      }
+      else
+      {
+        return ABORT_MOVE;
+      }
+    }
+  }
+
   if (m_state != CRUSHING)
     return FORCE_MOVE;
 
   bool is_crushing_hit = false;
-  if (m_dir_vector.y > 0.5f && hit.bottom) is_crushing_hit = true; // Down, hit bottom
-  else if (m_dir_vector.y < -0.5f && hit.top) is_crushing_hit = true;    // Up, hit top
-  else if (m_dir_vector.x < -0.5f && hit.left) is_crushing_hit = true;   // Left, hit left
-  else if (m_dir_vector.x > 0.5f && hit.right) is_crushing_hit = true;  // Right, hit right
+  if (m_dir_vector.y > 0.5f && hit.bottom) // Down, hit bottom
+    is_crushing_hit = true;
+  else if (m_dir_vector.y < -0.5f && hit.top) // Up, hit top
+    is_crushing_hit = true; 
+  else if (m_dir_vector.x < -0.5f && hit.left) // Left, hit left
+    is_crushing_hit = true;
+  else if (m_dir_vector.x > 0.5f && hit.right) // Right, hit right
+    is_crushing_hit = true;
 
   if (!is_crushing_hit)
     return FORCE_MOVE;
@@ -740,6 +838,13 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
 
       return ABORT_MOVE;
     }
+  }
+
+  auto* crusher = dynamic_cast<Crusher*>(&other);
+  if (crusher)
+  {
+    crushed(hit);
+    return ABORT_MOVE;
   }
 
   auto* badguy = dynamic_cast<BadGuy*>(&other);
@@ -840,6 +945,11 @@ Crusher::update(float dt_sec)
   MovingSprite::update(dt_sec);
 
   Vector frame_movement = m_physic.get_movement(dt_sec);
+  if (m_state == AWAIT_IDLE)
+  {
+    frame_movement = Vector(0.f, 0.f);
+    m_physic.set_velocity(Vector(0.f, 0.f));
+  }
   m_col.propagate_movement(frame_movement);
 
   const CrusherState old_state = m_state;
@@ -932,6 +1042,19 @@ Crusher::update(float dt_sec)
         idle();
       }
       break;
+    case AWAIT_IDLE:
+      if (has_recovered())
+      {
+        idle();
+      }
+      else
+      {
+        if (is_recovery_path_clear_of_crushers())
+        {
+          recover();
+        }
+      }
+      break;
 
     default:
       log_warning << "Crusher is in an invalid state." << std::endl;
@@ -940,6 +1063,15 @@ Crusher::update(float dt_sec)
 
   // Prevent extra movement after idle() sets position.
   if (old_state == RECOVERING && m_state == IDLE)
+  {
+    frame_movement = Vector(0.0f, 0.0f);
+  }
+
+  if (m_state != AWAIT_IDLE)
+  {
+    frame_movement = m_physic.get_movement(dt_sec);
+  }
+  else
   {
     frame_movement = Vector(0.0f, 0.0f);
   }
