@@ -100,15 +100,16 @@ WillOWisp::finish_construction()
   if (has_valid_path())
   {
     const auto& nodes = get_path()->get_nodes();
+    const int size = static_cast<int>(nodes.size());
     if (!nodes.empty())
     {
       if (m_starting_node < 0)
       {
         m_starting_node = 0;
       }
-      if (m_starting_node >= static_cast<int>(nodes.size()))
+      if (m_starting_node >= size)
       {
-        m_starting_node = static_cast<int>(nodes.size()) - 1;
+        m_starting_node = size - 1;
       }
 
       get_walker()->jump_to_node(m_starting_node);
@@ -130,12 +131,13 @@ WillOWisp::editor_update()
     return;
 
   const auto& nodes = get_path()->get_nodes();
+  const int size = static_cast<int>(nodes.size());
   if (nodes.empty())
     return;
 
-  if (m_starting_node >= static_cast<int>(nodes.size()))
+  if (m_starting_node >= size)
   {
-    m_starting_node = static_cast<int>(nodes.size()) - 1;
+    m_starting_node = size - 1;
   }
   if (m_starting_node < 0)
   {
@@ -158,15 +160,16 @@ WillOWisp::after_editor_set()
   if (Editor::is_active() && has_valid_path())
   {
     const auto& nodes = get_path()->get_nodes();
+    const int size = static_cast<int>(nodes.size());
     if (!nodes.empty())
     {
       if (m_starting_node < 0)
       {
         m_starting_node = 0;
       }
-      if (m_starting_node >= static_cast<int>(nodes.size()))
+      if (m_starting_node >= size)
       {
-        m_starting_node = static_cast<int>(nodes.size()) - 1;
+        m_starting_node = size - 1;
       }
       set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), nodes[m_starting_node].position));
     }
@@ -236,7 +239,7 @@ WillOWisp::active_update(float dt_sec)
 
     case STATE_PATHMOVING:
     case STATE_PATHMOVING_TRACK:
-      if (get_walker() == nullptr || !get_path() || !get_path()->is_valid())
+      if (!PathObject::has_valid_path())
       {
         m_mystate = STATE_IDLE;
         return;
