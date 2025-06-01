@@ -206,7 +206,6 @@ Crusher::should_finish_crushing(const CollisionHit& hit) const
 bool
 Crusher::is_recovery_path_clear_of_crushers() const
 {
-  // We want to ensure that the crusher still recovers after avoiding other crushers.
   Rectf current_bbox = get_bbox();
   Rectf probe_box = current_bbox;
 
@@ -762,9 +761,10 @@ Crusher::on_type_change(int old_type)
 HitResponse
 Crusher::collision(MovingObject& other, const CollisionHit& hit)
 {
+  auto* other_crusher = dynamic_cast<Crusher*>(&other);
+
   if (m_state == RECOVERING)
   {
-    auto* other_crusher = dynamic_cast<Crusher*>(&other);
     if (other_crusher)
     {
       bool hit_in_recovery_path = false;
@@ -840,8 +840,7 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
     }
   }
 
-  auto* crusher = dynamic_cast<Crusher*>(&other);
-  if (crusher)
+  if (other_crusher)
   {
     crushed(hit);
     return ABORT_MOVE;
@@ -1042,6 +1041,7 @@ Crusher::update(float dt_sec)
         idle();
       }
       break;
+    // We want to ensure that the crusher still recovers after avoiding other crushers.
     case AWAIT_IDLE:
       if (has_recovered())
       {
