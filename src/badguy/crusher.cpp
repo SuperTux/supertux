@@ -1063,6 +1063,9 @@ Crusher::update(float dt_sec)
     frame_movement *= 0.6f;
 
   m_col.set_movement(frame_movement);
+
+  // This is responsible for keeping objects relative to the crusher's movement.
+  m_col.propagate_movement(frame_movement);
 }
 
 void
