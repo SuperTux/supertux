@@ -92,28 +92,43 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 }
 
 void
+WillOWisp::synchronize_position_from_path()
+{
+  if (!has_valid_path())
+    return;
+
+  const auto& nodes = get_path()->get_nodes();
+  if (nodes.empty())
+    return;
+
+  const int size = static_cast<int>(nodes.size());
+
+  if (m_starting_node < 0)
+  {
+    m_starting_node = 0;
+  }
+  if (m_starting_node >= size)
+  {
+    m_starting_node = size - 1;
+  }
+
+  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), nodes[m_starting_node].position));
+}
+
+void
 WillOWisp::finish_construction()
 {
   if (!get_path())
     init_path_pos(m_col.m_bbox.p1());
 
+  synchronize_position_from_path();
+
   if (has_valid_path())
   {
     const auto& nodes = get_path()->get_nodes();
-    const int size = static_cast<int>(nodes.size());
     if (!nodes.empty())
     {
-      if (m_starting_node < 0)
-      {
-        m_starting_node = 0;
-      }
-      if (m_starting_node >= size)
-      {
-        m_starting_node = size - 1;
-      }
-
       get_walker()->jump_to_node(m_starting_node);
-      set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), nodes[m_starting_node].position));
 
       if (get_walker()->is_running())
       {
@@ -127,24 +142,7 @@ WillOWisp::finish_construction()
 void
 WillOWisp::editor_update()
 {
-  if (!has_valid_path())
-    return;
-
-  const auto& nodes = get_path()->get_nodes();
-  const int size = static_cast<int>(nodes.size());
-  if (nodes.empty())
-    return;
-
-  if (m_starting_node >= size)
-  {
-    m_starting_node = size - 1;
-  }
-  if (m_starting_node < 0)
-  {
-    m_starting_node = 0;
-  }
-
-  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), nodes[m_starting_node].position));
+  synchronize_position_from_path();
 }
 
 void
@@ -157,22 +155,9 @@ WillOWisp::after_editor_set()
                                  m_color.blue * 0.2f));
   m_sprite->set_color(m_color);
 
-  if (Editor::is_active() && has_valid_path())
+  if (Editor::is_active())
   {
-    const auto& nodes = get_path()->get_nodes();
-    const int size = static_cast<int>(nodes.size());
-    if (!nodes.empty())
-    {
-      if (m_starting_node < 0)
-      {
-        m_starting_node = 0;
-      }
-      if (m_starting_node >= size)
-      {
-        m_starting_node = size - 1;
-      }
-      set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), nodes[m_starting_node].position));
-    }
+    synchronize_position_from_path();
   }
 }
 
@@ -188,8 +173,8 @@ WillOWisp::active_update(float dt_sec)
 
   auto player = get_nearest_player();
   if (!player) return;
-  Vector p1 = m_col.m_bbox.get_middle();
-  Vector p2 = player->get_bbox().get_middle();
+  const Vector p1 = m_col.m_bbox.get_middle();
+  const Vector p2 = player->get_bbox().get_middle();
   Vector dist = (p2 - p1);
 
   switch (m_mystate)
@@ -434,7 +419,8 @@ WillOWisp::get_settings()
   return result;
 }
 
-void WillOWisp::stop_looping_sounds()
+void
+WillOWisp::stop_looping_sounds()
 {
   if (m_sound_source)
   {
@@ -442,7 +428,8 @@ void WillOWisp::stop_looping_sounds()
   }
 }
 
-void WillOWisp::play_looping_sounds()
+void
+WillOWisp::play_looping_sounds()
 {
   if (m_sound_source)
   {

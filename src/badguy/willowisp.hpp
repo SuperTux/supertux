@@ -87,6 +87,7 @@ protected:
 private:
   virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  void synchronize_position_from_path();
 
 private:
   enum MyState {
