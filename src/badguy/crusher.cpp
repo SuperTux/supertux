@@ -942,11 +942,15 @@ Crusher::update(float dt_sec)
 {
   MovingSprite::update(dt_sec);
 
-  Vector frame_movement = m_physic.get_movement(dt_sec);
+  Vector frame_movement;
   if (m_state == AWAIT_IDLE)
   {
     frame_movement = Vector(0.f, 0.f);
     m_physic.set_velocity(Vector(0.f, 0.f));
+  }
+  else
+  {
+    frame_movement = m_physic.get_movement(dt_sec);
   }
   m_col.propagate_movement(frame_movement);
 
