@@ -135,6 +135,8 @@ Main::Main() :
   m_tile_manager(),
   m_sprite_manager(),
   m_profile_manager(),
+  m_online_session_manager(),
+  m_ip_manager(),
   m_resources(),
   m_addon_manager(),
   m_console(),
@@ -649,7 +651,8 @@ Main::launch_game(const CommandLineArguments& args)
         release_check();
     }
   }
-
+  m_online_session_manager.reset(new OnlineSessionManager());
+  m_ip_manager.reset(new IPManager());
   m_screen_manager->run();
 }
 

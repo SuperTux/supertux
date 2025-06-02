@@ -16,6 +16,7 @@
 
 #include "supertux/menu/multiplayer_menu.hpp"
 
+#include "gui/item_goto.hpp"
 #include "gui/item_toggle.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -32,6 +33,9 @@ MultiplayerMenu::MultiplayerMenu()
 
   add_toggle(-2, _("Allow Multibind"), &g_config->multiplayer_multibind)
     .set_help(_("Allow binding multiple joysticks to a single player"));
+
+  add_submenu(_("Manage Online Games"), MenuStorage::MULTIPLAYER_ONLINE_MENU)
+    .set_help(_("Join or host online games"));
 
   add_submenu(_("Manage Players"), MenuStorage::MULTIPLAYER_PLAYERS_MENU);
 

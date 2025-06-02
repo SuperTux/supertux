@@ -878,6 +878,14 @@ Sector::get_players() const
   return m_level.get_players();
 }
 
+Player*
+Sector::get_player(int player_id) const
+{
+  if (player_id < 0 || player_id >= static_cast<int>(m_level.get_players().size())) {
+    return nullptr;
+  }
+  return m_level.get_players()[player_id];
+}
 
 void
 Sector::register_class(ssq::VM& vm)

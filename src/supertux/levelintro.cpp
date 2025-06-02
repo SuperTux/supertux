@@ -80,7 +80,7 @@ LevelIntro::update(float dt_sec, const Controller& controller)
   for (int i = 0; i < InputManager::current()->get_num_users(); i++)
   {
     if (!InputManager::current()->has_corresponsing_controller(i)
-        && !InputManager::current()->m_uses_keyboard[i] && i != 0)
+        && (!InputManager::current()->m_uses_keyboard[i] && !InputManager::current()->m_uses_online_controller[i]) && i != 0)
       continue;
 
     auto bonus_prefix = m_player_status.get_bonus_prefix(i);
@@ -144,7 +144,7 @@ LevelIntro::draw(Compositor& compositor)
   for (int i = 0; i < static_cast<int>(m_player_sprite.size()); i++)
   {
     if (!InputManager::current()->has_corresponsing_controller(i)
-        && !InputManager::current()->m_uses_keyboard[i] && i != 0)
+        && (!InputManager::current()->m_uses_keyboard[i] && !InputManager::current()->m_uses_online_controller[i]) && i != 0)
       context.transform().alpha = 0.25f;
 
     float offset = (static_cast<float>(i) - static_cast<float>(m_player_sprite.size()) / 2.f + 0.5f) * 64.f;

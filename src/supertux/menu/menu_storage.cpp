@@ -41,6 +41,7 @@
 #include "supertux/menu/language_menu.hpp"
 #include "supertux/menu/main_menu.hpp"
 #include "supertux/menu/multiplayer_menu.hpp"
+#include "supertux/menu/multiplayer_online_menu.hpp"
 #include "supertux/menu/multiplayer_players_menu.hpp"
 #include "supertux/menu/options_select_menu.hpp"
 #include "supertux/menu/particle_editor_menu.hpp"
@@ -196,6 +197,9 @@ MenuStorage::create(MenuId menu_id)
 
     case MULTIPLAYER_PLAYERS_MENU:
       return std::make_unique<MultiplayerPlayersMenu>();
+    
+    case MULTIPLAYER_ONLINE_MENU:
+      return std::make_unique<MultiplayerOnlineMenu>();
 
     case NO_MENU:
       return std::unique_ptr<Menu>();

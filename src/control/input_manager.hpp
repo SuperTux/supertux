@@ -61,6 +61,7 @@ public:
   inline int get_num_users() const { return static_cast<int>(m_controllers.size()); }
   bool can_add_user() const;
   void push_user();
+  void push_online_user();
   void pop_user();
 
   void on_player_removed(int player_id);
@@ -78,6 +79,8 @@ public:
 
   /** True if the given player is on the keyboard and plays without a controller */
   std::unordered_map<int, bool> m_uses_keyboard;
+  
+  std::unordered_map<int, bool> m_uses_online_controller;
 
 private:
   InputManager(const InputManager&) = delete;

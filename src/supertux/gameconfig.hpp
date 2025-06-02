@@ -156,6 +156,13 @@ public:
   bool multiplayer_multibind;
   bool multiplayer_buzz_controllers;
 
+  bool is_joining;
+  bool is_hosting;
+
+  bool left_game;
+  bool go_to_level;
+  std::string world;
+  std::string level;
   std::string repository_url;
 
   bool is_christmas() const;

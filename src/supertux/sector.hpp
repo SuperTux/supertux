@@ -196,6 +196,7 @@ public:
   {
     return get_nearest_player(get_anchor_pos(pos, ANCHOR_MIDDLE));
   }
+  Player* get_player(int player_id) const;
 
   std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance) const;
 

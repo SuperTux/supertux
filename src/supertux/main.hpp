@@ -30,6 +30,8 @@
 #include "supertux/console.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/ip_manager.hpp"
+#include "supertux/online_session_manager.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/profile_manager.hpp"
 #include "supertux/resources.hpp"
@@ -121,6 +123,8 @@ private:
   std::unique_ptr<GameManager> m_game_manager;
   std::unique_ptr<ScreenManager> m_screen_manager;
   std::unique_ptr<Savegame> m_savegame;
+  std::unique_ptr<OnlineSessionManager> m_online_session_manager;
+  std::unique_ptr<IPManager> m_ip_manager;
 
   Downloader m_downloader; // Used for getting the version of the latest SuperTux release.
 

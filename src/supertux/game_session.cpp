@@ -37,6 +37,8 @@
 #include "supertux/constants.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/game_manager.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/levelintro.hpp"
@@ -44,7 +46,6 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
 #include "util/file_system.hpp"
 #include "video/compositor.hpp"
@@ -820,6 +821,23 @@ std::string
 GameSession::get_working_directory() const
 {
   return FileSystem::dirname(m_levelfile);
+}
+
+std::string 
+GameSession::get_current_world() const
+{
+  const std::string& level_path = get_level_file(); 
+  const std::string prefix = "levels/";
+  size_t start = level_path.find(prefix);
+  if (start != std::string::npos)
+  {
+    start += prefix.length();
+    size_t end = level_path.find('/', start);
+    if (end != std::string::npos) {
+      return level_path.substr(0, end);
+    }
+  }
+  return ""; 
 }
 
 void
