@@ -35,6 +35,8 @@ VideoSystemMenu::VideoSystemMenu()
 void
 VideoSystemMenu::refresh()
 {
+  clear();
+
   add_label(_("Select Video System"));
   add_hl();
 
