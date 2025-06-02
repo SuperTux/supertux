@@ -17,6 +17,7 @@
 #include "object/pushbutton.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "object/bigsnowball.hpp"
 #include "object/player.hpp"
 #include "object/rock.hpp"
@@ -38,7 +39,7 @@ PushButton::PushButton(const ReaderMapping& mapping) :
 {
   SoundManager::current()->preload(BUTTON_SOUND);
 
-  if (!mapping.get("script", m_script))
+  if (!mapping.get("script", m_script) && !Editor::is_active())
   {
     log_warning << "No script set for pushbutton." << std::endl;
   }
