@@ -19,26 +19,30 @@
 
 #include <iostream>
 
-class ErrorHandler final
-{
-public:
-  static void set_handlers();
+#ifdef WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
 
-  static void print_stack_trace();
-private:
-  [[ noreturn ]] static void handle_error(int sig);
+namespace ErrorHandler {
+  void set_handlers();
 
-  [[ noreturn ]] static void close_program();
+  std::string get_stacktrace();
+  std::string get_system_info();
 
-private:
-  static bool m_handing_error;
+  void error_dialog_crash(const std::string& stacktrace);
+  void error_dialog_exception(const std::string& exception = "");
 
-private:
-  ErrorHandler() = delete;
-  ~ErrorHandler() = delete;
-  ErrorHandler(const ErrorHandler&) = delete;
-  ErrorHandler& operator=(const ErrorHandler&) = delete;
-};
+#ifdef WIN32
+  LONG WINAPI supertux_seh_handler(_In_ _EXCEPTION_POINTERS* ExceptionInfo);
+  //CONTEXT* pcontext;
+#else
+  [[ noreturn ]] void handle_error(int sig);
+#endif
+  void report_error(const std::string& details);
+
+  [[ noreturn ]] void close_program();
+}
 
 #endif
 

@@ -34,6 +34,14 @@ public:
   void load();
   void save();
 
+  void check_values();
+
+  inline bool is_initial() const { return m_initial; }
+
+private:
+  bool m_initial;
+
+public:
   int profile;
 
   /** the width/height to be used to display the game in fullscreen */
@@ -61,13 +69,16 @@ public:
   bool use_fullscreen;
   VideoSystem::Enum video;
   int vsync;
+  bool frame_prediction;
   bool show_fps;
   bool show_player_pos;
   bool show_controller;
+  float camera_peek_multiplier;
   bool sound_enabled;
   bool music_enabled;
   int sound_volume;
   int music_volume;
+  int flash_intensity;
 
   /** initial random seed.  0 ==> set from time() */
   int random_seed;
@@ -102,6 +113,7 @@ public:
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
   bool do_release_check;
+  bool disable_network;
   bool custom_title_levels;
 
 #ifdef ENABLE_DISCORD

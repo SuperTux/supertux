@@ -31,7 +31,7 @@ public:
 
   virtual void update(float dt_sec) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
   virtual void draw(DrawingContext& context) override;
@@ -40,10 +40,13 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Falling Platform"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(FallBlock)); }
 
   virtual void on_flip(float height) override;
 
-protected:
+public:
+  inline Physic& get_physic() { return m_physic; }
+
   enum State
   {
     IDLE,
@@ -51,6 +54,8 @@ protected:
     FALL,
     LAND
   };
+
+  inline State get_state() const { return m_state; }
 
 private:
   State m_state;

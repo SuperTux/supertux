@@ -1,6 +1,6 @@
 (supertux-sprite
  (action
-  (name "normal")
+  (name "default")
   (hitbox 0 0 0 0)
 (fps 1)
   (images "torch-off1.png"

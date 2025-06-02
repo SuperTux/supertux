@@ -30,6 +30,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Door"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return SpritedTrigger::get_class_types().add(typeid(Door)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -38,14 +39,14 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void on_flip(float height) override;
 
-  bool is_locked() const { return m_locked; }
+  inline bool is_locked() const { return m_locked; }
   void unlock();
 
-  Color get_lock_color() const { return m_lock_color; }
+  inline Color get_lock_color() const { return m_lock_color; }
 
 private:
   enum DoorState {

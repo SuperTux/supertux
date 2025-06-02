@@ -56,7 +56,7 @@ SequenceTrigger::get_settings()
                            {_("Fade in"), _("Fade out")},
                            0, "fade");
 
-  result.reorder({"sequence", "region", "width", "height", "x", "y", "fade"});
+  result.reorder({"sequence", "width", "height", "x", "y", "fade"});
 
   return result;
 }

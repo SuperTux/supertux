@@ -58,7 +58,7 @@ Climbable::get_settings()
 
   result.add_translatable_text(_("Message"), &message, "message");
 
-  result.reorder({"message", "region", "x", "y"});
+  result.reorder({"message", "width", "height", "x", "y"});
 
   return result;
 }
@@ -122,7 +122,7 @@ void
 Climbable::event(Player& player, EventType type)
 {
   if (type == EVENT_ACTIVATE || (type == EVENT_TOUCH && player.get_controller().hold(Control::UP))) {
-    if (player.get_grabbed_object() == nullptr){
+    if (player.get_grabbed_object() == nullptr && !player.is_swimming()){
       auto it = std::find_if(trying_to_climb.begin(), trying_to_climb.end(),
         [&player](const ClimbPlayer& element)
         {
@@ -161,6 +161,7 @@ Climbable::event(Player& player, EventType type)
 bool
 Climbable::may_climb(const Player& player) const
 {
+  if (player.is_swimming()) return false;
   if (player.get_bbox().get_left() < m_col.m_bbox.get_left() - GRACE_DX) return false;
   if (player.get_bbox().get_right() > m_col.m_bbox.get_right() + GRACE_DX) return false;
   if (player.get_bbox().get_top() < m_col.m_bbox.get_top() - GRACE_DY) return false;

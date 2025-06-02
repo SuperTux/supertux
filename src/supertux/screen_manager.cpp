@@ -20,8 +20,7 @@
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "editor/editor.hpp"
-#include "editor/particle_editor.hpp"
+#include "control/input_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -104,9 +103,9 @@ struct ScreenManager::FPS_Stats
     max_us = 0;
   }
 
-  float get_fps() const { return last_fps; }
-  float get_fps_min() const { return last_fps_min; }
-  float get_fps_max() const { return last_fps_max; }
+  inline float get_fps() const { return last_fps; }
+  inline float get_fps_min() const { return last_fps_min; }
+  inline float get_fps_max() const { return last_fps_max; }
 
   // This returns the highest measured delay between two frames from the
   // previous and current 0.5 s measuring intervals
@@ -138,10 +137,9 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_menu_manager(new MenuManager()),
   m_controller_hud(new ControllerHUD),
   m_mobile_controller(),
-  last_ticks(0),
-  elapsed_ticks(0),
-  ms_per_step(static_cast<Uint32>(1000.0f / LOGICAL_FPS)),
-  seconds_per_step(static_cast<float>(ms_per_step) / 1000.0f),
+  last_time(std::chrono::steady_clock::now()),
+  elapsed_time(0.0f),
+  seconds_per_step(1.0f / LOGICAL_FPS),
   m_fps_statistics(new FPS_Stats()),
   m_speed(1.0),
   m_actions(),
@@ -194,15 +192,12 @@ ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 }
 
 void
-ScreenManager::set_speed(float speed)
+ScreenManager::on_window_resize()
 {
-  m_speed = speed;
-}
+  m_menu_manager->on_window_resize();
 
-float
-ScreenManager::get_speed() const
-{
-  return m_speed;
+  for (const auto& screen : m_screen_stack)
+    screen->on_window_resize();
 }
 
 void
@@ -395,13 +390,7 @@ ScreenManager::process_events()
 
     m_menu_manager->event(event);
 
-    if (Editor::is_active()) {
-      Editor::current()->event(event);
-    }
-
-    if (ParticleEditor::is_active()) {
-      ParticleEditor::current()->event(event);
-    }
+    m_screen_stack.back()->event(event);
 
     switch (event.type)
     {
@@ -414,10 +403,7 @@ ScreenManager::process_events()
         {
           case SDL_WINDOWEVENT_RESIZED:
             m_video_system.on_resize(event.window.data1, event.window.data2);
-            m_menu_manager->on_window_resize();
-            if (Editor::is_active()) {
-              Editor::current()->resize();
-            }
+            on_window_resize();
             break;
 
           case SDL_WINDOWEVENT_HIDDEN:
@@ -564,21 +550,26 @@ ScreenManager::handle_screen_switch()
 
 void ScreenManager::loop_iter()
 {
-  Uint32 ticks = SDL_GetTicks();
-  elapsed_ticks += ticks - last_ticks;
-  last_ticks = ticks;
+  auto now = std::chrono::steady_clock::now();
+  auto nsecs = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_time).count();
+  elapsed_time += 1e-9f * static_cast<float>(nsecs);
+  g_real_time += 1e-9f * static_cast<float>(nsecs);
+  last_time = now;
 
-  if (elapsed_ticks > ms_per_step * 8) {
-    // when the game loads up or levels are switched the
-    // elapsed_ticks grows extremely large, so we just ignore those
-    // large time jumps
-    elapsed_ticks = 0;
+  float max_elapsed_time = 4 * seconds_per_step;
+  if (elapsed_time > max_elapsed_time) {
+    // when the game loads up or levels are switched the elapsed_ticks grows
+    // extremely large, so we just reduce those large time jumps to what can
+    // be processed within a single frame.
+    elapsed_time = max_elapsed_time;
   }
 
-  if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
+  bool always_draw = g_debug.draw_redundant_frames || g_config->frame_prediction;
+
+  if (elapsed_time < seconds_per_step && !always_draw) {
     // Sleep a bit because not enough time has passed since the previous
     // logical game step
-    SDL_Delay(ms_per_step - elapsed_ticks);
+    SDL_Delay(static_cast<Uint32>(1000.0f * (seconds_per_step - elapsed_time)));
     return;
   }
 
@@ -586,10 +577,8 @@ void ScreenManager::loop_iter()
   Integration::update_status_all(m_screen_stack.back()->get_status());
   Integration::update_all();
 
-  g_real_time = static_cast<float>(ticks) / 1000.0f;
-
   float speed_multiplier = g_debug.get_game_speed_multiplier();
-  int steps = elapsed_ticks / ms_per_step;
+  int steps = static_cast<int>(std::floor(elapsed_time / seconds_per_step));
 
   // Do not calculate more than a few steps at once
   // The maximum number of steps executed before drawing a frame is
@@ -623,13 +612,18 @@ void ScreenManager::loop_iter()
     g_game_time += dtime;
     process_events();
     update_gamelogic(dtime);
-    elapsed_ticks -= ms_per_step;
+    elapsed_time -= seconds_per_step;
   }
 
+  // When the game is laggy, real time may be >1 step after the game time
+  // To avoid predicting positions too far ahead, when using frame prediction,
+  // limit the draw time offset to at most one step.
+  float time_offset = m_speed * speed_multiplier * std::min(elapsed_time, seconds_per_step);
+
   if ((steps > 0 && !m_screen_stack.empty())
-      || g_debug.draw_redundant_frames) {
+      || always_draw) {
     // Draw a frame
-    Compositor compositor(m_video_system);
+    Compositor compositor(m_video_system, g_config->frame_prediction ? time_offset : 0.0f);
     draw(compositor, *m_fps_statistics);
     m_fps_statistics->report_frame();
   }

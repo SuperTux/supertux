@@ -30,7 +30,15 @@ public:
   static std::unique_ptr<Addon> parse(const ReaderMapping& mapping);
   static std::unique_ptr<Addon> parse(const std::string& fname);
 
-  enum Type { WORLD, WORLDMAP, LEVELSET, LANGUAGEPACK, RESOURCEPACK, ADDON };
+  enum Type {
+    WORLD,
+    WORLDMAP,
+    LEVELSET,
+    LANGUAGEPACK,
+    RESOURCEPACK,
+    WEAKRESOURCEPACK,
+    ADDON
+  };
 
   enum Format {
     ORIGINAL = 0,
@@ -62,34 +70,38 @@ private:
   Addon();
 
 public:
-  std::string get_id() const { return m_id; }
-  int get_version() const { return m_version; }
-  int get_format() const { return m_format; }
+  inline const std::string& get_id() const { return m_id; }
+  inline int get_version() const { return m_version; }
+  inline int get_format() const { return m_format; }
 
-  Type get_type() const { return m_type; }
-  std::string get_title() const { return m_title; }
-  std::string get_author() const { return m_author; }
-  std::string get_license() const { return m_license; }
+  inline Type get_type() const { return m_type; }
+  inline const std::string& get_title() const { return m_title; }
+  inline const std::string& get_author() const { return m_author; }
+  inline const std::string& get_license() const { return m_license; }
 
-  std::string get_description() const { return m_description; }
-  std::string get_url() const { return m_url; }
-  std::string get_md5() const { return m_md5; }
-  const std::vector<std::string>& get_screenshots() const { return m_screenshots; }
-  const std::vector<std::string>& get_dependencies() const { return m_dependencies; }
+  inline const std::string& get_description() const { return m_description; }
+  inline const std::string& get_url() const { return m_url; }
+  inline const std::string& get_md5() const { return m_md5; }
+  inline const std::vector<std::string>& get_screenshots() const { return m_screenshots; }
+  inline const std::vector<std::string>& get_dependencies() const { return m_dependencies; }
 
   std::string get_filename() const;
-  std::string get_install_filename() const;
+  inline const std::string& get_install_filename() const { return m_install_filename; }
 
-  bool is_installed() const;
-  bool is_enabled() const;
-  bool is_visible() const;
+  inline bool is_installed() const { return !m_install_filename.empty(); }
+  inline bool is_enabled() const { return m_enabled; }
+  inline bool is_visible() const { return true; }
 
   bool is_levelset() const;
   bool overrides_data() const;
   bool requires_restart() const;
 
-  void set_install_filename(const std::string& absolute_filename, const std::string& md5);
-  void set_enabled(bool v);
+  inline void set_install_filename(const std::string& absolute_filename, const std::string& md5)
+  {
+    m_install_filename = absolute_filename;
+    m_md5 = md5;
+  }
+  inline void set_enabled(bool v) { m_enabled = v; }
 
 private:
   Addon(const Addon&) = delete;

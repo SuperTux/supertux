@@ -31,6 +31,7 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void active_update(float dt_sec) override;
+  virtual void after_editor_set() override;
 
   virtual void freeze() override;
   virtual void unfreeze(bool melt = true) override;
@@ -40,18 +41,22 @@ public:
   static std::string display_name() { return _("Swimming Fish"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual std::string get_overlay_size() const override { return "2x1"; }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(FishSwimming)); }
+  virtual std::vector<Direction> get_allowed_directions() const override;
   virtual ObjectSettings get_settings() override;
 
   virtual GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
 
   void turn_around();
-  void maintain_velocity(float goal_x_velocity);
+  void maintain_velocity_x(float goal_x_velocity);
+  void maintain_velocity_y(float goal_y_velocity);
 
 protected:
   enum Type {
     SNOW,
-    FOREST
+    FOREST,
+    CORRUPTED,
   };
 
   enum FishYState {
@@ -63,6 +68,9 @@ protected:
   Timer m_beached_timer;
   Timer m_float_timer;
   float m_radius;
+
+  bool is_frontal_hit(const CollisionHit& hit) const;
+  void setup_velocity();
 
 private:
   FishSwimming(const FishSwimming&) = delete;

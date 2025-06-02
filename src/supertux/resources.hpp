@@ -30,6 +30,9 @@ class MouseCursor;
 class Resources final
 {
 public:
+  static void reload_all();
+
+public:
   static std::unique_ptr<MouseCursor> mouse_cursor;
 
   /** Font that can display English glyphs */
@@ -62,7 +65,7 @@ public:
   static SurfacePtr no_tile;
 
 public:
-  static void load();
+  static void load(bool reload = false);
   static void unload();
   static bool needs_custom_font(const tinygettext::Language& locale);
   static std::string get_font_for_locale(const tinygettext::Language& locale);

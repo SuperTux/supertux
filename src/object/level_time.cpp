@@ -18,8 +18,12 @@
 
 #include <algorithm>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "object/player.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
@@ -31,8 +35,7 @@
 static const float TIME_WARNING = 20;
 
 LevelTime::LevelTime(const ReaderMapping& reader) :
-  GameObject(reader),
-  ExposedObject<LevelTime, scripting::LevelTime>(this),
+  LayerObject(reader),
   time_surface(Surface::from_file("images/engine/hud/time-0.png")),
   running(!Editor::is_active()),
   time_left()
@@ -61,7 +64,7 @@ LevelTime::update(float dt_sec)
   if (!running) return;
 
   int players_alive = Sector::current() ? Sector::current()->get_object_count<Player>([](const Player& p) {
-    return !p.is_dead() && !p.is_dying() && !p.is_winning();
+    return p.is_active();
   }) : 0;
 
   if (!players_alive)
@@ -87,7 +90,7 @@ LevelTime::update(float dt_sec)
     {
       for (auto& p : Sector::get().get_players())
       {
-        if (p->is_dead() || p->is_dying() || p->is_winning())
+        if (!p->is_active())
           continue;
 
         p->add_coins(-1);
@@ -102,8 +105,9 @@ LevelTime::update(float dt_sec)
 void
 LevelTime::draw(DrawingContext& context)
 {
-  if (Editor::is_active())
+  if (g_debug.hide_player_hud || Editor::is_active())
     return;
+
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.transform().scale = 1.f;
@@ -152,6 +156,20 @@ void
 LevelTime::set_time(float time_left_)
 {
   time_left = std::min(std::max(time_left_, 0.0f), 999.0f);
+}
+
+
+void
+LevelTime::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<LevelTime>("LevelTime", vm.findClass("GameObject"));
+
+  cls.addFunc("start", &LevelTime::start);
+  cls.addFunc("stop", &LevelTime::stop);
+  cls.addFunc("get_time", &LevelTime::get_time);
+  cls.addFunc("set_time", &LevelTime::set_time);
+
+  cls.addVar("time", &LevelTime::get_time, &LevelTime::set_time);
 }
 
 /* EOF */

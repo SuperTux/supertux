@@ -32,21 +32,45 @@ public:
   void bind();
   void validate();
 
-  GLuint get_handle() const { return m_program; }
+  inline GLuint get_handle() const { return m_program; }
 
-  GLint get_attrib_location(const char* name) const;
-  GLint get_uniform_location(const char* name) const;
+  inline GLint get_backbuffer_location() const { return check_valid(m_backbuffer_location, "backbuffer"); }
+  inline GLint get_fragcoord2uv_location() const { return check_valid(m_fragcoord2uv_location, "fragcoord2uv"); }
+  inline GLint get_diffuse_texture_location() const { return check_valid(m_diffuse_texture_location, "diffuse_texture"); }
+  inline GLint get_displacement_texture_location() const { return check_valid(m_displacement_texture_location, "displacement_texture"); }
+  inline GLint get_framebuffer_texture_location() const { return check_valid(m_framebuffer_texture_location, "framebuffer_texture"); }
+  inline GLint get_game_time_location() const { return check_valid(m_game_time_location, "game_time"); }
+  inline GLint get_modelviewprojection_location() const { return check_valid(m_modelviewprojection_location, "modelviewprojection"); }
+  inline GLint get_animate_location() const { return check_valid(m_animate_location, "animate"); }
+  inline GLint get_displacement_animate_location() const { return check_valid(m_displacement_animate_location, "displacement_animate"); }
+  inline GLint get_position_location() const { return check_valid(m_position_location, "position"); }
+  inline GLint get_texcoord_location() const { return check_valid(m_texcoord_location, "texcoord"); }
+  inline GLint get_diffuse_location() const { return check_valid(m_diffuse_location, "diffuse"); }
 
 private:
   bool get_link_status() const;
   bool get_validate_status() const;
   std::string get_info_log() const;
+  static GLint check_valid(GLint location, const char* name);
 
 private:
   GLuint m_program;
 
   std::unique_ptr<GLShader> m_frag_shader;
   std::unique_ptr<GLShader> m_vert_shader;
+
+  GLint m_backbuffer_location;
+  GLint m_fragcoord2uv_location;
+  GLint m_diffuse_texture_location;
+  GLint m_displacement_texture_location;
+  GLint m_framebuffer_texture_location;
+  GLint m_game_time_location;
+  GLint m_modelviewprojection_location;
+  GLint m_animate_location;
+  GLint m_displacement_animate_location;
+  GLint m_position_location;
+  GLint m_texcoord_location;
+  GLint m_diffuse_location;
 
 private:
   GLProgram(const GLProgram&) = delete;

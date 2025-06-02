@@ -18,14 +18,17 @@
 
 #include "worldmap/worldmap_sector.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "object/ambient_light.hpp"
 #include "object/display_effect.hpp"
 #include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "scripting/worldmap_sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/fadetoblack.hpp"
@@ -105,9 +108,6 @@ WorldMapSector::setup()
 {
   BIND_WORLDMAP_SECTOR(*this);
 
-  auto& music_object = get_singleton_by_type<MusicObject>();
-  music_object.play_music(MusicType::LEVEL_MUSIC);
-
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
 
   // If we specified a fade tilemap, let's fade it:
@@ -132,7 +132,7 @@ WorldMapSector::setup()
 
   // register worldmap_table as "worldmap" in scripting
   m_squirrel_environment->expose_self();
-  m_squirrel_environment->expose("settings", std::make_unique<scripting::WorldMapSector>(this));
+  m_squirrel_environment->expose(*this, "settings");
 
   /** Perform scripting related actions. **/
   // Run default.nut just before init script
@@ -148,6 +148,15 @@ WorldMapSector::setup()
 
   if (!m_init_script.empty())
     m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
+
+  // Check if Tux is on an auto-playing level.
+  // No need to play music in that case.
+  LevelTile* level = at_object<LevelTile>();
+  if(level && level->is_auto_play() && !level->is_solved())
+    return;
+
+  auto& music_object = get_singleton_by_type<MusicObject>();
+  music_object.play_music(MusicType::LEVEL_MUSIC);
 }
 
 void
@@ -328,27 +337,30 @@ WorldMapSector::update(float dt_sec)
     {
       /* Check level action */
       auto level_ = at_object<LevelTile>();
+      auto tux_pos = m_tux->get_tile_pos();
       if (!level_) {
-        //Respawn if player on a tile with no level and nowhere to go.
-        int tile_data = tile_data_at(m_tux->get_tile_pos());
-        if (!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
-          log_warning << "Player at illegal position " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << " respawning." << std::endl;
-          move_to_spawnpoint("main");
+        // Respawn if player on a tile with no level and nowhere to go.
+        if (!is_valid_path_at(tux_pos)) {
+          log_warning << "Player at illegal position " << tux_pos.x << ", " << tux_pos.y << " respawning." << std::endl;
+          move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
           return;
         }
-        log_warning << "No level to enter at: " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << std::endl;
+        log_warning << "No level to enter at: " << tux_pos.x << ", " << tux_pos.y << std::endl;
         return;
       }
 
-      if (level_->get_tile_pos() == m_tux->get_tile_pos()) {
+      if (level_->get_tile_pos() == tux_pos) {
         try {
           Vector shrinkpos = Vector(level_->get_pos().x + 16 - m_camera->get_offset().x,
                                     level_->get_pos().y +  8 - m_camera->get_offset().y);
           std::string levelfile = m_parent.m_levels_path + level_->get_level_filename();
+          
+          auto game_session = std::make_unique<GameSession>(levelfile, m_parent.m_savegame, &level_->get_statistics());
+          game_session->restart_level();
 
           // update state and savegame
           m_parent.save_state();
-          ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_parent.m_savegame, &level_->get_statistics()),
+          ScreenManager::current()->push_screen(std::move(game_session),
                                                 std::make_unique<ShrinkFade>(shrinkpos, 1.0f, LAYER_LIGHTMAP - 1));
 
           m_parent.m_in_level = true;
@@ -428,6 +440,13 @@ WorldMapSector::tile_data_at(const Vector& p) const
   return dirs;
 }
 
+bool
+WorldMapSector::is_valid_path_at(const Vector& p) const
+{
+  const auto tile_data = tile_data_at(p);
+  return tile_data & (Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH |
+                      Tile::WORLDMAP_WEST  | Tile::WORLDMAP_EAST); 
+}
 
 size_t
 WorldMapSector::level_count() const
@@ -465,7 +484,7 @@ WorldMapSector::finished_level(Level* gamelevel)
   // deal with statistics
   level->get_statistics().update(gamelevel->m_stats);
 
-  if (level->get_statistics().completed(level->get_statistics(), level->get_target_time())) {
+  if (level->get_statistics().completed(level->get_target_time())) {
     level->set_perfect(true);
   }
 
@@ -562,6 +581,24 @@ WorldMapSector::path_ok(const Direction& direction, const Vector& old_pos, Vecto
 }
 
 void
+WorldMapSector::set_sector(const std::string& sector)
+{
+  m_parent.set_sector(sector);
+}
+
+void
+WorldMapSector::spawn(const std::string& sector, const std::string& spawnpoint)
+{
+  m_parent.set_sector(sector, spawnpoint);
+}
+
+void
+WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint)
+{
+  move_to_spawnpoint(spawnpoint, false);
+}
+
+void
 WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 {
   auto sp = get_spawnpoint_by_name(spawnpoint);
@@ -576,8 +613,8 @@ WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
   }
 
   log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-  if (spawnpoint != "main") {
-    move_to_spawnpoint("main");
+  if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
+    move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
   }
 }
 
@@ -599,6 +636,45 @@ Vector
 WorldMapSector::get_tux_pos() const
 {
   return m_tux->get_pos();
+}
+
+float
+WorldMapSector::get_tux_x() const
+{
+  return m_tux->get_pos().x;
+}
+
+float
+WorldMapSector::get_tux_y() const
+{
+  return m_tux->get_pos().y;
+}
+
+std::string
+WorldMapSector::get_filename() const
+{
+  return m_parent.get_filename();
+}
+
+void
+WorldMapSector::set_title_level(const std::string& filename)
+{
+  m_parent.get_savegame().get_player_status().title_level = filename;
+}
+
+
+void
+WorldMapSector::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<WorldMapSector>("WorldMapSector", vm.findClass("GameObjectManager"));
+
+  cls.addFunc("get_tux_x", &WorldMapSector::get_tux_x);
+  cls.addFunc("get_tux_y", &WorldMapSector::get_tux_y);
+  cls.addFunc("set_sector", &WorldMapSector::set_sector);
+  cls.addFunc("spawn", &WorldMapSector::spawn);
+  cls.addFunc<void, WorldMapSector, const std::string&>("move_to_spawnpoint", &WorldMapSector::move_to_spawnpoint);
+  cls.addFunc("get_filename", &WorldMapSector::get_filename);
+  cls.addFunc("set_title_level", &WorldMapSector::set_title_level);
 }
 
 } // namespace worldmap

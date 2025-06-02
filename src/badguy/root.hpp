@@ -26,7 +26,9 @@ class Root final : public BadGuy
 public:
   Root(const ReaderMapping& reader);
   Root(const Vector& pos, Direction dir, const std::string& sprite,
-       float delay = -1, bool play_sound = true);
+    float delay = -1, bool play_sound = true, bool auto_construct = true);
+
+  void construct();
 
   virtual void initialize() override;
   virtual void draw(DrawingContext& context) override;
@@ -38,6 +40,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Root"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Root)); }
 
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
@@ -46,8 +49,6 @@ public:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
-  void construct(float delay = -1, bool play_sound = true);
-
   enum State { STATE_HATCHING, STATE_APPEARING, STATE_RETREATING };
 
 private:

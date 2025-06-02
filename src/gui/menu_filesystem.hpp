@@ -47,6 +47,9 @@ private:
   std::string m_directory;
   std::vector<std::string> m_directories;
   std::vector<std::string> m_files;
+  bool m_path_relative_to_basedir;
+  std::function<void(const std::string&)> m_callback;
+  std::function<void (MenuItem&)> m_item_processor;
 
 private:
   FileSystemMenu(const FileSystemMenu&) = delete;

@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_WIND_HPP
 #define HEADER_SUPERTUX_OBJECT_WIND_HPP
 
-#include "squirrel/exposed_object.hpp"
-#include "scripting/wind.hpp"
 #include "supertux/moving_object.hpp"
 
 #include "video/layer.hpp"
@@ -26,41 +24,54 @@
 class ReaderMapping;
 
 /** Defines an area that will gently push Players in one direction */
-class Wind final :
-  public MovingObject,
-  public ExposedObject<Wind, scripting::Wind>
+class Wind final : public MovingObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Wind(const ReaderMapping& reader);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual bool has_variable_size() const override { return true; }
   static std::string class_name() { return "wind"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Wind"; }
   static std::string display_name() { return _("Wind"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Wind)); }
 
   virtual ObjectSettings get_settings() override;
 
-  virtual int get_layer() const override { return LAYER_OBJECTS; }
-
   virtual void on_flip(float height) override;
 
-  /** @name Scriptable Methods
-      @{ */
-
-  /** start blowing */
+  /**
+   * Starts blowing.
+   */
   void start();
-
-  /** stop blowing */
+  /**
+   * Stops blowing.
+   */
   void stop();
 
-  /** @} */
+  /**
+   * @scripting
+   * @description Sets the layer of the wind particles.
+   * @param int $layer
+   */
+  inline void set_layer(int layer) { m_layer = layer; }
+
+  /**
+   * @scripting
+   * @description Returns the layer the wind particles are on.
+   */
+  virtual int get_layer() const override { return m_layer; }
 
 private:
+  int m_layer;
   bool blowing; /**< true if wind is currently switched on */
   Vector speed;
   float acceleration;
@@ -72,6 +83,7 @@ private:
   bool affects_objects; /**< whether the wind can affect objects */
   bool affects_player; /**< whether the wind can affect the player: useful for cinematic wind */
   bool fancy_wind;
+  bool particles_enabled;
 
 private:
   Wind(const Wind&) = delete;

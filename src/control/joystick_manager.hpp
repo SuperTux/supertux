@@ -52,7 +52,7 @@ public:
   void on_joystick_added(int joystick_index);
   void on_joystick_removed(int instance_id);
 
-  int get_num_joysticks() const { return static_cast<int>(joysticks.size()); }
+  inline int get_num_joysticks() const { return static_cast<int>(joysticks.size()); }
 
   void on_player_removed(int player_id);
   bool has_corresponding_joystick(int player_id) const;
@@ -62,7 +62,7 @@ public:
 
   void bind_joystick(SDL_Joystick* joystick, int player_id);
 
-  std::unordered_map<SDL_Joystick*, int>& get_joystick_mapping() { return joysticks; }
+  inline std::unordered_map<SDL_Joystick*, int>& get_joystick_mapping() { return joysticks; }
 
 private:
   InputManager* parent;

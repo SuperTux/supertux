@@ -18,27 +18,14 @@
 
 #include <algorithm>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "supertux/object_remove_listener.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/color.hpp"
-
-GameObject::GameObject() :
-  m_parent(),
-  m_name(),
-  m_type(0),
-  m_fade_helpers(),
-  m_track_undo(true),
-  m_previous_type(-1),
-  m_version(1),
-  m_uid(),
-  m_scheduled_for_removal(false),
-  m_last_state(),
-  m_components(),
-  m_remove_listeners()
-{
-}
 
 GameObject::GameObject(const std::string& name) :
   m_parent(),
@@ -106,6 +93,15 @@ GameObject::save()
   return save_stream.str();
 }
 
+GameObjectClasses
+GameObject::get_class_types() const
+{
+  GameObjectClasses g;
+  // All class types except GameObject, since everything implements GameObject
+  // g.add(typeid(GameObject));
+  return g;
+}
+
 ObjectSettings
 GameObject::get_settings()
 {
@@ -147,7 +143,9 @@ GameObject::get_latest_version() const
 bool
 GameObject::is_up_to_date() const
 {
-  return m_version >= get_latest_version();
+  const int latest = get_latest_version();
+  assert(m_version <= latest);
+  return m_version == latest;
 }
 
 void
@@ -164,14 +162,14 @@ GameObject::save_state()
 
   if (!m_parent->undo_tracking_enabled())
   {
-    m_last_state.clear();
+    m_last_state.reset();
     return;
   }
-  if (!track_state())
+  if (!track_state() || m_last_state)
     return;
 
-  if (m_last_state.empty())
-    m_last_state = save();
+  m_last_state = get_settings();
+  m_last_state->save_state();
 }
 
 void
@@ -182,21 +180,15 @@ GameObject::check_state()
 
   if (!m_parent->undo_tracking_enabled())
   {
-    m_last_state.clear();
+    m_last_state.reset();
     return;
   }
-  if (!track_state())
+  if (!track_state() || !m_last_state)
     return;
 
-  // If settings have changed, save the change.
-  if (!m_last_state.empty())
-  {
-    if (m_last_state != save())
-    {
-      m_parent->save_object_change(*this, m_last_state);
-    }
-    m_last_state.clear();
-  }
+  // Save any option changes.
+  m_parent->save_object_change(*this, *m_last_state);
+  m_last_state.reset();
 }
 
 void
@@ -273,6 +265,20 @@ GameObject::update(float dt_sec)
   });
 
   m_fade_helpers.erase(new_end, m_fade_helpers.end());
+}
+
+
+void
+GameObject::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<GameObject>("GameObject");
+
+  cls.addFunc("get_version", &GameObject::get_version);
+  cls.addFunc("get_latest_version", &GameObject::get_latest_version);
+  cls.addFunc("is_up_to_date", &GameObject::is_up_to_date);
+  cls.addFunc("get_name", &GameObject::get_name);
+  cls.addFunc("get_display_name", &GameObject::get_display_name);
+  cls.addFunc("get_type", &GameObject::get_type);
 }
 
 /* EOF */

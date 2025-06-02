@@ -22,14 +22,16 @@
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 
+#include <fmt/format.h>
+
 EditorSectorMenu::EditorSectorMenu() :
   sector(Editor::current()->get_sector()),
   original_name(sector->get_name()),
   size(sector->get_editor_size()),
   new_size(size),
   offset(0, 0)
-{
-  add_label(_("Sector") + " " + sector->get_name());
+{ 
+  add_label(fmt::format(fmt::runtime(_("Sector {}")), sector->get_name()));
   add_hl();
   add_textfield(_("Name"), &sector->m_name);
   add_script(_("Initialization script"), &sector->m_init_script);
@@ -74,7 +76,7 @@ EditorSectorMenu::menu_action(MenuItem& item)
   switch (item.get_id()) {
     case MNID_RESIZESECTOR:
       if (new_size.is_valid()) {
-        sector->resize_sector(size, new_size, offset);
+        sector->resize(size, new_size, offset);
         size = new_size;
       }
       break;

@@ -39,10 +39,10 @@ public:
   virtual void update(float dt_sec) override;
 
   /** Binds a string to the textbox */
-  void bind_string(std::string* value) { m_string = value; }
+  inline void bind_string(std::string* value) { m_string = value; }
 
   /** Returns the full string held in m_charlist */
-  std::string get_string() const;
+  const std::string& get_string() const;
 
   /** Gets at which (absolute) index, in the text, corresponds an on-screen point */
   int get_text_position(const Vector& pos) const;

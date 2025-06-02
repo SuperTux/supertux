@@ -23,10 +23,10 @@ public:
   Debug();
 
   void set_use_bitmap_fonts(bool value);
-  bool get_use_bitmap_fonts() const;
+  inline bool get_use_bitmap_fonts() const { return m_use_bitmap_fonts; }
 
   void set_game_speed_multiplier(float v);
-  float get_game_speed_multiplier() const { return m_game_speed_multiplier; }
+  inline float get_game_speed_multiplier() const { return m_game_speed_multiplier; }
 
 public:
   /** Show collision rectangles of moving objects */
@@ -38,6 +38,12 @@ public:
   // Draw frames even when visually nothing changes; this can be used to
   // vaguely measure the impact of code changes which should increase the FPS
   bool draw_redundant_frames;
+
+  /** Draw tile IDs in editor toolbox */
+  bool show_toolbox_tile_ids;
+
+  /** Do not draw PlayerStatusHUD and LevelTime */
+  bool hide_player_hud;
 
 private:
   /** Use old bitmap fonts instead of TTF */

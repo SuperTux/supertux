@@ -95,10 +95,10 @@ In case you need help, feel free to reach out using the following means:
   and might miss potential answers.
 * **Matrix:** [#supertux:matrix.org](https://matrix.to/#/#supertux:matrix.org)
   is bridged to our IRC room.
-* **[Forum](https://forum.freegamedev.net/viewforum.php?f=66):** The SuperTux
-  community is very active on the forum, the discussion ranges from feature
+* **[Forum](https://groups.f-hub.org/supertux):** The SuperTux
+  community is also active on the forum, the discussions range from feature
   proposals to support questions. In particular, most community-contributed
-  add-ons are published there first, so this is worth checking.
+  add-ons are published there, so this is worth checking.
 * **Mailing Lists:** The
   [supertux-devel](http://lists.lethargik.org/listinfo.cgi/supertux-devel-lethargik.org)
   mailing list is dead. Here is the [archive](https://github.com/supertux-community/supertux-devel-maillist).

@@ -5,7 +5,7 @@
 # Translators:
 # 69fe870410d3e630a708a509aed5c0f9_e3efcca <3d48305986fd1b36087a0ec11b9a769d_288033>, 2015
 # Germana <germanaoliveirab@gmail.com>, 2013
-# Juan Jaramillo <juanda097@protonmail.ch>, 2015
+# JUAN DAVID JARAMILLO ORTIZ <juanda097@protonmail.ch>, 2015
 # Martin, 2022
 # Swyter <Swyterzone@gmail.com>, 2021
 # William Beltrán <wbeltranc@gmail.com>, 2015-2016
@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: 2013-08-10 23:04+0000\n"
 "Last-Translator: Martin, 2022\n"
 "Language-Team: Spanish (http://app.transifex.com/arctic-games/supertux/language/es/)\n"

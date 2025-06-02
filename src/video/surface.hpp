@@ -51,11 +51,11 @@ public:
 
   TexturePtr get_texture() const;
   TexturePtr get_displacement_texture() const;
-  Rect get_region() const { return m_region; }
+  inline Rect get_region() const { return m_region; }
   int get_width() const;
   int get_height() const;
-  Flip get_flip() const { return m_flip; }
-  std::string get_filename() const { return m_source_filename; }
+  inline Flip get_flip() const { return m_flip; }
+  inline const std::string& get_filename() const { return m_source_filename; }
 
 private:
   const TexturePtr m_diffuse_texture;

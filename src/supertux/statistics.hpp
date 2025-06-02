@@ -25,7 +25,13 @@
 
 class DrawingContext;
 class Level;
-class SquirrelVM;
+class Menu;
+class ReaderMapping;
+class Writer;
+
+namespace ssq {
+class Table;
+} // namespace ssq
 
 /** This class is a layer between level and worldmap to keep
     track of stuff like scores, and minor, but funny things, like
@@ -40,8 +46,25 @@ private:
 public:
   static std::string coins_to_string(int coins, int total_coins);
   static std::string frags_to_string(int badguys, int total_badguys);
-  static std::string time_to_string(float time);
   static std::string secrets_to_string(int secrets, int total_secrets);
+  static std::string time_to_string(float time);
+
+public:
+  class Preferences final
+  {
+  public:
+    Preferences();
+
+    void parse(const ReaderMapping& reader);
+    void write(Writer& writer) const;
+
+    void add_to_menu(Menu& menu);
+
+  public:
+    bool enable_coins;
+    bool enable_badguys;
+    bool enable_secrets;
+  };
 
 public:
   enum Status { INVALID, ACCUMULATING, FINAL };
@@ -50,10 +73,14 @@ public:
   Statistics(); /**< Creates new statistics, call reset() before counting */
 
   /** serialize statistics object as squirrel table "statistics" */
-  void serialize_to_squirrel(SquirrelVM& vm) const;
+  void serialize_to_squirrel(ssq::Table& table) const;
 
   /** unserialize statistics object from squirrel table "statistics" */
-  void unserialize_from_squirrel(SquirrelVM& vm);
+  void unserialize_from_squirrel(const ssq::Table& table);
+
+  inline Preferences& get_preferences() { return m_preferences; }
+  inline const Preferences& get_preferences() const { return m_preferences; }
+  void add_preferences_to_menu(Menu& menu);
 
   void draw_worldmap_info(DrawingContext& context, float target_time); /**< draw worldmap stat HUD */
   void draw_endseq_panel(DrawingContext& context, Statistics* best_stats, const SurfacePtr& backdrop, float target_time); /**< draw panel shown during level's end sequence */
@@ -67,13 +94,13 @@ public:
   void invalidate();
 
   void update(const Statistics& stats); /**< Given another Statistics object finds the best of each one */
-  bool completed(const Statistics& stats, const float target_time) const; /* Check if stats match total stats */
+  bool completed(const float target_time) const; /* Check if stats match total stats */
 
-  int get_coins() const { return m_coins; }
-  int get_badguys() const { return m_badguys; }
-  int get_secrets() const { return m_secrets; }
-  float get_time() const { return m_time; }
-  Status get_status() const { return m_status; }
+  inline int get_coins() const { return m_coins; }
+  inline int get_badguys() const { return m_badguys; }
+  inline int get_secrets() const { return m_secrets; }
+  inline float get_time() const { return m_time; }
+  inline Status get_status() const { return m_status; }
 
   void increment_coins() { m_coins++; check_coins(); }
   void increment_badguys() { m_badguys++; check_badguys(); }
@@ -108,6 +135,8 @@ private:
   float m_coins_time,
         m_badguys_time,
         m_secrets_time;
+
+  Preferences m_preferences;
 
 private:
   int m_max_width; /** < Gets the max width of a stats line, 255 by default */

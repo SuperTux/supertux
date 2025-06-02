@@ -19,47 +19,62 @@
 #define HEADER_SUPERTUX_OBJECT_TORCH_HPP
 
 #include "object/moving_sprite.hpp"
-#include "squirrel/exposed_object.hpp"
-
-#include "scripting/torch.hpp"
 
 class ReaderMapping;
 
-class Torch final : public MovingSprite,
-                    public ExposedObject<Torch, scripting::Torch>
+/**
+ * @scripting
+ * @summary A ""Torch"" that was given a name can be controlled by scripts.
+ * @instances A ""Torch"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
+class Torch final : public MovingSprite
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Torch(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& ) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& ) override;
 
   static std::string class_name() { return "torch"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Torch"; }
   static std::string display_name() { return _("Torch"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(Torch)); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
-  virtual int get_layer() const override { return m_layer; }
-
   virtual void on_flip(float height) override;
 
-  /** @name Scriptable Methods
-      @{ */
-  bool get_burning() const; /**< returns true if torch is lighted */
-  void set_burning(bool burning_); /**< true: light torch, false: extinguish
-                                     torch */
-  /** @} */
+  /**
+   * @scripting
+   * @description Returns ""true"" if the torch is burning.
+   */
+  inline bool get_burning() const { return m_burning; }
+  /**
+   * @scripting
+   * @description Switches the burning state of the torch.
+   * @param bool $burning
+   */
+  inline void set_burning(bool burning) { m_burning = burning; }
 
 private:
   Color m_light_color;
   SpritePtr m_flame;
   SpritePtr m_flame_glow;
   SpritePtr m_flame_light;
+
+  /**
+   * @scripting
+   * @description Determines whether the torch is burning.
+   */
   bool m_burning;
 
 private:

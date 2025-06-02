@@ -81,10 +81,7 @@ ObjectMenu::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_UPDATE:
-      Dialog::show_confirmation(_("This will update the object to its latest functionality.") + "\n" +
-                                _("Check the \"Patch Notes\" for more information.") + "\n\n" +
-                                _("Keep in mind this is very likely to break the proper behaviour of the object.") + "\n" +
-                                _("Make sure to re-check any behaviour, related to the object."), [this]() {
+      Dialog::show_confirmation(_("This will update the object to its latest functionality.\nCheck the \"Patch Notes\" for more information.\n\nKeep in mind this is very likely to break the proper behaviour of the object.\nMake sure to re-check any behaviour, related to the object."), [this]() {
         m_object->update_version();
         refresh();
       });
@@ -111,8 +108,8 @@ ObjectMenu::menu_action(MenuItem& item)
     case MNID_REMOVE:
       m_editor.delete_markers();
       m_editor.m_reactivate_request = true;
-      MenuManager::instance().pop_menu();
       m_object->remove_me();
+      MenuManager::instance().pop_menu();
       break;
 
     case MNID_REMOVEFUNCTION:
@@ -121,9 +118,9 @@ ObjectMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_TEST_FROM_HERE: {
-      const MovingObject *here = dynamic_cast<const MovingObject *>(m_object);
+      const MovingObject* obj = static_cast<const MovingObject*>(m_object);
       m_editor.m_test_pos = std::make_pair(m_editor.get_sector()->get_name(),
-                                           here->get_pos());
+                                           obj->get_pos());
       m_editor.m_test_request = true;
       MenuManager::instance().pop_menu();
       break;

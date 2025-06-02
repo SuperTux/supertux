@@ -5,6 +5,7 @@
 # Translators:
 # Wuzzy <Wuzzy@disroot.org>, 2015-2016
 # Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2013
+# firewiremb, 2024
 # Moritz Hofmann <moritz.hofmann2005@gmail.com>, 2021
 # mteufel, 2018
 # mteufel, 2018
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: 2013-08-10 23:04+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2019,2021\n"
+"Last-Translator: firewiremb, 2024\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,7 +124,7 @@ msgstr "Fast zu leicht"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr "#Alle Level wurden von Hume 2 für Meilenstein 2 angepasst."
+msgstr "#Diese Level wurden von Hume2 an das Meilenstein-2-Design angepasst."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
