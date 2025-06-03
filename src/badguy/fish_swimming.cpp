@@ -297,7 +297,7 @@ FishSwimming::active_update(float dt_sec)
           const float velocity_half_life_sec = 0.2f;
 
           float damping_multiplier = 1.0f;
-          if (dt_sec > 0.0f && velocity_half_life_sec > 0.0f)
+          if (dt_sec > 0.0f && velocity_half_life_sec)
           {
             damping_multiplier = std::pow(0.5f, dt_sec / velocity_half_life_sec);
           }
