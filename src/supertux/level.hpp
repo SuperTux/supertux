@@ -63,6 +63,8 @@ public:
   int get_total_badguys() const;
   int get_total_secrets() const;
 
+  bool is_saving_in_progress() const { return m_saving_in_progress; }
+
   void reactivate();
 
   inline bool is_worldmap() const { return m_is_worldmap; }
@@ -112,6 +114,9 @@ public:
   std::string m_icon;
   std::string m_icon_locked;
   std::string m_wmselect_bkg;
+
+private:
+  bool m_saving_in_progress;
 
 private:
   Level(const Level&) = delete;
