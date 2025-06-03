@@ -120,6 +120,8 @@ Editor::Editor() :
   m_widgets(),
   m_undo_widget(),
   m_redo_widget(),
+  m_grid_size_widget(),
+  m_play_widget(),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
@@ -142,6 +144,27 @@ Editor::Editor() :
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
+
+  auto grid_size_widget = std::make_unique<ButtonWidget>("images/engine/editor/grid_button.png",
+    Vector(110, 10),
+    [this] {
+      auto& snap_grid_size = g_config->editor_selected_snap_grid_size;
+      if (snap_grid_size == 0)
+        snap_grid_size = 3;
+      else
+        snap_grid_size--;
+    });
+
+  m_grid_size_widget = grid_size_widget.get();
+
+  m_widgets.insert(m_widgets.begin() + 2, std::move(grid_size_widget));
+
+  auto play_button = std::make_unique<ButtonWidget>("images/engine/editor/play_button.png",
+    Vector(160, 10), [this] { m_test_request = true; });
+
+  m_play_widget = play_button.get();
+
+  m_widgets.insert(m_widgets.begin() + 3, std::move(play_button));
 }
 
 Editor::~Editor()
