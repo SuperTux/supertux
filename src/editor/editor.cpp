@@ -122,6 +122,7 @@ Editor::Editor() :
   m_redo_widget(),
   m_grid_size_widget(),
   m_play_widget(),
+  m_save_widget(),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
@@ -175,6 +176,13 @@ Editor::Editor() :
   m_play_widget = play_button.get();
 
   m_widgets.insert(m_widgets.begin() + 3, std::move(play_button));
+
+  auto save_button = std::make_unique<ButtonWidget>("images/engine/editor/save.png",
+    Vector(128, 0), [this] { save_level(); });
+
+  m_save_widget = save_button.get();
+
+  m_widgets.insert(m_widgets.begin() + 4, std::move(save_button));
 }
 
 Editor::~Editor()
