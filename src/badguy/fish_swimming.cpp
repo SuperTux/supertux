@@ -291,13 +291,24 @@ FishSwimming::active_update(float dt_sec)
           }
         }
 
-        if (std::abs(m_physic.get_velocity_x()) >= 5.f)
+        float current_vx = m_physic.get_velocity_x();
+        if (current_vx != 0.f)
         {
-          m_physic.set_velocity_x(m_physic.get_velocity_x() / 1.25f);
-        }
-        else if (m_physic.get_velocity_x() != 0.f) 
-        {
-          m_physic.set_velocity_x(0.f);
+          const float velocity_half_life_sec = 0.2f;
+
+          float damping_multiplier = 1.0f;
+          if (dt_sec > 0.0f && velocity_half_life_sec > 0.0f)
+          {
+            damping_multiplier = std::pow(0.5f, dt_sec / velocity_half_life_sec);
+          }
+
+          current_vx *= damping_multiplier;
+
+          if (std::abs(current_vx) < 0.05f)
+          {
+            current_vx = 0.f;
+          }
+          m_physic.set_velocity_x(current_vx);
         }
       }
     }
