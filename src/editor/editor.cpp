@@ -150,7 +150,17 @@ Editor::Editor() :
     [this] {
       auto& snap_grid_size = g_config->editor_selected_snap_grid_size;
       if (snap_grid_size == 0)
-        snap_grid_size = 3;
+      {
+        if(!g_config->editor_render_grid)
+        {
+          g_config->editor_render_grid = true;
+          snap_grid_size = 3;
+        }
+        else
+        {
+          g_config->editor_render_grid = false;
+        }
+      }
       else
         snap_grid_size--;
     });
