@@ -290,6 +290,15 @@ FishSwimming::active_update(float dt_sec)
             set_action("swim-right", -1);
           }
         }
+
+        if (std::abs(m_physic.get_velocity_x()) >= 5.f)
+        {
+          m_physic.set_velocity_x(m_physic.get_velocity_x() / 1.25f);
+        }
+        else if (m_physic.get_velocity_x() != 0.f) 
+        {
+          m_physic.set_velocity_x(0.f);
+        }
       }
     }
   }
