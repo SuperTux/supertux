@@ -227,6 +227,7 @@ private:
   ButtonWidget* m_redo_widget;
   ButtonWidget* m_grid_size_widget;
   ButtonWidget* m_play_widget;
+  ButtonWidget* m_save_widget;
 
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
