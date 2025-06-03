@@ -146,7 +146,7 @@ Editor::Editor() :
   m_widgets.push_back(std::move(overlay_widget));
 
   auto grid_size_widget = std::make_unique<ButtonWidget>("images/engine/editor/grid_button.png",
-    Vector(110, 10),
+    Vector(64, 0),
     [this] {
       auto& snap_grid_size = g_config->editor_selected_snap_grid_size;
       if (snap_grid_size == 0)
@@ -160,7 +160,7 @@ Editor::Editor() :
   m_widgets.insert(m_widgets.begin() + 2, std::move(grid_size_widget));
 
   auto play_button = std::make_unique<ButtonWidget>("images/engine/editor/play_button.png",
-    Vector(160, 10), [this] { m_test_request = true; });
+    Vector(96, 0), [this] { m_test_request = true; });
 
   m_play_widget = play_button.get();
 
@@ -1084,9 +1084,9 @@ Editor::retoggle_undo_tracking()
   {
     // Add undo/redo button widgets.
     auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
-        Vector(10, 10), [this]{ undo(); });
+        Vector(0, 0), [this]{ undo(); });
     auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
-        Vector(60, 10), [this]{ redo(); });
+        Vector(32, 0), [this]{ redo(); });
 
     m_undo_widget = undo_button_widget.get();
     m_redo_widget = redo_button_widget.get();
