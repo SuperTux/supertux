@@ -26,6 +26,7 @@
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
@@ -52,7 +53,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_width(0),
   m_height(0),
   m_z_pos(0),
-  m_offset(Vector(0, 32)),
+  m_offset(Vector(0, 0)),
   m_movement(0, 0),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
@@ -86,7 +87,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_width(-1),
   m_height(-1),
   m_z_pos(0),
-  m_offset(Vector(0, 32)),
+  m_offset(Vector(0, 0)),
   m_movement(Vector(0, 0)),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
@@ -344,7 +345,7 @@ TileMap::after_editor_set()
     }
   } else {
     if (m_add_path) {
-      init_path_pos(m_offset);
+      init_path_pos(get_offset());
     }
   }
 
@@ -620,15 +621,27 @@ TileMap::resize(int new_width, int new_height, int fill_id,
     apply_offset_y(fill_id, yoffset);
 }
 
-void TileMap::resize(const Size& newsize, const Size& resize_offset) {
+void
+TileMap::resize(const Size& newsize, const Size& resize_offset) {
   resize(newsize.width, newsize.height, 0, resize_offset.width, resize_offset.height);
+}
+
+Vector
+TileMap::get_offset() const
+{
+  // Apply custom offset for tilemap to fit buttons at the top of the editor. 
+  // This extra offset isn't saved.
+  if (Editor::is_active() && !Level::current()->is_saving_in_progress())
+    return m_offset + Vector(0, 32);
+
+  return m_offset;
 }
 
 Rect
 TileMap::get_tiles_overlapping(const Rectf &rect) const
 {
   Rectf rect2 = rect;
-  rect2.move(-m_offset);
+  rect2.move(-get_offset());
 
   int t_left   = std::max(0     , int(floorf(rect2.get_left  () / 32)));
   int t_right  = std::min(m_width , int(ceilf (rect2.get_right () / 32)));
@@ -681,7 +694,7 @@ TileMap::get_tile_id(const Vector& pos) const
 bool
 TileMap::is_outside_bounds(const Vector& pos) const
 {
-  auto pos_ = (pos - m_offset) / 32.0f;
+  auto pos_ = (pos - get_offset()) / 32.0f;
   float width = static_cast<float>(m_width);
   float height = static_cast<float>(m_height);
   return pos_.x < 0 || pos_.x >= width || pos_.y < 0 || pos_.y >= height;
@@ -697,7 +710,7 @@ TileMap::get_tile(int x, int y) const
 uint32_t
 TileMap::get_tile_id_at(const Vector& pos) const
 {
-  Vector xy = (pos - m_offset) / 32.0f;
+  Vector xy = (pos - get_offset()) / 32.0f;
   return get_tile_id(static_cast<int>(xy.x), static_cast<int>(xy.y));
 }
 
@@ -732,7 +745,7 @@ TileMap::change(int idx, uint32_t newtile)
 void
 TileMap::change_at(const Vector& pos, uint32_t newtile)
 {
-  Vector xy = (pos - m_offset) / 32.0f;
+  Vector xy = (pos - get_offset()) / 32.0f;
   change(int(xy.x), int(xy.y), newtile);
 }
 
@@ -964,11 +977,11 @@ void
 TileMap::move_by(const Vector& shift)
 {
   if (!get_path()) {
-    init_path_pos(m_offset);
+    init_path_pos(get_offset());
     m_add_path = true;
   }
   get_path()->move_by(shift);
-  m_offset += shift;
+  set_offset(get_offset() + shift);
 }
 
 void
