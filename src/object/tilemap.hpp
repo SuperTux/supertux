@@ -100,7 +100,7 @@ public:
   inline Size get_size() const { return Size(m_width, m_height); }
 
   inline void set_offset(const Vector &offset_) { m_offset = offset_; }
-  inline Vector get_offset() const { return m_offset; }
+  Vector get_offset() const;
 
   void set_ground_movement_manager(const std::shared_ptr<CollisionGroundMovementManager>& movement_manager)
   {
@@ -125,7 +125,7 @@ public:
   /** Returns the position of the upper-left corner of tile (x, y) in
       the sector. */
   Vector get_tile_position(int x, int y) const
-  { return m_offset + Vector(static_cast<float>(x), static_cast<float>(y)) * 32.0f; }
+  { return get_offset() + Vector(static_cast<float>(x), static_cast<float>(y)) * 32.0f; }
 
   Rectf get_bbox() const {
     return Rectf(get_tile_position(0, 0),
