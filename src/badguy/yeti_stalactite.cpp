@@ -73,6 +73,7 @@ YetiStalactite::update(float dt_sec)
     // Attempt to minimize any potential collisions during this process.
     set_action("default");
     set_pos(m_start_position);
+    m_physic.set_velocity(0, 0);
     set_colgroup_active(COLGROUP_TOUCHABLE);
   }
 
