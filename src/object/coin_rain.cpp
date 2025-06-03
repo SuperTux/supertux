@@ -39,9 +39,35 @@ CoinRain::CoinRain(const Vector& pos, bool emerge, bool count_stats, const std::
   }
 }
 
+CoinRain::CoinRain(const ReaderMapping& reader) :
+  GameObject(reader),
+  sprite(SpriteManager::current()->create("images/objects/coin/coin.sprite")),
+  m_sprite_path("images/objects/coin/coin.sprite"),
+  position(),
+  emerge_distance(0),
+  timer(),
+  counter(0),
+  drop(0),
+  m_count_stats(true)
+{
+  reader.get("x", position.x);
+  reader.get("y", position.y);
+  bool emerge = false;
+  reader.get("emerge", emerge);
+  
+  if (emerge) 
+  {
+    emerge_distance = static_cast<float>(sprite->get_height());
+  }
+}
+
 void
 CoinRain::update(float dt_sec)
 {
+  if (is_grabbed()) 
+    // Don't do anything while being carried
+    return;
+
   // First a single (untouchable) coin flies up above the sector.
   if (position.y > -32){
     float dist = -500 * dt_sec;
@@ -79,6 +105,25 @@ CoinRain::draw(DrawingContext& context)
     layer = LAYER_OBJECTS + 5;
   }
   sprite->draw(context.color(), position, layer);
+}
+
+void
+CoinRain::grab(MovingObject& object, const Vector& pos, Direction dir)
+{
+  position = pos;
+  Portable::grab(object, pos, dir);
+}
+
+void
+CoinRain::ungrab(MovingObject& object, Direction dir)
+{
+  // Reset counter to start coin rain effect
+  counter = 0;
+  drop = 0;
+  timer.stop();
+  
+  position = object.get_pos();
+  Portable::ungrab(object, dir);
 }
 
 /* EOF */

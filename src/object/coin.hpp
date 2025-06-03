@@ -20,13 +20,15 @@
 #include "object/path_object.hpp"
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
+#include "object/portable.hpp"
 
 class Path;
 class PathWalker;
 class TileMap;
 
 class Coin : public MovingSprite,
-             public PathObject
+             public PathObject,
+             public Portable
 {
   friend class HeavyCoin;
 
@@ -45,6 +47,9 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(PathObject)).add(typeid(Coin)); }
 
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
+
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
@@ -62,6 +67,17 @@ public:
   virtual void on_flip(float height) override;
 
   void collect();
+
+protected:
+  bool m_on_ground;
+  bool m_on_ice;
+  bool m_at_ceiling;
+  Vector m_last_movement;
+  std::string m_on_grab_script;
+  std::string m_on_ungrab_script;
+  bool m_running_grab_script;
+  bool m_running_ungrab_script;
+  float m_last_sector_gravity;
 
 private:
   enum Type {
