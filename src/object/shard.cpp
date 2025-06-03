@@ -24,8 +24,8 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const float STICKING_TIME = 0.7f;
-static const float FADEOUT_TIME = 0.3f;
+constexpr float STICKING_TIME = 0.7f;
+constexpr float FADEOUT_TIME = 0.3f;
 
 Shard::Shard(const ReaderMapping& reader) :
   StickyObject(reader, "images/creatures/crystallo/shard.sprite", LAYER_TILES - 2, COLGROUP_MOVING),
