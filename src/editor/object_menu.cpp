@@ -105,7 +105,7 @@ ObjectMenu::menu_action(MenuItem& item)
       if (m_object) 
       {
         TileMap* tilemap = static_cast<TileMap*>(m_object);
-        float current_alpha = tilemap->get_alpha();
+        const float current_alpha = static_cast<TileMap*>(m_object)->get_alpha();
         if (current_alpha > 0.0f) 
         {
           tilemap->set_alpha(0.0f);
