@@ -724,7 +724,7 @@ Crusher::eye_position(bool right) const
       const float x = (right == (m_dir_vector.x < 0) ? 2 : 1) * step;
 
       return Vector(x * m_dir_vector.x,
-        -step + (step * m_dir_vector.y));
+                    -step + (step * m_dir_vector.y));
     }
 
     case DELAY: [[fallthrough]];
@@ -748,7 +748,7 @@ Crusher::eye_position(bool right) const
         amplitude, // Offset to keep eyes visible.
 
         std::cos((right ? math::PI : 0.0f) + // Eyes spin out of phase of eachother.
-          phase_factor) * amplitude -
+        phase_factor) * amplitude -
         amplitude); // Offset to keep eyes visible.
     }
 
@@ -903,30 +903,30 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
       if (m_dir_vector.x > 0.5f) // Right
       {
         wall_check_bbox = Rectf(rock_bbox.get_right(),
-          rock_bbox.get_top(),
-          rock_bbox.get_right() + probe_distance,
-          rock_bbox.get_bottom());
+                                rock_bbox.get_top(),
+                                rock_bbox.get_right() + probe_distance,
+                                rock_bbox.get_bottom());
       }
       else if (m_dir_vector.x < -0.5f) // Left
       {
         wall_check_bbox = Rectf(rock_bbox.get_left() - probe_distance,
-          rock_bbox.get_top(),
-          rock_bbox.get_left(),
-          rock_bbox.get_bottom());
+                                rock_bbox.get_top(),
+                                rock_bbox.get_left(),
+                                rock_bbox.get_bottom());
       }
       else if (m_dir_vector.y < -0.5f) // Up
       {
         wall_check_bbox = Rectf(rock_bbox.get_left(),
-          rock_bbox.get_top() - probe_distance,
-          rock_bbox.get_right(),
-          rock_bbox.get_top());
+                                rock_bbox.get_top() - probe_distance,
+                                rock_bbox.get_right(),
+                                rock_bbox.get_top());
       }
       else if (m_dir_vector.y > 0.5f) // Down
       {
         wall_check_bbox = Rectf(rock_bbox.get_left(),
-          rock_bbox.get_bottom(),
-          rock_bbox.get_right(),
-          rock_bbox.get_bottom() + probe_distance);
+                                rock_bbox.get_bottom(),
+                                rock_bbox.get_right(),
+                                rock_bbox.get_bottom() + probe_distance);
       }
       else
       {
@@ -1057,7 +1057,7 @@ Crusher::update(float dt_sec)
       }
       break;
 
-      // We want to ensure that the crusher still recovers after avoiding other crushers.
+    // We want to ensure that the crusher still recovers after avoiding other crushers.
     case AWAIT_IDLE:
       if (has_recovered())
       {
