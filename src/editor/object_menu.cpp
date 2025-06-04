@@ -57,7 +57,7 @@ ObjectMenu::refresh()
   TileMap* selected_tilemap = m_editor.get_layers_widget()->get_selected_tilemap();
   if (m_object != selected_tilemap) 
   {
-    float current_alpha = static_cast<TileMap*>(m_object)->get_alpha();
+    const float current_alpha = static_cast<TileMap*>(m_object)->get_alpha();
     if (current_alpha > 0.0f) 
     {
       add_entry(MNID_HIDE_LAYER, _("Hide Layer"));
