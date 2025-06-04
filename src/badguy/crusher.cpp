@@ -591,6 +591,10 @@ Crusher::spawn_roots()
           local_pos.x -= ROOT_OFFSET_X + 0.5f;
           probe_offset.x = -1.75f;
           break;
+        case Direction::AUTO:
+        case Direction::NONE:
+        default:
+          break;
       }
 
       bool should_summon = false;
