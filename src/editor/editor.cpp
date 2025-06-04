@@ -154,13 +154,9 @@ Editor::Editor() :
       {
         if(!g_config->editor_render_grid)
         {
-          g_config->editor_render_grid = true;
           snap_grid_size = 3;
         }
-        else
-        {
-          g_config->editor_render_grid = false;
-        }
+        g_config->editor_render_grid = !g_config->editor_render_grid;
       }
       else
         snap_grid_size--;
