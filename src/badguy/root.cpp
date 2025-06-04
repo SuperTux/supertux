@@ -23,9 +23,9 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const float HATCH_TIME = 0.7f;
-static const float APPEAR_TIME = 0.5f;
-static const float RETREAT_TIME = 1.f;
+constexpr float HATCH_TIME = 0.7f;
+constexpr float APPEAR_TIME = 0.5f;
+constexpr float RETREAT_TIME = 1.f;
 
 Root::Root(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/corrupted/root.sprite", LAYER_TILES - 10),
@@ -149,7 +149,7 @@ Root::draw(DrawingContext& context)
   {
   case Direction::UP:
     pos.x -= m_sprite->get_current_hitbox_x_offset();
-    pos.y -= get_bbox().get_height() + 17.5f;
+    pos.y -= get_bbox().get_height() + 14.5f;
     break;
 
   case Direction::DOWN:

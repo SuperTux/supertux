@@ -105,7 +105,7 @@ private:
   static Direction direction_from_vector(const Vector& vec);
 
   void crush();
-  void crushed(const CollisionHit& hit_info);
+  void crushed(const CollisionHit& hit_info, bool allow_root_spawn);
   void run_crush_script();
   void recover();
   void idle();
