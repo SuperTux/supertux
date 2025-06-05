@@ -111,7 +111,7 @@ private:
   void idle();
   bool is_recovery_path_clear_of_crushers() const;
 
-  void spawn_roots();
+  void spawn_roots(const CollisionHit& hit_info);
   void spawn_particles(const CollisionHit& hit_info);
 
   inline std::string get_crush_sound() const;

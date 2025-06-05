@@ -511,46 +511,33 @@ Crusher::direction_from_vector(const Vector& vec)
 }
 
 void
-Crusher::spawn_roots()
+Crusher::spawn_roots(const CollisionHit& hit_info)
 {
+  constexpr float TILE_SIZE = 32.0f;
+
   Vector pos(0.f, 0.f);
   const Direction dir = direction_from_vector(m_dir_vector);
   float* axis{};
   float origin{}, pos1{}, pos2{};
 
-  switch (dir)
+  // Snap the impact origin to the tile grid.
+  if (hit_info.bottom || hit_info.top)
   {
-    case Direction::UP:
-      origin = get_bbox().get_top();
-      axis = &pos.x;
-      pos1 = get_bbox().get_left();
-      pos2 = get_bbox().get_right();
-      break;
-
-    case Direction::DOWN:
-      origin = get_bbox().get_bottom();
-      axis = &pos.x;
-      pos1 = get_bbox().get_left();
-      pos2 = get_bbox().get_right();
-      break;
-
-    case Direction::LEFT:
-      origin = get_bbox().get_left();
-      axis = &pos.y;
-      pos1 = get_bbox().get_top();
-      pos2 = get_bbox().get_bottom();
-      break;
-
-    case Direction::RIGHT:
-      origin = get_bbox().get_right();
-      axis = &pos.y;
-      pos1 = get_bbox().get_top();
-      pos2 = get_bbox().get_bottom();
-      break;
-    case Direction::AUTO:
-    case Direction::NONE:
-    default:
-      return;
+    origin = round((hit_info.bottom ? get_bbox().get_bottom() : get_bbox().get_top()) / TILE_SIZE) * TILE_SIZE;
+    axis = &pos.x;
+    pos1 = get_bbox().get_left();
+    pos2 = get_bbox().get_right();
+  }
+  else if (hit_info.left || hit_info.right)
+  {
+    origin = round((hit_info.left ? get_bbox().get_left() : get_bbox().get_right()) / TILE_SIZE) * TILE_SIZE;
+    axis = &pos.y;
+    pos1 = get_bbox().get_top();
+    pos2 = get_bbox().get_bottom();
+  }
+  else
+  {
+    return;
   }
 
   *(axis == &pos.y ? &pos.x : &pos.y) = origin;
@@ -560,60 +547,93 @@ Crusher::spawn_roots()
   auto spawn_roots_on_side = [&](float start, float sign) {
     for (int i = 0; i < 3; ++i)
     {
-      const float delay = (static_cast<float>(i) + 1.f) * 0.6f;
+      const float hatch_delay = 0.25f;
+      const float delay = (static_cast<float>(i) + 1.f) * 0.35f;
       Root& root = Sector::get().add<Root>(Vector(0.f, 0.f),
                                            root_direction,
                                            "images/creatures/mole/corrupted/root.sprite",
-                                           delay, false, false);
+                                           hatch_delay, false, false, delay);
 
       const float dimension = (axis == &pos.y ? root.get_height() : root.get_width());
 
       if (axis != nullptr)
         *axis = start + sign * (10.f + ((dimension / 2.f) + 50.f) * static_cast<float>(i));
 
-      Vector local_pos = pos;
-      Vector probe_offset(0.f, 0.f);
+      // Ensure the root's base is on a solid surface.
+      Rectf base_check_box(pos - Vector(2.0f, 2.0f), Sizef(4.0f, 4.0f));
+      if (hit_info.bottom)
+        base_check_box.move(Vector(0.f, 2.0f));
+      else if (hit_info.top)
+        base_check_box.move(Vector(0.f, -2.0f));
+      else if (hit_info.left)
+        base_check_box.move(Vector(-2.0f, 0.f));
+      else if (hit_info.right)
+        base_check_box.move(Vector(2.0f, 0.f));
+
+      if (Sector::get().is_free_of_tiles(base_check_box, false, Tile::SOLID))
+      {
+        root.remove_me();
+        continue;
+      }
+
+      // Ensure the root's exit path is clear.
+      Rectf exit_path_box;
+      const Sizef root_size = root.get_bbox().get_size();
+      const float clearance = 1.0f;
 
       switch (root_direction)
       {
         case Direction::UP:
-          local_pos.y += ROOT_OFFSET_Y;
+          exit_path_box = Rectf(pos.x - root_size.width / 2.0f, pos.y - root_size.height - clearance,
+                                pos.x + root_size.width / 2.0f, pos.y - clearance);
           break;
         case Direction::DOWN:
-          local_pos.y -= ROOT_OFFSET_Y;
-          probe_offset.y -= 1.50f;
+          exit_path_box = Rectf(pos.x - root_size.width / 2.0f, pos.y + clearance,
+                                pos.x + root_size.width / 2.0f, pos.y + root_size.height + clearance);
           break;
         case Direction::LEFT:
-          local_pos.x += ROOT_OFFSET_X + 1.f;
-          probe_offset.x = 1.75f;
+          exit_path_box = Rectf(pos.x - root_size.width - clearance, pos.y - root_size.height / 2.0f,
+                                pos.x - clearance, pos.y + root_size.height / 2.0f);
           break;
         case Direction::RIGHT:
-          local_pos.x -= ROOT_OFFSET_X + 0.5f;
-          probe_offset.x = -1.75f;
+          exit_path_box = Rectf(pos.x + clearance, pos.y - root_size.height / 2.0f,
+                                pos.x + root_size.width + clearance, pos.y + root_size.height / 2.0f);
           break;
-        case Direction::AUTO:
-        case Direction::NONE:
         default:
           break;
       }
 
-      bool should_summon = false;
-      for (TileMap* tilemap : Sector::get().get_solid_tilemaps())
+      if (!exit_path_box.empty() && !Sector::get().is_free_of_tiles(exit_path_box, false, Tile::SOLID))
       {
-        const Tile& tile = tilemap->get_tile_at(local_pos + probe_offset);
-        if (tile.is_solid())
-        {
-          should_summon = true;
-          break;
-        }
+        root.remove_me();
+        continue;
       }
 
-      if (!should_summon) continue;
+      Vector spawn_pos = pos;
+      switch (root_direction)
+      {
+        case Direction::UP:
+          // Addtional offset to account for grass.
+          spawn_pos.y += ROOT_OFFSET_Y - 4.8f;
+          break;
+        case Direction::DOWN:
+          spawn_pos.y -= ROOT_OFFSET_Y;
+          break;
+        case Direction::LEFT:
+          spawn_pos.x += ROOT_OFFSET_X;
+          break;
+        case Direction::RIGHT:
+          spawn_pos.x -= ROOT_OFFSET_X;
+          break;
+        default:
+          break;
+      }
 
-      root.set_pos(local_pos);
+      root.set_pos(spawn_pos);
       root.construct();
+      root.initialize();
     }
-  };
+    };
 
   spawn_roots_on_side(pos1, -1.f);
   spawn_roots_on_side(pos2, +1.f);
@@ -637,7 +657,7 @@ Crusher::crushed(const CollisionHit& hit_info, bool allow_root_spawn)
   spawn_particles(hit_info);
 
   if (m_ic_type == CORRUPTED && allow_root_spawn)
-    spawn_roots();
+    spawn_roots(hit_info);
 
   run_crush_script();
 }
