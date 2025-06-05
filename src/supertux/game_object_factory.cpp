@@ -96,6 +96,8 @@
 #include "object/custom_particle_system.hpp"
 #include "object/custom_particle_system_file.hpp"
 #include "object/coin.hpp"
+#include "object/coin_explode.hpp"
+#include "object/coin_rain.hpp"
 #include "object/conveyor_belt.hpp"
 #include "object/decal.hpp"
 #include "object/display_effect.hpp"
@@ -266,7 +268,9 @@ GameObjectFactory::init_factories()
   add_factory<ConveyorBelt>("conveyor-belt");
   add_factory<CustomParticleSystem>("particles-custom");
   add_factory<CustomParticleSystemFile>("particles-custom-file");
-  add_factory<Coin>("coin", OBJ_PARAM_DISPENSABLE);
+  add_factory<Coin>("coin", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
+  add_factory<CoinRain>("coin_rain", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
+  add_factory<CoinExplode>("coin_explode", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<Decal>("decal", OBJ_PARAM_WORLDMAP);
   add_factory<Explosion>("explosion", OBJ_PARAM_DISPENSABLE);
   add_factory<FallBlock>("fallblock", OBJ_PARAM_DISPENSABLE);
