@@ -493,6 +493,9 @@ private:
    */
   void ungrab_object(GameObject* gameobject = nullptr);
 
+  /** Method for shared collision logic */
+  void handle_collision_logic(const CollisionHit& hit);
+
   void next_target();
   void prev_target();
 
