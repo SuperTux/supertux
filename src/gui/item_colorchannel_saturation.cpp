@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "gui/item_colorchannel_rgba.hpp"
+#include "gui/item_colorchannel_saturation.hpp"
 
 #include <sstream>
 
@@ -24,16 +24,13 @@
 
 namespace {
 
-std::string colour_value_to_string(float v_raw, bool is_linear)
+std::string sat_value_to_string(float v_raw)
 {
-  float v = v_raw;
-  if (!is_linear)
-    v = Color::remove_gamma(v);
-  v *= 100.0f;
-  // not using std::to_string() as it padds the end with '0's
-  v = 0.01f * floorf(v * 100.0f + 0.5f);
+  float percent = v_raw * 100.0f;
+  // Round to nearest integer percentage
+  percent = 0.01f * floorf(percent * 100.0f + 0.5f);
   std::ostringstream os;
-  os << v_raw << " (" << v << " %" << ")";
+  os << v_raw << " (" << percent << " %" << ")";
   return os.str();
 }
 
@@ -46,53 +43,57 @@ std::string float_to_string(float v)
 
 } // namespace
 
-ItemColorChannelRGBA::ItemColorChannelRGBA(float* input, Color channel, int id,
-    bool is_linear) :
-  MenuItem(colour_value_to_string(*input, is_linear), id),
-  m_number(input),
-  m_number_prev(*input),
-  m_is_linear(is_linear),
+ItemColorChannelSaturation::ItemColorChannelSaturation(Color* color, ColorOKLCh* okl, int id) :
+  MenuItem(sat_value_to_string(okl->C), id),
+  m_color(color),
+  m_okl(okl),
+  m_sat(&okl->C),
+  m_sat_prev(okl->C),
   m_edit_mode(false),
-  m_flickw(static_cast<int>(Resources::normal_font->get_text_width("_"))),
-  m_channel(channel)
+  m_flickw(static_cast<int>(Resources::normal_font->get_text_width("_")))
+  //m_channel(channel)
 {
 }
 
 void
-ItemColorChannelRGBA::draw(DrawingContext& context, const Vector& pos,
+ItemColorChannelSaturation::draw(DrawingContext& context, const Vector& pos,
   int menu_width, bool active)
 {
-  if (!m_edit_mode && *m_number != m_number_prev) {
-    set_text(colour_value_to_string(*m_number, m_is_linear));
-    m_number_prev = *m_number;
+  if (!m_edit_mode && *m_sat != m_sat_prev) {
+    set_text(sat_value_to_string(*m_sat));
+    m_sat_prev = *m_sat;
   }
 
   MenuItem::draw(context, pos, menu_width, active);
-  const float lw = float(menu_width - 32) * (*m_number);
+  *m_okl = ColorOKLCh(*m_color);
+  float maxC = m_okl->get_max_chroma();
+  float fraction = 0.0f;
+  if (maxC > 0.0f) fraction = std::clamp((*m_sat / 1.0f), 0.0f, 1.0f);
+  const float lw = float(menu_width - 32) * (fraction);
   context.color().draw_filled_rect(Rectf(pos + Vector(16, -4),
                                          pos + Vector(16 + lw, 4)),
-                                   m_channel, 0.0f, LAYER_GUI-1);
+                                   Color::WHITE, 0.0f, LAYER_GUI-1);
 }
 
 int
-ItemColorChannelRGBA::get_width() const
+ItemColorChannelSaturation::get_width() const
 {
   return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + 16 + static_cast<float>(m_flickw));
 }
 
 void
-ItemColorChannelRGBA::enable_edit_mode()
+ItemColorChannelSaturation::enable_edit_mode()
 {
   if (m_edit_mode)
     // Do nothing if it is already enabled
     return;
   m_edit_mode = true;
-  set_text(float_to_string(*m_number));
+  set_text(float_to_string(*m_sat));
 }
 
 
 void
-ItemColorChannelRGBA::event(const SDL_Event& ev)
+ItemColorChannelSaturation::event(const SDL_Event& ev)
 {
   if (ev.type == SDL_TEXTINPUT) {
     std::string txt = ev.text.text;
@@ -103,7 +104,7 @@ ItemColorChannelRGBA::event(const SDL_Event& ev)
 }
 
 void
-ItemColorChannelRGBA::add_char(char c)
+ItemColorChannelSaturation::add_char(char c)
 {
   enable_edit_mode();
   std::string text = get_text();
@@ -131,29 +132,29 @@ ItemColorChannelRGBA::add_char(char c)
 
   float number = std::stof(text);
   if (0.0f <= number && number <= 1.0f) {
-    *m_number = number;
+    *m_sat = number;
     set_text(text);
   }
 }
 
 void
-ItemColorChannelRGBA::remove_char()
+ItemColorChannelSaturation::remove_char()
 {
   enable_edit_mode();
   std::string text = get_text();
 
   if (text.empty())
   {
-    *m_number = 0.0f;
+    *m_sat = 0.0f;
   }
   else
   {
     text.pop_back();
 
     if (!text.empty()) {
-      *m_number = std::stof(text);
+      *m_sat = std::stof(text);
     } else {
-      *m_number = 0.0f;
+      *m_sat = 0.0f;
     }
   }
 
@@ -161,7 +162,7 @@ ItemColorChannelRGBA::remove_char()
 }
 
 void
-ItemColorChannelRGBA::process_action(const MenuAction& action)
+ItemColorChannelSaturation::process_action(const MenuAction& action)
 {
   switch (action)
   {
@@ -169,19 +170,26 @@ ItemColorChannelRGBA::process_action(const MenuAction& action)
       remove_char();
       break;
 
-    case MenuAction::LEFT:
-      *m_number = roundf(*m_number * 10.0f) / 10.0f;
-      *m_number -= 0.1f;
-      *m_number = math::clamp(*m_number, 0.0f, 1.0f);
-      m_edit_mode = false;
-      break;
+    case MenuAction::LEFT: 
+    case MenuAction::RIGHT: {
+      float maxC = m_okl->get_max_chroma();
+      float delta = (action == MenuAction::LEFT ? -0.01f : +0.01f);
 
-    case MenuAction::RIGHT:
-      *m_number = roundf(*m_number * 10.0f) / 10.0f;
-      *m_number += 0.1f;
-      *m_number = math::clamp(*m_number, 0.0f, 1.0f);
+      float newSat = *m_sat + delta;
+      newSat = std::clamp(newSat, 0.0f, maxC);
+      newSat = roundf(newSat * 100.0f) / 100.0f;
+      // Snap to reduce jitter at boundaries
+      if(newSat < 0.005f) newSat = 0.0f;
+      if(newSat > maxC - 0.005f) newSat = maxC;
+
+      *m_sat = newSat;
+
+      float oldA = m_color->alpha;
+      *m_color = Color::from_oklch(*m_okl);
+      m_color->alpha = oldA;  // if you want to preserve alpha
       m_edit_mode = false;
       break;
+    }
 
     case MenuAction::UNSELECT:
       m_edit_mode = false;
@@ -192,10 +200,10 @@ ItemColorChannelRGBA::process_action(const MenuAction& action)
   }
 }
 
-Color
-ItemColorChannelRGBA::get_color() const
-{
-  return m_channel;
-}
+// Color
+// ItemColorChannelSaturation::get_color() const
+// {
+//   return m_channel;
+// }
 
 /* EOF */
