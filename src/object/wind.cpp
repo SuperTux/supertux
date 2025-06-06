@@ -98,7 +98,8 @@ Wind::get_settings()
 }
 
 GameObjectTypes
-Wind::get_types() const {
+Wind::get_types() const
+{
   return {
     { "wind", _("Wind") },
     { "current", _("Current") }
@@ -122,7 +123,7 @@ Wind::update(float dt_sec_)
     // Emit a particle
     if (fancy_wind)
     {
-      const float angle = std::atan2(speed.y, speed.x) * float(180/M_PI);
+      const float angle = std::atan2(speed.y, speed.x) * float(180.0 / M_PI);
       switch (m_type) {
         case WIND: // Normal wind
           Sector::get().add<SpriteParticle>("images/particles/wind.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, Color::WHITE, angle);
