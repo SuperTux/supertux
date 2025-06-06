@@ -28,18 +28,19 @@ License should be included with them.
 == Music ==
 
 All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unless stated otherwise.
-* airship_remix.ogg - from remaxim at OpenGameArt.org, permission to release under CC-BY-SA and GPL version 2 or later
+* airship_remix.ogg - by Bart Kelsey submitted by remaxim at OpenGameArt.org, permission to release under CC-BY-SA and GPL version 2 or later
 * airship_2.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * arctic_cave.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
-* battle_theme.ogg - from remaxim at OpenGameArt.org, permission to release under CC-BY-SA and GPL version 2 or later
+* battle_theme.ogg - from remaxim at OpenGameArt.org, permission to release under CC-BY-SA 3.0 and GPL version 2 or later
 * beneath_the_rabbit_hole.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * bonuscave.ogg
 * bossattack.ogg
-* bright_thunders.ogg - by Krobonil, licensed under CC-BY-SA
+* bright_thunders.ogg - by Chris "Krobonil" Leutwyler, licensed under CC-BY-SA
 * cave.ogg
+* cave_old.ogg
 * call_of_the_winding_path.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * chipdisko.ogg - Mortimer's Chipdisko by Lukas Nystrand as Mortimer Twang - explicit permission granted to release unter GPL and CC-by-sa.
-* clavelian_march.ogg
+* clavelian_march.ogg by Treskalle
 * credits.ogg
 * darkforestkeep.ogg
 * forest-cave.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
@@ -50,20 +51,22 @@ All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unl
 * forest_theme.ogg - Forest Prophecy reEducated, by Wansti and Tobias "ToBeFree" Frei (GPLv2+CC-by-sa)
 * forest-sprint.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * fortress.ogg
+* fortress_old.ogg
 * ghostforest_map.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * ghostforest.ogg
 * ghostforest2.ogg
-* greatgigantic.ogg - Based on a work by Chris Huelsbeck - We have his permission to release this under GPL.
+* greatgigantic.ogg - by Wansti based on a work by Chris Huelsbeck - We have his permission to release this under GPL.
 * shallow-green.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * halloween_1.ogg - By Forty-Two - licensed under CC-BY-SA 4.0
 * ice_music.ogg - By ZhayTee
 * intro.ogg
 * invincible.ogg
 * arctic_breeze.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
-* jewels.ogg - By cynicmusic/congusbongus - <http://opengameart.org/content/crystal-cave-mysterious-ambience-seamless-loop> - CC-BY 3.0/CC-BY-SA 3.0/GPL 3.0
+* jewels.ogg - By Alex \"cynicmusic\" Smith edited by congusbongus - <http://opengameart.org/content/crystal-cave-mysterious-ambience-seamless-loop> - CC-BY 3.0/CC-BY-SA 3.0/GPL 3.0
 * leveldone.ogg
+* march_of_the_malevolent.ogg - Servalot, Wansti (original forest/'ghost' forest theme), licensed CC-BY-SA 4.0
 * new_forest_map.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
-* salcon.ogg - Salsa Con Carne by Mystical - Replaced due to licensing issues (some non-free samples are used)
+* salcon.ogg - Salsa Con Carne by DJ Gentoo based on work by Asbjorn \"Mystical\" Andersen - Replaced due to licensing issues (some non-free samples are used)
     by a work-in-progress remix in trunk and the 0.3.x branch (r4585), for which we have permission to release under GPL and CC-by-sa. - wansti
 * saharan_penguin.ogg - by Enol "Meji" Monte, licensed CC BY-SA
 * theme.ogg
@@ -82,7 +85,7 @@ All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unl
 * cavetheme_alt.ogg - By SnugglyBun, cover of the original cave theme by Wansti. licensed under CC-BY-SA 4.0
 * crystalmine_intro.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
 * crystalmine_main.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
-* crystalmine_underwater.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
+* underwater.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
 * glacier.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
 * snowfort.ogg - By SnugglyBun, licensed under CC-BY-SA 4.0
 * icecastle.ogg - By SnugglyBun, based on the original fortress theme by Wansti. licensed under CC-BY-SA 4.0

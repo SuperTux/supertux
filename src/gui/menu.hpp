@@ -96,7 +96,8 @@ public:
   ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
   ItemAction& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
                        const std::string& basedir, bool path_relative_to_basedir,
-                       const std::function<void (MenuItem&)>& item_processor = {}, int id = -1);
+                       const std::function<void (MenuItem&, const std::string&, bool)> item_processor = {},
+                       int id = -1);
 
   ItemColor& add_color(const std::string& text, Color* color, int id = -1);
   ItemColorDisplay& add_color_display(Color* color, int id = -1);
