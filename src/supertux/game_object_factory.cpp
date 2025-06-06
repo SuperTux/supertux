@@ -156,6 +156,7 @@
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
+#include "object/floating_platform.hpp"
 
 GameObjectFactory&
 GameObjectFactory::instance()
@@ -271,6 +272,7 @@ GameObjectFactory::init_factories()
   add_factory<Explosion>("explosion", OBJ_PARAM_DISPENSABLE);
   add_factory<FallBlock>("fallblock", OBJ_PARAM_DISPENSABLE);
   add_factory<Firefly>("firefly");
+  add_factory<FloatingPlatform>("floating_platform");
   add_factory<GhostParticleSystem>("particles-ghosts");
   add_factory<Gradient>("gradient");
   add_factory<HeavyBrick>("heavy-brick", OBJ_PARAM_DISPENSABLE);
@@ -358,6 +360,7 @@ GameObjectFactory::register_objects(ssq::VM& vm)
   Dispenser::register_class(vm);
   DisplayEffect::register_class(vm);
   FloatingImage::register_class(vm);
+  FloatingPlatform::register_class(vm);
   Gradient::register_class(vm);
   LevelTime::register_class(vm);
   LitObject::register_class(vm);

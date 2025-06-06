@@ -26,6 +26,7 @@ class SpawnPoint;
 class MovingObject;
 class Flower;
 class Platform;
+class FloatingPlatform;
 class Block;
 class Path;
 class Decal;
