@@ -547,8 +547,8 @@ Crusher::spawn_roots(const CollisionHit& hit_info)
   auto spawn_roots_on_side = [&](float start, float sign) {
     for (int i = 0; i < 3; ++i)
     {
-      const float hatch_delay = 0.25f;
-      const float delay = (static_cast<float>(i) + 1.f) * 0.35f;
+      const float hatch_delay = 0.05f;
+      const float delay = (static_cast<float>(i) + 1.f) * 0.22f;
       Root& root = Sector::get().add<Root>(Vector(0.f, 0.f),
                                            root_direction,
                                            "images/creatures/mole/corrupted/root.sprite",

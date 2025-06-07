@@ -26,7 +26,7 @@
 constexpr float HATCH_TIME = 0.7f;
 constexpr float APPEAR_TIME = 0.5f;
 constexpr float RETREAT_TIME = 1.f;
-constexpr float FADE_TIME = 0.2f;
+constexpr float FADE_TIME = 0.1f;
 constexpr float FADE_OUT_DELAY = 0.1f;
 
 Root::Root(const ReaderMapping& reader) :
