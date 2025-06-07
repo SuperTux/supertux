@@ -41,27 +41,24 @@
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 
-namespace
-{
-  /* Maximum movement speed in pixels per LOGICAL_FPS. */
-  constexpr float RECOVER_SPEED_NORMAL = -3.125f;
-  constexpr float RECOVER_SPEED_LARGE = -2.0f;
-  constexpr float PAUSE_TIME_NORMAL = 0.5f;
-  constexpr float PAUSE_TIME_LARGE = 1.0f;
-  constexpr float DETECT_RANGE = 1000.f;
+/* Maximum movement speed in pixels per LOGICAL_FPS. */
+constexpr float RECOVER_SPEED_NORMAL = -3.125f;
+constexpr float RECOVER_SPEED_LARGE = -2.0f;
+constexpr float PAUSE_TIME_NORMAL = 0.5f;
+constexpr float PAUSE_TIME_LARGE = 1.0f;
+constexpr float DETECT_RANGE = 1000.f;
 
-  constexpr float MAX_CRUSH_SPEED = 700.f;
+constexpr float MAX_CRUSH_SPEED = 700.f;
 
-  constexpr float RECOVER_SPEED_MULTIPLIER_NORMAL = 1.125f;
-  constexpr float RECOVER_SPEED_MULTIPLIER_LARGE = 1.0f;
+constexpr float RECOVER_SPEED_MULTIPLIER_NORMAL = 1.125f;
+constexpr float RECOVER_SPEED_MULTIPLIER_LARGE = 1.0f;
 
-  constexpr float BRICK_BREAK_PROBE_DISTANCE = 12.f;
-  constexpr float RECOVERY_PATH_PROBE_DISTANCE = 1.0f;
+constexpr float BRICK_BREAK_PROBE_DISTANCE = 12.f;
+constexpr float RECOVERY_PATH_PROBE_DISTANCE = 1.0f;
 
-  // Visual offset of the roots from the crusher.
-  constexpr float ROOT_OFFSET_X = 2.5f;
-  constexpr float ROOT_OFFSET_Y = 5.5f;
-}
+// Visual offset of the roots from the crusher.
+constexpr float ROOT_OFFSET_X = 2.5f;
+constexpr float ROOT_OFFSET_Y = 5.5f;
 
 Crusher::CrusherDirection
 Crusher::CrusherDirection_from_string(std::string_view str)
