@@ -103,6 +103,7 @@
 #include "object/fallblock.hpp"
 #include "object/firefly.hpp"
 #include "object/floating_image.hpp"
+#include "object/floating_platform.hpp"
 #include "object/ghost_particle_system.hpp"
 #include "object/gradient.hpp"
 #include "object/hurting_platform.hpp"
@@ -156,7 +157,6 @@
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
-#include "object/floating_platform.hpp"
 
 GameObjectFactory&
 GameObjectFactory::instance()
