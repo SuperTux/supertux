@@ -237,15 +237,13 @@ Menu::add_string_select(int id, const std::string& text, int default_item, const
 }
 
 ItemAction&
-Menu::add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
-               const std::string& basedir, bool path_relative_to_basedir,
-               const std::function<void (MenuItem&)>& item_processor, int id)
+Menu::add_file(const std::string& text, FileSystemMenu::MenuParams& params, int id)
 {
   return add_item<ItemAction>(text, id,
-    [input, extensions, basedir, path_relative_to_basedir, item_processor]()
+    [params]()
     {
-      MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(input, extensions, basedir,
-          path_relative_to_basedir, nullptr, item_processor));
+      params.callback = nullptr;
+      MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(params));
     });
 }
 

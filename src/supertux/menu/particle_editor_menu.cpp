@@ -101,9 +101,10 @@ ParticleEditorMenu::menu_action(MenuItem& item)
       //MenuManager::instance().set_menu(MenuStorage::PARTICLE_EDITOR_OPEN);
     {
       const std::vector<std::string>& filter = {".stcp"};
-      MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(
+      MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>({
         &ParticleEditor::current()->m_filename,
         filter,
+        {},
         "/particles",
         true,
         [](const std::string& new_filename) {
@@ -111,7 +112,7 @@ ParticleEditorMenu::menu_action(MenuItem& item)
                                         ParticleEditor::current()->m_filename);
           MenuManager::instance().clear_menu_stack();
         }
-      ));
+      }));
     }
       break;
 
