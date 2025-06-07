@@ -41,23 +41,24 @@
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 
-namespace
-{
-  /* Maximum movement speed in pixels per LOGICAL_FPS. */
-  constexpr float RECOVER_SPEED_NORMAL = -3.125f;
-  constexpr float RECOVER_SPEED_LARGE = -2.0f;
-  constexpr float PAUSE_TIME_NORMAL = 0.5f;
-  constexpr float PAUSE_TIME_LARGE = 1.0f;
-  constexpr float DETECT_RANGE = 1000.f;
+/* Maximum movement speed in pixels per LOGICAL_FPS. */
+constexpr float RECOVER_SPEED_NORMAL = -3.125f;
+constexpr float RECOVER_SPEED_LARGE = -2.0f;
+constexpr float PAUSE_TIME_NORMAL = 0.5f;
+constexpr float PAUSE_TIME_LARGE = 1.0f;
+constexpr float DETECT_RANGE = 1000.f;
 
-  constexpr float MAX_CRUSH_SPEED = 700.f;
+constexpr float MAX_CRUSH_SPEED = 700.f;
 
-  constexpr float RECOVER_SPEED_MULTIPLIER_NORMAL = 1.125f;
-  constexpr float RECOVER_SPEED_MULTIPLIER_LARGE = 1.0f;
+constexpr float RECOVER_SPEED_MULTIPLIER_NORMAL = 1.125f;
+constexpr float RECOVER_SPEED_MULTIPLIER_LARGE = 1.0f;
 
-  constexpr float BRICK_BREAK_PROBE_DISTANCE = 12.f;
-  constexpr float RECOVERY_PATH_PROBE_DISTANCE = 1.0f;
-}
+constexpr float BRICK_BREAK_PROBE_DISTANCE = 12.f;
+constexpr float RECOVERY_PATH_PROBE_DISTANCE = 1.0f;
+
+// Visual offset of the roots from the crusher.
+constexpr float ROOT_OFFSET_X = 2.5f;
+constexpr float ROOT_OFFSET_Y = 5.5f;
 
 Crusher::CrusherDirection
 Crusher::CrusherDirection_from_string(std::string_view str)
@@ -507,83 +508,136 @@ Crusher::direction_from_vector(const Vector& vec)
 }
 
 void
-Crusher::spawn_roots()
+Crusher::spawn_roots(const CollisionHit& hit_info)
 {
+  constexpr float TILE_SIZE = 32.0f;
+
   Vector pos(0.f, 0.f);
   const Direction dir = direction_from_vector(m_dir_vector);
   float* axis{};
   float origin{}, pos1{}, pos2{};
 
-  switch (dir)
+  // Snap the impact origin to the tile grid.
+  if (hit_info.bottom || hit_info.top)
   {
-    case Direction::UP:
-      origin = get_bbox().get_top();
-      axis = &pos.x;
-      pos1 = get_bbox().get_left();
-      pos2 = get_bbox().get_right();
-      break;
-
-    case Direction::DOWN:
-      origin = get_bbox().get_bottom();
-      axis = &pos.x;
-      pos1 = get_bbox().get_left();
-      pos2 = get_bbox().get_right();
-      break;
-
-    case Direction::LEFT:
-      origin = get_bbox().get_left();
-      axis = &pos.y;
-      pos1 = get_bbox().get_top();
-      pos2 = get_bbox().get_bottom();
-      break;
-
-    case Direction::RIGHT:
-      origin = get_bbox().get_right();
-      axis = &pos.y;
-      pos1 = get_bbox().get_top();
-      pos2 = get_bbox().get_bottom();
-      break;
-    case Direction::AUTO:
-    case Direction::NONE:
-    default:
-      return;
+    origin = round((hit_info.bottom ? get_bbox().get_bottom() : get_bbox().get_top()) / TILE_SIZE) * TILE_SIZE;
+    axis = &pos.x;
+    pos1 = get_bbox().get_left();
+    pos2 = get_bbox().get_right();
+  }
+  else if (hit_info.left || hit_info.right)
+  {
+    origin = round((hit_info.left ? get_bbox().get_left() : get_bbox().get_right()) / TILE_SIZE) * TILE_SIZE;
+    axis = &pos.y;
+    pos1 = get_bbox().get_top();
+    pos2 = get_bbox().get_bottom();
+  }
+  else
+  {
+    return;
   }
 
   *(axis == &pos.y ? &pos.x : &pos.y) = origin;
 
-  for (int i = 0; i < 3; ++i)
-  {
-    const float delay = (static_cast<float>(i) + 1.f) * 0.6f;
-    Root& root = Sector::get().add<Root>(Vector(0.f, 0.f), invert_dir(dir),
-                                         "images/creatures/mole/corrupted/root.sprite",
-                                         delay, false, false);
-    const float dimension = (axis == &pos.y ? root.get_height() : root.get_width());
+  const Direction root_direction = invert_dir(dir);
 
-    if (axis != nullptr)
-      *axis = pos1 - 10.f - (((dimension / 2.f) + 50.f) * static_cast<float>(i));
+  auto spawn_roots_on_side = [&](float start, float sign) {
+    for (int i = 0; i < 3; ++i)
+    {
+      const float hatch_delay = 0.05f;
+      const float delay = (static_cast<float>(i) + 1.f) * 0.22f;
+      Root& root = Sector::get().add<Root>(Vector(0.f, 0.f),
+                                           root_direction,
+                                           "images/creatures/mole/corrupted/root.sprite",
+                                           hatch_delay, false, false, delay);
 
-    root.set_pos(pos);
-    root.construct();
-  }
+      const float dimension = (axis == &pos.y ? root.get_height() : root.get_width());
 
-  for (int i = 0; i < 3; ++i)
-  {
-    const float delay = (static_cast<float>(i) + 1.f) * 0.6f;
-    Root& root = Sector::get().add<Root>(Vector(0.f, 0.f), invert_dir(dir),
-                                         "images/creatures/mole/corrupted/root.sprite",
-                                         delay, false, false);
-    const float dimension = (axis == &pos.y ? root.get_height() : root.get_width());
+      if (axis != nullptr)
+        *axis = start + sign * (10.f + ((dimension / 2.f) + 50.f) * static_cast<float>(i));
 
-    if (axis != nullptr)
-      *axis = pos2 + 10.f + (((dimension / 2.f) + 50.f) * static_cast<float>(i));
+      // Ensure the root's base is on a solid surface.
+      Rectf base_check_box(pos - Vector(2.0f, 2.0f), Sizef(4.0f, 4.0f));
+      if (hit_info.bottom)
+        base_check_box.move(Vector(0.f, 2.0f));
+      else if (hit_info.top)
+        base_check_box.move(Vector(0.f, -2.0f));
+      else if (hit_info.left)
+        base_check_box.move(Vector(-2.0f, 0.f));
+      else if (hit_info.right)
+        base_check_box.move(Vector(2.0f, 0.f));
 
-    root.set_pos(pos);
-    root.construct();
-  }
+      if (Sector::get().is_free_of_tiles(base_check_box, false, Tile::SOLID))
+      {
+        root.remove_me();
+        continue;
+      }
+
+      // Ensure the root's exit path is clear.
+      Rectf exit_path_box;
+      const Sizef root_size = root.get_bbox().get_size();
+      const float clearance = 1.0f;
+
+      switch (root_direction)
+      {
+        case Direction::UP:
+          exit_path_box = Rectf(pos.x - root_size.width / 2.0f, pos.y - root_size.height - clearance,
+                                pos.x + root_size.width / 2.0f, pos.y - clearance);
+          break;
+        case Direction::DOWN:
+          exit_path_box = Rectf(pos.x - root_size.width / 2.0f, pos.y + clearance,
+                                pos.x + root_size.width / 2.0f, pos.y + root_size.height + clearance);
+          break;
+        case Direction::LEFT:
+          exit_path_box = Rectf(pos.x - root_size.width - clearance, pos.y - root_size.height / 2.0f,
+                                pos.x - clearance, pos.y + root_size.height / 2.0f);
+          break;
+        case Direction::RIGHT:
+          exit_path_box = Rectf(pos.x + clearance, pos.y - root_size.height / 2.0f,
+                                pos.x + root_size.width + clearance, pos.y + root_size.height / 2.0f);
+          break;
+        default:
+          break;
+      }
+
+      if (!exit_path_box.empty() && !Sector::get().is_free_of_tiles(exit_path_box, false, Tile::SOLID))
+      {
+        root.remove_me();
+        continue;
+      }
+
+      Vector spawn_pos = pos;
+      switch (root_direction)
+      {
+        case Direction::UP:
+          // Addtional offset to account for grass.
+          spawn_pos.y += ROOT_OFFSET_Y - 4.8f;
+          break;
+        case Direction::DOWN:
+          spawn_pos.y -= ROOT_OFFSET_Y;
+          break;
+        case Direction::LEFT:
+          spawn_pos.x += ROOT_OFFSET_X;
+          break;
+        case Direction::RIGHT:
+          spawn_pos.x -= ROOT_OFFSET_X;
+          break;
+        default:
+          break;
+      }
+
+      root.set_pos(spawn_pos);
+      root.construct();
+      root.initialize();
+    }
+    };
+
+  spawn_roots_on_side(pos1, -1.f);
+  spawn_roots_on_side(pos2, +1.f);
 }
 
 void
-Crusher::crushed(const CollisionHit& hit_info)
+Crusher::crushed(const CollisionHit& hit_info, bool allow_root_spawn)
 {
   m_state = DELAY;
   m_state_timer.start(m_ic_size == NORMAL ? PAUSE_TIME_NORMAL : PAUSE_TIME_LARGE, true);
@@ -599,8 +653,8 @@ Crusher::crushed(const CollisionHit& hit_info)
 
   spawn_particles(hit_info);
 
-  if (m_ic_type == CORRUPTED)
-    spawn_roots();
+  if (m_ic_type == CORRUPTED && allow_root_spawn)
+    spawn_roots(hit_info);
 
   run_crush_script();
 }
@@ -807,7 +861,7 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
   if (m_dir_vector.y > 0.5f && hit.bottom) // Down, hit bottom
     is_crushing_hit = true;
   else if (m_dir_vector.y < -0.5f && hit.top) // Up, hit top
-    is_crushing_hit = true; 
+    is_crushing_hit = true;
   else if (m_dir_vector.x < -0.5f && hit.left) // Left, hit left
     is_crushing_hit = true;
   else if (m_dir_vector.x > 0.5f && hit.right) // Right, hit right
@@ -828,7 +882,7 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
     if (player_vulnerable)
     {
       SoundManager::current()->play("sounds/brick.wav", get_pos());
-      crushed(hit);
+      crushed(hit, false);
 
       if (!player->is_invincible())
       {
@@ -841,7 +895,7 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
 
   if (other_crusher)
   {
-    crushed(hit);
+    crushed(hit, false);
     return ABORT_MOVE;
   }
 
@@ -858,7 +912,7 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
     if (m_dir != CrusherDirection::HORIZONTAL && m_dir != CrusherDirection::UP && m_dir != CrusherDirection::ALL)
     {
       SoundManager::current()->play("sounds/brick.wav", get_pos());
-      crushed(hit);
+      crushed(hit, true);
       return ABORT_MOVE;
     }
     else // Ensure the rock does not get stuck in a wall when pushed by the crusher.
@@ -904,7 +958,7 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
 
       if (rock_would_hit_wall)
       {
-        crushed(hit);
+        crushed(hit, true);
         return ABORT_MOVE;
       }
       else
@@ -928,7 +982,7 @@ Crusher::collision_solid(const CollisionHit& hit)
 {
   if (m_state == CRUSHING && should_finish_crushing(hit))
   {
-    crushed(hit);
+    crushed(hit, true);
   }
   else if (m_state == RECOVERING)
   {
@@ -1009,7 +1063,7 @@ Crusher::update(float dt_sec)
       }
       break;
     }
-    
+
     case DELAY:
       if (m_state_timer.check())
       {
