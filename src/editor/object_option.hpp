@@ -28,8 +28,6 @@
 #include "object/path_walker.hpp"
 #include "video/color.hpp"
 
-struct FileSystemMenu::MenuParams;
-
 enum ObjectOptionFlag {
   /** Set if the value is a hidden implementation detail that
       shouldn't be exposed to the user */
