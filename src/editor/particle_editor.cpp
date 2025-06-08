@@ -368,6 +368,7 @@ ParticleEditor::reset_texture_ui()
   });
   m_controls_textures.push_back(std::move(hb_offset_y_control));
 
+  // Texture button start
   auto chg_texture_btn = std::make_unique<ControlButton>(_("Change texture..."));
   chg_texture_btn.get()->m_on_change = std::function<void()>([this]() {
     static const std::vector<std::string> s_filter = { ".jpg", ".png", ".surface" };

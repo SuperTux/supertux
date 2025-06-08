@@ -61,7 +61,7 @@ Menu::Menu() :
   m_delete_character(0),
   m_mn_input_char('\0'),
   m_menu_width(),
-  m_menu_height(),  
+  m_menu_height(),
   m_menu_help_height(0.0f),
   m_items(),
   m_arrange_left(0),

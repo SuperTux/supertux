@@ -195,7 +195,6 @@ MenuManager::draw(DrawingContext& context)
     MouseCursor::current()->draw(context);
 }
 
-
 void
 MenuManager::set_dialog(std::unique_ptr<Dialog> dialog)
 {
@@ -209,7 +208,6 @@ MenuManager::set_notification(std::unique_ptr<Notification> notification)
   m_notification.next = std::move(notification);
   m_notification.has_next = true;
 }
-
 
 void
 MenuManager::set_menu(int id, bool skip_transition)
@@ -264,7 +262,7 @@ MenuManager::pop_menu(bool skip_transition)
 
   if (!skip_transition)
     transition(m_menu_stack.back().get(),
-      m_menu_stack.size() >= 2 ? m_menu_stack[m_menu_stack.size() - 2].get() : nullptr);
+               m_menu_stack.size() >= 2 ? m_menu_stack[m_menu_stack.size() - 2].get() : nullptr);
   m_menu_stack.pop_back();
 }
 
@@ -276,14 +274,12 @@ MenuManager::clear_menu_stack(bool skip_transition)
   m_menu_stack.clear();
 }
 
-
 void
 MenuManager::on_window_resize()
 {
   for (const auto& menu : m_menu_stack)
     menu->on_window_resize();
 }
-
 
 Menu*
 MenuManager::current_menu() const

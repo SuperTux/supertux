@@ -65,7 +65,7 @@ MenuItem::get_color() const
   return m_text_color.value_or(ColorScheme::Menu::default_color);
 }
 
-void 
+void
 MenuItem::set_text_color(const Color& color)
 {
   m_text_color = color;
