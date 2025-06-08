@@ -70,7 +70,7 @@ MenuFileFilters::MenuFileFilters(FileSystemMenu::MenuParams* params, std::functi
   add_string_select(MNID_FILTER_TYPE_CHANGED, _("Filter by extensions"), reinterpret_cast<int*>(&m_active_filter_type),
                     { _("None (use allowed)"), _("Image Files"), _("Sprite Files"), _("Audio Files"), _("Custom") });
 
-  add_textfield(_("Custom:"), &m_custom_extensions_str);
+  add_textfield(_("Custom"), &m_custom_extensions_str);
 
   add_hl();
   add_entry(MNID_APPLY, _("Apply"));
