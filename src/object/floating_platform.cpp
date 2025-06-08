@@ -59,7 +59,7 @@ void FloatingPlatform::update(float dt_sec)
     m_floating = true;
   
   Vector movement;
-  if (!m_floating){
+  if (!m_floating) {
     movement = m_physic.get_movement(dt_sec) *
                   Vector(1.f, 1.f);
   } else{
@@ -157,13 +157,13 @@ HitResponse FloatingPlatform::collision(MovingObject& other, const CollisionHit&
     SoundManager::current()->play(SPLASH_SOUND, get_pos());
     const float sink_speed_player = 40.0f;
     const float max_sink_depth_player = 200.0f;
-    for (int i = 0; i<10; i++){
+    for (int i = 0; i<10; i++) {
       Sector::get().add<RainSplash>(Vector(static_cast<float>(get_x()- 5.f + (i*8.f)), static_cast<float>(get_y()+11.f)),
                                               true);
     }
     m_player_offset = std::min(m_player_offset + sink_speed_player, max_sink_depth_player);
     m_physic.set_velocity_y(sink_speed_player); 
-  } else if (!player_check_zone.overlaps(other.get_bbox())){
+  } else if (!player_check_zone.overlaps(other.get_bbox())) {
       m_player_on_platform = false;
   }
   return FORCE_MOVE;
