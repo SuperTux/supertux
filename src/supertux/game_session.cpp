@@ -603,6 +603,9 @@ GameSession::update(float dt_sec, const Controller& controller)
 
       if (m_spawn_with_invincibility)
       {
+        // Reset velocity to avoid taking any movement from last sector to new one
+        p->set_velocity(0.0f, 0.0f);
+
         // Make all players temporarily safe after spawning
         p->make_temporarily_safe(SAFE_TIME);
       }
