@@ -18,6 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
+#include "gui/menu_filesystem.hpp"
 #include "supertux/level.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -35,7 +36,17 @@ EditorLevelMenu::EditorLevelMenu() :
   add_textfield(_("Contact"), &(level->m_contact));
   add_textfield(_("License"), &(level->m_license));
   add_textfield(_("Level Note"), &(level->m_note));
-  add_file(_("Tileset"), {&(level->m_tileset), { ".strf" }, {} ,"", true});
+  FileSystemMenu::MenuParams tileset_params =
+  {
+      &(level->m_tileset),
+      "",
+      { ".strf" },
+      {},
+      "", 
+      true
+  };
+
+  add_file(_("Tileset"), tileset_params, -1);
 
   std::vector<std::string> choices = {_("No"), _("Yes")};
   if (!is_worldmap)

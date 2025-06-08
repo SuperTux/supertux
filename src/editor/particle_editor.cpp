@@ -368,23 +368,36 @@ ParticleEditor::reset_texture_ui()
   });
   m_controls_textures.push_back(std::move(hb_offset_y_control));
 
-  // Texture button start
   auto chg_texture_btn = std::make_unique<ControlButton>(_("Change texture..."));
-  chg_texture_btn.get()->m_on_change = std::function<void()>([this](){
-    const std::vector<std::string>& filter = {".jpg", ".png", ".surface"};
-    MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>({
-      nullptr,
-      filter,
-      {},
-      "/",
-      false,
-      [this](const std::string& new_filename) {
-        (m_particles->m_textures.begin() + m_texture_current)->texture = Surface::from_file(new_filename);
-        m_particles->reinit_textures();
-        this->push_version();
-      }
-    }));
+  chg_texture_btn.get()->m_on_change = std::function<void()>([this]() {
+    static const std::vector<std::string> s_filter = { ".jpg", ".png", ".surface" };
+    static const std::vector<std::string> s_additional_extensions = {};
+    static const std::string s_basedir = "/";
+
+    FileSystemMenu::MenuParams fs_menu_params =
+    {
+        nullptr,
+        "",
+        s_filter,
+        s_additional_extensions,
+        s_basedir,
+        false,
+        [this](const std::string& new_filename)
+        {
+            if (m_particles && m_texture_current < m_particles->m_textures.size())
+            {
+                auto& tex_entry = *(m_particles->m_textures.begin() + m_texture_current);
+                tex_entry.texture = Surface::from_file(new_filename);
+                m_particles->reinit_textures();
+                this->push_version();
+            }
+        },
+        nullptr
+    };
+
+    MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(fs_menu_params));
   });
+
   chg_texture_btn.get()->set_rect(Rectf(25.f, 420, 325.f, 440));
   m_controls_textures.push_back(std::move(chg_texture_btn));
   // Texture button end

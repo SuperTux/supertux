@@ -20,26 +20,26 @@
 #include "gui/item_action.hpp"
 #include "gui/item_back.hpp"
 #include "gui/item_color.hpp"
+#include "gui/item_color_picker_2d.hpp"
 #include "gui/item_colorchannel_rgba.hpp"
 #include "gui/item_colordisplay.hpp"
-#include "gui/item_color_picker_2d.hpp"
 #include "gui/item_controlfield.hpp"
 #include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_hl.hpp"
 #include "gui/item_horizontalmenu.hpp"
+#include "gui/item_images.hpp"
 #include "gui/item_inactive.hpp"
 #include "gui/item_intfield.hpp"
 #include "gui/item_label.hpp"
+#include "gui/item_list.hpp"
 #include "gui/item_paths.hpp"
 #include "gui/item_script.hpp"
 #include "gui/item_script_line.hpp"
+#include "gui/item_string_array.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_textfield.hpp"
-#include "gui/item_list.hpp"
 #include "gui/item_toggle.hpp"
-#include "gui/item_string_array.hpp"
-#include "gui/item_images.hpp"
 #include "gui/menu_filesystem.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
@@ -61,7 +61,7 @@ Menu::Menu() :
   m_delete_character(0),
   m_mn_input_char('\0'),
   m_menu_width(),
-  m_menu_height(),
+  m_menu_height(),  
   m_menu_help_height(0.0f),
   m_items(),
   m_arrange_left(0),
@@ -131,9 +131,20 @@ Menu::delete_item(int pos_)
       if (m_active_item > 0)
         --m_active_item;
       else
-        m_active_item = int(m_items.size())-1;
+        m_active_item = int(m_items.size()) - 1;
     } while (m_items[m_active_item]->skippable());
   }
+}
+
+template<>
+ItemAction& Menu::add_file<FileSystemMenu::MenuParams>(const std::string& text, const FileSystemMenu::MenuParams& params, int id)
+{
+  std::function<void()> callback = [params]()
+    {
+      MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(params));
+    };
+
+  return add_item<ItemAction>(text, id, callback);
 }
 
 ItemHorizontalLine&
@@ -234,17 +245,6 @@ ItemStringSelect&
 Menu::add_string_select(int id, const std::string& text, int default_item, const std::vector<std::string>& strings)
 {
   return add_item<ItemStringSelect>(text, strings, default_item, id);
-}
-
-ItemAction&
-Menu::add_file(const std::string& text, FileSystemMenu::MenuParams& params, int id)
-{
-  return add_item<ItemAction>(text, id,
-    [params]()
-    {
-      params.callback = nullptr;
-      MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(params));
-    });
 }
 
 ItemBack&

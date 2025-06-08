@@ -24,6 +24,7 @@
 #include <sexp/value.hpp>
 
 #include "gui/menu_action.hpp"
+#include "gui/menu_filesystem.hpp"
 #include "object/path_walker.hpp"
 #include "video/color.hpp"
 
@@ -300,9 +301,7 @@ public:
 
 private:
   std::optional<std::string> m_default_value;
-  const std::vector<std::string> m_filter;
-  std::string m_basedir;
-  bool m_path_relative_to_basedir;
+  FileSystemMenu::MenuParams m_params;
 
 private:
   FileObjectOption(const FileObjectOption&) = delete;

@@ -51,8 +51,6 @@ class ItemImages;
 class MenuItem;
 class PathObject;
 
-struct FileSystemMenu::MenuParams;
-
 class Menu
 {
 public:
@@ -96,7 +94,8 @@ public:
   ItemScript& add_script(const std::string& text, std::string* script, int id = -1);
   ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false);
   ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
-  ItemAction& add_file(const std::string& text, FileSystemMenu::MenuParams& params, int id = -1);
+  template<typename TFileSystemMenuParams>
+  ItemAction& add_file(const std::string& text, const TFileSystemMenuParams& params, int id = -1);
 
   ItemColor& add_color(const std::string& text, Color* color, int id = -1);
   ItemColorDisplay& add_color_display(Color* color, int id = -1);

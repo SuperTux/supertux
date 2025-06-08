@@ -21,19 +21,21 @@
 
 class FileSystemMenu final : public Menu
 {
+public:
   struct MenuParams
   {
     std::string* filename;
-    const std::vector<std::string>& extensions;
-    const std::vector<std::string>& additional_extensions;
-    const std::string& basedir;
+    std::string filename_filter;
+    std::vector<std::string> extensions;
+    std::vector<std::string> additional_extensions;
+    const std::string basedir;
     bool path_relative_to_basedir;
-    const std::function<void(std::string)> callback = nullptr;
-    const std::function<void (MenuItem&)>& item_processor = {};
+    std::function<void(std::string)> callback = nullptr;
+    const std::function<void (MenuItem&)> item_processor = {};
   };
 
 public:
-  FileSystemMenu(MenuParams& params);
+  FileSystemMenu(const MenuParams& params);
   ~FileSystemMenu() override;
 
   void menu_action(MenuItem& item) override;
@@ -43,7 +45,7 @@ private:
   bool has_right_suffix(const std::string& file) const;
 
 private:
-  MenuParams& m_params;
+  MenuParams m_params;
   std::string m_directory;
   std::vector<std::string> m_directories;
   std::vector<std::string> m_files;

@@ -100,19 +100,23 @@ ParticleEditorMenu::menu_action(MenuItem& item)
     case MNID_LOAD:
       //MenuManager::instance().set_menu(MenuStorage::PARTICLE_EDITOR_OPEN);
     {
-      const std::vector<std::string>& filter = {".stcp"};
-      MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>({
-        &ParticleEditor::current()->m_filename,
-        filter,
-        {},
-        "/particles",
-        true,
-        [](const std::string& new_filename) {
-          ParticleEditor::current()->open("/particles/" +
-                                        ParticleEditor::current()->m_filename);
-          MenuManager::instance().clear_menu_stack();
-        }
-      }));
+      const std::vector<std::string>& filter = { ".stcp" };
+
+      FileSystemMenu::MenuParams params = {
+          &ParticleEditor::current()->m_filename,
+          "",
+          filter,
+          {},
+          "/particles",
+          true,
+          [](const std::string& new_filename) {
+            ParticleEditor::current()->open("/particles/" +
+                                          ParticleEditor::current()->m_filename);
+            MenuManager::instance().clear_menu_stack();
+          }
+      };
+
+      MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(params));
     }
       break;
 

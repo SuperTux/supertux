@@ -36,7 +36,6 @@ MenuManager::instance()
   return *current();
 }
 
-
 MenuManager::MenuManager() :
   m_menu_stack(),
   m_transition(new MenuTransition),
@@ -259,13 +258,13 @@ MenuManager::pop_menu(bool skip_transition)
 {
   if (m_menu_stack.empty())
   {
-    log_warning << "trying to pop on an empty menu_stack" << std::endl;
+    log_warning << "Trying to pop on an empty menu_stack." << std::endl;
     return;
   }
 
   if (!skip_transition)
     transition(m_menu_stack.back().get(),
-               m_menu_stack.size() >= 2 ? m_menu_stack[m_menu_stack.size() - 2].get() : nullptr);
+      m_menu_stack.size() >= 2 ? m_menu_stack[m_menu_stack.size() - 2].get() : nullptr);
   m_menu_stack.pop_back();
 }
 

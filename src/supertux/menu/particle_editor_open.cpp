@@ -33,7 +33,17 @@ ParticleEditorOpen::ParticleEditorOpen() :
 
   add_hl();
 
-  add_file(_("File"), {&m_filename, { ".stcp" }, {}, "/particles/", true});
+  FileSystemMenu::MenuParams params =
+  {
+    &m_filename,
+    "",
+    { ".stcp" },
+    {},
+    "/particles/",
+    true
+  };
+
+  add_file(_("File"), params, -1);
   add_entry(MNID_OPEN, _("Open"));
 
   add_hl();
