@@ -23,13 +23,6 @@
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 
-namespace
-{
-  const std::vector<std::string> IMAGE_FILES = { ".jpg", ".png" };
-  const std::vector<std::string> SPRITE_FILES = { ".sprite" };
-  const std::vector<std::string> AUDIO_FILES = { ".wav", ".ogg" };
-}
-
 MenuFileFilters::MenuFileFilters(FileSystemMenu::MenuParams* params, std::function<void()> on_apply_callback)
   : m_original_params(params),
   m_on_apply_callback(on_apply_callback),
@@ -52,7 +45,7 @@ MenuFileFilters::MenuFileFilters(FileSystemMenu::MenuParams* params, std::functi
 
   add_textfield(_("File Name contains"), &m_filename_filter);
 
-  std::string allowed_extensions_str = _("Allowed extensions ");
+  std::string allowed_extensions_str = _("* Allowed extensions: ");
   if (m_original_params->extensions.empty())
   {
     allowed_extensions_str += _("Any");
@@ -67,8 +60,12 @@ MenuFileFilters::MenuFileFilters(FileSystemMenu::MenuParams* params, std::functi
   }
   add_inactive(allowed_extensions_str);
 
-  add_string_select(MNID_FILTER_TYPE_CHANGED, _("Filter by extensions"), reinterpret_cast<int*>(&m_active_filter_type),
-                    { _("None (use allowed)"), _("Image Files"), _("Sprite Files"), _("Audio Files"), _("Custom") });
+  add_toggle(MNID_FILTER_TYPE_CHANGED, _("Ignore custom extensions"),
+    [&]() { return m_active_filter_type == FilterType::NONE; },
+    [&](bool value)
+    {
+      m_active_filter_type = value ? FilterType::NONE : FilterType::CUSTOM;
+    });
 
   add_textfield(_("Custom"), &m_custom_extensions_str);
 
@@ -77,19 +74,6 @@ MenuFileFilters::MenuFileFilters(FileSystemMenu::MenuParams* params, std::functi
   add_entry(MNID_RESET, _("Reset"));
   add_hl();
   add_back(_("Back"));
-}
-
-bool
-MenuFileFilters::is_sensitive() const
-{
-  if (m_active_item < 0 || static_cast<size_t>(m_active_item) >= m_items.size())
-  {
-    return false;
-  }
-
-  const MenuItem* active_item = m_items[m_active_item].get();
-
-  return (dynamic_cast<const ItemTextField*>(active_item) != nullptr);
 }
 
 void
@@ -133,24 +117,15 @@ MenuFileFilters::apply_changes()
   std::vector<std::string> new_filter_extensions;
   switch (m_active_filter_type)
   {
-    case FilterType::IMAGE:
-        new_filter_extensions = IMAGE_FILES;
-        break;
-      case FilterType::SPRITE:
-        new_filter_extensions = SPRITE_FILES;
-        break;
-      case FilterType::AUDIO:
-        new_filter_extensions = AUDIO_FILES;
-        break;
-      case FilterType::CUSTOM:
-        if (!m_custom_extensions_str.empty())
-        {
-          StringUtil::split(new_filter_extensions, m_custom_extensions_str, ' ');
-        }
-        break;
-      case FilterType::NONE:
-      default:
-        break;
+  case FilterType::CUSTOM:
+    if (!m_custom_extensions_str.empty())
+    {
+      StringUtil::split(new_filter_extensions, m_custom_extensions_str, ' ');
+    }
+    break;
+  case FilterType::NONE:
+  default:
+    break;
   }
 
   if (!is_subset(new_filter_extensions, m_original_params->extensions))

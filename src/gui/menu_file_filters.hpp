@@ -35,7 +35,7 @@ public:
 
   void menu_action(MenuItem& item) override;
   bool on_back_action() override;
-  bool is_sensitive() const override;
+  bool is_sensitive() const override { return true; }
 
 private:
   bool apply_changes();
@@ -45,9 +45,6 @@ private:
   enum class FilterType
   {
     NONE,
-    IMAGE,
-    SPRITE,
-    AUDIO,
     CUSTOM
   };
 
