@@ -111,7 +111,7 @@ ParticleEditorMenu::menu_action(MenuItem& item)
           true,
           [](const std::string& new_filename) {
             ParticleEditor::current()->open("/particles/" +
-                                          ParticleEditor::current()->m_filename);
+                                            ParticleEditor::current()->m_filename);
             MenuManager::instance().clear_menu_stack();
           }
       };
