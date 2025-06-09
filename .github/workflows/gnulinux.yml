@@ -27,7 +27,6 @@ on:
 
 jobs:
   gnulinux:
-
     strategy:
       fail-fast: false
       matrix:
@@ -167,6 +166,7 @@ jobs:
                      $(if ($Env:32BIT -eq "true") {
                        "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
                        "-DVCPKG_TARGET_TRIPLET=x86-linux "
+                       "-DVCPKG_MANIFEST_MODE=OFF "
                        "-DPhysFS_PREFER_FIND_PACKAGE=ON"
                      }) `
                      -DBUILD_DOCUMENTATION="$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `

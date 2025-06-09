@@ -71,6 +71,8 @@ jobs:
                    -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" `
                    -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
 
+          ls # DELETE ME
+
       - name: Build and install
         working-directory: build
         env:

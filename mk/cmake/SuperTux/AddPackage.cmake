@@ -83,7 +83,7 @@ function(add_package)
     if(addpackage_pkg_alias_check STREQUAL "addpackage_pkg_alias_check-NOTFOUND")
       add_library(${addpackage_args_TARGET} ALIAS ${addpackage_args_PKG_USE})
     else()
-      message(STATUS "Package \"${addpackage_args_PKG}\" is an alias. Realiasing it.")
+      message(STATUS "Package \"${addpackage_args_PKG_USE}\" is an alias. Realiasing it.")
       # "unalias" it, aka just export the "alias" as the new target, so a re-alias, really...
       get_target_property(${addpackage_args_TARGET} ${addpackage_args_PKG_USE} ALIASED_TARGET)
     endif()

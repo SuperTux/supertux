@@ -31,7 +31,7 @@
 #   make
 #
 
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.22)
 
 ## Project name to use as command prefix.
 
