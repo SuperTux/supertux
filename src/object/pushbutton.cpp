@@ -17,6 +17,7 @@
 #include "object/pushbutton.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "object/bigsnowball.hpp"
 #include "object/player.hpp"
 #include "object/rock.hpp"
@@ -31,14 +32,14 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 }
 
 PushButton::PushButton(const ReaderMapping& mapping) :
-  StickyObject(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
+  StickyObject(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_STATIC),
   m_script(),
   m_state(OFF),
   m_dir(Direction::UP)
 {
   SoundManager::current()->preload(BUTTON_SOUND);
 
-  if (!mapping.get("script", m_script))
+  if (!mapping.get("script", m_script) && !Editor::is_active())
   {
     log_warning << "No script set for pushbutton." << std::endl;
   }

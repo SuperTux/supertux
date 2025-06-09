@@ -149,7 +149,8 @@ public:
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
       This includes badguys and players. */
-  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr,
+                                bool ignore_unisolid = false) const;
   /**
    * @scripting
    * @description Checks if the specified sector-relative rectangle is free of both:
@@ -207,7 +208,7 @@ public:
   Size get_editor_size() const;
 
   /** resize all tilemaps with given size */
-  void resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset);
+  void resize(const Size& old_size, const Size& new_size, const Size& resize_offset);
 
   /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);

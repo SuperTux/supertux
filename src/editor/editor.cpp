@@ -1022,24 +1022,21 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
     callback();
     return;
   }
-  else
-  {
-    if (!sector_valid)
-    {
-      /*
-      l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
-      */
-      Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
-    }
-    else if (!spawnpoint_valid)
-    {
-      /*
-      l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
-      */
-      Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
-    }
-  }
 
+  if (!sector_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
+  }
+  else if (!spawnpoint_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
+  }
 }
 
 void

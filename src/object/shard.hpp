@@ -41,6 +41,7 @@ protected:
 
 private:
   Timer m_stick_timer;
+  Timer m_fadeout_timer;
 
 private:
   Shard(const Shard&) = delete;

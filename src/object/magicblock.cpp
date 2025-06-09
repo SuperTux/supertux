@@ -70,17 +70,7 @@ MagicBlock::MagicBlock(const ReaderMapping& mapping) :
     m_color.alpha = ALPHA_SOLID;
 
     // set trigger
-    if (m_color.red == 0 && m_color.green == 0 && m_color.blue == 0) { // is it black?
-      m_black = true;
-      m_trigger_red = MIN_INTENSITY;
-      m_trigger_green = MIN_INTENSITY;
-      m_trigger_blue = MIN_INTENSITY;
-    } else {
-      m_black = false;
-      m_trigger_red = m_color.red;
-      m_trigger_green = m_color.green;
-      m_trigger_blue = m_color.blue;
-    }
+    set_trigger_color();
   }
 
   m_center = m_col.m_bbox.get_middle();
@@ -103,19 +93,28 @@ void
 MagicBlock::after_editor_set()
 {
   MovingSprite::after_editor_set();
+  set_trigger_color();
+  m_sprite->set_color(m_color);
+}
 
-  if (m_color.red == 0 && m_color.green == 0 && m_color.blue == 0) { //is it black?
+void
+MagicBlock::set_trigger_color()
+{
+  if (m_color.red == 0 && m_color.green == 0 && m_color.blue == 0)
+  { 
+    //is it black?
     m_black = true;
     m_trigger_red = MIN_INTENSITY;
     m_trigger_green = MIN_INTENSITY;
     m_trigger_blue = MIN_INTENSITY;
-  } else {
+  }
+  else
+  {
     m_black = false;
     m_trigger_red = m_color.red;
     m_trigger_green = m_color.green;
     m_trigger_blue = m_color.blue;
   }
-  m_sprite->set_color(m_color);
 }
 
 void

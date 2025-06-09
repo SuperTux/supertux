@@ -74,7 +74,7 @@ jobs:
           vcpkg install fmt:$Env:ARCH-windows
           vcpkg install physfs:$Env:ARCH-windows
           vcpkg install libraqm:$Env:ARCH-windows
-          vcpkg install freetype:$Env:ARCH-windows
+          vcpkg install --recurse freetype:$Env:ARCH-windows
 
       - name: Configure bulid
         shell: pwsh

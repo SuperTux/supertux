@@ -83,6 +83,7 @@ jobs:
             libfreetype6-dev \
             libraqm-dev \
             libglew-dev \
+            libglbinding-dev \
             libcurl4-openssl-dev \
             libglm-dev \
             libfmt-dev \
@@ -144,7 +145,7 @@ jobs:
           32BIT: ${{ matrix.arch == 32 }}
           MAKE_DOCS: ${{ matrix.documentation }}
           GLBINDING: ${{ matrix.glbinding }}
-          TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
+          #TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
           & cmake --version
           & $Env:CXX --version
