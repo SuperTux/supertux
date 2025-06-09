@@ -25,6 +25,10 @@ on:
       - '*'
   pull_request: {}
 
+env:
+  # Off because waiting for doohickey to compile dependencies is annoying
+  VCPKG_MANIFEST_MODE: OFF
+
 jobs:
   gnulinux:
 
@@ -49,6 +53,9 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Set env
+        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+
       - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works

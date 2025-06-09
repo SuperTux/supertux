@@ -25,6 +25,10 @@ on:
       - '*'
   pull_request: {}
 
+env:
+  # Off because waiting for doohickey to compile is annoying
+  VCPKG_MANIFEST_MODE: OFF
+
 jobs:
   windows:
 
