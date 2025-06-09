@@ -1,19 +1,28 @@
 {
-    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-    "dependencies": [
-        "fmt",
-        "openal-soft",
-        "libogg",
-        "libvorbis",
-        "libraqm",
-        "freetype",
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "dependencies": [
+    "fmt",
+    "libogg",
+    "libvorbis",
+    "libraqm",
+    "freetype",
+    "physfs",
+    "glm",
+    "libpng",
+    "zlib"
+  ],
+  "features": {
+    "nonwasm": {
+      "dependencies": [
         "sdl2",
         "sdl2-image",
         "curl",
-        "glew",
-        "physfs",
-        "glm",
-        "libpng",
-        "zlib"
-    ]
+        "openal-soft",
+        "libogg",
+        "libvorbis",
+        "glew"
+      ]
+    }
+  },
+  "default-features": ["core", "nonwasm"]
 }
