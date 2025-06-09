@@ -25,10 +25,6 @@ on:
       - '*'
   pull_request: {}
 
-env:
-  # Off because waiting for doohickey to compile dependencies is annoying
-  VCPKG_MANIFEST_MODE: OFF
-
 jobs:
   gnulinux:
 
@@ -53,9 +49,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Set env
-        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-
       - uses: actions/checkout@v4
         with:
           # Fetch the whole tree so git describe works
@@ -130,8 +123,15 @@ jobs:
             libfmt-dev:i386 \
             libglm-dev
 
+          # Let's get out of this directory to disable vcpkg manifest mode.
+          # Manifest mode is not adequate here because most dependencies can
+          # be used via the system package manager.
+          pushd /
+
           # These libraries don't exist for 32-bit in Ubuntu repositories.
           vcpkg install --triplet x86-linux physfs glew libraqm
+
+          popd
 
       - name: Set compiler (gcc)
         if: ${{ matrix.compiler == 'gcc' }}

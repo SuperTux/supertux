@@ -25,10 +25,6 @@ on:
       - '*'
   pull_request: {}
 
-env:
-  # Off because waiting for doohickey to compile is annoying
-  VCPKG_MANIFEST_MODE: OFF
-
 jobs:
   windows:
 
@@ -57,28 +53,8 @@ jobs:
         id: cache-dependencies
         uses: actions/cache@v4
         with:
-          path: C:/vcpkg/installed
+          path: ${{ github.workspace }}/vcpkg_installed
           key: ${{ runner.os }}-${{ matrix.arch }}-deps-${{ hashFiles('.github/workflows/windows.yml') }}
-
-      - name: Install dependencies
-        if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        env:
-          ARCH: ${{ matrix.arch }}
-        run: |
-          vcpkg integrate install
-          vcpkg install curl:$Env:ARCH-windows
-          vcpkg install glew:$Env:ARCH-windows
-          vcpkg install libogg:$Env:ARCH-windows
-          vcpkg install libvorbis:$Env:ARCH-windows
-          vcpkg install openal-soft:$Env:ARCH-windows
-          vcpkg install sdl2:$Env:ARCH-windows
-          vcpkg install sdl2-image[libjpeg-turbo]:$Env:ARCH-windows
-          vcpkg install glm:$Env:ARCH-windows
-          vcpkg install zlib:$Env:ARCH-windows
-          vcpkg install fmt:$Env:ARCH-windows
-          vcpkg install physfs:$Env:ARCH-windows
-          vcpkg install libraqm:$Env:ARCH-windows
-          vcpkg install --recurse freetype:$Env:ARCH-windows
 
       - name: Configure bulid
         shell: pwsh
