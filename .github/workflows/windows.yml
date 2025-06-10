@@ -53,8 +53,30 @@ jobs:
         id: cache-dependencies
         uses: actions/cache@v4
         with:
-          path: ${{ github.workspace }}/vcpkg_installed
+          path: C:/vcpkg/installed
           key: ${{ runner.os }}-${{ matrix.arch }}-deps-${{ hashFiles('.github/workflows/windows.yml') }}
+
+      # I don't know why, but vcpkg manifest doesn't work in CI.
+      - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        env:
+          ARCH: ${{ matrix.arch }}
+        run: |
+          cd C:/
+          vcpkg integrate install
+          vcpkg install curl:$Env:ARCH-windows
+          vcpkg install glew:$Env:ARCH-windows
+          vcpkg install libogg:$Env:ARCH-windows
+          vcpkg install libvorbis:$Env:ARCH-windows
+          vcpkg install openal-soft:$Env:ARCH-windows
+          vcpkg install sdl2:$Env:ARCH-windows
+          vcpkg install sdl2-image[libjpeg-turbo]:$Env:ARCH-windows
+          vcpkg install glm:$Env:ARCH-windows
+          vcpkg install zlib:$Env:ARCH-windows
+          vcpkg install fmt:$Env:ARCH-windows
+          vcpkg install physfs:$Env:ARCH-windows
+          vcpkg install libraqm:$Env:ARCH-windows
+          vcpkg install --recurse freetype:$Env:ARCH-windows
 
       - name: Run slugify
         id: slugify
@@ -86,7 +108,7 @@ jobs:
           cmake .. -G "Visual Studio 17 2022" -A $Env:ARCH.replace("x86", "Win32") `
                    -DSUPERTUX_PACKAGE_VERSION="$Env:GIT_TAG dev - $Env:GIT_HASH ($Env:GIT_BRANCH) (CI ARTIFACT)" `
                    -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH" `
-                   -DENABLE_DISCORD=ON `
+                   -DENABLE_DISCORD=ON -DVCPKG_MANIFEST_MODE=OFF `
                    -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" `
                    -DVCPKG_TARGET_TRIPLET=x64-windows `
                    -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" `

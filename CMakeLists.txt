@@ -59,12 +59,6 @@ include(ExternalProject)
 include(CheckCXXCompilerFlag)
 include(CheckSymbolExists)
 
-# Make sure the linker can recognize vcpkg packages.
-if(VCPKG_MANIFEST_MODE)
-  link_directories(${CMAKE_BINARY_DIR}/vcpkg_installed/lib
-                   ${CMAKE_BINARY_DIR}/vcpkg_installed/bin)
-endif()
-
 ## For autopackage
 set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 
