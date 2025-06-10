@@ -160,6 +160,8 @@ public:
 
   inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
 
+  void queue_layers_refresh();
+
   void retoggle_undo_tracking();
   void undo_stack_cleanup();
 
@@ -237,6 +239,8 @@ private:
   float m_new_scale;
 
   Vector m_mouse_pos;
+
+  bool m_layers_widget_needs_refresh;
 
 private:
   Editor(const Editor&) = delete;

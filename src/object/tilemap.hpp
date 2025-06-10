@@ -78,6 +78,8 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
+  void on_path_resolved() override;
+
   virtual void editor_update() override;
 
   virtual void on_flip(float height) override;

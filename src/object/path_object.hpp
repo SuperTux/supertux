@@ -58,6 +58,8 @@ public:
   std::string get_path_ref() const;
   void editor_set_path_by_ref(const std::string& new_ref);
 
+  virtual void on_path_resolved() {}
+
   /**
    * @scripting
    * @description Moves the path object until at given node, then stops.
