@@ -53,8 +53,8 @@
 
 const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
 
-namespace {
-
+namespace 
+{
 /* Times: */
 const float TUX_SAFE_TIME = 1.8f;
 const float TUX_INVINCIBLE_TIME = 14.0f;
