@@ -158,6 +158,8 @@ public:
 
   inline Sector* get_sector() { return m_sector; }
 
+  inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
+
   void retoggle_undo_tracking();
   void undo_stack_cleanup();
 
