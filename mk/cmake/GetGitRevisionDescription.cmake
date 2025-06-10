@@ -1,6 +1,6 @@
 #
 # SuperTux
-# Copyright (C) 2024 MatusGuy <matusguy@supertuxproject.org>
+# Copyright (C) 2024-2025 MatusGuy
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -52,29 +52,22 @@ macro(git_run)
   endif()
 endmacro()
 
-function(git_project_version out is_release)
+function(git_project_version is_release)
   if(NOT GIT_FOUND OR NOT EXISTS "${PROJECT_SOURCE_DIR}/.git")
     parent_set(${out} ${out}-NOTFOUND)
     return()
   endif()
 
   # Tag
-  git_run(COMMAND describe --tags --abbrev=0 OUTPUT GIT_TAG RESULT _tag_result)
+  git_run(COMMAND describe --tags --abbrev=0 OUTPUT GIT_TAG RESULT GIT_TAG_RESULT)
 
   if(is_release)
-    parent_set(${out} "${GIT_TAG}")
     return()
   endif()
 
   # Commit hash
-  git_run(COMMAND rev-parse --short HEAD OUTPUT GIT_HASH RESULT _hash_result)
+  git_run(COMMAND rev-parse --short HEAD OUTPUT GIT_HASH RESULT GIT_HASH_RESULT)
 
   # Branch
-  git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT GIT_BRANCH RESULT _branch_result)
-
-  if(NOT _tag_result EQUAL 0)
-    parent_set(${out} "${GIT_HASH} (${GIT_BRANCH})")
-  else()
-    parent_set(${out} "${GIT_TAG} - ${GIT_HASH} (${GIT_BRANCH})")
-  endif()
+  git_run(COMMAND rev-parse --abbrev-ref HEAD OUTPUT GIT_BRANCH RESULT GIT_BRANCH_RESULT)
 endfunction()

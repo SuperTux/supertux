@@ -144,17 +144,33 @@ jobs:
           echo "CXX=clang++" >> $GITHUB_ENV
           echo "CC=clang" >> $GITHUB_ENV
 
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
+
       - name: Configure build
         shell: pwsh
         env:
+          # Using git rev-parse gives incorrect values when querying the branch
+          # so, use slugify instead
+          GIT_HASH: ${{ steps.slugify.outputs.sha }}
+          GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           BUILD_TYPE: ${{ matrix.build_type }}
           32BIT: ${{ matrix.arch == 32 }}
           MAKE_DOCS: ${{ matrix.documentation }}
           GLBINDING: ${{ matrix.glbinding }}
           #TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
+          $Env:GIT_TAG = (& git describe --tags --abbrev=0)
+
+          echo "Git information:"
+          echo "- GIT_TAG: $Env:GIT_TAG"
+          echo "- GIT_HASH: $Env:GIT_HASH"
+          echo "- GIT_BRANCH: $Env:GIT_BRANCH"
+
           & cmake --version
           & $Env:CXX --version
+
           mkdir "build"
           cd "build"
 
@@ -163,6 +179,8 @@ jobs:
           & cmake .. -DCMAKE_BUILD_TYPE="$Env:BUILD_TYPE" -DENABLE_DISCORD=ON `
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
                      -DCMAKE_POLICY_VERSION_MINIMUM="3.5" `
+                     -DSUPERTUX_PACKAGE_VERSION="$Env:GIT_TAG dev - $Env:GIT_HASH ($Env:GIT_BRANCH) (CI ARTIFACT)" `
+                     -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH"
                      $(if ($Env:32BIT -eq "true") {
                        "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
                        "-DVCPKG_TARGET_TRIPLET=x86-linux "
@@ -211,10 +229,6 @@ jobs:
           SOURCE: ${{ matrix.source }}
         working-directory: build
         run: ../.ci_scripts/package.sh
-
-      - name: Run slugify
-        id: slugify
-        uses: eltimn/slugify-action@v2.0.2
 
       - name: Upload AppImage
         if: matrix.build_type != 'Debug'

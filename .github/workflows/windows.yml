@@ -56,22 +56,39 @@ jobs:
           path: ${{ github.workspace }}/vcpkg_installed
           key: ${{ runner.os }}-${{ matrix.arch }}-deps-${{ hashFiles('.github/workflows/windows.yml') }}
 
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
+
       - name: Configure bulid
         shell: pwsh
         env:
+          # Using git rev-parse gives incorrect values when querying the branch
+          # so, use slugify instead
+          GIT_HASH: ${{ steps.slugify.outputs.sha }}
+          GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           ARCH: ${{ matrix.arch }}
           BUILD_TYPE: ${{ matrix.build_type }}
           GLBINDING: ${{ matrix.glbinding }}
         run: |
+          $Env:GIT_TAG = (& git describe --tags --abbrev=0)
+
+          echo "Git information:"
+          echo "- GIT_TAG: $Env:GIT_TAG"
+          echo "- GIT_HASH: $Env:GIT_HASH"
+          echo "- GIT_BRANCH: $Env:GIT_BRANCH"
+
           cmake --version
+
           mkdir build
           cd build
+
           cmake .. -G "Visual Studio 17 2022" -A $Env:ARCH.replace("x86", "Win32") `
+                   -DSUPERTUX_PACKAGE_VERSION="$Env:GIT_TAG dev - $Env:GIT_HASH ($Env:GIT_BRANCH) (CI ARTIFACT)" `
+                   -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH"
                    -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" `
                    -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" `
                    -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
-
-          ls # DELETE ME
 
       - name: Build and install
         working-directory: build
@@ -108,9 +125,6 @@ jobs:
             mv *.msi upload/
           }
 
-      - name: Run slugify
-        id: slugify
-        uses: eltimn/slugify-action@v2.0.2
 
       - name: Upload MSI Installer
         uses: actions/upload-artifact@v4

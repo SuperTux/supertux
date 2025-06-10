@@ -77,17 +77,36 @@ jobs:
           echo "CXX=clang++" >> $GITHUB_ENV
           echo "CC=clang" >> $GITHUB_ENV
 
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
+
       - name: Configure build
         env:
+          # Using git rev-parse gives incorrect values when querying the branch
+          # so, use slugify instead
+          GIT_HASH: ${{ steps.slugify.outputs.sha }}
+          GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           BUILD_TYPE: ${{ matrix.build_type }}
           PKG_CONFIG_PATH: /usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig
         run: |
+          $GIT_TAG = $(git describe --tags --abbrev=0)
+
+          echo "Git information:"
+          echo "- GIT_TAG: $GIT_TAG"
+          echo "- GIT_HASH: $GIT_HASH"
+          echo "- GIT_BRANCH: $GIT_BRANCH"
+
           cmake --version
           $CXX --version
+
           mkdir "build"
           cd "build"
+
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH                        \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
+                   -DSUPERTUX_PACKAGE_VERSION="$GIT_TAG dev - $GIT_HASH ($GIT_BRANCH) (CI ARTIFACT)" \
+                   -DSUPERTUX_VERSION_STRING="$GIT_BRANCH-$GIT_HASH"           \
                    -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin        \
                    -DINSTALL_SUBDIR_SHARE=share/supertux2                      \
                    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
@@ -111,10 +130,6 @@ jobs:
           PACKAGE: 'ON'
         working-directory: build
         run: ../.ci_scripts/package.sh
-
-      - name: Run slugify
-        id: slugify
-        uses: eltimn/slugify-action@v2.0.2
 
       - uses: actions/upload-artifact@v4
         if: matrix.build_type != 'Debug'
