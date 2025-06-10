@@ -86,7 +86,9 @@ jobs:
           cmake .. -G "Visual Studio 17 2022" -A $Env:ARCH.replace("x86", "Win32") `
                    -DSUPERTUX_PACKAGE_VERSION="$Env:GIT_TAG dev - $Env:GIT_HASH ($Env:GIT_BRANCH) (CI ARTIFACT)" `
                    -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH" `
-                   -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" `
+                   -DENABLE_DISCORD=ON `
+                   -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" `
+                   -DVCPKG_TARGET_TRIPLET=x64-windows `
                    -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" `
                    -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
 
