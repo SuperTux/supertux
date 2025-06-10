@@ -44,7 +44,7 @@ CirclePlatform::CirclePlatform(const ReaderMapping& reader) :
 }
 
 HitResponse
-CirclePlatform::collision(GameObject& other, const CollisionHit& )
+CirclePlatform::collision(MovingObject& other, const CollisionHit& )
 {
   return FORCE_MOVE;
 }

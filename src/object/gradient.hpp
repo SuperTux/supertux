@@ -17,7 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 #define HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
+
 #include "video/drawing_context.hpp"
 
 class ReaderMapping;
@@ -28,7 +29,7 @@ class ReaderMapping;
  * @instances A ""Gradient"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class Gradient final : public GameObject
+class Gradient final : public LayerObject
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -60,15 +61,15 @@ public:
 
   void set_gradient(const Color& top, const Color& bottom);
   void fade_gradient(const Color& top, const Color& bottom, float time);
-  Color get_gradient_top() const { return m_gradient_top; }
-  Color get_gradient_bottom() const { return m_gradient_bottom; }
+  inline Color get_gradient_top() const { return m_gradient_top; }
+  inline Color get_gradient_bottom() const { return m_gradient_bottom; }
 
-  GradientDirection get_direction() const { return m_gradient_direction; }
+  inline GradientDirection get_direction() const { return m_gradient_direction; }
   std::string get_direction_string() const;
-  void set_direction(const GradientDirection& direction);
+  inline void set_direction(const GradientDirection& direction) { m_gradient_direction = direction; }
 
-  void set_layer(int layer) { m_layer = layer; }
-  int get_layer() const { return m_layer; }
+  inline void set_layer(int layer) { m_layer = layer; }
+  int get_layer() const override { return m_layer; }
 
   /**
    * @scripting
@@ -90,16 +91,18 @@ public:
    * @param float $red
    * @param float $green
    * @param float $blue
+   * @param float $alpha
    */
-  void set_color1(float red, float green, float blue);
+  void set_color1(float red, float green, float blue, float alpha = 1.f);
   /**
    * @scripting
    * @description Set bottom gradient color.
    * @param float $red
    * @param float $green
    * @param float $blue
+   * @param float $alpha
    */
-  void set_color2(float red, float green, float blue);
+  void set_color2(float red, float green, float blue, float alpha = 1.f);
   /**
    * @scripting
    * @description Set both gradient colors.
@@ -109,8 +112,10 @@ public:
    * @param float $red2
    * @param float $green2
    * @param float $blue2
+   * @param float $alpha1
+   * @param float $alpha2
    */
-  void set_colors(float red1, float green1, float blue1, float red2, float green2, float blue2);
+  void set_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float alpha1 = 1.f, float alpha2 = 1.f);
   /**
    * @scripting
    * @description Fade the top gradient color to a specified new color in ""time"" seconds.
@@ -118,8 +123,9 @@ public:
    * @param float $green
    * @param float $blue
    * @param float $time
+   * @param float $alpha
    */
-  void fade_color1(float red, float green, float blue, float time);
+  void fade_color1(float red, float green, float blue, float time, float alpha = 1.f);
   /**
    * @scripting
    * @description Fade the bottom gradient color to a specified new color in ""time"" seconds.
@@ -127,8 +133,9 @@ public:
    * @param float $green
    * @param float $blue
    * @param float $time
+   * @param float $alpha
    */
-  void fade_color2(float red, float green, float blue, float time);
+  void fade_color2(float red, float green, float blue, float time, float alpha = 1.f);
   /**
    * @scripting
    * @description Fade both gradient colors to specified new colors in ""time"" seconds.
@@ -139,8 +146,10 @@ public:
    * @param float $green2
    * @param float $blue2
    * @param float $time
+   * @param float $alpha1
+   * @param float $alpha2
    */
-  void fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time);
+  void fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time, float alpha1 = 1.f, float alpha2 = 1.f);
   /**
    * @scripting
    * @description Swap top and bottom gradient colors.
@@ -161,6 +170,10 @@ private:
   Color m_fade_gradient_bottom;
   float m_fade_total_time;
   float m_fade_time;
+
+public:
+  static const Color DEFAULT_GRADIENT_TOP;
+  static const Color DEFAULT_GRADIENT_BOTTOM;
 
 private:
   Gradient(const Gradient&) = delete;

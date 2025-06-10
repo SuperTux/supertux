@@ -95,7 +95,7 @@ In case you need help, feel free to reach out using the following means:
   and might miss potential answers.
 * **Matrix:** [#supertux:matrix.org](https://matrix.to/#/#supertux:matrix.org)
   is bridged to our IRC room.
-* **[Forum](https://groups.f-hub.org/g/8AKEaTgZ):** The SuperTux
+* **[Forum](https://groups.f-hub.org/supertux):** The SuperTux
   community is also active on the forum, the discussions range from feature
   proposals to support questions. In particular, most community-contributed
   add-ons are published there, so this is worth checking.

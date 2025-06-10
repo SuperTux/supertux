@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
 
 #include <config.h>
+#include <unordered_map>
 #include <map>
 #include <memory>
 #include <ostream>
@@ -59,7 +60,7 @@ public:
 
   void debug_print(std::ostream& out) const;
 
-  bool last_load_successful() const { return m_load_successful; }
+  inline bool last_load_successful() const { return m_load_successful; }
 
 private:
   const SDL_Surface& get_surface(const std::string& filename);
@@ -77,7 +78,7 @@ private:
 
 private:
   std::map<Texture::Key, std::weak_ptr<Texture>> m_image_textures;
-  std::map<std::string, SDLSurfacePtr> m_surfaces;
+  std::unordered_map<std::string, SDLSurfacePtr> m_surfaces;
   bool m_load_successful;
 
 private:

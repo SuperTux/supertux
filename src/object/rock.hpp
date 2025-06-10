@@ -29,7 +29,7 @@ public:
   Rock(const Vector& pos, const std::string& spritename = "images/objects/rock/rock.sprite");
 
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
@@ -48,7 +48,7 @@ public:
 
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
-  Physic& get_physic() { return physic; }
+  inline Physic& get_physic() { return m_physic; }
 
 private:
   enum Type {
@@ -57,14 +57,16 @@ private:
   };
 
 protected:
-  Physic physic;
-  bool on_ground;
-  bool on_ice;
-  Vector last_movement;
-  std::string on_grab_script;
-  std::string on_ungrab_script;
-  bool running_grab_script;
-  bool running_ungrab_script;
+  Physic m_physic;
+  bool m_on_ground;
+  bool m_on_ice;
+  bool m_at_ceiling;
+  Vector m_last_movement;
+  std::string m_on_grab_script;
+  std::string m_on_ungrab_script;
+  bool m_running_grab_script;
+  bool m_running_ungrab_script;
+  float m_last_sector_gravity;
 
 private:
   Rock(const Rock&) = delete;

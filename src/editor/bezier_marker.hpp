@@ -37,7 +37,7 @@ public:
 
   void update_iterator(Path::Node* it, Vector* bezier_pos);
 
-  void set_parent(UID uid) { m_parent = uid; }
+  inline void set_parent(UID uid) { m_parent = uid; }
   NodeMarker* get_parent() const;
 
   void save_state() override;
@@ -46,6 +46,7 @@ public:
 private:
   Path::Node* m_node;
   Vector* m_pos;
+  Vector m_offset;
   UID m_parent;
 
 private:

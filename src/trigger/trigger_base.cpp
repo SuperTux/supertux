@@ -52,7 +52,7 @@ TriggerBase::update()
 }
 
 HitResponse
-TriggerBase::collision(GameObject& other, const CollisionHit& )
+TriggerBase::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {

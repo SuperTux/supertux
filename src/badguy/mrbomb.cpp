@@ -58,6 +58,27 @@ MrBomb::MrBomb(const ReaderMapping& reader, const std::string& sprite, const std
   m_exploding_sprite->set_action("default", 1);
 }
 
+GameObjectTypes
+MrBomb::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "classic", _("Classic") }
+  };
+}
+
+std::string
+MrBomb::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CLASSIC:
+      return "images/creatures/mr_bomb/old_bomb/old_bomb.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
 void
 MrBomb::collision_solid(const CollisionHit& hit)
 {
@@ -75,7 +96,7 @@ MrBomb::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-MrBomb::collision(GameObject& object, const CollisionHit& hit)
+MrBomb::collision(MovingObject& object, const CollisionHit& hit)
 {
   if (m_state == MB_STATE_TICKING)
   {
@@ -119,7 +140,7 @@ MrBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 bool
-MrBomb::collision_squished(GameObject& object)
+MrBomb::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);
@@ -343,3 +364,4 @@ MrBomb::update_ticking(float dt_sec)
 }
 
 /* EOF */
+

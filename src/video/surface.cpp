@@ -74,16 +74,11 @@ Surface::from_file(const std::string& filename, const std::optional<Rect>& rect)
   }
   else
   {
-    if (rect)
-    {
-      TexturePtr texture = TextureManager::current()->get(filename, *rect);
-      return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP, filename));
-    }
-    else
-    {
-      TexturePtr texture = TextureManager::current()->get(filename);
-      return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP, filename));
-    }
+    auto textureManager = TextureManager::current();
+    TexturePtr texture = rect ?
+      textureManager->get(filename, *rect) : textureManager->get(filename);
+
+    return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP, filename));
   }
 }
 

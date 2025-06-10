@@ -28,7 +28,7 @@ class RustyTrampoline final : public Rock
 public:
   RustyTrampoline(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
@@ -43,6 +43,9 @@ public:
 
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override { return {}; }
+
+private:
+  virtual void bounce();
 
 private:
   bool portable;

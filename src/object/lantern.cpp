@@ -82,7 +82,7 @@ Lantern::updateColor(){
     set_action("off");
     m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   } else {
-    set_action("normal");
+    set_action("default");
     m_sprite->set_color(lightcolor);
   }
 }
@@ -95,7 +95,7 @@ Lantern::draw(DrawingContext& context){
   lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
-HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
+HitResponse Lantern::collision(MovingObject& other, const CollisionHit& hit) {
 
   WillOWisp* wow = dynamic_cast<WillOWisp*>(&other);
 

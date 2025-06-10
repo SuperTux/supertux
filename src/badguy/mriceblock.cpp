@@ -162,8 +162,10 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
     WalkingBadguy::collision_solid(hit);
     break;
   case ICESTATE_KICKED: {
-    if ((hit.right && m_dir == Direction::RIGHT) || (hit.left && m_dir == Direction::LEFT)) {
-      m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
+    if (hit.left || hit.right) {
+      if ((hit.right && m_dir == Direction::RIGHT) || (hit.left && m_dir == Direction::LEFT)) {
+        m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
+      }
       SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
       m_physic.set_velocity_x(-m_physic.get_velocity_x() * .975f);
     }
@@ -192,7 +194,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-MrIceBlock::collision(GameObject& object, const CollisionHit& hit)
+MrIceBlock::collision(MovingObject& object, const CollisionHit& hit)
 {
   if (m_frozen)
   {
@@ -251,7 +253,7 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 bool
-MrIceBlock::collision_squished(GameObject& object)
+MrIceBlock::collision_squished(MovingObject& object)
 {
   Player* player = dynamic_cast<Player*>(&object);
   if (player && (player->m_does_buttjump || player->is_invincible())) {
@@ -290,8 +292,7 @@ MrIceBlock::collision_squished(GameObject& object)
   case ICESTATE_FLAT:
   case ICESTATE_WAKING:
   {
-    auto movingobject = dynamic_cast<MovingObject*>(&object);
-    if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+    if (object.get_pos().x < get_pos().x) {
       m_dir = Direction::RIGHT;
     }
     else {

@@ -108,8 +108,8 @@ ObjectMenu::menu_action(MenuItem& item)
     case MNID_REMOVE:
       m_editor.delete_markers();
       m_editor.m_reactivate_request = true;
-      MenuManager::instance().pop_menu();
       m_object->remove_me();
+      MenuManager::instance().pop_menu();
       break;
 
     case MNID_REMOVEFUNCTION:
@@ -118,9 +118,9 @@ ObjectMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_TEST_FROM_HERE: {
-      const MovingObject *here = dynamic_cast<const MovingObject *>(m_object);
+      const MovingObject* obj = static_cast<const MovingObject*>(m_object);
       m_editor.m_test_pos = std::make_pair(m_editor.get_sector()->get_name(),
-                                           here->get_pos());
+                                           obj->get_pos());
       m_editor.m_test_request = true;
       MenuManager::instance().pop_menu();
       break;

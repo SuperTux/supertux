@@ -10,33 +10,6 @@ minimum_perc           = 75
 replace_edited_strings = false
 keep_translations      = false
 
-[o:arctic-games:p:supertux:r:bonus-2]
-file_filter            = data/levels/bonus2/<lang>.po
-source_file            = data/levels/bonus2/messages.pot
-source_lang            = en
-type                   = PO
-minimum_perc           = 75
-replace_edited_strings = false
-keep_translations      = false
-
-[o:arctic-games:p:supertux:r:bonus-3]
-file_filter            = data/levels/bonus3/<lang>.po
-source_file            = data/levels/bonus3/messages.pot
-source_lang            = en
-type                   = PO
-minimum_perc           = 75
-replace_edited_strings = false
-keep_translations      = false
-
-[o:arctic-games:p:supertux:r:bonus-4]
-file_filter            = data/levels/bonus4/<lang>.po
-source_file            = data/levels/bonus4/messages.pot
-source_lang            = en
-type                   = PO
-minimum_perc           = 75
-replace_edited_strings = false
-keep_translations      = false
-
 [o:arctic-games:p:supertux:r:community-island-2016]
 file_filter            = data/levels/community2016/<lang>.po
 source_file            = data/levels/community2016/messages.pot

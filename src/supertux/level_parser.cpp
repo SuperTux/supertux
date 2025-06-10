@@ -34,7 +34,7 @@ LevelParser::get_level_name(const std::string& filename)
   try
   {
     register_translation_directory(filename);
-    auto doc = ReaderDocument::from_file(filename);
+    auto doc = ReaderDocument::from_file(filename, 1);
     auto root = doc.get_root();
 
     if (root.get_name() != "supertux-level") {
@@ -153,7 +153,6 @@ LevelParser::load(const ReaderDocument& doc)
     throw std::runtime_error("file is not a supertux-level file.");
 
   auto level = root.get_mapping();
-  Statistics::Preferences stat_preferences;
 
   int version = 1;
   level.get("version", version);
@@ -183,7 +182,7 @@ LevelParser::load(const ReaderDocument& doc)
 
     std::optional<ReaderMapping> level_stat_preferences;
     if (level.get("statistics", level_stat_preferences))
-      stat_preferences.parse(*level_stat_preferences);
+      m_level.m_stats.get_preferences().parse(*level_stat_preferences);
 
     auto iter = level.get_iter();
     while (iter.next())
@@ -207,7 +206,7 @@ LevelParser::load(const ReaderDocument& doc)
     log_warning << "[" << doc.get_filename() << "] level format version " << version << " is not supported" << std::endl;
   }
 
-  m_level.initialize(stat_preferences);
+  m_level.initialize();
 }
 
 void

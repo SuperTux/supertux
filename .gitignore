@@ -30,7 +30,10 @@ docs/doxygen/
 tools/scripting_docs_gen/build/
 
 # Qt Creator project file
-CMakeLists.txt.user
+CMakeLists.txt.user*
+
+# KDevelop project files
+.kdev4/
 
 # Clangd
 .cache/

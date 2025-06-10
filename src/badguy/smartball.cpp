@@ -55,7 +55,7 @@ SmartBall::is_freezable() const
 }
 
 bool
-SmartBall::collision_squished(GameObject& object)
+SmartBall::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);

@@ -103,9 +103,9 @@ struct ScreenManager::FPS_Stats
     max_us = 0;
   }
 
-  float get_fps() const { return last_fps; }
-  float get_fps_min() const { return last_fps_min; }
-  float get_fps_max() const { return last_fps_max; }
+  inline float get_fps() const { return last_fps; }
+  inline float get_fps_min() const { return last_fps_min; }
+  inline float get_fps_max() const { return last_fps_max; }
 
   // This returns the highest measured delay between two frames from the
   // previous and current 0.5 s measuring intervals
@@ -189,18 +189,6 @@ ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 
   set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::QUIT_ACTION);
-}
-
-void
-ScreenManager::set_speed(float speed)
-{
-  m_speed = speed;
-}
-
-float
-ScreenManager::get_speed() const
-{
-  return m_speed;
 }
 
 void
@@ -568,11 +556,12 @@ void ScreenManager::loop_iter()
   g_real_time += 1e-9f * static_cast<float>(nsecs);
   last_time = now;
 
-  if (elapsed_time > seconds_per_step * 8) {
-    // when the game loads up or levels are switched the
-    // elapsed_ticks grows extremely large, so we just ignore those
-    // large time jumps
-    elapsed_time = 0;
+  float max_elapsed_time = 4 * seconds_per_step;
+  if (elapsed_time > max_elapsed_time) {
+    // when the game loads up or levels are switched the elapsed_ticks grows
+    // extremely large, so we just reduce those large time jumps to what can
+    // be processed within a single frame.
+    elapsed_time = max_elapsed_time;
   }
 
   bool always_draw = g_debug.draw_redundant_frames || g_config->frame_prediction;

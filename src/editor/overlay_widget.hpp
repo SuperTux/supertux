@@ -71,7 +71,7 @@ public:
   void on_level_change();
 
   void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
-  void reset_action_press();
+  //void reset_action_press();
 
 private:
   static bool action_pressed;
@@ -126,7 +126,11 @@ private:
   Rectf selection_draw_rect() const;
   void update_tile_selection();
 
-  void set_warning(const std::string& text, float time);
+  inline void set_warning(const std::string& text, float time)
+  {
+    m_warning_text = text;
+    m_warning_timer.start(time);
+  }
 
 private:
   Editor& m_editor;
@@ -163,6 +167,11 @@ private:
   std::string m_warning_text;
 
   bool m_selection_warning;
+
+  /// Not to be confused with g_config.editor_autotile_mode,
+  /// this variable is the one that *also* changes when holding CTRL.
+  /// The other one only changes hitting F5
+  bool m_autotile_mode;
 
 private:
   EditorOverlayWidget(const EditorOverlayWidget&) = delete;

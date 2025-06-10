@@ -222,15 +222,7 @@ TextureManager::get(const std::string& _filename,
                     const Sampler& sampler)
 {
   std::string filename = FileSystem::normalize(_filename);
-  Texture::Key key;
-  if (rect)
-  {
-    key = Texture::Key(filename, *rect);
-  }
-  else
-  {
-    key = Texture::Key(filename, Rect());
-  }
+  Texture::Key key = Texture::Key(filename, rect ? *rect : Rect());
 
   auto i = m_image_textures.find(key);
 
@@ -238,7 +230,8 @@ TextureManager::get(const std::string& _filename,
   if (i != m_image_textures.end())
     texture = i->second.lock();
 
-  if (!texture) {
+  if (!texture)
+  {
     if (rect)
     {
       texture = create_image_texture(filename, *rect, sampler);
@@ -418,7 +411,16 @@ TextureManager::reload()
   // Reload surfaces
   for (auto& surface : m_surfaces)
   {
-    SDLSurfacePtr surface_new = create_image_surface(surface.first);
+    SDLSurfacePtr surface_new;
+    try
+    {
+      surface_new = create_image_surface(surface.first);
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Couldn't load texture '" << surface.first << "' (now using dummy texture): " << err.what() << std::endl;
+      surface_new = create_dummy_surface();
+    }
     surface.second.reset(surface_new);
   }
 

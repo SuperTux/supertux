@@ -34,7 +34,7 @@ public:
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual bool has_variable_size() const override { return true; }
   static std::string class_name() { return "wind"; }
@@ -45,8 +45,6 @@ public:
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Wind)); }
 
   virtual ObjectSettings get_settings() override;
-
-  virtual int get_layer() const override { return LAYER_OBJECTS; }
 
   virtual void on_flip(float height) override;
 
@@ -59,7 +57,21 @@ public:
    */
   void stop();
 
+  /**
+   * @scripting
+   * @description Sets the layer of the wind particles.
+   * @param int $layer
+   */
+  inline void set_layer(int layer) { m_layer = layer; }
+
+  /**
+   * @scripting
+   * @description Returns the layer the wind particles are on.
+   */
+  virtual int get_layer() const override { return m_layer; }
+
 private:
+  int m_layer;
   bool blowing; /**< true if wind is currently switched on */
   Vector speed;
   float acceleration;

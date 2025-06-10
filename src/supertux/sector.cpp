@@ -102,25 +102,27 @@ Sector::finish_construction(bool editable)
   // but I don't know if it's going to introduce other bugs..   ~ Semphris
   try_process_resolve_requests();
 
-  if (!editable) {
+  if (!editable)
+  {
     convert_tiles2gameobject();
 
-    if (!m_level.is_worldmap())
+    if (!m_level.is_worldmap() &&
+        (get_object_count<Background>() <= 0 && get_object_count<Gradient>() <= 0))
     {
-      bool has_background = std::any_of(get_objects().begin(), get_objects().end(),
-                                        [](const auto& obj) {
-                                          return (dynamic_cast<Background*>(obj.get()) ||
-                                                  dynamic_cast<Gradient*>(obj.get()));
-                                        });
-      if (!has_background)
-      {
-        auto& gradient = add<Gradient>();
-        gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
-      }
+      log_warning << "sector '" << get_name() << "' does not contain a background or gradient. Setting a default gradient." << std::endl;
+      add<Gradient>();
     }
   }
 
-  if (get_solid_tilemaps().empty())
+  if (get_all_tilemaps().empty())
+  {
+    log_warning << "sector '" << get_name() << "' does not contain any tile layers. Creating an empty solid one." << std::endl;
+
+    TileMap& tilemap = add<TileMap>(TileManager::current()->get_tileset(m_level.get_tileset()));
+    tilemap.resize(100, 35);
+    tilemap.set_solid();
+  }
+  else if (get_solid_tilemaps().empty())
   {
     if (editable)
     {
@@ -340,18 +342,6 @@ Sector::calculate_foremost_layer(bool including_transparent) const
   return layer;
 }
 
-int
-Sector::get_foremost_opaque_layer() const
-{
-  return m_foremost_opaque_layer;
-}
-
-int
-Sector::get_foremost_layer() const
-{
-  return m_foremost_layer;
-}
-
 TileSet*
 Sector::get_tileset() const
 {
@@ -403,8 +393,7 @@ Sector::before_object_add(GameObject& object)
   {
     m_collision_system->add(movingobject->get_collision_object());
   }
-
-  if (auto* tilemap = dynamic_cast<TileMap*>(&object))
+  else if (auto* tilemap = dynamic_cast<TileMap*>(&object))
   {
     tilemap->set_ground_movement_manager(m_collision_system->get_ground_movement_manager());
   }
@@ -545,11 +534,12 @@ Sector::is_free_of_solid_tiles(float left, float top, float right, float bottom,
 }
 
 bool
-Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
+Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype) const
 {
   return m_collision_system->is_free_of_statics(rect,
                                                 ignore_object ? ignore_object->get_collision_object() : nullptr,
-                                                ignoreUnisolid);
+                                                ignoreUnisolid,
+                                                tiletype);
 }
 
 bool
@@ -561,10 +551,11 @@ Sector::is_free_of_statics(float left, float top, float right, float bottom,
 }
 
 bool
-Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
+Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object, bool ignore_unisolid) const
 {
   return m_collision_system->is_free_of_movingstatics(rect,
-                                                      ignore_object ? ignore_object->get_collision_object() : nullptr);
+                                                      ignore_object ? ignore_object->get_collision_object() : nullptr,
+                                                      ignore_unisolid);
 }
 
 bool
@@ -589,9 +580,18 @@ Sector::is_free_of_specifically_movingstatics(float left, float top, float right
 CollisionSystem::RaycastResult
 Sector::get_first_line_intersection(const Vector& line_start,
                                     const Vector& line_end,
+                                    CollisionSystem::RaycastIgnore ignore,
+                                    const CollisionObject* ignore_object) const {
+  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore, ignore_object);
+}
+
+CollisionSystem::RaycastResult
+Sector::get_first_line_intersection(const Vector& line_start,
+                                    const Vector& line_end,
                                     bool ignore_objects,
                                     const CollisionObject* ignore_object) const {
-  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore_objects, ignore_object);
+  auto ignore = (ignore_objects ? CollisionSystem::IGNORE_OBJECTS : CollisionSystem::IGNORE_NONE);
+  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore, ignore_object);
 }
 
 bool
@@ -650,41 +650,37 @@ Sector::get_editor_size() const
 }
 
 void
-Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset)
+Sector::resize(const Size& old_size, const Size& new_size, const Size& resize_offset)
 {
   BIND_SECTOR(*this);
 
-  bool is_offset = resize_offset.width || resize_offset.height;
-  Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
-                            static_cast<float>(resize_offset.height) * 32.0f);
+  const bool is_offset = resize_offset.width || resize_offset.height;
+  const Vector obj_shift(static_cast<float>(resize_offset.width) * 32.0f,
+                         static_cast<float>(resize_offset.height) * 32.0f);
 
-  for (const auto& object : get_objects())
+  for (auto* tilemap : get_all_tilemaps())
   {
-    auto tilemap = dynamic_cast<TileMap*>(object.get());
-    if (tilemap)
+    if (tilemap->get_size() == old_size)
     {
-      if (tilemap->get_size() == old_size)
-      {
-        tilemap->save_state();
-        tilemap->resize(new_size, resize_offset);
-        tilemap->check_state();
-      }
-      else if (is_offset)
-      {
-        tilemap->save_state();
-        tilemap->move_by(obj_shift);
-        tilemap->check_state();
-      }
+      tilemap->save_state();
+      tilemap->resize(new_size, resize_offset);
+      tilemap->check_state();
     }
     else if (is_offset)
     {
-      auto moving_object = dynamic_cast<MovingObject*>(object.get());
-      if (moving_object)
-      {
-        moving_object->save_state();
-        moving_object->move_to(moving_object->get_pos() + obj_shift);
-        moving_object->check_state();
-      }
+      tilemap->save_state();
+      tilemap->move_by(obj_shift);
+      tilemap->check_state();
+    }
+  }
+
+  if (is_offset)
+  {
+    for (auto& object : get_objects_by_type<MovingObject>())
+    {
+      object.save_state();
+      object.move_to(object.get_pos() + obj_shift);
+      object.check_state();
     }
   }
 }
@@ -695,18 +691,6 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
   for (auto& solids: get_solid_tilemaps()) {
     solids->change_all(old_tile_id, new_tile_id);
   }
-}
-
-void
-Sector::set_gravity(float gravity)
-{
-  m_gravity = gravity;
-}
-
-float
-Sector::get_gravity() const
-{
-  return m_gravity;
 }
 
 Player*
@@ -746,10 +730,7 @@ Sector::get_nearby_objects(const Vector& center, float max_distance) const
   std::vector<MovingObject*> result;
   for (auto& object : m_collision_system->get_nearby_objects(center, max_distance))
   {
-    auto* moving_object = dynamic_cast<MovingObject*>(&object->get_listener());
-    if (moving_object) {
-      result.push_back(moving_object);
-    }
+    result.push_back(&object->get_parent());
   }
   return result;
 }
@@ -853,7 +834,7 @@ Sector::convert_tiles2gameobject()
         {
           // add lights for fire tiles
           uint32_t attributes = tile.get_attributes();
-          Vector pos = tm.get_tile_position(x, y) + tm_offset;
+          Vector pos = tm.get_tile_position(x, y);
           Vector center = pos + Vector(16, 16);
 
           if (attributes & Tile::FIRE) {
@@ -864,13 +845,13 @@ Sector::convert_tiles2gameobject()
                   && (tm.get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
                 float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
                 add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
-                                  (Color(1.0f, 0.3f, 0.0f, 1.0f) * tm.get_current_tint()).validate());
+                                  Color(1.0f, 0.3f, 0.0f, 1.0f), &tm);
               }
             } else {
               // torch
               float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
               add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
-                                (Color(1.0f, 1.0f, 0.6f, 1.0f) * tm.get_current_tint()).validate());
+                                Color(1.0f, 1.0f, 0.6f, 1.0f), &tm);
             }
           }
         }
@@ -885,16 +866,16 @@ Sector::get_camera() const
   return get_singleton_by_type<Camera>();
 }
 
-std::vector<Player*>
-Sector::get_players() const
-{
-  return m_level.get_players();
-}
-
 DisplayEffect&
 Sector::get_effect() const
 {
   return get_singleton_by_type<DisplayEffect>();
+}
+
+std::vector<Player*>
+Sector::get_players() const
+{
+  return m_level.get_players();
 }
 
 

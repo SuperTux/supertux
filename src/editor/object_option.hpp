@@ -46,7 +46,6 @@ class Menu;
 class Path;
 class PathObject;
 class ReaderMapping;
-class Rectf;
 class TileMap;
 class Writer;
 
@@ -73,9 +72,9 @@ public:
   virtual void save_old_state(std::ostream& out) const;
   virtual void save_new_state(Writer& writer) const;
 
-  const std::string& get_key() const { return m_key; }
-  const std::string& get_text() const { return m_text; }
-  unsigned int get_flags() const { return m_flags; }
+  inline const std::string& get_key() const { return m_key; }
+  inline const std::string& get_text() const { return m_text; }
+  inline unsigned int get_flags() const { return m_flags; }
 
 protected:
   const std::string m_text;
@@ -96,7 +95,7 @@ public:
   ObjectOption(const std::string& text, const std::string& key, unsigned int flags, T* pointer = nullptr);
   virtual ~ObjectOption() override = default;
 
-  virtual T* get_value() const { return m_value_pointer; }
+  inline T* get_value() const { return m_value_pointer; }
 
 protected:
   T* const m_value_pointer;
@@ -160,26 +159,6 @@ public:
 private:
   LabelObjectOption(const LabelObjectOption&) = delete;
   LabelObjectOption& operator=(const LabelObjectOption&) = delete;
-};
-
-class RectfObjectOption final : public ObjectOption<Rectf>
-{
-public:
-  RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
-                    unsigned int flags);
-
-  virtual void parse(const ReaderMapping& reader) override;
-  virtual void save(Writer& writer) const override;
-  virtual std::string to_string() const override;
-  virtual void add_to_menu(Menu& menu) const override;
-
-private:
-  float m_width;
-  float m_height;
-
-private:
-  RectfObjectOption(const RectfObjectOption&) = delete;
-  RectfObjectOption& operator=(const RectfObjectOption&) = delete;
 };
 
 class FloatObjectOption final : public ObjectOption<float>

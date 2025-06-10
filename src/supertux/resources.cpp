@@ -23,11 +23,23 @@
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/tile_manager.hpp"
 #include "video/bitmap_font.hpp"
 #include "video/font.hpp"
 #include "video/surface.hpp"
+#include "video/texture_manager.hpp"
 #include "video/ttf_font.hpp"
 #include "video/ttf_surface_manager.hpp"
+
+void
+Resources::reload_all()
+{
+  TextureManager::current()->reload();
+
+  Resources::load(true);
+  SpriteManager::current()->reload();
+  TileManager::current()->reload();
+}
 
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
@@ -51,9 +63,12 @@ std::string Resources::current_font;
 void
 Resources::load(bool reload)
 {
-  // Load the mouse-cursor
-  mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
-  MouseCursor::set_current(mouse_cursor.get());
+  if (!reload)
+  {
+    // Load the mouse-cursor
+    mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
+    MouseCursor::set_current(mouse_cursor.get());
+  }
 
   default_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));
   if (g_debug.get_use_bitmap_fonts())

@@ -84,14 +84,14 @@ void
 Trampoline::update(float dt_sec)
 {
   if (m_sprite->animation_done()) {
-    set_action("normal");
+    set_action("default");
   }
 
   Rock::update(dt_sec);
 }
 
 HitResponse
-Trampoline::collision(GameObject& other, const CollisionHit& hit)
+Trampoline::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto heavy_coin = dynamic_cast<HeavyCoin*> (&other);
   if (heavy_coin) {

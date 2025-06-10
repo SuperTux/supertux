@@ -74,7 +74,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   PathObject(),
   m_editor_active(true),
   m_tileset(tileset_),
@@ -166,7 +166,9 @@ TileMap::parse_tiles(const ReaderMapping& reader)
   reader.get("height", m_height);
   if (m_width < 0 || m_height < 0)
   {
-    //throw std::runtime_error("Invalid/No width/height specified in tilemap.");
+    if (!Sector::current())
+      throw std::runtime_error("Invalid/No width/height specified in tilemap.");
+
     m_width = 0;
     m_height = 0;
     m_tiles.clear();
@@ -176,7 +178,7 @@ TileMap::parse_tiles(const ReaderMapping& reader)
   }
   else
   {
-    reader.get("tiles", m_tiles);
+    reader.get_compressed("tiles", m_tiles);
     if (m_tiles.empty())
       throw std::runtime_error("No tiles in tilemap.");
 
@@ -207,6 +209,14 @@ TileMap::parse_tiles(const ReaderMapping& reader)
 }
 
 void
+TileMap::write_tiles(Writer& writer) const
+{
+  writer.write("width", m_width);
+  writer.write("height", m_height);
+  writer.write_compressed("tiles", m_tiles);
+}
+
+void
 TileMap::finish_construction()
 {
   get_parent()->update_solid(this);
@@ -219,7 +229,7 @@ TileMap::finish_construction()
     get_walker()->jump_to_node(m_starting_node);
   }
 
-  m_add_path = get_walker() && get_path() && get_path()->is_valid();
+  m_add_path = has_valid_path();
 }
 
 TileMap::~TileMap()
@@ -298,10 +308,10 @@ TileMap::get_settings()
 
   result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
   result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
-  m_add_path = get_walker() && get_path() && get_path()->is_valid();
+  m_add_path = has_valid_path();
   result.add_bool(_("Following path"), &m_add_path);
 
-  if (get_walker() && get_path() && get_path()->is_valid()) {
+  if (m_add_path) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
     result.add_bool(_("Running"), &get_walker()->m_running, "running", false);
@@ -310,7 +320,7 @@ TileMap::get_settings()
 
   result.add_tiles(_("Tiles"), this, "tiles");
 
-  result.reorder({"solid", "running", "speed-x", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "width", "height", "tiles"});
+  result.reorder({"solid", "running", "speed-x", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "tiles"});
 
   if (!m_editor_active) {
     result.add_remove();
@@ -328,7 +338,7 @@ TileMap::after_editor_set()
     resize(m_new_size_x, m_new_size_y, 0, m_new_offset_x, m_new_offset_y);
   }
 
-  if (get_walker() && get_path() && get_path()->is_valid()) {
+  if (has_valid_path()) {
     if (!m_add_path) {
       get_path()->m_nodes.clear();
     }
@@ -643,13 +653,7 @@ void
 TileMap::set_solid(bool solid)
 {
   m_real_solid = solid;
-  update_effective_solid ();
-}
-
-bool
-TileMap::get_solid() const
-{
-  return m_effective_solid;
+  update_effective_solid();
 }
 
 uint32_t
@@ -981,12 +985,6 @@ TileMap::update_effective_solid(bool update_manager)
     get_parent()->update_solid(this);
 }
 
-void
-TileMap::set_tileset(const TileSet* new_tileset)
-{
-  m_tileset = new_tileset;
-}
-
 
 void
 TileMap::register_class(ssq::VM& vm)
@@ -1004,7 +1002,7 @@ TileMap::register_class(ssq::VM& vm)
   cls.addFunc<void, TileMap, float, float, float, float, float>("tint_fade", &TileMap::tint_fade);
   cls.addFunc("set_alpha", &TileMap::set_alpha);
   cls.addFunc("get_alpha", &TileMap::get_alpha);
-  cls.addFunc("set_solid", &TileMap::set_solid);
+  cls.addFunc("set_solid", &TileMap::set_solid, ssq::DefaultArguments<bool>(true));
   cls.addFunc("get_solid", &TileMap::get_solid);
 
   cls.addVar("alpha", &TileMap::get_alpha, &TileMap::set_alpha);

@@ -63,8 +63,10 @@ MovingObject::get_settings()
   }
 
   if (has_variable_size())
-    result.add_rectf(_("Region"), &m_col.m_bbox, "region", OPTION_HIDDEN);
-
+  {
+    result.add_float(_("Width"), &m_col.m_bbox.get_width(), "width", {}, OPTION_HIDDEN);
+    result.add_float(_("Height"), &m_col.m_bbox.get_height(), "height", {}, OPTION_HIDDEN);
+  }
   result.add_float(_("X"), &m_col.m_bbox.get_left(), "x", {}, OPTION_HIDDEN);
   result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y", {}, OPTION_HIDDEN);
 
@@ -79,42 +81,6 @@ MovingObject::set_parent_dispenser(Dispenser* dispenser)
   {
     m_name.clear();
   }
-}
-
-float
-MovingObject::get_x() const
-{
-  return m_col.m_bbox.get_left();
-}
-
-float
-MovingObject::get_y() const
-{
-  return m_col.m_bbox.get_top();
-}
-
-void
-MovingObject::set_pos(float x, float y)
-{
-  set_pos(Vector(x, y));
-}
-
-void
-MovingObject::move(float x, float y)
-{
-  move(Vector(x, y));
-}
-
-float
-MovingObject::get_width() const
-{
-  return m_col.m_bbox.get_width();
-}
-
-float
-MovingObject::get_height() const
-{
-  return m_col.m_bbox.get_height();
 }
 
 void

@@ -32,7 +32,7 @@ public:
 
   void draw(DrawingContext& context);
 
-  int get_mode() const { return m_mode; }
+  inline int get_mode() const { return m_mode; }
 
   void next_mode();
 

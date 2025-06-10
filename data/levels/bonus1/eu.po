@@ -4,7 +4,7 @@
 # 
 # Translators:
 # IAN RODRÍGUEZ Lorenzo, 2023
-# Mielanjel Iraeta <mielanjel@ni.eus>, 2018
+# pospolos <mielanjel@ni.eus>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

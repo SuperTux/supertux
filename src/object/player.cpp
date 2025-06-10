@@ -144,7 +144,7 @@ const float SWIM_BOOST_SPEED = 600.f;
 const float SWIM_TO_BOOST_ACCEL = 15.f;
 const float TURN_MAGNITUDE = 0.15f;
 const float TURN_MAGNITUDE_BOOST = 0.2f;
-const std::array<std::string, 2> BUBBLE_ACTIONS = { "normal", "small" };
+const std::array<std::string, 2> BUBBLE_ACTIONS = { "default", "small" };
 
 /* Buttjump variables */
 
@@ -209,7 +209,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_does_buttjump(false),
   m_invincible_timer(),
   m_skidding_timer(),
-  m_safe_timer(),
+  m_post_damage_safety_timer(),
+  m_temp_safety_timer(),
   m_is_intentionally_safe(false),
   m_kick_timer(),
   m_buttjump_timer(),
@@ -276,29 +277,11 @@ Player::~Player()
   if (m_climbing) stop_climbing(*m_climbing);
 }
 
-float
-Player::get_speedlimit() const
-{
-  return m_speedlimit;
-}
-
-void
-Player::set_speedlimit(float newlimit)
-{
-  m_speedlimit = newlimit;
-}
-
 void
 Player::set_id(int id)
 {
   m_id = id;
   m_controller = &(InputManager::current()->get_controller(id));
-}
-
-void
-Player::set_controller(const Controller* controller_)
-{
-  m_controller = controller_;
 }
 
 void
@@ -1175,18 +1158,6 @@ Player::swim(float pointx, float pointy, bool boost)
   }
 }
 
-bool
-Player::on_ground() const
-{
-  return m_on_ground_flag;
-}
-
-void
-Player::set_on_ground(bool flag)
-{
-  m_on_ground_flag = flag;
-}
-
 void
 Player::apply_friction()
 {
@@ -1383,7 +1354,7 @@ Player::do_standup(bool force_standup)
   float new_height = m_swimming ? TUX_WIDTH : BIG_TUX_HEIGHT;
   new_bbox.move(Vector(0, m_col.m_bbox.get_height() - new_height));
   new_bbox.set_height(new_height);
-  if (!Sector::get().is_free_of_movingstatics(new_bbox, this) && !force_standup)
+  if (!Sector::get().is_free_of_movingstatics(new_bbox, this, true) && !force_standup)
   {
     m_crawl = true;
     return;
@@ -1697,70 +1668,69 @@ Player::handle_input()
 
   /* Drop grabbed object when releasing the Action button on keyboard or gamepad, and on the second button press when using touchscreen */
   if ((m_controller->is_touchscreen() ? m_controller->pressed(Control::ACTION) : !m_controller->hold(Control::ACTION)) &&
-      m_grabbed_object && !just_grabbed) {
-    auto moving_object = dynamic_cast<MovingObject*> (m_grabbed_object);
-    if (moving_object) {
-      // move the grabbed object a bit away from tux
-      Rectf grabbed_bbox = moving_object->get_bbox();
-      Rectf dest_;
-      if (m_swimming || m_water_jump)
+      m_grabbed_object && !just_grabbed)
+  {
+    auto moving_object = dynamic_cast<MovingObject*>(m_grabbed_object);
+    assert(moving_object);
+
+    // move the grabbed object a bit away from tux
+    Rectf grabbed_bbox = moving_object->get_bbox();
+    Rectf dest_;
+    if (m_swimming || m_water_jump)
+    {
+      dest_.set_bottom(m_col.m_bbox.get_bottom() + (std::sin(m_swimming_angle) * 32.f));
+      dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
+      dest_.set_left(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f));
+      dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
+    }
+    else
+    {
+      Rectf player_head_clear_box = get_bbox().grown(-2.f);
+      player_head_clear_box.set_top(get_bbox().get_top() - 2.f);
+      if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, moving_object, true)) {
+        dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+      }
+      else {
+        dest_.set_bottom(m_col.m_bbox.get_bottom() + 2.f);
+      }
+      dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
+
+      if (m_dir == Direction::LEFT)
       {
-        dest_.set_bottom(m_col.m_bbox.get_bottom() + (std::sin(m_swimming_angle) * 32.f));
-        dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
-        dest_.set_left(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f));
-        dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
+        dest_.set_right(m_col.m_bbox.get_left() - 1);
+        dest_.set_left(dest_.get_right() - grabbed_bbox.get_width());
       }
       else
       {
-        Rectf player_head_clear_box = get_bbox().grown(-2.f);
-        player_head_clear_box.set_top(get_bbox().get_top() - 2.f);
-        if ((is_big() && !m_duck) || Sector::get().is_free_of_statics(player_head_clear_box, moving_object, true)) {
-          dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
-        }
-        else {
-          dest_.set_bottom(m_col.m_bbox.get_bottom() + 2.f);
-        }
-        dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
-
-        if (m_dir == Direction::LEFT)
-        {
-          dest_.set_right(m_col.m_bbox.get_left() - 1);
-          dest_.set_left(dest_.get_right() - grabbed_bbox.get_width());
-        }
-        else
-        {
-          dest_.set_left(m_col.m_bbox.get_right() + 1);
-          dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
-        }
+        dest_.set_left(m_col.m_bbox.get_right() + 1);
+        dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
       }
+    }
 
-      if (Sector::get().is_free_of_tiles(dest_, true) &&
-         Sector::get().is_free_of_statics(dest_, moving_object, true))
+    if (Sector::get().is_free_of_tiles(dest_, true) &&
+       Sector::get().is_free_of_statics(dest_, moving_object, true))
+    {
+      moving_object->set_pos(dest_.p1());
+      if (m_controller->hold(Control::UP))
       {
-        moving_object->set_pos(dest_.p1());
-        if (m_controller->hold(Control::UP))
-        {
-          m_grabbed_object->ungrab(*this, Direction::UP);
-        }
-        else if (m_controller->hold(Control::DOWN))
-        {
-          m_grabbed_object->ungrab(*this, Direction::DOWN);
-        }
-        else if (m_swimming || m_water_jump)
-        {
-          m_grabbed_object->ungrab(*this,
-            std::abs(m_swimming_angle) <= math::PI_2 ? Direction::RIGHT : Direction::LEFT);
-        }
-        else
-        {
-          m_grabbed_object->ungrab(*this, m_dir);
-        }
-        moving_object->del_remove_listener(m_grabbed_object_remove_listener.get());
-        m_grabbed_object = nullptr;
-        m_released_object = true;
+        m_grabbed_object->ungrab(*this, Direction::UP);
       }
-    } else {
-      log_debug << "Non MovingObject grabbed?!?" << std::endl;
+      else if (m_controller->hold(Control::DOWN))
+      {
+        m_grabbed_object->ungrab(*this, Direction::DOWN);
+      }
+      else if (m_swimming || m_water_jump)
+      {
+        m_grabbed_object->ungrab(*this,
+          std::abs(m_swimming_angle) <= math::PI_2 ? Direction::RIGHT : Direction::LEFT);
+      }
+      else
+      {
+        m_grabbed_object->ungrab(*this, m_dir);
+      }
+      moving_object->del_remove_listener(m_grabbed_object_remove_listener.get());
+      m_grabbed_object = nullptr;
+      m_released_object = true;
     }
   }
 
@@ -1848,7 +1818,7 @@ Player::try_grab()
     for (auto& moving_object : Sector::get().get_objects_by_type<MovingObject>())
     {
       Portable* portable = dynamic_cast<Portable*>(&moving_object);
-      if (portable && portable->is_portable())
+      if (portable && portable->is_portable() && !portable->is_grabbed())
       {
         // make sure the Portable isn't currently non-solid
         if (moving_object.get_group() == COLGROUP_DISABLED) continue;
@@ -1895,18 +1865,6 @@ Player::handle_input_ghost()
   }
   m_physic.set_velocity(Vector(vx, vy) * (m_controller->hold(Control::JUMP) ? 2.5f : 1.f));
   m_physic.set_acceleration(0, 0);
-}
-
-void
-Player::add_coins(int count)
-{
-  m_player_status.add_coins(count);
-}
-
-int
-Player::get_coins() const
-{
-  return m_player_status.coins;
 }
 
 BonusType
@@ -2031,22 +1989,16 @@ Player::set_bonus(BonusType type, bool animate)
   return true;
 }
 
-BonusType
-Player::get_bonus() const
-{
-  return m_player_status.bonus[m_id];
-}
-
 void
-Player::set_visible(bool visible)
+Player::set_is_intentionally_safe(bool safe)
 {
-  m_visible = visible;
+  m_is_intentionally_safe = safe;
 }
 
 bool
-Player::get_visible() const
+Player::get_is_intentionally_safe() const
 {
-  return m_visible;
+  return m_is_intentionally_safe;
 }
 
 void
@@ -2318,7 +2270,7 @@ Player::draw(DrawingContext& context)
   Vector draw_pos = get_pos() + context.get_time_offset() * m_physic.get_velocity();
 
   /* Draw Tux */
-  if (!m_visible || (m_safe_timer.started() && !m_is_intentionally_safe && size_t(g_game_time * 40) % 2))
+  if (!m_visible || (m_post_damage_safety_timer.started() && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
@@ -2414,21 +2366,15 @@ Player::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_x(0);
   }
 
-  // crushed?
-  if (hit.crush) {
-    if (hit.left || hit.right) {
-      kill(true);
-    } else if (hit.top || hit.bottom) {
-      kill(false);
-    }
-  }
+  if (hit.crush)
+    kill(false);
 
   if ((hit.left && m_boost < 0.f) || (hit.right && m_boost > 0.f))
     m_boost = 0.f;
 }
 
 HitResponse
-Player::collision(GameObject& other, const CollisionHit& hit)
+Player::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto bullet = dynamic_cast<Bullet*> (&other);
   if (bullet) {
@@ -2443,9 +2389,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   if (hit.left || hit.right) {
     try_grab(); //grab objects right now, in update it will be too late
   }
-  assert(dynamic_cast<MovingObject*> (&other) != nullptr);
-  auto moving_object = static_cast<MovingObject*> (&other);
-  if (moving_object->get_group() == COLGROUP_TOUCHABLE) {
+  if (other.get_group() == COLGROUP_TOUCHABLE) {
     auto trigger = dynamic_cast<TriggerBase*> (&other);
     if (trigger && !m_deactivated) {
       if (m_controller->pressed(Control::UP))
@@ -2457,10 +2401,13 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy != nullptr) {
-    if (m_safe_timer.started() || m_invincible_timer.started())
+    if (m_is_intentionally_safe || m_post_damage_safety_timer.started() || m_temp_safety_timer.started() || m_invincible_timer.started())
       return FORCE_MOVE;
     if (m_stone)
       return ABORT_MOVE;
+
+    if (hit.bottom && badguy->is_frozen())
+      m_on_ground_flag = true;
   }
 
   return CONTINUE;
@@ -2493,8 +2440,7 @@ Player::make_invincible()
 void
 Player::make_temporarily_safe(float safe_time)
 {
-  m_safe_timer.start(safe_time);
-  m_is_intentionally_safe = true;
+  m_temp_safety_timer.start(safe_time);
 }
 
 void
@@ -2503,7 +2449,7 @@ Player::kill(bool completely)
   if (m_dying || m_deactivated || is_winning() )
     return;
 
-  if (!completely && (m_safe_timer.started() || m_invincible_timer.started()))
+  if (!completely && (m_is_intentionally_safe || m_post_damage_safety_timer.started() || m_temp_safety_timer.started() || m_invincible_timer.started()))
     return;
 
   m_growing = false;
@@ -2521,22 +2467,18 @@ Player::kill(bool completely)
 
     if (get_bonus() > BONUS_GROWUP)
     {
-      m_safe_timer.start(TUX_SAFE_TIME);
-      m_is_intentionally_safe = false;
+      m_post_damage_safety_timer.start(TUX_SAFE_TIME);
       set_bonus(BONUS_GROWUP, true);
     }
     else if (get_bonus() == BONUS_GROWUP)
     {
-      m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-      m_is_intentionally_safe = false;
+      m_post_damage_safety_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_duck = false;
       m_crawl = false;
       stop_backflipping();
       set_bonus(BONUS_NONE, true);
     }
   } else {
-    SoundManager::current()->play("sounds/kill.wav", get_pos());
-
     auto* session = GameSession::current();
     if (session && session->m_prevent_death &&
                    !session->reset_checkpoint_button)
@@ -2545,9 +2487,12 @@ Player::kill(bool completely)
       return;
     }
 
+    SoundManager::current()->play("sounds/kill.wav", get_pos());
+
     m_physic.enable_gravity(true);
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
-    m_safe_timer.stop();
+    m_post_damage_safety_timer.stop();
+    m_temp_safety_timer.stop();
     m_invincible_timer.stop();
     m_physic.set_acceleration(0, 0);
     m_physic.set_velocity(0, -700);
@@ -2641,7 +2586,7 @@ Player::check_bounds()
   /* fallen out of the level? */
   if ((get_pos().y > Sector::get().get_height())
       && !m_ghost_mode
-      && !(m_is_intentionally_safe && m_safe_timer.started())) {
+      && !m_temp_safety_timer.started()) {
     kill(true);
     return;
   }
@@ -2664,30 +2609,6 @@ Player::add_velocity(const Vector& velocity, const Vector& end_speed)
     m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
   if (end_speed.y < 0)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
-}
-
-Vector
-Player::get_velocity() const
-{
-  return m_physic.get_velocity();
-}
-
-float
-Player::get_velocity_x() const
-{
-  return m_physic.get_velocity_x();
-}
-
-float
-Player::get_velocity_y() const
-{
-  return m_physic.get_velocity_y();
-}
-
-void
-Player::set_velocity(float x, float y)
-{
-  m_physic.set_velocity(x, y);
 }
 
 void
@@ -2741,12 +2662,6 @@ Player::get_input_released(const std::string& input)
 }
 
 void
-Player::walk(float speed)
-{
-  m_physic.set_velocity_x(speed);
-}
-
-void
 Player::set_dir(bool right)
 {
   m_dir = right ? Direction::RIGHT : Direction::LEFT;
@@ -2773,12 +2688,6 @@ Player::set_ghost_mode(bool enable)
     m_physic.enable_gravity(true);
     log_debug << "You feel solid again." << std::endl;
   }
-}
-
-bool
-Player::get_ghost_mode() const
-{
-  return m_ghost_mode;
 }
 
 void
@@ -3089,7 +2998,8 @@ Player::multiplayer_prepare_spawn()
 {
   m_physic.enable_gravity(true);
   m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
-  m_safe_timer.stop();
+  m_post_damage_safety_timer.stop();
+  m_temp_safety_timer.stop();
   m_invincible_timer.stop();
   m_physic.set_acceleration(0, -9999);
   m_physic.set_velocity(0, -9999);
@@ -3191,6 +3101,8 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("set_dir", &Player::set_dir);
   cls.addFunc("set_visible", &Player::set_visible);
   cls.addFunc("get_visible", &Player::get_visible);
+  cls.addFunc("set_is_intentionally_safe", &Player::set_is_intentionally_safe);
+  cls.addFunc("get_is_intentionally_safe", &Player::get_is_intentionally_safe);
   cls.addFunc("kill", &Player::kill);
   cls.addFunc("set_ghost_mode", &Player::set_ghost_mode);
   cls.addFunc("get_ghost_mode", &Player::get_ghost_mode);
@@ -3216,6 +3128,7 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("set_item_pocket", &Player::set_item_pocket);
 
   cls.addVar("visible", &Player::m_visible);
+  cls.addVar("is_intentionally_safe", &Player::m_is_intentionally_safe);
 }
 
 /* EOF */

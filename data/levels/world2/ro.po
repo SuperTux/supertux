@@ -4,15 +4,15 @@
 # 
 # Translators:
 # IAN RODRÍGUEZ Lorenzo, 2023
-# Nicolae Crefelean, 2015-2016
+# Nicolae Crefelean, 2015-2016,2025
 # Razvan <razvan.net@gmail.com>, 2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-10-20 09:04+0000\n"
+"POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
+"Last-Translator: Nicolae Crefelean, 2015-2016,2025\n"
 "Language-Team: Romanian (http://app.transifex.com/arctic-games/supertux/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +45,7 @@ msgstr "Ai găsit o zonă secretă!"
 
 #: data/levels/world2/beside_bushes.stl:3
 msgid "Beside the Bushes"
-msgstr "Lângă Tufișuri"
+msgstr "Lângă tufișuri"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
@@ -61,7 +61,7 @@ msgstr "Drumul surpat"
 
 #: data/levels/world2/darkness_awaits.stl:3
 msgid "Darkness Awaits"
-msgstr "Întunericul Așteaptă"
+msgstr "Întunericul așteaptă"
 
 #: data/levels/world2/find_big_fish.stl:3
 msgid "Find the Bigger Fish!"
@@ -85,17 +85,17 @@ msgstr "Mizeria fantomatică"
 
 #: data/levels/world2/ghosttrees_challenges.stl:3
 msgid "Ghosttree's Challenges"
-msgstr "Provocări ale arborele fantomă"
+msgstr "Provocările arborelui fantomă"
 
 #: data/levels/world2/ghouls_lair.stl:3
 msgid "Ghouls' Lair"
-msgstr "Bârlogul de la Ghoul"
+msgstr "Bârlogul monștrilor"
 
 #: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#Lanternele sunt folosite pentru a face blocuri magice solide, astfel încât să puteți merge pe deasupra lor."
+msgstr "#Lanternele fac blocurile magice solide, astfel încât să poți merge deasupra lor."
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -103,17 +103,17 @@ msgstr "Mergem în subteran"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:3
 msgid "I Spy With My Little Eye"
-msgstr "Spionez cu ochiul meu mic"
+msgstr "Spionez cu ochișorul meu"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Spionez\n#Ele se activează lucruri precum platformele ori de câte ori Tux este în vizorul lor."
+msgstr "-Ochi\n#Ochii activează lucruri ca platformele, ori de câte ori Tux este în vizorul lor."
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
-msgstr "Sugestie: Folosește melci pentru a sparge blocurile!"
+msgstr "Sugestie: Folosește melcii pentru a sparge blocurile!"
 
 #: data/levels/world2/leaf_wind.stl:3
 msgid "Like a leaf in the Wind"
@@ -121,11 +121,11 @@ msgstr "Ca o frunză în vânt"
 
 #: data/levels/world2/lost_village.stl:3
 msgid "Lost Village"
-msgstr "Satul Pierdut"
+msgstr "Satul pierdut"
 
 #: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
-msgstr "#Nu uitați să apăsați comutatorul!"
+msgstr "#Nu uita să apeși comutatorul!"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
@@ -137,7 +137,7 @@ msgstr "Bufnițele din nou..."
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
-msgstr "Bufnițele..."
+msgstr "Comandoul bufnițelor"
 
 #: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
@@ -161,11 +161,11 @@ msgid ""
 "!images/powerups/earthflower/earth_flower-1.png\n"
 "#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
 "#This does not work while jumping or falling!"
-msgstr "- Floarea Pământului\n!images/powerups/earthflower/earth_flower-1.png\n#Floarea de pământ îi oferă lui Tux capacitatea de a se transforma în piatră apăsând în același timp tasta ACȚIUNE și tasta JOS.\n#Acest lucru nu funcționează în timp ce săriți sau cădeți!"
+msgstr "- Floarea de pământ\n!images/powerups/earthflower/earth_flower-1.png\n#Floarea de pământ îi dă lui Tux abilitatea de a se transforma în piatră, apăsând simultan tasta ACȚIUNE și tasta JOS.\n#Asta nu funcționează în timp ce sari sau cazi!"
 
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
-msgstr "Turnul Fantomelor"
+msgstr "Turnul fantomelor"
 
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
@@ -177,7 +177,7 @@ msgid ""
 "!images/objects/rock/rock.png\n"
 "#Tux can pick up certain objects and carry them around.\n"
 "#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Obiecte portabile:\n!images/objects/rock/rock.png\n#Tux poate ridica anumite obiecte și le poate transporta.\n#Apăsați tasta ACȚIUNE pentru a apuca un obiect și țineți-l apăsat atât timp cât doriți să transportați obiectul. Eliberați tasta ACȚIUNE pentru a arunca obiectul."
+msgstr "-Obiecte portabile:\n!images/objects/rock/rock.png\n#Tux poate ridica anumite obiecte și le poate transporta.\n#Ca să apuci un obiect, apasă tasta ACȚIUNE și ține-o apăsată atât timp cât vrei să transporți obiectul. Eliberând tasta ACȚIUNE, vei arunca obiectul."
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"
@@ -187,7 +187,7 @@ msgstr "Spectacolul de groază al lui Tux"
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
-msgstr "#Poltergeists sunt fantome mici, enervante, care te transportă în locuri diferite, adesea periculoase."
+msgstr "#Will o' Wisps sunt fantome mici, enervante, care te transportă în locuri diferite, adesea periculoase."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"

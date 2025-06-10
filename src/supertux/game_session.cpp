@@ -17,6 +17,8 @@
 #include "supertux/game_session.hpp"
 
 #include <cfloat>
+#include <fmt/format.h>
+#include <stdexcept>
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
@@ -55,8 +57,7 @@ static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
 static const float TELEPORT_FADE_TIME = 1.0f;
 
 
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
-                         bool preserve_music) :
+GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
   reset_button(false),
   reset_checkpoint_button(false),
   m_prevent_death(false),
@@ -94,9 +95,6 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_boni_at_start.resize(InputManager::current()->get_num_users(), BONUS_NONE);
 
   m_data_table.clear();
-
-  if (restart_level(false, preserve_music) != 0)
-    throw std::runtime_error ("Initializing the level failed.");
 }
 
 void
@@ -121,6 +119,7 @@ GameSession::reset_level()
   m_activated_checkpoint = nullptr;
   m_pause_target_timer = false;
   m_spawn_with_invincibility = false;
+  m_spawn_fade_timer.stop();
 
   m_data_table.clear();
 }
@@ -128,11 +127,12 @@ GameSession::reset_level()
 void
 GameSession::on_player_added(int id)
 {
-  if (m_savegame.get_player_status().m_num_players <= id)
-    m_savegame.get_player_status().add_player();
+  auto& player_status = m_savegame.get_player_status();
+  if (player_status.m_num_players <= id)
+    player_status.add_player();
 
   // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-  auto& player = m_currentsector->add<Player>(m_savegame.get_player_status(), "Tux" + std::to_string(id + 1), id);
+  auto& player = m_currentsector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
 
   player.multiplayer_prepare_spawn();
 }
@@ -155,7 +155,7 @@ GameSession::on_player_removed(int id)
   return false;
 }
 
-int
+void
 GameSession::restart_level(bool after_death, bool preserve_music)
 {
   const PlayerStatus& currentStatus = m_savegame.get_player_status();
@@ -238,7 +238,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     m_currentsector = m_level->get_sector(spawnpoint->sector);
     if (!m_currentsector)
     {
-      throw std::runtime_error("Couldn't find sector '" + spawnpoint->sector + "' to spawn/respawn Tux.");
+      throw std::runtime_error(fmt::format("Couldn't find sector '{}' to spawn/respawn Tux.", spawnpoint->sector));
     }
     // Activate on either the spawnpoint (if set), or the spawn position.
     if (spawnpoint->spawnpoint.empty())
@@ -251,9 +251,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     }
   }
   catch (std::exception& e) {
-    log_fatal << "Couldn't start level: " << e.what() << std::endl;
-    ScreenManager::current()->pop_screen();
-    return (-1);
+    throw std::runtime_error(std::string("Couldn't start level: ") + e.what());
   }
 
   if (m_levelintro_shown)
@@ -265,24 +263,23 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   if (!preserve_music)
   {
     auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
-    if (after_death == true) {
+    if (after_death == true)
+    {
       music_object.resume_music();
-    } else {
+    }
+    else
+    {
       SoundManager::current()->stop_music();
       music_object.play_music(LEVEL_MUSIC);
     }
   }
 
   auto level_times = m_currentsector->get_objects_by_type<LevelTime>();
-  auto it = level_times.begin();
 
-  while (it != level_times.end())
+  for(auto& level_time : level_times)
   {
-    it->set_time(it->get_time() - m_play_time);
-    it++;
+    level_time.set_time(level_time.get_time() - m_play_time);
   }
-
-  return (0);
 }
 
 void
@@ -628,7 +625,9 @@ GameSession::update(float dt_sec, const Controller& controller)
 
       for (Player* player : m_currentsector->get_players())
       {
-        if (player->get_controller().pressed(Control::ITEM) && m_savegame.get_player_status().m_item_pockets.size() > 0)
+        if (player->is_active() && player->is_scripting_activated() &&
+            player->get_controller().pressed(Control::ITEM) &&
+            m_savegame.get_player_status().m_item_pockets.size() > 0)
         {
           player->get_status().give_item_from_pocket(player);
         }
@@ -787,7 +786,6 @@ GameSession::respawn_with_fade(const std::string& sector,
       player->make_temporarily_safe(TELEPORT_FADE_TIME);
     }
   }
-
 }
 
 void
@@ -806,30 +804,11 @@ GameSession::set_start_pos(const std::string& sector, const Vector& pos)
 }
 
 void
-GameSession::set_respawn_point(const std::string& sector,
-                               const std::string& spawnpoint)
-{
-  m_spawnpoints.push_back({ sector, spawnpoint });
-}
-
-void
-GameSession::set_respawn_pos(const std::string& sector, const Vector& pos)
-{
-  m_spawnpoints.push_back({ sector, pos });
-}
-
-void
 GameSession::clear_respawn_points()
 {
   // Delete all respawn points (all, other than the start one).
   if (m_spawnpoints.size() > 1)
     m_spawnpoints.erase(m_spawnpoints.begin() + 1, m_spawnpoints.end());
-}
-
-const GameSession::SpawnPoint&
-GameSession::get_last_spawnpoint() const
-{
-  return m_spawnpoints.back();
 }
 
 void
@@ -839,22 +818,10 @@ GameSession::set_checkpoint_pos(const std::string& sector, const Vector& pos)
   m_activated_checkpoint = &m_spawnpoints.back();
 }
 
-const GameSession::SpawnPoint*
-GameSession::get_active_checkpoint_spawnpoint() const
-{
-  return m_activated_checkpoint;
-}
-
 std::string
 GameSession::get_working_directory() const
 {
   return FileSystem::dirname(m_levelfile);
-}
-
-bool
-GameSession::has_active_sequence() const
-{
-  return m_end_sequence;
 }
 
 void
@@ -885,10 +852,6 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
   if (caller)
     caller->set_winning();
 
-  int remaining_players = get_current_sector().get_object_count<Player>([](const Player& p){
-    return p.is_active();
-  });
-
   // Abort if a sequence is already playing.
   if (m_end_sequence && m_end_sequence->is_running())
     return;
@@ -914,6 +877,10 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
     caller->set_controller(m_end_sequence->get_controller(caller->get_id()));
     caller->set_speedlimit(230); // MAX_WALK_XM
   }
+
+  int remaining_players = get_current_sector().get_object_count<Player>([](const Player& p){
+    return p.is_active();
+  });
 
   // Don't play the prepared sequence if there are more players that are still playing.
   if (remaining_players > 0)

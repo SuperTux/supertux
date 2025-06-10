@@ -69,6 +69,7 @@ public:
   static std::string display_name() { return _("Will o' Wisp"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(PathObject)).add(typeid(WillOWisp)); }
+  virtual void editor_update() override;
 
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
@@ -78,14 +79,15 @@ public:
   /** make WillOWisp vanish */
   void vanish();
 
-  Color get_color() const { return m_color; }
+  inline Color get_color() const { return m_color; }
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
-  virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
+  virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  void synchronize_position_from_path();
 
 private:
   enum MyState {
