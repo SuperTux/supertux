@@ -171,7 +171,7 @@ if(NOT EMSCRIPTEN)
     PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2)
   add_package(TARGET SDL2_image
     PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image)
-  add_package(TARGET LibCURL
+  add_package(TARGET libcurl
     PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
   add_package(TARGET OpenAL
     PKG OpenAL PKG_USE OpenAL::OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL openal)
@@ -320,7 +320,7 @@ if(NOT EMSCRIPTEN)
     Vorbis
     VorbisFile
   )
-  target_link_libraries(supertux2 PUBLIC LibCURL)
+  target_link_libraries(supertux2 PUBLIC libcurl)
 
   if(HAVE_OPENGL)
     target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW::GLEW)

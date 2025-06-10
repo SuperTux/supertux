@@ -90,7 +90,7 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
           PKG_CONFIG_PATH: /usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig
         run: |
-          $GIT_TAG="$(git describe --tags --abbrev=0)"
+          GIT_TAG="$(git describe --tags --abbrev=0)"
 
           echo "Git information:"
           echo "- GIT_TAG: $GIT_TAG"
