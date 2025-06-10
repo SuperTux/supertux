@@ -180,7 +180,7 @@ jobs:
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
                      -DCMAKE_POLICY_VERSION_MINIMUM="3.5" `
                      -DSUPERTUX_PACKAGE_VERSION="$Env:GIT_TAG dev - $Env:GIT_HASH ($Env:GIT_BRANCH) (CI ARTIFACT)" `
-                     -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH"
+                     -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH" `
                      $(if ($Env:32BIT -eq "true") {
                        "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
                        "-DVCPKG_TARGET_TRIPLET=x86-linux "
