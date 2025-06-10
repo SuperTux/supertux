@@ -26,7 +26,6 @@
 #include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/game_object_factory.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
@@ -356,6 +355,7 @@ TileMap::get_settings()
 
   result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
   result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
+  m_add_path = has_valid_path();
   result.add_bool(_("Following path"), &m_add_path);
 
   if (m_add_path)
