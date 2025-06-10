@@ -58,7 +58,7 @@ jobs:
         id: cache-dependencies
         uses: actions/cache@v4
         with:
-          path: /usr/local/share/vcpkg/installed
+          path: ${{ github.workspace }}/vcpkg_installed
           key: wasm-dependencies-${{ hashFiles('.github/workflows/wasm.yml') }}
 
       - name: Configure build
@@ -74,8 +74,6 @@ jobs:
                            -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=~/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
                            -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
                            -DVCPKG_MANIFEST_FEATURES=core
-
-          ls -la
 
       - name: Sync data folder
         working-directory: build
