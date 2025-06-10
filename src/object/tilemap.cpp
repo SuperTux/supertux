@@ -338,8 +338,8 @@ TileMap::get_settings()
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),
                   { _("Normal"), _("Lightmap") },
                   { "normal", "lightmap" },
-    static_cast<int>(DrawingTarget::COLORMAP),
-    "draw-target");
+                  static_cast<int>(DrawingTarget::COLORMAP),
+                  "draw-target");
 
   result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
   result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
