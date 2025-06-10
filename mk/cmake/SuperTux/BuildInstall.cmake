@@ -76,7 +76,6 @@ if(EMSCRIPTEN)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2_bkg.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2_bkg.png COPYONLY)
 endif()
 
-#[[
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.md
               ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt
               ${CMAKE_CURRENT_SOURCE_DIR}/NEWS.md
@@ -109,7 +108,6 @@ else()
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
           DESTINATION ${INSTALL_SUBDIR_SHARE})
 endif()
-]]
 
 # move some config clutter to the advanced section
 mark_as_advanced(
