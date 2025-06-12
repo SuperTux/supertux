@@ -17,6 +17,10 @@
 
 #include "object/player.hpp"
 
+#include <algorithm>
+
+#include <glm/geometric.hpp>
+
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
 
@@ -27,6 +31,7 @@
 #include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "math/random.hpp"
+#include "math/vector.hpp"
 #include "object/brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -40,6 +45,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/resources.hpp"
@@ -379,6 +385,11 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
 void
 Player::update(float dt_sec)
 {
+  if (m_col.m_colliding_wind.empty()) {
+    m_physic.set_wind_acceleration(0);
+    m_physic.set_wind_velocity(0, 0);
+  }
+
   if (is_dead() || Sector::get().get_object_count<Player>() == 1)
   {
     m_tag_timer.stop();
@@ -1173,6 +1184,11 @@ Player::apply_friction()
     friction *= (ICE_FRICTION_MULTIPLIER*(m_sliding ? 4.f : m_stone ? 5.f : 1.f));
   else
     friction *= (NORMAL_FRICTION_MULTIPLIER*(m_sliding ? 0.8f : m_stone ? 0.4f : 1.f));
+
+  // Air friction does not make sense when the air is moving with you!
+  if (!is_on_ground && !m_col.m_colliding_wind.empty() && std::abs(m_physic.get_wind_velocity_x()) > 0.f)
+    friction = 0.f;
+
   if (velx < 0) {
     m_physic.set_acceleration_x(friction);
   } else if (velx > 0) {
@@ -1263,7 +1279,11 @@ Player::handle_horizontal_input()
       // let's skid!
       if (fabsf(vx)>SKID_XM && !m_skidding_timer.started()) {
         m_skidding_timer.start(SKID_TIME);
-        SoundManager::current()->play("sounds/skid.wav", get_pos());
+
+        // skidding sound disabled in wind because it becomes too repetitive
+        if (m_col.m_colliding_wind.empty())
+          SoundManager::current()->play("sounds/skid.wav", get_pos());
+
         // dust some particles
         Sector::get().add<Particles>(
             Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
