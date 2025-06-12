@@ -32,13 +32,14 @@ make_unit_test(AATriangleTest SOURCE aatriangle_test.cpp
 make_unit_test(CollisionTest SOURCE collision_test.cpp
   EXTERNAL math/rectf.cpp
   LIBRARIES SDL2 DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
-
-make_unit_test(CollisionTest SOURCE collision_test.cpp
-  EXTERNAL math/rectf.cpp
-  LIBRARIES PhysFS DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
 #make_unit_test(DynamicScopedTest SOURCE dynamic_scoped_test.cpp
 #  LIBRARIES SDL2)
 #make_unit_test(FileSystemTest SOURCE file_system_test.cpp
 #  EXTERNAL util/file_system.cpp util/log.cpp
 #  LIBRARIES SDL2 tinygettext CURL simplesquirrel LibOpenGL obstack GLEW::GLEW DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
 
+message("ALL TESTS: ${all_test_targets}")
+
+add_custom_target(tests DEPENDS ${all_test_targets})
+add_custom_command(TARGET tests POST_BUILD COMMAND ctest -C $<CONFIGURATION> --output-on-failure)
+#add_dependencies(test_builds ${all_test_targets})
