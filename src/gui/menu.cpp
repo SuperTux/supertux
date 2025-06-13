@@ -52,6 +52,8 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+#include "supertux/menu/editor_tilegroup_menu.hpp"
+#include "supertux/menu/editor_objectgroup_menu.hpp"
 
 #include "supertux/error_handler.hpp"
 
@@ -416,7 +418,7 @@ Menu::process_action(const MenuAction& action)
 
   if (m_items[m_active_item]->changes_width())
     calculate_width();
-  if (action == MenuAction::HIT)
+  if (action == MenuAction::HIT)  
     menu_action(*m_items[m_active_item]);
 }
 
@@ -651,6 +653,47 @@ Menu::event(const SDL_Event& ev)
       }
     }
     break;
+
+    case SDL_MOUSEWHEEL:
+    {
+      const Uint8* keystate = SDL_GetKeyboardState(nullptr);
+      bool shiftPressed = keystate[SDL_SCANCODE_LSHIFT] || keystate[SDL_SCANCODE_RSHIFT];
+
+      if (shiftPressed) 
+      {
+        if (dynamic_cast<EditorTilegroupMenu*>(MenuManager::instance().current_menu())
+            || dynamic_cast<EditorObjectgroupMenu*>(MenuManager::instance().current_menu()))
+          {
+          if (ev.wheel.y > 0) 
+          {
+            process_action(MenuAction::UP);
+          } 
+          else if (ev.wheel.y < 0) 
+          {
+            process_action(MenuAction::DOWN);
+          }
+          
+          return;
+        }
+      }
+    }
+    break;
+
+    case SDL_KEYUP:
+    {
+      if (ev.key.keysym.sym == SDLK_LSHIFT || ev.key.keysym.sym == SDLK_RSHIFT) 
+      {
+        Menu* current = MenuManager::instance().current_menu();
+
+        if (dynamic_cast<EditorTilegroupMenu*>(current) ||
+            dynamic_cast<EditorObjectgroupMenu*>(current)) 
+        {
+          process_action(MenuAction::HIT);
+          return;
+        }
+      }
+      break;
+    }
 
     default:
       break;

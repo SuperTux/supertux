@@ -14,24 +14,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/editor_tilegroup_menu.hpp"
-
+#include "supertux/menu/editor_tilesubgroup_menu.hpp"
 #include "editor/editor.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "util/gettext.hpp"
 
-EditorTilegroupMenu::EditorTilegroupMenu()
+EditorTilesubgroupMenu::EditorTilesubgroupMenu(std::string parent_group)
 {
-  add_label(_("Tiles"));
+  add_label(_(parent_group));
   add_hl();
 
-  std::string previous_parent_group = "";
   int id = 0;
   for (auto& tg : Editor::current()->get_tilegroups()) {
-    if (previous_parent_group == "" || previous_parent_group != tg.parent_group){
-      add_entry(id, _(tg.parent_group));
-      previous_parent_group = tg.parent_group;
+    if (tg.parent_group == parent_group){
+      add_entry(id, _(tg.name));
     }
     id++;
   }
@@ -40,7 +37,7 @@ EditorTilegroupMenu::EditorTilegroupMenu()
   add_entry(-1,_("Cancel"));
 }
 
-EditorTilegroupMenu::~EditorTilegroupMenu()
+EditorTilesubgroupMenu::~EditorTilesubgroupMenu()
 {
   auto editor = Editor::current();
   if (editor == nullptr) {
@@ -50,11 +47,11 @@ EditorTilegroupMenu::~EditorTilegroupMenu()
 }
 
 void
-EditorTilegroupMenu::menu_action(MenuItem& item)
+EditorTilesubgroupMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() >= 0)
   {
-    Editor::current()->select_tilegroup(item.get_id(), false);
+    Editor::current()->select_tilegroup(item.get_id(), true);
   }
   MenuManager::instance().clear_menu_stack();
 }

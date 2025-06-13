@@ -1500,14 +1500,29 @@ EditorOverlayWidget::draw(DrawingContext& context)
 
   m_object_tip->draw(context, m_mouse_pos);
 
-  // Draw zoom indicator.
+  // Draw zoom indicator and current mode (tiles/objects)
   // The placing on the top-right is temporary, will be moved with the implementation of an editor toolbar.
   const float scale = m_editor.get_sector()->get_camera().get_current_scale();
   const int scale_percentage = static_cast<int>(roundf(scale * 100.f));
-  if (scale_percentage != 100)
-    context.color().draw_text(Resources::big_font, std::to_string(scale_percentage) + '%',
-                              Vector(context.get_width() - 140.f, 15.f),
-                              ALIGN_RIGHT, LAYER_OBJECTS + 1, Color::WHITE);
+  std::string mode_text;
+  switch (m_editor.get_tileselect_input_type())
+  {
+    case EditorTilebox::InputType::TILE:
+      mode_text = "TILE MODE  (Click S to open tiles subgroups)";
+      break;
+    case EditorTilebox::InputType::OBJECT:
+      mode_text = "OBJECT MODE";
+      break;
+    default:
+      mode_text = "NONE";
+      break;
+  }
+  std::string zoom_text = (scale_percentage != 100)
+    ? std::to_string(scale_percentage) + "% " + mode_text
+    : mode_text;
+  context.color().draw_text(Resources::normal_font, zoom_text,
+                            Vector(144, 55),
+                            ALIGN_LEFT, LAYER_OBJECTS + 1, EditorOverlayWidget::text_autotile_available_color);
 
   context.push_transform();
   context.set_translation(m_editor.get_sector()->get_camera().get_translation());

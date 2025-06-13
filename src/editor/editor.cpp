@@ -27,6 +27,7 @@
 #endif
 
 #include <fmt/format.h>
+#include <SDL.h>
 
 #include "zip_manager.hpp"
 
@@ -409,10 +410,14 @@ Editor::open_level_directory()
 void
 Editor::scroll(const Vector& velocity)
 {
-  if (!m_levelloaded) return;
-
-  m_sector->get_camera().move(velocity / m_sector->get_camera().get_current_scale());
-  keep_camera_in_bounds();
+  const Uint16 mod_state = SDL_GetModState();
+  const bool shiftPressed = (mod_state & KMOD_SHIFT) != 0;
+  if (!shiftPressed)
+  {
+      if (!m_levelloaded) return;
+      m_sector->get_camera().move(velocity / m_sector->get_camera().get_current_scale());
+      keep_camera_in_bounds();
+  }
 }
 
 void
@@ -973,9 +978,9 @@ Editor::sort_layers()
 }
 
 void
-Editor::select_tilegroup(int id)
+Editor::select_tilegroup(int id, bool subgroup)
 {
-  m_toolbox_widget->select_tilegroup(id);
+  m_toolbox_widget->select_tilegroup(id, subgroup);
 }
 
 const std::vector<Tilegroup>&

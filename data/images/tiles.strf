@@ -25,7 +25,8 @@
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
   (tilegroup
-    (name (_ "Snow"))
+    (parent_group (_"Snow"))
+    (name (_ "Basic Snow"))
     (tiles
       7    8    9    202
       13   14   15   203
@@ -114,7 +115,12 @@
       3153 3154 3148 11
       3157 3158 5368 5369
       1834 5368 5369 11
-    
+    )
+  )
+  (tilegroup
+    (parent_group (_"Snow"))
+    (name (_ "Snow Special"))
+    (tiles
     ;; Snow Special
     
       3044 3045 3046 3047
@@ -129,7 +135,13 @@
       4029 4030 4031 4032
       4033 4034 4035 0
       5528 5529 0    0
-      
+    )
+  )
+
+  (tilegroup
+    (parent_group (_"Snow"))
+    (name (_ "Ice Floor special"))
+    (tiles
     ;; Ice Floor special
     
       7422 7423 7424 7425
@@ -140,7 +152,13 @@
       7439 7440 7441 7442
       7443 7444 7445 7446
       7447 7448 7449 7450
-    
+    )
+  )
+
+  (tilegroup
+    (parent_group (_"Snow"))
+    (name (_ " Walljump + Unisolid + Ice Spike"))
+    (tiles
     ;; Walljump + Unisolid + Ice Spike
 
       4104 4105 4106 0
@@ -172,7 +190,13 @@
       2155 2156 2157 2163
       2158 2159 2154 0
       2160 2161 2162 0
-    
+    )
+  )
+
+  (tilegroup
+    (parent_group (_"Snow"))
+    (name (_ "Underground Snow"))
+    (tiles
     ;; Underground Snow
 
       2384 2385 2386 2949
@@ -260,10 +284,16 @@
       4069 4070 4071 4072
       4073 4074 4075 4076
       4077 7538 7539 7540
-	  7526 7527 7528 7529
-	  7530 7531 7532 7533
-	  7534 7535 7536 7537
-    
+      7526 7527 7528 7529
+      7530 7531 7532 7533
+      7534 7535 7536 7537
+    )
+  )
+
+  (tilegroup
+    (parent_group (_"Snow"))
+    (name (_ "Snowfort + Ice Chunck"))
+    (tiles
     ;; Snowfort + Ice Chunck
     
       3930 3931 3932 3939
@@ -321,7 +351,8 @@
   )
 
   (tilegroup
-    (name (_ "Snow Background"))
+    (parent_group (_ "Snow Background"))
+    (name (_ "Basic Snow Background"))
     (tiles
       2185 2186 2180 2181
       2193 2194 2188 2189
@@ -370,7 +401,8 @@
   )
 
   (tilegroup
-    (name (_ "Crystal"))
+    (parent_group (_ "Crystal"))
+    (name (_ "Basic Crystal"))
     (tiles
       4723 4724 4725 4726
       4736 4737 4738 4739
@@ -470,7 +502,8 @@
   )
 
   (tilegroup
-    (name (_ "Forest"))
+    (parent_group (_ "Forest"))
+    (name (_ "Basic Forest"))
     (tiles
       1000 1001 1002 1003
       1004 1005 1006 1007
@@ -570,6 +603,13 @@
       5596 5597 5598 5599
       5600 5601 5602 5603
       5590 5595 1042 1043
+    )
+  )
+
+  (tilegroup
+    (parent_group (_ "Forest"))
+    (name (_ "Branch + Spike Vine + Foreground"))
+    (tiles
     
     ;; Branch + Spike Vine + Foreground
     
@@ -588,6 +628,13 @@
       5580 0    0    0
       5584 0    0    0
       5585 0    0    0
+    )
+  )
+
+  (tilegroup
+    (parent_group (_ "Forest"))
+    (name (_ "Underground Forest"))
+    (tiles
     
     ;; Underground Forest
     
@@ -695,7 +742,8 @@
   )
 
   (tilegroup
-    (name (_ "Forest Background"))
+    (parent_group (_ "Forest Background"))
+    (name (_ "Basic Forest Background"))
     (tiles
       5645 5646 5663 5664
       5643 5644 5665 5674
@@ -872,7 +920,8 @@
   )
 
   (tilegroup
-    (name (_ "Corrupted Forest"))
+    (parent_group (_ "Corrupted Forest"))
+    (name (_ "Basic Corrupted Forest"))
     (tiles
       1423 1424 1425 1426
       1427 1428 1429 1430
@@ -967,6 +1016,13 @@
       6593 6594 6595 6596
       6597 6598 6539 6540
       6546 0    0    0
+    )
+  )
+
+  (tilegroup
+    (parent_group (_ "Corrupted Forest"))
+    (name (_ "Branch + Spike Vine + Foreground"))
+    (tiles
     
     ;; Branch + Spike Vine + Foreground
 
@@ -982,6 +1038,13 @@
       6121 0    0    0
       6130 0    0    0
       6137 0    0    0
+    )
+  )
+
+  (tilegroup
+    (parent_group (_ "Corrupted Forest"))
+    (name (_ "Underground Corrupted Forest"))
+    (tiles
 
     ;; Underground Corrupted Forest
 
@@ -1112,7 +1175,8 @@
   )
 
   (tilegroup
-    (name (_ "Corrupted Background"))
+    (parent_group (_ "Corrupted Background"))
+    (name (_ "Basic Corrupted Background"))
     (tiles
       6142 6143 6160 6161
       6140 6141 6162 6171
@@ -1259,7 +1323,8 @@
   )
 
   (tilegroup
-    (name (_ "Jagged Rocks"))
+    (parent_group (_ "Jagged Rocks"))
+    (name (_ "Basic Jagged Rocks"))
     (tiles
     7312 7313 7314 7315
     7316 7317 7318 7319
@@ -1303,7 +1368,8 @@
 
 
   (tilegroup
-    (name (_ "Block + Bonus"))
+    (parent_group (_ "Block + Bonus"))
+    (name (_ "Basic Block + Bonus"))
     (tiles
       27   28   29   47
       48   50   49   211
@@ -1382,7 +1448,8 @@
   )
 
   (tilegroup
-    (name (_ "Pole + Signs"))
+    (parent_group (_ "Pole + Signs"))
+    (name (_ "Basic Pole + Signs"))
     (tiles
       136  137  141  142
       138  139  143  144
@@ -1435,7 +1502,8 @@
   )
 
   (tilegroup
-    (name (_ "Liquid"))
+    (parent_group (_ "Liquid"))
+    (name (_ "Water"))
     (tiles
       
     ;; Water
@@ -1450,6 +1518,13 @@
       175  176  177  178
       195  176  177  196
       197  198  198  199
+    )
+  )
+
+  (tilegroup
+    (parent_group (_ "Liquid"))
+    (name (_ "Lava"))
+    (tiles
     
     ;; Lava
     
@@ -1459,7 +1534,8 @@
   )
 
   (tilegroup
-    (name (_ "Castle"))
+    (parent_group (_ "Castle"))
+    (name (_ "Ice Castle"))
     (tiles
       ;; Ice Castle
     
@@ -1488,6 +1564,13 @@
       4601 4591 0    0
       4565 4612 4590 4591
       4566 4565 4566 4602
+    )
+  )
+
+  (tilegroup
+    (parent_group (_ "Castle"))
+    (name (_ "Forest Castle"))
+    (tiles
     
     ;; Forest Castle
     
@@ -1518,6 +1601,13 @@
       4512 4513 0    0
       4480 4528 4527 4513
       4479 4480 4479 4542
+    )
+  )
+
+  (tilegroup
+    (parent_group (_ "Castle"))
+    (name (_ "Ruin"))
+    (tiles
     
     ;; Ruin
     
@@ -1554,6 +1644,13 @@
       1490 1491 1492 0
       1497 1498 1499 0
       1504 1505 1506 0
+    )
+  )
+
+  (tilegroup
+    (parent_group (_ "Castle"))
+    (name (_ "Chains"))
+    (tiles
     
     ;; Chains
 
@@ -1566,6 +1663,14 @@
       4685 4686 4687 4688
       7463 7465 7467 7469
       7464 7466 7468 7470
+    )
+  )
+
+
+  (tilegroup
+    (parent_group (_ "Castle"))
+    (name (_ "Misc"))
+    (tiles
     
     ;; Misc
     
@@ -1585,7 +1690,8 @@
   )
 
   (tilegroup
-    (name (_ "Halloween"))
+    (parent_group (_ "Halloween"))
+    (name (_ "Basic Halloween"))
     (tiles
       3068 3069 3070 3071
       3072 3073 3074 3075
@@ -1626,7 +1732,8 @@
   )
 
   (tilegroup
-    (name (_ "Industrial"))
+    (parent_group (_ "Industrial"))
+    (name (_ "Basic Industrial"))
     (tiles
       3167 3168 3169 3170
       3173 3174 3175 3189
@@ -1641,7 +1748,8 @@
   )
 
   (tilegroup
-    (name (_ "Unisolid + Lightmap"))
+    (parent_group (_ "Unisolid + Lightmap"))
+    (name (_ "Basic Unisolid + Lightmap"))
     (tiles
       2817 2818 2819 2820
       2823 2821 2822 2824
@@ -1668,7 +1776,8 @@
   )
 
   (tilegroup
-    (name (_ "Miscellaneous"))
+    (parent_group (_ "Miscellaneous"))
+    (name (_ "Basic Miscellaneous"))
     (tiles
       130  4970 2047 3927
       129  4969 2048 3928
@@ -1699,7 +1808,8 @@
   )
 
   (tilegroup
-    (name (_ "Retro Tiles"))
+    (parent_group (_ "Retro Tiles"))
+    (name (_ "Basic Retro Tiles"))
     (tiles
     
     ;; Retro Snow
@@ -1733,6 +1843,14 @@
     
       93   94   95   96
       97   98   99   100
+    )
+  )
+
+
+  (tilegroup
+    (parent_group (_ "Retro Tiles"))
+    (name (_ "Retro Cave"))
+    (tiles
     
     ;; Retro Cave
 
@@ -1756,6 +1874,14 @@
       7255 7262 7256 7263
       7257 7264 7258 7269
       7270 7271 7272 0
+
+    )
+  )
+
+  (tilegroup
+    (parent_group (_ "Retro Tiles"))
+    (name (_ "Retro Castle"))
+    (tiles
     
     ;; Retro Castle
 

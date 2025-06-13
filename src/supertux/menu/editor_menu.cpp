@@ -216,7 +216,10 @@ EditorMenu::menu_action(MenuItem& item)
         _("F8 = Show Grid") + "\n" + 
         _("Ctrl++ or Ctrl+Scroll Up = Zoom In") + "\n" + 
         _("Ctrl+- or Ctrl+Scroll Down = Zoom Out") + "\n" + 
-        _("Ctrl+D = Reset Zoom") + "\n\n" + 
+        _("Ctrl+D = Reset Zoom") + "\n" + 
+        _("Q = Change between Tile and Object mode") + "\n" + 
+        _("Shift+Q = Change to the previous group") + "\n" + 
+        _("Shift+Scroll = Open groups flash menu") + "\n\n" + 
         _("Scripting Shortcuts:") + "\n" +
            "-------------" + "\n" + 
         _("Home = Go to beginning of line") + "\n" + 

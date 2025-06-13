@@ -137,7 +137,7 @@ public:
   void delete_markers();
   void sort_layers();
 
-  void select_tilegroup(int id);
+  void select_tilegroup(int id, bool subgroup);
   const std::vector<Tilegroup>& get_tilegroups() const;
   void change_tileset();
 

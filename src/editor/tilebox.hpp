@@ -59,6 +59,8 @@ public:
 public:
   EditorTilebox(Editor& editor, const Rectf& rect);
 
+  int get_parentgroup_size() const;
+
   virtual void draw(DrawingContext& context) override;
 
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
@@ -74,7 +76,7 @@ public:
 
   void on_select(const std::function<void(EditorTilebox&)>& callback);
 
-  void select_tilegroup(int id);
+  void select_tilegroup(int id, bool subgroup);
   inline void set_tilegroup(std::unique_ptr<Tilegroup> tilegroup) { m_active_tilegroup = std::move(tilegroup); }
   void select_objectgroup(int id);
   bool select_layers_objectgroup();
@@ -88,6 +90,10 @@ public:
   inline void set_object(const std::string& object) { m_object = object; }
 
   float get_tiles_height() const;
+  int get_current_tilegroup_index() const;
+  int get_previous_tilegroup_index() const;
+  int get_current_objectgroup_index() const;
+  int get_previous_objectgroup_index() const;
 
   inline bool has_active_object_tip() const { return m_object_tip->get_visible(); }
 
