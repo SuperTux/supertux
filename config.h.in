@@ -18,6 +18,8 @@
 #cmakedefine WORDS_BIGENDIAN
 
 #cmakedefine HAVE_OPENGL
+#cmakedefine USE_OPENGLES2
+#cmakedefine USE_OPENGLES1
 
 #cmakedefine HAVE_LIBCURL
 
