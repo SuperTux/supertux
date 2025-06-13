@@ -64,7 +64,7 @@ SequenceTrigger::get_settings()
 void
 SequenceTrigger::event(Player& player, EventType type)
 {
-  if (type != triggerevent)
+  if (type != triggerevent || !is_triggering_for_object(player))
     return;
 
   auto data = SequenceData(new_spawnpoint, fade_tilemap, fade);
@@ -80,9 +80,7 @@ SequenceTrigger::get_sequence_name() const
 void
 SequenceTrigger::draw(DrawingContext& context)
 {
-  if (Editor::is_active() || g_debug.show_collision_rects)
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.0f, 0.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+  Trigger::draw_debug(context, Color(1.0f, 0.0f, 0.0f, 0.6f));
 }
 
 /* EOF */
