@@ -32,6 +32,8 @@ struct ColorOKLCh final {
   // Calculate a different lightness estimate which has less dark values
   float get_modified_lightness() const;
 
+  float get_max_chroma(int steps = 20) const;
+
   float L, C, h;
 };
 

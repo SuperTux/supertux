@@ -107,4 +107,22 @@ ColorOKLCh::get_modified_lightness() const
     + 4 * k_2 * k_3 * L));
 }
 
+float
+ColorOKLCh::get_max_chroma(int steps) const
+{
+  float low = 0.0f, high = 1.0f;
+    for (int i = 0; i < steps; ++i) {
+        float mid = 0.5f * (low + high);
+        Color c = Color::from_oklch(ColorOKLCh{L, mid, h});
+        if (c.red  >= 0.0f && c.red  <= 1.0f &&
+            c.green>= 0.0f && c.green<= 1.0f &&
+            c.blue >= 0.0f && c.blue <= 1.0f) {
+            low = mid;  // still in gamut, try more chroma
+        } else {
+            high = mid; // out of gamut, back off
+        }
+    }
+    return low;
+}
+
 /* EOF */
