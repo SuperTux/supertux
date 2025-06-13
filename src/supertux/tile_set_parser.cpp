@@ -82,6 +82,7 @@ TileSetParser::parse(bool imported)
       /* tilegroups are only interesting for the editor */
       ReaderMapping reader = iter.as_mapping();
       Tilegroup tilegroup;
+      reader.get("parent_group", tilegroup.parent_group);
       reader.get("name", tilegroup.name);
       reader.get("tiles", tilegroup.tiles);
 

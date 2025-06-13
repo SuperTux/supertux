@@ -31,6 +31,13 @@
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
+int current_selected_tilegroup_index = 0;
+int previous_tilegroup_index = 0;
+int current_selected_objectgroup_index = 0;
+int previous_objectgroup_index = 0;
+bool tilegroup_selected = false;
+bool subgroup_selected = false;
+
 EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_editor(editor),
   m_rect(rect),
@@ -51,6 +58,22 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_mouse_pos(0, 0)
 {
   m_scrollbar.reset(new ControlScrollbar(1.f, 1.f, m_scroll_progress, 35.f));
+}
+
+
+int
+EditorTilebox::get_parentgroup_size() const
+{
+  int parent_group_size = 0;
+  std::string  parent_group_name = m_active_tilegroup->parent_group;
+  for (auto& tilegroup :m_editor.get_tileset()->get_tilegroups())
+  {
+    if (tilegroup.parent_group == parent_group_name) {
+      parent_group_size += tilegroup.tiles.size();
+    }
+
+  }
+  return parent_group_size;
 }
 
 void
@@ -100,20 +123,57 @@ void
 EditorTilebox::draw_tilegroup(DrawingContext& context)
 {
   int pos = -1;
-  for (auto& tile_ID : m_active_tilegroup->tiles)
+
+  if (!subgroup_selected)
   {
-    pos++;
-    if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
-      continue;
-
-    auto position = get_tile_coords(pos, false);
-    m_editor.get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
-
-    if (g_config->developer_mode && (m_active_tilegroup->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
+    int id = 0;
+    // Skip the previous index groups
+    while (m_editor.get_tileset()->get_tilegroups()[id].parent_group != m_active_tilegroup->parent_group
+      && m_active_tilegroup->parent_group != "")
     {
-      // Display tile ID on top of tile:
-      context.color().draw_text(Resources::console_font, std::to_string(tile_ID),
-                                position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
+      id ++;
+    }
+    
+    // Treat all same group subgroups
+    while ((id < m_editor.get_tileset()->get_tilegroups().size() 
+    && m_editor.get_tileset()->get_tilegroups()[id].parent_group == m_active_tilegroup->parent_group)
+    && m_active_tilegroup->parent_group != "") {
+      for (auto& tile_ID :m_editor.get_tileset()->get_tilegroups()[id].tiles)
+      {
+        pos++;
+        if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
+          continue;
+  
+        auto position = get_tile_coords(pos, false);
+        m_editor.get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
+  
+        if (g_config->developer_mode && (m_active_tilegroup->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
+        {
+          // Display tile ID on top of tile:
+          context.color().draw_text(Resources::console_font, std::to_string(tile_ID),
+                                    position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
+        }
+      }
+      id ++;
+    }
+  }
+  else
+  {
+    for (auto& tile_ID :m_active_tilegroup->tiles)
+    {
+      pos++;
+      if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
+        continue;
+
+      auto position = get_tile_coords(pos, false);
+      m_editor.get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
+
+      if (g_config->developer_mode && (m_active_tilegroup->developers_group || g_debug.show_toolbox_tile_ids) && tile_ID != 0)
+      {
+        // Display tile ID on top of tile:
+        context.color().draw_text(Resources::console_font, std::to_string(tile_ID),
+                                  position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
+      }
     }
   }
 }
@@ -370,16 +430,32 @@ EditorTilebox::on_select(const std::function<void(EditorTilebox&)>& callback)
 }
 
 void
-EditorTilebox::select_tilegroup(int id)
+EditorTilebox::select_tilegroup(int id, bool subgroup)
 {
+  if (tilegroup_selected) {
+    previous_tilegroup_index = current_selected_tilegroup_index;
+  }
+  current_selected_tilegroup_index = id;
+  tilegroup_selected = true;
   m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
   m_input_type = InputType::TILE;
   reset_scrollbar();
+  if (subgroup) {
+    subgroup_selected = true;
+  }
+  else {
+    subgroup_selected = false;
+  }
 }
 
 void
 EditorTilebox::select_objectgroup(int id)
 {
+  if (!tilegroup_selected) {
+    previous_objectgroup_index = current_selected_objectgroup_index;
+  }
+  current_selected_objectgroup_index = id;
+  tilegroup_selected = false;
   m_active_objectgroup = &m_object_info->m_groups[id];
   m_input_type = InputType::OBJECT;
   reset_scrollbar();
@@ -412,7 +488,7 @@ EditorTilebox::get_tiles_height() const
   switch (m_input_type)
   {
     case InputType::TILE:
-      return ceilf(static_cast<float>(m_active_tilegroup->tiles.size()) / 4.f) * 32.f;
+      return ceilf(static_cast<float>(get_parentgroup_size()) / 4.f) * 32.f;
 
     case InputType::OBJECT:
       return ceilf(static_cast<float>(m_active_objectgroup->get_icons().size()) / 4.f) * 32.f;
@@ -420,6 +496,30 @@ EditorTilebox::get_tiles_height() const
     default:
       return 0.f;
   }
+}
+
+int
+EditorTilebox::get_current_tilegroup_index() const
+{
+  return current_selected_tilegroup_index;
+}
+
+int
+EditorTilebox::get_previous_tilegroup_index() const
+{
+  return previous_tilegroup_index;
+}
+
+int
+EditorTilebox::get_current_objectgroup_index() const
+{
+  return current_selected_objectgroup_index;
+}
+
+int
+EditorTilebox::get_previous_objectgroup_index() const
+{
+  return previous_objectgroup_index;
 }
 
 void
