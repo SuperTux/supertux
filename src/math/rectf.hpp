@@ -111,6 +111,10 @@ public:
   inline void set_size(float width, float height) { m_size = Sizef(width, height); }
   inline Sizef get_size() const { return m_size; }
 
+  /** Fit the rectangle to the specified size, preserving aspect ratio. */
+  void fit(const Sizef& target_size);
+  void fit_centered(const Sizef& target_size);
+
   bool empty() const
   {
     return get_width() <= 0 ||
