@@ -19,23 +19,37 @@
 
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
+#include "object/portable.hpp"
+#include "util/reader_mapping.hpp"
 
-class CoinExplode final : public GameObject
+class CoinExplode final : public GameObject,
+                          public Portable
 {
 public:
   CoinExplode(const Vector& pos, bool count_stats = true,
               const std::string& sprite_path = "images/objects/coin/coin.sprite");
+  CoinExplode(const ReaderMapping& reader);
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(CoinExplode)); }
+  static std::string class_name() { return "coin_explode"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Coin Explode"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_portable() const override { return true; }
+  
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual bool is_saveable() const override {
     return false;
   }
+  
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
 
 private:
   std::string m_sprite;
   Vector position;
   const bool m_count_stats;
+  void explode();
 };
 
 #endif

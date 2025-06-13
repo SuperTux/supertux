@@ -20,19 +20,34 @@
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
+#include "object/portable.hpp"
 #include "supertux/timer.hpp"
+#include "util/reader_mapping.hpp"
 
-class CoinRain final : public GameObject
+class CoinRain final :  public GameObject,
+                        public Portable
 {
 public:
   CoinRain(const Vector& pos, bool emerge=false, bool count_stats = true,
            const std::string& sprite_path = "images/objects/coin/coin.sprite");
+  CoinRain(const ReaderMapping& reader);
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(CoinRain)); }
+
+  static std::string class_name() { return "coin_rain"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Coin Rain"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+  
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual bool is_saveable() const override {
     return false;
   }
+
+  virtual bool is_portable() const override { return true; }
+  
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
 
 private:
   SpritePtr sprite;
