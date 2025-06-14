@@ -25,7 +25,9 @@ static const float DEFAULT_TRACK_RANGE = 2500.0f;
 static const float RESPAWN_TIME = 4.0f;
 static const float DOWN_VELOCITY = 32.0f;
 static const float UP_VELOCITY = -256.0f;
-static const float UP_ACCELERATION = 512.0f;
+static const float UP_ACCELERATION = 256.0f;
+static const float HORZ_VELOCITY = 256.0f;
+static const float HORZ_ACCELERATION = 256.0f;
 static const float VERT_OFFSET = 48.0f;
 
 Ghoul::Ghoul(const ReaderMapping& reader) :
@@ -52,28 +54,39 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/ghoul_recovering.ogg");
 }
 
-void
-Ghoul::active_update(float dt_sec)
+Vector
+Ghoul::to_target()
 {
-  BadGuy::active_update(dt_sec);
-  if (m_frozen)
-    return;
-
   auto player = get_nearest_player();
   if (!player)
-    return;
+    return Vector(0.0f, 0.0f);
   
   Vector p1 = get_bbox().get_middle();
   Vector p2 = player->get_bbox().get_middle();
   p2.y -= 32; //a little offset, so he doesn't hit Tux from below
   Vector dist = p2 - p1;
-  Direction new_dir = p2.x < p1.x ? Direction::LEFT : Direction::RIGHT;
+  return dist;
+}
+
+void
+Ghoul::active_update(float dt_sec)
+{
+  BadGuy::active_update(dt_sec);
+  auto player = get_nearest_player();
+  if (!player) {
+    m_physic.set_acceleration(0.0f, 0.0f);
+    return;
+  }
+  
+  Vector dist = to_target();
+  Direction new_dir = dist.x < 0 ? Direction::LEFT : Direction::RIGHT;
   bool dir_changed = new_dir != m_dir;
   bool chase = glm::length(dist) < m_track_range;
 
   switch (m_state)
   {
   case ROAMING_DOWN:
+    roaming_deccel_check();
     if (dir_changed) {
       set_action(new_dir == Direction::LEFT ? "left" : "right");
       m_dir = new_dir;
@@ -98,6 +111,7 @@ Ghoul::active_update(float dt_sec)
     }
     break;
   case ROAMING_ACCEL1:
+    roaming_deccel_check();
     if (m_sprite->animation_done()) {
       set_state(ROAMING_ACCEL2);
     }
@@ -109,6 +123,7 @@ Ghoul::active_update(float dt_sec)
     }
     break;
   case ROAMING_ACCEL2:
+    roaming_deccel_check();
     if (m_sprite->animation_done()) {
       set_state(ROAMING_UP);
     }
@@ -120,6 +135,7 @@ Ghoul::active_update(float dt_sec)
     }
     break;
   case ROAMING_UP:
+    roaming_deccel_check();
     if (dir_changed) {
       set_action(new_dir == Direction::LEFT ? "left-up" : "right-up");
       m_dir = new_dir;
@@ -174,12 +190,16 @@ Ghoul::active_update(float dt_sec)
 void
 Ghoul::update_speed(const Vector& dist)
 {
-  float vy = dist.y < 0 ? (UP_VELOCITY + DOWN_VELOCITY) / 2 : DOWN_VELOCITY;
-  float t = dist.y / vy;
-  if (t * m_speed > fabs(dist.x)) {
-    m_physic.set_velocity_x(dist.x / t);
-  } else {
-    m_physic.set_velocity_x(dist.x < 0 ? -m_speed : m_speed);
+  const float vx = m_physic.get_velocity_x();
+  if (vx >= -m_speed && vx <= m_speed) {
+  	m_physic.set_acceleration_x(0.0f);
+  	const float vy = dist.y < 0.0f ? (UP_VELOCITY + DOWN_VELOCITY) / 2.0f : DOWN_VELOCITY;
+    const float t = dist.y / vy;
+    if (t * m_speed > fabs(dist.x)) {
+      m_physic.set_velocity_x(dist.x / t);
+    } else {
+      m_physic.set_velocity_x(dist.x < 0.0f ? -m_speed : m_speed);
+    }
   }
 }
 
@@ -192,12 +212,56 @@ Ghoul::draw(DrawingContext& context)
 }
 
 void
+Ghoul::horizontal_thrust()
+{
+  const float vy = (UP_VELOCITY + DOWN_VELOCITY) / 2.0f;
+  const Vector dist = to_target();
+  const float t = dist.y / vy;
+  if (t * (fabs(m_physic.get_velocity_x()) + m_speed) / 2.0f > fabs(dist.x)) {
+    //no need for acceleration
+  } else {
+    const float a = dist.x > 0.0f ? -HORZ_ACCELERATION : HORZ_ACCELERATION;
+    m_physic.set_acceleration_x(a);
+    const float vx = m_physic.get_velocity_x();
+    const float vx_diff = m_speed * 9.0f;
+    if (t == 0.0f) {
+      m_physic.set_velocity_x(dist.x > 0.0f ? vx - vx_diff : vx + vx_diff);
+    } else {
+      const float vx_needed = dist.x / t - a * t / 2.0f;
+      m_physic.set_velocity_x(std::max(vx - vx_diff, std::min(vx + vx_diff, vx_needed)));
+    }
+  }
+}
+
+void
+Ghoul::start_roaming_deccel()
+{
+  const float vx = m_physic.get_velocity_x();
+  if (vx > 0) {
+    m_physic.set_acceleration_x(-HORZ_ACCELERATION);
+  } else if (vx < 0) {
+    m_physic.set_acceleration_x(HORZ_ACCELERATION);  
+  }
+}
+
+void
+Ghoul::roaming_deccel_check()
+{
+  const float vx = m_physic.get_velocity_x();
+  const float ax = m_physic.get_acceleration_x();
+  if (vx * ax > 0) {
+    m_physic.set_velocity_x(0.0f);
+    m_physic.set_acceleration_x(0.0f);  
+  }
+}
+
+void
 Ghoul::set_state(GhoulState new_state)
 {
   switch (new_state)
   {
   case ROAMING_DOWN:
-    m_physic.set_velocity_x(0.0f);
+    start_roaming_deccel();
   case CHASING_DOWN:
     set_colgroup_active(COLGROUP_TOUCHABLE);
     m_physic.set_acceleration_y(0.0f);
@@ -209,14 +273,15 @@ Ghoul::set_state(GhoulState new_state)
     m_physic.set_velocity(0.f, 0.f);
     set_action(m_dir == Direction::LEFT ? "accel1-left" : "accel1-right", 1);
     break;
-  case ROAMING_ACCEL2:
   case CHASING_ACCEL2:
+    horizontal_thrust();
+  case ROAMING_ACCEL2:
     set_action(m_dir == Direction::LEFT ? "accel2-left" : "accel2-right", 1);
     m_physic.set_acceleration_y(UP_ACCELERATION);
     m_physic.set_velocity_y(UP_VELOCITY);
     break;
   case ROAMING_UP:
-    m_physic.set_velocity_x(0.0f);
+    start_roaming_deccel();
   case CHASING_UP:
     set_action(m_dir == Direction::LEFT ? "left-up" : "right-up");
     break;

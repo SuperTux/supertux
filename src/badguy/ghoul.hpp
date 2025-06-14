@@ -48,7 +48,7 @@ private:
   Vector m_chase_dir;
   Vector m_home_pos;
   Timer m_respawn_timer;
-
+  
 private:
   enum GhoulState {
     ROAMING_DOWN,
@@ -67,6 +67,10 @@ private:
   GhoulState m_state;
   void set_state(GhoulState new_state);
   void update_speed(const Vector& dist);
+  void horizontal_thrust();
+  void start_roaming_deccel();
+  void roaming_deccel_check();
+  Vector to_target();
 
 private:
   Ghoul(const Ghoul&) = delete;
