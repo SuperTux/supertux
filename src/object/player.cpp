@@ -2193,25 +2193,18 @@ Player::draw(DrawingContext& context)
     if (fabsf(m_physic.get_velocity_x()) < 1.0f)
     {
       if (std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
-            [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; }))
+          [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; }))
       {
-        if (m_idle_stage != 0)
-        {
-          m_idle_stage = 0;
-          m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
-        }
-
+        m_idle_stage = 0;
+        m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
         m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, Sprite::LOOPS_CONTINUED);
+
+        if (!m_should_fancy_idle)
+          m_sprite->set_animation_loops(-1);
       }
-      else if (m_idle_timer.check() || m_sprite->animation_done())
+      else if (m_should_fancy_idle && (m_idle_timer.check() || m_sprite->animation_done()))
       {
         m_idle_stage++;
-
-        if (!m_should_fancy_idle && m_idle_stage != 0)
-        {
-          m_idle_stage = 0;
-        }
-
         if (m_idle_stage >= static_cast<unsigned int>(IDLE_STAGES.size()))
         {
           m_idle_stage = static_cast<int>(IDLE_STAGES.size()) - 1;
@@ -2222,10 +2215,6 @@ Player::draw(DrawingContext& context)
         {
           m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, 1);
         }
-      }
-      else
-      {
-        m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, Sprite::LOOPS_CONTINUED);
       }
     }
     else
