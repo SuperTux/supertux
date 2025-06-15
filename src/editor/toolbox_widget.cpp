@@ -300,6 +300,13 @@ EditorToolboxWidget::get_tileselect_select_mode() const
   return m_select_mode->get_mode();
 }
 
+void
+EditorToolboxWidget::set_tileselect_select_mode(int mode)
+{
+  m_select_mode->set_mode(mode);
+  update_mouse_icon();
+}
+
 int
 EditorToolboxWidget::get_tileselect_move_mode() const
 {
