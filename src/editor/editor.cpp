@@ -163,13 +163,15 @@ Editor::Editor() :
       else
         snap_grid_size--;
     });
-
+  
+  grid_size_widget->set_help_text(_("Change / Toggle grid size"));
   m_grid_size_widget = grid_size_widget.get();
 
   m_widgets.insert(m_widgets.begin() + 2, std::move(grid_size_widget));
 
   auto play_button = std::make_unique<ButtonWidget>("images/engine/editor/play_button.png",
     Vector(96, 0), [this] { m_test_request = true; });
+  play_button->set_help_text(_("Test level"));
 
   m_play_widget = play_button.get();
 
@@ -177,6 +179,7 @@ Editor::Editor() :
 
   auto save_button = std::make_unique<ButtonWidget>("images/engine/editor/save.png",
     Vector(128, 0), [this] { save_level(); });
+  save_button->set_help_text(_("Save level"));
 
   m_save_widget = save_button.get();
 
@@ -191,6 +194,7 @@ Editor::Editor() :
       else
         select_objectgroup(0);
   });
+  mode_button->set_help_text(_("Toggle between object and tile mode"));
 
   m_widgets.insert(m_widgets.begin() + 5, std::move(mode_button));
 }
@@ -1113,8 +1117,10 @@ Editor::retoggle_undo_tracking()
     // Add undo/redo button widgets.
     auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
         Vector(0, 0), [this]{ undo(); });
+    undo_button_widget->set_help_text(_("Undo"));
     auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
         Vector(32, 0), [this]{ redo(); });
+    redo_button_widget->set_help_text(_("Redo"));
 
     m_undo_widget = undo_button_widget.get();
     m_redo_widget = redo_button_widget.get();
