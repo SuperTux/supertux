@@ -60,6 +60,8 @@ public:
 
   void update_mouse_icon();
 
+  void set_tileselect_select_mode(int mode);
+
   inline EditorTilebox& get_tilebox() const { return *m_tilebox; }
 
   inline bool has_mouse_focus() const { return m_has_mouse_focus; }

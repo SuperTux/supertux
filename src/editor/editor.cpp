@@ -199,16 +199,24 @@ Editor::Editor() :
   m_widgets.insert(m_widgets.begin() + 5, std::move(mode_button));
   
   auto select_mode_mouse_button = std::make_unique<ButtonWidget>(
-    "images/engine/editor/select-mode0.png", Vector(192, 0), [] {});
+    "images/engine/editor/select-mode0.png", Vector(192, 0), [this] {
+      m_toolbox_widget->set_tileselect_select_mode(0);
+    });
   select_mode_mouse_button->set_help_text(_("Draw mode (The current tool applies to the tile under the mouse)"));
   auto select_mode_area_button = std::make_unique<ButtonWidget>(
-    "images/engine/editor/select-mode1.png", Vector(224, 0), [] {});
+    "images/engine/editor/select-mode1.png", Vector(224, 0), [this] {
+      m_toolbox_widget->set_tileselect_select_mode(1);
+    });
   select_mode_area_button->set_help_text(_("Box draw mode (The current tool applies to an area / box drawn with the mouse)"));
   auto select_mode_fill_button = std::make_unique<ButtonWidget>(
-    "images/engine/editor/select-mode2.png", Vector(256, 0), [] {});
+    "images/engine/editor/select-mode2.png", Vector(256, 0), [this] {
+      m_toolbox_widget->set_tileselect_select_mode(2);
+    });
   select_mode_fill_button->set_help_text(_("Fill mode (The current tool applies to the empty area in the enclosed space that was clicked)"));
   auto select_mode_same_button = std::make_unique<ButtonWidget>(
-    "images/engine/editor/select-mode3.png", Vector(288, 0), [] {});
+    "images/engine/editor/select-mode3.png", Vector(288, 0), [this] {
+      m_toolbox_widget->set_tileselect_select_mode(3);
+    });
   select_mode_same_button->set_help_text(_("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)"));
   
   m_widgets.insert(m_widgets.begin() + 6, std::move(select_mode_mouse_button));
