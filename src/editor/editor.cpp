@@ -82,6 +82,8 @@ static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
 
 bool Editor::s_resaving_in_progress = false;
 
+using InputType = EditorTilebox::InputType;
+
 bool
 Editor::is_active()
 {
@@ -179,6 +181,18 @@ Editor::Editor() :
   m_save_widget = save_button.get();
 
   m_widgets.insert(m_widgets.begin() + 4, std::move(save_button));
+  
+  auto mode_button = std::make_unique<ButtonWidget>("images/engine/editor/tilemap.png",
+    Vector(160, 0), [this] {
+      auto& tilebox = m_toolbox_widget->get_tilebox();
+      const auto& input_type = tilebox.get_input_type();
+      if (input_type == InputType::OBJECT)
+        select_tilegroup(0);
+      else
+        select_objectgroup(0);
+  });
+
+  m_widgets.insert(m_widgets.begin() + 5, std::move(mode_button));
 }
 
 Editor::~Editor()
