@@ -44,6 +44,9 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
 
+  void set_sprite(const std::string& path);
+  void set_sprite(SpritePtr sprite);
+
 private:
   SpritePtr m_sprite;
   Rectf m_rect;
