@@ -121,4 +121,17 @@ ButtonWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   }
 }
 
+void
+ButtonWidget::set_sprite(SpritePtr sprite)
+{
+  m_sprite = std::move(sprite);
+  m_rect.set_size(sprite->get_width() * 1.0f, sprite->get_height() * 1.0f);
+}
+
+void
+ButtonWidget::set_sprite(const std::string& path)
+{
+  set_sprite(SpriteManager::current()->create(path));
+}
+
 /* EOF */
