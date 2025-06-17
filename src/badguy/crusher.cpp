@@ -429,29 +429,29 @@ Crusher::get_direction_vector()
 
       const Vector mid = get_bbox().get_middle();
       return mid.y <= m_target->get_bbox().get_top() ? Vector(0.f, 1.f) : Vector(0.f, -1.f);
-  }
+    }
 
-  case CrusherDirection::ALL:
-  {
-    if (!m_target)
+    case CrusherDirection::ALL:
+    {
+      if (!m_target)
+        return Vector(0.f, 0.f);
+
+      const Vector a = get_bbox().get_middle();
+      const Vector b = m_target->get_bbox().get_middle();
+      const Vector diff = b - a;
+
+      if (std::abs(diff.x) < std::abs(diff.y))
+      {
+        return Vector(0.f, (diff.y > 0 ? 1 : -1));
+      }
+      else
+      {
+        return Vector((diff.x > 0 ? 1 : -1), 0.f);
+      }
+    }
+
+    default:
       return Vector(0.f, 0.f);
-
-    const Vector a = get_bbox().get_middle();
-    const Vector b = m_target->get_bbox().get_middle();
-    const Vector diff = b - a;
-
-    if (std::abs(diff.x) < std::abs(diff.y))
-    {
-      return Vector(0.f, (diff.y > 0 ? 1 : -1));
-    }
-    else
-    {
-      return Vector((diff.x > 0 ? 1 : -1), 0.f);
-    }
-  }
-
-  default:
-    return Vector(0.f, 0.f);
   }
 }
 
@@ -585,9 +585,9 @@ Crusher::spawn_roots(const CollisionHit& hit_info)
       const float hatch_delay = 0.05f;
       const float delay = (static_cast<float>(i) + 1.f) * 0.22f;
       Root& root = Sector::get().add<Root>(Vector(0.f, 0.f),
-        root_direction,
-        "images/creatures/mole/corrupted/root.sprite",
-        hatch_delay, false, false, delay);
+                                           root_direction,
+                                           "images/creatures/mole/corrupted/root.sprite",
+                                           hatch_delay, false, false, delay);
 
       const float dimension = (axis == &pos.y ? root.get_height() : root.get_width());
 
@@ -620,19 +620,19 @@ Crusher::spawn_roots(const CollisionHit& hit_info)
       {
         case Direction::UP:
           exit_path_box = Rectf(pos.x - root_size.width / 2.0f, pos.y - root_size.height - clearance,
-            pos.x + root_size.width / 2.0f, pos.y - clearance);
+                                pos.x + root_size.width / 2.0f, pos.y - clearance);
           break;
         case Direction::DOWN:
           exit_path_box = Rectf(pos.x - root_size.width / 2.0f, pos.y + clearance,
-            pos.x + root_size.width / 2.0f, pos.y + root_size.height + clearance);
+                                pos.x + root_size.width / 2.0f, pos.y + root_size.height + clearance);
           break;
         case Direction::LEFT:
           exit_path_box = Rectf(pos.x - root_size.width - clearance, pos.y - root_size.height / 2.0f,
-            pos.x - clearance, pos.y + root_size.height / 2.0f);
+                                pos.x - clearance, pos.y + root_size.height / 2.0f);
           break;
         case Direction::RIGHT:
           exit_path_box = Rectf(pos.x + clearance, pos.y - root_size.height / 2.0f,
-            pos.x + root_size.width + clearance, pos.y + root_size.height / 2.0f);
+                                pos.x + root_size.width + clearance, pos.y + root_size.height / 2.0f);
           break;
         default:
           break;
@@ -783,7 +783,7 @@ Crusher::eye_position(bool right) const
       const float x = (right == (m_dir_vector.x < 0) ? 2 : 1) * step;
 
       return Vector(x * m_dir_vector.x,
-        -step + (step * m_dir_vector.y));
+                    -step + (step * m_dir_vector.y));
     }
 
     case DELAY: [[fallthrough]];
@@ -807,7 +807,7 @@ Crusher::eye_position(bool right) const
         amplitude, // Offset to keep eyes visible.
 
         std::cos((right ? math::PI : 0.0f) + // Eyes spin out of phase of eachother.
-          phase_factor) * amplitude -
+        phase_factor) * amplitude -
         amplitude); // Offset to keep eyes visible.
     }
 
@@ -962,30 +962,30 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
       if (m_dir_vector.x > 0.5f) // Right
       {
         wall_check_bbox = Rectf(rock_bbox.get_right(),
-          rock_bbox.get_top(),
-          rock_bbox.get_right() + probe_distance,
-          rock_bbox.get_bottom());
+                                rock_bbox.get_top(),
+                                rock_bbox.get_right() + probe_distance,
+                                rock_bbox.get_bottom());
       }
       else if (m_dir_vector.x < -0.5f) // Left
       {
         wall_check_bbox = Rectf(rock_bbox.get_left() - probe_distance,
-          rock_bbox.get_top(),
-          rock_bbox.get_left(),
-          rock_bbox.get_bottom());
+                                rock_bbox.get_top(),
+                                rock_bbox.get_left(),
+                                rock_bbox.get_bottom());
       }
       else if (m_dir_vector.y < -0.5f) // Up
       {
         wall_check_bbox = Rectf(rock_bbox.get_left(),
-          rock_bbox.get_top() - probe_distance,
-          rock_bbox.get_right(),
-          rock_bbox.get_top());
+                                rock_bbox.get_top() - probe_distance,
+                                rock_bbox.get_right(),
+                                rock_bbox.get_top());
       }
       else if (m_dir_vector.y > 0.5f) // Down
       {
         wall_check_bbox = Rectf(rock_bbox.get_left(),
-          rock_bbox.get_bottom(),
-          rock_bbox.get_right(),
-          rock_bbox.get_bottom() + probe_distance);
+                                rock_bbox.get_bottom(),
+                                rock_bbox.get_right(),
+                                rock_bbox.get_bottom() + probe_distance);
       }
       else
       {
@@ -1116,7 +1116,7 @@ Crusher::update(float dt_sec)
       }
       break;
 
-      // We want to ensure that the crusher still recovers after avoiding other crushers.
+    // We want to ensure that the crusher still recovers after avoiding other crushers.
     case AWAIT_IDLE:
       if (has_recovered())
       {
@@ -1224,10 +1224,10 @@ Crusher::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
   result.add_enum(_("Direction"), reinterpret_cast<int*>(&m_dir),
-    { _("Down"), _("Up"), _("Left"), _("Right"), _("Horizontal"), _("Vertical"), _("All") },
-    { "down", "up", "left", "right", "horizontal", "vertical", "all" },
-    static_cast<int>(CrusherDirection::DOWN),
-    "direction");
+                  { _("Down"), _("Up"), _("Left"), _("Right"), _("Horizontal"), _("Vertical"), _("All") },
+                  { "down", "up", "left", "right", "horizontal", "vertical", "all" },
+                  static_cast<int>(CrusherDirection::DOWN),
+                  "direction");
 
   result.add_script(_("Crush script"), &m_crush_script, "crush-script");
   result.reorder({ "direction", "sprite", "crush-script", "x", "y" });
