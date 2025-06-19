@@ -262,6 +262,7 @@ Ghoul::set_state(GhoulState new_state)
   {
   case ROAMING_DOWN:
     start_roaming_deccel();
+    [[fallthrough]];
   case CHASING_DOWN:
     set_colgroup_active(COLGROUP_TOUCHABLE);
     m_physic.set_acceleration_y(0.0f);
@@ -275,6 +276,7 @@ Ghoul::set_state(GhoulState new_state)
     break;
   case CHASING_ACCEL2:
     horizontal_thrust();
+    [[fallthrough]];
   case ROAMING_ACCEL2:
     set_action(m_dir == Direction::LEFT ? "accel2-left" : "accel2-right", 1);
     m_physic.set_acceleration_y(UP_ACCELERATION);
@@ -282,6 +284,7 @@ Ghoul::set_state(GhoulState new_state)
     break;
   case ROAMING_UP:
     start_roaming_deccel();
+    [[fallthrough]];
   case CHASING_UP:
     set_action(m_dir == Direction::LEFT ? "left-up" : "right-up");
     break;
