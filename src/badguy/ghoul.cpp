@@ -217,7 +217,7 @@ Ghoul::horizontal_thrust()
   const float vy = (UP_VELOCITY + DOWN_VELOCITY) / 2.0f;
   const Vector dist = to_target();
   const float t = dist.y / vy;
-  if (t * (fabs(m_physic.get_velocity_x()) + m_speed) / 2.0f > fabs(dist.x)) {
+  if (t * (fabs(m_physic.get_velocity_x()) + m_speed) / 2.0f > fabs(dist.x) || dist.y > 0) {
     //no need for acceleration
   } else {
     const float a = dist.x > 0.0f ? -HORZ_ACCELERATION : HORZ_ACCELERATION;
