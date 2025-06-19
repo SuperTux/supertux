@@ -26,7 +26,6 @@ static const float RESPAWN_TIME = 4.0f;
 static const float DOWN_VELOCITY = 32.0f;
 static const float UP_VELOCITY = -256.0f;
 static const float UP_ACCELERATION = 256.0f;
-static const float HORZ_VELOCITY = 256.0f;
 static const float HORZ_ACCELERATION = 256.0f;
 static const float VERT_OFFSET = 48.0f;
 
