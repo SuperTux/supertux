@@ -44,8 +44,6 @@ protected:
 private:
   float m_speed;
   float m_track_range;
-  float m_speed_modifier;
-  Vector m_chase_dir;
   Vector m_home_pos;
   Timer m_respawn_timer;
   

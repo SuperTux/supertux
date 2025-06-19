@@ -33,8 +33,6 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/ghoul/ghoul.sprite"),
   m_speed(),
   m_track_range(),
-  m_speed_modifier(),
-  m_chase_dir(),
   m_home_pos(),
   m_respawn_timer(),
   m_state()
