@@ -185,7 +185,7 @@ Editor::Editor() :
 
   m_widgets.insert(m_widgets.begin() + 4, std::move(save_button));
   
-  auto mode_button = std::make_unique<ButtonWidget>("images/engine/editor/tilemap.png",
+  auto mode_button = std::make_unique<ButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
     Vector(160, 0), [this] {
       auto& tilebox = m_toolbox_widget->get_tilebox();
       const auto& input_type = tilebox.get_input_type();
