@@ -33,9 +33,17 @@ ParticleEditorOpen::ParticleEditorOpen() :
 
   add_hl();
 
-  std::vector<std::string> extensions;
-  extensions.push_back("stcp");
-  add_file(_("File"), &m_filename, extensions, "/particles/", true);
+  FileSystemMenu::MenuParams params =
+  {
+    &m_filename,
+    "",
+    { ".stcp" },
+    {},
+    "/particles/",
+    true
+  };
+
+  add_file(_("File"), params, -1);
   add_entry(MNID_OPEN, _("Open"));
 
   add_hl();
