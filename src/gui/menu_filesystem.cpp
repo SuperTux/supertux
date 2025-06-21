@@ -117,6 +117,7 @@ FileSystemMenu::refresh_items()
 
   add_hl();
   add_entry(-2, _("Open Directory"));
+  add_entry(-3, _("Clear Selection"));
   add_hl();
   add_back(_("Cancel"));
 
@@ -173,6 +174,15 @@ FileSystemMenu::menu_action(MenuItem& item)
   else if (item.get_id() == -2)
   {
     FileSystem::open_path(FileSystem::join(PHYSFS_getRealDir(m_directory.c_str()), m_directory));
+  }
+  else if (item.get_id() == -3)
+  {
+    if (m_filename)
+      *m_filename = "";
+
+    if (m_callback)
+      m_callback("");
+    MenuManager::instance().pop_menu();
   }
 }
 
