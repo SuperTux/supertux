@@ -120,6 +120,7 @@ Editor::Editor() :
   m_tileset(nullptr),
   m_has_deprecated_tiles(false),
   m_widgets(),
+  m_controls(),
   m_undo_widget(),
   m_redo_widget(),
   m_grid_size_widget(),
@@ -243,6 +244,14 @@ Editor::draw(Compositor& compositor)
   if (m_levelloaded) {
     for(const auto& widget : m_widgets) {
       widget->draw(context);
+    }
+
+    context.color().draw_filled_rect(Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f),
+                                     Color(0.2f, 0.2f, 0.2f), LAYER_GUI);
+
+    for(const auto& control : m_controls)
+    {
+      control->draw(context);
     }
 
     // If camera scale must be changed, change it here.
@@ -381,6 +390,11 @@ Editor::update(float dt_sec, const Controller& controller)
 
     for (const auto& widget : m_widgets) {
       widget->update(dt_sec);
+    }
+
+    for(const auto& control : m_controls)
+    {
+      control->update(dt_sec);
     }
 
     // Now that all widgets have been updated, which should have relinquished
@@ -1266,4 +1280,26 @@ Editor::pack_addon()
   info.end_list("supertux-addoninfo");
 
   *zip.Add_File(id + ".nfo") << ss.rdbuf();
+}
+
+void
+Editor::addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control)
+{
+  float height = 35.f;
+  for (const auto& control : m_controls) {
+    height = std::max(height, control->get_rect().get_bottom() + 5.f);
+  }
+
+  if (new_control.get()->get_rect().get_width() == 0.f || new_control.get()->get_rect().get_height() == 0.f) {
+    new_control.get()->set_rect(Rectf(100.f, height, 200.f - 1.0f, height + 20.f));
+  } else {
+    new_control.get()->set_rect(Rectf(new_control.get()->get_rect().get_left(),
+                                      height,
+                                      new_control.get()->get_rect().get_right(),
+                                      height + new_control.get()->get_rect().get_height()));
+  }
+
+  new_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(3.f, height, 100.f, height + 20.f), std::move(name));
+  //new_control.get()->m_on_change = std::function<void()>([this](){ this->push_version(); });
+  m_controls.push_back(std::move(new_control));
 }

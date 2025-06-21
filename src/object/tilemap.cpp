@@ -689,7 +689,7 @@ TileMap::get_offset() const
   // Apply custom offset for tilemap to fit buttons at the top of the editor. 
   // This extra offset isn't saved.
   if (Editor::is_active() && !Level::current()->is_saving_in_progress())
-    return m_offset + Vector(0, 32);
+    return m_offset + Vector(200, 32);
 
   return m_offset;
 }
