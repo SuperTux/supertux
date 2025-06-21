@@ -311,7 +311,7 @@ Ghoul::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 void
 Ghoul::collision_solid(const CollisionHit& hit)
 {
-// allows it to continue moving if it hits a wall.
+  // allows it to continue moving if it hits a wall.
 }
 
 void
