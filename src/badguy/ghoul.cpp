@@ -192,7 +192,7 @@ Ghoul::update_speed(const Vector& dist)
   	m_physic.set_acceleration_x(0.0f);
   	const float vy = dist.y < 0.0f ? (UP_VELOCITY + DOWN_VELOCITY) / 2.0f : DOWN_VELOCITY;
     const float t = dist.y / vy;
-    if (t * m_speed > fabs(dist.x)) {
+    if (t * m_speed > std::abs(dist.x)) {
       m_physic.set_velocity_x(dist.x / t);
     } else {
       m_physic.set_velocity_x(dist.x < 0.0f ? -m_speed : m_speed);
@@ -214,19 +214,18 @@ Ghoul::horizontal_thrust()
   const float vy = (UP_VELOCITY + DOWN_VELOCITY) / 2.0f;
   const Vector dist = to_target();
   const float t = dist.y / vy;
-  if (t * (fabs(m_physic.get_velocity_x()) + m_speed) / 2.0f > fabs(dist.x) || dist.y > 0) {
-    //no need for acceleration
+  if (t * (std::abs(m_physic.get_velocity_x()) + m_speed) / 2.0f > std::abs(dist.x) || dist.y > 0)
+    return; //no need for acceleration
+
+  const float a = dist.x > 0.0f ? -HORZ_ACCELERATION : HORZ_ACCELERATION;
+  m_physic.set_acceleration_x(a);
+  const float vx = m_physic.get_velocity_x();
+  const float vx_diff = m_speed * 9.0f;
+  if (t == 0.0f) {
+    m_physic.set_velocity_x(dist.x > 0.0f ? vx - vx_diff : vx + vx_diff);
   } else {
-    const float a = dist.x > 0.0f ? -HORZ_ACCELERATION : HORZ_ACCELERATION;
-    m_physic.set_acceleration_x(a);
-    const float vx = m_physic.get_velocity_x();
-    const float vx_diff = m_speed * 9.0f;
-    if (t == 0.0f) {
-      m_physic.set_velocity_x(dist.x > 0.0f ? vx - vx_diff : vx + vx_diff);
-    } else {
-      const float vx_needed = dist.x / t - a * t / 2.0f;
-      m_physic.set_velocity_x(std::max(vx - vx_diff, std::min(vx + vx_diff, vx_needed)));
-    }
+    const float vx_needed = dist.x / t - a * t / 2.0f;
+    m_physic.set_velocity_x(std::clamp(vx_needed, vx - vx_diff, vx + vx_diff));
   }
 }
 
