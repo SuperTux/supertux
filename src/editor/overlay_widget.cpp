@@ -22,10 +22,12 @@
 #include "editor/node_marker.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/object_info.hpp"
+#include "editor/object_option.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
+#include "interface/control_textbox.hpp"
 #include "math/bezier.hpp"
 #include "object/camera.hpp"
 #include "object/path_gameobject.hpp"
@@ -878,6 +880,28 @@ EditorOverlayWidget::process_left_click()
 
     case EditorTilebox::InputType::NONE:
     case EditorTilebox::InputType::OBJECT:
+    
+    if (m_hovered_object.get() != nullptr)
+    {
+      // WIP:
+      auto& controls = m_editor.get_controls();
+      controls.clear();
+      ObjectSettings os = m_hovered_object.get()->get_settings();
+      for(const auto& option : os.get_options())
+      {
+        if (dynamic_cast<LabelObjectOption*>(option.get()))
+        {
+          m_editor.addControl(option.get()->get_text(), nullptr);
+        }
+        else
+        {
+          auto textbox = std::make_unique<ControlTextbox>();
+          textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+          textbox.get()->put_text(option.get()->to_string());
+          m_editor.addControl(option.get()->get_text(), std::move(textbox));
+        }
+      }
+    }
       switch (m_editor.get_tileselect_move_mode())
       {
         case 0:
