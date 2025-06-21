@@ -50,6 +50,7 @@ private:
 private:
   TextScrollerScreen(const TextScrollerScreen&) = delete;
   TextScrollerScreen& operator=(const TextScrollerScreen&) = delete;
+
 };
 
 #endif
