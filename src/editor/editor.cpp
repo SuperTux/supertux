@@ -246,8 +246,11 @@ Editor::draw(Compositor& compositor)
       widget->draw(context);
     }
 
+    context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
+                                     Color(0.2f, 0.2f, 0.2f), LAYER_GUI - 6);
+
     context.color().draw_filled_rect(Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f),
-                                     Color(0.2f, 0.2f, 0.2f), LAYER_GUI);
+                                     Color(0.2f, 0.2f, 0.2f), LAYER_GUI - 1);
 
     for(const auto& control : m_controls)
     {
