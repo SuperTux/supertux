@@ -27,7 +27,11 @@
 #include "editor/tip.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
+#include "interface/control_checkbox.hpp"
+#include "interface/control_enum.hpp"
 #include "interface/control_textbox.hpp"
+#include "interface/control_textbox_float.hpp"
+#include "interface/control_textbox_int.hpp"
 #include "math/bezier.hpp"
 #include "object/camera.hpp"
 #include "object/path_gameobject.hpp"
@@ -893,6 +897,31 @@ EditorOverlayWidget::process_left_click()
         {
           m_editor.addControl(option.get()->get_text(), nullptr);
         }
+        else if (auto int_option = dynamic_cast<IntObjectOption*>(option.get()))
+        {
+          auto textbox = std::make_unique<ControlTextboxInt>();
+          textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+          textbox.get()->bind_value(int_option->get_value());
+          m_editor.addControl(option.get()->get_text(), std::move(textbox));
+        }
+        else if (auto float_option = dynamic_cast<FloatObjectOption*>(option.get()))
+        {
+          auto textbox = std::make_unique<ControlTextboxFloat>();
+          textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+          textbox.get()->bind_value(float_option->get_value());
+          m_editor.addControl(option.get()->get_text(), std::move(textbox));
+        }
+        else if (auto bool_option = dynamic_cast<BoolObjectOption*>(option.get()))
+        {
+          auto checkbox = std::make_unique<ControlCheckbox>();
+          checkbox.get()->set_rect(Rectf(0, 32, 20, 32));
+          checkbox.get()->bind_value(bool_option->get_value());
+          m_editor.addControl(option.get()->get_text(), std::move(checkbox));
+        }
+        // else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
+        // {
+        //   auto dropdown = std::make_unique<ControlEnum>();
+        // }
         else
         {
           auto textbox = std::make_unique<ControlTextbox>();
