@@ -250,7 +250,7 @@ Editor::draw(Compositor& compositor)
                                      Color(0.2f, 0.2f, 0.2f), LAYER_GUI - 6);
 
     context.color().draw_filled_rect(Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f),
-                                     Color(0.2f, 0.2f, 0.2f), LAYER_GUI - 1);
+                                     Color(0.2f, 0.2f, 0.2f), LAYER_GUI - 6);
 
     for(const auto& control : m_controls)
     {
@@ -972,6 +972,10 @@ void
 Editor::event(const SDL_Event& ev)
 {
   if (!m_enabled || !m_levelloaded) return;
+
+  for(const auto& control : m_controls)
+    if (control->event(ev))
+      return;
 
   try
   {
