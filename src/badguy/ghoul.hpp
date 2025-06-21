@@ -42,7 +42,6 @@ protected:
   virtual void kill_fall() override;
 
 private:
-  float m_speed;
   float m_track_range;
   Vector m_home_pos;
   Timer m_respawn_timer;

@@ -20,18 +20,17 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const float DEFAULT_SPEED = 40.0f;
 static const float DEFAULT_TRACK_RANGE = 2500.0f;
 static const float RESPAWN_TIME = 4.0f;
 static const float DOWN_VELOCITY = 32.0f;
 static const float UP_VELOCITY = -256.0f;
 static const float UP_ACCELERATION = 256.0f;
+static const float HORZ_SPEED = 40.0f;
 static const float HORZ_ACCELERATION = 256.0f;
 static const float VERT_OFFSET = 48.0f;
 
 Ghoul::Ghoul(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/ghoul/ghoul.sprite"),
-  m_speed(),
   m_track_range(),
   m_home_pos(),
   m_respawn_timer(),
@@ -39,7 +38,6 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
 {
   m_countMe = false;
 
-  reader.get("speed", m_speed, DEFAULT_SPEED);
   reader.get("track-range", m_track_range, DEFAULT_TRACK_RANGE);
 
   set_action(m_dir);
@@ -188,14 +186,14 @@ void
 Ghoul::update_speed(const Vector& dist)
 {
   const float vx = m_physic.get_velocity_x();
-  if (vx >= -m_speed && vx <= m_speed) {
+  if (vx >= -HORZ_SPEED && vx <= HORZ_SPEED) {
   	m_physic.set_acceleration_x(0.0f);
   	const float vy = dist.y < 0.0f ? (UP_VELOCITY + DOWN_VELOCITY) / 2.0f : DOWN_VELOCITY;
     const float t = dist.y / vy;
-    if (t * m_speed > std::abs(dist.x)) {
+    if (t * HORZ_SPEED > std::abs(dist.x)) {
       m_physic.set_velocity_x(dist.x / t);
     } else {
-      m_physic.set_velocity_x(dist.x < 0.0f ? -m_speed : m_speed);
+      m_physic.set_velocity_x(dist.x < 0.0f ? -HORZ_SPEED : HORZ_SPEED);
     }
   }
 }
@@ -214,13 +212,13 @@ Ghoul::horizontal_thrust()
   const float vy = (UP_VELOCITY + DOWN_VELOCITY) / 2.0f;
   const Vector dist = to_target();
   const float t = dist.y / vy;
-  if (t * (std::abs(m_physic.get_velocity_x()) + m_speed) / 2.0f > std::abs(dist.x) || dist.y > 0)
+  if (t * (std::abs(m_physic.get_velocity_x()) + HORZ_SPEED) / 2.0f > std::abs(dist.x) || dist.y > 0)
     return; //no need for acceleration
 
   const float a = dist.x > 0.0f ? -HORZ_ACCELERATION : HORZ_ACCELERATION;
   m_physic.set_acceleration_x(a);
   const float vx = m_physic.get_velocity_x();
-  const float vx_diff = m_speed * 9.0f;
+  const float vx_diff = HORZ_SPEED * 9.0f;
   if (t == 0.0f) {
     m_physic.set_velocity_x(dist.x > 0.0f ? vx - vx_diff : vx + vx_diff);
   } else {
@@ -329,7 +327,6 @@ Ghoul::get_settings()
   ObjectSettings result = BadGuy::get_settings();
 
   result.add_float(_("Track Range"), &m_track_range, "track-range", DEFAULT_TRACK_RANGE);
-  result.add_float(_("Speed"), &m_speed, "speed", DEFAULT_SPEED);
 
   result.reorder({ "track-range", "speed", "direction", "x", "y" });
 
