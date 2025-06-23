@@ -161,31 +161,69 @@ Crusher::should_crush()
 
   for (Player* player : Sector::get().get_players())
   {
-    const Rectf& playerbbox = player->get_bbox();
+    const Rectf& player_bbox = player->get_bbox();
+    bool player_in_main_detect_zone = false;
 
     if (m_dir == CrusherDirection::ALL)
     {
-      if (!(playerbbox.overlaps(get_detect_box(CrusherDirection::HORIZONTAL)) ||
-            playerbbox.overlaps(get_detect_box(CrusherDirection::VERTICAL))))
-
-        continue;
+      if (player_bbox.overlaps(get_detect_box(CrusherDirection::HORIZONTAL)) ||
+          player_bbox.overlaps(get_detect_box(CrusherDirection::VERTICAL)))
+      {
+        player_in_main_detect_zone = true;
+      }
     }
-    else if (!playerbbox.overlaps(get_detect_box()))
+    else if (player_bbox.overlaps(get_detect_box()))
     {
-      continue;
+      player_in_main_detect_zone = true;
     }
 
-    RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
-                                                                     playerbbox.get_middle(),
-                                                                     false,
-                                                                     get_collision_object());
+    bool player_in_top_edge_zone = false;
+    if (!player_in_main_detect_zone      &&
+       (m_dir == CrusherDirection::LEFT  ||
+        m_dir == CrusherDirection::RIGHT ||
+        m_dir == CrusherDirection::HORIZONTAL))
+    {
+      const Rectf crusher_bbox = get_bbox();
+      const float zone_width = crusher_bbox.get_width() / 6.0f;
+      const float zone_height = 1.0f;
+      const float zone_top_y = crusher_bbox.get_top() - zone_height;
 
-    auto obj_p = std::get_if<CollisionObject*>(&result.hit);
-    if (!obj_p || *obj_p != player->get_collision_object())
-      continue;
+      Rectf left_top_zone;
+      Rectf right_top_zone;
 
-    m_target = *obj_p;
-    return true;
+      if (m_dir == CrusherDirection::LEFT || m_dir == CrusherDirection::HORIZONTAL)
+      {
+        left_top_zone.set_p1(Vector(crusher_bbox.get_left(), zone_top_y));
+        left_top_zone.set_size(zone_width, zone_height);
+        if (player_bbox.overlaps(left_top_zone))
+          player_in_top_edge_zone = true;
+      }
+
+      if (!player_in_top_edge_zone &&
+         (m_dir == CrusherDirection::RIGHT || m_dir == CrusherDirection::HORIZONTAL))
+      {
+        right_top_zone.set_p1(Vector(crusher_bbox.get_right() - zone_width, zone_top_y));
+        right_top_zone.set_size(zone_width, zone_height);
+        if (player_bbox.overlaps(right_top_zone))
+          player_in_top_edge_zone = true;
+      }
+    }
+
+    if (player_in_main_detect_zone || player_in_top_edge_zone)
+    {
+      const RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
+        player_bbox.get_middle(),
+        false,
+        get_collision_object());
+
+      const auto obj_p = std::get_if<CollisionObject*>(&result.hit);
+
+      if (!obj_p || *obj_p != player->get_collision_object())
+        continue;
+
+      m_target = player->get_collision_object();
+      return true;
+    }
   }
 
   return false;
@@ -358,7 +396,7 @@ Crusher::get_detect_box(CrusherDirection dir)
   detectbox.set_p1(pos);
   detectbox.set_size(size.width, size.height);
 
-  return detectbox.grown(-1.f);
+  return detectbox;
 }
 
 Vector
