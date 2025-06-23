@@ -4,6 +4,17 @@ shopt -s nullglob
 
 if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-13" ]) && [ "$PACKAGE" = "ON" ]; then
     sudo chmod -R +w /usr/local/Cellar
+    
+    base_path="/Users/runner/work/supertux/supertux/build/_CPack_Packages/Darwin/Bundle"
+    maybe_target=$(find $base_path -type d -exec find {}  -depth -maxdepth 1 -type f -print -quit \)
+    directory_name=$(basename $maybe_target)
+    echo "Well, here's the example target:"
+    echo $maybe_target
+    echo "And here's the basename:"
+    echo $directory_name
+
+    /usr/bin/hdiutil create -debug -ov -srcfolder $maybe_target -volname "SuperTux v0.6.3-1698-g56492b0c8" -fs "HFS+" -format UDRW "$base_path/temp.dmg"
+
     # Workaround resource busy bug on github on MacOS 13
     # https://github.com/actions/runner-images/issues/7522
     i=0
