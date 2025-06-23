@@ -6,7 +6,7 @@ if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-13" ]) && [ "$PACKAG
     sudo chmod -R +w /usr/local/Cellar
     
     base_path="/Users/runner/work/supertux/supertux/build/_CPack_Packages/Darwin/Bundle"
-    maybe_target=$(find $base_path -type d -exec find {}  -depth -maxdepth 1 -type f -print -quit \)
+    maybe_target=$(find $base_path -type d -exec find {}  -depth -maxdepth 1 -type f -print -quit)
     directory_name=$(basename $maybe_target)
     echo "Well, here's the example target:"
     echo $maybe_target
