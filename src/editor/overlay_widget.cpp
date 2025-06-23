@@ -26,7 +26,9 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_script.hpp"
 #include "gui/menu_manager.hpp"
+#include "interface/control_button.hpp"
 #include "interface/control_checkbox.hpp"
 #include "interface/control_enum.hpp"
 #include "interface/control_textbox.hpp"
@@ -917,6 +919,15 @@ EditorOverlayWidget::process_left_click()
           checkbox.get()->set_rect(Rectf(0, 32, 20, 32));
           checkbox.get()->bind_value(bool_option->get_value());
           m_editor.addControl(option.get()->get_text(), std::move(checkbox));
+        }
+        else if (auto script_option = dynamic_cast<ScriptObjectOption*>(option.get()))
+        {
+          auto button = std::make_unique<ControlButton>(_("Edit script"));
+          const auto value_ptr = script_option->get_value();
+          button.get()->m_on_change = std::function<void()>([value_ptr]() {
+            MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(value_ptr));
+          });
+          m_editor.addControl(option.get()->get_text(), std::move(button));
         }
         // else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
         // {
