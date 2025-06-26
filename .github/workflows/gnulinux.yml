@@ -155,7 +155,6 @@ jobs:
           # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
           # (also check the step that invokes the tests with ./test_supertux2)
           TESTS: ${{ matrix.os == 'ubuntu-22.04' }}
-          CMAKE_POLICY_VERSION_MINIMUM: 3.5
         run: |
           cmake --version
           $CXX --version
@@ -169,8 +168,6 @@ jobs:
 
       - name: Build and install
         working-directory: build
-        env:
-          CMAKE_POLICY_VERSION_MINIMUM: 3.5
         run: |
           make -j3 VERBOSE=1
           make install DESTDIR="/tmp/supertux" VERBOSE=1

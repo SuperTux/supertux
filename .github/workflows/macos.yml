@@ -84,7 +84,6 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           GLBINDING: ${{ matrix.glbinding }}
-          CMAKE_POLICY_VERSION_MINIMUM: 3.5
         run: |
           cmake --version
           $CXX --version
@@ -101,8 +100,6 @@ jobs:
                    -DINSTALL_SUBDIR_SHARE=share/supertux2
 
       - name: Build and install
-        env:
-          CMAKE_POLICY_VERSION_MINIMUM: 3.5
         working-directory: build
         run: |
           make -j3 VERBOSE=1

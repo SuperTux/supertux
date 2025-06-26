@@ -57,7 +57,7 @@ jobs:
           cmake --version
           mkdir build
           cd build
-          cmake .. -DBUILD_DOCUMENTATION_WITH_SCRIPTING=ON -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          cmake .. -DBUILD_DOCUMENTATION_WITH_SCRIPTING=ON
           make
 
       - name: Generate scripting reference
