@@ -9,7 +9,7 @@ if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-13" ]) && [ "$PACKAG
     # https://github.com/actions/runner-images/issues/7522
     i=0
     until
-        cpack -G Bundle;
+        sudo cpack -G Bundle;
         
         base_path="/Users/runner/work/supertux/supertux/build/_CPack_Packages/Darwin/Bundle"
         maybe_target=$(find $base_path -type d -depth -mindepth 1 -maxdepth 1)
