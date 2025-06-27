@@ -20,6 +20,8 @@ if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-13" ]) && [ "$PACKAG
         echo $directory_name
 
         /usr/bin/hdiutil create -debug -ov -srcfolder $maybe_target -volname "SuperTux v0.6.3-1698-g56492b0c8" -fs "HFS+" -format UDRW "$base_path/temp.dmg"
+        sudo fs_usage -t 10 | grep "/dev/disk"
+
     do
         if [ $i -eq 10 ]; then exit 1; fi
         i=$((i+1))
