@@ -32,6 +32,7 @@
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
+#include "supertux/menu/editor_tilesubgroup_menu.hpp"
 #include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
@@ -153,6 +154,57 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_TILEGROUP_MENU:
       return std::make_unique<EditorTilegroupMenu>();
+    
+    case EDITOR_TILESUBGROUP_MENU_SNOW:
+      return std::make_unique<EditorTilesubgroupMenu>("Snow");
+
+    case EDITOR_TILESUBGROUP_MENU_SNOW_BACKGROUND:
+      return std::make_unique<EditorTilesubgroupMenu>("Snow Background");
+
+    case EDITOR_TILESUBGROUP_MENU_CRYSTAL:
+      return std::make_unique<EditorTilesubgroupMenu>("Crystal");
+
+    case EDITOR_TILESUBGROUP_MENU_FOREST:
+      return std::make_unique<EditorTilesubgroupMenu>("Forest");
+
+    case EDITOR_TILESUBGROUP_MENU_FOREST_BACKGROUND:
+      return std::make_unique<EditorTilesubgroupMenu>("Forest Background");
+
+    case EDITOR_TILESUBGROUP_MENU_CORRUPTED_FOREST:
+      return std::make_unique<EditorTilesubgroupMenu>("Corrupted Forest");
+
+    case EDITOR_TILESUBGROUP_MENU_CORRUPTED_BACKGROUND:
+      return std::make_unique<EditorTilesubgroupMenu>("Corrupted Background");
+
+    case EDITOR_TILESUBGROUP_MENU_JAGGED_ROCKS:
+      return std::make_unique<EditorTilesubgroupMenu>("Jagged Rocks");
+
+    case EDITOR_TILESUBGROUP_MENU_BLOCK_BONUS:
+      return std::make_unique<EditorTilesubgroupMenu>("Block + Bonus");
+
+    case EDITOR_TILESUBGROUP_MENU_POLE_SIGNS:
+      return std::make_unique<EditorTilesubgroupMenu>("Pole + Signs");
+
+    case EDITOR_TILESUBGROUP_MENU_LIQUID:
+      return std::make_unique<EditorTilesubgroupMenu>("Liquid");
+
+    case EDITOR_TILESUBGROUP_MENU_CASTLE:
+      return std::make_unique<EditorTilesubgroupMenu>("Castle");
+
+    case EDITOR_TILESUBGROUP_MENU_HALLOWEEN:
+      return std::make_unique<EditorTilesubgroupMenu>("Halloween");
+
+    case EDITOR_TILESUBGROUP_MENU_INDUSTRIAL:
+      return std::make_unique<EditorTilesubgroupMenu>("Industrial");
+
+    case EDITOR_TILESUBGROUP_MENU_UNISOLID_LIGHTMAP:
+      return std::make_unique<EditorTilesubgroupMenu>("Unisolid + Lightmap");
+
+    case EDITOR_TILESUBGROUP_MENU_MISCELLANEOUS:
+      return std::make_unique<EditorTilesubgroupMenu>("Miscellaneous");
+
+    case EDITOR_TILESUBGROUP_MENU_RETRO_TILES:
+      return std::make_unique<EditorTilesubgroupMenu>("Retro Tiles");
 
     case EDITOR_OBJECTGROUP_MENU:
       return std::make_unique<EditorObjectgroupMenu>();
