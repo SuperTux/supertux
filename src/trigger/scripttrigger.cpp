@@ -17,6 +17,7 @@
 #include "trigger/scripttrigger.hpp"
 
 #include "editor/editor.hpp"
+#include "object/player.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
@@ -58,9 +59,9 @@ ScriptTrigger::get_settings()
 }
 
 void
-ScriptTrigger::event(Player& , EventType type)
+ScriptTrigger::event(Player& player, EventType type)
 {
-  if (type != triggerevent || (oneshot && runcount >= 1))
+  if (type != triggerevent || (oneshot && runcount >= 1) || !is_triggering_for_object(player))
     return;
 
   Sector::get().run_script(script, "ScriptTrigger");
@@ -70,9 +71,7 @@ ScriptTrigger::event(Player& , EventType type)
 void
 ScriptTrigger::draw(DrawingContext& context)
 {
-  if (Editor::is_active() || g_debug.show_collision_rects)
-    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+  Trigger::draw_debug(context, Color(1.0f, 0.0f, 1.0f, 0.6f));
 }
 
 /* EOF */
