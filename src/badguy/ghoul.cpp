@@ -81,7 +81,7 @@ Ghoul::active_update(float dt_sec)
   switch (m_state)
   {
   case ROAMING_DOWN:
-    roaming_deccel_check();
+    roaming_decel_check();
     if (dir_changed) {
       set_action(new_dir == Direction::LEFT ? "left" : "right");
       m_dir = new_dir;
@@ -106,7 +106,7 @@ Ghoul::active_update(float dt_sec)
     }
     break;
   case ROAMING_ACCEL1:
-    roaming_deccel_check();
+    roaming_decel_check();
     if (m_sprite->animation_done()) {
       set_state(ROAMING_ACCEL2);
     }
@@ -118,7 +118,7 @@ Ghoul::active_update(float dt_sec)
     }
     break;
   case ROAMING_ACCEL2:
-    roaming_deccel_check();
+    roaming_decel_check();
     if (m_sprite->animation_done()) {
       set_state(ROAMING_UP);
     }
@@ -130,7 +130,7 @@ Ghoul::active_update(float dt_sec)
     }
     break;
   case ROAMING_UP:
-    roaming_deccel_check();
+    roaming_decel_check();
     if (dir_changed) {
       set_action(new_dir == Direction::LEFT ? "left-up" : "right-up");
       m_dir = new_dir;
@@ -228,7 +228,7 @@ Ghoul::horizontal_thrust()
 }
 
 void
-Ghoul::start_roaming_deccel()
+Ghoul::start_roaming_decel()
 {
   const float vx = m_physic.get_velocity_x();
   if (vx > 0) {
@@ -239,7 +239,7 @@ Ghoul::start_roaming_deccel()
 }
 
 void
-Ghoul::roaming_deccel_check()
+Ghoul::roaming_decel_check()
 {
   const float vx = m_physic.get_velocity_x();
   const float ax = m_physic.get_acceleration_x();
@@ -255,7 +255,7 @@ Ghoul::set_state(GhoulState new_state)
   switch (new_state)
   {
   case ROAMING_DOWN:
-    start_roaming_deccel();
+    start_roaming_decel();
     [[fallthrough]];
   case CHASING_DOWN:
     set_colgroup_active(COLGROUP_TOUCHABLE);
@@ -277,7 +277,7 @@ Ghoul::set_state(GhoulState new_state)
     m_physic.set_velocity_y(UP_VELOCITY);
     break;
   case ROAMING_UP:
-    start_roaming_deccel();
+    start_roaming_decel();
     [[fallthrough]];
   case CHASING_UP:
     set_action(m_dir == Direction::LEFT ? "left-up" : "right-up");

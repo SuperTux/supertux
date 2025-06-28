@@ -65,8 +65,8 @@ private:
   void set_state(GhoulState new_state);
   void update_speed(const Vector& dist);
   void horizontal_thrust();
-  void start_roaming_deccel();
-  void roaming_deccel_check();
+  void start_roaming_decel();
+  void roaming_decel_check();
   Vector to_target();
 
 private:
