@@ -500,6 +500,10 @@ private:
 
   void stop_rolling(bool violent = true);
 
+  inline void set_player_position(const Vector& vector) { set_pos_reset(vector); }
+
+  inline Vector get_player_position() const { return get_pos(); }
+
 private:
   int m_id;
   std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */

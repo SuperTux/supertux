@@ -234,7 +234,7 @@ GameControllerManager::on_controller_added(int joystick_index)
         int id = m_parent->get_num_users();
         for (int i = 0; i < m_parent->get_num_users(); i++)
         {
-          if (!m_parent->has_corresponsing_controller(i) && !m_parent->m_uses_keyboard[i])
+          if (!m_parent->has_corresponsing_controller(i) && (!m_parent->m_uses_keyboard[i] && !m_parent->m_uses_online_controller[i]))
           {
             id = i;
             break;
@@ -271,8 +271,8 @@ GameControllerManager::on_controller_removed(int instance_id)
     m_game_controllers.erase(it);
 
     if (m_parent->m_use_game_controller && g_config->multiplayer_auto_manage_players
-        && deleted_player_id != 0 && !m_parent->m_uses_keyboard[deleted_player_id] &&
-        GameSession::current())
+        && deleted_player_id != 0 && (!m_parent->m_uses_keyboard[deleted_player_id] &&
+        !m_parent->m_uses_online_controller[deleted_player_id]) && GameSession::current())
     {
       GameSession::current()->on_player_removed(deleted_player_id);
     }

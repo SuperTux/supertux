@@ -100,7 +100,7 @@ Level::initialize()
     for (int id = 1; id < InputManager::current()->get_num_users() || id == 0; id++)
     {
       if (!InputManager::current()->has_corresponsing_controller(id)
-          && !InputManager::current()->m_uses_keyboard[id])
+          && (!InputManager::current()->m_uses_keyboard[id] && !InputManager::current()->m_uses_online_controller[id]))
         continue;
 
       s_dummy_player_status.add_player();

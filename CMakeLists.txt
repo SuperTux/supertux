@@ -281,6 +281,8 @@ if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
+target_link_libraries(supertux2_lib PUBLIC pthread)
+
 if(HAVE_OPENGL)
   target_link_libraries(supertux2_lib PUBLIC LibOpenGL)
 endif()

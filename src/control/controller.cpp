@@ -69,7 +69,8 @@ std::optional<Control> Control_from_string(const std::string& text)
 
 Controller::Controller():
   m_touchscreen(false),
-  m_jump_key_pressed(false)
+  m_jump_key_pressed(false),
+  m_last_input("2")
 {
   reset();
 }
@@ -86,6 +87,7 @@ Controller::reset()
   }
   m_touchscreen = false;
   m_jump_key_pressed = false;
+  m_last_input = "2";
 }
 
 void
@@ -129,7 +131,23 @@ Controller::update()
 {
   for (int i = 0; i < static_cast<int>(Control::CONTROLCOUNT); ++i) {
     m_old_controls[i] = m_controls[i];
+
+    if (m_controls[i] && m_last_input.find(std::to_string(i)) == std::string::npos) {
+      m_last_input += ":" + std::to_string(i);
+    }
   }
+}
+
+void
+Controller::add_last_input(const std::string& input)
+{
+  m_last_input += input;
+}
+
+void
+Controller::clear_last_input()
+{
+  m_last_input= "2";
 }
 
 /* EOF */
