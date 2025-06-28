@@ -47,6 +47,7 @@ Wind::Wind(const ReaderMapping& reader) :
   particles_enabled(true)
 {
   float w,h;
+  parse_type(reader);
   reader.get("x", m_col.m_bbox.get_left(), 0.0f);
   reader.get("y", m_col.m_bbox.get_top(), 0.0f);
   reader.get("width", w, 32.0f);
@@ -96,6 +97,15 @@ Wind::get_settings()
   return result;
 }
 
+GameObjectTypes
+Wind::get_types() const
+{
+  return {
+    { "wind", _("Wind") },
+    { "current", _("Current") }
+  };
+}
+
 void
 Wind::update(float dt_sec_)
 {
@@ -107,19 +117,26 @@ Wind::update(float dt_sec_)
   Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.get_left() + 8, m_col.m_bbox.get_right() - 8), graphicsRandom.randf(m_col.m_bbox.get_top() + 8, m_col.m_bbox.get_bottom() - 8));
   Vector pspeed = Vector(graphicsRandom.randf(speed.x - 20, speed.x + 20), graphicsRandom.randf(speed.y - 20, speed.y + 20));
 
-  // TODO: Rotate sprite rather than just use 2 different actions
   // Approx. 1 particle per tile
   if (graphicsRandom.randf(0.f, 100.f) < (m_col.m_bbox.get_width() / 32.f) * (m_col.m_bbox.get_height() / 32.f))
   {
     // Emit a particle
-	  if (fancy_wind)
+    if (fancy_wind)
     {
-	    Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer); 
-	  }
-	  else
+      const float angle = std::atan2(speed.y, speed.x) * float(180.0 / M_PI);
+      switch (m_type) {
+        case WIND: // Normal wind
+          Sector::get().add<SpriteParticle>("images/particles/wind.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, Color::WHITE, angle);
+          break;
+        case CURRENT: // Current variant
+          Sector::get().add<SpriteParticle>("images/particles/water_piece1.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, Color::WHITE, angle);
+          break;
+      }
+    }
+    else
     {
-	    Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, m_layer);
-	  }
+      Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, m_layer);
+    }
   }
 }
 
