@@ -346,11 +346,25 @@ TextScroller::get_settings()
   result.add_float(_("X-offset"), &m_x_offset, "x-offset");
   result.add_bool(_("Controllable"), &m_controllable, "controllable", true);
   result.add_enum(_("Anchor"), reinterpret_cast<int*>(&m_x_anchor),
-    { _("Left"), _("Center"), _("Right") },
+    {
+      _("Left"),
+      /* l10n: Since "center" can be both a verb and an adjective: What we want
+         here is the adjective (this refers to an anchor position so this setting
+         refers to where the textscroller is anchored) */
+      _("Center"),
+      _("Right")
+      },
     { "left", "center", "right" },
     static_cast<int>(XAnchor::SCROLLER_ANCHOR_CENTER), "x-anchor");
   result.add_enum(_("Text Alignment"), reinterpret_cast<int*>(&m_text_align),
-    { _("Left"), _("Center"), _("Right") },
+    {
+      _("Left"),
+      /* l10n: Since "center" can be both a verb and an adjective: What we want
+         here is the adjective (this refers to a text alignment so this setting
+         refers to where the text is aligned) */
+      _("Center"),
+      _("Right")
+    },
     { "left", "center", "right" },
     static_cast<int>(TextAlign::SCROLLER_ALIGN_CENTER), "text-align");
   result.add_remove();
