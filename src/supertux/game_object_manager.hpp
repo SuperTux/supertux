@@ -138,8 +138,8 @@ public:
    * @param string $data Additional data in S-Expression format (check object definitions in level files).
    */
   void add_object(const std::string& class_name, const std::string& name,
-                  float pos_x, float pos_y, const std::string& direction,
-                  const std::string& data);
+                  float pos_x, float pos_y, const std::string& direction = "auto",
+                  const std::string& data = "");
 
   float get_width() const;
   float get_height() const;
