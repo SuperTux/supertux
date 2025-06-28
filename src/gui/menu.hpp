@@ -30,6 +30,7 @@ class ItemAction;
 class ItemBack;
 class ItemColor;
 class ItemColorChannelRGBA;
+class ItemColorChannelSaturation;
 class ItemColorPicker2D;
 class ItemColorDisplay;
 class ItemControlField;
@@ -102,6 +103,7 @@ public:
   ItemColorDisplay& add_color_display(Color* color, int id = -1);
   ItemColorChannelRGBA& add_color_channel_rgba(float* input, Color channel, int id = -1,
     bool is_linear = false);
+  ItemColorChannelSaturation& add_color_channel_saturation(Color* color, ColorOKLCh* okl, int id);
   ItemColorPicker2D& add_color_picker_2d(Color& color);
   ItemPaths& add_path_settings(const std::string& text, PathObject& target, const std::string& path_ref);
   ItemStringArray& add_string_array(const std::string& text, std::vector<std::string>& items, int id = -1);
