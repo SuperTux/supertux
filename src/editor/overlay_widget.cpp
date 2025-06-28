@@ -22,10 +22,18 @@
 #include "editor/node_marker.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/object_info.hpp"
+#include "editor/object_option.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_script.hpp"
 #include "gui/menu_manager.hpp"
+#include "interface/control_button.hpp"
+#include "interface/control_checkbox.hpp"
+#include "interface/control_enum.hpp"
+#include "interface/control_textbox.hpp"
+#include "interface/control_textbox_float.hpp"
+#include "interface/control_textbox_int.hpp"
 #include "math/bezier.hpp"
 #include "object/camera.hpp"
 #include "object/path_gameobject.hpp"
@@ -878,6 +886,62 @@ EditorOverlayWidget::process_left_click()
 
     case EditorTilebox::InputType::NONE:
     case EditorTilebox::InputType::OBJECT:
+    
+    if (m_hovered_object.get() != nullptr)
+    {
+      // WIP:
+      auto& controls = m_editor.get_controls();
+      controls.clear();
+      ObjectSettings os = m_hovered_object.get()->get_settings();
+      for(const auto& option : os.get_options())
+      {
+        if (dynamic_cast<LabelObjectOption*>(option.get()))
+        {
+          m_editor.addControl(option.get()->get_text(), nullptr);
+        }
+        else if (auto int_option = dynamic_cast<IntObjectOption*>(option.get()))
+        {
+          auto textbox = std::make_unique<ControlTextboxInt>();
+          textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+          textbox.get()->bind_value(int_option->get_value());
+          m_editor.addControl(option.get()->get_text(), std::move(textbox));
+        }
+        else if (auto float_option = dynamic_cast<FloatObjectOption*>(option.get()))
+        {
+          auto textbox = std::make_unique<ControlTextboxFloat>();
+          textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+          textbox.get()->bind_value(float_option->get_value());
+          m_editor.addControl(option.get()->get_text(), std::move(textbox));
+        }
+        else if (auto bool_option = dynamic_cast<BoolObjectOption*>(option.get()))
+        {
+          auto checkbox = std::make_unique<ControlCheckbox>();
+          checkbox.get()->set_rect(Rectf(0, 32, 20, 32));
+          checkbox.get()->bind_value(bool_option->get_value());
+          m_editor.addControl(option.get()->get_text(), std::move(checkbox));
+        }
+        else if (auto script_option = dynamic_cast<ScriptObjectOption*>(option.get()))
+        {
+          auto button = std::make_unique<ControlButton>(_("Edit script"));
+          const auto value_ptr = script_option->get_value();
+          button.get()->m_on_change = std::function<void()>([value_ptr]() {
+            MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(value_ptr));
+          });
+          m_editor.addControl(option.get()->get_text(), std::move(button));
+        }
+        // else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
+        // {
+        //   auto dropdown = std::make_unique<ControlEnum>();
+        // }
+        else
+        {
+          auto textbox = std::make_unique<ControlTextbox>();
+          textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+          textbox.get()->put_text(option.get()->to_string());
+          m_editor.addControl(option.get()->get_text(), std::move(textbox));
+        }
+      }
+    }
       switch (m_editor.get_tileselect_move_mode())
       {
         case 0:

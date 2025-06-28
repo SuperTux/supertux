@@ -45,12 +45,19 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
 
+  void set_sprite(const std::string& path);
+  void set_sprite(SpritePtr sprite);
+
+  void set_help_text(const std::string& help_text);
+
 private:
   SpritePtr m_sprite;
   Rectf m_rect;
   bool m_grab;
   bool m_hover;
   std::function<void()> m_sig_click;
+  Vector m_mouse_pos;
+  std::string m_help_text;
 
 private:
   ButtonWidget(const ButtonWidget&) = delete;

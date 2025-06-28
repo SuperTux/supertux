@@ -82,6 +82,8 @@ static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
 
 bool Editor::s_resaving_in_progress = false;
 
+using InputType = EditorTilebox::InputType;
+
 bool
 Editor::is_active()
 {
@@ -118,8 +120,12 @@ Editor::Editor() :
   m_tileset(nullptr),
   m_has_deprecated_tiles(false),
   m_widgets(),
+  m_controls(),
   m_undo_widget(),
   m_redo_widget(),
+  m_grid_size_widget(),
+  m_play_widget(),
+  m_save_widget(),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
@@ -142,6 +148,82 @@ Editor::Editor() :
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
+
+  auto grid_size_widget = std::make_unique<ButtonWidget>("images/engine/editor/grid_button.png",
+    Vector(64, 0),
+    [this] {
+      auto& snap_grid_size = g_config->editor_selected_snap_grid_size;
+      if (snap_grid_size == 0)
+      {
+        if(!g_config->editor_render_grid)
+        {
+          snap_grid_size = 3;
+        }
+        g_config->editor_render_grid = !g_config->editor_render_grid;
+      }
+      else
+        snap_grid_size--;
+    });
+  
+  grid_size_widget->set_help_text(_("Change / Toggle grid size"));
+  m_grid_size_widget = grid_size_widget.get();
+
+  m_widgets.insert(m_widgets.begin() + 2, std::move(grid_size_widget));
+
+  auto play_button = std::make_unique<ButtonWidget>("images/engine/editor/play_button.png",
+    Vector(96, 0), [this] { m_test_request = true; });
+  play_button->set_help_text(_("Test level"));
+
+  m_play_widget = play_button.get();
+
+  m_widgets.insert(m_widgets.begin() + 3, std::move(play_button));
+
+  auto save_button = std::make_unique<ButtonWidget>("images/engine/editor/save.png",
+    Vector(128, 0), [this] { save_level(); });
+  save_button->set_help_text(_("Save level"));
+
+  m_save_widget = save_button.get();
+
+  m_widgets.insert(m_widgets.begin() + 4, std::move(save_button));
+  
+  auto mode_button = std::make_unique<ButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
+    Vector(160, 0), [this] {
+      auto& tilebox = m_toolbox_widget->get_tilebox();
+      const auto& input_type = tilebox.get_input_type();
+      if (input_type == InputType::OBJECT)
+        select_tilegroup(0);
+      else
+        select_objectgroup(0);
+  });
+  mode_button->set_help_text(_("Toggle between object and tile mode"));
+
+  m_widgets.insert(m_widgets.begin() + 5, std::move(mode_button));
+  
+  auto select_mode_mouse_button = std::make_unique<ButtonWidget>(
+    "images/engine/editor/select-mode0.png", Vector(192, 0), [this] {
+      m_toolbox_widget->set_tileselect_select_mode(0);
+    });
+  select_mode_mouse_button->set_help_text(_("Draw mode (The current tool applies to the tile under the mouse)"));
+  auto select_mode_area_button = std::make_unique<ButtonWidget>(
+    "images/engine/editor/select-mode1.png", Vector(224, 0), [this] {
+      m_toolbox_widget->set_tileselect_select_mode(1);
+    });
+  select_mode_area_button->set_help_text(_("Box draw mode (The current tool applies to an area / box drawn with the mouse)"));
+  auto select_mode_fill_button = std::make_unique<ButtonWidget>(
+    "images/engine/editor/select-mode2.png", Vector(256, 0), [this] {
+      m_toolbox_widget->set_tileselect_select_mode(2);
+    });
+  select_mode_fill_button->set_help_text(_("Fill mode (The current tool applies to the empty area in the enclosed space that was clicked)"));
+  auto select_mode_same_button = std::make_unique<ButtonWidget>(
+    "images/engine/editor/select-mode3.png", Vector(288, 0), [this] {
+      m_toolbox_widget->set_tileselect_select_mode(3);
+    });
+  select_mode_same_button->set_help_text(_("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)"));
+  
+  m_widgets.insert(m_widgets.begin() + 6, std::move(select_mode_mouse_button));
+  m_widgets.insert(m_widgets.begin() + 7, std::move(select_mode_area_button));
+  m_widgets.insert(m_widgets.begin() + 8, std::move(select_mode_fill_button));
+  m_widgets.insert(m_widgets.begin() + 9, std::move(select_mode_same_button));
 }
 
 Editor::~Editor()
@@ -162,6 +244,17 @@ Editor::draw(Compositor& compositor)
   if (m_levelloaded) {
     for(const auto& widget : m_widgets) {
       widget->draw(context);
+    }
+
+    context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
+                                     Color(0.2f, 0.2f, 0.2f), LAYER_GUI - 6);
+
+    context.color().draw_filled_rect(Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f),
+                                     Color(0.2f, 0.2f, 0.2f), LAYER_GUI - 6);
+
+    for(const auto& control : m_controls)
+    {
+      control->draw(context);
     }
 
     // If camera scale must be changed, change it here.
@@ -300,6 +393,11 @@ Editor::update(float dt_sec, const Controller& controller)
 
     for (const auto& widget : m_widgets) {
       widget->update(dt_sec);
+    }
+
+    for(const auto& control : m_controls)
+    {
+      control->update(dt_sec);
     }
 
     // Now that all widgets have been updated, which should have relinquished
@@ -876,6 +974,10 @@ Editor::event(const SDL_Event& ev)
 {
   if (!m_enabled || !m_levelloaded) return;
 
+  for(const auto& control : m_controls)
+    if (control->event(ev))
+      return;
+
   try
   {
     if (ev.type == SDL_KEYDOWN)
@@ -1062,9 +1164,11 @@ Editor::retoggle_undo_tracking()
   {
     // Add undo/redo button widgets.
     auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
-        Vector(10, 10), [this]{ undo(); });
+        Vector(0, 0), [this]{ undo(); });
+    undo_button_widget->set_help_text(_("Undo"));
     auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
-        Vector(60, 10), [this]{ redo(); });
+        Vector(32, 0), [this]{ redo(); });
+    redo_button_widget->set_help_text(_("Redo"));
 
     m_undo_widget = undo_button_widget.get();
     m_redo_widget = redo_button_widget.get();
@@ -1188,6 +1292,28 @@ Editor::pack_addon()
   info.end_list("supertux-addoninfo");
 
   *zip.Add_File(id + ".nfo") << ss.rdbuf();
+}
+
+void
+Editor::addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control)
+{
+  float height = 35.f;
+  for (const auto& control : m_controls) {
+    height = std::max(height, control->get_rect().get_bottom() + 5.f);
+  }
+
+  if (new_control.get()->get_rect().get_width() == 0.f || new_control.get()->get_rect().get_height() == 0.f) {
+    new_control.get()->set_rect(Rectf(100.f, height, 200.f - 1.0f, height + 20.f));
+  } else {
+    new_control.get()->set_rect(Rectf(new_control.get()->get_rect().get_left(),
+                                      height,
+                                      new_control.get()->get_rect().get_right(),
+                                      height + new_control.get()->get_rect().get_height()));
+  }
+
+  new_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(3.f, height, 100.f, height + 20.f), std::move(name));
+  //new_control.get()->m_on_change = std::function<void()>([this](){ this->push_version(); });
+  m_controls.push_back(std::move(new_control));
 }
 
 /* EOF */

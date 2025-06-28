@@ -28,6 +28,7 @@
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
+#include "interface/control.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/world.hpp"
 #include "util/currenton.hpp"
@@ -80,6 +81,11 @@ public:
 
   void event(const SDL_Event& ev) override;
   void on_window_resize() override;
+
+  std::vector<std::unique_ptr<InterfaceControl>>& get_controls()
+  {
+    return m_controls;
+  }
 
   void disable_keyboard() { m_enabled = false; }
 
@@ -162,6 +168,7 @@ public:
 
   void queue_layers_refresh();
 
+  void addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control);
   void retoggle_undo_tracking();
   void undo_stack_cleanup();
 
@@ -186,7 +193,6 @@ private:
   void save_level(const std::string& filename = "", bool switch_file = false);
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
-
   void keep_camera_in_bounds();
 
 protected:
@@ -224,8 +230,14 @@ private:
   bool m_has_deprecated_tiles;
 
   std::vector<std::unique_ptr<Widget> > m_widgets;
+  std::vector<std::unique_ptr<InterfaceControl>> m_controls;
+
   ButtonWidget* m_undo_widget;
   ButtonWidget* m_redo_widget;
+  ButtonWidget* m_grid_size_widget;
+  ButtonWidget* m_play_widget;
+  ButtonWidget* m_save_widget;
+
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
