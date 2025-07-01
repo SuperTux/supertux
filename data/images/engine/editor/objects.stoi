@@ -344,7 +344,7 @@
     (icon "images/engine/editor/editor-comment.png"))
   (object
     (class "floating_platform")
-    (icon "images/objects/platforms/floating_platform.png"))
+    (icon "images/objects/platforms/icefloe_small.png"))
  )
 
  (layers

@@ -24,13 +24,11 @@
 #include "object/rainsplash.hpp"
 #include "audio/sound_manager.hpp"
 
-namespace {
-const float GROUND_FRICTION = 0.1f;
-const std::string SPLASH_SOUND = "sounds/splash.ogg";
-}
-
+constexpr float GROUND_FRICTION = 0.1f;
+const float sink_speed = 40.0f;
+static const std::string SPLASH_SOUND = "sounds/splash.ogg";
 FloatingPlatform::FloatingPlatform(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/platforms/floating_platform.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
+  MovingSprite(reader, "images/objects/platforms/icefloe_small.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   m_physic(),
   m_on_ground(false),
   m_at_ceiling(false),
@@ -44,16 +42,14 @@ FloatingPlatform::FloatingPlatform(const ReaderMapping& reader) :
   SoundManager::current()->preload(SPLASH_SOUND);
 }
 
-void FloatingPlatform::update(float dt_sec)
+void
+FloatingPlatform::update(float dt_sec)
 {
-  if (get_bbox().get_top() > Sector::get().get_height()) {
+  if (get_bbox().get_top() > Sector::get().get_height())
     remove_me();
-    return;
-  }
-
 
   Rectf water_check_bbox = get_bbox();
-  water_check_bbox.set_bottom(water_check_bbox.get_bottom() - 15.0f); // Expand downward
+  water_check_bbox.set_bottom(water_check_bbox.get_bottom() - 30.0f); // Expand downward
   bool in_water = !Sector::get().is_free_of_tiles(water_check_bbox, true, Tile::WATER);
   if (in_water)
     m_floating = true;
@@ -69,12 +65,6 @@ void FloatingPlatform::update(float dt_sec)
   
   if (m_sink_offset > 0) {
         set_pos(get_pos() + Vector(0, m_sink_offset * dt_sec));
-
-  }
-
-  if (m_player_offset > 0) {
-    set_pos(get_pos() + Vector(0, m_player_offset * dt_sec));
-    set_pos(get_pos() + Vector(0, -m_player_offset * dt_sec));
   }
  
   const float sector_gravity = Sector::get().get_gravity();
@@ -87,18 +77,18 @@ void FloatingPlatform::update(float dt_sec)
     m_last_sector_gravity = sector_gravity;
   }
   m_col.set_movement(movement);
-  
 }
 
-void FloatingPlatform::collision_solid(const CollisionHit& hit)
+void
+FloatingPlatform::collision_solid(const CollisionHit& hit)
 {
   if (hit.top || hit.bottom) {
     m_physic.set_velocity_y(0);
   }
 
   if (hit.left || hit.right) {
-    float velx = m_physic.get_velocity_x();
-    m_physic.set_velocity_x(-0.1f * velx);
+    const float vel_x = m_physic.get_velocity_x();
+    m_physic.set_velocity_x(-0.1f * vel_x);
   }
 
   if (hit.bottom) {
@@ -113,7 +103,8 @@ void FloatingPlatform::collision_solid(const CollisionHit& hit)
   }
 }
 
-HitResponse FloatingPlatform::collision(MovingObject& other, const CollisionHit& hit)
+HitResponse 
+FloatingPlatform::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto crusher = dynamic_cast<Crusher*>(&other);
   if (crusher) {
@@ -133,18 +124,17 @@ HitResponse FloatingPlatform::collision(MovingObject& other, const CollisionHit&
   rock_check_zone.set_top(rock_check_zone.get_top() - 100.0f);
 
   auto rock = dynamic_cast<Rock*>(&other);
-  if (rock && rock_check_zone.overlaps(other.get_bbox())) {
-    int number_rocks = Sector::get().get_object_count<Rock>([this](const Rock& r) {
+  if (rock) {
+    m_number_rocks = Sector::get().get_object_count<Rock>([this](const Rock& r) {
         Rectf rock_zone = get_bbox();
         rock_zone.set_bottom(rock_zone.get_top());
         rock_zone.set_top(rock_zone.get_top() - 100.0f);
         return rock_zone.overlaps(r.get_bbox());
     });
-    const float sink_speed = 40.0f;
-    const float max_sink_depth = 15.0f * number_rocks; 
+    const float max_sink_depth = 15.0f * static_cast<float>(m_number_rocks);
     
     m_sink_offset = std::min(m_sink_offset + sink_speed, max_sink_depth);
-    m_physic.set_velocity_y(sink_speed * number_rocks); 
+    m_physic.set_velocity_y(sink_speed * static_cast<float>(m_number_rocks)); 
   }
 
   Rectf player_check_zone = get_bbox();
@@ -157,9 +147,16 @@ HitResponse FloatingPlatform::collision(MovingObject& other, const CollisionHit&
     SoundManager::current()->play(SPLASH_SOUND, get_pos());
     const float sink_speed_player = 40.0f;
     const float max_sink_depth_player = 200.0f;
-    for (int i = 0; i<10; i++) {
-      Sector::get().add<RainSplash>(Vector(static_cast<float>(get_x()- 5.f + (i*8.f)), static_cast<float>(get_y()+11.f)),
-                                              true);
+    const int num_splashes = 20;
+    for (int i = 0; i < num_splashes; i++) {
+        // Distribute evenly from left to right
+        float x_pos = get_bbox().get_left() + (get_bbox().get_right() -get_bbox().get_left()) * 
+                     (static_cast<float>(i) / (num_splashes - 1));
+        
+        Sector::get().add<RainSplash>(
+            Vector(x_pos, get_bbox().get_bottom()-40.f),
+            true
+        );
     }
     m_player_offset = std::min(m_player_offset + sink_speed_player, max_sink_depth_player);
     m_physic.set_velocity_y(sink_speed_player); 

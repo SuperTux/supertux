@@ -19,7 +19,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
-#include "badguy/badguy.hpp"  // Needed for BadGuy definition
+#include "badguy/badguy.hpp"
 
 class FloatingPlatform final : public MovingSprite
 {
@@ -45,10 +45,10 @@ private:
   bool m_floating;
   float m_last_sector_gravity;
   float m_sink_offset; 
-  float m_max_sink_depth;
   float m_player_offset;
-  int number_rocks;
+  float m_number_rocks;
   bool m_player_on_platform;
+
 
   FloatingPlatform(const FloatingPlatform&) = delete;
   FloatingPlatform& operator=(const FloatingPlatform&) = delete;
