@@ -65,8 +65,8 @@ int
 EditorTilebox::get_parentgroup_size() const
 {
   int parent_group_size = 0;
-  std::string  parent_group_name = m_active_tilegroup->parent_group;
-  for (auto& tilegroup :m_editor.get_tileset()->get_tilegroups())
+  std::string parent_group_name = m_active_tilegroup->parent_group;
+  for (const auto& tilegroup :m_editor.get_tileset()->get_tilegroups())
   {
     if (tilegroup.parent_group == parent_group_name) {
       parent_group_size += tilegroup.tiles.size();
@@ -435,17 +435,25 @@ EditorTilebox::select_tilegroup(int id, bool subgroup)
   if (tilegroup_selected) {
     previous_tilegroup_index = current_selected_tilegroup_index;
   }
-  current_selected_tilegroup_index = id;
   tilegroup_selected = true;
-  m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
+  Tilegroup newTilegroup(m_editor.get_tileset()->get_tilegroups()[id]);
+
+  if (!subgroup)
+  {
+    current_selected_tilegroup_index = id;
+    int i = 1;
+    while (m_editor.get_tileset()->get_tilegroups()[id + i].parent_group == newTilegroup.parent_group
+      && id + i < m_editor.get_tileset()->get_tilegroups().size())
+    {
+      newTilegroup.add_tiles(m_editor.get_tileset()->get_tilegroups()[id + i].tiles);
+      i++;
+    }
+  }
+  
+  m_active_tilegroup.reset(new Tilegroup(newTilegroup));
   m_input_type = InputType::TILE;
+  subgroup_selected = subgroup;
   reset_scrollbar();
-  if (subgroup) {
-    subgroup_selected = true;
-  }
-  else {
-    subgroup_selected = false;
-  }
 }
 
 void
@@ -488,7 +496,12 @@ EditorTilebox::get_tiles_height() const
   switch (m_input_type)
   {
     case InputType::TILE:
-      return ceilf(static_cast<float>(get_parentgroup_size()) / 4.f) * 32.f;
+      if (subgroup_selected) {
+        return ceilf(static_cast<float>(m_active_tilegroup->tiles.size()) / 4.f) * 32.f;
+      }
+      else {
+        return ceilf(static_cast<float>(get_parentgroup_size()) / 4.f) * 32.f;
+      }
 
     case InputType::OBJECT:
       return ceilf(static_cast<float>(m_active_objectgroup->get_icons().size()) / 4.f) * 32.f;

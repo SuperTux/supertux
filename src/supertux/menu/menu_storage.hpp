@@ -88,11 +88,14 @@ public:
     MULTIPLAYER_PLAYERS_MENU
   };
 
+  static const char* MenuIdNames[];
+
 public:
   MenuStorage();
   ~MenuStorage();
 
   std::unique_ptr<Menu> create(MenuId menu_id);
+  static int get_menu_id(std::string menu_name);
 
 private:
   MenuStorage(const MenuStorage&) = delete;

@@ -226,6 +226,7 @@ EditorToolboxWidget::on_key_down(const SDL_KeyboardEvent& key)
         {
           current_tilegroup_index = m_tilebox->get_previous_tilegroup_index();
           select_tilegroup(current_tilegroup_index, false);
+          opened_tilesubgroup_menu = -1;
         }
       }
       else if (m_tilebox->get_input_type() == InputType::OBJECT)
@@ -246,55 +247,47 @@ EditorToolboxWidget::on_key_down(const SDL_KeyboardEvent& key)
         {
           current_tilegroup_index = m_tilebox->get_current_tilegroup_index();
           select_objectgroup(current_objectgroup_index);
+          opened_tilesubgroup_menu = -1;
         }
       }
       else if (m_tilebox->get_input_type() == InputType::OBJECT)
       {
         current_objectgroup_index = m_tilebox->get_current_objectgroup_index();
         select_tilegroup(current_tilegroup_index, false);
+        opened_tilesubgroup_menu = -1;
       }
     }
 
     return true;
   }
-  else if (key.keysym.sym == SDLK_s)
+  else if (key.keysym.sym == SDLK_g)
   {
     if (m_tilebox->get_input_type() == InputType::TILE)
     {
       const auto& tilegroup = m_editor.get_tileset()->get_tilegroups()[current_tilegroup_index];
       const std::string& parent_group = tilegroup.parent_group;
 
-      static const std::map<std::string, int> tilesubgroup_menu_ids = {
-        {"Snow", MenuStorage::EDITOR_TILESUBGROUP_MENU_SNOW},
-        {"Snow Background", MenuStorage::EDITOR_TILESUBGROUP_MENU_SNOW_BACKGROUND},
-        {"Crystal", MenuStorage::EDITOR_TILESUBGROUP_MENU_CRYSTAL},
-        {"Forest", MenuStorage::EDITOR_TILESUBGROUP_MENU_FOREST},
-        {"Forest Background", MenuStorage::EDITOR_TILESUBGROUP_MENU_FOREST_BACKGROUND},
-        {"Corrupted Forest", MenuStorage::EDITOR_TILESUBGROUP_MENU_CORRUPTED_FOREST},
-        {"Corrupted Background", MenuStorage::EDITOR_TILESUBGROUP_MENU_CORRUPTED_BACKGROUND},
-        {"Jagged Rocks", MenuStorage::EDITOR_TILESUBGROUP_MENU_JAGGED_ROCKS},
-        {"Block + Bonus", MenuStorage::EDITOR_TILESUBGROUP_MENU_BLOCK_BONUS},
-        {"Pole + Signs", MenuStorage::EDITOR_TILESUBGROUP_MENU_POLE_SIGNS},
-        {"Liquid", MenuStorage::EDITOR_TILESUBGROUP_MENU_LIQUID},
-        {"Castle", MenuStorage::EDITOR_TILESUBGROUP_MENU_CASTLE},
-        {"Halloween", MenuStorage::EDITOR_TILESUBGROUP_MENU_HALLOWEEN},
-        {"Industrial", MenuStorage::EDITOR_TILESUBGROUP_MENU_INDUSTRIAL},
-        {"Unisolid + Lightmap", MenuStorage::EDITOR_TILESUBGROUP_MENU_UNISOLID_LIGHTMAP},
-        {"Miscellaneous", MenuStorage::EDITOR_TILESUBGROUP_MENU_MISCELLANEOUS},
-        {"Retro Tiles", MenuStorage::EDITOR_TILESUBGROUP_MENU_RETRO_TILES}
-      };
+      m_editor.disable_keyboard();
 
-      auto it = tilesubgroup_menu_ids.find(parent_group);
-      if (it != tilesubgroup_menu_ids.end()) {
-        int menu_id = it->second;
+      std::string enum_name = "EDITOR_TILESUBGROUP_MENU_" + parent_group;
+      std::string transformed;
+      for (char c : enum_name) 
+      {
+          if (c == ' ' && transformed.back() != '_') transformed += '_';
+          else if (c != '+' && c != ' ') transformed += std::toupper(static_cast<unsigned char>(c));
+      }
 
-        if (opened_tilesubgroup_menu == menu_id && MenuManager::instance().is_active()) {
-          MenuManager::instance().pop_menu();
-          opened_tilesubgroup_menu = -1;
-        } else {
-          MenuManager::instance().push_menu(menu_id);
-          opened_tilesubgroup_menu = menu_id;
-        }
+      auto menu_id = MenuStorage::get_menu_id(transformed);
+
+      if (opened_tilesubgroup_menu == menu_id && MenuManager::instance().is_active()) 
+      {
+        MenuManager::instance().pop_menu();
+        opened_tilesubgroup_menu = -1;
+      } 
+      else 
+      {
+        MenuManager::instance().push_menu(menu_id);
+        opened_tilesubgroup_menu = menu_id;
       }
     }
     return true;

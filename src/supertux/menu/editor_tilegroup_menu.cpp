@@ -29,7 +29,8 @@ EditorTilegroupMenu::EditorTilegroupMenu()
   std::string previous_parent_group = "";
   int id = 0;
   for (auto& tg : Editor::current()->get_tilegroups()) {
-    if (previous_parent_group == "" || previous_parent_group != tg.parent_group){
+    if (previous_parent_group == "" || previous_parent_group != tg.parent_group)
+    {
       add_entry(id, _(tg.parent_group));
       previous_parent_group = tg.parent_group;
     }
