@@ -1508,13 +1508,13 @@ EditorOverlayWidget::draw(DrawingContext& context)
   switch (m_editor.get_tileselect_input_type())
   {
     case EditorTilebox::InputType::TILE:
-      mode_text = "TILE MODE  (Click S to open tiles subgroups)";
+      mode_text = _("TILE MODE  (Click S to open tiles subgroups)");
       break;
     case EditorTilebox::InputType::OBJECT:
-      mode_text = "OBJECT MODE";
+      mode_text = _("OBJECT MODE");
       break;
     default:
-      mode_text = "NONE";
+      mode_text = _("NONE");
       break;
   }
   std::string zoom_text = (scale_percentage != 100)

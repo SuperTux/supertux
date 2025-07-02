@@ -1,5 +1,6 @@
 //  SuperTux
-//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2025 Vasco Rodrigues <vasco.a.a.rodrigues@tecnico.ulisboa.pt>
+//                2025 Afonso Mateus   <afonso.mateus@tecnico.ulisboa.pt> 
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
