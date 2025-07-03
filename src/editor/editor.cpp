@@ -1290,23 +1290,28 @@ Editor::pack_addon()
 }
 
 void
-Editor::addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control)
+Editor::addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description)
 {
   float height = 35.f;
   for (const auto& control : m_controls) {
     height = std::max(height, control->get_rect().get_bottom() + 5.f);
   }
 
-  if (new_control.get()->get_rect().get_width() == 0.f || new_control.get()->get_rect().get_height() == 0.f) {
-    new_control.get()->set_rect(Rectf(100.f, height, 200.f - 1.0f, height + 20.f));
-  } else {
-    new_control.get()->set_rect(Rectf(new_control.get()->get_rect().get_left(),
-                                      height,
-                                      new_control.get()->get_rect().get_right(),
-                                      height + new_control.get()->get_rect().get_height()));
+  auto control_rect = new_control.get()->get_rect();
+  Rectf target_rect = Rectf();
+  if (control_rect.get_width() == 0.f || control_rect.get_height() == 0.f)
+  {
+    target_rect = Rectf(100.f, height, 200.f - 1.0f, height + 20.f);
+  } 
+  else
+  {
+    target_rect = Rectf(control_rect.get_left(), height,
+                        control_rect.get_right(), height + control_rect.get_height());
   }
+  new_control.get()->set_rect(target_rect);
 
-  new_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(3.f, height, 100.f, height + 20.f), std::move(name));
+  auto dimensions = Rectf(3.f, height, 100.f, height + 20.f);
+  new_control.get()->m_label = std::make_unique<InterfaceLabel>(dimensions, std::move(name), std::move(description));
   //new_control.get()->m_on_change = std::function<void()>([this](){ this->push_version(); });
   m_controls.push_back(std::move(new_control));
 }
