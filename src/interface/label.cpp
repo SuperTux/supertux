@@ -54,25 +54,20 @@ InterfaceLabel::draw(DrawingContext& context)
                             Color::WHITE);
 
   if (!fits(m_label) && m_rect.contains(m_mouse_pos)) {
-    context.color().draw_filled_rect(Rectf(m_mouse_pos, m_mouse_pos + Vector(
-                                       Resources::control_font
-                                                    ->get_text_width(m_label),
-                                       Resources::control_font->get_height()))
-                                       .grown(5.f).moved(Vector(0, 32)),
-                                     Color(0.1f, 0.1f, 0.1f, 0.8f),
-                                     LAYER_GUI + 10);
-    context.color().draw_filled_rect(Rectf(m_mouse_pos, m_mouse_pos + Vector(
-                                       Resources::control_font
-                                                    ->get_text_width(m_label),
-                                       Resources::control_font->get_height()))
-                                       .grown(3.f).moved(Vector(0, 32)),
-                                     Color(1.f, 1.f, 1.f, 0.1f),
-                                     LAYER_GUI + 10);
-    context.color().draw_text(Resources::control_font,
-                              m_label,
+    auto text_width = Resources::control_font->get_text_width(m_label);
+    auto text_height = Resources::control_font->get_height();
+    auto base_rect = Rectf(m_mouse_pos, m_mouse_pos + Vector(text_width, text_height));
+    auto box_layer = LAYER_GUI + 10;
+
+    context.color().draw_filled_rect(base_rect.grown(5.f).moved(Vector(0, 32)),
+                                     Color(0.1f, 0.1f, 0.1f, 0.8f), box_layer);
+
+    context.color().draw_filled_rect(base_rect.grown(3.f).moved(Vector(0, 32)),
+                                     Color(1.f, 1.f, 1.f, 0.1f), box_layer);
+
+    context.color().draw_text(Resources::control_font, m_label,
                               m_mouse_pos + Vector(0, 33.f),
-                              FontAlignment::ALIGN_LEFT,
-                              LAYER_GUI + 11,
+                              FontAlignment::ALIGN_LEFT, LAYER_GUI + 11,
                               Color::WHITE);
   }
 }
