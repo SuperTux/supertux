@@ -81,6 +81,7 @@ Config::Config() :
   custom_mouse_cursor(true),
   do_release_check(false),
   disable_network(true),
+  show_world_previews(true),
   custom_title_levels(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
@@ -154,6 +155,7 @@ Config::load()
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("do_release_check", do_release_check);
   config_mapping.get("disable_network", disable_network);
+  config_mapping.get("show_world_previews", show_world_previews);
   config_mapping.get("custom_title_levels", custom_title_levels);
 
   std::optional<ReaderMapping> config_integrations_mapping;
@@ -375,6 +377,7 @@ Config::save()
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
   writer.write("do_release_check", do_release_check);
   writer.write("disable_network", disable_network);
+  writer.write("show_world_previews", show_world_previews);
   writer.write("custom_title_levels", custom_title_levels);
 
   writer.start_list("integrations");
