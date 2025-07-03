@@ -173,7 +173,8 @@ EditorOverlayWidget::drag_rect() const
     end_y = m_drag_start.y;
   }
 
-  return Rectf(start_x, start_y, end_x, end_y);
+  return Rectf(start_x, start_y, end_x, end_y)
+            .moved(Vector(-200.0f, -32.0f));
 }
 
 void
@@ -523,7 +524,7 @@ EditorOverlayWidget::hover_object()
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
     const Rectf& bbox = moving_object.get_bbox();
-    if (bbox.contains(m_sector_pos))
+    if (bbox.contains(m_sector_pos - Vector(200.f, 32.f)))
     {
       if (&moving_object != m_hovered_object)
       {
@@ -922,11 +923,12 @@ EditorOverlayWidget::process_left_click()
         }
         else if (auto script_option = dynamic_cast<ScriptObjectOption*>(option.get()))
         {
-          auto button = std::make_unique<ControlButton>(_("Edit script"));
+          auto button = std::make_unique<ControlButton>(_("Edit..."));
           const auto value_ptr = script_option->get_value();
           button.get()->m_on_change = std::function<void()>([value_ptr]() {
             MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(value_ptr));
           });
+          button.get()->set_rect(Rectf(0, 32, 20, 32));
           m_editor.addControl(option.get()->get_text(), std::move(button));
         }
         // else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
