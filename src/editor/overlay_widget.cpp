@@ -896,30 +896,32 @@ EditorOverlayWidget::process_left_click()
       ObjectSettings os = m_hovered_object.get()->get_settings();
       for(const auto& option : os.get_options())
       {
+        auto text = option.get()->get_text();
+        auto description = option.get()->get_description();
         if (dynamic_cast<LabelObjectOption*>(option.get()))
         {
-          m_editor.addControl(option.get()->get_text(), nullptr);
+          m_editor.addControl(text, nullptr, description);
         }
         else if (auto int_option = dynamic_cast<IntObjectOption*>(option.get()))
         {
           auto textbox = std::make_unique<ControlTextboxInt>();
           textbox.get()->set_rect(Rectf(0, 32, 200, 32));
           textbox.get()->bind_value(int_option->get_value());
-          m_editor.addControl(option.get()->get_text(), std::move(textbox));
+          m_editor.addControl(text, std::move(textbox), description);
         }
         else if (auto float_option = dynamic_cast<FloatObjectOption*>(option.get()))
         {
           auto textbox = std::make_unique<ControlTextboxFloat>();
           textbox.get()->set_rect(Rectf(0, 32, 200, 32));
           textbox.get()->bind_value(float_option->get_value());
-          m_editor.addControl(option.get()->get_text(), std::move(textbox));
+          m_editor.addControl(text, std::move(textbox), description);
         }
         else if (auto bool_option = dynamic_cast<BoolObjectOption*>(option.get()))
         {
           auto checkbox = std::make_unique<ControlCheckbox>();
-          checkbox.get()->set_rect(Rectf(0, 32, 20, 32));
+          checkbox.get()->set_rect(Rectf(0, 32, 32, 32));
           checkbox.get()->bind_value(bool_option->get_value());
-          m_editor.addControl(option.get()->get_text(), std::move(checkbox));
+          m_editor.addControl(text, std::move(checkbox), description);
         }
         else if (auto script_option = dynamic_cast<ScriptObjectOption*>(option.get()))
         {
@@ -929,7 +931,7 @@ EditorOverlayWidget::process_left_click()
             MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(value_ptr));
           });
           button.get()->set_rect(Rectf(0, 32, 20, 32));
-          m_editor.addControl(option.get()->get_text(), std::move(button));
+          m_editor.addControl(text, std::move(button), description);
         }
         // else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
         // {
@@ -940,7 +942,7 @@ EditorOverlayWidget::process_left_click()
           auto textbox = std::make_unique<ControlTextbox>();
           textbox.get()->set_rect(Rectf(0, 32, 200, 32));
           textbox.get()->put_text(option.get()->to_string());
-          m_editor.addControl(option.get()->get_text(), std::move(textbox));
+          m_editor.addControl(text, std::move(textbox), description);
         }
       }
     }
