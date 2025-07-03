@@ -18,19 +18,52 @@
 
 #include "math/random.hpp"
 #include "object/coin.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
 #include <list>
 
 CoinExplode::CoinExplode(const Vector& pos, bool count_stats, const std::string& sprite) :
+  GameObject("coin-explode"),
   m_sprite(sprite),
   position(pos),
   m_count_stats(count_stats)
 {
 }
 
+CoinExplode::CoinExplode(const ReaderMapping& reader) :
+  GameObject(reader),
+  m_sprite("images/objects/coin/coin.sprite"),
+  position(),
+  m_count_stats(true)
+{
+  reader.get("x", position.x);
+  reader.get("y", position.y);
+  bool emerge = false;
+}
+
 void
-CoinExplode::update(float )
+CoinExplode::update(float dt_sec)
+{
+  if (is_grabbed()) 
+    // Don't do anything while being carried
+    return;
+}
+
+void
+CoinExplode::draw(DrawingContext& context)
+{
+  // Draw the coin sprite so it's visible
+  auto sprite = SpriteManager::current()->create(m_sprite);
+  if (sprite) 
+  {
+    sprite->draw(context.color(), position, LAYER_OBJECTS);
+  }
+}
+
+void
+CoinExplode::explode()
 {
   float mag = 100.0f; // Magnitude at which coins are thrown.
   float rand = 30.0f; // Max variation to be subtracted from the magnitude.
@@ -53,8 +86,22 @@ CoinExplode::update(float )
 }
 
 void
-CoinExplode::draw(DrawingContext &)
+CoinExplode::grab(MovingObject& object, const Vector& pos, Direction dir)
 {
+  position = pos;
+  Portable::grab(object, pos, dir);
 }
+
+void
+CoinExplode::ungrab(MovingObject& object, Direction dir)
+{
+  position = object.get_pos();
+  
+  // Explode immediately when ungrabbed
+  explode();
+  
+  Portable::ungrab(object, dir);
+}
+
 
 /* EOF */
