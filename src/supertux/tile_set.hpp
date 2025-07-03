@@ -37,8 +37,13 @@ public:
   Tilegroup();
 
   bool developers_group = false;
+  std::string parent_group;
   std::string name;
   std::vector<int> tiles;
+
+  void add_tiles(const std::vector<int>& new_tiles) {
+    tiles.insert(tiles.end(), new_tiles.begin(), new_tiles.end());
+  }
 };
 
 class TileSet final
