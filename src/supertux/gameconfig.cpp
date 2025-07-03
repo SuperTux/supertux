@@ -111,6 +111,12 @@ Config::Config() :
   editor_show_deprecated_tiles(false),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
+  is_joining(false),
+  is_hosting(false),
+  left_game(false),
+  go_to_level(false),
+  world(""),
+  level(""),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
   multiplayer_buzz_controllers(true),
 #else

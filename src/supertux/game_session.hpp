@@ -33,6 +33,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/screen_fade.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
 #include "video/surface_ptr.hpp"
@@ -99,6 +100,7 @@ public:
   void on_player_added(int id);
   bool on_player_removed(int id);
 
+  inline Player* get_player(int id) const { return m_currentsector->get_player(id); }
   void set_start_point(const std::string& sector, const std::string& spawnpoint);
   void set_start_pos(const std::string& sector, const Vector& pos);
   inline void set_respawn_point(const std::string& sector, const std::string& spawnpoint)
@@ -118,6 +120,8 @@ public:
 
   inline Sector& get_current_sector() const { return *m_currentsector; }
   inline Level& get_current_level() const { return *m_level; }
+  std::string get_current_world() const;
+
 
   void start_sequence(Player* caller, Sequence seq, const SequenceData* data = nullptr);
   void set_target_timer_paused(bool paused);
@@ -139,6 +143,8 @@ public:
   inline Savegame& get_savegame() const { return m_savegame; }
 
   void set_scheduler(SquirrelScheduler& new_scheduler);
+
+  inline bool is_playing_in_level() const { return m_currentsector != nullptr && m_level != nullptr && m_active && !m_game_pause && !m_end_sequence; }
 
 private:
   void check_end_conditions();
