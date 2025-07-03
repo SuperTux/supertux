@@ -42,6 +42,7 @@
 #include "editor/tool_icon.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/menu_script.hpp"
 #include "gui/mousecursor.hpp"
 #include "math/util.hpp"
 #include "object/camera.hpp"
@@ -224,6 +225,17 @@ Editor::Editor() :
   m_widgets.insert(m_widgets.begin() + 7, std::move(select_mode_area_button));
   m_widgets.insert(m_widgets.begin() + 8, std::move(select_mode_fill_button));
   m_widgets.insert(m_widgets.begin() + 9, std::move(select_mode_same_button));
+
+  // auto code_widget = std::make_unique<ButtonWidget>(
+  //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
+  //     std::ostringstream level_ostream;
+  //     Writer output_writer(level_ostream);
+  //     m_level->save(output_writer);
+  //     auto level_content = level_ostream.str();
+  //     MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(&level_content));
+  //     log_warning << level_content << std::endl;
+  //   });
+  // m_widgets.insert(m_widgets.begin() + 10, std::move(code_widget));
 }
 
 Editor::~Editor()

@@ -784,7 +784,7 @@ EditorOverlayWidget::add_path_node()
   m_edited_path->save_state();
 
   Path::Node new_node(&m_edited_path->get_path());
-  new_node.position = m_sector_pos;
+  new_node.position = m_sector_pos - Vector(200.f, 32.f);
   new_node.bezier_before = new_node.position;
   new_node.bezier_after = new_node.position;
   new_node.time = 1;
@@ -821,11 +821,11 @@ EditorOverlayWidget::put_object()
   }
   else
   {
-    auto target_pos = m_sector_pos;
+    auto target_pos = m_sector_pos - Vector(200.f, 32.f);
     if (g_config->editor_snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
-      target_pos = glm::floor(m_sector_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
+      target_pos = glm::floor(target_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
     }
 
     auto object = GameObjectFactory::instance().create(object_class, target_pos);
