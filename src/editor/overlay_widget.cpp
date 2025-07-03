@@ -1272,8 +1272,9 @@ EditorOverlayWidget::update_pos()
   if(m_editor.get_sector() == nullptr) return;
 
   m_sector_pos = m_mouse_pos / m_editor.get_sector()->get_camera().get_current_scale() +
-                 m_editor.get_sector()->get_camera().get_translation();
-  m_hovered_tile = sp_to_tp(m_sector_pos);
+                 m_editor.get_sector()->get_camera().get_translation() + Vector(200.f, 32.f);
+  
+  m_hovered_tile = sp_to_tp(m_sector_pos - Vector(200.f, 32.f));
 
   if (m_last_hovered_tile != m_hovered_tile)
   {

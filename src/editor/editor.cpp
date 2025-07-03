@@ -517,7 +517,7 @@ void
 Editor::keep_camera_in_bounds()
 {
   Camera& camera = m_sector->get_camera();
-  camera.keep_in_bounds(Rectf(0.f, 0.f,
+  camera.keep_in_bounds(Rectf(-200.f, -32.0f,
                               std::max(0.0f, m_sector->get_editor_width() + 128.f / camera.get_current_scale()),
                               std::max(0.0f, m_sector->get_editor_height() + 32.f / camera.get_current_scale())));
 
