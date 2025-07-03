@@ -112,7 +112,6 @@ namespace {
   {
     collision::Constraints constraints;
 
-
     // Slightly growing the static object's rectangle to detect a
     // collision not only when they overlap, but also when they're
     // adjacent or at least extremely close.
@@ -163,10 +162,11 @@ namespace {
 
     if (!shiftout)
     {
-      if (other_object && other_object->is_unisolid())
+      if (other_object && other_object->is_unisolid() &&
+          moving_object->get_group() != COLGROUP_MOVING_STATIC)
       {
         // Constrain only on fall on top of the unisolid object.
-        if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top())
+        if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top() - (other_object->get_movement().y - 5.f))
         {
           constraints.constrain_bottom(other_obj_rect.get_top());
           constraints.hit.bottom = true;
@@ -750,6 +750,7 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
   for (const auto& object : m_objects) {
     if (object == ignore_object) continue;
     if (!object->is_valid()) continue;
+    if (object->is_unisolid() && ignore_unisolid) continue;
     if ((object->get_group() == COLGROUP_MOVING)
       || (object->get_group() == COLGROUP_MOVING_STATIC)
       || (object->get_group() == COLGROUP_STATIC)) {

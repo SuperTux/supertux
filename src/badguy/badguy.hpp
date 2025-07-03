@@ -151,6 +151,9 @@ public:
     Returns false if enemy is spiky or too large */
   virtual bool is_snipable() const { return false; }
 
+  /** Can enemy get pushed by explosions? */
+  virtual bool is_heavy() const { return false; }
+
   virtual bool always_active() const { return false; }
 
   bool is_frozen() const;
