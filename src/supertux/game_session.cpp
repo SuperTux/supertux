@@ -32,6 +32,7 @@
 #include "object/music_object.hpp"
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
+#include "object/textscroller.hpp"
 #include "sdk/integration.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/constants.hpp"
@@ -310,6 +311,14 @@ GameSession::on_escape_press(bool force_quick_respawn)
       player->m_dying_timer.start(FLT_EPSILON);
 
     return;   // Don't let the player open the menu, when Tux is dying.
+  }
+
+  int textscrollers = m_currentsector->get_object_count<TextScroller>([](const TextScroller& ts) {
+    return !ts.is_fading();
+  });
+  
+  if (textscrollers) {
+    return;
   }
 
   if (m_level->m_is_in_cutscene && !m_level->m_skip_cutscene)
