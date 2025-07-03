@@ -74,11 +74,13 @@ public:
   inline const std::string& get_key() const { return m_key; }
   inline const std::string& get_text() const { return m_text; }
   inline const std::string& get_description() const { return m_description; }
+  void set_description(const std::string& description) { m_description = description; }
+
   inline unsigned int get_flags() const { return m_flags; }
 
 protected:
   const std::string m_text;
-  const std::string m_description;
+  std::string m_description;
   const std::string m_key;
   const unsigned int m_flags;
 
