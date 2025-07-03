@@ -167,7 +167,7 @@ public:
 
   void queue_layers_refresh();
 
-  void addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control);
+  void addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
   void retoggle_undo_tracking();
   void undo_stack_cleanup();
 
