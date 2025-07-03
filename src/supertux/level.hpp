@@ -45,6 +45,7 @@ public:
   // saves to a levelfile
   void save(const std::string& filename, bool retry = false);
   void save(std::ostream& stream);
+  void save(Writer& writer);
 
   void add_sector(std::unique_ptr<Sector> sector);
   inline const std::string& get_name() const { return m_name; }
@@ -74,8 +75,6 @@ public:
 
 private:
   void initialize();
-
-  void save(Writer& writer);
   void load_old_format(const ReaderMapping& reader);
 
 public:
