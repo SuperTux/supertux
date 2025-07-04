@@ -933,6 +933,13 @@ EditorOverlayWidget::process_left_click()
           button.get()->set_rect(Rectf(0, 32, 20, 32));
           m_editor.addControl(text, std::move(button), description);
         }
+        else if (auto string_option = dynamic_cast<StringObjectOption*>(option.get()))
+        {
+          auto textbox = std::make_unique<ControlTextbox>();
+          textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+          textbox.get()->bind_string(string_option->get_value());
+          m_editor.addControl(text, std::move(textbox), description);
+        }
         // else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
         // {
         //   auto dropdown = std::make_unique<ControlEnum>();
