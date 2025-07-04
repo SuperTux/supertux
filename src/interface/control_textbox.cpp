@@ -315,16 +315,17 @@ ControlTextbox::event(const SDL_Event& ev) {
 bool
 ControlTextbox::parse_value(bool call_on_change /* = true  (see header)*/)
 {
+  std::string new_str = get_contents();
+
   // Abort if we have a validation function for the string, and the function
   // says the string is invalid.
   if (m_validate_string) {
-    if (!m_validate_string(this, get_contents())) {
+    if (!m_validate_string(this, new_str)) {
       revert_value();
       return false;
     }
   }
 
-  std::string new_str = get_string();
   if (m_internal_string_backup != new_str) {
     m_internal_string_backup = new_str;
 
