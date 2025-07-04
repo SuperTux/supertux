@@ -37,6 +37,7 @@
 #include "math/bezier.hpp"
 #include "object/camera.hpp"
 #include "object/path_gameobject.hpp"
+#include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/autotile.hpp"
@@ -893,7 +894,10 @@ EditorOverlayWidget::process_left_click()
       // WIP:
       auto& controls = m_editor.get_controls();
       controls.clear();
-      ObjectSettings os = m_hovered_object.get()->get_settings();
+
+      auto hovered_object = m_hovered_object.get();
+      ObjectSettings os = hovered_object->get_settings();
+      
       for(const auto& option : os.get_options())
       {
         auto text = option.get()->get_text();
@@ -939,6 +943,24 @@ EditorOverlayWidget::process_left_click()
           textbox.get()->set_rect(Rectf(0, 32, 200, 32));
           textbox.get()->bind_string(string_option->get_value());
           m_editor.addControl(text, std::move(textbox), description);
+        }
+        else if (auto test_from_here_option = dynamic_cast<TestFromHereOption*>(option.get()))
+        {
+          auto button = std::make_unique<ControlButton>(_("Test"));
+          button->set_rect(Rectf(0, 32, 200, 32));
+          button.get()->m_on_change = std::function<void()>([hovered_object, this]() {
+            auto spawnpoint = dynamic_cast<SpawnPointMarker*>(hovered_object);
+            if (spawnpoint == nullptr)
+              return;
+
+            // TODO: Pressing the return key from within a game session automatically 
+            // triggers this button again if it's previously been pushed. This needs
+            // to get fixed.
+            auto sector_name = Editor::current()->get_sector()->get_name();
+            m_editor.m_test_pos = std::make_pair(sector_name, spawnpoint->get_pos());
+            m_editor.m_test_request = true;
+          });
+          m_editor.addControl(text, std::move(button), description);
         }
         // else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
         // {
