@@ -62,3 +62,81 @@ private:
   ButtonWidget(const ButtonWidget&) = delete;
   ButtonWidget& operator=(const ButtonWidget&) = delete;
 };
+
+class EditorToolbarButtonWidget : public ButtonWidget
+{
+public:
+  EditorToolbarButtonWidget(SpritePtr sprite, const Vector& pos, std::function<void()> m_sig_click = {}) :
+    ButtonWidget(std::move(sprite), pos, m_sig_click),
+    m_tile_mode_visible(true),
+    m_object_mode_visible(true),
+    m_visible(true)
+  {
+  }
+
+  EditorToolbarButtonWidget(const std::string& path, const Vector& pos, std::function<void()> callback = {}) :
+    ButtonWidget(SpriteManager::current()->create(path), pos, std::move(callback)),
+    m_tile_mode_visible(true),
+    m_object_mode_visible(true),
+    m_visible(true)
+  {
+  }
+
+  virtual void draw(DrawingContext& context) override
+  {
+    if (!get_visible())
+      return;
+    
+    ButtonWidget::draw(context);
+  }
+
+  virtual void update(float dt_sec) override
+  {
+    if (!get_visible())
+      return;
+
+    ButtonWidget::update(dt_sec);
+  }
+
+  virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override
+  {
+    if (!get_visible())
+      return false;
+    
+    return ButtonWidget::on_mouse_button_up(button);
+  }
+
+  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override
+  {
+    if (!get_visible())
+      return false;
+    
+    return ButtonWidget::on_mouse_button_down(button);
+  }
+
+  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override
+  {
+    if (!get_visible())
+      return false;
+    
+    return ButtonWidget::on_mouse_motion(motion);
+  }
+
+  void set_visible_in_tile_mode(bool visible) { m_tile_mode_visible = visible; }
+  bool get_visible_in_tile_mode() const { return m_tile_mode_visible; }
+
+  void set_visible_in_object_mode(bool visible) { m_object_mode_visible = visible; }
+  bool get_visible_in_object_mode() const { return m_object_mode_visible; } 
+
+  void set_visible(bool visible) { m_visible = visible; }
+  bool get_visible() const { return m_visible; }
+
+private:
+  bool m_tile_mode_visible;
+  bool m_object_mode_visible;
+  bool m_visible;
+
+private:
+  EditorToolbarButtonWidget(const EditorToolbarButtonWidget&) = delete;
+  EditorToolbarButtonWidget& operator=(const EditorToolbarButtonWidget&) = delete;
+};

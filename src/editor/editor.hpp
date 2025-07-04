@@ -36,7 +36,7 @@
 #include "util/string_util.hpp"
 #include "video/surface_ptr.hpp"
 
-class ButtonWidget;
+class EditorToolbarButtonWidget;
 class GameObject;
 class Level;
 class ObjectGroup;
@@ -231,11 +231,11 @@ private:
   std::vector<std::unique_ptr<Widget> > m_widgets;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
 
-  ButtonWidget* m_undo_widget;
-  ButtonWidget* m_redo_widget;
-  ButtonWidget* m_grid_size_widget;
-  ButtonWidget* m_play_widget;
-  ButtonWidget* m_save_widget;
+  EditorToolbarButtonWidget* m_undo_widget;
+  EditorToolbarButtonWidget* m_redo_widget;
+  EditorToolbarButtonWidget* m_grid_size_widget;
+  EditorToolbarButtonWidget* m_play_widget;
+  EditorToolbarButtonWidget* m_save_widget;
 
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
