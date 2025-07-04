@@ -150,7 +150,7 @@ Editor::Editor() :
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
 
-  auto grid_size_widget = std::make_unique<ButtonWidget>("images/engine/editor/grid_button.png",
+  auto grid_size_widget = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png",
     Vector(64, 0),
     [this] {
       auto& snap_grid_size = g_config->editor_selected_snap_grid_size;
@@ -171,7 +171,7 @@ Editor::Editor() :
 
   m_widgets.insert(m_widgets.begin() + 2, std::move(grid_size_widget));
 
-  auto play_button = std::make_unique<ButtonWidget>("images/engine/editor/play_button.png",
+  auto play_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
     Vector(96, 0), [this] { m_test_request = true; });
   play_button->set_help_text(_("Test level"));
 
@@ -179,7 +179,7 @@ Editor::Editor() :
 
   m_widgets.insert(m_widgets.begin() + 3, std::move(play_button));
 
-  auto save_button = std::make_unique<ButtonWidget>("images/engine/editor/save.png",
+  auto save_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
     Vector(128, 0), [this] { save_level(); });
   save_button->set_help_text(_("Save level"));
 
@@ -187,46 +187,71 @@ Editor::Editor() :
 
   m_widgets.insert(m_widgets.begin() + 4, std::move(save_button));
   
-  auto mode_button = std::make_unique<ButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
+  auto mode_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
     Vector(160, 0), [this] {
       auto& tilebox = m_toolbox_widget->get_tilebox();
       const auto& input_type = tilebox.get_input_type();
       if (input_type == InputType::OBJECT)
+      {
         select_tilegroup(0);
+        for(const auto& widget : m_widgets)
+        {
+          if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+          {
+            toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
+          }
+        }
+      }
       else
+      {
         select_objectgroup(0);
+        for(const auto& widget : m_widgets)
+        {
+          if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+          {
+            toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
+          }
+        }
+      }
   });
   mode_button->set_help_text(_("Toggle between object and tile mode"));
 
   m_widgets.insert(m_widgets.begin() + 5, std::move(mode_button));
   
-  auto select_mode_mouse_button = std::make_unique<ButtonWidget>(
+  auto select_mode_mouse_button = std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/select-mode0.png", Vector(192, 0), [this] {
       m_toolbox_widget->set_tileselect_select_mode(0);
     });
   select_mode_mouse_button->set_help_text(_("Draw mode (The current tool applies to the tile under the mouse)"));
-  auto select_mode_area_button = std::make_unique<ButtonWidget>(
+  select_mode_mouse_button->set_visible_in_object_mode(false);
+  
+  auto select_mode_area_button = std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/select-mode1.png", Vector(224, 0), [this] {
       m_toolbox_widget->set_tileselect_select_mode(1);
     });
   select_mode_area_button->set_help_text(_("Box draw mode (The current tool applies to an area / box drawn with the mouse)"));
-  auto select_mode_fill_button = std::make_unique<ButtonWidget>(
+  select_mode_area_button->set_visible_in_object_mode(false);
+  
+  auto select_mode_fill_button = std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/select-mode2.png", Vector(256, 0), [this] {
       m_toolbox_widget->set_tileselect_select_mode(2);
     });
   select_mode_fill_button->set_help_text(_("Fill mode (The current tool applies to the empty area in the enclosed space that was clicked)"));
-  auto select_mode_same_button = std::make_unique<ButtonWidget>(
+  select_mode_fill_button->set_visible_in_object_mode(false);
+  
+  auto select_mode_same_button = std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/select-mode3.png", Vector(288, 0), [this] {
       m_toolbox_widget->set_tileselect_select_mode(3);
     });
   select_mode_same_button->set_help_text(_("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)"));
-  
+  select_mode_same_button->set_visible_in_object_mode(false);
+
   m_widgets.insert(m_widgets.begin() + 6, std::move(select_mode_mouse_button));
   m_widgets.insert(m_widgets.begin() + 7, std::move(select_mode_area_button));
   m_widgets.insert(m_widgets.begin() + 8, std::move(select_mode_fill_button));
   m_widgets.insert(m_widgets.begin() + 9, std::move(select_mode_same_button));
 
-  // auto code_widget = std::make_unique<ButtonWidget>(
+  // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
   //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
   //     std::ostringstream level_ostream;
   //     Writer output_writer(level_ostream);
@@ -1174,10 +1199,10 @@ Editor::retoggle_undo_tracking()
   if (g_config->editor_undo_tracking && !m_undo_widget)
   {
     // Add undo/redo button widgets.
-    auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
+    auto undo_button_widget = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
         Vector(0, 0), [this]{ undo(); });
     undo_button_widget->set_help_text(_("Undo"));
-    auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
+    auto redo_button_widget = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
         Vector(32, 0), [this]{ redo(); });
     redo_button_widget->set_help_text(_("Redo"));
 
