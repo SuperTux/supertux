@@ -38,7 +38,16 @@ public:
   virtual void update(float dt_sec) override;
 
   /** Binds a string to the textbox */
-  inline void bind_string(std::string* value) { m_string = value; }
+  inline void bind_string(std::string* value)
+  {
+    m_string = value;
+
+    if(value != nullptr)
+    {
+      m_internal_string_backup = *value;
+      revert_value();
+    }
+  }
 
   /** Returns the full string held in m_charlist */
   const std::string& get_string() const;
