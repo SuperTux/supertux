@@ -441,15 +441,18 @@ ControlTextbox::fits(const std::string& text) const
 void
 ControlTextbox::recenter_offset()
 {
+  auto contents = get_contents();
+  auto visible_contents = get_contents_visible();
+
   while (m_caret_pos < m_current_offset && m_current_offset > 0) {
     m_current_offset--;
   }
 
-  while (m_caret_pos > m_current_offset + int(get_contents_visible().size()) && m_current_offset < int(get_contents().size())) {
+  while (m_caret_pos > m_current_offset + int(visible_contents.size()) && m_current_offset < int(contents.size())) {
     m_current_offset++;
   }
 
-  while (m_current_offset > 0 && fits(get_contents().substr(m_current_offset - 1))) {
+  while (m_current_offset > 0 && fits(contents.substr(m_current_offset - 1))) {
     m_current_offset--;
   }
 }

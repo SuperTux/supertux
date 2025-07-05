@@ -795,6 +795,27 @@ EditorOverlayWidget::update_properties_panel(GameObject* object)
       });
       m_editor.addControl(text, std::move(dropdown), description);
     }
+    else if(auto direction_option = dynamic_cast<DirectionOption*>(option.get()))
+    {
+      auto directions = direction_option->get_possible_directions();
+      auto dropdown = std::make_unique<ControlEnum<Direction>>();
+      for (const auto& direction : directions)
+      {
+        dropdown->add_option(direction, dir_to_translated_string(direction));
+      }
+      dropdown->bind_value(direction_option->get_value());
+      dropdown.get()->m_on_change = std::function<void()>([hovered_object, this]() {
+        if (hovered_object == nullptr)
+          return;
+        // TODO: Updating the object doesn't work every time.
+        // Investigate why this is the case!
+        hovered_object->after_editor_set();
+        hovered_object->check_state();
+        update_properties_panel(hovered_object);
+      });
+      
+      m_editor.addControl(text, std::move(dropdown), description);
+    }
     else
     {
       auto textbox = std::make_unique<ControlTextbox>();
