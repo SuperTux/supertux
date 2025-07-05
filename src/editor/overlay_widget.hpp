@@ -97,6 +97,7 @@ private:
   void clone_object();
   void hover_object();
   void show_object_menu(GameObject& object);
+  void update_properties_panel(GameObject* object);
   void select_object();
   void add_path_node();
 
