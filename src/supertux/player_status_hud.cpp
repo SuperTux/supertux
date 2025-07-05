@@ -123,5 +123,3 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
   context.pop_transform();
 }
-
-/* EOF */

@@ -136,5 +136,3 @@ EditorSectorsMenu::menu_action(MenuItem& item)
     }
   }
 }
-
-/* EOF */

@@ -16,8 +16,7 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef HEADER_SUPERTUX_UTIL_CURRENTON_HPP
-#define HEADER_SUPERTUX_UTIL_CURRENTON_HPP
+#pragma once
 
 /**
  *   A 'Currenton' allows access to the currently active instance of a
@@ -55,7 +54,3 @@ public:
 
 template<class C>
 Currenton<C>* Currenton<C>::s_current = nullptr;
-
-#endif
-
-/* EOF */

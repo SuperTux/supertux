@@ -236,5 +236,3 @@ PathGameObject::regenerate_name()
 {
   set_name(make_unique_name("path", this));
 }
-
-/* EOF */

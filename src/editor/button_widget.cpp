@@ -120,5 +120,3 @@ ButtonWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     return false;
   }
 }
-
-/* EOF */

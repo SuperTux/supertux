@@ -99,5 +99,3 @@ SpriteChange::get_settings()
 }
 
 } // namespace worldmap
-
-/* EOF */

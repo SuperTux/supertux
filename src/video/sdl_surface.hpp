@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SDL_SURFACE_HPP
-#define HEADER_SUPERTUX_VIDEO_SDL_SURFACE_HPP
+#pragma once
 
 #include <string>
 #include <SDL.h>
@@ -30,7 +29,3 @@ public:
   static SDLSurfacePtr from_file(const std::string& filename);
   static int save_png(const SDL_Surface& surface, const std::string& filename);
 };
-
-#endif
-
-/* EOF */

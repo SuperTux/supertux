@@ -196,5 +196,3 @@ ProfileMenu::on_profile_change()
   /** Perform actions on current profile change */
   TitleScreen::current()->refresh_level();
 }
-
-/* EOF */

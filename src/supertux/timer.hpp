@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_TIMER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_TIMER_HPP
+#pragma once
 
 #include "supertux/globals.hpp"
 
@@ -62,7 +61,3 @@ private:
   Timer(const Timer&) = delete;
   Timer& operator=(const Timer&) = delete;
 };
-
-#endif
-
-/* EOF */

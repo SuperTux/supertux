@@ -131,5 +131,3 @@ Controller::update()
     m_old_controls[i] = m_controls[i];
   }
 }
-
-/* EOF */

@@ -161,5 +161,3 @@ LevelTile::get_settings()
 }
 
 } // namespace worldmap
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_INTERFACE_CONTROL_TEXTBOX_INT_HPP
-#define HEADER_SUPERTUX_INTERFACE_CONTROL_TEXTBOX_INT_HPP
+#pragma once
 
 #include "interface/control_textbox.hpp"
 
@@ -60,7 +59,3 @@ private:
   ControlTextboxInt(const ControlTextboxInt&) = delete;
   ControlTextboxInt& operator=(const ControlTextboxInt&) = delete;
 };
-
-#endif
-
-/* EOF */

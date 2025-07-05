@@ -230,5 +230,3 @@ Key::spawn_use_particles()
       ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false, m_color);
   }
 }
-
-/* EOF */

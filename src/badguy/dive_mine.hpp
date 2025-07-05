@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_DIVEMINE_HPP
-#define HEADER_SUPERTUX_BADGUY_DIVEMINE_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 
@@ -70,7 +69,3 @@ private:
   DiveMine(const DiveMine&) = delete;
   DiveMine& operator=(const DiveMine&) = delete;
 };
-
-#endif
-
-/* EOF */

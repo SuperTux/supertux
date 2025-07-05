@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_SPRITE_PARTICLE_HPP
-#define HEADER_SUPERTUX_OBJECT_SPRITE_PARTICLE_HPP
+#pragma once
 
 #include "math/anchor_point.hpp"
 #include "sprite/sprite_ptr.hpp"
@@ -62,7 +61,3 @@ private:
   SpriteParticle(const SpriteParticle&) = delete;
   SpriteParticle& operator=(const SpriteParticle&) = delete;
 };
-
-#endif
-
-/* EOF */

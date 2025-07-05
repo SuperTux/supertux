@@ -61,5 +61,3 @@ SDLTexture::~SDLTexture()
 {
   SDL_DestroyTexture(m_texture);
 }
-
-/* EOF */

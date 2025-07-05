@@ -38,5 +38,3 @@ GLFramebuffer::~GLFramebuffer()
 {
   glDeleteFramebuffers(1, &m_handle);
 }
-
-/* EOF */

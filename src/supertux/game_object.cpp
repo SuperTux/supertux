@@ -280,5 +280,3 @@ GameObject::register_class(ssq::VM& vm)
   cls.addFunc("get_display_name", &GameObject::get_display_name);
   cls.addFunc("get_type", &GameObject::get_type);
 }
-
-/* EOF */

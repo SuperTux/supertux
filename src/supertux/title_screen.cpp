@@ -287,5 +287,3 @@ TitleScreen::get_status() const
   status.m_details.push_back("In main menu");
   return status;
 }
-
-/* EOF */

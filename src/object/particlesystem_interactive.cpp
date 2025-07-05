@@ -162,5 +162,3 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
     }
   }
 }
-
-/* EOF */

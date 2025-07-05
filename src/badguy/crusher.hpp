@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_CRUSHER_HPP
-#define HEADER_SUPERTUX_OBJECT_CRUSHER_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
@@ -140,7 +139,3 @@ private:
   Crusher(const Crusher&) = delete;
   Crusher& operator=(const Crusher&) = delete;
 };
-
-#endif
-
-/* EOF */

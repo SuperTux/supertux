@@ -101,7 +101,7 @@ void
 MagicBlock::set_trigger_color()
 {
   if (m_color.red == 0 && m_color.green == 0 && m_color.blue == 0)
-  { 
+  {
     //is it black?
     m_black = true;
     m_trigger_red = MIN_INTENSITY;
@@ -213,5 +213,3 @@ MagicBlock::on_flip(float height)
   FlipLevelTransformer::transform_flip(m_flip);
   m_center = m_col.m_bbox.get_middle();
 }
-
-/* EOF */

@@ -94,5 +94,3 @@ CollisionObject::is_valid() const
 {
   return m_parent.is_valid();
 }
-
-/* EOF */

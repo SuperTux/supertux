@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_TEXTSCROLLER_HPP
-#define HEADER_SUPERTUX_OBJECT_TEXTSCROLLER_HPP
+#pragma once
 
 #include "editor/layer_object.hpp"
 
@@ -52,7 +51,7 @@ public:
 
   inline void set_default_speed(float default_speed) { m_default_speed = default_speed; }
   inline bool is_finished() const { return m_finished; }
-  
+
 protected:
   const Controller* controller;
 
@@ -90,7 +89,3 @@ private:
   TextScroller(const TextScroller&) = delete;
   TextScroller& operator=(const TextScroller&) = delete;
 };
-
-#endif
-
-/* EOF */

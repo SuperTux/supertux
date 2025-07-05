@@ -404,5 +404,3 @@ GameObjectFactory::create(const std::string& name, const Vector& pos, const Dire
   auto doc = ReaderDocument::from_stream(lisptext);
   return create(name, doc.get_root().get_mapping());
 }
-
-/* EOF */

@@ -48,5 +48,3 @@ RainSplash::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), position, LAYER_OBJECTS);
 }
-
-/* EOF */

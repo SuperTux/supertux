@@ -171,5 +171,3 @@ LevelTime::register_class(ssq::VM& vm)
 
   cls.addVar("time", &LevelTime::get_time, &LevelTime::set_time);
 }
-
-/* EOF */

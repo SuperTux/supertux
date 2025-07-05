@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
-#define HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
+#pragma once
 
 #include "trigger/trigger_base.hpp"
 
@@ -51,7 +50,3 @@ private:
   SequenceTrigger(const SequenceTrigger&) = delete;
   SequenceTrigger& operator=(const SequenceTrigger&) = delete;
 };
-
-#endif
-
-/* EOF */

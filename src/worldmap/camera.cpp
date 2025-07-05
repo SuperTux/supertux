@@ -121,5 +121,3 @@ Camera::clamp_camera_position(Vector& c) const
 }
 
 } // namespace worldmap
-
-/* EOF */

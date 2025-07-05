@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_IMAGES_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_IMAGES_HPP
+#pragma once
 
 #include "gui/menu_item.hpp"
 #include "video/surface_ptr.hpp"
@@ -44,6 +43,3 @@ private:
   ItemImages(const ItemImages&) = delete;
   ItemImages& operator=(const ItemImages&) = delete;
 };
-
-#endif
-/* EOF */

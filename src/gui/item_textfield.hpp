@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_TEXTFIELD_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_TEXTFIELD_HPP
+#pragma once
 
 #include "gui/menu_item.hpp"
 
@@ -87,7 +86,3 @@ private:
   ItemTextField(const ItemTextField&) = delete;
   ItemTextField& operator=(const ItemTextField&) = delete;
 };
-
-#endif
-
-/* EOF */

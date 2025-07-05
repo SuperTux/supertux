@@ -106,5 +106,3 @@ Shard::collision(MovingObject& other, const CollisionHit&)
     player->kill(false);
   return ABORT_MOVE;
 }
-
-/* EOF */

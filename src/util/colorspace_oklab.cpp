@@ -106,5 +106,3 @@ ColorOKLCh::get_modified_lightness() const
   return 0.5f * (k_3 * L - k_1 + sqrtf((k_3 * L - k_1) * (k_3 * L - k_1)
     + 4 * k_2 * k_3 * L));
 }
-
-/* EOF */

@@ -150,5 +150,3 @@ Bumper::bounce()
   SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
   set_action("swinging", m_dir, 1);
 }
-
-/* EOF */

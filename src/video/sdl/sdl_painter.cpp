@@ -637,5 +637,3 @@ SDLPainter::get_pixel(const GetPixelRequest& request) const
 
   *(request.color_ptr) = Color::from_rgb888(pixel[2], pixel[1], pixel[0]);
 }
-
-/* EOF */

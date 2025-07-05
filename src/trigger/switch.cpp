@@ -150,5 +150,3 @@ Switch::on_flip(float height)
   StickyTrigger::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

@@ -158,5 +158,3 @@ Surface::get_height() const
 {
   return m_region.get_height();
 }
-
-/* EOF */

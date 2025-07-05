@@ -357,5 +357,3 @@ TextScroller::get_settings()
 
   return result;
 }
-
-/* EOF */

@@ -43,5 +43,3 @@ UIDGenerator::next()
 
   return UID((m_magic << 24) | m_id_counter);
 }
-
-/* EOF */

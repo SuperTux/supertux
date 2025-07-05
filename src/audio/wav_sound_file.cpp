@@ -164,5 +164,3 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
 
   return readsize;
 }
-
-/* EOF */

@@ -41,5 +41,3 @@ int
 ItemHorizontalLine::get_width() const {
   return 0;
 }
-
-/* EOF */

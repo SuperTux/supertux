@@ -147,5 +147,3 @@ SquirrelEnvironment::update(float dt_sec)
 {
   m_scheduler->update(g_game_time);
 }
-
-/* EOF */

@@ -230,5 +230,3 @@ DartTrap::on_type_change(int old_type)
       break;
   }
 }
-
-/* EOF */

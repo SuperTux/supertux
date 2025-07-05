@@ -221,5 +221,3 @@ HeavyBrick::hit(Player& player)
 {
   ricochet(&player);
 }
-
-/* EOF */

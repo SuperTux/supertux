@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PATH_GAMEOBJECT_HPP
-#define HEADER_SUPERTUX_OBJECT_PATH_GAMEOBJECT_HPP
+#pragma once
 
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
@@ -74,7 +73,3 @@ private:
   PathGameObject(const PathGameObject&) = delete;
   PathGameObject& operator=(const PathGameObject&) = delete;
 };
-
-#endif
-
-/* EOF */

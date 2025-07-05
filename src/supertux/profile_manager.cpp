@@ -83,5 +83,3 @@ ProfileManager::delete_profile(int id)
   if (it != m_profiles.end())
     m_profiles.erase(it);
 }
-
-/* EOF */

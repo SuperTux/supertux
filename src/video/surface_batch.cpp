@@ -57,5 +57,3 @@ SurfaceBatch::draw(const Rectf& srcrect, const Rectf& dstrect, float angle)
   m_dstrects.emplace_back(dstrect);
   m_angles.emplace_back(angle);
 }
-
-/* EOF */

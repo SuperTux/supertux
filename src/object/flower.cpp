@@ -90,5 +90,3 @@ Flower::on_flip(float height)
   MovingObject::on_flip(height);
   FlipLevelTransformer::transform_flip(flip);
 }
-
-/* EOF */

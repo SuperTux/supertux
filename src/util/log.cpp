@@ -160,5 +160,3 @@ void log_error_callback(const std::string& str)
 {
     log_warning << "\r\n[TINYGETTEXT] " << str << std::endl;
 }
-
-/* EOF */

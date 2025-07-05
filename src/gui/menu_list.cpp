@@ -49,5 +49,3 @@ ListMenu::menu_action(MenuItem& item)
 
   MenuManager::instance().pop_menu();
 }
-
-/* EOF */

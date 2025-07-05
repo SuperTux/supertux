@@ -202,5 +202,3 @@ Platform::register_class(ssq::VM& vm)
   // Use Platform's implementation of "set_node".
   cls.addFunc("set_node", &Platform::jump_to_node);
 }
-
-/* EOF */

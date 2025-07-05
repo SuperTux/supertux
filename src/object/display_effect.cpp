@@ -195,5 +195,3 @@ DisplayEffect::register_class(ssq::VM& vm)
 
   cls.addVar("black", &DisplayEffect::black);
 }
-
-/* EOF */

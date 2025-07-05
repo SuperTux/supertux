@@ -56,5 +56,3 @@ ToolIcon::get_current_surface() const
 {
   return m_surfaces[m_mode];
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_MENU_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
@@ -53,7 +52,3 @@ private:
   AddonMenu(const AddonMenu&) = delete;
   AddonMenu& operator=(const AddonMenu&) = delete;
 };
-
-#endif
-
-/* EOF */

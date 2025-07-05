@@ -100,5 +100,3 @@ StickyTrigger::StickyTrigger(const ReaderMapping& reader, const std::string& spr
   StickyObject(reader, sprite_name, layer, COLGROUP_TOUCHABLE)
 {
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SDL_SDL_TEXTURE_HPP
-#define HEADER_SUPERTUX_VIDEO_SDL_SDL_TEXTURE_HPP
+#pragma once
 
 #include "video/texture.hpp"
 
@@ -50,7 +49,3 @@ private:
   SDLTexture(const SDLTexture&) = delete;
   SDLTexture& operator=(const SDLTexture&) = delete;
 };
-
-#endif
-
-/* EOF */

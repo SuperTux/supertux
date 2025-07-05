@@ -245,5 +245,3 @@ PathWalker::goback_node()
   m_next_node_nr = 0;
   m_walking_speed = 0;
 }
-
-/* EOF */

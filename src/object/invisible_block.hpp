@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_INVISIBLE_BLOCK_HPP
-#define HEADER_SUPERTUX_OBJECT_INVISIBLE_BLOCK_HPP
+#pragma once
 
 #include "object/block.hpp"
 
@@ -54,7 +53,3 @@ private:
   InvisibleBlock(const InvisibleBlock&) = delete;
   InvisibleBlock& operator=(const InvisibleBlock&) = delete;
 };
-
-#endif
-
-/* EOF */

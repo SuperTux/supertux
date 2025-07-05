@@ -75,5 +75,3 @@ ReaderDocument::get_directory() const
 {
   return FileSystem::dirname(m_filename);
 }
-
-/* EOF */

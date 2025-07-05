@@ -64,5 +64,3 @@ VideoSystemMenu::menu_action(MenuItem& item)
       });
   }
 }
-
-/* EOF */

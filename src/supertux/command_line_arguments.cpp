@@ -406,5 +406,3 @@ CommandLineArguments::merge_into(Config& config)
 
 #undef merge_option
 }
-
-/* EOF */

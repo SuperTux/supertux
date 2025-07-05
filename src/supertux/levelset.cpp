@@ -75,5 +75,3 @@ Levelset::walk_directory(const std::string& directory, bool recursively)
     log_warning << "Couldn't read subset dir '" << directory << "'" << std::endl;
   }
 }
-
-/* EOF */

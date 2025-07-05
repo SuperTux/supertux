@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_INFO_BOX_HPP
-#define HEADER_SUPERTUX_SUPERTUX_INFO_BOX_HPP
+#pragma once
 
 #include <map>
 #include <memory>
@@ -50,7 +49,3 @@ private:
   InfoBox(const InfoBox&) = delete;
   InfoBox& operator=(const InfoBox&) = delete;
 };
-
-#endif
-
-/* EOF */

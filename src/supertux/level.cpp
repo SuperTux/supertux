@@ -342,5 +342,3 @@ Level::reactivate()
 {
   s_current = this;
 }
-
-/* EOF */

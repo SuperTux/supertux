@@ -14,14 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_FONT_PTR_HPP
-#define HEADER_SUPERTUX_VIDEO_FONT_PTR_HPP
+#pragma once
 
 #include <memory>
 
 class Font;
 typedef std::shared_ptr<Font> FontPtr;
-
-#endif
-
-/* EOF */

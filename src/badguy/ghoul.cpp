@@ -55,7 +55,7 @@ Ghoul::to_target()
   auto player = get_nearest_player();
   if (!player)
     return Vector(0.0f, 0.0f);
-  
+
   Vector p1 = get_bbox().get_middle();
   Vector p2 = player->get_bbox().get_middle();
   p2.y -= 32; //a little offset, so he doesn't hit Tux from below
@@ -72,7 +72,7 @@ Ghoul::active_update(float dt_sec)
     m_physic.set_acceleration(0.0f, 0.0f);
     return;
   }
-  
+
   Vector dist = to_target();
   Direction new_dir = dist.x < 0 ? Direction::LEFT : Direction::RIGHT;
   bool dir_changed = new_dir != m_dir;
@@ -169,7 +169,7 @@ Ghoul::active_update(float dt_sec)
     break;
   case INVISIBLE:
     if (m_respawn_timer.check()) {
-      set_state(RECOVERING);    
+      set_state(RECOVERING);
     }
     break;
   case RECOVERING:
@@ -234,7 +234,7 @@ Ghoul::start_roaming_decel()
   if (vx > 0) {
     m_physic.set_acceleration_x(-HORZ_ACCELERATION);
   } else if (vx < 0) {
-    m_physic.set_acceleration_x(HORZ_ACCELERATION);  
+    m_physic.set_acceleration_x(HORZ_ACCELERATION);
   }
 }
 
@@ -245,7 +245,7 @@ Ghoul::roaming_decel_check()
   const float ax = m_physic.get_acceleration_x();
   if (vx * ax > 0) {
     m_physic.set_velocity_x(0.0f);
-    m_physic.set_acceleration_x(0.0f);  
+    m_physic.set_acceleration_x(0.0f);
   }
 }
 
@@ -349,5 +349,3 @@ Ghoul::kill_fall()
   // "killing" the Ghoul doesn't actually kill it, because it is going to respawn, but it pretends to die.
   set_state(STUNNED);
 }
-
-/* EOF */

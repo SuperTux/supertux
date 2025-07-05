@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_OBSTACKPP_HPP
-#define HEADER_SUPERTUX_UTIL_OBSTACKPP_HPP
+#pragma once
 
 #include <obstack.h>
 
@@ -53,7 +52,3 @@ static inline void obstack_chunk_free(void* data)
   char* ptr = static_cast<char*>(data);
   delete[] ptr;
 }
-
-#endif
-
-/* EOF */

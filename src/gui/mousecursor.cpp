@@ -103,5 +103,3 @@ MouseCursor::draw(DrawingContext& context)
     }
   }
 }
-
-/* EOF */

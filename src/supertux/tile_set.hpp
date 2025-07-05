@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
-#define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
+#pragma once
 
 #include <map>
 #include <memory>
@@ -64,7 +63,7 @@ public:
   void add_tilegroup(const Tilegroup& tilegroup);
 
   const Tile& get(const uint32_t id) const;
-  
+
   std::vector<AutotileSet*> get_autotilesets_from_tile(uint32_t tile_id) const;
   bool has_mutual_autotileset(uint32_t lhs, uint32_t rhs) const;
 
@@ -77,7 +76,7 @@ public:
   }
 
   void print_debug_info();
-  
+
 private:
   const std::string m_filename;
 
@@ -98,7 +97,3 @@ private:
   TileSet(const TileSet&) = delete;
   TileSet& operator=(const TileSet&) = delete;
 };
-
-#endif
-
-/* EOF */

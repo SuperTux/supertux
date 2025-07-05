@@ -1905,5 +1905,3 @@ CustomParticleSystem::register_class(ssq::VM& vm)
   cls.addVar("particle_rotation_acceleration", &CustomParticleSystem::m_particle_rotation_acceleration);
   cls.addVar("particle_rotation_decceleration", &CustomParticleSystem::m_particle_rotation_decceleration);
 }
-
-/* EOF */

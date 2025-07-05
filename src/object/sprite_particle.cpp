@@ -112,5 +112,3 @@ SpriteParticle::draw(DrawingContext& context)
   }
 
 }
-
-/* EOF */

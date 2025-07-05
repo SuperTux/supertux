@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_FILE_INSTALL_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_FILE_INSTALL_MENU_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
@@ -28,7 +27,7 @@ public:
 
   virtual void refresh() override;
   virtual void menu_action(MenuItem& item) override {}
-  
+
   virtual void event(const SDL_Event& event) override;
 
 private:
@@ -38,7 +37,3 @@ private:
   AddonFileInstallMenu(const AddonFileInstallMenu&) = delete;
   AddonFileInstallMenu& operator=(const AddonFileInstallMenu&) = delete;
 };
-
-#endif
-
-/* EOF */

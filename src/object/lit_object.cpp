@@ -120,5 +120,3 @@ LitObject::register_class(ssq::VM& vm)
 
   cls.addVar("light_action", &LitObject::get_light_action, &LitObject::set_light_action);
 }
-
-/* EOF */

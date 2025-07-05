@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_WIDGET_HPP
-#define HEADER_SUPERTUX_EDITOR_WIDGET_HPP
+#pragma once
 
 #include <SDL.h>
 
@@ -46,7 +45,3 @@ private:
   Widget(const Widget&) = delete;
   Widget& operator=(const Widget&) = delete;
 };
-
-#endif
-
-/* EOF */

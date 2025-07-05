@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_DISPENSER_HPP
-#define HEADER_SUPERTUX_BADGUY_DISPENSER_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 
@@ -117,7 +116,3 @@ private:
   Dispenser(const Dispenser&) = delete;
   Dispenser& operator=(const Dispenser&) = delete;
 };
-
-#endif
-
-/* EOF */

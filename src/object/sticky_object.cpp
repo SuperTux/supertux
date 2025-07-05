@@ -141,5 +141,3 @@ StickyBadguy::move_for_owner(MovingObject& object)
 {
   m_col.set_pos(object.get_pos() + m_displacement_from_owner);
 }
-
-/* EOF */

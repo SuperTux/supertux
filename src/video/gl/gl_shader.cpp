@@ -130,5 +130,3 @@ GLShader::get_shader_info_log() const
     return std::string(str.begin(), str.end());
   }
 }
-
-/* EOF */

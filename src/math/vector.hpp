@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_MATH_VECTOR_HPP
-#define HEADER_SUPERTUX_MATH_VECTOR_HPP
+#pragma once
 
 #include <math.h>
 #include <iosfwd>
@@ -43,7 +42,3 @@ inline Vector at_angle(Vector const& v, float angle)
 }
 
 } // namespace math
-
-#endif
-
-/* EOF */

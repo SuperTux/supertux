@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_SCRIPT_LINE_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_SCRIPT_LINE_HPP
+#pragma once
 
 #include "gui/item_textfield.hpp"
 
@@ -55,7 +54,3 @@ private:
   ItemScriptLine(const ItemScriptLine&) = delete;
   ItemScriptLine& operator=(const ItemScriptLine&) = delete;
 };
-
-#endif
-
-/* EOF */

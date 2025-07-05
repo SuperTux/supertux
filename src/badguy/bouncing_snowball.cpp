@@ -197,5 +197,3 @@ BouncingSnowball::after_editor_set()
   BadGuy::after_editor_set();
   set_action(m_dir);
 }
-
-/* EOF */

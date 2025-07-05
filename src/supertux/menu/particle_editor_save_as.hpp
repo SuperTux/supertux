@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_PARTICLE_EDITOR_SAVE_AS_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_PARTICLE_EDITOR_SAVE_AS_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
@@ -41,7 +40,3 @@ private:
   ParticleEditorSaveAs(const ParticleEditorSaveAs&) = delete;
   ParticleEditorSaveAs& operator=(const ParticleEditorSaveAs&) = delete;
 };
-
-#endif
-
-/* EOF */

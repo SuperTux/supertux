@@ -153,5 +153,3 @@ KeyboardMenu::refresh_control(const Control& control)
   ItemControlField& field = static_cast<ItemControlField&>(get_item_by_id(static_cast<int>(control)));
   field.change_input(get_key_name(g_config->keyboard_config.reversemap_key(m_player_id, control)));
 }
-
-/* EOF */

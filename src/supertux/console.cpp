@@ -563,5 +563,3 @@ Console::draw(DrawingContext& context) const
 
 ConsoleStreamBuffer ConsoleBuffer::s_outputBuffer;
 std::ostream ConsoleBuffer::output(&ConsoleBuffer::s_outputBuffer);
-
-/* EOF */

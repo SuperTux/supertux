@@ -53,5 +53,3 @@ void
 Electrifier::draw(DrawingContext& )
 {
 }
-
-/* EOF */

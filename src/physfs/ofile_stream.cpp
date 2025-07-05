@@ -23,5 +23,3 @@ OFileStream::OFileStream(const std::string& filename) :
 {
   init(sb.get());
 }
-
-/* EOF */

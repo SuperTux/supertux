@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_FISH_HARMLESS_HPP
-#define HEADER_SUPERTUX_BADGUY_FISH_HARMLESS_HPP
+#pragma once
 
 #include "badguy/fish_swimming.hpp"
 
@@ -41,7 +40,3 @@ private:
   FishHarmless(const FishHarmless&) = delete;
   FishHarmless& operator=(const FishHarmless&) = delete;
 };
-
-#endif
-
-/* EOF */

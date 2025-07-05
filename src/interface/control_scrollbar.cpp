@@ -184,5 +184,3 @@ ControlScrollbar::get_bar_rect() const
                           / m_total_region
              );
 }
-
-/* EOF */

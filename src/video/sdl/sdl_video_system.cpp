@@ -164,5 +164,3 @@ SDLVideoSystem::make_screenshot()
     }
   }
 }
-
-/* EOF */

@@ -189,5 +189,3 @@ GL20Context::draw_arrays(GLenum type, GLint first, GLsizei count)
 }
 
 #endif
-
-/* EOF */

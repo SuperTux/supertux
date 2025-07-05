@@ -26,7 +26,7 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
-  
+
 static const float DECAY_RATIO = 0.2f; // Ratio of attack speed to decay speed.
 static const float WOBBLE_DECAY = 0.99f; // Wobble decays exponentially by this much each tick.
 static const float WOBBLE_FACTOR = 4 * .005f; // Wobble approaches drift_speed by this much each tick.
@@ -126,15 +126,15 @@ SnowParticleSystem::update(float dt_sec)
 {
   if (!enabled)
     return;
-  
+
   // Simple ADSR wind gusts.
 
-  if (m_timer.check()) 
+  if (m_timer.check())
   {
     // Change state
     m_state = static_cast<State>((m_state + 1) % MAX_STATE);
 
-    if (m_state == RESTING) 
+    if (m_state == RESTING)
     {
       // Stop wind.
       m_gust_current_velocity = 0;
@@ -145,7 +145,7 @@ SnowParticleSystem::update(float dt_sec)
   }
 
   // Update velocities.
-  switch (m_state) 
+  switch (m_state)
   {
     case ATTACKING:
       m_gust_current_velocity += m_gust_onset * dt_sec;
@@ -189,5 +189,3 @@ SnowParticleSystem::update(float dt_sec)
     particle->angle = fmodf(particle->angle, 360.0);
   }
 }
-
-/* EOF */

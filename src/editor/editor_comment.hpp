@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_EDITOR_COMMENT_HPP
-#define HEADER_SUPERTUX_EDITOR_EDITOR_COMMENT_HPP
+#pragma once
 
 #include "supertux/moving_object.hpp"
 #include "video/layer.hpp"
@@ -66,5 +65,3 @@ private:
   EditorComment(const EditorComment&) = delete;
   EditorComment& operator=(const EditorComment&) = delete;
 };
-
-#endif // HEADER_SUPERTUX_EDITOR_EDITOR_COMMENT_HPP

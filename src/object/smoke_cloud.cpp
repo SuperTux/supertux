@@ -42,5 +42,3 @@ SmokeCloud::draw(DrawingContext& context)
   Vector draw_pos = position - Vector(0.0, 120.0) * std::min(context.get_time_offset(), timer.get_timeleft());
   sprite->draw(context.color(), draw_pos, LAYER_OBJECTS + 1);
 }
-
-/* EOF */

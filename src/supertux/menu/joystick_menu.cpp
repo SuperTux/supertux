@@ -240,5 +240,3 @@ JoystickMenu::refresh()
     }
   }
 }
-
-/* EOF */

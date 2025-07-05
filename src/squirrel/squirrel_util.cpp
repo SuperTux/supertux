@@ -106,5 +106,3 @@ std::string squirrel_to_string(const ssq::Object& object)
   }
   return os.str();
 }
-
-/* EOF */

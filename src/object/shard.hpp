@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_SHARD_HPP
-#define HEADER_SUPERTUX_OBJECT_SHARD_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 #include "supertux/physic.hpp"
@@ -47,7 +46,3 @@ private:
   Shard(const Shard&) = delete;
   Shard& operator=(const Shard&) = delete;
 };
-
-#endif
-
-/* EOF */

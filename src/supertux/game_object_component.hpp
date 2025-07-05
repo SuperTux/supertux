@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_COMPONENT_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_COMPONENT_HPP
+#pragma once
 
 class GameObjectComponent
 {
@@ -27,7 +26,3 @@ private:
   GameObjectComponent(const GameObjectComponent&) = delete;
   GameObjectComponent& operator=(const GameObjectComponent&) = delete;
 };
-
-#endif
-
-/* EOF */

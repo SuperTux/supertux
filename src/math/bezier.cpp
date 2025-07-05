@@ -122,5 +122,3 @@ Bezier::draw_curve(DrawingContext& context, const Vector& p1, const Vector& p2,
                               layer);
   }
 }
-
-/* EOF */

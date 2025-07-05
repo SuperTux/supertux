@@ -61,5 +61,3 @@ SpawnPointMarker::get_settings()
   result.add_test_from_here();
   return result;
 }
-
-/* EOF */

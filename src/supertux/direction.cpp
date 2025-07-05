@@ -118,5 +118,3 @@ invert_dir(const Direction& dir)
       return Direction::NONE;
   }
 }
-
-/* EOF */

@@ -734,5 +734,3 @@ Downloader::onDownloadAborted(int id)
   }
 }
 #endif
-
-/* EOF */

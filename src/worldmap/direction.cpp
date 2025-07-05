@@ -74,5 +74,3 @@ Direction string_to_direction(const std::string& directory)
 }
 
 } // namespace worldmap
-
-/* EOF */

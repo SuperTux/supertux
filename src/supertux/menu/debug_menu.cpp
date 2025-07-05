@@ -75,10 +75,10 @@ DebugMenu::DebugMenu() :
              [](bool value){ g_debug.set_use_bitmap_fonts(value); });
   add_toggle(-1, _("Show Tile IDs in Editor Toolbox"), &g_debug.show_toolbox_tile_ids);
   add_toggle(-1, _("Hide Player HUD"), &g_debug.hide_player_hud);
-  
+
   add_entry(_("Reload Resources"), &Resources::reload_all)
     .set_help(_("Reloads all fonts, textures, sprites and tilesets."));
-    
+
   add_entry(_("Dump Texture Cache"), []{ TextureManager::current()->debug_print(get_logging_instance()); });
 
   add_hl();
@@ -98,5 +98,3 @@ DebugMenu::menu_action(MenuItem& item)
 {
   g_config->save();
 }
-
-/* EOF */

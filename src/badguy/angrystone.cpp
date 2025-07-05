@@ -45,7 +45,7 @@ AngryStone::collision_solid(const CollisionHit& hit)
   // TODO
 #if 0
   if ((m_state == ATTACKING) &&
-      (hit.normal.x == -m_attack_direction.x) && (hit.normal.y == m_attack_direction.y)) 
+      (hit.normal.x == -m_attack_direction.x) && (hit.normal.y == m_attack_direction.y))
   {
     m_state = IDLE;
     sprite->set_action("idle");
@@ -69,7 +69,7 @@ AngryStone::kill_fall()
 HitResponse
 AngryStone::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
-  if (m_state == ATTACKING) 
+  if (m_state == ATTACKING)
   {
     badguy.kill_fall();
   }
@@ -78,19 +78,19 @@ AngryStone::collision_badguy(BadGuy& badguy, const CollisionHit& )
 }
 
 void
-AngryStone::active_update(float dt_sec) 
+AngryStone::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
 
   if (m_frozen)
     return;
 
-  switch (m_state) 
+  switch (m_state)
   {
-    case IDLE: 
+    case IDLE:
     {
       auto player = get_nearest_player();
-      if (player) 
+      if (player)
       {
         auto badguy = this;
         const Vector& playerPos = player->get_pos();
@@ -104,35 +104,35 @@ AngryStone::active_update(float dt_sec)
         float playerWidth = player->get_bbox().get_width();
         float badguyWidth = badguy->get_bbox().get_width();
 
-        if ((dx > -playerWidth) && (dx < badguyWidth)) 
+        if ((dx > -playerWidth) && (dx < badguyWidth))
         {
-          if (dy > 0) 
+          if (dy > 0)
           {
             m_attack_direction.x = 0;
             m_attack_direction.y = 1;
-          } else 
+          } else
           {
             m_attack_direction.x = 0;
             m_attack_direction.y = -1;
           }
-          if ((m_attack_direction.x != m_old_wall_direction.x) || (m_attack_direction.y != m_old_wall_direction.y)) 
+          if ((m_attack_direction.x != m_old_wall_direction.x) || (m_attack_direction.y != m_old_wall_direction.y))
           {
             set_action("charging");
             m_timer.start(CHARGE_TIME);
             m_state = CHARGING;
           }
-        } else if ((dy > -playerHeight) && (dy < badguyHeight)) 
+        } else if ((dy > -playerHeight) && (dy < badguyHeight))
           {
-          if (dx > 0) 
+          if (dx > 0)
           {
             m_attack_direction.x = 1;
             m_attack_direction.y = 0;
-          } else 
+          } else
           {
             m_attack_direction.x = -1;
             m_attack_direction.y = 0;
           }
-          if ((m_attack_direction.x != m_old_wall_direction.x) || (m_attack_direction.y != m_old_wall_direction.y)) 
+          if ((m_attack_direction.x != m_old_wall_direction.x) || (m_attack_direction.y != m_old_wall_direction.y))
           {
             set_action("charging");
             m_timer.start(CHARGE_TIME);
@@ -142,9 +142,9 @@ AngryStone::active_update(float dt_sec)
       }
     } break;
 
-    case CHARGING: 
+    case CHARGING:
     {
-      if (m_timer.check()) 
+      if (m_timer.check())
       {
         set_action("attacking");
         m_timer.start(ATTACK_TIME);
@@ -157,9 +157,9 @@ AngryStone::active_update(float dt_sec)
       }
     } break;
 
-    case ATTACKING: 
+    case ATTACKING:
     {
-      if (m_timer.check()) 
+      if (m_timer.check())
       {
         m_timer.start(RECOVER_TIME);
         m_state = RECOVERING;
@@ -169,9 +169,9 @@ AngryStone::active_update(float dt_sec)
       }
     } break;
 
-    case RECOVERING: 
+    case RECOVERING:
     {
-      if (m_timer.check()) 
+      if (m_timer.check())
       {
         m_state = IDLE;
         set_action("idle");
@@ -213,5 +213,3 @@ AngryStone::get_allowed_directions() const
 {
   return {};
 }
-
-/* EOF */

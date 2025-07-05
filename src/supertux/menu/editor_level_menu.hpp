@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_MENU_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
@@ -39,7 +38,3 @@ private:
   EditorLevelMenu(const EditorLevelMenu&) = delete;
   EditorLevelMenu& operator=(const EditorLevelMenu&) = delete;
 };
-
-#endif
-
-/* EOF */

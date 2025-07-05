@@ -303,5 +303,3 @@ MenuManager::previous_menu() const
   else
     return m_menu_stack.end()[-2].get();
 }
-
-/* EOF */

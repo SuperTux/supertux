@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_GL_GL_SCREEN_RENDERER_HPP
-#define HEADER_SUPERTUX_VIDEO_GL_GL_SCREEN_RENDERER_HPP
+#pragma once
 
 #include <SDL.h>
 
@@ -44,7 +43,3 @@ private:
   GLScreenRenderer(const GLScreenRenderer&) = delete;
   GLScreenRenderer& operator=(const GLScreenRenderer&) = delete;
 };
-
-#endif
-
-/* EOF */

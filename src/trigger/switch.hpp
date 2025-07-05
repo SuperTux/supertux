@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
-#define HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
+#pragma once
 
 #include "trigger/trigger_base.hpp"
 
@@ -58,7 +57,3 @@ private:
   Switch(const Switch&) = delete;
   Switch& operator=(const Switch&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -42,5 +42,3 @@ Light::draw(DrawingContext& context)
   sprite->set_blend(Blend::ADD);
   sprite->draw(context.light(), position, 0);
 }
-
-/* EOF */

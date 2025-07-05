@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BRICK_HPP
-#define HEADER_SUPERTUX_OBJECT_BRICK_HPP
+#pragma once
 
 #include "object/block.hpp"
 
@@ -84,7 +83,3 @@ private:
   HeavyBrick(const HeavyBrick&) = delete;
   HeavyBrick& operator=(const HeavyBrick&) = delete;
 };
-
-#endif
-
-/* EOF */

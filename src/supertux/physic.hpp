@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_PHYSIC_HPP
-#define HEADER_SUPERTUX_SUPERTUX_PHYSIC_HPP
+#pragma once
 
 #include "math/vector.hpp"
 
@@ -93,7 +92,3 @@ private:
   /** gravity modifier is multiplied with the sectors gravity */
   float gravity_modifier;
 };
-
-#endif
-
-/* EOF */

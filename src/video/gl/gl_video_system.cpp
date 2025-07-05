@@ -376,5 +376,3 @@ GLVideoSystem::make_screenshot()
 
   return surface;
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_NOTIFICATION_HPP
-#define HEADER_SUPERTUX_GUI_NOTIFICATION_HPP
+#pragma once
 
 #include <SDL.h>
 #include <functional>
@@ -77,7 +76,3 @@ private:
   Notification(const Notification&) = delete;
   Notification& operator=(const Notification&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -1344,5 +1344,3 @@ BadGuy::register_class(ssq::VM& vm)
   cls.addFunc("kill", &BadGuy::kill_fall);
   cls.addFunc("ignite", &BadGuy::ignite);
 }
-
-/* EOF */

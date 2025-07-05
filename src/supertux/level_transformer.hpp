@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_LEVEL_TRANSFORMER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_LEVEL_TRANSFORMER_HPP
+#pragma once
 
 class Level;
 class Sector;
@@ -36,7 +35,3 @@ public:
 
   virtual void transform_sector(Sector& sector) = 0;
 };
-
-#endif
-
-/* EOF */

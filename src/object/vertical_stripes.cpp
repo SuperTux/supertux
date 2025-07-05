@@ -65,5 +65,3 @@ VerticalStripes::draw(DrawingContext& context)
     canvas.draw_filled_rect(right_stripe, Color(0,0,0), m_layer);
   }
 }
-
-/* EOF */

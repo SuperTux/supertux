@@ -16,8 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_FACTORY_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_FACTORY_HPP
+#pragma once
 
 #include "supertux/object_factory.hpp"
 
@@ -51,7 +50,3 @@ private:
   GameObjectFactory(const GameObjectFactory&) = delete;
   GameObjectFactory& operator=(const GameObjectFactory&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_PHYSFS_IFILE_STREAM_HPP
-#define HEADER_SUPERTUX_PHYSFS_IFILE_STREAM_HPP
+#pragma once
 
 #include <memory>
 #include <istream>
@@ -32,7 +31,3 @@ private:
   IFileStream(const IFileStream&) = delete;
   IFileStream& operator=(const IFileStream&) = delete;
 };
-
-#endif
-
-/* EOF */

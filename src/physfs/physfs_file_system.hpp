@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_PHYSFS_PHYSFS_FILE_SYSTEM_HPP
-#define HEADER_SUPERTUX_PHYSFS_PHYSFS_FILE_SYSTEM_HPP
+#pragma once
 
 #include <tinygettext/file_system.hpp>
 
@@ -28,7 +27,3 @@ public:
   virtual std::vector<std::string> open_directory(const std::string& pathname) override;
   virtual std::unique_ptr<std::istream> open_file(const std::string& filename) override;
 };
-
-#endif
-
-/* EOF */

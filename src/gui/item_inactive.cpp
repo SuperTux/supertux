@@ -29,5 +29,3 @@ Color
 ItemInactive::get_color() const {
   return m_default_color ? ColorScheme::Menu::default_color : ColorScheme::Menu::inactive_color;
 }
-
-/* EOF */

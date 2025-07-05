@@ -31,5 +31,3 @@ Sampler::Sampler(GLenum filter, GLenum wrap_s, GLenum wrap_t, const Vector& anim
   m_animate(animate)
 {
 }
-
-/* EOF */

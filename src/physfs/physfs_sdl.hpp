@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_PHYSFS_PHYSFS_SDL_HPP
-#define HEADER_SUPERTUX_PHYSFS_PHYSFS_SDL_HPP
+#pragma once
 
 #include <SDL.h>
 #include <string>
@@ -27,7 +26,3 @@
     See: https://wiki.libsdl.org/SDL_RWclose */
 SDL_RWops* get_physfs_SDLRWops(const std::string& filename);
 SDL_RWops* get_writable_physfs_SDLRWops(const std::string& filename);
-
-#endif
-
-/* EOF */

@@ -211,5 +211,3 @@ FishChasing::get_settings()
 
   return result;
 }
-
-/* EOF */

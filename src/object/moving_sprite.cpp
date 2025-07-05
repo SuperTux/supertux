@@ -254,5 +254,3 @@ MovingSprite::register_class(ssq::VM& vm)
 
   cls.addVar("sprite", &MovingSprite::get_sprite_name, &MovingSprite::set_sprite);
 }
-
-/* EOF */

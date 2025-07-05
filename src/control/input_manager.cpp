@@ -183,5 +183,3 @@ InputManager::has_corresponsing_controller(int player_id) const
     return joystick_manager->has_corresponding_joystick(player_id);
   }
 }
-
-/* EOF */

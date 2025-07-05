@@ -364,5 +364,3 @@ CloudParticleSystem::register_class(ssq::VM& vm)
   cls.addFunc("set_fog_opacity", &CloudParticleSystem::set_fog_opacity);
   cls.addFunc("get_fog_opacity", &CloudParticleSystem::get_fog_opacity);
 }
-
-/* EOF */

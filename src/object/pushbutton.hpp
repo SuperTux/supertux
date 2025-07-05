@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PUSHBUTTON_HPP
-#define HEADER_SUPERTUX_OBJECT_PUSHBUTTON_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 
@@ -53,7 +52,3 @@ private:
   PushButton(const PushButton&) = delete;
   PushButton& operator=(const PushButton&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_FISH_CHASING_HPP
-#define HEADER_SUPERTUX_BADGUY_FISH_CHASING_HPP
+#pragma once
 
 #include "badguy/fish_swimming.hpp"
 
@@ -59,7 +58,3 @@ private:
   FishChasing(const FishChasing&) = delete;
   FishChasing& operator=(const FishChasing&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -214,5 +214,3 @@ TileSet::print_debug_info()
     }
   }
 }
-
-/* EOF */

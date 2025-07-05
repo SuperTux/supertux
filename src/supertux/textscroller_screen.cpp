@@ -142,5 +142,3 @@ TextScrollerScreen::get_status() const
   status.m_details.push_back("Watching a cutscene");
   return status;
 }
-
-/* EOF */

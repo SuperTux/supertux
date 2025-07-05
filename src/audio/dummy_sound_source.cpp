@@ -89,5 +89,3 @@ std::unique_ptr<SoundSource> create_dummy_sound_source()
 {
   return std::make_unique<DummySoundSource>();
 }
-
-/* EOF */

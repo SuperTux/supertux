@@ -41,5 +41,3 @@ std::string sequence_to_string(const Sequence& seq) {
       return "unknown sequence " + std::to_string( static_cast<int>(seq) );
   }
 }
-
-/* EOF */

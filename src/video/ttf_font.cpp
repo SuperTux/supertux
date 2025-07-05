@@ -191,5 +191,3 @@ TTFFont::wrap_to_width(const std::string& text, float width, std::string* overfl
   if (overflow) *overflow = "";
   return s;
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_OBJECT_REMOVE_LISTENER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_OBJECT_REMOVE_LISTENER_HPP
+#pragma once
 
 class GameObject;
 
@@ -27,7 +26,3 @@ public:
 
   virtual void object_removed(GameObject* object) = 0;
 };
-
-#endif
-
-/* EOF */

@@ -15,6 +15,3 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/game_object_iterator.hpp"
-
-
-/* EOF */

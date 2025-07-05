@@ -145,5 +145,3 @@ Ispy::on_flip(float height)
     set_action("idle-up");
   }
 }
-
-/* EOF */

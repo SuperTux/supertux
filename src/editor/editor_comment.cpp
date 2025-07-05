@@ -117,5 +117,3 @@ EditorComment::get_color() const
     default: return Color();
   }
 }
-
-/* EOF */

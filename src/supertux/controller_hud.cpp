@@ -67,5 +67,3 @@ ControllerHUD::draw(DrawingContext& context)
     }
   }
 }
-
-/* EOF */

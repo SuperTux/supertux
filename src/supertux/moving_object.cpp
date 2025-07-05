@@ -117,5 +117,3 @@ MovingObject::register_class(ssq::VM& vm)
   cls.addFunc("get_width", &MovingObject::get_width);
   cls.addFunc("get_height", &MovingObject::get_height);
 }
-
-/* EOF */

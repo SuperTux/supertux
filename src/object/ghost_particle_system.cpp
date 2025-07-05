@@ -80,5 +80,3 @@ GhostParticleSystem::update(float dt_sec)
     }
   }
 }
-
-/* EOF */

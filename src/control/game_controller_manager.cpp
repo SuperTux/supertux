@@ -345,5 +345,3 @@ GameControllerManager::bind_controller(SDL_GameController* controller, int playe
       if (pair2.second == player_id && pair2.first != controller)
         pair2.second = -1;
 }
-
-/* EOF */

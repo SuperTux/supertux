@@ -243,5 +243,3 @@ Thunderstorm::register_class(ssq::VM& vm)
   cls.addFunc("flash", &Thunderstorm::flash);
   cls.addFunc("electrify", &Thunderstorm::electrify);
 }
-
-/* EOF */

@@ -78,5 +78,3 @@ FadeHelper::get_value() const
 {
   return m_progress;
 }
-
-/* EOF */

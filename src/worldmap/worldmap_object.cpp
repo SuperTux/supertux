@@ -131,5 +131,3 @@ WorldMapObject::move_to(const Vector& pos)
 }
 
 } // namespace worldmap
-
-/* EOF */

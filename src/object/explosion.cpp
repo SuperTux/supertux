@@ -219,5 +219,3 @@ Explosion::collision(MovingObject& other, const CollisionHit& )
 
   return ABORT_MOVE;
 }
-
-/* EOF */

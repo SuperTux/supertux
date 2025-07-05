@@ -72,5 +72,3 @@ ObjectInfo::get_num_groups(bool for_worldmap) const
   }
   return num_groups;
 }
-
-/* EOF */

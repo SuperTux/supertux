@@ -118,5 +118,3 @@ DrawingContext::perspective_scale(float speed_x, float speed_y)
   tfm.scale /= speed * t;
   return true;
 }
-
-/* EOF */

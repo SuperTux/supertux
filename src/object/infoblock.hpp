@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_INFOBLOCK_HPP
-#define HEADER_SUPERTUX_OBJECT_INFOBLOCK_HPP
+#pragma once
 
 #include <memory>
 
@@ -67,7 +66,3 @@ private:
   InfoBlock(const InfoBlock&) = delete;
   InfoBlock& operator=(const InfoBlock&) = delete;
 };
-
-#endif
-
-/* EOF */

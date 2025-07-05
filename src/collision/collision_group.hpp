@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_COLLISION_COLLISION_GROUP_HPP
-#define HEADER_SUPERTUX_COLLISION_COLLISION_GROUP_HPP
+#pragma once
 
 enum CollisionGroup {
   /** Objects in DISABLED group are not tested for collisions */
@@ -61,7 +60,3 @@ enum CollisionGroup {
       Use for triggers like spikes/areas or collectibles like coins. */
   COLGROUP_TOUCHABLE
 };
-
-#endif
-
-/* EOF */

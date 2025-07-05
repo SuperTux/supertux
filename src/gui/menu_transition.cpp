@@ -90,5 +90,3 @@ MenuTransition::draw(DrawingContext& context)
                                      g_config->menuroundness,
                                      LAYER_GUI-10);
 }
-
-/* EOF */

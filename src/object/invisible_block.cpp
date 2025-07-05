@@ -94,5 +94,3 @@ InvisibleBlock::hit(Player& player)
   set_group(COLGROUP_STATIC);
   visible = true;
 }
-
-/* EOF */

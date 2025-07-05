@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
-#define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
+#pragma once
 
 #include "editor/layer_object.hpp"
 
@@ -198,7 +197,3 @@ private:
   Background(const Background&) = delete;
   Background& operator=(const Background&) = delete;
 };
-
-#endif
-
-/* EOF */

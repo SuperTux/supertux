@@ -364,4 +364,3 @@ MrBomb::update_ticking(float dt_sec)
 }
 
 /* EOF */
-

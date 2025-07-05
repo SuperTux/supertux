@@ -185,5 +185,3 @@ ConveyorBelt::register_class(ssq::VM& vm)
 
   cls.addVar("speed", &ConveyorBelt::get_speed, &ConveyorBelt::set_speed);
 }
-
-/* EOF */

@@ -145,5 +145,3 @@ RustyTrampoline::is_portable() const
 {
   return Rock::is_portable() && portable;
 }
-
-/* EOF */

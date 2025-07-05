@@ -17,8 +17,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_STATISTICS_HPP
-#define HEADER_SUPERTUX_SUPERTUX_STATISTICS_HPP
+#pragma once
 
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
@@ -161,7 +160,3 @@ private:
   Statistics(const Statistics&) = delete;
   Statistics& operator=(const Statistics&) = delete;
 };
-
-#endif
-
-/* EOF */

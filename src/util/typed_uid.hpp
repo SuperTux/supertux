@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_TYPED_UID_HPP
-#define HEADER_SUPERTUX_UTIL_TYPED_UID_HPP
+#pragma once
 
 #include "util/uid.hpp"
 
@@ -46,7 +45,7 @@ public:
 #if 0
     if (!object)
     {
-      *this = UID(); 
+      *this = UID();
     }
 #endif
 
@@ -103,7 +102,3 @@ template<class T>
 inline bool operator!=(const T* object, const TypedUID<T>& typed_uid) {
   return typed_uid != object;
 }
-
-#endif
-
-/* EOF */

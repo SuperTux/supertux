@@ -39,5 +39,3 @@ ReaderCollection::get_objects() const
   }
   return result;
 }
-
-/* EOF */

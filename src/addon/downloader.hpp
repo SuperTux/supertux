@@ -16,8 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_ADDON_DOWNLOADER_HPP
-#define HEADER_SUPERTUX_ADDON_DOWNLOADER_HPP
+#pragma once
 
 #ifndef EMSCRIPTEN
 #include <curl/curl.h>
@@ -156,7 +155,3 @@ private:
   Downloader(const Downloader&) = delete;
   Downloader& operator=(const Downloader&) = delete;
 };
-
-#endif
-
-/* EOF */

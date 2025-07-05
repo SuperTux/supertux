@@ -56,5 +56,3 @@ Teleporter::get_settings()
 }
 
 } // namespace worldmap
-
-/* EOF */

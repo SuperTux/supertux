@@ -95,5 +95,3 @@ bool
 ScriptMenu::is_sensitive() const {
   return true;
 }
-
-/* EOF */

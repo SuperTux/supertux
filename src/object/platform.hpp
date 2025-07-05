@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PLATFORM_HPP
-#define HEADER_SUPERTUX_OBJECT_PLATFORM_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 #include "object/path_object.hpp"
@@ -91,7 +90,3 @@ private:
   Platform(const Platform&) = delete;
   Platform& operator=(const Platform&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_MATH_SIZEF_HPP
-#define HEADER_SUPERTUX_MATH_SIZEF_HPP
+#pragma once
 
 #include <iosfwd>
 
@@ -79,7 +78,7 @@ public:
     return Vector(width, height);
   }
 
-  bool is_valid() const 
+  bool is_valid() const
   {
     return width > 0 && height > 0;
   }
@@ -130,7 +129,3 @@ inline bool operator!=(const Sizef& lhs, const Sizef& rhs)
 }
 
 std::ostream& operator<<(std::ostream& s, const Sizef& size);
-
-#endif
-
-/* EOF */

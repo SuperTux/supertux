@@ -38,5 +38,3 @@ Color
 ItemColor::get_color() const {
   return *color;
 }
-
-/* EOF */

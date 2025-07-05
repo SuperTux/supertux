@@ -240,5 +240,3 @@ InfoBlock::hide_message()
 {
   m_dest_pct = 0;
 }
-
-/* EOF */

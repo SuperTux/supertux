@@ -142,5 +142,3 @@ SoundObject::register_class(ssq::VM& vm)
 
   cls.addVar("volume", &SoundObject::get_volume, &SoundObject::set_volume);
 }
-
-/* EOF */

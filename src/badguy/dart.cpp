@@ -174,5 +174,3 @@ Dart::on_flip(float height)
     FlipLevelTransformer::transform_flip(m_flip);
   }
 }
-
-/* EOF */

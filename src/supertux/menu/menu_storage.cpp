@@ -206,5 +206,3 @@ MenuStorage::create(MenuId menu_id)
       return std::unique_ptr<Menu>();
   }
 }
-
-/* EOF */

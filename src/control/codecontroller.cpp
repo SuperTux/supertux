@@ -37,5 +37,3 @@ CodeController::update()
     m_controls[i] = false;
   }
 }
-
-/* EOF */

@@ -106,5 +106,3 @@ void
 InfoBox::pagedown()
 {
 }
-
-/* EOF */

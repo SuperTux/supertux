@@ -186,5 +186,3 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
 
   add_back(_("Back"));
 }
-
-/* EOF */

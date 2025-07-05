@@ -68,5 +68,3 @@ TileSelection::empty() const
     return tile == 0;
   });
 }
-
-/* EOF */

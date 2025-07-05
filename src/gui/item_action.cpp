@@ -30,5 +30,3 @@ ItemAction::process_action(const MenuAction& action)
     m_callback();
   }
 }
-
-/* EOF */

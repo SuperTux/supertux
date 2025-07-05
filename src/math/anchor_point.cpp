@@ -182,5 +182,3 @@ Vector get_anchor_center_pos(const Rectf& rect, AnchorPoint point)
 
   return result;
 }
-
-/* EOF */

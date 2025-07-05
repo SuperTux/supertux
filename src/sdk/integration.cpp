@@ -71,4 +71,3 @@ Integration::update_status_all(IntegrationStatus status)
   for (Integration* sdk : sdks)
     sdk->update_status(status);
 }
-

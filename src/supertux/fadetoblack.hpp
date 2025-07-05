@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_FADETOBLACK_HPP
-#define HEADER_SUPERTUX_SUPERTUX_FADETOBLACK_HPP
+#pragma once
 
 #include "supertux/screen_fade.hpp"
 #include "video/color.hpp"
@@ -47,7 +46,3 @@ private:
   FadeToBlack(const FadeToBlack&) = delete;
   FadeToBlack& operator=(const FadeToBlack&) = delete;
 };
-
-#endif
-
-/* EOF */

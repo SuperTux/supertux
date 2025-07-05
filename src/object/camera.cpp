@@ -837,5 +837,3 @@ Camera::register_class(ssq::VM& vm)
   cls.addFunc("get_x", &Camera::get_x);
   cls.addFunc("get_y", &Camera::get_y);
 }
-
-/* EOF */

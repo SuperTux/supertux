@@ -167,5 +167,3 @@ Trampoline::bounce()
   SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
   m_sprite->set_action("swinging", 1);
 }
-
-/* EOF */

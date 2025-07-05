@@ -98,5 +98,3 @@ Star::collision(MovingObject& other, const CollisionHit& )
 
   return FORCE_MOVE;
 }
-
-/* EOF */

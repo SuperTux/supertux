@@ -99,4 +99,3 @@ ItemImages::process_action(const MenuAction& action)
     break;
   }
 }
-/* EOF */

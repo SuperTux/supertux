@@ -391,5 +391,3 @@ HeavyCoin::on_flip(float height)
   // avoid flipping of gravity-affected object HeavyCoin.
   MovingSprite::on_flip(height);
 }
-
-/* EOF */

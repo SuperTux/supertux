@@ -89,7 +89,7 @@ LevelsetScreen::setup()
       if (m_start_pos) {
         screen->set_start_pos(m_start_pos->first, m_start_pos->second);
       }
-      
+
       try
       {
         screen->restart_level();
@@ -116,5 +116,3 @@ LevelsetScreen::get_status() const
   status.m_details.push_back("In Editor");
   return status;
 }
-
-/* EOF */

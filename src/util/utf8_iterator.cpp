@@ -130,5 +130,3 @@ UTF8Iterator::operator++() {
   UTF8Iterator::operator*() const {
     return chr;
   }
-
-/* EOF */

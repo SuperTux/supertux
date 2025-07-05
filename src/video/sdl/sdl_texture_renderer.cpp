@@ -100,5 +100,3 @@ SDLTextureRenderer::get_texture() const
 {
   return m_texture;
 }
-
-/* EOF */

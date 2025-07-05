@@ -33,5 +33,3 @@ ItemGoTo::process_action(const MenuAction& action) {
     MenuManager::instance().push_menu(target_menu);
   }
 }
-
-/* EOF */

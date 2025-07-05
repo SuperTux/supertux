@@ -155,5 +155,3 @@ ResizeMarker::check_state()
 {
   m_object->check_state();
 }
-
-/* EOF */

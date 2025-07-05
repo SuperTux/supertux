@@ -175,5 +175,3 @@ FileSystemMenu::menu_action(MenuItem& item)
     FileSystem::open_path(FileSystem::join(PHYSFS_getRealDir(m_directory.c_str()), m_directory));
   }
 }
-
-/* EOF */

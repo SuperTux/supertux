@@ -114,5 +114,3 @@ void save_squirrel_table(const ssq::Table& table, Writer& writer)
     }
   }
 }
-
-/* EOF */

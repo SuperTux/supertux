@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_AUDIO_SOUND_FILE_HPP
-#define HEADER_SUPERTUX_AUDIO_SOUND_FILE_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -59,7 +58,3 @@ private:
 };
 
 std::unique_ptr<SoundFile> load_sound_file(const std::string& filename);
-
-#endif
-
-/* EOF */

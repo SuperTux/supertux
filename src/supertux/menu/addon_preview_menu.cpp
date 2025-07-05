@@ -374,5 +374,3 @@ AddonPreviewMenu::toggle_addon()
   }
   MenuManager::instance().previous_menu()->refresh();
 }
-
-/* EOF */

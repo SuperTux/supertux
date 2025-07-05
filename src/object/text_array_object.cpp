@@ -477,5 +477,3 @@ TextArrayObject::register_class(ssq::VM& vm)
   cls.addVar("wrap_width", &TextArrayObject::get_wrap_width, &TextArrayObject::set_wrap_width);
   cls.addVar("roundness", &TextArrayObject::get_roundness, &TextArrayObject::set_roundness);
 }
-
-/* EOF */

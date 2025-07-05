@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_SECTOR_PARSER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_SECTOR_PARSER_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -59,7 +58,3 @@ private:
   SectorParser(const SectorParser&) = delete;
   SectorParser& operator=(const SectorParser&) = delete;
 };
-
-#endif
-
-/* EOF */

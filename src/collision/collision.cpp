@@ -234,6 +234,4 @@ bool intersects_line(const Rectf& r, const Vector& line_start, const Vector& lin
   return false;
 }
 
-}
-
-/* EOF */
+} // namespace collision

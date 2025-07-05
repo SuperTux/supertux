@@ -113,12 +113,10 @@ void
 Tip::draw_up(DrawingContext& context, const Vector& pos, const bool align_right)
 {
   if(!m_visible)
-    return; 
+    return;
 
   auto position = Vector(pos.x, pos.y - (static_cast<float>(m_strings.size()) + 1.0f) * 22.0f
                                       - (m_warnings.empty() ? 0.f : (static_cast<float>(m_warnings.size()) + 1.0f) * 22.0f + 35.0f)
                                       - 40.0f);
   draw(context, position, align_right);
 }
-
-/* EOF */

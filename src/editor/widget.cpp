@@ -43,5 +43,3 @@ Widget::event(const SDL_Event& ev)
       return false;
   }
 }
-
-/* EOF */

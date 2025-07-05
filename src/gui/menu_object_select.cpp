@@ -131,5 +131,3 @@ ObjectSelectMenu::menu_action(MenuItem& item)
     add_object();
   }
 }
-
-/* EOF */

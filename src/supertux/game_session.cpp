@@ -951,5 +951,3 @@ GameSession::drawstatus(DrawingContext& context)
 
   m_level->m_stats.draw_ingame_stats(context, m_game_pause);
 }
-
-/* EOF */

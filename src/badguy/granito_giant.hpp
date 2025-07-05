@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_GRANITO_GIANT_HPP
-#define HEADER_SUPERTUX_BADGUY_GRANITO_GIANT_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 
@@ -51,7 +50,3 @@ private:
   GranitoGiant(const GranitoGiant&) = delete;
   GranitoGiant& operator=(const GranitoGiant&) = delete;
 };
-
-#endif
-
-/* EOF */

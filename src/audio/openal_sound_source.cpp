@@ -172,5 +172,3 @@ OpenALSoundSource::set_volume(float volume)
   m_volume = volume;
   alSourcef(m_source, AL_GAIN, m_gain * m_volume);
 }
-
-/* EOF */

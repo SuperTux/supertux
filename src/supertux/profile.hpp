@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_PROFILE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_PROFILE_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -52,7 +51,3 @@ private:
   Profile(const Profile&) = delete;
   Profile& operator=(const Profile&) = delete;
 };
-
-#endif
-
-/* EOF */

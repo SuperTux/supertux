@@ -168,5 +168,3 @@ Climbable::may_climb(const Player& player) const
   if (player.get_bbox().get_bottom() > m_col.m_bbox.get_bottom() + GRACE_DY) return false;
   return true;
 }
-
-/* EOF */

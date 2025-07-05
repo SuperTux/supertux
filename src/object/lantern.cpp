@@ -157,5 +157,3 @@ Lantern::add_color(const Color& c)
   lightcolor.alpha = std::min(1.0f, lightcolor.alpha + c.alpha);
   updateColor();
 }
-
-/* EOF */

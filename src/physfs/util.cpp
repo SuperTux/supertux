@@ -163,5 +163,3 @@ bool enumerate_files_recurse(const std::string& pathname, std::function<bool(con
 }
 
 } // namespace physfsutil
-
-/* EOF */

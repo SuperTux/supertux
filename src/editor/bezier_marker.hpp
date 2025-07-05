@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_BEZIER_MARKER_HPP
-#define HEADER_SUPERTUX_EDITOR_BEZIER_MARKER_HPP
+#pragma once
 
 #include "editor/marker_object.hpp"
 #include "object/path.hpp"
@@ -53,7 +52,3 @@ private:
   BezierMarker(const BezierMarker&) = delete;
   BezierMarker& operator=(const BezierMarker&) = delete;
 };
-
-#endif
-
-/* EOF */

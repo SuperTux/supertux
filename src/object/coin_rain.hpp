@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_COIN_RAIN_HPP
-#define HEADER_SUPERTUX_OBJECT_COIN_RAIN_HPP
+#pragma once
 
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
@@ -44,7 +43,3 @@ private:
   int drop;
   const bool m_count_stats;
 };
-
-#endif
-
-/* EOF */

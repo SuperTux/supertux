@@ -51,5 +51,3 @@ FlipLevelTransformer::transform_flip(Flip& flip)
     flip = flip | VERTICAL_FLIP;
   }
 }
-
-/* EOF */

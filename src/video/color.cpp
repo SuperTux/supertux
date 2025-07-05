@@ -192,5 +192,3 @@ Color::serialize_to_rgb(const Color& color)
      << static_cast<int>(color.blue * 255.f) << ")";
   return ss.str();
 }
-
-/* EOF */

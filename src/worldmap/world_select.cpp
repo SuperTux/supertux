@@ -265,5 +265,3 @@ WorldSelect::get_status() const
 }
 
 } // namespace worldmap
-
-/* EOF */

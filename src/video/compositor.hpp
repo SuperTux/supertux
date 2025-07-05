@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_COMPOSITOR_HPP
-#define HEADER_SUPERTUX_VIDEO_COMPOSITOR_HPP
+#pragma once
 
 #include <vector>
 #include <memory>
@@ -58,7 +57,3 @@ private:
   Compositor(const Compositor&) = delete;
   Compositor& operator=(const Compositor&) = delete;
 };
-
-#endif
-
-/* EOF */

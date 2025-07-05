@@ -189,5 +189,3 @@ CorruptedGranito::get_default_sprite_name() const
   }
   return "images/creatures/granito/corrupted/corrupted_granito.sprite";
 }
-
-/* EOF */

@@ -78,5 +78,3 @@ BezierMarker::check_state()
 {
   m_node->get_parent().get_gameobject().check_state();
 }
-
-/* EOF */

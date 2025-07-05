@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_CUSTOM_PARTICLE_SYSTEM_FILE_HPP
-#define HEADER_SUPERTUX_OBJECT_CUSTOM_PARTICLE_SYSTEM_FILE_HPP
+#pragma once
 
 #include "math/easing.hpp"
 #include "math/vector.hpp"
@@ -55,7 +54,3 @@ private:
   CustomParticleSystemFile(const CustomParticleSystemFile&) = delete;
   CustomParticleSystemFile& operator=(const CustomParticleSystemFile&) = delete;
 };
-
-#endif
-
-/* EOF */

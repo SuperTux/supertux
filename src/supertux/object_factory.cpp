@@ -99,5 +99,3 @@ ObjectFactory::get_registered_objects(uint8_t params)
   }
   return out;
 }
-
-/* EOF */

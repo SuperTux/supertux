@@ -104,5 +104,3 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
 
   return true;
 }
-
-/* EOF */

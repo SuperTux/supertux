@@ -12,7 +12,7 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "collision/collision_movement_manager.hpp"
 #include "object/player.hpp"
@@ -89,5 +89,3 @@ CollisionGroundMovementManager::TargetMovementData::register_movement(
 {
   m_moving_tilemaps.emplace(std::make_pair(&moving_tilemap, movement));
 }
-
-/* EOF */

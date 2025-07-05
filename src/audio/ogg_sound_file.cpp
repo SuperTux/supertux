@@ -153,5 +153,3 @@ OggSoundFile::cb_tell(void* source)
   auto file = reinterpret_cast<PHYSFS_file*> (source);
   return static_cast<long> (PHYSFS_tell(file));
 }
-
-/* EOF */

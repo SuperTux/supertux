@@ -215,5 +215,3 @@ InfoBoxLine::get_height() const
       return font->get_height() + ITEMS_SPACE;
   }
 }
-
-/* EOF */

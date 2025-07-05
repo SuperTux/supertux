@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_MATH_ANCHOR_POINT_HPP
-#define HEADER_SUPERTUX_MATH_ANCHOR_POINT_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -64,7 +63,3 @@ Vector get_anchor_pos(const Rectf& rect, AnchorPoint point);
 Vector get_anchor_pos(const Rectf& destrect, float width, float height,
                       AnchorPoint point);
 Vector get_anchor_center_pos(const Rectf& rect, AnchorPoint point);
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_SERIALIZE_HPP
-#define HEADER_SUPERTUX_SQUIRREL_SERIALIZE_HPP
+#pragma once
 
 class ReaderMapping;
 class Writer;
@@ -26,7 +25,3 @@ class Table;
 
 void load_squirrel_table(ssq::Table& table, const ReaderMapping& mapping);
 void save_squirrel_table(const ssq::Table& table, Writer& writer);
-
-#endif
-
-/* EOF */

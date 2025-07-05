@@ -1649,5 +1649,3 @@ EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size) const
   Vector sp_ = sp + tilemap->get_offset() / static_cast<float>(tile_size);
   return glm::trunc(sp_) * static_cast<float>(tile_size);
 }
-
-/* EOF */

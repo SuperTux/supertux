@@ -121,5 +121,3 @@ StringUtil::split(std::vector<std::string>& output, const std::string& str, char
   while(getline(stream, element, ch))
     output.push_back(element);
 }
-
-/* EOF */

@@ -169,5 +169,3 @@ Resources::~Resources()
 {
   unload();
 }
-
-/* EOF */

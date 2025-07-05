@@ -214,5 +214,3 @@ GLTexture::set_texture_params()
 
   assert_gl();
 }
-
-/* EOF */

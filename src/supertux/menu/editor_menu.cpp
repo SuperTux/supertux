@@ -202,34 +202,34 @@ EditorMenu::menu_action(MenuItem& item)
 	case MNID_HELP:
     {
       auto dialog = std::make_unique<Dialog>();
-      auto help_dialog_text = 
+      auto help_dialog_text =
         _("Keyboard Shortcuts:") + "\n" +
-          "---------------------" + "\n" + 
-        _("Esc = Open Menu") + "\n" + 
-        _("Ctrl+S = Save") + "\n" + 
-        _("Ctrl+T = Test") + "\n" + 
-        _("Ctrl+Z = Undo") + "\n" + 
-        _("Ctrl+Y = Redo") + "\n" + 
-        _("F5 = Toggle Autotiling") + "\n" + 
-        _("F6 = Render Light") + "\n" + 
-        _("F7 = Grid Snapping") + "\n" + 
-        _("F8 = Show Grid") + "\n" + 
-        _("Ctrl++ or Ctrl+Scroll Up = Zoom In") + "\n" + 
-        _("Ctrl+- or Ctrl+Scroll Down = Zoom Out") + "\n" + 
-        _("Ctrl+D = Reset Zoom") + "\n\n" + 
+          "---------------------" + "\n" +
+        _("Esc = Open Menu") + "\n" +
+        _("Ctrl+S = Save") + "\n" +
+        _("Ctrl+T = Test") + "\n" +
+        _("Ctrl+Z = Undo") + "\n" +
+        _("Ctrl+Y = Redo") + "\n" +
+        _("F5 = Toggle Autotiling") + "\n" +
+        _("F6 = Render Light") + "\n" +
+        _("F7 = Grid Snapping") + "\n" +
+        _("F8 = Show Grid") + "\n" +
+        _("Ctrl++ or Ctrl+Scroll Up = Zoom In") + "\n" +
+        _("Ctrl+- or Ctrl+Scroll Down = Zoom Out") + "\n" +
+        _("Ctrl+D = Reset Zoom") + "\n\n" +
         _("Scripting Shortcuts:") + "\n" +
-           "-------------" + "\n" + 
-        _("Home = Go to beginning of line") + "\n" + 
-        _("End = Go to end of line") + "\n" + 
-        _("Left arrow = Go back in text") + "\n" + 
-        _("Right arrow = Go forward in text") + "\n" + 
-        _("Backspace = Delete in front of text cursor") + "\n" + 
-        _("Delete = Delete behind text cursor") + "\n" + 
-        _("Ctrl+X = Cut whole line") + "\n" + 
-        _("Ctrl+C = Copy whole line") + "\n" + 
-        _("Ctrl+V = Paste") + "\n" + 
-        _("Ctrl+D = Duplicate line") + "\n" + 
-        _("Ctrl+Z = Undo") + "\n" + 
+           "-------------" + "\n" +
+        _("Home = Go to beginning of line") + "\n" +
+        _("End = Go to end of line") + "\n" +
+        _("Left arrow = Go back in text") + "\n" +
+        _("Right arrow = Go forward in text") + "\n" +
+        _("Backspace = Delete in front of text cursor") + "\n" +
+        _("Delete = Delete behind text cursor") + "\n" +
+        _("Ctrl+X = Cut whole line") + "\n" +
+        _("Ctrl+C = Copy whole line") + "\n" +
+        _("Ctrl+V = Paste") + "\n" +
+        _("Ctrl+D = Duplicate line") + "\n" +
+        _("Ctrl+Z = Undo") + "\n" +
         _("Ctrl+Y = Redo");
 
       dialog->set_text(help_dialog_text);
@@ -295,5 +295,3 @@ EditorMenu::on_back_action()
 
   return true;
 }
-
-/* EOF */

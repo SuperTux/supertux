@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_WIND_HPP
-#define HEADER_SUPERTUX_OBJECT_WIND_HPP
+#pragma once
 
 #include "supertux/moving_object.hpp"
 
@@ -46,7 +45,7 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;
-  
+
   virtual void on_flip(float height) override;
 
   /**
@@ -90,12 +89,8 @@ private:
     WIND,
     CURRENT,
   };
-  
+
 private:
   Wind(const Wind&) = delete;
   Wind& operator=(const Wind&) = delete;
 };
-
-#endif
-
-/* EOF */

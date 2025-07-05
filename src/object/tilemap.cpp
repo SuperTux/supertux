@@ -269,13 +269,13 @@ TileMap::get_icon_path() const
     }
   }
   else // Not lightmap
-  { 
+  {
     if (on_path)
     {
       icon_name = is_solid ? "tilemap_path" : "tilemap_path_nonsolid";
     }
     else // Not on path
-    { 
+    {
       icon_name = is_solid ? "tilemap" : "tilemap_nonsolid";
     }
   }
@@ -401,7 +401,7 @@ TileMap::after_editor_set()
   m_current_alpha = m_alpha;
 
   if (Editor::is_active())
-  { 
+  {
     if (Editor* editor = Editor::current())
     {
       editor->get_layers_widget()->refresh();
@@ -1065,5 +1065,3 @@ TileMap::register_class(ssq::VM& vm)
   cls.addVar("alpha", &TileMap::get_alpha, &TileMap::set_alpha);
   cls.addVar("solid", &TileMap::get_solid, &TileMap::set_solid);
 }
-
-/* EOF */

@@ -41,8 +41,7 @@
 // documentation and/or software.
 //
 
-#ifndef HEADER_SUPERTUX_ADDON_MD5_HPP
-#define HEADER_SUPERTUX_ADDON_MD5_HPP
+#pragma once
 
 #include <fstream>
 #include <stdint.h>
@@ -92,7 +91,3 @@ private:
   static inline void II(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac);
 
 };
-
-#endif
-
-/* EOF */

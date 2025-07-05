@@ -80,5 +80,3 @@ CoinRain::draw(DrawingContext& context)
   }
   sprite->draw(context.color(), position, layer);
 }
-
-/* EOF */

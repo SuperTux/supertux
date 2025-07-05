@@ -48,5 +48,3 @@ AddonFileInstallMenu::event(const SDL_Event& event)
   }
   Menu::event(event);
 }
-
-/* EOF */

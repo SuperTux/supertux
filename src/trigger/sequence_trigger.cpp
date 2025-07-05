@@ -84,5 +84,3 @@ SequenceTrigger::draw(DrawingContext& context)
     context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
 }
-
-/* EOF */

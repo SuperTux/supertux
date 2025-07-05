@@ -84,5 +84,3 @@ void register_translation_directory(const std::string& filename)
     }
   }
 }
-
-/* EOF */

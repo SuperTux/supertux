@@ -50,5 +50,3 @@ ObjectGroup::add_icon(const std::string& object, const std::string& icon_path) {
   ObjectIcon new_icon(object, icon_path);
   m_icons.push_back(new_icon);
 }
-
-/* EOF */

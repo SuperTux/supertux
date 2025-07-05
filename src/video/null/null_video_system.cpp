@@ -122,5 +122,3 @@ NullVideoSystem::make_screenshot()
 {
   return {};
 }
-
-/* EOF */

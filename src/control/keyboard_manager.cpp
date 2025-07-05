@@ -231,5 +231,3 @@ KeyboardManager::bind_next_event_to(int player_id, Control id)
 {
   m_wait_for_key = KeyboardConfig::PlayerControl{player_id, id};
 }
-
-/* EOF */

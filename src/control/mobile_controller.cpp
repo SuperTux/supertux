@@ -16,7 +16,6 @@
 
 #include "control/mobile_controller.hpp"
 
-
 #include <string>
 
 #include "SDL.h"
@@ -307,6 +306,3 @@ MobileController::activate_widget_at_pos(float x, float y)
   if (right.contains(pos))
     m_right = true;
 }
-
-
-/* EOF */

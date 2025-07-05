@@ -1189,5 +1189,3 @@ Editor::pack_addon()
 
   *zip.Add_File(id + ".nfo") << ss.rdbuf();
 }
-
-/* EOF */

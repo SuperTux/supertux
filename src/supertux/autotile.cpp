@@ -333,5 +333,3 @@ AutotileSet::validate(int32_t start, int32_t end) const
     }
   }
 }
-
-/* EOF */

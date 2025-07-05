@@ -70,5 +70,3 @@ Random::randf(float u, float v)
   std::uniform_real_distribution<float> dist(u, v);
   return dist(m_generator);
 }
-
-/* EOF */

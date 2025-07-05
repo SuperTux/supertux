@@ -131,5 +131,3 @@ ContribMenu::menu_action(MenuItem& item)
   }
   }
 }
-
-/* EOF */

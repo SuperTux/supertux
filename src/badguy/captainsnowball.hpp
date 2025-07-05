@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_CAPTAINSNOWBALL_HPP
-#define HEADER_SUPERTUX_BADGUY_CAPTAINSNOWBALL_HPP
+#pragma once
 
 #include "badguy/walking_badguy.hpp"
 
@@ -46,7 +45,3 @@ private:
   CaptainSnowball(const CaptainSnowball&) = delete;
   CaptainSnowball& operator=(const CaptainSnowball&) = delete;
 };
-
-#endif
-
-/* EOF */

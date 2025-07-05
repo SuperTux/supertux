@@ -83,4 +83,3 @@ StringArrayMenu::reload()
   add_hl();
   add_back(_("OK"));
 }
-/* EOF */

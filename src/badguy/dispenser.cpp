@@ -153,7 +153,7 @@ Dispenser::active_update(float dt_sec)
       {
         return;
       }
-      
+
       // Auto always shoots in Tux's direction.
       if (m_autotarget)
       {
@@ -472,5 +472,3 @@ Dispenser::register_class(ssq::VM& vm)
   cls.addFunc("activate", &Dispenser::activate);
   cls.addFunc("deactivate", &Dispenser::deactivate);
 }
-
-/* EOF */

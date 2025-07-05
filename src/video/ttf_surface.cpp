@@ -138,5 +138,3 @@ TTFSurface::get_height() const
     return 0;
   }
 }
-
-/* EOF */

@@ -151,5 +151,3 @@ TextArea::get_settings()
 
   return settings;
 }
-
-/* EOF */

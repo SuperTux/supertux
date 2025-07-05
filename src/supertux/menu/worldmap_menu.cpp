@@ -48,5 +48,3 @@ WorldmapMenu::menu_action(MenuItem& item)
       break;
   }
 }
-
-/* EOF */

@@ -134,5 +134,3 @@ GLTextureRenderer::get_rect() const
               Size(m_texture->get_image_width(),
                    m_texture->get_image_height()));
 }
-
-/* EOF */
