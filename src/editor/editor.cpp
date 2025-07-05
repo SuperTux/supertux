@@ -217,39 +217,47 @@ Editor::Editor() :
   mode_button->set_help_text(_("Toggle between object and tile mode"));
 
   m_widgets.insert(m_widgets.begin() + 5, std::move(mode_button));
+
+  auto mouse_select_button = std::make_unique<EditorToolbarButtonWidget>(
+    "images/engine/editor/arrow.png", Vector(192, 0), [this]() {
+      m_toolbox_widget->set_mouse_tool();
+    }
+  );
+  mouse_select_button->set_help_text(_("Toggle between add and remove mode"));
   
   auto select_mode_mouse_button = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/select-mode0.png", Vector(192, 0), [this] {
+    "images/engine/editor/select-mode0.png", Vector(224, 0), [this] {
       m_toolbox_widget->set_tileselect_select_mode(0);
     });
   select_mode_mouse_button->set_help_text(_("Draw mode (The current tool applies to the tile under the mouse)"));
   select_mode_mouse_button->set_visible_in_object_mode(false);
   
   auto select_mode_area_button = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/select-mode1.png", Vector(224, 0), [this] {
+    "images/engine/editor/select-mode1.png", Vector(256, 0), [this] {
       m_toolbox_widget->set_tileselect_select_mode(1);
     });
   select_mode_area_button->set_help_text(_("Box draw mode (The current tool applies to an area / box drawn with the mouse)"));
   select_mode_area_button->set_visible_in_object_mode(false);
   
   auto select_mode_fill_button = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/select-mode2.png", Vector(256, 0), [this] {
+    "images/engine/editor/select-mode2.png", Vector(288, 0), [this] {
       m_toolbox_widget->set_tileselect_select_mode(2);
     });
   select_mode_fill_button->set_help_text(_("Fill mode (The current tool applies to the empty area in the enclosed space that was clicked)"));
   select_mode_fill_button->set_visible_in_object_mode(false);
   
   auto select_mode_same_button = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/select-mode3.png", Vector(288, 0), [this] {
+    "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
       m_toolbox_widget->set_tileselect_select_mode(3);
     });
   select_mode_same_button->set_help_text(_("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)"));
   select_mode_same_button->set_visible_in_object_mode(false);
 
-  m_widgets.insert(m_widgets.begin() + 6, std::move(select_mode_mouse_button));
-  m_widgets.insert(m_widgets.begin() + 7, std::move(select_mode_area_button));
-  m_widgets.insert(m_widgets.begin() + 8, std::move(select_mode_fill_button));
-  m_widgets.insert(m_widgets.begin() + 9, std::move(select_mode_same_button));
+  m_widgets.insert(m_widgets.begin() + 6, std::move(mouse_select_button));
+  m_widgets.insert(m_widgets.begin() + 7, std::move(select_mode_mouse_button));
+  m_widgets.insert(m_widgets.begin() + 8, std::move(select_mode_area_button));
+  m_widgets.insert(m_widgets.begin() + 9, std::move(select_mode_fill_button));
+  m_widgets.insert(m_widgets.begin() + 10, std::move(select_mode_same_button));
 
   // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
   //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
