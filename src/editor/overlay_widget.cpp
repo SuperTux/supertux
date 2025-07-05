@@ -1789,8 +1789,8 @@ Vector
 EditorOverlayWidget::tile_screen_pos(const Vector& tp, int tile_size) const
 {
   Vector sp = tp_to_sp(tp, tile_size);
-  return (sp - m_editor.get_sector()->get_camera().get_translation()) *
-         m_editor.get_sector()->get_camera().get_current_scale();
+  auto& camera = m_editor.get_sector()->get_camera();
+  return (sp - camera.get_translation()) * camera.get_current_scale();
 }
 
 Vector
