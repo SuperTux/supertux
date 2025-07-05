@@ -259,6 +259,10 @@ public:
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
+  const std::vector<std::string>& get_labels() const { return m_labels; }
+  const std::vector<std::string>& get_symbols() const { return m_symbols; }
+  const std::optional<int>& get_default_value() const { return m_default_value; }
+
 private:
   const std::vector<std::string> m_labels;
   const std::vector<std::string> m_symbols;

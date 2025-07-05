@@ -962,10 +962,19 @@ EditorOverlayWidget::process_left_click()
           });
           m_editor.addControl(text, std::move(button), description);
         }
-        // else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
-        // {
-        //   auto dropdown = std::make_unique<ControlEnum>();
-        // }
+        else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
+        {
+          auto labels = enum_option->get_labels();
+          auto dropdown = std::make_unique<ControlEnum<int>>();
+          
+          for(int i = 0; i < labels.size(); i++)
+          {
+            dropdown->add_option(i, labels[i]);
+          }
+
+          dropdown.get()->bind_value(enum_option->get_value());
+          m_editor.addControl(text, std::move(dropdown), description);
+        }
         else
         {
           auto textbox = std::make_unique<ControlTextbox>();
