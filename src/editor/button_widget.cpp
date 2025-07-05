@@ -56,12 +56,12 @@ ButtonWidget::draw(DrawingContext& context)
 
   if (m_hover && !m_help_text.empty())
   {
-    const auto& font = Resources::small_font;
+    const auto& font = Resources::control_font;
     const auto text_height = font->get_text_height(m_help_text);
     const auto text_width = font->get_text_width(m_help_text);
     const auto text_rect = Rectf(m_mouse_pos + Vector(32, 32), m_mouse_pos + Vector(32, 32) + Vector(text_width, text_height));
-    context.color().draw_filled_rect(text_rect, Color::BLACK, LAYER_GUI - 5);
-    context.color().draw_text(font, m_help_text, m_mouse_pos + Vector(32, 32), FontAlignment::ALIGN_LEFT, LAYER_GUI - 5);
+    context.color().draw_filled_rect(text_rect, Color::BLACK, INT_MAX);
+    context.color().draw_text(font, m_help_text, m_mouse_pos + Vector(32, 32), FontAlignment::ALIGN_LEFT, INT_MAX);
   }
 }
 
