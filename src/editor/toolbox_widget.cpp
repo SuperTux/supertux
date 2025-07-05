@@ -151,10 +151,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         switch (m_hovered_tool)
         {
           case 0:
-            m_tilebox->get_tiles()->set_tile(0);
-            m_tilebox->set_object("");
-            m_editor.update_autotileset();
-            update_mouse_icon();
+            set_rubber_tool();
             break;
 
           case 1:
@@ -181,8 +178,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
              break;
  
            case 3:
-             m_tilebox->set_object("#move");
-             update_mouse_icon();
+             set_mouse_tool();
              break;
 
           default:
@@ -198,6 +194,22 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   {
     return false;
   }
+}
+
+void
+EditorToolboxWidget::set_rubber_tool()
+{
+  m_tilebox->set_object("");
+  m_tilebox->get_tiles()->set_tile(0);
+  m_editor.update_autotileset();
+  update_mouse_icon();
+}
+
+void
+EditorToolboxWidget::set_mouse_tool()
+{
+  m_tilebox->set_object("#move");
+  update_mouse_icon();
 }
 
 bool
@@ -300,10 +312,24 @@ EditorToolboxWidget::get_tileselect_select_mode() const
   return m_select_mode->get_mode();
 }
 
+void
+EditorToolboxWidget::set_tileselect_select_mode(int mode)
+{
+  m_select_mode->set_mode(mode);
+  update_mouse_icon();
+}
+
 int
 EditorToolboxWidget::get_tileselect_move_mode() const
 {
   return m_move_mode->get_mode();
+}
+
+void
+EditorToolboxWidget::set_tileselect_move_mode(int mode)
+{
+  m_move_mode->set_mode(mode);
+  update_mouse_icon();
 }
 
 Vector

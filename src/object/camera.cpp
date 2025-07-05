@@ -191,6 +191,8 @@ Camera::after_editor_set()
       init_path_pos(Vector(0,0));
     }
   }
+
+  m_translation -= Vector(200.f, 32.f);
 }
 
 void

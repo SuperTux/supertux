@@ -28,6 +28,7 @@
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
+#include "interface/control.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/world.hpp"
 #include "util/currenton.hpp"
@@ -36,7 +37,7 @@
 #include "util/string_util.hpp"
 #include "video/surface_ptr.hpp"
 
-class ButtonWidget;
+class EditorToolbarButtonWidget;
 class GameObject;
 class Level;
 class ObjectGroup;
@@ -80,6 +81,11 @@ public:
 
   void event(const SDL_Event& ev) override;
   void on_window_resize() override;
+
+  std::vector<std::unique_ptr<InterfaceControl>>& get_controls()
+  {
+    return m_controls;
+  }
 
   void disable_keyboard() { m_enabled = false; }
 
@@ -152,6 +158,10 @@ public:
     m_overlay_widget->edit_path(path, new_marked_object);
   }
 
+  void update_properties_panel(GameObject* object) {
+    m_overlay_widget->update_properties_panel(object);
+  }
+
   void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
 
   inline TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
@@ -162,6 +172,7 @@ public:
 
   void queue_layers_refresh();
 
+  void addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
   void retoggle_undo_tracking();
   void undo_stack_cleanup();
 
@@ -186,7 +197,6 @@ private:
   void save_level(const std::string& filename = "", bool switch_file = false);
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
-
   void keep_camera_in_bounds();
 
 protected:
@@ -224,8 +234,14 @@ private:
   bool m_has_deprecated_tiles;
 
   std::vector<std::unique_ptr<Widget> > m_widgets;
-  ButtonWidget* m_undo_widget;
-  ButtonWidget* m_redo_widget;
+  std::vector<std::unique_ptr<InterfaceControl>> m_controls;
+
+  EditorToolbarButtonWidget* m_undo_widget;
+  EditorToolbarButtonWidget* m_redo_widget;
+  EditorToolbarButtonWidget* m_grid_size_widget;
+  EditorToolbarButtonWidget* m_play_widget;
+  EditorToolbarButtonWidget* m_save_widget;
+
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;

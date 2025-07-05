@@ -74,10 +74,14 @@ public:
 
   inline const std::string& get_key() const { return m_key; }
   inline const std::string& get_text() const { return m_text; }
+  inline const std::string& get_description() const { return m_description; }
+  void set_description(const std::string& description) { m_description = description; }
+
   inline unsigned int get_flags() const { return m_flags; }
 
 protected:
   const std::string m_text;
+  std::string m_description;
   const std::string m_key;
   const unsigned int m_flags;
 
@@ -255,6 +259,10 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+
+  const std::vector<std::string>& get_labels() const { return m_labels; }
+  const std::vector<std::string>& get_symbols() const { return m_symbols; }
+  const std::optional<int>& get_default_value() const { return m_default_value; }
 
 private:
   const std::vector<std::string> m_labels;
@@ -565,6 +573,11 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  
+  const std::vector<Direction>& get_possible_directions() const
+  {
+    return m_possible_directions;
+  }
 
 private:
   std::vector<Direction> m_possible_directions;

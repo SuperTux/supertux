@@ -20,6 +20,7 @@
 #include <exception>
 
 ControlTextboxFloat::ControlTextboxFloat() :
+  ControlTextbox(),
   m_validate_float(),
   m_value(nullptr)
 {
