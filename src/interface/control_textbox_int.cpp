@@ -20,6 +20,7 @@
 #include <exception>
 
 ControlTextboxInt::ControlTextboxInt() :
+  ControlTextbox(),
   m_validate_int(),
   m_value(nullptr)
 {
