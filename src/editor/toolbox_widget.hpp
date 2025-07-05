@@ -62,6 +62,9 @@ public:
 
   void set_tileselect_select_mode(int mode);
 
+  void set_mouse_tool();
+  void set_rubber_tool();
+
   inline EditorTilebox& get_tilebox() const { return *m_tilebox; }
 
   inline bool has_mouse_focus() const { return m_has_mouse_focus; }
