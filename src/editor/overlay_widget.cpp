@@ -734,7 +734,7 @@ EditorOverlayWidget::update_properties_panel(GameObject* object)
     else if (auto bool_option = dynamic_cast<BoolObjectOption*>(option.get()))
     {
       auto checkbox = std::make_unique<ControlCheckbox>();
-      checkbox.get()->set_rect(Rectf(0, 32, 32, 32));
+      checkbox.get()->set_rect(Rectf(140.f, 0.f, 160.f, 20.f));
       checkbox.get()->bind_value(bool_option->get_value());
       m_editor.addControl(text, std::move(checkbox), description);
     }
