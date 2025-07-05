@@ -157,6 +157,10 @@ public:
     m_overlay_widget->edit_path(path, new_marked_object);
   }
 
+  void update_properties_panel(GameObject* object) {
+    m_overlay_widget->update_properties_panel(object);
+  }
+
   void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
 
   inline TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
