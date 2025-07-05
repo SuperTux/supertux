@@ -65,6 +65,7 @@ public:
 
   void update_pos();
   void update_autotileset();
+  void update_properties_panel(GameObject* object);
   void delete_markers();
   void update_node_iterators();
   void on_level_change();
@@ -97,7 +98,6 @@ private:
   void clone_object();
   void hover_object();
   void show_object_menu(GameObject& object);
-  void update_properties_panel(GameObject* object);
   void select_object();
   void add_path_node();
 
