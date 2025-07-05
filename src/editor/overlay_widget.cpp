@@ -868,6 +868,7 @@ EditorOverlayWidget::move_object()
 void
 EditorOverlayWidget::rubber_object()
 {
+  update_properties_panel(nullptr);
   if (!m_edited_path) {
     delete_markers();
   }
