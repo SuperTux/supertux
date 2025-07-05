@@ -325,6 +325,13 @@ EditorToolboxWidget::get_tileselect_move_mode() const
   return m_move_mode->get_mode();
 }
 
+void
+EditorToolboxWidget::set_tileselect_move_mode(int mode)
+{
+  m_move_mode->set_mode(mode);
+  update_mouse_icon();
+}
+
 Vector
 EditorToolboxWidget::get_tool_coords(int pos) const
 {

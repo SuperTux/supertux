@@ -59,6 +59,7 @@ public:
   int get_tileselect_move_mode() const;
 
   void update_mouse_icon();
+  void set_tileselect_move_mode(int mode);
 
   void set_tileselect_select_mode(int mode);
 
