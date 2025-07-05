@@ -973,6 +973,13 @@ EditorOverlayWidget::process_left_click()
           }
 
           dropdown.get()->bind_value(enum_option->get_value());
+          dropdown.get()->m_on_change = std::function<void()>([hovered_object, this]() {
+            // TODO: Updating the object doesn't work every time.
+            // Investigate why this is the case!
+            hovered_object->after_editor_set();
+            hovered_object->check_state();
+            m_editor.m_reactivate_request = true;
+          });
           m_editor.addControl(text, std::move(dropdown), description);
         }
         else
