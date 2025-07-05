@@ -572,6 +572,11 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  
+  const std::vector<Direction>& get_possible_directions() const
+  {
+    return m_possible_directions;
+  }
 
 private:
   std::vector<Direction> m_possible_directions;
