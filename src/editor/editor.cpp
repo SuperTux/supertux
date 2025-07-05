@@ -225,6 +225,9 @@ Editor::Editor() :
   );
   mouse_select_button->set_help_text(_("Toggle between add and remove mode"));
   
+  /**
+   *  ============= Tools only applicable for Tile mode =====================
+   */
   auto select_mode_mouse_button = std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/select-mode0.png", Vector(224, 0), [this] {
       m_toolbox_widget->set_tileselect_select_mode(0);
@@ -253,11 +256,30 @@ Editor::Editor() :
   select_mode_same_button->set_help_text(_("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)"));
   select_mode_same_button->set_visible_in_object_mode(false);
 
+  /**
+   *  ============= Tile tools end / Object tools begin =====================
+   */
+  auto select_mode = std::make_unique<EditorToolbarButtonWidget>(
+    "images/engine/editor/move-mode0.png", Vector(224, 0), [this] {
+      m_toolbox_widget->set_tileselect_move_mode(0);
+  });
+  select_mode->set_help_text(_("Select mode (The object under the mouse gets selected)"));
+  select_mode->set_visible_in_tile_mode(false);
+
+  auto duplicate_mode = std::make_unique<EditorToolbarButtonWidget>(
+    "images/engine/editor/move-mode1.png", Vector(256, 0), [this] {
+      m_toolbox_widget->set_tileselect_move_mode(1);
+  });
+  duplicate_mode->set_help_text(_("Duplicate mode (The object under the mouse gets duplicated)"));
+  duplicate_mode->set_visible_in_tile_mode(false);
+
   m_widgets.insert(m_widgets.begin() + 6, std::move(mouse_select_button));
   m_widgets.insert(m_widgets.begin() + 7, std::move(select_mode_mouse_button));
   m_widgets.insert(m_widgets.begin() + 8, std::move(select_mode_area_button));
   m_widgets.insert(m_widgets.begin() + 9, std::move(select_mode_fill_button));
   m_widgets.insert(m_widgets.begin() + 10, std::move(select_mode_same_button));
+  m_widgets.insert(m_widgets.begin() + 11, std::move(select_mode));
+  m_widgets.insert(m_widgets.begin() + 12, std::move(duplicate_mode));
 
   // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
   //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
