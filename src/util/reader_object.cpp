@@ -50,5 +50,3 @@ ReaderObject::get_collection() const
 {
   return ReaderCollection(m_doc, m_sx);
 }
-
-/* EOF */

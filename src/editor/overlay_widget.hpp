@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OVERLAY_WIDGET_HPP
-#define HEADER_SUPERTUX_EDITOR_OVERLAY_WIDGET_HPP
+#pragma once
 
 #include <SDL.h>
 #include <chrono>
@@ -177,7 +176,3 @@ private:
   EditorOverlayWidget(const EditorOverlayWidget&) = delete;
   EditorOverlayWidget& operator=(const EditorOverlayWidget&) = delete;
 };
-
-#endif
-
-/* EOF */

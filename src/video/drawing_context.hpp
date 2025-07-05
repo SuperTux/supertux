@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_DRAWING_CONTEXT_HPP
-#define HEADER_SUPERTUX_VIDEO_DRAWING_CONTEXT_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -80,7 +79,7 @@ public:
 
   inline float get_scale() const { return transform().scale; }
   inline void scale(float scale) { transform().scale *= scale; }
-  
+
   /** Recalculates the scaling factor for parallax layers.*/
   bool perspective_scale(float speed_x, float speed_y);
 
@@ -89,7 +88,7 @@ public:
   inline Flip get_flip() const { return transform().flip; }
 
   /** apply that alpha in the next draws (1.0 means fully opaque) */
-  inline void set_alpha(float alpha) { transform().alpha = alpha; } 
+  inline void set_alpha(float alpha) { transform().alpha = alpha; }
   inline float get_alpha() const { return transform().alpha; }
 
   /** For position extrapolation at high frame rates: real time since last game update step */
@@ -133,7 +132,3 @@ private:
   DrawingContext(const DrawingContext&) = delete;
   DrawingContext& operator=(const DrawingContext&) = delete;
 };
-
-#endif
-
-/* EOF */

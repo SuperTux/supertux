@@ -637,5 +637,3 @@ Statistics::check_secrets()
     SoundManager::current()->play("/sounds/tada.ogg", 0.5f);
   }
 }
-
-/* EOF */

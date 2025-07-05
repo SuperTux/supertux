@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_COIN_HPP
-#define HEADER_SUPERTUX_OBJECT_COIN_HPP
+#pragma once
 
 #include "object/path_object.hpp"
 #include "object/moving_sprite.hpp"
@@ -114,7 +113,3 @@ private:
   HeavyCoin(const HeavyCoin&) = delete;
   HeavyCoin& operator=(const HeavyCoin&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
+#pragma once
 
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
@@ -209,7 +208,3 @@ private:
   GameSession(const GameSession&) = delete;
   GameSession& operator=(const GameSession&) = delete;
 };
-
-#endif
-
-/* EOF */

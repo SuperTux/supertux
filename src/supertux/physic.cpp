@@ -62,5 +62,3 @@ Physic::get_movement(float dt_sec)
 
   return result;
 }
-
-/* EOF */

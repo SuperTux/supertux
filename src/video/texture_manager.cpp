@@ -496,5 +496,3 @@ TextureManager::debug_print(std::ostream& out) const
   out << "total surface count:" << m_surfaces.size() << std::endl;
   out << "total surface pixels:" << total_surface_pixels << std::endl;
 }
-
-/* EOF */

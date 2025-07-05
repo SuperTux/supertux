@@ -121,5 +121,3 @@ TTFSurfaceManager::print_debug_info(std::ostream& out)
   });
   out << "TTFSurfaceManager.cache_size: " << m_cache.size() << "  " << cache_bytes / 1000 << "KB" << std::endl;
 }
-
-/* EOF */

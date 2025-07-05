@@ -64,5 +64,3 @@ EditorLevelsetMenu::menu_action(MenuItem& item)
   if (item.get_id() == 1)
     m_world->m_is_levelset = (m_levelset_type == 1);
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_READER_HPP
-#define HEADER_SUPERTUX_UTIL_READER_HPP
+#pragma once
 
 #include <string>
 
@@ -23,7 +22,3 @@ class ReaderMapping;
 
 int reader_get_layer(const ReaderMapping& reader, int def);
 void register_translation_directory(const std::string& filename);
-
-#endif
-
-/* EOF */

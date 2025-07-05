@@ -21,5 +21,3 @@ struct TextArrayItem
 
   TextArrayItem() : text_object(), duration(0.0f) {}
 };
-
-/* EOF */

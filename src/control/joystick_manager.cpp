@@ -343,6 +343,3 @@ JoystickManager::bind_joystick(SDL_Joystick* controller, int player_id)
       if (pair2.second == player_id && pair2.first != controller)
         pair2.second = -1;
 }
-
-
-/* EOF */

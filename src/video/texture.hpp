@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_TEXTURE_HPP
-#define HEADER_SUPERTUX_VIDEO_TEXTURE_HPP
+#pragma once
 
 #include <string>
 #include <tuple>
@@ -65,7 +64,3 @@ private:
   Texture(const Texture&) = delete;
   Texture& operator=(const Texture&) = delete;
 };
-
-#endif
-
-/* EOF */

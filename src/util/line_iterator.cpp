@@ -59,5 +59,3 @@ LineIterator::get()
 {
   return std::string(first, line_end);
 }
-
-/* EOF */

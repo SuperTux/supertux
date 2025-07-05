@@ -94,5 +94,3 @@ InterfaceLabel::get_truncated_text() const
 
   return temp + "...";
 }
-
-

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_SCROLLER_WIDGET_HPP
-#define HEADER_SUPERTUX_EDITOR_SCROLLER_WIDGET_HPP
+#pragma once
 
 #include "editor/widget.hpp"
 #include "math/vector.hpp"
@@ -56,7 +55,3 @@ private:
   EditorScrollerWidget(const EditorScrollerWidget&) = delete;
   EditorScrollerWidget& operator=(const EditorScrollerWidget&) = delete;
 };
-
-#endif
-
-/* EOF */

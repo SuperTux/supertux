@@ -1234,5 +1234,3 @@ Crusher::get_settings()
 
   return result;
 }
-
-/* EOF */

@@ -32,5 +32,3 @@ ItemScript::process_action(const MenuAction& action) {
     MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(script));
   }
 }
-
-/* EOF */

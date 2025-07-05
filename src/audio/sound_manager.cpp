@@ -292,7 +292,7 @@ SoundManager::set_music_volume(int volume)
   if (m_music_source != nullptr) m_music_source->set_volume(static_cast<float>(volume) / 100.0f);
 }
 
-void 
+void
 SoundManager::play_music(const std::string& filename, float fadetime)
 {
   if (filename == m_current_music && m_music_source != nullptr)
@@ -528,5 +528,3 @@ SoundManager::check_al_error(const char* message)
     throw std::runtime_error(msg.str());
   }
 }
-
-/* EOF */

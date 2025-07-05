@@ -218,5 +218,3 @@ Viewport::needs_clear_screen() const
 {
   return (m_rect.left != 0 || m_rect.top != 0);
 }
-
-/* EOF */

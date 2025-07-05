@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_SCRIPT_HPP
-#define HEADER_SUPERTUX_GUI_MENU_SCRIPT_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
@@ -45,7 +44,3 @@ private:
   ScriptMenu(const ScriptMenu&) = delete;
   ScriptMenu& operator=(const ScriptMenu&) = delete;
 };
-
-#endif
-
-/* EOF */

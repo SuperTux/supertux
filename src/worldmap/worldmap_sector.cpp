@@ -354,7 +354,7 @@ WorldMapSector::update(float dt_sec)
           Vector shrinkpos = Vector(level_->get_pos().x + 16 - m_camera->get_offset().x,
                                     level_->get_pos().y +  8 - m_camera->get_offset().y);
           std::string levelfile = m_parent.m_levels_path + level_->get_level_filename();
-          
+
           auto game_session = std::make_unique<GameSession>(levelfile, m_parent.m_savegame, &level_->get_statistics());
           game_session->restart_level();
 
@@ -445,7 +445,7 @@ WorldMapSector::is_valid_path_at(const Vector& p) const
 {
   const auto tile_data = tile_data_at(p);
   return tile_data & (Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH |
-                      Tile::WORLDMAP_WEST  | Tile::WORLDMAP_EAST); 
+                      Tile::WORLDMAP_WEST  | Tile::WORLDMAP_EAST);
 }
 
 size_t
@@ -533,7 +533,7 @@ WorldMapSector::finished_level(Level* gamelevel)
 SpawnPoint*
 WorldMapSector::get_spawnpoint_by_name(const std::string& spawnpoint_name) const
 {
-  auto spawnpoint = std::find_if(m_spawnpoints.begin(), m_spawnpoints.end(), 
+  auto spawnpoint = std::find_if(m_spawnpoints.begin(), m_spawnpoints.end(),
     [spawnpoint_name](const auto& sp) {
       return sp->get_name() == spawnpoint_name;
     });
@@ -544,7 +544,7 @@ bool
 WorldMapSector::path_ok(const Direction& direction, const Vector& old_pos, Vector* new_pos) const
 {
   *new_pos = get_next_tile(old_pos, direction);
- 
+
   if (!(new_pos->x >= 0 && new_pos->x < get_tiles_width()
         && new_pos->y >= 0 && new_pos->y < get_tiles_height()))
   { // New position is outsite the tilemap
@@ -678,5 +678,3 @@ WorldMapSector::register_class(ssq::VM& vm)
 }
 
 } // namespace worldmap
-
-/* EOF */

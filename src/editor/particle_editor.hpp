@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_PARTICLE_EDITOR_HPP
-#define HEADER_SUPERTUX_EDITOR_PARTICLE_EDITOR_HPP
+#pragma once
 
 #include <functional>
 #include <vector>
@@ -127,7 +126,3 @@ private:
   ParticleEditor(const ParticleEditor&) = delete;
   ParticleEditor& operator=(const ParticleEditor&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -469,6 +469,3 @@ ErrorHandler::close_program()
 {
   _Exit(10);
 }
-
-/* EOF */
-

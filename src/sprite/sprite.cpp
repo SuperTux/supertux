@@ -144,7 +144,7 @@ Sprite::update()
   if (m_is_paused) return;
 
   m_frame += frame_inc;
-  
+
   while (m_frame >= 1.0f) {
     m_frame -= 1.0f;
     m_frameidx++;
@@ -237,5 +237,3 @@ Sprite::get_current_hitbox() const
 {
   return Rectf(m_action->x_offset, m_action->y_offset, m_action->x_offset + m_action->hitbox_w, m_action->y_offset + m_action->hitbox_h);
 }
-
-/* EOF */

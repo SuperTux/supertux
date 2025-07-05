@@ -115,5 +115,3 @@ SDLSurface::save_png(const SDL_Surface& surface, const std::string& filename)
     return true;
   }
 }
-
-/* EOF */

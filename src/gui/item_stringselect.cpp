@@ -124,5 +124,3 @@ ItemStringSelect::calculate_width() const
   }
   return Resources::normal_font->get_text_width(get_text()) + max_item_width + 64.0f;
 }
-
-/* EOF */

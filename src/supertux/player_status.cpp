@@ -437,5 +437,3 @@ PlayerStatus::PocketPowerUp::draw(DrawingContext& context)
 
   PowerUp::draw(context);
 }
-
-/* EOF */

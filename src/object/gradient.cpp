@@ -130,18 +130,18 @@ void
 Gradient::update(float delta)
 {
   if (m_fade_time <= 0) return;
-  
+
   m_fade_time -= delta;
   if (m_fade_time <= 0)
   {
     m_fade_time = 0;
-    
+
     m_gradient_top = m_fade_gradient_top;
     m_gradient_bottom = m_fade_gradient_bottom;
-    
+
     return;
   }
-  
+
   float progress = m_fade_time / m_fade_total_time;
   m_gradient_top =
     (m_fade_gradient_top + (m_start_gradient_top - m_fade_gradient_top) * progress).validate();
@@ -318,5 +318,3 @@ Gradient::register_class(ssq::VM& vm)
   cls.addFunc("fade_colors", &Gradient::fade_colors, ssq::DefaultArguments<float, float>(1.f, 1.f));
   cls.addFunc("swap_colors", &Gradient::swap_colors);
 }
-
-/* EOF */

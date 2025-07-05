@@ -53,5 +53,3 @@ ShrinkFade::done() const
 {
   return m_accum_time >= m_fade_time;
 }
-
-/* EOF */

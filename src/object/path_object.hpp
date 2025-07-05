@@ -15,8 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef HEADER_SUPERTUX_OBJECT_PATH_OBJECT_HPP
-#define HEADER_SUPERTUX_OBJECT_PATH_OBJECT_HPP
+#pragma once
 
 #include <memory>
 
@@ -100,7 +99,3 @@ private:
   PathObject(const PathObject&) = delete;
   PathObject& operator=(const PathObject&) = delete;
 };
-
-#endif
-
-/* EOF */

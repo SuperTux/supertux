@@ -276,5 +276,3 @@ Dialog::on_button_click(int button) const
     MenuManager::instance().set_dialog({});
   }
 }
-
-/* EOF */

@@ -70,5 +70,3 @@ ItemToggle::process_action(const MenuAction& action)
     m_set_func(!m_get_func());
   }
 }
-
-/* EOF */

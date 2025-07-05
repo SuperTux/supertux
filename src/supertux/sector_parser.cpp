@@ -386,5 +386,3 @@ SectorParser::create_sector()
 
   m_sector.finish_construction(m_editable);
 }
-
-/* EOF */

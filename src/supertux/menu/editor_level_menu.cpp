@@ -103,5 +103,3 @@ EditorLevelMenu::on_back_action()
   }
   return false;
 }
-
-/* EOF */

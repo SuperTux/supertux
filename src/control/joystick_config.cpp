@@ -241,5 +241,3 @@ JoystickConfig::write(Writer& writer)
     writer.end_list("map");
   }
 }
-
-/* EOF */

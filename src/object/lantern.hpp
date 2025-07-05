@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_LANTERN_HPP
-#define HEADER_SUPERTUX_OBJECT_LANTERN_HPP
+#pragma once
 
 #include "object/rock.hpp"
 
@@ -59,7 +58,3 @@ private:
   Lantern(const Lantern&) = delete;
   Lantern& operator=(const Lantern&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -260,5 +260,3 @@ void open_url(const std::string& url)
 }
 
 } // namespace FileSystem
-
-/* EOF */

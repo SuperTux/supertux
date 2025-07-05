@@ -70,5 +70,3 @@ OFileStreambuf::sync()
 {
   return overflow(traits_type::eof());
 }
-
-/* EOF */

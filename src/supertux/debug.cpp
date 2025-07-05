@@ -45,5 +45,3 @@ Debug::set_game_speed_multiplier(float v)
   m_game_speed_multiplier = v;
   log_info << m_game_speed_multiplier << std::endl;
 }
-
-/* EOF */

@@ -218,5 +218,3 @@ BigSnowball::spawn_particles()
   }
   remove_me();
 }
-
-/* EOF */

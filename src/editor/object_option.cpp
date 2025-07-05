@@ -1074,5 +1074,3 @@ DirectionOption::add_to_menu(Menu& menu) const
                     *value_ptr = possible_directions.at(index);
                   });
 }
-
-/* EOF */

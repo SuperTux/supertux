@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SOUND_OBJECT_HPP
-#define HEADER_SUPERTUX_SOUND_OBJECT_HPP
+#pragma once
 
 #include "editor/layer_object.hpp"
 
@@ -95,7 +94,3 @@ private:
   SoundObject(const SoundObject&) = delete;
   SoundObject& operator=(const SoundObject&) = delete;
 };
-
-#endif
-
-/* EOF */

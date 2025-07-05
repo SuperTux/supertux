@@ -243,5 +243,3 @@ GL33CoreContext::draw_arrays(GLenum type, GLint first, GLsizei count)
 
   assert_gl();
 }
-
-/* EOF */

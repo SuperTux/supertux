@@ -121,5 +121,3 @@ GranitoBig::register_class(ssq::VM& vm)
 
   cls.addFunc("get_carrying_name", &GranitoBig::get_carrying_name);
 }
-
-/* EOF */
