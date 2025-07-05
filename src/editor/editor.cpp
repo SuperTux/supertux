@@ -263,14 +263,14 @@ Editor::Editor() :
     "images/engine/editor/move-mode0.png", Vector(224, 0), [this] {
       m_toolbox_widget->set_tileselect_move_mode(0);
   });
-  select_mode->set_help_text(_("Select mode (The object under the mouse gets selected)"));
+  select_mode->set_help_text(_("Select mode (Clicking selects the object under the mouse)"));
   select_mode->set_visible_in_tile_mode(false);
 
   auto duplicate_mode = std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/move-mode1.png", Vector(256, 0), [this] {
       m_toolbox_widget->set_tileselect_move_mode(1);
   });
-  duplicate_mode->set_help_text(_("Duplicate mode (The object under the mouse gets duplicated)"));
+  duplicate_mode->set_help_text(_("Duplicate mode (Clicking duplicates the object under the mouse)"));
   duplicate_mode->set_visible_in_tile_mode(false);
 
   m_widgets.insert(m_widgets.begin() + 6, std::move(mouse_select_button));

@@ -679,6 +679,13 @@ EditorOverlayWidget::clone_object()
     if (path_object)
       path_object->editor_clone_path(dynamic_cast<PathObject*>(m_hovered_object.get())->get_path_gameobject());
 
+    if (auto moving_object = dynamic_cast<MovingObject*>(obj.get()))
+    {
+      // Move cloned objects half a tile down so the user gets
+      // a visual feedback that the object was cloned
+      moving_object->move(Vector(16, 16));
+    }
+
     m_dragged_object = static_cast<MovingObject*>(&m_editor.get_sector()->add_object(std::move(obj)));
     m_dragged_object->after_editor_set();
   }
