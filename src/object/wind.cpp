@@ -102,6 +102,10 @@ Wind::get_types() const
 {
   return {
     { "wind", _("Wind") },
+
+    /*
+      l10n: Note: "Current" refers to "water current" and is not meant to be understood in terms of time.
+    */
     { "current", _("Current") }
   };
 }
