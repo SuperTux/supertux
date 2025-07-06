@@ -234,6 +234,7 @@ Editor::Editor() :
     });
   select_mode_mouse_button->set_help_text(_("Draw mode (The current tool applies to the tile under the mouse)"));
   select_mode_mouse_button->set_visible_in_object_mode(false);
+  select_mode_mouse_button->set_visible(false);
   
   auto select_mode_area_button = std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/select-mode1.png", Vector(256, 0), [this] {
@@ -241,6 +242,7 @@ Editor::Editor() :
     });
   select_mode_area_button->set_help_text(_("Box draw mode (The current tool applies to an area / box drawn with the mouse)"));
   select_mode_area_button->set_visible_in_object_mode(false);
+  select_mode_area_button->set_visible(false);
   
   auto select_mode_fill_button = std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/select-mode2.png", Vector(288, 0), [this] {
@@ -248,6 +250,7 @@ Editor::Editor() :
     });
   select_mode_fill_button->set_help_text(_("Fill mode (The current tool applies to the empty area in the enclosed space that was clicked)"));
   select_mode_fill_button->set_visible_in_object_mode(false);
+  select_mode_fill_button->set_visible(false);
   
   auto select_mode_same_button = std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
@@ -255,6 +258,7 @@ Editor::Editor() :
     });
   select_mode_same_button->set_help_text(_("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)"));
   select_mode_same_button->set_visible_in_object_mode(false);
+  select_mode_same_button->set_visible(false);
 
   /**
    *  ============= Tile tools end / Object tools begin =====================
@@ -265,6 +269,7 @@ Editor::Editor() :
   });
   select_mode->set_help_text(_("Select mode (Clicking selects the object under the mouse)"));
   select_mode->set_visible_in_tile_mode(false);
+  select_mode->set_visible(false);
 
   auto duplicate_mode = std::make_unique<EditorToolbarButtonWidget>(
     "images/engine/editor/move-mode1.png", Vector(256, 0), [this] {
@@ -272,6 +277,7 @@ Editor::Editor() :
   });
   duplicate_mode->set_help_text(_("Duplicate mode (Clicking duplicates the object under the mouse)"));
   duplicate_mode->set_visible_in_tile_mode(false);
+  duplicate_mode->set_visible(false);
 
   m_widgets.insert(m_widgets.begin() + 6, std::move(mouse_select_button));
   m_widgets.insert(m_widgets.begin() + 7, std::move(select_mode_mouse_button));
