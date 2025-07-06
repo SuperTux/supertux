@@ -233,6 +233,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_bubbles_sprite(SpriteManager::current()->create("images/particles/air_bubble.sprite")),
   m_should_fancy_idle(true),
+  m_fancy_idle_active(true),
   m_floor_normal(0.0f, 0.0f),
   m_ghost_mode(false),
   m_unduck_hurt_timer(),
@@ -2192,41 +2193,58 @@ Player::draw(DrawingContext& context)
   {
     if (fabsf(m_physic.get_velocity_x()) < 1.0f)
     {
-      if (std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
-          [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; }))
+      const bool is_not_idle = std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
+        [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; });
+
+      if (is_not_idle || (m_should_fancy_idle && !m_fancy_idle_active))
       {
         m_idle_stage = 0;
         m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
         m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, Sprite::LOOPS_CONTINUED);
 
         if (!m_should_fancy_idle)
-          m_sprite->set_animation_loops(-1);
-      }
-      else if (m_should_fancy_idle && (m_idle_timer.check() || m_sprite->animation_done()))
-      {
-        m_idle_stage++;
-        if (m_idle_stage >= static_cast<unsigned int>(IDLE_STAGES.size()))
         {
-          m_idle_stage = static_cast<int>(IDLE_STAGES.size()) - 1;
-          m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix);
           m_sprite->set_animation_loops(-1);
+          m_fancy_idle_active = false;
         }
         else
+          m_fancy_idle_active = true;
+      }
+      else if (m_should_fancy_idle)
+      {
+        if (m_idle_timer.check() || m_sprite->animation_done())
         {
-          m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, 1);
+          m_idle_stage++;
+
+          if (m_idle_stage >= static_cast<unsigned int>(IDLE_STAGES.size()))
+          {
+            m_idle_stage = static_cast<int>(IDLE_STAGES.size()) - 1;
+            m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix);
+            m_sprite->set_animation_loops(-1);
+          }
+          else
+            m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, 1);
         }
+      }
+      else
+      {
+        if (m_idle_stage != 0 || m_sprite->get_action() != sa_prefix + ("-" + IDLE_STAGES[0]) + sa_postfix)
+        {
+          m_idle_stage = 0;
+          m_sprite->set_action(sa_prefix + ("-" + IDLE_STAGES[0]) + sa_postfix);
+          m_sprite->set_animation_loops(-1);
+        }
+        m_fancy_idle_active = false;
       }
     }
     else
     {
       if (std::abs(m_physic.get_velocity_x()) >= MAX_RUN_XM - 3)
-      {
         m_sprite->set_action(sa_prefix + "-run" + sa_postfix);
-      }
       else
-      {
         m_sprite->set_action(sa_prefix + "-walk" + sa_postfix);
-      }
+
+      m_fancy_idle_active = false;
     }
   }
 

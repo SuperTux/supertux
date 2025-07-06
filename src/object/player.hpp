@@ -624,6 +624,7 @@ private:
   std::list<std::pair<SpritePtr, Vector>> m_active_bubbles; /**< active bubble particles */
 
   bool m_should_fancy_idle;
+  bool m_fancy_idle_active;
 
   Vector m_floor_normal;
 
