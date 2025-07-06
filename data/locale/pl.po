@@ -13,7 +13,7 @@
 # Krzysztof Szeląg, 2019
 # mkkot <marcin2006@gmail.com>, 2013
 # Marcin Kralka <marcink96@gmail.com>, 2014
-# Marcin S <dzidek1003@o2.pl>, 2016,2019
+# Marcin S <dzidek1003@o2.pl>, 2016,2019,2025
 # mkkot <marcin2006@gmail.com>, 2013-2015
 # mkkot <marcin2006@gmail.com>, 2015
 # Paweł Talar <ptalar15@gmail.com>, 2013
@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Grzegorz Szymaszek, 2025\n"
+"Last-Translator: Marcin S <dzidek1003@o2.pl>, 2016,2019,2025\n"
 "Language-Team: Polish (http://app.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2834,19 +2834,19 @@ msgstr "Usuń sektor"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:40
 msgid "Play with the keyboard"
-msgstr ""
+msgstr "Graz na klawiaturze"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:58
 msgid "Remove Player"
-msgstr ""
+msgstr "Usuń gracza"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:76
 msgid "Respawn Player"
-msgstr ""
+msgstr "Odrodzenie gracza"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:102
 msgid "Spawn Player"
-msgstr ""
+msgstr "Odrodzenie gracza"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:118
 msgid "Controllers"
@@ -2856,25 +2856,25 @@ msgstr "Kontrolery"
 msgid ""
 "This controller does not support rumbling;\n"
 "please check the controllers manually."
-msgstr ""
+msgstr "Ten kontroler nie obsługuje dźwięku;\nsprawdź kontroler ręcznie."
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:139
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "controllers; please check the controllers manually."
-msgstr ""
+msgstr "Ta wersja SuperTux nie obsługuje kontrolerów z dźwiękiem; \nsprawdź kontrolery ręcznie."
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:166
 msgid ""
 "This joystick does not support rumbling;\n"
 "please check the joysticks manually."
-msgstr ""
+msgstr "Ten joystick nie obsługuje dźwięku;\nsprawdź joystick ręcznie."
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:171
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "joysticks; please check the joysticks manually."
-msgstr ""
+msgstr "Ta wersja SuperTux nie obsługuje joysticków z dźwiękiem; \nsprawdź joysticki ręcznie."
 
 #: src/supertux/menu/editor_level_menu.cpp:34
 msgid "Author"
@@ -2898,7 +2898,7 @@ msgstr "Zestaw bloków"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Inherit"
-msgstr ""
+msgstr "Dziedzicz"
 
 #: src/supertux/menu/editor_level_menu.cpp:45
 msgid "Allow Item Pocket"
@@ -2976,11 +2976,11 @@ msgstr ""
 
 #: src/supertux/menu/debug_menu.cpp:77
 msgid "Hide Player HUD"
-msgstr ""
+msgstr "Ukryj interfejs gracza"
 
 #: src/supertux/menu/debug_menu.cpp:79
 msgid "Reload Resources"
-msgstr ""
+msgstr "Przeładuj zasoby"
 
 #: src/supertux/menu/debug_menu.cpp:80
 msgid "Reloads all fonts, textures, sprites and tilesets."
@@ -3639,11 +3639,11 @@ msgstr "Pozwala sprawdzić przy uruchomieniu gry, czy dostępne są nowe wersje 
 
 #: src/supertux/menu/options_menu.cpp:236
 msgid "Disable network"
-msgstr ""
+msgstr "Wyłącz sieć"
 
 #: src/supertux/menu/options_menu.cpp:237
 msgid "Prevents the game from connecting online"
-msgstr ""
+msgstr "Chroni grę przed podłączeniem do sieci"
 
 #: src/supertux/menu/options_menu.cpp:304
 msgid "Magnification"
@@ -3721,11 +3721,11 @@ msgstr "Dopasuj głośność muzyki"
 
 #: src/supertux/menu/options_menu.cpp:562
 msgid "Flash Intensity"
-msgstr ""
+msgstr "Intensywność błysku"
 
 #: src/supertux/menu/options_menu.cpp:563
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
-msgstr ""
+msgstr "Reguluj intensywność błysku emitowanego przez błyskawicę."
 
 #: src/supertux/menu/options_menu.cpp:576
 msgid "On-screen controls scale"
@@ -3759,14 +3759,14 @@ msgid ""
 "Would you allow SuperTux to connect to the Internet?\n"
 "\n"
 "This enables additional features, such as the in-game add-on catalog."
-msgstr ""
+msgstr "Czy chcesz pozwolić, aby SuperTux łączył się z internetem?\n\nWłącza to dodatkowe funkcje takie jak katalog dodatków."
 
 #: src/supertux/menu/main_menu.cpp:85
 msgid ""
 "Would you allow SuperTux to check for new releases on startup?\n"
 "\n"
 "You will be notified if any are found."
-msgstr ""
+msgstr "Czy chcesz pozwolić, żeby SuperTux sprawdzał nowe wydania przy uruchamianiu?\n\nZostaniesz powiadomiony, jeśli zostanie znalezione nowe wydanie."
 
 #: src/supertux/menu/main_menu.cpp:128
 msgid ""
@@ -3801,7 +3801,7 @@ msgstr "Nie możesz usunąć poziomu, którego edytujesz!"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:82
 msgid "You are about to delete level \"{}\". Are you sure?"
-msgstr ""
+msgstr "Zamierzasz usunąć poziom \"{}\". Jesteś pewny?"
 
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
 #: src/editor/toolbox_widget.cpp:77 src/badguy/dispenser.cpp:418
@@ -3826,7 +3826,7 @@ msgstr "Dodatkowe plansze niezainstalowane"
 
 #: src/supertux/menu/addon_menu.cpp:127
 msgid "{} *UPDATE*"
-msgstr ""
+msgstr "{} *AKTUALIZACJA*"
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "{} [DISABLED] *UPDATE*"
@@ -3834,7 +3834,7 @@ msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:138
 msgid "{} [DISABLED]"
-msgstr ""
+msgstr "{} [WYŁĄCZONE]"
 
 #: src/supertux/menu/addon_menu.cpp:148
 msgid "No updates available."
@@ -3866,11 +3866,11 @@ msgstr "Zainstaluj z pliku"
 
 #: src/supertux/menu/addon_menu.cpp:175
 msgid "To browse through the add-on catalog, you must enable networking."
-msgstr ""
+msgstr "Aby szukać w kanale dodatków, musisz włączyć sieć."
 
 #: src/supertux/menu/addon_menu.cpp:212
 msgid "To check for add-on updates, you must enable networking."
-msgstr ""
+msgstr "Aby sprawdzić aktualizacje w kanale dodatków, musisz włączyć sieć."
 
 #: src/supertux/menu/addon_menu.cpp:220
 msgid "Checking for updates..."
@@ -4525,7 +4525,7 @@ msgstr "Stała pozycja"
 
 #: src/badguy/fish_swimming.hpp:40
 msgid "Swimming Fish"
-msgstr ""
+msgstr "Pływająca ryba"
 
 #: src/badguy/root.hpp:39
 msgid "Root"
@@ -4572,7 +4572,7 @@ msgstr ""
 
 #: src/badguy/smartball.cpp:35
 msgid "Pumpkin"
-msgstr ""
+msgstr "Dynia"
 
 #: src/badguy/darttrap.cpp:155
 msgid "Initial delay"
@@ -4680,7 +4680,7 @@ msgstr ""
 
 #: src/badguy/tarantula.cpp:374
 msgid "Static"
-msgstr ""
+msgstr "Statyczny"
 
 #: src/badguy/scrystallo.hpp:31
 msgid "Sleeping Crystallo"
