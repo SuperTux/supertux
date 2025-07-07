@@ -205,7 +205,7 @@ void NodeMarker::update_node_time(std::vector<Path::Node>::iterator current, std
 }
 
 void
-NodeMarker::move_other_marker(UID marker, Vector position)
+NodeMarker::move_other_marker(UID marker, const Vector& position)
 {
   assert(marker == m_bezier_before || marker == m_bezier_after);
 
