@@ -1,5 +1,5 @@
 (supertux-music
-  (file "voc-night-alt.ogg")
+  (file "voc_night_alt.ogg")
   (loop-begin 3.000)
   (loop-at    203.000)
 )
