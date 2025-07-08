@@ -53,7 +53,7 @@ ItemToggle::draw(DrawingContext& context, const Vector& pos, int menu_width, boo
 
   context.color().draw_surface(m_get_func() ? Resources::checkbox_checked : Resources::checkbox,
                                Vector(pos.x + static_cast<float>(menu_width) - 16.0f - static_cast<float>(Resources::checkbox->get_width()),
-                                      pos.y - 8.0f),
+                                      pos.y - 10.0f),
                                LAYER_GUI);
 }
 
