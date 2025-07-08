@@ -556,11 +556,12 @@ void ScreenManager::loop_iter()
   g_real_time += 1e-9f * static_cast<float>(nsecs);
   last_time = now;
 
-  if (elapsed_time > seconds_per_step * 8) {
-    // when the game loads up or levels are switched the
-    // elapsed_ticks grows extremely large, so we just ignore those
-    // large time jumps
-    elapsed_time = 0;
+  float max_elapsed_time = 4 * seconds_per_step;
+  if (elapsed_time > max_elapsed_time) {
+    // when the game loads up or levels are switched the elapsed_ticks grows
+    // extremely large, so we just reduce those large time jumps to what can
+    // be processed within a single frame.
+    elapsed_time = max_elapsed_time;
   }
 
   bool always_draw = g_debug.draw_redundant_frames || g_config->frame_prediction;

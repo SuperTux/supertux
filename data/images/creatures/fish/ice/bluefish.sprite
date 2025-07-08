@@ -28,4 +28,14 @@
     (hitbox 2 10 64 43)
     (mirror-action "iced-left"))
 
+  (action
+    (hitbox 8 15 48 32)
+    (name "burning-left")
+    (images "swim_blue-0.png"))
+
+  (action
+    (hitbox 8 15 48 32)
+    (name "burning-right")
+    (mirror-action "burning-left"))
+
 )

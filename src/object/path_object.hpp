@@ -51,10 +51,14 @@ public:
   Path* get_path() const;
   inline PathWalker* get_walker() const { return m_walker.get(); }
 
+  bool has_valid_path() const { return get_walker() && get_path() && get_path()->is_valid(); }
+
   void editor_clone_path(PathGameObject* path_object);
 
   std::string get_path_ref() const;
   void editor_set_path_by_ref(const std::string& new_ref);
+
+  virtual void on_path_resolved() {}
 
   /**
    * @scripting

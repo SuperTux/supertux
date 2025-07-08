@@ -57,7 +57,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: C:/vcpkg/installed
-          key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/windows.yml') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-deps-${{ hashFiles('.github/workflows/windows.yml') }}
 
       - name: Install dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
@@ -84,6 +84,7 @@ jobs:
           ARCH: ${{ matrix.arch }}
           BUILD_TYPE: ${{ matrix.build_type }}
           GLBINDING: ${{ matrix.glbinding }}
+          CMAKE_POLICY_VERSION_MINIMUM: 3.5
         run: |
           cmake --version
           mkdir build
@@ -94,6 +95,7 @@ jobs:
         working-directory: build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
+          CMAKE_POLICY_VERSION_MINIMUM: 3.5
         run: |
           cmake --build . --config $Env:BUILD_TYPE
 

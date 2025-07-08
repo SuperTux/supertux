@@ -128,7 +128,8 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
-  m_mouse_pos(0.f, 0.f)
+  m_mouse_pos(0.f, 0.f),
+  m_layers_widget_needs_refresh(false)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -145,6 +146,12 @@ Editor::Editor() :
 
 Editor::~Editor()
 {
+}
+
+void
+Editor::queue_layers_refresh()
+{
+  m_layers_widget_needs_refresh = true;
 }
 
 void
@@ -173,8 +180,6 @@ Editor::draw(Compositor& compositor)
           camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
                                             static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
 
-        // Update the camera's screen size variable, so it can properly be kept in sector bounds.
-        camera.draw(context);
         keep_camera_in_bounds();
       }
       m_new_scale = 0.f;
@@ -282,6 +287,15 @@ Editor::update(float dt_sec, const Controller& controller)
 
     for (auto& object : m_sector->get_objects()) {
       object->editor_update();
+    }
+
+    if (m_layers_widget_needs_refresh)
+    {
+      if (m_layers_widget)
+      {
+        m_layers_widget->refresh();
+      }
+      m_layers_widget_needs_refresh = false;
     }
 
     for (const auto& widget : m_widgets) {
@@ -1024,24 +1038,21 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
     callback();
     return;
   }
-  else
-  {
-    if (!sector_valid)
-    {
-      /*
-      l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
-      */
-      Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
-    }
-    else if (!spawnpoint_valid)
-    {
-      /*
-      l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
-      */
-      Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
-    }
-  }
 
+  if (!sector_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
+  }
+  else if (!spawnpoint_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
+  }
 }
 
 void
@@ -1168,11 +1179,7 @@ Editor::pack_addon()
   {
     info.write("id", id);
     info.write("version", version);
-
-    if (get_world()->is_levelset())
-      info.write("type", "levelset");
-    else if (get_world()->is_worldmap())
-      info.write("type", "worldmap");
+    info.write("type", get_world()->get_type());
 
     info.write("title", get_world()->get_title());
     info.write("author", get_level()->get_author());

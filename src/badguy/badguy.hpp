@@ -31,6 +31,7 @@ namespace
 {
   static const std::string& DEFAULT_LIGHT_SPRITE = "images/objects/lightmap_light/lightmap_light-medium.sprite";
   static const std::string& DEFAULT_ICE_SPRITE = "images/creatures/overlays/iceoverlay/iceoverlay.sprite";
+  static const std::string& DEFAULT_FIRE_SPRITE = "images/creatures/overlays/fireoverlay/fireoverlay.sprite";
 }
 
 /**
@@ -50,16 +51,20 @@ public:
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string & fire_sprite_name = DEFAULT_FIRE_SPRITE);
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -146,6 +151,9 @@ public:
     Returns false if enemy is spiky or too large */
   virtual bool is_snipable() const { return false; }
 
+  /** Can enemy get pushed by explosions? */
+  virtual bool is_heavy() const { return false; }
+
   virtual bool always_active() const { return false; }
 
   bool is_frozen() const;
@@ -171,6 +179,7 @@ protected:
     STATE_INACTIVE,
     STATE_ACTIVE,
     STATE_SQUISHED,
+    STATE_SQUISHED_FADING_OUT,
     STATE_FALLING,
     STATE_BURNING,
     STATE_MELTING,
@@ -298,6 +307,7 @@ protected:
 
   SpritePtr m_lightsprite;
   SpritePtr m_freezesprite;
+  SpritePtr m_firesprite;
   bool m_glowing;
   bool m_water_affected;
 
@@ -327,6 +337,12 @@ private:
 
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup m_colgroup_active;
+
+  /** The alpha value at the time the Badguy begins to fadeout */
+  float m_alpha_before_fadeout;
+
+  Color m_flame_color;
+  Timer m_flame_timer;
 
 private:
   BadGuy(const BadGuy&) = delete;
