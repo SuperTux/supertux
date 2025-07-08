@@ -37,7 +37,6 @@ if(! ("corrupted" in state)){
 function corrupt_forest(corrupt){
   play_music(corrupt ? "music/forest/ghostforest_map.music" : "music/forest/new_forest_map.music");
   corrupt ? worldmap.settings.fade_to_ambient_light(0.48, 0.5, 0.6, fade_time) : worldmap.settings.fade_to_ambient_light(1, 1, 1, fade_time);
-  fog.fade_color(1, 1, 1, corrupt ? 1 : 0, fade_time);
   
   ocean_corrupt.fade(corrupt ? 1 : 0, fade_time);
   land_corrupt.fade(corrupt ? 1 : 0, fade_time);
