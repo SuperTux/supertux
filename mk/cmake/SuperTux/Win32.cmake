@@ -18,19 +18,24 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/icon_rc.template" "${PROJECT
 add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
 add_definitions(-DWIN32)
 
-## When using MinGW, tell dlltool to create a dbghelp static library using dbghelp.def
-if(MINGW)
-  find_program(DLLTOOL_PATH
-    NAMES dlltool dlltool.exe
-    DOC "The path to the dlltool utility"
-    REQUIRED
+## When using MinGW, tell dlltool to generate a dbghelp static import library using dbghelp.def
+find_program(DLLTOOL_PATH
+  NAMES dlltool dlltool.exe
+  DOC "The path to the dlltool utility"
+)
+if(MINGW AND DLLTOOL_PATH)
+  add_custom_target(dbghelp
+    COMMAND ${CMAKE_COMMAND}
+            -DDLLTOOL_PATH="${DLLTOOL_PATH}"
+            -DDEFINITIONS="${PROJECT_SOURCE_DIR}/mk/mingw/dbghelp.def"
+            -DOUTPUT="${PROJECT_BINARY_DIR}/dbghelp.dll.a"
+            -P ${PROJECT_SOURCE_DIR}/mk/cmake/GenerateMinGWDbgHelp.cmake
+    BYPRODUCTS ${PROJECT_BINARY_DIR}/dbghelp.dll.a
+    COMMENT "Prompting generation of dbghelp.dll.a static import library"
   )
-  add_custom_target(DbgHelp
-    COMMAND ${DLLTOOL_PATH} -k -d ${PROJECT_SOURCE_DIR}/mk/mingw/dbghelp.def -l ${PROJECT_BINARY_DIR}/dbghelp.a
-    BYPRODUCTS ${PROJECT_BINARY_DIR}/dbghelp.a
-  )
-  add_dependencies(supertux2 DbgHelp)
-  target_link_libraries(supertux2 PRIVATE ${PROJECT_BINARY_DIR}/dbghelp.a)
+
+  target_link_libraries(supertux2 PRIVATE ${PROJECT_BINARY_DIR}/dbghelp.dll.a)
+  add_dependencies(supertux2 dbghelp)
 endif()
 
 ## On Windows, add an icon

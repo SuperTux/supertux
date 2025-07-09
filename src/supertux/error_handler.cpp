@@ -38,7 +38,11 @@
 #endif
 
 #ifdef WIN32
+#if __has_include(<dbghelp.h>)
+#include <dbghelp.h>
+#else
 #include <DbgHelp.h>
+#endif
 //#include <VersionHelpers.h>
 
 #ifdef _MSC_VER

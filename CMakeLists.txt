@@ -35,7 +35,7 @@ cmake_minimum_required(VERSION 3.22)
 
 ## Project name to use as command prefix.
 
-project(SUPERTUX)
+project(SUPERTUX LANGUAGES C CXX)
 
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0069 NEW)
@@ -138,6 +138,10 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
 endif()
 
+if(MINGW)
+  add_compile_options(-Wa,-mbig-obj)
+endif()
+
 # Fedora Linux stores the glm CMake config files in /usr/share/cmake/glm/.
 # If you wanna know how this hack works, read this:
 # https://cmake.org/cmake/help/v3.31/command/find_package.html#config-mode-search-procedure
@@ -210,7 +214,9 @@ if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
   find_package(OpenGL)
 
   if(OPENGL_FOUND)
-    find_package(GLEW REQUIRED)
+    add_package(TARGET GLEW
+      PKG GLEW PKG_USE GLEW::GLEW CONFIG REQUIRED PKG_CONFIG glew
+      PREFER_PKGCONFIG)
   endif()
 
   set(HAVE_OPENGL ${GLEW_FOUND})
@@ -323,7 +329,7 @@ if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC libcurl)
 
   if(HAVE_OPENGL)
-    target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW::GLEW)
+    target_link_libraries(supertux2 PUBLIC OpenGL::GL GLEW)
   endif()
 
   if(ENABLE_DISCORD)

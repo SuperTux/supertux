@@ -58,7 +58,7 @@ endif()
 if(UBUNTU_TOUCH)
   install(TARGETS supertux2
           DESTINATION ".")
-elseif(WIN32)
+elseif(WIN32 AND CMAKE_HOST_WIN32)
   install(TARGETS supertux2
           DESTINATION ${INSTALL_SUBDIR_BIN}
           RUNTIME_DEPENDENCIES PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"

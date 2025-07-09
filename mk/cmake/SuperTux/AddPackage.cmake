@@ -23,8 +23,7 @@
 # default to find_package, however, this may not always work,
 # especially on *NIX machines or anything weird like that. So, being
 # clever, it then tries to go to PkgConfig, which (generally speaking)
-# tends to produce more accurate results on *NIX
-# machines.
+# tends to produce more accurate results on *NIX machines.
 
 # Usage:
 #
@@ -53,7 +52,7 @@ function(add_package)
     return()
   endif()
 
-  if((NOT UNIX) OR ${addpackage_args_PKG}_PREFER_FIND_PACKAGE)
+  if((NOT UNIX AND (NOT MINGW)) OR ${addpackage_args_PKG}_PREFER_FIND_PACKAGE)
     set(addpackage_args_PREFER_PKGCONFIG NO)
   endif()
 
