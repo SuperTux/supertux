@@ -345,7 +345,8 @@ configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 
 ## Build tests
 # TODO Finish porting tests to CTest
-set(BUILD_TESTING OFF CACHE BOOL Enable tests)
+set(BUILD_TESTING OFF CACHE BOOL "Enable tests")
+message(STATUS "Build with testing: ${BUILD_TESTING}")
 if(BUILD_TESTING)
   #include(SuperTux/BuildTests)
   set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
