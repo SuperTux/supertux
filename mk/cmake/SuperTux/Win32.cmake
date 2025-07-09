@@ -1,9 +1,3 @@
-if(WIN64)
-  set(SUPERTUX_SYSTEM_NAME win64)
-else()
-  set(SUPERTUX_SYSTEM_NAME win32)
-endif()
-
 ## Enable multi-processor compilation (faster)
 if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
@@ -39,7 +33,7 @@ if(MINGW AND DLLTOOL_PATH)
 endif()
 
 ## On Windows, add an icon
-if(WIN32 AND MINGW)
+if(MINGW)
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
     COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)

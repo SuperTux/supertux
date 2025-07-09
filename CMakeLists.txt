@@ -31,6 +31,10 @@
 #   make
 #
 
+# Stop CMake from whining about 3.5 or future versions
+set(CMAKE_WARN_DEPRECATED OFF)
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+
 cmake_minimum_required(VERSION 3.22)
 
 ## Project name to use as command prefix.
@@ -46,10 +50,8 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-# Stop CMake from whining about 3.5 or future versions that other FindXXXXX.cmake files (seen from vcpkg) use
-set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 
-if(${PLATFORM} MATCHES "arm64")
+if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm64" AND MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_ARM64_ /DMY_CPU_LE")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_ARM64_ /DMY_CPU_LE")
 endif()
@@ -108,10 +110,6 @@ if(SUPERTUX_IPO)
 else()
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF CACHE BOOL "" FORCE)
 endif()
-
-set(SUPERTUX_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
-set(VCPKG_BUILD OFF CACHE BOOL "Use dependencies installed via vcpkg (not dependency package)")
-set(VCPKG_APPLOCAL_DEPS ${VCPKG_BUILD} BOOL)
 
 # Detect mobile builds
 option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)

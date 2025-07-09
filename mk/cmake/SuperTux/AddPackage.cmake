@@ -84,7 +84,8 @@ function(add_package)
     else()
       message(STATUS "Package \"${addpackage_args_PKG_USE}\" is an alias. Realiasing it.")
       # "unalias" it, aka just export the "alias" as the new target, so a re-alias, really...
-      get_target_property(${addpackage_args_TARGET} ${addpackage_args_PKG_USE} ALIASED_TARGET)
+      get_target_property(_real_target ${addpackage_args_PKG_USE} ALIASED_TARGET)
+      add_library(${addpackage_args_TARGET} ALIAS ${_real_target})
     endif()
 
     message(STATUS "Package \"${addpackage_args_PKG}\" was found successfully!")
