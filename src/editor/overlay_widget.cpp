@@ -46,6 +46,8 @@ namespace {
 
 const int snap_grid_sizes[4] = {4, 8, 16, 32};
 
+const int MAX_FILL_STACK_SIZE = 1000000;
+
 bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos)
 {
   return pos.x >= 0 && pos.y >= 0 &&
@@ -387,21 +389,18 @@ EditorOverlayWidget::fill()
     return;
   }
 
-  std::vector<Vector> pos_stack;
-  pos_stack.clear();
-  pos_stack.push_back(m_hovered_tile);
+  std::vector<Vector> pos_stack = { m_hovered_tile };
 
-  // Passing recursively trough all tiles to be replaced...
+  // Passing recursively through all tiles to be replaced...
   while (pos_stack.size())
   {
-
-    if (pos_stack.size() > 1000000)
+    if (pos_stack.size() > MAX_FILL_STACK_SIZE)
     {
       log_warning << "More than 1'000'000 tiles in stack to fill, STOP" << std::endl;
       return;
     }
 
-    Vector pos = pos_stack[pos_stack.size() - 1];
+    Vector pos = pos_stack.back();
     Vector tpos = pos - m_hovered_tile;
 
     // Tests for being inside tilemap:

@@ -49,6 +49,9 @@ public:
   virtual void on_flip(float height) override;
 
 private:
+  void set_trigger_color();
+
+private:
   bool m_is_solid;
   float m_trigger_red;
   float m_trigger_green;

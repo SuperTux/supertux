@@ -6,7 +6,7 @@
 # Go Nam Hyeon <gnh1201@gmail.com>, 2021
 # Junghee Lee <daemul72@gmail.com>, 2022
 # Junghee Lee <daemul72@gmail.com>, 2022
-# Myeongjin <aranet100@gmail.com>, 2016-2017,2019,2021
+# 이명진 <aranet100@gmail.com>, 2016-2017,2019,2021
 # Roland Kim <dyn4micwork@gmail.com>, 2014-2015
 msgid ""
 msgstr ""

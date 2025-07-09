@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# IAN RODRÍGUEZ Lorenzo, 2022
+# 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 # Alkım Kaçmaz <alkimkacmaz@gmail.com>, 2013
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # Emre ÖZKARTAL <emreaysel26@gmail.com>, 2016
 # Erdoğan Şahin, 2016
 # mahmut özcan <faradundamarti@yandex.com>, 2015-2016
-# IAN RODRÍGUEZ Lorenzo, 2022
+# 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 # mahmut özcan <mahmutozcan@protonmail.com>, 2020
 # root <penguen@linux.erciyes.edu.tr>, 2009
 # Tan Siret Akıncı <tanakinci2002@gmail.com>, 2021

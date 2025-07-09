@@ -41,7 +41,7 @@ public:
 
   /** Moves the bezier marker that ISN'T @c marker to the given position. */
   /** Can't make the by reference because of overlay_widget.cpp */
-  void move_other_marker(UID marker, Vector position);
+  void move_other_marker(UID marker, const Vector& position);
 
   void save_state() override;
   void check_state() override;

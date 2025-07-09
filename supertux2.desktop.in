@@ -38,6 +38,7 @@ Comment[pt]=Joga este clássico de plataformas 2D
 Comment[pt_BR]=Encarne o pinguin Tux neste jogo inspirado em clássicos de Pular&Correr
 Comment[hu]=Egy klasszikus 2D-s oldalnézeti játék
 Icon=@LINUX_DESKTOP_ICON@
+StartupWMClass=supertux2
 Exec=supertux2
 Terminal=false
 StartupNotify=false
