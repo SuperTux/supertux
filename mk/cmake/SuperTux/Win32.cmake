@@ -1,3 +1,9 @@
+# Only set windowed mode when building in release
+# because the console is very useful for debugging on Windows.
+if(CMAKE_BUILD_TYPE MATCHES "Rel")
+  set_target_properties(supertux2 PROPERTIES WIN32_EXECUTABLE YES)
+endif()
+
 ## Enable multi-processor compilation (faster)
 if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")

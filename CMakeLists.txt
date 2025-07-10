@@ -251,13 +251,6 @@ list(SORT SUPERTUX_RESOURCES)
 
 include(SuperTux/CompileAmalgation)
 
-# Set windowed mode when building in release
-# because the console is very useful for debugging on Windows.
-set(SUPERTUX_WIN32_OPTION)
-if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
-  set(SUPERTUX_WIN32_OPTION WIN32)
-endif()
-
 ## Add target for supertux binary
 add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 target_compile_features(supertux2 PUBLIC cxx_std_17)
