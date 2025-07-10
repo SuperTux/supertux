@@ -163,8 +163,8 @@ jobs:
         env:
           OS: ${{ matrix.os }}
         run: |
-          if [ "$OS" = "macos-12" ]; then
-            rename 's/.dmg/-12.dmg/' build/upload/SuperTux-*
+          if [ "$OS" = "macos-13" ]; then
+            rename 's/.dmg/-13.dmg/' build/upload/SuperTux-*
           fi
 
       - name: Create Release

@@ -17,12 +17,8 @@
 #define HEADER_SUPERTUX_BADGUY_GHOUL_HPP
 
 #include "badguy/badguy.hpp"
-#include "object/path_object.hpp"
 
-// FIXME: Ghoul inherits PathObject, but does not override get_settings() to add
-//        the missing options.
-class Ghoul final : public BadGuy,
-                    public PathObject
+class Ghoul final : public BadGuy
 {
 public:
   Ghoul(const ReaderMapping& reader);
@@ -30,38 +26,49 @@ public:
   static std::string display_name() { return _("Ghoul"); }
   std::string get_class_name() const override { return class_name(); }
   std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(PathObject)).add(typeid(Ghoul)); }
-  bool is_freezable() const override;
-  bool is_flammable() const override;
+  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Ghoul)); }
   virtual bool is_snipable() const override { return true; }
+  virtual bool is_flammable() const override { return false; }
 
-  void finish_construction() override;
-
-  void activate() override;
-  void deactivate() override;
-  void active_update(float dt_sec) override;
-  
-  void goto_node(int node_idx);
-  void set_state(const std::string& state);
-  void start_moving();
-  void stop_moving();
-
-  void move_to(const Vector& pos) override;
+  virtual void active_update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual void collision_tile(uint32_t tile_attributes) override;
+  virtual ObjectSettings get_settings() override;
 
 protected:
   bool collision_squished(MovingObject& object) override;
-  std::vector<Direction> get_allowed_directions() const override;
-  
+  virtual void kill_fall() override;
+
 private:
-  enum MyState {
-    STATE_STOPPED, STATE_IDLE, STATE_TRACKING, STATE_PATHMOVING, STATE_PATHMOVING_TRACK
-  };
-  
-private:
-  MyState m_mystate;
-  float m_flyspeed;
   float m_track_range;
+  Vector m_home_pos;
+  Timer m_respawn_timer;
   
+private:
+  enum GhoulState {
+    ROAMING_DOWN,
+    ROAMING_ACCEL1,
+    ROAMING_ACCEL2,
+    ROAMING_UP,
+    CHASING_DOWN,
+    CHASING_ACCEL1,
+    CHASING_ACCEL2,
+    CHASING_UP,
+    STUNNED,
+    INVISIBLE,
+    RECOVERING,
+  };
+
+  GhoulState m_state;
+  void set_state(GhoulState new_state);
+  void update_speed(const Vector& dist);
+  void horizontal_thrust();
+  void start_roaming_decel();
+  void roaming_decel_check();
+  Vector to_target();
+
 private:
   Ghoul(const Ghoul&) = delete;
   Ghoul& operator=(const Ghoul&) = delete;

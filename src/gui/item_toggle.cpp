@@ -51,17 +51,10 @@ ItemToggle::draw(DrawingContext& context, const Vector& pos, int menu_width, boo
                             pos.y - (Resources::normal_font->get_height() / 2)),
                             m_center_text ? ALIGN_CENTER : ALIGN_LEFT, LAYER_GUI, active ? g_config->activetextcolor : get_color());
 
-  if (m_get_func()) {
-    context.color().draw_surface(Resources::checkbox_checked,
-                                 Vector(pos.x + static_cast<float>(menu_width) - 16.0f - static_cast<float>(Resources::checkbox->get_width()),
-                                        pos.y - 8.0f),
-                                 LAYER_GUI);
-  } else {
-    context.color().draw_surface(Resources::checkbox,
-                                 Vector(pos.x + static_cast<float>(menu_width) - 16.0f - static_cast<float>(Resources::checkbox->get_width()),
-                                        pos.y - 8.0f),
-                                 LAYER_GUI);
-  }
+  context.color().draw_surface(m_get_func() ? Resources::checkbox_checked : Resources::checkbox,
+                               Vector(pos.x + static_cast<float>(menu_width) - 16.0f - static_cast<float>(Resources::checkbox->get_width()),
+                                      pos.y - 8.0f),
+                               LAYER_GUI);
 }
 
 int

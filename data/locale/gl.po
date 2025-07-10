@@ -5,16 +5,16 @@
 # Translators:
 # Xan Vieiro <gallaecia6@gmail.com>, 2019-2021
 # Martin, 2022
-# nin hum <ninhum@gmx.com>, 2024
+# nin hum <ninhum@gmx.com>, 2024-2025
 # Pablo Rodriguez <pablo@chantada.net>, 2018
-# Xan Vieiro <gallaecia6@gmail.com>, 2021-2022,2024
+# Xan Vieiro <gallaecia6@gmail.com>, 2021-2022,2024-2025
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: nin hum <ninhum@gmx.com>, 2024\n"
+"Last-Translator: nin hum <ninhum@gmx.com>, 2024-2025\n"
 "Language-Team: Galician (http://app.transifex.com/arctic-games/supertux/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -577,7 +577,7 @@ msgstr "Cubrir pantalla"
 
 #: src/object/unstable_tile.hpp:42
 msgid "Unstable Tile"
-msgstr "Tesela Inestable"
+msgstr "Bloque Inestable"
 
 #: src/object/spawnpoint.hpp:48 src/badguy/willowisp.cpp:304
 #: src/worldmap/teleporter.cpp:48
@@ -813,7 +813,7 @@ msgstr "Punto de rescate"
 
 #: src/object/magicblock.hpp:42
 msgid "Magic Tile"
-msgstr "Tesela Máxica"
+msgstr "Bloque Máxico"
 
 #: src/object/infoblock.cpp:76 src/trigger/secretarea_trigger.cpp:57
 #: src/trigger/climbable.cpp:59 src/worldmap/teleporter.cpp:49
@@ -953,7 +953,7 @@ msgstr "Script de golpe"
 
 #: src/object/weak_block.hpp:36
 msgid "Weak Tile"
-msgstr "Tesela Fráxil"
+msgstr "Bloque Fráxil"
 
 #: src/object/rain_particle_system.hpp:49
 msgid "Rain Particles"
@@ -969,15 +969,15 @@ msgstr "Taboleiro"
 
 #: src/object/cloud_particle_system.cpp:94
 msgid "Fog Opacity"
-msgstr ""
+msgstr "Opacidade da Néboa"
 
 #: src/object/cloud_particle_system.cpp:95
 msgid "X Speed"
-msgstr ""
+msgstr "Velocidade de X"
 
 #: src/object/cloud_particle_system.cpp:96
 msgid "Y Speed"
-msgstr ""
+msgstr "Velocidade de Y"
 
 #: src/object/lit_object.cpp:70
 msgid "Light sprite"
@@ -1272,7 +1272,7 @@ msgstr "Plataforma"
 
 #: src/object/tilemap.hpp:68
 msgid "Tilemap"
-msgstr "Mosaico"
+msgstr "Mapa de bloques"
 
 #: src/object/bonus_block.cpp:154
 msgid "Only one custom object is allowed inside bonus blocks."
@@ -1449,7 +1449,7 @@ msgstr "Nome"
 
 #: src/trigger/secretarea_trigger.cpp:56
 msgid "Fade tilemap"
-msgstr "Esvaer mapa"
+msgstr "Esvaecer o mapa de bloques"
 
 #: src/trigger/scripttrigger.cpp:53
 msgid "Oneshot"
@@ -1477,7 +1477,7 @@ msgstr "Novo punto de inicio do mapa principal"
 
 #: src/trigger/sequence_trigger.cpp:54
 msgid "Worldmap fade tilemap"
-msgstr "Esvaer mosaico do mapa principal"
+msgstr "Esvaer o mapa de bloques do mapa principal"
 
 #: src/trigger/sequence_trigger.cpp:56 src/editor/particle_editor.cpp:161
 msgid "Fade in"
@@ -2007,7 +2007,7 @@ msgstr "Non hai descrición dispoñible."
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 msgid "Overrides Data: "
-msgstr ""
+msgstr "Sobrepor datos:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 #: src/supertux/menu/editor_level_select_menu.cpp:181
@@ -2029,7 +2029,7 @@ msgstr "Produciuse un erro ao cargar todas as vistas previas das capturas de pan
 
 #: src/supertux/menu/addon_preview_menu.cpp:160
 msgid "To fetch add-on screenshots, you must enable networking."
-msgstr ""
+msgstr "Para obter capturas de pantalla dos complementos, debes activar a conectividade."
 
 #: src/supertux/menu/addon_preview_menu.cpp:164
 msgid "Show screenshots"
@@ -2373,7 +2373,7 @@ msgstr "Saltar"
 #: src/supertux/menu/joystick_menu.cpp:77
 #: src/supertux/menu/keyboard_menu.cpp:42
 msgid "Item Pocket"
-msgstr ""
+msgstr "Peto de obxectos"
 
 #: src/supertux/menu/joystick_menu.cpp:78
 msgid "Pause/Menu"
@@ -2504,19 +2504,19 @@ msgstr "Xestionar Xogadores"
 
 #: src/supertux/menu/editor_menu.cpp:53
 msgid "tiny tile (4px)"
-msgstr "tesela minúscula (4px)"
+msgstr "bloque minúsculo (4px)"
 
 #: src/supertux/menu/editor_menu.cpp:54
 msgid "small tile (8px)"
-msgstr "tesela pequena (8px)"
+msgstr "bloque pequeno (8px)"
 
 #: src/supertux/menu/editor_menu.cpp:55
 msgid "medium tile (16px)"
-msgstr "tesela media (16px)"
+msgstr "bloque medio (16px)"
 
 #: src/supertux/menu/editor_menu.cpp:56
 msgid "big tile (32px)"
-msgstr "tesela grande (32px)"
+msgstr "bloque grande (32px)"
 
 #: src/supertux/menu/editor_menu.cpp:58 src/supertux/menu/main_menu.cpp:63
 msgid "Level Editor"
@@ -2599,11 +2599,11 @@ msgstr "Representar Luz"
 
 #: src/supertux/menu/editor_menu.cpp:95
 msgid "Autotile Mode"
-msgstr "Modo de Tesela Automática"
+msgstr "Modo de colocación automática de bloques"
 
 #: src/supertux/menu/editor_menu.cpp:96
 msgid "Enable Autotile Help"
-msgstr "Activar axuda de autoteselado"
+msgstr "Activar axuda de colocación automática de bloques"
 
 #: src/supertux/menu/editor_menu.cpp:97
 msgid "Enable Object Undo Tracking"
@@ -2663,99 +2663,99 @@ msgstr "Animámoste a que compartas os teus niveis no foro de SuperTux.\nPara at
 
 #: src/supertux/menu/editor_menu.cpp:206
 msgid "Keyboard Shortcuts:"
-msgstr ""
+msgstr "Atallos do Teclado"
 
 #: src/supertux/menu/editor_menu.cpp:208
 msgid "Esc = Open Menu"
-msgstr ""
+msgstr "Esc = Abrir Menú"
 
 #: src/supertux/menu/editor_menu.cpp:209
 msgid "Ctrl+S = Save"
-msgstr ""
+msgstr "Ctrl+S = Gardar"
 
 #: src/supertux/menu/editor_menu.cpp:210
 msgid "Ctrl+T = Test"
-msgstr ""
+msgstr "Ctrl+T = Test"
 
 #: src/supertux/menu/editor_menu.cpp:211 src/supertux/menu/editor_menu.cpp:232
 msgid "Ctrl+Z = Undo"
-msgstr ""
+msgstr "Ctrl+Z = Desfacer"
 
 #: src/supertux/menu/editor_menu.cpp:212 src/supertux/menu/editor_menu.cpp:233
 msgid "Ctrl+Y = Redo"
-msgstr ""
+msgstr "Ctrl+Y = Refacer"
 
 #: src/supertux/menu/editor_menu.cpp:213
 msgid "F5 = Toggle Autotiling"
-msgstr ""
+msgstr "F5 = Activar/desactivar a colocación automática de bloques"
 
 #: src/supertux/menu/editor_menu.cpp:214
 msgid "F6 = Render Light"
-msgstr ""
+msgstr "F6 = Renderizar luz"
 
 #: src/supertux/menu/editor_menu.cpp:215
 msgid "F7 = Grid Snapping"
-msgstr ""
+msgstr "F7 = Axuste á grade"
 
 #: src/supertux/menu/editor_menu.cpp:216
 msgid "F8 = Show Grid"
-msgstr ""
+msgstr "F8 = Amosar Grade"
 
 #: src/supertux/menu/editor_menu.cpp:217
 msgid "Ctrl++ or Ctrl+Scroll Up = Zoom In"
-msgstr ""
+msgstr "Ctrl++ ou Ctrl+Rolar cara arriba = Acercar"
 
 #: src/supertux/menu/editor_menu.cpp:218
 msgid "Ctrl+- or Ctrl+Scroll Down = Zoom Out"
-msgstr ""
+msgstr "Ctrl+- ou Ctrl+Rolar cara abaixo = Afastar"
 
 #: src/supertux/menu/editor_menu.cpp:219
 msgid "Ctrl+D = Reset Zoom"
-msgstr ""
+msgstr "Ctrl+D = Restablecer Zoom"
 
 #: src/supertux/menu/editor_menu.cpp:220
 msgid "Scripting Shortcuts:"
-msgstr ""
+msgstr "Atallos de scripting"
 
 #: src/supertux/menu/editor_menu.cpp:222
 msgid "Home = Go to beginning of line"
-msgstr ""
+msgstr "Inicio = Ir ó principio da liña"
 
 #: src/supertux/menu/editor_menu.cpp:223
 msgid "End = Go to end of line"
-msgstr ""
+msgstr "Fin = Ir  ó final da liña"
 
 #: src/supertux/menu/editor_menu.cpp:224
 msgid "Left arrow = Go back in text"
-msgstr ""
+msgstr "Frecha esquerda = Retroceder no texto"
 
 #: src/supertux/menu/editor_menu.cpp:225
 msgid "Right arrow = Go forward in text"
-msgstr ""
+msgstr "Frecha dereita = Avanzar no texto"
 
 #: src/supertux/menu/editor_menu.cpp:226
 msgid "Backspace = Delete in front of text cursor"
-msgstr ""
+msgstr "Retroceso = Borrar diante do cursor do texto"
 
 #: src/supertux/menu/editor_menu.cpp:227
 msgid "Delete = Delete behind text cursor"
-msgstr ""
+msgstr "Suprimir = Borar detrás do cursor do texto"
 
 #: src/supertux/menu/editor_menu.cpp:228
 msgid "Ctrl+X = Cut whole line"
-msgstr ""
+msgstr "Ctrl+X = Cortar toda a liña"
 
 #: src/supertux/menu/editor_menu.cpp:229
 msgid "Ctrl+C = Copy whole line"
-msgstr ""
+msgstr "Ctrl+C = Copiar toda a liña"
 
 #: src/supertux/menu/editor_menu.cpp:230
 msgid "Ctrl+V = Paste"
-msgstr ""
+msgstr "Ctrl+V = Pegar"
 
 #: src/supertux/menu/editor_menu.cpp:231
 msgid "Ctrl+D = Duplicate line"
-msgstr ""
+msgstr "Ctrl+D = Duplicar liña"
 
 #: src/supertux/menu/editor_menu.cpp:262
 msgid "Deprecated tiles are still present in the level."
@@ -2879,11 +2879,11 @@ msgstr "Conxunto de Bloques"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Inherit"
-msgstr ""
+msgstr "Herdar"
 
 #: src/supertux/menu/editor_level_menu.cpp:45
 msgid "Allow Item Pocket"
-msgstr ""
+msgstr "Permitir o Peto de Obxectos"
 
 #: src/supertux/menu/editor_level_menu.cpp:49
 msgid "Target Time"
@@ -2953,19 +2953,19 @@ msgstr "Utilizar Fontes Bitmap"
 
 #: src/supertux/menu/debug_menu.cpp:76
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr "Amosar IDs das celas na caixa de ferramentas do editor"
+msgstr "Amosar os ID dos bloques na caixa de ferramentas do editor"
 
 #: src/supertux/menu/debug_menu.cpp:77
 msgid "Hide Player HUD"
-msgstr ""
+msgstr "Agochar o HUD do xogador"
 
 #: src/supertux/menu/debug_menu.cpp:79
 msgid "Reload Resources"
-msgstr ""
+msgstr "Recargar recursos"
 
 #: src/supertux/menu/debug_menu.cpp:80
 msgid "Reloads all fonts, textures, sprites and tilesets."
-msgstr ""
+msgstr "Recarga todas as fontes, texturas, sprites e conxuntos de bloques."
 
 #: src/supertux/menu/debug_menu.cpp:82
 msgid "Dump Texture Cache"
@@ -3620,11 +3620,11 @@ msgstr "Permite ao xogo realizar comprobacións de novas versións de SuperTux a
 
 #: src/supertux/menu/options_menu.cpp:236
 msgid "Disable network"
-msgstr ""
+msgstr "Desactivar a rede"
 
 #: src/supertux/menu/options_menu.cpp:237
 msgid "Prevents the game from connecting online"
-msgstr ""
+msgstr "Impide que o xogo se conecte a rede"
 
 #: src/supertux/menu/options_menu.cpp:304
 msgid "Magnification"
@@ -3740,14 +3740,14 @@ msgid ""
 "Would you allow SuperTux to connect to the Internet?\n"
 "\n"
 "This enables additional features, such as the in-game add-on catalog."
-msgstr ""
+msgstr "Permitiríalle a SuperTux conectarse a rede? Isto habilita características adicionais, como o catálogo de complementos no xogo."
 
 #: src/supertux/menu/main_menu.cpp:85
 msgid ""
 "Would you allow SuperTux to check for new releases on startup?\n"
 "\n"
 "You will be notified if any are found."
-msgstr ""
+msgstr "Permitirías que SuperTux comprobase se hai novas versións ao iniciar?\n\n Recibirás unha notificación se atopa algunha."
 
 #: src/supertux/menu/main_menu.cpp:128
 msgid ""
@@ -3847,11 +3847,11 @@ msgstr "Instalar dende o ficheiro"
 
 #: src/supertux/menu/addon_menu.cpp:175
 msgid "To browse through the add-on catalog, you must enable networking."
-msgstr ""
+msgstr "Para navegar polo catálogo de complementos, debes activar a conectividade."
 
 #: src/supertux/menu/addon_menu.cpp:212
 msgid "To check for add-on updates, you must enable networking."
-msgstr ""
+msgstr "Para comprobar as actualizacións dos complementos, debes activar a conectividade."
 
 #: src/supertux/menu/addon_menu.cpp:220
 msgid "Checking for updates..."
@@ -3961,15 +3961,15 @@ msgstr "Mesturar a cor"
 
 #: src/gui/menu_color.cpp:40
 msgid "Copy to clipboard (rgb)"
-msgstr ""
+msgstr "Copiar ao portapapeis (rgb)"
 
 #: src/gui/menu_color.cpp:41
 msgid "Copy to clipboard (hex)"
-msgstr ""
+msgstr "Copiar ao portapapeis (hexadecimal)"
 
 #: src/gui/menu_color.cpp:57 src/gui/menu_color.cpp:60
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "Pegar desde o portapapeis"
 
 #: src/gui/menu_string_array.cpp:40 src/gui/menu_string_array.cpp:78
 msgid "Selected item: {}"
@@ -4301,27 +4301,27 @@ msgstr "Non se poden seleccionar bloques obsoletos"
 
 #: src/editor/overlay_widget.cpp:1586
 msgid "Autotile erasing mode is on (\"{}\")"
-msgstr ""
+msgstr "O modo de borrado automático de bloques está activado (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1590
 msgid "Autotile erasing cannot be performed here"
-msgstr ""
+msgstr "Non se pode realizar o borrado automático de bloques aquí"
 
 #: src/editor/overlay_widget.cpp:1595
 msgid "Autotile mode is on (\"{}\")"
-msgstr ""
+msgstr "O modo de colocación automática de bloques está activado (\"{}\")"
 
 #: src/editor/overlay_widget.cpp:1599
 msgid "Selected tile isn't autotileable"
-msgstr "A tesela seleccionada non é autoteselable"
+msgstr "O bloque seleccionado non se pode colocar automaticamente"
 
 #: src/editor/overlay_widget.cpp:1604
 msgid "Hold Ctrl to enable autotile erasing"
-msgstr "Pulsar a tecla Ctrl para activar o borrado da tesela automática"
+msgstr "Pulsar a tecla Ctrl para activar o auto borrado de bloques"
 
 #: src/editor/overlay_widget.cpp:1608
 msgid "Hold Ctrl to enable autotile"
-msgstr "Pulsar a tecla Ctrl para activar a tesela automática"
+msgstr "Pulsar a tecla Ctrl para activar a auto colocación de bloques"
 
 #: src/editor/object_option.cpp:153
 msgid "true"
@@ -5105,7 +5105,7 @@ msgstr "Reorganización do Menú"
 
 #: data/credits.stxt:506
 msgid "Fixing tile bugs"
-msgstr "Amañar erros das teselas"
+msgstr "Amañar erros dos bloques"
 
 #: data/credits.stxt:510
 msgid "Build error fix"

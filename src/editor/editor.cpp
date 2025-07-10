@@ -128,7 +128,8 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
-  m_mouse_pos(0.f, 0.f)
+  m_mouse_pos(0.f, 0.f),
+  m_layers_widget_needs_refresh(false)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -145,6 +146,12 @@ Editor::Editor() :
 
 Editor::~Editor()
 {
+}
+
+void
+Editor::queue_layers_refresh()
+{
+  m_layers_widget_needs_refresh = true;
 }
 
 void
@@ -280,6 +287,15 @@ Editor::update(float dt_sec, const Controller& controller)
 
     for (auto& object : m_sector->get_objects()) {
       object->editor_update();
+    }
+
+    if (m_layers_widget_needs_refresh)
+    {
+      if (m_layers_widget)
+      {
+        m_layers_widget->refresh();
+      }
+      m_layers_widget_needs_refresh = false;
     }
 
     for (const auto& widget : m_widgets) {
