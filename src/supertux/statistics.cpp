@@ -263,61 +263,58 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
 {
   if (m_status != FINAL) return;
 
-  int layer = LAYER_GUI + 50;
-
-  const std::vector<int> column_widths = {220, 110, 110};
-  const int box_w = std::accumulate(column_widths.begin(), column_widths.end(), 0);
-
-  constexpr int row_height     = 20;
-  constexpr int padding_top    = 30;
-  constexpr int padding_bottom = 10;
+  constexpr int layer = LAYER_GUI + 50;
+  constexpr float row_height = 22.f;
+  constexpr float header_padding_top = 10.f;
+  constexpr float padding_top = 40.f;
+  constexpr float padding_bottom = 10.f;
+  constexpr float label_indent = 16.f;
 
   int visible_rows = 1;
   if (m_preferences.enable_coins)   ++visible_rows;
   if (m_preferences.enable_badguys) ++visible_rows;
   if (m_preferences.enable_secrets) ++visible_rows;
 
-  const int box_h = padding_top + (visible_rows * row_height) + padding_bottom;
+  const std::vector<float> column_widths = { 215.f, 130.f, 130.f };
 
-  const int box_x = ((static_cast<int>(context.get_width()) - box_w) / 2) - 10;
-  const int box_y = static_cast<int>(SCREEN_HEIGHT / 2) - box_h;
+  const float box_w = std::accumulate(column_widths.begin(), column_widths.end(), 0.f);
+  const float box_h = padding_top + (static_cast<float>(visible_rows) * row_height) + padding_bottom;
+  const float box_x = ((context.get_width() - box_w) / 2.f);
 
-  int bd_w = static_cast<int>(backdrop->get_width());
-  int bd_h = static_cast<int>(backdrop->get_height());
-  int bd_x = static_cast<int>((static_cast<int>(context.get_width()) - bd_w) / 2);
-  int bd_y = box_y + (box_h / 2) - (bd_h / 2);
+  const float box_y = (SCREEN_HEIGHT - box_h) / 2.f;
 
-  float col1_x = static_cast<float>(box_x);
-  float col2_x = col1_x + 200.0f;
-  float col3_x = col2_x + 130.0f;
+  std::vector<float> col_x_positions;
+  col_x_positions.reserve(column_widths.size());
+  float current_x = box_x;
+  for (const float width : column_widths)
+  {
+    col_x_positions.push_back(current_x);
+    current_x += width;
+  }
 
-  float y_offset = 35.f;
-  if (m_preferences.enable_coins)
-    y_offset -= 7.f;
-  if (m_preferences.enable_badguys)
-    y_offset -= 7.f;
-  if (m_preferences.enable_secrets)
-    y_offset -= 7.f;
-
-  float y = static_cast<float>(box_y);
+  const float bd_w = static_cast<float>(backdrop->get_width());
+  const float bd_h = static_cast<float>(backdrop->get_height());
+  const float bd_x = (context.get_width() - bd_w) / 2.f;
+  const float bd_y = box_y + (box_h / 2.f) - (bd_h / 2.f);
 
   context.push_transform();
   context.set_alpha(0.5f);
-  context.color().draw_surface(backdrop, Vector(static_cast<float>(bd_x), static_cast<float>(bd_y)), layer);
+  context.color().draw_surface(backdrop, Vector(bd_x, bd_y), layer);
   context.pop_transform();
 
-  context.color().draw_text(Resources::normal_font, _("You"), Vector(col2_x, y), ALIGN_LEFT, layer, Statistics::header_color);
+  const float header_y = box_y + header_padding_top;
+  context.color().draw_text(Resources::normal_font, _("You"), Vector(col_x_positions[1], header_y), ALIGN_LEFT, layer, Statistics::header_color);
   if (best_stats)
-    context.color().draw_text(Resources::normal_font, _("Best"), Vector(col3_x, y), ALIGN_LEFT, layer, Statistics::header_color);
+    context.color().draw_text(Resources::normal_font, _("Best"), Vector(col_x_positions[2], header_y), ALIGN_LEFT, layer, Statistics::header_color);
 
-  y += 10.f + y_offset;
+  float y = box_y + padding_top;
 
   Color tcolor = Statistics::text_color;
   if (target_time == 0.0f || (m_time != 0.0f && m_time < target_time))
     tcolor = Statistics::perfect_color;
 
-  context.color().draw_text(Resources::normal_font, _("Time"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, layer, Statistics::header_color);
-  context.color().draw_text(Resources::normal_font, time_to_string(m_time), Vector(col2_x, y), ALIGN_LEFT, layer, tcolor);
+  context.color().draw_text(Resources::normal_font, _("Time"), Vector(col_x_positions[1] - label_indent, y), ALIGN_RIGHT, layer, Statistics::header_color);
+  context.color().draw_text(Resources::normal_font, time_to_string(m_time), Vector(col_x_positions[1], y), ALIGN_LEFT, layer, tcolor);
   if (best_stats)
   {
     float time_best = (best_stats->m_time < m_time && best_stats->m_time > 0.0f) ? best_stats->m_time : m_time;
@@ -325,20 +322,20 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
       tcolor = Statistics::perfect_color;
     else
       tcolor = Statistics::text_color;
-    context.color().draw_text(Resources::normal_font, time_to_string(time_best), Vector(col3_x, y), ALIGN_LEFT, layer, tcolor);
+    context.color().draw_text(Resources::normal_font, time_to_string(time_best), Vector(col_x_positions[2], y), ALIGN_LEFT, layer, tcolor);
   }
 
   if (m_preferences.enable_coins)
   {
-    y += y_offset;
+    y += row_height;
 
-    context.color().draw_text(Resources::normal_font, _("Coins"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, layer, Statistics::header_color);
+    context.color().draw_text(Resources::normal_font, _("Coins"), Vector(col_x_positions[1] - label_indent, y), ALIGN_RIGHT, layer, Statistics::header_color);
 
     if (m_coins >= m_total_coins)
       tcolor = Statistics::perfect_color;
     else
       tcolor = Statistics::text_color;
-    context.color().draw_text(Resources::normal_font, coins_to_string(m_coins, m_total_coins), Vector(col2_x, y), ALIGN_LEFT, layer, tcolor);
+    context.color().draw_text(Resources::normal_font, coins_to_string(m_coins, m_total_coins), Vector(col_x_positions[1], y), ALIGN_LEFT, layer, tcolor);
 
     if (best_stats)
     {
@@ -348,43 +345,43 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
         tcolor = Statistics::perfect_color;
       else
         tcolor = Statistics::text_color;
-      context.color().draw_text(Resources::normal_font, coins_to_string(coins_best, total_coins_best), Vector(col3_x, y), ALIGN_LEFT, layer, tcolor);
+      context.color().draw_text(Resources::normal_font, coins_to_string(coins_best, total_coins_best), Vector(col_x_positions[2], y), ALIGN_LEFT, layer, tcolor);
     }
   }
 
   if (m_preferences.enable_badguys)
   {
-    y += y_offset;
+    y += row_height;
 
     if (m_badguys >= m_total_badguys)
       tcolor = Statistics::perfect_color;
     else
       tcolor = Statistics::text_color;
-    context.color().draw_text(Resources::normal_font, _("Badguys"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, layer, Statistics::header_color);
-    context.color().draw_text(Resources::normal_font, frags_to_string(m_badguys, m_total_badguys), Vector(col2_x, y), ALIGN_LEFT, layer, tcolor);
+    context.color().draw_text(Resources::normal_font, _("Badguys"), Vector(col_x_positions[1] - label_indent, y), ALIGN_RIGHT, layer, Statistics::header_color);
+    context.color().draw_text(Resources::normal_font, frags_to_string(m_badguys, m_total_badguys), Vector(col_x_positions[1], y), ALIGN_LEFT, layer, tcolor);
 
     if (best_stats)
     {
       int badguys_best = (best_stats->m_badguys > m_badguys) ? best_stats->m_badguys : m_badguys;
       int total_badguys_best = (best_stats->m_total_badguys > m_total_badguys) ? best_stats->m_total_badguys : m_total_badguys;
-            if (badguys_best >= total_badguys_best)
-              tcolor = Statistics::perfect_color;
-            else
-              tcolor = Statistics::text_color;
-      context.color().draw_text(Resources::normal_font, frags_to_string(badguys_best, total_badguys_best), Vector(col3_x, y), ALIGN_LEFT, layer, tcolor);
+      if (badguys_best >= total_badguys_best)
+        tcolor = Statistics::perfect_color;
+      else
+        tcolor = Statistics::text_color;
+      context.color().draw_text(Resources::normal_font, frags_to_string(badguys_best, total_badguys_best), Vector(col_x_positions[2], y), ALIGN_LEFT, layer, tcolor);
     }
   }
 
   if (m_preferences.enable_secrets)
   {
-    y += y_offset;
+    y += row_height;
 
     if (m_secrets >= m_total_secrets)
       tcolor = Statistics::perfect_color;
     else
       tcolor = Statistics::text_color;
-    context.color().draw_text(Resources::normal_font, _("Secrets"), Vector(col2_x - 16.f, y), ALIGN_RIGHT, layer, Statistics::header_color);
-    context.color().draw_text(Resources::normal_font, secrets_to_string(m_secrets, m_total_secrets), Vector(col2_x, y), ALIGN_LEFT, layer, tcolor);
+    context.color().draw_text(Resources::normal_font, _("Secrets"), Vector(col_x_positions[1] - label_indent, y), ALIGN_RIGHT, layer, Statistics::header_color);
+    context.color().draw_text(Resources::normal_font, secrets_to_string(m_secrets, m_total_secrets), Vector(col_x_positions[1], y), ALIGN_LEFT, layer, tcolor);
 
     if (best_stats)
     {
@@ -394,7 +391,7 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
         tcolor = Statistics::perfect_color;
       else
         tcolor = Statistics::text_color;
-      context.color().draw_text(Resources::normal_font, secrets_to_string(secrets_best, total_secrets_best), Vector(col3_x, y), ALIGN_LEFT, layer, tcolor);
+      context.color().draw_text(Resources::normal_font, secrets_to_string(secrets_best, total_secrets_best), Vector(col_x_positions[2], y), ALIGN_LEFT, layer, tcolor);
     }
   }
 }
