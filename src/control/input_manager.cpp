@@ -17,10 +17,12 @@
 
 #include "control/input_manager.hpp"
 
+#include "control/controller.hpp"
 #include "control/game_controller_manager.hpp"
 #include "control/joystick_config.hpp"
 #include "control/joystick_manager.hpp"
 #include "control/keyboard_manager.hpp"
+#include "control/online_controller.hpp"
 #include "util/log.hpp"
 
 static constexpr int MAX_PLAYERS = 4;
@@ -32,7 +34,8 @@ InputManager::InputManager(KeyboardConfig& keyboard_config,
   keyboard_manager(new KeyboardManager(this, keyboard_config)),
   joystick_manager(new JoystickManager(this, joystick_config)),
   game_controller_manager(new GameControllerManager(this)),
-  m_uses_keyboard()
+  m_uses_keyboard(),
+  m_uses_online_controller()
 {
   m_controllers.push_back(std::make_unique<Controller>());
 }
@@ -151,6 +154,15 @@ InputManager::push_user()
     return;
 
   m_controllers.push_back(std::make_unique<Controller>());
+}
+
+void
+InputManager::push_online_user()
+{
+  if (!can_add_user())
+    return;
+
+  m_controllers.push_back(std::make_unique<OnlineController>());
 }
 
 void
