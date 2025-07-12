@@ -534,5 +534,3 @@ GLPainter::clear_clip_rect()
 
   assert_gl();
 }
-
-/* EOF */

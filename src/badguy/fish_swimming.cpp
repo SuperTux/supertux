@@ -537,5 +537,3 @@ FishSwimming::maintain_velocity_y(float goal_y_velocity)
     m_dir = Direction::UP;
   }
 }
-
-/* EOF */

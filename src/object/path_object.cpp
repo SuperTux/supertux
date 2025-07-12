@@ -192,5 +192,3 @@ PathObject::register_members(ssq::Class& cls)
   cls.addFunc("start_moving", &PathObject::start_moving);
   cls.addFunc("stop_moving", &PathObject::stop_moving);
 }
-
-/* EOF */

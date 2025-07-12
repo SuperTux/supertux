@@ -546,5 +546,3 @@ ControlTextbox::erase_selected_text()
   m_secondary_caret_pos = m_caret_pos;
   return true;
 }
-
-/* EOF */

@@ -97,5 +97,3 @@ CaptainSnowball::collision_squished(MovingObject& object)
   kill_squished(object);
   return true;
 }
-
-/* EOF */

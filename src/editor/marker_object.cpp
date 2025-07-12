@@ -51,5 +51,3 @@ MarkerObject::draw(DrawingContext& context)
                                     Color(1, 1, 1, 0.5f), LAYER_GUI-20);
   }
 }
-
-/* EOF */

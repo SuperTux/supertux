@@ -391,5 +391,3 @@ Canvas::scale() const
 {
   return m_context.transform().scale;
 }
-
-/* EOF */

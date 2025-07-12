@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
-#define HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 #include "supertux/moving_object.hpp"
@@ -136,7 +135,3 @@ private:
   StickyTrigger(const StickyTrigger&) = delete;
   StickyTrigger& operator=(const StickyTrigger&) = delete;
 };
-
-#endif
-
-/* EOF */

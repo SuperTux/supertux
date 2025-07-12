@@ -86,6 +86,3 @@ ControlTextboxInt::revert_value()
   m_internal_string_backup = std::to_string(*m_value);
   ControlTextbox::revert_value();
 }
-
-
-/* EOF */

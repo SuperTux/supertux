@@ -66,7 +66,7 @@ Wind::Wind(const ReaderMapping& reader) :
   reader.get("affects-badguys", affects_badguys, false);
   reader.get("affects-objects", affects_objects, false);
   reader.get("affects-player", affects_player, true);
-  
+
   reader.get("fancy-wind", fancy_wind, true);
   reader.get("particles-enabled", particles_enabled, true);
 
@@ -225,5 +225,3 @@ Wind::register_class(ssq::VM& vm)
   cls.addFunc("get_layer", &Wind::get_layer);
   cls.addFunc("set_layer", &Wind::set_layer);
 }
-
-/* EOF */

@@ -172,14 +172,14 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             }
             update_mouse_icon();
             break;
- 
+
            case 2:
              if (m_tilebox->get_input_type() == InputType::OBJECT ||
                  m_tilebox->get_input_type() == InputType::NONE)
                m_move_mode->next_mode();
              update_mouse_icon();
              break;
- 
+
            case 3:
              m_tilebox->set_object("#move");
              update_mouse_icon();
@@ -374,5 +374,3 @@ EditorToolboxWidget::get_mouse_icon() const
       return nullptr;
   }
 }
-
-/* EOF */

@@ -450,5 +450,3 @@ BitmapFont::draw_chars(Canvas& canvas, bool notshadow, const std::string& text, 
     }
   }
 }
-
-/* EOF */

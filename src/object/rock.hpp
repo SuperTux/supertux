@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_ROCK_HPP
-#define HEADER_SUPERTUX_OBJECT_ROCK_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 #include "object/portable.hpp"
@@ -72,7 +71,3 @@ private:
   Rock(const Rock&) = delete;
   Rock& operator=(const Rock&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -197,5 +197,3 @@ AmbientSound::register_class(ssq::VM& vm)
   cls.addFunc("get_pos_x", &MovingObject::get_x);
   cls.addFunc("get_pos_y", &MovingObject::get_y);
 }
-
-/* EOF */

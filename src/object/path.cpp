@@ -250,5 +250,3 @@ Path::on_flip(float height)
     node.bezier_after.y = height - node.bezier_after.y;
   }
 }
-
-/* EOF */

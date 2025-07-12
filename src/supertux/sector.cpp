@@ -893,5 +893,3 @@ Sector::register_class(ssq::VM& vm)
 
   cls.addVar("gravity", &Sector::m_gravity);
 }
-
-/* EOF */

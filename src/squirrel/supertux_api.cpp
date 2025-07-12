@@ -891,5 +891,3 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("Level_flip_vertically", &scripting::Level::flip_vertically);
   vm.addFunc("Level_toggle_pause", &scripting::Level::toggle_pause);
 }
-
-/* EOF */

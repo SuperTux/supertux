@@ -41,5 +41,3 @@ Timelog::log(const char* component)
   m_last_ticks = current_ticks;
   m_last_component = component;
 }
-
-/* EOF */

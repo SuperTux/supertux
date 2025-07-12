@@ -31,5 +31,3 @@ ItemList::process_action(const MenuAction& action)
   if (action == MenuAction::HIT)
     MenuManager::instance().push_menu(std::make_unique<ListMenu>(m_items, m_value_ptr, nullptr));
 }
-
-/* EOF */

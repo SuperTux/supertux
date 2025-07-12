@@ -227,5 +227,3 @@ NodeMarker::check_state()
 {
   m_path->get_gameobject().check_state();
 }
-
-/* EOF */

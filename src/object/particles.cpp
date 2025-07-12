@@ -134,5 +134,3 @@ Particles::draw(DrawingContext& context)
     context.color().draw_filled_rect(Rectf(particle->pos, Sizef(size,size)), color, drawing_layer);
   }
 }
-
-/* EOF */

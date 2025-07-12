@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
-#define HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 
@@ -73,7 +72,3 @@ private:
   DartTrap(const DartTrap&) = delete;
   DartTrap& operator=(const DartTrap&) = delete;
 };
-
-#endif
-
-/* EOF */

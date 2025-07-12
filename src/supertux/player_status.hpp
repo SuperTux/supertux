@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_PLAYER_STATUS_HPP
-#define HEADER_SUPERTUX_SUPERTUX_PLAYER_STATUS_HPP
+#pragma once
 
 #include <algorithm>
 #include <memory>
@@ -120,7 +119,3 @@ private:
   PlayerStatus(const PlayerStatus&) = delete;
   PlayerStatus& operator=(const PlayerStatus&) = delete;
 };
-
-#endif
-
-/* EOF */

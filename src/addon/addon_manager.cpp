@@ -1003,5 +1003,3 @@ AddonManager::onDownloadAborted(int id)
   m_downloader.onDownloadAborted(id);
 }
 #endif
-
-/* EOF */

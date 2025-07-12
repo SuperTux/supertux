@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -128,7 +127,3 @@ private:
   Main(const Main&) = delete;
   Main& operator=(const Main&) = delete;
 };
-
-#endif
-
-/* EOF */

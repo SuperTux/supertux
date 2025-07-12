@@ -54,5 +54,3 @@ NullTexture::get_image_height() const
 {
   return m_image_size.height;
 }
-
-/* EOF */

@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_TILEBOX_HPP
-#define HEADER_SUPERTUX_EDITOR_TILEBOX_HPP
+#pragma once
 
 #include "editor/widget.hpp"
 
@@ -139,7 +138,3 @@ private:
   EditorTilebox(const EditorTilebox&) = delete;
   EditorTilebox& operator=(const EditorTilebox&) = delete;
 };
-
-#endif
-
-/* EOF */

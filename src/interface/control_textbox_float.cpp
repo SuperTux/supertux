@@ -95,5 +95,3 @@ ControlTextboxFloat::revert_value()
 
   ControlTextbox::revert_value();
 }
-
-/* EOF */

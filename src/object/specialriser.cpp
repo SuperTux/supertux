@@ -58,5 +58,3 @@ SpecialRiser::draw(DrawingContext& context)
   m_child->draw(context);
   context.pop_transform();
 }
-
-/* EOF */

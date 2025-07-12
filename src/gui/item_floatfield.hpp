@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_FLOATFIELD_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_FLOATFIELD_HPP
+#pragma once
 
 #include "gui/item_textfield.hpp"
 
@@ -46,7 +45,3 @@ private:
   ItemFloatField(const ItemFloatField&) = delete;
   ItemFloatField& operator=(const ItemFloatField&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -209,5 +209,3 @@ VideoSystem::do_take_screenshot()
     }
   }
 }
-
-/* EOF */

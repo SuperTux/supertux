@@ -488,7 +488,7 @@ Background::draw(DrawingContext& context)
 
   if (!m_image)
     return;
-    
+
   context.push_transform();
   if (!context.perspective_scale(m_parallax_speed.x, m_parallax_speed.y)) {
     //The background is placed behind the camera.
@@ -569,5 +569,3 @@ Background::register_class(ssq::VM& vm)
   cls.addFunc("set_color", &Background::set_color);
   cls.addFunc<void, Background, float, float, float, float, float>("fade_color", &Background::fade_color);
 }
-
-/* EOF */

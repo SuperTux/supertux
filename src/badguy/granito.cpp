@@ -626,5 +626,3 @@ Granito::register_class(ssq::VM& vm)
   vm.setConst<int>("GRANITO_STATE_LOOKUP", Granito::STATE_LOOKUP);
   vm.setConst<int>("GRANITO_STATE_JUMPING", Granito::STATE_JUMPING);
 }
-
-/* EOF */

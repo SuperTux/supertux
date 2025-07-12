@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_JOYSTICK_MANAGER_HPP
-#define HEADER_SUPERTUX_CONTROL_JOYSTICK_MANAGER_HPP
+#pragma once
 
 #include <SDL.h>
 #include <vector>
@@ -30,7 +29,7 @@ class JoystickConfig;
 
 /**
  * Manages Joysticks.
- * 
+ *
  * WARNING: Any edit done to this class should also be done to GameControllerManager!
  */
 class JoystickManager final
@@ -87,7 +86,3 @@ private:
   JoystickManager(const JoystickManager&) = delete;
   JoystickManager& operator=(const JoystickManager&) = delete;
 };
-
-#endif
-
-/* EOF */

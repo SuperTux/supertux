@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_VIRTUAL_MACHINE_HPP
-#define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_VIRTUAL_MACHINE_HPP
+#pragma once
 
 #include <memory>
 
@@ -57,7 +56,3 @@ private:
   SquirrelVirtualMachine(const SquirrelVirtualMachine&) = delete;
   SquirrelVirtualMachine& operator=(const SquirrelVirtualMachine&) = delete;
 };
-
-#endif
-
-/* EOF */

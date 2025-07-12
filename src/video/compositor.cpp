@@ -144,5 +144,3 @@ Compositor::render()
   obstack_free(&m_obst, nullptr);
   obstack_init(&m_obst);
 }
-
-/* EOF */

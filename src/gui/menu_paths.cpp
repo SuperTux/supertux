@@ -66,5 +66,3 @@ PathsMenu::PathsMenu(PathObject& target, const std::string& path_ref)
   add_hl();
   add_back(_("Back"));
 }
-
-/* EOF */

@@ -171,5 +171,3 @@ CorruptedGranitoBig::crack_effects(int particles)
                                       LAYER_OBJECTS + 3, true);
   }
 }
-
-/* EOF */

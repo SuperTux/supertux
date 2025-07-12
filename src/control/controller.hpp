@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_CONTROLLER_HPP
-#define HEADER_SUPERTUX_CONTROL_CONTROLLER_HPP
+#pragma once
 
 #include <iosfwd>
 #include <optional>
@@ -112,7 +111,3 @@ private:
   Controller(const Controller&) = delete;
   Controller& operator=(const Controller&) = delete;
 };
-
-#endif
-
-/* EOF */

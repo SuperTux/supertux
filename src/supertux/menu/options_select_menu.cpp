@@ -53,5 +53,3 @@ OptionsSelectMenu::menu_action(MenuItem& item)
     MenuManager::instance().push_menu(std::make_unique<OptionsMenu>(static_cast<OptionsMenu::Type>(type), m_complete_options));
   }
 }
-
-/* EOF */

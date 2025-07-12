@@ -177,7 +177,7 @@ AddonMenu::menu_action(MenuItem& item)
       MenuManager::instance().push_menu(std::make_unique<AddonBrowseMenu>(m_langpacks_only, false));
   }
   else if (index == MNID_INSTALL_FROM_FILE)
-  { 
+  {
     MenuManager::instance().push_menu(std::make_unique<AddonFileInstallMenu>(this));
   }
   else if (IS_UPDATE_MENU_ID(index))
@@ -230,5 +230,3 @@ AddonMenu::check_for_updates()
     log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
   }
 }
-
-/* EOF */
