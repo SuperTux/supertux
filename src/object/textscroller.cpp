@@ -300,12 +300,7 @@ TextScroller::update(float dt_sec)
     // use start or escape keys to exit
     if (controller->pressed_any(Control::START, Control::ESCAPE) &&
         !m_fading) {
-      m_fading = true;
-      if (!m_finish_script.empty()) {
-        Sector::get().run_script(m_finish_script, "finishscript");
-      } else {
-        ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f));
-      }
+      start_fading();
       return;
     }
   }
@@ -319,13 +314,19 @@ TextScroller::update(float dt_sec)
     // close when done
     if (m_finished && !m_fading)
     {
-      m_fading = true;
-      if (!m_finish_script.empty()) {
-        Sector::get().run_script(m_finish_script, "finishscript");
-      } else {
-        ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25f)));
-      }
+      start_fading();
     }
+  }
+}
+
+void
+TextScroller::start_fading()
+{
+  m_fading = true;
+  if (!m_finish_script.empty()) {
+    Sector::get().run_script(m_finish_script, "finishscript");
+  } else {
+    ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f));
   }
 }
 
