@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <limits>
+#include <numeric>
 
 #include <simplesquirrel/table.hpp>
 
@@ -264,10 +265,22 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
 
   int layer = LAYER_GUI + 50;
 
-  int box_w = 220+110+110;
-  int box_h = 30+20+20+20;
-  int box_x = static_cast<int>((static_cast<int>(context.get_width()) - box_w) / 2);
-  int box_y = static_cast<int>(SCREEN_HEIGHT / 2) - box_h;
+  const std::vector<int> column_widths = {220, 110, 110};
+  const int box_w = std::accumulate(column_widths.begin(), column_widths.end(), 0);
+
+  constexpr int row_height     = 20;
+  constexpr int padding_top    = 30;
+  constexpr int padding_bottom = 10;
+
+  int visible_rows = 1;
+  if (m_preferences.enable_coins)   ++visible_rows;
+  if (m_preferences.enable_badguys) ++visible_rows;
+  if (m_preferences.enable_secrets) ++visible_rows;
+
+  const int box_h = padding_top + (visible_rows * row_height) + padding_bottom;
+
+  const int box_x = ((static_cast<int>(context.get_width()) - box_w) / 2) - 10;
+  const int box_y = static_cast<int>(SCREEN_HEIGHT / 2) - box_h;
 
   int bd_w = static_cast<int>(backdrop->get_width());
   int bd_h = static_cast<int>(backdrop->get_height());
@@ -278,13 +291,13 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
   float col2_x = col1_x + 200.0f;
   float col3_x = col2_x + 130.0f;
 
-  float y_offset = 47.f;
+  float y_offset = 35.f;
   if (m_preferences.enable_coins)
-    y_offset -= 9.f;
+    y_offset -= 7.f;
   if (m_preferences.enable_badguys)
-    y_offset -= 9.f;
+    y_offset -= 7.f;
   if (m_preferences.enable_secrets)
-    y_offset -= 9.f;
+    y_offset -= 7.f;
 
   float y = static_cast<float>(box_y);
 
