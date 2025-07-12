@@ -22,11 +22,16 @@
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+
+namespace {
+  const float GROUND_FRICTION = 0.1f;
+} // namespace
 
 Coin::Coin(const Vector& pos, bool count_stats, const std::string& sprite_path) :
   MovingSprite(pos, sprite_path, LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
@@ -37,7 +42,16 @@ Coin::Coin(const Vector& pos, bool count_stats, const std::string& sprite_path) 
   m_physic(),
   m_collect_script(),
   m_starting_node(0),
-  m_count_stats(count_stats)
+  m_count_stats(count_stats),
+  m_on_ground(false),
+  m_on_ice(false),
+  m_at_ceiling(false),
+  m_last_movement(0.0f, 0.0f),
+  m_on_grab_script(),
+  m_on_ungrab_script(),
+  m_running_grab_script(false),
+  m_running_ungrab_script(false),
+  m_last_sector_gravity(10.0f)
 {
   SoundManager::current()->preload("sounds/coin.wav");
 }
@@ -51,10 +65,21 @@ Coin::Coin(const ReaderMapping& reader, bool count_stats) :
   m_physic(),
   m_collect_script(),
   m_starting_node(0),
-  m_count_stats(count_stats)
+  m_count_stats(count_stats),
+  m_on_ground(false),
+  m_on_ice(false),
+  m_at_ceiling(false),
+  m_last_movement(0.0f, 0.0f),
+  m_on_grab_script(),
+  m_on_ungrab_script(),
+  m_running_grab_script(false),
+  m_running_ungrab_script(false),
+  m_last_sector_gravity(10.0f)
 {
   reader.get("starting-node", m_starting_node, 0);
   reader.get("collect-script", m_collect_script, "");
+  reader.get("on-grab-script", m_on_grab_script, "");
+  reader.get("on-ungrab-script", m_on_ungrab_script, "");
 
   parse_type(reader);
   init_path(reader, true);
@@ -101,6 +126,40 @@ Coin::finish_construction()
 void
 Coin::update(float dt_sec)
 {
+  if (!is_grabbed()) 
+  {
+    if (get_bbox().get_top() > Sector::get().get_height()) 
+    {
+      remove_me();
+      return;
+    }
+
+    // Check for ice
+    Rectf icebox = get_bbox().grown(-1.f);
+    icebox.set_bottom(get_bbox().get_bottom() + 8.f);
+    m_on_ice = !Sector::get().is_free_of_tiles(icebox, true, Tile::ICE);
+
+    // Water physics
+    bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+    m_physic.set_gravity_modifier(in_water ? 0.2f : 1.f);
+
+    m_col.set_movement(m_physic.get_movement(dt_sec) * 
+      Vector(in_water ? 0.4f : 1.f, in_water ? 0.6f : 1.f));
+
+    // Handle gravity direction changes
+    const float sector_gravity = Sector::get().get_gravity();
+    if (m_last_sector_gravity != sector_gravity)
+    {
+      if ((sector_gravity < 0.0f && m_last_sector_gravity >= 0.0f) ||
+          (sector_gravity >= 0.0f && m_last_sector_gravity < 0.0f))
+      {
+        m_on_ground = false;
+        m_at_ceiling = false;
+      }
+      m_last_sector_gravity = sector_gravity;
+    }
+  }
+
   // If we have a path to follow, follow it.
   if (get_walker()) {
     Vector v(0.0f, 0.0f);
@@ -281,7 +340,10 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
 {
   float clink_threshold = 100.0f; // Sets the minimum speed needed to result in collision noise.
   // TODO: Colliding with HeavyCoins should have their own unique sound.
-
+  if (is_grabbed())
+    // Don't do anything while being carried
+    return;
+    
   if (hit.bottom) {
     if (m_physic.get_velocity_y() > clink_threshold && !m_last_hit.bottom)
         SoundManager::current()->play("sounds/coin2.ogg", get_pos());
@@ -302,6 +364,10 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
     if (m_physic.get_velocity_y() < -clink_threshold && !m_last_hit.top)
       SoundManager::current()->play("sounds/coin2.ogg", get_pos());
     m_physic.set_velocity_y(-m_physic.get_velocity_y());
+  }
+  if (m_on_ground || (hit.bottom && m_on_ice)) 
+  {
+    m_physic.set_velocity_x(m_physic.get_velocity_x() * (1.f - (GROUND_FRICTION * (m_on_ice ? 0.5f : 1.f))));
   }
 
   // Only make a sound if the coin wasn't hittin anything last frame (A coin
@@ -390,6 +456,71 @@ HeavyCoin::on_flip(float height)
   // Call on_flip from grandparent class MovingSprite to
   // avoid flipping of gravity-affected object HeavyCoin.
   MovingSprite::on_flip(height);
+}
+
+void
+Coin::grab(MovingObject& object, const Vector& pos, Direction dir)
+{
+  Portable::grab(object, pos, dir);
+  
+  // Update position and movement
+  Vector movement = pos - get_pos();
+  m_col.set_movement(movement);
+  m_last_movement = movement;
+  
+  // Update collision group
+  set_group(COLGROUP_TOUCHABLE);
+  
+  // Reset ground/ceiling state
+  m_on_ground = false;
+  m_at_ceiling = false;
+
+  // Handle grab script
+  m_running_ungrab_script = false;
+  if (!m_on_grab_script.empty() && !m_running_grab_script)
+  {
+    m_running_grab_script = true;
+    Sector::get().run_script(m_on_grab_script, "Coin::on_grab");
+  }
+}
+
+void
+Coin::ungrab(MovingObject& object, Direction dir)
+{
+  auto player = dynamic_cast<Player*>(&object);
+  
+  // Reset collision group and states
+  set_group(COLGROUP_MOVING_STATIC);
+  m_on_ground = false;
+  m_at_ceiling = false;
+
+  if (player)
+  {
+    // Handle swimming physics
+    if (player->is_swimming() || player->is_water_jumping())
+    {
+      float swimangle = player->get_swimming_angle();
+      m_physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));
+    }
+    else
+    {
+      // Normal throwing physics
+      m_physic.set_velocity_x(fabsf(player->get_physic().get_velocity_x()) < 1.f ? 0.f :
+        player->m_dir == Direction::LEFT ? -200.f : 200.f);
+      m_physic.set_velocity_y((dir == Direction::UP) ? -500.f : (dir == Direction::DOWN) ? 500.f :
+        (glm::length(m_last_movement) > 1) ? -200.f : 0.f);
+    }
+  }
+
+  // Handle ungrab script
+  m_running_grab_script = false;
+  if (!m_on_ungrab_script.empty() && !m_running_ungrab_script)
+  {
+    m_running_ungrab_script = true;
+    Sector::get().run_script(m_on_ungrab_script, "Coin::on_ungrab");
+  }
+
+  Portable::ungrab(object, dir);
 }
 
 /* EOF */
