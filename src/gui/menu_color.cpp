@@ -24,12 +24,16 @@
 #include "util/gettext.hpp"
 
 ColorMenu::ColorMenu(Color* color) :
-  m_color(color)
+  m_color(color),
+  m_okl(*color)
 {
   add_label(_("Mix the colour"));
   add_hl();
 
   add_color_picker_2d(*m_color);
+
+  add_color_channel_saturation(m_color, &m_okl, MNID_SATURATION);
+
   add_color_channel_rgba(&(m_color->red), Color::RED);
   add_color_channel_rgba(&(m_color->green), Color::GREEN);
   add_color_channel_rgba(&(m_color->blue), Color::BLUE);
@@ -116,6 +120,12 @@ ColorMenu::menu_action(MenuItem& item)
       else
         log_warning << "Invalid color format: " << text << ". Supported formats: rgb(r,g,b) and #rrggbb" << std::endl;
     }
+  }
+  else if (item.get_id() == MNID_SATURATION)
+  {
+    float oldA = m_color->alpha;
+    *m_color = Color::from_oklch(m_okl);
+    m_color->alpha = oldA;
   }
 }
 

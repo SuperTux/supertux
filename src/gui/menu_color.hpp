@@ -34,11 +34,13 @@ private:
   {
     MNID_COPY_CLIPBOARD_RGB = 1,
     MNID_COPY_CLIPBOARD_HEX,
-    MNID_PASTE_CLIPBOARD
+    MNID_PASTE_CLIPBOARD,
+    MNID_SATURATION
   };
 
 private:
   Color* m_color;
+  ColorOKLCh m_okl;
 
 private:
   ColorMenu(const ColorMenu&) = delete;

@@ -23,6 +23,7 @@
 #include <vector>
 
 #include <SDL_image.h>
+#include "util/colorspace_oklab.hpp"
 
 class Color final
 {
@@ -96,6 +97,13 @@ public:
   // Helper functions to approximately transform to/from sRGB colours
   static float add_gamma(float x) { return powf(x, 1.0f / 2.2f); }
   static float remove_gamma(float x) { return powf(x, 2.2f); }
+
+  static float linear_to_srgb(float x) {
+    if (x <= 0.0031308f) return 12.92f * x;
+    else return 1.055f * powf(x, 1.0f/2.4f) - 0.055f;
+  }
+
+  static Color from_oklch(const ColorOKLCh& lch);
 
 public:
   Color();
