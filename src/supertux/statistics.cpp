@@ -281,7 +281,7 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
   const float box_h = padding_top + (static_cast<float>(visible_rows) * row_height) + padding_bottom;
   const float box_x = ((context.get_width() - box_w) / 2.f);
 
-  const float box_y = (SCREEN_HEIGHT - box_h) / 2.f;
+  const float box_y = (static_cast<float>(SCREEN_HEIGHT) - box_h) / 2.f;
 
   std::vector<float> col_x_positions;
   col_x_positions.reserve(column_widths.size());
