@@ -1,34 +1,7 @@
-## These variables enable MSVC to find libraries located in "dependencies{32|64}"
-
-if(NOT VCPKG_BUILD)
-  ## Store path of dependecy folder
-  set(DEPENDENCY_FOLDER "${PROJECT_SOURCE_DIR}/dependencies")
-endif()
-
-## To test if the host (not the build) is x64:
-## "$ENV{PROCESSOR_ARCHITEW6432}" STREQUAL "AMD64"
-if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-  set(WIN64 ON)
-  if(NOT VCPKG_BUILD)
-    set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}64")
-  endif()
-else()
-  set(WIN64 OFF)
-  if(NOT VCPKG_BUILD)
-    set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}32")
-  endif()
-endif()
-
-if(WIN64)
-  set(SUPERTUX_SYSTEM_NAME win64)
-else()
-  set(SUPERTUX_SYSTEM_NAME win32)
-endif()
-
-if(NOT VCPKG_BUILD)
-  set(ENV{PATH} "$ENV{PATH};${DEPENDENCY_FOLDER}/include")
-  set(ENV{LIB} "${DEPENDENCY_FOLDER}/lib")
-  set(ENV{OPENALDIR} "${DEPENDENCY_FOLDER}")
+# Only set windowed mode when building in release
+# because the console is very useful for debugging on Windows.
+if(CMAKE_BUILD_TYPE MATCHES "Rel")
+  set_target_properties(supertux2 PROPERTIES WIN32_EXECUTABLE YES)
 endif()
 
 ## Enable multi-processor compilation (faster)
@@ -38,15 +11,39 @@ endif()
 
 ## And shut up about unsafe stuff
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+
 ## Add an icon
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/icon_rc.template" "${PROJECT_BINARY_DIR}/tmp/icon.rc")
 
-## Find all used libraries
-if(NOT VCPKG_BUILD)
-  file(GLOB DLLS "${DEPENDENCY_FOLDER}/dll/*")
-endif()
-
 add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
 add_definitions(-DWIN32)
+
+## When using MinGW, tell dlltool to generate a dbghelp static import library using dbghelp.def
+find_program(DLLTOOL_PATH
+  NAMES dlltool dlltool.exe
+  DOC "The path to the dlltool utility"
+)
+if(MINGW AND DLLTOOL_PATH)
+  add_custom_target(dbghelp
+    COMMAND ${CMAKE_COMMAND}
+            -DDLLTOOL_PATH="${DLLTOOL_PATH}"
+            -DDEFINITIONS="${PROJECT_SOURCE_DIR}/mk/mingw/dbghelp.def"
+            -DOUTPUT="${PROJECT_BINARY_DIR}/dbghelp.dll.a"
+            -P ${PROJECT_SOURCE_DIR}/mk/cmake/GenerateMinGWDbgHelp.cmake
+    BYPRODUCTS ${PROJECT_BINARY_DIR}/dbghelp.dll.a
+    COMMENT "Prompting generation of dbghelp.dll.a static import library"
+  )
+
+  target_link_libraries(supertux2 PRIVATE ${PROJECT_BINARY_DIR}/dbghelp.dll.a)
+  add_dependencies(supertux2 dbghelp)
+endif()
+
+## On Windows, add an icon
+if(MINGW)
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
+    COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
+  set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
+endif()
 
 # EOF #

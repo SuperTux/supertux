@@ -1,0 +1,29 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "dependencies": [
+    "fmt",
+    "libogg",
+    "libvorbis",
+    "libraqm",
+    "freetype",
+    "physfs",
+    "glm",
+    "libpng",
+    "zlib"
+  ],
+  "features": {
+    "nonwasm": {
+      "description": "Add dependencies that aren't needed for WebAssembly",
+      "dependencies": [
+        "sdl2",
+        "sdl2-image",
+        "curl",
+        "openal-soft",
+        "libogg",
+        "libvorbis",
+        "glew"
+      ]
+    }
+  },
+  "default-features": ["nonwasm"]
+}

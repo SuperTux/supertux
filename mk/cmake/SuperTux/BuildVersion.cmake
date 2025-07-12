@@ -1,53 +1,64 @@
-if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-  ## Find revision of WC
-  mark_as_advanced(GIT_EXECUTABLE)
-  find_program(GIT_EXECUTABLE git)
-  if(NOT GIT_EXECUTABLE EQUAL "GIT_EXECUTABLE-NOTFOUND")
-    include(GetGitRevisionDescription)
-    git_describe(VERSION_STRING_GIT "--tags" "--match" "?[0-9]*.[0-9]*.[0-9]*")
-    string(REPLACE "v" "" VERSION_LIST ${VERSION_STRING_GIT})
-    string(REGEX REPLACE "[^\\-]+\\-([0-9]+)\\-.*" "\\1" VERSION_NUMBER_GIT "${VERSION_LIST}")
-    string(REGEX REPLACE "(-|_|\\.)" ";" VERSION_LIST ";${VERSION_LIST}")
+#
+# SuperTux
+# Copyright (C) 2025 MatusGuy
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+
+set(SUPERTUX_PACKAGE_VERSION "" CACHE STRING "Display version name. Will show in the window title of the program, for example.")
+set(SUPERTUX_VERSION_STRING "" CACHE STRING "Brief version string. Will show in the name of the archive or the cURL user agent, for example.")
+
+if(SUPERTUX_PACKAGE_VERSION AND SUPERTUX_VERSION_STRING)
+  set(SUPERTUX_CUSTOM_VERSION YES)
+else()
+  include(GetGitRevisionDescription)
+  git_project_version(${IS_SUPERTUX_RELEASE})
+endif()
+
+if(NOT SUPERTUX_PACKAGE_VERSION)
+  if(IS_SUPERTUX_RELEASE)
+    set(SUPERTUX_PACKAGE_VERSION "${GIT_TAG}")
+  else()
+    set(SUPERTUX_PACKAGE_VERSION "dev ")
+
+    if(NOT GIT_TAG_RESULT EQUAL 0)
+      string(APPEND SUPERTUX_PACKAGE_VERSION "${GIT_HASH} (${GIT_BRANCH})")
+    else()
+      string(APPEND SUPERTUX_PACKAGE_VERSION "${GIT_TAG} - ${GIT_HASH} (${GIT_BRANCH})")
+    endif()
   endif()
 endif()
 
-get_filename_component(BASEDIR ${CMAKE_SOURCE_DIR} NAME)
-if("${VERSION_LIST}" STREQUAL "")
-  if(${BASEDIR} MATCHES "supertux2-[0-9\\.]*")
-    string(REGEX REPLACE "(\\.|_|-)" ";" VERSION_LIST ${BASEDIR})
+if(NOT SUPERTUX_VERSION_STRING)
+  if(IS_SUPERTUX_RELEASE)
+    set(SUPERTUX_VERSION_STRING "${GIT_TAG}")
+  else()
+    set(SUPERTUX_VERSION_STRING "${GIT_BRANCH}-${GIT_HASH}")
   endif()
 endif()
 
-file(GLOB ORIG_TGZ ../*.orig.tar.gz)
-if("${VERSION_LIST}" STREQUAL "" AND (NOT "${ORIG_TGZ}" STREQUAL ""))
-  get_filename_component(BASEDIR ${ORIG_TGZ} NAME)
-  string(REGEX REPLACE "(\\.|_|-)" ";" VERSION_LIST ${BASEDIR})
+message(STATUS "Git version checking results:")
+if(NOT SUPERTUX_CUSTOM_VERSION)
+  message(STATUS "  GIT_TAG: ${GIT_TAG}")
+  message(STATUS "  GIT_HASH: ${GIT_HASH}")
+  message(STATUS "  GIT_BRANCH: ${GIT_BRANCH}")
 endif()
+message(STATUS "  SUPERTUX_PACKAGE_VERSION: ${SUPERTUX_PACKAGE_VERSION}")
+message(STATUS "  SUPERTUX_VERSION_STRING: ${SUPERTUX_VERSION_STRING}")
 
-list(LENGTH VERSION_LIST VERSION_LIST_SIZE)
-
-if(${VERSION_LIST_SIZE} GREATER 0)
-  list(GET VERSION_LIST 1 MAJOR_VERSION_GIT)
-  list(GET VERSION_LIST 2 MINOR_VERSION_GIT)
-  list(GET VERSION_LIST 3 PATCH_VERSION_GIT)
-
-  if("${VERSION_STRING_GIT}" STREQUAL "")
-    set(VERSION_STRING_GIT "${MAJOR_VERSION_GIT}.${MINOR_VERSION_GIT}.${PATCH_VERSION_GIT}")
-  endif()
-
-  configure_file("${CMAKE_SOURCE_DIR}/version.cmake.in" "${CMAKE_SOURCE_DIR}/version.cmake")
-endif()
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
-  message( SEND_ERROR "Could not find GIT or valid version.cmake. Version information will be invalid." )
-endif()
-include("${CMAKE_SOURCE_DIR}/version.cmake")
-
-if(FORCE_VERSION_STRING)
-  set(SUPERTUX_VERSION_STRING "${FORCE_VERSION_STRING}")
-endif()
-set(SUPERTUX_VERSION ${SUPERTUX_VERSION_STRING})
-
-configure_file(version.h.in ${CMAKE_BINARY_DIR}/version.h )
+configure_file(version.h.in ${CMAKE_BINARY_DIR}/version.h)
 
 set_source_files_properties(${CMAKE_BINARY_DIR}/version.h
   PROPERTIES GENERATED true)

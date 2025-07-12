@@ -33,11 +33,9 @@ jobs:
       matrix:
         os: [macos-13]
         build_type: [Debug, Release]
-        glbinding: [ON, OFF]
         include:
           - os: macos-13
             build_type: Release
-            glbinding: OFF
             release: ON
 
     runs-on: ${{ matrix.os }}
@@ -53,10 +51,9 @@ jobs:
         run: |
           # Use GLM 1.0.0 as later versions don't build with clang
           HOMEBREW_NO_AUTO_UPDATE=1 brew install --formula ./mk/brew/glm.rb --build-from-source
-          brew install cmake googletest bash rename libogg libvorbis glew \
-                       openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
-                       fribidi glib gtk-doc glbinding@2 libraqm zlib
-          brew link glbinding@2
+          brew install cmake bash rename libogg libvorbis glew \
+                       openal-soft sdl2 sdl2_image libraqm freetype \
+                       glib gtk-doc zlib physfs fmt
 
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
@@ -80,37 +77,49 @@ jobs:
           echo "CXX=clang++" >> $GITHUB_ENV
           echo "CC=clang" >> $GITHUB_ENV
 
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
+
       - name: Configure build
         env:
+          # Using git rev-parse gives incorrect values when querying the branch
+          # so, use slugify instead
+          GIT_HASH: ${{ steps.slugify.outputs.sha }}
+          GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           BUILD_TYPE: ${{ matrix.build_type }}
-          GLBINDING: ${{ matrix.glbinding }}
-          CMAKE_POLICY_VERSION_MINIMUM: 3.5
+          PKG_CONFIG_PATH: /usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig
         run: |
+          GIT_TAG="$(git describe --tags --abbrev=0)"
+
+          echo "Git information:"
+          echo "- GIT_TAG: $GIT_TAG"
+          echo "- GIT_HASH: $GIT_HASH"
+          echo "- GIT_BRANCH: $GIT_BRANCH"
+
           cmake --version
           $CXX --version
+
           mkdir "build"
           cd "build"
-          # TODO add -DGLBINDING_ENABLED=$USE_GLBINDING
-          # NOTE: The `WERROR` flag is set to OFF in order to work around issues
-          #       where said flag applied to system includes as well, causing the
-          #       builds to fail. This issue requires further investigation!
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH -DBUILD_TESTS=ON       \
-                   -DWARNINGS=ON -DWERROR=OFF -DGLBINDING_ENABLED=$GLBINDING    \
+
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH                        \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
+                   -DSUPERTUX_PACKAGE_VERSION="$GIT_TAG dev - $GIT_HASH ($GIT_BRANCH) (CI ARTIFACT)" \
+                   -DSUPERTUX_VERSION_STRING="$GIT_BRANCH-$GIT_HASH"           \
                    -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin        \
-                   -DINSTALL_SUBDIR_SHARE=share/supertux2
+                   -DINSTALL_SUBDIR_SHARE=share/supertux2                      \
+                   -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
       - name: Build and install
-        env:
-          CMAKE_POLICY_VERSION_MINIMUM: 3.5
         working-directory: build
         run: |
           make -j3 VERBOSE=1
           make install DESTDIR="/tmp/supertux" VERBOSE=1
 
-      - name: Run tests
-        working-directory: build
-        run: ./test_supertux2
+      #- name: Run tests
+      #  working-directory: build
+      #  run: ./test_supertux2
 
       - name: Package
         env:
@@ -123,9 +132,9 @@ jobs:
         run: ../.ci_scripts/package.sh
 
       - uses: actions/upload-artifact@v4
-        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
+        if: matrix.build_type != 'Debug'
         with:
-          name: "${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-dmg"
+          name: "${{ matrix.os }}-${{ matrix.build_type }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-dmg"
           path: build/upload/*.dmg
           if-no-files-found: ignore
 

@@ -48,7 +48,13 @@ static const std::string DEFAULT_TITLE_LEVEL = "levels/misc/menu.stl";
 TitleScreen::TitleScreen(Savegame& savegame, bool christmas) :
   m_savegame(savegame),
   m_christmas(christmas),
-  m_logo(Surface::from_file("images/engine/menu/" + std::string(LOGO_FILE))),
+  m_logo(Surface::from_file("images/engine/menu/" + std::string(
+#ifdef SUPERTUX_RELEASE
+    "logo.png"
+#else
+    "logo_dev.png"
+#endif
+  ))),
   m_santahat(christmas ? Surface::from_file("images/engine/menu/logo_santahat.png") : nullptr),
   m_frame(Surface::from_file("images/engine/menu/frame.png")),
   m_controller(new CodeController()),
