@@ -99,6 +99,18 @@ BouncingSnowball::get_types() const
   };
 }
 
+bool 
+BouncingSnowball::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if(sprite_name.find("images/creatures/fatbat/fatbat.sprite") != std::string::npos)
+  {
+    type = "fatbat";
+    return true;
+  }
+
+  return false;
+}
+
 std::string
 BouncingSnowball::get_default_sprite_name() const
 {
