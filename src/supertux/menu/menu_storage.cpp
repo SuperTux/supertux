@@ -32,6 +32,7 @@
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
+#include "supertux/menu/editor_tilesubgroup_menu.hpp"
 #include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
@@ -153,6 +154,57 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_TILEGROUP_MENU:
       return std::make_unique<EditorTilegroupMenu>();
+    
+    case EDITOR_TILESUBGROUP_MENU_SNOW:
+      return std::make_unique<EditorTilesubgroupMenu>("Snow");
+
+    case EDITOR_TILESUBGROUP_MENU_SNOW_BACKGROUND:
+      return std::make_unique<EditorTilesubgroupMenu>("Snow Background");
+
+    case EDITOR_TILESUBGROUP_MENU_CRYSTAL:
+      return std::make_unique<EditorTilesubgroupMenu>("Crystal");
+
+    case EDITOR_TILESUBGROUP_MENU_FOREST:
+      return std::make_unique<EditorTilesubgroupMenu>("Forest");
+
+    case EDITOR_TILESUBGROUP_MENU_FOREST_BACKGROUND:
+      return std::make_unique<EditorTilesubgroupMenu>("Forest Background");
+
+    case EDITOR_TILESUBGROUP_MENU_CORRUPTED_FOREST:
+      return std::make_unique<EditorTilesubgroupMenu>("Corrupted Forest");
+
+    case EDITOR_TILESUBGROUP_MENU_CORRUPTED_BACKGROUND:
+      return std::make_unique<EditorTilesubgroupMenu>("Corrupted Background");
+
+    case EDITOR_TILESUBGROUP_MENU_JAGGED_ROCKS:
+      return std::make_unique<EditorTilesubgroupMenu>("Jagged Rocks");
+
+    case EDITOR_TILESUBGROUP_MENU_BLOCK_BONUS:
+      return std::make_unique<EditorTilesubgroupMenu>("Block + Bonus");
+
+    case EDITOR_TILESUBGROUP_MENU_POLE_SIGNS:
+      return std::make_unique<EditorTilesubgroupMenu>("Pole + Signs");
+
+    case EDITOR_TILESUBGROUP_MENU_LIQUID:
+      return std::make_unique<EditorTilesubgroupMenu>("Liquid");
+
+    case EDITOR_TILESUBGROUP_MENU_CASTLE:
+      return std::make_unique<EditorTilesubgroupMenu>("Castle");
+
+    case EDITOR_TILESUBGROUP_MENU_HALLOWEEN:
+      return std::make_unique<EditorTilesubgroupMenu>("Halloween");
+
+    case EDITOR_TILESUBGROUP_MENU_INDUSTRIAL:
+      return std::make_unique<EditorTilesubgroupMenu>("Industrial");
+
+    case EDITOR_TILESUBGROUP_MENU_UNISOLID_LIGHTMAP:
+      return std::make_unique<EditorTilesubgroupMenu>("Unisolid + Lightmap");
+
+    case EDITOR_TILESUBGROUP_MENU_MISCELLANEOUS:
+      return std::make_unique<EditorTilesubgroupMenu>("Miscellaneous");
+
+    case EDITOR_TILESUBGROUP_MENU_RETRO_TILES:
+      return std::make_unique<EditorTilesubgroupMenu>("Retro Tiles");
 
     case EDITOR_OBJECTGROUP_MENU:
       return std::make_unique<EditorObjectgroupMenu>();
@@ -205,6 +257,76 @@ MenuStorage::create(MenuId menu_id)
       assert(false);
       return std::unique_ptr<Menu>();
   }
+}
+
+const char* MenuStorage::MenuIdNames[] = {
+  "NO_MENU",
+  "MAIN_MENU",
+  "OPTIONS_MENU",
+  "INGAME_OPTIONS_MENU",
+  "PROFILE_MENU",
+  "WORLDSET_MENU",
+  "CONTRIB_MENU",
+  "CONTRIB_WORLD_MENU",
+  "ADDON_MENU",
+  "LANGPACK_MENU",
+  "LANGPACK_AUTO_UPDATE_MENU",
+  "LANGUAGE_MENU",
+  "KEYBOARD_MENU",
+  "JOYSTICK_MENU",
+  "VIDEO_SYSTEM_MENU",
+  "WORLDMAP_MENU",
+  "WORLDMAP_CHEAT_MENU",
+  "WORLDMAP_LEVEL_SELECT_MENU",
+  "GAME_MENU",
+  "CHEAT_MENU",
+  "DEBUG_MENU",
+  "EDITOR_LEVELSET_SELECT_MENU",
+  "EDITOR_NEW_LEVELSET_MENU",
+  "EDITOR_LEVEL_SELECT_MENU",
+  "EDITOR_MENU",
+  "EDITOR_TILEGROUP_MENU",
+  "EDITOR_TILESUBGROUP_MENU_SNOW",
+  "EDITOR_TILESUBGROUP_MENU_SNOW_BACKGROUND",
+  "EDITOR_TILESUBGROUP_MENU_CRYSTAL",
+  "EDITOR_TILESUBGROUP_MENU_FOREST",
+  "EDITOR_TILESUBGROUP_MENU_FOREST_BACKGROUND",
+  "EDITOR_TILESUBGROUP_MENU_CORRUPTED_FOREST",
+  "EDITOR_TILESUBGROUP_MENU_CORRUPTED_BACKGROUND",
+  "EDITOR_TILESUBGROUP_MENU_JAGGED_ROCKS",
+  "EDITOR_TILESUBGROUP_MENU_BLOCK_BONUS",
+  "EDITOR_TILESUBGROUP_MENU_POLE_SIGNS",
+  "EDITOR_TILESUBGROUP_MENU_LIQUID",
+  "EDITOR_TILESUBGROUP_MENU_CASTLE",
+  "EDITOR_TILESUBGROUP_MENU_HALLOWEEN",
+  "EDITOR_TILESUBGROUP_MENU_INDUSTRIAL",
+  "EDITOR_TILESUBGROUP_MENU_UNISOLID_LIGHTMAP",
+  "EDITOR_TILESUBGROUP_MENU_MISCELLANEOUS",
+  "EDITOR_TILESUBGROUP_MENU_RETRO_TILES",
+  "EDITOR_OBJECTGROUP_MENU",
+  "EDITOR_SECTORS_MENU",
+  "EDITOR_SECTOR_MENU",
+  "EDITOR_LEVEL_MENU",
+  "EDITOR_CONVERTERS_MENU",
+  "PARTICLE_EDITOR_MENU",
+  "PARTICLE_EDITOR_SAVE_AS",
+  "PARTICLE_EDITOR_OPEN",
+  "INTEGRATIONS_MENU",
+  "ASSET_MENU",
+  "CUSTOM_MENU_MENU",
+  "MULTIPLAYER_MENU",
+  "MULTIPLAYER_PLAYERS_MENU"
+};
+
+int
+MenuStorage::get_menu_id(std::string menu_name)
+{
+  for (size_t i = 0; i < sizeof(MenuIdNames)/sizeof(MenuIdNames[0]); ++i) {
+    if (MenuIdNames[i] == menu_name) {
+      return i;  
+    }
+  }
+  return -1;
 }
 
 /* EOF */

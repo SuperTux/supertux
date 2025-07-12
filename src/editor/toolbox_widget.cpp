@@ -33,6 +33,14 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+#include <SDL.h>
+#include <array>
+#include <string>
+
+int current_tilegroup_index = 0;
+int current_objectgroup_index = 0;
+int opened_tilesubgroup_menu = -1;
+
 using InputType = EditorTilebox::InputType;
 
 EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
@@ -127,7 +135,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         else
         {
-          select_tilegroup(0);
+          select_tilegroup(0, false);
         }
         return true;
 
@@ -201,6 +209,94 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 }
 
 bool
+EditorToolboxWidget::on_key_down(const SDL_KeyboardEvent& key)
+{
+  if (key.keysym.sym == SDLK_q)
+  {
+    bool shiftPressed = (key.keysym.mod & KMOD_SHIFT) != 0;
+    if (shiftPressed)
+    {
+      if (m_tilebox->get_input_type() == InputType::TILE)
+      {
+        if (m_editor.get_level()->is_worldmap())
+        {
+          select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
+        }
+        else
+        {
+          current_tilegroup_index = m_tilebox->get_previous_tilegroup_index();
+          select_tilegroup(current_tilegroup_index, false);
+          opened_tilesubgroup_menu = -1;
+        }
+      }
+      else if (m_tilebox->get_input_type() == InputType::OBJECT)
+      {
+        current_objectgroup_index = m_tilebox->get_previous_objectgroup_index();
+        select_objectgroup(current_objectgroup_index);
+      }
+    }
+    else
+    {
+      if (m_tilebox->get_input_type() == InputType::TILE)
+      {
+        if (m_editor.get_level()->is_worldmap())
+        {
+          select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
+        }
+        else
+        {
+          current_tilegroup_index = m_tilebox->get_current_tilegroup_index();
+          select_objectgroup(current_objectgroup_index);
+          opened_tilesubgroup_menu = -1;
+        }
+      }
+      else if (m_tilebox->get_input_type() == InputType::OBJECT)
+      {
+        current_objectgroup_index = m_tilebox->get_current_objectgroup_index();
+        select_tilegroup(current_tilegroup_index, false);
+        opened_tilesubgroup_menu = -1;
+      }
+    }
+
+    return true;
+  }
+  else if (key.keysym.sym == SDLK_g)
+  {
+    if (m_tilebox->get_input_type() == InputType::TILE)
+    {
+      const auto& tilegroup = m_editor.get_tileset()->get_tilegroups()[current_tilegroup_index];
+      const std::string& parent_group = tilegroup.parent_group;
+
+      m_editor.disable_keyboard();
+
+      std::string enum_name = "EDITOR_TILESUBGROUP_MENU_" + parent_group;
+      std::string transformed;
+      for (char c : enum_name) 
+      {
+          if (c == ' ' && transformed.back() != '_') transformed += '_';
+          else if (c != '+' && c != ' ') transformed += std::toupper(static_cast<unsigned char>(c));
+      }
+
+      auto menu_id = MenuStorage::get_menu_id(transformed);
+
+      if (opened_tilesubgroup_menu == menu_id && MenuManager::instance().is_active()) 
+      {
+        MenuManager::instance().pop_menu();
+        opened_tilesubgroup_menu = -1;
+      } 
+      else 
+      {
+        MenuManager::instance().push_menu(menu_id);
+        opened_tilesubgroup_menu = menu_id;
+      }
+    }
+    return true;
+  }
+
+  return false;
+}
+
+bool
 EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
   if (m_tilebox->on_mouse_motion(motion))
@@ -252,6 +348,45 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
+  const Uint16 mod_state = SDL_GetModState();
+  const bool shiftPressed = (mod_state & KMOD_SHIFT) != 0;
+
+  if (shiftPressed)
+  {
+    if (m_tilebox->get_input_type() == InputType::TILE)
+    {
+      if (m_editor.get_tileset()->get_tilegroups().size() > 1)
+      {
+        m_editor.disable_keyboard();
+        MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
+        return true;
+      }
+      else
+      {
+        select_tilegroup(0, false);
+        return true;
+      }
+    }
+    else if (m_tilebox->get_input_type() == InputType::OBJECT)
+    {
+      if ((m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
+          (!m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
+      {
+        m_editor.disable_keyboard();
+        MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
+        return true;
+      }
+      else
+      {
+        if (m_editor.get_level()->is_worldmap())
+          select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
+        else
+          select_objectgroup(0);
+        return true;
+      }
+    }
+  }
+
   return m_tilebox->on_mouse_wheel(wheel);
 }
 
@@ -281,9 +416,10 @@ EditorToolboxWidget::setup()
 }
 
 void
-EditorToolboxWidget::select_tilegroup(int id)
+EditorToolboxWidget::select_tilegroup(int id, bool subgroup)
 {
-  m_tilebox->select_tilegroup(id);
+  current_tilegroup_index = id;
+  m_tilebox->select_tilegroup(id, subgroup);
   update_mouse_icon();
 }
 
