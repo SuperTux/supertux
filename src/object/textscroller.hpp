@@ -60,6 +60,7 @@ private:
   void parse_file(const std::string& filename);
   void parse_root(const ReaderObject& root);
   void parse_content(const ReaderCollection& collection);
+  void start_fading();
 
 private:
   std::string m_filename;
