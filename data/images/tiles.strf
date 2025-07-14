@@ -21,7 +21,7 @@
 
   ;; next-id: 7631
   ;; free/skipped ids (please use before any other): 101
-  ;; 4639-4660, 4719-4722, 5061-5092, 5205, 5268-5283, 5453-5527, 6962-6977, 7002 7005 7007 7008 7173 5044
+  ;; 4639-4660, 4719-4722, 5061-5089, 5268-5283, 5453-5527, 6962-6977 
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
   (tilegroup
@@ -41,6 +41,9 @@
 
       5238 5239 5240 5241
       5244 5245 11   5247
+      5205 5090 0    0 
+      5091 5092 0    0 
+
       202  7    8    9
       5250 5251 14   5253
       30   31   7    9
@@ -180,9 +183,12 @@
       2390 2391 2392 2951
       2393 2394 2395 2952
       2953 2954 2955 2956
+
+      5088 5087 0    0
+      5086 5085 0    0
 	  
-	  7497 7498 7499 7500
-	  7501 2391 7502 7503
+	    7497 7498 7499 7500
+	    7501 2391 7502 7503
 
       2957 2962 2398 2396
       2958 2961 2399 2397
@@ -2088,6 +2094,19 @@
       1 1
     )
     (images "tiles/snow/special.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      5205 5090
+      5091 5092
+    )
+    (attributes
+      0 0
+      1 1
+    )
+    (images "tiles/snow/snow_swap.png")
   )
 
   (tiles
@@ -8552,6 +8571,19 @@
       0  0  0 0
     )
     (images "tiles/forest/underground/variants2.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      5088 5087
+      5086 5085
+    )
+    (attributes
+      0 0
+      1 1
+    )
+    (images "tiles/snow/underground/underground_swap.png")
   )
 
   (tiles
