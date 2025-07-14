@@ -88,6 +88,7 @@ extern "C" {
 #include "video/sdl_surface_ptr.hpp"
 #include "video/ttf_surface_manager.hpp"
 #include "worldmap/worldmap.hpp"
+#include "sdk/discord.hpp"
 
 static Timelog s_timelog;
 
@@ -143,6 +144,7 @@ Main::Main() :
   m_savegame(),
   m_downloader() // Used for getting the version of the latest SuperTux release.
 {
+    DiscordIntegration::getDriver()->init();
 }
 
 void
@@ -755,6 +757,8 @@ Main::run(int argc, char** argv)
   }
 
   g_dictionary_manager.reset();
+
+  DiscordIntegration::getDriver()->update();
 
 #ifdef __ANDROID__
   // SDL2 keeps shared libraries loaded after the app is closed,

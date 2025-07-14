@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
+//  Copyright (C) 2025 J. Elsing <Johannes.Elsing@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,6 +18,12 @@
 #pragma once
 
 #include "config.h"
+#include "discordpp.h"
+#include "integration.hpp"
+
+#include <memory>
+#include <thread>
+#include <atomic>
 
 #ifdef ENABLE_DISCORD
 
@@ -40,6 +47,12 @@ protected:
 private:
   static DiscordIntegration* driver;
   bool m_enabled;
+  bool m_running;
+
+  std::thread m_thread;
+  std::atomic<bool> m_should_run;
+
+  std::shared_ptr<discordpp::Client> m_client;
 
 private:
   DiscordIntegration(const DiscordIntegration&) = delete;

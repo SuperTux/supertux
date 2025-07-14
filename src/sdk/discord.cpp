@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
+//  Copyright (C) 2025 J. Elsing <Johannes.Elsing@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,180 +19,142 @@
 
 #ifdef ENABLE_DISCORD
 
-#include "sdk/discord.hpp"
-
 #include <iostream>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include <discord_rpc.h>
-
+#include <memory>
+#include <thread>
 
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 
-extern "C" {
+#include "discord.hpp"
 
-  static void handleDiscordReady(const DiscordUser* connectedUser)
-  {
-    printf("\nDiscord: connected to user %s#%s - %s\n",
-           connectedUser->username,
-           connectedUser->discriminator,
-           connectedUser->userId);
-  }
+#define DISCORDPP_IMPLEMENTATION
+#include "discordpp.h"
 
-  static void handleDiscordDisconnected(int errcode, const char* message)
-  {
-    printf("\nDiscord: disconnected (%d: %s)\n", errcode, message);
-  }
+const uint64_t APPLICATION_ID = 1393721527370780742;
+DiscordIntegration* DiscordIntegration::driver = nullptr;
 
-  static void handleDiscordError(int errcode, const char* message)
-  {
-    printf("\nDiscord: error (%d: %s)\n", errcode, message);
-  }
+DiscordIntegration::DiscordIntegration() : m_enabled(false), m_running(true) {}
 
-  static void handleDiscordJoin(const char* secret)
-  {
-    printf("\nDiscord: join (%s)\n", secret);
-  }
-
-  static void handleDiscordSpectate(const char* secret)
-  {
-    printf("\nDiscord: spectate (%s)\n", secret);
-  }
-
-  static void handleDiscordJoinRequest(const DiscordUser* request)
-  {
-    int response = -1;
-
-    printf("\nDiscord: join request from %s#%s - %s\n",
-           request->username,
-           request->discriminator,
-           request->userId);
-
-    response = false ? DISCORD_REPLY_YES : DISCORD_REPLY_NO;
-
-    if (response != -1) {
-      Discord_Respond(request->userId, response);
-    }
-  }
-
-} // extern "C"
-
-
-DiscordIntegration* DiscordIntegration::driver;
-
-DiscordIntegration::DiscordIntegration() :
-  Integration(),
-  m_enabled(false)
-{
+DiscordIntegration::~DiscordIntegration() {
+  m_running = false;
 }
 
-DiscordIntegration::~DiscordIntegration()
-{
-  // It shouldn't get here, but just in case.
-  close();
-}
-
-DiscordIntegration*
-DiscordIntegration::getDriver()
-{
-  if (!driver)
-  {
+DiscordIntegration* DiscordIntegration::getDriver() {
+  if (!driver) {
     driver = new DiscordIntegration();
   }
   return driver;
 }
 
-void
-DiscordIntegration::init()
+void DiscordIntegration::init()
 {
-  if (m_enabled || !g_config->enable_discord) return;
-
-  DiscordEventHandlers handlers;
-  memset(&handlers, 0, sizeof(handlers));
-  handlers.ready = handleDiscordReady;
-  handlers.disconnected = handleDiscordDisconnected;
-  handlers.errored = handleDiscordError;
-  handlers.joinGame = handleDiscordJoin;
-  handlers.spectateGame = handleDiscordSpectate;
-  handlers.joinRequest = handleDiscordJoinRequest;
-  Discord_Initialize("733576109744062537", &handlers, 1, nullptr);
-
-  log_info << "[Discord] Started" << std::endl;
-
+  if (m_enabled) return;
   m_enabled = true;
+  m_running = true;
+
+  m_client = std::make_shared<discordpp::Client>();
+
+  m_client->AddLogCallback([](auto message, auto severity) {
+    std::cout << "[" << EnumToString(severity) << "] " << message << std::endl;
+  }, discordpp::LoggingSeverity::Info);
+
+  m_client->SetStatusChangedCallback([this](discordpp::Client::Status status, discordpp::Client::Error error, int32_t errorDetail) {
+    std::cout << "Status changed: " << discordpp::Client::StatusToString(status) << std::endl;
+    if (status == discordpp::Client::Status::Ready) {
+      discordpp::Activity activity;
+      activity.SetType(discordpp::ActivityTypes::Playing);
+      activity.SetState("In Competitive Match");
+      m_client->UpdateRichPresence(activity, [](discordpp::ClientResult result) {
+        if (result.Successful())
+          std::cout << "Rich Presence updated successfully!\n";
+        else
+          std::cerr << "❌ Rich Presence update failed\n";
+      });
+    }
+  });
+
+  auto codeVerifier = m_client->CreateAuthorizationCodeVerifier();
+  discordpp::AuthorizationArgs args{};
+  args.SetClientId(APPLICATION_ID);
+  args.SetScopes(discordpp::Client::GetDefaultPresenceScopes());
+  args.SetCodeChallenge(codeVerifier.Challenge());
+
+  m_client->Authorize(args, [this, codeVerifier](auto result, auto code, auto redirectUri) {
+    if (!result.Successful()) {
+      std::cerr << "❌ Authentication Error: " << result.Error() << std::endl;
+      return;
+    }
+
+    m_client->GetToken(APPLICATION_ID, code, codeVerifier.Verifier(), redirectUri,
+      [this](discordpp::ClientResult result, std::string accessToken, std::string, discordpp::AuthorizationTokenType, int32_t, std::string) {
+        if (result.Successful()) {
+          m_client->UpdateToken(discordpp::AuthorizationTokenType::Bearer, accessToken,
+            [this](discordpp::ClientResult result) {
+              if (result.Successful()) {
+                m_client->Connect();
+              }
+            });
+        }
+      });
+  });
+
+  // Start background update loop
+  m_thread = std::thread([this]() { this->update(); });
 }
 
-void
-DiscordIntegration::update()
-{
+void DiscordIntegration::update_status(IntegrationStatus status) {
   if (!m_enabled) return;
 
-#ifdef DISCORD_DISABLE_IO_THREAD
-  Discord_UpdateConnection();
-#endif
-  Discord_RunCallbacks();
+  discordpp::Activity activity;
+
+  // Set timestamps
+  discordpp::ActivityTimestamps timestamps;
+  if (status.m_timestamp != 0) {
+    auto now = std::time(nullptr);
+    if (status.m_timestamp > now)
+      timestamps.SetEnd(status.m_timestamp);
+    else
+      timestamps.SetStart(status.m_timestamp);
+  }
+  activity.SetTimestamps(timestamps);
+
+  // Set assets
+  discordpp::ActivityAssets assets;
+  assets.SetLargeImage("supertux_logo");
+  activity.SetAssets(assets);
+
+  m_client->UpdateRichPresence(activity, [](discordpp::ClientResult result) {
+    if (!result.Successful()) {
+      std::cerr << "❌ Rich Presence update failed\n";
+    }
+  });
 }
 
-void
-DiscordIntegration::close()
+void DiscordIntegration::update()
 {
+  while (m_running)
+  {
+    discordpp::RunCallbacks();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  }
+}
+
+void DiscordIntegration::close() {
   if (!m_enabled) return;
 
-  Discord_ClearPresence();
-  Discord_Shutdown();
+  m_running = false;
+  if (m_thread.joinable())
+    m_thread.join();
 
-  log_info << "[Discord] Closed" << std::endl;
-
+  m_client.reset();
   m_enabled = false;
 }
 
-void
-DiscordIntegration::update_status(IntegrationStatus status)
-{
-  if (!m_enabled) return;
-
-  DiscordRichPresence discordPresence;
-  memset(&discordPresence, 0, sizeof(discordPresence));
-
-  /*
-   *  Possible keys :
-   *   state
-   *   details
-   *   startTimestamp
-   *   endTimestamp
-   *   largeImageKey
-   *   smallImageKey
-   *   partyId
-   *   partySize
-   *   partyMax
-   *   matchSecret
-   *   joinSecret
-   *   spectateSecret
-   *   instance
-   */
-
-  if (status.m_details.size() >= 1)
-    discordPresence.state = status.m_details.begin()->c_str();
-
-  if (status.m_details.size() >= 2)
-    discordPresence.details = (status.m_details.begin() + 1)->c_str();
-
-  if (status.m_timestamp != 0) {
-    if (status.m_timestamp > time(nullptr)) {
-      discordPresence.endTimestamp = status.m_timestamp;
-    } else {
-      discordPresence.startTimestamp = status.m_timestamp;
-    }
-  }
-
-  // TODO: Manage parties and all.
-
-  discordPresence.largeImageKey = "supertux_logo";
-  Discord_UpdatePresence(&discordPresence);
-}
 
 #endif

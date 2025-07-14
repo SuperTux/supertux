@@ -51,6 +51,7 @@ IntegrationsMenu::IntegrationsMenu()
   add_toggle(MNID_LEVELNAMES_EDITOR, _("Do not share level names when editing"), &g_config->hide_editor_levelnames)
     .set_help(_("Enable this if you want to work on secret levels and don't want the names to be spoiled"));
 #ifdef ENABLE_DISCORD
+
   add_toggle(MNID_ENABLE_DISCORD, _("Enable Discord integration"), &g_config->enable_discord)
     .set_help(_("Sends information to your Discord application about what you're doing in the game."));
 #else
@@ -72,18 +73,16 @@ IntegrationsMenu::menu_action(MenuItem& item)
     case MNID_LEVELNAMES_EDITOR:
       break;
 
-#ifdef ENABLE_DISCORD
+    #ifdef ENABLE_DISCORD
     case MNID_ENABLE_DISCORD:
-      if (g_config->enable_discord)
-      {
-        DiscordIntegration::getDriver()->init();
-      }
-      else
-      {
-        DiscordIntegration::getDriver()->close();
-      }
-      break;
-#endif
+    if (g_config->enable_discord) {
+      DiscordIntegration::getDriver()->init();
+    } else {
+      DiscordIntegration::getDriver()->close();
+    }
+    break;
+    #endif
+
     default:
       break;
   }

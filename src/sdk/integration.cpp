@@ -32,42 +32,27 @@ void
 Integration::setup()
 {
 #ifdef ENABLE_DISCORD
-  sdks.push_back(DiscordIntegration::getDriver());
+
 #endif
 }
 
 void
 Integration::init_all()
 {
-  for (Integration* sdk : sdks)
-    sdk->init();
 }
 
 void
 Integration::update_all()
 {
-  for (Integration* sdk : sdks)
-    sdk->update();
 }
 
 void
 Integration::close_all()
 {
-  for (Integration* sdk : sdks)
-    sdk->close();
 }
 
 void
 Integration::update_status_all(IntegrationStatus status)
 {
-  if (current_status == status)
-    return;
-
-  current_status = status;
-
-  if (status.m_details.size() > 0)
-    log_info << "Setting status: " << *status.m_details.begin() << std::endl;
-
-  for (Integration* sdk : sdks)
-    sdk->update_status(status);
 }
+

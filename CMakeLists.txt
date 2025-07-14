@@ -177,7 +177,6 @@ include(SuperTux/ProvideCurl)
 include(SuperTux/ProvideSimpleSquirrel)
 include(SuperTux/ProvideTinygettext)
 include(SuperTux/ProvideSDL2_ttf)
-include(SuperTux/ProvideDiscord)
 include(SuperTux/ProvideSexpcpp)
 include(SuperTux/ProvideSavePNG)
 include(SuperTux/ProvidePartioZip)
@@ -251,11 +250,44 @@ if(NOT MINGW)
 endif()
 endif()
 
+set(DISCORD_SDK_ROOT "${CMAKE_SOURCE_DIR}/external/discord_social_sdk")
+set(DISCORD_SDK_LIB_DIR "${DISCORD_SDK_ROOT}/lib/release")
+set(DISCORD_SDK_BIN_DIR "${DISCORD_SDK_ROOT}/bin/release")
+set(DISCORD_SDK_INCLUDE_DIR "${DISCORD_SDK_ROOT}/include")
+
 ## Some additional include paths
 target_include_directories(supertux2_lib SYSTEM PUBLIC
   external/findlocale/
   external/obstack/
+  ${DISCORD_SDK_INCLUDE_DIR}
   )
+
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+  set(DISCORD_LIB_DIR ${DISCORD_SDK_ROOT}/lib/debug)
+  set(DISCORD_BIN_DIR ${DISCORD_SDK_ROOT}/bin/debug)
+else()
+  set(DISCORD_LIB_DIR ${DISCORD_SDK_ROOT}/lib/release)
+  set(DISCORD_BIN_DIR ${DISCORD_SDK_ROOT}/bin/release)
+endif()
+
+if(WIN32)
+  # Link the discord_partner_sdk.dll from bin directory at runtime
+  add_custom_command(TARGET supertux2 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${DISCORD_BIN_DIR}/discord_partner_sdk.dll $<TARGET_FILE_DIR:supertux2>)
+
+  target_link_libraries(supertux2
+    "${DISCORD_LIB_DIR}/discord_partner_sdk.lib"
+  )
+elseif(APPLE)
+  target_link_libraries(supertux2
+    "${DISCORD_LIB_DIR}/libdiscord_partner_sdk.dylib"
+  )
+elseif(UNIX)
+  target_link_libraries(supertux2
+    "${DISCORD_LIB_DIR}/libdiscord_partner_sdk.so"
+  )
+endif()
 
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
@@ -283,10 +315,6 @@ endif()
 
 if(HAVE_OPENGL)
   target_link_libraries(supertux2_lib PUBLIC LibOpenGL)
-endif()
-
-if(ENABLE_DISCORD)
-  target_link_libraries(supertux2_lib PUBLIC LibDiscord)
 endif()
 
 ## Install stuff
