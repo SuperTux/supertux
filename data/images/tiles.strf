@@ -19,8 +19,8 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 7631
-  ;; free/skipped ids (please use before any other): 101
+  ;; next-id: 7638
+  ;; free/skipped ids (please use before any other):
   ;; 4639-4660, 5061-5089, 5268-5283, 5453-5527
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
@@ -609,8 +609,8 @@
     
 	  7541 7542 7543 7546
 	  7544 0    0    7547
-	  7545 0    0    0
-	  7585 0    0    0
+	  7545 0    101  7632
+	  7585 0    7633 7634
 	
       0    0    3483 3483
       7136 7137 3484 3484
@@ -1002,8 +1002,8 @@
       6864 6865 6866 6867
       6808 6809 6810 6811
       6804 6805 6806 6807
-    
-      0    0    6888 6888
+      7635 7636    0    0
+      7637 7638 6888 6888
       6878 6879 6889 6889
       6880 6881 6893 6891
       6882 6883 6892 6896
@@ -3358,7 +3358,30 @@
     )
     (images "tiles/ghostwood/corrupted_forest_swap.png")
   )
-
+  (tiles
+    (width 2)(height 2)
+    (ids
+      101  7632
+      7633 7634
+    )
+    (attributes
+      0 0
+      1 1
+    )
+    (images "tiles/forest/underground/forest_underground_swap.png")
+  )
+  (tiles
+    (width 2)(height 2)
+    (ids
+      7635 7636
+      7637 7638 
+    )
+    (attributes
+      0 0
+      1 1
+    )
+    (images "tiles/ghostwood/underground/corrupt_underground_swap.png")
+  )
 
   (tiles
     (width 8)(height 12)
