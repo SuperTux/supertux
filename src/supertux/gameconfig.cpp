@@ -73,6 +73,7 @@ Config::Config() :
   mobile_controls(SDL_GetNumTouchDevices() > 0),
   m_mobile_controls_scale(1),
   addons(),
+  addon_nfo_filename_hints(),
   developer_mode(false),
   christmas_mode(false),
   transitions_enabled(true),
@@ -342,6 +343,16 @@ Config::load()
           addons.push_back({id, enabled});
         }
       }
+      else if(addon_node.get_name() == "addon_zip")
+      {
+        std::string filename, nfo_filename;
+        auto addon_zip = addon_node.get_mapping();
+        if (addon_zip.get("filename", filename) &&
+            addon_zip.get("nfo_filename", nfo_filename))
+        {
+          addon_nfo_filename_hints.insert({filename, nfo_filename});
+        }
+      }
       else
       {
         log_warning << "Unknown token in config file: " << addon_node.get_name() << std::endl;
@@ -485,6 +496,13 @@ Config::save()
     writer.write("id", addon.id);
     writer.write("enabled", addon.enabled);
     writer.end_list("addon");
+  }
+  for (const auto& addon : addon_nfo_filename_hints)
+  {
+    writer.start_list("addon_zip");
+    writer.write("filename", addon.first);
+    writer.write("nfo_filename", addon.second);
+    writer.end_list("addon_zip");
   }
   writer.end_list("addons");
 
