@@ -147,6 +147,11 @@ public:
     return glm::distance(v1, v2);
   }
 
+  /**
+   * Returns a new Rectf that is grown / shrunk by the specified amount
+   * @param border The amount of pixels that the Rectangle should be
+   * grown (for positive values) or shrunk (for negative values)
+   */
   Rectf grown(float border) const
   {
     // If the size would be shrunk below 0, do not resize.
@@ -155,6 +160,22 @@ public:
 
     return Rectf(m_p1.x - border, m_p1.y - border,
                  get_right() + border, get_bottom() + border);
+  }
+
+  /**
+   * Returns a new Rectf instance that is grown / shrunk by the amounts specified by the vector.
+   * 
+   * @param border The passed vector contains the horizontal amount as first component and the vertical amount
+   * as the second component.
+   */
+  Rectf grown(Vector border) const
+  {
+    // If the size would be shrunk below 0, do not resize.
+    if (m_size.width + border.x * 2 < 0.f || m_size.height + border.y * 2 < 0.f)
+      return *this;
+
+    return Rectf(m_p1.x - border.x, m_p1.y - border.y,
+                 get_right() + border.x, get_bottom() + border.y);
   }
 
   // leave these two public to save the headaches of set/get functions for such
