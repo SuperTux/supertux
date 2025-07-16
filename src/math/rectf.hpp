@@ -154,12 +154,7 @@ public:
    */
   Rectf grown(float border) const
   {
-    // If the size would be shrunk below 0, do not resize.
-    if (m_size.width + border * 2 < 0.f || m_size.height + border * 2 < 0.f)
-      return *this;
-
-    return Rectf(m_p1.x - border, m_p1.y - border,
-                 get_right() + border, get_bottom() + border);
+    return grown(Vector(border, border));
   }
 
   /**
@@ -168,7 +163,7 @@ public:
    * @param border The passed vector contains the horizontal amount as first component and the vertical amount
    * as the second component.
    */
-  Rectf grown(Vector border) const
+  Rectf grown(const Vector& border) const
   {
     // If the size would be shrunk below 0, do not resize.
     if (m_size.width + border.x * 2 < 0.f || m_size.height + border.y * 2 < 0.f)
