@@ -34,7 +34,7 @@ class SquirrelEnvironment final
 {
 public:
   SquirrelEnvironment(ssq::VM& vm, const std::string& name);
-  virtual ~SquirrelEnvironment();
+  ~SquirrelEnvironment();
 
 public:
   inline ssq::VM& get_vm() const { return m_vm; }

@@ -14,15 +14,36 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <gtest/gtest.h>
+#include "st_assert.hpp"
+#include "math/rectf.hpp"
 
-#include "math/aatriangle.hpp"
-
-TEST(AATriangleTest, vertical_flip_test)
+int main(void)
 {
-  ASSERT_EQ(33, AATriangle::vertical_flip(30));
-  ASSERT_EQ(19, AATriangle::vertical_flip(40));
-  ASSERT_EQ(49, AATriangle::vertical_flip(50));
+    Rectf r1(1.0,4.0,2.0,5.0);
+    Rectf r2(6.0,8.0,10.0,9.0);
+
+    ST_ASSERT("r1 overlaps r2", false == r1.overlaps(r2));
+
+    Rectf r3(8.0,3.0,10.0,5.0);
+    Rectf r4(2.0,7.0,4.0,9.0);
+
+    ST_ASSERT("r3 overlaps r4", false == r3.overlaps(r4));
+
+    Rectf r5(4.0,1.0,5.0,2.0);
+    Rectf r6(8.0,6.0,9.0,10.0);
+
+    ST_ASSERT("r5 overlaps r6", false == r5.overlaps(r6));
+
+    Rectf r7(3.0,8.0,5.0,10.0);
+    Rectf r8(7.0,2.0,9.0,4.0);
+
+    ST_ASSERT("r7 overlaps r8", false == r7.overlaps(r8));
+
+    Rectf r9(3.0,6.0,17.0,15.0);
+    Rectf r10(9.0,7.0,10.0,8.0);
+
+    ST_ASSERT("r9 overlaps r10", true == r9.overlaps(r10));
+	return 0;
 }
 
 /* EOF */
