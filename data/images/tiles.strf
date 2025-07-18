@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 7662
+  ;; next-id: 7657
   ;; free/skipped ids (please use before any other):
   ;; 4639-4660, 5061-5089, 5268-5283, 5453-5527, 
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
@@ -1396,10 +1396,9 @@
       0    4352 4353 0
       0    4359 4360 0
       0    4366 4367 0
+      2917 2918 2921 2922
       7651 7652 7653 7654
-      7655 7656 7657 7658
-      7659 7660 7661 7662
-       0    0    0    0
+      7655 7656 0    0
     )
   )
 
@@ -6885,14 +6884,10 @@
     (images "tiles/blocks/snow_overlays.png")
   )
     (tiles
-    (width 4)(height 6)
+    (width 4)(height 2)
     (ids
-      0    0    0    0
       7651 7652 7653 7654
-      0    0    0    0
-      7655 7656 7657 7658
-      0    0    0    0
-      7659 7660 7661 7662
+      7655 7656 0    0
     )
     (images "tiles/blocks/snow_overlay_transitions.png")
   )
