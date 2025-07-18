@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_READER_ERROR_HPP
-#define HEADER_SUPERTUX_UTIL_READER_ERROR_HPP
+#pragma once
 
 #include <sexp/value.hpp>
 
@@ -112,7 +111,3 @@ inline void assert_array_size_eq(ReaderDocument const& doc, sexp::Value const& s
     raise_exception(doc, sx, msg.str().c_str());
   }
 }
-
-#endif
-
-/* EOF */

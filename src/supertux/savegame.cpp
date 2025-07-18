@@ -380,5 +380,3 @@ Savegame::set_levelset_state(const std::string& basedir,
     log_warning << err.what() << std::endl;
   }
 }
-
-/* EOF */

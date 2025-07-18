@@ -13,8 +13,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BIGSNOWBALL_HPP
-#define HEADER_SUPERTUX_OBJECT_BIGSNOWBALL_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -54,7 +53,3 @@ private:
   BigSnowball(const BigSnowball&) = delete;
   BigSnowball& operator=(const BigSnowball&) = delete;
 };
-
-#endif
-
-/* EOF */

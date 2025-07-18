@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_UID_GENERATOR_HPP
-#define HEADER_SUPERTUX_UTIL_UID_GENERATOR_HPP
+#pragma once
 
 #include "util/uid.hpp"
 
@@ -37,7 +36,3 @@ private:
   UIDGenerator(const UIDGenerator&) = delete;
   UIDGenerator& operator=(const UIDGenerator&) = delete;
 };
-
-#endif
-
-/* EOF */

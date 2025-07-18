@@ -88,5 +88,3 @@ GameObjectChangeSet::save(Writer& writer) const
     writer.end_list("object-change");
   }
 }
-
-/* EOF */

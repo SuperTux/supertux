@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_JOYSTICK_CONFIG_HPP
-#define HEADER_SUPERTUX_CONTROL_JOYSTICK_CONFIG_HPP
+#pragma once
 
 #include <map>
 #include <SDL.h>
@@ -65,7 +64,3 @@ private:
   JoystickConfig(const JoystickConfig&) = delete;
   JoystickConfig& operator=(const JoystickConfig&) = delete;
 };
-
-#endif
-
-/* EOF */

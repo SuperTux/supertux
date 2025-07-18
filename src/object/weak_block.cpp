@@ -263,5 +263,3 @@ WeakBlock::get_patches() const
 {
   return { _("Sprites no longer define the behaviour of the object.\nObject types are used instead.") };
 }
-
-/* EOF */

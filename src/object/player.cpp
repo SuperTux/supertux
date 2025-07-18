@@ -3137,5 +3137,3 @@ Player::register_class(ssq::VM& vm)
   cls.addVar("visible", &Player::m_visible);
   cls.addVar("is_intentionally_safe", &Player::m_is_intentionally_safe);
 }
-
-/* EOF */

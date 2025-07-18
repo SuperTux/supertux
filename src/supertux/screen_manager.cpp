@@ -660,5 +660,3 @@ ScreenManager::run()
   }
 #endif
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
-#define HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
+#pragma once
 
 #include "sdk/integration.hpp"
 
@@ -67,14 +66,10 @@ public:
    */
   virtual void on_window_resize() {}
 
-  /** 
+  /**
    * Gives details about what the user is doing right now.
-   * 
+   *
    * @returns activity details for presence integrations
    */
   virtual IntegrationStatus get_status() const = 0;
 };
-
-#endif
-
-/* EOF */

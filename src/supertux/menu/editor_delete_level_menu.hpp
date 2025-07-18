@@ -14,6 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
+#pragma once
+
 #include "gui/menu.hpp"
 
 class EditorLevelSelectMenu;
@@ -42,5 +45,3 @@ private:
   EditorDeleteLevelMenu(const EditorDeleteLevelMenu&) = delete;
   EditorDeleteLevelMenu& operator=(const EditorDeleteLevelMenu&) = delete;
 };
-
-/* EOF */

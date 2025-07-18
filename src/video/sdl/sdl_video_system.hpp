@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SDL_SDL_VIDEO_SYSTEM_HPP
-#define HEADER_SUPERTUX_VIDEO_SDL_SDL_VIDEO_SYSTEM_HPP
+#pragma once
 
 #include <memory>
 #include <SDL.h>
@@ -65,7 +64,3 @@ private:
   SDLVideoSystem(const SDLVideoSystem&) = delete;
   SDLVideoSystem& operator=(const SDLVideoSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

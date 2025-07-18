@@ -112,5 +112,3 @@ GLPixelRequest::get_color() const
 }
 
 #endif
-
-/* EOF */

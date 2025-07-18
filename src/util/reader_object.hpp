@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_READER_OBJECT_HPP
-#define HEADER_SUPERTUX_UTIL_READER_OBJECT_HPP
+#pragma once
 
 #include <string>
 
@@ -43,7 +42,3 @@ private:
   const ReaderDocument& m_doc;
   const sexp::Value& m_sx;
 };
-
-#endif
-
-/* EOF */

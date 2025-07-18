@@ -14,18 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <gtest/gtest.h>
+//
+// TEST DISABLED:
+//  - I could not get it to work because i bad
+//
 
+#include "st_assert.hpp"
 #include "util/dynamic_scoped_ref.hpp"
 
 DynamicScopedRef<const int> d_value;
 
-void check_function(int expected)
-{
-  ASSERT_EQ(*d_value.get(), expected);
-}
-
-TEST(DynamicScopedTest, test)
+int main(void)
 {
   int v1 = 1;
   int v2 = 2;
@@ -34,30 +33,30 @@ TEST(DynamicScopedTest, test)
   {
     auto guard1 = d_value.bind(v1);
 
-    ASSERT_TRUE(d_value);
-    ASSERT_EQ(*d_value, 1);
-    check_function(1);
+    ST_ASSERT("guard1 is bound test", d_value);
+    ST_ASSERT("v1 access check", *d_value == 1);
+    ST_ASSERT("check function for v1", *d_value.get() == 1);
     {
       auto guard2 = d_value.bind(v2);
 
-      ASSERT_TRUE(d_value);
-      ASSERT_EQ(*d_value, 2);
-      check_function(2);
+      ST_ASSERT("guard2 is bound test", d_value);
+      ST_ASSERT("v2 access check", *d_value == 2);
+      ST_ASSERT("check function for v2", *d_value.get() == 2);
       {
         auto guard3 = d_value.bind(v3);
-        ASSERT_EQ(*d_value, 3);
-        check_function(3);
+        ST_ASSERT("v3 access check", *d_value == 3);
+        ST_ASSERT("check function for v3", *d_value.get() == 3);
       }
-      ASSERT_TRUE(d_value);
-      check_function(2);
-      ASSERT_EQ(*d_value, 2);
+      ST_ASSERT("guard3 scope check", d_value);
+      ST_ASSERT("v2 access check again", *d_value == 2);
+      ST_ASSERT("check function for v2 again", *d_value.get() == 2);
     }
-    ASSERT_TRUE(d_value);
-    ASSERT_EQ(*d_value, 1);
-    check_function(1);
+    ST_ASSERT("guard2 scope check", d_value);
+    ST_ASSERT("v1 access check again", *d_value == 1);
+    ST_ASSERT("check function for v1 again", *d_value.get() == 1);
   }
 
-  ASSERT_FALSE(d_value);
+  ST_ASSERT("see if the guards actually work (false check)", !d_value);
 }
 
 /* EOF */

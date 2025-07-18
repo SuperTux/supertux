@@ -217,5 +217,3 @@ SDLBaseVideoSystem::apply_video_mode()
     }
   }
 }
-
-/* EOF */

@@ -337,5 +337,3 @@ WorldMap::get_filename() const
 }
 
 } // namespace worldmap
-
-/* EOF */

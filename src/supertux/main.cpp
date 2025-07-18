@@ -816,5 +816,3 @@ Main::release_check()
   dialog->set_title(_("Checking for new releases..."));
   MenuManager::instance().set_dialog(std::move(dialog));
 }
-
-/* EOF */

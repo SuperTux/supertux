@@ -779,5 +779,3 @@ BonusBlock::preload_contents(int d)
       break;
   }
 }
-
-/* EOF */

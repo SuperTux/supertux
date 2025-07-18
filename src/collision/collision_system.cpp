@@ -881,5 +881,3 @@ CollisionSystem::get_nearby_objects(const Vector& center, float max_distance) co
 
   return ret;
 }
-
-/* EOF */

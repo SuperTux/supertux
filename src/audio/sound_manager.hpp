@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_AUDIO_SOUND_MANAGER_HPP
-#define HEADER_SUPERTUX_AUDIO_SOUND_MANAGER_HPP
+#pragma once
 
 #include <map>
 #include <memory>
@@ -130,7 +129,3 @@ private:
   SoundManager(const SoundManager&) = delete;
   SoundManager& operator=(const SoundManager&) = delete;
 };
-
-#endif
-
-/* EOF */

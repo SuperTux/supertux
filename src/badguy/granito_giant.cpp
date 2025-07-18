@@ -91,5 +91,3 @@ GranitoGiant::after_editor_set()
   BadGuy::after_editor_set();
   initialize();
 }
-
-/* EOF */

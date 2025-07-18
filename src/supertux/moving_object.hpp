@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MOVING_OBJECT_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MOVING_OBJECT_HPP
+#pragma once
 
 #include "supertux/game_object.hpp"
 
@@ -169,7 +168,3 @@ private:
   MovingObject(const MovingObject&) = delete;
   MovingObject& operator=(const MovingObject&) = delete;
 };
-
-#endif
-
-/* EOF */

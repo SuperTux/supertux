@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_ENVIRONMENT_HPP
-#define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_ENVIRONMENT_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -35,7 +34,7 @@ class SquirrelEnvironment final
 {
 public:
   SquirrelEnvironment(ssq::VM& vm, const std::string& name);
-  virtual ~SquirrelEnvironment();
+  ~SquirrelEnvironment();
 
 public:
   inline ssq::VM& get_vm() const { return m_vm; }
@@ -76,7 +75,3 @@ private:
   SquirrelEnvironment(const SquirrelEnvironment&) = delete;
   SquirrelEnvironment& operator=(const SquirrelEnvironment&) = delete;
 };
-
-#endif
-
-/* EOF */

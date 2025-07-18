@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
+#pragma once
 
 #include "util/currenton.hpp"
 
@@ -47,7 +46,3 @@ private:
   GameManager(const GameManager&) = delete;
   GameManager& operator=(const GameManager&) = delete;
 };
-
-#endif
-
-/* EOF */

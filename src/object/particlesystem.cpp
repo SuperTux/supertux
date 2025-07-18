@@ -142,5 +142,3 @@ ParticleSystem::register_class(ssq::VM& vm)
 
   cls.addVar("enabled", &ParticleSystem::enabled);
 }
-
-/* EOF */

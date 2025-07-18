@@ -72,5 +72,3 @@ SquirrelThreadQueue::wakeup()
     sq_pop(m_vm.getHandle(), 1);
   }
 }
-
-/* EOF */

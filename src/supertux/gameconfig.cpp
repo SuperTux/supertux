@@ -221,7 +221,7 @@ Config::load()
   }
 
   // Compatibility; will be overwritten by the "editor" category.
-  
+
   config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
   editor_autotile_help = !developer_mode;
@@ -525,5 +525,3 @@ Config::is_christmas() const
   /* Activate Christmas mode from Dec 6th until Dec 31st. */
   return now->tm_mday >= 6 && now->tm_mon == 11;
 }
-
-/* EOF */

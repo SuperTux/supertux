@@ -149,5 +149,3 @@ PushButton::on_flip(float height)
   m_dir = m_dir == Direction::UP ? Direction::DOWN : Direction::UP;
   set_action(m_state == OFF ? "off" : "on", m_dir);
 }
-
-/* EOF */

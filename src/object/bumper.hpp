@@ -13,8 +13,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BUMPER_HPP
-#define HEADER_SUPERTUX_OBJECT_BUMPER_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 
@@ -56,7 +55,3 @@ private:
   Bumper(const Bumper&) = delete;
   Bumper& operator=(const Bumper&) = delete;
 };
-
-#endif
-
-/* EOF */

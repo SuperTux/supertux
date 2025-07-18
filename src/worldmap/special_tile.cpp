@@ -83,5 +83,3 @@ SpecialTile::get_settings()
 }
 
 }
-
-/* EOF */

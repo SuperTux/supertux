@@ -308,7 +308,7 @@ GameObjectManager::flush_game_objects()
   m_initialized = true;
 }
 
-void 
+void
 GameObjectManager::update_solid(TileMap* tm) {
   auto it = std::find(m_solid_tilemaps.begin(), m_solid_tilemaps.end(), tm);
   bool found = it != m_solid_tilemaps.end();
@@ -810,5 +810,3 @@ GameObjectManager::register_class(ssq::VM& vm)
   cls.addFunc<void, GameObjectManager, const std::string&, const std::string&,
               float, float, const std::string&, const std::string&>("add_object", &GameObjectManager::add_object);
 }
-
-/* EOF */

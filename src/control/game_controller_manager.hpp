@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_GAME_CONTROLLER_MANAGER_HPP
-#define HEADER_SUPERTUX_CONTROL_GAME_CONTROLLER_MANAGER_HPP
+#pragma once
 
 #include <array>
 #include <vector>
@@ -31,7 +30,7 @@ typedef struct _SDL_GameController SDL_GameController;
 
 /**
  * Manages GameControllers.
- * 
+ *
  * WARNING: Any edit done to this class should also be done to JoystickManager!
  */
 class GameControllerManager final
@@ -67,7 +66,3 @@ private:
   GameControllerManager(const GameControllerManager&) = delete;
   GameControllerManager& operator=(const GameControllerManager&) = delete;
 };
-
-#endif
-
-/* EOF */

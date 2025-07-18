@@ -106,5 +106,3 @@ SecretAreaTrigger::event(Player& , EventType type)
     }
   }
 }
-
-/* EOF */

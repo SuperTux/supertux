@@ -244,5 +244,3 @@ Spotlight::register_class(ssq::VM& vm)
   cls.addVar("angle", &Spotlight::m_angle);
   cls.addVar("speed", &Spotlight::m_speed);
 }
-
-/* EOF */

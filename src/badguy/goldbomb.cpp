@@ -253,5 +253,3 @@ GoldBomb::normalize()
 
   m_state = MB_STATE_NORMAL;
 }
-
-/* EOF */

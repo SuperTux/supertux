@@ -99,7 +99,7 @@ ParticleZone::draw(DrawingContext& context)
     context.color().draw_filled_rect(m_col.m_bbox, c,
                            0.0f, LAYER_OBJECTS);
     context.color().draw_text(Resources::small_font,
-                          m_particle_name, 
+                          m_particle_name,
                           m_col.m_bbox.p1(),
                           FontAlignment::ALIGN_LEFT,
                           LAYER_OBJECTS,
@@ -112,5 +112,3 @@ ParticleZone::collision(MovingObject& other, const CollisionHit& hit)
 {
   return ABORT_MOVE;
 }
-
-/* EOF */

@@ -39,5 +39,3 @@ Texture::~Texture()
     TextureManager::current()->reap_cache_entry(*m_cache_key);
   }
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_EDITOR_HPP
-#define HEADER_SUPERTUX_EDITOR_EDITOR_HPP
+#pragma once
 
 #include <functional>
 #include <vector>
@@ -246,7 +245,3 @@ private:
   Editor(const Editor&) = delete;
   Editor& operator=(const Editor&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -140,5 +140,3 @@ MainMenu::menu_action(MenuItem& item)
     }
   }
 }
-
-/* EOF */

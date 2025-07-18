@@ -428,5 +428,3 @@ EditorTilebox::reset_scrollbar()
   m_scroll_progress = 0.f;
   m_scrollbar->set_total_region(get_tiles_height());
 }
-
-/* EOF */

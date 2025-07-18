@@ -76,5 +76,3 @@ MenuItem::get_width() const
 {
   return static_cast<int>(m_font->get_text_width(m_text)) + 16;
 }
-
-/* EOF */
