@@ -19,9 +19,9 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 7631
-  ;; free/skipped ids (please use before any other): 101
-  ;; 4639-4660, 4719-4722, 5061-5092, 5205, 5268-5283, 5453-5527, 6962-6977, 7002 7005 7007 7008 7173 5044
+  ;; next-id: 7657
+  ;; free/skipped ids (please use before any other):
+  ;; 4639-4660, 5061-5089, 5268-5283, 5453-5527, 
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
   (tilegroup
@@ -41,6 +41,9 @@
 
       5238 5239 5240 5241
       5244 5245 11   5247
+      5205 5090 0    0 
+      5091 5092 0    0 
+
       202  7    8    9
       5250 5251 14   5253
       30   31   7    9
@@ -180,9 +183,12 @@
       2390 2391 2392 2951
       2393 2394 2395 2952
       2953 2954 2955 2956
+
+      5088 5087 0    0
+      5086 5085 0    0
 	  
-	  7497 7498 7499 7500
-	  7501 2391 7502 7503
+	    7497 7498 7499 7500
+	    7501 2391 7502 7503
 
       2957 2962 2398 2396
       2958 2961 2399 2397
@@ -484,6 +490,8 @@
       1817 1013 1014 1820
       1819 1038 1000 1003
       1818 5560 5559 5562
+      4719 4722 0   0
+      4721 5089 0   0
       0    1533 1534 1535
       0    1536 1537 1538
     
@@ -601,8 +609,8 @@
     
 	  7541 7542 7543 7546
 	  7544 0    0    7547
-	  7545 0    0    0
-	  7585 0    0    0
+	  7545 0    101  7632
+	  7585 0    7633 7634
 	
       0    0    3483 3483
       7136 7137 3484 3484
@@ -884,6 +892,8 @@
       6193 6194 6195 6196
       6199 1432 1432 6202
       6201 6541 1423 1426
+      5453 5454 0    0
+      5455 5456 0    0
       6200 6206 6205 6208
     
       6545 3415 3414 6541
@@ -992,8 +1002,8 @@
       6864 6865 6866 6867
       6808 6809 6810 6811
       6804 6805 6806 6807
-    
-      0    0    6888 6888
+      7635 7636    0    0
+      7637 7638 6888 6888
       6878 6879 6889 6889
       6880 6881 6893 6891
       6882 6883 6892 6896
@@ -1374,7 +1384,9 @@
       4382 4383 4384 4385
       4400 4401 4402 4403
       4408 4409 4410 4411
-
+      7639 7640 7641 0
+      7643 7644 7645 7646
+      7647 7648 7649 7650
       4340 4341 4342 4343
       4347 4348 4349 4350
       4354 4355 4356 4357
@@ -1384,6 +1396,9 @@
       0    4352 4353 0
       0    4359 4360 0
       0    4366 4367 0
+      2917 2918 2921 2922
+      7651 7652 7653 7654
+      7655 7656 0    0
     )
   )
 
@@ -2088,6 +2103,19 @@
       1 1
     )
     (images "tiles/snow/special.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      5205 5090
+      5091 5092
+    )
+    (attributes
+      0 0
+      1 1
+    )
+    (images "tiles/snow/snow_swap.png")
   )
 
   (tiles
@@ -3307,6 +3335,57 @@
       0  0  0  0
     )
     (images "tiles/forest/foresttiles-7.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      4719 4722
+      4721 5089
+    )
+    (attributes
+      0 0
+      1 1
+    )
+    (images "tiles/forest/forest_swap.png")
+  )
+
+  
+  (tiles
+    (width 2)(height 2)
+    (ids
+      5453 5454 
+      5455 5456  
+    )
+    (attributes
+      0 0
+      1 1
+    )
+    (images "tiles/ghostwood/corrupted_forest_swap.png")
+  )
+  (tiles
+    (width 2)(height 2)
+    (ids
+      101  7632
+      7633 7634
+    )
+    (attributes
+      0 0
+      1 1
+    )
+    (images "tiles/forest/underground/forest_underground_swap.png")
+  )
+  (tiles
+    (width 2)(height 2)
+    (ids
+      7635 7636
+      7637 7638 
+    )
+    (attributes
+      0 0
+      1 1
+    )
+    (images "tiles/ghostwood/underground/corrupt_underground_swap.png")
   )
 
   (tiles
@@ -6794,6 +6873,25 @@
     (images "tiles/blocks/block_overlays.png")
   )
 
+
+  (tiles
+    (width 4)(height 3)
+    (ids
+      7639 7640 7641 0
+      7643 7644 7645 7646
+      7647 7648 7649 7650
+    )
+    (images "tiles/blocks/snow_overlays.png")
+  )
+    (tiles
+    (width 4)(height 2)
+    (ids
+      7651 7652 7653 7654
+      7655 7656 0    0
+    )
+    (images "tiles/blocks/snow_overlay_transitions.png")
+  )
+
   (tiles
     (width 9)(height 5)
     (ids
@@ -8552,6 +8650,19 @@
       0  0  0 0
     )
     (images "tiles/forest/underground/variants2.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      5088 5087
+      5086 5085
+    )
+    (attributes
+      0 0
+      1 1
+    )
+    (images "tiles/snow/underground/underground_swap.png")
   )
 
   (tiles

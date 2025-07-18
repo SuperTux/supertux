@@ -21,9 +21,23 @@
   )
   (action
     (name "pop")
-    (fps 2)
-    (hitbox 0 0 48 48)
-    (images "pop-0.png")
+    (fps 45.0)
+    (hitbox 0 -8 48 48)
+    (images 
+      "pop-0.png"
+      "pop-1.png"
+      "pop-2.png"
+      "pop-3.png"
+      "pop-4.png"
+      "pop-5.png"
+      "pop-6.png"
+      "pop-7.png"
+      "pop-8.png"
+      "pop-9.png"
+      "pop-10.png"
+      "pop-11.png"
+      "pop-12.png"
+    )
   )
 )
 
