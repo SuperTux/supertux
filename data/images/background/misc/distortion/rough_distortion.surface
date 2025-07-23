@@ -1,0 +1,13 @@
+(supertux-surface
+ (diffuse-texture
+  (file "source/distortion_area_rough.png")
+  (wrap "repeat")
+  )
+
+ (displacement-texture
+  (file "source/distortion_disp.png")
+  (wrap "repeat")
+  (filter "linear")
+  (animate 24 24)
+  )
+ )
