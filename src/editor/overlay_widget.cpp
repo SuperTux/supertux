@@ -22,13 +22,22 @@
 #include "editor/node_marker.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/object_info.hpp"
+#include "editor/object_option.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_script.hpp"
 #include "gui/menu_manager.hpp"
+#include "interface/control_button.hpp"
+#include "interface/control_checkbox.hpp"
+#include "interface/control_enum.hpp"
+#include "interface/control_textbox.hpp"
+#include "interface/control_textbox_float.hpp"
+#include "interface/control_textbox_int.hpp"
 #include "math/bezier.hpp"
 #include "object/camera.hpp"
 #include "object/path_gameobject.hpp"
+#include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/autotile.hpp"
@@ -165,7 +174,8 @@ EditorOverlayWidget::drag_rect() const
     end_y = m_drag_start.y;
   }
 
-  return Rectf(start_x, start_y, end_x, end_y);
+  return Rectf(start_x, start_y, end_x, end_y)
+            .moved(Vector(-200.0f, -32.0f));
 }
 
 void
@@ -515,7 +525,7 @@ EditorOverlayWidget::hover_object()
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
     const Rectf& bbox = moving_object.get_bbox();
-    if (bbox.contains(m_sector_pos))
+    if (bbox.contains(m_sector_pos - Vector(200.f, 32.f)))
     {
       if (&moving_object != m_hovered_object)
       {
@@ -669,6 +679,13 @@ EditorOverlayWidget::clone_object()
     if (path_object)
       path_object->editor_clone_path(dynamic_cast<PathObject*>(m_hovered_object.get())->get_path_gameobject());
 
+    if (auto moving_object = dynamic_cast<MovingObject*>(obj.get()))
+    {
+      // Move cloned objects half a tile down so the user gets
+      // a visual feedback that the object was cloned
+      moving_object->move(Vector(16, 16));
+    }
+
     m_dragged_object = static_cast<MovingObject*>(&m_editor.get_sector()->add_object(std::move(obj)));
     m_dragged_object->after_editor_set();
   }
@@ -685,6 +702,135 @@ EditorOverlayWidget::show_object_menu(GameObject& object)
   auto menu = std::make_unique<ObjectMenu>(&object);
   m_editor.m_deactivate_request = true;
   MenuManager::instance().push_menu(std::move(menu));
+}
+
+void
+EditorOverlayWidget::update_properties_panel(GameObject* object)
+{
+  auto& controls = m_editor.get_controls();
+  controls.clear();
+
+  if (object == nullptr)
+    return;
+
+  auto hovered_object = object;
+  ObjectSettings os = hovered_object->get_settings();
+  
+  for(const auto& option : os.get_options())
+  {
+    auto text = option.get()->get_text();
+    auto description = option.get()->get_description();
+    if (dynamic_cast<LabelObjectOption*>(option.get()))
+    {
+      m_editor.addControl(text, nullptr, description);
+    }
+    else if (auto int_option = dynamic_cast<IntObjectOption*>(option.get()))
+    {
+      auto textbox = std::make_unique<ControlTextboxInt>();
+      textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+      textbox.get()->bind_value(int_option->get_value());
+      m_editor.addControl(text, std::move(textbox), description);
+    }
+    else if (auto float_option = dynamic_cast<FloatObjectOption*>(option.get()))
+    {
+      auto textbox = std::make_unique<ControlTextboxFloat>();
+      textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+      textbox.get()->bind_value(float_option->get_value());
+      m_editor.addControl(text, std::move(textbox), description);
+    }
+    else if (auto bool_option = dynamic_cast<BoolObjectOption*>(option.get()))
+    {
+      auto checkbox = std::make_unique<ControlCheckbox>();
+      checkbox.get()->set_rect(Rectf(140.f, 0.f, 160.f, 20.f));
+      checkbox.get()->bind_value(bool_option->get_value());
+      m_editor.addControl(text, std::move(checkbox), description);
+    }
+    else if (auto script_option = dynamic_cast<ScriptObjectOption*>(option.get()))
+    {
+      auto button = std::make_unique<ControlButton>(_("Edit..."));
+      const auto value_ptr = script_option->get_value();
+      button.get()->m_on_change = std::function<void()>([value_ptr]() {
+        MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(value_ptr));
+      });
+      button.get()->set_rect(Rectf(0, 32, 20, 32));
+      m_editor.addControl(text, std::move(button), description);
+    }
+    else if (auto string_option = dynamic_cast<StringObjectOption*>(option.get()))
+    {
+      auto textbox = std::make_unique<ControlTextbox>();
+      textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+      textbox.get()->bind_string(string_option->get_value());
+      m_editor.addControl(text, std::move(textbox), description);
+    }
+    else if (auto test_from_here_option = dynamic_cast<TestFromHereOption*>(option.get()))
+    {
+      auto button = std::make_unique<ControlButton>(_("Test"));
+      button->set_rect(Rectf(0, 32, 200, 32));
+      button.get()->m_on_change = std::function<void()>([hovered_object, this]() {
+        auto spawnpoint = dynamic_cast<SpawnPointMarker*>(hovered_object);
+        if (spawnpoint == nullptr)
+          return;
+
+        // TODO: Pressing the return key from within a game session automatically 
+        // triggers this button again if it's previously been pushed. This needs
+        // to get fixed.
+        auto sector_name = Editor::current()->get_sector()->get_name();
+        m_editor.m_test_pos = std::make_pair(sector_name, spawnpoint->get_pos());
+        m_editor.m_test_request = true;
+      });
+      m_editor.addControl(text, std::move(button), description);
+    }
+    else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
+    {
+      auto labels = enum_option->get_labels();
+      auto dropdown = std::make_unique<ControlEnum<int>>();
+      
+      for(int i = 0; i < labels.size(); i++)
+      {
+        dropdown->add_option(i, labels[i]);
+      }
+
+      dropdown.get()->bind_value(enum_option->get_value());
+      dropdown.get()->m_on_change = std::function<void()>([hovered_object, this]() {
+        if (hovered_object == nullptr)
+          return;
+        // TODO: Updating the object doesn't work every time.
+        // Investigate why this is the case!
+        hovered_object->after_editor_set();
+        hovered_object->check_state();
+        update_properties_panel(hovered_object);
+      });
+      m_editor.addControl(text, std::move(dropdown), description);
+    }
+    else if(auto direction_option = dynamic_cast<DirectionOption*>(option.get()))
+    {
+      auto directions = direction_option->get_possible_directions();
+      auto dropdown = std::make_unique<ControlEnum<Direction>>();
+      for (const auto& direction : directions)
+      {
+        dropdown->add_option(direction, dir_to_translated_string(direction));
+      }
+      dropdown->bind_value(direction_option->get_value());
+      dropdown.get()->m_on_change = std::function<void()>([hovered_object, this]() {
+        if (hovered_object == nullptr)
+          return;
+        // TODO: Updating the object doesn't work every time.
+        // Investigate why this is the case!
+        hovered_object->after_editor_set();
+        hovered_object->check_state();
+        update_properties_panel(hovered_object);
+      });
+      
+      m_editor.addControl(text, std::move(dropdown), description);
+    }
+    else
+    {
+      auto textbox = std::make_unique<ControlTextbox>();
+      textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+      textbox.get()->put_text(option.get()->to_string());
+      m_editor.addControl(text, std::move(textbox), description);
+    }
+  }
 }
 
 void
@@ -729,6 +875,7 @@ EditorOverlayWidget::move_object()
 void
 EditorOverlayWidget::rubber_object()
 {
+  update_properties_panel(nullptr);
   if (!m_edited_path) {
     delete_markers();
   }
@@ -775,7 +922,7 @@ EditorOverlayWidget::add_path_node()
   m_edited_path->save_state();
 
   Path::Node new_node(&m_edited_path->get_path());
-  new_node.position = m_sector_pos;
+  new_node.position = m_sector_pos - Vector(200.f, 32.f);
   new_node.bezier_before = new_node.position;
   new_node.bezier_after = new_node.position;
   new_node.time = 1;
@@ -812,11 +959,11 @@ EditorOverlayWidget::put_object()
   }
   else
   {
-    auto target_pos = m_sector_pos;
+    auto target_pos = m_sector_pos - Vector(200.f, 32.f);
     if (g_config->editor_snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
-      target_pos = glm::floor(m_sector_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
+      target_pos = glm::floor(target_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
     }
 
     auto object = GameObjectFactory::instance().create(object_class, target_pos);
@@ -877,7 +1024,12 @@ EditorOverlayWidget::process_left_click()
       break;
 
     case EditorTilebox::InputType::NONE:
-    case EditorTilebox::InputType::OBJECT:
+    case EditorTilebox::InputType::OBJECT:    
+      if (m_hovered_object.get() != nullptr)
+      {
+        update_properties_panel(m_hovered_object.get());
+      }
+
       switch (m_editor.get_tileselect_move_mode())
       {
         case 0:
@@ -1208,8 +1360,9 @@ EditorOverlayWidget::update_pos()
   if(m_editor.get_sector() == nullptr) return;
 
   m_sector_pos = m_mouse_pos / m_editor.get_sector()->get_camera().get_current_scale() +
-                 m_editor.get_sector()->get_camera().get_translation();
-  m_hovered_tile = sp_to_tp(m_sector_pos);
+                 m_editor.get_sector()->get_camera().get_translation() + Vector(200.f, 32.f);
+  
+  m_hovered_tile = sp_to_tp(m_sector_pos - Vector(200.f, 32.f));
 
   if (m_last_hovered_tile != m_hovered_tile)
   {
@@ -1636,8 +1789,8 @@ Vector
 EditorOverlayWidget::tile_screen_pos(const Vector& tp, int tile_size) const
 {
   Vector sp = tp_to_sp(tp, tile_size);
-  return (sp - m_editor.get_sector()->get_camera().get_translation()) *
-         m_editor.get_sector()->get_camera().get_current_scale();
+  auto& camera = m_editor.get_sector()->get_camera();
+  return (sp - camera.get_translation()) * camera.get_current_scale();
 }
 
 Vector
