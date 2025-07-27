@@ -31,7 +31,7 @@
       (z-pos -290)
     )
     (background
-      (color 1 0.9921569 0.9294118)
+      (color 1 0.8 0.8)
       (scroll-speed-x -2)
       (speed 0)
       (image "/images/background/misc/clouds.png")

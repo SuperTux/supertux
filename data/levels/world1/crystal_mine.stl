@@ -2,7 +2,6 @@
   (version 3)
   (name (_ "The Crystal Mine"))
   (author "Carsten Wirtz")
-  (note (_ "I know about the tiling errors, this tileset is ass and needs a rework so don't @ me for it pls!"))
   (license "CC-BY-SA 4.0 International")
   (allow-item-pocket "inherit")
   (icon "")
