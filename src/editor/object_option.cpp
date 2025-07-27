@@ -54,6 +54,7 @@ bool BaseObjectOption::s_allow_saving_defaults = false;
 
 BaseObjectOption::BaseObjectOption(const std::string& text, const std::string& key, unsigned int flags) :
   m_text(text),
+  m_description(),
   m_key(key),
   m_flags(flags),
   m_last_state()

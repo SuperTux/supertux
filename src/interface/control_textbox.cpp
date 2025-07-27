@@ -315,16 +315,17 @@ ControlTextbox::event(const SDL_Event& ev) {
 bool
 ControlTextbox::parse_value(bool call_on_change /* = true  (see header)*/)
 {
+  std::string new_str = get_contents();
+
   // Abort if we have a validation function for the string, and the function
   // says the string is invalid.
   if (m_validate_string) {
-    if (!m_validate_string(this, get_contents())) {
+    if (!m_validate_string(this, new_str)) {
       revert_value();
       return false;
     }
   }
 
-  std::string new_str = get_string();
   if (m_internal_string_backup != new_str) {
     m_internal_string_backup = new_str;
 
@@ -440,15 +441,18 @@ ControlTextbox::fits(const std::string& text) const
 void
 ControlTextbox::recenter_offset()
 {
+  auto contents = get_contents();
+  auto visible_contents = get_contents_visible();
+
   while (m_caret_pos < m_current_offset && m_current_offset > 0) {
     m_current_offset--;
   }
 
-  while (m_caret_pos > m_current_offset + int(get_contents_visible().size()) && m_current_offset < int(get_contents().size())) {
+  while (m_caret_pos > m_current_offset + int(visible_contents.size()) && m_current_offset < int(contents.size())) {
     m_current_offset++;
   }
 
-  while (m_current_offset > 0 && fits(get_contents().substr(m_current_offset - 1))) {
+  while (m_current_offset > 0 && fits(contents.substr(m_current_offset - 1))) {
     m_current_offset--;
   }
 }
