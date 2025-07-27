@@ -7,7 +7,7 @@
 # 최이준, 2023
 # Junghee Lee <daemul72@gmail.com>, 2025
 # Junghee Lee <daemul72@gmail.com>, 2022
-# 이명진 <aranet100@gmail.com>, 2016-2017,2019
+# 명진 이 <aranet100@gmail.com>, 2016-2017,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

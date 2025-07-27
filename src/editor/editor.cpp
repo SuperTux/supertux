@@ -1124,14 +1124,10 @@ Editor::get_status() const
   status.m_details.push_back("In Editor");
   if (!g_config->hide_editor_levelnames && m_level)
   {
-    if (m_level->is_worldmap())
-    {
-      status.m_details.push_back("Editing worldmap: " + m_level->get_name());
-    }
-    else
-    {
-      status.m_details.push_back("Editing level: " + m_level->get_name());
-    }
+    std::string level_type = (m_level->is_worldmap() ? "worldmap" : "level");
+    std::string status_text = "Editing " + level_type + ": " + m_level->get_name();
+    
+    status.m_details.push_back(status_text);
   }
   return status;
 }
