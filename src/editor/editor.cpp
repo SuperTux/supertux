@@ -811,7 +811,7 @@ Editor::setup()
 #if 0
     if (AddonManager::current()->is_old_addon_enabled()) {
       auto dialog = std::make_unique<Dialog>();
-      dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with default Super Tux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
+      dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with the default SuperTux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
       dialog->clear_buttons();
 
       dialog->add_default_button(_("Disable add-ons"), [] {
