@@ -14,10 +14,10 @@
   (sector
     (name "main")
     (ambient-light
-      (color 1 1 1)
+      (color 0.8980392 0.8 1)
     )
     (background
-      (color 1 1 1)
+      (color 1 0.8 1)
       (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
@@ -42,21 +42,21 @@
       (z-pos 200)
     )
     (background
-      (color 1 1 1)
+      (color 1 0.9 1)
       (alignment "bottom")
       (speed 0.1)
       (image "/images/background/antarctic/ice_mountains.png")
       (z-pos -220)
     )
     (background
-      (color 1 1 1)
+      (color 1 0.8 0.8)
       (scroll-speed-x -0.1)
       (speed 0)
       (image "/images/background/misc/skybox.png")
       (z-pos -290)
     )
     (background
-      (color 1 1 1)
+      (color 1 0.8 1)
       (scroll-speed-x -2)
       (speed 0)
       (image "/images/background/misc/clouds.png")
@@ -309,8 +309,8 @@
       (y 1472)
     )
     (gradient
-      (top_color 0.82 0.9 1)
-      (bottom_color 0.9999999 0.9999999 0.9999999)
+      (top_color 0.2980392 0.09803922 0.6)
+      (bottom_color 0.8784314 0.4470588 0.09803922)
     )
     (infoblock
       (z-pos 50)
@@ -381,8 +381,6 @@
     )
     (music
       (file "/music/antarctic/skylevel.music")
-    )
-    (particles-clouds
     )
     (path
       (name "gen16276430412151761411408")

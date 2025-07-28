@@ -67,7 +67,7 @@
       (scroll-offset-y -250)
       (color 1 1 1)
       (speed 0)
-      (image "/images/background/misc/moon.png")
+      (image "/images/background/misc/moon_glow.png")
     )
     (bonusblock
       (type "purple")

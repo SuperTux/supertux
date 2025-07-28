@@ -64,6 +64,13 @@
       (image-bottom "/images/background/antarctic/snow_bottom.png")
       (z-pos -200)
     )
+    (background
+      (scroll-offset-x 50)
+      (scroll-offset-y -250)
+      (color 1 1 1)
+      (speed 0)
+      (image "/images/background/misc/moon_glow.png")
+    )
     (bonusblock
       (type "purple")
       (z-pos 51)
@@ -164,6 +171,7 @@
     (gradient
       (top_color 0 0 0.05)
       (bottom_color 0 0.3 0.5)
+      (z-pos -305)
     )
     (haywire
       (z-pos 50)
