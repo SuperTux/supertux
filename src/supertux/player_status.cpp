@@ -122,7 +122,7 @@ PlayerStatus::get_bonus_from_name(const std::string& name)
 {
   if (name == "none") {
     return BONUS_NONE;
-  } else if (name == "growup") {
+  } else if (name == "growup" || name == "egg") {
     return BONUS_GROWUP;
   } else if (name == "fireflower") {
     return BONUS_FIRE;
