@@ -8,10 +8,10 @@
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # BlaCoiso, 2016
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
-# João Carlos P.P., 2024-2025
-# Hugo Carvalho <hugokarvalho@hotmail.com>, 2022-2024
+# João Carlos - FunGame, 2024-2025
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2022-2025
 # Ian Rodríguez Lorenzo, 2022
-# João Carlos P.P., 2025
+# João Carlos - FunGame, 2025
 # João Frade <100nome.portugal@gmail.com>, 2023
 # José Fryxell, 2022
 # zecas <jjorge@free.fr>, 2008
@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-07-06 02:34+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: João Carlos P.P., 2025\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2022-2025\n"
 "Language-Team: Portuguese (http://app.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -290,7 +290,7 @@ msgstr "Notas de atualização de v{}:"
 
 #: src/editor/editor_comment.hpp:48
 msgid "Editor Comment"
-msgstr ""
+msgstr "Comentário do editor"
 
 #: src/editor/layers_widget.cpp:372
 msgid "Sector: {}"
@@ -467,7 +467,7 @@ msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Não foi possível encontrar um sector com o nome «main».\nAltere o nome do sector onde\npretende que o jogador comece para \"main\"."
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
@@ -476,38 +476,38 @@ msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Não foi possível encontrar um ponto de começo com o nome \"main\".\nAltere o nome do ponto de começo onde\npretende que o jogador comece para \"main\"."
 
 #. l10n: A note refers to a reminder left for future
 #. level designers to read in order to better understand
 #. the usage of certain features in a level, for example.
 #: src/editor/editor_comment.cpp:74
 msgid "Note"
-msgstr ""
+msgstr "Nota"
 
 #. l10n: A to-do refers to a reminder left for the
 #. author of the comment to finish designing something in
 #. a level.
 #: src/editor/editor_comment.cpp:79
 msgid "To-do"
-msgstr ""
+msgstr "Afazer"
 
 #. l10n: A fix-me refers to a reminder left for the
 #. author of the comment to fix a flaw with the level
 #. design.
 #: src/editor/editor_comment.cpp:84
 msgid "Fix-me"
-msgstr ""
+msgstr "Corrige-me"
 
 #. l10n: A hack refers to usage of an unintended or
 #. non-ideal way of implementing a level design idea.
 #: src/editor/editor_comment.cpp:88
 msgid "Hack"
-msgstr ""
+msgstr "Hack"
 
 #: src/editor/editor_comment.cpp:97
 msgid "Comment"
-msgstr ""
+msgstr "Comentário"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -742,25 +742,25 @@ msgstr "Guardar como"
 
 #: src/video/video_system.cpp:155
 msgid "Fast and stable renderer, which fits most players' needs."
-msgstr ""
+msgstr "Renderizador rápido e estável, que atende às necessidades da maioria dos jogadores."
 
 #: src/video/video_system.cpp:157
 msgid ""
 "Provides additional features, such as reflection and shaders.\n"
 "Might be slow and unstable on some machines."
-msgstr ""
+msgstr "Oferece funcionalidades adicionais, como reflexos e sombras.\nPode ser lento e instável em algumas máquinas."
 
 #: src/video/video_system.cpp:158
 msgid "OpenGL (AUTO)"
-msgstr ""
+msgstr "OpenGL (AUTO)"
 
 #: src/video/video_system.cpp:158
 msgid "The recommended OpenGL video system for this device."
-msgstr ""
+msgstr "O sistema de vídeo OpenGL recomendado para este dispositivo."
 
 #: src/video/video_system.cpp:158
 msgid "Fallbacks to SDL."
-msgstr ""
+msgstr "Volta para o SDL"
 
 #: src/supertux/levelintro.cpp:137
 msgid "contributed by {}"
@@ -3613,11 +3613,11 @@ msgstr "Vertical"
 
 #: src/badguy/crusher.cpp:1227
 msgid "All"
-msgstr ""
+msgstr "Tudo"
 
 #: src/badguy/crusher.cpp:1232
 msgid "Crush script"
-msgstr ""
+msgstr "Script de esmagar"
 
 #: src/badguy/flyingsnowball.hpp:33
 msgid "Flying Snowball"
@@ -3753,7 +3753,7 @@ msgstr "Peixe Nadador"
 
 #: src/badguy/ghoul.cpp:329
 msgid "Track Range"
-msgstr ""
+msgstr "Distância de perseguição"
 
 #: src/badguy/ghoul.hpp:26
 msgid "Ghoul"
@@ -4173,7 +4173,7 @@ msgstr "Partículas ativadas"
 
 #: src/object/wind.cpp:105
 msgid "Current"
-msgstr ""
+msgstr "Atual"
 
 #: src/object/bigsnowball.cpp:82
 msgid "Break on impact?"

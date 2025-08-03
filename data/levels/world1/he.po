@@ -172,7 +172,7 @@ msgstr "טַקס הגיע לקצה הטירה."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
 msgid "But to his surprise all he could find was a letter."
-msgstr "אך להפתעתו, כל מה שמצא היה פתק."
+msgstr "אבל למרבה ההפתעה הוא מצא רק פתק."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
 msgid ""
@@ -195,7 +195,7 @@ msgstr "אי־שם בקצה אנטרקטיקה..."
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "טַקס הפינגווין הלך להיפגש עם חברתו, פני, לפיקניק."
+msgstr "טַקס הפינגווין היה בדרכו להיפגש עם חברתו, פני, לפיקניק."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
@@ -213,7 +213,7 @@ msgstr "\"טַקס, חטפתי את פני אהובתך והבאתי אותה ל
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"כדי להגיע למבצר שלי יהיה עליך לעבור את המשרתים שלי.\""
+msgstr "\"כדי להגיע למבצר שלי תצטרך לעבור דרך המשרתים שלי.\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
