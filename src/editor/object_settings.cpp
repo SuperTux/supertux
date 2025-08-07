@@ -223,14 +223,33 @@ ObjectSettings::add_enum(const std::string& text, int* value_ptr,
 
 void
 ObjectSettings::add_file(const std::string& text, std::string* value_ptr,
-                         const std::string& key,
-                         const std::optional<std::string>& default_value,
-                         const std::vector<std::string>& filter,
-                         const std::string& basedir,
-                         bool path_relative_to_basedir,
-                         unsigned int flags)
+  const std::string& key,
+  const std::optional<std::string>& default_value,
+  const std::vector<std::string>& filter,
+  const std::string& basedir,
+  bool path_relative_to_basedir,
+  unsigned int flags)
 {
-  add_option(std::make_unique<FileObjectOption>(text, value_ptr, default_value, key, filter, basedir, path_relative_to_basedir, flags));
+  FileSystemMenu::MenuParams fs_params =
+  {
+    value_ptr,
+    "",
+    filter,
+    {},
+    basedir,
+    path_relative_to_basedir,
+    nullptr,
+    nullptr
+  };
+
+  add_option(std::make_unique<FileObjectOption>(
+    text,
+    value_ptr,
+    default_value,
+    key,
+    fs_params,
+    flags
+  ));
 }
 
 void
