@@ -189,6 +189,8 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
             break;
           }
+          m_has_focus = false;
+          m_open_list = false;
         } else {
           log_warning << "Clicked on control enum inside dropdown but at invalid position ("
                       << pos << " for a size of " << m_options.size() << ")" << std::endl;
