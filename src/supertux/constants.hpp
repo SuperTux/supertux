@@ -33,3 +33,7 @@ static const std::string DEFAULT_SPAWNPOINT_NAME = "main";
 
 // The sector that gets activated by default when a level is started
 static const std::string DEFAULT_SECTOR_NAME = "main";
+
+// The default world map size
+static const int DEFAULT_WORLDMAP_WIDTH = 100;
+static const int DEFAULT_WORLDMAP_HEIGHT = 35;
