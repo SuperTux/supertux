@@ -33,7 +33,7 @@
 #include "video/viewport.hpp"
 
 const Color Gradient::DEFAULT_GRADIENT_TOP(0.5f, 0.7f, 1.f);
-const Color Gradient::DEFAULT_GRADIENT_BOTTOM(1.f, 1.f, 1.f);
+const Color Gradient::DEFAULT_GRADIENT_BOTTOM(Color::WHITE);
 
 Gradient::Gradient() :
   m_layer(LAYER_BACKGROUND0),

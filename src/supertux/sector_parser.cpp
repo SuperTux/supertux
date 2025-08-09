@@ -373,7 +373,7 @@ SectorParser::create_sector()
   else
   {
     auto& water = m_sector.add<TileMap>(m_sector.get_tileset());
-    water.resize( Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H, 1);
+    water.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H, 1);
     water.set_layer(-100);
     water.set_solid(false);
   }
@@ -382,7 +382,7 @@ SectorParser::create_sector()
   if (m_sector.in_worldmap()) {
     intact.resize(100, 100, 0);
   } else {
-    intact.resize( Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H, 0);
+    intact.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H, 0);
   }
   intact.set_layer(0);
   intact.set_solid(true);
