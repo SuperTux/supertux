@@ -44,7 +44,7 @@
 #include "util/reader_mapping.hpp"
 #include "worldmap/spawn_point.hpp"
 
-static const std::string DEFAULT_BG = "images/background/antarctic/arctis2.png";
+static const std::string DEFAULT_BG = "images/background/antarctic/snow_hills.png";
 
 std::unique_ptr<Sector>
 SectorParser::from_reader(Level& level, const ReaderMapping& reader, bool editable)
