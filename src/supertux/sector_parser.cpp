@@ -375,7 +375,7 @@ SectorParser::create_sector()
     water.resize(DEFAULT_WORLDMAP_WIDTH, DEFAULT_WORLDMAP_HEIGHT, 1);
     water.set_layer(-100);
     water.set_solid(false);
-    water.set_name("Water Tilemap");
+    water.set_name("Water Tiles");
   }
 
   auto& music = m_sector.add<MusicObject>();
@@ -384,7 +384,7 @@ SectorParser::create_sector()
   auto& main_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
   main_tilemap.set_layer(0);
   main_tilemap.set_solid(true);
-  main_tilemap.set_name("Main Tilemap");
+  main_tilemap.set_name("Main Tiles");
 
   if (m_sector.in_worldmap())
   {
