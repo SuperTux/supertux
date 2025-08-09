@@ -34,6 +34,7 @@
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 
+//Note to remove a bunch of these once we remove deprecated backgrounds 
 static const std::unordered_map<std::string, std::string> fallback_paths = {
   {"arctis2.png", "antarctic/arctis2.png"},
   {"misty_snowhills_small.png", "antarctic/misty_snowhills_small.png"},
@@ -85,7 +86,7 @@ static const std::unordered_map<std::string, std::string> fallback_paths = {
   {"heatshimmer.png", "misc/heatshimmer.png"},
   {"heatshimmer.surface", "misc/heatshimmer.surface"},
   {"leaves.png", "misc/leaves.png"},
-  {"oiltux.jpg", "misc/oiltux.jpg"},
+  {"oiltux.jpg", "misc/oiltux.png"},
   {"transparent_up.png", "misc/transparent_up.png"},
   {"nightsky.png", "nightsky/nightsky.png"},
   {"nightsky_bottom.png", "nightsky/nightsky_bottom.png"},
