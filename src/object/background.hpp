@@ -66,7 +66,6 @@ public:
   inline const std::string& get_image() const { return m_imagefile; }
   inline float get_speed() const { return m_parallax_speed.x; }
 
-
   inline void set_layer(int layer) { m_layer = layer; }
   int get_layer() const override { return m_layer; }
 

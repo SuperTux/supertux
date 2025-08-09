@@ -44,7 +44,6 @@
 #include "util/reader_mapping.hpp"
 #include "worldmap/spawn_point.hpp"
 
-
 static const std::string DEFAULT_BG = "images/background/antarctic/snow_hills.png";
 static const std::string DEFAULT_BG_TOP = "images/background/misc/transparent_up.png";
 static const std::string DEFAULT_BG_BOTTOM = "images/background/antarctic/snow_bottom.png";
