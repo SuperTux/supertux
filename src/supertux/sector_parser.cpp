@@ -44,9 +44,12 @@
 #include "util/reader_mapping.hpp"
 #include "worldmap/spawn_point.hpp"
 
-static const std::string DEFAULT_BG = "images/background/antarctic/snow_hills.png";
-static const std::string DEFAULT_BG_TOP = "images/background/misc/transparent_up.png";
-static const std::string DEFAULT_BG_BOTTOM = "images/background/antarctic/snow_bottom.png";
+namespace
+{
+  static const std::string DEFAULT_BG = "images/background/antarctic/snow_hills.png";
+  static const std::string DEFAULT_BG_TOP = "images/background/misc/transparent_up.png";
+  static const std::string DEFAULT_BG_BOTTOM = "images/background/antarctic/snow_bottom.png";
+}
 
 std::unique_ptr<Sector>
 SectorParser::from_reader(Level& level, const ReaderMapping& reader, bool editable)
@@ -250,11 +253,8 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   m_sector.add<SpawnPointMarker>(DEFAULT_SPAWNPOINT_NAME, startpos);
 
-  //m_sector.add<MusicObject>().set_music("/music/antarctic/midday.music");
-
   auto& music = m_sector.add<MusicObject>();
   music.set_music("/music/antarctic/midday.music");
-
 
   int width = 30, height = 15;
   reader.get("width", width);
@@ -344,7 +344,7 @@ SectorParser::create_sector()
     auto& background = m_sector.add<Background>();
     background.set_images(DEFAULT_BG_TOP, DEFAULT_BG, DEFAULT_BG_BOTTOM);
     background.set_speed(0.3);
-    background.set_name("Snowy hills");
+    background.set_name("Snowy Hills");
 
     auto& panorama = m_sector.add<Background>();
     panorama.set_image("images/background/antarctic/snow_panorama.png");
@@ -353,19 +353,18 @@ SectorParser::create_sector()
     panorama.set_layer(-350);
     panorama.set_name("Panorama");
 
-    auto& bkgrd = m_sector.add<TileMap>(m_sector.get_tileset());
-    bkgrd.resize( Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H);
-    bkgrd.set_layer(-100);
-    bkgrd.set_solid(false);
-    bkgrd.set_name("MidGround tiles Tiles");
+    auto& midground_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
+    midground_tilemap.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H);
+    midground_tilemap.set_layer(-100);
+    midground_tilemap.set_solid(false);
+    midground_tilemap.set_name("Mid-Ground Tiles");
 
-    auto& frgrd = m_sector.add<TileMap>(m_sector.get_tileset());
-    frgrd.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H);
-    frgrd.set_layer(-150);
-    frgrd.set_solid(false);
-    frgrd.set_name("Background Tiles");
+    auto& background_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
+    background_tilemap.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H);
+    background_tilemap.set_layer(-150);
+    background_tilemap.set_solid(false);
+    background_tilemap.set_name("Background Tiles");
 
-    // Add background gradient to sector:
     auto& gradient = m_sector.add<Gradient>();
     gradient.set_gradient(Gradient::DEFAULT_GRADIENT_TOP, Gradient::DEFAULT_GRADIENT_BOTTOM);
     gradient.set_layer(-400);
@@ -373,28 +372,36 @@ SectorParser::create_sector()
   else
   {
     auto& water = m_sector.add<TileMap>(m_sector.get_tileset());
-    water.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H, 1);
+    water.resize(DEFAULT_WORLDMAP_WIDTH, DEFAULT_WORLDMAP_HEIGHT, 1);
     water.set_layer(-100);
     water.set_solid(false);
+    water.set_name("Water Tilemap");
   }
 
-  auto& intact = m_sector.add<TileMap>(m_sector.get_tileset());
-  if (m_sector.in_worldmap()) {
-    intact.resize(100, 100, 0);
-  } else {
-    intact.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H, 0);
-  }
-  intact.set_layer(0);
-  intact.set_solid(true);
+  auto& music = m_sector.add<MusicObject>();
+  music.set_name("Music Object");
 
-  if (m_sector.in_worldmap()) {
+  auto& main_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
+  main_tilemap.set_layer(0);
+  main_tilemap.set_solid(true);
+  main_tilemap.set_name("Main Tilemap");
+
+  if (m_sector.in_worldmap())
+  {
+    main_tilemap.resize(DEFAULT_WORLDMAP_WIDTH, DEFAULT_WORLDMAP_HEIGHT, 0);
+
     m_sector.add<worldmap::SpawnPointObject>(DEFAULT_SPAWNPOINT_NAME, Vector(4, 4));
-  } else {
+  }
+  else
+  {
+    main_tilemap.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H, 0);
+
     m_sector.add<SpawnPointMarker>(DEFAULT_SPAWNPOINT_NAME, Vector(64, 480));
+
+    music.set_music("/music/antarctic/midday.music");
   }
 
   m_sector.add<Camera>("Camera");
-  m_sector.add<MusicObject>();
 
   m_sector.finish_construction(m_editable);
 }
