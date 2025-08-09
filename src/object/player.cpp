@@ -2374,7 +2374,7 @@ Player::collision_solid(const CollisionHit& hit)
   }
 
   if (hit.crush)
-    kill(false);
+    kill(true);
 
   if ((hit.left && m_boost < 0.f) || (hit.right && m_boost > 0.f))
     m_boost = 0.f;
