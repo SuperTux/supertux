@@ -22,15 +22,15 @@
 
 namespace
 {
-  static const float DEFAULT_TRACK_RANGE = 2500.f;
-  static const float RESPAWN_TIME = 4.f;
-  static const float DOWN_VELOCITY = 105.f;
-  static const float UP_VELOCITY = -256.f;
-  static const float UP_ACCELERATION = 256.f;
-  static const float HORZ_SPEED = 105.f;
-  static const float HORZ_ACCELERATION = 228.f;
-  static const float HORZ_TRUST_MULTIPLIER = 4.5f;
-  static const float VERT_OFFSET = 48.f;
+  static constexpr float DEFAULT_TRACK_RANGE = 2500.f;
+  static constexpr float RESPAWN_TIME = 4.f;
+  static constexpr float DOWN_VELOCITY = 89.25f;
+  static constexpr float UP_VELOCITY = -217.6f;
+  static constexpr float UP_ACCELERATION = 217.6f;
+  static constexpr float HORZ_SPEED = 89.25f;
+  static constexpr float HORZ_ACCELERATION = 193.8f;
+  static constexpr float HORZ_TRUST_MULTIPLIER = 3.825f;
+  static constexpr float VERT_OFFSET = 48.f;
 }
 
 Ghoul::Ghoul(const ReaderMapping& reader) :
