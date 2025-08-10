@@ -344,7 +344,7 @@ SectorParser::create_sector()
     auto& background = m_sector.add<Background>();
     background.set_images(DEFAULT_BG_TOP, DEFAULT_BG, DEFAULT_BG_BOTTOM);
     background.set_speed(0.3);
-    background.set_name("Snowy Hills");
+    background.set_name("Snowy_Hills");
 
     auto& panorama = m_sector.add<Background>();
     panorama.set_image("images/background/antarctic/snow_panorama.png");
@@ -357,13 +357,13 @@ SectorParser::create_sector()
     midground_tilemap.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H);
     midground_tilemap.set_layer(-100);
     midground_tilemap.set_solid(false);
-    midground_tilemap.set_name("Mid-Ground Tiles");
+    midground_tilemap.set_name("MidGround_Tiles");
 
     auto& background_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
     background_tilemap.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H);
     background_tilemap.set_layer(-150);
     background_tilemap.set_solid(false);
-    background_tilemap.set_name("Background Tiles");
+    background_tilemap.set_name("BackGround_Tiles");
 
     auto& gradient = m_sector.add<Gradient>();
     gradient.set_gradient(Gradient::DEFAULT_GRADIENT_TOP, Gradient::DEFAULT_GRADIENT_BOTTOM);
@@ -375,16 +375,16 @@ SectorParser::create_sector()
     water.resize(DEFAULT_WORLDMAP_WIDTH, DEFAULT_WORLDMAP_HEIGHT, 1);
     water.set_layer(-100);
     water.set_solid(false);
-    water.set_name("Water Tiles");
+    water.set_name("Water_Tiles");
   }
 
   auto& music = m_sector.add<MusicObject>();
-  music.set_name("Music Object");
+  music.set_name("Music_Object");
 
   auto& main_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
   main_tilemap.set_layer(0);
   main_tilemap.set_solid(true);
-  main_tilemap.set_name("Main Tiles");
+  main_tilemap.set_name("Main_Tiles");
 
   if (m_sector.in_worldmap())
   {
