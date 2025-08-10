@@ -354,13 +354,13 @@ SectorParser::create_sector()
     panorama.set_name("Panorama");
 
     auto& midground_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
-    midground_tilemap.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H);
+    midground_tilemap.resize(Sector::DEFAULT_SECTOR_WIDTH, Sector::DEFAULT_SECTOR_HEIGHT);
     midground_tilemap.set_layer(-100);
     midground_tilemap.set_solid(false);
     midground_tilemap.set_name("MidGround_Tiles");
 
     auto& background_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
-    background_tilemap.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H);
+    background_tilemap.resize(Sector::DEFAULT_SECTOR_WIDTH, Sector::DEFAULT_SECTOR_HEIGHT);
     background_tilemap.set_layer(-150);
     background_tilemap.set_solid(false);
     background_tilemap.set_name("BackGround_Tiles");
@@ -394,7 +394,7 @@ SectorParser::create_sector()
   }
   else
   {
-    main_tilemap.resize(Sector::DEFAULT_SECTOR_W, Sector::DEFAULT_SECTOR_H, 0);
+    main_tilemap.resize(Sector::DEFAULT_SECTOR_WIDTH, Sector::DEFAULT_SECTOR_HEIGHT, 0);
 
     m_sector.add<SpawnPointMarker>(DEFAULT_SPAWNPOINT_NAME, Vector(64, 480));
 

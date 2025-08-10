@@ -269,8 +269,8 @@ private:
 
  public: 
   // The default sector size.
-  static const int DEFAULT_SECTOR_W = 350;
-  static const int DEFAULT_SECTOR_H = 60;
+  static const int DEFAULT_SECTOR_WIDTH = 350;
+  static const int DEFAULT_SECTOR_HEIGHT = 60;
 
 private:
   Sector(const Sector&) = delete;
