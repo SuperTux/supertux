@@ -30,7 +30,7 @@ public:
 
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
+  //virtual void draw(DrawingContext& context) override;
 
   virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
@@ -51,33 +51,48 @@ protected:
 
 private:
   enum MyState {
-    STATE_IDLE, STATE_SUCKING, STATE_SWALLOWING, STATE_DYING
+    STATE_INIT,
+    STATE_SCREAM,
+    STATE_IDLE,
+    STATE_SUCKING,
+    STATE_ATTACKING,
+    STATE_RECHARGING,
+    STATE_DEAD
+  };
+  
+  enum AttackType {
+    ATTACK_RED = 0,
+    ATTACK_GREEN,
+    ATTACK_BLUE,
+    ATTACK_PINCH
   };
 
 private:
-  bool is_color_deadly(Color color) const;
-  void spawn_lantern();
+  void set_state(MyState new_state);
+/*  bool is_color_deadly(Color color) const;
+  void spawn_lantern();*/
 
 private:
-  MyState mystate;
-  Timer willowisp_timer;
+  MyState m_state;
+  AttackType m_attack;
+  /*Timer willowisp_timer;
   float willo_spawn_y;
   float willo_radius;
   float willo_speed;
-  int   willo_color;
+  int   willo_color;*/
 
-  SpritePtr glow_sprite;
-  Timer colorchange_timer;
+  //SpritePtr glow_sprite;
+  /*Timer colorchange_timer;
   Timer suck_timer;
   Timer root_timer;
   int   treecolor;
-  Color suck_lantern_color;
+  Color suck_lantern_color;*/
 
-  bool m_taking_life;
+  //bool m_taking_life;
 
-  Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
+  //Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
 
-  std::vector<TreeWillOWisp*> willowisps;
+  std::vector<TreeWillOWisp*> m_willowisps;
 
 private:
   GhostTree(const GhostTree&) = delete;
