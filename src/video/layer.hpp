@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_LAYER_HPP
-#define HEADER_SUPERTUX_VIDEO_LAYER_HPP
+#pragma once
 
 // some constants for predefined layer values
 enum {
@@ -41,15 +40,14 @@ enum {
 
   LAYER_LIGHTMAP = 450,
 
+  // Used for the fog created by particles
+  LAYER_FOG = 199,
+
   // Hitpoints, time, coins, etc.
   LAYER_HUD = 500,
   // Menus, mouse, console etc.
   LAYER_GUI = 600,
 
-  //make sure all get_light requests are handled last.
+  // Make sure all get_light requests are handled last.
   LAYER_GETPIXEL = LAYER_GUI
 };
-
-#endif
-
-/* EOF */

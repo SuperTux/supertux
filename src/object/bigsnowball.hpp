@@ -13,8 +13,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BIGSNOWBALL_HPP
-#define HEADER_SUPERTUX_OBJECT_BIGSNOWBALL_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -32,7 +31,7 @@ public:
 
   virtual void update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "bigsnowball"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -54,7 +53,3 @@ private:
   BigSnowball(const BigSnowball&) = delete;
   BigSnowball& operator=(const BigSnowball&) = delete;
 };
-
-#endif
-
-/* EOF */

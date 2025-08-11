@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_INTERFACE_CONTROL_SCROLLBAR_HPP
-#define HEADER_SUPERTUX_INTERFACE_CONTROL_SCROLLBAR_HPP
+#pragma once
 
 #include "editor/widget.hpp"
 
@@ -42,16 +41,16 @@ public:
 
   void scroll(float amount);
 
-  void set_mouse_wheel_speed(float speed) { m_mouse_wheel_speed = speed; }
+  inline void set_mouse_wheel_speed(float speed) { m_mouse_wheel_speed = speed; }
 
-  void set_rect(const Rectf& rect) { m_rect = rect; }
-  const Rectf& get_rect() const { return m_rect; }
+  inline void set_rect(const Rectf& rect) { m_rect = rect; }
+  inline const Rectf& get_rect() const { return m_rect; }
 
-  float get_covered_region() const { return m_covered_region; }
-  float get_total_region() const { return m_total_region; }
+  inline float get_covered_region() const { return m_covered_region; }
+  inline float get_total_region() const { return m_total_region; }
 
-  void set_covered_region(float region);
-  void set_total_region(float region);
+  inline void set_covered_region(float region) { m_covered_region = region; check_regions(); }
+  inline void set_total_region(float region) { m_total_region = region; check_regions(); }
 
 private:
   void check_regions();
@@ -79,7 +78,7 @@ private:
 
   /** The logical position and size of the widget */
   Rectf m_rect;
-  
+
   /** `true` if the scroller is horizontal; `false` if it is vertical */
   //bool is_horizontal;
 
@@ -90,7 +89,3 @@ private:
   ControlScrollbar(const ControlScrollbar&) = delete;
   ControlScrollbar& operator=(const ControlScrollbar&) = delete;
 };
-
-#endif
-
-/* EOF */

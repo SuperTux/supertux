@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_GROWUP_HPP
-#define HEADER_SUPERTUX_OBJECT_GROWUP_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 #include "supertux/direction.hpp"
@@ -33,22 +32,18 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   void do_jump();
 
 private:
-  Physic physic;
+  Physic m_physic;
 
   const bool m_custom_sprite;
-  SpritePtr shadesprite;
-  SpritePtr lightsprite;
+  SpritePtr m_shadesprite;
+  SpritePtr m_lightsprite;
 
 private:
   GrowUp(const GrowUp&) = delete;
   GrowUp& operator=(const GrowUp&) = delete;
 };
-
-#endif
-
-/* EOF */

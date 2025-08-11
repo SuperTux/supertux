@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
+#pragma once
 
 #include <list>
 #include <sstream>
@@ -49,7 +48,11 @@ public:
 
   void flush(ConsoleStreamBuffer& buffer); /**< act upon changes in a ConsoleStreamBuffer */
 
-  void set_console(Console* console);
+  inline void set_console(Console* console)
+  {
+    assert((console && !m_console) || (m_console && !console));
+    m_console = console;
+  }
 
 private:
   ConsoleBuffer(const ConsoleBuffer&) = delete;
@@ -132,7 +135,3 @@ public:
     return result;
   }
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_DIALOG_HPP
-#define HEADER_SUPERTUX_GUI_DIALOG_HPP
+#pragma once
 
 #include <SDL.h>
 #include <functional>
@@ -76,8 +75,8 @@ public:
 
   Vector get_center_pos() const;
 
-  float get_width() const { return m_size.width; }
-  float get_height() const { return m_size.height; }
+  inline float get_width() const { return m_size.width; }
+  inline float get_height() const { return m_size.height; }
 
   static void show_message(const std::string& text, bool passive = false, bool no_auto_clear = false, const std::function<void ()>& ok_callback = {})
   {
@@ -106,7 +105,3 @@ private:
   Dialog(const Dialog&) = delete;
   Dialog& operator=(const Dialog&) = delete;
 };
-
-#endif
-
-/* EOF */

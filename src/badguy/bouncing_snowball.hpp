@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_BOUNCING_SNOWBALL_HPP
-#define HEADER_SUPERTUX_BADGUY_BOUNCING_SNOWBALL_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 
@@ -49,7 +48,8 @@ public:
   virtual bool is_freezable() const override;
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
+  void turn_around();
 
 private:
   enum Type {
@@ -58,12 +58,11 @@ private:
   };
 
   float m_x_speed;
+  Timer m_turn_around_timer;
+  int m_turn_around_counter; /**< Counts number of turns since turn_around_timer was started */
+
 
 private:
   BouncingSnowball(const BouncingSnowball&) = delete;
   BouncingSnowball& operator=(const BouncingSnowball&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_UID_HPP
-#define HEADER_SUPERTUX_UTIL_UID_HPP
+#pragma once
 
 #include <assert.h>
 #include <stdint.h>
@@ -55,6 +54,11 @@ public:
   UID(const UID& other) = default;
   UID& operator=(const UID& other) = default;
 
+  inline UID& operator=(uint32_t value) {
+    m_value = value;
+    return *this;
+  }
+
   inline operator bool() const {
     return m_value != 0;
   }
@@ -78,7 +82,3 @@ protected:
 };
 
 std::ostream& operator<<(std::ostream& os, const UID& uid);
-
-#endif
-
-/* EOF */

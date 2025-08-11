@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_AUDIO_SOUND_ERROR_HPP
-#define HEADER_SUPERTUX_AUDIO_SOUND_ERROR_HPP
+#pragma once
 
 #include <stdexcept>
 #include <string>
@@ -33,7 +32,3 @@ public:
 private:
   std::string m_message;
 };
-
-#endif
-
-/* EOF */

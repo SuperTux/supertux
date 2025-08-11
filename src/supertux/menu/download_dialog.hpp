@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_DOWNLOAD_DIALOG_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_DOWNLOAD_DIALOG_HPP
+#pragma once
 
 #include "gui/dialog.hpp"
 
@@ -39,8 +38,9 @@ public:
   DownloadDialog(TransferStatusListPtr statuses, bool auto_close = false,
                  bool passive = false, bool no_error_msg = false);
 
-  void set_title(const std::string& title);
   void update() override;
+
+  inline void set_title(const std::string& title) { m_title = title; }
 
 private:
   void update_text();
@@ -52,7 +52,3 @@ private:
   DownloadDialog(const DownloadDialog&) = delete;
   DownloadDialog& operator=(const DownloadDialog&) = delete;
 };
-
-#endif
-
-/* EOF */

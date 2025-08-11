@@ -199,7 +199,7 @@ GhostTree::active_update(float dt_sec)
           die();
         }
         if (m_lives > 0) {
-          set_action("normal");
+          set_action("default");
           mystate = STATE_IDLE;
           spawn_lantern();
         }
@@ -245,7 +245,7 @@ GhostTree::draw(DrawingContext& context)
 }
 
 bool
-GhostTree::collides(GameObject& other, const CollisionHit& ) const
+GhostTree::collides(MovingObject& other, const CollisionHit& ) const
 {
   if (mystate != STATE_SUCKING) return false;
   if (dynamic_cast<Lantern*>(&other)) return true;
@@ -254,7 +254,7 @@ GhostTree::collides(GameObject& other, const CollisionHit& ) const
 }
 
 HitResponse
-GhostTree::collision(GameObject& other, const CollisionHit& )
+GhostTree::collision(MovingObject& other, const CollisionHit& )
 {
   if (mystate != STATE_SUCKING) return ABORT_MOVE;
 
@@ -292,5 +292,3 @@ GhostTree::on_flip(float height)
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

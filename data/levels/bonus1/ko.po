@@ -5,15 +5,16 @@
 # Translators:
 # Go Nam Hyeon <gnh1201@gmail.com>, 2021
 # 최이준, 2023
+# Junghee Lee <daemul72@gmail.com>, 2025
 # Junghee Lee <daemul72@gmail.com>, 2022
-# Myeongjin <aranet100@gmail.com>, 2016-2017,2019
+# 명진 이 <aranet100@gmail.com>, 2016-2017,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: 2013-08-10 23:04+0000\n"
-"Last-Translator: 최이준, 2023\n"
+"Last-Translator: Junghee Lee <daemul72@gmail.com>, 2025\n"
 "Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -98,11 +99,11 @@ msgstr "하늘에서 불"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
-msgstr "전에 여기에 온 적이 있어?"
+msgstr "내가 전에 여기에 온 적이 있었나?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr "악당 악취!"
+msgstr "나쁜 놈들은 악취가 나!"
 
 #: data/levels/bonus1/thompson-level2.stl:96
 msgid ""
@@ -120,7 +121,7 @@ msgstr "너무 쉬워"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr "#모든 레벨은 Hume가 마일스톤 2로 업그레이드하였습니다."
+msgstr "#이 모든 레벨은 흄(Hume)에 의해 마일스톤 2로 업그레이드되었습니다."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -152,7 +153,7 @@ msgstr "보너스 섬 I"
 
 #: data/levels/bonus1/worldmap.stwm:127
 msgid "You found a secret place!"
-msgstr "비밀 장소를 찾았어요!"
+msgstr "비밀 장소를 찾았군!"
 
 #: data/levels/bonus1/worldmap.stwm:135
 msgid "Hint: Use igloos to get back here."

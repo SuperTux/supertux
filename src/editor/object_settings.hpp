@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
-#define HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
+#pragma once
 
 #include <vector>
 #include <memory>
@@ -29,10 +28,14 @@ class Color;
 enum class Direction;
 class GameObject;
 class PathObject;
+class ReaderMapping;
 enum class WalkMode;
+class Writer;
+
 namespace worldmap {
 enum class Direction;
 } // namespace worldmap
+
 namespace sexp {
 class Value;
 } // namespace sexp
@@ -41,9 +44,11 @@ class ObjectSettings final
 {
 public:
   ObjectSettings(const std::string& name);
-  ObjectSettings(ObjectSettings&&) = default;
+  ObjectSettings(ObjectSettings&& other);
 
-  const std::string& get_name() const { return m_name; }
+  ObjectSettings& operator=(ObjectSettings&&) = default;
+
+  inline const std::string& get_name() const { return m_name; }
 
   void add_bool(const std::string& text, bool* value_ptr,
                 const std::string& key = {},
@@ -58,9 +63,6 @@ public:
                const std::optional<int>& default_value = {},
                unsigned int flags = 0);
   void add_label(const std::string& text, unsigned int flags = 0);
-  void add_rectf(const std::string& text, Rectf* value_ptr,
-                 const std::string& key = {},
-                 unsigned int flags = 0);
   void add_worldmap_direction(const std::string& text, worldmap::Direction* value_ptr,
                               std::optional<worldmap::Direction> default_value = {},
                               const std::string& key = {}, unsigned int flags = 0);
@@ -160,7 +162,7 @@ public:
   // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
   void add_button(const std::string& text, const std::function<void()>& callback);
 
-  const std::vector<std::unique_ptr<BaseObjectOption> >& get_options() const { return m_options; }
+  inline const std::vector<std::unique_ptr<BaseObjectOption>>& get_options() const { return m_options; }
 
   /** Reorder the options in the given order, this is a hack to get
       saving identical to the other editor */
@@ -168,6 +170,22 @@ public:
 
   /** Remove an option from the list, this is a hack */
   void remove(const std::string& key);
+
+  /** Parse option properties. */
+  void parse(const ReaderMapping& reader);
+
+  /** Save the current states of all options. */
+  void save_state();
+
+  /** Check all options for any with a changed state. */
+  bool has_state_changed() const;
+
+  /** Parse option properties from an alternative state. */
+  void parse_state(const ReaderMapping& reader);
+
+  /** Write the old/new states of all modified options. */
+  void save_old_state(std::ostream& out) const;
+  void save_new_state(Writer& writer) const;
 
 private:
   void add_option(std::unique_ptr<BaseObjectOption> option);
@@ -180,7 +198,3 @@ private:
   ObjectSettings(const ObjectSettings&) = delete;
   ObjectSettings& operator=(const ObjectSettings&) = delete;
 };
-
-#endif
-
-/* EOF */

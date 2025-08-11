@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
+#pragma once
 
 #include <optional>
 
@@ -35,6 +34,11 @@ public:
   void save();
 
   void check_values();
+
+  inline bool is_initial() const { return m_initial; }
+
+private:
+  bool m_initial;
 
 public:
   int profile;
@@ -108,6 +112,7 @@ public:
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
   bool do_release_check;
+  bool disable_network;
   bool custom_title_levels;
 
 #ifdef ENABLE_DISCORD
@@ -154,7 +159,3 @@ public:
 
   bool is_christmas() const;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
-#define HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
+#pragma once
 
 #include "badguy/boss.hpp"
 
@@ -33,8 +32,8 @@ public:
   virtual void active_update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "ghosttree"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -84,7 +83,3 @@ private:
   GhostTree(const GhostTree&) = delete;
   GhostTree& operator=(const GhostTree&) = delete;
 };
-
-#endif
-
-/* EOF */

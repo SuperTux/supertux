@@ -34,7 +34,7 @@
 #include "video/viewport.hpp"
 
 ParticleSystem::ParticleSystem(const ReaderMapping& reader, float max_particle_size_) :
-  GameObject(reader),
+  LayerObject(reader),
   max_particle_size(max_particle_size_),
   z_pos(LAYER_BACKGROUND1),
   particles(),
@@ -47,7 +47,6 @@ ParticleSystem::ParticleSystem(const ReaderMapping& reader, float max_particle_s
 }
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :
-  GameObject(),
   max_particle_size(max_particle_size_),
   z_pos(LAYER_BACKGROUND1),
   particles(),
@@ -100,8 +99,15 @@ ParticleSystem::draw(DrawingContext& context)
     pos.x = fmodf(particle->pos.x - scrollx, virtual_width);
     if ((pos.x + static_cast<float>(particle_width)) < 0) pos.x += virtual_width;
 
-    pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
-    if (pos.y < 0) pos.y += virtual_height;
+
+    const float particle_height = static_cast<float>(particle->texture->get_height());
+    const float virtual_height_particle = virtual_height + particle_height;
+
+    pos.y = fmodf(particle->pos.y - scrolly, virtual_height_particle);
+    if (pos.y + particle_height < 0)
+    {
+      pos.y += virtual_height_particle;
+    }
 
     if(!region.contains(pos + Sector::get().get_camera().get_translation()))
       continue;
@@ -132,18 +138,6 @@ ParticleSystem::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-void
-ParticleSystem::set_enabled(bool enabled_)
-{
-  enabled = enabled_;
-}
-
-bool
-ParticleSystem::get_enabled() const
-{
-  return enabled;
-}
-
 
 void
 ParticleSystem::register_class(ssq::VM& vm)
@@ -155,5 +149,3 @@ ParticleSystem::register_class(ssq::VM& vm)
 
   cls.addVar("enabled", &ParticleSystem::enabled);
 }
-
-/* EOF */

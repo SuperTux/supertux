@@ -14,11 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_WRITER_HPP
-#define HEADER_SUPERTUX_UTIL_WRITER_HPP
+#pragma once
 
 #include <string>
 #include <vector>
+
+#include "util/uid.hpp"
 
 namespace sexp {
 class Value;
@@ -38,6 +39,7 @@ public:
   void write(const std::string& name, bool value);
   void write(const std::string& name, int value);
   void write(const std::string& name, float value);
+  void write(const std::string& name, const UID& uid);
   void write(const std::string& name, const char* value);
   void write(const std::string& name, const std::string& value, bool translatable = false);
   void write(const std::string& name, const std::vector<int>& value);
@@ -46,6 +48,9 @@ public:
   void write(const std::string& name, const std::vector<std::string>& value);
   void write(const std::string& name, const sexp::Value& value);
   // add more write-functions when needed...
+
+  // Writes vector by using negative integer values as repeaters for repeating values.
+  void write_compressed(const std::string& name, const std::vector<unsigned int>& value);
 
   void end_list(const std::string& listname);
 
@@ -65,7 +70,3 @@ private:
   Writer(const Writer&) = delete;
   Writer & operator=(const Writer&) = delete;
 };
-
-#endif
-
-/* EOF */

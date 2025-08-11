@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_INVISIBLE_BLOCK_HPP
-#define HEADER_SUPERTUX_OBJECT_INVISIBLE_BLOCK_HPP
+#pragma once
 
 #include "object/block.hpp"
 
@@ -32,8 +31,8 @@ public:
   virtual GameObjectClasses get_class_types() const override { return Block::get_class_types().add(typeid(InvisibleBlock)); }
 
   virtual void draw(DrawingContext& context) override;
-  virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
@@ -54,7 +53,3 @@ private:
   InvisibleBlock(const InvisibleBlock&) = delete;
   InvisibleBlock& operator=(const InvisibleBlock&) = delete;
 };
-
-#endif
-
-/* EOF */

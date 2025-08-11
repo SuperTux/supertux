@@ -14,15 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_CONSTANTS_HPP
-#define HEADER_SUPERTUX_SUPERTUX_CONSTANTS_HPP
+#pragma once
 
 #include <string>
 
-// the engine will be run with a logical framerate of 64fps.
-// We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
-// binary fraction...
-static const float LOGICAL_FPS = 64.0;
+// the engine will be run with a logical framerate of 66.666fps, corresponding
+// to a 15 msec gap between steps. Warning: changing this may affect physics
+static const float LOGICAL_FPS = 1000.0f / 15.0f;
 
 // SHIFT_DELTA is used for sliding over 1-tile gaps and collision detection
 static const float SHIFT_DELTA = 7.0f;
@@ -35,7 +33,3 @@ static const std::string DEFAULT_SPAWNPOINT_NAME = "main";
 
 // The sector that gets activated by default when a level is started
 static const std::string DEFAULT_SECTOR_NAME = "main";
-
-#endif
-
-/* EOF */

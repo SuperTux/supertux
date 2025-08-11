@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_OPTIONS_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_OPTIONS_MENU_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
@@ -39,6 +38,7 @@ public:
   OptionsMenu(Type type, bool complete);
   ~OptionsMenu() override;
 
+  void refresh() override;
   void on_window_resize() override;
 
   void menu_action(MenuItem& item) override;
@@ -81,6 +81,7 @@ private:
     MNID_PAUSE_ON_FOCUSLOSS,
     MNID_CUSTOM_CURSOR,
     MNID_RELEASE_CHECK,
+    MNID_DISABLE_NETWORK,
     MNID_MOBILE_CONTROLS,
     MNID_MOBILE_CONTROLS_SCALE
   };
@@ -92,6 +93,9 @@ private:
   };
 
 private:
+  const Type m_type;
+  const bool m_complete;
+
   StringOption m_magnifications;
   StringOption m_aspect_ratios;
   StringOption m_window_resolutions;
@@ -106,7 +110,3 @@ private:
   OptionsMenu(const OptionsMenu&) = delete;
   OptionsMenu& operator=(const OptionsMenu&) = delete;
 };
-
-#endif
-
-/* EOF */

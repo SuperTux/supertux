@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
-#define HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -61,8 +60,8 @@ public:
 
   void empty_cache_directory();
 
-  bool has_online_support() const;
-  bool has_been_updated() const;
+  inline bool has_online_support() const { return true; }
+  inline bool has_been_updated() const { return m_has_been_updated; }
   void check_online();
   TransferStatusPtr request_check_online();
 
@@ -123,7 +122,3 @@ private:
   AddonManager(const AddonManager&) = delete;
   AddonManager& operator=(const AddonManager&) = delete;
 };
-
-#endif
-
-/* EOF */

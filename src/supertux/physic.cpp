@@ -35,24 +35,10 @@ Physic::reset()
 }
 
 void
-Physic::set_velocity(float nvx, float nvy)
-{
-  vx = nvx;
-  vy = nvy;
-}
-
-void
 Physic::set_velocity(const Vector& vector)
 {
   vx = vector.x;
   vy = vector.y;
-}
-
-void
-Physic::set_acceleration(float nax, float nay)
-{
-  ax = nax;
-  ay = nay;
 }
 
 void
@@ -76,5 +62,3 @@ Physic::get_movement(float dt_sec)
 
   return result;
 }
-
-/* EOF */

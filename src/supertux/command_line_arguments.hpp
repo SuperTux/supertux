@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_COMMAND_LINE_ARGUMENTS_HPP
-#define HEADER_SUPERTUX_SUPERTUX_COMMAND_LINE_ARGUMENTS_HPP
+#pragma once
 
 #include <optional>
 #include <vector>
@@ -85,8 +84,8 @@ public:
 public:
   CommandLineArguments();
 
-  Action get_action() const { return m_action; }
-  LogLevel get_log_level() const { return m_log_level; }
+  inline Action get_action() const { return m_action; }
+  inline LogLevel get_log_level() const { return m_log_level; }
 
   void parse_args(int argc, char** argv);
 
@@ -101,7 +100,3 @@ private:
   CommandLineArguments(const CommandLineArguments&) = delete;
   CommandLineArguments& operator=(const CommandLineArguments&) = delete;
 };
-
-#endif
-
-/* EOF */

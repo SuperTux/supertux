@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
-#define HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
+#pragma once
 
 #include <editor/bezier_marker.hpp>
 #include "editor/marker_object.hpp"
@@ -41,7 +40,7 @@ public:
 
   /** Moves the bezier marker that ISN'T @c marker to the given position. */
   /** Can't make the by reference because of overlay_widget.cpp */
-  void move_other_marker(UID marker, Vector position);
+  void move_other_marker(UID marker, const Vector& position);
 
   void save_state() override;
   void check_state() override;
@@ -65,7 +64,3 @@ private:
   NodeMarker(const NodeMarker&) = delete;
   NodeMarker& operator=(const NodeMarker&) = delete;
 };
-
-#endif
-
-/* EOF */

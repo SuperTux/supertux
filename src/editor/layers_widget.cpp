@@ -148,17 +148,7 @@ EditorLayersWidget::draw(DrawingContext& context)
 void
 EditorLayersWidget::update(float dt_sec)
 {
-  auto it = m_layer_icons.begin();
-  while (it != m_layer_icons.end())
-  {
-    auto layer_icon = (*it).get();
-    if (!layer_icon->is_valid())
-    {
-      it = m_layer_icons.erase(it);
-      continue;
-    }
-    ++it;
-  }
+  remove_invalid_layers();
 
   TileMap* selected_tilemap = get_selected_tilemap();
   if (selected_tilemap)
@@ -224,7 +214,7 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         else
         {
-          TileMap* tilemap = dynamic_cast<TileMap*>(m_layer_icons[m_hovered_layer]->get_layer());
+          TileMap* tilemap = m_layer_icons[m_hovered_layer]->get_layer_tilemap();
           if (tilemap) {
             set_selected_tilemap(tilemap);
             m_editor.edit_path(tilemap->get_path_gameobject(), tilemap);
@@ -329,15 +319,16 @@ EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
     }
     else if ((wheel.x > 0 || wheel.y > 0) && !(wheel.x < 0 || wheel.y < 0))
     {
-      if (m_scroll < (static_cast<int>(m_layer_icons.size()) - 1) * 35)
+      auto last_item_position = (static_cast<int>(m_layer_icons.size()) - 1) * 35;
+      if (m_scroll < last_item_position)
       {
         m_scroll += 16;
       }
       else
       {
-        m_scroll = (static_cast<int>(m_layer_icons.size()) - 1) * 35;
+        m_scroll = last_item_position;
       }
-      
+
     }
   }
   return false;
@@ -350,7 +341,7 @@ EditorLayersWidget::has_mouse_focus() const
 }
 
 void
-EditorLayersWidget::resize()
+EditorLayersWidget::on_window_resize()
 {
   m_Ypos = SCREEN_HEIGHT - 32;
   m_Width = SCREEN_WIDTH - 128;
@@ -359,7 +350,7 @@ EditorLayersWidget::resize()
 void
 EditorLayersWidget::setup()
 {
-  resize();
+  on_window_resize();
 }
 
 void
@@ -389,8 +380,7 @@ EditorLayersWidget::refresh_layers()
   TileMap* first_tilemap = nullptr;
   for (const auto& icon : m_layer_icons)
   {
-    auto* go = icon->get_layer();
-    auto tm = dynamic_cast<TileMap*>(go);
+    auto* tm = icon->get_layer_tilemap();
     if (!tm)
       continue;
 
@@ -425,17 +415,21 @@ EditorLayersWidget::sort_layers()
 }
 
 void
-EditorLayersWidget::add_layer(GameObject* layer, bool initial)
+EditorLayersWidget::add_layer(GameObject* object, bool initial)
 {
-  if (!layer->has_settings() ||
-      dynamic_cast<MovingObject*>(layer) ||
-      dynamic_cast<PathGameObject*>(layer))
-  {
+  if (!object->has_settings())
     return;
-  }
+
+  auto* layer = dynamic_cast<LayerObject*>(object);
+  if (!layer)
+    return;
 
   auto icon = std::make_unique<LayerIcon>(layer);
   int z_pos = icon->get_zpos();
+
+  // Newly added tilemaps shouldn't be active
+  if (auto layer_tilemap = icon->get_layer_tilemap())
+    layer_tilemap->m_editor_active = false;
 
   // The icon is inserted to the correct position.
   bool inserted = false;
@@ -450,16 +444,13 @@ EditorLayersWidget::add_layer(GameObject* layer, bool initial)
 
   if (!inserted)
     m_layer_icons.push_back(std::move(icon));
-
-  // Newly added tilemaps shouldn't be active
-  TileMap* tilemap = dynamic_cast<TileMap*>(layer);
-  if (tilemap)
-    tilemap->m_editor_active = false;
 }
 
 void
 EditorLayersWidget::update_tip()
 {
+  remove_invalid_layers();
+
   if (m_hovered_layer == m_layer_icons.size())
      m_object_tip->set_info(_("Add Layer"));
   else if (m_hovered_layer > m_layer_icons.size())
@@ -475,6 +466,22 @@ EditorLayersWidget::update_current_tip()
     return;
 
   update_tip();
+}
+
+void
+EditorLayersWidget::remove_invalid_layers()
+{
+  auto it = m_layer_icons.begin();
+  while (it != m_layer_icons.end())
+  {
+    auto layer_icon = (*it).get();
+    if (!layer_icon->is_valid())
+    {
+      it = m_layer_icons.erase(it);
+      continue;
+    }
+    ++it;
+  }
 }
 
 TileMap*
@@ -506,5 +513,3 @@ EditorLayersWidget::get_layer_pos(const Vector& coords) const
 {
   return static_cast<int>((coords.x - static_cast<float>(m_Xpos - m_scroll) - static_cast<float>(m_sector_text_width)) / 35.0f);
 }
-
-/* EOF */

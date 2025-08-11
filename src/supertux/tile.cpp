@@ -501,5 +501,3 @@ Tile::is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vecto
   return check_movement_unisolid (movement) &&
          check_position_unisolid (position, tile_bbox);
 }
-
-/* EOF */

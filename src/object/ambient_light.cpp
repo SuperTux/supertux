@@ -36,6 +36,7 @@ AmbientLight::AmbientLight(const Color& color) :
 }
 
 AmbientLight::AmbientLight(const ReaderMapping& mapping) :
+  LayerObject(mapping),
   m_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
   m_ambient_light_fading(false),
   m_source_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
@@ -87,18 +88,6 @@ AmbientLight::draw(DrawingContext& context)
 }
 
 void
-AmbientLight::set_ambient_light(const Color& ambient_light)
-{
-  m_ambient_light = ambient_light;
-}
-
-Color
-AmbientLight::get_ambient_light() const
-{
-  return m_ambient_light;
-}
-
-void
 AmbientLight::fade_to_ambient_light(float red, float green, float blue, float seconds)
 {
   if (seconds == 0)
@@ -123,5 +112,3 @@ AmbientLight::get_settings()
 
   return result;
 }
-
-/* EOF */

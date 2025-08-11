@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_TRIGGER_DOOR_HPP
-#define HEADER_SUPERTUX_TRIGGER_DOOR_HPP
+#pragma once
 
 #include "trigger/trigger_base.hpp"
 
@@ -39,14 +38,14 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void on_flip(float height) override;
 
-  bool is_locked() const { return m_locked; }
+  inline bool is_locked() const { return m_locked; }
   void unlock();
 
-  Color get_lock_color() const { return m_lock_color; }
+  inline Color get_lock_color() const { return m_lock_color; }
 
 private:
   enum DoorState {
@@ -76,7 +75,3 @@ private:
   Door(const Door&) = delete;
   Door& operator=(const Door&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_INTERFACE_LABEL_HPP
-#define HEADER_SUPERTUX_INTERFACE_LABEL_HPP
+#pragma once
 
 #include <SDL.h>
 
@@ -32,11 +31,11 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
 
-  void set_rect(const Rectf& rect) { m_rect = rect; }
-  Rectf get_rect() const { return m_rect; }
+  inline void set_rect(const Rectf& rect) { m_rect = rect; }
+  inline Rectf get_rect() const { return m_rect; }
 
-  void set_label(const std::string& label) { m_label = label; }
-  const std::string& get_label() const { return m_label; }
+  inline void set_label(const std::string& label) { m_label = label; }
+  inline const std::string& get_label() const { return m_label; }
 
   bool fits(const std::string& text) const;
   std::string get_truncated_text() const;
@@ -54,7 +53,3 @@ private:
   InterfaceLabel(const InterfaceLabel&) = delete;
   InterfaceLabel& operator=(const InterfaceLabel&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -26,5 +26,3 @@ std::string make_unique_name(const std::string& prefix, void* ptr)
   out << "gen" << time(nullptr) << reinterpret_cast<uintptr_t>(ptr);
   return out.str();
 }
-
-/* EOF */

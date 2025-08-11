@@ -50,7 +50,7 @@ BigSnowball::BigSnowball(const ReaderMapping& reader) :
     m_dir = string_to_dir(dir_str);
   }
   m_physic.set_velocity_x(m_dir == Direction::RIGHT ? m_speed : -m_speed);
-  set_action("normal", m_dir);
+  set_action("default", m_dir);
 }
 
 BigSnowball::BigSnowball(const Vector& pos, const Direction& dir, bool bounce) :
@@ -59,18 +59,17 @@ BigSnowball::BigSnowball(const Vector& pos, const Direction& dir, bool bounce) :
   m_dir(Direction::LEFT),
   m_speed(),
   m_break_on_impact(),
-  m_bounce()
+  m_bounce(bounce)
 {
   // settings used by Yeti when it throws it
   m_dir = dir;
   m_speed = SPEED_X;
   m_break_on_impact = true;
-  m_bounce = false;
   m_physic.set_velocity_x(m_dir == Direction::RIGHT ? SPEED_X : -SPEED_X);
   if (bounce) {
     m_physic.set_velocity_y(SPEED_Y);
   }
-  set_action("normal", m_dir);
+  set_action("default", m_dir);
 }
 
 ObjectSettings
@@ -126,7 +125,7 @@ BigSnowball::update(float dt_sec)
 }
 
 HitResponse
-BigSnowball::collision(GameObject& other, const CollisionHit& hit)
+BigSnowball::collision(MovingObject& other, const CollisionHit& hit)
 {
   // ignore collisions with yeti
   auto yeti = dynamic_cast<Yeti*>(&other); // cppcheck-suppress constVariablePointer
@@ -219,5 +218,3 @@ BigSnowball::spawn_particles()
   }
   remove_me();
 }
-
-/* EOF */

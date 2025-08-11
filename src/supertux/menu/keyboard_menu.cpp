@@ -39,6 +39,7 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager, int player_id) :
   add_controlfield(static_cast<int>(Control::RIGHT),      _("Right"));
   add_controlfield(static_cast<int>(Control::JUMP),       _("Jump"));
   add_controlfield(static_cast<int>(Control::ACTION),     _("Action"));
+  add_controlfield(static_cast<int>(Control::ITEM),       _("Item Pocket"));
 
   add_controlfield(static_cast<int>(Control::PEEK_LEFT),  _("Peek Left"));
   add_controlfield(static_cast<int>(Control::PEEK_RIGHT), _("Peek Right"));
@@ -114,12 +115,10 @@ KeyboardMenu::get_key_name(SDL_Keycode key) const
 void
 KeyboardMenu::menu_action(MenuItem& item)
 {
-  if (item.get_id() >= 0 && item.get_id() < static_cast<int>(Control::CONTROLCOUNT)) {
-    ItemControlField* itemcf = dynamic_cast<ItemControlField*>(&item);
-    if (!itemcf) {
-      return;
-    }
-    itemcf->change_input(_("Press Key"));
+  if (item.get_id() >= 0 && item.get_id() < static_cast<int>(Control::CONTROLCOUNT))
+  {
+    ItemControlField& field = static_cast<ItemControlField&>(item);
+    field.change_input(_("Press Key"));
     m_input_manager.keyboard_manager->bind_next_event_to(m_player_id, static_cast<Control>(item.get_id()));
   }
 }
@@ -127,9 +126,9 @@ KeyboardMenu::menu_action(MenuItem& item)
 void
 KeyboardMenu::refresh()
 {
-  const auto& controls = { Control::UP, Control::DOWN, Control::LEFT, Control::RIGHT, 
-                           Control::JUMP, Control::ACTION,
-                           Control::PEEK_LEFT, Control::PEEK_RIGHT, 
+  const auto& controls = { Control::UP, Control::DOWN, Control::LEFT, Control::RIGHT,
+                           Control::JUMP, Control::ACTION, Control::ITEM,
+                           Control::PEEK_LEFT, Control::PEEK_RIGHT,
                            Control::PEEK_UP, Control::PEEK_DOWN };
 
   const auto& developer_controls = { Control::CHEAT_MENU, Control::DEBUG_MENU, Control::CONSOLE };
@@ -151,12 +150,6 @@ KeyboardMenu::refresh()
 void
 KeyboardMenu::refresh_control(const Control& control)
 {
-  ItemControlField* control_field = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(control)));
-  if(!control_field)
-    return;
-
-  KeyboardConfig& kbd_cfg = g_config->keyboard_config;
-  control_field->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, control)));
+  ItemControlField& field = static_cast<ItemControlField&>(get_item_by_id(static_cast<int>(control)));
+  field.change_input(get_key_name(g_config->keyboard_config.reversemap_key(m_player_id, control)));
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_TTF_SURFACE_MANAGER_HPP
-#define HEADER_SUPERTUX_VIDEO_TTF_SURFACE_MANAGER_HPP
+#pragma once
 
 #include <tuple>
 #include <map>
@@ -38,6 +37,8 @@ public:
 
   // Returns -1 if there is no cached text surface
   int get_cached_surface_width(const TTFFont& font, const std::string& text);
+
+  void clear_cache();
 
   void print_debug_info(std::ostream& out);
 
@@ -64,7 +65,3 @@ private:
   TTFSurfaceManager(const TTFSurfaceManager&) = delete;
   TTFSurfaceManager& operator=(const TTFSurfaceManager&) = delete;
 };
-
-#endif
-
-/* EOF */

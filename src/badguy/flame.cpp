@@ -248,5 +248,3 @@ Flame::on_flip(float height)
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

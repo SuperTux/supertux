@@ -44,5 +44,3 @@ FallingCoin::update(float dt_sec)
       physic.get_velocity_y() > 0.0f)
     remove_me();
 }
-
-/* EOF */

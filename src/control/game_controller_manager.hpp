@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_GAME_CONTROLLER_MANAGER_HPP
-#define HEADER_SUPERTUX_CONTROL_GAME_CONTROLLER_MANAGER_HPP
+#pragma once
 
 #include <array>
 #include <vector>
@@ -31,7 +30,7 @@ typedef struct _SDL_GameController SDL_GameController;
 
 /**
  * Manages GameControllers.
- * 
+ *
  * WARNING: Any edit done to this class should also be done to JoystickManager!
  */
 class GameControllerManager final
@@ -54,7 +53,7 @@ public:
 
   void bind_controller(SDL_GameController* controller, int player_id);
 
-  std::unordered_map<SDL_GameController*, int>& get_controller_mapping() { return m_game_controllers; }
+  inline std::unordered_map<SDL_GameController*, int>& get_controller_mapping() { return m_game_controllers; }
 
 private:
   InputManager* m_parent;
@@ -67,7 +66,3 @@ private:
   GameControllerManager(const GameControllerManager&) = delete;
   GameControllerManager& operator=(const GameControllerManager&) = delete;
 };
-
-#endif
-
-/* EOF */

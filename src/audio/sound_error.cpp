@@ -29,5 +29,3 @@ SoundError::what() const throw()
 {
   return m_message.c_str();
 }
-
-/* EOF */

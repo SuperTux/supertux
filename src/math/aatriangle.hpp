@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_MATH_AATRIANGLE_HPP
-#define HEADER_SUPERTUX_MATH_AATRIANGLE_HPP
+#pragma once
 
 #include "math/rectf.hpp"
 
@@ -63,11 +62,18 @@ public:
   {
   }
 
+  // Meant for checking directions
+  explicit AATriangle(int newdir) :
+    bbox(),
+    dir(newdir)
+  {
+  }
+
+  inline int get_dir() const { return dir; }
+  inline bool is_south() const { return (dir & DIRECTION_MASK) == SOUTHWEST || (dir & DIRECTION_MASK) == SOUTHEAST; }
+  inline bool is_east() const { return (dir & DIRECTION_MASK) == NORTHEAST || (dir & DIRECTION_MASK) == SOUTHEAST; }
+
 public:
   Rectf bbox;
   int dir;
 };
-
-#endif
-
-/* EOF */

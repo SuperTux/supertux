@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
-#define HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
+#pragma once
 
 #include "supertux/game_object.hpp"
 
@@ -42,6 +41,8 @@ public:
   virtual bool is_saveable() const override { return false; }
   virtual std::string get_exposed_class_name() const override { return "DisplayEffect"; }
 
+  inline bool has_active_borders() const { return borders; }
+
   /** @name Scriptable Methods
       @{ */
 
@@ -62,13 +63,13 @@ public:
    * @description Blackens or un-blackens the screen (depending on the value of ""black"").
    * @param bool $black
    */
-  void set_black(bool black);
+  inline void set_black(bool black_) { black = black_; }
   /**
    * @scripting
    * @description Returns ""true"" if the screen has been blackened by ""set_black"".
      Note: Calling ""fade_in"" or ""fade_out"" resets the return value to ""false"".
    */
-  bool is_black() const;
+  inline bool is_black() const { return black; }
   /**
    * @scripting
    * @description Sets the display ratio to 16:9, effectively adding black bars at the top and bottom of the screen.
@@ -100,6 +101,11 @@ private:
   float border_fading;
   float border_size;
 
+  /**
+   * @scripting
+   * @description Determines whether the screen has been blackened.
+                  Equivalent to ""set_black()"" and ""is_black()"".
+   */
   bool black;
   bool borders;
 
@@ -107,7 +113,3 @@ private:
   DisplayEffect(const DisplayEffect&) = delete;
   DisplayEffect& operator=(const DisplayEffect&) = delete;
 };
-
-#endif
-
-/* EOF */

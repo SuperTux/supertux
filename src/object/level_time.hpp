@@ -14,10 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_LEVEL_TIME_HPP
-#define HEADER_SUPERTUX_OBJECT_LEVEL_TIME_HPP
+#pragma once
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
+
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -29,7 +29,7 @@ class ReaderMapping;
  * @instances A ""LevelTime"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class LevelTime final : public GameObject
+class LevelTime final : public LayerObject
 {
   static Color text_color;
 
@@ -85,11 +85,15 @@ private:
   bool running;
   float time_left;
 
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @scripting
+   * @description The number of seconds left on the clock.
+   */
+  float m_time;
+#endif
+
 private:
   LevelTime(const LevelTime&) = delete;
   LevelTime& operator=(const LevelTime&) = delete;
 };
-
-#endif
-
-/* EOF */

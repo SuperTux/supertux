@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MOUSECURSOR_HPP
-#define HEADER_SUPERTUX_GUI_MOUSECURSOR_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -54,10 +53,10 @@ public:
 
   void draw(DrawingContext& context);
 
-  void set_state(MouseCursorState state);
-  void set_icon(SurfacePtr icon);
+  inline void set_state(MouseCursorState state) { m_state = state; }
+  inline void set_icon(SurfacePtr icon) { m_icon = std::move(icon); }
 
-  void set_pos(int x, int y) { m_mobile_mode = true; m_x = x; m_y = y; }
+  inline void set_pos(int x, int y) { m_mobile_mode = true; m_x = x; m_y = y; }
 
 private:
   void apply_state(MouseCursorState state);
@@ -74,7 +73,3 @@ private:
   MouseCursor(const MouseCursor&) = delete;
   MouseCursor& operator=(const MouseCursor&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -31,7 +31,11 @@ FlipLevelTransformer::transform_sector(Sector& sector)
 {
   float height = sector.get_height();
 
-  for (auto& object : sector.get_objects()) {
+  for (auto& object : sector.get_objects())
+  {
+    if (!object->is_valid())
+      return;
+
     object->on_flip(height);
   }
 
@@ -47,5 +51,3 @@ FlipLevelTransformer::transform_flip(Flip& flip)
     flip = flip | VERTICAL_FLIP;
   }
 }
-
-/* EOF */

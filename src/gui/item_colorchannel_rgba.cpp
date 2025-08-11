@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "gui/item_colorchannel.hpp"
+#include "gui/item_colorchannel_rgba.hpp"
 
 #include <sstream>
 
@@ -197,5 +197,3 @@ ItemColorChannelRGBA::get_color() const
 {
   return m_channel;
 }
-
-/* EOF */

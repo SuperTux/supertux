@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_CHEAT_APPLY_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_CHEAT_APPLY_MENU_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
@@ -25,21 +24,13 @@ class CheatApplyMenu final : public Menu
 {
 public:
   CheatApplyMenu(std::function<void(Player&)> callback);
-  /** Use this for cheats that need a stack count, e. g. giving fire flowers */
-  CheatApplyMenu(std::function<void(Player&, int)> callback);
 
   void menu_action(MenuItem& item) override;
 
 private:
-  std::function<void(Player&)> m_callback_1;
-  std::function<void(Player&, int)> m_callback_2;
-  int m_stack_count;
+  std::function<void(Player&)> m_callback;
 
 private:
   CheatApplyMenu(const CheatApplyMenu&) = delete;
   CheatApplyMenu& operator=(const CheatApplyMenu&) = delete;
 };
-
-#endif
-
-/* EOF */

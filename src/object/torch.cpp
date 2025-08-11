@@ -27,7 +27,7 @@
 #include "util/reader_mapping.hpp"
 
 Torch::Torch(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/torch/torch1.sprite"),
+  MovingSprite(reader, "images/objects/torch/torch1.sprite", LAYER_TILES),
   m_light_color(1.f, 1.f, 1.f),
   m_flame(SpriteManager::current()->create("images/objects/torch/flame.sprite")),
   m_flame_glow(SpriteManager::current()->create("images/objects/torch/flame_glow.sprite")),
@@ -35,7 +35,7 @@ Torch::Torch(const ReaderMapping& reader) :
   m_burning(true)
 {
   reader.get("burning", m_burning, true);
-  reader.get("layer", m_layer, 0);
+  reader.get("layer", m_layer); // Backwards compatibility
 
   std::vector<float> vColor;
   if (!reader.get("color", vColor)) vColor = { 1.f, 1.f, 1.f };
@@ -78,7 +78,7 @@ Torch::update(float)
 }
 
 HitResponse
-Torch::collision(GameObject& other, const CollisionHit& )
+Torch::collision(MovingObject& other, const CollisionHit& )
 {
   const auto* player = dynamic_cast<Player*>(&other);
   if (player != nullptr && !m_burning)
@@ -94,10 +94,9 @@ Torch::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_bool(_("Burning"), &m_burning, "burning", true);
-  result.add_int(_("Layer"), &m_layer, "layer", 0);
   result.add_color(_("Color"), &m_light_color, "color", Color::WHITE);
 
-  result.reorder({"burning", "sprite", "layer", "color", "x", "y"});
+  result.reorder({"burning", "sprite", "z-pos", "color", "x", "y"});
 
   return result;
 }
@@ -110,18 +109,6 @@ Torch::after_editor_set()
   m_flame->set_color(m_light_color);
   m_flame_glow->set_color(m_light_color);
   m_flame_light->set_color(m_light_color);
-}
-
-bool
-Torch::get_burning() const
-{
-  return m_burning;
-}
-
-void
-Torch::set_burning(bool burning)
-{
-  m_burning = burning;
 }
 
 void
@@ -142,5 +129,3 @@ Torch::register_class(ssq::VM& vm)
 
   cls.addVar("burning", &Torch::m_burning);
 }
-
-/* EOF */

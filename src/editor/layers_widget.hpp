@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
-#define HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
+#pragma once
 
 #include <memory>
 #include <stdexcept>
@@ -59,7 +58,7 @@ public:
   virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
 
   virtual void setup() override;
-  virtual void resize() override;
+  virtual void on_window_resize() override;
 
   void refresh();
 
@@ -78,7 +77,9 @@ public:
 private:
   Vector get_layer_coords(const int pos) const;
   int get_layer_pos(const Vector& coords) const;
+
   void update_tip();
+  void remove_invalid_layers();
 
 private:
   Editor& m_editor;
@@ -109,7 +110,3 @@ private:
   EditorLayersWidget(const EditorLayersWidget&) = delete;
   EditorLayersWidget& operator=(const EditorLayersWidget&) = delete;
 };
-
-#endif
-
-/* EOF */

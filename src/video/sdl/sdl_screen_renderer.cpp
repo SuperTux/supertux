@@ -96,5 +96,3 @@ SDLScreenRenderer::flip()
 {
   SDL_RenderPresent(m_renderer);
 }
-
-/* EOF */

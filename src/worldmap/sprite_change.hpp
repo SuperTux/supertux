@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_WORLDMAP_SPRITE_CHANGE_HPP
-#define HEADER_SUPERTUX_WORLDMAP_SPRITE_CHANGE_HPP
+#pragma once
 
 #include "worldmap/worldmap_object.hpp"
 
@@ -59,7 +58,7 @@ public:
    */
   SpritePtr clone_sprite() const;
 
-  bool change_on_touch() const { return m_change_on_touch; }
+  inline bool change_on_touch() const { return m_change_on_touch; }
 
 private:
   /** should Tux's sprite change when the tile has been completely entered,
@@ -84,7 +83,3 @@ private:
 };
 
 } // namespace worldmap
-
-#endif
-
-/* EOF */

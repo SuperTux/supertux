@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_CANDLE_HPP
-#define HEADER_SUPERTUX_OBJECT_CANDLE_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -36,7 +35,7 @@ public:
   Candle(const ReaderMapping& mapping);
   virtual void draw(DrawingContext& context) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   static std::string class_name() { return "candle"; }
   virtual std::string get_class_name() const override { return class_name(); }
   virtual std::string get_exposed_class_name() const override { return "Candle"; }
@@ -58,7 +57,7 @@ public:
    * @scripting
    * @description Returns ""true"" if the candle is lit up.
    */
-  bool get_burning() const;
+  inline bool get_burning() const { return burning; }
   /**
    * @scripting
    * @description Sets the burning state of the candle.
@@ -67,6 +66,10 @@ public:
   void set_burning(bool burning);
 
 private:
+  /**
+   * @scripting
+   * @description The burning state of the candle.
+   */
   bool burning; /**< true if candle is currently lighted */
   bool flicker; /**< true if candle light is to flicker */
   Color lightcolor; /**< determines color or light given off */
@@ -77,7 +80,3 @@ private:
   Candle(const Candle&) = delete;
   Candle& operator=(const Candle&) = delete;
 };
-
-#endif
-
-/* EOF */

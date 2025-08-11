@@ -15,8 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef HEADER_SUPERTUX_OBJECT_PATH_OBJECT_HPP
-#define HEADER_SUPERTUX_OBJECT_PATH_OBJECT_HPP
+#pragma once
 
 #include <memory>
 
@@ -49,12 +48,16 @@ public:
 
   PathGameObject* get_path_gameobject() const;
   Path* get_path() const;
-  PathWalker* get_walker() const { return m_walker.get(); }
+  inline PathWalker* get_walker() const { return m_walker.get(); }
+
+  bool has_valid_path() const { return get_walker() && get_path() && get_path()->is_valid(); }
 
   void editor_clone_path(PathGameObject* path_object);
 
   std::string get_path_ref() const;
   void editor_set_path_by_ref(const std::string& new_ref);
+
+  virtual void on_path_resolved() {}
 
   /**
    * @scripting
@@ -96,7 +99,3 @@ private:
   PathObject(const PathObject&) = delete;
   PathObject& operator=(const PathObject&) = delete;
 };
-
-#endif
-
-/* EOF */

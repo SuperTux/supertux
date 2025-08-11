@@ -94,7 +94,10 @@ SectorParser::parse_object(const std::string& name, const ReaderMapping& reader)
   }
   catch (std::exception& err)
   {
-    log_warning << err.what() << std::endl;
+    std::string obj_name;
+    reader.get("name", obj_name);
+
+    log_warning << "Couldn't parse object of type '" << name << "' with name '" << obj_name << "': " << err.what() << std::endl;
     return {};
   }
 }
@@ -352,7 +355,7 @@ SectorParser::create_sector()
 
     // Add background gradient to sector:
     auto& gradient = m_sector.add<Gradient>();
-    gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color::WHITE);
+    gradient.set_gradient(Gradient::DEFAULT_GRADIENT_TOP, Gradient::DEFAULT_GRADIENT_BOTTOM);
     gradient.set_layer(-301);
   }
   else
@@ -383,5 +386,3 @@ SectorParser::create_sector()
 
   m_sector.finish_construction(m_editable);
 }
-
-/* EOF */

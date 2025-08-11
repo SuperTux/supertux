@@ -53,6 +53,10 @@ Addon::Type addon_type_from_string(const std::string& type)
   {
     return Addon::RESOURCEPACK;
   }
+  else if (type == "weakresourcepack")
+  {
+    return Addon::WEAKRESOURCEPACK;
+  }
   else if (type == "addon")
   {
     return Addon::ADDON;
@@ -83,6 +87,7 @@ std::string addon_type_to_translated_string(Addon::Type type)
       return _("Language Pack");
 
     case Addon::RESOURCEPACK:
+    case Addon::WEAKRESOURCEPACK:
       return _("Resource Pack");
 
     default:
@@ -232,30 +237,6 @@ Addon::get_filename() const
   return get_id() + ".zip";
 }
 
-const std::string&
-Addon::get_install_filename() const
-{
-  return m_install_filename;
-}
-
-bool
-Addon::is_installed() const
-{
-  return !m_install_filename.empty();
-}
-
-bool
-Addon::is_enabled() const
-{
-  return m_enabled;
-}
-
-bool
-Addon::is_visible() const
-{
-  return true;
-}
-
 bool
 Addon::is_levelset() const
 {
@@ -273,21 +254,6 @@ Addon::overrides_data() const
 bool
 Addon::requires_restart() const
 {
-  // Determines if the add-on requires a restart.
-  return m_type == LANGUAGEPACK || m_type == RESOURCEPACK;
+  // Determines if the add-on requires a restart to function after enabled.
+  return m_type == LANGUAGEPACK;
 }
-
-void
-Addon::set_install_filename(const std::string& absolute_filename, const std::string& md5)
-{
-  m_install_filename = absolute_filename;
-  m_md5 = md5;
-}
-
-void
-Addon::set_enabled(bool v)
-{
-  m_enabled = v;
-}
-
-/* EOF */

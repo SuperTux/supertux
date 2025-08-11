@@ -161,5 +161,3 @@ SDL_RWops* get_writable_physfs_SDLRWops(const std::string& filename)
 
   return ops;
 }
-
-/* EOF */

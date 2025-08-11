@@ -20,8 +20,9 @@
 #include "gui/item_action.hpp"
 #include "gui/item_back.hpp"
 #include "gui/item_color.hpp"
-#include "gui/item_colorchannel.hpp"
+#include "gui/item_colorchannel_rgba.hpp"
 #include "gui/item_colordisplay.hpp"
+#include "gui/item_color_picker_2d.hpp"
 #include "gui/item_controlfield.hpp"
 #include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
@@ -72,13 +73,6 @@ Menu::Menu() :
 
 Menu::~Menu()
 {
-}
-
-void
-Menu::set_center_pos(float x, float y)
-{
-  m_pos.x = x;
-  m_pos.y = y;
 }
 
 /* Add an item to a menu */
@@ -175,12 +169,6 @@ Menu::add_script(const std::string& text, std::string* script, int id)
   return add_item<ItemScript>(text, script, id);
 }
 
-ItemScriptLine&
-Menu::add_script_line(std::string* input, int id)
-{
-  return add_item<ItemScriptLine>(input, id);
-}
-
 ItemIntField&
 Menu::add_intfield(const std::string& text, int* input, int id, bool positive)
 {
@@ -203,6 +191,18 @@ ItemAction&
 Menu::add_entry(const std::string& text, const std::function<void()>& callback)
 {
   return add_item<ItemAction>(text, -1, callback);
+}
+
+ItemAction&
+Menu::add_entry(int id, const std::string& text, const Color& text_color)
+{
+  return add_item<ItemAction>(text, id, [](){}, text_color);
+}
+
+ItemAction&
+Menu::add_entry(const std::string& text, const std::function<void()>& callback, const Color& text_color)
+{
+  return add_item<ItemAction>(text, -1, callback, text_color);
 }
 
 ItemInactive&
@@ -269,10 +269,9 @@ Menu::add_color_channel_rgba(float* input, Color channel, int id, bool is_linear
   return add_item<ItemColorChannelRGBA>(input, channel, id, is_linear);
 }
 
-ItemColorChannelOKLab&
-Menu::add_color_channel_oklab(Color* color, int channel)
-{
-  return add_item<ItemColorChannelOKLab>(color, channel, this);
+ItemColorPicker2D&
+Menu::add_color_picker_2d(Color& color) {
+  return add_item<ItemColorPicker2D>(color);
 }
 
 ItemPaths&
@@ -310,7 +309,7 @@ Menu::add_images(const std::vector<std::string>& image_paths, int max_image_widt
 {
   return add_item<ItemImages>(image_paths, max_image_width, max_image_height, id);
 }
-  
+
 ItemList&
 Menu::add_list(const std::string& text, const std::vector<std::string>& items, std::string* value_ptr, int id)
 {
@@ -670,5 +669,3 @@ Menu::set_active_item(int id)
     }
   }
 }
-
-/* EOF */

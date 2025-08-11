@@ -32,11 +32,9 @@
 #include "util/reader_mapping.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
-#include "worldmap/worldmap_screen.hpp"
 
 GameManager::GameManager() :
-  m_savegame(),
-  m_next_worldmap()
+  m_savegame()
 {
 }
 
@@ -56,7 +54,7 @@ GameManager::start_level(const World& world, const std::string& level_filename,
     m_savegame->get_profile().set_last_world(world.get_basename());
 }
 
-void
+bool
 GameManager::start_worldmap(const World& world, const std::string& worldmap_filename,
                             const std::string& sector, const std::string& spawnpoint)
 {
@@ -81,52 +79,28 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
     }
 
     auto worldmap = std::make_unique<worldmap::WorldMap>(filename, *m_savegame, sector, spawnpoint);
-    auto worldmap_screen = std::make_unique<worldmap::WorldMapScreen>(std::move(worldmap));
-    ScreenManager::current()->push_screen(std::move(worldmap_screen));
+    ScreenManager::current()->push_screen(std::move(worldmap));
 
     if (!Editor::current())
       m_savegame->get_profile().set_last_world(world.get_basename());
   }
-  catch(std::exception& e)
+  catch (const std::exception& e)
   {
-    log_fatal << "Couldn't start world: " << e.what() << std::endl;
-  }
-}
-
-void
-GameManager::start_worldmap(const World& world, const std::string& worldmap_filename,
-                            const std::optional<std::pair<std::string, Vector>>& start_pos)
-{
-  start_worldmap(world, worldmap_filename, start_pos ? start_pos->first : "");
-  if (start_pos)
-    worldmap::WorldMapSector::current()->get_tux().set_initial_pos(start_pos->second);
-}
-
-bool
-GameManager::load_next_worldmap()
-{
-  if (!m_next_worldmap)
-    return false;
-
-  const auto next_worldmap = std::move(*m_next_worldmap);
-  m_next_worldmap.reset();
-
-  std::unique_ptr<World> world = World::from_directory(next_worldmap.world);
-  if (!world)
-  {
-    log_warning << "Cannot load world '" << next_worldmap.world << "'" <<  std::endl;
+    log_warning << "Couldn't start worldmap: " << e.what() << std::endl;
     return false;
   }
-
-  start_worldmap(*world, "", next_worldmap.sector, next_worldmap.spawnpoint); // New world, new savegame.
   return true;
 }
 
-void
-GameManager::set_next_worldmap(const std::string& world, const std::string& sector,
-                               const std::string& spawnpoint)
+bool
+GameManager::start_worldmap(const World& world, const std::string& worldmap_filename,
+                            const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
-  m_next_worldmap.emplace(world, sector, spawnpoint);
-}
+  if (!start_worldmap(world, worldmap_filename, start_pos ? start_pos->first : ""))
+    return false;
 
-/* EOF */
+  if (start_pos)
+    worldmap::WorldMapSector::current()->get_tux().set_initial_pos(start_pos->second);
+
+  return true;
+}

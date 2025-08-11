@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SURFACE_BATCH_HPP
-#define HEADER_SUPERTUX_VIDEO_SURFACE_BATCH_HPP
+#pragma once
 
 #include <vector>
 
@@ -35,11 +34,11 @@ public:
   void draw(const Rectf& dstrect, float angle = 0.0f);
   void draw(const Rectf& srcrect, const Rectf& dstrect, float angle = 0.0f);
 
-  std::vector<Rectf> move_srcrects() { return std::move(m_srcrects); }
-  std::vector<Rectf> move_dstrects() { return std::move(m_dstrects); }
-  std::vector<float> move_angles() { return std::move(m_angles); }
+  inline std::vector<Rectf> move_srcrects() { return std::move(m_srcrects); }
+  inline std::vector<Rectf> move_dstrects() { return std::move(m_dstrects); }
+  inline std::vector<float> move_angles() { return std::move(m_angles); }
 
-  Color get_color() const { return m_color; }
+  inline Color get_color() const { return m_color; }
 
 private:
   SurfacePtr m_surface;
@@ -52,7 +51,3 @@ private:
   SurfaceBatch(const SurfaceBatch&) = delete;
   SurfaceBatch& operator=(const SurfaceBatch&) = delete;
 };
-
-#endif
-
-/* EOF */

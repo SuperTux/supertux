@@ -25,7 +25,7 @@ ButtonWidget::ButtonWidget(SpritePtr sprite, const Vector& pos,
                            std::function<void()> sig_click) :
   m_sprite(std::move(sprite)),
   m_rect(pos, Sizef(static_cast<float>(m_sprite->get_width()),
-                    static_cast<float>(m_sprite->get_width()))),
+                    static_cast<float>(m_sprite->get_height()))),
   m_grab(false),
   m_hover(false),
   m_sig_click(std::move(sig_click))
@@ -62,7 +62,7 @@ ButtonWidget::setup()
 }
 
 void
-ButtonWidget::resize()
+ButtonWidget::on_window_resize()
 {
 }
 
@@ -120,5 +120,3 @@ ButtonWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     return false;
   }
 }
-
-/* EOF */

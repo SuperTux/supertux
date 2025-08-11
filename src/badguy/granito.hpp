@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_GRANITO_HPP
-#define HEADER_SUPERTUX_BADGUY_GRANITO_HPP
+#pragma once
 
 #include "badguy/walking_badguy.hpp"
 
@@ -44,7 +43,7 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "granito"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -56,6 +55,7 @@ public:
   virtual bool is_snipable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
   virtual bool is_flammable() const override { return false; }
+  virtual bool is_heavy() const override { return true; }
 
   virtual void kill_fall() override;
 
@@ -133,7 +133,7 @@ public:
    * @scripting
    * @description Gets the current Granito state. Value is any of the ""GRANITO_STATE"" enumerators.
    */
-  int get_state() const { return static_cast<int>(m_state); }
+  inline int get_state() const { return static_cast<int>(m_state); }
 
   /**
    * @scripting
@@ -196,7 +196,3 @@ private:
   Granito(const Granito&) = delete;
   Granito& operator=(const Granito&) = delete;
 };
-
-#endif
-
-/* EOF */

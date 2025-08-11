@@ -18,7 +18,6 @@
 #include "gui/item_script_line.hpp"
 
 #include "control/input_manager.hpp"
-#include "gui/menu_manager.hpp"
 #include "gui/menu_script.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/console.hpp"
@@ -27,8 +26,9 @@
 #include "util/string_util.hpp"
 #include "video/drawing_context.hpp"
 
-ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
-  ItemTextField("", input_, id_)
+ItemScriptLine::ItemScriptLine(ScriptMenu& script_menu, std::string* input_, int id_) :
+  ItemTextField("", input_, id_),
+  m_script_menu(script_menu)
 {
   m_cursor_width = Resources::console_font->get_text_width(m_cursor);
 }
@@ -95,9 +95,7 @@ ItemScriptLine::process_action(const MenuAction& action)
 void
 ItemScriptLine::invalid_remove()
 {
-  auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
-  if (!menu) return;
-  menu->remove_line();
+  m_script_menu.remove_line();
 }
 
 // Text manipulation and navigation functions
@@ -115,12 +113,9 @@ ItemScriptLine::paste() // Paste with mutli-line support
 
   if (paste_lines.empty()) return;
   insert_text(paste_lines[0], m_cursor_left_offset);
+
   for (std::size_t i = 1; i < paste_lines.size(); i++)
-  {
-    auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
-    if (!menu) break;
-    menu->add_line()->change_input(paste_lines[i]);
-  }
+    m_script_menu.add_line()->change_input(paste_lines[i]);
 
   on_input_update();
 }
@@ -128,17 +123,11 @@ ItemScriptLine::paste() // Paste with mutli-line support
 void
 ItemScriptLine::new_line()
 {
-  auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
-  if (!menu) return;
-  menu->add_line();
+  m_script_menu.add_line();
 }
 
 void
 ItemScriptLine::duplicate_line()
 {
-  auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
-  if (!menu) return;
-  menu->add_line()->change_input(*input);
+  m_script_menu.add_line()->change_input(*input);
 }
-
-/* EOF */

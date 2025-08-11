@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_FONT_HPP
-#define HEADER_SUPERTUX_VIDEO_FONT_HPP
+#pragma once
 
 #include <string>
 
@@ -52,10 +51,6 @@ public:
 
   virtual std::string wrap_to_width(const std::string& text, float width, std::string* overflow) = 0;
 
-  virtual void draw_text(Canvas& canvas, const std::string& text,
-                         const Vector& pos, FontAlignment alignment, int layer, const Color& color) = 0;
+  virtual Rectf draw_text(Canvas& canvas, const std::string& text,
+                          const Vector& pos, FontAlignment alignment, int layer, const Color& color) = 0;
 };
-
-#endif
-
-/* EOF */

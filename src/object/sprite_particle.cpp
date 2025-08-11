@@ -26,7 +26,7 @@
 
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color_) :
+                               int drawing_layer_, bool notimeout, Color color_, float angle) :
   SpriteParticle(SpriteManager::current()->create(sprite_name), action,
                  position_, anchor, velocity_, acceleration_,
                  drawing_layer_, notimeout, color_)
@@ -46,11 +46,12 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
   }
   no_time_out = notimeout;
   sprite->set_color(color_);
+  sprite->set_angle(angle);
 }
 
 SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color_) :
+                               int drawing_layer_, bool notimeout, Color color_, float angle) :
   sprite(std::move(sprite_)),
   position(position_),
   velocity(velocity_),
@@ -64,6 +65,7 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
   sprite->set_color(color_);
+  sprite->set_angle(angle);
 
   position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
   no_time_out = notimeout;
@@ -99,15 +101,14 @@ SpriteParticle::update(float dt_sec)
 void
 SpriteParticle::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), position, drawing_layer);
+  Vector draw_pos = position + velocity * context.get_time_offset();
+  sprite->draw(context.color(), draw_pos, drawing_layer);
 
   //Sparkles glow in the dark
   if (glow)
   {
-    sprite->draw(context.light(), position, drawing_layer);
-    lightsprite->draw(context.light(), position + Vector(12, 12), 0);
+    sprite->draw(context.light(), draw_pos, drawing_layer);
+    lightsprite->draw(context.light(), draw_pos + Vector(12, 12), 0);
   }
 
 }
-
-/* EOF */

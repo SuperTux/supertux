@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_OBJECT_HPP
-#define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_OBJECT_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -48,11 +47,11 @@ public:
 
   void update(float) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
 
-  Vector get_tile_pos() const { return { m_tile_x, m_tile_y }; }
+  inline Vector get_tile_pos() const { return { m_tile_x, m_tile_y }; }
 
 private:
   void initialize();
@@ -70,7 +69,3 @@ private:
 };
 
 } // namespace worldmap
-
-#endif
-
-/* EOF */

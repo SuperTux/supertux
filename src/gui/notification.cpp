@@ -232,7 +232,7 @@ Notification::disable()
       notif.disabled = true;
     }
   }
-  if (!defined) g_config->notifications.push_back({m_id, true}); 
+  if (!defined) g_config->notifications.push_back({m_id, true});
 }
 
 void
@@ -253,5 +253,3 @@ Notification::is_disabled(std::string id) // Check if a notification is disabled
                        return notif.id == id && notif.disabled;
                      });
 }
-
-/* EOF */

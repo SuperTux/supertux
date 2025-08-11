@@ -128,5 +128,3 @@ ItemFloatField::insert_text(const std::string& text, const int left_offset_pos)
   }
   on_input_update();
 }
-
-/* EOF */

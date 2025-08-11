@@ -15,23 +15,35 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_PLAYER_STATUS_HPP
-#define HEADER_SUPERTUX_SUPERTUX_PLAYER_STATUS_HPP
+#pragma once
 
 #include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
 
+#include "object/powerup.hpp"
+#include "supertux/timer.hpp"
+#include "supertux/level.hpp"
+
 class DrawingContext;
+class Player;
 class ReaderMapping;
 class Writer;
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
 
+/**
+ * @scripting
+ */
 enum BonusType {
-  NO_BONUS = 0, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS, AIR_BONUS, EARTH_BONUS
+  BONUS_NONE = 0, /*!< @description No bonus. */
+  BONUS_GROWUP,   /*!< @description Growup (a.k.a. egg) bonus. */
+  BONUS_FIRE,     /*!< @description Fire bonus. */
+  BONUS_ICE,      /*!< @description Ice bonus. */
+  BONUS_AIR,      /*!< @description Air bonus. */
+  BONUS_EARTH     /*!< @description Earth bonus. */
 };
 
 /** This class keeps player status between different game sessions (for
@@ -47,11 +59,22 @@ public:
   void write(Writer& writer);
   void read(const ReaderMapping& mapping);
 
+  void give_item_from_pocket(Player* player);
+  void add_item_to_pocket(BonusType bonustype, Player* player);
+  BonusType get_item_pocket(const Player* player) const;
+
+  bool is_item_pocket_allowed() const;
+
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
   bool respawns_at_checkpoint() const;
+  bool has_hat_sprite(int player_id) const { return bonus[player_id] > BONUS_GROWUP; }
+
+  static std::string get_bonus_name(BonusType bonustype);
+  static BonusType get_bonus_from_name(const std::string& name);
+
+  static std::string get_bonus_sprite(BonusType bonustype);
   std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
-  bool has_hat_sprite(int player_id) const { return bonus[player_id] > GROWUP_BONUS; }
 
   void add_player();
   void remove_player(int player_id);
@@ -59,15 +82,34 @@ public:
 private:
   void parse_bonus_mapping(const ReaderMapping& map, int id);
 
+private:
+  /// PowerUp that flings itself upwards
+  /// can't be collected right away.
+  class PocketPowerUp : public PowerUp
+  {
+  public:
+    PocketPowerUp(BonusType bonustype, Vector pos);
+    virtual void update(float dt_sec) override;
+    virtual void draw(DrawingContext& context) override;
+
+  public:
+    Timer m_cooldown_timer;
+    Timer m_blink_timer;
+    bool m_visible;
+
+  private:
+    PocketPowerUp(const PocketPowerUp&) = delete;
+    PocketPowerUp& operator=(const PocketPowerUp&) = delete;
+  };
+
 public:
   int m_num_players;
 
+  std::vector<BonusType> m_item_pockets;
+  Level::Setting m_override_item_pocket;
+
   int coins;
   std::vector<BonusType> bonus;
-  std::vector<int> max_fire_bullets; /**< maximum number of fire bullets in play */
-  std::vector<int> max_ice_bullets; /**< maximum number of ice bullets in play */
-  std::vector<int> max_air_time; /**<determines maximum number of seconds player can float in air */
-  std::vector<int> max_earth_time; /**< determines maximum number of seconds player can turn to stone */
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */
@@ -77,7 +119,3 @@ private:
   PlayerStatus(const PlayerStatus&) = delete;
   PlayerStatus& operator=(const PlayerStatus&) = delete;
 };
-
-#endif
-
-/* EOF */

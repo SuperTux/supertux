@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SDL_SURFACE_PTR_HPP
-#define HEADER_SUPERTUX_VIDEO_SDL_SURFACE_PTR_HPP
+#pragma once
 
 #include <SDL.h>
 
@@ -82,6 +81,13 @@ public:
     m_surface = surface;
   }
 
+  void reset(SDLSurfacePtr& other)
+  {
+    SDL_FreeSurface(m_surface);
+    m_surface = other.m_surface;
+    other.m_surface = nullptr;
+  }
+
   SDL_Surface* get() const
   {
     return m_surface;
@@ -95,7 +101,3 @@ private:
   SDLSurfacePtr(const SDLSurfacePtr&) = delete;
   SDLSurfacePtr& operator=(const SDLSurfacePtr&) = delete;
 };
-
-#endif
-
-/* EOF */

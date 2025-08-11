@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_COIN_HPP
-#define HEADER_SUPERTUX_OBJECT_COIN_HPP
+#pragma once
 
 #include "object/path_object.hpp"
 #include "object/moving_sprite.hpp"
@@ -36,7 +35,7 @@ public:
   Coin(const ReaderMapping& reader, bool count_stats = true);
   virtual void finish_construction() override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void update(float dt_sec) override;
   static std::string class_name() { return "coin"; }
@@ -51,6 +50,8 @@ public:
 
   virtual void after_editor_set() override;
   virtual void editor_update() override;
+
+  int get_coins_worth() const override { return 1; }
 
   void save_state() override;
   void check_state() override;
@@ -112,7 +113,3 @@ private:
   HeavyCoin(const HeavyCoin&) = delete;
   HeavyCoin& operator=(const HeavyCoin&) = delete;
 };
-
-#endif
-
-/* EOF */

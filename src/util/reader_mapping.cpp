@@ -45,6 +45,9 @@ ReaderMapping::get_iter() const
 const sexp::Value*
 ReaderMapping::get_item(const char* key) const
 {
+  if (!key || !key[0]) // Check whether key is valid and non-empty
+    return nullptr;
+
   for (size_t i = 1; i < m_arr.size(); ++i)
   {
     auto const& pair = m_arr[i];
@@ -96,6 +99,12 @@ ReaderMapping::get(const char* key, uint32_t& value, const std::optional<uint32_
 }
 
 bool
+ReaderMapping::get(const char* key, UID& value, const std::optional<UID>& default_value) const
+{
+  GET_VALUE_MACRO("uint32_t", is_integer, as_int)
+}
+
+bool
 ReaderMapping::get(const char* key, float& value, const std::optional<float>& default_value) const
 {
   GET_VALUE_MACRO("float", is_real, as_float)
@@ -120,11 +129,7 @@ ReaderMapping::get(const char* key, std::string& value, const std::optional<cons
     if (item[1].is_string()) {
       value = item[1].as_string();
       return true;
-    } else if (item[1].is_array() &&
-               item[1].as_array().size() == 2 &&
-               item[1].as_array()[0].is_symbol() &&
-               item[1].as_array()[0].as_string() == "_" &&
-               item[1].as_array()[1].is_string()) {
+    } else if (item[1].is_translatable_string()) {
       if (s_translations_enabled) {
         value = _(item[1].as_array()[1].as_string());
       } else {
@@ -146,7 +151,9 @@ ReaderMapping::get(const char* key, std::string& value, const std::optional<cons
     return false;                                                       \
   } else {                                                              \
     assert_is_array(m_doc, *sx);                                        \
+    value.clear();                                                      \
     auto const& item = sx->as_array();                                  \
+    value.reserve(item.size());                                         \
     for (size_t i = 1; i < item.size(); ++i)                            \
     {                                                                   \
       assert_##checker(m_doc, item[i]);                                 \
@@ -159,7 +166,6 @@ bool
 ReaderMapping::get(const char* key, std::vector<bool>& value,
                    const std::optional<std::vector<bool>>& default_value) const
 {
-  value.clear();
   GET_VALUES_MACRO("bool", is_boolean, as_bool)
 }
 
@@ -167,7 +173,6 @@ bool
 ReaderMapping::get(const char* key, std::vector<int>& value,
                    const std::optional<std::vector<int>>& default_value) const
 {
-  value.clear();
   GET_VALUES_MACRO("int", is_integer, as_int)
 }
 
@@ -176,7 +181,6 @@ bool
 ReaderMapping::get(const char* key, std::vector<float>& value,
                    const std::optional<std::vector<float>>& default_value) const
 {
-  value.clear();
   GET_VALUES_MACRO("float", is_real, as_float)
 }
 
@@ -184,7 +188,6 @@ bool
 ReaderMapping::get(const char* key, std::vector<std::string>& value,
                    const std::optional<std::vector<std::string>>& default_value) const
 {
-  value.clear();
   GET_VALUES_MACRO("string", is_string, as_string)
 }
 
@@ -192,11 +195,58 @@ bool
 ReaderMapping::get(const char* key, std::vector<unsigned int>& value,
                    const std::optional<std::vector<unsigned int>>& default_value) const
 {
-  value.clear();
   GET_VALUES_MACRO("unsigned int", is_integer, as_int)
 }
 
 #undef GET_VALUES_MACRO
+
+bool
+ReaderMapping::get_compressed(const char* key, std::vector<unsigned int>& value,
+                              const std::optional<std::vector<unsigned int>>& default_value) const
+{
+  const auto sx = get_item(key);
+  if (!sx)
+  {
+    if (default_value)
+      value = *default_value;
+    return false;
+  }
+
+  assert_is_array(m_doc, *sx);
+  value.clear();
+  const auto& item = sx->as_array();
+  value.reserve(item.size());
+
+  int repeater = 0;
+  for (size_t i = 1; i < item.size(); ++i)
+  {
+    assert_is_integer(m_doc, item[i]);
+
+    const int val = item[i].as_int();
+    if (repeater)
+    {
+      if (val < 0)
+      {
+        raise_exception(m_doc, item[i], "expected positive integer after repeater");
+      }
+      value.insert(value.end(), repeater, val);
+      repeater = 0;
+    }
+    else if (val < 0)
+    {
+      repeater = -val;
+    }
+    else
+    {
+      value.push_back(val);
+    }
+  }
+  if (repeater)
+  {
+    raise_exception(m_doc, item.back(), "expected positive integer after repeater");
+  }
+  return true;
+}
 
 bool
 ReaderMapping::get(const char* key, std::optional<ReaderMapping>& value) const
@@ -234,5 +284,3 @@ ReaderMapping::get(const char* key, sexp::Value& value) const
     return true;
   }
 }
-
-/* EOF */

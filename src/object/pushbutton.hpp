@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PUSHBUTTON_HPP
-#define HEADER_SUPERTUX_OBJECT_PUSHBUTTON_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 
@@ -25,7 +24,7 @@ class PushButton final : public StickyObject
 public:
   PushButton(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   static std::string class_name() { return "pushbutton"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -53,7 +52,3 @@ private:
   PushButton(const PushButton&) = delete;
   PushButton& operator=(const PushButton&) = delete;
 };
-
-#endif
-
-/* EOF */

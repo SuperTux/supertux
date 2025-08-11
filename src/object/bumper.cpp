@@ -41,11 +41,13 @@ Bumper::Bumper(const ReaderMapping& reader) :
   bool old_facing_left = false;
 
   reader.get("sticky", m_sticky, false);
+
   if (reader.get("direction", dir_str))
     m_dir = string_to_dir(dir_str);
   else if (reader.get("left", old_facing_left) && old_facing_left)
     m_dir = Direction::LEFT;
-  set_action("normal", m_dir);
+
+  set_action("default", m_dir);
   m_physic.enable_gravity(false);
 }
 
@@ -63,7 +65,7 @@ void
 Bumper::update(float dt_sec)
 {
   if (m_sprite->animation_done())
-    set_action("normal", m_dir);
+    set_action("default", m_dir);
 
   // Pushing rocks, as well as dynamic with tilemap, platform, and fallblock.
 
@@ -94,7 +96,7 @@ Bumper::update(float dt_sec)
 }
 
 HitResponse
-Bumper::collision(GameObject& other, const CollisionHit& hit)
+Bumper::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player)
@@ -132,7 +134,7 @@ Bumper::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  set_action("normal", m_dir);
+  set_action("default", m_dir);
 }
 
 void
@@ -148,5 +150,3 @@ Bumper::bounce()
   SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
   set_action("swinging", m_dir, 1);
 }
-
-/* EOF */

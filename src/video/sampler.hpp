@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SAMPLER_HPP
-#define HEADER_SUPERTUX_VIDEO_SAMPLER_HPP
+#pragma once
 
 #include "math/vector.hpp"
 #include "video/gl.hpp"
@@ -29,10 +28,10 @@ public:
 
   Sampler& operator=(const Sampler&) = default;
 
-  GLenum get_filter() const { return m_filter; }
-  GLenum get_wrap_s() const { return m_wrap_s; }
-  GLenum get_wrap_t() const { return m_wrap_t; }
-  Vector get_animate() const { return m_animate; }
+  inline GLenum get_filter() const { return m_filter; }
+  inline GLenum get_wrap_s() const { return m_wrap_s; }
+  inline GLenum get_wrap_t() const { return m_wrap_t; }
+  inline Vector get_animate() const { return m_animate; }
 
 private:
   GLenum m_filter;
@@ -40,7 +39,3 @@ private:
   GLenum m_wrap_t;
   Vector m_animate;
 };
-
-#endif
-
-/* EOF */

@@ -20,10 +20,7 @@
 
 #include <physfs.h>
 
-#include "badguy/goldbomb.hpp"
 #include "editor/editor.hpp"
-#include "object/bonus_block.hpp"
-#include "object/coin.hpp"
 #include "object/player.hpp"
 #include "physfs/util.hpp"
 #include "supertux/game_session.hpp"
@@ -37,7 +34,6 @@
 #include "util/writer.hpp"
 
 static PlayerStatus s_dummy_player_status(1);
-
 Level* Level::s_current = nullptr;
 
 Level::Level(bool worldmap) :
@@ -52,6 +48,7 @@ Level::Level(bool worldmap) :
   m_stats(),
   m_target_time(),
   m_tileset("images/tiles.strf"),
+  m_allow_item_pocket(ON),
   m_suppress_pause_menu(),
   m_is_in_cutscene(false),
   m_skip_cutscene(false),
@@ -60,6 +57,11 @@ Level::Level(bool worldmap) :
   m_wmselect_bkg()
 {
   s_current = this;
+
+  if (!is_worldmap())
+  {
+    m_allow_item_pocket = INHERIT;
+  }
 }
 
 Level::~Level()
@@ -75,31 +77,36 @@ Level::initialize()
 
   m_stats.init(*this);
 
-  Savegame* savegame = (GameSession::current() && !Editor::current() ?
+  Savegame* savegame = (GameSession::current() && !Editor::is_active() ?
     &GameSession::current()->get_savegame() : nullptr);
   PlayerStatus& player_status = savegame ? savegame->get_player_status() : s_dummy_player_status;
 
-  if (savegame && !m_suppress_pause_menu && !savegame->is_title_screen())
+  // Condition 1: If there is a savegame, it shouldn't be from the title screen. (Don't load HUD on title screen)
+  // Condition 2: Pause menu shouldn't be suppressed.
+  // Condition 3: The level shouldn't be loaded in the editor.
+  if ((!savegame || !savegame->is_title_screen()) &&
+      !m_suppress_pause_menu && !Editor::is_active())
   {
     for (auto& sector : m_sectors)
       sector->add<PlayerStatusHUD>(player_status);
   }
 
+  // All players will be added to the first sector. They are moved between sectors.
   Sector* sector = m_sectors.at(0).get();
-  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
-  {
-    if (!InputManager::current()->has_corresponsing_controller(id)
-        && !InputManager::current()->m_uses_keyboard[id]
-        && savegame
-        && !savegame->is_title_screen()
-        && id != 0)
-      continue;
+  sector->add<Player>(player_status, "Tux", 0);
 
-    if (id > 0 && !savegame)
+  if (savegame && !savegame->is_title_screen())
+  {
+    for (int id = 1; id < InputManager::current()->get_num_users() || id == 0; id++)
+    {
+      if (!InputManager::current()->has_corresponsing_controller(id)
+          && !InputManager::current()->m_uses_keyboard[id])
+        continue;
+
       s_dummy_player_status.add_player();
 
-    // Add all players in the first sector. They will be moved between sectors.
-    sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+      sector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
+    }
   }
   sector->flush_game_objects();
 }
@@ -189,11 +196,20 @@ Level::save(Writer& writer)
     writer.write("suppress-pause-menu", m_suppress_pause_menu);
   }
 
+  writer.write("allow-item-pocket", get_setting_name(static_cast<Level::Setting>(m_allow_item_pocket)));
+
   writer.write("icon", m_icon);
   writer.write("icon-locked", m_icon_locked);
 
   if (!m_wmselect_bkg.empty())
     writer.write("bkg", m_wmselect_bkg);
+
+  if (!m_is_worldmap)
+  {
+    writer.start_list("statistics");
+    m_stats.get_preferences().write(writer);
+    writer.end_list("statistics");
+  }
 
   for (auto& sector : m_sectors) {
     sector->save(writer);
@@ -204,6 +220,43 @@ Level::save(Writer& writer)
 
   // Ends writing to supertux level file. Keep this at the very end.
   writer.end_list("supertux-level");
+}
+
+std::string
+Level::get_setting_name(Setting setting)
+{
+  switch (setting)
+  {
+    case ON:
+      return "on";
+
+    case OFF:
+      return "off";
+
+    case INHERIT:
+      return "inherit";
+  }
+
+  return "on";
+}
+
+Level::Setting
+Level::get_setting_from_name(std::string setting)
+{
+  if (setting == "on")
+  {
+    return ON;
+  }
+  else if (setting == "off")
+  {
+    return OFF;
+  }
+  else if (setting == "inherit")
+  {
+    return INHERIT;
+  }
+
+  return ON;
 }
 
 void
@@ -244,32 +297,10 @@ int
 Level::get_total_coins() const
 {
   int total_coins = 0;
-  for (auto const& sector : m_sectors) {
-    for (const auto& o: sector->get_objects()) {
-      auto coin = dynamic_cast<Coin*>(o.get());
-      if (coin)
-      {
-        total_coins++;
-        continue;
-      }
-      auto block = dynamic_cast<BonusBlock*>(o.get());
-      if (block)
-      {
-        if (block->get_contents() == BonusBlock::Content::COIN)
-        {
-          total_coins += block->get_hit_counter();
-          continue;
-        } else if (block->get_contents() == BonusBlock::Content::RAIN ||
-                   block->get_contents() == BonusBlock::Content::EXPLODE)
-        {
-          total_coins += 10 * block->get_hit_counter();
-          continue;
-        }
-      }
-      auto goldbomb = dynamic_cast<GoldBomb*>(o.get());
-      if (goldbomb)
-        total_coins += 10;
-    }
+  for (auto const& sector : m_sectors)
+  {
+    for (const auto& obj : sector->get_objects())
+      total_coins += obj->get_coins_worth();
   }
   return total_coins;
 }
@@ -300,8 +331,8 @@ Level::get_players() const
 {
   std::vector<Player*> players;
   for (const auto& sector : m_sectors)
-    for (auto& player : sector->get_objects_by_type_index(typeid(Player)))
-      players.push_back(static_cast<Player*>(player));
+    for (auto& player : sector->get_objects_by_type<Player>())
+      players.push_back(&player);
 
   return players;
 }
@@ -311,5 +342,3 @@ Level::reactivate()
 {
   s_current = this;
 }
-
-/* EOF */

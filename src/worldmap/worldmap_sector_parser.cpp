@@ -65,5 +65,3 @@ WorldMapSectorParser::parse_object_additional(const std::string& name, const Rea
 }
 
 } // namespace worldmap
-
-/* EOF */

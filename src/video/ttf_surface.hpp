@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_TTF_SURFACE_HPP
-#define HEADER_SUPERTUX_VIDEO_TTF_SURFACE_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -37,8 +36,8 @@ public:
 public:
   TTFSurface(const SurfacePtr& surface, const Vector& offset);
 
-  SurfacePtr get_surface() { return m_surface; }
-  Vector get_offset() const { return m_offset; }
+  inline SurfacePtr get_surface() { return m_surface; }
+  inline Vector get_offset() const { return m_offset; }
 
   int get_width() const;
   int get_height() const;
@@ -51,7 +50,3 @@ private:
   TTFSurface(const TTFSurface&) = delete;
   TTFSurface& operator=(const TTFSurface&) = delete;
 };
-
-#endif
-
-/* EOF */

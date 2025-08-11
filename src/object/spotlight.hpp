@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
-#define HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
+#pragma once
 
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
@@ -51,7 +50,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit_) override;
 
   static std::string class_name() { return "spotlight"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -66,17 +65,15 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""enabled"" property instead!
    * @description Enables/disables the spotlight.
    * @param bool $enabled
    */
-  void set_enabled(bool enabled);
+  inline void set_enabled(bool enabled) { m_enabled = enabled; }
   /**
    * @scripting
-   * @deprecated Use the ""enabled"" property instead!
    * @description Returns ""true"" if the spotlight is enabled.
    */
-  bool is_enabled();
+  inline bool is_enabled() { return m_enabled; }
 
   /**
    * @scripting
@@ -87,18 +84,17 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""angle"" property instead!
    * @description Sets the angle of the spotlight.
    * @param float $angle
    */
-  void set_angle(float angle);
+  inline void set_angle(float angle) { m_angle = angle; }
   /**
    * @scripting
    * @description Fades the angle of the spotlight in ""time"" seconds.
    * @param float $angle
    * @param float $time
    */
-  void fade_angle(float angle, float time);
+  inline void fade_angle(float angle, float time) { ease_angle(time, angle); }
   /**
    * @scripting
    * @description Fades the angle of the spotlight in ""time"" seconds, with easing.
@@ -110,18 +106,17 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""speed"" property instead!
    * @description Sets the speed of the spotlight.
    * @param float $speed
    */
-  void set_speed(float speed);
+  inline void set_speed(float speed) { m_speed = speed; }
   /**
    * @scripting
    * @description Fades the speed of the spotlight in ""time"" seconds.
    * @param float $speed
    * @param float $time
    */
-  void fade_speed(float speed, float time);
+  inline void fade_speed(float speed, float time) { ease_speed(time, speed); }
   /**
    * @scripting
    * @description Fades the speed of the spotlight in ""time"" seconds, with easing.
@@ -139,7 +134,7 @@ public:
    * @param float $b
    * @param float $a
    */
-  void set_color_rgba(float r, float g, float b, float a);
+  inline void set_color_rgba(float r, float g, float b, float a) { m_color = Color(r, g, b, a); }
   /**
    * @scripting
    * @description Fades the spotlight to a new RGBA color in ""time"" seconds.
@@ -149,7 +144,7 @@ public:
    * @param float $a
    * @param float $time
    */
-  void fade_color_rgba(float r, float g, float b, float a, float time);
+  inline void fade_color_rgba(float r, float g, float b, float a, float time) { ease_color(time, Color(r, g, b, a)); }
   /**
    * @scripting
    * @description Fades the spotlight to a new RGBA color in ""time"" seconds, with easing.
@@ -202,7 +197,3 @@ private:
   Spotlight(const Spotlight&) = delete;
   Spotlight& operator=(const Spotlight&) = delete;
 };
-
-#endif
-
-/* EOF */

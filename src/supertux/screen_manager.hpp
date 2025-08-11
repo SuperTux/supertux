@@ -15,9 +15,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_MANAGER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_SCREEN_MANAGER_HPP
+#pragma once
 
+#include <chrono>
 #include <memory>
 #include <SDL.h>
 
@@ -48,9 +48,11 @@ public:
 
   void run();
   void quit(std::unique_ptr<ScreenFade> fade = {});
-  void set_speed(float speed);
-  float get_speed() const;
+  inline void set_speed(float speed) { m_speed = speed; }
+  inline float get_speed() const { return m_speed; }
   bool has_pending_fadeout() const;
+
+  void on_window_resize();
 
   // push new screen on screen_stack
   void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
@@ -59,7 +61,7 @@ public:
 
   void loop_iter();
 
-  const std::vector<std::unique_ptr<Screen>>& get_screen_stack() { return m_screen_stack; }
+  inline const std::vector<std::unique_ptr<Screen>>& get_screen_stack() { return m_screen_stack; }
 
 private:
   struct FPS_Stats;
@@ -78,9 +80,8 @@ private:
   std::unique_ptr<ControllerHUD> m_controller_hud;
   MobileController m_mobile_controller;
 
-  Uint32 last_ticks;
-  Uint32 elapsed_ticks;
-  const Uint32 ms_per_step;
+  std::chrono::steady_clock::time_point last_time;
+  float elapsed_time;
   const float seconds_per_step;
   std::unique_ptr<FPS_Stats> m_fps_statistics;
 
@@ -103,7 +104,3 @@ private:
   std::unique_ptr<ScreenFade> m_screen_fade;
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
 };
-
-#endif
-
-/* EOF */

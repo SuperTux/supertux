@@ -310,7 +310,7 @@ EditorTilebox::update_hovered_tile()
 }
 
 void
-EditorTilebox::resize()
+EditorTilebox::on_window_resize()
 {
   m_scrollbar->set_covered_region(m_rect.get_height());
   m_scrollbar->set_total_region(get_tiles_height());
@@ -320,7 +320,7 @@ EditorTilebox::resize()
 void
 EditorTilebox::setup()
 {
-  resize();
+  on_window_resize();
   m_tiles->set_tile(0);
 }
 
@@ -328,7 +328,7 @@ void
 EditorTilebox::set_rect(const Rectf& rect)
 {
   m_rect = rect;
-  resize();
+  on_window_resize();
 
   m_hovered_item = HoveredItem::NONE;
   m_hovered_tile = -1;
@@ -375,12 +375,6 @@ EditorTilebox::select_tilegroup(int id)
   m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
   m_input_type = InputType::TILE;
   reset_scrollbar();
-}
-
-void
-EditorTilebox::set_tilegroup(std::unique_ptr<Tilegroup> tilegroup)
-{
-  m_active_tilegroup = std::move(tilegroup);
 }
 
 void
@@ -434,5 +428,3 @@ EditorTilebox::reset_scrollbar()
   m_scroll_progress = 0.f;
   m_scrollbar->set_total_region(get_tiles_height());
 }
-
-/* EOF */

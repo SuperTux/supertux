@@ -63,5 +63,3 @@ NullRenderer::get_texture() const
 {
   return {};
 }
-
-/* EOF */

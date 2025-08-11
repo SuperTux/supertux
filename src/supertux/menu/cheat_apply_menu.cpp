@@ -25,33 +25,11 @@
 #include "supertux/sector.hpp"
 
 CheatApplyMenu::CheatApplyMenu(std::function<void(Player&)> callback) :
-  m_callback_1(callback),
-  m_callback_2(nullptr),
-  m_stack_count(-1)
+  m_callback(callback)
 {
   add_label(_("Apply cheat to player"));
   add_hl();
 
-  add_entry(-1, _("All Players"));
-  for (const auto player : Sector::get().get_players())
-  {
-    add_entry(player->get_id(), fmt::format(_("Player {}"), player->get_id() + 1));
-  }
-
-  add_hl();
-  add_back(_("Back"));
-}
-
-CheatApplyMenu::CheatApplyMenu(std::function<void(Player&, int)> callback) :
-  m_callback_1(nullptr),
-  m_callback_2(callback),
-  m_stack_count(1)
-{
-  add_label(_("Apply cheat to player"));
-  add_hl();
-
-  add_intfield(_("Count"), &m_stack_count, -2);
-  add_hl();
   add_entry(-1, _("All Players"));
   for (const auto player : Sector::get().get_players())
   {
@@ -72,17 +50,11 @@ CheatApplyMenu::menu_action(MenuItem& item)
 
   for (const auto& player : Sector::get().get_players())
   {
-    if (id == -1 || id == player->get_id())
+    if ((id == -1 || id == player->get_id()) && m_callback)
     {
-      if (m_callback_2)
-        m_callback_2(*player, m_stack_count);
-
-      if (m_callback_1)
-        m_callback_1(*player);
+      m_callback(*player);
     }
   }
 
   MenuManager::instance().clear_menu_stack();
 }
-
-/* EOF */

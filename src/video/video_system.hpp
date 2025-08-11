@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
-#define HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -38,10 +37,10 @@ class VideoSystem : public Currenton<VideoSystem>
 {
 public:
   enum Enum {
-    VIDEO_AUTO,
+    VIDEO_SDL,
+    VIDEO_OPENGL_AUTO,
     VIDEO_OPENGL33CORE,
     VIDEO_OPENGL20,
-    VIDEO_SDL,
     VIDEO_NULL
   };
 
@@ -49,7 +48,14 @@ public:
 
   static Enum get_video_system(const std::string &video);
   static std::string get_video_string(Enum video);
-  static std::vector<std::string> get_available_video_systems();
+
+  struct Info final
+  {
+    const Enum value;
+    const std::string name;
+    const std::string description;
+  };
+  static std::vector<Info> get_available_video_systems();
 
 public:
   VideoSystem() {}
@@ -72,7 +78,6 @@ public:
 
   virtual void set_vsync(int mode) = 0;
   virtual int get_vsync() const = 0;
-  virtual void set_gamma(float gamma) = 0;
   virtual void set_title(const std::string& title) = 0;
   virtual void set_icon(const SDL_Surface& icon) = 0;
   virtual SDLSurfacePtr make_screenshot() = 0;
@@ -83,7 +88,3 @@ private:
   VideoSystem(const VideoSystem&) = delete;
   VideoSystem& operator=(const VideoSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

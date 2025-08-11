@@ -29,8 +29,9 @@ std::vector<std::string>
 PhysFSFileSystem::open_directory(const std::string& pathname)
 {
   std::vector<std::string> files;
-  physfsutil::enumerate_files(pathname, [&files](const std::string& file) {
+  physfsutil::enumerate_files_alphabetical(pathname, [&files](const std::string& file) {
     files.push_back(file);
+    return false;
   });
   return files;
 }
@@ -40,5 +41,3 @@ PhysFSFileSystem::open_file(const std::string& filename)
 {
   return std::make_unique<IFileStream>(filename);
 }
-
-/* EOF */

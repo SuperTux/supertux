@@ -14,10 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_TEXT_ARRAY_OBJECT_HPP
-#define HEADER_SUPERTUX_OBJECT_TEXT_ARRAY_OBJECT_HPP
+#pragma once
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
 
 #include <memory>
 
@@ -32,12 +31,13 @@ typedef size_t ta_index;
 
  * @scripting
  * @summary A ""TextArrayObject"" that was given a name can be controlled by scripts.
-            Supports all functions of ${SRG_REF_Text}, applying them to the current text item.${SRG_NEWPARAGRAPH}
+            Supports all functions and variables of ${SRG_REF_Text}, applying them to the current text item.
+            If no text item is available, calling functions or using variables of ${SRG_REF_Text} (other than ""set_text()"") will result in an error.${SRG_NEWPARAGRAPH}
             Intended for scripts with narration.
  * @instances A ""TextArrayObject"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class TextArrayObject final : public GameObject
+class TextArrayObject final : public LayerObject
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -88,31 +88,29 @@ public:
   void set_text_index(ta_index index);
   /**
    * @scripting
-   * @deprecated Use the ""keep_visible"" property instead!
    * @description If set, keeps the current text object visible.
    * @param bool $keep_visible
    */
-  void set_keep_visible(bool keep_visible);
+  inline void set_keep_visible(bool keep_visible) { m_keep_visible = keep_visible; }
   /**
    * @scripting
-   * @deprecated Use the ""fade_transition"" property instead!
    * @description If set, allows for a fade-in and fade-out transition.
    * @param bool $fade_transition
    */
-  void set_fade_transition(bool fade_transition);
+  inline void set_fade_transition(bool fade_transition) { m_fade_transition = fade_transition; }
   /**
    * @scripting
    * @description Sets the fade-in and fade-out time.
    * @param float $fadetime
    */
-  void set_fade_time(float fadetime);
+  inline void set_fade_time(float fadetime) { m_fadetime = fadetime; }
   /**
    * @scripting
-   * @deprecated Use the ""finished"" property instead!
    * @description If set, sets the text array as finished going through all text objects.
+                  Alternatively, the "finished" property can be modified.
    * @param bool $done
    */
-  void set_done(bool done);
+  inline void set_done(bool done) { m_finished = done; }
   /**
    * @scripting
    * @description If set, lets the text array automatically go through all text objects.
@@ -135,13 +133,16 @@ public:
    * @see: text_object.hpp
    */
   void set_text(const std::string& text);
+  const std::string& get_text() const;
   void set_font(const std::string& fontname);
   void fade_in(float fadetime);
   void fade_out(float fadetime);
   void grow_in(float fadetime);
   void grow_out(float fadetime);
   void set_visible(bool visible);
+  bool get_visible() const;
   void set_centered(bool centered);
+  bool get_centered() const;
   void set_pos(float x, float y);
   float get_x() const;
   float get_y() const;
@@ -154,6 +155,7 @@ public:
   void set_back_fill_color(float red, float green, float blue, float alpha);
   void set_text_color(float red, float green, float blue, float alpha);
   void set_roundness(float roundness);
+  float get_roundness() const;
 
   /** Gets the text item at a certain index.
       @param: index  the index of the text item to get.
@@ -215,7 +217,3 @@ private:
   TextArrayObject(const TextArrayObject&) = delete;
   TextArrayObject& operator=(const TextArrayObject&) = delete;
 };
-
-#endif
-
-/* EOF */

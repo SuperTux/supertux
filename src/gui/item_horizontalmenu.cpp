@@ -287,5 +287,3 @@ ItemHorizontalMenu::go_right()
   while (m_selected_item > m_item_range_end)
     calculate_width(m_item_range_begin + 1);
 }
-
-/* EOF */

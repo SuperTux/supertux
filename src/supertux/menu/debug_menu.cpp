@@ -20,10 +20,12 @@
 #include <sstream>
 
 #include "editor/editor.hpp"
+#include "gui/item_action.hpp"
 #include "gui/item_stringselect.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/texture_manager.hpp"
@@ -72,6 +74,11 @@ DebugMenu::DebugMenu() :
              []{ return g_debug.get_use_bitmap_fonts(); },
              [](bool value){ g_debug.set_use_bitmap_fonts(value); });
   add_toggle(-1, _("Show Tile IDs in Editor Toolbox"), &g_debug.show_toolbox_tile_ids);
+  add_toggle(-1, _("Hide Player HUD"), &g_debug.hide_player_hud);
+
+  add_entry(_("Reload Resources"), &Resources::reload_all)
+    .set_help(_("Reloads all fonts, textures, sprites and tilesets."));
+
   add_entry(_("Dump Texture Cache"), []{ TextureManager::current()->debug_print(get_logging_instance()); });
 
   add_hl();
@@ -91,5 +98,3 @@ DebugMenu::menu_action(MenuItem& item)
 {
   g_config->save();
 }
-
-/* EOF */

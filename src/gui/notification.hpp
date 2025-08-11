@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_NOTIFICATION_HPP
-#define HEADER_SUPERTUX_GUI_NOTIFICATION_HPP
+#pragma once
 
 #include <SDL.h>
 #include <functional>
@@ -55,7 +54,7 @@ public:
 
   void set_text(const std::string& text);
   void set_mini_text(const std::string& text);
-  void on_press(const std::function<void ()>& callback) { m_callback = callback; }
+  inline void on_press(const std::function<void ()>& callback) { m_callback = callback; }
 
   void event(const SDL_Event& event);
   void process_input(const Controller& controller);
@@ -77,7 +76,3 @@ private:
   Notification(const Notification&) = delete;
   Notification& operator=(const Notification&) = delete;
 };
-
-#endif
-
-/* EOF */

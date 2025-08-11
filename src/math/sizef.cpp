@@ -30,5 +30,3 @@ std::ostream& operator<<(std::ostream& s, const Sizef& size)
 {
   return s << "Sizef(" << size.width << ", " << size.height << ")";
 }
-
-/* EOF */

@@ -14,13 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_READER_MAPPING_HPP
-#define HEADER_SUPERTUX_UTIL_READER_MAPPING_HPP
+#pragma once
 
 #include <cstdint>
 #include <optional>
 
 #include "util/reader_iterator.hpp"
+#include "util/uid.hpp"
 
 namespace sexp {
 class Value;
@@ -43,6 +43,7 @@ public:
   bool get(const char* key, bool& value, const std::optional<bool>& default_value = std::nullopt) const;
   bool get(const char* key, int& value, const std::optional<int>& default_value = std::nullopt) const;
   bool get(const char* key, uint32_t& value, const std::optional<uint32_t>& default_value = std::nullopt) const;
+  bool get(const char* key, UID& value, const std::optional<UID>& default_value = std::nullopt) const;
   bool get(const char* key, float& value, const std::optional<float>& default_value = std::nullopt) const;
   bool get(const char* key, std::string& value, const std::optional<const char*>& default_value = std::nullopt) const;
 
@@ -51,6 +52,10 @@ public:
   bool get(const char* key, std::vector<float>& value, const std::optional<std::vector<float>>& default_value = std::nullopt) const;
   bool get(const char* key, std::vector<std::string>& value, const std::optional<std::vector<std::string>>& default_value = std::nullopt) const;
   bool get(const char* key, std::vector<unsigned int>& value, const std::optional<std::vector<unsigned int>>& default_value = std::nullopt) const;
+
+  // Reads vector by using the absolute value of any negative integer value as a repeater for the next value.
+  bool get_compressed(const char* key, std::vector<unsigned int>& value,
+                      const std::optional<std::vector<unsigned int>>& default_value = std::nullopt) const;
 
   bool get(const char* key, std::optional<ReaderMapping>&) const;
   bool get(const char* key, std::optional<ReaderCollection>&) const;
@@ -80,8 +85,8 @@ public:
     }
   }
 
-  const sexp::Value& get_sexp() const { return m_sx; }
-  const ReaderDocument& get_doc() const { return m_doc; }
+  inline const sexp::Value& get_sexp() const { return m_sx; }
+  inline const ReaderDocument& get_doc() const { return m_doc; }
 
 private:
   /** Returns pointer to (key value) */
@@ -92,7 +97,3 @@ private:
   const sexp::Value& m_sx;
   const std::vector<sexp::Value>& m_arr;
 };
-
-#endif
-
-/* EOF */

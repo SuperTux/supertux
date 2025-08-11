@@ -44,9 +44,10 @@ DrawingContext::~DrawingContext()
 }
 
 void
-DrawingContext::set_ambient_color(Color ambient_color)
+DrawingContext::clear()
 {
-  m_ambient_color = ambient_color;
+  m_lightmap_canvas.clear();
+  m_colormap_canvas.clear();
 }
 
 Rectf
@@ -58,61 +59,17 @@ DrawingContext::get_cliprect() const
                get_translation().y + static_cast<float>(transform().viewport.get_height()) / transform().scale);
 }
 
-void
-DrawingContext::set_flip(Flip flip)
+Canvas&
+DrawingContext::get_canvas(DrawingTarget target)
 {
-  transform().flip = flip;
-}
+  switch (target)
+  {
+    case DrawingTarget::LIGHTMAP:
+      return light();
 
-Flip
-DrawingContext::get_flip() const
-{
-  return transform().flip;
-}
-
-void
-DrawingContext::set_alpha(float alpha)
-{
-  transform().alpha = alpha;
-}
-
-float
-DrawingContext::get_alpha() const
-{
-  return transform().alpha;
-}
-
-DrawingTransform&
-DrawingContext::transform()
-{
-  assert(!m_transform_stack.empty());
-  return m_transform_stack.back();
-}
-
-const DrawingTransform&
-DrawingContext::transform() const
-{
-  assert(!m_transform_stack.empty());
-  return m_transform_stack.back();
-}
-
-void
-DrawingContext::push_transform()
-{
-  m_transform_stack.push_back(transform());
-}
-
-void
-DrawingContext::pop_transform()
-{
-  m_transform_stack.pop_back();
-  assert(!m_transform_stack.empty());
-}
-
-const Rect&
-DrawingContext::get_viewport() const
-{
-  return transform().viewport;
+    default:
+      return color();
+  }
 }
 
 float
@@ -131,6 +88,12 @@ Vector
 DrawingContext::get_size() const
 {
   return Vector(get_width(), get_height()) * transform().scale;
+}
+
+bool
+DrawingContext::use_lightmap() const
+{
+  return !m_overlay && m_ambient_color != Color::WHITE;
 }
 
 bool
@@ -155,5 +118,3 @@ DrawingContext::perspective_scale(float speed_x, float speed_y)
   tfm.scale /= speed * t;
   return true;
 }
-
-/* EOF */

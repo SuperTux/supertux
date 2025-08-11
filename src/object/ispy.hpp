@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_ISPY_HPP
-#define HEADER_SUPERTUX_OBJECT_ISPY_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 #include "supertux/direction.hpp"
@@ -27,7 +26,7 @@ class Ispy final : public StickyObject
 public:
   Ispy(const ReaderMapping& mapping);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void update(float dt_sec) override;
   static std::string class_name() { return "ispy"; }
@@ -59,7 +58,3 @@ private:
   Ispy(const Ispy&) = delete;
   Ispy& operator=(const Ispy&) = delete;
 };
-
-#endif
-
-/* EOF */

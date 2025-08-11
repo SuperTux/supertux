@@ -2,11 +2,16 @@
  (action
   (name "default")
   (hitbox 0 0 32 32)
-  (fps 120)
+  (fps 24)
   (images 
-   "Thunder1.png"
-   "Thunder2.png"    
-   "Thunder3.png"
+   "shock-0.png"
+   "shock-1.png"    
+   "shock-0.png"
+   "shock-2.png"
+   "shock-0.png"
+   "shock-3.png"    
+   "shock-0.png"
+   "shock-4.png"    
   )
  )
 )

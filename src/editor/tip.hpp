@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_TIP_HPP
-#define HEADER_SUPERTUX_EDITOR_TIP_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -35,8 +34,8 @@ public:
   void set_info(const std::string& text);
   void set_info(const std::string& header, const std::vector<std::string>& text);
   void set_info_for_object(GameObject& object);
-  void set_visible(bool visible) { m_visible = visible; }
-  bool get_visible() const { return m_visible; }
+  inline void set_visible(bool visible) { m_visible = visible; }
+  inline bool get_visible() const { return m_visible; }
 
 private:
   std::vector<std::string> m_strings;
@@ -48,7 +47,3 @@ private:
   Tip(const Tip&) = delete;
   Tip& operator=(const Tip&) = delete;
 };
-
-#endif
-
-/* EOF */

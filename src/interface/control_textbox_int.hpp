@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_INTERFACE_CONTROL_TEXTBOX_INT_HPP
-#define HEADER_SUPERTUX_INTERFACE_CONTROL_TEXTBOX_INT_HPP
+#pragma once
 
 #include "interface/control_textbox.hpp"
 
@@ -26,14 +25,14 @@ public:
 
   virtual void update(float dt_sec) override;
 
-  int get_value() const { return *m_value; }
-  void set_value(int value) { *m_value = value; revert_value(); }
+  inline int get_value() const { return *m_value; }
+  inline void set_value(int value) { *m_value = value; revert_value(); }
   /** Binds an int to this textbox. Set m_validate_fint(int) if you want
    *  custom validation. (You may also use m_validate_string(string), though
    *  it's not recommended)
    *  @param value A pointer to the value to be bound. MUST NOT BE NULL (FIXME)
    */
-  void bind_value(int* value) { m_value = value; revert_value(); }
+  inline void bind_value(int* value) { m_value = value; revert_value(); }
 
 protected:
   virtual bool parse_value(bool call_on_change = true) override;
@@ -60,7 +59,3 @@ private:
   ControlTextboxInt(const ControlTextboxInt&) = delete;
   ControlTextboxInt& operator=(const ControlTextboxInt&) = delete;
 };
-
-#endif
-
-/* EOF */

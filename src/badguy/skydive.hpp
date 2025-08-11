@@ -23,7 +23,7 @@ class SkyDive final : public BadGuy
 {
 public:
   SkyDive(const ReaderMapping& reader);
-  
+
   virtual void kill_fall() override;
 
   virtual void collision_solid(const CollisionHit& hit) override;
@@ -50,7 +50,7 @@ protected:
 
 private:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
-  virtual bool collision_squished (GameObject& obj) override;
+  virtual bool collision_squished(MovingObject& obj) override;
 
   void explode();
   virtual bool is_portable() const override;

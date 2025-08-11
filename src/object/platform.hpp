@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PLATFORM_HPP
-#define HEADER_SUPERTUX_OBJECT_PLATFORM_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 #include "object/path_object.hpp"
@@ -43,7 +42,7 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
   virtual void move_to(const Vector& pos) override;
@@ -62,8 +61,8 @@ public:
   void save_state() override;
   void check_state() override;
 
-  const Vector& get_speed() const { return m_speed; }
-  const Vector& get_movement() const { return m_movement; }
+  inline const Vector& get_speed() const { return m_speed; }
+  inline const Vector& get_movement() const { return m_movement; }
 
   /** Moves platform instantly to given node.
       Replaces PathObject::set_node's implementation in scripting. */
@@ -91,7 +90,3 @@ private:
   Platform(const Platform&) = delete;
   Platform& operator=(const Platform&) = delete;
 };
-
-#endif
-
-/* EOF */

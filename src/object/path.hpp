@@ -16,8 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PATH_HPP
-#define HEADER_SUPERTUX_OBJECT_PATH_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -74,7 +73,7 @@ public:
       easing()
     {}
 
-    Path& get_parent() const { return *parent; }
+    inline Path& get_parent() const { return *parent; }
   };
 
 public:
@@ -101,9 +100,9 @@ public:
   /** Returns false when has no nodes */
   bool is_valid() const;
 
-  const std::vector<Node>& get_nodes() const { return m_nodes; }
+  inline const std::vector<Node>& get_nodes() const { return m_nodes; }
 
-  PathGameObject& get_gameobject() const { return m_parent_gameobject; }
+  inline PathGameObject& get_gameobject() const { return m_parent_gameobject; }
 
 private:
   PathGameObject& m_parent_gameobject;
@@ -123,7 +122,3 @@ private:
   Path(const Path&) = delete;
   Path& operator=(const Path&) = delete;
 };
-
-#endif
-
-/* EOF */

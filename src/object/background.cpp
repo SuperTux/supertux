@@ -158,7 +158,7 @@ Background::Background() :
 }
 
 Background::Background(const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   m_alignment(NO_ALIGNMENT),
   m_fill(false),
   m_layer(LAYER_BACKGROUND0),
@@ -337,12 +337,6 @@ Background::update(float dt_sec)
 }
 
 void
-Background::set_color(float red, float green, float blue, float alpha)
-{
-  m_color = Color(red, green, blue, alpha);
-}
-
-void
 Background::fade_color(Color color, float time)
 {
   m_src_color = m_color;
@@ -351,12 +345,6 @@ Background::fade_color(Color color, float time)
   m_timer_color.start(time, false);
 
   m_color = m_src_color;
-}
-
-void
-Background::fade_color(float red, float green, float blue, float alpha, float time)
-{
-  fade_color(Color(red, green, blue, alpha), time);
 }
 
 void
@@ -386,30 +374,6 @@ Background::set_speed(float speed)
 {
   m_parallax_speed.x = speed;
   m_parallax_speed.y = speed;
-}
-
-float
-Background::get_color_red() const
-{
-  return m_color.red;
-}
-
-float
-Background::get_color_green() const
-{
-  return m_color.green;
-}
-
-float
-Background::get_color_blue() const
-{
-  return m_color.blue;
-}
-
-float
-Background::get_color_alpha() const
-{
-  return m_color.alpha;
 }
 
 void
@@ -524,7 +488,7 @@ Background::draw(DrawingContext& context)
 
   if (!m_image)
     return;
-    
+
   context.push_transform();
   if (!context.perspective_scale(m_parallax_speed.x, m_parallax_speed.y)) {
     //The background is placed behind the camera.
@@ -605,5 +569,3 @@ Background::register_class(ssq::VM& vm)
   cls.addFunc("set_color", &Background::set_color);
   cls.addFunc<void, Background, float, float, float, float, float>("fade_color", &Background::fade_color);
 }
-
-/* EOF */

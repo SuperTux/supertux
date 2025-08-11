@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_DART_HPP
-#define HEADER_SUPERTUX_BADGUY_DART_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 
@@ -54,7 +53,7 @@ public:
 
   virtual void on_flip(float height) override;
 
-  void set_flip(Flip flip);
+  inline void set_flip(Flip flip) { m_flip = flip; }
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
@@ -67,7 +66,3 @@ private:
   Dart(const Dart&) = delete;
   Dart& operator=(const Dart&) = delete;
 };
-
-#endif
-
-/* EOF */

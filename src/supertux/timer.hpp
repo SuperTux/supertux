@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_TIMER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_TIMER_HPP
+#pragma once
 
 #include "supertux/globals.hpp"
 
@@ -45,12 +44,12 @@ public:
   void resume();
 
   /** returns the period of the timer or 0 if it isn't started */
-  float get_period() const { return m_period; }
-  float get_timeleft() const { return m_period - (g_game_time - m_cycle_start); }
-  float get_timegone() const { return g_game_time - m_cycle_start; }
-  float get_progress() const { return get_timegone() / get_period(); }
-  bool started() const { return (m_period != 0 && get_timeleft() > 0); }
-  bool paused() const { return m_cycle_pause != 0; }
+  inline float get_period() const { return m_period; }
+  inline float get_timeleft() const { return m_period - (g_game_time - m_cycle_start); }
+  inline float get_timegone() const { return g_game_time - m_cycle_start; }
+  inline float get_progress() const { return get_timegone() / get_period(); }
+  inline bool started() const { return (m_period != 0 && get_timeleft() > 0); }
+  inline bool paused() const { return m_cycle_pause != 0; }
 
 private:
   float m_period;
@@ -62,7 +61,3 @@ private:
   Timer(const Timer&) = delete;
   Timer& operator=(const Timer&) = delete;
 };
-
-#endif
-
-/* EOF */

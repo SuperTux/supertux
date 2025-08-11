@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_RUSTY_TRAMPOLINE_HPP
-#define HEADER_SUPERTUX_OBJECT_RUSTY_TRAMPOLINE_HPP
+#pragma once
 
 #include "object/rock.hpp"
 
@@ -28,7 +27,7 @@ class RustyTrampoline final : public Rock
 public:
   RustyTrampoline(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
@@ -45,6 +44,9 @@ public:
   GameObjectTypes get_types() const override { return {}; }
 
 private:
+  virtual void bounce();
+
+private:
   bool portable;
   int counter;
 
@@ -52,7 +54,3 @@ private:
   RustyTrampoline(const RustyTrampoline&) = delete;
   RustyTrampoline& operator=(const RustyTrampoline&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,10 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_EXPLOSION_HPP
-#define HEADER_SUPERTUX_OBJECT_EXPLOSION_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
+
+#include "supertux/timer.hpp"
 
 #define EXPLOSION_STRENGTH_DEFAULT (1464.8f * 32.0f * 32.0f)
 #define EXPLOSION_STRENGTH_NEAR (1000.f * 32.0f * 32.0f)
@@ -38,11 +39,11 @@ public:
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual bool is_saveable() const override { return false; }
 
-  bool hurts() const { return hurt; }
-  void hurts (bool val) { hurt = val; }
+  inline bool hurts() const { return hurt; }
+  inline void hurts(bool val) { hurt = val; }
 
 private:
   /** plays sound, starts animation */
@@ -50,23 +51,22 @@ private:
 
 private:
   enum State {
-    STATE_WAITING,
-    STATE_EXPLODING
+    E_STATE_WAITING,
+    E_STATE_EXPLODING,
+    E_STATE_FADING
   };
 
 private:
   bool hurt;
   float push_strength;
   int num_particles;
-  State state;
-  SpritePtr lightsprite;
+  State m_state;
+  SpritePtr m_lightsprite;
+  Color m_color;
+  Timer m_fading_timer;
   bool short_fuse;
 
 private:
   Explosion(const Explosion&) = delete;
   Explosion& operator=(const Explosion&) = delete;
 };
-
-#endif
-
-/* EOF */

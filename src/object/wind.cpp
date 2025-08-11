@@ -34,6 +34,7 @@
 
 Wind::Wind(const ReaderMapping& reader) :
   MovingObject(reader),
+  m_layer(LAYER_BACKGROUNDTILES + 1),
   blowing(),
   speed(0.0f, 0.0f),
   acceleration(),
@@ -46,11 +47,14 @@ Wind::Wind(const ReaderMapping& reader) :
   particles_enabled(true)
 {
   float w,h;
+  parse_type(reader);
   reader.get("x", m_col.m_bbox.get_left(), 0.0f);
   reader.get("y", m_col.m_bbox.get_top(), 0.0f);
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
   m_col.m_bbox.set_size(w, h);
+
+  reader.get("z-pos", m_layer, LAYER_BACKGROUNDTILES + 1);
 
   reader.get("blowing", blowing, true);
 
@@ -62,7 +66,7 @@ Wind::Wind(const ReaderMapping& reader) :
   reader.get("affects-badguys", affects_badguys, false);
   reader.get("affects-objects", affects_objects, false);
   reader.get("affects-player", affects_player, true);
-  
+
   reader.get("fancy-wind", fancy_wind, true);
   reader.get("particles-enabled", particles_enabled, true);
 
@@ -77,6 +81,7 @@ Wind::get_settings()
 
   ObjectSettings result = MovingObject::get_settings();
 
+  result.add_int(_("Z-pos"), &m_layer, "z-pos");
   result.add_float(_("Speed X"), &speed.x, "speed-x");
   result.add_float(_("Speed Y"), &speed.y, "speed-y");
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
@@ -87,9 +92,22 @@ Wind::get_settings()
   result.add_bool(_("Fancy Particles"), &fancy_wind, "fancy-wind", true);
   result.add_bool(_("Particles Enabled"), &particles_enabled, "particles-enabled", true);
 
-  result.reorder({ "blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "affects-objects", "affects-player", "fancy-wind", "particles-enabled", "region", "name", "x", "y" });
+  result.reorder({ "blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "affects-objects", "affects-player", "fancy-wind", "particles-enabled", "width", "height", "name", "x", "y" });
 
   return result;
+}
+
+GameObjectTypes
+Wind::get_types() const
+{
+  return {
+    { "wind", _("Wind") },
+
+    /*
+      l10n: Note: "Current" refers to "water current" and is not meant to be understood in terms of time.
+    */
+    { "current", _("Current") }
+  };
 }
 
 void
@@ -103,19 +121,26 @@ Wind::update(float dt_sec_)
   Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.get_left() + 8, m_col.m_bbox.get_right() - 8), graphicsRandom.randf(m_col.m_bbox.get_top() + 8, m_col.m_bbox.get_bottom() - 8));
   Vector pspeed = Vector(graphicsRandom.randf(speed.x - 20, speed.x + 20), graphicsRandom.randf(speed.y - 20, speed.y + 20));
 
-  // TODO: Rotate sprite rather than just use 2 different actions
   // Approx. 1 particle per tile
   if (graphicsRandom.randf(0.f, 100.f) < (m_col.m_bbox.get_width() / 32.f) * (m_col.m_bbox.get_height() / 32.f))
   {
     // Emit a particle
-	  if (fancy_wind)
+    if (fancy_wind)
     {
-	    Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1); 
-	  }
-	  else
+      const float angle = std::atan2(speed.y, speed.x) * float(180.0 / M_PI);
+      switch (m_type) {
+        case WIND: // Normal wind
+          Sector::get().add<SpriteParticle>("images/particles/wind.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, Color::WHITE, angle);
+          break;
+        case CURRENT: // Current variant
+          Sector::get().add<SpriteParticle>("images/particles/water_piece1.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, Color::WHITE, angle);
+          break;
+      }
+    }
+    else
     {
-	    Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, LAYER_BACKGROUNDTILES + 1);
-	  }
+      Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, m_layer);
+    }
   }
 }
 
@@ -129,7 +154,7 @@ Wind::draw(DrawingContext& context)
 }
 
 HitResponse
-Wind::collision(GameObject& other, const CollisionHit& )
+Wind::collision(MovingObject& other, const CollisionHit& )
 {
   if (!blowing) return ABORT_MOVE;
 
@@ -197,6 +222,6 @@ Wind::register_class(ssq::VM& vm)
 
   cls.addFunc("start", &Wind::start);
   cls.addFunc("stop", &Wind::stop);
+  cls.addFunc("get_layer", &Wind::get_layer);
+  cls.addFunc("set_layer", &Wind::set_layer);
 }
-
-/* EOF */

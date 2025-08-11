@@ -14,13 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_INFO_BOX_LINE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_INFO_BOX_LINE_HPP
+#pragma once
 
 #include <string>
 #include <vector>
 #include <memory>
 
+#include "math/vector.hpp"
 #include "video/color.hpp"
 #include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
@@ -42,7 +42,7 @@ public:
   void draw(DrawingContext& context, const Rectf& bbox, int layer, LineAlignment alignment = CENTER);
   float get_height() const;
 
-  static std::vector<std::unique_ptr<InfoBoxLine> > split(const std::string& text, float width);
+  static std::vector<std::unique_ptr<InfoBoxLine>> split(const std::string& text, float width, bool small = false);
 
   static bool is_valid_format_char(char format_char)
   {
@@ -61,6 +61,8 @@ public:
   }
 
 private:
+  Vector calc_text_pos(const Rectf& bbox, float textwidth, LineAlignment alignment) const;
+private:
   InfoBoxLine::LineType lineType;
   FontPtr font;
   Color color;
@@ -71,7 +73,3 @@ private:
   InfoBoxLine(const InfoBoxLine&) = delete;
   InfoBoxLine& operator=(const InfoBoxLine&) = delete;
 };
-
-#endif
-
-/* EOF */

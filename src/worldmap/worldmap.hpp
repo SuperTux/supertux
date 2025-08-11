@@ -16,9 +16,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
-#define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
+#pragma once
 
+#include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
 #include "control/controller.hpp"
@@ -30,7 +30,8 @@ class TileSet;
 
 namespace worldmap {
 
-class WorldMap final : public Currenton<WorldMap>
+class WorldMap final : public Screen,
+                       public Currenton<WorldMap>
 {
   friend class WorldMapSector;
   friend class WorldMapState;
@@ -44,12 +45,13 @@ public:
   WorldMap(const std::string& filename, Savegame& savegame,
            const std::string& force_sector = "", const std::string& force_spawnpoint = "");
 
-  void setup();
-  void leave();
+  void setup() override;
+  void leave() override;
 
-  void draw(DrawingContext& context);
-  void update(float dt_sec);
-  void process_input(const Controller& controller);
+  void draw(Compositor& compositor) override;
+  void update(float dt_sec, const Controller& controller) override;
+
+  IntegrationStatus get_status() const override;
 
   size_t level_count() const;
   size_t solved_level_count() const;
@@ -69,26 +71,34 @@ public:
   void set_levels_solved(bool solved, bool perfect);
 
   /** Sets the passive message with specific time **/
-  void set_passive_message(const std::string& message, float time);
+  inline void set_passive_message(const std::string& message, float time)
+  {
+    m_passive_message = message;
+    m_passive_message_timer.start(time);
+  }
 
   /** Sets the initial spawnpoint to be forced on next setup */
-  void set_initial_spawnpoint(const std::string& spawnpoint);
+  inline void set_initial_spawnpoint(const std::string& spawnpoint) { m_force_spawnpoint = spawnpoint; }
 
-  const std::string& get_title() const { return m_name; }
-  Savegame& get_savegame() const { return m_savegame; }
-  const std::string& get_levels_path() const { return m_levels_path; }
+  inline const std::string& get_title() const { return m_name; }
+  inline Savegame& get_savegame() const { return m_savegame; }
+  inline const std::string& get_levels_path() const { return m_levels_path; }
 
   WorldMapSector* get_sector(const std::string& name) const;
   WorldMapSector* get_sector(int index) const;
 
   void add_sector(std::unique_ptr<WorldMapSector> sector);
-  WorldMapSector& get_sector() const { return *m_sector; }
+  inline WorldMapSector& get_sector() const { return *m_sector; }
   void set_sector(const std::string& name, const std::string& spawnpoint = "",
                   bool perform_full_setup = true);
 
   const std::string& get_filename() const;
 
+  bool is_item_pocket_allowed() const { return m_allow_item_pocket; }
+
 private:
+  void process_input(const Controller& controller);
+
   void on_escape_press();
 
 private:
@@ -111,6 +121,7 @@ private:
   std::string m_passive_message;
   Timer m_passive_message_timer;
 
+  bool m_allow_item_pocket;
   bool m_enter_level;
   bool m_in_level;
   bool m_in_world_select;
@@ -121,7 +132,3 @@ private:
 };
 
 } // namespace worldmap
-
-#endif
-
-/* EOF */

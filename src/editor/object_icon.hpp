@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
-#define HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
+#pragma once
 
 #include <string>
 
@@ -35,7 +34,7 @@ public:
   virtual void draw(DrawingContext& context, const Vector& pos);
   virtual void draw(DrawingContext& context, const Vector& pos, int pixels_shown);
 
-  const std::string& get_object_class() const { return m_object_class; }
+  inline const std::string& get_object_class() const { return m_object_class; }
 
   ObjectIcon(const ObjectIcon&) = default;
   ObjectIcon& operator=(const ObjectIcon&) = default;
@@ -48,7 +47,3 @@ private:
   SurfacePtr m_surface;
   Vector m_offset;
 };
-
-#endif
-
-/* EOF */

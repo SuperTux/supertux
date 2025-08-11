@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SURFACE_HPP
-#define HEADER_SUPERTUX_VIDEO_SURFACE_HPP
+#pragma once
 
 #include <string>
 #include <optional>
@@ -51,11 +50,11 @@ public:
 
   TexturePtr get_texture() const;
   TexturePtr get_displacement_texture() const;
-  Rect get_region() const { return m_region; }
+  inline Rect get_region() const { return m_region; }
   int get_width() const;
   int get_height() const;
-  Flip get_flip() const { return m_flip; }
-  const std::string& get_filename() const { return m_source_filename; }
+  inline Flip get_flip() const { return m_flip; }
+  inline const std::string& get_filename() const { return m_source_filename; }
 
 private:
   const TexturePtr m_diffuse_texture;
@@ -67,7 +66,3 @@ private:
 private:
   Surface& operator=(const Surface&) = delete;
 };
-
-#endif
-
-/* EOF */

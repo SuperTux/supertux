@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_HURTING_PLATFORM_HPP
-#define HEADER_SUPERTUX_OBJECT_HURTING_PLATFORM_HPP
+#pragma once
 
 #include "object/platform.hpp"
 
@@ -25,7 +24,7 @@ class HurtingPlatform final : public Platform
 public:
   HurtingPlatform(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   static std::string class_name() { return "hurting_platform"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Hurting Platform"); }
@@ -36,7 +35,3 @@ private:
   HurtingPlatform(const HurtingPlatform&) = delete;
   HurtingPlatform& operator=(const HurtingPlatform&) = delete;
 };
-
-#endif
-
-/* EOF */

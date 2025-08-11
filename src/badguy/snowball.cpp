@@ -64,7 +64,7 @@ SnowBall::is_freezable() const
 }
 
 bool
-SnowBall::collision_squished(GameObject& object)
+SnowBall::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_TRIGGER_SECRETAREA_TRIGGER_HPP
-#define HEADER_SUPERTUX_TRIGGER_SECRETAREA_TRIGGER_HPP
+#pragma once
 
 #include "trigger/trigger_base.hpp"
 
@@ -43,7 +42,7 @@ public:
   virtual void event(Player& player, EventType type) override;
   virtual void draw(DrawingContext& context) override;
 
-  const std::string& get_fade_tilemap_name() const { return fade_tilemap; }
+  inline const std::string& get_fade_tilemap_name() const { return fade_tilemap; }
 
 private:
   Timer message_timer;
@@ -56,7 +55,3 @@ private:
   SecretAreaTrigger(const SecretAreaTrigger&) = delete;
   SecretAreaTrigger& operator=(const SecretAreaTrigger&) = delete;
 };
-
-#endif
-
-/* EOF */

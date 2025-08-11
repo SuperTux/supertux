@@ -16,8 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_SECTOR_HPP
-#define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_SECTOR_HPP
+#pragma once
 
 #include "supertux/sector_base.hpp"
 
@@ -72,6 +71,12 @@ public:
       Tile::WORLDMAP_XXX values of all solid tiles at the given
       position */
   int tile_data_at(const Vector& pos) const;
+
+  /**
+   * returns true if the specified position contains a valid path.
+   * @param pos Position to check
+   */
+  bool is_valid_path_at(const Vector& pos) const;
 
   size_t level_count() const;
   size_t solved_level_count() const;
@@ -155,9 +160,9 @@ public:
   void set_title_level(const std::string& filename);
 
   TileSet* get_tileset() const override;
-  WorldMap& get_worldmap() const { return m_parent; }
-  Camera& get_camera() const { return *m_camera; }
-  Tux& get_tux() const { return *m_tux; }
+  inline WorldMap& get_worldmap() const { return m_parent; }
+  inline Camera& get_camera() const { return *m_camera; }
+  inline Tux& get_tux() const { return *m_tux; }
   Vector get_tux_pos() const;
 
 protected:
@@ -183,7 +188,3 @@ private:
 };
 
 } // namespace worldmap
-
-#endif
-
-/* EOF */

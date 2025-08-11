@@ -14,15 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_ACTION_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_ACTION_HPP
+#pragma once
 
 #include "gui/menu_item.hpp"
 
 class ItemAction final : public MenuItem
 {
 public:
-  ItemAction(const std::string& text, int id = -1, std::function<void()> callback = {});
+  ItemAction(const std::string& text, int id = -1, std::function<void()> callback = {}, const Color& text_color = Color(1.f, 1.f, 1.f));
 
   virtual void process_action(const MenuAction& action) override;
 
@@ -33,7 +32,3 @@ private:
   ItemAction(const ItemAction&) = delete;
   ItemAction& operator=(const ItemAction&) = delete;
 };
-
-#endif
-
-/* EOF */

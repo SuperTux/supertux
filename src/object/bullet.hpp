@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BULLET_HPP
-#define HEADER_SUPERTUX_OBJECT_BULLET_HPP
+#pragma once
 
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/direction.hpp"
@@ -36,7 +35,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual bool is_saveable() const override { return false; }
 
   virtual int get_layer() const override { return LAYER_OBJECTS; }
@@ -47,9 +46,9 @@ public:
       bullet. */
   void ricochet(GameObject& other, const CollisionHit& hit);
 
-  BonusType get_type() const { return type; }
+  inline BonusType get_type() const { return type; }
 
-  Player& get_player() const { return m_player; }
+  inline Player& get_player() const { return m_player; }
 
 private:
   Player& m_player;
@@ -63,7 +62,3 @@ private:
   Bullet(const Bullet&) = delete;
   Bullet& operator=(const Bullet&) = delete;
 };
-
-#endif
-
-/* EOF */

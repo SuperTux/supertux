@@ -313,6 +313,3 @@ const std::string& get_fallback_path(const std::string& file_path)
 }
 
 } // namespace
-
-
-/* EOF */

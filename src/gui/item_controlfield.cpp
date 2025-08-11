@@ -45,5 +45,3 @@ int
 ItemControlField::get_width() const {
   return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(input) + 16.0f);
 }
-
-/* EOF */

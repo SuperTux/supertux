@@ -17,6 +17,7 @@
 #include "video/canvas.hpp"
 
 #include <algorithm>
+#include <array>
 
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -227,20 +228,20 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
   m_requests.push_back(request);
 }
 
-void
+Rectf
 Canvas::draw_text(const FontPtr& font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
   // FIXME: Font viewport.
-  font->draw_text(*this, text, pos, alignment, layer, color);
+  return font->draw_text(*this, text, pos, alignment, layer, color);
 }
 
-void
+Rectf
 Canvas::draw_center_text(const FontPtr& font, const std::string& text,
                          const Vector& position, int layer, const Color& color)
 {
-  draw_text(font, text, Vector(position.x + static_cast<float>(m_context.get_width()) / 2.0f, position.y),
-            ALIGN_CENTER, layer, color);
+  return draw_text(font, text, Vector(position.x + static_cast<float>(m_context.get_width()) / 2.0f, position.y),
+                   ALIGN_CENTER, layer, color);
 }
 
 void
@@ -332,6 +333,26 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 }
 
 void
+Canvas::draw_hexagon(const Vector& pos, float radius, const Color& color,
+  int layer)
+{
+  float radius2 = radius * sqrtf(0.8f);
+  float x_off_small = radius * sqrtf(0.2f);
+  std::array<Vector, 6> offsets{
+    Vector(-x_off_small, -radius2),
+    Vector(x_off_small, -radius2),
+    Vector(-radius, 0),
+    Vector(radius, 0),
+    Vector(-x_off_small, radius2),
+    Vector(x_off_small, radius2),
+  };
+  for (size_t i = 0; i < offsets.size() - 2; ++i) {
+    draw_triangle(pos + offsets[i], pos + offsets[i + 1], pos + offsets[i + 2],
+      color, layer);
+  }
+}
+
+void
 Canvas::get_pixel(const Vector& position, const std::shared_ptr<Color>& color_out)
 {
   assert(color_out);
@@ -370,5 +391,3 @@ Canvas::scale() const
 {
   return m_context.transform().scale;
 }
-
-/* EOF */

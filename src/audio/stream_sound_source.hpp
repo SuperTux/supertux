@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_AUDIO_STREAM_SOUND_SOURCE_HPP
-#define HEADER_SUPERTUX_AUDIO_STREAM_SOUND_SOURCE_HPP
+#pragma once
 
 #include "audio/openal_sound_source.hpp"
 
@@ -42,8 +41,8 @@ public:
   void set_sound_file(std::unique_ptr<SoundFile> newfile);
 
   void set_fading(FadeState state, float fadetime);
-  FadeState get_fade_state() const { return m_fade_state; }
-  bool get_looping() const { return m_looping; }
+  inline FadeState get_fade_state() const { return m_fade_state; }
+  inline bool get_looping() const { return m_looping; }
 
 private:
   bool fillBufferAndQueue(ALuint buffer);
@@ -61,7 +60,3 @@ private:
   StreamSoundSource(const StreamSoundSource&) = delete;
   StreamSoundSource& operator=(const StreamSoundSource&) = delete;
 };
-
-#endif
-
-/* EOF */

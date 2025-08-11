@@ -24,6 +24,7 @@
 
 #include "math/easing.hpp"
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
 #include "supertux/sector.hpp"
@@ -106,9 +107,7 @@ RainParticleSystem::get_settings()
 void RainParticleSystem::set_amount(float amount)
 {
   // Don't spawn too many particles to avoid destroying the player's computer
-  float real_amount = amount < min_amount ? min_amount
-    : amount > max_amount ? max_amount
-    : amount;
+  float real_amount = math::clamp(amount, min_amount, max_amount);
 
   int old_raindropcount = static_cast<int>(virtual_width*m_current_real_amount/6.0f);
   int new_raindropcount = static_cast<int>(virtual_width*real_amount/6.0f);
@@ -200,8 +199,7 @@ void RainParticleSystem::update(float dt_sec)
   float abs_y = cam_translation.y;
 
   for (auto& it : particles) {
-    auto particle = dynamic_cast<RainParticle*>(it.get());
-    assert(particle);
+    auto particle = static_cast<RainParticle*>(it.get());
 
     float movement = particle->speed * movement_multiplier;
     particle->pos.y += movement * cosf((particle->angle + 45.f) * 3.14159265f / 180.f);
@@ -303,7 +301,7 @@ void RainParticleSystem::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
   context.color().draw_filled_rect(context.get_rect(),
                                    Color(0.3f, 0.38f, 0.4f, opacity),
-                                   199); // TODO: Change the hardcoded layer value with the rain's layer
+                                   z_pos);
   context.pop_transform();
 }
 
@@ -317,5 +315,3 @@ RainParticleSystem::register_class(ssq::VM& vm)
   cls.addFunc("fade_amount", &RainParticleSystem::fade_amount);
   cls.addFunc<void, RainParticleSystem, float, float, const std::string&>("fade_angle", &RainParticleSystem::fade_angle);
 }
-
-/* EOF */

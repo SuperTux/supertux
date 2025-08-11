@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_AUTOTILE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_AUTOTILE_HPP
+#pragma once
 
 #include <algorithm>
 #include <memory>
@@ -30,7 +29,7 @@ public:
 
   bool matches(uint8_t mask, bool center) const;
 
-  uint8_t get_mask() const { return m_mask; }
+  inline uint8_t get_mask() const { return m_mask; }
 
 private:
   uint8_t m_mask;
@@ -40,15 +39,23 @@ private:
 class Autotile final
 {
 public:
+  struct AltConditions final
+  {
+    std::pair<uint32_t, uint32_t> period_x;
+    std::pair<uint32_t, uint32_t> period_y;
+    float weight;
+  };
+
+public:
   Autotile(uint32_t tile_id,
-    const std::vector<std::pair<uint32_t, float>>& alt_tiles,
+    const std::vector<std::pair<uint32_t, AltConditions>>& alt_tiles,
     const std::vector<AutotileMask>& masks,
     bool solid);
 
   bool matches(uint8_t mask, bool center) const;
 
   /** @deprecated Returns the base tile ID. */
-  uint32_t get_tile_id() const { return m_tile_id; }
+  inline uint32_t get_tile_id() const { return m_tile_id; }
 
   /** Picks a tile randomly amongst the possible ones for this autotile. */
   uint32_t pick_tile(int x, int y) const;
@@ -60,14 +67,14 @@ public:
   uint8_t get_first_mask() const;
 
   /** Returns all possible tiles for this autotile */
-  const std::vector<std::pair<uint32_t, float>>& get_all_tile_ids() const { return m_alt_tiles; }
+  inline const std::vector<std::pair<uint32_t, AltConditions>>& get_all_tile_ids() const { return m_alt_tiles; }
 
   /** Returns true if the "center" bool of masks are true. All masks of given Autotile must have the same value for their "center" property.*/
-  bool is_solid() const { return m_solid; }
+  inline bool is_solid() const { return m_solid; }
 
 private:
   uint32_t m_tile_id;
-  std::vector<std::pair<uint32_t, float>> m_alt_tiles;
+  std::vector<std::pair<uint32_t, AltConditions>> m_alt_tiles;
   std::vector<AutotileMask> m_masks;
   bool m_solid;
 
@@ -98,7 +105,9 @@ public:
   ) const;
 
   /** Returns the id of the first block in the autotileset. Used for erronous configs. */
-  uint32_t get_default_tile() const { return m_default; }
+  inline uint32_t get_default_tile() const { return m_default; }
+
+  inline const std::string& get_name() const { return m_name; }
 
   /** true if the given tile is present in the autotileset */
   bool is_member(uint32_t tile_id) const;
@@ -107,8 +116,8 @@ public:
   bool is_solid(uint32_t tile_id) const;
 
   /** true if this is a corner-based autotileset */
-  bool is_corner() const { return m_corner; }
-  
+  inline bool is_corner() const { return m_corner; }
+
   /** Returns the first mask corresponding to the current tile
    *  (useful for corners-based autotilesets)
    */
@@ -116,7 +125,7 @@ public:
 
   // TODO : Validate autotile config files by checking if each mask has
   //        one and only one corresponding tile.
-  void validate() const;
+  void validate(int32_t start, int32_t end) const;
 
 public:
   static std::vector<std::unique_ptr<AutotileSet>> m_autotilesets;
@@ -131,7 +140,3 @@ private:
   AutotileSet(const AutotileSet&) = delete;
   AutotileSet& operator=(const AutotileSet&) = delete;
 };
-
-#endif
-
-/* EOF */

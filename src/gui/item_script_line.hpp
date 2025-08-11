@@ -15,15 +15,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_SCRIPT_LINE_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_SCRIPT_LINE_HPP
+#pragma once
 
 #include "gui/item_textfield.hpp"
+
+class ScriptMenu;
 
 class ItemScriptLine final : public ItemTextField
 {
 public:
-  ItemScriptLine(std::string* input_, int id_ = -1);
+  ItemScriptLine(ScriptMenu& script_menu, std::string* input_, int id_ = -1);
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
@@ -47,10 +48,9 @@ public:
   virtual void duplicate_line();
 
 private:
+  ScriptMenu& m_script_menu;
+
+private:
   ItemScriptLine(const ItemScriptLine&) = delete;
   ItemScriptLine& operator=(const ItemScriptLine&) = delete;
 };
-
-#endif
-
-/* EOF */
