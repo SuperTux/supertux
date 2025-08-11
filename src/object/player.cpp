@@ -2496,6 +2496,8 @@ Player::kill(bool completely)
 
     SoundManager::current()->play("sounds/kill.wav", get_pos());
 
+    if (m_stone) stop_rolling(false);
+
     m_physic.enable_gravity(true);
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     m_post_damage_safety_timer.stop();
