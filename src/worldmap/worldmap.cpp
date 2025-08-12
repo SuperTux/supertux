@@ -48,15 +48,15 @@ namespace worldmap {
 
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
                    const std::string& force_sector, const std::string& force_spawnpoint) :
-  m_sector(),
+  m_sector(nullptr),
   m_sectors(),
   m_force_spawnpoint(),
-  m_savegame(),
+  m_savegame(nullptr),
   m_tileset(nullptr),
   m_name(),
   m_map_filename(),
   m_levels_path(),
-  m_next_worldmap(),
+  m_next_worldmap(false),
   m_passive_message(),
   m_passive_message_timer(),
   m_allow_item_pocket(true),
