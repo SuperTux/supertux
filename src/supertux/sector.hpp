@@ -267,6 +267,11 @@ private:
   float m_last_scale;
   float m_last_dt;
 
+ public: 
+  // The default sector size.
+  static const int DEFAULT_SECTOR_WIDTH = 350;
+  static const int DEFAULT_SECTOR_HEIGHT = 60;
+
 private:
   Sector(const Sector&) = delete;
   Sector& operator=(const Sector&) = delete;

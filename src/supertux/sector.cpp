@@ -119,7 +119,7 @@ Sector::finish_construction(bool editable)
     log_warning << "sector '" << get_name() << "' does not contain any tile layers. Creating an empty solid one." << std::endl;
 
     TileMap& tilemap = add<TileMap>(TileManager::current()->get_tileset(m_level.get_tileset()));
-    tilemap.resize(100, 35);
+    tilemap.resize(DEFAULT_SECTOR_WIDTH, DEFAULT_SECTOR_HEIGHT);
     tilemap.set_solid();
   }
   else if (get_solid_tilemaps().empty())
@@ -133,7 +133,7 @@ Sector::finish_construction(bool editable)
       log_warning << "sector '" << get_name() << "' does not contain a solid tile layer. Creating an empty one." << std::endl;
 
       TileMap& tilemap = add<TileMap>(TileManager::current()->get_tileset(m_level.get_tileset()));
-      tilemap.resize(100, 35);
+      tilemap.resize(DEFAULT_SECTOR_WIDTH, DEFAULT_SECTOR_HEIGHT);
       tilemap.set_solid();
     }
   }
