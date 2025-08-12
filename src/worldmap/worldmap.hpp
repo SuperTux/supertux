@@ -117,7 +117,7 @@ private:
   std::string m_map_filename;
   std::string m_levels_path;
 
-  /* A worldmap, scheduled to change to next frame. */
+  /* If true, the worldmap will reload on the next update */
   bool m_next_worldmap;
 
   /** Passive map message variables */
