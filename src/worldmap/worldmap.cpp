@@ -65,7 +65,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   m_in_world_select(false),
   m_next_filename(),
   m_next_force_sector(),
-  m_next_force_spawn()
+  m_next_force_spawnpoint()
 {
   load(filename, savegame, force_sector, force_spawnpoint);
 }
