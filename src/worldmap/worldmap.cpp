@@ -56,7 +56,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   m_name(),
   m_map_filename(),
   m_levels_path(),
-  m_next_worldmap(false),
+  m_has_next_worldmap(false),
   m_passive_message(),
   m_passive_message_timer(),
   m_allow_item_pocket(true),
@@ -74,11 +74,7 @@ void
 WorldMap::load(const std::string& filename, Savegame& savegame,
                const std::string& force_sector, const std::string& force_spawnpoint)
 {
-  bool next = false;
   m_map_filename = physfsutil::realpath(filename);
-  if (m_next_worldmap)
-    next = true;
-  
   m_levels_path = FileSystem::dirname(m_map_filename);
   m_savegame = &savegame;
   m_force_spawnpoint = force_spawnpoint;
@@ -118,7 +114,7 @@ WorldMap::load(const std::string& filename, Savegame& savegame,
   {
     set_sector(force_sector, "", false);
   }
-  if (next)
+  if (m_has_next_worldmap)
     setup();
 }
 
@@ -165,11 +161,11 @@ WorldMap::update(float dt_sec, const Controller& controller)
   if (m_in_level) return;
   if (MenuManager::instance().is_active()) return;
 
-  if (m_next_worldmap) // A worldmap is scheduled to be changed to.
+  if (m_has_next_worldmap) // A worldmap is scheduled to be changed to.
   {
     m_savegame->get_player_status().last_worldmap = m_map_filename;
     load(m_next_filename, *m_savegame, m_next_force_sector, m_next_force_spawnpoint);
-    m_next_worldmap = false;
+    m_has_next_worldmap = false;
     return;
   }
 
@@ -284,7 +280,7 @@ WorldMap::change(const std::string& filename, const std::string& force_sector,
   m_next_filename = filename;
   m_next_force_sector = force_sector;
   m_next_force_spawnpoint = force_spawnpoint;
-  m_next_worldmap = true;
+  m_has_next_worldmap = true;
 }
 
 
