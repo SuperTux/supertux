@@ -118,7 +118,7 @@ private:
   std::string m_levels_path;
 
   /* If true, the worldmap will reload on the next update */
-  bool m_next_worldmap;
+  bool m_has_next_worldmap;
 
   /** Passive map message variables */
   std::string m_passive_message;
