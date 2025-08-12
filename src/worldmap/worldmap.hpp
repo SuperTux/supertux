@@ -44,6 +44,9 @@ public:
 public:
   WorldMap(const std::string& filename, Savegame& savegame,
            const std::string& force_sector = "", const std::string& force_spawnpoint = "");
+  
+  void load(const std::string& filename, Savegame& savegame,
+            const std::string& force_sector = "", const std::string& force_spawnpoint = "");
 
   void setup() override;
   void leave() override;
@@ -81,7 +84,7 @@ public:
   inline void set_initial_spawnpoint(const std::string& spawnpoint) { m_force_spawnpoint = spawnpoint; }
 
   inline const std::string& get_title() const { return m_name; }
-  inline Savegame& get_savegame() const { return m_savegame; }
+  inline Savegame& get_savegame() const { return *m_savegame; }
   inline const std::string& get_levels_path() const { return m_levels_path; }
 
   WorldMapSector* get_sector(const std::string& name) const;
@@ -107,7 +110,7 @@ private:
 
   std::string m_force_spawnpoint;
 
-  Savegame& m_savegame;
+  Savegame* m_savegame;
   TileSet* m_tileset;
 
   std::string m_name;
@@ -115,7 +118,7 @@ private:
   std::string m_levels_path;
 
   /* A worldmap, scheduled to change to next frame. */
-  std::unique_ptr<WorldMap> m_next_worldmap;
+  bool m_next_worldmap;
 
   /** Passive map message variables */
   std::string m_passive_message;
@@ -125,6 +128,10 @@ private:
   bool m_enter_level;
   bool m_in_level;
   bool m_in_world_select;
+  
+  std::string m_next_filename;
+  std::string m_next_force_sector;
+  std::string m_next_force_spawnpoint;
 
 private:
   WorldMap(const WorldMap&) = delete;

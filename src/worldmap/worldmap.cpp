@@ -50,12 +50,12 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
                    const std::string& force_sector, const std::string& force_spawnpoint) :
   m_sector(),
   m_sectors(),
-  m_force_spawnpoint(force_spawnpoint),
-  m_savegame(savegame),
-  m_tileset(),
+  m_force_spawnpoint(),
+  m_savegame(),
+  m_tileset(nullptr),
   m_name(),
-  m_map_filename(physfsutil::realpath(filename)),
-  m_levels_path(FileSystem::dirname(m_map_filename)),
+  m_map_filename(),
+  m_levels_path(),
   m_next_worldmap(),
   m_passive_message(),
   m_passive_message_timer(),
@@ -64,6 +64,23 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   m_in_level(false),
   m_in_world_select(false)
 {
+  load(filename, savegame, force_sector, force_spawnpoint);
+}
+
+void
+WorldMap::load(const std::string& filename, Savegame& savegame,
+               const std::string& force_sector, const std::string& force_spawnpoint)
+{
+  bool next = false;
+  m_map_filename = physfsutil::realpath(filename);
+  if (m_next_worldmap)
+	next = true;
+  
+  m_levels_path = FileSystem::dirname(m_map_filename);
+  m_savegame = &savegame;
+  m_force_spawnpoint = force_spawnpoint;
+  m_sector = nullptr;
+  m_sectors.clear();
   SoundManager::current()->preload("sounds/warp.wav");
 
   /** Parse worldmap */
@@ -95,9 +112,12 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
 
   /** Force the initial sector, if provided */
   if (!force_sector.empty())
+  {
     set_sector(force_sector, "", false);
+  }
+  if (next)
+    setup();
 }
-
 
 void
 WorldMap::setup()
@@ -144,9 +164,12 @@ WorldMap::update(float dt_sec, const Controller& controller)
 
   if (m_next_worldmap) // A worldmap is scheduled to be changed to.
   {
-    m_savegame.get_player_status().last_worldmap = m_next_worldmap->m_map_filename;
-    ScreenManager::current()->pop_screen();
-    ScreenManager::current()->push_screen(std::move(m_next_worldmap));
+    m_savegame->get_player_status().last_worldmap = m_map_filename;
+    //ScreenManager::current()->pop_screen();
+	//worldmap::WorldMap.s_current = m_next_worldmap.get();
+    //ScreenManager::current()->push_screen(std::move(m_next_worldmap));
+    load(m_next_filename, *m_savegame, m_next_force_sector, m_next_force_spawnpoint);
+	m_next_worldmap = false;
     return;
   }
 
@@ -258,7 +281,10 @@ WorldMap::change(const std::string& filename, const std::string& force_sector,
                  const std::string& force_spawnpoint)
 {
   // Schedule worldmap to be changed to next frame.
-  m_next_worldmap = std::make_unique<WorldMap>(filename, m_savegame, force_sector, force_spawnpoint);
+  m_next_filename = filename;
+  m_next_force_sector = force_sector;
+  m_next_force_spawnpoint = force_spawnpoint;
+  m_next_worldmap = true;
 }
 
 
