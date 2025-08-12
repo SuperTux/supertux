@@ -62,7 +62,10 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   m_allow_item_pocket(true),
   m_enter_level(false),
   m_in_level(false),
-  m_in_world_select(false)
+  m_in_world_select(false),
+  m_next_filename(),
+  m_next_force_sector(),
+  m_next_force_spawn()
 {
   load(filename, savegame, force_sector, force_spawnpoint);
 }
@@ -74,7 +77,7 @@ WorldMap::load(const std::string& filename, Savegame& savegame,
   bool next = false;
   m_map_filename = physfsutil::realpath(filename);
   if (m_next_worldmap)
-	next = true;
+    next = true;
   
   m_levels_path = FileSystem::dirname(m_map_filename);
   m_savegame = &savegame;
@@ -165,11 +168,8 @@ WorldMap::update(float dt_sec, const Controller& controller)
   if (m_next_worldmap) // A worldmap is scheduled to be changed to.
   {
     m_savegame->get_player_status().last_worldmap = m_map_filename;
-    //ScreenManager::current()->pop_screen();
-	//worldmap::WorldMap.s_current = m_next_worldmap.get();
-    //ScreenManager::current()->push_screen(std::move(m_next_worldmap));
     load(m_next_filename, *m_savegame, m_next_force_sector, m_next_force_spawnpoint);
-	m_next_worldmap = false;
+    m_next_worldmap = false;
     return;
   }
 
