@@ -65,6 +65,7 @@ public:
 
   void update_pos();
   void update_autotileset();
+  void update_properties_panel(GameObject* object);
   void delete_markers();
   void update_node_iterators();
   void on_level_change();
