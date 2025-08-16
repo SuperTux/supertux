@@ -164,15 +164,14 @@ static bool check_cutscene()
 static SQInteger wait(HSQUIRRELVM vm, float seconds, bool forced = false)
 {
   ssq::VM* ssq_vm = ssq::VM::get(vm);
-  assert(ssq_vm);
-  if (ssq_vm && !ssq_vm->isThread()) return 0;
+  if (!ssq_vm || !ssq_vm->isThread()) return 0;
 
   if (!forced)
   {
     auto session = GameSession::current();
     if (session && session->get_current_level().m_skip_cutscene)
     {
-      if (ssq_vm && ssq_vm->getForeignPtr())
+      if (ssq_vm->getForeignPtr())
       {
         auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
         // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`.
@@ -183,7 +182,7 @@ static SQInteger wait(HSQUIRRELVM vm, float seconds, bool forced = false)
     }
     if (session && session->get_current_level().m_is_in_cutscene)
     {
-      if (ssq_vm && ssq_vm->getForeignPtr())
+      if (ssq_vm->getForeignPtr())
       {
         auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
         // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game.
@@ -193,7 +192,7 @@ static SQInteger wait(HSQUIRRELVM vm, float seconds, bool forced = false)
       return squirrelvm->skippable_wait_for_seconds(vm, seconds);
     }
   }
-  if (ssq_vm && ssq_vm->getForeignPtr())
+  if (ssq_vm->getForeignPtr())
   {
     auto squirrelenv = ssq_vm->getForeignPtr<SquirrelEnvironment>();
     return squirrelenv->wait_for_seconds(vm, seconds);
@@ -312,7 +311,7 @@ static void load_level(const std::string& filename)
 static void import(HSQUIRRELVM vm, const std::string& filename)
 {
   ssq::VM* ssq_vm = ssq::VM::get(vm);
-  assert(ssq_vm);
+  if (!ssq_vm) return;
 
   IFileStream in(filename);
   ssq_vm->run(ssq_vm->compileSource(in, filename.c_str()));
