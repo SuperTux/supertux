@@ -355,7 +355,7 @@ WorldMapSector::update(float dt_sec)
                                     level_->get_pos().y +  8 - m_camera->get_offset().y);
           std::string levelfile = m_parent.m_levels_path + level_->get_level_filename();
 
-          auto game_session = std::make_unique<GameSession>(levelfile, m_parent.m_savegame, &level_->get_statistics());
+          auto game_session = std::make_unique<GameSession>(levelfile, m_parent.get_savegame(), &level_->get_statistics());
           game_session->restart_level();
 
           // update state and savegame
