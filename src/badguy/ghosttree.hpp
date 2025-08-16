@@ -48,6 +48,7 @@ public:
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 private:
   enum MyState {
@@ -69,17 +70,21 @@ private:
 
 private:
   void set_state(MyState new_state);
+  bool suck_now(const Color& color) const;
 /*  bool is_color_deadly(Color color) const;
   void spawn_lantern();*/
 
 private:
   MyState m_state;
   AttackType m_attack;
-  /*Timer willowisp_timer;
-  float willo_spawn_y;
-  float willo_radius;
-  float willo_speed;
-  int   willo_color;*/
+  Timer m_state_timer;
+  //Timer m_willowisp_timer;
+  float m_willo_spawn_y;
+  float m_willo_radius;
+  float m_willo_speed;
+  int m_willo_to_spawn;
+  AttackType m_next_willo;
+  /*int   willo_color;*/
 
   //SpritePtr glow_sprite;
   /*Timer colorchange_timer;
@@ -93,6 +98,8 @@ private:
   //Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
 
   std::vector<TreeWillOWisp*> m_willowisps;
+  void spawn_willowisp(AttackType color);
+  void rotate_willo_color();
 
 private:
   GhostTree(const GhostTree&) = delete;
