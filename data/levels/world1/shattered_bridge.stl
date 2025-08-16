@@ -14,7 +14,7 @@
   (sector
     (name "main")
     (ambient-light
-      (color 1 1 1)
+      (color 0.9 0.9 1)
     )
     (background
       (color 1 1 1)
@@ -25,7 +25,7 @@
       (z-pos -250)
     )
     (background
-      (color 1 1 1)
+      (color 0.8980392 0.8980392 0.8980392)
       (scroll-speed-x -2)
       (speed 0)
       (image "/images/background/misc/clouds.png")
@@ -422,7 +422,7 @@
     )
     (gradient
       (blend "none")
-      (top_color 0.4 0.6 0.9)
+      (top_color 0.4 0.4941176 0.6941177)
       (bottom_color 1 1 1)
     )
     (haywire
