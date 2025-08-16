@@ -31,6 +31,7 @@
 #include "supertux/constants.hpp"
 #include "supertux/controller_hud.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -182,6 +183,8 @@ void
 ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 {
   Integration::close_all();
+
+  GameManager::current()->save();
 
 #ifdef __EMSCRIPTEN__
   g_config->save();

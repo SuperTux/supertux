@@ -31,6 +31,8 @@ class GameManager final : public Currenton<GameManager>
 {
 public:
   GameManager();
+  
+  void save();
 
   bool start_worldmap(const World& world, const std::string& worldmap_filename = "",
                       const std::string& sector = "", const std::string& spawnpoint = "");
