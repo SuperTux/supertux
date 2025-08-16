@@ -67,9 +67,10 @@ SpriteChange::clear_stay_action(bool propagate)
   m_in_stay_action = false;
 
   // if we are in a stay_group, also clear all stay actions in this group
-  if (!m_stay_group.empty() && propagate)
+  auto sector = WorldMapSector::current();
+  if (!m_stay_group.empty() && propagate && sector != nullptr)
   {
-    for (SpriteChange& sc : WorldMapSector::current()->get_objects_by_type<SpriteChange>())
+    for (SpriteChange& sc : sector->get_objects_by_type<SpriteChange>())
     {
       if (sc.m_stay_group != m_stay_group) continue;
       sc.m_in_stay_action = false;

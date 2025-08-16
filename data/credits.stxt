@@ -94,55 +94,55 @@
     (person
       (name "Bill Kendrick")
       (info (_ "Original Developer"))
-	  (image "images/credits/bill.jpg")
+	  (image "images/credits/bill.png")
     )
 	(blank)
 	(person
       (name "Ingo \"grumbel\" Ruhnke")
       (info (_ "Graphics, Programming, Level Design"))
-	  (image "images/credits/ingo.jpg")
+	  (image "images/credits/ingo.png")
     )
     (blank)
     (person
       (name "Matthias \"MatzeB\" Braun")
       (info (_ "Graphics, Programming, Level Design"))
-	  (image "images/credits/matze.jpg")
+	  (image "images/credits/matze.png")
     )
     (blank)
     (person
       (name "Marek \"Wansti\" Moeckel")
       (info (_ "Music, Level Design"))
-	  (image "images/credits/wansti.jpg")
+	  (image "images/credits/wansti.png")
     )
     (blank)
     (person
       (name "Stephen Groundwater")
       (info (_ "Graphics"))
-      (image "images/credits/gwater.jpg")
+      (image "images/credits/gwater.png")
     )
     (blank)
     (person
       (name "Christoph Sommer")
       (info (_ "Programming, Graphics, Level Design"))
-      (image "images/credits/christoph.jpg")
+      (image "images/credits/christoph.png")
     )
     (blank)
     (person
       (name "Wolfgang Becker")
       (info (_ "Programming, Level Design"))
-      (image "images/credits/wolfgang.jpg")
+      (image "images/credits/wolfgang.png")
     )
     (blank)
     (person
       (name "Christopher A. \"paroneayea\" Webber")
       (info (_ "Graphics, Story"))
-      (image "images/credits/paroneayea.jpg")
+      (image "images/credits/paroneayea.png")
     )
     (blank)
     (person
       (name "Ondřej \"Ravu al Hemio\" Hošek")
       (info (_ "Programming, Documentation"))
-      (image "images/credits/ondra.jpg")
+      (image "images/credits/ondra.png")
     )
     (blank)
     (person
@@ -158,7 +158,7 @@
     (person
       (name "Ricardo \"blacksheep\" Cruz")
       (info (_ "Programming"))
-      (image "images/credits/rpcruz.jpg")
+      (image "images/credits/rpcruz.png")
     )
     (blank)
     (person

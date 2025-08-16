@@ -406,7 +406,7 @@ msgstr "Vergiss nicht, dass deine Levels und Spieldaten\nnicht zwischen den Sitz
 
 #: src/editor/editor.cpp:683
 msgid "This level contains unsaved changes, do you want to save?"
-msgstr "Dieser Level enthält nicht gespeicherte Änderungen, möchtest du speichern?"
+msgstr "Dieses Level enthält nicht gespeicherte Änderungen, möchtest du speichern?"
 
 #: src/editor/editor.cpp:684
 msgid "This level may contain unsaved changes, do you want to save?"
@@ -583,7 +583,7 @@ msgstr "Horizontale Geschwindigkeit"
 
 #: src/editor/particle_editor.cpp:180
 msgid "Vertical speed"
-msgstr "Vertikele Geschwindigkeit"
+msgstr "Vertikale Geschwindigkeit"
 
 #: src/editor/particle_editor.cpp:185
 msgid "Horizontal acceleration"
@@ -599,7 +599,7 @@ msgstr "Horizontale Reibung"
 
 #: src/editor/particle_editor.cpp:188
 msgid "Vertical friction"
-msgstr "Vertikele Reibung"
+msgstr "Vertikale Reibung"
 
 #: src/editor/particle_editor.cpp:189
 #: src/object/custom_particle_system.cpp:505

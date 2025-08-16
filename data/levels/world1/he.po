@@ -4,16 +4,16 @@
 # 
 # Translators:
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
-# 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2020-2022
+# Omer I.S., 2020-2022,2025
 # 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2021
 # 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-01-26 01:42+0000\n"
+"POT-Creation-Date: 2025-07-06 02:34+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
+"Last-Translator: Omer I.S., 2020-2022,2025\n"
 "Language-Team: Hebrew (http://app.transifex.com/arctic-games/supertux/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,7 +83,7 @@ msgstr "הכניסה למערה"
 
 #: data/levels/world1/fork_in_the_road.stl:3
 msgid "A Fork in the Road"
-msgstr "הדרכים מתפצלות"
+msgstr "שתי דרכים, שתי אפשרויות"
 
 #: data/levels/world1/fork_in_the_road.stl:84
 msgid ""
@@ -124,11 +124,11 @@ msgstr "על הגשר הקפוא"
 
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
-msgstr "קרח בתוך החור"
+msgstr "קר כקרח"
 
 #: data/levels/world1/icy_valley.stl:3
 msgid "Icy Valley"
-msgstr "עמק מקרח"
+msgstr "עמק הקרח"
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -156,7 +156,7 @@ msgstr "אוי לא! עוד כדורי שלג!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
-msgstr "לילה צונן"
+msgstr "לילה קריר"
 
 #: data/levels/world1/or_just_me.stl:3
 msgid "...Or Is It Just Me?"
@@ -172,18 +172,18 @@ msgstr "טַקס הגיע לקצה הטירה."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
 msgid "But to his surprise all he could find was a letter."
-msgstr "אך להפתעתו כל מה שהוא מצא היה פתק."
+msgstr "אבל למרבה ההפתעה הוא מצא רק פתק."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
 msgid ""
 "A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "פתק מפני שמספרת לטַקס שנולוק לקח אותה ליער רחוק."
+msgstr "פתק שבו פני מספרת לטַקס כי נולוק לקח אותה אל היער הרחוק."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
 "Unsure about what Nolok was doing to her, Tux became worried about his "
 "beloved Penny."
-msgstr "טַקס לא היה בטוח מה נולוק היה עושה לה, ונהיה מודאג לגבי פני האהובה שלו."
+msgstr "טַקס לא ידע מה נולוק מעולל לפני, והחל לחשוש לגורלה של אהובתו."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
@@ -195,11 +195,11 @@ msgstr "אי־שם בקצה אנטרקטיקה..."
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "טַקס הפינגווין הלך להיפגש עם חברתו, פני, לפיקניק."
+msgstr "טַקס הפינגווין היה בדרכו להיפגש עם חברתו, פני, לפיקניק."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "טַקס התעורר, מסוחרר, כדי לגלות שפני איננה!"
+msgstr "טַקס התעורר, מסוחרר, וגילה שפני איננה!"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
@@ -213,7 +213,7 @@ msgstr "\"טַקס, חטפתי את פני אהובתך והבאתי אותה ל
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"כדי להגיע למבצר שלי יהיה עליך לעבור את המשרתים שלי.\""
+msgstr "\"כדי להגיע למבצר שלי תצטרך לעבור דרך המשרתים שלי.\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
@@ -222,16 +222,16 @@ msgstr "\"אין לך סיכוי להציל אותה! על החתום, נולו�
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "טַקס מבין באיזו צרה פני עלולה להסתבך, אך נחוש להצילה."
+msgstr "טַקס הבין באיזו צרה פני נמצאת, אך היה נחוש להצילה."
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
 "Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "ואז, טַקס ראה מרחוק את הטירה של נולוק ויצא להציל את פני!"
+msgstr "טַקס הסתכל לעבר הטירה של נולוק שנראתה מרחוק, ואז יצא להציל את פני!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "טַקס היה תשוש מהדרך הארוכה, אז החליט לקחת הפסקה קטנה."
+msgstr "טַקס היה תשוש מהדרך הארוכה, והוא החליט לקחת הפסקה קטנה."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
@@ -245,11 +245,11 @@ msgstr "נראה כי יטי צפה בו מרחוק."
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
-msgstr "מודאג מהנסיגה הפתאומית של האיטי, טוקס החליט להמשיך במסעו, ..."
+msgstr "טַקס היה מודאג מנסיגתו הפתאומית של היטי, והחליט להמשיך במסעו..."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "... תוך תקווה בסתר לא להיתקל שוב ב-yiti, בשום אופן."
+msgstr "... בתקווה שלא ייתקל שוב ביטי, בשום פנים ואופן."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
@@ -261,7 +261,7 @@ msgstr "האמבט הקטן במקצת"
 
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
-msgstr "קר כקרח"
+msgstr "קור מקפיא"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -335,4 +335,4 @@ msgstr "לא עוד ממר בחור קרח"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"
-msgstr "יטי מרחוק"
+msgstr "יטי בא מרחוק"

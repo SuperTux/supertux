@@ -496,7 +496,7 @@ msgstr ""
 
 #: src/editor/editor_comment.cpp:97
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -741,7 +741,7 @@ msgstr ""
 
 #: src/video/video_system.cpp:158
 msgid "OpenGL (AUTO)"
-msgstr ""
+msgstr "OpenGL (AUTO)"
 
 #: src/video/video_system.cpp:158
 msgid "The recommended OpenGL video system for this device."
@@ -749,7 +749,7 @@ msgstr ""
 
 #: src/video/video_system.cpp:158
 msgid "Fallbacks to SDL."
-msgstr ""
+msgstr "Fall tillbaka på SDL."
 
 #: src/supertux/levelintro.cpp:137
 msgid "contributed by {}"
@@ -1211,7 +1211,7 @@ msgstr "Kontroller"
 #: src/supertux/menu/options_select_menu.cpp:40
 #: src/supertux/menu/options_menu.cpp:185
 msgid "Extras"
-msgstr ""
+msgstr "Extra"
 
 #: src/supertux/menu/options_select_menu.cpp:41
 #: src/supertux/menu/options_menu.cpp:217
@@ -1397,7 +1397,7 @@ msgstr "Hantera spelare automatiskt"
 msgid ""
 "Automatically add and remove players when controllers are plugged or "
 "unplugged"
-msgstr ""
+msgstr "Lägg till och ta bort spelare automatiskt när handkontroller ansluts eller kopplas från"
 
 #: src/supertux/menu/multiplayer_menu.cpp:33
 msgid "Allow Multibind"
@@ -1637,7 +1637,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:215
 msgid "F7 = Grid Snapping"
-msgstr ""
+msgstr "F7 = Rutnätsfästning"
 
 #: src/supertux/menu/editor_menu.cpp:216
 msgid "F8 = Show Grid"
@@ -3601,7 +3601,7 @@ msgstr "Vertikal"
 
 #: src/badguy/crusher.cpp:1227
 msgid "All"
-msgstr ""
+msgstr "Alla"
 
 #: src/badguy/crusher.cpp:1232
 msgid "Crush script"
@@ -3697,7 +3697,7 @@ msgstr "Vilande flamma"
 
 #: src/badguy/fish_chasing.cpp:206
 msgid "Tracking Distance"
-msgstr ""
+msgstr "Spårningsavstånd"
 
 #: src/badguy/fish_chasing.cpp:207
 msgid "Losing Distance"
@@ -3733,7 +3733,7 @@ msgstr "Vandrande ljus"
 
 #: src/badguy/fish_chasing.hpp:33
 msgid "Chasing Fish"
-msgstr ""
+msgstr "Jaga fisk"
 
 #: src/badguy/fish_swimming.hpp:41
 msgid "Swimming Fish"
@@ -3835,7 +3835,7 @@ msgstr "Textjustering"
 
 #: src/object/bonus_block.cpp:154
 msgid "Only one custom object is allowed inside bonus blocks."
-msgstr ""
+msgstr "Endast ett anpassat objekt är tillåtet i bonusblock."
 
 #: src/object/bonus_block.cpp:172
 msgid "Blue"
@@ -4161,7 +4161,7 @@ msgstr "Partiklar aktiverade"
 
 #: src/object/wind.cpp:105
 msgid "Current"
-msgstr ""
+msgstr "Aktuell"
 
 #: src/object/bigsnowball.cpp:82
 msgid "Break on impact?"
@@ -4799,11 +4799,11 @@ msgstr "Toningstid"
 
 #: src/trigger/text_area.cpp:148
 msgid "Anchor offset X"
-msgstr ""
+msgstr "Ankarförskjutning X"
 
 #: src/trigger/text_area.cpp:149
 msgid "Anchor offset Y"
-msgstr ""
+msgstr "Ankarförskjutning Y"
 
 #: src/trigger/text_area.cpp:150
 msgid "Texts"
@@ -4995,7 +4995,7 @@ msgstr "Redigera skript"
 
 #: src/gui/menu_string_array.cpp:40 src/gui/menu_string_array.cpp:78
 msgid "Selected item: {}"
-msgstr ""
+msgstr "Valt objekt: {}"
 
 #: src/gui/menu_string_array.cpp:70
 msgid "Edit string array"
@@ -5343,7 +5343,7 @@ msgstr "Isgrotta & Kristall"
 
 #: data/images/ice_world.strf:171
 msgid "Snow Embellishments"
-msgstr ""
+msgstr "Snödekorationer"
 
 #: data/images/ice_world.strf:343
 msgid "Underground Forest"
@@ -5391,7 +5391,7 @@ msgstr ""
 
 #: data/images/tiles.strf:1262
 msgid "Jagged Rocks"
-msgstr ""
+msgstr "Skarpa klippor"
 
 #: data/images/tiles.strf:1306
 msgid "Block + Bonus"
