@@ -76,6 +76,9 @@ WorldMap::load(const std::string& filename, Savegame& savegame,
 {
   m_map_filename = physfsutil::realpath(filename);
   m_levels_path = FileSystem::dirname(m_map_filename);
+  /* We are reloading, so save now. */
+  if (m_has_next_worldmap)
+    m_savegame->get_player_status().last_worldmap = m_map_filename;
   m_savegame = &savegame;
   m_force_spawnpoint = force_spawnpoint;
   m_sector = nullptr;
@@ -163,7 +166,6 @@ WorldMap::update(float dt_sec, const Controller& controller)
 
   if (m_has_next_worldmap) // A worldmap is scheduled to be changed to.
   {
-    m_savegame->get_player_status().last_worldmap = m_map_filename;
     load(m_next_filename, *m_savegame, m_next_force_sector, m_next_force_spawnpoint);
     m_has_next_worldmap = false;
     return;
