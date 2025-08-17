@@ -2415,6 +2415,7 @@ Player::collision(MovingObject& other, const CollisionHit& hit)
 
     if (hit.bottom && badguy->is_frozen())
       m_on_ground_flag = true;
+      m_physic.set_velocity_y(0);
   }
 
   return CONTINUE;
