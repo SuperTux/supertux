@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Alina Gobarov, 2024
+# Alina Gobarov, 2024-2025
 # Arkadiusz Chojnicki <bunx12@gmail.com>, 2018-2019
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # Grzegorz Przybylski <zwatotem@gmail.com>, 2024
@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-07-06 02:34+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Marcin S <dzidek1003@o2.pl>, 2016,2019,2025\n"
+"Last-Translator: Alina Gobarov, 2024-2025\n"
 "Language-Team: Polish (http://app.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -290,7 +290,7 @@ msgstr "Informacje do łatki dla v{}:"
 
 #: src/editor/editor_comment.hpp:48
 msgid "Editor Comment"
-msgstr ""
+msgstr "Komentarz w edytorze"
 
 #: src/editor/layers_widget.cpp:372
 msgid "Sector: {}"
@@ -483,31 +483,31 @@ msgstr ""
 #. the usage of certain features in a level, for example.
 #: src/editor/editor_comment.cpp:74
 msgid "Note"
-msgstr ""
+msgstr "Notatka"
 
 #. l10n: A to-do refers to a reminder left for the
 #. author of the comment to finish designing something in
 #. a level.
 #: src/editor/editor_comment.cpp:79
 msgid "To-do"
-msgstr ""
+msgstr "Do zrobienia"
 
 #. l10n: A fix-me refers to a reminder left for the
 #. author of the comment to fix a flaw with the level
 #. design.
 #: src/editor/editor_comment.cpp:84
 msgid "Fix-me"
-msgstr ""
+msgstr "Napraw mnie"
 
 #. l10n: A hack refers to usage of an unintended or
 #. non-ideal way of implementing a level design idea.
 #: src/editor/editor_comment.cpp:88
 msgid "Hack"
-msgstr ""
+msgstr "Obejście"
 
 #: src/editor/editor_comment.cpp:97
 msgid "Comment"
-msgstr ""
+msgstr "Komentarz"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -742,7 +742,7 @@ msgstr "Zapisz jako"
 
 #: src/video/video_system.cpp:155
 msgid "Fast and stable renderer, which fits most players' needs."
-msgstr ""
+msgstr "Szybki i stabilny renderer, który spełnia wymagania większości graczy."
 
 #: src/video/video_system.cpp:157
 msgid ""
@@ -752,7 +752,7 @@ msgstr ""
 
 #: src/video/video_system.cpp:158
 msgid "OpenGL (AUTO)"
-msgstr ""
+msgstr "OpenGL (AUTOMATYCZNIE)"
 
 #: src/video/video_system.cpp:158
 msgid "The recommended OpenGL video system for this device."
@@ -1404,7 +1404,7 @@ msgstr "Gra wieloosobowa"
 
 #: src/supertux/menu/multiplayer_menu.cpp:30
 msgid "Auto-manage Players"
-msgstr ""
+msgstr "Automatycznie zarządząj graczami"
 
 #: src/supertux/menu/multiplayer_menu.cpp:31
 msgid ""
@@ -1766,7 +1766,7 @@ msgstr "Dopasuj rozdzielczość do rozmiaru twojej przeglądarki"
 
 #: src/supertux/menu/options_menu.cpp:123
 msgid "Frame prediction"
-msgstr ""
+msgstr "Przewidywanie klatek"
 
 #: src/supertux/menu/options_menu.cpp:124
 msgid ""
@@ -2566,7 +2566,7 @@ msgstr "Brak dostępnego opisu."
 
 #: src/supertux/menu/addon_preview_menu.cpp:141
 msgid "Overrides Data: "
-msgstr ""
+msgstr "Nadpisuje dane:"
 
 #: src/supertux/menu/addon_preview_menu.cpp:155
 msgid "Failed to load all available screenshot previews."
@@ -2888,15 +2888,15 @@ msgstr "Ta gra NIE POSIADA GWARANCJI. To jest wolne oprogramowanie, i mile widzi
 
 #: src/supertux/statistics.cpp:70
 msgid "Enable Coins Statistic"
-msgstr ""
+msgstr "Włącz statystykę monet"
 
 #: src/supertux/statistics.cpp:71
 msgid "Enable Badguys Statistic"
-msgstr ""
+msgstr "Włącz statystykę wrogów"
 
 #: src/supertux/statistics.cpp:72
 msgid "Enable Secrets Statistic"
-msgstr ""
+msgstr "Włącz statystykę sekretów"
 
 #: src/supertux/statistics.cpp:93
 msgid "Max coins collected:"
@@ -3133,7 +3133,7 @@ msgstr "dół"
 
 #: src/badguy/granito.cpp:282
 msgid "Detect script"
-msgstr ""
+msgstr "Skrypt wykrycia"
 
 #: src/badguy/granito.cpp:283
 msgid "Carried script"
@@ -3614,11 +3614,11 @@ msgstr "Pionowy"
 
 #: src/badguy/crusher.cpp:1227
 msgid "All"
-msgstr ""
+msgstr "Wszystkie"
 
 #: src/badguy/crusher.cpp:1232
 msgid "Crush script"
-msgstr ""
+msgstr "Skrypt zmiażdzenia"
 
 #: src/badguy/flyingsnowball.hpp:33
 msgid "Flying Snowball"
@@ -3808,7 +3808,7 @@ msgstr "Przejście zanikania"
 
 #: src/object/sticky_object.cpp:72 src/object/sticky_object.cpp:132
 msgid "Sticky"
-msgstr ""
+msgstr "Przylegające"
 
 #: src/object/custom_particle_system.hpp:54
 msgid "Custom Particles"
@@ -4174,15 +4174,15 @@ msgstr "Cząsteczki włączone"
 
 #: src/object/wind.cpp:105
 msgid "Current"
-msgstr ""
+msgstr "Prąd wodny"
 
 #: src/object/bigsnowball.cpp:82
 msgid "Break on impact?"
-msgstr ""
+msgstr "Zniszczyć w wypadku uderzenia?"
 
 #: src/object/bigsnowball.cpp:83
 msgid "Bounce?"
-msgstr ""
+msgstr "Odbić?"
 
 #: src/object/bumper.hpp:38
 msgid "Bumper"
@@ -5404,7 +5404,7 @@ msgstr ""
 
 #: data/images/tiles.strf:1262
 msgid "Jagged Rocks"
-msgstr ""
+msgstr "Postrzępione skały"
 
 #: data/images/tiles.strf:1306
 msgid "Block + Bonus"
