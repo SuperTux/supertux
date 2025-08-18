@@ -44,9 +44,6 @@ public:
 public:
   WorldMap(const std::string& filename, Savegame& savegame,
            const std::string& force_sector = "", const std::string& force_spawnpoint = "");
-  
-  void load(const std::string& filename, Savegame& savegame,
-            const std::string& force_sector = "", const std::string& force_spawnpoint = "");
 
   void setup() override;
   void leave() override;
@@ -100,6 +97,9 @@ public:
   bool is_item_pocket_allowed() const { return m_allow_item_pocket; }
 
 private:
+  void load(const std::string& filename, Savegame& savegame,
+            const std::string& force_sector = "", const std::string& force_spawnpoint = "");
+
   void process_input(const Controller& controller);
 
   void on_escape_press();
