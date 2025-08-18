@@ -39,6 +39,13 @@ GameManager::GameManager() :
 }
 
 void
+GameManager::save()
+{
+  if (m_savegame)
+    m_savegame->save();
+}
+
+void
 GameManager::start_level(const World& world, const std::string& level_filename,
                          const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
