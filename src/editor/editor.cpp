@@ -334,17 +334,23 @@ Editor::draw(Compositor& compositor)
     for(const auto& widget : m_widgets) {
       widget->draw(context);
     }
+	
+	m_overlay_widget->draw_tilemap_outer_shading(context);
+	m_overlay_widget->draw_tilemap_border(context);
+    
+	if (m_controls.size() != 0)
+	{
+	  context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
+										 Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
 
-    context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
-                                     Color(0.2f, 0.2f, 0.2f), LAYER_GUI - 6);
+	  context.color().draw_filled_rect(Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f),
+										 Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
 
-    context.color().draw_filled_rect(Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f),
-                                     Color(0.2f, 0.2f, 0.2f), LAYER_GUI - 6);
-
-    for(const auto& control : m_controls)
-    {
-      control->draw(context);
-    }
+	  for(const auto& control : m_controls)
+	  {
+	    control->draw(context);
+	  }
+	}
 
     // If camera scale must be changed, change it here.
     if (m_new_scale != 0.f)
@@ -631,9 +637,12 @@ void
 Editor::keep_camera_in_bounds()
 {
   Camera& camera = m_sector->get_camera();
-  camera.keep_in_bounds(Rectf(-200.f, -32.0f,
-                              std::max(0.0f, m_sector->get_editor_width() + 128.f / camera.get_current_scale()),
-                              std::max(0.0f, m_sector->get_editor_height() + 32.f / camera.get_current_scale())));
+  constexpr float offset = 80.f;
+  float controls_offset_x = m_controls.size() != 0 ? -200.f : 0.f;
+  float controls_offset_y = m_controls.size() != 0 ? -32.f : 0.f;
+  camera.keep_in_bounds(Rectf(-offset + controls_offset_x, -offset + controls_offset_y,
+                              std::max(0.0f, m_sector->get_editor_width() + 128.f / camera.get_current_scale()) + offset,
+                              std::max(0.0f, m_sector->get_editor_height() + 32.f / camera.get_current_scale()) + offset));
 
   m_overlay_widget->update_pos();
 }
