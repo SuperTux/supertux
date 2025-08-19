@@ -28,9 +28,9 @@ class ButtonWidget : public Widget
 {
 private:
 public:
-  ButtonWidget(SpritePtr sprite, const Vector& pos, std::function<void()> m_sig_click = {});
-  ButtonWidget(const std::string& path, const Vector& pos, std::function<void()> callback = {}) :
-    ButtonWidget(SpriteManager::current()->create(path), pos, std::move(callback))
+  ButtonWidget(SpritePtr sprite, const Vector& pos, std::function<void()> m_sig_click = {}, std::optional<Sizef> sprite_size = std::nullopt);
+  ButtonWidget(const std::string& path, const Vector& pos, std::function<void()> callback = {}, std::optional<Sizef> sprite_size = std::nullopt) :
+    ButtonWidget(SpriteManager::current()->create(path), std::move(pos), std::move(callback), std::move(sprite_size))
   {
   }
 
@@ -66,16 +66,16 @@ private:
 class EditorToolbarButtonWidget : public ButtonWidget
 {
 public:
-  EditorToolbarButtonWidget(SpritePtr sprite, const Vector& pos, std::function<void()> m_sig_click = {}) :
-    ButtonWidget(std::move(sprite), pos, m_sig_click),
+  EditorToolbarButtonWidget(SpritePtr sprite, const Vector& pos, std::function<void()> m_sig_click = {}, std::optional<Sizef> sprite_size = std::nullopt) :
+    ButtonWidget(std::move(sprite), std::move(pos), m_sig_click, std::move(sprite_size)),
     m_tile_mode_visible(true),
     m_object_mode_visible(true),
     m_visible(true)
   {
   }
 
-  EditorToolbarButtonWidget(const std::string& path, const Vector& pos, std::function<void()> callback = {}) :
-    ButtonWidget(SpriteManager::current()->create(path), pos, std::move(callback)),
+  EditorToolbarButtonWidget(const std::string& path, const Vector& pos, std::function<void()> callback = {}, std::optional<Sizef> sprite_size = std::nullopt) :
+    ButtonWidget(SpriteManager::current()->create(path), std::move(pos), std::move(callback), std::move(sprite_size)),
     m_tile_mode_visible(true),
     m_object_mode_visible(true),
     m_visible(true)
