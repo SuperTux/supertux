@@ -75,6 +75,8 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/sector_parser.hpp"
 
 static const float CAMERA_MIN_ZOOM = 0.5f;
 static const float CAMERA_MAX_ZOOM = 3.0f;
@@ -112,6 +114,7 @@ Editor::Editor() :
   m_test_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
+  m_temp_level(true),
   m_particle_editor_filename(),
   m_ctrl_pressed(false),
   m_sector(),
@@ -304,6 +307,19 @@ Editor::~Editor()
 }
 
 void
+Editor::level_from_nothing()
+{
+	m_level = std::make_unique<Level>(false);
+	m_level->m_name = "Supertux Level";
+	m_level->m_tileset = "images/tiles.strf";
+	auto sector = SectorParser::from_nothing(*m_level);
+	sector->set_name(DEFAULT_SECTOR_NAME);
+	m_level->add_sector(std::move(sector));
+	m_level->initialize();
+	//m_reload_request = true;
+}
+
+void
 Editor::queue_layers_refresh()
 {
   m_layers_widget_needs_refresh = true;
@@ -374,7 +390,7 @@ void
 Editor::update(float dt_sec, const Controller& controller)
 {
   // Auto-save (interval).
-  if (m_level) {
+  if (m_level && !m_temp_level) {
     m_time_since_last_save += dt_sec;
     if (m_time_since_last_save >= static_cast<float>(std::max(
         g_config->editor_autosave_frequency, 1)) * 60.f) {
@@ -485,6 +501,9 @@ Editor::update(float dt_sec, const Controller& controller)
 void
 Editor::remove_autosave_file()
 {
+  if (m_temp_level)
+    return;
+  
   // Clear the auto-save file.
   if (!m_autosave_levelfile.empty())
   {
@@ -502,6 +521,9 @@ Editor::remove_autosave_file()
 void
 Editor::save_level(const std::string& filename, bool switch_file)
 {
+  if (m_temp_level)
+    return;
+
   auto file = !filename.empty() ? filename : m_levelfile;
 
   if (switch_file)
@@ -540,6 +562,14 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 {
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
+
+  m_leveltested = true;
+  if ((m_level && m_levelfile.empty()) || m_levelfile == "")
+  {
+    GameManager::current()->start_level(m_level.get(), test_pos);
+	return;
+  }
+  
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);
   std::string directory = get_level_directory();
 
@@ -555,7 +585,6 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   m_autosave_levelfile = FileSystem::join(directory, backup_filename);
   m_level->save(m_autosave_levelfile);
   m_time_since_last_save = 0.f;
-  m_leveltested = true;
 
   if (!m_level->is_worldmap())
   {
@@ -572,6 +601,8 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 void
 Editor::open_level_directory()
 {
+  if (m_temp_level)
+    return;
   m_level->save(FileSystem::join(get_level_directory(), m_levelfile));
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
   FileSystem::open_path(path);
@@ -698,6 +729,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
   std::string sector_name = DEFAULT_SECTOR_NAME;
   Vector translation(0.0f, 0.0f);
+  
+  m_temp_level = (level == nullptr);
 
   if (!reset && m_sector) {
     translation = m_sector->get_camera().get_translation();
@@ -711,12 +744,17 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
     m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   }
 
-  // Reload level.
-  m_level = nullptr;
   m_levelloaded = true;
 
-  m_level = std::move(level);
-
+  if (level != nullptr) {
+    // Reload level.
+	m_level = std::move(level);
+  }
+  else
+  {
+    level_from_nothing();
+  }
+  
   if (reset) {
     m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
   }
@@ -753,6 +791,9 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 void
 Editor::reload_level()
 {
+  if (m_temp_level)
+    return;
+  
   ReaderMapping::s_translations_enabled = false;
   try
   {
@@ -827,7 +868,7 @@ Editor::quit_editor()
 void
 Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
-  if (!m_levelloaded)
+  if (!m_levelloaded || m_temp_level)
   {
     action();
     return;
@@ -861,6 +902,7 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
     });
     dialog->add_button(_("No"), [this, action] {
       action();
+	  set_level(nullptr, true);
       m_enabled = true;
     });
     dialog->add_button(_("Cancel"), [this] {
@@ -1003,6 +1045,7 @@ Editor::setup()
     {
       MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
     }
+	set_level(nullptr, true);
   }
   m_toolbox_widget->setup();
   m_layers_widget->setup();

@@ -39,6 +39,7 @@ private:
 
 public:
   explicit Level(bool m_is_worldmap);
+  Level(Level* level);
   ~Level();
 
   // saves to a levelfile
@@ -72,8 +73,9 @@ public:
 
   inline const std::string& get_license() const { return m_license; }
 
-private:
   void initialize();
+  
+private:
   void load_old_format(const ReaderMapping& reader);
 
 public:

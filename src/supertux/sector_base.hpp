@@ -30,6 +30,7 @@ class Sector : public GameObjectManager
 {
 public:
   Sector(const std::string& type);
+  Sector(Sector* sector);
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */
@@ -55,7 +56,7 @@ protected:
   std::string m_name;
   std::string m_init_script;
 
-  std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
+  std::shared_ptr<SquirrelEnvironment> m_squirrel_environment;
 
 private:
   Sector(const Sector&) = delete;

@@ -19,6 +19,7 @@
 #include <assert.h>
 #include <sexp/value.hpp>
 
+#include "editor/object_option.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/color.hpp"
@@ -33,6 +34,16 @@ ObjectSettings::ObjectSettings(ObjectSettings&& other) :
   m_name(other.m_name),
   m_options(std::move(other.m_options))
 {
+}
+
+ObjectSettings::ObjectSettings(ObjectSettings* obj) :
+  m_name(obj->m_name),
+  m_options()
+{
+	// for (auto &option : obj->m_options)
+	// {
+	// 	m_options.emplace_back(std::make_unique<BaseObjectOption>(option.get()));
+	// }
 }
 
 void

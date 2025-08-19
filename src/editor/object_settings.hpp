@@ -44,6 +44,7 @@ class ObjectSettings final
 public:
   ObjectSettings(const std::string& name);
   ObjectSettings(ObjectSettings&& other);
+  ObjectSettings(ObjectSettings* obj);
 
   ObjectSettings& operator=(ObjectSettings&&) = default;
 

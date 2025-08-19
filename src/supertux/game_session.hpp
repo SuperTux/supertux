@@ -34,12 +34,12 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
+#include "supertux/level.hpp"
 #include "video/surface_ptr.hpp"
 
 class CodeController;
 class DrawingContext;
 class EndSequence;
-class Level;
 class Player;
 class Sector;
 class Statistics;
@@ -77,6 +77,8 @@ private:
   };
 
 public:
+  GameSession(Savegame* savegame = nullptr, Statistics* statistics = nullptr);
+  GameSession(Level* level, Savegame* savegame = nullptr, Statistics* statistics = nullptr);
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
 
   virtual void draw(Compositor& compositor) override;
@@ -135,7 +137,7 @@ public:
   void abort_level();
   bool is_active() const;
 
-  inline Savegame& get_savegame() const { return m_savegame; }
+  inline Savegame& get_savegame() const { return *m_savegame; }
 
   void set_scheduler(SquirrelScheduler& new_scheduler);
 
@@ -156,7 +158,8 @@ public:
   bool m_prevent_death; /**< true if players should enter ghost mode instead of dying */
 
 private:
-  std::unique_ptr<Level> m_level;
+  Level* m_level;
+  std::unique_ptr<Level> m_level_storage;
   SurfacePtr m_statistics_backdrop;
 
   ssq::Table m_data_table;
@@ -182,7 +185,9 @@ private:
   bool m_spawn_with_invincibility;
 
   Statistics* m_best_level_statistics;
-  Savegame& m_savegame;
+  Savegame* m_savegame;
+  
+  PlayerStatus m_tmp_playerstatus;
 
   // Note: m_play_time should reset when a level is restarted from the beginning
   //       but NOT if Tux respawns at a checkpoint (for LevelTimes to work)

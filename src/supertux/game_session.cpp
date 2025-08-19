@@ -58,18 +58,18 @@ static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
 static const float TELEPORT_FADE_TIME = 1.0f;
 
 
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
+GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   reset_button(false),
   reset_checkpoint_button(false),
   m_prevent_death(false),
-  m_level(),
+  m_level(nullptr),
+  m_level_storage(nullptr),
   m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
   m_data_table(SquirrelVirtualMachine::current()->get_vm().findTable("Level").getOrCreateTable("data")),
   m_currentsector(nullptr),
   m_end_sequence(nullptr),
   m_game_pause(false),
   m_speed_before_pause(ScreenManager::current()->get_speed()),
-  m_levelfile(levelfile_),
   m_spawnpoints(),
   m_activated_checkpoint(),
   m_newsector(),
@@ -79,6 +79,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_spawn_with_invincibility(false),
   m_best_level_statistics(statistics),
   m_savegame(savegame),
+  m_tmp_playerstatus(0),
   m_play_time(0),
   m_levelintro_shown(false),
   m_coins_at_start(),
@@ -98,6 +99,19 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_data_table.clear();
 }
 
+
+GameSession::GameSession(Level* level, Savegame* savegame, Statistics* statistics) :
+  GameSession{savegame, statistics}
+{
+  m_level = level;
+}
+
+GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
+  GameSession{&savegame, statistics}
+{
+  m_levelfile = levelfile_;
+}
+
 void
 GameSession::reset_level()
 {
@@ -112,9 +126,12 @@ GameSession::reset_level()
     }
   }
 
-  PlayerStatus& currentStatus = m_savegame.get_player_status();
-  currentStatus.coins = m_coins_at_start;
-  currentStatus.bonus = m_boni_at_start;
+  if (m_savegame)
+  {
+    PlayerStatus& currentStatus = m_savegame->get_player_status();
+    currentStatus.coins = m_coins_at_start;
+    currentStatus.bonus = m_boni_at_start;
+  }
 
   clear_respawn_points();
   m_activated_checkpoint = nullptr;
@@ -128,12 +145,22 @@ GameSession::reset_level()
 void
 GameSession::on_player_added(int id)
 {
-  auto& player_status = m_savegame.get_player_status();
-  if (player_status.m_num_players <= id)
-    player_status.add_player();
+  PlayerStatus* player_status;
+  if (m_savegame)
+  {
+  	player_status = &m_savegame->get_player_status();
+  }
+  else
+  {
+  	player_status = &m_tmp_playerstatus;
+  }
+
+  if (player_status->m_num_players <= id)
+    player_status->add_player();
+  
 
   // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-  auto& player = m_currentsector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
+  auto& player = m_currentsector->add<Player>(*player_status, "Tux" + std::to_string(id + 1), id);
 
   player.multiplayer_prepare_spawn();
 }
@@ -159,23 +186,26 @@ GameSession::on_player_removed(int id)
 void
 GameSession::restart_level(bool after_death, bool preserve_music)
 {
-  const PlayerStatus& currentStatus = m_savegame.get_player_status();
-  m_coins_at_start = currentStatus.coins;
-  m_boni_at_start = currentStatus.bonus;
-
-  // Needed for the title screen apparently.
-  if (m_currentsector)
+  if (m_savegame)
   {
-    try
+    const PlayerStatus& currentStatus = m_savegame->get_player_status();
+    m_coins_at_start = currentStatus.coins;
+    m_boni_at_start = currentStatus.bonus;
+
+    // Needed for the title screen apparently.
+    if (m_currentsector)
     {
-      for (const auto& p : m_currentsector->get_players())
+      try
       {
-        p->set_bonus(m_boni_at_start.at(p->get_id()), false);
-        m_boni_at_start[p->get_id()] = currentStatus.bonus[p->get_id()];
+        for (const auto& p : m_currentsector->get_players())
+        {
+          p->set_bonus(m_boni_at_start.at(p->get_id()), false);
+          m_boni_at_start[p->get_id()] = currentStatus.bonus[p->get_id()];
+        }
       }
-    }
-    catch (const std::out_of_range&)
-    {
+      catch (const std::out_of_range&)
+      {
+      }
     }
   }
 
@@ -188,13 +218,17 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 
   m_currentsector = nullptr;
 
-  const std::string base_dir = FileSystem::dirname(m_levelfile);
-  if (base_dir == "./") {
-    m_levelfile = FileSystem::basename(m_levelfile);
-  }
-
   try {
-    m_level = LevelParser::from_file(m_levelfile, false, false);
+    if (FileSystem::dirname(m_levelfile) == "./") {
+      m_levelfile = FileSystem::basename(m_levelfile);
+    }
+    
+	// Level was passed as an argument (likely from the editor)
+	if (m_level == nullptr && !m_levelfile.empty())
+	{
+      m_level_storage = LevelParser::from_file(m_levelfile, false, false);
+	  m_level = m_level_storage.get();
+	}
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
     const GameSession::SpawnPoint* spawnpoint = nullptr;
@@ -253,6 +287,8 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   }
   catch (std::exception& e) {
     throw std::runtime_error(std::string("Couldn't start level: ") + e.what());
+	// ScreenManager::current()->pop_screen();
+	//return (-1);
   }
 
   if (m_levelintro_shown)
@@ -418,8 +454,11 @@ GameSession::abort_level()
     }
   }
 
-  PlayerStatus& currentStatus = m_savegame.get_player_status();
-  currentStatus.coins = m_coins_at_start;
+  if (m_savegame)
+  {
+    PlayerStatus& currentStatus = m_savegame->get_player_status();
+    currentStatus.coins = m_coins_at_start;
+  }
   SoundManager::current()->stop_sounds();
 }
 
@@ -432,6 +471,8 @@ GameSession::is_active() const
 void
 GameSession::check_end_conditions()
 {
+  if (!m_currentsector)
+  	return;
   bool all_dead = true;
   for (const auto* p : m_currentsector->get_players())
     if (!(all_dead &= p->is_dead()))
@@ -492,10 +533,10 @@ GameSession::setup()
   m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
 
   int total_stats_to_be_collected = m_level->m_stats.m_total_coins + m_level->m_stats.m_total_badguys + m_level->m_stats.m_total_secrets;
-  if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0)) {
+  if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0) && m_level_storage != nullptr) {
     m_levelintro_shown = true;
     m_active = false;
-    ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame.get_player_status()));
+    ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame->get_player_status()));
     ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, TELEPORT_FADE_TIME));
   }
   else
@@ -640,7 +681,8 @@ GameSession::update(float dt_sec, const Controller& controller)
       {
         if (player->is_active() && player->is_scripting_activated() &&
             player->get_controller().pressed(Control::ITEM) &&
-            m_savegame.get_player_status().m_item_pockets.size() > 0)
+			m_savegame &&
+            m_savegame->get_player_status().m_item_pockets.size() > 0)
         {
           player->get_status().give_item_from_pocket(player);
         }
@@ -735,7 +777,7 @@ GameSession::finish(bool win)
   if (win) {
     if (WorldMapSector::current())
     {
-      WorldMapSector::current()->finished_level(m_level.get());
+      WorldMapSector::current()->finished_level(m_level);
     }
 
     if (LevelsetScreen::current())

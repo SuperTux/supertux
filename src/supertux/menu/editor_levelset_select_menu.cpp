@@ -14,6 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/constants.hpp"
 #include "supertux/menu/editor_level_select_menu.hpp"
 
 #include <physfs.h>
@@ -25,9 +26,11 @@
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
 #include "supertux/levelset.hpp"
+#include "supertux/level.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/editor_delete_levelset_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/sector_parser.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
