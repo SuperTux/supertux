@@ -28,6 +28,14 @@ Sector::Sector(const std::string& type) :
 {
 }
 
+Sector::Sector(Sector* sector) :
+  GameObjectManager(sector),
+  m_name(sector->m_name),
+  m_init_script(sector->m_init_script),
+  m_squirrel_environment(sector->m_squirrel_environment)
+{
+}
+
 void
 Sector::finish_construction(bool)
 {

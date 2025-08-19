@@ -61,6 +61,15 @@ BaseObjectOption::BaseObjectOption(const std::string& text, const std::string& k
 {
 }
 
+BaseObjectOption::BaseObjectOption(BaseObjectOption* other) :
+  m_text(other->m_text),
+  m_description(other->m_description),
+  m_key(other->m_key),
+  m_flags(other->m_flags),
+  m_last_state(other->m_last_state)
+{
+}
+
 std::string
 BaseObjectOption::save() const
 {

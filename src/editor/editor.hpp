@@ -105,7 +105,10 @@ public:
   inline int get_tileselect_move_mode() const { return m_toolbox_widget->get_tileselect_move_mode(); }
 
   inline const std::string& get_levelfile() const { return m_levelfile; }
+  
+  void level_from_nothing();
 
+  void set_level(std::unique_ptr<Level> level, bool reset = true);
   inline void set_level(const std::string& levelfile)
   {
     m_levelfile = levelfile;
@@ -182,7 +185,6 @@ public:
 
 private:
   void set_sector(Sector* sector);
-  void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
   void reset_level();
   void reactivate();
@@ -199,7 +201,7 @@ private:
   void keep_camera_in_bounds();
 
 protected:
-  std::unique_ptr<Level> m_level;
+  std::shared_ptr<Level> m_level;
   std::unique_ptr<World> m_world;
 
   std::string m_levelfile;
@@ -231,6 +233,7 @@ private:
 
   TileSet* m_tileset;
   bool m_has_deprecated_tiles;
+  bool m_temp_level;
 
   std::vector<std::unique_ptr<Widget> > m_widgets;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;

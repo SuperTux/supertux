@@ -65,6 +65,35 @@ Level::Level(bool worldmap) :
   }
 }
 
+Level::Level(Level* level) :
+  m_is_worldmap(level->m_is_worldmap),
+  m_name(level->m_name),
+  m_author(level->m_author),
+  m_contact(level->m_contact),
+  m_license(level->m_license),
+  m_filename(level->m_filename),
+  m_note(level->m_note),
+  m_sectors(),
+  m_stats(),
+  m_target_time(level->m_target_time),
+  m_tileset(level->m_tileset),
+  m_allow_item_pocket(level->m_allow_item_pocket),
+  m_suppress_pause_menu(level->m_suppress_pause_menu),
+  m_is_in_cutscene(level->m_is_in_cutscene),
+  m_skip_cutscene(level->m_skip_cutscene),
+  m_icon(level->m_icon),
+  m_icon_locked(level->m_icon_locked),
+  m_wmselect_bkg(level->m_wmselect_bkg),
+  m_saving_in_progress(level->m_saving_in_progress)
+{
+  s_current = this;
+  
+  for (auto &sectors : level->m_sectors)
+  {
+  	m_sectors.push_back(std::make_unique<Sector>(sectors.get()));
+  }
+}
+
 Level::~Level()
 {
   m_sectors.clear();

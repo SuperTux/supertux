@@ -26,6 +26,7 @@
 
 class Savegame;
 class World;
+class Level;
 
 class GameManager final : public Currenton<GameManager>
 {
@@ -40,8 +41,10 @@ public:
                       const std::optional<std::pair<std::string, Vector>>& start_pos);
   void start_level(const World& world, const std::string& level_filename,
                    const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
+  void start_level(Level* level, const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
 
 private:
+  std::unique_ptr<Level>    m_current_level;
   std::unique_ptr<Savegame> m_savegame;
 
 private:
