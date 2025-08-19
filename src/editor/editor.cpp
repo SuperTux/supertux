@@ -562,6 +562,16 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 {
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
+ 
+  // Until I get testing to not clobber the editor level, display a message.
+  if (m_temp_level)
+  {
+    std::string message = _("You cannot test an unsaved level at the moment.\n\n"
+		"Please save your level before testing.");
+
+    Dialog::show_message(message);
+	return;
+  }
 
   m_leveltested = true;
   if ((m_level && m_levelfile.empty()) || m_levelfile == "")
@@ -791,9 +801,6 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 void
 Editor::reload_level()
 {
-  if (m_temp_level)
-    return;
-  
   ReaderMapping::s_translations_enabled = false;
   try
   {
