@@ -1567,8 +1567,6 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size, bool
 void
 EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
 {
-  if (!m_editor.get_selected_tilemap()) return;
-
   auto current_tm = m_editor.get_selected_tilemap();
   if (!current_tm) return;
 
@@ -1579,6 +1577,34 @@ EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
   context.color().draw_line(start, Vector(end.x, start.y), Color(1, 0, 1), current_tm->get_layer());
   context.color().draw_line(Vector(start.x, end.y), end, Color(1, 0, 1), current_tm->get_layer());
   context.color().draw_line(Vector(end.x, start.y), end, Color(1, 0, 1), current_tm->get_layer());
+}
+
+void
+EditorOverlayWidget::draw_tilemap_outer_shading(DrawingContext& context)
+{
+  auto current_tm = m_editor.get_selected_tilemap();
+  if (!current_tm) return;
+  
+  Vector start = tile_screen_pos( Vector(0, 0) );
+  Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
+                                       static_cast<float>(current_tm->get_height())) );
+
+  const Color& bg_color = { 0, 0, 0, 0.15 };
+  const Camera& camera = m_editor.get_sector()->get_camera();
+  float w_l = (-camera.get_x()) * camera.get_current_scale();
+  float height = (camera.get_screen_height()) * camera.get_current_scale();
+  float w_r = (current_tm->get_width() - camera.get_x()) * camera.get_current_scale();
+  // Left
+  context.color().draw_filled_rect({0,0,start.x,height}, bg_color, current_tm->get_layer());
+  // Top
+  context.color().draw_filled_rect({start.x, 0, end.x, start.y}, bg_color, current_tm->get_layer());
+  // Right
+  context.color().draw_filled_rect(
+    {end.x, 0,
+     static_cast<float>(context.get_viewport().get_right()), height},
+    bg_color, current_tm->get_layer());
+  // Bottom
+  context.color().draw_filled_rect({start.x, end.y, end.x, height}, bg_color, current_tm->get_layer());
 }
 
 void
@@ -1643,7 +1669,6 @@ EditorOverlayWidget::draw(DrawingContext& context)
   if (g_config->editor_render_grid)
   {
     draw_tile_grid(context, 32, true);
-    draw_tilemap_border(context);
     auto snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
     if (snap_grid_size != 32)
     {
