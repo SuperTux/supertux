@@ -29,9 +29,7 @@ SpawnPointMarker::SpawnPointMarker(const std::string& name, const Vector& pos) :
   m_col.m_bbox.set_p1(pos);
   m_col.m_bbox.set_size(32, 32);
 
-  if (!Editor::is_active()) {
-    set_group(COLGROUP_DISABLED);
-  }
+  set_group(COLGROUP_DISABLED);
 }
 
 SpawnPointMarker::SpawnPointMarker(const ReaderMapping& mapping) :

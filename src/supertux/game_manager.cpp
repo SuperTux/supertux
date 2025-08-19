@@ -32,6 +32,7 @@
 #include "util/reader_mapping.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
+#include "supertux/game_session.hpp"
 
 GameManager::GameManager() :
   m_savegame()
@@ -59,6 +60,22 @@ GameManager::start_level(const World& world, const std::string& level_filename,
 
   if (!Editor::current())
     m_savegame->get_profile().set_last_world(world.get_basename());
+}
+
+void
+
+
+GameManager::start_level(Level* level,
+                         const std::optional<std::pair<std::string, Vector>>& start_pos)
+{
+  //m_current_level = std::make_unique<Level>(level);
+  auto screen = std::make_unique<GameSession>(level);
+  if (start_pos)
+  {
+    screen->set_start_pos(start_pos->first, start_pos->second);
+  }
+  screen->restart_level();
+  ScreenManager::current()->push_screen(std::move(screen));
 }
 
 bool

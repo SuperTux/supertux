@@ -89,6 +89,7 @@ public:
 public:
   GameObject(const std::string& name = "");
   GameObject(const ReaderMapping& reader);
+  GameObject(GameObject* obj);
   virtual ~GameObject() override;
 
   /** Called after all objects have been added to the Sector and the

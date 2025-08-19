@@ -56,6 +56,7 @@ protected:
 
 public:
   BaseObjectOption(const std::string& text, const std::string& key, unsigned int flags);
+  BaseObjectOption(BaseObjectOption* other);
   virtual ~BaseObjectOption() = default;
 
   virtual void parse(const ReaderMapping& reader) = 0;
