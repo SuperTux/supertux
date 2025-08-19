@@ -224,7 +224,8 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     }
     
 	// Level was passed as an argument (likely from the editor)
-	if (m_level == nullptr && !m_levelfile.empty())
+	if (true || //temporary
+	m_level == nullptr && !m_levelfile.empty())
 	{
       m_level_storage = LevelParser::from_file(m_levelfile, false, false);
 	  m_level = m_level_storage.get();
