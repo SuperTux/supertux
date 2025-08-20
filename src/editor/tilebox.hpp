@@ -91,6 +91,7 @@ public:
   float get_tiles_height() const;
 
   inline bool has_active_object_tip() const { return m_object_tip->get_visible(); }
+  inline size_t get_objectgroup_id() const { return m_objectgroup_id; }
   inline size_t get_tilegroup_id() const { return m_tilegroup_id; }
 
 private:

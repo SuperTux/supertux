@@ -40,6 +40,7 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
 
   add_hl();
   add_entry(-1,_("Cancel"));
+  allow_click_when_unfocused();
 }
 
 EditorObjectgroupMenu::~EditorObjectgroupMenu()
