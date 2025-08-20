@@ -70,6 +70,7 @@ void
 GameManager::start_level(Level* level,
                          const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
+  m_levelstream.str("");
   m_levelstream.clear();
   Writer writer(m_levelstream);
   level->save(writer);

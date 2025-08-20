@@ -20,7 +20,7 @@
 #include "util/currenton.hpp"
 
 #include <memory>
-#include <istream>
+#include <sstream>
 #include <unordered_map>
 #include <vector>
 #include <queue>
