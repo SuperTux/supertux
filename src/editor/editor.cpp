@@ -1092,6 +1092,7 @@ Editor::event(const SDL_Event& ev)
     if (ev.type == SDL_KEYDOWN)
     {
       m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+      m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
 
       if (m_ctrl_pressed)
         m_scroll_speed = 16.0f;
@@ -1139,6 +1140,7 @@ Editor::event(const SDL_Event& ev)
     else if (ev.type == SDL_KEYUP)
     {
       m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+      m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
 
       if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
         m_scroll_speed = 32.0f;
@@ -1153,8 +1155,10 @@ Editor::event(const SDL_Event& ev)
       // The toolbox does scrolling independently from the main area.
       if (m_ctrl_pressed)
         m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY;
+      else if (m_shift_pressed)
+        scroll({ static_cast<float>(ev.wheel.y * -40), static_cast<float>(ev.wheel.x * -40) });
       else
-        scroll({ static_cast<float>(ev.wheel.x * -32), static_cast<float>(ev.wheel.y * -32) });
+        scroll({ static_cast<float>(ev.wheel.x * -40), static_cast<float>(ev.wheel.y * -40) });
     }
 
     BIND_SECTOR(*m_sector);

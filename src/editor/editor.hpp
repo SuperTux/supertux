@@ -225,6 +225,7 @@ public:
   std::string* m_particle_editor_filename;
 
   bool m_ctrl_pressed;
+  bool m_shift_pressed;
 
 private:
   Sector* m_sector;
