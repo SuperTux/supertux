@@ -113,6 +113,7 @@ Config::Config() :
   editor_undo_stack_size(20),
   editor_show_deprecated_tiles(false),
   editor_show_properties_sidebar(true),
+  editor_show_toolbar_widgets(true),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
