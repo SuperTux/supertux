@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "editor/editor.hpp"
+#include "gui/notification.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -184,7 +185,13 @@ Editor::Editor() :
   m_widgets.insert(m_widgets.begin() + 3, std::move(play_button));
 
   auto save_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
-    Vector(128, 0), [this] { save_level(); });
+    Vector(128, 0), [this] { 
+	  bool saved = save_level();
+	  auto notif = std::make_unique<Notification>("save_level_notif");
+	  notif->set_text(saved ? _("Level saved!") : _("Level failed to save."));
+	  MenuManager::instance().set_notification(std::move(notif));
+	}
+  );
   save_button->set_help_text(_("Save level"));
 
   m_save_widget = save_button.get();
@@ -503,11 +510,11 @@ Editor::remove_autosave_file()
   }
 }
 
-void
+bool
 Editor::save_level(const std::string& filename, bool switch_file)
 {
   if (m_temp_level)
-    return;
+    return false;
 
   auto file = !filename.empty() ? filename : m_levelfile;
 
@@ -521,6 +528,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
   remove_autosave_file();
+  return true;
 }
 
 std::string

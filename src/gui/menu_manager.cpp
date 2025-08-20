@@ -190,7 +190,9 @@ MenuManager::draw(DrawingContext& context)
   }
 
   if (m_notification.current) // Has current notification
+  {
     m_notification.current->draw(context);
+  }
 
   if ((has_dialog() || is_active()) && MouseCursor::current()) // Cursor should be drawn
     MouseCursor::current()->draw(context);

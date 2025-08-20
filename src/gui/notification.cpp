@@ -17,6 +17,7 @@
 #include "gui/notification.hpp"
 
 #include "control/controller.hpp"
+#include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "supertux/colorscheme.hpp"
@@ -91,7 +92,8 @@ Notification::calculate_size()
 void
 Notification::draw(DrawingContext& context)
 {
-  if (m_quit || !MenuManager::instance().is_active()) // Close notification, if a quit has been requested, or the MenuManager isn't active.
+  // Close notification, if a quit has been requested, or the MenuManager isn't active.
+  if (m_quit || !(MenuManager::instance().is_active() || Editor::is_active()))
   {
     close();
     return;
