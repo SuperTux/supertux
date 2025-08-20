@@ -30,12 +30,16 @@
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
 #include "supertux/game_session.hpp"
+#include <physfs.h>
+#include <sstream>
 
 GameManager::GameManager() :
-  m_savegame()
+  m_savegame(),
+  m_levelstream()
 {
 }
 
@@ -63,13 +67,13 @@ GameManager::start_level(const World& world, const std::string& level_filename,
 }
 
 void
-
-
 GameManager::start_level(Level* level,
                          const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
-  //m_current_level = std::make_unique<Level>(level);
-  auto screen = std::make_unique<GameSession>(level);
+  m_levelstream.clear();
+  Writer writer(m_levelstream);
+  level->save(writer);
+  auto screen = std::make_unique<GameSession>(m_levelstream);
   if (start_pos)
   {
     screen->set_start_pos(start_pos->first, start_pos->second);
