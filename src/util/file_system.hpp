@@ -66,6 +66,11 @@ std::string escape_url(const std::string& url);
  * @param path path to open
  */
  void open_path(const std::string& path);
+ 
+/** Opens a file in the users preferred text editor.
+ * @param filename File to edit
+ */
+void open_editor(const std::string& filename);
 
 /** Opens an URL in the user's preferred browser.
  * @param url URL to open

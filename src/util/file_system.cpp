@@ -15,12 +15,15 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "util/file_system.hpp"
+#include "supertux/globals.hpp"
 
 #include <filesystem>
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 #include <vector>
 #if defined(_WIN32)
   #include <windows.h>
@@ -43,6 +46,7 @@
 #include "gui/dialog.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
+#include "supertux/gameconfig.hpp"
 
 namespace fs = std::filesystem;
 
@@ -227,6 +231,37 @@ void open_path(const std::string& path)
   if (ret < 0)
   {
     log_fatal << "failed to spawn: " << cmd << std::endl;
+  }
+  else if (ret > 0)
+  {
+    log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
+  }
+#endif
+}
+
+void
+open_editor(const std::string& filename)
+{
+#if defined(_WIN32) || defined(_WIN64)
+  ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
+#else
+  #if defined(__APPLE__)
+  std::string cmd = "open \"" + filename + "\"";
+  #else
+  const char* default_editor = getenv("EDITOR");
+  std::string cmd;
+  if (!g_config->preferred_text_editor.empty())
+    cmd = g_config->preferred_text_editor + " \"" + filename + "\" &";
+  else if (default_editor)
+  {
+    cmd = std::string(default_editor) + " \"" + filename + "\" &";
+  }
+  #endif
+  
+  int ret = system(cmd.c_str());
+  if (ret < 0)
+  {
+    log_fatal << "failed to spawn editor: " << cmd << std::endl;
   }
   else if (ret > 0)
   {

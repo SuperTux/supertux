@@ -16,12 +16,15 @@
 
 #include "gui/menu_script.hpp"
 
+#include "editor/editor.hpp"
 #include "gui/item_script_line.hpp"
 #include "util/gettext.hpp"
 
-ScriptMenu::ScriptMenu(std::string* script_) :
+ScriptMenu::ScriptMenu(const std::string& key, std::string* script_) :
   base_script(script_),
-  script_strings()
+  script_strings(),
+  m_start_time(time(0)),
+  m_key(key)
 {
   script_strings.clear();
 
@@ -42,12 +45,25 @@ ScriptMenu::ScriptMenu(std::string* script_) :
 
   //add_script_line(base_script);
 
+  if (Editor::current())
+    Editor::current()->m_script_manager.register_script(m_key, base_script);
+  
   add_hl();
+  add_entry(_("Open in editor"), [this]{
+    FileSystem::open_editor(ScriptManager::full_filename_from_key(m_key));
+  });
   add_back(_("OK"));
 }
 
 ScriptMenu::~ScriptMenu()
 {
+  time_t mtime = Editor::current()->m_script_manager.get_mtime(
+    ScriptManager::full_filename_from_key(m_key));
+  
+  // Don't save if the external file was edited.
+  if (mtime > m_start_time)
+    return;
+  
   *base_script = *(script_strings[0]);
   for (auto i = script_strings.begin()+1; i != script_strings.end(); ++i) {
     *base_script += "\n" + **i;

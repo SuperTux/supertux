@@ -33,6 +33,7 @@
 #include "util/currenton.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/script_manager.hpp"
 #include "util/string_util.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -230,6 +231,8 @@ public:
 
   bool m_ctrl_pressed;
   bool m_shift_pressed;
+  
+  ScriptManager m_script_manager;
 
 private:
   Sector* m_sector;

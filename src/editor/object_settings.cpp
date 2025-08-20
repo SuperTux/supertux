@@ -19,6 +19,7 @@
 #include <assert.h>
 #include <sexp/value.hpp>
 
+#include "editor/editor.hpp"
 #include "editor/object_option.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -292,7 +293,7 @@ ObjectSettings::add_level(const std::string& text, std::string* value_ptr, const
                           const std::string& basedir,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, {}, {".stl"}, basedir, true, flags);
+  add_file(text, value_ptr, key, {}, {".stl"}, basedir, true, flags); 
 }
 
 void

@@ -337,7 +337,7 @@ StringMultilineObjectOption::to_string() const
 void
 StringMultilineObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_script(get_text(), m_value_pointer);
+  menu.add_script(m_key, get_text(), m_value_pointer);
 }
 
 StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer,
@@ -486,7 +486,7 @@ ScriptObjectOption::to_string() const
 void
 ScriptObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_script(get_text(), m_value_pointer);
+  menu.add_script(m_key, get_text(), m_value_pointer);
 }
 
 FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer,

@@ -141,7 +141,8 @@ Editor::Editor() :
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
   m_mouse_pos(0.f, 0.f),
-  m_layers_widget_needs_refresh(false)
+  m_layers_widget_needs_refresh(false),
+  m_script_manager()
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -154,7 +155,7 @@ Editor::Editor() :
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
-
+  
   auto grid_size_widget = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png",
     Vector(64, 0),
     [this] {
@@ -412,6 +413,8 @@ Editor::update(float dt_sec, const Controller& controller)
     m_time_since_last_save = 0.f;
   }
 
+  m_script_manager.poll();
+  
   // Pass all requests.
   if (m_reload_request) {
     reload_level();

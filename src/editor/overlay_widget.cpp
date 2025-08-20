@@ -749,8 +749,8 @@ EditorOverlayWidget::update_properties_panel(GameObject* object)
     {
       auto button = std::make_unique<ControlButton>(_("Edit..."));
       const auto value_ptr = script_option->get_value();
-      button.get()->m_on_change = std::function<void()>([value_ptr]() {
-        MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(value_ptr));
+      button.get()->m_on_change = std::function<void()>([value_ptr, script_option]() {
+        MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(script_option->get_key(), value_ptr));
       });
       button.get()->set_rect(Rectf(0, 32, 20, 32));
       m_editor.addControl(text, std::move(button), description);

@@ -21,13 +21,14 @@
 class ItemScript final : public MenuItem
 {
 public:
-  ItemScript(const std::string& text_, std::string* script_, int id = -1);
+  ItemScript(const std::string& key, const std::string& text_, std::string* script_, int id = -1);
 
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) override;
 
 private:
   std::string* script;
+  std::string m_key;
 
 private:
   ItemScript(const ItemScript&) = delete;
