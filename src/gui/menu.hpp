@@ -122,6 +122,9 @@ public:
 
   inline Vector get_center_pos() const { return m_pos; }
   inline void set_center_pos(float x, float y) { m_pos.x = x; m_pos.y = y; }
+  
+  void previous_item();
+  void next_item();
 
   float get_width() const;
   float get_height() const;
@@ -161,6 +164,7 @@ private:
   float m_menu_width;
   float m_menu_height;
   float m_menu_help_height;
+  int m_mouse_deadzone;
 
 public:
   std::vector<std::unique_ptr<MenuItem> > m_items;
