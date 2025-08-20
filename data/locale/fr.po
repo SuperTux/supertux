@@ -290,7 +290,7 @@ msgstr "Notes de correction pour v{}:"
 
 #: src/editor/editor_comment.hpp:48
 msgid "Editor Comment"
-msgstr ""
+msgstr "Commentaire éditeur"
 
 #: src/editor/layers_widget.cpp:372
 msgid "Sector: {}"
@@ -314,11 +314,11 @@ msgstr "Invalide"
 
 #: src/editor/object_option.cpp:903
 msgid "Scale X"
-msgstr ""
+msgstr "Échelle X"
 
 #: src/editor/object_option.cpp:904
 msgid "Scale Y"
-msgstr ""
+msgstr "Échelle Y"
 
 #: src/editor/object_option.cpp:905
 msgid "Offset X"
@@ -483,7 +483,7 @@ msgstr ""
 #. the usage of certain features in a level, for example.
 #: src/editor/editor_comment.cpp:74
 msgid "Note"
-msgstr ""
+msgstr "Note"
 
 #. l10n: A to-do refers to a reminder left for the
 #. author of the comment to finish designing something in
@@ -507,7 +507,7 @@ msgstr ""
 
 #: src/editor/editor_comment.cpp:97
 msgid "Comment"
-msgstr ""
+msgstr "Commentaire"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -711,7 +711,7 @@ msgstr "Couleur (RGBA)"
 
 #: src/editor/particle_editor.cpp:311
 msgid "Scale (x, y)"
-msgstr ""
+msgstr "Échelle (x, y)"
 
 #: src/editor/particle_editor.cpp:332
 msgid "Hitbox scale (x, y)"
@@ -752,11 +752,11 @@ msgstr ""
 
 #: src/video/video_system.cpp:158
 msgid "OpenGL (AUTO)"
-msgstr ""
+msgstr "OpenGL (AUTO)"
 
 #: src/video/video_system.cpp:158
 msgid "The recommended OpenGL video system for this device."
-msgstr ""
+msgstr "Le système vidéo OpenGL recommandé pour cet appareil."
 
 #: src/video/video_system.cpp:158
 msgid "Fallbacks to SDL."
@@ -838,11 +838,11 @@ msgstr "Ensemble de niveaux"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:55
 msgid "Title Screen Level"
-msgstr ""
+msgstr "Niveau de l’écran titre"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:56
 msgid "A level to be used for the title screen, after exiting the world."
-msgstr ""
+msgstr "Un niveau à utiliser pour l’écran de titre, après avoir quitté le monde."
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 #: src/supertux/menu/cheat_menu.cpp:30
@@ -1223,7 +1223,7 @@ msgstr "Contrôles"
 #: src/supertux/menu/options_select_menu.cpp:40
 #: src/supertux/menu/options_menu.cpp:185
 msgid "Extras"
-msgstr ""
+msgstr "Extras"
 
 #: src/supertux/menu/options_select_menu.cpp:41
 #: src/supertux/menu/options_menu.cpp:217
@@ -1237,7 +1237,7 @@ msgstr "Parcourir paquets de langue"
 #: src/supertux/menu/addon_browse_menu.cpp:70
 #: src/supertux/menu/addon_menu.cpp:158
 msgid "Browse Add-ons"
-msgstr ""
+msgstr "Parcourir add-ons"
 
 #: src/supertux/menu/addon_browse_menu.cpp:112
 msgid "Page {}/{}"
@@ -1249,7 +1249,7 @@ msgstr "Pas de nouveau paquet de langue disponible"
 
 #: src/supertux/menu/addon_browse_menu.cpp:124
 msgid "No new Add-ons available"
-msgstr ""
+msgstr "Pas de nouvel add-on dispo"
 
 #: src/supertux/menu/addon_browse_menu.cpp:127
 msgid "No language packs available"
@@ -1257,7 +1257,7 @@ msgstr "Pas de paquets de langue disponible"
 
 #: src/supertux/menu/addon_browse_menu.cpp:127
 msgid "No Add-ons available"
-msgstr ""
+msgstr "Aucun add-onsdispo"
 
 #: src/supertux/menu/addon_browse_menu.cpp:135
 #: src/supertux/menu/addon_browse_menu.cpp:139
@@ -1334,7 +1334,7 @@ msgstr "Paquets de langues installés"
 
 #: src/supertux/menu/addon_menu.cpp:70
 msgid "Installed Add-ons"
-msgstr ""
+msgstr "Add-ons installés"
 
 #: src/supertux/menu/addon_menu.cpp:78 src/supertux/menu/addon_menu.cpp:119
 msgid "No language packs installed"
@@ -1354,7 +1354,7 @@ msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:138
 msgid "{} [DISABLED]"
-msgstr ""
+msgstr "{} [DÉSACTIVÉ]"
 
 #: src/supertux/menu/addon_menu.cpp:148
 msgid "No updates available."
@@ -1386,11 +1386,11 @@ msgstr "Installer depuis fichier"
 
 #: src/supertux/menu/addon_menu.cpp:175
 msgid "To browse through the add-on catalog, you must enable networking."
-msgstr ""
+msgstr "Pour parcourir le catalogue des modules complémentaires, vous devez activer la mise en réseau."
 
 #: src/supertux/menu/addon_menu.cpp:212
 msgid "To check for add-on updates, you must enable networking."
-msgstr ""
+msgstr "Pour vérifier les mises à jour des add-ons, vous devez activer le réseau."
 
 #: src/supertux/menu/addon_menu.cpp:220
 msgid "Checking for updates..."
@@ -1430,19 +1430,19 @@ msgstr "Personnalisation menu"
 
 #: src/supertux/menu/custom_menu_menu.cpp:51
 msgid "Menu Back Color"
-msgstr ""
+msgstr "Couleur fond du menu"
 
 #: src/supertux/menu/custom_menu_menu.cpp:52
 msgid "Menu Front Color"
-msgstr ""
+msgstr "Couleur avant du menu"
 
 #: src/supertux/menu/custom_menu_menu.cpp:53
 msgid "Menu Help Back Color"
-msgstr ""
+msgstr "Couleur fond du menu d'aide"
 
 #: src/supertux/menu/custom_menu_menu.cpp:54
 msgid "Menu Help Front Color"
-msgstr ""
+msgstr "Couleur avant du menu d'aide"
 
 #: src/supertux/menu/custom_menu_menu.cpp:55
 msgid "Label Text Color"
@@ -1454,7 +1454,7 @@ msgstr "Couleur texte actif"
 
 #: src/supertux/menu/custom_menu_menu.cpp:57
 msgid "Divider Line Color"
-msgstr ""
+msgstr "Couleur ligne de séparation"
 
 #: src/supertux/menu/custom_menu_menu.cpp:58
 msgid "Menu Roundness"
@@ -1583,15 +1583,15 @@ msgstr "Fréquence d'auto-sauvegarde"
 
 #: src/supertux/menu/editor_menu.cpp:108
 msgid "Check for Deprecated Tiles"
-msgstr ""
+msgstr "Vérifier si utiles obsolètes"
 
 #: src/supertux/menu/editor_menu.cpp:109
 msgid "Check if any deprecated tiles are currently present in the level."
-msgstr ""
+msgstr "Vérifier si des tuiles obsolètes sont actuellement présentes dans le niveau."
 
 #: src/supertux/menu/editor_menu.cpp:110
 msgid "Show Deprecated Tiles"
-msgstr ""
+msgstr "Afficher tuiles obsolètes"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
@@ -1677,7 +1677,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:223
 msgid "End = Go to end of line"
-msgstr ""
+msgstr "Fin = Aller en fin de la ligne"
 
 #: src/supertux/menu/editor_menu.cpp:224
 msgid "Left arrow = Go back in text"
@@ -1713,7 +1713,7 @@ msgstr "Ctrl+D = Dupliquer ligne"
 
 #: src/supertux/menu/editor_menu.cpp:262
 msgid "Deprecated tiles are still present in the level."
-msgstr ""
+msgstr "Des tuiles obsolètes sont toujours présentes dans le niveau."
 
 #: src/supertux/menu/editor_menu.cpp:269
 msgid "Do you want to show all deprecated tiles on active tilemaps?"
@@ -1721,7 +1721,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:276
 msgid "There are no more deprecated tiles in the level!"
-msgstr ""
+msgstr "Il n’y a plus de tuiles obsolètes dans le niveau !"
 
 #: src/supertux/menu/options_menu.cpp:87
 msgid "Select Language"
@@ -1825,11 +1825,11 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:170
 msgid "Enable vibrating the game controllers."
-msgstr ""
+msgstr "Activer vibration des contrôleurs de jeu."
 
 #: src/supertux/menu/options_menu.cpp:170
 msgid "This feature is currently only used in the multiplayer options menu."
-msgstr ""
+msgstr "Cette fonctionnalité n’est actuellement utilisée que dans le menu des options multijoueurs."
 
 #: src/supertux/menu/options_menu.cpp:172
 #: src/supertux/menu/keyboard_menu.cpp:34
@@ -2669,7 +2669,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_converters_menu.cpp:89
 msgid "No tile conversion file selected."
-msgstr ""
+msgstr "Aucun fichier de conversion de tuile sélectionné."
 
 #: src/supertux/menu/editor_converters_menu.cpp:93
 msgid ""
