@@ -124,7 +124,8 @@ Config::Config() :
   // and those with an older SDL; they won't have to check the setting each time.
   multiplayer_buzz_controllers(false),
 #endif
-  repository_url()
+  repository_url(),
+  preferred_text_editor()
 {
 }
 

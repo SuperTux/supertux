@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <ctime>
 #include "gui/menu.hpp"
 
 class ItemScriptLine;
@@ -23,7 +24,7 @@ class ItemScriptLine;
 class ScriptMenu final : public Menu
 {
 public:
-  ScriptMenu(std::string* script_);
+  ScriptMenu(const std::string& key, std::string* script_);
   ~ScriptMenu() override;
 
   void menu_action(MenuItem& item) override;
@@ -35,8 +36,10 @@ protected:
   bool is_sensitive() const override;
 
 private:
+  time_t m_start_time;
   std::string* base_script;
   std::vector<std::unique_ptr<std::string> > script_strings;
+  std::string m_key;
 
   void push_string(const std::string& new_line);
 
