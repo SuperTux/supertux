@@ -1179,7 +1179,7 @@ Editor::toggle_tile_object_mode()
   const auto& input_type = tilebox.get_input_type();
   if (input_type == InputType::OBJECT)
   {
-	select_tilegroup(0);
+	select_last_tilegroup();
 	for(const auto& widget : m_widgets)
 	{
 	  if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
@@ -1190,7 +1190,7 @@ Editor::toggle_tile_object_mode()
   }
   else
   {
-	select_objectgroup(0);
+	select_last_objectgroup();
 	for(const auto& widget : m_widgets)
 	{
 	  if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
@@ -1226,6 +1226,12 @@ Editor::select_tilegroup(int id)
   m_toolbox_widget->select_tilegroup(id);
 }
 
+void
+Editor::select_last_tilegroup()
+{
+  m_toolbox_widget->select_last_tilegroup();
+}
+
 const std::vector<Tilegroup>&
 Editor::get_tilegroups() const
 {
@@ -1248,6 +1254,12 @@ void
 Editor::select_objectgroup(int id)
 {
   m_toolbox_widget->select_objectgroup(id);
+}
+
+void
+Editor::select_last_objectgroup()
+{
+  m_toolbox_widget->select_last_objectgroup();
 }
 
 const std::vector<ObjectGroup>&

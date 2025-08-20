@@ -74,8 +74,10 @@ public:
   void on_select(const std::function<void(EditorTilebox&)>& callback);
 
   void select_tilegroup(int id);
+  void select_last_tilegroup();
   inline void set_tilegroup(std::unique_ptr<Tilegroup> tilegroup) { m_active_tilegroup = std::move(tilegroup); }
   void select_objectgroup(int id);
+  void select_last_objectgroup();
   bool select_layers_objectgroup();
 
   inline const ObjectInfo& get_object_info() const { return *m_object_info; }
@@ -89,6 +91,7 @@ public:
   float get_tiles_height() const;
 
   inline bool has_active_object_tip() const { return m_object_tip->get_visible(); }
+  inline size_t get_tilegroup_id() const { return m_tilegroup_id; }
 
 private:
   Vector get_tile_coords(int pos, bool relative = true) const;
@@ -120,6 +123,7 @@ private:
   std::unique_ptr<Tilegroup> m_active_tilegroup;
   ObjectGroup* m_active_objectgroup;
   std::unique_ptr<ObjectInfo> m_object_info;
+  size_t m_tilegroup_id, m_objectgroup_id;
 
   std::function<void(EditorTilebox&)> m_on_select_callback;
 
