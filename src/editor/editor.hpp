@@ -96,6 +96,8 @@ public:
   inline TileSet* get_tileset() const { return m_tileset; }
   inline TileSelection* get_tiles() const { return m_toolbox_widget->get_tilebox().get_tiles(); }
   inline std::string get_tileselect_object() const { return m_toolbox_widget->get_tilebox().get_object(); }
+  
+  void toggle_tile_object_mode();
 
   inline EditorTilebox::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_tilebox().get_input_type(); }
 
