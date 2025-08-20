@@ -112,6 +112,7 @@ public:
   /** Remove all entries from the menu */
   void clear();
 
+  void set_item(int index);
   MenuItem& get_item(int index) { return *(m_items[index]); }
 
   MenuItem& get_item_by_id(int id);
@@ -131,7 +132,9 @@ public:
 
   /** returns true when the text is more important than action */
   virtual bool is_sensitive() const { return false; }
-
+  
+  inline void allow_click_when_unfocused() { m_can_click_when_unfocused = true; }
+  
 protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item);
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
@@ -166,6 +169,7 @@ private:
   float m_menu_height;
   float m_menu_help_height;
   int m_mouse_deadzone;
+  bool m_can_click_when_unfocused;
 
 public:
   std::vector<std::unique_ptr<MenuItem> > m_items;

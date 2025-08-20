@@ -69,7 +69,8 @@ Menu::Menu() :
   m_items(),
   m_arrange_left(0),
   m_active_item(-1),
-  m_mouse_deadzone(0)
+  m_mouse_deadzone(0),
+  m_can_click_when_unfocused(false)
 {
 }
 
@@ -341,7 +342,7 @@ Menu::previous_item()
 void
 Menu::next_item()
 {
-  if (m_active_item < m_items.size() - 1 )
+  if (m_active_item < m_items.size() - 1)
     ++m_active_item;
   else
     m_active_item = 0;
@@ -562,6 +563,34 @@ Menu::draw(DrawingContext& context)
   }
 }
 
+void
+Menu::set_item(int index)
+{
+  if (index < 0)
+  	index = 0;
+
+  m_active_item = 0;
+  
+  // Attempt to skip all skippable items
+  do
+  {
+  	if (m_active_item > m_items.size())
+	  break;
+	  
+    if (m_items[m_active_item]->skippable())
+	{
+	  ++m_active_item;
+	  continue;
+	}
+	
+	if (index > 0)
+	  ++m_active_item;
+	
+	--index;
+  }
+  while (index >= 0);
+}
+
 MenuItem&
 Menu::get_item_by_id(int id)
 {
@@ -633,7 +662,8 @@ Menu::event(const SDL_Event& ev)
            mouse_pos.x < m_pos.x + get_width() / 2.0f &&
            mouse_pos.y > m_pos.y - get_height() / 2.0f &&
            mouse_pos.y < m_pos.y + get_height() / 2.0f) ||
-		  m_mouse_deadzone > 0)
+		  m_mouse_deadzone > 0 ||
+		  m_can_click_when_unfocused)
       {
         process_action(MenuAction::HIT);
       }
