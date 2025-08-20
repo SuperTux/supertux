@@ -22,6 +22,7 @@
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
+#include "gui/menu.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -124,6 +125,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
+		  MenuManager::instance().current_menu()->set_item(m_tilebox->get_tilegroup_id());
         }
         else
         {
@@ -137,6 +139,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
+		  MenuManager::instance().current_menu()->set_item(m_tilebox->get_objectgroup_id());
         }
         else
         {
