@@ -401,6 +401,43 @@ EditorTilebox::select_last_objectgroup()
   select_objectgroup(m_objectgroup_id);
 }
 
+void
+EditorTilebox::change_tilegroup(int dir)
+{
+  if (m_input_type == InputType::OBJECT)
+  {
+    select_last_tilegroup();
+	return;
+  }
+  
+  m_tilegroup_id += dir;
+  size_t tilegroups_size = m_editor.get_tileset()->get_tilegroups().size();
+  if (m_tilegroup_id < 0)
+  	m_tilegroup_id = tilegroups_size - 1;
+  else if (m_tilegroup_id > tilegroups_size - 1)
+    m_tilegroup_id = 0;
+
+  select_last_tilegroup();
+}
+
+void
+EditorTilebox::change_objectgroup(int dir)
+{
+  if (m_input_type == InputType::TILE)
+  {
+    select_last_objectgroup();
+	return;
+  }
+  
+  m_objectgroup_id += dir;
+  size_t objectgroups_size = m_object_info->m_groups.size();
+  if (m_objectgroup_id < 0)
+  	m_objectgroup_id = objectgroups_size - 1;
+  else if (m_objectgroup_id > objectgroups_size - 1)
+    m_objectgroup_id = 0;
+
+  select_last_objectgroup();
+}
 
 bool
 EditorTilebox::select_layers_objectgroup()
