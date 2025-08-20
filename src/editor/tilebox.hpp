@@ -93,6 +93,9 @@ public:
   inline bool has_active_object_tip() const { return m_object_tip->get_visible(); }
   inline size_t get_objectgroup_id() const { return m_objectgroup_id; }
   inline size_t get_tilegroup_id() const { return m_tilegroup_id; }
+  
+  void change_tilegroup(int dir);
+  void change_objectgroup(int dir);
 
 private:
   Vector get_tile_coords(int pos, bool relative = true) const;
@@ -124,7 +127,7 @@ private:
   std::unique_ptr<Tilegroup> m_active_tilegroup;
   ObjectGroup* m_active_objectgroup;
   std::unique_ptr<ObjectInfo> m_object_info;
-  size_t m_tilegroup_id, m_objectgroup_id;
+  int m_tilegroup_id, m_objectgroup_id;
 
   std::function<void(EditorTilebox&)> m_on_select_callback;
 
