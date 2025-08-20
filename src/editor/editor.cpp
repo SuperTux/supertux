@@ -324,7 +324,7 @@ Editor::draw(Compositor& compositor)
 	m_overlay_widget->draw_tilemap_outer_shading(context);
 	m_overlay_widget->draw_tilemap_border(context);
     
-	if (m_controls.size() != 0)
+	if (m_controls.size() != 0 && g_config->editor_show_properties_sidebar)
 	{
 	  context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
 										 Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
@@ -1450,6 +1450,8 @@ Editor::pack_addon()
 void
 Editor::addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description)
 {
+  if (!g_config->editor_show_properties_sidebar)
+    return;
   float height = 35.f;
   for (const auto& control : m_controls) {
     height = std::max(height, control->get_rect().get_bottom() + 5.f);
