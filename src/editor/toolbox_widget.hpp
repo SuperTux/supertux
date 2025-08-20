@@ -54,6 +54,8 @@ public:
 
   void select_tilegroup(int id);
   void select_objectgroup(int id);
+  void select_last_tilegroup();
+  void select_last_objectgroup();
 
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;

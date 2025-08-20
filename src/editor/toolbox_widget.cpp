@@ -306,6 +306,18 @@ EditorToolboxWidget::select_objectgroup(int id)
   update_mouse_icon();
 }
 
+void
+EditorToolboxWidget::select_last_tilegroup()
+{
+  m_tilebox->select_last_tilegroup();
+}
+
+void
+EditorToolboxWidget::select_last_objectgroup()
+{
+  m_tilebox->select_last_objectgroup();
+}
+
 int
 EditorToolboxWidget::get_tileselect_select_mode() const
 {

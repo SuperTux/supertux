@@ -148,10 +148,12 @@ public:
   void sort_layers();
 
   void select_tilegroup(int id);
+  void select_last_tilegroup();
   const std::vector<Tilegroup>& get_tilegroups() const;
   void change_tileset();
 
   void select_objectgroup(int id);
+  void select_last_objectgroup();
   const std::vector<ObjectGroup>& get_objectgroups() const;
 
   void scroll(const Vector& velocity);
