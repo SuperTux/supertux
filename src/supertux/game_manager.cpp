@@ -35,7 +35,6 @@
 #include "worldmap/worldmap.hpp"
 #include "supertux/game_session.hpp"
 #include <physfs.h>
-#include <sstream>
 
 GameManager::GameManager() :
   m_savegame(),

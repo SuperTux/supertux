@@ -21,6 +21,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <sstream>
 
 #include "math/vector.hpp"
 
