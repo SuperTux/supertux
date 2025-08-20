@@ -96,6 +96,7 @@ EditorMenu::refresh()
   add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
   add_toggle(-1, _("Enable Object Undo Tracking"), &(g_config->editor_undo_tracking));
   add_toggle(-1, _("Show properties sidebar"), &(g_config->editor_show_properties_sidebar));
+  add_toggle(-1, _("Show toolbar"), &(g_config->editor_show_toolbar_widgets));
   if (g_config->editor_undo_tracking)
   {
     add_intfield(_("Undo Stack Size"), &(g_config->editor_undo_stack_size), -1, true);

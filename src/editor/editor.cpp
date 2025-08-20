@@ -318,6 +318,11 @@ Editor::draw(Compositor& compositor)
 
   if (m_levelloaded) {
     for(const auto& widget : m_widgets) {
+	  if (!g_config->editor_show_toolbar_widgets &&
+	      dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+	  {
+	    continue;
+	  }
       widget->draw(context);
     }
 	
