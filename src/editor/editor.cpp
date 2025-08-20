@@ -187,7 +187,7 @@ Editor::Editor() :
   auto save_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
     Vector(128, 0), [this] { 
 	  bool saved = save_level();
-	  auto notif = std::make_unique<Notification>("save_level_notif");
+	  auto notif = std::make_unique<Notification>("save_level_notif", false, true);
 	  notif->set_text(saved ? _("Level saved!") : _("Level failed to save."));
 	  MenuManager::instance().set_notification(std::move(notif));
 	}
@@ -555,22 +555,12 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 {
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
- 
-  // Until I get testing to not clobber the editor level, display a message.
-  if (m_temp_level)
-  {
-    std::string message = _("You cannot test an unsaved level at the moment.\n\n"
-		"Please save your level before testing.");
-
-    Dialog::show_message(message);
-	return;
-  }
 
   m_leveltested = true;
   if ((m_level && m_levelfile.empty()) || m_levelfile == "")
   {
     GameManager::current()->start_level(m_level.get(), test_pos);
-	return;
+    return;
   }
   
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);

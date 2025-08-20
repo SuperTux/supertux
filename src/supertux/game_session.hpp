@@ -20,6 +20,7 @@
 #include "util/currenton.hpp"
 
 #include <memory>
+#include <istream>
 #include <unordered_map>
 #include <vector>
 #include <queue>
@@ -80,6 +81,7 @@ public:
   GameSession(Savegame* savegame = nullptr, Statistics* statistics = nullptr);
   GameSession(Level* level, Savegame* savegame = nullptr, Statistics* statistics = nullptr);
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
+  GameSession(std::istream& istream, Savegame* savegame = nullptr, Statistics* statistics = nullptr);
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -180,6 +182,7 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string m_newsector;
   std::string m_newspawnpoint;
+  std::istream* m_levelstream;
   ScreenFade::FadeType m_spawn_fade_type;
   Timer m_spawn_fade_timer;
   bool m_spawn_with_invincibility;
