@@ -165,9 +165,9 @@ Menu::add_textfield(const std::string& text, std::string* input, int id)
 }
 
 ItemScript&
-Menu::add_script(const std::string& text, std::string* script, int id)
+Menu::add_script(const std::string& key, const std::string& text, std::string* script, int id)
 {
-  return add_item<ItemScript>(text, script, id);
+  return add_item<ItemScript>(key, text, script, id);
 }
 
 ItemIntField&

@@ -160,6 +160,7 @@ public:
   bool editor_show_deprecated_tiles;
   bool editor_show_properties_sidebar;
   bool editor_show_toolbar_widgets;
+  std::string preferred_text_editor;
 
   bool multiplayer_auto_manage_players;
   bool multiplayer_multibind;
