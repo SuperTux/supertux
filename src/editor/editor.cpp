@@ -192,31 +192,9 @@ Editor::Editor() :
   
   auto mode_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
     Vector(160, 0), [this] {
-      auto& tilebox = m_toolbox_widget->get_tilebox();
-      const auto& input_type = tilebox.get_input_type();
-      if (input_type == InputType::OBJECT)
-      {
-        select_tilegroup(0);
-        for(const auto& widget : m_widgets)
-        {
-          if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
-          {
-            toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
-          }
-        }
-      }
-      else
-      {
-        select_objectgroup(0);
-        for(const auto& widget : m_widgets)
-        {
-          if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
-          {
-            toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
-          }
-        }
-      }
-  });
+	  toggle_tile_object_mode();
+    }
+  );
   mode_button->set_help_text(_("Toggle between object and tile mode"));
 
   m_widgets.insert(m_widgets.begin() + 5, std::move(mode_button));
@@ -1141,6 +1119,9 @@ Editor::event(const SDL_Event& ev)
           case SDLK_y:
             redo();
             break;
+		  case SDLK_x:
+            toggle_tile_object_mode();
+		    break;
           case SDLK_PLUS: // Zoom in
           case SDLK_KP_PLUS:
             m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
@@ -1186,6 +1167,36 @@ Editor::event(const SDL_Event& ev)
     log_warning << "error while processing Editor::event(): " << err.what() << std::endl;
   }
 }
+
+void
+Editor::toggle_tile_object_mode()
+{
+  auto& tilebox = m_toolbox_widget->get_tilebox();
+  const auto& input_type = tilebox.get_input_type();
+  if (input_type == InputType::OBJECT)
+  {
+	select_tilegroup(0);
+	for(const auto& widget : m_widgets)
+	{
+	  if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+	  {
+		toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
+	  }
+	}
+  }
+  else
+  {
+	select_objectgroup(0);
+	for(const auto& widget : m_widgets)
+	{
+	  if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+	  {
+		toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
+	  }
+	}
+  }
+}
+
 
 void
 Editor::update_node_iterators()
