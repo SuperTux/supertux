@@ -46,6 +46,9 @@ public:
 private:
   std::unique_ptr<Level>    m_current_level;
   std::unique_ptr<Savegame> m_savegame;
+  
+  // Must keep stringstream in memory or else GameSession can't restart.
+  std::stringstream m_levelstream;
 
 private:
   GameManager(const GameManager&) = delete;

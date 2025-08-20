@@ -79,6 +79,7 @@ GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   m_spawn_with_invincibility(false),
   m_best_level_statistics(statistics),
   m_savegame(savegame),
+  m_levelstream(nullptr),
   m_tmp_playerstatus(0),
   m_play_time(0),
   m_levelintro_shown(false),
@@ -110,6 +111,12 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   GameSession{&savegame, statistics}
 {
   m_levelfile = levelfile_;
+}
+
+GameSession::GameSession(std::istream& istream_, Savegame* savegame, Statistics* statistics) :
+  GameSession{savegame, statistics}
+{
+  m_levelstream = &istream_;
 }
 
 void
@@ -223,13 +230,16 @@ GameSession::restart_level(bool after_death, bool preserve_music)
       m_levelfile = FileSystem::basename(m_levelfile);
     }
     
+	// TODO: We currently storage the level as a stringstream, not ideal.
 	// Level was passed as an argument (likely from the editor)
-	if (true || //temporary
-	m_level == nullptr && !m_levelfile.empty())
-	{
+	// if (m_level == nullptr && !m_levelfile.empty())
+	
+	if (!m_levelstream)
       m_level_storage = LevelParser::from_file(m_levelfile, false, false);
-	  m_level = m_level_storage.get();
-	}
+	else
+	  m_level_storage = LevelParser::from_stream(*m_levelstream, "", false, false);
+	
+	m_level = m_level_storage.get();
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
     const GameSession::SpawnPoint* spawnpoint = nullptr;
@@ -534,7 +544,7 @@ GameSession::setup()
   m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
 
   int total_stats_to_be_collected = m_level->m_stats.m_total_coins + m_level->m_stats.m_total_badguys + m_level->m_stats.m_total_secrets;
-  if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0) && m_level_storage != nullptr) {
+  if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0) && m_savegame) {
     m_levelintro_shown = true;
     m_active = false;
     ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame->get_player_status()));
