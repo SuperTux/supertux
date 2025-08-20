@@ -1113,7 +1113,13 @@ Editor::event(const SDL_Event& ev)
         switch (ev.key.keysym.sym)
         {
           case SDLK_t:
-            test_level(std::nullopt);
+		    if (m_shift_pressed)
+			{
+			  std::pair<std::string, Vector> spawn{get_sector()->get_name(), get_abs_mouse_pos()};
+			  test_level(spawn);
+			}
+			else
+			  test_level(std::nullopt);
             break;
           case SDLK_s:
             save_level();
@@ -1174,6 +1180,13 @@ Editor::event(const SDL_Event& ev)
   {
     log_warning << "error while processing Editor::event(): " << err.what() << std::endl;
   }
+}
+
+Vector
+Editor::get_abs_mouse_pos()
+{
+  Camera& camera = m_sector->get_camera();
+  return camera.get_position() + m_mouse_pos;
 }
 
 void
