@@ -117,6 +117,7 @@ Editor::Editor() :
   m_temp_level(true),
   m_particle_editor_filename(),
   m_ctrl_pressed(false),
+  m_shift_pressed(false),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
