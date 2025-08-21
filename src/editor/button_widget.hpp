@@ -26,7 +26,6 @@
 
 class ButtonWidget : public Widget
 {
-private:
 public:
   ButtonWidget(SpritePtr sprite, const Vector& pos, std::function<void()> m_sig_click = {}, std::optional<Sizef> sprite_size = std::nullopt);
   ButtonWidget(const std::string& path, const Vector& pos, std::function<void()> callback = {}, std::optional<Sizef> sprite_size = std::nullopt) :
