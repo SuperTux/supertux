@@ -75,6 +75,9 @@ public:
 
   void draw_tilemap_outer_shading(DrawingContext&);
   void draw_tilemap_border(DrawingContext&);
+
+  inline Vector get_sector_pos() const { return m_sector_pos; }
+
 private:
   static bool action_pressed;
   static bool alt_pressed;
