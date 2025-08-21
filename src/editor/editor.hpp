@@ -149,6 +149,8 @@ public:
   void esc_press();
   void delete_markers();
   void sort_layers();
+  
+  inline void disable_testing() { m_testing_disabled = true; }
 
   void select_tilegroup(int id);
   void select_last_tilegroup();
@@ -225,6 +227,7 @@ public:
   bool m_save_request_switch;
   bool m_test_request;
   bool m_particle_editor_request;
+  bool m_testing_disabled;
   std::optional<std::pair<std::string, Vector>> m_test_pos;
 
   std::string* m_particle_editor_filename;
