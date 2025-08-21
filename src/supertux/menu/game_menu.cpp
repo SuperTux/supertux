@@ -22,6 +22,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/fadetoblack.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -31,6 +32,7 @@
 #include "supertux/sector.hpp"
 #include "object/player.hpp"
 #include "util/gettext.hpp"
+#include "worldmap/worldmap.hpp"
 
 GameMenu::GameMenu() :
   reset_callback ( [] {
@@ -107,14 +109,35 @@ GameMenu::menu_action(MenuItem& item)
         if (Editor::is_active())
           break;
         MenuManager::instance().clear_menu_stack();
-        Editor* editor = new Editor();
-        editor->set_level(GameSession::current()->get_level_file());
-        editor->update(0, Controller());
-        editor->disable_testing();
-        GameSession::current()->restart_level();
-        std::unique_ptr<Screen> screen(std::move(editor));
-        ScreenManager::current()->push_screen(std::move(screen));
-        SoundManager::current()->stop_music(0.5);
+        //Editor* editor = new Editor();
+        //editor->disable_testing();
+        std::string level_file = GameSession::current()->get_level_file();
+        std::string return_to = worldmap::WorldMap::current()->get_basename();
+        ScreenManager::current()->pop_screen();
+        ScreenManager::current()->pop_screen();
+        ScreenManager::current()->push_screen([level_file, return_to]() {
+          Editor* editor = new Editor();
+          editor->set_level(level_file);
+          editor->update(0, Controller());
+          editor->on_exit([return_to]() {
+            ScreenManager::current()->push_screen([return_to]() {
+              std::unique_ptr<World> world = World::from_directory(return_to);
+              GameManager::current()->m_savegame = Savegame::from_current_profile(world->get_basename());
+              auto filename = GameManager::current()->m_savegame->get_player_status().last_worldmap;
+              if (filename.empty())
+                filename = world->get_worldmap_filename();
+              auto worldmap = new worldmap::WorldMap(
+                filename, *GameManager::current()->m_savegame,
+                "", "", world->get_basename());
+              worldmap->start_level();
+              return worldmap;
+            });
+          });
+          
+          return editor;
+        });
+        //std::unique_ptr<Screen> screen(std::move(editor));
+        //ScreenManager::current()->push_screen(std::move(screen));
       }
       break;
 

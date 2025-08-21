@@ -159,7 +159,16 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
   log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
   assert(screen);
   set_screen_fade(std::move(screen_fade));
-  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
+  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen), nullptr);
+}
+
+void
+ScreenManager::push_screen(std::function<Screen*()> callback, std::unique_ptr<ScreenFade> screen_fade)
+{
+  log_debug << "ScreenManager::push_screen(): (lambda) " << &callback << std::endl;
+  assert(callback);
+  set_screen_fade(std::move(screen_fade));
+  m_actions.emplace_back(Action::PUSH_ACTION, nullptr, std::move(callback));
 }
 
 void
@@ -520,8 +529,14 @@ ScreenManager::handle_screen_switch()
             break;
 
           case Action::PUSH_ACTION:
-            assert(action.screen);
-            m_screen_stack.push_back(std::move(action.screen));
+            if (!action.screen && action.callback)
+            {
+              m_screen_stack.push_back(std::unique_ptr<Screen>(action.callback()));
+            }
+            else
+            {
+              m_screen_stack.push_back(std::move(action.screen));
+            }
             break;
 
           case Action::QUIT_ACTION:

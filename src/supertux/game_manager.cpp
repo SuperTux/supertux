@@ -106,11 +106,8 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
       filename = world.get_worldmap_filename();
     }
 
-    auto worldmap = std::make_unique<worldmap::WorldMap>(filename, *m_savegame, sector, spawnpoint);
+    auto worldmap = std::make_unique<worldmap::WorldMap>(filename, *m_savegame, sector, spawnpoint, world.get_basename());
     ScreenManager::current()->push_screen(std::move(worldmap));
-
-    if (!Editor::current())
-      m_savegame->get_profile().set_last_world(world.get_basename());
   }
   catch (const std::exception& e)
   {
