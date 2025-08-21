@@ -118,8 +118,6 @@ public:
     m_levelfile = levelfile;
     m_reload_request = true;
   }
-  
-  Vector get_abs_mouse_pos();
 
   std::string get_level_directory() const;
 

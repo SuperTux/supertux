@@ -525,7 +525,7 @@ EditorOverlayWidget::hover_object()
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
     const Rectf& bbox = moving_object.get_bbox();
-    if (bbox.contains(m_sector_pos - Vector(200.f, 32.f)))
+    if (bbox.contains(m_sector_pos))
     {
       if (&moving_object != m_hovered_object)
       {
@@ -922,7 +922,7 @@ EditorOverlayWidget::add_path_node()
   m_edited_path->save_state();
 
   Path::Node new_node(&m_edited_path->get_path());
-  new_node.position = m_sector_pos - Vector(200.f, 32.f);
+  new_node.position = m_sector_pos;
   new_node.bezier_before = new_node.position;
   new_node.bezier_after = new_node.position;
   new_node.time = 1;
@@ -959,7 +959,7 @@ EditorOverlayWidget::put_object()
   }
   else
   {
-    auto target_pos = m_sector_pos - Vector(200.f, 32.f);
+    auto target_pos = m_sector_pos;
     if (g_config->editor_snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
@@ -1360,9 +1360,9 @@ EditorOverlayWidget::update_pos()
   if(m_editor.get_sector() == nullptr) return;
 
   m_sector_pos = m_mouse_pos / m_editor.get_sector()->get_camera().get_current_scale() +
-                 m_editor.get_sector()->get_camera().get_translation() + Vector(200.f, 32.f);
+                 m_editor.get_sector()->get_camera().get_translation();
   
-  m_hovered_tile = sp_to_tp(m_sector_pos - Vector(200.f, 32.f));
+  m_hovered_tile = sp_to_tp(m_sector_pos);
 
   if (m_last_hovered_tile != m_hovered_tile)
   {
