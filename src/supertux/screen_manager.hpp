@@ -43,6 +43,7 @@ class VideoSystem;
 class ScreenManager final : public Currenton<ScreenManager>
 {
 public:
+  using callback_t = std::function<Screen*()>;
   ScreenManager(VideoSystem& video_system, InputManager& input_manager);
   ~ScreenManager() override;
 
@@ -56,6 +57,7 @@ public:
 
   // push new screen on screen_stack
   void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
+  void push_screen(callback_t callback, std::unique_ptr<ScreenFade> fade = {});
   void pop_screen(std::unique_ptr<ScreenFade> fade = {});
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
@@ -91,11 +93,14 @@ private:
     enum Type { PUSH_ACTION, POP_ACTION, QUIT_ACTION };
     Type type;
     std::unique_ptr<Screen> screen;
-
+    callback_t callback;
+    
     Action(Type type_,
-           std::unique_ptr<Screen> screen_ = {}) :
+           std::unique_ptr<Screen> screen_ = {},
+           callback_t cb = nullptr) :
       type(type_),
-      screen(std::move(screen_))
+      screen(std::move(screen_)),
+      callback(std::move(cb))
     {}
   };
 

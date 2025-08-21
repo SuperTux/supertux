@@ -44,9 +44,11 @@ public:
                    const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
   void start_level(Level* level, const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
 
+public:
+  std::unique_ptr<Savegame> m_savegame;
+  
 private:
   std::unique_ptr<Level>    m_current_level;
-  std::unique_ptr<Savegame> m_savegame;
   
   // Must keep stringstream in memory or else GameSession can't restart.
   std::stringstream m_levelstream;
