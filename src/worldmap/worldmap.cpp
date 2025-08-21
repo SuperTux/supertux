@@ -47,7 +47,8 @@
 namespace worldmap {
 
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
-                   const std::string& force_sector, const std::string& force_spawnpoint) :
+                   const std::string& force_sector, const std::string& force_spawnpoint,
+                   const std::string& base_name) :
   m_sector(nullptr),
   m_sectors(),
   m_force_spawnpoint(),
@@ -61,21 +62,24 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   m_passive_message_timer(),
   m_allow_item_pocket(true),
   m_enter_level(false),
+  m_really_enter_level(false),
   m_in_level(false),
   m_in_world_select(false),
   m_next_filename(),
   m_next_force_sector(),
   m_next_force_spawnpoint()
 {
-  load(filename, savegame, force_sector, force_spawnpoint);
+  load(filename, savegame, force_sector, force_spawnpoint, base_name);
 }
 
 void
 WorldMap::load(const std::string& filename, Savegame& savegame,
-               const std::string& force_sector, const std::string& force_spawnpoint)
+               const std::string& force_sector, const std::string& force_spawnpoint,
+               const std::string& base_name)
 {
   m_map_filename = physfsutil::realpath(filename);
   m_levels_path = FileSystem::dirname(m_map_filename);
+  m_base_name = base_name;
   /* We are reloading, so save now. */
   if (m_has_next_worldmap)
     m_savegame->get_player_status().last_worldmap = m_map_filename;
@@ -162,15 +166,21 @@ void
 WorldMap::update(float dt_sec, const Controller& controller)
 {
   if (m_in_world_select) return;
-
+  
   process_input(controller);
+  
+  if (m_really_enter_level)
+  {
+    m_enter_level = true;
+    m_really_enter_level = false;
+  }
 
   if (m_in_level) return;
   if (MenuManager::instance().is_active()) return;
 
   if (m_has_next_worldmap) // A worldmap is scheduled to be changed to.
   {
-    load(m_next_filename, *m_savegame, m_next_force_sector, m_next_force_spawnpoint);
+    load(m_next_filename, *m_savegame, m_next_force_sector, m_next_force_spawnpoint, m_base_name);
     m_has_next_worldmap = false;
     return;
   }
@@ -181,7 +191,8 @@ WorldMap::update(float dt_sec, const Controller& controller)
 void
 WorldMap::process_input(const Controller& controller)
 {
-  m_enter_level = false;
+  if (!m_really_enter_level)
+    m_enter_level = false;
 
   if (controller.pressed(Control::ACTION) && !m_in_level)
   {
@@ -362,6 +373,12 @@ const std::string&
 WorldMap::get_filename() const
 {
   return m_map_filename;
+}
+
+const std::string
+WorldMap::get_basename() const
+{
+  return m_base_name;
 }
 
 } // namespace worldmap

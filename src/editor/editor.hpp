@@ -51,6 +51,7 @@ class Editor final : public Screen,
                      public Currenton<Editor>
 {
 public:
+  using exit_cb_t = std::function<void()>;
   static bool is_active();
 
 private:
@@ -191,6 +192,7 @@ public:
   void redo();
 
   void pack_addon();
+  inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
 
 private:
   void set_sector(Sector* sector);
@@ -236,6 +238,8 @@ public:
   bool m_shift_pressed;
   
   ScriptManager m_script_manager;
+  
+  exit_cb_t m_on_exit_cb;
 
 private:
   Sector* m_sector;

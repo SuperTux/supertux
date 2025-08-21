@@ -143,7 +143,8 @@ Editor::Editor() :
   m_new_scale(0.f),
   m_mouse_pos(0.f, 0.f),
   m_layers_widget_needs_refresh(false),
-  m_script_manager()
+  m_script_manager(),
+  m_on_exit_cb(nullptr)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -292,6 +293,8 @@ Editor::Editor() :
 
 Editor::~Editor()
 {
+  if (m_on_exit_cb)
+    m_on_exit_cb();
 }
 
 void
