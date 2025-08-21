@@ -16,14 +16,18 @@
 
 #include "supertux/menu/game_menu.hpp"
 
+#include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "object/player.hpp"
 #include "util/gettext.hpp"
@@ -53,6 +57,11 @@ GameMenu::GameMenu() :
 
   if (Sector::current()->get_players()[0]->get_status().can_reach_checkpoint()) {
     add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart from Checkpoint"));
+  }
+  
+  if (g_config->developer_mode)
+  {
+    add_entry(MNID_EDITLEVEL, _("Edit Level"));
   }
 
   add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
@@ -90,6 +99,22 @@ GameMenu::menu_action(MenuItem& item)
       else
       {
         reset_checkpoint_callback();
+      }
+      break;
+    
+    case MNID_EDITLEVEL:
+      {
+        if (Editor::is_active())
+          break;
+        MenuManager::instance().clear_menu_stack();
+        Editor* editor = new Editor();
+        editor->set_level(GameSession::current()->get_level_file());
+        editor->update(0, Controller());
+        editor->disable_testing();
+        GameSession::current()->restart_level();
+        std::unique_ptr<Screen> screen(std::move(editor));
+        ScreenManager::current()->push_screen(std::move(screen));
+        SoundManager::current()->stop_music(0.5);
       }
       break;
 

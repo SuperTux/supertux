@@ -135,6 +135,7 @@ Editor::Editor() :
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
+  m_testing_disabled(false),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_time_since_last_save(0.f),
@@ -561,6 +562,13 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
+  if (m_testing_disabled)
+  {
+    Dialog::show_message(_("You cannot test a level when playing from the worldmap.\n\n"
+                           "Exit the level editor instead."));
+    return;
+  }
+
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
 
