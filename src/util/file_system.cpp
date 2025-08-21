@@ -23,7 +23,9 @@
 #include <stdexcept>
 #include <sys/stat.h>
 #include <sys/types.h>
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 #include <vector>
 #if defined(_WIN32)
   #include <windows.h>
