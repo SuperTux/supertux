@@ -245,7 +245,7 @@ void
 open_editor(const std::string& filename)
 {
 #if defined(_WIN32) || defined(_WIN64)
-  ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
+  ShellExecute(NULL, "open", filename.c_str(), NULL, NULL, SW_SHOWNORMAL);
 #else
   #if defined(__APPLE__)
   std::string cmd = "open \"" + filename + "\"";
