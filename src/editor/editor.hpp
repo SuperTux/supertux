@@ -259,7 +259,7 @@ private:
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
 
-  GameObject* m_selected_object;
+  TypedUID<GameObject> m_selected_object;
 
   bool m_enabled;
   SurfacePtr m_bgr_surface;

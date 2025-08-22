@@ -338,22 +338,22 @@ Editor::draw(Compositor& compositor)
       widget->draw(context);
     }
 	
-	m_overlay_widget->draw_tilemap_outer_shading(context);
-	m_overlay_widget->draw_tilemap_border(context);
-    
-	if (get_properties_panel_visible())
-	{
-	  context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
-										 Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
+    m_overlay_widget->draw_tilemap_outer_shading(context);
+    m_overlay_widget->draw_tilemap_border(context);
 
-	  context.color().draw_filled_rect(Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f),
-										 Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
+    if (get_properties_panel_visible())
+    {
+      context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
+                       Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
 
-	  for(const auto& control : m_controls)
-	  {
-	    control->draw(context);
-	  }
-	}
+      context.color().draw_filled_rect(Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f),
+                       Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
+
+      for(const auto& control : m_controls)
+      {
+        control->draw(context);
+      }
+    }
 
     // If camera scale must be changed, change it here.
     if (m_new_scale != 0.f)
@@ -381,7 +381,48 @@ Editor::draw(Compositor& compositor)
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
     if (!m_leveltested)
+    {
       m_sector->draw(context);
+
+      // If an object is selected, draw an indicator around it.
+      const GameObject* selected_object = m_selected_object.get();
+      if (selected_object)
+      {
+        const MovingObject* moving_selected_obj = dynamic_cast<const MovingObject*>(selected_object);
+        if (moving_selected_obj)
+        {
+          context.push_transform();
+          const Camera& camera = m_sector->get_camera();
+          context.set_translation(camera.get_translation());
+          context.scale(camera.get_current_scale());
+
+          const Rectf& bbox = moving_selected_obj->get_bbox();
+          context.color().draw_line(bbox.p1() - Vector(10.f, 10.f), bbox.p1() - Vector(0.f, 10.f), Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(bbox.p1() - Vector(10.f, 10.f), bbox.p1() - Vector(10.f, 0.f), Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(bbox.p2() + Vector(10.f, 10.f), bbox.p2() + Vector(0.f, 10.f), Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(bbox.p2() + Vector(10.f, 10.f), bbox.p2() + Vector(10.f, 0.f), Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
+                                    Vector(bbox.get_right() + 10.f, bbox.get_top()),
+                                    Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
+                                    Vector(bbox.get_right(), bbox.get_top() - 10.f),
+                                    Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
+                                    Vector(bbox.get_left() - 10.f, bbox.get_bottom()),
+                                    Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
+                                    Vector(bbox.get_left(), bbox.get_bottom() + 10.f),
+                                    Color::WHITE, LAYER_GUI + 1);
+
+          context.pop_transform();
+        }
+      }
+      else
+      {
+        m_selected_object = 0;
+        m_controls.clear();
+      }
+    }
 
     context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
@@ -445,10 +486,11 @@ Editor::update(float dt_sec, const Controller& controller)
 
     // It's possible that the editor is being re-activated due to exiting a menu,
     // possibly one related to an object option.
-    if (m_selected_object)
+    GameObject* selected_object = m_selected_object.get();
+    if (selected_object)
     {
-      m_selected_object->after_editor_set();
-      m_selected_object->check_state();
+      selected_object->after_editor_set();
+      selected_object->check_state();
     }
   }
 
@@ -1544,7 +1586,7 @@ Editor::select_object(GameObject* object)
 
   if (!object || !g_config->editor_show_properties_sidebar)
   {
-    m_selected_object = nullptr;
+    m_selected_object = 0;
     return;
   }
   m_selected_object = object;
