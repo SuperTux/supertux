@@ -50,14 +50,12 @@ EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
   }
   if (!editor->is_level_loaded() && !editor->m_reload_request) {
     editor->m_quit_request = true;
-  } else {
-    editor->m_reactivate_request = true;
   }
 }
+
 void
 EditorLevelsetSelectMenu::initialize()
 {
-  Editor::current()->m_deactivate_request = true;
   m_contrib_worlds.clear();
 
   // Generating contrib levels list by making use of Level Subset

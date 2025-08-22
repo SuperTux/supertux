@@ -156,6 +156,8 @@ ControlEnum<T>::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   if (m_rect.contains(mouse_pos)) {
     m_open_list = !m_open_list;
     m_has_focus = true;
+    if (m_open_list)
+      call_on_activate_callbacks();
     return true;
   } else if (get_list_rect().contains(mouse_pos) && m_open_list) {
     return true;
@@ -224,6 +226,8 @@ ControlEnum<T>::on_key_up(const SDL_KeyboardEvent& key)
     || key.keysym.sym == SDLK_RETURN
     || key.keysym.sym == SDLK_RETURN2) && m_has_focus) {
     m_open_list = !m_open_list;
+    if (m_open_list)
+      call_on_activate_callbacks();
     return true;
   } else {
     return false;

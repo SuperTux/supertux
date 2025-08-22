@@ -56,6 +56,8 @@ ControlCheckbox::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   if (!m_rect.contains(mouse_pos))
     return false;
 
+  call_on_activate_callbacks();
+
   *m_value = !*m_value;
 
   call_on_change_callbacks();
@@ -80,6 +82,8 @@ ControlCheckbox::on_key_up(const SDL_KeyboardEvent& key)
 {
   if (key.keysym.sym != SDLK_SPACE || !m_has_focus)
     return false;
+
+  call_on_activate_callbacks();
 
   *m_value = !*m_value;
 

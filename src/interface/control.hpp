@@ -54,9 +54,14 @@ public:
   inline Rectf get_rect() const { return m_rect; }
 
 protected:
+  void call_on_activate_callbacks() const;
   void call_on_change_callbacks() const;
 
 public:
+  /** Optional; a function that will be called each time the control is activated.
+   */
+  std::vector<std::function<void()>> m_on_activate_callbacks;
+
   /** Optional; a function that will be called each time the bound value
    *  is modified.
    */

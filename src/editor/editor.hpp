@@ -52,7 +52,11 @@ class Editor final : public Screen,
 {
 public:
   using exit_cb_t = std::function<void()>;
+
   static bool is_active();
+
+  static void may_deactivate();
+  static void may_reactivate();
 
 private:
   static bool is_autosave_file(const std::string& filename) {
@@ -163,12 +167,6 @@ public:
     m_overlay_widget->edit_path(path, new_marked_object);
   }
 
-  void update_properties_panel(GameObject* object) {
-    m_overlay_widget->update_properties_panel(object);
-  }
-  
-  bool get_properties_panel_visible();
-
   void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
 
   inline TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
@@ -179,8 +177,8 @@ public:
 
   void queue_layers_refresh();
 
-  void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
-  inline void clear_controls() { m_controls.clear(); }
+  bool get_properties_panel_visible() const;
+  void select_object(GameObject* object);
 
   void retoggle_undo_tracking();
   void undo_stack_cleanup();
@@ -207,6 +205,8 @@ private:
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
   void keep_camera_in_bounds();
+
+  void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
 
 protected:
   std::shared_ptr<Level> m_level;
@@ -258,6 +258,8 @@ private:
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
+
+  GameObject* m_selected_object;
 
   bool m_enabled;
   SurfacePtr m_bgr_surface;
