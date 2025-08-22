@@ -168,8 +168,7 @@ EditorOverlayWidget::drag_rect() const
     end_y = m_drag_start.y;
   }
 
-  return Rectf(start_x, start_y, end_x, end_y)
-            .moved(Vector(-200.0f, -32.0f));
+  return Rectf(start_x, start_y, end_x, end_y);
 }
 
 void
