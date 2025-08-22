@@ -159,9 +159,6 @@ public:
                        const std::string& key = {}, unsigned int flags = 0);
   void add_list(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
 
-  // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
-  void add_button(const std::string& text, const std::function<void()>& callback);
-
   inline const std::vector<std::unique_ptr<BaseObjectOption>>& get_options() const { return m_options; }
 
   /** Reorder the options in the given order, this is a hack to get

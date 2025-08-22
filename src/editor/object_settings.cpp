@@ -374,12 +374,6 @@ ObjectSettings::add_path_handle(const std::string& text,
 }
 
 void
-ObjectSettings::add_button(const std::string& text, const std::function<void()>& callback)
-{
-  add_option(std::make_unique<ButtonOption>(text, callback));
-}
-
-void
 ObjectSettings::add_list(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr)
 {
   add_option(std::make_unique<ListOption>(text, key, items, value_ptr));

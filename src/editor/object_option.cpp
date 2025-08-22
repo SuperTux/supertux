@@ -26,9 +26,14 @@
 #include "editor/object_menu.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_color.hpp"
+#include "gui/menu_filesystem.hpp"
+#include "gui/menu_list.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_object_select.hpp"
+#include "gui/menu_paths.hpp"
 #include "gui/menu_script.hpp"
+#include "gui/menu_string_array.hpp"
 #include "interface/control_button.hpp"
 #include "interface/control_checkbox.hpp"
 #include "interface/control_enum.hpp"
@@ -699,7 +704,13 @@ ColorObjectOption::add_to_menu(Menu& menu) const
 std::unique_ptr<InterfaceControl>
 ColorObjectOption::create_interface_control() const
 {
-  return nullptr;
+  auto button = std::make_unique<ControlButton>(_("Mix..."));
+  button->m_on_change_callbacks.emplace_back([color = m_value_pointer]()
+    {
+      MenuManager::instance().push_menu(std::make_unique<ColorMenu>(color));
+    });
+  button->set_rect(Rectf(0, 32, 20, 32));
+  return button;
 }
 
 ObjectSelectObjectOption::ObjectSelectObjectOption(const std::string& text, std::vector<std::unique_ptr<GameObject>>* pointer,
@@ -741,8 +752,7 @@ ObjectSelectObjectOption::parse(const ReaderMapping& reader)
 
 void
 ObjectSelectObjectOption::save(Writer& writer) const
-{MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(input, extensions, basedir,
-          path_relative_to_basedir, nullptr, item_processor));
+{
   if (get_key().empty())
     return;
 
@@ -785,7 +795,13 @@ ObjectSelectObjectOption::add_to_menu(Menu& menu) const
 std::unique_ptr<InterfaceControl>
 ObjectSelectObjectOption::create_interface_control() const
 {
-  return nullptr;
+  auto button = std::make_unique<ControlButton>(_("Select..."));
+  button->m_on_change_callbacks.emplace_back(
+    [pointer = m_value_pointer, get_objects_param = m_get_objects_param, add_object_func = m_add_object_function]() {
+      MenuManager::instance().push_menu(std::make_unique<ObjectSelectMenu>(*pointer, get_objects_param, add_object_func));
+    });
+  button->set_rect(Rectf(0, 32, 20, 32));
+  return button;
 }
 
 TilesObjectOption::TilesState::TilesState() :
@@ -976,7 +992,14 @@ PathRefObjectOption::add_to_menu(Menu& menu) const
 std::unique_ptr<InterfaceControl>
 PathRefObjectOption::create_interface_control() const
 {
-  return nullptr;
+  auto button = std::make_unique<ControlButton>(_("Change..."));
+  button->m_on_change_callbacks.emplace_back(
+    [target_ptr = m_value_pointer, path_ref = m_path_ref]() {
+      MenuManager::instance().push_menu(std::make_unique<PathsMenu>(*target_ptr, path_ref));
+    });
+  button->set_rect(Rectf(0, 32, 20, 32));
+  return button;
+
 }
 
 SExpObjectOption::SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value,
@@ -1148,31 +1171,12 @@ ParticleEditorOption::add_to_menu(Menu& menu) const
 std::unique_ptr<InterfaceControl>
 ParticleEditorOption::create_interface_control() const
 {
-  return nullptr;
-}
-
-ButtonOption::ButtonOption(const std::string& text, std::function<void()> callback) :
-  ObjectOption(text, "", 0),
-  m_callback(std::move(callback))
-{
-}
-
-std::string
-ButtonOption::to_string() const
-{
-  return {};
-}
-
-void
-ButtonOption::add_to_menu(Menu& menu) const
-{
-  menu.add_entry(get_text(), m_callback);
-}
-
-std::unique_ptr<InterfaceControl>
-ButtonOption::create_interface_control() const
-{
-  return nullptr;
+  auto button = std::make_unique<ControlButton>(_("Open"));
+  button->m_on_change_callbacks.emplace_back([]() {
+      Editor::current()->m_particle_editor_request = true;
+    });
+  button->set_rect(Rectf(0, 32, 20, 32));
+  return button;
 }
 
 StringArrayOption::StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>& items) :
@@ -1201,7 +1205,12 @@ StringArrayOption::add_to_menu(Menu& menu) const
 std::unique_ptr<InterfaceControl>
 StringArrayOption::create_interface_control() const
 {
-  return nullptr;
+  auto button = std::make_unique<ControlButton>(_("Change..."));
+  button->m_on_change_callbacks.emplace_back([items_ptr = &m_items]() {
+      MenuManager::instance().push_menu(std::make_unique<StringArrayMenu>(*items_ptr));
+    });
+  button->set_rect(Rectf(0, 32, 20, 32));
+  return button;
 }
 
 ListOption::ListOption(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr) :
@@ -1230,7 +1239,12 @@ ListOption::add_to_menu(Menu& menu) const
 std::unique_ptr<InterfaceControl>
 ListOption::create_interface_control() const
 {
-  return nullptr;
+  auto button = std::make_unique<ControlButton>(_("Change..."));
+  button->m_on_change_callbacks.emplace_back([items = m_items, value_ptr = m_value_pointer]() {
+      MenuManager::instance().push_menu(std::make_unique<ListMenu>(items, value_ptr, nullptr));
+    });
+  button->set_rect(Rectf(0, 32, 20, 32));
+  return button;
 }
 
 DirectionOption::DirectionOption(const std::string& text, Direction* value_ptr,
