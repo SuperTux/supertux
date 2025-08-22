@@ -138,6 +138,7 @@ public:
   void toggle_pause();
   void abort_level();
   bool is_active() const;
+  inline void skip_intro() { m_skip_intro = true; }
 
   inline Savegame& get_savegame() const { return *m_savegame; }
 
@@ -197,6 +198,7 @@ private:
   float m_play_time; /**< total time in seconds that this session ran interactively */
 
   bool m_levelintro_shown; /**< true if the LevelIntro screen was already shown */
+  bool m_skip_intro; /**< Manually skipped the intro from outside this class */
 
   int m_coins_at_start; /** How many coins does the player have at the start */
   std::vector<BonusType> m_boni_at_start; /** What boni does the player have at the start */
