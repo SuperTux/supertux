@@ -54,18 +54,18 @@ InterfaceLabel::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 void
 InterfaceLabel::draw(DrawingContext& context)
 {
-  context.color().draw_text(Resources::control_font,
+  context.color().draw_text(Resources::small_font,
                             get_truncated_text(),
                             Vector(m_rect.get_left() + 5.f,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
-                                    Resources::control_font->get_height() / 2 + 1.f),
+                                    Resources::small_font->get_height() / 2 + 1.f),
                             FontAlignment::ALIGN_LEFT,
                             LAYER_GUI,
                             Color::WHITE);
 
   auto has_description = m_description.length() > 0;
   if ((!fits(m_label) || has_description) && m_rect.contains(m_mouse_pos)) {
-    auto font = Resources::control_font;
+    auto font = Resources::small_font;
     auto text_width = font->get_text_width(m_label);
     auto text_height = font->get_height() * (has_description ? 2 : 1);
 
@@ -102,7 +102,7 @@ InterfaceLabel::draw(DrawingContext& context)
 bool
 InterfaceLabel::fits(const std::string& text) const
 {
-  return Resources::control_font->get_text_width(text) <= m_rect.get_width();
+  return Resources::small_font->get_text_width(text) <= m_rect.get_width();
 }
 
 std::string
