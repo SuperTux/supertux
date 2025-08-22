@@ -1470,17 +1470,18 @@ Editor::pack_addon()
 }
 
 void
-Editor::addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description)
+Editor::add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description)
 {
+  assert(new_control);
   if (!g_config->editor_show_properties_sidebar)
     return;
+
   float height = 35.f;
-  for (const auto& control : m_controls) {
+  for (const auto& control : m_controls)
     height = std::max(height, control->get_rect().get_bottom() + 5.f);
-  }
 
   auto control_rect = new_control.get()->get_rect();
-  Rectf target_rect = Rectf();
+  Rectf target_rect;
   if (control_rect.get_width() == 0.f || control_rect.get_height() == 0.f)
   {
     target_rect = Rectf(100.f, height, 200.f - 1.0f, height + 20.f);
@@ -1494,6 +1495,6 @@ Editor::addControl(const std::string& name, std::unique_ptr<InterfaceControl> ne
 
   auto dimensions = Rectf(3.f, height, 100.f, height + 20.f);
   new_control.get()->m_label = std::make_unique<InterfaceLabel>(dimensions, std::move(name), std::move(description));
-  //new_control.get()->m_on_change = std::function<void()>([this](){ this->push_version(); });
+  //new_control.get()->m_on_change_callbacks.emplace_back([this](){ this->push_version(); });
   m_controls.push_back(std::move(new_control));
 }

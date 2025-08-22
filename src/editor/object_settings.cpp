@@ -352,9 +352,9 @@ ObjectSettings::add_string_array(const std::string& text, const std::string& key
 }
 
 void
-ObjectSettings::add_test_from_here()
+ObjectSettings::add_test_from_here(const MovingObject* object_ptr)
 {
-  add_option(std::make_unique<TestFromHereOption>());
+  add_option(std::make_unique<TestFromHereOption>(object_ptr));
 }
 
 void

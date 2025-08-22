@@ -56,6 +56,6 @@ ObjectSettings
 SpawnPointMarker::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
-  result.add_test_from_here();
+  result.add_test_from_here(this);
   return result;
 }
