@@ -252,9 +252,6 @@ private:
 
   EditorToolbarButtonWidget* m_undo_widget;
   EditorToolbarButtonWidget* m_redo_widget;
-  EditorToolbarButtonWidget* m_grid_size_widget;
-  EditorToolbarButtonWidget* m_play_widget;
-  EditorToolbarButtonWidget* m_save_widget;
 
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
