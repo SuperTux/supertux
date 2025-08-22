@@ -23,6 +23,7 @@
 #include <physfs.h>
 
 ScriptManager::ScriptManager() :
+  m_scripts(),
   m_watcher()
 {
 
