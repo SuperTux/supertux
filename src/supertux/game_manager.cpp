@@ -51,7 +51,8 @@ GameManager::save()
 
 void
 GameManager::start_level(const World& world, const std::string& level_filename,
-                         const std::optional<std::pair<std::string, Vector>>& start_pos)
+                         const std::optional<std::pair<std::string, Vector>>& start_pos,
+                         bool skip_intro)
 {
   m_savegame = Savegame::from_current_profile(world.get_basename());
 
@@ -67,7 +68,8 @@ GameManager::start_level(const World& world, const std::string& level_filename,
 
 void
 GameManager::start_level(Level* level,
-                         const std::optional<std::pair<std::string, Vector>>& start_pos)
+                         const std::optional<std::pair<std::string, Vector>>& start_pos,
+                         bool skip_intro)
 {
   m_levelstream.str("");
   m_levelstream.clear();
@@ -79,6 +81,8 @@ GameManager::start_level(Level* level,
     screen->set_start_pos(start_pos->first, start_pos->second);
   }
   screen->restart_level();
+  if (skip_intro)
+    screen->skip_intro();
   ScreenManager::current()->push_screen(std::move(screen));
 }
 

@@ -46,8 +46,10 @@ public:
   bool start_worldmap(const World& world, const std::string& worldmap_filename,
                       const std::optional<std::pair<std::string, Vector>>& start_pos);
   void start_level(const World& world, const std::string& level_filename,
-                   const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
-  void start_level(Level* level, const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
+                   const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt,
+                   bool skip_intro = false);
+  void start_level(Level* level, const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt,
+                   bool skip_intro = false);
 
 public:
   std::unique_ptr<Savegame> m_savegame;
