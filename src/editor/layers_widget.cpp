@@ -218,12 +218,12 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           if (tilemap) {
             set_selected_tilemap(tilemap);
             m_editor.edit_path(tilemap->get_path_gameobject(), tilemap);
-            m_editor.update_properties_panel(tilemap);
+            m_editor.select_object(tilemap);
           } else {
             auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->get_layer());
             if (cam) {
               m_editor.edit_path(cam->get_path_gameobject(), cam);
-              m_editor.update_properties_panel(cam);
+              m_editor.select_object(cam);
             }
           }
         }
@@ -236,10 +236,8 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   else if (button.button == SDL_BUTTON_RIGHT)
   {
     if (m_hovered_item == HoveredItem::LAYERS && m_hovered_layer < m_layer_icons.size()) {
-      auto om = std::make_unique<ObjectMenu>(m_layer_icons[m_hovered_layer]->get_layer());
-      m_editor.m_deactivate_request = true;
-      MenuManager::instance().push_menu(std::move(om));
-      m_editor.update_properties_panel(m_layer_icons[m_hovered_layer]->get_layer());
+      MenuManager::instance().push_menu(std::make_unique<ObjectMenu>(m_layer_icons[m_hovered_layer]->get_layer()));
+      m_editor.select_object(m_layer_icons[m_hovered_layer]->get_layer());
       return true;
     } else {
       return false;

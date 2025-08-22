@@ -99,6 +99,23 @@ Editor::is_active()
   }
 }
 
+void
+Editor::may_deactivate()
+{
+  auto* self = Editor::current();
+  if (self)
+    self->m_deactivate_request = true;
+}
+
+void
+Editor::may_reactivate()
+{
+  auto* self = Editor::current();
+  if (self)
+    self->m_reactivate_request = true;
+}
+
+
 Editor::Editor() :
   m_level(),
   m_world(),
@@ -132,6 +149,7 @@ Editor::Editor() :
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
+  m_selected_object(),
   m_testing_disabled(false),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
@@ -424,6 +442,14 @@ Editor::update(float dt_sec, const Controller& controller)
   if (m_reactivate_request) {
     m_enabled = true;
     m_reactivate_request = false;
+
+    // It's possible that the editor is being re-activated due to exiting a menu,
+    // possibly one related to an object option.
+    if (m_selected_object)
+    {
+      m_selected_object->after_editor_set();
+      m_selected_object->check_state();
+    }
   }
 
   if (m_save_request) {
@@ -708,6 +734,7 @@ Editor::set_sector(Sector* sector)
   }
 
   m_layers_widget->refresh();
+  select_object(nullptr);
 }
 
 void
@@ -1476,7 +1503,7 @@ Editor::pack_addon()
 }
 
 bool
-Editor::get_properties_panel_visible()
+Editor::get_properties_panel_visible() const
 {
   return !m_controls.empty() && g_config->editor_show_properties_sidebar;
 }
@@ -1492,7 +1519,7 @@ Editor::add_control(const std::string& name, std::unique_ptr<InterfaceControl> n
   for (const auto& control : m_controls)
     height = std::max(height, control->get_rect().get_bottom() + 5.f);
 
-  auto control_rect = new_control.get()->get_rect();
+  auto control_rect = new_control->get_rect();
   Rectf target_rect;
   if (control_rect.get_width() == 0.f || control_rect.get_height() == 0.f)
   {
@@ -1503,10 +1530,44 @@ Editor::add_control(const std::string& name, std::unique_ptr<InterfaceControl> n
     target_rect = Rectf(control_rect.get_left(), height,
                         control_rect.get_right(), height + control_rect.get_height());
   }
-  new_control.get()->set_rect(target_rect);
+  new_control->set_rect(target_rect);
 
   auto dimensions = Rectf(3.f, height, 100.f, height + 20.f);
-  new_control.get()->m_label = std::make_unique<InterfaceLabel>(dimensions, std::move(name), std::move(description));
-  //new_control.get()->m_on_change_callbacks.emplace_back([this](){ this->push_version(); });
+  new_control->m_label = std::make_unique<InterfaceLabel>(dimensions, std::move(name), std::move(description));
   m_controls.push_back(std::move(new_control));
+}
+
+void
+Editor::select_object(GameObject* object)
+{
+  m_controls.clear();
+
+  if (!object || !g_config->editor_show_properties_sidebar)
+  {
+    m_selected_object = nullptr;
+    return;
+  }
+  m_selected_object = object;
+
+  ObjectSettings os = object->get_settings();
+  for (const auto& option : os.get_options())
+  {
+    if ((option->get_flags() & OPTION_HIDDEN) && !(option->get_flags() & OPTION_VISIBLE_PROPERTIES))
+      continue;
+
+    auto control = option->create_interface_control();
+    if (!control)
+      continue;
+
+    control->m_on_activate_callbacks.emplace_back([object]() {
+        object->save_state();
+      });
+    control->m_on_change_callbacks.emplace_back([object]() {
+        // TODO: Updating the object doesn't work every time.
+        // Investigate why this is the case!
+        object->after_editor_set();
+        object->check_state();
+      });
+    add_control(option->get_text(), std::move(control), option->get_description());
+  }
 }

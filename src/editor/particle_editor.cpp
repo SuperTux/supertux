@@ -112,7 +112,7 @@ ParticleEditor::reset_main_ui()
   // TODO: Use the addButton() command
   // Texture button start
   auto texture_btn = std::make_unique<ControlButton>(_("Change texture...  ->"));
-  texture_btn.get()->m_on_change_callbacks.emplace_back([this](){
+  texture_btn.get()->m_on_activate_callbacks.emplace_back([this](){
     m_in_texture_tab = true;
   });
   float tmp_height = 0.f;
@@ -227,7 +227,7 @@ ParticleEditor::reset_main_ui()
 
   // TODO: add some ParticleEditor::addButton() function so that I don't have to put all that in here
   auto clear_btn = std::make_unique<ControlButton>(_("Clear"));
-  clear_btn.get()->m_on_change_callbacks.emplace_back([this](){ m_particles->clear(); });
+  clear_btn.get()->m_on_activate_callbacks.emplace_back([this](){ m_particles->clear(); });
   float height = 0.f;
   for (const auto& control : m_controls) {
     height = std::max(height, control->get_rect().get_bottom() + 5.f);
@@ -243,7 +243,7 @@ ParticleEditor::reset_texture_ui()
   m_texture_rebinds.clear();
 
   auto return_btn = std::make_unique<ControlButton>(_("<- General settings"));
-  return_btn.get()->m_on_change_callbacks.emplace_back([this](){
+  return_btn.get()->m_on_activate_callbacks.emplace_back([this](){
     m_in_texture_tab = false;
   });
   return_btn.get()->set_rect(Rectf(25.f, 0.f, 325.f, 20.f));
@@ -370,7 +370,7 @@ ParticleEditor::reset_texture_ui()
 
   // Texture button start
   auto chg_texture_btn = std::make_unique<ControlButton>(_("Change texture..."));
-  chg_texture_btn.get()->m_on_change_callbacks.emplace_back([this](){
+  chg_texture_btn.get()->m_on_activate_callbacks.emplace_back([this](){
     const std::vector<std::string>& filter = {".jpg", ".png", ".surface"};
     MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(
       nullptr,
@@ -389,7 +389,7 @@ ParticleEditor::reset_texture_ui()
   // Texture button end
 
   auto prev_btn = std::make_unique<ControlButton>("<");
-  prev_btn.get()->m_on_change_callbacks.emplace_back([this](){
+  prev_btn.get()->m_on_activate_callbacks.emplace_back([this](){
     m_texture_current--;
     if (m_texture_current < 0) m_texture_current = 0;
     for (const auto& refresh : m_texture_rebinds)
@@ -399,7 +399,7 @@ ParticleEditor::reset_texture_ui()
   m_controls_textures.push_back(std::move(prev_btn));
 
   auto del_btn = std::make_unique<ControlButton>("-");
-  del_btn.get()->m_on_change_callbacks.emplace_back([this](){
+  del_btn.get()->m_on_activate_callbacks.emplace_back([this](){
     if (m_particles->m_textures.size() < 1)
       return;
     m_particles->m_textures.erase(m_particles->m_textures.begin() + m_texture_current);
@@ -414,7 +414,7 @@ ParticleEditor::reset_texture_ui()
   m_controls_textures.push_back(std::move(del_btn));
 
   auto add_btn = std::make_unique<ControlButton>("+");
-  add_btn.get()->m_on_change_callbacks.emplace_back([this](){
+  add_btn.get()->m_on_activate_callbacks.emplace_back([this](){
     m_particles->m_textures.push_back(CustomParticleSystem::SpriteProperties());
     m_texture_current = static_cast<int>(m_particles->m_textures.size()) - 1;
     for (const auto& refresh : m_texture_rebinds)
@@ -426,7 +426,7 @@ ParticleEditor::reset_texture_ui()
   m_controls_textures.push_back(std::move(add_btn));
 
   auto next_btn = std::make_unique<ControlButton>(">");
-  next_btn.get()->m_on_change_callbacks.emplace_back([this](){
+  next_btn.get()->m_on_activate_callbacks.emplace_back([this](){
     m_texture_current++;
     if (m_texture_current > static_cast<int>(m_particles->m_textures.size()) - 1)
       m_texture_current = static_cast<int>(m_particles->m_textures.size()) - 1;
@@ -734,9 +734,7 @@ ParticleEditor::quit_editor()
   auto quit = [] ()
   {
     ScreenManager::current()->pop_screen();
-    if (Editor::current()) {
-      Editor::current()->m_reactivate_request = true;
-    }
+    Editor::may_reactivate();
   };
 
   check_unsaved_changes([quit] {

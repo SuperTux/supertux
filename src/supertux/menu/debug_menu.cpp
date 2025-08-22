@@ -87,10 +87,6 @@ DebugMenu::DebugMenu() :
 
 DebugMenu::~DebugMenu()
 {
-  auto editor = Editor::current();
-
-  if (editor == nullptr) return;
-  editor->m_reactivate_request = true;
 }
 
 void
