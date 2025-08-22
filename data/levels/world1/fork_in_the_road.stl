@@ -639,6 +639,13 @@ lift2.goto_node(1);")
       (height 5)
       (tiles 5374 11 2938 11 2939 31 0 10 0 22)
     )
+    (tilemap
+      (solid #f)
+      (z-pos 1)
+      (width 515)
+      (height 45)
+      (tiles -8610 0 4340 4341 -4 4342 4343 -508 0 4347 7645 -2 4349 7644 7645 4350 -14043 0)
+    )
     (trampoline
       (type "stationary")
       (z-pos 50)
