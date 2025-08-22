@@ -321,20 +321,22 @@ Editor::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  if (m_levelloaded) {
-    for(const auto& widget : m_widgets) {
-	  if (!g_config->editor_show_toolbar_widgets &&
-	      dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
-	  {
-	    continue;
-	  }
+  if (m_levelloaded)
+  {
+    for(const auto& widget : m_widgets)
+    {
+      if (!g_config->editor_show_toolbar_widgets &&
+          dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+      {
+        continue;
+      }
       widget->draw(context);
     }
 	
 	m_overlay_widget->draw_tilemap_outer_shading(context);
 	m_overlay_widget->draw_tilemap_border(context);
     
-	if (m_controls.size() != 0 && g_config->editor_show_properties_sidebar)
+	if (!m_controls.empty() && g_config->editor_show_properties_sidebar)
 	{
 	  context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
 										 Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
@@ -1107,79 +1109,96 @@ Editor::event(const SDL_Event& ev)
 
   try
   {
-    if (ev.type == SDL_KEYDOWN)
-    {
-      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
-      m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
-
-      if (m_ctrl_pressed)
-        m_scroll_speed = 16.0f;
-      else if (ev.key.keysym.mod & KMOD_RSHIFT)
-        m_scroll_speed = 96.0f;
-
-      if (ev.key.keysym.sym == SDLK_F6)
-      {
-        Compositor::s_render_lighting = !Compositor::s_render_lighting;
-        return;
-      }
-      else if (m_ctrl_pressed)
-      {
-        switch (ev.key.keysym.sym)
-        {
-          case SDLK_t:
-            if (m_shift_pressed)
-              test_level(std::pair<std::string, Vector>(get_sector()->get_name(), m_overlay_widget->get_sector_pos()));
-            else
-              test_level(std::nullopt);
-            break;
-          case SDLK_s:
-            save_level();
-            break;
-          case SDLK_z:
-            undo();
-            break;
-          case SDLK_y:
-            redo();
-            break;
-          case SDLK_x:
-            toggle_tile_object_mode();
-            break;
-          case SDLK_PLUS: // Zoom in
-          case SDLK_KP_PLUS:
-            m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
-            break;
-          case SDLK_MINUS: // Zoom out
-          case SDLK_KP_MINUS:
-            m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
-            break;
-          case SDLK_d: // Reset zoom
-            m_new_scale = 1.f;
-            break;
-        }
-      }
-    }
-    else if (ev.type == SDL_KEYUP)
-    {
-      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
-      m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
-
-      if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
-        m_scroll_speed = 32.0f;
-    }
-    else if (ev.type == SDL_MOUSEMOTION)
+    if (ev.type == SDL_MOUSEMOTION)
     {
       m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
+
+      // If properties sidebar controls are active and the mouse is hovering over the sidebar,
+      // do not propagate mouse motion to the editor or its widgets.
+      if (!m_controls.empty() && Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f).contains(m_mouse_pos))
+        return;
     }
-    else if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
+    else
     {
-      // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
-      // The toolbox does scrolling independently from the main area.
-      if (m_ctrl_pressed)
-        m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY;
-      else if (m_shift_pressed)
-        scroll({ static_cast<float>(ev.wheel.y * -40), static_cast<float>(ev.wheel.x * -40) });
-      else
-        scroll({ static_cast<float>(ev.wheel.x * -40), static_cast<float>(ev.wheel.y * -40) });
+      // If properties sidebar controls are active and the mouse is hovering over the sidebar,
+      // do not propagate mouse events to the editor or its widgets.
+      if (!m_controls.empty() &&
+          (ev.type == SDL_MOUSEBUTTONDOWN || ev.type == SDL_MOUSEBUTTONUP || ev.type == SDL_MOUSEWHEEL) &&
+          Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f).contains(m_mouse_pos))
+      {
+        return;
+      }
+
+      if (ev.type == SDL_KEYDOWN)
+      {
+        m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+        m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
+
+        if (m_ctrl_pressed)
+          m_scroll_speed = 16.0f;
+        else if (ev.key.keysym.mod & KMOD_RSHIFT)
+          m_scroll_speed = 96.0f;
+
+        if (ev.key.keysym.sym == SDLK_F6)
+        {
+          Compositor::s_render_lighting = !Compositor::s_render_lighting;
+          return;
+        }
+        else if (m_ctrl_pressed)
+        {
+          switch (ev.key.keysym.sym)
+          {
+            case SDLK_t:
+              if (m_shift_pressed)
+                test_level(std::pair<std::string, Vector>(get_sector()->get_name(), m_overlay_widget->get_sector_pos()));
+              else
+                test_level(std::nullopt);
+              break;
+            case SDLK_s:
+              save_level();
+              break;
+            case SDLK_z:
+              undo();
+              break;
+            case SDLK_y:
+              redo();
+              break;
+            case SDLK_x:
+              toggle_tile_object_mode();
+              break;
+            case SDLK_PLUS: // Zoom in
+            case SDLK_KP_PLUS:
+              m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
+              break;
+            case SDLK_MINUS: // Zoom out
+            case SDLK_KP_MINUS:
+              m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
+              break;
+            case SDLK_d: // Reset zoom
+              m_new_scale = 1.f;
+              break;
+          }
+        }
+      }
+      else if (ev.type == SDL_KEYUP)
+      {
+        m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+        m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
+
+        if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
+          m_scroll_speed = 32.0f;
+      }
+      else if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
+      {
+        // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
+        // The toolbox does scrolling independently from the main area.
+        if (m_ctrl_pressed)
+          m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY;
+        else if (m_shift_pressed)
+          scroll({ static_cast<float>(ev.wheel.y * -40), static_cast<float>(ev.wheel.x * -40) });
+        else
+          scroll({ static_cast<float>(ev.wheel.x * -40), static_cast<float>(ev.wheel.y * -40) });
+      }
     }
 
     BIND_SECTOR(*m_sector);
