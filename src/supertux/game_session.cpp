@@ -306,12 +306,12 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 	//return (-1);
   }
 
-  if (m_levelintro_shown)
+  if (m_levelintro_shown && !m_skip_intro)
   {
     const Vector shrinkpos = get_fade_point();
     ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER,  ShrinkFade::FADEIN));
   }
-
+  
   if (!preserve_music)
   {
     auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
@@ -548,7 +548,7 @@ GameSession::setup()
   m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
 
   int total_stats_to_be_collected = m_level->m_stats.m_total_coins + m_level->m_stats.m_total_badguys + m_level->m_stats.m_total_secrets;
-  if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0) && m_savegame) {
+  if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0) && m_savegame && !m_skip_intro) {
     m_levelintro_shown = true;
     m_active = false;
     ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame->get_player_status()));
@@ -559,6 +559,7 @@ GameSession::setup()
     const Vector shrinkpos = get_fade_point();
     ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN));
   }
+  m_skip_intro = false;
 
   m_end_seq_started = false;
 }
