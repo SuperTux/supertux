@@ -28,6 +28,9 @@
 class Savegame;
 class World;
 class Level;
+namespace worldmap {
+  class WorldMap;
+}
 
 class GameManager final : public Currenton<GameManager>
 {
@@ -36,6 +39,8 @@ public:
   
   void save();
 
+  worldmap::WorldMap* create_worldmap_instance(const World& world, const std::string& worldmap_filename = "",
+                                               const std::string& sector = "", const std::string& spawnpoint = "");
   bool start_worldmap(const World& world, const std::string& worldmap_filename = "",
                       const std::string& sector = "", const std::string& spawnpoint = "");
   bool start_worldmap(const World& world, const std::string& worldmap_filename,

@@ -31,6 +31,7 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "object/player.hpp"
+#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "worldmap/worldmap.hpp"
 
@@ -61,7 +62,7 @@ GameMenu::GameMenu() :
     add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart from Checkpoint"));
   }
   
-  if (g_config->developer_mode)
+  if (g_config->developer_mode && !Editor::is_active())
   {
     add_entry(MNID_EDITLEVEL, _("Edit Level"));
   }
@@ -112,32 +113,27 @@ GameMenu::menu_action(MenuItem& item)
         //Editor* editor = new Editor();
         //editor->disable_testing();
         std::string level_file = GameSession::current()->get_level_file();
-        std::string return_to = worldmap::WorldMap::current()->get_basename();
+        std::string return_to = worldmap::WorldMap::current()->get_levels_path();
         ScreenManager::current()->pop_screen();
         ScreenManager::current()->pop_screen();
+        // We must queue the creation of the level queue or else the currenton gets clobbered
         ScreenManager::current()->push_screen([level_file, return_to]() {
           Editor* editor = new Editor();
           editor->set_level(level_file);
           editor->update(0, Controller());
           editor->on_exit([return_to]() {
+            // Same as last comment... This restarts the previous level
             ScreenManager::current()->push_screen([return_to]() {
-              std::unique_ptr<World> world = World::from_directory(return_to);
-              GameManager::current()->m_savegame = Savegame::from_current_profile(world->get_basename());
-              auto filename = GameManager::current()->m_savegame->get_player_status().last_worldmap;
-              if (filename.empty())
-                filename = world->get_worldmap_filename();
-              auto worldmap = new worldmap::WorldMap(
-                filename, *GameManager::current()->m_savegame,
-                "", "", world->get_basename());
-              worldmap->start_level();
+              // TODO: Move this somewhere else, it is similar to the GameManager::start_worldmap code
+              // Also, what if the world gets deleted in the middle of editing?
+              std::unique_ptr<World> world = World::from_directory(FileSystem::strip_leading_dirs(return_to));
+              auto worldmap = GameManager::current()->create_worldmap_instance(*world);
               return worldmap;
             });
           });
           
           return editor;
         });
-        //std::unique_ptr<Screen> screen(std::move(editor));
-        //ScreenManager::current()->push_screen(std::move(screen));
       }
       break;
 

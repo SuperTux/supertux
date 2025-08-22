@@ -82,38 +82,48 @@ GameManager::start_level(Level* level,
   ScreenManager::current()->push_screen(std::move(screen));
 }
 
+worldmap::WorldMap*
+GameManager::create_worldmap_instance(const World& world, const std::string& worldmap_filename,
+                                      const std::string& sector, const std::string& spawnpoint)
+try
+{
+  m_savegame = Savegame::from_current_profile(world.get_basename());
+
+  auto filename = m_savegame->get_player_status().last_worldmap;
+  // If we specified a worldmap filename manually,
+  // this overrides the default choice of "last worldmap".
+  if (!worldmap_filename.empty())
+  {
+    filename = worldmap_filename;
+  }
+
+  // No "last worldmap" found and no worldmap_filename
+  // specified. Let's go ahead and use the worldmap
+  // filename specified in the world.
+  if (filename.empty())
+  {
+    filename = world.get_worldmap_filename();
+  }
+
+  auto worldmap = new worldmap::WorldMap(filename, *m_savegame, sector, spawnpoint);
+  return worldmap;
+}
+catch (const std::exception& e)
+{
+  log_warning << "Couldn't start worldmap: " << e.what() << std::endl;
+  return nullptr;
+}
+
 bool
 GameManager::start_worldmap(const World& world, const std::string& worldmap_filename,
                             const std::string& sector, const std::string& spawnpoint)
 {
-  try
-  {
-    m_savegame = Savegame::from_current_profile(world.get_basename());
-
-    auto filename = m_savegame->get_player_status().last_worldmap;
-    // If we specified a worldmap filename manually,
-    // this overrides the default choice of "last worldmap".
-    if (!worldmap_filename.empty())
-    {
-      filename = worldmap_filename;
-    }
-
-    // No "last worldmap" found and no worldmap_filename
-    // specified. Let's go ahead and use the worldmap
-    // filename specified in the world.
-    if (filename.empty())
-    {
-      filename = world.get_worldmap_filename();
-    }
-
-    auto worldmap = std::make_unique<worldmap::WorldMap>(filename, *m_savegame, sector, spawnpoint, world.get_basename());
-    ScreenManager::current()->push_screen(std::move(worldmap));
-  }
-  catch (const std::exception& e)
-  {
-    log_warning << "Couldn't start worldmap: " << e.what() << std::endl;
+  auto worldmap = std::unique_ptr<worldmap::WorldMap>(
+    create_worldmap_instance(world, worldmap_filename, sector, spawnpoint));
+  if (!worldmap)
     return false;
-  }
+  
+  ScreenManager::current()->push_screen(std::move(worldmap));
   return true;
 }
 
