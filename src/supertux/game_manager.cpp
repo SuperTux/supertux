@@ -59,7 +59,8 @@ GameManager::start_level(const World& world, const std::string& level_filename,
   auto screen = std::make_unique<LevelsetScreen>(world.get_basedir(),
                                                  level_filename,
                                                  *m_savegame,
-                                                 start_pos);
+                                                 start_pos,
+                                                 skip_intro);
   ScreenManager::current()->push_screen(std::move(screen));
 
   if (!Editor::current())
