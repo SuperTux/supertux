@@ -111,6 +111,7 @@ public:
   bool confirmation_dialog;
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
+  bool custom_system_cursor;
   bool do_release_check;
   bool disable_network;
   bool custom_title_levels;
