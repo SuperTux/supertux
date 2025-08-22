@@ -17,12 +17,20 @@
 #include "interface/control.hpp"
 
 InterfaceControl::InterfaceControl() :
+  m_on_activate_callbacks(),
   m_on_change_callbacks(),
   m_label(),
   m_has_focus(),
   m_rect(),
   m_parent(nullptr)
 {
+}
+
+void
+InterfaceControl::call_on_activate_callbacks() const
+{
+  for (const auto& on_activate : m_on_activate_callbacks)
+    on_activate();
 }
 
 void

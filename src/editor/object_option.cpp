@@ -399,7 +399,7 @@ std::unique_ptr<InterfaceControl>
 StringMultilineObjectOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Edit..."));
-  button->m_on_change_callbacks.emplace_back([key = m_key, value_ptr = m_value_pointer]() {
+  button->m_on_activate_callbacks.emplace_back([key = m_key, value_ptr = m_value_pointer]() {
     MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(key, value_ptr));
   });
   button->set_rect(Rectf(0, 32, 20, 32));
@@ -587,7 +587,7 @@ std::unique_ptr<InterfaceControl>
 ScriptObjectOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Edit..."));
-  button->m_on_change_callbacks.emplace_back([key = m_key, value_ptr = m_value_pointer]() {
+  button->m_on_activate_callbacks.emplace_back([key = m_key, value_ptr = m_value_pointer]() {
     MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(key, value_ptr));
   });
   button->set_rect(Rectf(0, 32, 20, 32));
@@ -647,7 +647,7 @@ std::unique_ptr<InterfaceControl>
 FileObjectOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Browse..."));
-  button->m_on_change_callbacks.emplace_back(
+  button->m_on_activate_callbacks.emplace_back(
     [input = m_value_pointer, extensions = m_filter, basedir = m_basedir, path_relative_to_basedir = m_path_relative_to_basedir]()
     {
       MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(input, extensions, basedir, path_relative_to_basedir));
@@ -705,7 +705,7 @@ std::unique_ptr<InterfaceControl>
 ColorObjectOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Mix..."));
-  button->m_on_change_callbacks.emplace_back([color = m_value_pointer]()
+  button->m_on_activate_callbacks.emplace_back([color = m_value_pointer]()
     {
       MenuManager::instance().push_menu(std::make_unique<ColorMenu>(color));
     });
@@ -796,7 +796,7 @@ std::unique_ptr<InterfaceControl>
 ObjectSelectObjectOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Select..."));
-  button->m_on_change_callbacks.emplace_back(
+  button->m_on_activate_callbacks.emplace_back(
     [pointer = m_value_pointer, get_objects_param = m_get_objects_param, add_object_func = m_add_object_function]() {
       MenuManager::instance().push_menu(std::make_unique<ObjectSelectMenu>(*pointer, get_objects_param, add_object_func));
     });
@@ -993,7 +993,7 @@ std::unique_ptr<InterfaceControl>
 PathRefObjectOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Change..."));
-  button->m_on_change_callbacks.emplace_back(
+  button->m_on_activate_callbacks.emplace_back(
     [target_ptr = m_value_pointer, path_ref = m_path_ref]() {
       MenuManager::instance().push_menu(std::make_unique<PathsMenu>(*target_ptr, path_ref));
     });
@@ -1140,7 +1140,7 @@ TestFromHereOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Test"));
   button->set_rect(Rectf(0, 32, 200, 32));
-  button->m_on_change_callbacks.emplace_back([object_ptr = m_value_pointer]() {
+  button->m_on_activate_callbacks.emplace_back([object_ptr = m_value_pointer]() {
     Editor& editor = *Editor::current();
     // TODO: Pressing the return key from within a game session automatically 
     // triggers this button again if it's previously been pushed. This needs
@@ -1172,7 +1172,7 @@ std::unique_ptr<InterfaceControl>
 ParticleEditorOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Open"));
-  button->m_on_change_callbacks.emplace_back([]() {
+  button->m_on_activate_callbacks.emplace_back([]() {
       Editor::current()->m_particle_editor_request = true;
     });
   button->set_rect(Rectf(0, 32, 20, 32));
@@ -1206,7 +1206,7 @@ std::unique_ptr<InterfaceControl>
 StringArrayOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Change..."));
-  button->m_on_change_callbacks.emplace_back([items_ptr = &m_items]() {
+  button->m_on_activate_callbacks.emplace_back([items_ptr = &m_items]() {
       MenuManager::instance().push_menu(std::make_unique<StringArrayMenu>(*items_ptr));
     });
   button->set_rect(Rectf(0, 32, 20, 32));
@@ -1240,7 +1240,7 @@ std::unique_ptr<InterfaceControl>
 ListOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Change..."));
-  button->m_on_change_callbacks.emplace_back([items = m_items, value_ptr = m_value_pointer]() {
+  button->m_on_activate_callbacks.emplace_back([items = m_items, value_ptr = m_value_pointer]() {
       MenuManager::instance().push_menu(std::make_unique<ListMenu>(items, value_ptr, nullptr));
     });
   button->set_rect(Rectf(0, 32, 20, 32));

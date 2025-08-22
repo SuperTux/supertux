@@ -126,12 +126,6 @@ EditorMenu::refresh()
 
 EditorMenu::~EditorMenu()
 {
-  auto editor = Editor::current();
-
-  if (editor == nullptr)
-    return;
-
-  editor->m_reactivate_request = true;
 }
 
 void

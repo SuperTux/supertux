@@ -134,6 +134,7 @@ ControlTextbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     m_caret_pos = get_text_position(mouse_pos);
     m_secondary_caret_pos = m_caret_pos;
     m_mouse_pressed = true;
+    call_on_activate_callbacks();
     return true;
   } else {
     if (m_has_focus) {
@@ -171,7 +172,6 @@ ControlTextbox::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 ControlTextbox::on_key_up(const SDL_KeyboardEvent& key)
 {
-
   if (m_has_focus)
   {
     if (key.keysym.sym == SDLK_LSHIFT || key.keysym.sym == SDLK_RSHIFT)

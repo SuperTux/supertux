@@ -618,7 +618,7 @@ EditorOverlayWidget::grab_object()
     if (!m_hovered_object->is_valid())
     {
       m_hovered_object = nullptr;
-      update_properties_panel(nullptr);
+      m_editor.select_object(nullptr);
     }
     else
     {
@@ -649,7 +649,7 @@ EditorOverlayWidget::grab_object()
       delete_markers();
     }
 
-    update_properties_panel(nullptr);
+    m_editor.select_object(nullptr);
   }
 }
 
@@ -695,38 +695,7 @@ EditorOverlayWidget::clone_object()
 void
 EditorOverlayWidget::show_object_menu(GameObject& object)
 {
-  auto menu = std::make_unique<ObjectMenu>(&object);
-  m_editor.m_deactivate_request = true;
-  MenuManager::instance().push_menu(std::move(menu));
-}
-
-void
-EditorOverlayWidget::update_properties_panel(GameObject* hovered_object)
-{
-  m_editor.clear_controls();
-
-  if (!hovered_object || !g_config->editor_show_properties_sidebar)
-    return;
-
-  ObjectSettings os = hovered_object->get_settings();
-  for (const auto& option : os.get_options())
-  {
-    if ((option->get_flags() & OPTION_HIDDEN) && !(option->get_flags() & OPTION_VISIBLE_PROPERTIES))
-      continue;
-
-    auto control = option->create_interface_control();
-    if (!control)
-      continue;
-
-    control->m_on_change_callbacks.emplace_back([hovered_object, this]() {
-        if (!hovered_object)
-          return;
-        // TODO: Updating the object doesn't work every time.
-        // Investigate why this is the case!
-        hovered_object->after_editor_set();
-      });
-    m_editor.add_control(option->get_text(), std::move(control), option->get_description());
-  }
+  MenuManager::instance().push_menu(std::make_unique<ObjectMenu>(&object));
 }
 
 void
@@ -771,7 +740,7 @@ EditorOverlayWidget::move_object()
 void
 EditorOverlayWidget::rubber_object()
 {
-  update_properties_panel(nullptr);
+  m_editor.select_object(nullptr);
   if (!m_edited_path) {
     delete_markers();
   }
@@ -920,11 +889,9 @@ EditorOverlayWidget::process_left_click()
       break;
 
     case EditorTilebox::InputType::NONE:
-    case EditorTilebox::InputType::OBJECT:    
-      if (m_hovered_object.get() != nullptr)
-      {
-        update_properties_panel(m_hovered_object.get());
-      }
+    case EditorTilebox::InputType::OBJECT:
+      if (m_hovered_object)
+        m_editor.select_object(m_hovered_object.get());
 
       switch (m_editor.get_tileselect_move_mode())
       {
