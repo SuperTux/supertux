@@ -128,6 +128,7 @@ GameMenu::menu_action(MenuItem& item)
               // Also, what if the world gets deleted in the middle of editing?
               std::unique_ptr<World> world = World::from_directory(FileSystem::strip_leading_dirs(return_to));
               auto worldmap = GameManager::current()->create_worldmap_instance(*world);
+              worldmap->start_level();
               return worldmap;
             });
           });
