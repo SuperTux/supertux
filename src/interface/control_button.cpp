@@ -60,8 +60,7 @@ ControlButton::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 
   m_mouse_down = false;
 
-  if (m_on_change)
-    m_on_change();
+  call_on_change_callbacks();
 
   m_has_focus = true;
 
@@ -90,8 +89,7 @@ ControlButton::on_key_up(const SDL_KeyboardEvent& key)
     return false;
 
   if (key.keysym.sym == SDLK_SPACE) {
-    if (m_on_change)
-      m_on_change();
+    call_on_change_callbacks();
     m_mouse_down = false;
     return true;
   }

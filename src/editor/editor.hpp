@@ -83,11 +83,6 @@ public:
   void event(const SDL_Event& ev) override;
   void on_window_resize() override;
 
-  std::vector<std::unique_ptr<InterfaceControl>>& get_controls()
-  {
-    return m_controls;
-  }
-
   void disable_keyboard() { m_enabled = false; }
 
   inline Level* get_level() const { return m_level.get(); }
@@ -182,7 +177,9 @@ public:
 
   void queue_layers_refresh();
 
-  void addControl(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
+  void add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description = "");
+  inline void clear_controls() { m_controls.clear(); }
+
   void retoggle_undo_tracking();
   void undo_stack_cleanup();
 

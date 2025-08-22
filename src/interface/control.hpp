@@ -53,11 +53,14 @@ public:
   inline void set_rect(const Rectf& rect) { m_rect = rect; }
   inline Rectf get_rect() const { return m_rect; }
 
+protected:
+  void call_on_change_callbacks() const;
+
 public:
   /** Optional; a function that will be called each time the bound value
    *  is modified.
    */
-  std::function<void()> m_on_change;
+  std::vector<std::function<void()>> m_on_change_callbacks;
 
   /** Optional; the label associated with the control */
   std::unique_ptr<InterfaceLabel> m_label;

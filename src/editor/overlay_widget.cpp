@@ -26,14 +26,8 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "gui/menu.hpp"
-#include "gui/menu_script.hpp"
 #include "gui/menu_manager.hpp"
-#include "interface/control_button.hpp"
-#include "interface/control_checkbox.hpp"
-#include "interface/control_enum.hpp"
-#include "interface/control_textbox.hpp"
-#include "interface/control_textbox_float.hpp"
-#include "interface/control_textbox_int.hpp"
+#include "interface/control.hpp"
 #include "math/bezier.hpp"
 #include "object/camera.hpp"
 #include "object/path_gameobject.hpp"
@@ -705,94 +699,27 @@ EditorOverlayWidget::show_object_menu(GameObject& object)
 }
 
 void
-EditorOverlayWidget::update_properties_panel(GameObject* object)
+EditorOverlayWidget::update_properties_panel(GameObject* hovered_object)
 {
-  auto& controls = m_editor.get_controls();
-  controls.clear();
+  m_editor.clear_controls();
 
-  if (object == nullptr)
+  if (!hovered_object || !g_config->editor_show_properties_sidebar)
     return;
 
-  auto hovered_object = object;
+  hovered_object->save_state();
   ObjectSettings os = hovered_object->get_settings();
   
-  for(const auto& option : os.get_options())
+  for (const auto& option : os.get_options())
   {
-    auto text = option.get()->get_text();
-    auto description = option.get()->get_description();
-    if (dynamic_cast<LabelObjectOption*>(option.get()))
-    {
-      m_editor.addControl(text, nullptr, description);
-    }
-    else if (auto int_option = dynamic_cast<IntObjectOption*>(option.get()))
-    {
-      auto textbox = std::make_unique<ControlTextboxInt>();
-      textbox.get()->set_rect(Rectf(0, 32, 200, 32));
-      textbox.get()->bind_value(int_option->get_value());
-      m_editor.addControl(text, std::move(textbox), description);
-    }
-    else if (auto float_option = dynamic_cast<FloatObjectOption*>(option.get()))
-    {
-      auto textbox = std::make_unique<ControlTextboxFloat>();
-      textbox.get()->set_rect(Rectf(0, 32, 200, 32));
-      textbox.get()->bind_value(float_option->get_value());
-      m_editor.addControl(text, std::move(textbox), description);
-    }
-    else if (auto bool_option = dynamic_cast<BoolObjectOption*>(option.get()))
-    {
-      auto checkbox = std::make_unique<ControlCheckbox>();
-      checkbox.get()->set_rect(Rectf(140.f, 0.f, 160.f, 20.f));
-      checkbox.get()->bind_value(bool_option->get_value());
-      m_editor.addControl(text, std::move(checkbox), description);
-    }
-    else if (auto script_option = dynamic_cast<ScriptObjectOption*>(option.get()))
-    {
-      auto button = std::make_unique<ControlButton>(_("Edit..."));
-      const auto value_ptr = script_option->get_value();
-      button.get()->m_on_change = std::function<void()>([value_ptr, script_option]() {
-        MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(script_option->get_key(), value_ptr));
-      });
-      button.get()->set_rect(Rectf(0, 32, 20, 32));
-      m_editor.addControl(text, std::move(button), description);
-    }
-    else if (auto string_option = dynamic_cast<StringObjectOption*>(option.get()))
-    {
-      auto textbox = std::make_unique<ControlTextbox>();
-      textbox.get()->set_rect(Rectf(0, 32, 200, 32));
-      textbox.get()->bind_string(string_option->get_value());
-      m_editor.addControl(text, std::move(textbox), description);
-    }
-    else if (auto test_from_here_option = dynamic_cast<TestFromHereOption*>(option.get()))
-    {
-      auto button = std::make_unique<ControlButton>(_("Test"));
-      button->set_rect(Rectf(0, 32, 200, 32));
-      button.get()->m_on_change = std::function<void()>([hovered_object, this]() {
-        auto spawnpoint = dynamic_cast<SpawnPointMarker*>(hovered_object);
-        if (spawnpoint == nullptr)
-          return;
+    if ((option->get_flags() & OPTION_HIDDEN) && !(option->get_flags() & OPTION_VISIBLE_PROPERTIES))
+      continue;
 
-        // TODO: Pressing the return key from within a game session automatically 
-        // triggers this button again if it's previously been pushed. This needs
-        // to get fixed.
-        auto sector_name = Editor::current()->get_sector()->get_name();
-        m_editor.m_test_pos = std::make_pair(sector_name, spawnpoint->get_pos());
-        m_editor.m_test_request = true;
-      });
-      m_editor.addControl(text, std::move(button), description);
-    }
-    else if (auto enum_option = dynamic_cast<EnumObjectOption*>(option.get()))
-    {
-      auto labels = enum_option->get_labels();
-      auto dropdown = std::make_unique<ControlEnum<int>>();
-      
-      for(int i = 0; i < labels.size(); i++)
-      {
-        dropdown->add_option(i, labels[i]);
-      }
+    auto control = option->create_interface_control();
+    if (!control)
+      continue;
 
-      dropdown.get()->bind_value(enum_option->get_value());
-      dropdown.get()->m_on_change = std::function<void()>([hovered_object, this]() {
-        if (hovered_object == nullptr)
+    control->m_on_change_callbacks.emplace_back([hovered_object, this]() {
+        if (!hovered_object)
           return;
         // TODO: Updating the object doesn't work every time.
         // Investigate why this is the case!
@@ -800,36 +727,12 @@ EditorOverlayWidget::update_properties_panel(GameObject* object)
         hovered_object->check_state();
         update_properties_panel(hovered_object);
       });
-      m_editor.addControl(text, std::move(dropdown), description);
-    }
-    else if(auto direction_option = dynamic_cast<DirectionOption*>(option.get()))
-    {
-      auto directions = direction_option->get_possible_directions();
-      auto dropdown = std::make_unique<ControlEnum<Direction>>();
-      for (const auto& direction : directions)
-      {
-        dropdown->add_option(direction, dir_to_translated_string(direction));
-      }
-      dropdown->bind_value(direction_option->get_value());
-      dropdown.get()->m_on_change = std::function<void()>([hovered_object, this]() {
-        if (hovered_object == nullptr)
-          return;
-        // TODO: Updating the object doesn't work every time.
-        // Investigate why this is the case!
-        hovered_object->after_editor_set();
-        hovered_object->check_state();
-        update_properties_panel(hovered_object);
-      });
-      
-      m_editor.addControl(text, std::move(dropdown), description);
-    }
-    else
-    {
-      auto textbox = std::make_unique<ControlTextbox>();
-      textbox.get()->set_rect(Rectf(0, 32, 200, 32));
-      textbox.get()->put_text(option.get()->to_string());
-      m_editor.addControl(text, std::move(textbox), description);
-    }
+    m_editor.add_control(option->get_text(), std::move(control), option->get_description());
+
+    //auto textbox = std::make_unique<ControlTextbox>();
+    //textbox.get()->set_rect(Rectf(0, 32, 200, 32));
+    //textbox.get()->put_text(option.get()->to_string());
+    //m_editor.addControl(text, std::move(textbox), description);
   }
 }
 
