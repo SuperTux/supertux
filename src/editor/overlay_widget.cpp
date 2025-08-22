@@ -1592,7 +1592,7 @@ EditorOverlayWidget::draw_tilemap_outer_shading(DrawingContext& context)
   const Color& bg_color = { 0, 0, 0, 0.15 };
   const Camera& camera = m_editor.get_sector()->get_camera();
   float w_l = (-camera.get_x()) * camera.get_current_scale();
-  float height = (camera.get_screen_height()) * camera.get_current_scale();
+  float height = camera.get_screen_height();
   float w_r = (current_tm->get_width() - camera.get_x()) * camera.get_current_scale();
   // Left
   context.color().draw_filled_rect({0,0,start.x,height}, bg_color, current_tm->get_layer());
