@@ -256,13 +256,12 @@ void open_path(const std::string& path)
 void
 open_editor(const std::string& filename)
 {
-#if defined(_WIN32) || defined(_WIN64)
-  ShellExecute(NULL, "open", filename.c_str(), NULL, NULL, SW_SHOWNORMAL);
-#else
-  #if defined(__APPLE__)
-  std::string cmd = "open \"" + filename + "\"";
-  #else
-  const char* default_editor = getenv("EDITOR");
+  const char* default_editor =
+#  if defined(_WIN32) || defined(_WIN64)
+    nullptr;
+#  else
+    getenv("EDITOR");
+#  endif
   std::string cmd;
   if (!g_config->preferred_text_editor.empty())
     cmd = g_config->preferred_text_editor + " \"" + filename + "\" &";
@@ -270,7 +269,6 @@ open_editor(const std::string& filename)
   {
     cmd = std::string(default_editor) + " \"" + filename + "\" &";
   }
-  #endif
   
   int ret = system(cmd.c_str());
   if (ret < 0)
@@ -281,7 +279,6 @@ open_editor(const std::string& filename)
   {
     log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
   }
-#endif
 }
 
 std::string escape_url(const std::string& url)
