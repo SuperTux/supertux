@@ -62,7 +62,7 @@ GameMenu::GameMenu() :
     add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart from Checkpoint"));
   }
   
-  if (g_config->developer_mode && !Editor::is_active())
+  if (g_config->developer_mode && !Editor::current())
   {
     add_entry(MNID_EDITLEVEL, _("Edit Level"));
   }
