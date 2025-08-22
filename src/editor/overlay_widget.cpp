@@ -706,9 +706,7 @@ EditorOverlayWidget::update_properties_panel(GameObject* hovered_object)
   if (!hovered_object || !g_config->editor_show_properties_sidebar)
     return;
 
-  hovered_object->save_state();
   ObjectSettings os = hovered_object->get_settings();
-  
   for (const auto& option : os.get_options())
   {
     if ((option->get_flags() & OPTION_HIDDEN) && !(option->get_flags() & OPTION_VISIBLE_PROPERTIES))
@@ -724,8 +722,6 @@ EditorOverlayWidget::update_properties_panel(GameObject* hovered_object)
         // TODO: Updating the object doesn't work every time.
         // Investigate why this is the case!
         hovered_object->after_editor_set();
-        hovered_object->check_state();
-        update_properties_panel(hovered_object);
       });
     m_editor.add_control(option->get_text(), std::move(control), option->get_description());
 
