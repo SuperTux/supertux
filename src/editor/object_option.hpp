@@ -535,25 +535,6 @@ private:
   ParticleEditorOption& operator=(const ParticleEditorOption&) = delete;
 };
 
-class ButtonOption final : public ObjectOption<>
-{
-public:
-  ButtonOption(const std::string& text, std::function<void()> callback);
-
-  virtual void parse(const ReaderMapping& reader) override {}
-  virtual void save(Writer& writer) const override {}
-  virtual std::string to_string() const override;
-  virtual void add_to_menu(Menu& menu) const override;
-  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
-
-private:
-  std::function<void()> m_callback;
-
-private:
-  ButtonOption(const ButtonOption&) = delete;
-  ButtonOption& operator=(const ButtonOption&) = delete;
-};
-
 class StringArrayOption final : public ObjectOption<>
 {
 public:
