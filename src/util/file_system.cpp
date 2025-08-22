@@ -84,6 +84,15 @@ void copy(const std::string& source_path, const std::string& target_path)
   fs::copy_file(source_path, target_path, fs::copy_options::overwrite_existing);
 }
 
+std::string strip_leading_dirs(std::string filename)
+{
+  while (filename.size() > 0 && (filename[filename.size()-1] == '/' || filename[filename.size()-1] == '\\'))
+  {
+    filename = filename.substr(0, filename.size()-1);
+  }
+  return filename;
+}
+
 std::string dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
@@ -95,8 +104,11 @@ std::string dirname(const std::string& filename)
   return filename.substr(0, p+1);
 }
 
-std::string basename(const std::string& filename)
+std::string basename(std::string filename, bool greedy)
 {
+  if (greedy)
+    filename = strip_leading_dirs(filename);
+  
   std::string::size_type p = filename.find_last_of('/');
   if (p == std::string::npos)
     p = filename.find_last_of('\\');
