@@ -129,9 +129,6 @@ Editor::Editor() :
   m_controls(),
   m_undo_widget(),
   m_redo_widget(),
-  m_grid_size_widget(),
-  m_play_widget(),
-  m_save_widget(),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
@@ -173,32 +170,23 @@ Editor::Editor() :
       else
         snap_grid_size--;
     });
-  
   grid_size_widget->set_help_text(_("Change / Toggle grid size"));
-  m_grid_size_widget = grid_size_widget.get();
-
   m_widgets.insert(m_widgets.begin() + 2, std::move(grid_size_widget));
 
   auto play_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
     Vector(96, 0), [this] { m_test_request = true; });
   play_button->set_help_text(_("Test level"));
-
-  m_play_widget = play_button.get();
-
   m_widgets.insert(m_widgets.begin() + 3, std::move(play_button));
 
   auto save_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
     Vector(128, 0), [this] { 
-	  bool saved = save_level();
-	  auto notif = std::make_unique<Notification>("save_level_notif", false, true);
-	  notif->set_text(saved ? _("Level saved!") : _("Level failed to save."));
-	  MenuManager::instance().set_notification(std::move(notif));
-	}
+      bool saved = save_level();
+      auto notif = std::make_unique<Notification>("save_level_notif", false, true);
+      notif->set_text(saved ? _("Level saved!") : _("Level failed to save."));
+      MenuManager::instance().set_notification(std::move(notif));
+    }
   );
   save_button->set_help_text(_("Save level"));
-
-  m_save_widget = save_button.get();
-
   m_widgets.insert(m_widgets.begin() + 4, std::move(save_button));
   
   auto mode_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
@@ -207,7 +195,6 @@ Editor::Editor() :
     }
   );
   mode_button->set_help_text(_("Toggle between object and tile mode"));
-
   m_widgets.insert(m_widgets.begin() + 5, std::move(mode_button));
 
   auto mouse_select_button = std::make_unique<EditorToolbarButtonWidget>(
