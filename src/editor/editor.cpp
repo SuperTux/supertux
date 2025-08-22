@@ -578,7 +578,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   m_leveltested = true;
   if ((m_level && m_levelfile.empty()) || m_levelfile == "")
   {
-    GameManager::current()->start_level(m_level.get(), test_pos);
+    GameManager::current()->start_level(m_level.get(), test_pos, true);
     return;
   }
   
@@ -602,7 +602,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   {
     // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
     //       If not, call reactivate().
-    GameManager::current()->start_level(*current_world, backup_filename, test_pos);
+    GameManager::current()->start_level(*current_world, backup_filename, test_pos, true);
   }
   else if (!GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos))
   {
