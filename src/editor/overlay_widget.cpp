@@ -1650,6 +1650,12 @@ EditorOverlayWidget::draw(DrawingContext& context)
       context.color().draw_text(Resources::normal_font, m_warning_text, Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::warning_color);
   }
 
+  Vector hint_pos(32, 16);
+  if (g_config->editor_show_toolbar_widgets || m_editor.get_properties_panel_visible())
+    hint_pos.y += 32.f;
+  // TODO calculate width of rect
+  if (m_editor.get_properties_panel_visible())
+    hint_pos.x += 200.f;
   if (g_config->editor_autotile_help)
   {
     if (m_autotile_mode)
@@ -1659,29 +1665,29 @@ EditorOverlayWidget::draw(DrawingContext& context)
       {
         if (autotileset)
         {
-          context.color().draw_text(Resources::normal_font, fmt::format(fmt::runtime(_("Autotile erasing mode is on (\"{}\")")), autotileset->get_name()) + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
+          context.color().draw_text(Resources::normal_font, fmt::format(fmt::runtime(_("Autotile erasing mode is on (\"{}\")")), autotileset->get_name()) + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
         }
         else
         {
-          context.color().draw_text(Resources::normal_font, _("Autotile erasing cannot be performed here"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
+          context.color().draw_text(Resources::normal_font, _("Autotile erasing cannot be performed here"), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
         }
       }
       else if (autotileset)
       {
-        context.color().draw_text(Resources::normal_font, fmt::format(fmt::runtime(_("Autotile mode is on (\"{}\")")), autotileset->get_name()) + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
+        context.color().draw_text(Resources::normal_font, fmt::format(fmt::runtime(_("Autotile mode is on (\"{}\")")), autotileset->get_name()) + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
       }
       else
       {
-        context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
+        context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
       }
     }
     else if (m_editor.get_tiles()->pos(0, 0) == 0)
     {
-      context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing") + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
+      context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing") + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
     }
     else
     {
-      context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile") + " " + get_autotileset_key_range(), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
+      context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile") + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
     }
   }
 }

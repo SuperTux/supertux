@@ -166,6 +166,8 @@ public:
   void update_properties_panel(GameObject* object) {
     m_overlay_widget->update_properties_panel(object);
   }
+  
+  bool get_properties_panel_visible();
 
   void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
 

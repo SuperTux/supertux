@@ -323,7 +323,7 @@ Editor::draw(Compositor& compositor)
 	m_overlay_widget->draw_tilemap_outer_shading(context);
 	m_overlay_widget->draw_tilemap_border(context);
     
-	if (!m_controls.empty() && g_config->editor_show_properties_sidebar)
+	if (get_properties_panel_visible())
 	{
 	  context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
 										 Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
@@ -1473,6 +1473,12 @@ Editor::pack_addon()
   info.end_list("supertux-addoninfo");
 
   *zip.Add_File(id + ".nfo") << ss.rdbuf();
+}
+
+bool
+Editor::get_properties_panel_visible()
+{
+  return !m_controls.empty() && g_config->editor_show_properties_sidebar;
 }
 
 void
