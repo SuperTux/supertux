@@ -619,6 +619,7 @@ EditorOverlayWidget::grab_object()
     if (!m_hovered_object->is_valid())
     {
       m_hovered_object = nullptr;
+      update_properties_panel(nullptr);
     }
     else
     {
@@ -648,6 +649,8 @@ EditorOverlayWidget::grab_object()
     {
       delete_markers();
     }
+
+    update_properties_panel(nullptr);
   }
 }
 
@@ -724,11 +727,6 @@ EditorOverlayWidget::update_properties_panel(GameObject* hovered_object)
         hovered_object->after_editor_set();
       });
     m_editor.add_control(option->get_text(), std::move(control), option->get_description());
-
-    //auto textbox = std::make_unique<ControlTextbox>();
-    //textbox.get()->set_rect(Rectf(0, 32, 200, 32));
-    //textbox.get()->put_text(option.get()->to_string());
-    //m_editor.addControl(text, std::move(textbox), description);
   }
 }
 
