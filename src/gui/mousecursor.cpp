@@ -24,6 +24,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "sprite/sprite.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/sdl_surface.hpp"
@@ -63,7 +64,15 @@ MouseCursor::set_cursor_action(const std::string& action)
     SDLSurfacePtr surface = SDLSurface::from_file(filename);
     m_cursors[action] = 
       std::move(std::shared_ptr<SDL_Cursor>(SDL_CreateColorCursor(surface.get(), 0, 0), &SDL_FreeCursor));
-    SDL_SetCursor(m_cursors[action].get());
+    if (m_cursors[action])
+    {
+      SDL_SetCursor(m_cursors[action].get());
+    }
+    else
+    {
+      log_warning << "Couldn't load cursor: " << SDL_GetError() << "\nRendering cursor instead.\n";
+      g_config->custom_system_cursor = false;
+    }
   }
   else
   {
@@ -99,7 +108,7 @@ MouseCursor::apply_state(MouseCursorState state)
     }
   }
 }
-s
+
 void
 MouseCursor::draw(DrawingContext& context)
 {
