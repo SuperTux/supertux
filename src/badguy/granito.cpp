@@ -16,6 +16,7 @@
 
 #include "badguy/granito.hpp"
 
+#include "object/rock.hpp"
 #include "badguy/granito_big.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
@@ -219,8 +220,62 @@ HitResponse
 Granito::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (hit.top)
-    m_col.propagate_movement(m_col.get_movement());
-
+  {
+    Rock* rock = dynamic_cast<Rock*>(&other);
+    Player* player = dynamic_cast<Player*>(&other);
+    
+    if (rock)
+    {
+      walk_speed = 0;
+      m_physic.set_velocity_x(0);
+      if (m_state == STATE_WALK)
+      {
+        m_state = STATE_STAND;
+        set_action("stand", m_dir);
+      }
+    }
+    else
+    {
+      Vector proposed_movement = m_col.get_movement();
+      Rectf granito_bbox = get_bbox(); 
+      Rectf test_bbox = granito_bbox;
+      test_bbox.move(proposed_movement);
+      bool safe_to_move = Sector::get().is_free_of_statics(test_bbox, this);
+      
+      if (safe_to_move)
+      {
+        bool has_rock_on_top = false;
+        Rectf check_area = granito_bbox;
+        check_area.set_bottom(granito_bbox.get_top() + 8.0f);
+        
+        for (Rock& obj : Sector::get().get_objects_by_type<Rock>())
+        {
+          if (check_area.overlaps(obj.get_bbox()))
+          {
+            has_rock_on_top = true;
+            break;
+          }
+        }
+        
+        if (!has_rock_on_top)
+        {
+          m_col.propagate_movement(proposed_movement);
+          if (player)
+          {
+            m_stepped_on = true;
+            if (m_state != STATE_LOOKUP && m_state != STATE_SIT)
+            {
+              m_state = STATE_LOOKUP;
+              walk_speed = 0;
+              m_physic.set_velocity_x(0);
+              set_action("lookup", m_dir);
+              m_has_waved = true;
+            }
+          }
+        }
+      }
+    }
+  }
   if (hit.bottom)
   {
     if (m_state == STATE_SIT)
