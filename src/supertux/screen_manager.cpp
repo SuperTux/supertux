@@ -642,8 +642,8 @@ void ScreenManager::loop_iter()
   // limit the draw time offset to at most one step.
   float time_offset = m_speed * speed_multiplier * std::min(elapsed_time, seconds_per_step);
 
-  if ((steps > 0 && !m_screen_stack.empty())
-      || always_draw) {
+  if (((steps > 0 && !m_screen_stack.empty())
+      || always_draw) && m_actions.empty() || m_screen_fade) {
     // Draw a frame
     Compositor compositor(m_video_system, g_config->frame_prediction ? time_offset : 0.0f);
     draw(compositor, *m_fps_statistics);
