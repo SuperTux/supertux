@@ -169,7 +169,6 @@ WorldMap::update(float dt_sec, const Controller& controller)
   if (m_really_enter_level)
   {
     m_enter_level = true;
-    m_really_enter_level = false;
   }
 
   if (m_in_level) return;

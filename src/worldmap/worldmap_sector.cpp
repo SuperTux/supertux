@@ -356,6 +356,11 @@ WorldMapSector::update(float dt_sec)
           std::string levelfile = m_parent.m_levels_path + level_->get_level_filename();
 
           auto game_session = std::make_unique<GameSession>(levelfile, m_parent.get_savegame(), &level_->get_statistics());
+          if (m_parent.m_really_enter_level)
+          {
+            game_session->skip_intro();
+            m_parent.m_really_enter_level = false;
+          }
           game_session->restart_level();
 
           // update state and savegame
