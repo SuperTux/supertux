@@ -31,8 +31,12 @@ enum ObjectOptionFlag {
       shouldn't be exposed to the user */
   OPTION_HIDDEN = (1 << 0),
 
+  /** Set if the value should be hidden in ObjectMenu, but visible
+      on the properties sidebar */
+  OPTION_VISIBLE_PROPERTIES = (1 << 1),
+
   /** Set if the text should be saved as translatable */
-  OPTION_TRANSLATABLE = (1 << 1)
+  OPTION_TRANSLATABLE = (1 << 2)
 };
 
 namespace sexp {
@@ -41,7 +45,9 @@ class Value;
 class Color;
 enum class Direction;
 class GameObject;
+class InterfaceControl;
 class Menu;
+class MovingObject;
 class Path;
 class PathObject;
 class ReaderMapping;
@@ -63,6 +69,7 @@ public:
   virtual void save(Writer& writer) const = 0;
   virtual std::string to_string() const = 0;
   virtual void add_to_menu(Menu& menu) const = 0;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const = 0;
 
   std::string save() const;
 
@@ -120,6 +127,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   const std::optional<bool> m_default_value;
@@ -140,6 +148,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   const std::optional<int> m_default_value;
@@ -159,6 +168,7 @@ public:
   virtual void save(Writer& writer) const override {}
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   LabelObjectOption(const LabelObjectOption&) = delete;
@@ -176,6 +186,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   const std::optional<float> m_default_value;
@@ -196,6 +207,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   std::optional<std::string> m_default_value;
@@ -216,6 +228,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   std::optional<std::string> m_default_value;
@@ -236,6 +249,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   const std::vector<std::string> m_select;
@@ -259,6 +273,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
   const std::vector<std::string>& get_labels() const { return m_labels; }
   const std::vector<std::string>& get_symbols() const { return m_symbols; }
@@ -284,6 +299,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   ScriptObjectOption(const ScriptObjectOption&) = delete;
@@ -305,6 +321,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   std::optional<std::string> m_default_value;
@@ -328,6 +345,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   const std::optional<Color> m_default_value;
@@ -349,6 +367,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   uint8_t m_get_objects_param;
@@ -369,6 +388,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
   virtual void save_state() override;
   virtual void parse_state(const ReaderMapping& reader) override;
@@ -404,6 +424,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   PathObjectOption(const PathObjectOption&) = delete;
@@ -420,6 +441,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   std::string m_path_ref;
@@ -438,6 +460,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   SExpObjectOption(const SExpObjectOption&) = delete;
@@ -454,6 +477,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   PathWalker::Handle& m_target;
@@ -472,21 +496,23 @@ public:
   virtual void save(Writer& writer) const override {}
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   RemoveObjectOption(const RemoveObjectOption&) = delete;
   RemoveObjectOption& operator=(const RemoveObjectOption&) = delete;
 };
 
-class TestFromHereOption final : public ObjectOption<>
+class TestFromHereOption final : public ObjectOption<const MovingObject>
 {
 public:
-  TestFromHereOption();
+  TestFromHereOption(const MovingObject* object_ptr);
 
   virtual void parse(const ReaderMapping& reader) override {}
   virtual void save(Writer& writer) const override {}
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   TestFromHereOption(const TestFromHereOption&) = delete;
@@ -502,6 +528,7 @@ public:
   virtual void save(Writer& writer) const override {}
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   ParticleEditorOption(const ParticleEditorOption&) = delete;
@@ -517,6 +544,7 @@ public:
   virtual void save(Writer& writer) const override {}
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   std::function<void()> m_callback;
@@ -535,6 +563,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override { return "text-area"; }
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   std::vector<std::string>& m_items;
@@ -553,6 +582,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override { return *m_value_pointer; }
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
 
 private:
   const std::vector<std::string>& m_items;
@@ -573,6 +603,7 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+  virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
   
   const std::vector<Direction>& get_possible_directions() const
   {

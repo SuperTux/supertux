@@ -17,10 +17,17 @@
 #include "interface/control.hpp"
 
 InterfaceControl::InterfaceControl() :
-  m_on_change(),
+  m_on_change_callbacks(),
   m_label(),
   m_has_focus(),
   m_rect(),
   m_parent(nullptr)
 {
+}
+
+void
+InterfaceControl::call_on_change_callbacks() const
+{
+  for (const auto& on_change : m_on_change_callbacks)
+    on_change();
 }
