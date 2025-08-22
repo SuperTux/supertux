@@ -107,14 +107,14 @@ ControlEnum<T>::draw(DrawingContext& context)
     label = "<invalid>";
   }
 
-  context.color().draw_text(Resources::control_font,
+  context.color().draw_text(Resources::small_font,
                             label,
                             Vector(m_rect.get_left() + 5.f,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
-                                    Resources::control_font->get_height() / 2),
+                                    Resources::small_font->get_height() / 2),
                             FontAlignment::ALIGN_LEFT,
                             LAYER_GUI + 1,
-                            Color::BLACK);
+                            Color::WHITE);
   int i = 0;
   if (m_open_list) {
     for (const auto& option : m_options) {
@@ -132,15 +132,15 @@ ControlEnum<T>::draw(DrawingContext& context)
 
       std::string label2 = option.second;
 
-      context.color().draw_text(Resources::control_font,
+      context.color().draw_text(Resources::small_font,
                                 label2,
                                 Vector(m_rect.get_left() + 5.f,
                                        (m_rect.get_top() + m_rect.get_bottom()) / 2 -
-                                        Resources::control_font->get_height() / 2 +
+                                        Resources::small_font->get_height() / 2 +
                                         m_rect.get_height() * float(i)),
                                 FontAlignment::ALIGN_LEFT,
                                 LAYER_GUI + 6,
-                                Color::BLACK);
+                                Color::WHITE);
     }
   }
 }

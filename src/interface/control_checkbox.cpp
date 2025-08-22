@@ -35,13 +35,13 @@ ControlCheckbox::draw(DrawingContext& context)
                                    m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f) : Color(0.5f, 0.5f, 0.5f, 1.f),
                                    LAYER_GUI);
   if (*m_value) {
-    context.color().draw_text(Resources::control_font,
+    context.color().draw_text(Resources::small_font,
                               "X",
                               Vector((m_rect.get_left() + m_rect.get_right()) / 2 + 1.f,
-                                     (m_rect.get_top() + m_rect.get_bottom()) / 2 - Resources::control_font->get_height() / 2),
+                                     (m_rect.get_top() + m_rect.get_bottom()) / 2 - Resources::small_font->get_height() / 2),
                               FontAlignment::ALIGN_CENTER,
                               LAYER_GUI,
-                              Color::BLACK);
+                              Color::WHITE);
   }
 }
 

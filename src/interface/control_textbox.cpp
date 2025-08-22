@@ -84,13 +84,13 @@ ControlTextbox::draw(DrawingContext& context)
                                    LAYER_GUI);
 
   if (m_caret_pos != m_secondary_caret_pos) {
-    float lgt1 = Resources::control_font
+    float lgt1 = Resources::small_font
                  ->get_text_width(get_first_chars_visible(std::max(
                                 std::min(m_caret_pos, m_secondary_caret_pos) - m_current_offset,
                                 0
                                 )));
 
-    float lgt2 = Resources::control_font
+    float lgt2 = Resources::small_font
                  ->get_text_width(get_first_chars_visible(std::min(
                                  std::max(m_caret_pos, m_secondary_caret_pos) - m_current_offset,
                                  int(get_contents_visible().size())
@@ -104,21 +104,21 @@ ControlTextbox::draw(DrawingContext& context)
                                      LAYER_GUI);
   }
 
-  context.color().draw_text(Resources::control_font,
+  context.color().draw_text(Resources::small_font,
                             get_contents_visible(),
                             Vector(m_rect.get_left() + 5.f,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
-                                    Resources::control_font->get_height() / 2),
+                                    Resources::small_font->get_height() / 2),
                             FontAlignment::ALIGN_LEFT,
                             LAYER_GUI + 1,
-                            Color::BLACK);
+                            Color::WHITE);
   if (m_cursor_timer > 0 && m_has_focus) {
-    float lgt = Resources::control_font
+    float lgt = Resources::small_font
                                 ->get_text_width(get_first_chars_visible(m_caret_pos - m_current_offset));
 
     context.color().draw_line(m_rect.p1() + Vector(lgt + 5.f, 2.f),
                               m_rect.p1() + Vector(lgt + 5.f,
-                                  Resources::control_font->get_height() + 4.f),
+                                  Resources::small_font->get_height() + 4.f),
                               Color::BLACK,
                               LAYER_GUI + 1);
   }
@@ -413,7 +413,7 @@ ControlTextbox::get_text_position(const Vector& pos) const
   float dist = pos.x - m_rect.get_left();
   int i = 0;
 
-  while (Resources::control_font->get_text_width(get_first_chars_visible(i)) < dist
+  while (Resources::small_font->get_text_width(get_first_chars_visible(i)) < dist
          && i <= int(m_charlist.size()))
     i++;
 
@@ -435,7 +435,7 @@ ControlTextbox::get_truncated_text(const std::string& text) const
 bool
 ControlTextbox::fits(const std::string& text) const
 {
-  return Resources::control_font->get_text_width(text) <= m_rect.get_width() - 10.f;
+  return Resources::small_font->get_text_width(text) <= m_rect.get_width() - 10.f;
 }
 
 void
