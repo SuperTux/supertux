@@ -71,6 +71,7 @@ private:
   int m_x, m_y;
   bool m_mobile_mode;
   SurfacePtr m_icon;
+  bool m_custom_cursor_last;
   
   std::unordered_map<std::string, std::shared_ptr<SDL_Cursor>> m_cursors;
 

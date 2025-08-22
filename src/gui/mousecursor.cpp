@@ -20,6 +20,7 @@
 #include <SDL_error.h>
 #include <SDL_events.h>
 #include <SDL_mouse.h>
+#include <memory>
 
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -38,6 +39,7 @@ MouseCursor::MouseCursor(SpritePtr sprite) :
   m_state(MouseCursorState::NORMAL),
   m_applied_state(MouseCursorState::HIDE),
   m_sprite(std::move(sprite)),
+  m_custom_cursor_last(false),
   m_cursors(),
   m_x(),
   m_y(),
@@ -112,7 +114,19 @@ MouseCursor::apply_state(MouseCursorState state)
 void
 MouseCursor::draw(DrawingContext& context)
 {
-  if (!g_config->custom_mouse_cursor) return;
+  if (!g_config->custom_mouse_cursor)
+  {
+    if (m_custom_cursor_last)
+    {
+      SDL_Cursor* default_cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+      if (default_cursor)
+        SDL_SetCursor(default_cursor);
+      SDL_FreeCursor(default_cursor);
+      m_custom_cursor_last = false;
+    }
+    return;
+  }
+  
   if (m_state != MouseCursorState::HIDE)
   {
     int x, y;
@@ -150,4 +164,6 @@ MouseCursor::draw(DrawingContext& context)
                                    LAYER_GUI + 100);
     }
   }
+  
+  m_custom_cursor_last = g_config->custom_mouse_cursor;
 }
