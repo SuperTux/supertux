@@ -33,6 +33,7 @@ public:
   {
   }
 
+
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
@@ -43,12 +44,13 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
 
+  void set_position(const Vector& pos);
   void set_sprite(const std::string& path);
   void set_sprite(SpritePtr sprite);
 
   void set_help_text(const std::string& help_text);
 
-private:
+protected:
   SpritePtr m_sprite;
   Rectf m_rect;
   bool m_grab;
@@ -79,6 +81,15 @@ public:
     m_object_mode_visible(true),
     m_visible(true)
   {
+  }
+  
+  EditorToolbarButtonWidget(const std::string& path, std::function<void()> callback = {}, std::string help_text = "", std::optional<Sizef> sprite_size = std::nullopt) :
+    ButtonWidget(SpriteManager::current()->create(path), Vector(0,0), std::move(callback), std::move(sprite_size)),
+    m_tile_mode_visible(true),
+    m_object_mode_visible(true),
+    m_visible(true)
+  {
+    set_help_text(help_text);
   }
 
   virtual void draw(DrawingContext& context) override
