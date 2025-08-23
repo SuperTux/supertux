@@ -29,6 +29,7 @@
 #include "supertux/level.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/editor_delete_levelset_menu.hpp"
+#include "supertux/menu/editor_temp_save_as.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/sector_parser.hpp"
 #include "supertux/world.hpp"
@@ -36,8 +37,9 @@
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
-EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
-  m_contrib_worlds()
+EditorLevelsetSelectMenu::EditorLevelsetSelectMenu(bool save_as) :
+  m_contrib_worlds(),
+  m_save_as(save_as)
 {
   initialize();
 }
@@ -70,7 +72,7 @@ EditorLevelsetSelectMenu::initialize()
     return false;
   });
 
-  add_label(_("Choose World"));
+  add_label(_(m_save_as ? "Save level as..." : "Choose World"));
   add_hl();
 
   int i = 0;
@@ -126,9 +128,18 @@ EditorLevelsetSelectMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() >= 0)
   {
-    std::unique_ptr<Menu> menu = std::unique_ptr<Menu>(new EditorLevelSelectMenu(
-                                 World::from_directory(m_contrib_worlds[item.get_id()]), this));
-    MenuManager::instance().push_menu(std::move(menu));
+    if (m_save_as)
+    {
+      std::unique_ptr<Menu> menu = std::make_unique<EditorTempSaveAs>(
+                                   World::from_directory(m_contrib_worlds[item.get_id()]));
+      MenuManager::instance().push_menu(std::move(menu));
+    }
+    else
+    {
+      std::unique_ptr<Menu> menu = std::unique_ptr<Menu>(new EditorLevelSelectMenu(
+                                   World::from_directory(m_contrib_worlds[item.get_id()]), this));
+      MenuManager::instance().push_menu(std::move(menu));
+    }
   }
   else if (item.get_id() == -3)
   {
