@@ -168,34 +168,34 @@ EditorMenu::menu_action(MenuItem& item)
     {
       auto dialog = std::make_unique<Dialog>();
       auto help_dialog_text =
-        _("Keyboard Shortcuts:") + "\n" +
-          "---------------------" + "\n" +
-        _("Esc = Open Menu") + "\n" +
-        _("Ctrl+S = Save") + "\n" +
-        _("Ctrl+T = Test") + "\n" +
-        _("Ctrl+Z = Undo") + "\n" +
-        _("Ctrl+Y = Redo") + "\n" +
-        _("F5 = Toggle Autotiling") + "\n" +
-        _("F6 = Render Light") + "\n" +
-        _("F7 = Grid Snapping") + "\n" +
-        _("F8 = Show Grid") + "\n" +
-        _("Ctrl++ or Ctrl+Scroll Up = Zoom In") + "\n" +
-        _("Ctrl+- or Ctrl+Scroll Down = Zoom Out") + "\n" +
-        _("Ctrl+D = Reset Zoom") + "\n\n" +
-        _("Scripting Shortcuts:") + "\n" +
-           "-------------" + "\n" +
+        _("Keyboard Shortcuts") + ":\n" +
+        "Esc = " + _("Open Menu") + "\n" +
+        "Ctrl+S = " + _("Save") + "\n" +
+        "Ctrl+T = " + _("Test") + "\n" +
+        "Ctrl+Shift+T = " + _("Test at Cursor") + "\n" +
+        "Ctrl+Z = " + _("Undo") + "\n" +
+        "Ctrl+Y = " + _("Redo") + "\n" +
+        "F5 = " + _("Toggle Autotiling") + "\n" +
+        "F6 = " + _("Render Light") + "\n" +
+        "F7 = " + _("Grid Snapping") + "\n" +
+        "F8 = " + _("Show Grid") + "\n" +
+        "Ctrl+X = " + _("Toggle Between Tileset/Objects Tool") + "\n" +
+        _("Ctrl+PLUS or Ctrl+Scroll Up = Zoom In") + "\n" +
+        _("Ctrl+MINUS or Ctrl+Scroll Down = Zoom Out") + "\n" +
+        "Ctrl+D = " + _("Reset Zoom") + "\n\n" +
+        _("Scripting Shortcuts") + ":\n" +
         _("Home = Go to beginning of line") + "\n" +
         _("End = Go to end of line") + "\n" +
         _("Left arrow = Go back in text") + "\n" +
         _("Right arrow = Go forward in text") + "\n" +
         _("Backspace = Delete in front of text cursor") + "\n" +
         _("Delete = Delete behind text cursor") + "\n" +
-        _("Ctrl+X = Cut whole line") + "\n" +
-        _("Ctrl+C = Copy whole line") + "\n" +
-        _("Ctrl+V = Paste") + "\n" +
-        _("Ctrl+D = Duplicate line") + "\n" +
-        _("Ctrl+Z = Undo") + "\n" +
-        _("Ctrl+Y = Redo");
+        "Ctrl+X = " + _("Cut whole line") + "\n" +
+        "Ctrl+C = " + _("Copy whole line") + "\n" +
+        "Ctrl+V = " + _("Paste") + "\n" +
+        "Ctrl+D = " + _("Duplicate line") + "\n" +
+        "Ctrl+Z = " + _("Undo") + "\n" +
+        "Ctrl+Y = " + _("Redo");
 
       dialog->set_text(help_dialog_text);
       dialog->add_cancel_button(_("Got it!"));
