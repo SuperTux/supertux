@@ -238,6 +238,7 @@ public:
 
   bool m_ctrl_pressed;
   bool m_shift_pressed;
+  bool m_alt_pressed;
   
   ScriptManager m_script_manager;
   
@@ -254,6 +255,7 @@ private:
   bool m_has_deprecated_tiles;
   bool m_temp_level;
 
+  std::optional<std::pair<std::string, Vector>> m_last_test_pos;
   std::vector<std::unique_ptr<Widget> > m_widgets;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
 
