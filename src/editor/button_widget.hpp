@@ -49,12 +49,16 @@ public:
   void set_sprite(SpritePtr sprite);
 
   void set_help_text(const std::string& help_text);
+  
+  inline void set_disabled(bool disabled) { m_disabled = disabled; }
+  inline bool is_disabled() { return m_disabled; }
 
 protected:
   SpritePtr m_sprite;
   Rectf m_rect;
   bool m_grab;
   bool m_hover;
+  bool m_disabled;
   std::function<void()> m_sig_click;
   Vector m_mouse_pos;
   std::string m_help_text;

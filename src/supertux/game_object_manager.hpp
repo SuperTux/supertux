@@ -334,6 +334,8 @@ private:
   void this_before_object_add(GameObject& object);
   void this_before_object_remove(GameObject& object);
 
+  void update_editor_buttons();  
+
 protected:
   /** An initial flush_game_objects() call has been initiated. */
   bool m_initialized;
