@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2025 Hyland B. <me@ow.swag.toys>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,24 +17,18 @@
 #pragma once
 
 #include "gui/menu.hpp"
+#include "supertux/menu/editor_levelset_select_menu.hpp"
 
-class EditorLevelsetSelectMenu : public Menu
+class EditorTempSaveMenu final : public EditorLevelsetSelectMenu
 {
-private:
-  std::vector<std::string> m_contrib_worlds;
-  bool m_save_as;
-
 public:
-  EditorLevelsetSelectMenu(bool save_as = false);
-  ~EditorLevelsetSelectMenu() override;
+  EditorTempSaveMenu();
+  ~EditorTempSaveMenu() override;
 
   void menu_action(MenuItem& item) override;
   void initialize();
-  void reload_menu();
-
-  inline std::vector<std::string>& get_contrib_worlds() { return m_contrib_worlds; }
 
 private:
-  EditorLevelsetSelectMenu(const EditorLevelsetSelectMenu&) = delete;
-  EditorLevelsetSelectMenu& operator=(const EditorLevelsetSelectMenu&) = delete;
+  EditorTempSaveMenu(const EditorTempSaveMenu&) = delete;
+  EditorTempSaveMenu& operator=(const EditorTempSaveMenu&) = delete;
 };

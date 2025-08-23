@@ -222,6 +222,7 @@ public:
   bool m_reactivate_request;
   bool m_deactivate_request;
   bool m_save_request;
+  bool m_save_temp_level;
   std::string m_save_request_filename;
   bool m_save_request_switch;
   bool m_test_request;
