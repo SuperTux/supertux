@@ -18,6 +18,7 @@
 #include "gui/notification.hpp"
 
 #include <fstream>
+#include <functional>
 #include <sstream>
 #include <limits>
 #include <unordered_map>
@@ -174,7 +175,18 @@ Editor::Editor() :
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
   
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 5> general_widgets = {
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 7> general_widgets = {
+    // Undo button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
+        std::bind(&Editor::undo, this),
+        _("Undo"),
+        Sizef(32.f, 32.f)),
+        
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
+        std::bind(&Editor::redo, this),
+        _("Redo"),
+        Sizef(32.f, 32.f)),
+    
     // Grid button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png",
       [this] {
@@ -211,9 +223,7 @@ Editor::Editor() :
     
     // Mode button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
-      [this] {
-	      toggle_tile_object_mode();
-      },
+      std::bind(&Editor::toggle_tile_object_mode, this),
       _("Toggle between object and tile mode")),
     
     // Mouse select button
@@ -273,16 +283,15 @@ Editor::Editor() :
   size_t i = 2;
   for (auto &widget : general_widgets)
   {
-    Vector pos(32 * (i), 0); 
+    Vector pos(32 * (i-2), 0); 
     widget->set_position(pos);
     m_widgets.insert(m_widgets.begin() + i, std::move(widget));
     ++i;
   }
   
-  size_t mode_i = i;
   for (auto &widget : tile_mode_widgets)
   {
-    Vector pos(32 * (i), 0);
+    Vector pos(32 * (i-2), 0);
     widget->set_position(pos);
     widget->set_visible_in_object_mode(false);
     widget->set_visible(false);
@@ -292,13 +301,18 @@ Editor::Editor() :
   
   for (auto &widget : object_mode_widgets)
   {
-    Vector pos(32 * (i-tile_mode_widgets.size()), 0);
+    Vector pos(32 * (i-tile_mode_widgets.size()-2), 0);
     widget->set_position(pos);
     widget->set_visible_in_tile_mode(false);
     widget->set_visible(false);
     m_widgets.insert(m_widgets.begin() + i, std::move(widget));
     ++i;
   }
+  
+  m_undo_widget = reinterpret_cast<EditorToolbarButtonWidget*>(m_widgets[2].get());
+  m_redo_widget = reinterpret_cast<EditorToolbarButtonWidget*>(m_widgets[3].get());
+  m_undo_widget->set_disabled(true);
+  m_redo_widget->set_disabled(true);
 
   // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
   //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
@@ -1442,35 +1456,8 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
 void
 Editor::retoggle_undo_tracking()
 {
-  if (g_config->editor_undo_tracking && !m_undo_widget)
-  {
-    // Add undo/redo button widgets.
-    auto undo_button_widget = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
-        Vector(0, 0), [this]{ undo(); }, Sizef(32.f, 32.f));
-    undo_button_widget->set_help_text(_("Undo"));
-    auto redo_button_widget = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
-        Vector(32, 0), [this]{ redo(); }, Sizef(32.f, 32.f));
-    redo_button_widget->set_help_text(_("Redo"));
-
-    m_undo_widget = undo_button_widget.get();
-    m_redo_widget = redo_button_widget.get();
-
-    m_widgets.insert(m_widgets.begin(), std::move(undo_button_widget));
-    m_widgets.insert(m_widgets.begin() + 1, std::move(redo_button_widget));
-  }
-  else if (!g_config->editor_undo_tracking && m_undo_widget)
-  {
-    // Remove undo/redo button widgets.
-    m_widgets.erase(std::remove_if(
-                      m_widgets.begin(), m_widgets.end(),
-                      [this](const std::unique_ptr<Widget>& widget) {
-                          const Widget* ptr = widget.get();
-                          return ptr == m_undo_widget || ptr == m_redo_widget;
-                      }), m_widgets.end());
-    m_undo_widget = nullptr;
-    m_redo_widget = nullptr;
-  }
-
+  m_undo_widget->set_disabled(true);
+  m_redo_widget->set_disabled(true);
   // Toggle undo tracking for all sectors.
   for (const auto& sector : m_level->m_sectors)
     sector->toggle_undo_tracking(g_config->editor_undo_tracking);
@@ -1501,6 +1488,20 @@ Editor::redo()
   BIND_SECTOR(*m_sector);
   m_sector->redo();
   m_layers_widget->update_current_tip();
+}
+
+void
+Editor::set_undo_disabled(bool state)
+{
+  if (m_undo_widget)
+    m_undo_widget->set_disabled(state);
+}
+
+void
+Editor::set_redo_disabled(bool state)
+{
+  if (m_redo_widget)
+    m_redo_widget->set_disabled(state);
 }
 
 IntegrationStatus

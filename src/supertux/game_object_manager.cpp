@@ -330,6 +330,7 @@ GameObjectManager::flush_game_objects()
     m_undo_stack.emplace_back(m_change_uid_generator.next(), std::move(m_pending_change_stack));
     m_redo_stack.clear();
     undo_stack_cleanup();
+    update_editor_buttons();
   }
 
   m_initialized = true;
@@ -413,6 +414,7 @@ GameObjectManager::undo_stack_cleanup()
   if (current_size > m_undo_stack_size)
     m_undo_stack.erase(m_undo_stack.begin(),
                        m_undo_stack.begin() + (current_size - m_undo_stack_size));
+  update_editor_buttons();
 }
 
 void
@@ -509,6 +511,8 @@ GameObjectManager::undo()
     m_redo_stack.push_back(std::move(change_set));
   }
   m_undo_stack.pop_back();
+
+  update_editor_buttons();  
 }
 
 void
@@ -538,6 +542,18 @@ GameObjectManager::redo()
     m_undo_stack.push_back(std::move(change_set));
   }
   m_redo_stack.pop_back();
+  
+  update_editor_buttons();
+}
+
+void
+GameObjectManager::update_editor_buttons()
+{
+  if (Editor::current())
+  {
+    Editor::current()->set_undo_disabled(m_undo_stack.empty());
+    Editor::current()->set_redo_disabled(m_redo_stack.empty());
+  }
 }
 
 void
@@ -656,6 +672,7 @@ GameObjectManager::clear_undo_stack()
   m_undo_stack.clear();
   m_redo_stack.clear();
   m_last_saved_change = UID();
+  update_editor_buttons();
 }
 
 bool
