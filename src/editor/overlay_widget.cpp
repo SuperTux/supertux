@@ -1149,11 +1149,7 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
   std::uint16_t mod = key.keysym.mod;
 
-  if (mod & KMOD_SHIFT)
-  {
-    g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
-  }
-  else if (!m_editor.m_ctrl_pressed)
+  if (!m_editor.m_ctrl_pressed)
   {
     m_autotile_mode = g_config->editor_autotile_mode;
 
@@ -1177,7 +1173,7 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
   {
     g_config->editor_render_grid = !g_config->editor_render_grid;
   }
-  else if (sym == SDLK_F7 || mod & KMOD_SHIFT)
+  else if (sym == SDLK_F7)
   {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
