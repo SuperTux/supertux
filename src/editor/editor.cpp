@@ -137,6 +137,7 @@ Editor::Editor() :
   m_particle_editor_filename(),
   m_ctrl_pressed(false),
   m_shift_pressed(false),
+  m_alt_pressed(false),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
@@ -161,7 +162,8 @@ Editor::Editor() :
   m_layers_widget_needs_refresh(false),
   m_script_manager(),
   m_on_exit_cb(nullptr),
-  m_save_temp_level(false)
+  m_save_temp_level(false),
+  m_last_test_pos(std::nullopt)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -1231,6 +1233,7 @@ Editor::event(const SDL_Event& ev)
       {
         m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
         m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
+        m_alt_pressed = ev.key.keysym.mod & KMOD_ALT;
 
         if (m_ctrl_pressed)
           m_scroll_speed = 16.0f;
@@ -1247,10 +1250,18 @@ Editor::event(const SDL_Event& ev)
           switch (ev.key.keysym.sym)
           {
             case SDLK_t:
+              if (m_shift_pressed && m_alt_pressed)
+              {
+                test_level(m_last_test_pos);
+                break;
+              }
+              
               if (m_shift_pressed)
-                test_level(std::pair<std::string, Vector>(get_sector()->get_name(), m_overlay_widget->get_sector_pos()));
+                m_last_test_pos = std::pair<std::string, Vector>(get_sector()->get_name(), m_overlay_widget->get_sector_pos());
               else
-                test_level(std::nullopt);
+                m_last_test_pos = std::nullopt;
+              
+              test_level(m_last_test_pos);
               break;
             case SDLK_s:
               save_level();
@@ -1282,6 +1293,7 @@ Editor::event(const SDL_Event& ev)
       {
         m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
         m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
+        m_alt_pressed = ev.key.keysym.mod & KMOD_ALT;
 
         if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
           m_scroll_speed = 32.0f;

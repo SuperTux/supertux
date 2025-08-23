@@ -180,6 +180,7 @@ EditorMenu::menu_action(MenuItem& item)
         "Ctrl+S = " + _("Save") + "\n" +
         "Ctrl+T = " + _("Test") + "\n" +
         "Ctrl+Shift+T = " + _("Test at Cursor") + "\n" +
+        "Ctrl+Alt+Shift+T = " + _("Test at Last Position") + "\n" +
         "Ctrl+Z = " + _("Undo") + "\n" +
         "Ctrl+Y = " + _("Redo") + "\n" +
         "F5 = " + _("Toggle Autotiling") + "\n" +
