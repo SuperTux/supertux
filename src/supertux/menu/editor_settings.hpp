@@ -20,24 +20,20 @@
 
 class World;
 
-class EditorTempSaveAs final : public Menu
+class EditorSettings final : public Menu
 {
 private:
   enum MenuIDs {
-    MNID_SAVE
+    MNID_CANCEL
   };
 
 public:
-  EditorTempSaveAs(std::unique_ptr<World> world);
-  ~EditorTempSaveAs() override;
+  EditorSettings();
+  ~EditorSettings() override;
 
   void menu_action(MenuItem& item) override;
 
 private:
-  std::unique_ptr<World> m_world;
-  std::string m_file_name;
-
-private:
-  EditorTempSaveAs(const EditorTempSaveAs&) = delete;
-  EditorTempSaveAs& operator=(const EditorTempSaveAs&) = delete;
+  EditorSettings(const EditorSettings&) = delete;
+  EditorSettings& operator=(const EditorSettings&) = delete;
 };

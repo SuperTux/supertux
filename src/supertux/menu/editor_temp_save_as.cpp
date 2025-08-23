@@ -43,7 +43,7 @@ EditorTempSaveAs::EditorTempSaveAs(std::unique_ptr<World> world) :
 
   add_hl();
   add_entry(MNID_SAVE, _("Save"));
-  add_entry(MNID_CANCEL, _("Cancel"));
+  add_back(_("Cancel"));
   
   std::string dir;
   int num = 0;
@@ -92,10 +92,6 @@ EditorTempSaveAs::menu_action(MenuItem& item)
       
       MenuManager::instance().clear_menu_stack();
     }
-      break;
-
-    case MNID_CANCEL:
-      MenuManager::instance().clear_menu_stack();
       break;
 
     default:
