@@ -159,7 +159,8 @@ Editor::Editor() :
   m_mouse_pos(0.f, 0.f),
   m_layers_widget_needs_refresh(false),
   m_script_manager(),
-  m_on_exit_cb(nullptr)
+  m_on_exit_cb(nullptr),
+  m_save_temp_level(false)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -306,7 +307,8 @@ void
 Editor::level_from_nothing()
 {
 	m_level = std::make_unique<Level>(false);
-	m_level->m_name = "Supertux Level";
+	m_level->m_name = "";
+  m_level->m_license = LEVEL_DEFAULT_LICENSE;
 	m_level->m_tileset = "images/tiles.strf";
 	auto sector = SectorParser::from_nothing(*m_level);
 	sector->set_name(DEFAULT_SECTOR_NAME);
@@ -582,8 +584,19 @@ Editor::remove_autosave_file()
 bool
 Editor::save_level(const std::string& filename, bool switch_file)
 {
-  if (m_temp_level)
-    return false;
+  if (m_temp_level && !m_save_temp_level)
+  {
+    MenuManager::instance().set_menu(MenuStorage::EDITOR_TEMP_SAVE_MENU);
+    return true;
+  }
+  
+  if (m_save_temp_level)
+  {
+    m_save_temp_level = false;
+    m_temp_level = false;
+    // Implied
+    switch_file = true;
+  }
 
   auto file = !filename.empty() ? filename : m_levelfile;
 

@@ -31,6 +31,7 @@
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
+#include "supertux/menu/editor_temp_save_menu.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
@@ -146,6 +147,9 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_MENU:
       return std::make_unique<EditorMenu>();
+      
+    case EDITOR_TEMP_SAVE_MENU:
+      return std::make_unique<EditorTempSaveMenu>();
 
     case EDITOR_TILEGROUP_MENU:
       return std::make_unique<EditorTilegroupMenu>();
