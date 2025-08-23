@@ -3,7 +3,7 @@
   (name (_ "Welcome to Antarctica"))
   (author "Marek Moeckel & Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
-  (target-time 30)
+  (target-time 31)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")

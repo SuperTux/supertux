@@ -3,6 +3,7 @@
   (name (_ "Between Two Glaciers"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 350)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
@@ -883,6 +884,7 @@ Tux.deactivate();
 Tux.do_cheer();
 end_level();")
       (disable-physics #t)
+      (sprite "/images/objects/keys/key_air.sprite")
       (x 2930.667)
       (y 830)
     )
@@ -934,6 +936,10 @@ Tux.use_scripting_controller(false);")
       (name "key")
       (x 0)
       (y 960)
+    )
+    (spawnpoint
+      (x 2637.91)
+      (y 951.97)
     )
     (switch
       (z-pos 1)

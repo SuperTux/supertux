@@ -3,7 +3,7 @@
   (name (_ "The Somewhat Smaller Bath"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
-  (target-time 44)
+  (target-time 48)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")

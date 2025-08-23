@@ -3,6 +3,7 @@
   (name (_ "End of the Tunnel"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
+  (target-time 180)
   (allow-item-pocket "inherit")
   (icon "")
   (icon-locked "")
