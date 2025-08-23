@@ -49,6 +49,7 @@ EditorMenu::refresh()
 
   bool worldmap = Editor::current()->get_level()->is_worldmap();
   bool is_world = Editor::current()->get_world() != nullptr;
+  bool is_temp_level = Editor::current()->is_temp_level();
 
   add_label(_("Level Editor"));
   add_hl();
@@ -56,7 +57,8 @@ EditorMenu::refresh()
   add_entry(MNID_SAVELEVEL, worldmap ? _("Save Worldmap") : _("Save Level"));
   if (!worldmap) {
     add_entry(MNID_SAVEASLEVEL, _("Save Level as"));
-    add_entry(MNID_SAVECOPYLEVEL, _("Save Copy"));
+    if (!is_temp_level)
+      add_entry(MNID_SAVECOPYLEVEL, _("Save Copy"));
     add_entry(MNID_TESTLEVEL, _("Test Level"));
   } else {
     add_entry(MNID_TESTLEVEL, _("Test Worldmap"));
@@ -64,19 +66,24 @@ EditorMenu::refresh()
 
   add_entry(MNID_OPTIONS, _("Options"));
 
-  add_entry(MNID_PACK, _("Package Add-On"));
+  if (!is_temp_level)
+  {
+    add_entry(MNID_PACK, _("Package Add-On"));
+    add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
+  }
 
-  add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
-
-  if (is_world)
+  if (is_world && !is_temp_level)
     add_entry(MNID_LEVELSEL, _("Edit Another Level"));
 
   add_entry(MNID_LEVELSETSEL, _("Edit Another World"));
 
-  add_hl();
+  if (!is_temp_level)
+  {
+    add_hl();
 
-  add_submenu(_("Convert Tiles"), MenuStorage::EDITOR_CONVERTERS_MENU)
-    .set_help(_("Convert all tiles in the level using converters."));
+    add_submenu(_("Convert Tiles"), MenuStorage::EDITOR_CONVERTERS_MENU)
+      .set_help(_("Convert all tiles in the level using converters."));
+  }
 
   if (Editor::current()->has_deprecated_tiles())
   {

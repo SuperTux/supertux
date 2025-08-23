@@ -119,6 +119,8 @@ public:
   }
 
   std::string get_level_directory() const;
+  
+  inline bool is_temp_level() const { return m_temp_level; }
 
   void open_level_directory();
 
