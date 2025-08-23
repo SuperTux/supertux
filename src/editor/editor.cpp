@@ -174,118 +174,131 @@ Editor::Editor() :
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
   
-  auto grid_size_widget = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png",
-    Vector(64, 0),
-    [this] {
-      auto& snap_grid_size = g_config->editor_selected_snap_grid_size;
-      if (snap_grid_size == 0)
-      {
-        if(!g_config->editor_render_grid)
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 5> general_widgets = {
+    // Grid button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png",
+      [this] {
+        auto& snap_grid_size = g_config->editor_selected_snap_grid_size;
+        if (snap_grid_size == 0)
         {
-          snap_grid_size = 3;
+          if(!g_config->editor_render_grid)
+          {
+            snap_grid_size = 3;
+          }
+          g_config->editor_render_grid = !g_config->editor_render_grid;
         }
-        g_config->editor_render_grid = !g_config->editor_render_grid;
-      }
-      else
-        snap_grid_size--;
-    });
-  grid_size_widget->set_help_text(_("Change / Toggle grid size"));
-  m_widgets.insert(m_widgets.begin() + 2, std::move(grid_size_widget));
-
-  auto play_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
-    Vector(96, 0), [this] { m_test_request = true; });
-  play_button->set_help_text(_("Test level"));
-  m_widgets.insert(m_widgets.begin() + 3, std::move(play_button));
-
-  auto save_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
-    Vector(128, 0), [this] { 
-      if (save_level())
-      {
-        auto notif = std::make_unique<Notification>("save_level_notif", false, true);
-        notif->set_text(_("Level saved!"));
-        MenuManager::instance().set_notification(std::move(notif));
-      }
-    }
-  );
-  save_button->set_help_text(_("Save level"));
-  m_widgets.insert(m_widgets.begin() + 4, std::move(save_button));
+        else
+          snap_grid_size--;
+      },
+      _("Change / Toggle grid size")),
+    
+    // Play button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
+      [this] { m_test_request = true; },
+      _("Test level")),
+    
+    // Save button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
+      [this] { 
+        if (save_level())
+        {
+          auto notif = std::make_unique<Notification>("save_level_notif", false, true);
+          notif->set_text(_("Level saved!"));
+          MenuManager::instance().set_notification(std::move(notif));
+        }
+      },
+      _("Save level")),
+    
+    // Mode button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
+      [this] {
+	      toggle_tile_object_mode();
+      },
+      _("Toggle between object and tile mode")),
+    
+    // Mouse select button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", 
+      [this]() {
+        m_toolbox_widget->set_mouse_tool();
+      },
+      _("Toggle between add and remove mode"))
+  };
   
-  auto mode_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
-    Vector(160, 0), [this] {
-	  toggle_tile_object_mode();
-    }
-  );
-  mode_button->set_help_text(_("Toggle between object and tile mode"));
-  m_widgets.insert(m_widgets.begin() + 5, std::move(mode_button));
-
-  auto mouse_select_button = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/arrow.png", Vector(192, 0), [this]() {
-      m_toolbox_widget->set_mouse_tool();
-    }
-  );
-  mouse_select_button->set_help_text(_("Toggle between add and remove mode"));
-  
-  /**
-   *  ============= Tools only applicable for Tile mode =====================
-   */
-  auto select_mode_mouse_button = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/select-mode0.png", Vector(224, 0), [this] {
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets = {
+    // Select mode mouse
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode0.png",
+    [this] {
       m_toolbox_widget->set_tileselect_select_mode(0);
-    });
-  select_mode_mouse_button->set_help_text(_("Draw mode (The current tool applies to the tile under the mouse)"));
-  select_mode_mouse_button->set_visible_in_object_mode(false);
-  select_mode_mouse_button->set_visible(false);
+    },
+    _("Draw mode (The current tool applies to the tile under the mouse)")),
+    
+    // Select mode area
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode1.png",
+      [this] {
+        m_toolbox_widget->set_tileselect_select_mode(1);
+      },
+      _("Box draw mode (The current tool applies to an area / box drawn with the mouse)")),
+    
+    // Select mode fill button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode2.png",
+      [this] {
+        m_toolbox_widget->set_tileselect_select_mode(2);
+      },
+      _("Fill mode (The current tool applies to the empty area in the enclosed space that was clicked)")),
+    
+    // Select mode same button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode3.png",
+      [this] {
+        m_toolbox_widget->set_tileselect_select_mode(3);
+      },
+      _("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)")),
+  };
   
-  auto select_mode_area_button = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/select-mode1.png", Vector(256, 0), [this] {
-      m_toolbox_widget->set_tileselect_select_mode(1);
-    });
-  select_mode_area_button->set_help_text(_("Box draw mode (The current tool applies to an area / box drawn with the mouse)"));
-  select_mode_area_button->set_visible_in_object_mode(false);
-  select_mode_area_button->set_visible(false);
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 2> object_mode_widgets = {
+    // Select mode
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png",
+      [this] {
+        m_toolbox_widget->set_tileselect_move_mode(0);
+      },
+      _("Select mode (Clicking selects the object under the mouse)")),
+    
+    // Duplicate mode
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png",
+      [this] {
+        m_toolbox_widget->set_tileselect_move_mode(1);
+      },
+      _("Duplicate mode (Clicking duplicates the object under the mouse)")),
+  };
   
-  auto select_mode_fill_button = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/select-mode2.png", Vector(288, 0), [this] {
-      m_toolbox_widget->set_tileselect_select_mode(2);
-    });
-  select_mode_fill_button->set_help_text(_("Fill mode (The current tool applies to the empty area in the enclosed space that was clicked)"));
-  select_mode_fill_button->set_visible_in_object_mode(false);
-  select_mode_fill_button->set_visible(false);
+  size_t i = 2;
+  for (auto &widget : general_widgets)
+  {
+    Vector pos(32 * (i), 0); 
+    widget->set_position(pos);
+    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    ++i;
+  }
   
-  auto select_mode_same_button = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
-      m_toolbox_widget->set_tileselect_select_mode(3);
-    });
-  select_mode_same_button->set_help_text(_("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)"));
-  select_mode_same_button->set_visible_in_object_mode(false);
-  select_mode_same_button->set_visible(false);
-
-  /**
-   *  ============= Tile tools end / Object tools begin =====================
-   */
-  auto select_mode = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/move-mode0.png", Vector(224, 0), [this] {
-      m_toolbox_widget->set_tileselect_move_mode(0);
-  });
-  select_mode->set_help_text(_("Select mode (Clicking selects the object under the mouse)"));
-  select_mode->set_visible_in_tile_mode(false);
-  select_mode->set_visible(false);
-
-  auto duplicate_mode = std::make_unique<EditorToolbarButtonWidget>(
-    "images/engine/editor/move-mode1.png", Vector(256, 0), [this] {
-      m_toolbox_widget->set_tileselect_move_mode(1);
-  });
-  duplicate_mode->set_help_text(_("Duplicate mode (Clicking duplicates the object under the mouse)"));
-  duplicate_mode->set_visible_in_tile_mode(false);
-  duplicate_mode->set_visible(false);
-
-  m_widgets.insert(m_widgets.begin() + 6, std::move(mouse_select_button));
-  m_widgets.insert(m_widgets.begin() + 7, std::move(select_mode_mouse_button));
-  m_widgets.insert(m_widgets.begin() + 8, std::move(select_mode_area_button));
-  m_widgets.insert(m_widgets.begin() + 9, std::move(select_mode_fill_button));
-  m_widgets.insert(m_widgets.begin() + 10, std::move(select_mode_same_button));
-  m_widgets.insert(m_widgets.begin() + 11, std::move(select_mode));
-  m_widgets.insert(m_widgets.begin() + 12, std::move(duplicate_mode));
+  size_t mode_i = i;
+  for (auto &widget : tile_mode_widgets)
+  {
+    Vector pos(32 * (i), 0);
+    widget->set_position(pos);
+    widget->set_visible_in_object_mode(false);
+    widget->set_visible(false);
+    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    ++i;
+  }
+  
+  for (auto &widget : object_mode_widgets)
+  {
+    Vector pos(32 * (i-tile_mode_widgets.size()), 0);
+    widget->set_position(pos);
+    widget->set_visible_in_tile_mode(false);
+    widget->set_visible(false);
+    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    ++i;
+  }
 
   // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
   //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
