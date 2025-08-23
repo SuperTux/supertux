@@ -538,6 +538,7 @@ Editor::update(float dt_sec, const Controller& controller)
   if (m_test_request) {
     m_test_request = false;
     MouseCursor::current()->set_icon(nullptr);
+    m_last_test_pos = m_test_pos;
     test_level(m_test_pos);
     return;
   }
