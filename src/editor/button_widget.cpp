@@ -56,7 +56,6 @@ ButtonWidget::draw(DrawingContext& context)
   context.color().draw_filled_rect(m_rect, Color(0.0f, 0.0f, 0.0f, 0.6f), 4.0f,
                                    LAYER_GUI-5);
 
-                                   std::cout << m_disabled << std::endl;
   if (m_sprite) {
     if (m_disabled) context.set_alpha(0.4);
     m_sprite->draw_scaled(context.color(), m_rect.grown(-4.0f), LAYER_GUI - 5);
@@ -94,7 +93,8 @@ bool
 ButtonWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (button.button != SDL_BUTTON_LEFT) return false;
-  if (m_disabled) return true;
+  // XXX: these shouldn't pass through
+  if (m_disabled) return false;
   
   m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
 
@@ -116,6 +116,8 @@ bool
 ButtonWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (button.button != SDL_BUTTON_LEFT || m_disabled) return false;
+  // XXX: these shouldn't pass through
+  if (m_disabled) return false;
 
   m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
 
