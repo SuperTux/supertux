@@ -53,8 +53,12 @@ GameMenu::GameMenu() :
 {
   Level& level = GameSession::current()->get_current_level();
 
-  add_label(level.m_name);
-  add_hl();
+  if (!level.get_name().empty())
+  {
+    add_label(level.get_name());
+    add_hl();
+  }
+  
   add_entry(MNID_CONTINUE, _("Continue"));
   add_entry(MNID_RESETLEVEL, _("Restart Level"));
 
