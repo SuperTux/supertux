@@ -38,6 +38,18 @@ ButtonWidget::ButtonWidget(SpritePtr sprite, const Vector& pos,
 }
 
 void
+ButtonWidget::set_position(const Vector& pos)
+{
+  float w = m_rect.get_width(),
+        h = m_rect.get_height();
+  
+  m_rect.set_left(pos.x);
+  m_rect.set_width(w);
+  m_rect.set_top(pos.y);
+  m_rect.set_height(h);
+}
+
+void
 ButtonWidget::draw(DrawingContext& context)
 {
   context.color().draw_filled_rect(m_rect, Color(0.0f, 0.0f, 0.0f, 0.6f), 4.0f,
