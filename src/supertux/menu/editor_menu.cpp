@@ -64,8 +64,6 @@ EditorMenu::refresh()
 
   add_entry(MNID_OPTIONS, _("Options"));
 
-  add_entry(MNID_SHARE, _("Share Level"));
-
   add_entry(MNID_PACK, _("Package Add-On"));
 
   add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
@@ -166,15 +164,7 @@ EditorMenu::menu_action(MenuItem& item)
       MenuManager::instance().push_menu(MenuStorage::OPTIONS_MENU);
       break;
 
-    case MNID_SHARE:
-    {
-      Dialog::show_confirmation(_("We encourage you to share your levels in the SuperTux forum.\nTo find your level, click the\n\"Open Level directory\" menu item.\nDo you want to go to the forum now?"), [] {
-        FileSystem::open_url("https://groups.f-hub.org/supertux");
-      });
-    }
-    break;
-
-	case MNID_HELP:
+  	case MNID_HELP:
     {
       auto dialog = std::make_unique<Dialog>();
       auto help_dialog_text =
@@ -211,7 +201,7 @@ EditorMenu::menu_action(MenuItem& item)
       dialog->add_cancel_button(_("Got it!"));
       MenuManager::instance().set_dialog(std::move(dialog));
     }
-    break;
+      break;
 
     case MNID_LEVELSEL:
       editor->check_unsaved_changes([] {
