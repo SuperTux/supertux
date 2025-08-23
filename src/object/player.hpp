@@ -86,6 +86,7 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void collision_tile(uint32_t tile_attributes) override;
+  virtual void update_hitbox() override;
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return false; }

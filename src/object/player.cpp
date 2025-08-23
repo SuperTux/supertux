@@ -2329,6 +2329,14 @@ Player::collision_tile(uint32_t tile_attributes)
 }
 
 void
+Player::update_hitbox()
+{
+  // Don't use the default MovingSprite hitbox behavior
+  // because this class already has logic for that.
+  // Refer to the adjust_height method.
+}
+
+void
 Player::collision_solid(const CollisionHit& hit)
 {
   if (hit.bottom) {
