@@ -1042,8 +1042,12 @@ TileMap::convert_tiles_to_objects()
           try
           {
             GameObject& obj = get_parent()->add_object(GameObjectFactory::instance().create(tile.get_object_name(), pos, Direction::AUTO, tile.get_object_data()));
+
             if (dynamic_cast<MovingObject*>(&obj))
               m_converted_objects.push_back(obj.get_uid());
+
+            if (auto* moving_sprite = dynamic_cast<MovingSprite*>(&obj))
+              moving_sprite->set_layer(tm.get_layer());
 
             m_tiles[y*m_width + x] = 0;
           }
