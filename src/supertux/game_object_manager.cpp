@@ -414,7 +414,6 @@ GameObjectManager::undo_stack_cleanup()
   if (current_size > m_undo_stack_size)
     m_undo_stack.erase(m_undo_stack.begin(),
                        m_undo_stack.begin() + (current_size - m_undo_stack_size));
-  update_editor_buttons();
 }
 
 void
@@ -672,7 +671,6 @@ GameObjectManager::clear_undo_stack()
   m_undo_stack.clear();
   m_redo_stack.clear();
   m_last_saved_change = UID();
-  update_editor_buttons();
 }
 
 bool
