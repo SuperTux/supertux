@@ -199,10 +199,12 @@ Editor::Editor() :
 
   auto save_button = std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
     Vector(128, 0), [this] { 
-      bool saved = save_level();
-      auto notif = std::make_unique<Notification>("save_level_notif", false, true);
-      notif->set_text(saved ? _("Level saved!") : _("Level failed to save."));
-      MenuManager::instance().set_notification(std::move(notif));
+      if (save_level())
+      {
+        auto notif = std::make_unique<Notification>("save_level_notif", false, true);
+        notif->set_text(_("Level saved!"));
+        MenuManager::instance().set_notification(std::move(notif));
+      }
     }
   );
   save_button->set_help_text(_("Save level"));
@@ -587,7 +589,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
   if (m_temp_level && !m_save_temp_level)
   {
     MenuManager::instance().set_menu(MenuStorage::EDITOR_TEMP_SAVE_MENU);
-    return true;
+    return false;
   }
   
   if (m_save_temp_level)

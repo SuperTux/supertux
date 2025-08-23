@@ -20,6 +20,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/notification.hpp"
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -84,6 +85,11 @@ EditorTempSaveAs::menu_action(MenuItem& item)
       editor->m_save_temp_level = true;
       
       editor->set_world(std::move(std::unique_ptr<World>(m_world.release())));
+      
+      auto notif = std::make_unique<Notification>("create_level_notif", false, true);
+      notif->set_text(_("Level created!"));
+      MenuManager::instance().set_notification(std::move(notif));
+      
       MenuManager::instance().clear_menu_stack();
     }
       break;
