@@ -24,12 +24,14 @@ namespace
 {
   static constexpr float DEFAULT_TRACK_RANGE = 2500.f;
   static constexpr float RESPAWN_TIME = 4.f;
-  static constexpr float DOWN_VELOCITY = 89.25f;
-  static constexpr float UP_VELOCITY = -217.6f;
-  static constexpr float UP_ACCELERATION = 217.6f;
-  static constexpr float HORZ_SPEED = 89.25f;
-  static constexpr float HORZ_ACCELERATION = 193.8f;
-  static constexpr float HORZ_TRUST_MULTIPLIER = 3.825f;
+
+  static constexpr float DOWN_VELOCITY = 40.f;
+  static constexpr float UP_VELOCITY = -150.f;
+  static constexpr float UP_ACCELERATION = 150.f;
+  static constexpr float HORZ_SPEED = 60.f;
+  static constexpr float HORZ_ACCELERATION = 190.f;
+  static constexpr float HORZ_TRUST_MULTIPLIER = 3.f;
+
   static constexpr float VERT_OFFSET = 48.f;
 }
 
