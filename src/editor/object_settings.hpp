@@ -26,6 +26,7 @@
 class Color;
 enum class Direction;
 class GameObject;
+class MovingObject;
 class PathObject;
 class ReaderMapping;
 enum class WalkMode;
@@ -44,6 +45,7 @@ class ObjectSettings final
 public:
   ObjectSettings(const std::string& name);
   ObjectSettings(ObjectSettings&& other);
+  ObjectSettings(ObjectSettings* obj);
 
   ObjectSettings& operator=(ObjectSettings&&) = default;
 
@@ -151,14 +153,11 @@ public:
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
   void add_string_array(const std::string& text, const std::string& key, std::vector<std::string>& items);
-  void add_test_from_here();
+  void add_test_from_here(const MovingObject* object_ptr);
   void add_particle_editor();
   void add_path_handle(const std::string& text, PathWalker::Handle& handle,
                        const std::string& key = {}, unsigned int flags = 0);
   void add_list(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
-
-  // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
-  void add_button(const std::string& text, const std::function<void()>& callback);
 
   inline const std::vector<std::unique_ptr<BaseObjectOption>>& get_options() const { return m_options; }
 

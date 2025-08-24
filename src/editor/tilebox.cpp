@@ -36,6 +36,8 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_rect(rect),
   m_tiles(new TileSelection()),
   m_object(),
+  m_tilegroup_id(0),
+  m_objectgroup_id(0),
   m_object_tip(new Tip()),
   m_input_type(InputType::NONE),
   m_active_tilegroup(),
@@ -160,6 +162,7 @@ EditorTilebox::selection_draw_rect() const
   if (select.get_top() < m_rect.get_top()) // Do not go outside toolbox
     select.set_top(m_rect.get_top());
 
+  Editor::current()->m_tilebox_something_selected = true;
   return select;
 }
 
@@ -373,16 +376,68 @@ void
 EditorTilebox::select_tilegroup(int id)
 {
   m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
+  m_tilegroup_id = id;
   m_input_type = InputType::TILE;
   reset_scrollbar();
+}
+
+void
+EditorTilebox::select_last_tilegroup()
+{
+  select_tilegroup(get_tilegroup_id());
 }
 
 void
 EditorTilebox::select_objectgroup(int id)
 {
   m_active_objectgroup = &m_object_info->m_groups[id];
+  m_objectgroup_id = id;
   m_input_type = InputType::OBJECT;
   reset_scrollbar();
+}
+
+void
+EditorTilebox::select_last_objectgroup()
+{
+  select_objectgroup(m_objectgroup_id);
+}
+
+void
+EditorTilebox::change_tilegroup(int dir)
+{
+  if (m_input_type == InputType::OBJECT)
+  {
+    select_last_tilegroup();
+	return;
+  }
+  
+  m_tilegroup_id += dir;
+  size_t tilegroups_size = m_editor.get_tileset()->get_tilegroups().size();
+  if (m_tilegroup_id < 0)
+  	m_tilegroup_id = tilegroups_size - 1;
+  else if (m_tilegroup_id > tilegroups_size - 1)
+    m_tilegroup_id = 0;
+
+  select_last_tilegroup();
+}
+
+void
+EditorTilebox::change_objectgroup(int dir)
+{
+  if (m_input_type == InputType::TILE)
+  {
+    select_last_objectgroup();
+	return;
+  }
+  
+  m_objectgroup_id += dir;
+  size_t objectgroups_size = m_object_info->m_groups.size();
+  if (m_objectgroup_id < 0)
+  	m_objectgroup_id = objectgroups_size - 1;
+  else if (m_objectgroup_id > objectgroups_size - 1)
+    m_objectgroup_id = 0;
+
+  select_last_objectgroup();
 }
 
 bool

@@ -110,6 +110,8 @@ Config::Config() :
   editor_undo_tracking(true),
   editor_undo_stack_size(20),
   editor_show_deprecated_tiles(false),
+  editor_show_properties_sidebar(true),
+  editor_show_toolbar_widgets(true),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
@@ -120,7 +122,8 @@ Config::Config() :
   // and those with an older SDL; they won't have to check the setting each time.
   multiplayer_buzz_controllers(false),
 #endif
-  repository_url()
+  repository_url(),
+  preferred_text_editor()
 {
 }
 
@@ -247,6 +250,8 @@ Config::load()
       editor_undo_stack_size = 1;
     }
     editor_mapping->get("show_deprecated_tiles", editor_show_deprecated_tiles);
+    editor_mapping->get("show_properties_sidebar", editor_show_properties_sidebar);
+    editor_mapping->get("show_toolbar_widgets", editor_show_toolbar_widgets);
   }
 
   if (is_christmas()) {
@@ -260,6 +265,7 @@ Config::load()
   config_mapping.get("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   config_mapping.get("multiplayer_multibind", multiplayer_multibind);
   config_mapping.get("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  config_mapping.get("preferred_text_editor", preferred_text_editor);
 
   std::optional<ReaderMapping> config_video_mapping;
   if (config_mapping.get("video", config_video_mapping))
@@ -410,6 +416,7 @@ Config::save()
   writer.write("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   writer.write("multiplayer_multibind", multiplayer_multibind);
   writer.write("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  writer.write("preferred_text_editor", preferred_text_editor);
 
   writer.start_list("interface_colors");
   writer.write("menubackcolor", menubackcolor.toVector());
@@ -504,6 +511,8 @@ Config::save()
     writer.write("undo_tracking", editor_undo_tracking);
     writer.write("undo_stack_size", editor_undo_stack_size);
     writer.write("show_deprecated_tiles", editor_show_deprecated_tiles);
+    writer.write("show_properties_sidebar", editor_show_properties_sidebar);
+    writer.write("show_toolbar_widgets", editor_show_toolbar_widgets);
   }
   writer.end_list("editor");
 

@@ -22,6 +22,7 @@
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
+#include "gui/menu.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -124,6 +125,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
+		  MenuManager::instance().current_menu()->set_item(m_tilebox->get_tilegroup_id());
         }
         else
         {
@@ -137,6 +139,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
+		  MenuManager::instance().current_menu()->set_item(m_tilebox->get_objectgroup_id());
         }
         else
         {
@@ -151,10 +154,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         switch (m_hovered_tool)
         {
           case 0:
-            m_tilebox->get_tiles()->set_tile(0);
-            m_tilebox->set_object("");
-            m_editor.update_autotileset();
-            update_mouse_icon();
+            set_rubber_tool();
             break;
 
           case 1:
@@ -181,8 +181,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
              break;
 
            case 3:
-             m_tilebox->set_object("#move");
-             update_mouse_icon();
+             set_mouse_tool();
              break;
 
           default:
@@ -198,6 +197,22 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   {
     return false;
   }
+}
+
+void
+EditorToolboxWidget::set_rubber_tool()
+{
+  m_tilebox->set_object("");
+  m_tilebox->get_tiles()->set_tile(0);
+  m_editor.update_autotileset();
+  update_mouse_icon();
+}
+
+void
+EditorToolboxWidget::set_mouse_tool()
+{
+  m_tilebox->set_object("#move");
+  update_mouse_icon();
 }
 
 bool
@@ -252,6 +267,37 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
+  switch (m_hovered_item)
+  {
+	case HoveredItem::TILEGROUP:
+	  if (m_editor.get_tileset()->get_tilegroups().size() > 1)
+	  {
+	    m_tilebox->change_tilegroup(wheel.y > 0 ? -1 : 1);
+	  }
+	  else
+	  {
+		select_tilegroup(0);
+	  }
+	  break;
+
+	case HoveredItem::OBJECTS:
+	  if ((m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
+		  (!m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
+	  {
+	    m_tilebox->change_objectgroup(wheel.y > 0 ? -1 : 1);
+	  }
+	  else
+	  {
+		if (m_editor.get_level()->is_worldmap())
+		  select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
+		else
+		  select_objectgroup(0);
+	  }
+	  break;
+	  
+	default:
+	  break;
+  }
   return m_tilebox->on_mouse_wheel(wheel);
 }
 
@@ -294,16 +340,42 @@ EditorToolboxWidget::select_objectgroup(int id)
   update_mouse_icon();
 }
 
+void
+EditorToolboxWidget::select_last_tilegroup()
+{
+  m_tilebox->select_last_tilegroup();
+}
+
+void
+EditorToolboxWidget::select_last_objectgroup()
+{
+  m_tilebox->select_last_objectgroup();
+}
+
 int
 EditorToolboxWidget::get_tileselect_select_mode() const
 {
   return m_select_mode->get_mode();
 }
 
+void
+EditorToolboxWidget::set_tileselect_select_mode(int mode)
+{
+  m_select_mode->set_mode(mode);
+  update_mouse_icon();
+}
+
 int
 EditorToolboxWidget::get_tileselect_move_mode() const
 {
   return m_move_mode->get_mode();
+}
+
+void
+EditorToolboxWidget::set_tileselect_move_mode(int mode)
+{
+  m_move_mode->set_mode(mode);
+  update_mouse_icon();
 }
 
 Vector

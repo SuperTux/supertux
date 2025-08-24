@@ -34,7 +34,7 @@ EditorSectorMenu::EditorSectorMenu() :
   add_label(fmt::format(fmt::runtime(_("Sector {}")), sector->get_name()));
   add_hl();
   add_textfield(_("Name"), &sector->m_name);
-  add_script(_("Initialization script"), &sector->m_init_script);
+  add_script(sector->m_name, _("Initialization script"), &sector->m_init_script);
   add_floatfield(_("Gravity"), &sector->m_gravity);
 
   add_hl();

@@ -55,6 +55,9 @@
 
 #include "supertux/error_handler.hpp"
 
+// The amount in pixels the mouse has to wiggle after scrolling before it can hover over things again.
+constexpr int MOUSE_DEADZONE_AMOUNT = 70;
+
 Menu::Menu() :
   m_pos(Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f,
                static_cast<float>(SCREEN_HEIGHT) / 2.0f)),
@@ -65,7 +68,9 @@ Menu::Menu() :
   m_menu_help_height(0.0f),
   m_items(),
   m_arrange_left(0),
-  m_active_item(-1)
+  m_active_item(-1),
+  m_mouse_deadzone(0),
+  m_can_click_when_unfocused(false)
 {
 }
 
@@ -162,9 +167,9 @@ Menu::add_textfield(const std::string& text, std::string* input, int id)
 }
 
 ItemScript&
-Menu::add_script(const std::string& text, std::string* script, int id)
+Menu::add_script(const std::string& key, const std::string& text, std::string* script, int id)
 {
-  return add_item<ItemScript>(text, script, id);
+  return add_item<ItemScript>(key, text, script, id);
 }
 
 ItemIntField&
@@ -328,6 +333,24 @@ Menu::clear()
 }
 
 void
+Menu::previous_item()
+{
+  if (m_active_item > 0)
+    --m_active_item;
+  else
+    m_active_item = m_items.size() - 1;
+}
+
+void
+Menu::next_item()
+{
+  if (m_active_item < m_items.size() - 1)
+    ++m_active_item;
+  else
+    m_active_item = 0;
+}
+
+void
 Menu::process_action(const MenuAction& action)
 {
   { // Scrolling
@@ -370,20 +393,14 @@ Menu::process_action(const MenuAction& action)
   switch (action) {
     case MenuAction::UP:
       do {
-        if (m_active_item > 0)
-          --m_active_item;
-        else
-          m_active_item = int(m_items.size())-1;
+        previous_item();
       } while (m_items[m_active_item]->skippable()
                && (m_active_item != last_active_item));
       break;
 
     case MenuAction::DOWN:
       do {
-        if (m_active_item < int(m_items.size())-1 )
-          ++m_active_item;
-        else
-          m_active_item = 0;
+        next_item();
       } while (m_items[m_active_item]->skippable()
                && (m_active_item != last_active_item));
       break;
@@ -542,6 +559,34 @@ Menu::draw(DrawingContext& context)
   }
 }
 
+void
+Menu::set_item(int index)
+{
+  if (index < 0)
+  	index = 0;
+
+  m_active_item = 0;
+  
+  // Attempt to skip all skippable items
+  do
+  {
+  	if (m_active_item > m_items.size())
+	  break;
+	  
+    if (m_items[m_active_item]->skippable())
+	{
+	  ++m_active_item;
+	  continue;
+	}
+	
+	if (index > 0)
+	  ++m_active_item;
+	
+	--index;
+  }
+  while (index >= 0);
+}
+
 MenuItem&
 Menu::get_item_by_id(int id)
 {
@@ -590,16 +635,31 @@ Menu::event(const SDL_Event& ev)
         calculate_width();
       }
     break;
+	
+	case SDL_MOUSEWHEEL:
+	{
+	  if (ev.wheel.y > 0)
+	  {
+		do { previous_item(); } while (m_items[m_active_item]->skippable());
+	  }
+	  else {
+		do { next_item(); } while (m_items[m_active_item]->skippable());
+	  }
+	  m_mouse_deadzone = MOUSE_DEADZONE_AMOUNT;
+	}
+	break;
 
     case SDL_MOUSEBUTTONDOWN:
     if (ev.button.button == SDL_BUTTON_LEFT)
     {
       Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
 
-      if (mouse_pos.x > m_pos.x - get_width() / 2.0f &&
-          mouse_pos.x < m_pos.x + get_width() / 2.0f &&
-          mouse_pos.y > m_pos.y - get_height() / 2.0f &&
-          mouse_pos.y < m_pos.y + get_height() / 2.0f)
+      if ((mouse_pos.x > m_pos.x - get_width() / 2.0f &&
+           mouse_pos.x < m_pos.x + get_width() / 2.0f &&
+           mouse_pos.y > m_pos.y - get_height() / 2.0f &&
+           mouse_pos.y < m_pos.y + get_height() / 2.0f) ||
+		  m_mouse_deadzone > 0 ||
+		  m_can_click_when_unfocused)
       {
         process_action(MenuAction::HIT);
       }
@@ -608,6 +668,15 @@ Menu::event(const SDL_Event& ev)
 
     case SDL_MOUSEMOTION:
     {
+	  if (m_mouse_deadzone > 0)
+	  {
+	  	m_mouse_deadzone -= abs(ev.motion.xrel);
+	  	m_mouse_deadzone -= abs(ev.motion.yrel);
+	  
+        if (m_mouse_deadzone < 0)
+          m_mouse_deadzone = 0;
+		return;
+	  }
       Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       float x = mouse_pos.x;
       float y = mouse_pos.y;

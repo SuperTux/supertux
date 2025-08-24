@@ -19,6 +19,8 @@
 #include <assert.h>
 #include <sexp/value.hpp>
 
+#include "editor/editor.hpp"
+#include "editor/object_option.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/color.hpp"
@@ -33,6 +35,16 @@ ObjectSettings::ObjectSettings(ObjectSettings&& other) :
   m_name(other.m_name),
   m_options(std::move(other.m_options))
 {
+}
+
+ObjectSettings::ObjectSettings(ObjectSettings* obj) :
+  m_name(obj->m_name),
+  m_options()
+{
+	// for (auto &option : obj->m_options)
+	// {
+	// 	m_options.emplace_back(std::make_unique<BaseObjectOption>(option.get()));
+	// }
 }
 
 void
@@ -56,7 +68,9 @@ ObjectSettings::add_objects(const std::string& text, std::vector<std::unique_ptr
                             uint8_t get_objects_param, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func,
                             const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<ObjectSelectObjectOption>(text, value_ptr, get_objects_param, add_object_func, key, flags));
+  auto select_option = std::make_unique<ObjectSelectObjectOption>(text, value_ptr, get_objects_param, add_object_func, key, flags);
+  select_option->set_description("Select option (should be described in more detail here)");
+  add_option(std::move(select_option));
 }
 
 void
@@ -65,7 +79,9 @@ ObjectSettings::add_color(const std::string& text, Color* value_ptr,
                           const std::optional<Color>& default_value,
                           unsigned int flags)
 {
-  add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, true, flags));
+  auto color_option = std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, true, flags);
+  color_option->set_description("Color option (should be described in more detail here)");
+  add_option(std::move(color_option));
 }
 
 void
@@ -74,7 +90,9 @@ ObjectSettings::add_rgba(const std::string& text, Color* value_ptr,
                          const std::optional<Color>& default_value,
                          unsigned int flags)
 {
-  add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, true, flags));
+  auto color_object_option = std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, true, flags);
+  color_object_option->set_description("Color option (should be described in more detail here)");
+  add_option(std::move(color_object_option));
 }
 
 void
@@ -83,7 +101,9 @@ ObjectSettings::add_rgb(const std::string& text, Color* value_ptr,
                         const std::optional<Color>& default_value,
                         unsigned int flags)
 {
-  add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, false, flags));
+  auto rgb_option = std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, false, flags);
+  rgb_option->set_description("Color option (should be described in more detail here)");
+  add_option(std::move(rgb_option));
 }
 
 void
@@ -92,7 +112,9 @@ ObjectSettings::add_bool(const std::string& text, bool* value_ptr,
                          const std::optional<bool>& default_value,
                          unsigned int flags)
 {
-  add_option(std::make_unique<BoolObjectOption>(text, value_ptr, key, default_value, flags));
+  auto bool_option = std::make_unique<BoolObjectOption>(text, value_ptr, key, default_value, flags);
+  bool_option->set_description("Bool option (should be described in more detail here)");
+  add_option(std::move(bool_option));
 }
 
 void
@@ -101,7 +123,9 @@ ObjectSettings::add_float(const std::string& text, float* value_ptr,
                           const std::optional<float>& default_value,
                           unsigned int flags)
 {
-  add_option(std::make_unique<FloatObjectOption>(text, value_ptr, key, default_value, flags));
+  auto float_option = std::make_unique<FloatObjectOption>(text, value_ptr, key, default_value, flags);
+  float_option->set_description("Float option (should be described in more detail here)");
+  add_option(std::move(float_option));
 }
 
 void
@@ -110,7 +134,9 @@ ObjectSettings::add_int(const std::string& text, int* value_ptr,
                         const std::optional<int>& default_value,
                         unsigned int flags)
 {
-  add_option(std::make_unique<IntObjectOption>(text, value_ptr, key, default_value, flags));
+  auto int_option = std::make_unique<IntObjectOption>(text, value_ptr, key, default_value, flags);
+  int_option->set_description("Int option (should be described in more detail here)");
+  add_option(std::move(int_option));
 }
 
 void
@@ -267,7 +293,7 @@ ObjectSettings::add_level(const std::string& text, std::string* value_ptr, const
                           const std::string& basedir,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, {}, {".stl"}, basedir, true, flags);
+  add_file(text, value_ptr, key, {}, {".stl"}, basedir, true, flags); 
 }
 
 void
@@ -326,9 +352,9 @@ ObjectSettings::add_string_array(const std::string& text, const std::string& key
 }
 
 void
-ObjectSettings::add_test_from_here()
+ObjectSettings::add_test_from_here(const MovingObject* object_ptr)
 {
-  add_option(std::make_unique<TestFromHereOption>());
+  add_option(std::make_unique<TestFromHereOption>(object_ptr));
 }
 
 void
@@ -345,12 +371,6 @@ ObjectSettings::add_path_handle(const std::string& text,
                                 unsigned int flags)
 {
   add_option(std::make_unique<PathHandleOption>(text, handle, key, flags));
-}
-
-void
-ObjectSettings::add_button(const std::string& text, const std::function<void()>& callback)
-{
-  add_option(std::make_unique<ButtonOption>(text, callback));
 }
 
 void

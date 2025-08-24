@@ -198,8 +198,8 @@ BicyclePlatform::get_settings()
 {
   auto result = GameObject::get_settings();
 
-  result.add_float(_("X"), &m_center.x, "x", 0.0f, OPTION_HIDDEN);
-  result.add_float(_("Y"), &m_center.y, "y", 0.0f, OPTION_HIDDEN);
+  result.add_float(_("X"), &m_center.x, "x", 0.0f, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
+  result.add_float(_("Y"), &m_center.y, "y", 0.0f, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
 
   result.add_int(_("Platforms"), &m_platforms, "platforms", 2);
   result.add_float(_("Radius"), &m_radius, "radius", 128.0f);
