@@ -35,6 +35,7 @@ EditorSectorMenu::EditorSectorMenu() :
   add_hl();
   add_textfield(_("Name"), &sector->m_name);
   add_script(_("Initialization script"), &sector->m_init_script);
+  add_toggle(0, _("Run initialization script only once"), &sector->m_init_script_run_once);
   add_floatfield(_("Gravity"), &sector->m_gravity);
 
   add_hl();
