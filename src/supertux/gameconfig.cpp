@@ -79,7 +79,7 @@ Config::Config() :
   confirmation_dialog(false),
   pause_on_focusloss(true),
   custom_mouse_cursor(true),
-  custom_system_cursor(true),
+  custom_system_cursor(false),
   do_release_check(false),
   disable_network(true),
   custom_title_levels(true),
