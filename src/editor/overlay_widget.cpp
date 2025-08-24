@@ -68,6 +68,7 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_hovered_tile(0, 0),
   m_hovered_tile_prev(0, 0),
   m_last_hovered_tile(0, 0),
+  m_last_target_pos(0, 0),
   m_sector_pos(0, 0),
   m_mouse_pos(0, 0),
   m_previous_mouse_pos(0, 0),
@@ -206,6 +207,13 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
 {
   m_editor.get_selected_tilemap()->save_state();
 
+  // Don't put tile if the position (or tile) hasn't changed
+  if (floor(m_last_target_pos.x) == floor(target_tile.x) &&
+      floor(m_last_target_pos.y) == floor(target_tile.y) &&
+      Editor::current()->m_tilebox_something_selected == false)
+  {
+    return;
+  }
   Vector add_tile(0.0f, 0.0f);
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--)
   {
@@ -229,6 +237,9 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
       input_tile(target_tile + add_tile, tile);
     } // for tile y
   } // for tile x
+  
+  m_last_target_pos = target_tile;
+  Editor::current()->m_tilebox_something_selected = false;
 }
 
 namespace {

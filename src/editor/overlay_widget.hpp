@@ -143,6 +143,7 @@ private:
   Vector m_sector_pos;
   Vector m_mouse_pos;
   Vector m_previous_mouse_pos;
+  Vector m_last_target_pos;
 
   std::chrono::steady_clock::time_point m_time_prev_put_tile;
 

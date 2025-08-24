@@ -162,6 +162,7 @@ EditorTilebox::selection_draw_rect() const
   if (select.get_top() < m_rect.get_top()) // Do not go outside toolbox
     select.set_top(m_rect.get_top());
 
+  Editor::current()->m_tilebox_something_selected = true;
   return select;
 }
 

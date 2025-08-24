@@ -243,6 +243,8 @@ public:
   ScriptManager m_script_manager;
   
   exit_cb_t m_on_exit_cb;
+  
+  bool m_tilebox_something_selected;
 
 private:
   Sector* m_sector;
