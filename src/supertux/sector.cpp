@@ -286,10 +286,10 @@ Sector::activate(const Vector& player_pos)
   }
 
   // Run init script
-  if (!m_init_script.empty() && !Editor::is_active() &&
-      (!m_init_script_run || !m_init_script_run_once)) {
+  if (!m_init_script.empty() && !Editor::is_active() && !m_init_script_run) {
     run_script(m_init_script, "init-script");
-    m_init_script_run = true;
+    if (m_init_script_run_once)
+      m_init_script_run = true;
   }
 
   // Do not interpolate camera after it has been warped
