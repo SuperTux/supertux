@@ -84,14 +84,8 @@ public:
   inline Level& get_level() const { return m_level; }
   TileSet* get_tileset() const override;
   bool in_worldmap() const override;
-  void set_init_script_run_once(bool run_once)
-  {
-    m_init_script_run_once = run_once;
-  }
-  bool get_init_script_run_once() const
-  {
-    return m_init_script_run_once;
-  }
+  inline void set_init_script_run_once(bool run_once) { m_init_script_run_once = run_once; }
+  inline bool get_init_script_run_once() const { return m_init_script_run_once; }
 
   /** activates this sector (change music, initialize player class, ...) */
   void activate(const std::string& spawnpoint);
