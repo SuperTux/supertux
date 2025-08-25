@@ -352,11 +352,12 @@ StringObjectOption::create_interface_control() const
   return textbox;
 }
 
-StringMultilineObjectOption::StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+StringMultilineObjectOption::StringMultilineObjectOption(UID uid, const std::string& text, std::string* pointer, const std::string& key,
                                        std::optional<std::string> default_value,
                                        unsigned int flags) :
   ObjectOption(text, key, flags, pointer),
-  m_default_value(std::move(default_value))
+  m_default_value(std::move(default_value)),
+  m_uid(uid)
 {
 }
 
@@ -392,15 +393,15 @@ StringMultilineObjectOption::to_string() const
 void
 StringMultilineObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_script(m_key, get_text(), m_value_pointer);
+  menu.add_script(m_uid, m_key, get_text(), m_value_pointer);
 }
 
 std::unique_ptr<InterfaceControl>
 StringMultilineObjectOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Edit..."));
-  button->m_on_activate_callbacks.emplace_back([key = m_key, value_ptr = m_value_pointer]() {
-    MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(key, value_ptr));
+  button->m_on_activate_callbacks.emplace_back([uid = m_uid, key = m_key, value_ptr = m_value_pointer]() {
+    MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(uid, key, value_ptr));
   });
   button->set_rect(Rectf(0, 32, 20, 32));
   return button;
@@ -544,9 +545,10 @@ EnumObjectOption::create_interface_control() const
   return dropdown;
 }
 
-ScriptObjectOption::ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+ScriptObjectOption::ScriptObjectOption(UID uid, const std::string& text, std::string* pointer, const std::string& key,
                                        unsigned int flags) :
-  ObjectOption(text, key, flags, pointer)
+  ObjectOption(text, key, flags, pointer),
+  m_uid(uid)
 {
 }
 
@@ -580,15 +582,15 @@ ScriptObjectOption::to_string() const
 void
 ScriptObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_script(m_key, get_text(), m_value_pointer);
+  menu.add_script(m_uid, m_key, get_text(), m_value_pointer);
 }
 
 std::unique_ptr<InterfaceControl>
 ScriptObjectOption::create_interface_control() const
 {
   auto button = std::make_unique<ControlButton>(_("Edit..."));
-  button->m_on_activate_callbacks.emplace_back([key = m_key, value_ptr = m_value_pointer]() {
-    MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(key, value_ptr));
+  button->m_on_activate_callbacks.emplace_back([uid = m_uid, key = m_key, value_ptr = m_value_pointer]() {
+    MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(uid, key, value_ptr));
   });
   button->set_rect(Rectf(0, 32, 20, 32));
   return button;

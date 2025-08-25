@@ -20,11 +20,12 @@
 #include "gui/item_script_line.hpp"
 #include "util/gettext.hpp"
 
-ScriptMenu::ScriptMenu(const std::string& key, std::string* script_) :
+ScriptMenu::ScriptMenu(UID uid, const std::string& key, std::string* script_) :
   base_script(script_),
   script_strings(),
   m_start_time(time(0)),
-  m_key(key)
+  m_key(key),
+  m_uid(uid)
 {
   script_strings.clear();
 
@@ -46,19 +47,18 @@ ScriptMenu::ScriptMenu(const std::string& key, std::string* script_) :
   //add_script_line(base_script);
 
   if (Editor::current())
-    Editor::current()->m_script_manager.register_script(m_key, base_script);
+    Editor::current()->m_script_manager.register_script(m_uid, base_script);
   
   add_hl();
   add_entry(_("Open in editor"), [this]{
-    FileSystem::open_editor(ScriptManager::full_filename_from_key(m_key));
+    FileSystem::open_editor(ScriptManager::full_filename_from_key(m_uid));
   });
   add_back(_("OK"));
 }
 
 ScriptMenu::~ScriptMenu()
 {
-  time_t mtime = Editor::current()->m_script_manager.get_mtime(
-    ScriptManager::full_filename_from_key(m_key));
+  time_t mtime = Editor::current()->m_script_manager.get_mtime(m_uid);
   
   // Don't save if the external file was edited.
   if (mtime > m_start_time)

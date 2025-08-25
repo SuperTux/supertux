@@ -267,6 +267,9 @@ protected:
   std::string type_value_to_id(int value) const;
 
 private:
+  inline uint32_t get_uid_value() { return m_uid.get_value(); }
+
+private:
   inline void set_uid(const UID& uid) { m_uid = uid; }
 
 private:

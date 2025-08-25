@@ -43,7 +43,7 @@ class Value;
 class ObjectSettings final
 {
 public:
-  ObjectSettings(const std::string& name);
+  ObjectSettings(std::string name, UID uid);
   ObjectSettings(ObjectSettings&& other);
   ObjectSettings(ObjectSettings* obj);
 
@@ -89,7 +89,7 @@ public:
                const std::optional<Color>& default_value = {},
                unsigned int flags = 0);
   void add_remove();
-  void add_script(const std::string& text, std::string* value_ptr,
+  void add_script(UID uid, const std::string& text, std::string* value_ptr,
                   const std::string& key = {}, unsigned int flags = 0);
   void add_text(const std::string& text, std::string* value_ptr,
                 const std::string& key = {},
@@ -99,11 +99,11 @@ public:
                              const std::string& key = {},
                              const std::optional<std::string>& default_value = {},
                              unsigned int flags = 0);
-  void add_multiline_text(const std::string& text, std::string* value_ptr,
+  void add_multiline_text(UID uid, const std::string& text, std::string* value_ptr,
                           const std::string& key = {},
                           const std::optional<std::string>& default_value = {},
                           unsigned int flags = 0);
-  void add_multiline_translatable_text(const std::string& text, std::string* value_ptr,
+  void add_multiline_translatable_text(UID uid, const std::string& text, std::string* value_ptr,
                                        const std::string& key = {},
                                        const std::optional<std::string>& default_value = {},
                                        unsigned int flags = 0);
@@ -189,6 +189,7 @@ private:
 
 private:
   std::string m_name;
+  UID m_uid;
   std::vector<std::unique_ptr<BaseObjectOption> > m_options;
 
 private:

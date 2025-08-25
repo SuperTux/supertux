@@ -24,7 +24,7 @@ class ItemScriptLine;
 class ScriptMenu final : public Menu
 {
 public:
-  ScriptMenu(const std::string& key, std::string* script_);
+  ScriptMenu(UID uid, const std::string& key, std::string* script_);
   ~ScriptMenu() override;
 
   void menu_action(MenuItem& item) override;
@@ -40,6 +40,7 @@ private:
   std::string* base_script;
   std::vector<std::unique_ptr<std::string> > script_strings;
   std::string m_key;
+  UID m_uid;
 
   void push_string(const std::string& new_line);
 

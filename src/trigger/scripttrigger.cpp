@@ -48,7 +48,7 @@ ScriptTrigger::get_settings()
 {
   ObjectSettings result = Trigger::get_settings();
 
-  result.add_script(_("Script"), &script, "script");
+  result.add_script(get_uid(), _("Script"), &script, "script");
   result.add_bool(_("Button"), &must_activate, "button");
   result.add_bool(_("Oneshot"), &oneshot, "oneshot", false);
 

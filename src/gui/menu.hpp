@@ -22,6 +22,7 @@
 
 #include "gui/menu_action.hpp"
 #include "math/vector.hpp"
+#include "util/uid.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
@@ -90,7 +91,7 @@ public:
   ItemStringSelect& add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings);
   ItemStringSelect& add_string_select(int id, const std::string& text, int default_item, const std::vector<std::string>& strings);
   ItemTextField& add_textfield(const std::string& text, std::string* input, int id = -1);
-  ItemScript& add_script(const std::string& key, const std::string& text, std::string* script, int id = -1);
+  ItemScript& add_script(UID uid, const std::string& key, const std::string& text, std::string* script, int id = -1);
   ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false);
   ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
   ItemAction& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
