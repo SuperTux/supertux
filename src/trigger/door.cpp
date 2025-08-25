@@ -83,7 +83,7 @@ Door::get_settings()
 {
   ObjectSettings result = SpritedTrigger::get_settings();
 
-  result.add_script(_("Script"), &m_script, "script");
+  result.add_script(get_uid(), _("Script"), &m_script, "script");
   result.add_text(_("Sector"), &m_target_sector, "sector");
   result.add_text(_("Spawn point"), &m_target_spawnpoint, "spawnpoint");
   result.add_bool(_("Locked?"), &m_locked, "locked");

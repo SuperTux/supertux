@@ -55,7 +55,7 @@ SecretAreaTrigger::get_settings()
   result.add_text(_("Name"), &m_name);
   result.add_text(_("Fade tilemap"), &fade_tilemap, "fade-tilemap");
   result.add_translatable_text(_("Message"), &message, "message");
-  result.add_script(_("Script"), &script, "script");
+  result.add_script(get_uid(), _("Script"), &script, "script");
 
   result.reorder({"fade-tilemap", "script", "sprite", "message", "width", "height", "name", "x", "y"});
 

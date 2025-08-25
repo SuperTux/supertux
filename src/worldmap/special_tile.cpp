@@ -73,7 +73,7 @@ SpecialTile::get_settings()
 
   result.add_translatable_text(_("Message"), &m_map_message, "map-message");
   result.add_bool(_("Show message"), &m_passive_message, "passive-message", false);
-  result.add_script(_("Script"), &m_script, "script");
+  result.add_script(get_uid(), _("Script"), &m_script, "script");
   result.add_bool(_("Invisible"), &m_invisible, "invisible-tile", false);
   result.add_text(_("Direction"), &m_apply_direction, "apply-to-direction", "north-east-south-west");
 

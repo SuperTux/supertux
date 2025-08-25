@@ -30,32 +30,32 @@ ScriptManager::ScriptManager() :
 }
 
 bool
-ScriptManager::is_script_registered(const std::string& key)
+ScriptManager::is_script_registered(UID key)
 {
   auto res = std::find(m_scripts.begin(), m_scripts.end(), key);
   return res != m_scripts.end();
 }
 
 std::string
-ScriptManager::full_filename_from_key(const std::string& key)
+ScriptManager::full_filename_from_key(UID key)
 {
   return FileSystem::join(PHYSFS_getWriteDir(), "tmp/" + filename_from_key(key));
 }
 
 std::string
-ScriptManager::filename_from_key(const std::string& key)
+ScriptManager::filename_from_key(UID key)
 {
-  return key + "_" + std::to_string(std::hash<std::string>()(key)).substr(0, 6) + ".nut";
+  return "script_" + std::to_string(key.get_value()) + ".nut";
 }
 
 time_t
-ScriptManager::get_mtime(const std::string& key)
+ScriptManager::get_mtime(UID key)
 {
-  return m_watcher.get_mtime(key);
+  return m_watcher.get_mtime(full_filename_from_key(key));
 }
 
 void
-ScriptManager::register_script(std::string key, std::string* script)
+ScriptManager::register_script(UID key, std::string* script)
 {
   std::string full_filename = full_filename_from_key(key);
 
@@ -68,10 +68,10 @@ ScriptManager::register_script(std::string key, std::string* script)
   
   if (is_script_registered(key))
     return;
-  m_scripts.push_back({full_filename, script});
+  m_scripts.push_back({key, script});
 
-  m_watcher.start_monitoring(full_filename, [this](FileWatcher::FileInfo& file) {
-      auto res = std::find(m_scripts.begin(), m_scripts.end(), file.filename);
+  m_watcher.start_monitoring(full_filename, [this, key](FileWatcher::FileInfo& file) {
+      auto res = std::find(m_scripts.begin(), m_scripts.end(), key);
       if (res == m_scripts.end())
         return;
       

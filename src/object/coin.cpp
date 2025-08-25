@@ -335,7 +335,7 @@ Coin::get_settings()
     result.add_path_handle(_("Handle"), m_path_handle, "handle");
   }
 
-  result.add_script(_("Collect script"), &m_collect_script, "collect-script");
+  result.add_script(get_uid(), _("Collect script"), &m_collect_script, "collect-script");
 
   result.reorder({"collect-script", "path-ref"});
 
@@ -371,7 +371,7 @@ HeavyCoin::get_settings()
 {
   auto result = MovingSprite::get_settings();
 
-  result.add_script(_("Collect script"), &m_collect_script, "collect-script");
+  result.add_script(get_uid(), _("Collect script"), &m_collect_script, "collect-script");
 
   result.reorder({"collect-script", "sprite", "x", "y"});
 

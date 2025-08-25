@@ -103,7 +103,7 @@ Boss::get_settings()
   /* l10n: Pinch Mode refers to a particular boss mode that gets
     activated once the boss has lost the specified amounts of lives.
     This setting specifies the squirrel script that gets run to activate boss mode.  */
-  result.add_script(_("Pinch Mode Activation Script"), &m_pinch_activation_script, "pinch-activation-script");
+  result.add_script(get_uid(), _("Pinch Mode Activation Script"), &m_pinch_activation_script, "pinch-activation-script");
 
   return result;
 }

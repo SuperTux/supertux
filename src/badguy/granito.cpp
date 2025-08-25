@@ -279,8 +279,8 @@ Granito::get_settings()
 
   settings.remove("dead-script");
 
-  settings.add_script(_("Detect script"), &m_detect_script, "detect-script");
-  settings.add_script(_("Carried script"), &m_carried_script, "carried-script");
+  settings.add_script(get_uid(), _("Detect script"), &m_detect_script, "detect-script");
+  settings.add_script(get_uid(), _("Carried script"), &m_carried_script, "carried-script");
 
   return settings;
 }
