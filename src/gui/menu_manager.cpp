@@ -277,7 +277,8 @@ MenuManager::pop_menu(bool skip_transition)
                m_menu_stack.size() >= 2 ? m_menu_stack[m_menu_stack.size() - 2].get() : nullptr);
   m_menu_stack.pop_back();
 
-  Editor::may_reactivate();
+  if (m_menu_stack.empty())
+    Editor::may_reactivate();
 }
 
 void

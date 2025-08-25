@@ -520,18 +520,27 @@ Editor::update(float dt_sec, const Controller& controller)
     // Create new level.
   }
 
+  if (m_deactivate_request) {
+    m_enabled = false;
+    m_deactivate_request = false;
+    return;
+  }
+
   if (m_reactivate_request) {
-    m_enabled = true;
     m_reactivate_request = false;
 
-    // It's possible that the editor is being re-activated due to exiting a menu,
-    // possibly one related to an object option.
-    GameObject* selected_object = m_selected_object.get();
-    if (selected_object)
+    if (!m_enabled)
     {
-      selected_object->after_editor_set();
-      selected_object->check_state();
+      // It's possible that the editor is being re-activated due to exiting a menu,
+      // possibly one related to an object option.
+      GameObject* selected_object = m_selected_object.get();
+      if (selected_object)
+      {
+        selected_object->after_editor_set();
+        selected_object->check_state();
+      }
     }
+    m_enabled = true;
   }
 
   if (m_save_request) {
@@ -556,12 +565,6 @@ Editor::update(float dt_sec, const Controller& controller)
     if (m_particle_editor_filename)
       static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
     ScreenManager::current()->push_screen(std::move(screen));
-    return;
-  }
-
-  if (m_deactivate_request) {
-    m_enabled = false;
-    m_deactivate_request = false;
     return;
   }
 
