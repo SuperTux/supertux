@@ -21,6 +21,7 @@
 #include "addon/addon_manager.hpp"
 #include "gui/item_action.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/menu_file_filters.hpp"
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
 #include "util/file_system.hpp"
@@ -28,20 +29,13 @@
 #include "util/gettext.hpp"
 #include "util/string_util.hpp"
 
-FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(const std::string&)> callback,
-                               const std::function<void (MenuItem&)>& item_processor) :
-  m_filename(filename),
+FileSystemMenu::FileSystemMenu(const MenuParams& params) :
+  m_params(params),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
-  m_directory(basedir.empty() ? (filename ? FileSystem::dirname(*filename) : "/") : basedir),
-  m_extensions(extensions),
-  m_basedir(basedir),
+  m_directory(m_params.basedir.empty() ? (m_params.filename ? FileSystem::dirname(*m_params.filename) : "/") : m_params.basedir),
   m_directories(),
-  m_files(),
-  m_path_relative_to_basedir(path_relative_to_basedir),
-  m_callback(std::move(callback)),
-  m_item_processor(std::move(item_processor))
+  m_files()
 {
   AddonManager::current()->unmount_old_addons();
 
@@ -91,6 +85,12 @@ FileSystemMenu::refresh_items()
           AddonManager::current()->is_from_old_addon(filepath))
         return false;
 
+      if (!m_params.filename_filter.empty() &&
+          file.find(m_params.filename_filter) == std::string::npos)
+      {
+        return false;
+      }
+
       if (has_right_suffix(file))
       {
         m_files.push_back(file);
@@ -105,18 +105,19 @@ FileSystemMenu::refresh_items()
     item_id++;
   }
 
-  const bool in_basedir = m_directory == FileSystem::normalize(m_basedir);
+  const bool in_basedir = m_directory == FileSystem::normalize(m_params.basedir);
   for (const auto& item : m_files)
   {
     MenuItem& menu_item = add_entry(item_id, item);
-    if (in_basedir && m_item_processor)
-      m_item_processor(menu_item);
+    if (in_basedir && m_params.item_processor)
+      m_params.item_processor(menu_item);
 
     item_id++;
   }
 
   add_hl();
   add_entry(-2, _("Open Directory"));
+  add_entry(-3, _("Filters"));
   add_hl();
   add_back(_("Cancel"));
 
@@ -129,15 +130,31 @@ FileSystemMenu::refresh_items()
 bool
 FileSystemMenu::has_right_suffix(const std::string& file) const
 {
-  if (m_extensions.empty())
-    return true;
+  if (!m_params.additional_extensions.empty())
+  {
+    for (const auto& extension : m_params.additional_extensions)
+    {
+      if (StringUtil::has_suffix(file, extension))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
 
-  for (const auto& extension : m_extensions) {
+  if (m_params.extensions.empty())
+  {
+    return true;
+  }
+
+  for (const auto& extension : m_params.extensions)
+  {
     if (StringUtil::has_suffix(file, extension))
     {
       return true;
     }
   }
+
   return false;
 }
 
@@ -154,15 +171,15 @@ FileSystemMenu::menu_action(MenuItem& item)
       if (id < m_files.size()) {
         std::string new_filename = FileSystem::join(m_directory, m_files[id]);
 
-        if (!m_basedir.empty() && m_path_relative_to_basedir) {
-          new_filename = FileSystem::relpath(new_filename, m_basedir);
+        if (!m_params.basedir.empty() && m_params.path_relative_to_basedir) {
+          new_filename = FileSystem::relpath(new_filename, m_params.basedir);
         }
 
-        if (m_filename)
-          *m_filename = new_filename;
+        if (m_params.filename)
+          *m_params.filename = new_filename;
 
-        if (m_callback)
-          m_callback(new_filename);
+        if (m_params.callback)
+          m_params.callback(new_filename);
 
         MenuManager::instance().pop_menu();
       } else {
@@ -173,5 +190,13 @@ FileSystemMenu::menu_action(MenuItem& item)
   else if (item.get_id() == -2)
   {
     FileSystem::open_path(FileSystem::join(PHYSFS_getRealDir(m_directory.c_str()), m_directory));
+  }
+  else if (item.get_id() == -3)
+  {
+    auto filters_menu = std::make_unique<MenuFileFilters>(&m_params, [this]()
+      {
+      this->refresh_items();
+      });
+    MenuManager::instance().push_menu(std::move(filters_menu));
   }
 }
