@@ -723,7 +723,7 @@ EditorOverlayWidget::move_object()
     if (g_config->editor_snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
-      new_pos = glm::floor(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
+      new_pos = glm::round(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
 
       auto pm = dynamic_cast<MarkerObject*>(m_dragged_object.get());
       if (pm)
