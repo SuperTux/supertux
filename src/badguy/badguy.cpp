@@ -1316,7 +1316,7 @@ BadGuy::get_settings()
 
   if (!get_allowed_directions().empty())
     result.add_direction(_("Direction"), &m_start_dir, get_allowed_directions(), "direction");
-  result.add_script(_("Death script"), &m_dead_script, "dead-script");
+  result.add_script(get_uid(), _("Death script"), &m_dead_script, "dead-script");
 
   result.reorder({"direction", "sprite", "x", "y"});
 

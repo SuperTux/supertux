@@ -17,9 +17,9 @@
 #pragma once
 
 #include "util/file_watcher.hpp"
+#include "util/uid.hpp"
 #include <functional>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 class ScriptManager
@@ -28,13 +28,13 @@ public:
   using callback_t = std::function<void()>;
   
   struct ScriptInfo {
-    std::string key;
+    UID key;
     std::string* script;
     
     bool operator==(struct ScriptInfo& other) const {
       return other.key == key;
     }
-    bool operator==(const std::string& other) const {
+    bool operator==(const UID& other) const {
       return other == key;
     }
   };
@@ -42,13 +42,13 @@ public:
   ScriptManager();
   ~ScriptManager() = default;
   
-  static std::string filename_from_key(const std::string& key);
-  static std::string full_filename_from_key(const std::string& key);
+  static std::string filename_from_key(UID key);
+  static std::string full_filename_from_key(UID key);
   
-  time_t get_mtime(const std::string& key);
+  time_t get_mtime(UID key);
   
-  bool is_script_registered(const std::string& key);
-  void register_script(std::string key, std::string* script);
+  bool is_script_registered(UID key);
+  void register_script(UID key, std::string* script);
   
   void poll();
 private:

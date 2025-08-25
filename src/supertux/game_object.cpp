@@ -130,7 +130,7 @@ GameObject::get_class_types() const
 ObjectSettings
 GameObject::get_settings()
 {
-  ObjectSettings result(get_display_name());
+  ObjectSettings result(get_display_name(), get_uid());
 
   result.add_int(_("Version"), &m_version, "version", 1, OPTION_HIDDEN);
   result.add_text(_("Name"), &m_name, "name", "");
@@ -298,6 +298,7 @@ GameObject::register_class(ssq::VM& vm)
 {
   ssq::Class cls = vm.addAbstractClass<GameObject>("GameObject");
 
+  cls.addFunc("get_uid", &GameObject::get_uid_value);
   cls.addFunc("get_version", &GameObject::get_version);
   cls.addFunc("get_latest_version", &GameObject::get_latest_version);
   cls.addFunc("is_up_to_date", &GameObject::is_up_to_date);

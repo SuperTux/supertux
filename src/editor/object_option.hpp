@@ -220,7 +220,7 @@ private:
 class StringMultilineObjectOption final : public ObjectOption<std::string>
 {
 public:
-  StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+  StringMultilineObjectOption(UID uid, const std::string& text, std::string* pointer, const std::string& key,
                      std::optional<std::string> default_value,
                      unsigned int flags);
 
@@ -232,6 +232,7 @@ public:
 
 private:
   std::optional<std::string> m_default_value;
+  UID m_uid;
 
 private:
   StringMultilineObjectOption(const StringMultilineObjectOption&) = delete;
@@ -292,7 +293,7 @@ private:
 class ScriptObjectOption final : public ObjectOption<std::string>
 {
 public:
-  ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+  ScriptObjectOption(UID uid, const std::string& text, std::string* pointer, const std::string& key,
                      unsigned int flags);
 
   virtual void parse(const ReaderMapping& reader) override;
@@ -300,6 +301,9 @@ public:
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
   virtual std::unique_ptr<InterfaceControl> create_interface_control() const override;
+  
+private:
+  UID m_uid;
 
 private:
   ScriptObjectOption(const ScriptObjectOption&) = delete;

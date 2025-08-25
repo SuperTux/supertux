@@ -25,20 +25,23 @@
 #include "util/log.hpp"
 #include "video/color.hpp"
 
-ObjectSettings::ObjectSettings(const std::string& name) :
-  m_name(name),
+ObjectSettings::ObjectSettings(std::string name, UID uid) :
+  m_name(std::move(name)),
+  m_uid(std::move(uid)),
   m_options()
 {
 }
 
 ObjectSettings::ObjectSettings(ObjectSettings&& other) :
   m_name(other.m_name),
+  m_uid(other.m_uid),
   m_options(std::move(other.m_options))
 {
 }
 
 ObjectSettings::ObjectSettings(ObjectSettings* obj) :
   m_name(obj->m_name),
+  m_uid(obj->m_uid),
   m_options()
 {
 	// for (auto &option : obj->m_options)
@@ -185,10 +188,10 @@ ObjectSettings::add_remove()
 }
 
 void
-ObjectSettings::add_script(const std::string& text, std::string* value_ptr,
+ObjectSettings::add_script(UID uid, const std::string& text, std::string* value_ptr,
                            const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<ScriptObjectOption>(text, value_ptr, key, flags));
+  add_option(std::make_unique<ScriptObjectOption>(uid, text, value_ptr, key, flags));
 }
 
 void
@@ -211,21 +214,21 @@ ObjectSettings::add_translatable_text(const std::string& text, std::string* valu
 }
 
 void
-ObjectSettings::add_multiline_text(const std::string& text, std::string* value_ptr,
+ObjectSettings::add_multiline_text(UID uid, const std::string& text, std::string* value_ptr,
                          const std::string& key,
                          const std::optional<std::string>& default_value,
                          unsigned int flags)
 {
-  add_option(std::make_unique<StringMultilineObjectOption>(text, value_ptr, key, default_value, flags));
+  add_option(std::make_unique<StringMultilineObjectOption>(uid, text, value_ptr, key, default_value, flags));
 }
 
 void
-ObjectSettings::add_multiline_translatable_text(const std::string& text, std::string* value_ptr,
+ObjectSettings::add_multiline_translatable_text(UID uid, const std::string& text, std::string* value_ptr,
                                       const std::string& key,
                                       const std::optional<std::string>& default_value,
                                       unsigned int flags)
 {
-  add_option(std::make_unique<StringMultilineObjectOption>(text, value_ptr, key, default_value,
+  add_option(std::make_unique<StringMultilineObjectOption>(uid, text, value_ptr, key, default_value,
                                                   flags | OPTION_TRANSLATABLE));
 }
 

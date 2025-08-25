@@ -261,7 +261,7 @@ BonusBlock::get_settings()
 {
   ObjectSettings result = Block::get_settings();
 
-  result.add_script(_("Script"), &m_script, "script");
+  result.add_script(get_uid(), _("Script"), &m_script, "script");
   result.add_int(_("Count"), &m_hit_counter, "count", get_default_hit_counter());
   result.add_enum(_("Content"), reinterpret_cast<int*>(&m_contents),
                   { _("Coin"), _("Growth (fire flower)"), _("Growth (Ice Rosette)"), _("Growth (air flower)"),

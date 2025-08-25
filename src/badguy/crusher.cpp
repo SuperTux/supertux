@@ -1247,7 +1247,7 @@ Crusher::get_settings()
                   static_cast<int>(CrusherDirection::DOWN),
                   "direction");
 
-  result.add_script(_("Crush script"), &m_crush_script, "crush-script");
+  result.add_script(get_uid(), _("Crush script"), &m_crush_script, "crush-script");
   result.reorder({ "direction", "sprite", "crush-script", "x", "y" });
 
   return result;
