@@ -177,7 +177,7 @@ Editor::Editor() :
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
   
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 7> general_widgets = {
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
         std::bind(&Editor::undo, this),
@@ -233,7 +233,14 @@ Editor::Editor() :
       [this]() {
         m_toolbox_widget->set_mouse_tool();
       },
-      _("Toggle between add and remove mode"))
+      _("Toggle between add and remove mode")),
+
+    // Rubber button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png",
+      [this]() {
+        m_toolbox_widget->set_rubber_tool();
+      },
+      _("Delete the tile or object under the mouse"))
   };
   
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets = {
