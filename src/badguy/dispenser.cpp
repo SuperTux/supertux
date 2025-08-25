@@ -434,7 +434,10 @@ GameObjectTypes
 Dispenser::get_types() const
 {
   return {
-    { "dropper", _("Dropper") },
+    {
+      /* l10n: This is not a dropper in the medical sense. Dropper refers to a dispenser that drops objects from above */
+      "dropper", _("Dropper")
+    },
     { "cannon", _("Cannon") },
     { "point", _("Invisible") },
     { "granito", _("Granito") }
