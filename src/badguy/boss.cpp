@@ -22,6 +22,7 @@ namespace
 
 #include "badguy/boss.hpp"
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
@@ -67,7 +68,7 @@ Boss::draw(DrawingContext& context)
 void
 Boss::draw_hit_points(DrawingContext& context)
 {
-  if (m_hud_head)
+  if (m_hud_head && !Editor::is_active())
   {
     context.push_transform();
     context.set_translation(Vector(0, 0));
