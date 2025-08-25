@@ -62,7 +62,7 @@ ControlButton::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 
   call_on_activate_callbacks();
 
-  m_has_focus = true;
+  m_has_focus = false;
 
   return true;
 }
