@@ -271,7 +271,7 @@ msgstr "Opdateringsnoter for v{}:"
 
 #: src/editor/editor_comment.hpp:48
 msgid "Editor Comment"
-msgstr ""
+msgstr "Kommentar fra redaktør"
 
 #: src/editor/layers_widget.cpp:372
 msgid "Sector: {}"
@@ -448,7 +448,7 @@ msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Kunne ikke finde en sektor navngivet \"main\".\nDu kan ændre sektornavnet, som\ndu ønsker spilleren skal starte i til \"main\""
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
@@ -457,38 +457,38 @@ msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Kan ikke finde et spawnpoint navngivet \"main\".\nTilret navn på det spawnpoint som\ndu ønsker spilleren skal starte ved til \"main\""
 
 #. l10n: A note refers to a reminder left for future
 #. level designers to read in order to better understand
 #. the usage of certain features in a level, for example.
 #: src/editor/editor_comment.cpp:74
 msgid "Note"
-msgstr ""
+msgstr "Notér"
 
 #. l10n: A to-do refers to a reminder left for the
 #. author of the comment to finish designing something in
 #. a level.
 #: src/editor/editor_comment.cpp:79
 msgid "To-do"
-msgstr ""
+msgstr "To-do"
 
 #. l10n: A fix-me refers to a reminder left for the
 #. author of the comment to fix a flaw with the level
 #. design.
 #: src/editor/editor_comment.cpp:84
 msgid "Fix-me"
-msgstr ""
+msgstr "Fix-me"
 
 #. l10n: A hack refers to usage of an unintended or
 #. non-ideal way of implementing a level design idea.
 #: src/editor/editor_comment.cpp:88
 msgid "Hack"
-msgstr ""
+msgstr "Hack"
 
 #: src/editor/editor_comment.cpp:97
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: src/editor/particle_editor.cpp:114
 msgid "Change texture...  ->"
@@ -723,25 +723,25 @@ msgstr "Gem som"
 
 #: src/video/video_system.cpp:155
 msgid "Fast and stable renderer, which fits most players' needs."
-msgstr ""
+msgstr "Hurtig og stabil rendering, som passer til de fleste spilleres behov."
 
 #: src/video/video_system.cpp:157
 msgid ""
 "Provides additional features, such as reflection and shaders.\n"
 "Might be slow and unstable on some machines."
-msgstr ""
+msgstr "Giver flere muligheder såsom reflektion og skyggefiltre.\nEr måske langsom og ustabil på nogle maskiner."
 
 #: src/video/video_system.cpp:158
 msgid "OpenGL (AUTO)"
-msgstr ""
+msgstr "OpenGL (AUTO)"
 
 #: src/video/video_system.cpp:158
 msgid "The recommended OpenGL video system for this device."
-msgstr ""
+msgstr "Anbefalet OpenGL videosystem til denne enhed."
 
 #: src/video/video_system.cpp:158
 msgid "Fallbacks to SDL."
-msgstr ""
+msgstr "Fald tilbage til SDL."
 
 #: src/supertux/levelintro.cpp:137
 msgid "contributed by {}"
@@ -3593,11 +3593,11 @@ msgstr "Lodret"
 
 #: src/badguy/crusher.cpp:1227
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: src/badguy/crusher.cpp:1232
 msgid "Crush script"
-msgstr ""
+msgstr "Knusningsscript"
 
 #: src/badguy/flyingsnowball.hpp:33
 msgid "Flying Snowball"
@@ -3733,7 +3733,7 @@ msgstr "Svømmende fisk"
 
 #: src/badguy/ghoul.cpp:329
 msgid "Track Range"
-msgstr ""
+msgstr "Banerækkevidde"
 
 #: src/badguy/ghoul.hpp:26
 msgid "Ghoul"
@@ -4153,7 +4153,7 @@ msgstr "Partikler aktiveret"
 
 #: src/object/wind.cpp:105
 msgid "Current"
-msgstr ""
+msgstr "Nuværende"
 
 #: src/object/bigsnowball.cpp:82
 msgid "Break on impact?"
