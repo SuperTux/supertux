@@ -21,6 +21,8 @@
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
+#include "sprite/sprite_ptr.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
@@ -31,6 +33,7 @@
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
+#include <algorithm>
 
 EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_editor(editor),
@@ -51,7 +54,8 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_hovered_tile(-1),
   m_dragging(false),
   m_drag_start(0, 0),
-  m_mouse_pos(0, 0)
+  m_mouse_pos(0, 0),
+  m_shadow(SpriteManager::current()->create("images/engine/editor/shadow2.png"))
 {
   m_scrollbar.reset(new ControlScrollbar(1.f, 1.f, m_scroll_progress, 35.f));
 }
@@ -79,6 +83,18 @@ EditorTilebox::draw(DrawingContext& context)
                                      g_config->editorhovercolor,
                                      0.0f, LAYER_GUI - 5);
   }
+  
+  // Shadow
+  constexpr float SCROLL_SHADOW_MAX = 10.f;
+  float scroll_shadow_size = std::clamp<float>(m_scroll_progress * 0.1, 0.f, SCROLL_SHADOW_MAX);
+  float scroll_shadow_normal = scroll_shadow_size / SCROLL_SHADOW_MAX;
+  
+  context.set_alpha(scroll_shadow_normal * 0.3);
+  m_shadow->draw_scaled(
+    context.color(),
+    Rectf{m_rect.get_left(), m_rect.get_top(), m_rect.get_right(), m_rect.get_top() + scroll_shadow_size},
+    LAYER_GUI+1);
+  context.set_alpha(1.0);
 
   context.push_transform();
   context.set_viewport(Rect(m_rect));
