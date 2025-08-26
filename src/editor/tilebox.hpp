@@ -25,6 +25,8 @@
 #include "interface/control_scrollbar.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/tile_set.hpp"
 
 class Editor;
@@ -141,6 +143,8 @@ private:
   Vector m_drag_start;
 
   Vector m_mouse_pos;
+  
+  SpritePtr m_shadow;
 
 private:
   EditorTilebox(const EditorTilebox&) = delete;
