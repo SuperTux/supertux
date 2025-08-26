@@ -42,6 +42,7 @@ EditorSettings::EditorSettings()
   add_toggle(-1, _("Enable Object Undo Tracking"), &(g_config->editor_undo_tracking));
   add_toggle(-1, _("Show Properties Sidebar"), &(g_config->editor_show_properties_sidebar));
   add_toggle(-1, _("Show Toolbar"), &(g_config->editor_show_toolbar_widgets));
+  add_intfield(_("Blur Amount"), &(g_config->editor_blur), -1, true);
   add_textfield(_("Preferred Text Editor"), &(g_config->preferred_text_editor));
   if (g_config->editor_undo_tracking)
   {

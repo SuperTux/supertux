@@ -64,10 +64,13 @@ EditorToolboxWidget::draw(DrawingContext& context)
 {
   m_tilebox->draw(context);
 
+  
+  context.color().set_blur(g_config->editor_blur);
   context.color().draw_filled_rect(Rectf(Vector(m_pos_x, 0.f),
                                          Vector(context.get_width(), 96.f)),
                                    g_config->editorcolor,
                                    0.0f, LAYER_GUI-10);
+  context.color().set_blur(0);
 
   if (m_hovered_item != HoveredItem::NONE && m_hovered_item != HoveredItem::TILEBOX)
   {

@@ -136,6 +136,9 @@ GL20Context::set_color(const Color& color)
 }
 
 void
+GL20Context::set_blur(int amount) {}
+
+void
 GL20Context::bind_texture(const Texture& texture, const Texture* displacement_texture)
 {
   assert_gl();
