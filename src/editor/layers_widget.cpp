@@ -81,11 +81,13 @@ EditorLayersWidget::draw(DrawingContext& context)
     m_object_tip->draw_up(context, position);
   }
 
+  context.color().set_blur(g_config->editor_blur);
   context.color().draw_filled_rect(Rectf(Vector(0, static_cast<float>(m_Ypos)),
                                          Vector(static_cast<float>(m_Width), static_cast<float>(SCREEN_HEIGHT))),
                                      g_config->editorcolor,
                                      0.0f,
                                      LAYER_GUI-10);
+  context.color().set_blur(0);
 
   Rectf target_rect = Rectf(0, 0, 0, 0);
   bool draw_rect = true;

@@ -30,6 +30,7 @@
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
 
 EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_editor(editor),
@@ -58,10 +59,12 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
 void
 EditorTilebox::draw(DrawingContext& context)
 {
+  context.color().set_blur(g_config->editor_blur);
   context.color().draw_filled_rect(m_rect,
                                    g_config->editorcolor,
                                    0.0f, LAYER_GUI-10);
-
+  context.color().set_blur(0);
+  
   if (m_dragging)
   {
     context.color().draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
