@@ -281,6 +281,8 @@ private:
   Vector m_mouse_pos;
 
   bool m_layers_widget_needs_refresh;
+  
+  SpritePtr m_shadow;
 
 private:
   Editor(const Editor&) = delete;
