@@ -114,6 +114,7 @@ Config::Config() :
   editor_show_deprecated_tiles(false),
   editor_show_properties_sidebar(true),
   editor_show_toolbar_widgets(true),
+  editor_blur(15),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
@@ -254,6 +255,7 @@ Config::load()
     editor_mapping->get("show_deprecated_tiles", editor_show_deprecated_tiles);
     editor_mapping->get("show_properties_sidebar", editor_show_properties_sidebar);
     editor_mapping->get("show_toolbar_widgets", editor_show_toolbar_widgets);
+    editor_mapping->get("blur", editor_blur);
   }
 
   if (is_christmas()) {
@@ -519,6 +521,7 @@ Config::save()
     writer.write("show_deprecated_tiles", editor_show_deprecated_tiles);
     writer.write("show_properties_sidebar", editor_show_properties_sidebar);
     writer.write("show_toolbar_widgets", editor_show_toolbar_widgets);
+    writer.write("blur", editor_blur);
   }
   writer.end_list("editor");
 
