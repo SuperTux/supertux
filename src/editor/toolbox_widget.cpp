@@ -63,7 +63,6 @@ void
 EditorToolboxWidget::draw(DrawingContext& context)
 {
   m_tilebox->draw(context);
-
   
   context.color().set_blur(g_config->editor_blur);
   context.color().draw_filled_rect(Rectf(Vector(m_pos_x, 0.f),
