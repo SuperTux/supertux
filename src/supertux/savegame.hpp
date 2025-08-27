@@ -32,11 +32,13 @@ struct LevelState
 public:
   LevelState() :
     filename(),
+    cutscene(false),
     solved(false),
     perfect(false)
   {}
 
   std::string filename;
+  bool cutscene;
   bool solved;
   bool perfect;
 };

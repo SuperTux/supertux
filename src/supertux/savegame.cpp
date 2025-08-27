@@ -46,6 +46,7 @@ std::vector<LevelState> get_level_states(ssq::Table& levels)
 
       LevelState level_state;
       level_state.filename = key;
+      table.get("cutscene", level_state.cutscene);
       table.get("solved", level_state.solved);
       table.get("perfect", level_state.perfect);
 
@@ -398,8 +399,8 @@ Savegame::get_levelset_progress()
   {
     for (const auto& level_state : get_levelset_state(levelset).level_states)
     {
-      // Don't count progress from temporary Editor levels
-      if (level_state.filename.empty() || level_state.filename.back() == '~')
+      // Don't count progress from cutscene or temporary Editor levels
+      if (level_state.cutscene || level_state.filename.empty() || level_state.filename.back() == '~')
         continue;
 
       if (level_state.solved)
@@ -427,8 +428,8 @@ Savegame::get_worldmap_progress()
 
     for (const auto& level_state : get_worldmap_state(map).level_states)
     {
-      // Don't count progress from temporary Editor levels
-      if (level_state.filename.empty() || level_state.filename.back() == '~')
+      // Don't count progress from cutscene or temporary Editor levels
+      if (level_state.cutscene || level_state.filename.empty() || level_state.filename.back() == '~')
         continue;
 
       if (level_state.solved)

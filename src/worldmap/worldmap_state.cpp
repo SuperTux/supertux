@@ -292,6 +292,7 @@ WorldMapState::save_state()
       for (const auto& level_tile : sector->get_objects_by_type<LevelTile>())
       {
         ssq::Table level = levels.addTable(level_tile.get_level_filename().c_str());
+        level.set("cutscene", level_tile.is_cutscene());
         level.set("solved", level_tile.is_solved());
         level.set("perfect", level_tile.is_perfect());
         level_tile.get_statistics().serialize_to_squirrel(level);
