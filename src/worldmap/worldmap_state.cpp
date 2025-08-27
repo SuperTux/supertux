@@ -37,7 +37,6 @@ namespace worldmap {
 
 WorldMapState::WorldMapState(WorldMap& worldmap) :
   m_worldmap(worldmap),
-  m_sector(),
   m_position_was_reset(false)
 {
 }
@@ -72,8 +71,7 @@ WorldMapState::load_state()
       if (!m_worldmap.m_sector)
         throw std::runtime_error("No sector set.");
 
-      m_sector = m_worldmap.m_sector;
-      load(worldmap_table);
+      load(worldmap_table, m_worldmap.get_sector());
       return;
     }
 
@@ -89,8 +87,7 @@ WorldMapState::load_state()
         continue;
 
       ssq::Table sector_table = worldmap_table.findTable(sector->get_name().c_str());
-      m_sector = sector.get();
-      load(sector_table);
+      load(sector_table, *sector);
     }
   }
   catch (const std::exception& err)
@@ -110,12 +107,12 @@ WorldMapState::load_state()
 
 
 void
-WorldMapState::load(const ssq::Table& table)
+WorldMapState::load(const ssq::Table& table, WorldMapSector& sector)
 {
   try
   {
     ssq::Object music = table.find("music");
-    auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+    auto& music_object = sector.get_singleton_by_type<MusicObject>();
     music_object.set_music(music.toString());
   }
   catch (const ssq::NotFoundException&)
@@ -124,20 +121,18 @@ WorldMapState::load(const ssq::Table& table)
   }
 
   /** Load objects. **/
-  load_tux(table);
-  load_levels(table);
-  load_tilemap_visibility(table);
-  load_sprite_change_objects(table);
+  load_tux(table, sector);
+  load_levels(table, sector);
+  load_tilemap_visibility(table, sector);
+  load_sprite_change_objects(table, sector);
 }
 
 /** Load Tux **/
 void
-WorldMapState::load_tux(const ssq::Table& table)
+WorldMapState::load_tux(const ssq::Table& table, WorldMapSector& sector)
 {
-  WorldMapSector& sector = m_worldmap.get_sector();
-
   // Indicate if Tux is being loaded for the current sector.
-  const bool current_sector = m_sector == &m_worldmap.get_sector();
+  const bool current_sector = &sector == m_worldmap.m_sector;
 
   const ssq::Table tux = table.findTable("tux");
   Vector p(0.0f, 0.0f);
@@ -165,13 +160,13 @@ WorldMapState::load_tux(const ssq::Table& table)
 
 /** Load levels **/
 void
-WorldMapState::load_levels(const ssq::Table& table)
+WorldMapState::load_levels(const ssq::Table& table, WorldMapSector& sector)
 {
   try
   {
     const ssq::Table levels_table = table.findTable("levels");
 
-    for (auto& level_tile : m_worldmap.get_sector().get_objects_by_type<LevelTile>())
+    for (auto& level_tile : sector.get_objects_by_type<LevelTile>())
     {
       try
       {
@@ -202,10 +197,9 @@ WorldMapState::load_levels(const ssq::Table& table)
 
 /** Load tilemap visibility **/
 void
-WorldMapState::load_tilemap_visibility(const ssq::Table& table)
+WorldMapState::load_tilemap_visibility(const ssq::Table& table, WorldMapSector& sector)
 {
   if (m_position_was_reset) return;
-  WorldMapSector& sector = m_worldmap.get_sector();
 
   try
   {
@@ -233,12 +227,12 @@ WorldMapState::load_tilemap_visibility(const ssq::Table& table)
 
 /** Load sprite change objects **/
 void
-WorldMapState::load_sprite_change_objects(const ssq::Table& table)
+WorldMapState::load_sprite_change_objects(const ssq::Table& table, WorldMapSector& sector)
 {
-  if (m_worldmap.get_sector().get_object_count<SpriteChange>() <= 0) return;
+  if (sector.get_object_count<SpriteChange>() <= 0) return;
 
   const ssq::Table sprite_changes = table.findTable("sprite-changes");
-  for (auto& sc : m_worldmap.get_sector().get_objects_by_type<SpriteChange>())
+  for (auto& sc : sector.get_objects_by_type<SpriteChange>())
   {
     const std::string key = std::to_string(static_cast<int>(sc.get_pos().x)) + "_" +
                             std::to_string(static_cast<int>(sc.get_pos().y));
@@ -279,14 +273,12 @@ WorldMapState::save_state()
 
     for (auto& sector : m_worldmap.m_sectors)
     {
-      m_sector = sector.get();
-
       /** Delete the table entry for the current sector and construct a new one. **/
       worldmap_table.remove(sector->get_name().c_str());
       ssq::Table sector_table = worldmap_table.addTable(sector->get_name().c_str());
 
       /** Save music **/
-      auto& music_object = m_worldmap.get_sector().get_singleton_by_type<MusicObject>();
+      auto& music_object = sector->get_singleton_by_type<MusicObject>();
       sector_table.set("music", music_object.get_music());
 
       /** Save Tux **/
@@ -297,7 +289,7 @@ WorldMapState::save_state()
 
       /** Save levels **/
       ssq::Table levels = sector_table.addTable("levels");
-      for (const auto& level_tile : m_worldmap.get_sector().get_objects_by_type<LevelTile>())
+      for (const auto& level_tile : sector->get_objects_by_type<LevelTile>())
       {
         ssq::Table level = levels.addTable(level_tile.get_level_filename().c_str());
         level.set("solved", level_tile.is_solved());
@@ -307,7 +299,7 @@ WorldMapState::save_state()
 
       /** Save tilemap visibility **/
       ssq::Table tilemaps = sector_table.addTable("tilemaps");
-      for (auto& tilemap : m_worldmap.get_sector().get_objects_by_type<::TileMap>())
+      for (auto& tilemap : sector->get_objects_by_type<::TileMap>())
       {
         if (!tilemap.get_name().empty())
         {
@@ -317,10 +309,10 @@ WorldMapState::save_state()
       }
 
       /** Save sprite change objects **/
-      if (m_worldmap.get_sector().get_object_count<SpriteChange>() > 0)
+      if (sector->get_object_count<SpriteChange>() > 0)
       {
         ssq::Table sprite_changes = sector_table.addTable("sprite-changes");
-        for (const auto& sc : m_worldmap.get_sector().get_objects_by_type<SpriteChange>())
+        for (const auto& sc : sector->get_objects_by_type<SpriteChange>())
         {
           const std::string key = std::to_string(static_cast<int>(sc.get_pos().x)) + "_" +
                                   std::to_string(static_cast<int>(sc.get_pos().y));

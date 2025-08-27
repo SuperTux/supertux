@@ -36,15 +36,14 @@ public:
   void save_state();
 
 private:
-  void load(const ssq::Table& table);
-  void load_tux(const ssq::Table& table);
-  void load_levels(const ssq::Table& table);
-  void load_tilemap_visibility(const ssq::Table& table);
-  void load_sprite_change_objects(const ssq::Table& table);
+  void load(const ssq::Table& table, WorldMapSector& sector);
+  void load_tux(const ssq::Table& table, WorldMapSector& sector);
+  void load_levels(const ssq::Table& table, WorldMapSector& sector);
+  void load_tilemap_visibility(const ssq::Table& table, WorldMapSector& sector);
+  void load_sprite_change_objects(const ssq::Table& table, WorldMapSector& sector);
 
 private:
   WorldMap& m_worldmap;
-  WorldMapSector* m_sector;
 
   /** Variables, related to loading. **/
   bool m_position_was_reset;

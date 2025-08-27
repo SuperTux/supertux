@@ -267,7 +267,7 @@ WorldMap::take_preview_screenshot()
     return;
   }
 
-  const std::string file = FileSystem::strip_extension(FileSystem::basename(m_savegame.get_filename())) + ".png";
+  const std::string file = FileSystem::strip_extension(FileSystem::basename(m_savegame->get_filename())) + ".png";
   const std::string path = FileSystem::join(directory, file);
   if (PHYSFS_exists(path.c_str()) && !PHYSFS_delete(path.c_str()))
   {
