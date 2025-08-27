@@ -295,6 +295,7 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
   }
   else if (key.keysym.sym == SDLK_RETURN)
   {
+    m_has_focus = false;
     parse_value();
     return true;
   }
