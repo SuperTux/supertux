@@ -21,6 +21,7 @@
 #include <physfs.h>
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
 #include "supertux/constants.hpp"
@@ -187,7 +188,7 @@ WorldMap::leave()
 void
 WorldMap::quit()
 {
-  if (g_config->show_world_previews)
+  if (g_config->show_world_previews && !Editor::current())
   {
     // Prepare to take preview screenshot, when leaving the worldmap.
     m_screenshot_request = true;
