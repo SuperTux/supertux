@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_STICKY_OBJECT_HPP
-#define HEADER_SUPERTUX_OBJECT_STICKY_OBJECT_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 #include "object/moving_sprite.hpp"
@@ -62,7 +61,7 @@ private:
   }
 
 protected:
-  bool m_sticky; // determines if the object CAN stick, period. 
+  bool m_sticky; // determines if the object CAN stick, period.
   bool m_sticking; // determines if the object has found something to stick to.
   Vector m_displacement_from_owner;
 
@@ -112,7 +111,7 @@ private:
   }
 
 protected:
-  bool m_sticky; // determines if the object CAN stick, period. 
+  bool m_sticky; // determines if the object CAN stick, period.
   bool m_sticking; // determines if the object has found something to stick to.
   Vector m_displacement_from_owner;
 
@@ -120,7 +119,3 @@ private:
   StickyBadguy(const StickyBadguy&) = delete;
   StickyBadguy& operator=(const StickyBadguy&) = delete;
 };
-
-#endif
-
-/* EOF */

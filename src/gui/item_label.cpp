@@ -44,5 +44,3 @@ int
 ItemLabel::get_width() const {
   return static_cast<int>(Resources::big_font->get_text_width(get_text())) + 16;
 }
-
-/* EOF */

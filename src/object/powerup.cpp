@@ -344,5 +344,3 @@ PowerUp::on_flip(float height)
   if (no_physics)
     FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

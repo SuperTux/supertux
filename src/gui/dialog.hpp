@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_DIALOG_HPP
-#define HEADER_SUPERTUX_GUI_DIALOG_HPP
+#pragma once
 
 #include <SDL.h>
 #include <functional>
@@ -106,7 +105,3 @@ private:
   Dialog(const Dialog&) = delete;
   Dialog& operator=(const Dialog&) = delete;
 };
-
-#endif
-
-/* EOF */

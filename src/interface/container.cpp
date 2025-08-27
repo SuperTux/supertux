@@ -28,7 +28,7 @@ InterfaceContainer::event(const SDL_Event& ev)
   for (auto& child : m_children)
     if (child.event(ev))
       return true;
-  
+
   return false;
 }
 

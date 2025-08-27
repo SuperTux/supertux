@@ -32,7 +32,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-const Color Gradient::DEFAULT_GRADIENT_TOP(0.3f, 0.4f, 0.75f);
+const Color Gradient::DEFAULT_GRADIENT_TOP(0.5f, 0.7f, 1.f);
 const Color Gradient::DEFAULT_GRADIENT_BOTTOM(Color::WHITE);
 
 Gradient::Gradient() :
@@ -130,18 +130,18 @@ void
 Gradient::update(float delta)
 {
   if (m_fade_time <= 0) return;
-  
+
   m_fade_time -= delta;
   if (m_fade_time <= 0)
   {
     m_fade_time = 0;
-    
+
     m_gradient_top = m_fade_gradient_top;
     m_gradient_bottom = m_fade_gradient_bottom;
-    
+
     return;
   }
-  
+
   float progress = m_fade_time / m_fade_total_time;
   m_gradient_top =
     (m_fade_gradient_top + (m_start_gradient_top - m_fade_gradient_top) * progress).validate();
@@ -189,7 +189,7 @@ Gradient::get_direction_string() const
   if (m_gradient_direction == VERTICAL_SECTOR)
     return "vertical_sector";
 
-  return nullptr;
+  return "";
 }
 
 void
@@ -219,39 +219,39 @@ Gradient::set_direction(const std::string& direction)
 }
 
 void
-Gradient::set_color1(float red, float green, float blue)
+Gradient::set_color1(float red, float green, float blue, float alpha)
 {
-  set_gradient(Color(red, green, blue), m_gradient_bottom);
+  set_gradient(Color(red, green, blue, alpha), m_gradient_bottom);
 }
 
 void
-Gradient::set_color2(float red, float green, float blue)
+Gradient::set_color2(float red, float green, float blue, float alpha)
 {
-  set_gradient(m_gradient_top, Color(red, green, blue));
+  set_gradient(m_gradient_top, Color(red, green, blue, alpha));
 }
 
 void
-Gradient::set_colors(float red1, float green1, float blue1, float red2, float green2, float blue2)
+Gradient::set_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float alpha1, float alpha2)
 {
-  set_gradient(Color(red1, green1, blue1), Color(red2, green2, blue2));
+  set_gradient(Color(red1, green1, blue1, alpha1), Color(red2, green2, blue2, alpha2));
 }
 
 void
-Gradient::fade_color1(float red, float green, float blue, float time)
+Gradient::fade_color1(float red, float green, float blue, float time, float alpha)
 {
-  fade_gradient(Color(red, green, blue), m_gradient_bottom, time);
+  fade_gradient(Color(red, green, blue, alpha), m_gradient_bottom, time);
 }
 
 void
-Gradient::fade_color2(float red, float green, float blue, float time)
+Gradient::fade_color2(float red, float green, float blue, float time, float alpha)
 {
-  fade_gradient(m_gradient_top, Color(red, green, blue), time);
+  fade_gradient(m_gradient_top, Color(red, green, blue, alpha), time);
 }
 
 void
-Gradient::fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time)
+Gradient::fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time, float alpha1, float alpha2)
 {
-  fade_gradient(Color(red1, green1, blue1), Color(red2, green2, blue2), time);
+  fade_gradient(Color(red1, green1, blue1, alpha1), Color(red2, green2, blue2, alpha2), time);
 }
 
 void
@@ -310,13 +310,11 @@ Gradient::register_class(ssq::VM& vm)
 
   cls.addFunc<void, Gradient, const std::string&>("set_direction", &Gradient::set_direction);
   cls.addFunc("get_direction", &Gradient::get_direction_string);
-  cls.addFunc("set_color1", &Gradient::set_color1);
-  cls.addFunc("set_color2", &Gradient::set_color2);
-  cls.addFunc("set_colors", &Gradient::set_colors);
-  cls.addFunc("fade_color1", &Gradient::fade_color1);
-  cls.addFunc("fade_color2", &Gradient::fade_color2);
-  cls.addFunc("fade_colors", &Gradient::fade_colors);
+  cls.addFunc("set_color1", &Gradient::set_color1, ssq::DefaultArguments<float>(1.f));
+  cls.addFunc("set_color2", &Gradient::set_color2, ssq::DefaultArguments<float>(1.f));
+  cls.addFunc("set_colors", &Gradient::set_colors, ssq::DefaultArguments<float, float>(1.f, 1.f));
+  cls.addFunc("fade_color1", &Gradient::fade_color1, ssq::DefaultArguments<float>(1.f));
+  cls.addFunc("fade_color2", &Gradient::fade_color2, ssq::DefaultArguments<float>(1.f));
+  cls.addFunc("fade_colors", &Gradient::fade_colors, ssq::DefaultArguments<float, float>(1.f, 1.f));
   cls.addFunc("swap_colors", &Gradient::swap_colors);
 }
-
-/* EOF */

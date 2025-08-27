@@ -110,7 +110,7 @@ Brick::collision(MovingObject& other, const CollisionHit& hit)
   }
 
   auto crusher = dynamic_cast<Crusher*> (&other);
-  if (crusher && m_coin_counter == 0)
+  if (crusher && crusher->get_state() == Crusher::CRUSHING && m_coin_counter == 0)
     try_break(nullptr);
 
   return Block::collision(other, hit);
@@ -151,11 +151,12 @@ Brick::try_break(Player* player, bool slider)
 void
 Brick::break_for_crusher(Crusher* crusher)
 {
-  float shake_vel_x = crusher->is_sideways() ? crusher->get_physic().get_velocity_x() >= 0.f ? 6.f : -6.f : 0.f;
-  float shake_vel_y = crusher->is_sideways() ? 0.f : 6.f;
-  Sector::get().get_camera().shake(0.1f, shake_vel_x, shake_vel_y);
-  try_break(nullptr);
-  start_break(crusher);
+  // FIXME: This function shouldn't even exist
+   float shake_vel_x = crusher->is_sideways() ? crusher->get_physic().get_velocity_x() >= 0.f ? 6.f : -6.f : 0.f;
+   float shake_vel_y = crusher->is_sideways() ? 0.f : 6.f;
+   Sector::get().get_camera().shake(0.1f, shake_vel_x, shake_vel_y);
+   try_break(nullptr);
+   start_break(crusher);
 }
 
 ObjectSettings
@@ -183,7 +184,7 @@ HeavyBrick::collision(MovingObject& other, const CollisionHit& hit)
   if (player && player->m_does_buttjump) ricochet(&other);
 
   auto crusher = dynamic_cast<Crusher*>(&other);
-  if (crusher)
+  if (crusher && crusher->get_state() == Crusher::CRUSHING)
   {
     if (crusher->is_big())
       try_break(nullptr);
@@ -220,5 +221,3 @@ HeavyBrick::hit(Player& player)
 {
   ricochet(&player);
 }
-
-/* EOF */

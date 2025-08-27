@@ -52,7 +52,7 @@ Config::Config() :
 #else
   use_fullscreen(false),
 #endif
-  video(VideoSystem::VIDEO_AUTO),
+  video(VideoSystem::VIDEO_SDL),
   vsync(1),
   frame_prediction(false),
   show_fps(false),
@@ -79,6 +79,7 @@ Config::Config() :
   confirmation_dialog(false),
   pause_on_focusloss(true),
   custom_mouse_cursor(true),
+  custom_system_cursor(false),
   do_release_check(false),
   disable_network(true),
   show_world_previews(true),
@@ -153,6 +154,7 @@ Config::load()
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
+  config_mapping.get("custom_system_cursor", custom_system_cursor);
   config_mapping.get("do_release_check", do_release_check);
   config_mapping.get("disable_network", disable_network);
   config_mapping.get("show_world_previews", show_world_previews);
@@ -223,7 +225,7 @@ Config::load()
   }
 
   // Compatibility; will be overwritten by the "editor" category.
-  
+
   config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
   editor_autotile_help = !developer_mode;
@@ -375,6 +377,7 @@ Config::save()
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
+  writer.write("custom_system_cursor", custom_system_cursor);
   writer.write("do_release_check", do_release_check);
   writer.write("disable_network", disable_network);
   writer.write("show_world_previews", show_world_previews);
@@ -528,5 +531,3 @@ Config::is_christmas() const
   /* Activate Christmas mode from Dec 6th until Dec 31st. */
   return now->tm_mday >= 6 && now->tm_mon == 11;
 }
-
-/* EOF */

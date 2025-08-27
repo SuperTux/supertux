@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_SAVEGAME_HPP
-#define HEADER_SUPERTUX_SUPERTUX_SAVEGAME_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -128,7 +127,3 @@ private:
   Savegame(const Savegame&) = delete;
   Savegame& operator=(const Savegame&) = delete;
 };
-
-#endif
-
-/* EOF */

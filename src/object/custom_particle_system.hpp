@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_CUSTOM_PARTICLE_SYSTEM_HPP
-#define HEADER_SUPERTUX_OBJECT_CUSTOM_PARTICLE_SYSTEM_HPP
+#pragma once
 
 #include "object/particlesystem_interactive.hpp"
 
@@ -1113,7 +1112,3 @@ private:
   CustomParticleSystem(const CustomParticleSystem&) = delete;
   CustomParticleSystem& operator=(const CustomParticleSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

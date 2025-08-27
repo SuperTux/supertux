@@ -86,5 +86,3 @@ SpawnPointObject::get_settings()
 }
 
 } // namespace worldmap
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
-#define HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
+#pragma once
 
 #include "math/anchor_point.hpp"
 #include "sprite/sprite.hpp"
@@ -170,7 +169,3 @@ private:
   MovingSprite(const MovingSprite&) = delete;
   MovingSprite& operator=(const MovingSprite&) = delete;
 };
-
-#endif
-
-/* EOF */

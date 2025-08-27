@@ -120,7 +120,7 @@ ObjectSettings
 NodeMarker::get_settings()
 {
   ObjectSettings result(_("Path Node"));
-  result.add_label(_("Press CTRL to move Bezier handles"));
+  result.add_label(_("Press CTRL to move Bézier handles"));
   result.add_float(_("Time"), &(m_node->time));
   result.add_float(_("Speed"), &(m_node->speed));
 
@@ -205,7 +205,7 @@ void NodeMarker::update_node_time(std::vector<Path::Node>::iterator current, std
 }
 
 void
-NodeMarker::move_other_marker(UID marker, Vector position)
+NodeMarker::move_other_marker(UID marker, const Vector& position)
 {
   assert(marker == m_bezier_before || marker == m_bezier_after);
 
@@ -227,5 +227,3 @@ NodeMarker::check_state()
 {
   m_path->get_gameobject().check_state();
 }
-
-/* EOF */

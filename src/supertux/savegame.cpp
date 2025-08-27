@@ -442,5 +442,3 @@ Savegame::get_worldmap_progress()
 
   return progress;
 }
-
-/* EOF */

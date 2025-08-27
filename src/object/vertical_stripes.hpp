@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_VERTICAL_STRIPES_HPP
-#define HEADER_SUPERTUX_OBJECT_VERTICAL_STRIPES_HPP
+#pragma once
 
 #include "math/rect.hpp"
 #include "math/rectf.hpp"
@@ -45,7 +44,3 @@ private:
   VerticalStripes(const VerticalStripes&) = delete;
   VerticalStripes& operator=(const VerticalStripes&) = delete;
 };
-
-#endif
-
-/* EOF */

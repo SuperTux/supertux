@@ -1,0 +1,5 @@
+if(EXISTS "${OUTPUT}")
+  message(STATUS "Skipping generation of dbghelp.dll.a")
+  return()
+endif()
+execute_process(COMMAND "${DLLTOOL_PATH}" -k -d "${DEFINITIONS}" -l "${OUTPUT}")

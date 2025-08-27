@@ -64,5 +64,3 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
 
   align_for_previews();
 }
-
-/* EOF */

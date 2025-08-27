@@ -35,7 +35,10 @@
 #include <curl/curl.h>
 #endif
 
-#include <SDL.h>
+#include <SDL2/SDL_version.h>
+#if SDL_VERSION_ATLEAST(2,0,14)
+#include <SDL2/SDL_misc.h>
+#endif
 
 #include "gui/dialog.hpp"
 #include "util/log.hpp"
@@ -260,5 +263,3 @@ void open_url(const std::string& url)
 }
 
 } // namespace FileSystem
-
-/* EOF */

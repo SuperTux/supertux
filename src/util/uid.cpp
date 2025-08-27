@@ -31,5 +31,3 @@ size_t hash<UID>::operator()(const UID& uid) const
 }
 
 } // namespace std
-
-/* EOF */

@@ -14,14 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_MATH_RECT_HPP
-#define HEADER_SUPERTUX_MATH_RECT_HPP
+#pragma once
 
 #include <iosfwd>
 
 #include <algorithm>
 #include <tuple>
-#include <SDL.h>
+#include <SDL_rect.h>
 
 #include "math/size.hpp"
 
@@ -155,7 +154,3 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& out, const Rect& rect);
-
-#endif
-
-/* EOF */

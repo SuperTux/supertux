@@ -14,14 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_MOBILE_CONTROLLER_HPP
-#define HEADER_SUPERTUX_CONTROL_MOBILE_CONTROLLER_HPP
+#pragma once
 
 #include <SDL.h>
 #include <map>
 
 #include "config.h"
-
 
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
@@ -69,7 +67,3 @@ private:
   MobileController(const MobileController&) = delete;
   MobileController& operator=(const MobileController&) = delete;
 };
-
-#endif
-
-/* EOF */

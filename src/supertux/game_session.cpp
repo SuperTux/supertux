@@ -127,11 +127,12 @@ GameSession::reset_level()
 void
 GameSession::on_player_added(int id)
 {
-  if (m_savegame.get_player_status().m_num_players <= id)
-    m_savegame.get_player_status().add_player();
+  auto& player_status = m_savegame.get_player_status();
+  if (player_status.m_num_players <= id)
+    player_status.add_player();
 
   // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-  auto& player = m_currentsector->add<Player>(m_savegame.get_player_status(), "Tux" + std::to_string(id + 1), id);
+  auto& player = m_currentsector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
 
   player.multiplayer_prepare_spawn();
 }
@@ -262,21 +263,22 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   if (!preserve_music)
   {
     auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
-    if (after_death == true) {
+    if (after_death == true)
+    {
       music_object.resume_music();
-    } else {
+    }
+    else
+    {
       SoundManager::current()->stop_music();
       music_object.play_music(LEVEL_MUSIC);
     }
   }
 
   auto level_times = m_currentsector->get_objects_by_type<LevelTime>();
-  auto it = level_times.begin();
 
-  while (it != level_times.end())
+  for(auto& level_time : level_times)
   {
-    it->set_time(it->get_time() - m_play_time);
-    it++;
+    level_time.set_time(level_time.get_time() - m_play_time);
   }
 }
 
@@ -601,6 +603,9 @@ GameSession::update(float dt_sec, const Controller& controller)
 
       if (m_spawn_with_invincibility)
       {
+        // Reset velocity to avoid taking any movement from last sector to new one
+        p->set_velocity(0.0f, 0.0f);
+
         // Make all players temporarily safe after spawning
         p->make_temporarily_safe(SAFE_TIME);
       }
@@ -949,5 +954,3 @@ GameSession::drawstatus(DrawingContext& context)
 
   m_level->m_stats.draw_ingame_stats(context, m_game_pause);
 }
-
-/* EOF */

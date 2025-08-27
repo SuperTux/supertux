@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_D_SCOPE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_D_SCOPE_HPP
+#pragma once
 
 #include "util/dynamic_scoped_ref.hpp"
 
@@ -38,7 +37,3 @@ extern DynamicScopedRef<GameObjectManager> d_gameobject_manager;
 #define BIND_WORLDMAP_SECTOR(x) \
   auto worldmap_guard = d_worldmap_sector.bind(x);  \
   auto gameobject_manager_guard = d_gameobject_manager.bind(x)
-
-#endif
-
-/* EOF */

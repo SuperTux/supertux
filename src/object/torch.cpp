@@ -129,5 +129,3 @@ Torch::register_class(ssq::VM& vm)
 
   cls.addVar("burning", &Torch::m_burning);
 }
-
-/* EOF */

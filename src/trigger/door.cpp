@@ -275,5 +275,3 @@ Door::unlock()
   m_unlocking_timer.start(1.f);
   m_state = DoorState::UNLOCKING;
 }
-
-/* EOF */

@@ -36,7 +36,7 @@ ControlCheckbox::draw(DrawingContext& context)
                                    LAYER_GUI);
   if (*m_value) {
     context.color().draw_text(Resources::control_font,
-                              "X", 
+                              "X",
                               Vector((m_rect.get_left() + m_rect.get_right()) / 2 + 1.f,
                                      (m_rect.get_top() + m_rect.get_bottom()) / 2 - Resources::control_font->get_height() / 2),
                               FontAlignment::ALIGN_CENTER,
@@ -89,5 +89,3 @@ ControlCheckbox::on_key_up(const SDL_KeyboardEvent& key)
 
   return true;
 }
-
-/* EOF */

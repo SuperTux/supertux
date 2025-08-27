@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_FADE_HELPER_HPP
-#define HEADER_SUPERTUX_UTIL_FADE_HELPER_HPP
+#pragma once
 
 #include "math/easing.hpp"
 
@@ -33,7 +32,7 @@ public:
 
   /**
    * Increases the internal timer of the FadeHelper.
-   * 
+   *
    * @param dt_sec The increase in time since last call to update().
    * @returns The new value for the internal value.
    */
@@ -55,7 +54,3 @@ private:
   FadeHelper(const FadeHelper&) = delete;
   FadeHelper& operator=(const FadeHelper&) = delete;
 };
-
-#endif
-
-/* EOF */

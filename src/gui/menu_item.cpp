@@ -24,6 +24,8 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
+static const float HELP_TEXT_WIDTH = 800.f;
+
 MenuItem::MenuItem(const std::string& text, int id, const std::optional<Color>& text_color) :
   m_id(id),
   m_text(text),
@@ -42,11 +44,11 @@ void
 MenuItem::set_help(const std::string& help_text)
 {
   std::string overflow;
-  m_help = m_font->wrap_to_width(help_text, 600, &overflow);
+  m_help = m_font->wrap_to_width(help_text, HELP_TEXT_WIDTH, &overflow);
   while (!overflow.empty())
   {
     m_help += "\n";
-    m_help += m_font->wrap_to_width(overflow, 600, &overflow);
+    m_help += m_font->wrap_to_width(overflow, HELP_TEXT_WIDTH, &overflow);
   }
 }
 
@@ -82,5 +84,3 @@ MenuItem::get_width() const
 {
   return static_cast<int>(m_font->get_text_width(m_text)) + 16;
 }
-
-/* EOF */

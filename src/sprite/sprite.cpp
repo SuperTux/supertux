@@ -126,6 +126,7 @@ Sprite::set_action(const std::string& name, int loops)
   }
 
   m_action = newaction;
+  m_last_ticks = g_game_time;
 }
 
 bool
@@ -137,7 +138,7 @@ Sprite::animation_done() const
 void
 Sprite::update()
 {
-  float frame_inc = m_action->fps * (g_game_time - m_last_ticks);
+  float frame_inc = m_last_ticks > 0.f ? m_action->fps * (g_game_time - m_last_ticks) : 0.f;
   m_last_ticks = g_game_time;
 
   if (m_is_paused) return;
@@ -236,5 +237,3 @@ Sprite::get_current_hitbox() const
 {
   return Rectf(m_action->x_offset, m_action->y_offset, m_action->x_offset + m_action->hitbox_w, m_action->y_offset + m_action->hitbox_h);
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_INVISIBLE_WALL_HPP
-#define HEADER_SUPERTUX_OBJECT_INVISIBLE_WALL_HPP
+#pragma once
 
 #include "supertux/moving_object.hpp"
 
@@ -56,7 +55,3 @@ private:
   InvisibleWall(const InvisibleWall&) = delete;
   InvisibleWall& operator=(const InvisibleWall&) = delete;
 };
-
-#endif
-
-/* EOF */

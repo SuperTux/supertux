@@ -70,5 +70,3 @@ Blend_to_string(Blend blend)
     return "blend";
   }
 }
-
-/* EOF */

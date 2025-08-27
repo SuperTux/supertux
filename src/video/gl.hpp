@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_GL_HPP
-#define HEADER_SUPERTUX_VIDEO_GL_HPP
+#pragma once
 
 #include <config.h>
 
@@ -26,13 +25,8 @@
 #elif defined(USE_OPENGLES1)
 #  include <SDL_opengles.h>
 #else
-#  ifdef USE_GLBINDING
-#    include <glbinding/gl/gl.h>
-#    include <glbinding/gl/bitfield.h>
-#  else
-#    include <GL/glew.h>
-#    define GL_NONE_BIT 0
-#  endif
+#  include <GL/glew.h>
+#  define GL_NONE_BIT 0
 #endif
 
 #ifdef USE_OPENGLES1
@@ -45,17 +39,6 @@
 inline void glGenVertexArrays(GLsizei n, GLuint *arrays) {}
 inline void glDeleteVertexArrays(GLsizei n, GLuint *arrays) {}
 inline void glBindVertexArray(GLuint vao) {}
-#endif
-
-#ifdef USE_GLBINDING
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wheader-hygiene"
-#endif
-using namespace gl;
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
 #endif
 
 #else
@@ -78,7 +61,3 @@ enum GLenum {
 };
 
 #endif
-
-#endif
-
-/* EOF */

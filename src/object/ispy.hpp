@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_ISPY_HPP
-#define HEADER_SUPERTUX_OBJECT_ISPY_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 #include "supertux/direction.hpp"
@@ -59,7 +58,3 @@ private:
   Ispy(const Ispy&) = delete;
   Ispy& operator=(const Ispy&) = delete;
 };
-
-#endif
-
-/* EOF */

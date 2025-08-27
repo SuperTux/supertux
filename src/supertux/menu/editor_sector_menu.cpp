@@ -30,11 +30,12 @@ EditorSectorMenu::EditorSectorMenu() :
   size(sector->get_editor_size()),
   new_size(size),
   offset(0, 0)
-{ 
+{
   add_label(fmt::format(fmt::runtime(_("Sector {}")), sector->get_name()));
   add_hl();
   add_textfield(_("Name"), &sector->m_name);
   add_script(_("Initialization script"), &sector->m_init_script);
+  add_toggle(0, _("Run initialization script only once"), &sector->m_init_script_run_once);
   add_floatfield(_("Gravity"), &sector->m_gravity);
 
   add_hl();
@@ -76,11 +77,9 @@ EditorSectorMenu::menu_action(MenuItem& item)
   switch (item.get_id()) {
     case MNID_RESIZESECTOR:
       if (new_size.is_valid()) {
-        sector->resize_sector(size, new_size, offset);
+        sector->resize(size, new_size, offset);
         size = new_size;
       }
       break;
   }
 }
-
-/* EOF */

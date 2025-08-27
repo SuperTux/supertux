@@ -315,5 +315,3 @@ RainParticleSystem::register_class(ssq::VM& vm)
   cls.addFunc("fade_amount", &RainParticleSystem::fade_amount);
   cls.addFunc<void, RainParticleSystem, float, float, const std::string&>("fade_angle", &RainParticleSystem::fade_angle);
 }
-
-/* EOF */

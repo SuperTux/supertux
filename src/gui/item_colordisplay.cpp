@@ -38,5 +38,3 @@ int
 ItemColorDisplay::get_width() const {
   return 0;
 }
-
-/* EOF */

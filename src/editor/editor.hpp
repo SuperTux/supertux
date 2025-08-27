@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_EDITOR_HPP
-#define HEADER_SUPERTUX_EDITOR_EDITOR_HPP
+#pragma once
 
 #include <functional>
 #include <vector>
@@ -158,6 +157,10 @@ public:
 
   inline Sector* get_sector() { return m_sector; }
 
+  inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
+
+  void queue_layers_refresh();
+
   void retoggle_undo_tracking();
   void undo_stack_cleanup();
 
@@ -236,11 +239,9 @@ private:
 
   Vector m_mouse_pos;
 
+  bool m_layers_widget_needs_refresh;
+
 private:
   Editor(const Editor&) = delete;
   Editor& operator=(const Editor&) = delete;
 };
-
-#endif
-
-/* EOF */

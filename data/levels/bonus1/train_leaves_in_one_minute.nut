@@ -16,7 +16,7 @@ class TrainManager {
 	]
 
 	constructor(_time = 60) {
-		image = FloatingImage("images/objects/train/train.png")
+		image = FloatingImage("images/engine/hud/train.png")
 		image.set_anchor_point(ANCHOR_TOP)
 		image.set_pos(-22, 43)
 

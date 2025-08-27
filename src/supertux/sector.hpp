@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
-#define HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
+#pragma once
 
 #include "supertux/sector_base.hpp"
 
@@ -85,6 +84,8 @@ public:
   inline Level& get_level() const { return m_level; }
   TileSet* get_tileset() const override;
   bool in_worldmap() const override;
+  inline void set_init_script_run_once(bool run_once) { m_init_script_run_once = run_once; }
+  inline bool get_init_script_run_once() const { return m_init_script_run_once; }
 
   /** activates this sector (change music, initialize player class, ...) */
   void activate(const std::string& spawnpoint);
@@ -149,7 +150,8 @@ public:
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
       This includes badguys and players. */
-  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr,
+                                bool ignore_unisolid = false) const;
   /**
    * @scripting
    * @description Checks if the specified sector-relative rectangle is free of both:
@@ -207,7 +209,7 @@ public:
   Size get_editor_size() const;
 
   /** resize all tilemaps with given size */
-  void resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset);
+  void resize(const Size& old_size, const Size& new_size, const Size& resize_offset);
 
   /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
@@ -266,12 +268,15 @@ private:
   Vector m_last_translation; // For camera interpolation at high frame rates
   float m_last_scale;
   float m_last_dt;
+  bool m_init_script_run;
+  bool m_init_script_run_once;
+
+ public: 
+  // The default sector size.
+  static const int DEFAULT_SECTOR_WIDTH = 350;
+  static const int DEFAULT_SECTOR_HEIGHT = 60;
 
 private:
   Sector(const Sector&) = delete;
   Sector& operator=(const Sector&) = delete;
 };
-
-#endif
-
-/* EOF */

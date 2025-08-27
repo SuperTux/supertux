@@ -214,7 +214,7 @@ Rock::collision(MovingObject& other, const CollisionHit& hit)
 
   auto crusher = dynamic_cast<Crusher*> (&other);
   if (crusher) {
-    return FORCE_MOVE;
+    return ABORT_MOVE;
   }
 
   if (hit.bottom) {
@@ -331,5 +331,3 @@ Rock::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
   if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
 }
-
-/* EOF */

@@ -404,5 +404,3 @@ inline void MD5::II(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x,
   a += I(b, c, d) + x + ac;
   a = rotate_left (a, s) +b;
 }
-
-/* EOF */

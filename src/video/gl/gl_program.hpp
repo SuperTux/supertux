@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_GL_GL_PROGRAM_HPP
-#define HEADER_SUPERTUX_VIDEO_GL_GL_PROGRAM_HPP
+#pragma once
 
 #include <assert.h>
 #include <memory>
@@ -46,6 +45,7 @@ public:
   inline GLint get_position_location() const { return check_valid(m_position_location, "position"); }
   inline GLint get_texcoord_location() const { return check_valid(m_texcoord_location, "texcoord"); }
   inline GLint get_diffuse_location() const { return check_valid(m_diffuse_location, "diffuse"); }
+  inline GLint get_is_displacement_location() const { return check_valid(m_is_displacement_location, "is_displacement"); }
 
 private:
   bool get_link_status() const;
@@ -71,12 +71,9 @@ private:
   GLint m_position_location;
   GLint m_texcoord_location;
   GLint m_diffuse_location;
+  GLint m_is_displacement_location;
 
 private:
   GLProgram(const GLProgram&) = delete;
   GLProgram& operator=(const GLProgram&) = delete;
 };
-
-#endif
-
-/* EOF */

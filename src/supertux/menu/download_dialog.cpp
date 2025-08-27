@@ -119,5 +119,3 @@ DownloadDialog::on_download_complete()
     MenuManager::instance().set_dialog({});
   });
 }
-
-/* EOF */

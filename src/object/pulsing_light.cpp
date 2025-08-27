@@ -54,7 +54,7 @@ PulsingLight::update(float dt_sec)
 
 void
 PulsingLight::draw(DrawingContext& context)
-{ 
+{
   const float alpha = min_alpha + ((max_alpha - min_alpha) * std::cos(math::TAU * t / cycle_len));
   if (parent_tilemap) {
     position = rel_position + parent_tilemap->get_offset();
@@ -63,8 +63,6 @@ PulsingLight::draw(DrawingContext& context)
   } else {
     color.alpha = rel_color.alpha * alpha;
   }
-  
+
   Light::draw(context);
 }
-
-/* EOF */

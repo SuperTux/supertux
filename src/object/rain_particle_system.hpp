@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_RAIN_PARTICLE_SYSTEM_HPP
-#define HEADER_SUPERTUX_OBJECT_RAIN_PARTICLE_SYSTEM_HPP
+#pragma once
 
 #include "object/particlesystem_interactive.hpp"
 
@@ -122,14 +121,10 @@ private:
   float m_current_amount;
   float m_target_amount;
   float m_amount_fade_time_remaining;
-  
+
   float m_current_real_amount;
 
 private:
   RainParticleSystem(const RainParticleSystem&) = delete;
   RainParticleSystem& operator=(const RainParticleSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

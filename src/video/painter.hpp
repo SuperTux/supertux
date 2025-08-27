@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_PAINTER_HPP
-#define HEADER_SUPERTUX_VIDEO_PAINTER_HPP
+#pragma once
 
 #include "math/rect.hpp"
 #include "math/vector.hpp"
@@ -56,7 +55,3 @@ private:
   Painter(const Painter&) = delete;
   Painter& operator=(const Painter&) = delete;
 };
-
-#endif
-
-/* EOF */

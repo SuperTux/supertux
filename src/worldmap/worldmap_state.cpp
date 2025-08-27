@@ -335,9 +335,7 @@ WorldMapState::save_state()
     log_warning << "Failed to save worldmap state: " << err.what() << std::endl;
   }
 
-  m_worldmap.m_savegame.save();
+  m_worldmap.get_savegame().save();
 }
 
 } // namespace worldmap
-
-/* EOF */

@@ -197,5 +197,3 @@ ItemColorChannelRGBA::get_color() const
 {
   return m_channel;
 }
-
-/* EOF */

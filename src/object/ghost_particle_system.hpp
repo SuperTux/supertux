@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_GHOST_PARTICLE_SYSTEM_HPP
-#define HEADER_SUPERTUX_OBJECT_GHOST_PARTICLE_SYSTEM_HPP
+#pragma once
 
 #include "object/particlesystem.hpp"
 #include "video/surface_ptr.hpp"
@@ -59,7 +58,3 @@ private:
   GhostParticleSystem(const GhostParticleSystem&) = delete;
   GhostParticleSystem& operator=(const GhostParticleSystem&) = delete;
 };
-
-#endif
-
-/* EOF */
