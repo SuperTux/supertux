@@ -24,7 +24,7 @@ void main(void)
     if ((attrs_var & 0x0200u) == 0x0200u && (attrs_var & 0x0800u) != 0x0800u) // Water (not lava)
     {
       vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_var.st);
-      vec2 uv = (fragcoord2uv * gl_FragCoord.xyw).xy + vec2(0.0, 0.03);
+      vec2 uv = (fragcoord2uv * gl_FragCoord.xyw).xy;
       uv.x = uv.x + 0.003 * sin(game_time + uv.y * 80);
       uv.y = 1.0 - uv.y + 0.005 * cos(game_time + uv.y * 140);;
       vec4 back_color = texture(framebuffer_texture, uv);
@@ -32,7 +32,7 @@ void main(void)
       if (backbuffer == 0.0)
         fragColor = color;
       else
-        fragColor = vec4(mix(color.rgb, back_color.rgb, 0.2 * backbuffer), 1.0);
+        fragColor = vec4(mix(color.rgb, back_color.rgb, 1.0 * backbuffer), 1.0);
     }
     else
     {

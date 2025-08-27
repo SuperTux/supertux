@@ -164,11 +164,12 @@ BadGuy::draw(DrawingContext& context)
 
   Vector draw_offset = context.get_time_offset() * m_physic.get_velocity();
   Vector draw_pos = get_pos() + draw_offset;
+  int layer = m_in_water ? -1 : m_layer;
 
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
     if (Editor::is_active()) {
-      m_sprite->draw(context.color(), draw_pos, m_layer, m_flip);
+      m_sprite->draw(context.color(), draw_pos, layer, m_flip);
     }
   }
   else
@@ -177,30 +178,30 @@ BadGuy::draw(DrawingContext& context)
     {
       context.push_transform();
       context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
-      m_sprite->draw(context.color(), draw_pos, m_layer, m_flip);
+      m_sprite->draw(context.color(), draw_pos, layer, m_flip);
       context.pop_transform();
     }
     else
     {
       if (m_unfreeze_timer.started() && m_unfreeze_timer.get_timeleft() <= 1.f)
       {
-        m_sprite->draw(context.color(), draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer - 1, m_flip);
+        m_sprite->draw(context.color(), draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f), layer - 1, m_flip);
         if (is_portable())
-          m_freezesprite->draw(context.color(), draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer);
+          m_freezesprite->draw(context.color(), draw_pos + Vector(graphicsRandom.randf(-3, 3), 0.f), layer);
       }
       else
       {
         if (m_frozen && is_portable())
         {
-          m_freezesprite->draw(context.color(), draw_pos, m_layer);
+          m_freezesprite->draw(context.color(), draw_pos, layer);
         }
 
         if (m_state != STATE_BURNING || m_firesprite->get_current_frame() < 5)
-          m_sprite->draw(context.color(), draw_pos, m_layer - (m_frozen ? 1 : 0), m_flip);
+          m_sprite->draw(context.color(), draw_pos, layer - (m_frozen ? 1 : 0), m_flip);
       }
 
       if (m_state == STATE_BURNING) {
-        m_firesprite->draw(context.color(), draw_pos, m_layer);
+        m_firesprite->draw(context.color(), draw_pos, layer);
       }
 
       if (m_glowing)
