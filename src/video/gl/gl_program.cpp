@@ -37,7 +37,8 @@ GLProgram::GLProgram() :
   m_position_location(-1),
   m_texcoord_location(-1),
   m_diffuse_location(-1),
-  m_is_displacement_location(-1)
+  m_is_displacement_location(-1),
+  m_attrs_location(-1)
 {
   assert_gl();
 
@@ -77,6 +78,7 @@ GLProgram::GLProgram() :
   m_position_location = glGetAttribLocation(m_program, "position");
   m_texcoord_location = glGetAttribLocation(m_program, "texcoord");
   m_diffuse_location = glGetAttribLocation(m_program, "diffuse");
+  m_attrs_location = glGetAttribLocation(m_program, "attrs");
 
   assert_gl();
 }

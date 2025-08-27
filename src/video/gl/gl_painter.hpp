@@ -49,6 +49,7 @@ private:
 private:
   std::vector<float> m_vertices;
   std::vector<float> m_uvs;
+  std::vector<uint32_t> m_attrs;
 
 private:
   GLPainter(const GLPainter&) = delete;
