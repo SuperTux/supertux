@@ -120,9 +120,6 @@ public:
   /** Align the menu to the left side, if any previews are available. */
   void align_for_previews(float x_offset = 30.f);
 
-  /** returns true when the menu should be aligned for and always draw preview data, even if no item preview is available */
-  virtual bool force_previews() const { return false; }
-
   MenuItem& get_item(int index) { return *(m_items[index]); }
 
   MenuItem& get_item_by_id(int id);
@@ -188,6 +185,9 @@ private:
 
 protected:
   int m_active_item;
+
+  /** Set this to true if the menu should be aligned for and always draw preview data, even if no item preview is available */
+  bool m_force_previews;
 
 private:
   /* Preview implementation variables. */

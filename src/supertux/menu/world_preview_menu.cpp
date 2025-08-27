@@ -45,12 +45,18 @@ WorldPreviewMenu::add_world(const std::string& title, const std::string& folder,
   ItemAction& item = add_entry(static_cast<int>(m_world_entries.size()), title);
 
   if (g_config->show_world_previews && preview)
+  {
     item.set_preview(preview);
+    m_force_previews = true;
+  }
 
   std::string progress_text;
   if (progress.total > 0) // Only show progress, if provided.
+  {
     progress_text = fmt::format(fmt::runtime(_("{}/{} finished, {}/{} perfected ({}%)")),
         progress.solved, progress.total, progress.perfect, progress.total, progress.get_percentage());
+    m_force_previews = true;
+  }
 
   m_world_entries.push_back({ folder, progress_text });
 

@@ -68,6 +68,7 @@ Menu::Menu() :
   m_items(),
   m_arrange_left(0),
   m_active_item(-1),
+  m_force_previews(false),
   m_has_previews(false),
   m_last_preview_item(-1),
   m_last_preview_item_valid(false),
@@ -85,7 +86,7 @@ Menu::~Menu()
 void
 Menu::align_for_previews(float x_offset)
 {
-  m_has_previews = force_previews();
+  m_has_previews = m_force_previews;
   if (!m_has_previews)
   {
     for (const auto& item : m_items)
@@ -584,7 +585,7 @@ Menu::draw_preview(DrawingContext& context)
   // Update fade.
   if (m_active_item != m_last_preview_item && !m_preview_fade_active) // Index has changed, there is no current fade.
   {
-    if (valid_last_preview || (force_previews() && m_last_preview_item > -1 && m_last_preview_item_valid)) // Fade out only if the last index is valid.
+    if (valid_last_preview || (m_force_previews && m_last_preview_item > -1 && m_last_preview_item_valid)) // Fade out only if the last index is valid.
       m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0.f);
     m_preview_fading_out = true;
     m_preview_fade_active = true;
@@ -642,7 +643,7 @@ Menu::draw_preview(DrawingContext& context)
     // Draw other data, alongside the preview, if available.
     draw_preview_data(context, *m_items[m_last_preview_item], preview_rect, alpha);
   }
-  else if (force_previews() && m_last_preview_item > -1 && m_last_preview_item_valid)
+  else if (m_force_previews && m_last_preview_item > -1 && m_last_preview_item_valid)
   {
     // Draw other data, if available.
     draw_preview_data(context, *m_items[m_last_preview_item], preview_rect, alpha);

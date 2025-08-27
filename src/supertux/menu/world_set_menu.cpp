@@ -27,9 +27,9 @@ WorldSetMenu::WorldSetMenu()
   add_label(_("Start Game"));
   add_hl();
 
-  // Add Story Mode entry.
-  // Story Mode should not have its progress shown.
-  add_world(_("Story Mode"), "levels/world1", {}, find_preview("previews/world1.png", "levels/world1"));
+  const auto story_savegame = Savegame::from_current_profile("world1");
+  add_world(_("Story Mode"), "levels/world1",
+            story_savegame->get_worldmap_progress(), find_preview("previews/world1.png", "levels/world1"));
 
   add_entry(1, _("Contrib Levels"));
   add_hl();
