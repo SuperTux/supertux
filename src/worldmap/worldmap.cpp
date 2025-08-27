@@ -51,6 +51,32 @@
 
 namespace worldmap {
 
+WorldMap::HelperInfo
+WorldMap::parse_helper_info(const std::string& filename)
+{
+  try
+  {
+    auto doc = ReaderDocument::from_file(filename, 1);
+    auto root = doc.get_root();
+    if (root.get_name() != "supertux-level")
+      throw std::runtime_error("File isn't a 'supertux-level' file!");
+
+    auto mapping = root.get_mapping();
+
+    HelperInfo info;
+    mapping.get("worldmap-refs", info.worldmap_refs);
+    mapping.get("playable-level-count", info.playable_level_count);
+    return info;
+  }
+  catch (const std::exception& e)
+  {
+    log_warning << "Error getting helper info from worldmap '" << filename << "': "
+                << e.what() << std::endl;
+    return {};
+  }
+}
+
+
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
                    const std::string& force_sector, const std::string& force_spawnpoint) :
   m_sector(nullptr),

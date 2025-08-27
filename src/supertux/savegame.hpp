@@ -30,14 +30,17 @@ class Profile;
 struct LevelState
 {
 public:
-  LevelState() :
+  LevelState(bool placeholder_ = false) :
     filename(),
+    placeholder(placeholder_),
     cutscene(false),
     solved(false),
     perfect(false)
   {}
 
   std::string filename;
+  bool placeholder;
+
   bool cutscene;
   bool solved;
   bool perfect;

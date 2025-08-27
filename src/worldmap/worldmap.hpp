@@ -41,6 +41,13 @@ public:
   static Color s_message_color;
   static Color s_teleporter_message_color;
 
+  struct HelperInfo final
+  {
+    std::vector<std::string> worldmap_refs;
+    int playable_level_count = 0;
+  };
+  static HelperInfo parse_helper_info(const std::string& filename);
+
 public:
   WorldMap(const std::string& filename, Savegame& savegame,
            const std::string& force_sector = "", const std::string& force_spawnpoint = "");

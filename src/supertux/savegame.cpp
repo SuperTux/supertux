@@ -307,13 +307,16 @@ Savegame::get_worldmap_state(const std::string& name)
     }
 
     ssq::Table world = worlds.getOrCreateTable(name.c_str());
+
+    bool has_sectors = false;
     for (const auto& [_, value] : world.convertRaw())
     {
       if (value.getType() != ssq::Type::TABLE)
         continue;
 
-      ssq::Table sector = value.toTable();
+      has_sectors = true;
 
+      ssq::Table sector = value.toTable();
       if (sector.hasEntry("levels"))
       {
         ssq::Table levels = sector.findTable("levels");
@@ -321,6 +324,11 @@ Savegame::get_worldmap_state(const std::string& name)
           result.level_states.push_back(std::move(level_state));
       }
     }
+
+    // If world entry doesn't contain any sector tables, create placeholder non-finished
+    // level states from the playable level count helper
+    if (!has_sectors && world.hasEntry("playable-level-count"))
+      result.level_states.assign(world.get<int>("playable-level-count"), LevelState(true));
   }
   catch(const std::exception& err)
   {
@@ -429,7 +437,8 @@ Savegame::get_worldmap_progress()
     for (const auto& level_state : get_worldmap_state(map).level_states)
     {
       // Don't count progress from cutscene or temporary Editor levels
-      if (level_state.cutscene || level_state.filename.empty() || level_state.filename.back() == '~')
+      if (level_state.cutscene ||
+          (!level_state.placeholder && (level_state.filename.empty() || level_state.filename.back() == '~')))
         continue;
 
       if (level_state.solved)

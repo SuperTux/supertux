@@ -30,14 +30,14 @@
 #include "worldmap/direction.hpp"
 #include "worldmap/level_tile.hpp"
 #include "worldmap/sprite_change.hpp"
+#include "worldmap/teleporter.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace worldmap {
 
 WorldMapState::WorldMapState(WorldMap& worldmap) :
-  m_worldmap(worldmap),
-  m_position_was_reset(false)
+  m_worldmap(worldmap)
 {
 }
 
@@ -140,7 +140,6 @@ WorldMapState::load_tux(const ssq::Table& table, WorldMapSector& sector)
   {
     log_warning << "Player position not set, respawning." << std::endl;
     sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
-    m_position_was_reset = true;
   }
 
   std::string back_str;
@@ -154,7 +153,6 @@ WorldMapState::load_tux(const ssq::Table& table, WorldMapSector& sector)
   {
     log_warning << "Player at illegal position " << p.x << ", " << p.y << " respawning." << std::endl;
     sector.move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
-    m_position_was_reset = true;
   }
 }
 
@@ -199,8 +197,6 @@ WorldMapState::load_levels(const ssq::Table& table, WorldMapSector& sector)
 void
 WorldMapState::load_tilemap_visibility(const ssq::Table& table, WorldMapSector& sector)
 {
-  if (m_position_was_reset) return;
-
   try
   {
     const std::map<std::string, ssq::Object> tilemaps = table.findTable("tilemaps").convertRaw();
@@ -268,9 +264,13 @@ WorldMapState::save_state()
     /** Get or create state table for the current worldmap. **/
     ssq::Table worldmap_table = worlds_table.getOrCreateTable(m_worldmap.m_map_filename.c_str());
 
+    // Remove any helper info created for the current worldmap.
+    worldmap_table.remove("playable-level-count");
+
     // Save the current sector.
     worldmap_table.set("sector", m_worldmap.get_sector().get_name());
 
+    std::vector<std::string> worldmap_refs;
     for (auto& sector : m_worldmap.m_sectors)
     {
       /** Delete the table entry for the current sector and construct a new one. **/
@@ -300,7 +300,7 @@ WorldMapState::save_state()
 
       /** Save tilemap visibility **/
       ssq::Table tilemaps = sector_table.addTable("tilemaps");
-      for (auto& tilemap : sector->get_objects_by_type<::TileMap>())
+      for (const auto& tilemap : sector->get_objects_by_type<::TileMap>())
       {
         if (!tilemap.get_name().empty())
         {
@@ -321,7 +321,17 @@ WorldMapState::save_state()
           sprite_change.set("show-stay-action", sc.show_stay_action());
         }
       }
+
+      /** Log any external worldmaps referenced by teleporters */
+      for (const auto& teleporter : sector->get_objects_by_type<Teleporter>())
+      {
+        if (!teleporter.get_worldmap().empty())
+          worldmap_refs.push_back(teleporter.get_worldmap());
+      }
     }
+
+    for (const std::string& worldmap_ref : worldmap_refs)
+      save_helper_info(worlds_table, worldmap_ref);
   }
   catch (const std::exception& err)
   {
@@ -329,6 +339,22 @@ WorldMapState::save_state()
   }
 
   m_worldmap.get_savegame().save();
+}
+
+void
+WorldMapState::save_helper_info(ssq::Table& worlds_table, const std::string& worldmap_file)
+{
+  if (worlds_table.hasEntry(worldmap_file.c_str()) ||
+      worlds_table.hasEntry(std::string("/" + worldmap_file).c_str()))
+    return;
+
+  const WorldMap::HelperInfo info = WorldMap::parse_helper_info(worldmap_file);
+
+  ssq::Table worldmap_table = worlds_table.addTable(worldmap_file.c_str());
+  worldmap_table.set("playable-level-count", info.playable_level_count);
+
+  for (const std::string& worldmap_ref : info.worldmap_refs)
+    save_helper_info(worlds_table, worldmap_ref);
 }
 
 } // namespace worldmap

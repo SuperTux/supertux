@@ -18,6 +18,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace ssq {
 class Table;
 } // namespace ssq
@@ -42,11 +44,10 @@ private:
   void load_tilemap_visibility(const ssq::Table& table, WorldMapSector& sector);
   void load_sprite_change_objects(const ssq::Table& table, WorldMapSector& sector);
 
+  static void save_helper_info(ssq::Table& worlds_table, const std::string& worldmap_file);
+
 private:
   WorldMap& m_worldmap;
-
-  /** Variables, related to loading. **/
-  bool m_position_was_reset;
 
 private:
   WorldMapState(const WorldMapState&) = delete;
