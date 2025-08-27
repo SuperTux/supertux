@@ -70,6 +70,7 @@ Menu::Menu() :
   m_active_item(-1),
   m_has_previews(false),
   m_last_preview_item(-1),
+  m_last_preview_item_valid(false),
   m_preview_fade_timer(),
   m_preview_fade_active(false),
   m_preview_fading_out(false)
@@ -583,7 +584,7 @@ Menu::draw_preview(DrawingContext& context)
   // Update fade.
   if (m_active_item != m_last_preview_item && !m_preview_fade_active) // Index has changed, there is no current fade.
   {
-    if (valid_last_preview || (force_previews() && m_last_preview_item > -1)) // Fade out only if the last index is valid, or we force previews.
+    if (valid_last_preview || (force_previews() && m_last_preview_item > -1 && m_last_preview_item_valid)) // Fade out only if the last index is valid.
       m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0.f);
     m_preview_fading_out = true;
     m_preview_fade_active = true;
@@ -591,7 +592,10 @@ Menu::draw_preview(DrawingContext& context)
   float timeleft = m_preview_fade_timer.get_timeleft();
   if (timeleft < 0 && m_preview_fade_active) // Current fade is over.
   {
+    // Update preview item.
     m_last_preview_item = m_active_item;
+    m_last_preview_item_valid = is_preview_item_valid(*m_items[m_last_preview_item]);
+
     valid_last_preview = last_preview_valid(); // Repeat valid last index check
     if (m_preview_fading_out) // After a fade-out, a fade-in should follow up.
     {
@@ -636,19 +640,19 @@ Menu::draw_preview(DrawingContext& context)
                                      Color(1.f, 1.f, 1.f, alpha), 2.f, LAYER_GUI);
 
     // Draw other data, alongside the preview, if available.
-    draw_preview_data(context, preview_rect, alpha);
+    draw_preview_data(context, *m_items[m_last_preview_item], preview_rect, alpha);
   }
-  else if (force_previews() && m_last_preview_item > -1)
+  else if (force_previews() && m_last_preview_item > -1 && m_last_preview_item_valid)
   {
     // Draw other data, if available.
-    draw_preview_data(context, preview_rect, alpha);
+    draw_preview_data(context, *m_items[m_last_preview_item], preview_rect, alpha);
   }
 }
 
 bool
 Menu::last_preview_valid() const
 {
-  return m_last_preview_item > -1 && m_items[m_last_preview_item]->get_preview();
+  return m_last_preview_item > -1 && m_last_preview_item_valid && m_items[m_last_preview_item]->get_preview();
 }
 
 MenuItem&

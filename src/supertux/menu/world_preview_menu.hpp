@@ -37,7 +37,8 @@ protected:
                         Savegame::Progress progress = {}, SurfacePtr preview = nullptr);
 
   SurfacePtr find_preview(const std::string& preview_file, const std::string& basedir);
-  void draw_preview_data(DrawingContext& context, const Rectf& preview_rect, float alpha) override;
+  void draw_preview_data(DrawingContext& context, const MenuItem& item, const Rectf& preview_rect, float alpha) override;
+  bool is_preview_item_valid(const MenuItem& item) const;
 
 private:
   struct WorldEntry

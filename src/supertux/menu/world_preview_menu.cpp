@@ -76,17 +76,22 @@ WorldPreviewMenu::find_preview(const std::string& preview_file, const std::strin
 }
 
 void
-WorldPreviewMenu::draw_preview_data(DrawingContext& context, const Rectf& preview_rect, float alpha)
+WorldPreviewMenu::draw_preview_data(DrawingContext& context, const MenuItem& item, const Rectf& preview_rect, float alpha)
 {
-  const int index = m_items[m_last_preview_item]->get_id();
-  if (index < 0 || index >= static_cast<int>(m_world_entries.size())) // Not a valid world index.
-    return;
-
   // Draw world progress.
-  const WorldEntry& entry = m_world_entries[index];
-  context.color().draw_text(Resources::normal_font, entry.progress_text.empty() ? _("No progression data available.") : entry.progress_text,
+  context.color().draw_text(Resources::normal_font, m_world_entries[item.get_id()].progress_text,
                             Vector(preview_rect.get_left() + preview_rect.get_width() / 2, preview_rect.get_bottom() * 1.03f),
                             ALIGN_CENTER, LAYER_GUI, Color(1, 1, 1, alpha));
+}
+
+bool
+WorldPreviewMenu::is_preview_item_valid(const MenuItem& item) const
+{
+  const int index = item.get_id();
+  if (index < 0 || index >= static_cast<int>(m_world_entries.size())) // Not a valid world index.
+    return false;
+
+  return !m_world_entries[index].progress_text.empty();
 }
 
 void

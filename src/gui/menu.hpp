@@ -159,7 +159,9 @@ protected:
   void calculate_height();
 
   /** Draw additional data to accompany item previews. */
-  virtual void draw_preview_data(DrawingContext& context, const Rectf& preview_rect, float alpha) {}
+  virtual void draw_preview_data(DrawingContext& context, const MenuItem& item, const Rectf& preview_rect, float alpha) {}
+
+  virtual bool is_preview_item_valid(const MenuItem& item) const { return true; }
 
 private:
   void check_controlfield_change_event(const SDL_Event& event);
@@ -187,9 +189,11 @@ private:
 protected:
   int m_active_item;
 
+private:
   /* Preview implementation variables. */
   bool m_has_previews;
   int m_last_preview_item;
+  bool m_last_preview_item_valid;
   Timer m_preview_fade_timer;
   bool m_preview_fade_active;
   bool m_preview_fading_out;
