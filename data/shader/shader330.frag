@@ -25,8 +25,9 @@ void main(void)
     {
       vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_var.st);
       vec2 uv = (fragcoord2uv * gl_FragCoord.xyw).xy;
-      uv.x = uv.x + 0.003 * sin(game_time + uv.y * 80);
-      uv.y = 1.0 - uv.y + 0.005 * cos(game_time + uv.y * 140);;
+      uv.x = uv.x + (0.001 + uv.y * 0.001) * sin(game_time + uv.y * (80));
+      // Disabled until clamping issue gets fixed
+      uv.y = 1.0 - uv.y; // + 0.002 * cos(game_time + uv.y * 140);;
       vec4 back_color = texture(framebuffer_texture, uv);
 
       if (backbuffer == 0.0)
