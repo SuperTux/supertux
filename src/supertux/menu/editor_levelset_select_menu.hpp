@@ -22,7 +22,7 @@ class EditorLevelsetSelectMenu : public Menu
 {
 private:
   std::vector<std::string> m_contrib_worlds;
-  bool m_save_as;
+  const bool m_save_as;
 
 public:
   EditorLevelsetSelectMenu(bool save_as = false);

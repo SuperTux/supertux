@@ -72,7 +72,7 @@ EditorLevelsetSelectMenu::initialize()
     return false;
   });
 
-  add_label(_(m_save_as ? "Save level as..." : "Choose World"));
+  add_label(m_save_as ? _("Save Level as") : _("Choose World"));
   add_hl();
 
   int i = 0;
