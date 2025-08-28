@@ -113,6 +113,12 @@ GL20Context::set_texcoord(float u, float v)
   assert_gl();
 }
 
+
+void
+GL20Context::set_attrs(const uint32_t* data, size_t size)
+{
+}
+
 void
 GL20Context::set_colors(const float* data, size_t size)
 {

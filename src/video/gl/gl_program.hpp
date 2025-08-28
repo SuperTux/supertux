@@ -46,6 +46,7 @@ public:
   inline GLint get_texcoord_location() const { return check_valid(m_texcoord_location, "texcoord"); }
   inline GLint get_diffuse_location() const { return check_valid(m_diffuse_location, "diffuse"); }
   inline GLint get_is_displacement_location() const { return check_valid(m_is_displacement_location, "is_displacement"); }
+  inline GLint get_attrs_location() const { return check_valid(m_attrs_location, "attrs"); }
 
 private:
   bool get_link_status() const;
@@ -72,6 +73,7 @@ private:
   GLint m_texcoord_location;
   GLint m_diffuse_location;
   GLint m_is_displacement_location;
+  GLint m_attrs_location;
 
 private:
   GLProgram(const GLProgram&) = delete;
