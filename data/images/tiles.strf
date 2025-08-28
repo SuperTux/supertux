@@ -4899,22 +4899,14 @@
       512 512 512 512
     )
     (images
-      (surface (diffuse-texture (file "tiles/water/antarctic-1.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-      (surface (diffuse-texture (file "tiles/water/antarctic-2.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-      (surface (diffuse-texture (file "tiles/water/antarctic-3.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-      (surface (diffuse-texture (file "tiles/water/antarctic-4.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-      (surface (diffuse-texture (file "tiles/water/antarctic-5.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-      (surface (diffuse-texture (file "tiles/water/antarctic-6.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-      (surface (diffuse-texture (file "tiles/water/antarctic-7.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-      (surface (diffuse-texture (file "tiles/water/antarctic-8.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
+      "tiles/water/antarctic-1.png"
+      "tiles/water/antarctic-2.png"
+      "tiles/water/antarctic-3.png"
+      "tiles/water/antarctic-4.png"
+      "tiles/water/antarctic-5.png"
+      "tiles/water/antarctic-6.png"
+      "tiles/water/antarctic-7.png"
+      "tiles/water/antarctic-8.png"
     )
     (fps 16)
   )
