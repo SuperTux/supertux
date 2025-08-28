@@ -796,9 +796,8 @@ Editor::esc_press()
 void
 Editor::update_keyboard(const Controller& controller)
 {
-  if (!m_enabled) {
+  if (!m_enabled)
     return;
-  }
 
   if (MenuManager::instance().is_active() || MenuManager::instance().has_dialog())
     return;
@@ -904,9 +903,10 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   m_levelloaded = true;
 
-  if (level != nullptr) {
+  if (level != nullptr)
+  {
     // Reload level.
-	m_level = std::move(level);
+    m_level = std::move(level);
   }
   else
   {
@@ -1173,10 +1173,11 @@ Editor::setup()
   Tile::draw_editor_images = true;
   Sector::s_draw_solids_only = false;
   m_after_setup = true;
-  if (!m_levelloaded) {
-
+  if (!m_levelloaded)
+  {
 #if 0
-    if (AddonManager::current()->is_old_addon_enabled()) {
+    if (AddonManager::current()->is_old_addon_enabled())
+    {
       auto dialog = std::make_unique<Dialog>();
       dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with the default SuperTux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
       dialog->clear_buttons();
@@ -1195,7 +1196,8 @@ Editor::setup()
       });
 
       MenuManager::instance().set_dialog(std::move(dialog));
-    } else
+    }
+    else
 #endif
     {
       MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
@@ -1242,7 +1244,8 @@ Editor::on_window_resize()
 void
 Editor::event(const SDL_Event& ev)
 {
-  if (!m_enabled || !m_levelloaded) return;
+  if (!m_enabled || !m_levelloaded ||
+      MenuManager::current()->is_active() || MenuManager::current()->has_dialog()) return;
 
   for(const auto& control : m_controls)
     if (control->event(ev))
