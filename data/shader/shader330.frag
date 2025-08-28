@@ -34,7 +34,8 @@ void main(void)
     color = vec4(mix(newcolor.rgb, back_color.rgb, alpha), newcolor.a);
   }
   
-  if ((attrs_var & 0x0200u) == 0x0200u && (attrs_var & 0x0800u) != 0x0800u) // Water (not lava)
+  if ((attrs_var & 0x0004u) == 0x0004u &&
+      (attrs_var & 0x0200u) == 0x0200u && (attrs_var & 0x0800u) != 0x0800u) // Water (not lava)
   {
     vec2 uv = (fragcoord2uv * gl_FragCoord.xyw).xy;
     uv.x = uv.x + 0.001 * (sin(game_time + uv.y * (80)) + cos(game_time + uv.y * 30));
