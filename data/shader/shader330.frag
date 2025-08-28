@@ -50,9 +50,8 @@ void main(void)
       (attrs_var & TATTR_FIRE)   != TATTR_FIRE) // Water (not lava)
   {
     vec2 uv = (fragcoord2uv * gl_FragCoord.xyw).xy;
-    uv.x = uv.x + 0.001 * (sin(game_time + uv.y * (80)) + cos(game_time + uv.y * 30));
-    // Disabled until clamping issue gets fixed
-    uv.y = 1.0 - uv.y + 0.002 * (cos(game_time + uv.y * 140));
+    uv.x = uv.x + 0.0005 * (sin(game_time + uv.y * (80)) + cos(game_time + uv.y * 30));
+    uv.y = 1.0 - uv.y + 0.003 * (cos(game_time + uv.y * 140));
     vec4 back_color = texture(framebuffer_texture, uv);
 
     if (backbuffer == 0.0)
