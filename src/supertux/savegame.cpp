@@ -25,7 +25,6 @@
 #include "physfs/util.hpp"
 #include "squirrel/serialize.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/profile_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
@@ -47,6 +46,7 @@ std::vector<LevelState> get_level_states(ssq::Table& levels)
 
       LevelState level_state;
       level_state.filename = key;
+      table.get("cutscene", level_state.cutscene);
       table.get("solved", level_state.solved);
       table.get("perfect", level_state.perfect);
 
@@ -102,6 +102,12 @@ LevelsetState::get_level_state(const std::string& filename) const
   }
 }
 
+uint32_t
+Savegame::Progress::get_percentage() const
+{
+  // Calculate the percentage using both the solved and perfected level counts.
+  return solved > 0 ? static_cast<uint32_t>(static_cast<float>(solved + perfect) / static_cast<float>(total * 2) * 100) : 0;
+}
 
 std::unique_ptr<Savegame>
 Savegame::from_profile(int profile, const std::string& world_name, bool base_data)
@@ -245,16 +251,6 @@ Savegame::save()
   writer.start_list("supertux-savegame");
   writer.write("version", 1);
 
-  using namespace worldmap;
-  if (WorldMap::current() != nullptr)
-  {
-    std::ostringstream title;
-    title << WorldMap::current()->get_title();
-    title << " (" << WorldMap::current()->solved_level_count()
-          << "/" << WorldMap::current()->level_count() << ")";
-    writer.write("title", title.str());
-  }
-
   writer.start_list("tux");
   m_player_status->write(writer);
   writer.end_list("tux");
@@ -310,8 +306,29 @@ Savegame::get_worldmap_state(const std::string& name)
         worlds.rename(old_map_filename.c_str(), name.c_str());
     }
 
-    ssq::Table levels = worlds.getOrCreateTable(name.c_str()).getOrCreateTable("levels");
-    result.level_states = get_level_states(levels);
+    ssq::Table world = worlds.getOrCreateTable(name.c_str());
+
+    bool has_sectors = false;
+    for (const auto& [_, value] : world.convertRaw())
+    {
+      if (value.getType() != ssq::Type::TABLE)
+        continue;
+
+      has_sectors = true;
+
+      ssq::Table sector = value.toTable();
+      if (sector.hasEntry("levels"))
+      {
+        ssq::Table levels = sector.findTable("levels");
+        for (const auto& level_state : get_level_states(levels))
+          result.level_states.push_back(std::move(level_state));
+      }
+    }
+
+    // If world entry doesn't contain any sector tables, create placeholder non-finished
+    // level states from the playable level count helper
+    if (!has_sectors && world.hasEntry("playable-level-count"))
+      result.level_states.assign(world.get<int>("playable-level-count"), LevelState(true));
   }
   catch(const std::exception& err)
   {
@@ -379,4 +396,59 @@ Savegame::set_levelset_state(const std::string& basedir,
   {
     log_warning << err.what() << std::endl;
   }
+}
+
+Savegame::Progress
+Savegame::get_levelset_progress()
+{
+  Progress progress;
+
+  for (const std::string& levelset : get_levelsets())
+  {
+    for (const auto& level_state : get_levelset_state(levelset).level_states)
+    {
+      // Don't count progress from cutscene or temporary Editor levels
+      if (level_state.cutscene || level_state.filename.empty() || level_state.filename.back() == '~')
+        continue;
+
+      if (level_state.solved)
+        progress.solved++;
+      if (level_state.perfect)
+        progress.perfect++;
+
+      progress.total++;
+    }
+  }
+
+  return progress;
+}
+
+Savegame::Progress
+Savegame::get_worldmap_progress()
+{
+  Progress progress;
+
+  for (const std::string& map : get_worldmaps())
+  {
+    // Don't count progress from temporary Editor worldmaps
+    if (map.empty() || map.back() == '~')
+      continue;
+
+    for (const auto& level_state : get_worldmap_state(map).level_states)
+    {
+      // Don't count progress from cutscene or temporary Editor levels
+      if (level_state.cutscene ||
+          (!level_state.placeholder && (level_state.filename.empty() || level_state.filename.back() == '~')))
+        continue;
+
+      if (level_state.solved)
+        progress.solved++;
+      if (level_state.perfect)
+        progress.perfect++;
+
+      progress.total++;
+    }
+  }
+
+  return progress;
 }
