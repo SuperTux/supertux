@@ -84,14 +84,20 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename_original)
       throw SoundError(msg.str());
     }
     auto format = SoundFile::get_file_format(file, raw_music_file);
-    if (format == SoundFile::FORMAT_WAV)
-    {
-      return std::make_unique<WavSoundFile>(file);
+
+    std::unique_ptr<SoundFile> sound_file;
+
+    if (format == SoundFile::FORMAT_WAV) {
+      sound_file = std::make_unique<WavSoundFile>(file);
+    } else {
+      sound_file = std::make_unique<OggSoundFile>(file, loop_begin, loop_at);
     }
-    else
-    {
-      return std::make_unique<OggSoundFile>(file, loop_begin, loop_at);
-    }
+
+    music.get("authors", sound_file->m_authors);
+    music.get("license", sound_file->m_license);
+    music.get("title", sound_file->m_title);
+
+    return sound_file;
   }
 }
 
@@ -157,6 +163,7 @@ SoundFile::get_file_format(PHYSFS_File* file, const std::string& filename)
 namespace {
 
 // List obtained with the help of sed:
+// cd data/music
 // find | sort | sed 's:^\.:/music:; /\./ !d; s:\(.*/\)\([^/]*$\):{"\2", "\1\2"},:g'
 std::unordered_map<std::string, std::string> fallback_paths = {
   {"airship_2.ogg", "/music/antarctic/airship_2.ogg"},
@@ -171,12 +178,36 @@ std::unordered_map<std::string, std::string> fallback_paths = {
   {"bossattack.ogg", "/music/antarctic/bossattack.ogg"},
   {"cave.music", "/music/antarctic/cave.music"},
   {"cave.ogg", "/music/antarctic/cave.ogg"},
+  {"cavetheme_alt.music", "/music/antarctic/cavetheme_alt.music"},
+  {"cavetheme_alt.ogg", "/music/antarctic/cavetheme_alt.ogg"},
+  {"cavetheme.music", "/music/antarctic/cavetheme.music"},
+  {"cavetheme.ogg", "/music/antarctic/cavetheme.ogg"},
   {"chipdisko.music", "/music/antarctic/chipdisko.music"},
   {"chipdisko.ogg", "/music/antarctic/chipdisko.ogg"},
+  {"crystalmine_intro.music", "/music/antarctic/crystalmine_intro.music"},
+  {"crystalmine_intro.ogg", "/music/antarctic/crystalmine_intro.ogg"},
+  {"crystalmine_main.music", "/music/antarctic/crystalmine_main.music"},
+  {"crystalmine_main.ogg", "/music/antarctic/crystalmine_main.ogg"},
+  {"glacier.music", "/music/antarctic/glacier.music"},
+  {"glacier.ogg", "/music/antarctic/glacier.ogg"},
   {"jewels.music", "/music/antarctic/jewels.music"},
   {"jewels.ogg", "/music/antarctic/jewels.ogg"},
+  {"midday_alt.music", "/music/antarctic/midday_alt.music"},
+  {"midday_alt.ogg", "/music/antarctic/midday_alt.ogg"},
+  {"midday.music", "/music/antarctic/midday.music"},
+  {"midday.ogg", "/music/antarctic/midday.ogg"},
+  {"night.music", "/music/antarctic/night.music"},
+  {"night.ogg", "/music/antarctic/night.ogg"},
   {"salcon.music", "/music/antarctic/salcon.music"},
   {"salcon.ogg", "/music/antarctic/salcon.ogg"},
+  {"skylevel.music", "/music/antarctic/skylevel.music"},
+  {"skylevel.ogg", "/music/antarctic/skylevel.ogg"},
+  {"snowfort.music", "/music/antarctic/snowfort.music"},
+  {"snowfort.ogg", "/music/antarctic/snowfort.ogg"},
+  {"sunset.music", "/music/antarctic/sunset.music"},
+  {"sunset.ogg", "/music/antarctic/sunset.ogg"},
+  {"underwater.music", "/music/antarctic/underwater.music"},
+  {"underwater.ogg", "/music/antarctic/underwater.ogg"},
   {"voc-boss.music", "/music/antarctic/voc-boss.music"},
   {"voc-boss.ogg", "/music/antarctic/voc-boss.ogg"},
   {"voc-dark.music", "/music/antarctic/voc-dark.music"},
@@ -187,14 +218,22 @@ std::unordered_map<std::string, std::string> fallback_paths = {
   {"voc-daytime.ogg", "/music/antarctic/voc-daytime.ogg"},
   {"voc-night.music", "/music/antarctic/voc-night.music"},
   {"voc-night.ogg", "/music/antarctic/voc-night.ogg"},
+  {"worldmap_ice.music", "/music/antarctic/worldmap_ice.music"},
+  {"worldmap_ice.ogg", "/music/antarctic/worldmap_ice.ogg"},
+  {"yetiboss.music", "/music/antarctic/yetiboss.music"},
+  {"yetiboss.ogg", "/music/antarctic/yetiboss.ogg"},
   {"darkforestkeep.music", "/music/castle/darkforestkeep.music"},
   {"darkforestkeep.ogg", "/music/castle/darkforestkeep.ogg"},
   {"fortress.music", "/music/castle/fortress.music"},
   {"fortress.ogg", "/music/castle/fortress.ogg"},
+  {"icecastle.music", "/music/castle/icecastle.music"},
+  {"icecastle.ogg", "/music/castle/icecastle.ogg"},
   {"beneath_the_rabbit_hole.music", "/music/forest/beneath_the_rabbit_hole.music"},
   {"beneath_the_rabbit_hole.ogg", "/music/forest/beneath_the_rabbit_hole.ogg"},
   {"bright_thunders.music", "/music/forest/bright_thunders.music"},
   {"bright_thunders.ogg", "/music/forest/bright_thunders.ogg"},
+  {"call_of_the_winding_path.music", "/music/forest/call_of_the_winding_path.music"},
+  {"call_of_the_winding_path.ogg", "/music/forest/call_of_the_winding_path.ogg"},
   {"clavelian_march.music", "/music/forest/clavelian_march.music"},
   {"clavelian_march.ogg", "/music/forest/clavelian_march.ogg"},
   {"forest2.music", "/music/forest/forest2.music"},
@@ -203,8 +242,10 @@ std::unordered_map<std::string, std::string> fallback_paths = {
   {"forest3.ogg", "/music/forest/forest3.ogg"},
   {"forest-cave.music", "/music/forest/forest-cave.music"},
   {"forest-cave.ogg", "/music/forest/forest-cave.ogg"},
-  {"forest-map.music", "/music/forest/forest-map.music"},
-  {"forestmap.ogg", "/music/forest/forestmap.ogg"},
+  {"forest_midday_alt.music", "/music/forest/forest_midday_alt.music"},
+  {"forest_midday_alt.ogg", "/music/forest/forest_midday_alt.ogg"},
+  {"forest_midday.music", "/music/forest/forest_midday.music"},
+  {"forest_midday.ogg", "/music/forest/forest_midday.ogg"},
   {"forest.music", "/music/forest/forest.music"},
   {"forest.ogg", "/music/forest/forest.ogg"},
   {"forest-sprint.music", "/music/forest/forest-sprint.music"},
@@ -219,6 +260,8 @@ std::unordered_map<std::string, std::string> fallback_paths = {
   {"ghostforest.ogg", "/music/forest/ghostforest.ogg"},
   {"greatgigantic.music", "/music/forest/greatgigantic.music"},
   {"greatgigantic.ogg", "/music/forest/greatgigantic.ogg"},
+  {"march_of_the_malevolent.music", "/music/forest/march_of_the_malevolent.music"},
+  {"march_of_the_malevolent.ogg", "/music/forest/march_of_the_malevolent.ogg"},
   {"new_forest_map.music", "/music/forest/new_forest_map.music"},
   {"new_forest_map.ogg", "/music/forest/new_forest_map.ogg"},
   {"shallow-green.music", "/music/forest/shallow-green.music"},
@@ -243,6 +286,20 @@ std::unordered_map<std::string, std::string> fallback_paths = {
   {"leveldone.ogg", "/music/misc/leveldone.ogg"},
   {"theme.music", "/music/misc/theme.music"},
   {"theme.ogg", "/music/misc/theme.ogg"},
+  {"cave_old.music", "/music/retro/cave_old.music"},
+  {"cave_old.ogg", "/music/retro/cave_old.ogg"},
+  {"classic.music", "/music/retro/classic.music"},
+  {"classic.ogg", "/music/retro/classic.ogg"},
+  {"fortress_old.music", "/music/retro/fortress_old.music"},
+  {"fortress_old.ogg", "/music/retro/fortress_old.ogg"},
+  {"ice_music.music", "/music/retro/ice_music.music"},
+  {"ice_music.ogg", "/music/retro/ice_music.ogg"},
+  {"worldmap_old.music", "/music/retro/worldmap_old.music"},
+  {"worldmap_old.ogg", "/music/retro/worldmap_old.ogg"},
+  {"saharan_penguin.music", "/music/tropical/saharan_penguin.music"},
+  {"saharan_penguin.ogg", "/music/tropical/saharan_penguin.ogg"},
+  {"tropicalbreeze.music", "/music/tropical/tropicalbreeze.music"},
+  {"tropicalbreeze.ogg", "/music/tropical/tropicalbreeze.ogg"},
 };
 
 const std::string& get_fallback_path(const std::string& file_path)
