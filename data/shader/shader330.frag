@@ -50,7 +50,7 @@ void main(void)
       (attrs_var & TATTR_FIRE)   != TATTR_FIRE) // Water (not lava)
   {
     vec2 uv = (fragcoord2uv * gl_FragCoord.xyw).xy;
-    uv.x = uv.x + 0.0005 * (sin(game_time + uv.y * (80)) + cos(game_time + uv.y * 30));
+    uv.x = uv.x + 0.0006 * (sin(game_time + uv.y * (80)) + cos(game_time + uv.y * 30));
     uv.y = 1.0 - uv.y + 0.003 * (cos(game_time + uv.y * 140));
     vec4 back_color = texture(framebuffer_texture, uv);
 
