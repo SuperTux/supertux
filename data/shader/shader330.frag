@@ -16,6 +16,17 @@ flat in uint attrs_var;
 
 out vec4 fragColor;
 
+const uint TATTR_SOLID    = 0x0001u;
+const uint TATTR_UNISOLID = 0x0002u;
+const uint TATTR_SHADED   = 0x0004u;
+const uint TATTR_SLOPE    = 0x0010u;
+const uint TATTR_FIF      = 0x0100u;
+const uint TATTR_ICE      = 0x0100u;
+const uint TATTR_WATER    = 0x0200u;
+const uint TATTR_HURTS    = 0x0400u;
+const uint TATTR_FIRE     = 0x0800u;
+const uint TATTR_WALLJUMP = 0x1000u;
+
 void main(void)
 {
   vec4 color = diffuse_var * texture(diffuse_texture, texcoord_var.st + (animate * game_time));
@@ -34,8 +45,9 @@ void main(void)
     color = vec4(mix(newcolor.rgb, back_color.rgb, alpha), newcolor.a);
   }
   
-  if ((attrs_var & 0x0004u) == 0x0004u &&
-      (attrs_var & 0x0200u) == 0x0200u && (attrs_var & 0x0800u) != 0x0800u) // Water (not lava)
+  if ((attrs_var & TATTR_SHADED) == TATTR_SHADED &&
+      (attrs_var & TATTR_WATER)  == TATTR_WATER &&
+      (attrs_var & TATTR_FIRE)   != TATTR_FIRE) // Water (not lava)
   {
     vec2 uv = (fragcoord2uv * gl_FragCoord.xyw).xy;
     uv.x = uv.x + 0.001 * (sin(game_time + uv.y * (80)) + cos(game_time + uv.y * 30));
