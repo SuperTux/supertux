@@ -58,7 +58,7 @@ void main(void)
     if (backbuffer == 0.0)
       fragColor = color;
     else
-      fragColor = vec4(mix(color.rgb, back_color.rgb, 1.0 * backbuffer), 1.0);
+      fragColor = vec4(max(color.rgb, back_color.rgb), 1.0);
   }
   else
   {
