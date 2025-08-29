@@ -820,7 +820,7 @@ Main::release_check()
       const std::string version = version_full.substr(version_full.find("v") + 1, version_full.find("-") - 1);
       if (version != latest_ver)
       {
-        auto notif = std::make_unique<Notification>("new_release_" + latest_ver, 20.f);
+        auto notif = std::make_unique<Notification>("new_release_" + latest_ver, 20.f, false, true);
         notif->set_text(fmt::format(fmt::runtime(_("New release: SuperTux v{}!")), latest_ver));
         notif->set_mini_text(_("Click for more details."));
         notif->on_press([latest_ver]()
