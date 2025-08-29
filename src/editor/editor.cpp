@@ -217,7 +217,7 @@ Editor::Editor() :
       [this] { 
         if (save_level())
         {
-          auto notif = std::make_unique<Notification>("save_level_notif", false, true);
+          auto notif = std::make_unique<Notification>("save_level_notif", 5.f);
           notif->set_text(_("Level saved!"));
           MenuManager::instance().set_notification(std::move(notif));
         }
