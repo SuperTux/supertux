@@ -62,7 +62,7 @@ Notification::Notification(const std::string& id, float idle_close_time,
 {
   if (is_disabled(id)) // The notification exists in the config as disabled.
   {
-    log_warning << "Requested launch of disabled notification with ID \"" << m_id << "\". Closing." << std::endl;
+    log_debug << "Requested launch of disabled notification with ID \"" << m_id << "\". Closing." << std::endl;
     m_quit = true;
     return;
   }
@@ -118,7 +118,6 @@ Notification::draw(DrawingContext& context)
     if (m_alpha <= 0.f)
     {
       close();
-      return;
     }
   }
   
@@ -132,7 +131,6 @@ Notification::draw(DrawingContext& context)
     m_vel -= 0.8;
     m_drag += m_vel;
   }
-  std::cout << m_drag << std::endl;
   
   if (m_closing && (m_drag.x < -400 || m_drag.x > 0))
   {
