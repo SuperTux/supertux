@@ -277,6 +277,9 @@ private:
 
   float m_scroll_speed;
   float m_new_scale;
+  
+  float m_widgets_width;
+  float m_widgets_width_offset;
 
   Vector m_mouse_pos;
 

@@ -34,6 +34,7 @@ ButtonWidget::ButtonWidget(SpritePtr sprite, const Vector& pos,
   m_sig_click(std::move(sig_click)),
   m_mouse_pos(),
   m_help_text(),
+  m_flat(false),
   m_disabled(false)
 {
 }
@@ -53,8 +54,9 @@ ButtonWidget::set_position(const Vector& pos)
 void
 ButtonWidget::draw(DrawingContext& context)
 {
-  context.color().draw_filled_rect(m_rect, Color(0.0f, 0.0f, 0.0f, 0.6f), 4.0f,
-                                   LAYER_GUI-5);
+  if (!m_flat)
+    context.color().draw_filled_rect(m_rect, Color(0.0f, 0.0f, 0.0f, 0.6f), 4.0f,
+                                     LAYER_GUI-5);
 
   if (m_sprite) {
     if (m_disabled) context.set_alpha(0.4);
