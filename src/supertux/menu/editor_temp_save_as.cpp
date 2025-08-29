@@ -86,7 +86,7 @@ EditorTempSaveAs::menu_action(MenuItem& item)
       
       editor->set_world(std::move(std::unique_ptr<World>(m_world.release())));
       
-      auto notif = std::make_unique<Notification>("create_level_notif", false, true);
+      auto notif = std::make_unique<Notification>("create_level_notif", 5.f);
       notif->set_text(_("Level created!"));
       MenuManager::instance().set_notification(std::move(notif));
       

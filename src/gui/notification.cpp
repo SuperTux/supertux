@@ -31,10 +31,14 @@
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
-Notification::Notification(std::string id, bool no_auto_hide, bool no_auto_disable) :
+Notification::Notification(const std::string& id, float idle_close_time,
+                           bool no_auto_close, bool auto_disable) :
   m_id(id),
-  m_auto_hide(!no_auto_hide),
-  m_auto_disable(!no_auto_disable),
+  m_idle_close_time(idle_close_time),
+  m_auto_close(!no_auto_close),
+  m_auto_disable(auto_disable),
+  m_idle_close_timer(),
+  m_alpha(1.f),
   m_text(),
   m_mini_text(),
   m_text_size(),
@@ -55,7 +59,7 @@ Notification::Notification(std::string id, bool no_auto_hide, bool no_auto_disab
     return;
   }
 
-  set_mini_text(_("Click for more details.")); // Set default mini text.
+  m_idle_close_timer.start(m_idle_close_time);
 }
 
 Notification::~Notification()
@@ -92,12 +96,25 @@ Notification::calculate_size()
 void
 Notification::draw(DrawingContext& context)
 {
-  // Close notification, if a quit has been requested, or the MenuManager isn't active.
+  // Close notification, if a quit has been requested, or neither the MenuManager or Editor aren't active.
   if (m_quit || !(MenuManager::instance().is_active() || Editor::is_active()))
   {
     close();
     return;
   }
+
+  if (m_alpha < 1.f || m_idle_close_timer.check())
+  {
+    m_alpha -= 0.01f;
+    if (m_alpha <= 0.f)
+    {
+      close();
+      return;
+    }
+  }
+
+  context.push_transform();
+  context.set_alpha(m_alpha);
 
   m_pos = Vector(context.get_width() - std::max(m_text_size.width, m_mini_text_size.width) - 90.0f,
                  static_cast<float>(context.get_height() / 12) - m_text_size.height - m_mini_text_size.height + 10.0f);
@@ -129,8 +146,8 @@ Notification::draw(DrawingContext& context)
 
   // Draw "Do not show again" and "Close" symbols, if the mouse is hovering over the notification.
   if (!m_mouse_over) return;
-  const std::string sym1 = "-";
-  const std::string sym2 = "X";
+  static const std::string sym1 = "-";
+  static const std::string sym2 = "X";
   Vector sym1_pos = Vector(bg_rect.get_left() + 5.0f, bg_rect.get_top());
   Vector sym2_pos = Vector(bg_rect.get_right() - 15.0f, bg_rect.get_top());
 
@@ -161,6 +178,8 @@ Notification::draw(DrawingContext& context)
                                        m_mouse_pos.y + 20.0f),
                                 ALIGN_RIGHT, LAYER_GUI + 1, Color::CYAN);
   }
+
+  context.pop_transform();
 }
 
 void
@@ -189,7 +208,7 @@ Notification::event(const SDL_Event& ev)
         {
           m_callback();
           if (m_auto_disable) disable();
-          if (m_auto_hide) close();
+          if (m_auto_close) close();
         }
       }
     }
@@ -199,7 +218,19 @@ Notification::event(const SDL_Event& ev)
     {
       m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       m_mouse_over = bg_rect.contains(m_mouse_pos);
-      if (MouseCursor::current() && m_mouse_over) MouseCursor::current()->set_state(MouseCursorState::LINK);
+
+      if (m_mouse_over)
+      {
+        m_alpha = 1.f;
+        m_idle_close_timer.stop();
+      }
+      else if (!m_idle_close_timer.started())
+      {
+        m_idle_close_timer.start(m_idle_close_time);
+      }
+
+      if (MouseCursor::current() && m_mouse_over)
+        MouseCursor::current()->set_state(MouseCursorState::LINK);
     }
     break;
 
@@ -240,14 +271,15 @@ Notification::disable()
 void
 Notification::close()
 {
-  if (MouseCursor::current() && m_mouse_over) MouseCursor::current()->set_state(MouseCursorState::NORMAL);
+  if (MouseCursor::current() && m_mouse_over)
+    MouseCursor::current()->set_state(MouseCursorState::NORMAL);
   MenuManager::instance().set_notification({});
 }
 
 // Static functions, serving as utilities
 
 bool
-Notification::is_disabled(std::string id) // Check if a notification is disabled by its ID.
+Notification::is_disabled(const std::string& id) // Check if a notification is disabled by its ID.
 {
   return std::any_of(g_config->notifications.begin(), g_config->notifications.end(),
                      [id](const auto& notif)
