@@ -258,15 +258,18 @@ Notification::event(const SDL_Event& ev)
     if (ev.button.button == SDL_BUTTON_LEFT)
     {
       m_init_mouse_click -= VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
-      if (std::abs(m_init_mouse_click.x) < DRAG_DEADZONE)
+      if (m_mouse_over)
       {
-        m_callback();
-        if (m_auto_disable) disable();
-        if (m_auto_close) close();
-      }
-      else if (std::abs(m_init_mouse_click.x) > DRAG_MAX)
-      {
-        close();
+        if (std::abs(m_init_mouse_click.x) < DRAG_DEADZONE)
+        {
+          m_callback();
+          if (m_auto_disable) disable();
+          if (m_auto_close) close();
+        }
+        else if (std::abs(m_init_mouse_click.x) > DRAG_MAX)
+        {
+          close();
+        }
       }
       m_init_mouse_click.x = m_init_mouse_click.y = 0;
       m_mouse_down = false;
