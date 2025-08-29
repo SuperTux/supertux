@@ -44,7 +44,7 @@ EditorTempSaveAs::EditorTempSaveAs(std::unique_ptr<World> world) :
   add_hl();
   add_entry(MNID_SAVE, _("Save"));
   add_back(_("Cancel"));
-  
+
   std::string dir;
   int num = 0;
   do {
@@ -73,23 +73,23 @@ EditorTempSaveAs::menu_action(MenuItem& item)
     case MNID_SAVE:
     {
       Level* level = editor->get_level();
-          
+
       if (level->m_name.empty())
       {
         Dialog::show_message(_("Please enter a name for this level."));
         return;
       }
-      
+
       editor->m_save_request = true;
       editor->m_save_request_filename = m_file_name;
       editor->m_save_temp_level = true;
-      
+
       editor->set_world(std::move(std::unique_ptr<World>(m_world.release())));
-      
-      auto notif = std::make_unique<Notification>("create_level_notif", 5.f, false, true);
+
+      auto notif = std::make_unique<Notification>("create_level_notif", 5.f);
       notif->set_text(_("Level created!"));
       MenuManager::instance().set_notification(std::move(notif));
-      
+
       MenuManager::instance().clear_menu_stack();
     }
       break;
