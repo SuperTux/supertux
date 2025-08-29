@@ -16,6 +16,7 @@
 
 #include "editor/editor.hpp"
 #include "gui/notification.hpp"
+#include "math/rectf.hpp"
 
 #include <fstream>
 #include <functional>
@@ -145,6 +146,8 @@ Editor::Editor() :
   m_tileset(nullptr),
   m_has_deprecated_tiles(false),
   m_widgets(),
+  m_widgets_width(),
+  m_widgets_width_offset(),
   m_controls(),
   m_undo_widget(),
   m_redo_widget(),
@@ -295,6 +298,7 @@ Editor::Editor() :
   {
     Vector pos(32 * (i-2), 0); 
     widget->set_position(pos);
+    widget->set_flat(true);
     m_widgets.insert(m_widgets.begin() + i, std::move(widget));
     ++i;
   }
@@ -303,6 +307,7 @@ Editor::Editor() :
   {
     Vector pos(32 * (i-2), 0);
     widget->set_position(pos);
+    widget->set_flat(true);
     widget->set_visible_in_object_mode(false);
     widget->set_visible(false);
     m_widgets.insert(m_widgets.begin() + i, std::move(widget));
@@ -313,11 +318,13 @@ Editor::Editor() :
   {
     Vector pos(32 * (i-tile_mode_widgets.size()-2), 0);
     widget->set_position(pos);
+    widget->set_flat(true);
     widget->set_visible_in_tile_mode(false);
     widget->set_visible(false);
     m_widgets.insert(m_widgets.begin() + i, std::move(widget));
     ++i;
   }
+  m_widgets_width = 32.f * (i-std::max(tile_mode_widgets.size(), object_mode_widgets.size())-2-2);
   
   m_undo_widget = reinterpret_cast<EditorToolbarButtonWidget*>(m_widgets[2].get());
   m_redo_widget = reinterpret_cast<EditorToolbarButtonWidget*>(m_widgets[3].get());
@@ -369,6 +376,14 @@ Editor::draw(Compositor& compositor)
 
   if (m_levelloaded)
   {
+    context.color().set_blur(g_config->editor_blur);
+    context.color().draw_filled_rect(
+      {-g_config->menuroundness, -g_config->menuroundness, m_widgets_width + m_widgets_width_offset, 32},
+      Color(0.2f, 0.2f, 0.2f, 0.5f),
+      math::clamp(g_config->menuroundness, 0.f, 16.f),
+      LAYER_GUI - 5);
+    context.color().set_blur(0);
+    
     for(const auto& widget : m_widgets)
     {
       if (!g_config->editor_show_toolbar_widgets &&
@@ -1369,30 +1384,43 @@ Editor::event(const SDL_Event& ev)
 void
 Editor::toggle_tile_object_mode()
 {
+  int i = 0, total = 0;
   auto& tilebox = m_toolbox_widget->get_tilebox();
   const auto& input_type = tilebox.get_input_type();
+  
   if (input_type == InputType::OBJECT)
   {
-	select_last_tilegroup();
-	for(const auto& widget : m_widgets)
-	{
-	  if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
-	  {
-		toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
-	  }
-	}
+    select_last_tilegroup();
+    for(const auto& widget : m_widgets)
+    {
+      if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+      {
+        toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
+      }
+    }
   }
   else
   {
-	select_last_objectgroup();
-	for(const auto& widget : m_widgets)
-	{
-	  if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
-	  {
-		toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
-	  }
-	}
+    select_last_objectgroup();
+    for(const auto& widget : m_widgets)
+    {
+      if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+      {
+        toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
+      }
+  	}
   }
+  
+  for (const auto& widget : m_widgets)
+  {
+    if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+    {
+      if (toolbar_button->get_visible())
+        ++i;
+    }
+	}
+  
+  m_widgets_width = i * 32.f;
 }
 
 
