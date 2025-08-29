@@ -18,7 +18,7 @@ out vec4 fragColor;
 
 void main(void)
 {
-  if (backbuffer == 0.0 || !is_displacement)
+  if (backbuffer == 0.0 || !is_displacement || blur != 0.0)
   {
     vec4 color = diffuse_var * texture(diffuse_texture, texcoord_var.st + (animate * game_time));
     if (blur != 0.0)
