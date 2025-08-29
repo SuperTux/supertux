@@ -49,8 +49,10 @@ Notification::Notification(const std::string& id, float idle_close_time,
   m_mini_text_size(),
   m_init_mouse_click(0),
   m_pos(),
+  m_vel(),
   m_drag(),
   m_size(),
+  m_closing(false),
   m_mouse_pos(),
   m_mouse_over(false),
   m_mouse_over_sym1(false),
@@ -119,6 +121,27 @@ Notification::draw(DrawingContext& context)
       return;
     }
   }
+  
+  if (!m_mouse_down && !m_closing)
+  {
+    m_drag = m_drag * 0.8;
+  }
+
+  if (m_closing)
+  {
+    m_vel -= 0.8;
+    m_drag += m_vel;
+  }
+  std::cout << m_drag << std::endl;
+  
+  if (m_closing && (m_drag.x < -400 || m_drag.x > 0))
+  {
+    if (MouseCursor::current() && m_mouse_over)
+      MouseCursor::current()->set_state(MouseCursorState::NORMAL);
+  
+    MenuManager::instance().set_notification({});
+  }
+
 
   context.push_transform();
   context.set_alpha(m_alpha);
@@ -223,7 +246,10 @@ Notification::event(const SDL_Event& ev)
         else // Notification clicked (execute callback)
         {
           if (m_init_mouse_click.x == 0 && m_init_mouse_click.y == 0) 
+          {
             m_init_mouse_click = VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
+            m_mouse_down = true;
+          }
         }
       }
     }
@@ -244,7 +270,7 @@ Notification::event(const SDL_Event& ev)
         close();
       }
       m_init_mouse_click.x = m_init_mouse_click.y = 0;
-      m_drag.x = m_drag.y = 0;
+      m_mouse_down = false;
     }
     break;
 
@@ -310,9 +336,7 @@ Notification::disable()
 void
 Notification::close()
 {
-  if (MouseCursor::current() && m_mouse_over)
-    MouseCursor::current()->set_state(MouseCursorState::NORMAL);
-  MenuManager::instance().set_notification({});
+  m_closing = true;
 }
 
 // Static functions, serving as utilities
