@@ -30,6 +30,10 @@
 #include "video/viewport.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
+#include <cstdlib>
+
+constexpr float DRAG_DEADZONE = 10.f;
+constexpr float DRAG_MAX      = 120.f;
 
 Notification::Notification(const std::string& id, float idle_close_time,
                            bool no_auto_close, bool auto_disable) :
@@ -43,7 +47,9 @@ Notification::Notification(const std::string& id, float idle_close_time,
   m_mini_text(),
   m_text_size(),
   m_mini_text_size(),
+  m_init_mouse_click(0),
   m_pos(),
+  m_drag(),
   m_size(),
   m_mouse_pos(),
   m_mouse_over(false),
@@ -119,8 +125,11 @@ Notification::draw(DrawingContext& context)
 
   m_pos = Vector(context.get_width() - std::max(m_text_size.width, m_mini_text_size.width) - 90.0f,
                  static_cast<float>(context.get_height() / 12) - m_text_size.height - m_mini_text_size.height + 10.0f);
+  m_pos.x -= m_drag.x;
+  float visibility = std::clamp(1.2f - (m_drag.x * 0.01f), 0.0f, 1.0f);
+  context.set_alpha(visibility);
   Rectf bg_rect(m_pos, m_size);
-
+  
   // Draw background rect
   context.color().draw_filled_rect(bg_rect.grown(12.0f),
                                      Color(g_config->menubackcolor.red, g_config->menubackcolor.green,
@@ -183,6 +192,12 @@ Notification::draw(DrawingContext& context)
   context.pop_transform();
 }
 
+Vector
+Notification::drag_amount(const SDL_Event& ev)
+{
+  return m_init_mouse_click - VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
+}
+
 void
 Notification::event(const SDL_Event& ev)
 {
@@ -207,11 +222,29 @@ Notification::event(const SDL_Event& ev)
         }
         else // Notification clicked (execute callback)
         {
-          m_callback();
-          if (m_auto_disable) disable();
-          if (m_auto_close) close();
+          if (m_init_mouse_click.x == 0 && m_init_mouse_click.y == 0) 
+            m_init_mouse_click = VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
         }
       }
+    }
+    break;
+    
+    case SDL_MOUSEBUTTONUP:
+    if (ev.button.button == SDL_BUTTON_LEFT)
+    {
+      m_init_mouse_click -= VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
+      if (std::abs(m_init_mouse_click.x) < DRAG_DEADZONE)
+      {
+        m_callback();
+        if (m_auto_disable) disable();
+        if (m_auto_close) close();
+      }
+      else if (std::abs(m_init_mouse_click.x) > DRAG_MAX)
+      {
+        close();
+      }
+      m_init_mouse_click.x = m_init_mouse_click.y = 0;
+      m_drag.x = m_drag.y = 0;
     }
     break;
 
@@ -228,6 +261,11 @@ Notification::event(const SDL_Event& ev)
       else if (!m_idle_close_timer.started())
       {
         m_idle_close_timer.start(m_idle_close_time);
+      }
+      
+      if (m_init_mouse_click.x != 0 && m_init_mouse_click.y != 0)
+      {
+        m_drag = drag_amount(ev);
       }
 
       if (MouseCursor::current() && m_mouse_over)

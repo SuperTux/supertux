@@ -44,7 +44,10 @@ private:
   Vector m_pos;
   Sizef m_size;
 
+  Vector m_init_mouse_click;
   Vector m_mouse_pos;
+  Vector m_drag;
+  bool m_dragging;
   bool m_mouse_over;
   bool m_mouse_over_sym1; // Mouse is over "Do not show again".
   bool m_mouse_over_sym2; // Mouse is over "Close".
@@ -75,6 +78,7 @@ public:
 
 private:
   void calculate_size();
+  Vector drag_amount(const SDL_Event& ev);
 
 private:
   Notification(const Notification&) = delete;
