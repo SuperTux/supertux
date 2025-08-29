@@ -52,6 +52,9 @@ public:
   
   inline void set_disabled(bool disabled) { m_disabled = disabled; }
   inline bool is_disabled() { return m_disabled; }
+  
+  inline void set_flat(bool flat) { m_flat = flat; }
+  inline bool is_flat() { return m_flat; }
 
 protected:
   SpritePtr m_sprite;
@@ -59,6 +62,7 @@ protected:
   bool m_grab;
   bool m_hover;
   bool m_disabled;
+  bool m_flat;
   std::function<void()> m_sig_click;
   Vector m_mouse_pos;
   std::string m_help_text;
