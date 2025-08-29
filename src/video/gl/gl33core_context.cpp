@@ -99,8 +99,8 @@ GL33CoreContext::bind()
 
   const float matrix[3*3] = {
     sx, 0.0, 0,
-    0.0, -sy, 0,
-    tx, 1.0f - ty, 1.0,
+    0.0, sy, 0,
+    tx, ty, 1.0,
   };
   glUniformMatrix3fv(m_program->get_fragcoord2uv_location(),
                      1, false, matrix);

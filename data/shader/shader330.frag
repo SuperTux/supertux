@@ -24,6 +24,7 @@ void main(void)
     if (blur != 0.0)
     {
       vec2 uv = (fragcoord2uv * gl_FragCoord.xyw).xy;
+      uv.y = 1.0 - uv.y;
       vec2 texel = vec2(fragcoord2uv[0].x, fragcoord2uv[1].y);
       float num = 0.0;
       vec4 sum = vec4(0.0);
