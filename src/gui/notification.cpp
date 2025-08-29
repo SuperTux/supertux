@@ -89,8 +89,9 @@ Notification::set_mini_text(const std::string& text)
 void
 Notification::calculate_size()
 {
+  float mini_text_height = m_mini_text.empty() ? 0.f : m_mini_text_size.height + 24.f;
   m_size = Sizef(std::max(m_text_size.width, m_mini_text_size.width) + 60.0f,
-                 m_text_size.height + m_mini_text_size.height + 40.0f);
+                 m_text_size.height + mini_text_height + 16.f);
 }
 
 void
