@@ -1,0 +1,18 @@
+(supertux-sprite
+ (action
+  (name "default")
+  (hitbox 0 0 32 32)
+  (fps 24)
+  (images 
+   "shock-0.png"
+   "shock-1.png"    
+   "shock-0.png"
+   "shock-2.png"
+   "shock-0.png"
+   "shock-3.png"    
+   "shock-0.png"
+   "shock-4.png"    
+  )
+ )
+)
+

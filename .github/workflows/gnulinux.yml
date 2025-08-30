@@ -1,0 +1,308 @@
+#  SuperTux
+#  Copyright (C) 2020-2021 Jacob Burroughs <maths22@gmail.com>
+#                2020-2022 A. Semphris <semphris@protonmail.com>
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+name: GNU/Linux
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'
+  pull_request: {}
+
+jobs:
+  gnulinux:
+    strategy:
+      fail-fast: false
+      matrix:
+        # TODO Working Linux 32-bit packaging
+        # TODO CTest & coverage workflow implement
+        arch: [32, 64]
+        os: [ubuntu-22.04]
+        compiler: [gcc, clang]
+        build_type: [Debug, Release]
+        include:
+          - os: ubuntu-22.04
+            build_type: Release
+            compiler: gcc
+            arch: 64
+            release: ON
+            source: ON
+            documentation: true
+            coverage: ON
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Fetch the whole tree so git describe works
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Install 64-bit dependencies
+        if: ${{ matrix.arch == 64 }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake \
+            ninja-build \
+            build-essential \
+            automake \
+            gtk-doc-tools \
+            fuse \
+            rpm \
+            rename \
+            sshpass \
+            clang \
+            g++ \
+            libglu1-mesa-dev \
+            libgtest-dev \
+            libc++-dev \
+            libogg-dev \
+            libvorbis-dev \
+            libopenal-dev \
+            libsdl2-dev \
+            libsdl2-image-dev \
+            libglib2.0-dev \
+            libfreetype6-dev \
+            libraqm-dev \
+            libglew-dev \
+            libglbinding-dev \
+            libcurl4-openssl-dev \
+            libglm-dev \
+            libfmt-dev \
+            libphysfs-dev \
+            zlib1g-dev \
+            lcov \
+            doxygen
+
+      - name: Install 32-bit dependencies
+        if: ${{ matrix.arch == 32 }}
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+
+          sudo apt-get install -y \
+            cmake \
+            ninja-build \
+            build-essential \
+            automake \
+            gtk-doc-tools \
+            fuse \
+            rpm \
+            rename \
+            sshpass \
+            clang \
+            gcc-multilib \
+            g++-multilib \
+            libglu1-mesa-dev:i386 \
+            libogg-dev:i386 \
+            libvorbis-dev:i386 \
+            libopenal-dev:i386 \
+            libsdl2-dev:i386 \
+            libsdl2-image-dev:i386 \
+            libfreetype6-dev:i386 \
+            libcurl4-openssl-dev:i386 \
+            zlib1g-dev:i386 \
+            libfmt-dev:i386 \
+            libglm-dev
+
+          # Let's get out of this directory to disable vcpkg manifest mode.
+          # Manifest mode is not adequate here because most dependencies can
+          # be used via the system package manager.
+          pushd /
+
+          # These libraries don't exist for 32-bit in Ubuntu repositories.
+          vcpkg install --triplet x86-linux physfs glew libraqm
+
+          popd
+
+      - name: Set compiler (gcc)
+        if: ${{ matrix.compiler == 'gcc' }}
+        run: |
+          echo "CXX=g++" >> $GITHUB_ENV
+          echo "CC=gcc" >> $GITHUB_ENV
+
+      - name: Set compiler (clang)
+        if: ${{ matrix.compiler == 'clang' }}
+        run: |
+          echo "CXX=clang++" >> $GITHUB_ENV
+          echo "CC=clang" >> $GITHUB_ENV
+
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
+
+      - name: Configure build
+        shell: pwsh
+        env:
+          # Using git rev-parse gives incorrect values when querying the branch
+          # so, use slugify instead
+          GIT_HASH: ${{ steps.slugify.outputs.sha }}
+          GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
+          BUILD_TYPE: ${{ matrix.build_type }}
+          32BIT: ${{ matrix.arch == 32 }}
+          MAKE_DOCS: ${{ matrix.documentation }}
+          GLBINDING: ${{ matrix.glbinding }}
+          #TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
+        run: |
+          $Env:GIT_TAG = (& git describe --tags --abbrev=0)
+
+          echo "Git information:"
+          echo "- GIT_TAG: $Env:GIT_TAG"
+          echo "- GIT_HASH: $Env:GIT_HASH"
+          echo "- GIT_BRANCH: $Env:GIT_BRANCH"
+
+          & cmake --version
+          & $Env:CXX --version
+
+          mkdir "build"
+          cd "build"
+
+          # Pass -DPhysFS_PREFER_FIND_PACKAGE=ON because we use
+          # vcpkg for physfs on 32bit
+          & cmake .. -DCMAKE_BUILD_TYPE="$Env:BUILD_TYPE" -DENABLE_DISCORD=ON `
+                     -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr `
+                     -DCMAKE_POLICY_VERSION_MINIMUM="3.5" `
+                     -DSUPERTUX_PACKAGE_VERSION="$Env:GIT_TAG dev - $Env:GIT_HASH ($Env:GIT_BRANCH) (CI ARTIFACT)" `
+                     -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH" `
+                     $(if ($Env:32BIT -eq "true") {
+                       "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
+                       "-DVCPKG_TARGET_TRIPLET=x86-linux "
+                       "-DVCPKG_MANIFEST_MODE=OFF "
+                       "-DPhysFS_PREFER_FIND_PACKAGE=ON"
+                     }) `
+                     -DBUILD_DOCUMENTATION="$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
+                     -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
+                     -DCMAKE_C_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
+                     -DBUILD_TESTING=OFF
+
+      - name: Build and install
+        working-directory: build
+        run: |
+          make -j3 VERBOSE=1
+          make install DESTDIR="/tmp/supertux" VERBOSE=1
+
+      # - name: Run tests
+      #   if: ${{ matrix.os == 'ubuntu-20.04' }}
+      #   working-directory: build
+      #   run: ./test_supertux2
+
+      # - name: Make coverage
+      #   if: ${{ matrix.coverage }}
+      #   working-directory: build
+      #   run: |
+      #     lcov --capture --directory . --exclude '/usr/*' --exclude '*/tests/*'\
+      #          --exclude '*/external/*' --output-file coverage.info
+      #     mkdir coverage
+      #     cd coverage
+      #     genhtml ../coverage.info
+
+      - name: Make documentation
+        if: ${{ matrix.documentation }}
+        working-directory: build
+        run: |
+          doxygen docs/Doxyfile
+
+      - name: Package
+        if: matrix.arch != '32' && matrix.build_type != 'Debug'
+        env:
+          OS_NAME: ${{ matrix.os }}
+          ARCH: ${{ matrix.arch }} # TODO: Working Linux 32-bit packaging
+          COMPILER_NAME: ${{ matrix.compiler }}
+          BUILD_NAME: ${{ matrix.build_type }}
+          PACKAGE: 'ON'
+          SOURCE: ${{ matrix.source }}
+        working-directory: build
+        run: ../.ci_scripts/package.sh
+
+      - name: Upload AppImage
+        if: matrix.build_type != 'Debug'
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-${{ matrix.build_type }}-appimage"
+          path: build/upload/*.AppImage
+          if-no-files-found: ignore
+
+      - name: Upload source
+        uses: actions/upload-artifact@v4
+        with:
+          name: "source"
+          path: build/upload/*Source.tar.gz
+          if-no-files-found: ignore
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: "coverage"
+          path: build/coverage/*
+          if-no-files-found: ignore
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: "documentation"
+          path: build/docs/doxygen/html/*
+          if-no-files-found: ignore
+
+      - name: Upload tar archives
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-tgz"
+          path: build/upload/*Linux.tar.gz
+          if-no-files-found: ignore
+
+      - name: Upload to nightlies
+        uses: anshulrgoyal/upload-s3-action@master
+        if: matrix.release && env.CI_KEY != null
+        env:
+          CI_KEY: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
+        with:
+          aws_bucket: supertux-ci-downloads
+          aws_key_id: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.CI_DOWNLOAD_SECRET_ACCESS_KEY }}
+          source_dir: 'build/upload'
+          destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
+
+      - name: Post uploaded file
+        if: matrix.release && env.DOWNLOAD_APIKEY != null
+        working-directory: build
+        run: ../.ci_scripts/deploy.sh
+        env:
+          PREFIX: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
+          DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+      - name: Prepare Release
+        if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'
+        env:
+          OS: ${{ matrix.os }}
+          ARCH: ${{ matrix.arch }}
+        run: |
+          if [ "$ARCH" = "32" ]; then
+            rename 's/.tar.gz/-32.tar.gz/' build/upload/SuperTux-*
+          fi
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: 'build/upload/SuperTux-*'
+          draft: true

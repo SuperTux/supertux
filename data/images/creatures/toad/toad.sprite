@@ -1,0 +1,111 @@
+(supertux-sprite
+  (action
+    (name "idle-left")
+    (hitbox 1 1 40 24)
+    (fps 60.0)
+    (images
+      "toad-idle-0.png"
+      "toad-idle-1.png"
+      "toad-idle-3.png"
+      "toad-idle-4.png"
+      "toad-idle-5.png"
+      "toad-idle-4.png"
+      "toad-idle-3.png"
+      "toad-idle-2.png"
+      "toad-idle-1.png"
+    )
+  )
+  (action
+    (name "idle-right")
+    (hitbox 1 1 40 24)
+    (fps 60.0)
+    (mirror-action "idle-left")
+  )
+  (action
+    (name "iced-left")
+    (hitbox -1 -12 40 24)
+    (fps 5.0)
+    (images "toad-idle-0.png")
+  )
+  (action
+    (name "iced-right")
+    (hitbox 3 -12 40 24)
+    (mirror-action "iced-left")
+  )
+  (action
+    (name "jumping-left")
+    (hitbox 1 1 40 24)
+    (fps 30.0)
+    (images
+      "toad-jumping-0.png"
+      "toad-jumping-1.png"
+      "toad-jumping-2.png"
+      "toad-jumping-3.png"
+      "toad-jumping-4.png"
+      "toad-jumping-4.png"
+      "toad-jumping-4.png"
+      "toad-jumping-4.png"
+      "toad-jumping-4.png"
+      "toad-jumping-4.png"
+      "toad-jumping-2.png"
+      "toad-jumping-1.png"
+      "toad-jumping-0.png"
+      "toad-jumping-0.png"
+      "toad-jumping-0.png"
+      "toad-jumping-0.png"
+      "toad-idle-0.png"
+      "toad-idle-0.png"
+    )
+  )
+  (action
+    (name "jumping-right")
+    (fps 30.0)
+    (hitbox 1 1 40 24)
+    (mirror-action "jumping-left")
+  )
+  (action
+    (name "squished-left")
+    (hitbox 1 1 40 24)
+    (images "toad-squished.png")
+  )
+  (action
+    (name "squished-right")
+    (hitbox 1 1 40 24)
+    (mirror-action "squished-left")
+  )
+  (action
+    (name "swim-left")
+    (hitbox 1 1 40 24)
+    (fps 60.0)
+    (images
+      "toad-swimming-0.png"
+      "toad-swimming-0.png"
+      "toad-swimming-0.png"
+      "toad-swimming-1.png"
+      "toad-swimming-2.png"
+      "toad-swimming-3.png"
+      "toad-swimming-4.png"
+      "toad-swimming-5.png"
+      "toad-swimming-5.png"
+      "toad-swimming-5.png"
+      "toad-swimming-5.png"
+      "toad-swimming-5.png"
+      "toad-swimming-5.png"
+      "toad-swimming-5.png"
+      "toad-swimming-5.png"
+      "toad-swimming-5.png"
+      "toad-swimming-5.png"
+      "toad-swimming-4.png"
+      "toad-swimming-3.png"
+      "toad-swimming-2.png"
+      "toad-swimming-1.png"
+      "toad-swimming-0.png"
+    )
+  )
+  (action
+    (name "swim-right")
+    (hitbox 1 1 40 24)
+    (fps 60.0)
+    (mirror-action "swim-left")
+  )
+)

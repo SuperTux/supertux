@@ -1,0 +1,57 @@
+[main]
+host = https://www.transifex.com
+
+[o:arctic-games:p:supertux:r:bonus-1]
+file_filter            = data/levels/bonus1/<lang>.po
+source_file            = data/levels/bonus1/messages.pot
+source_lang            = en
+type                   = PO
+minimum_perc           = 75
+replace_edited_strings = false
+keep_translations      = false
+
+[o:arctic-games:p:supertux:r:community-island-2016]
+file_filter            = data/levels/community2016/<lang>.po
+source_file            = data/levels/community2016/messages.pot
+source_lang            = en
+type                   = PO
+minimum_perc           = 0
+replace_edited_strings = false
+keep_translations      = false
+
+[o:arctic-games:p:supertux:r:halloween-2014]
+file_filter            = data/levels/halloween2014/<lang>.po
+source_file            = data/levels/halloween2014/messages.pot
+source_lang            = en
+type                   = PO
+minimum_perc           = 75
+replace_edited_strings = false
+keep_translations      = false
+
+[o:arctic-games:p:supertux:r:menu-principale]
+file_filter            = data/locale/<lang>.po
+source_file            = data/locale/messages.pot
+source_lang            = en
+type                   = PO
+minimum_perc           = 75
+replace_edited_strings = false
+keep_translations      = false
+
+[o:arctic-games:p:supertux:r:world-1]
+file_filter            = data/levels/world1/<lang>.po
+source_file            = data/levels/world1/messages.pot
+source_lang            = en
+type                   = PO
+minimum_perc           = 75
+replace_edited_strings = false
+keep_translations      = false
+
+[o:arctic-games:p:supertux:r:world-2]
+file_filter            = data/levels/world2/<lang>.po
+source_file            = data/levels/world2/messages.pot
+source_lang            = en
+type                   = PO
+minimum_perc           = 75
+replace_edited_strings = false
+keep_translations      = false
+

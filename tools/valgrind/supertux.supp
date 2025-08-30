@@ -1,0 +1,79 @@
+# Valgrind suppressions file for SuperTux
+#
+# Started by Matt McCutchen <matt@mattmccutchen.net> 2010-02-18
+
+# Various errors observed in libraries and not investigated.
+{
+   SDL-Cond
+   Memcheck:Cond
+   fun:SDL_SYS_JoystickInit
+}
+{
+   SDL-Cond2
+   Memcheck:Cond
+   fun:X11_SetKeyboardState
+}
+{
+   nvidia-libGLcore-Cond
+   Memcheck:Cond
+   obj:/usr/lib*/nvidia/libGLcore.so*
+}
+{
+   nvidia-libGL-malloc-Leak
+   Memcheck:Leak
+   fun:malloc
+   obj:/usr/lib*/nvidia/libGL.so*
+}
+{
+   nvidia-libGL-calloc-Leak
+   Memcheck:Leak
+   fun:calloc
+   obj:/usr/lib*/nvidia/libGL.so*
+}
+{
+   nvidia-libGL-realloc-Leak
+   Memcheck:Leak
+   fun:realloc
+   obj:/usr/lib*/nvidia/libGL.so*
+}
+{
+   nvidia-libGL-dlopen-Leak
+   Memcheck:Leak
+   ...
+   fun:dlopen*
+   obj:/usr/lib*/nvidia/libGL.so*
+}
+{
+   alsa-lib-Leak
+   Memcheck:Leak
+   ...
+   fun:parse_defs
+}
+{
+   SDL-create_aux_windows-Leak
+   Memcheck:Leak
+   ...
+   fun:create_aux_windows
+}
+{
+   openal-init-Leak
+   Memcheck:Leak
+   ...
+   fun:snd1_dlobj_cache_add
+}
+{
+   dlclose-Leak
+   Memcheck:Leak
+   ...
+   fun:dlclose
+}
+
+# Memory leak in libselinux, should be fixed in current Fedora 12:
+# http://cvs.fedoraproject.org/viewvc/rpms/libselinux/F-12/libselinux-rhat.patch?r1=1.199&r2=1.200
+#{
+#   libselinux-Leak
+#   Memcheck:Leak
+#   ...
+#   fun:getdelim
+#   fun:init_lib
+#}

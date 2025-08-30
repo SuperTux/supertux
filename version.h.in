@@ -1,0 +1,5 @@
+#ifndef VERSION_H
+#define VERSION_H
+#define PACKAGE_VERSION "${SUPERTUX_PACKAGE_VERSION}"
+#define LOGO_FILE "${LOGO_FILE}"
+#endif
