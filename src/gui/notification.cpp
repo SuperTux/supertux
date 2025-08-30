@@ -108,39 +108,33 @@ Notification::draw(DrawingContext& context)
 {
   // Close notification, if a quit has been requested, or neither the MenuManager or Editor aren't active.
   if (m_quit || !(MenuManager::instance().is_active() || Editor::is_active()))
-  {
     close();
-    return;
-  }
 
   if (m_alpha < 1.f || m_idle_close_timer.check())
   {
     m_alpha -= 0.01f;
     if (m_alpha <= 0.f)
-    {
       close();
-    }
-  }
-  
-  if (!m_mouse_down && !m_closing)
-  {
-    m_drag = m_drag * 0.8;
   }
 
   if (m_closing)
   {
     m_vel -= 0.8;
     m_drag += m_vel;
-  }
-  
-  if (m_closing && (m_drag.x < -400 || m_drag.x > 0))
-  {
-    if (MouseCursor::current() && m_mouse_over)
-      MouseCursor::current()->set_state(MouseCursorState::NORMAL);
-  
-    MenuManager::instance().set_notification({});
-  }
 
+    if (m_drag.x < -400 || m_drag.x > 0)
+    {
+      if (MouseCursor::current() && m_mouse_over)
+        MouseCursor::current()->set_state(MouseCursorState::NORMAL);
+
+      MenuManager::instance().set_notification({});
+      return;
+    }
+  }
+  else if (!m_mouse_down)
+  {
+    m_drag = m_drag * 0.8;
+  }
 
   context.push_transform();
   context.set_alpha(m_alpha);
@@ -151,7 +145,7 @@ Notification::draw(DrawingContext& context)
   float visibility = std::clamp(1.2f - (m_drag.x * 0.01f), 0.0f, 1.0f);
   context.set_alpha(visibility);
   Rectf bg_rect(m_pos, m_size);
-  
+
   // Draw background rect
   context.color().draw_filled_rect(bg_rect.grown(12.0f),
                                      Color(g_config->menubackcolor.red, g_config->menubackcolor.green,
@@ -215,7 +209,7 @@ Notification::draw(DrawingContext& context)
 }
 
 Vector
-Notification::drag_amount(const SDL_Event& ev)
+Notification::drag_amount(const SDL_Event& ev) const
 {
   return m_init_mouse_click - VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
 }
@@ -244,7 +238,7 @@ Notification::event(const SDL_Event& ev)
         }
         else // Notification clicked (execute callback)
         {
-          if (m_init_mouse_click.x == 0 && m_init_mouse_click.y == 0) 
+          if (m_init_mouse_click.x == 0 && m_init_mouse_click.y == 0)
           {
             m_init_mouse_click = VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
             m_mouse_down = true;
@@ -253,7 +247,7 @@ Notification::event(const SDL_Event& ev)
       }
     }
     break;
-    
+
     case SDL_MOUSEBUTTONUP:
     if (ev.button.button == SDL_BUTTON_LEFT)
     {
@@ -290,7 +284,7 @@ Notification::event(const SDL_Event& ev)
       {
         m_idle_close_timer.start(m_idle_close_time);
       }
-      
+
       if (m_init_mouse_click.x != 0 && m_init_mouse_click.y != 0)
       {
         m_drag = drag_amount(ev);
