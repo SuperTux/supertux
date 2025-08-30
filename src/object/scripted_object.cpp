@@ -67,12 +67,12 @@ ScriptedObject::get_settings()
 
   ObjectSettings result = MovingSprite::get_settings();
 
-  //result.add_float("width", &new_size.x, "width", OPTION_HIDDEN);
-  //result.add_float("height", &new_size.y, "height", OPTION_HIDDEN);
+  //result.add_float("width", &new_size.x, "width", OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
+  //result.add_float("height", &new_size.y, "height", OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
   result.add_bool(_("Solid"), &solid, "solid", true);
   result.add_bool(_("Physics enabled"), &physic_enabled, "physic-enabled", true);
   result.add_bool(_("Visible"), &visible, "visible", true);
-  result.add_script(_("Hit script"), &hit_script, "hit-script");
+  result.add_script(get_uid(), _("Hit script"), &hit_script, "hit-script");
 
   result.reorder({"z-pos", "visible", "physic-enabled", "solid", "name", "sprite", "script", "button", "x", "y"});
 

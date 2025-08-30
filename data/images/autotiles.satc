@@ -10849,6 +10849,56 @@
   
   )
   
+
+  (autotileset
+    (name "industrial_horiz")
+    (default 3170)
+    (autotile
+      (id 3183)
+      (solid #t)
+      (mask "***01***")
+    )
+    (autotile
+      (id 4623)
+      (solid #t)
+      (mask "***11***")
+    )
+    (autotile
+      (id 3184)
+      (solid #t)
+      (mask "***10***")
+    )
+    (autotile
+      (id 3170)
+      (solid #t)
+      (mask "***00***")
+    )
+  )
+
+  (autotileset
+    (name "industrial_vert")
+    (default 3170)
+    (autotile
+      (id 3189)
+      (solid #t)
+      (mask "*0****1*")
+    )
+    (autotile
+      (id 4627)
+      (solid #t)
+      (mask "*1****1*")
+    )
+    (autotile
+      (id 3190)
+      (solid #t)
+      (mask "*1****0*")
+    )
+    (autotile
+      (id 3170)
+      (solid #t)
+      (mask "*0****0*")
+    )
+  )
   ;; SUPPORT MULTIPLE AUTOTILESETS PER TILE - END
   
 )

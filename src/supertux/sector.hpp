@@ -75,6 +75,7 @@ public:
 
 public:
   Sector(Level& parent);
+  Sector(Sector* sector);
   ~Sector() override;
 
   void finish_construction(bool editable) override;

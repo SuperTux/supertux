@@ -26,6 +26,7 @@
 class Color;
 enum class Direction;
 class GameObject;
+class MovingObject;
 class PathObject;
 class ReaderMapping;
 enum class WalkMode;
@@ -42,8 +43,9 @@ class Value;
 class ObjectSettings final
 {
 public:
-  ObjectSettings(const std::string& name);
+  ObjectSettings(std::string name, UID uid);
   ObjectSettings(ObjectSettings&& other);
+  ObjectSettings(ObjectSettings* obj);
 
   ObjectSettings& operator=(ObjectSettings&&) = default;
 
@@ -87,7 +89,7 @@ public:
                const std::optional<Color>& default_value = {},
                unsigned int flags = 0);
   void add_remove();
-  void add_script(const std::string& text, std::string* value_ptr,
+  void add_script(UID uid, const std::string& text, std::string* value_ptr,
                   const std::string& key = {}, unsigned int flags = 0);
   void add_text(const std::string& text, std::string* value_ptr,
                 const std::string& key = {},
@@ -97,11 +99,11 @@ public:
                              const std::string& key = {},
                              const std::optional<std::string>& default_value = {},
                              unsigned int flags = 0);
-  void add_multiline_text(const std::string& text, std::string* value_ptr,
+  void add_multiline_text(UID uid, const std::string& text, std::string* value_ptr,
                           const std::string& key = {},
                           const std::optional<std::string>& default_value = {},
                           unsigned int flags = 0);
-  void add_multiline_translatable_text(const std::string& text, std::string* value_ptr,
+  void add_multiline_translatable_text(UID uid, const std::string& text, std::string* value_ptr,
                                        const std::string& key = {},
                                        const std::optional<std::string>& default_value = {},
                                        unsigned int flags = 0);
@@ -151,14 +153,11 @@ public:
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
   void add_string_array(const std::string& text, const std::string& key, std::vector<std::string>& items);
-  void add_test_from_here();
+  void add_test_from_here(const MovingObject* object_ptr);
   void add_particle_editor();
   void add_path_handle(const std::string& text, PathWalker::Handle& handle,
                        const std::string& key = {}, unsigned int flags = 0);
   void add_list(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
-
-  // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
-  void add_button(const std::string& text, const std::function<void()>& callback);
 
   inline const std::vector<std::unique_ptr<BaseObjectOption>>& get_options() const { return m_options; }
 
@@ -190,6 +189,7 @@ private:
 
 private:
   std::string m_name;
+  UID m_uid;
   std::vector<std::unique_ptr<BaseObjectOption> > m_options;
 
 private:
