@@ -20,14 +20,20 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const float DEFAULT_TRACK_RANGE = 2500.0f;
-static const float RESPAWN_TIME = 4.0f;
-static const float DOWN_VELOCITY = 32.0f;
-static const float UP_VELOCITY = -256.0f;
-static const float UP_ACCELERATION = 256.0f;
-static const float HORZ_SPEED = 40.0f;
-static const float HORZ_ACCELERATION = 256.0f;
-static const float VERT_OFFSET = 48.0f;
+namespace
+{
+  static constexpr float DEFAULT_TRACK_RANGE = 2500.f;
+  static constexpr float RESPAWN_TIME = 4.f;
+
+  static constexpr float DOWN_VELOCITY = 40.f;
+  static constexpr float UP_VELOCITY = -150.f;
+  static constexpr float UP_ACCELERATION = 150.f;
+  static constexpr float HORZ_SPEED = 60.f;
+  static constexpr float HORZ_ACCELERATION = 190.f;
+  static constexpr float HORZ_TRUST_MULTIPLIER = 3.f;
+
+  static constexpr float VERT_OFFSET = 48.f;
+}
 
 Ghoul::Ghoul(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/ghoul/ghoul.sprite"),
@@ -56,10 +62,11 @@ Ghoul::to_target()
   if (!player)
     return Vector(0.0f, 0.0f);
 
-  Vector p1 = get_bbox().get_middle();
+  const Vector p1 = get_bbox().get_middle();
   Vector p2 = player->get_bbox().get_middle();
-  p2.y -= 32; //a little offset, so he doesn't hit Tux from below
-  Vector dist = p2 - p1;
+  p2.y -= 32.f; //a little offset, so he doesn't hit Tux from below
+
+  const Vector dist = p2 - p1;
   return dist;
 }
 
@@ -68,112 +75,142 @@ Ghoul::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
   auto player = get_nearest_player();
-  if (!player) {
+  if (!player)
+  {
     m_physic.set_acceleration(0.0f, 0.0f);
     return;
   }
 
-  Vector dist = to_target();
-  Direction new_dir = dist.x < 0 ? Direction::LEFT : Direction::RIGHT;
-  bool dir_changed = new_dir != m_dir;
-  bool chase = glm::length(dist) < m_track_range;
+  const Vector dist = to_target();
+  const Direction new_dir = dist.x < 0 ? Direction::LEFT : Direction::RIGHT;
+  const bool dir_changed = new_dir != m_dir;
+  const bool should_chase = glm::length(dist) < m_track_range;
 
   switch (m_state)
   {
   case ROAMING_DOWN:
     roaming_decel_check();
-    if (dir_changed) {
+    if (dir_changed)
+    {
       set_action(new_dir == Direction::LEFT ? "left" : "right");
       m_dir = new_dir;
     }
-    if (chase) {
+    if (should_chase)
+    {
       set_state(CHASING_DOWN);
-    } else if (get_pos().y > m_home_pos.y + VERT_OFFSET) {
+    }
+    else if (get_pos().y > m_home_pos.y + VERT_OFFSET)
+    {
       set_state(ROAMING_ACCEL1);
     }
     break;
   case CHASING_DOWN:
     update_speed(dist);
-    if (dir_changed) {
+    if (dir_changed)
+    {
       set_action(new_dir == Direction::LEFT ? "left" : "right");
       m_dir = new_dir;
     }
-    if (!chase) {
+    if (!should_chase)
+    {
       m_home_pos = get_pos();
       set_state(ROAMING_DOWN);
-    } else if (dist.y < -VERT_OFFSET) {
+    }
+    else if (dist.y < -VERT_OFFSET)
+    {
       set_state(CHASING_ACCEL1);
     }
     break;
   case ROAMING_ACCEL1:
     roaming_decel_check();
-    if (m_sprite->animation_done()) {
+    if (m_sprite->animation_done())
+    {
       set_state(ROAMING_ACCEL2);
     }
     break;
   case CHASING_ACCEL1:
     update_speed(dist);
-    if (m_sprite->animation_done()) {
+    if (m_sprite->animation_done())
+    {
       set_state(CHASING_ACCEL2);
     }
     break;
   case ROAMING_ACCEL2:
     roaming_decel_check();
-    if (m_sprite->animation_done()) {
+    if (m_sprite->animation_done())
+    {
       set_state(ROAMING_UP);
     }
     break;
   case CHASING_ACCEL2:
     update_speed(dist);
-    if (m_sprite->animation_done()) {
+    if (m_sprite->animation_done())
+    {
       set_state(CHASING_UP);
     }
     break;
   case ROAMING_UP:
     roaming_decel_check();
-    if (dir_changed) {
+    if (dir_changed)
+    {
       set_action(new_dir == Direction::LEFT ? "left-up" : "right-up");
       m_dir = new_dir;
     }
-    if (chase) {
+    if (should_chase)
+    {
       set_state(CHASING_UP);
-    } else if (m_physic.get_velocity_y() > DOWN_VELOCITY) {
-      if (get_pos().y > m_home_pos.y + VERT_OFFSET) {
+    }
+    else if (m_physic.get_velocity_y() > DOWN_VELOCITY)
+    {
+      if (get_pos().y > m_home_pos.y + VERT_OFFSET)
+      {
         set_state(ROAMING_ACCEL1);
-      } else {
+      }
+      else
+      {
         set_state(ROAMING_DOWN);
       }
     }
     break;
   case CHASING_UP:
     update_speed(dist);
-    if (dir_changed) {
+    if (dir_changed)
+    {
       set_action(new_dir == Direction::LEFT ? "left-up" : "right-up");
       m_dir = new_dir;
     }
-    if (!chase) {
+    if (!should_chase)
+    {
       m_home_pos = get_pos();
       set_state(ROAMING_UP);
-    } else if (m_physic.get_velocity_y() > DOWN_VELOCITY) {
-      if (dist.y < -VERT_OFFSET) {
+    }
+    else if (m_physic.get_velocity_y() > DOWN_VELOCITY)
+    {
+      if (dist.y < -VERT_OFFSET)
+      {
         set_state(CHASING_ACCEL1);
-      } else {
+      }
+      else
+      {
         set_state(CHASING_DOWN);
       }
     }
     break;
   case STUNNED:
-    if (m_sprite->animation_done()) {
+    if (m_sprite->animation_done())
+    {
       set_state(INVISIBLE);
     }
     break;
   case INVISIBLE:
-    if (m_respawn_timer.check()) {
+    if (m_respawn_timer.check())
+    {
       set_state(RECOVERING);
     }
     break;
   case RECOVERING:
-    if (m_sprite->animation_done()) {
+    if (m_sprite->animation_done())
+    {
       set_state(ROAMING_DOWN);
     }
     break;
@@ -186,13 +223,17 @@ void
 Ghoul::update_speed(const Vector& dist)
 {
   const float vx = m_physic.get_velocity_x();
-  if (vx >= -HORZ_SPEED && vx <= HORZ_SPEED) {
-  	m_physic.set_acceleration_x(0.0f);
-  	const float vy = dist.y < 0.0f ? (UP_VELOCITY + DOWN_VELOCITY) / 2.0f : DOWN_VELOCITY;
+  if (vx >= -HORZ_SPEED && vx <= HORZ_SPEED)
+  {
+    m_physic.set_acceleration_x(0.0f);
+    const float vy = dist.y < 0.0f ? (UP_VELOCITY + DOWN_VELOCITY) / 2.0f : DOWN_VELOCITY;
     const float t = dist.y / vy;
-    if (t * HORZ_SPEED > std::abs(dist.x)) {
+    if (t * HORZ_SPEED > std::abs(dist.x))
+    {
       m_physic.set_velocity_x(dist.x / t);
-    } else {
+    }
+    else
+    {
       m_physic.set_velocity_x(dist.x < 0.0f ? -HORZ_SPEED : HORZ_SPEED);
     }
   }
@@ -201,9 +242,8 @@ Ghoul::update_speed(const Vector& dist)
 void
 Ghoul::draw(DrawingContext& context)
 {
-  if (m_state != INVISIBLE) {
+  if (m_state != INVISIBLE)
     BadGuy::draw(context);
-  }
 }
 
 void
@@ -217,11 +257,16 @@ Ghoul::horizontal_thrust()
 
   const float a = dist.x > 0.0f ? -HORZ_ACCELERATION : HORZ_ACCELERATION;
   m_physic.set_acceleration_x(a);
+
   const float vx = m_physic.get_velocity_x();
-  const float vx_diff = HORZ_SPEED * 9.0f;
-  if (t == 0.0f) {
+  const float vx_diff = HORZ_SPEED * HORZ_TRUST_MULTIPLIER;
+
+  if (t == 0.0f)
+  {
     m_physic.set_velocity_x(dist.x > 0.0f ? vx - vx_diff : vx + vx_diff);
-  } else {
+  }
+  else
+  {
     const float vx_needed = dist.x / t - a * t / 2.0f;
     m_physic.set_velocity_x(std::clamp(vx_needed, vx - vx_diff, vx + vx_diff));
   }
@@ -231,9 +276,12 @@ void
 Ghoul::start_roaming_decel()
 {
   const float vx = m_physic.get_velocity_x();
-  if (vx > 0) {
+  if (vx > 0)
+  {
     m_physic.set_acceleration_x(-HORZ_ACCELERATION);
-  } else if (vx < 0) {
+  }
+  else if (vx < 0)
+  {
     m_physic.set_acceleration_x(HORZ_ACCELERATION);
   }
 }
@@ -243,7 +291,8 @@ Ghoul::roaming_decel_check()
 {
   const float vx = m_physic.get_velocity_x();
   const float ax = m_physic.get_acceleration_x();
-  if (vx * ax > 0) {
+  if (vx * ax > 0)
+  {
     m_physic.set_velocity_x(0.0f);
     m_physic.set_acceleration_x(0.0f);
   }
@@ -252,6 +301,9 @@ Ghoul::roaming_decel_check()
 void
 Ghoul::set_state(GhoulState new_state)
 {
+  if (m_state == new_state)
+    return;
+
   switch (new_state)
   {
   case ROAMING_DOWN:
@@ -339,6 +391,7 @@ Ghoul::collision_squished(MovingObject& object)
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
   if (player)
     player->bounce(*this);
+
   kill_fall();
   return true;
 }
