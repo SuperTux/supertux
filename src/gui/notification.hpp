@@ -53,7 +53,7 @@ private:
   bool m_mouse_over;
   bool m_mouse_over_sym1; // Mouse is over "Do not show again".
   bool m_mouse_over_sym2; // Mouse is over "Close".
-  
+
   bool m_closing;
 
   bool m_quit; // Requested notification quit.
@@ -82,7 +82,8 @@ public:
 
 private:
   void calculate_size();
-  Vector drag_amount(const SDL_Event& ev);
+
+  Vector drag_amount(const SDL_Event& ev) const;
 
 private:
   Notification(const Notification&) = delete;
