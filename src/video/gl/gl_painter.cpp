@@ -100,7 +100,8 @@ GLPainter::draw_texture(const TextureRequest& request)
     float uv_right = request.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width());
     float uv_bottom = request.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height());
     
-    m_attrs.insert(m_attrs.end(), 6, request.attrs[i]);
+    if (request.attrs.size() > i)
+      m_attrs.insert(m_attrs.end(), 6, request.attrs[i]);
 
     if (request.flip & HORIZONTAL_FLIP)
       std::swap(uv_left, uv_right);
