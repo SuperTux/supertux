@@ -218,7 +218,10 @@ MovingSprite::after_editor_set()
   {
     change_sprite(get_default_sprite_name());
   }
-  m_sprite->set_action(current_action);
+  if (m_sprite->has_action(current_action))
+  {
+    m_sprite->set_action(current_action);
+  }
 
   update_hitbox();
 }
