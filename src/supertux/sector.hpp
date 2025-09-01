@@ -100,9 +100,6 @@ public:
   /** stops all looping sounds in whole sector. */
   void stop_looping_sounds();
 
-  /** Freeze camera position for this frame, preventing camera interpolation jumps and loops */
-  void pause_camera_interpolation();
-
   /** continues the looping sounds in whole sector. */
   void play_looping_sounds();
 
@@ -265,9 +262,6 @@ private:
 
   TextObject& m_text_object;
 
-  Vector m_last_translation; // For camera interpolation at high frame rates
-  float m_last_scale;
-  float m_last_dt;
   bool m_init_script_run;
   bool m_init_script_run_once;
 
