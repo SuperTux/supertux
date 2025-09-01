@@ -227,8 +227,10 @@ MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name());
-  result.add_int(_("Z-pos"), &m_layer, "z-pos");
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name())
+    ->set_description(_("The sprite file used for this object."));
+  result.add_int(_("Z-pos"), &m_layer, "z-pos")
+    ->set_description(_("The layer this object is drawn on. Higher layers are drawn on top of lower layers."));
 
   result.reorder({"sprite", "z-pos", "x", "y"});
 
