@@ -61,7 +61,7 @@ void main(void)
   }
   else if (backbuffer == 0.0 || !is_displacement)
   {
-      fragColor = color;
+    fragColor = color;
   }
 }
 
