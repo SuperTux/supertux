@@ -59,12 +59,9 @@ void main(void)
     else
       fragColor = vec4(max(color.rgb, back_color.rgb), 1.0);
   }
-  else
+  else if (backbuffer == 0.0 || !is_displacement)
   {
-    if (backbuffer == 0.0 || !is_displacement)
-    {
       fragColor = color;
-    }
   }
 }
 
