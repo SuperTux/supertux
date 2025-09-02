@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_LANTERN_HPP
-#define HEADER_SUPERTUX_OBJECT_LANTERN_HPP
+#pragma once
 
 #include "object/rock.hpp"
 
@@ -28,7 +27,7 @@ public:
 
   virtual void draw(DrawingContext& context) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
@@ -47,7 +46,7 @@ public:
   bool is_open() const;
 
   /** returns the lamp's color */
-  Color get_color() const { return lightcolor; }
+  inline Color get_color() const { return lightcolor; }
   void add_color(const Color& c);
 
 private:
@@ -59,7 +58,3 @@ private:
   Lantern(const Lantern&) = delete;
   Lantern& operator=(const Lantern&) = delete;
 };
-
-#endif
-
-/* EOF */

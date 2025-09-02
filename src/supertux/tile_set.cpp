@@ -36,23 +36,36 @@ Tilegroup::Tilegroup() :
 std::unique_ptr<TileSet>
 TileSet::from_file(const std::string& filename)
 {
-  auto tileset = std::make_unique<TileSet>();
+  auto tileset = std::make_unique<TileSet>(filename);
 
   TileSetParser parser(*tileset, filename);
   parser.parse();
 
-  tileset->print_debug_info(filename);
+  tileset->print_debug_info();
 
   return tileset;
 }
 
-TileSet::TileSet() :
+TileSet::TileSet(const std::string& filename) :
+  m_filename(filename),
   m_autotilesets(),
   m_thunderstorm_tiles(),
   m_tiles(1),
   m_tilegroups()
 {
   m_tiles[0] = std::make_unique<Tile>();
+}
+
+void
+TileSet::reload()
+{
+  m_autotilesets.clear();
+  m_thunderstorm_tiles.clear();
+  m_tiles.resize(1); // Preserve only the initial tile with an ID of 0
+  m_tilegroups.clear();
+
+  TileSetParser parser(*this, m_filename);
+  parser.parse();
 }
 
 void
@@ -87,22 +100,35 @@ TileSet::get(const uint32_t id) const
   }
 }
 
-AutotileSet*
-TileSet::get_autotileset_from_tile(uint32_t tile_id) const
+std::vector<AutotileSet*>
+TileSet::get_autotilesets_from_tile(uint32_t tile_id) const
 {
   if (tile_id == 0)
   {
-    return nullptr;
+    return {};
   }
 
+  std::vector<AutotileSet*> autotilesets;
   for (auto& ats : m_autotilesets)
   {
     if (ats->is_member(tile_id))
-    {
-      return ats.get();
-    }
+      autotilesets.push_back(ats.get());
   }
-  return nullptr;
+  return autotilesets;
+}
+
+bool
+TileSet::has_mutual_autotileset(uint32_t lhs, uint32_t rhs) const
+{
+  if (lhs == rhs)
+    return true;
+
+  for (const auto& autotileset : m_autotilesets)
+  {
+    if (autotileset->is_member(lhs) && autotileset->is_member(rhs))
+      return true;
+  }
+  return false;
 }
 
 void
@@ -168,7 +194,7 @@ TileSet::add_tilegroup(const Tilegroup& tilegroup)
 }
 
 void
-TileSet::print_debug_info(const std::string& filename)
+TileSet::print_debug_info()
 {
   if (false)
   { // enable this if you want to see a list of free tiles
@@ -188,5 +214,3 @@ TileSet::print_debug_info(const std::string& filename)
     }
   }
 }
-
-/* EOF */

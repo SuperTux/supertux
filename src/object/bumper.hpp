@@ -13,8 +13,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BUMPER_HPP
-#define HEADER_SUPERTUX_OBJECT_BUMPER_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 
@@ -31,7 +30,7 @@ public:
   virtual ObjectSettings get_settings() override;
 
   virtual void update(float dt_sec) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "bumper"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -44,6 +43,8 @@ public:
 
   Physic& get_physic();
 
+  void bounce();
+
 private:
   Physic m_physic;
 
@@ -54,7 +55,3 @@ private:
   Bumper(const Bumper&) = delete;
   Bumper& operator=(const Bumper&) = delete;
 };
-
-#endif
-
-/* EOF */

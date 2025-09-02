@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_MATH_UTIL_HPP
-#define HEADER_SUPERTUX_MATH_UTIL_HPP
+#pragma once
 
 #include <math.h>
 
@@ -36,6 +35,12 @@ const T& clamp(const T& val, const T& min, const T& max)
   {
     return val;
   }
+}
+
+template<class T>
+bool in_bounds(const T& val, const T& min, const T& max)
+{
+  return val >= min && val <= max;
 }
 
 template <class T> int sgn(T val) {
@@ -68,7 +73,3 @@ inline float positive_fmodf(float lhs, float rhs)
 }
 
 } // namespace math
-
-#endif
-
-/* EOF */

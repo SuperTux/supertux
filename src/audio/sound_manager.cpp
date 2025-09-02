@@ -217,7 +217,7 @@ SoundManager::manage_source(std::unique_ptr<SoundSource> source)
   assert(source);
   if (dynamic_cast<OpenALSoundSource*>(source.get()))
   {
-    std::unique_ptr<OpenALSoundSource> openal_source(dynamic_cast<OpenALSoundSource*>(source.release()));
+    std::unique_ptr<OpenALSoundSource> openal_source(static_cast<OpenALSoundSource*>(source.release()));
     m_sources.push_back(std::move(openal_source));
   }
 }
@@ -292,7 +292,7 @@ SoundManager::set_music_volume(int volume)
   if (m_music_source != nullptr) m_music_source->set_volume(static_cast<float>(volume) / 100.0f);
 }
 
-void 
+void
 SoundManager::play_music(const std::string& filename, float fadetime)
 {
   if (filename == m_current_music && m_music_source != nullptr)
@@ -528,5 +528,3 @@ SoundManager::check_al_error(const char* message)
     throw std::runtime_error(msg.str());
   }
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
-#define HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
+#pragma once
 
 #include "supertux/sector_base.hpp"
 
@@ -82,9 +81,11 @@ public:
 
   std::string get_exposed_class_name() const override { return "Sector"; }
 
-  Level& get_level() const { return m_level; }
+  inline Level& get_level() const { return m_level; }
   TileSet* get_tileset() const override;
   bool in_worldmap() const override;
+  inline void set_init_script_run_once(bool run_once) { m_init_script_run_once = run_once; }
+  inline bool get_init_script_run_once() const { return m_init_script_run_once; }
 
   /** activates this sector (change music, initialize player class, ...) */
   void activate(const std::string& spawnpoint);
@@ -128,7 +129,8 @@ public:
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC.
       Note that this does not include badguys or players. */
-  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr, const bool ignoreUnisolid = false) const;
+  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr,
+                          const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   /**
    * @scripting
    * @description Checks if the specified sector-relative rectangle is free of both:
@@ -148,7 +150,8 @@ public:
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
       This includes badguys and players. */
-  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr,
+                                bool ignore_unisolid = false) const;
   /**
    * @scripting
    * @description Checks if the specified sector-relative rectangle is free of both:
@@ -178,51 +181,57 @@ public:
 
   CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
                                                              const Vector& line_end,
+                                                             CollisionSystem::RaycastIgnore ignore,
+                                                             const CollisionObject* ignore_object) const;
+
+  CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
+                                                             const Vector& line_end,
                                                              bool ignore_objects,
                                                              const CollisionObject* ignore_object) const;
+
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects = false, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;
 
-  Player* get_nearest_player (const Vector& pos) const;
-  Player* get_nearest_player (const Rectf& pos) const {
-    return (get_nearest_player (get_anchor_pos (pos, ANCHOR_MIDDLE)));
+  Player* get_nearest_player(const Vector& pos) const;
+  Player* get_nearest_player(const Rectf& pos) const
+  {
+    return get_nearest_player(get_anchor_pos(pos, ANCHOR_MIDDLE));
   }
 
   std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance) const;
 
   Rectf get_active_region() const;
 
-  int get_foremost_opaque_layer() const;
-  int get_foremost_layer() const;
+  inline int get_foremost_opaque_layer() const { return m_foremost_opaque_layer; }
+  inline int get_foremost_layer() const { return m_foremost_layer; }
 
   /** returns the editor size (in tiles) of a sector */
   Size get_editor_size() const;
 
   /** resize all tilemaps with given size */
-  void resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset);
+  void resize(const Size& old_size, const Size& new_size, const Size& resize_offset);
 
   /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
   /**
    * @scripting
-   * @deprecated Use the ""gravity"" property instead!
    * Sets the sector's gravity.
    * @param float $gravity
    */
-  void set_gravity(float gravity);
+  inline void set_gravity(float gravity) { m_gravity = gravity; }
   /**
    * @scripting
-   * @deprecated Use the ""gravity"" property instead!
    * Returns the sector's gravity.
    * @param float $gravity
    */
-  float get_gravity() const;
+  inline float get_gravity() const { return m_gravity; }
 
   Camera& get_camera() const;
-  std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
-  TextObject& get_text_object() const { return m_text_object; }
+  inline TextObject& get_text_object() const { return m_text_object; }
+
+  std::vector<Player*> get_players() const;
 
   Vector get_spawn_point_position(const std::string& spawnpoint);
 
@@ -243,7 +252,6 @@ private:
 private:
   Level& m_level; // Parent level
 
-  bool m_fully_constructed;
   int m_foremost_layer;
   int m_foremost_opaque_layer;
 
@@ -260,12 +268,15 @@ private:
   Vector m_last_translation; // For camera interpolation at high frame rates
   float m_last_scale;
   float m_last_dt;
+  bool m_init_script_run;
+  bool m_init_script_run_once;
+
+ public: 
+  // The default sector size.
+  static const int DEFAULT_SECTOR_WIDTH = 350;
+  static const int DEFAULT_SECTOR_HEIGHT = 60;
 
 private:
   Sector(const Sector&) = delete;
   Sector& operator=(const Sector&) = delete;
 };
-
-#endif
-
-/* EOF */

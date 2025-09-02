@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_NULL_NULL_VIDEO_SYSTEM_HPP
-#define HEADER_SUPERTUX_VIDEO_NULL_NULL_VIDEO_SYSTEM_HPP
+#pragma once
 
 #include "video/viewport.hpp"
 #include "video/video_system.hpp"
@@ -47,7 +46,6 @@ public:
 
   virtual void set_vsync(int mode) override;
   virtual int get_vsync() const override;
-  virtual void set_gamma(float gamma) override;
   virtual void set_title(const std::string& title) override;
   virtual void set_icon(const SDL_Surface& icon) override;
   virtual SDLSurfacePtr make_screenshot() override;
@@ -64,7 +62,3 @@ private:
   NullVideoSystem(const NullVideoSystem&) = delete;
   NullVideoSystem& operator=(const NullVideoSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

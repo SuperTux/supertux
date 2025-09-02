@@ -14,16 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
-#define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
+#pragma once
+
+#include "editor/layer_object.hpp"
 
 #include "math/vector.hpp"
-#include "supertux/game_object.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/timer.hpp"
 #include "video/blend.hpp"
 #include "video/drawing_context.hpp"
 #include "video/flip.hpp"
-#include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 
@@ -32,7 +32,7 @@ class ReaderMapping;
  * @summary A ""Background"" that was given a name can be manipulated by scripts.
  * @instances A ""Background"" can be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class Background final : public GameObject
+class Background final : public LayerObject
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -63,11 +63,13 @@ public:
 
   void draw_image(DrawingContext& context, const Vector& pos);
 
-  const std::string& get_image() const { return m_imagefile; }
-  float get_speed() const { return m_parallax_speed.x; }
-  int get_layer() const { return m_layer; }
+  inline const std::string& get_image() const { return m_imagefile; }
+  inline float get_speed() const { return m_parallax_speed.x; }
 
-  Color get_color() const { return m_color; }
+  inline void set_layer(int layer) { m_layer = layer; }
+  int get_layer() const override { return m_layer; }
+
+  inline Color get_color() const { return m_color; }
   void fade_color(Color color, float time);
 
   /**
@@ -96,22 +98,22 @@ public:
    * @scripting
    * @description Returns the red color value.
    */
-  float get_color_red() const;
+  inline float get_color_red() const { return m_color.red; }
   /**
    * @scripting
    * @description Returns the green color value.
    */
-  float get_color_green() const;
+  inline float get_color_green() const { return m_color.green; }
   /**
    * @scripting
    * @description Returns the blue color value.
    */
-  float get_color_blue() const;
+  inline float get_color_blue() const { return m_color.blue; }
   /**
    * @scripting
    * @description Returns the alpha color value.
    */
-  float get_color_alpha() const;
+  inline float get_color_alpha() const { return m_color.alpha; }
   /**
    * @scripting
    * @description Sets the background color.
@@ -120,7 +122,7 @@ public:
    * @param float $blue
    * @param float $alpha
    */
-  void set_color(float red, float green, float blue, float alpha);
+  inline void set_color(float red, float green, float blue, float alpha) { m_color = Color(red, green, blue, alpha); }
   /**
    * @scripting
    * @description Fades to specified background color in ""time"" seconds.
@@ -130,7 +132,27 @@ public:
    * @param float $alpha
    * @param float $time
    */
-  void fade_color(float red, float green, float blue, float alpha, float time);
+  inline void fade_color(float red, float green, float blue, float alpha, float time) { fade_color(Color(red, green, blue, alpha), time); }
+  /**
+   * Sets the sprite action for the top image.
+   * @param string $action
+   */
+  void set_top_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for the main (middle) image.
+   * @param string $action
+   */
+  void set_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for the bottom image.
+   * @param string $action
+   */
+  void set_bottom_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for all images (top, middle and bottom).
+   * @param string $action
+   */
+  void set_all_image_actions(const std::string& action);
 
 private:
   enum Alignment {
@@ -140,9 +162,6 @@ private:
     TOP_ALIGNMENT,
     BOTTOM_ALIGNMENT
   };
-
-private:
-  SurfacePtr load_background(const std::string& image_path);
 
 private:
   /** Backgrounds with NO_ALIGNMENT are repeated over the whole
@@ -163,9 +182,9 @@ private:
   Vector m_parallax_speed;
   Vector m_scroll_speed;
   Vector m_scroll_offset;
-  SurfacePtr m_image_top; /**< image to draw above pos */
-  SurfacePtr m_image; /**< image to draw, anchored at pos */
-  SurfacePtr m_image_bottom; /**< image to draw below pos+screenheight */
+  SpritePtr m_image_top; /**< image to draw above pos */
+  SpritePtr m_image; /**< image to draw, anchored at pos */
+  SpritePtr m_image_bottom; /**< image to draw below pos+screenheight */
 
   Blend m_blend;
   Color m_color;
@@ -180,7 +199,3 @@ private:
   Background(const Background&) = delete;
   Background& operator=(const Background&) = delete;
 };
-
-#endif
-
-/* EOF */

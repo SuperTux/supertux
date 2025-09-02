@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_SECTOR_BASE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_SECTOR_BASE_HPP
+#pragma once
 
 #include "supertux/game_object_manager.hpp"
 
@@ -42,10 +41,10 @@ public:
   virtual TileSet* get_tileset() const = 0;
   virtual bool in_worldmap() const = 0;
 
-  void set_name(const std::string& name) { m_name = name; }
-  const std::string& get_name() const { return m_name; }
+  inline void set_name(const std::string& name) { m_name = name; }
+  inline const std::string& get_name() const { return m_name; }
 
-  void set_init_script(const std::string& init_script) { m_init_script = init_script; }
+  inline void set_init_script(const std::string& init_script) { m_init_script = init_script; }
   void run_script(const std::string& script, const std::string& sourcename);
 
 protected:
@@ -64,7 +63,3 @@ private:
 };
 
 } // namespace Base
-
-#endif
-
-/* EOF */

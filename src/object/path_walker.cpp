@@ -186,23 +186,25 @@ PathWalker::advance_node()
   if (!path) return;
   if (!path->is_valid()) return;
 
+  auto node_count = path->m_nodes.size();
+
   m_current_node_nr = m_next_node_nr;
   if (static_cast<int>(m_current_node_nr) == m_stop_at_node_nr) m_running = false;
 
-  if (m_next_node_nr + 1 < path->m_nodes.size()) {
+  if (m_next_node_nr + 1 < node_count) {
     m_next_node_nr++;
     return;
   }
 
   switch (path->m_mode) {
     case WalkMode::ONE_SHOT:
-      m_next_node_nr = path->m_nodes.size() - 1;
+      m_next_node_nr = node_count - 1;
       m_walking_speed = 0;
       return;
 
     case WalkMode::PING_PONG:
       m_walking_speed = -m_walking_speed;
-      m_next_node_nr = path->m_nodes.size() > 1 ? path->m_nodes.size() - 2 : 0;
+      m_next_node_nr = node_count > 1 ? node_count - 2 : 0;
       return;
 
     case WalkMode::CIRCULAR:
@@ -212,7 +214,7 @@ PathWalker::advance_node()
 
   // we shouldn't get here
   assert(false);
-  m_next_node_nr = path->m_nodes.size() - 1;
+  m_next_node_nr = node_count - 1;
   m_walking_speed = 0;
 }
 
@@ -243,5 +245,3 @@ PathWalker::goback_node()
   m_next_node_nr = 0;
   m_walking_speed = 0;
 }
-
-/* EOF */

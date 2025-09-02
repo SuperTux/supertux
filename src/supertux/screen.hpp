@@ -14,13 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
-#define HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
+#pragma once
 
 #include "sdk/integration.hpp"
 
 class Compositor;
 class Controller;
+union SDL_Event;
 
 /**
  * Abstract base class for code the MainLoop runs exclusively and full-screen.
@@ -56,14 +56,20 @@ public:
    */
   virtual void update(float dt_sec, const Controller& controller) = 0;
 
-  /** 
+  /**
+   * gets called whenever an SDL event occurs
+   */
+  virtual void event(const SDL_Event& ev) {}
+
+  /**
+   * gets called whenever the game window is resized or resolution settings are changed
+   */
+  virtual void on_window_resize() {}
+
+  /**
    * Gives details about what the user is doing right now.
-   * 
+   *
    * @returns activity details for presence integrations
    */
   virtual IntegrationStatus get_status() const = 0;
 };
-
-#endif
-
-/* EOF */

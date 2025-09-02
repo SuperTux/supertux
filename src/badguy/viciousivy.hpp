@@ -24,7 +24,7 @@ class ViciousIvy final : public WalkingBadguy
 public:
   ViciousIvy(const ReaderMapping& reader);
   ViciousIvy(const Vector& pos, Direction d);
-  
+
   virtual bool is_freezable() const override;
 
   virtual std::string get_overlay_size() const override { return "2x1"; }
@@ -41,7 +41,7 @@ public:
   virtual bool is_snipable() const override { return true; }
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
   void on_type_change(int old_type) override;
 

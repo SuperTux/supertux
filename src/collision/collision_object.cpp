@@ -17,12 +17,11 @@
 
 #include "collision/collision_object.hpp"
 
-#include "collision/collision_listener.hpp"
 #include "collision/collision_movement_manager.hpp"
-#include "supertux/game_object.hpp"
+#include "supertux/moving_object.hpp"
 
-CollisionObject::CollisionObject(CollisionGroup group, CollisionListener& listener) :
-  m_listener(listener),
+CollisionObject::CollisionObject(CollisionGroup group, MovingObject& parent) :
+  m_parent(parent),
   m_bbox(),
   m_group(group),
   m_movement(0.0f, 0.0f),
@@ -37,25 +36,25 @@ CollisionObject::CollisionObject(CollisionGroup group, CollisionListener& listen
 void
 CollisionObject::collision_solid(const CollisionHit& hit)
 {
-  m_listener.collision_solid(hit);
+  m_parent.collision_solid(hit);
 }
 
 bool
 CollisionObject::collides(CollisionObject& other, const CollisionHit& hit) const
 {
-  return m_listener.collides(dynamic_cast<GameObject&>(other.m_listener), hit);
+  return m_parent.collides(other.m_parent, hit);
 }
 
 HitResponse
 CollisionObject::collision(CollisionObject& other, const CollisionHit& hit)
 {
-  return m_listener.collision(dynamic_cast<GameObject&>(other.m_listener), hit);
+  return m_parent.collision(other.m_parent, hit);
 }
 
 void
 CollisionObject::collision_tile(uint32_t tile_attributes)
 {
-  m_listener.collision_tile(tile_attributes);
+  m_parent.collision_tile(tile_attributes);
 }
 
 void
@@ -80,7 +79,8 @@ CollisionObject::clear_bottom_collision_list()
   m_objects_hit_bottom.clear();
 }
 
-void CollisionObject::propagate_movement(const Vector& movement)
+void
+CollisionObject::propagate_movement(const Vector& movement)
 {
   for (CollisionObject* other_object : m_objects_hit_bottom) {
     if (other_object->get_group() == COLGROUP_STATIC) continue;
@@ -92,7 +92,5 @@ void CollisionObject::propagate_movement(const Vector& movement)
 bool
 CollisionObject::is_valid() const
 {
-  return m_listener.listener_is_valid();
+  return m_parent.is_valid();
 }
-
-/* EOF */

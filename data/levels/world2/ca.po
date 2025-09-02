@@ -5,16 +5,16 @@
 # Translators:
 # Ariadna Pascual <ariadnapascual7@gmail.com>, 2016
 # Catalanoic <catalanoic@gmail.com>, 2016
-# 111More1, 2022
+# 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 # 76352799d6904fac47e3a0fa3ed5fd59_334826e <af5856938576e19ac7f099472ce1a9b6_234157>, 2014-2015
 # Yael Codesal, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2025-07-06 02:34+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: 111More1, 2022\n"
+"Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
 "Language-Team: Catalan (http://app.transifex.com/arctic-games/supertux/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,7 +41,7 @@ msgstr "Ruïnes antigues"
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:191
+#: data/levels/world2/worldmap.stwm:223
 msgid "You found a secret area!"
 msgstr "Has trobat una àrea secreta!"
 
@@ -214,6 +214,6 @@ msgstr "Arrels de fusta"
 msgid "Rooted Forest"
 msgstr "Bosc arrelat"
 
-#: data/levels/world2/worldmap.stwm:205
+#: data/levels/world2/worldmap.stwm:239
 msgid "To be continued..."
 msgstr "Continuarà..."

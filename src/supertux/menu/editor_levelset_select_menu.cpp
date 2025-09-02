@@ -59,13 +59,14 @@ EditorLevelsetSelectMenu::initialize()
 
   // Generating contrib levels list by making use of Level Subset
   std::vector<std::string> level_worlds;
-  
-  physfsutil::enumerate_files("levels", [&level_worlds](const auto& filename) {
+
+  physfsutil::enumerate_files_alphabetical("levels", [&level_worlds](const auto& filename) {
     std::string filepath = FileSystem::join("levels", filename);
     if (physfsutil::is_directory(filepath))
     {
       level_worlds.push_back(filepath);
     }
+    return false;
   });
 
   add_label(_("Choose World"));
@@ -134,5 +135,3 @@ EditorLevelsetSelectMenu::menu_action(MenuItem& item)
     MenuManager::instance().push_menu(std::move(menu));
   }
 }
-
-/* EOF */

@@ -29,7 +29,7 @@
 #include "util/string_util.hpp"
 
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(std::string)> callback,
+                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(const std::string&)> callback,
                                const std::function<void (MenuItem&)>& item_processor) :
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
@@ -74,13 +74,13 @@ FileSystemMenu::refresh_items()
   if (m_directory != "/") {
     m_directories.push_back("..");
   }
-  physfsutil::enumerate_files(m_directory, [this](const std::string& file) {
+  physfsutil::enumerate_files_alphabetical(m_directory, [this](const std::string& file) {
     std::string filepath = FileSystem::join(m_directory, file);
     if (physfsutil::is_directory(filepath))
     {
       // Do not show directories, containing deprecated files
       if (file == "deprecated")
-        return;
+        return false;
 
       m_directories.push_back(file);
     }
@@ -89,13 +89,14 @@ FileSystemMenu::refresh_items()
       // Do not show deprecated, or unrelated add-on files
       if (FileSystem::extension(FileSystem::strip_extension(file)) == ".deprecated" ||
           AddonManager::current()->is_from_old_addon(filepath))
-        return;
+        return false;
 
       if (has_right_suffix(file))
       {
         m_files.push_back(file);
       }
     }
+    return false;
   });
 
   for (const auto& item : m_directories)
@@ -174,5 +175,3 @@ FileSystemMenu::menu_action(MenuItem& item)
     FileSystem::open_path(FileSystem::join(PHYSFS_getRealDir(m_directory.c_str()), m_directory));
   }
 }
-
-/* EOF */

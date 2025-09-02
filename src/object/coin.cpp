@@ -95,7 +95,7 @@ Coin::finish_construction()
     get_walker()->jump_to_node(m_starting_node);
   }
 
-  m_add_path = get_walker() && get_path() && get_path()->is_valid();
+  m_add_path = has_valid_path();
 }
 
 void
@@ -163,6 +163,9 @@ Coin::collect()
   float pitch = 1;
 
   int tile = static_cast<int>(get_pos().y / 32);
+
+  if (!is_valid())
+    return;
 
   if (!sound_timer.started()) {
     pitch_one = tile;
@@ -234,7 +237,7 @@ Coin::collect()
 }
 
 HitResponse
-Coin::collision(GameObject& other, const CollisionHit& )
+Coin::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*>(&other);
   if (player == nullptr)
@@ -322,10 +325,10 @@ Coin::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
-  m_add_path = get_walker() && get_path() && get_path()->is_valid();
+  m_add_path = has_valid_path();
   result.add_bool(_("Following path"), &m_add_path);
 
-  if (get_walker() && get_path() && get_path()->is_valid()) {
+  if (m_add_path) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
     result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
@@ -388,5 +391,3 @@ HeavyCoin::on_flip(float height)
   // avoid flipping of gravity-affected object HeavyCoin.
   MovingSprite::on_flip(height);
 }
-
-/* EOF */

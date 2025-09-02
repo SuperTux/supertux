@@ -88,7 +88,6 @@ extern "C" {
 #include "video/sdl_surface_ptr.hpp"
 #include "video/ttf_surface_manager.hpp"
 #include "worldmap/worldmap.hpp"
-#include "worldmap/worldmap_screen.hpp"
 
 static Timelog s_timelog;
 
@@ -499,7 +498,8 @@ Main::init_video()
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
 
-  SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
+  SDL_ShowCursor(
+    (g_config->custom_mouse_cursor && !g_config->custom_system_cursor) ? SDL_DISABLE : SDL_ENABLE);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
@@ -637,8 +637,7 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else if (StringUtil::has_suffix(start_level, ".stwm"))
       {
-        m_screen_manager->push_screen(std::make_unique<worldmap::WorldMapScreen>(
-                                     std::make_unique<worldmap::WorldMap>(filename, *m_savegame)));
+        m_screen_manager->push_screen(std::make_unique<worldmap::WorldMap>(filename, *m_savegame));
       }
       else
       { // launch game
@@ -657,7 +656,6 @@ Main::launch_game(const CommandLineArguments& args)
           std::string spawnpointname = args.spawnpoint.value_or(default_spawnpoint);
 
           session->set_start_point(sectorname, spawnpointname);
-          session->restart_level();
         }
 
         if (g_config->tux_spawn_pos)
@@ -665,6 +663,7 @@ Main::launch_game(const CommandLineArguments& args)
           // FIXME: Specify start pos for multiple players
           session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
         }
+        session->restart_level();
         m_screen_manager->push_screen(std::move(session));
       }
     }
@@ -806,6 +805,9 @@ Main::run(int argc, char** argv)
 void
 Main::release_check()
 {
+  if (g_config->disable_network)
+    return;
+
   // Detect a potential new release of SuperTux. If a release, other than
   // the current one is indicated on the given web file, show a notification on the main menu screen.
   const std::string target_file = "ver_info.nfo";
@@ -850,5 +852,3 @@ Main::release_check()
   dialog->set_title(_("Checking for new releases..."));
   MenuManager::instance().set_dialog(std::move(dialog));
 }
-
-/* EOF */

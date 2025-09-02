@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_READER_ITERATOR_HPP
-#define HEADER_SUPERTUX_UTIL_READER_ITERATOR_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -54,14 +53,10 @@ public:
   ReaderMapping as_mapping() const;
 
   const sexp::Value& get_sexp() const;
-  const ReaderDocument& get_doc() const { return m_doc; }
+  inline const ReaderDocument& get_doc() const { return m_doc; }
 
 private:
   const ReaderDocument& m_doc;
   const std::vector<sexp::Value>& m_arr;
   size_t m_idx;
 };
-
-#endif
-
-/* EOF */

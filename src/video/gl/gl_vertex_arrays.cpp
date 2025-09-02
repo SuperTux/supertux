@@ -125,5 +125,3 @@ GLVertexArrays::set_color(const Color& color)
 
   assert_gl();
 }
-
-/* EOF */

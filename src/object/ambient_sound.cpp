@@ -87,13 +87,13 @@ AmbientSound::get_settings()
   result.add_float(_("Radius (in tiles)"), &m_radius, "radius");
   result.add_float(_("Volume"), &m_volume, "volume");
 
-  result.reorder({"sample", "radius", "volume", "region", "name", "x", "y", "width", "height"});
+  result.reorder({"sample", "radius", "volume", "width", "height", "name", "x", "y"});
 
   return result;
 }
 
 HitResponse
-AmbientSound::collision(GameObject& other, const CollisionHit& hit_)
+AmbientSound::collision(MovingObject& other, const CollisionHit& hit_)
 {
   return ABORT_MOVE;
 }
@@ -192,10 +192,8 @@ AmbientSound::prepare_sound_source()
 void
 AmbientSound::register_class(ssq::VM& vm)
 {
-  ssq::Class cls = vm.addAbstractClass<AmbientSound>("AmbientSound");
+  ssq::Class cls = vm.addAbstractClass<AmbientSound>("AmbientSound", vm.findClass("MovingObject"));
 
   cls.addFunc("get_pos_x", &MovingObject::get_x);
   cls.addFunc("get_pos_y", &MovingObject::get_y);
 }
-
-/* EOF */

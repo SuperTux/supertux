@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_GL_GL_VIDEO_SYSTEM_HPP
-#define HEADER_SUPERTUX_VIDEO_GL_GL_VIDEO_SYSTEM_HPP
+#pragma once
 
 #include <memory>
 #include <SDL.h>
@@ -58,7 +57,7 @@ public:
 
   virtual SDLSurfacePtr make_screenshot() override;
 
-  GLContext& get_context() const { return *m_context; }
+  inline GLContext& get_context() const { return *m_context; }
 
 private:
   void create_gl_window();
@@ -79,7 +78,3 @@ private:
   GLVideoSystem(const GLVideoSystem&) = delete;
   GLVideoSystem& operator=(const GLVideoSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

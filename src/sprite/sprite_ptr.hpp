@@ -14,15 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SPRITE_SPRITE_PTR_HPP
-#define HEADER_SUPERTUX_SPRITE_SPRITE_PTR_HPP
+#pragma once
 
 #include <memory>
 
 class Sprite;
 
 typedef std::unique_ptr<Sprite> SpritePtr;
-
-#endif
-
-/* EOF */

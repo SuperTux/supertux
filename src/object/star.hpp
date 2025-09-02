@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_STAR_HPP
-#define HEADER_SUPERTUX_OBJECT_STAR_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -32,7 +31,7 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual bool is_saveable() const override { return false; }
 
@@ -44,7 +43,3 @@ private:
   Star(const Star&) = delete;
   Star& operator=(const Star&) = delete;
 };
-
-#endif
-
-/* EOF */

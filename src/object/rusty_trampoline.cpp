@@ -49,7 +49,7 @@ RustyTrampoline::update(float dt_sec)
     if (counter < 1) {
       remove_me();
     } else {
-      set_action("normal");
+      set_action("default");
     }
 
   }
@@ -71,10 +71,10 @@ RustyTrampoline::get_settings()
 }
 
 HitResponse
-RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
+RustyTrampoline::collision(MovingObject& other, const CollisionHit& hit)
 {
   //Trampoline has to be on ground to work.
-  if (on_ground) {
+  if (m_on_ground) {
     auto player = dynamic_cast<Player*> (&other);
     //Trampoline works for player
     if (player) {
@@ -87,13 +87,7 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
           vy = VY_BOUNCE;
         }
         player->get_physic().set_velocity_y(vy);
-        SoundManager::current()->play(BOUNCE_SOUND, get_pos());
-        counter--;
-        if (counter > 0) {
-          set_action("swinging", 1);
-        } else {
-          set_action("breaking", 1);
-        }
+        bounce();
 
         return FORCE_MOVE;
       }
@@ -106,19 +100,26 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
       if (hit.top && vy >= 0) {
         vy = VY_BOUNCE;
         walking_badguy->set_velocity_y(vy);
-        SoundManager::current()->play(BOUNCE_SOUND, get_pos());
-        counter--;
-        if (counter > 0) {
-          set_action("swinging", 1);
-        } else {
-          set_action("breaking", 1);
-        }
+        bounce();
+
         return FORCE_MOVE;
       }
     }
   }
 
   return Rock::collision(other, hit);
+}
+
+void
+RustyTrampoline::bounce()
+{
+  SoundManager::current()->play(BOUNCE_SOUND, get_pos());
+  counter--;
+  if (counter > 0) {
+    set_action("swinging", 1);
+  } else {
+    set_action("breaking", 1);
+  }
 }
 
 void
@@ -144,5 +145,3 @@ RustyTrampoline::is_portable() const
 {
   return Rock::is_portable() && portable;
 }
-
-/* EOF */

@@ -20,6 +20,7 @@
 #include <sexp/value.hpp>
 
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/color.hpp"
 
 ObjectSettings::ObjectSettings(const std::string& name) :
@@ -28,9 +29,25 @@ ObjectSettings::ObjectSettings(const std::string& name) :
 {
 }
 
+ObjectSettings::ObjectSettings(ObjectSettings&& other) :
+  m_name(other.m_name),
+  m_options(std::move(other.m_options))
+{
+}
+
 void
 ObjectSettings::add_option(std::unique_ptr<BaseObjectOption> option)
 {
+  if (!option->get_key().empty())
+  {
+    // Make sure no option with the same key exists
+    assert(std::none_of(m_options.begin(), m_options.end(),
+                        [key = option->get_key()](const auto& opt)
+                        {
+                          return key == opt->get_key();
+                        }));
+  }
+
   m_options.push_back(std::move(option));
 }
 
@@ -101,14 +118,6 @@ ObjectSettings::add_label(const std::string& text,
                           unsigned int flags)
 {
   add_option(std::make_unique<LabelObjectOption>(text, flags));
-}
-
-void
-ObjectSettings::add_rectf(const std::string& text, Rectf* value_ptr,
-                          const std::string& key,
-                          unsigned int flags)
-{
-  add_option(std::make_unique<RectfObjectOption>(text, value_ptr, key, flags));
 }
 
 void
@@ -392,4 +401,69 @@ ObjectSettings::remove(const std::string& key)
                   m_options.end());
 }
 
-/* EOF */
+void
+ObjectSettings::parse(const ReaderMapping& reader)
+{
+  for (const auto& option : m_options)
+  {
+    try
+    {
+      option->parse(reader);
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Error processing data for option '" << option->get_key()
+                  << "': " << err.what() << std::endl;
+    }
+  }
+}
+
+void
+ObjectSettings::save_state()
+{
+  for (const auto& option : m_options)
+    option->save_state();
+}
+
+bool
+ObjectSettings::has_state_changed() const
+{
+  for (const auto& option : m_options)
+    if (option->has_state_changed())
+      return true;
+
+  return false;
+}
+
+void
+ObjectSettings::parse_state(const ReaderMapping& reader)
+{
+  for (const auto& option : m_options)
+  {
+    try
+    {
+      option->parse_state(reader);
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Error processing state data for option '" << option->get_key()
+                  << "': " << err.what() << std::endl;
+    }
+  }
+}
+
+void
+ObjectSettings::save_old_state(std::ostream& out) const
+{
+  for (const auto& option : m_options)
+    if (option->has_state_changed())
+      option->save_old_state(out);
+}
+
+void
+ObjectSettings::save_new_state(Writer& writer) const
+{
+  for (const auto& option : m_options)
+    if (option->has_state_changed())
+      option->save_new_state(writer);
+}

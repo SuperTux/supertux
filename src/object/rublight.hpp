@@ -13,8 +13,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_RUBLIGHT_HPP
-#define HEADER_SUPERTUX_OBJECT_RUBLIGHT_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
@@ -26,7 +25,7 @@ class RubLight final : public MovingSprite
 public:
   RubLight(const ReaderMapping& mapping);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   static std::string class_name() { return "rublight"; }
@@ -59,7 +58,3 @@ private:
   RubLight(const RubLight&) = delete;
   RubLight& operator=(const RubLight&) = delete;
 };
-
-#endif
-
-/* EOF */

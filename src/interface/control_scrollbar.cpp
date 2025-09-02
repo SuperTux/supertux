@@ -159,20 +159,6 @@ ControlScrollbar::scroll(float amount)
 }
 
 void
-ControlScrollbar::set_covered_region(float region)
-{
-  m_covered_region = region;
-  check_regions();
-}
-
-void
-ControlScrollbar::set_total_region(float region)
-{
-  m_total_region = region;
-  check_regions();
-}
-
-void
 ControlScrollbar::check_regions()
 {
   if (m_total_region < m_covered_region)
@@ -198,5 +184,3 @@ ControlScrollbar::get_bar_rect() const
                           / m_total_region
              );
 }
-
-/* EOF */

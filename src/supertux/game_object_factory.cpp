@@ -79,11 +79,13 @@
 #include "badguy/yeti.hpp"
 #include "badguy/yeti_stalactite.hpp"
 #include "badguy/zeekling.hpp"
+#include "editor/editor_comment.hpp"
 #include "math/vector.hpp"
 #include "object/ambient_light.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/background.hpp"
 #include "object/bicycle_platform.hpp"
+#include "object/bigsnowball.hpp"
 #include "object/bonus_block.hpp"
 #include "object/brick.hpp"
 #include "object/bumper.hpp"
@@ -251,6 +253,7 @@ GameObjectFactory::init_factories()
   add_factory<AmbientSound>("ambient_sound"); // Backward compatibilty.
   add_factory<AmbientSound>("ambient-sound");
   add_factory<Background>("background", OBJ_PARAM_WORLDMAP);
+  add_factory<BigSnowball>("bigsnowball", OBJ_PARAM_DISPENSABLE);
   add_factory<PathGameObject>("path");
   add_factory<BicyclePlatform>("bicycle-platform");
   add_factory<BonusBlock>("bonusblock", OBJ_PARAM_DISPENSABLE);
@@ -315,6 +318,7 @@ GameObjectFactory::init_factories()
 
   // Editor stuff.
   add_factory<SpawnPointMarker>("spawnpoint");
+  add_factory<EditorComment>("editor-comment");
 
   // Worldmap objects.
   add_factory<worldmap::LevelTile>("level", OBJ_PARAM_WORLDMAP);
@@ -400,5 +404,3 @@ GameObjectFactory::create(const std::string& name, const Vector& pos, const Dire
   auto doc = ReaderDocument::from_stream(lisptext);
   return create(name, doc.get_root().get_mapping());
 }
-
-/* EOF */

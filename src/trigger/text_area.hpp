@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_TRIGGER_TEXT_AREA_HPP
-#define HEADER_SUPERTUX_TRIGGER_TEXT_AREA_HPP
+#pragma once
 
 #include "trigger/trigger_base.hpp"
 
@@ -64,6 +63,3 @@ private:
   TextArea(const TextArea&) = delete;
   TextArea& operator=(const TextArea&) = delete;
 };
-
-#endif
-/* EOF */

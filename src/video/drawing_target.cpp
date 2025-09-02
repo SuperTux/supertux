@@ -49,5 +49,3 @@ std::string to_string(DrawingTarget value)
       return "colormap";
   }
 }
-
-/* EOF */

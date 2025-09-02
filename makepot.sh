@@ -5,7 +5,7 @@ package_version="$(git describe --tags --match "?[0-9]*.[0-9]*.[0-9]*")"
 
 xgettext --keyword='_' --keyword='__:1,2' -C -o data/locale/main.pot \
   $(find src -name "*.cpp" -or -name "*.hpp") \
-  --add-comments=l10n \
+  --from-code=UTF-8 --add-comments=l10n \
   --package-name="${package_name}" --package-version="${package_version}" \
   --msgid-bugs-address=https://github.com/SuperTux/supertux/issues
 
@@ -40,8 +40,7 @@ rm -f data/locale/main.pot data/locale/credits.pot data/locale/objects.pot data/
 for LEVELSET in $(ls data/levels); do
   SCRIPT_FILES=$(find data/levels/$LEVELSET -name "*.nut")
   for SCRIPT_FILE in $SCRIPT_FILES; do
-    name=$(basename ${SCRIPT_FILE})
-    name=${name/.nut/}
+    name=$(basename ${SCRIPT_FILE} | sed 's/.nut//g')
     python tools/extract_strings.py ${SCRIPT_FILE} data/levels/$LEVELSET/scripts_${name}.txt
   done
 done

@@ -128,7 +128,7 @@ Dispenser::deactivate()
 }
 
 HitResponse
-Dispenser::collision(GameObject& other, const CollisionHit& hit)
+Dispenser::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto bullet = dynamic_cast<Bullet*> (&other);
   if (bullet)
@@ -149,11 +149,11 @@ Dispenser::active_update(float dt_sec)
     auto player = get_nearest_player();
     if (player)
     {
-      if(player->is_dying() || player->is_dead())
+      if(!player->is_alive())
       {
         return;
       }
-      
+
       // Auto always shoots in Tux's direction.
       if (m_autotarget)
       {
@@ -434,7 +434,10 @@ GameObjectTypes
 Dispenser::get_types() const
 {
   return {
-    { "dropper", _("Dropper") },
+    {
+      /* l10n: This is not a dropper in the medical sense. Dropper refers to a dispenser that drops objects from above */
+      "dropper", _("Dropper")
+    },
     { "cannon", _("Cannon") },
     { "point", _("Invisible") },
     { "granito", _("Granito") }
@@ -472,5 +475,3 @@ Dispenser::register_class(ssq::VM& vm)
   cls.addFunc("activate", &Dispenser::activate);
   cls.addFunc("deactivate", &Dispenser::deactivate);
 }
-
-/* EOF */

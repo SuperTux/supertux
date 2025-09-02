@@ -23,8 +23,9 @@
 #include "supertux/tile.hpp"
 #include "util/reader_mapping.hpp"
 
-static const float FISH_BEACH_TIME = 5.f;
-static const float FISH_FLOAT_TIME = 2.f;
+constexpr float FISH_BEACH_TIME = 5.f;
+constexpr float FISH_FLOAT_TIME = 2.f;
+constexpr float FISH_PATROL_SPEED = 128.f;
 
 FishSwimming::FishSwimming(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/fish/ice/bluefish.sprite"),
@@ -52,7 +53,8 @@ FishSwimming::FishSwimming(const ReaderMapping& reader, const std::string& sprit
 GameObjectTypes
 FishSwimming::get_types() const
 {
-  return {
+  return
+  {
     { "snow", _("Snow") },
     { "forest", _("Forest") },
     { "corrupted", _("Corrupted") }
@@ -64,12 +66,33 @@ FishSwimming::get_default_sprite_name() const
 {
   switch (m_type)
   {
-    case FOREST:
-      return "images/creatures/fish/forest/bluefish.sprite";
-    case CORRUPTED:
-      return "images/creatures/fish/forest/corrupted/corrupted_bluefish.sprite";
-    default:
-      return m_default_sprite_name;
+  case FOREST:
+    return "images/creatures/fish/forest/bluefish.sprite";
+  case CORRUPTED:
+    return "images/creatures/fish/forest/corrupted/corrupted_bluefish.sprite";
+  default:
+    return m_default_sprite_name;
+  }
+}
+
+std::vector<Direction>
+FishSwimming::get_allowed_directions() const
+{
+  return { Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
+}
+
+void
+FishSwimming::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+
+  if (m_start_dir == Direction::RIGHT || m_start_dir == Direction::DOWN)
+  {
+    set_action("swim-right");
+  }
+  else
+  {
+    set_action("swim-left");
   }
 }
 
@@ -88,22 +111,63 @@ FishSwimming::get_settings()
 void
 FishSwimming::initialize()
 {
-  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -128.f : 128.f);
+  setup_velocity();
   set_action("swim", m_dir);
   m_state = FishYState::BALANCED;
 }
 
 void
+FishSwimming::setup_velocity()
+{
+  switch (m_dir)
+  {
+    case Direction::LEFT:
+      m_physic.set_velocity_x(-FISH_PATROL_SPEED);
+      break;
+    case Direction::RIGHT:
+      m_physic.set_velocity_x(FISH_PATROL_SPEED);
+      break;
+    case Direction::UP:
+      m_physic.set_velocity_y(-FISH_PATROL_SPEED);
+      break;
+    case Direction::DOWN:
+      m_physic.set_velocity_y(FISH_PATROL_SPEED);
+      break;
+    default:
+      break;
+  }
+}
+
+bool
+FishSwimming::is_frontal_hit(const CollisionHit& hit) const
+{
+  switch (m_dir)
+  {
+    case Direction::LEFT:
+      return hit.left;
+    case Direction::RIGHT:
+      return hit.right;
+    case Direction::UP:
+      return hit.top;
+    case Direction::DOWN:
+      return hit.bottom;
+    default:
+      return false;
+  }
+}
+
+void
 FishSwimming::collision_solid(const CollisionHit& hit)
 {
-  if (m_frozen) {
+  if (m_frozen)
+  {
     BadGuy::collision_solid(hit);
   }
   else
   {
     if (m_in_water)
     {
-      if (hit.left || hit.right)
+      if (is_frontal_hit(hit))
         turn_around();
     }
     else
@@ -122,10 +186,9 @@ HitResponse
 FishSwimming::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   if (m_beached_timer.started())
-     collision_solid(hit);
+    collision_solid(hit);
 
-  if (!m_frozen && !m_beached_timer.started() &&
-    ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))))
+  if (!m_frozen && !m_beached_timer.started() && is_frontal_hit(hit))
     turn_around();
 
   BadGuy::collision_badguy(badguy, hit);
@@ -140,14 +203,15 @@ FishSwimming::update(float dt_sec)
       m_in_water && get_bbox().get_bottom() >= Sector::get().get_height())
   {
     set_pos(Vector(get_bbox().get_left(),
-                   Sector::get().get_height() - m_col.m_bbox.get_height()));
+            Sector::get().get_height() - m_col.m_bbox.get_height()));
   }
   BadGuy::update(dt_sec);
   //m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
 void
-FishSwimming::active_update(float dt_sec) {
+FishSwimming::active_update(float dt_sec)
+{
   // Perform basic updates.
   BadGuy::active_update(dt_sec);
   m_in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
@@ -175,14 +239,30 @@ FishSwimming::active_update(float dt_sec) {
   {
     if (m_state == FishYState::DISRUPTED)
     {
-      if (std::abs(m_physic.get_velocity_y()) >= 5.f) {
-        m_physic.set_velocity_y(m_physic.get_velocity_y() / 1.25f);
+      if (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+      {
+        if (std::abs(m_physic.get_velocity_y()) >= 5.f) {
+          m_physic.set_velocity_y(m_physic.get_velocity_y() / 1.25f);
+        }
+        else
+        {
+          m_state = FishYState::BALANCED;
+          m_physic.set_velocity_y(0.f);
+          m_start_position.y = get_pos().y;
+        }
       }
       else
       {
-        m_state = FishYState::BALANCED;
-        m_physic.set_velocity_y(0.f);
-        m_start_position.y = get_pos().y;
+        if (std::abs(m_physic.get_velocity_x()) >= 5.f)
+        {
+          m_physic.set_velocity_x(m_physic.get_velocity_x() / 1.25f);
+        }
+        else
+        {
+          m_state = FishYState::BALANCED;
+          m_physic.set_velocity_x(0.f);
+          m_start_position.x = get_pos().x;
+        }
       }
     }
     else
@@ -192,20 +272,149 @@ FishSwimming::active_update(float dt_sec) {
       {
         yspeed = yspeed * -1.f;
       }
-      m_physic.set_velocity_y(yspeed);
+      if (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+      {
+        m_physic.set_velocity_y(yspeed);
+      }
+      else
+      {
+        Player* player = Sector::get().get_nearest_player(get_pos());
+        if (player)
+        {
+          if (player->get_pos().x < get_pos().x)
+          {
+            set_action("swim-left", -1);
+          }
+          else if (player->get_pos().x > get_pos().x)
+          {
+            set_action("swim-right", -1);
+          }
+        }
+
+        float current_vx = m_physic.get_velocity_x();
+        if (current_vx != 0.f)
+        {
+          const float velocity_half_life_sec = 0.2f;
+
+          float damping_multiplier = 1.0f;
+          if (dt_sec > 0.0f)
+          {
+            damping_multiplier = std::pow(0.5f, dt_sec / velocity_half_life_sec);
+          }
+
+          current_vx *= damping_multiplier;
+
+          if (std::abs(current_vx) < 0.05f)
+          {
+            current_vx = 0.f;
+          }
+          m_physic.set_velocity_x(current_vx);
+        }
+      }
     }
   }
 
   if (!m_beached_timer.started())
   {
-    // Handle x-velocity related functionality.
-    float goal_x_velocity = m_dir == Direction::LEFT ? -128.f : 128.f;
-    if (m_dir != Direction::LEFT && get_pos().x > (m_start_position.x + m_radius - 20.f))
-      goal_x_velocity = -128.f;
-    if (m_dir != Direction::RIGHT && get_pos().x < (m_start_position.x - m_radius + 20.f))
-      goal_x_velocity = 128.f;
+    const float turn_initiation_offset = FISH_PATROL_SPEED / 2.0f;
 
-    maintain_velocity(goal_x_velocity);
+    // Smooth turn requires radius > initiation distance to avoid jitter.
+    bool use_smooth_turn = (m_radius > turn_initiation_offset);
+
+    if (use_smooth_turn)
+    {
+      switch (m_dir)
+      {
+      case Direction::LEFT:
+        {
+          float goal_x_velocity = -FISH_PATROL_SPEED;
+          if (get_pos().x <= (m_start_position.x - m_radius + turn_initiation_offset))
+          {
+            goal_x_velocity = FISH_PATROL_SPEED;
+          }
+          maintain_velocity_x(goal_x_velocity);
+        }
+        break;
+      case Direction::RIGHT:
+        {
+          float goal_x_velocity = FISH_PATROL_SPEED;
+          if (get_pos().x >= (m_start_position.x + m_radius - turn_initiation_offset))
+          {
+            goal_x_velocity = -FISH_PATROL_SPEED;
+          }
+          maintain_velocity_x(goal_x_velocity);
+        }
+        break;
+      case Direction::UP:
+        {
+          float goal_y_velocity = -FISH_PATROL_SPEED;
+          if (get_pos().y <= (m_start_position.y - m_radius + turn_initiation_offset))
+          {
+            goal_y_velocity = FISH_PATROL_SPEED;
+          }
+          maintain_velocity_y(goal_y_velocity);
+        }
+        break;
+      case Direction::DOWN:
+        {
+          float goal_y_velocity = FISH_PATROL_SPEED;
+          if (get_pos().y >= (m_start_position.y + m_radius - turn_initiation_offset))
+          {
+            goal_y_velocity = -FISH_PATROL_SPEED;
+          }
+          maintain_velocity_y(goal_y_velocity);
+        }
+        break;
+      default:
+        break;
+      }
+    }
+
+    // The radius is too small for a smooth turn; hence perform an instantanious turn
+    // in order to respect the boundary.
+    else
+    {
+      switch (m_dir)
+      {
+      case Direction::LEFT:
+        if (get_pos().x <= (m_start_position.x - m_radius))
+        {
+          turn_around();
+        }
+        break;
+      case Direction::RIGHT:
+        if (get_pos().x >= (m_start_position.x + m_radius))
+        {
+          turn_around();
+        }
+        break;
+      case Direction::UP:
+        if (get_pos().y <= (m_start_position.y - m_radius))
+        {
+          turn_around();
+        }
+        break;
+      case Direction::DOWN:
+        if (get_pos().y >= (m_start_position.y + m_radius))
+        {
+          turn_around();
+        }
+        break;
+      default:
+        break;
+      }
+
+      if (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+      {
+        const float target_vel_x = (m_dir == Direction::LEFT) ? -FISH_PATROL_SPEED : FISH_PATROL_SPEED;
+        maintain_velocity_x(target_vel_x);
+      }
+      else if (m_dir == Direction::UP || m_dir == Direction::DOWN)
+      {
+        const float target_vel_y = (m_dir == Direction::UP) ? -FISH_PATROL_SPEED : FISH_PATROL_SPEED;
+        maintain_velocity_y(target_vel_y);
+      }
+    }
   }
 }
 
@@ -236,13 +445,15 @@ FishSwimming::turn_around()
   if (m_frozen)
     return;
 
-  m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
-  set_action("swim", m_dir);
-  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -128.f : 128.f);
+  m_dir = invert_dir(m_dir);
+
+  if (m_dir != Direction::UP && m_dir != Direction::DOWN)
+    set_action("swim", m_dir);
+  setup_velocity();
 }
 
 void
-FishSwimming::maintain_velocity(float goal_x_velocity)
+FishSwimming::maintain_velocity_x(float goal_x_velocity)
 {
   if (m_frozen || !m_in_water)
     return;
@@ -250,22 +461,25 @@ FishSwimming::maintain_velocity(float goal_x_velocity)
   float current_x_velocity = m_physic.get_velocity_x();
   /* We're very close to our target speed. Just set it to avoid oscillation. */
   if ((current_x_velocity > (goal_x_velocity - 5.0f)) &&
-    (current_x_velocity < (goal_x_velocity + 5.0f)))
+     (current_x_velocity < (goal_x_velocity + 5.0f)))
   {
     m_physic.set_velocity_x(goal_x_velocity);
     m_physic.set_acceleration_x(0.0);
   }
   /* Check if we're going too slow or even in the wrong direction. */
   else if (((goal_x_velocity <= 0.0f) && (current_x_velocity > goal_x_velocity)) ||
-    ((goal_x_velocity > 0.0f) && (current_x_velocity < goal_x_velocity))) {
+          ((goal_x_velocity > 0.0f) && (current_x_velocity < goal_x_velocity)))
+  {
     m_physic.set_acceleration_x(goal_x_velocity);
   }
   /* Check if we're going too fast. */
   else if (((goal_x_velocity <= 0.0f) && (current_x_velocity < goal_x_velocity)) ||
-    ((goal_x_velocity > 0.0f) && (current_x_velocity > goal_x_velocity))) {
+          ((goal_x_velocity > 0.0f) && (current_x_velocity > goal_x_velocity)))
+  {
     m_physic.set_acceleration_x((-1.f) * goal_x_velocity);
   }
-  else {
+  else
+  {
     /* The above should have covered all cases. */
     assert(false);
   }
@@ -282,4 +496,44 @@ FishSwimming::maintain_velocity(float goal_x_velocity)
   }
 }
 
-/* EOF */
+void
+FishSwimming::maintain_velocity_y(float goal_y_velocity)
+{
+  if (m_frozen || !m_in_water)
+    return;
+
+  float current_y_velocity = m_physic.get_velocity_y();
+  /* We're very close to our target speed. Just set it to avoid oscillation. */
+  if ((current_y_velocity > (goal_y_velocity - 5.0f)) &&
+     (current_y_velocity < (goal_y_velocity + 5.0f)))
+  {
+    m_physic.set_velocity_y(goal_y_velocity);
+    m_physic.set_acceleration_y(0.0);
+  }
+  /* Check if we're going too slow or even in the wrong direction. */
+  else if (((goal_y_velocity <= 0.0f) && (current_y_velocity > goal_y_velocity)) ||
+          ((goal_y_velocity > 0.0f) && (current_y_velocity < goal_y_velocity)))
+  {
+    m_physic.set_acceleration_y(goal_y_velocity);
+  }
+  /* Check if we're going too fast. */
+  else if (((goal_y_velocity <= 0.0f) && (current_y_velocity < goal_y_velocity)) ||
+          ((goal_y_velocity > 0.0f) && (current_y_velocity > goal_y_velocity)))
+  {
+    m_physic.set_acceleration_y((-1.f) * goal_y_velocity);
+  }
+  else
+  {
+    /* The above should have covered all cases. */
+    assert(false);
+  }
+
+  if ((m_dir == Direction::UP) && (m_physic.get_velocity_y() > 0.0f))
+  {
+    m_dir = Direction::DOWN;
+  }
+  else if ((m_dir == Direction::DOWN) && (m_physic.get_velocity_y() < 0.0f))
+  {
+    m_dir = Direction::UP;
+  }
+}

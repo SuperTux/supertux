@@ -83,7 +83,7 @@ Brick::hit(Player& player)
 }
 
 HitResponse
-Brick::collision(GameObject& other, const CollisionHit& hit)
+Brick::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player && player->m_does_buttjump) try_break(player);
@@ -99,8 +99,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
   }
   auto portable = dynamic_cast<Portable*> (&other);
   if (portable && !badguy) {
-    auto moving = dynamic_cast<MovingObject*> (&other);
-    if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       try_break(nullptr);
     }
   }
@@ -111,7 +110,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
   }
 
   auto crusher = dynamic_cast<Crusher*> (&other);
-  if (crusher && m_coin_counter == 0)
+  if (crusher && crusher->get_state() == Crusher::CRUSHING && m_coin_counter == 0)
     try_break(nullptr);
 
   return Block::collision(other, hit);
@@ -152,11 +151,12 @@ Brick::try_break(Player* player, bool slider)
 void
 Brick::break_for_crusher(Crusher* crusher)
 {
-  float shake_vel_x = crusher->is_sideways() ? crusher->get_physic().get_velocity_x() >= 0.f ? 6.f : -6.f : 0.f;
-  float shake_vel_y = crusher->is_sideways() ? 0.f : 6.f;
-  Sector::get().get_camera().shake(0.1f, shake_vel_x, shake_vel_y);
-  try_break(nullptr);
-  start_break(crusher);
+  // FIXME: This function shouldn't even exist
+   float shake_vel_x = crusher->is_sideways() ? crusher->get_physic().get_velocity_x() >= 0.f ? 6.f : -6.f : 0.f;
+   float shake_vel_y = crusher->is_sideways() ? 0.f : 6.f;
+   Sector::get().get_camera().shake(0.1f, shake_vel_x, shake_vel_y);
+   try_break(nullptr);
+   start_break(crusher);
 }
 
 ObjectSettings
@@ -178,13 +178,13 @@ HeavyBrick::HeavyBrick(const ReaderMapping& mapping) :
 }
 
 HitResponse
-HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
+HeavyBrick::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*>(&other);
   if (player && player->m_does_buttjump) ricochet(&other);
 
-  auto crusher = dynamic_cast<Crusher*> (&other);
-  if (crusher)
+  auto crusher = dynamic_cast<Crusher*>(&other);
+  if (crusher && crusher->get_state() == Crusher::CRUSHING)
   {
     if (crusher->is_big())
       try_break(nullptr);
@@ -192,15 +192,14 @@ HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
       ricochet(&other);
   }
 
-  auto badguy = dynamic_cast<BadGuy*> (&other);
+  auto badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy && badguy->can_break() && (badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ))
     ricochet(&other);
 
-  auto portable = dynamic_cast<Portable*> (&other);
+  auto portable = dynamic_cast<Portable*>(&other);
   if (portable)
   {
-    auto moving = dynamic_cast<MovingObject*> (&other);
-    if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA)
+    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA)
       ricochet(&other);
   }
 
@@ -211,7 +210,7 @@ HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-HeavyBrick::ricochet(GameObject* collider)
+HeavyBrick::ricochet(MovingObject* collider)
 {
   SoundManager::current()->play("sounds/metal_hit.ogg", get_pos());
   start_bounce(collider);
@@ -222,5 +221,3 @@ HeavyBrick::hit(Player& player)
 {
   ricochet(&player);
 }
-
-/* EOF */

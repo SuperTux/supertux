@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_DECAL_HPP
-#define HEADER_SUPERTUX_OBJECT_DECAL_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 #include "supertux/timer.hpp"
@@ -41,7 +40,7 @@ public:
   Decal(const ReaderMapping& reader);
   ~Decal() override;
 
-  virtual HitResponse collision(GameObject& , const CollisionHit& ) override { return FORCE_MOVE; }
+  virtual HitResponse collision(MovingObject& , const CollisionHit& ) override { return FORCE_MOVE; }
 
   static std::string class_name() { return "decal"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -86,8 +85,8 @@ public:
    */
   void fade_out(float time);
 
-  void set_visible(bool v) { m_visible = v; }
-  bool is_visible() const { return m_visible; }
+  inline void set_visible(bool v) { m_visible = v; }
+  inline bool is_visible() const { return m_visible; }
 
 private:
   std::string m_default_action;
@@ -101,7 +100,3 @@ private:
   Decal(const Decal&) = delete;
   Decal& operator=(const Decal&) = delete;
 };
-
-#endif
-
-/* EOF */

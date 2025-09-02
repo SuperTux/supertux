@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BONUS_BLOCK_HPP
-#define HEADER_SUPERTUX_OBJECT_BONUS_BLOCK_HPP
+#pragma once
 
 #include "object/block.hpp"
 
@@ -54,7 +53,7 @@ public:
   BonusBlock(const ReaderMapping& mapping);
 
   virtual void hit(Player& player) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
 
   static std::string class_name() { return "bonusblock"; }
@@ -67,8 +66,10 @@ public:
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
 
-  Content get_contents() const { return m_contents; }
-  int get_hit_counter() const { return m_hit_counter; }
+  int get_coins_worth() const override;
+
+  inline Content get_contents() const { return m_contents; }
+  inline int get_hit_counter() const { return m_hit_counter; }
 
   void try_open(Player* player);
 
@@ -118,7 +119,3 @@ private:
   BonusBlock(const BonusBlock&) = delete;
   BonusBlock& operator=(const BonusBlock&) = delete;
 };
-
-#endif
-
-/* EOF */

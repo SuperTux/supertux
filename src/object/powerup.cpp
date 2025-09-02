@@ -185,7 +185,7 @@ PowerUp::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-PowerUp::collision(GameObject& other, const CollisionHit&)
+PowerUp::collision(MovingObject& other, const CollisionHit&)
 {
   Player* player = dynamic_cast<Player*>(&other);
   if (!player)
@@ -205,28 +205,28 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   {
     case EGG:
     case MINTS:
-      if (!player->add_bonus(GROWUP_BONUS, true))
+      if (!player->add_bonus(BONUS_GROWUP, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/grow.ogg", get_pos());
       break;
     case FIRE:
     case COFFEE:
-      if (!player->add_bonus(FIRE_BONUS, true))
+      if (!player->add_bonus(BONUS_FIRE, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
       break;
     case ICE:
-      if (!player->add_bonus(ICE_BONUS, true))
+      if (!player->add_bonus(BONUS_ICE, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
       break;
     case AIR:
-      if (!player->add_bonus(AIR_BONUS, true))
+      if (!player->add_bonus(BONUS_AIR, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
       break;
     case EARTH:
-      if (!player->add_bonus(EARTH_BONUS, true))
+      if (!player->add_bonus(BONUS_EARTH, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
       break;
@@ -245,6 +245,31 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
 
   remove_me();
   return ABORT_MOVE;
+}
+
+PowerUp::Type
+PowerUp::get_type_from_bonustype(int type)
+{
+  switch (type)
+  {
+    case BONUS_GROWUP:
+      return EGG;
+
+    case BONUS_FIRE:
+      return FIRE;
+
+    case BONUS_ICE:
+      return ICE;
+
+    case BONUS_AIR:
+      return AIR;
+
+    case BONUS_EARTH:
+      return EARTH;
+
+    default:
+      return FIRE;
+  }
 }
 
 void
@@ -319,5 +344,3 @@ PowerUp::on_flip(float height)
   if (no_physics)
     FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

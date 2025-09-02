@@ -17,8 +17,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_UNSTABLE_TILE_HPP
-#define HEADER_SUPERTUX_OBJECT_UNSTABLE_TILE_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -32,7 +31,7 @@ class UnstableTile final : public MovingSprite
 public:
   UnstableTile(const ReaderMapping& mapping, int type = -1);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void on_flip(float height) override;
@@ -87,7 +86,3 @@ private:
   UnstableTile(const UnstableTile&) = delete;
   UnstableTile& operator=(const UnstableTile&) = delete;
 };
-
-#endif
-
-/* EOF */

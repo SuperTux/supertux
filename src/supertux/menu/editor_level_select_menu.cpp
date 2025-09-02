@@ -83,7 +83,7 @@ EditorLevelSelectMenu::initialize()
   }
 
   add_hl();
-  
+
   add_entry(-1, _("Create Level"));
 
   std::string worldmap_file = FileSystem::join(basedir, "worldmap.stwm");
@@ -224,5 +224,3 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
     }
   }
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_DIRECTION_HPP
-#define HEADER_SUPERTUX_SUPERTUX_DIRECTION_HPP
+#pragma once
 
 #include <iostream>
 
@@ -29,7 +28,3 @@ std::string dir_to_string(const Direction& dir);
 std::string dir_to_translated_string(const Direction& dir);
 Direction string_to_dir(const std::string& dir_str);
 Direction invert_dir(const Direction& dir);
-
-#endif
-
-/* EOF */

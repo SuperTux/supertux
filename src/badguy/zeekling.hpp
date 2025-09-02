@@ -41,27 +41,36 @@ public:
   virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Zeekling)); }
   virtual bool is_snipable() const override { return true; }
 
+  virtual void on_flip(float height) override;
+
 private:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
 
   bool should_we_dive();
-  void onBumpHorizontal();
-  void onBumpVertical();
+
+  void set_speed(float speed);
+
+  void fly();
+  void charge();
+  void dive();
+  void recover();
+
+  void on_bump_horizontal();
+  void on_bump_vertical();
 
 private:
   enum ZeeklingState {
     FLYING,
+    CHARGING,
     DIVING,
-    CLIMBING
+    RECOVERING,
   };
 
 private:
-  float speed;
-  Timer diveRecoverTimer;
-  ZeeklingState state;
-  const MovingObject* last_player; /**< Last player we tracked. */
-  Vector last_player_pos; /**< Position we last spotted the player at. */
-  Vector last_self_pos; /**< Position we last were at. */
+  float m_catch_pos;
+  float m_target_y;
+  Timer m_timer;
+  ZeeklingState m_state;
 
 private:
   Zeekling(const Zeekling&) = delete;

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_ONEUP_HPP
-#define HEADER_SUPERTUX_OBJECT_ONEUP_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 #include "supertux/direction.hpp"
@@ -31,12 +30,8 @@ public:
   }
 
   virtual void update(float dt_sec) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
 private:
   Physic physic;
 };
-
-#endif
-
-/* EOF */

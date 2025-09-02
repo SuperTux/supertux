@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_TRANSITION_HPP
-#define HEADER_SUPERTUX_GUI_MENU_TRANSITION_HPP
+#pragma once
 
 #include "math/rectf.hpp"
 
@@ -39,10 +38,6 @@ public:
   void update();
   void draw(DrawingContext& context);
 
-  void set(const Rectf& rect) { m_to_rect = m_from_rect = rect; }
-  bool is_active() const { return m_is_active; }
+  inline void set(const Rectf& rect) { m_to_rect = m_from_rect = rect; }
+  inline bool is_active() const { return m_is_active; }
 };
-
-#endif
-
-/* EOF */

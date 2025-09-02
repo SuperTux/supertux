@@ -42,7 +42,9 @@ static const std::unordered_map<std::string, std::string> s_simplified_types = {
   { "unsigned long long", "int" },
   { "double", "float" },
   { "std::string", "string" },
-  { "std::wstring", "string" }
+  { "std::wstring", "string" },
+  { "const std::string &", "string" },
+  { "const std::wstring &", "string" }
 };
 
 static void parse_base_classes(tinyxml2::XMLElement* p_inheritancenode, tinyxml2::XMLElement* p_inheritancegraph, Class::BaseClasses& list)
@@ -407,6 +409,27 @@ void parse_parameterlist(tinyxml2::XMLElement* p_memberdef, Function& func)
 
     p_parameteritem = p_parameteritem->NextSiblingElement("parameteritem");
   }
+
+  // Get default parameter values
+  tinyxml2::XMLElement* p_param = p_memberdef->FirstChildElement("param");
+  while (p_param)
+  {
+    tinyxml2::XMLElement* p_defval = p_param->FirstChildElement("defval");
+    if (p_defval)
+    {
+      tinyxml2::XMLElement* p_declname = p_param->FirstChildElement("declname");
+      for (Parameter& param : func.parameters)
+      {
+        if (!strcmp(p_declname->GetText(), param.name.c_str()))
+        {
+          param.default_value = p_defval->GetText();
+          break;
+        }
+      }
+    }
+
+    p_param = p_param->NextSiblingElement("param");
+  }
 }
 
 
@@ -418,8 +441,6 @@ void parse_xrefsect_desc(tinyxml2::XMLElement* p_xrefsect, std::string& dest)
     XMLTextReader read(dest);
     p_xrefsectdescpara->Accept(&read);
   }
-
-  if (!dest.empty()) dest.pop_back(); // Remove space, added at the end
 }
 
 } // namespace Parser

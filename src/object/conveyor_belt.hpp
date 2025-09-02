@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_CONVEYOR_BELT_HPP
-#define HEADER_SUPERTUX_OBJECT_CONVEYOR_BELT_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -39,7 +38,7 @@ public:
 
   ObjectSettings get_settings() override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "conveyor-belt"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -51,37 +50,40 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual int get_layer() const override { return LAYER_TILES; }
-
   virtual void after_editor_set() override;
 
   /** @name Scriptable Methods */
   /**
    * @scripting
-   * Starts the conveyor belt.
+   * @description Starts the conveyor belt.
    */
   void start();
   /**
    * @scripting
-   * Stops the conveyor belt.
+   * @description Stops the conveyor belt.
    */
   void stop();
   /**
    * @scripting
-   * Makes the conveyor shift objects to the left.
+   * @description Makes the conveyor shift objects to the left.
    */
   void move_left();
   /**
    * @scripting
-   * Makes the conveyor shift objects to the right.
+   * @description Makes the conveyor shift objects to the right.
    */
   void move_right();
   /**
    * @scripting
-   * Change the shifting speed of the conveyor.
+   * @description Change the shifting speed of the conveyor.
    * @param float $target_speed
    */
   void set_speed(float target_speed);
+  /**
+   * @scripting
+   * @description Returns the shifting speed of the conveyor.
+   */
+  inline float get_speed() const { return m_speed; }
 
 private:
   void update_hitbox() override;
@@ -90,6 +92,10 @@ private:
   bool m_running;
   Direction m_dir;
   int m_length;
+  /**
+   * @scripting
+   * @description The shifting speed of the conveyor.
+   */
   float m_speed;
 
   float m_frame;
@@ -101,8 +107,3 @@ private:
   ConveyorBelt(const ConveyorBelt&) = delete;
   ConveyorBelt& operator=(const ConveyorBelt&) = delete;
 };
-
-
-#endif
-
-/* EOF */

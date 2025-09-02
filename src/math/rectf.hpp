@@ -14,13 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_MATH_RECTF_HPP
-#define HEADER_SUPERTUX_MATH_RECTF_HPP
+#pragma once
 
 #include <assert.h>
 #include <iosfwd>
 
-#include <SDL.h>
+#include <SDL_rect.h>
 
 #include "math/anchor_point.hpp"
 #include "math/sizef.hpp"
@@ -81,35 +80,35 @@ public:
             m_size == other.m_size);
   }
 
-  float& get_left() { return m_p1.x; }
-  float& get_top() { return m_p1.y; }
+  inline float& get_left() { return m_p1.x; }
+  inline float& get_top() { return m_p1.y; }
 
-  float get_left() const { return m_p1.x; }
-  float get_right() const { return m_p1.x + m_size.width; }
-  float get_top() const { return m_p1.y; }
-  float get_bottom() const { return m_p1.y + m_size.height; }
+  inline float get_left() const { return m_p1.x; }
+  inline float get_right() const { return m_p1.x + m_size.width; }
+  inline float get_top() const { return m_p1.y; }
+  inline float get_bottom() const { return m_p1.y + m_size.height; }
 
-  float& get_width() { return m_size.width; }
-  float& get_height() { return m_size.height; }
+  inline float& get_width() { return m_size.width; }
+  inline float& get_height() { return m_size.height; }
 
-  float get_width() const { return m_size.width; }
-  float get_height() const { return m_size.height; }
+  inline float get_width() const { return m_size.width; }
+  inline float get_height() const { return m_size.height; }
 
-  void set_left(float v) { m_size.width -= v - m_p1.x; m_p1.x = v; }
-  void set_right(float v) { m_size.width += v - get_right(); }
+  inline void set_left(float v) { m_size.width -= v - m_p1.x; m_p1.x = v; }
+  inline void set_right(float v) { m_size.width += v - get_right(); }
 
-  void set_top(float v) { m_size.height -= v - m_p1.y; m_p1.y = v; }
-  void set_bottom(float v) { m_size.height += v - get_bottom(); }
+  inline void set_top(float v) { m_size.height -= v - m_p1.y; m_p1.y = v; }
+  inline void set_bottom(float v) { m_size.height += v - get_bottom(); }
 
   Vector get_middle() const { return Vector(m_p1.x + m_size.width / 2.0f,
                                             m_p1.y + m_size.height / 2.0f); }
 
-  void set_pos(const Vector& v) { m_p1 = v; }
+  inline void set_pos(const Vector& v) { m_p1 = v; }
 
-  void set_width(float width) { m_size.width = width; }
-  void set_height(float height) { m_size.height = height; }
-  void set_size(float width, float height) { m_size = Sizef(width, height); }
-  Sizef get_size() const { return m_size; }
+  inline void set_width(float width) { m_size.width = width; }
+  inline void set_height(float height) { m_size.height = height; }
+  inline void set_size(float width, float height) { m_size = Sizef(width, height); }
+  inline Sizef get_size() const { return m_size; }
 
   bool empty() const
   {
@@ -117,7 +116,7 @@ public:
            get_height() <= 0;
   }
 
-  void move(const Vector& v) { m_p1 += v; }
+  inline void move(const Vector& v) { m_p1 += v; }
   Rectf moved(const Vector& v) const { return Rectf(m_p1 + v, m_size); }
 
   bool contains(const Vector& v) const {
@@ -148,21 +147,37 @@ public:
     return glm::distance(v1, v2);
   }
 
+  /**
+   * Returns a new Rectf that is grown / shrunk by the specified amount
+   * @param border The amount of pixels that the Rectangle should be
+   * grown (for positive values) or shrunk (for negative values)
+   */
   Rectf grown(float border) const
   {
+    return grown(Vector(border, border));
+  }
+
+  /**
+   * Returns a new Rectf instance that is grown / shrunk by the amounts specified by the vector.
+   * 
+   * @param border The passed vector contains the horizontal amount as first component and the vertical amount
+   * as the second component.
+   */
+  Rectf grown(const Vector& border) const
+  {
     // If the size would be shrunk below 0, do not resize.
-    if (m_size.width + border * 2 < 0.f || m_size.height + border * 2 < 0.f)
+    if (m_size.width + border.x * 2 < 0.f || m_size.height + border.y * 2 < 0.f)
       return *this;
 
-    return Rectf(m_p1.x - border, m_p1.y - border,
-                 get_right() + border, get_bottom() + border);
+    return Rectf(m_p1.x - border.x, m_p1.y - border.y,
+                 get_right() + border.x, get_bottom() + border.y);
   }
 
   // leave these two public to save the headaches of set/get functions for such
   // simple things :)
 
-  Vector p1() const { return m_p1; }
-  Vector p2() const { return Vector(m_p1.x + m_size.width, m_p1.y + m_size.height); }
+  inline const Vector& p1() const { return m_p1; }
+  inline Vector p2() const { return Vector(m_p1.x + m_size.width, m_p1.y + m_size.height); }
 
   void set_p1(const Vector& p) {
     m_size = Sizef(m_size.width + (m_p1.x - p.x),
@@ -187,7 +202,3 @@ private:
 };
 
 std::ostream& operator<<(std::ostream& out, const Rectf& rect);
-
-#endif
-
-/* EOF */

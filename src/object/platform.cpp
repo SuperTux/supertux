@@ -89,7 +89,7 @@ Platform::get_settings()
 }
 
 HitResponse
-Platform::collision(GameObject& other, const CollisionHit& )
+Platform::collision(MovingObject& other, const CollisionHit& )
 {
   if (dynamic_cast<Player*>(&other)) {
     m_player_contact = true;
@@ -202,5 +202,3 @@ Platform::register_class(ssq::VM& vm)
   // Use Platform's implementation of "set_node".
   cls.addFunc("set_node", &Platform::jump_to_node);
 }
-
-/* EOF */

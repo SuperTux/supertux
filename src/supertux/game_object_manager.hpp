@@ -16,8 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
+#pragma once
 
 #include "squirrel/exposable_class.hpp"
 
@@ -28,6 +27,7 @@
 #include <vector>
 
 #include "supertux/game_object.hpp"
+#include "supertux/game_object_change.hpp"
 #include "util/uid_generator.hpp"
 
 class DrawingContext;
@@ -215,7 +215,8 @@ public:
     }
   }
 
-  /** Move an object to another GameObjectManager. */
+  /** Move an object to another GameObjectManager.
+      NOTE: The UID of the object will be re-generated. */
   void move_object(const UID& uid, GameObjectManager& other);
 
   /** Register a callback to be called once the given name can be
@@ -243,24 +244,22 @@ public:
   int get_object_count(std::function<bool(const T&)> predicate = nullptr) const
   {
     int total = 0;
-    for (const auto& obj : get_objects_by_type_index(typeid(T))) {
-      auto object = static_cast<T*>(obj);
-      if (object && (predicate == nullptr || predicate(*object)))
-      {
+    for (auto& obj : get_objects_by_type<T>())
+    {
+      if (predicate == nullptr || predicate(obj))
         total += 1;
-      }
     }
     return total;
   }
 
-  const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
-  const std::vector<TileMap*>& get_all_tilemaps() const { return m_all_tilemaps; }
-  
+  inline const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
+  inline const std::vector<TileMap*>& get_all_tilemaps() const { return m_all_tilemaps; }
+
   void update_solid(TileMap* solid);
 
   /** Toggle object change tracking for undo/redo. */
   void toggle_undo_tracking(bool enabled);
-  bool undo_tracking_enabled() const { return m_undo_tracking; }
+  inline bool undo_tracking_enabled() const { return m_undo_tracking; }
 
   /** Set undo stack size. */
   void set_undo_stack_size(int size);
@@ -273,14 +272,19 @@ public:
   void undo();
   void redo();
 
-  /** Save object change in the undo stack with given data.
+  /** Apply saved object changes. */
+  void apply_object_change(const GameObjectChange& change, bool track_undo);
+  void apply_object_changes(const GameObjectChangeSet& changes, bool track_undo);
+
+  /** Save object settings changes in the undo stack.
       Used to save an object's previous state before a change had occurred. */
-  void save_object_change(GameObject& object, const std::string& data);
+  void save_object_change(const GameObject& object, const ObjectSettings& settings);
 
   /** Clear undo/redo stacks. */
   void clear_undo_stack();
 
-  /** Indicate if there are any object changes in the undo stack. */
+  /** Indicate if there are any unsaved object changes in the undo stack.
+      @see m_last_saved_change */
   bool has_object_changes() const;
 
   /** Called on editor level save. */
@@ -311,27 +315,20 @@ protected:
   }
 
 private:
-  struct ObjectChange
-  {
-    std::string name;
-    UID uid;
-    std::string data;
-    bool creation; // If the change represents an object creation.
-  };
-  struct ObjectChanges
-  {
-    UID uid;
-    std::vector<ObjectChange> objects;
-  };
-
   /** Create object from object change. */
-  void create_object_from_change(const ObjectChange& change);
+  void create_object_from_change(const GameObjectChange& change, bool track_undo);
 
-  /** Process object change on undo/redo. */
-  void process_object_change(ObjectChange& change);
+  /** Parse object settings ("supertux-game-object") from a string. */
+  static void parse_object_settings(ObjectSettings& settings, const std::string& data);
 
-  /** Save object change in the undo stack. */
-  void save_object_change(GameObject& object, bool creation = false);
+  /** Save old or new state of object settings. */
+  static std::string save_object_settings_state(const ObjectSettings& settings, bool new_state);
+
+  /** Undo/redo object change. */
+  void process_object_change(GameObjectChange& change);
+
+  /** Save object state in the undo stack. */
+  void save_object_state(GameObject& object, GameObjectChange::Action action);
 
   void this_before_object_add(GameObject& object);
   void this_before_object_remove(GameObject& object);
@@ -347,15 +344,19 @@ private:
   UIDGenerator m_change_uid_generator;
   bool m_undo_tracking;
   int m_undo_stack_size;
-  std::vector<ObjectChanges> m_undo_stack;
-  std::vector<ObjectChanges> m_redo_stack;
-  std::vector<ObjectChange> m_pending_change_stack; // Before a flush, any changes go here
+  std::vector<GameObjectChangeSet> m_undo_stack;
+  std::vector<GameObjectChangeSet> m_redo_stack;
+  std::vector<GameObjectChange> m_pending_change_stack; // Before a flush, any changes go here
   UID m_last_saved_change;
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 
   /** container for newly created objects, they'll be added in flush_game_objects() */
   std::vector<std::unique_ptr<GameObject>> m_gameobjects_new;
+
+  /** Former UIDs of all objects moved to another GameObjectManager.
+      Will be assigned back to any of the objects if they are moved back here. */
+  std::unordered_map<GameObject*, UID> m_moved_object_uids;
 
   /** Fast access to solid tilemaps */
   std::vector<TileMap*> m_solid_tilemaps;
@@ -375,7 +376,3 @@ private:
 };
 
 #include "supertux/game_object_iterator.hpp"
-
-#endif
-
-/* EOF */

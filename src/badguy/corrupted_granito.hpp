@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_CORRUPTEDGRANITO_HPP
-#define HEADER_SUPERTUX_BADGUY_CORRUPTEDGRANITO_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 
@@ -34,7 +33,7 @@ public:
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
   virtual void active_update(float dt_sec) override;
 
   virtual void unfreeze(bool melt = true) override;
@@ -69,7 +68,3 @@ private:
   CorruptedGranito(const CorruptedGranito&) = delete;
   CorruptedGranito& operator=(const CorruptedGranito&) = delete;
 };
-
-#endif
-
-/* EOF */

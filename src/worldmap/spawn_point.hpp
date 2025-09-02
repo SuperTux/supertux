@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_WORLDMAP_SPAWN_POINT_HPP
-#define HEADER_SUPERTUX_WORLDMAP_SPAWN_POINT_HPP
+#pragma once
 
 #include "worldmap/worldmap_object.hpp"
 
@@ -32,9 +31,9 @@ class SpawnPoint final
 public:
   SpawnPoint(const ReaderMapping& mapping);
 
-  const std::string& get_name() const { return m_name; }
-  Vector get_pos() const { return m_pos; }
-  Direction get_auto_dir() const { return m_auto_dir; }
+  inline const std::string& get_name() const { return m_name; }
+  inline Vector get_pos() const { return m_pos; }
+  inline Direction get_auto_dir() const { return m_auto_dir; }
 
 private:
   std::string m_name;
@@ -70,7 +69,3 @@ private:
 };
 
 } // namespace worldmap
-
-#endif
-
-/* EOF */

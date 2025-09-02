@@ -102,7 +102,7 @@ double QuarticEaseOut(double p)
 // Modeled after the piecewise quartic.
 // y = (1/2)((2x)^4)        ; [0, 0.5)
 // y = -(1/2)((2x-2)^4 - 2) ; [0.5, 1]
-double QuarticEaseInOut(double p) 
+double QuarticEaseInOut(double p)
 {
 	if(p < 0.5)
 	{
@@ -116,13 +116,13 @@ double QuarticEaseInOut(double p)
 }
 
 // Modeled after the quintic y = x^5.
-double QuinticEaseIn(double p) 
+double QuinticEaseIn(double p)
 {
 	return p * p * p * p * p;
 }
 
 // Modeled after the quintic y = (x - 1)^5 + 1.
-double QuinticEaseOut(double p) 
+double QuinticEaseOut(double p)
 {
 	double f = (p - 1);
 	return f * f * f * f * f + 1;
@@ -131,7 +131,7 @@ double QuinticEaseOut(double p)
 // Modeled after the piecewise quintic:
 // y = (1/2)((2x)^5)       ; [0, 0.5)
 // y = (1/2)((2x-2)^5 + 2) ; [0.5, 1]
-double QuinticEaseInOut(double p) 
+double QuinticEaseInOut(double p)
 {
 	if(p < 0.5)
 	{
@@ -207,7 +207,7 @@ double ExponentialEaseOut(double p)
 double ExponentialEaseInOut(double p)
 {
 	if(p == 0.0 || p == 1.0) return p;
-	
+
 	if(p < 0.5)
 	{
 		return 0.5 * pow(2, (20 * p) - 10);
@@ -592,10 +592,7 @@ EasingMode get_reverse_easing(const EasingMode& ease)
 
 std::string get_reverse_easing_str(const std::string& ease_name)
 {
-  if (ease_name == "EaseNone")
-    return "EaseNone";
-
-  if (StringUtil::has_suffix(ease_name, "InOut"))
+  if (StringUtil::has_suffix(ease_name, "InOut") || ease_name == "EaseNone")
     return ease_name;
 
   if (StringUtil::has_suffix(ease_name, "In"))
@@ -617,5 +614,3 @@ std::string get_reverse_easing_str(const std::string& ease_name)
 
   throw std::runtime_error("Trying to find opposite easing of non-easing string.");
 }
-
-/* EOF */

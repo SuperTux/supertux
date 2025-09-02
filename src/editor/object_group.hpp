@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
-#define HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -32,19 +31,15 @@ public:
 
   void add_icon(const std::string& object, const std::string& icon_path);
 
-  const std::string& get_name() const { return m_name; }
+  inline const std::string& get_name() const { return m_name; }
 
   bool is_worldmap() const { return m_for_worldmap;  }
 
-  const std::vector<ObjectIcon>& get_icons() const { return m_icons; }
-  std::vector<ObjectIcon>& get_icons() { return m_icons; }
+  inline const std::vector<ObjectIcon>& get_icons() const { return m_icons; }
+  inline std::vector<ObjectIcon>& get_icons() { return m_icons; }
 
 private:
   std::string m_name;
   std::vector<ObjectIcon> m_icons;
   bool m_for_worldmap;
 };
-
-#endif
-
-/* EOF */

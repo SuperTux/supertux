@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PARTICLE_ZONE_HPP
-#define HEADER_SUPERTUX_OBJECT_PARTICLE_ZONE_HPP
+#pragma once
 
 #include "supertux/moving_object.hpp"
 
@@ -38,7 +37,7 @@ public:
   static std::string display_name() { return _("Particle zone"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(ParticleZone)); }
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;
@@ -73,7 +72,7 @@ public:
   void set_particle_name(std::string& particle_name) {m_particle_name = particle_name;}
 
   /** Returns the name of the particle object for this area */
-  const std::string& get_particle_name() const { return m_particle_name; }
+  inline const std::string& get_particle_name() const { return m_particle_name; }
 
   /** Move the area around. Multiple calls stack (e. g. calling one before
    *  the other finished will play both movements simultaneously)
@@ -86,10 +85,10 @@ public:
   //void resize(int width, int height, float time, std::string easing);
 
   /** Returns the current X position of the zone */
-  float current_x() const { return m_col.m_bbox.get_left(); }
+  inline float current_x() const { return m_col.m_bbox.get_left(); }
 
   /** Returns the current Y position of the zone */
-  float current_y() const { return m_col.m_bbox.get_top(); }
+  inline float current_y() const { return m_col.m_bbox.get_top(); }
 
   /** Returns the target X position of the zone */
   //float target_x() {return m_col.m_bbox.get_left();}
@@ -129,7 +128,3 @@ private:
   ParticleZone(const ParticleZone&) = delete;
   ParticleZone& operator=(const ParticleZone&) = delete;
 };
-
-#endif
-
-/* EOF */

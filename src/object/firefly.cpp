@@ -92,12 +92,12 @@ Firefly::update_state()
   }
   else // Is deactivated.
   {
-    set_action("normal");
+    set_action("default");
   }
 }
 
 HitResponse
-Firefly::collision(GameObject& other, const CollisionHit& )
+Firefly::collision(MovingObject& other, const CollisionHit& )
 {
   // If the bell is already activated, don't ring it again!
   if (activated || m_sprite->get_action() == "ringing")
@@ -151,5 +151,3 @@ Firefly::on_flip(float height)
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

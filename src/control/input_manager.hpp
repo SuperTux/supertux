@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_INPUT_MANAGER_HPP
-#define HEADER_SUPERTUX_CONTROL_INPUT_MANAGER_HPP
+#pragma once
 
 #include "control/controller.hpp"
 
@@ -53,13 +52,13 @@ public:
   void reset();
 
   void use_game_controller(bool v);
-  bool use_game_controller() const { return m_use_game_controller; }
+  inline bool use_game_controller() const { return m_use_game_controller; }
 
   const Controller& get_controller(int player_id = 0) const;
   Controller& get_controller(int player_id = 0);
 
-  int get_num_users() const { return static_cast<int>(m_controllers.size()); }
-
+  inline int get_num_users() const { return static_cast<int>(m_controllers.size()); }
+  bool can_add_user() const;
   void push_user();
   void pop_user();
 
@@ -83,7 +82,3 @@ private:
   InputManager(const InputManager&) = delete;
   InputManager& operator=(const InputManager&) = delete;
 };
-
-#endif
-
-/* EOF */

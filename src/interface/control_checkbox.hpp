@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_INTERFACE_CONTROL_CHECKBOX_HPP
-#define HEADER_SUPERTUX_INTERFACE_CONTROL_CHECKBOX_HPP
+#pragma once
 
 #include "interface/control.hpp"
 
@@ -29,9 +28,9 @@ public:
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
 
-  bool get_value() const { return *m_value; }
-  void set_value(bool value) { *m_value = value; }
-  void bind_value(bool* value) { m_value = value; }
+  inline bool get_value() const { return *m_value; }
+  inline void set_value(bool value) { *m_value = value; }
+  inline void bind_value(bool* value) { m_value = value; }
 
 private:
   bool* m_value;
@@ -40,7 +39,3 @@ private:
   ControlCheckbox(const ControlCheckbox&) = delete;
   ControlCheckbox& operator=(const ControlCheckbox&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_SHARD_HPP
-#define HEADER_SUPERTUX_OBJECT_SHARD_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 #include "supertux/physic.hpp"
@@ -29,7 +28,7 @@ public:
 
   virtual void update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   static std::string class_name() { return "shard"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Shard"); }
@@ -41,12 +40,9 @@ protected:
 
 private:
   Timer m_stick_timer;
+  Timer m_fadeout_timer;
 
 private:
   Shard(const Shard&) = delete;
   Shard& operator=(const Shard&) = delete;
 };
-
-#endif
-
-/* EOF */

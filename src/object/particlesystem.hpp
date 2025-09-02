@@ -14,13 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_HPP
-#define HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_HPP
+#pragma once
+
+#include "editor/layer_object.hpp"
 
 #include <vector>
 
 #include "math/vector.hpp"
-#include "supertux/game_object.hpp"
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
@@ -46,7 +46,7 @@ class ReaderMapping;
  * @instances A ""ParticleSystem"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
-class ParticleSystem : public GameObject
+class ParticleSystem : public LayerObject
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -68,19 +68,17 @@ public:
 
   /**
    * @scripting
-   * @deprecated Use the ""enabled"" property instead!
    * @description Enables/disables the system.
    * @param bool $enable
    */
-  void set_enabled(bool enable);
+  inline void set_enabled(bool enable) { enabled = enable; }
   /**
    * @scripting
-   * @deprecated Use the ""enabled"" property instead!
    * @description Returns ""true"" if the system is enabled.
    */
-  bool get_enabled() const;
+  inline bool get_enabled() const { return enabled; }
 
-  int get_layer() const { return z_pos; }
+  int get_layer() const override { return z_pos; }
 
 protected:
   class Particle
@@ -126,7 +124,3 @@ private:
   ParticleSystem(const ParticleSystem&) = delete;
   ParticleSystem& operator=(const ParticleSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

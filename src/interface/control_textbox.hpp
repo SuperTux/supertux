@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_INTERFACE_CONTROL_TEXTBOX_HPP
-#define HEADER_SUPERTUX_INTERFACE_CONTROL_TEXTBOX_HPP
+#pragma once
 
 #include <list>
 
@@ -39,7 +38,7 @@ public:
   virtual void update(float dt_sec) override;
 
   /** Binds a string to the textbox */
-  void bind_string(std::string* value) { m_string = value; }
+  inline void bind_string(std::string* value) { m_string = value; }
 
   /** Returns the full string held in m_charlist */
   const std::string& get_string() const;
@@ -185,7 +184,3 @@ private:
   ControlTextbox(const ControlTextbox&) = delete;
   ControlTextbox& operator=(const ControlTextbox&) = delete;
 };
-
-#endif
-
-/* EOF */

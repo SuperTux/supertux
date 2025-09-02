@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# 111More1, 2022
+# 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"POT-Creation-Date: 2025-07-06 02:34+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: 111More1, 2022\n"
+"Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
 "Language-Team: French (Canada) (http://app.transifex.com/arctic-games/supertux/language/fr_CA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr "Ruines antiques"
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:285
-#: data/levels/world2/worldmap.stwm:191
+#: data/levels/world2/worldmap.stwm:223
 msgid "You found a secret area!"
 msgstr "Vous avez trouvé une zone secrète!"
 
@@ -210,6 +210,6 @@ msgstr "Racines Boisées"
 msgid "Rooted Forest"
 msgstr "Forêt des racines"
 
-#: data/levels/world2/worldmap.stwm:205
+#: data/levels/world2/worldmap.stwm:239
 msgid "To be continued..."
 msgstr "À suivre..."

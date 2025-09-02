@@ -15,11 +15,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_OBJECT_FACTORY_HPP
-#define HEADER_SUPERTUX_SUPERTUX_OBJECT_FACTORY_HPP
+#pragma once
 
 #include <assert.h>
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <functional>
 #include <vector>
@@ -37,7 +36,7 @@ private:
     std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> create = nullptr;
     std::function<std::string ()> get_display_name = nullptr;
   };
-  typedef std::map<std::string, FactoryFunctions> Factories;
+  typedef std::unordered_map<std::string, FactoryFunctions> Factories;
 
   Factories factories;
   std::vector<std::string> m_badguys_names;
@@ -64,9 +63,9 @@ public:
 
   bool has_params(const std::string& name, uint8_t params);
 
-  std::vector<std::string>& get_registered_badguys() { return m_badguys_names; }
+  inline std::vector<std::string>& get_registered_badguys() { return m_badguys_names; }
   std::vector<std::string> get_registered_badguys(uint8_t params);
-  std::vector<std::string>& get_registered_objects() { return m_objects_names; }
+  inline std::vector<std::string>& get_registered_objects() { return m_objects_names; }
   std::vector<std::string> get_registered_objects(uint8_t params);
 
 protected:
@@ -113,7 +112,3 @@ protected:
                    }, obj_params);
   }
 };
-
-#endif
-
-/* EOF */

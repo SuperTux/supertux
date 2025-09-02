@@ -26,6 +26,11 @@ NullTexture::~NullTexture()
 {
 }
 
+void
+NullTexture::reload(const SDL_Surface&)
+{
+}
+
 int
 NullTexture::get_texture_width() const
 {
@@ -49,5 +54,3 @@ NullTexture::get_image_height() const
 {
   return m_image_size.height;
 }
-
-/* EOF */

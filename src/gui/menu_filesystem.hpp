@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_FILESYSTEM_HPP
-#define HEADER_SUPERTUX_GUI_MENU_FILESYSTEM_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
@@ -23,7 +22,7 @@ class FileSystemMenu final : public Menu
 {
 public:
   FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                 const std::string& basedir, bool path_relative_to_basedir, const std::function<void(std::string)> callback = nullptr,
+                 const std::string& basedir, bool path_relative_to_basedir, const std::function<void(const std::string&)> callback = nullptr,
                  const std::function<void (MenuItem&)>& item_processor = {});
   ~FileSystemMenu() override;
 
@@ -41,14 +40,10 @@ private:
   std::vector<std::string> m_directories;
   std::vector<std::string> m_files;
   bool m_path_relative_to_basedir;
-  std::function<void(std::string)> m_callback;
+  std::function<void(const std::string&)> m_callback;
   std::function<void (MenuItem&)> m_item_processor;
 
 private:
   FileSystemMenu(const FileSystemMenu&) = delete;
   FileSystemMenu& operator=(const FileSystemMenu&) = delete;
 };
-
-#endif
-
-/* EOF */

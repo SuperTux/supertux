@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_INFOBLOCK_HPP
-#define HEADER_SUPERTUX_OBJECT_INFOBLOCK_HPP
+#pragma once
 
 #include <memory>
 
@@ -45,7 +44,7 @@ public:
 
 private:
   virtual void hit(Player& player) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   Player* get_nearest_player() const;
 
@@ -67,7 +66,3 @@ private:
   InfoBlock(const InfoBlock&) = delete;
   InfoBlock& operator=(const InfoBlock&) = delete;
 };
-
-#endif
-
-/* EOF */

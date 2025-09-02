@@ -59,7 +59,7 @@ InvisibleBlock::draw(DrawingContext& context)
 }
 
 bool
-InvisibleBlock::collides(GameObject& other, const CollisionHit& ) const
+InvisibleBlock::collides(MovingObject& other, const CollisionHit& ) const
 {
   if (visible)
     return true;
@@ -76,7 +76,7 @@ InvisibleBlock::collides(GameObject& other, const CollisionHit& ) const
 }
 
 HitResponse
-InvisibleBlock::collision(GameObject& other, const CollisionHit& hit_)
+InvisibleBlock::collision(MovingObject& other, const CollisionHit& hit_)
 {
   return Block::collision(other, hit_);
 }
@@ -94,5 +94,3 @@ InvisibleBlock::hit(Player& player)
   set_group(COLGROUP_STATIC);
   visible = true;
 }
-
-/* EOF */

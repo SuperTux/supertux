@@ -25,6 +25,7 @@ public:
   YetiStalactite(const ReaderMapping& mapping);
 
   virtual void active_update(float dt_sec) override;
+  virtual void after_editor_set() override;
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 

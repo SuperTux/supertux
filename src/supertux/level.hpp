@@ -14,12 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_LEVEL_HPP
-#define HEADER_SUPERTUX_SUPERTUX_LEVEL_HPP
+#pragma once
 
 #include "supertux/statistics.hpp"
 
 class Player;
+class PlayerStatus;
 class ReaderMapping;
 class Sector;
 class Writer;
@@ -46,18 +46,18 @@ public:
   void save(std::ostream& stream);
 
   void add_sector(std::unique_ptr<Sector> sector);
-  const std::string& get_name() const { return m_name; }
-  const std::string& get_author() const { return m_author; }
+  inline const std::string& get_name() const { return m_name; }
+  inline const std::string& get_author() const { return m_author; }
 
   Sector* get_sector(const std::string& name) const;
 
   size_t get_sector_count() const;
   Sector* get_sector(size_t num) const;
-  const std::vector<std::unique_ptr<Sector> >& get_sectors() const { return m_sectors; }
+  inline const std::vector<std::unique_ptr<Sector>>& get_sectors() const { return m_sectors; }
 
   std::vector<Player*> get_players() const;
 
-  const std::string& get_tileset() const { return m_tileset; }
+  inline const std::string& get_tileset() const { return m_tileset; }
 
   int get_total_coins() const;
   int get_total_badguys() const;
@@ -65,9 +65,9 @@ public:
 
   void reactivate();
 
-  bool is_worldmap() const { return m_is_worldmap; }
+  inline bool is_worldmap() const { return m_is_worldmap; }
 
-  const std::string& get_license() const { return m_license; }
+  inline const std::string& get_license() const { return m_license; }
 
 private:
   void initialize();
@@ -76,17 +76,36 @@ private:
   void load_old_format(const ReaderMapping& reader);
 
 public:
+  enum Setting
+  {
+    OFF,
+    ON,
+
+    /// Inherit setting from worldmap.
+    /// If level is in a levelset, this defaults to ON.
+    INHERIT
+  };
+  static std::string get_setting_name(Setting setting);
+  static Setting get_setting_from_name(std::string setting);
+
   bool m_is_worldmap;
+
   std::string m_name;
   std::string m_author;
   std::string m_contact;
   std::string m_license;
   std::string m_filename;
   std::string m_note;
+
   std::vector<std::unique_ptr<Sector> > m_sectors;
+
   Statistics m_stats;
   float m_target_time;
+
   std::string m_tileset;
+
+  int m_allow_item_pocket; ///< This is actually a Level::Setting. It's an int because casting is wack.
+
   bool m_suppress_pause_menu;
   bool m_is_in_cutscene;
   bool m_skip_cutscene;
@@ -98,7 +117,3 @@ private:
   Level(const Level&) = delete;
   Level& operator=(const Level&) = delete;
 };
-
-#endif
-
-/* EOF */

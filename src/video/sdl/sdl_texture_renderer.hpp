@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SDL_SDL_TEXTURE_RENDERER_HPP
-#define HEADER_SUPERTUX_VIDEO_SDL_SDL_TEXTURE_RENDERER_HPP
+#pragma once
 
 #include <SDL.h>
 #include <optional>
@@ -63,7 +62,3 @@ private:
   SDLTextureRenderer(const SDLTextureRenderer&) = delete;
   SDLTextureRenderer& operator=(const SDLTextureRenderer&) = delete;
 };
-
-#endif
-
-/* EOF */

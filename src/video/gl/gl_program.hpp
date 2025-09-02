@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_GL_GL_PROGRAM_HPP
-#define HEADER_SUPERTUX_VIDEO_GL_GL_PROGRAM_HPP
+#pragma once
 
 #include <assert.h>
 #include <memory>
@@ -32,20 +31,21 @@ public:
   void bind();
   void validate();
 
-  GLuint get_handle() const { return m_program; }
+  inline GLuint get_handle() const { return m_program; }
 
-  GLint get_backbuffer_location() const { return check_valid(m_backbuffer_location, "backbuffer"); }
-  GLint get_fragcoord2uv_location() const { return check_valid(m_fragcoord2uv_location, "fragcoord2uv"); }
-  GLint get_diffuse_texture_location() const { return check_valid(m_diffuse_texture_location, "diffuse_texture"); }
-  GLint get_displacement_texture_location() const { return check_valid(m_displacement_texture_location, "displacement_texture"); }
-  GLint get_framebuffer_texture_location() const { return check_valid(m_framebuffer_texture_location, "framebuffer_texture"); }
-  GLint get_game_time_location() const { return check_valid(m_game_time_location, "game_time"); }
-  GLint get_modelviewprojection_location() const { return check_valid(m_modelviewprojection_location, "modelviewprojection"); }
-  GLint get_animate_location() const { return check_valid(m_animate_location, "animate"); }
-  GLint get_displacement_animate_location() const { return check_valid(m_displacement_animate_location, "displacement_animate"); }
-  GLint get_position_location() const { return check_valid(m_position_location, "position"); }
-  GLint get_texcoord_location() const { return check_valid(m_texcoord_location, "texcoord"); }
-  GLint get_diffuse_location() const { return check_valid(m_diffuse_location, "diffuse"); }
+  inline GLint get_backbuffer_location() const { return check_valid(m_backbuffer_location, "backbuffer"); }
+  inline GLint get_fragcoord2uv_location() const { return check_valid(m_fragcoord2uv_location, "fragcoord2uv"); }
+  inline GLint get_diffuse_texture_location() const { return check_valid(m_diffuse_texture_location, "diffuse_texture"); }
+  inline GLint get_displacement_texture_location() const { return check_valid(m_displacement_texture_location, "displacement_texture"); }
+  inline GLint get_framebuffer_texture_location() const { return check_valid(m_framebuffer_texture_location, "framebuffer_texture"); }
+  inline GLint get_game_time_location() const { return check_valid(m_game_time_location, "game_time"); }
+  inline GLint get_modelviewprojection_location() const { return check_valid(m_modelviewprojection_location, "modelviewprojection"); }
+  inline GLint get_animate_location() const { return check_valid(m_animate_location, "animate"); }
+  inline GLint get_displacement_animate_location() const { return check_valid(m_displacement_animate_location, "displacement_animate"); }
+  inline GLint get_position_location() const { return check_valid(m_position_location, "position"); }
+  inline GLint get_texcoord_location() const { return check_valid(m_texcoord_location, "texcoord"); }
+  inline GLint get_diffuse_location() const { return check_valid(m_diffuse_location, "diffuse"); }
+  inline GLint get_is_displacement_location() const { return check_valid(m_is_displacement_location, "is_displacement"); }
 
 private:
   bool get_link_status() const;
@@ -71,12 +71,9 @@ private:
   GLint m_position_location;
   GLint m_texcoord_location;
   GLint m_diffuse_location;
+  GLint m_is_displacement_location;
 
 private:
   GLProgram(const GLProgram&) = delete;
   GLProgram& operator=(const GLProgram&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_MARKER_OBJECT_HPP
-#define HEADER_SUPERTUX_EDITOR_MARKER_OBJECT_HPP
+#pragma once
 
 #include "supertux/moving_object.hpp"
 
@@ -33,7 +32,7 @@ public:
   virtual void update(float dt_sec) override {}
   virtual void draw(DrawingContext& context) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
 
   virtual Vector get_point_vector() const = 0;
   virtual Vector get_offset() const = 0;
@@ -51,7 +50,3 @@ private:
   MarkerObject(const MarkerObject&) = delete;
   MarkerObject& operator=(const MarkerObject&) = delete;
 };
-
-#endif
-
-/* EOF */

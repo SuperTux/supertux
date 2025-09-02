@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_TTF_FONT_HPP
-#define HEADER_SUPERTUX_VIDEO_TTF_FONT_HPP
+#pragma once
 
 #include <SDL_ttf.h>
 
@@ -46,13 +45,13 @@ public:
 
   virtual std::string wrap_to_width(const std::string& text, float width, std::string* overflow) override;
 
-  virtual void draw_text(Canvas& canvas, const std::string& text,
-                         const Vector& pos, FontAlignment alignment, int layer, const Color& color) override;
+  virtual Rectf draw_text(Canvas& canvas, const std::string& text,
+                          const Vector& pos, FontAlignment alignment, int layer, const Color& color) override;
 
-  int get_shadow_size() const { return m_shadow_size; }
-  int get_border() const { return m_border; }
+  inline int get_shadow_size() const { return m_shadow_size; }
+  inline int get_border() const { return m_border; }
 
-  TTF_Font* get_ttf_font() const { return m_font; }
+  inline TTF_Font* get_ttf_font() const { return m_font; }
 
 private:
   TTF_Font* m_font;
@@ -66,7 +65,3 @@ private:
   TTFFont(const TTFFont&) = delete;
   TTFFont& operator=(const TTFFont&) = delete;
 };
-
-#endif
-
-/* EOF */

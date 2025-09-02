@@ -25,10 +25,6 @@ organisation on Github, not directly included from upstream.
 
 Do not have spaces at the end of lines.
 
-Files should always end with `/* EOF */` and a newline or a similar
-marker approprimate for the given language. This marker can be left
-out for fileformats that have an end tag, e.g. `</html>`.
-
 Aim for one file per class, small helper classes in the same file are ok.
 
 ## Includes
@@ -61,8 +57,7 @@ Conditional includes should be indented.
 Include guards are of the form:
 
 ```c++
-#ifndef HEADER_SUPERTUX_{PATH}_{FILE}_HPP
-#define HEADER_SUPERTUX_{PATH}_{FILE}_HPP
+#pragma once
 ```
 
 `tools/fix_include_guards.sh` is a little script that will help to fix
@@ -80,7 +75,7 @@ with polymorphism in mind.
 
 Mark all functions that override a virtual function in a base class with `override`.
 
-Write simple getters/setters inside a header file on a single line.
+Write simple getters/setters inside a header file on a single line. Mark them as `inline`.
 
 Properly separate data members and member functions. Do not mix them in the same
 `public`/`protected`/`private` section.

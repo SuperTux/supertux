@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_JOYSTICK_MANAGER_HPP
-#define HEADER_SUPERTUX_CONTROL_JOYSTICK_MANAGER_HPP
+#pragma once
 
 #include <SDL.h>
 #include <vector>
@@ -30,7 +29,7 @@ class JoystickConfig;
 
 /**
  * Manages Joysticks.
- * 
+ *
  * WARNING: Any edit done to this class should also be done to GameControllerManager!
  */
 class JoystickManager final
@@ -52,7 +51,7 @@ public:
   void on_joystick_added(int joystick_index);
   void on_joystick_removed(int instance_id);
 
-  int get_num_joysticks() const { return static_cast<int>(joysticks.size()); }
+  inline int get_num_joysticks() const { return static_cast<int>(joysticks.size()); }
 
   void on_player_removed(int player_id);
   bool has_corresponding_joystick(int player_id) const;
@@ -62,7 +61,7 @@ public:
 
   void bind_joystick(SDL_Joystick* joystick, int player_id);
 
-  std::unordered_map<SDL_Joystick*, int>& get_joystick_mapping() { return joysticks; }
+  inline std::unordered_map<SDL_Joystick*, int>& get_joystick_mapping() { return joysticks; }
 
 private:
   InputManager* parent;
@@ -87,7 +86,3 @@ private:
   JoystickManager(const JoystickManager&) = delete;
   JoystickManager& operator=(const JoystickManager&) = delete;
 };
-
-#endif
-
-/* EOF */

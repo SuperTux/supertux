@@ -27,7 +27,7 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  StickyBadguy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1, COLGROUP_MOVING),
+  StickyBadguy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1, COLGROUP_DISABLED),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),
@@ -44,12 +44,12 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
   reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/granito/root_dart.sprite");
+  set_colgroup_active(COLGROUP_DISABLED);
 
   m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
   if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
   m_state = IDLE;
-  set_colgroup_active(COLGROUP_DISABLED);
 
   if (!Editor::is_active()) {
     if (m_initial_delay == 0) m_initial_delay = 0.1f;
@@ -185,6 +185,10 @@ DartTrap::get_default_sprite_name() const
   return "images/creatures/darttrap/granito/darttrap_granito.sprite";
 }
 
+void DartTrap::kill_fall()
+{
+}
+
 std::vector<Direction>
 DartTrap::get_allowed_directions() const
 {
@@ -226,5 +230,3 @@ DartTrap::on_type_change(int old_type)
       break;
   }
 }
-
-/* EOF */

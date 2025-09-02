@@ -19,6 +19,13 @@
 #include "video/texture_manager.hpp"
 
 Texture::Texture() :
+  m_sampler(),
+  m_cache_key()
+{
+}
+
+Texture::Texture(const Sampler& sampler) :
+  m_sampler(sampler),
   m_cache_key()
 {
 }
@@ -32,5 +39,3 @@ Texture::~Texture()
     TextureManager::current()->reap_cache_entry(*m_cache_key);
   }
 }
-
-/* EOF */

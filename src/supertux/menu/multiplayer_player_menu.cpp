@@ -23,12 +23,12 @@
 #include "control/input_manager.hpp"
 #include "control/joystick_manager.hpp"
 #include "gui/dialog.hpp"
-#include "supertux/gameconfig.hpp"
+#include "object/player.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
-#include "object/player.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
@@ -65,18 +65,12 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
           return;
         }
 
-        for (auto* player : GameSession::current()->get_current_sector().get_players())
+        if (!GameSession::current()->on_player_removed(player_id))
         {
-          if (player->get_id() == player_id)
-          {
-            player->remove_me();
-            return;
-          }
+          log_warning << "Could not find player with ID " << player_id
+                      << " (number " << (player_id + 1) << "in sector"
+                      << std::endl;
         }
-
-        log_warning << "Could not find player with ID " << player_id
-                    << " (number " << (player_id + 1) << "in sector"
-                    << std::endl;
       });
 
       add_entry(_("Respawn Player"), [player_id] {
@@ -115,19 +109,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
           return;
         }
 
-        auto& sector = GameSession::current()->get_current_sector();
-        auto& player_status = GameSession::current()->get_savegame().get_player_status();
-
-        // TODO: This is probably needed because adding/removing users manually
-        // or automatically by plugging in controllers might not always fix the
-        // player_status object; check if that statement is correct
-        if (player_status.m_num_players <= player_id)
-          player_status.add_player();
-
-        // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-        auto& player = sector.add<Player>(player_status, "Tux" + std::to_string(player_id + 1), player_id);
-
-        player.multiplayer_prepare_spawn();
+        GameSession::current()->on_player_added(player_id);
       });
     }
   }
@@ -204,5 +186,3 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
 
   add_back(_("Back"));
 }
-
-/* EOF */

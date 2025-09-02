@@ -43,16 +43,19 @@ MultiplayerPlayersMenu::MultiplayerPlayersMenu()
 
   add_hl();
 
-  add_entry(_("Add Player"), [] {
-    InputManager::current()->push_user();
+  if (InputManager::current()->can_add_user())
+  {
+    add_entry(_("Add Player"), [] {
+      InputManager::current()->push_user();
 
-    if (GameSession::current() && GameSession::current()->get_savegame().get_player_status().m_num_players < InputManager::current()->get_num_users())
-    {
-      GameSession::current()->get_savegame().get_player_status().add_player();
-    }
+      if (GameSession::current() && GameSession::current()->get_savegame().get_player_status().m_num_players < InputManager::current()->get_num_users())
+      {
+        GameSession::current()->get_savegame().get_player_status().add_player();
+      }
 
-    MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayersMenu>());
-  });
+      MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayersMenu>());
+    });
+  }
 
   if (InputManager::current()->get_num_users() > 1)
   {
@@ -90,5 +93,3 @@ MultiplayerPlayersMenu::MultiplayerPlayersMenu()
   add_hl();
   add_back(_("Back"));
 }
-
-/* EOF */

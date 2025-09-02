@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_EDITOR_HPP
-#define HEADER_SUPERTUX_EDITOR_EDITOR_HPP
+#pragma once
 
 #include <functional>
 #include <vector>
@@ -52,10 +51,6 @@ class Editor final : public Screen,
 public:
   static bool is_active();
 
-  static PHYSFS_EnumerateCallbackResult foreach_recurse(void *data,
-                                                        const char *origdir,
-                                                        const char *fname);
-
 private:
   static bool is_autosave_file(const std::string& filename) {
     return StringUtil::has_suffix(filename, "~");
@@ -82,31 +77,32 @@ public:
 
   virtual IntegrationStatus get_status() const override;
 
-  void event(const SDL_Event& ev);
-  void resize();
+  void event(const SDL_Event& ev) override;
+  void on_window_resize() override;
 
   void disable_keyboard() { m_enabled = false; }
 
-  Level* get_level() const { return m_level.get(); }
+  inline Level* get_level() const { return m_level.get(); }
 
-  void set_world(std::unique_ptr<World> w);
-  World* get_world() const { return m_world.get(); }
+  inline void set_world(std::unique_ptr<World> w) { m_world = std::move(w); }
+  inline World* get_world() const { return m_world.get(); }
 
-  TileSet* get_tileset() const { return m_tileset; }
-  TileSelection* get_tiles() const { return m_toolbox_widget->get_tilebox().get_tiles(); }
-  std::string get_tileselect_object() const { return m_toolbox_widget->get_tilebox().get_object(); }
+  inline TileSet* get_tileset() const { return m_tileset; }
+  inline TileSelection* get_tiles() const { return m_toolbox_widget->get_tilebox().get_tiles(); }
+  inline std::string get_tileselect_object() const { return m_toolbox_widget->get_tilebox().get_object(); }
 
-  EditorTilebox::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_tilebox().get_input_type(); }
+  inline EditorTilebox::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_tilebox().get_input_type(); }
 
-  bool has_active_toolbox_tip() const { return m_toolbox_widget->get_tilebox().has_active_object_tip(); }
+  inline bool has_active_toolbox_tip() const { return m_toolbox_widget->get_tilebox().has_active_object_tip(); }
 
-  int get_tileselect_select_mode() const;
-  int get_tileselect_move_mode() const;
+  inline int get_tileselect_select_mode() const { return m_toolbox_widget->get_tileselect_select_mode(); }
+  inline int get_tileselect_move_mode() const { return m_toolbox_widget->get_tileselect_move_mode(); }
 
-  const std::string& get_levelfile() const { return m_levelfile; }
+  inline const std::string& get_levelfile() const { return m_levelfile; }
 
-  void set_level(const std::string& levelfile_) {
-    m_levelfile = levelfile_;
+  inline void set_level(const std::string& levelfile)
+  {
+    m_levelfile = levelfile;
     m_reload_request = true;
   }
 
@@ -114,7 +110,7 @@ public:
 
   void open_level_directory();
 
-  bool is_testing_level() const { return m_leveltested; }
+  inline bool is_testing_level() const { return m_leveltested; }
 
   void remove_autosave_file();
 
@@ -122,7 +118,9 @@ public:
   void convert_tiles_by_file(const std::string& file);
 
   void check_deprecated_tiles(bool focus = false);
-  bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
+  inline bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
+
+  inline void update_autotileset() { m_overlay_widget->update_autotileset(); }
 
   /** Checks whether the level can be saved and does not contain
       obvious issues (currently: check if main sector and a spawn point
@@ -147,7 +145,7 @@ public:
 
   void scroll(const Vector& velocity);
 
-  bool is_level_loaded() const { return m_levelloaded; }
+  inline bool is_level_loaded() const { return m_levelloaded; }
 
   void edit_path(PathGameObject* path, GameObject* new_marked_object) {
     m_overlay_widget->edit_path(path, new_marked_object);
@@ -155,9 +153,13 @@ public:
 
   void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
 
-  TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
+  inline TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
 
-  Sector* get_sector() { return m_sector; }
+  inline Sector* get_sector() { return m_sector; }
+
+  inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
+
+  void queue_layers_refresh();
 
   void retoggle_undo_tracking();
   void undo_stack_cleanup();
@@ -171,6 +173,8 @@ private:
   void set_sector(Sector* sector);
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
+  void reset_level();
+  void reactivate();
   void quit_editor();
   /**
    * @param filename    If non-empty, save to this file instead.
@@ -183,8 +187,6 @@ private:
   void update_keyboard(const Controller& controller);
 
   void keep_camera_in_bounds();
-
-  void post_undo_redo_actions();
 
 protected:
   std::unique_ptr<Level> m_level;
@@ -207,6 +209,8 @@ public:
   std::optional<std::pair<std::string, Vector>> m_test_pos;
 
   std::string* m_particle_editor_filename;
+
+  bool m_ctrl_pressed;
 
 private:
   Sector* m_sector;
@@ -233,14 +237,11 @@ private:
   float m_scroll_speed;
   float m_new_scale;
 
-  bool m_ctrl_pressed;
   Vector m_mouse_pos;
+
+  bool m_layers_widget_needs_refresh;
 
 private:
   Editor(const Editor&) = delete;
   Editor& operator=(const Editor&) = delete;
 };
-
-#endif
-
-/* EOF */

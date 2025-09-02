@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_SAVEGAME_HPP
-#define HEADER_SUPERTUX_SUPERTUX_SAVEGAME_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -75,11 +74,11 @@ public:
 public:
   Savegame(Profile& profile, const std::string& world_name);
 
-  Profile& get_profile() const { return m_profile; }
+  inline Profile& get_profile() const { return m_profile; }
   std::string get_filename() const;
 
   /** Returns content of (tux ...) entry */
-  PlayerStatus& get_player_status() const { return *m_player_status; }
+  inline PlayerStatus& get_player_status() const { return *m_player_status; }
 
   std::string get_title() const;
 
@@ -110,7 +109,3 @@ private:
   Savegame(const Savegame&) = delete;
   Savegame& operator=(const Savegame&) = delete;
 };
-
-#endif
-
-/* EOF */

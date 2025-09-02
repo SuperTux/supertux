@@ -78,7 +78,7 @@ CorruptedGranito::set_state(CorruptedGranitoState newState)
 }
 
 bool
-CorruptedGranito::collision_squished(GameObject& object)
+CorruptedGranito::collision_squished(MovingObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
@@ -189,5 +189,3 @@ CorruptedGranito::get_default_sprite_name() const
   }
   return "images/creatures/granito/corrupted/corrupted_granito.sprite";
 }
-
-/* EOF */

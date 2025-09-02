@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_PAINT_STYLE_HPP
-#define HEADER_SUPERTUX_VIDEO_PAINT_STYLE_HPP
+#pragma once
 
 #include "video/blend.hpp"
 #include "video/color.hpp"
@@ -52,10 +51,10 @@ public:
     return *this;
   }
 
-  const Color& get_color() const { return m_color; }
-  const float& get_alpha() const { return m_alpha; }
-  const Blend& get_blend() const { return m_blend; }
-  const Flip& get_flip() const { return m_flip; }
+  inline const Color& get_color() const { return m_color; }
+  inline const float& get_alpha() const { return m_alpha; }
+  inline const Blend& get_blend() const { return m_blend; }
+  inline const Flip& get_flip() const { return m_flip; }
 
 private:
   Color m_color;
@@ -63,7 +62,3 @@ private:
   Blend m_blend;
   Flip m_flip;
 };
-
-#endif
-
-/* EOF */

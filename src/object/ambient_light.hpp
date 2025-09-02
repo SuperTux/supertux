@@ -14,14 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_AMBIENT_LIGHT_HPP
-#define HEADER_SUPERTUX_OBJECT_AMBIENT_LIGHT_HPP
+#pragma once
 
-#include "supertux/game_object.hpp"
+#include "editor/layer_object.hpp"
 
 #include "video/color.hpp"
 
-class AmbientLight : public GameObject
+class AmbientLight : public LayerObject
 {
 public:
   AmbientLight(const Color& color);
@@ -41,8 +40,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  void set_ambient_light(const Color& ambient_light);
-  Color get_ambient_light() const;
+  inline void set_ambient_light(const Color& ambient_light) { m_ambient_light = ambient_light; }
+  inline Color get_ambient_light() const { return m_ambient_light; }
 
   /** Fades to the target ambient light */
   void fade_to_ambient_light(float red, float green, float blue, float seconds);
@@ -69,7 +68,3 @@ private:
   AmbientLight(const AmbientLight&) = delete;
   AmbientLight& operator=(const AmbientLight&) = delete;
 };
-
-#endif
-
-/* EOF */

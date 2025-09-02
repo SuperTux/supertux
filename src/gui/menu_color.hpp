@@ -14,26 +14,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_COLOR_HPP
-#define HEADER_SUPERTUX_GUI_MENU_COLOR_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
 class ColorMenu final : public Menu
 {
 public:
-  ColorMenu(Color* color_);
+  ColorMenu(Color* color);
 
   void menu_action(MenuItem& item) override;
 
 private:
-  Color* color;
+  void copy_to_clipboard(const std::string& color_str);
+
+private:
+  enum MenuIDs
+  {
+    MNID_COPY_CLIPBOARD_RGB = 1,
+    MNID_COPY_CLIPBOARD_HEX,
+    MNID_PASTE_CLIPBOARD
+  };
+
+private:
+  Color* m_color;
 
 private:
   ColorMenu(const ColorMenu&) = delete;
   ColorMenu& operator=(const ColorMenu&) = delete;
 };
-
-#endif
-
-/* EOF */

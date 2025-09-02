@@ -67,6 +67,7 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
     d_gameobject_manager->request_name_resolve(path_ref, [this, running](UID uid){
         if (!m_path_uid) m_path_uid = uid;
         m_walker.reset(new PathWalker(m_path_uid, running));
+        on_path_resolved();
       });
   }
 }
@@ -191,5 +192,3 @@ PathObject::register_members(ssq::Class& cls)
   cls.addFunc("start_moving", &PathObject::start_moving);
   cls.addFunc("stop_moving", &PathObject::stop_moving);
 }
-
-/* EOF */

@@ -38,7 +38,7 @@ OneUp::update(float dt_sec)
 }
 
 HitResponse
-OneUp::collision(GameObject& other, const CollisionHit& )
+OneUp::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
@@ -52,5 +52,3 @@ OneUp::collision(GameObject& other, const CollisionHit& )
   }
   return FORCE_MOVE;
 }
-
-/* EOF */

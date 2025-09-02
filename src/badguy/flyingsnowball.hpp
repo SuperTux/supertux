@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_FLYINGSNOWBALL_HPP
-#define HEADER_SUPERTUX_BADGUY_FLYINGSNOWBALL_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 
@@ -36,7 +35,7 @@ public:
   virtual bool is_snipable() const override { return true; }
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  virtual bool collision_squished(MovingObject& object) override;
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
@@ -47,7 +46,3 @@ private:
   FlyingSnowBall(const FlyingSnowBall&) = delete;
   FlyingSnowBall& operator=(const FlyingSnowBall&) = delete;
 };
-
-#endif
-
-/* EOF */

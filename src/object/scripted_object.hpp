@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
-#define HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
@@ -38,7 +37,7 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "scriptedobject"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -77,38 +76,36 @@ public:
    * @scripting
    * @description Returns the X coordinate of the object's velocity.
    */
-  float get_velocity_x() const;
+  inline float get_velocity_x() const { return physic.get_velocity_x(); }
   /**
    * @scripting
    * @description Returns the Y coordinate of the object's velocity.
    */
-  float get_velocity_y() const;
+  inline float get_velocity_y() const { return physic.get_velocity_y(); }
 
   /**
    * @scripting
    * @description Enables or disables gravity, according to the value of ""enabled"".
    * @param bool $enabled
    */
-  void enable_gravity(bool enabled);
+  inline void enable_gravity(bool enabled) { physic.enable_gravity(enabled); }
   /**
    * @scripting
    * @description Returns ""true"" if the object's gravity is enabled.
    */
-  bool gravity_enabled() const;
+  inline bool gravity_enabled() const { return physic.gravity_enabled(); }
 
   /**
    * @scripting
-   * @deprecated Use the ""visible"" property instead!
    * @description Shows or hides the object, according to the value of ""visible"".
    * @param bool $visible
    */
-  void set_visible(bool visible);
+  inline void set_visible(bool visible_) { visible = visible_; }
   /**
    * @scripting
-   * @deprecated Use the ""visible"" property instead!
    * @description Returns ""true"" if the object is visible.
    */
-  bool is_visible() const;
+  inline bool is_visible() const { return visible; }
 
   /**
    * @scripting
@@ -120,10 +117,14 @@ public:
    * @scripting
    * @description Returns ""true"" if the object is solid.
    */
-  bool is_solid() const;
+  inline bool is_solid() const { return solid; }
 
 private:
   Physic physic;
+  /**
+   * @scripting
+   * @description Determines whether the object is solid.
+   */
   bool solid;
   bool physic_enabled;
   /**
@@ -140,7 +141,3 @@ private:
   ScriptedObject(const ScriptedObject&) = delete;
   ScriptedObject& operator=(const ScriptedObject&) = delete;
 };
-
-#endif
-
-/* EOF */

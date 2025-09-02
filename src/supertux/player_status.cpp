@@ -20,23 +20,25 @@
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
+#include "object/player.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+#include "worldmap/level_tile.hpp"
+#include "worldmap/worldmap.hpp"
 
 static const int START_COINS = 100;
 static const int MAX_COINS = 9999;
 
 PlayerStatus::PlayerStatus(int num_players) :
   m_num_players(num_players),
+  m_item_pockets(num_players),
+  m_override_item_pocket(Level::INHERIT),
   coins(START_COINS),
   bonus(num_players),
-  max_fire_bullets(num_players),
-  max_ice_bullets(num_players),
-  max_air_time(num_players),
-  max_earth_time(num_players),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
   last_worldmap(),
   title_level()
@@ -60,21 +62,16 @@ PlayerStatus::take_checkpoint_coins()
     coins = 0;
 }
 
-void PlayerStatus::reset(int num_players)
+void
+PlayerStatus::reset(int num_players)
 {
   coins = START_COINS;
 
   // Keep in sync with a section in read()
   bonus.clear();
-  bonus.resize(num_players, NO_BONUS);
-  max_fire_bullets.clear();
-  max_fire_bullets.resize(num_players, 0);
-  max_ice_bullets.clear();
-  max_ice_bullets.resize(num_players, 0);
-  max_air_time.clear();
-  max_air_time.resize(num_players, 0);
-  max_earth_time.clear();
-  max_earth_time.resize(num_players, 0);
+  bonus.resize(num_players, BONUS_NONE);
+  m_item_pockets.clear();
+  m_item_pockets.resize(num_players, BONUS_NONE);
 
   m_num_players = num_players;
 }
@@ -96,6 +93,68 @@ PlayerStatus::respawns_at_checkpoint() const
 {
   return GameSession::current()->get_last_spawnpoint().is_checkpoint ||
          GameSession::current()->reset_checkpoint_button;
+}
+
+std::string
+PlayerStatus::get_bonus_name(BonusType bonustype)
+{
+  switch (bonustype) {
+    case BONUS_FIRE:
+      return "fireflower";
+    case BONUS_ICE:
+      return "iceflower";
+    case BONUS_AIR:
+      return "airflower";
+    case BONUS_EARTH:
+      return "earthflower";
+    case BONUS_GROWUP:
+      return "egg";
+    case BONUS_NONE:
+      return "none";
+    default:
+      log_warning << "Unknown bonus " << static_cast<int>(bonustype) << std::endl;
+      return "none";
+  }
+}
+
+BonusType
+PlayerStatus::get_bonus_from_name(const std::string& name)
+{
+  if (name == "none") {
+    return BONUS_NONE;
+  } else if (name == "growup" || name == "egg") {
+    return BONUS_GROWUP;
+  } else if (name == "fireflower") {
+    return BONUS_FIRE;
+  } else if (name == "iceflower") {
+    return BONUS_ICE;
+  } else if (name == "airflower") {
+    return BONUS_AIR;
+  } else if (name == "earthflower") {
+    return BONUS_EARTH;
+  } else {
+    log_warning << "Unknown bonus '" << name << "' in savefile"<< std::endl;
+    return BONUS_NONE;
+  }
+}
+
+std::string
+PlayerStatus::get_bonus_sprite(BonusType bonustype)
+{
+  switch (bonustype) {
+    case BONUS_FIRE:
+      return "images/powerups/fireflower/fireflower.sprite";
+    case BONUS_ICE:
+      return "images/powerups/iceflower/iceflower.sprite";
+    case BONUS_AIR:
+      return "images/powerups/airflower/airflower.sprite";
+    case BONUS_EARTH:
+      return "images/powerups/earthflower/earthflower.sprite";
+    case BONUS_GROWUP:
+      return "images/powerups/egg/egg.sprite";
+    default:
+      return "";
+  }
 }
 
 void
@@ -127,34 +186,8 @@ PlayerStatus::write(Writer& writer)
       writer.start_list("tux" + std::to_string(i + 1));
     }
 
-    switch (bonus[i]) {
-      case NO_BONUS:
-        writer.write("bonus", "none");
-        break;
-      case GROWUP_BONUS:
-        writer.write("bonus", "growup");
-        break;
-      case FIRE_BONUS:
-        writer.write("bonus", "fireflower");
-        break;
-      case ICE_BONUS:
-        writer.write("bonus", "iceflower");
-        break;
-      case AIR_BONUS:
-        writer.write("bonus", "airflower");
-        break;
-      case EARTH_BONUS:
-        writer.write("bonus", "earthflower");
-        break;
-      default:
-        log_warning << "Unknown bonus type." << std::endl;
-        writer.write("bonus", "none");
-    }
-
-    writer.write("fireflowers", max_fire_bullets[i]);
-    writer.write("iceflowers", max_ice_bullets[i]);
-    writer.write("airflowers", max_air_time[i]);
-    writer.write("earthflowers", max_earth_time[i]);
+    writer.write("bonus", get_bonus_name(bonus[i]));
+    writer.write("item-pocket", get_bonus_name(m_item_pockets[i]));
 
     if (i != 0)
     {
@@ -193,19 +226,10 @@ PlayerStatus::read(const ReaderMapping& mapping)
 
           // Keep this in sync with reset()
           if (bonus.size() < static_cast<size_t>(id))
-            bonus.resize(id, NO_BONUS);
+            bonus.resize(id, BONUS_NONE);
 
-          if (max_fire_bullets.size() < static_cast<size_t>(id))
-            max_fire_bullets.resize(id, 0);
-
-          if (max_ice_bullets.size() < static_cast<size_t>(id))
-            max_ice_bullets.resize(id, 0);
-
-          if (max_air_time.size() < static_cast<size_t>(id))
-            max_air_time.resize(id, 0);
-
-          if (max_earth_time.size() < static_cast<size_t>(id))
-            max_earth_time.resize(id, 0);
+          if (m_item_pockets.size() < static_cast<size_t>(id))
+            m_item_pockets.resize(id, BONUS_NONE);
         }
         else if (id == 0)
         {
@@ -234,31 +258,95 @@ PlayerStatus::read(const ReaderMapping& mapping)
 }
 
 void
+PlayerStatus::give_item_from_pocket(Player* player)
+{
+  if (!is_item_pocket_allowed())
+    return;
+
+  BonusType bonustype = m_item_pockets[player->get_id()];
+  if (bonustype == BONUS_NONE)
+    return;
+
+  m_item_pockets[player->get_id()] = BONUS_NONE;
+
+  auto& powerup = Sector::get().add<PocketPowerUp>(bonustype, Vector(0,0));
+  powerup.set_pos(player->get_pos() - Vector(0.f, powerup.get_bbox().get_height() + 15));
+}
+
+void
+PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
+{
+  if (!is_item_pocket_allowed())
+    return;
+
+  if (bonustype <= BONUS_GROWUP)
+    return;
+
+  m_item_pockets[player->get_id()] = bonustype;
+}
+
+BonusType
+PlayerStatus::get_item_pocket(const Player* player) const
+{
+  return m_item_pockets[player->get_id()];
+}
+
+bool
+PlayerStatus::is_item_pocket_allowed() const
+{
+  if (m_override_item_pocket != Level::INHERIT)
+  {
+    return m_override_item_pocket == Level::ON;
+  }
+
+  GameSession* session = GameSession::current();
+  if (!session)
+  {
+    worldmap::WorldMap* worldmap = worldmap::WorldMap::current();
+    if (worldmap)
+    {
+      return worldmap->is_item_pocket_allowed();
+    }
+    else
+    {
+      // Not in a level nor in a worldmap. Return true, I guess.
+      return true;
+    }
+  }
+
+  Level& level = session->get_current_level();
+  int allowed = static_cast<Level::Setting>(level.m_allow_item_pocket);
+
+  if (allowed != Level::INHERIT)
+  {
+    return allowed == Level::ON;
+  }
+  else
+  {
+    worldmap::WorldMap* worldmap = worldmap::WorldMap::current();
+    if (worldmap)
+    {
+      return worldmap->is_item_pocket_allowed();
+    }
+    else
+    {
+      // This level is probably in a levelset, pick ON.
+      return true;
+    }
+  }
+}
+
+void
 PlayerStatus::parse_bonus_mapping(const ReaderMapping& map, int id)
 {
   std::string bonusname;
   if (map.get("bonus", bonusname)) {
-    if (bonusname == "none") {
-      bonus[id] = NO_BONUS;
-    } else if (bonusname == "growup") {
-      bonus[id] = GROWUP_BONUS;
-    } else if (bonusname == "fireflower") {
-      bonus[id] = FIRE_BONUS;
-    } else if (bonusname == "iceflower") {
-      bonus[id] = ICE_BONUS;
-    } else if (bonusname == "airflower") {
-      bonus[id] = AIR_BONUS;
-    } else if (bonusname == "earthflower") {
-      bonus[id] = EARTH_BONUS;
-    } else {
-      log_warning << "Unknown bonus '" << bonusname << "' in savefile for player " << (id + 1) << std::endl;
-      bonus[id] = NO_BONUS;
-    }
+    bonus[id] = get_bonus_from_name(bonusname);
   }
-  map.get("fireflowers", max_fire_bullets[id]);
-  map.get("iceflowers", max_ice_bullets[id]);
-  map.get("airflowers", max_air_time[id]);
-  map.get("earthflowers", max_earth_time[id]);
+
+  if (map.get("item-pocket", bonusname)) {
+    m_item_pockets[id] = get_bonus_from_name(bonusname);
+  }
 }
 
 std::string
@@ -266,17 +354,17 @@ PlayerStatus::get_bonus_prefix(int player_id) const
 {
   switch (bonus[player_id]) {
     default:
-    case NO_BONUS:
+    case BONUS_NONE:
       return "small";
-    case GROWUP_BONUS:
+    case BONUS_GROWUP:
       return "big";
-    case FIRE_BONUS:
+    case BONUS_FIRE:
       return "fire";
-    case ICE_BONUS:
+    case BONUS_ICE:
       return "ice";
-    case AIR_BONUS:
+    case BONUS_AIR:
       return "air";
-    case EARTH_BONUS:
+    case BONUS_EARTH:
       return "earth";
   }
 }
@@ -286,11 +374,8 @@ PlayerStatus::add_player()
 {
   m_num_players++;
 
-  bonus.resize(m_num_players, NO_BONUS);
-  max_fire_bullets.resize(m_num_players, 0);
-  max_ice_bullets.resize(m_num_players, 0);
-  max_air_time.resize(m_num_players, 0);
-  max_earth_time.resize(m_num_players, 0);
+  bonus.resize(m_num_players, BONUS_NONE);
+  m_item_pockets.resize(m_num_players, BONUS_NONE);
 }
 
 void
@@ -301,17 +386,54 @@ PlayerStatus::remove_player(int player_id)
   for (int i = player_id; i < m_num_players; i++)
   {
     bonus[i] = bonus[i + 1];
-    max_fire_bullets[i] = max_fire_bullets[i + 1];
-    max_ice_bullets[i] = max_ice_bullets[i + 1];
-    max_air_time[i] = max_air_time[i + 1];
-    max_earth_time[i] = max_earth_time[i + 1];
+    m_item_pockets[i] = m_item_pockets[i + 1];
   }
 
-  bonus.resize(m_num_players, NO_BONUS);
-  max_fire_bullets.resize(m_num_players, 0);
-  max_ice_bullets.resize(m_num_players, 0);
-  max_air_time.resize(m_num_players, 0);
-  max_earth_time.resize(m_num_players, 0);
+  bonus.resize(m_num_players, BONUS_NONE);
+  m_item_pockets.resize(m_num_players, BONUS_NONE);
 }
 
-/* EOF */
+
+PlayerStatus::PocketPowerUp::PocketPowerUp(BonusType bonustype, Vector pos):
+  PowerUp(pos, PowerUp::get_type_from_bonustype(bonustype)),
+  m_cooldown_timer(),
+  m_blink_timer(),
+  m_visible(true)
+{
+  physic.set_velocity_y(-325.f);
+  physic.set_gravity_modifier(0.4f);
+  set_layer(LAYER_FOREGROUND1);
+  m_col.m_group = COLGROUP_DISABLED;
+}
+
+void
+PlayerStatus::PocketPowerUp::update(float dt_sec)
+{
+  PowerUp::update(dt_sec);
+
+  bool check = m_cooldown_timer.check();
+  if (!m_cooldown_timer.started() && !check && m_col.m_group != COLGROUP_TOUCHABLE)
+  {
+    m_cooldown_timer.start(1.3f);
+    m_blink_timer.start(.15f, true);
+  }
+
+  if (check)
+  {
+    m_visible = true;
+    m_blink_timer.stop();
+    m_col.m_group = COLGROUP_TOUCHABLE;
+  }
+
+  if (m_blink_timer.check())
+    m_visible = !m_visible;
+}
+
+void
+PlayerStatus::PocketPowerUp::draw(DrawingContext& context)
+{
+  if (!m_visible)
+    return;
+
+  PowerUp::draw(context);
+}

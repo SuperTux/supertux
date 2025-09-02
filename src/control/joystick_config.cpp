@@ -38,6 +38,7 @@ JoystickConfig::JoystickConfig() :
   bind_joybutton(0, 4, Control::PEEK_LEFT);
   bind_joybutton(0, 5, Control::PEEK_RIGHT);
   bind_joybutton(0, 6, Control::START);
+  bind_joybutton(0, 7, Control::ITEM);
 
   // Default joystick axis configuration
   bind_joyaxis(0, -1, Control::LEFT);
@@ -240,5 +241,3 @@ JoystickConfig::write(Writer& writer)
     writer.end_list("map");
   }
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_DISPENSER_HPP
-#define HEADER_SUPERTUX_BADGUY_DISPENSER_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 
@@ -59,6 +58,7 @@ public:
   virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
+  virtual bool always_active() const override { return true; }
   virtual bool is_portable() const override;
 
   static std::string class_name() { return "dispenser"; }
@@ -85,7 +85,7 @@ public:
 protected:
   void add_object(std::unique_ptr<GameObject> object);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   void launch_object();
 
   void on_type_change(int old_type) override;
@@ -116,7 +116,3 @@ private:
   Dispenser(const Dispenser&) = delete;
   Dispenser& operator=(const Dispenser&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_COLLISION_COLLISION_HPP
-#define HEADER_SUPERTUX_COLLISION_COLLISION_HPP
+#pragma once
 
 #include <limits>
 #include <algorithm>
@@ -86,12 +85,12 @@ public:
   float get_position_left   () const { return position_left;   }
   float get_position_right  () const { return position_right;  }
   float get_position_top    () const { return position_top;    }
-  float get_position_bottom () const { return position_bottom; }
+  inline float get_position_bottom () const { return position_bottom; }
 
-  float get_height () const { return (position_bottom - position_top); }
-  float get_width  () const { return (position_right - position_left); }
+  inline float get_height () const { return (position_bottom - position_top); }
+  inline float get_width  () const { return (position_right - position_left); }
 
-  float get_x_midpoint () const { return (.5f * (position_left + position_right)); }
+  inline float get_x_midpoint () const { return (.5f * (position_left + position_right)); }
 
   CollisionHit hit;
 
@@ -118,7 +117,3 @@ bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, co
 bool intersects_line(const Rectf& r, const Vector& line_start, const Vector& line_end);
 
 } // namespace collision
-
-#endif
-
-/* EOF */

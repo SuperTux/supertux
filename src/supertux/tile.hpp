@@ -16,8 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_TILE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_TILE_HPP
+#pragma once
 
 #include <vector>
 #include <stdint.h>
@@ -112,11 +111,11 @@ public:
   SurfacePtr get_current_surface() const;
   SurfacePtr get_current_editor_surface() const;
 
-  uint32_t get_attributes() const { return m_attributes; }
-  int get_data() const { return m_data; }
+  inline uint32_t get_attributes() const { return m_attributes; }
+  inline int get_data() const { return m_data; }
 
   /** Checks the SLOPE attribute. Returns "true" if set, "false" otherwise. */
-  bool is_slope() const { return (m_attributes & SLOPE) != 0; }
+  inline bool is_slope() const { return (m_attributes & SLOPE) != 0; }
 
   /** Determine the solidity of a tile. This version behaves correctly
       for unisolid tiles by taking position and movement of the object
@@ -130,7 +129,7 @@ public:
       unisolid tiles. To determine the *current* solidity of unisolid
       tiles, use the "is_solid" method that takes position and
       movement into account (see above). */
-  bool is_solid() const { return (m_attributes & SOLID) != 0; }
+  inline bool is_solid() const { return (m_attributes & SOLID) != 0; }
 
   /** Determines whether the tile's attributes are important to
       calculate the collisions. The tile may be unisolid and therefore
@@ -138,12 +137,12 @@ public:
   bool is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const;
 
   /** Checks the UNISOLID attribute. Returns "true" if set, "false" otherwise. */
-  bool is_unisolid() const { return (m_attributes & UNISOLID) != 0; }
+  inline bool is_unisolid() const { return (m_attributes & UNISOLID) != 0; }
 
-  bool is_deprecated() const { return m_deprecated; }
+  inline bool is_deprecated() const { return m_deprecated; }
 
-  const std::string& get_object_name() const { return m_object_name; }
-  const std::string& get_object_data() const { return m_object_data; }
+  inline const std::string& get_object_name() const { return m_object_name; }
+  inline const std::string& get_object_data() const { return m_object_data; }
 
 private:
   /** Returns zero if a unisolid tile is non-solid due to the movement
@@ -177,7 +176,3 @@ private:
   Tile(const Tile&) = delete;
   Tile& operator=(const Tile&) = delete;
 };
-
-#endif
-
-/* EOF */

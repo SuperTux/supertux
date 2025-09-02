@@ -222,15 +222,7 @@ TextureManager::get(const std::string& _filename,
                     const Sampler& sampler)
 {
   std::string filename = FileSystem::normalize(_filename);
-  Texture::Key key;
-  if (rect)
-  {
-    key = Texture::Key(filename, *rect);
-  }
-  else
-  {
-    key = Texture::Key(filename, Rect());
-  }
+  Texture::Key key = Texture::Key(filename, rect ? *rect : Rect());
 
   auto i = m_image_textures.find(key);
 
@@ -238,7 +230,8 @@ TextureManager::get(const std::string& _filename,
   if (i != m_image_textures.end())
     texture = i->second.lock();
 
-  if (!texture) {
+  if (!texture)
+  {
     if (rect)
     {
       texture = create_image_texture(filename, *rect, sampler);
@@ -275,7 +268,8 @@ TextureManager::create_image_texture(const std::string& filename, const Rect& re
   m_load_successful = true;
   try
   {
-    return create_image_texture_raw(filename, rect, sampler);
+    SDLSurfacePtr surface = create_image_surface_raw(filename, rect, sampler);
+    return VideoSystem::current()->new_texture(*surface, sampler);
   }
   catch(const std::exception& err)
   {
@@ -298,8 +292,8 @@ TextureManager::get_surface(const std::string& filename)
   return *(m_surfaces[filename] = std::move(surface));
 }
 
-TexturePtr
-TextureManager::create_image_texture_raw(const std::string& filename, const Rect& rect, const Sampler& sampler)
+SDLSurfacePtr
+TextureManager::create_image_surface_raw(const std::string& filename, const Rect& rect, const Sampler& sampler)
 {
   assert(rect.valid());
 
@@ -358,7 +352,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
     }
   }
 
-  return VideoSystem::current()->new_texture(*subimage, sampler);
+  return subimage;
 }
 
 TexturePtr
@@ -367,7 +361,8 @@ TextureManager::create_image_texture(const std::string& filename, const Sampler&
   m_load_successful = true;
   try
   {
-    return create_image_texture_raw(filename, sampler);
+    SDLSurfacePtr surface = create_image_surface(filename);
+    return VideoSystem::current()->new_texture(*surface, sampler);
   }
   catch (const std::exception& err)
   {
@@ -377,39 +372,90 @@ TextureManager::create_image_texture(const std::string& filename, const Sampler&
   }
 }
 
-TexturePtr
-TextureManager::create_image_texture_raw(const std::string& filename, const Sampler& sampler)
-{
-  SDLSurfacePtr surface = create_image_surface(filename);
-  TexturePtr texture = VideoSystem::current()->new_texture(*surface, sampler);
-  surface.reset(nullptr);
-  return texture;
-}
-
-TexturePtr
-TextureManager::create_dummy_texture()
+SDLSurfacePtr
+TextureManager::create_dummy_surface()
 {
   // on error, try loading placeholder file
   try
   {
-    TexturePtr tex = create_image_texture_raw(s_dummy_texture, Sampler());
-    return tex;
+    SDLSurfacePtr surface = create_image_surface(s_dummy_texture);
+    return surface;
   }
   catch (const std::exception& err)
   {
     // on error (when loading placeholder), try using empty surface,
     // when that fails to, just give up
-    SDLSurfacePtr image(SDL_CreateRGBSurface(0, 128, 128, 8, 0, 0, 0, 0));
-    if (!image)
+    SDLSurfacePtr surface(SDL_CreateRGBSurface(0, 128, 128, 8, 0, 0, 0, 0));
+    if (!surface)
     {
       throw;
     }
     else
     {
       log_warning << "Couldn't load texture '" << s_dummy_texture << "' (now using empty one): " << err.what() << std::endl;
-      TexturePtr texture = VideoSystem::current()->new_texture(*image);
-      return texture;
+      return surface;
     }
+  }
+}
+
+TexturePtr
+TextureManager::create_dummy_texture() const
+{
+  SDLSurfacePtr surface = create_dummy_surface();
+  return VideoSystem::current()->new_texture(*surface);
+}
+
+void
+TextureManager::reload()
+{
+  // Reload surfaces
+  for (auto& surface : m_surfaces)
+  {
+    SDLSurfacePtr surface_new;
+    try
+    {
+      surface_new = create_image_surface(surface.first);
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Couldn't load texture '" << surface.first << "' (now using dummy texture): " << err.what() << std::endl;
+      surface_new = create_dummy_surface();
+    }
+    surface.second.reset(surface_new);
+  }
+
+  // Reload textures
+  for (auto& texture : m_image_textures)
+  {
+    auto texture_ptr = texture.second.lock();
+
+    SDLSurfacePtr surface;
+    if (std::get<1>(texture.first).empty()) // No specific rect for texture
+    {
+      try
+      {
+        surface = create_image_surface(std::get<0>(texture.first));
+      }
+      catch (const std::exception& err)
+      {
+        log_warning << "Couldn't load texture '" << std::get<0>(texture.first) << "' (now using dummy texture): " << err.what() << std::endl;
+        surface = create_dummy_surface();
+      }
+    }
+    else // Texture has a specific rect
+    {
+      try
+      {
+        surface = create_image_surface_raw(std::get<0>(texture.first), std::get<1>(texture.first), texture_ptr->get_sampler());
+      }
+      catch (const std::exception& err)
+      {
+        log_warning << "Couldn't load texture '" << std::get<0>(texture.first) << "' (now using dummy texture): " << err.what() << std::endl;
+        surface = create_dummy_surface();
+      }
+    }
+
+    texture_ptr->reload(*surface);
   }
 }
 
@@ -450,5 +496,3 @@ TextureManager::debug_print(std::ostream& out) const
   out << "total surface count:" << m_surfaces.size() << std::endl;
   out << "total surface pixels:" << total_surface_pixels << std::endl;
 }
-
-/* EOF */

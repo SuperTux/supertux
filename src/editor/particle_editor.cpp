@@ -890,5 +890,3 @@ ParticleEditor::get_status() const
   status.m_details.push_back("Editing particles");
   return status;
 }
-
-/* EOF */

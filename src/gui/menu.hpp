@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_HPP
-#define HEADER_SUPERTUX_GUI_MENU_HPP
+#pragma once
 
 #include <functional>
 #include <memory>
@@ -30,7 +29,7 @@ class ItemAction;
 class ItemBack;
 class ItemColor;
 class ItemColorChannelRGBA;
-class ItemColorChannelOKLab;
+class ItemColorPicker2D;
 class ItemColorDisplay;
 class ItemControlField;
 class ItemFloatField;
@@ -42,7 +41,6 @@ class ItemIntField;
 class ItemLabel;
 class ItemPaths;
 class ItemScript;
-class ItemScriptLine;
 class ItemList;
 class ItemStringSelect;
 class ItemTextField;
@@ -77,7 +75,9 @@ public:
   ItemHorizontalLine& add_hl();
   ItemLabel& add_label(const std::string& text);
   ItemAction& add_entry(int id, const std::string& text);
+  ItemAction& add_entry(int id, const std::string& text, const Color& text_color);
   ItemAction& add_entry(const std::string& text, const std::function<void()>& callback);
+  ItemAction& add_entry(const std::string& text, const std::function<void()>& callback, const Color& text_color);
   ItemToggle& add_toggle(int id, const std::string& text, bool* toggled, bool center_text = false);
   ItemToggle& add_toggle(int id, const std::string& text,
                          const std::function<bool()>& get_func,
@@ -91,7 +91,6 @@ public:
   ItemStringSelect& add_string_select(int id, const std::string& text, int default_item, const std::vector<std::string>& strings);
   ItemTextField& add_textfield(const std::string& text, std::string* input, int id = -1);
   ItemScript& add_script(const std::string& text, std::string* script, int id = -1);
-  ItemScriptLine& add_script_line(std::string* input, int id = -1);
   ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false);
   ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
   ItemAction& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
@@ -102,7 +101,7 @@ public:
   ItemColorDisplay& add_color_display(Color* color, int id = -1);
   ItemColorChannelRGBA& add_color_channel_rgba(float* input, Color channel, int id = -1,
     bool is_linear = false);
-  ItemColorChannelOKLab& add_color_channel_oklab(Color* color, int channel);
+  ItemColorPicker2D& add_color_picker_2d(Color& color);
   ItemPaths& add_path_settings(const std::string& text, PathObject& target, const std::string& path_ref);
   ItemStringArray& add_string_array(const std::string& text, std::vector<std::string>& items, int id = -1);
   ItemImages& add_images(const std::string& image_path, int max_image_width = 0, int max_image_height = 0, int id = -1);
@@ -121,8 +120,8 @@ public:
   int get_active_item_id() const;
   void set_active_item(int id);
 
-  Vector get_center_pos() const { return m_pos; }
-  void set_center_pos(float x, float y);
+  inline Vector get_center_pos() const { return m_pos; }
+  inline void set_center_pos(float x, float y) { m_pos.x = x; m_pos.y = y; }
 
   float get_width() const;
   float get_height() const;
@@ -133,6 +132,14 @@ public:
 protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item);
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
+  template<typename T, typename... Args>
+  T& add_item(Args&&... args)
+  {
+    auto item = std::make_unique<T>(std::forward<Args>(args)...);
+    auto item_ptr = item.get();
+    add_item(std::move(item));
+    return *item_ptr;
+  }
   void delete_item(int pos_);
 
   /** Recalculates the width for this menu */
@@ -168,7 +175,3 @@ private:
   Menu(const Menu&) = delete;
   Menu& operator=(const Menu&) = delete;
 };
-
-#endif
-
-/* EOF */

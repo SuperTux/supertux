@@ -72,9 +72,11 @@ BitmapFont::BitmapFont(GlyphWidth glyph_width_,
 
   // scan for prefix-filename in addons search path.
   physfsutil::enumerate_files(fontdir, [fontdir, fontname, this](const std::string& file) {
-    std::string filepath = FileSystem::join(fontdir, file);
-    if (file.rfind(fontname) != std::string::npos) {
-      try {
+    const std::string filepath = FileSystem::join(fontdir, file);
+    if (file.rfind(fontname) != std::string::npos)
+    {
+      try
+      {
         loadFontFile(filepath);
       }
       catch(const std::exception& e)
@@ -82,6 +84,7 @@ BitmapFont::BitmapFont(GlyphWidth glyph_width_,
         log_fatal << "Couldn't load font file: " << e.what() << std::endl;
       }
     }
+    return false;
   });
 }
 
@@ -356,41 +359,47 @@ BitmapFont::wrap_to_width(const std::string& s_, float width, std::string* overf
 }
 
 
-void
+Rectf
 BitmapFont::draw_text(Canvas& canvas, const std::string& text,
-                      const Vector& pos_, FontAlignment alignment, int layer, const Color& color)
+                      const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
-  float x = pos_.x;
-  float y = pos_.y;
+  float min_x = pos.x;
+  float last_y = pos.y;
+  float max_width = 0.f;
 
   std::string::size_type last = 0;
-  for (std::string::size_type i = 0;; ++i)
+  for (std::string::size_type i = 0; i <= text.size(); ++i)
   {
-    if (text[i] == '\n' || i == text.size())
-    {
-      std::string temp = text.substr(last, i - last);
+    if (i != text.size() && text[i] != '\n')
+      continue;
 
-      // Calculate X positions based on the alignment type.
-      Vector pos = Vector(x, y);
+    const std::string temp = text.substr(last, i - last);
+    const float width = get_text_width(temp);
 
-      if (alignment == ALIGN_CENTER)
-        pos.x -= get_text_width(temp) / 2;
-      else if (alignment == ALIGN_RIGHT)
-        pos.x -= get_text_width(temp);
+    // Calculate X positions based on the alignment type.
+    Vector new_pos = Vector(pos.x, last_y);
 
-      // Cast font position to integer to get a clean drawing result and
-      // no blurring as we would get with subpixel positions.
-      pos.x = std::truncf(pos.x);
+    if (alignment == ALIGN_CENTER)
+      new_pos.x -= width / 2.0f;
+    else if (alignment == ALIGN_RIGHT)
+      new_pos.x -= width;
 
-      draw_text(canvas, temp, pos, layer, color);
+    // Cast font position to integer to get a clean drawing result and
+    // no blurring as we would get with subpixel positions.
+    new_pos.x = std::truncf(new_pos.x);
 
-      if (i == text.size())
-        break;
+    if (new_pos.x < min_x)
+      min_x = new_pos.x;
+    if (width > max_width)
+      max_width = width;
 
-      y += static_cast<float>(char_height) + 2.0f;
-      last = i + 1;
-    }
+    draw_text(canvas, temp, new_pos, layer, color);
+
+    last_y += static_cast<float>(char_height) + 2.0f;
+    last = i + 1;
   }
+
+  return Rectf(min_x, pos.y, min_x + max_width, last_y);
 }
 
 void
@@ -441,5 +450,3 @@ BitmapFont::draw_chars(Canvas& canvas, bool notshadow, const std::string& text, 
     }
   }
 }
-
-/* EOF */

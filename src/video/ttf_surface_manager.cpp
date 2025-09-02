@@ -84,6 +84,13 @@ TTFSurfaceManager::get_cached_surface_width(const TTFFont& font,
 }
 
 void
+TTFSurfaceManager::clear_cache()
+{
+  m_cache.clear();
+  m_cache_iter = m_cache.begin();
+}
+
+void
 TTFSurfaceManager::cache_cleanup_step()
 {
   if (m_cache.empty())
@@ -114,5 +121,3 @@ TTFSurfaceManager::print_debug_info(std::ostream& out)
   });
   out << "TTFSurfaceManager.cache_size: " << m_cache.size() << "  " << cache_bytes / 1000 << "KB" << std::endl;
 }
-
-/* EOF */

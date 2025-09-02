@@ -14,35 +14,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
-#define HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
+#pragma once
 
-#include "badguy/badguy.hpp"
+#include "badguy/boss.hpp"
 
 class TreeWillOWisp;
 class Lantern;
 
-class GhostTree final : public BadGuy
+class GhostTree final : public Boss
 {
 public:
   GhostTree(const ReaderMapping& mapping);
 
-  virtual bool is_flammable() const override { return false; }
-  virtual bool is_freezable() const override { return false; }
   virtual void kill_fall() override { }
 
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   static std::string class_name() { return "ghosttree"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Ghost Tree"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(GhostTree)); }
+  virtual GameObjectClasses get_class_types() const override { return Boss::get_class_types().add(typeid(GhostTree)); }
 
   virtual void on_flip(float height) override;
 
@@ -76,6 +73,8 @@ private:
   int   treecolor;
   Color suck_lantern_color;
 
+  bool m_taking_life;
+
   Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
 
   std::vector<TreeWillOWisp*> willowisps;
@@ -84,7 +83,3 @@ private:
   GhostTree(const GhostTree&) = delete;
   GhostTree& operator=(const GhostTree&) = delete;
 };
-
-#endif
-
-/* EOF */

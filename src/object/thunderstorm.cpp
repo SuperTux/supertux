@@ -40,7 +40,7 @@ const float RESTORE_BACKGROUND_COLOR_TIME = 0.1f;
 } // namespace
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
-  GameObject(reader),
+  LayerObject(reader),
   running(true),
   interval(10.0f),
   layer(LAYER_BACKGROUNDTILES-1),
@@ -114,6 +114,7 @@ Thunderstorm::update(float )
       return;
     }
 
+    alpha *= static_cast<float>(g_config->flash_intensity) / 100.0f;
     m_flash_color = Color(alpha, alpha, alpha, 1.0);
   }
 
@@ -242,5 +243,3 @@ Thunderstorm::register_class(ssq::VM& vm)
   cls.addFunc("flash", &Thunderstorm::flash);
   cls.addFunc("electrify", &Thunderstorm::electrify);
 }
-
-/* EOF */

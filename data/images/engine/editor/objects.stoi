@@ -110,7 +110,7 @@
     (icon "images/creatures/mole/corrupted/root_sapling-0.png"))  
 (object
     (class "ghoul")
-    (icon "images/creatures/ghoul/g1.png"))
+    (icon "images/creatures/ghoul/down-0.png"))
   (object
     (class "mrbomb")
     (icon "images/creatures/mr_bomb/left-0.png"))
@@ -178,6 +178,9 @@
   (object
     (class "dart")
     (icon "images/creatures/darttrap/granito/root_dart_left.png"))
+  (object
+    (class "bigsnowball")
+    (icon "images/objects/big_snowball/big_snowball.png"))
  )
 
  (objectgroup
@@ -336,6 +339,9 @@
   (object
     (class "text-area")
     (icon "images/engine/editor/textarray.png"))
+  (object
+    (class "editor-comment")
+    (icon "images/engine/editor/editor-comment.png"))
  )
 
  (layers

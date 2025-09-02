@@ -332,5 +332,3 @@ ItemTextField::deactivate()
 {
   if (SDL_HasScreenKeyboardSupport()) SDL_StopTextInput();
 }
-
-/* EOF */

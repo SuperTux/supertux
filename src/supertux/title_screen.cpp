@@ -48,7 +48,13 @@ static const std::string DEFAULT_TITLE_LEVEL = "levels/misc/menu.stl";
 TitleScreen::TitleScreen(Savegame& savegame, bool christmas) :
   m_savegame(savegame),
   m_christmas(christmas),
-  m_logo(Surface::from_file("images/engine/menu/" + std::string(LOGO_FILE))),
+  m_logo(Surface::from_file("images/engine/menu/" + std::string(
+#ifdef SUPERTUX_RELEASE
+    "logo.png"
+#else
+    "logo_dev.png"
+#endif
+  ))),
   m_santahat(christmas ? Surface::from_file("images/engine/menu/logo_santahat.png") : nullptr),
   m_frame(Surface::from_file("images/engine/menu/frame.png")),
   m_controller(new CodeController()),
@@ -113,16 +119,18 @@ TitleScreen::refresh_level()
       std::unique_ptr<GameSession> new_session;
       try
       {
-        new_session = std::make_unique<GameSession>(title_level, m_savegame, nullptr, true);
+        new_session = std::make_unique<GameSession>(title_level, m_savegame, nullptr);
       }
       catch (const std::exception& err)
       {
         log_warning << "Error loading custom title screen level '" << title_level << "': " << err.what() << std::endl;
 
         if (!m_titlesession || m_titlesession->get_level_file() != DEFAULT_TITLE_LEVEL)
-          new_session = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
+        {
+          new_session = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr);
+        }
       }
-
+      new_session->restart_level(false, true);
       if (new_session)
       {
         m_titlesession = std::move(new_session);
@@ -132,7 +140,8 @@ TitleScreen::refresh_level()
   }
   else if (!m_titlesession || m_titlesession->get_level_file() != DEFAULT_TITLE_LEVEL)
   {
-    m_titlesession = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
+    m_titlesession = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr);
+    m_titlesession->restart_level(false, true);
     level_init = true;
   }
 
@@ -266,7 +275,7 @@ TitleScreen::refresh_copyright_text()
 {
   // cppcheck-suppress unknownMacro
   m_copyright_text = "SuperTux " PACKAGE_VERSION "\n" +
-    _("Copyright") + " (c) 2003-2024 SuperTux Devel Team\n" +
+    _("Copyright") + " (c) 2003-2025 SuperTux Devel Team\n" +
     _("This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
       "redistribute it under certain conditions; see the license file for details.\n");
 }
@@ -284,5 +293,3 @@ TitleScreen::get_status() const
   status.m_details.push_back("In main menu");
   return status;
 }
-
-/* EOF */

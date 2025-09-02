@@ -68,7 +68,7 @@ FallBlock::update(float dt_sec)
 }
 
 HitResponse
-FallBlock::collision(GameObject& other, const CollisionHit& hit)
+FallBlock::collision(MovingObject& other, const CollisionHit& hit)
 {
   auto fallblock = dynamic_cast<FallBlock*> (&other);
   if (fallblock && hit.bottom && (m_state == FALL || m_state == LAND))
@@ -141,5 +141,3 @@ FallBlock::on_flip(float height)
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

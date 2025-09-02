@@ -102,9 +102,10 @@ LanguageMenu::menu_action(MenuItem& item)
     }
   }
 
-  // Reload font files, refresh copyright text
   Resources::load();
-  TitleScreen::current()->refresh_copyright_text();
+
+  if (TitleScreen::current())
+    TitleScreen::current()->refresh_copyright_text();
 
   if (g_dictionary_manager->get_language().get_language() != "en" &&
       !AddonManager::current()->is_addon_installed("language-pack"))
@@ -116,5 +117,3 @@ LanguageMenu::menu_action(MenuItem& item)
     MenuManager::instance().clear_menu_stack();
   }
 }
-
-/* EOF */

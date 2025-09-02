@@ -89,5 +89,3 @@ ProfileNameMenu::menu_action(MenuItem& item)
   MenuManager::instance().pop_menu();
   MenuManager::instance().current_menu()->refresh();
 }
-
-/* EOF */

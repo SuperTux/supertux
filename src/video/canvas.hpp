@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_CANVAS_HPP
-#define HEADER_SUPERTUX_VIDEO_CANVAS_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -67,11 +66,11 @@ public:
                           std::vector<float> angles,
                           const Color& color,
                           int layer);
-  void draw_text(const FontPtr& font, const std::string& text,
-                 const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));
+  Rectf draw_text(const FontPtr& font, const std::string& text,
+                  const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));
   /** Draw text to the center of the screen */
-  void draw_center_text(const FontPtr& font, const std::string& text,
-                        const Vector& position, int layer, const Color& color = Color(1.0,1.0,1.0));
+  Rectf draw_center_text(const FontPtr& font, const std::string& text,
+                         const Vector& position, int layer, const Color& color = Color(1.0,1.0,1.0));
   void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction,
                      const Rectf& region, const Blend& blend = Blend());
   void draw_filled_rect(const Rectf& rect, const Color& color, int layer);
@@ -82,13 +81,23 @@ public:
   void draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer);
   void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
 
+  /** Draw a flat-topped regular hexagon
+   *
+   * @param pos Centre position
+   * @param radius Radius of the hexagon's circle hull
+   * @param color Color
+   * @param layer Layer
+   */
+  void draw_hexagon(const Vector& pos, float radius, const Color& color,
+    int layer);
+
   /** on next update, set color to lightmap's color at position */
   void get_pixel(const Vector& position, const std::shared_ptr<Color>& color_out);
 
   void clear();
   void render(Renderer& renderer, Filter filter);
 
-  DrawingContext& get_context() { return m_context; }
+  inline DrawingContext& get_context() { return m_context; }
 
 private:
   Vector apply_translate(const Vector& pos) const;
@@ -103,7 +112,3 @@ private:
   Canvas(const Canvas&) = delete;
   Canvas& operator=(const Canvas&) = delete;
 };
-
-#endif
-
-/* EOF */

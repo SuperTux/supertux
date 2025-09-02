@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_AUDIO_SOUND_MANAGER_HPP
-#define HEADER_SUPERTUX_AUDIO_SOUND_MANAGER_HPP
+#pragma once
 
 #include <map>
 #include <memory>
@@ -90,11 +89,11 @@ public:
   void stop_sounds();
   void set_sound_volume(int volume);
 
-  bool is_music_enabled() const { return m_music_enabled; }
-  bool is_sound_enabled() const { return m_sound_enabled; }
+  inline bool is_music_enabled() const { return m_music_enabled; }
+  inline bool is_sound_enabled() const { return m_sound_enabled; }
 
-  bool is_audio_enabled() const { return m_device != nullptr && m_context != nullptr; }
-  const std::string& get_current_music() const { return m_current_music; }
+  inline bool is_audio_enabled() const { return m_device != nullptr && m_context != nullptr; }
+  inline const std::string& get_current_music() const { return m_current_music; }
   void update();
 
   /** Tell soundmanager to call update() for stream_sound_source. */
@@ -130,7 +129,3 @@ private:
   SoundManager(const SoundManager&) = delete;
   SoundManager& operator=(const SoundManager&) = delete;
 };
-
-#endif
-
-/* EOF */

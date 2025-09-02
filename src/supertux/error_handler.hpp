@@ -14,38 +14,31 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_ERROR_HANDLER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_ERROR_HANDLER_HPP
+#pragma once
 
 #include <iostream>
 
-class ErrorHandler final
-{
-public:
-  static void set_handlers();
-
-  static std::string get_stacktrace();
-  static std::string get_system_info();
-
-  static void error_dialog_crash(const std::string& stacktrace);
-  static void error_dialog_exception(const std::string& exception = "");
-
-  static void report_error(const std::string& details);
-
-  [[ noreturn ]] static void handle_error(int sig);
-
-  [[ noreturn ]] static void close_program();
-
-private:
-  static bool m_handing_error;
-
-private:
-  ErrorHandler() = delete;
-  ~ErrorHandler() = delete;
-  ErrorHandler(const ErrorHandler&) = delete;
-  ErrorHandler& operator=(const ErrorHandler&) = delete;
-};
-
+#ifdef WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #endif
 
-/* EOF */
+namespace ErrorHandler {
+  void set_handlers();
+
+  std::string get_stacktrace();
+  std::string get_system_info();
+
+  void error_dialog_crash(const std::string& stacktrace);
+  void error_dialog_exception(const std::string& exception = "");
+
+#ifdef WIN32
+  LONG WINAPI supertux_seh_handler(_In_ _EXCEPTION_POINTERS* ExceptionInfo);
+  //CONTEXT* pcontext;
+#else
+  [[ noreturn ]] void handle_error(int sig);
+#endif
+  void report_error(const std::string& details);
+
+  [[ noreturn ]] void close_program();
+}

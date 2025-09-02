@@ -52,7 +52,7 @@ TriggerBase::update()
 }
 
 HitResponse
-TriggerBase::collision(GameObject& other, const CollisionHit& )
+TriggerBase::collision(MovingObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
@@ -90,15 +90,13 @@ Trigger::Trigger(const ReaderMapping& reader) :
 }
 
 
-SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name) :
-  MovingSprite(reader, sprite_name, LAYER_TILES + 1, COLGROUP_TOUCHABLE)
+SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
+  MovingSprite(reader, sprite_name, layer, COLGROUP_TOUCHABLE)
 {
 }
 
 
-StickyTrigger::StickyTrigger(const ReaderMapping& reader, const std::string& sprite_name) :
-  StickyObject(reader, sprite_name, LAYER_TILES + 1, COLGROUP_TOUCHABLE)
+StickyTrigger::StickyTrigger(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
+  StickyObject(reader, sprite_name, layer, COLGROUP_TOUCHABLE)
 {
 }
-
-/* EOF */

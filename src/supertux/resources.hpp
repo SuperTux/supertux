@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_RESOURCES_HPP
-#define HEADER_SUPERTUX_SUPERTUX_RESOURCES_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -29,6 +28,9 @@ class MouseCursor;
 
 class Resources final
 {
+public:
+  static void reload_all();
+
 public:
   static std::unique_ptr<MouseCursor> mouse_cursor;
 
@@ -62,7 +64,7 @@ public:
   static SurfacePtr no_tile;
 
 public:
-  static void load();
+  static void load(bool reload = false);
   static void unload();
   static bool needs_custom_font(const tinygettext::Language& locale);
   static std::string get_font_for_locale(const tinygettext::Language& locale);
@@ -74,7 +76,3 @@ public:
   Resources();
   ~Resources();
 };
-
-#endif
-
-/* EOF */

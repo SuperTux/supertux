@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_LOG_HPP
-#define HEADER_SUPERTUX_UTIL_LOG_HPP
+#pragma once
 
 #include <ostream>
 
@@ -40,7 +39,3 @@ void log_error_callback(const std::string& str);
 void log_warning_callback(const std::string& str);
 
 std::ostream& get_logging_instance(bool use_console_buffer = true);
-
-#endif
-
-/* EOF */

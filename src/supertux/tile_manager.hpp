@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_TILE_MANAGER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_TILE_MANAGER_HPP
+#pragma once
 
 #include <map>
 #include <memory>
@@ -28,14 +27,16 @@ class TileSet;
 class TileManager final : public Currenton<TileManager>
 {
 private:
-  std::map<std::string, std::unique_ptr<TileSet> > m_tilesets;
+  std::map<std::string, std::unique_ptr<TileSet>> m_tilesets;
 
 public:
   TileManager();
 
   TileSet* get_tileset(const std::string &filename);
+
+  void reload();
+
+private:
+  TileManager(const TileManager&) = delete;
+  TileManager& operator=(const TileManager&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -55,7 +55,7 @@ InvisibleWall::after_editor_set() {
 }
 
 HitResponse
-InvisibleWall::collision(GameObject& , const CollisionHit& )
+InvisibleWall::collision(MovingObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
 }
@@ -73,5 +73,3 @@ void
 InvisibleWall::update(float )
 {
 }
-
-/* EOF */

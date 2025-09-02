@@ -69,5 +69,3 @@ EndSequenceWalk::stopping()
 {
   EndSequence::stopping();
 }
-
-/* EOF */

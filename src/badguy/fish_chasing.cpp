@@ -89,7 +89,10 @@ FishChasing::active_update(float dt_sec) {
   const Vector p2 = player->get_bbox().get_middle();
   const Vector dist = (p2 - p1);
   const bool is_player_in_water = player->is_swimming() || player->is_swimboosting() || player->is_water_jumping();
-  const bool is_facing_player = (m_dir == Direction::LEFT && dist.x <= 0.0f) || (m_dir == Direction::RIGHT && dist.x >= 0.0f );
+  const bool is_facing_player = (m_dir == Direction::LEFT && dist.x <= 0.0f)
+                             || (m_dir == Direction::RIGHT && dist.x >= 0.0f )
+                             || (m_dir == Direction::UP && dist.y <= 0.0f )
+                             || (m_dir == Direction::DOWN && dist.y >= 0.0f );
   const bool can_see_player = Sector::get().free_line_of_sight(p1,p2, true, this);
 
   switch (m_chase_state)
@@ -105,7 +108,10 @@ FishChasing::active_update(float dt_sec) {
     break;
   case FOUND:
     if (!m_frozen)
-      set_action("notice", m_dir, 1);
+    {
+      Direction dir = m_physic.get_velocity_x() <= 0.f ? Direction::LEFT : Direction::RIGHT;
+      set_action("notice", dir, 1);
+    }
 
     if (std::abs(glm::length(m_physic.get_velocity())) >= 1.f) {
       m_physic.set_velocity(m_physic.get_velocity() / 1.25f);
@@ -205,5 +211,3 @@ FishChasing::get_settings()
 
   return result;
 }
-
-/* EOF */

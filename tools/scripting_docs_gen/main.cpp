@@ -122,8 +122,8 @@ int main(int argc, char** argv)
     std::string target_data = Writer::write_file_notice(page_template_filename) +  page_template;
 
     // Entries
-    replace(target_data, "${SRG_CLASSSUMMARY}", cl.summary, "None.");
-    replace(target_data, "${SRG_CLASSINSTANCES}", cl.instances, "None.");
+    replace(target_data, "${SRG_CLASSSUMMARY}", Writer::format_description(std::move(cl.summary)), "None.");
+    replace(target_data, "${SRG_CLASSINSTANCES}", Writer::format_description(std::move(cl.instances)), "None.");
     replace(target_data, "${SRG_CLASSINHERITANCE}", Writer::write_inheritance_list(classes, cl.base_classes, cl.derived_classes), "None.");
     replace(target_data, "${SRG_CLASSCONSTANTS}", Writer::write_constants_table(cl.constants), "None.");
     replace(target_data, "${SRG_CLASSVARIABLES}", Writer::write_variables_table(cl.variables), "None.");
@@ -133,9 +133,6 @@ int main(int argc, char** argv)
     // Formatting
     replace(target_data, "${SRG_NEWPARAGRAPH} ", "\r\n\r\n");
     replace(target_data, "${SRG_TABLENEWPARAGRAPH}", "<br /><br />");
-    replace(target_data, "\"\"", "`");
-    replace(target_data, "NOTE:", "<br /><br />**NOTE:**");
-    replace(target_data, "Note:", "<br /><br />**NOTE:**");
 
     // Write to target file
     write_file(output_dir_path / std::filesystem::path("Scripting" + cl.name + ".md"), target_data);

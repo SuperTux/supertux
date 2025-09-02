@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_INFO_HPP
-#define HEADER_SUPERTUX_EDITOR_OBJECT_INFO_HPP
+#pragma once
 
 #include "editor/object_group.hpp"
 
@@ -26,8 +25,8 @@ class ObjectInfo final
 public:
   ObjectInfo();
 
-  int get_num_worldmap_groups() const { return get_num_groups(true); }
-  int get_num_level_groups() const { return get_num_groups(false); }
+  inline int get_num_worldmap_groups() const { return get_num_groups(true); }
+  inline int get_num_level_groups() const { return get_num_groups(false); }
 
   int get_first_worldmap_group_index() const;
 
@@ -43,7 +42,3 @@ private:
   ObjectInfo(const ObjectInfo&) = delete;
   ObjectInfo& operator=(const ObjectInfo&) = delete;
 };
-
-#endif
-
-/* EOF */

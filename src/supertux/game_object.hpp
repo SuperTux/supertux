@@ -14,14 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
+#pragma once
 
 #include "squirrel/exposable_class.hpp"
 
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <optional>
 #include <typeindex>
 
 #include "editor/object_settings.hpp"
@@ -49,18 +49,18 @@ struct GameObjectType
 typedef std::vector<GameObjectType> GameObjectTypes;
 
 /**
- A helper structure to list all the type_indexes of the classes in the
- type hierarchy of a given class. This makes it easier to register e.g.
- a MrIceblock in lists for MrIceBlock, WalkingBadguy, Badguy, Portable,
- MovingSprite, MovingObject, and GameObject.
- */
+  A helper structure to list all the type_indexes of the classes in the
+  type hierarchy of a given class. This makes it easier to register e.g.
+  a MrIceblock in lists for MrIceBlock, WalkingBadguy, Badguy, Portable,
+  MovingSprite, MovingObject, and GameObject.
+*/
 struct GameObjectClasses
 {
   std::vector<std::type_index> types;
 
-  GameObjectClasses& add(const std::type_info &info) {
-    std::type_index idx(info);
-    types.push_back(idx);
+  GameObjectClasses& add(const std::type_info& info)
+  {
+    types.emplace_back(info);
     return *this;
   }
 };
@@ -87,8 +87,7 @@ public:
   static void register_class(ssq::VM& vm);
 
 public:
-  GameObject();
-  GameObject(const std::string& name);
+  GameObject(const std::string& name = "");
   GameObject(const ReaderMapping& reader);
   virtual ~GameObject() override;
 
@@ -97,7 +96,7 @@ public:
       by name, those connection can be resolved here. */
   virtual void finish_construction() {}
 
-  UID get_uid() const { return m_uid; }
+  inline UID get_uid() const { return m_uid; }
 
   /** This function is called once per frame and allows the object to
       update it's state. The dt_sec is the time that has passed since
@@ -131,7 +130,7 @@ public:
    * @scripting
    * @description Returns the current version of the object.
    */
-  int get_version() const;
+  inline int get_version() const { return m_version; }
   /**
    * @scripting
    * @description Returns the latest version of the object.
@@ -162,6 +161,10 @@ public:
   /** Indicates if the object should be added at the beginning of the object list. */
   virtual bool has_object_manager_priority() const { return false; }
 
+  /** Returns the amount of coins that this object is worth.
+      This is considered when calculating all coins in a level. */
+  virtual int get_coins_worth() const { return 0; }
+
   /** Indicates if get_settings() is implemented. If true the editor
       will display Tip and ObjectMenu. */
   virtual bool has_settings() const { return is_saveable(); }
@@ -173,7 +176,7 @@ public:
    * @scripting
    * @description Returns the type index of the object.
    */
-  int get_type() const;
+  inline int get_type() const { return m_type; }
 
   virtual void after_editor_set();
 
@@ -184,7 +187,7 @@ public:
   virtual void remove_me() { m_scheduled_for_removal = true; }
 
   /** returns true if the object is not scheduled to be removed yet */
-  bool is_valid() const { return !m_scheduled_for_removal; }
+  inline bool is_valid() const { return !m_scheduled_for_removal; }
 
   /** registers a remove listener which will be called if the object
       gets removed/destroyed */
@@ -194,16 +197,12 @@ public:
       the object gets removed/destroyed */
   void del_remove_listener(ObjectRemoveListener* listener);
 
-  void set_name(const std::string& name) { m_name = name; }
+  inline void set_name(const std::string& name) { m_name = name; }
   /**
    * @scripting
    * @description Returns the name of the object.
    */
-  std::string get_name() const;
-
-  virtual const std::string get_icon_path() const {
-    return "images/tiles/auxiliary/notile.png";
-  }
+  inline const std::string& get_name() const { return m_name; }
 
   /** stops all looping sounds */
   virtual void stop_looping_sounds() {}
@@ -252,7 +251,7 @@ public:
       together (e.g. platform on a path) */
   virtual void editor_update() {}
 
-  GameObjectManager* get_parent() const { return m_parent; }
+  inline GameObjectManager* get_parent() const { return m_parent; }
 
 protected:
   /** Parse object type. **/
@@ -267,7 +266,7 @@ protected:
   std::string type_value_to_id(int value) const;
 
 private:
-  void set_uid(const UID& uid) { m_uid = uid; }
+  inline void set_uid(const UID& uid) { m_uid = uid; }
 
 private:
   /** The parent GameObjectManager. Set by the manager itself. */
@@ -308,9 +307,9 @@ private:
   /** this flag indicates if the object should be removed at the end of the frame */
   bool m_scheduled_for_removal;
 
-  /** The object's data at the time of the last state save.
+  /** The object's settings at the time of the last state save.
       Used to check for changes that may have occured. */
-  std::string m_last_state;
+  std::optional<ObjectSettings> m_last_state;
 
   std::vector<std::unique_ptr<GameObjectComponent> > m_components;
 
@@ -320,7 +319,3 @@ private:
   GameObject(const GameObject&) = delete;
   GameObject& operator=(const GameObject&) = delete;
 };
-
-#endif
-
-/* EOF */

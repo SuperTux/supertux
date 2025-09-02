@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_BUTTON_WIDGET_HPP
-#define HEADER_SUPERTUX_EDITOR_BUTTON_WIDGET_HPP
+#pragma once
 
 #include "editor/widget.hpp"
 
@@ -39,7 +38,7 @@ public:
   virtual void update(float dt_sec) override;
 
   virtual void setup() override;
-  virtual void resize() override;
+  virtual void on_window_resize() override;
 
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
@@ -56,7 +55,3 @@ private:
   ButtonWidget(const ButtonWidget&) = delete;
   ButtonWidget& operator=(const ButtonWidget&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -50,20 +50,18 @@ BicyclePlatformChild::update(float dt_sec)
 }
 
 HitResponse
-BicyclePlatformChild::collision(GameObject& other, const CollisionHit& )
+BicyclePlatformChild::collision(MovingObject& other, const CollisionHit& )
 {
   const float gravity = Sector::get().get_gravity();
 
   // Somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
-  auto mo = dynamic_cast<MovingObject*>(&other);
-  if (!mo) return FORCE_MOVE;
-  if ((mo->get_bbox().get_bottom()) > (m_col.m_bbox.get_top() + 2)) return FORCE_MOVE;
+  if (other.get_bbox().get_bottom() > m_col.m_bbox.get_top() + 2) return FORCE_MOVE;
 
-  auto pl = dynamic_cast<Player*>(mo);
+  auto pl = dynamic_cast<Player*>(&other);
   if (pl) {
     if (pl->is_big()) m_momentum += m_parent.m_momentum_change_rate * gravity;
-    auto po = pl->get_grabbed_object();
-    auto pomo = dynamic_cast<MovingObject*>(po);
+    auto pomo = dynamic_cast<MovingObject*>(pl->get_grabbed_object());
+    assert(pomo);
     if (m_contacts.insert(pomo).second) {
       m_momentum += m_parent.m_momentum_change_rate * gravity;
     }
@@ -211,5 +209,3 @@ BicyclePlatform::get_settings()
 
   return result;
 }
-
-/* EOF */

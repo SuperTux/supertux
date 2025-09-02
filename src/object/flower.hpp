@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_FLOWER_HPP
-#define HEADER_SUPERTUX_OBJECT_FLOWER_HPP
+#pragma once
 
 #include "supertux/moving_object.hpp"
 
@@ -37,7 +36,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
 
   virtual void on_flip(float height) override;
 
@@ -54,7 +53,3 @@ private:
   Flower(const Flower&) = delete;
   Flower& operator=(const Flower&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_TILE_SET_PARSER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_TILE_SET_PARSER_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -35,14 +34,19 @@ private:
   std::string m_filename;
   std::string m_tiles_path;
 
-public:
-  TileSetParser(TileSet& tileset, const std::string& filename);
+  int32_t m_start;
+  const int32_t m_end;
+  const int32_t m_offset;
 
-  void parse(int32_t start = 0, int32_t end = 0, int32_t offset = 0, bool imported = false);
+public:
+  TileSetParser(TileSet& tileset, const std::string& filename,
+                int32_t start = 0, int32_t end = 0, int32_t offset = 0);
+
+  void parse(bool imported = false);
 
 private:
-  void parse_tile(const ReaderMapping& reader, int32_t min, int32_t max, int32_t offset);
-  void parse_tiles(const ReaderMapping& reader, int32_t min, int32_t max, int32_t offset);
+  void parse_tile(const ReaderMapping& reader);
+  void parse_tiles(const ReaderMapping& reader);
   std::vector<SurfacePtr> parse_imagespecs(const ReaderMapping& cur,
                                            const std::optional<Rect>& region = std::nullopt) const;
 
@@ -50,7 +54,3 @@ private:
   TileSetParser(const TileSetParser&) = delete;
   TileSetParser& operator=(const TileSetParser&) = delete;
 };
-
-#endif
-
-/* EOF */

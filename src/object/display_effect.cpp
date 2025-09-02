@@ -153,18 +153,6 @@ DisplayEffect::fade_in(float fadetime)
 }
 
 void
-DisplayEffect::set_black(bool enabled)
-{
-  black = enabled;
-}
-
-bool
-DisplayEffect::is_black() const
-{
-  return black;
-}
-
-void
 DisplayEffect::sixteen_to_nine(float fadetime)
 {
   if (fadetime == 0) {
@@ -204,6 +192,6 @@ DisplayEffect::register_class(ssq::VM& vm)
   cls.addFunc("is_black", &DisplayEffect::is_black);
   cls.addFunc("sixteen_to_nine", &DisplayEffect::sixteen_to_nine);
   cls.addFunc("four_to_three", &DisplayEffect::four_to_three);
-}
 
-/* EOF */
+  cls.addVar("black", &DisplayEffect::black);
+}
