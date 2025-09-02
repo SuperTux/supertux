@@ -8,19 +8,19 @@ else {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 35
     defaultConfig {
         if (buildAsApplication) {
             applicationId "org.lethargik.supertux2"
         }
         minSdkVersion 16
-        targetSdkVersion 33
+        targetSdkVersion 35
         versionCode 7000
         versionName "0.7.0"
         ndkVersion "25.2.9519653"
         externalNativeBuild {
             cmake {
-                version "3.22.1"
+                version "3.31.1"
                 arguments "-DANDROID_APP_PLATFORM=android-33", "-Wno-dev"
                 abiFilters rootProject.ext.cpuarch as String[]
             }
@@ -42,7 +42,7 @@ android {
         }
         externalNativeBuild {
             cmake {
-                version "3.22.1"
+                version "3.31.1"
                 path 'jni/CMakeLists.txt'
             }
         }

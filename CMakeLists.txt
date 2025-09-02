@@ -41,6 +41,14 @@ cmake_minimum_required(VERSION 3.22)
 
 project(SUPERTUX LANGUAGES C CXX)
 
+# Qt Creator shall not configure this project directly when building for Android.
+# The CMake calls are managed by Gradle.
+# You must specify the QT_CREATOR variable manually
+if(ANDROID AND QT_CREATOR)
+  add_subdirectory(mk/cmake/android/)
+  return()
+endif()
+
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0069 NEW)
 endif()
@@ -334,7 +342,7 @@ endif()
 if(ANDROID)
   # This is fine, though.
   find_library(log-lib log)
-  target_link_libraries(supertux2_lib PUBLIC ${log-lib})
+  target_link_libraries(supertux2 PUBLIC ${log-lib})
 endif()
 
 ## Install stuff
