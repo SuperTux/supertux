@@ -1,5 +1,8 @@
 (supertux-music
   (file "credits.ogg")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
+  (title "SuperTux Credits Theme")
   (loop-begin 0)
   (loop-at    107)
 )
