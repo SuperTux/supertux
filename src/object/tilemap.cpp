@@ -555,7 +555,8 @@ TileMap::draw(DrawingContext& context)
 
   std::unordered_map<SurfacePtr,
                      std::tuple<std::vector<Rectf>,
-                                std::vector<Rectf>>> batches;
+                                std::vector<Rectf>,
+                                std::vector<uint32_t>>> batches;
 
   for (pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
     for (pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
@@ -584,6 +585,7 @@ TileMap::draw(DrawingContext& context)
         std::get<1>(batches[surface]).emplace_back(pos,
                                                    Sizef(static_cast<float>(surface->get_width()),
                                                          static_cast<float>(surface->get_height())));
+        std::get<2>(batches[surface]).emplace_back(tile.get_attributes());
       }
     }
   }
@@ -597,6 +599,7 @@ TileMap::draw(DrawingContext& context)
       canvas.draw_surface_batch(surface,
                                 std::move(std::get<0>(it.second)),
                                 std::move(std::get<1>(it.second)),
+                                std::move(std::get<2>(it.second)),
                                 m_current_tint, m_z_pos);
     }
   }

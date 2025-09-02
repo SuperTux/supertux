@@ -64,6 +64,7 @@ struct TextureRequest : public DrawingRequest
     displacement_texture(),
     srcrects(),
     dstrects(),
+    attrs(),
     angles(),
     color(1.0f, 1.0f, 1.0f)
   {}
@@ -74,6 +75,7 @@ struct TextureRequest : public DrawingRequest
   const Texture* displacement_texture;
   std::vector<Rectf> srcrects;
   std::vector<Rectf> dstrects;
+  std::vector<uint32_t> attrs;
   std::vector<float> angles;
   Color color;
 
