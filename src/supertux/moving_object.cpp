@@ -64,11 +64,11 @@ MovingObject::get_settings()
 
   if (has_variable_size())
   {
-    result.add_float(_("Width"), &m_col.m_bbox.get_width(), "width", {}, OPTION_HIDDEN);
-    result.add_float(_("Height"), &m_col.m_bbox.get_height(), "height", {}, OPTION_HIDDEN);
+    result.add_float(_("Width"), &m_col.m_bbox.get_width(), "width", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
+    result.add_float(_("Height"), &m_col.m_bbox.get_height(), "height", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
   }
-  result.add_float(_("X"), &m_col.m_bbox.get_left(), "x", {}, OPTION_HIDDEN);
-  result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y", {}, OPTION_HIDDEN);
+  result.add_float(_("X"), &m_col.m_bbox.get_left(), "x", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
+  result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
 
   return result;
 }

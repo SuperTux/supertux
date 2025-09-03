@@ -22,6 +22,7 @@
 
 #include "gui/menu_action.hpp"
 #include "math/vector.hpp"
+#include "util/uid.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
@@ -90,7 +91,7 @@ public:
   ItemStringSelect& add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings);
   ItemStringSelect& add_string_select(int id, const std::string& text, int default_item, const std::vector<std::string>& strings);
   ItemTextField& add_textfield(const std::string& text, std::string* input, int id = -1);
-  ItemScript& add_script(const std::string& text, std::string* script, int id = -1);
+  ItemScript& add_script(UID uid, const std::string& key, const std::string& text, std::string* script, int id = -1);
   ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false);
   ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
   ItemAction& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
@@ -112,6 +113,7 @@ public:
   /** Remove all entries from the menu */
   void clear();
 
+  void set_item(int index);
   MenuItem& get_item(int index) { return *(m_items[index]); }
 
   MenuItem& get_item_by_id(int id);
@@ -122,13 +124,18 @@ public:
 
   inline Vector get_center_pos() const { return m_pos; }
   inline void set_center_pos(float x, float y) { m_pos.x = x; m_pos.y = y; }
+  
+  void previous_item();
+  void next_item();
 
   float get_width() const;
   float get_height() const;
 
   /** returns true when the text is more important than action */
   virtual bool is_sensitive() const { return false; }
-
+  
+  inline void allow_click_when_unfocused() { m_can_click_when_unfocused = true; }
+  
 protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item);
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
@@ -161,6 +168,8 @@ private:
   float m_menu_width;
   float m_menu_height;
   float m_menu_help_height;
+  int m_mouse_deadzone;
+  bool m_can_click_when_unfocused;
 
 public:
   std::vector<std::unique_ptr<MenuItem> > m_items;
