@@ -48,8 +48,8 @@ static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
 /** Ice physics constants (identical to player ice physics) */
-static const float BADGUY_ICE_FRICTION_MULTIPLIER = 0.1f;   // Exactement comme Tux
-static const float BADGUY_ICE_ACCELERATION_MULTIPLIER = 0.25f; // Exactement comme Tux
+static const float BADGUY_ICE_FRICTION_MULTIPLIER = 0.1f;   // Same as player
+static const float BADGUY_ICE_ACCELERATION_MULTIPLIER = 0.25f; // Same as player
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name,
@@ -741,9 +741,9 @@ BadGuy::apply_ice_physics()
   if (!m_on_ice || !on_ground()) return;
   
   float velx = m_physic.get_velocity_x();
-  // Pas de seuil d'arrêt artificiel - comme Tux, laisson la physique naturelle
+  // No artificial velocity threshold - let natural physics handle sliding
   
-  // Friction identique à Tux (WALK_ACCELERATION_X = 300)
+  // Use same friction base as player (WALK_ACCELERATION_X = 300)
   float friction = 300.0f * BADGUY_ICE_FRICTION_MULTIPLIER; // Base friction value
   if (velx < 0) {
     m_physic.set_acceleration_x(friction);
