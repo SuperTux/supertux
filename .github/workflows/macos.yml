@@ -49,11 +49,9 @@ jobs:
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-13' }}
         run: |
-          # Use GLM 1.0.0 as later versions don't build with clang
-          HOMEBREW_NO_AUTO_UPDATE=1 brew install --formula ./mk/brew/glm.rb --build-from-source
-          brew install cmake bash rename libogg libvorbis glew \
-                       openal-soft sdl2 sdl2_image libraqm freetype \
-                       glib gtk-doc zlib physfs fmt
+          vcpkg integrate install
+          vcpkg install
+          brew install bash rename glib gtk-doc
 
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
@@ -97,6 +95,8 @@ jobs:
           echo "- GIT_HASH: $GIT_HASH"
           echo "- GIT_BRANCH: $GIT_BRANCH"
 
+          echo "VCPKG_ROOT: $VCPKG_INSTALLATION_ROOT"
+
           cmake --version
           $CXX --version
 
@@ -104,6 +104,7 @@ jobs:
           cd "build"
 
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH                        \
+                   -DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
                    -DSUPERTUX_PACKAGE_VERSION="$GIT_TAG dev - $GIT_HASH ($GIT_BRANCH) (CI ARTIFACT)" \
                    -DSUPERTUX_VERSION_STRING="$GIT_BRANCH-$GIT_HASH"           \
