@@ -20,6 +20,9 @@
 
 #include "sprite/sprite.hpp"
 
+// Ice physics constant (identical to player ice physics)
+static const float BADGUY_ICE_ACCELERATION_MULTIPLIER = 0.25f;
+
 WalkingBadguy::WalkingBadguy(const Vector& pos,
                              const std::string& sprite_name_,
                              const std::string& walk_left_action_,
@@ -145,7 +148,8 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
   {
     /* acceleration == walk-speed => it will take one second to get from zero
      * to full speed. */
-    m_physic.set_acceleration_x (dest_x_velocity * modifier);
+    float ice_multiplier = (m_on_ice && on_ground()) ? BADGUY_ICE_ACCELERATION_MULTIPLIER : 1.0f;
+    m_physic.set_acceleration_x (dest_x_velocity * modifier * ice_multiplier);
   }
   /* Check if we're going too fast */
   else if (((dest_x_velocity <= 0.0f) && (current_x_velocity < dest_x_velocity)) ||
@@ -153,7 +157,8 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
   {
     /* acceleration == walk-speed => it will take one second to get twice the
      * speed to normal speed. */
-    m_physic.set_acceleration_x ((-1.f) * dest_x_velocity);
+    float ice_multiplier = (m_on_ice && on_ground()) ? BADGUY_ICE_ACCELERATION_MULTIPLIER : 1.0f;
+    m_physic.set_acceleration_x ((-1.f) * dest_x_velocity * ice_multiplier);
   }
   else
   {
