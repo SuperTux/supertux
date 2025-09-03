@@ -20,6 +20,7 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
+#include "badguy/ghosttree_attack.hpp"
 #include "badguy/root.hpp"
 #include "badguy/treewillowisp.hpp"
 #include "math/random.hpp"
@@ -57,7 +58,8 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   suck_lantern_color(),
   m_taking_life(),
   suck_lantern(nullptr),*/
-  m_willowisps()
+  m_willowisps(),
+  m_root_attack()
 {
   mapping.get("hud-icon", m_hud_icon, "images/creatures/ghosttree/hudlife.png");
   m_hud_head = Surface::from_file(m_hud_icon);
@@ -67,6 +69,11 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/tree_suck.ogg");
 
   set_state(STATE_INIT);
+}
+
+GhostTree::~GhostTree()
+{
+
 }
 
 void
@@ -91,6 +98,17 @@ GhostTree::activate()
   /*willowisp_timer.start(1.0f, true);
   colorchange_timer.start(13, true);
   root_timer.start(5, true);*/
+}
+
+Vector
+GhostTree::get_player_pos()
+{
+  auto player = get_nearest_player();
+  if (player) {
+    return player->get_pos();
+  } else {
+    return m_col.m_bbox.get_middle();
+  }
 }
 
 void
@@ -122,7 +140,8 @@ GhostTree::active_update(float dt_sec)
     case STATE_SUCKING:
       break;
     case STATE_ATTACKING:
-      if (m_state_timer.check()) {
+      m_root_attack->active_update(dt_sec);
+      if (m_root_attack->is_done()) {
         set_state(STATE_RECHARGING);
       }
       break;
@@ -255,7 +274,8 @@ GhostTree::active_update(float dt_sec)
   }*/
 }
 
-bool GhostTree::suck_now(const Color& color) const {
+bool
+GhostTree::suck_now(const Color& color) const {
   switch (m_attack) {
     case ATTACK_RED:
       return color.red == 1.0;
@@ -349,8 +369,7 @@ GhostTree::set_state(MyState new_state) {
       std::cout<<"attacking"<<std::endl;
       set_action(m_attack == ATTACK_PINCH ? "scream-pinch" : "scream");
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
-      m_state_timer.start(5);
-      //TODO
+      start_attack();
       break;
     case STATE_RECHARGING:
       std::cout<<"recharging"<<std::endl;
@@ -369,6 +388,32 @@ GhostTree::set_state(MyState new_state) {
   m_state = new_state;
 }
 
+void
+GhostTree::start_attack()
+{
+  Vector player_pos = get_player_pos();
+  const float middle = m_col.m_bbox.get_middle().x;
+  const float base = m_col.m_bbox.get_bottom() + 64;
+  switch (m_attack) {
+    case ATTACK_RED:
+      if (player_pos.x > middle) {
+        m_root_attack.reset(new GhostTreeAttackRed(base, middle - 512, middle + 512));
+      } else {
+        m_root_attack.reset(new GhostTreeAttackRed(base, middle + 512, middle - 512));
+      }
+      break;
+    case ATTACK_GREEN:
+      m_root_attack.reset(new GhostTreeAttackGreen(Vector(player_pos.x, base)));
+      break;
+    case ATTACK_BLUE:
+      m_root_attack.reset(new GhostTreeAttackBlue(Vector(player_pos.x, base)));
+      break;
+    case ATTACK_PINCH:
+    default:
+      m_root_attack.reset(new GhostTreeAttackPinch(Vector(player_pos.x, base), middle - 512, middle + 512));
+      break;
+  }
+}
 /*bool
 GhostTree::is_color_deadly(Color color) const
 {
