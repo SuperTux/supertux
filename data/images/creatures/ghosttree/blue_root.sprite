@@ -17,6 +17,6 @@
   (action
     (name "down")
 	(hitbox 12 11 8 70)
-    (flip-action "down")
+    (flip-action "up")
   )
 )

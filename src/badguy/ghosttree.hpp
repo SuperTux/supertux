@@ -18,13 +18,15 @@
 
 #include "badguy/boss.hpp"
 
+class GhostTreeAttack;
 class TreeWillOWisp;
-class Lantern;
+//class Lantern;
 
 class GhostTree final : public Boss
 {
 public:
   GhostTree(const ReaderMapping& mapping);
+  ~GhostTree();
 
   virtual void kill_fall() override { }
 
@@ -98,8 +100,11 @@ private:
   //Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
 
   std::vector<TreeWillOWisp*> m_willowisps;
+  std::unique_ptr<GhostTreeAttack> m_root_attack;
   void spawn_willowisp(AttackType color);
   void rotate_willo_color();
+  void start_attack();
+  Vector get_player_pos();
 
 private:
   GhostTree(const GhostTree&) = delete;
