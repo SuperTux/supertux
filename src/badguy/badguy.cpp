@@ -47,9 +47,9 @@ static const float FADEOUT_TIME = 0.2f;
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
-/** Ice physics constants (similar to player ice physics) */
-static const float BADGUY_ICE_FRICTION_MULTIPLIER = 0.1f;
-static const float BADGUY_ICE_ACCELERATION_MULTIPLIER = 0.25f;
+/** Ice physics constants (identical to player ice physics) */
+static const float BADGUY_ICE_FRICTION_MULTIPLIER = 0.1f;   // Exactement comme Tux
+static const float BADGUY_ICE_ACCELERATION_MULTIPLIER = 0.25f; // Exactement comme Tux
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name,
@@ -741,15 +741,10 @@ BadGuy::apply_ice_physics()
   if (!m_on_ice || !on_ground()) return;
   
   float velx = m_physic.get_velocity_x();
-  // Stop very slow movement to prevent endless sliding
-  if (fabsf(velx) < 5.0f) {
-    m_physic.set_velocity_x(0);
-    m_physic.set_acceleration_x(0);
-    return;
-  }
+  // Pas de seuil d'arrêt artificiel - comme Tux, laisson la physique naturelle
   
-  // Apply reduced friction when on ice
-  float friction = 50.0f * BADGUY_ICE_FRICTION_MULTIPLIER; // Base friction value
+  // Friction identique à Tux (WALK_ACCELERATION_X = 300)
+  float friction = 300.0f * BADGUY_ICE_FRICTION_MULTIPLIER; // Base friction value
   if (velx < 0) {
     m_physic.set_acceleration_x(friction);
   } else if (velx > 0) {
