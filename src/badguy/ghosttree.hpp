@@ -46,7 +46,6 @@ public:
   virtual void on_flip(float height) override;
 
   void willowisp_died(TreeWillOWisp* willowisp);
-  void die();
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
@@ -73,31 +72,16 @@ private:
 private:
   void set_state(MyState new_state);
   bool suck_now(const Color& color) const;
-/*  bool is_color_deadly(Color color) const;
-  void spawn_lantern();*/
 
 private:
   MyState m_state;
   AttackType m_attack;
   Timer m_state_timer;
-  //Timer m_willowisp_timer;
   float m_willo_spawn_y;
   float m_willo_radius;
   float m_willo_speed;
   int m_willo_to_spawn;
   AttackType m_next_willo;
-  /*int   willo_color;*/
-
-  //SpritePtr glow_sprite;
-  /*Timer colorchange_timer;
-  Timer suck_timer;
-  Timer root_timer;
-  int   treecolor;
-  Color suck_lantern_color;*/
-
-  //bool m_taking_life;
-
-  //Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
 
   std::vector<TreeWillOWisp*> m_willowisps;
   std::unique_ptr<GhostTreeAttack> m_root_attack;

@@ -43,21 +43,11 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   m_state(STATE_INIT),
   m_attack(ATTACK_RED),
   m_state_timer(),
-  //m_willowisp_timer(),
   m_willo_spawn_y(0),
   m_willo_radius(200),
   m_willo_speed(1.8f),
   m_willo_to_spawn(9),
   m_next_willo(ATTACK_RED),
-  /*willo_color(0),*/
-  //glow_sprite(SpriteManager::current()->create("images/creatures/ghosttree/ghosttree-glow.sprite")),
-  /*colorchange_timer(),
-  suck_timer(),
-  root_timer(),
-  treecolor(0),
-  suck_lantern_color(),
-  m_taking_life(),
-  suck_lantern(nullptr),*/
   m_willowisps(),
   m_root_attack()
 {
@@ -67,7 +57,10 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/tree_howling.ogg");
   SoundManager::current()->preload("sounds/tree_suck.ogg");
-
+  SoundManager::current()->preload("sounds/tree_pinch.ogg");
+  SoundManager::current()->preload("sounds/gulp.wav");
+  SoundManager::current()->preload("sounds/explosion.wav"); // This will be needed for some roots, let's preload it now.
+  
   set_state(STATE_INIT);
 }
 
@@ -77,27 +70,8 @@ GhostTree::~GhostTree()
 }
 
 void
-GhostTree::die()
-{
-  //TODO
-  /*for (const auto& willo : willowisps) {
-    willo->vanish();
-  }
-
-  if (m_lives <= 0) {
-    mystate = STATE_DYING;
-    set_action("dying", 1);
-    glow_sprite->set_action("dying", 1);
-    run_dead_script();
-  }*/
-}
-
-void
 GhostTree::activate()
 {
-  /*willowisp_timer.start(1.0f, true);
-  colorchange_timer.start(13, true);
-  root_timer.start(5, true);*/
 }
 
 Vector
@@ -167,112 +141,6 @@ GhostTree::active_update(float dt_sec)
     default:
       break;
   }
-  /*
-  if (mystate == STATE_IDLE) {
-    m_taking_life = false;
-    if (colorchange_timer.check()) {
-      SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
-      suck_timer.start(3);
-      treecolor = (treecolor + 1) % 3;
-
-      Color col;
-      switch (treecolor) {
-        case 0: col = Color(1, 0, 0); break;
-        case 1: col = Color(0, 1, 0); break;
-        case 2: col = Color(0, 0, 1); break;
-        case 3: col = Color(1, 1, 0); break;
-        case 4: col = Color(1, 0, 1); break;
-        case 5: col = Color(0, 1, 1); break;
-        default: assert(false);
-      }
-      glow_sprite->set_color(col);
-    }
-
-    if (suck_timer.check()) {
-      Color col = glow_sprite->get_color();
-      SoundManager::current()->play("sounds/tree_suck.ogg", get_pos());
-      for (const auto& willo : willowisps) {
-        if (willo->get_color() == col) {
-          willo->start_sucking(
-            m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET
-            + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
-                     gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
-        }
-      }
-      mystate = STATE_SUCKING;
-    }
-
-    if (willowisp_timer.check()) {
-      if (willowisps.size() < WILLOWISP_COUNT) {
-        Vector pos(m_col.m_bbox.get_width() / 2,
-                   m_col.m_bbox.get_height() / 2 + (m_flip == NO_FLIP ? (willo_spawn_y + WILLOWISP_TOP_OFFSET) :
-                                                                       -(willo_spawn_y + WILLOWISP_TOP_OFFSET + 32.0f)));
-        auto& willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
-        willowisps.push_back(&willowisp);
-
-        willo_spawn_y -= 40;
-        if (willo_spawn_y < -160)
-          willo_spawn_y = 0;
-
-        willo_radius += 20;
-        if (willo_radius > 120)
-          willo_radius = 0;
-
-        if (willo_speed == 1.8f) {
-          willo_speed = 1.5f;
-        } else {
-          willo_speed = 1.8f;
-        }
-
-        do {
-          willo_color = (willo_color + 1) % 3;
-        } while(willo_color == treecolor);
-
-        switch (willo_color) {
-          case 0: willowisp.set_color(Color(1, 0, 0)); break;
-          case 1: willowisp.set_color(Color(0, 1, 0)); break;
-          case 2: willowisp.set_color(Color(0, 0, 1)); break;
-          case 3: willowisp.set_color(Color(1, 1, 0)); break;
-          case 4: willowisp.set_color(Color(1, 0, 1)); break;
-          case 5: willowisp.set_color(Color(0, 1, 1)); break;
-          default: assert(false);
-        }
-      }
-    }
-
-  } else if (mystate == STATE_SWALLOWING) {
-    if (suck_lantern) {
-      // Suck in the lantern.
-      assert (suck_lantern);
-      Vector pos = suck_lantern->get_pos();
-      Vector delta = m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
-      if (glm::length(delta) < 1) {
-        suck_lantern->ungrab(*this, Direction::RIGHT);
-        suck_lantern->remove_me();
-        suck_lantern = nullptr;
-        set_action("swallow", 1);
-      } else {
-        pos += glm::normalize(delta);
-        suck_lantern->grab(*this, pos, Direction::RIGHT);
-      }
-    } else {
-      // Wait until the lantern is swallowed completely.
-      if (m_sprite->animation_done()) {
-        if (is_color_deadly(suck_lantern_color)) {
-          if (!m_taking_life) {
-            m_lives--;
-            m_taking_life = true;
-          }
-          die();
-        }
-        if (m_lives > 0) {
-          set_action("default");
-          mystate = STATE_IDLE;
-          spawn_lantern();
-        }
-      }
-    }
-  }*/
 }
 
 bool
@@ -380,6 +248,7 @@ GhostTree::set_state(MyState new_state) {
       break;
     case STATE_DEAD:
       std::cout<<"dead"<<std::endl;
+      SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       set_action("busted");
       run_dead_script();
       break;
@@ -393,7 +262,7 @@ void
 GhostTree::start_attack(bool main_root)
 {
   const float middle = m_col.m_bbox.get_middle().x;
-  const float base = m_col.m_bbox.get_bottom() + 64;
+  const float base = m_col.m_bbox.get_bottom() + 96;
   if (main_root) {
     m_root_attack.reset(new GhostTreeAttackMain(Vector(middle, base)));
     return;
@@ -420,13 +289,6 @@ GhostTree::start_attack(bool main_root)
       break;
   }
 }
-/*bool
-GhostTree::is_color_deadly(Color color) const
-{
-  if (color == Color(0,0,0)) return false;
-  Color my_color = glow_sprite->get_color();
-  return ((my_color.red != color.red) || (my_color.green != color.green) || (my_color.blue != color.blue));
-}*/
 
 void
 GhostTree::willowisp_died(TreeWillOWisp* willowisp)
@@ -440,21 +302,6 @@ GhostTree::willowisp_died(TreeWillOWisp* willowisp)
                                     return lhs == willowisp;
                                   }));
 }
-
-/*void
-GhostTree::draw(DrawingContext& context)
-{
-  Boss::draw(context);
-
-  context.push_transform();
-  if (mystate == STATE_SUCKING) {
-    context.set_alpha(0.5f + fmodf(g_game_time, 0.5f));
-  } else {
-    context.set_alpha(0.5f);
-  }
-  glow_sprite->draw(context.light(), get_pos(), m_layer);
-  context.pop_transform();
-}*/
 
 bool
 GhostTree::collides(MovingObject& other, const CollisionHit& ) const
@@ -470,22 +317,6 @@ GhostTree::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (m_state != STATE_RECHARGING) return ABORT_MOVE;
   return BadGuy::collision(other, hit);
-
-  //TODO collision from above? subtract one life
-  /*auto player = dynamic_cast<Player*>(&other);
-  if (player) {
-    player->kill(false);
-  }
-
-  Lantern* lantern = dynamic_cast<Lantern*>(&other);
-  if (lantern) {
-    suck_lantern = lantern;
-    suck_lantern->grab(*this, suck_lantern->get_pos(), Direction::RIGHT);
-    suck_lantern_color = lantern->get_color();
-    mystate = STATE_SWALLOWING;
-  }*/
-
-  //return ABORT_MOVE;
 }
 
 bool
@@ -495,6 +326,8 @@ GhostTree::collision_squished(MovingObject& object)
   if (player) {
     player->bounce(*this);
   }
+  
+  SoundManager::current()->play(m_attack == ATTACK_BLUE ? "sounds/tree_pinch.ogg" : "sounds/gulp.wav", get_pos());
 
   --m_lives;
   if (m_lives <= 0) {
@@ -517,13 +350,6 @@ GhostTree::collision_squished(MovingObject& object)
   set_state(STATE_IDLE);
   return true;
 }
-
-
-/*void
-GhostTree::spawn_lantern()
-{
-  Sector::get().add<Lantern>(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET);
-}*/
 
 std::vector<Direction>
 GhostTree::get_allowed_directions() const
