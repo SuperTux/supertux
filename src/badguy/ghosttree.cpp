@@ -133,7 +133,8 @@ GhostTree::active_update(float dt_sec)
       }
       break;
     case STATE_IDLE:
-      if (m_state_timer.check()) {
+      m_root_attack->active_update(dt_sec);
+      if (m_root_attack->is_done()) {
         set_state(STATE_SUCKING);
       }
       break;
@@ -351,7 +352,7 @@ GhostTree::set_state(MyState new_state) {
     case STATE_IDLE:
       std::cout<<"idle"<<std::endl;
       set_action(m_attack == ATTACK_PINCH ? "idle-pinch" : "idle");
-      m_state_timer.start(5);
+      start_attack(true);
       break;
     case STATE_SUCKING:
       std::cout<<"sucking"<<std::endl;
@@ -369,7 +370,7 @@ GhostTree::set_state(MyState new_state) {
       std::cout<<"attacking"<<std::endl;
       set_action(m_attack == ATTACK_PINCH ? "scream-pinch" : "scream");
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
-      start_attack();
+      start_attack(false);
       break;
     case STATE_RECHARGING:
       std::cout<<"recharging"<<std::endl;
@@ -389,11 +390,16 @@ GhostTree::set_state(MyState new_state) {
 }
 
 void
-GhostTree::start_attack()
+GhostTree::start_attack(bool main_root)
 {
-  Vector player_pos = get_player_pos();
   const float middle = m_col.m_bbox.get_middle().x;
   const float base = m_col.m_bbox.get_bottom() + 64;
+  if (main_root) {
+    m_root_attack.reset(new GhostTreeAttackMain(Vector(middle, base)));
+    return;
+  }
+
+  Vector player_pos = get_player_pos();
   switch (m_attack) {
     case ATTACK_RED:
       if (player_pos.x > middle) {

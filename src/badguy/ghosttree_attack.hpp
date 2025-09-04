@@ -54,6 +54,28 @@ public:
 // PART 2: Roots
 // ----------------------------------------------------------------------------
 
+class GhostTreeRootMain final : public GhostTreeRoot
+{
+public:
+  GhostTreeRootMain(const Vector& pos, GhostTreeAttack* parent);
+  ~GhostTreeRootMain();
+
+  virtual void active_update(float dt_sec) override;
+
+private:
+  enum State {
+    STATE_THREATENING,
+    STATE_RISING,
+    STATE_FALLING,
+  };
+
+  float m_level_bottom;
+  float m_level_middle;
+  float m_level_top;
+  State m_state;
+  GhostTreeAttack* m_parent;
+};
+
 class GhostTreeRootRed final : public GhostTreeRoot
 {
 public:
@@ -107,6 +129,7 @@ private:
   float m_level_top;
   State m_state;
   Timer m_state_timer;
+  int m_variant;
   GhostTreeAttack* m_parent;
 };
 
@@ -133,6 +156,22 @@ private:
 
 // PART 3: Root Attacks
 // ----------------------------------------------------------------------------
+
+class GhostTreeAttackMain final : public GhostTreeAttack
+{
+public:
+  GhostTreeAttackMain(Vector pos);
+  ~GhostTreeAttackMain();
+
+  virtual void active_update(float dtime) override;
+  virtual bool is_done() const override;
+  virtual void root_died() override;
+
+private:
+  Timer m_spawn_timer;
+  Vector m_pos;
+  int m_remaining_roots;
+};
 
 class GhostTreeAttackRed final : public GhostTreeAttack
 {
