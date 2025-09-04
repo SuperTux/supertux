@@ -103,7 +103,7 @@ private:
   std::unique_ptr<GhostTreeAttack> m_root_attack;
   void spawn_willowisp(AttackType color);
   void rotate_willo_color();
-  void start_attack();
+  void start_attack(bool main_root);
   Vector get_player_pos();
 
 private:

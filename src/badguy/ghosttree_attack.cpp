@@ -16,23 +16,30 @@
 
 #include "badguy/ghosttree_attack.hpp"
 
+#include "object/player.hpp"
 #include "supertux/sector.hpp"
 
+static const float MAIN_ROOT_THREAT = 16;
+static const float MAIN_ROOT_HEIGHT = 64;
+static const float MAIN_ROOT_THREAT_SPEED = 32;
+static const float MAIN_ROOT_SPEED = 128;
+static const float MAIN_ROOT_DELAY = 2;
+
 static const float RED_ROOT_HEIGHT = 64; //TODO calc from hitbox
-static const float RED_ROOT_SPEED = 32;
+static const float RED_ROOT_SPEED = 128;
 static const float RED_ROOT_DELAY = 0.2;
 static const float RED_ROOT_SPAN = 32;
 
 static const float GREEN_ROOT_HEIGHT = 96;
-static const float GREEN_ROOT_SPEED = 32;
+static const float GREEN_ROOT_SPEED = 64;
 
 static const float BLUE_ROOT_HEIGHT = 96;
-static const float BLUE_ROOT_SPEED = 32;
+static const float BLUE_ROOT_SPEED = 64;
 static const float BLUE_ROOT_FIRE_DELAY = 1.0;
 static const float BLUE_ROOT_FALL_DELAY = 1.0;
 
 static const float PINCH_ROOT_HEIGHT = 96;
-static const float PINCH_ROOT_SPEED = 32;
+static const float PINCH_ROOT_SPEED = 64;
 static const float PINCH_ROOT_FIRE_DELAY = 1.0;
 static const float PINCH_ROOT_EXPLOSION_DELAY = 1.0;
 static const float PINCH_ROOT_SPAN = 64;
@@ -78,6 +85,49 @@ GhostTreeRoot::kill_fall()
 
 // PART 2: Roots
 // ----------------------------------------------------------------------------
+
+GhostTreeRootMain::GhostTreeRootMain(const Vector& pos, GhostTreeAttack* parent) :
+  GhostTreeRoot(pos, Direction::AUTO, "images/creatures/ghosttree/main_root.sprite"),
+  m_level_bottom(pos.y),
+  m_level_middle(pos.y - MAIN_ROOT_THREAT),
+  m_level_top(pos.y - MAIN_ROOT_HEIGHT - MAIN_ROOT_THREAT),
+  m_state(STATE_THREATENING),
+  m_parent(parent)
+{
+  m_physic.set_velocity_y(-MAIN_ROOT_THREAT_SPEED);
+}
+
+GhostTreeRootMain::~GhostTreeRootMain()
+{
+}
+
+void
+GhostTreeRootMain::active_update(float dt_sec)
+{
+  BadGuy::active_update(dt_sec);
+  switch (m_state) {
+    case STATE_THREATENING:
+      if (get_pos().y <= m_level_middle) {
+        m_state = STATE_RISING;
+        m_physic.set_velocity_y(-MAIN_ROOT_SPEED);
+      }
+      break;
+    case STATE_RISING:
+      if (get_pos().y <= m_level_top) {
+        m_state = STATE_FALLING;
+        m_physic.set_velocity_y(MAIN_ROOT_SPEED);
+      }
+      break;
+    case STATE_FALLING:
+      if (get_pos().y >= m_level_bottom) {
+        m_parent->root_died();
+        remove_me();
+      }
+      break;
+    default:
+      break;
+  }
+}
 
 GhostTreeRootRed::GhostTreeRootRed(const Vector& pos, GhostTreeAttack* parent) :
   GhostTreeRoot(pos, Direction::AUTO, "images/creatures/ghosttree/red_root.sprite"),
@@ -147,9 +197,11 @@ GhostTreeRootBlue::GhostTreeRootBlue(const Vector& pos, GhostTreeAttack* parent)
   m_level_top(pos.y - BLUE_ROOT_HEIGHT),
   m_state(STATE_RISING),
   m_state_timer(),
+  m_variant(static_cast<int>(pos.x) % 3 + 1),
   m_parent(parent)
 {
   m_physic.set_velocity_y(-BLUE_ROOT_SPEED);
+  set_action("variant" + std::to_string(m_variant));
 }
 
 GhostTreeRootBlue::~GhostTreeRootBlue()
@@ -239,6 +291,44 @@ GhostTreeRootPinch::active_update(float dt_sec)
 
 // PART 3: Root Attacks
 // ----------------------------------------------------------------------------
+
+GhostTreeAttackMain::GhostTreeAttackMain(Vector pos) :
+m_spawn_timer(),
+m_pos(pos),
+m_remaining_roots(2)
+{
+  m_spawn_timer.start(0.2);
+}
+
+GhostTreeAttackMain::~GhostTreeAttackMain()
+{
+}
+
+void
+GhostTreeAttackMain::active_update(float dtime)
+{
+  if (m_remaining_roots <= 0 || !m_spawn_timer.check()) {
+    return;
+  }
+
+  --m_remaining_roots;
+  Player* p = Sector::get().get_nearest_player(m_pos);
+  auto& root = Sector::get().add<GhostTreeRootMain>(Vector(p ? p->get_pos().x : m_pos.x, m_pos.y), this);
+}
+
+bool
+GhostTreeAttackMain::is_done() const
+{
+  return m_remaining_roots <= 0;
+}
+
+void
+GhostTreeAttackMain::root_died()
+{
+  if (m_remaining_roots >= 0) {
+    m_spawn_timer.start(MAIN_ROOT_DELAY);
+  }
+}
 
 GhostTreeAttackRed::GhostTreeAttackRed(float y, float x_start, float x_end) :
 m_spawn_timer(),
