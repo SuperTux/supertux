@@ -250,6 +250,7 @@ BonusBlock::get_content_by_data(int tile_data) const
     case 15: return Content::LIGHT_ON;
     case 16: return Content::RETROGROW;
     case 17: return Content::RETROSTAR;
+    // TODO add a tile for BADEGG
     default:
       log_warning << "Invalid box contents" << std::endl;
       return Content::COIN;
@@ -265,9 +266,9 @@ BonusBlock::get_settings()
   result.add_int(_("Count"), &m_hit_counter, "count", get_default_hit_counter());
   result.add_enum(_("Content"), reinterpret_cast<int*>(&m_contents),
                   { _("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
-                   _("Growth (earth flower)"), _("Growth (retro)"), _("Star"), _("Star (retro)"), _("Tux doll"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
+                   _("Growth (earth flower)"), _("Growth (retro)"), _("Star"), _("Star (retro)"), _("Tux doll"), _("Rotten egg"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
                    _("Trampoline"), _("Portable trampoline"), _("Coin rain"), _("Coin explosion"), _("Rock"), _("Potion") },
-                  { "coin", "firegrow", "icegrow", "airgrow", "earthgrow", "retrogrow", "star", "retrostar", "1up", "custom", "script", "light", "light-on",
+                  { "coin", "firegrow", "icegrow", "airgrow", "earthgrow", "retrogrow", "star", "retrostar", "1up", "badegg", "custom", "script", "light", "light-on",
                    "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion" },
                   static_cast<int>(Content::COIN), "contents");
 
@@ -411,6 +412,12 @@ BonusBlock::try_open(Player* player)
     {
       Sector::get().add<OneUp>(get_pos(), direction);
       play_upgrade_sound = true;
+      break;
+    }
+
+    case Content::BADEGG:
+    {
+      raise_growup_bonus(player, MALUS_BADEGG, direction);
       break;
     }
 
@@ -582,6 +589,12 @@ BonusBlock::try_drop(Player *player)
       break;
     }
 
+    case Content::BADEGG:
+    {
+      drop_growup_bonus(player, PowerUp::BADEGG, direction, countdown);
+      break;
+    }
+
     case Content::CUSTOM:
     {
       // NOTE: Non-portable trampolines could be moved to Content::CUSTOM, but they should not drop.
@@ -656,9 +669,13 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
                                const std::string& growup_sprite, const std::string& flower_sprite)
 {
   std::unique_ptr<MovingObject> obj;
-  if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
+  if (bonus == MALUS_BADEGG)
   {
-    obj = std::make_unique<GrowUp>(get_pos(), dir, growup_sprite);
+    obj = std::make_unique<GrowUp>(MALUS_BADEGG, get_pos(), dir, growup_sprite);
+  }
+  else if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
+  {
+    obj = std::make_unique<GrowUp>(BONUS_GROWUP, get_pos(), dir, growup_sprite);
   }
   else
   {
@@ -673,9 +690,13 @@ void
 BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bool& countdown,
                               const std::string& growup_sprite)
 {
-  if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
+  if (type == PowerUp::BADEGG)
   {
-    Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir, growup_sprite);
+    Sector::get().add<GrowUp>(MALUS_BADEGG, get_pos() + Vector(0, 32), dir, growup_sprite);
+  }
+  else if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
+  {
+    Sector::get().add<GrowUp>(BONUS_GROWUP, get_pos() + Vector(0, 32), dir, growup_sprite);
   }
   else
   {
@@ -720,6 +741,8 @@ BonusBlock::get_content_from_string(const std::string& contentstring) const
     return Content::RETROSTAR;
   else if (contentstring == "1up")
     return Content::ONEUP;
+  else if (contentstring == "badegg")
+    return Content::BADEGG;
   else if (contentstring == "custom")
     return Content::CUSTOM;
   else if (contentstring == "script") // Use this when the bonus block is intended to contain ONLY a script.

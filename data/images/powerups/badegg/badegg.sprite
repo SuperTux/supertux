@@ -1,0 +1,10 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (images "badegg.png")
+  )
+  (action
+    (name "shadow")
+    (images "badegg-shade.png")
+  )
+)

@@ -59,6 +59,7 @@ PowerUp::get_types() const
 {
   return {
     { "egg", _("Egg") },
+    { "badegg", _("Rotten Egg") },
     { "fire", _("Fire Flower") },
     { "ice", _("Ice Flower") },
     { "air", _("Air Flower") },
@@ -77,6 +78,8 @@ PowerUp::get_default_sprite_name() const
 {
   switch (m_type)
   {
+    case BADEGG:
+      return "images/powerups/badegg/badegg.sprite";
     case FIRE:
       return "images/powerups/fireflower/fireflower.sprite";
     case ICE:
@@ -107,6 +110,7 @@ PowerUp::initialize()
 {
   physic.enable_gravity(true);
   SoundManager::current()->preload("sounds/grow.ogg");
+  SoundManager::current()->preload("sounds/hurt.wav");
   SoundManager::current()->preload("sounds/fire-flower.wav");
   SoundManager::current()->preload("sounds/gulp.wav");
 
@@ -115,6 +119,8 @@ PowerUp::initialize()
   {
     if (matches_sprite("images/powerups/egg/egg.sprite"))
       m_type = EGG;
+    else if (matches_sprite("images/powerups/badegg/badegg.sprite"))
+      m_type = BADEGG;
     else if (matches_sprite("images/powerups/fireflower/fireflower.sprite"))
       m_type = FIRE;
     else if (matches_sprite("images/powerups/iceflower/iceflower.sprite"))
@@ -146,6 +152,9 @@ PowerUp::setup_lightsprite()
     {
       case EGG:
         lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
+        break;
+      case BADEGG:
+        lightsprite->set_color(Color(0.2f, 0.f, 0.2f));
         break;
       case FIRE:
         lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
@@ -209,6 +218,10 @@ PowerUp::collision(MovingObject& other, const CollisionHit&)
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/grow.ogg", get_pos());
       break;
+    case BADEGG:
+      player->kill(false);
+      SoundManager::current()->play("sounds/hurt.wav", get_pos());
+      break;
     case FIRE:
     case COFFEE:
       if (!player->add_bonus(BONUS_FIRE, true))
@@ -254,6 +267,9 @@ PowerUp::get_type_from_bonustype(int type)
   {
     case BONUS_GROWUP:
       return EGG;
+
+    case MALUS_BADEGG:
+      return BADEGG;
 
     case BONUS_FIRE:
       return FIRE;

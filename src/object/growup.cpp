@@ -24,21 +24,28 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom_sprite) :
-  MovingSprite(pos, custom_sprite.empty() ? "images/powerups/egg/egg.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
+GrowUp::GrowUp(BonusType type, const Vector& pos, Direction direction, const std::string& custom_sprite) :
+  m_type(type),
+  m_default_sprite((type == BONUS_GROWUP) ? "images/powerups/egg/egg.sprite" : "images/powerups/badegg/badegg.sprite"),
+  MovingSprite(pos, custom_sprite.empty() ? ((type == BONUS_GROWUP) ? "images/powerups/egg/egg.sprite" : "images/powerups/badegg/badegg.sprite") : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
   m_physic(),
   m_custom_sprite(!custom_sprite.empty()),
-  m_shadesprite(SpriteManager::current()->create("images/powerups/egg/egg.sprite")),
+  m_shadesprite(SpriteManager::current()->create((type == BONUS_GROWUP) ? "images/powerups/egg/egg.sprite" : "images/powerups/badegg/badegg.sprite")),
   m_lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   m_physic.enable_gravity(true);
   m_physic.set_velocity_x((direction == Direction::LEFT) ? -100.0f : 100.0f);
-  SoundManager::current()->preload("sounds/grow.ogg");
   // Set the shadow action for the egg sprite, so it remains in place as the egg rolls.
   m_shadesprite->set_action("shadow");
   // Configure the light sprite for the glow effect.
   m_lightsprite->set_blend(Blend::ADD);
-  m_lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
+  if (m_type == BONUS_GROWUP) {
+    m_lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
+    SoundManager::current()->preload("sounds/grow.ogg");
+  } else {
+    m_lightsprite->set_color(Color(0.2f, 0.0f, 0.2f));
+    SoundManager::current()->preload("sounds/hurt.wav");
+  }
 }
 
 void
@@ -84,13 +91,18 @@ GrowUp::collision(MovingObject& other, const CollisionHit& hit )
 {
   auto player = dynamic_cast<Player*>(&other);
   if (player != nullptr) {
-    if (!player->add_bonus(BONUS_GROWUP, true)) {
-      // Tux can't grow right now.
-      collision_solid( hit );
-      return ABORT_MOVE;
-    }
+    if (m_type == BONUS_GROWUP) {
+      if (!player->add_bonus(BONUS_GROWUP, true)) {
+        // Tux can't grow right now.
+        collision_solid( hit );
+        return ABORT_MOVE;
+      }
 
-    SoundManager::current()->play("sounds/grow.ogg", get_pos());
+      SoundManager::current()->play("sounds/grow.ogg", get_pos());
+    } else {
+      player->kill(false);
+      SoundManager::current()->play("sounds/hurt.wav", get_pos());
+    }
     remove_me();
 
     return ABORT_MOVE;

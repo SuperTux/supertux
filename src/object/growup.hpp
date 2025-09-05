@@ -19,11 +19,12 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
+#include "supertux/player_status.hpp"
 
 class GrowUp final : public MovingSprite
 {
 public:
-  GrowUp(const Vector& pos, Direction direction = Direction::RIGHT, const std::string& custom_sprite = "");
+  GrowUp(BonusType type, const Vector& pos, Direction direction = Direction::RIGHT, const std::string& custom_sprite = "");
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(GrowUp)); }
 
   virtual bool is_saveable() const override { return false; }
@@ -39,6 +40,8 @@ public:
 private:
   Physic m_physic;
 
+  BonusType m_type;
+  std::string m_default_sprite;
   const bool m_custom_sprite;
   SpritePtr m_shadesprite;
   SpritePtr m_lightsprite;
