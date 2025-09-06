@@ -48,7 +48,7 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_active_objectgroup(),
   m_object_info(new ObjectInfo()),
   m_on_select_callback([](EditorTilebox&) {}),
-  m_scrollbar(),
+  m_scrollbar(new ControlScrollbar(1.f, 1.f, m_scroll_progress, 35.f)),
   m_scroll_progress(1.f),
   m_hovered_item(HoveredItem::NONE),
   m_hovered_tile(-1),
@@ -57,7 +57,6 @@ EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_mouse_pos(0, 0),
   m_shadow(SpriteManager::current()->create("images/engine/editor/shadow2.png"))
 {
-  m_scrollbar.reset(new ControlScrollbar(1.f, 1.f, m_scroll_progress, 35.f));
 }
 
 void
@@ -68,7 +67,7 @@ EditorTilebox::draw(DrawingContext& context)
                                    g_config->editorcolor,
                                    0.0f, LAYER_GUI-10);
   context.color().set_blur(0);
-  
+
   if (m_dragging)
   {
     context.color().draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
@@ -83,12 +82,12 @@ EditorTilebox::draw(DrawingContext& context)
                                      g_config->editorhovercolor,
                                      0.0f, LAYER_GUI - 5);
   }
-  
+
   // Shadow
   constexpr float SCROLL_SHADOW_MAX = 10.f;
   float scroll_shadow_size = std::clamp<float>(m_scroll_progress * 0.1, 0.f, SCROLL_SHADOW_MAX);
   float scroll_shadow_normal = scroll_shadow_size / SCROLL_SHADOW_MAX;
-  
+
   context.set_alpha(scroll_shadow_normal * 0.3);
   m_shadow->draw_scaled(
     context.color(),
@@ -427,9 +426,9 @@ EditorTilebox::change_tilegroup(int dir)
   if (m_input_type == InputType::OBJECT)
   {
     select_last_tilegroup();
-	return;
+	  return;
   }
-  
+
   m_tilegroup_id += dir;
   size_t tilegroups_size = m_editor.get_tileset()->get_tilegroups().size();
   if (m_tilegroup_id < 0)
@@ -448,7 +447,7 @@ EditorTilebox::change_objectgroup(int dir)
     select_last_objectgroup();
 	return;
   }
-  
+
   m_objectgroup_id += dir;
   size_t objectgroups_size = m_object_info->m_groups.size();
   if (m_objectgroup_id < 0)
