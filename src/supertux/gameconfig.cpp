@@ -105,6 +105,7 @@ Config::Config() :
   editor_render_grid(true),
   editor_snap_to_grid(true),
   editor_render_background(true),
+  editor_render_animations(true),
   editor_render_lighting(false),
   editor_autotile_mode(false),
   editor_autotile_help(true),
@@ -241,6 +242,7 @@ Config::load()
     editor_mapping->get("autotile_help", editor_autotile_help);
     editor_mapping->get("autotile_mode", editor_autotile_mode);
     editor_mapping->get("render_background", editor_render_background);
+    editor_mapping->get("render_animations", editor_render_animations);
     editor_mapping->get("render_grid", editor_render_grid);
     editor_mapping->get("render_lighting", editor_render_lighting);
     editor_mapping->get("selected_snap_grid_size", editor_selected_snap_grid_size);
@@ -512,6 +514,7 @@ Config::save()
     writer.write("autotile_help", editor_autotile_help);
     writer.write("autotile_mode", editor_autotile_mode);
     writer.write("render_background", editor_render_background);
+    writer.write("render_animations", editor_render_animations);
     writer.write("render_grid", editor_render_grid);
     writer.write("render_lighting", editor_render_lighting);
     writer.write("selected_snap_grid_size", editor_selected_snap_grid_size);

@@ -19,6 +19,7 @@
 #include <assert.h>
 
 #include "sprite/sprite_manager.hpp"
+#include "editor/editor.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -152,6 +153,12 @@ Sprite::animation_done() const
 void
 Sprite::update()
 {
+  if (Editor::is_active() && !g_config->editor_render_animations)
+  {
+    m_frameidx = 0;
+    return;
+  }
+
   float frame_inc = m_last_ticks > 0.f ? m_action->fps * (g_game_time - m_last_ticks) : 0.f;
   m_last_ticks = g_game_time;
 
