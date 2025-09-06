@@ -189,13 +189,13 @@ GhostTree::spawn_willowisp(AttackType color) {
   
   switch (color) {
     case ATTACK_RED:
-      willowisp.set_color(Color(1, 0, 0));
+      willowisp.set_color(Color::RED);
       break;
     case ATTACK_GREEN:
-      willowisp.set_color(Color(0, 1, 0));
+      willowisp.set_color(Color::GREEN);
       break;
     case ATTACK_BLUE:
-      willowisp.set_color(Color(0, 0, 1));
+      willowisp.set_color(Color::BLUE);
       break;
     case ATTACK_PINCH:
       break;
