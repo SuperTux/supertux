@@ -20,6 +20,7 @@
 
 #include "math/aatriangle.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
@@ -221,7 +222,7 @@ Tile::get_current_surface() const
 SurfacePtr
 Tile::get_current_editor_surface() const
 {
-  if (m_editor_images.size() > 1) {
+  if (g_config->editor_render_animations && m_editor_images.size() > 1) {
     size_t frame = size_t(g_game_time * m_fps) % m_editor_images.size();
     return m_editor_images[frame];
   } else if (m_editor_images.size() == 1) {

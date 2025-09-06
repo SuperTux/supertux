@@ -31,12 +31,13 @@ EditorSettings::EditorSettings()
   snap_grid_sizes.push_back(_("small tile (8px)"));
   snap_grid_sizes.push_back(_("medium tile (16px)"));
   snap_grid_sizes.push_back(_("big tile (32px)"));
-  
+
   add_string_select(-1, _("Grid Size"), &(g_config->editor_selected_snap_grid_size), snap_grid_sizes);
   add_toggle(-1, _("Show Grid"), &(g_config->editor_render_grid));
   add_toggle(-1, _("Grid Snapping"), &(g_config->editor_snap_to_grid));
   add_toggle(-1, _("Render Background"), &(g_config->editor_render_background));
   add_toggle(-1, _("Render Light"), &(Compositor::s_render_lighting));
+  add_toggle(-1, _("Render Animations"), &(g_config->editor_render_animations));
   add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
   add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
   add_toggle(-1, _("Enable Object Undo Tracking"), &(g_config->editor_undo_tracking));
@@ -49,7 +50,7 @@ EditorSettings::EditorSettings()
     add_intfield(_("Undo Stack Size"), &(g_config->editor_undo_stack_size), -1, true);
   }
   add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));
-  
+
   add_hl();
   add_back(_("Back"));
 }
