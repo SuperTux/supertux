@@ -337,7 +337,7 @@ GhostTreeAttackMain::active_update(float dtime)
   }
 
   Player* p = Sector::get().get_nearest_player(m_pos);
-  auto& root = Sector::get().add<GhostTreeRootMain>(Vector(p ? p->get_pos().x : m_pos.x, m_pos.y), this);
+  Sector::get().add<GhostTreeRootMain>(Vector(p ? p->get_pos().x : m_pos.x, m_pos.y), this);
 }
 
 bool
@@ -406,7 +406,7 @@ GhostTreeAttackRed::root_died()
 GhostTreeAttackGreen::GhostTreeAttackGreen(const Vector& pos) :
 m_ended(false)
 {
-  auto& root = Sector::get().add<GhostTreeRootGreen>(pos, this);
+  Sector::get().add<GhostTreeRootGreen>(pos, this);
 }
 
 GhostTreeAttackGreen::~GhostTreeAttackGreen()
@@ -434,7 +434,7 @@ GhostTreeAttackGreen::root_died()
 GhostTreeAttackBlue::GhostTreeAttackBlue(const Vector& pos) :
 m_ended(false)
 {
-  auto& root = Sector::get().add<GhostTreeRootBlue>(pos, this);
+  Sector::get().add<GhostTreeRootBlue>(pos, this);
 }
 
 GhostTreeAttackBlue::~GhostTreeAttackBlue()
@@ -464,7 +464,7 @@ m_root_ended(false),
 m_left_trail(pos.y, pos.x - RED_ROOT_SPAN, x_left),
 m_right_trail(pos.y, pos.x + PINCH_ROOT_SPAN, x_right)
 {
-  auto& root = Sector::get().add<GhostTreeRootPinch>(pos, this);
+  Sector::get().add<GhostTreeRootPinch>(pos, this);
 }
 
 GhostTreeAttackPinch::~GhostTreeAttackPinch()
