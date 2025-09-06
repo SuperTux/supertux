@@ -88,7 +88,7 @@ std::string strip_leading_dirs(std::string filename)
 {
   while (filename.size() > 0 && (filename[filename.size()-1] == '/' || filename[filename.size()-1] == '\\'))
   {
-    filename = filename.substr(0, filename.size()-1);
+    filename.pop_back();
   }
   return filename;
 }
@@ -108,7 +108,7 @@ std::string basename(std::string filename, bool greedy)
 {
   if (greedy)
     filename = strip_leading_dirs(filename);
-  
+
   std::string::size_type p = filename.find_last_of('/');
   if (p == std::string::npos)
     p = filename.find_last_of('\\');
@@ -269,7 +269,7 @@ open_editor(const std::string& filename)
   {
     cmd = std::string(default_editor) + " \"" + filename + "\" &";
   }
-  
+
   int ret = system(cmd.c_str());
   if (ret < 0)
   {
