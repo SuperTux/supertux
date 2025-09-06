@@ -20,7 +20,6 @@
 
 class GhostTreeAttack;
 class TreeWillOWisp;
-//class Lantern;
 
 class GhostTree final : public Boss
 {
@@ -32,7 +31,6 @@ public:
 
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
-  //virtual void draw(DrawingContext& context) override;
 
   virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;

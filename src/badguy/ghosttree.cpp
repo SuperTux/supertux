@@ -59,7 +59,8 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/tree_suck.ogg");
   SoundManager::current()->preload("sounds/tree_pinch.ogg");
   SoundManager::current()->preload("sounds/gulp.wav");
-  SoundManager::current()->preload("sounds/explosion.wav"); // This will be needed for some roots, let's preload it now.
+  SoundManager::current()->preload("sounds/explosion.wav"); // for green and pinch root
+  SoundManager::current()->preload("sounds/dartfire.wav"); // for blue and pinch root
   
   set_state(STATE_INIT);
 }
@@ -207,23 +208,19 @@ void
 GhostTree::set_state(MyState new_state) {
   switch (new_state) {
     case STATE_INIT:
-      std::cout<<"init"<<std::endl;
       set_action("idle");
       m_state_timer.start(0.1);
       break;
     case STATE_SCREAM:
-      std::cout<<"scream"<<std::endl;
       set_action("scream");
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       m_state_timer.start(2);
       break;
     case STATE_IDLE:
-      std::cout<<"idle"<<std::endl;
       set_action(m_attack == ATTACK_PINCH ? "idle-pinch" : "idle");
       start_attack(true);
       break;
     case STATE_SUCKING:
-      std::cout<<"sucking"<<std::endl;
       SoundManager::current()->play("sounds/tree_suck.ogg", get_pos());
       for (const auto& willo : m_willowisps) {
         if (suck_now(willo->get_color())) {
@@ -235,19 +232,16 @@ GhostTree::set_state(MyState new_state) {
       }
       break;
     case STATE_ATTACKING:
-      std::cout<<"attacking"<<std::endl;
       set_action(m_attack == ATTACK_PINCH ? "scream-pinch" : "scream");
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       start_attack(false);
       break;
     case STATE_RECHARGING:
-      std::cout<<"recharging"<<std::endl;
       set_action(m_attack == ATTACK_PINCH ? "charge-pinch" : "charge");
       m_state_timer.start(1);
       m_willo_to_spawn = m_attack == ATTACK_PINCH ? 9 : 3;
       break;
     case STATE_DEAD:
-      std::cout<<"dead"<<std::endl;
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       set_action("busted");
       run_dead_script();
@@ -307,7 +301,6 @@ bool
 GhostTree::collides(MovingObject& other, const CollisionHit& ) const
 {
   if (m_state != STATE_RECHARGING) return false;
-  //if (dynamic_cast<Lantern*>(&other)) return true;
   if (dynamic_cast<Player*>(&other)) return true;
   return false;
 }

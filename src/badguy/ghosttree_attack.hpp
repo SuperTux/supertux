@@ -131,6 +131,8 @@ private:
   Timer m_state_timer;
   int m_variant;
   GhostTreeAttack* m_parent;
+  
+  void fire();
 };
 
 class GhostTreeRootPinch final : public GhostTreeRoot
@@ -152,6 +154,8 @@ private:
   State m_state;
   Timer m_state_timer;
   GhostTreeAttack* m_parent;
+  
+   void fire();
 };
 
 // PART 3: Root Attacks
