@@ -59,6 +59,11 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::str
   set_action("flying", m_dir);
 }
 
+Dart::~Dart ()
+{
+
+}
+
 bool
 Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
 {

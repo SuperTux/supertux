@@ -16,6 +16,8 @@
 
 #include "badguy/ghosttree_attack.hpp"
 
+#include "audio/sound_manager.hpp"
+#include "badguy/dart.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
@@ -34,6 +36,7 @@ static const float GREEN_ROOT_SPEED = 64;
 static const float BLUE_ROOT_SPEED = 64;
 static const float BLUE_ROOT_FIRE_DELAY = 1.0;
 static const float BLUE_ROOT_FALL_DELAY = 1.0;
+static const std::string BLUE_ROOT_PROJECTILE = "images/creatures/ghosttree/blue_root.sprite";
 
 static const float PINCH_ROOT_SPEED = 64;
 static const float PINCH_ROOT_FIRE_DELAY = 1.0;
@@ -92,7 +95,6 @@ GhostTreeRootMain::GhostTreeRootMain(const Vector& pos, GhostTreeAttack* parent)
 {
   m_physic.set_velocity_y(-MAIN_ROOT_THREAT_SPEED);
   m_level_top -= m_col.m_bbox.get_height();
-  std::cout << m_col.m_bbox.get_height() << std::endl;
 }
 
 GhostTreeRootMain::~GhostTreeRootMain()
@@ -223,7 +225,7 @@ GhostTreeRootBlue::active_update(float dt_sec)
       break;
     case STATE_FIRE_DELAY:
       if (m_state_timer.check()) {
-        //TODO fire projectiles
+        fire();
         m_state = STATE_FALL_DELAY;
         m_state_timer.start(BLUE_ROOT_FALL_DELAY);
       }
@@ -242,6 +244,19 @@ GhostTreeRootBlue::active_update(float dt_sec)
       break;
     default:
       break;
+  }
+}
+
+void
+GhostTreeRootBlue::fire()
+{
+  SoundManager::current()->play("sounds/dartfire.wav", get_pos());
+  if (m_variant == 1) {
+    Sector::get().add<Dart>(get_pos() + Vector(-70.0f, 124.0f), Direction::LEFT, this, BLUE_ROOT_PROJECTILE);
+    Sector::get().add<Dart>(get_pos() + Vector( 16.0f,  57.0f), Direction::RIGHT, this, BLUE_ROOT_PROJECTILE);
+  } else {
+    Sector::get().add<Dart>(get_pos() + Vector(-70.0f,  82.0f), Direction::LEFT, this, BLUE_ROOT_PROJECTILE);
+    Sector::get().add<Dart>(get_pos() + Vector( 16.0f, 124.0f), Direction::RIGHT, this, BLUE_ROOT_PROJECTILE);
   }
 }
 
@@ -274,7 +289,7 @@ GhostTreeRootPinch::active_update(float dt_sec)
       break;
     case STATE_FIRE_DELAY:
       if (m_state_timer.check()) {
-        //TODO fire projectiles
+        fire();
         m_state = STATE_EXPLOSION_DELAY;
         m_state_timer.start(PINCH_ROOT_EXPLOSION_DELAY);
       }
@@ -289,6 +304,14 @@ GhostTreeRootPinch::active_update(float dt_sec)
     default:
       break;
   }
+}
+
+void
+GhostTreeRootPinch::fire()
+{
+  SoundManager::current()->play("sounds/dartfire.wav", get_pos());
+  Sector::get().add<Dart>(get_pos() + Vector(-70.0f, 126.0f), Direction::LEFT, this, BLUE_ROOT_PROJECTILE);
+  Sector::get().add<Dart>(get_pos() + Vector( 16.0f, 127.0f), Direction::RIGHT, this, BLUE_ROOT_PROJECTILE);
 }
 
 // PART 3: Root Attacks
