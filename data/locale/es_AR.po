@@ -5,6 +5,7 @@
 # Translators:
 # Alejo Fernandez <alejoo.fernandez.2003@gmail.com>, 2020,2025
 # Dylan's_yt, 2025
+# Dylan's_yt, 2025
 # Salomón Duarte <juanaestelaruizdiaz@gmail.com>, 2021
 msgid ""
 msgstr ""
@@ -2485,7 +2486,7 @@ msgid ""
 "and might cause collisions with the default SuperTux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr ""
+msgstr "Algunos complementos obsoletos todavía están activos y pueden causar colisiones con la estructura predeterminada de SuperTux. Todavía puede activar estos complementos en el menú. desactivar estos complementos no eliminará tu progreso en el juego."
 
 #: src/editor/editor.cpp:817
 msgid "Disable add-ons"
@@ -2616,7 +2617,7 @@ msgstr "Nodo de ruta"
 
 #: src/editor/node_marker.cpp:123
 msgid "Press CTRL to move Bézier handles"
-msgstr ""
+msgstr "Presione CTRL para mover los puntos de control de Bézier"
 
 #: src/editor/node_marker.cpp:127
 msgid "Easing"
@@ -4142,11 +4143,11 @@ msgstr "Elige si el juego usa el cursor propio o utiliza el de tu sistema"
 
 #: src/supertux/menu/options_menu.cpp:231
 msgid "Use native custom cursor"
-msgstr ""
+msgstr "Usar el cursor personalizado nativo"
 
 #: src/supertux/menu/options_menu.cpp:231
 msgid "Whether the game uses a native custom cursor or renders it in the game"
-msgstr ""
+msgstr "Si el juego usa un cursor personalizado nativo o lo representa en el juego"
 
 #: src/supertux/menu/options_menu.cpp:235
 msgid "Check for new releases"
@@ -4656,7 +4657,7 @@ msgstr "Script de inicialización"
 
 #: src/supertux/menu/editor_sector_menu.cpp:38
 msgid "Run initialization script only once"
-msgstr ""
+msgstr "Ejecutar script de inicialización solo una vez"
 
 #: src/supertux/menu/editor_sector_menu.cpp:39
 msgid "Gravity"
