@@ -2494,7 +2494,7 @@ msgid ""
 "and might cause collisions with the default SuperTux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr ""
+msgstr "Některé zastaralé doplňky jsou stále aktivní\na mohou způsobit kolize se strukturou SuperTuxe.\nTyto doplňky je stále možné aktivovat z nabídky.\nDeaktivace těchto doplňků nesmaže tvůj postup."
 
 #: src/editor/editor.cpp:817
 msgid "Disable add-ons"
@@ -2625,7 +2625,7 @@ msgstr "Uzel cesty"
 
 #: src/editor/node_marker.cpp:123
 msgid "Press CTRL to move Bézier handles"
-msgstr ""
+msgstr "Stiskni CTRL pro pohyb s Bezierovými křivkami"
 
 #: src/editor/node_marker.cpp:127
 msgid "Easing"
@@ -4151,11 +4151,11 @@ msgstr "Určuje, zda hra vykreslí svůj vlastní kurzor, nebo použije systémo
 
 #: src/supertux/menu/options_menu.cpp:231
 msgid "Use native custom cursor"
-msgstr ""
+msgstr "Použít nativní systémový kurzor"
 
 #: src/supertux/menu/options_menu.cpp:231
 msgid "Whether the game uses a native custom cursor or renders it in the game"
-msgstr ""
+msgstr "Určí, zda hra využije nativní kurzor systému, nebo vykreslí vlastní"
 
 #: src/supertux/menu/options_menu.cpp:235
 msgid "Check for new releases"
@@ -4666,7 +4666,7 @@ msgstr "Skript na začátku"
 
 #: src/supertux/menu/editor_sector_menu.cpp:38
 msgid "Run initialization script only once"
-msgstr ""
+msgstr "Spustit Skript po spuštění pouze jednou"
 
 #: src/supertux/menu/editor_sector_menu.cpp:39
 msgid "Gravity"
