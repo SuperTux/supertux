@@ -67,8 +67,10 @@ MovingObject::get_settings()
     result.add_float(_("Width"), &m_col.m_bbox.get_width(), "width", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
     result.add_float(_("Height"), &m_col.m_bbox.get_height(), "height", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
   }
-  result.add_float(_("X"), &m_col.m_bbox.get_left(), "x", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
-  result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
+  result.add_float(_("X"), &m_col.m_bbox.get_left(), "x", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES)
+    ->set_description(_("The horizontal location of the object in pixels from the left."));
+  result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES)
+    ->set_description(_("The vertical location of the object in pixels from the top."));
 
   return result;
 }

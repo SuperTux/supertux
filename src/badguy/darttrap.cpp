@@ -157,7 +157,7 @@ DartTrap::get_settings()
   result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay")
     ->set_description(_("Time between consecutive darts."));
   result.add_int(_("Ammo"), &m_ammo, "ammo")
-    ->set_description(_("Number of darts the trap can fire."));
+    ->set_description(_("Number of darts the trap can fire. A value of -1 means infinite."));
   result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/skull/skull_dart.sprite")
     ->set_description(_("Sprite used for the dart."));
 
