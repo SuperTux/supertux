@@ -68,7 +68,7 @@ GameObject::GameObject(GameObject* obj) :
 	{
 		m_fade_helpers.emplace_back(std::make_unique<FadeHelper>(fade_helper.get()));
 	}
-	
+
 	// for (auto &component : obj->m_components)
 	// {
 	// 	m_components.emplace_back(std::make_unique<GameObjectComponent>(component.get()));
@@ -133,7 +133,8 @@ GameObject::get_settings()
   ObjectSettings result(get_display_name(), get_uid());
 
   result.add_int(_("Version"), &m_version, "version", 1, OPTION_HIDDEN);
-  result.add_text(_("Name"), &m_name, "name", "");
+  result.add_text(_("Name"), &m_name, "name", "")
+    ->set_description(_("The name of this object. Must not contain any spaces if this object is to be referenced from scripts"));
 
   const GameObjectTypes types = get_types();
   if (!types.empty())
@@ -147,7 +148,8 @@ GameObject::get_settings()
       names.push_back(type.name);
     }
 
-    result.add_enum(_("Type"), &m_type, names, ids, 0, "type");
+    result.add_enum(_("Type"), &m_type, names, ids, 0, "type")
+      ->set_description(_("The type of an object defines its theme and behaviour. This is mostly used to distinguish between forest and ice world types of this object"));
   }
 
   return result;
