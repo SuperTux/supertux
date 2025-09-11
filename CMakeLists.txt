@@ -160,6 +160,10 @@ option(ENABLE_OPENGL "Enable OpenGL support" ON)
 # Find dependencies
 include(SuperTux/AddPackage)
 
+if(ANDROID)
+  set(SUPERTUX_ANDROID_PREFER_PKGCONF PREFER_PKGCONFIG)
+endif()
+
 add_package(TARGET PNG
   PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED) # lol
 add_package(TARGET ZLIB
@@ -178,9 +182,11 @@ add_package(TARGET RAQM
 
 if(NOT EMSCRIPTEN)
   add_package(TARGET SDL2
-    PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2)
+    PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2
+    ${SUPERTUX_ANDROID_PREFER_PKGCONF})
   add_package(TARGET SDL2_image
-    PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image)
+    PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image
+    ${SUPERTUX_ANDROID_PREFER_PKGCONF})
   add_package(TARGET libcurl
     PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
   add_package(TARGET OpenAL
@@ -261,7 +267,7 @@ include(SuperTux/CompileAmalgation)
 
 ## Add target for supertux binary
 if(ANDROID)
-  add_library(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+  add_library(supertux2 SHARED ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 else()
   add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 endif()
@@ -340,7 +346,6 @@ if(NOT EMSCRIPTEN)
 endif()
 
 if(ANDROID)
-  # This is fine, though.
   find_library(log-lib log)
   target_link_libraries(supertux2 PUBLIC ${log-lib})
 endif()
@@ -352,7 +357,7 @@ include(SuperTux/BuildInstall)
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 
 # Make android data.zip
-if(ANDROID)
+if(ANDROID AND NOT EXISTS "${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip")
   get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
   if(NOT EXISTS ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
     file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)

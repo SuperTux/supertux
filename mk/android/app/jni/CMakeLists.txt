@@ -1,8 +1,6 @@
 # FIXME: Very janky development enviroment!
 cmake_minimum_required(VERSION 3.6)
 
-message("HELLO FROM CMAKE")
-
 project(GAME)
 
 # armeabi-v7a requires cpufeatures library
@@ -22,7 +20,9 @@ function(dump_cmake_variables)
   endforeach()
 endfunction()
 
-message("MARTY: ${CMAKE_BINARY_DIR}")
+message("ANDROID_ABI: ${ANDROID_ABI}")
+message("VCPKG_TARGET_TRIPLET: ${VCPKG_TARGET_TRIPLET}")
+message("CMAKE_BINARY_DIR: ${CMAKE_BINARY_DIR}")
 
 macro(subdirlist result curdir)
   file(GLOB children ${curdir}/*)
@@ -34,3 +34,13 @@ macro(subdirlist result curdir)
   endforeach()
   set(${result} ${dirlist})
 endmacro()
+
+function(message lvl msg)
+  if(lvl STREQUAL "FATAL_ERROR")
+    _message(FATAL_ERROR "${msg}")
+  endif()
+
+  _message("${msg}")
+endfunction()
+
+add_subdirectory(supertux)

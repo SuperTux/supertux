@@ -13,15 +13,19 @@ android {
         if (buildAsApplication) {
             applicationId "org.lethargik.supertux2"
         }
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 35
         versionCode 7000
         versionName "0.7.0"
-        ndkVersion "25.2.9519653"
         externalNativeBuild {
             cmake {
-                version "3.31.1"
-                arguments "-DANDROID_APP_PLATFORM=android-33", "-Wno-dev"
+                arguments "-DANDROID_APP_PLATFORM=android-35",
+                          "-DCMAKE_TOOLCHAIN_FILE=${rootDir}/app/jni/vcpkg-chainload.cmake",
+                          "-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=${android.ndkDirectory}/build/cmake/android.toolchain.cmake",
+                          "-DVCPKG_MANIFEST_MODE=OFF",
+                          "-DENABLE_OPENGL=OFF",
+                          "--log-level", "TRACE",
+                          "-Wno-dev"
                 abiFilters rootProject.ext.cpuarch as String[]
             }
         }
@@ -42,7 +46,6 @@ android {
         }
         externalNativeBuild {
             cmake {
-                version "3.31.1"
                 path 'jni/CMakeLists.txt'
             }
         }
