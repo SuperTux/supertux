@@ -323,7 +323,7 @@ PowerUp::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_script(_("Script"), &script, "script");
+  result.add_script(get_uid(), _("Script"), &script, "script");
   result.add_bool(_("Disable gravity"), &no_physics, "disable-physics", false);
 
   result.reorder({"script", "disable-physics", "sprite", "x", "y"});

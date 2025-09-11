@@ -44,11 +44,6 @@ EditorSaveAs::EditorSaveAs(bool do_switch_file) :
 
 EditorSaveAs::~EditorSaveAs()
 {
-  auto editor = Editor::current();
-  if (editor == nullptr) {
-    return;
-  }
-  editor->m_reactivate_request = true;
 }
 
 void

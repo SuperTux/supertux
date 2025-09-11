@@ -26,6 +26,7 @@ class InterfaceLabel : public Widget
 public:
   InterfaceLabel();
   InterfaceLabel(const Rectf& rect, std::string label);
+  InterfaceLabel(const Rectf& rect, std::string label, std::string description);
   ~InterfaceLabel() override {}
 
   virtual void draw(DrawingContext& context) override;
@@ -37,6 +38,9 @@ public:
   inline void set_label(const std::string& label) { m_label = label; }
   inline const std::string& get_label() const { return m_label; }
 
+  inline void set_description(const std::string& description) { m_description = description; }
+  inline const std::string& get_description() const { return m_description; }
+
   bool fits(const std::string& text) const;
   std::string get_truncated_text() const;
 
@@ -45,6 +49,8 @@ protected:
   Rectf m_rect;
   /** The text of the label */
   std::string m_label;
+  /** Some descriptive text for the label */
+  std::string m_description;
 
 private:
   Vector m_mouse_pos;

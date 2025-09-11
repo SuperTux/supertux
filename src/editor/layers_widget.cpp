@@ -81,11 +81,13 @@ EditorLayersWidget::draw(DrawingContext& context)
     m_object_tip->draw_up(context, position);
   }
 
+  context.color().set_blur(g_config->editor_blur);
   context.color().draw_filled_rect(Rectf(Vector(0, static_cast<float>(m_Ypos)),
                                          Vector(static_cast<float>(m_Width), static_cast<float>(SCREEN_HEIGHT))),
                                      g_config->editorcolor,
                                      0.0f,
                                      LAYER_GUI-10);
+  context.color().set_blur(0);
 
   Rectf target_rect = Rectf(0, 0, 0, 0);
   bool draw_rect = true;
@@ -128,6 +130,11 @@ EditorLayersWidget::draw(DrawingContext& context)
                             Vector(35.0f, static_cast<float>(m_Ypos) + 5.0f),
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
+  // LAYERS_BOX_EXPERIMENT_BEGIN
+  context.color().draw_filled_rect(Rectf(Vector(0, SCREEN_HEIGHT - 400), Vector(200, SCREEN_HEIGHT)),
+                                   g_config->editorhovercolor, 0.0f, LAYER_GUI - 10);
+  // LAYERS_BOX_EXPERIMENT_END
+
   int pos = 0;
   for (const auto& layer_icon : m_layer_icons)
   {
@@ -137,6 +144,23 @@ EditorLayersWidget::draw(DrawingContext& context)
       layer_icon->draw(context, get_layer_coords(pos));
     else if ((pos + 1) * 35 >= m_scroll)
       layer_icon->draw(context, get_layer_coords(pos), 35 - (m_scroll - pos * 35));
+
+    // LAYERS_BOX_EXPERIMENT_BEGIN
+    auto layer_icon_position = Vector(0, SCREEN_HEIGHT - 400 + (pos * 30));
+
+    layer_icon->draw(context, layer_icon_position);
+
+    auto layer_name = layer_icon->get_layer()->get_name();
+    if (layer_name.empty())
+    {
+      layer_name =
+        fmt::format(fmt::runtime(_("Unnamed {}")), layer_icon->get_layer()->get_display_name());
+    }
+    context.color().draw_text(Resources::small_font, layer_name,
+                              layer_icon_position + Vector(35, 10), FontAlignment::ALIGN_LEFT,
+                              LAYER_GUI - 9);
+    // LAYERS_BOX_EXPERIMENT_END
+
     pos++;
   }
   if (pos * 35 >= m_scroll)
@@ -218,10 +242,12 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           if (tilemap) {
             set_selected_tilemap(tilemap);
             m_editor.edit_path(tilemap->get_path_gameobject(), tilemap);
+            m_editor.select_object(tilemap);
           } else {
             auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->get_layer());
             if (cam) {
               m_editor.edit_path(cam->get_path_gameobject(), cam);
+              m_editor.select_object(cam);
             }
           }
         }
@@ -234,9 +260,8 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   else if (button.button == SDL_BUTTON_RIGHT)
   {
     if (m_hovered_item == HoveredItem::LAYERS && m_hovered_layer < m_layer_icons.size()) {
-      auto om = std::make_unique<ObjectMenu>(m_layer_icons[m_hovered_layer]->get_layer());
-      m_editor.m_deactivate_request = true;
-      MenuManager::instance().push_menu(std::move(om));
+      MenuManager::instance().push_menu(std::make_unique<ObjectMenu>(m_layer_icons[m_hovered_layer]->get_layer()));
+      m_editor.select_object(m_layer_icons[m_hovered_layer]->get_layer());
       return true;
     } else {
       return false;

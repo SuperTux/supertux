@@ -21,11 +21,16 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <sstream>
 
 #include "math/vector.hpp"
 
 class Savegame;
 class World;
+class Level;
+namespace worldmap {
+  class WorldMap;
+}
 
 class GameManager final : public Currenton<GameManager>
 {
@@ -34,15 +39,26 @@ public:
   
   void save();
 
+  worldmap::WorldMap* create_worldmap_instance(const World& world, const std::string& worldmap_filename = "",
+                                               const std::string& sector = "", const std::string& spawnpoint = "");
   bool start_worldmap(const World& world, const std::string& worldmap_filename = "",
                       const std::string& sector = "", const std::string& spawnpoint = "");
   bool start_worldmap(const World& world, const std::string& worldmap_filename,
                       const std::optional<std::pair<std::string, Vector>>& start_pos);
   void start_level(const World& world, const std::string& level_filename,
-                   const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt);
+                   const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt,
+                   bool skip_intro = false);
+  void start_level(Level* level, const std::optional<std::pair<std::string, Vector>>& start_pos = std::nullopt,
+                   bool skip_intro = false);
 
-private:
+public:
   std::unique_ptr<Savegame> m_savegame;
+  
+private:
+  std::unique_ptr<Level>    m_current_level;
+  
+  // Must keep stringstream in memory or else GameSession can't restart.
+  std::stringstream m_levelstream;
 
 private:
   GameManager(const GameManager&) = delete;

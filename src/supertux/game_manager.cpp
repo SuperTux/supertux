@@ -30,11 +30,15 @@
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
+#include "supertux/game_session.hpp"
+#include <physfs.h>
 
 GameManager::GameManager() :
-  m_savegame()
+  m_savegame(),
+  m_levelstream()
 {
 }
 
@@ -47,55 +51,84 @@ GameManager::save()
 
 void
 GameManager::start_level(const World& world, const std::string& level_filename,
-                         const std::optional<std::pair<std::string, Vector>>& start_pos)
+                         const std::optional<std::pair<std::string, Vector>>& start_pos,
+                         bool skip_intro)
 {
   m_savegame = Savegame::from_current_profile(world.get_basename());
 
   auto screen = std::make_unique<LevelsetScreen>(world.get_basedir(),
                                                  level_filename,
                                                  *m_savegame,
-                                                 start_pos);
+                                                 start_pos,
+                                                 skip_intro);
   ScreenManager::current()->push_screen(std::move(screen));
 
   if (!Editor::current())
     m_savegame->get_profile().set_last_world(world.get_basename());
 }
 
+void
+GameManager::start_level(Level* level,
+                         const std::optional<std::pair<std::string, Vector>>& start_pos,
+                         bool skip_intro)
+{
+  m_levelstream.str("");
+  m_levelstream.clear();
+  Writer writer(m_levelstream);
+  level->save(writer);
+  auto screen = std::make_unique<GameSession>(m_levelstream);
+  if (start_pos)
+  {
+    screen->set_start_pos(start_pos->first, start_pos->second);
+  }
+  screen->restart_level();
+  if (skip_intro)
+    screen->skip_intro();
+  ScreenManager::current()->push_screen(std::move(screen));
+}
+
+worldmap::WorldMap*
+GameManager::create_worldmap_instance(const World& world, const std::string& worldmap_filename,
+                                      const std::string& sector, const std::string& spawnpoint)
+try
+{
+  m_savegame = Savegame::from_current_profile(world.get_basename());
+
+  auto filename = m_savegame->get_player_status().last_worldmap;
+  // If we specified a worldmap filename manually,
+  // this overrides the default choice of "last worldmap".
+  if (!worldmap_filename.empty())
+  {
+    filename = worldmap_filename;
+  }
+
+  // No "last worldmap" found and no worldmap_filename
+  // specified. Let's go ahead and use the worldmap
+  // filename specified in the world.
+  if (filename.empty())
+  {
+    filename = world.get_worldmap_filename();
+  }
+
+  auto worldmap = new worldmap::WorldMap(filename, *m_savegame, sector, spawnpoint);
+  return worldmap;
+}
+catch (const std::exception& e)
+{
+  log_warning << "Couldn't start worldmap: " << e.what() << std::endl;
+  return nullptr;
+}
+
 bool
 GameManager::start_worldmap(const World& world, const std::string& worldmap_filename,
                             const std::string& sector, const std::string& spawnpoint)
 {
-  try
-  {
-    m_savegame = Savegame::from_current_profile(world.get_basename());
-
-    auto filename = m_savegame->get_player_status().last_worldmap;
-    // If we specified a worldmap filename manually,
-    // this overrides the default choice of "last worldmap".
-    if (!worldmap_filename.empty())
-    {
-      filename = worldmap_filename;
-    }
-
-    // No "last worldmap" found and no worldmap_filename
-    // specified. Let's go ahead and use the worldmap
-    // filename specified in the world.
-    if (filename.empty())
-    {
-      filename = world.get_worldmap_filename();
-    }
-
-    auto worldmap = std::make_unique<worldmap::WorldMap>(filename, *m_savegame, sector, spawnpoint);
-    ScreenManager::current()->push_screen(std::move(worldmap));
-
-    if (!Editor::current())
-      m_savegame->get_profile().set_last_world(world.get_basename());
-  }
-  catch (const std::exception& e)
-  {
-    log_warning << "Couldn't start worldmap: " << e.what() << std::endl;
+  auto worldmap = std::unique_ptr<worldmap::WorldMap>(
+    create_worldmap_instance(world, worldmap_filename, sector, spawnpoint));
+  if (!worldmap)
     return false;
-  }
+  
+  ScreenManager::current()->push_screen(std::move(worldmap));
   return true;
 }
 

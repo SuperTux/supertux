@@ -52,7 +52,7 @@ Ispy::get_settings()
 {
   ObjectSettings result = StickyObject::get_settings();
 
-  result.add_script(_("Script"), &m_script, "script");
+  result.add_script(get_uid(), _("Script"), &m_script, "script");
   result.add_direction(_("Direction"), &m_dir,
                         { Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "direction");
 

@@ -35,8 +35,12 @@ void copy(const std::string& source_path, const std::string& target_path);
 /** returns the path of the directory the file is in */
 std::string dirname(const std::string& filename);
 
-/** returns the name of the file */
-std::string basename(const std::string& filename);
+/** returns the name of the file 
+ * @param filename The path to get the basename from.
+ * @param greedy If true, then attempt to strip any slashes from the end first.
+ *               This fixes situations like /some/dir/ where they really meant /some/dir.
+ */
+std::string basename(std::string path, bool greedy = false);
 
 /** Return a path to 'filename' that is relative to 'basedir', e.g.
     reldir("/levels/juser/level1.stl", "/levels") -> "juser/level1.stl" */
@@ -47,6 +51,9 @@ std::string extension(const std::string& filename);
 
 /** remove everything starting from and including the last dot */
 std::string strip_extension(const std::string& filename);
+
+/** strip any leading paths, like /some/path///// */
+std::string strip_leading_dirs(std::string filename);
 
 /** normalize filename so that "blup/bla/blo/../../bar" will become
     "blup/bar" */
@@ -66,6 +73,11 @@ std::string escape_url(const std::string& url);
  * @param path path to open
  */
  void open_path(const std::string& path);
+ 
+/** Opens a file in the users preferred text editor.
+ * @param filename File to edit
+ */
+void open_editor(const std::string& filename);
 
 /** Opens an URL in the user's preferred browser.
  * @param url URL to open

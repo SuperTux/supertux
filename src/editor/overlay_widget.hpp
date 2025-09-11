@@ -72,6 +72,11 @@ public:
   void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
   //void reset_action_press();
 
+  void draw_tilemap_outer_shading(DrawingContext&);
+  void draw_tilemap_border(DrawingContext&);
+
+  inline Vector get_sector_pos() const { return m_sector_pos; }
+
 private:
   static bool action_pressed;
   static bool alt_pressed;
@@ -105,7 +110,6 @@ private:
 
   void draw_tile_tip(DrawingContext&);
   void draw_tile_grid(DrawingContext&, int tile_size, bool draw_shadow) const;
-  void draw_tilemap_border(DrawingContext&);
   void draw_path(DrawingContext&);
   void draw_rectangle_preview(DrawingContext& context);
 
@@ -139,6 +143,7 @@ private:
   Vector m_sector_pos;
   Vector m_mouse_pos;
   Vector m_previous_mouse_pos;
+  Vector m_last_target_pos;
 
   std::chrono::steady_clock::time_point m_time_prev_put_tile;
 

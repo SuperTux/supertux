@@ -37,7 +37,7 @@ private:
 
 public:
   LevelsetScreen(const std::string& basedir, const std::string& level_filename, Savegame& savegame,
-                 const std::optional<std::pair<std::string, Vector>>& start_pos);
+                 const std::optional<std::pair<std::string, Vector>>& start_pos, bool skip_intro = false);
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -51,6 +51,7 @@ public:
 
 private:
   std::optional<std::pair<std::string, Vector>> m_start_pos;
+  bool m_skip_intro;
 
   LevelsetScreen(const LevelsetScreen&) = delete;
   LevelsetScreen& operator=(const LevelsetScreen&) = delete;

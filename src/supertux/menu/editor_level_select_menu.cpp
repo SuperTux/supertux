@@ -57,8 +57,6 @@ EditorLevelSelectMenu::reload_menu()
 void
 EditorLevelSelectMenu::initialize()
 {
-  Editor::current()->m_deactivate_request = true;
-
   World* world = get_world();
   auto basedir = world->get_basedir();
   m_levelset = std::unique_ptr<Levelset>(new Levelset(basedir, /* recursively = */ true));
@@ -100,11 +98,6 @@ EditorLevelSelectMenu::initialize()
 
 EditorLevelSelectMenu::~EditorLevelSelectMenu()
 {
-  auto editor = Editor::current();
-  if (editor == nullptr) {
-    return;
-  }
-  editor->m_reactivate_request = true;
 }
 
 World*
