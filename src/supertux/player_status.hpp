@@ -43,7 +43,8 @@ enum BonusType {
   BONUS_FIRE,     /*!< @description Fire bonus. */
   BONUS_ICE,      /*!< @description Ice bonus. */
   BONUS_AIR,      /*!< @description Air bonus. */
-  BONUS_EARTH     /*!< @description Earth bonus. */
+  BONUS_EARTH,     /*!< @description Earth bonus. */
+  MALUS_BADEGG     /*!< @description Rotten Egg fake bonus. */
 };
 
 /** This class keeps player status between different game sessions (for
