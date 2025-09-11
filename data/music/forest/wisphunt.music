@@ -1,5 +1,7 @@
 (supertux-music
   (file "wisphunt.ogg")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
   (loop-begin 21.08)
   (loop-at    -1)
 )
