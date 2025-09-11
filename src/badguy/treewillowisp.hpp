@@ -50,7 +50,7 @@ public:
 
 protected:
   virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
-  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  //virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
 private:
   enum MyState {
