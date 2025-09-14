@@ -57,6 +57,7 @@ private:
   SpritePtr sprite;
   SpritePtr lightsprite;
   BonusType type;
+  float angle;
 
 private:
   Bullet(const Bullet&) = delete;
