@@ -556,6 +556,8 @@ GameSession::update(float dt_sec, const Controller& controller)
 
   check_end_conditions();
 
+  auto players = m_currentsector->get_players();
+
   // Respawning in new sector?
   if (!m_newsector.empty() && !m_newspawnpoint.empty() && (m_spawn_fade_timer.check() || m_spawn_fade_type == ScreenFade::FadeType::NONE)) {
     auto sector = m_level->get_sector(m_newsector);
@@ -595,8 +597,7 @@ GameSession::update(float dt_sec, const Controller& controller)
         break;
     }
 
-
-    for (auto* p : m_currentsector->get_players())
+    for (auto* p : players)
     {
       // Give back control to the player
       p->activate();
@@ -626,7 +627,7 @@ GameSession::update(float dt_sec, const Controller& controller)
         m_level->m_stats.finish(m_play_time);
       }
 
-      for (Player* player : m_currentsector->get_players())
+      for (Player* player : players)
       {
         if (player->is_active() && player->is_scripting_activated() &&
             player->get_controller().pressed(Control::ITEM) &&
@@ -641,7 +642,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     } else {
       bool are_all_stopped = true;
 
-      for (const auto& player : m_currentsector->get_players())
+      for (const auto& player : players)
       {
         if (!(m_end_sequence->is_tux_stopped(player->get_id())
             || player->get_ending_direction() == 0))
@@ -672,7 +673,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   bool invincible_timer_started = false;
   float max_invincible_timer_left = 0.f;
 
-  for (const auto* p : m_currentsector->get_players())
+  for (const auto* p : players)
   {
     invincible_timer_started |= (p->m_invincible_timer.started() && !p->is_winning());
     max_invincible_timer_left = std::max(max_invincible_timer_left, p->m_invincible_timer.get_timeleft());
