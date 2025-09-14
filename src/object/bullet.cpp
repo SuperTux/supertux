@@ -25,6 +25,7 @@
 #include "supertux/sector.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+#include "object/sprite_particle.hpp"
 
 Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_, Player& player) :
   m_player(player),
@@ -33,7 +34,8 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
   sprite(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
   type(type_),
-  angle(0)
+  angle(0),
+  particle_time(0)
 {
   physic.set_velocity(xm);
 
@@ -72,6 +74,20 @@ Bullet::update(float dt_sec)
    else {
      angle -= dt_sec * math::PI * 4;
    }
+
+   particle_time += dt_sec;
+   if (particle_time >= 0.08) {
+     Sector::get().add<SpriteParticle>(
+       (type == BONUS_ICE ?
+       "images/objects/bullets/icebullet_tail.sprite":
+       "images/objects/bullets/firebullet_tail.sprite"),
+       "default",
+       Vector(get_pos().x, get_pos().y), ANCHOR_MIDDLE,
+       Vector(0, 0), Vector(0, 0),
+       LAYER_OBJECTS - 1);
+     particle_time = 0;
+   }
+
 
   // Cause fireball color to flicker randomly.
   if (graphicsRandom.rand(5) != 0) {

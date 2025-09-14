@@ -58,6 +58,7 @@ private:
   SpritePtr lightsprite;
   BonusType type;
   float angle;
+  float particle_time;
 
 private:
   Bullet(const Bullet&) = delete;

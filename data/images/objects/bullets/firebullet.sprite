@@ -1,12 +1,12 @@
 (supertux-sprite
  (action
   (name "right")
-  (hitbox 0 0 18 18)
+  (hitbox 0 0 21 21)
   (images "fire_bullet.png")
  )
  (action
   (name "left")
-  (hitbox 0 0 18 18)
+  (hitbox 0 0 21 21)
   (mirror-action "right")
  )
 )
