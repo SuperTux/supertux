@@ -316,7 +316,7 @@ Tarantula::draw(DrawingContext& context)
 
   float length = std::floor((get_bbox().get_top() - m_start_position.y) / static_cast<float>(m_silk->get_height()));
   for (int i = 0; i <= static_cast<int>(length) + 1; i++) {
-    context.color().draw_surface(m_silk, pos, LAYER_TILES-5);
+    context.color().draw_surface(m_silk, pos, get_layer() - 1);
     pos.y += 32.f;
   }
 }
