@@ -556,7 +556,7 @@ GameSession::update(float dt_sec, const Controller& controller)
 
   check_end_conditions();
 
-  auto players = m_currentsector->get_players();
+  const auto& players = m_currentsector->get_players();
 
   // Respawning in new sector?
   if (!m_newsector.empty() && !m_newspawnpoint.empty() && (m_spawn_fade_timer.check() || m_spawn_fade_type == ScreenFade::FadeType::NONE)) {
