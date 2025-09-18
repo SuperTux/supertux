@@ -60,9 +60,9 @@ PowerUp::get_types() const
   return {
     { "egg", _("Egg") },
     { "fire", _("Fire Flower") },
-    { "ice", _("Ice Flower") },
+    { "ice", _("Frostulent") },
     { "air", _("Air Flower") },
-    { "earth", _("Earth Flower") },
+    { "earth", _("Rock-Shroom") },
     { "star", _("Star") },
     { "oneup", _("Tux Doll") },
     { "flip", _("Flip Potion") },
