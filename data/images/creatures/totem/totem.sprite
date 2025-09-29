@@ -2,7 +2,8 @@
   (action
     (hitbox 0 2 48 49)
     (name "walking-left")
-    (images "walking1.png" "walking2.png" "walking3.png" "walking4.png")
+    (fps 12.0)
+    (images "walking1.png" "walking2.png" "walking3.png" "walking4.png" "walking5.png" "walking6.png" "walking7.png" "walking8.png") 
     )
   (action
     (hitbox 0 2 48 49)
