@@ -104,15 +104,9 @@ Zeekling::on_bump_vertical()
 void
 Zeekling::collision_solid(const CollisionHit& hit)
 {
-  if (m_frozen)
+  if (m_frozen || !is_active())
   {
     BadGuy::collision_solid(hit);
-    return;
-  }
-
-  if (BadGuy::get_state() == STATE_SQUISHED ||
-      BadGuy::get_state() == STATE_BURNING)
-  {
     return;
   }
 
