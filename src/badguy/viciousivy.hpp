@@ -24,7 +24,7 @@ class ViciousIvy final : public WalkingBadguy
 public:
   ViciousIvy(const ReaderMapping& reader);
   ViciousIvy(const Vector& pos, Direction d);
-  
+
   virtual bool is_freezable() const override;
 
   virtual std::string get_overlay_size() const override { return "2x1"; }

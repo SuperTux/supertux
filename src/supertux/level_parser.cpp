@@ -34,7 +34,7 @@ LevelParser::get_level_name(const std::string& filename)
   try
   {
     register_translation_directory(filename);
-    auto doc = ReaderDocument::from_file(filename);
+    auto doc = ReaderDocument::from_file(filename, 1);
     auto root = doc.get_root();
 
     if (root.get_name() != "supertux-level") {
@@ -231,5 +231,3 @@ LevelParser::create(const std::string& filepath, const std::string& levelname)
   sector->set_name(DEFAULT_SECTOR_NAME);
   m_level.add_sector(std::move(sector));
 }
-
-/* EOF */

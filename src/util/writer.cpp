@@ -307,5 +307,3 @@ Writer::indent()
   for (int i = 0; i<indent_depth; ++i)
     *out << ' ';
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_WIND_HPP
-#define HEADER_SUPERTUX_OBJECT_WIND_HPP
+#pragma once
 
 #include "supertux/moving_object.hpp"
 
@@ -45,8 +44,7 @@ public:
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Wind)); }
 
   virtual ObjectSettings get_settings() override;
-
-  virtual int get_layer() const override { return LAYER_OBJECTS; }
+  virtual GameObjectTypes get_types() const override;
 
   virtual void on_flip(float height) override;
 
@@ -59,7 +57,21 @@ public:
    */
   void stop();
 
+  /**
+   * @scripting
+   * @description Sets the layer of the wind particles.
+   * @param int $layer
+   */
+  inline void set_layer(int layer) { m_layer = layer; }
+
+  /**
+   * @scripting
+   * @description Returns the layer the wind particles are on.
+   */
+  virtual int get_layer() const override { return m_layer; }
+
 private:
+  int m_layer;
   bool blowing; /**< true if wind is currently switched on */
   Vector speed;
   float acceleration;
@@ -73,11 +85,12 @@ private:
   bool fancy_wind;
   bool particles_enabled;
 
+  enum Type {
+    WIND,
+    CURRENT,
+  };
+
 private:
   Wind(const Wind&) = delete;
   Wind& operator=(const Wind&) = delete;
 };
-
-#endif
-
-/* EOF */

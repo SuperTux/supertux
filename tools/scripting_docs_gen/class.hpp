@@ -41,6 +41,7 @@ struct Parameter
   std::string type {};
   std::string name {};
   std::string description {};
+  std::string default_value {};
 };
 
 struct Function

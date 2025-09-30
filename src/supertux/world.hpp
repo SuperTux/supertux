@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
-#define HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -49,6 +48,7 @@ public:
 
   inline const std::string& get_contrib_type() const { return m_contrib_type; }
   inline const std::string& get_title_level() const { return m_title_level; }
+  inline const std::string get_type() const { return m_is_levelset ? "levelset" : "worldmap"; }
 
   std::string get_worldmap_filename() const;
 
@@ -68,7 +68,3 @@ private:
   World(const World&) = delete;
   World& operator=(const World&) = delete;
 };
-
-#endif
-
-/* EOF */

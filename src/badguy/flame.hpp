@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_FLAME_HPP
-#define HEADER_SUPERTUX_BADGUY_FLAME_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 
@@ -75,7 +74,3 @@ private:
   Flame(const Flame&) = delete;
   Flame& operator=(const Flame&) = delete;
 };
-
-#endif
-
-/* EOF */

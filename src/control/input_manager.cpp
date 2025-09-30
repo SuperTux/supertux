@@ -159,6 +159,8 @@ InputManager::pop_user()
   if (m_controllers.size() <= 1)
     throw std::runtime_error("Attempt to pop the first player's controller");
 
+  on_player_removed(static_cast<int>(m_controllers.size()) - 1);
+
   m_controllers.pop_back();
 }
 
@@ -181,5 +183,3 @@ InputManager::has_corresponsing_controller(int player_id) const
     return joystick_manager->has_corresponding_joystick(player_id);
   }
 }
-
-/* EOF */

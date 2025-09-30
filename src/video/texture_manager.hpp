@@ -14,10 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
-#define HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
+#pragma once
 
 #include <config.h>
+#include <unordered_map>
 #include <map>
 #include <memory>
 #include <ostream>
@@ -77,14 +77,10 @@ private:
 
 private:
   std::map<Texture::Key, std::weak_ptr<Texture>> m_image_textures;
-  std::map<std::string, SDLSurfacePtr> m_surfaces;
+  std::unordered_map<std::string, SDLSurfacePtr> m_surfaces;
   bool m_load_successful;
 
 private:
   TextureManager(const TextureManager&) = delete;
   TextureManager& operator=(const TextureManager&) = delete;
 };
-
-#endif
-
-/* EOF */

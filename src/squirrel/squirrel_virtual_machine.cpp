@@ -154,5 +154,3 @@ SquirrelVirtualMachine::wakeup_screenswitch()
 {
   m_screenswitch_queue->wakeup();
 }
-
-/* EOF */

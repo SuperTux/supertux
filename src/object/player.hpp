@@ -14,9 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
-#define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
+#pragma once
 
+#include "moving_sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
@@ -42,12 +42,12 @@ extern const float TUX_INVINCIBLE_TIME_WARNING;
 
 /**
  * @scripting
- * @summary This module contains methods controlling the player. (No, SuperTux doesn't use mind control. ""Player"" refers to the type of the player object.)
+ * @summary This module contains methods controlling the player.
  * @instances The first player can be accessed using ""Tux"", or ""sector.Tux"" from the console.
               All following players (2nd, 3rd, etc...) can be accessed by ""Tux{index}"".
               For example, to access the 2nd player, use ""Tux1"" (or ""sector.Tux1"" from the console).
  */
-class Player final : public MovingObject
+class Player final : public MovingSprite
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -86,6 +86,7 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void collision_tile(uint32_t tile_attributes) override;
+  virtual void update_hitbox() override;
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return false; }
@@ -297,6 +298,7 @@ public:
   inline bool is_swimboosting() const { return m_swimboosting; }
   inline bool is_water_jumping() const { return m_water_jump; }
   inline bool is_skidding() const { return m_skidding_timer.started(); }
+  inline bool is_scripting_activated() const { return !m_deactivated; }
   inline float get_swimming_angle() const { return m_swimming_angle; }
 
   /**
@@ -310,6 +312,18 @@ public:
    * @description Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
    */
   inline bool get_visible() const { return m_visible; }
+
+  /**
+   * @scripting
+   * @description Make tux invincible without the star effect.
+   * @param bool $safe
+   */
+  void set_is_intentionally_safe(bool safe);
+  /**
+   * @scripting
+   * @description Returns ""true"" if Tux is currently intentionally safe.
+   */
+  bool get_is_intentionally_safe() const;
 
   inline bool on_ground() const { return m_on_ground_flag; }
   inline void set_on_ground(bool flag) { m_on_ground_flag = flag; }
@@ -376,6 +390,17 @@ public:
      Carried items like trampolines won't be dropped.
    */
   void deactivate();
+
+  /**
+   * @scripting
+   * @description Enables Tux's fancy idle animations.
+   */ 
+  inline void enable_fancy_idling() { m_should_fancy_idle = true; }
+  /**
+   * @scripting
+   * @description Disables Tux's fancy idle animations.
+   */
+  inline void disable_fancy_idling() { m_should_fancy_idle = false; }
 
   /**
    * @scripting
@@ -555,8 +580,15 @@ public:
 
 private:
   Timer m_skidding_timer;
-  Timer m_safe_timer;
+  Timer m_post_damage_safety_timer;
+  Timer m_temp_safety_timer;
+
+  /**
+   * @scripting
+   * @description Determines whether Tux is invincible.
+   */
   bool m_is_intentionally_safe;
+
   Timer m_kick_timer;
   Timer m_buttjump_timer;
 
@@ -580,8 +612,6 @@ private:
   std::unique_ptr<ObjectRemoveListener> m_grabbed_object_remove_listener;
   bool m_released_object;
 
-  SpritePtr m_sprite; /**< The main sprite representing Tux */
-
   float m_swimming_angle;
   float m_swimming_accel_modifier;
   bool m_water_jump;
@@ -591,6 +621,9 @@ private:
   SpritePtr m_bubbles_sprite; /**< bubble particles sprite for swimming */
   Timer m_bubble_timer; /**< timer for spawning bubble particles */
   std::list<std::pair<SpritePtr, Vector>> m_active_bubbles; /**< active bubble particles */
+
+  bool m_should_fancy_idle;
+  bool m_fancy_idle_active;
 
   Vector m_floor_normal;
 
@@ -617,7 +650,3 @@ private:
   Player(const Player&) = delete;
   Player& operator=(const Player&) = delete;
 };
-
-#endif
-
-/* EOF */

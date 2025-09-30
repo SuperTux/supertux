@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_AUTOTILE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_AUTOTILE_HPP
+#pragma once
 
 #include <algorithm>
 #include <memory>
@@ -40,8 +39,16 @@ private:
 class Autotile final
 {
 public:
+  struct AltConditions final
+  {
+    std::pair<uint32_t, uint32_t> period_x;
+    std::pair<uint32_t, uint32_t> period_y;
+    float weight;
+  };
+
+public:
   Autotile(uint32_t tile_id,
-    const std::vector<std::pair<uint32_t, float>>& alt_tiles,
+    const std::vector<std::pair<uint32_t, AltConditions>>& alt_tiles,
     const std::vector<AutotileMask>& masks,
     bool solid);
 
@@ -60,14 +67,14 @@ public:
   uint8_t get_first_mask() const;
 
   /** Returns all possible tiles for this autotile */
-  inline const std::vector<std::pair<uint32_t, float>>& get_all_tile_ids() const { return m_alt_tiles; }
+  inline const std::vector<std::pair<uint32_t, AltConditions>>& get_all_tile_ids() const { return m_alt_tiles; }
 
   /** Returns true if the "center" bool of masks are true. All masks of given Autotile must have the same value for their "center" property.*/
   inline bool is_solid() const { return m_solid; }
 
 private:
   uint32_t m_tile_id;
-  std::vector<std::pair<uint32_t, float>> m_alt_tiles;
+  std::vector<std::pair<uint32_t, AltConditions>> m_alt_tiles;
   std::vector<AutotileMask> m_masks;
   bool m_solid;
 
@@ -110,7 +117,7 @@ public:
 
   /** true if this is a corner-based autotileset */
   inline bool is_corner() const { return m_corner; }
-  
+
   /** Returns the first mask corresponding to the current tile
    *  (useful for corners-based autotilesets)
    */
@@ -133,7 +140,3 @@ private:
   AutotileSet(const AutotileSet&) = delete;
   AutotileSet& operator=(const AutotileSet&) = delete;
 };
-
-#endif
-
-/* EOF */

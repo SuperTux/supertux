@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SPRITE_SPRITE_DATA_HPP
-#define HEADER_SUPERTUX_SPRITE_SPRITE_DATA_HPP
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -128,7 +127,3 @@ private:
   SpriteData(const SpriteData& other);
   SpriteData& operator=(const SpriteData&) = delete;
 };
-
-#endif
-
-/* EOF */

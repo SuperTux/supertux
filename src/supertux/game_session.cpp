@@ -119,6 +119,7 @@ GameSession::reset_level()
   m_activated_checkpoint = nullptr;
   m_pause_target_timer = false;
   m_spawn_with_invincibility = false;
+  m_spawn_fade_timer.stop();
 
   m_data_table.clear();
 }
@@ -126,11 +127,12 @@ GameSession::reset_level()
 void
 GameSession::on_player_added(int id)
 {
-  if (m_savegame.get_player_status().m_num_players <= id)
-    m_savegame.get_player_status().add_player();
+  auto& player_status = m_savegame.get_player_status();
+  if (player_status.m_num_players <= id)
+    player_status.add_player();
 
   // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
-  auto& player = m_currentsector->add<Player>(m_savegame.get_player_status(), "Tux" + std::to_string(id + 1), id);
+  auto& player = m_currentsector->add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
 
   player.multiplayer_prepare_spawn();
 }
@@ -261,21 +263,22 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   if (!preserve_music)
   {
     auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
-    if (after_death == true) {
+    if (after_death == true)
+    {
       music_object.resume_music();
-    } else {
+    }
+    else
+    {
       SoundManager::current()->stop_music();
       music_object.play_music(LEVEL_MUSIC);
     }
   }
 
   auto level_times = m_currentsector->get_objects_by_type<LevelTime>();
-  auto it = level_times.begin();
 
-  while (it != level_times.end())
+  for(auto& level_time : level_times)
   {
-    it->set_time(it->get_time() - m_play_time);
-    it++;
+    level_time.set_time(level_time.get_time() - m_play_time);
   }
 }
 
@@ -553,6 +556,8 @@ GameSession::update(float dt_sec, const Controller& controller)
 
   check_end_conditions();
 
+  const auto& players = m_currentsector->get_players();
+
   // Respawning in new sector?
   if (!m_newsector.empty() && !m_newspawnpoint.empty() && (m_spawn_fade_timer.check() || m_spawn_fade_type == ScreenFade::FadeType::NONE)) {
     auto sector = m_level->get_sector(m_newsector);
@@ -592,14 +597,16 @@ GameSession::update(float dt_sec, const Controller& controller)
         break;
     }
 
-
-    for (auto* p : m_currentsector->get_players())
+    for (auto* p : players)
     {
       // Give back control to the player
       p->activate();
 
       if (m_spawn_with_invincibility)
       {
+        // Reset velocity to avoid taking any movement from last sector to new one
+        p->set_velocity(0.0f, 0.0f);
+
         // Make all players temporarily safe after spawning
         p->make_temporarily_safe(SAFE_TIME);
       }
@@ -620,9 +627,11 @@ GameSession::update(float dt_sec, const Controller& controller)
         m_level->m_stats.finish(m_play_time);
       }
 
-      for (Player* player : m_currentsector->get_players())
+      for (Player* player : players)
       {
-        if (player->get_controller().pressed(Control::ITEM) && m_savegame.get_player_status().m_item_pockets.size() > 0)
+        if (player->is_active() && player->is_scripting_activated() &&
+            player->get_controller().pressed(Control::ITEM) &&
+            m_savegame.get_player_status().m_item_pockets.size() > 0)
         {
           player->get_status().give_item_from_pocket(player);
         }
@@ -633,7 +642,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     } else {
       bool are_all_stopped = true;
 
-      for (const auto& player : m_currentsector->get_players())
+      for (const auto& player : players)
       {
         if (!(m_end_sequence->is_tux_stopped(player->get_id())
             || player->get_ending_direction() == 0))
@@ -664,7 +673,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   bool invincible_timer_started = false;
   float max_invincible_timer_left = 0.f;
 
-  for (const auto* p : m_currentsector->get_players())
+  for (const auto* p : players)
   {
     invincible_timer_started |= (p->m_invincible_timer.started() && !p->is_winning());
     max_invincible_timer_left = std::max(max_invincible_timer_left, p->m_invincible_timer.get_timeleft());
@@ -847,10 +856,6 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
   if (caller)
     caller->set_winning();
 
-  int remaining_players = get_current_sector().get_object_count<Player>([](const Player& p){
-    return p.is_active();
-  });
-
   // Abort if a sequence is already playing.
   if (m_end_sequence && m_end_sequence->is_running())
     return;
@@ -876,6 +881,10 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
     caller->set_controller(m_end_sequence->get_controller(caller->get_id()));
     caller->set_speedlimit(230); // MAX_WALK_XM
   }
+
+  int remaining_players = get_current_sector().get_object_count<Player>([](const Player& p){
+    return p.is_active();
+  });
 
   // Don't play the prepared sequence if there are more players that are still playing.
   if (remaining_players > 0)
@@ -946,5 +955,3 @@ GameSession::drawstatus(DrawingContext& context)
 
   m_level->m_stats.draw_ingame_stats(context, m_game_pause);
 }
-
-/* EOF */

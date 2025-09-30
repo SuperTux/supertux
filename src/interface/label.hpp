@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_INTERFACE_LABEL_HPP
-#define HEADER_SUPERTUX_INTERFACE_LABEL_HPP
+#pragma once
 
 #include <SDL.h>
 
@@ -54,7 +53,3 @@ private:
   InterfaceLabel(const InterfaceLabel&) = delete;
   InterfaceLabel& operator=(const InterfaceLabel&) = delete;
 };
-
-#endif
-
-/* EOF */

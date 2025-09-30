@@ -121,14 +121,6 @@ ObjectSettings::add_label(const std::string& text,
 }
 
 void
-ObjectSettings::add_rectf(const std::string& text, Rectf* value_ptr,
-                          const std::string& key,
-                          unsigned int flags)
-{
-  add_option(std::make_unique<RectfObjectOption>(text, value_ptr, key, flags));
-}
-
-void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
                               std::vector<Direction> possible_directions,
                               const std::string& key, unsigned int flags)
@@ -475,5 +467,3 @@ ObjectSettings::save_new_state(Writer& writer) const
     if (option->has_state_changed())
       option->save_new_state(writer);
 }
-
-/* EOF */

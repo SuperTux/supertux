@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_ADDON_ADDON_HPP
-#define HEADER_SUPERTUX_ADDON_ADDON_HPP
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -114,7 +113,3 @@ namespace addon_string_util {
   std::string generate_menu_item_text(const Addon& addon);
   std::string get_addon_plural_form(size_t count);
 }
-
-#endif
-
-/* EOF */

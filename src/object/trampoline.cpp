@@ -84,7 +84,7 @@ void
 Trampoline::update(float dt_sec)
 {
   if (m_sprite->animation_done()) {
-    set_action("normal");
+    set_action("default");
   }
 
   Rock::update(dt_sec);
@@ -167,5 +167,3 @@ Trampoline::bounce()
   SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
   m_sprite->set_action("swinging", 1);
 }
-
-/* EOF */

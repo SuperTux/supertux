@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_CANDLE_HPP
-#define HEADER_SUPERTUX_OBJECT_CANDLE_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -85,7 +84,3 @@ private:
   Candle(const Candle&) = delete;
   Candle& operator=(const Candle&) = delete;
 };
-
-#endif
-
-/* EOF */

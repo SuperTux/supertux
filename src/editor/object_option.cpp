@@ -209,45 +209,6 @@ LabelObjectOption::add_to_menu(Menu& menu) const
   menu.add_label(m_text);
 }
 
-RectfObjectOption::RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
-                                     unsigned int flags) :
-  ObjectOption(text, key, flags, pointer),
-  m_width(m_value_pointer->get_width()),
-  m_height(m_value_pointer->get_height())
-{
-}
-
-void
-RectfObjectOption::parse(const ReaderMapping& reader)
-{
-  reader.get("width", m_width);
-  reader.get("height", m_height);
-}
-
-void
-RectfObjectOption::save(Writer& write) const
-{
-  write.write("width", m_width);
-  write.write("height", m_height);
-  // write.write("x", &pointer->p1.x);
-  // write.write("y", &pointer->p1.y);
-}
-
-std::string
-RectfObjectOption::to_string() const
-{
-  std::ostringstream out;
-  out << *m_value_pointer;
-  return out.str();
-}
-
-void
-RectfObjectOption::add_to_menu(Menu& menu) const
-{
-  menu.add_floatfield(_("Width"), const_cast<float*>(&m_width));
-  menu.add_floatfield(_("Height"), const_cast<float*>(&m_height));
-}
-
 FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
                                      std::optional<float> default_value,
                                      unsigned int flags) :
@@ -663,7 +624,8 @@ ObjectSelectObjectOption::save(Writer& writer) const
 
     // Rectangle properties should not be saved.
     auto settings = obj->get_settings();
-    settings.remove("region");
+    settings.remove("width");
+    settings.remove("height");
     settings.remove("x");
     settings.remove("y");
 
@@ -804,13 +766,19 @@ PathObjectOption::PathObjectOption(const std::string& text, Path* path, const st
 void
 PathObjectOption::parse(const ReaderMapping& reader)
 {
-  m_value_pointer->read(reader);
+  std::optional<ReaderMapping> path_mapping;
+  if (reader.get("path", path_mapping))
+    m_value_pointer->read(*path_mapping);
 }
 
 void
-PathObjectOption::save(Writer& write) const
+PathObjectOption::save(Writer& writer) const
 {
-  m_value_pointer->save(write);
+  if (!m_value_pointer->is_valid()) return;
+
+  writer.start_list("path");
+  m_value_pointer->save(writer);
+  writer.end_list("path");
 }
 
 std::string
@@ -1019,9 +987,9 @@ StringArrayOption::parse(const ReaderMapping& reader)
 }
 
 void
-StringArrayOption::save(Writer& write) const
+StringArrayOption::save(Writer& writer) const
 {
-  write.write("strings", m_items);
+  writer.write("strings", m_items);
 }
 
 void
@@ -1106,5 +1074,3 @@ DirectionOption::add_to_menu(Menu& menu) const
                     *value_ptr = possible_directions.at(index);
                   });
 }
-
-/* EOF */

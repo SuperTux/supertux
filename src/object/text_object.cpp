@@ -245,6 +245,7 @@ TextObject::register_class(ssq::VM& vm)
 
       return &Sector::get().add<TextObject>();
     },
+    {},
     false /* Do not free pointer from Squirrel */,
     vm.findClass("GameObject"));
 
@@ -283,5 +284,3 @@ TextObject::register_class(ssq::VM& vm)
   cls.addVar("wrap_width", &TextObject::m_wrap_width);
   cls.addVar("roundness", &TextObject::m_roundness);
 }
-
-/* EOF */

@@ -232,5 +232,3 @@ AddonBrowseMenu::menu_action(MenuItem& item)
     log_warning << "Unknown menu item clicked: " << index << std::endl;
   }
 }
-
-/* EOF */

@@ -47,6 +47,8 @@
 #include <emscripten/html5.h>
 #endif
 
+bool MainMenu::s_shown_initial_dialogs = false;
+
 MainMenu::MainMenu()
 {
   add_submenu(_("Start Game"), MenuStorage::WORLDSET_MENU);
@@ -72,8 +74,9 @@ MainMenu::MainMenu()
 
 #ifndef __EMSCRIPTEN__
   // Show network-related confirmation dialogs on first startup
-  if (g_config->is_initial())
+  if (g_config->is_initial() && !s_shown_initial_dialogs)
   {
+    s_shown_initial_dialogs = true;
     Dialog::show_confirmation(_("Would you allow SuperTux to connect to the Internet?\n\nThis enables additional features, such as the in-game add-on catalog."),
       []()
       {
@@ -137,5 +140,3 @@ MainMenu::menu_action(MenuItem& item)
     }
   }
 }
-
-/* EOF */

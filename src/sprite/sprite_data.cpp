@@ -522,5 +522,3 @@ SpriteData::get_action(const std::string& act) const
   }
   return i->second.get();
 }
-
-/* EOF */

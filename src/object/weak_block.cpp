@@ -66,7 +66,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
     SoundManager::current()->preload("sounds/sizzle.ogg");
   }
 
-  set_action("normal");
+  set_action("default");
 }
 
 MovingSprite::LinkedSprites
@@ -286,5 +286,3 @@ WeakBlock::get_patches() const
 {
   return { _("Sprites no longer define the behaviour of the object.\nObject types are used instead.") };
 }
-
-/* EOF */

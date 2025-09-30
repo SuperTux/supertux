@@ -26,25 +26,25 @@
 
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color) :
+                               int drawing_layer_, bool notimeout, Color color, float angle) :
   SpriteParticle(SpriteManager::current()->create(sprite_name), action,
                  position_, anchor, velocity_, acceleration_,
-                 drawing_layer_, notimeout, color)
+                 drawing_layer_, notimeout, color, angle)
 {
 }
 
 SpriteParticle::SpriteParticle(const SpriteData::LinkedSprite& linked_sprite,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color) :
+                               int drawing_layer_, bool notimeout, Color color, float angle) :
   SpriteParticle(SpriteManager::current()->create(linked_sprite.file), linked_sprite.config.action.empty() ? "default" : linked_sprite.config.action,
                  position_, anchor, velocity_, acceleration_,
-                 drawing_layer_, notimeout, color)
+                 drawing_layer_, notimeout, color, angle)
 {
 }
 
 SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color) :
+                               int drawing_layer_, bool notimeout, Color color, float angle) :
   sprite(std::move(sprite_)),
   position(position_),
   velocity(velocity_),
@@ -56,6 +56,7 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
   sprite->set_color(color);
+  sprite->set_angle(angle);
 
   position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
   no_time_out = notimeout;
@@ -119,5 +120,3 @@ SpriteParticle::draw(DrawingContext& context)
       sprite->draw(context.light(), draw_pos, 0);
   }
 }
-
-/* EOF */

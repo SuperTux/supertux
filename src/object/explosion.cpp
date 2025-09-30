@@ -124,7 +124,7 @@ Explosion::explode()
       }
 
       auto badguy = dynamic_cast<WalkingBadguy*>(obj);
-      if (badguy && badguy->is_active()) {
+      if (badguy && badguy->is_active() && !badguy->is_heavy()) {
         badguy->add_velocity(add_speed);
       }
 
@@ -210,5 +210,3 @@ Explosion::collision(MovingObject& other, const CollisionHit& )
 
   return ABORT_MOVE;
 }
-
-/* EOF */

@@ -15,9 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#ifndef HEADER_SUPERTUX_BADGUY_GOLDBOMB_HPP
-#define HEADER_SUPERTUX_BADGUY_GOLDBOMB_HPP
+#pragma once
 
 #include "badguy/mrbomb.hpp"
 
@@ -42,6 +40,9 @@ public:
 
   virtual void explode() override;
 
+  GameObjectTypes get_types() const override { return {}; }
+  std::string get_default_sprite_name() const override { return m_default_sprite_name; }
+
 private:
   void flee(Direction dir);
   void cornered();
@@ -62,7 +63,3 @@ private:
   GoldBomb(const GoldBomb&) = delete;
   GoldBomb& operator=(const GoldBomb&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -146,13 +146,6 @@ MovingSprite::update_hitbox()
 }
 
 void
-MovingSprite::set_action(const std::string& name)
-{
-  if (m_sprite->set_action(name))
-    on_sprite_update();
-}
-
-void
 MovingSprite::set_action(const std::string& name, int loops)
 {
   if (m_sprite->set_action(name, loops))
@@ -259,19 +252,20 @@ MovingSprite::after_editor_set()
 void
 MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
 {
-    for (int i = 0; i < count; i++) {
-      Vector ppos = m_col.m_bbox.get_middle();
-      float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
-      float velocity = graphicsRandom.randf(350, 400);
-      float vx = sinf(angle)*velocity;
-      float vy = -cosf(angle)*velocity;
-      Vector pspeed = Vector(vx, vy);
-      Vector paccel = Vector(0, Sector::get().get_gravity()*10);
-      Sector::get().add<SpriteParticle>(sprite_path,
-                                             "default",
-                                             ppos, ANCHOR_MIDDLE,
-                                             pspeed, paccel,
-                                             LAYER_OBJECTS-1);
+  for (int i = 0; i < count; i++)
+  {
+    Vector ppos = m_col.m_bbox.get_middle();
+    float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
+    float velocity = graphicsRandom.randf(350, 400);
+    float vx = sinf(angle)*velocity;
+    float vy = -cosf(angle)*velocity;
+    Vector pspeed = Vector(vx, vy);
+    Vector paccel = Vector(0, Sector::get().get_gravity()*10);
+    Sector::get().add<SpriteParticle>(sprite_path,
+                                      "default",
+                                      ppos, ANCHOR_MIDDLE,
+                                      pspeed, paccel,
+                                      LAYER_OBJECTS-1);
   }
 }
 
@@ -284,10 +278,8 @@ MovingSprite::register_class(ssq::VM& vm)
   cls.addFunc("set_sprite", &MovingSprite::change_sprite);
   cls.addFunc("get_sprite", &MovingSprite::get_sprite_name);
   cls.addFunc("get_action", &MovingSprite::get_action);
-  cls.addFunc<void, MovingSprite, const std::string&>("set_action", &MovingSprite::set_action);
-  cls.addFunc("set_action_loops", &MovingSprite::set_action_loops);
+  cls.addFunc<void, MovingSprite, const std::string&, int>("set_action", &MovingSprite::set_action, ssq::DefaultArguments<int>(-1));
+  cls.addFunc<void, MovingSprite, const std::string&, int>("set_action_loops", &MovingSprite::set_action); // Deprecated
 
   cls.addVar("sprite", &MovingSprite::get_sprite_name, &MovingSprite::set_sprite);
 }
-
-/* EOF */

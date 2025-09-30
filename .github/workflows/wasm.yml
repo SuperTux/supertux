@@ -43,12 +43,23 @@ jobs:
       - name: Install emscripten tools
         run: |
           cd ~
+
           sudo apt-get update
           sudo apt-get install -y git cmake build-essential curl zip
+
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
           ./emsdk install latest
           ./emsdk activate latest
+
+          vcpkg integrate install
+
+      - name: Use cached dependencies
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: wasm-dependencies-${{ hashFiles('.github/workflows/wasm.yml') }}
 
       - name: Configure build
         env:
@@ -58,7 +69,11 @@ jobs:
           mkdir build
           cd build
           # TODO: Re-add -DWERROR=ON when warnings will be fixed
-          emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWARNINGS=ON ..
+          emcmake cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWARNINGS=ON \
+                           -DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake \
+                           -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=~/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+                           -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+                           -DVCPKG_MANIFEST_FEATURES=core
 
       - name: Sync data folder
         working-directory: build

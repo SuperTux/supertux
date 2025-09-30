@@ -161,10 +161,8 @@ std::string MD5::hex_digest() {
   for (i=0; i<16; i++)
   {
     char* so = s + i * 2;
-    snprintf(so, sizeof(so), "%02x", digest[i]);
+    snprintf(so, 3, "%02x", digest[i]);
   }
-
-  s[32]='\0';
 
   // Create string from 's'
   std::string s_str = std::string(s);
@@ -406,5 +404,3 @@ inline void MD5::II(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x,
   a += I(b, c, d) + x + ac;
   a = rotate_left (a, s) +b;
 }
-
-/* EOF */

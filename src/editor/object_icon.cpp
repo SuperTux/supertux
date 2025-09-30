@@ -86,5 +86,3 @@ ObjectIcon::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
                                       ),
                                       LAYER_GUI - 9);
 }
-
-/* EOF */

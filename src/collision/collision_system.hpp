@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_COLLISION_COLLISION_SYSTEM_HPP
-#define HEADER_SUPERTUX_COLLISION_COLLISION_SYSTEM_HPP
+#pragma once
 
 #include <vector>
 #include <memory>
@@ -64,7 +63,7 @@ public:
 
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype = Tile::SOLID) const;
-  bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignore_unisolid = false) const;
   bool is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
 
   enum RaycastIgnore {
@@ -118,7 +117,3 @@ private:
   CollisionSystem(const CollisionSystem&) = delete;
   CollisionSystem& operator=(const CollisionSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

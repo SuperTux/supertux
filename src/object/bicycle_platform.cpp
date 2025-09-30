@@ -209,5 +209,3 @@ BicyclePlatform::get_settings()
 
   return result;
 }
-
-/* EOF */

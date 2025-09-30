@@ -227,6 +227,8 @@ OptionsMenu::refresh()
         .set_help(_("Automatically pause the game when the window loses focus"));
 
       add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
+      
+      add_toggle(MNID_CUSTOM_CURSOR, _("Use native custom cursor"), &g_config->custom_system_cursor).set_help(_("Whether the game uses a native custom cursor or renders it in the game"));
 
 #ifndef __EMSCRIPTEN__
       if (!g_config->disable_network)
@@ -790,5 +792,3 @@ OptionsMenu::menu_action(MenuItem& item)
       break;
   }
 }
-
-/* EOF */

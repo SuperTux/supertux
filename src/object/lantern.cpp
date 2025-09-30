@@ -79,7 +79,7 @@ Lantern::updateColor()
     set_action("off");
     m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   } else {
-    set_action("normal");
+    set_action("default");
     m_sprite->set_color(lightcolor);
   }
 }
@@ -156,5 +156,3 @@ Lantern::add_color(const Color& c)
   lightcolor.alpha = std::min(1.0f, lightcolor.alpha + c.alpha);
   updateColor();
 }
-
-/* EOF */

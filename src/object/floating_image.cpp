@@ -124,6 +124,7 @@ FloatingImage::register_class(ssq::VM& vm)
 
       return &Sector::get().add<FloatingImage>(spritefile);
     },
+    {},
     false /* Do not free pointer from Squirrel */,
     vm.findClass("GameObject"));
 
@@ -147,5 +148,3 @@ FloatingImage::register_class(ssq::VM& vm)
   cls.addVar("visible", &FloatingImage::m_visible);
   cls.addVar("anchor_point", &FloatingImage::get_anchor_point, &FloatingImage::set_anchor_point);
 }
-
-/* EOF */

@@ -121,5 +121,3 @@ EndSequence::get_code_controller(int player)
 
   return ctrl.get();
 }
-
-/* EOF */

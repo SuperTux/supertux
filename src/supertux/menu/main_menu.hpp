@@ -14,13 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_MAIN_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_MAIN_MENU_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
 class MainMenu final : public Menu
 {
+private:
+  static bool s_shown_initial_dialogs;
+
 public:
   MainMenu();
 
@@ -40,7 +42,3 @@ private:
   MainMenu(const MainMenu&) = delete;
   MainMenu& operator=(const MainMenu&) = delete;
 };
-
-#endif
-
-/* EOF */

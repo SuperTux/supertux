@@ -78,5 +78,3 @@ ContribLevelsetMenu::menu_action(MenuItem& item)
   std::string filename = m_levelset->get_level_filename(item.get_id());
   GameManager::current()->start_level(*world, filename);
 }
-
-/* EOF */

@@ -300,7 +300,7 @@
     )
     (yeti
       (dead-script "sector.Tux.trigger_sequence(\"fireworks\");")
-      (direction "left")
+      (direction "right")
       (x 160)
       (y 448)
     )

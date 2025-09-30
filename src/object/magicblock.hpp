@@ -21,8 +21,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_MAGICBLOCK_HPP
-#define HEADER_SUPERTUX_OBJECT_MAGICBLOCK_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -49,6 +48,9 @@ public:
   virtual void on_flip(float height) override;
 
 private:
+  void set_trigger_color();
+
+private:
   bool m_is_solid;
   float m_trigger_red;
   float m_trigger_green;
@@ -65,7 +67,3 @@ private:
   MagicBlock(const MagicBlock&) = delete;
   MagicBlock& operator=(const MagicBlock&) = delete;
 };
-
-#endif
-
-/* EOF */

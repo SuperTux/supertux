@@ -41,5 +41,3 @@ PhysFSFileSystem::open_file(const std::string& filename)
 {
   return std::make_unique<IFileStream>(filename);
 }
-
-/* EOF */

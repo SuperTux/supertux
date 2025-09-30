@@ -101,9 +101,6 @@ Stalactite::collision_solid(const CollisionHit& hit)
   if (state == STALACTITE_FALLING) {
     if (hit.bottom) squish();
   }
-  if (state == STALACTITE_SQUISHED) {
-    m_physic.set_velocity_y(0);
-  }
 }
 
 HitResponse

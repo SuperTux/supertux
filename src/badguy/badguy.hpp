@@ -14,14 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_BADGUY_HPP
-#define HEADER_SUPERTUX_BADGUY_BADGUY_HPP
+#pragma once
 
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
 #include "object/portable.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
+
+static const std::string BADGUY_DEFAULT_BURN_LIGHT_SPRITE = "images/objects/lightmap_light/lightmap_light-medium.sprite";
+static const std::string BADGUY_DEFAULT_ICE_SPRITE = "images/creatures/overlays/iceoverlay/iceoverlay.sprite";
+static const std::string BADGUY_DEFAULT_FIRE_SPRITE = "images/creatures/overlays/fireoverlay/fireoverlay.sprite";
 
 enum class Direction;
 class Player;
@@ -43,17 +46,21 @@ public:
 
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& burn_light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& burn_light_sprite_name = BADGUY_DEFAULT_BURN_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = BADGUY_DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = BADGUY_DEFAULT_FIRE_SPRITE);
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& burn_light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& burn_light_sprite_name = BADGUY_DEFAULT_BURN_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = BADGUY_DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = BADGUY_DEFAULT_FIRE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& burn_light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& burn_light_sprite_name = BADGUY_DEFAULT_BURN_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = BADGUY_DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = BADGUY_DEFAULT_FIRE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
-         const std::string& burn_light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& burn_light_sprite_name = BADGUY_DEFAULT_BURN_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = BADGUY_DEFAULT_ICE_SPRITE,
+         const std::string & fire_sprite_name = BADGUY_DEFAULT_FIRE_SPRITE);
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -140,6 +147,9 @@ public:
     Returns false if enemy is spiky or too large */
   virtual bool is_snipable() const { return false; }
 
+  /** Can enemy get pushed by explosions? */
+  virtual bool is_heavy() const { return false; }
+
   virtual bool always_active() const { return false; }
 
   bool is_frozen() const;
@@ -165,6 +175,7 @@ protected:
     STATE_INACTIVE,
     STATE_ACTIVE,
     STATE_SQUISHED,
+    STATE_SQUISHED_FADING_OUT,
     STATE_FALLING,
     STATE_BURNING,
     STATE_MELTING,
@@ -292,7 +303,10 @@ protected:
 
   SpritePtr m_burn_light_sprite;
   SpritePtr m_freezesprite;
+  SpritePtr m_firesprite;
+
   bool m_burning;
+  bool m_glowing;
   bool m_water_affected;
 
   Timer m_unfreeze_timer;
@@ -322,11 +336,13 @@ private:
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup m_colgroup_active;
 
+  /** The alpha value at the time the Badguy begins to fadeout */
+  float m_alpha_before_fadeout;
+
+  Color m_flame_color;
+  Timer m_flame_timer;
+
 private:
   BadGuy(const BadGuy&) = delete;
   BadGuy& operator=(const BadGuy&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -16,8 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
-#define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
+#pragma once
 
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
@@ -82,7 +81,7 @@ public:
   inline void set_initial_spawnpoint(const std::string& spawnpoint) { m_force_spawnpoint = spawnpoint; }
 
   inline const std::string& get_title() const { return m_name; }
-  inline Savegame& get_savegame() const { return m_savegame; }
+  inline Savegame& get_savegame() const { return *m_savegame; }
   inline const std::string& get_levels_path() const { return m_levels_path; }
 
   WorldMapSector* get_sector(const std::string& name) const;
@@ -98,6 +97,9 @@ public:
   bool is_item_pocket_allowed() const { return m_allow_item_pocket; }
 
 private:
+  void load(const std::string& filename, Savegame& savegame,
+            const std::string& force_sector = "", const std::string& force_spawnpoint = "");
+
   void process_input(const Controller& controller);
 
   void on_escape_press();
@@ -108,15 +110,15 @@ private:
 
   std::string m_force_spawnpoint;
 
-  Savegame& m_savegame;
+  Savegame* m_savegame;
   TileSet* m_tileset;
 
   std::string m_name;
   std::string m_map_filename;
   std::string m_levels_path;
 
-  /* A worldmap, scheduled to change to next frame. */
-  std::unique_ptr<WorldMap> m_next_worldmap;
+  /* If true, the worldmap will reload on the next update */
+  bool m_has_next_worldmap;
 
   /** Passive map message variables */
   std::string m_passive_message;
@@ -126,6 +128,10 @@ private:
   bool m_enter_level;
   bool m_in_level;
   bool m_in_world_select;
+  
+  std::string m_next_filename;
+  std::string m_next_force_sector;
+  std::string m_next_force_spawnpoint;
 
 private:
   WorldMap(const WorldMap&) = delete;
@@ -133,7 +139,3 @@ private:
 };
 
 } // namespace worldmap
-
-#endif
-
-/* EOF */

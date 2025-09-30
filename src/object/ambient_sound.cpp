@@ -87,7 +87,7 @@ AmbientSound::get_settings()
   result.add_float(_("Radius (in tiles)"), &m_radius, "radius");
   result.add_float(_("Volume"), &m_volume, "volume");
 
-  result.reorder({"sample", "radius", "volume", "region", "name", "x", "y", "width", "height"});
+  result.reorder({"sample", "radius", "volume", "width", "height", "name", "x", "y"});
 
   return result;
 }
@@ -197,5 +197,3 @@ AmbientSound::register_class(ssq::VM& vm)
   cls.addFunc("get_pos_x", &MovingObject::get_x);
   cls.addFunc("get_pos_y", &MovingObject::get_y);
 }
-
-/* EOF */

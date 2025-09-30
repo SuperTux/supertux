@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PNEUMATIC_PLATFORM_HPP
-#define HEADER_SUPERTUX_OBJECT_PNEUMATIC_PLATFORM_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -83,7 +82,3 @@ private:
   PneumaticPlatform(const PneumaticPlatform&) = delete;
   PneumaticPlatform& operator=(const PneumaticPlatform&) = delete;
 };
-
-#endif
-
-/* EOF */

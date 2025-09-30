@@ -16,8 +16,7 @@
 //     Edited by Semphris for SuperTux, Aug 14, 2020
 //
 
-#ifndef EASING_H
-#define EASING_H
+#pragma once
 
 #include <string>
 #include <string.h>
@@ -101,7 +100,3 @@ EasingMode EasingMode_from_string(const std::string& ease_name);
 
 EasingMode get_reverse_easing(const EasingMode& ease);
 std::string get_reverse_easing_str(const std::string& ease_name);
-
-#endif
-
-/* EOF */

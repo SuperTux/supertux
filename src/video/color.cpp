@@ -17,19 +17,11 @@
 #include "math/util.hpp"
 #include "video/color.hpp"
 
+#include <algorithm>
 #include <assert.h>
 #include <iomanip>
 #include <regex>
 #include <sstream>
-
-const Color Color::BLACK(0.0, 0.0, 0.0);
-const Color Color::RED(1.0, 0.0, 0.0);
-const Color Color::GREEN(0.0, 1.0, 0.0);
-const Color Color::BLUE(0.0, 0.0, 1.0);
-const Color Color::CYAN(0.0, 1.0, 1.0);
-const Color Color::MAGENTA(1.0, 0.0, 1.0);
-const Color Color::YELLOW(1.0, 1.0, 0.0);
-const Color Color::WHITE(1.0, 1.0, 1.0);
 
 Color::Color() :
   red(0),
@@ -44,9 +36,10 @@ Color::Color(float red_, float green_, float blue_, float alpha_) :
   blue(blue_),
   alpha(alpha_)
 {
-  assert(0 <= red   && red <= 1.0f);
-  assert(0 <= green && green <= 1.0f);
-  assert(0 <= blue  && blue <= 1.0f);
+  red = std::clamp(red, 0.f, 1.f);
+  green = std::clamp(green, 0.f, 1.f);
+  blue = std::clamp(blue, 0.f, 1.f);
+  alpha = std::clamp(alpha, 0.f, 1.f);
 }
 
 Color::Color(const std::vector<float>& vals, bool use_alpha) :
@@ -62,6 +55,7 @@ Color::Color(const std::vector<float>& vals, bool use_alpha) :
     alpha = 0;
     return;
   }
+
   red   = vals[0];
   green = vals[1];
   blue  = vals[2];
@@ -69,9 +63,10 @@ Color::Color(const std::vector<float>& vals, bool use_alpha) :
     alpha = vals[3];
   else
     alpha = 1.0;
-  assert(0 <= red   && red <= 1.0f);
-  assert(0 <= green && green <= 1.0f);
-  assert(0 <= blue  && blue <= 1.0f);
+
+  red = std::clamp(red, 0.f, 1.f);
+  green = std::clamp(green, 0.f, 1.f);
+  blue = std::clamp(blue, 0.f, 1.f);
 }
 
 bool
@@ -188,5 +183,3 @@ Color::serialize_to_rgb(const Color& color)
      << static_cast<int>(color.blue * 255.f) << ")";
   return ss.str();
 }
-
-/* EOF */

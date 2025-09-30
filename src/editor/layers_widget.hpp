@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
-#define HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
+#pragma once
 
 #include <memory>
 #include <stdexcept>
@@ -111,7 +110,3 @@ private:
   EditorLayersWidget(const EditorLayersWidget&) = delete;
   EditorLayersWidget& operator=(const EditorLayersWidget&) = delete;
 };
-
-#endif
-
-/* EOF */

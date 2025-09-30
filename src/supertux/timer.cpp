@@ -66,5 +66,3 @@ Timer::resume()
 {
   start(m_cycle_pause);
 }
-
-/* EOF */

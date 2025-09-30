@@ -23,6 +23,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
@@ -104,8 +105,9 @@ LevelTime::update(float dt_sec)
 void
 LevelTime::draw(DrawingContext& context)
 {
-  if (Editor::is_active())
+  if (g_debug.hide_player_hud || Editor::is_active())
     return;
+
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.transform().scale = 1.f;
@@ -169,5 +171,3 @@ LevelTime::register_class(ssq::VM& vm)
 
   cls.addVar("time", &LevelTime::get_time, &LevelTime::set_time);
 }
-
-/* EOF */

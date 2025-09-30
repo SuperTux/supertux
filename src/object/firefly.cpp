@@ -85,7 +85,7 @@ Firefly::update_state()
   }
   else // Is deactivated.
   {
-    set_action("normal");
+    set_action("default");
   }
 }
 
@@ -144,5 +144,3 @@ Firefly::on_flip(float height)
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_SPECIALRISER_HPP
-#define HEADER_SUPERTUX_OBJECT_SPECIALRISER_HPP
+#pragma once
 
 #include "supertux/moving_object.hpp"
 
@@ -39,10 +38,10 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual int get_layer() const override { return m_child ? m_child->get_layer() : -2147483648; }
+  virtual int get_layer() const override { return m_child ? m_child->get_layer() : INT_MIN; }
 
 private:
-  Vector m_start_pos; 
+  Vector m_start_pos;
   float m_offset;
   std::unique_ptr<MovingObject> m_child;
 
@@ -50,7 +49,3 @@ private:
   SpecialRiser(const SpecialRiser&) = delete;
   SpecialRiser& operator=(const SpecialRiser&) = delete;
 };
-
-#endif
-
-/* EOF */

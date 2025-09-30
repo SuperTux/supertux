@@ -36,7 +36,7 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   parse_type(reader);
 
   walk_speed = 0;
-  max_drop_height = 600;
+  set_ledge_behavior(LedgeBehavior::NORMAL);
 
   m_countMe = false;
 
@@ -50,7 +50,7 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
 void
 Granito::active_update(float dt_sec)
 {
-  if (m_state == STATE_SIT || m_type == WALK)
+  if (m_state == STATE_SIT)
   {
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
@@ -82,6 +82,14 @@ Granito::active_update(float dt_sec)
     {
       set_action(m_dir);
     }
+  }
+
+  if (m_type == WALK)
+  {
+    // Don't do any extra calculations
+    WalkingBadguy::active_update(dt_sec);
+    m_stepped_on = false;
+    return;
   }
 
   if ((m_state == STATE_LOOKUP && !m_stepped_on) ||
@@ -215,7 +223,8 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
 
   if (hit.bottom)
   {
-    if (m_state == STATE_SIT) return WalkingBadguy::collision(other, hit);
+    if (m_state == STATE_SIT)
+      goto granito_collision_end;
 
     // Yo big granito can i sit on top of your head?
     GranitoBig* granito = dynamic_cast<GranitoBig*>(&other);
@@ -223,13 +232,13 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     if (!granito)
     {
       // I'm not a big granito.
-      return WalkingBadguy::collision(other, hit);
+      goto granito_collision_end;
     }
 
     if (granito->get_carrying() != nullptr)
     {
       // Sorry, im already carrying this guy.
-      return WalkingBadguy::collision(other, hit);
+      goto granito_collision_end;
     }
 
     // Sure dude.
@@ -238,9 +247,23 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     // Yay!
     m_state = STATE_SIT;
     Sector::get().run_script(m_carried_script, "carried-script");
+    walk_speed = 0;
+    m_physic.reset();
   }
 
-  return WalkingBadguy::collision(other, hit);
+  if (other.get_group() == COLGROUP_MOVING_STATIC &&
+      m_dir == Direction::LEFT ? hit.left : hit.right)
+  {
+    turn(invert_dir(m_dir));
+    return ABORT_MOVE;
+  }
+
+granito_collision_end:
+
+  // Call other collision functions (collision_player, collision_badguy, ...)
+  WalkingBadguy::collision(other, hit);
+
+  return FORCE_MOVE;
 }
 
 void
@@ -330,13 +353,11 @@ Granito::initialize()
 
   if (m_type == WALK)
   {
-    m_original_state = STATE_WALK;
-    restore_original_state();
+    walk();
   }
   else if (m_type == SIT)
   {
-    m_original_state = STATE_SIT;
-    restore_original_state();
+    sit();
   }
 
   switch (m_type)
@@ -605,5 +626,3 @@ Granito::register_class(ssq::VM& vm)
   vm.setConst<int>("GRANITO_STATE_LOOKUP", Granito::STATE_LOOKUP);
   vm.setConst<int>("GRANITO_STATE_JUMPING", Granito::STATE_JUMPING);
 }
-
-/* EOF */

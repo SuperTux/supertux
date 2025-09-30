@@ -108,8 +108,8 @@ ObjectMenu::menu_action(MenuItem& item)
     case MNID_REMOVE:
       m_editor.delete_markers();
       m_editor.m_reactivate_request = true;
-      MenuManager::instance().pop_menu();
       m_object->remove_me();
+      MenuManager::instance().pop_menu();
       break;
 
     case MNID_REMOVEFUNCTION:
@@ -155,5 +155,3 @@ ObjectMenu::on_back_action()
 
   return true;
 }
-
-/* EOF */

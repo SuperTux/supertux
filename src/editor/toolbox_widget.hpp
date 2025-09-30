@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_TOOLBOX_WIDGET_HPP
-#define HEADER_SUPERTUX_EDITOR_TOOLBOX_WIDGET_HPP
+#pragma once
 
 #include "editor/widget.hpp"
 
@@ -71,7 +70,7 @@ private:
 
   Rectf get_hovered_item_rect() const;
 
-  SurfacePtr get_mouse_icon() const;
+  ToolIcon* get_mouse_icon() const;
 
 private:
   Editor& m_editor;
@@ -94,7 +93,3 @@ private:
   EditorToolboxWidget(const EditorToolboxWidget&) = delete;
   EditorToolboxWidget& operator=(const EditorToolboxWidget&) = delete;
 };
-
-#endif
-
-/* EOF */

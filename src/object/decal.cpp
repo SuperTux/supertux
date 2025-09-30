@@ -158,5 +158,3 @@ Decal::register_class(ssq::VM& vm)
   cls.addFunc("fade_in", &Decal::fade_in);
   cls.addFunc("fade_out", &Decal::fade_out);
 }
-
-/* EOF */

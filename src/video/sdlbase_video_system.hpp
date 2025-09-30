@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SDLBASE_VIDEO_SYSTEM_HPP
-#define HEADER_SUPERTUX_VIDEO_SDLBASE_VIDEO_SYSTEM_HPP
+#pragma once
 
 #include <SDL.h>
 
@@ -30,7 +29,6 @@ public:
 
   virtual void set_title(const std::string& title) override;
   virtual void set_icon(const SDL_Surface& icon) override;
-  virtual void set_gamma(float gamma) override;
 
   virtual Size get_window_size() const override;
   virtual void on_resize(int w, int h) override;
@@ -47,7 +45,3 @@ private:
   SDLBaseVideoSystem(const SDLBaseVideoSystem&) = delete;
   SDLBaseVideoSystem& operator=(const SDLBaseVideoSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

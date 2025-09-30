@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_INPUT_MANAGER_HPP
-#define HEADER_SUPERTUX_CONTROL_INPUT_MANAGER_HPP
+#pragma once
 
 #include "control/controller.hpp"
 
@@ -83,7 +82,3 @@ private:
   InputManager(const InputManager&) = delete;
   InputManager& operator=(const InputManager&) = delete;
 };
-
-#endif
-
-/* EOF */

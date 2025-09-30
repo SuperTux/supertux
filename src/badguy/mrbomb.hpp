@@ -59,6 +59,9 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
+
 protected:
   void update_ticking(float dt_sec);
 
@@ -80,8 +83,15 @@ protected:
   SpritePtr m_exploding_sprite;
 
 private:
+  enum Type {
+    NORMAL,
+    CLASSIC
+  };
+
+private:
   MrBomb(const MrBomb&) = delete;
   MrBomb& operator=(const MrBomb&) = delete;
+
 };
 
 #endif

@@ -183,5 +183,3 @@ Candle::register_class(ssq::VM& vm)
 
   cls.addVar("burning", &Candle::get_burning, &Candle::set_burning);
 }
-
-/* EOF */

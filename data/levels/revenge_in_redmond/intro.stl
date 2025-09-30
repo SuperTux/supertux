@@ -17,7 +17,7 @@
     (init-script "Tux.deactivate();
 Effect.sixteen_to_nine(0);")
     (ambient-light
-      (color 0.9999999 0.9999999 0.9999999)
+      (color 1 1 1)
     )
     (background
       (color 1 1 1)

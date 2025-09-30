@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OVERLAY_WIDGET_HPP
-#define HEADER_SUPERTUX_EDITOR_OVERLAY_WIDGET_HPP
+#pragma once
 
 #include <SDL.h>
 #include <chrono>
@@ -71,7 +70,7 @@ public:
   void on_level_change();
 
   void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
-  void reset_action_press();
+  //void reset_action_press();
 
 private:
   static bool action_pressed;
@@ -168,11 +167,12 @@ private:
 
   bool m_selection_warning;
 
+  /// Not to be confused with g_config.editor_autotile_mode,
+  /// this variable is the one that *also* changes when holding CTRL.
+  /// The other one only changes hitting F5
+  bool m_autotile_mode;
+
 private:
   EditorOverlayWidget(const EditorOverlayWidget&) = delete;
   EditorOverlayWidget& operator=(const EditorOverlayWidget&) = delete;
 };
-
-#endif
-
-/* EOF */

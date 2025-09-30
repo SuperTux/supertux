@@ -34,9 +34,15 @@
 #include "worldmap/worldmap.hpp"
 
 GameManager::GameManager() :
-  m_savegame(),
-  m_next_worldmap()
+  m_savegame()
 {
+}
+
+void
+GameManager::save()
+{
+  if (m_savegame)
+    m_savegame->save();
 }
 
 void
@@ -105,31 +111,3 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
 
   return true;
 }
-
-bool
-GameManager::load_next_worldmap()
-{
-  if (!m_next_worldmap)
-    return false;
-
-  const auto next_worldmap = std::move(*m_next_worldmap);
-  m_next_worldmap.reset();
-
-  std::unique_ptr<World> world = World::from_directory(next_worldmap.world);
-  if (!world)
-  {
-    log_warning << "Cannot load world '" << next_worldmap.world << "'" <<  std::endl;
-    return false;
-  }
-
-  return start_worldmap(*world, "", next_worldmap.sector, next_worldmap.spawnpoint); // New world, new savegame.
-}
-
-void
-GameManager::set_next_worldmap(const std::string& world, const std::string& sector,
-                               const std::string& spawnpoint)
-{
-  m_next_worldmap.emplace(world, sector, spawnpoint);
-}
-
-/* EOF */

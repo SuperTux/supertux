@@ -667,5 +667,3 @@ Menu::set_active_item(int id)
     }
   }
 }
-
-/* EOF */

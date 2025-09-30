@@ -15,12 +15,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SPRITE_SPRITE_MANAGER_HPP
-#define HEADER_SUPERTUX_SPRITE_SPRITE_MANAGER_HPP
+#pragma once
 
 #include "util/currenton.hpp"
 
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <string>
 
@@ -31,7 +30,7 @@ class SpriteData;
 class SpriteManager final : public Currenton<SpriteManager>
 {
 private:
-  typedef std::map<std::string, std::unique_ptr<SpriteData>> Sprites;
+  typedef std::unordered_map<std::string, std::unique_ptr<SpriteData>> Sprites;
   Sprites m_sprites;
 
 public:
@@ -50,7 +49,3 @@ private:
   SpriteManager(const SpriteManager&) = delete;
   SpriteManager& operator=(const SpriteManager&) = delete;
 };
-
-#endif
-
-/* EOF */

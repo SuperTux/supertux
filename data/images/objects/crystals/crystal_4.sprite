@@ -1,6 +1,6 @@
 (supertux-sprite
       (action 
-          (name "normal")
+          (name "default")
           (images "a2.png"
                   "a1.png"))
       (action

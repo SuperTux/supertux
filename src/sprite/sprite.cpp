@@ -35,7 +35,7 @@ Sprite::Sprite(SpriteData& newdata) :
   m_alpha(1.0f),
   m_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_blend(),
-  m_action(m_data.get_action("normal"))
+  m_action(m_data.get_action("default"))
 {
   if (!m_action)
     m_action = m_data.actions.begin()->second.get();
@@ -47,12 +47,12 @@ Sprite::Sprite(const Sprite& other) :
   m_frame(other.m_frame),
   m_frameidx(other.m_frameidx),
   m_last_ticks(g_game_time),
+  m_is_paused(other.m_is_paused),
   m_animation_loops(other.m_animation_loops),
   m_angle(0.0f), // FIXME: this can't be right
   m_alpha(1.0f),
   m_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_blend(),
-  m_is_paused(other.m_is_paused),
   m_action(other.m_action)
 {
 }
@@ -139,6 +139,7 @@ Sprite::set_action(const std::string& name, int loops)
   }
 
   m_action = newaction;
+  m_last_ticks = g_game_time;
   return true;
 }
 
@@ -151,7 +152,7 @@ Sprite::animation_done() const
 void
 Sprite::update()
 {
-  float frame_inc = m_action->fps * (g_game_time - m_last_ticks);
+  float frame_inc = m_last_ticks > 0.f ? m_action->fps * (g_game_time - m_last_ticks) : 0.f;
   m_last_ticks = g_game_time;
 
   if (m_is_paused)
@@ -316,5 +317,3 @@ Sprite::get_current_hitbox() const
 {
   return Rectf(m_action->x_offset, m_action->y_offset, m_action->x_offset + m_action->hitbox_w, m_action->y_offset + m_action->hitbox_h);
 }
-
-/* EOF */

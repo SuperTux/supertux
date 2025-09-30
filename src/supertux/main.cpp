@@ -465,7 +465,8 @@ Main::init_video()
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
 
-  SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
+  SDL_ShowCursor(
+    (g_config->custom_mouse_cursor && !g_config->custom_system_cursor) ? SDL_DISABLE : SDL_ENABLE);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
@@ -816,5 +817,3 @@ Main::release_check()
   dialog->set_title(_("Checking for new releases..."));
   MenuManager::instance().set_dialog(std::move(dialog));
 }
-
-/* EOF */

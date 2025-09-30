@@ -93,5 +93,3 @@ MultiplayerPlayersMenu::MultiplayerPlayersMenu()
   add_hl();
   add_back(_("Back"));
 }
-
-/* EOF */

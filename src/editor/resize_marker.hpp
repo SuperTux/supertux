@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_RESIZE_MARKER_HPP
-#define HEADER_SUPERTUX_EDITOR_RESIZE_MARKER_HPP
+#pragma once
 
 #include "editor/marker_object.hpp"
 
@@ -56,7 +55,3 @@ private:
   ResizeMarker(const ResizeMarker&) = delete;
   ResizeMarker& operator=(const ResizeMarker&) = delete;
 };
-
-#endif
-
-/* EOF */

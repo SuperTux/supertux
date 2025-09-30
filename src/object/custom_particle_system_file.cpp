@@ -82,5 +82,3 @@ CustomParticleSystemFile::update_data()
     set_props(CustomParticleSystem().get_props().get());
   }
 }
-
-/* EOF */

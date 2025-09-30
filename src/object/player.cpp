@@ -22,6 +22,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "collision/collision_group.hpp"
 #include "control/codecontroller.hpp"
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
@@ -53,8 +54,8 @@
 
 const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
 
-namespace {
-
+namespace 
+{
 /* Times: */
 const float TUX_SAFE_TIME = 1.8f;
 const float TUX_INVINCIBLE_TIME = 14.0f;
@@ -144,7 +145,7 @@ const float SWIM_BOOST_SPEED = 600.f;
 const float SWIM_TO_BOOST_ACCEL = 15.f;
 const float TURN_MAGNITUDE = 0.15f;
 const float TURN_MAGNITUDE_BOOST = 0.2f;
-const std::array<std::string, 2> BUBBLE_ACTIONS = { "normal", "small" };
+const std::array<std::string, 2> BUBBLE_ACTIONS = { "default", "small" };
 
 /* Buttjump variables */
 
@@ -157,6 +158,7 @@ const int MAX_ICE_BULLETS  = 2;
 } // namespace
 
 Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
+  MovingSprite({0, 0}, "images/creatures/tux/tux.sprite", 9001, COLGROUP_MOVING),
   m_id(player_id),
   m_target(nullptr),
   m_deactivated(false),
@@ -209,7 +211,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_does_buttjump(false),
   m_invincible_timer(),
   m_skidding_timer(),
-  m_safe_timer(),
+  m_post_damage_safety_timer(),
+  m_temp_safety_timer(),
   m_is_intentionally_safe(false),
   m_kick_timer(),
   m_buttjump_timer(),
@@ -225,12 +228,13 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   // if/when we have complete penny gfx, we can
   // load those instead of Tux's sprite in the
   // constructor
-  m_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
   m_swimming_angle(0),
   m_swimming_accel_modifier(100.f),
   m_water_jump(false),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_bubbles_sprite(SpriteManager::current()->create("images/particles/air_bubble.sprite")),
+  m_should_fancy_idle(true),
+  m_fancy_idle_active(true),
   m_floor_normal(0.0f, 0.0f),
   m_ghost_mode(false),
   m_unduck_hurt_timer(),
@@ -263,6 +267,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
 
   m_col.set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
 
+  
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);
 
@@ -1352,7 +1357,7 @@ Player::do_standup(bool force_standup)
   float new_height = m_swimming ? TUX_WIDTH : BIG_TUX_HEIGHT;
   new_bbox.move(Vector(0, m_col.m_bbox.get_height() - new_height));
   new_bbox.set_height(new_height);
-  if (!Sector::get().is_free_of_movingstatics(new_bbox, this) && !force_standup)
+  if (!Sector::get().is_free_of_movingstatics(new_bbox, this, true) && !force_standup)
   {
     m_crawl = true;
     return;
@@ -1816,7 +1821,7 @@ Player::try_grab()
     for (auto& moving_object : Sector::get().get_objects_by_type<MovingObject>())
     {
       Portable* portable = dynamic_cast<Portable*>(&moving_object);
-      if (portable && portable->is_portable())
+      if (portable && portable->is_portable() && !portable->is_grabbed())
       {
         // make sure the Portable isn't currently non-solid
         if (moving_object.get_group() == COLGROUP_DISABLED) continue;
@@ -1955,13 +1960,13 @@ Player::set_bonus(BonusType type, bool animate)
     if (animate) {
       m_growing = true;
       if (m_climbing)
-        m_sprite->set_action("climbgrow", m_dir, 1);
+        set_action("climbgrow", m_dir, 1);
       else if (m_swimming)
-        m_sprite->set_action("swimgrow", m_dir, 1);
+        set_action("swimgrow", m_dir, 1);
       else if (m_sliding)
-        m_sprite->set_action("slidegrow", m_dir, 1);
+        set_action("slidegrow", m_dir, 1);
       else
-        m_sprite->set_action("grow", m_dir , 1);
+        set_action("grow", m_dir , 1);
     }
   }
 
@@ -1985,6 +1990,18 @@ Player::set_bonus(BonusType type, bool animate)
 
   m_player_status.bonus[get_id()] = type;
   return true;
+}
+
+void
+Player::set_is_intentionally_safe(bool safe)
+{
+  m_is_intentionally_safe = safe;
+}
+
+bool
+Player::get_is_intentionally_safe() const
+{
+  return m_is_intentionally_safe;
 }
 
 void
@@ -2065,7 +2082,7 @@ Player::draw(DrawingContext& context)
   /* Set Tux sprite action */
   if (m_dying) {
     m_sprite->set_angle(0.0f);
-    m_sprite->set_action("gameover");
+    set_action("gameover");
   }
   else if (m_growing)
   {
@@ -2082,28 +2099,28 @@ Player::draw(DrawingContext& context)
     else if (m_climbing) {
       action = "climbgrow";
     }
-    m_sprite->set_action(action + sa_postfix, Sprite::LOOPS_CONTINUED);
+    set_action(action + sa_postfix, Sprite::LOOPS_CONTINUED);
   }
   else if (m_stone) {
-    m_sprite->set_action("earth-stone");
+    set_action("earth-stone");
   }
   else if (m_climbing) {
-    m_sprite->set_action(sa_prefix+"-climb"+sa_postfix);
+    set_action(sa_prefix+"-climb"+sa_postfix);
 
     // Avoid flickering briefly after growing on ladder
     if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
       m_sprite->pause_animation();
   }
   else if (m_backflipping) {
-    m_sprite->set_action(sa_prefix+"-backflip"+sa_postfix);
+    set_action(sa_prefix+"-backflip"+sa_postfix);
   }
   else if (m_sliding) {
     if (m_jumping || m_is_slidejump_falling) {
-      m_sprite->set_action(sa_prefix +"-slidejump"+ sa_postfix);
+      set_action(sa_prefix +"-slidejump"+ sa_postfix);
     }
     else {
       const bool was_growing_before = (m_sprite->get_action().substr(0, 9) == "slidegrow");
-      m_sprite->set_action(sa_prefix + "-slide" + sa_postfix);
+      set_action(sa_prefix + "-slide" + sa_postfix);
       if (m_was_crawling_before_slide || was_growing_before)
       {
         m_sprite->set_frame(m_sprite->get_frames()); // Skip the "duck" animation when coming from crawling or slidegrowing
@@ -2112,13 +2129,13 @@ Player::draw(DrawingContext& context)
     }
   }
   else if (m_duck && is_big() && !m_swimming && !m_crawl && !m_stone) {
-    m_sprite->set_action(sa_prefix+"-duck"+sa_postfix);
+    set_action(sa_prefix+"-duck"+sa_postfix);
   }
   else if (m_crawl)
   {
     if (on_ground())
     {
-      m_sprite->set_action(sa_prefix + "-crawl" + sa_postfix);
+      set_action(sa_prefix + "-crawl" + sa_postfix);
       if (m_physic.get_velocity_x() != 0.f) {
         m_sprite->resume_animation();
       }
@@ -2127,26 +2144,26 @@ Player::draw(DrawingContext& context)
       }
     }
     else {
-      m_sprite->set_action(sa_prefix + "-slidejump" + sa_postfix);
+      set_action(sa_prefix + "-slidejump" + sa_postfix);
     }
   }
   else if (m_skidding_timer.started() && !m_skidding_timer.check() && !m_swimming) {
-    m_sprite->set_action(sa_prefix + "-skid" + sa_postfix);
+    set_action(sa_prefix + "-skid" + sa_postfix);
   }
   else if (m_kick_timer.started() && !m_kick_timer.check() && !m_swimming && !m_water_jump) {
-    m_sprite->set_action(sa_prefix+"-kick"+sa_postfix);
+    set_action(sa_prefix+"-kick"+sa_postfix);
   }
   else if ((m_wants_buttjump || m_does_buttjump) && is_big() && !m_water_jump) {
     if (m_buttjump_stomp) {
-      m_sprite->set_action(sa_prefix + "-stomp" + sa_postfix, 1);
+      set_action(sa_prefix + "-stomp" + sa_postfix, 1);
     }
     else {
-      m_sprite->set_action(sa_prefix + "-buttjump" + sa_postfix, 1);
+      set_action(sa_prefix + "-buttjump" + sa_postfix, 1);
     }
   }
   else if ((m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_can_walljump)
   {
-    m_sprite->set_action(sa_prefix+"-walljump"+(m_on_left_wall ? "-left" : "-right"), 1);
+    set_action(sa_prefix+"-walljump"+(m_on_left_wall ? "-left" : "-right"), 1);
   }
   else if (!on_ground() || m_fall_mode != ON_GROUND)
   {
@@ -2157,61 +2174,79 @@ Player::draw(DrawingContext& context)
         if (m_water_jump && m_dir != m_old_dir)
           log_debug << "Obracanko (:" << std::endl;
         if (glm::length(m_physic.get_velocity()) < 50.f)
-          m_sprite->set_action(sa_prefix + "-float" + sa_postfix);
+          set_action(sa_prefix + "-float" + sa_postfix);
         else if (m_water_jump)
-          m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
+          set_action(sa_prefix + "-swimjump" + sa_postfix);
         else if (m_swimboosting)
-          m_sprite->set_action(sa_prefix + "-boost" + sa_postfix);
+          set_action(sa_prefix + "-boost" + sa_postfix);
         else
-          m_sprite->set_action(sa_prefix + "-swim" + sa_postfix);
+          set_action(sa_prefix + "-swim" + sa_postfix);
       }
       else
       {
         if (m_physic.get_velocity_y() > 0)
-          m_sprite->set_action(sa_prefix + "-fall" + sa_postfix);
+          set_action(sa_prefix + "-fall" + sa_postfix);
         else if (m_physic.get_velocity_y() <= 0)
-          m_sprite->set_action(sa_prefix + "-jump" + sa_postfix);
+          set_action(sa_prefix + "-jump" + sa_postfix);
       }
     }
   }
   else
   {
-    if (fabsf(m_physic.get_velocity_x()) < 1.0f) {
-      if (std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
-            [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; }))
+    if (fabsf(m_physic.get_velocity_x()) < 1.0f)
+    {
+      const bool is_not_idle = std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
+        [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; });
+
+      if (is_not_idle || (m_should_fancy_idle && !m_fancy_idle_active))
       {
         m_idle_stage = 0;
         m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
+        set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, Sprite::LOOPS_CONTINUED);
 
-        m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
-      }
-      else if (m_idle_timer.check() || m_sprite->animation_done()) {
-        m_idle_stage++;
-        if (m_idle_stage >= static_cast<unsigned int>(IDLE_STAGES.size()))
+        if (!m_should_fancy_idle)
         {
-          m_idle_stage = static_cast<int>(IDLE_STAGES.size()) - 1;
-          m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
           m_sprite->set_animation_loops(-1);
+          m_fancy_idle_active = false;
         }
         else
+          m_fancy_idle_active = true;
+      }
+      else if (m_should_fancy_idle)
+      {
+        if (m_idle_timer.check() || m_sprite->animation_done())
         {
-          m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, 1);
+          m_idle_stage++;
+
+          if (m_idle_stage >= static_cast<unsigned int>(IDLE_STAGES.size()))
+          {
+            m_idle_stage = static_cast<int>(IDLE_STAGES.size()) - 1;
+            set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix);
+            m_sprite->set_animation_loops(-1);
+          }
+          else
+            set_action(sa_prefix + ("-" + IDLE_STAGES[m_idle_stage]) + sa_postfix, 1);
         }
       }
-      else {
-        m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
+      else
+      {
+        if (m_idle_stage != 0 || m_sprite->get_action() != sa_prefix + ("-" + IDLE_STAGES[0]) + sa_postfix)
+        {
+          m_idle_stage = 0;
+          set_action(sa_prefix + ("-" + IDLE_STAGES[0]) + sa_postfix);
+          m_sprite->set_animation_loops(-1);
+        }
+        m_fancy_idle_active = false;
       }
     }
     else
     {
-      if (std::abs(m_physic.get_velocity_x()) >= MAX_RUN_XM-3)
-      {
-        m_sprite->set_action(sa_prefix+"-run"+sa_postfix);
-      }
+      if (std::abs(m_physic.get_velocity_x()) >= MAX_RUN_XM - 3)
+        set_action(sa_prefix + "-run" + sa_postfix);
       else
-      {
-        m_sprite->set_action(sa_prefix+"-walk"+sa_postfix);
-      }
+        set_action(sa_prefix + "-walk" + sa_postfix);
+
+      m_fancy_idle_active = false;
     }
   }
 
@@ -2244,7 +2279,7 @@ Player::draw(DrawingContext& context)
   Vector draw_pos = get_pos() + context.get_time_offset() * m_physic.get_velocity();
 
   /* Draw Tux */
-  if (!m_visible || (m_safe_timer.started() && !m_is_intentionally_safe && size_t(g_game_time * 40) % 2))
+  if (!m_visible || (m_post_damage_safety_timer.started() && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
@@ -2294,6 +2329,14 @@ Player::collision_tile(uint32_t tile_attributes)
 }
 
 void
+Player::update_hitbox()
+{
+  // Don't use the default MovingSprite hitbox behavior
+  // because this class already has logic for that.
+  // Refer to the adjust_height method.
+}
+
+void
 Player::collision_solid(const CollisionHit& hit)
 {
   if (hit.bottom) {
@@ -2340,14 +2383,8 @@ Player::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_x(0);
   }
 
-  // crushed?
-  if (hit.crush) {
-    if (hit.left || hit.right) {
-      kill(true);
-    } else if (hit.top || hit.bottom) {
-      kill(false);
-    }
-  }
+  if (hit.crush)
+    kill(true);
 
   if ((hit.left && m_boost < 0.f) || (hit.right && m_boost > 0.f))
     m_boost = 0.f;
@@ -2381,10 +2418,13 @@ Player::collision(MovingObject& other, const CollisionHit& hit)
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy != nullptr) {
-    if (m_safe_timer.started() || m_invincible_timer.started())
+    if (m_is_intentionally_safe || m_post_damage_safety_timer.started() || m_temp_safety_timer.started() || m_invincible_timer.started())
       return FORCE_MOVE;
     if (m_stone)
       return ABORT_MOVE;
+
+    if (hit.bottom && badguy->is_frozen())
+      m_on_ground_flag = true;
   }
 
   return CONTINUE;
@@ -2417,8 +2457,7 @@ Player::make_invincible()
 void
 Player::make_temporarily_safe(float safe_time)
 {
-  m_safe_timer.start(safe_time);
-  m_is_intentionally_safe = true;
+  m_temp_safety_timer.start(safe_time);
 }
 
 void
@@ -2427,7 +2466,7 @@ Player::kill(bool completely)
   if (m_dying || m_deactivated || is_winning() )
     return;
 
-  if (!completely && (m_safe_timer.started() || m_invincible_timer.started()))
+  if (!completely && (m_is_intentionally_safe || m_post_damage_safety_timer.started() || m_temp_safety_timer.started() || m_invincible_timer.started()))
     return;
 
   m_growing = false;
@@ -2445,22 +2484,18 @@ Player::kill(bool completely)
 
     if (get_bonus() > BONUS_GROWUP)
     {
-      m_safe_timer.start(TUX_SAFE_TIME);
-      m_is_intentionally_safe = false;
+      m_post_damage_safety_timer.start(TUX_SAFE_TIME);
       set_bonus(BONUS_GROWUP, true);
     }
     else if (get_bonus() == BONUS_GROWUP)
     {
-      m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-      m_is_intentionally_safe = false;
+      m_post_damage_safety_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_duck = false;
       m_crawl = false;
       stop_backflipping();
       set_bonus(BONUS_NONE, true);
     }
   } else {
-    SoundManager::current()->play("sounds/kill.wav", get_pos());
-
     auto* session = GameSession::current();
     if (session && session->m_prevent_death &&
                    !session->reset_checkpoint_button)
@@ -2469,9 +2504,14 @@ Player::kill(bool completely)
       return;
     }
 
+    SoundManager::current()->play("sounds/kill.wav", get_pos());
+
+    if (m_stone) stop_rolling(false);
+
     m_physic.enable_gravity(true);
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
-    m_safe_timer.stop();
+    m_post_damage_safety_timer.stop();
+    m_temp_safety_timer.stop();
     m_invincible_timer.stop();
     m_physic.set_acceleration(0, 0);
     m_physic.set_velocity(0, -700);
@@ -2565,7 +2605,7 @@ Player::check_bounds()
   /* fallen out of the level? */
   if ((get_pos().y > Sector::get().get_height())
       && !m_ghost_mode
-      && !(m_is_intentionally_safe && m_safe_timer.started())) {
+      && !m_temp_safety_timer.started()) {
     kill(true);
     return;
   }
@@ -2977,7 +3017,8 @@ Player::multiplayer_prepare_spawn()
 {
   m_physic.enable_gravity(true);
   m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
-  m_safe_timer.stop();
+  m_post_damage_safety_timer.stop();
+  m_temp_safety_timer.stop();
   m_invincible_timer.stop();
   m_physic.set_acceleration(0, -9999);
   m_physic.set_velocity(0, -9999);
@@ -3063,7 +3104,7 @@ Player::remove_collected_key(Key* key)
 void
 Player::register_class(ssq::VM& vm)
 {
-  ssq::Class cls = vm.addAbstractClass<Player>("Player", vm.findClass("MovingObject"));
+  ssq::Class cls = vm.addAbstractClass<Player>("Player", vm.findClass("MovingSprite"));
 
   cls.addFunc<bool, Player, const std::string&>("add_bonus", &Player::add_bonus);
   cls.addFunc<bool, Player, const std::string&>("set_bonus", &Player::set_bonus);
@@ -3073,10 +3114,14 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("make_invincible", &Player::make_invincible);
   cls.addFunc("deactivate", &Player::deactivate);
   cls.addFunc("activate", &Player::activate);
+  cls.addFunc("enable_fancy_idling", &Player::enable_fancy_idling);
+  cls.addFunc("disable_fancy_idling", &Player::disable_fancy_idling);
   cls.addFunc("walk", &Player::walk);
   cls.addFunc("set_dir", &Player::set_dir);
   cls.addFunc("set_visible", &Player::set_visible);
   cls.addFunc("get_visible", &Player::get_visible);
+  cls.addFunc("set_is_intentionally_safe", &Player::set_is_intentionally_safe);
+  cls.addFunc("get_is_intentionally_safe", &Player::get_is_intentionally_safe);
   cls.addFunc("kill", &Player::kill);
   cls.addFunc("set_ghost_mode", &Player::set_ghost_mode);
   cls.addFunc("get_ghost_mode", &Player::get_ghost_mode);
@@ -3102,6 +3147,5 @@ Player::register_class(ssq::VM& vm)
   cls.addFunc("set_item_pocket", &Player::set_item_pocket);
 
   cls.addVar("visible", &Player::m_visible);
+  cls.addVar("is_intentionally_safe", &Player::m_is_intentionally_safe);
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
-#define HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
+#pragma once
 
 #include <vector>
 #include <memory>
@@ -63,9 +62,6 @@ public:
                const std::optional<int>& default_value = {},
                unsigned int flags = 0);
   void add_label(const std::string& text, unsigned int flags = 0);
-  void add_rectf(const std::string& text, Rectf* value_ptr,
-                 const std::string& key = {},
-                 unsigned int flags = 0);
   void add_worldmap_direction(const std::string& text, worldmap::Direction* value_ptr,
                               std::optional<worldmap::Direction> default_value = {},
                               const std::string& key = {}, unsigned int flags = 0);
@@ -200,7 +196,3 @@ private:
   ObjectSettings(const ObjectSettings&) = delete;
   ObjectSettings& operator=(const ObjectSettings&) = delete;
 };
-
-#endif
-
-/* EOF */

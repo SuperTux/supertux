@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SPRITE_SPRITE_HPP
-#define HEADER_SUPERTUX_SPRITE_SPRITE_HPP
+#pragma once
 
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_ptr.hpp"
@@ -162,7 +161,3 @@ private:
   Sprite(const Sprite& other);
   Sprite& operator=(const Sprite&) = delete;
 };
-
-#endif
-
-/* EOF */

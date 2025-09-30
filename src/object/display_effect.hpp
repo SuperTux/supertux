@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
-#define HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
+#pragma once
 
 #include "supertux/game_object.hpp"
 
@@ -41,6 +40,8 @@ public:
   virtual bool is_singleton() const override { return true; }
   virtual bool is_saveable() const override { return false; }
   virtual std::string get_exposed_class_name() const override { return "DisplayEffect"; }
+
+  inline bool has_active_borders() const { return borders; }
 
   /** @name Scriptable Methods
       @{ */
@@ -112,7 +113,3 @@ private:
   DisplayEffect(const DisplayEffect&) = delete;
   DisplayEffect& operator=(const DisplayEffect&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_BONUS_BLOCK_HPP
-#define HEADER_SUPERTUX_OBJECT_BONUS_BLOCK_HPP
+#pragma once
 
 #include "object/block.hpp"
 
@@ -123,7 +122,3 @@ private:
   BonusBlock(const BonusBlock&) = delete;
   BonusBlock& operator=(const BonusBlock&) = delete;
 };
-
-#endif
-
-/* EOF */

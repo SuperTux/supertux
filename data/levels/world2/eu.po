@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Bingen Galartza Iparragirre <bingalipa@gmail.com>, 2017
-# IAN RODRÍGUEZ Lorenzo, 2023
-# Mielanjel Iraeta <mielanjel@ni.eus>, 2018-2020
+# 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2023
+# pospolos <mielanjel@ni.eus>, 2018-2020
 # Urtzi Odriozola <urtzi.odriozola@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2024-11-11 21:50+0000\n"
+"POT-Creation-Date: 2025-08-25 10:47+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
+"Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2023\n"
 "Language-Team: Basque (http://app.transifex.com/arctic-games/supertux/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

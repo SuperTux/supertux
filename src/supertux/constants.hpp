@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_CONSTANTS_HPP
-#define HEADER_SUPERTUX_SUPERTUX_CONSTANTS_HPP
+#pragma once
 
 #include <string>
 
@@ -35,6 +34,6 @@ static const std::string DEFAULT_SPAWNPOINT_NAME = "main";
 // The sector that gets activated by default when a level is started
 static const std::string DEFAULT_SECTOR_NAME = "main";
 
-#endif
-
-/* EOF */
+// The default world map size
+static const int DEFAULT_WORLDMAP_WIDTH = 100;
+static const int DEFAULT_WORLDMAP_HEIGHT = 35;

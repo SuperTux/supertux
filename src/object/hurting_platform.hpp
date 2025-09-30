@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_HURTING_PLATFORM_HPP
-#define HEADER_SUPERTUX_OBJECT_HURTING_PLATFORM_HPP
+#pragma once
 
 #include "object/platform.hpp"
 
@@ -36,7 +35,3 @@ private:
   HurtingPlatform(const HurtingPlatform&) = delete;
   HurtingPlatform& operator=(const HurtingPlatform&) = delete;
 };
-
-#endif
-
-/* EOF */

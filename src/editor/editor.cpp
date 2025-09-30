@@ -110,6 +110,7 @@ Editor::Editor() :
   m_particle_editor_request(false),
   m_test_pos(),
   m_particle_editor_filename(),
+  m_ctrl_pressed(false),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
@@ -127,8 +128,8 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
-  m_ctrl_pressed(false),
-  m_mouse_pos(0.f, 0.f)
+  m_mouse_pos(0.f, 0.f),
+  m_layers_widget_needs_refresh(false)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -145,6 +146,12 @@ Editor::Editor() :
 
 Editor::~Editor()
 {
+}
+
+void
+Editor::queue_layers_refresh()
+{
+  m_layers_widget_needs_refresh = true;
 }
 
 void
@@ -173,8 +180,6 @@ Editor::draw(Compositor& compositor)
           camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
                                             static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
 
-        // Update the camera's screen size variable, so it can properly be kept in sector bounds.
-        camera.draw(context);
         keep_camera_in_bounds();
       }
       m_new_scale = 0.f;
@@ -284,6 +289,15 @@ Editor::update(float dt_sec, const Controller& controller)
       object->editor_update();
     }
 
+    if (m_layers_widget_needs_refresh)
+    {
+      if (m_layers_widget)
+      {
+        m_layers_widget->refresh();
+      }
+      m_layers_widget_needs_refresh = false;
+    }
+
     for (const auto& widget : m_widgets) {
       widget->update(dt_sec);
     }
@@ -353,8 +367,6 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
-  m_overlay_widget->reset_action_press();
-
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);
@@ -799,7 +811,7 @@ Editor::setup()
 #if 0
     if (AddonManager::current()->is_old_addon_enabled()) {
       auto dialog = std::make_unique<Dialog>();
-      dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with default Super Tux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
+      dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with the default SuperTux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
       dialog->clear_buttons();
 
       dialog->add_default_button(_("Disable add-ons"), [] {
@@ -1026,18 +1038,21 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
     callback();
     return;
   }
-  else
-  {
-    if (!sector_valid)
-    {
-      Dialog::show_message(_("Couldn't find a \"main\" sector.\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
-    }
-    else if (!spawnpoint_valid)
-    {
-      Dialog::show_message(_("Couldn't find a \"main\" spawnpoint.\n Please change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
-    }
-  }
 
+  if (!sector_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
+  }
+  else if (!spawnpoint_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
+  }
 }
 
 void
@@ -1091,7 +1106,7 @@ Editor::undo()
 {
   BIND_SECTOR(*m_sector);
   m_sector->undo();
-  post_undo_redo_actions();
+  m_layers_widget->update_current_tip();
 }
 
 void
@@ -1099,13 +1114,6 @@ Editor::redo()
 {
   BIND_SECTOR(*m_sector);
   m_sector->redo();
-  post_undo_redo_actions();
-}
-
-void
-Editor::post_undo_redo_actions()
-{
-  m_overlay_widget->delete_markers();
   m_layers_widget->update_current_tip();
 }
 
@@ -1116,14 +1124,10 @@ Editor::get_status() const
   status.m_details.push_back("In Editor");
   if (!g_config->hide_editor_levelnames && m_level)
   {
-    if (m_level->is_worldmap())
-    {
-      status.m_details.push_back("Editing worldmap: " + m_level->get_name());
-    }
-    else
-    {
-      status.m_details.push_back("Editing level: " + m_level->get_name());
-    }
+    std::string level_type = (m_level->is_worldmap() ? "worldmap" : "level");
+    std::string status_text = "Editing " + level_type + ": " + m_level->get_name();
+    
+    status.m_details.push_back(status_text);
   }
   return status;
 }
@@ -1171,11 +1175,7 @@ Editor::pack_addon()
   {
     info.write("id", id);
     info.write("version", version);
-
-    if (get_world()->is_levelset())
-      info.write("type", "levelset");
-    else if (get_world()->is_worldmap())
-      info.write("type", "worldmap");
+    info.write("type", get_world()->get_type());
 
     info.write("title", get_world()->get_title());
     info.write("author", get_level()->get_author());
@@ -1185,5 +1185,3 @@ Editor::pack_addon()
 
   *zip.Add_File(id + ".nfo") << ss.rdbuf();
 }
-
-/* EOF */

@@ -38,5 +38,3 @@ Font::wrap_to_chars(const std::string& s, int line_length, std::string* overflow
   if (overflow) *overflow = "";
   return s;
 }
-
-/* EOF */
