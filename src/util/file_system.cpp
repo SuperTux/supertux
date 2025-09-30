@@ -15,12 +15,17 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "util/file_system.hpp"
+#include "supertux/globals.hpp"
 
 #include <filesystem>
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <sys/stat.h>
 #include <sys/types.h>
+#ifndef _WIN32
+#include <unistd.h>
+#endif
 #include <vector>
 #if defined(_WIN32)
   #include <windows.h>
@@ -43,6 +48,7 @@
 #include "gui/dialog.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
+#include "supertux/gameconfig.hpp"
 
 namespace fs = std::filesystem;
 
@@ -78,6 +84,15 @@ void copy(const std::string& source_path, const std::string& target_path)
   fs::copy_file(source_path, target_path, fs::copy_options::overwrite_existing);
 }
 
+std::string strip_leading_dirs(std::string filename)
+{
+  while (filename.size() > 0 && (filename[filename.size()-1] == '/' || filename[filename.size()-1] == '\\'))
+  {
+    filename.pop_back();
+  }
+  return filename;
+}
+
 std::string dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
@@ -89,8 +104,11 @@ std::string dirname(const std::string& filename)
   return filename.substr(0, p+1);
 }
 
-std::string basename(const std::string& filename)
+std::string basename(std::string filename, bool greedy)
 {
+  if (greedy)
+    filename = strip_leading_dirs(filename);
+
   std::string::size_type p = filename.find_last_of('/');
   if (p == std::string::npos)
     p = filename.find_last_of('\\');
@@ -233,6 +251,34 @@ void open_path(const std::string& path)
     log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
   }
 #endif
+}
+
+void
+open_editor(const std::string& filename)
+{
+  const char* default_editor =
+#  if defined(_WIN32) || defined(_WIN64)
+    nullptr;
+#  else
+    getenv("EDITOR");
+#  endif
+  std::string cmd;
+  if (!g_config->preferred_text_editor.empty())
+    cmd = g_config->preferred_text_editor + " \"" + filename + "\" &";
+  else if (default_editor)
+  {
+    cmd = std::string(default_editor) + " \"" + filename + "\" &";
+  }
+
+  int ret = system(cmd.c_str());
+  if (ret < 0)
+  {
+    log_fatal << "failed to spawn editor: " << cmd << std::endl;
+  }
+  else if (ret > 0)
+  {
+    log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
+  }
 }
 
 std::string escape_url(const std::string& url)

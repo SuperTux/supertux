@@ -107,14 +107,14 @@ ControlEnum<T>::draw(DrawingContext& context)
     label = "<invalid>";
   }
 
-  context.color().draw_text(Resources::control_font,
+  context.color().draw_text(Resources::small_font,
                             label,
                             Vector(m_rect.get_left() + 5.f,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
-                                    Resources::control_font->get_height() / 2),
+                                    Resources::small_font->get_height() / 2),
                             FontAlignment::ALIGN_LEFT,
                             LAYER_GUI + 1,
-                            Color::BLACK);
+                            Color::WHITE);
   int i = 0;
   if (m_open_list) {
     for (const auto& option : m_options) {
@@ -132,15 +132,15 @@ ControlEnum<T>::draw(DrawingContext& context)
 
       std::string label2 = option.second;
 
-      context.color().draw_text(Resources::control_font,
+      context.color().draw_text(Resources::small_font,
                                 label2,
                                 Vector(m_rect.get_left() + 5.f,
                                        (m_rect.get_top() + m_rect.get_bottom()) / 2 -
-                                        Resources::control_font->get_height() / 2 +
+                                        Resources::small_font->get_height() / 2 +
                                         m_rect.get_height() * float(i)),
                                 FontAlignment::ALIGN_LEFT,
                                 LAYER_GUI + 6,
-                                Color::BLACK);
+                                Color::WHITE);
     }
   }
 }
@@ -156,6 +156,8 @@ ControlEnum<T>::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   if (m_rect.contains(mouse_pos)) {
     m_open_list = !m_open_list;
     m_has_focus = true;
+    if (m_open_list)
+      call_on_activate_callbacks();
     return true;
   } else if (get_list_rect().contains(mouse_pos) && m_open_list) {
     return true;
@@ -184,11 +186,12 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             if (--pos != -1) continue;
             *m_value = option.first;
 
-            if (m_on_change)
-              m_on_change();
+            call_on_change_callbacks();
 
             break;
           }
+          m_has_focus = false;
+          m_open_list = false;
         } else {
           log_warning << "Clicked on control enum inside dropdown but at invalid position ("
                       << pos << " for a size of " << m_options.size() << ")" << std::endl;
@@ -223,6 +226,8 @@ ControlEnum<T>::on_key_up(const SDL_KeyboardEvent& key)
     || key.keysym.sym == SDLK_RETURN
     || key.keysym.sym == SDLK_RETURN2) && m_has_focus) {
     m_open_list = !m_open_list;
+    if (m_open_list)
+      call_on_activate_callbacks();
     return true;
   } else {
     return false;
@@ -253,9 +258,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
     if (is_next && !m_options.empty())
       *m_value = m_options.begin()->first;
 
-    if (m_on_change)
-      m_on_change();
-
+    call_on_change_callbacks();
     return true;
   } else if (key.keysym.sym == SDLK_UP) {
 
@@ -279,9 +282,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
     if (is_last)
       *m_value = last_value;
 
-    if (m_on_change)
-      m_on_change();
-
+    call_on_change_callbacks();
     return true;
   }
 

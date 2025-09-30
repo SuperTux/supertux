@@ -17,6 +17,7 @@
 #include "gui/notification.hpp"
 
 #include "control/controller.hpp"
+#include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "supertux/colorscheme.hpp"
@@ -29,17 +30,29 @@
 #include "video/viewport.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
+#include <cstdlib>
 
-Notification::Notification(std::string id, bool no_auto_hide, bool no_auto_disable) :
+constexpr float DRAG_DEADZONE = 10.f;
+constexpr float DRAG_MAX      = 120.f;
+
+Notification::Notification(const std::string& id, float idle_close_time,
+                           bool no_auto_close, bool auto_disable) :
   m_id(id),
-  m_auto_hide(!no_auto_hide),
-  m_auto_disable(!no_auto_disable),
+  m_idle_close_time(idle_close_time),
+  m_auto_close(!no_auto_close),
+  m_auto_disable(auto_disable),
+  m_idle_close_timer(),
+  m_alpha(1.f),
   m_text(),
   m_mini_text(),
   m_text_size(),
   m_mini_text_size(),
+  m_init_mouse_click(0),
   m_pos(),
+  m_vel(),
+  m_drag(),
   m_size(),
+  m_closing(false),
   m_mouse_pos(),
   m_mouse_over(false),
   m_mouse_over_sym1(false),
@@ -49,12 +62,12 @@ Notification::Notification(std::string id, bool no_auto_hide, bool no_auto_disab
 {
   if (is_disabled(id)) // The notification exists in the config as disabled.
   {
-    log_warning << "Requested launch of disabled notification with ID \"" << m_id << "\". Closing." << std::endl;
+    log_debug << "Requested launch of disabled notification with ID \"" << m_id << "\". Closing." << std::endl;
     m_quit = true;
     return;
   }
 
-  set_mini_text(_("Click for more details.")); // Set default mini text.
+  m_idle_close_timer.start(m_idle_close_time);
 }
 
 Notification::~Notification()
@@ -84,21 +97,53 @@ Notification::set_mini_text(const std::string& text)
 void
 Notification::calculate_size()
 {
+  float mini_text_height = m_mini_text.empty() ? 0.f : m_mini_text_size.height + 24.f;
   m_size = Sizef(std::max(m_text_size.width, m_mini_text_size.width) + 60.0f,
-                 m_text_size.height + m_mini_text_size.height + 40.0f);
+                 m_text_size.height + mini_text_height + 16.f);
+  m_drag.x -= m_size.width + 100.f;
 }
 
 void
 Notification::draw(DrawingContext& context)
 {
-  if (m_quit || !MenuManager::instance().is_active()) // Close notification, if a quit has been requested, or the MenuManager isn't active.
-  {
+  // Close notification, if a quit has been requested, or neither the MenuManager or Editor aren't active.
+  if (m_quit || !(MenuManager::instance().is_active() || Editor::is_active()))
     close();
-    return;
+
+  if (m_alpha < 1.f || m_idle_close_timer.check())
+  {
+    m_alpha -= 0.01f;
+    if (m_alpha <= 0.f)
+      close();
   }
+
+  if (m_closing)
+  {
+    m_vel -= 0.8;
+    m_drag += m_vel;
+
+    if (m_drag.x < -400 || m_drag.x > 0)
+    {
+      if (MouseCursor::current() && m_mouse_over)
+        MouseCursor::current()->set_state(MouseCursorState::NORMAL);
+
+      MenuManager::instance().set_notification({});
+      return;
+    }
+  }
+  else if (!m_mouse_down)
+  {
+    m_drag = m_drag * 0.8;
+  }
+
+  context.push_transform();
+  context.set_alpha(m_alpha);
 
   m_pos = Vector(context.get_width() - std::max(m_text_size.width, m_mini_text_size.width) - 90.0f,
                  static_cast<float>(context.get_height() / 12) - m_text_size.height - m_mini_text_size.height + 10.0f);
+  m_pos.x -= m_drag.x;
+  float visibility = std::clamp(1.2f - (m_drag.x * 0.01f), 0.0f, 1.0f);
+  context.set_alpha(visibility);
   Rectf bg_rect(m_pos, m_size);
 
   // Draw background rect
@@ -127,8 +172,8 @@ Notification::draw(DrawingContext& context)
 
   // Draw "Do not show again" and "Close" symbols, if the mouse is hovering over the notification.
   if (!m_mouse_over) return;
-  const std::string sym1 = "-";
-  const std::string sym2 = "X";
+  static const std::string sym1 = "-";
+  static const std::string sym2 = "X";
   Vector sym1_pos = Vector(bg_rect.get_left() + 5.0f, bg_rect.get_top());
   Vector sym2_pos = Vector(bg_rect.get_right() - 15.0f, bg_rect.get_top());
 
@@ -159,6 +204,14 @@ Notification::draw(DrawingContext& context)
                                        m_mouse_pos.y + 20.0f),
                                 ALIGN_RIGHT, LAYER_GUI + 1, Color::CYAN);
   }
+
+  context.pop_transform();
+}
+
+Vector
+Notification::drag_amount(const SDL_Event& ev) const
+{
+  return m_init_mouse_click - VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
 }
 
 void
@@ -185,11 +238,35 @@ Notification::event(const SDL_Event& ev)
         }
         else // Notification clicked (execute callback)
         {
-          m_callback();
-          if (m_auto_disable) disable();
-          if (m_auto_hide) close();
+          if (m_init_mouse_click.x == 0 && m_init_mouse_click.y == 0)
+          {
+            m_init_mouse_click = VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
+            m_mouse_down = true;
+          }
         }
       }
+    }
+    break;
+
+    case SDL_MOUSEBUTTONUP:
+    if (ev.button.button == SDL_BUTTON_LEFT)
+    {
+      m_init_mouse_click -= VideoSystem::current()->get_viewport().to_logical(ev.button.x, ev.button.y);
+      if (m_mouse_over)
+      {
+        if (std::abs(m_init_mouse_click.x) < DRAG_DEADZONE)
+        {
+          m_callback();
+          if (m_auto_disable) disable();
+          if (m_auto_close) close();
+        }
+        else if (std::abs(m_init_mouse_click.x) > DRAG_MAX)
+        {
+          close();
+        }
+      }
+      m_init_mouse_click.x = m_init_mouse_click.y = 0;
+      m_mouse_down = false;
     }
     break;
 
@@ -197,7 +274,24 @@ Notification::event(const SDL_Event& ev)
     {
       m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       m_mouse_over = bg_rect.contains(m_mouse_pos);
-      if (MouseCursor::current() && m_mouse_over) MouseCursor::current()->set_state(MouseCursorState::LINK);
+
+      if (m_mouse_over)
+      {
+        m_alpha = 1.f;
+        m_idle_close_timer.stop();
+      }
+      else if (!m_idle_close_timer.started())
+      {
+        m_idle_close_timer.start(m_idle_close_time);
+      }
+
+      if (m_init_mouse_click.x != 0 && m_init_mouse_click.y != 0)
+      {
+        m_drag = drag_amount(ev);
+      }
+
+      if (MouseCursor::current() && m_mouse_over)
+        MouseCursor::current()->set_state(MouseCursorState::LINK);
     }
     break;
 
@@ -238,14 +332,13 @@ Notification::disable()
 void
 Notification::close()
 {
-  if (MouseCursor::current() && m_mouse_over) MouseCursor::current()->set_state(MouseCursorState::NORMAL);
-  MenuManager::instance().set_notification({});
+  m_closing = true;
 }
 
 // Static functions, serving as utilities
 
 bool
-Notification::is_disabled(std::string id) // Check if a notification is disabled by its ID.
+Notification::is_disabled(const std::string& id) // Check if a notification is disabled by its ID.
 {
   return std::any_of(g_config->notifications.begin(), g_config->notifications.end(),
                      [id](const auto& notif)
