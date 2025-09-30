@@ -6,4 +6,13 @@
                  "earth_flower-2.png"
                  "earth_flower-3.png"
                  "earth_flower-2.png"
-                 "earth_flower-1.png")))
+                 "earth_flower-1.png"))
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+      (action "default")
+      (color 0 0.3 0)
+    )
+  )
+)
