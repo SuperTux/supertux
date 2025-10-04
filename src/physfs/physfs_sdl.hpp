@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <string>
 
 /** The returned SDL_RWops object must be freed with SDL_RWclose(),

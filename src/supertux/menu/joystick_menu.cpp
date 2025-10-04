@@ -56,7 +56,7 @@ JoystickMenu::recreate_menu()
 
   add_toggle(MNID_AUTO_JOYSTICK_CFG, _("Manual Configuration"),
              &m_auto_joystick_cfg)
-    .set_help(_("Use manual configuration instead of SDL2's automatic GameController support"));
+    .set_help(_("Use manual configuration instead of SDL3's automatic GameController support"));
 
   if (m_input_manager.use_game_controller())
   {

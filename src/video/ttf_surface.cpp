@@ -45,7 +45,7 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
   SDLSurfacePtr target = SDLSurface::create_rgba(text_surface->w + grow, text_surface->h + grow);
 
 #if !SDL_VERSION_ATLEAST(2,0,5)
-  // Perform blitting in ARGB8888, instead of RGBA8888, to avoid bug in older SDL2.
+  // Perform blitting in ARGB8888, instead of RGBA8888, to avoid bug in older SDL3.
   // https://bugzilla.libsdl.org/show_bug.cgi?id=3159
   target.reset(SDL_ConvertSurfaceFormat(target.get(), SDL_PIXELFORMAT_ARGB8888, 0));
 #endif

@@ -16,7 +16,7 @@
 
 #include "video/sdl/sdl_painter.hpp"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <algorithm>
 #include <array>
 #include <assert.h>

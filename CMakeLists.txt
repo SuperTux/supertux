@@ -191,6 +191,13 @@ if(NOT EMSCRIPTEN)
   add_package(TARGET SDL2_image
     PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image
     ${SUPERTUX_ANDROID_PREFER_PKGCONF})
+  add_package(TARGET SDL3
+    PKG SDL3 PKG_USE SDL3::SDL3 CONFIG REQUIRED PKG_CONFIG sdl3 SDL3)
+  add_package(TARGET SDL3_image
+    PKG SDL3_image PKG_USE SDL3_image::SDL3_image CONFIG REQUIRED PKG_CONFIG SDL3_image sdl3_image)
+  add_package(TARGET libcurl
+    PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
+  # SDL3 TODO
   if (USE_SYSTEM_SDL2_TTF)
     add_package(TARGET SDL2_ttf
       PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
@@ -213,7 +220,7 @@ endif()
 
 if(TARGET RAQM AND NOT USE_SYSTEM_SDL2_TTF)
   message(STATUS "Compiling SDL_ttf with RAQM")
-  set(SDL2TTF_RAQM ON)
+  set(SDL3TTF_RAQM ON)
 endif()
 
 if(USE_SYSTEM_SDL2_TTF)
@@ -434,17 +441,17 @@ else()
 endif()
 
 target_link_libraries(supertux2 PUBLIC
-  tinygettext sexp SDL_SavePNG SDL2_ttf
+  tinygettext sexp SDL_SavePNG SDL3_ttf
   PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC
-    # SDL2_image
-    SDL2_image
-    # SDL2 main (windows?)
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    # SDL2
-    SDL2
+    # SDL3_image
+    SDL3_image
+    # SDL3 main (windows?)
+    $<TARGET_NAME_IF_EXISTS:SDL3::SDL3main>
+    # SDL3
+    SDL3
   )
   target_link_libraries(supertux2 PUBLIC
     Ogg

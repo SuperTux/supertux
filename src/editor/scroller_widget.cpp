@@ -135,7 +135,7 @@ EditorScrollerWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorScrollerWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
-  if (key.keysym.sym == SDLK_F9) {
+  if (key.key == SDLK_F9) {
     rendered = !rendered;
   }
   return false;

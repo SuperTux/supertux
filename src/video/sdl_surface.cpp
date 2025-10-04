@@ -19,7 +19,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include <SDL_image.h>
+#include <SDL3_image/SDL_image.h>
 #include <savepng.h>
 
 #include "physfs/physfs_sdl.hpp"
