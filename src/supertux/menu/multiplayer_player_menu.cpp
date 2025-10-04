@@ -126,7 +126,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       auto controller = pair.first;
       std::string prefix = (pair.second == -1) ? "" : (pair.second == player_id) ? "-> " : ("[" + std::to_string(pair.second + 1) + "] ");
 
-      add_entry(prefix + std::string(SDL_GamepadName(pair.first)), [controller, player_id] {
+      add_entry(prefix + std::string(SDL_GetGamepadName(pair.first)), [controller, player_id] {
         InputManager::current()->game_controller_manager->bind_controller(controller, player_id);
 
         auto err = InputManager::current()->game_controller_manager->rumble(controller);
@@ -158,7 +158,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       auto joystick = pair.first;
       std::string prefix = (pair.second == -1) ? "" : (pair.second == player_id) ? "-> " : ("[" + std::to_string(pair.second + 1) + "] ");
 
-      add_entry(prefix + std::string(SDL_JoystickName(pair.first)), [joystick, player_id] {
+      add_entry(prefix + std::string(SDL_GetJoystickName(pair.first)), [joystick, player_id] {
         InputManager::current()->joystick_manager->bind_joystick(joystick, player_id);
 
         auto err = InputManager::current()->joystick_manager->rumble(joystick);
