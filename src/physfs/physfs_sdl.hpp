@@ -17,12 +17,13 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_iostream.h>
 #include <string>
 
-/** The returned SDL_RWops object must be freed with SDL_RWclose(),
+/** The returned SDL_IOStream object must be freed with SDL_RWclose(),
     SDL library functions have a flag to perform that call
     automatically. Do not use 'delete' or 'free()' on it.
 
     See: https://wiki.libsdl.org/SDL_RWclose */
-SDL_RWops* get_physfs_SDLRWops(const std::string& filename);
-SDL_RWops* get_writable_physfs_SDLRWops(const std::string& filename);
+SDL_IOStream* get_physfs_SDLRWops(const std::string& filename);
+SDL_IOStream* get_writable_physfs_SDLRWops(const std::string& filename);
