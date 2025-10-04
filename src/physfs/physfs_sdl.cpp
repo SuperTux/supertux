@@ -123,7 +123,7 @@ SDL_IOStream* get_physfs_SDLRWops(const std::string& filename)
   }
 
   SDL_IOStreamInterface* iface = new SDL_IOStreamInterface;
-  SDL_INIT_INTERFACE(&(*iface));
+  SDL_INIT_INTERFACE(iface);
   iface->size = funcSize;
   iface->seek = funcSeek;
   iface->read = funcRead;
@@ -152,7 +152,7 @@ SDL_IOStream* get_writable_physfs_SDLRWops(const std::string& filename)
   }
 
   SDL_IOStreamInterface* iface = new SDL_IOStreamInterface;
-  SDL_INIT_INTERFACE(&(*iface));
+  SDL_INIT_INTERFACE(iface);
   iface->size = funcSize;
   iface->seek = funcSeek;
   iface->read = funcRead;
