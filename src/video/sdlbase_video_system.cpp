@@ -36,15 +36,15 @@ SDLBaseVideoSystem::SDLBaseVideoSystem() :
 //  SDL_VideoInit(nullptr);
 //#endif
 #ifndef __ANDROID__
-  SDL_DisplayMode mode;
-  if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
+  auto mode = SDL_GetDesktopDisplayMode(0);
+  if (mode == nullptr)
   {
     log_warning << "Couldn't get desktop display mode: " << SDL_GetError() << std::endl;
     //m_desktop_size = g_config->window_size;
   }
   else
   {
-    m_desktop_size = Size(mode.w, mode.h);
+    m_desktop_size = Size(mode->w, mode->h);
   }
 #endif
 }
