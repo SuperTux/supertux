@@ -6,7 +6,7 @@
  * This code is free software, available under zlib/libpng license.
  * http://www.libpng.org/pub/png/src/libpng-LICENSE.txt
  */
-#include <SDL_video.h>
+#include <SDL3/SDL_video.h>
 
 #ifdef __cplusplus
 extern "C" { /* This helps CPP projects that include this header */

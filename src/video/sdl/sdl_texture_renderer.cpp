@@ -55,7 +55,7 @@ SDLTextureRenderer::start_draw()
     const int w = m_size.width / m_downscale;
     const int h = m_size.height / m_downscale;
     SDL_Texture* sdl_texture = SDL_CreateTexture(m_renderer,
-                                                 SDL_PIXELFORMAT_RGB888,
+                                                 SDL_PIXELFORMAT_XRGB8888,
                                                  SDL_TEXTUREACCESS_TARGET,
                                                  w, h);
     if (!sdl_texture)
@@ -69,7 +69,7 @@ SDLTextureRenderer::start_draw()
   }
 
   SDL_SetRenderTarget(m_renderer, get_sdl_texture());
-  SDL_RenderSetScale(m_renderer,
+  SDL_SetRenderScale(m_renderer,
                      1.0f / static_cast<float>(m_downscale),
                      1.0f / static_cast<float>(m_downscale));
 }
@@ -77,7 +77,7 @@ SDLTextureRenderer::start_draw()
 void
 SDLTextureRenderer::end_draw()
 {
-  SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
+  SDL_SetRenderScale(m_renderer, 1.0f, 1.0f);
   SDL_SetRenderTarget(m_renderer, nullptr);
 }
 

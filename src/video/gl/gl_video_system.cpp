@@ -144,7 +144,7 @@ GLVideoSystem::~GLVideoSystem()
   m_lightmap.reset();
   m_back_renderer.reset();
   m_context.reset();
-  SDL_GL_DeleteContext(m_glcontext);
+  SDL_GL_DestroyContext(m_glcontext);
 }
 
 std::string
@@ -376,14 +376,14 @@ GLVideoSystem::flip()
 void
 GLVideoSystem::set_vsync(int mode)
 {
-  if (SDL_GL_SetSwapInterval(mode) < 0)
+  if (SDL_GL_SetSwapInterval(mode) == false)
   {
     log_warning << "Setting vsync mode to " << mode << " failed: " << SDL_GetError() << std::endl;
     if(mode != 1)
     {
       mode = 1;
       log_warning << "Trying to set vsync mode to 1" << std::endl;
-      if (SDL_GL_SetSwapInterval(1) < 0)
+      if (SDL_GL_SetSwapInterval(1) == false)
       {
         log_warning << "Setting vsync mode failed: " << SDL_GetError() << ". Trying to set vsync mode to 0" << std::endl;
         if(mode != 0)
@@ -405,7 +405,9 @@ GLVideoSystem::set_vsync(int mode)
 int
 GLVideoSystem::get_vsync() const
 {
-  return SDL_GL_GetSwapInterval();
+  int interval;
+  SDL_GL_GetSwapInterval(&interval);
+  return interval;
 }
 
 SDLSurfacePtr
