@@ -17,7 +17,7 @@
 #include "supertux/menu/multiplayer_player_menu.hpp"
 
 #include <fmt/format.h>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "control/game_controller_manager.hpp"
 #include "control/input_manager.hpp"
@@ -126,7 +126,7 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       auto controller = pair.first;
       std::string prefix = (pair.second == -1) ? "" : (pair.second == player_id) ? "-> " : ("[" + std::to_string(pair.second + 1) + "] ");
 
-      add_entry(prefix + std::string(SDL_GameControllerName(pair.first)), [controller, player_id] {
+      add_entry(prefix + std::string(SDL_GamepadName(pair.first)), [controller, player_id] {
         InputManager::current()->game_controller_manager->bind_controller(controller, player_id);
 
         auto err = InputManager::current()->game_controller_manager->rumble(controller);

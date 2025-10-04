@@ -467,14 +467,14 @@ ScreenManager::process_events()
         break;
 
       case SDL_KEYDOWN:
-        if (event.key.keysym.sym == SDLK_F10)
+        if (event.key.key == SDLK_F10)
         {
           g_config->show_fps = !g_config->show_fps;
         }
 #ifndef __EMSCRIPTEN__ // Emscripten builds manage this through JS code
-        else if (event.key.keysym.sym == SDLK_F11 ||
-                 ((event.key.keysym.mod & KMOD_LALT || event.key.keysym.mod & KMOD_RALT) &&
-                 (event.key.keysym.sym == SDLK_KP_ENTER || event.key.keysym.sym == SDLK_RETURN)))
+        else if (event.key.key == SDLK_F11 ||
+                 ((event.key.mod & KMOD_LALT || event.key.mod & KMOD_RALT) &&
+                 (event.key.key == SDLK_KP_ENTER || event.key.key == SDLK_RETURN)))
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
           m_video_system.apply_config();
@@ -483,8 +483,8 @@ ScreenManager::process_events()
 #endif
 #ifdef STEAM_BUILD
         // Shift+Tab opens the overlay; pause the game
-        else if (event.key.keysym.sym == SDLK_TAB &&
-                 (event.key.keysym.mod & KMOD_LSHIFT || event.key.keysym.mod & KMOD_RSHIFT))
+        else if (event.key.key == SDLK_TAB &&
+                 (event.key.mod & KMOD_LSHIFT || event.key.mod & KMOD_RSHIFT))
         {
           if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
           {
@@ -492,13 +492,39 @@ ScreenManager::process_events()
           }
         }
 #endif
+<<<<<<< HEAD
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
+=======
+        // Toggle ghost mode
+        else if (event.key.sym == SDLK_g &&
+                 (event.key.keysym.mod & KMOD_ALT) &&
+                 (event.key.keysym.mod & KMOD_CTRL) &&
+                 g_config->developer_mode)
+        {
+          if (session && session->is_active())
+          {
+            for (Player* player : session->get_current_sector().get_players())
+            {
+              player->set_ghost_mode(false, true);
+            }
+          }
+          else if (worldmap::WorldMap::current() && worldmap::WorldMapSector::current())
+          {
+            auto worldmap_sector = worldmap::WorldMapSector::current();
+            auto& tux = worldmap_sector->get_singleton_by_type<worldmap::Tux>();
+
+            tux.toggle_ghost_mode();
+          }
+        }
+        else if (event.key.key == SDLK_PRINTSCREEN ||
+                 event.key.key == SDLK_F12)
+>>>>>>> 32f558e82 (WIP: Migrating from SDL2 to SDL 3)
         {
           m_video_system.do_take_screenshot();
         }
-        else if (event.key.keysym.sym == SDLK_F2 &&
-                 event.key.keysym.mod & KMOD_CTRL)
+        else if (event.key.key == SDLK_F2 &&
+                 event.key.mod & KMOD_CTRL)
         {
           if ((g_config->developer_mode = !g_config->developer_mode) == true)
           {

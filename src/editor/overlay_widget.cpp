@@ -1180,7 +1180,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
-  std::uint16_t mod = key.keysym.mod;
+  std::uint16_t mod = key.mod;
 
   if (!m_editor.m_ctrl_pressed)
   {
@@ -1189,7 +1189,7 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
     // Hovered objects depend on if ctrl is pressed
     hover_object();
   }
-  else if (mod & KMOD_ALT)
+  else if (mod & SDL_KMOD_ALT)
   {
     alt_pressed = false;
   }
@@ -1199,8 +1199,8 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 bool
 EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
-  SDL_Keycode sym = key.keysym.sym;
-  std::uint16_t mod = key.keysym.mod;
+  SDL_Keycode sym = key.key;
+  std::uint16_t mod = key.mod;
 
   if (sym == SDLK_F8)
   {
@@ -1221,7 +1221,7 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
     // Hovered objects depend on if ctrl is pressed.
     hover_object();
   }
-  else if (mod & KMOD_ALT)
+  else if (mod & SDL_KMOD_ALT)
   {
     alt_pressed = true;
   }

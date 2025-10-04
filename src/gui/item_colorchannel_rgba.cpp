@@ -94,7 +94,7 @@ ItemColorChannelRGBA::enable_edit_mode()
 void
 ItemColorChannelRGBA::event(const SDL_Event& ev)
 {
-  if (ev.type == SDL_TEXTINPUT) {
+  if (ev.type == SDL_EVENT_TEXT_INPUT) {
     std::string txt = ev.text.text;
     for (auto& c : txt) {
       add_char(c);
