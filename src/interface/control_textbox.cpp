@@ -18,7 +18,7 @@
 
 #include <math.h>
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "math/vector.hpp"
 #include "math/rectf.hpp"
@@ -174,12 +174,12 @@ ControlTextbox::on_key_up(const SDL_KeyboardEvent& key)
 
   if (m_has_focus)
   {
-    if (key.keysym.sym == SDLK_LSHIFT || key.keysym.sym == SDLK_RSHIFT)
+    if (key.key == SDLK_LSHIFT || key.key == SDLK_RSHIFT)
     {
       m_shift_pressed = false;
       return true;
     }
-    else if (key.keysym.sym == SDLK_LCTRL || key.keysym.sym == SDLK_RCTRL)
+    else if (key.key == SDLK_LCTRL || key.key == SDLK_RCTRL)
     {
       m_ctrl_pressed = false;
       return true;
@@ -195,7 +195,7 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
   if (!m_has_focus)
     return false;
 
-  if (key.keysym.sym == SDLK_LEFT && m_caret_pos > 0)
+  if (key.key == SDLK_LEFT && m_caret_pos > 0)
   {
     if (!m_shift_pressed && m_secondary_caret_pos != m_caret_pos)
     {
@@ -212,7 +212,7 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
     recenter_offset();
     return true;
   }
-  else if (key.keysym.sym == SDLK_RIGHT && m_caret_pos < int(m_charlist.size()))
+  else if (key.key == SDLK_RIGHT && m_caret_pos < int(m_charlist.size()))
   {
     if (!m_shift_pressed && m_secondary_caret_pos != m_caret_pos)
     {
@@ -229,7 +229,7 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
     recenter_offset();
     return true;
   }
-  else if (key.keysym.sym == SDLK_BACKSPACE)
+  else if (key.key == SDLK_BACKSPACE)
   {
     if (!erase_selected_text() && m_caret_pos > 0)
     {
@@ -237,7 +237,7 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
     }
     return true;
   }
-  else if (key.keysym.sym == SDLK_DELETE)
+  else if (key.key == SDLK_DELETE)
   {
     if (!erase_selected_text() && static_cast<int>(m_charlist.size()) > m_caret_pos)
     {
@@ -246,7 +246,7 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
     }
     return true;
   }
-  else if (key.keysym.sym == SDLK_HOME)
+  else if (key.key == SDLK_HOME)
   {
     m_caret_pos = 0;
     m_cursor_timer = CONTROL_CURSOR_TIMER;
@@ -256,7 +256,7 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
     recenter_offset();
     return true;
   }
-  else if (key.keysym.sym == SDLK_END)
+  else if (key.key == SDLK_END)
   {
     m_caret_pos = int(m_charlist.size());
     m_cursor_timer = CONTROL_CURSOR_TIMER;
@@ -266,34 +266,34 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
     recenter_offset();
     return true;
   }
-  else if (key.keysym.sym == SDLK_LSHIFT || key.keysym.sym == SDLK_RSHIFT)
+  else if (key.key == SDLK_LSHIFT || key.key == SDLK_RSHIFT)
   {
     m_shift_pressed = true;
     return true;
   }
-  else if (key.keysym.sym == SDLK_LCTRL || key.keysym.sym == SDLK_RCTRL)
+  else if (key.key == SDLK_LCTRL || key.key == SDLK_RCTRL)
   {
     m_ctrl_pressed = true;
     return true;
   }
-  else if (key.keysym.sym == SDLK_c && m_ctrl_pressed)
+  else if (key.key == SDLK_C && m_ctrl_pressed)
   {
     copy();
     return true;
   }
-  else if (key.keysym.sym == SDLK_v && m_ctrl_pressed)
+  else if (key.key == SDLK_V && m_ctrl_pressed)
   {
     paste();
     return true;
   }
-  else if (key.keysym.sym == SDLK_a && m_ctrl_pressed)
+  else if (key.key == SDLK_A && m_ctrl_pressed)
   {
     m_caret_pos = 0;
     m_secondary_caret_pos = static_cast<int>(m_charlist.size());
     recenter_offset();
     return true;
   }
-  else if (key.keysym.sym == SDLK_RETURN)
+  else if (key.key == SDLK_RETURN)
   {
     parse_value();
     return true;
@@ -306,7 +306,7 @@ bool
 ControlTextbox::event(const SDL_Event& ev) {
   Widget::event(ev);
 
-  if (ev.type == SDL_TEXTINPUT && m_has_focus)
+  if (ev.type == SDL_EVENT_TEXT_INPUT && m_has_focus)
     put_text(std::string(ev.text.text));
 
   return false;

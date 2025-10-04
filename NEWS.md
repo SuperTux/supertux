@@ -182,7 +182,7 @@ SuperTux 0.4.0 (2015-12-20)
 
 Compared to 0.1.3, this release features:
 
-* a nearly completely rewritten game engine based on OpenGL, OpenAL, SDL2, ...
+* a nearly completely rewritten game engine based on OpenGL, OpenAL, SDL3, ...
 * support for translations
 * in-game manager for downloadable add-ons and translations
 * Bonus Island III, a for now unfinished Forest Island and the development levels in Incubator Island
@@ -231,7 +231,7 @@ SuperTux 0.3.5 (2015-04-11)
 
 In celebration of SuperTux's 15 year anniversary, we are releasing SuperTux 0.3.5.
 
-This release includes the switch to SDL2 for graphics rendering, a few performance
+This release includes the switch to SDL3 for graphics rendering, a few performance
 improvements, tons of bugfixes, new tiles and badguys amongst other things.
 
 NOTE: Due to the planned shutdown of Google Code, the SuperTux source code has
@@ -243,7 +243,7 @@ http://supertux.lethargik.org/wiki/Changelog_0.3.5
 
 Major changes in this release:
 
-* move to SDL2 for graphics rendering
+* move to SDL3 for graphics rendering
 * glow effects
 * new badguys: iceflame, ghostflame, livefire, goldbomb, smartblock
 * new bonuses: coinrain, coinexplode

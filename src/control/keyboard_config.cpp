@@ -54,7 +54,7 @@ KeyboardConfig::KeyboardConfig() :
   m_keymap[SDLK_LCTRL]     = {0, Control::ACTION};
   m_keymap[SDLK_LSHIFT]    = {0, Control::ITEM};
   m_keymap[SDLK_ESCAPE]    = {0, Control::ESCAPE};
-  m_keymap[SDLK_p]         = {0, Control::START};
+  m_keymap[SDLK_P]         = {0, Control::START};
   m_keymap[SDLK_PAUSE]     = {0, Control::START};
   m_keymap[SDLK_RETURN]    = {0, Control::MENU_SELECT};
   m_keymap[SDLK_KP_ENTER]  = {0, Control::MENU_SELECT};
@@ -72,12 +72,12 @@ void
 KeyboardConfig::read(const ReaderMapping& keymap_mapping)
 {
   // backwards compatibility:
-  // keycode values changed between SDL1 and SDL2, so we skip old SDL1
+  // keycode values changed between SDL1 and SDL3, so we skip old SDL1
   // based values and use the defaults instead on the first read of
   // the config file
-  bool config_is_sdl2 = false;
-  keymap_mapping.get("sdl2", config_is_sdl2);
-  if (!config_is_sdl2)
+  bool config_is_sdl3 = false;
+  keymap_mapping.get("sdl3", config_is_sdl3);
+  if (!config_is_sdl3)
     return;
 
   keymap_mapping.get("jump-with-up", m_jump_with_up_kbd);
@@ -163,10 +163,10 @@ KeyboardConfig::reversemap_key(int player, Control c) const
 void
 KeyboardConfig::write(Writer& writer)
 {
-  // this flag handles the transition from SDL1 to SDL2, as keycodes
+  // this flag handles the transition from SDL1 to SDL3, as keycodes
   // are incompatible between the two, if it's not set an old SDL1
   // config file is assumed and controls are reset to default
-  writer.write("sdl2", true);
+  writer.write("sdl3", true);
 
   writer.write("jump-with-up", m_jump_with_up_kbd);
 

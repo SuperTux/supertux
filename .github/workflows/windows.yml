@@ -69,8 +69,8 @@ jobs:
           vcpkg install libogg:$Env:ARCH-windows
           vcpkg install libvorbis:$Env:ARCH-windows
           vcpkg install openal-soft:$Env:ARCH-windows
-          vcpkg install sdl2:$Env:ARCH-windows
-          vcpkg install sdl2-image[libjpeg-turbo]:$Env:ARCH-windows
+          vcpkg install sdl3:$Env:ARCH-windows
+          vcpkg install sdl3-image[libjpeg-turbo]:$Env:ARCH-windows
           vcpkg install glm:$Env:ARCH-windows
           vcpkg install zlib:$Env:ARCH-windows
           vcpkg install fmt:$Env:ARCH-windows

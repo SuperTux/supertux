@@ -169,10 +169,12 @@ add_package(TARGET RAQM
   PKG RAQM PKG_USE RAQM CONFIG PKG_CONFIG libraqm raqm)
 
 if(NOT EMSCRIPTEN)
-  add_package(TARGET SDL2
-    PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2)
-  add_package(TARGET SDL2_image
-    PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image)
+  add_package(TARGET SDL3
+    PKG SDL3 PKG_USE SDL3::SDL3 CONFIG REQUIRED PKG_CONFIG sdl3 SDL3)
+  add_package(TARGET SDL3_image
+    PKG SDL3_image PKG_USE SDL3_image::SDL3_image CONFIG REQUIRED PKG_CONFIG SDL3_image sdl3_image)
+  add_package(TARGET SDL3_ttf
+    PKG SDL3_ttf PKG_USE SDL3_ttf::SDL3_ttf CONFIG REQUIRED PKG_CONFIG SDL3_ttf sdl3_ttf)
   add_package(TARGET libcurl
     PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
   add_package(TARGET OpenAL
@@ -189,11 +191,11 @@ endif()
 
 if(TARGET RAQM)
   message(STATUS "Compiling SDL_ttf with RAQM")
-  set(SDL2TTF_RAQM ON)
+  set(SDL3TTF_RAQM ON)
 endif()
 
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
-add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
+#add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
 add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
 add_subdirectory(external/partio_zip EXCLUDE_FROM_ALL)
@@ -299,18 +301,18 @@ else()
   target_link_libraries(supertux2 PUBLIC simplesquirrel)
 endif()
 target_link_libraries(supertux2 PUBLIC
-  tinygettext sexp SDL_SavePNG SDL2_ttf
+  tinygettext sexp SDL_SavePNG SDL3_ttf
   PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
 
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC
-    # SDL2_image
-    SDL2_image
-    # SDL2 main (windows?)
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    # SDL2
-    SDL2
+    # SDL3_image
+    SDL3_image
+    # SDL3 main (windows?)
+    $<TARGET_NAME_IF_EXISTS:SDL3::SDL3main>
+    # SDL3
+    SDL3
   )
   target_link_libraries(supertux2 PUBLIC
     Ogg

@@ -17,7 +17,7 @@
 #pragma once
 
 #include <string>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "video/sdl_surface_ptr.hpp"
 

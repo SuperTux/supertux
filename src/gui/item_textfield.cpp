@@ -74,43 +74,43 @@ ItemTextField::get_width() const
 void
 ItemTextField::event(const SDL_Event& ev)
 {
-  if (ev.type == SDL_TEXTINPUT) // Text input
+  if (ev.type == SDL_EVENT_TEXT_INPUT) // Text input
   {
     insert_text(ev.text.text, m_cursor_left_offset);
   }
-  else if (ev.type == SDL_KEYDOWN)
+  else if (ev.type == SDL_EVENT_KEY_DOWN)
   {
-    if (ev.key.keysym.sym == SDLK_DELETE) // Delete back
+    if (ev.key.key == SDLK_DELETE) // Delete back
     {
       delete_back();
     }
-    else if (ev.key.keysym.sym == SDLK_HOME) // Home: go to beginning of text
+    else if (ev.key.key == SDLK_HOME) // Home: go to beginning of text
     {
       go_to_beginning();
     }
-    else if (ev.key.keysym.sym == SDLK_END) // End: go to end of text
+    else if (ev.key.key == SDLK_END) // End: go to end of text
     {
       go_to_end();
     }
-    else if (SDL_GetModState() & KMOD_CTRL) //Commands which require CTRL
+    else if (SDL_GetModState() & SDL_KMOD_CTRL) //Commands which require CTRL
     {
-      if (ev.key.keysym.sym == SDLK_x) // Cut (whole line)
+      if (ev.key.key == SDLK_X) // Cut (whole line)
       {
         cut();
       }
-      else if (ev.key.keysym.sym == SDLK_c) // Copy (whole line)
+      else if (ev.key.key == SDLK_C) // Copy (whole line)
       {
         copy();
       }
-      else if (ev.key.keysym.sym == SDLK_v) // Paste
+      else if (ev.key.key == SDLK_V) // Paste
       {
         paste();
       }
-      else if (ev.key.keysym.sym == SDLK_z) // Undo
+      else if (ev.key.key == SDLK_Z) // Undo
       {
         undo();
       }
-      else if (ev.key.keysym.sym == SDLK_y) // Redo
+      else if (ev.key.key == SDLK_Y) // Redo
       {
         redo();
       }

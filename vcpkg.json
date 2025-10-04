@@ -15,8 +15,8 @@
     "nonwasm": {
       "description": "Add dependencies that aren't needed for WebAssembly",
       "dependencies": [
-        "sdl2",
-        "sdl2-image",
+        "sdl3",
+        "sdl3-image",
         "curl",
         "openal-soft",
         "libogg",

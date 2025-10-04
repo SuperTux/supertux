@@ -79,7 +79,7 @@ ControlCheckbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 ControlCheckbox::on_key_up(const SDL_KeyboardEvent& key)
 {
-  if (key.keysym.sym != SDLK_SPACE || !m_has_focus)
+  if (key.key != SDLK_SPACE || !m_has_focus)
     return false;
 
   *m_value = !*m_value;

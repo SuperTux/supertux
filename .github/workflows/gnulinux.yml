@@ -76,8 +76,8 @@ jobs:
             libogg-dev \
             libvorbis-dev \
             libopenal-dev \
-            libsdl2-dev \
-            libsdl2-image-dev \
+            libsdl3-dev \
+            libsdl3-image-dev \
             libglib2.0-dev \
             libfreetype6-dev \
             libraqm-dev \
@@ -114,8 +114,8 @@ jobs:
             libogg-dev:i386 \
             libvorbis-dev:i386 \
             libopenal-dev:i386 \
-            libsdl2-dev:i386 \
-            libsdl2-image-dev:i386 \
+            libsdl3-dev:i386 \
+            libsdl3-image-dev:i386 \
             libfreetype6-dev:i386 \
             libcurl4-openssl-dev:i386 \
             zlib1g-dev:i386 \

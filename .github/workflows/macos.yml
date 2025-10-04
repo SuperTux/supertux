@@ -53,7 +53,7 @@ jobs:
           cp -rf ./mk/brew/glm.rb $(brew --repository homebrew/core)/Formula/
           HOMEBREW_NO_AUTO_UPDATE=1 brew install glm --build-from-source
           brew install cmake bash rename libogg libvorbis glew \
-                       openal-soft sdl2 sdl2_image libraqm freetype \
+                       openal-soft sdl3 sdl3_image sdl3_ttf libraqm freetype \
                        glib gtk-doc zlib physfs fmt
 
           install_name_tool -change \

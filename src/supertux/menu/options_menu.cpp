@@ -375,27 +375,27 @@ OptionsMenu::add_window_resolutions()
 void
 OptionsMenu::add_resolutions()
 {
-  int display_mode_count = SDL_GetNumDisplayModes(0);
+  int display_mode_count;
+  auto display_modes = SDL_GetFullscreenDisplayModes(0, &display_mode_count);
+
+  if (display_modes == nullptr)
+  {
+    log_warning << "failed to get fullscreen display modes: " << SDL_GetError() << std::endl;
+    display_mode_count = 0;
+  }
+
   std::string last_display_mode;
   for (int i = 0; i < display_mode_count; ++i)
   {
-    SDL_DisplayMode mode;
-    int ret = SDL_GetDisplayMode(0, i, &mode);
-    if (ret != 0)
-    {
-      log_warning << "failed to get display mode: " << SDL_GetError() << std::endl;
-    }
-    else
-    {
-      std::ostringstream out;
-      out << mode.w << "x" << mode.h;
-      if (mode.refresh_rate)
-        out << "@" << mode.refresh_rate;
-      if (last_display_mode == out.str())
-        continue;
-      last_display_mode = out.str();
-      m_resolutions.list.insert(m_resolutions.list.begin(), out.str());
-    }
+    SDL_DisplayMode mode = *(display_modes[i]);
+    std::ostringstream out;
+    out << mode.w << "x" << mode.h;
+    if (mode.refresh_rate)
+      out << "@" << mode.refresh_rate;
+    if (last_display_mode == out.str())
+      continue;
+    last_display_mode = out.str();
+    m_resolutions.list.insert(m_resolutions.list.begin(), out.str());
   }
   m_resolutions.list.push_back("Desktop");
 
@@ -773,7 +773,10 @@ OptionsMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_CUSTOM_CURSOR:
-      SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
+      if (g_config->custom_mouse_cursor)
+        SDL_HideCursor();
+      else
+        SDL_ShowCursor();
       break;
 
     case MNID_MOBILE_CONTROLS_SCALE:
