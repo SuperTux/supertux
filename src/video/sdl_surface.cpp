@@ -39,7 +39,8 @@ SDLSurface::create_rgba(int width, int height)
   Uint32 bmask = 0x00ff0000;
   Uint32 amask = 0xff000000;
 #endif
-  SDLSurfacePtr surface(SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask));
+  SDLSurfacePtr surface(SDL_CreateSurface(width, height,
+                        SDL_GetPixelFormatForMasks(32, rmask, gmask, bmask, amask)));
   if (!surface) {
     std::ostringstream out;
     out << "failed to create SDL_Surface: " << SDL_GetError();
@@ -63,7 +64,8 @@ SDLSurface::create_rgb(int width, int height)
   Uint32 bmask = 0x00ff0000;
   Uint32 amask = 0x00000000;
 #endif
-  SDLSurfacePtr surface(SDL_CreateRGBSurface(0, width, height, 24, rmask, gmask, bmask, amask));
+  SDLSurfacePtr surface(SDL_CreateSurface(width, height,
+            SDL_GetPixelFormatForMasks(24, rmask, gmask, bmask, amask)));
   if (!surface) {
    std::ostringstream out;
     out << "failed to create SDL_Surface: " << SDL_GetError();
@@ -77,7 +79,7 @@ SDLSurfacePtr
 SDLSurface::from_file(const std::string& filename)
 {
   log_debug << "loading image: " << filename << std::endl;
-  SDLSurfacePtr surface(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
+  SDLSurfacePtr surface(IMG_Load_IO(get_physfs_SDLRWops(filename), 1));
   if (!surface)
   {
     std::ostringstream msg;
