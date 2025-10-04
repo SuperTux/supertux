@@ -17,6 +17,8 @@
 
 #include "video/sdl/sdl_screen_renderer.hpp"
 
+#include <SDL3/SDL_render.h>
+
 #include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -29,26 +31,29 @@ SDLScreenRenderer::SDLScreenRenderer(SDLVideoSystem& video_system, SDL_Renderer*
   m_renderer(renderer),
   m_painter(m_video_system, *this, m_renderer)
 {
-  SDL_RendererInfo info;
-  if (SDL_GetRendererInfo(m_renderer, &info) != 0)
+  auto renderer_name = SDL_GetRendererName(m_renderer);
+  if (renderer_name == nullptr)
   {
     log_warning << "Couldn't get RendererInfo: " << SDL_GetError() << std::endl;
   }
   else
   {
-    log_info << "SDL_Renderer: " << info.name << std::endl;
+    log_info << "SDL_Renderer: " << renderer_name << std::endl;
     log_info << "SDL_RendererFlags: " << std::endl;
-    if (info.flags & SDL_RENDERER_SOFTWARE) { log_info << "  SDL_RENDERER_SOFTWARE" << std::endl; }
-    if (info.flags & SDL_RENDERER_ACCELERATED) { log_info << "  SDL_RENDERER_ACCELERATED" << std::endl; }
-    if (info.flags & SDL_RENDERER_PRESENTVSYNC) { log_info << "  SDL_RENDERER_PRESENTVSYNC" << std::endl; }
-    if (info.flags & SDL_RENDERER_TARGETTEXTURE) { log_info << "  SDL_RENDERER_TARGETTEXTURE" << std::endl; }
-    log_info << "Texture Formats: " << std::endl;
-    for (size_t i = 0; i < info.num_texture_formats; ++i)
-    {
-      log_info << "  " << SDL_GetPixelFormatName(info.texture_formats[i]) << std::endl;
-    }
-    log_info << "Max Texture Width: " << info.max_texture_width << std::endl;
-    log_info << "Max Texture Height: " << info.max_texture_height << std::endl;
+    
+    // TODO: Query information !!!
+  
+    // if (info.flags & SDL_RENDERER_SOFTWARE) { log_info << "  SDL_RENDERER_SOFTWARE" << std::endl; }
+    // if (info.flags & SDL_RENDERER_ACCELERATED) { log_info << "  SDL_RENDERER_ACCELERATED" << std::endl; }
+    // if (info.flags & SDL_RENDERER_PRESENTVSYNC) { log_info << "  SDL_RENDERER_PRESENTVSYNC" << std::endl; }
+    // if (info.flags & SDL_RENDERER_TARGETTEXTURE) { log_info << "  SDL_RENDERER_TARGETTEXTURE" << std::endl; }
+    // log_info << "Texture Formats: " << std::endl;
+    // for (size_t i = 0; i < info.num_texture_formats; ++i)
+    // {
+    //   log_info << "  " << SDL_GetPixelFormatName(info.texture_formats[i]) << std::endl;
+    // }
+    // log_info << "Max Texture Width: " << info.max_texture_width << std::endl;
+    // log_info << "Max Texture Height: " << info.max_texture_height << std::endl;
   }
 }
 
@@ -66,9 +71,9 @@ SDLScreenRenderer::start_draw()
 
   // SetViewport() works in scaled screen coordinates, so we have to
   // reset it to 1.0, 1.0 to get meaningful results
-  SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
-  SDL_RenderSetViewport(m_renderer, &sdl_viewport);
-  SDL_RenderSetScale(m_renderer, scale.x, scale.y);
+  SDL_SetRenderScale(m_renderer, 1.0f, 1.0f);
+  SDL_SetRenderViewport(m_renderer, &sdl_viewport);
+  SDL_SetRenderScale(m_renderer, scale.x, scale.y);
 
   SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
   SDL_RenderClear(m_renderer);
