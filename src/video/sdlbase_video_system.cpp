@@ -145,7 +145,7 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
 void
 SDLBaseVideoSystem::apply_video_mode()
 {
-  const int displayidx = SDL_GetWindowDisplayIndex(m_sdl_window.get());
+  const int displayidx = SDL_GetDisplayForWindow(m_sdl_window.get());
   if (displayidx < 0)
   {
     log_warning << "Unable to get display index of window: "
@@ -153,8 +153,8 @@ SDLBaseVideoSystem::apply_video_mode()
     return;
   }
 
-  SDL_DisplayMode display;
-  if (SDL_GetDesktopDisplayMode(displayidx, &display) != 0)
+  const SDL_DisplayMode* display = SDL_GetDesktopDisplayMode(displayidx);
+  if (display == nullptr)
   {
     log_warning << "Unable to get information for display number "
                 << displayidx << ": "
@@ -162,8 +162,8 @@ SDLBaseVideoSystem::apply_video_mode()
     return;
   }
 
-  m_desktop_size.width = display.w;
-  m_desktop_size.height = display.h;
+  m_desktop_size.width = display->w;
+  m_desktop_size.height = display->h;
 
   if (!g_config->use_fullscreen)
   {
@@ -187,7 +187,7 @@ SDLBaseVideoSystem::apply_video_mode()
     }
 
 #if SDL_VERSION_ATLEAST(2,0,5)
-    SDL_SetWindowResizable(m_sdl_window.get(), static_cast<SDL_bool>(g_config->window_resizable));
+    SDL_SetWindowResizable(m_sdl_window.get(), g_config->window_resizable);
 #endif
   }
   else
@@ -207,15 +207,15 @@ SDLBaseVideoSystem::apply_video_mode()
     else
     {
       SDL_DisplayMode mode;
-      mode.format = SDL_PIXELFORMAT_RGB888;
+      mode.format = SDL_PIXELFORMAT_XRGB8888;
       mode.w = g_config->fullscreen_size.width;
       mode.h = g_config->fullscreen_size.height;
       mode.refresh_rate = g_config->fullscreen_refresh_rate;
       mode.driverdata = nullptr;
 
-      if (SDL_SetWindowDisplayMode(m_sdl_window.get(), &mode) != 0)
+      if (SDL_SetWindowFullscreenMode(m_sdl_window.get(), &mode) != 0)
       {
-        log_warning << "failed to set display mode: "
+        log_warning << "failed to set fullscreen mode: "
                     << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
                     << SDL_GetError() << std::endl;
       }
