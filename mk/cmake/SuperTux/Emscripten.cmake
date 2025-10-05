@@ -25,5 +25,3 @@ set_target_properties(OpenAL PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/mk/emscripten/AL"
   INTERFACE_LINK_LIBRARIES "-lopenal"
 )
-
-add_library(SDL3 INTERFACE IMPORTED)
