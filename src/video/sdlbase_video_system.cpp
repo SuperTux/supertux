@@ -90,14 +90,14 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
   Size size;
   if (g_config->use_fullscreen)
   {
+    flags |= SDL_WINDOW_FULLSCREEN;
+
     if (g_config->fullscreen_size == Size(0, 0))
     {
-      flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
       size = m_desktop_size;
     }
     else
     {
-      flags |= SDL_WINDOW_FULLSCREEN;
       size = g_config->fullscreen_size;
     }
   }
@@ -116,10 +116,7 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
          Android.
 #endif
 
-  m_sdl_window.reset(SDL_CreateWindow("SuperTux",
-                                      SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                      size.width, size.height,
-                                      flags));
+  m_sdl_window.reset(SDL_CreateWindow("SuperTux", size.width, size.height, flags));
   if (!m_sdl_window)
   {
     std::ostringstream msg;
@@ -194,7 +191,7 @@ SDLBaseVideoSystem::apply_video_mode()
   {
     if (g_config->fullscreen_size == Size(0, 0))
     {
-      if (SDL_SetWindowFullscreen(m_sdl_window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
+      if (SDL_SetWindowFullscreen(m_sdl_window.get(), SDL_WINDOW_FULLSCREEN) != 0)
       {
         log_warning << "failed to switch to desktop fullscreen mode: "
                     << SDL_GetError() << std::endl;
@@ -211,7 +208,6 @@ SDLBaseVideoSystem::apply_video_mode()
       mode.w = g_config->fullscreen_size.width;
       mode.h = g_config->fullscreen_size.height;
       mode.refresh_rate = g_config->fullscreen_refresh_rate;
-      mode.driverdata = nullptr;
 
       if (SDL_SetWindowFullscreenMode(m_sdl_window.get(), &mode) != 0)
       {
