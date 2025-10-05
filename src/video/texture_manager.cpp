@@ -298,15 +298,16 @@ TextureManager::create_image_surface_raw(const std::string& filename, const Rect
   assert(rect.valid());
 
   const SDL_Surface& src_surface = get_surface(filename);
+  const SDL_PixelFormatDetails* format = SDL_GetPixelFormatDetails(src_surface.format);
 
   SDLSurfacePtr convert;
-  if (src_surface.format->Rmask == 0 &&
-      src_surface.format->Gmask == 0 &&
-      src_surface.format->Bmask == 0 &&
-      src_surface.format->Amask == 0)
+  if (format->Rmask == 0 &&
+      format->Gmask == 0 &&
+      format->Bmask == 0 &&
+      format->Amask == 0)
   {
     log_debug << "Wrong surface format for image " << filename << ". Compensating." << std::endl;
-    convert.reset(SDL_ConvertSurfaceFormat(const_cast<SDL_Surface*>(&src_surface), SDL_PIXELFORMAT_RGBA8888, 0));
+    convert.reset(SDL_ConvertSurface(const_cast<SDL_Surface*>(&src_surface), SDL_PIXELFORMAT_RGBA8888));
   }
 
   const SDL_Surface& surface = convert ? *convert : src_surface;
@@ -317,14 +318,10 @@ TextureManager::create_image_surface_raw(const std::string& filename, const Rect
     log_warning << filename << ": invalid subregion requested: image="
                 << surface.w << "x" << surface.h << ", rect=" << rect << std::endl;
 
-    subimage = SDLSurfacePtr(SDL_CreateRGBSurface(0,
-                                                  rect.get_width(),
-                                                  rect.get_height(),
-                                                  surface.format->BitsPerPixel,
-                                                  surface.format->Rmask,
-                                                  surface.format->Gmask,
-                                                  surface.format->Bmask,
-                                                  surface.format->Amask));
+    subimage = SDLSurfacePtr(
+      SDL_CreateSurface(rect.get_width(), rect.get_height(),
+        SDL_GetPixelFormatForMasks(format->bits_per_pixel, format->Rmask, format->Gmask, format->Bmask, format->Amask))
+    );
 
     Rect clipped_rect(std::max(0, rect.left),
                       std::max(0, rect.top),
@@ -336,19 +333,21 @@ TextureManager::create_image_surface_raw(const std::string& filename, const Rect
   }
   else
   {
-    subimage = SDLSurfacePtr(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(surface.pixels) +
-                                                      rect.top * surface.pitch +
-                                                      rect.left * surface.format->BytesPerPixel,
-                                                      rect.get_width(), rect.get_height(),
-                                                      surface.format->BitsPerPixel,
-                                                      surface.pitch,
-                                                      surface.format->Rmask,
-                                                      surface.format->Gmask,
-                                                      surface.format->Bmask,
-                                                      surface.format->Amask));
+    subimage = SDLSurfacePtr(SDL_CreateSurfaceFrom(
+                              rect.get_width(), rect.get_height(),
+                                SDL_GetPixelFormatForMasks(
+                                  format->bits_per_pixel,
+                                  format->Rmask,
+                                  format->Gmask,
+                                  format->Bmask,
+                                  format->Amask),
+                                static_cast<uint8_t*>(surface.pixels) +
+                                  rect.top * surface.pitch +
+                                  rect.left * format->bytes_per_pixel, surface.pitch));
+
     if (!subimage)
     {
-      throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
+      throw std::runtime_error("SDL_CreateSurfaceFrom() call failed");
     }
   }
 
@@ -385,7 +384,7 @@ TextureManager::create_dummy_surface()
   {
     // on error (when loading placeholder), try using empty surface,
     // when that fails to, just give up
-    SDLSurfacePtr surface(SDL_CreateRGBSurface(0, 128, 128, 8, 0, 0, 0, 0));
+    SDLSurfacePtr surface(SDL_CreateSurface(128, 128, SDL_GetPixelFormatForMasks(8, 0, 0, 0, 0)));
     if (!surface)
     {
       throw;
