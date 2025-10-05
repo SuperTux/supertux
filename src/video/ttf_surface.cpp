@@ -16,7 +16,7 @@
 
 #include "video/ttf_surface.hpp"
 
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include <sstream>
 
@@ -30,8 +30,8 @@
 TTFSurfacePtr
 TTFSurface::create(const TTFFont& font, const std::string& text)
 {
-  SDLSurfacePtr text_surface(TTF_RenderUTF8_Blended(font.get_ttf_font(),
-                                                    text.c_str(),
+  SDLSurfacePtr text_surface(TTF_RenderText_Blended(font.get_ttf_font(),
+                                                    text.c_str(), text.length(),
                                                     SDL_Color{255, 255, 255, 255}));
   if (!text_surface)
   {
