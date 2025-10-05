@@ -27,7 +27,3 @@ set_target_properties(OpenAL PROPERTIES
 )
 
 add_library(SDL3 INTERFACE IMPORTED)
-set_target_properties(SDL3 PROPERTIES
-  INTERFACE_COMPILE_OPTIONS "-sUSE_SDL=3"
-  INTERFACE_LINK_LIBRARIES "-sUSE_SDL=3"
-)
