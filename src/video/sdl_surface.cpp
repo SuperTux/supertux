@@ -79,7 +79,14 @@ SDLSurfacePtr
 SDLSurface::from_file(const std::string& filename)
 {
   log_debug << "loading image: " << filename << std::endl;
-  SDLSurfacePtr surface(IMG_Load_IO(get_physfs_SDLRWops(filename), 1));
+  auto stream = get_physfs_SDLRWops(filename);
+  if (!stream)
+  {
+    std::ostringstream msg;
+    msg << "Couldn't open file: " << filename;
+    throw std::runtime_error(msg.str());
+  }
+  SDLSurfacePtr surface(IMG_Load_IO(stream, true));
   if (!surface)
   {
     std::ostringstream msg;
