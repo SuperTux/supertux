@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
 
 #include <config.h>
 #include <memory>
