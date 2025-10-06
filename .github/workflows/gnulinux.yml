@@ -125,7 +125,7 @@ jobs:
 
           # Patch dbus port file to work around dbus issue on 32-bit
           # See https://github.com/microsoft/vcpkg/issues/40031
-          git apply mk/vcpkg/dbus.patch --directory=$env:VCPKG_ROOT
+          git apply mk/vcpkg/dbus.patch --directory=$Env:VCPKG_INSTALLATION_ROOT
           
           # Let's get out of this directory to disable vcpkg manifest mode.
           # Manifest mode is not adequate here because most dependencies can
