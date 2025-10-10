@@ -111,7 +111,7 @@ public:
   static void update_all();
   static void close_all();
 
-  static void update_status_all(IntegrationStatus status);
+  static void update_status_all(const IntegrationStatus& status);
 
 public:
   virtual void init() = 0;

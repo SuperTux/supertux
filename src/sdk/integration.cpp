@@ -58,7 +58,7 @@ Integration::close_all()
 }
 
 void
-Integration::update_status_all(IntegrationStatus status)
+Integration::update_status_all(const IntegrationStatus& status)
 {
   if (current_status == status)
     return;
