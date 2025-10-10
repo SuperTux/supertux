@@ -241,7 +241,7 @@ Level::get_setting_name(Setting setting)
 }
 
 Level::Setting
-Level::get_setting_from_name(std::string setting)
+Level::get_setting_from_name(const std::string& setting)
 {
   if (setting == "on")
   {
