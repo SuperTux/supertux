@@ -93,4 +93,10 @@
 	(hitbox 70 24 32 32)
     (mirror-action "squished-left")
   )
+
+  (linked-sprites
+    (custom-light
+      (file "core_glow/core_glow.sprite")
+    )
+  )
 )

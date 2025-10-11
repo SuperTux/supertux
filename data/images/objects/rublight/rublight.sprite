@@ -19,4 +19,10 @@
     (name "inactive")
 	(images "rublight-0.png")
   )
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light.sprite")
+    )
+  )
 )
