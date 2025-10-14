@@ -16,7 +16,9 @@
 
 #pragma once
 
+#include <SDL_mouse.h>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "config.h"
@@ -60,6 +62,7 @@ public:
 
 private:
   void apply_state(MouseCursorState state);
+  void set_cursor_action(const std::string& action);
 
 private:
   MouseCursorState m_state;
@@ -68,6 +71,9 @@ private:
   int m_x, m_y;
   bool m_mobile_mode;
   SurfacePtr m_icon;
+  bool m_custom_cursor_last;
+  
+  std::unordered_map<std::string, std::shared_ptr<SDL_Cursor>> m_cursors;
 
 private:
   MouseCursor(const MouseCursor&) = delete;

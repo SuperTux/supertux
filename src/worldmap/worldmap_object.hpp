@@ -45,11 +45,13 @@ public:
   /** Draws the object, when on a worldmap. */
   virtual void draw_worldmap(DrawingContext& context);
 
-  void update(float) override;
-
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
   virtual ObjectSettings get_settings() override;
-  virtual void move_to(const Vector& pos) override;
+  void after_editor_set() override;
+
+  void set_pos(const Vector& pos) override;
+  void move_to(const Vector& pos) override;
+  void move(const Vector& dist) override;
 
   inline Vector get_tile_pos() const { return { m_tile_x, m_tile_y }; }
 
@@ -57,7 +59,9 @@ private:
   void initialize();
 
   void draw_normal(DrawingContext& context);
+
   void update_pos();
+  void update_pos(const Vector& pos);
 
 private:
   int m_tile_x;
