@@ -58,7 +58,7 @@
       (z-pos -295)
     )
     (background
-      (scroll-offset-y 40)
+      (scroll-offset-y 80)
       (color 0.7568628 0.8705882 1 0.15)
       (speed 0.05)
       (image-top "/images/background/misc/transparent_up.png")

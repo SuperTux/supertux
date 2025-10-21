@@ -1847,6 +1847,10 @@ end_cutscene();")
       (x 4224)
       (y 864)
     )
+    (spawnpoint
+      (x 17248)
+      (y 1600)
+    )
     (spiky
       (z-pos 50)
       (x 8384)
@@ -2355,7 +2359,7 @@ end_cutscene();")
   )
   (sector
     (name "harbor")
-    (init-script "import(\"levels/world1_for_v0_7/crystal_mine.nut\");
+    (init-script "import(\"levels/world1/crystal_mine.nut\");
 
 Text.set_anchor_point(7);
 Text.set_anchor_offset(0, -160);")

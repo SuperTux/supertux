@@ -201,14 +201,6 @@
       (top_color 0.5 0.7 1)
       (bottom_color 1 1 1)
     )
-    (infoblock
-      (z-pos 50)
-      (message (_ "-Secret Exits
-#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."))
-      (fadetransition #f)
-      (x 14048)
-      (y 1056)
-    )
     (jumpy
       (z-pos 50)
       (x 5376)
@@ -757,8 +749,8 @@ lift2.goto_node(1);")
       (z-pos 51)
       (message (_ "-Secret Exit
 #Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."))
-      (x 992)
-      (y 704)
+      (x 1440)
+      (y 672)
     )
     (music
       (file "/music/antarctic/midday_alt.music")
