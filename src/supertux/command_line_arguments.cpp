@@ -50,6 +50,7 @@ CommandLineArguments::CommandLineArguments() :
   christmas_mode(),
   repository_url(),
   editor(),
+  from_datadir(),
   resave()
 {
 }
@@ -113,6 +114,7 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("Game Options:") << "\n"
     << _("  --edit-level                 Open given level in editor") << "\n"
     << _("  --resave                     Loads given level and saves it") << "\n"
+    << _("  --paths-from-datadir         Indicates that the paths are relative to the data dir. Only used if --edit-level is specified") << "\n"
     << _("  --show-fps                   Display framerate in levels") << "\n"
     << _("  --no-show-fps                Do not display framerate in levels") << "\n"
     << _("  --show-pos                   Display player's current position") << "\n"
@@ -362,6 +364,10 @@ CommandLineArguments::parse_args(int argc, char** argv)
     else if (arg == "--editor" || arg == "--edit-level")
     {
       editor = true;
+    }
+    else if (arg == "--paths-from-datadir")
+    {
+      from_datadir = true;
     }
     else if (arg == "--resave")
     {
