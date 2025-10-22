@@ -878,34 +878,34 @@ Editor::event(const SDL_Event& ev)
 
   try
   {
-    if (ev.type == SDL_KEYDOWN)
+    if (ev.type == SDL_EVENT_KEY_DOWN)
     {
-      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+      m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
 
       if (m_ctrl_pressed)
         m_scroll_speed = 16.0f;
-      else if (ev.key.keysym.mod & KMOD_RSHIFT)
+      else if (ev.key.mod & SDL_KMOD_RSHIFT)
         m_scroll_speed = 96.0f;
 
-      if (ev.key.keysym.sym == SDLK_F6)
+      if (ev.key.key == SDLK_F6)
       {
         Compositor::s_render_lighting = !Compositor::s_render_lighting;
         return;
       }
       else if (m_ctrl_pressed)
       {
-        switch (ev.key.keysym.sym)
+        switch (ev.key.key)
         {
-          case SDLK_t:
+          case SDLK_T:
             test_level(std::nullopt);
             break;
-          case SDLK_s:
+          case SDLK_S:
             save_level();
             break;
-          case SDLK_z:
+          case SDLK_Z:
             undo();
             break;
-          case SDLK_y:
+          case SDLK_Y:
             redo();
             break;
           case SDLK_PLUS: // Zoom in
@@ -916,24 +916,24 @@ Editor::event(const SDL_Event& ev)
           case SDLK_KP_MINUS:
             m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
             break;
-          case SDLK_d: // Reset zoom
+          case SDLK_D: // Reset zoom
             m_new_scale = 1.f;
             break;
         }
       }
     }
-    else if (ev.type == SDL_KEYUP)
+    else if (ev.type == SDL_EVENT_KEY_UP)
     {
-      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+      m_ctrl_pressed = ev.key.mod & SDL_KMOD_CTRL;
 
-      if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
+      if (!m_ctrl_pressed && !(ev.key.mod & SDL_KMOD_RSHIFT))
         m_scroll_speed = 32.0f;
     }
-    else if (ev.type == SDL_MOUSEMOTION)
+    else if (ev.type == SDL_EVENT_MOUSE_MOTION)
     {
       m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
     }
-    else if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
+    else if (ev.type == SDL_EVENT_MOUSE_WHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
     {
       // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
       // The toolbox does scrolling independently from the main area.

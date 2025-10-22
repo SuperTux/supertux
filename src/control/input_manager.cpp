@@ -83,60 +83,60 @@ void
 InputManager::process_event(const SDL_Event& event)
 {
   switch (event.type) {
-    case SDL_TEXTINPUT:
+    case SDL_EVENT_TEXT_INPUT:
       keyboard_manager->process_text_input_event(event.text);
       break;
 
-    case SDL_KEYUP:
-    case SDL_KEYDOWN:
+    case SDL_EVENT_KEY_UP:
+    case SDL_EVENT_KEY_DOWN:
       keyboard_manager->process_key_event(event.key);
       break;
 
-    case SDL_JOYAXISMOTION:
+    case SDL_EVENT_JOYSTICK_AXIS_MOTION:
       if (!m_use_game_controller) joystick_manager->process_axis_event(event.jaxis);
       break;
 
-    case SDL_JOYHATMOTION:
+    case SDL_EVENT_JOYSTICK_HAT_MOTION:
       if (!m_use_game_controller) joystick_manager->process_hat_event(event.jhat);
       break;
 
-    case SDL_JOYBUTTONDOWN:
-    case SDL_JOYBUTTONUP:
+    case SDL_EVENT_JOYSTICK_BUTTON_DOWN:
+    case SDL_EVENT_JOYSTICK_BUTTON_UP:
       if (!m_use_game_controller) joystick_manager->process_button_event(event.jbutton);
       break;
 
-    case SDL_JOYDEVICEADDED:
+    case SDL_EVENT_JOYSTICK_ADDED:
       joystick_manager->on_joystick_added(event.jdevice.which);
       break;
 
-    case SDL_JOYDEVICEREMOVED:
+    case SDL_EVENT_JOYSTICK_REMOVED:
       joystick_manager->on_joystick_removed(event.jdevice.which);
       break;
 
-    case SDL_CONTROLLERAXISMOTION:
-      if (m_use_game_controller) game_controller_manager->process_axis_event(event.caxis);
+    case SDL_EVENT_GAMEPAD_AXIS_MOTION:
+      if (m_use_game_controller) game_controller_manager->process_axis_event(event.gaxis);
       break;
 
-    case SDL_CONTROLLERBUTTONDOWN:
-      if (m_use_game_controller) game_controller_manager->process_button_event(event.cbutton);
+    case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
+      if (m_use_game_controller) game_controller_manager->process_button_event(event.gbutton);
       break;
 
-    case SDL_CONTROLLERBUTTONUP:
-      if (m_use_game_controller) game_controller_manager->process_button_event(event.cbutton);
+    case SDL_EVENT_GAMEPAD_BUTTON_UP:
+      if (m_use_game_controller) game_controller_manager->process_button_event(event.gbutton);
       break;
 
-    case SDL_CONTROLLERDEVICEADDED:
-      log_debug << "SDL_CONTROLLERDEVICEADDED" << std::endl;
-      game_controller_manager->on_controller_added(event.cdevice.which);
+    case SDL_EVENT_GAMEPAD_ADDED:
+      log_debug << "SDL_EVENT_GAMEPAD_ADDED" << std::endl;
+      game_controller_manager->on_controller_added(event.gdevice.which);
       break;
 
-    case SDL_CONTROLLERDEVICEREMOVED:
-      log_debug << "SDL_CONTROLLERDEVICEREMOVED" << std::endl;
-      game_controller_manager->on_controller_removed(event.cdevice.which);
+    case SDL_EVENT_GAMEPAD_REMOVED:
+      log_debug << "SDL_EVENT_GAMEPAD_REMOVED" << std::endl;
+      game_controller_manager->on_controller_removed(event.gdevice.which);
       break;
 
-    case SDL_CONTROLLERDEVICEREMAPPED:
-      log_debug << "SDL_CONTROLLERDEVICEREMAPPED" << std::endl;
+    case SDL_EVENT_GAMEPAD_REMAPPED:
+      log_debug << "SDL_EVENT_GAMEPAD_REMAPPED" << std::endl;
       break;
 
     default:

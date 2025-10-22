@@ -821,27 +821,27 @@ ParticleEditor::event(const SDL_Event& ev)
         break;
   }
 
-  if (ev.type == SDL_KEYDOWN &&
-      ev.key.keysym.sym == SDLK_z &&
-      ev.key.keysym.mod & KMOD_CTRL) {
+  if (ev.type == SDL_EVENT_KEY_DOWN &&
+      ev.key.key == SDLK_Z &&
+      ev.key.mod & SDL_KMOD_CTRL) {
     undo();
   }
 
-  if (ev.type == SDL_KEYDOWN &&
-      ev.key.keysym.sym == SDLK_y &&
-     ev.key.keysym.mod & KMOD_CTRL) {
+  if (ev.type == SDL_EVENT_KEY_DOWN &&
+      ev.key.key == SDLK_Y &&
+      ev.key.mod & SDL_KMOD_CTRL) {
     redo();
   }
 
-  if (ev.type == SDL_KEYDOWN &&
-      ev.key.keysym.sym == SDLK_s &&
-      ev.key.keysym.mod & KMOD_CTRL) {
-    request_save(ev.key.keysym.mod & KMOD_SHIFT);
+  if (ev.type == SDL_EVENT_KEY_DOWN &&
+      ev.key.key == SDLK_S &&
+      ev.key.mod & SDL_KMOD_CTRL) {
+    request_save(ev.key.mod & SDL_KMOD_SHIFT);
   }
 
-  if (ev.type == SDL_KEYDOWN &&
-      ev.key.keysym.sym == SDLK_o &&
-     ev.key.keysym.mod & KMOD_CTRL) {
+  if (ev.type == SDL_EVENT_KEY_DOWN &&
+      ev.key.key == SDLK_O &&
+      ev.key.mod & SDL_KMOD_CTRL) {
     MenuManager::instance().set_menu(MenuStorage::PARTICLE_EDITOR_OPEN);
   }
 }

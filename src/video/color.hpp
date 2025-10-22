@@ -21,7 +21,7 @@
 #include <optional>
 #include <vector>
 
-#include <SDL_image.h>
+#include <SDL3_image/SDL_image.h>
 
 class Color final
 {

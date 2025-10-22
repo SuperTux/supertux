@@ -20,13 +20,11 @@
 #include <vector>
 #include <unordered_map>
 
+#include <SDL3/SDL.h>
+
 #include "control/controller.hpp"
 
 class InputManager;
-struct SDL_ControllerAxisEvent;
-struct SDL_ControllerButtonEvent;
-struct _SDL_GameController;
-typedef struct _SDL_GameController SDL_GameController;
 
 /**
  * Manages GameControllers.
@@ -39,8 +37,8 @@ public:
   GameControllerManager(InputManager* parent);
   ~GameControllerManager();
 
-  void process_button_event(const SDL_ControllerButtonEvent& ev);
-  void process_axis_event(const SDL_ControllerAxisEvent& ev);
+  void process_button_event(const SDL_GamepadButtonEvent& ev);
+  void process_axis_event(const SDL_GamepadAxisEvent& ev);
 
   void on_controller_added(int joystick_index);
   void on_controller_removed(int instance_id);
@@ -49,16 +47,16 @@ public:
   bool has_corresponding_game_controller(int player_id) const;
 
   /** @returns 0 if success, 1 if controller doesn't support rumbling, 2 if game doesn't support rumbling */
-  int rumble(SDL_GameController* controller) const;
+  int rumble(SDL_Gamepad* controller) const;
 
-  void bind_controller(SDL_GameController* controller, int player_id);
+  void bind_controller(SDL_Gamepad* controller, int player_id);
 
-  inline std::unordered_map<SDL_GameController*, int>& get_controller_mapping() { return m_game_controllers; }
+  inline std::unordered_map<SDL_Gamepad*, int>& get_controller_mapping() { return m_game_controllers; }
 
 private:
   InputManager* m_parent;
   int m_deadzone;
-  std::unordered_map<SDL_GameController*, int> m_game_controllers;
+  std::unordered_map<SDL_Gamepad*, int> m_game_controllers;
   std::array<bool, static_cast<int>(Control::CONTROLCOUNT)> m_stick_state;
   std::array<bool, static_cast<int>(Control::CONTROLCOUNT)> m_button_state;
 

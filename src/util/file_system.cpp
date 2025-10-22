@@ -35,9 +35,9 @@
 #include <curl/curl.h>
 #endif
 
-#include <SDL2/SDL_version.h>
+#include <SDL3/SDL_version.h>
 #if SDL_VERSION_ATLEAST(2,0,14)
-#include <SDL2/SDL_misc.h>
+#include <SDL3/SDL_misc.h>
 #endif
 
 #include "gui/dialog.hpp"
