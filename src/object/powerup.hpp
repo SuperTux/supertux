@@ -24,6 +24,7 @@ class PowerUp : public MovingSprite
 public:
   enum Type {
     EGG,
+    BADEGG,
     FIRE,
     ICE,
     AIR,

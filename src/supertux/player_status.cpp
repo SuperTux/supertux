@@ -109,6 +109,8 @@ PlayerStatus::get_bonus_name(BonusType bonustype)
       return "earthflower";
     case BONUS_GROWUP:
       return "egg";
+    case MALUS_BADEGG:
+      return "badegg";
     case BONUS_NONE:
       return "none";
     default:
@@ -124,6 +126,8 @@ PlayerStatus::get_bonus_from_name(const std::string& name)
     return BONUS_NONE;
   } else if (name == "growup" || name == "egg") {
     return BONUS_GROWUP;
+  } else if (name == "badegg") {
+    return MALUS_BADEGG;
   } else if (name == "fireflower") {
     return BONUS_FIRE;
   } else if (name == "iceflower") {
@@ -152,6 +156,8 @@ PlayerStatus::get_bonus_sprite(BonusType bonustype)
       return "images/powerups/earthflower/earthflower.sprite";
     case BONUS_GROWUP:
       return "images/powerups/egg/egg.sprite";
+    case MALUS_BADEGG:
+      return "images/powerups/badegg/badegg.sprite";
     default:
       return "";
   }
@@ -358,6 +364,8 @@ PlayerStatus::get_bonus_prefix(int player_id) const
       return "small";
     case BONUS_GROWUP:
       return "big";
+    case MALUS_BADEGG:
+      return "corrupt";
     case BONUS_FIRE:
       return "fire";
     case BONUS_ICE:
