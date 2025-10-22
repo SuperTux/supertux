@@ -1,0 +1,17 @@
+(supertux-sprite
+  (action
+    (name "variant1")
+	(hitbox 12 32 8 70)
+    (images "red_root-0.png")
+  )
+  (action
+    (name "variant2")
+	(hitbox 12 32 8 70)
+    (images "red_root-1.png")
+  )
+  (action
+    (name "variant3")
+	(hitbox 12 32 8 70)
+    (images "red_root-2.png")
+  )
+)
