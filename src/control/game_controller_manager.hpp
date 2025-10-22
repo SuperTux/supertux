@@ -59,8 +59,6 @@ private:
   InputManager* m_parent;
   int m_deadzone;
   std::unordered_map<SDL_GameController*, int> m_game_controllers;
-  std::array<bool, static_cast<int>(Control::CONTROLCOUNT)> m_stick_state;
-  std::array<bool, static_cast<int>(Control::CONTROLCOUNT)> m_button_state;
 
 private:
   GameControllerManager(const GameControllerManager&) = delete;
