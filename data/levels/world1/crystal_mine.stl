@@ -19,7 +19,9 @@
 Text.set_anchor_point(7);
 Text.set_anchor_offset(0, -160);
 
-Level.pause_target_timer();")
+Level.pause_target_timer();
+
+SWITCH.set_action(\"off\");")
     (ambient-light
       (color 0.88 0.8 1)
     )
@@ -875,6 +877,18 @@ Tux.do_scripting_controller(\"jump\", false);")
       (height 160)
       (x 18176)
       (y 1504)
+    )
+    (invisible_wall
+      (width 16)
+      (height 32)
+      (x 5264)
+      (y 2112)
+    )
+    (invisible_wall
+      (width 16)
+      (height 32)
+      (x 5216)
+      (y 2112)
     )
     (jumpy
       (z-pos 50)
@@ -1850,6 +1864,10 @@ end_cutscene();")
     (spawnpoint
       (x 17248)
       (y 1600)
+    )
+    (spawnpoint
+      (x 5168)
+      (y 1984)
     )
     (spiky
       (z-pos 50)
