@@ -765,13 +765,14 @@ lift2.goto_node(1);")
       (x 352)
       (y 608)
     )
-    (sequencetrigger
-      (fade_tilemap "fork_secret")
-      (sequence "endsequence")
+    (scripttrigger
+      (script "state.fork_secret <- true;
+Tux.trigger_sequence(\"endsequence\");")
+      (button #f)
       (width 32)
-      (height 768)
+      (height 688)
       (x 2080)
-      (y 0)
+      (y 80)
     )
     (sequencetrigger
       (sequence "stoptux")

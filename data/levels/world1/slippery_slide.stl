@@ -497,19 +497,20 @@ Camera.scale(1.2, 1);
       (x 2528)
       (y 352)
     )
+    (scripttrigger
+      (script "state.slide_secret <- true;
+Tux.trigger_sequence(\"endsequence\");")
+      (button #f)
+      (width 32)
+      (height 624)
+      (x 6304)
+      (y 272)
+    )
     (sequencetrigger
       (sequence "stoptux")
       (width 64)
       (height 896)
       (x 6912)
-      (y 0)
-    )
-    (sequencetrigger
-      (fade_tilemap "slide_secret")
-      (sequence "endsequence")
-      (width 32)
-      (height 896)
-      (x 6304)
       (y 0)
     )
     (spawnpoint

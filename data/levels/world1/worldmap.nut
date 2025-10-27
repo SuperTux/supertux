@@ -42,8 +42,15 @@ go_underground(state.underground);
 //   ROAD FORKS
 // ============================================================================
 
-function reset_forks(fade_time = 0.35) {
-	sector.fork_secret.fade(0.25, fade_time);
-	sector.fridge_secret.fade(0.25, fade_time);
-	sector.slide_secret.fade(0.25, fade_time);
+if(!("fork_secret" in state)) {
+	state.fork_secret <- false;
+	state.fridge_secret <- false;
+	state.slide_secret <- false;
 }
+
+if(!state.fork_secret) fork_secret.fade(0.2, 0);
+else fork_secret.fade(1, 0);
+if(!state.fridge_secret) fridge_secret.fade(0.2, 0);
+else fridge_secret.fade(1, 0);
+if(!state.slide_secret) slide_secret.fade(0.2, 0);
+else slide_secret.fade(1, 0);

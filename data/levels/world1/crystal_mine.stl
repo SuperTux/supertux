@@ -1865,10 +1865,6 @@ end_cutscene();")
       (x 17248)
       (y 1600)
     )
-    (spawnpoint
-      (x 5168)
-      (y 1984)
-    )
     (spiky
       (z-pos 50)
       (x 8384)
