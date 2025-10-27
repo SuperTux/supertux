@@ -488,15 +488,6 @@ Camera.scale(1, 1);
       (y 320)
     )
     (scripttrigger
-      (oneshot #t)
-      (script "///Initalize secret path on worldmap")
-      (button #f)
-      (width 64)
-      (height 896)
-      (x 6304)
-      (y 0)
-    )
-    (scripttrigger
       (script "sector.settings.fade_to_ambient_light(0.92, 0.96, 1, 1);
 Camera.scale(1.2, 1);
 ")
@@ -514,10 +505,11 @@ Camera.scale(1.2, 1);
       (y 0)
     )
     (sequencetrigger
+      (fade_tilemap "slide_secret")
       (sequence "endsequence")
       (width 32)
       (height 896)
-      (x 6272)
+      (x 6304)
       (y 0)
     )
     (spawnpoint

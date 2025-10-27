@@ -333,6 +333,7 @@
       (y 800)
     )
     (sequencetrigger
+      (fade_tilemap "fridge_secret")
       (sequence "endsequence")
       (width 32)
       (height 288)

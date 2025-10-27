@@ -42,64 +42,8 @@ go_underground(state.underground);
 //   ROAD FORKS
 // ============================================================================
 
-if(! ("fitr_down" in state)){
-	state.fitr_down <- false;
-  print("[DEBUG] 'Fork in the Road' road fork (down) initialized\n");
-}
-
-if(! ("fitr_up" in state)){
-	state.fitr_up <- false;
-  print("[DEBUG] 'Fork in the Road' road fork (up) initialized\n");
-}
-
 function reset_forks(fade_time = 0.35) {
-  fitr_down.set_solid(state.fitr_down);
-  fitr_up.set_solid(state.fitr_up);
-  fitr_down_boulder.fade(state.fitr_down ? 0 : 1, fade_time);
-  fitr_up_boulder.fade(state.fitr_up ? 0 : 1, fade_time);
+	sector.fork_secret.fade(0.25, fade_time);
+	sector.fridge_secret.fade(0.25, fade_time);
+	sector.slide_secret.fade(0.25, fade_time);
 }
-
-reset_forks(0.0);
-
-
-// ============================================================================
-//   SECRET AREAS
-// ============================================================================
-
-if(! ("fitr_secret" in state)){
-	state.fitr_secret <- false;
-  print("[DEBUG] 'A Fork in the Road?' secret exit initialized\n");
-}
-
-function toggle_secret_exit(tilemap, enabled){
-  tilemap.fade(enabled ? 1 : 0, fade_time);
-  tilemap.set_solid(enabled);
-}
-
-toggle_secret_exit(fitr_secret, state.fitr_secret);
-
-
-if(! ("liaf_secret" in state)){
-	state.liaf_secret <- false;
-  print("[DEBUG] 'Living In A Fridge' secret exit initialized\n");
-}
-
-function toggle_secret_exit(tilemap, enabled){
-  tilemap.fade(enabled ? 1 : 0, fade_time);
-  tilemap.set_solid(enabled);
-}
-
-toggle_secret_exit(liaf_secret, state.liaf_secret);
-
-
-if(! ("slsl_secret" in state)){
-	state.slsl_secret <- false;
-  print("[DEBUG] 'Slippery Slide' secret exit initialized\n");
-}
-
-function toggle_secret_exit(tilemap, enabled){
-  tilemap.fade(enabled ? 1 : 0, fade_time);
-  tilemap.set_solid(enabled);
-}
-
-toggle_secret_exit(slsl_secret, state.slsl_secret);
