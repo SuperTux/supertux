@@ -13,6 +13,8 @@
     (enable-secrets #f)
   )
   (sector
+
+    (init-script "import(\"levels/world1/yeti_boss_cutscene.nut\");")
     (name "main")
     (ambient-light
       (color 1 1 1)
@@ -118,7 +120,8 @@
     )
     (yeti
       (z-pos 50)
-      (dead-script "sector.Tux.trigger_sequence(\"fireworks\");")
+      (name "boss")
+      (dead-script "play_cutscene();")
       (sprite "/images/creatures/yeti/yeti.sprite")
       (x 96)
       (y 384)
