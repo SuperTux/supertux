@@ -129,8 +129,8 @@
     (level
       (z-pos 50)
       (level "path_in_clouds.stl")
-      (x 68)
-      (y 88)
+      (x 67)
+      (y 89)
     )
     (level
       (z-pos 50)
@@ -178,13 +178,21 @@
       (y 78)
     )
     (level
-      (z-pos 50)
+      (z-pos -1000)
       (level "intro.stl")
       (auto-play #t)
       (color 0.04705882 0.172549 1)
-      (sprite "/images/background/misc/transparent_up.png")
+      (sprite "/images/worldmap/common/leveldot.sprite")
       (x 42)
       (y 66)
+    )
+    (level
+      (z-pos -1000)
+      (level "yeti_cutscene.stl")
+      (auto-play #t)
+      (color 0.04313726 0.1686275 1)
+      (x 68)
+      (y 87)
     )
     (music
       (file "/music/antarctic/worldmap_ice.music")

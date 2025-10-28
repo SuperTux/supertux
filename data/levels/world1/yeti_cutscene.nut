@@ -1,5 +1,6 @@
-function initialize()
-{
+function initialize() {
+  Text.set_anchor_point(ANCHOR_BOTTOM);
+  Text.set_anchor_offset(0, -160);
   Tux.deactivate();
   Yeti.set_action("stand-left");
   Effect.sixteen_to_nine(0);
@@ -32,7 +33,7 @@ function initialize()
  wait(0.5);
   Yeti.set_action("stand-left");
   wait(0.5);
-  Yeti.set_action("walking-right");
+  Yeti.set_action("walk-right");
   play_sound("sounds/yeti_roar.wav");
   Yeti.set_velocity(250, 0);
   wait(1);
@@ -69,18 +70,4 @@ function initialize()
   wait(3.5);
   end_cutscene();
   Level.finish(true);
-}
-
-state_idx <- 0;
-states <- { init=0, start=1};
-function trigger_state(state) {
-  local idx = states[state];
-  if(!idx || idx <= state_idx)
-    return;
-  state_idx = idx;
-  switch(state) {
-    case "start":
-      initialize();
-      break;
-  }
 }
