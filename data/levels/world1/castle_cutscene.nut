@@ -16,7 +16,7 @@ function initialize()
   wait(1.4);
   Text.fade_out(1);
   wait(2);
-  Text.set_text(_("But to his surprise all he could find was a letter."));
+  Text.set_text(_("But to his surprise, all he could find was a letter."));
   Text.fade_in(1);
   wait(4);
   Text.fade_out(1);
@@ -25,7 +25,7 @@ function initialize()
   wait(0.35);
   Tux.walk(0);
   wait(1);
-  Text.set_text(_("A letter from Penny telling Tux that Nolok has taken her to a far forest."));
+  Text.set_text(_("A letter from Penny, telling Tux that Nolok has taken her to a far away forest."));
   Text.fade_in(1);
   wait(4);
   Text.fade_out(1);
