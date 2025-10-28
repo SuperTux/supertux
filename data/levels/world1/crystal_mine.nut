@@ -158,7 +158,7 @@ function textbox_outro()
   
   Text.set_text(_("The more he thought about it, the more he realised that he probably wasn't even meant to know about all this in the first place..."));
   Text.fade_in(0.5);
-  wait(4);
+  wait(5);
   Text.fade_out(0.5);
 }
 
