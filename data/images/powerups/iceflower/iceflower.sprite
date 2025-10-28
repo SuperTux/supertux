@@ -6,4 +6,13 @@
                  "ice_flower-2.png"
                  "ice_flower-3.png"
                  "ice_flower-2.png"
-                 "ice_flower-1.png")))
+                 "ice_flower-1.png"))
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+      (action "default")
+      (color 0 0.1 0.2)
+    )
+  )
+)

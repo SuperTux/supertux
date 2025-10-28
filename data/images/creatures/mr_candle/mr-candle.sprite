@@ -27,5 +27,11 @@
     (name "iced-right")
     (hitbox 26 35 45 43)
     (mirror-action "iced-left")
-  )  
+  )
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-medium.sprite")
+    )
+  )
 )

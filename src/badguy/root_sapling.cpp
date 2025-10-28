@@ -31,8 +31,7 @@ static const float ROOT_SAPLING_RANGE = 32.f * 20;
 static const float ROOT_SAPLING_SPAWN_TIME = 1.35f;
 
 RootSapling::RootSapling(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", Direction::UP,
-         LAYER_TILES - 15, "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
+  BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", Direction::UP, LAYER_TILES - 15),
   m_root_timer(),
   m_dead(false)
 {
@@ -40,17 +39,23 @@ RootSapling::RootSapling(const ReaderMapping& reader) :
   set_colgroup_active(COLGROUP_MOVING);
   set_action("idle", m_dir);
 
-  m_glowing = true;
-
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
+}
+
+void
+RootSapling::draw(DrawingContext& context)
+{
+  if (m_dead)
+    m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  else
+    BadGuy::draw(context);
 }
 
 void
 RootSapling::kill_fall()
 {
   m_dead = true;
-  m_glowing = false;
 
   SoundManager::current()->play("sounds/fall.wav", get_pos());
 
@@ -76,7 +81,6 @@ bool
 RootSapling::collision_squished(MovingObject& object)
 {
   m_dead = true;
-  m_glowing = false;
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
 

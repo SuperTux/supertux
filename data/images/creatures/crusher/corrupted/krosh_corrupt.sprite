@@ -18,18 +18,33 @@
   )
  )
  (action
+  (name "left-eye")
+  (hitbox 16 16 128 128)
+  (images "krosh_corrupt_eyes.png")
+ )
+ (action
+  (name "right-eye")
+  (hitbox 16 16 128 128)
+  (images "krosh_corrupt_eyes.png")
+ )
+ (action
   (name "whites")
   (hitbox 16 16 128 128)
   (images "krosh_corrupt_whites.png")
  )
- (action
-  (name "lefteye")
-  (hitbox 16 16 128 128)
-  (images "krosh_corrupt_eyes.png")
- )
- (action
-  (name "righteye")
-  (hitbox 16 16 128 128)
-  (images "krosh_corrupt_eyes.png")
+
+ (linked-sprites
+   (left-eye
+     (file "krosh_corrupt.sprite")
+     (action "left-eye")
+   )
+   (right-eye
+     (file "krosh_corrupt.sprite")
+     (action "right-eye")
+   )
+   (whites
+     (file "krosh_corrupt.sprite")
+     (action "whites")
+   )
  )
 )

@@ -17,5 +17,10 @@
    "vbell-r_0.png"
    "vbell-m.png"
   )
- )              
+ )        
+  (linked-sprites
+    (reset
+      (file "images/particles/reset.sprite")
+    )
+  )
 )

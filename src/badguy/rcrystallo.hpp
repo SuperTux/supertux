@@ -35,7 +35,6 @@ public:
   virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(RCrystallo)); }
 
   virtual void active_update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;

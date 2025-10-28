@@ -106,14 +106,21 @@ FallBlock::collision_solid(const CollisionHit& hit)
 void
 FallBlock::draw(DrawingContext& context)
 {
-  Vector pos = get_pos();
   // shaking
+  Vector offset;
   if (m_state == SHAKE)
   {
-    pos.x += static_cast<float>(graphicsRandom.rand(-8, 8));
-    pos.y += static_cast<float>(graphicsRandom.rand(-5, 5));
+    offset.x = static_cast<float>(graphicsRandom.rand(-8, 8));
+    offset.y = static_cast<float>(graphicsRandom.rand(-5, 5));
   }
-  m_sprite->draw(context.color(), pos, m_layer, m_flip);
+
+  m_sprite->draw(context.color(), get_pos() + offset, m_layer, m_flip);
+
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.color(), get_pos() + offset, m_layer, m_flip);
+
+  for (auto& sprite : m_light_sprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle() + offset, 0);
 }
 
 bool

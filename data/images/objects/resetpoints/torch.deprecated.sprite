@@ -24,5 +24,16 @@
 "torch6.png"
 
   )
- )              
+ )
+
+  (linked-sprites
+    (custom-light
+      (file "torch_light.sprite")
+      (action "default")
+      (color 0.87 0.64 0.12)
+    )
+    (reset
+      (file "images/particles/reset.sprite")
+    )
+  )
 )

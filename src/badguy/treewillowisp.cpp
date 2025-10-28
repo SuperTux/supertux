@@ -107,6 +107,12 @@ TreeWillOWisp::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer);
   m_sprite->draw(context.light(), get_pos(), m_layer);
+
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.color(), get_pos(), m_layer);
+
+  for (auto& sprite : m_light_sprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void
