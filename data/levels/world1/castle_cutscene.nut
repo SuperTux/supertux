@@ -1,8 +1,13 @@
-function initialize()
-{
-  Tux.deactivate();
+Level.pause_target_timer();
+
+function initialize() {
+  DOOR.set_action("closed");
+  Text.set_anchor_point(ANCHOR_BOTTOM);
+  Text.set_anchor_offset(0, -160);
   Effect.sixteen_to_nine(0);
   Effect.fade_in(1.5);
+  wait(0);
+  Tux.deactivate();
   Tux.walk(150);
   wait(3.5);
   Text.set_text(_("Tux had reached the end of the castle."));
@@ -62,7 +67,7 @@ function initialize()
   wait(0.4);
   YETI.set_action("stand-right");
   wait(0.3);
-  YETI.set_action("walking-right");
+  YETI.set_action("walk-right");
   YETI.set_velocity(225, 0);
   wait(0.1);
   Camera.scroll_to(480, 128, 0.2);
@@ -79,13 +84,14 @@ function initialize()
   Level.spawn("balcony", "door");
 }
 
-function outdoor()
-{
+function outdoor() {
+  DOOR.set_action("closed");
   Effect.sixteen_to_nine(0);
+  Effect.fade_in(1);
+  wait(0);
   YETI.set_action("stand-right");
   Tux.deactivate();
   DOOR.set_action("open");
-  Effect.fade_in(1);
   wait(0.5);
   DOOR.set_action("closing");
   Tux.walk(250);
@@ -108,7 +114,7 @@ function outdoor()
   Tux.walk(0);
   YETI.set_action("stand-right");
   wait(0.5);
-  YETI.set_action("walking-right");
+  YETI.set_action("walk-right");
   YETI.set_velocity(250, 0);
   wait(1);
   YETI.set_action("jump-right");
@@ -119,21 +125,4 @@ function outdoor()
   wait(2);
   end_cutscene();
   Level.finish(true);
-}
-
-state_idx <- 0;
-states <- { init=0, start=1, outdoor=2};
-function trigger_state(state) {
-  local idx = states[state];
-  if(!idx || idx <= state_idx)
-    return;
-  state_idx = idx;
-  switch(state) {
-    case "start":
-      initialize();
-      break;
-	case "outdoor":
-      outdoor();
-      break;
-  }
 }

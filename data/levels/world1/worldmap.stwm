@@ -153,7 +153,6 @@
     (level
       (z-pos 50)
       (level "castle_of_nolok.stl")
-      (extro-script "load_level(\"levels/supertux_cutscene/castle_cutscene.stl\");")
       (x 48)
       (y 92)
     )
