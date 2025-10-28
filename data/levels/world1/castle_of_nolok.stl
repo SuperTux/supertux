@@ -228,7 +228,7 @@ outdoor();")
       (bottom_color 0.8 0.9 1)
     )
     (music
-      (file "/music/antarctic/voc-boss.music")
+      (file "/music/antarctic/yetiboss.music")
     )
     (particles-clouds
     )

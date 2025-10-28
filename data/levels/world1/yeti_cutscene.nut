@@ -20,7 +20,7 @@ function initialize() {
   wait(1.5);
   play_sound("sounds/yeti_roar.wav");
   wait(0.2);
-  Text.set_text(_("But then, all of a sudden he heard a loud roar from a distance."));
+  Text.set_text(_("But then, all of a sudden, he heard a loud roar from the distance."));
   Text.fade_in(1);
   wait(4);
   Text.fade_out(1);
@@ -54,7 +54,7 @@ function initialize() {
   wait(4);
   Text.fade_out(1);
   wait(2);
-  Text.set_text(_("Concerned by the yeti's sudden retreat, Tux decided to continue his journey, ..."));
+  Text.set_text(_("Concerned by the yeti's sudden retreat, Tux decided to continue on his journey, ..."));
   Text.fade_in(1);
   wait(4);
   Text.fade_out(1);

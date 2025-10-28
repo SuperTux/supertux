@@ -53,7 +53,7 @@ function initialize() {
   wait(0.8);
   Tux.set_dir(false);
   Camera.scroll_to(0, 128, 0.1);
-  play_music("music/antarctic/voc-boss.music");
+  play_music("music/antarctic/yetiboss.music");
   wait(0.3);
   YETI.set_action("stomp-right");
   play_sound("sounds/yeti_gna.wav");

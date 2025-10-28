@@ -57,7 +57,7 @@ initialize();")
       (bottom_color 1 1 0.1)
     )
     (music
-      (file "/music/antarctic/voc-dark.music")
+      (file "/music/antarctic/sunset.music")
     )
     (scriptedobject
       (z-pos 50)
