@@ -334,7 +334,13 @@ std::string physfs_userdir = PHYSFS_getUserDir();
 #ifdef _WIN32
 std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
 #else
-std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
+std::string olduserdir;
+// Extra safety check to ensure we can't move home.
+// See: https://bugs.gentoo.org/764959
+if (std::string(PACKAGE_NAME) == "")
+  olduserdir = FileSystem::join(physfs_userdir, ".supertux2");
+else
+  olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
 if (FileSystem::is_directory(olduserdir)) {
   std::filesystem::path olduserpath(olduserdir);
