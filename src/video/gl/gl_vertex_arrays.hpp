@@ -32,6 +32,8 @@ public:
   void bind();
 
   void set_positions(const float* data, size_t size);
+  
+  void set_attrs(const uint32_t* data, size_t size);
 
   /** size is in bytes */
   void set_texcoords(const float* data, size_t size);
@@ -46,6 +48,7 @@ private:
   GLuint m_positions_buffer;
   GLuint m_texcoords_buffer;
   GLuint m_color_buffer;
+  GLuint m_attrs_buffer;
 
 private:
   GLVertexArrays(const GLVertexArrays&) = delete;

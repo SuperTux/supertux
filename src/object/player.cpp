@@ -2286,7 +2286,7 @@ Player::draw(DrawingContext& context)
   else if (m_dying)
     m_sprite->draw(context.color(), draw_pos, Sector::get().get_foremost_opaque_layer() + 1);
   else
-    m_sprite->draw(context.color(), draw_pos, LAYER_OBJECTS + 1);
+    m_sprite->draw(context.color(), draw_pos, m_no_water ? LAYER_OBJECTS + 1 : -1);
 
   //TODO: Replace recoloring with proper costumes
   Color power_color = (get_bonus() == BONUS_FIRE ? Color(1.f, 0.7f, 0.5f) :

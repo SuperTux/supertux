@@ -66,6 +66,19 @@ public:
                           std::vector<float> angles,
                           const Color& color,
                           int layer);
+  void draw_surface_batch(const SurfacePtr& surface,
+                          std::vector<Rectf> srcrects,
+                          std::vector<Rectf> dstrects,
+                          std::vector<uint32_t> attrs,
+                          const Color& color,
+                          int layer);
+  void draw_surface_batch(const SurfacePtr& surface,
+                          std::vector<Rectf> srcrects,
+                          std::vector<Rectf> dstrects,
+                          std::vector<uint32_t> attrs,
+                          std::vector<float> angles,
+                          const Color& color,
+                          int layer);
   Rectf draw_text(const FontPtr& font, const std::string& text,
                   const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));
   /** Draw text to the center of the screen */
