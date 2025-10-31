@@ -104,7 +104,7 @@ function textbox_intro()
 {
   wait(3.5);
   
-  Text.set_text(_("After a long swim across the antarctic waters, Tux arrived at the Glacier Isles the Yeti told him about."));
+  Text.set_text(_("After a long swim across the antarctic waters, Tux arrived at the Glacier Isle mentioned in Nolok's note."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -135,28 +135,28 @@ function textbox_outro()
   
   wait(4.5);
   
-  Text.set_text(_("As he was about the exit the mine, Tux was internally hoping that all the yeti said was true."));
+  Text.set_text(_("As he was about the exit the mine, Tux was internally hoping that all Nolok wrote in the note was true."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(2);
   
-  Text.set_text(_("To his relief, Tux did find a boat still docked. With it, he could sail up north, to the aforementioned forest."));
+  Text.set_text(_("To his relief, he did find a boat still docked. With it, he could sail up north, to find Nolok and save Penny."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(5);
   
-  Text.set_text(_("It seemed the yeti did not lie to him after all."));
+  Text.set_text(_("It seemed the map in the note wasn't a trap after all."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(8);
   
-  Text.set_text(_("The more he thought about it, the more he realised that he probably wasn't even meant to know about all this in the first place..."));
+  Text.set_text(_("The more he thought about it, the less he was sure about Nolok's motivations. Why would he leave clues behind?"));
   Text.fade_in(0.5);
   wait(5);
   Text.fade_out(0.5);

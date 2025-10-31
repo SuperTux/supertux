@@ -154,7 +154,7 @@ function textbox()
   
   wait(5);
   
-  Text.set_text(_("As he reached the shore, Tux could already see the Glacier Isles on the horizon."));
+  Text.set_text(_("As he reached the shore, Tux could already see the Glacier Isle on the horizon."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
