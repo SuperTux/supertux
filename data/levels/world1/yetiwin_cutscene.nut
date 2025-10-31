@@ -126,21 +126,21 @@ function textbox()
   
   wait(2);
   
-  Text.set_text(_("While it did not take long for the yeti to got up again, to Tux's luck, he did not throw hands again."));
+  Text.set_text(_("While it did not take long for the yeti to get up again, to Tux's relief, he did not throw hands again."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(1);
   
-  Text.set_text(_("The yeti was furious however! He could not understand how a tiny penguin like Tux could beat him in a fight."));
+  Text.set_text(_("The yeti was furious however! He could not understand how a tiny penguin like Tux could have beaten him in a fight."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(2);
   
-  Text.set_text(_("Almost as if he forgot Tux was there to begin with, the yeti rushed off grumbling to himself."));
+  Text.set_text(_("Almost as if he forgot Tux was there to begin with, the yeti rushed off, grumbling to himself."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);

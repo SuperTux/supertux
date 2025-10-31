@@ -77,14 +77,14 @@ function textbox()
   
   wait(4.8);
   
-  Text.set_text(_("Unbeknownst to him, a Yeti, seemed very keen on his presence as he kept a close eye on Tux as he continued his journey."));
+  Text.set_text(_("Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a close eye on Tux as he continued his journey."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
   
   wait(2.8);
   
-  Text.set_text(_("The yeti lead out a loud roar and proceeded to follow the little penguin."));
+  Text.set_text(_("The yeti let out a loud roar and proceeded to follow the little penguin."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);

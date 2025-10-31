@@ -1,5 +1,6 @@
 function initialize()
 {
+  wait(0);
   start_cutscene();
   
   TUX.set_action("big-run-right");
@@ -299,14 +300,14 @@ function textbox()
   
   wait(1);
   
-  Text.set_text(_("It read that he had already left Icy Island towards the far north. If he wished to follow him and save his beloved friend, he must come to the Crystal Mine"));
+  Text.set_text(_("It read that he had already left Icy Island towards the far north. If he wished to follow him and save his beloved friend, he would have to come to the Crystal Mine"));
   Text.fade_in(0.5);
   wait(8);
   Text.fade_out(0.5);
   
   wait(1);
 
-  Text.set_text(_("Marked below was a rough map of the Glacier Isle, showing a boat at some kind of small pier on the other end."));
+  Text.set_text(_("Marked below was a rough map of the Glacier Isle, showing a boat and some kind of small pier on the other end."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -320,7 +321,7 @@ function textbox()
   
   wait(3);
 
-  Text.set_text(_("The mighty Yeti had made his appearence, busting his chest in an antimidating fashion!"));
+  Text.set_text(_("The mighty Yeti had made his appearence, busting his chest in an intimidating fashion!"));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
@@ -334,7 +335,7 @@ function textbox()
   
   wait(10);
 
-  Text.set_text(_("Unfortunatly, the Yeti would not let him go so easily..."));
+  Text.set_text(_("Unfortunately, the Yeti would not let him go so easily..."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
