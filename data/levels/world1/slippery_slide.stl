@@ -488,15 +488,6 @@ Camera.scale(1, 1);
       (y 320)
     )
     (scripttrigger
-      (oneshot #t)
-      (script "///Initalize secret path on worldmap")
-      (button #f)
-      (width 64)
-      (height 896)
-      (x 6304)
-      (y 0)
-    )
-    (scripttrigger
       (script "sector.settings.fade_to_ambient_light(0.92, 0.96, 1, 1);
 Camera.scale(1.2, 1);
 ")
@@ -506,18 +497,20 @@ Camera.scale(1.2, 1);
       (x 2528)
       (y 352)
     )
+    (scripttrigger
+      (script "state.slide_secret <- true;
+Tux.trigger_sequence(\"endsequence\");")
+      (button #f)
+      (width 32)
+      (height 624)
+      (x 6304)
+      (y 272)
+    )
     (sequencetrigger
       (sequence "stoptux")
       (width 64)
       (height 896)
       (x 6912)
-      (y 0)
-    )
-    (sequencetrigger
-      (sequence "endsequence")
-      (width 32)
-      (height 896)
-      (x 6272)
       (y 0)
     )
     (spawnpoint

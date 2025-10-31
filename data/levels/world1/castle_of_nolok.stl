@@ -677,6 +677,7 @@ Effect.fade_out(2);
 wait(3);
 
 Tux.use_scripting_controller(false);
+end_cutscene();
 
 Level.finish(true);")
       (button #f)

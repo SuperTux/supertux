@@ -303,6 +303,15 @@
       (x 8128)
       (y 2176)
     )
+    (scripttrigger
+      (script "state.fridge_secret <- true;
+Tux.trigger_sequence(\"endsequence\");")
+      (button #f)
+      (width 32)
+      (height 288)
+      (x 7904)
+      (y 2112)
+    )
     (secretarea
       (fade-tilemap "secret1")
       (script "secret1_cover.fade(0, 1);")
@@ -331,13 +340,6 @@
       (height 192)
       (x 13056)
       (y 800)
-    )
-    (sequencetrigger
-      (sequence "endsequence")
-      (width 32)
-      (height 288)
-      (x 7904)
-      (y 2112)
     )
     (sequencetrigger
       (sequence "stoptux")
