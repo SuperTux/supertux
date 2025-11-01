@@ -41,6 +41,14 @@ cmake_minimum_required(VERSION 3.22)
 
 project(SUPERTUX LANGUAGES C CXX)
 
+# Qt Creator shall not configure this project directly when building for Android.
+# The CMake calls are managed by Gradle.
+# You must specify the QT_CREATOR variable manually
+if(ANDROID AND QT_CREATOR)
+  add_subdirectory(mk/cmake/android/)
+  return()
+endif()
+
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0069 NEW)
 endif()
@@ -84,7 +92,7 @@ else()
   endif()
 endif()
 
-if(EMSCRIPTEN OR UBUNTU_TOUCH OR ANDROID)
+if(EMSCRIPTEN)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
@@ -152,6 +160,10 @@ option(ENABLE_OPENGL "Enable OpenGL support" ON)
 # Find dependencies
 include(SuperTux/AddPackage)
 
+if(ANDROID)
+  set(SUPERTUX_ANDROID_PREFER_PKGCONF PREFER_PKGCONFIG)
+endif()
+
 add_package(TARGET PNG
   PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED) # lol
 add_package(TARGET ZLIB
@@ -170,9 +182,11 @@ add_package(TARGET RAQM
 
 if(NOT EMSCRIPTEN)
   add_package(TARGET SDL2
-    PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2)
+    PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2
+    ${SUPERTUX_ANDROID_PREFER_PKGCONF})
   add_package(TARGET SDL2_image
-    PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image)
+    PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image
+    ${SUPERTUX_ANDROID_PREFER_PKGCONF})
   add_package(TARGET libcurl
     PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
   add_package(TARGET OpenAL
@@ -252,7 +266,11 @@ list(SORT SUPERTUX_RESOURCES)
 include(SuperTux/CompileAmalgation)
 
 ## Add target for supertux binary
-add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+if(ANDROID)
+  add_library(supertux2 SHARED ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+else()
+  add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+endif()
 target_compile_features(supertux2 PUBLIC cxx_std_17)
 
 if(IS_SUPERTUX_RELEASE)
@@ -302,7 +320,6 @@ target_link_libraries(supertux2 PUBLIC
   tinygettext sexp SDL_SavePNG SDL2_ttf
   PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
-
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC
     # SDL2_image
@@ -328,11 +345,34 @@ if(NOT EMSCRIPTEN)
   endif()
 endif()
 
+if(ANDROID)
+  find_library(log-lib log)
+  target_link_libraries(supertux2 PUBLIC ${log-lib})
+endif()
+
 ## Install stuff
 include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
+
+# Make android data.zip
+if(ANDROID AND NOT EXISTS "${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip")
+  get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
+  if(NOT EXISTS ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
+    file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
+  endif()
+  file(GLOB DATA_CONTENTS RELATIVE ${DATADIR} ${DATADIR}/*)
+  message("DATA: ${DATA_CONTENTS}")
+  #file(ARCHIVE_CREATE OUTPUT ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar "cfv"
+    "${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip"
+    --format=zip
+    ${DATA_CONTENTS}
+
+    WORKING_DIRECTORY ${DATADIR}
+  )
+endif()
 
 ## Build tests
 # TODO Finish porting tests to CTest
