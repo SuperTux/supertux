@@ -22,14 +22,19 @@
 
 #include "control/controller.hpp"
 #include "math/sizef.hpp"
+#include "supertux/timer.hpp"
 #include "video/drawing_context.hpp"
 
 class Notification
 {
 private:
   const std::string m_id;
-  const bool m_auto_hide;
+  const float m_idle_close_time;
+  const bool m_auto_close;
   const bool m_auto_disable;
+
+  Timer m_idle_close_timer;
+  float m_alpha;
 
   std::string m_text;
   std::string m_mini_text;
@@ -39,17 +44,25 @@ private:
   Vector m_pos;
   Sizef m_size;
 
+  Vector m_init_mouse_click;
   Vector m_mouse_pos;
+  Vector m_drag;
+  float m_vel;
+  bool m_dragging;
+  bool m_mouse_down;
   bool m_mouse_over;
   bool m_mouse_over_sym1; // Mouse is over "Do not show again".
   bool m_mouse_over_sym2; // Mouse is over "Close".
+
+  bool m_closing;
 
   bool m_quit; // Requested notification quit.
 
   std::function<void ()> m_callback;
 
 public:
-  Notification(std::string id, bool no_auto_hide = false, bool no_auto_disable = false);
+  Notification(const std::string& id, float idle_close_time = 0.f,
+                bool no_auto_close = false, bool auto_disable = false);
   ~Notification();
 
   void set_text(const std::string& text);
@@ -61,16 +74,16 @@ public:
   void draw(DrawingContext& context);
 
   // Notification actions
-
   void disable();
   void close();
 
   // Static functions, serving as utilities
-
-  static bool is_disabled(std::string id);
+  static bool is_disabled(const std::string& id);
 
 private:
   void calculate_size();
+
+  Vector drag_amount(const SDL_Event& ev) const;
 
 private:
   Notification(const Notification&) = delete;

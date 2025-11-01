@@ -89,6 +89,7 @@ public:
 public:
   GameObject(const std::string& name = "");
   GameObject(const ReaderMapping& reader);
+  GameObject(GameObject* obj);
   virtual ~GameObject() override;
 
   /** Called after all objects have been added to the Sector and the
@@ -264,6 +265,9 @@ protected:
   /** Conversion between type ID and value. **/
   int type_id_to_value(const std::string& id) const;
   std::string type_value_to_id(int value) const;
+
+private:
+  inline uint32_t get_uid_value() { return m_uid.get_value(); }
 
 private:
   inline void set_uid(const UID& uid) { m_uid = uid; }

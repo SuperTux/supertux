@@ -14,6 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/constants.hpp"
 #include "supertux/menu/editor_level_select_menu.hpp"
 
 #include <physfs.h>
@@ -25,16 +26,20 @@
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
 #include "supertux/levelset.hpp"
+#include "supertux/level.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/editor_delete_levelset_menu.hpp"
+#include "supertux/menu/editor_temp_save_as.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/sector_parser.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
-EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
-  m_contrib_worlds()
+EditorLevelsetSelectMenu::EditorLevelsetSelectMenu(bool save_as) :
+  m_contrib_worlds(),
+  m_save_as(save_as)
 {
   initialize();
 }
@@ -47,14 +52,12 @@ EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
   }
   if (!editor->is_level_loaded() && !editor->m_reload_request) {
     editor->m_quit_request = true;
-  } else {
-    editor->m_reactivate_request = true;
   }
 }
+
 void
 EditorLevelsetSelectMenu::initialize()
 {
-  Editor::current()->m_deactivate_request = true;
   m_contrib_worlds.clear();
 
   // Generating contrib levels list by making use of Level Subset
@@ -69,7 +72,7 @@ EditorLevelsetSelectMenu::initialize()
     return false;
   });
 
-  add_label(_("Choose World"));
+  add_label(m_save_as ? _("Save Level as") : _("Choose World"));
   add_hl();
 
   int i = 0;
@@ -125,9 +128,18 @@ EditorLevelsetSelectMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() >= 0)
   {
-    std::unique_ptr<Menu> menu = std::unique_ptr<Menu>(new EditorLevelSelectMenu(
-                                 World::from_directory(m_contrib_worlds[item.get_id()]), this));
-    MenuManager::instance().push_menu(std::move(menu));
+    if (m_save_as)
+    {
+      std::unique_ptr<Menu> menu = std::make_unique<EditorTempSaveAs>(
+                                   World::from_directory(m_contrib_worlds[item.get_id()]));
+      MenuManager::instance().push_menu(std::move(menu));
+    }
+    else
+    {
+      std::unique_ptr<Menu> menu = std::unique_ptr<Menu>(new EditorLevelSelectMenu(
+                                   World::from_directory(m_contrib_worlds[item.get_id()]), this));
+      MenuManager::instance().push_menu(std::move(menu));
+    }
   }
   else if (item.get_id() == -3)
   {

@@ -144,6 +144,7 @@ public:
   bool editor_render_grid;
   bool editor_snap_to_grid;
   bool editor_render_background;
+  bool editor_render_animations;
   bool editor_render_lighting;
   bool editor_autotile_mode;
   bool editor_autotile_help;
@@ -151,6 +152,10 @@ public:
   bool editor_undo_tracking;
   int editor_undo_stack_size;
   bool editor_show_deprecated_tiles;
+  bool editor_show_properties_sidebar;
+  bool editor_show_toolbar_widgets;
+  int editor_blur;
+  std::string preferred_text_editor;
 
   bool multiplayer_auto_manage_players;
   bool multiplayer_multibind;

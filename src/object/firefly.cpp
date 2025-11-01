@@ -141,7 +141,7 @@ ObjectSettings
 Firefly::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.add_test_from_here();
+  result.add_test_from_here(this);
   return result;
 }
 

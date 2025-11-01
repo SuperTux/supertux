@@ -237,6 +237,7 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
+  context.set_blur(request.blur);
   context.blend_func(sfactor(request.blend), dfactor(request.blend));
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
@@ -307,6 +308,7 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
 
     context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
   }
+  context.set_blur(0);
 
   assert_gl();
 }

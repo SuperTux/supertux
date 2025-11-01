@@ -15,8 +15,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "editor/editor.hpp"
+#include "gui/notification.hpp"
+#include "math/rectf.hpp"
 
 #include <fstream>
+#include <functional>
 #include <sstream>
 #include <limits>
 #include <unordered_map>
@@ -42,6 +45,7 @@
 #include "editor/tool_icon.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/menu_script.hpp"
 #include "gui/mousecursor.hpp"
 #include "math/util.hpp"
 #include "object/camera.hpp"
@@ -74,6 +78,8 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/sector_parser.hpp"
 
 static const float CAMERA_MIN_ZOOM = 0.5f;
 static const float CAMERA_MAX_ZOOM = 3.0f;
@@ -81,6 +87,8 @@ static const float CAMERA_ZOOM_SENSITIVITY = 0.05f;
 static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
 
 bool Editor::s_resaving_in_progress = false;
+
+using InputType = EditorTilebox::InputType;
 
 bool
 Editor::is_active()
@@ -92,6 +100,23 @@ Editor::is_active()
     return self && !self->m_leveltested && self->m_after_setup;
   }
 }
+
+void
+Editor::may_deactivate()
+{
+  auto* self = Editor::current();
+  if (self)
+    self->m_deactivate_request = true;
+}
+
+void
+Editor::may_reactivate()
+{
+  auto* self = Editor::current();
+  if (self)
+    self->m_reactivate_request = true;
+}
+
 
 Editor::Editor() :
   m_level(),
@@ -109,8 +134,11 @@ Editor::Editor() :
   m_test_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
+  m_temp_level(true),
   m_particle_editor_filename(),
   m_ctrl_pressed(false),
+  m_shift_pressed(false),
+  m_alt_pressed(false),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
@@ -118,18 +146,28 @@ Editor::Editor() :
   m_tileset(nullptr),
   m_has_deprecated_tiles(false),
   m_widgets(),
+  m_widgets_width(),
+  m_widgets_width_offset(),
+  m_controls(),
   m_undo_widget(),
   m_redo_widget(),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
+  m_selected_object(),
+  m_testing_disabled(false),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
   m_mouse_pos(0.f, 0.f),
-  m_layers_widget_needs_refresh(false)
+  m_layers_widget_needs_refresh(false),
+  m_script_manager(),
+  m_on_exit_cb(nullptr),
+  m_save_temp_level(false),
+  m_last_test_pos(std::nullopt),
+  m_shadow(SpriteManager::current()->create("images/engine/editor/shadow.png"))
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -142,10 +180,187 @@ Editor::Editor() :
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
+  
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
+    // Undo button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
+        std::bind(&Editor::undo, this),
+        _("Undo"),
+        Sizef(32.f, 32.f)),
+        
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
+        std::bind(&Editor::redo, this),
+        _("Redo"),
+        Sizef(32.f, 32.f)),
+    
+    // Grid button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png",
+      [this] {
+        auto& snap_grid_size = g_config->editor_selected_snap_grid_size;
+        if (snap_grid_size == 0)
+        {
+          if(!g_config->editor_render_grid)
+          {
+            snap_grid_size = 3;
+          }
+          g_config->editor_render_grid = !g_config->editor_render_grid;
+        }
+        else
+          snap_grid_size--;
+      },
+      _("Change / Toggle grid size")),
+    
+    // Play button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
+      [this] { m_test_request = true; },
+      _("Test level")),
+    
+    // Save button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
+      [this] { 
+        if (save_level())
+        {
+          auto notif = std::make_unique<Notification>("save_level_notif", 5.f);
+          notif->set_text(_("Level saved!"));
+          MenuManager::instance().set_notification(std::move(notif));
+        }
+      },
+      _("Save level")),
+    
+    // Mode button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
+      std::bind(&Editor::toggle_tile_object_mode, this),
+      _("Toggle between object and tile mode")),
+    
+    // Mouse select button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", 
+      [this]() {
+        m_toolbox_widget->set_mouse_tool();
+      },
+      _("Toggle between add and remove mode")),
+
+    // Rubber button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png",
+      [this]() {
+        m_toolbox_widget->set_rubber_tool();
+      },
+      _("Delete the tile or object under the mouse"))
+  };
+  
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets = {
+    // Select mode mouse
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode0.png",
+    [this] {
+      m_toolbox_widget->set_tileselect_select_mode(0);
+    },
+    _("Draw mode (The current tool applies to the tile under the mouse)")),
+    
+    // Select mode area
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode1.png",
+      [this] {
+        m_toolbox_widget->set_tileselect_select_mode(1);
+      },
+      _("Box draw mode (The current tool applies to an area / box drawn with the mouse)")),
+    
+    // Select mode fill button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode2.png",
+      [this] {
+        m_toolbox_widget->set_tileselect_select_mode(2);
+      },
+      _("Fill mode (The current tool applies to the empty area in the enclosed space that was clicked)")),
+    
+    // Select mode same button
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode3.png",
+      [this] {
+        m_toolbox_widget->set_tileselect_select_mode(3);
+      },
+      _("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)")),
+  };
+  
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 2> object_mode_widgets = {
+    // Select mode
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png",
+      [this] {
+        m_toolbox_widget->set_tileselect_move_mode(0);
+      },
+      _("Select mode (Clicking selects the object under the mouse)")),
+    
+    // Duplicate mode
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png",
+      [this] {
+        m_toolbox_widget->set_tileselect_move_mode(1);
+      },
+      _("Duplicate mode (Clicking duplicates the object under the mouse)")),
+  };
+  
+  size_t i = 2;
+  for (auto &widget : general_widgets)
+  {
+    Vector pos(32 * (i-2), 0); 
+    widget->set_position(pos);
+    widget->set_flat(true);
+    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    ++i;
+  }
+  
+  for (auto &widget : tile_mode_widgets)
+  {
+    Vector pos(32 * (i-2), 0);
+    widget->set_position(pos);
+    widget->set_flat(true);
+    widget->set_visible_in_object_mode(false);
+    widget->set_visible(false);
+    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    ++i;
+  }
+  
+  for (auto &widget : object_mode_widgets)
+  {
+    Vector pos(32 * (i-tile_mode_widgets.size()-2), 0);
+    widget->set_position(pos);
+    widget->set_flat(true);
+    widget->set_visible_in_tile_mode(false);
+    widget->set_visible(false);
+    m_widgets.insert(m_widgets.begin() + i, std::move(widget));
+    ++i;
+  }
+  m_widgets_width = 32.f * (i-std::max(tile_mode_widgets.size(), object_mode_widgets.size())-2-2);
+  
+  m_undo_widget = reinterpret_cast<EditorToolbarButtonWidget*>(m_widgets[2].get());
+  m_redo_widget = reinterpret_cast<EditorToolbarButtonWidget*>(m_widgets[3].get());
+  m_undo_widget->set_disabled(true);
+  m_redo_widget->set_disabled(true);
+
+  // auto code_widget = std::make_unique<EditorToolbarButtonWidget>(
+  //   "images/engine/editor/select-mode3.png", Vector(320, 0), [this] {
+  //     std::ostringstream level_ostream;
+  //     Writer output_writer(level_ostream);
+  //     m_level->save(output_writer);
+  //     auto level_content = level_ostream.str();
+  //     MenuManager::instance().push_menu(std::make_unique<ScriptMenu>(&level_content));
+  //     log_warning << level_content << std::endl;
+  //   });
+  // m_widgets.insert(m_widgets.begin() + 10, std::move(code_widget));
 }
 
 Editor::~Editor()
 {
+  if (m_on_exit_cb)
+    m_on_exit_cb();
+}
+
+void
+Editor::level_from_nothing()
+{
+	m_level = std::make_unique<Level>(false);
+	m_level->m_name = "";
+  m_level->m_license = LEVEL_DEFAULT_LICENSE;
+	m_level->m_tileset = "images/tiles.strf";
+	auto sector = SectorParser::from_nothing(*m_level);
+	sector->set_name(DEFAULT_SECTOR_NAME);
+	m_level->add_sector(std::move(sector));
+	m_level->initialize();
+	//m_reload_request = true;
 }
 
 void
@@ -159,9 +374,43 @@ Editor::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  if (m_levelloaded) {
-    for(const auto& widget : m_widgets) {
+  if (m_levelloaded)
+  {
+    context.color().set_blur(g_config->editor_blur);
+    context.color().draw_filled_rect(
+      {-g_config->menuroundness, -g_config->menuroundness, m_widgets_width + m_widgets_width_offset, 32},
+      Color(0.2f, 0.2f, 0.2f, 0.5f),
+      math::clamp(g_config->menuroundness, 0.f, 16.f),
+      LAYER_GUI - 5);
+    context.color().set_blur(0);
+    
+    for(const auto& widget : m_widgets)
+    {
+      if (!g_config->editor_show_toolbar_widgets &&
+          dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+      {
+        continue;
+      }
       widget->draw(context);
+    }
+	
+    m_overlay_widget->draw_tilemap_outer_shading(context);
+    m_overlay_widget->draw_tilemap_border(context);
+
+    if (get_properties_panel_visible())
+    {
+      context.color().set_blur(g_config->editor_blur);
+      context.color().draw_filled_rect(Rectf(0.0f, 0.0f, SCREEN_WIDTH, 32.0f),
+                       Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
+
+      context.color().draw_filled_rect(Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f),
+                       Color(0.2f, 0.2f, 0.2f, 0.5f), LAYER_GUI - 6);
+      context.color().set_blur(0);
+
+      for(const auto& control : m_controls)
+      {
+        control->draw(context);
+      }
     }
 
     // If camera scale must be changed, change it here.
@@ -190,7 +439,75 @@ Editor::draw(Compositor& compositor)
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
     if (!m_leveltested)
+    {
       m_sector->draw(context);
+
+      // If an object is selected, draw an indicator around it.
+      const GameObject* selected_object = m_selected_object.get();
+      if (selected_object)
+      {
+        const MovingObject* moving_selected_obj = dynamic_cast<const MovingObject*>(selected_object);
+        if (moving_selected_obj)
+        {
+          context.push_transform();
+          const Camera& camera = m_sector->get_camera();
+          context.set_translation(camera.get_translation());
+          context.scale(camera.get_current_scale());
+
+          const Rectf& bbox = moving_selected_obj->get_bbox();
+          context.color().draw_line(bbox.p1() - Vector(10.f, 10.f), bbox.p1() - Vector(0.f, 10.f), Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(bbox.p1() - Vector(10.f, 10.f), bbox.p1() - Vector(10.f, 0.f), Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(bbox.p2() + Vector(10.f, 10.f), bbox.p2() + Vector(0.f, 10.f), Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(bbox.p2() + Vector(10.f, 10.f), bbox.p2() + Vector(10.f, 0.f), Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
+                                    Vector(bbox.get_right() + 10.f, bbox.get_top()),
+                                    Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(Vector(bbox.get_right() + 10.f, bbox.get_top() - 10.f),
+                                    Vector(bbox.get_right(), bbox.get_top() - 10.f),
+                                    Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
+                                    Vector(bbox.get_left() - 10.f, bbox.get_bottom()),
+                                    Color::WHITE, LAYER_GUI + 1);
+          context.color().draw_line(Vector(bbox.get_left() - 10.f, bbox.get_bottom() + 10.f),
+                                    Vector(bbox.get_left(), bbox.get_bottom() + 10.f),
+                                    Color::WHITE, LAYER_GUI + 1);
+
+          context.pop_transform();
+        }
+      }
+      else
+      {
+        m_selected_object = 0;
+        m_controls.clear();
+      }
+    }
+    
+    // BEGIN Draw shadows and line
+    constexpr float LINE_THICKNESS = 1.f;
+    Rectf border_rect = Rectf{SCREEN_WIDTH - 128.f - LINE_THICKNESS, 0,
+                              SCREEN_WIDTH - 128.f, static_cast<float>(SCREEN_HEIGHT - 32.f)};
+    Color line_color = g_config->editorcolor;
+    line_color.red -= 0.2;
+    line_color.green -= 0.2;
+    line_color.blue -= 0.2;
+    line_color.alpha -= 0.2;
+    context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
+    
+    if (m_shadow)
+    {
+      Rectf shadow_rect = border_rect;
+      shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
+      shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
+      context.set_alpha(0.2);
+      m_shadow->draw_scaled(context.color(), shadow_rect, LAYER_GUI + 1);
+      context.set_alpha(1.0);
+    }
+    
+    
+    Rectf layers_rect = Rectf{0, SCREEN_HEIGHT - 32.f - LINE_THICKNESS,
+                              SCREEN_WIDTH - 128.f, SCREEN_HEIGHT - 32.f};
+    context.color().draw_filled_rect(layers_rect, line_color, LAYER_GUI + 1);
+    // END Draw shadows and line
 
     context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
@@ -208,7 +525,7 @@ void
 Editor::update(float dt_sec, const Controller& controller)
 {
   // Auto-save (interval).
-  if (m_level) {
+  if (m_level && !m_temp_level) {
     m_time_since_last_save += dt_sec;
     if (m_time_since_last_save >= static_cast<float>(std::max(
         g_config->editor_autosave_frequency, 1)) * 60.f) {
@@ -233,6 +550,8 @@ Editor::update(float dt_sec, const Controller& controller)
     m_time_since_last_save = 0.f;
   }
 
+  m_script_manager.poll();
+  
   // Pass all requests.
   if (m_reload_request) {
     reload_level();
@@ -246,9 +565,27 @@ Editor::update(float dt_sec, const Controller& controller)
     // Create new level.
   }
 
+  if (m_deactivate_request) {
+    m_enabled = false;
+    m_deactivate_request = false;
+    return;
+  }
+
   if (m_reactivate_request) {
-    m_enabled = true;
     m_reactivate_request = false;
+
+    if (!m_enabled)
+    {
+      // It's possible that the editor is being re-activated due to exiting a menu,
+      // possibly one related to an object option.
+      GameObject* selected_object = m_selected_object.get();
+      if (selected_object)
+      {
+        selected_object->after_editor_set();
+        selected_object->check_state();
+      }
+    }
+    m_enabled = true;
   }
 
   if (m_save_request) {
@@ -262,6 +599,7 @@ Editor::update(float dt_sec, const Controller& controller)
   if (m_test_request) {
     m_test_request = false;
     MouseCursor::current()->set_icon(nullptr);
+    m_last_test_pos = m_test_pos;
     test_level(m_test_pos);
     return;
   }
@@ -272,12 +610,6 @@ Editor::update(float dt_sec, const Controller& controller)
     if (m_particle_editor_filename)
       static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
     ScreenManager::current()->push_screen(std::move(screen));
-    return;
-  }
-
-  if (m_deactivate_request) {
-    m_enabled = false;
-    m_deactivate_request = false;
     return;
   }
 
@@ -302,6 +634,11 @@ Editor::update(float dt_sec, const Controller& controller)
       widget->update(dt_sec);
     }
 
+    for(const auto& control : m_controls)
+    {
+      control->update(dt_sec);
+    }
+
     // Now that all widgets have been updated, which should have relinquished
     // pointers to objects marked for deletion, we can actually delete them.
     for (auto& sector : m_level->get_sectors())
@@ -314,6 +651,9 @@ Editor::update(float dt_sec, const Controller& controller)
 void
 Editor::remove_autosave_file()
 {
+  if (m_temp_level)
+    return;
+  
   // Clear the auto-save file.
   if (!m_autosave_levelfile.empty())
   {
@@ -328,9 +668,23 @@ Editor::remove_autosave_file()
   }
 }
 
-void
+bool
 Editor::save_level(const std::string& filename, bool switch_file)
 {
+  if (m_temp_level && !m_save_temp_level)
+  {
+    MenuManager::instance().set_menu(MenuStorage::EDITOR_TEMP_SAVE_MENU);
+    return false;
+  }
+  
+  if (m_save_temp_level)
+  {
+    m_save_temp_level = false;
+    m_temp_level = false;
+    // Implied
+    switch_file = true;
+  }
+
   auto file = !filename.empty() ? filename : m_levelfile;
 
   if (switch_file)
@@ -343,6 +697,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
   remove_autosave_file();
+  return true;
 }
 
 std::string
@@ -367,8 +722,23 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
+  if (m_testing_disabled)
+  {
+    Dialog::show_message(_("You cannot test a level when playing from the worldmap.\n\n"
+                           "Exit the level editor instead."));
+    return;
+  }
+
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
+
+  m_leveltested = true;
+  if ((m_level && m_levelfile.empty()) || m_levelfile == "")
+  {
+    GameManager::current()->start_level(m_level.get(), test_pos, true);
+    return;
+  }
+  
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);
   std::string directory = get_level_directory();
 
@@ -384,13 +754,12 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   m_autosave_levelfile = FileSystem::join(directory, backup_filename);
   m_level->save(m_autosave_levelfile);
   m_time_since_last_save = 0.f;
-  m_leveltested = true;
 
   if (!m_level->is_worldmap())
   {
     // TODO: After LevelSetScreen is removed, this should return a boolean indicating whether load was successful.
     //       If not, call reactivate().
-    GameManager::current()->start_level(*current_world, backup_filename, test_pos);
+    GameManager::current()->start_level(*current_world, backup_filename, test_pos, true);
   }
   else if (!GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos))
   {
@@ -401,6 +770,8 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 void
 Editor::open_level_directory()
 {
+  if (m_temp_level)
+    return;
   m_level->save(FileSystem::join(get_level_directory(), m_levelfile));
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
   FileSystem::open_path(path);
@@ -419,9 +790,12 @@ void
 Editor::keep_camera_in_bounds()
 {
   Camera& camera = m_sector->get_camera();
-  camera.keep_in_bounds(Rectf(0.f, 0.f,
-                              std::max(0.0f, m_sector->get_editor_width() + 128.f / camera.get_current_scale()),
-                              std::max(0.0f, m_sector->get_editor_height() + 32.f / camera.get_current_scale())));
+  constexpr float offset = 80.f;
+  float controls_offset_x = m_controls.size() != 0 ? -200.f : 0.f;
+  float controls_offset_y = m_controls.size() != 0 ? -32.f : 0.f;
+  camera.keep_in_bounds(Rectf(-offset + controls_offset_x, -offset + controls_offset_y,
+                              std::max(0.0f, m_sector->get_editor_width() + 128.f / camera.get_current_scale()) + offset,
+                              std::max(0.0f, m_sector->get_editor_height() + 32.f / camera.get_current_scale()) + offset));
 
   m_overlay_widget->update_pos();
 }
@@ -437,9 +811,8 @@ Editor::esc_press()
 void
 Editor::update_keyboard(const Controller& controller)
 {
-  if (!m_enabled) {
+  if (!m_enabled)
     return;
-  }
 
   if (MenuManager::instance().is_active() || MenuManager::instance().has_dialog())
     return;
@@ -502,6 +875,7 @@ Editor::set_sector(Sector* sector)
   }
 
   m_layers_widget->refresh();
+  select_object(nullptr);
 }
 
 void
@@ -527,6 +901,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
   std::string sector_name = DEFAULT_SECTOR_NAME;
   Vector translation(0.0f, 0.0f);
+  
+  m_temp_level = (level == nullptr);
 
   if (!reset && m_sector) {
     translation = m_sector->get_camera().get_translation();
@@ -540,12 +916,18 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
     m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   }
 
-  // Reload level.
-  m_level = nullptr;
   m_levelloaded = true;
 
-  m_level = std::move(level);
-
+  if (level != nullptr)
+  {
+    // Reload level.
+    m_level = std::move(level);
+  }
+  else
+  {
+    level_from_nothing();
+  }
+  
   if (reset) {
     m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
   }
@@ -656,7 +1038,7 @@ Editor::quit_editor()
 void
 Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
-  if (!m_levelloaded)
+  if (!m_levelloaded || m_temp_level)
   {
     action();
     return;
@@ -690,6 +1072,7 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
     });
     dialog->add_button(_("No"), [this, action] {
       action();
+	  set_level(nullptr, true);
       m_enabled = true;
     });
     dialog->add_button(_("Cancel"), [this] {
@@ -805,10 +1188,11 @@ Editor::setup()
   Tile::draw_editor_images = true;
   Sector::s_draw_solids_only = false;
   m_after_setup = true;
-  if (!m_levelloaded) {
-
+  if (!m_levelloaded)
+  {
 #if 0
-    if (AddonManager::current()->is_old_addon_enabled()) {
+    if (AddonManager::current()->is_old_addon_enabled())
+    {
       auto dialog = std::make_unique<Dialog>();
       dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with the default SuperTux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
       dialog->clear_buttons();
@@ -827,11 +1211,13 @@ Editor::setup()
       });
 
       MenuManager::instance().set_dialog(std::move(dialog));
-    } else
+    }
+    else
 #endif
     {
       MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
     }
+    set_level(nullptr, true);
   }
   m_toolbox_widget->setup();
   m_layers_widget->setup();
@@ -873,73 +1259,115 @@ Editor::on_window_resize()
 void
 Editor::event(const SDL_Event& ev)
 {
-  if (!m_enabled || !m_levelloaded) return;
+  if (!m_enabled || !m_levelloaded ||
+      MenuManager::current()->is_active() || MenuManager::current()->has_dialog()) return;
+
+  for(const auto& control : m_controls)
+    if (control->event(ev))
+      return;
 
   try
   {
-    if (ev.type == SDL_KEYDOWN)
-    {
-      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
-
-      if (m_ctrl_pressed)
-        m_scroll_speed = 16.0f;
-      else if (ev.key.keysym.mod & KMOD_RSHIFT)
-        m_scroll_speed = 96.0f;
-
-      if (ev.key.keysym.sym == SDLK_F6)
-      {
-        Compositor::s_render_lighting = !Compositor::s_render_lighting;
-        return;
-      }
-      else if (m_ctrl_pressed)
-      {
-        switch (ev.key.keysym.sym)
-        {
-          case SDLK_t:
-            test_level(std::nullopt);
-            break;
-          case SDLK_s:
-            save_level();
-            break;
-          case SDLK_z:
-            undo();
-            break;
-          case SDLK_y:
-            redo();
-            break;
-          case SDLK_PLUS: // Zoom in
-          case SDLK_KP_PLUS:
-            m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
-            break;
-          case SDLK_MINUS: // Zoom out
-          case SDLK_KP_MINUS:
-            m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
-            break;
-          case SDLK_d: // Reset zoom
-            m_new_scale = 1.f;
-            break;
-        }
-      }
-    }
-    else if (ev.type == SDL_KEYUP)
-    {
-      m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
-
-      if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
-        m_scroll_speed = 32.0f;
-    }
-    else if (ev.type == SDL_MOUSEMOTION)
+    if (ev.type == SDL_MOUSEMOTION)
     {
       m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
+
+      // If properties sidebar controls are active and the mouse is hovering over the sidebar,
+      // do not propagate mouse motion to the editor or its widgets.
+      if (!m_controls.empty() && Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f).contains(m_mouse_pos))
+        return;
     }
-    else if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
+    else
     {
-      // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
-      // The toolbox does scrolling independently from the main area.
-      if (m_ctrl_pressed)
-        m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY;
-      else
-        scroll({ static_cast<float>(ev.wheel.x * -32), static_cast<float>(ev.wheel.y * -32) });
+      // If properties sidebar controls are active and the mouse is hovering over the sidebar,
+      // do not propagate mouse events to the editor or its widgets.
+      if (!m_controls.empty() &&
+          (ev.type == SDL_MOUSEBUTTONDOWN || ev.type == SDL_MOUSEBUTTONUP || ev.type == SDL_MOUSEWHEEL) &&
+          Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f).contains(m_mouse_pos))
+      {
+        return;
+      }
+
+      if (ev.type == SDL_KEYDOWN)
+      {
+        m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+        m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
+        m_alt_pressed = ev.key.keysym.mod & KMOD_ALT;
+
+        if (m_ctrl_pressed)
+          m_scroll_speed = 16.0f;
+        else if (ev.key.keysym.mod & KMOD_RSHIFT)
+          m_scroll_speed = 96.0f;
+
+        if (ev.key.keysym.sym == SDLK_F6)
+        {
+          Compositor::s_render_lighting = !Compositor::s_render_lighting;
+          return;
+        }
+        else if (m_ctrl_pressed)
+        {
+          switch (ev.key.keysym.sym)
+          {
+            case SDLK_t:
+              if (m_shift_pressed && m_alt_pressed)
+              {
+                test_level(m_last_test_pos);
+                break;
+              }
+              
+              if (m_shift_pressed)
+                m_last_test_pos = std::pair<std::string, Vector>(get_sector()->get_name(), m_overlay_widget->get_sector_pos());
+              else
+                m_last_test_pos = std::nullopt;
+              
+              test_level(m_last_test_pos);
+              break;
+            case SDLK_s:
+              save_level();
+              break;
+            case SDLK_z:
+              undo();
+              break;
+            case SDLK_y:
+              redo();
+              break;
+            case SDLK_x:
+              toggle_tile_object_mode();
+              break;
+            case SDLK_PLUS: // Zoom in
+            case SDLK_KP_PLUS:
+              m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
+              break;
+            case SDLK_MINUS: // Zoom out
+            case SDLK_KP_MINUS:
+              m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
+              break;
+            case SDLK_d: // Reset zoom
+              m_new_scale = 1.f;
+              break;
+          }
+        }
+      }
+      else if (ev.type == SDL_KEYUP)
+      {
+        m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
+        m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
+        m_alt_pressed = ev.key.keysym.mod & KMOD_ALT;
+
+        if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
+          m_scroll_speed = 32.0f;
+      }
+      else if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
+      {
+        // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
+        // The toolbox does scrolling independently from the main area.
+        if (m_ctrl_pressed)
+          m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY;
+        else if (m_shift_pressed)
+          scroll({ static_cast<float>(ev.wheel.y * -40), static_cast<float>(ev.wheel.x * -40) });
+        else
+          scroll({ static_cast<float>(ev.wheel.x * -40), static_cast<float>(ev.wheel.y * -40) });
+      }
     }
 
     BIND_SECTOR(*m_sector);
@@ -952,6 +1380,49 @@ Editor::event(const SDL_Event& ev)
     log_warning << "error while processing Editor::event(): " << err.what() << std::endl;
   }
 }
+
+void
+Editor::toggle_tile_object_mode()
+{
+  int i = 0, total = 0;
+  auto& tilebox = m_toolbox_widget->get_tilebox();
+  const auto& input_type = tilebox.get_input_type();
+  
+  if (input_type == InputType::OBJECT)
+  {
+    select_last_tilegroup();
+    for(const auto& widget : m_widgets)
+    {
+      if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+      {
+        toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
+      }
+    }
+  }
+  else
+  {
+    select_last_objectgroup();
+    for(const auto& widget : m_widgets)
+    {
+      if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+      {
+        toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
+      }
+  	}
+  }
+  
+  for (const auto& widget : m_widgets)
+  {
+    if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+    {
+      if (toolbar_button->get_visible())
+        ++i;
+    }
+	}
+  
+  m_widgets_width = i * 32.f;
+}
+
 
 void
 Editor::update_node_iterators()
@@ -977,6 +1448,12 @@ Editor::select_tilegroup(int id)
   m_toolbox_widget->select_tilegroup(id);
 }
 
+void
+Editor::select_last_tilegroup()
+{
+  m_toolbox_widget->select_last_tilegroup();
+}
+
 const std::vector<Tilegroup>&
 Editor::get_tilegroups() const
 {
@@ -999,6 +1476,12 @@ void
 Editor::select_objectgroup(int id)
 {
   m_toolbox_widget->select_objectgroup(id);
+}
+
+void
+Editor::select_last_objectgroup()
+{
+  m_toolbox_widget->select_last_objectgroup();
 }
 
 const std::vector<ObjectGroup>&
@@ -1057,33 +1540,8 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
 void
 Editor::retoggle_undo_tracking()
 {
-  if (g_config->editor_undo_tracking && !m_undo_widget)
-  {
-    // Add undo/redo button widgets.
-    auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
-        Vector(10, 10), [this]{ undo(); });
-    auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
-        Vector(60, 10), [this]{ redo(); });
-
-    m_undo_widget = undo_button_widget.get();
-    m_redo_widget = redo_button_widget.get();
-
-    m_widgets.insert(m_widgets.begin(), std::move(undo_button_widget));
-    m_widgets.insert(m_widgets.begin() + 1, std::move(redo_button_widget));
-  }
-  else if (!g_config->editor_undo_tracking && m_undo_widget)
-  {
-    // Remove undo/redo button widgets.
-    m_widgets.erase(std::remove_if(
-                      m_widgets.begin(), m_widgets.end(),
-                      [this](const std::unique_ptr<Widget>& widget) {
-                          const Widget* ptr = widget.get();
-                          return ptr == m_undo_widget || ptr == m_redo_widget;
-                      }), m_widgets.end());
-    m_undo_widget = nullptr;
-    m_redo_widget = nullptr;
-  }
-
+  m_undo_widget->set_disabled(true);
+  m_redo_widget->set_disabled(true);
   // Toggle undo tracking for all sectors.
   for (const auto& sector : m_level->m_sectors)
     sector->toggle_undo_tracking(g_config->editor_undo_tracking);
@@ -1114,6 +1572,20 @@ Editor::redo()
   BIND_SECTOR(*m_sector);
   m_sector->redo();
   m_layers_widget->update_current_tip();
+}
+
+void
+Editor::set_undo_disabled(bool state)
+{
+  if (m_undo_widget)
+    m_undo_widget->set_disabled(state);
+}
+
+void
+Editor::set_redo_disabled(bool state)
+{
+  if (m_redo_widget)
+    m_redo_widget->set_disabled(state);
 }
 
 IntegrationStatus
@@ -1183,4 +1655,74 @@ Editor::pack_addon()
   info.end_list("supertux-addoninfo");
 
   *zip.Add_File(id + ".nfo") << ss.rdbuf();
+}
+
+bool
+Editor::get_properties_panel_visible() const
+{
+  return !m_controls.empty() && g_config->editor_show_properties_sidebar;
+}
+
+void
+Editor::add_control(const std::string& name, std::unique_ptr<InterfaceControl> new_control, const std::string& description)
+{
+  assert(new_control);
+  if (!g_config->editor_show_properties_sidebar)
+    return;
+
+  float height = 35.f;
+  for (const auto& control : m_controls)
+    height = std::max(height, control->get_rect().get_bottom() + 5.f);
+
+  auto control_rect = new_control->get_rect();
+  Rectf target_rect;
+  if (control_rect.get_width() == 0.f || control_rect.get_height() == 0.f)
+  {
+    target_rect = Rectf(100.f, height, 200.f - 1.0f, height + 20.f);
+  } 
+  else
+  {
+    target_rect = Rectf(control_rect.get_left(), height,
+                        control_rect.get_right(), height + control_rect.get_height());
+  }
+  new_control->set_rect(target_rect);
+
+  auto dimensions = Rectf(3.f, height, 100.f, height + 20.f);
+  new_control->m_label = std::make_unique<InterfaceLabel>(dimensions, std::move(name), std::move(description));
+  m_controls.push_back(std::move(new_control));
+}
+
+void
+Editor::select_object(GameObject* object)
+{
+  m_controls.clear();
+
+  if (!object || !g_config->editor_show_properties_sidebar)
+  {
+    m_selected_object = 0;
+    return;
+  }
+  m_selected_object = object;
+
+  ObjectSettings os = object->get_settings();
+  for (const auto& option : os.get_options())
+  {
+    if ((option->get_flags() & OPTION_HIDDEN) && !(option->get_flags() & OPTION_VISIBLE_PROPERTIES))
+      continue;
+
+    auto control = option->create_interface_control();
+    if (!control)
+      continue;
+
+    control->m_on_activate_callbacks.emplace_back([object]() {
+        object->save_state();
+      });
+    control->m_on_change_callbacks.emplace_back([object]() {
+        // TODO: Updating the object doesn't work every time.
+        // Investigate why this is the case!
+        object->after_editor_set();
+        object->check_state();
+      });
+    add_control(option->get_text(), std::move(control), option->get_description());
+  }
 }
