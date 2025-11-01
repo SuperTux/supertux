@@ -1009,14 +1009,6 @@ lift1.stop_moving();")
       (x 10128)
       (y 672)
     )
-    (spawnpoint
-      (x 1363.924)
-      (y 658.4689)
-    )
-    (spawnpoint
-      (x 3554.52)
-      (y 486.28)
-    )
     (stalactite
       (z-pos -1)
       (x 800)

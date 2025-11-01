@@ -230,11 +230,13 @@ function shake_bush_thread(table)
   table.NOLOK.set_visible(true);
   table.wait(0.2);
   table.Effect.fade_out(0.1);
-  table.wait(0.3);
-  table.play_sound("sounds/thud.ogg");
+  table.wait(0.1);
   Tux.activate();
   Tux.kill(false);
+  table.wait(0);
   Tux.deactivate();
+  table.wait(0.2);
+  table.play_sound("sounds/thud.ogg");
 }
 
 function end_level()
