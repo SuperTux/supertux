@@ -1,6 +1,6 @@
 {
   "nodes": {
-    "SDL2_ttf": {
+    "SDL3_ttf": {
       "inputs": {
         "flake-utils": [
           "flake-utils"
@@ -74,7 +74,7 @@
     },
     "root": {
       "inputs": {
-        "SDL2_ttf": "SDL2_ttf",
+        "SDL3_ttf": "SDL3_ttf",
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
         "sexpcpp": "sexpcpp",

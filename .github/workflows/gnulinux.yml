@@ -54,6 +54,18 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
+      - name: Patch vcpkg dbus portfile on 32-bit
+        if: ${{ matrix.arch == 32 }}
+        shell: pwsh
+        run: |
+          # Patch dbus port file to work around dbus issue on 32-bit
+          # See https://github.com/microsoft/vcpkg/issues/40031
+          git config core.filemode false
+          cp mk/vcpkg/dbus.patch $Env:VCPKG_INSTALLATION_ROOT
+          pushd $Env:VCPKG_INSTALLATION_ROOT
+          git apply dbus.patch
+          popd
+
       - name: Install 64-bit dependencies
         if: ${{ matrix.arch == 64 }}
         run: |
@@ -76,8 +88,6 @@ jobs:
             libogg-dev \
             libvorbis-dev \
             libopenal-dev \
-            libsdl2-dev \
-            libsdl2-image-dev \
             libglib2.0-dev \
             libfreetype6-dev \
             libraqm-dev \
@@ -89,7 +99,16 @@ jobs:
             libphysfs-dev \
             zlib1g-dev \
             lcov \
-            doxygen
+            doxygen \
+            libltdl-dev
+
+          # Let's get out of this directory to disable vcpkg manifest mode.
+          # Manifest mode is not adequate here because most dependencies can
+          # be used via the system package manager.
+          pushd /
+          
+          vcpkg update
+          vcpkg install --triplet x64-linux sdl3 sdl3-image sdl3-ttf
 
       - name: Install 32-bit dependencies
         if: ${{ matrix.arch == 32 }}
@@ -114,21 +133,21 @@ jobs:
             libogg-dev:i386 \
             libvorbis-dev:i386 \
             libopenal-dev:i386 \
-            libsdl2-dev:i386 \
-            libsdl2-image-dev:i386 \
             libfreetype6-dev:i386 \
             libcurl4-openssl-dev:i386 \
             zlib1g-dev:i386 \
             libfmt-dev:i386 \
-            libglm-dev
-
+            libglm-dev \
+            libltdl-dev
+          
           # Let's get out of this directory to disable vcpkg manifest mode.
           # Manifest mode is not adequate here because most dependencies can
           # be used via the system package manager.
           pushd /
 
           # These libraries don't exist for 32-bit in Ubuntu repositories.
-          vcpkg install --triplet x86-linux physfs glew libraqm
+          vcpkg update
+          vcpkg install --triplet x86-linux physfs glew libraqm sdl3 sdl3-image sdl3-ttf
 
           popd
 
@@ -181,12 +200,10 @@ jobs:
                      -DCMAKE_POLICY_VERSION_MINIMUM="3.5" `
                      -DSUPERTUX_PACKAGE_VERSION="$Env:GIT_TAG dev - $Env:GIT_HASH ($Env:GIT_BRANCH) (CI ARTIFACT)" `
                      -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH" `
-                     $(if ($Env:32BIT -eq "true") {
-                       "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
-                       "-DVCPKG_TARGET_TRIPLET=x86-linux "
-                       "-DVCPKG_MANIFEST_MODE=OFF "
-                       "-DPhysFS_PREFER_FIND_PACKAGE=ON"
-                     }) `
+                     -DCMAKE_TOOLCHAIN_FILE="$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+                     -DVCPKG_MANIFEST_MODE=OFF `
+                     -DPhysFS_PREFER_FIND_PACKAGE=ON `
+                     -DVCPKG_TARGET_TRIPLET="$(if ($Env:32BIT -eq "true") {"x86"} else {"x64"})-linux" `
                      -DBUILD_DOCUMENTATION="$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
                      -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
                      -DCMAKE_C_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `

@@ -581,17 +581,17 @@ Menu::event(const SDL_Event& ev)
   m_items[m_active_item]->event(ev);
   switch (ev.type)
   {
-    case SDL_KEYDOWN:
-    case SDL_TEXTINPUT:
-      if (((ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_BACKSPACE) ||
-         ev.type == SDL_TEXTINPUT) && m_items[m_active_item]->changes_width())
+    case SDL_EVENT_KEY_DOWN:
+    case SDL_EVENT_TEXT_INPUT:
+      if (((ev.type == SDL_EVENT_KEY_DOWN && ev.key.key == SDLK_BACKSPACE) ||
+         ev.type == SDL_EVENT_TEXT_INPUT) && m_items[m_active_item]->changes_width())
       {
         // Changed item value? Let's recalculate width:
         calculate_width();
       }
     break;
 
-    case SDL_MOUSEBUTTONDOWN:
+    case SDL_EVENT_MOUSE_BUTTON_DOWN:
     if (ev.button.button == SDL_BUTTON_LEFT)
     {
       Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
@@ -606,7 +606,7 @@ Menu::event(const SDL_Event& ev)
     }
     break;
 
-    case SDL_MOUSEMOTION:
+    case SDL_EVENT_MOUSE_MOTION:
     {
       Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       float x = mouse_pos.x;

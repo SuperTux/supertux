@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <SDL_mouse.h>
+#include <SDL3/SDL_mouse.h>
 #include <string>
 #include <unordered_map>
 #include <vector>

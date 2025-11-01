@@ -36,7 +36,7 @@ TTFFont::TTFFont(const std::string& filename, int font_size, float line_spacing,
   m_shadow_size(shadow_size),
   m_border(border)
 {
-  m_font = TTF_OpenFontRW(get_physfs_SDLRWops(m_filename), 1, font_size);
+  m_font = TTF_OpenFontIO(get_physfs_SDLRWops(m_filename), 1, font_size);
   if (!m_font)
   {
     std::ostringstream msg;
@@ -71,9 +71,9 @@ TTFFont::get_text_width(const std::string& text) const
       // Not in cache
       int w = 0;
       int h = 0;
-      int ret = TTF_SizeUTF8(m_font, line.c_str(), &w, &h);
+      int ret = TTF_GetStringSize(m_font, line.c_str(), line.length(), &w, &h);
       if (ret < 0) {
-        get_logging_instance(false) << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
+        get_logging_instance(false) << "TTFFont::get_text_width(): " << SDL_GetError() << std::endl;
       }
       int const grow = std::max(get_border() * 2, get_shadow_size() * 2);
       line_width = w + grow;
@@ -103,7 +103,7 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
                    const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 
 {
-  const float init_y = pos.y - (static_cast<float>(TTF_FontHeight(m_font)) - get_height()) / 2.0f;
+  const float init_y = pos.y - (static_cast<float>(TTF_GetFontHeight(m_font)) - get_height()) / 2.0f;
 
   float min_x = pos.x;
   float last_y = init_y;

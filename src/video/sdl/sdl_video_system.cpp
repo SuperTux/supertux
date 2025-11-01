@@ -18,6 +18,8 @@
 
 #include <sstream>
 
+#include <SDL3/SDL_hints.h>
+
 #include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -51,13 +53,12 @@ SDLVideoSystem::~SDLVideoSystem()
 std::string
 SDLVideoSystem::get_name() const
 {
-  SDL_version version;
-  SDL_GetVersion(&version);
+  auto version = SDL_GetVersion();
   std::ostringstream out;
   out << "SDL "
-      << static_cast<int>(version.major)
-      << "." << static_cast<int>(version.minor)
-      << "." << static_cast<int>(version.patch);
+      << SDL_VERSIONNUM_MAJOR(version)
+      << "." << SDL_VERSIONNUM_MINOR(version)
+      << "." << SDL_VERSIONNUM_MICRO(version);
   return out.str();
 }
 
@@ -66,12 +67,9 @@ SDLVideoSystem::create_window()
 {
   log_info << "Creating SDLVideoSystem" << std::endl;
 
-  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
-  SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
-
   create_sdl_window(0);
 
-  m_sdl_renderer.reset(SDL_CreateRenderer(m_sdl_window.get(), -1, 0));
+  m_sdl_renderer.reset(SDL_CreateRenderer(m_sdl_window.get(), nullptr));
   if (!m_sdl_renderer)
   {
     std::stringstream msg;
@@ -137,30 +135,23 @@ SDLVideoSystem::make_screenshot()
 {
   int width;
   int height;
-  if (SDL_GetRendererOutputSize(m_renderer->get_sdl_renderer(), &width, &height) != 0)
+  if (SDL_GetCurrentRenderOutputSize(m_renderer->get_sdl_renderer(), &width, &height) != 0)
   {
     log_warning << "SDL_GetRenderOutputSize failed: " << SDL_GetError() << std::endl;
     return {};
   }
   else
   {
-    SDLSurfacePtr surface = SDLSurface::create_rgba(width, height);
+    auto surface = SDL_RenderReadPixels(m_renderer->get_sdl_renderer(), nullptr);
 
-    SDL_LockSurface(surface.get());
-    int ret = SDL_RenderReadPixels(m_renderer->get_sdl_renderer(), nullptr,
-                                   SDL_PIXELFORMAT_ABGR8888,
-                                   surface->pixels,
-                                   surface->pitch);
-    SDL_UnlockSurface(surface.get());
-
-    if (ret != 0)
+    if (SDL_GetError() != 0)
     {
       log_warning << "SDL_RenderReadPixels failed: " << SDL_GetError() << std::endl;
       return {};
     }
     else
     {
-      return surface;
+      return SDLSurfacePtr(surface);
     }
   }
 }

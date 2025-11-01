@@ -70,7 +70,7 @@ Config::Config() :
   locale(),
   keyboard_config(),
   joystick_config(),
-  mobile_controls(SDL_GetNumTouchDevices() > 0),
+  mobile_controls(),
   m_mobile_controls_scale(1),
   addons(),
   developer_mode(false),
@@ -122,6 +122,9 @@ Config::Config() :
 #endif
   repository_url()
 {
+  int num_touch_devices;
+  SDL_GetTouchDevices(&num_touch_devices);
+  mobile_controls = (num_touch_devices > 0);
 }
 
 void
@@ -323,7 +326,10 @@ Config::load()
       joystick_config.read(*joystick_mapping);
     }
 
-    config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
+    int num_touch_devices;
+    SDL_GetTouchDevices(&num_touch_devices);
+
+    config_control_mapping->get("mobile_controls", mobile_controls, (num_touch_devices > 0));
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
   }
 

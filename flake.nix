@@ -41,16 +41,16 @@
     tinygettext.inputs.flake-utils.follows = "flake-utils";
     tinygettext.inputs.tinycmmc.follows = "tinycmmc";
 
-    SDL2_ttf.url = "github:SuperTux/SDL_ttf";
-    SDL2_ttf.inputs.nixpkgs.follows = "nixpkgs";
-    SDL2_ttf.inputs.flake-utils.follows = "flake-utils";
+    SDL3_ttf.url = "github:SuperTux/SDL_ttf";
+    SDL3_ttf.inputs.nixpkgs.follows = "nixpkgs";
+    SDL3_ttf.inputs.flake-utils.follows = "flake-utils";
 
     squirrel_src.url = "github:albertodemichelis/squirrel";
     squirrel_src.flake = false;
   };
 
   outputs = { self, nixpkgs, flake-utils,
-              tinycmmc, sexpcpp, tinygettext, SDL2_ttf,
+              tinycmmc, sexpcpp, tinygettext, SDL3_ttf,
               squirrel_src }:
     flake-utils.lib.eachDefaultSystem (system:
       let
@@ -90,7 +90,7 @@ EOF
             '';
             cmakeFlags = [
               "-DINSTALL_SUBDIR_BIN=bin"
-              "-DUSE_SYSTEM_SDL2_TTF=ON"
+              "-DUSE_SYSTEM_SDL3_TTF=ON"
             ];
             enableParallelBuilding = true;
             nativeBuildInputs = [
@@ -108,7 +108,7 @@ EOF
               squirrel
               sexpcpp.packages.${system}.default
               tinygettext.packages.${system}.default
-              SDL2_ttf.packages.${system}.default
+              SDL3_ttf.packages.${system}.default
 
               pkgs.physfs
               pkgs.libpng
@@ -120,8 +120,8 @@ EOF
               pkgs.gtest
 
               pkgs.glm
-              pkgs.SDL2
-              pkgs.SDL2_image
+              pkgs.SDL3
+              pkgs.SDL3_image
 
               pkgs.openal
               pkgs.libvorbis

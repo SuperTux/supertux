@@ -1132,9 +1132,9 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
-  std::uint16_t mod = key.keysym.mod;
+  std::uint16_t mod = key.mod;
 
-  if (mod & KMOD_SHIFT)
+  if (mod & SDL_KMOD_SHIFT)
   {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
@@ -1145,7 +1145,7 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
     // Hovered objects depend on if ctrl is pressed
     hover_object();
   }
-  else if (mod & KMOD_ALT)
+  else if (mod & SDL_KMOD_ALT)
   {
     alt_pressed = false;
   }
@@ -1155,14 +1155,14 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 bool
 EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
-  SDL_Keycode sym = key.keysym.sym;
-  std::uint16_t mod = key.keysym.mod;
+  SDL_Keycode sym = key.key;
+  std::uint16_t mod = key.mod;
 
   if (sym == SDLK_F8)
   {
     g_config->editor_render_grid = !g_config->editor_render_grid;
   }
-  else if (sym == SDLK_F7 || mod & KMOD_SHIFT)
+  else if (sym == SDLK_F7 || mod & SDL_KMOD_SHIFT)
   {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
@@ -1177,7 +1177,7 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
     // Hovered objects depend on if ctrl is pressed.
     hover_object();
   }
-  else if (mod & KMOD_ALT)
+  else if (mod & SDL_KMOD_ALT)
   {
     alt_pressed = true;
   }
