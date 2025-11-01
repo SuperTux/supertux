@@ -355,18 +355,18 @@ Crusher::get_detect_box(CrusherDirection dir)
   Vector pos = get_pos();
   switch (dir)
   {
-  case CrusherDirection::VERTICAL: [[fallthrough]];
-  case CrusherDirection::UP:
-    pos.y -= DETECT_RANGE;
-    break;
+    case CrusherDirection::VERTICAL: [[fallthrough]];
+    case CrusherDirection::UP:
+      pos.y -= DETECT_RANGE;
+      break;
 
-  case CrusherDirection::HORIZONTAL: [[fallthrough]];
-  case CrusherDirection::LEFT:
-    pos.x -= DETECT_RANGE;
-    break;
+    case CrusherDirection::HORIZONTAL: [[fallthrough]];
+    case CrusherDirection::LEFT:
+      pos.x -= DETECT_RANGE;
+      break;
 
-  default:
-    break;
+    default:
+      break;
   }
 
   Sizef size = get_bbox().get_size();
