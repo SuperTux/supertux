@@ -18,7 +18,8 @@
 
 #include "gui/menu.hpp"
 
-class Levelset;
+#include "supertux/levelset.hpp"
+
 class World;
 
 class ContribLevelsetMenu final : public Menu
