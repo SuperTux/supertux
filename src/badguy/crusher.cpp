@@ -824,6 +824,13 @@ Crusher::on_flip(float height)
   MovingSprite::on_flip(height);
   m_start_position.y = height - m_col.m_bbox.get_height() - m_start_position.y;
   FlipLevelTransformer::transform_flip(m_flip);
+
+  if (m_dir == CrusherDirection::DOWN)
+    m_dir = CrusherDirection::UP;
+  else if (m_dir == CrusherDirection::UP)
+    m_dir = CrusherDirection::DOWN;
+
+  idle();
 }
 
 void
