@@ -135,7 +135,7 @@ function textbox_outro()
   
   wait(4.5);
   
-  Text.set_text(_("As he was about the exit the mine, Tux was internally hoping that all Nolok wrote in the note was true."));
+  Text.set_text(_("As he was about to exit the mine, Tux was internally hoping that all Nolok wrote in the note was true."));
   Text.fade_in(0.5);
   wait(4);
   Text.fade_out(0.5);
