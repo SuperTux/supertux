@@ -300,7 +300,7 @@ function textbox()
   
   wait(1);
   
-  Text.set_text(_("It read that he had already left Icy Island towards the far north. If he wished to follow him and save his beloved friend, he would have to come to the Crystal Mine"));
+  Text.set_text(_("It read that he had already left Icy Island towards the far north. If he wished to follow him and save his beloved friend, he would have to come to the Crystal Mine."));
   Text.fade_in(0.5);
   wait(8);
   Text.fade_out(0.5);

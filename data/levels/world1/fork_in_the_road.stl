@@ -388,15 +388,6 @@
       (x 14464)
       (y 1056)
     )
-    (scripttrigger
-      (oneshot #t)
-      (script "state.fitr_main = true;")
-      (button #f)
-      (width 64)
-      (height 672)
-      (x 15520)
-      (y 0)
-    )
     (secretarea
       (fade-tilemap "secret2")
       (width 192)
