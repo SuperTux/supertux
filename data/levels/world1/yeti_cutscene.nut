@@ -58,35 +58,35 @@ function textbox()
   
   Text.set_text(_("After an entire day of navigating Icy Island, Tux had now almost reached the supposed castle of Nolok."));
   Text.fade_in(0.5);
-  wait(4);
+  wait(5.5);
   Text.fade_out(0.5);
   
-  wait(2.5);
+  wait(1);
   
   Text.set_text(_("The lack of sleep during the night may not have been ideal but he was determined to keep going!"));
   Text.fade_in(0.5);
-  wait(4);
+  wait(5.5);
   Text.fade_out(0.5);
   
-  wait(4.5);
+  wait(3);
   
   Text.set_text(_("Not wanting to waste any more time, Tux continued on, sliding down the hill he was on into the icy valley up ahead."));
   Text.fade_in(0.5);
-  wait(4);
+  wait(5.5);
   Text.fade_out(0.5);
   
-  wait(4.8);
+  wait(3.3);
   
   Text.set_text(_("Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a close eye on Tux as he continued his journey."));
   Text.fade_in(0.5);
-  wait(4);
+  wait(5.5);
   Text.fade_out(0.5);
   
-  wait(2.8);
+  wait(1.3);
   
   Text.set_text(_("The yeti let out a loud roar and proceeded to follow the little penguin."));
   Text.fade_in(0.5);
-  wait(4);
+  wait(5);
   Text.fade_out(0.5);
 }
 
