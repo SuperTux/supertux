@@ -890,12 +890,8 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
         m_physic.set_velocity(Vector(0.f, 0.f));
         if (m_ic_type != ICE)
           set_action("idle");
-        return ABORT_MOVE;
       }
-      else
-      {
-        return ABORT_MOVE;
-      }
+      return ABORT_MOVE;
     }
   }
 
