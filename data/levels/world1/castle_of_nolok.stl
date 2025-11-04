@@ -676,6 +676,7 @@ wait(3);
 Effect.fade_out(2);
 wait(3);
 
+Tux.use_scripting_controller(false);
 end_cutscene();
 
 Level.finish(true);")
@@ -700,13 +701,6 @@ Level.finish(true);")
       (height 128)
       (x 9184)
       (y 544)
-    )
-    (sequencetrigger
-      (sequence "stoptux")
-      (width 64)
-      (height 384)
-      (x 17536)
-      (y 1120)
     )
     (spawnpoint
       (name "main")
