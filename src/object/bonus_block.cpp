@@ -300,37 +300,40 @@ BonusBlock::hit(Player& player)
 HitResponse
 BonusBlock::collision(MovingObject& other, const CollisionHit& hit_)
 {
-  auto player = dynamic_cast<Player*> (&other);
-  if (player) {
-    if (player->m_does_buttjump ||
-      (player->is_swimboosting() && player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA))
+  if (hit_.has_direction()) {
+    auto player = dynamic_cast<Player*> (&other);
+    if (player) {
+      if (player->m_does_buttjump ||
+        (player->is_swimboosting() && player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA))
+      {
+        try_drop(player);
+      }
+    }
+
+    auto badguy = dynamic_cast<BadGuy*> (&other);
+    if (badguy) {
+      // Hit contains no information for collisions with blocks.
+      // Badguy's bottom has to be below the top of the block
+      // SHIFT_DELTA is required to slide over one tile gaps.
+      if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
+        try_open(player);
+      }
+    }
+
+    auto crusher = dynamic_cast<Crusher*> (&other);
+    if (crusher)
     {
-      try_drop(player);
-    }
-  }
-
-  auto badguy = dynamic_cast<BadGuy*> (&other);
-  if (badguy) {
-    // Hit contains no information for collisions with blocks.
-    // Badguy's bottom has to be below the top of the block
-    // SHIFT_DELTA is required to slide over one tile gaps.
-    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
       try_open(player);
     }
-  }
 
-  auto crusher = dynamic_cast<Crusher*> (&other);
-  if (crusher)
-  {
-    try_open(player);
-  }
-
-  auto portable = dynamic_cast<Portable*> (&other);
-  if (portable && !badguy) {
-    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
-      try_open(player);
+    auto portable = dynamic_cast<Portable*> (&other);
+    if (portable && !badguy) {
+      if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+        try_open(player);
+      }
     }
   }
+
   return Block::collision(other, hit_);
 }
 
