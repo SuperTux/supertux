@@ -86,7 +86,7 @@ public:
     INHERIT
   };
   static std::string get_setting_name(Setting setting);
-  static Setting get_setting_from_name(std::string setting);
+  static Setting get_setting_from_name(const std::string& setting);
 
   bool m_is_worldmap;
 

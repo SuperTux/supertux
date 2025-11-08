@@ -334,7 +334,13 @@ std::string physfs_userdir = PHYSFS_getUserDir();
 #ifdef _WIN32
 std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
 #else
-std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
+std::string olduserdir;
+// Extra safety check to ensure we can't move home.
+// See: https://bugs.gentoo.org/764959
+if (std::string(PACKAGE_NAME) == "")
+  olduserdir = FileSystem::join(physfs_userdir, ".supertux2");
+else
+  olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
 if (FileSystem::is_directory(olduserdir)) {
   std::filesystem::path olduserpath(olduserdir);
@@ -465,7 +471,8 @@ Main::init_video()
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
 
-  SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
+  SDL_ShowCursor(
+    (g_config->custom_mouse_cursor && !g_config->custom_system_cursor) ? SDL_DISABLE : SDL_ENABLE);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
