@@ -1629,7 +1629,7 @@ Player::handle_input()
     if ((get_bonus() == BONUS_FIRE && active_bullets < MAX_FIRE_BULLETS) ||
         (get_bonus() == BONUS_ICE  && active_bullets < MAX_ICE_BULLETS))
     {
-      Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f);
+      Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 4.f);
       Direction swim_dir;
       swim_dir = ((std::abs(m_swimming_angle) <= math::PI_2)
         || (m_water_jump && std::abs(m_physic.get_velocity_x()) < 10.f)) ? Direction::RIGHT : Direction::LEFT;

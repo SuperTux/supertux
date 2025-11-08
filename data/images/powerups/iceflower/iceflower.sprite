@@ -1,9 +1,9 @@
 (supertux-sprite
        (action
          (name "default")
+	 (fps 12)
          (images "ice_flower-0.png"
                  "ice_flower-1.png"
                  "ice_flower-2.png"
                  "ice_flower-3.png"
-                 "ice_flower-2.png"
-                 "ice_flower-1.png")))
+                 "ice_flower-4.png")))

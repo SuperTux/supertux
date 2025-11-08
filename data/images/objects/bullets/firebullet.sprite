@@ -1,10 +1,12 @@
 (supertux-sprite
  (action
-  (hitbox 2 2 12 12)
-  (fps 20)
-  (images "fire_bullet-0.png"
-   "fire_bullet-1.png"
-   "fire_bullet-2.png"
-   "fire_bullet-3.png")
+  (name "right")
+  (hitbox 0 0 21 21)
+  (images "fire_bullet.png")
+ )
+ (action
+  (name "left")
+  (hitbox 0 0 21 21)
+  (mirror-action "right")
  )
 )
