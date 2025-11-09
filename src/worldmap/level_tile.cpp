@@ -37,6 +37,7 @@ LevelTile::LevelTile(const ReaderMapping& mapping) :
   m_level_filename(),
   m_title(),
   m_auto_play(false),
+  m_is_cutscene(false),
   m_target_time(),
   m_extro_script(),
   m_solved(false),
@@ -53,6 +54,7 @@ LevelTile::LevelTile(const ReaderMapping& mapping) :
   }
 
   mapping.get("auto-play", m_auto_play);
+  mapping.get("cutscene", m_is_cutscene);
   mapping.get("extro-script", m_extro_script);
 
   std::vector<float> vColor;
@@ -153,6 +155,7 @@ LevelTile::get_settings()
   result.add_level(_("Level"), &m_level_filename, "level", basedir);
   result.add_script(_("Outro script"), &m_extro_script, "extro-script");
   result.add_bool(_("Auto play"), &m_auto_play, "auto-play", false);
+  result.add_bool(_("Mark as cutscene"), &m_is_cutscene, "cutscene", false);
   result.add_color(_("Title colour"), &m_title_color, "color", Color::WHITE);
 
   result.reorder({"name", "sprite", "x", "y"});

@@ -28,6 +28,9 @@
 #include "util/gettext.hpp"
 #include "util/string_util.hpp"
 
+static const size_t MAX_TITLE_CHARS = 30;
+static const std::vector<std::string> IMAGE_EXTENSIONS = { ".jpg", ".png", ".surface" };
+
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
                                const std::string& basedir, bool path_relative_to_basedir, std::function<void(const std::string&)> callback,
                                const std::function<void (MenuItem&)>& item_processor) :
@@ -65,7 +68,13 @@ FileSystemMenu::refresh_items()
   m_files.clear();
   m_directory = FileSystem::normalize(m_directory);
 
-  add_label(m_directory);
+  // Make sure label doesn't get too long.
+  std::string title = m_directory;
+  const bool title_large = title.size() > MAX_TITLE_CHARS;
+  while (title.size() > MAX_TITLE_CHARS)
+    title = title.substr(title.size() - MAX_TITLE_CHARS);
+
+  add_label((title_large ? "..." : "") + title);
   add_hl();
 
   int item_id = 0;
@@ -109,8 +118,11 @@ FileSystemMenu::refresh_items()
   for (const auto& item : m_files)
   {
     MenuItem& menu_item = add_entry(item_id, item);
+
     if (in_basedir && m_item_processor)
       m_item_processor(menu_item);
+    if (is_image(item))
+      menu_item.set_preview(FileSystem::join(m_directory, item));
 
     item_id++;
   }
@@ -124,6 +136,7 @@ FileSystemMenu::refresh_items()
 
   // Re-center menu
   on_window_resize();
+  align_for_previews(25.f);
 }
 
 bool
@@ -132,12 +145,20 @@ FileSystemMenu::has_right_suffix(const std::string& file) const
   if (m_extensions.empty())
     return true;
 
-  for (const auto& extension : m_extensions) {
+  for (const auto& extension : m_extensions)
     if (StringUtil::has_suffix(file, extension))
-    {
       return true;
-    }
-  }
+
+  return false;
+}
+
+bool
+FileSystemMenu::is_image(const std::string& file) const
+{
+  for (const auto& extension : IMAGE_EXTENSIONS)
+    if (StringUtil::has_suffix(file, extension))
+      return true;
+
   return false;
 }
 
