@@ -6,4 +6,13 @@
                  "fire_flower-2.png"
                  "fire_flower-3.png"
                  "fire_flower-2.png"
-                 "fire_flower-1.png")))
+                 "fire_flower-1.png"))
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+      (action "default")
+      (color 0.3 0 0)
+    )
+  )
+)

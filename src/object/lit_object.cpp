@@ -29,8 +29,7 @@ LitObject::LitObject(const ReaderMapping& reader) :
   m_light_offset(-6.f, -17.f),
   m_light_sprite_name("images/objects/lightflower/light/glow_light.sprite"),
   m_sprite_action("default"),
-  m_light_sprite_action("default"),
-  m_light_sprite()
+  m_light_sprite_action("default")
 {
   reader.get("light-offset-x", m_light_offset.x);
   reader.get("light-offset-y", m_light_offset.y);
@@ -41,11 +40,12 @@ LitObject::LitObject(const ReaderMapping& reader) :
   reader.get("action", m_sprite_action);
   reader.get("light-action", m_light_sprite_action);
 
-  m_light_sprite = SpriteManager::current()->create(m_light_sprite_name);
-  m_light_sprite->set_blend(Blend::ADD);
+  m_light_sprites.clear();
+  m_light_sprites.push_back(SpriteManager::current()->create(m_light_sprite_name));
+  m_light_sprites[0]->set_blend(Blend::ADD);
 
   set_action(m_sprite_action);
-  m_light_sprite->set_action(m_light_sprite_action);
+  m_light_sprites[0]->set_action(m_light_sprite_action);
 
   set_group(COLGROUP_DISABLED);
 }
@@ -54,7 +54,7 @@ void
 LitObject::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer - 1, m_flip);
-  m_light_sprite->draw(context.light(), get_pos() - m_light_offset, m_layer - 1, m_flip);
+  m_light_sprites[0]->draw(context.light(), get_pos() - m_light_offset, m_layer - 1, m_flip);
 }
 
 void
@@ -83,11 +83,12 @@ LitObject::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  m_light_sprite = SpriteManager::current()->create(m_light_sprite_name);
-  m_light_sprite->set_blend(Blend::ADD);
+  m_light_sprites.clear();
+  m_light_sprites.push_back(SpriteManager::current()->create(m_light_sprite_name));
+  m_light_sprites[0]->set_blend(Blend::ADD);
 
   set_action(m_sprite_action);
-  m_light_sprite->set_action(m_light_sprite_action);
+  m_light_sprites[0]->set_action(m_light_sprite_action);
 }
 
 void
@@ -100,13 +101,13 @@ LitObject::on_flip(float height)
 const std::string&
 LitObject::get_light_action() const
 {
-  return m_light_sprite->get_action();
+  return m_light_sprites[0]->get_action();
 }
 
 void
 LitObject::set_light_action(const std::string& action)
 {
-  m_light_sprite->set_action(action);
+  m_light_sprites[0]->set_action(action);
 }
 
 

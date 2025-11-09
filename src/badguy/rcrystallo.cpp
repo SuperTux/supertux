@@ -145,15 +145,6 @@ RCrystallo::active_update(float dt_sec)
 }
 
 void
-RCrystallo::draw(DrawingContext& context)
-{
-  context.push_transform();
-  Vector draw_pos = get_pos() + m_physic.get_velocity() * context.get_time_offset();
-  m_sprite->draw(context.color(), draw_pos, m_layer);
-  context.pop_transform();
-}
-
-void
 RCrystallo::collision_solid(const CollisionHit& hit)
 {
   if (m_state == RCRYSTALLO_FALLING && hit.bottom)

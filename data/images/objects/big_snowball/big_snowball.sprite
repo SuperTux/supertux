@@ -8,4 +8,11 @@
       (name "particle")
 	    (hitbox 2 2 29 28)
       (images "big_snowball_particle.png"))
+
+  (linked-sprites
+    (particle
+      (file "big_snowball.sprite")
+      (action "particle")
+    )
+  )
 )

@@ -45,7 +45,7 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   willo_radius(200),
   willo_speed(1.8f),
   willo_color(0),
-  glow_sprite(SpriteManager::current()->create("images/creatures/ghosttree/ghosttree-glow.sprite")),
+  glow_sprite(m_sprite->create_linked_sprite("glow")),
   colorchange_timer(),
   suck_timer(),
   root_timer(),
@@ -63,6 +63,14 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/tree_suck.ogg");
 }
 
+MovingSprite::LinkedSprites
+GhostTree::get_linked_sprites()
+{
+  return {
+    { "glow", glow_sprite }
+  };
+}
+
 void
 GhostTree::die()
 {
@@ -74,7 +82,6 @@ GhostTree::die()
   if (m_lives <= 0) {
     mystate = STATE_DYING;
     set_action("dying", 1);
-    glow_sprite->set_action("dying", 1);
     run_dead_script();
   }
 }

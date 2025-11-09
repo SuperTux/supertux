@@ -22,7 +22,6 @@
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/door.hpp"
 #include "util/reader_mapping.hpp"
@@ -39,7 +38,6 @@ Key::Key(const ReaderMapping& reader) :
   m_my_door_pos(0.f, 0.f),
   m_color(Color::WHITE),
   m_owner(),
-  m_lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
   m_total_time_elapsed(),
   m_target_speed()
 {
@@ -47,8 +45,8 @@ Key::Key(const ReaderMapping& reader) :
   if (reader.get("color", vColor)) {
     m_color = Color(vColor);
   }
-  m_lightsprite->set_blend(Blend::ADD);
-  m_lightsprite->set_color(m_color);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(m_color);
 
   // TODO: Add proper sound
   SoundManager::current()->preload("sounds/metal_hit.ogg");
@@ -76,7 +74,7 @@ Key::update(float dt_sec)
     if (spawn_particle_now)
     {
       Sector::get().add<SpriteParticle>(
-        "images/particles/sparkle.sprite", "small",
+        m_sprite->get_linked_sprite("sparkle-small"),
         ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS + 6, false, m_color);
     }
   }
@@ -187,7 +185,12 @@ Key::draw(DrawingContext& context)
     return;
 
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-  m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer+1);
+
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.light(), get_pos(), m_layer, m_flip);
+
+  for (auto& sprite : m_light_sprites)
+    sprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer + 1);
 }
 
 ObjectSettings
@@ -207,8 +210,8 @@ Key::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  m_lightsprite->set_blend(Blend::ADD);
-  m_lightsprite->set_color(m_color);
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(m_color);
   m_sprite->set_color(m_color);
 }
 
@@ -225,7 +228,7 @@ Key::spawn_use_particles()
   for (int i = 1; i < 9; i++)
   {
     Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
-    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-key-collect",
+    Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite("sparkle-collect"),
       get_bbox().get_middle(),
       ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false, m_color);
   }

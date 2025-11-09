@@ -19,4 +19,10 @@
           (surface
            (diffuse-texture (file "purple_empty.png"))
            (displacement-texture (file "displacement.png")))))
+
+  (linked-sprites
+    (on-light
+      (file "images/objects/lightmap_light/bonusblock_light.png")
+    )
+  )
 )

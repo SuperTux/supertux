@@ -1,0 +1,7 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (hitbox 16 16 0 0)
+    (images "dart_light.png")
+  )
+)

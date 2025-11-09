@@ -7,4 +7,16 @@
     (name "shadow")
     (images "egg-shade.png")
   )
+
+  (linked-sprites
+    (shade
+      (file "egg.sprite")
+      (action "shadow")
+    )
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+      (action "default")
+      (color 0.2 0.2 0)
+    )
+  )
 )
