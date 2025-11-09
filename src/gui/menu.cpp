@@ -90,6 +90,8 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
     m_active_item = static_cast<int>(m_items.size()) - 1;
   }
 
+  item.activate();
+
   calculate_width();
   calculate_height();
 
@@ -369,6 +371,8 @@ Menu::process_action(const MenuAction& action)
 
   switch (action) {
     case MenuAction::UP:
+      m_items[m_active_item]->deactivate();
+
       do {
         if (m_active_item > 0)
           --m_active_item;
@@ -376,9 +380,13 @@ Menu::process_action(const MenuAction& action)
           m_active_item = int(m_items.size())-1;
       } while (m_items[m_active_item]->skippable()
                && (m_active_item != last_active_item));
+
+      m_items[m_active_item]->activate();
       break;
 
     case MenuAction::DOWN:
+      m_items[m_active_item]->deactivate();
+
       do {
         if (m_active_item < int(m_items.size())-1 )
           ++m_active_item;
@@ -386,6 +394,8 @@ Menu::process_action(const MenuAction& action)
           m_active_item = 0;
       } while (m_items[m_active_item]->skippable()
                && (m_active_item != last_active_item));
+
+      m_items[m_active_item]->activate();
       break;
 
     case MenuAction::BACK:

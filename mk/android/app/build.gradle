@@ -1,0 +1,74 @@
+def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
+def buildAsApplication = !buildAsLibrary
+if (buildAsApplication) {
+    apply plugin: 'com.android.application'
+}
+else {
+    apply plugin: 'com.android.library'
+}
+
+android {
+    compileSdkVersion 35
+    defaultConfig {
+        if (buildAsApplication) {
+            applicationId "org.lethargik.supertux2"
+        }
+        minSdkVersion 21
+        targetSdkVersion 35
+        versionCode 7000
+        versionName "0.7.0"
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_APP_PLATFORM=android-35",
+                          "-DCMAKE_TOOLCHAIN_FILE=${rootDir}/app/jni/vcpkg-chainload.cmake",
+                          "-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=${android.ndkDirectory}/build/cmake/android.toolchain.cmake",
+                          "-DVCPKG_MANIFEST_MODE=OFF",
+                          "-DENABLE_OPENGL=OFF",
+                          "--log-level", "TRACE",
+                          "-Wno-dev"
+                abiFilters rootProject.ext.cpuarch as String[]
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    applicationVariants.all { variant ->
+        tasks["merge${variant.name.capitalize()}Assets"]
+            .dependsOn("externalNativeBuild${variant.name.capitalize()}")
+    }
+    if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
+        sourceSets.main {
+            jniLibs.srcDir 'libs'
+        }
+        externalNativeBuild {
+            cmake {
+                path 'jni/CMakeLists.txt'
+            }
+        }
+
+    }
+    lintOptions {
+        abortOnError false
+    }
+    namespace 'org.lethargik.supertux2'
+
+    if (buildAsLibrary) {
+        libraryVariants.all { variant ->
+            variant.outputs.each { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith(".aar")) {
+                    def fileName = "org.lethargik.supertux2.aar";
+                    output.outputFile = new File(outputFile.parent, fileName);
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+}
