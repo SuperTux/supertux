@@ -46,7 +46,7 @@ JoystickManager::~JoystickManager()
 {
   for (auto& joy : joysticks)
   {
-    SDL_JoystickClose(joy.first);
+    SDL_CloseJoystick(joy.first);
   }
 }
 
@@ -58,7 +58,7 @@ JoystickManager::on_joystick_added(int joystick_index)
   if (!parent->can_add_user())
     return;
 
-  SDL_Joystick* joystick = SDL_JoystickOpen(joystick_index);
+  SDL_Joystick* joystick = SDL_OpenJoystick(joystick_index);
   if (!joystick)
   {
     log_warning << "failed to open joystick: " << joystick_index
@@ -68,17 +68,17 @@ JoystickManager::on_joystick_added(int joystick_index)
   {
     joysticks[joystick] = -1;
 
-    if (min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
-      min_joybuttons = SDL_JoystickNumButtons(joystick);
+    if (min_joybuttons < 0 || SDL_GetNumJoystickButtons(joystick) < min_joybuttons)
+      min_joybuttons = SDL_GetNumJoystickButtons(joystick);
 
-    if (SDL_JoystickNumButtons(joystick) > max_joybuttons)
-      max_joybuttons = SDL_JoystickNumButtons(joystick);
+    if (SDL_GetNumJoystickButtons(joystick) > max_joybuttons)
+      max_joybuttons = SDL_GetNumJoystickButtons(joystick);
 
-    if (SDL_JoystickNumAxes(joystick) > max_joyaxis)
-      max_joyaxis = SDL_JoystickNumAxes(joystick);
+    if (SDL_GetNumJoystickAxes(joystick) > max_joyaxis)
+      max_joyaxis = SDL_GetNumJoystickAxes(joystick);
 
-    if (SDL_JoystickNumHats(joystick) > max_joyhats)
-      max_joyhats = SDL_JoystickNumHats(joystick);
+    if (SDL_GetNumJoystickHats(joystick) > max_joyhats)
+      max_joyhats = SDL_GetNumJoystickHats(joystick);
 
     if (!parent->m_use_game_controller && g_config->multiplayer_auto_manage_players)
     {
@@ -111,12 +111,12 @@ JoystickManager::on_joystick_removed(int instance_id)
   log_debug << "on_joystick_removed: " << static_cast<int>(instance_id) << std::endl;
 
   auto it = std::find_if(joysticks.begin(), joysticks.end(), [instance_id] (decltype(joysticks)::const_reference pair) {
-    return SDL_JoystickInstanceID(pair.first) == instance_id;
+    return SDL_GetJoystickID(pair.first) == instance_id;
   });
 
   if (it != joysticks.end())
   {
-    SDL_JoystickClose(it->first);
+    SDL_CloseJoystick(it->first);
 
     auto deleted_player_id = it->second;
 
@@ -132,7 +132,7 @@ JoystickManager::on_joystick_removed(int instance_id)
   else
   {
     log_debug << "Joystick was unplugged but was not initially detected: "
-              << SDL_JoystickName(SDL_JoystickFromInstanceID(instance_id))
+              << SDL_GetJoystickName(SDL_GetJoystickFromID(instance_id))
               << std::endl;
   }
 }
@@ -242,7 +242,7 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
 {
   if (wait_for_joystick >= 0)
   {
-    if (jbutton.state == SDL_PRESSED)
+    if (jbutton.down == true)
     {
       m_joystick_config.bind_joybutton(jbutton.which, jbutton.button, static_cast<Control>(wait_for_joystick));
       MenuManager::instance().refresh();
@@ -256,7 +256,7 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
     if (i == m_joystick_config.m_joy_button_map.end()) {
       log_debug << "Unmapped joybutton " << static_cast<int>(jbutton.button) << " pressed" << std::endl;
     } else {
-      set_joy_controls(jbutton.which, i->second, (jbutton.state == SDL_PRESSED));
+      set_joy_controls(jbutton.which, i->second, (jbutton.down == true));
     }
   }
 }
@@ -270,7 +270,7 @@ JoystickManager::bind_next_event_to(Control id)
 void
 JoystickManager::set_joy_controls(SDL_JoystickID joystick, Control id, bool value)
 {
-  auto it = joysticks.find(SDL_JoystickFromInstanceID(joystick));
+  auto it = joysticks.find(SDL_GetJoystickFromID(joystick));
   if (it == joysticks.end() || it->second < 0)
     return;
 
@@ -313,11 +313,12 @@ JoystickManager::rumble(SDL_Joystick* controller) const
   if (g_config->multiplayer_buzz_controllers)
   {
 #if SDL_VERSION_ATLEAST(2, 0, 18)
-    if (SDL_JoystickHasRumble(controller))
+    auto controller_properties = SDL_GetJoystickProperties(controller);
+    if (controller_properties && SDL_GetBooleanProperty(controller_properties, SDL_PROP_GAMEPAD_CAP_RUMBLE_BOOLEAN, false))
     {
 #endif
       // TODO: Rumble intensity setting (like volume)
-      SDL_JoystickRumble(controller, 0xFFFF, 0xFFFF, 300);
+      SDL_RumbleJoystick(controller, 0xFFFF, 0xFFFF, 300);
 #if SDL_VERSION_ATLEAST(2, 0, 18)
     }
     else

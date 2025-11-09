@@ -169,7 +169,7 @@ Notification::event(const SDL_Event& ev)
 
   switch (ev.type)
   {
-    case SDL_MOUSEBUTTONDOWN:
+    case SDL_EVENT_MOUSE_BUTTON_DOWN:
     if (ev.button.button == SDL_BUTTON_LEFT)
     {
       if (m_mouse_over)
@@ -193,7 +193,7 @@ Notification::event(const SDL_Event& ev)
     }
     break;
 
-    case SDL_MOUSEMOTION:
+    case SDL_EVENT_MOUSE_MOTION:
     {
       m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       m_mouse_over = bg_rect.contains(m_mouse_pos);

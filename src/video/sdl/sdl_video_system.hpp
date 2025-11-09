@@ -17,7 +17,7 @@
 #pragma once
 
 #include <memory>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "math/size.hpp"
 #include "video/sdlbase_video_system.hpp"

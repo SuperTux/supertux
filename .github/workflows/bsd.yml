@@ -60,8 +60,8 @@ jobs:
             pkg install -y git
             pkg install -y cmake
             pkg install -y googletest
-            pkg install -y sdl2
-            pkg install -y sdl2_image
+            pkg install -y sdl3
+            pkg install -y sdl3_image
             pkg install -y openal-soft
             pkg install -y glew
             # pkg install -y glbinding # TODO: Uncomment whenever possible

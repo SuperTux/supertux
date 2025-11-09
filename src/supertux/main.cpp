@@ -21,8 +21,10 @@
 #include <filesystem>
 #include <fstream>
 
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_init.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <physfs.h>
 #include <tinygettext/log.hpp>
 #include <fmt/format.h>
@@ -237,9 +239,8 @@ void PhysfsSubsystem::find_mount_datadir()
   else
   {
     // check if we run from source dir
-    char* basepath_c = SDL_GetBasePath();
+    const char* basepath_c = SDL_GetBasePath();
     std::string basepath = basepath_c ? basepath_c : "./";
-    SDL_free(basepath_c);
 
     if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
     {
@@ -432,18 +433,18 @@ PhysfsSubsystem::~PhysfsSubsystem()
 
 SDLSubsystem::SDLSubsystem()
 {
-  Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO;
+  Uint32 flags = SDL_INIT_VIDEO;
 #ifndef UBUNTU_TOUCH
-  flags |= SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+  flags |= SDL_INIT_JOYSTICK | SDL_INIT_GAMEPAD;
 #endif
-  if (SDL_Init(flags) < 0)
+  if (SDL_Init(flags) == false)
   {
     std::stringstream msg;
     msg << "Couldn't initialize SDL: " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
 
-  if (TTF_Init() < 0)
+  if (TTF_Init() == false)
   {
     std::stringstream msg;
     msg << "Couldn't initialize SDL TTF: " << SDL_GetError();
@@ -471,8 +472,14 @@ Main::init_video()
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
 
-  SDL_ShowCursor(
-    (g_config->custom_mouse_cursor && !g_config->custom_system_cursor) ? SDL_DISABLE : SDL_ENABLE);
+  if (g_config->custom_mouse_cursor && !g_config->custom_system_cursor)
+  {
+    SDL_HideCursor();
+  }
+  else
+  {
+    SDL_ShowCursor();
+  }
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
@@ -764,7 +771,7 @@ Main::run(int argc, char** argv)
   g_dictionary_manager.reset();
 
 #ifdef __ANDROID__
-  // SDL2 keeps shared libraries loaded after the app is closed,
+  // SDL3 keeps shared libraries loaded after the app is closed,
   // when we launch the app again the static initializers will run twice and crash the app.
   // So we just need to terminate the app process 'gracefully', without running destructors or atexit() functions.
   _exit(result);

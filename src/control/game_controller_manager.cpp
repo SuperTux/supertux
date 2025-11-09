@@ -39,17 +39,17 @@ GameControllerManager::~GameControllerManager()
 {
   for (const auto& con : m_game_controllers)
   {
-    SDL_GameControllerClose(con.first);
+    SDL_CloseGamepad(con.first);
   }
 }
 
 void
-GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
+GameControllerManager::process_button_event(const SDL_GamepadButtonEvent& ev)
 {
   int player_id;
 
   {
-    auto it = m_game_controllers.find(SDL_GameControllerFromInstanceID(ev.which));
+    auto it = m_game_controllers.find(SDL_GetGamepadFromID(ev.which));
 
     if (it == m_game_controllers.end() || it->second < 0)
       return;
@@ -57,71 +57,71 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
     player_id = it->second;
   }
 
-  //log_info << "button event: " << static_cast<int>(ev.button) << " " << static_cast<int>(ev.state) << std::endl;
+  //log_info << "button event: " << static_cast<int>(ev.button) << " " << static_cast<int>(ev.down) << std::endl;
   Controller& controller = m_parent->get_controller(player_id);
   auto set_control = [this, &controller](Control control, Uint8 value)
   {
     m_button_state[static_cast<int>(control)] = (value != 0);
-    controller.set_control(control, m_button_state[static_cast<int>(control)] == SDL_PRESSED || m_stick_state[static_cast<int>(control)] == SDL_PRESSED);
+    controller.set_control(control, m_button_state[static_cast<int>(control)] == true || m_stick_state[static_cast<int>(control)] == true);
   };
   switch (ev.button)
   {
-    case SDL_CONTROLLER_BUTTON_A:
-      set_control(Control::JUMP, ev.state);
-      set_control(Control::MENU_SELECT, ev.state);
+    case SDL_GAMEPAD_BUTTON_SOUTH:
+      set_control(Control::JUMP, ev.down);
+      set_control(Control::MENU_SELECT, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_B:
-      set_control(Control::MENU_BACK, ev.state);
+    case SDL_GAMEPAD_BUTTON_EAST:
+      set_control(Control::MENU_BACK, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_X:
-      set_control(Control::ACTION, ev.state);
+    case SDL_GAMEPAD_BUTTON_WEST:
+      set_control(Control::ACTION, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_Y:
+    case SDL_GAMEPAD_BUTTON_NORTH:
       break;
 
-    case SDL_CONTROLLER_BUTTON_BACK:
-      set_control(Control::ITEM, ev.state);
+    case SDL_GAMEPAD_BUTTON_BACK:
+      set_control(Control::ITEM, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_GUIDE:
-      set_control(Control::CHEAT_MENU, ev.state);
+    case SDL_GAMEPAD_BUTTON_GUIDE:
+      set_control(Control::CHEAT_MENU, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_START:
-      set_control(Control::START, ev.state);
+    case SDL_GAMEPAD_BUTTON_START:
+      set_control(Control::START, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_LEFTSTICK:
+    case SDL_GAMEPAD_BUTTON_LEFT_STICK:
       break;
 
-    case SDL_CONTROLLER_BUTTON_RIGHTSTICK:
+    case SDL_GAMEPAD_BUTTON_RIGHT_STICK:
       break;
 
-    case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:
-      set_control(Control::PEEK_LEFT, ev.state);
+    case SDL_GAMEPAD_BUTTON_LEFT_SHOULDER:
+      set_control(Control::PEEK_LEFT, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
-      set_control(Control::PEEK_RIGHT, ev.state);
+    case SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER:
+      set_control(Control::PEEK_RIGHT, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_DPAD_UP:
-      set_control(Control::UP, ev.state);
+    case SDL_GAMEPAD_BUTTON_DPAD_UP:
+      set_control(Control::UP, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-      set_control(Control::DOWN, ev.state);
+    case SDL_GAMEPAD_BUTTON_DPAD_DOWN:
+      set_control(Control::DOWN, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-      set_control(Control::LEFT, ev.state);
+    case SDL_GAMEPAD_BUTTON_DPAD_LEFT:
+      set_control(Control::LEFT, ev.down);
       break;
 
-    case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-      set_control(Control::RIGHT, ev.state);
+    case SDL_GAMEPAD_BUTTON_DPAD_RIGHT:
+      set_control(Control::RIGHT, ev.down);
       break;
 
     default:
@@ -130,12 +130,12 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
 }
 
 void
-GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
+GameControllerManager::process_axis_event(const SDL_GamepadAxisEvent& ev)
 {
   int player_id;
 
   {
-    auto it = m_game_controllers.find(SDL_GameControllerFromInstanceID(ev.which));
+    auto it = m_game_controllers.find(SDL_GetGamepadFromID(ev.which));
 
     if (it == m_game_controllers.end() || it->second < 0)
       return;
@@ -180,26 +180,26 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
 
   switch (ev.axis)
   {
-    case SDL_CONTROLLER_AXIS_LEFTX:
+    case SDL_GAMEPAD_AXIS_LEFTX:
       axis2button(ev.value, Control::LEFT, Control::RIGHT);
       break;
 
-    case SDL_CONTROLLER_AXIS_LEFTY:
+    case SDL_GAMEPAD_AXIS_LEFTY:
       axis2button(ev.value, Control::UP, Control::DOWN);
       break;
 
-    case SDL_CONTROLLER_AXIS_RIGHTX:
+    case SDL_GAMEPAD_AXIS_RIGHTX:
       axis2button(ev.value, Control::PEEK_LEFT, Control::PEEK_RIGHT);
       break;
 
-    case SDL_CONTROLLER_AXIS_RIGHTY:
+    case SDL_GAMEPAD_AXIS_RIGHTY:
       axis2button(ev.value, Control::PEEK_UP, Control::PEEK_DOWN);
       break;
 
-    case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
+    case SDL_GAMEPAD_AXIS_LEFT_TRIGGER:
       break;
 
-    case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
+    case SDL_GAMEPAD_AXIS_RIGHT_TRIGGER:
       break;
 
     default:
@@ -213,13 +213,13 @@ GameControllerManager::on_controller_added(int joystick_index)
   if (!m_parent->can_add_user())
     return;
 
-  if (!SDL_IsGameController(joystick_index))
+  if (!SDL_IsGamepad(joystick_index))
   {
     log_warning << "joystick is not a game controller, ignoring: " << joystick_index << std::endl;
   }
   else
   {
-    SDL_GameController* game_controller = SDL_GameControllerOpen(joystick_index);
+    SDL_Gamepad* game_controller = SDL_OpenGamepad(joystick_index);
     if (!game_controller)
     {
       log_warning << "failed to open game_controller: " << joystick_index
@@ -259,12 +259,12 @@ void
 GameControllerManager::on_controller_removed(int instance_id)
 {
   auto it = std::find_if(m_game_controllers.begin(), m_game_controllers.end(), [instance_id] (decltype(m_game_controllers)::const_reference pair) {
-    return SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(pair.first)) == instance_id;
+    return SDL_GetJoystickID(SDL_GetGamepadJoystick(pair.first)) == instance_id;
   });
 
   if (it != m_game_controllers.end())
   {
-    SDL_GameControllerClose(it->first);
+    SDL_CloseGamepad(it->first);
 
     auto deleted_player_id = it->second;
 
@@ -280,7 +280,7 @@ GameControllerManager::on_controller_removed(int instance_id)
   else
   {
     log_debug << "Controller was unplugged but was not initially detected: "
-              << SDL_JoystickName(SDL_JoystickFromInstanceID(instance_id))
+              << SDL_GetJoystickName(SDL_GetJoystickFromID(instance_id))
               << std::endl;
   }
 }
@@ -294,7 +294,7 @@ GameControllerManager::on_player_removed(int player_id)
   if (it2 != m_game_controllers.end())
   {
     it2->second = -1;
-    // Try again, in case multiple controllers were bount to a player.
+    // Try again, in case multiple controllers were bound to a player.
     // Recursive call shouldn't go too deep except in hardcore scenarios.
     on_player_removed(player_id);
   }
@@ -309,17 +309,18 @@ GameControllerManager::has_corresponding_game_controller(int player_id) const
 }
 
 int
-GameControllerManager::rumble(SDL_GameController* controller) const
+GameControllerManager::rumble(SDL_Gamepad* controller) const
 {
 #if SDL_VERSION_ATLEAST(2, 0, 9)
   if (g_config->multiplayer_buzz_controllers)
   {
 #if SDL_VERSION_ATLEAST(2, 0, 18)
-    if (SDL_GameControllerHasRumble(controller))
+    auto controller_properties = SDL_GetGamepadProperties(controller);
+    if (controller_properties && SDL_GetBooleanProperty(controller_properties, SDL_PROP_GAMEPAD_CAP_RUMBLE_BOOLEAN, false))
     {
 #endif
       // TODO: Rumble intensity setting (like volume).
-      SDL_GameControllerRumble(controller, 0xFFFF, 0xFFFF, 300);
+      SDL_RumbleGamepad(controller, 0xFFFF, 0xFFFF, 300);
 #if SDL_VERSION_ATLEAST(2, 0, 18)
     }
     else
@@ -336,7 +337,7 @@ GameControllerManager::rumble(SDL_GameController* controller) const
 }
 
 void
-GameControllerManager::bind_controller(SDL_GameController* controller, int player_id)
+GameControllerManager::bind_controller(SDL_Gamepad* controller, int player_id)
 {
   m_game_controllers[controller] = player_id;
 

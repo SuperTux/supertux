@@ -34,13 +34,13 @@ KeyboardManager::KeyboardManager(InputManager* parent,
 void
 KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 {
-  auto key_mapping = m_keyboard_config.m_keymap.find(event.keysym.sym);
+  auto key_mapping = m_keyboard_config.m_keymap.find(event.key);
 
   // if console key was pressed: toggle console
   if (key_mapping != m_keyboard_config.m_keymap.end() &&
       key_mapping->second.control == Control::CONSOLE)
   {
-    if (event.type == SDL_KEYDOWN)
+    if (event.type == SDL_EVENT_KEY_DOWN)
     {
       // text input gets locked between the console-key being pressed
       // and released to avoid the console-key getting interpreted as
@@ -49,7 +49,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 
       Console::current()->toggle();
     }
-    else if (event.type == SDL_KEYUP)
+    else if (event.type == SDL_EVENT_KEY_UP)
     {
       m_lock_text_input = false;
     }
@@ -72,7 +72,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
   else
   {
     auto control = key_mapping->second;
-    bool value = (event.type == SDL_KEYDOWN);
+    bool value = (event.type == SDL_EVENT_KEY_DOWN);
 
     if (control.player >= m_parent->get_num_users())
       return;
@@ -99,10 +99,10 @@ KeyboardManager::process_text_input_event(const SDL_TextInputEvent& event)
 void
 KeyboardManager::process_console_key_event(const SDL_KeyboardEvent& event)
 {
-  if (event.type != SDL_KEYDOWN) return;
+  if (event.type != SDL_EVENT_KEY_DOWN) return;
   auto console = Console::current();
 
-  switch (event.keysym.sym) {
+  switch (event.key) {
     case SDLK_RETURN:
       console->enter();
       break;
@@ -127,13 +127,13 @@ KeyboardManager::process_console_key_event(const SDL_KeyboardEvent& event)
     case SDLK_END:
       console->move_cursor(+65535);
       break;
-    case SDLK_a:
-      if (event.keysym.mod & KMOD_CTRL) {
+    case SDLK_A:
+      if (event.mod & SDL_KMOD_CTRL) {
         console->move_cursor(-65535);
       }
       break;
-    case SDLK_e:
-      if (event.keysym.mod & KMOD_CTRL) {
+    case SDLK_E:
+      if (event.mod & SDL_KMOD_CTRL) {
         console->move_cursor(+65535);
       }
       break;
@@ -160,13 +160,13 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
   // wait for key mode?
   if (m_wait_for_key)
   {
-    if (event.type == SDL_KEYUP)
+    if (event.type == SDL_EVENT_KEY_UP)
       return;
 
-    if (event.keysym.sym != SDLK_ESCAPE &&
-        event.keysym.sym != SDLK_PAUSE)
+    if (event.key != SDLK_ESCAPE &&
+        event.key != SDLK_PAUSE)
     {
-      m_keyboard_config.bind_key(event.keysym.sym, m_wait_for_key->player, m_wait_for_key->control);
+      m_keyboard_config.bind_key(event.key, m_wait_for_key->player, m_wait_for_key->control);
     }
     m_parent->reset();
     MenuManager::instance().refresh();
@@ -176,7 +176,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
 
   if (m_parent->joystick_manager->wait_for_joystick >= 0)
   {
-    if (event.keysym.sym == SDLK_ESCAPE)
+    if (event.key == SDLK_ESCAPE)
     {
       m_parent->reset();
       MenuManager::instance().refresh();
@@ -189,7 +189,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
   /* we use default keys when the menu is open (to avoid problems when
    * redefining keys to invalid settings
    */
-  switch (event.keysym.sym) {
+  switch (event.key) {
     case SDLK_UP:
       control = Control::UP;
       break;
@@ -223,7 +223,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
   }
 
   // Keep empty because this is in the menu; only the first player may navigate
-  m_parent->get_controller().set_control(control, (event.type == SDL_KEYDOWN));
+  m_parent->get_controller().set_control(control, (event.type == SDL_EVENT_KEY_DOWN));
 }
 
 void

@@ -27,7 +27,7 @@ on:
 jobs:
   build-android:
     env:
-      # Revision of https://github.com/pelya/commandergenius.git - SDL2 repo is a submodule
+      # Revision of https://github.com/pelya/commandergenius.git - SDL3 repo is a submodule
       # We check out a specific stable revision, so the build won't break if I modify my SDL repo
       SDL_ANDROID_REV: 798fd0f5e167aa6ecce33623dbf88ebc6cd647ea
       # It takes 35 minutes per one architecture to build SuperTux, of which 20 minutes are for building Boost and ICU libraries
@@ -53,8 +53,8 @@ jobs:
         run: >
           git submodule update --init --recursive --depth=1
           project/jni/boost/src project/jni/iconv/src
-          project/jni/sdl2 project/jni/sdl2_image
-          project/jni/sdl2_mixer project/jni/sdl2_ttf
+          project/jni/sdl3 project/jni/sdl3_image
+          project/jni/sdl3_mixer project/jni/sdl3_ttf
 
       - name: Symlink the application dir
         run: |
