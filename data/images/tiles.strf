@@ -21,7 +21,7 @@
 
   ;; next-id: 7949
   ;; free/skipped ids (please use before any other):
-  ;; 4639-4660, 5061-5089, 5268-5283, 5453-5527
+  ;; 4641-4660, 5061-5089, 5268-5283, 5453-5527
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
   (tilegroup
@@ -1429,8 +1429,9 @@
       102  140  3161 3162
       104  105  3160 7026
       3037 2943 2944 2945
-      2946 112  1311 7394
-      7396 7397 7398 7395
+      2946 4640 112  1311
+      7394 7396 7397 7398
+      7395 0    0    0
 
       57   58   2841 2842
       59   60   2843 2844
@@ -2140,6 +2141,29 @@
     (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 6)")
     (editor-images "objects/bonus_block/lightblock_off.png")
     (data 6)
+    (fps 15)
+  )
+
+  (tile
+    (id 4640)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (object-name "bonusblock")
+    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 18)")
+    (editor-images "objects/bonus_block/malus-badegg.png")
+    (data 18)
     (fps 15)
   )
 
