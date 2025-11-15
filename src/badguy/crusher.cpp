@@ -242,6 +242,18 @@ Crusher::should_finish_crushing(const CollisionHit& hit) const
 }
 
 bool
+Crusher::should_finish_recovering(const CollisionHit& hit) const
+{
+  if (m_dir == CrusherDirection::ALL)
+    return hit.bottom || hit.top || hit.left || hit.right;
+
+  return ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::DOWN)  && hit.top)    ||
+         ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP)    && hit.bottom) ||
+         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT)  && hit.right)  ||
+         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.left);
+}
+
+bool
 Crusher::is_recovery_path_clear_of_crushers() const
 {
   Rectf current_bbox = get_bbox();
@@ -1022,7 +1034,7 @@ Crusher::collision_solid(const CollisionHit& hit)
   {
     crushed(hit, true);
   }
-  else if (m_state == RECOVERING)
+  else if (m_state == RECOVERING && should_finish_recovering(hit))
   {
     idle();
   }
