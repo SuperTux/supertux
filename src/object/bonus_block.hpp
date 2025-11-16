@@ -36,6 +36,7 @@ public:
     STAR,
     RETROSTAR,
     ONEUP,
+    BADEGG,
     CUSTOM,
     SCRIPT,
     LIGHT,
