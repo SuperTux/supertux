@@ -1,6 +1,15 @@
 #ifndef __findlocale_h_
 #define __findlocale_h_
 
+#ifdef __ANDROID__
+#include <jni.h>
+
+// SDL headers not recognized, forward declaring
+
+void* SDL_AndroidGetJNIEnv();
+char* SDL_iconv_string(const char*, const char*, const char*, size_t);
+#endif
+
 typedef const char* FL_Lang;
 typedef const char* FL_Country;
 typedef const char* FL_Variant;
