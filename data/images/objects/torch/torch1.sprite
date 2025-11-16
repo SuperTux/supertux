@@ -4,4 +4,16 @@
     (hitbox 0 0 16 100)
     (images "torch1.png")
   )
+
+  (linked-sprites
+    (flame
+      (file "flame.sprite")
+    )
+    (glow
+      (file "flame_glow.sprite")
+    )
+    (custom-light
+      (file "flame_light.sprite")
+    )
+  )
 )

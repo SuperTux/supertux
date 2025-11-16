@@ -20,12 +20,43 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <optional>
+#include <unordered_map>
 
+#include "sprite/sprite_config.hpp"
+#include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 
-class SpriteData final
+class LinkedSpritesContainer
+{
+  friend class Sprite;
+
+protected:
+  LinkedSpritesContainer();
+
+public:
+  void parse_linked_sprites(const ReaderMapping& mapping);
+
+public:
+  struct LinkedSprite final
+  {
+    LinkedSprite();
+    LinkedSprite(const std::string& file, SpriteConfig config,
+                 bool light = false);
+
+    std::string file;
+    SpriteConfig config;
+    bool light;
+  };
+
+public:
+  std::vector<LinkedSprite> custom_linked_sprites;
+  std::unordered_map<std::string, LinkedSprite> linked_sprites;
+};
+
+class SpriteData final : public LinkedSpritesContainer
 {
   friend class Sprite;
 
@@ -35,7 +66,7 @@ public:
   void load();
 
 private:
-  struct Action final
+  struct Action final : public LinkedSpritesContainer
   {
     Action();
 
@@ -46,6 +77,7 @@ private:
     /** Position correction */
     float x_offset;
     float y_offset;
+    float flip_offset;
 
     /** Hitbox width */
     float hitbox_w;
