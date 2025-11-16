@@ -137,6 +137,7 @@ Canvas::draw_surface(const SurfacePtr& surface,
   request->dstrects.emplace_back(Rectf(apply_translate(position) * scale(),
                                  Sizef(static_cast<float>(surface->get_width()) * scale(),
                                        static_cast<float>(surface->get_height()) * scale())));
+  request->attrs.emplace_back(0);
   request->angles.emplace_back(angle);
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
@@ -175,6 +176,7 @@ Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const
   request->srcrects.emplace_back(srcrect);
   request->dstrects.emplace_back(apply_translate(dstrect.p1())*scale(), dstrect.get_size()*scale());
   request->angles.emplace_back(0.0f);
+  request->attrs.emplace_back(0);
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
   request->color = style.get_color();
@@ -189,10 +191,27 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
                            const Color& color,
                            int layer)
 {
+  draw_surface_batch(surface,
+                     std::move(srcrects),
+                     std::move(dstrects),
+                     std::vector<uint32_t>(srcrects.size(), 0.0f),
+                     std::vector<float>(srcrects.size(), 0.0f),
+                     color, layer);
+}
+
+void
+Canvas::draw_surface_batch(const SurfacePtr& surface,
+                           std::vector<Rectf> srcrects,
+                           std::vector<Rectf> dstrects,
+                           std::vector<uint32_t> attrs,
+                           const Color& color,
+                           int layer)
+{
   const size_t len = srcrects.size();
   draw_surface_batch(surface,
                      std::move(srcrects),
                      std::move(dstrects),
+                     std::move(attrs),
                      std::vector<float>(len, 0.0f),
                      color, layer);
 }
@@ -201,6 +220,24 @@ void
 Canvas::draw_surface_batch(const SurfacePtr& surface,
                            std::vector<Rectf> srcrects,
                            std::vector<Rectf> dstrects,
+                           std::vector<float> angles,
+                           const Color& color,
+                           int layer)
+{
+  const size_t len = srcrects.size();
+  draw_surface_batch(surface,
+                     std::move(srcrects),
+                     std::move(dstrects),
+                     std::vector<uint32_t>(len, 0),
+                     std::move(angles),
+                     color, layer);
+}
+
+void
+Canvas::draw_surface_batch(const SurfacePtr& surface,
+                           std::vector<Rectf> srcrects,
+                           std::vector<Rectf> dstrects,
+                           std::vector<uint32_t> attrs,
                            std::vector<float> angles,
                            const Color& color,
                            int layer)
@@ -215,6 +252,7 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
 
   request->srcrects = std::move(srcrects);
   request->dstrects = std::move(dstrects);
+  request->attrs = std::move(attrs);
   request->angles = std::move(angles);
 
   for (auto& dstrect : request->dstrects)
