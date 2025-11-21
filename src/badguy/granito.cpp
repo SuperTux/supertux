@@ -247,18 +247,30 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     Rock* rock = dynamic_cast<Rock*>(&other);
     if (rock)
     {
+
+      if (m_state == STATE_SIT && get_carrier())
+      {
+        eject();
+        m_physic.reset();
+        m_physic.set_velocity(0, 0);
+
+        m_state = STATE_STAND;
+        m_original_state = STATE_STAND;
+
+        set_action("stand", m_dir);
+      }
+
       m_has_rock_on_top = true;
-
       walk_speed = 0;
-      m_physic.set_velocity_x(0);
 
+      m_physic.set_velocity_x(0);
       m_state = STATE_LOOKUP;
       m_original_state = STATE_STAND;
-      set_action("lookup", m_dir);
 
+      set_action("lookup", m_dir);
       goto granito_collision_end;
     }
-    else if(!m_has_rock_on_top)
+    else if (!m_has_rock_on_top)
     {
       m_col.propagate_movement(m_col.get_movement());
     }
