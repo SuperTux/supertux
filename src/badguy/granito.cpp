@@ -18,6 +18,7 @@
 
 #include "badguy/granito_big.hpp"
 #include "math/random.hpp"
+#include "object/rock.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -219,7 +220,24 @@ HitResponse
 Granito::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (hit.top)
-    m_col.propagate_movement(m_col.get_movement());
+  {
+    Rock* rock = dynamic_cast<Rock*>(&other);
+    if (rock)
+    {
+      walk_speed = 0;
+      m_physic.set_velocity_x(0);
+
+      m_state = STATE_LOOKUP;
+      m_original_state = STATE_STAND;
+      set_action("lookup", m_dir);
+
+      goto granito_collision_end;
+    }
+    else
+    {
+      m_col.propagate_movement(m_col.get_movement());
+    }
+  }
 
   if (hit.bottom)
   {
@@ -262,7 +280,6 @@ granito_collision_end:
 
   // Call other collision functions (collision_player, collision_badguy, ...)
   WalkingBadguy::collision(other, hit);
-
   return FORCE_MOVE;
 }
 
