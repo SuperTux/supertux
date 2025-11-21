@@ -18,6 +18,7 @@
 
 #include "badguy/granito_big.hpp"
 #include "math/random.hpp"
+#include "object/rock.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -30,6 +31,7 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   m_has_waved(false),
   m_stepped_on(false),
   m_airborne(false),
+  m_has_rock_on_top(false),
   m_detect_script(),
   m_carried_script()
 {
@@ -81,6 +83,28 @@ Granito::active_update(float dt_sec)
     else if (m_state == STATE_WALK)
     {
       set_action(m_dir);
+    }
+  }
+
+  if (m_has_rock_on_top)
+  {
+    Rectf granito_bbox = get_bbox();
+    Rectf check_area = granito_bbox;
+    check_area.set_bottom(granito_bbox.get_top() + 8.0f);
+
+    bool still_has_rock = false;
+    for (const Rock& obj : Sector::get().get_objects_by_type<Rock>()) {
+      if (check_area.overlaps(obj.get_bbox())) {
+        still_has_rock = true;
+        break;
+      }
+    }
+
+    if (!still_has_rock)
+    {
+      m_has_rock_on_top = false;
+      m_state = STATE_STAND;
+      set_action("stand", m_dir);
     }
   }
 
@@ -219,7 +243,31 @@ HitResponse
 Granito::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (hit.top)
-    m_col.propagate_movement(m_col.get_movement());
+  {
+    Rock* rock = dynamic_cast<Rock*>(&other);
+    if (rock)
+    {
+      if (m_state == STATE_SIT && get_carrier())
+      {
+        eject();
+        m_physic.reset();
+      }
+
+      m_has_rock_on_top = true;
+      walk_speed = 0;
+
+      m_physic.set_velocity_x(0);
+      m_state = STATE_LOOKUP;
+      m_original_state = STATE_STAND;
+
+      set_action("lookup", m_dir);
+      goto granito_collision_end;
+    }
+    else if (!m_has_rock_on_top)
+    {
+      m_col.propagate_movement(m_col.get_movement());
+    }
+  }
 
   if (hit.bottom)
   {
@@ -262,7 +310,6 @@ granito_collision_end:
 
   // Call other collision functions (collision_player, collision_badguy, ...)
   WalkingBadguy::collision(other, hit);
-
   return FORCE_MOVE;
 }
 
