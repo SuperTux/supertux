@@ -93,7 +93,7 @@ Granito::active_update(float dt_sec)
     check_area.set_bottom(granito_bbox.get_top() + 8.0f);
 
     bool still_has_rock = false;
-    for (Rock& obj : Sector::get().get_objects_by_type<Rock>()) {
+    for (const Rock& obj : Sector::get().get_objects_by_type<Rock>()) {
       if (check_area.overlaps(obj.get_bbox())) {
         still_has_rock = true;
         break;
@@ -247,7 +247,6 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     Rock* rock = dynamic_cast<Rock*>(&other);
     if (rock)
     {
-
       if (m_state == STATE_SIT && get_carrier())
       {
         eject();
