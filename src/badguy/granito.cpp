@@ -252,12 +252,6 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
       {
         eject();
         m_physic.reset();
-        m_physic.set_velocity(0, 0);
-
-        m_state = STATE_STAND;
-        m_original_state = STATE_STAND;
-
-        set_action("stand", m_dir);
       }
 
       m_has_rock_on_top = true;
