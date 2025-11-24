@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_GL_GL33CORE_CONTEXT_HPP
-#define HEADER_SUPERTUX_VIDEO_GL_GL33CORE_CONTEXT_HPP
+#pragma once
 
 #include "video/gl/gl_context.hpp"
 
@@ -71,7 +70,3 @@ private:
   GL33CoreContext(const GL33CoreContext&) = delete;
   GL33CoreContext& operator=(const GL33CoreContext&) = delete;
 };
-
-#endif
-
-/* EOF */

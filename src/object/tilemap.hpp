@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
-#define HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
+#pragma once
 
 #include "editor/layer_object.hpp"
 
@@ -64,7 +63,7 @@ public:
   static std::string class_name() { return "tilemap"; }
   virtual std::string get_class_name() const override { return class_name(); }
   virtual std::string get_exposed_class_name() const override { return "TileMap"; }
-  virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
+  virtual const std::string get_icon_path() const override;
   static std::string display_name() { return _("Tilemap"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(PathObject)).add(typeid(TileMap)); }
@@ -77,6 +76,8 @@ public:
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
+
+  void on_path_resolved() override;
 
   virtual void editor_update() override;
 
@@ -359,7 +360,3 @@ private:
   TileMap(const TileMap&) = delete;
   TileMap& operator=(const TileMap&) = delete;
 };
-
-#endif
-
-/* EOF */

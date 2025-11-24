@@ -160,7 +160,7 @@ GLTexture::reload(const SDL_Surface& image)
 
     glBindTexture(GL_TEXTURE_2D, m_handle);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-#if defined(GL_UNPACK_ROW_LENGTH) || defined(USE_GLBINDING)
+#if defined(GL_UNPACK_ROW_LENGTH)
     glPixelStorei(GL_UNPACK_ROW_LENGTH, convert->pitch/convert->format->BytesPerPixel);
 #else
     /* OpenGL ES doesn't support UNPACK_ROW_LENGTH, let's hope SDL didn't add
@@ -214,5 +214,3 @@ GLTexture::set_texture_params()
 
   assert_gl();
 }
-
-/* EOF */

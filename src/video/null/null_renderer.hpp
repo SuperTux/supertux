@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_NULL_NULL_RENDERER_HPP
-#define HEADER_SUPERTUX_VIDEO_NULL_NULL_RENDERER_HPP
+#pragma once
 
 #include "video/renderer.hpp"
 
@@ -47,7 +46,3 @@ private:
   NullRenderer(const NullRenderer&) = delete;
   NullRenderer& operator=(const NullRenderer&) = delete;
 };
-
-#endif
-
-/* EOF */

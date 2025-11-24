@@ -17,12 +17,18 @@
 #include "gui/mousecursor.hpp"
 
 #include <SDL.h>
+#include <SDL_error.h>
+#include <SDL_events.h>
+#include <SDL_mouse.h>
+#include <memory>
 
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "sprite/sprite.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
+#include "video/sdl_surface.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -33,11 +39,47 @@ MouseCursor::MouseCursor(SpritePtr sprite) :
   m_state(MouseCursorState::NORMAL),
   m_applied_state(MouseCursorState::HIDE),
   m_sprite(std::move(sprite)),
+  m_custom_cursor_last(false),
+  m_cursors(),
   m_x(),
   m_y(),
   m_mobile_mode(false),
   m_icon()
 {
+}
+
+void
+MouseCursor::set_cursor_action(const std::string& action)
+{
+  if (!g_config->custom_system_cursor)
+  {
+    m_sprite->set_action(action);
+    return;
+  }
+
+  if (m_cursors.find(action) == m_cursors.end())
+  {
+    auto surfaces = m_sprite->get_action_surfaces(action);
+    if (surfaces->empty())
+      return;
+    std::string filename = (*surfaces)[0]->get_filename();
+    SDLSurfacePtr surface = SDLSurface::from_file(filename);
+    m_cursors[action] = 
+      std::move(std::shared_ptr<SDL_Cursor>(SDL_CreateColorCursor(surface.get(), 0, 0), &SDL_FreeCursor));
+    if (m_cursors[action])
+    {
+      SDL_SetCursor(m_cursors[action].get());
+    }
+    else
+    {
+      log_warning << "Couldn't load cursor: " << SDL_GetError() << "\nRendering cursor instead.\n";
+      g_config->custom_system_cursor = false;
+    }
+  }
+  else
+  {
+    SDL_SetCursor(m_cursors[action].get());
+  }
 }
 
 void
@@ -50,18 +92,20 @@ MouseCursor::apply_state(MouseCursorState state)
     switch(state)
     {
       case MouseCursorState::NORMAL:
-        m_sprite->set_action("default");
+        set_cursor_action("default");
         break;
 
       case MouseCursorState::CLICK:
-        m_sprite->set_action("click");
+        set_cursor_action("click");
         break;
 
       case MouseCursorState::LINK:
-        m_sprite->set_action("link");
+        set_cursor_action("link");
         break;
 
       case MouseCursorState::HIDE:
+        if (g_config->custom_system_cursor)
+          SDL_ShowCursor(SDL_DISABLE);
         break;
     }
   }
@@ -70,11 +114,28 @@ MouseCursor::apply_state(MouseCursorState state)
 void
 MouseCursor::draw(DrawingContext& context)
 {
-  if (!g_config->custom_mouse_cursor) return;
+  if (!g_config->custom_mouse_cursor)
+  {
+    if (m_custom_cursor_last)
+    {
+      SDL_Cursor* default_cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+      if (default_cursor)
+        SDL_SetCursor(default_cursor);
+      SDL_FreeCursor(default_cursor);
+      m_custom_cursor_last = false;
+    }
+    return;
+  }
+  
   if (m_state != MouseCursorState::HIDE)
   {
     int x, y;
     Uint32 ispressed = SDL_GetMouseState(&x, &y);
+    
+    if (g_config->custom_system_cursor && SDL_ShowCursor(SDL_QUERY) == SDL_DISABLE)
+    {
+      SDL_ShowCursor(SDL_ENABLE);
+    }
 
     if (m_mobile_mode)
     {
@@ -93,7 +154,8 @@ MouseCursor::draw(DrawingContext& context)
 
     Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
 
-    m_sprite->draw(context.color(), mouse_pos, LAYER_GUI + 100);
+    if (!g_config->custom_system_cursor)
+      m_sprite->draw(context.color(), mouse_pos, LAYER_GUI + 100);
 
     if (m_icon) {
       context.color().draw_surface(m_icon,
@@ -102,6 +164,6 @@ MouseCursor::draw(DrawingContext& context)
                                    LAYER_GUI + 100);
     }
   }
+  
+  m_custom_cursor_last = g_config->custom_mouse_cursor;
 }
-
-/* EOF */

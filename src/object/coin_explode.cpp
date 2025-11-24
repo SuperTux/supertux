@@ -56,5 +56,3 @@ void
 CoinExplode::draw(DrawingContext &)
 {
 }
-
-/* EOF */

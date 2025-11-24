@@ -118,5 +118,3 @@ ColorMenu::menu_action(MenuItem& item)
     }
   }
 }
-
-/* EOF */

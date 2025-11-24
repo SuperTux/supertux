@@ -177,5 +177,3 @@ FishJumping::get_allowed_directions() const
 {
   return {};
 }
-
-/* EOF */

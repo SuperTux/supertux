@@ -155,5 +155,3 @@ ObjectMenu::on_back_action()
 
   return true;
 }
-
-/* EOF */

@@ -300,5 +300,3 @@ ItemTextField::redo()
 
   on_input_update();
 }
-
-/* EOF */

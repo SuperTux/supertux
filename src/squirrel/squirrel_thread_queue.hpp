@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_THREAD_QUEUE_HPP
-#define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_THREAD_QUEUE_HPP
+#pragma once
 
 #include <vector>
 
@@ -43,7 +42,3 @@ private:
   SquirrelThreadQueue(const SquirrelThreadQueue&) = delete;
   SquirrelThreadQueue& operator=(const SquirrelThreadQueue&) = delete;
 };
-
-#endif
-
-/* EOF */

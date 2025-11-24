@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_PHYSFS_UTIL_HPP
-#define HEADER_SUPERTUX_PHYSFS_UTIL_HPP
+#pragma once
 
 #include <functional>
 #include <string>
@@ -51,7 +50,3 @@ bool enumerate_files_alphabetical(const std::string& pathname, std::function<boo
 bool enumerate_files_recurse(const std::string& pathname, std::function<bool(const std::string&)> callback);
 
 } // namespace physfsutil
-
-#endif
-
-/* EOF */

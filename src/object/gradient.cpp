@@ -32,7 +32,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-const Color Gradient::DEFAULT_GRADIENT_TOP(0.3f, 0.4f, 0.75f);
+const Color Gradient::DEFAULT_GRADIENT_TOP(0.5f, 0.7f, 1.f);
 const Color Gradient::DEFAULT_GRADIENT_BOTTOM(Color::WHITE);
 
 Gradient::Gradient() :
@@ -130,18 +130,18 @@ void
 Gradient::update(float delta)
 {
   if (m_fade_time <= 0) return;
-  
+
   m_fade_time -= delta;
   if (m_fade_time <= 0)
   {
     m_fade_time = 0;
-    
+
     m_gradient_top = m_fade_gradient_top;
     m_gradient_bottom = m_fade_gradient_bottom;
-    
+
     return;
   }
-  
+
   float progress = m_fade_time / m_fade_total_time;
   m_gradient_top =
     (m_fade_gradient_top + (m_start_gradient_top - m_fade_gradient_top) * progress).validate();
@@ -318,5 +318,3 @@ Gradient::register_class(ssq::VM& vm)
   cls.addFunc("fade_colors", &Gradient::fade_colors, ssq::DefaultArguments<float, float>(1.f, 1.f));
   cls.addFunc("swap_colors", &Gradient::swap_colors);
 }
-
-/* EOF */

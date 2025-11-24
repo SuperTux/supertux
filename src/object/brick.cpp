@@ -85,33 +85,35 @@ Brick::hit(Player& player)
 HitResponse
 Brick::collision(MovingObject& other, const CollisionHit& hit)
 {
-  auto player = dynamic_cast<Player*> (&other);
-  if (player && player->m_does_buttjump) try_break(player);
+  if (hit.has_direction()) {
+    auto player = dynamic_cast<Player*> (&other);
+    if (player && player->m_does_buttjump) try_break(player);
 
-  auto badguy = dynamic_cast<BadGuy*> (&other);
-  if (badguy) {
-    // Hit contains no information for collisions with blocks.
-    // Badguy's bottom has to be below the top of the brick
-    // SHIFT_DELTA is required to slide over one tile gaps.
-    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
+    auto badguy = dynamic_cast<BadGuy*> (&other);
+    if (badguy) {
+      // Hit contains no information for collisions with blocks.
+      // Badguy's bottom has to be below the top of the brick
+      // SHIFT_DELTA is required to slide over one tile gaps.
+      if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
+        try_break(nullptr);
+      }
+    }
+    auto portable = dynamic_cast<Portable*> (&other);
+    if (portable && !badguy) {
+      if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+        try_break(nullptr);
+      }
+    }
+
+    auto explosion = dynamic_cast<Explosion*> (&other);
+    if (explosion && explosion->hurts()) {
       try_break(nullptr);
     }
-  }
-  auto portable = dynamic_cast<Portable*> (&other);
-  if (portable && !badguy) {
-    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+
+    auto crusher = dynamic_cast<Crusher*> (&other);
+    if (crusher && crusher->get_state() == Crusher::CRUSHING && m_coin_counter == 0)
       try_break(nullptr);
-    }
   }
-
-  auto explosion = dynamic_cast<Explosion*> (&other);
-  if (explosion && explosion->hurts()) {
-    try_break(nullptr);
-  }
-
-  auto crusher = dynamic_cast<Crusher*> (&other);
-  if (crusher && crusher->get_state() == Crusher::CRUSHING && m_coin_counter == 0)
-    try_break(nullptr);
 
   return Block::collision(other, hit);
 }
@@ -221,5 +223,3 @@ HeavyBrick::hit(Player& player)
 {
   ricochet(&player);
 }
-
-/* EOF */

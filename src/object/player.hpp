@@ -14,9 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
-#define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
+#pragma once
 
+#include "moving_sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
@@ -42,12 +42,12 @@ extern const float TUX_INVINCIBLE_TIME_WARNING;
 
 /**
  * @scripting
- * @summary This module contains methods controlling the player. (No, SuperTux doesn't use mind control. ""Player"" refers to the type of the player object.)
+ * @summary This module contains methods controlling the player.
  * @instances The first player can be accessed using ""Tux"", or ""sector.Tux"" from the console.
               All following players (2nd, 3rd, etc...) can be accessed by ""Tux{index}"".
               For example, to access the 2nd player, use ""Tux1"" (or ""sector.Tux1"" from the console).
  */
-class Player final : public MovingObject
+class Player final : public MovingSprite
 {
 public:
   static void register_class(ssq::VM& vm);
@@ -86,6 +86,7 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
   virtual void collision_tile(uint32_t tile_attributes) override;
+  virtual void update_hitbox() override;
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return false; }
@@ -392,6 +393,17 @@ public:
 
   /**
    * @scripting
+   * @description Enables Tux's fancy idle animations.
+   */ 
+  inline void enable_fancy_idling() { m_should_fancy_idle = true; }
+  /**
+   * @scripting
+   * @description Disables Tux's fancy idle animations.
+   */
+  inline void disable_fancy_idling() { m_should_fancy_idle = false; }
+
+  /**
+   * @scripting
    * @description Gets whether the current input on the keyboard/controller/touchpad has been pressed.
    * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, "item", “start”, “escape”,
       “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
@@ -603,8 +615,6 @@ private:
   std::unique_ptr<ObjectRemoveListener> m_grabbed_object_remove_listener;
   bool m_released_object;
 
-  SpritePtr m_sprite; /**< The main sprite representing Tux */
-
   float m_swimming_angle;
   float m_swimming_accel_modifier;
   bool m_water_jump;
@@ -614,6 +624,9 @@ private:
   SpritePtr m_bubbles_sprite; /**< bubble particles sprite for swimming */
   Timer m_bubble_timer; /**< timer for spawning bubble particles */
   std::list<std::pair<SpritePtr, Vector>> m_active_bubbles; /**< active bubble particles */
+
+  bool m_should_fancy_idle;
+  bool m_fancy_idle_active;
 
   Vector m_floor_normal;
 
@@ -640,7 +653,3 @@ private:
   Player(const Player&) = delete;
   Player& operator=(const Player&) = delete;
 };
-
-#endif
-
-/* EOF */

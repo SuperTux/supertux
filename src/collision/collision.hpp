@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_COLLISION_COLLISION_HPP
-#define HEADER_SUPERTUX_COLLISION_COLLISION_HPP
+#pragma once
 
 #include <limits>
 #include <algorithm>
@@ -118,7 +117,3 @@ bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, co
 bool intersects_line(const Rectf& r, const Vector& line_start, const Vector& line_end);
 
 } // namespace collision
-
-#endif
-
-/* EOF */

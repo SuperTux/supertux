@@ -58,5 +58,3 @@ CheatApplyMenu::menu_action(MenuItem& item)
 
   MenuManager::instance().clear_menu_stack();
 }
-
-/* EOF */

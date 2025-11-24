@@ -138,6 +138,3 @@ ItemColorPicker2D::event(const SDL_Event& ev)
   m_color = get_pixel(m_image_with_pixels, pos);
   m_color.alpha = alpha;
 }
-
-
-/* EOF */

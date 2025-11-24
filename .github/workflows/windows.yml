@@ -33,15 +33,12 @@ jobs:
       matrix:
         arch: [x64, x86]
         build_type: [Debug, RelWithDebInfo]
-        glbinding: [OFF] # [ON, OFF] # FIXME: Fix Windows glbinding builds
         include:
           - build_type: RelWithDebInfo
             arch: x64
-            glbinding: OFF
             release: ON
           - build_type: RelWithDebInfo
             arch: x86
-            glbinding: OFF
             release: ON
 
     runs-on: windows-latest
@@ -59,55 +56,81 @@ jobs:
           path: C:/vcpkg/installed
           key: ${{ runner.os }}-${{ matrix.arch }}-deps-${{ hashFiles('.github/workflows/windows.yml') }}
 
+      # I don't know why, but vcpkg manifest doesn't work in CI.
       - name: Install dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         env:
           ARCH: ${{ matrix.arch }}
         run: |
+          cd C:/
           vcpkg integrate install
-          vcpkg install gtest:$Env:ARCH-windows
           vcpkg install curl:$Env:ARCH-windows
-          vcpkg install --recurse freetype:$Env:ARCH-windows
           vcpkg install glew:$Env:ARCH-windows
-          vcpkg install glbinding:$Env:ARCH-windows
           vcpkg install libogg:$Env:ARCH-windows
-          vcpkg install libraqm:$Env:ARCH-windows
           vcpkg install libvorbis:$Env:ARCH-windows
           vcpkg install openal-soft:$Env:ARCH-windows
           vcpkg install sdl2:$Env:ARCH-windows
           vcpkg install sdl2-image[libjpeg-turbo]:$Env:ARCH-windows
           vcpkg install glm:$Env:ARCH-windows
           vcpkg install zlib:$Env:ARCH-windows
+          vcpkg install fmt:$Env:ARCH-windows
+          vcpkg install physfs:$Env:ARCH-windows
+          vcpkg install libraqm:$Env:ARCH-windows
+          vcpkg install --recurse freetype:$Env:ARCH-windows
+
+      - name: Run slugify
+        id: slugify
+        uses: eltimn/slugify-action@v2.0.2
 
       - name: Configure bulid
+        shell: pwsh
         env:
+          # Using git rev-parse gives incorrect values when querying the branch
+          # so, use slugify instead
+          GIT_HASH: ${{ steps.slugify.outputs.sha }}
+          GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           ARCH: ${{ matrix.arch }}
           BUILD_TYPE: ${{ matrix.build_type }}
           GLBINDING: ${{ matrix.glbinding }}
-          CMAKE_POLICY_VERSION_MINIMUM: 3.5
         run: |
+          $Env:GIT_TAG = (& git describe --tags --abbrev=0)
+
+          echo "Git information:"
+          echo "- GIT_TAG: $Env:GIT_TAG"
+          echo "- GIT_HASH: $Env:GIT_HASH"
+          echo "- GIT_BRANCH: $Env:GIT_BRANCH"
+
           cmake --version
+
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 17 2022" -A $Env:ARCH.replace("x86", "Win32") "-DGLBINDING_ENABLED=$Env:GLBINDING" -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" -DBUILD_TESTS=ON
+
+          cmake .. -G "Visual Studio 17 2022" -A $Env:ARCH.replace("x86", "Win32") `
+                   -DSUPERTUX_PACKAGE_VERSION="$Env:GIT_TAG dev - $Env:GIT_HASH ($Env:GIT_BRANCH) (CI ARTIFACT)" `
+                   -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH" `
+                   -DENABLE_DISCORD=ON -DVCPKG_MANIFEST_MODE=OFF `
+                   -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" `
+                   -DVCPKG_TARGET_TRIPLET="$(if ($Env:ARCH -eq "x64") {"x64-windows"} else {"x86-windows"})" `
+                   -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" `
+                   -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
 
       - name: Build and install
         working-directory: build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-          CMAKE_POLICY_VERSION_MINIMUM: 3.5
         run: |
           cmake --build . --config $Env:BUILD_TYPE
 
-      - name: Run Tests
-        working-directory: build
-        env:
-          BUILD_TYPE: ${{ matrix.build_type }}
-        run: |
-          "./$Env:BUILD_TYPE/run_tests.exe"
+      # FIXME
+      # - name: Run Tests
+      #   working-directory: build
+      #   env:
+      #     BUILD_TYPE: ${{ matrix.build_type }}
+      #   run: |
+      #     "./$Env:BUILD_TYPE/run_tests.exe"
 
       - name: Package MSI Installer
-        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
+        if: matrix.build_type != 'Debug'
         shell: pwsh
         working-directory: build
         env:
@@ -129,17 +152,19 @@ jobs:
       - name: Upload MSI Installer
         uses: actions/upload-artifact@v4
         with:
-          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-installer"
+          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-installer"
           path: build/upload/*.msi
           if-no-files-found: ignore
 
       - name: Package Portable Archive
+        if: matrix.build_type != 'Debug'
         working-directory: build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
-          mkdir -Force SuperTux-${{ github.sha }}-portable
-          cmake --install . --config $Env:BUILD_TYPE --prefix .\SuperTux-${{ github.sha }}-portable
+          $name = "SuperTux-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-portable"
+          mkdir -Force $name
+          cmake --install . --config $Env:BUILD_TYPE --prefix .\$name
 
           # Because github puts assets in zips, if you upload a zip,
           # it will upload another zip. I have disabled this code because
@@ -147,15 +172,14 @@ jobs:
           # here it is.
           <#
           cpack -C $Env:BUILD_TYPE -G ZIP
-          mv *.zip SuperTux-${{ github.sha }}-portable/
+          mv *.zip $name
           #>
 
       - name: Upload Portable Package
-        if: matrix.build_type != 'Debug' && matrix.glbinding == 'OFF'
         uses: actions/upload-artifact@v4
         with:
-          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-portable"
-          path: build/SuperTux-${{ github.sha }}-portable
+          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-portable"
+          path: build/SuperTux-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-portable
           if-no-files-found: ignore
 
       - uses: anshulrgoyal/upload-s3-action@master

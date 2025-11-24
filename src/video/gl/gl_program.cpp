@@ -16,6 +16,7 @@
 
 #include "video/gl/gl_program.hpp"
 
+#include <iostream>
 #include <sstream>
 
 #include "video/glutil.hpp"
@@ -35,7 +36,8 @@ GLProgram::GLProgram() :
   m_displacement_animate_location(-1),
   m_position_location(-1),
   m_texcoord_location(-1),
-  m_diffuse_location(-1)
+  m_diffuse_location(-1),
+  m_is_displacement_location(-1)
 {
   assert_gl();
 
@@ -71,6 +73,7 @@ GLProgram::GLProgram() :
   m_modelviewprojection_location = glGetUniformLocation(m_program, "modelviewprojection");
   m_animate_location = glGetUniformLocation(m_program, "animate");
   m_displacement_animate_location = glGetUniformLocation(m_program, "displacement_animate");
+  m_is_displacement_location = glGetUniformLocation(m_program, "is_displacement");
   m_position_location = glGetAttribLocation(m_program, "position");
   m_texcoord_location = glGetAttribLocation(m_program, "texcoord");
   m_diffuse_location = glGetAttribLocation(m_program, "diffuse");
@@ -172,5 +175,3 @@ GLProgram::get_info_log() const
     return std::string(str.begin(), str.end());
   }
 }
-
-/* EOF */

@@ -81,5 +81,3 @@ GLScreenRenderer::get_logical_size() const
   return Size(viewport.get_screen_width(),
               viewport.get_screen_height());
 }
-
-/* EOF */

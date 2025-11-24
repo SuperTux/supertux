@@ -35,6 +35,8 @@ VideoSystemMenu::VideoSystemMenu()
 void
 VideoSystemMenu::refresh()
 {
+  clear();
+
   add_label(_("Select Video System"));
   add_hl();
 
@@ -62,5 +64,3 @@ VideoSystemMenu::menu_action(MenuItem& item)
       });
   }
 }
-
-/* EOF */

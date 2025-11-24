@@ -48,5 +48,3 @@ TileManager::reload()
   for (const auto& tileset : m_tilesets)
     tileset.second->reload();
 }
-
-/* EOF */

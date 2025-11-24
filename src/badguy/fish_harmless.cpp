@@ -28,5 +28,3 @@ FishHarmless::initialize()
   FishSwimming::initialize();
   set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
 }
-
-/* EOF */

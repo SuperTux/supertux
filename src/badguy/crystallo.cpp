@@ -95,5 +95,3 @@ Crystallo::on_flip(float height)
                                 std::move(m_sprite), m_dir, m_radius, m_dead_script);
   remove_me();
 }
-
-/* EOF */

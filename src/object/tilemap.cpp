@@ -22,6 +22,7 @@
 #include <simplesquirrel/vm.hpp>
 
 #include "editor/editor.hpp"
+#include "editor/layers_widget.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
@@ -237,6 +238,52 @@ TileMap::~TileMap()
 }
 
 void
+TileMap::on_path_resolved()
+{
+  if (Editor::is_active())
+  {
+    if (Editor* editor = Editor::current())
+    {
+      editor->queue_layers_refresh();
+    }
+  }
+}
+
+const std::string
+TileMap::get_icon_path() const
+{
+  const bool on_path = has_valid_path();
+  const bool is_lightmap = (m_draw_target == DrawingTarget::LIGHTMAP);
+  const bool is_solid = m_real_solid;
+  std::string icon_name;
+
+  if (is_lightmap)
+  {
+    if (on_path)
+    {
+      icon_name = is_solid ? "tilemap_path_lightmap_solid" : "tilemap_path_lightmap";
+    }
+    else // Not on path
+    {
+      icon_name = is_solid ? "tilemap_lightmap_solid" : "tilemap_lightmap";
+    }
+  }
+  else // Not lightmap
+  {
+    if (on_path)
+    {
+      icon_name = is_solid ? "tilemap_path" : "tilemap_path_nonsolid";
+    }
+    else // Not on path
+    {
+      icon_name = is_solid ? "tilemap" : "tilemap_nonsolid";
+    }
+  }
+
+  return "images/engine/editor/" + icon_name + ".png";
+}
+
+void
 TileMap::float_channel(float target, float &current, float remaining_time, float dt_sec)
 {
   float amt = (target - current) / (remaining_time / dt_sec);
@@ -301,8 +348,8 @@ TileMap::get_settings()
   result.add_color(_("Tint"), &m_tint, "tint", Color::WHITE);
   result.add_int(_("Z-pos"), &m_z_pos, "z-pos");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),
-                  {_("Normal"), _("Lightmap")},
-                  {"normal", "lightmap"},
+                  { _("Normal"), _("Lightmap") },
+                  { "normal", "lightmap" },
                   static_cast<int>(DrawingTarget::COLORMAP),
                   "draw-target");
 
@@ -311,7 +358,8 @@ TileMap::get_settings()
   m_add_path = has_valid_path();
   result.add_bool(_("Following path"), &m_add_path);
 
-  if (m_add_path) {
+  if (m_add_path)
+  {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
     result.add_bool(_("Running"), &get_walker()->m_running, "running", false);
@@ -320,9 +368,10 @@ TileMap::get_settings()
 
   result.add_tiles(_("Tiles"), this, "tiles");
 
-  result.reorder({"solid", "running", "speed-x", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "tiles"});
+  result.reorder({ "solid", "running", "speed-x", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "tiles" });
 
-  if (!m_editor_active) {
+  if (!m_editor_active)
+  {
     result.add_remove();
   }
 
@@ -350,6 +399,14 @@ TileMap::after_editor_set()
 
   m_current_tint = m_tint;
   m_current_alpha = m_alpha;
+
+  if (Editor::is_active())
+  {
+    if (Editor* editor = Editor::current())
+    {
+      editor->get_layers_widget()->refresh();
+    }
+  }
 }
 
 void
@@ -1008,5 +1065,3 @@ TileMap::register_class(ssq::VM& vm)
   cls.addVar("alpha", &TileMap::get_alpha, &TileMap::set_alpha);
   cls.addVar("solid", &TileMap::get_solid, &TileMap::set_solid);
 }
-
-/* EOF */

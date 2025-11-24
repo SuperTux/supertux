@@ -18,12 +18,12 @@
 name: translations
 on:
   workflow_dispatch:
-  schedule:
-    - cron:  '0 0 * * 0'
+  #schedule:
+  #  - cron:  '0 0 * * 0'
 
 jobs:
   update-all-translations:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout SuperTux repository
         uses: actions/checkout@v4

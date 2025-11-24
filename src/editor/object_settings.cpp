@@ -467,5 +467,3 @@ ObjectSettings::save_new_state(Writer& writer) const
     if (option->has_state_changed())
       option->save_new_state(writer);
 }
-
-/* EOF */

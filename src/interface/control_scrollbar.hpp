@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_INTERFACE_CONTROL_SCROLLBAR_HPP
-#define HEADER_SUPERTUX_INTERFACE_CONTROL_SCROLLBAR_HPP
+#pragma once
 
 #include "editor/widget.hpp"
 
@@ -79,7 +78,7 @@ private:
 
   /** The logical position and size of the widget */
   Rectf m_rect;
-  
+
   /** `true` if the scroller is horizontal; `false` if it is vertical */
   //bool is_horizontal;
 
@@ -90,7 +89,3 @@ private:
   ControlScrollbar(const ControlScrollbar&) = delete;
   ControlScrollbar& operator=(const ControlScrollbar&) = delete;
 };
-
-#endif
-
-/* EOF */

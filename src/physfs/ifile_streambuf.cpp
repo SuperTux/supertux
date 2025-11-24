@@ -99,5 +99,3 @@ IFileStreambuf::seekoff(off_type off, std::ios_base::seekdir dir,
 
   return seekpos(static_cast<pos_type> (pos), mode);
 }
-
-/* EOF */

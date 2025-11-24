@@ -1,0 +1,7 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (hitbox 0 0 128 128)
+    (images "rock-4x4.png")
+  )
+)

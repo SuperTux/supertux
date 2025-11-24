@@ -131,14 +131,15 @@ BouncingSnowball::collision_squished(MovingObject& object)
 void
 BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
-  if (m_sprite->get_action() == "squished")
-    return;
-
-  if (m_frozen)
+  if (m_frozen || !is_active())
   {
     BadGuy::collision_solid(hit);
     return;
   }
+
+  if (m_sprite->get_action() == "squished")
+    return;
+
 
   if (hit.bottom) {
     if (get_state() == STATE_ACTIVE) {
@@ -197,5 +198,3 @@ BouncingSnowball::after_editor_set()
   BadGuy::after_editor_set();
   set_action(m_dir);
 }
-
-/* EOF */

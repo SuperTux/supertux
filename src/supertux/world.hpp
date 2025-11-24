@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
-#define HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -69,7 +68,3 @@ private:
   World(const World&) = delete;
   World& operator=(const World&) = delete;
 };
-
-#endif
-
-/* EOF */

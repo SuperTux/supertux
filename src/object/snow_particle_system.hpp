@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_SNOW_PARTICLE_SYSTEM_HPP
-#define HEADER_SUPERTUX_OBJECT_SNOW_PARTICLE_SYSTEM_HPP
+#pragma once
 
 #include "object/particlesystem.hpp"
 #include "supertux/timer.hpp"
@@ -100,12 +99,8 @@ private:
   float m_state_length; // Interval for how long to affect the particles with wind.
 
   SurfacePtr m_snowimages[3];
-  
+
 private:
   SnowParticleSystem(const SnowParticleSystem&) = delete;
   SnowParticleSystem& operator=(const SnowParticleSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

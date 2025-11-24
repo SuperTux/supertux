@@ -284,5 +284,3 @@ ReaderMapping::get(const char* key, sexp::Value& value) const
     return true;
   }
 }
-
-/* EOF */

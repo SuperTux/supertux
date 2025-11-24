@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_BADGUY_HPP
-#define HEADER_SUPERTUX_BADGUY_BADGUY_HPP
+#pragma once
 
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
@@ -150,6 +149,9 @@ public:
   /** Can enemy be sniped by sliding or swimboosting Tux?
     Returns false if enemy is spiky or too large */
   virtual bool is_snipable() const { return false; }
+
+  /** Can enemy get pushed by explosions? */
+  virtual bool is_heavy() const { return false; }
 
   virtual bool always_active() const { return false; }
 
@@ -345,7 +347,3 @@ private:
   BadGuy(const BadGuy&) = delete;
   BadGuy& operator=(const BadGuy&) = delete;
 };
-
-#endif
-
-/* EOF */

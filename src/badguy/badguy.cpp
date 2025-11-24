@@ -720,7 +720,11 @@ BadGuy::kill_squished(GameObject& object)
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   m_physic.enable_gravity(true);
-  m_physic.set_velocity(0, 0);
+
+  if (on_ground())
+    m_physic.set_velocity(0, 0);
+  else
+    m_physic.set_velocity_y(0.0f);
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   auto player = dynamic_cast<Player*>(&object);
@@ -1194,7 +1198,12 @@ BadGuy::ignite()
     unfreeze();
 
   m_physic.enable_gravity(true);
-  m_physic.set_velocity(0, 0);
+
+  if (on_ground())
+    m_physic.set_velocity(0, 0);
+  else
+    m_physic.set_velocity_y(0.0f);
+
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   m_sprite->stop_animation();
   m_ignited = true;
@@ -1344,5 +1353,3 @@ BadGuy::register_class(ssq::VM& vm)
   cls.addFunc("kill", &BadGuy::kill_fall);
   cls.addFunc("ignite", &BadGuy::ignite);
 }
-
-/* EOF */

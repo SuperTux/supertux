@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_CHANGE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_CHANGE_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -65,7 +64,3 @@ public:
   UID uid;
   std::vector<GameObjectChange> changes;
 };
-
-#endif
-
-/* EOF */

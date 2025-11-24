@@ -168,5 +168,3 @@ PneumaticPlatform::after_editor_set()
 {
   GameObject::after_editor_set();
 }
-
-/* EOF */

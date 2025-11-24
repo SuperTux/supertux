@@ -313,5 +313,3 @@ UnstableTile::on_flip(float height)
   m_original_pos.y = height - m_original_pos.y - get_bbox().get_height();
   FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

@@ -131,5 +131,3 @@ ItemScriptLine::duplicate_line()
 {
   m_script_menu.add_line()->change_input(*input);
 }
-
-/* EOF */

@@ -55,5 +55,3 @@ SpriteManager::reload()
   for (const auto& sprite_data : m_sprites)
     sprite_data.second->load();
 }
-
-/* EOF */

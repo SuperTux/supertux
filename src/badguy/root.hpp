@@ -26,7 +26,7 @@ class Root final : public BadGuy
 public:
   Root(const ReaderMapping& reader);
   Root(const Vector& pos, Direction dir, const std::string& sprite,
-    float delay = -1, bool play_sound = true, bool auto_construct = true);
+    float delay = -1, bool play_sound = true, bool auto_construct = true, float base_delay = 0.0f);
 
   void construct();
 
@@ -49,15 +49,20 @@ public:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
-  enum State { STATE_HATCHING, STATE_APPEARING, STATE_RETREATING };
+  enum State { STATE_PRE_HATCHING, STATE_HATCHING, STATE_APPEARING, STATE_RETREATING, STATE_FADING_OUT };
 
 private:
   SurfacePtr m_base_surface;
   Timer m_timer;
   State m_state;
   float m_delay;
+  Timer m_initial_timer;
+  float m_base_delay;
+  Timer m_fade_timer;
+  float m_base_alpha;
   float m_maxheight;
   bool m_play_sound;
+  bool m_show_base;
 
 private:
   Root(const Root&) = delete;

@@ -257,5 +257,3 @@ Addon::requires_restart() const
   // Determines if the add-on requires a restart to function after enabled.
   return m_type == LANGUAGEPACK;
 }
-
-/* EOF */

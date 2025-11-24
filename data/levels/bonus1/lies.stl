@@ -84,18 +84,6 @@
       (image-bottom "/images/background/misc/transparent_up.png")
       (z-pos 401)
     )
-    (bonusblock
-      (type "purple")
-      (z-pos 51)
-      (x 2144)
-      (y -1248)
-    )
-    (bonusblock
-      (type "orange")
-      (z-pos 51)
-      (x 1888)
-      (y -1120)
-    )
     (camera
       (name "Camera")
       (mode "normal")
@@ -138,35 +126,21 @@
     )
     (crusher
       (z-pos 50)
-      (sideways #t)
+      (direction "horizontal")
       (x 6048)
       (y -672)
     )
     (crusher
       (z-pos 50)
-      (sideways #t)
+      (direction "horizontal")
       (x 5760)
       (y -576)
     )
     (crusher
       (z-pos 50)
-      (sideways #t)
+      (direction "horizontal")
       (x 6048)
       (y -384)
-    )
-    (decal
-      (name "tramp1")
-      (z-pos 50)
-      (sprite "/images/objects/trampoline/trampoline2-0.png")
-      (x 2016)
-      (y -768)
-    )
-    (decal
-      (name "tramp2")
-      (z-pos 50)
-      (sprite "/images/objects/trampoline/trampoline2-0.png")
-      (x 2272)
-      (y -832)
     )
     (door
       (z-pos 1)
@@ -274,26 +248,6 @@ fake.fade(1, 0.3);")
     (switch
       (z-pos 1)
       (script "fake.fade(0, 0.3);
-tramp1.fade_out(0.3);
-tramp2.fade_out(0.3);
-wait(0.3);
-fake.fade(0.2, 0.3);
-tramp1.fade_in(0.3);
-tramp2.fade_in(0.3);
-wait(0.45);
-fake.fade(0, 0.3);
-tramp1.fade_out(0.3);
-tramp2.fade_out(0.3);
-wait(0.3);
-fake.fade(1, 0.3);
-tramp1.fade_in(0.3);
-tramp2.fade_in(0.3);")
-      (x 1728)
-      (y -864)
-    )
-    (switch
-      (z-pos 1)
-      (script "fake.fade(0, 0.3);
 wait(0.3);
 fake.fade(0.2, 0.3);
 wait(0.45);
@@ -386,18 +340,6 @@ coverfake.fade(1, 0.3);")
       (z-pos 0)
       (x 832)
       (y 480)
-    )
-    (trampoline
-      (type "stationary")
-      (z-pos 50)
-      (x 2144)
-      (y -768)
-    )
-    (trampoline
-      (type "stationary")
-      (z-pos 50)
-      (x 1888)
-      (y -704)
     )
   )
   (sector
@@ -1027,19 +969,19 @@ fake.fade(1, 0.3);")
     )
     (crusher
       (z-pos 50)
-      (sideways #t)
+      (direction "horizontal")
       (x 576)
       (y 736)
     )
     (crusher
       (z-pos 50)
-      (sideways #t)
+      (direction "horizontal")
       (x 160)
       (y 448)
     )
     (crusher
       (z-pos 50)
-      (sideways #t)
+      (direction "horizontal")
       (x 32)
       (y 192)
     )
@@ -2567,7 +2509,7 @@ chooser1.goto_node(0);")
     (crusher
       (z-pos 50)
       (x 960)
-      (y 128)
+      (y 127.6438)
     )
     (crusher
       (z-pos 50)
@@ -2585,22 +2527,22 @@ chooser1.goto_node(0);")
       (name "fake2")
       (z-pos -50)
       (sprite "/images/creatures/crusher/krush_ice_hit.png")
-      (x 1056)
-      (y 128)
+      (x 1053.543)
+      (y 124.6955)
     )
     (decal
       (name "fake3")
       (z-pos -50)
       (sprite "/images/creatures/crusher/krush_ice_hit.png")
-      (x 864)
-      (y 128)
+      (x 861.6154)
+      (y 124.9166)
     )
     (decal
       (name "fake4")
       (z-pos -50)
       (sprite "/images/creatures/crusher/krush_ice_hit.png")
-      (x 768)
-      (y 128)
+      (x 766.0344)
+      (y 124.6095)
     )
     (door
       (z-pos -1)

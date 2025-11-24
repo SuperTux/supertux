@@ -328,7 +328,7 @@ EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
       {
         m_scroll = last_item_position;
       }
-      
+
     }
   }
   return false;
@@ -513,5 +513,3 @@ EditorLayersWidget::get_layer_pos(const Vector& coords) const
 {
   return static_cast<int>((coords.x - static_cast<float>(m_Xpos - m_scroll) - static_cast<float>(m_sector_text_width)) / 35.0f);
 }
-
-/* EOF */

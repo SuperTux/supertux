@@ -117,5 +117,3 @@ ReaderIterator::get_sexp() const
 {
   return m_arr[m_idx];
 }
-
-/* EOF */

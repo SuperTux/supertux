@@ -16,8 +16,7 @@
 
 // TODO: DEPRECATED (Remove hpp, cpp, and references in the menu manager)
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_PARTICLE_EDITOR_OPEN_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_PARTICLE_EDITOR_OPEN_HPP
+#pragma once
 
 #include "gui/menu.hpp"
 
@@ -42,7 +41,3 @@ private:
   ParticleEditorOpen(const ParticleEditorOpen&) = delete;
   ParticleEditorOpen& operator=(const ParticleEditorOpen&) = delete;
 };
-
-#endif
-
-/* EOF */

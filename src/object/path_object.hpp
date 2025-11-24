@@ -15,8 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef HEADER_SUPERTUX_OBJECT_PATH_OBJECT_HPP
-#define HEADER_SUPERTUX_OBJECT_PATH_OBJECT_HPP
+#pragma once
 
 #include <memory>
 
@@ -58,6 +57,8 @@ public:
   std::string get_path_ref() const;
   void editor_set_path_by_ref(const std::string& new_ref);
 
+  virtual void on_path_resolved() {}
+
   /**
    * @scripting
    * @description Moves the path object until at given node, then stops.
@@ -98,7 +99,3 @@ private:
   PathObject(const PathObject&) = delete;
   PathObject& operator=(const PathObject&) = delete;
 };
-
-#endif
-
-/* EOF */

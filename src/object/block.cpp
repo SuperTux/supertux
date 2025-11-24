@@ -65,8 +65,12 @@ Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
 }
 
 HitResponse
-Block::collision(MovingObject& other, const CollisionHit& )
+Block::collision(MovingObject& other, const CollisionHit& hit_)
 {
+  if (!hit_.has_direction()) {
+    return FORCE_MOVE;
+  }
+
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
@@ -204,5 +208,3 @@ Block::on_flip(float height)
   if (m_original_y != -1) m_original_y = height - m_original_y - get_bbox().get_height();
   FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

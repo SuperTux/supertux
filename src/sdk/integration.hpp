@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SDK_INTEGRATION_HPP
-#define HEADER_SUPERTUX_SDK_INTEGRATION_HPP
+#pragma once
 
 #include "config.h"
 
@@ -112,7 +111,7 @@ public:
   static void update_all();
   static void close_all();
 
-  static void update_status_all(IntegrationStatus status);
+  static void update_status_all(const IntegrationStatus& status);
 
 public:
   virtual void init() = 0;
@@ -128,7 +127,3 @@ private:
   Integration(const Integration&) = delete;
   Integration & operator=(const Integration&) = delete;
 };
-
-#endif
-
-/* EOF */

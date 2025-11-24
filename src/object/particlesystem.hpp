@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_HPP
-#define HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_HPP
+#pragma once
 
 #include "editor/layer_object.hpp"
 
@@ -125,7 +124,3 @@ private:
   ParticleSystem(const ParticleSystem&) = delete;
   ParticleSystem& operator=(const ParticleSystem&) = delete;
 };
-
-#endif
-
-/* EOF */
