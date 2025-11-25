@@ -31,10 +31,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13]
+        os: [macos-14]
         build_type: [Debug, Release]
         include:
-          - os: macos-13
+          - os: macos-14
             build_type: Release
             release: ON
 
@@ -47,23 +47,20 @@ jobs:
           submodules: recursive
 
       - name: Install macos dependencies
-        if: ${{ matrix.os == 'macos-13' }}
+        if: ${{ matrix.os == 'macos-14' }}
         run: |
-          # Use GLM 1.0.0 as later versions don't build with clang
-          cp -rf ./mk/brew/glm.rb $(brew --repository homebrew/core)/Formula/
-          HOMEBREW_NO_AUTO_UPDATE=1 brew install glm --build-from-source
-          brew install cmake bash rename libogg libvorbis glew \
+          brew install cmake bash rename libogg libvorbis glew glm \
                        openal-soft sdl2 sdl2_image libraqm freetype \
                        glib gtk-doc zlib physfs fmt
 
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
-            /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
-            /usr/local/opt/webp/lib/libwebp.7.dylib
+            /opt/homebrew/opt/webp/lib/libsharpyuv.0.dylib \
+            /opt/homebrew/opt/webp/lib/libwebp.7.dylib
           install_name_tool -change \
             '@rpath/libjxl_cms.0.11.dylib' \
-            /usr/local/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
-            /usr/local/opt/jpeg-xl/lib/libjxl.dylib
+            /opt/homebrew/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
+            /opt/homebrew/opt/jpeg-xl/lib/libjxl.dylib
 
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework                           \
@@ -89,7 +86,7 @@ jobs:
           GIT_HASH: ${{ steps.slugify.outputs.sha }}
           GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           BUILD_TYPE: ${{ matrix.build_type }}
-          PKG_CONFIG_PATH: /usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig
+          PKG_CONFIG_PATH: /opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig
         run: |
           GIT_TAG="$(git describe --tags --abbrev=0)"
 
@@ -164,8 +161,8 @@ jobs:
         env:
           OS: ${{ matrix.os }}
         run: |
-          if [ "$OS" = "macos-13" ]; then
-            rename 's/.dmg/-13.dmg/' build/upload/SuperTux-*
+          if [ "$OS" = "macos-14" ]; then
+            rename 's/.dmg/-14.dmg/' build/upload/SuperTux-*
           fi
 
       - name: Create Release
