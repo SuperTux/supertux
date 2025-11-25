@@ -31,10 +31,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13]
+        os: [macos-14]
         build_type: [Debug, Release]
         include:
-          - os: macos-13
+          - os: macos-14
             build_type: Release
             release: ON
 
@@ -47,7 +47,7 @@ jobs:
           submodules: recursive
 
       - name: Install macos dependencies
-        if: ${{ matrix.os == 'macos-13' }}
+        if: ${{ matrix.os == 'macos-14' }}
         run: |
           # Use GLM 1.0.0 as later versions don't build with clang
           cp -rf ./mk/brew/glm.rb $(brew --repository homebrew/core)/Formula/
@@ -164,8 +164,8 @@ jobs:
         env:
           OS: ${{ matrix.os }}
         run: |
-          if [ "$OS" = "macos-13" ]; then
-            rename 's/.dmg/-13.dmg/' build/upload/SuperTux-*
+          if [ "$OS" = "macos-14" ]; then
+            rename 's/.dmg/-14.dmg/' build/upload/SuperTux-*
           fi
 
       - name: Create Release
