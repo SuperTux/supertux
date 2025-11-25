@@ -55,6 +55,9 @@ jobs:
           brew install cmake bash rename libogg libvorbis glew \
                        openal-soft sdl2 sdl2_image libraqm freetype \
                        glib gtk-doc zlib physfs fmt
+          
+          ls -l /usr/local/opt/webp/lib/
+          ls -l /usr/local/opt/jpeg-xl/lib/
 
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
