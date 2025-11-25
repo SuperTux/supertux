@@ -97,6 +97,7 @@ public:
 private:
   bool should_crush();
   bool should_finish_crushing(const CollisionHit& hit) const;
+  bool should_finish_recovering(const CollisionHit& hit) const;
   bool has_recovered();
   Rectf get_detect_box(CrusherDirection dir = CrusherDirection::ALL);
 
