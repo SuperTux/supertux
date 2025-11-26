@@ -176,7 +176,7 @@ if(NOT EMSCRIPTEN)
   add_package(TARGET libcurl
     PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
   add_package(TARGET OpenAL
-    PKG OpenAL PKG_USE OpenAL::OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL openal openal-soft)
+    PKG OpenAL PKG_USE OpenAL::OpenAL CONFIG REQUIRED PKG_CONFIG OpenAL openal)
   add_package(TARGET Ogg
     PKG Ogg PKG_USE Ogg::ogg CONFIG REQUIRED PKG_CONFIG ogg)
   add_package(TARGET Vorbis

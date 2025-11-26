@@ -55,7 +55,6 @@ jobs:
           brew install cmake bash rename libogg libvorbis glew \
                        openal-soft sdl2 sdl2_image libraqm freetype \
                        glib gtk-doc zlib physfs fmt
-          export PKG_CONFIG_PATH="/opt/homebrew/opt/openal-soft/lib/pkgconfig"
           
           # ls -l /usr/local/opt/webp/lib/
           # ls -l /usr/local/opt/jpeg-xl/lib/
@@ -93,7 +92,7 @@ jobs:
           GIT_HASH: ${{ steps.slugify.outputs.sha }}
           GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           BUILD_TYPE: ${{ matrix.build_type }}
-          PKG_CONFIG_PATH: /usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig
+          PKG_CONFIG_PATH: /opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig
         run: |
           GIT_TAG="$(git describe --tags --abbrev=0)"
 
