@@ -55,6 +55,7 @@ jobs:
           brew install cmake bash rename libogg libvorbis glew glm \
                        openal-soft sdl2 sdl2_image libraqm freetype \
                        glib gtk-doc zlib physfs fmt
+          brew doctor
           
           # ls -l /usr/local/opt/webp/lib/
           # ls -l /usr/local/opt/jpeg-xl/lib/
