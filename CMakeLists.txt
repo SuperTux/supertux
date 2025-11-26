@@ -133,14 +133,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
-  # On Apple Silicon (arm64), Homebrew installs to /opt/homebrew
-  # On Intel Macs (x86_64), Homebrew installs to /usr/local
-  if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/opt/homebrew/lib")
-    list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew")
-  else()
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
-  endif()
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/lib")
 endif()
 
 if(MINGW)

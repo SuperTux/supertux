@@ -27,11 +27,11 @@ make_unit_test(MD5Test SOURCE md5_test.cpp
 
 make_unit_test(AATriangleTest SOURCE aatriangle_test.cpp
   EXTERNAL math/aatriangle.cpp
-  LIBRARIES SDL2 DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
+  LIBRARIES SDL2 glm DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
 
 make_unit_test(CollisionTest SOURCE collision_test.cpp
   EXTERNAL math/rectf.cpp
-  LIBRARIES SDL2 DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
+  LIBRARIES SDL2 glm DEFINITIONS GLM_ENABLE_EXPERIMENTAL)
 #make_unit_test(DynamicScopedTest SOURCE dynamic_scoped_test.cpp
 #  LIBRARIES SDL2)
 #make_unit_test(FileSystemTest SOURCE file_system_test.cpp
