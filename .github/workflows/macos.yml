@@ -79,8 +79,8 @@ jobs:
           # Clang12 runs into a bunch of fun with `include location
           # '/usr/local/include' is unsafe for cross-compilation` that we don't
           # care about for now
-          echo "CXX=clang++" >> $GITHUB_ENV
-          echo "CC=clang" >> $GITHUB_ENV
+          # echo "CXX=clang++" >> $GITHUB_ENV
+          # echo "CC=clang" >> $GITHUB_ENV
 
       - name: Run slugify
         id: slugify
