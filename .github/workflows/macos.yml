@@ -55,7 +55,7 @@ jobs:
           brew install cmake bash rename libogg libvorbis glew glm \
                        openal-soft sdl2 sdl2_image libraqm freetype \
                        glib gtk-doc zlib physfs fmt
-          # ls -l /usr/local/include
+          ls -l /usr/local/include
           
           # ls -l /usr/local/opt/webp/lib/
           # ls -l /usr/local/opt/jpeg-xl/lib/
@@ -79,8 +79,8 @@ jobs:
           # Clang12 runs into a bunch of fun with `include location
           # '/usr/local/include' is unsafe for cross-compilation` that we don't
           # care about for now
-          # echo "CXX=clang++" >> $GITHUB_ENV
-          # echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
+          echo "CC=clang" >> $GITHUB_ENV
 
       - name: Run slugify
         id: slugify
@@ -103,7 +103,7 @@ jobs:
           echo "- GIT_BRANCH: $GIT_BRANCH"
 
           cmake --version
-          # $CXX --version
+          $CXX --version
 
           mkdir "build"
           cd "build"
