@@ -2,7 +2,7 @@
 
 shopt -s nullglob
 
-if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-12" ] || [ "$OS_NAME" = "macos-14" ]) && [ "$PACKAGE" = "ON" ]; then
+if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-14" ]) && [ "$PACKAGE" = "ON" ]; then
     sudo chmod -R +w /usr/local/Cellar
     # Workaround resource busy bug on github on MacOS 13
     # https://github.com/actions/runner-images/issues/7522
