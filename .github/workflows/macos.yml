@@ -50,9 +50,9 @@ jobs:
         if: ${{ matrix.os == 'macos-14' }}
         run: |
           # Use GLM 1.0.0 as later versions don't build with clang
-          cp -rf ./mk/brew/glm.rb $(brew --repository homebrew/core)/Formula/
-          HOMEBREW_NO_AUTO_UPDATE=1 brew install glm --build-from-source
-          brew install cmake bash rename libogg libvorbis glew \
+          # cp -rf ./mk/brew/glm.rb $(brew --repository homebrew/core)/Formula/
+          # HOMEBREW_NO_AUTO_UPDATE=1 brew install glm --build-from-source
+          brew install cmake bash rename libogg libvorbis glew glm \
                        openal-soft sdl2 sdl2_image libraqm freetype \
                        glib gtk-doc zlib physfs fmt
           
