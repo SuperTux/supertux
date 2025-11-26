@@ -52,8 +52,8 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
-      - name: Install macos dependencies
-        if: ${{ matrix.os == 'macos-14' }}
+      - name: Install macos dependencies (ARM)
+        if: ${{ matrix.os == 'macos-14' && matrix.arch == 'arm64' }}
         run: |
           brew install cmake bash rename libogg libvorbis glew glm \
                        openal-soft sdl2 sdl2_image libraqm freetype \
@@ -67,6 +67,19 @@ jobs:
             '@rpath/libjxl_cms.0.11.dylib' \
             /opt/homebrew/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
             /opt/homebrew/opt/jpeg-xl/lib/libjxl.dylib
+
+          # Something funky happens with freetype if mono is left
+          sudo mv /Library/Frameworks/Mono.framework                           \
+                  /Library/Frameworks/Mono.framework-disabled
+
+      - name: Install macos dependencies (Intel)
+        if: ${{ matrix.os == 'macos-14' && matrix.arch == 'x86_64' }}
+        run: |
+          # Install x86_64 Homebrew and dependencies using Rosetta 2
+          arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          arch -x86_64 /usr/local/bin/brew install cmake bash rename libogg libvorbis glew glm \
+                       openal-soft sdl2 sdl2_image libraqm freetype \
+                       glib gtk-doc zlib physfs fmt
 
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework                           \
@@ -93,7 +106,6 @@ jobs:
           GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           BUILD_TYPE: ${{ matrix.build_type }}
           BUILD_ARCH: ${{ matrix.arch }}
-          PKG_CONFIG_PATH: /opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig
         run: |
           GIT_TAG="$(git describe --tags --abbrev=0)"
 
@@ -109,10 +121,13 @@ jobs:
           mkdir "build"
           cd "build"
 
-          # Set deployment target for x86_64 builds to support older macOS versions
+          # Set architecture-specific flags and PKG_CONFIG_PATH
           CMAKE_ARCH_FLAGS=""
           if [ "$BUILD_ARCH" = "x86_64" ]; then
             CMAKE_ARCH_FLAGS="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0"
+            export PKG_CONFIG_PATH="/usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig"
+          else
+            export PKG_CONFIG_PATH="/opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig"
           fi
 
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $CMAKE_ARCH_FLAGS             \
