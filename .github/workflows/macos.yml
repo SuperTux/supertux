@@ -103,7 +103,7 @@ jobs:
           echo "- GIT_BRANCH: $GIT_BRANCH"
 
           cmake --version
-          $CXX --version
+          # $CXX --version
 
           mkdir "build"
           cd "build"
