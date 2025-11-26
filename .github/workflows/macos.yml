@@ -31,10 +31,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-14]
+        os: [macos-14, macos-12]
         build_type: [Debug, Release]
         include:
           - os: macos-14
+            build_type: Release
+            release: ON
+          - os: macos-12
             build_type: Release
             release: ON
 
@@ -66,6 +69,17 @@ jobs:
           sudo mv /Library/Frameworks/Mono.framework                           \
                   /Library/Frameworks/Mono.framework-disabled
 
+      - name: Install macos dependencies (Intel)
+        if: ${{ matrix.os == 'macos-12' }}
+        run: |
+          brew install cmake bash rename libogg libvorbis glew glm \
+                       openal-soft sdl2 sdl2_image libraqm freetype \
+                       glib gtk-doc zlib physfs fmt
+
+          # Something funky happens with freetype if mono is left
+          sudo mv /Library/Frameworks/Mono.framework                           \
+                  /Library/Frameworks/Mono.framework-disabled
+
       - name: Set compiler
         run: |
           # This ensures for now we use clang11
@@ -86,7 +100,7 @@ jobs:
           GIT_HASH: ${{ steps.slugify.outputs.sha }}
           GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           BUILD_TYPE: ${{ matrix.build_type }}
-          PKG_CONFIG_PATH: /opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig
+          PKG_CONFIG_PATH: ${{ matrix.os == 'macos-14' && '/opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig' || '/usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig' }}
         run: |
           GIT_TAG="$(git describe --tags --abbrev=0)"
 
@@ -163,6 +177,8 @@ jobs:
         run: |
           if [ "$OS" = "macos-14" ]; then
             rename 's/.dmg/-14.dmg/' build/upload/SuperTux-*
+          elif [ "$OS" = "macos-12" ]; then
+            rename 's/.dmg/-12.dmg/' build/upload/SuperTux-*
           fi
 
       - name: Create Release
