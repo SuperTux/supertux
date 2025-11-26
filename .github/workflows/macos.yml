@@ -37,9 +37,17 @@ jobs:
           - os: macos-14
             build_type: Release
             release: ON
+            pkg_config_path: /opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig
+          - os: macos-14
+            build_type: Debug
+            pkg_config_path: /opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig
           - os: macos-12
             build_type: Release
             release: ON
+            pkg_config_path: /usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig
+          - os: macos-12
+            build_type: Debug
+            pkg_config_path: /usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -100,7 +108,7 @@ jobs:
           GIT_HASH: ${{ steps.slugify.outputs.sha }}
           GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           BUILD_TYPE: ${{ matrix.build_type }}
-          PKG_CONFIG_PATH: ${{ matrix.os == 'macos-14' && '/opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig' || '/usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig' }}
+          PKG_CONFIG_PATH: ${{ matrix.pkg_config_path }}
         run: |
           GIT_TAG="$(git describe --tags --abbrev=0)"
 
