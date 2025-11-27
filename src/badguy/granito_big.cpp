@@ -48,6 +48,8 @@ GranitoBig::active_update(float dt_sec)
 {
   Granito::active_update(dt_sec);
 
+  m_col.propagate_movement(m_physic.get_movement(dt_sec));
+
   if (!m_carrying)
     return;
 
