@@ -129,6 +129,7 @@ private:
   Physic m_physic;
   Vector m_dir_vector;
   CollisionObject* m_target;
+  bool m_flipped;
 
   SurfacePtr m_whites;
   SurfacePtr m_lefteye;
