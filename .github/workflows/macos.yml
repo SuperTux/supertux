@@ -80,7 +80,7 @@ jobs:
           # Remove pre-installed Python symlinks that conflict with Homebrew Python
           sudo rm -f /usr/local/bin/idle3* /usr/local/bin/pip3* /usr/local/bin/pydoc3* /usr/local/bin/python3* || true
           arch -x86_64 /usr/local/bin/brew install cmake bash rename libogg libvorbis glew glm \
-                       openal-soft sdl2 sdl2_image libraqm freetype \
+                       openal-soft sdl2 sdl2_image libraqm freetype libpng \
                        glib gtk-doc zlib physfs fmt
 
           # Something funky happens with freetype if mono is left
@@ -126,8 +126,8 @@ jobs:
           # Set architecture-specific flags and PKG_CONFIG_PATH
           CMAKE_ARCH_FLAGS=""
           if [ "$BUILD_ARCH" = "x86_64" ]; then
-            CMAKE_ARCH_FLAGS="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0"
-            export PKG_CONFIG_PATH="/usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig"
+            CMAKE_ARCH_FLAGS="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0 -DCMAKE_PREFIX_PATH=/usr/local"
+            export PKG_CONFIG_PATH="/usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig:/usr/local/opt/freetype/lib/pkgconfig:/usr/local/opt/libpng/lib/pkgconfig"
           else
             export PKG_CONFIG_PATH="/opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig"
           fi
