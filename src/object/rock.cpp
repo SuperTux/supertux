@@ -224,8 +224,8 @@ Rock::collision(MovingObject& other, const CollisionHit& hit)
       m_physic.set_velocity_y(-250.f);
     }
 
-    auto granitoBig = dynamic_cast<GranitoBig*> (&other);
-    if (granitoBig){
+    auto granito = dynamic_cast<GranitoBig*> (&other);
+    if (granito) {
       return ABORT_MOVE;
     }
   }
