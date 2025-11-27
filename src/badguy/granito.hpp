@@ -186,9 +186,8 @@ protected:
   State m_original_state;
 
   bool m_has_waved;
-  bool m_stepped_on; /** True if tux was on top of granito last frame. */
+  bool m_has_entity_on_top; /** True if any entity (player or object) was on top of the granito in the last frame. */
   bool m_airborne; /** Unfortunately, on_ground() sucks. */
-  bool m_has_rock_on_top;
 
   std::string m_detect_script;
   std::string m_carried_script; /** This is ran when the Granito is carried by a Big Granito */
