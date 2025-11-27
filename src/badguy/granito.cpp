@@ -57,6 +57,7 @@ Granito::active_update(float dt_sec)
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
     m_stepped_on = false;
+    m_has_rock_on_top = false;
     return;
   }
 
@@ -86,37 +87,16 @@ Granito::active_update(float dt_sec)
     }
   }
 
-  if (m_has_rock_on_top)
-  {
-    Rectf granito_bbox = get_bbox();
-    Rectf check_area = granito_bbox;
-    check_area.set_bottom(granito_bbox.get_top() + 8.0f);
-
-    bool still_has_rock = false;
-    for (const Rock& obj : Sector::get().get_objects_by_type<Rock>()) {
-      if (check_area.overlaps(obj.get_bbox())) {
-        still_has_rock = true;
-        break;
-      }
-    }
-
-    if (!still_has_rock)
-    {
-      m_has_rock_on_top = false;
-      m_state = STATE_STAND;
-      set_action("stand", m_dir);
-    }
-  }
-
   if (m_type == WALK)
   {
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
     m_stepped_on = false;
+    m_has_rock_on_top = false;
     return;
   }
 
-  if ((m_state == STATE_LOOKUP && !m_stepped_on) ||
+  if ((m_state == STATE_LOOKUP && !m_stepped_on && !m_has_rock_on_top) ||
       (m_state == STATE_JUMPING && on_ground()))
   {
     restore_original_state();
@@ -127,6 +107,7 @@ Granito::active_update(float dt_sec)
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
     m_stepped_on = false;
+    m_has_rock_on_top = false;
     return;
   }
 
@@ -139,6 +120,7 @@ Granito::active_update(float dt_sec)
         // Still waving
         WalkingBadguy::active_update(dt_sec);
         m_stepped_on = false;
+        m_has_rock_on_top = false;
         return;
       }
       else
@@ -211,7 +193,7 @@ Granito::active_update(float dt_sec)
   }
 
   WalkingBadguy::active_update(dt_sec);
-
+  m_has_rock_on_top = false;
   m_stepped_on = false;
 }
 
@@ -255,17 +237,12 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
 
       m_has_rock_on_top = true;
       walk_speed = 0;
-
       m_physic.set_velocity_x(0);
-      m_state = STATE_LOOKUP;
-      m_original_state = STATE_STAND;
 
+      m_state = STATE_LOOKUP;
       set_action("lookup", m_dir);
+
       goto granito_collision_end;
-    }
-    else if (!m_has_rock_on_top)
-    {
-      m_col.propagate_movement(m_col.get_movement());
     }
   }
 
