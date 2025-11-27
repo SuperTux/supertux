@@ -77,6 +77,8 @@ jobs:
         run: |
           # Install x86_64 Homebrew and dependencies using Rosetta 2
           arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          # Unlink pre-installed Python to avoid conflicts with Homebrew
+          arch -x86_64 /usr/local/bin/brew unlink python@3 || true
           arch -x86_64 /usr/local/bin/brew install cmake bash rename libogg libvorbis glew glm \
                        openal-soft sdl2 sdl2_image libraqm freetype \
                        glib gtk-doc zlib physfs fmt
@@ -107,7 +109,7 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
           BUILD_ARCH: ${{ matrix.arch }}
         run: |
-          GIT_TAG="$(git describe --tags --abbrev=0)"
+          GIT_TAG="$(git describe --tags --abbrev=0 --always)"
 
           echo "Git information:"
           echo "- GIT_TAG: $GIT_TAG"
