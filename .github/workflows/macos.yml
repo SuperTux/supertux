@@ -77,8 +77,9 @@ jobs:
         run: |
           # Install x86_64 Homebrew and dependencies using Rosetta 2
           arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          # Unlink pre-installed Python to avoid conflicts with Homebrew
-          arch -x86_64 /usr/local/bin/brew unlink python@3 || true
+          # Install Python via Homebrew first and force-link to overwrite pre-installed version
+          arch -x86_64 /usr/local/bin/brew install python@3
+          arch -x86_64 /usr/local/bin/brew link --overwrite python@3
           arch -x86_64 /usr/local/bin/brew install cmake bash rename libogg libvorbis glew glm \
                        openal-soft sdl2 sdl2_image libraqm freetype \
                        glib gtk-doc zlib physfs fmt
