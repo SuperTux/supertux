@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/crusher.hpp"
 #include "badguy/badguy.hpp"
+#include "badguy/granito_big.hpp"
 #include "object/coin.hpp"
 #include "object/explosion.hpp"
 #include "object/lit_object.hpp"
@@ -221,6 +222,11 @@ Rock::collision(MovingObject& other, const CollisionHit& hit)
     auto player = dynamic_cast<Player*> (&other);
     if (player) {
       m_physic.set_velocity_y(-250.f);
+    }
+
+    auto granitoBig = dynamic_cast<GranitoBig*> (&other);
+    if (granitoBig){
+      return ABORT_MOVE;
     }
   }
 
