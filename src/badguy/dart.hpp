@@ -26,6 +26,7 @@ class Dart final : public BadGuy
 public:
   Dart(const ReaderMapping& reader);
   Dart(const Vector& pos, Direction d, const BadGuy* parent, const std::string& sprite = "images/creatures/darttrap/granito/root_dart.sprite");
+  ~Dart();  // An empty destructor is required to deallocate the sound_source properly.
 
   virtual void initialize() override;
   virtual void activate() override;
