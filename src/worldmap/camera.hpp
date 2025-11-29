@@ -33,10 +33,10 @@ public:
   void pan();
   inline bool is_panning() const { return m_panning; }
 
-  inline Vector get_offset() const { return m_camera_offset; }
+  Vector get_offset(float time_offset = 0.0f) const;
 
 private:
-  Vector get_camera_pos_for_tux() const;
+  Vector get_camera_pos_for_tux(float time_offset = 0.0f) const;
   void clamp_camera_position(Vector& c) const;
 
 private:

@@ -182,7 +182,7 @@ WorldMapSector::draw(DrawingContext& context)
   }
 
   context.push_transform();
-  context.set_translation(m_camera->get_offset());
+  context.set_translation(m_camera->get_offset(context.get_time_offset()));
 
   GameObjectManager::draw(context);
 
