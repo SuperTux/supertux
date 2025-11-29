@@ -122,6 +122,9 @@ OptionsMenu::refresh()
 
       add_toggle(MNID_FRAME_PREDICTION, _("Frame prediction"), &g_config->frame_prediction)
         .set_help(_("Smooth camera motion, generating intermediate frames. This has a noticeable effect on monitors at >> 60Hz. Moving objects may be blurry."));
+		
+      add_toggle(MNID_FANCY_GFX, _("Fancy Effects"), &g_config->fancy_gfx)
+        .set_help(_("Applies fancy effects such as blur, clear tile refraction, and various other effects deemed \"fancy\". May significantly degrade performance."));
 
       add_flash_intensity();
 
@@ -770,6 +773,10 @@ OptionsMenu::menu_action(MenuItem& item)
 
     case MNID_CUSTOM_TITLE_LEVELS:
       TitleScreen::current()->refresh_level();
+      break;
+	
+    case MNID_FANCY_GFX:
+      VideoSystem::current()->apply_config();
       break;
 
     case MNID_CUSTOM_CURSOR:

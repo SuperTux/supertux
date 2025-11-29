@@ -269,9 +269,15 @@ GLVideoSystem::apply_config()
   // instead of the display resolution, or the video will be rendered partly outside of the screen.
   m_viewport = Viewport::from_size(g_config->window_size, g_config->window_size);
 #endif
+  
+  // If already set, turn it off. The code afterwards won't harm anything.
+  if (m_back_renderer && !g_config->fancy_gfx)
+  {
+    m_back_renderer.reset();
+  }
 
   m_lightmap.reset(new GLTextureRenderer(*this, m_viewport.get_screen_size(), 5));
-  if (m_use_opengl33core)
+  if (m_use_opengl33core && g_config->fancy_gfx)
   {
     m_back_renderer.reset(new GLTextureRenderer(*this, m_viewport.get_screen_size(), 1));
   }
