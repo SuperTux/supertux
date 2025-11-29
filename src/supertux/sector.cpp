@@ -69,7 +69,9 @@ Sector::Sector(Level& parent) :
   m_foremost_opaque_layer(),
   m_gravity(10.0f),
   m_collision_system(new CollisionSystem(*this)),
-  m_text_object(add<TextObject>("Text"))
+  m_text_object(add<TextObject>("Text")),
+  m_init_script_run(),
+  m_init_script_run_once()
 {
   add<DisplayEffect>("Effect");
   add<TextArrayObject>("TextArray");
@@ -170,7 +172,7 @@ Sector::finish_construction(bool editable)
 }
 
 SpawnPointMarker*
-Sector::get_spawn_point(const std::string& spawnpoint)
+Sector::get_spawn_point(const std::string& spawnpoint) const
 {
   SpawnPointMarker* sp = nullptr;
   for (auto& spawn_point : get_objects_by_type<SpawnPointMarker>()) {
@@ -184,7 +186,7 @@ Sector::get_spawn_point(const std::string& spawnpoint)
 }
 
 Vector
-Sector::get_spawn_point_position(const std::string& spawnpoint)
+Sector::get_spawn_point_position(const std::string& spawnpoint) const
 {
   SpawnPointMarker* sp = get_spawn_point(spawnpoint);
   if (sp)
@@ -284,8 +286,10 @@ Sector::activate(const Vector& player_pos)
   }
 
   // Run init script
-  if (!m_init_script.empty() && !Editor::is_active()) {
+  if (!m_init_script.empty() && !Editor::is_active() && !m_init_script_run) {
     run_script(m_init_script, "init-script");
+    if (m_init_script_run_once)
+      m_init_script_run = true;
   }
 
   // Do not interpolate camera after it has been warped
@@ -313,11 +317,11 @@ Sector::deactivate()
 Rectf
 Sector::get_active_region() const
 {
-  Camera& camera = get_camera();
+  auto cam_translation = get_camera().get_translation();
   return Rectf(
-    camera.get_translation() - Vector(1600, 1200),
-    camera.get_translation() + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
-                                                           static_cast<float>(SCREEN_HEIGHT)));
+    cam_translation - Vector(1600, 1200),
+    cam_translation + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
+                                                  static_cast<float>(SCREEN_HEIGHT)));
 }
 
 int
@@ -773,6 +777,10 @@ Sector::save(Writer &writer)
 
   if (m_init_script.size()) {
     writer.write("init-script", m_init_script,false);
+  }
+
+  if (m_init_script_run_once) {
+    writer.write("init-script-run-once", m_init_script_run_once);
   }
 
   // saving objects;

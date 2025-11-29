@@ -59,8 +59,6 @@ private:
   Timer m_shake_timer;
   float m_shake_delta;
 
-  SpritePtr m_rock_particles;
-
 private:
   CorruptedGranitoBig(const CorruptedGranitoBig&) = delete;
   CorruptedGranitoBig& operator=(const CorruptedGranitoBig&) = delete;

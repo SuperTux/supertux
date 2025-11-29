@@ -35,6 +35,8 @@ public:
 
   SpritePtr clone() const;
 
+  void apply_config(const SpriteConfig& config);
+
   /** Draw sprite, automatically calculates next frame */
   void draw(Canvas& canvas, const Vector& pos, int layer,
             Flip flip = NO_FLIP);
@@ -42,22 +44,22 @@ public:
                    Flip flip = NO_FLIP);
 
   /** Set action (or state) */
-  void set_action(const std::string& name, int loops = -1);
+  bool set_action(const std::string& name, int loops = -1);
 
   /** Composes action (or state) string from an action name and a particular direction
    * in the form of "name-direction", eg. "walk-left"
    */
-  void set_action(const std::string& name, const Direction& dir, int loops = -1);
+  bool set_action(const std::string& name, const Direction& dir, int loops = -1);
 
   /** Composes action (or state) string from an action name and a particular direction
    * in the form of "direction-name", eg. "left-up"
    */
-  void set_action(const Direction& dir, const std::string& name, int loops = -1);
+  bool set_action(const Direction& dir, const std::string& name, int loops = -1);
 
   /** Composes action (or state) string from a particular direction
    * in the form of "direction", e.g. "left"
    */
-  void set_action(const Direction& dir, int loops = -1);
+  bool set_action(const Direction& dir, int loops = -1);
 
   /** Set number of animation cycles until animation stops */
   inline void set_animation_loops(int loops = -1) { m_animation_loops = loops; }
@@ -87,6 +89,15 @@ public:
   /** Get current action name */
   inline const std::string& get_action() const { return m_action->name; }
 
+  /** Get custom linked sprites */
+  const std::vector<SpriteData::LinkedSprite>& get_custom_linked_sprites() const;
+  std::vector<SpritePtr> create_custom_linked_sprites(bool light) const;
+
+  /** Get linked sprite by key */
+  bool has_linked_sprite(const std::string& key) const;
+  const SpriteData::LinkedSprite& get_linked_sprite(const std::string& key) const;
+  SpritePtr create_linked_sprite(const std::string& key) const;
+
   int get_width() const;
   int get_height() const;
 
@@ -112,7 +123,8 @@ public:
   inline float get_angle() const { return m_angle; }
 
   inline void set_color(const Color& color) { m_color = color; }
-  inline Color get_color() const { return m_color; }
+  inline const Color& get_color() const { return m_color; }
+  inline Color& get_color() { return m_color; }
 
   inline void set_alpha(float alpha) { m_alpha = alpha; }
   inline float get_alpha() const { return m_alpha; }
@@ -134,13 +146,14 @@ private:
   float m_frame;
   // between 0 and get_frames()
   int m_frameidx;
-  int m_animation_loops;
   float m_last_ticks;
+  bool m_is_paused;
+
+  int m_animation_loops;
   float m_angle;
   float m_alpha;
   Color m_color;
   Blend m_blend;
-  bool m_is_paused;
 
   const SpriteData::Action* m_action;
 

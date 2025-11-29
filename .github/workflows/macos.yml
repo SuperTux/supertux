@@ -31,11 +31,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13]
+        os: [macos-14]
         build_type: [Debug, Release]
+        arch: [arm64, x86_64]
         include:
-          - os: macos-13
+          - os: macos-14
             build_type: Release
+            arch: arm64
+            release: ON
+          - os: macos-14
+            build_type: Release
+            arch: x86_64
             release: ON
 
     runs-on: ${{ matrix.os }}
@@ -46,13 +52,35 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
-      - name: Install macos dependencies
-        if: ${{ matrix.os == 'macos-13' }}
+      - name: Install macos dependencies (ARM)
+        if: ${{ matrix.os == 'macos-14' && matrix.arch == 'arm64' }}
         run: |
-          # Use GLM 1.0.0 as later versions don't build with clang
-          HOMEBREW_NO_AUTO_UPDATE=1 brew install --formula ./mk/brew/glm.rb --build-from-source
-          brew install cmake bash rename libogg libvorbis glew \
-                       openal-soft sdl2 sdl2_image libraqm freetype \
+          brew install cmake bash rename libogg libvorbis glew glm \
+                       openal-soft sdl2 sdl2_image libraqm freetype libpng \
+                       glib gtk-doc zlib physfs fmt
+
+          install_name_tool -change \
+            '@rpath/libsharpyuv.0.dylib' \
+            /opt/homebrew/opt/webp/lib/libsharpyuv.0.dylib \
+            /opt/homebrew/opt/webp/lib/libwebp.7.dylib
+          install_name_tool -change \
+            '@rpath/libjxl_cms.0.11.dylib' \
+            /opt/homebrew/opt/jpeg-xl/lib/libjxl_cms.0.11.dylib \
+            /opt/homebrew/opt/jpeg-xl/lib/libjxl.dylib
+
+          # Something funky happens with freetype if mono is left
+          sudo mv /Library/Frameworks/Mono.framework                           \
+                  /Library/Frameworks/Mono.framework-disabled
+
+      - name: Install macos dependencies (Intel)
+        if: ${{ matrix.os == 'macos-14' && matrix.arch == 'x86_64' }}
+        run: |
+          # Install x86_64 Homebrew and dependencies using Rosetta 2
+          arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          # Remove pre-installed Python symlinks that conflict with Homebrew Python
+          sudo rm -f /usr/local/bin/idle3* /usr/local/bin/pip3* /usr/local/bin/pydoc3* /usr/local/bin/python3* || true
+          arch -x86_64 /usr/local/bin/brew install cmake bash rename libogg libvorbis glew glm \
+                       openal-soft sdl2 sdl2_image libraqm freetype libpng \
                        glib gtk-doc zlib physfs fmt
 
           install_name_tool -change \
@@ -88,14 +116,15 @@ jobs:
           GIT_HASH: ${{ steps.slugify.outputs.sha }}
           GIT_BRANCH: ${{ steps.slugify.outputs.branch }}
           BUILD_TYPE: ${{ matrix.build_type }}
-          PKG_CONFIG_PATH: /usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig
+          BUILD_ARCH: ${{ matrix.arch }}
         run: |
-          GIT_TAG="$(git describe --tags --abbrev=0)"
+          GIT_TAG="$(git describe --tags --abbrev=0 --always)"
 
           echo "Git information:"
           echo "- GIT_TAG: $GIT_TAG"
           echo "- GIT_HASH: $GIT_HASH"
           echo "- GIT_BRANCH: $GIT_BRANCH"
+          echo "- BUILD_ARCH: $BUILD_ARCH"
 
           cmake --version
           $CXX --version
@@ -103,7 +132,16 @@ jobs:
           mkdir "build"
           cd "build"
 
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH                        \
+          # Set architecture-specific flags and PKG_CONFIG_PATH
+          CMAKE_ARCH_FLAGS=""
+          if [ "$BUILD_ARCH" = "x86_64" ]; then
+            CMAKE_ARCH_FLAGS="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0 -DCMAKE_PREFIX_PATH=/usr/local"
+            export PKG_CONFIG_PATH="/usr/local/opt/openal-soft/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig:/usr/local/opt/freetype/lib/pkgconfig:/usr/local/opt/libpng/lib/pkgconfig"
+          else
+            export PKG_CONFIG_PATH="/opt/homebrew/opt/openal-soft/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig"
+          fi
+
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $CMAKE_ARCH_FLAGS             \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
                    -DSUPERTUX_PACKAGE_VERSION="$GIT_TAG dev - $GIT_HASH ($GIT_BRANCH) (CI ARTIFACT)" \
                    -DSUPERTUX_VERSION_STRING="$GIT_BRANCH-$GIT_HASH"           \
@@ -134,7 +172,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: matrix.build_type != 'Debug'
         with:
-          name: "${{ matrix.os }}-${{ matrix.build_type }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-dmg"
+          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.build_type }}-${{ steps.slugify.outputs.branch }}-${{ steps.slugify.outputs.sha }}-dmg"
           path: build/upload/*.dmg
           if-no-files-found: ignore
 
@@ -161,10 +199,12 @@ jobs:
       - name: Prepare Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'
         env:
-          OS: ${{ matrix.os }}
+          BUILD_ARCH: ${{ matrix.arch }}
         run: |
-          if [ "$OS" = "macos-13" ]; then
-            rename 's/.dmg/-13.dmg/' build/upload/SuperTux-*
+          if [ "$BUILD_ARCH" = "arm64" ]; then
+            rename 's/.dmg/-arm64.dmg/' build/upload/SuperTux-*
+          elif [ "$BUILD_ARCH" = "x86_64" ]; then
+            rename 's/.dmg/-x86_64.dmg/' build/upload/SuperTux-*
           fi
 
       - name: Create Release

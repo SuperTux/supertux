@@ -24,27 +24,16 @@
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const Color TORCH_LIGHT_COLOR = Color(0.87f, 0.64f, 0.12f); /** Color of the light specific to the torch firefly sprite. */
-static const Vector TORCH_LIGHT_OFFSET = Vector(0, 12); /** Offset of the light specific to the torch firefly sprite. */
-
 Firefly::Firefly(const ReaderMapping& mapping) :
-   MovingSprite(mapping, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
-   m_sprite_light(),
-   activated(false),
-   initial_position(get_pos())
+  MovingSprite(mapping, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+  activated(false),
+  initial_position(get_pos())
 {
-  if (m_sprite_name.find("torch", 0) != std::string::npos) {
-    m_sprite_light = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite");
-    m_sprite_light->set_blend(Blend::ADD);
-    m_sprite_light->set_color(TORCH_LIGHT_COLOR);
-  }
-
   update_state();
 
   // Load sound.
@@ -62,11 +51,15 @@ Firefly::Firefly(const ReaderMapping& mapping) :
 void
 Firefly::draw(DrawingContext& context)
 {
-  MovingSprite::draw(context);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  if (m_sprite_name.find("torch", 0) != std::string::npos && (activated ||
-        m_sprite->get_action() == "ringing")) {
-    m_sprite_light->draw(context.light(), m_col.m_bbox.get_middle() + (m_flip == NO_FLIP ? -TORCH_LIGHT_OFFSET : TORCH_LIGHT_OFFSET), 0);
+  for (auto& sprite : m_custom_sprites)
+    sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+  if (activated || m_sprite->get_action() == "ringing")
+  {
+    for (auto& sprite : m_light_sprites)
+      sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0, m_flip);
   }
 }
 
@@ -116,7 +109,7 @@ Firefly::collision(MovingObject& other, const CollisionHit& )
       float vy = -cosf(angle)*velocity;
       Vector pspeed = Vector(vx, vy);
       Vector paccel = Vector(0.0f, 1000.0f);
-      Sector::get().add<SpriteParticle>("images/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1);
+      Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite("reset"), ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1);
     }
 
     if ( m_sprite_name.find("vbell", 0) != std::string::npos ) {

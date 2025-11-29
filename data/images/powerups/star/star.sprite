@@ -8,4 +8,16 @@
                  "star-4.png"
                  "star-3.png"
                  "star-2.png"
-                 "star-1.png")))
+                 "star-1.png"))
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+      (action "default")
+      (color 0.4 0.4 0.4)
+    )
+    (sparkle
+      (file "images/particles/sparkle.sprite")
+    )
+  )
+)

@@ -3,4 +3,10 @@
     (name "default")
     (images "root.png")
   )
+
+  (linked-sprites
+    (base
+      (file "root_base.sprite")
+    )
+  )
 )

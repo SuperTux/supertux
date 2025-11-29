@@ -1,9 +1,19 @@
 (supertux-sprite
-       (action
-         (name "default")
-	 (fps 12)
-         (images "ice_flower-0.png"
-                 "ice_flower-1.png"
-                 "ice_flower-2.png"
-                 "ice_flower-3.png"
-                 "ice_flower-4.png")))
+  (action
+    (name "default")
+  (fps 12)
+    (images "ice_flower-0.png"
+            "ice_flower-1.png"
+            "ice_flower-2.png"
+            "ice_flower-3.png"
+            "ice_flower-4.png"))
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+      (action "default")
+      (color 0 0.1 0.2)
+    )
+  )
+)
+

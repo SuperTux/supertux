@@ -8,4 +8,18 @@
 		(name "silver-left")
 		(hitbox 0 2 48 28)
 		(mirror-action "silver-right"))
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+    )
+    (sparkle-small
+      (file "images/particles/sparkle.sprite")
+      (action "small")
+    )
+    (sparkle-collect
+      (file "images/particles/sparkle.sprite")
+      (action "small-key-collect")
+    )
+  )
 )

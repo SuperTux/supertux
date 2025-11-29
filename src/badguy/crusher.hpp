@@ -73,7 +73,6 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual void after_editor_set() override;
-  void after_sprite_set();
 
   static std::string class_name() { return "crusher"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -94,9 +93,13 @@ public:
 
   virtual void on_flip(float height) override;
 
+protected:
+  LinkedSprites get_linked_sprites() override;
+
 private:
   bool should_crush();
   bool should_finish_crushing(const CollisionHit& hit) const;
+  bool should_finish_recovering(const CollisionHit& hit) const;
   bool has_recovered();
   Rectf get_detect_box(CrusherDirection dir = CrusherDirection::ALL);
 
@@ -113,7 +116,13 @@ private:
   void spawn_roots(const CollisionHit& hit_info);
   void spawn_particles(const CollisionHit& hit_info);
 
-  inline std::string get_crush_sound() const;
+  inline std::string get_crush_sound() const
+  {
+    return m_ic_type == ICE ? "sounds/brick.wav" : "sounds/thud.ogg";
+  }
+
+  bool found_victim() const;
+  bool not_ice() const;
 
   Vector eye_position(bool right) const;
 
@@ -128,10 +137,11 @@ private:
   Physic m_physic;
   Vector m_dir_vector;
   CollisionObject* m_target;
+  bool m_flipped;
 
-  SurfacePtr m_whites;
-  SurfacePtr m_lefteye;
-  SurfacePtr m_righteye;
+  SpritePtr m_whites;
+  SpritePtr m_lefteye;
+  SpritePtr m_righteye;
 
   std::string m_crush_script;
 

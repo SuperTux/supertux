@@ -23,6 +23,12 @@
       "sparkle-dark-1.png"
       "sparkle-dark-0.png"
     )
+    (linked-sprites
+      (custom-light
+        (file "images/objects/lightmap_light/lightmap_light-tiny.sprite")
+        (color 0.1 0.1 0.1)
+      )
+    )
   )
   (action
     (name "medium")
@@ -32,6 +38,12 @@
       "sparkle-0.png"
       "sparkle-1.png"
       "sparkle-0.png"
+    )
+  )
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-tiny.sprite")
     )
   )
 )

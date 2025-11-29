@@ -29,18 +29,25 @@ const float DiveMine::s_max_float_acceleration = 15.f;
 
 DiveMine::DiveMine(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dive_mine/dive_mine.sprite"),
-  m_ticking_glow(SpriteManager::current()->create("images/creatures/dive_mine/ticking_glow/ticking_glow.sprite")),
+  m_ticking_glow(m_sprite->create_linked_sprite("ticking-glow")),
   m_chasing(true)
 {
   reset_sprites();
   m_water_affected = false;
 }
 
+MovingSprite::LinkedSprites
+DiveMine::get_linked_sprites()
+{
+  return {
+    { "ticking-glow", m_ticking_glow }
+  };
+}
+
 void
 DiveMine::reset_sprites()
 {
   set_action(m_dir);
-  m_ticking_glow->set_action("idle");
 }
 
 void
@@ -172,8 +179,6 @@ DiveMine::active_update(float dt_sec)
     }
 
     set_action("ticking", m_dir);
-    m_ticking_glow->set_action("ticking");
-
     m_physic.set_velocity(glm::normalize(dist) * s_swim_speed);
   }
   else

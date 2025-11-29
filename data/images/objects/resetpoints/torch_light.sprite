@@ -1,0 +1,8 @@
+(supertux-sprite
+    (action
+      (name "default")
+      (images "../lightmap_light/lightmap_light-small.png")
+      (hitbox 64 76 0 0)
+      (flip-offset 48)
+    )
+)

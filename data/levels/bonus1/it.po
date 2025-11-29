@@ -5,7 +5,7 @@
 # Translators:
 # Angela <angelapellegrino@hotmail.it>, 2014
 # A-TNT DC, 2021
-# Ioma Taani, 2015
+# aaaaaaaa, 2015
 # Seb47 <seb47tv@gmail.com>, 2016
 # Andrius Štikonas <andrius@stikonas.eu>, 2006
 msgid ""

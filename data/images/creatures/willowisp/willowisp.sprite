@@ -38,5 +38,11 @@
       "warping-4.png"
       )
     )
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+    )
   )
+)
 

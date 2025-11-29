@@ -57,4 +57,16 @@ public:
   bool crush;
 
   Vector slope_normal;
+  
+  inline bool has_direction() const {
+    return left || right || top || bottom;
+  }
+
+  inline bool is_vertical() const {
+    return top || bottom;
+  }
+
+  inline bool is_horizontal() const {
+    return left || right;
+  }
 };

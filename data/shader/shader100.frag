@@ -10,13 +10,14 @@ uniform float backbuffer;
 uniform float game_time;
 uniform vec2 animate;
 uniform vec2 displacement_animate;
+uniform bool is_displacement;
 
 varying vec2 texcoord_var;
 varying vec4 diffuse_var;
 
 void main(void)
 {
-  if (backbuffer == 0.0)
+  if (backbuffer == 0.0 || !is_displacement)
   {
     vec4 color = diffuse_var * texture2D(diffuse_texture, texcoord_var.st + (animate * game_time));
     gl_FragColor = color;

@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2019
-# Ioma Taani, 2019
+# aaaaaaaa, 2019
 # PoketMarty, 2024
 # 
 #, fuzzy

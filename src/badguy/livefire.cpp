@@ -30,8 +30,6 @@ LiveFire::LiveFire(const ReaderMapping& reader) :
 {
   walk_speed = 80;
   set_ledge_behavior(LedgeBehavior::SMART);
-  m_lightsprite->set_color(Color(0.89f, 0.75f, 0.44f));
-  m_glowing = true;
 }
 
 void
@@ -122,8 +120,8 @@ LiveFire::kill_fall()
   Vector ppos = m_col.m_bbox.get_middle();
   Vector pspeed = Vector(0, -150);
   Vector paccel = Vector(0,0);
-  Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
-                                         "default", ppos, ANCHOR_MIDDLE,
+  Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite("smoke"),
+                                         ppos, ANCHOR_MIDDLE,
                                          pspeed, paccel,
                                          LAYER_BACKGROUNDTILES+2);
   // Extinguish the flame.
@@ -131,8 +129,10 @@ LiveFire::kill_fall()
   m_physic.set_velocity_y(0);
   m_physic.set_acceleration_y(0);
   m_physic.enable_gravity(false);
-  m_lightsprite->set_blend(Blend::ADD);
-  m_lightsprite->set_color(Color(1.0f, 0.9f, 0.8f));
+
+  for (auto& sprite : m_light_sprites)
+    sprite->set_color(Color(1.0f, 0.9f, 0.8f));
+
   set_group(COLGROUP_DISABLED);
   state = STATE_DEAD;
 
