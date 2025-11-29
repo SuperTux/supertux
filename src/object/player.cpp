@@ -2337,7 +2337,7 @@ Player::update_hitbox()
 }
 
 void
-Player::collision_solid(const CollisionHit& hit)
+Player::handle_collision_logic(const CollisionHit& hit)
 {
   if (hit.bottom) {
     if (m_physic.get_velocity_y() > 0)
@@ -2390,6 +2390,12 @@ Player::collision_solid(const CollisionHit& hit)
     m_boost = 0.f;
 }
 
+void
+Player::collision_solid(const CollisionHit& hit)
+{
+  handle_collision_logic(hit);
+}
+
 HitResponse
 Player::collision(MovingObject& other, const CollisionHit& hit)
 {
@@ -2422,9 +2428,9 @@ Player::collision(MovingObject& other, const CollisionHit& hit)
       return FORCE_MOVE;
     if (m_stone)
       return ABORT_MOVE;
-
-    if (hit.bottom && badguy->is_frozen())
-      m_on_ground_flag = true;
+    if (badguy->is_frozen() && badguy->get_physic().get_velocity_y() != 0) {
+      handle_collision_logic(hit);
+    }
   }
 
   return CONTINUE;

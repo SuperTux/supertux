@@ -187,7 +187,7 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 
   update_on_ground_flag(hit);
 
-  if (m_frozen)
+  if (m_frozen || !is_active())
   {
     BadGuy::collision_solid(hit);
     return;

@@ -99,6 +99,7 @@ protected:
 private:
   bool should_crush();
   bool should_finish_crushing(const CollisionHit& hit) const;
+  bool should_finish_recovering(const CollisionHit& hit) const;
   bool has_recovered();
   Rectf get_detect_box(CrusherDirection dir = CrusherDirection::ALL);
 
@@ -136,6 +137,7 @@ private:
   Physic m_physic;
   Vector m_dir_vector;
   CollisionObject* m_target;
+  bool m_flipped;
 
   SpritePtr m_whites;
   SpritePtr m_lefteye;

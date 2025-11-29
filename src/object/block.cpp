@@ -65,8 +65,12 @@ Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
 }
 
 HitResponse
-Block::collision(MovingObject& other, const CollisionHit& )
+Block::collision(MovingObject& other, const CollisionHit& hit_)
 {
+  if (!hit_.has_direction()) {
+    return FORCE_MOVE;
+  }
+
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
