@@ -5,14 +5,14 @@
 # Translators:
 # Любомир Василев, 2015-2016
 # Любомир Василев, 2016,2018-2019
-# Любомир Василев, 2021
+# Любомир Василев, 2021,2025
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-08-25 10:47+0000\n"
+"POT-Creation-Date: 2025-10-22 21:59+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Любомир Василев, 2021\n"
+"Last-Translator: Любомир Василев, 2021,2025\n"
 "Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,41 +24,28 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "„Въздушна“ №23"
 
-#: data/levels/world1/23rd_airborne.stl:598
-#: data/levels/world1/between_glaciers.stl:855
-#: data/levels/world1/between_glaciers.stl:863
-#: data/levels/world1/crystal_mine.stl:1535
-#: data/levels/world1/crystal_mine.stl:1543
-#: data/levels/world1/frosted_fields.stl:188
-#: data/levels/world1/path_in_the_clouds.stl:348
-#: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
-msgid "You found a secret area!"
-msgstr "Ти откри тайно място!"
-
 #: data/levels/world1/above_arctic_skies.stl:3
-msgid "Above the Arctic Skies"
-msgstr "В арктическите небеса"
+msgid "Above the Antarctic Skies"
+msgstr "В антарктическите небеса"
 
-#: data/levels/world1/above_arctic_skies.stl:162
+#: data/levels/world1/above_arctic_skies.stl:318
 msgid ""
-"-Air Flower\n"
-"!images/powerups/airflower/air_flower-0.png\n"
-"#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-Въздушно цвете\n!images/powerups/airflower/air_flower-0.png\n#Въздушното цвете дава на Тъкс способността да се носи във въздуха за няколко секунди, като задържиш бутона за СКОК."
+"-Air Flower\r\n"
+"!images/powerups/airflower/air_flower-0.png\r\n"
+"#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
+msgstr "-Въздушно цвете\r\n!images/powerups/airflower/air_flower-0.png\r\n#Въздушното цвете позволява на Тъкс да се движи по-бързо и да скача по-високо. Също така му дава способността да се носи във въздуха за няколко секунди, като след скачането задържиш бутона за СКОК."
+
+#: data/levels/world1/antarctic_outpost.stl:3
+msgid "Antarctic Outpost"
+msgstr "Антарктически аванпост"
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
 msgstr "Между два ледника"
 
-#: data/levels/world1/between_glaciers.stl:108
-msgid ""
-"-Crystals\n"
-"#This level contains four coloured crystals. Can you find them?\n"
-"#\n"
-"#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "-Кристали\n#В това ниво има четири цветни кристала. Можеш ли да ги намериш?\n#\n#Забележка: В момента кристалите не се използват за нищо, но това може да се промени в някоя следваща версия на играта."
+#: data/levels/world1/bouncy_mountainside.stl:3
+msgid "Bouncy, Bouncy Mountainside"
+msgstr "Скокливо планинарство"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -68,9 +55,9 @@ msgstr "Замъкът на Нолок"
 msgid "The Crystal Mine"
 msgstr "Кристалната мина"
 
-#: data/levels/world1/crystal_mine.stl:686
-msgid "#You have to activate two switches to open this door."
-msgstr "#Трябва да включиш два превключвателя, за да отвориш тази врата."
+#: data/levels/world1/deep_dive_chill.stl:3
+msgid "Deep Dive 'n' Chill"
+msgstr "Дълбоко разпускане"
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
@@ -81,53 +68,22 @@ msgid "Entrance to the Cave"
 msgstr "Входът на пещерата"
 
 #: data/levels/world1/fork_in_the_road.stl:3
-msgid "A Fork in the Road"
-msgstr "Пътят се разделя"
+msgid "A Fork in the Road?"
+msgstr "Пътят се разделя?"
 
-#: data/levels/world1/fork_in_the_road.stl:84
+#: data/levels/world1/fork_in_the_road.stl:750
 msgid ""
-"-Switches\n"
-"!images/objects/switch/switch-0.png\n"
-"!images/objects/pushbutton/pushbutton-0.png\n"
-"#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
-"#There are also buttons that you can press by jumping on them."
-msgstr "-Превключватели\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Превключватели могат да правят различни неща. Натисни НАГОРЕ, за да използваш превключвател.\n#Има и бутони, които могат да се натискат като скочиш върху тях."
-
-#: data/levels/world1/fork_in_the_road.stl:93
-msgid ""
-"-Trampolines\n"
-"!images/objects/trampoline/trampoline2-0.png\n"
-"#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "-Трамплини\n!images/objects/trampoline/trampoline2-0.png\n#Трамплините помагат на Тъкс да скача по-високо. Задръж бутона за СКОК, докато подскачаш върху трамплина, за да скочиш още по-високо."
-
-#: data/levels/world1/fork_in_the_road.stl:100
-msgid ""
-"-Climbing\n"
-"#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "-Катерене\n#Тъкс може да се катери! Натисни НАГОРЕ, за да започнеш да се катериш. Натисни ДЕЙСТВИЕ, за да скочиш или да се пуснеш."
-
-#: data/levels/world1/fork_in_the_road.stl:106
-msgid ""
-"-Secret Exits\n"
-"#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
-"#Maybe they lead you to something special."
-msgstr "-Тайни изходи\n#Някои нива могат да имат повече от едни изход. Обикновено те са скрити, така че се оглеждай за тях.\n#Може да те отведат до нещо специално."
+"-Secret Exit\n"
+"#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
+msgstr "-Таен изход\n#В някои нива може да има таен изход, чрез който да се появи скрит, различен път! Оглеждай се за подозрителни местенца по голямата карта."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
 msgstr "Замръзналите полета"
 
-#: data/levels/world1/frozen_bridge.stl:3
-msgid "Over the Frozen Bridge"
-msgstr "През замръзналия мост"
-
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
 msgstr "Лед в дупката"
-
-#: data/levels/world1/icy_valley.stl:3
-msgid "Icy Valley"
-msgstr "Ледена долина"
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -142,16 +98,26 @@ msgid "The Journey Begins"
 msgstr "Пътешествието започва"
 
 #: data/levels/world1/living_inside_fridge.stl:3
-msgid "Living in a Fridge"
+msgid "Living In A Fridge"
 msgstr "Живот в хладилник"
-
-#: data/levels/world1/miyamoto_monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "Паметникът „Миямото“"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
 msgstr "О, не! Още снежни топки!"
+
+#: data/levels/world1/more_snowballs.stl:290
+msgid ""
+"-Carrying Objects\r\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-Носене на предмети\r\n#Тъкс може да взема предмети от земята като задържиш бутона за ДЕЙСТВИЕ. Пусни бутона за ДЕЙСТВИЕ, докато Тъкс стои неподвижно, за да го накараш да пусне предмета.\r\n#Ако пуснеш бутона за ДЕЙСТВИЕ, докато Тъкс се движи, той ще хвърли предмета!"
+
+#: data/levels/world1/more_snowballs.stl:299
+msgid ""
+"-Up-Throwing\r\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\r\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-Хвърляне нагоре\r\n#Тъкс може да хвърля повечето предмети нагоре, като задържиш бутона НАГОРЕ и пуснеш бутона за ДЕЙСТВИЕ.\r\n#Ако в това време Тъкс тича, предметът ще излети в парабола!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -161,7 +127,7 @@ msgstr "Среднощен мраз"
 msgid "...Or Is It Just Me?"
 msgstr "…или само аз си мисля така?"
 
-#: data/levels/world1/path_in_the_clouds.stl:3
+#: data/levels/world1/path_in_clouds.stl:3
 msgid "A Path in the Clouds"
 msgstr "Път през облаците"
 
@@ -187,6 +153,52 @@ msgstr "Не знаейки какво ще направи с нея Нолок,
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
 msgstr "Докато изведнъж…"
+
+#: data/levels/world1/scripts_crystal_mine.txt:2
+msgid ""
+"After a long swim across the antarctic waters, Tux arrived at the Glacier "
+"Isles the Yeti told him about."
+msgstr "След дълго плуване през антарктическите води, Тъкс пристигна на Ледниковите острови, за които Йети му беше разказвал."
+
+#: data/levels/world1/scripts_crystal_mine.txt:3
+msgid ""
+"A massive shaft layed before him leading down into the aforementioned "
+"Crystal Mine."
+msgstr "Пред него имаше огромна шахта, водеща до споменатата Кристална мина."
+
+#: data/levels/world1/scripts_crystal_mine.txt:4
+msgid ""
+"Still carrying a spark of doubt that this was not a trap, Tux slowly "
+"descended into the depths once more..."
+msgstr "С нестихващи подозрения, че това може да е капан, Тъкс бавно се спусна още веднъж в дълбините…"
+
+#: data/levels/world1/scripts_crystal_mine.txt:5
+msgid ""
+"At last, Tux made it through the crystal mine and found himself on the "
+"opposite end of the Glacier Isle."
+msgstr "Най-после Тъкс успя да премине през Кристалната мина и се озова на другия край на Ледниковия остров."
+
+#: data/levels/world1/scripts_crystal_mine.txt:6
+msgid ""
+"As he was about the exit the mine, internally Tux was hoping that all the "
+"yeti said was true."
+msgstr "Излизайки от мината, Тъкс вътрешно се надяваше, че Йети не го е подвел."
+
+#: data/levels/world1/scripts_crystal_mine.txt:7
+msgid ""
+"To his relief, Tux did find a boat still docked. With it he could sail up "
+"north, to the aforementioned forest."
+msgstr "За щастие, Тъкс намери лодката вързана на брега. С нея той щеше да отплава на север, към споменатата гора."
+
+#: data/levels/world1/scripts_crystal_mine.txt:8
+msgid "Seems like the yeti did not lie to him after all."
+msgstr "Изглежда Йети все пак не го беше излъгал."
+
+#: data/levels/world1/scripts_crystal_mine.txt:9
+msgid ""
+"The more he thought about it, he probably wasn't even meant to know about "
+"all this in the first place..."
+msgstr "Колкото повече мислеше за това, осъзнаваше, че може би дори не е трябвало да знае за всичко това…"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -251,82 +263,78 @@ msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "…надявайки се да не се натъкне отново на йетито."
 
 #: data/levels/world1/shattered_bridge.stl:3
-msgid "The Shattered Bridge"
+msgid "Shattered Bridge"
 msgstr "Разрушеният мост"
+
+#: data/levels/world1/slippery_slide.stl:3
+msgid "Slippery Slide"
+msgstr "Хлъзгава пързалка"
 
 #: data/levels/world1/somewhat_smaller_bath.stl:3
 msgid "The Somewhat Smaller Bath"
 msgstr "Някак по-малката баня"
 
+#: data/levels/world1/somewhat_smaller_bath.stl:420
+msgid ""
+"-Swimming\n"
+"!images/creatures/tux/big/swim-1.png\n"
+"#When submerged in water, use the DIRECTIONAL keys to swim around freely. Hold the JUMP key to swim even faster."
+msgstr "-Плуване\n!images/creatures/tux/big/swim-1.png\n#Когато си във вода, използвай бутоните за ПОСОКИТЕ, за да плуваш свободно наоколо. Задръж СКОК, за да плуваш още по-бързо."
+
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
 msgstr "Кучи студ"
+
+#: data/levels/world1/stone_cold.stl:191
+msgid ""
+"-Carrying Objects\r\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\r\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-Носене на предмети\r\n#Тъкс може да взема предмети от земята като задържиш бутона за ДЕЙСТВИЕ. Пускането на бутона за ДЕЙСТВИЕ ще накара Тъкс да пусне предмета.\r\n#Ако пуснеш бутона за ДЕЙСТВИЕ, докато Тъкс се движи, той ще хвърли предмета!"
+
+#: data/levels/world1/stone_cold.stl:200
+msgid ""
+"-Up-Throwing\r\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\r\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-Хвърляне нагоре\r\n#Тъкс може да хвърля повечето предмети нагоре, като задържиш бутона НАГОРЕ и пуснеш бутона за ДЕЙСТВИЕ.\r\n#Ако в това време Тъкс тича, предметът ще излети в парабола!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
 msgstr "Под леда"
 
-#: data/levels/world1/via_nostalgica.stl:3
-msgid "Via Nostalgica"
-msgstr "Пътят на носталгията"
-
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Добре дошли в Антарктида"
 
-#: data/levels/world1/welcome_antarctica.stl:74
-msgid ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
-"#\n"
-"#Hit them from below to get at their contents."
-msgstr "-Блокчета с награди\n!images/objects/bonus_block/full-0.png\n#Блокчетата с награди може да съдържат монети, придобивки или специални предмети, които да ти помогнат в мисията ти.\n#\n#Удари ги отдолу, за да вземеш това, което е вътре."
-
-#: data/levels/world1/welcome_antarctica.stl:83
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Яйца\n!images/powerups/egg/egg-shade.png\n#Яйцето прави Тъкс по-голям. Когато Тъкс е голям, той може да разбива дървените блокчета с глава."
 
-#: data/levels/world1/welcome_antarctica.stl:90
-msgid ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Контролни точки\n!images/objects/resetpoints/bell-m.png\n#Активирай контролната точка. Ако умреш, можеш да започнеш пак от тук. Всеки пък, когато се връщаш към контролна точка, ще губиш 10% от монетите си (но задължително поне 25 монети)."
-
-#: data/levels/world1/welcome_antarctica.stl:97
-msgid ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Тичане\n!images/tiles/signs/run.png\n#Пътят пред теб е препречен. Засили се, преди да скочиш, за да преминеш над блокчетата."
-
-#: data/levels/world1/welcome_antarctica.stl:104
+#: data/levels/world1/welcome_antarctica.stl:127
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Огнено цвете\n!images/powerups/fireflower/fire_flower-0.png\n#Огненото цвете дава на Тъкс способността да изстрелва огнени топки."
 
-#: data/levels/world1/welcome_antarctica.stl:111
+#: data/levels/world1/welcome_antarctica.stl:136
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux doll gives Tux 100 coins."
+"#The Tux Doll gives Tux 100 coins."
 msgstr "-Кукла Тъкс\n!images/powerups/1up/1up.png\n#Куклата Тъкс дава 100 монети."
-
-#: data/levels/world1/welcome_antarctica.stl:118
-msgid ""
-"-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Тайни места\n#В много от нивата има тайни места зад на пръв поглед нормално изглеждащи стени. Оглеждай се за подсказки, за да ги откриеш."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
 msgstr "Леденият остров"
+
+#: data/levels/world1/worldmap.stwm:210
+msgid "You found a secret area!"
+msgstr "Ти откри тайно място!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"

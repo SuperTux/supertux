@@ -3,24 +3,23 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Salomón Duarte <juanaestelaruizdiaz@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-10-22 21:59+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: Salomón Duarte <juanaestelaruizdiaz@gmail.com>, 2021\n"
-"Language-Team: Spanish (Argentina) (http://app.transifex.com/arctic-games/supertux/language/es_AR/)\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Bosnian (http://app.transifex.com/arctic-games/supertux/language/bs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es_AR\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"Language: bs\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: data/levels/world2/ancient_ruins.stl:3
 msgid "Ancient Ruins"
-msgstr "Ruinas Antiguas"
+msgstr "Drevne ruševine"
 
 #: data/levels/world2/ancient_ruins.stl:1463
 #: data/levels/world2/ancient_ruins.stl:1471
@@ -39,119 +38,119 @@ msgstr "Ruinas Antiguas"
 #: data/levels/world2/wooden_roots.stl:285
 #: data/levels/world2/worldmap.stwm:223
 msgid "You found a secret area!"
-msgstr "¡Encontraste un área secreta!"
+msgstr "Pronašli ste tajno područje!"
 
 #: data/levels/world2/beside_bushes.stl:3
 msgid "Beside the Bushes"
-msgstr "Detrás de los arbustos"
+msgstr "Pored grmlja"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
-msgstr "Bobinas saltarines"
+msgstr "Napuhane zavojnice"
 
 #: data/levels/world2/bye_bye_forest.stl:3
 msgid "Bye Bye Forest"
-msgstr "Adiós, Bosque"
+msgstr "Zbogom, šumo"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
-msgstr "Camino inestable"
+msgstr "Raspadajući put"
 
 #: data/levels/world2/darkness_awaits.stl:3
 msgid "Darkness Awaits"
-msgstr "La oscuridad Aguarda"
+msgstr "Tama čeka"
 
 #: data/levels/world2/find_big_fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Encontra el pez más grande!"
+msgstr "Pronađite veću ribu!"
 
 #: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
-msgstr "-Un pez grande... Para vos."
+msgstr "-Velika riba... za tebe."
 
 #: data/levels/world2/forest_intro.stl:3
 msgid "A New Location"
-msgstr "La nueva ubicación"
+msgstr "Nova lokacija"
 
 #: data/levels/world2/ghost_cutscene.stl:3
 msgid "What is Happening?"
-msgstr "¿Qué esta pasando?"
+msgstr "Šta se dešava?"
 
 #: data/levels/world2/ghostly_misery.stl:3
 msgid "Ghostly Misery"
-msgstr "Miseria Fantasmal"
+msgstr "Sablasna patnja"
 
 #: data/levels/world2/ghosttrees_challenges.stl:3
 msgid "Ghosttree's Challenges"
-msgstr "Desafíos del Árbol Fantasma"
+msgstr "Ghosttreeovi izazovi"
 
 #: data/levels/world2/ghouls_lair.stl:3
 msgid "Ghouls' Lair"
-msgstr "La guarida del demonio Necrófago"
+msgstr "Ghulova jazbina"
 
 #: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#Las linternas son usadas para hacer que los bloques mágicos sean sólidos, y que podas caminar en ellos."
+msgstr "#Fajeri se koriste da učvrste magične blokove, tako da možete hodati po njima."
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
-msgstr "Yendo bajo tierra"
+msgstr "Spuštanje pod zemlju"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:3
 msgid "I Spy With My Little Eye"
-msgstr "Veo, Veo"
+msgstr "Špijuniram svojim malim okom"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Ispy\n#Los Ispy se activan cosas como plataformas cuando Tux este a su vista."
+msgstr "-Ispy\n#Ispy će aktivirati stvari poput platformi kad god im se Tux nađe u vidokrugu."
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
-msgstr "Pista: Usa los caracoles para romper bloques!"
+msgstr "Savjet: Koristite puževe za razbijanje blokova!"
 
 #: data/levels/world2/leaf_wind.stl:3
 msgid "Like a leaf in the Wind"
-msgstr "Como una hoja en el Viento"
+msgstr "Kao list na vjetru"
 
 #: data/levels/world2/lost_village.stl:3
 msgid "Lost Village"
-msgstr "Aldea Perdida"
+msgstr "Izgubljeno selo"
 
 #: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
-msgstr "#No te olvides de apretar el interruptor!"
+msgstr "#Ne zaboravite pritisnuti prekidač!"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Una gruta Mohosa"
+msgstr "Pljesniva pećina"
 
 #: data/levels/world2/owls_again.stl:3
 msgid "The Owls again..."
-msgstr "Los Búhos... De nuevo..."
+msgstr "Sove ponovo..."
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
-msgstr "El comando de la Caída Libre de los Búhos"
+msgstr "Padobranski komandos \"Sove\""
 
 #: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Los Pingüinos no crecen en los Árboles"
+msgstr "Pingvini ne rastu na drveću"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Aterrador"
+msgstr "Šokantno"
 
 #: data/levels/world2/the_forest_is_rotting.stl:3
 msgid "The Forest Is Rotting"
-msgstr "El bosque está Putrefacto"
+msgstr "Šuma trune"
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
-msgstr "Atraves de la oscuridad"
+msgstr "Kroz tamu"
 
 #: data/levels/world2/through_dark.stl:96
 msgid ""
@@ -159,15 +158,15 @@ msgid ""
 "!images/powerups/earthflower/earth_flower-1.png\n"
 "#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
 "#This does not work while jumping or falling!"
-msgstr "-Flor de Tierra\n!images/powerups/earthflower/earth_flower-1.png\n#La Flor de Tierra le da la capacidad a Tux de convertirse en piedra presionando la tecla ACCION y ABAJO al mismo tiempo.\n#¡Eso no funciona cuando saltas o cuando te estas cayendo!"
+msgstr "-Zemaljin cvijet\n!images/powerups/earthflower/earth_flower-1.png\n#Zemaljin cvijet daje Tuxu sposobnost da se pretvori u kamen istovremenim pritiskom na tipke za AKCIJU i tipku za DOLJE. #Ovo ne radi prilikom skakanja ili padanja!"
 
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
-msgstr "Torre de Fantasmas"
+msgstr "Kula duhova"
 
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux el Constructor"
+msgstr "Graditelj Tux"
 
 #: data/levels/world2/tux_builder.stl:77
 msgid ""
@@ -175,41 +174,41 @@ msgid ""
 "!images/objects/rock/rock.png\n"
 "#Tux can pick up certain objects and carry them around.\n"
 "#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Objetos Portables\n!images/objects/rock/rock.png\n#Tux puede agarrar ciertos objetos y llevarlos junto a él.\n#Apreta la tecla ACCION para agarrarlo y mantenlo presionado hasta cuando queres para llevar el objeto. Suelta la tecla ACCION para dejar el objeto."
+msgstr "-Prenosivi predmeti:\n!images/objects/rock/rock.png\n#Tux može podići određene predmete i nositi ih okolo.\n#Pritisnite tipku ACTION da biste zgrabili predmet i držite je pritisnutu koliko god želite nositi predmet. Otpustite tipku ACTION da biste ispustili predmet."
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"
-msgstr "El Show de Horror propio de Tux"
+msgstr "Tuxova vlastita horor predstava"
 
 #: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
-msgstr "#Los Poltergeist son pequeños y molestos fantasmitas, que te teletransportaran a lugares diferentes, a menudo, peligrosos."
+msgstr "#Will o' Wisps su mali, dosadni duhovi koji vas prenose na različita, često opasna mjesta."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Hojas Vivientes"
+msgstr "Hodajuće lišće"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
-msgstr "Bienvenido al Bosque"
+msgstr "Dobrodošli u šumu"
 
 #: data/levels/world2/welcome_forest.stl:50
 msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
 "#Tux can go through a door by pressing the UP key."
-msgstr "-Puertas\n!images/objects/door/door-0.png\n#Tux puede atravesar una puerta presionando la tecla ARRIBA."
+msgstr "-Vrata\n!images/objects/door/door-0.png\n#Tux može proći kroz vrata pritiskom na tipku GORE."
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
-msgstr "Raíces de Madera"
+msgstr "Drveni korijeni"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Rooted Forest"
-msgstr "El bosque putrefacto"
+msgstr "Ukorijenjena šuma"
 
 #: data/levels/world2/worldmap.stwm:239
 msgid "To be continued..."
-msgstr "Continuará..."
+msgstr "Nastavak slijedi..."
