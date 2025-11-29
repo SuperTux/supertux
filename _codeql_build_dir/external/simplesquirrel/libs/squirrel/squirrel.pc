@@ -1,0 +1,12 @@
+prefix=/usr/local
+libdir=/usr/local/lib
+includedir=/usr/local/include
+
+Name: squirrel
+Version: 3.2
+Description: The Squirrel programming language
+URL: http://squirrel-lang.org/
+Requires:
+Provides: squirrel3 = 3.2
+Libs: -L${libdir} -lsquirrel -lsqstdlib
+Cflags: -I${includedir}

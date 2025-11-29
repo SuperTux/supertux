@@ -585,10 +585,14 @@ TileMap::draw(DrawingContext& context)
       const SurfacePtr& surface = Editor::is_active() ? tile.get_current_editor_surface() : tile.get_current_surface();
       if (surface) {
         auto& batch = batches[surface];
-        // Reserve space in the vectors on first access to reduce reallocations
+        // Reserve space in the vectors on first access to reduce reallocations.
+        // We divide by 4 as a conservative estimate assuming tiles are spread across
+        // roughly 4 different surface types on average (typical tilemaps use multiple
+        // tile images). This avoids over-allocating while still reducing reallocations.
         if (std::get<0>(batch).empty()) {
-          std::get<0>(batch).reserve(visible_tiles / 4); // Conservative estimate per surface type
-          std::get<1>(batch).reserve(visible_tiles / 4);
+          const size_t estimated_tiles_per_surface = static_cast<size_t>(std::max(1, visible_tiles / 4));
+          std::get<0>(batch).reserve(estimated_tiles_per_surface);
+          std::get<1>(batch).reserve(estimated_tiles_per_surface);
         }
         std::get<0>(batch).emplace_back(surface->get_region());
         std::get<1>(batch).emplace_back(pos,
