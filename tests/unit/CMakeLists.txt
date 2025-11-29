@@ -20,7 +20,7 @@ function(make_unit_test test_name)
   if (mtargs_LIBRARIES)
     target_link_libraries(${test_name} PUBLIC ${mtargs_LIBRARIES})
   endif()
-  if (mtargs_USES_GTEST)
+  if (mtargs_USES_GTEST AND TARGET GTest::gtest)
     target_link_libraries(${test_name} PUBLIC GTest::gtest GTest::gtest_main)
   endif()
   set(all_test_targets "${all_test_targets};${test_name}" CACHE INTERNAL "")
@@ -43,7 +43,7 @@ make_unit_test(CollisionTest SOURCE collision_test.cpp
 # NOTE: DynamicScopedTest is disabled - see comment in dynamic_scoped_test.cpp
 
 # Tests requiring GTest
-if(GTest_FOUND)
+if(TARGET GTest::gtest)
   make_unit_test(SizeTest USES_GTEST SOURCE size_test.cpp
     EXTERNAL math/size.cpp)
 
