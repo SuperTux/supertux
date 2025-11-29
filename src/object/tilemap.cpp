@@ -557,6 +557,10 @@ TileMap::draw(DrawingContext& context)
                      std::tuple<std::vector<Rectf>,
                                 std::vector<Rectf>>> batches;
 
+  // Estimate the number of visible tiles to reserve memory and reduce allocations
+  const int visible_tiles = (t_draw_rect.right - t_draw_rect.left) * (t_draw_rect.bottom - t_draw_rect.top);
+  batches.reserve(16); // Typical tilemaps have a small number of different tile surfaces
+
   for (pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
     for (pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
       int index = ty*m_width + tx;
@@ -580,8 +584,14 @@ TileMap::draw(DrawingContext& context)
 
       const SurfacePtr& surface = Editor::is_active() ? tile.get_current_editor_surface() : tile.get_current_surface();
       if (surface) {
-        std::get<0>(batches[surface]).emplace_back(surface->get_region());
-        std::get<1>(batches[surface]).emplace_back(pos,
+        auto& batch = batches[surface];
+        // Reserve space in the vectors on first access to reduce reallocations
+        if (std::get<0>(batch).empty()) {
+          std::get<0>(batch).reserve(visible_tiles / 4); // Conservative estimate per surface type
+          std::get<1>(batch).reserve(visible_tiles / 4);
+        }
+        std::get<0>(batch).emplace_back(surface->get_region());
+        std::get<1>(batch).emplace_back(pos,
                                                    Sizef(static_cast<float>(surface->get_width()),
                                                          static_cast<float>(surface->get_height())));
       }

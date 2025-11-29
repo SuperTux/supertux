@@ -55,6 +55,11 @@ GameObjectManager::GameObjectManager(bool undo_tracking) :
   m_objects_by_type_index(),
   m_name_resolve_requests()
 {
+  // Pre-allocate space for game objects to avoid frequent reallocations
+  m_gameobjects.reserve(256);
+  m_gameobjects_new.reserve(64);
+  m_solid_tilemaps.reserve(8);
+  m_all_tilemaps.reserve(16);
 }
 
 GameObjectManager::~GameObjectManager()

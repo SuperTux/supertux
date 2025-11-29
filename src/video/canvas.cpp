@@ -189,12 +189,27 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
                            const Color& color,
                            int layer)
 {
-  const size_t len = srcrects.size();
-  draw_surface_batch(surface,
-                     std::move(srcrects),
-                     std::move(dstrects),
-                     std::vector<float>(len, 0.0f),
-                     color, layer);
+  if (!surface) return;
+
+  auto request = new(m_obst) TextureRequest(m_context.transform());
+
+  request->layer = layer;
+  request->flip = m_context.transform().flip ^ surface->get_flip();
+  request->color = color;
+
+  request->srcrects = std::move(srcrects);
+  request->dstrects = std::move(dstrects);
+  // angles vector is left empty for zero-angle batch (performance optimization)
+
+  for (auto& dstrect : request->dstrects)
+  {
+    dstrect = Rectf(apply_translate(dstrect.p1())*scale(), dstrect.get_size()*scale());
+  }
+
+  request->texture = surface->get_texture().get();
+  request->displacement_texture = surface->get_displacement_texture().get();
+
+  m_requests.push_back(request);
 }
 
 void

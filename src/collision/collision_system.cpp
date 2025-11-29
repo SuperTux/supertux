@@ -40,6 +40,8 @@ CollisionSystem::CollisionSystem(Sector& sector) :
   m_objects(),
   m_ground_movement_manager(new CollisionGroundMovementManager)
 {
+  // Pre-allocate space for collision objects to avoid frequent reallocations
+  m_objects.reserve(256);
 }
 
 void

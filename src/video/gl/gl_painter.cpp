@@ -75,7 +75,10 @@ GLPainter::draw_texture(const TextureRequest& request)
   const auto& texture = static_cast<const GLTexture&>(*request.texture);
 
   assert(request.srcrects.size() == request.dstrects.size());
-  assert(request.srcrects.size() == request.angles.size());
+  // angles vector can be empty (for zero-angle batches) or same size as srcrects
+  assert(request.angles.empty() || request.srcrects.size() == request.angles.size());
+
+  const bool has_angles = !request.angles.empty();
 
   m_vertices.reserve(request.srcrects.size() * 12);
   m_uvs.reserve(request.srcrects.size() * 12);
@@ -101,7 +104,10 @@ GLPainter::draw_texture(const TextureRequest& request)
     if (request.flip & VERTICAL_FLIP)
       std::swap(uv_top, uv_bottom);
 
-    if (request.angles[i] == 0.0f)
+    // Check if we have a non-zero angle for this sprite
+    const float angle = has_angles ? request.angles[i] : 0.0f;
+
+    if (angle == 0.0f)
     {
       const float vertices_lst[] = {
         left, top,
@@ -131,8 +137,8 @@ GLPainter::draw_texture(const TextureRequest& request)
       const float center_x = (left + right) / 2;
       const float center_y = (top + bottom) / 2;
 
-      const float sa = sinf(math::radians(request.angles[i]));
-      const float ca = cosf(math::radians(request.angles[i]));
+      const float sa = sinf(math::radians(angle));
+      const float ca = cosf(math::radians(angle));
 
       const float new_left = left - center_x;
       const float new_right = right - center_x;
