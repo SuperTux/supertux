@@ -60,4 +60,14 @@
   (fps 14)
   (hitbox 20 18 40 40)
   (mirror-action "extinguish-left"))
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-medium.sprite")
+      (color 0.89 0.75 0.44)
+    )
+    (smoke
+      (file "images/particles/smoke.sprite")
+    )
+  )
 )

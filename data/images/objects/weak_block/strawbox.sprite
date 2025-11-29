@@ -30,4 +30,10 @@
       "strawbox-11.png"
     )
   )
+
+  (linked-sprites
+    (burn-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+    )
+  )
 )

@@ -25,8 +25,8 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
                              const std::string& walk_left_action_,
                              const std::string& walk_right_action_,
                              int layer_,
-                             const std::string& light_sprite_name) :
-  BadGuy(pos, sprite_name_, layer_, light_sprite_name),
+                             const std::string& burn_light_sprite_name) :
+  BadGuy(pos, sprite_name_, layer_, burn_light_sprite_name),
   walk_left_action(walk_left_action_),
   walk_right_action(walk_right_action_),
   walk_speed(80),
@@ -43,8 +43,8 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
                              const std::string& walk_left_action_,
                              const std::string& walk_right_action_,
                              int layer_,
-                             const std::string& light_sprite_name) :
-  BadGuy(pos, direction, sprite_name_, layer_, light_sprite_name),
+                             const std::string& burn_light_sprite_name) :
+  BadGuy(pos, direction, sprite_name_, layer_, burn_light_sprite_name),
   walk_left_action(walk_left_action_),
   walk_right_action(walk_right_action_),
   walk_speed(80),
@@ -60,8 +60,8 @@ WalkingBadguy::WalkingBadguy(const ReaderMapping& reader,
                              const std::string& walk_left_action_,
                              const std::string& walk_right_action_,
                              int layer_,
-                             const std::string& light_sprite_name) :
-  BadGuy(reader, sprite_name_, layer_, light_sprite_name),
+                             const std::string& burn_light_sprite_name) :
+  BadGuy(reader, sprite_name_, layer_, burn_light_sprite_name),
   walk_left_action(walk_left_action_),
   walk_right_action(walk_right_action_),
   walk_speed(80),

@@ -29,4 +29,10 @@
       (action
 		 (name "off")
          (images "lightblock_off.png"))
+
+  (linked-sprites
+    (on-light
+      (file "images/objects/lightmap_light/bonusblock_light.png")
+    )
+  )
 )

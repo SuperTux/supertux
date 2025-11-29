@@ -7,4 +7,12 @@
    "fire_bullet-2.png"
    "fire_bullet-3.png")
  )
+
+  (linked-sprites
+    (custom-light
+      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
+      (action "default")
+      (color 0.3 0.1 0)
+    )
+  )
 )

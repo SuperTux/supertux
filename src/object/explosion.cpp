@@ -28,49 +28,42 @@
 #include "object/weak_block.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-Explosion::Explosion(const Vector& pos, float p_push_strength,
-    int p_num_particles, bool p_short_fuse) :
-  MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS + 40, COLGROUP_MOVING),
+Explosion::Explosion(const Vector& pos, float p_push_strength, int p_num_particles, bool p_short_fuse) :
+  MovingSprite(pos, p_short_fuse ? "images/objects/explosion/explosion_medium.sprite" : "images/objects/explosion/explosion_large.sprite",
+               LAYER_OBJECTS + 40, COLGROUP_MOVING),
   hurt(!p_short_fuse),
   push_strength(p_push_strength),
   num_particles(p_num_particles),
   m_state(E_STATE_WAITING),
-  m_lightsprite(SpriteManager::current()->create(p_short_fuse ?
-                                                 "images/objects/lightmap_light/lightmap_light-medium.sprite" :
-                                                 "images/objects/lightmap_light/lightmap_light-large.sprite")),
-  m_color(1.f, 0.5f, 0.2f, 0.f),
   m_fading_timer(),
   short_fuse(p_short_fuse)
 {
   set_pos(get_pos() - (m_col.m_bbox.get_middle() - get_pos()));
 
   SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
-
-  m_lightsprite->set_blend(Blend::ADD);
-  m_lightsprite->set_color(m_color);
 }
 
 Explosion::Explosion(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS + 40, COLGROUP_MOVING),
+  MovingSprite(reader, "images/objects/explosion/explosion_large.sprite",
+               LAYER_OBJECTS + 40, COLGROUP_MOVING),
   hurt(true),
   push_strength(-1),
   num_particles(100),
   m_state(E_STATE_WAITING),
-  m_lightsprite(nullptr),
-  m_color(1.f, 0.5f, 0.2f, 0.f),
   m_fading_timer(),
   short_fuse(false)
 {
-  SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
+  SoundManager::current()->preload("sounds/explosion.wav");
+}
 
-  m_lightsprite = (SpriteManager::current()->create(short_fuse ?
-                                                    "images/objects/lightmap_light/lightmap_light-medium.sprite" :
-                                                    "images/objects/lightmap_light/lightmap_light-large.sprite"));
-  m_lightsprite->set_blend(Blend::ADD);
-  m_lightsprite->set_color(m_color);
+void
+Explosion::on_sprite_update()
+{
+  MovingSprite::on_sprite_update();
+  for (auto& sprite : m_light_sprites)
+    sprite->get_color().alpha = 0.f;
 }
 
 void
@@ -171,34 +164,32 @@ Explosion::update(float )
       break;
 
     case E_STATE_EXPLODING:
-      m_color.alpha = std::min(m_fading_timer.get_progress(), 1.f);
+    {
+      const float light_alpha = std::min(m_fading_timer.get_progress(), 1.f);
+      for (auto& sprite : m_light_sprites)
+        sprite->get_color().alpha = light_alpha;
 
       if (m_fading_timer.check())
       {
         m_fading_timer.start(short_fuse ? .85f : 1.5f);
         m_state = E_STATE_FADING;
       }
-
-      break;
+    }
+    break;
 
     case E_STATE_FADING:
-      m_color.alpha = std::max(1.f - m_fading_timer.get_progress(), 0.f);
+    {
+      const float light_alpha = std::min(m_fading_timer.get_progress(), 1.f);
+      for (auto& sprite : m_light_sprites)
+        sprite->get_color().alpha = light_alpha;
 
       if (m_fading_timer.check())
       {
         remove_me();
       }
-
-      break;
+    }
+    break;
   }
-}
-
-void
-Explosion::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+40);
-  m_lightsprite->set_color(m_color);
-  m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 HitResponse

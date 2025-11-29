@@ -31,6 +31,7 @@ public:
   virtual bool collision_squished(MovingObject& object) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual void active_update(float) override;
+  virtual void draw(DrawingContext& context) override;
 
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }

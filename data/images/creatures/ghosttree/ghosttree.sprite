@@ -21,11 +21,24 @@
     (name "dying")
     (hitbox 230 300 40 60)
     (fps 4)
+    (linked-sprites
+      (glow
+        (file "ghosttree-glow.sprite")
+        (action "dying")
+        (loops 1)
+      )
+    )
     (images
       "ghosttree-dying-0.png"
       "ghosttree-dying-0.png"
       "ghosttree-dying-0.png"
       "ghosttree-dying-0.png"
+    )
+  )
+
+  (linked-sprites
+    (glow
+      (file "ghosttree-glow.sprite")
     )
   )
 )

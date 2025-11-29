@@ -20,18 +20,33 @@
   )
  )
  (action
-  (name "whites")
-  (hitbox 3 3 64 64)
-  (images "krush_rock_whites.png")
- )
- (action
-  (name "lefteye")
+  (name "left-eye")
   (hitbox 3 3 64 64)
   (images "krush_rock_lefteye.png")
  )
  (action
-  (name "righteye")
+  (name "right-eye")
   (hitbox 3 3 64 64)
   (images "krush_rock_righteye.png")
+ )
+ (action
+  (name "whites")
+  (hitbox 3 3 64 64)
+  (images "krush_rock_whites.png")
+ )
+
+ (linked-sprites
+   (left-eye
+     (file "krush_rock.sprite")
+     (action "left-eye")
+   )
+   (right-eye
+     (file "krush_rock.sprite")
+     (action "right-eye")
+   )
+   (whites
+     (file "krush_rock.sprite")
+     (action "whites")
+   )
  )
 )

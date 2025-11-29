@@ -18,18 +18,33 @@
   )
  )
  (action
+  (name "left-eye")
+  (hitbox 8 8 64 64)
+  (images "krush_corrupt_eyes.png")
+ )
+ (action
+  (name "right-eye")
+  (hitbox 8 8 64 64)
+  (images "krush_corrupt_eyes.png")
+ )
+ (action
   (name "whites")
   (hitbox 8 8 64 64)
   (images "krush_corrupt_whites.png")
  )
- (action
-  (name "lefteye")
-  (hitbox 8 8 64 64)
-  (images "krush_corrupt_eyes.png")
- )
- (action
-  (name "righteye")
-  (hitbox 8 8 64 64)
-  (images "krush_corrupt_eyes.png")
+
+ (linked-sprites
+   (left-eye
+     (file "krush_corrupt.sprite")
+     (action "left-eye")
+   )
+   (right-eye
+     (file "krush_corrupt.sprite")
+     (action "right-eye")
+   )
+   (whites
+     (file "krush_corrupt.sprite")
+     (action "whites")
+   )
  )
 )
