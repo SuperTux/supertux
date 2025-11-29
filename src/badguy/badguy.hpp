@@ -255,6 +255,9 @@ protected:
       collision_solid. */
   bool on_ground() const;
 
+  /** Apply ice physics to reduce friction when on ice */
+  void apply_ice_physics();
+
   /** Returns floor normal stored the last time when
       update_on_ground_flag was called and we touched something solid
       from above. */
@@ -296,6 +299,8 @@ protected:
   bool m_frozen;
   bool m_ignited; /**< true if this badguy is currently on fire */
   bool m_in_water; /** < true if the badguy is currently in water */
+  bool m_on_ice; /**< true if the badguy is currently on ice */
+  bool m_ice_this_frame; /**< true if the badguy touched ice this frame */
 
   std::string m_dead_script; /**< script to execute when badguy is killed */
 
