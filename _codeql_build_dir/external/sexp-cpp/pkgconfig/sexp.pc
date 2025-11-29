@@ -1,8 +1,0 @@
-prefix=/usr/local
-libdir=/usr/local/lib
-includedir=/usr/local/include/sexp
-
-Name: sexp
-Version: 
-Libs: -L${libdir} -lsexp
-Cflags: -I${includedir}
