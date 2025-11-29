@@ -1,6 +1,24 @@
 SuperTux Release and Development Notes
 ======================================
 
+Development (2025)
+------------------
+Build and test infrastructure improvements:
+
+- **CI Improvements**:
+  - Enabled test builds and execution in GitHub Actions workflows for Linux, macOS, and Windows
+  - Tests now run automatically on all CI builds using CTest
+  
+- **Test Infrastructure**:
+  - Added additional unit tests to the test suite (Size, Sizef, Rect, Rectf, Random, StringUtil, Version tests)
+  - Tests now use Google Test (gtest) framework where available
+  - Fixed test CMakeLists.txt to properly find and link GTest
+  - Added include path for version.h in tests
+  
+- **Code Quality**:
+  - Project builds cleanly with strict warning flags (-DWARNINGS=ON)
+  - All sanitizer builds (ASan/UBSan) pass without issues
+
 SuperTux 0.6.3 (2021-12-22)
 ---------------------------
 The SuperTux team is excited to announce the release of SuperTux 0.6.3 after approximately 1.5 years of development.  This release introduces many new features; perhaps the most new features in a long time!

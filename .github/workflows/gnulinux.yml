@@ -190,7 +190,7 @@ jobs:
                      -DBUILD_DOCUMENTATION="$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
                      -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
                      -DCMAKE_C_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
-                     -DBUILD_TESTING=OFF
+                     -DBUILD_TESTING=ON
 
       - name: Build and install
         working-directory: build
@@ -198,10 +198,9 @@ jobs:
           make -j3 VERBOSE=1
           make install DESTDIR="/tmp/supertux" VERBOSE=1
 
-      # - name: Run tests
-      #   if: ${{ matrix.os == 'ubuntu-20.04' }}
-      #   working-directory: build
-      #   run: ./test_supertux2
+      - name: Run tests
+        working-directory: build
+        run: ctest --output-on-failure
 
       # - name: Make coverage
       #   if: ${{ matrix.coverage }}

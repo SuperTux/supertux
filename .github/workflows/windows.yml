@@ -112,7 +112,8 @@ jobs:
                    -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" `
                    -DVCPKG_TARGET_TRIPLET="$(if ($Env:ARCH -eq "x64") {"x64-windows"} else {"x86-windows"})" `
                    -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" `
-                   -DCMAKE_POLICY_VERSION_MINIMUM="3.5"
+                   -DCMAKE_POLICY_VERSION_MINIMUM="3.5" `
+                   -DBUILD_TESTING=ON
 
       - name: Build and install
         working-directory: build
@@ -121,13 +122,11 @@ jobs:
         run: |
           cmake --build . --config $Env:BUILD_TYPE
 
-      # FIXME
-      # - name: Run Tests
-      #   working-directory: build
-      #   env:
-      #     BUILD_TYPE: ${{ matrix.build_type }}
-      #   run: |
-      #     "./$Env:BUILD_TYPE/run_tests.exe"
+      - name: Run Tests
+        working-directory: build
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        run: ctest -C $Env:BUILD_TYPE --output-on-failure
 
       - name: Package MSI Installer
         if: matrix.build_type != 'Debug'

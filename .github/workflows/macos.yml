@@ -147,7 +147,8 @@ jobs:
                    -DSUPERTUX_VERSION_STRING="$GIT_BRANCH-$GIT_HASH"           \
                    -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin        \
                    -DINSTALL_SUBDIR_SHARE=share/supertux2                      \
-                   -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+                   -DCMAKE_POLICY_VERSION_MINIMUM=3.5                          \
+                   -DBUILD_TESTING=ON
 
       - name: Build and install
         working-directory: build
@@ -155,9 +156,9 @@ jobs:
           make -j3 VERBOSE=1
           make install DESTDIR="/tmp/supertux" VERBOSE=1
 
-      #- name: Run tests
-      #  working-directory: build
-      #  run: ./test_supertux2
+      - name: Run tests
+        working-directory: build
+        run: ctest --output-on-failure
 
       - name: Package
         env:
