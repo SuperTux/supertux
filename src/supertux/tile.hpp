@@ -40,19 +40,13 @@ public:
     SOLID     = 0x0001,
     /** uni-directional solid tile */
     UNISOLID  = 0x0002,
-    /** a brick that can be destroyed by jumping under it */
-    BRICK     = 0x0004, //Marked for removal, DO NOT USE!
-    /** the level should be finished when touching a goaltile.
-     * if data is 0 then the endsequence should be triggered, if data is 1
-     * then we can finish the level instantly.
-     */
-    GOAL      = 0x0008, //Marked for removal, DO NOT USE!
+    /** Is affected by shader */
+    SHADED    = 0x0004,
+    /* 0x0008 reserved */
     /** slope tile */
     SLOPE     = 0x0010,
-    /** Bonusbox, content is stored in \a data */
-    FULLBOX   = 0x0020, //Marked for removal, DO NOT USE!
-    /** Tile is a coin */
-    COIN      = 0x0040, //Marked for removal, DO NOT USE!
+    /* 0x0020 reserved */
+    /* 0x0040 reserved */
 
     /* interesting flags (the following are passed to gameobjects) */
     FIRST_INTERESTING_FLAG = 0x0100,
@@ -66,7 +60,7 @@ public:
     /** for lava: WATER, HURTS, FIRE */
     FIRE      = 0x0800,
     /** a walljumping trigger tile */
-    WALLJUMP  = 0x1000
+    WALLJUMP  = 0x1000,
   };
 
   /** worldmap flags */

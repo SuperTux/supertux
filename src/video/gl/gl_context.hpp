@@ -46,6 +46,8 @@ public:
 
   virtual void set_colors(const float* data, size_t size) = 0;
   virtual void set_color(const Color& color) = 0;
+  
+  virtual void set_attrs(const uint32_t* data, size_t size) = 0;
 
   virtual void bind_texture(const Texture& texture, const Texture* displacement_texture) = 0;
   virtual void bind_no_texture() = 0;

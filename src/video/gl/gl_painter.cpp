@@ -17,6 +17,7 @@
 #include "video/gl/gl_painter.hpp"
 
 #include <algorithm>
+#include <iostream>
 #include <math.h>
 
 #include "math/util.hpp"
@@ -63,7 +64,8 @@ GLPainter::GLPainter(GLVideoSystem& video_system, GLRenderer& renderer) :
   m_video_system(video_system),
   m_renderer(renderer),
   m_vertices(),
-  m_uvs()
+  m_uvs(),
+  m_attrs()
 {
 }
 
@@ -76,12 +78,15 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   assert(request.srcrects.size() == request.dstrects.size());
   assert(request.srcrects.size() == request.angles.size());
+  assert(request.attrs.size() == request.attrs.size());
 
   m_vertices.reserve(request.srcrects.size() * 12);
   m_uvs.reserve(request.srcrects.size() * 12);
+  m_attrs.reserve(request.attrs.size() * 12);
   
   m_vertices.clear();
   m_uvs.clear();
+  m_attrs.clear();
 
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
@@ -94,6 +99,9 @@ GLPainter::draw_texture(const TextureRequest& request)
     float uv_top = request.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
     float uv_right = request.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width());
     float uv_bottom = request.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height());
+    
+    if (request.attrs.size() > i)
+      m_attrs.insert(m_attrs.end(), 6, request.attrs[i]);
 
     if (request.flip & HORIZONTAL_FLIP)
       std::swap(uv_left, uv_right);
@@ -170,6 +178,7 @@ GLPainter::draw_texture(const TextureRequest& request)
   context.bind_texture(texture, request.displacement_texture);
   context.set_texcoords(m_uvs.data(), sizeof(float) * m_uvs.size());
   context.set_positions(m_vertices.data(), sizeof(float) * m_vertices.size());
+  context.set_attrs(m_attrs.data(), sizeof(uint32_t) * m_attrs.size());
   context.set_color(Color(request.color.red,
                           request.color.green,
                           request.color.blue,

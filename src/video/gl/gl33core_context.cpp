@@ -177,6 +177,12 @@ GL33CoreContext::set_color(const Color& color)
 }
 
 void
+GL33CoreContext::set_attrs(const uint32_t* data, size_t size)
+{
+  m_vertex_arrays->set_attrs(data, size);
+}
+
+void
 GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacement_texture)
 {
   assert_gl();

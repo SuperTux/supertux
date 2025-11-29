@@ -239,8 +239,8 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
     attributes |= Tile::SOLID;
   if (reader.get("unisolid", value) && value)
     attributes |= Tile::UNISOLID | Tile::SOLID;
-  if (reader.get("brick", value) && value)
-    attributes |= Tile::BRICK;
+  if (reader.get("shaded", value) && value)
+    attributes |= Tile::SHADED;
   if (reader.get("ice", value) && value)
     attributes |= Tile::ICE;
   if (reader.get("water", value) && value)
@@ -251,12 +251,6 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
     attributes |= Tile::FIRE;
   if (reader.get("walljump", value) && value)
     attributes |= Tile::WALLJUMP;
-  if (reader.get("fullbox", value) && value)
-    attributes |= Tile::FULLBOX;
-  if (reader.get("coin", value) && value)
-    attributes |= Tile::COIN;
-  if (reader.get("goal", value) && value)
-    attributes |= Tile::GOAL;
 
   uint32_t data = 0;
 
