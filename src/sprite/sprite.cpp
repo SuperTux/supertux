@@ -238,6 +238,7 @@ Sprite::create_custom_linked_sprites(bool light) const
   const auto& sprites_data = get_custom_linked_sprites();
 
   std::vector<SpritePtr> result;
+  result.reserve(sprites_data.size());
   for (const SpriteData::LinkedSprite& sprite_data : sprites_data)
   {
     if (sprite_data.light != light)

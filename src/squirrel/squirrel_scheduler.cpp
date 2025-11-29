@@ -29,6 +29,8 @@ SquirrelScheduler::SquirrelScheduler(ssq::VM& vm) :
   m_vm(vm),
   schedule()
 {
+  // Pre-allocate space for scheduled threads to avoid reallocations
+  schedule.reserve(32);
 }
 
 void

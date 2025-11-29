@@ -45,6 +45,9 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     timer.start(life_time);
   }
 
+  // Pre-allocate space for particles to avoid reallocations
+  particles.reserve(static_cast<size_t>(number));
+
   // create particles
   for (int p = 0; p < number; p++)
   {
@@ -82,6 +85,9 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     live_forever = false;
     timer.start(life_time);
   }
+
+  // Pre-allocate space for particles to avoid reallocations
+  particles.reserve(static_cast<size_t>(number));
 
   // create particles
   for (int p = 0; p < number; p++)
