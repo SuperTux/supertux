@@ -1,6 +1,15 @@
 SuperTux Release and Development Notes
 ======================================
 
+Build System and CI Improvements (2024)
+---------------------------------------
+Build system modernization and CI improvements:
+
+- Added sanitizer support (ASan/UBSan) via CMake options ENABLE_ASAN and ENABLE_UBSAN
+- Added new CI workflow (ci-tests.yml) with matrix builds for Linux (gcc/clang)
+- CI now runs unit tests and sanitizer-enabled debug builds
+- Preserved existing platform-specific workflows (gnulinux.yml, macos.yml, windows.yml)
+
 SuperTux 0.6.3 (2021-12-22)
 ---------------------------
 The SuperTux team is excited to announce the release of SuperTux 0.6.3 after approximately 1.5 years of development.  This release introduces many new features; perhaps the most new features in a long time!

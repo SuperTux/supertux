@@ -127,6 +127,7 @@ include(ConfigureChecks)
 ## Some additional compiler switches
 include(SuperTux/ClangTidy)
 include(SuperTux/WarningFlags)
+include(SuperTux/Sanitizers)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing")

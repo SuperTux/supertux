@@ -1,0 +1,149 @@
+#  SuperTux
+#  Copyright (C) 2024 SuperTux Contributors
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+name: CI Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'
+  pull_request: {}
+
+jobs:
+  build-and-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Linux GCC Debug with tests
+          - os: ubuntu-latest
+            compiler: gcc
+            build_type: Debug
+            run_tests: true
+            asan: false
+            ubsan: false
+          # Linux GCC Release
+          - os: ubuntu-latest
+            compiler: gcc
+            build_type: Release
+            run_tests: true
+            asan: false
+            ubsan: false
+          # Linux Clang Debug with tests
+          - os: ubuntu-latest
+            compiler: clang
+            build_type: Debug
+            run_tests: true
+            asan: false
+            ubsan: false
+          # Linux GCC Debug with ASan
+          - os: ubuntu-latest
+            compiler: gcc
+            build_type: Debug
+            run_tests: true
+            asan: true
+            ubsan: false
+          # Linux GCC Debug with UBSan
+          - os: ubuntu-latest
+            compiler: gcc
+            build_type: Debug
+            run_tests: true
+            asan: false
+            ubsan: true
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake \
+            ninja-build \
+            build-essential \
+            clang \
+            g++ \
+            libglu1-mesa-dev \
+            libgtest-dev \
+            libogg-dev \
+            libvorbis-dev \
+            libopenal-dev \
+            libsdl2-dev \
+            libsdl2-image-dev \
+            libfreetype6-dev \
+            libraqm-dev \
+            libglew-dev \
+            libcurl4-openssl-dev \
+            libglm-dev \
+            libfmt-dev \
+            libphysfs-dev \
+            zlib1g-dev
+
+      - name: Set compiler (gcc)
+        if: matrix.compiler == 'gcc'
+        run: |
+          echo "CXX=g++" >> $GITHUB_ENV
+          echo "CC=gcc" >> $GITHUB_ENV
+
+      - name: Set compiler (clang)
+        if: matrix.compiler == 'clang'
+        run: |
+          echo "CXX=clang++" >> $GITHUB_ENV
+          echo "CC=clang" >> $GITHUB_ENV
+
+      - name: Configure build
+        run: |
+          cmake --version
+          $CXX --version
+
+          mkdir build
+          cd build
+
+          cmake .. -GNinja \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DBUILD_TESTING=${{ matrix.run_tests && 'ON' || 'OFF' }} \
+            -DENABLE_ASAN=${{ matrix.asan && 'ON' || 'OFF' }} \
+            -DENABLE_UBSAN=${{ matrix.ubsan && 'ON' || 'OFF' }} \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+
+      - name: Build
+        working-directory: build
+        run: |
+          ninja -j$(nproc)
+
+      - name: Run tests
+        if: matrix.run_tests
+        working-directory: build
+        run: |
+          ctest --output-on-failure
+
+      - name: Upload build logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs-${{ matrix.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.asan && '-asan' || '' }}${{ matrix.ubsan && '-ubsan' || '' }}
+          path: |
+            build/CMakeFiles/CMakeOutput.log
+            build/CMakeFiles/CMakeError.log
+          if-no-files-found: ignore
