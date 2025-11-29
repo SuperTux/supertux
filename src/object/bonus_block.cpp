@@ -275,8 +275,8 @@ BonusBlock::get_settings()
   result.add_script(_("Script"), &m_script, "script");
   result.add_int(_("Count"), &m_hit_counter, "count", get_default_hit_counter());
   result.add_enum(_("Content"), reinterpret_cast<int*>(&m_contents),
-                  { _("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
-                   _("Growth (earth flower)"), _("Growth (retro)"), _("Star"), _("Star (retro)"), _("Tux doll"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
+                  { _("Coin"), _("Growth (fire flower)"), _("Growth (Ice Rosette)"), _("Growth (air flower)"),
+                   _("Growth (Rock Shroom)"), _("Growth (retro)"), _("Star"), _("Star (retro)"), _("Tux doll"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
                    _("Trampoline"), _("Portable trampoline"), _("Coin rain"), _("Coin explosion"), _("Rock"), _("Potion") },
                   { "coin", "firegrow", "icegrow", "airgrow", "earthgrow", "retrogrow", "star", "retrostar", "1up", "custom", "script", "light", "light-on",
                    "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion" },

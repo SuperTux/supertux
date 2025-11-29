@@ -1,9 +1,22 @@
 (supertux-sprite
        (action
          (name "default")
+	 (fps 12)
          (images "earth_flower-0.png"
+                 "earth_flower-0.png"
+                 "earth_flower-0.png"
+                 "earth_flower-0.png"
+                 "earth_flower-0.png"
+                 "earth_flower-0.png"
+                 "earth_flower-1.png"
                  "earth_flower-1.png"
                  "earth_flower-2.png"
+                 "earth_flower-3.png"
+                 "earth_flower-3.png"
+                 "earth_flower-3.png"
+                 "earth_flower-3.png"
+                 "earth_flower-3.png"
+                 "earth_flower-3.png"
                  "earth_flower-3.png"
                  "earth_flower-2.png"
                  "earth_flower-1.png"))

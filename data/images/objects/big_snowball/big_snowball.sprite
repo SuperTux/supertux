@@ -6,7 +6,7 @@
 
     (action
       (name "particle")
-	    (hitbox 2 2 29 28)
+	    (hitbox 0 0 38 38)
       (images "big_snowball_particle.png"))
 
   (linked-sprites

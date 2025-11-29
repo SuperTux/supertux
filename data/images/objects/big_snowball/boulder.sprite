@@ -1,0 +1,11 @@
+(supertux-sprite
+    (action
+      (name "default")
+	    (hitbox 6 6 87 84)
+      (images "boulder.png"))
+
+    (action
+      (name "particle")
+	    (hitbox 0 0 38 38)
+      (images "boulder_particle.png"))
+)

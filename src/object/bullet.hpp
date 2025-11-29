@@ -57,6 +57,8 @@ private:
   SpritePtr sprite;
   std::vector<SpritePtr> lightsprites;
   BonusType type;
+  float angle;
+  float particle_time;
 
 private:
   Bullet(const Bullet&) = delete;
