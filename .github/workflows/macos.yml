@@ -202,9 +202,9 @@ jobs:
           BUILD_ARCH: ${{ matrix.arch }}
         run: |
           if [ "$BUILD_ARCH" = "arm64" ]; then
-            rename 's/.dmg/-arm64.dmg/' build/upload/SuperTux-*
+            rename 's/arm64-Darwin.dmg/Darwin-arm64.dmg/' build/upload/SuperTux-*
           elif [ "$BUILD_ARCH" = "x86_64" ]; then
-            rename 's/.dmg/-x86_64.dmg/' build/upload/SuperTux-*
+            rename 's/x86_64-Darwin.dmg/Darwin-x86_64.dmg/' build/upload/SuperTux-*
           fi
 
       - name: Create Release
