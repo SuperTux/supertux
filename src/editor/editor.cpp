@@ -376,13 +376,16 @@ Editor::draw(Compositor& compositor)
 
   if (m_levelloaded)
   {
-    context.color().set_blur(g_config->editor_blur);
-    context.color().draw_filled_rect(
-      {-g_config->menuroundness, -g_config->menuroundness, m_widgets_width + m_widgets_width_offset, 32},
-      Color(0.2f, 0.2f, 0.2f, 0.5f),
-      math::clamp(g_config->menuroundness, 0.f, 16.f),
-      LAYER_GUI - 5);
-    context.color().set_blur(0);
+    if (g_config->editor_show_toolbar_widgets)
+    {
+      context.color().set_blur(g_config->editor_blur);
+      context.color().draw_filled_rect(
+        {-g_config->menuroundness, -g_config->menuroundness, m_widgets_width + m_widgets_width_offset, 32},
+        Color(0.2f, 0.2f, 0.2f, 0.5f),
+        math::clamp(g_config->menuroundness, 0.f, 16.f),
+        LAYER_GUI - 5);
+      context.color().set_blur(0);
+    }
 
     for(const auto& widget : m_widgets)
     {
