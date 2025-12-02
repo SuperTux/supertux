@@ -78,6 +78,9 @@ public:
   int sound_volume;
   int music_volume;
   int flash_intensity;
+  bool precise_scrolling;
+  bool invert_wheel_x;
+  bool invert_wheel_y;
 
   /** Prefer the wayland session. Depending on the platform, this may not be used. */
   bool prefer_wayland;
@@ -152,6 +155,7 @@ public:
   bool editor_render_background;
   bool editor_render_animations;
   bool editor_render_lighting;
+  bool editor_invert_shift_scroll;
   bool editor_autotile_mode;
   bool editor_autotile_help;
   int editor_autosave_frequency;

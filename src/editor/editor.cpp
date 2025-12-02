@@ -180,19 +180,19 @@ Editor::Editor() :
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
-  
+
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 8> general_widgets = {
     // Undo button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/undo.png",
         std::bind(&Editor::undo, this),
         _("Undo"),
         Sizef(32.f, 32.f)),
-        
+
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/redo.png",
         std::bind(&Editor::redo, this),
         _("Redo"),
         Sizef(32.f, 32.f)),
-    
+
     // Grid button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/grid_button.png",
       [this] {
@@ -209,15 +209,15 @@ Editor::Editor() :
           snap_grid_size--;
       },
       _("Change / Toggle grid size")),
-    
+
     // Play button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/play_button.png",
       [this] { m_test_request = true; },
       _("Test level")),
-    
+
     // Save button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
-      [this] { 
+      [this] {
         if (save_level())
         {
           auto notif = std::make_unique<Notification>("save_level_notif", 5.f);
@@ -226,14 +226,14 @@ Editor::Editor() :
         }
       },
       _("Save level")),
-    
+
     // Mode button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/toggle_tile_object_mode.png",
       std::bind(&Editor::toggle_tile_object_mode, this),
       _("Toggle between object and tile mode")),
-    
+
     // Mouse select button
-    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png", 
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/arrow.png",
       [this]() {
         m_toolbox_widget->set_mouse_tool();
       },
@@ -246,7 +246,7 @@ Editor::Editor() :
       },
       _("Delete the tile or object under the mouse"))
   };
-  
+
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 4> tile_mode_widgets = {
     // Select mode mouse
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode0.png",
@@ -254,21 +254,21 @@ Editor::Editor() :
       m_toolbox_widget->set_tileselect_select_mode(0);
     },
     _("Draw mode (The current tool applies to the tile under the mouse)")),
-    
+
     // Select mode area
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode1.png",
       [this] {
         m_toolbox_widget->set_tileselect_select_mode(1);
       },
       _("Box draw mode (The current tool applies to an area / box drawn with the mouse)")),
-    
+
     // Select mode fill button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode2.png",
       [this] {
         m_toolbox_widget->set_tileselect_select_mode(2);
       },
       _("Fill mode (The current tool applies to the empty area in the enclosed space that was clicked)")),
-    
+
     // Select mode same button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode3.png",
       [this] {
@@ -276,7 +276,7 @@ Editor::Editor() :
       },
       _("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)")),
   };
-  
+
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 2> object_mode_widgets = {
     // Select mode
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png",
@@ -284,7 +284,7 @@ Editor::Editor() :
         m_toolbox_widget->set_tileselect_move_mode(0);
       },
       _("Select mode (Clicking selects the object under the mouse)")),
-    
+
     // Duplicate mode
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode1.png",
       [this] {
@@ -292,17 +292,17 @@ Editor::Editor() :
       },
       _("Duplicate mode (Clicking duplicates the object under the mouse)")),
   };
-  
+
   size_t i = 2;
   for (auto &widget : general_widgets)
   {
-    Vector pos(32 * (i-2), 0); 
+    Vector pos(32 * (i-2), 0);
     widget->set_position(pos);
     widget->set_flat(true);
     m_widgets.insert(m_widgets.begin() + i, std::move(widget));
     ++i;
   }
-  
+
   for (auto &widget : tile_mode_widgets)
   {
     Vector pos(32 * (i-2), 0);
@@ -313,7 +313,7 @@ Editor::Editor() :
     m_widgets.insert(m_widgets.begin() + i, std::move(widget));
     ++i;
   }
-  
+
   for (auto &widget : object_mode_widgets)
   {
     Vector pos(32 * (i-tile_mode_widgets.size()-2), 0);
@@ -325,7 +325,7 @@ Editor::Editor() :
     ++i;
   }
   m_widgets_width = 32.f * (i-std::max(tile_mode_widgets.size(), object_mode_widgets.size())-2-2);
-  
+
   m_undo_widget = reinterpret_cast<EditorToolbarButtonWidget*>(m_widgets[2].get());
   m_redo_widget = reinterpret_cast<EditorToolbarButtonWidget*>(m_widgets[3].get());
   m_undo_widget->set_disabled(true);
@@ -383,7 +383,7 @@ Editor::draw(Compositor& compositor)
       math::clamp(g_config->menuroundness, 0.f, 16.f),
       LAYER_GUI - 5);
     context.color().set_blur(0);
-    
+
     for(const auto& widget : m_widgets)
     {
       if (!g_config->editor_show_toolbar_widgets &&
@@ -393,7 +393,7 @@ Editor::draw(Compositor& compositor)
       }
       widget->draw(context);
     }
-	
+
     m_overlay_widget->draw_tilemap_outer_shading(context);
     m_overlay_widget->draw_tilemap_border(context);
 
@@ -481,7 +481,7 @@ Editor::draw(Compositor& compositor)
         m_controls.clear();
       }
     }
-    
+
     // BEGIN Draw shadows and line
     constexpr float LINE_THICKNESS = 1.f;
     Rectf border_rect = Rectf{SCREEN_WIDTH - 128.f - LINE_THICKNESS, 0,
@@ -492,7 +492,7 @@ Editor::draw(Compositor& compositor)
     line_color.blue -= 0.2;
     line_color.alpha -= 0.2;
     context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
-    
+
     if (m_shadow)
     {
       Rectf shadow_rect = border_rect;
@@ -502,8 +502,8 @@ Editor::draw(Compositor& compositor)
       m_shadow->draw_scaled(context.color(), shadow_rect, LAYER_GUI + 1);
       context.set_alpha(1.0);
     }
-    
-    
+
+
     Rectf layers_rect = Rectf{0, SCREEN_HEIGHT - 32.f - LINE_THICKNESS,
                               SCREEN_WIDTH - 128.f, SCREEN_HEIGHT - 32.f};
     context.color().draw_filled_rect(layers_rect, line_color, LAYER_GUI + 1);
@@ -551,7 +551,7 @@ Editor::update(float dt_sec, const Controller& controller)
   }
 
   m_script_manager.poll();
-  
+
   // Pass all requests.
   if (m_reload_request) {
     reload_level();
@@ -653,7 +653,7 @@ Editor::remove_autosave_file()
 {
   if (m_temp_level)
     return;
-  
+
   // Clear the auto-save file.
   if (!m_autosave_levelfile.empty())
   {
@@ -676,7 +676,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
     MenuManager::instance().set_menu(MenuStorage::EDITOR_TEMP_SAVE_MENU);
     return false;
   }
-  
+
   if (m_save_temp_level)
   {
     m_save_temp_level = false;
@@ -738,7 +738,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
     GameManager::current()->start_level(m_level.get(), test_pos, true);
     return;
   }
-  
+
   std::string backup_filename = get_autosave_from_levelname(m_levelfile);
   std::string directory = get_level_directory();
 
@@ -901,7 +901,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
   std::string sector_name = DEFAULT_SECTOR_NAME;
   Vector translation(0.0f, 0.0f);
-  
+
   m_temp_level = (level == nullptr);
 
   if (!reset && m_sector) {
@@ -927,7 +927,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   {
     level_from_nothing();
   }
-  
+
   if (reset) {
     m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
   }
@@ -1314,12 +1314,12 @@ Editor::event(const SDL_Event& ev)
                 test_level(m_last_test_pos);
                 break;
               }
-              
+
               if (m_shift_pressed)
                 m_last_test_pos = std::pair<std::string, Vector>(get_sector()->get_name(), m_overlay_widget->get_sector_pos());
               else
                 m_last_test_pos = std::nullopt;
-              
+
               test_level(m_last_test_pos);
               break;
             case SDLK_s:
@@ -1359,14 +1359,17 @@ Editor::event(const SDL_Event& ev)
       }
       else if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus())
       {
+        float wheel_x = g_config->precise_scrolling ? ev.wheel.preciseX : ev.wheel.x;
+        float wheel_y = g_config->precise_scrolling ? ev.wheel.preciseY : ev.wheel.y;
+        if (g_config->invert_wheel_x) wheel_x *= -1.f;
+        if (g_config->invert_wheel_y) wheel_y *= -1.f;
         // Scroll or zoom with mouse wheel, if the mouse is not over the toolbox.
         // The toolbox does scrolling independently from the main area.
         if (m_ctrl_pressed)
-          m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY;
-        else if (m_shift_pressed)
-          scroll({ static_cast<float>(ev.wheel.y * -40), static_cast<float>(ev.wheel.x * -40) });
+          m_new_scale = m_sector->get_camera().get_current_scale() + static_cast<float>(wheel_y) * CAMERA_ZOOM_SENSITIVITY;
         else
-          scroll({ static_cast<float>(ev.wheel.x * -40), static_cast<float>(ev.wheel.y * -40) });
+          scroll({ static_cast<float>((m_shift_pressed ? wheel_y * (g_config->editor_invert_shift_scroll ? -1 : 1) : wheel_x) * 40),
+                   static_cast<float>((m_shift_pressed ? wheel_x : wheel_y) * -40) });
       }
     }
 
@@ -1387,7 +1390,7 @@ Editor::toggle_tile_object_mode()
   int i = 0, total = 0;
   auto& tilebox = m_toolbox_widget->get_tilebox();
   const auto& input_type = tilebox.get_input_type();
-  
+
   if (input_type == InputType::OBJECT)
   {
     select_last_tilegroup();
@@ -1410,7 +1413,7 @@ Editor::toggle_tile_object_mode()
       }
   	}
   }
-  
+
   for (const auto& widget : m_widgets)
   {
     if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
@@ -1419,7 +1422,7 @@ Editor::toggle_tile_object_mode()
         ++i;
     }
 	}
-  
+
   m_widgets_width = i * 32.f;
 }
 
@@ -1597,7 +1600,7 @@ Editor::get_status() const
   {
     std::string level_type = (m_level->is_worldmap() ? "worldmap" : "level");
     std::string status_text = "Editing " + level_type + ": " + m_level->get_name();
-    
+
     status.m_details.push_back(status_text);
   }
   return status;
@@ -1679,7 +1682,7 @@ Editor::add_control(const std::string& name, std::unique_ptr<InterfaceControl> n
   if (control_rect.get_width() == 0.f || control_rect.get_height() == 0.f)
   {
     target_rect = Rectf(100.f, height, 200.f - 1.0f, height + 20.f);
-  } 
+  }
   else
   {
     target_rect = Rectf(control_rect.get_left(), height,

@@ -65,6 +65,9 @@ Config::Config() :
   music_volume(50),
   flash_intensity(50),
   fancy_gfx(true),
+  precise_scrolling(true),
+  invert_wheel_x(false),
+  invert_wheel_y(false),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
   tux_spawn_pos(),
@@ -107,6 +110,7 @@ Config::Config() :
   editor_render_background(true),
   editor_render_animations(true),
   editor_render_lighting(false),
+  editor_invert_shift_scroll(true),
   editor_autotile_mode(false),
   editor_autotile_help(true),
   editor_autosave_frequency(5),
@@ -246,6 +250,7 @@ Config::load()
     editor_mapping->get("render_animations", editor_render_animations);
     editor_mapping->get("render_grid", editor_render_grid);
     editor_mapping->get("render_lighting", editor_render_lighting);
+    editor_mapping->get("invert_shift_scroll", editor_invert_shift_scroll);
     editor_mapping->get("selected_snap_grid_size", editor_selected_snap_grid_size);
     editor_mapping->get("snap_to_grid", editor_snap_to_grid);
     editor_mapping->get("undo_tracking", editor_undo_tracking);
@@ -340,6 +345,9 @@ Config::load()
 
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
+    config_control_mapping->get("precise_scrolling", precise_scrolling);
+    config_control_mapping->get("invert_wheel_x", invert_wheel_x);
+    config_control_mapping->get("invert_wheel_y", invert_wheel_y);
   }
 
   std::optional<ReaderCollection> config_addons_mapping;
@@ -496,6 +504,9 @@ Config::save()
 
     writer.write("mobile_controls", mobile_controls);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
+    writer.write("precise_scrolling", precise_scrolling);
+    writer.write("invert_wheel_x", invert_wheel_x);
+    writer.write("invert_wheel_y", invert_wheel_y );
   }
   writer.end_list("control");
 
@@ -518,6 +529,7 @@ Config::save()
     writer.write("render_animations", editor_render_animations);
     writer.write("render_grid", editor_render_grid);
     writer.write("render_lighting", editor_render_lighting);
+    writer.write("invert_shift_scroll", editor_invert_shift_scroll);
     writer.write("selected_snap_grid_size", editor_selected_snap_grid_size);
     writer.write("snap_to_grid", editor_snap_to_grid);
     writer.write("undo_tracking", editor_undo_tracking);
