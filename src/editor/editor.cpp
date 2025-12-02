@@ -1225,7 +1225,6 @@ Editor::setup()
     if (g_config->editor_remember_last_level &&
         !g_config->editor_last_edited_level.empty())
     {
-      std::cout << g_config->editor_last_edited_level << std::endl;
       set_level(g_config->editor_last_edited_level);
     }
     else
