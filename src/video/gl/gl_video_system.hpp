@@ -65,7 +65,6 @@ private:
 
 private:
   bool m_use_opengl33core;
-  bool m_use_backbuffer;
   std::unique_ptr<TextureManager> m_texture_manager;
   std::unique_ptr<GLScreenRenderer> m_renderer;
   std::unique_ptr<GLTextureRenderer> m_lightmap;
