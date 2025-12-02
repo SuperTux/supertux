@@ -63,7 +63,7 @@ void
 EditorToolboxWidget::draw(DrawingContext& context)
 {
   m_tilebox->draw(context);
-  
+
   context.color().set_blur(g_config->editor_blur);
   context.color().draw_filled_rect(Rectf(Vector(m_pos_x, 0.f),
                                          Vector(context.get_width(), 96.f)),
@@ -273,34 +273,34 @@ EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
   switch (m_hovered_item)
   {
-	case HoveredItem::TILEGROUP:
-	  if (m_editor.get_tileset()->get_tilegroups().size() > 1)
-	  {
-	    m_tilebox->change_tilegroup(wheel.y > 0 ? -1 : 1);
-	  }
-	  else
-	  {
-		select_tilegroup(0);
-	  }
-	  break;
+    case HoveredItem::TILEGROUP:
+      if (m_editor.get_tileset()->get_tilegroups().size() > 1)
+      {
+        m_tilebox->change_tilegroup(wheel.y > 0 ? -1 : 1);
+      }
+      else
+      {
+        select_tilegroup(0);
+      }
+      break;
 
-	case HoveredItem::OBJECTS:
-	  if ((m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
-		  (!m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
-	  {
-	    m_tilebox->change_objectgroup(wheel.y > 0 ? -1 : 1);
-	  }
-	  else
-	  {
-		if (m_editor.get_level()->is_worldmap())
-		  select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
-		else
-		  select_objectgroup(0);
-	  }
-	  break;
-	  
-	default:
-	  break;
+    case HoveredItem::OBJECTS:
+      if ((m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
+          (!m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
+      {
+        m_tilebox->change_objectgroup(wheel.y > 0 ? -1 : 1);
+      }
+      else
+      {
+        if (m_editor.get_level()->is_worldmap())
+          select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
+        else
+          select_objectgroup(0);
+      }
+      break;
+
+    default:
+      break;
   }
   return m_tilebox->on_mouse_wheel(wheel);
 }
