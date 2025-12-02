@@ -237,7 +237,7 @@ Editor::Editor() :
       [this]() {
         m_toolbox_widget->set_mouse_tool();
       },
-      _("Toggle between add and remove mode")),
+      _("Select or move the object under the mouse")),
 
     // Rubber button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/rubber.png",
