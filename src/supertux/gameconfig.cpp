@@ -113,7 +113,8 @@ Config::Config() :
   editor_undo_tracking(true),
   editor_undo_stack_size(20),
   editor_show_deprecated_tiles(false),
-  editor_show_properties_sidebar(true),
+  // TODO: Set to true when this setting is ready
+  editor_show_properties_sidebar(false),
   editor_show_toolbar_widgets(true),
   editor_blur(15),
   multiplayer_auto_manage_players(true),
