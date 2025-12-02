@@ -166,7 +166,9 @@ public:
   bool editor_show_properties_sidebar;
   bool editor_show_toolbar_widgets;
   int editor_blur;
+  bool editor_remember_last_level;
   std::string preferred_text_editor;
+  std::string editor_last_edited_level;
 
   bool multiplayer_auto_manage_players;
   bool multiplayer_multibind;
