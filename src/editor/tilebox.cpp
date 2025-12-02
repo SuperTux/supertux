@@ -429,8 +429,8 @@ EditorTilebox::change_tilegroup(int dir)
 	  return;
   }
 
-  m_tilegroup_id += dir;
   size_t tilegroups_size = m_editor.get_tileset()->get_tilegroups().size();
+  m_tilegroup_id += dir;
   if (m_tilegroup_id < 0)
   	m_tilegroup_id = tilegroups_size - 1;
   else if (m_tilegroup_id > tilegroups_size - 1)
@@ -445,15 +445,22 @@ EditorTilebox::change_objectgroup(int dir)
   if (m_input_type == InputType::TILE)
   {
     select_last_objectgroup();
-	return;
+    return;
   }
 
-  m_objectgroup_id += dir;
   size_t objectgroups_size = m_object_info->m_groups.size();
-  if (m_objectgroup_id < 0)
-  	m_objectgroup_id = objectgroups_size - 1;
-  else if (m_objectgroup_id > objectgroups_size - 1)
-    m_objectgroup_id = 0;
+  // We also need to skip worldmap groups if we aren't a worldmap here
+  do
+  {
+    m_objectgroup_id += dir;
+
+    if (m_objectgroup_id < 0)
+      m_objectgroup_id = objectgroups_size - 1;
+    else if (m_objectgroup_id > objectgroups_size - 1)
+      m_objectgroup_id = 0;
+  }
+  while (!Editor::current()->get_level()->is_worldmap() &&
+          Editor::current()->get_objectgroups().at(m_objectgroup_id).is_worldmap());
 
   select_last_objectgroup();
 }
