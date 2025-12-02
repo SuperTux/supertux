@@ -130,10 +130,11 @@ EditorLayersWidget::draw(DrawingContext& context)
                             Vector(35.0f, static_cast<float>(m_Ypos) + 5.0f),
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
-  // LAYERS_BOX_EXPERIMENT_BEGIN
-  context.color().draw_filled_rect(Rectf(Vector(0, SCREEN_HEIGHT - 400), Vector(200, SCREEN_HEIGHT)),
-                                   g_config->editorhovercolor, 0.0f, LAYER_GUI - 10);
-  // LAYERS_BOX_EXPERIMENT_END
+#if 0 // Hard disabled because this isn't really even usable, anyway
+  if (g_config->editor_show_properties_sidebar)
+    context.color().draw_filled_rect(Rectf(Vector(0, SCREEN_HEIGHT - 400), Vector(200, SCREEN_HEIGHT)),
+                                     g_config->editorhovercolor, 0.0f, LAYER_GUI - 10);
+#endif
 
   int pos = 0;
   for (const auto& layer_icon : m_layer_icons)
@@ -145,21 +146,24 @@ EditorLayersWidget::draw(DrawingContext& context)
     else if ((pos + 1) * 35 >= m_scroll)
       layer_icon->draw(context, get_layer_coords(pos), 35 - (m_scroll - pos * 35));
 
-    // LAYERS_BOX_EXPERIMENT_BEGIN
-    auto layer_icon_position = Vector(0, SCREEN_HEIGHT - 400 + (pos * 30));
-
-    layer_icon->draw(context, layer_icon_position);
-
-    auto layer_name = layer_icon->get_layer()->get_name();
-    if (layer_name.empty())
+#if 0 // Same reason as above
+    if (g_config->editor_show_properties_sidebar)
     {
-      layer_name =
-        fmt::format(fmt::runtime(_("Unnamed {}")), layer_icon->get_layer()->get_display_name());
+      auto layer_icon_position = Vector(0, SCREEN_HEIGHT - 400 + (pos * 30));
+
+      layer_icon->draw(context, layer_icon_position);
+
+      auto layer_name = layer_icon->get_layer()->get_name();
+      if (layer_name.empty())
+      {
+        layer_name =
+          fmt::format(fmt::runtime(_("Unnamed {}")), layer_icon->get_layer()->get_display_name());
+      }
+      context.color().draw_text(Resources::small_font, layer_name,
+                                layer_icon_position + Vector(35, 10), FontAlignment::ALIGN_LEFT,
+                                LAYER_GUI - 9);
     }
-    context.color().draw_text(Resources::small_font, layer_name,
-                              layer_icon_position + Vector(35, 10), FontAlignment::ALIGN_LEFT,
-                              LAYER_GUI - 9);
-    // LAYERS_BOX_EXPERIMENT_END
+#endif
 
     pos++;
   }
@@ -326,7 +330,7 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     {
       m_scroll_speed = 0;
     }
-  
+
     unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
     if (m_hovered_layer != new_hovered_layer || m_hovered_item != HoveredItem::LAYERS) {
       m_hovered_layer = new_hovered_layer;
