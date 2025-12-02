@@ -284,16 +284,21 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   float x = mouse_pos.x - static_cast<float>(m_Xpos);
   float y = mouse_pos.y - static_cast<float>(m_Ypos);
 
-  // LAYERS_BOX_EXPERIMENT_BEGIN
-  if (mouse_pos.y > SCREEN_HEIGHT - 400 && mouse_pos.x < 200)
+#if 0
+  if (g_config->editor_show_properties_sidebar)
   {
-    int layer_box_mouse_pos = mouse_pos.y - 400;
-    m_hovered_item = HoveredItem::LAYERS;
-    m_hovered_layer = static_cast<int>(layer_box_mouse_pos / 30.0f);
-    update_tip();
-    return true;
+    // LAYERS_BOX_EXPERIMENT_BEGIN
+    if (mouse_pos.y > SCREEN_HEIGHT - 400 && mouse_pos.x < 200)
+    {
+      int layer_box_mouse_pos = mouse_pos.y - 400;
+      m_hovered_item = HoveredItem::LAYERS;
+      m_hovered_layer = static_cast<int>(layer_box_mouse_pos / 30.0f);
+      update_tip();
+      return true;
+    }
+    // LAYERS_BOX_EXPERIMENT_END
   }
-  // LAYERS_BOX_EXPERIMENT_END
+#endif
 
   if (y < 0 || x > static_cast<float>(m_Width)) {
     m_hovered_item = HoveredItem::NONE;
