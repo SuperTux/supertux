@@ -121,6 +121,9 @@ Config::Config() :
   editor_show_properties_sidebar(false),
   editor_show_toolbar_widgets(true),
   editor_blur(15),
+  editor_remember_last_level(true),
+  preferred_text_editor(),
+  editor_last_edited_level(),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
@@ -131,8 +134,7 @@ Config::Config() :
   // and those with an older SDL; they won't have to check the setting each time.
   multiplayer_buzz_controllers(false),
 #endif
-  repository_url(),
-  preferred_text_editor()
+  repository_url()
 {
 }
 
@@ -264,6 +266,8 @@ Config::load()
     editor_mapping->get("show_properties_sidebar", editor_show_properties_sidebar);
     editor_mapping->get("show_toolbar_widgets", editor_show_toolbar_widgets);
     editor_mapping->get("blur", editor_blur);
+    editor_mapping->get("last_edited_level", editor_last_edited_level);
+    editor_mapping->get("remember_last_level", editor_remember_last_level);
   }
 
   if (is_christmas()) {
@@ -541,6 +545,8 @@ Config::save()
     writer.write("show_properties_sidebar", editor_show_properties_sidebar);
     writer.write("show_toolbar_widgets", editor_show_toolbar_widgets);
     writer.write("blur", editor_blur);
+    writer.write("remember_last_level", editor_remember_last_level);
+    writer.write("last_edited_level", editor_last_edited_level);
   }
   writer.end_list("editor");
 
