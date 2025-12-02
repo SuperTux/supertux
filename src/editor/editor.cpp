@@ -1017,6 +1017,11 @@ Editor::quit_editor()
   {
     remove_autosave_file();
 
+    if (!get_levelfile().empty() && g_config->editor_remember_last_level)
+    {
+      g_config->editor_last_edited_level = FileSystem::join(get_level_directory(), get_levelfile());
+    }
+
     // Quit level editor.
     m_world = nullptr;
     m_levelfile = "";
@@ -1217,10 +1222,14 @@ Editor::setup()
     }
     else
 #endif
+    if (g_config->editor_remember_last_level &&
+        !g_config->editor_last_edited_level.empty())
     {
-      MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+      std::cout << g_config->editor_last_edited_level << std::endl;
+      set_level(g_config->editor_last_edited_level);
     }
-    set_level(nullptr, true);
+    else
+      set_level(nullptr, true);
   }
   m_toolbox_widget->setup();
   m_layers_widget->setup();
