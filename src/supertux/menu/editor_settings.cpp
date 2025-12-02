@@ -38,6 +38,7 @@ EditorSettings::EditorSettings()
   add_toggle(-1, _("Render Background"), &(g_config->editor_render_background));
   add_toggle(-1, _("Render Light"), &(Compositor::s_render_lighting));
   add_toggle(-1, _("Render Animations"), &(g_config->editor_render_animations));
+  add_toggle(-1, _("Invert Shift+Scroll"), &(g_config->editor_invert_shift_scroll));
   add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
   add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
   add_toggle(-1, _("Enable Object Undo Tracking"), &(g_config->editor_undo_tracking));
