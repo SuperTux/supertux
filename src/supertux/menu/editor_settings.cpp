@@ -41,7 +41,9 @@ EditorSettings::EditorSettings()
   add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
   add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
   add_toggle(-1, _("Enable Object Undo Tracking"), &(g_config->editor_undo_tracking));
+#if 0 // The option exists for those to mess with, but hidden because it's still a WIP
   add_toggle(-1, _("Show Properties Sidebar"), &(g_config->editor_show_properties_sidebar));
+#endif
   add_toggle(-1, _("Show Toolbar"), &(g_config->editor_show_toolbar_widgets));
   add_intfield(_("Blur Amount"), &(g_config->editor_blur), -1, true);
   add_textfield(_("Preferred Text Editor"), &(g_config->preferred_text_editor));
