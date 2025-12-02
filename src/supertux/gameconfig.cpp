@@ -64,6 +64,7 @@ Config::Config() :
   sound_volume(100),
   music_volume(50),
   flash_intensity(50),
+  fancy_gfx(true),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
   tux_spawn_pos(),
@@ -289,6 +290,7 @@ Config::load()
     config_video_mapping->get("aspect_height", aspect_size.height);
 
     config_video_mapping->get("magnification", magnification);
+    config_video_mapping->get("fancy_gfx", fancy_gfx);
 
 #ifdef __EMSCRIPTEN__
     // Forcibly set autofit to true.
@@ -456,6 +458,7 @@ Config::save()
 #endif
 
   writer.write("magnification", magnification);
+  writer.write("fancy_gfx", fancy_gfx);
 
   writer.end_list("video");
 

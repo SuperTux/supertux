@@ -78,6 +78,9 @@ public:
   int sound_volume;
   int music_volume;
   int flash_intensity;
+  
+  /** Toggles fancy graphical effects like displacement or blur (primarily for the GL backend) */
+  bool fancy_gfx;
 
   /** initial random seed.  0 ==> set from time() */
   int random_seed;
