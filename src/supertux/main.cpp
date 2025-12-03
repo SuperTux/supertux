@@ -438,7 +438,7 @@ SDLSubsystem::SDLSubsystem()
 #endif
 
 #if defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-    defined(__OPENBSD) || defined(__NetBSD) && !defined(STEAM_BUILD)
+    defined(__OPENBSD) || defined(__NetBSD) && !(defined(STEAM_BUILD) || defined(UBUNTU_TOUCH))
   /* See commit 254fcc9 for SDL. Most of the Nvidia problems are knocked out (i
    * think) for now thanks to nvidia's open drivers. Wayland is needed for
    * precision scrolling to work (which is used for the editor) and most distros
