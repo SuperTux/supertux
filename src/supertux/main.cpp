@@ -437,8 +437,8 @@ SDLSubsystem::SDLSubsystem()
   flags |= SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
 #endif
 
-#if defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-    defined(__OPENBSD) || defined(__NetBSD) && !(defined(STEAM_BUILD) || defined(UBUNTU_TOUCH))
+#if SDL_VERSION_ATLEAST(2,0,22) && (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
+    defined(__OPENBSD) || defined(__NetBSD)) && !(defined(STEAM_BUILD) || defined(UBUNTU_TOUCH))
   /* See commit 254fcc9 for SDL. Most of the Nvidia problems are knocked out (i
    * think) for now thanks to nvidia's open drivers. Wayland is needed for
    * precision scrolling to work (which is used for the editor) and most distros
@@ -448,9 +448,7 @@ SDLSubsystem::SDLSubsystem()
    * defaulted to preferring Wayland (if i recall) -- Swagtoy
    */
   if (g_config->prefer_wayland)
-#if SDL_VERSION_ATLEAST(2,0,22)
     SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
-#endif
 
 #endif
   if (SDL_Init(flags) < 0)
