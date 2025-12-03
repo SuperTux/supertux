@@ -1,6 +1,8 @@
-(supertux-world
-  (title (_ "Rooted Forest"))
-  (description "The second world of SuperTux.")
-  (hide-from-contribs #t)
+(supertux-level-subset
+  (title (_ "Rooted Forest v0.7"))
+  (description (_ "Work in Progress Rooted Forest for SuperTux v0.7."))
   (levelset #f)
+  (contrib-type "user")
+  (hide-from-contribs #f)
+  (title-level "/levels/misc/menu_forest.stl")
 )

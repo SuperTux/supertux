@@ -1,0 +1,1812 @@
+(supertux-level
+  (version 3)
+  (name (_ "Roots of All Evil"))
+  (author "Carsten Wirtz")
+  (license "CC-BY-SA 4.0 International")
+  (allow-item-pocket "inherit")
+  (icon "")
+  (icon-locked "")
+  (statistics
+    (enable-coins #f)
+    (enable-badguys #f)
+    (enable-secrets #f)
+  )
+  (sector
+    (name "main")
+    (ambient-light
+      (color 0.62 0.66 0.78)
+    )
+    (background
+      (scroll-offset-y -50)
+      (color 1 1 1)
+      (speed 0.5)
+      (image-top "/images/background/misc/transparent_up.png")
+      (image "/images/background/corrupted_forest/corrupttrees.png")
+      (image-bottom "/images/background/corrupted_forest/corrupttrees_bottom.png")
+      (z-pos -200)
+    )
+    (background
+      (color 0.56 0.6 0.8 0.7)
+      (scroll-speed-x -22)
+      (speed 1.1)
+      (image-top "/images/background/misc/fog.png")
+      (image "/images/background/misc/fog.png")
+      (image-bottom "/images/background/misc/fog.png")
+      (z-pos 200)
+    )
+    (background
+      (scroll-offset-y -35)
+      (color 1 1 1)
+      (speed 0.3)
+      (image-top "/images/background/misc/transparent_up.png")
+      (image "/images/background/corrupted_forest/corruptwoodland.png")
+      (image-bottom "/images/background/forest/woodland_bottom.png")
+      (z-pos -220)
+    )
+    (background
+      (color 0.38 0.36 0.4)
+      (speed 0)
+      (image-top "/images/background/misc/transparent_up.png")
+      (image "/images/background/corrupted_forest/corrupt_mountains_panorama.png")
+      (z-pos -250)
+    )
+    (background
+      (color 1 1 1 0.7)
+      (speed 0)
+      (fill #t)
+      (target "lightmap")
+      (image "/images/background/misc/vignette.png")
+      (z-pos 300)
+    )
+    (camera
+      (name "Camera")
+      (mode "normal")
+    )
+    (ghosttree
+      (z-pos 40)
+      (sprite "/images/objects/invisible/invisible.sprite")
+      (x 768)
+      (y 96)
+      (hud-icon "images/creatures/ghosttree/hudlife.png")
+    )
+    (gradient
+      (top_color 0.1 0.2 0.3)
+      (bottom_color 0.3 0.2 0.4)
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "4")
+      (path-ref "gen17348992111831442745824")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "5")
+      (path-ref "gen17348994411831442742752")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "6")
+      (path-ref "gen17348994531831442736352")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "7")
+      (path-ref "gen17348994591831442740192")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "8")
+      (path-ref "gen17348994641831442748384")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "9")
+      (path-ref "gen17348994651831442748640")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "10")
+      (path-ref "gen17348995131831442735840")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "11")
+      (path-ref "gen17348995131831442744288")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "12")
+      (path-ref "gen17348995141831442737888")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "13")
+      (path-ref "gen17348995161831442743776")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "14")
+      (path-ref "gen17348995171831442744032")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "15")
+      (path-ref "gen17348995181831442747360")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "16")
+      (path-ref "gen17348995201831442747616")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "17")
+      (path-ref "gen17348995221831442739424")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "18")
+      (path-ref "gen17348995231831442735072")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "19")
+      (path-ref "gen17348995251831442748896")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "20")
+      (path-ref "gen17348995261831442741728")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "21")
+      (path-ref "gen17348995281831442742240")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "22")
+      (path-ref "gen17348995291831442742496")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "23")
+      (path-ref "gen17348995321831442749152")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "24")
+      (path-ref "gen17348995331831442749664")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "25")
+      (path-ref "gen17348995341831442735584")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "26")
+      (path-ref "gen17348995361831442749920")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "27")
+      (path-ref "gen17348995391831442750176")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "28")
+      (path-ref "gen17348995401831442736096")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "29")
+      (path-ref "gen17348995411831442734816")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "30")
+      (path-ref "gen17348995421831442736608")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "31")
+      (path-ref "gen17348995441831442736864")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "32")
+      (path-ref "gen17348995461831442737120")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "33")
+      (path-ref "gen17348995481831442737376")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "34")
+      (path-ref "gen17348995501831442738144")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "35")
+      (path-ref "gen17348995551831442738400")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "36")
+      (path-ref "gen17348995561829658297712")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "37")
+      (path-ref "gen17348995571829658282096")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "38")
+      (path-ref "gen17348995661829658286448")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "39")
+      (path-ref "gen17348995671829658286704")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "40")
+      (path-ref "gen17348995691829658293872")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "41")
+      (path-ref "gen17348995701829658282352")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "42")
+      (path-ref "gen17348995711829658291312")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "43")
+      (path-ref "gen17348995721829658287472")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "44")
+      (path-ref "gen17348995781829658294640")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "45")
+      (path-ref "gen17348995791829658290288")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "46")
+      (path-ref "gen17348995801829658291568")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "3")
+      (path-ref "gen17348995821829658297968")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "2")
+      (path-ref "gen17348995841829658287728")
+    )
+    (hurting_platform
+      (z-pos -50)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "1")
+      (path-ref "gen17348995861829658282608")
+    )
+    (hurting_platform
+      (z-pos -60)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "root_main")
+      (path-ref "gen17349018271831442735584")
+    )
+    (hurting_platform
+      (z-pos -60)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "green_root")
+      (path-ref "gen17349019701831442736352")
+    )
+    (hurting_platform
+      (z-pos -60)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "root_granito")
+      (path-ref "gen17349032412645393190256")
+    )
+    (hurting_platform
+      (z-pos -60)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "root_granito2")
+      (path-ref "gen17349683702352064993840")
+    )
+    (hurting_platform
+      (z-pos -60)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "green_root2")
+      (path-ref "gen17349683742352064996400")
+    )
+    (lit-object
+      (z-pos -80)
+      (x 776)
+      (y 584)
+      (light-sprite "/images/creatures/mole/corrupted/core_glow/core_glow.sprite")
+      (action "scream")
+      (light-offset-x -36)
+      (light-offset-y -20)
+    )
+    (music
+      (file "/music/forest/treeboss.music")
+    )
+    (particles-rain
+    )
+    (path
+      (name "gen17348992111831442745824")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1408)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1408)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348994411831442742752")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1376)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1376)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348994531831442736352")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1344)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1344)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348994591831442740192")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1312)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1312)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348994641831442748384")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1280)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1280)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348994651831442748640")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1248)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1248)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995131831442735840")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1216)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1216)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995131831442744288")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1184)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1184)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995141831442737888")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1152)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1152)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995161831442743776")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1120)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1120)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995171831442744032")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1088)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1088)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995181831442747360")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1056)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1056)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995201831442747616")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1024)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1024)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995221831442739424")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 992)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 992)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995231831442735072")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 960)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 960)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995251831442748896")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 928)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 928)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995261831442741728")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 896)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 896)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995281831442742240")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 864)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 864)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995291831442742496")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 832)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 832)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995321831442749152")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 800)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 800)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995331831442749664")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 768)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 768)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995341831442735584")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 736)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 736)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995361831442749920")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 704)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 704)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995391831442750176")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 672)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 672)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995401831442736096")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 640)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 640)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995411831442734816")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 608)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 608)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995421831442736608")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 576)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 576)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995441831442736864")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 544)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 544)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995461831442737120")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 512)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 512)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995481831442737376")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 480)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 480)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995501831442738144")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 448)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 448)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995551831442738400")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 416)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 416)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995561829658297712")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 384)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 384)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995571829658282096")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 352)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 352)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995661829658286448")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 320)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 320)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995671829658286704")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 288)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 288)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995691829658293872")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 256)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 256)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995701829658282352")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 224)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 224)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995711829658291312")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 192)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 192)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995721829658287472")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 160)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 160)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995781829658294640")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 128)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 128)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995791829658290288")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 96)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 96)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995801829658291568")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 64)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 64)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995821829658297968")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1440)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1440)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995841829658287728")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1472)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1472)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17348995861829658282608")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1504)
+          (y 736)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1504)
+          (y 640)
+          (time 0.5)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17349018271831442735584")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 1232)
+          (y 736)
+          (time 0.6933333)
+          (speed 300)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 1232)
+          (y 528)
+        )
+      )
+    )
+    (path
+      (name "gen17349019701831442736352")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 496)
+          (y 704)
+          (time 0.7466667)
+          (speed 150)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 496)
+          (y 592)
+        )
+      )
+    )
+    (path
+      (name "gen17349032412645393190256")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 336)
+          (y 752)
+          (time 1.090909)
+          (speed 220)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 336)
+          (y 512)
+          (time 1.6)
+          (speed 150)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17349683702352064993840")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 792)
+          (y 736)
+          (time 1.090909)
+          (speed 220)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 792)
+          (y 496)
+          (time 1.6)
+          (speed 150)
+          (easing "EaseQuadIn")
+        )
+      )
+    )
+    (path
+      (name "gen17349683742352064996400")
+      (path
+        (adapt_speed #f)
+        (node
+          (x 784)
+          (y 736)
+          (time 1.090909)
+          (easing "EaseQuadIn")
+        )
+        (node
+          (x 784)
+          (y 624)
+        )
+      )
+    )
+    (scripttrigger
+      (script "for(local i = 24; i <= 46; i++) {
+    sector[i.tostring()].goto_node(1)
+    sector[i.tostring()].goto_node(0)
+    wait(0.1)
+}")
+      (button #f)
+      (width 96)
+      (height 64)
+      (x 1024)
+      (y 448)
+    )
+    (scripttrigger
+      (script "for(local i = 23; i >= 1; i--) {
+    sector[i.tostring()].goto_node(1)
+    sector[i.tostring()].goto_node(0)
+    wait(0.1)
+}")
+      (button #f)
+      (width 96)
+      (height 64)
+      (x 1056)
+      (y 448)
+    )
+    (scripttrigger
+      (script "green_root2.goto_node(1);
+root_granito2.goto_node(1);
+wait(3);
+sector.settings.add_object(\"explosion\", \"\", 780, 555, \"none\", \"\");
+root_granito2.goto_node(0);
+green_root2.goto_node(0);")
+      (button #f)
+      (width 64)
+      (height 192)
+      (x 1056)
+      (y 384)
+    )
+    (sound-object
+      (sample "/sounds/rain.wav")
+      (volume 1)
+    )
+    (spawnpoint
+      (name "main")
+      (x 928)
+      (y 640)
+    )
+    (switch
+      (z-pos -10)
+      (script "play_sound(\"sounds/ugreed_crack.wav\");
+wait(1);
+play_sound(\"sounds/ugreed_deathscream.wav\");
+wait(2.2);
+FLASH.lightning();")
+      (x 32)
+      (y 320)
+    )
+    (switch
+      (z-pos 1)
+      (script "for(local i = 1; i <= 46; i++) {
+    sector[i + \"\"].goto_node(1);
+    sector[i + \"\"].goto_node(0);
+    wait(0.1);
+}")
+      (off-script "for(local i = 46; i >= 1; i--) {
+    sector[i.tostring()].goto_node(1)
+    sector[i.tostring()].goto_node(0)
+    wait(0.1)
+}")
+      (x 1056)
+      (y 576)
+    )
+    (switch
+      (z-pos 1)
+      (script "root_main.goto_node(1);
+root_main.goto_node(0);")
+      (x 1088)
+      (y 576)
+    )
+    (switch
+      (z-pos 1)
+      (script "green_root.goto_node(1);
+wait(2);
+sector.settings.add_object(\"explosion\", \"\", 485, 585, \"none\", \"\");
+green_root.goto_node(0);")
+      (x 608)
+      (y 592)
+    )
+    (switch
+      (z-pos 1)
+      (script "root_granito.goto_node(1);
+wait(1.2);
+sector.settings.add_object(\"dart\", \"penis\", 355, 565, \"right\", \"\");
+sector.settings.add_object(\"dart\", \"penis2\", 265, 640, \"left\", \"\");
+wait(0.01);
+penis.set_sprite(\"images/creatures/ghosttree/blue_root.sprite\");
+penis2.set_sprite(\"images/creatures/ghosttree/blue_root.sprite\");
+penis.set_action(\"right\", -1);
+penis2.set_action(\"left\", -1);
+wait(0.5);
+root_granito.goto_node(0);")
+      (x 576)
+      (y 592)
+    )
+    (thunderstorm
+      (running #f)
+    )
+    (tilemap
+      (solid #f)
+      (z-pos -100)
+      (width 50)
+      (height 30)
+      (tiles -983 0 6346 6347 6348 6349 -24 0 6346 6347 6366 6367 6348 6349 -16 0 6354 6355 6356 6357 -3 0 6346 6347 6348 6349 -12 0 6346 6347 6348 6349 0 6354 6355 6374 6375 6356 6357 -16 0 6378 6379 6350 6351 6348 6349 0 6354 6355 6356 6357 -12 0 6354 6355 6356 6357 0 6378 6379 6398 6399 6364 6365 -16 0 6386 6387 6358 6359 6356 6357 0 6378 6379 6380 6381 -356 0)
+    )
+    (tilemap
+      (solid #f)
+      (z-pos 100)
+      (width 50)
+      (height 30)
+      (tiles -1312 0 6410 -4 6411 6412 -11 0 6410 -4 6411 6412 -23 0 6410 -3 6411 6420 6426 -3 6417 6419 -2 6411 6412 -4 0 6410 -3 6411 6420 -4 6426 6419 -3 6411 6412 -14 0 6410 -4 6411 6420 6425 -2 6417 6425 6426 6417 6425 6417 6425 6426 6417 6419 -4 6411 6420 6426 6425 -2 6417 6425 6417 6425 -3 6417 6425 6417 6419 -5 6411 6412 -4 0 6410 -3 6411 6420 -3 6417 -2 6426 -4 6417 -2 6425 -4 6417 6425 6417 6426 -3 6417 6425 -3 6417 -4 6425 -3 6417 6425 6426 -3 6417 -2 6426 6417 6419 -4 6411 6420)
+    )
+    (tilemap
+      (solid #t)
+      (z-pos 0)
+      (width 50)
+      (height 30)
+      (tiles -350 0 6274 -47 0 6289 6290 6278 1448 1444 -44 0 3384 6293 6294 1451 1452 1447 6706 -43 0 6707 6297 1432 1437 1432 1451 6710 -43 0 6711 1436 1437 1436 1437 3414 3411 -43 0 3406 3407 3415 3414 3408 3409 -46 0 3410 3411 -413 0 6271 6272 1424 1425 -3 1424 -3 1425 1424 -3 1425 1424 1425 1424 1425 1424 6273 6274 -19 0 6271 6272 1424 -2 1425 -3 1424 6281 6282 6275 6276 1429 -2 1428 -2 1429 -4 1428 1429 1428 -4 1429 1428 1429 6277 6278 6279 6280 1424 -2 1425 -2 1424 1425 1424 6273 6274 -4 0 1425 1424 6281 6282 6275 6276 -6 1429 6285 6286 1450 -2 1432 1436 1437 1436 -3 1432 1437 -3 1432 1437 1433 1437 -4 1432 1451 6283 6284 1429 -2 1428 1429 1428 -2 1429 6277 6278 6279 6280 -2 1424 -2 1429 6285 6286 1450 -3 1432 -2 1436 1437 -7 1432 1437 1432 1437 -3 1436 1433 1437 1432 1433 -2 1432 1437 1436 -6 1432 1436 -3 1432 1436 -2 1432 1451 6283 6284 1429 1428 1436 -5 1432 1436 1437 1436 1437 -2 1436 1432 1433 1437 1432 1437 -2 1432 1436 -2 1437 1433 -3 1437 1436 1432 -2 1436 -6 1437 -2 1432 1433 1436 1432 -3 1436 -5 1432 1437 -3 1436 1432 -2 1436 1432 -2 1437 1433 1432 -2 1436 -2 1437 1433 1436 1432 -2 1433 1437 -3 1432 1436 1437 1432 -2 1437 1436 1432 1436 1432 1436 1432 1436 1432 1437 1436 1433 1432 1436 1437 -3 1432 1433 -2 1437 1432 -2 1437 1432 -2 1437 1432 -2 1436 -2 1437 1432 -2 1437 1436 -2 1437 -2 1432 1437 -2 1432 1437 1433 -2 1436 1432 1437 1432 -9 1436 -2 1437 1433 1437 -3 1436 1437 1436 1433 1436 1432 -2 1437 1432 1437 1436 1437 1433 1432 1436 1432 1433 -2 1437 -2 1436 1432 1433 1432 -2 1436 1432 -3 1436 1432 -4 1436 1432 1437 1433 1437 1433 1437 1432 1437 1433 -2 1437 1436 -2 1437 1433 1432 1437 1432 -3 1436 1432 1437 1436 1433 1436 -3 1437 -2 1436 -2 1437 -2 1432 -2 1436 1437 1432 1437 1432 1433 1432 1436 -3 1437 1433 1437 -2 1432 -4 1433 -3 1432 1433 1436 1437 1432 1437 -2 1436 1437 1436 -2 1432 1437 -2 1436)
+    )
+    (tilemap
+      (solid #t)
+      (z-pos -1)
+      (width 50)
+      (height 30)
+      (tiles -1000 0 6669 6670 -46 0 6667 6668 6677 6678 -46 0 6675 6676 6683 6684 6619 6620 6619 6620 6619 6620 6619 6620 6619 6620 6619 6669 6670 -19 0 6667 6668 6619 6620 6619 6620 6619 6620 6619 6620 6619 6620 6619 6620 6685 6686 6691 6692 6627 6628 6627 6628 6627 6628 6627 6628 6627 6628 6627 6677 6678 -19 0 6675 6676 6627 6628 6627 6628 6627 6628 6627 6628 6627 6628 6627 6628 6693 6694 -300 0)
+    )
+    (tilemap
+      (solid #f)
+      (z-pos -110)
+      (width 50)
+      (height 30)
+      (tiles -459 0 6225 6226 -27 0 6225 6226 -18 0 6230 6231 6232 6233 -25 0 6230 6231 6232 6233 -17 0 6236 6237 6238 6239 -25 0 6236 6237 6238 6239 -17 0 6242 6243 6244 6245 -25 0 6242 6243 6244 6245 -17 0 6248 6249 6250 6251 -25 0 6248 6249 6250 6251 -16 0 6253 6254 6255 6256 6257 6258 -23 0 6253 6254 6255 6256 6257 6258 -15 0 6259 6260 6261 6262 6263 6264 -23 0 6259 6260 6261 6262 6263 6264 -16 0 6266 6267 6268 6269 -25 0 6266 6267 6268 6269 -18 0 5973 5974 -27 0 6082 6083 -19 0 5979 5980 -27 0 6089 6090 -19 0 6082 6083 -27 0 5973 5974 -19 0 6089 6090 -27 0 5979 5980 -19 0 6096 6097 -27 0 6096 6097 -19 0 6103 6104 -27 0 6103 6104 -360 0)
+    )
+    (tilemap
+      (solid #t)
+      (z-pos -10)
+      (width 50)
+      (height 30)
+      (tiles -250 0 6656 -48 0 6655 6664 -48 0 6663 6672 -48 0 6671 6680 -48 0 6679 -149 0 6637 6638 -48 0 6645 6646 -48 0 6637 6638 -48 0 6645 6646 -48 0 6637 6638 -21 0 2819 -26 0 6645 6646 -21 0 2819 -26 0 6637 6638 -48 0 6645 6646 -48 0 6637 6638 -48 0 6645 6646 6620 6669 6670 -9 0 6667 6668 6619 6620 6669 6670 -12 0 6667 6668 6619 6620 6669 6670 -9 0 6667 6668 6619 6637 6638 6628 6677 6678 -9 0 6675 6676 6627 6628 6677 6678 -12 0 6675 6676 6627 6628 6677 6678 -9 0 6675 6676 6627 6645 6646 -48 0 6637 -49 0 6645 -250 0)
+    )
+  )
+  (sector
+    (name "sector2")
+    (ambient-light
+      (color 1 1 1)
+    )
+    (background
+      (color 1 1 1)
+      (speed 0.5)
+      (image "images/background/antarctic/arctis2.png")
+    )
+    (camera
+      (name "Camera")
+      (mode "normal")
+    )
+    (music
+    )
+    (spawnpoint
+      (name "main")
+      (x 64)
+      (y 480)
+    )
+    (tilemap
+      (solid #f)
+      (z-pos -100)
+      (width 100)
+      (height 35)
+      (tiles -3500 0)
+    )
+    (tilemap
+      (solid #f)
+      (z-pos 100)
+      (width 100)
+      (height 35)
+      (tiles -3500 0)
+    )
+    (tilemap
+      (solid #t)
+      (z-pos 0)
+      (width 100)
+      (height 35)
+      (tiles -3500 0)
+    )
+  )
+)
