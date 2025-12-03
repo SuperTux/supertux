@@ -448,7 +448,10 @@ SDLSubsystem::SDLSubsystem()
    * defaulted to preferring Wayland (if i recall) -- Swagtoy
    */
   if (g_config->prefer_wayland)
+#if SDL_VERSION_ATLEAST(2,0,22)
     SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
+#endif
+
 #endif
   if (SDL_Init(flags) < 0)
   {
