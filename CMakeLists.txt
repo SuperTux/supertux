@@ -153,7 +153,7 @@ option(ENABLE_OPENGL "Enable OpenGL support" ON)
 include(SuperTux/AddPackage)
 
 add_package(TARGET PNG
-  PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED) # lol
+  PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED)
 add_package(TARGET ZLIB
   PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
 add_package(TARGET PhysFS

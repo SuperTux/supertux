@@ -84,6 +84,7 @@ Config::Config() :
   do_release_check(false),
   disable_network(true),
   custom_title_levels(true),
+  prefer_wayland(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -291,6 +292,7 @@ Config::load()
 
     config_video_mapping->get("magnification", magnification);
     config_video_mapping->get("fancy_gfx", fancy_gfx);
+    config_video_mapping->get("prefer_wayland", prefer_wayland);
 
 #ifdef __EMSCRIPTEN__
     // Forcibly set autofit to true.
@@ -459,6 +461,7 @@ Config::save()
 
   writer.write("magnification", magnification);
   writer.write("fancy_gfx", fancy_gfx);
+  writer.write("prefer_wayland", prefer_wayland);
 
   writer.end_list("video");
 
