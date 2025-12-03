@@ -1005,7 +1005,7 @@ Editor::reset_level()
   m_reload_request = false;
 
   MouseCursor::current()->set_icon(nullptr);
-  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+  set_level(nullptr, true);
 }
 
 void
