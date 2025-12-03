@@ -81,8 +81,6 @@ DartTrap::active_update(float dt_sec)
     sticky_update(dt_sec);
   }
 
-  // end dynamic
-
   if (!m_enabled) return;
 
   switch (m_state) {
