@@ -27,12 +27,12 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  StickyBadguy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1, COLGROUP_DISABLED),
+  StickyBadguy(reader, "images/creatures/darttrap/skull/darttrap_skull.sprite", get_allowed_directions()[0], LAYER_TILES - 1, COLGROUP_DISABLED),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),
   m_ammo(),
-  m_dart_sprite("images/creatures/darttrap/granito/root_dart.sprite"),
+  m_dart_sprite("images/creatures/darttrap/skull/skull_dart.sprite"),
   m_state(IDLE),
   m_fire_timer()
 {
@@ -43,7 +43,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("initial-delay", m_initial_delay, 0.0f);
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
-  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/granito/root_dart.sprite");
+  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/skull/skull_dart.sprite");
   set_colgroup_active(COLGROUP_DISABLED);
 
   m_countMe = false;
@@ -80,8 +80,6 @@ DartTrap::active_update(float dt_sec)
   if (m_sticky) {
     sticky_update(dt_sec);
   }
-
-  // end dynamic
 
   if (!m_enabled) return;
 
@@ -156,7 +154,7 @@ DartTrap::get_settings()
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
   result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay");
   result.add_int(_("Ammo"), &m_ammo, "ammo");
-  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/granito/root_dart.sprite");
+  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/skull/skull_dart.sprite");
 
   result.reorder({"initial-delay", "fire-delay", "ammo", "sticky", "direction", "x", "y", "dart-sprite"});
 
@@ -167,8 +165,8 @@ GameObjectTypes
 DartTrap::get_types() const
 {
   return {
-    {"granito", _("Granito")},
-    {"skull", _("Skull")}
+    {"skull", _("Skull")},
+    {"granito", _("Granito")}
   };
 }
 
@@ -182,7 +180,7 @@ DartTrap::get_default_sprite_name() const
     case GRANITO:
       return "images/creatures/darttrap/granito/darttrap_granito.sprite";
   }
-  return "images/creatures/darttrap/granito/darttrap_granito.sprite";
+  return "images/creatures/darttrap/skull/darttrap_skull.sprite";
 }
 
 void DartTrap::kill_fall()
@@ -222,11 +220,11 @@ DartTrap::on_type_change(int old_type)
 
   switch (m_type)
   {
-    case GRANITO:
-      m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
-      break;
     case SKULL:
       m_dart_sprite = "images/creatures/darttrap/skull/skull_dart.sprite";
+      break;
+    case GRANITO:
+      m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
       break;
   }
 }

@@ -122,7 +122,7 @@ OptionsMenu::refresh()
 
       add_toggle(MNID_FRAME_PREDICTION, _("Frame prediction"), &g_config->frame_prediction)
         .set_help(_("Smooth camera motion, generating intermediate frames. This has a noticeable effect on monitors at >> 60Hz. Moving objects may be blurry."));
-		
+
       add_toggle(MNID_FANCY_GFX, _("Fancy Effects"), &g_config->fancy_gfx)
         .set_help(_("Applies fancy effects such as blur, clear tile refraction, and various other effects deemed \"fancy\". May significantly degrade performance."));
 
@@ -229,8 +229,14 @@ OptionsMenu::refresh()
       add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
         .set_help(_("Automatically pause the game when the window loses focus"));
 
+#if defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
+    defined(__OPENBSD) || defined(__NetBSD) && !(defined(STEAM_BUILD) || defined(UBUNTU_TOUCH))
+      add_toggle(MNID_PREFER_WAYLAND, _("Prefer Wayland"), &g_config->prefer_wayland)
+        .set_help(_("If you experience any issues with Nvidia cards, your window border, or anything you believe is due to Wayland, disable this. (Requires restart)"));
+#endif
+
       add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
-      
+
       add_toggle(MNID_CUSTOM_CURSOR, _("Use native custom cursor"), &g_config->custom_system_cursor).set_help(_("Whether the game uses a native custom cursor or renders it in the game"));
 
 #ifndef __EMSCRIPTEN__
@@ -774,7 +780,7 @@ OptionsMenu::menu_action(MenuItem& item)
     case MNID_CUSTOM_TITLE_LEVELS:
       TitleScreen::current()->refresh_level();
       break;
-	
+
     case MNID_FANCY_GFX:
       VideoSystem::current()->apply_config();
       break;

@@ -78,7 +78,10 @@ public:
   int sound_volume;
   int music_volume;
   int flash_intensity;
-  
+
+  /** Prefer the wayland session. Depending on the platform, this may not be used. */
+  bool prefer_wayland;
+
   /** Toggles fancy graphical effects like displacement or blur (primarily for the GL backend) */
   bool fancy_gfx;
 
