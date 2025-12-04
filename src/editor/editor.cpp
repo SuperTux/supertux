@@ -1364,6 +1364,12 @@ Editor::event(const SDL_Event& ev)
             case SDLK_x:
               toggle_tile_object_mode();
               break;
+            case SDLK_PAGEUP:
+              m_toolbox_widget->switch_current_group(-1);
+              break;
+            case SDLK_PAGEDOWN:
+              m_toolbox_widget->switch_current_group(1);
+              break;
             case SDLK_PLUS: // Zoom in
             case SDLK_EQUALS:
             case SDLK_KP_PLUS:

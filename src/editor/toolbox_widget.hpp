@@ -57,6 +57,8 @@ public:
   void select_last_tilegroup();
   void select_last_objectgroup();
 
+  void switch_current_group(int dir);
+
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
 
@@ -79,6 +81,7 @@ private:
   Rectf get_hovered_item_rect() const;
 
   ToolIcon* get_mouse_icon() const;
+  void update_last_active_group();
 
 private:
   Editor& m_editor;
@@ -87,6 +90,7 @@ private:
 
   float m_pos_x;
   HoveredItem m_hovered_item;
+  HoveredItem m_last_active_group;
   int m_hovered_tool;
 
   std::unique_ptr<ToolIcon> m_rubber;
