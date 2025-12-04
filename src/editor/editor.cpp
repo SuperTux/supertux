@@ -1307,8 +1307,18 @@ Editor::event(const SDL_Event& ev)
       if (!m_controls.empty() && Rectf(0, 32.0f, 200.0f, SCREEN_HEIGHT - 32.0f).contains(m_mouse_pos))
         return;
     }
-    else
+    else if (ev.type == SDL_MOUSEBUTTONDOWN)
     {
+      switch (ev.button.button)
+      {
+        case SDL_BUTTON_X1:
+          undo();
+          break;
+        case SDL_BUTTON_X2:
+          redo();
+          break;
+      }
+    } else {
       // If properties sidebar controls are active and the mouse is hovering over the sidebar,
       // do not propagate mouse events to the editor or its widgets.
       if (!m_controls.empty() &&
