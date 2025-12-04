@@ -139,6 +139,7 @@ Editor::Editor() :
   m_ctrl_pressed(false),
   m_shift_pressed(false),
   m_alt_pressed(false),
+  m_key_zoomed(false),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
@@ -642,12 +643,13 @@ Editor::update(float dt_sec, const Controller& controller)
       camera.set_scale(m_new_scale);
 
       // When zooming in, focus on the position of the mouse.
-      // if (zooming_in)
-      //   camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
-      //                                     static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
+      if (zooming_in && !m_key_zoomed)
+        camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
+                                          static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
 
       keep_camera_in_bounds();
     }
+    m_key_zoomed = false;
     m_new_scale = 0.f;
   }
 
@@ -1365,10 +1367,12 @@ Editor::event(const SDL_Event& ev)
             case SDLK_PLUS: // Zoom in
             case SDLK_EQUALS:
             case SDLK_KP_PLUS:
+              m_key_zoomed = true;
               m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
               break;
             case SDLK_MINUS: // Zoom out
             case SDLK_KP_MINUS:
+              m_key_zoomed = true;
               m_new_scale = m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY;
               break;
             case SDLK_d: // Reset zoom

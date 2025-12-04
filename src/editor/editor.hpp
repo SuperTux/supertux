@@ -97,7 +97,7 @@ public:
   inline TileSet* get_tileset() const { return m_tileset; }
   inline TileSelection* get_tiles() const { return m_toolbox_widget->get_tilebox().get_tiles(); }
   inline std::string get_tileselect_object() const { return m_toolbox_widget->get_tilebox().get_object(); }
-  
+
   void toggle_tile_object_mode();
 
   inline EditorTilebox::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_tilebox().get_input_type(); }
@@ -108,7 +108,7 @@ public:
   inline int get_tileselect_move_mode() const { return m_toolbox_widget->get_tileselect_move_mode(); }
 
   inline const std::string& get_levelfile() const { return m_levelfile; }
-  
+
   void level_from_nothing();
 
   void set_level(std::unique_ptr<Level> level, bool reset = true);
@@ -119,7 +119,7 @@ public:
   }
 
   std::string get_level_directory() const;
-  
+
   inline bool is_temp_level() const { return m_temp_level; }
 
   void open_level_directory();
@@ -149,7 +149,7 @@ public:
   void esc_press();
   void delete_markers();
   void sort_layers();
-  
+
   inline void disable_testing() { m_testing_disabled = true; }
 
   void select_tilegroup(int id);
@@ -239,11 +239,12 @@ public:
   bool m_ctrl_pressed;
   bool m_shift_pressed;
   bool m_alt_pressed;
-  
+  bool m_key_zoomed;
+
   ScriptManager m_script_manager;
-  
+
   exit_cb_t m_on_exit_cb;
-  
+
   bool m_tilebox_something_selected;
 
 private:
@@ -277,14 +278,14 @@ private:
 
   float m_scroll_speed;
   float m_new_scale;
-  
+
   float m_widgets_width;
   float m_widgets_width_offset;
 
   Vector m_mouse_pos;
 
   bool m_layers_widget_needs_refresh;
-  
+
   SpritePtr m_shadow;
 
 private:
