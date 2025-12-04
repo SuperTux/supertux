@@ -1427,24 +1427,10 @@ Editor::toggle_tile_object_mode()
   if (input_type == InputType::OBJECT)
   {
     select_last_tilegroup();
-    for(const auto& widget : m_widgets)
-    {
-      if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
-      {
-        toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
-      }
-    }
   }
   else
   {
     select_last_objectgroup();
-    for(const auto& widget : m_widgets)
-    {
-      if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
-      {
-        toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
-      }
-  	}
   }
 
   for (const auto& widget : m_widgets)
@@ -1488,6 +1474,14 @@ void
 Editor::select_last_tilegroup()
 {
   m_toolbox_widget->select_last_tilegroup();
+
+  for(const auto& widget : m_widgets)
+  {
+    if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+    {
+      toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
+    }
+  }
 }
 
 const std::vector<Tilegroup>&
@@ -1518,6 +1512,14 @@ void
 Editor::select_last_objectgroup()
 {
   m_toolbox_widget->select_last_objectgroup();
+  
+  for(const auto& widget : m_widgets)
+  {
+    if (auto toolbar_button = dynamic_cast<EditorToolbarButtonWidget*>(widget.get()))
+    {
+      toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
+    }
+  }
 }
 
 const std::vector<ObjectGroup>&
