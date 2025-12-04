@@ -643,7 +643,7 @@ Editor::update(float dt_sec, const Controller& controller)
       camera.set_scale(m_new_scale);
 
       // When zooming in, focus on the position of the mouse.
-      if (zooming_in && !m_key_zoomed)
+      if (zooming_in && !m_key_zoomed && !g_config->editor_zoom_centered)
         camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
                                           static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
 
