@@ -49,6 +49,7 @@ function(add_package)
 
   if(TARGET ${addpackage_args_TARGET})
     message(STATUS "Target \"${addpackage_args_TARGET}\" already exists. Skipping")
+    set("ADDPKG_${addpackage_args_PKG}_FOUND" TRUE PARENT_SCOPE)
     return()
   endif()
 
@@ -71,6 +72,7 @@ function(add_package)
 
   if(TARGET ${addpackage_args_TARGET})
     message(STATUS "Package \"${addpackage_args_PKG}\" was found successfully!")
+    set("ADDPKG_${addpackage_args_PKG}_FOUND" TRUE PARENT_SCOPE)
     return()
   endif()
 
@@ -89,6 +91,7 @@ function(add_package)
     endif()
 
     message(STATUS "Package \"${addpackage_args_PKG}\" was found successfully!")
+    set("ADDPKG_${addpackage_args_PKG}_FOUND" TRUE PARENT_SCOPE)
   else()
     message(STATUS "CMake Package \"${addpackage_args_PKG}\" doesn't exist, so falling back to PkgConfig")
 
@@ -107,17 +110,21 @@ function(add_package)
           message(FATAL_ERROR "Package \"${addpackage_args_TARGET}\" couldn't be found with pkg-config, but it's required.\n"
                               "I don't know what to do. Is it installed?\n"
                               "Tried: ${addpackage_args_PKG_CONFIG}")
+          set("ADDPKG_${addpackage_args_PKG}_FOUND" FALSE PARENT_SCOPE)
         else()
           message(STATUS "Package \"${addpackage_args_TARGET}\" couldn't be found with pkg-config."
                          "Tried: ${addpackage_args_PKG_CONFIG}")
+          set("ADDPKG_${addpackage_args_PKG}_FOUND" FALSE PARENT_SCOPE)
           return()
         endif()
       endif()
 
       add_library(${addpackage_args_TARGET} ALIAS PkgConfig::${addpackage_args_TARGET})
       message(STATUS "Package \"${addpackage_args_PKG}\" was found successfully using pkg-config!")
+      set("ADDPKG_${addpackage_args_PKG}_FOUND" TRUE PARENT_SCOPE)
     elseif(addpackage_args_REQUIRED)
       message(FATAL_ERROR "Package \"${addpackage_args_TARGET}\" couldn't be found, but it's required.\nI don't know what to do. Is it installed?")
+      set("ADDPKG_${addpackage_args_PKG}_FOUND" FALSE PARENT_SCOPE)
     endif()
   endif()
 endfunction()
