@@ -237,7 +237,7 @@ EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
       input_tile(target_tile + add_tile, tile);
     } // for tile y
   } // for tile x
-  
+
   m_last_target_pos = target_tile;
   Editor::current()->m_tilebox_something_selected = false;
 }
@@ -1231,7 +1231,7 @@ EditorOverlayWidget::update_pos()
 
   m_sector_pos = m_mouse_pos / m_editor.get_sector()->get_camera().get_current_scale() +
                  m_editor.get_sector()->get_camera().get_translation();
-  
+
   m_hovered_tile = sp_to_tp(m_sector_pos);
 
   if (m_last_hovered_tile != m_hovered_tile)
@@ -1454,7 +1454,7 @@ EditorOverlayWidget::draw_tilemap_outer_shading(DrawingContext& context)
 {
   auto current_tm = m_editor.get_selected_tilemap();
   if (!current_tm) return;
-  
+
   Vector start = tile_screen_pos( Vector(0, 0) );
   Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
                                        static_cast<float>(current_tm->get_height())) );
@@ -1462,7 +1462,7 @@ EditorOverlayWidget::draw_tilemap_outer_shading(DrawingContext& context)
   const Color& bg_color = { 0, 0, 0, 0.15 };
   const Camera& camera = m_editor.get_sector()->get_camera();
   float w_l = (-camera.get_x()) * camera.get_current_scale();
-  float height = camera.get_screen_height();
+  float height = camera.get_screen_height() * camera.get_current_scale();
   float w_r = (current_tm->get_width() - camera.get_x()) * camera.get_current_scale();
   // Left
   context.color().draw_filled_rect({0,0,start.x,height}, bg_color, current_tm->get_layer());
