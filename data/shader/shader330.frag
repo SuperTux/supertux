@@ -18,20 +18,20 @@ out vec4 fragColor;
 
 void main(void)
 {
-  if (backbuffer == 0.0 || !is_displacement || blur != 0.0)
+  if (backbuffer == 0.0 || !is_displacement || blur != 0)
   {
     vec4 color = diffuse_var * texture(diffuse_texture, texcoord_var.st + (animate * game_time));
-    if (blur != 0.0)
+    if (blur != 0)
     {
       vec2 uv = (fragcoord2uv * gl_FragCoord.xyw).xy;
       uv.y = 1.0 - uv.y;
       vec2 texel = vec2(fragcoord2uv[0].x, fragcoord2uv[1].y);
       float num = 0.0;
       vec4 sum = vec4(0.0);
-      
-      for (float y = -blur; y <= blur; ++y)
+
+      for (int y = -blur; y <= blur; ++y)
       {
-        for (float x = -blur; x <= blur; ++x)
+        for (int x = -blur; x <= blur; ++x)
         {
           vec2 offset = vec2(x, y) * texel;
           sum += texture(framebuffer_texture, uv + offset);
