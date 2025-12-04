@@ -210,6 +210,7 @@ set(HAVE_OPENGL NO)
 if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
   set(OpenGL_GL_PREFERENCE "LEGACY")
   find_package(OpenGL)
+  message(STATUS "OpenGL found: ${OPENGL_FOUND}")
 
   if(OPENGL_FOUND)
     add_package(TARGET GLEW
@@ -218,6 +219,7 @@ if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
   endif()
 
   set(HAVE_OPENGL ${GLEW_FOUND})
+  message(STATUS "OpenGL found: ${GLEW_FOUND}")
 
   if(HAVE_OPENGL)
     message(STATUS "OpenGL & GLEW found, enabling OpenGL support.")
