@@ -129,7 +129,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
-		  MenuManager::instance().current_menu()->set_item(m_tilebox->get_tilegroup_id());
+		      MenuManager::instance().current_menu()->set_item(m_tilebox->get_tilegroup_id());
         }
         else
         {
@@ -143,7 +143,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
-		  MenuManager::instance().current_menu()->set_item(m_tilebox->get_objectgroup_id());
+		      MenuManager::instance().current_menu()->set_item(m_tilebox->get_objectgroup_id());
         }
         else
         {
@@ -347,13 +347,13 @@ EditorToolboxWidget::select_objectgroup(int id)
 void
 EditorToolboxWidget::select_last_tilegroup()
 {
-  m_tilebox->select_last_tilegroup();
+  Editor::current()->select_last_tilegroup();
 }
 
 void
 EditorToolboxWidget::select_last_objectgroup()
 {
-  m_tilebox->select_last_objectgroup();
+  Editor::current()->select_last_objectgroup();
 }
 
 int
