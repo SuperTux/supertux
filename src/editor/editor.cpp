@@ -1424,7 +1424,7 @@ Editor::toggle_tile_object_mode()
   auto& tilebox = m_toolbox_widget->get_tilebox();
   const auto& input_type = tilebox.get_input_type();
 
-  if (input_type == InputType::OBJECT)
+  if (input_type == InputType::OBJECT) // Object mode -> Tile mode
   {
     select_last_tilegroup();
     for(const auto& widget : m_widgets)
@@ -1434,8 +1434,9 @@ Editor::toggle_tile_object_mode()
         toolbar_button->set_visible(toolbar_button->get_visible_in_tile_mode());
       }
     }
+    m_toolbox_widget->set_tileselect_select_mode(0);
   }
-  else
+  else // Tile mode -> Object mode
   {
     select_last_objectgroup();
     for(const auto& widget : m_widgets)
@@ -1445,6 +1446,7 @@ Editor::toggle_tile_object_mode()
         toolbar_button->set_visible(toolbar_button->get_visible_in_object_mode());
       }
   	}
+    m_toolbox_widget->set_tileselect_move_mode(0);
   }
 
   for (const auto& widget : m_widgets)
