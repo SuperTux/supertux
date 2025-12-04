@@ -1363,6 +1363,7 @@ Editor::event(const SDL_Event& ev)
               toggle_tile_object_mode();
               break;
             case SDLK_PLUS: // Zoom in
+            case SDLK_EQUALS:
             case SDLK_KP_PLUS:
               m_new_scale = m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY;
               break;
