@@ -416,29 +416,6 @@ Editor::draw(Compositor& compositor)
       }
     }
 
-    // If camera scale must be changed, change it here.
-    if (m_new_scale != 0.f)
-    {
-      // Do not clamp, as to prevent pointless calls to EditorOverlayWidget::update_pos().
-      if (m_new_scale >= CAMERA_MIN_ZOOM && m_new_scale <= CAMERA_MAX_ZOOM)
-      {
-        Camera& camera = m_sector->get_camera();
-        const bool zooming_in = camera.get_current_scale() < m_new_scale;
-
-        camera.set_scale(m_new_scale);
-
-        // When zooming in, focus on the position of the mouse.
-        if (zooming_in)
-          camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
-                                            static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
-
-        keep_camera_in_bounds();
-      }
-      m_new_scale = 0.f;
-    }
-
-    m_sector->pause_camera_interpolation();
-
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
     if (!m_leveltested)
@@ -616,6 +593,7 @@ Editor::update(float dt_sec, const Controller& controller)
     return;
   }
 
+
   // Update other components.
   if (m_levelloaded && !m_leveltested) {
     BIND_SECTOR(*m_sector);
@@ -649,6 +627,33 @@ Editor::update(float dt_sec, const Controller& controller)
 
     update_keyboard(controller);
   }
+
+  Camera& camera = m_sector->get_camera();
+  // Ensure camera is free, which is like normal but immune to the camera boundary.
+  camera.set_mode(Camera::Mode::FREE);
+  // If camera scale must be changed, change it here.
+  if (m_new_scale != 0.f)
+  {
+    // Do not clamp, as to prevent pointless calls to EditorOverlayWidget::update_pos().
+    if (m_new_scale >= CAMERA_MIN_ZOOM && m_new_scale <= CAMERA_MAX_ZOOM)
+    {
+      const bool zooming_in = camera.get_current_scale() < m_new_scale;
+
+      camera.set_scale(m_new_scale);
+
+      // When zooming in, focus on the position of the mouse.
+      // if (zooming_in)
+      //   camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
+      //                                     static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
+
+      keep_camera_in_bounds();
+    }
+    m_new_scale = 0.f;
+  }
+
+  m_sector->pause_camera_interpolation();
+
+  camera.update(dt_sec);
 }
 
 void
@@ -794,14 +799,21 @@ Editor::keep_camera_in_bounds()
 {
   Camera& camera = m_sector->get_camera();
   constexpr float offset = 80.f;
+#if 0
   float controls_offset_x = m_controls.size() != 0 ? -200.f : 0.f;
   float controls_offset_y = m_controls.size() != 0 ? -32.f : 0.f;
   camera.keep_in_bounds(Rectf(-offset + controls_offset_x, -offset + controls_offset_y,
                               std::max(0.0f, m_sector->get_editor_width() + 128.f / camera.get_current_scale()) + offset,
                               std::max(0.0f, m_sector->get_editor_height() + 32.f / camera.get_current_scale()) + offset));
+#endif
 
+  camera.keep_in_bounds(Rectf(-offset,
+                              -offset,
+                              std::max(0.f, m_sector->get_editor_width()) + offset + 128.f,
+                              std::max(0.f, m_sector->get_editor_height()) + offset));
   m_overlay_widget->update_pos();
 }
+
 
 void
 Editor::esc_press()
@@ -939,7 +951,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   if (m_sector != nullptr)
   {
-    m_sector->get_camera().set_mode(Camera::Mode::MANUAL);
+    m_sector->get_camera().set_mode(Camera::Mode::FREE);
 
     if (!reset) {
       m_sector->get_camera().set_translation(translation);
