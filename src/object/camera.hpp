@@ -46,7 +46,7 @@ public:
 public:
   enum class Mode
   {
-    NORMAL, MANUAL, AUTOSCROLL, SCROLLTO
+    NORMAL, MANUAL, FREE, AUTOSCROLL, SCROLLTO
   };
 
 public:
