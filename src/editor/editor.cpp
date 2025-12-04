@@ -989,6 +989,9 @@ Editor::reload_level()
   }
   catch (const std::exception& err)
   {
+    // In case the error was caused by the last edited level, say, not
+    // existing/being invalid, let's clear it
+    g_config->editor_last_edited_level = "";
     log_warning << "Error loading level '" << m_levelfile << "' in editor: " << err.what() << std::endl;
     reset_level();
     return;
@@ -1029,9 +1032,10 @@ Editor::quit_editor()
   {
     remove_autosave_file();
 
+    // TODO: What about external files?
     if (!get_levelfile().empty() && g_config->editor_remember_last_level)
     {
-      g_config->editor_last_edited_level = FileSystem::join(get_level_directory(), get_levelfile());
+      g_config->editor_last_edited_level = FileSystem::join(get_level_directory(), FileSystem::basename(get_levelfile()));
     }
 
     // Quit level editor.
@@ -1237,6 +1241,9 @@ Editor::setup()
     if (g_config->editor_remember_last_level &&
         !g_config->editor_last_edited_level.empty())
     {
+      // We technically don't set m_world here, so this is considered
+      // "editing a file". We have to do some silly basename logic later. Hack,
+      // but whatever.
       set_level(g_config->editor_last_edited_level);
     }
     else
