@@ -290,7 +290,8 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
   {
     m_translation.x = goal.x;
     m_translation.y = goal.y;
-    m_mode = Mode::MANUAL;
+    if (m_mode != Mode::FREE)
+      m_mode = Mode::MANUAL;
     return;
   }
 
