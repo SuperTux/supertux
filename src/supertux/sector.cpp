@@ -88,7 +88,7 @@ Sector::Sector(Sector* sector) :
   m_gravity(sector->m_gravity),
   m_collision_system(sector->m_collision_system.get())
 {
-  
+
 }
 
 
@@ -274,10 +274,14 @@ Sector::activate(const Vector& player_pos)
   {
     Player& player = *players.begin();
     Camera& camera = get_camera();
-    player.set_pos(player.get_pos()+Vector(-32, 0));
-    camera.reset(player.get_pos());
+    player.set_pos(player.get_pos() + Vector(-32, 0));
+    // Don't reset the camera if in free mode on sector activation
+    if (camera.get_mode() != Camera::Mode::FREE)
+    {
+      camera.reset(player.get_pos());
+    }
     camera.update(1);
-    player.set_pos(player.get_pos()+(Vector(32, 0)));
+    player.set_pos(player.get_pos() + (Vector(32, 0)));
     camera.update(1);
   }
 

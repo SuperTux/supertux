@@ -233,6 +233,7 @@ Camera::get_rect() const
 void
 Camera::reset(const Vector& tuxpos)
 {
+
   m_translation.x = tuxpos.x - m_screen_size.width / 2.0f;
   m_translation.y = tuxpos.y - m_screen_size.height / 2.0f;
 
