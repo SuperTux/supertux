@@ -3,7 +3,7 @@
   (name "default")
   (fps 2.0)
   (images 
-    "walkingleaf.png"
+    "rottenleaf.png"
   )
  )
 )

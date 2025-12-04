@@ -141,7 +141,8 @@ ViciousIvy::collision_squished(MovingObject& object)
 
   set_action("squished", m_dir);
   // Spawn death particles.
-  spawn_explosion_sprites(3, "images/particles/viciousivy.sprite");
+  spawn_explosion_sprites(3, m_type == NORMAL ? "images/particles/viciousivy.sprite"
+                                              : "images/particles/rottenivy.sprite");
   kill_squished(object);
   return true;
 }
