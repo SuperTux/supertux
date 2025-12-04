@@ -1032,10 +1032,9 @@ Editor::quit_editor()
   {
     remove_autosave_file();
 
-    // TODO: What about external files?
-    if (!get_levelfile().empty() && g_config->editor_remember_last_level)
+    if (m_world && !get_levelfile().empty() && g_config->editor_remember_last_level)
     {
-      g_config->editor_last_edited_level = FileSystem::join(get_level_directory(), FileSystem::basename(get_levelfile()));
+      g_config->editor_last_edited_level = FileSystem::join(get_level_directory(), get_levelfile());
     }
 
     // Quit level editor.
@@ -1241,10 +1240,9 @@ Editor::setup()
     if (g_config->editor_remember_last_level &&
         !g_config->editor_last_edited_level.empty())
     {
-      // We technically don't set m_world here, so this is considered
-      // "editing a file". We have to do some silly basename logic later. Hack,
-      // but whatever.
-      set_level(g_config->editor_last_edited_level);
+      set_world(std::move(
+        World::from_directory(FileSystem::dirname(g_config->editor_last_edited_level))));
+      set_level(FileSystem::basename(g_config->editor_last_edited_level));
     }
     else
       set_level(nullptr, true);
