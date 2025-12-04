@@ -268,15 +268,38 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   return false;
 }
 
-bool
-EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
+void
+EditorToolboxWidget::update_last_active_group()
 {
   switch (m_hovered_item)
   {
     case HoveredItem::TILEGROUP:
+      m_last_active_group = HoveredItem::TILEGROUP;
+      return;
+    case HoveredItem::OBJECTS:
+      m_last_active_group = HoveredItem::OBJECTS;
+      return;
+    default:
+      break;
+  }
+
+  if (m_last_active_group != HoveredItem::TILEGROUP &&
+      m_last_active_group != HoveredItem::OBJECTS)
+  {
+    m_last_active_group = HoveredItem::TILEGROUP;
+  }
+}
+
+void
+EditorToolboxWidget::switch_current_group(int dir)
+{
+  update_last_active_group();
+  switch (m_last_active_group)
+  {
+    case HoveredItem::TILEGROUP:
       if (m_editor.get_tileset()->get_tilegroups().size() > 1)
       {
-        m_tilebox->change_tilegroup(wheel.y > 0 ? -1 : 1);
+        m_tilebox->change_tilegroup(dir);
       }
       else
       {
@@ -288,7 +311,7 @@ EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
       if ((m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_worldmap_groups() > 1) ||
           (!m_editor.get_level()->is_worldmap() && m_tilebox->get_object_info().get_num_level_groups() > 1))
       {
-        m_tilebox->change_objectgroup(wheel.y > 0 ? -1 : 1);
+        m_tilebox->change_objectgroup(dir);
       }
       else
       {
@@ -302,6 +325,15 @@ EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
     default:
       break;
   }
+}
+
+bool
+EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
+{
+  if (m_hovered_item == HoveredItem::TILEGROUP ||
+      m_hovered_item == HoveredItem::OBJECTS)
+    switch_current_group(wheel.y > 0 ? -1 : 1);
+
   return m_tilebox->on_mouse_wheel(wheel);
 }
 
