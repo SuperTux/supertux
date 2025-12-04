@@ -158,6 +158,7 @@ public:
   bool editor_invert_shift_scroll;
   bool editor_autotile_mode;
   bool editor_autotile_help;
+  bool editor_zoom_centered;
   int editor_autosave_frequency;
   bool editor_undo_tracking;
   int editor_undo_stack_size;
