@@ -215,12 +215,16 @@ if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
     add_package(TARGET GLEW
       PKG GLEW PKG_USE GLEW::GLEW CONFIG REQUIRED PKG_CONFIG glew
       PREFER_PKGCONFIG)
+  else()
+    message(STATUS "OpenGL not found! OpenGL support is disabled.")
   endif()
 
-  set(HAVE_OPENGL ${GLEW_FOUND})
+  set(HAVE_OPENGL "${ADDPKG_GLEW_FOUND}")
 
-  if(HAVE_OPENGL)
-    message(STATUS "OpenGL & GLEW found, enabling OpenGL support.")
+  if(HAVE_OPENGL AND OPENGL_FOUND)
+    message(STATUS "OpenGL & GLEW found! enabling OpenGL support.")
+  elseif(OPENGL_FOUND)
+    message(STATUS "Glew not found! OpenGL support is disabled.")
   endif()
 endif()
 
