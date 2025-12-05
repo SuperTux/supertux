@@ -320,6 +320,7 @@ root_trap3.start_moving();
 wait(0.1);
 
 Camera.start_earthquake(5, 0.05);
+Tux.disable_fancy_idling();
 
 root_trap2.start_moving();
 wait(0.2);
@@ -1073,6 +1074,7 @@ Tux.use_scripting_controller(true);
 Effect.fade_in(1);
 wait(1);
 Tux.use_scripting_controller(false);
+Tux.enable_fancy_idling();
 
 Effect.four_to_three(1);")
       (button #f)

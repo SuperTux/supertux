@@ -875,6 +875,8 @@ gate4.goto_node(1);")
       (y 1216)
     )
     (wind
+      (type "current")
+      (z-pos -99)
       (speed-x 400)
       (speed-y 0)
       (acceleration 100)
