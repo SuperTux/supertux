@@ -95,14 +95,15 @@ public:
   inline World* get_world() const { return m_world.get(); }
 
   inline TileSet* get_tileset() const { return m_tileset; }
-  inline TileSelection* get_tiles() const { return m_toolbox_widget->get_tilebox().get_tiles(); }
-  inline std::string get_tileselect_object() const { return m_toolbox_widget->get_tilebox().get_object(); }
+  inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
+  inline TileSelection* get_tiles() const { return get_tilebox().get_tiles(); }
+  inline std::string get_tileselect_object() const { return get_tilebox().get_object(); }
 
   void toggle_tile_object_mode();
 
-  inline EditorTilebox::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_tilebox().get_input_type(); }
+  inline EditorTilebox::InputType get_tileselect_input_type() const { return get_tilebox().get_input_type(); }
 
-  inline bool has_active_toolbox_tip() const { return m_toolbox_widget->get_tilebox().has_active_object_tip(); }
+  inline bool has_active_toolbox_tip() const { return get_tilebox().has_active_object_tip(); }
 
   inline int get_tileselect_select_mode() const { return m_toolbox_widget->get_tileselect_select_mode(); }
   inline int get_tileselect_move_mode() const { return m_toolbox_widget->get_tileselect_move_mode(); }
