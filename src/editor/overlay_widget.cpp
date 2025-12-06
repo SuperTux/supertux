@@ -336,7 +336,7 @@ EditorOverlayWidget::put_next_tiles()
   {
     // Avoid drawing lines when the user has hold the left mouse button for some
     // time while not putting a tile
-    put_tiles(m_hovered_tile, m_editor.get_tiles());
+    put_tiles(m_hovered_tile, m_editor.get_selected_tiles());
     m_hovered_tile_prev = m_hovered_tile;
     return;
   }
@@ -345,7 +345,7 @@ EditorOverlayWidget::put_next_tiles()
   for (const Vector &pos : rasterize_line_segment(m_hovered_tile_prev * 2.0f,
       m_hovered_tile * 2.0f))
   {
-    put_tiles(pos * 0.5f, m_editor.get_tiles());
+    put_tiles(pos * 0.5f, m_editor.get_selected_tiles());
   }
   m_hovered_tile_prev = m_hovered_tile;
 }
@@ -368,7 +368,7 @@ EditorOverlayWidget::preview_rectangle()
     int x_ = sgn_x ? 0 : static_cast<int>(-dr.get_width());
     for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++)
     {
-      m_rectangle_preview->m_tiles.push_back(m_editor.get_tiles()->pos(x_, y_));
+      m_rectangle_preview->m_tiles.push_back(m_editor.get_selected_tiles()->pos(x_, y_));
     }
   }
 }
@@ -392,7 +392,7 @@ EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
 void
 EditorOverlayWidget::fill()
 {
-  auto tiles = m_editor.get_tiles();
+  auto tiles = m_editor.get_selected_tiles();
   auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap) return;
 
@@ -496,10 +496,14 @@ void
 EditorOverlayWidget::replace()
 {
   auto tilemap = m_editor.get_selected_tilemap();
+  auto tiles = m_editor.get_selected_tiles();
+  auto tiles_width = tiles->m_width;
+  auto tiles_height = tiles->m_height;
+
   uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
 
   // Don't do anything if the old and new tiles are the same tile.
-  if (m_editor.get_tiles()->m_width == 1 && m_editor.get_tiles()->m_height == 1 && replace_tile == m_editor.get_tiles()->pos(0, 0)) return;
+  if (tiles_width == 1 && tiles_height == 1 && replace_tile == tiles->pos(0, 0)) return;
 
   tilemap->save_state();
   for (int x = 0; x < tilemap->get_width(); ++x)
@@ -508,9 +512,9 @@ EditorOverlayWidget::replace()
     {
       if (tilemap->get_tile_id(x, y) == replace_tile)
       {
-        tilemap->change(x, y, m_editor.get_tiles()->pos(
-          (x - static_cast<int>(m_hovered_tile.x)) % m_editor.get_tiles()->m_width,
-          (y - static_cast<int>(m_hovered_tile.y)) % m_editor.get_tiles()->m_height)
+        tilemap->change(x, y, tiles->pos(
+          (x - static_cast<int>(m_hovered_tile.x)) % tiles_width,
+          (y - static_cast<int>(m_hovered_tile.y)) % tiles_height)
         );
       }
     }
@@ -652,7 +656,7 @@ EditorOverlayWidget::grab_object()
     m_dragged_object = nullptr;
 
     if (m_edited_path &&
-        m_editor.get_tileselect_object() == "#node" &&
+        m_editor.get_selected_object_class() == "#node" &&
         m_edited_path->is_valid())
     {
       // do nothing
@@ -826,7 +830,7 @@ EditorOverlayWidget::add_path_node()
 void
 EditorOverlayWidget::put_object()
 {
-  const std::string& object_class = m_editor.get_tileselect_object();
+  const std::string& object_class = m_editor.get_selected_object_class();
   if (object_class[0] == '#')
   {
     if (m_edited_path && object_class == "#node") {
@@ -879,7 +883,7 @@ EditorOverlayWidget::process_left_click()
       switch (m_editor.get_tileselect_select_mode())
       {
         case 0:
-          put_tiles(m_hovered_tile, m_editor.get_tiles());
+          put_tiles(m_hovered_tile, m_editor.get_selected_tiles());
           m_hovered_tile_prev = m_hovered_tile;
           m_time_prev_put_tile = std::chrono::steady_clock::now();
           break;
@@ -920,7 +924,7 @@ EditorOverlayWidget::process_left_click()
           break;
       }
 
-      if (!m_editor.get_tileselect_object().empty())
+      if (!m_editor.get_selected_object_class().empty())
       {
         if (!m_dragged_object) put_object();
       }
@@ -1000,7 +1004,7 @@ void
 EditorOverlayWidget::update_tile_selection()
 {
   Rectf select = tile_drag_rect();
-  auto tiles = m_editor.get_tiles();
+  auto tiles = m_editor.get_selected_tiles();
   auto tileset = m_editor.get_tileset();
   auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap) return;
@@ -1127,7 +1131,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
       case InputType::NONE:
       case InputType::OBJECT:
-        if (m_editor.get_tileselect_object().empty())
+        if (m_editor.get_selected_object_class().empty())
         {
           if (m_editor.get_tileselect_select_mode() == 1)
           {
@@ -1240,7 +1244,7 @@ EditorOverlayWidget::update_pos()
   {
     const uint32_t hovered_id = m_editor.get_selected_tilemap()->get_tile_id(m_hovered_tile);
     if ((!m_dragging || hovered_id != 0) &&
-        m_editor.get_tiles()->pos(0, 0) == 0 && // Erasing
+        m_editor.get_selected_tiles()->pos(0, 0) == 0 && // Erasing
         m_editor.get_selected_tilemap()->get_tile_id(m_last_hovered_tile) != hovered_id)
     {
       update_autotileset();
@@ -1258,14 +1262,14 @@ EditorOverlayWidget::update_autotileset()
 {
   AutotileSet* old_autotileset = get_current_autotileset();
 
-  if (m_editor.get_tiles()->pos(0, 0) == 0) // Erasing
+  if (m_editor.get_selected_tiles()->pos(0, 0) == 0) // Erasing
   {
     const uint32_t current_tile = m_editor.get_selected_tilemap()->get_tile_id(m_hovered_tile);
     m_available_autotilesets = m_editor.get_tileset()->get_autotilesets_from_tile(current_tile);
   }
   else
   {
-    m_available_autotilesets = m_editor.get_tileset()->get_autotilesets_from_tile(m_editor.get_tiles()->pos(0, 0));
+    m_available_autotilesets = m_editor.get_tileset()->get_autotilesets_from_tile(m_editor.get_selected_tiles()->pos(0, 0));
   }
 
   if (!old_autotileset)
@@ -1306,11 +1310,11 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
     auto tilemap = m_editor.get_selected_tilemap();
     if (!tilemap) return;
 
-    if (m_editor.get_tiles()->empty()) return;
+    if (m_editor.get_selected_tiles()->empty()) return;
 
     const Vector screen_corner = context.get_cliprect().p2();
     Vector drawn_tile(0.f, 0.f);
-    auto tiles = m_editor.get_tiles();
+    auto tiles = m_editor.get_selected_tiles();
 
     for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--)
     {
@@ -1635,7 +1639,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
     if (m_autotile_mode)
     {
       AutotileSet* autotileset = get_current_autotileset();
-      if (m_editor.get_tiles()->pos(0, 0) == 0)
+      if (m_editor.get_selected_tiles()->pos(0, 0) == 0)
       {
         if (autotileset)
         {
@@ -1655,7 +1659,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
         context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
       }
     }
-    else if (m_editor.get_tiles()->pos(0, 0) == 0)
+    else if (m_editor.get_selected_tiles()->pos(0, 0) == 0)
     {
       context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing") + " " + get_autotileset_key_range(), hint_pos, ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
     }
