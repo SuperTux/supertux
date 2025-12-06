@@ -1870,7 +1870,7 @@ Player::handle_input_ghost()
   m_physic.set_acceleration(0, 0);
 }
 
-BonusType
+PlayerBonusType
 Player::string_to_bonus(const std::string& bonus) const
 {
   if (bonus == "grow") {
@@ -1925,7 +1925,7 @@ Player::set_bonus(const std::string& bonustype)
 }
 
 bool
-Player::add_bonus(BonusType type, bool animate)
+Player::add_bonus(PlayerBonusType type, bool animate)
 {
   // always ignore NO_BONUS
   if (type == BONUS_NONE) {
@@ -1942,7 +1942,7 @@ Player::add_bonus(BonusType type, bool animate)
 }
 
 bool
-Player::set_bonus(BonusType type, bool animate)
+Player::set_bonus(PlayerBonusType type, bool animate)
 {
   if (m_dying) {
     return false;
@@ -2904,7 +2904,7 @@ Player::get_item_pocket() const
 void
 Player::set_item_pocket(int bonus)
 {
-  m_player_status.add_item_to_pocket(static_cast<BonusType>(bonus), this);
+  m_player_status.add_item_to_pocket(static_cast<PlayerBonusType>(bonus), this);
 }
 
 bool

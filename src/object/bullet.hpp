@@ -28,7 +28,7 @@ class Player;
 class Bullet final : public MovingObject
 {
 public:
-  Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type, Player& player);
+  Bullet(const Vector& pos, const Vector& xm, Direction dir, PlayerBonusType type, Player& player);
 
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Bullet)); }
 
@@ -46,7 +46,7 @@ public:
       bullet. */
   void ricochet(GameObject& other, const CollisionHit& hit);
 
-  inline BonusType get_type() const { return type; }
+  inline PlayerBonusType get_type() const { return type; }
 
   inline Player& get_player() const { return m_player; }
 
@@ -56,7 +56,7 @@ private:
   int life_count;
   SpritePtr sprite;
   std::vector<SpritePtr> lightsprites;
-  BonusType type;
+  PlayerBonusType type;
   float angle;
   float particle_time;
 
