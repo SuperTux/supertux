@@ -30,8 +30,22 @@ public:
   InterfaceControl();
   ~InterfaceControl() override {}
 
-  virtual void draw(DrawingContext& context) override { if (m_label) m_label->draw(context); }
-  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override { if (m_label) m_label->on_mouse_motion(motion); return false; }
+  virtual void draw(DrawingContext& context) override
+  {
+    if (m_label)
+    {
+      m_label->draw(context);
+    }
+  }
+
+  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override
+  {
+    if (m_label) 
+    {
+      m_label->on_mouse_motion(motion);
+    }
+    return false;
+  }
 
   inline void set_focus(bool focus) { m_has_focus = focus; }
   inline bool has_focus() const { return m_has_focus; }
@@ -39,11 +53,19 @@ public:
   inline void set_rect(const Rectf& rect) { m_rect = rect; }
   inline Rectf get_rect() const { return m_rect; }
 
+protected:
+  void call_on_activate_callbacks() const;
+  void call_on_change_callbacks() const;
+
 public:
+  /** Optional; a function that will be called each time the control is activated.
+   */
+  std::vector<std::function<void()>> m_on_activate_callbacks;
+
   /** Optional; a function that will be called each time the bound value
    *  is modified.
    */
-  std::function<void()> m_on_change;
+  std::vector<std::function<void()>> m_on_change_callbacks;
 
   /** Optional; the label associated with the control */
   std::unique_ptr<InterfaceLabel> m_label;

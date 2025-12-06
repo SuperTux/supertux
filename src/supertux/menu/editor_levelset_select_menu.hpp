@@ -18,13 +18,14 @@
 
 #include "gui/menu.hpp"
 
-class EditorLevelsetSelectMenu final : public Menu
+class EditorLevelsetSelectMenu : public Menu
 {
 private:
   std::vector<std::string> m_contrib_worlds;
+  const bool m_save_as;
 
 public:
-  EditorLevelsetSelectMenu();
+  EditorLevelsetSelectMenu(bool save_as = false);
   ~EditorLevelsetSelectMenu() override;
 
   void menu_action(MenuItem& item) override;

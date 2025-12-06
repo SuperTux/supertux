@@ -79,6 +79,19 @@ Sector::Sector(Level& parent) :
   SoundManager::current()->preload("sounds/shoot.wav");
 }
 
+Sector::Sector(Sector* sector) :
+  Base::Sector(sector),
+  m_level(sector->m_level),
+  m_text_object(add<TextObject>("Text")),
+  m_foremost_layer(sector->m_foremost_layer),
+  m_foremost_opaque_layer(sector->m_foremost_opaque_layer),
+  m_gravity(sector->m_gravity),
+  m_collision_system(sector->m_collision_system.get())
+{
+
+}
+
+
 Sector::~Sector()
 {
   try
@@ -237,9 +250,6 @@ Sector::activate(const Vector& player_pos)
   // The Sector object is called 'settings' as it is accessed as 'sector.settings'
   m_squirrel_environment->expose(*this, "settings");
 
-  if (Editor::is_active())
-    return;
-
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
   const auto players = get_objects_by_type<Player>();
@@ -264,10 +274,14 @@ Sector::activate(const Vector& player_pos)
   {
     Player& player = *players.begin();
     Camera& camera = get_camera();
-    player.set_pos(player.get_pos()+Vector(-32, 0));
-    camera.reset(player.get_pos());
+    player.set_pos(player.get_pos() + Vector(-32, 0));
+    // Don't reset the camera if in free mode on sector activation
+    if (camera.get_mode() != Camera::Mode::FREE)
+    {
+      camera.reset(player.get_pos());
+    }
     camera.update(1);
-    player.set_pos(player.get_pos()+(Vector(32, 0)));
+    player.set_pos(player.get_pos() + (Vector(32, 0)));
     camera.update(1);
   }
 

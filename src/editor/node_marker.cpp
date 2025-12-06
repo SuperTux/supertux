@@ -119,7 +119,7 @@ NodeMarker::editor_delete()
 ObjectSettings
 NodeMarker::get_settings()
 {
-  ObjectSettings result(_("Path Node"));
+  ObjectSettings result(_("Path Node"), get_uid());
   result.add_label(_("Press CTRL to move Bézier handles"));
   result.add_float(_("Time"), &(m_node->time));
   result.add_float(_("Speed"), &(m_node->speed));

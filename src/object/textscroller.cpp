@@ -346,7 +346,7 @@ TextScroller::get_settings()
   ObjectSettings result = GameObject::get_settings();
 
   result.add_file(_("File"), &m_filename, "file");
-  result.add_script(_("Finish Script"), &m_finish_script, "finish-script");
+  result.add_script(get_uid(), _("Finish Script"), &m_finish_script, "finish-script");
   result.add_float(_("Speed"), &m_default_speed, "speed", DEFAULT_SPEED);
   result.add_float(_("X-offset"), &m_x_offset, "x-offset");
   result.add_bool(_("Controllable"), &m_controllable, "controllable", true);
