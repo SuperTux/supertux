@@ -60,6 +60,8 @@ bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos)
 
 } // namespace
 
+using InputType = EditorTilebox::InputType;
+
 bool EditorOverlayWidget::action_pressed = false;
 bool EditorOverlayWidget::alt_pressed = false;
 
@@ -873,7 +875,7 @@ EditorOverlayWidget::process_left_click()
 
   switch (m_editor.get_tileselect_input_type())
   {
-    case EditorTilebox::InputType::TILE:
+    case InputType::TILE:
       switch (m_editor.get_tileselect_select_mode())
       {
         case 0:
@@ -899,8 +901,8 @@ EditorOverlayWidget::process_left_click()
       }
       break;
 
-    case EditorTilebox::InputType::NONE:
-    case EditorTilebox::InputType::OBJECT:
+    case InputType::NONE:
+    case InputType::OBJECT:
       if (m_hovered_object)
         m_editor.select_object(m_hovered_object.get());
 
@@ -938,15 +940,15 @@ EditorOverlayWidget::process_right_click()
 {
   switch (m_editor.get_tileselect_input_type())
   {
-    case EditorTilebox::InputType::TILE:
+    case InputType::TILE:
       m_dragging = true;
       m_dragging_right = true;
       m_drag_start = m_sector_pos;
       update_tile_selection();
       break;
 
-    case EditorTilebox::InputType::NONE:
-    case EditorTilebox::InputType::OBJECT:
+    case InputType::NONE:
+    case InputType::OBJECT:
       {
         if (m_hovered_object &&
             m_hovered_object->is_valid() &&
@@ -1041,7 +1043,7 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (button.button == SDL_BUTTON_LEFT)
   {
-    if (m_editor.get_tileselect_input_type() == EditorTilebox::InputType::TILE)
+    if (m_editor.get_tileselect_input_type() == InputType::TILE)
     {
       if (m_dragging && m_editor.get_tileselect_select_mode() == 1)
       {
@@ -1102,7 +1104,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   {
     switch (m_editor.get_tileselect_input_type())
     {
-      case EditorTilebox::InputType::TILE:
+      case InputType::TILE:
         if (m_dragging_right)
         {
           update_tile_selection();
@@ -1123,8 +1125,8 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         }
         break;
 
-      case EditorTilebox::InputType::NONE:
-      case EditorTilebox::InputType::OBJECT:
+      case InputType::NONE:
+      case InputType::OBJECT:
         if (m_editor.get_tileselect_object().empty())
         {
           if (m_editor.get_tileselect_select_mode() == 1)
@@ -1299,7 +1301,7 @@ EditorOverlayWidget::get_autotileset_key_range() const
 void
 EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 {
-  if (m_editor.get_tileselect_input_type() == EditorTilebox::InputType::TILE)
+  if (m_editor.get_tileselect_input_type() == InputType::TILE)
   {
     auto tilemap = m_editor.get_selected_tilemap();
     if (!tilemap) return;
@@ -1563,7 +1565,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
   draw_rectangle_preview(context);
   draw_path(context);
 
-  if (m_editor.get_tileselect_input_type() == EditorTilebox::InputType::TILE &&
+  if (m_editor.get_tileselect_input_type() == InputType::TILE &&
       !g_config->editor_show_deprecated_tiles) // If showing deprecated tiles is enabled, this is redundant, since tiles are indicated without the need of hovering over.
   {
     // Deprecated tiles in active tilemaps should have indication, when hovered
