@@ -70,7 +70,7 @@ ScriptManager::register_script(UID key, std::string* script)
     return;
   m_scripts.push_back({key, script});
 
-  m_watcher.start_monitoring(full_filename, [this, key](FileWatcher::FileInfo& file) {
+  m_watcher.start_monitoring(full_filename, [this, key](const FileWatcher::FileInfo& file) {
       auto res = std::find(m_scripts.begin(), m_scripts.end(), key);
       if (res == m_scripts.end())
         return;

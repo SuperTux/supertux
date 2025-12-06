@@ -31,7 +31,7 @@ public:
     UID key;
     std::string* script;
     
-    bool operator==(struct ScriptInfo& other) const {
+    bool operator==(const struct ScriptInfo& other) const {
       return other.key == key;
     }
     bool operator==(const UID& other) const {
