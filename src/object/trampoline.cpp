@@ -80,6 +80,18 @@ Trampoline::get_default_sprite_name() const
   }
 }
 
+bool
+Trampoline::get_type_from_sprite(const std::string& sprite_name, std::string& type) const
+{
+  if (sprite_name.find("trampoline_fix") != std::string::npos)
+  {
+    type = "stationary";
+    return true;
+  }
+
+  return false;
+}
+
 void
 Trampoline::update(float dt_sec)
 {
