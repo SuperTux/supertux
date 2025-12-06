@@ -1394,7 +1394,7 @@
   (person
     (name "Bill Kendrick")
     (info (_ "Original creator of SuperTux"))
-    (image "images/credits/bill.jpg")
+    (image "images/credits/bill.png")
   )
     
   (blank)
