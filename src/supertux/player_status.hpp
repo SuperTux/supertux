@@ -22,7 +22,6 @@
 #include <string>
 #include <vector>
 
-#include "object/powerup.hpp"
 #include "supertux/timer.hpp"
 #include "supertux/level.hpp"
 
@@ -37,7 +36,7 @@ static const float BORDER_Y = 10;
 /**
  * @scripting
  */
-enum BonusType {
+enum PlayerBonusType {
   BONUS_NONE = 0, /*!< @description No bonus. */
   BONUS_GROWUP,   /*!< @description Growup (a.k.a. egg) bonus. */
   BONUS_FIRE,     /*!< @description Fire bonus. */
@@ -60,8 +59,8 @@ public:
   void read(const ReaderMapping& mapping);
 
   void give_item_from_pocket(Player* player);
-  void add_item_to_pocket(BonusType bonustype, Player* player);
-  BonusType get_item_pocket(const Player* player) const;
+  void add_item_to_pocket(PlayerBonusType bonustype, Player* player);
+  PlayerBonusType get_item_pocket(const Player* player) const;
 
   bool is_item_pocket_allowed() const;
 
@@ -70,10 +69,10 @@ public:
   bool respawns_at_checkpoint() const;
   bool has_hat_sprite(int player_id) const { return bonus[player_id] > BONUS_GROWUP; }
 
-  static std::string get_bonus_name(BonusType bonustype);
-  static BonusType get_bonus_from_name(const std::string& name);
+  static std::string get_bonus_name(PlayerBonusType bonustype);
+  static PlayerBonusType get_bonus_from_name(const std::string& name);
 
-  static std::string get_bonus_sprite(BonusType bonustype);
+  static std::string get_bonus_sprite(PlayerBonusType bonustype);
   std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
 
   void add_player();
@@ -82,34 +81,14 @@ public:
 private:
   void parse_bonus_mapping(const ReaderMapping& map, int id);
 
-private:
-  /// PowerUp that flings itself upwards
-  /// can't be collected right away.
-  class PocketPowerUp : public PowerUp
-  {
-  public:
-    PocketPowerUp(BonusType bonustype, Vector pos);
-    virtual void update(float dt_sec) override;
-    virtual void draw(DrawingContext& context) override;
-
-  public:
-    Timer m_cooldown_timer;
-    Timer m_blink_timer;
-    bool m_visible;
-
-  private:
-    PocketPowerUp(const PocketPowerUp&) = delete;
-    PocketPowerUp& operator=(const PocketPowerUp&) = delete;
-  };
-
 public:
   int m_num_players;
 
-  std::vector<BonusType> m_item_pockets;
+  std::vector<PlayerBonusType> m_item_pockets;
   Level::Setting m_override_item_pocket;
 
   int coins;
-  std::vector<BonusType> bonus;
+  std::vector<PlayerBonusType> bonus;
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */

@@ -21,8 +21,9 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
+#include "util/log.hpp"
 
-Flower::Flower(BonusType _type, const std::string& custom_sprite) :
+Flower::Flower(PowerUp::Type _type, const std::string& custom_sprite) :
   type(_type),
   sprite(),
   flip(NO_FLIP),
@@ -30,24 +31,41 @@ Flower::Flower(BonusType _type, const std::string& custom_sprite) :
 {
   m_col.m_bbox.set_size(32, 32);
 
-  if (type == BONUS_FIRE) {
-    sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/fireflower/fireflower.sprite" : custom_sprite);
-    SoundManager::current()->preload("sounds/fire-flower.wav");
-  }
-  else if (type == BONUS_ICE) {
-    sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/iceflower/iceflower.sprite" : custom_sprite);
-    SoundManager::current()->preload("sounds/fire-flower.wav");
-  }
-  else if (type == BONUS_AIR) {
-    sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/airflower/airflower.sprite" : custom_sprite);
-    SoundManager::current()->preload("sounds/fire-flower.wav");
-  }
-  else if (type == BONUS_EARTH) {
-    sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/earthflower/earthflower.sprite" : custom_sprite);
-    SoundManager::current()->preload("sounds/fire-flower.wav");
-  }
-  else {
-    assert(false);
+  switch (type) {
+    case PowerUp::Type::FIRE:
+    case PowerUp::Type::COFFEE:
+    {
+      bonus = BONUS_FIRE;
+      sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/fireflower/fireflower.sprite" : custom_sprite);
+      SoundManager::current()->preload("sounds/fire-flower.wav");
+      break;
+    }
+    case PowerUp::Type::ICE:
+    {
+      bonus = BONUS_ICE;
+      sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/iceflower/iceflower.sprite" : custom_sprite);
+      SoundManager::current()->preload("sounds/fire-flower.wav");
+      break;
+    }
+    case PowerUp::Type::AIR:
+    {
+      bonus = BONUS_AIR;
+      sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/airflower/airflower.sprite" : custom_sprite);
+      SoundManager::current()->preload("sounds/fire-flower.wav");
+      break;
+    }
+    case PowerUp::Type::EARTH:
+    {
+      bonus = BONUS_EARTH;
+      sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/earthflower/earthflower.sprite" : custom_sprite);
+      SoundManager::current()->preload("sounds/fire-flower.wav");
+      break;
+    }
+    default:
+    {
+      log_fatal << "Invalid flower type '" << type << "'" << std::endl;
+      assert(false);
+    }
   }
 
   lightsprites = sprite->create_custom_linked_sprites(true);
@@ -75,7 +93,7 @@ Flower::collision(MovingObject& other, const CollisionHit& )
   if (!player)
     return ABORT_MOVE;
 
-  if (!player->add_bonus(type, true))
+  if (!player->add_bonus(bonus, true))
     return FORCE_MOVE;
 
   SoundManager::current()->play("sounds/fire-flower.wav", get_pos());

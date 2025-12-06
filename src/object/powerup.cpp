@@ -38,7 +38,7 @@ PowerUp::PowerUp(const ReaderMapping& mapping) :
   initialize();
 }
 
-PowerUp::PowerUp(const Vector& pos, int type) :
+PowerUp::PowerUp(const Vector& pos, PowerUp::Type type) :
   MovingSprite(pos, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),
@@ -204,7 +204,7 @@ PowerUp::collision(MovingObject& other, const CollisionHit&)
 }
 
 PowerUp::Type
-PowerUp::get_type_from_bonustype(int type)
+PowerUp::get_type_from_bonustype(PlayerBonusType type)
 {
   switch (type)
   {
