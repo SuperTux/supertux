@@ -1436,7 +1436,7 @@ Editor::event(const SDL_Event& ev)
 void
 Editor::toggle_tile_object_mode()
 {
-  int i = 0, total = 0;
+  int i = 0;
   auto& tilebox = m_toolbox_widget->get_tilebox();
   const auto& input_type = tilebox.get_input_type();
 
