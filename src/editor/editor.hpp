@@ -24,6 +24,7 @@
 
 #include "editor/overlay_widget.hpp"
 #include "editor/tilebox.hpp"
+#include "editor/toolbar_widget.hpp"
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
@@ -95,11 +96,11 @@ public:
   inline World* get_world() const { return m_world.get(); }
 
   inline TileSet* get_tileset() const { return m_tileset; }
+  inline EditorToolboxWidget* get_toolbox_widget() const { return m_toolbox_widget; }
+  inline EditorToolbarWidget* get_toolbar_widget() const { return m_toolbar_widget; }
   inline EditorTilebox& get_tilebox() const { return m_toolbox_widget->get_tilebox(); }
   inline TileSelection* get_selected_tiles() const { return get_tilebox().get_tiles(); }
   inline std::string get_selected_object_class() const { return get_tilebox().get_object(); }
-
-  void toggle_tile_object_mode();
 
   inline EditorTilebox::InputType get_tileselect_input_type() const { return get_tilebox().get_input_type(); }
 
@@ -118,6 +119,7 @@ public:
     m_levelfile = levelfile;
     m_reload_request = true;
   }
+  bool save_level(const std::string& filename = "", bool switch_file = false);
 
   std::string get_level_directory() const;
 
@@ -206,7 +208,6 @@ private:
    *                    filename; subsequest saves will by default save to the
    *                    new filename.
    */
-  bool save_level(const std::string& filename = "", bool switch_file = false);
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
   void keep_camera_in_bounds();
@@ -263,12 +264,10 @@ private:
   std::vector<std::unique_ptr<Widget> > m_widgets;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
 
-  EditorToolbarButtonWidget* m_undo_widget;
-  EditorToolbarButtonWidget* m_redo_widget;
-
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
+  EditorToolbarWidget* m_toolbar_widget;
 
   TypedUID<GameObject> m_selected_object;
 
@@ -279,9 +278,6 @@ private:
 
   float m_scroll_speed;
   float m_new_scale;
-
-  float m_widgets_width;
-  float m_widgets_width_offset;
 
   Vector m_mouse_pos;
 
