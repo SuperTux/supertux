@@ -117,6 +117,8 @@
       (name "Music")
       (file "/music/forest/ghostforest.music")
     )
+    (particles-rain
+    )
     (path
       (name "gen16570684192217327122656")
       (path
@@ -326,7 +328,7 @@ root_trap3.start_moving();
 
 wait(0.1);
 
-Camera.start_earthquake(5, 0.05);
+Camera.start_earthquake(7, 0.05);
 Tux.disable_fancy_idling();
 
 root_trap2.start_moving();
@@ -336,10 +338,18 @@ wait(1);
 play_sound(\"sounds/explosion.wav\");
 wait(0.5);
 
+Tux.set_dir(true);
+
 trap_cover.fade(0, 0.5);
 ground_bg.start_moving();
 ground_collapse.start_moving();
+t.thunder();
 wait(1);
+
+Tux.set_dir(false);
+
+t.lightning();
+
 Camera.scale(1.1, 0.2);
 wait(0.2);
 play_sound(\"sounds/brick.wav\");
@@ -347,13 +357,23 @@ wait(1);
 Camera.scale(1.2, 0.28);
 wait(0.28);
 play_sound(\"sounds/brick.wav\");
+
+t.thunder();
+
 wait(0.3);
 Camera.scale(1.5, 3.7);
+
+Tux.set_dir(true);
+
 wait(1.7);
+
+t.lightning();
 
 stop_music(2);
 Effect.fade_out(1);
 wait(2);
+
+t.thunder();
 
 Tux.use_scripting_controller(false);
 Level.spawn(\"underground\", \"underground\");
@@ -373,10 +393,19 @@ end_cutscene();")
       (x 2016)
       (y 800)
     )
+    (sound-object
+      (sample "/sounds/rain.wav")
+      (volume 0.3)
+    )
     (spawnpoint
       (name "main")
       (x 96)
       (y 1184)
+    )
+    (thunderstorm
+      (running #f)
+      (interval 999)
+      (name "t")
     )
     (tilemap
       (solid #f)
@@ -1914,13 +1943,6 @@ Camera.stop_earthquake();")
     (name "secret")
     (ambient-light
       (color 0.62 0.66 0.78)
-    )
-    (background
-      (color 0.5 0.48 0.55)
-      (speed 0)
-      (image-top "/images/background/misc/transparent_up.png")
-      (image "/images/background/corrupted_forest/corrupt_mountains_panorama.png")
-      (z-pos -250)
     )
     (background
       (color 1 1 1 0.7)
