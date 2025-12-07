@@ -13,3 +13,6 @@
 [submodule "external/simplesquirrel"]
 	path = external/simplesquirrel
 	url = https://github.com/SuperTux/simplesquirrel
+[submodule "external/shared-modules"]
+	path = external/shared-modules
+	url = https://github.com/flathub/shared-modules
