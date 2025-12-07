@@ -550,8 +550,8 @@ GameObjectManager::update_editor_buttons()
 {
   if (Editor::current())
   {
-    Editor::current()->set_undo_disabled(m_undo_stack.empty());
-    Editor::current()->set_redo_disabled(m_redo_stack.empty());
+    Editor::current()->get_toolbar_widget()->set_undo_disabled(m_undo_stack.empty());
+    Editor::current()->get_toolbar_widget()->set_redo_disabled(m_redo_stack.empty());
   }
 }
 
