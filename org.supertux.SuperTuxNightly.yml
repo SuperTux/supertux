@@ -6,15 +6,35 @@ command: supertux2
 rename-icon: supertux2
 rename-desktop-file: supertux2.desktop
 rename-appdata-file: supertux2.appdata.xml
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --socket=pulseaudio
+  - --share=network
+  - --device=all
 modules:
   - external/shared-modules/SDL2/SDL2_image.json
   - external/shared-modules/physfs/physfs.json
+  - external/shared-modules/glew/glew.json
+  - name: glm
+    buildsystem: cmake
+    config-opts:
+      - -DGLM_TEST_ENABLE=OFF
+    sources:
+      - type:   archive
+        url:    https://github.com/g-truc/glm/archive/refs/tags/1.0.1.tar.gz
+        sha256: 9f3174561fd26904b23f0db5e560971cbf9b3cbda0b280f04d5c379d03bf234c
+      - type:   archive
+        url:    https://github.com/g-truc/glm/archive/refs/tags/1.0.2.tar.gz
+        sha256: 19edf2e860297efab1c74950e6076bf4dad9de483826bc95e2e0f2c758a43f65
   - name: supertux
     buildsystem: cmake
     config-opts:
       - -DINSTALL_SUBDIR_SHARE=share/supertux2
-        -DINSTALL_SUBDIR_BIN=bin
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DINSTALL_SUBDIR_BIN=bin
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DENABLE_OPENGL=OFF # Need to hack around glew issues
     sources:
       - type:   git
         url:    https://github.com/SuperTux/supertux.git

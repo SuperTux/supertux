@@ -73,6 +73,9 @@ data/levels/more/
 *.zip
 *.diff
 
+# Flatpak
+.flatpak-builder/
+
 # Annoying OS Generated Files
 .DS_Store
 .DS_Store?
