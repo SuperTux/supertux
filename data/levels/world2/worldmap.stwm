@@ -8,7 +8,7 @@
   (icon-locked "")
   (sector
     (name "main")
-    (init-script "import(\"levels/world2_for_v0_7/worldmap.nut\");")
+    (init-script "import(\"levels/world2/worldmap.nut\");")
     (ambient-light
       (color 1 1 1)
     )
@@ -584,7 +584,7 @@ corrupt_forest(true);")
     (tilemap
       (solid #f)
       (z-pos -75)
-      (name "underground_ghost")
+      (name "underground_corrupt")
       (width 125)
       (height 125)
       (tiles -3186 0 312 -124 0 305 -12313 0)
