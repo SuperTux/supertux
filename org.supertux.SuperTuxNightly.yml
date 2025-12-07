@@ -1,0 +1,21 @@
+id: org.supertux.SupertuxNightly
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'
+sdk: org.freedesktop.Sdk
+command: supertux2
+rename-icon: supertux2
+rename-desktop-file: supertux2.desktop
+rename-appdata-file: supertux2.appdata.xml
+modules:
+  - external/shared-modules/SDL2/SDL2_image.json
+  - external/shared-modules/physfs/physfs.json
+  - name: supertux
+    buildsystem: cmake
+    config-opts:
+      - -DINSTALL_SUBDIR_SHARE=share/supertux2
+        -DINSTALL_SUBDIR_BIN=bin
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    sources:
+      - type:   git
+        url:    https://github.com/SuperTux/supertux.git
+        branch: master
