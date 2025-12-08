@@ -3,7 +3,7 @@ runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 command: supertux2
-rename-icon: supertux2
+rename-icon: supertux-nightly
 rename-desktop-file: supertux2.desktop
 rename-appdata-file: supertux2.appdata.xml
 finish-args:
@@ -22,14 +22,11 @@ modules:
     config-opts:
       - -DGLM_TEST_ENABLE=OFF
     sources:
-      # - type:   archive
-      #   url:    https://github.com/g-truc/glm/archive/refs/tags/1.0.1.tar.gz
-      #   sha256: 9f3174561fd26904b23f0db5e560971cbf9b3cbda0b280f04d5c379d03bf234c
       - type:   archive
         url:    https://github.com/g-truc/glm/archive/refs/tags/1.0.2.tar.gz
         sha256: 19edf2e860297efab1c74950e6076bf4dad9de483826bc95e2e0f2c758a43f65
   - name: supertux
-    buildsystem: cmake
+    buildsystem: cmake-ninja
     config-opts:
       - -DINSTALL_SUBDIR_SHARE=share/supertux2
       - -DINSTALL_SUBDIR_BIN=bin
