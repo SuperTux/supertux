@@ -23,6 +23,7 @@
 #include <sexp/value.hpp>
 
 #include "gui/menu_action.hpp"
+#include "gui/menu_filesystem.hpp"
 #include "object/path_walker.hpp"
 #include "video/color.hpp"
 
@@ -287,9 +288,7 @@ public:
   FileObjectOption(const std::string& text, std::string* pointer,
                    std::optional<std::string> default_value,
                    const std::string& key,
-                   std::vector<std::string> filter,
-                   const std::string& basedir,
-                   bool path_relative_to_basedir,
+                   FileSystemMenu::MenuParams& params,
                    unsigned int flags);
 
   virtual void parse(const ReaderMapping& reader) override;
@@ -299,9 +298,7 @@ public:
 
 private:
   std::optional<std::string> m_default_value;
-  const std::vector<std::string> m_filter;
-  std::string m_basedir;
-  bool m_path_relative_to_basedir;
+  FileSystemMenu::MenuParams m_params;
 
 private:
   FileObjectOption(const FileObjectOption&) = delete;

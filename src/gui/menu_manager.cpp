@@ -36,7 +36,6 @@ MenuManager::instance()
   return *current();
 }
 
-
 MenuManager::MenuManager() :
   m_menu_stack(),
   m_transition(new MenuTransition),
@@ -196,7 +195,6 @@ MenuManager::draw(DrawingContext& context)
     MouseCursor::current()->draw(context);
 }
 
-
 void
 MenuManager::set_dialog(std::unique_ptr<Dialog> dialog)
 {
@@ -210,7 +208,6 @@ MenuManager::set_notification(std::unique_ptr<Notification> notification)
   m_notification.next = std::move(notification);
   m_notification.has_next = true;
 }
-
 
 void
 MenuManager::set_menu(int id, bool skip_transition)
@@ -259,7 +256,7 @@ MenuManager::pop_menu(bool skip_transition)
 {
   if (m_menu_stack.empty())
   {
-    log_warning << "trying to pop on an empty menu_stack" << std::endl;
+    log_warning << "Trying to pop on an empty menu_stack." << std::endl;
     return;
   }
 
@@ -277,14 +274,12 @@ MenuManager::clear_menu_stack(bool skip_transition)
   m_menu_stack.clear();
 }
 
-
 void
 MenuManager::on_window_resize()
 {
   for (const auto& menu : m_menu_stack)
     menu->on_window_resize();
 }
-
 
 Menu*
 MenuManager::current_menu() const
