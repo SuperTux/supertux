@@ -22,7 +22,6 @@ on:
       - master
     tags:
       - '*'
-  pull_request: {}
 
 jobs:
   flatpak:
