@@ -6,7 +6,7 @@
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2019
 # aaaaaaaa, 2019
-# PoketMarty, 2024
+# Tommaso Macchiella, 2025
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:59+0000\n"
-"Last-Translator: PoketMarty, 2024\n"
+"Last-Translator: Tommaso Macchiella, 2025\n"
 "Language-Team: Italian (https://app.transifex.com/arctic-games/teams/95/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,7 @@ msgstr "Doppi problemi"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:82
 msgid "-Concentrate! Tux! It's not Mario!"
-msgstr "-Concentrati Tux! Non è Mario!"
+msgstr "-Concentrati, Tux! Non è Mario!"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:142
 msgid "You found a secret area!"
@@ -49,7 +49,7 @@ msgstr "L'entrata del castello di lava"
 
 #: data/levels/community2016/HMS_Snowballs_Ahoy (Vellidragon).stl:3
 msgid "HMS Snowball Ahoy!"
-msgstr " Ehilà HMS Palla di Neve!"
+msgstr " Ehilà, nave di Palla di neve!"
 
 #: data/levels/community2016/Into_The_Palace (ThomyW).stl:3
 msgid "Into The Palace"
@@ -85,8 +85,8 @@ msgstr "Su o giù?"
 
 #: data/levels/community2016/Welcome_To_Icy_Island (gelada).stl:3
 msgid "Welcome To The Icy Island"
-msgstr "Benvenuti all'isola ghiacciata"
+msgstr "Benvenuti all'Isola ghiacciata"
 
 #: data/levels/community2016/worldmap.stwm:3
 msgid "Community Island 2016"
-msgstr "Isola Comunità 2016"
+msgstr "Isola della Community 2016"

@@ -12,13 +12,14 @@
 # 17c2573a89e395c6dd973e5d003db498_36e4c1e, 2013
 # aaaaaaaa, 2018
 # aaaaaaaa, 2018
+# Tommaso Macchiella, 2025
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-10-22 21:59+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: A-TNT DC, 2021\n"
+"Last-Translator: Tommaso Macchiella, 2025\n"
 "Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +64,7 @@ msgstr "Ciao ciao Foresta"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
-msgstr "Percorso Instabile"
+msgstr "Un percorso instabile"
 
 #: data/levels/world2/darkness_awaits.stl:3
 msgid "Darkness Awaits"
@@ -101,7 +102,7 @@ msgstr "La tana del Gula"
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#Le lanterne sono usate per rendere solidi i blocchi magici. In questo modo si potrà camminarci sopra."
+msgstr "#Le lanterne sono usate per rendere solidi i blocchi magici. In questo modo Tux potrà camminarci sopra."
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -109,13 +110,13 @@ msgstr "Passaggio Sotterraneo"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:3
 msgid "I Spy With My Little Eye"
-msgstr "Io spioccio col mio picchio occhio"
+msgstr "Io spio con l'occhio mio"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-IoSpio\n#Gli IoSpio attiveranno cose come piattaforme ogni volta che Tux è a vista."
+msgstr "-Spioni\n#Gli Spioni attiveranno cose come piattaforme ogni volta che vedono Tux."
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
@@ -147,7 +148,7 @@ msgstr "Commando Gufi Skydive"
 
 #: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "I pinguini non crescono sugli alberi"
+msgstr "I pinguini non crescono sugli alberi!"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
@@ -187,7 +188,7 @@ msgstr "-Oggetti Trasportabili:\n!images/objects/rock/rock.png\n#Tux ha la possi
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"
-msgstr "La storia horror di Tux"
+msgstr "Lo show horror di Tux"
 
 #: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
@@ -220,4 +221,4 @@ msgstr "Foresta radicata"
 
 #: data/levels/world2/worldmap.stwm:239
 msgid "To be continued..."
-msgstr "Da continuare..."
+msgstr "To be continued..."
