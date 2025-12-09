@@ -131,7 +131,9 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("  --repository-url URL         Set the URL to the Add-On repository") << "\n"
     << "\n"
     << _("Environment variables:") << "\n"
+    // l10n: Keep SUPERTUX2_USER_DIR untranslated
     << _("  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)" ) << "\n"
+    // l10n: Keep SUPERTUX2_DATA_DIR untranslated
     << _("  SUPERTUX2_DATA_DIR           Directory for the games datafiles" ) << "\n"
     << "\n"
     << std::flush;
