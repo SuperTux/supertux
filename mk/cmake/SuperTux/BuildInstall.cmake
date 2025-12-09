@@ -49,6 +49,7 @@ else()
       else()
         set(LINUX_DESKTOP_ICON "supertux-nightly")
         install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-nightly.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
+        # TODO: Is this really needed?
         install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-nightly.png DESTINATION "share/icons/hicolor/128x128/apps")
       endif()
       configure_file(${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop.in ${CMAKE_BINARY_DIR}/supertux2.desktop)
