@@ -38,6 +38,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
+  inline bool is_cutscene() const { return m_is_cutscene; }
+
   inline void set_solved(bool v) { m_solved = v; update_sprite_action(); }
   inline bool is_solved() const { return m_solved; }
 
@@ -67,6 +69,8 @@ private:
 
   /** true if Tux should automatically enter this level if it's unfinished */
   bool m_auto_play;
+
+  bool m_is_cutscene;
 
   float m_target_time;
 

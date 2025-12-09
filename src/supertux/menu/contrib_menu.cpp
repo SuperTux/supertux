@@ -108,26 +108,24 @@ ContribMenu::ContribMenu() :
 void
 ContribMenu::menu_action(MenuItem& item)
 {
-  int index = item.get_id();
-  switch (index)
+  std::unique_ptr<SortedContribMenu> contrib_menu;
+  switch (item.get_id())
   {
-  case 0: {
-    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "official", _("Official Contrib Levels"),
-      _("How is this possible? There are no Official Contrib Levels!"));
-    MenuManager::instance().push_menu(std::move(contrib_menu));
-    break;
+    case 0: {
+      contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "official", _("Official Contrib Levels"),
+        std::vector<std::string>{ _("How is this possible?"), "", _("There are no Official Contrib Levels!") });
+      break;
+    }
+    case 1: {
+      contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "community", _("Community Contrib Levels"),
+        std::vector<std::string>{ _("No Community Contrib Levels yet."), "", _("Download such from the Add-ons Menu!") });
+      break;
+    }
+    case 2: {
+      contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "user", _("User Contrib Levels"),
+        std::vector<std::string>{ _("No User Contrib Levels yet."), "", _("Create some with the Level Editor!") });
+      break;
+    }
   }
-  case 1: {
-    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "community", _("Community Contrib Levels"),
-      _("No Community Contrib Levels yet. Download them from the Add-ons Menu."));
-    MenuManager::instance().push_menu(std::move(contrib_menu));
-    break;
-  }
-  case 2: {
-    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "user", _("User Contrib Levels"),
-      _("No User Contrib Levels yet. Create some with the Level Editor."));
-    MenuManager::instance().push_menu(std::move(contrib_menu));
-    break;
-  }
-  }
+  MenuManager::instance().push_menu(std::move(contrib_menu));
 }
