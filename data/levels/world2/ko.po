@@ -6,13 +6,13 @@
 # 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 # Junghee Lee <daemul72@gmail.com>, 2022
 # Junghee Lee <daemul72@gmail.com>, 2022
-# 명진 이 <aranet100@gmail.com>, 2016-2017,2019,2021
+# 이명진 <aranet100@gmail.com>, 2016-2017,2019,2021
 # Youngjun, Choi, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2025-01-26 01:42+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
 "Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
