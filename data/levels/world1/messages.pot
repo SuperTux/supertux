@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.6.3-1785-gf91c42aa8\n"
+"Project-Id-Version: SuperTux v0.6.3-1843-gf2d288a53\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2025-12-09 17:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,6 +46,10 @@ msgstr ""
 msgid "Bouncy, Bouncy Mountainside"
 msgstr ""
 
+#: data/levels/world1/castle_cutscene.stl:3
+msgid "Nobody Home"
+msgstr ""
+
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
 msgstr ""
@@ -70,7 +74,7 @@ msgstr ""
 msgid "A Fork in the Road?"
 msgstr ""
 
-#: data/levels/world1/fork_in_the_road.stl:750
+#: data/levels/world1/fork_in_the_road.stl:741
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, "
@@ -134,38 +138,74 @@ msgid "A Path in the Clouds"
 msgstr ""
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
+msgid "At last, Tux managed to rush towards the final room of the icy castle."
 msgstr ""
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
+msgid ""
+"To his suprise, there was no one here. Neither Penny, nor this... strange "
+"Nolok guy."
 msgstr ""
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
+msgid "Surely they had to be here somewhere, right? Perhaps a hidden room?"
 msgstr ""
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
+"After a bit of back and forth with himself, Tux noticed a small note "
+"attached to one of the pillars."
 msgstr ""
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
+msgid "It was yet another note, by that Nolok."
+msgstr ""
+
+#: data/levels/world1/scripts_castle_cutscene.txt:7
+msgid ""
+"It read that he had already left Icy Island towards the far north. If he "
+"wished to follow him and save his beloved friend, he would have to come to "
+"the Crystal Mine."
+msgstr ""
+
+#: data/levels/world1/scripts_castle_cutscene.txt:8
+msgid ""
+"Marked below was a rough map of the Glacier Isle, showing a boat and some "
+"kind of small pier on the other end."
+msgstr ""
+
+#: data/levels/world1/scripts_castle_cutscene.txt:9
+msgid ""
+"But before Tux could even make sense of any of it, a load roar filled the "
+"room!"
+msgstr ""
+
+#: data/levels/world1/scripts_castle_cutscene.txt:10
+msgid ""
+"The mighty Yeti had made his appearence, busting his chest in an "
+"intimidating fashion!"
+msgstr ""
+
+#: data/levels/world1/scripts_castle_cutscene.txt:11
+msgid ""
+"Tux made his way towards a balcony on the other end of the room. With no "
+"other option, he jumped!"
+msgstr ""
+
+#: data/levels/world1/scripts_castle_cutscene.txt:12
+msgid "Unfortunately, the Yeti would not let him go so easily..."
 msgstr ""
 
 #: data/levels/world1/scripts_crystal_mine.txt:2
 msgid ""
 "After a long swim across the antarctic waters, Tux arrived at the Glacier "
-"Isles the Yeti told him about."
+"Isle mentioned in Nolok's note."
 msgstr ""
 
 #: data/levels/world1/scripts_crystal_mine.txt:3
 msgid ""
-"A massive shaft layed before him leading down into the aforementioned "
-"Crystal Mine."
+"A massive shaft lay before him, leading down into the aforementioned Crystal "
+"Mine."
 msgstr ""
 
 #: data/levels/world1/scripts_crystal_mine.txt:4
@@ -182,24 +222,24 @@ msgstr ""
 
 #: data/levels/world1/scripts_crystal_mine.txt:6
 msgid ""
-"As he was about the exit the mine, internally Tux was hoping that all the "
-"yeti said was true."
+"As he was about to exit the mine, Tux was internally hoping that all Nolok "
+"wrote in the note was true."
 msgstr ""
 
 #: data/levels/world1/scripts_crystal_mine.txt:7
 msgid ""
-"To his relief, Tux did find a boat still docked. With it he could sail up "
-"north, to the aforementioned forest."
+"To his relief, he did find a boat still docked. With it, he could sail up "
+"north, to find Nolok and save Penny."
 msgstr ""
 
 #: data/levels/world1/scripts_crystal_mine.txt:8
-msgid "Seems like the yeti did not lie to him after all."
+msgid "It seemed the map in the note wasn't a trap after all."
 msgstr ""
 
 #: data/levels/world1/scripts_crystal_mine.txt:9
 msgid ""
-"The more he thought about it, he probably wasn't even meant to know about "
-"all this in the first place..."
+"The more he thought about it, the less he was sure about Nolok's "
+"motivations. Why would he leave clues behind?"
 msgstr ""
 
 #: data/levels/world1/scripts_intro.txt:2
@@ -243,25 +283,74 @@ msgid ""
 msgstr ""
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
-msgid "Exhausted from his long walk, Tux decided to take a little break."
+msgid ""
+"After an entire day of navigating Icy Island, Tux had now almost reached the "
+"supposed castle of Nolok."
 msgstr ""
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
-msgid "But then, all of a sudden he heard a loud roar from a distance."
+msgid ""
+"The lack of sleep during the night may not have been ideal but he was "
+"determined to keep going!"
 msgstr ""
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
-msgid "A yeti seems to have observed him from afar."
+msgid ""
+"Not wanting to waste any more time, Tux continued on, sliding down the hill "
+"he was on into the icy valley up ahead."
 msgstr ""
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
-"Concerned by the yeti's sudden retreat, Tux decided to continue his "
-"journey, ..."
+"Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
+"close eye on Tux as he continued his journey."
 msgstr ""
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
-msgid "...while secretly hoping not to run into the yeti again, by any means."
+msgid ""
+"The yeti let out a loud roar and proceeded to follow the little penguin."
+msgstr ""
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:2
+msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
+msgstr ""
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:3
+msgid ""
+"While it did not take long for the yeti to get up again, to Tux's relief, he "
+"did not throw hands again."
+msgstr ""
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:4
+msgid ""
+"The yeti was furious however! He could not understand how a tiny penguin "
+"like Tux could have beaten him in a fight."
+msgstr ""
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:5
+msgid ""
+"Almost as if he forgot Tux was there to begin with, the yeti rushed off, "
+"grumbling to himself."
+msgstr ""
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:6
+msgid "Not sure what to make of it, Tux decided to continue moving onwards."
+msgstr ""
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:7
+msgid ""
+"As he reached the shore, Tux could already see the Glacier Isle on the "
+"horizon."
+msgstr ""
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:8
+msgid ""
+"If he knew Nolok went over there sooner, he could have been there much "
+"faster."
+msgstr ""
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:9
+msgid "Perhaps that was Nolok's goal with the note he left behind..."
 msgstr ""
 
 #: data/levels/world1/shattered_bridge.stl:3
@@ -338,7 +427,7 @@ msgstr ""
 msgid "Icy Island"
 msgstr ""
 
-#: data/levels/world1/worldmap.stwm:210
+#: data/levels/world1/worldmap.stwm:243
 msgid "You found a secret area!"
 msgstr ""
 
@@ -347,5 +436,9 @@ msgid "No More Mr. Ice Guy"
 msgstr ""
 
 #: data/levels/world1/yeti_cutscene.stl:3
-msgid "A Yeti in the Distance"
+msgid "An Unsuspected Follower"
+msgstr ""
+
+#: data/levels/world1/yetiwin_cutscene.stl:3
+msgid "Off to the Glacier Isles"
 msgstr ""
