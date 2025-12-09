@@ -259,10 +259,6 @@ include(SuperTux/CompileAmalgation)
 add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 target_compile_features(supertux2 PUBLIC cxx_std_17)
 
-if(IS_SUPERTUX_RELEASE)
-  target_compile_definitions(supertux2 PUBLIC SUPERTUX_RELEASE)
-endif()
-
 # Pre-compiled headers
 if(IS_SUPERTUX_RELEASE)
   option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" ON)

@@ -19,7 +19,7 @@
 #include "supertux/title_screen.hpp"
 
 #include <version.h>
-
+#include <config.h>
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
 #include "object/music_object.hpp"
@@ -49,7 +49,7 @@ TitleScreen::TitleScreen(Savegame& savegame, bool christmas) :
   m_savegame(savegame),
   m_christmas(christmas),
   m_logo(Surface::from_file("images/engine/menu/" + std::string(
-#ifdef SUPERTUX_RELEASE
+#ifdef IS_SUPERTUX_RELEASE
     "logo.png"
 #else
     "logo_dev.png"
