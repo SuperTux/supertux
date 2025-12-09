@@ -112,7 +112,7 @@ CommandLineArguments::print_help(const char* arg0) const
     << "\n"
     << _("Game Options:") << "\n"
     << _("  --edit-level                 Open given level in editor") << "\n"
-    << _("  --resave                     Loads given level and saves it") << "\n"
+    << _("  --resave                     Load given level and saves it") << "\n"
     << _("  --show-fps                   Display framerate in levels") << "\n"
     << _("  --no-show-fps                Do not display framerate in levels") << "\n"
     << _("  --show-pos                   Display player's current position") << "\n"
@@ -124,7 +124,7 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n") << "\n"
     << "\n"
     << _("Directory Options:") << "\n"
-    << _("  --datadir DIR                Set the directory for the games datafiles") << "\n"
+    << _("  --datadir DIR                Set the directory for the game's data files") << "\n"
     << _("  --userdir DIR                Set the directory for user data (savegames, etc.)") << "\n"
     << "\n"
     << _("Add-On Options:") << "\n"
@@ -134,7 +134,7 @@ CommandLineArguments::print_help(const char* arg0) const
     // l10n: Keep SUPERTUX2_USER_DIR untranslated
     << _("  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)" ) << "\n"
     // l10n: Keep SUPERTUX2_DATA_DIR untranslated
-    << _("  SUPERTUX2_DATA_DIR           Directory for the games datafiles" ) << "\n"
+    << _("  SUPERTUX2_DATA_DIR           Directory for the games data files" ) << "\n"
     << "\n"
     << std::flush;
 }
