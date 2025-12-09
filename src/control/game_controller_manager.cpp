@@ -132,6 +132,9 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
 {
   int player_id;
 
+  if (g_config->ignore_joystick_axis)
+    return;
+
   {
     auto it = m_game_controllers.find(SDL_GameControllerFromInstanceID(ev.which));
 
