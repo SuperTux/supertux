@@ -481,7 +481,12 @@ Main::init_video()
 {
   VideoSystem::current()->set_title("SuperTux " PACKAGE_VERSION);
 
-  const char* icon_fname = "images/engine/icons/supertux-256x256.png";
+  const char* icon_fname =
+#ifdef IS_SUPERTUX_RELEASE
+    "images/engine/icons/supertux-256x256.png";
+#else
+    "images/engine/icons/supertux-nightly-256x256.png";
+#endif
 
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
