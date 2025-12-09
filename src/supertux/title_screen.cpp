@@ -20,6 +20,7 @@
 
 #include <version.h>
 #include <config.h>
+#include "math/util.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
 #include "object/music_object.hpp"
@@ -61,6 +62,7 @@ TitleScreen::TitleScreen(Savegame& savegame, bool christmas) :
   m_titlesession(),
   m_copyright_text(),
   m_videosystem_name(VideoSystem::current()->get_name()),
+  m_logo_opacity(1.0),
   m_jump_was_released(false)
 {
   refresh_copyright_text();
@@ -174,6 +176,11 @@ TitleScreen::draw(Compositor& compositor)
 
   m_titlesession->get_current_sector().draw(context);
 
+  // fades the logo in/out iff we are on the main menu
+  m_logo_opacity += (MenuManager::instance().get_menu_stack_size() == 1 ? 0.1 : -0.1);
+  m_logo_opacity = math::clamp<float>(m_logo_opacity, 0.0, 1.0);
+
+  context.set_alpha(m_logo_opacity);
   context.color().draw_surface(m_logo,
                                Vector(context.get_width() / 2 - static_cast<float>(m_logo->get_width()) / 2,
                                       context.get_height() / 2 - static_cast<float>(m_logo->get_height()) / 2 - 200.f),
@@ -185,6 +192,7 @@ TitleScreen::draw(Compositor& compositor)
                                         context.get_height() / 2 - static_cast<float>(m_santahat->get_height()) / 2 - 255.f),
                                  LAYER_GUI + 2);
   }
+  context.set_alpha(1.0);
 
   context.color().draw_surface_scaled(m_frame, context.get_rect(), LAYER_GUI + 3);
 
