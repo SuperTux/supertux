@@ -371,7 +371,7 @@
   )
   (person
     (name "Bleed")
-  (info (_ "http://remusprites.carbonmade.com/"))
+    (info "http://remusprites.carbonmade.com/")
   )
   (person
     (name "CT. da'Bomb")
