@@ -51,7 +51,6 @@
 #include "supertux/menu/web_asset_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
 #include "supertux/menu/worldmap_cheat_menu.hpp"
-#include "supertux/menu/world_set_menu.hpp"
 #include "util/log.hpp"
 
 MenuStorage* MenuStorage::s_instance = nullptr;
@@ -120,9 +119,6 @@ MenuStorage::create(MenuId menu_id)
 
     case DEBUG_MENU:
       return std::make_unique<DebugMenu>();
-
-    case WORLDSET_MENU:
-      return std::make_unique<WorldSetMenu>();
 
     case CONTRIB_MENU:
       return std::make_unique<ContribMenu>();
