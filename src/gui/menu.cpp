@@ -173,9 +173,9 @@ Menu::add_script(UID uid, const std::string& key, const std::string& text, std::
 }
 
 ItemIntField&
-Menu::add_intfield(const std::string& text, int* input, int id, bool positive)
+Menu::add_intfield(const std::string& text, int* input, int id, bool positive, ItemIntFieldRange range)
 {
-  return add_item<ItemIntField>(text, input, id, positive);
+  return add_item<ItemIntField>(text, input, id, positive, range);
 }
 
 ItemFloatField&
@@ -566,22 +566,22 @@ Menu::set_item(int index)
   	index = 0;
 
   m_active_item = 0;
-  
+
   // Attempt to skip all skippable items
   do
   {
   	if (m_active_item > m_items.size())
 	  break;
-	  
+
     if (m_items[m_active_item]->skippable())
 	{
 	  ++m_active_item;
 	  continue;
 	}
-	
+
 	if (index > 0)
 	  ++m_active_item;
-	
+
 	--index;
   }
   while (index >= 0);
@@ -635,7 +635,7 @@ Menu::event(const SDL_Event& ev)
         calculate_width();
       }
     break;
-	
+
 	case SDL_MOUSEWHEEL:
 	{
 	  if (ev.wheel.y > 0)
@@ -672,7 +672,7 @@ Menu::event(const SDL_Event& ev)
 	  {
 	  	m_mouse_deadzone -= abs(ev.motion.xrel);
 	  	m_mouse_deadzone -= abs(ev.motion.yrel);
-	  
+
         if (m_mouse_deadzone < 0)
           m_mouse_deadzone = 0;
 		return;

@@ -25,6 +25,7 @@
 #include "util/uid.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
+#include "item_field_range.hpp"
 
 class ItemAction;
 class ItemBack;
@@ -38,12 +39,12 @@ class ItemGoTo;
 class ItemHorizontalLine;
 class ItemHorizontalMenu;
 class ItemInactive;
-class ItemIntField;
 class ItemLabel;
 class ItemPaths;
 class ItemScript;
 class ItemList;
 class ItemStringSelect;
+class ItemIntField;
 class ItemTextField;
 class ItemToggle;
 class ItemStringArray;
@@ -92,7 +93,7 @@ public:
   ItemStringSelect& add_string_select(int id, const std::string& text, int default_item, const std::vector<std::string>& strings);
   ItemTextField& add_textfield(const std::string& text, std::string* input, int id = -1);
   ItemScript& add_script(UID uid, const std::string& key, const std::string& text, std::string* script, int id = -1);
-  ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false);
+  ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false, ItemIntFieldRange range = {});
   ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
   ItemAction& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
                        const std::string& basedir, bool path_relative_to_basedir,
@@ -124,7 +125,7 @@ public:
 
   inline Vector get_center_pos() const { return m_pos; }
   inline void set_center_pos(float x, float y) { m_pos.x = x; m_pos.y = y; }
-  
+
   void previous_item();
   void next_item();
 
@@ -133,9 +134,9 @@ public:
 
   /** returns true when the text is more important than action */
   virtual bool is_sensitive() const { return false; }
-  
+
   inline void allow_click_when_unfocused() { m_can_click_when_unfocused = true; }
-  
+
 protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item);
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
