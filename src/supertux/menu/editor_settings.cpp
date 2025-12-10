@@ -16,6 +16,8 @@
 
 #include "supertux/menu/editor_settings.hpp"
 
+#include "math/util.hpp"
+#include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -48,7 +50,7 @@ EditorSettings::EditorSettings()
 #endif
   add_toggle(-1, _("Show Toolbar"), &(g_config->editor_show_toolbar_widgets));
   add_toggle(-1, _("Remember Last Level"), &(g_config->editor_remember_last_level));
-  add_intfield(_("Blur Amount"), &(g_config->editor_blur), -1, true);
+  add_intfield(_("Blur Amount"), &(g_config->editor_blur), -1, true, ItemIntFieldRange{0, 67});
   add_textfield(_("Preferred Text Editor"), &(g_config->preferred_text_editor));
   if (g_config->editor_undo_tracking)
   {
