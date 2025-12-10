@@ -16,12 +16,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gui/item_intfield.hpp"
+#include "math/util.hpp"
 
-ItemIntField::ItemIntField(const std::string& text_, int* input_, int id_, bool positive) :
+ItemIntField::ItemIntField(const std::string& text_, int* input_, int id_, bool positive, ItemIntFieldRange range) :
   ItemTextField(text_, new std::string, id_),
   number(input_),
   m_input(std::to_string(*input_)),
-  m_positive(positive)
+  m_positive(positive),
+  m_range(range)
 {
   change_input(m_input);
 
@@ -81,7 +83,8 @@ ItemIntField::on_input_update()
   try
   {
     int new_number = std::stoi(*input);
-    *number = new_number;
+    *number = math::clamp(new_number, m_range.begin, m_range.end);
+    *input = std::to_string(*number);
   }
   catch (...)
   {
