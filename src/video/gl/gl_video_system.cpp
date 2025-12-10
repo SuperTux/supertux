@@ -69,6 +69,8 @@
  */
 #ifdef WIN32
 static bool WORST_FUCKING_HACK_IN_THIS_CODEBASE = false;
+// Resize is ignored on fullscreen, so we're gonna flicker it
+static bool HACK_FULLSCREEN_FLIPPED = false;
 #endif
 
 GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
@@ -203,6 +205,11 @@ GLVideoSystem::create_gl_window()
   create_sdl_window(SDL_WINDOW_OPENGL);
 #ifdef WIN32 // See comment near top of file
   SDL_SetWindowSize(m_sdl_window.get(), get_window_size().width + 1, get_window_size().height);
+  if (g_config->use_fullscreen)
+  {
+    HACK_FULLSCREEN_FLIPPED = true;
+    g_config->use_fullscreen = false;
+  }
   WORST_FUCKING_HACK_IN_THIS_CODEBASE = true;
 #endif
   create_gl_context();
@@ -352,6 +359,9 @@ GLVideoSystem::flip()
   if (WORST_FUCKING_HACK_IN_THIS_CODEBASE)
   {
     SDL_SetWindowSize(m_sdl_window.get(), get_window_size().width - 1, get_window_size().height);
+    if (HACK_FULLSCREEN_FLIPPED)
+      g_config->use_fullscreen = true;
+    apply_video_mode();
     WORST_FUCKING_HACK_IN_THIS_CODEBASE = false;
   }
 #endif
