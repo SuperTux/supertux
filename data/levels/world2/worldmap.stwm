@@ -584,7 +584,7 @@ corrupt_forest(true);")
     (tilemap
       (solid #f)
       (z-pos -75)
-      (name "underground_corrupt")
+      (name "corner_corrupt")
       (width 125)
       (height 125)
       (tiles -3186 0 312 -124 0 305 -12313 0)

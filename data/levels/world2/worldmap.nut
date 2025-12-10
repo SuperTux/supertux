@@ -44,6 +44,7 @@ function corrupt_forest(corrupt){
   convex_corrupt.fade(corrupt ? 1 : 0, fade_time);
   front_corrupt.fade(corrupt ? 1 : 0, fade_time);
   underground_corrupt.fade(corrupt ? 1 : 0, fade_time);
+  corner_corrupt.fade(corrupt ? 1 : 0, fade_time);
   state.corrupted <- corrupt;
 }
 
