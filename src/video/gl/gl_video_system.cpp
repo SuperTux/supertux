@@ -40,6 +40,37 @@
 #  include <glbinding/callbacks.h>
 #endif
 
+/* For some extremely bizarre reason, there seems to be a bug, _likely_ on
+ * Windows AMD gpu drivers, but possibly in SDL2 (and at worst, in this
+ * codebase), where the GL Framebuffer is only 1 pixel tall (or something like
+ * that). Now, all seems bad, but for some reason, _resizing_ fixes it! But not
+ * like any old resize event, or our on_resize(), or even in apply_config(), or
+ * anywhere in the damn screen's resize event.. no... like a literal window
+ * resize. (I tried forever to not come to this conclusion, like faking the size
+ * of the window, the backbuffer texture, etc.)
+ *
+ * And I really didn't want to come this far, but the _ONLY_ way i could fix it
+ * was to send a resize event. There's probably some internal SDL shenanigans I
+ * could do, but I hate Windows so I really cannot be bothered.
+ *
+ * Bare in mind, this bug does _not_ happen on Linux nor macOS (yes, that was
+ * tested too), so I can only conclude it's something Windows specific, or MSVC,
+ * or AMD.. who knows.
+ *
+ * So, we resize the window by 1 measily little pixel (SDL ignores 0 pixel
+ * resize), then on our first flip, we resize back. This doesn't seem to cause a
+ * redraw in the game either, so I'm gonna keep this around until _someone_ can
+ * deduce the problem.
+ *
+ * Bare in mind, this bug has apparently existed since 0.6.0. Well, whenever the
+ * backbuffer was introduced. Maybe we're using the backbuffer wrong, only God
+ * or grumbel knows, and I really cannot be bothered to check before 0.7's
+ * release, so this hack will stay just so we can nip it in the bud.
+ */
+#ifdef WIN32
+static bool WORST_FUCKING_HACK_IN_THIS_CODEBASE = false;
+#endif
+
 GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
   m_use_opengl33core(use_opengl33core),
   m_texture_manager(),
@@ -170,6 +201,10 @@ GLVideoSystem::create_gl_window()
 #endif
 
   create_sdl_window(SDL_WINDOW_OPENGL);
+#ifdef WIN32 // See comment near top of file
+  SDL_SetWindowSize(m_sdl_window.get(), get_window_size().width + 1, get_window_size().height);
+  WORST_FUCKING_HACK_IN_THIS_CODEBASE = true;
+#endif
   create_gl_context();
 }
 
@@ -269,7 +304,7 @@ GLVideoSystem::apply_config()
   // instead of the display resolution, or the video will be rendered partly outside of the screen.
   m_viewport = Viewport::from_size(g_config->window_size, g_config->window_size);
 #endif
-  
+
   // If already set, turn it off. The code afterwards won't harm anything.
   if (m_back_renderer && !g_config->fancy_gfx)
   {
@@ -312,6 +347,14 @@ GLVideoSystem::flip()
 {
   assert_gl();
   SDL_GL_SwapWindow(m_sdl_window.get());
+
+#ifdef WIN32
+  if (WORST_FUCKING_HACK_IN_THIS_CODEBASE)
+  {
+    SDL_SetWindowSize(m_sdl_window.get(), get_window_size().width - 1, get_window_size().height);
+    WORST_FUCKING_HACK_IN_THIS_CODEBASE = false;
+  }
+#endif
 }
 
 void
