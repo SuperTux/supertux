@@ -40,6 +40,7 @@ protected:
 protected:
   std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_sdl_window;
   Size m_desktop_size;
+  [[maybe_unused]] bool m_last_fullscreen_state;
 
 private:
   SDLBaseVideoSystem(const SDLBaseVideoSystem&) = delete;
