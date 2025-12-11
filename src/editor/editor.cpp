@@ -81,7 +81,7 @@
 #include "supertux/sector.hpp"
 #include "supertux/sector_parser.hpp"
 
-static const float CAMERA_MIN_ZOOM = 0.5f;
+static const float CAMERA_MIN_ZOOM = 0.4f;
 static const float CAMERA_MAX_ZOOM = 3.0f;
 static const float CAMERA_ZOOM_SENSITIVITY = 0.05f;
 static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
@@ -439,7 +439,7 @@ Editor::update(float dt_sec, const Controller& controller)
     for (const auto& widget : m_widgets) {
       widget->update(dt_sec);
     }
-  
+
     m_toolbar_widget->update(dt_sec);
 
     for(const auto& control : m_controls)
@@ -1252,7 +1252,7 @@ Editor::event(const SDL_Event& ev)
     for (const auto& widget : m_widgets)
       if (widget->event(ev))
         break;
-    
+
     m_toolbar_widget->event(ev);
   }
   catch(const std::exception& err)
