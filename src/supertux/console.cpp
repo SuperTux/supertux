@@ -226,6 +226,7 @@ Console::scroll(int numLines)
 {
   m_offset += numLines;
   if (m_offset > 0) m_offset = 0;
+  else if (-m_offset >= m_buffer.m_lines.size()) m_offset = -m_buffer.m_lines.size() + 1;
 }
 
 int
