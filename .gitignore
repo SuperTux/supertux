@@ -3,7 +3,7 @@ build/
 build.*/
 **/CMakeFiles/
 **/CMakeCache.txt
-supertux2
+./supertux2
 
 # Installed vcpkg packages
 vcpkg_installed/
