@@ -121,7 +121,7 @@ Config::Config() :
   // TODO: Set to true when this setting is ready
   editor_show_properties_sidebar(false),
   editor_show_toolbar_widgets(true),
-  editor_blur(15),
+  editor_blur(12),
   editor_remember_last_level(true),
   preferred_text_editor(),
   editor_last_edited_level(),
