@@ -228,6 +228,12 @@ Console::scroll(int numLines)
   if (m_offset > 0) m_offset = 0;
 }
 
+int
+Console::get_line_height()
+{
+  return static_cast<int>(Console::HEIGHT / static_cast<float>(m_font->get_height())) - 1;
+}
+
 void
 Console::show_history(int offset_)
 {
