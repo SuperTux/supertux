@@ -62,6 +62,9 @@ private:
 class Console final : public Currenton<Console>
 {
 public:
+  static constexpr int HEIGHT = 256;
+
+public:
   Console(ConsoleBuffer& buffer);
   ~Console() override;
 

@@ -442,7 +442,7 @@ Console::show()
     return;
 
   m_focused = true;
-  m_height = 256;
+  m_height = Console::HEIGHT;
   m_alpha = 1.0;
 }
 
