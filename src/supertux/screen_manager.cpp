@@ -397,7 +397,22 @@ ScreenManager::process_events()
 
     m_menu_manager->event(event);
 
-    m_screen_stack.back()->event(event);
+#define LOGMOUSEY(var) VideoSystem::current()->get_viewport().to_logical(0, var).y
+    // If the console is focused, try to funnel mouse events into that. Lisp
+    // programmers would be proud!
+    // TODO: Dragging-like logic is a little funky, but it's not a big deal
+    if (Console::current()->hasFocus() &&
+        ((event.type == SDL_MOUSEWHEEL && LOGMOUSEY(event.wheel.mouseY) < Console::HEIGHT) ||
+         ((event.type == SDL_MOUSEBUTTONDOWN ||
+           event.type == SDL_MOUSEBUTTONUP) && LOGMOUSEY(event.button.y) < Console::HEIGHT) ||
+         (event.type == SDL_MOUSEMOTION && LOGMOUSEY(event.motion.y) < Console::HEIGHT)))
+    {
+      if (event.type == SDL_MOUSEWHEEL)
+        Console::current()->scroll(-event.wheel.y * 2);
+    }
+    else
+      m_screen_stack.back()->event(event);
+#undef LOGMOUSEY
 
     switch (event.type)
     {
