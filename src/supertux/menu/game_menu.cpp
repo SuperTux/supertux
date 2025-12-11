@@ -58,14 +58,14 @@ GameMenu::GameMenu() :
     add_label(level.get_name());
     add_hl();
   }
-  
+
   add_entry(MNID_CONTINUE, _("Continue"));
   add_entry(MNID_RESETLEVEL, _("Restart Level"));
 
   if (Sector::current()->get_players()[0]->get_status().can_reach_checkpoint()) {
     add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart from Checkpoint"));
   }
-  
+
   if (g_config->developer_mode && !Editor::current())
   {
     add_entry(MNID_EDITLEVEL, _("Edit Level"));
@@ -108,7 +108,7 @@ GameMenu::menu_action(MenuItem& item)
         reset_checkpoint_callback();
       }
       break;
-    
+
     case MNID_EDITLEVEL:
       {
         if (Editor::is_active())
@@ -117,26 +117,43 @@ GameMenu::menu_action(MenuItem& item)
         //Editor* editor = new Editor();
         //editor->disable_testing();
         std::string level_file = GameSession::current()->get_level_file();
+        if (!worldmap::WorldMap::current())
+        {
+          Dialog::show_message(_("Couldn't open editor for this level. No worldmap!"));
+          break;
+        }
         std::string return_to = worldmap::WorldMap::current()->get_levels_path();
         ScreenManager::current()->pop_screen();
         ScreenManager::current()->pop_screen();
         // We must queue the creation of the level queue or else the currenton gets clobbered
-        ScreenManager::current()->push_screen([level_file, return_to]() {
+       ScreenManager::current()->push_screen([level_file, return_to]() {
           Editor* editor = new Editor();
+          if (level_file.empty())
+            return editor;
           editor->set_level(level_file);
           editor->update(0, Controller());
           editor->on_exit([return_to]() {
             // Same as last comment... This restarts the previous level
-            ScreenManager::current()->push_screen([return_to]() {
+            ScreenManager::current()->push_screen([return_to]() -> worldmap::WorldMap* {
               // TODO: Move this somewhere else, it is similar to the GameManager::start_worldmap code
               // Also, what if the world gets deleted in the middle of editing?
               std::unique_ptr<World> world = World::from_directory(FileSystem::strip_leading_dirs(return_to));
+              if (!world)
+              {
+                Dialog::show_message(_("Couldn't open editor for this level."));
+                return nullptr;
+              }
               auto worldmap = GameManager::current()->create_worldmap_instance(*world);
+              if (!worldmap)
+              {
+                Dialog::show_message(_("Couldn't open worldmap for this level."));
+                return nullptr;
+              }
               worldmap->start_level();
               return worldmap;
             });
           });
-          
+
           return editor;
         });
       }
