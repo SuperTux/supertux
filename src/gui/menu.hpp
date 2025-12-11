@@ -148,6 +148,7 @@ protected:
   void calculate_height();
 
 private:
+  void recalculate_position_and_size();
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index, float y_pos);
 
