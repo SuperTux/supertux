@@ -20,6 +20,7 @@
 #include <array>
 
 #include "supertux/globals.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/log.hpp"
 #include "util/obstackpp.hpp"
 #include "video/drawing_context.hpp"
@@ -283,7 +284,7 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
   request->color = color;
   request->color.alpha = color.alpha * m_context.transform().alpha;
   request->radius = radius;
-  request->blur = m_blur;
+  request->blur = g_config->fancy_gfx ? m_blur : 0;
 
   m_requests.push_back(request);
 }
