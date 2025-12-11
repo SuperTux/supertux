@@ -66,7 +66,10 @@ GameMenu::GameMenu() :
     add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart from Checkpoint"));
   }
 
-  if (g_config->developer_mode && !Editor::current())
+  if (g_config->developer_mode && !Editor::current() &&
+      // TODO: Allow to edit the level from a file; this is broken, so we don't
+      //   show this button if there is no worldmap
+      worldmap::WorldMap::current())
   {
     add_entry(MNID_EDITLEVEL, _("Edit Level"));
   }
