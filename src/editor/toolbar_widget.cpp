@@ -193,8 +193,8 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
   }
   m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 2);
 
-  m_undo_widget = reinterpret_cast<EditorToolbarButtonWidget*>(m_widgets[0].get());
-  m_redo_widget = reinterpret_cast<EditorToolbarButtonWidget*>(m_widgets[1].get());
+  m_undo_widget = m_widgets[0].get();
+  m_redo_widget = m_widgets[1].get();
   m_undo_widget->set_disabled(true);
   m_redo_widget->set_disabled(true);
 
