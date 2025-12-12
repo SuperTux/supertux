@@ -21,6 +21,7 @@
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
+#include "video/surface.hpp"
 
 static const float MAIN_ROOT_THREAT = 16;
 static const float MAIN_ROOT_THREAT_SPEED = 32;
@@ -54,8 +55,8 @@ GhostTreeAttack::~GhostTreeAttack()
 {
 }
 
-GhostTreeRoot::GhostTreeRoot(const Vector& pos, Direction dir, const std::string& sprite) :
-  BadGuy(pos, dir, sprite, LAYER_OBJECTS)
+GhostTreeRoot::GhostTreeRoot(const Vector& pos, Direction dir, const std::string& sprite):
+  BadGuy(pos, dir, sprite, LAYER_TILES - 10)
 {
   set_colgroup_active(COLGROUP_TOUCHABLE);
   m_physic.enable_gravity(false);
@@ -85,13 +86,14 @@ GhostTreeRoot::kill_fall()
 // PART 2: Roots
 // ----------------------------------------------------------------------------
 
-GhostTreeRootMain::GhostTreeRootMain(const Vector& pos, GhostTreeAttack* parent) :
+GhostTreeRootMain::GhostTreeRootMain(const Vector& pos, GhostTreeAttack* parent):
   GhostTreeRoot(pos + Vector(0, MAIN_ROOT_THREAT), Direction::AUTO, "images/creatures/ghosttree/main_root.sprite"),
   m_level_bottom(pos.y + MAIN_ROOT_THREAT),
   m_level_middle(pos.y),
   m_level_top(pos.y),
   m_state(STATE_THREATENING),
-  m_parent(parent)
+  m_parent(parent),
+  m_hill(Surface::from_file("images/creatures/mole/corrupted/root_base.png"))
 {
   m_physic.set_velocity_y(-MAIN_ROOT_THREAT_SPEED);
   m_level_top -= m_col.m_bbox.get_height();
@@ -129,7 +131,19 @@ GhostTreeRootMain::active_update(float dt_sec)
   }
 }
 
-GhostTreeRootRed::GhostTreeRootRed(const Vector& pos, GhostTreeAttack* parent) :
+void
+GhostTreeRootMain::draw(DrawingContext& context)
+{
+  const Size orig = m_hill->get_region().get_size();
+  const Sizef newsize = Sizef(orig.width, orig.height) * 1.6f;
+  const Vector off((-newsize.width / 2.f) + (m_sprite->get_current_hitbox_width() / 2.f), -newsize.height);
+  const Rectf dest(m_start_position + off, newsize);
+  context.color().draw_surface_scaled(m_hill, dest, m_layer + 5);
+
+  BadGuy::draw(context);
+}
+
+GhostTreeRootRed::GhostTreeRootRed(const Vector& pos, GhostTreeAttack* parent):
   GhostTreeRoot(pos, Direction::AUTO, "images/creatures/ghosttree/red_root.sprite"),
   m_level_bottom(pos.y),
   m_level_top(pos.y),
@@ -168,7 +182,7 @@ GhostTreeRootRed::active_update(float dt_sec)
   }
 }
 
-GhostTreeRootGreen::GhostTreeRootGreen(const Vector& pos, GhostTreeAttack* parent) :
+GhostTreeRootGreen::GhostTreeRootGreen(const Vector& pos, GhostTreeAttack* parent):
   GhostTreeRoot(pos, Direction::AUTO, "images/creatures/ghosttree/green_root.sprite"),
   m_level_top(pos.y),
   m_parent(parent)
@@ -193,7 +207,7 @@ GhostTreeRootGreen::active_update(float dt_sec)
   remove_me();
 }
 
-GhostTreeRootBlue::GhostTreeRootBlue(const Vector& pos, GhostTreeAttack* parent) :
+GhostTreeRootBlue::GhostTreeRootBlue(const Vector& pos, GhostTreeAttack* parent):
   GhostTreeRoot(pos, Direction::AUTO, "images/creatures/ghosttree/granito_root.sprite"),
   m_level_bottom(pos.y),
   m_level_top(pos.y),
@@ -260,7 +274,7 @@ GhostTreeRootBlue::fire()
   }
 }
 
-GhostTreeRootPinch::GhostTreeRootPinch(const Vector& pos, GhostTreeAttack* parent) :
+GhostTreeRootPinch::GhostTreeRootPinch(const Vector& pos, GhostTreeAttack* parent):
   GhostTreeRoot(pos, Direction::AUTO, "images/creatures/ghosttree/pinch_root.sprite"),
   m_level_top(pos.y),
   m_state(STATE_RISING),
@@ -317,10 +331,10 @@ GhostTreeRootPinch::fire()
 // PART 3: Root Attacks
 // ----------------------------------------------------------------------------
 
-GhostTreeAttackMain::GhostTreeAttackMain(Vector pos) :
-m_spawn_timer(),
-m_pos(pos),
-m_remaining_roots(2)
+GhostTreeAttackMain::GhostTreeAttackMain(Vector pos):
+  m_spawn_timer(),
+  m_pos(pos),
+  m_remaining_roots(2)
 {
   m_spawn_timer.start(0.2);
 }
@@ -332,12 +346,30 @@ GhostTreeAttackMain::~GhostTreeAttackMain()
 void
 GhostTreeAttackMain::active_update(float dtime)
 {
-  if (m_remaining_roots <= 0 || !m_spawn_timer.check()) {
+  using RaycastResult = CollisionSystem::RaycastResult;
+
+  if (m_remaining_roots <= 0 || !m_spawn_timer.check())
+    return;
+
+  Player* p = Sector::get().get_nearest_player(m_pos);
+  if (!p)
+  {
+    Sector::get().add<GhostTreeRootMain>(m_pos, this);
     return;
   }
 
-  Player* p = Sector::get().get_nearest_player(m_pos);
-  Sector::get().add<GhostTreeRootMain>(Vector(p ? p->get_pos().x : m_pos.x, m_pos.y), this);
+  float midx = p->get_x() + (p->get_width() / 2);
+  Vector pos(midx, m_pos.y);
+  Vector eye(midx, p->get_bbox().get_bottom());
+  RaycastResult result = Sector::get().get_first_line_intersection(eye, eye + Vector(0.f, 670.f),
+                                                                   CollisionSystem::IGNORE_OBJECTS, nullptr);
+
+  if (result.is_valid)
+    pos.y = result.box.get_top();
+
+  auto& root = Sector::get().add<GhostTreeRootMain>(pos, this);
+  root.set_pos(pos.x - (root.get_sprite()->get_current_hitbox_width() / 2.f),pos.y);
+  root.set_start_position(root.get_pos());
 }
 
 bool
@@ -355,14 +387,14 @@ GhostTreeAttackMain::root_died()
   }
 }
 
-GhostTreeAttackRed::GhostTreeAttackRed(float y, float x_start, float x_end) :
-m_spawn_timer(),
-m_pos_y(y),
-m_start_x(x_start),
-m_end_x(x_end),
-m_current_x(x_start),
-m_remaining_roots(0),
-m_ended(false)
+GhostTreeAttackRed::GhostTreeAttackRed(float y, float x_start, float x_end):
+  m_spawn_timer(),
+  m_pos_y(y),
+  m_start_x(x_start),
+  m_end_x(x_end),
+  m_current_x(x_start),
+  m_remaining_roots(0),
+  m_ended(false)
 {
   m_spawn_timer.start(0.2);
 }
@@ -403,8 +435,8 @@ GhostTreeAttackRed::root_died()
   --m_remaining_roots;
 }
 
-GhostTreeAttackGreen::GhostTreeAttackGreen(const Vector& pos) :
-m_ended(false)
+GhostTreeAttackGreen::GhostTreeAttackGreen(const Vector& pos):
+  m_ended(false)
 {
   Sector::get().add<GhostTreeRootGreen>(pos, this);
 }
@@ -431,8 +463,8 @@ GhostTreeAttackGreen::root_died()
   m_ended = true;
 }
 
-GhostTreeAttackBlue::GhostTreeAttackBlue(const Vector& pos) :
-m_ended(false)
+GhostTreeAttackBlue::GhostTreeAttackBlue(const Vector& pos):
+  m_ended(false)
 {
   Sector::get().add<GhostTreeRootBlue>(pos, this);
 }
@@ -459,10 +491,10 @@ GhostTreeAttackBlue::root_died()
   m_ended = true;
 }
 
-GhostTreeAttackPinch::GhostTreeAttackPinch(const Vector& pos, float x_left, float x_right) :
-m_root_ended(false),
-m_left_trail(pos.y, pos.x - RED_ROOT_SPAN, x_left),
-m_right_trail(pos.y, pos.x + PINCH_ROOT_SPAN, x_right)
+GhostTreeAttackPinch::GhostTreeAttackPinch(const Vector& pos, float x_left, float x_right):
+  m_root_ended(false),
+  m_left_trail(pos.y, pos.x - RED_ROOT_SPAN, x_left),
+  m_right_trail(pos.y, pos.x + PINCH_ROOT_SPAN, x_right)
 {
   Sector::get().add<GhostTreeRootPinch>(pos, this);
 }
