@@ -133,6 +133,19 @@ jobs:
 
           popd
 
+      - name: Check error log
+        if: ${{ matrix.arch == 32 }}
+        run: |
+          echo "config-x86-linux-rel-CMakeCache.txt.log contents:"
+          cat /usr/local/share/vcpkg/buildtrees/detect_compiler/config-x86-linux-rel-CMakeCache.txt.log
+
+          echo "config-x86-linux-rel-out.log contents:"
+          cat /usr/local/share/vcpkg/buildtrees/detect_compiler/config-x86-linux-rel-out.log
+
+          echo "config-x86-linux-rel-err.log contents:"
+          cat /usr/local/share/vcpkg/buildtrees/detect_compiler/config-x86-linux-rel-err.log
+
+
       - name: Set compiler (gcc)
         if: ${{ matrix.compiler == 'gcc' }}
         run: |
