@@ -51,6 +51,10 @@
 #include "util/string_util.hpp"
 #include "supertux/gameconfig.hpp"
 
+#ifndef WIN32
+extern char **environ;
+#endif
+
 namespace fs = std::filesystem;
 
 namespace FileSystem {
@@ -236,6 +240,7 @@ void open_path(const std::string& path)
 #elif defined(__EMSCRIPTEN__)
   emscripten_run_script(("window.supertux_download('" + path + "');").c_str());
 #else
+  // TODO Use posix_spawn
   #if defined(__APPLE__)
   std::string cmd = "open \"" + path + "\"";
   #else
