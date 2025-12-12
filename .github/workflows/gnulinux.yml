@@ -92,6 +92,7 @@ jobs:
             doxygen
 
       - name: Install 32-bit dependencies
+        continue-on-error: true
         if: ${{ matrix.arch == 32 }}
         run: |
           sudo dpkg --add-architecture i386
@@ -144,7 +145,7 @@ jobs:
 
           echo "config-x86-linux-rel-err.log contents:"
           cat /usr/local/share/vcpkg/buildtrees/detect_compiler/config-x86-linux-rel-err.log
-
+          
 
       - name: Set compiler (gcc)
         if: ${{ matrix.compiler == 'gcc' }}
