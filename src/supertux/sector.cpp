@@ -79,19 +79,6 @@ Sector::Sector(Level& parent) :
   SoundManager::current()->preload("sounds/shoot.wav");
 }
 
-Sector::Sector(Sector* sector) :
-  Base::Sector(sector),
-  m_level(sector->m_level),
-  m_text_object(add<TextObject>("Text")),
-  m_foremost_layer(sector->m_foremost_layer),
-  m_foremost_opaque_layer(sector->m_foremost_opaque_layer),
-  m_gravity(sector->m_gravity),
-  m_collision_system(sector->m_collision_system.get())
-{
-
-}
-
-
 Sector::~Sector()
 {
   try
