@@ -68,7 +68,6 @@ public:
   virtual void wave() override {}
   virtual void jump() override {}
   virtual void sit() override {}
-  virtual GranitoBig* get_carrier() const override { return nullptr; }
 
 public:
   Granito* m_carrying;
