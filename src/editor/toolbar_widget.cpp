@@ -120,28 +120,28 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     [this] {
       Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(0);
     },
-    _("Draw mode (The current tool applies to the tile under the mouse)")),
+    _("Draw mode")),
 
     // Select mode area
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode1.png",
       [this] {
         Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(1);
       },
-      _("Box draw mode (The current tool applies to an area / box drawn with the mouse)")),
+      _("Box draw mode")),
 
     // Select mode fill button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode2.png",
       [this] {
         Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(2);
       },
-      _("Fill mode (The current tool applies to the empty area in the enclosed space that was clicked)")),
+      _("Fill mode")),
 
     // Select mode same button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/select-mode3.png",
       [this] {
         Editor::current()->get_toolbox_widget()->set_tileselect_select_mode(3);
       },
-      _("Replace mode (The current tool applies to all tiles that are the same tile as the one under the mouse)")),
+      _("Replace mode")),
   };
 
   std::array<std::unique_ptr<EditorToolbarButtonWidget>, 2> object_mode_widgets = {
