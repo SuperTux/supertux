@@ -34,7 +34,7 @@ public:
 
   virtual void active_update(float dtime) = 0;
   virtual bool is_done() const = 0;
-  virtual void root_died() { };
+  virtual void root_died() {}
 };
 
 class GhostTreeRoot : public BadGuy
@@ -61,6 +61,7 @@ public:
   ~GhostTreeRootMain();
 
   virtual void active_update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
 
 private:
   enum State {
@@ -74,6 +75,7 @@ private:
   float m_level_top;
   State m_state;
   GhostTreeAttack* m_parent;
+  SurfacePtr m_hill;
 };
 
 class GhostTreeRootRed final : public GhostTreeRoot
