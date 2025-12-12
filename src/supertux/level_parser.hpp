@@ -23,6 +23,8 @@ class Level;
 class ReaderDocument;
 class ReaderMapping;
 
+static std::string_view LEVEL_DEFAULT_LICENSE = "CC-BY-SA 4.0 International";
+
 class LevelParser final
 {
 public:

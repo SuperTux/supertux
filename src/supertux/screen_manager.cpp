@@ -159,7 +159,16 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
   log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
   assert(screen);
   set_screen_fade(std::move(screen_fade));
-  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
+  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen), nullptr);
+}
+
+void
+ScreenManager::push_screen(std::function<Screen*()> callback, std::unique_ptr<ScreenFade> screen_fade)
+{
+  log_debug << "ScreenManager::push_screen(): (lambda) " << &callback << std::endl;
+  assert(callback);
+  set_screen_fade(std::move(screen_fade));
+  m_actions.emplace_back(Action::PUSH_ACTION, nullptr, std::move(callback));
 }
 
 void
@@ -535,8 +544,14 @@ ScreenManager::handle_screen_switch()
             break;
 
           case Action::PUSH_ACTION:
-            assert(action.screen);
-            m_screen_stack.push_back(std::move(action.screen));
+            if (!action.screen && action.callback)
+            {
+              m_screen_stack.push_back(std::unique_ptr<Screen>(action.callback()));
+            }
+            else
+            {
+              m_screen_stack.push_back(std::move(action.screen));
+            }
             break;
 
           case Action::QUIT_ACTION:
@@ -642,8 +657,8 @@ void ScreenManager::loop_iter()
   // limit the draw time offset to at most one step.
   float time_offset = m_speed * speed_multiplier * std::min(elapsed_time, seconds_per_step);
 
-  if ((steps > 0 && !m_screen_stack.empty())
-      || always_draw) {
+  if (((steps > 0 && !m_screen_stack.empty())
+      || always_draw) && m_actions.empty() || m_screen_fade) {
     // Draw a frame
     Compositor compositor(m_video_system, g_config->frame_prediction ? time_offset : 0.0f);
     draw(compositor, *m_fps_statistics);

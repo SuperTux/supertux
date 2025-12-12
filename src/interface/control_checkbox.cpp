@@ -35,13 +35,13 @@ ControlCheckbox::draw(DrawingContext& context)
                                    m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f) : Color(0.5f, 0.5f, 0.5f, 1.f),
                                    LAYER_GUI);
   if (*m_value) {
-    context.color().draw_text(Resources::control_font,
+    context.color().draw_text(Resources::small_font,
                               "X",
                               Vector((m_rect.get_left() + m_rect.get_right()) / 2 + 1.f,
-                                     (m_rect.get_top() + m_rect.get_bottom()) / 2 - Resources::control_font->get_height() / 2),
+                                     (m_rect.get_top() + m_rect.get_bottom()) / 2 - Resources::small_font->get_height() / 2),
                               FontAlignment::ALIGN_CENTER,
                               LAYER_GUI,
-                              Color::BLACK);
+                              Color::WHITE);
   }
 }
 
@@ -56,10 +56,11 @@ ControlCheckbox::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   if (!m_rect.contains(mouse_pos))
     return false;
 
+  call_on_activate_callbacks();
+
   *m_value = !*m_value;
 
-  if (m_on_change)
-    m_on_change();
+  call_on_change_callbacks();
 
   m_has_focus = true;
 
@@ -82,10 +83,10 @@ ControlCheckbox::on_key_up(const SDL_KeyboardEvent& key)
   if (key.keysym.sym != SDLK_SPACE || !m_has_focus)
     return false;
 
+  call_on_activate_callbacks();
+
   *m_value = !*m_value;
 
-  if (m_on_change)
-    m_on_change();
-
+  call_on_change_callbacks();
   return true;
 }

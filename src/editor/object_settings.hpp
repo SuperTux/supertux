@@ -26,6 +26,7 @@
 class Color;
 enum class Direction;
 class GameObject;
+class MovingObject;
 class PathObject;
 class ReaderMapping;
 enum class WalkMode;
@@ -42,123 +43,121 @@ class Value;
 class ObjectSettings final
 {
 public:
-  ObjectSettings(const std::string& name);
+  ObjectSettings(std::string name, UID uid);
   ObjectSettings(ObjectSettings&& other);
+  ObjectSettings(ObjectSettings* obj);
 
   ObjectSettings& operator=(ObjectSettings&&) = default;
 
   inline const std::string& get_name() const { return m_name; }
 
-  void add_bool(const std::string& text, bool* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_bool(const std::string& text, bool* value_ptr,
                 const std::string& key = {},
                 const std::optional<bool>& default_value = {},
                 unsigned int flags = 0);
-  void add_float(const std::string& text, float* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_float(const std::string& text, float* value_ptr,
                  const std::string& key = {},
                  const std::optional<float>& default_value = {},
                  unsigned int flags = 0);
-  void add_int(const std::string& text, int* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_int(const std::string& text, int* value_ptr,
                const std::string& key = {},
                const std::optional<int>& default_value = {},
                unsigned int flags = 0);
-  void add_label(const std::string& text, unsigned int flags = 0);
-  void add_worldmap_direction(const std::string& text, worldmap::Direction* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_label(const std::string& text, unsigned int flags = 0);
+  std::unique_ptr<BaseObjectOption>& add_worldmap_direction(const std::string& text, worldmap::Direction* value_ptr,
                               std::optional<worldmap::Direction> default_value = {},
                               const std::string& key = {}, unsigned int flags = 0);
-  void add_direction(const std::string& text, Direction* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_direction(const std::string& text, Direction* value_ptr,
                      std::vector<Direction> possible_directions = {},
                      const std::string& key = {}, unsigned int flags = 0);
-  void add_walk_mode(const std::string& text, WalkMode* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_walk_mode(const std::string& text, WalkMode* value_ptr,
                      const std::optional<WalkMode>& default_value = {},
                      const std::string& key = {}, unsigned int flags = 0);
-  void add_objects(const std::string& text, std::vector<std::unique_ptr<GameObject>>* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_objects(const std::string& text, std::vector<std::unique_ptr<GameObject>>* value_ptr,
                    uint8_t get_objects_param = 0, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func = {},
                    const std::string& key = {}, unsigned int flags = 0);
-  void add_color(const std::string& text, Color* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_color(const std::string& text, Color* value_ptr,
                  const std::string& key = {},
                  const std::optional<Color>& default_value = {},
                  unsigned int flags = 0);
-  void add_rgba(const std::string& text, Color* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_rgba(const std::string& text, Color* value_ptr,
                 const std::string& key = {},
                 const std::optional<Color>& default_value = {},
                 unsigned int flags = 0);
-  void add_rgb(const std::string& text, Color* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_rgb(const std::string& text, Color* value_ptr,
                const std::string& key = {},
                const std::optional<Color>& default_value = {},
                unsigned int flags = 0);
-  void add_remove();
-  void add_script(const std::string& text, std::string* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_remove();
+  std::unique_ptr<BaseObjectOption>& add_script(UID uid, const std::string& text, std::string* value_ptr,
                   const std::string& key = {}, unsigned int flags = 0);
-  void add_text(const std::string& text, std::string* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_text(const std::string& text, std::string* value_ptr,
                 const std::string& key = {},
                 const std::optional<std::string>& default_value = {},
                 unsigned int flags = 0);
-  void add_translatable_text(const std::string& text, std::string* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_translatable_text(const std::string& text, std::string* value_ptr,
                              const std::string& key = {},
                              const std::optional<std::string>& default_value = {},
                              unsigned int flags = 0);
-  void add_multiline_text(const std::string& text, std::string* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_multiline_text(UID uid, const std::string& text, std::string* value_ptr,
                           const std::string& key = {},
                           const std::optional<std::string>& default_value = {},
                           unsigned int flags = 0);
-  void add_multiline_translatable_text(const std::string& text, std::string* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_multiline_translatable_text(UID uid, const std::string& text, std::string* value_ptr,
                                        const std::string& key = {},
                                        const std::optional<std::string>& default_value = {},
                                        unsigned int flags = 0);
-  void add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
+  std::unique_ptr<BaseObjectOption>& add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
                          const std::optional<int>& default_value = {},
                          const std::string& key = {}, unsigned int flags = 0);
-  void add_enum(const std::string& text, int* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_enum(const std::string& text, int* value_ptr,
                 const std::vector<std::string>& labels,
                 const std::vector<std::string>& symbols,
                 const std::optional<int>& default_value = {},
                 const std::string& key = {}, unsigned int flags = 0);
 
-  void add_sprite(const std::string& text, std::string* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_sprite(const std::string& text, std::string* value_ptr,
                   const std::string& key = {},
                   std::optional<std::string> default_value = {},
                   unsigned int flags = 0);
-  void add_surface(const std::string& text, std::string* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_surface(const std::string& text, std::string* value_ptr,
                    const std::string& key = {},
                    std::optional<std::string> default_value = {},
                    unsigned int flags = 0);
-  void add_sound(const std::string& text, std::string* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_sound(const std::string& text, std::string* value_ptr,
                  const std::string& key = {},
                  std::optional<std::string> default_value = {},
                  unsigned int flags = 0);
-  void add_music(const std::string& text, std::string* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_music(const std::string& text, std::string* value_ptr,
                  const std::string& key = {},
                  std::optional<std::string> default_value = {},
                  unsigned int flags = 0);
 
-  void add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key = {},
+  std::unique_ptr<BaseObjectOption>& add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key = {},
                     unsigned int flags = 0);
-  void add_level(const std::string& text, std::string* value_ptr, const std::string& basedir,
+  std::unique_ptr<BaseObjectOption>& add_level(const std::string& text, std::string* value_ptr, const std::string& basedir,
                  const std::string& key = {}, unsigned int flags = 0);
-  void add_tiles(const std::string& text, TileMap* value_ptr, const std::string& key = {},
+  std::unique_ptr<BaseObjectOption>& add_tiles(const std::string& text, TileMap* value_ptr, const std::string& key = {},
                  unsigned int flags = 0);
-  void add_path(const std::string& text, Path* path, const std::string& key = {},
+  std::unique_ptr<BaseObjectOption>& add_path(const std::string& text, Path* path, const std::string& key = {},
                  unsigned int flags = 0);
-  void add_path_ref(const std::string& text, PathObject& target, const std::string& path_ref,
+  std::unique_ptr<BaseObjectOption>& add_path_ref(const std::string& text, PathObject& target, const std::string& path_ref,
                     const std::string& key = {}, unsigned int flags = 0);
-  void add_file(const std::string& text, std::string* value_ptr,
+  std::unique_ptr<BaseObjectOption>& add_file(const std::string& text, std::string* value_ptr,
                 const std::string& key = {},
                 const std::optional<std::string>& default_value = {},
                 const std::vector<std::string>& filter = {},
                 const std::string& basedir = {},
                 bool path_relative_to_basedir = true,
                 unsigned int flags = 0);
-  void add_sexp(const std::string& text, const std::string& key,
+  std::unique_ptr<BaseObjectOption>& add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
-  void add_string_array(const std::string& text, const std::string& key, std::vector<std::string>& items);
-  void add_test_from_here();
-  void add_particle_editor();
-  void add_path_handle(const std::string& text, PathWalker::Handle& handle,
+  std::unique_ptr<BaseObjectOption>& add_string_array(const std::string& text, const std::string& key, std::vector<std::string>& items);
+  std::unique_ptr<BaseObjectOption>& add_test_from_here(const MovingObject* object_ptr);
+  std::unique_ptr<BaseObjectOption>& add_particle_editor();
+  std::unique_ptr<BaseObjectOption>& add_path_handle(const std::string& text, PathWalker::Handle& handle,
                        const std::string& key = {}, unsigned int flags = 0);
-  void add_list(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
-
-  // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
-  void add_button(const std::string& text, const std::function<void()>& callback);
+  std::unique_ptr<BaseObjectOption>& add_list(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
 
   inline const std::vector<std::unique_ptr<BaseObjectOption>>& get_options() const { return m_options; }
 
@@ -186,10 +185,11 @@ public:
   void save_new_state(Writer& writer) const;
 
 private:
-  void add_option(std::unique_ptr<BaseObjectOption> option);
+  std::unique_ptr<BaseObjectOption>& add_option(std::unique_ptr<BaseObjectOption> option);
 
 private:
   std::string m_name;
+  UID m_uid;
   std::vector<std::unique_ptr<BaseObjectOption> > m_options;
 
 private:

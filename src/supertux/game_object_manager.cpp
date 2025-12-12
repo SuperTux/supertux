@@ -57,6 +57,33 @@ GameObjectManager::GameObjectManager(bool undo_tracking) :
 {
 }
 
+GameObjectManager::GameObjectManager(GameObjectManager* gom) :
+  m_initialized(gom->m_initialized),
+  m_uid_generator(),
+  m_change_uid_generator(),
+  m_undo_tracking(gom->m_undo_tracking),
+  m_undo_stack_size(gom->m_undo_stack_size),
+  m_undo_stack(gom->m_undo_stack),
+  m_redo_stack(gom->m_redo_stack),
+  m_pending_change_stack(gom->m_pending_change_stack),
+  m_last_saved_change(gom->m_last_saved_change),
+  m_gameobjects(),
+  m_gameobjects_new(),
+  m_moved_object_uids(gom->m_moved_object_uids),
+  m_solid_tilemaps(gom->m_solid_tilemaps),
+  m_all_tilemaps(gom->m_all_tilemaps),
+  m_objects_by_name(),
+  m_objects_by_uid(),
+  m_objects_by_type_index(),
+  m_name_resolve_requests(gom->m_name_resolve_requests)
+{
+	for (auto &obj : gom->m_gameobjects)
+	{
+		m_gameobjects.emplace_back(obj.get());
+	}
+	
+}
+
 GameObjectManager::~GameObjectManager()
 {
   // clear_objects() must be called before destructing the GameObjectManager.
@@ -303,6 +330,7 @@ GameObjectManager::flush_game_objects()
     m_undo_stack.emplace_back(m_change_uid_generator.next(), std::move(m_pending_change_stack));
     m_redo_stack.clear();
     undo_stack_cleanup();
+    update_editor_buttons();
   }
 
   m_initialized = true;
@@ -482,6 +510,8 @@ GameObjectManager::undo()
     m_redo_stack.push_back(std::move(change_set));
   }
   m_undo_stack.pop_back();
+
+  update_editor_buttons();  
 }
 
 void
@@ -511,6 +541,18 @@ GameObjectManager::redo()
     m_undo_stack.push_back(std::move(change_set));
   }
   m_redo_stack.pop_back();
+  
+  update_editor_buttons();
+}
+
+void
+GameObjectManager::update_editor_buttons()
+{
+  if (Editor::current())
+  {
+    Editor::current()->get_toolbar_widget()->set_undo_disabled(m_undo_stack.empty());
+    Editor::current()->get_toolbar_widget()->set_redo_disabled(m_redo_stack.empty());
+  }
 }
 
 void
