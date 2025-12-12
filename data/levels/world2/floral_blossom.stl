@@ -841,10 +841,6 @@ Tux.do_scripting_controller(\"jump\", false);")
       (y 1568)
     )
     (spawnpoint
-      (x 15456)
-      (y 2624)
-    )
-    (spawnpoint
       (x 11808)
       (y 2944)
     )
@@ -853,24 +849,12 @@ Tux.do_scripting_controller(\"jump\", false);")
       (y 1632)
     )
     (spawnpoint
-      (x 12992)
-      (y 2560)
-    )
-    (spawnpoint
       (x 14048)
       (y 992)
     )
     (spawnpoint
-      (x 16224)
-      (y 2272)
-    )
-    (spawnpoint
       (x 16448)
       (y 3584)
-    )
-    (spawnpoint
-      (x 10848)
-      (y 2048)
     )
     (spawnpoint
       (x 7412)

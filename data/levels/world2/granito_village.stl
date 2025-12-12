@@ -1002,7 +1002,7 @@
       (y 944)
     )
     (door
-      (z-pos 1)
+      (z-pos -1)
       (sector "main")
       (locked #f)
       (spawnpoint "door")

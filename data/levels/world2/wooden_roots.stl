@@ -84,7 +84,7 @@
       (y 800)
     )
     (door
-      (z-pos 1)
+      (z-pos -1)
       (sector "outside")
       (locked #f)
       (spawnpoint "exit")
@@ -253,7 +253,7 @@
     )
     (spawnpoint
       (name "cave")
-      (x 15232)
+      (x 15264)
       (y 896)
     )
     (stalactite
@@ -631,7 +631,7 @@
       (y 352)
     )
     (door
-      (z-pos 1)
+      (z-pos -1)
       (sector "main")
       (locked #f)
       (spawnpoint "cave")
