@@ -23,11 +23,12 @@
 #include <stdexcept>
 #include <sys/stat.h>
 #include <sys/types.h>
-#ifndef _WIN32
+#ifndef WIN32
 #include <unistd.h>
+#include <spawn.h>
 #endif
 #include <vector>
-#if defined(_WIN32)
+#if defined(WIN32)
   #include <windows.h>
   #include <shellapi.h>
 #else
@@ -256,29 +257,25 @@ void open_path(const std::string& path)
 void
 open_editor(const std::string& filename)
 {
-  const char* default_editor =
-#  if defined(_WIN32) || defined(_WIN64)
-    nullptr;
-#  else
+  std::string editor =
+#ifdef WIN32
+    "notepad.exe"; // *shrugs*
+#else
     getenv("EDITOR");
-#  endif
-  std::string cmd;
+#endif
   if (!g_config->preferred_text_editor.empty())
-    cmd = g_config->preferred_text_editor + " \"" + filename + "\" &";
-  else if (default_editor)
-  {
-    cmd = std::string(default_editor) + " \"" + filename + "\" &";
-  }
+    editor = g_config->preferred_text_editor;
 
-  int ret = system(cmd.c_str());
-  if (ret < 0)
+#ifndef WIN32
+  const char *argv[] = { editor.c_str(), filename.c_str(), NULL };
+  pid_t proc;
+  if (posix_spawnp(&proc, editor.c_str(), NULL, NULL, (char ** const)argv, environ) != 0)
   {
-    log_fatal << "failed to spawn editor: " << cmd << std::endl;
+    log_fatal << "Failed to spawn editor: " << editor << std::endl;
   }
-  else if (ret > 0)
-  {
-    log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
-  }
+#elif WIN32
+  ShellExecute(NULL, editor.c_str(), filename.c_str(), NULL, NULL, SW_SHOWNORMAL);
+#endif
 }
 
 std::string escape_url(const std::string& url)
