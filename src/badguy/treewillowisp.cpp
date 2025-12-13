@@ -83,12 +83,12 @@ TreeWillOWisp::start_sucking(const Vector& suck_target_)
   was_sucked = true;
 }
 
-HitResponse
+/*HitResponse
 TreeWillOWisp::collision_player(Player& player, const CollisionHit& hit)
 {
   // TODO: This function is essentially a no-op. Remove if it doesn't change the behavior.
   return BadGuy::collision_player(player, hit);
-}
+}*/
 
 bool
 TreeWillOWisp::collides(MovingObject& other, const CollisionHit& ) const
@@ -96,8 +96,8 @@ TreeWillOWisp::collides(MovingObject& other, const CollisionHit& ) const
   auto lantern = dynamic_cast<Lantern*>(&other);
   if (lantern && lantern->is_open())
     return true;
-  if (dynamic_cast<Player*>(&other))
-    return true;
+  /*if (dynamic_cast<Player*>(&other))
+    return true;*/
 
   return false;
 }
