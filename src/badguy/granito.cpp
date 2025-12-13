@@ -18,6 +18,7 @@
 
 #include "badguy/granito_big.hpp"
 #include "math/random.hpp"
+#include "object/rock.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -28,7 +29,7 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   m_state(STATE_STAND),
   m_original_state(STATE_STAND),
   m_has_waved(false),
-  m_stepped_on(false),
+  m_has_entity_on_top(false),
   m_airborne(false),
   m_detect_script(),
   m_carried_script()
@@ -54,7 +55,7 @@ Granito::active_update(float dt_sec)
   {
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
-    m_stepped_on = false;
+    m_has_entity_on_top = false;
     return;
   }
 
@@ -88,11 +89,11 @@ Granito::active_update(float dt_sec)
   {
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
-    m_stepped_on = false;
+    m_has_entity_on_top = false;
     return;
   }
 
-  if ((m_state == STATE_LOOKUP && !m_stepped_on) ||
+  if ((m_state == STATE_LOOKUP && !m_has_entity_on_top) ||
       (m_state == STATE_JUMPING && on_ground()))
   {
     restore_original_state();
@@ -102,7 +103,7 @@ Granito::active_update(float dt_sec)
   {
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
-    m_stepped_on = false;
+    m_has_entity_on_top = false;
     return;
   }
 
@@ -114,7 +115,7 @@ Granito::active_update(float dt_sec)
       {
         // Still waving
         WalkingBadguy::active_update(dt_sec);
-        m_stepped_on = false;
+        m_has_entity_on_top = false;
         return;
       }
       else
@@ -187,8 +188,7 @@ Granito::active_update(float dt_sec)
   }
 
   WalkingBadguy::active_update(dt_sec);
-
-  m_stepped_on = false;
+  m_has_entity_on_top = false;
 }
 
 HitResponse
@@ -198,7 +198,7 @@ Granito::collision_player(Player& player, const CollisionHit& hit)
 
   if (hit.top)
   {
-    m_stepped_on = true;
+    m_has_entity_on_top = true;
 
     if (m_state != STATE_LOOKUP)
     {
@@ -219,7 +219,26 @@ HitResponse
 Granito::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (hit.top)
-    m_col.propagate_movement(m_col.get_movement());
+  {
+    Rock* rock = dynamic_cast<Rock*>(&other);
+    if (rock)
+    {
+      if (m_state == STATE_SIT && get_carrier())
+      {
+        eject();
+        m_physic.reset();
+      }
+
+      m_has_entity_on_top = true;
+      walk_speed = 0;
+      m_physic.set_velocity_x(0);
+
+      m_state = STATE_LOOKUP;
+      set_action("lookup", m_dir);
+
+      goto granito_collision_end;
+    }
+  }
 
   if (hit.bottom)
   {
@@ -262,7 +281,6 @@ granito_collision_end:
 
   // Call other collision functions (collision_player, collision_badguy, ...)
   WalkingBadguy::collision(other, hit);
-
   return FORCE_MOVE;
 }
 
