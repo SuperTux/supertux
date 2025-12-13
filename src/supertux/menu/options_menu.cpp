@@ -236,7 +236,7 @@ OptionsMenu::refresh()
 
       add_toggle(MNID_CUSTOM_CURSOR, _("Use native custom cursor"), &g_config->custom_system_cursor).set_help(_("Whether the game uses a native custom cursor or renders it in the game"));
 
-      add_toggle(MNID_MAX_VIEWPORT, _("Use full viewport"), &g_config->custom_system_cursor).set_help(_("Don't attempt to scale or apply any aspect ratio. Ignores some video settings. Useful for arcade cabinets or unusual screens."));
+      add_toggle(MNID_MAX_VIEWPORT, _("Use full viewport"), &g_config->max_viewport).set_help(_("Don't attempt to scale or apply any aspect ratio. Ignores some video settings. Useful for arcade cabinets or unusual screens."));
 
 #ifndef __EMSCRIPTEN__
       if (!g_config->disable_network)
