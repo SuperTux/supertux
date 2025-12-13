@@ -81,6 +81,7 @@ public:
   bool precise_scrolling;
   bool invert_wheel_x;
   bool invert_wheel_y;
+  bool max_viewport;
 
   /** Prefer the wayland session. Depending on the platform, this may not be used. */
   bool prefer_wayland;

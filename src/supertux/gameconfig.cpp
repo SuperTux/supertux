@@ -63,6 +63,7 @@ Config::Config() :
   sound_volume(100),
   music_volume(50),
   flash_intensity(50),
+  max_viewport(false),
   fancy_gfx(true),
   precise_scrolling(true),
   invert_wheel_x(false),
@@ -315,6 +316,7 @@ Config::load()
     config_video_mapping->get("magnification", magnification);
     config_video_mapping->get("fancy_gfx", fancy_gfx);
     config_video_mapping->get("prefer_wayland", prefer_wayland);
+    config_video_mapping->get("max_viewport", max_viewport);
 
 #ifdef __EMSCRIPTEN__
     // Forcibly set autofit to true.
@@ -490,6 +492,7 @@ Config::save()
   writer.write("magnification", magnification);
   writer.write("fancy_gfx", fancy_gfx);
   writer.write("prefer_wayland", prefer_wayland);
+  writer.write("max_viewport", max_viewport);
 
   writer.end_list("video");
 
