@@ -2371,6 +2371,13 @@ Player::handle_collision_logic(const CollisionHit& hit)
       m_physic.set_velocity_y(.2f);
   }
 
+  if (hit.bottom) {
+    if (m_physic.get_velocity_y() > 0) {
+      m_physic.set_velocity_y(0);
+      set_pos(get_pos() + Vector(0, -1));   // prevents jitter/stuck in ceiling
+    }
+  }
+
   if (m_stone && m_floor_normal.y == 0 && (((m_physic.get_velocity_x() < -MAX_RUN_XM) && hit.left) ||
     ((m_physic.get_velocity_x() > MAX_RUN_XM) && hit.right)))
   {
