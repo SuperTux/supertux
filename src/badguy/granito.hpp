@@ -32,6 +32,8 @@ class GranitoBig;
  */
 class Granito : public WalkingBadguy
 {
+  friend class GranitoBig;
+
 public:
   static void register_class(ssq::VM& vm);
 
@@ -63,7 +65,6 @@ public:
   virtual GameObjectTypes get_types() const override;
   virtual void after_editor_set() override;
 
-  virtual GranitoBig* get_carrier() const;
   void turn(const Direction& direction);
 
   /**
@@ -179,6 +180,7 @@ protected:
   virtual bool try_jump();
 
   void restore_original_state();
+  void active_update_finish(float dt_sec, bool stepped_on = false);
 
 protected:
   Timer m_walk_interval;
@@ -191,6 +193,8 @@ protected:
 
   std::string m_detect_script;
   std::string m_carried_script; /** This is ran when the Granito is carried by a Big Granito */
+
+  GranitoBig* m_carrier;
 
 private:
   Granito(const Granito&) = delete;
