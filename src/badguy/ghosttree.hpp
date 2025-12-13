@@ -48,7 +48,6 @@ public:
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
-  LinkedSprites get_linked_sprites() override;
 
 private:
   enum MyState {

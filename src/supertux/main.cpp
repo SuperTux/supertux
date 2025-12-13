@@ -432,13 +432,10 @@ PhysfsSubsystem::~PhysfsSubsystem()
 
 SDLSubsystem::SDLSubsystem()
 {
-  Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO;
-#ifndef UBUNTU_TOUCH
-  flags |= SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
-#endif
+  Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
 
 #if SDL_VERSION_ATLEAST(2,0,22) && (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-    defined(__OPENBSD) || defined(__NetBSD)) && !(defined(STEAM_BUILD) || defined(UBUNTU_TOUCH))
+    defined(__OPENBSD) || defined(__NetBSD)) && !defined(STEAM_BUILD)
   /* See commit 254fcc9 for SDL. Most of the Nvidia problems are knocked out (i
    * think) for now thanks to nvidia's open drivers. Wayland is needed for
    * precision scrolling to work (which is used for the editor) and most distros
@@ -481,7 +478,12 @@ Main::init_video()
 {
   VideoSystem::current()->set_title("SuperTux " PACKAGE_VERSION);
 
-  const char* icon_fname = "images/engine/icons/supertux-256x256.png";
+  const char* icon_fname =
+#ifdef IS_SUPERTUX_RELEASE
+    "images/engine/icons/supertux-256x256.png";
+#else
+    "images/engine/icons/supertux-nightly-256x256.png";
+#endif
 
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
@@ -723,6 +725,7 @@ Main::run(int argc, char** argv)
     {
       args.parse_args(argc, argv);
       g_log_level = args.get_log_level();
+      g_log_tinygettext = args.log_tinygettext;
     }
     catch(const std::exception& err)
     {

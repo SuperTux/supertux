@@ -110,7 +110,7 @@ msgstr "Isoveli valvoo"
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Silmäilijä\n#Silmäilijät aktivoivat asioita, kuten alustoja, jos Tuxin on niiden näköpiirissä."
+msgstr "-Silmäilijä\n#Silmäilijät käynnistävät asioita, kuten alustoja, jos Tuxin on niiden näköpiirissä."
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
@@ -178,7 +178,7 @@ msgid ""
 "!images/objects/rock/rock.png\n"
 "#Tux can pick up certain objects and carry them around.\n"
 "#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Kannettavat esineet:\n!images/objects/rock/rock.png\n#Tux voi poimia ja kantaa tiettyjä esineitä.\n#Poimi esine painamalla toimintanäppäintä ja pidä pohjassa niin kauan kuin haluat kantaa esinettä. Pudota esine vapauttamalla toimintanäppäin."
+msgstr "-Kannettavat esineet:\n!images/objects/rock/rock.png\n#Tux voi poimia ja kantaa tiettyjä esineitä.\n#Poimi esine painamalla toimintanäppäintä ja pidä pohjassa niin kauan kuin haluat kantaa esinettä. Pudota esine päästämällä toimintanäppäimestä."
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"

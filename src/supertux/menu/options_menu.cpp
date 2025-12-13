@@ -24,6 +24,7 @@
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
@@ -175,10 +176,8 @@ OptionsMenu::refresh()
       add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
         .set_help(_("Configure key-action mappings"));
 
-#ifndef UBUNTU_TOUCH
       add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
         .set_help(_("Configure joystick control-action mappings"));
-#endif
 
       break;
     }
@@ -191,10 +190,8 @@ OptionsMenu::refresh()
         add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
           .set_help(_("Select a profile to play with"));
 
-#ifndef UBUNTU_TOUCH
       add_submenu(_("Multiplayer settings"), MenuStorage::MULTIPLAYER_MENU)
         .set_help(_("Configure settings specific to multiplayer"));
-#endif
 
       add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled)
         .set_help(_("Enable screen transitions and smooth menu animation"));
@@ -230,7 +227,7 @@ OptionsMenu::refresh()
         .set_help(_("Automatically pause the game when the window loses focus"));
 
 #if defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-    defined(__OPENBSD) || defined(__NetBSD) && !(defined(STEAM_BUILD) || defined(UBUNTU_TOUCH))
+    defined(__OPENBSD) || defined(__NetBSD) && !defined(STEAM_BUILD)
       add_toggle(MNID_PREFER_WAYLAND, _("Prefer Wayland"), &g_config->prefer_wayland)
         .set_help(_("If you experience any issues with Nvidia cards, your window border, or anything you believe is due to Wayland, disable this. (Requires restart)"));
 #endif
@@ -605,12 +602,14 @@ OptionsMenu::menu_action(MenuItem& item)
           g_config->aspect_size = Size(0, 0); // Magic values
           VideoSystem::current()->apply_config();
           ScreenManager::current()->on_window_resize();
+          MenuManager::instance().on_window_resize();
         }
         else if (sscanf(m_aspect_ratios.list[m_aspect_ratios.next].c_str(), "%d:%d",
                         &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
         {
           VideoSystem::current()->apply_config();
           ScreenManager::current()->on_window_resize();
+          MenuManager::instance().on_window_resize();
         }
         else
         {
@@ -631,6 +630,7 @@ OptionsMenu::menu_action(MenuItem& item)
       }
       VideoSystem::current()->apply_config();
       ScreenManager::current()->on_window_resize();
+      MenuManager::instance().on_window_resize();
       break;
 
     case MNID_WINDOW_RESIZABLE:
@@ -652,6 +652,7 @@ OptionsMenu::menu_action(MenuItem& item)
           g_config->window_size = Size(width, height);
           VideoSystem::current()->apply_config();
           ScreenManager::current()->on_window_resize();
+          MenuManager::instance().on_window_resize();
         }
       }
       break;
@@ -737,6 +738,7 @@ OptionsMenu::menu_action(MenuItem& item)
     case MNID_FULLSCREEN:
       VideoSystem::current()->apply_config();
       ScreenManager::current()->on_window_resize();
+      MenuManager::instance().on_window_resize();
       g_config->save();
       break;
 

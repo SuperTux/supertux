@@ -20,6 +20,7 @@
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
 static const float INITIALJUMP = -400;
@@ -28,9 +29,13 @@ static const float JUMPSTAR_SPEED = -300;
 
 Star::Star(const Vector& pos, Direction direction, const std::string& custom_sprite) :
   MovingSprite(pos, custom_sprite.empty() ? "images/powerups/star/star.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
-  physic()
+  physic(),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   physic.set_velocity((direction == Direction::LEFT) ? -STAR_SPEED : STAR_SPEED, INITIALJUMP);
+  //set light for glow effect
+  lightsprite->set_blend(Blend::ADD);
+  lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
 }
 
 void
@@ -51,7 +56,7 @@ Star::update(float dt_sec)
         Vector pspeed = Vector(0, 0);
         Vector paccel = Vector(0, 0);
         Sector::get().add<SpriteParticle>(
-          m_sprite->create_linked_sprite("sparkle"),
+          "images/particles/sparkle.sprite",
           // draw bright sparkles when very close to Tux, dark sparkles when slightly further
           (disp_x*disp_x + disp_y*disp_y <= 128*128) ?
           // make every other a longer sparkle to make trail a bit fuzzy
@@ -60,6 +65,13 @@ Star::update(float dt_sec)
       }
     }
   }
+}
+
+void
+Star::draw(DrawingContext& context)
+{
+  MovingSprite::draw(context);
+  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void

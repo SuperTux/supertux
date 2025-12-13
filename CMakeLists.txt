@@ -84,7 +84,7 @@ else()
   endif()
 endif()
 
-if(EMSCRIPTEN OR UBUNTU_TOUCH OR ANDROID)
+if(EMSCRIPTEN OR ANDROID)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
@@ -111,11 +111,8 @@ else()
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF CACHE BOOL "" FORCE)
 endif()
 
-# Detect mobile builds
-option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
-
 # Mobile builds
-if(UBUNTU_TOUCH OR ANDROID)
+if(ANDROID)
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" ON)
 else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
@@ -157,7 +154,7 @@ add_package(TARGET PNG
 add_package(TARGET ZLIB
   PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
 add_package(TARGET PhysFS
-  PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs
+  PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs PhysicsFS
   PREFER_PKGCONFIG)
 add_package(TARGET fmt
   PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
@@ -258,10 +255,6 @@ include(SuperTux/CompileAmalgation)
 ## Add target for supertux binary
 add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 target_compile_features(supertux2 PUBLIC cxx_std_17)
-
-if(IS_SUPERTUX_RELEASE)
-  target_compile_definitions(supertux2 PUBLIC SUPERTUX_RELEASE)
-endif()
 
 # Pre-compiled headers
 if(IS_SUPERTUX_RELEASE)

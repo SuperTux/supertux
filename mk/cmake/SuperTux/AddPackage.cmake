@@ -112,7 +112,7 @@ function(add_package)
                               "Tried: ${addpackage_args_PKG_CONFIG}")
           set("ADDPKG_${addpackage_args_PKG}_FOUND" FALSE PARENT_SCOPE)
         else()
-          message(STATUS "Package \"${addpackage_args_TARGET}\" couldn't be found with pkg-config."
+          message(STATUS "Package \"${addpackage_args_TARGET}\" couldn't be found with pkg-config.\n"
                          "Tried: ${addpackage_args_PKG_CONFIG}")
           set("ADDPKG_${addpackage_args_PKG}_FOUND" FALSE PARENT_SCOPE)
           return()

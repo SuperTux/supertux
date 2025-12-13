@@ -18,7 +18,6 @@
 #pragma once
 
 #include "math/anchor_point.hpp"
-#include "sprite/sprite_data.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
@@ -32,11 +31,7 @@ public:
   SpriteParticle(SpritePtr sprite, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE, float angle = 0);
-  SpriteParticle(const SpriteData::LinkedSprite& linked_sprite,
-                 const Vector& position, AnchorPoint anchor,
-                 const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE, float angle = 0);
+                 int drawing_layer = LAYER_OBJECTS - 1, bool notimeout = false, Color color = Color::WHITE, float angle = 0);
   SpriteParticle(const std::string& sprite_name, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
@@ -57,8 +52,10 @@ private:
   Vector velocity;
   Vector acceleration;
   int drawing_layer;
-  std::vector<SpritePtr> lightsprites;
+  SpritePtr lightsprite;
+  bool glow;
   bool no_time_out;
+  Color color;
 
 private:
   SpriteParticle(const SpriteParticle&) = delete;

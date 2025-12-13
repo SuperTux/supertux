@@ -112,7 +112,7 @@ msgid ""
 "-Carrying Objects\r\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
-msgstr "-Esineiden kantaminen\n#Tux voi poimia esineitä pitämällä toimintanäppäintä pohjassa. Pudota esine päästämällä toimintanäppäimestä ollessasi paikallaan.\r\n#Jos päästät toimintanäppäimestä Tuxin liikkuessa, hän heittää sen!"
+msgstr "-Esineiden kantaminen\n#Tux voi poimia esineitä pitämällä toimintanäppäintä pohjassa. Pudota esine päästämällä toimintanäppäimestä seisoessasi.\r\n#Jos päästät toimintanäppäimestä Tuxin liikkuessa, hän heittää sen!"
 
 #: data/levels/world1/more_snowballs.stl:299
 msgid ""

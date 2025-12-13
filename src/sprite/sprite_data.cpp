@@ -21,7 +21,6 @@
 #include <stdexcept>
 #include <sstream>
 
-#include <physfs.h>
 #include <sexp/io.hpp>
 #include <sexp/value.hpp>
 
@@ -35,57 +34,10 @@
 #include "video/surface.hpp"
 #include "video/texture_manager.hpp"
 
-LinkedSpritesContainer::LinkedSprite::LinkedSprite() :
-  file(),
-  config(),
-  light(false)
-{
-}
-
-LinkedSpritesContainer::LinkedSprite::LinkedSprite(const std::string& file_, SpriteConfig config_,
-                                                   bool light_) :
-  file(file_),
-  config(std::move(config_)),
-  light(light_)
-{
-}
-
-LinkedSpritesContainer::LinkedSpritesContainer() :
-  custom_linked_sprites(),
-  linked_sprites()
-{
-}
-
-void
-LinkedSpritesContainer::parse_linked_sprites(const ReaderMapping& mapping)
-{
-  auto iter = mapping.get_iter();
-  while (iter.next())
-  {
-    auto mapping = iter.as_mapping();
-
-    std::string file;
-    mapping.get("file", file);
-
-    std::string filepath = FileSystem::join(mapping.get_doc().get_directory(), file);
-    if (!PHYSFS_exists(filepath.c_str())) // If file path is not relative to current directory, make it relative to root
-      filepath = file;
-
-    if (iter.get_key() == "custom")
-      custom_linked_sprites.emplace_back(filepath, SpriteConfig(iter.as_mapping()), false);
-    else if (iter.get_key() == "custom-light")
-      custom_linked_sprites.emplace_back(filepath, SpriteConfig(iter.as_mapping()), true);
-    else
-      linked_sprites[iter.get_key()] = LinkedSprite(filepath, SpriteConfig(iter.as_mapping()), false);
-  }
-}
-
-
 SpriteData::Action::Action() :
   name(),
   x_offset(0),
   y_offset(0),
-  flip_offset(0),
   hitbox_w(0),
   hitbox_h(0),
   hitbox_unisolid(false),
@@ -176,7 +128,8 @@ SpriteData::load()
   {
     // Load single image
     auto surface = Surface::from_file(m_filename);
-    m_load_successful = TextureManager::current()->last_load_successful();
+    if (!TextureManager::current()->last_load_successful())
+      throw std::runtime_error("Cannot load image.");
 
     // Create action, if it doesn't exist
     {
@@ -189,7 +142,6 @@ SpriteData::load()
       }
     }
     actions["default"]->reset(surface);
-    return;
   }
 
   m_load_successful = true;
@@ -202,17 +154,9 @@ SpriteData::parse(const ReaderMapping& mapping)
   while (iter.next())
   {
     if (iter.get_key() == "action")
-    {
       parse_action(iter.as_mapping());
-    }
-    else if (iter.get_key() == "linked-sprites")
-    {
-      parse_linked_sprites(iter.as_mapping());
-    }
     else
-    {
       log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;
-    }
   }
 
   if (actions.empty())
@@ -260,7 +204,6 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         throw std::runtime_error("Hitbox should specify 2/4 coordinates!");
     }
   }
-  mapping.get("flip-offset", action->flip_offset);
   mapping.get("unisolid", action->hitbox_unisolid);
   mapping.get("fps", action->fps);
   if (mapping.get("loops", action->loops))
@@ -279,12 +222,6 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   if (!mapping.get("family_name", action->family_name))
   {
     action->family_name = "::" + action->name;
-  }
-
-  std::optional<ReaderMapping> linked_sprites_mapping;
-  if (mapping.get("linked-sprites", linked_sprites_mapping))
-  {
-    action->parse_linked_sprites(*linked_sprites_mapping);
   }
 
   std::string mirror_action;

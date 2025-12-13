@@ -47,9 +47,6 @@ public:
 
   inline Color get_lock_color() const { return m_lock_color; }
 
-protected:
-  LinkedSprites get_linked_sprites() override;
-
 private:
   enum DoorState {
     CLOSED,

@@ -20,9 +20,9 @@
 #include "sprite/sprite.hpp"
 #include "util/reader_mapping.hpp"
 
-WalkingCandle::WalkingCandle(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/mr_candle/mr-candle.sprite", "left", "right"),
-  m_lightcolor(1, 1, 1)
+WalkingCandle::WalkingCandle(const ReaderMapping& reader)
+  : WalkingBadguy(reader, "images/creatures/mr_candle/mr-candle.sprite", "left", "right"),
+    m_lightcolor(1, 1, 1)
 {
   walk_speed = 80;
   max_drop_height = 64;
@@ -32,10 +32,10 @@ WalkingCandle::WalkingCandle(const ReaderMapping& reader) :
     m_lightcolor = Color(vColor);
 
   m_sprite->set_color(m_lightcolor);
-  for (auto& sprite : m_light_sprites)
-    sprite->set_color(m_lightcolor);
+  m_lightsprite->set_color(m_lightcolor);
 
   m_countMe = false;
+  m_glowing = true;
 }
 
 bool
@@ -54,6 +54,7 @@ void
 WalkingCandle::freeze()
 {
   BadGuy::freeze();
+  m_glowing = false;
 }
 
 void
@@ -62,8 +63,8 @@ WalkingCandle::unfreeze(bool melt)
   BadGuy::unfreeze(melt);
   initialize();
   m_sprite->set_color(m_lightcolor);
-  for (auto& sprite : m_light_sprites)
-    sprite->set_color(m_lightcolor);
+  m_lightsprite->set_color(m_lightcolor);
+  m_glowing = true;
 }
 
 HitResponse
@@ -105,8 +106,7 @@ WalkingCandle::after_editor_set()
   WalkingBadguy::after_editor_set();
 
   m_sprite->set_color(m_lightcolor);
-  for (auto& sprite : m_light_sprites)
-    sprite->set_color(m_lightcolor);
+  m_lightsprite->set_color(m_lightcolor);
 }
 
 /* EOF */

@@ -50,7 +50,7 @@ msgstr "Mezi dvěma ledovci"
 
 #: data/levels/world1/bouncy_mountainside.stl:3
 msgid "Bouncy, Bouncy Mountainside"
-msgstr "Hora skokanů"
+msgstr "Hora horolezců"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -175,7 +175,7 @@ msgstr "Nacházela se před ním obrovská šachta, která vedla do již zmíně
 msgid ""
 "Still carrying a spark of doubt that this was not a trap, Tux slowly "
 "descended into the depths once more..."
-msgstr "Stále nejistý, zda se nejedná o past, se Tux znovu pomalu vydal do hloubek dolu..."
+msgstr "Stále nejistý, zda se nejedná o past, se Tux pomalu vydal do hloubek dolu..."
 
 #: data/levels/world1/scripts_crystal_mine.txt:5
 msgid ""

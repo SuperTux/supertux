@@ -24,10 +24,5 @@
 "firefly6.png"
 
   )
- )       
-  (linked-sprites
-    (reset
-      (file "images/particles/reset.sprite")
-    )
-  )
+ )              
 )

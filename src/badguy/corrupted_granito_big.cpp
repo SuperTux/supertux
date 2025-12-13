@@ -25,6 +25,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
+static const std::string SHARD_SPRITE = "images/creatures/granito/corrupted/big/root_spike.sprite";
 static const float RANGE = 5; // tiles
 static const float CRACK_TIME = 1.f; // seconds
 static const float SHAKE_TIME = 0.1f; // seconds
@@ -34,7 +35,8 @@ CorruptedGranitoBig::CorruptedGranitoBig(const ReaderMapping& reader) :
   m_state(STATE_READY),
   m_crack_timer(),
   m_shake_timer(),
-  m_shake_delta(0.f)
+  m_shake_delta(0.f),
+  m_rock_particles(SpriteManager::current()->create("images/particles/granito_piece.sprite"))
 {
   parse_type(reader);
 
@@ -89,11 +91,10 @@ CorruptedGranitoBig::kill_fall()
 
   run_dead_script();
 
-  const std::string& shard_sprite = m_sprite->get_linked_sprite("shard").file;
-  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f), shard_sprite);
-  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f), shard_sprite);
-  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f),shard_sprite);
-  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f),shard_sprite);
+  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f), SHARD_SPRITE);
+  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f), SHARD_SPRITE);
+  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f),SHARD_SPRITE);
+  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f),SHARD_SPRITE);
 
   crack_effects(6);
 }
@@ -164,8 +165,7 @@ CorruptedGranitoBig::crack_effects(int particles)
   {
     const Vector velocity(graphicsRandom.randf(-100, 100),
                           graphicsRandom.randf(-400, -300));
-    Sector::get().add<SpriteParticle>(m_sprite->create_linked_sprite("rock-particles"),
-                                      "piece-" + std::to_string(i),
+    Sector::get().add<SpriteParticle>(m_rock_particles->clone(), "piece-" + std::to_string(i),
                                       get_bbox().get_middle(), ANCHOR_MIDDLE,
                                       velocity, Vector(0, gravity),
                                       LAYER_OBJECTS + 3, true);

@@ -100,6 +100,7 @@ public:
 
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
+  bool ignore_joystick_axis;
 
   bool mobile_controls;
   float m_mobile_controls_scale;

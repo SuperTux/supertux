@@ -26,57 +26,50 @@
 
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color, float angle) :
+                               int drawing_layer_, bool notimeout, Color color_, float angle) :
   SpriteParticle(SpriteManager::current()->create(sprite_name), action,
                  position_, anchor, velocity_, acceleration_,
-                 drawing_layer_, notimeout, color, angle)
+                 drawing_layer_, notimeout, color_)
 {
-}
+  if (sprite_name == "images/particles/sparkle.sprite")
+  {
+    glow = true;
+    lightsprite->set_blend(Blend::ADD);
+    if (action=="dark") {
+      lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
+    }
+    else
+    {
+      lightsprite->set_color(color_);
+    }
 
-SpriteParticle::SpriteParticle(const SpriteData::LinkedSprite& linked_sprite,
-                               const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color, float angle) :
-  SpriteParticle(SpriteManager::current()->create(linked_sprite.file), linked_sprite.config.action.empty() ? "default" : linked_sprite.config.action,
-                 position_, anchor, velocity_, acceleration_,
-                 drawing_layer_, notimeout, color, angle)
-{
+  }
+  no_time_out = notimeout;
+  sprite->set_color(color_);
+  sprite->set_angle(angle);
 }
 
 SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color, float angle) :
+                               int drawing_layer_, bool notimeout, Color color_, float angle) :
   sprite(std::move(sprite_)),
   position(position_),
   velocity(velocity_),
   acceleration(acceleration_),
   drawing_layer(drawing_layer_),
-  lightsprites(),
-  no_time_out(false)
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
+  glow(false),
+  no_time_out(false),
+  color(Color::WHITE)
 {
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
-  sprite->set_color(color);
+  sprite->set_color(color_);
   sprite->set_angle(angle);
 
   position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
   no_time_out = notimeout;
-
-  for (const auto& sprite_data : sprite->get_custom_linked_sprites())
-  {
-    if (!sprite_data.light)
-      continue;
-
-    SpritePtr sprite = SpriteManager::current()->create(sprite_data.file);
-    sprite->apply_config(sprite_data.config);
-    sprite->set_blend(Blend::ADD);
-    if (sprite_data.config.color == Color(1.0f, 1.0f, 1.0f, 1.0f))
-      sprite->set_color(color);
-
-    lightsprites.push_back(std::move(sprite));
-  }
 }
-
-
 
 SpriteParticle::~SpriteParticle()
 {
@@ -111,12 +104,11 @@ SpriteParticle::draw(DrawingContext& context)
   Vector draw_pos = position + velocity * context.get_time_offset();
   sprite->draw(context.color(), draw_pos, drawing_layer);
 
-  if (!lightsprites.empty())
+  //Sparkles glow in the dark
+  if (glow)
   {
     sprite->draw(context.light(), draw_pos, drawing_layer);
-
-    draw_pos += Vector(12.f, 12.f);
-    for (auto& sprite : lightsprites)
-      sprite->draw(context.light(), draw_pos, 0);
+    lightsprite->draw(context.light(), draw_pos + Vector(12, 12), 0);
   }
+
 }

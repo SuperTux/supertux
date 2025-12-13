@@ -49,7 +49,7 @@ private:
   SpritePtr sprite;
   Flip flip;
 
-  std::vector<SpritePtr> lightsprites;
+  SpritePtr lightsprite;
 
 private:
   Flower(const Flower&) = delete;

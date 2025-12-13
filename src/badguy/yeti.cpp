@@ -19,6 +19,7 @@
 
 #include <cmath>
 
+#include "fmt/format.h"
 #include "audio/sound_manager.hpp"
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/yeti_stalactite.hpp"
@@ -77,6 +78,10 @@ Yeti::Yeti(const ReaderMapping& reader) :
 
   SoundManager::current()->preload("sounds/thud.ogg");
   SoundManager::current()->preload("sounds/yeti_gna.wav");
+  SoundManager::current()->preload("sounds/yeti_throw1.wav");
+  SoundManager::current()->preload("sounds/yeti_throw2.wav");
+  SoundManager::current()->preload("sounds/yeti_throw3.wav");
+  SoundManager::current()->preload("sounds/yeti_throw_big.wav");
   SoundManager::current()->preload("sounds/yeti_roar.wav");
 }
 
@@ -424,6 +429,7 @@ Yeti::throw_snowball()
 {
   m_state = THROW;
   set_action("throw", m_dir);
+  SoundManager::current()->play(fmt::format("sounds/yeti_throw{}.wav", m_rand_snd.rand(1, 3)), get_pos());
 
   m_state_timer.start(STOMP_WAIT / (m_pinch_mode ? 1.2f : 1.f));
 }
@@ -433,6 +439,7 @@ Yeti::throw_big_snowball()
 {
   m_state = THROW_BIG;
   set_action("big-throw", m_dir, 0);
+  SoundManager::current()->play("sounds/yeti_throw_big.wav", get_pos());
 
   m_state_timer.start(BALL_WAIT);
 }

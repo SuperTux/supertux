@@ -46,7 +46,6 @@ Config::Config() :
   fit_window(true),
 #endif
   magnification(0.0f),
-  // Ubuntu Touch supports windowed apps.
 #ifdef __ANDROID__
   use_fullscreen(true),
 #else
@@ -71,6 +70,7 @@ Config::Config() :
   locale(),
   keyboard_config(),
   joystick_config(),
+  ignore_joystick_axis(false),
   mobile_controls(SDL_GetNumTouchDevices() > 0),
   m_mobile_controls_scale(1),
   addons(),
@@ -327,6 +327,8 @@ Config::load()
       joystick_config.read(*joystick_mapping);
     }
 
+    config_control_mapping->get("ignore_joystick_axis", ignore_joystick_axis);
+
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
   }
@@ -483,6 +485,7 @@ Config::save()
     writer.end_list("joystick");
 
     writer.write("mobile_controls", mobile_controls);
+    writer.write("ignore_joystick_axis", ignore_joystick_axis);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
   }
   writer.end_list("control");

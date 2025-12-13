@@ -32,7 +32,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2025-10-22 21:59+0000\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: Killian Blazek, 2025\n"
+"Last-Translator: David D, 2020,2025\n"
 "Language-Team: French (http://app.transifex.com/arctic-games/supertux/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -646,7 +646,7 @@ msgstr "Point du chemin"
 
 #: src/editor/node_marker.cpp:123
 msgid "Press CTRL to move Bézier handles"
-msgstr ""
+msgstr " Appuyez sur CTRL pour déplacer les poignées de Bézier"
 
 #: src/editor/node_marker.cpp:124 src/supertux/statistics.cpp:316
 #: src/object/level_time.cpp:55
@@ -824,11 +824,11 @@ msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
-msgstr ""
+msgstr "Ce niveau contient des tuiles dépréciées.. Il est fortement recommandé de remplacer toutes les tuiles dépréciées afin d'éviter la perte de compatibilité dans les futures versions."
 
 #: src/editor/editor.cpp:577
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
-msgstr ""
+msgstr "Astuce : activez « Afficher les tuiles obsolètes » dans le menu de l’éditeur de niveau."
 
 #: src/editor/editor.cpp:648
 msgid ""
@@ -852,7 +852,7 @@ msgid ""
 "and might cause collisions with the default SuperTux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr ""
+msgstr "Certaines extensions obsolètes sont toujours actives\net peuvent entrer en conflit avec la structure par défaut de SuperTux.\nVous pouvez toujours activer ces extensions dans le menu.\nLa désactivation de ces extensions n'effacera pas votre progression dans le jeu."
 
 #: src/editor/editor.cpp:817
 msgid "Disable add-ons"
@@ -873,7 +873,7 @@ msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Impossible de trouver un secteur nommé \"main\".\nVeuillez renommer le secteur où\nvous souhaitez que le lecteur démarre en \"main\"."
 
 #. l10n: When translating this message, please keep "main" untranslated (the
 #. game expects the name of the spawnpoint to be "main").
@@ -882,7 +882,7 @@ msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Impossible de trouver un point d'apparition nommé \"main\".\nVeuillez renommer le point d'apparition où\nvous souhaitez que le joueur commence en \"main\"."
 
 #: src/supertux/game_object.cpp:110
 msgid "Version"
@@ -1025,11 +1025,11 @@ msgstr "Retirer joueur"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:76
 msgid "Respawn Player"
-msgstr ""
+msgstr "Réapparition joueur"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:102
 msgid "Spawn Player"
-msgstr ""
+msgstr "Apparition joueur"
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:118
 msgid "Controllers"
@@ -1039,25 +1039,25 @@ msgstr "Contrôleurs"
 msgid ""
 "This controller does not support rumbling;\n"
 "please check the controllers manually."
-msgstr ""
+msgstr "Cette manette ne prend pas en charge la fonction de vibration ;\nveuillez vérifier manuellement les manettes."
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:139
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "controllers; please check the controllers manually."
-msgstr ""
+msgstr "Cette version de SuperTux ne prend pas en charge les manettes à vibration.\nVeuillez vérifier les manettes manuellement."
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:166
 msgid ""
 "This joystick does not support rumbling;\n"
 "please check the joysticks manually."
-msgstr ""
+msgstr "Ce joystick ne prend pas en charge la fonction de vibration ;\nveuillez vérifier manuellement les joysticks."
 
 #: src/supertux/menu/multiplayer_player_menu.cpp:171
 msgid ""
 "This SuperTux build does not support rumbling\n"
 "joysticks; please check the joysticks manually."
-msgstr ""
+msgstr "Cette version de SuperTux ne prend pas en charge les joysticks à vibration ; veuillez vérifier les joysticks manuellement."
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
 msgid "New World"
@@ -1321,7 +1321,7 @@ msgstr "Afficher tuiles obsolètes"
 msgid ""
 "Indicate all deprecated tiles on the active tilemap, without the need of "
 "hovering over."
-msgstr ""
+msgstr "Indiquer toutes les tuiles obsolètes sur la carte de tuiles active, sans avoir besoin de passer la souris dessus."
 
 #: src/supertux/menu/editor_menu.cpp:116
 #: src/supertux/menu/editor_level_menu.cpp:31
@@ -1461,7 +1461,7 @@ msgstr "Des tuiles obsolètes sont toujours présentes dans le niveau."
 
 #: src/supertux/menu/editor_menu.cpp:269
 msgid "Do you want to show all deprecated tiles on active tilemaps?"
-msgstr ""
+msgstr "Voulez-vous afficher toutes les tuiles obsolètes sur les cartes de tuiles actives ?"
 
 #: src/supertux/menu/editor_menu.cpp:276
 msgid "There are no more deprecated tiles in the level!"
@@ -1706,7 +1706,7 @@ msgstr "\nVos progrès ne seront pas perdus."
 msgid ""
 "NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\n"
 "Are you sure you wish to uninstall?"
-msgstr ""
+msgstr "REMARQUE : le module complémentaire \"{}\" dépend d'autres modules complémentaires installés {}.\nÊtes-vous sûr de vouloir le désinstaller ?"
 
 #: src/supertux/menu/addon_preview_menu.cpp:258
 msgid ""
@@ -1953,7 +1953,7 @@ msgstr "Script d'initialisation"
 
 #: src/supertux/menu/editor_sector_menu.cpp:38
 msgid "Run initialization script only once"
-msgstr ""
+msgstr "Exécuter le script d'initialisation une seule fois"
 
 #: src/supertux/menu/editor_sector_menu.cpp:39
 msgid "Gravity"
@@ -1983,7 +1983,7 @@ msgstr "Redimensionner"
 
 #: src/supertux/menu/editor_converters_menu.cpp:64
 msgid "Select Tile Conversion File"
-msgstr ""
+msgstr "Sélectionner le fichier de conversion des tuiles"
 
 #: src/supertux/menu/editor_converters_menu.cpp:72
 msgid "By: {}"
@@ -1991,11 +1991,11 @@ msgstr "Par : {}"
 
 #: src/supertux/menu/editor_converters_menu.cpp:75
 msgid "Convert Tiles By File"
-msgstr ""
+msgstr "Convertir tuiles par fichier"
 
 #: src/supertux/menu/editor_converters_menu.cpp:76
 msgid "Convert all tiles in the current level by a file, specified above."
-msgstr ""
+msgstr "Convertir toutes les tuiles du niveau actuel à l'aide d'un fichier spécifié ci-dessus."
 
 #: src/supertux/menu/editor_converters_menu.cpp:89
 msgid "No tile conversion file selected."
@@ -2007,7 +2007,7 @@ msgid ""
 "\n"
 "Note: This should not be ran more than once on a level.\n"
 "Creating a separate copy of the level is highly recommended."
-msgstr ""
+msgstr "Cela convertira toutes les tuiles du niveau. Continuer ?\n\nRemarque : cette opération ne doit pas être effectuée plus d'une fois par niveau.\nIl est fortement recommandé de créer une copie séparée du niveau."
 
 #: src/supertux/menu/main_menu.cpp:54 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
@@ -2205,7 +2205,7 @@ msgstr ""
 
 #: src/supertux/menu/custom_menu_menu.cpp:64
 msgid "Reset to defaults"
-msgstr ""
+msgstr "Réinitialiser vers paramètres par défaut"
 
 #: src/supertux/menu/world_set_menu.cpp:30
 msgid "Story Mode"
@@ -2295,7 +2295,7 @@ msgstr "Utiliser une Police Bitmap"
 
 #: src/supertux/menu/debug_menu.cpp:76
 msgid "Show Tile IDs in Editor Toolbox"
-msgstr ""
+msgstr "Afficher l'ID de tuile dans la boîte à outils de l'éditeur"
 
 #: src/supertux/menu/debug_menu.cpp:77
 msgid "Hide Player HUD"
@@ -2307,7 +2307,7 @@ msgstr "Recharger ressources"
 
 #: src/supertux/menu/debug_menu.cpp:80
 msgid "Reloads all fonts, textures, sprites and tilesets."
-msgstr ""
+msgstr "Recharger toutes les polices, textures, sprites et jeux de tuiles."
 
 #: src/supertux/menu/debug_menu.cpp:82
 msgid "Dump Texture Cache"
@@ -2372,7 +2372,7 @@ msgid ""
 "The fractional distance towards the camera peek position to move each frame.\n"
 "\n"
 "0 = No Peek, 1 = Instant Peek"
-msgstr ""
+msgstr "Distance fractionnaire vers la position d'aperçu de la caméra pour déplacer chaque image.\n\n0 = Pas d'aperçu, 1 = Aperçu instantané"
 
 #: src/supertux/menu/options_menu.cpp:135
 msgid "Change Video System"
@@ -2411,7 +2411,7 @@ msgstr "Musique (désactivée)"
 
 #: src/supertux/menu/options_menu.cpp:169
 msgid "Enable Rumbling Controllers"
-msgstr ""
+msgstr "Activer manettes vibrantes"
 
 #: src/supertux/menu/options_menu.cpp:170
 msgid "Enable vibrating the game controllers."
@@ -2460,7 +2460,7 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:200
 msgid "Allow overriding the title screen level, when loading certain worlds"
-msgstr ""
+msgstr "Autorise le remplacement du niveau de l'écran titre lors du chargement de certains mondes"
 
 #: src/supertux/menu/options_menu.cpp:203
 msgid "Christmas Mode"
@@ -2510,11 +2510,11 @@ msgstr "Si le jeu devrait afficher sa propre souris ou utiliser celle par défau
 
 #: src/supertux/menu/options_menu.cpp:231
 msgid "Use native custom cursor"
-msgstr ""
+msgstr "Utiliser curseur personnalisé natif"
 
 #: src/supertux/menu/options_menu.cpp:231
 msgid "Whether the game uses a native custom cursor or renders it in the game"
-msgstr ""
+msgstr "Détermine l'utilisation d'un curseur personnalisé natif ou en fait le rendu dans le jeu"
 
 #: src/supertux/menu/options_menu.cpp:235
 msgid "Check for new releases"
@@ -2837,11 +2837,11 @@ msgstr "Une erreur s’est produite lors de la création du profil."
 
 #: src/supertux/menu/addon_file_install_menu.cpp:32
 msgid "Install Add-on from file"
-msgstr ""
+msgstr "Installer extension depuis fichier"
 
 #: src/supertux/menu/addon_file_install_menu.cpp:34
 msgid "Drag and drop add-on ZIP archive"
-msgstr ""
+msgstr "Ajouter extension via archive ZIP par glisser-déposer"
 
 #: src/supertux/menu/keyboard_menu.cpp:83
 msgid "Up cursor"
