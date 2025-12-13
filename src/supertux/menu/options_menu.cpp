@@ -236,6 +236,8 @@ OptionsMenu::refresh()
 
       add_toggle(MNID_CUSTOM_CURSOR, _("Use native custom cursor"), &g_config->custom_system_cursor).set_help(_("Whether the game uses a native custom cursor or renders it in the game"));
 
+      add_toggle(MNID_MAX_VIEWPORT, _("Use full viewport"), &g_config->max_viewport).set_help(_("Don't attempt to scale or apply any aspect ratio. Ignores some video settings. Useful for arcade cabinets or unusual screens."));
+
 #ifndef __EMSCRIPTEN__
       if (!g_config->disable_network)
         add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
@@ -789,6 +791,10 @@ OptionsMenu::menu_action(MenuItem& item)
 
     case MNID_CUSTOM_CURSOR:
       SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
+      break;
+
+    case MNID_MAX_VIEWPORT:
+      VideoSystem::current()->apply_config();
       break;
 
     case MNID_MOBILE_CONTROLS_SCALE:

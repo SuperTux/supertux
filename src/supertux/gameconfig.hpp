@@ -78,6 +78,7 @@ public:
   int sound_volume;
   int music_volume;
   int flash_intensity;
+  bool max_viewport;
 
   /** Prefer the wayland session. Depending on the platform, this may not be used. */
   bool prefer_wayland;

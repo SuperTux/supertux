@@ -93,6 +93,8 @@ calculate_scale(const Size& min_size, const Size& max_size,
 inline Rect
 calculate_viewport(const Size& max_size, const Size& window_size, float scale)
 {
+  if (g_config->max_viewport)
+    return {0, 0, window_size};
   int viewport_width = std::min(window_size.width,
                                 static_cast<int>(scale * static_cast<float>(max_size.width)));
   int viewport_height = std::min(window_size.height,
@@ -116,11 +118,21 @@ void calculate_viewport(const Size& min_size, const Size& max_size,
                         Vector& out_scale,
                         Rect& out_viewport)
 {
-  // Transform the real window_size by the aspect ratio, then do
-  // calculations on that virtual window_size
-  Size window_size = apply_pixel_aspect_ratio_pre(real_window_size, pixel_aspect_ratio);
+  Size window_size;
+  float scale;
 
-  float scale = calculate_scale(min_size, max_size, window_size, magnification);
+  if (g_config->max_viewport)
+  {
+    window_size = real_window_size;
+    scale = 1.0;
+  }
+  else
+  {
+    // Transform the real window_size by the aspect ratio, then do
+    // calculations on that virtual window_size
+    window_size = apply_pixel_aspect_ratio_pre(real_window_size, pixel_aspect_ratio);
+    scale = calculate_scale(min_size, max_size, window_size, magnification);
+  }
 
   // Calculate the new viewport size
   out_viewport = calculate_viewport(max_size, window_size, scale);
