@@ -33,6 +33,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   m_fire_delay(),
   m_ammo(),
   m_dart_sprite("images/creatures/darttrap/skull/skull_dart.sprite"),
+  m_dart_lightsprite("images/creatures/darttrap/skull/dart_light.sprite"),
   m_state(IDLE),
   m_fire_timer()
 {
@@ -114,7 +115,8 @@ void
 DartTrap::fire()
 {
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Dart &dart = Sector::get().add<Dart>(Vector(0.f, 0.f), m_dir, this, m_dart_sprite);
+  Dart &dart = Sector::get().add<Dart>(Vector(0.f, 0.f), m_dir, this,
+                                       m_dart_sprite, m_dart_lightsprite);
   if(m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
     dart.set_flip(m_flip);
 
@@ -183,7 +185,8 @@ DartTrap::get_default_sprite_name() const
   return "images/creatures/darttrap/skull/darttrap_skull.sprite";
 }
 
-void DartTrap::kill_fall()
+void
+DartTrap::kill_fall()
 {
 }
 
@@ -222,9 +225,11 @@ DartTrap::on_type_change(int old_type)
   {
     case SKULL:
       m_dart_sprite = "images/creatures/darttrap/skull/skull_dart.sprite";
+      m_dart_lightsprite = "images/creatures/darttrap/skull/dart_light.sprite";
       break;
     case GRANITO:
       m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
+      m_dart_lightsprite = "images/creatures/darttrap/granito/dart_light.sprite";
       break;
   }
 }
