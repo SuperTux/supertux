@@ -176,10 +176,8 @@ OptionsMenu::refresh()
       add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
         .set_help(_("Configure key-action mappings"));
 
-#ifndef UBUNTU_TOUCH
       add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
         .set_help(_("Configure joystick control-action mappings"));
-#endif
 
       break;
     }
@@ -192,10 +190,8 @@ OptionsMenu::refresh()
         add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
           .set_help(_("Select a profile to play with"));
 
-#ifndef UBUNTU_TOUCH
       add_submenu(_("Multiplayer settings"), MenuStorage::MULTIPLAYER_MENU)
         .set_help(_("Configure settings specific to multiplayer"));
-#endif
 
       add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled)
         .set_help(_("Enable screen transitions and smooth menu animation"));
@@ -231,7 +227,7 @@ OptionsMenu::refresh()
         .set_help(_("Automatically pause the game when the window loses focus"));
 
 #if defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-    defined(__OPENBSD) || defined(__NetBSD) && !(defined(STEAM_BUILD) || defined(UBUNTU_TOUCH))
+    defined(__OPENBSD) || defined(__NetBSD) && !defined(STEAM_BUILD)
       add_toggle(MNID_PREFER_WAYLAND, _("Prefer Wayland"), &g_config->prefer_wayland)
         .set_help(_("If you experience any issues with Nvidia cards, your window border, or anything you believe is due to Wayland, disable this. (Requires restart)"));
 #endif

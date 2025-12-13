@@ -8,9 +8,6 @@ supertux2
 # Installed vcpkg packages
 vcpkg_installed/
 
-# Ubuntu Touch (clickable) build files
-.clickable/
-
 # Tags file
 tags
 

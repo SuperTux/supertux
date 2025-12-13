@@ -34,38 +34,25 @@ else()
 
   else()
 
-    if(UBUNTU_TOUCH)
-      set(LINUX_DESKTOP_ICON "assets/supertux-256x256.png")
-      # FIXME: The "install" folder is a folder managed by Clickable and shouldn't be hardcoded here
-      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop.in "install/supertux2.desktop")
-      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/mk/clickable/supertux2.apparmor DESTINATION ".")
-      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/clickable/manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/install/manifest.json)
-      set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/supertux2")
-      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-256x256.png DESTINATION "assets")
+    if(IS_SUPERTUX_RELEASE)
+      set(LINUX_DESKTOP_ICON "supertux2")
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
     else()
-      if(IS_SUPERTUX_RELEASE)
-        set(LINUX_DESKTOP_ICON "supertux2")
-        install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
-      else()
-        set(LINUX_DESKTOP_ICON "supertux-nightly")
-        install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-nightly.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
-        # TODO: Is this really needed?
-        install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-nightly.png DESTINATION "share/icons/hicolor/128x128/apps")
-      endif()
-      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop.in ${CMAKE_BINARY_DIR}/supertux2.desktop)
-      install(FILES ${CMAKE_BINARY_DIR}/supertux2.desktop DESTINATION "share/applications")
-      set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
+      set(LINUX_DESKTOP_ICON "supertux-nightly")
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-nightly.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
+      # TODO: Is this really needed?
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-nightly.png DESTINATION "share/icons/hicolor/128x128/apps")
     endif()
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop.in ${CMAKE_BINARY_DIR}/supertux2.desktop)
+    install(FILES ${CMAKE_BINARY_DIR}/supertux2.desktop DESTINATION "share/applications")
+    set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
 
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.svg DESTINATION "share/icons/hicolor/scalable/apps")
 
   endif()
 endif()
 
-if(UBUNTU_TOUCH)
-  install(TARGETS supertux2
-          DESTINATION ".")
-elseif(WIN32 AND CMAKE_HOST_WIN32)
+if(WIN32 AND CMAKE_HOST_WIN32)
   install(TARGETS supertux2
           DESTINATION ${INSTALL_SUBDIR_BIN}
           RUNTIME_DEPENDENCIES PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"

@@ -84,7 +84,7 @@ else()
   endif()
 endif()
 
-if(EMSCRIPTEN OR UBUNTU_TOUCH OR ANDROID)
+if(EMSCRIPTEN OR ANDROID)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
@@ -111,11 +111,8 @@ else()
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF CACHE BOOL "" FORCE)
 endif()
 
-# Detect mobile builds
-option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
-
 # Mobile builds
-if(UBUNTU_TOUCH OR ANDROID)
+if(ANDROID)
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" ON)
 else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)

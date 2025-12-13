@@ -31,7 +31,6 @@
 #cmakedefine ENABLE_DISCORD
 #cmakedefine STEAM_BUILD
 
-#cmakedefine UBUNTU_TOUCH
 #cmakedefine HIDE_NONMOBILE_OPTIONS
 
 #cmakedefine REMOVE_QUIT_BUTTON

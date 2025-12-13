@@ -46,7 +46,6 @@ Config::Config() :
   fit_window(true),
 #endif
   magnification(0.0f),
-  // Ubuntu Touch supports windowed apps.
 #ifdef __ANDROID__
   use_fullscreen(true),
 #else
