@@ -44,12 +44,12 @@ public:
   virtual int get_layer() const override { return LAYER_OBJECTS; }
 
 private:
-  PowerUp::Type type;
-  PlayerBonusType bonus;
-  SpritePtr sprite;
-  Flip flip;
+  PowerUp::Type m_type;
+  PlayerBonusType m_bonus;
+  SpritePtr m_sprite;
+  Flip m_flip;
 
-  SpritePtr lightsprite;
+  SpritePtr m_lightsprite;
 
 private:
   Flower(const Flower&) = delete;

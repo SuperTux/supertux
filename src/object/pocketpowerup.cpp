@@ -18,14 +18,19 @@
 #include "object/pocketpowerup.hpp"
 #include "supertux/player_status.hpp"
 
+const float POCKET_EXIT_SPEED = -325.f;
+const float POCKET_GRAVITY_MOD = 0.4f;
+const float POCKET_PICKUP_DELAY = 1.3f;
+const float POCKET_BLINK_TIME = .15f;
+
 PocketPowerUp::PocketPowerUp(PlayerBonusType bonustype, Vector pos):
   PowerUp(pos, PowerUp::get_type_from_bonustype(bonustype)),
   m_cooldown_timer(),
   m_blink_timer(),
   m_visible(true)
 {
-  physic.set_velocity_y(-325.f);
-  physic.set_gravity_modifier(0.4f);
+  physic.set_velocity_y(POCKET_EXIT_SPEED);
+  physic.set_gravity_modifier(POCKET_GRAVITY_MOD);
   set_layer(LAYER_FOREGROUND1);
   m_col.m_group = COLGROUP_DISABLED;
 }
@@ -38,8 +43,8 @@ PocketPowerUp::PocketPowerUp::update(float dt_sec)
   bool check = m_cooldown_timer.check();
   if (!m_cooldown_timer.started() && !check && m_col.m_group != COLGROUP_TOUCHABLE)
   {
-    m_cooldown_timer.start(1.3f);
-    m_blink_timer.start(.15f, true);
+    m_cooldown_timer.start(POCKET_PICKUP_DELAY);
+    m_blink_timer.start(POCKET_BLINK_TIME, true);
   }
 
   if (check)
