@@ -41,10 +41,4 @@
       "door-1.png"
       "door-0.png")
   )
-
-  (linked-sprites
-    (lock
-      (file "door_lock.sprite")
-    )
-  )
 )

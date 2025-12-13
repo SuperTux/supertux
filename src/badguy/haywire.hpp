@@ -54,8 +54,6 @@ protected:
   virtual bool collision_squished(MovingObject& object) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
-  LinkedSprites get_linked_sprites() override;
-
 private:
   Direction get_player_direction(const Player* player) const;
 

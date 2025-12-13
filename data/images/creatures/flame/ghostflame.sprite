@@ -8,18 +8,8 @@
           "ghostflame-2.png"
           "ghostflame-3.png"
           "ghostflame-4.png"
-          "ghostflame-3.png"
-          "ghostflame-2.png"
-          "ghostflame-1.png"))
-
-  (linked-sprites
-    (custom-light
-      (file "images/objects/lightmap_light/lightmap_light-small.sprite")
-      (color 0.21 0 0.21)
-    )
-    (smoke
-      (file "images/particles/smoke.sprite")
-    )
-  )
+		  "ghostflame-3.png"
+		  "ghostflame-2.png"
+		  "ghostflame-1.png"))
 )
 

@@ -70,10 +70,4 @@
     (name "squished-right")
     (mirror-action "squished-left")
   )
-
-  (linked-sprites
-    (bark
-      (file "images/particles/bark.sprite")
-    )
-  )
 )

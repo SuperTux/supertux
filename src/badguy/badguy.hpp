@@ -22,13 +22,16 @@
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
-static const std::string BADGUY_DEFAULT_BURN_LIGHT_SPRITE = "images/objects/lightmap_light/lightmap_light-medium.sprite";
-static const std::string BADGUY_DEFAULT_ICE_SPRITE = "images/creatures/overlays/iceoverlay/iceoverlay.sprite";
-static const std::string BADGUY_DEFAULT_FIRE_SPRITE = "images/creatures/overlays/fireoverlay/fireoverlay.sprite";
-
 enum class Direction;
 class Player;
 class Bullet;
+
+namespace
+{
+  static const std::string& DEFAULT_LIGHT_SPRITE = "images/objects/lightmap_light/lightmap_light-medium.sprite";
+  static const std::string& DEFAULT_ICE_SPRITE = "images/creatures/overlays/iceoverlay/iceoverlay.sprite";
+  static const std::string& DEFAULT_FIRE_SPRITE = "images/creatures/overlays/fireoverlay/fireoverlay.sprite";
+}
 
 /**
  * Base class for moving sprites that can hurt the Player.
@@ -46,21 +49,21 @@ public:
 
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& burn_light_sprite_name = BADGUY_DEFAULT_BURN_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = BADGUY_DEFAULT_ICE_SPRITE,
-         const std::string& fire_sprite_name = BADGUY_DEFAULT_FIRE_SPRITE);
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& burn_light_sprite_name = BADGUY_DEFAULT_BURN_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = BADGUY_DEFAULT_ICE_SPRITE,
-         const std::string& fire_sprite_name = BADGUY_DEFAULT_FIRE_SPRITE);
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& burn_light_sprite_name = BADGUY_DEFAULT_BURN_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = BADGUY_DEFAULT_ICE_SPRITE,
-         const std::string& fire_sprite_name = BADGUY_DEFAULT_FIRE_SPRITE);
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
-         const std::string& burn_light_sprite_name = BADGUY_DEFAULT_BURN_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = BADGUY_DEFAULT_ICE_SPRITE,
-         const std::string & fire_sprite_name = BADGUY_DEFAULT_FIRE_SPRITE);
+         const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string & fire_sprite_name = DEFAULT_FIRE_SPRITE);
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -306,11 +309,9 @@ protected:
 
   float m_melting_time;
 
-  SpritePtr m_burn_light_sprite;
+  SpritePtr m_lightsprite;
   SpritePtr m_freezesprite;
   SpritePtr m_firesprite;
-
-  bool m_burning;
   bool m_glowing;
   bool m_water_affected;
 

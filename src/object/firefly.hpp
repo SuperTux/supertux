@@ -45,6 +45,7 @@ private:
   void update_state();
 
 private:
+  SpritePtr m_sprite_light;
   bool activated;
   Vector initial_position; /**< position as in level file. This is where Tux will have to respawn, as the level is reset every time */
 
