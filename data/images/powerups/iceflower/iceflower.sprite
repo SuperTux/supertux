@@ -1,4 +1,4 @@
-
+(supertux-sprite
        (action
          (name "default")
          (images "ice_flower-0.png"
