@@ -18,6 +18,7 @@
 
 #include "supertux/moving_object.hpp"
 
+#include "object/powerup.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/player_status.hpp"
 #include "video/flip.hpp"
@@ -28,7 +29,7 @@ class Flower final : public MovingObject
   friend class FlipLevelTransformer;
 
 public:
-  Flower(BonusType type, const std::string& custom_sprite = "");
+  Flower(PowerUp::Type _type, const std::string& custom_sprite = "");
   virtual GameObjectClasses get_class_types() const override { return MovingObject::get_class_types().add(typeid(Flower)); }
 
   virtual bool is_saveable() const override { return false; }
@@ -43,11 +44,12 @@ public:
   virtual int get_layer() const override { return LAYER_OBJECTS; }
 
 private:
-  BonusType type;
-  SpritePtr sprite;
-  Flip flip;
+  PowerUp::Type m_type;
+  PlayerBonusType m_bonus;
+  SpritePtr m_sprite;
+  Flip m_flip;
 
-  SpritePtr lightsprite;
+  SpritePtr m_lightsprite;
 
 private:
   Flower(const Flower&) = delete;

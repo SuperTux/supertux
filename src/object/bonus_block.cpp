@@ -366,31 +366,31 @@ BonusBlock::try_open(Player* player)
 
     case Content::FIREGROW:
     {
-      raise_growup_bonus(player, BONUS_FIRE, direction);
+      raise_growup_bonus(player, PowerUp::Type::FIRE, direction);
       break;
     }
 
     case Content::ICEGROW:
     {
-      raise_growup_bonus(player, BONUS_ICE, direction);
+      raise_growup_bonus(player, PowerUp::Type::ICE, direction);
       break;
     }
 
     case Content::AIRGROW:
     {
-      raise_growup_bonus(player, BONUS_AIR, direction);
+      raise_growup_bonus(player, PowerUp::Type::AIR, direction);
       break;
     }
 
     case Content::EARTHGROW:
     {
-      raise_growup_bonus(player, BONUS_EARTH, direction);
+      raise_growup_bonus(player, PowerUp::Type::EARTH, direction);
       break;
     }
 
     case Content::RETROGROW:
     {
-      raise_growup_bonus(player, BONUS_FIRE, direction,
+      raise_growup_bonus(player, PowerUp::Type::COFFEE, direction,
                          "images/powerups/retro/mints.png", "images/powerups/retro/coffee.png");
       break;
     }
@@ -531,31 +531,31 @@ BonusBlock::try_drop(Player *player)
 
     case Content::FIREGROW:
     {
-      drop_growup_bonus(player, PowerUp::FIRE, direction, countdown);
+      drop_growup_bonus(player, PowerUp::Type::FIRE, direction, countdown);
       break;
     }
 
     case Content::ICEGROW:
     {
-      drop_growup_bonus(player, PowerUp::ICE, direction, countdown);
+      drop_growup_bonus(player, PowerUp::Type::ICE, direction, countdown);
       break;
     }
 
     case Content::AIRGROW:
     {
-      drop_growup_bonus(player, PowerUp::AIR, direction, countdown);
+      drop_growup_bonus(player, PowerUp::Type::AIR, direction, countdown);
       break;
     }
 
     case Content::EARTHGROW:
     {
-      drop_growup_bonus(player, PowerUp::EARTH, direction, countdown);
+      drop_growup_bonus(player, PowerUp::Type::EARTH, direction, countdown);
       break;
     }
 
     case Content::RETROGROW:
     {
-      drop_growup_bonus(player, PowerUp::COFFEE, direction, countdown,
+      drop_growup_bonus(player, PowerUp::Type::COFFEE, direction, countdown,
                         "images/powerups/retro/mints.png");
       break;
     }
@@ -655,7 +655,7 @@ BonusBlock::try_drop(Player *player)
 }
 
 void
-BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir,
+BonusBlock::raise_growup_bonus(Player* player, const PowerUp::Type& powerup, const Direction& dir,
                                const std::string& growup_sprite, const std::string& flower_sprite)
 {
   std::unique_ptr<MovingObject> obj;
@@ -665,7 +665,7 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
   }
   else
   {
-    obj = std::make_unique<Flower>(bonus, flower_sprite);
+    obj = std::make_unique<Flower>(powerup, flower_sprite);
   }
 
   Sector::get().add<SpecialRiser>(get_pos(), std::move(obj));
@@ -673,7 +673,7 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
 }
 
 void
-BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bool& countdown,
+BonusBlock::drop_growup_bonus(Player* player, PowerUp::Type powerup, const Direction& dir, bool& countdown,
                               const std::string& growup_sprite)
 {
   if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
@@ -682,7 +682,7 @@ BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bo
   }
   else
   {
-    Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), type);
+    Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), powerup);
   }
   SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
   countdown = true;

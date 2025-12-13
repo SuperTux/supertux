@@ -21,6 +21,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "object/pocketpowerup.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
@@ -96,7 +97,7 @@ PlayerStatus::respawns_at_checkpoint() const
 }
 
 std::string
-PlayerStatus::get_bonus_name(BonusType bonustype)
+PlayerStatus::get_bonus_name(PlayerBonusType bonustype)
 {
   switch (bonustype) {
     case BONUS_FIRE:
@@ -117,7 +118,7 @@ PlayerStatus::get_bonus_name(BonusType bonustype)
   }
 }
 
-BonusType
+PlayerBonusType
 PlayerStatus::get_bonus_from_name(const std::string& name)
 {
   if (name == "none") {
@@ -139,7 +140,7 @@ PlayerStatus::get_bonus_from_name(const std::string& name)
 }
 
 std::string
-PlayerStatus::get_bonus_sprite(BonusType bonustype)
+PlayerStatus::get_bonus_sprite(PlayerBonusType bonustype)
 {
   switch (bonustype) {
     case BONUS_FIRE:
@@ -263,7 +264,7 @@ PlayerStatus::give_item_from_pocket(Player* player)
   if (!is_item_pocket_allowed())
     return;
 
-  BonusType bonustype = m_item_pockets[player->get_id()];
+  PlayerBonusType bonustype = m_item_pockets[player->get_id()];
   if (bonustype == BONUS_NONE)
     return;
 
@@ -274,7 +275,7 @@ PlayerStatus::give_item_from_pocket(Player* player)
 }
 
 void
-PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
+PlayerStatus::add_item_to_pocket(PlayerBonusType bonustype, Player* player)
 {
   if (!is_item_pocket_allowed())
     return;
@@ -285,7 +286,7 @@ PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
   m_item_pockets[player->get_id()] = bonustype;
 }
 
-BonusType
+PlayerBonusType
 PlayerStatus::get_item_pocket(const Player* player) const
 {
   return m_item_pockets[player->get_id()];
@@ -393,47 +394,3 @@ PlayerStatus::remove_player(int player_id)
   m_item_pockets.resize(m_num_players, BONUS_NONE);
 }
 
-
-PlayerStatus::PocketPowerUp::PocketPowerUp(BonusType bonustype, Vector pos):
-  PowerUp(pos, PowerUp::get_type_from_bonustype(bonustype)),
-  m_cooldown_timer(),
-  m_blink_timer(),
-  m_visible(true)
-{
-  physic.set_velocity_y(-325.f);
-  physic.set_gravity_modifier(0.4f);
-  set_layer(LAYER_FOREGROUND1);
-  m_col.m_group = COLGROUP_DISABLED;
-}
-
-void
-PlayerStatus::PocketPowerUp::update(float dt_sec)
-{
-  PowerUp::update(dt_sec);
-
-  bool check = m_cooldown_timer.check();
-  if (!m_cooldown_timer.started() && !check && m_col.m_group != COLGROUP_TOUCHABLE)
-  {
-    m_cooldown_timer.start(1.3f);
-    m_blink_timer.start(.15f, true);
-  }
-
-  if (check)
-  {
-    m_visible = true;
-    m_blink_timer.stop();
-    m_col.m_group = COLGROUP_TOUCHABLE;
-  }
-
-  if (m_blink_timer.check())
-    m_visible = !m_visible;
-}
-
-void
-PlayerStatus::PocketPowerUp::draw(DrawingContext& context)
-{
-  if (!m_visible)
-    return;
-
-  PowerUp::draw(context);
-}
