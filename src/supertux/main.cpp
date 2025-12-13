@@ -725,6 +725,7 @@ Main::run(int argc, char** argv)
     {
       args.parse_args(argc, argv);
       g_log_level = args.get_log_level();
+      g_log_tinygettext = args.log_tinygettext;
     }
     catch(const std::exception& err)
     {

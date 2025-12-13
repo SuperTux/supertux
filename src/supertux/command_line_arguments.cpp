@@ -50,7 +50,8 @@ CommandLineArguments::CommandLineArguments() :
   christmas_mode(),
   repository_url(),
   editor(),
-  resave()
+  resave(),
+  log_tinygettext(false)
 {
 }
 
@@ -95,6 +96,7 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("  -v, --version                Show SuperTux version and quit") << "\n"
     << _("  --verbose                    Print verbose messages") << "\n"
     << _("  --debug                      Print extra verbose messages") << "\n"
+    << _("  --log-tinygettext            Show tinygettext logs") << "\n"
     << _("  --print-datadir              Print SuperTux's primary data directory.") << "\n"
     << _("  --acknowledgements           Print the licenses of libraries used by SuperTux.") << "\n"
     << "\n"
@@ -179,6 +181,10 @@ CommandLineArguments::parse_args(int argc, char** argv)
       {
         m_log_level = LOG_INFO;
       }
+    }
+    else if (arg == "--log-tinygettext")
+    {
+      log_tinygettext = true;
     }
     else if (arg == "--datadir")
     {
