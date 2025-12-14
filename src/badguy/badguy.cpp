@@ -47,6 +47,10 @@ static const float FADEOUT_TIME = 0.2f;
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
+/** Ice physics constants (identical to player ice physics) */
+static const float BADGUY_ICE_FRICTION_MULTIPLIER = 0.1f;   // Same as player
+static const float BADGUY_ICE_ACCELERATION_MULTIPLIER = 0.25f; // Same as player
+
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name,
                const std::string& fire_sprite_name) :
@@ -67,6 +71,8 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_frozen(false),
   m_ignited(false),
   m_in_water(false),
+  m_on_ice(false),
+  m_ice_this_frame(false),
   m_dead_script(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
@@ -120,6 +126,8 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_frozen(false),
   m_ignited(false),
   m_in_water(false),
+  m_on_ice(false),
+  m_ice_this_frame(false),
   m_dead_script(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
@@ -440,6 +448,12 @@ BadGuy::get_allowed_directions() const
 void
 BadGuy::active_update(float dt_sec)
 {
+  // Manage ice state each frame
+  if (!m_ice_this_frame && on_ground()) {
+    m_on_ice = false;
+  }
+  m_ice_this_frame = false;
+
   if (!is_grabbed())
   {
     if (is_in_water() && m_water_affected)
@@ -455,6 +469,9 @@ BadGuy::active_update(float dt_sec)
       m_col.set_movement(m_physic.get_movement(dt_sec));
     }
   }
+
+  // Apply ice physics if on ice
+  apply_ice_physics();
 
   if (m_frozen) {
     m_sprite->stop_animation();
@@ -476,6 +493,11 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   {
     m_in_water = true;
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
+  }
+
+  if (tile_attributes & Tile::ICE) {
+    m_ice_this_frame = true;
+    m_on_ice = true;
   }
 
   if (tile_attributes & Tile::HURTS && is_hurtable())
@@ -714,13 +736,34 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 }
 
 void
+BadGuy::apply_ice_physics()
+{
+  if (!m_on_ice || !on_ground()) return;
+  
+  float velx = m_physic.get_velocity_x();
+  // No artificial velocity threshold - let natural physics handle sliding
+  
+  // Use same friction base as player (WALK_ACCELERATION_X = 300)
+  float friction = 300.0f * BADGUY_ICE_FRICTION_MULTIPLIER; // Base friction value
+  if (velx < 0) {
+    m_physic.set_acceleration_x(friction);
+  } else if (velx > 0) {
+    m_physic.set_acceleration_x(-friction);
+  }
+}
+
+void
 BadGuy::kill_squished(GameObject& object)
 {
   if (!is_active()) return;
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   m_physic.enable_gravity(true);
-  m_physic.set_velocity(0, 0);
+
+  if (on_ground())
+    m_physic.set_velocity(0, 0);
+  else
+    m_physic.set_velocity_y(0.0f);
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   auto player = dynamic_cast<Player*>(&object);
@@ -1194,7 +1237,12 @@ BadGuy::ignite()
     unfreeze();
 
   m_physic.enable_gravity(true);
-  m_physic.set_velocity(0, 0);
+
+  if (on_ground())
+    m_physic.set_velocity(0, 0);
+  else
+    m_physic.set_velocity_y(0.0f);
+
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   m_sprite->stop_animation();
   m_ignited = true;

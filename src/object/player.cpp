@@ -54,7 +54,7 @@
 
 const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
 
-namespace 
+namespace
 {
 /* Times: */
 const float TUX_SAFE_TIME = 1.8f;
@@ -267,7 +267,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
 
   m_col.set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
 
-  
+
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);
 
@@ -1629,7 +1629,7 @@ Player::handle_input()
     if ((get_bonus() == BONUS_FIRE && active_bullets < MAX_FIRE_BULLETS) ||
         (get_bonus() == BONUS_ICE  && active_bullets < MAX_ICE_BULLETS))
     {
-      Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f);
+      Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 4.f);
       Direction swim_dir;
       swim_dir = ((std::abs(m_swimming_angle) <= math::PI_2)
         || (m_water_jump && std::abs(m_physic.get_velocity_x()) < 10.f)) ? Direction::RIGHT : Direction::LEFT;
@@ -2198,7 +2198,7 @@ Player::draw(DrawingContext& context)
       const bool is_not_idle = std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
         [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; });
 
-      if (is_not_idle || (m_should_fancy_idle && !m_fancy_idle_active))
+      if (is_not_idle || (m_should_fancy_idle && !m_fancy_idle_active) || m_reset_action)
       {
         m_idle_stage = 0;
         m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
@@ -2211,6 +2211,9 @@ Player::draw(DrawingContext& context)
         }
         else
           m_fancy_idle_active = true;
+
+        if (m_reset_action)
+          m_reset_action = false;
       }
       else if (m_should_fancy_idle)
       {
@@ -2251,7 +2254,7 @@ Player::draw(DrawingContext& context)
   }
 
   /* Set Tux powerup sprite action */
-  if (g_config->christmas_mode)
+  if (g_config->is_christmas())
   {
     //TODO: Implement new santa hats
     //m_santahatsprite->set_action(m_sprite->get_action());
@@ -2337,7 +2340,7 @@ Player::update_hitbox()
 }
 
 void
-Player::collision_solid(const CollisionHit& hit)
+Player::handle_collision_logic(const CollisionHit& hit)
 {
   if (hit.bottom) {
     if (m_physic.get_velocity_y() > 0)
@@ -2390,6 +2393,12 @@ Player::collision_solid(const CollisionHit& hit)
     m_boost = 0.f;
 }
 
+void
+Player::collision_solid(const CollisionHit& hit)
+{
+  handle_collision_logic(hit);
+}
+
 HitResponse
 Player::collision(MovingObject& other, const CollisionHit& hit)
 {
@@ -2422,9 +2431,9 @@ Player::collision(MovingObject& other, const CollisionHit& hit)
       return FORCE_MOVE;
     if (m_stone)
       return ABORT_MOVE;
-
-    if (hit.bottom && badguy->is_frozen())
-      m_on_ground_flag = true;
+    if (badguy->is_frozen() && badguy->get_physic().get_velocity_y() != 0) {
+      handle_collision_logic(hit);
+    }
   }
 
   return CONTINUE;
@@ -2481,6 +2490,7 @@ Player::kill(bool completely)
 
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
+    m_reset_action = true;
 
     if (get_bonus() > BONUS_GROWUP)
     {

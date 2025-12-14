@@ -161,6 +161,7 @@ protected:
   virtual bool is_preview_item_valid(const MenuItem& item) const { return true; }
 
 private:
+  void recalculate_position_and_size();
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index, float y_pos);
   void draw_preview(DrawingContext& context);

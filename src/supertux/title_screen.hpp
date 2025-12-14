@@ -71,6 +71,8 @@ private:
   std::string m_copyright_text;
   std::string m_videosystem_name;
 
+  /* Not a timer because the user could flip back and forth constantly */
+  float m_logo_opacity;
   bool m_jump_was_released;
 
 private:

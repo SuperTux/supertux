@@ -5,18 +5,19 @@
 # Translators:
 # Angela <angelapellegrino@hotmail.it>, 2014
 # Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
-# Ioma Taani, 2019
-# Ioma Taani, 2015-2016
+# aaaaaaaa, 2019
+# aaaaaaaa, 2015-2016
 # 17c2573a89e395c6dd973e5d003db498_36e4c1e, 2013-2014
 # Mario Rossi, 2022
-# Ioma Taani, 2018
+# aaaaaaaa, 2018
+# Tommaso Macchiella, 2025
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-07-06 02:34+0000\n"
+"POT-Creation-Date: 2025-10-22 21:59+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
-"Last-Translator: Mario Rossi, 2022\n"
+"Last-Translator: Tommaso Macchiella, 2025\n"
 "Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,41 +29,28 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "23esima Aviotrasportata"
 
-#: data/levels/world1/23rd_airborne.stl:598
-#: data/levels/world1/between_glaciers.stl:855
-#: data/levels/world1/between_glaciers.stl:863
-#: data/levels/world1/crystal_mine.stl:1535
-#: data/levels/world1/crystal_mine.stl:1543
-#: data/levels/world1/frosted_fields.stl:188
-#: data/levels/world1/path_in_the_clouds.stl:348
-#: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:628
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:229
-msgid "You found a secret area!"
-msgstr "Hai trovato un'area segreta!"
-
 #: data/levels/world1/above_arctic_skies.stl:3
-msgid "Above the Arctic Skies"
-msgstr "Sopra i Cieli Artici"
+msgid "Above the Antarctic Skies"
+msgstr "Sopra i cieli Artici"
 
-#: data/levels/world1/above_arctic_skies.stl:162
+#: data/levels/world1/above_arctic_skies.stl:318
 msgid ""
-"-Air Flower\n"
-"!images/powerups/airflower/air_flower-0.png\n"
-"#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-Fiore dell'Etra\n!images/powerups/airflower/air_flower-0.png\n#Il Fiore dell'Etra dà a Tux l'abilità di planare in aria per pochi secondi, mentre si tiene premuto il tasto SALTA."
+"-Air Flower\r\n"
+"!images/powerups/airflower/air_flower-0.png\r\n"
+"#The Air Flower lets Tux move much quicker and jump higher. It grants the ability to glide in the air for a few seconds by holding the JUMP Key after a jump."
+msgstr "-Fiore dell'Aria\n!images/powerups/airflower/air_flower-0.png\n#Il Fiore dell'Aria dà a Tux l'abilità di planare in aria per pochi secondi, mentre si tiene premuto il tasto SALTA."
+
+#: data/levels/world1/antarctic_outpost.stl:3
+msgid "Antarctic Outpost"
+msgstr "Avamposto Artico"
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
 msgstr "Tra due Ghiacciai"
 
-#: data/levels/world1/between_glaciers.stl:108
-msgid ""
-"-Crystals\n"
-"#This level contains four coloured crystals. Can you find them?\n"
-"#\n"
-"#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "-Cristalli\n#Questo livello contiene quattro cristalli colorati. Riuscirai a trovarli?\n#\n#Nota: questi cristalli, al momento, non hanno nessuno scopo ai fini del gioco, ma in una futura versione del gioco potrebbero averlo."
+#: data/levels/world1/bouncy_mountainside.stl:3
+msgid "Bouncy, Bouncy Mountainside"
+msgstr "Versante Rimbalzante"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
@@ -72,9 +60,9 @@ msgstr "Il Castello di Nolok"
 msgid "The Crystal Mine"
 msgstr "La miniera di Cristallo"
 
-#: data/levels/world1/crystal_mine.stl:686
-msgid "#You have to activate two switches to open this door."
-msgstr "#Devi attivare due interruttori per aprire questa porta"
+#: data/levels/world1/deep_dive_chill.stl:3
+msgid "Deep Dive 'n' Chill"
+msgstr "Una profonda nuotata tranquilla"
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
@@ -85,53 +73,22 @@ msgid "Entrance to the Cave"
 msgstr "Ingresso della Grotta"
 
 #: data/levels/world1/fork_in_the_road.stl:3
-msgid "A Fork in the Road"
-msgstr "Un Bivio per la Strada"
+msgid "A Fork in the Road?"
+msgstr "Un bivio per la strada"
 
-#: data/levels/world1/fork_in_the_road.stl:84
+#: data/levels/world1/fork_in_the_road.stl:750
 msgid ""
-"-Switches\n"
-"!images/objects/switch/switch-0.png\n"
-"!images/objects/pushbutton/pushbutton-0.png\n"
-"#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
-"#There are also buttons that you can press by jumping on them."
-msgstr "-Interruttori\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Gli interruttori possono essere utilizzati per fare un sacco di cose. Premi il tasto SU per attivarlo.\n#Sono presenti anche pulsanti che possono essere premuti saltandoci sopra."
-
-#: data/levels/world1/fork_in_the_road.stl:93
-msgid ""
-"-Trampolines\n"
-"!images/objects/trampoline/trampoline2-0.png\n"
-"#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "-Trampolini\n!images/objects/trampoline/trampoline2-0.png\n#I trampolini permettono di far raggiungere a Tux nuove vette. Mantieni premuto il pulsante SALTA mentre rimbalzi su un trampolino per lanciarti più in alto."
-
-#: data/levels/world1/fork_in_the_road.stl:100
-msgid ""
-"-Climbing\n"
-"#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "-Scalare\n# Tux può scalare! Premi il tasto SU per cominciare a scalare. Premi AZIONE o SALTA per saltare o cadere."
-
-#: data/levels/world1/fork_in_the_road.stl:106
-msgid ""
-"-Secret Exits\n"
-"#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
-"#Maybe they lead you to something special."
-msgstr "-Uscite segrete\n#Alcuni livelli hanno diverse uscite. Molte di esse sono nascoste, quindi dai un'occhiata!\n#Magari possono portarti in posti speciali."
+"-Secret Exit\n"
+"#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
+msgstr "-Secret Exit\n#I livelli a volte possono contenere un'uscita segreta che rivelerà un passaggio nascosto alternativo! Quindi stai attento ai punti sospetti mappa del mondo."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
 msgstr "I Campi Ghiacciati"
 
-#: data/levels/world1/frozen_bridge.stl:3
-msgid "Over the Frozen Bridge"
-msgstr "Sul Ponte Gelato"
-
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
 msgstr "Ghiaccio in buca"
-
-#: data/levels/world1/icy_valley.stl:3
-msgid "Icy Valley"
-msgstr "Valle Ghiacciata"
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
@@ -146,16 +103,26 @@ msgid "The Journey Begins"
 msgstr "Il Viaggio Comincia"
 
 #: data/levels/world1/living_inside_fridge.stl:3
-msgid "Living in a Fridge"
+msgid "Living In A Fridge"
 msgstr "Vivere in un frigorifero"
-
-#: data/levels/world1/miyamoto_monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "Monumento a Miyamoto"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
-msgstr "Oh no! Altre Palle di Neve!"
+msgstr "Oh no! Altre Palle di neve!"
+
+#: data/levels/world1/more_snowballs.stl:290
+msgid ""
+"-Carrying Objects\r\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key while standing still to drop the object.\r\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-Trasportare oggetti\r\n#Tux può prendere degli oggetti tenendo premuto il tasto AZIONE. Rilascia il tasto AZIONE mentre sei fermo per mollare l'oggetto. \r\n#Se rilasci il tasto AZIONE mentre Tux si sta muovendo, lo lancerà!"
+
+#: data/levels/world1/more_snowballs.stl:299
+msgid ""
+"-Up-Throwing\r\n"
+"#Tux can throw most objects upwards, by holding the UP key whilst releasing the ACTION key.\r\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-Lancio in alto\r\n#Tux può lanciare la maggior parte degli oggetti verso l'alto, tenendo premuto il tasto SU e rilasciando nel mentre il tasto AZIONE.\r\n#Quando correndo, Tux lancerà gli oggetti con una traiettoria ad arco!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -163,24 +130,24 @@ msgstr "Gelo Notturno"
 
 #: data/levels/world1/or_just_me.stl:3
 msgid "...Or Is It Just Me?"
-msgstr "...o sono solo io?"
+msgstr "\"...o sono solo io?\""
 
-#: data/levels/world1/path_in_the_clouds.stl:3
+#: data/levels/world1/path_in_clouds.stl:3
 msgid "A Path in the Clouds"
 msgstr "Un Sentiero fra le Nuvole"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
 msgid "Tux had reached the end of the castle."
-msgstr "Tux ha raggiunto la fine del castello."
+msgstr "Tux aveva raggiunto la fine del castello."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
 msgid "But to his surprise all he could find was a letter."
-msgstr "Ma a sua sorpresa tutto ciò che ha potuto trovare era una lettera."
+msgstr "Ma a sua sorpresa tutto ciò che aveva potuto trovare era una lettera."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
 msgid ""
 "A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Una lettera da Penny nella quale avvisa Tux che Nolok l'ha portata in una foresta lontana."
+msgstr "Una lettera da Penny nella quale avvisava Tux che Nolok l'aveva portata in una foresta lontana."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
@@ -191,6 +158,52 @@ msgstr "Incerto su cosa Nolok le stesse facendo, Tux si preoccupò per la sua am
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
 msgstr "Finché improvvisamente..."
+
+#: data/levels/world1/scripts_crystal_mine.txt:2
+msgid ""
+"After a long swim across the antarctic waters, Tux arrived at the Glacier "
+"Isles the Yeti told him about."
+msgstr "Dopo una lunga nuotata, Tux arrivò alle Isole Ghiacciaio di cui lo Yeti gli aveva parlato."
+
+#: data/levels/world1/scripts_crystal_mine.txt:3
+msgid ""
+"A massive shaft layed before him leading down into the aforementioned "
+"Crystal Mine."
+msgstr "Una grandissima miniera si stendeva davanti a lui, portandolo nella suddetta Miniera di Cristallo."
+
+#: data/levels/world1/scripts_crystal_mine.txt:4
+msgid ""
+"Still carrying a spark of doubt that this was not a trap, Tux slowly "
+"descended into the depths once more..."
+msgstr "Sempre domandandosi se questa fosse una trappola oppure no, Tux iniziò a scendere lentamente nelle profondità un'altra volta..."
+
+#: data/levels/world1/scripts_crystal_mine.txt:5
+msgid ""
+"At last, Tux made it through the crystal mine and found himself on the "
+"opposite end of the Glacier Isle."
+msgstr "Alla fine, Tux attraversò la Miniera di Cristallo e si trovò sul lato opposto delle isole Ghiacciaio."
+
+#: data/levels/world1/scripts_crystal_mine.txt:6
+msgid ""
+"As he was about the exit the mine, internally Tux was hoping that all the "
+"yeti said was true."
+msgstr "Proprio quando stava per uscire dalla miniera, dentro di sé Tux stava sperando che tutto ciò che lo Yeti gli aveva detto fosse vero."
+
+#: data/levels/world1/scripts_crystal_mine.txt:7
+msgid ""
+"To his relief, Tux did find a boat still docked. With it he could sail up "
+"north, to the aforementioned forest."
+msgstr "Per sua fortuna, Tux trovò una barca ormeggiata. Con essa avrebbe potuto salpare verso nord, verso la suddetta foresta."
+
+#: data/levels/world1/scripts_crystal_mine.txt:8
+msgid "Seems like the yeti did not lie to him after all."
+msgstr "Sembrava che in fondo lo Yeti non gli avesse mentito."
+
+#: data/levels/world1/scripts_crystal_mine.txt:9
+msgid ""
+"The more he thought about it, he probably wasn't even meant to know about "
+"all this in the first place..."
+msgstr "Pensandoci a fondo, probabilmente lui non avrebbe nemmeno dovuto essere a conoscenza di tutto questo."
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -212,7 +225,7 @@ msgstr "Tux cominciò a preoccuparsi, finché non trovò una lettera e lesse:"
 msgid ""
 "\"Tux, I have kidnapped your beloved Penny and have taken her to my "
 "fortress.\""
-msgstr "\"Tux, ho rapito la tua amata Penny e l'ho portata nel mio maniero!\""
+msgstr "\"Tux, ho rapito la tua amata Penny e l'ho portata nella mia fortezza!\""
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
@@ -225,12 +238,12 @@ msgstr "\"Non hai nessuna speranza di salvarla!\"\nFirmato, Nolok."
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Capendo in che casino potrebbe essere Penny, Tux decise di andarla a salvare."
+msgstr "Capendo in che caos poteva essere Penny, Tux decise di andare a salvarla."
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
 "Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Allora Tux vide in lontananza il maniero di Nolok e si mise in viaggio per salvare Penny!"
+msgstr "Allora Tux vide in lontananza il castello di Nolok e si mise in viaggio per salvare Penny!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
@@ -242,7 +255,7 @@ msgstr "Ma, improvvisamente, sentì un forte ruggito in lontananza."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
-msgstr "Pare che uno Yeti lo abbia osservato dalla distanza."
+msgstr "Pareva che uno Yeti lo avesse osservato dalla distanza."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
@@ -255,86 +268,82 @@ msgid "...while secretly hoping not to run into the yeti again, by any means."
 msgstr "...mentre segretamente sperava assolutamente di non incontrare di nuovo lo Yeti."
 
 #: data/levels/world1/shattered_bridge.stl:3
-msgid "The Shattered Bridge"
-msgstr "Il Ponte Distrutto"
+msgid "Shattered Bridge"
+msgstr "Il ponte rotto"
+
+#: data/levels/world1/slippery_slide.stl:3
+msgid "Slippery Slide"
+msgstr "Scivolo scivoloso"
 
 #: data/levels/world1/somewhat_smaller_bath.stl:3
 msgid "The Somewhat Smaller Bath"
 msgstr "Il Bagno Aquanto Piccino"
 
+#: data/levels/world1/somewhat_smaller_bath.stl:420
+msgid ""
+"-Swimming\n"
+"!images/creatures/tux/big/swim-1.png\n"
+"#When submerged in water, use the DIRECTIONAL keys to swim around freely. Hold the JUMP key to swim even faster."
+msgstr "-Nuotare\n!images/creatures/tux/big/swim-1.png\n#Quando sott'acqua, usa le FRECCE DIREZIONALI per nuotare liberamente. Tieni premuto il tasto SALTA per nuotare ancora più velocemente."
+
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
 msgstr "Pietrafredda"
+
+#: data/levels/world1/stone_cold.stl:191
+msgid ""
+"-Carrying Objects\r\n"
+"#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\r\n"
+"#If you let go of the ACTION key while Tux is moving, he will throw it!"
+msgstr "-Trasportare oggetti\r\n#Tux può prendere degli oggetti tenendo premuto il tasto AZIONE. Rilascia il tasto AZIONE mentre sei fermo per mollare l'oggetto. \r\n#Se rilasci il tasto AZIONE mentre Tux si sta muovendo, lo lancerà!"
+
+#: data/levels/world1/stone_cold.stl:200
+msgid ""
+"-Up-Throwing\r\n"
+"#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\r\n"
+"#When running, Tux throws the object in an arch!"
+msgstr "-Lancio in alto\r\n#Tux può lanciare la maggior parte degli oggetti verso l'alto, tenendo premuto il tasto SU  e rilasciando nel mentre il tasto AZIONE.\r\n#Quando correndo, Tux lancerà gli oggetti con una traiettoria ad arco!"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
 msgstr "Sotto il ghiaccio"
 
-#: data/levels/world1/via_nostalgica.stl:3
-msgid "Via Nostalgica"
-msgstr "Via Nostalgica"
-
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Benvenuto ad Antarctica"
 
-#: data/levels/world1/welcome_antarctica.stl:74
-msgid ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
-"#\n"
-"#Hit them from below to get at their contents."
-msgstr "-Blocchi bonus\n!images/objects/bonus_block/full-0.png\n#I blocchi bonus possono contenere monete, potenziamenti o oggetti speciali che ti aiuteranno nella tua impresa.\n#\n#Colpiscili dal basso per prenderne il contenuto."
-
-#: data/levels/world1/welcome_antarctica.stl:83
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Uova\n!images/powerups/egg/egg.png\n#Le uova fanno crescere Tux. Potrà poi rompere i blocchi di legno con la sua testa."
 
-#: data/levels/world1/welcome_antarctica.stl:90
-msgid ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Punti di controllo\n!images/objects/resetpoints/bell-m.png\n#Attiva il punto di controllo. Se muori, puoi ricominciare il livello da qui. Ogni volta che ricominci da un punto di controllo, perdi il 10% delle monete (almeno 25 monete)."
-
-#: data/levels/world1/welcome_antarctica.stl:97
-msgid ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Correre\n!images/tiles/signs/run.png\n#Il cammino di fronte a te è bloccato. Prendi velocità prima di saltare per oltrepassare i blocchi."
-
-#: data/levels/world1/welcome_antarctica.stl:104
+#: data/levels/world1/welcome_antarctica.stl:127
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Fiore di Fuoco\n!images/powerups/fireflower/fire_flower-0.png\n#Il fiore di fuoco dona a Tux l'abilità di lanciare palle di fuoco."
 
-#: data/levels/world1/welcome_antarctica.stl:111
+#: data/levels/world1/welcome_antarctica.stl:136
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
-"#The Tux doll gives Tux 100 coins."
+"#The Tux Doll gives Tux 100 coins."
 msgstr "-Bambola Tux\n!images/powerups/1up/1up.png\n#La bambola Tux fornisce 100 monete."
-
-#: data/levels/world1/welcome_antarctica.stl:118
-msgid ""
-"-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Aree Segrete\n#Molti livelli contengono aree segrete nascoste dietro a quelli che sembrano normali muri. Cerca gli indizi per trovarle."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
-msgstr "Ghicc'isola"
+msgstr "Isola Ghiacciata"
+
+#: data/levels/world1/worldmap.stwm:210
+msgid "You found a secret area!"
+msgstr "Hai trovato un'area segreta!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
-msgstr "Mai più Signor Ghiacciolo"
+msgstr "Mai Più Signor Ghiacciolo"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"

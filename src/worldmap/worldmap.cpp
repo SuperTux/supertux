@@ -204,6 +204,10 @@ void
 WorldMap::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
+
+  if (MenuManager::instance().is_active()) {
+    context.set_time_offset(0.0f);
+  }
   m_sector->draw(context);
 }
 

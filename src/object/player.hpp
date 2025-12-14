@@ -394,7 +394,7 @@ public:
   /**
    * @scripting
    * @description Enables Tux's fancy idle animations.
-   */ 
+   */
   inline void enable_fancy_idling() { m_should_fancy_idle = true; }
   /**
    * @scripting
@@ -504,6 +504,9 @@ private:
    * from an ObjectRemoveListener.
    */
   void ungrab_object(GameObject* gameobject = nullptr);
+
+  /** Method for shared collision logic */
+  void handle_collision_logic(const CollisionHit& hit);
 
   void next_target();
   void prev_target();
@@ -624,6 +627,7 @@ private:
 
   bool m_should_fancy_idle;
   bool m_fancy_idle_active;
+  bool m_reset_action; /**< Attempts to reset tux back to the initial idle state */
 
   Vector m_floor_normal;
 

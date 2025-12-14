@@ -977,29 +977,3 @@ AddonManager::check_for_langpack_updates()
     // If anything fails here, just silently ignore.
   }
 }
-
-#ifdef EMSCRIPTEN
-void
-AddonManager::onDownloadProgress(int id, int loaded, int total)
-{
-  m_downloader.onDownloadProgress(id, loaded, total);
-}
-
-void
-AddonManager::onDownloadFinished(int id)
-{
-  m_downloader.onDownloadFinished(id);
-}
-
-void
-AddonManager::onDownloadError(int id)
-{
-  m_downloader.onDownloadError(id);
-}
-
-void
-AddonManager::onDownloadAborted(int id)
-{
-  m_downloader.onDownloadAborted(id);
-}
-#endif

@@ -57,13 +57,11 @@ void
 WorldMapObject::initialize()
 {
   // Set sector position from provided tile position
-  set_pos(Vector(32.0f * m_col.m_bbox.get_left() +
+  m_col.m_bbox.set_pos(Vector(32.0f * m_col.m_bbox.get_left() +
                     (m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_width()) / 2 : 0),
-                 32.0f * m_col.m_bbox.get_top() +
-                    (m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_height()) / 2 : 0)));
-
+                       32.0f * m_col.m_bbox.get_top() +
+                    (m_col.m_bbox.get_height() < 32.f ? (32.f - m_col.m_bbox.get_height()) / 2 : 0)));
   update_pos();
-  update_hitbox();
 }
 
 ObjectSettings
@@ -107,9 +105,15 @@ WorldMapObject::draw_normal(DrawingContext& context)
 }
 
 void
-WorldMapObject::update(float)
+WorldMapObject::after_editor_set()
 {
-  update_pos();
+  MovingSprite::after_editor_set();
+
+  // Set sector position from provided tile position
+  m_col.m_bbox.set_pos(Vector(32.0f * m_tile_x +
+                    (m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_width()) / 2 : 0),
+                       32.0f * m_tile_y +
+                    (m_col.m_bbox.get_height() < 32.f ? (32.f - m_col.m_bbox.get_height()) / 2 : 0)));
 }
 
 void
@@ -120,14 +124,33 @@ WorldMapObject::update_pos()
 }
 
 void
-WorldMapObject::move_to(const Vector& pos)
+WorldMapObject::update_pos(const Vector& pos)
 {
   // Set sector position to the provided position, rounding it to be divisible by 32
-  set_pos(Vector(32.0f * static_cast<float>(pos.x / 32) +
+  m_col.m_bbox.set_pos(Vector(32.0f * static_cast<int>(pos.x / 32) +
                     (m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_width()) / 2 : 0),
-                 32.0f * static_cast<float>(pos.y / 32) +
-                    (m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_height()) / 2 : 0)));
+                       32.0f * static_cast<int>(pos.y / 32) +
+                    (m_col.m_bbox.get_height() < 32.f ? (32.f - m_col.m_bbox.get_height()) / 2 : 0)));
   update_pos();
+}
+
+void
+WorldMapObject::set_pos(const Vector& pos)
+{
+  update_pos(pos);
+}
+
+void
+WorldMapObject::move_to(const Vector& pos)
+{
+  update_pos(pos);
+}
+
+void
+WorldMapObject::move(const Vector& dist)
+{
+  m_col.m_bbox.move(dist);
+  update_pos(m_col.m_bbox.p1());
 }
 
 } // namespace worldmap

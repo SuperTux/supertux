@@ -107,7 +107,7 @@ msgstr "Slemmestad"
 msgid ""
 "#These levels were made Swimming-Ready by Serano and revamped by "
 "AllyTheOcelot"
-msgstr "#Desse nivåene vart lagt svømme-klar av Serano og gjenoppretta av AllyTheOcelot"
+msgstr "#Desse bretta vart gjorde symjeklare av Serano og omarbeidde av AllyTheOcelot."
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -119,7 +119,7 @@ msgstr "For lett"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr "#Alle desse bretta vart oppdaterte til milestein 2-designen av Hume2."
+msgstr "#Alle desse bretta vart oppdaterte for milestein 2 av Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"

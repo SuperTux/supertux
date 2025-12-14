@@ -21,7 +21,7 @@
 #include <emscripten.h>
 #include <emscripten/html5.h>
 
-#include "addon/addon_manager.hpp"
+#include "addon/downloader.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -32,10 +32,10 @@ extern "C" {
 void set_resolution(int w, int h);
 void save_config();
 void init_emscripten();
-void onDownloadProgress(int id, int loaded, int total);
-void onDownloadFinished(int id);
-void onDownloadError(int id);
-void onDownloadAborted(int id);
+void onDownloadProgress(intptr_t address, int id, int loaded, int total);
+void onDownloadFinished(intptr_t address, int id, const char* data);
+void onDownloadError(intptr_t address, int id);
+void onDownloadAborted(intptr_t address, int id);
 const char* getExceptionMessage(intptr_t address);
 
 EMSCRIPTEN_KEEPALIVE // This is probably not useful, I just want ppl to know it exists
@@ -54,27 +54,27 @@ save_config()
 }
 
 void
-onDownloadProgress(int id, int loaded, int total)
+onDownloadProgress(intptr_t address, int id, int loaded, int total)
 {
-  AddonManager::current()->onDownloadProgress(id, loaded, total);
+  reinterpret_cast<Downloader*>(address)->onDownloadProgress(id, loaded, total);
 }
 
 void
-onDownloadFinished(int id)
+onDownloadFinished(intptr_t address, int id, const char* data)
 {
-  AddonManager::current()->onDownloadFinished(id);
+  reinterpret_cast<Downloader*>(address)->onDownloadFinished(id, data);
 }
 
 void
-onDownloadError(int id)
+onDownloadError(intptr_t address, int id)
 {
-  AddonManager::current()->onDownloadError(id);
+  reinterpret_cast<Downloader*>(address)->onDownloadError(id);
 }
 
 void
-onDownloadAborted(int id)
+onDownloadAborted(intptr_t address, int id)
 {
-  AddonManager::current()->onDownloadAborted(id);
+  reinterpret_cast<Downloader*>(address)->onDownloadAborted(id);
 }
 
 const char*

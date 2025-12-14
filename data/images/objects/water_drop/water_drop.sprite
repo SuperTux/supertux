@@ -13,7 +13,8 @@
           "water-splash-1.png"
           "water-splash-2.png"
           "water-splash-3.png"
-          "water-splash-4.png")
+          "water-splash-4.png"
+          "water-splash-5.png")
  )
  (action
   (name "particle_0")

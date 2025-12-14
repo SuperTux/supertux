@@ -123,8 +123,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
     m_active_item = static_cast<int>(m_items.size()) - 1;
   }
 
-  calculate_width();
-  calculate_height();
+  recalculate_position_and_size();
 
   return item;
 }
@@ -143,8 +142,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
     m_active_item++;
   }
 
-  calculate_width();
-  calculate_height();
+  recalculate_position_and_size();
 
   return item;
 }
@@ -524,14 +522,21 @@ Menu::get_height() const
 }
 
 void
-Menu::on_window_resize()
+Menu::recalculate_position_and_size()
 {
   m_pos.x = static_cast<float>(SCREEN_WIDTH) / 2.0f;
   m_pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f;
 
   calculate_width();
   calculate_height();
+
   align_for_previews();
+}
+
+void
+Menu::on_window_resize()
+{
+  recalculate_position_and_size();
 
   for (auto& item : m_items)
     item->on_window_resize();

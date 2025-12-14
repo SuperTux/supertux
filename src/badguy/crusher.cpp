@@ -91,6 +91,7 @@ Crusher::Crusher(const ReaderMapping& reader) :
   m_physic(),
   m_dir_vector(get_direction_vector()),
   m_target(nullptr),
+  m_flipped(),
   m_whites(),
   m_lefteye(),
   m_righteye(),
@@ -239,6 +240,18 @@ Crusher::should_finish_crushing(const CollisionHit& hit) const
          ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP)    && hit.top)    ||
          ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT)  && hit.left)   ||
          ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.right);
+}
+
+bool
+Crusher::should_finish_recovering(const CollisionHit& hit) const
+{
+  if (m_dir == CrusherDirection::ALL)
+    return hit.bottom || hit.top || hit.left || hit.right;
+
+  return ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::DOWN)  && hit.top)    ||
+         ((m_dir == CrusherDirection::VERTICAL   || m_dir == CrusherDirection::UP)    && hit.bottom) ||
+         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::LEFT)  && hit.right)  ||
+         ((m_dir == CrusherDirection::HORIZONTAL || m_dir == CrusherDirection::RIGHT) && hit.left);
 }
 
 bool
@@ -822,8 +835,16 @@ void
 Crusher::on_flip(float height)
 {
   MovingSprite::on_flip(height);
+  m_flipped = !m_flipped;
   m_start_position.y = height - m_col.m_bbox.get_height() - m_start_position.y;
   FlipLevelTransformer::transform_flip(m_flip);
+
+  if (m_dir == CrusherDirection::DOWN)
+    m_dir = CrusherDirection::UP;
+  else if (m_dir == CrusherDirection::UP)
+    m_dir = CrusherDirection::DOWN;
+
+  idle();
 }
 
 void
@@ -883,12 +904,8 @@ Crusher::collision(MovingObject& other, const CollisionHit& hit)
         m_physic.set_velocity(Vector(0.f, 0.f));
         if (m_ic_type != ICE)
           set_action("idle");
-        return ABORT_MOVE;
       }
-      else
-      {
-        return ABORT_MOVE;
-      }
+      return ABORT_MOVE;
     }
   }
 
@@ -1022,7 +1039,7 @@ Crusher::collision_solid(const CollisionHit& hit)
   {
     crushed(hit, true);
   }
-  else if (m_state == RECOVERING)
+  else if (m_state == RECOVERING && should_finish_recovering(hit))
   {
     idle();
   }
@@ -1171,7 +1188,8 @@ Crusher::draw(DrawingContext& context)
     context.push_transform();
     context.set_flip(m_flip);
 
-    const Vector offset_pos = draw_pos - Vector(m_sprite->get_current_hitbox().p1());
+    const auto& hitbox = m_sprite->get_current_hitbox();
+    const Vector offset_pos = draw_pos - Vector(m_flipped ? hitbox.p1() - Vector(-1.f, 3.f) : hitbox.p1());
     context.color().draw_surface(m_whites, offset_pos, m_layer);
 
     context.color().draw_surface(m_lefteye, offset_pos + eye_position(false), m_layer + 1);

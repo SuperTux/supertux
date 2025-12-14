@@ -84,7 +84,7 @@ else()
   endif()
 endif()
 
-if(EMSCRIPTEN OR UBUNTU_TOUCH OR ANDROID)
+if(EMSCRIPTEN OR ANDROID)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
@@ -111,11 +111,8 @@ else()
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF CACHE BOOL "" FORCE)
 endif()
 
-# Detect mobile builds
-option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
-
 # Mobile builds
-if(UBUNTU_TOUCH OR ANDROID)
+if(ANDROID)
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" ON)
 else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
@@ -153,11 +150,11 @@ option(ENABLE_OPENGL "Enable OpenGL support" ON)
 include(SuperTux/AddPackage)
 
 add_package(TARGET PNG
-  PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED) # lol
+  PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED)
 add_package(TARGET ZLIB
   PKG ZLIB PKG_USE ZLIB::ZLIB PKG_CONFIG zlib REQUIRED)
 add_package(TARGET PhysFS
-  PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs
+  PKG PhysFS PKG_USE PhysFS::PhysFS CONFIG REQUIRED PKG_CONFIG physfs PhysicsFS
   PREFER_PKGCONFIG)
 add_package(TARGET fmt
   PKG fmt PKG_USE fmt::fmt CONFIG REQUIRED PKG_CONFIG fmt)
@@ -215,12 +212,16 @@ if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
     add_package(TARGET GLEW
       PKG GLEW PKG_USE GLEW::GLEW CONFIG REQUIRED PKG_CONFIG glew
       PREFER_PKGCONFIG)
+  else()
+    message(STATUS "OpenGL not found! OpenGL support is disabled.")
   endif()
 
-  set(HAVE_OPENGL ${GLEW_FOUND})
+  set(HAVE_OPENGL "${ADDPKG_GLEW_FOUND}")
 
-  if(HAVE_OPENGL)
-    message(STATUS "OpenGL & GLEW found, enabling OpenGL support.")
+  if(HAVE_OPENGL AND OPENGL_FOUND)
+    message(STATUS "OpenGL & GLEW found! enabling OpenGL support.")
+  elseif(OPENGL_FOUND)
+    message(STATUS "Glew not found! OpenGL support is disabled.")
   endif()
 endif()
 
@@ -254,10 +255,6 @@ include(SuperTux/CompileAmalgation)
 ## Add target for supertux binary
 add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 target_compile_features(supertux2 PUBLIC cxx_std_17)
-
-if(IS_SUPERTUX_RELEASE)
-  target_compile_definitions(supertux2 PUBLIC SUPERTUX_RELEASE)
-endif()
 
 # Pre-compiled headers
 if(IS_SUPERTUX_RELEASE)
@@ -337,9 +334,8 @@ configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 ## Build tests
 # TODO Finish porting tests to CTest
 option(BUILD_TESTING "Enable tests" OFF)
-message(STATUS "Build with testing: ${BUILD_TESTING}")
+message(STATUS "Build with tests: ${BUILD_TESTING}")
 if(BUILD_TESTING)
-  #include(SuperTux/BuildTests)
   set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
   enable_testing()
   add_subdirectory(tests)

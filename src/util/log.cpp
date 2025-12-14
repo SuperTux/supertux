@@ -98,6 +98,7 @@ static std::ostream android_logcat(new _android_debugbuf());
 #endif
 
 LogLevel g_log_level = LOG_WARNING;
+bool g_log_tinygettext = false;
 
 std::ostream& get_logging_instance(bool use_console_buffer)
 {
@@ -148,15 +149,18 @@ std::ostream& log_fatal_f(const char* file, int line)
 /* Callbacks used by tinygettext */
 void log_info_callback(const std::string& str)
 {
+  if (g_log_tinygettext)
     log_info << "\r\n[TINYGETTEXT] " << str << std::endl;
 }
 
 void log_warning_callback(const std::string& str)
 {
+  if (g_log_tinygettext)
     log_debug << "\r\n[TINYGETTEXT] " << str << std::endl;
 }
 
 void log_error_callback(const std::string& str)
 {
+  if (g_log_tinygettext)
     log_warning << "\r\n[TINYGETTEXT] " << str << std::endl;
 }

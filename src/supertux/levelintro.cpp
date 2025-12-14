@@ -84,7 +84,7 @@ LevelIntro::update(float dt_sec, const Controller& controller)
       continue;
 
     auto bonus_prefix = m_player_status.get_bonus_prefix(i);
-    if (m_player_status.bonus[i] == BONUS_FIRE && g_config->christmas_mode)
+    if (m_player_status.bonus[i] == BONUS_FIRE && g_config->is_christmas())
     {
       bonus_prefix = "big";
     }
@@ -241,7 +241,7 @@ LevelIntro::push_player()
   m_player_sprite_jump_timer.push_back(std::make_unique<Timer>());
 
   //Show appropriate tux animation for player status.
-  if (m_player_status.bonus[i] == BONUS_FIRE && g_config->christmas_mode)
+  if (m_player_status.bonus[i] == BONUS_FIRE && g_config->is_christmas())
   {
     m_player_sprite[i]->set_action("big-walk-right");
     m_santa_sprite[i]->set_action("default");

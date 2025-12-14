@@ -1,0 +1,11 @@
+(supertux-sprite
+ (action
+  (fps 20)
+  (hitbox -8 -8 0 0)
+  (images "poof-1.png"
+			"poof-2.png"
+			"poof-3.png"
+			"poof-4.png"
+			"poof-5.png")
+ )
+)

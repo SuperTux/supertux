@@ -5,16 +5,17 @@
 # Translators:
 # Angela <angelapellegrino@hotmail.it>, 2014
 # A-TNT DC, 2021
-# Ioma Taani, 2015
+# aaaaaaaa, 2015
 # Seb47 <seb47tv@gmail.com>, 2016
 # Andrius Štikonas <andrius@stikonas.eu>, 2006
+# Tommaso Macchiella, 2025
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2024-11-11 21:50+0000\n"
 "PO-Revision-Date: 2013-08-10 23:04+0000\n"
-"Last-Translator: A-TNT DC, 2021\n"
+"Last-Translator: Tommaso Macchiella, 2025\n"
 "Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,7 +84,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Congratulazioni!\n\n#Hai terminato con successo\n#Bonus Isola I\n⇥featuring levels contributed by\n⇥Jason W. Thompson\n⇥Torfi Gunnarsson\n⇥Abednego\n⇥Matr1x\n\n\n#If you didn't clear all levels yet,\n#find your way back home and take\n#another path. There is still more\n#challenge waiting for you!\n\n#And there is a secret level to be\n#found as well...\n\n#A big \"Thank you\" goes out to\n#everyone who contributed to this\n#release. We hope you enjoyed it!"
+msgstr "-Congratulazioni!\n\n#Hai terminato con successo\n#Isola Bonus I\n\tContenente livelli con il contributo di\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Se non hai ancora completato tutti i livelli,\n#torna a casa e prendi\n#un altro percorso. Ci sono ancora\n#sfide che aspettano per te!!\n\n#E c'è anche un livello segreto\n#da trovare...\n\n#Un grande \"Grazie\" va a\n#chiunque abbia contribuito al\n#rilascio. Speriamo ti sia piaciuto!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -189,7 +190,7 @@ msgstr "Abbandona il Dominio di Thompson"
 
 #: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
-msgstr "Ritorna al Settore Matr1x"
+msgstr "Ritorna al Settore di Matr1x"
 
 #: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
@@ -201,11 +202,11 @@ msgstr "Teletrasportati all'Isola del Super Tux Team"
 
 #: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
-msgstr "Abbandona il Settore Matr1x"
+msgstr "Abbandona il Settore di Matr1x"
 
 #: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
-msgstr "Continua il Settore Matr1x"
+msgstr "Continua il Settore di Matr1x"
 
 #: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"

@@ -42,13 +42,15 @@ Dart::Dart(const ReaderMapping& reader) :
   set_action("flying", m_dir);
 }
 
-Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::string& sprite) :
-  BadGuy(pos, d, sprite),
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::string& sprite,
+           const std::string& lightsprite):
+  BadGuy(pos, d, sprite, LAYER_OBJECTS, lightsprite),
   parent(parent_),
   sound_source()
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
+  m_glowing = true;
 
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");

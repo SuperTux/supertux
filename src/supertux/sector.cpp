@@ -172,7 +172,7 @@ Sector::finish_construction(bool editable)
 }
 
 SpawnPointMarker*
-Sector::get_spawn_point(const std::string& spawnpoint)
+Sector::get_spawn_point(const std::string& spawnpoint) const
 {
   SpawnPointMarker* sp = nullptr;
   for (auto& spawn_point : get_objects_by_type<SpawnPointMarker>()) {
@@ -186,7 +186,7 @@ Sector::get_spawn_point(const std::string& spawnpoint)
 }
 
 Vector
-Sector::get_spawn_point_position(const std::string& spawnpoint)
+Sector::get_spawn_point_position(const std::string& spawnpoint) const
 {
   SpawnPointMarker* sp = get_spawn_point(spawnpoint);
   if (sp)
@@ -317,11 +317,11 @@ Sector::deactivate()
 Rectf
 Sector::get_active_region() const
 {
-  Camera& camera = get_camera();
+  auto cam_translation = get_camera().get_translation();
   return Rectf(
-    camera.get_translation() - Vector(1600, 1200),
-    camera.get_translation() + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
-                                                           static_cast<float>(SCREEN_HEIGHT)));
+    cam_translation - Vector(1600, 1200),
+    cam_translation + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
+                                                  static_cast<float>(SCREEN_HEIGHT)));
 }
 
 int

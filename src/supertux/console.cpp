@@ -226,6 +226,13 @@ Console::scroll(int numLines)
 {
   m_offset += numLines;
   if (m_offset > 0) m_offset = 0;
+  else if (-m_offset >= m_buffer.m_lines.size()) m_offset = -m_buffer.m_lines.size() + 1;
+}
+
+int
+Console::get_line_height()
+{
+  return static_cast<int>(Console::HEIGHT / static_cast<float>(m_font->get_height())) - 1;
 }
 
 void
@@ -442,7 +449,7 @@ Console::show()
     return;
 
   m_focused = true;
-  m_height = 256;
+  m_height = Console::HEIGHT;
   m_alpha = 1.0;
 }
 

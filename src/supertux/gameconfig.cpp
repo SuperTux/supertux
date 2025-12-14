@@ -46,7 +46,6 @@ Config::Config() :
   fit_window(true),
 #endif
   magnification(0.0f),
-  // Ubuntu Touch supports windowed apps.
 #ifdef __ANDROID__
   use_fullscreen(true),
 #else
@@ -64,12 +63,14 @@ Config::Config() :
   sound_volume(100),
   music_volume(50),
   flash_intensity(50),
+  fancy_gfx(true),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
   tux_spawn_pos(),
   locale(),
   keyboard_config(),
   joystick_config(),
+  ignore_joystick_axis(false),
   mobile_controls(SDL_GetNumTouchDevices() > 0),
   m_mobile_controls_scale(1),
   addons(),
@@ -84,6 +85,7 @@ Config::Config() :
   disable_network(true),
   show_world_previews(true),
   custom_title_levels(true),
+  prefer_wayland(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -291,6 +293,8 @@ Config::load()
     config_video_mapping->get("aspect_height", aspect_size.height);
 
     config_video_mapping->get("magnification", magnification);
+    config_video_mapping->get("fancy_gfx", fancy_gfx);
+    config_video_mapping->get("prefer_wayland", prefer_wayland);
 
 #ifdef __EMSCRIPTEN__
     // Forcibly set autofit to true.
@@ -324,6 +328,8 @@ Config::load()
     {
       joystick_config.read(*joystick_mapping);
     }
+
+    config_control_mapping->get("ignore_joystick_axis", ignore_joystick_axis);
 
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
@@ -459,6 +465,8 @@ Config::save()
 #endif
 
   writer.write("magnification", magnification);
+  writer.write("fancy_gfx", fancy_gfx);
+  writer.write("prefer_wayland", prefer_wayland);
 
   writer.end_list("video");
 
@@ -480,6 +488,7 @@ Config::save()
     writer.end_list("joystick");
 
     writer.write("mobile_controls", mobile_controls);
+    writer.write("ignore_joystick_axis", ignore_joystick_axis);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
   }
   writer.end_list("control");

@@ -32,6 +32,7 @@
 #include "object/music_object.hpp"
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
+#include "object/textscroller.hpp"
 #include "sdk/integration.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/constants.hpp"
@@ -312,6 +313,14 @@ GameSession::on_escape_press(bool force_quick_respawn)
     return;   // Don't let the player open the menu, when Tux is dying.
   }
 
+  int textscrollers = m_currentsector->get_object_count<TextScroller>([](const TextScroller& ts) {
+    return !ts.is_fading();
+  });
+
+  if (textscrollers) {
+    return;
+  }
+
   if (m_level->m_is_in_cutscene && !m_level->m_skip_cutscene)
   {
     m_level->m_skip_cutscene = true;
@@ -544,17 +553,9 @@ GameSession::update(float dt_sec, const Controller& controller)
   // design choice, if you prefer it not to animate when paused, add `if (!m_game_pause)`).
   m_level->m_stats.update_timers(dt_sec);
 
-  // Unpause the game if the menu has been closed.
-  if (m_game_pause && !MenuManager::instance().is_active()) {
-    ScreenManager::current()->set_speed(m_speed_before_pause);
-    SoundManager::current()->resume_music();
-    SoundManager::current()->resume_sounds();
-    assert(m_currentsector != nullptr);
-    m_currentsector->play_looping_sounds();
-    m_game_pause = false;
-  }
-
   check_end_conditions();
+
+  const auto& players = m_currentsector->get_players();
 
   // Respawning in new sector?
   if (!m_newsector.empty() && !m_newspawnpoint.empty() && (m_spawn_fade_timer.check() || m_spawn_fade_type == ScreenFade::FadeType::NONE)) {
@@ -595,8 +596,7 @@ GameSession::update(float dt_sec, const Controller& controller)
         break;
     }
 
-
-    for (auto* p : m_currentsector->get_players())
+    for (auto* p : players)
     {
       // Give back control to the player
       p->activate();
@@ -626,7 +626,7 @@ GameSession::update(float dt_sec, const Controller& controller)
         m_level->m_stats.finish(m_play_time);
       }
 
-      for (Player* player : m_currentsector->get_players())
+      for (Player* player : players)
       {
         if (player->is_active() && player->is_scripting_activated() &&
             player->get_controller().pressed(Control::ITEM) &&
@@ -641,7 +641,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     } else {
       bool are_all_stopped = true;
 
-      for (const auto& player : m_currentsector->get_players())
+      for (const auto& player : players)
       {
         if (!(m_end_sequence->is_tux_stopped(player->get_id())
             || player->get_ending_direction() == 0))
@@ -672,7 +672,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   bool invincible_timer_started = false;
   float max_invincible_timer_left = 0.f;
 
-  for (const auto* p : m_currentsector->get_players())
+  for (const auto* p : players)
   {
     invincible_timer_started |= (p->m_invincible_timer.started() && !p->is_winning());
     max_invincible_timer_left = std::max(max_invincible_timer_left, p->m_invincible_timer.get_timeleft());
@@ -690,6 +690,17 @@ GameSession::update(float dt_sec, const Controller& controller)
   } else if (music_object.get_music_type() != LEVEL_MUSIC) {
     music_object.play_music(LEVEL_MUSIC);
   }
+
+  // Unpause the game if the menu has been closed.
+  if (m_game_pause && !MenuManager::instance().is_active()) {
+    ScreenManager::current()->set_speed(m_speed_before_pause);
+    SoundManager::current()->resume_music();
+    SoundManager::current()->resume_sounds();
+    assert(m_currentsector != nullptr);
+    m_currentsector->play_looping_sounds();
+    m_game_pause = false;
+  }
+
   if (reset_button) {
     reset_button = false;
     reset_level();

@@ -125,11 +125,14 @@ InfoBlock::hit(Player& player)
 HitResponse
 InfoBlock::collision(MovingObject& other, const CollisionHit& hit_)
 {
-  auto player = dynamic_cast<Player*> (&other);
-  if (player && player->m_does_buttjump)
-  {
-    InfoBlock::hit(*player);
+  if (hit_.has_direction()) {
+    auto player = dynamic_cast<Player*> (&other);
+    if (player && player->m_does_buttjump)
+    {
+      InfoBlock::hit(*player);
+    }
   }
+
   return Block::collision(other, hit_);
 }
 
