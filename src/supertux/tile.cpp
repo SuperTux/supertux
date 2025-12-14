@@ -211,11 +211,11 @@ SurfacePtr
 Tile::get_current_surface() const
 {
   // Check for editor's "Render animations" setting in case we call this method from the `get_current_editor_surface` method.
-  auto display_animations = (Editor::is_active() && g_config->editor_render_animations);
+  auto display_animations = ((Editor::is_active() && g_config->editor_render_animations) || !Editor::is_active());
   if (display_animations && m_images.size() > 1) {
     size_t frame = size_t(g_game_time * m_fps) % m_images.size();
     return m_images[frame];
-  } else if (m_images.size() == 1) {
+  } else if ((!display_animations && m_images.size() != 0) || m_images.size() == 1) {
     return m_images[0];
   } else {
     return {};
