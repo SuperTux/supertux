@@ -106,6 +106,8 @@ EditorMenu::refresh()
   add_hl();
   if (!Editor::current()->is_temp_level())
     add_entry(MNID_CLOSELEVEL, _("Close Level"));
+  else if (Editor::current()->has_unsaved_changes())
+    add_entry(MNID_CLOSELEVEL, _("Reset level"));
   add_entry(MNID_QUITEDITOR, _("Exit Level Editor"));
 }
 

@@ -193,6 +193,8 @@ public:
   void set_undo_disabled(bool state);
   void set_redo_disabled(bool state);
 
+  bool has_unsaved_changes();
+
   void pack_addon();
   inline void on_exit(exit_cb_t exit_cb) { m_on_exit_cb = exit_cb; }
 
