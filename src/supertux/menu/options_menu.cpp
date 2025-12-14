@@ -240,10 +240,10 @@ OptionsMenu::refresh()
       if (!g_config->disable_network)
         add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
           .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
+#endif
 
       add_toggle(MNID_DISABLE_NETWORK, _("Disable network"), &g_config->disable_network)
         .set_help(_("Prevents the game from connecting online"));
-#endif
 
       break;
     }
