@@ -77,18 +77,18 @@ GLPainter::draw_texture(const TextureRequest& request)
   assert(request.srcrects.size() == request.dstrects.size());
   assert(request.srcrects.size() == request.angles.size());
 
+  m_vertices.reserve(request.srcrects.size() * 12);
+  m_uvs.reserve(request.srcrects.size() * 12);
+  
   m_vertices.clear();
   m_uvs.clear();
 
-  m_vertices.reserve(request.srcrects.size() * 12);
-  m_uvs.reserve(request.srcrects.size() * 12);
-
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
-    const float& left = request.dstrects[i].get_left();
-    const float& top = request.dstrects[i].get_top();
-    const float& right  = request.dstrects[i].get_right();
-    const float& bottom = request.dstrects[i].get_bottom();
+    const float left = request.dstrects[i].get_left();
+    const float top = request.dstrects[i].get_top();
+    const float right  = request.dstrects[i].get_right();
+    const float bottom = request.dstrects[i].get_bottom();
 
     float uv_left = request.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width());
     float uv_top = request.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
@@ -103,7 +103,7 @@ GLPainter::draw_texture(const TextureRequest& request)
 
     if (request.angles[i] == 0.0f)
     {
-      auto vertices_lst = {
+      const float vertices_lst[] = {
         left, top,
         right, top,
         right, bottom,
@@ -112,9 +112,9 @@ GLPainter::draw_texture(const TextureRequest& request)
         left, top,
         right, bottom,
       };
-      m_vertices.insert(m_vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
+      m_vertices.insert(m_vertices.end(), vertices_lst, vertices_lst + 12);
 
-      auto uvs_lst = {
+      const float uvs_lst[] = {
         uv_left, uv_top,
         uv_right, uv_top,
         uv_right, uv_bottom,
@@ -123,7 +123,7 @@ GLPainter::draw_texture(const TextureRequest& request)
         uv_left, uv_top,
         uv_right, uv_bottom,
       };
-      m_uvs.insert(m_uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
+      m_uvs.insert(m_uvs.end(), uvs_lst, uvs_lst + 12);
     }
     else
     {
@@ -149,7 +149,7 @@ GLPainter::draw_texture(const TextureRequest& request)
         new_left*ca - new_top*sa + center_x, new_left*sa + new_top*ca + center_y,
         new_right*ca - new_bottom*sa + center_x, new_right*sa + new_bottom*ca + center_y,
       };
-      m_vertices.insert(m_vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
+      m_vertices.insert(m_vertices.end(), vertices_lst, vertices_lst + 12);
 
       const float uvs_lst[] = {
         uv_left, uv_top,
@@ -160,7 +160,7 @@ GLPainter::draw_texture(const TextureRequest& request)
         uv_left, uv_top,
         uv_right, uv_bottom,
       };
-      m_uvs.insert(m_uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
+      m_uvs.insert(m_uvs.end(), uvs_lst, uvs_lst + 12);
     }
   }
 
@@ -534,5 +534,3 @@ GLPainter::clear_clip_rect()
 
   assert_gl();
 }
-
-/* EOF */

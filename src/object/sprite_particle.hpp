@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_SPRITE_PARTICLE_HPP
-#define HEADER_SUPERTUX_OBJECT_SPRITE_PARTICLE_HPP
+#pragma once
 
 #include "math/anchor_point.hpp"
 #include "sprite/sprite_ptr.hpp"
@@ -32,11 +31,11 @@ public:
   SpriteParticle(SpritePtr sprite, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE);
+                 int drawing_layer = LAYER_OBJECTS - 1, bool notimeout = false, Color color = Color::WHITE, float angle = 0);
   SpriteParticle(const std::string& sprite_name, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE);
+                 int drawing_layer = LAYER_OBJECTS - 1, bool notimeout = false, Color color = Color::WHITE, float angle = 0);
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(SpriteParticle)); }
   ~SpriteParticle() override;
 
@@ -62,7 +61,3 @@ private:
   SpriteParticle(const SpriteParticle&) = delete;
   SpriteParticle& operator=(const SpriteParticle&) = delete;
 };
-
-#endif
-
-/* EOF */

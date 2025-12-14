@@ -73,5 +73,3 @@ void
 InvisibleWall::update(float )
 {
 }
-
-/* EOF */

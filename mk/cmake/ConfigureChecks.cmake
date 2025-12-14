@@ -1,5 +1,4 @@
 include(CheckCXXSourceCompiles)
-include(CheckTypeSize)
 
 check_cxx_source_compiles(
 	"
@@ -10,8 +9,3 @@ check_cxx_source_compiles(
 	"
 	HAVE_ICONV_CONST
 )
-
-if(NOT EMSCRIPTEN)
-  CHECK_TYPE_SIZE("void*" SIZEOF_VOID_P)
-  message(STATUS "Size of void* is ${SIZEOF_VOID_P}")
-endif()

@@ -17,8 +17,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_UNSTABLE_TILE_HPP
-#define HEADER_SUPERTUX_OBJECT_UNSTABLE_TILE_HPP
+#pragma once
 
 #include "object/moving_sprite.hpp"
 
@@ -87,7 +86,3 @@ private:
   UnstableTile(const UnstableTile&) = delete;
   UnstableTile& operator=(const UnstableTile&) = delete;
 };
-
-#endif
-
-/* EOF */

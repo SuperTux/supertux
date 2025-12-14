@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
+#pragma once
 
 #include <optional>
 
@@ -80,6 +79,12 @@ public:
   int music_volume;
   int flash_intensity;
 
+  /** Prefer the wayland session. Depending on the platform, this may not be used. */
+  bool prefer_wayland;
+
+  /** Toggles fancy graphical effects like displacement or blur (primarily for the GL backend) */
+  bool fancy_gfx;
+
   /** initial random seed.  0 ==> set from time() */
   int random_seed;
 
@@ -95,6 +100,7 @@ public:
 
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
+  bool ignore_joystick_axis;
 
   bool mobile_controls;
   float m_mobile_controls_scale;
@@ -112,6 +118,7 @@ public:
   bool confirmation_dialog;
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
+  bool custom_system_cursor;
   bool do_release_check;
   bool disable_network;
   bool custom_title_levels;
@@ -160,7 +167,3 @@ public:
 
   bool is_christmas() const;
 };
-
-#endif
-
-/* EOF */

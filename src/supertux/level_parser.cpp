@@ -231,5 +231,3 @@ LevelParser::create(const std::string& filepath, const std::string& levelname)
   sector->set_name(DEFAULT_SECTOR_NAME);
   m_level.add_sector(std::move(sector));
 }
-
-/* EOF */

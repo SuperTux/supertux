@@ -92,7 +92,9 @@ ViciousIvy::active_update(float dt_sec)
   {
     Rectf floatbox = get_bbox();
     floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
-    bool float_here = (Sector::get().is_free_of_statics(floatbox));
+
+    const bool ignore_unisolid = m_physic.get_velocity_y() < 0.0f;
+    bool float_here = (Sector::get().is_free_of_statics(floatbox, nullptr, ignore_unisolid));
 
     bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
 
@@ -139,7 +141,8 @@ ViciousIvy::collision_squished(MovingObject& object)
 
   set_action("squished", m_dir);
   // Spawn death particles.
-  spawn_explosion_sprites(3, "images/particles/viciousivy.sprite");
+  spawn_explosion_sprites(3, m_type == NORMAL ? "images/particles/viciousivy.sprite"
+                                              : "images/particles/rottenivy.sprite");
   kill_squished(object);
   return true;
 }

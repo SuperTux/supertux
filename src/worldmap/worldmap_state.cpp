@@ -85,7 +85,7 @@ WorldMapState::load_state()
       // Quit loading worldmap state, if there is still no current sector loaded.
       throw std::runtime_error("No sector set.");
     }
-    
+
     try
     {
       ssq::Object music = sector_table.find("music");
@@ -317,9 +317,7 @@ WorldMapState::save_state() const
     log_warning << "Failed to save worldmap state: " << err.what() << std::endl;
   }
 
-  m_worldmap.m_savegame.save();
+  m_worldmap.get_savegame().save();
 }
 
 } // namespace worldmap
-
-/* EOF */

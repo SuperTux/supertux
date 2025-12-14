@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_LAYER_OBJECT_HPP
-#define HEADER_SUPERTUX_EDITOR_LAYER_OBJECT_HPP
+#pragma once
 
 #include "supertux/game_object.hpp"
 
@@ -38,7 +37,3 @@ private:
   LayerObject(const LayerObject&) = delete;
   LayerObject& operator=(const LayerObject&) = delete;
 };
-
-#endif
-
-/* EOF */

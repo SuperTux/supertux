@@ -18,12 +18,14 @@
 
 #include "supertux/globals.hpp"
 #include "video/color.hpp"
+#include "video/gl.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_texture_renderer.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
 #include "video/gl/gl_video_system.hpp"
 #include "video/glutil.hpp"
+#include <iostream>
 
 GL33CoreContext::GL33CoreContext(GLVideoSystem& video_system) :
   m_video_system(video_system),
@@ -65,7 +67,7 @@ GL33CoreContext::bind()
   GLTextureRenderer* back_renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
 
   GLTexture* texture;
-  if (back_renderer->is_rendering() || !back_renderer->get_texture())
+  if (!back_renderer || back_renderer->is_rendering() || !back_renderer->get_texture())
   {
     texture = m_black_texture.get();
     glUniform1f(m_program->get_backbuffer_location(), 0.0f);
@@ -180,11 +182,17 @@ GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacemen
   assert_gl();
 
   GLTextureRenderer* back_renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
+  
+  /* if there's no back renderer (i.e. fancy fx disabled) then don't
+     bother with displacement textures */
+  if (!back_renderer)
+  	displacement_texture = NULL;
 
   if (displacement_texture && back_renderer->is_rendering())
   {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_transparent_texture->get_handle());
+    glUniform1i(m_program->get_is_displacement_location(), true);
   }
   else
   {
@@ -197,6 +205,7 @@ GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacemen
     animate.y /= static_cast<float>(texture.get_image_height());
 
     glUniform2f(m_program->get_animate_location(), animate.x, animate.y);
+    glUniform1i(m_program->get_is_displacement_location(), false);
   }
 
   if (displacement_texture)
@@ -210,11 +219,13 @@ GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacemen
     animate.y /= static_cast<float>(displacement_texture->get_image_height());
 
     glUniform2f(m_program->get_displacement_animate_location(), animate.x, animate.y);
+    glUniform1i(m_program->get_is_displacement_location(), true);
   }
   else
   {
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, m_grey_texture->get_handle());
+    glUniform1i(m_program->get_is_displacement_location(), false);
   }
 
   assert_gl();
@@ -243,5 +254,3 @@ GL33CoreContext::draw_arrays(GLenum type, GLint first, GLsizei count)
 
   assert_gl();
 }
-
-/* EOF */

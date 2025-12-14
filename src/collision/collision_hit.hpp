@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_COLLISION_COLLISION_HIT_HPP
-#define HEADER_SUPERTUX_COLLISION_COLLISION_HIT_HPP
+#pragma once
 
 #include "math/vector.hpp"
 
@@ -58,8 +57,16 @@ public:
   bool crush;
 
   Vector slope_normal;
+  
+  inline bool has_direction() const {
+    return left || right || top || bottom;
+  }
+
+  inline bool is_vertical() const {
+    return top || bottom;
+  }
+
+  inline bool is_horizontal() const {
+    return left || right;
+  }
 };
-
-#endif
-
-/* EOF */

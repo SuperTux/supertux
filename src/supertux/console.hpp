@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
+#pragma once
 
 #include <list>
 #include <sstream>
@@ -63,6 +62,9 @@ private:
 class Console final : public Currenton<Console>
 {
 public:
+  static constexpr int HEIGHT = 256;
+
+public:
   Console(ConsoleBuffer& buffer);
   ~Console() override;
 
@@ -73,6 +75,7 @@ public:
   void eraseChar(); /**< delete character at inputBufferPosition */
   void enter(); /**< process and clear input stream */
   void scroll(int offset); /**< scroll console text up or down by @c offset lines */
+  int get_line_height(); /**< gets the total line height */
   void autocomplete(); /**< autocomplete current command */
   void show_history(int offset); /**< move @c offset lines forward through history; Negative offset moves backward */
   void move_cursor(int offset); /**< move the cursor @c offset chars to the right; Negative offset moves backward; 0xFFFF moves to the end */
@@ -136,7 +139,3 @@ public:
     return result;
   }
 };
-
-#endif
-
-/* EOF */

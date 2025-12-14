@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_KEYBOARD_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_KEYBOARD_MENU_HPP
+#pragma once
 
 #include "control/controller.hpp"
 #include "gui/menu_item.hpp"
@@ -43,7 +42,3 @@ private:
   KeyboardMenu(const KeyboardMenu&) = delete;
   KeyboardMenu& operator=(const KeyboardMenu&) = delete;
 };
-
-#endif
-
-/* EOF */

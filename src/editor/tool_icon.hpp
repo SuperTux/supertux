@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_TOOL_ICON_HPP
-#define HEADER_SUPERTUX_EDITOR_TOOL_ICON_HPP
+#pragma once
 
 #include "video/surface_ptr.hpp"
 #include "math/vector.hpp"
@@ -51,7 +50,3 @@ private:
   ToolIcon(const ToolIcon&) = delete;
   ToolIcon& operator=(const ToolIcon&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_FADE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_SCREEN_FADE_HPP
+#pragma once
 
 class DrawingContext;
 
@@ -48,7 +47,3 @@ public:
       their state updates and logic here */
   virtual void update(float dt_sec) = 0;
 };
-
-#endif
-
-/* EOF */

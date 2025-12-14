@@ -17,6 +17,7 @@
 #include "object/bullet.hpp"
 
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -24,6 +25,7 @@
 #include "supertux/sector.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+#include "object/sprite_particle.hpp"
 
 Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_, Player& player) :
   m_player(player),
@@ -55,11 +57,36 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
 
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  sprite->set_action(physic.get_velocity_x() > 0 ? "right" : "left");
 }
 
 void
 Bullet::update(float dt_sec)
 {
+
+   sprite->set_angle(math::degrees(angle) * (type == BONUS_ICE ? 1 : 3));
+
+   if (physic.get_velocity_x() > 0) {
+     angle += dt_sec * math::PI * 4;
+   }
+   else {
+     angle -= dt_sec * math::PI * 4;
+   }
+
+   particle_time += dt_sec;
+   if (particle_time >= 0.08) {
+     Sector::get().add<SpriteParticle>(
+       (type == BONUS_ICE ?
+       "images/objects/bullets/icebullet_tail.sprite":
+       "images/objects/bullets/firebullet_tail.sprite"),
+       "default",
+       Vector(get_pos().x, get_pos().y), ANCHOR_MIDDLE,
+       Vector(0, 0), Vector(0, 0),
+       LAYER_OBJECTS - 1);
+     particle_time = 0;
+   }
+
+
   // Cause fireball color to flicker randomly.
   if (graphicsRandom.rand(5) != 0) {
     lightsprite->set_color(Color(0.3f + graphicsRandom.randf(10) / 100.0f,
@@ -125,5 +152,3 @@ Bullet::collision(MovingObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
 }
-
-/* EOF */

@@ -46,13 +46,12 @@ Config::Config() :
   fit_window(true),
 #endif
   magnification(0.0f),
-  // Ubuntu Touch supports windowed apps.
 #ifdef __ANDROID__
   use_fullscreen(true),
 #else
   use_fullscreen(false),
 #endif
-  video(VideoSystem::VIDEO_AUTO),
+  video(VideoSystem::VIDEO_SDL),
   vsync(1),
   frame_prediction(false),
   show_fps(false),
@@ -64,12 +63,14 @@ Config::Config() :
   sound_volume(100),
   music_volume(50),
   flash_intensity(50),
+  fancy_gfx(true),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
   tux_spawn_pos(),
   locale(),
   keyboard_config(),
   joystick_config(),
+  ignore_joystick_axis(false),
   mobile_controls(SDL_GetNumTouchDevices() > 0),
   m_mobile_controls_scale(1),
   addons(),
@@ -79,9 +80,11 @@ Config::Config() :
   confirmation_dialog(false),
   pause_on_focusloss(true),
   custom_mouse_cursor(true),
+  custom_system_cursor(false),
   do_release_check(false),
   disable_network(true),
   custom_title_levels(true),
+  prefer_wayland(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -152,6 +155,7 @@ Config::load()
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
+  config_mapping.get("custom_system_cursor", custom_system_cursor);
   config_mapping.get("do_release_check", do_release_check);
   config_mapping.get("disable_network", disable_network);
   config_mapping.get("custom_title_levels", custom_title_levels);
@@ -221,7 +225,7 @@ Config::load()
   }
 
   // Compatibility; will be overwritten by the "editor" category.
-  
+
   config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
   editor_autotile_help = !developer_mode;
@@ -287,6 +291,8 @@ Config::load()
     config_video_mapping->get("aspect_height", aspect_size.height);
 
     config_video_mapping->get("magnification", magnification);
+    config_video_mapping->get("fancy_gfx", fancy_gfx);
+    config_video_mapping->get("prefer_wayland", prefer_wayland);
 
 #ifdef __EMSCRIPTEN__
     // Forcibly set autofit to true.
@@ -320,6 +326,8 @@ Config::load()
     {
       joystick_config.read(*joystick_mapping);
     }
+
+    config_control_mapping->get("ignore_joystick_axis", ignore_joystick_axis);
 
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
@@ -373,6 +381,7 @@ Config::save()
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
+  writer.write("custom_system_cursor", custom_system_cursor);
   writer.write("do_release_check", do_release_check);
   writer.write("disable_network", disable_network);
   writer.write("custom_title_levels", custom_title_levels);
@@ -453,6 +462,8 @@ Config::save()
 #endif
 
   writer.write("magnification", magnification);
+  writer.write("fancy_gfx", fancy_gfx);
+  writer.write("prefer_wayland", prefer_wayland);
 
   writer.end_list("video");
 
@@ -474,6 +485,7 @@ Config::save()
     writer.end_list("joystick");
 
     writer.write("mobile_controls", mobile_controls);
+    writer.write("ignore_joystick_axis", ignore_joystick_axis);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
   }
   writer.end_list("control");
@@ -525,5 +537,3 @@ Config::is_christmas() const
   /* Activate Christmas mode from Dec 6th until Dec 31st. */
   return now->tm_mday >= 6 && now->tm_mon == 11;
 }
-
-/* EOF */

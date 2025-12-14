@@ -29,10 +29,9 @@ LayerIcon::LayerIcon(LayerObject* layer) :
   ObjectIcon("", layer->get_icon_path()),
   m_layer(layer),
   m_layer_tilemap(dynamic_cast<TileMap*>(layer)),
-  m_selection()
+  m_selection(m_layer_tilemap ?
+                Surface::from_file("images/engine/editor/selection.png") : nullptr)
 {
-  if (m_layer_tilemap)
-    m_selection = Surface::from_file("images/engine/editor/selection.png");
 }
 
 void
@@ -78,5 +77,3 @@ LayerIcon::is_valid() const
 {
   return m_layer && m_layer->is_valid();
 }
-
-/* EOF */

@@ -16,8 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_TITLE_SCREEN_HPP
-#define HEADER_SUPERTUX_SUPERTUX_TITLE_SCREEN_HPP
+#pragma once
 
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
@@ -72,13 +71,11 @@ private:
   std::string m_copyright_text;
   std::string m_videosystem_name;
 
+  /* Not a timer because the user could flip back and forth constantly */
+  float m_logo_opacity;
   bool m_jump_was_released;
 
 private:
   TitleScreen(const TitleScreen&) = delete;
   TitleScreen& operator=(const TitleScreen&) = delete;
 };
-
-#endif
-
-/* EOF */

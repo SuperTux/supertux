@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Pablo Rodriguez <pablo@chantada.net>, 2019
-# Xan Vieiro <gallaecia6@gmail.com>, 2020
+# 64eb61c3646b0eedec63063110e7a69b_6f71a2b <c69f892a6e1afe2fdf22d9fb0d5cf7f2_168233>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:59+0000\n"
-"Last-Translator: Xan Vieiro <gallaecia6@gmail.com>, 2020\n"
+"Last-Translator: 64eb61c3646b0eedec63063110e7a69b_6f71a2b <c69f892a6e1afe2fdf22d9fb0d5cf7f2_168233>, 2020\n"
 "Language-Team: Galician (https://app.transifex.com/arctic-games/teams/95/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_INACTIVE_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_INACTIVE_HPP
+#pragma once
 
 #include "gui/menu_item.hpp"
 
@@ -41,7 +40,3 @@ private:
   ItemInactive(const ItemInactive&) = delete;
   ItemInactive& operator=(const ItemInactive&) = delete;
 };
-
-#endif
-
-/* EOF */

@@ -60,9 +60,9 @@ PowerUp::get_types() const
   return {
     { "egg", _("Egg") },
     { "fire", _("Fire Flower") },
-    { "ice", _("Ice Flower") },
+    { "ice", _("Ice Rosette") },
     { "air", _("Air Flower") },
-    { "earth", _("Earth Flower") },
+    { "earth", _("Rock Shroom") },
     { "star", _("Star") },
     { "oneup", _("Tux Doll") },
     { "flip", _("Flip Potion") },
@@ -344,5 +344,3 @@ PowerUp::on_flip(float height)
   if (no_physics)
     FlipLevelTransformer::transform_flip(m_flip);
 }
-
-/* EOF */

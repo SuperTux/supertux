@@ -14,13 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_LOG_HPP
-#define HEADER_SUPERTUX_UTIL_LOG_HPP
+#pragma once
 
 #include <ostream>
 
 enum LogLevel { LOG_NONE, LOG_FATAL, LOG_WARNING, LOG_INFO, LOG_DEBUG };
 extern LogLevel g_log_level;
+extern bool g_log_tinygettext;
 
 std::ostream& log_debug_f(const char* file, int line, bool use_console_buffer);
 #define log_debug if (g_log_level >= LOG_DEBUG) log_debug_f(__FILE__, __LINE__, true)
@@ -40,7 +40,3 @@ void log_error_callback(const std::string& str);
 void log_warning_callback(const std::string& str);
 
 std::ostream& get_logging_instance(bool use_console_buffer = true);
-
-#endif
-
-/* EOF */

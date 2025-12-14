@@ -128,7 +128,8 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
-  m_mouse_pos(0.f, 0.f)
+  m_mouse_pos(0.f, 0.f),
+  m_layers_widget_needs_refresh(false)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -145,6 +146,12 @@ Editor::Editor() :
 
 Editor::~Editor()
 {
+}
+
+void
+Editor::queue_layers_refresh()
+{
+  m_layers_widget_needs_refresh = true;
 }
 
 void
@@ -280,6 +287,15 @@ Editor::update(float dt_sec, const Controller& controller)
 
     for (auto& object : m_sector->get_objects()) {
       object->editor_update();
+    }
+
+    if (m_layers_widget_needs_refresh)
+    {
+      if (m_layers_widget)
+      {
+        m_layers_widget->refresh();
+      }
+      m_layers_widget_needs_refresh = false;
     }
 
     for (const auto& widget : m_widgets) {
@@ -538,7 +554,6 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   if (m_sector != nullptr)
   {
-    m_sector->activate(sector_name);
     m_sector->get_camera().set_mode(Camera::Mode::MANUAL);
 
     if (!reset) {
@@ -795,7 +810,7 @@ Editor::setup()
 #if 0
     if (AddonManager::current()->is_old_addon_enabled()) {
       auto dialog = std::make_unique<Dialog>();
-      dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with default Super Tux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
+      dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with the default SuperTux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
       dialog->clear_buttons();
 
       dialog->add_default_button(_("Disable add-ons"), [] {
@@ -1022,24 +1037,21 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
     callback();
     return;
   }
-  else
-  {
-    if (!sector_valid)
-    {
-      /*
-      l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
-      */
-      Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
-    }
-    else if (!spawnpoint_valid)
-    {
-      /*
-      l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
-      */
-      Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
-    }
-  }
 
+  if (!sector_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a sector with the name \"main\".\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
+  }
+  else if (!spawnpoint_valid)
+  {
+    /*
+    l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
+    */
+    Dialog::show_message(_("Couldn't find a spawnpoint with the name \"main\".\nPlease change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
+  }
 }
 
 void
@@ -1111,14 +1123,10 @@ Editor::get_status() const
   status.m_details.push_back("In Editor");
   if (!g_config->hide_editor_levelnames && m_level)
   {
-    if (m_level->is_worldmap())
-    {
-      status.m_details.push_back("Editing worldmap: " + m_level->get_name());
-    }
-    else
-    {
-      status.m_details.push_back("Editing level: " + m_level->get_name());
-    }
+    std::string level_type = (m_level->is_worldmap() ? "worldmap" : "level");
+    std::string status_text = "Editing " + level_type + ": " + m_level->get_name();
+    
+    status.m_details.push_back(status_text);
   }
   return status;
 }
@@ -1176,5 +1184,3 @@ Editor::pack_addon()
 
   *zip.Add_File(id + ".nfo") << ss.rdbuf();
 }
-
-/* EOF */

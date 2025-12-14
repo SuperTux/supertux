@@ -23,6 +23,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
+#include "worldmap/worldmap.hpp"
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
   m_sprite(SpriteManager::current()->create(spritefile)),
@@ -119,10 +120,13 @@ FloatingImage::register_class(ssq::VM& vm)
 {
   ssq::Class cls = vm.addClass("FloatingImage", [](const std::string& spritefile)
     {
-      if (!Sector::current())
+      if (!Sector::current() && !worldmap::WorldMapSector::current())
         throw std::runtime_error("Tried to create 'FloatingImage' without an active sector.");
-
-      return &Sector::get().add<FloatingImage>(spritefile);
+      
+      if (Sector::current())
+        return &Sector::get().add<FloatingImage>(spritefile);
+      else
+        return &worldmap::WorldMapSector::current()->add<FloatingImage>(spritefile);
     },
     {},
     false /* Do not free pointer from Squirrel */,
@@ -148,5 +152,3 @@ FloatingImage::register_class(ssq::VM& vm)
   cls.addVar("visible", &FloatingImage::m_visible);
   cls.addVar("anchor_point", &FloatingImage::get_anchor_point, &FloatingImage::set_anchor_point);
 }
-
-/* EOF */

@@ -69,7 +69,9 @@ Sector::Sector(Level& parent) :
   m_foremost_opaque_layer(),
   m_gravity(10.0f),
   m_collision_system(new CollisionSystem(*this)),
-  m_text_object(add<TextObject>("Text"))
+  m_text_object(add<TextObject>("Text")),
+  m_init_script_run(),
+  m_init_script_run_once()
 {
   add<DisplayEffect>("Effect");
   add<TextArrayObject>("TextArray");
@@ -119,7 +121,7 @@ Sector::finish_construction(bool editable)
     log_warning << "sector '" << get_name() << "' does not contain any tile layers. Creating an empty solid one." << std::endl;
 
     TileMap& tilemap = add<TileMap>(TileManager::current()->get_tileset(m_level.get_tileset()));
-    tilemap.resize(100, 35);
+    tilemap.resize(DEFAULT_SECTOR_WIDTH, DEFAULT_SECTOR_HEIGHT);
     tilemap.set_solid();
   }
   else if (get_solid_tilemaps().empty())
@@ -133,7 +135,7 @@ Sector::finish_construction(bool editable)
       log_warning << "sector '" << get_name() << "' does not contain a solid tile layer. Creating an empty one." << std::endl;
 
       TileMap& tilemap = add<TileMap>(TileManager::current()->get_tileset(m_level.get_tileset()));
-      tilemap.resize(100, 35);
+      tilemap.resize(DEFAULT_SECTOR_WIDTH, DEFAULT_SECTOR_HEIGHT);
       tilemap.set_solid();
     }
   }
@@ -170,7 +172,7 @@ Sector::finish_construction(bool editable)
 }
 
 SpawnPointMarker*
-Sector::get_spawn_point(const std::string& spawnpoint)
+Sector::get_spawn_point(const std::string& spawnpoint) const
 {
   SpawnPointMarker* sp = nullptr;
   for (auto& spawn_point : get_objects_by_type<SpawnPointMarker>()) {
@@ -184,7 +186,7 @@ Sector::get_spawn_point(const std::string& spawnpoint)
 }
 
 Vector
-Sector::get_spawn_point_position(const std::string& spawnpoint)
+Sector::get_spawn_point_position(const std::string& spawnpoint) const
 {
   SpawnPointMarker* sp = get_spawn_point(spawnpoint);
   if (sp)
@@ -284,8 +286,10 @@ Sector::activate(const Vector& player_pos)
   }
 
   // Run init script
-  if (!m_init_script.empty() && !Editor::is_active()) {
+  if (!m_init_script.empty() && !Editor::is_active() && !m_init_script_run) {
     run_script(m_init_script, "init-script");
+    if (m_init_script_run_once)
+      m_init_script_run = true;
   }
 
   // Do not interpolate camera after it has been warped
@@ -313,11 +317,11 @@ Sector::deactivate()
 Rectf
 Sector::get_active_region() const
 {
-  Camera& camera = get_camera();
+  auto cam_translation = get_camera().get_translation();
   return Rectf(
-    camera.get_translation() - Vector(1600, 1200),
-    camera.get_translation() + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
-                                                           static_cast<float>(SCREEN_HEIGHT)));
+    cam_translation - Vector(1600, 1200),
+    cam_translation + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
+                                                  static_cast<float>(SCREEN_HEIGHT)));
 }
 
 int
@@ -551,10 +555,11 @@ Sector::is_free_of_statics(float left, float top, float right, float bottom,
 }
 
 bool
-Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
+Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object, bool ignore_unisolid) const
 {
   return m_collision_system->is_free_of_movingstatics(rect,
-                                                      ignore_object ? ignore_object->get_collision_object() : nullptr);
+                                                      ignore_object ? ignore_object->get_collision_object() : nullptr,
+                                                      ignore_unisolid);
 }
 
 bool
@@ -649,7 +654,7 @@ Sector::get_editor_size() const
 }
 
 void
-Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset)
+Sector::resize(const Size& old_size, const Size& new_size, const Size& resize_offset)
 {
   BIND_SECTOR(*this);
 
@@ -774,6 +779,10 @@ Sector::save(Writer &writer)
     writer.write("init-script", m_init_script,false);
   }
 
+  if (m_init_script_run_once) {
+    writer.write("init-script-run-once", m_init_script_run_once);
+  }
+
   // saving objects;
   std::vector<GameObject*> objects(get_objects().size());
   std::transform(get_objects().begin(), get_objects().end(), objects.begin(), [] (auto& obj) {
@@ -892,5 +901,3 @@ Sector::register_class(ssq::VM& vm)
 
   cls.addVar("gravity", &Sector::m_gravity);
 }
-
-/* EOF */

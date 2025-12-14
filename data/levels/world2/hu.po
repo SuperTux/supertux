@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# IAN RODRÍGUEZ Lorenzo, 2022
+# 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022
 # Balázs Úr, 2018
 # Levente Krisztián Büte <chris020891@gmail.com>, 2014
 # D. J. S. <djsossz@freemail.hu>, 2012
@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-01-26 01:42+0000\n"
+"POT-Creation-Date: 2025-10-22 21:59+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
-"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Last-Translator: 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2022\n"
 "Language-Team: Hungarian (http://app.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

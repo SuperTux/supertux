@@ -27,7 +27,7 @@ GranitoBig::GranitoBig(const ReaderMapping& reader) :
 
   reader.get("carrying-script", m_carried_script);
 
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 }
 
 HitResponse
@@ -47,6 +47,7 @@ GranitoBig::active_update(float dt_sec)
 
   Vector pos(get_bbox().get_middle().x - m_carrying->get_bbox().get_width() / 2,
              get_bbox().get_top() - m_carrying->get_bbox().get_height());
+  m_carrying->set_velocity_y(0);
   m_carrying->set_pos(pos);
   m_carrying->turn(m_dir);
 }
@@ -120,5 +121,3 @@ GranitoBig::register_class(ssq::VM& vm)
 
   cls.addFunc("get_carrying_name", &GranitoBig::get_carrying_name);
 }
-
-/* EOF */

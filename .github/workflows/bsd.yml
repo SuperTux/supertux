@@ -48,6 +48,7 @@ jobs:
         if: ${{ matrix.vm_os == 'freebsd' }}
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
+          CMAKE_POLICY_VERSION_MINIMUM: 3.5
           # GLBINDING: ${{ matrix.glbinding }} # TODO: Re-add if available
         uses: vmactions/freebsd-vm@v0.1.4
         with:
@@ -75,8 +76,7 @@ jobs:
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
                      -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr \
-                     -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING \
-                     -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+                     -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING
                                             # TODO: Uncomment whenever possible
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1

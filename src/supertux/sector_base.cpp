@@ -55,5 +55,3 @@ Sector::before_object_remove(GameObject& object)
 }
 
 } // namespace Base
-
-/* EOF */

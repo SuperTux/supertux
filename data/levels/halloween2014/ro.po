@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# IAN RODRÍGUEZ Lorenzo, 2023
+# 4214043abbd795e30ee103e3b7d89e1e_8baee67, 2023
 # Nicolae Crefelean, 2025
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-01-26 01:42+0000\n"
+"POT-Creation-Date: 2025-10-22 21:59+0000\n"
 "PO-Revision-Date: 2015-10-19 18:02+0000\n"
 "Last-Translator: Nicolae Crefelean, 2025\n"
 "Language-Team: Romanian (http://app.transifex.com/arctic-games/supertux/language/ro/)\n"

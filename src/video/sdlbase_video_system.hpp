@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SDLBASE_VIDEO_SYSTEM_HPP
-#define HEADER_SUPERTUX_VIDEO_SDLBASE_VIDEO_SYSTEM_HPP
+#pragma once
 
 #include <SDL.h>
 
@@ -41,12 +40,9 @@ protected:
 protected:
   std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_sdl_window;
   Size m_desktop_size;
+  [[maybe_unused]] bool m_last_fullscreen_state;
 
 private:
   SDLBaseVideoSystem(const SDLBaseVideoSystem&) = delete;
   SDLBaseVideoSystem& operator=(const SDLBaseVideoSystem&) = delete;
 };
-
-#endif
-
-/* EOF */

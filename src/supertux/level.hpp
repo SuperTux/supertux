@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_LEVEL_HPP
-#define HEADER_SUPERTUX_SUPERTUX_LEVEL_HPP
+#pragma once
 
 #include "supertux/statistics.hpp"
 
@@ -87,7 +86,7 @@ public:
     INHERIT
   };
   static std::string get_setting_name(Setting setting);
-  static Setting get_setting_from_name(std::string setting);
+  static Setting get_setting_from_name(const std::string& setting);
 
   bool m_is_worldmap;
 
@@ -118,7 +117,3 @@ private:
   Level(const Level&) = delete;
   Level& operator=(const Level&) = delete;
 };
-
-#endif
-
-/* EOF */

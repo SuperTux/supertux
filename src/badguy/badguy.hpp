@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_BADGUY_HPP
-#define HEADER_SUPERTUX_BADGUY_BADGUY_HPP
+#pragma once
 
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
@@ -31,6 +30,7 @@ namespace
 {
   static const std::string& DEFAULT_LIGHT_SPRITE = "images/objects/lightmap_light/lightmap_light-medium.sprite";
   static const std::string& DEFAULT_ICE_SPRITE = "images/creatures/overlays/iceoverlay/iceoverlay.sprite";
+  static const std::string& DEFAULT_FIRE_SPRITE = "images/creatures/overlays/fireoverlay/fireoverlay.sprite";
 }
 
 /**
@@ -50,16 +50,20 @@ public:
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string& fire_sprite_name = DEFAULT_FIRE_SPRITE);
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = DEFAULT_LIGHT_SPRITE,
-         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE);
+         const std::string& ice_sprite_name = DEFAULT_ICE_SPRITE,
+         const std::string & fire_sprite_name = DEFAULT_FIRE_SPRITE);
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -146,6 +150,9 @@ public:
     Returns false if enemy is spiky or too large */
   virtual bool is_snipable() const { return false; }
 
+  /** Can enemy get pushed by explosions? */
+  virtual bool is_heavy() const { return false; }
+
   virtual bool always_active() const { return false; }
 
   bool is_frozen() const;
@@ -171,6 +178,7 @@ protected:
     STATE_INACTIVE,
     STATE_ACTIVE,
     STATE_SQUISHED,
+    STATE_SQUISHED_FADING_OUT,
     STATE_FALLING,
     STATE_BURNING,
     STATE_MELTING,
@@ -250,6 +258,9 @@ protected:
       collision_solid. */
   bool on_ground() const;
 
+  /** Apply ice physics to reduce friction when on ice */
+  void apply_ice_physics();
+
   /** Returns floor normal stored the last time when
       update_on_ground_flag was called and we touched something solid
       from above. */
@@ -291,6 +302,8 @@ protected:
   bool m_frozen;
   bool m_ignited; /**< true if this badguy is currently on fire */
   bool m_in_water; /** < true if the badguy is currently in water */
+  bool m_on_ice; /**< true if the badguy is currently on ice */
+  bool m_ice_this_frame; /**< true if the badguy touched ice this frame */
 
   std::string m_dead_script; /**< script to execute when badguy is killed */
 
@@ -298,6 +311,7 @@ protected:
 
   SpritePtr m_lightsprite;
   SpritePtr m_freezesprite;
+  SpritePtr m_firesprite;
   bool m_glowing;
   bool m_water_affected;
 
@@ -328,11 +342,13 @@ private:
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup m_colgroup_active;
 
+  /** The alpha value at the time the Badguy begins to fadeout */
+  float m_alpha_before_fadeout;
+
+  Color m_flame_color;
+  Timer m_flame_timer;
+
 private:
   BadGuy(const BadGuy&) = delete;
   BadGuy& operator=(const BadGuy&) = delete;
 };
-
-#endif
-
-/* EOF */

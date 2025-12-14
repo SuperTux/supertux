@@ -98,7 +98,8 @@ SoundManager::load_file_into_buffer(SoundFile& file)
   file.read(samples.get(), file.m_size);
   log_debug << "buffer: " << buffer << "\n"
             << "format: " << format << "\n"
-            << "samples: " << samples.get() << "\n"
+            << "channels: " << file.m_channels << "\n"
+            << "bits per sample: " << file.m_bits_per_sample << "\n"
             << "file size: " << static_cast<ALsizei>(file.m_size) << "\n"
             << "file rate: " << static_cast<ALsizei>(file.m_rate) << "\n";
 
@@ -292,7 +293,7 @@ SoundManager::set_music_volume(int volume)
   if (m_music_source != nullptr) m_music_source->set_volume(static_cast<float>(volume) / 100.0f);
 }
 
-void 
+void
 SoundManager::play_music(const std::string& filename, float fadetime)
 {
   if (filename == m_current_music && m_music_source != nullptr)
@@ -329,8 +330,8 @@ SoundManager::play_music(const std::string& filename, float fadetime)
     m_music_source = std::move(newmusic);
   } catch(std::exception& e) {
     log_warning << "Couldn't play music file '" << filename << "': " << e.what() << std::endl;
-    // When this happens, previous music continued playing, stop it, just in case.
-    stop_music(0);
+    // When this happens, the previous music continued playing. Stop it, just in case.
+    stop_music();
   }
 }
 
@@ -528,5 +529,3 @@ SoundManager::check_al_error(const char* message)
     throw std::runtime_error(msg.str());
   }
 }
-
-/* EOF */

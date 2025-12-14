@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_WORLDMAP_TUX_HPP
-#define HEADER_SUPERTUX_WORLDMAP_TUX_HPP
+#pragma once
 
 #include "supertux/game_object.hpp"
 
@@ -49,7 +48,7 @@ public:
   inline bool get_ghost_mode() const { return m_ghost_mode; }
 
   inline bool is_moving() const { return m_moving; }
-  Vector get_pos() const;
+  Vector get_pos(float time_offset = 0.0f) const;
   Vector get_axis() const;
   inline Vector get_tile_pos() const { return m_tile_pos; }
   inline void set_initial_pos(const Vector& pos) { m_initial_tile_pos = pos / 32.f; }
@@ -92,7 +91,3 @@ private:
 };
 
 } // namespace worldmap
-
-#endif
-
-/* EOF */

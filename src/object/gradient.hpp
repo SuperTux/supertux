@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
-#define HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
+#pragma once
 
 #include "editor/layer_object.hpp"
 
@@ -91,16 +90,18 @@ public:
    * @param float $red
    * @param float $green
    * @param float $blue
+   * @param float $alpha
    */
-  void set_color1(float red, float green, float blue);
+  void set_color1(float red, float green, float blue, float alpha = 1.f);
   /**
    * @scripting
    * @description Set bottom gradient color.
    * @param float $red
    * @param float $green
    * @param float $blue
+   * @param float $alpha
    */
-  void set_color2(float red, float green, float blue);
+  void set_color2(float red, float green, float blue, float alpha = 1.f);
   /**
    * @scripting
    * @description Set both gradient colors.
@@ -110,8 +111,10 @@ public:
    * @param float $red2
    * @param float $green2
    * @param float $blue2
+   * @param float $alpha1
+   * @param float $alpha2
    */
-  void set_colors(float red1, float green1, float blue1, float red2, float green2, float blue2);
+  void set_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float alpha1 = 1.f, float alpha2 = 1.f);
   /**
    * @scripting
    * @description Fade the top gradient color to a specified new color in ""time"" seconds.
@@ -119,8 +122,9 @@ public:
    * @param float $green
    * @param float $blue
    * @param float $time
+   * @param float $alpha
    */
-  void fade_color1(float red, float green, float blue, float time);
+  void fade_color1(float red, float green, float blue, float time, float alpha = 1.f);
   /**
    * @scripting
    * @description Fade the bottom gradient color to a specified new color in ""time"" seconds.
@@ -128,8 +132,9 @@ public:
    * @param float $green
    * @param float $blue
    * @param float $time
+   * @param float $alpha
    */
-  void fade_color2(float red, float green, float blue, float time);
+  void fade_color2(float red, float green, float blue, float time, float alpha = 1.f);
   /**
    * @scripting
    * @description Fade both gradient colors to specified new colors in ""time"" seconds.
@@ -140,8 +145,10 @@ public:
    * @param float $green2
    * @param float $blue2
    * @param float $time
+   * @param float $alpha1
+   * @param float $alpha2
    */
-  void fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time);
+  void fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time, float alpha1 = 1.f, float alpha2 = 1.f);
   /**
    * @scripting
    * @description Swap top and bottom gradient colors.
@@ -171,7 +178,3 @@ private:
   Gradient(const Gradient&) = delete;
   Gradient& operator=(const Gradient&) = delete;
 };
-
-#endif
-
-/* EOF */

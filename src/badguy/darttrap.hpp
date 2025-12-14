@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
-#define HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
+#pragma once
 
 #include "object/sticky_object.hpp"
 
@@ -53,7 +52,7 @@ protected:
   };
 
   enum Type {
-    GRANITO, SKULL
+    SKULL, GRANITO
   };
 
   void load();
@@ -64,7 +63,10 @@ private:
   float m_initial_delay;
   float m_fire_delay;
   int m_ammo; // ammo left (-1 means unlimited)
+
   std::string m_dart_sprite;
+  // TODO: This should be configurable (possibly with linked sprites)
+  std::string m_dart_lightsprite;
 
   State m_state;
   Timer m_fire_timer;
@@ -73,7 +75,3 @@ private:
   DartTrap(const DartTrap&) = delete;
   DartTrap& operator=(const DartTrap&) = delete;
 };
-
-#endif
-
-/* EOF */

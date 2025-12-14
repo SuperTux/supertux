@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_COMMAND_LINE_ARGUMENTS_HPP
-#define HEADER_SUPERTUX_SUPERTUX_COMMAND_LINE_ARGUMENTS_HPP
+#pragma once
 
 #include <optional>
 #include <vector>
@@ -79,6 +78,7 @@ public:
 
   std::optional<bool> editor;
   std::optional<bool> resave;
+  bool log_tinygettext;
 
   // std::optional<std::string> locale;
 
@@ -101,7 +101,3 @@ private:
   CommandLineArguments(const CommandLineArguments&) = delete;
   CommandLineArguments& operator=(const CommandLineArguments&) = delete;
 };
-
-#endif
-
-/* EOF */

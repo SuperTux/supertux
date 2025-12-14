@@ -51,7 +51,8 @@ bool MainMenu::s_shown_initial_dialogs = false;
 
 MainMenu::MainMenu()
 {
-  add_submenu(_("Start Game"), MenuStorage::WORLDSET_MENU);
+  add_entry(MNID_WORLDSET_STORY, _("Start Game"));
+  add_entry(MNID_WORLDSET_CONTRIB, _("Bonus Levels"));
   // TODO: Manage to build OpenSSL for Emscripten so we can build CURL so we can
   //       build the add-ons so we can re-enable them.
   //       Also see src/addon/downloader.*pp
@@ -104,6 +105,17 @@ MainMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id())
   {
+    case MNID_WORLDSET_STORY:
+    {
+      std::unique_ptr<World> world = World::from_directory("levels/world1");
+      GameManager::current()->start_worldmap(*world);
+      break;
+    }
+
+    case MNID_WORLDSET_CONTRIB:
+	    MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);
+	    break;
+
     case MNID_CREDITS:
     {
       SoundManager::current()->stop_music(0.2f);
@@ -140,5 +152,3 @@ MainMenu::menu_action(MenuItem& item)
     }
   }
 }
-
-/* EOF */

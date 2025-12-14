@@ -16,8 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
+#pragma once
 
 #include "squirrel/exposable_class.hpp"
 
@@ -255,7 +254,7 @@ public:
 
   inline const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
   inline const std::vector<TileMap*>& get_all_tilemaps() const { return m_all_tilemaps; }
-  
+
   void update_solid(TileMap* solid);
 
   /** Toggle object change tracking for undo/redo. */
@@ -377,7 +376,3 @@ private:
 };
 
 #include "supertux/game_object_iterator.hpp"
-
-#endif
-
-/* EOF */

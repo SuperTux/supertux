@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_UTIL_HPP
-#define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_UTIL_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -29,7 +28,3 @@ class Object;
 typedef std::vector<HSQOBJECT> SquirrelObjectList;
 
 std::string squirrel_to_string(const ssq::Object& object);
-
-#endif
-
-/* EOF */

@@ -25,6 +25,7 @@
 #include <csignal>
 #include <sstream>
 #include <string>
+#include <cstring>
 
 #include <SDL.h>
 
@@ -32,15 +33,21 @@
 
 #include "util/file_system.hpp"
 
-#if (defined(__unix__) || defined(__APPLE__)) && !(defined(__EMSCRIPTEN__))
+#if (defined(__unix__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__)) && !(defined(__EMSCRIPTEN__))
 #define UNIX
 #endif
 
 #ifdef WIN32
+#if __has_include(<dbghelp.h>)
+#include <dbghelp.h>
+#else
 #include <DbgHelp.h>
+#endif
 //#include <VersionHelpers.h>
 
+#ifdef _MSC_VER
 #pragma comment(lib, "DbgHelp.lib")
+#endif
 #elif defined(UNIX)
 #include <sys/utsname.h>
 #include <execinfo.h>
@@ -469,6 +476,3 @@ ErrorHandler::close_program()
 {
   _Exit(10);
 }
-
-/* EOF */
-

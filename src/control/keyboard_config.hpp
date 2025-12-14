@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_KEYBOARD_CONFIG_HPP
-#define HEADER_SUPERTUX_CONTROL_KEYBOARD_CONFIG_HPP
+#pragma once
 
 #include <SDL.h>
 #include <map>
@@ -63,7 +62,3 @@ private:
   KeyboardConfig(const KeyboardConfig&) = delete;
   KeyboardConfig& operator=(const KeyboardConfig&) = delete;
 };
-
-#endif
-
-/* EOF */

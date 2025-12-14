@@ -42,18 +42,25 @@
 static const float SQUISH_TIME = 2;
 static const float GEAR_TIME = 2;
 static const float BURN_TIME = 1;
+static const float FADEOUT_TIME = 0.2f;
 
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
+/** Ice physics constants (identical to player ice physics) */
+static const float BADGUY_ICE_FRICTION_MULTIPLIER = 0.1f;   // Same as player
+static const float BADGUY_ICE_ACCELERATION_MULTIPLIER = 0.25f; // Same as player
+
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name,
+               const std::string& fire_sprite_name) :
   BadGuy(pos, Direction::LEFT, sprite_name, layer, light_sprite_name)
 {
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name,
+               const std::string& fire_sprite_name) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
   m_countMe(true),
@@ -64,10 +71,13 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_frozen(false),
   m_ignited(false),
   m_in_water(false),
+  m_on_ice(false),
+  m_ice_this_frame(false),
   m_dead_script(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
+  m_firesprite(SpriteManager::current()->create(fire_sprite_name)),
   m_glowing(false),
   m_water_affected(true),
   m_unfreeze_timer(),
@@ -77,7 +87,10 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_is_active_flag(),
   m_state_timer(),
   m_on_ground_flag(false),
-  m_colgroup_active(COLGROUP_MOVING)
+  m_colgroup_active(COLGROUP_MOVING),
+  m_alpha_before_fadeout(1.0f),
+  m_flame_color(1.f, 0.5f, 0.2f, 1.f),
+  m_flame_timer()
 {
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
@@ -87,17 +100,22 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 
   m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
   m_lightsprite->set_blend(Blend::ADD);
+  m_lightsprite->set_color(m_flame_color);
+  m_firesprite->pause_animation();
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  BadGuy(reader, sprite_name, Direction::AUTO, layer, light_sprite_name, ice_sprite_name)
+               const std::string& light_sprite_name, const std::string& ice_sprite_name,
+               const std::string& fire_sprite_name) :
+  BadGuy(reader, sprite_name, Direction::AUTO, layer, light_sprite_name, ice_sprite_name,
+         fire_sprite_name)
 {
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
                Direction default_direction, int layer,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name,
+               const std::string& fire_sprite_name) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
   m_countMe(true),
@@ -108,10 +126,13 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_frozen(false),
   m_ignited(false),
   m_in_water(false),
+  m_on_ice(false),
+  m_ice_this_frame(false),
   m_dead_script(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
+  m_firesprite(SpriteManager::current()->create(fire_sprite_name)),
   m_glowing(false),
   m_water_affected(true),
   m_unfreeze_timer(),
@@ -121,7 +142,9 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_is_active_flag(),
   m_state_timer(),
   m_on_ground_flag(false),
-  m_colgroup_active(COLGROUP_MOVING)
+  m_colgroup_active(COLGROUP_MOVING),
+  m_flame_color(1.f, 0.5f, 0.2f, 1.f),
+  m_flame_timer()
 {
   std::string dir_str;
   if (reader.get("direction", dir_str))
@@ -138,6 +161,8 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
 
   m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
   m_lightsprite->set_blend(Blend::ADD);
+  m_lightsprite->set_color(m_flame_color);
+  m_firesprite->pause_animation();
 }
 
 void
@@ -174,8 +199,16 @@ BadGuy::draw(DrawingContext& context)
       else
       {
         if (m_frozen && is_portable())
+        {
           m_freezesprite->draw(context.color(), draw_pos, m_layer);
-        m_sprite->draw(context.color(), draw_pos, m_layer - (m_frozen ? 1 : 0), m_flip);
+        }
+
+        if (m_state != STATE_BURNING || m_firesprite->get_current_frame() < 5)
+          m_sprite->draw(context.color(), draw_pos, m_layer - (m_frozen ? 1 : 0), m_flip);
+      }
+
+      if (m_state == STATE_BURNING) {
+        m_firesprite->draw(context.color(), draw_pos, m_layer);
       }
 
       if (m_glowing)
@@ -305,8 +338,24 @@ BadGuy::update(float dt_sec)
 
     case STATE_BURNING: {
       m_is_active_flag = false;
+      // char the enemy
+      m_sprite->set_color(Color(std::max(m_sprite->get_color().red - (5.f * dt_sec), 0.f),
+                                std::max(m_sprite->get_color().green - (5.f * dt_sec), 0.f),
+                                std::max(m_sprite->get_color().blue - (5.f * dt_sec), 0.f),
+                                m_sprite->get_alpha()));
+
+      if (!m_flame_timer.started()) {
+        m_lightsprite->set_alpha(std::min(m_lightsprite->get_alpha() + (10.f * dt_sec), 1.f));
+        if (m_lightsprite->get_alpha() >= 1.f) {
+          m_flame_timer.start(1.5f);
+        }
+      }
+      else {
+        m_lightsprite->set_alpha(std::max(0.f, 1 - m_flame_timer.get_progress()));
+      }
+
       m_col.set_movement(m_physic.get_movement(dt_sec));
-      if ( m_sprite->animation_done() ) {
+      if (m_firesprite->animation_done() && m_flame_timer.check()) {
         remove_me();
       }
     } break;
@@ -315,12 +364,22 @@ BadGuy::update(float dt_sec)
     case STATE_SQUISHED:
       m_is_active_flag = false;
       if (m_state_timer.check()) {
-        remove_me();
+        if (m_sprite->get_alpha() > 0.0f) {
+          m_alpha_before_fadeout = m_sprite->get_alpha();
+          set_state(STATE_SQUISHED_FADING_OUT);
+        }
+        else
+          remove_me();
         break;
       }
       m_col.set_movement(m_physic.get_movement(dt_sec));
       break;
-
+    case STATE_SQUISHED_FADING_OUT:
+      if (m_state_timer.check())
+        remove_me();
+      else
+        m_sprite->set_alpha(m_alpha_before_fadeout * (1.0f - m_state_timer.get_progress()));
+      break;
     case STATE_MELTING: {
       m_is_active_flag = false;
       m_col.set_movement(m_physic.get_movement(dt_sec));
@@ -389,6 +448,12 @@ BadGuy::get_allowed_directions() const
 void
 BadGuy::active_update(float dt_sec)
 {
+  // Manage ice state each frame
+  if (!m_ice_this_frame && on_ground()) {
+    m_on_ice = false;
+  }
+  m_ice_this_frame = false;
+
   if (!is_grabbed())
   {
     if (is_in_water() && m_water_affected)
@@ -404,6 +469,9 @@ BadGuy::active_update(float dt_sec)
       m_col.set_movement(m_physic.get_movement(dt_sec));
     }
   }
+
+  // Apply ice physics if on ice
+  apply_ice_physics();
 
   if (m_frozen) {
     m_sprite->stop_animation();
@@ -425,6 +493,11 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   {
     m_in_water = true;
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
+  }
+
+  if (tile_attributes & Tile::ICE) {
+    m_ice_this_frame = true;
+    m_on_ice = true;
   }
 
   if (tile_attributes & Tile::HURTS && is_hurtable())
@@ -663,13 +736,34 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 }
 
 void
+BadGuy::apply_ice_physics()
+{
+  if (!m_on_ice || !on_ground()) return;
+  
+  float velx = m_physic.get_velocity_x();
+  // No artificial velocity threshold - let natural physics handle sliding
+  
+  // Use same friction base as player (WALK_ACCELERATION_X = 300)
+  float friction = 300.0f * BADGUY_ICE_FRICTION_MULTIPLIER; // Base friction value
+  if (velx < 0) {
+    m_physic.set_acceleration_x(friction);
+  } else if (velx > 0) {
+    m_physic.set_acceleration_x(-friction);
+  }
+}
+
+void
 BadGuy::kill_squished(GameObject& object)
 {
   if (!is_active()) return;
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   m_physic.enable_gravity(true);
-  m_physic.set_velocity(0, 0);
+
+  if (on_ground())
+    m_physic.set_velocity(0, 0);
+  else
+    m_physic.set_velocity_y(0.0f);
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   auto player = dynamic_cast<Player*>(&object);
@@ -759,6 +853,9 @@ BadGuy::set_state(State state_)
       break;
     case STATE_SQUISHED:
       m_state_timer.start(SQUISH_TIME);
+      break;
+    case STATE_SQUISHED_FADING_OUT:
+      m_state_timer.start(FADEOUT_TIME * m_sprite->get_alpha());
       break;
     case STATE_GEAR:
       m_state_timer.start(GEAR_TIME);
@@ -1140,7 +1237,12 @@ BadGuy::ignite()
     unfreeze();
 
   m_physic.enable_gravity(true);
-  m_physic.set_velocity(0, 0);
+
+  if (on_ground())
+    m_physic.set_velocity(0, 0);
+  else
+    m_physic.set_velocity_y(0.0f);
+
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   m_sprite->stop_animation();
   m_ignited = true;
@@ -1165,7 +1267,11 @@ BadGuy::ignite()
     m_glowing = true;
     SoundManager::current()->play("sounds/fire.ogg", get_pos());
     set_action("burning", m_dir, 1);
+    m_lightsprite->set_alpha(0.05f);
     set_state(STATE_BURNING);
+    m_firesprite->set_action(get_overlay_size(), 1);
+    m_firesprite->set_frame(0);
+    m_firesprite->set_frame_progress(0.0f);
     run_dead_script();
   } else if (m_sprite->has_action("inside-melting-left")) {
     // melt it inside!
@@ -1286,5 +1392,3 @@ BadGuy::register_class(ssq::VM& vm)
   cls.addFunc("kill", &BadGuy::kill_fall);
   cls.addFunc("ignite", &BadGuy::ignite);
 }
-
-/* EOF */

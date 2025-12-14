@@ -5,8 +5,8 @@ build.*/
 **/CMakeCache.txt
 supertux2
 
-# Ubuntu Touch (clickable) build files
-.clickable/
+# Installed vcpkg packages
+vcpkg_installed/
 
 # Tags file
 tags
@@ -69,6 +69,10 @@ data/levels/more/
 *.patch
 *.zip
 *.diff
+
+# Flatpak
+.flatpak-builder/
+*.flatpak
 
 # Annoying OS Generated Files
 .DS_Store

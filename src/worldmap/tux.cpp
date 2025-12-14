@@ -66,9 +66,9 @@ Tux::draw(DrawingContext& context)
     {
       std::string direct = "-up";
       if (get_axis().x == 1) direct = "-right";
-      if (get_axis().x == -1) direct = "-left"; 
-      if (get_axis().y == 1) direct = "-up"; 
-      if (get_axis().y == -1) direct = "-down"; 
+      if (get_axis().x == -1) direct = "-left";
+      if (get_axis().y == 1) direct = "-up";
+      if (get_axis().y == -1) direct = "-down";
       if (m_sprite->has_action(action + "-walking" + direct))
       {
         m_sprite->set_action(action + "-walking" + direct);
@@ -89,7 +89,7 @@ Tux::draw(DrawingContext& context)
     log_debug << "Bonus type not handled in worldmap." << std::endl;
     m_sprite->set_action("large-stop");
   }
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
+  m_sprite->draw(context.color(), get_pos(context.get_time_offset()), LAYER_OBJECTS + 1);
 }
 
 std::string
@@ -112,24 +112,30 @@ Tux::get_action_prefix_for_bonus(const BonusType& bonus) const
 }
 
 Vector
-Tux::get_pos() const
+Tux::get_pos(float time_offset) const
 {
   float x = m_tile_pos.x * 32;
   float y = m_tile_pos.y * 32;
 
+  // This can overshoot slightly when going around corners, but clamping
+  // `offset` to avoid this would introduce a slightly more noticeable pause
+  // at each tile. Both symptoms could be avoided by looking ahead one tile in
+  // the worldmap to determine which direction Tux will move when offset > 32.f.
+  float offset = m_offset + (m_moving ? TUXSPEED * time_offset : 0.0f);
+
   switch (m_direction)
   {
     case Direction::WEST:
-      x -= m_offset - 32;
+      x -= offset - 32;
       break;
     case Direction::EAST:
-      x += m_offset - 32;
+      x += offset - 32;
       break;
     case Direction::NORTH:
-      y -= m_offset - 32;
+      y -= offset - 32;
       break;
     case Direction::SOUTH:
-      y += m_offset - 32;
+      y += offset - 32;
       break;
     case Direction::NONE:
       break;
@@ -388,5 +394,3 @@ Tux::process_special_tile(SpecialTile* special_tile)
 }
 
 } // namespace worldmap
-
-/* EOF */

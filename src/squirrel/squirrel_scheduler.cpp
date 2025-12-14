@@ -94,5 +94,3 @@ SquirrelScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time, bool sk
 
   return sq_suspendvm(scheduled_vm);
 }
-
-/* EOF */

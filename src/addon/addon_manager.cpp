@@ -977,5 +977,3 @@ AddonManager::check_for_langpack_updates()
     // If anything fails here, just silently ignore.
   }
 }
-
-/* EOF */

@@ -95,5 +95,3 @@ Profile::get_basedir() const
 {
   return "profile" + std::to_string(m_id);
 }
-
-/* EOF */

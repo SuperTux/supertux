@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_DEBUG_HPP
-#define HEADER_SUPERTUX_SUPERTUX_DEBUG_HPP
+#pragma once
 
 class Debug
 {
@@ -58,7 +57,3 @@ private:
 };
 
 extern Debug g_debug;
-
-#endif
-
-/* EOF */

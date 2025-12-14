@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_AUTOTILE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_AUTOTILE_HPP
+#pragma once
 
 #include <algorithm>
 #include <memory>
@@ -118,7 +117,7 @@ public:
 
   /** true if this is a corner-based autotileset */
   inline bool is_corner() const { return m_corner; }
-  
+
   /** Returns the first mask corresponding to the current tile
    *  (useful for corners-based autotilesets)
    */
@@ -141,7 +140,3 @@ private:
   AutotileSet(const AutotileSet&) = delete;
   AutotileSet& operator=(const AutotileSet&) = delete;
 };
-
-#endif
-
-/* EOF */

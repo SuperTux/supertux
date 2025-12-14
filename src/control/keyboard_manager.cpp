@@ -116,10 +116,10 @@ KeyboardManager::process_console_key_event(const SDL_KeyboardEvent& event)
       console->autocomplete();
       break;
     case SDLK_PAGEUP:
-      console->scroll(-1);
+      console->scroll(-console->get_line_height() + 2);
       break;
     case SDLK_PAGEDOWN:
-      console->scroll(+1);
+      console->scroll(+console->get_line_height() - 2);
       break;
     case SDLK_HOME:
       console->move_cursor(-65535);
@@ -231,5 +231,3 @@ KeyboardManager::bind_next_event_to(int player_id, Control id)
 {
   m_wait_for_key = KeyboardConfig::PlayerControl{player_id, id};
 }
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_DART_HPP
-#define HEADER_SUPERTUX_BADGUY_DART_HPP
+#pragma once
 
 #include "badguy/badguy.hpp"
 
@@ -26,7 +25,9 @@ class Dart final : public BadGuy
 {
 public:
   Dart(const ReaderMapping& reader);
-  Dart(const Vector& pos, Direction d, const BadGuy* parent, const std::string& sprite = "images/creatures/darttrap/granito/root_dart.sprite");
+  Dart(const Vector& pos, Direction d, const BadGuy* parent,
+       const std::string& sprite = "images/creatures/darttrap/skull/darttrap_skull.sprite",
+       const std::string& lightsprite = "images/creatures/darttrap/skull/dart_light.sprite");
 
   virtual void initialize() override;
   virtual void activate() override;
@@ -67,7 +68,3 @@ private:
   Dart(const Dart&) = delete;
   Dart& operator=(const Dart&) = delete;
 };
-
-#endif
-
-/* EOF */

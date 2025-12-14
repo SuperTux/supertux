@@ -14,18 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_GLUTIL_HPP
-#define HEADER_SUPERTUX_VIDEO_GLUTIL_HPP
+#pragma once
 
 #include <sstream>
 #include <stdexcept>
 
 #include "video/gl.hpp"
-
-#ifdef USE_GLBINDING
-#  include <glbinding/ContextInfo.h>
-#  include <glbinding/gl/extension.h>
-#endif
 
 inline void check_gl_error(const char* filename, int line)
 {
@@ -81,12 +75,7 @@ inline bool gl_needs_power_of_two()
 #elif defined(USE_OPENGLES1)
   return true;
 #else
-#  ifdef USE_GLBINDING
-  static auto extensions = glbinding::ContextInfo::extensions();
-  return extensions.find(GLextension::GL_ARB_texture_non_power_of_two) == extensions.end();
-#  else
   return !GLEW_ARB_texture_non_power_of_two;
-#  endif
 #endif
 }
 
@@ -102,7 +91,3 @@ inline int next_power_of_two(int val)
     result *= 2;
   return result;
 }
-
-#endif
-
-/* EOF */

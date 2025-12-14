@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_COLOR_HPP
-#define HEADER_SUPERTUX_VIDEO_COLOR_HPP
+#pragma once
 
 #include <math.h>
 #include <string>
@@ -155,6 +154,11 @@ public:
   float red, green, blue, alpha;
 };
 
-#endif
-
-/* EOF */
+inline const Color Color::BLACK{ 0.f, 0.f, 0.f };
+inline const Color Color::RED{ 1.f, 0.f, 0.f };
+inline const Color Color::GREEN{ 0.f, 1.f, 0.f };
+inline const Color Color::BLUE{ 0.f, 0.f, 1.f };
+inline const Color Color::CYAN{ 0.f, 1.f, 1.f };
+inline const Color Color::MAGENTA{ 1.f, 0.f, 1.f };
+inline const Color Color::YELLOW{ 1.f, 1.f, 1.f };
+inline const Color Color::WHITE{ 1.f, 1.f, 1.f };

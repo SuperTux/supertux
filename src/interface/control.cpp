@@ -24,5 +24,3 @@ InterfaceControl::InterfaceControl() :
   m_parent(nullptr)
 {
 }
-
-/* EOF */

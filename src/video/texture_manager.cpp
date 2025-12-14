@@ -222,15 +222,7 @@ TextureManager::get(const std::string& _filename,
                     const Sampler& sampler)
 {
   std::string filename = FileSystem::normalize(_filename);
-  Texture::Key key;
-  if (rect)
-  {
-    key = Texture::Key(filename, *rect);
-  }
-  else
-  {
-    key = Texture::Key(filename, Rect());
-  }
+  Texture::Key key = Texture::Key(filename, rect ? *rect : Rect());
 
   auto i = m_image_textures.find(key);
 
@@ -238,7 +230,8 @@ TextureManager::get(const std::string& _filename,
   if (i != m_image_textures.end())
     texture = i->second.lock();
 
-  if (!texture) {
+  if (!texture)
+  {
     if (rect)
     {
       texture = create_image_texture(filename, *rect, sampler);
@@ -503,5 +496,3 @@ TextureManager::debug_print(std::ostream& out) const
   out << "total surface count:" << m_surfaces.size() << std::endl;
   out << "total surface pixels:" << total_surface_pixels << std::endl;
 }
-
-/* EOF */

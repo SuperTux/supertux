@@ -299,9 +299,8 @@ TextScroller::update(float dt_sec)
 
     // use start or escape keys to exit
     if (controller->pressed_any(Control::START, Control::ESCAPE) &&
-        !m_fading  && m_finish_script.empty()) {
-      m_fading = true;
-      ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f));
+        !m_fading) {
+      start_fading();
       return;
     }
   }
@@ -310,18 +309,24 @@ TextScroller::update(float dt_sec)
 
   if (m_scroll < 0)
     m_scroll = 0;
-  if (!m_finish_script.empty())
-  {
-    Sector::get().run_script(m_finish_script, "finishscript");
-  }
   else
   {
     // close when done
     if (m_finished && !m_fading)
     {
-	  m_fading = true;
-      ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25f)));
+      start_fading();
     }
+  }
+}
+
+void
+TextScroller::start_fading()
+{
+  m_fading = true;
+  if (!m_finish_script.empty()) {
+    Sector::get().run_script(m_finish_script, "finishscript");
+  } else {
+    ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f));
   }
 }
 
@@ -346,16 +351,28 @@ TextScroller::get_settings()
   result.add_float(_("X-offset"), &m_x_offset, "x-offset");
   result.add_bool(_("Controllable"), &m_controllable, "controllable", true);
   result.add_enum(_("Anchor"), reinterpret_cast<int*>(&m_x_anchor),
-    { _("Left"), _("Center"), _("Right") },
+    {
+      _("Left"),
+      /*
+        l10n: "Center" refers to the adjective "in the center" and not the verb "to center"
+      */
+      _("Center"),
+      _("Right") 
+    },
     { "left", "center", "right" },
     static_cast<int>(XAnchor::SCROLLER_ANCHOR_CENTER), "x-anchor");
   result.add_enum(_("Text Alignment"), reinterpret_cast<int*>(&m_text_align),
-    { _("Left"), _("Center"), _("Right") },
+    {
+      _("Left"),
+      /*
+        l10n: "Center" refers to the adjective "in the center" and not the verb "to center"
+      */
+      _("Center"),
+      _("Right")
+    },
     { "left", "center", "right" },
     static_cast<int>(TextAlign::SCROLLER_ALIGN_CENTER), "text-align");
   result.add_remove();
 
   return result;
 }
-
-/* EOF */

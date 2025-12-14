@@ -58,5 +58,3 @@ EditorNewLevelsetMenu::menu_action(MenuItem& item)
   MenuManager::instance().pop_menu();
   MenuManager::instance().push_menu(std::make_unique<EditorLevelSelectMenu>(std::move(new_world)));
 }
-
-/* EOF */

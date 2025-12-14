@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_COLLISION_COLLISION_OBJECT_HPP
-#define HEADER_SUPERTUX_COLLISION_COLLISION_OBJECT_HPP
+#pragma once
 
 #include <stdint.h>
 #include <memory>
@@ -180,7 +179,3 @@ private:
   CollisionObject(const CollisionObject&) = delete;
   CollisionObject& operator=(const CollisionObject&) = delete;
 };
-
-#endif
-
-/* EOF */

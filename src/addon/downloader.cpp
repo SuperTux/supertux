@@ -282,7 +282,11 @@ public:
 
       curl_easy_setopt(m_handle, CURLOPT_NOPROGRESS, 0);
       curl_easy_setopt(m_handle, CURLOPT_PROGRESSDATA, this);
+  #if LIBCURL_VERSION_MAJOR > 7 || (LIBCURL_VERSION_MAJOR == 7 && LIBCURL_VERSION_MINOR >= 32)
+      curl_easy_setopt(m_handle, CURLOPT_XFERINFOFUNCTION, &Transfer::on_progress_wrap);
+  #else
       curl_easy_setopt(m_handle, CURLOPT_PROGRESSFUNCTION, &Transfer::on_progress_wrap);
+  #endif
     }
 #endif
   }
@@ -812,5 +816,3 @@ Downloader::onDownloadAborted(int id)
   }
 }
 #endif
-
-/* EOF */

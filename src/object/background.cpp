@@ -34,6 +34,7 @@
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 
+//Note to remove a bunch of these once we remove deprecated backgrounds 
 static const std::unordered_map<std::string, std::string> fallback_paths = {
   {"arctis2.png", "antarctic/arctis2.png"},
   {"misty_snowhills_small.png", "antarctic/misty_snowhills_small.png"},
@@ -85,7 +86,7 @@ static const std::unordered_map<std::string, std::string> fallback_paths = {
   {"heatshimmer.png", "misc/heatshimmer.png"},
   {"heatshimmer.surface", "misc/heatshimmer.surface"},
   {"leaves.png", "misc/leaves.png"},
-  {"oiltux.jpg", "misc/oiltux.jpg"},
+  {"oiltux.jpg", "misc/oiltux.png"},
   {"transparent_up.png", "misc/transparent_up.png"},
   {"nightsky.png", "nightsky/nightsky.png"},
   {"nightsky_bottom.png", "nightsky/nightsky_bottom.png"},
@@ -488,7 +489,7 @@ Background::draw(DrawingContext& context)
 
   if (!m_image)
     return;
-    
+
   context.push_transform();
   if (!context.perspective_scale(m_parallax_speed.x, m_parallax_speed.y)) {
     //The background is placed behind the camera.
@@ -569,5 +570,3 @@ Background::register_class(ssq::VM& vm)
   cls.addFunc("set_color", &Background::set_color);
   cls.addFunc<void, Background, float, float, float, float, float>("fade_color", &Background::fade_color);
 }
-
-/* EOF */

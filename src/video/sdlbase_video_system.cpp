@@ -28,7 +28,8 @@
 
 SDLBaseVideoSystem::SDLBaseVideoSystem() :
   m_sdl_window(nullptr, &SDL_DestroyWindow),
-  m_desktop_size()
+  m_desktop_size(),
+  m_last_fullscreen_state(g_config->use_fullscreen)
 {
   SDL_DisplayMode mode;
   if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
@@ -135,12 +136,42 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
 void
 SDLBaseVideoSystem::apply_video_mode()
 {
+  const int displayidx = SDL_GetWindowDisplayIndex(m_sdl_window.get());
+  if (displayidx < 0)
+  {
+    log_warning << "Unable to get display index of window: "
+                << SDL_GetError() << std::endl;
+    return;
+  }
+
+  SDL_DisplayMode display;
+  if (SDL_GetDesktopDisplayMode(displayidx, &display) != 0)
+  {
+    log_warning << "Unable to get information for display number "
+                << displayidx << ": "
+                << SDL_GetError() << std::endl;
+    return;
+  }
+
+  m_desktop_size.width = display.w;
+  m_desktop_size.height = display.h;
+
   if (!g_config->use_fullscreen)
   {
     SDL_SetWindowFullscreen(m_sdl_window.get(), 0);
 
+#ifdef WIN32
+    // After un-fullscreening, the window border likely gets hidden offscreen,
+    // so let's force it downwards so it can be dragged
+    int x;
+    SDL_GetWindowPosition(m_sdl_window.get(), &x, NULL);
+    if (m_last_fullscreen_state == true)
+      SDL_SetWindowPosition(m_sdl_window.get(), x, 67);
+#endif
+
     Size window_size;
     SDL_GetWindowSize(m_sdl_window.get(), &window_size.width, &window_size.height);
+
     if (g_config->window_size != window_size)
     {
       SDL_SetWindowSize(m_sdl_window.get(), g_config->window_size.width, g_config->window_size.height);
@@ -195,6 +226,6 @@ SDLBaseVideoSystem::apply_video_mode()
       }
     }
   }
-}
 
-/* EOF */
+  m_last_fullscreen_state = g_config->use_fullscreen;
+}

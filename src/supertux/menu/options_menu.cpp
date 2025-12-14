@@ -24,6 +24,7 @@
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
@@ -123,6 +124,9 @@ OptionsMenu::refresh()
       add_toggle(MNID_FRAME_PREDICTION, _("Frame prediction"), &g_config->frame_prediction)
         .set_help(_("Smooth camera motion, generating intermediate frames. This has a noticeable effect on monitors at >> 60Hz. Moving objects may be blurry."));
 
+      add_toggle(MNID_FANCY_GFX, _("Fancy Effects"), &g_config->fancy_gfx)
+        .set_help(_("Applies fancy effects such as blur, clear tile refraction, and various other effects deemed \"fancy\". May significantly degrade performance."));
+
       add_flash_intensity();
 
 #if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
@@ -172,10 +176,8 @@ OptionsMenu::refresh()
       add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
         .set_help(_("Configure key-action mappings"));
 
-#ifndef UBUNTU_TOUCH
       add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
         .set_help(_("Configure joystick control-action mappings"));
-#endif
 
       break;
     }
@@ -188,10 +190,8 @@ OptionsMenu::refresh()
         add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
           .set_help(_("Select a profile to play with"));
 
-#ifndef UBUNTU_TOUCH
       add_submenu(_("Multiplayer settings"), MenuStorage::MULTIPLAYER_MENU)
         .set_help(_("Configure settings specific to multiplayer"));
-#endif
 
       add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled)
         .set_help(_("Enable screen transitions and smooth menu animation"));
@@ -226,7 +226,15 @@ OptionsMenu::refresh()
       add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
         .set_help(_("Automatically pause the game when the window loses focus"));
 
+#if defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
+    defined(__OPENBSD) || defined(__NetBSD) && !defined(STEAM_BUILD)
+      add_toggle(MNID_PREFER_WAYLAND, _("Prefer Wayland"), &g_config->prefer_wayland)
+        .set_help(_("If you experience any issues with Nvidia cards, your window border, or anything you believe is due to Wayland, disable this. (Requires restart)"));
+#endif
+
       add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
+
+      add_toggle(MNID_CUSTOM_CURSOR, _("Use native custom cursor"), &g_config->custom_system_cursor).set_help(_("Whether the game uses a native custom cursor or renders it in the game"));
 
 #ifndef __EMSCRIPTEN__
       if (!g_config->disable_network)
@@ -594,12 +602,14 @@ OptionsMenu::menu_action(MenuItem& item)
           g_config->aspect_size = Size(0, 0); // Magic values
           VideoSystem::current()->apply_config();
           ScreenManager::current()->on_window_resize();
+          MenuManager::instance().on_window_resize();
         }
         else if (sscanf(m_aspect_ratios.list[m_aspect_ratios.next].c_str(), "%d:%d",
                         &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
         {
           VideoSystem::current()->apply_config();
           ScreenManager::current()->on_window_resize();
+          MenuManager::instance().on_window_resize();
         }
         else
         {
@@ -620,6 +630,7 @@ OptionsMenu::menu_action(MenuItem& item)
       }
       VideoSystem::current()->apply_config();
       ScreenManager::current()->on_window_resize();
+      MenuManager::instance().on_window_resize();
       break;
 
     case MNID_WINDOW_RESIZABLE:
@@ -641,6 +652,7 @@ OptionsMenu::menu_action(MenuItem& item)
           g_config->window_size = Size(width, height);
           VideoSystem::current()->apply_config();
           ScreenManager::current()->on_window_resize();
+          MenuManager::instance().on_window_resize();
         }
       }
       break;
@@ -726,6 +738,7 @@ OptionsMenu::menu_action(MenuItem& item)
     case MNID_FULLSCREEN:
       VideoSystem::current()->apply_config();
       ScreenManager::current()->on_window_resize();
+      MenuManager::instance().on_window_resize();
       g_config->save();
       break;
 
@@ -770,6 +783,10 @@ OptionsMenu::menu_action(MenuItem& item)
       TitleScreen::current()->refresh_level();
       break;
 
+    case MNID_FANCY_GFX:
+      VideoSystem::current()->apply_config();
+      break;
+
     case MNID_CUSTOM_CURSOR:
       SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
       break;
@@ -790,5 +807,3 @@ OptionsMenu::menu_action(MenuItem& item)
       break;
   }
 }
-
-/* EOF */

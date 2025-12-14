@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_TEXTSCROLLER_HPP
-#define HEADER_SUPERTUX_OBJECT_TEXTSCROLLER_HPP
+#pragma once
 
 #include "editor/layer_object.hpp"
 
@@ -52,7 +51,8 @@ public:
 
   inline void set_default_speed(float default_speed) { m_default_speed = default_speed; }
   inline bool is_finished() const { return m_finished; }
-  
+  inline bool is_fading() const { return m_fading; }
+
 protected:
   const Controller* controller;
 
@@ -60,6 +60,7 @@ private:
   void parse_file(const std::string& filename);
   void parse_root(const ReaderObject& root);
   void parse_content(const ReaderCollection& collection);
+  void start_fading();
 
 private:
   std::string m_filename;
@@ -90,7 +91,3 @@ private:
   TextScroller(const TextScroller&) = delete;
   TextScroller& operator=(const TextScroller&) = delete;
 };
-
-#endif
-
-/* EOF */

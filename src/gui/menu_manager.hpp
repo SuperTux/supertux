@@ -15,8 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_MANAGER_HPP
-#define HEADER_SUPERTUX_GUI_MENU_MANAGER_HPP
+#pragma once
 
 #include "util/currenton.hpp"
 
@@ -84,6 +83,7 @@ public:
 
   inline bool is_active() const { return !m_menu_stack.empty(); }
   inline bool has_dialog() const { return m_dialog.current || m_dialog.has_next; }
+  inline std::size_t get_menu_stack_size() const { return m_menu_stack.size(); }
 
   Menu* current_menu() const;
   Menu* previous_menu() const;
@@ -124,7 +124,3 @@ private:
   MenuManager(const MenuManager&) = delete;
   MenuManager& operator=(const MenuManager&) = delete;
 };
-
-#endif
-
-/* EOF */

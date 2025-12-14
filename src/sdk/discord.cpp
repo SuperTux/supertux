@@ -195,5 +195,3 @@ DiscordIntegration::update_status(IntegrationStatus status)
 }
 
 #endif
-
-/* EOF */

@@ -14,8 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_MARKER_OBJECT_HPP
-#define HEADER_SUPERTUX_EDITOR_MARKER_OBJECT_HPP
+#pragma once
 
 #include "supertux/moving_object.hpp"
 
@@ -51,7 +50,3 @@ private:
   MarkerObject(const MarkerObject&) = delete;
   MarkerObject& operator=(const MarkerObject&) = delete;
 };
-
-#endif
-
-/* EOF */

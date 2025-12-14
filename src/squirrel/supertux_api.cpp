@@ -164,7 +164,6 @@ static bool check_cutscene()
 static SQInteger wait(HSQUIRRELVM vm, float seconds, bool forced = false)
 {
   ssq::VM* ssq_vm = ssq::VM::get(vm);
-  assert(ssq_vm);
   if (ssq_vm && !ssq_vm->isThread()) return 0;
 
   if (!forced)
@@ -312,7 +311,7 @@ static void load_level(const std::string& filename)
 static void import(HSQUIRRELVM vm, const std::string& filename)
 {
   ssq::VM* ssq_vm = ssq::VM::get(vm);
-  assert(ssq_vm);
+  if (!ssq_vm) return;
 
   IFileStream in(filename);
   ssq_vm->run(ssq_vm->compileSource(in, filename.c_str()));
@@ -891,5 +890,3 @@ void register_supertux_scripting_api(ssq::VM& vm)
   vm.addFunc("Level_flip_vertically", &scripting::Level::flip_vertically);
   vm.addFunc("Level_toggle_pause", &scripting::Level::toggle_pause);
 }
-
-/* EOF */

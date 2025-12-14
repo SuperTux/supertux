@@ -335,7 +335,13 @@ std::string physfs_userdir = PHYSFS_getUserDir();
 #ifdef _WIN32
 std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
 #else
-std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
+std::string olduserdir;
+// Extra safety check to ensure we can't move home.
+// See: https://bugs.gentoo.org/764959
+if (std::string(PACKAGE_NAME) == "")
+  olduserdir = FileSystem::join(physfs_userdir, ".supertux2");
+else
+  olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
 if (FileSystem::is_directory(olduserdir)) {
   std::filesystem::path olduserpath(olduserdir);
@@ -427,9 +433,21 @@ PhysfsSubsystem::~PhysfsSubsystem()
 
 SDLSubsystem::SDLSubsystem()
 {
-  Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO;
-#ifndef UBUNTU_TOUCH
-  flags |= SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+  Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+
+#if SDL_VERSION_ATLEAST(2,0,22) && (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
+    defined(__OPENBSD) || defined(__NetBSD)) && !defined(STEAM_BUILD)
+  /* See commit 254fcc9 for SDL. Most of the Nvidia problems are knocked out (i
+   * think) for now thanks to nvidia's open drivers. Wayland is needed for
+   * precision scrolling to work (which is used for the editor) and most distros
+   * are shipping wayland out of the box, so let's prefer it.
+   *
+   * When we migrate to SDL3, we can remove this snippet as they've now
+   * defaulted to preferring Wayland (if i recall) -- Swagtoy
+   */
+  if (g_config->prefer_wayland)
+    SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
+
 #endif
   if (SDL_Init(flags) < 0)
   {
@@ -461,12 +479,18 @@ Main::init_video()
 {
   VideoSystem::current()->set_title("SuperTux " PACKAGE_VERSION);
 
-  const char* icon_fname = "images/engine/icons/supertux-256x256.png";
+  const char* icon_fname =
+#ifdef IS_SUPERTUX_RELEASE
+    "images/engine/icons/supertux-256x256.png";
+#else
+    "images/engine/icons/supertux-nightly-256x256.png";
+#endif
 
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
 
-  SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
+  SDL_ShowCursor(
+    (g_config->custom_mouse_cursor && !g_config->custom_system_cursor) ? SDL_DISABLE : SDL_ENABLE);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
@@ -702,6 +726,7 @@ Main::run(int argc, char** argv)
     {
       args.parse_args(argc, argv);
       g_log_level = args.get_log_level();
+      g_log_tinygettext = args.log_tinygettext;
     }
     catch(const std::exception& err)
     {
@@ -819,5 +844,3 @@ Main::release_check()
   dialog->set_title(_("Checking for new releases..."));
   MenuManager::instance().set_dialog(std::move(dialog));
 }
-
-/* EOF */
