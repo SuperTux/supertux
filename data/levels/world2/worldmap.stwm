@@ -4,8 +4,8 @@
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (allow-item-pocket "on")
-  (icon "")
-  (icon-locked "")
+  (icon "/images/worlds/icon/rootedforest.png")
+  (icon-locked "/images/worlds/locked/rootedforest.png")
   (sector
     (name "main")
     (init-script "import(\"levels/world2/worldmap.nut\");")
