@@ -808,8 +808,6 @@ Main::release_check()
   );
   status->then([this, status](bool success)
   {
-    m_downloader.reset();
-
     if (!success)
     {
       log_warning << "Error performing new release check: Failed to download \"supertux-versioninfo\" file: " << status->error_msg << std::endl;
