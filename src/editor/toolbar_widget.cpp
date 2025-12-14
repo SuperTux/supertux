@@ -139,7 +139,14 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
       _("Replace mode")),
   };
 
-  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 2> object_mode_widgets = {
+  std::array<std::unique_ptr<EditorToolbarButtonWidget>, 3> object_mode_widgets = {
+    // Path edit mode
+    std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/path_node.png",
+      [this] {
+        Editor::current()->get_tilebox().set_object("#node");
+      },
+      _("Path edit mode (Clicking adds path nodes to the selected object if it supports them)")),
+
     // Select mode
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/move-mode0.png",
       [this] {
@@ -186,7 +193,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     m_widgets.insert(m_widgets.begin() + i, std::move(widget));
     ++i;
   }
-  m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 2);
+  m_widgets_width = 32.f * (i - std::max(tile_mode_widgets.size(), object_mode_widgets.size()) - 3);
 
   m_undo_widget = m_widgets[0].get();
   m_redo_widget = m_widgets[1].get();
