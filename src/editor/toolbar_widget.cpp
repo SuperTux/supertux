@@ -85,12 +85,7 @@ EditorToolbarWidget::EditorToolbarWidget(Editor& editor) :
     // Save button
     std::make_unique<EditorToolbarButtonWidget>("images/engine/editor/save.png",
       [this] {
-        if (Editor::current()->save_level())
-        {
-          auto notif = std::make_unique<Notification>("save_level_notif", 5.f);
-          notif->set_text(_("Level saved!"));
-          MenuManager::instance().set_notification(std::move(notif));
-        }
+        Editor::current()->save_level();
       },
       _("Save level")),
 
