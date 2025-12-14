@@ -316,7 +316,7 @@ GameSession::on_escape_press(bool force_quick_respawn)
   int textscrollers = m_currentsector->get_object_count<TextScroller>([](const TextScroller& ts) {
     return !ts.is_fading();
   });
-  
+
   if (textscrollers) {
     return;
   }
@@ -553,16 +553,6 @@ GameSession::update(float dt_sec, const Controller& controller)
   // design choice, if you prefer it not to animate when paused, add `if (!m_game_pause)`).
   m_level->m_stats.update_timers(dt_sec);
 
-  // Unpause the game if the menu has been closed.
-  if (m_game_pause && !MenuManager::instance().is_active()) {
-    ScreenManager::current()->set_speed(m_speed_before_pause);
-    SoundManager::current()->resume_music();
-    SoundManager::current()->resume_sounds();
-    assert(m_currentsector != nullptr);
-    m_currentsector->play_looping_sounds();
-    m_game_pause = false;
-  }
-
   check_end_conditions();
 
   const auto& players = m_currentsector->get_players();
@@ -700,6 +690,17 @@ GameSession::update(float dt_sec, const Controller& controller)
   } else if (music_object.get_music_type() != LEVEL_MUSIC) {
     music_object.play_music(LEVEL_MUSIC);
   }
+
+  // Unpause the game if the menu has been closed.
+  if (m_game_pause && !MenuManager::instance().is_active()) {
+    ScreenManager::current()->set_speed(m_speed_before_pause);
+    SoundManager::current()->resume_music();
+    SoundManager::current()->resume_sounds();
+    assert(m_currentsector != nullptr);
+    m_currentsector->play_looping_sounds();
+    m_game_pause = false;
+  }
+
   if (reset_button) {
     reset_button = false;
     reset_level();
