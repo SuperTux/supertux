@@ -141,7 +141,8 @@ Main::Main() :
   m_game_manager(),
   m_screen_manager(),
   m_savegame(),
-  m_downloader() // Used for getting the version of the latest SuperTux release.
+  m_downloader(), // Used for getting the version of the latest SuperTux release.
+  m_version_info()
 {
 }
 
@@ -797,18 +798,22 @@ Main::release_check()
   if (g_config->disable_network)
     return;
 
+  m_downloader = std::make_unique<Downloader>();
+
   // Detect a potential new release of SuperTux. If a release, other than
   // the current one is indicated on the given web file, show a notification on the main menu screen.
-  const std::string target_file = "ver_info.nfo";
-  TransferStatusPtr status = m_downloader.request_download("https://raw.githubusercontent.com/SuperTux/addons/master/ver_info.nfo", target_file);
-  status->then([target_file, status](bool success)
+  TransferStatusPtr status = m_downloader->request_string_download(
+    "https://raw.githubusercontent.com/SuperTux/addons/master/ver_info.nfo",
+    m_version_info
+  );
+  status->then([this, status](bool success)
   {
     if (!success)
     {
       log_warning << "Error performing new release check: Failed to download \"supertux-versioninfo\" file: " << status->error_msg << std::endl;
       return;
     }
-    auto doc = ReaderDocument::from_file(target_file);
+    auto doc = ReaderDocument::from_string(m_version_info, "ver_info.nfo");
     auto root = doc.get_root();
     if (root.get_name() != "supertux-versioninfo")
     {
@@ -817,23 +822,18 @@ Main::release_check()
     }
     auto mapping = root.get_mapping();
     std::string latest_ver;
-    if (mapping.get("latest", latest_ver))
+    if (mapping.get("latest", latest_ver) && latest_ver != PACKAGE_VERSION_TAG)
     {
-      const std::string version_full = std::string(PACKAGE_VERSION);
-      const std::string version = version_full.substr(version_full.find("v") + 1, version_full.find("-") - 1);
-      if (version != latest_ver)
-      {
-        auto notif = std::make_unique<Notification>("new_release_" + latest_ver);
-        notif->set_text(fmt::format(fmt::runtime(_("New release: SuperTux v{}!")), latest_ver));
-        notif->on_press([latest_ver]()
-                       {
-                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n\nDo you want to visit the website now?")), latest_ver), []()
-                                                   {
-                                                     FileSystem::open_url("https://supertux.org");
-                                                   });
-                       });
-        MenuManager::instance().set_notification(std::move(notif));
-      }
+      auto notif = std::make_unique<Notification>("new_release_" + latest_ver);
+      notif->set_text(fmt::format(fmt::runtime(_("New release: SuperTux {}!")), latest_ver));
+      notif->on_press([latest_ver]()
+                     {
+                       Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux ({}) is available!\nFor more information, you can visit the SuperTux website.\n\nDo you want to visit the website now?")), latest_ver), []()
+                                                 {
+                                                   FileSystem::open_url("https://supertux.org");
+                                                 });
+                     });
+      MenuManager::instance().set_notification(std::move(notif));
     }
   });
   // Set up a download dialog to update the transfer status.

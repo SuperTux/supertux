@@ -73,7 +73,7 @@ MainMenu::MainMenu()
 
   on_window_resize();
 
-#ifndef __EMSCRIPTEN__
+
   // Show network-related confirmation dialogs on first startup
   if (g_config->is_initial() && !s_shown_initial_dialogs)
   {
@@ -83,14 +83,15 @@ MainMenu::MainMenu()
       {
         g_config->disable_network = false;
 
+#ifndef __EMSCRIPTEN__
         Dialog::show_confirmation(_("Would you allow SuperTux to check for new releases on startup?\n\nYou will be notified if any are found."),
           []()
           {
             g_config->do_release_check = true;
           });
+#endif
       }, true);
   }
-#endif
 }
 
 void
