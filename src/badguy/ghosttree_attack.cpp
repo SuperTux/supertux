@@ -17,6 +17,7 @@
 #include "badguy/ghosttree_attack.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
 #include "badguy/dart.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
@@ -25,10 +26,12 @@
 
 static const unsigned MAIN_ROOT_COUNT = 3;
 static const float MAIN_ROOT_DELAY = 1.f;
-static const float MAIN_ROOT_HATCH_OFFSET = 16;
+static const float MAIN_ROOT_HILL_OFFSET = 8.f;
+static const float MAIN_ROOT_HATCH_OFFSET = 16.f;
 static const float MAIN_ROOT_HATCH_DURATION = .3f;
 static const float MAIN_ROOT_RISE_DURATION = .9f;
 static const float MAIN_ROOT_FALL_DURATION = 1.3f;
+static const float MAIN_ROOT_SOUND_PITCH = 0.85f; // Pitch multiplier
 
 static const float RED_ROOT_SPEED = 128;
 static const float RED_ROOT_DELAY = 0.2;
@@ -89,14 +92,22 @@ GhostTreeRoot::kill_fall()
 // ----------------------------------------------------------------------------
 
 GhostTreeRootMain::GhostTreeRootMain(const Vector& pos, GhostTreeAttack* parent):
-  GhostTreeRoot(pos + Vector(0, MAIN_ROOT_HATCH_OFFSET), Direction::AUTO, "images/creatures/ghosttree/main_root.sprite"),
+  GhostTreeRoot(pos, Direction::AUTO, "images/creatures/ghosttree/main_root.sprite"),
   m_state(STATE_HATCHING),
   m_state_timer(),
   m_maxheight(),
   m_parent(parent),
   m_hill(Surface::from_file("images/creatures/mole/corrupted/root_base.png"))
 {
+  set_pos(get_pos() + Vector(-get_sprite()->get_current_hitbox_width() / 2.f, MAIN_ROOT_HATCH_OFFSET));
+  set_start_position(get_pos());
   m_state_timer.start(MAIN_ROOT_HATCH_DURATION);
+
+  std::unique_ptr<SoundSource> sound = SoundManager::current()->create_sound_source("sounds/brick.wav");
+  sound->set_position(get_pos());
+  sound->set_pitch(MAIN_ROOT_SOUND_PITCH);
+  sound->play();
+  SoundManager::current()->manage_source(std::move(sound));
 }
 
 GhostTreeRootMain::~GhostTreeRootMain()
@@ -126,6 +137,13 @@ GhostTreeRootMain::active_update(float dt_sec)
       if (m_state_timer.check())
       {
         m_maxheight = get_pos().y;
+
+        std::unique_ptr<SoundSource> soundSource = SoundManager::current()->create_sound_source("sounds/darthit.wav");
+        soundSource->set_position(get_pos());
+        soundSource->set_pitch(MAIN_ROOT_SOUND_PITCH);
+        soundSource->play();
+        SoundManager::current()->manage_source(std::move(soundSource));
+
         m_state = STATE_FALLING;
         m_state_timer.start(MAIN_ROOT_FALL_DURATION);
       }
@@ -157,7 +175,8 @@ GhostTreeRootMain::draw(DrawingContext& context)
 {
   const Size orig = m_hill->get_region().get_size();
   const Sizef newsize = Sizef(orig.width, orig.height) * 1.6f;
-  const Vector off((-newsize.width / 2.f) + (m_sprite->get_current_hitbox_width() / 2.f), -newsize.height - MAIN_ROOT_HATCH_OFFSET);
+  const Vector off((-newsize.width / 2.f) + (m_sprite->get_current_hitbox_width() / 2.f),
+                   -newsize.height - MAIN_ROOT_HATCH_OFFSET - MAIN_ROOT_HILL_OFFSET);
   const Rectf dest(m_start_position + off, newsize);
   context.color().draw_surface_scaled(m_hill, dest, m_layer + 5);
 
@@ -357,7 +376,7 @@ GhostTreeAttackMain::GhostTreeAttackMain(Vector pos):
   m_pos(pos),
   m_remaining_roots(MAIN_ROOT_COUNT)
 {
-  m_spawn_timer.start(0.2);
+  m_spawn_timer.start(0.2f);
 }
 
 GhostTreeAttackMain::~GhostTreeAttackMain()
@@ -379,18 +398,21 @@ GhostTreeAttackMain::active_update(float dtime)
     return;
   }
 
-  float midx = p->get_x() + (p->get_width() / 2);
-  Vector pos(midx, m_pos.y);
-  Vector eye(midx, p->get_bbox().get_bottom());
+  Vector pos(p->get_x() + (p->get_width() / 2), m_pos.y);
+
+#if 0
+  // Detect ground position below player
+  // Disabled because the story mode arena works better without this
+  // TODO: Make this configurable
+  Vector eye(pos.x, p->get_bbox().get_bottom());
   RaycastResult result = Sector::get().get_first_line_intersection(eye, eye + Vector(0.f, 670.f),
-                                                                   CollisionSystem::IGNORE_OBJECTS, nullptr);
+                                                                   // CollisionSystem::IGNORE_OBJECTS, nullptr);
 
   if (result.is_valid)
     pos.y = result.box.get_top();
+#endif
 
-  auto& root = Sector::get().add<GhostTreeRootMain>(pos, this);
-  root.set_pos(pos.x - (root.get_sprite()->get_current_hitbox_width() / 2.f), root.get_pos().y);
-  root.set_start_position(root.get_pos());
+  Sector::get().add<GhostTreeRootMain>(pos, this);
 }
 
 bool

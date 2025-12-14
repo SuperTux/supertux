@@ -73,7 +73,9 @@ private:
   State m_state;
   Timer m_state_timer;
   float m_maxheight;
+
   GhostTreeAttack* m_parent;
+
   SurfacePtr m_hill;
 };
 
