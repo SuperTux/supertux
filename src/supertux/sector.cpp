@@ -831,6 +831,10 @@ Sector::convert_tiles2gameobject()
             Vector pos = tm.get_tile_position(x, y) + tm_offset;
             try {
               auto object = GameObjectFactory::instance().create(tile.get_object_name(), pos, Direction::AUTO, tile.get_object_data());
+              
+              if (auto* moving_sprite = dynamic_cast<MovingSprite*>(object.get()))
+                moving_sprite->set_layer(tm.get_layer());
+              
               add_object(std::move(object));
               tm.change(x, y, 0);
             } catch(std::exception& e) {
