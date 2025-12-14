@@ -33,8 +33,8 @@ static const float MAIN_ROOT_RISE_DURATION = .9f;
 static const float MAIN_ROOT_FALL_DURATION = 1.3f;
 static const float MAIN_ROOT_SOUND_PITCH = 0.85f; // Pitch multiplier
 
-static const float RED_ROOT_SPEED = 128;
-static const float RED_ROOT_DELAY = 0.2;
+static const float RED_ROOT_SPEED = 256;
+static const float RED_ROOT_DELAY = 0.1f;
 static const float RED_ROOT_SPAN = 32;
 
 static const float GREEN_ROOT_SPEED = 64;
@@ -138,11 +138,11 @@ GhostTreeRootMain::active_update(float dt_sec)
       {
         m_maxheight = get_pos().y;
 
-        std::unique_ptr<SoundSource> soundSource = SoundManager::current()->create_sound_source("sounds/darthit.wav");
-        soundSource->set_position(get_pos());
-        soundSource->set_pitch(MAIN_ROOT_SOUND_PITCH);
-        soundSource->play();
-        SoundManager::current()->manage_source(std::move(soundSource));
+        std::unique_ptr<SoundSource> sound = SoundManager::current()->create_sound_source("sounds/darthit.wav");
+        sound->set_position(get_pos());
+        sound->set_pitch(MAIN_ROOT_SOUND_PITCH);
+        sound->play();
+        SoundManager::current()->manage_source(std::move(sound));
 
         m_state = STATE_FALLING;
         m_state_timer.start(MAIN_ROOT_FALL_DURATION);
