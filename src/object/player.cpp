@@ -2254,7 +2254,7 @@ Player::draw(DrawingContext& context)
   }
 
   /* Set Tux powerup sprite action */
-  if (g_config->christmas_mode)
+  if (g_config->is_christmas())
   {
     //TODO: Implement new santa hats
     //m_santahatsprite->set_action(m_sprite->get_action());

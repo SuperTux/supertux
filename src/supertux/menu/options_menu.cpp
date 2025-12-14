@@ -199,7 +199,7 @@ OptionsMenu::refresh()
       add_toggle(MNID_CUSTOM_TITLE_LEVELS, _("Custom title screen levels"), &g_config->custom_title_levels)
         .set_help(_("Allow overriding the title screen level, when loading certain worlds"));
 
-      if (g_config->is_christmas() || g_config->christmas_mode)
+      if (g_config->christmas_mode && !g_config->is_christmas())
         add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
 
       add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
