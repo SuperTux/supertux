@@ -923,7 +923,7 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
     });
     dialog->add_button(_("No"), [this, action] {
       action();
-	  set_level(nullptr, true);
+	    set_level(nullptr, true);
       m_enabled = true;
     });
     dialog->add_button(_("Cancel"), [this] {

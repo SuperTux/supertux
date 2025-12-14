@@ -96,7 +96,7 @@ EditorMenu::refresh()
   }
 
   add_hl();
-  
+
   add_submenu(_("Editor settings"), MenuStorage::EDITOR_SETTINGS_MENU);
 
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
@@ -104,6 +104,8 @@ EditorMenu::refresh()
   add_entry(MNID_HELP, _("Keyboard Shortcuts"));
 
   add_hl();
+  if (!Editor::current()->is_temp_level())
+    add_entry(MNID_CLOSELEVEL, _("Close Level"));
   add_entry(MNID_QUITEDITOR, _("Exit Level Editor"));
 }
 
@@ -220,6 +222,13 @@ EditorMenu::menu_action(MenuItem& item)
     case MNID_LEVELSETSEL:
       editor->check_unsaved_changes([] {
         MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+      });
+      break;
+
+    case MNID_CLOSELEVEL:
+      editor->check_unsaved_changes([] {
+        // check_unsaved_changes implicitly calls set_level(nullptr, ...)
+        MenuManager::instance().clear_menu_stack();
       });
       break;
 
