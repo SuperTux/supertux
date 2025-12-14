@@ -1634,7 +1634,8 @@ EditorOverlayWidget::draw(DrawingContext& context)
   // TODO calculate width of rect
   if (m_editor.get_properties_panel_visible())
     hint_pos.x += 200.f;
-  if (g_config->editor_autotile_help)
+
+  if (m_editor.get_tilebox().get_input_type() == InputType::TILE && g_config->editor_autotile_help)
   {
     if (m_autotile_mode)
     {
