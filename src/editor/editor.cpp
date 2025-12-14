@@ -1262,11 +1262,13 @@ Editor::event(const SDL_Event& ev)
     }
 
     BIND_SECTOR(*m_sector);
+
+    if (m_toolbar_widget->event(ev))  
+      return;
+
     for (const auto& widget : m_widgets)
       if (widget->event(ev))
         break;
-
-    m_toolbar_widget->event(ev);
   }
   catch(const std::exception& err)
   {
