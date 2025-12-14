@@ -33,8 +33,8 @@ static const float MAIN_ROOT_RISE_DURATION = .9f;
 static const float MAIN_ROOT_FALL_DURATION = 1.3f;
 static const float MAIN_ROOT_SOUND_PITCH = 0.85f; // Pitch multiplier
 
-static const float RED_ROOT_SPEED = 256;
-static const float RED_ROOT_DELAY = 0.1f;
+static const float RED_ROOT_SPEED = 216;
+static const float RED_ROOT_DELAY = 0.15f;
 static const float RED_ROOT_SPAN = 32;
 
 static const float GREEN_ROOT_SPEED = 64;
@@ -102,6 +102,9 @@ GhostTreeRootMain::GhostTreeRootMain(const Vector& pos, GhostTreeAttack* parent)
   set_pos(get_pos() + Vector(-get_sprite()->get_current_hitbox_width() / 2.f, MAIN_ROOT_HATCH_OFFSET));
   set_start_position(get_pos());
   m_state_timer.start(MAIN_ROOT_HATCH_DURATION);
+
+  SoundManager::current()->preload("sounds/brick.wav");
+  SoundManager::current()->preload("sounds/darthit.wav");
 
   std::unique_ptr<SoundSource> sound = SoundManager::current()->create_sound_source("sounds/brick.wav");
   sound->set_position(get_pos());
@@ -191,8 +194,12 @@ GhostTreeRootRed::GhostTreeRootRed(const Vector& pos, GhostTreeAttack* parent):
   m_parent(parent)
 {
   m_physic.set_velocity_y(-RED_ROOT_SPEED);
+
   const int variant = abs(static_cast<int>(pos.x)) % 3 + 1;
   set_action("variant" + std::to_string(variant));
+
+  SoundManager::current()->preload("sounds/darthit.wav");
+
   m_level_top -= m_col.m_bbox.get_height();
 }
 
@@ -208,6 +215,7 @@ GhostTreeRootRed::active_update(float dt_sec)
     case STATE_RISING:
       if (get_pos().y <= m_level_top) {
         m_state = STATE_FALLING;
+        SoundManager::current()->play("sounds/darthit.wav", get_pos());
         m_physic.set_velocity_y(RED_ROOT_SPEED);
       }
       break;
