@@ -41,12 +41,20 @@ public:
   static Color s_message_color;
   static Color s_teleporter_message_color;
 
+  struct HelperInfo final
+  {
+    std::vector<std::string> worldmap_refs;
+    int playable_level_count = 0;
+  };
+  static HelperInfo parse_helper_info(const std::string& filename);
+
 public:
   WorldMap(const std::string& filename, Savegame& savegame,
            const std::string& force_sector = "", const std::string& force_spawnpoint = "");
 
   void setup() override;
   void leave() override;
+  void quit();
 
   void draw(Compositor& compositor) override;
   void update(float dt_sec, const Controller& controller) override;
@@ -103,6 +111,7 @@ private:
   void process_input(const Controller& controller);
 
   void on_escape_press();
+  void take_preview_screenshot();
 
 private:
   WorldMapSector* m_sector; /* The currently active sector. */
@@ -128,6 +137,7 @@ private:
   bool m_enter_level;
   bool m_in_level;
   bool m_in_world_select;
+  bool m_screenshot_request;
   
   std::string m_next_filename;
   std::string m_next_force_sector;

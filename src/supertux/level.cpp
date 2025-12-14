@@ -32,6 +32,8 @@
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 #include "util/writer.hpp"
+#include "worldmap/level_tile.hpp"
+#include "worldmap/teleporter.hpp"
 
 static PlayerStatus s_dummy_player_status(1);
 Level* Level::s_current = nullptr;
@@ -217,6 +219,28 @@ Level::save(Writer& writer)
 
   if (m_tileset != "images/tiles.strf")
     writer.write("tileset", m_tileset, false);
+
+  // If worldmap, save some helper info to prevent parsing the full file in some cases.
+  if (m_is_worldmap)
+  {
+    std::vector<std::string> worldmap_refs;
+    int playable_level_count = 0;
+    for (const auto& sector : m_sectors)
+    {
+      for (const auto& teleporter : sector->get_objects_by_type<worldmap::Teleporter>())
+      {
+        if (!teleporter.get_worldmap().empty())
+          worldmap_refs.push_back(teleporter.get_worldmap());
+      }
+      for (const auto& level_tile : sector->get_objects_by_type<worldmap::LevelTile>())
+      {
+        if (!level_tile.is_cutscene())
+          ++playable_level_count;
+      }
+    }
+    writer.write("worldmap-refs", worldmap_refs);
+    writer.write("playable-level-count", playable_level_count);
+  }
 
   // Ends writing to supertux level file. Keep this at the very end.
   writer.end_list("supertux-level");

@@ -1,5 +1,6 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2015 Matthew <thebatmankiller3@gmail.com>
+//                2022-2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,24 +17,16 @@
 
 #pragma once
 
-#include "gui/menu.hpp"
+#include "supertux/menu/world_preview_menu.hpp"
 
-#include "supertux/levelset.hpp"
-
-class World;
-
-class ContribLevelsetMenu final : public Menu
+class WorldSetMenu final : public WorldPreviewMenu
 {
-private:
-  std::unique_ptr<World> m_world;
-  std::unique_ptr<Levelset> m_levelset;
-
 public:
-  ContribLevelsetMenu(std::unique_ptr<World> current_world);
+  WorldSetMenu();
 
   void menu_action(MenuItem& item) override;
 
 private:
-  ContribLevelsetMenu(const ContribLevelsetMenu&) = delete;
-  ContribLevelsetMenu& operator=(const ContribLevelsetMenu&) = delete;
+  WorldSetMenu(const WorldSetMenu&) = delete;
+  WorldSetMenu& operator=(const WorldSetMenu&) = delete;
 };

@@ -121,6 +121,7 @@ public:
   bool custom_system_cursor;
   bool do_release_check;
   bool disable_network;
+  bool show_world_previews;
   bool custom_title_levels;
 
 #ifdef ENABLE_DISCORD

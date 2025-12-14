@@ -206,7 +206,8 @@ WorldMapSector::draw(DrawingContext& context)
     }
   }
 
-  draw_status(context);
+  if (!m_parent.m_screenshot_request)
+    draw_status(context);
 }
 
 void

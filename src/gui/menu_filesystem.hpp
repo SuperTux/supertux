@@ -31,6 +31,7 @@ public:
 private:
   void refresh_items();
   bool has_right_suffix(const std::string& file) const;
+  bool is_image(const std::string& file) const;
 
 private:
   std::string* m_filename;

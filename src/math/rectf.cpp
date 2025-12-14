@@ -28,6 +28,29 @@ Rectf::Rectf(const Rect& rect) :
 {
 }
 
+void
+Rectf::fit(const Sizef& target_size)
+{
+  const float ratio = m_size.width / m_size.height;
+  const float target_ratio = target_size.width / target_size.height;
+
+  m_size = target_size;
+
+  if (ratio > target_ratio)
+    m_size.height = target_size.width / ratio;
+  else if (ratio < target_ratio)
+    m_size.width = target_size.height * ratio;
+}
+
+void
+Rectf::fit_centered(const Sizef& target_size)
+{
+  fit(target_size);
+
+  m_p1 += Vector((target_size.width - m_size.width) / 2.f,
+                 (target_size.height - m_size.height) / 2.f);
+}
+
 Rect
 Rectf::to_rect() const
 {

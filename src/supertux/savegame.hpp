@@ -23,19 +23,25 @@
 
 #include <simplesquirrel/table.hpp>
 
-class PlayerStatus;
+#include "supertux/player_status.hpp"
+
 class Profile;
 
 struct LevelState
 {
 public:
-  LevelState() :
+  LevelState(bool placeholder_ = false) :
     filename(),
+    placeholder(placeholder_),
+    cutscene(false),
     solved(false),
     perfect(false)
   {}
 
   std::string filename;
+  bool placeholder;
+
+  bool cutscene;
   bool solved;
   bool perfect;
 };
@@ -68,6 +74,20 @@ public:
 class Savegame final
 {
 public:
+  struct Progress final
+  {
+    Progress() :
+      solved(),
+      perfect(),
+      total()
+    {}
+    uint32_t solved;
+    uint32_t perfect;
+    uint32_t total;
+
+    uint32_t get_percentage() const;
+  };
+
   static std::unique_ptr<Savegame> from_profile(int profile, const std::string& world_name, bool base_data = false);
   static std::unique_ptr<Savegame> from_current_profile(const std::string& world_name, bool base_data = false);
 
@@ -90,6 +110,9 @@ public:
 
   std::vector<std::string> get_worldmaps();
   WorldmapState get_worldmap_state(const std::string& name);
+
+  Progress get_levelset_progress();
+  Progress get_worldmap_progress();
 
   void save();
 

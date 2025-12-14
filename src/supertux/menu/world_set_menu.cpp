@@ -1,5 +1,6 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2015 Matthew <thebatmankiller3@gmail.com>
+//                2022-2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,36 +15,40 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/worldmap_menu.hpp"
+#include "supertux/menu/world_set_menu.hpp"
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
-#include "worldmap/worldmap.hpp"
 
-WorldmapMenu::WorldmapMenu()
+WorldSetMenu::WorldSetMenu()
 {
-  add_label(_("Pause"));
+  add_label(_("Start Game"));
   add_hl();
-  add_entry(MNID_RETURNWORLDMAP, _("Continue"));
-  add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
+
+  const auto story_savegame = Savegame::from_current_profile("world1");
+  add_world(_("Story Mode"), "levels/world1",
+            story_savegame->get_worldmap_progress(), find_preview("previews/world1.png", "levels/world1"));
+
+  add_entry(1, _("Contrib Levels"));
   add_hl();
-  add_entry(MNID_QUITWORLDMAP, _("Leave World"));
+  add_back(_("Back"));
+
+  align_for_previews(0.5f);
 }
 
 void
-WorldmapMenu::menu_action(MenuItem& item)
+WorldSetMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id())
   {
-    case MNID_RETURNWORLDMAP:
-      MenuManager::instance().clear_menu_stack();
-      break;
+    case 1:
+	    MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);
+	    break;
 
-    case MNID_QUITWORLDMAP:
-      MenuManager::instance().clear_menu_stack(true); // Skip transition.
-      worldmap::WorldMap::current()->quit();
+    default:
+      WorldPreviewMenu::menu_action(item);
       break;
   }
 }
