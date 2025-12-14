@@ -54,7 +54,7 @@
 
 const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
 
-namespace 
+namespace
 {
 /* Times: */
 const float TUX_SAFE_TIME = 1.8f;
@@ -267,7 +267,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
 
   m_col.set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
 
-  
+
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);
 
@@ -2198,7 +2198,7 @@ Player::draw(DrawingContext& context)
       const bool is_not_idle = std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
         [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; });
 
-      if (is_not_idle || (m_should_fancy_idle && !m_fancy_idle_active))
+      if (is_not_idle || (m_should_fancy_idle && !m_fancy_idle_active) || m_reset_action)
       {
         m_idle_stage = 0;
         m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
@@ -2211,6 +2211,9 @@ Player::draw(DrawingContext& context)
         }
         else
           m_fancy_idle_active = true;
+
+        if (m_reset_action)
+          m_reset_action = false;
       }
       else if (m_should_fancy_idle)
       {
@@ -2487,6 +2490,7 @@ Player::kill(bool completely)
 
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
+    m_reset_action = true;
 
     if (get_bonus() > BONUS_GROWUP)
     {
