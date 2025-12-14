@@ -65,15 +65,14 @@ public:
 
 private:
   enum State {
-    STATE_THREATENING,
+    STATE_HATCHING,
     STATE_RISING,
     STATE_FALLING,
   };
 
-  float m_level_bottom;
-  float m_level_middle;
-  float m_level_top;
   State m_state;
+  Timer m_state_timer;
+  float m_maxheight;
   GhostTreeAttack* m_parent;
   SurfacePtr m_hill;
 };

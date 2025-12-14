@@ -23,10 +23,12 @@
 #include "supertux/sector.hpp"
 #include "video/surface.hpp"
 
-static const float MAIN_ROOT_THREAT = 16;
-static const float MAIN_ROOT_THREAT_SPEED = 32;
-static const float MAIN_ROOT_SPEED = 128;
-static const float MAIN_ROOT_DELAY = 2;
+static const unsigned MAIN_ROOT_COUNT = 3;
+static const float MAIN_ROOT_DELAY = 1.f;
+static const float MAIN_ROOT_HATCH_OFFSET = 16;
+static const float MAIN_ROOT_HATCH_DURATION = .3f;
+static const float MAIN_ROOT_RISE_DURATION = .9f;
+static const float MAIN_ROOT_FALL_DURATION = 1.3f;
 
 static const float RED_ROOT_SPEED = 128;
 static const float RED_ROOT_DELAY = 0.2;
@@ -87,16 +89,14 @@ GhostTreeRoot::kill_fall()
 // ----------------------------------------------------------------------------
 
 GhostTreeRootMain::GhostTreeRootMain(const Vector& pos, GhostTreeAttack* parent):
-  GhostTreeRoot(pos + Vector(0, MAIN_ROOT_THREAT), Direction::AUTO, "images/creatures/ghosttree/main_root.sprite"),
-  m_level_bottom(pos.y + MAIN_ROOT_THREAT),
-  m_level_middle(pos.y),
-  m_level_top(pos.y),
-  m_state(STATE_THREATENING),
+  GhostTreeRoot(pos + Vector(0, MAIN_ROOT_HATCH_OFFSET), Direction::AUTO, "images/creatures/ghosttree/main_root.sprite"),
+  m_state(STATE_HATCHING),
+  m_state_timer(),
+  m_maxheight(),
   m_parent(parent),
   m_hill(Surface::from_file("images/creatures/mole/corrupted/root_base.png"))
 {
-  m_physic.set_velocity_y(-MAIN_ROOT_THREAT_SPEED);
-  m_level_top -= m_col.m_bbox.get_height();
+  m_state_timer.start(MAIN_ROOT_HATCH_DURATION);
 }
 
 GhostTreeRootMain::~GhostTreeRootMain()
@@ -108,24 +108,45 @@ GhostTreeRootMain::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
   switch (m_state) {
-    case STATE_THREATENING:
-      if (get_pos().y <= m_level_middle) {
+    case STATE_HATCHING:
+      if (m_state_timer.check())
+      {
         m_state = STATE_RISING;
-        m_physic.set_velocity_y(-MAIN_ROOT_SPEED);
+        m_state_timer.start(MAIN_ROOT_RISE_DURATION);
       }
       break;
+
     case STATE_RISING:
-      if (get_pos().y <= m_level_top) {
+    {
+      const double progress = static_cast<double>(m_state_timer.get_progress());
+      const float target = get_height() + MAIN_ROOT_HATCH_OFFSET;
+      const float off = QuadraticEaseIn(progress) * target;
+      set_pos(get_pos().x, m_start_position.y - off);
+
+      if (m_state_timer.check())
+      {
+        m_maxheight = get_pos().y;
         m_state = STATE_FALLING;
-        m_physic.set_velocity_y(MAIN_ROOT_SPEED);
+        m_state_timer.start(MAIN_ROOT_FALL_DURATION);
       }
       break;
+    }
+
     case STATE_FALLING:
-      if (get_pos().y >= m_level_bottom) {
+    {
+      const double progress = static_cast<double>(m_state_timer.get_progress());
+      const float target = get_height() + MAIN_ROOT_HATCH_OFFSET;
+      const float off = QuadraticEaseIn(progress) * target;
+      set_pos(get_pos().x, m_maxheight + off);
+
+      if (m_state_timer.check())
+      {
         m_parent->root_died();
         remove_me();
       }
       break;
+    }
+
     default:
       break;
   }
@@ -136,7 +157,7 @@ GhostTreeRootMain::draw(DrawingContext& context)
 {
   const Size orig = m_hill->get_region().get_size();
   const Sizef newsize = Sizef(orig.width, orig.height) * 1.6f;
-  const Vector off((-newsize.width / 2.f) + (m_sprite->get_current_hitbox_width() / 2.f), -newsize.height);
+  const Vector off((-newsize.width / 2.f) + (m_sprite->get_current_hitbox_width() / 2.f), -newsize.height - MAIN_ROOT_HATCH_OFFSET);
   const Rectf dest(m_start_position + off, newsize);
   context.color().draw_surface_scaled(m_hill, dest, m_layer + 5);
 
@@ -334,7 +355,7 @@ GhostTreeRootPinch::fire()
 GhostTreeAttackMain::GhostTreeAttackMain(Vector pos):
   m_spawn_timer(),
   m_pos(pos),
-  m_remaining_roots(2)
+  m_remaining_roots(MAIN_ROOT_COUNT)
 {
   m_spawn_timer.start(0.2);
 }
@@ -368,7 +389,7 @@ GhostTreeAttackMain::active_update(float dtime)
     pos.y = result.box.get_top();
 
   auto& root = Sector::get().add<GhostTreeRootMain>(pos, this);
-  root.set_pos(pos.x - (root.get_sprite()->get_current_hitbox_width() / 2.f),pos.y);
+  root.set_pos(pos.x - (root.get_sprite()->get_current_hitbox_width() / 2.f), root.get_pos().y);
   root.set_start_position(root.get_pos());
 }
 
