@@ -200,6 +200,8 @@ Editor::level_from_nothing()
 	sector->set_name(DEFAULT_SECTOR_NAME);
 	m_level->add_sector(std::move(sector));
 	m_level->initialize();
+  m_levelfile = "";
+  m_world.reset();
 	//m_reload_request = true;
 }
 
@@ -769,6 +771,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   else
   {
     level_from_nothing();
+    g_config->editor_last_edited_level = "";
   }
 
   if (reset) {
@@ -923,7 +926,6 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
     });
     dialog->add_button(_("No"), [this, action] {
       action();
-	    set_level(nullptr, true);
       m_enabled = true;
     });
     dialog->add_button(_("Cancel"), [this] {
@@ -1073,7 +1075,10 @@ Editor::setup()
       set_level(FileSystem::basename(g_config->editor_last_edited_level));
     }
     else
+    {
       set_level(nullptr, true);
+      g_config->editor_last_edited_level = "";
+    }
   }
   m_toolbox_widget->setup();
   m_layers_widget->setup();
