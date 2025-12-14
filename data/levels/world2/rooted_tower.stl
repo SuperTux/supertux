@@ -712,7 +712,23 @@ Level.finish(true);")
   )
   (sector
     (name "chase")
-    (init-script "Camera.set_scale(1.1);")
+    (init-script "Camera.set_scale(1.1);
+
+local crushers = [c1, c2];
+
+while(true) {
+local rts_pos_y = p1.get_y();
+
+foreach(crusher in crushers) {
+  local pos_y = crusher.get_y();
+  if (abs(pos_y - rts_pos_y) < 100) {
+    crusher.set_pos(0, 0);
+  }
+}
+
+wait(0);
+}
+")
     (ambient-light
       (color 0.58 0.55 0.68)
     )
@@ -833,12 +849,14 @@ Level.finish(true);")
       (y 1520)
     )
     (crusher
+      (name "c1")
       (type "corrupted-krush")
       (z-pos 50)
       (x 2016)
       (y 3616)
     )
     (crusher
+      (name "c2")
       (type "corrupted-krush")
       (z-pos 50)
       (x 1760)
@@ -1002,6 +1020,18 @@ Level.finish(true);")
         )
       )
     )
+    (platform
+      (z-pos -300)
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
+      (running #f)
+      (name "p1")
+      (path-ref "gen16930061992125494727296")
+    )
     (rock
       (type "large")
       (z-pos 50)
@@ -1041,6 +1071,7 @@ Camera.start_earthquake(8, 0.05);
 wait(2.5);
 ghost_root_thorns.goto_node(1);
 ghost_root_base.goto_node(1);
+p1.goto_node(1);
 wait(1);
 
 Effect.four_to_three(1);
