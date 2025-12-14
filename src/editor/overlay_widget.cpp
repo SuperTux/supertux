@@ -1489,17 +1489,19 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
   if (!m_selected_object->is_valid()) return;
   if (!m_edited_path->is_valid()) return;
 
-  for (auto i = m_edited_path->get_path().m_nodes.begin(); i != m_edited_path->get_path().m_nodes.end(); ++i)
+  auto path_nodes = m_edited_path->get_path().m_nodes;
+
+  for (auto i = path_nodes.begin(); i != path_nodes.end(); ++i)
   {
     auto j = i+1;
     Path::Node* node1 = &(*i);
     Path::Node* node2;
-    if (j == m_edited_path->get_path().m_nodes.end())
+    if (j == path_nodes.end())
     {
       if (m_edited_path->get_path().m_mode == WalkMode::CIRCULAR)
       {
         //loop to the first node
-        node2 = &(*m_edited_path->get_path().m_nodes.begin());
+        node2 = &(*path_nodes.begin());
       }
       else
       {
