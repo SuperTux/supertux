@@ -140,6 +140,9 @@ public:
   bool is_active() const;
   inline void skip_intro() { m_skip_intro = true; }
 
+  // TODO: Use pointer instead of reference. m_savegame can be NULL when the
+  //   editor is active; this results in many cases where people check
+  //   Editor::is_active()
   inline Savegame& get_savegame() const { return *m_savegame; }
 
   void set_scheduler(SquirrelScheduler& new_scheduler);
@@ -190,7 +193,7 @@ private:
 
   Statistics* m_best_level_statistics;
   Savegame* m_savegame;
-  
+
   PlayerStatus m_tmp_playerstatus;
 
   // Note: m_play_time should reset when a level is restarted from the beginning
