@@ -26,11 +26,11 @@ class ScriptManager
 {
 public:
   using callback_t = std::function<void()>;
-  
+
   struct ScriptInfo {
     UID key;
     std::string* script;
-    
+
     bool operator==(const struct ScriptInfo& other) const {
       return other.key == key;
     }
@@ -40,19 +40,20 @@ public:
   };
 public:
   ScriptManager();
-  ~ScriptManager() = default;
-  
+  ~ScriptManager();
+
   static std::string filename_from_key(UID key);
-  static std::string full_filename_from_key(UID key);
-  
+  static std::string abspath_filename_from_key(UID key);
+  static std::string relpath_filename_from_key(UID key);
+
   time_t get_mtime(UID key);
-  
+
   bool is_script_registered(UID key);
   void register_script(UID key, std::string* script);
-  
+
   void poll();
 private:
-  
+
   std::vector<ScriptInfo> m_scripts;
   FileWatcher m_watcher;
 };

@@ -16,9 +16,11 @@
 
 #include "gui/menu_script.hpp"
 
+#include <fmt/format.h>
 #include "editor/editor.hpp"
 #include "gui/item_script_line.hpp"
 #include "util/gettext.hpp"
+#include "util/file_system.hpp"
 
 ScriptMenu::ScriptMenu(UID uid, const std::string& key, std::string* script_) :
   base_script(script_),
@@ -48,22 +50,25 @@ ScriptMenu::ScriptMenu(UID uid, const std::string& key, std::string* script_) :
 
   if (Editor::current())
     Editor::current()->m_script_manager.register_script(m_uid, base_script);
-  
+
   add_hl();
-  add_entry(_("Open in editor"), [this]{
-    FileSystem::open_editor(ScriptManager::full_filename_from_key(m_uid));
-  });
+  add_entry((g_config->preferred_text_editor.empty() ? _("Open in editor")
+                                                     : fmt::format(fmt::runtime(_("Open in \"{}\"")), g_config->preferred_text_editor)),
+    [this]{
+      FileSystem::open_editor(ScriptManager::abspath_filename_from_key(m_uid));
+    }
+  );
   add_back(_("OK"));
 }
 
 ScriptMenu::~ScriptMenu()
 {
   time_t mtime = Editor::current()->m_script_manager.get_mtime(m_uid);
-  
+
   // Don't save if the external file was edited.
   if (mtime > m_start_time)
     return;
-  
+
   *base_script = *(script_strings[0]);
   for (auto i = script_strings.begin()+1; i != script_strings.end(); ++i) {
     *base_script += "\n" + **i;

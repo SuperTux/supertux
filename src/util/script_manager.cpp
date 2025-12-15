@@ -17,16 +17,47 @@
 #include "script_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/file_watcher.hpp"
+#include "util/log.hpp"
+#include "util/file_system.hpp"
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <physfs.h>
 
+
+namespace {
+
+const char* TMP_DIR = "tmp";
+
+void
+delete_tmp()
+{
+  char** files = PHYSFS_enumerateFiles(TMP_DIR);
+
+  for (char** f = files; *f; ++f)
+  {
+    log_debug << "Deleting leftover tmp file \"" << *f << "\"\n";
+    PHYSFS_delete(FileSystem::join(TMP_DIR, *f).c_str());
+  }
+
+  PHYSFS_freeList(files);
+}
+
+
+} // namespace
+
 ScriptManager::ScriptManager() :
   m_scripts(),
   m_watcher()
 {
+  PHYSFS_mkdir(TMP_DIR);
 
+  delete_tmp();
+}
+
+ScriptManager::~ScriptManager()
+{
+  delete_tmp();
 }
 
 bool
@@ -37,9 +68,18 @@ ScriptManager::is_script_registered(UID key)
 }
 
 std::string
-ScriptManager::full_filename_from_key(UID key)
+ScriptManager::abspath_filename_from_key(UID key)
 {
-  return FileSystem::join(PHYSFS_getWriteDir(), "tmp/" + filename_from_key(key));
+  // TODO: Expose something along Windows / $HOME/.cache on *nix
+  return FileSystem::join(PHYSFS_getWriteDir(),
+                          FileSystem::join(TMP_DIR, filename_from_key(key)));
+}
+
+std::string
+ScriptManager::relpath_filename_from_key(UID key)
+{
+  // TODO: Expose something along Windows / $HOME/.cache on *nix
+  return FileSystem::join(TMP_DIR, filename_from_key(key));
 }
 
 std::string
@@ -51,21 +91,23 @@ ScriptManager::filename_from_key(UID key)
 time_t
 ScriptManager::get_mtime(UID key)
 {
-  return m_watcher.get_mtime(full_filename_from_key(key));
+  return m_watcher.get_mtime(abspath_filename_from_key(key));
 }
 
 void
 ScriptManager::register_script(UID key, std::string* script)
 {
-  std::string full_filename = full_filename_from_key(key);
+  std::string full_filename = abspath_filename_from_key(key);
 
-  // TODO: Check if it's different. Causes some editors to nag.  
+  log_debug << "Registering script \"" << key << "\"" << std::endl;
+
+  // TODO: Check if it's different. Causes some editors to nag.
   // Write current script contents
   std::ofstream file;
   file.open(full_filename);
   file << *script;
   file.close();
-  
+
   if (is_script_registered(key))
     return;
   m_scripts.push_back({key, script});
@@ -74,7 +116,7 @@ ScriptManager::register_script(UID key, std::string* script)
       auto res = std::find(m_scripts.begin(), m_scripts.end(), key);
       if (res == m_scripts.end())
         return;
-      
+
       *res->script = "";
       std::fstream readme;
       readme.open(file.filename);
