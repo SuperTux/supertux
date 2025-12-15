@@ -426,13 +426,13 @@ EditorTilebox::change_tilegroup(int dir)
   if (m_input_type == InputType::OBJECT)
   {
     select_last_tilegroup();
-	  return;
+    return;
   }
 
   size_t tilegroups_size = m_editor.get_tileset()->get_tilegroups().size();
   m_tilegroup_id += dir;
   if (m_tilegroup_id < 0)
-  	m_tilegroup_id = tilegroups_size - 1;
+    m_tilegroup_id = tilegroups_size - 1;
   else if (m_tilegroup_id > tilegroups_size - 1)
     m_tilegroup_id = 0;
 
