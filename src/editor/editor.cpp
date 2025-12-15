@@ -573,8 +573,11 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
 
+  std::unique_ptr<World> owned_world;
+  World* current_world = m_world.get();
+
   m_leveltested = true;
-  if ((m_level && m_levelfile.empty()) || m_levelfile == "")
+  if ((m_level && !current_world) || m_levelfile == "")
   {
     GameManager::current()->start_level(m_level.get(), test_pos, true);
     return;
@@ -585,8 +588,6 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 
   // This is jank to get an owned World pointer, GameManager/World
   // could probably need a refactor to handle this better.
-  std::unique_ptr<World> owned_world;
-  World* current_world = m_world.get();
   if (!current_world) {
     owned_world = World::from_directory(directory);
     current_world = owned_world.get();
