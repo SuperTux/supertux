@@ -606,7 +606,7 @@ Main::launch_game(const CommandLineArguments& args)
         dir = dir.replace(position, fileProtocol.length(), "");
       }
       log_debug << "Adding dir: " << dir << std::endl;
-      PHYSFS_mount(dir.c_str(), nullptr, true);
+      PHYSFS_mount(dir.c_str(), dir.c_str(), true);
 
       if (args.resave && *args.resave)
       {
@@ -614,13 +614,19 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else if (args.editor)
       {
-        auto editor = std::make_unique<Editor>();
-        editor->set_level(filename);
-        //editor->setup();
-        editor->update(0, Controller());
-        m_screen_manager->push_screen(std::move(editor));
-        MenuManager::instance().clear_menu_stack();
-        m_sound_manager->stop_music(0.5);
+        if (PHYSFS_exists(start_level.c_str()))
+        {
+          auto editor = std::make_unique<Editor>();
+          editor->set_level(start_level);
+          editor->update(0, Controller());
+          m_screen_manager->push_screen(std::move(editor));
+          MenuManager::instance().clear_menu_stack();
+          m_sound_manager->stop_music(0.5);
+        }
+        else
+        {
+          log_warning << "Level " << start_level << " doesn't exist." << std::endl;
+        }
       }
       else if (StringUtil::has_suffix(start_level, ".stwm"))
       {

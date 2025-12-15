@@ -123,6 +123,7 @@ void
 Level::save(const std::string& filepath, bool retry)
 {
   //FIXME: It tests for directory in supertux/data, but saves into .supertux2.
+  log_info << "Attempting to save complete path \"" << filepath << "\"" << std::endl;
   try {
     { // make sure the level directory exists
       std::string dirname = FileSystem::dirname(filepath);
