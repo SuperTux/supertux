@@ -266,7 +266,7 @@ open_editor(const std::string& filename)
 #ifdef WIN32
     "notepad.exe"; // *shrugs*
 #else
-    getenv("EDITOR");
+    getenv("EDITOR") != NULL ? getenv("EDITOR") : "";
 #endif
   if (!g_config->preferred_text_editor.empty())
     editor = g_config->preferred_text_editor;
