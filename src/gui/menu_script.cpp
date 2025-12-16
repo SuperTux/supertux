@@ -18,6 +18,7 @@
 
 #include <fmt/format.h>
 #include "editor/editor.hpp"
+#include "menu_manager.hpp"
 #include "gui/item_script_line.hpp"
 #include "util/gettext.hpp"
 #include "util/file_system.hpp"
@@ -49,13 +50,14 @@ ScriptMenu::ScriptMenu(UID uid, const std::string& key, std::string* script_) :
   //add_script_line(base_script);
 
   if (Editor::current())
-    Editor::current()->m_script_manager.register_script(m_uid, base_script);
+    Editor::current()->m_script_manager.register_script(m_uid, m_key, base_script);
 
   add_hl();
   add_entry((g_config->preferred_text_editor.empty() ? _("Open in editor")
                                                      : fmt::format(fmt::runtime(_("Open in \"{}\"")), g_config->preferred_text_editor)),
     [this]{
-      FileSystem::open_editor(ScriptManager::abspath_filename_from_key(m_uid));
+      FileSystem::open_editor(ScriptManager::abspath_filename_from_key(m_uid, m_key));
+      MenuManager::current()->pop_menu();
     }
   );
   add_back(_("OK"));
@@ -63,7 +65,7 @@ ScriptMenu::ScriptMenu(UID uid, const std::string& key, std::string* script_) :
 
 ScriptMenu::~ScriptMenu()
 {
-  time_t mtime = Editor::current()->m_script_manager.get_mtime(m_uid);
+  time_t mtime = Editor::current()->m_script_manager.get_mtime(m_uid, m_key);
 
   // Don't save if the external file was edited.
   if (mtime > m_start_time)

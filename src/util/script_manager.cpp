@@ -60,46 +60,57 @@ ScriptManager::~ScriptManager()
   delete_tmp();
 }
 
-bool
-ScriptManager::is_script_registered(UID key)
-{
-  auto res = std::find(m_scripts.begin(), m_scripts.end(), key);
-  return res != m_scripts.end();
-}
-
 std::string
-ScriptManager::abspath_filename_from_key(UID key)
+ScriptManager::abspath_filename_from_key(UID uid, const std::string& key)
 {
   // TODO: Expose something along Windows / $HOME/.cache on *nix
   return FileSystem::join(PHYSFS_getWriteDir(),
-                          FileSystem::join(TMP_DIR, filename_from_key(key)));
+                          FileSystem::join(TMP_DIR, filename_from_key(uid, key)));
 }
 
 std::string
-ScriptManager::relpath_filename_from_key(UID key)
+ScriptManager::relpath_filename_from_key(UID uid, const std::string& key)
 {
   // TODO: Expose something along Windows / $HOME/.cache on *nix
-  return FileSystem::join(TMP_DIR, filename_from_key(key));
+  return FileSystem::join(TMP_DIR, filename_from_key(uid, key));
 }
 
 std::string
-ScriptManager::filename_from_key(UID key)
+ScriptManager::filename_from_key(UID uid, const std::string& key)
 {
-  return "script_" + std::to_string(key.get_value()) + ".nut";
+  return "script_" + std::to_string(uid.get_value()) + '_' + key + ".nut";
 }
 
 time_t
-ScriptManager::get_mtime(UID key)
+ScriptManager::get_mtime(UID uid, const std::string& key)
 {
-  return m_watcher.get_mtime(abspath_filename_from_key(key));
+  return m_watcher.get_mtime(abspath_filename_from_key(uid, key));
+}
+
+auto
+ScriptManager::find_script(UID uid, const std::string& key) -> decltype(m_scripts)::iterator
+{
+  auto res = std::find_if(m_scripts.begin(), m_scripts.end(),
+    [&](ScriptInfo& info) {
+      return info.key == key && info.uid == uid;
+    });
+
+  return res;
+}
+
+bool
+ScriptManager::is_script_registered(UID uid, const std::string& key)
+{
+  return find_script(uid, key) != m_scripts.end();
 }
 
 void
-ScriptManager::register_script(UID key, std::string* script)
+ScriptManager::register_script(UID uid, const std::string& key, std::string* script)
 {
-  std::string full_filename = abspath_filename_from_key(key);
+  std::string full_filename = abspath_filename_from_key(uid, key);
 
-  log_debug << "Registering script \"" << key << "\"" << std::endl;
+  log_debug << "Registering script \"" << filename_from_key(uid, key) << "\"" << std::endl;
+  log_debug << "Full path \"" << full_filename << "\"" << std::endl;
 
   // TODO: Check if it's different. Causes some editors to nag.
   // Write current script contents
@@ -108,22 +119,33 @@ ScriptManager::register_script(UID key, std::string* script)
   file << *script;
   file.close();
 
-  if (is_script_registered(key))
+  if (is_script_registered(uid, key))
     return;
-  m_scripts.push_back({key, script});
+  log_debug << "Script wasn't registered, now monitoring.\n";
+  m_scripts.push_back({uid, key, script});
 
-  m_watcher.start_monitoring(full_filename, [this, key](const FileWatcher::FileInfo& file) {
-      auto res = std::find(m_scripts.begin(), m_scripts.end(), key);
+  m_watcher.start_monitoring(full_filename,
+    [this, uid, key](const FileWatcher::FileInfo& file) {
+      log_debug << "Monitored script \"" << file.filename << "\" updated!\n";
+      auto res = find_script(uid, key);
       if (res == m_scripts.end())
         return;
+      log_debug << "This matched.\n";
 
       *res->script = "";
       std::fstream readme;
       readme.open(file.filename);
       std::string line;
-      while (std::getline(readme, line))
+
+      std::getline(readme, line);
+      while (true)
       {
-        *res->script += line + "\n";
+        *res->script += line;
+
+        if (std::getline(readme, line))
+          *res->script += "\n";
+        else
+          break;
       }
       readme.close();
   });

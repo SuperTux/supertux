@@ -28,32 +28,39 @@ public:
   using callback_t = std::function<void()>;
 
   struct ScriptInfo {
-    UID key;
+    UID uid;
+    std::string key;
     std::string* script;
 
     bool operator==(const struct ScriptInfo& other) const {
-      return other.key == key;
+      return other.uid == uid && other.key == key;
     }
     bool operator==(const UID& other) const {
+      return other == uid;
+    }
+    bool operator==(const std::string& other) const {
       return other == key;
     }
   };
+
 public:
   ScriptManager();
   ~ScriptManager();
 
-  static std::string filename_from_key(UID key);
-  static std::string abspath_filename_from_key(UID key);
-  static std::string relpath_filename_from_key(UID key);
+  static std::string filename_from_key(UID uid, const std::string& key);
+  static std::string abspath_filename_from_key(UID uid, const std::string& key);
+  static std::string relpath_filename_from_key(UID uid, const std::string& key);
 
-  time_t get_mtime(UID key);
+  time_t get_mtime(UID uid, const std::string& key);
 
-  bool is_script_registered(UID key);
-  void register_script(UID key, std::string* script);
+  bool is_script_registered(UID uid, const std::string& key);
+  void register_script(UID uid, const std::string& key, std::string* script);
 
   void poll();
-private:
 
+private:
   std::vector<ScriptInfo> m_scripts;
+  decltype(m_scripts)::iterator find_script(UID uid, const std::string& key);
+
   FileWatcher m_watcher;
 };
