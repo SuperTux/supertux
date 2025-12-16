@@ -136,7 +136,7 @@ Door::update(float )
       if (m_unlocking_timer.check())
       {
         Sector::get().add<SpriteParticle>("images/objects/door/door_lock.sprite",
-          "default", get_bbox().get_middle(), ANCHOR_MIDDLE, Vector(0.f, -300.f), Vector(0.f, 1000.f), LAYER_OBJECTS - 2, true, m_lock_color);
+          "default", get_bbox().get_middle(), ANCHOR_MIDDLE, Vector(0.f, -300.f), Vector(0.f, 1000.f), LAYER_OBJECTS - 2, true, 0, m_lock_color);
         m_unlocking_timer.stop();
         m_state = DoorState::CLOSED;
       }
