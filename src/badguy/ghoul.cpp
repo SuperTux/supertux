@@ -42,6 +42,8 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   m_respawn_timer(),
   m_state()
 {
+  m_can_glint = false;
+
   reader.get("track-range", m_track_range, DEFAULT_TRACK_RANGE);
 
   set_action(m_dir);

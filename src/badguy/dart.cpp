@@ -49,6 +49,7 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::str
 {
   m_physic.enable_gravity(false);
   m_glowing = true;
+  m_can_glint = false;
 
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");

@@ -74,6 +74,8 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_in_water(false),
   m_on_ice(false),
   m_ice_this_frame(false),
+  m_can_glint(true),
+  m_holds_coins(false),
   m_dead_script(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
@@ -129,6 +131,8 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_in_water(false),
   m_on_ice(false),
   m_ice_this_frame(false),
+  m_can_glint(true),
+  m_holds_coins(false),
   m_dead_script(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
@@ -152,7 +156,11 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
     m_start_dir = string_to_dir(dir_str);
   m_dir = m_start_dir;
 
-  reader.get("glinting", is_glinting);
+  if (m_can_glint)
+    reader.get("glinting", is_glinting);
+  else
+    is_glinting = false;
+
   reader.get("dead-script", m_dead_script);
 
   SoundManager::current()->preload("sounds/squish.wav");
@@ -472,7 +480,7 @@ BadGuy::get_allowed_directions() const
 int
 BadGuy::get_coins_worth() const
 {
-  return is_glinting ? 1 : 0;
+  return (m_can_glint && is_glinting) ? 1 : 0;
 }
 
 void
@@ -844,7 +852,6 @@ BadGuy::kill_fall()
     // Start the dead-script.
     run_dead_script();
   }
-
 }
 
 void
@@ -855,7 +862,7 @@ BadGuy::run_dead_script()
 
   m_is_active_flag = false;
 
-  if (is_glinting)
+  if (is_glinting && m_can_glint && !m_holds_coins)
   {
     const float coin_x = get_bbox().get_middle().x - 16.0f;
     const float coin_y = get_bbox().get_top() - 32.0f;
@@ -873,6 +880,8 @@ BadGuy::run_dead_script()
   if (!m_dead_script.empty()) {
     Sector::get().run_script(m_dead_script, "dead-script");
   }
+
+  is_glinting = false;
 }
 
 void
@@ -1354,7 +1363,8 @@ BadGuy::get_settings()
     result.add_direction(_("Direction"), &m_start_dir, get_allowed_directions(), "direction");
   result.add_script(_("Death script"), &m_dead_script, "dead-script");
 
-  result.add_bool(_("Glinting"), &is_glinting, "glinting");
+  if (m_can_glint)
+    result.add_bool(_("Glinting"), &is_glinting, "glinting");
 
   result.reorder({"direction", "sprite", "x", "y", "glinting"});
 
@@ -1420,7 +1430,6 @@ BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
   if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
 }
-
 
 void
 BadGuy::register_class(ssq::VM& vm)

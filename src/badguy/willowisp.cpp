@@ -85,6 +85,7 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
                                  m_color.green * 0.2f,
                                  m_color.blue * 0.2f));
   m_sprite->set_color(m_color);
+  m_can_glint = false;
   m_glowing = true;
 
   set_action("idle");

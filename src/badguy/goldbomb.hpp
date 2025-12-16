@@ -36,7 +36,7 @@ public:
   virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(GoldBomb)); }
   virtual bool is_snipable() const override { return true; }
 
-  int get_coins_worth() const override { return 10; }
+  int get_coins_worth() const override;
 
   virtual void explode() override;
 

@@ -20,6 +20,7 @@ GranitoGiant::GranitoGiant(const ReaderMapping& reader):
   BadGuy(reader, "images/creatures/granito/giant/granito_giant.sprite", LAYER_OBJECTS - 5)
 {
   parse_type(reader);
+  m_can_glint = false;
 }
 
 HitResponse

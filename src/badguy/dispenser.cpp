@@ -275,8 +275,7 @@ Dispenser::launch_object()
       if (obj_badguy) // The object is a badguy.
       {
         auto badguy = static_cast<BadGuy*>(moving_object);
-
-        /* We don't want to count dispensed badguys in level stats. */
+        badguy->is_glinting = false;
 
         if (m_limit_dispensed_badguys)
           m_current_badguys++;

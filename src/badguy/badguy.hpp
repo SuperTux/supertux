@@ -306,6 +306,9 @@ protected:
   bool m_on_ice; /**< true if the badguy is currently on ice */
   bool m_ice_this_frame; /**< true if the badguy touched ice this frame */
 
+  bool m_can_glint; /** true if the badguy supports the glinting system */
+  bool m_holds_coins; /** true if the glinting system shouldn't drop any additional coins on death */
+
   std::string m_dead_script; /**< script to execute when badguy is killed */
 
   float m_melting_time;
