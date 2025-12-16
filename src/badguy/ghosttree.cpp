@@ -39,7 +39,8 @@ static const Vector SUCK_TARGET_OFFSET = Vector(-16,-16);
 static const float SUCK_TARGET_SPREAD = 8;
 
 GhostTree::GhostTree(const ReaderMapping& mapping) :
-  Boss(mapping, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10),
+  Boss(mapping, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10,
+       "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
   m_state(STATE_INIT),
   m_attack(ATTACK_RED),
   m_state_timer(),
@@ -208,19 +209,23 @@ void
 GhostTree::set_state(MyState new_state) {
   switch (new_state) {
     case STATE_INIT:
+      m_glowing = false;
       set_action("idle");
       m_state_timer.start(0.1);
       break;
     case STATE_SCREAM:
+      m_glowing = true;
       set_action("scream");
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       m_state_timer.start(2);
       break;
     case STATE_IDLE:
+      m_glowing = false;
       set_action(m_attack == ATTACK_PINCH ? "idle-pinch" : "idle");
       start_attack(true);
       break;
     case STATE_SUCKING:
+      m_glowing = false;
       SoundManager::current()->play("sounds/tree_suck.ogg", get_pos());
       for (const auto& willo : m_willowisps) {
         if (suck_now(willo->get_color())) {
@@ -232,16 +237,19 @@ GhostTree::set_state(MyState new_state) {
       }
       break;
     case STATE_ATTACKING:
+      m_glowing = true;
       set_action(m_attack == ATTACK_PINCH ? "scream-pinch" : "scream");
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       start_attack(false);
       break;
     case STATE_RECHARGING:
+      m_glowing = true;
       set_action(m_attack == ATTACK_PINCH ? "charge-pinch" : "charge");
       m_state_timer.start(1);
       m_willo_to_spawn = m_attack == ATTACK_PINCH ? 9 : 3;
       break;
     case STATE_DEAD:
+      m_glowing = false;
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       set_action("busted");
       run_dead_script();

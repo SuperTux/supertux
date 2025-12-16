@@ -29,8 +29,8 @@ namespace
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 
-Boss::Boss(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
-  BadGuy(reader, sprite_name, layer),
+Boss::Boss(const ReaderMapping& reader, const std::string& sprite_name, int layer, const std::string& light_sprite) :
+  BadGuy(reader, sprite_name, layer, light_sprite),
   m_lives(),
   m_max_lives(),
   m_pinch_lives(),
