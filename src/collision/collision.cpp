@@ -133,7 +133,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   std::cout << "Norm: " << normal << " Depth: " << depth << "\n";
 #endif
 
-  Vector outvec = normal * (depth - .2f);
+  Vector outvec = normal * (depth + 0.2f);
 
   const float RDELTA = 3;
   if (p1.x < area.get_left() - RDELTA || p1.x > area.get_right() + RDELTA
