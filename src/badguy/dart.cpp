@@ -38,6 +38,8 @@ Dart::Dart(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
 
+  m_can_glint = false;
+
   set_action("flying", m_dir);
 }
 
