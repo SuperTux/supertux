@@ -21,6 +21,8 @@
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
+#include "sprite/sprite_ptr.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
@@ -30,35 +32,41 @@
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include <algorithm>
 
 EditorTilebox::EditorTilebox(Editor& editor, const Rectf& rect) :
   m_editor(editor),
   m_rect(rect),
   m_tiles(new TileSelection()),
   m_object(),
+  m_tilegroup_id(0),
+  m_objectgroup_id(0),
   m_object_tip(new Tip()),
   m_input_type(InputType::NONE),
   m_active_tilegroup(),
   m_active_objectgroup(),
   m_object_info(new ObjectInfo()),
   m_on_select_callback([](EditorTilebox&) {}),
-  m_scrollbar(),
+  m_scrollbar(new ControlScrollbar(1.f, 1.f, m_scroll_progress, 35.f)),
   m_scroll_progress(1.f),
   m_hovered_item(HoveredItem::NONE),
   m_hovered_tile(-1),
   m_dragging(false),
   m_drag_start(0, 0),
-  m_mouse_pos(0, 0)
+  m_mouse_pos(0, 0),
+  m_shadow(SpriteManager::current()->create("images/engine/editor/shadow2.png"))
 {
-  m_scrollbar.reset(new ControlScrollbar(1.f, 1.f, m_scroll_progress, 35.f));
 }
 
 void
 EditorTilebox::draw(DrawingContext& context)
 {
+  context.color().set_blur(g_config->editor_blur);
   context.color().draw_filled_rect(m_rect,
                                    g_config->editorcolor,
                                    0.0f, LAYER_GUI-10);
+  context.color().set_blur(0);
 
   if (m_dragging)
   {
@@ -74,6 +82,18 @@ EditorTilebox::draw(DrawingContext& context)
                                      g_config->editorhovercolor,
                                      0.0f, LAYER_GUI - 5);
   }
+
+  // Shadow
+  constexpr float SCROLL_SHADOW_MAX = 10.f;
+  float scroll_shadow_size = std::clamp<float>(m_scroll_progress * 0.1, 0.f, SCROLL_SHADOW_MAX);
+  float scroll_shadow_normal = scroll_shadow_size / SCROLL_SHADOW_MAX;
+
+  context.set_alpha(scroll_shadow_normal * 0.3);
+  m_shadow->draw_scaled(
+    context.color(),
+    Rectf{m_rect.get_left(), m_rect.get_top(), m_rect.get_right(), m_rect.get_top() + scroll_shadow_size},
+    LAYER_GUI+1);
+  context.set_alpha(1.0);
 
   context.push_transform();
   context.set_viewport(Rect(m_rect));
@@ -160,6 +180,7 @@ EditorTilebox::selection_draw_rect() const
   if (select.get_top() < m_rect.get_top()) // Do not go outside toolbox
     select.set_top(m_rect.get_top());
 
+  Editor::current()->m_tilebox_something_selected = true;
   return select;
 }
 
@@ -373,16 +394,75 @@ void
 EditorTilebox::select_tilegroup(int id)
 {
   m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
+  m_tilegroup_id = id;
   m_input_type = InputType::TILE;
   reset_scrollbar();
+}
+
+void
+EditorTilebox::select_last_tilegroup()
+{
+  select_tilegroup(get_tilegroup_id());
 }
 
 void
 EditorTilebox::select_objectgroup(int id)
 {
   m_active_objectgroup = &m_object_info->m_groups[id];
+  m_objectgroup_id = id;
   m_input_type = InputType::OBJECT;
   reset_scrollbar();
+}
+
+void
+EditorTilebox::select_last_objectgroup()
+{
+  select_objectgroup(m_objectgroup_id);
+}
+
+void
+EditorTilebox::change_tilegroup(int dir)
+{
+  if (m_input_type == InputType::OBJECT)
+  {
+    select_last_tilegroup();
+    return;
+  }
+
+  size_t tilegroups_size = m_editor.get_tileset()->get_tilegroups().size();
+  m_tilegroup_id += dir;
+  if (m_tilegroup_id < 0)
+    m_tilegroup_id = tilegroups_size - 1;
+  else if (m_tilegroup_id > tilegroups_size - 1)
+    m_tilegroup_id = 0;
+
+  select_last_tilegroup();
+}
+
+void
+EditorTilebox::change_objectgroup(int dir)
+{
+  if (m_input_type == InputType::TILE)
+  {
+    select_last_objectgroup();
+    return;
+  }
+
+  size_t objectgroups_size = m_object_info->m_groups.size();
+  // We also need to skip worldmap groups if we aren't a worldmap here
+  do
+  {
+    m_objectgroup_id += dir;
+
+    if (m_objectgroup_id < 0)
+      m_objectgroup_id = objectgroups_size - 1;
+    else if (m_objectgroup_id > objectgroups_size - 1)
+      m_objectgroup_id = 0;
+  }
+  while (!Editor::current()->get_level()->is_worldmap() &&
+          Editor::current()->get_objectgroups().at(m_objectgroup_id).is_worldmap());
+
+  select_last_objectgroup();
 }
 
 bool

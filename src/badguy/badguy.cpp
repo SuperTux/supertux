@@ -1360,8 +1360,10 @@ BadGuy::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   if (!get_allowed_directions().empty())
-    result.add_direction(_("Direction"), &m_start_dir, get_allowed_directions(), "direction");
-  result.add_script(_("Death script"), &m_dead_script, "dead-script");
+    result.add_direction(_("Direction"), &m_start_dir, get_allowed_directions(), "direction")
+      ->set_description(_("The direction the badguy is facing at the start of the level. AUTO makes the badguy face towards the player when activated."));
+  result.add_script(get_uid(), _("Death script"), &m_dead_script, "dead-script")
+    ->set_description(_("Script that is executed when the badguy dies."));
 
   if (m_can_glint)
     result.add_bool(_("Glinting"), &is_glinting, "glinting");

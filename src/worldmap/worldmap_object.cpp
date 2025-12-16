@@ -72,8 +72,8 @@ WorldMapObject::get_settings()
   result.remove("x");
   result.remove("y");
 
-  result.add_int(_("X"), &m_tile_x, "x", {}, OPTION_HIDDEN);
-  result.add_int(_("Y"), &m_tile_y, "y", {}, OPTION_HIDDEN);
+  result.add_int(_("X"), &m_tile_x, "x", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
+  result.add_int(_("Y"), &m_tile_y, "y", {}, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
 
   return result;
 }

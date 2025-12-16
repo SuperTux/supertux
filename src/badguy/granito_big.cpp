@@ -62,7 +62,7 @@ GranitoBig::get_settings()
 
   // No need to make another member for the carrying script.
   // Just repurpose the carried script.
-  settings.add_script(_("Carrying Script"), &m_carried_script, "carrying-script");
+  settings.add_script(get_uid(), _("Carrying Script"), &m_carried_script, "carrying-script");
 
   return settings;
 }

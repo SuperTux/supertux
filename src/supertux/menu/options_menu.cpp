@@ -236,6 +236,15 @@ OptionsMenu::refresh()
 
       add_toggle(MNID_CUSTOM_CURSOR, _("Use native custom cursor"), &g_config->custom_system_cursor).set_help(_("Whether the game uses a native custom cursor or renders it in the game"));
 
+      add_toggle(MNID_PRECISE_SCROLLING, _("Precise scrolling"), &g_config->precise_scrolling)
+        .set_help(_("Most modern touchpads report precise scrolling events.\nDisable this if scrolling with a typical mouse seems unusual, or you simply dislike it"));
+
+      add_toggle(MNID_INVERT_WHEEL_X, _("Invert horizontal scrolling"), &g_config->invert_wheel_x)
+        .set_help(_("Inverts scrolling in the X-axis"));
+
+      add_toggle(MNID_INVERT_WHEEL_Y, _("Invert vertical scrolling"), &g_config->invert_wheel_y)
+        .set_help(_("Inverts scrolling in the Y-axis"));
+
 #ifndef __EMSCRIPTEN__
       if (!g_config->disable_network)
         add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)

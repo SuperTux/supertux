@@ -84,7 +84,7 @@ bool
 EditorLevelMenu::on_back_action()
 {
   auto level = Editor::current()->get_level();
-  if (!level->m_name.empty() && !level->m_author.empty() && !level->m_license.empty())
+  if (!level->m_name.empty() && !level->m_author.empty() && !level->m_license.empty() || Editor::current()->is_temp_level())
   {
     return true;
   }

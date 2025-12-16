@@ -94,7 +94,7 @@ EditorComment::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_multiline_text(_("Comment"), &m_comment, "comment");
+  result.add_multiline_text(get_uid(), _("Comment"), &m_comment, "comment");
 
   return result;
 }

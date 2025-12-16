@@ -50,6 +50,31 @@ GameObject::GameObject(const ReaderMapping& reader) :
   reader.get("version", m_version, 1);
 }
 
+GameObject::GameObject(GameObject* obj) :
+  m_parent(obj->m_parent),
+  m_name(obj->m_name),
+  m_type(obj->m_type),
+  m_fade_helpers(),
+  m_track_undo(obj->m_track_undo),
+  m_previous_type(obj->m_previous_type),
+  m_version(obj->m_version),
+  m_uid(obj->m_uid),
+  m_scheduled_for_removal(obj->m_scheduled_for_removal),
+  m_last_state(&*obj->m_last_state),
+  m_components(),
+  m_remove_listeners(obj->m_remove_listeners)
+{
+	for (auto &fade_helper : obj->m_fade_helpers)
+	{
+		m_fade_helpers.emplace_back(std::make_unique<FadeHelper>(fade_helper.get()));
+	}
+
+	// for (auto &component : obj->m_components)
+	// {
+	// 	m_components.emplace_back(std::make_unique<GameObjectComponent>(component.get()));
+	// }
+}
+
 GameObject::~GameObject()
 {
   for (const auto& entry : m_remove_listeners) {
@@ -105,10 +130,11 @@ GameObject::get_class_types() const
 ObjectSettings
 GameObject::get_settings()
 {
-  ObjectSettings result(get_display_name());
+  ObjectSettings result(get_display_name(), get_uid());
 
   result.add_int(_("Version"), &m_version, "version", 1, OPTION_HIDDEN);
-  result.add_text(_("Name"), &m_name, "name", "");
+  result.add_text(_("Name"), &m_name, "name", "")
+    ->set_description(_("The name of this object. Must not contain any spaces if this object is to be referenced from scripts"));
 
   const GameObjectTypes types = get_types();
   if (!types.empty())
@@ -122,7 +148,8 @@ GameObject::get_settings()
       names.push_back(type.name);
     }
 
-    result.add_enum(_("Type"), &m_type, names, ids, 0, "type");
+    result.add_enum(_("Type"), &m_type, names, ids, 0, "type")
+      ->set_description(_("The type of an object defines its theme and behaviour. This is mostly used to distinguish between forest and ice world types of this object"));
   }
 
   return result;
@@ -273,6 +300,7 @@ GameObject::register_class(ssq::VM& vm)
 {
   ssq::Class cls = vm.addAbstractClass<GameObject>("GameObject");
 
+  cls.addFunc("get_uid", &GameObject::get_uid_value);
   cls.addFunc("get_version", &GameObject::get_version);
   cls.addFunc("get_latest_version", &GameObject::get_latest_version);
   cls.addFunc("is_up_to_date", &GameObject::is_up_to_date);

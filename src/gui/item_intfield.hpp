@@ -17,12 +17,14 @@
 
 #pragma once
 
+#include <limits>
 #include "gui/item_textfield.hpp"
+#include "item_field_range.hpp"
 
 class ItemIntField final : public ItemTextField
 {
 public:
-  ItemIntField(const std::string& text_, int* input_, int id_ = -1, bool positive = false);
+ItemIntField(const std::string& text_, int* input_, int id_ = -1, bool positive = false, ItemIntFieldRange range = {});
   ~ItemIntField() override;
 
   int* number;
@@ -37,6 +39,7 @@ public:
 private:
   std::string m_input;
   const bool m_positive;
+  ItemIntFieldRange m_range;
 
   void add_char(char c, const int left_offset_pos);
 

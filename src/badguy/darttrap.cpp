@@ -152,11 +152,16 @@ DartTrap::get_settings()
 {
   ObjectSettings result = StickyBadguy::get_settings();
 
-  result.add_float(_("Initial delay"), &m_initial_delay, "initial-delay");
-  result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
-  result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay");
-  result.add_int(_("Ammo"), &m_ammo, "ammo");
-  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/skull/skull_dart.sprite");
+  result.add_float(_("Initial delay"), &m_initial_delay, "initial-delay")
+    ->set_description(_("Time until the first dart is fired after the trap is activated."));
+  result.add_bool(_("Enabled"), &m_enabled, "enabled", true)
+    ->set_description(_("Whether the trap is enabled."));
+  result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay")
+    ->set_description(_("Time between consecutive darts."));
+  result.add_int(_("Ammo"), &m_ammo, "ammo")
+    ->set_description(_("Number of darts the trap can fire. A value of -1 means infinite."));
+  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/skull/skull_dart.sprite")
+    ->set_description(_("Sprite used for the dart."));
 
   result.reorder({"initial-delay", "fire-delay", "ammo", "sticky", "direction", "x", "y", "dart-sprite"});
 

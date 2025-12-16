@@ -64,6 +64,9 @@ Config::Config() :
   music_volume(50),
   flash_intensity(50),
   fancy_gfx(true),
+  precise_scrolling(true),
+  invert_wheel_x(false),
+  invert_wheel_y(false),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
   tux_spawn_pos(),
@@ -105,13 +108,23 @@ Config::Config() :
   editor_render_grid(true),
   editor_snap_to_grid(true),
   editor_render_background(true),
+  editor_render_animations(true),
   editor_render_lighting(false),
+  editor_invert_shift_scroll(true),
   editor_autotile_mode(false),
   editor_autotile_help(true),
+  editor_zoom_centered(false),
   editor_autosave_frequency(5),
   editor_undo_tracking(true),
   editor_undo_stack_size(20),
   editor_show_deprecated_tiles(false),
+  // TODO: Set to true when this setting is ready
+  editor_show_properties_sidebar(false),
+  editor_show_toolbar_widgets(true),
+  editor_blur(12),
+  editor_remember_last_level(true),
+  preferred_text_editor(),
+  editor_last_edited_level(),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
@@ -237,8 +250,11 @@ Config::load()
     editor_mapping->get("autotile_help", editor_autotile_help);
     editor_mapping->get("autotile_mode", editor_autotile_mode);
     editor_mapping->get("render_background", editor_render_background);
+    editor_mapping->get("render_animations", editor_render_animations);
     editor_mapping->get("render_grid", editor_render_grid);
     editor_mapping->get("render_lighting", editor_render_lighting);
+    editor_mapping->get("invert_shift_scroll", editor_invert_shift_scroll);
+    editor_mapping->get("zoom_centered", editor_zoom_centered);
     editor_mapping->get("selected_snap_grid_size", editor_selected_snap_grid_size);
     editor_mapping->get("snap_to_grid", editor_snap_to_grid);
     editor_mapping->get("undo_tracking", editor_undo_tracking);
@@ -249,6 +265,11 @@ Config::load()
       editor_undo_stack_size = 1;
     }
     editor_mapping->get("show_deprecated_tiles", editor_show_deprecated_tiles);
+    editor_mapping->get("show_properties_sidebar", editor_show_properties_sidebar);
+    editor_mapping->get("show_toolbar_widgets", editor_show_toolbar_widgets);
+    editor_mapping->get("blur", editor_blur);
+    editor_mapping->get("last_edited_level", editor_last_edited_level);
+    editor_mapping->get("remember_last_level", editor_remember_last_level);
   }
 
   if (is_christmas()) {
@@ -262,6 +283,7 @@ Config::load()
   config_mapping.get("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   config_mapping.get("multiplayer_multibind", multiplayer_multibind);
   config_mapping.get("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  config_mapping.get("preferred_text_editor", preferred_text_editor);
 
   std::optional<ReaderMapping> config_video_mapping;
   if (config_mapping.get("video", config_video_mapping))
@@ -331,6 +353,9 @@ Config::load()
 
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
+    config_control_mapping->get("precise_scrolling", precise_scrolling);
+    config_control_mapping->get("invert_wheel_x", invert_wheel_x);
+    config_control_mapping->get("invert_wheel_y", invert_wheel_y);
   }
 
   std::optional<ReaderCollection> config_addons_mapping;
@@ -416,6 +441,7 @@ Config::save()
   writer.write("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   writer.write("multiplayer_multibind", multiplayer_multibind);
   writer.write("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  writer.write("preferred_text_editor", preferred_text_editor);
 
   writer.start_list("interface_colors");
   writer.write("menubackcolor", menubackcolor.toVector());
@@ -487,6 +513,9 @@ Config::save()
     writer.write("mobile_controls", mobile_controls);
     writer.write("ignore_joystick_axis", ignore_joystick_axis);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
+    writer.write("precise_scrolling", precise_scrolling);
+    writer.write("invert_wheel_x", invert_wheel_x);
+    writer.write("invert_wheel_y", invert_wheel_y );
   }
   writer.end_list("control");
 
@@ -506,13 +535,21 @@ Config::save()
     writer.write("autotile_help", editor_autotile_help);
     writer.write("autotile_mode", editor_autotile_mode);
     writer.write("render_background", editor_render_background);
+    writer.write("render_animations", editor_render_animations);
     writer.write("render_grid", editor_render_grid);
     writer.write("render_lighting", editor_render_lighting);
+    writer.write("invert_shift_scroll", editor_invert_shift_scroll);
+    writer.write("zoom_centered", editor_zoom_centered);
     writer.write("selected_snap_grid_size", editor_selected_snap_grid_size);
     writer.write("snap_to_grid", editor_snap_to_grid);
     writer.write("undo_tracking", editor_undo_tracking);
     writer.write("undo_stack_size", editor_undo_stack_size);
     writer.write("show_deprecated_tiles", editor_show_deprecated_tiles);
+    writer.write("show_properties_sidebar", editor_show_properties_sidebar);
+    writer.write("show_toolbar_widgets", editor_show_toolbar_widgets);
+    writer.write("blur", editor_blur);
+    writer.write("remember_last_level", editor_remember_last_level);
+    writer.write("last_edited_level", editor_last_edited_level);
   }
   writer.end_list("editor");
 

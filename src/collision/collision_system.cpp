@@ -275,7 +275,7 @@ CollisionSystem::collision_tilemap(collision::Constraints* constraints,
               triangle = AATriangle(tile_bbox, slope_data);
 
               bool triangle_hits_bottom = false;
-              collision::rectangle_aatriangle(constraints, dest, triangle, triangle_hits_bottom);
+              collision::rectangle_aatriangle(constraints, dest, triangle, triangle_hits_bottom, &object);
               hits_bottom |= triangle_hits_bottom;
             }
             else { // Normal rectangular tile.

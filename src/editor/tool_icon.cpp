@@ -45,8 +45,16 @@ ToolIcon::draw(DrawingContext& context)
 void
 ToolIcon::next_mode()
 {
-  m_mode++;
-  if (m_mode >= m_surf_count) {
+  set_mode(m_mode + 1);
+}
+
+void
+ToolIcon::set_mode(int mode)
+{
+  m_mode = mode;
+
+  if (m_mode >= m_surf_count)
+  {
     m_mode = 0;
   }
 }
