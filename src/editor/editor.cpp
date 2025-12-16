@@ -189,6 +189,8 @@ Editor::~Editor()
 {
   if (m_on_exit_cb)
     m_on_exit_cb();
+
+  m_script_manager.clear_tmp();
 }
 
 void
@@ -756,6 +758,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
   std::string sector_name = DEFAULT_SECTOR_NAME;
   Vector translation(0.0f, 0.0f);
+
+  m_script_manager.clear_tmp();
 
   m_temp_level = (level == nullptr);
 

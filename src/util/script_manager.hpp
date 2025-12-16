@@ -58,6 +58,8 @@ public:
 
   void poll();
 
+  void clear_tmp();
+
 private:
   std::vector<ScriptInfo> m_scripts;
   decltype(m_scripts)::iterator find_script(UID uid, const std::string& key);

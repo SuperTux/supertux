@@ -26,12 +26,12 @@ class FileWatcher
 public:
   struct FileInfo;
   using callback_t = std::function<void(FileInfo&)>;
-  
+
   struct FileInfo {
   	std::string filename;
     time_t m_last_mtime;
     callback_t callback;
-	
+
     bool operator==(struct FileInfo& other) const {
       return other.filename == filename;
     }
@@ -42,12 +42,14 @@ public:
 public:
   FileWatcher();
   ~FileWatcher() = default;
-  
+
   void start_monitoring(std::string filename, callback_t fun);
-  
+
   void poll();
   time_t get_mtime(const std::string &filename);
+
+  void clear();
 private:
-  
+
   std::unordered_map<std::string, FileInfo> m_files;
 };

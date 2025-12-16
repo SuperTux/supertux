@@ -30,7 +30,7 @@ FileWatcher::get_mtime(const std::string &filename)
     // TODO
     return 0;
   }
-  
+
   return file_stat.st_mtime;
 }
 
@@ -48,12 +48,18 @@ FileWatcher::poll()
   {
     FileInfo &finfo = file.second;
     time_t mtime = get_mtime(file.first);
-    
+
     // Same time, don't bother
     if (finfo.m_last_mtime == mtime)
       continue;
-      
+
     finfo.callback(finfo);
     finfo.m_last_mtime = mtime;
   }
+}
+
+void
+FileWatcher::clear()
+{
+  m_files.clear();
 }

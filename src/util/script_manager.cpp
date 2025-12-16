@@ -24,14 +24,27 @@
 #include <iostream>
 #include <physfs.h>
 
+static const char* TMP_DIR = "tmp";
 
-namespace {
+ScriptManager::ScriptManager() :
+  m_scripts(),
+  m_watcher()
+{
+  PHYSFS_mkdir(TMP_DIR);
 
-const char* TMP_DIR = "tmp";
+  clear_tmp();
+}
+
+ScriptManager::~ScriptManager()
+{
+  clear_tmp();
+  m_scripts.clear();
+}
 
 void
-delete_tmp()
+ScriptManager::clear_tmp()
 {
+  m_watcher.clear();
   char** files = PHYSFS_enumerateFiles(TMP_DIR);
 
   for (char** f = files; *f; ++f)
@@ -41,23 +54,6 @@ delete_tmp()
   }
 
   PHYSFS_freeList(files);
-}
-
-
-} // namespace
-
-ScriptManager::ScriptManager() :
-  m_scripts(),
-  m_watcher()
-{
-  PHYSFS_mkdir(TMP_DIR);
-
-  delete_tmp();
-}
-
-ScriptManager::~ScriptManager()
-{
-  delete_tmp();
 }
 
 std::string
