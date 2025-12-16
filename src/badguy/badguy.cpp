@@ -337,8 +337,8 @@ BadGuy::update(float dt_sec)
       {
         if (graphicsRandom.rand(0, 2) == 0)
         {
-          const float px = graphicsRandom.randf(m_col.m_bbox.get_left() + 0, m_col.m_bbox.get_right() - 0);
-          const float py = graphicsRandom.randf(m_col.m_bbox.get_top() + 0, m_col.m_bbox.get_bottom() - 0);
+          const float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
+          const float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
           const Vector ppos = Vector(px, py);
           Sector::get().add<SpriteParticle>(
             "images/particles/glint.sprite",
