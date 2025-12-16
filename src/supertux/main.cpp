@@ -606,7 +606,7 @@ Main::launch_game(const CommandLineArguments& args)
         dir = dir.replace(position, fileProtocol.length(), "");
       }
       log_debug << "Adding dir: " << dir << std::endl;
-      PHYSFS_mount(dir.c_str(), nullptr, true);
+      PHYSFS_mount(dir.c_str(), dir.c_str(), true);
 
       if (args.resave && *args.resave)
       {
@@ -614,15 +614,17 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else if (args.editor)
       {
-        if (PHYSFS_exists(start_level.c_str())) {
+        if (PHYSFS_exists(start_level.c_str()))
+        {
           auto editor = std::make_unique<Editor>();
           editor->set_level(start_level);
-          editor->setup();
           editor->update(0, Controller());
           m_screen_manager->push_screen(std::move(editor));
           MenuManager::instance().clear_menu_stack();
           m_sound_manager->stop_music(0.5);
-        } else {
+        }
+        else
+        {
           log_warning << "Level " << start_level << " doesn't exist." << std::endl;
         }
       }
@@ -824,16 +826,22 @@ Main::release_check()
     std::string latest_ver;
     if (mapping.get("latest", latest_ver) && latest_ver != PACKAGE_VERSION_TAG)
     {
-      auto notif = std::make_unique<Notification>("new_release_" + latest_ver);
-      notif->set_text(fmt::format(fmt::runtime(_("New release: SuperTux {}!")), latest_ver));
-      notif->on_press([latest_ver]()
-                     {
-                       Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux ({}) is available!\nFor more information, you can visit the SuperTux website.\n\nDo you want to visit the website now?")), latest_ver), []()
-                                                 {
-                                                   FileSystem::open_url("https://supertux.org");
-                                                 });
-                     });
-      MenuManager::instance().set_notification(std::move(notif));
+      const std::string version_full = std::string(PACKAGE_VERSION);
+      const std::string version = version_full.substr(version_full.find("v") + 1, version_full.find("-") - 1);
+      if (version != latest_ver)
+      {
+        auto notif = std::make_unique<Notification>("new_release_" + latest_ver, 20.f, false, true);
+        notif->set_text(fmt::format(fmt::runtime(_("New release: SuperTux v{}!")), latest_ver));
+        notif->set_mini_text(_("Click for more details."));
+        notif->on_press([latest_ver]()
+                       {
+                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n\nDo you want to visit the website now?")), latest_ver), []()
+                                                   {
+                                                     FileSystem::open_url("https://supertux.org");
+                                                   });
+                       });
+        MenuManager::instance().set_notification(std::move(notif));
+      }
     }
   });
   // Set up a download dialog to update the transfer status.

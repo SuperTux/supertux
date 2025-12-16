@@ -25,6 +25,8 @@
 #include "interface/control_scrollbar.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/tile_set.hpp"
 
 class Editor;
@@ -74,8 +76,10 @@ public:
   void on_select(const std::function<void(EditorTilebox&)>& callback);
 
   void select_tilegroup(int id);
+  void select_last_tilegroup();
   inline void set_tilegroup(std::unique_ptr<Tilegroup> tilegroup) { m_active_tilegroup = std::move(tilegroup); }
   void select_objectgroup(int id);
+  void select_last_objectgroup();
   bool select_layers_objectgroup();
 
   inline const ObjectInfo& get_object_info() const { return *m_object_info; }
@@ -89,6 +93,11 @@ public:
   float get_tiles_height() const;
 
   inline bool has_active_object_tip() const { return m_object_tip->get_visible(); }
+  inline size_t get_objectgroup_id() const { return m_objectgroup_id; }
+  inline size_t get_tilegroup_id() const { return m_tilegroup_id; }
+  
+  void change_tilegroup(int dir);
+  void change_objectgroup(int dir);
 
 private:
   Vector get_tile_coords(int pos, bool relative = true) const;
@@ -120,6 +129,7 @@ private:
   std::unique_ptr<Tilegroup> m_active_tilegroup;
   ObjectGroup* m_active_objectgroup;
   std::unique_ptr<ObjectInfo> m_object_info;
+  int m_tilegroup_id, m_objectgroup_id;
 
   std::function<void(EditorTilebox&)> m_on_select_callback;
 
@@ -133,6 +143,8 @@ private:
   Vector m_drag_start;
 
   Vector m_mouse_pos;
+  
+  SpritePtr m_shadow;
 
 private:
   EditorTilebox(const EditorTilebox&) = delete;

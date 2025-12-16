@@ -74,6 +74,8 @@ public:
   inline bool operator!=(const UID& other) const {
     return m_value != other.m_value;
   }
+  
+  inline uint32_t get_value() const { return m_value; }
 
   inline Magic get_magic() const { return static_cast<Magic>((m_value & 0xffff0000u) >> 16); }
 

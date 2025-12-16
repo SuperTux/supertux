@@ -29,7 +29,8 @@ public:
   FadeHelper(float* value, float time,
              float target_value, easing ease = LinearInterpolation);
 
-
+  FadeHelper(FadeHelper* other);
+  
   /**
    * Increases the internal timer of the FadeHelper.
    *

@@ -93,6 +93,8 @@ public:
                   bool perform_full_setup = true);
 
   const std::string& get_filename() const;
+  
+  inline void start_level() { m_really_enter_level = true; }
 
   bool is_item_pocket_allowed() const { return m_allow_item_pocket; }
 
@@ -125,6 +127,7 @@ private:
   Timer m_passive_message_timer;
 
   bool m_allow_item_pocket;
+  bool m_really_enter_level;
   bool m_enter_level;
   bool m_in_level;
   bool m_in_world_select;

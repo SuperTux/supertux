@@ -313,8 +313,8 @@ ObjectSettings
 Rock::get_settings()
 {
   auto result = MovingSprite::get_settings();
-  result.add_script(_("On-grab script"), &m_on_grab_script, "on-grab-script");
-  result.add_script(_("On-ungrab script"), &m_on_ungrab_script, "on-ungrab-script");
+  result.add_script(get_uid(), _("On-grab script"), &m_on_grab_script, "on-grab-script");
+  result.add_script(get_uid(), _("On-ungrab script"), &m_on_ungrab_script, "on-ungrab-script");
   return result;
 }
 
