@@ -42,13 +42,13 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   Boss(mapping, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10,
        "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
   m_state(STATE_INIT),
-  m_attack(ATTACK_RED),
+  m_attack(ATTACK_NORMAL),
   m_state_timer(),
   m_willo_spawn_y(0),
   m_willo_radius(200),
   m_willo_speed(1.8f),
   m_willo_to_spawn(9),
-  m_next_willo(ATTACK_RED),
+  m_willo(ATTACK_RED),
   m_willowisps(),
   m_root_attack()
 {
@@ -76,14 +76,28 @@ GhostTree::activate()
 {
 }
 
-Vector
-GhostTree::get_player_pos()
+Vector GhostTree::get_attack_pos()
 {
-  auto player = get_nearest_player();
-  if (player) {
-    return player->get_pos();
-  } else {
-    return m_col.m_bbox.get_middle();
+  const float middle = m_col.m_bbox.get_middle().x;
+  const float base = m_col.m_bbox.get_bottom() + 96;
+
+  // NOTE: This is never the case when entering SPITTING state.
+  if (m_attack == ATTACK_NORMAL)
+    return Vector(middle, base);
+
+  Player* player = get_nearest_player();
+  Vector player_pos = player ? player->get_pos() : get_bbox().get_middle();
+
+  switch (m_attack)
+  {
+    case ATTACK_RED:
+      if (player_pos.x > middle)
+        return Vector(middle - 512, base);
+      else
+        return Vector(middle + 512, base);
+
+    default:
+      return Vector(player_pos.x, base);
   }
 }
 
@@ -94,7 +108,7 @@ GhostTree::active_update(float dt_sec)
   switch (m_state) {
     case STATE_INIT:
       if (m_state_timer.check()) {
-        spawn_willowisp(m_next_willo);
+        spawn_willowisp(m_willo);
         rotate_willo_color();
         m_state_timer.start(0.1);
         --m_willo_to_spawn;
@@ -103,51 +117,60 @@ GhostTree::active_update(float dt_sec)
         }
       }
       break;
+
     case STATE_SCREAM:
       if (m_state_timer.check()) {
         set_state(STATE_IDLE);
       }
       break;
+
     case STATE_IDLE:
       m_root_attack->active_update(dt_sec);
       if (m_root_attack->is_done()) {
         set_state(STATE_SUCKING);
       }
       break;
+
     case STATE_SUCKING:
+    case STATE_SPITTING:
       break;
+
     case STATE_ATTACKING:
       m_root_attack->active_update(dt_sec);
       if (m_root_attack->is_done()) {
         set_state(STATE_RECHARGING);
       }
       break;
+
     case STATE_RECHARGING:
       if (m_state_timer.check()) {
         if (m_attack == ATTACK_PINCH) {
-          spawn_willowisp(m_next_willo);
+          spawn_willowisp(m_willo);
           rotate_willo_color();
           m_state_timer.start(0.3);
         } else {
           spawn_willowisp(m_attack);
           m_state_timer.start(0.9);
         }
+
         --m_willo_to_spawn;
         if (m_willo_to_spawn <= 0) {
           set_state(STATE_IDLE);
         }
       }
       break;
+
     case STATE_DEAD:
       break;
+
     default:
       break;
   }
 }
 
 bool
-GhostTree::suck_now(const Color& color) const {
-  switch (m_attack) {
+GhostTree::should_suck(const Color& color) const {
+  switch (m_willo) {
     case ATTACK_RED:
       return color.red == 1.0;
     case ATTACK_GREEN:
@@ -163,7 +186,8 @@ GhostTree::suck_now(const Color& color) const {
 
 void
 GhostTree::rotate_willo_color() {
-  m_next_willo = static_cast<AttackType>((static_cast<int>(m_next_willo) + 1) % 3);
+  m_willo = static_cast<AttackType>(static_cast<int>(ATTACK_FIRST_SPECIAL)
+                                        + ((static_cast<int>(m_willo) + 1) % 3));
 }
 
 void
@@ -213,47 +237,55 @@ GhostTree::set_state(MyState new_state) {
       set_action("idle");
       m_state_timer.start(0.1);
       break;
+
     case STATE_SCREAM:
       m_glowing = true;
       set_action("scream");
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       m_state_timer.start(2);
       break;
+
     case STATE_IDLE:
       m_glowing = false;
       set_action(m_attack == ATTACK_PINCH ? "idle-pinch" : "idle");
-      start_attack(true);
+      m_attack = ATTACK_NORMAL;
+      start_attack();
       break;
+
     case STATE_SUCKING:
       m_glowing = false;
       SoundManager::current()->play("sounds/tree_suck.ogg", get_pos());
       for (const auto& willo : m_willowisps) {
-        if (suck_now(willo->get_color())) {
-          willo->start_sucking(
-            m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET
-            + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
-                     gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
+        if (should_suck(willo->get_color())) {
+          willo->start_sucking(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET
+                               + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
+                                        gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)),
+                               2.5f);
         }
       }
       break;
+
     case STATE_ATTACKING:
       m_glowing = true;
       set_action(m_attack == ATTACK_PINCH ? "scream-pinch" : "scream");
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
-      start_attack(false);
+      start_attack();
       break;
+
     case STATE_RECHARGING:
       m_glowing = true;
       set_action(m_attack == ATTACK_PINCH ? "charge-pinch" : "charge");
       m_state_timer.start(1);
       m_willo_to_spawn = m_attack == ATTACK_PINCH ? 9 : 3;
       break;
+
     case STATE_DEAD:
       m_glowing = false;
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       set_action("busted");
       run_dead_script();
       break;
+
     default:
       break;
   }
@@ -261,48 +293,61 @@ GhostTree::set_state(MyState new_state) {
 }
 
 void
-GhostTree::start_attack(bool main_root)
+GhostTree::start_attack()
 {
-  const float middle = m_col.m_bbox.get_middle().x;
-  const float base = m_col.m_bbox.get_bottom() + 96;
-  if (main_root) {
-    m_root_attack.reset(new GhostTreeAttackMain(Vector(middle, base)));
-    return;
-  }
-
-  Vector player_pos = get_player_pos();
+  float middle = get_bbox().get_middle().x;
   switch (m_attack) {
-    case ATTACK_RED:
-      if (player_pos.x > middle) {
-        m_root_attack.reset(new GhostTreeAttackRed(base, middle - 512, middle + 512));
-      } else {
-        m_root_attack.reset(new GhostTreeAttackRed(base, middle + 512, middle - 512));
-      }
+    case ATTACK_NORMAL:
+      m_root_attack.reset(new GhostTreeAttackMain(get_attack_pos()));
       break;
+
+    case ATTACK_RED:
+    {
+      Vector pos = get_attack_pos();
+      if (pos.x > middle)
+        m_root_attack.reset(new GhostTreeAttackRed(pos.y, pos.x, pos.x + (512 * 2)));
+      else
+        m_root_attack.reset(new GhostTreeAttackRed(pos.y, pos.x, pos.x - (512 * 2)));
+
+      break;
+    }
+
     case ATTACK_GREEN:
-      m_root_attack.reset(new GhostTreeAttackGreen(Vector(player_pos.x, base)));
+      m_root_attack.reset(new GhostTreeAttackGreen(get_attack_pos()));
       break;
     case ATTACK_BLUE:
-      m_root_attack.reset(new GhostTreeAttackBlue(Vector(player_pos.x, base)));
+      m_root_attack.reset(new GhostTreeAttackBlue(get_attack_pos()));
       break;
     case ATTACK_PINCH:
     default:
-      m_root_attack.reset(new GhostTreeAttackPinch(Vector(player_pos.x, base), middle - 512, middle + 512));
+      m_root_attack.reset(new GhostTreeAttackPinch(get_attack_pos(), middle - 512, middle + 512));
       break;
   }
 }
 
 void
-GhostTree::willowisp_died(TreeWillOWisp* willowisp)
+GhostTree::willowisp_suck_finished(TreeWillOWisp* willowisp)
 {
-  if ((m_state == STATE_SUCKING) && (willowisp->was_sucked)) {
-    set_state(STATE_ATTACKING);
+  switch (m_state) {
+    case STATE_SUCKING:
+      if (willowisp->was_sucked())
+        break;
+
+      set_state(STATE_SPITTING);
+      [[fallthrough]];
+
+    case STATE_SPITTING:
+    {
+      Vector pos = get_attack_pos();
+      willowisp->start_sucking(pos + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
+                                            gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)),
+                               0.5f);
+      break;
+    }
+
+    default:
+      break;
   }
-  m_willowisps.erase(std::find_if(m_willowisps.begin(), m_willowisps.end(),
-                                  [willowisp](const GameObject* lhs)
-                                  {
-                                    return lhs == willowisp;
-                                  }));
 }
 
 bool
@@ -338,7 +383,7 @@ GhostTree::collision_squished(MovingObject& object)
   
   if (m_attack == ATTACK_PINCH) {
     while (m_willo_to_spawn--) {
-      spawn_willowisp(m_next_willo);
+      spawn_willowisp(m_willo);
       rotate_willo_color();
     }
   } else {

@@ -27,23 +27,23 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
-static const std::string TREEWILLOSOUND = "sounds/willowisp.wav";
+static const std::string SOUND = "sounds/willowisp.wav";
 
 TreeWillOWisp::TreeWillOWisp(GhostTree* tree_, const Vector& pos,
                              float radius_, float speed_) :
   BadGuy(tree_->get_pos() + pos, "images/creatures/willowisp/willowisp.sprite",
          tree_->get_layer() - 1),
-  was_sucked(false),
-  mystate(STATE_DEFAULT),
-  color(),
-  angle(0),
-  radius(radius_),
-  speed(speed_),
-  sound_source(),
-  tree(tree_),
-  suck_target(0.0f, 0.0f)
+  m_state(STATE_DEFAULT),
+  m_color(),
+  m_angle(0),
+  m_radius(radius_),
+  m_speed(speed_),
+  m_sound(),
+  m_tree(tree_),
+  m_suck_target(0.0f, 0.0f),
+  m_suck_timer()
 {
-  SoundManager::current()->preload(TREEWILLOSOUND);
+  SoundManager::current()->preload(SOUND);
   set_colgroup_active(COLGROUP_MOVING);
 }
 
@@ -54,19 +54,19 @@ TreeWillOWisp::~TreeWillOWisp()
 void
 TreeWillOWisp::activate()
 {
-  sound_source = SoundManager::current()->create_sound_source(TREEWILLOSOUND);
-  sound_source->set_position(get_pos());
-  sound_source->set_looping(true);
-  sound_source->set_gain(1.0f);
-  sound_source->set_reference_distance(32);
-  sound_source->play();
+  m_sound = SoundManager::current()->create_sound_source(SOUND);
+  m_sound->set_position(get_pos());
+  m_sound->set_looping(true);
+  m_sound->set_gain(1.0f);
+  m_sound->set_reference_distance(32);
+  m_sound->play();
 }
 
 void
 TreeWillOWisp::vanish()
 {
-  mystate = STATE_VANISHING;
-  m_layer = tree->get_layer() + 1;
+  m_state = STATE_VANISHING;
+  m_layer = m_tree->get_layer() + 1;
   set_action("vanishing", 1);
   set_colgroup_active(COLGROUP_DISABLED);
 
@@ -77,12 +77,13 @@ TreeWillOWisp::vanish()
 }
 
 void
-TreeWillOWisp::start_sucking(const Vector& suck_target_)
+TreeWillOWisp::start_sucking(const Vector& suck_target_, float duration)
 {
-  mystate = STATE_SUCKED;
-  m_layer = tree->get_layer() + 1;
-  suck_target = suck_target_;
-  was_sucked = true;
+  m_state = STATE_SUCKED;
+  m_layer = m_tree->get_layer() + 1;
+  m_suck_start = get_pos();
+  m_suck_target = suck_target_;
+  m_suck_timer.start(duration);
 }
 
 /*HitResponse
@@ -108,72 +109,77 @@ void
 TreeWillOWisp::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer);
-  if (m_layer > tree->get_layer())
+  if (m_layer > m_tree->get_layer())
     m_sprite->draw(context.light(), get_pos(), m_layer);
 }
 
 void
 TreeWillOWisp::active_update(float dt_sec)
 {
-  switch (mystate) {
+  switch (m_state) {
     case STATE_VANISHING:
       // Remove the TreeWillOWisp if it has completely vanished.
       if (m_sprite->animation_done()) {
         remove_me();
-        tree->willowisp_died(this);
+        m_tree->willowisp_suck_finished(this);
       }
       break;
 
     case STATE_SUCKED:
     {
-      Vector dir_ = suck_target - get_pos();
-      if (glm::length(dir_) < 5) {
-        vanish();
-        break;
+      Vector dir = m_suck_target - m_suck_start;
+      double mult = QuinticEaseOut(static_cast<double>(m_suck_timer.get_progress()));
+      set_pos(m_suck_start + (dir * mult));
+
+      if (m_suck_timer.check())
+      {
+        m_state = STATE_IDLE;
+        m_tree->willowisp_suck_finished(this);
       }
-      Vector newpos = get_pos() + dir_ * dt_sec;
-      m_col.set_movement(newpos - get_pos());
       break;
     }
 
+    case STATE_IDLE:
+      break;
+
     case STATE_DEFAULT:
     {
-      angle = fmodf(angle + dt_sec * speed, math::TAU);
-      Vector newpos(m_start_position + Vector(sinf(angle) * radius, 0));
+      m_angle = fmodf(m_angle + dt_sec * m_speed, math::TAU);
+      Vector newpos(m_start_position + Vector(sinf(m_angle) * m_radius, 0));
       m_col.set_movement(newpos - get_pos());
-      float sizemod = cosf(angle) * 0.8f;
+      float sizemod = cosf(m_angle) * 0.8f;
       /* TODO: Modify sprite size using the 'sizeMod' value. */
 
       if (sizemod < 0) {
-        m_layer = tree->get_layer() - 1;
+        m_layer = m_tree->get_layer() - 1;
       } else {
-        m_layer = tree->get_layer() + 1;
+        m_layer = m_tree->get_layer() + 1;
       }
       break;
     }
   }
 
-  sound_source->set_position(get_pos());
+  m_sound->set_position(get_pos());
 }
 
 void
 TreeWillOWisp::set_color(const Color& color_)
 {
-  color = color_;
+  m_color = color_;
   m_sprite->set_color(color_);
 }
 
 void TreeWillOWisp::stop_looping_sounds()
 {
-  if (sound_source) {
-    sound_source->stop();
+  if (m_sound) {
+    m_sound->stop();
   }
 }
 
 void TreeWillOWisp::play_looping_sounds()
 {
-  if (sound_source) {
-    sound_source->play();
+  if (m_sound) {
+    m_sound->play();
   }
 }
 

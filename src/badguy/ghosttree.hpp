@@ -43,7 +43,7 @@ public:
 
   virtual void on_flip(float height) override;
 
-  void willowisp_died(TreeWillOWisp* willowisp);
+  void willowisp_suck_finished(TreeWillOWisp* willowisp);
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
@@ -55,38 +55,45 @@ private:
     STATE_SCREAM,
     STATE_IDLE,
     STATE_SUCKING,
+    STATE_SPITTING,
     STATE_ATTACKING,
     STATE_RECHARGING,
     STATE_DEAD
   };
   
   enum AttackType {
-    ATTACK_RED = 0,
+    ATTACK_NORMAL,
+
+    ATTACK_RED,
     ATTACK_GREEN,
     ATTACK_BLUE,
-    ATTACK_PINCH
+
+    ATTACK_PINCH,
+
+    ATTACK_FIRST_SPECIAL = ATTACK_RED,
   };
 
 private:
   void set_state(MyState new_state);
-  bool suck_now(const Color& color) const;
+  bool should_suck(const Color& color) const;
 
 private:
   MyState m_state;
   AttackType m_attack;
+  AttackType m_willo;
   Timer m_state_timer;
   float m_willo_spawn_y;
   float m_willo_radius;
   float m_willo_speed;
   int m_willo_to_spawn;
-  AttackType m_next_willo;
 
   std::vector<TreeWillOWisp*> m_willowisps;
   std::unique_ptr<GhostTreeAttack> m_root_attack;
   void spawn_willowisp(AttackType color);
   void rotate_willo_color();
-  void start_attack(bool main_root);
-  Vector get_player_pos();
+
+  Vector get_attack_pos();
+  void start_attack();
 
 private:
   GhostTree(const GhostTree&) = delete;

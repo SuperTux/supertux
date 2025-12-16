@@ -25,7 +25,7 @@
 #include "video/surface.hpp"
 
 static const unsigned MAIN_ROOT_COUNT = 3;
-static const float MAIN_ROOT_DELAY = 1.f;
+static const float MAIN_ROOT_DELAY = 1.5f;
 static const float MAIN_ROOT_HILL_OFFSET = 8.f;
 static const float MAIN_ROOT_HATCH_OFFSET = 16.f;
 static const float MAIN_ROOT_HATCH_DURATION = .3f;
@@ -421,6 +421,7 @@ GhostTreeAttackMain::active_update(float dtime)
 #endif
 
   Sector::get().add<GhostTreeRootMain>(pos, this);
+  m_spawn_timer.start(MAIN_ROOT_DELAY);
 }
 
 bool
@@ -433,9 +434,6 @@ void
 GhostTreeAttackMain::root_died()
 {
   --m_remaining_roots;
-  if (m_remaining_roots >= 0) {
-    m_spawn_timer.start(MAIN_ROOT_DELAY);
-  }
 }
 
 GhostTreeAttackRed::GhostTreeAttackRed(float y, float x_start, float x_end):
