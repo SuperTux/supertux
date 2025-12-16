@@ -280,6 +280,7 @@ private:
 
   float m_scroll_speed;
   float m_new_scale;
+  bool m_move_locked;
 
   Vector m_mouse_pos;
 
