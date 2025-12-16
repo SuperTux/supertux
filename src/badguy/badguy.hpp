@@ -285,7 +285,7 @@ protected:
   Physic m_physic;
 
 public:
-  /** Is this enemy glinting?. If yes, then count it to the coin statistics */
+  /** Is this enemy glinting? If yes, then count it to the coin statistics */
   bool is_glinting;
 
 protected:
