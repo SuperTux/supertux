@@ -266,7 +266,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_bubble_timer.start(3.0f + graphicsRandom.randf(2));
 
   m_col.set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
-
+  m_col.set_physic_hint(m_physic);
 
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);

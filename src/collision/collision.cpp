@@ -13,11 +13,14 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#include <iostream>
 
 #include "collision/collision.hpp"
 
 #include <algorithm>
 
+#include "supertux/physic.hpp"
+#include "collision/collision_object.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rectf.hpp"
 
@@ -57,10 +60,10 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   bool dummy;
   return rectangle_aatriangle(constraints, rect, triangle, dummy);
 }
-
 bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle,
-                          bool& hits_rectangle_bottom)
+                          bool& hits_rectangle_bottom,
+                          CollisionObject* object)
 {
   if (!rect.overlaps(triangle.bbox))
     return false;
@@ -94,6 +97,8 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
       assert(false);
   }
 
+  bool has_downwards_east_corner = false,
+       has_downwards_west_corner = false;
   switch (triangle.dir & AATriangle::DIRECTION_MASK) {
     case AATriangle::SOUTHWEST:
       p1 = Vector(rect.get_left(), rect.get_bottom());
@@ -102,6 +107,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
     case AATriangle::NORTHEAST:
       p1 = Vector(rect.get_right(), rect.get_top());
       makePlane(area.p2(), area.p1(), normal, c);
+      has_downwards_west_corner = true;
       break;
     case AATriangle::SOUTHEAST:
       p1 = rect.p2();
@@ -112,6 +118,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
       p1 = rect.p1();
       makePlane(Vector(area.get_right(), area.get_top()),
                 Vector(area.get_left(), area.get_bottom()), normal, c);
+      has_downwards_east_corner = true;
       break;
     default:
       assert(false);
@@ -127,12 +134,24 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   std::cout << "Norm: " << normal << " Depth: " << depth << "\n";
 #endif
 
-  Vector outvec = normal * (depth + 0.2f);
+  Vector outvec = normal * (depth - .2f);
 
   const float RDELTA = 3;
   if (p1.x < area.get_left() - RDELTA || p1.x > area.get_right() + RDELTA
      || p1.y < area.get_top() - RDELTA || p1.y > area.get_bottom() + RDELTA) {
-    set_rectangle_rectangle_constraints(constraints, rect, area);
+    // somewhat of a hack? If the object is falling and hits the corner of a
+    // tile, they end up landing on the rectangle constraint. so check velocity
+    // as well as the side to make judgement. We could also check if there is a
+    // tile above it (which might be more accurate) but I didn't notice any
+    // particular issues.
+    if (!object || !object->m_physic_hint ||
+        // left side
+        (!(object->m_physic_hint->get_velocity_y() > 0.1 && has_downwards_west_corner &&
+           area.get_left() >= rect.get_left()) &&
+         // right side
+         !(object->m_physic_hint->get_velocity_y() > 0.1 && has_downwards_east_corner &&
+           area.get_right() <= rect.get_right())))
+      set_rectangle_rectangle_constraints(constraints, rect, area);
   } else {
     if (outvec.x < 0) {
       constraints->constrain_right(rect.get_right() + outvec.x);
@@ -152,6 +171,8 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
     }
     constraints->hit.slope_normal = normal;
   }
+
+
 
   return true;
 }
