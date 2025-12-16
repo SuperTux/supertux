@@ -136,7 +136,7 @@ CommandLineArguments::print_help(const char* arg0) const
     // l10n: Keep SUPERTUX2_USER_DIR untranslated
     << _("  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)" ) << "\n"
     // l10n: Keep SUPERTUX2_DATA_DIR untranslated
-    << _("  SUPERTUX2_DATA_DIR           Directory for the games data files" ) << "\n"
+    << _("  SUPERTUX2_DATA_DIR           Directory for the game's data files" ) << "\n"
     << "\n"
     << std::flush;
 }
