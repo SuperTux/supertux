@@ -42,10 +42,10 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
     {
       lightsprite->set_color(color_);
     }
-
   }
   no_time_out = notimeout;
-  if(fadeout_time!=0){
+  if (fadeout_time != 0.f)
+  {
     fade_out_timer.start(fadeout_time);
   }
   sprite->set_color(color_);
@@ -72,10 +72,10 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
 
   position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
   no_time_out = notimeout;
-  if(fadeout_time!=0){
+  if (fadeout_time != 0.f)
+  {
     fade_out_timer.start(fadeout_time);
   }
-
 }
 
 SpriteParticle::~SpriteParticle()
@@ -111,7 +111,7 @@ SpriteParticle::draw(DrawingContext& context)
   Vector draw_pos = position + velocity * context.get_time_offset();
   if (fade_out_timer.started())
   {
-    sprite->set_alpha(std::max((float)0,fade_out_timer.get_timeleft() / fade_out_timer.get_period()));
+    sprite->set_alpha(std::max(0.f, fade_out_timer.get_timeleft() / fade_out_timer.get_period()));
   }
   sprite->draw(context.color(), draw_pos, drawing_layer);
 
