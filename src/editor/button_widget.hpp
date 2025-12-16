@@ -91,7 +91,7 @@ public:
   {
   }
   
-  EditorToolbarButtonWidget(const std::string& path, std::function<void()> callback = {}, std::string help_text = "", std::optional<Sizef> sprite_size = std::nullopt) :
+  EditorToolbarButtonWidget(const std::string& path, std::function<void()> callback = {}, const std::string& help_text = "", std::optional<Sizef> sprite_size = std::nullopt) :
     ButtonWidget(SpriteManager::current()->create(path), Vector(0,0), std::move(callback), std::move(sprite_size)),
     m_tile_mode_visible(true),
     m_object_mode_visible(true),
