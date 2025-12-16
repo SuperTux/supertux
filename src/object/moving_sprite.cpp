@@ -239,7 +239,7 @@ MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
                                       "default",
                                       ppos, ANCHOR_MIDDLE,
                                       pspeed, paccel,
-                                      LAYER_OBJECTS-1);
+                                      LAYER_OBJECTS - 1, false, .75f);
   }
 }
 
