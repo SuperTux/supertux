@@ -87,7 +87,7 @@ auto
 ScriptManager::find_script(UID uid, const std::string& key) -> decltype(m_scripts)::iterator
 {
   auto res = std::find_if(m_scripts.begin(), m_scripts.end(),
-    [&](ScriptInfo& info) {
+    [&](const ScriptInfo& info) {
       return info.key == key && info.uid == uid;
     });
 
