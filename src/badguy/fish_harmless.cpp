@@ -19,7 +19,6 @@
 FishHarmless::FishHarmless(const ReaderMapping& reader) :
   FishSwimming(reader, "images/creatures/fish/ice/goldfish.sprite")
 {
-  m_countMe = false;
 }
 
 void

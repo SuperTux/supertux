@@ -136,7 +136,6 @@ MrTree::collision_squished(MovingObject& object)
     Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + VICIOUSIVY_WIDTH, leaf1_pos.y + VICIOUSIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf1_bbox, this)) {
       auto& leaf1 = Sector::get().add<ViciousIvy>(leaf1_bbox.p1(), Direction::LEFT);
-      leaf1.m_countMe = false;
     }
 
     // Spawn ViciousIvy.
@@ -144,7 +143,6 @@ MrTree::collision_squished(MovingObject& object)
     Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + VICIOUSIVY_WIDTH, leaf2_pos.y + VICIOUSIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf2_bbox, this)) {
       auto& leaf2 = Sector::get().add<ViciousIvy>(leaf2_bbox.p1(), Direction::RIGHT);
-      leaf2.m_countMe = false;
     }
   }
   return true;

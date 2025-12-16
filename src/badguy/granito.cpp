@@ -38,8 +38,6 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   walk_speed = 0;
   set_ledge_behavior(LedgeBehavior::NORMAL);
 
-  m_countMe = false;
-
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   m_col.set_unisolid(true);
 

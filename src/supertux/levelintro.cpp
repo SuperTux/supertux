@@ -185,12 +185,6 @@ LevelIntro::draw(Compositor& compositor)
                       Statistics::coins_to_string(m_best_level_statistics->get_coins(), stats.m_total_coins),
                       m_best_level_statistics->get_coins() >= stats.m_total_coins);
     }
-    if (preferences.enable_badguys)
-    {
-      draw_stats_line(context, py, _("Badguys killed"),
-                      Statistics::frags_to_string(m_best_level_statistics->get_badguys(), stats.m_total_badguys),
-                      m_best_level_statistics->get_badguys() >= stats.m_total_badguys);
-    }
     if (preferences.enable_secrets)
     {
       draw_stats_line(context, py, _("Secrets"),

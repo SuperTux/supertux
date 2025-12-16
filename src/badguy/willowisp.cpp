@@ -78,7 +78,6 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 
   init_path(reader, running);
 
-  m_countMe = false;
   SoundManager::current()->preload(SOUNDFILE);
   SoundManager::current()->preload("sounds/warp.wav");
 

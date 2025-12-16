@@ -45,7 +45,6 @@ Snowman::loose_head()
   m_physic.set_acceleration_y(0);
   m_physic.enable_gravity(true);
   set_state (STATE_FALLING);
-  m_countMe = false;
 
   /* Create a new snowball where the snowman's head was. */
   Sector::get().add<SnowBall>(snowball_pos, m_dir, m_dead_script);
@@ -63,7 +62,6 @@ Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 
     /* Create a new snowball where the snowman's head was. */
     Sector::get().add<SnowBall>(snowball_pos, m_dir, m_dead_script);
-    m_countMe = false;
 
     SoundManager::current()->play("sounds/pop.ogg", get_pos()); // This could be a different sound.
     bullet.remove_me();

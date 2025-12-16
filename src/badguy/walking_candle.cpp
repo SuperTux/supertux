@@ -34,7 +34,6 @@ WalkingCandle::WalkingCandle(const ReaderMapping& reader)
   m_sprite->set_color(m_lightcolor);
   m_lightsprite->set_color(m_lightcolor);
 
-  m_countMe = false;
   m_glowing = true;
 }
 

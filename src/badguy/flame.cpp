@@ -57,7 +57,6 @@ Flame::Flame(const ReaderMapping& reader, int type) :
     m_col.m_bbox.set_pos(Vector(m_start_position.x + cosf(angle) * radius,
                                 m_start_position.y + sinf(angle) * radius));
   }
-  m_countMe = false;
   m_glowing = true;
   SoundManager::current()->preload(FLAME_SOUND);
 

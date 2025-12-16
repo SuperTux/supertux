@@ -72,7 +72,6 @@ Root::Root(const Vector& pos, Direction dir, const std::string& sprite,
 void
 Root::construct()
 {
-  m_countMe = false;
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_DISABLED);
 

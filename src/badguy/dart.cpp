@@ -33,7 +33,6 @@ Dart::Dart(const ReaderMapping& reader) :
   sound_source()
 {
   m_physic.enable_gravity(false);
-  m_countMe = false;
 
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
@@ -49,7 +48,6 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::str
   sound_source()
 {
   m_physic.enable_gravity(false);
-  m_countMe = false;
   m_glowing = true;
 
   SoundManager::current()->preload(DART_SOUND);

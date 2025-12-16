@@ -40,7 +40,6 @@ BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d, float x_vel) 
   m_turn_around_timer(),
   m_turn_around_counter()
 {
-  m_countMe = false;
   m_x_speed = x_vel;
 }
 

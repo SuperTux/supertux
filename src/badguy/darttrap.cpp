@@ -47,7 +47,6 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/skull/skull_dart.sprite");
   set_colgroup_active(COLGROUP_DISABLED);
 
-  m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
   if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
   m_state = IDLE;

@@ -142,6 +142,8 @@ public:
 
   virtual bool is_freezable() const;
 
+  virtual int get_coins_worth() const override;
+
   /** Return true if this badguy can be hurt by tiles
       with the attribute "hurts" */
   virtual bool is_hurtable() const { return true; }
@@ -283,9 +285,8 @@ protected:
   Physic m_physic;
 
 public:
-  /** Count this badguy to the statistics? This value should not be
-      changed during runtime. */
-  bool m_countMe;
+  /** Is this enemy glinting?. If yes, then count it to the coin statistics */
+  bool is_glinting;
 
 protected:
   /** true if initialize() has already been called */

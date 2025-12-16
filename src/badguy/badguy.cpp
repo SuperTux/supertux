@@ -26,6 +26,7 @@
 #include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
+#include "object/coin.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
@@ -63,7 +64,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
                const std::string& fire_sprite_name) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
-  m_countMe(true),
+  is_glinting(false),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
   m_dir(direction),
@@ -118,7 +119,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
                const std::string& fire_sprite_name) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
-  m_countMe(true),
+  is_glinting(false),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
   m_dir(Direction::LEFT),
@@ -151,6 +152,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
     m_start_dir = string_to_dir(dir_str);
   m_dir = m_start_dir;
 
+  reader.get("glinting", is_glinting);
   reader.get("dead-script", m_dead_script);
 
   SoundManager::current()->preload("sounds/squish.wav");
@@ -175,7 +177,8 @@ BadGuy::draw(DrawingContext& context)
 
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
-    if (Editor::is_active()) {
+    if (Editor::is_active())
+    {
       m_sprite->draw(context.color(), draw_pos, m_layer, m_flip);
     }
   }
@@ -316,10 +319,31 @@ BadGuy::update(float dt_sec)
   switch (m_state) {
     case STATE_ACTIVE:
       m_is_active_flag = true;
-      if (Editor::is_active()) {
+      if (Editor::is_active())
+      {
         break;
       }
-      //won't work if defined anywhere else for some reason
+
+      // display glinting particles
+      if (is_glinting)
+      {
+        if (graphicsRandom.rand(0, 2) == 0)
+        {
+          const float px = graphicsRandom.randf(m_col.m_bbox.get_left() + 0, m_col.m_bbox.get_right() - 0);
+          const float py = graphicsRandom.randf(m_col.m_bbox.get_top() + 0, m_col.m_bbox.get_bottom() - 0);
+          const Vector ppos = Vector(px, py);
+          Sector::get().add<SpriteParticle>(
+            "images/particles/glint.sprite",
+            "default",
+            ppos,
+            ANCHOR_MIDDLE,
+            Vector(0, 0),
+            Vector(0, 0),
+            LAYER_OBJECTS + 6);
+        }
+      }
+
+      // won't work if defined anywhere else for some reason
       if (m_frozen && is_portable())
         m_freezesprite->set_action(get_overlay_size(), 1);
       else
@@ -443,6 +467,12 @@ std::vector<Direction>
 BadGuy::get_allowed_directions() const
 {
   return { Direction::AUTO, Direction::LEFT, Direction::RIGHT };
+}
+
+int
+BadGuy::get_coins_worth() const
+{
+  return is_glinting ? 1 : 0;
 }
 
 void
@@ -825,8 +855,14 @@ BadGuy::run_dead_script()
 
   m_is_active_flag = false;
 
-  if (m_countMe)
-    Sector::get().get_level().m_stats.increment_badguys();
+  if (is_glinting)
+  {
+    const float coin_x = get_bbox().get_middle().x - 16.0f;
+    const float coin_y = get_bbox().get_top() - 32.0f;
+
+    Sector::get().add<HeavyCoin>(Vector(coin_x, coin_y),
+      Vector(graphicsRandom.randf(-175.0f, 175.0f), 0.0f));
+  }
 
   if (m_parent_dispenser != nullptr)
   {
@@ -1318,7 +1354,9 @@ BadGuy::get_settings()
     result.add_direction(_("Direction"), &m_start_dir, get_allowed_directions(), "direction");
   result.add_script(_("Death script"), &m_dead_script, "dead-script");
 
-  result.reorder({"direction", "sprite", "x", "y"});
+  result.add_bool(_("Glinting"), &is_glinting, "glinting");
+
+  result.reorder({"direction", "sprite", "x", "y", "glinting"});
 
   return result;
 }
