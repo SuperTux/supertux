@@ -32,7 +32,7 @@ static const std::string TREEWILLOSOUND = "sounds/willowisp.wav";
 TreeWillOWisp::TreeWillOWisp(GhostTree* tree_, const Vector& pos,
                              float radius_, float speed_) :
   BadGuy(tree_->get_pos() + pos, "images/creatures/willowisp/willowisp.sprite",
-         LAYER_OBJECTS - 20),
+         tree_->get_layer() - 1),
   was_sucked(false),
   mystate(STATE_DEFAULT),
   color(),
@@ -66,6 +66,7 @@ void
 TreeWillOWisp::vanish()
 {
   mystate = STATE_VANISHING;
+  m_layer = tree->get_layer() + 1;
   set_action("vanishing", 1);
   set_colgroup_active(COLGROUP_DISABLED);
 
@@ -79,6 +80,7 @@ void
 TreeWillOWisp::start_sucking(const Vector& suck_target_)
 {
   mystate = STATE_SUCKED;
+  m_layer = tree->get_layer() + 1;
   suck_target = suck_target_;
   was_sucked = true;
 }
@@ -106,45 +108,52 @@ void
 TreeWillOWisp::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer);
-  m_sprite->draw(context.light(), get_pos(), m_layer);
+  if (m_layer > tree->get_layer())
+    m_sprite->draw(context.light(), get_pos(), m_layer);
 }
 
 void
 TreeWillOWisp::active_update(float dt_sec)
 {
-  // Remove the TreeWillOWisp if it has completely vanished.
-  if (mystate == STATE_VANISHING) {
-    if (m_sprite->animation_done()) {
-      remove_me();
-      tree->willowisp_died(this);
-    }
-    return;
-  }
+  switch (mystate) {
+    case STATE_VANISHING:
+      // Remove the TreeWillOWisp if it has completely vanished.
+      if (m_sprite->animation_done()) {
+        remove_me();
+        tree->willowisp_died(this);
+      }
+      break;
 
-  if (mystate == STATE_SUCKED) {
-    Vector dir_ = suck_target - get_pos();
-    if (glm::length(dir_) < 5) {
-      vanish();
-      return;
+    case STATE_SUCKED:
+    {
+      Vector dir_ = suck_target - get_pos();
+      if (glm::length(dir_) < 5) {
+        vanish();
+        break;
+      }
+      Vector newpos = get_pos() + dir_ * dt_sec;
+      m_col.set_movement(newpos - get_pos());
+      break;
     }
-    Vector newpos = get_pos() + dir_ * dt_sec;
-    m_col.set_movement(newpos - get_pos());
-    return;
-  }
 
-  angle = fmodf(angle + dt_sec * speed, math::TAU);
-  Vector newpos(m_start_position + Vector(sinf(angle) * radius, 0));
-  m_col.set_movement(newpos - get_pos());
-  float sizemod = cosf(angle) * 0.8f;
-  /* TODO: Modify sprite size using the 'sizeMod' value. */
+    case STATE_DEFAULT:
+    {
+      angle = fmodf(angle + dt_sec * speed, math::TAU);
+      Vector newpos(m_start_position + Vector(sinf(angle) * radius, 0));
+      m_col.set_movement(newpos - get_pos());
+      float sizemod = cosf(angle) * 0.8f;
+      /* TODO: Modify sprite size using the 'sizeMod' value. */
+
+      if (sizemod < 0) {
+        m_layer = tree->get_layer() - 1;
+      } else {
+        m_layer = tree->get_layer() + 1;
+      }
+      break;
+    }
+  }
 
   sound_source->set_position(get_pos());
-
-  if (sizemod < 0) {
-    m_layer = LAYER_OBJECTS + 5;
-  } else {
-    m_layer = LAYER_OBJECTS - 20;
-  }
 }
 
 void
