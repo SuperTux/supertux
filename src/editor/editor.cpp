@@ -160,6 +160,7 @@ Editor::Editor() :
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
   m_move_locked(false),
+  m_arrow_keys(0),
   m_mouse_pos(0.f, 0.f),
   m_layers_widget_needs_refresh(false),
   m_script_manager(),
@@ -681,19 +682,19 @@ Editor::update_keyboard(const Controller& controller)
 
   if (!m_move_locked)
   {
-    if (controller.hold(Control::LEFT)) {
+    if (controller.hold(Control::LEFT) || (m_arrow_keys & KEY_LEFT) == KEY_LEFT) {
       scroll({ -m_scroll_speed, 0.0f });
     }
 
-    if (controller.hold(Control::RIGHT)) {
+    if (controller.hold(Control::RIGHT) || (m_arrow_keys & KEY_RIGHT) == KEY_RIGHT) {
       scroll({ m_scroll_speed, 0.0f });
     }
 
-    if (controller.hold(Control::UP)) {
+    if (controller.hold(Control::UP) || (m_arrow_keys & KEY_UP) == KEY_UP) {
       scroll({ 0.0f, -m_scroll_speed });
     }
 
-    if (controller.hold(Control::DOWN)) {
+    if (controller.hold(Control::DOWN) || (m_arrow_keys & KEY_DOWN) == KEY_DOWN) {
       scroll({ 0.0f, m_scroll_speed });
     }
   }
@@ -1180,6 +1181,22 @@ Editor::event(const SDL_Event& ev)
         m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
         m_alt_pressed = ev.key.keysym.mod & KMOD_ALT;
 
+        switch (ev.key.keysym.sym)
+        {
+          case SDLK_UP:
+            m_arrow_keys |= KEY_UP;
+            break;
+          case SDLK_DOWN:
+            m_arrow_keys |= KEY_DOWN;
+            break;
+          case SDLK_LEFT:
+            m_arrow_keys |= KEY_LEFT;
+            break;
+          case SDLK_RIGHT:
+            m_arrow_keys |= KEY_RIGHT;
+            break;
+        }
+
         if (m_ctrl_pressed)
           m_scroll_speed = 16.0f;
         else if (ev.key.keysym.mod & KMOD_RSHIFT)
@@ -1253,6 +1270,22 @@ Editor::event(const SDL_Event& ev)
         m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
         m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
         m_alt_pressed = ev.key.keysym.mod & KMOD_ALT;
+
+        switch (ev.key.keysym.sym)
+        {
+          case SDLK_UP:
+            m_arrow_keys ^= KEY_UP;
+            break;
+          case SDLK_DOWN:
+            m_arrow_keys ^= KEY_DOWN;
+            break;
+          case SDLK_LEFT:
+            m_arrow_keys ^= KEY_LEFT;
+            break;
+          case SDLK_RIGHT:
+            m_arrow_keys ^= KEY_RIGHT;
+            break;
+        }
 
         if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
           m_scroll_speed = 32.0f;
