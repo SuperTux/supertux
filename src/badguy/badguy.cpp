@@ -335,7 +335,7 @@ BadGuy::update(float dt_sec)
       // display glinting particles
       if (is_glinting)
       {
-        if (graphicsRandom.rand(0, 2) == 0)
+        if (graphicsRandom.rand(0, 4) == 0)
         {
           const float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
           const float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
@@ -864,11 +864,17 @@ BadGuy::run_dead_script()
 
   if (is_glinting && m_can_glint && !m_holds_coins)
   {
-    const float coin_x = get_bbox().get_middle().x - 16.0f;
-    const float coin_y = get_bbox().get_top() - 32.0f;
+    const int num_coins = get_coins_worth();
 
-    Sector::get().add<HeavyCoin>(Vector(coin_x, coin_y),
-      Vector(graphicsRandom.randf(-175.0f, 175.0f), 0.0f));
+    for (int i = 0; i < num_coins; ++i)
+    {
+      const float coin_x = get_bbox().get_middle().x - 16.0f;
+      const float coin_y = get_bbox().get_top() - 32.0f;
+
+      Sector::get().add<HeavyCoin>(Vector(coin_x, coin_y),
+                                   Vector(graphicsRandom.randf(-175.0f, 175.0f),
+                                   0.0f));
+    }
   }
 
   if (m_parent_dispenser != nullptr)

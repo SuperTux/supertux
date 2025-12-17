@@ -33,7 +33,6 @@ RCrystallo::RCrystallo(const ReaderMapping& reader) :
   walk_speed = 80;
   set_ledge_behavior(LedgeBehavior::SMART);
   reader.get("radius", m_radius, 100.0f);
-  m_can_glint = false;
   SoundManager::current()->preload("sounds/crystallo-shatter.ogg");
 }
 
@@ -223,8 +222,12 @@ RCrystallo::on_flip(float height)
 {
   WalkingBadguy::on_flip(height);
 
-  Sector::get().add<Crystallo>(get_pos(), m_start_position, get_velocity_x(),
-                               std::move(m_sprite), m_dir, m_radius, m_dead_script);
+  auto& crystallo = Sector::get().add<Crystallo>(get_pos(), m_start_position, get_velocity_x(),
+                                                 std::move(m_sprite), m_dir, m_radius, m_dead_script);
+
+  if (is_glinting)
+    crystallo.is_glinting = true;
+
   remove_me();
 }
 

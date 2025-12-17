@@ -47,7 +47,9 @@ Snowman::loose_head()
   set_state (STATE_FALLING);
 
   /* Create a new snowball where the snowman's head was. */
-  Sector::get().add<SnowBall>(snowball_pos, m_dir, m_dead_script);
+  auto& snowball = Sector::get().add<SnowBall>(snowball_pos, m_dir, m_dead_script);
+  if (is_glinting)
+    snowball.is_glinting = true;
 }
 
 HitResponse
