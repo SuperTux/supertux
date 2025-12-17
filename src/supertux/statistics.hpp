@@ -41,6 +41,7 @@ private:
   static Color header_color;
   static Color text_color;
   static Color perfect_color;
+  static Color special_color;
 
 public:
   static std::string coins_to_string(int coins, int total_coins);
@@ -96,14 +97,16 @@ public:
   bool completed(const float target_time) const; /* Check if stats match total stats */
 
   inline int get_coins() const { return m_coins; }
+  inline int get_tuxdolls() const { return m_tuxdolls; }
   inline int get_badguys() const { return m_badguys; }
   inline int get_secrets() const { return m_secrets; }
   inline float get_time() const { return m_time; }
   inline Status get_status() const { return m_status; }
 
-  void increment_coins() { m_coins++; check_coins(); }
-  void increment_badguys() { m_badguys++; check_badguys(); }
-  void increment_secrets() { m_secrets++; check_secrets(); }
+  inline void increment_coins() { m_coins++; check_coins(); }
+  inline void increment_tuxdolls() { m_tuxdolls++; }
+  inline void increment_badguys() { m_badguys++; check_badguys(); }
+  inline void increment_secrets() { m_secrets++; check_secrets(); }
 
 private:
   void calculate_max_caption_length();
@@ -122,6 +125,7 @@ public:
 
 private:
   int m_coins; /**< coins collected */
+  int m_tuxdolls; /**< tuxdolls collected */
   int m_badguys; /**< badguys actively killed */
   int m_secrets; /**< secret areas found */
 
@@ -146,6 +150,7 @@ private:
   std::string CAPTION_MAX_SECRETS;
   std::string CAPTION_BEST_TIME;
   std::string CAPTION_TARGET_TIME;
+  std::string CAPTION_TUXDOLLS;
 
   float WMAP_INFO_LEFT_X;
   float WMAP_INFO_RIGHT_X;

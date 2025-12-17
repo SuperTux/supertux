@@ -38,6 +38,7 @@ PlayerStatus::PlayerStatus(int num_players) :
   m_item_pockets(num_players),
   m_override_item_pocket(Level::INHERIT),
   coins(START_COINS),
+  tuxdolls(0),
   bonus(num_players),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
   last_worldmap(),
@@ -66,6 +67,7 @@ void
 PlayerStatus::reset(int num_players)
 {
   coins = START_COINS;
+  tuxdolls = 0;
 
   // Keep in sync with a section in read()
   bonus.clear();
@@ -196,6 +198,7 @@ PlayerStatus::write(Writer& writer)
   }
 
   writer.write("coins", coins);
+  writer.write("tuxdolls", tuxdolls);
 
   writer.write("worldmap-sprite", worldmap_sprite, false);
   writer.write("last-worldmap", last_worldmap, false);
@@ -216,7 +219,7 @@ PlayerStatus::read(const ReaderMapping& mapping)
   {
     try
     {
-      if (iter.get_key().size() > 3 && iter.get_key().substr(0, 3) == "tux")
+      if (iter.get_key().size() > 3 && iter.get_key().substr(0, 3) == "tux" && iter.get_key() != "tuxdolls")
       {
         int id = std::stoi(iter.get_key().substr(3)) - 1;
 
@@ -251,6 +254,7 @@ PlayerStatus::read(const ReaderMapping& mapping)
   parse_bonus_mapping(mapping, 0);
 
   mapping.get("coins", coins);
+  mapping.get("tuxdolls", tuxdolls);
 
   mapping.get("worldmap-sprite", worldmap_sprite);
   mapping.get("last-worldmap", last_worldmap);

@@ -17,20 +17,90 @@
 #include "supertux/menu/sorted_contrib_menu.hpp"
 
 #include <sstream>
-#include "util/gettext.hpp"
-#include "supertux/savegame.hpp"
-#include "supertux/player_status.hpp"
-#include "supertux/levelset.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/menu/contrib_levelset_menu.hpp"
+
+#include <fmt/format.h>
+
+#include "gui/item_action.hpp"
+//#include "gui/item_hl.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
-#include "gui/item_action.hpp"
+#include "supertux/colorscheme.hpp"
+#include "supertux/game_manager.hpp"
+#include "supertux/levelset.hpp"
+#include "supertux/menu/contrib_levelset_menu.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/savegame.hpp"
+#include "util/gettext.hpp"
+#include "video/surface.hpp"
+
+class ItemLockedWorld final : public MenuItem
+{
+public:
+  ItemLockedWorld(const std::string& text, int collected, int required) :
+    MenuItem(text),
+    m_count_text(fmt::format("{}/{}", collected, required)),
+    m_tuxdoll_icon(Surface::from_file("images/powerups/1up/1up.png"))
+  {
+    set_help(fmt::format(fmt::runtime(_("Collect {} more Tux Dolls in Story Mode to unlock!")), required - collected));
+  }
+
+  virtual void draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) override
+  {
+    context.color().draw_text(Resources::normal_font, get_text(),
+                              Vector(pos.x + static_cast<float>(menu_width) / 2.f - 8.f
+                                       - static_cast<float>(m_tuxdoll_icon->get_width()) / 2.f
+                                       - Resources::normal_font->get_text_width(m_count_text) / 2.f,
+                                     pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.f),
+                              ALIGN_CENTER, LAYER_GUI, Color::RED);
+
+    context.color().draw_surface_scaled(m_tuxdoll_icon,
+                                 Rectf(Vector(pos.x + static_cast<float>(menu_width) / 2.f + 8.f
+                                                + Resources::normal_font->get_text_width(get_text()) / 2.f
+                                                - Resources::normal_font->get_text_width(m_count_text) / 2.f
+                                                - static_cast<float>(Resources::normal_font->get_height()) / 2.f,
+                                              pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.f),
+                                       Sizef(static_cast<float>(Resources::normal_font->get_height()),
+                                             static_cast<float>(Resources::normal_font->get_height()))),
+                                 LAYER_GUI);
+    context.color().draw_text(Resources::normal_font, m_count_text,
+                              Vector(pos.x + static_cast<float>(menu_width) / 2.f + 8.f
+                                       + Resources::normal_font->get_text_width(get_text()) / 2.f
+                                       + static_cast<float>(m_tuxdoll_icon->get_width()) / 2.f,
+                                     pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.f),
+                              ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::warning_color);
+  }
+
+  virtual int get_width() const override
+  {
+    return static_cast<int>(Resources::normal_font->get_text_width(get_text()))
+      + static_cast<int>(Resources::normal_font->get_text_width(m_count_text))
+      + m_tuxdoll_icon->get_width() + 16;
+  }
+
+private:
+  const std::string m_count_text;
+  SurfacePtr m_tuxdoll_icon;
+
+private:
+  ItemLockedWorld(const ItemLockedWorld&) = delete;
+  ItemLockedWorld& operator=(const ItemLockedWorld&) = delete;
+};
+
+
 SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type, const std::string& title, const std::string& empty_message) :
   m_world_folders()
 {
   add_label(title);
   add_hl();
+
+  int story_tuxdolls = std::numeric_limits<int>::max();
+  if (!g_config->developer_mode)
+  {
+    const auto story_savegame = Savegame::from_current_profile("world1");
+    story_tuxdolls = story_savegame->get_player_status().tuxdolls;
+  }
+
   int world_id = 0;
   for (unsigned int i = 0; i < worlds.size(); i++)
   {
@@ -40,16 +110,27 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
       std::string title_str = worlds[i]->get_title();
       if (worlds[i]->is_levelset())
         title_str = "[" + title_str + "]";
-      add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
+
+      if (story_tuxdolls >= worlds[i]->get_tuxdolls_required())
+      {
+        add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
+      }
+      else
+      {
+        add_item(std::make_unique<ItemLockedWorld>(title_str, story_tuxdolls, worlds[i]->get_tuxdolls_required()));
+        ++world_id;
+      }
     }
   }
   if (world_id == 0)
   {
     add_inactive(empty_message);
   }
+
   add_hl();
   add_back(_("Back"));
 }
+
 void
 SortedContribMenu::menu_action(MenuItem& item)
 {

@@ -33,13 +33,15 @@
 #include "editor/editor.hpp"
 #include "worldmap/worldmap_sector.hpp"
 
-static const int DISPLAYED_COINS_UNSET = -1;
+static const int DISPLAYED_STAT_UNSET = -1;
 
-PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status) :
+PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status, bool show_tuxdolls) :
   m_player_status(player_status),
-  displayed_coins(DISPLAYED_COINS_UNSET),
-  displayed_coins_frame(0),
-  coin_surface(Surface::from_file("images/engine/hud/coins-0.png")),
+  m_show_tuxdolls(show_tuxdolls),
+  displayed_stat(DISPLAYED_STAT_UNSET),
+  displayed_stat_frame(0),
+  stat_surface(Surface::from_file("images/engine/hud/" + std::string(show_tuxdolls ? "tuxdolls-0.png" : "coins-0.png"))),
+  m_stat_value(show_tuxdolls ? m_player_status.tuxdolls : m_player_status.coins),
   m_bonus_sprites(),
   m_item_pocket_border(Surface::from_file("images/engine/hud/item_pocket.png"))
 {
@@ -52,7 +54,7 @@ PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status) :
 void
 PlayerStatusHUD::reset()
 {
-  displayed_coins = DISPLAYED_COINS_UNSET;
+  displayed_stat = DISPLAYED_STAT_UNSET;
 }
 
 void
@@ -67,35 +69,36 @@ PlayerStatusHUD::draw(DrawingContext& context)
       (Sector::current() && Sector::current()->get_effect().has_active_borders()))
     return;
 
-  if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
-      (std::abs(displayed_coins - m_player_status.coins) > 100)) {
-    displayed_coins = m_player_status.coins;
-    displayed_coins_frame = 0;
+  if ((displayed_stat == DISPLAYED_STAT_UNSET) ||
+      (std::abs(displayed_stat - m_stat_value) > 100)) {
+    displayed_stat = m_stat_value;
+    displayed_stat_frame = 0;
   }
-  if (++displayed_coins_frame > 2) {
-    displayed_coins_frame = 0;
-    if (displayed_coins < m_player_status.coins) displayed_coins++;
-    if (displayed_coins > m_player_status.coins) displayed_coins--;
+  if (++displayed_stat_frame > 2) {
+    displayed_stat_frame = 0;
+    if (displayed_stat < m_stat_value) displayed_stat++;
+    if (displayed_stat > m_stat_value) displayed_stat--;
   }
-  displayed_coins = std::min(std::max(displayed_coins, 0), m_player_status.get_max_coins());
+  if (!m_show_tuxdolls)
+    displayed_stat = std::min(std::max(displayed_stat, 0), m_player_status.get_max_coins());
 
   float hudpos = BORDER_Y + 1.0f;
-  const std::string coins_text = std::to_string(displayed_coins);
+  const std::string stat_text = std::to_string(displayed_stat);
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.transform().scale = 1.f;
-  if (coin_surface)
+  if (stat_surface)
   {
-    context.color().draw_surface(coin_surface,
-                                Vector(context.get_width() - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
+    context.color().draw_surface(stat_surface,
+                                Vector(context.get_width() - BORDER_X - static_cast<float>(stat_surface->get_width()) - Resources::fixed_font->get_text_width(stat_text),
                                        hudpos),
                                 LAYER_HUD);
   }
 
   context.color().draw_text(Resources::fixed_font,
-                            coins_text,
-                            Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
+                            stat_text,
+                            Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(stat_text),
                                   hudpos + 13.f),
                             ALIGN_LEFT,
                             LAYER_HUD,

@@ -35,7 +35,7 @@ private:
   static Color text_color;
 
 public:
-  PlayerStatusHUD(PlayerStatus& player_status);
+  PlayerStatusHUD(PlayerStatus& player_status, bool show_tuxdolls = false);
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(PlayerStatusHUD)); }
 
   virtual void update(float dt_sec) override;
@@ -49,9 +49,12 @@ public:
 
 private:
   PlayerStatus& m_player_status;
-  int displayed_coins;
-  int displayed_coins_frame;
-  SurfacePtr coin_surface;
+  const bool m_show_tuxdolls;
+
+  int displayed_stat;
+  int displayed_stat_frame;
+  SurfacePtr stat_surface;
+  int& m_stat_value;
 
   std::unordered_map<BonusType, SpritePtr> m_bonus_sprites;
   SurfacePtr m_item_pocket_border;

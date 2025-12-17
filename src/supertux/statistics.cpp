@@ -80,6 +80,7 @@ Statistics::Statistics() :
   m_total_badguys(),
   m_total_secrets(),
   m_coins(),
+  m_tuxdolls(),
   m_badguys(),
   m_secrets(),
   m_time(),
@@ -96,6 +97,7 @@ Statistics::Statistics() :
   CAPTION_MAX_SECRETS(_("Max secrets found:")),
   CAPTION_BEST_TIME(_("Best time completed:")),
   CAPTION_TARGET_TIME(_("Level target time:")),
+  CAPTION_TUXDOLLS(_("Tux Dolls collected:")),
   WMAP_INFO_LEFT_X(),
   WMAP_INFO_RIGHT_X(),
   WMAP_INFO_TOP_Y1(),
@@ -139,6 +141,7 @@ Statistics::serialize_to_squirrel(ssq::Table& table) const
 
   ssq::Table statistics = table.addTable("statistics");
   statistics.set("coins-collected", m_coins);
+  statistics.set("tuxdolls-collected", m_tuxdolls);
   statistics.set("badguys-killed", m_badguys);
   statistics.set("secrets-found", m_secrets);
   statistics.set("time-needed", m_time);
@@ -154,6 +157,7 @@ Statistics::unserialize_from_squirrel(const ssq::Table& table)
   {
     const ssq::Table statistics = table.findTable("statistics");
     statistics.get("coins-collected", m_coins);
+    statistics.get("tuxdolls-collected", m_tuxdolls);
     statistics.get("badguys-killed", m_badguys);
     statistics.get("secrets-found", m_secrets);
     statistics.get("time-needed", m_time);
@@ -197,9 +201,10 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
   std::string caption_buf;
   std::string stat_buf;
   float posy = WMAP_INFO_TOP_Y2;
+  Color hcolor = Statistics::header_color;
   Color tcolor;
 
-  for (int stat_no = 0; stat_no < 5; stat_no++) {
+  for (int stat_no = 0; stat_no < 6; stat_no++) {
     tcolor = Statistics::header_color;
     switch (stat_no)
     {
@@ -247,12 +252,21 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
           stat_buf = "";
         }
         break;
+      case 5:
+        if (m_tuxdolls <= 0)
+          continue;
+
+        caption_buf = CAPTION_TUXDOLLS;
+        stat_buf = std::to_string(m_tuxdolls);
+        hcolor = Statistics::special_color;
+        tcolor = Statistics::special_color;
+        break;
       default:
-        log_debug << "Invalid stat requested to be drawn" << std::endl;
-        continue;
+        assert(false);
+        break;
     }
 
-    context.color().draw_text(Resources::small_font, caption_buf, Vector(WMAP_INFO_LEFT_X, posy), ALIGN_LEFT, LAYER_HUD, Statistics::header_color);
+    context.color().draw_text(Resources::small_font, caption_buf, Vector(WMAP_INFO_LEFT_X, posy), ALIGN_LEFT, LAYER_HUD, hcolor);
     context.color().draw_text(Resources::small_font, stat_buf, Vector(WMAP_INFO_RIGHT_X, posy), ALIGN_RIGHT, LAYER_HUD, tcolor);
     posy += Resources::small_font->get_height() + 2;
   }
@@ -537,6 +551,7 @@ Statistics::update(const Statistics& other)
   if (other.m_status != FINAL) return;
 
   m_coins = std::max(m_coins, other.m_coins);
+  m_tuxdolls = std::max(m_tuxdolls, other.m_tuxdolls);
   m_badguys = std::max(m_badguys, other.m_badguys);
   m_secrets = std::max(m_secrets, other.m_secrets);
   if (m_time == 0)

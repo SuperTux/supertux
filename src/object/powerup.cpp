@@ -235,7 +235,7 @@ PowerUp::collision(MovingObject& other, const CollisionHit&)
       player->make_invincible();
       break;
     case ONEUP:
-      player->get_status().add_coins(100);
+      Sector::get().get_level().m_stats.increment_tuxdolls();
       break;
     case FLIP:
       FlipLevelTransformer flip_transformer;

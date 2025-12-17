@@ -54,6 +54,7 @@ public:
   PlayerStatus(int num_players);
   void reset(int num_players);
   void add_coins(int count, bool play_sound = true);
+  inline void add_tuxdolls(int count) { tuxdolls += count; }
   void take_checkpoint_coins();
 
   void write(Writer& writer);
@@ -109,6 +110,7 @@ public:
   Level::Setting m_override_item_pocket;
 
   int coins;
+  int tuxdolls;
   std::vector<BonusType> bonus;
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
