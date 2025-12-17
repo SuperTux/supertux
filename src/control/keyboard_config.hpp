@@ -47,14 +47,14 @@ public:
 public:
   KeyboardConfig();
 
-  SDL_Keycode reversemap_key(int player, Control c) const;
-  void bind_key(SDL_Keycode key, int player, Control c);
+  SDL_Scancode reversemap_key(int player, Control c) const;
+  void bind_key(SDL_Scancode key, int player, Control c);
 
   void read(const ReaderMapping& keymap_mapping);
   void write(Writer& writer);
 
 private:
-  std::map<SDL_Keycode, PlayerControl> m_keymap;
+  std::map<SDL_Scancode, PlayerControl> m_keymap;
   std::set<Control> m_configurable_controls;
   bool m_jump_with_up_kbd;
 

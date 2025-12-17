@@ -63,6 +63,7 @@ Config::Config() :
   sound_volume(100),
   music_volume(50),
   flash_intensity(50),
+  max_viewport(false),
   fancy_gfx(true),
   precise_scrolling(true),
   invert_wheel_x(false),
@@ -123,6 +124,7 @@ Config::Config() :
   editor_show_toolbar_widgets(true),
   editor_blur(12),
   editor_remember_last_level(true),
+  editor_max_viewport(true),
   preferred_text_editor(),
   editor_last_edited_level(),
   multiplayer_auto_manage_players(true),
@@ -270,6 +272,7 @@ Config::load()
     editor_mapping->get("blur", editor_blur);
     editor_mapping->get("last_edited_level", editor_last_edited_level);
     editor_mapping->get("remember_last_level", editor_remember_last_level);
+    editor_mapping->get("max_viewport", editor_max_viewport);
   }
 
   if (is_christmas()) {
@@ -315,6 +318,9 @@ Config::load()
     config_video_mapping->get("magnification", magnification);
     config_video_mapping->get("fancy_gfx", fancy_gfx);
     config_video_mapping->get("prefer_wayland", prefer_wayland);
+    config_video_mapping->get("max_viewport", max_viewport);
+
+    Viewport::force_full_viewport(max_viewport, true);
 
 #ifdef __EMSCRIPTEN__
     // Forcibly set autofit to true.
@@ -490,6 +496,7 @@ Config::save()
   writer.write("magnification", magnification);
   writer.write("fancy_gfx", fancy_gfx);
   writer.write("prefer_wayland", prefer_wayland);
+  writer.write("max_viewport", max_viewport);
 
   writer.end_list("video");
 
@@ -549,6 +556,7 @@ Config::save()
     writer.write("show_toolbar_widgets", editor_show_toolbar_widgets);
     writer.write("blur", editor_blur);
     writer.write("remember_last_level", editor_remember_last_level);
+    writer.write("max_viewport", editor_max_viewport);
     writer.write("last_edited_level", editor_last_edited_level);
   }
   writer.end_list("editor");

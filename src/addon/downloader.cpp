@@ -291,7 +291,7 @@ public:
 #endif
   }
 
-  ~Transfer()
+  virtual ~Transfer()
   {
 #ifndef EMSCRIPTEN
     curl_easy_cleanup(m_handle);

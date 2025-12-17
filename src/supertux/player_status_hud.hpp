@@ -45,6 +45,7 @@ public:
   virtual bool is_singleton() const override { return true; }
   virtual bool track_state() const override { return false; }
 
+  void on_item_pocket_change(Player* player);
   void reset();
 
 private:
@@ -58,6 +59,7 @@ private:
 
   std::unordered_map<BonusType, SpritePtr> m_bonus_sprites;
   SurfacePtr m_item_pocket_border;
+  Timer m_item_pocket_fade;
 
 private:
   PlayerStatusHUD(const PlayerStatusHUD&) = delete;

@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  main.pot (SuperTux v0.6.3-1877-g2f1543df0)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1877-g2f1543df0\n"
+"#-#-#-#-#  main.pot (SuperTux v0.6.3-1897-g89d584c1a)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1897-g89d584c1a\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-16 09:30+0000\n"
+"POT-Creation-Date: 2025-12-17 08:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"#-#-#-#-#  credits.pot (SuperTux v0.6.3-1877-g2f1543df0)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1877-g2f1543df0\n"
+"#-#-#-#-#  credits.pot (SuperTux v0.6.3-1897-g89d584c1a)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1897-g89d584c1a\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-16 09:30+0000\n"
+"POT-Creation-Date: 2025-12-17 08:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,10 +29,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  objects.pot (SuperTux v0.6.3-1877-g2f1543df0)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1877-g2f1543df0\n"
+"#-#-#-#-#  objects.pot (SuperTux v0.6.3-1897-g89d584c1a)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1897-g89d584c1a\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-16 09:30+0000\n"
+"POT-Creation-Date: 2025-12-17 08:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,10 +40,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  tilesets.pot (SuperTux v0.6.3-1877-g2f1543df0)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1877-g2f1543df0\n"
+"#-#-#-#-#  tilesets.pot (SuperTux v0.6.3-1897-g89d584c1a)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1897-g89d584c1a\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-16 09:30+0000\n"
+"POT-Creation-Date: 2025-12-17 08:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,10 +51,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  converters.pot (SuperTux v0.6.3-1877-g2f1543df0)  #-#-#-#-#\n"
-"Project-Id-Version: SuperTux v0.6.3-1877-g2f1543df0\n"
+"#-#-#-#-#  converters.pot (SuperTux v0.6.3-1897-g89d584c1a)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux v0.6.3-1897-g89d584c1a\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-12-16 09:30+0000\n"
+"POT-Creation-Date: 2025-12-17 08:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -504,26 +504,26 @@ msgid "Direction"
 msgstr ""
 
 #: src/badguy/crusher.cpp:1245 src/supertux/menu/joystick_menu.cpp:72
-#: src/supertux/menu/keyboard_menu.cpp:37
+#: src/supertux/menu/keyboard_menu.cpp:76
 msgid "Down"
 msgstr ""
 
 #: src/badguy/crusher.cpp:1245 src/supertux/menu/joystick_menu.cpp:71
-#: src/supertux/menu/keyboard_menu.cpp:36
+#: src/supertux/menu/keyboard_menu.cpp:75
 msgid "Up"
 msgstr ""
 
 #: src/badguy/crusher.cpp:1245 src/object/textscroller.cpp:355
 #: src/object/textscroller.cpp:366 src/math/anchor_point.cpp:36
 #: src/supertux/menu/joystick_menu.cpp:73
-#: src/supertux/menu/keyboard_menu.cpp:38
+#: src/supertux/menu/keyboard_menu.cpp:77
 msgid "Left"
 msgstr ""
 
 #: src/badguy/crusher.cpp:1245 src/object/textscroller.cpp:360
 #: src/object/textscroller.cpp:371 src/math/anchor_point.cpp:38
 #: src/supertux/menu/joystick_menu.cpp:74
-#: src/supertux/menu/keyboard_menu.cpp:39
+#: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Right"
 msgstr ""
 
@@ -959,7 +959,7 @@ msgstr ""
 #: src/gui/menu_string_array.cpp:40 src/gui/menu_string_array.cpp:78
 #: src/supertux/menu/joystick_menu.cpp:111
 #: src/supertux/menu/joystick_menu.cpp:215
-#: src/supertux/menu/keyboard_menu.cpp:81 src/editor/object_settings.cpp:155
+#: src/supertux/menu/keyboard_menu.cpp:35 src/editor/object_settings.cpp:155
 #: src/editor/particle_editor.cpp:162 src/editor/particle_editor.cpp:168
 msgid "None"
 msgstr ""
@@ -1943,7 +1943,7 @@ msgid "Rublight"
 msgstr ""
 
 #: src/object/decal.cpp:51 src/supertux/menu/joystick_menu.cpp:76
-#: src/supertux/menu/keyboard_menu.cpp:41
+#: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Action"
 msgstr ""
 
@@ -2332,7 +2332,7 @@ msgstr ""
 #: src/supertux/menu/editor_sectors_menu.cpp:88
 #: src/supertux/menu/editor_sectors_menu.cpp:93
 #: src/supertux/menu/particle_editor_open.cpp:43
-#: src/editor/particle_editor.cpp:783 src/editor/editor.cpp:950
+#: src/editor/particle_editor.cpp:783 src/editor/editor.cpp:957
 msgid "Cancel"
 msgstr ""
 
@@ -2354,14 +2354,14 @@ msgstr ""
 #: src/supertux/menu/editor_level_select_menu.cpp:96
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
 #: src/supertux/menu/editor_delete_level_menu.cpp:68
-#: src/supertux/menu/keyboard_menu.cpp:72
+#: src/supertux/menu/keyboard_menu.cpp:111
 #: src/supertux/menu/addon_file_install_menu.cpp:36
 #: src/supertux/menu/profile_menu.cpp:118
 #: src/supertux/menu/sorted_contrib_menu.cpp:51
 #: src/supertux/menu/multiplayer_players_menu.cpp:94
 #: src/supertux/menu/addon_browse_menu.cpp:162
 #: src/supertux/menu/language_menu.cpp:63
-#: src/supertux/menu/options_menu.cpp:262
+#: src/supertux/menu/options_menu.cpp:267
 #: src/supertux/menu/multiplayer_menu.cpp:39
 #: src/supertux/menu/cheat_apply_menu.cpp:40
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:39
@@ -2370,7 +2370,7 @@ msgstr ""
 #: src/supertux/menu/contrib_menu.cpp:105
 #: src/supertux/menu/profile_name_menu.cpp:45
 #: src/supertux/menu/editor_levelset_select_menu.cpp:118
-#: src/supertux/menu/editor_settings.cpp:62
+#: src/supertux/menu/editor_settings.cpp:68
 #: src/supertux/menu/options_select_menu.cpp:44
 #: src/supertux/menu/addon_preview_menu.cpp:205
 #: src/supertux/menu/worldmap_cheat_menu.cpp:57
@@ -2451,14 +2451,14 @@ msgstr ""
 
 #: src/gui/dialog.hpp:95 src/supertux/menu/editor_level_select_menu.cpp:174
 #: src/supertux/menu/addon_preview_menu.cpp:141
-#: src/supertux/menu/editor_level_menu.cpp:40 src/editor/editor.cpp:939
+#: src/supertux/menu/editor_level_menu.cpp:40 src/editor/editor.cpp:946
 msgid "Yes"
 msgstr ""
 
 #: src/gui/dialog.hpp:96 src/supertux/menu/editor_level_select_menu.cpp:178
 #: src/supertux/menu/addon_preview_menu.cpp:141
 #: src/supertux/menu/editor_level_menu.cpp:40
-#: src/editor/particle_editor.cpp:779 src/editor/editor.cpp:946
+#: src/editor/particle_editor.cpp:779 src/editor/editor.cpp:953
 msgid "No"
 msgstr ""
 
@@ -2556,12 +2556,12 @@ msgid ""
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:75
-#: src/supertux/menu/keyboard_menu.cpp:40
+#: src/supertux/menu/keyboard_menu.cpp:79
 msgid "Jump"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:77
-#: src/supertux/menu/keyboard_menu.cpp:42
+#: src/supertux/menu/keyboard_menu.cpp:81
 msgid "Item Pocket"
 msgstr ""
 
@@ -2570,42 +2570,42 @@ msgid "Pause/Menu"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:79
-#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/keyboard_menu.cpp:83
 msgid "Peek Left"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:80
-#: src/supertux/menu/keyboard_menu.cpp:45
+#: src/supertux/menu/keyboard_menu.cpp:84
 msgid "Peek Right"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:81
-#: src/supertux/menu/keyboard_menu.cpp:46
+#: src/supertux/menu/keyboard_menu.cpp:85
 msgid "Peek Up"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:82
-#: src/supertux/menu/keyboard_menu.cpp:47
+#: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Peek Down"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:84
-#: src/supertux/menu/keyboard_menu.cpp:52
+#: src/supertux/menu/keyboard_menu.cpp:91
 msgid "Console"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:85
-#: src/supertux/menu/keyboard_menu.cpp:53
+#: src/supertux/menu/keyboard_menu.cpp:92
 msgid "Cheat Menu"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:86
-#: src/supertux/menu/keyboard_menu.cpp:54
+#: src/supertux/menu/keyboard_menu.cpp:93
 msgid "Debug Menu"
 msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:88
-#: src/supertux/menu/keyboard_menu.cpp:57
+#: src/supertux/menu/keyboard_menu.cpp:96
 msgid "Jump with Up"
 msgstr ""
 
@@ -2867,17 +2867,17 @@ msgid "Toggle Autotiling"
 msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:191
-#: src/supertux/menu/editor_settings.cpp:41
+#: src/supertux/menu/editor_settings.cpp:46
 msgid "Render Light"
 msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:192
-#: src/supertux/menu/editor_settings.cpp:39
+#: src/supertux/menu/editor_settings.cpp:44
 msgid "Grid Snapping"
 msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:193
-#: src/supertux/menu/editor_settings.cpp:38
+#: src/supertux/menu/editor_settings.cpp:43
 msgid "Show Grid"
 msgstr ""
 
@@ -3219,73 +3219,73 @@ msgstr ""
 msgid "Leave World"
 msgstr ""
 
-#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/keyboard_menu.cpp:37
+msgid "Up cursor"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:39
+msgid "Down cursor"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:41
+msgid "Left cursor"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:43
+msgid "Right cursor"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:45
+msgid "Return"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:47
+msgid "Space"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:49
+msgid "Right Shift"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:51
+msgid "Left Shift"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:53
+msgid "Right Control"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:55
+msgid "Left Control"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:57
+msgid "Right Alt"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:59
+msgid "Left Alt"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:61
+msgid "Right Command"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:63
+msgid "Left Command"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:73
 #: src/supertux/menu/options_menu.cpp:176
 msgid "Setup Keyboard"
 msgstr ""
 
-#: src/supertux/menu/keyboard_menu.cpp:64
+#: src/supertux/menu/keyboard_menu.cpp:103
 #: src/supertux/menu/multiplayer_players_menu.cpp:39
 #: src/supertux/menu/cheat_apply_menu.cpp:36
 #: src/supertux/menu/worldmap_cheat_apply_menu.cpp:36
 #: src/supertux/menu/multiplayer_player_menu.cpp:37
 msgid "Player {}"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:83
-msgid "Up cursor"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:85
-msgid "Down cursor"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:87
-msgid "Left cursor"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:89
-msgid "Right cursor"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:91
-msgid "Return"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:93
-msgid "Space"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:95
-msgid "Right Shift"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:97
-msgid "Left Shift"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:99
-msgid "Right Control"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:101
-msgid "Left Control"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:103
-msgid "Right Alt"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:105
-msgid "Left Alt"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:107
-msgid "Right Command"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:109
-msgid "Left Command"
 msgstr ""
 
 #: src/supertux/menu/keyboard_menu.cpp:121
@@ -3760,116 +3760,126 @@ msgstr ""
 msgid "Inverts scrolling in the Y-axis"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:250
-msgid "Check for new releases"
+#: src/supertux/menu/options_menu.cpp:251
+msgid "Force full viewport"
 msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:251
+msgid ""
+"Don't attempt to scale or apply any aspect ratio. Ignores some video "
+"settings. Useful for arcade cabinets or unusual screens."
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:255
+msgid "Check for new releases"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:256
 msgid ""
 "Allows the game to perform checks for new SuperTux releases on startup and "
 "notify if any found."
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:254
+#: src/supertux/menu/options_menu.cpp:259
 msgid "Disable network"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:255
+#: src/supertux/menu/options_menu.cpp:260
 msgid "Prevents the game from connecting online"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:285
-#: src/supertux/menu/options_menu.cpp:328 src/supertux/direction.cpp:76
+#: src/supertux/menu/options_menu.cpp:290
+#: src/supertux/menu/options_menu.cpp:333 src/supertux/direction.cpp:76
 msgid "auto"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:321
+#: src/supertux/menu/options_menu.cpp:326
 msgid "Magnification"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:322
+#: src/supertux/menu/options_menu.cpp:327
 msgid "Change the magnification of the game area"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:358
+#: src/supertux/menu/options_menu.cpp:363
 msgid "Aspect Ratio"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:359
+#: src/supertux/menu/options_menu.cpp:364
 msgid "Adjust the aspect ratio"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:386
+#: src/supertux/menu/options_menu.cpp:391
 msgid "Window Resolution"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:387
+#: src/supertux/menu/options_menu.cpp:392
 msgid "Resize the window to the given size"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:417
+#: src/supertux/menu/options_menu.cpp:422
 msgid "Desktop"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:444
+#: src/supertux/menu/options_menu.cpp:449
 msgid "Fullscreen Resolution"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:445
+#: src/supertux/menu/options_menu.cpp:450
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen "
 "to complete the change)"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:451
+#: src/supertux/menu/options_menu.cpp:456
 msgid "on"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:452
+#: src/supertux/menu/options_menu.cpp:457
 msgid "off"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:453
+#: src/supertux/menu/options_menu.cpp:458
 msgid "adaptive"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:471
+#: src/supertux/menu/options_menu.cpp:476
 msgid "VSync"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:472
+#: src/supertux/menu/options_menu.cpp:477
 msgid "Set the VSync mode"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:507
+#: src/supertux/menu/options_menu.cpp:512
 msgid "Sound Volume"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:508
+#: src/supertux/menu/options_menu.cpp:513
 msgid "Adjust sound volume"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:543
+#: src/supertux/menu/options_menu.cpp:548
 msgid "Music Volume"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:544
+#: src/supertux/menu/options_menu.cpp:549
 msgid "Adjust music volume"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:579
+#: src/supertux/menu/options_menu.cpp:584
 msgid "Flash Intensity"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:580
+#: src/supertux/menu/options_menu.cpp:585
 msgid "Adjust the intensity of the flash produced by the thunderstorm"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:593
+#: src/supertux/menu/options_menu.cpp:598
 msgid "On-screen controls scale"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:716
+#: src/supertux/menu/options_menu.cpp:721
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
@@ -4059,19 +4069,19 @@ msgid "Abort Level"
 msgstr ""
 
 #: src/supertux/menu/game_menu.cpp:95 src/supertux/menu/game_menu.cpp:106
-#: src/supertux/menu/game_menu.cpp:168
+#: src/supertux/menu/game_menu.cpp:171
 msgid "Are you sure?"
 msgstr ""
 
-#: src/supertux/menu/game_menu.cpp:125
+#: src/supertux/menu/game_menu.cpp:122
 msgid "Couldn't open editor for this level. No worldmap!"
 msgstr ""
 
-#: src/supertux/menu/game_menu.cpp:146
+#: src/supertux/menu/game_menu.cpp:149
 msgid "Couldn't open editor for this level."
 msgstr ""
 
-#: src/supertux/menu/game_menu.cpp:152
+#: src/supertux/menu/game_menu.cpp:155
 msgid "Couldn't open worldmap for this level."
 msgstr ""
 
@@ -4115,83 +4125,87 @@ msgstr[1] ""
 msgid "Create World"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:28
+#: src/supertux/menu/editor_settings.cpp:33
 msgid "Editor Settings"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:32
+#: src/supertux/menu/editor_settings.cpp:37
 msgid "tiny tile (4px)"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:33
+#: src/supertux/menu/editor_settings.cpp:38
 msgid "small tile (8px)"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:34
+#: src/supertux/menu/editor_settings.cpp:39
 msgid "medium tile (16px)"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:35
+#: src/supertux/menu/editor_settings.cpp:40
 msgid "big tile (32px)"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:37
+#: src/supertux/menu/editor_settings.cpp:42
 msgid "Grid Size"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:40
+#: src/supertux/menu/editor_settings.cpp:45
 msgid "Render Background"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:42
+#: src/supertux/menu/editor_settings.cpp:47
 msgid "Render Animations"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:43
+#: src/supertux/menu/editor_settings.cpp:48
 msgid "Invert Shift+Scroll"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:44
+#: src/supertux/menu/editor_settings.cpp:49
 msgid "Centered Zoom"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:45
+#: src/supertux/menu/editor_settings.cpp:50
 msgid "Autotile Mode"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:46
+#: src/supertux/menu/editor_settings.cpp:51
 msgid "Enable Autotile Help"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:47
+#: src/supertux/menu/editor_settings.cpp:52
 msgid "Enable Object Undo Tracking"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:49
+#: src/supertux/menu/editor_settings.cpp:54
 msgid "Show Properties Sidebar"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:51
+#: src/supertux/menu/editor_settings.cpp:56
 msgid "Show Toolbar"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:52
+#: src/supertux/menu/editor_settings.cpp:57
 msgid "Remember Last Level"
 msgstr ""
 
-#: src/supertux/menu/editor_settings.cpp:53
-msgid "Blur Amount"
-msgstr ""
-
-#: src/supertux/menu/editor_settings.cpp:54
-msgid "Preferred Text Editor"
-msgstr ""
-
-#: src/supertux/menu/editor_settings.cpp:57
-msgid "Undo Stack Size"
+#: src/supertux/menu/editor_settings.cpp:58
+msgid "Prefer Full Viewport"
 msgstr ""
 
 #: src/supertux/menu/editor_settings.cpp:59
+msgid "Blur Amount"
+msgstr ""
+
+#: src/supertux/menu/editor_settings.cpp:60
+msgid "Preferred Text Editor"
+msgstr ""
+
+#: src/supertux/menu/editor_settings.cpp:63
+msgid "Undo Stack Size"
+msgstr ""
+
+#: src/supertux/menu/editor_settings.cpp:65
 msgid "Autosave Frequency"
 msgstr ""
 
@@ -4809,7 +4823,7 @@ msgstr ""
 
 #. l10n: Keep SUPERTUX2_DATA_DIR untranslated
 #: src/supertux/command_line_arguments.cpp:139
-msgid "  SUPERTUX2_DATA_DIR           Directory for the games data files"
+msgid "  SUPERTUX2_DATA_DIR           Directory for the game's data files"
 msgstr ""
 
 #: src/supertux/sector.cpp:519
@@ -5193,18 +5207,18 @@ msgid ""
 "Exit the level editor instead."
 msgstr ""
 
-#: src/editor/editor.cpp:816
+#: src/editor/editor.cpp:819
 msgid ""
 "This level contains deprecated tiles.\n"
 "It is strongly recommended to replace all deprecated tiles\n"
 "to avoid loss of compatibility in future versions."
 msgstr ""
 
-#: src/editor/editor.cpp:818
+#: src/editor/editor.cpp:821
 msgid "Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu."
 msgstr ""
 
-#: src/editor/editor.cpp:897
+#: src/editor/editor.cpp:900
 msgid ""
 "Don't forget that your levels and assets\n"
 "aren't saved between sessions!\n"
@@ -5212,15 +5226,15 @@ msgid ""
 "from the \"Manage Assets\" menu."
 msgstr ""
 
-#: src/editor/editor.cpp:937
+#: src/editor/editor.cpp:944
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr ""
 
-#: src/editor/editor.cpp:938
+#: src/editor/editor.cpp:945
 msgid "This level may contain unsaved changes, do you want to save?"
 msgstr ""
 
-#: src/editor/editor.cpp:1069
+#: src/editor/editor.cpp:1076
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with the default SuperTux structure.\n"
@@ -5228,21 +5242,21 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr ""
 
-#: src/editor/editor.cpp:1072
+#: src/editor/editor.cpp:1079
 msgid "Disable add-ons"
 msgstr ""
 
-#: src/editor/editor.cpp:1077
+#: src/editor/editor.cpp:1084
 msgid "Ignore (not advised)"
 msgstr ""
 
-#: src/editor/editor.cpp:1081
+#: src/editor/editor.cpp:1088
 msgid "Leave editor"
 msgstr ""
 
 #. l10n: When translating this message, please keep "main" untranslated (the game expects the name of the sector to be "main").
 #.
-#: src/editor/editor.cpp:1430
+#: src/editor/editor.cpp:1440
 msgid ""
 "Couldn't find a sector with the name \"main\".\n"
 "Please change the name of the sector where\n"
@@ -5251,7 +5265,7 @@ msgstr ""
 
 #. l10n: When translating this message, please keep "main" untranslated (the game expects the name of the spawnpoint to be "main").
 #.
-#: src/editor/editor.cpp:1437
+#: src/editor/editor.cpp:1447
 msgid ""
 "Couldn't find a spawnpoint with the name \"main\".\n"
 "Please change the name of the spawnpoint where\n"

@@ -27,6 +27,45 @@
 
 #include <fmt/format.h>
 
+static std::string
+get_key_name(SDL_Scancode key)
+{
+  switch (key) {
+    case SDL_SCANCODE_UNKNOWN:
+      return _("None");
+    case SDL_SCANCODE_UP:
+      return _("Up cursor");
+    case SDL_SCANCODE_DOWN:
+      return _("Down cursor");
+    case SDL_SCANCODE_LEFT:
+      return _("Left cursor");
+    case SDL_SCANCODE_RIGHT:
+      return _("Right cursor");
+    case SDL_SCANCODE_RETURN:
+      return _("Return");
+    case SDL_SCANCODE_SPACE:
+      return _("Space");
+    case SDL_SCANCODE_RSHIFT:
+      return _("Right Shift");
+    case SDL_SCANCODE_LSHIFT:
+      return _("Left Shift");
+    case SDL_SCANCODE_RCTRL:
+      return _("Right Control");
+    case SDL_SCANCODE_LCTRL:
+      return _("Left Control");
+    case SDL_SCANCODE_RALT:
+      return _("Right Alt");
+    case SDL_SCANCODE_LALT:
+      return _("Left Alt");
+    case SDL_SCANCODE_RGUI:
+      return _("Right Command");
+    case SDL_SCANCODE_LGUI:
+      return _("Left Command");
+    default:
+      return SDL_GetScancodeName(static_cast<SDL_Scancode>(key));
+  }
+}
+
 KeyboardMenu::KeyboardMenu(InputManager& input_manager, int player_id) :
   m_input_manager(input_manager),
   m_player_id(player_id)
@@ -71,45 +110,6 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager, int player_id) :
 
   add_back(_("Back"));
   refresh();
-}
-
-std::string
-KeyboardMenu::get_key_name(SDL_Keycode key) const
-{
-  switch (key) {
-    case SDLK_UNKNOWN:
-      return _("None");
-    case SDLK_UP:
-      return _("Up cursor");
-    case SDLK_DOWN:
-      return _("Down cursor");
-    case SDLK_LEFT:
-      return _("Left cursor");
-    case SDLK_RIGHT:
-      return _("Right cursor");
-    case SDLK_RETURN:
-      return _("Return");
-    case SDLK_SPACE:
-      return _("Space");
-    case SDLK_RSHIFT:
-      return _("Right Shift");
-    case SDLK_LSHIFT:
-      return _("Left Shift");
-    case SDLK_RCTRL:
-      return _("Right Control");
-    case SDLK_LCTRL:
-      return _("Left Control");
-    case SDLK_RALT:
-      return _("Right Alt");
-    case SDLK_LALT:
-      return _("Left Alt");
-    case SDLK_RGUI:
-      return _("Right Command");
-    case SDLK_LGUI:
-      return _("Left Command");
-    default:
-      return SDL_GetKeyName(static_cast<SDL_Keycode>(key));
-  }
 }
 
 void

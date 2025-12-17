@@ -251,7 +251,12 @@ Editor::draw(Compositor& compositor)
     // issue with the PlayerStatus.
     if (!m_leveltested)
     {
+      context.push_transform();
+      context.set_max_layer(LAYER_GUI - 22); // Lowest layer used by an editor UI item is LAYER_GUI - 21
+
       m_sector->draw(context);
+
+      context.pop_transform();
 
       // If an object is selected, draw an indicator around it.
       const GameObject* selected_object = m_selected_object.get();
@@ -580,6 +585,9 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   std::unique_ptr<World> owned_world;
   World* current_world = m_world.get();
 
+  if (!g_config->max_viewport && g_config->editor_max_viewport)
+    VideoSystem::current()->get_viewport().force_full_viewport(false);
+
   m_leveltested = true;
   if ((m_level && !current_world) || m_levelfile == "")
   {
@@ -901,6 +909,10 @@ Editor::quit_editor()
   check_unsaved_changes([quit] {
     quit();
   });
+
+  // reset viewport to how it was
+  if (VideoSystem::current())
+    VideoSystem::current()->get_viewport().force_full_viewport(g_config->max_viewport);
 }
 
 bool
@@ -1101,6 +1113,9 @@ Editor::setup()
   }
   m_toolbox_widget->setup();
   m_layers_widget->setup();
+
+  if (!g_config->max_viewport && g_config->editor_max_viewport)
+    VideoSystem::current()->get_viewport().force_full_viewport(true);
 
   // Reactivate the editor after level test.
   reactivate();

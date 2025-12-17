@@ -116,24 +116,27 @@ GameMenu::menu_action(MenuItem& item)
       {
         if (Editor::is_active())
           break;
-        MenuManager::instance().clear_menu_stack();
-        //Editor* editor = new Editor();
-        //editor->disable_testing();
-        std::string level_file = GameSession::current()->get_level_file();
+
         if (!worldmap::WorldMap::current())
         {
           Dialog::show_message(_("Couldn't open editor for this level. No worldmap!"));
           break;
         }
+
+        MenuManager::instance().clear_menu_stack();
+        std::string level_file = GameSession::current()->get_level_file();
         std::string return_to = worldmap::WorldMap::current()->get_levels_path();
+        // Pop ourselves out of the worldmap... don't ask :)
         ScreenManager::current()->pop_screen();
         ScreenManager::current()->pop_screen();
         // We must queue the creation of the level queue or else the currenton gets clobbered
-       ScreenManager::current()->push_screen([level_file, return_to]() {
+        ScreenManager::current()->push_screen([level_file, return_to]() {
           Editor* editor = new Editor();
           if (level_file.empty())
             return editor;
-          editor->set_level(level_file);
+
+          editor->set_level(FileSystem::basename(level_file));
+          editor->set_world(World::from_directory(FileSystem::strip_leading_dirs(return_to)));
           editor->update(0, Controller());
           editor->on_exit([return_to]() {
             // Same as last comment... This restarts the previous level
@@ -152,7 +155,7 @@ GameMenu::menu_action(MenuItem& item)
                 Dialog::show_message(_("Couldn't open worldmap for this level."));
                 return nullptr;
               }
-              worldmap->start_level();
+              worldmap->start_level(true);
               return worldmap;
             });
           });

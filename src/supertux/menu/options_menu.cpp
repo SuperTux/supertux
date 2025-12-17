@@ -245,6 +245,11 @@ OptionsMenu::refresh()
       add_toggle(MNID_INVERT_WHEEL_Y, _("Invert vertical scrolling"), &g_config->invert_wheel_y)
         .set_help(_("Inverts scrolling in the Y-axis"));
 
+      // it kind of allows you to see outside of the game sessions typical
+      // camera... so it's a developer option
+      if (g_config->developer_mode)
+        add_toggle(MNID_MAX_VIEWPORT, _("Force full viewport"), &g_config->max_viewport).set_help(_("Don't attempt to scale or apply any aspect ratio. Ignores some video settings. Useful for arcade cabinets or unusual screens."));
+
 #ifndef __EMSCRIPTEN__
       if (!g_config->disable_network)
         add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
@@ -798,6 +803,10 @@ OptionsMenu::menu_action(MenuItem& item)
 
     case MNID_CUSTOM_CURSOR:
       SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
+      break;
+
+    case MNID_MAX_VIEWPORT:
+      VideoSystem::current()->get_viewport().force_full_viewport(g_config->max_viewport);
       break;
 
     case MNID_MOBILE_CONTROLS_SCALE:

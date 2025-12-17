@@ -18,6 +18,7 @@
 
 #include <iostream>
 
+#include "gui/menu_manager.hpp"
 #include "object/display_effect.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
@@ -27,6 +28,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/screen_manager.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -34,6 +36,7 @@
 #include "worldmap/worldmap_sector.hpp"
 
 static const int DISPLAYED_STAT_UNSET = -1;
+static constexpr float ITEM_POCKET_TIME = 6.f;
 
 PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status, bool show_tuxdolls) :
   m_player_status(player_status),
@@ -43,12 +46,22 @@ PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status, bool show_tuxdolls
   stat_surface(Surface::from_file("images/engine/hud/" + std::string(show_tuxdolls ? "tuxdolls-0.png" : "coins-0.png"))),
   m_stat_value(show_tuxdolls ? m_player_status.tuxdolls : m_player_status.coins),
   m_bonus_sprites(),
-  m_item_pocket_border(Surface::from_file("images/engine/hud/item_pocket.png"))
+  m_item_pocket_border(Surface::from_file("images/engine/hud/item_pocket.png")),
+  m_item_pocket_fade()
 {
+  m_player_status.set_hud_hint(this);
+  // aesthetic choice: hint to players their item pocket
+  m_item_pocket_fade.start(ITEM_POCKET_TIME);
   m_bonus_sprites[BONUS_FIRE]  = SpriteManager::current()->create("images/powerups/fireflower/fireflower.sprite");
   m_bonus_sprites[BONUS_ICE]   = SpriteManager::current()->create("images/powerups/iceflower/iceflower.sprite");
   m_bonus_sprites[BONUS_AIR]   = SpriteManager::current()->create("images/powerups/airflower/airflower.sprite");
   m_bonus_sprites[BONUS_EARTH] = SpriteManager::current()->create("images/powerups/earthflower/earthflower.sprite");
+}
+
+void
+PlayerStatusHUD::on_item_pocket_change([[maybe_unused]] Player* player)
+{
+  m_item_pocket_fade.start(ITEM_POCKET_TIME);
 }
 
 void
@@ -60,6 +73,7 @@ PlayerStatusHUD::reset()
 void
 PlayerStatusHUD::update(float dt_sec)
 {
+  m_item_pocket_fade.check();
 }
 
 void
@@ -109,6 +123,23 @@ PlayerStatusHUD::draw(DrawingContext& context)
   {
     for (int i = 0; i < InputManager::current()->get_num_users(); i++)
     {
+      constexpr float POCKET_FADE_AT = .7f;
+      constexpr float POCKET_FADE_MULT = 1.4f;
+      float prog = m_item_pocket_fade.started() ? m_item_pocket_fade.get_progress() : 1.f;
+      float fade = 1.f - std::fabs(POCKET_FADE_AT - prog) * POCKET_FADE_MULT;
+      if (m_item_pocket_fade.started())
+      {
+        context.set_alpha(prog < POCKET_FADE_AT ? 1.f : fade);
+
+      }
+      else
+        context.set_alpha(fade);
+
+      // If in some menu (i.e. pause) or not in game (worldmap) then just show anyway
+      if ((MenuManager::current() && MenuManager::current()->get_menu_stack_size() > 0) ||
+          (GameSession::current() && !GameSession::current()->is_active()))
+        context.set_alpha(1.f);
+
       float ypos = static_cast<float>(m_item_pocket_border->get_height() * i);
       Vector pos(BORDER_X, BORDER_Y + ypos);
       context.color().draw_surface(m_item_pocket_border, pos, LAYER_HUD);
@@ -121,6 +152,8 @@ PlayerStatusHUD::draw(DrawingContext& context)
         if (sprite)
           sprite->draw(context.color(), pos, LAYER_HUD);
       }
+
+      context.set_alpha(1.f);
     }
   }
 
