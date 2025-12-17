@@ -137,6 +137,10 @@ Camera::Camera(const ReaderMapping& reader) :
   {
     m_mode = Mode::MANUAL;
   }
+  else if (modename == "free")
+  {
+    m_mode = Mode::FREE;
+  }
   else
   {
     m_mode = Mode::NORMAL;
@@ -159,8 +163,8 @@ Camera::get_settings()
   ObjectSettings result = GameObject::get_settings();
 
   result.add_enum(_("Mode"), reinterpret_cast<int*>(&m_defaultmode),
-                  {_("normal"), _("manual"), _("autoscroll")},
-                  {"normal", "manual", "autoscroll"},
+                  {_("normal"), _("manual"), _("free"), _("autoscroll")},
+                  {"normal", "manual", "free", "autoscroll"},
                   {}, "mode");
 
   result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
@@ -229,12 +233,14 @@ Camera::get_rect() const
 void
 Camera::reset(const Vector& tuxpos)
 {
+
   m_translation.x = tuxpos.x - m_screen_size.width / 2.0f;
   m_translation.y = tuxpos.y - m_screen_size.height / 2.0f;
 
   m_shakespeed = 0;
   m_shaketimer.stop();
-  keep_in_bounds(m_translation);
+  if (m_mode != Mode::FREE)
+    keep_in_bounds(m_translation);
 
   m_cached_translation = m_translation;
 }
@@ -285,13 +291,15 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
   {
     m_translation.x = goal.x;
     m_translation.y = goal.y;
-    m_mode = Mode::MANUAL;
+    if (m_mode != Mode::FREE)
+      m_mode = Mode::MANUAL;
     return;
   }
 
   m_scroll_from = m_translation;
   m_scroll_goal = goal;
-  keep_in_bounds(m_scroll_goal);
+  if (m_mode != Mode::FREE)
+    keep_in_bounds(m_scroll_goal);
 
   m_scroll_to_pos = 0;
   m_scrollspeed = 1.f / scrolltime;
@@ -330,6 +338,7 @@ Camera::update(float dt_sec)
     case Mode::SCROLLTO:
       update_scroll_to(dt_sec);
       break;
+    case Mode::FREE:
     default:
       break;
   }
@@ -625,7 +634,8 @@ Camera::update_scroll_autoscroll(float dt_sec)
   // TODO: Get the camera size?
   m_translation = get_walker()->get_pos(Sizef(), m_path_handle);
 
-  keep_in_bounds(m_translation);
+  if (m_mode != Mode::FREE)
+    keep_in_bounds(m_translation);
 }
 
 void
@@ -666,7 +676,7 @@ Camera::update_scale(float dt_sec)
     if (m_scale_time_remaining <= 0.f)
     {
       m_scale = m_scale_target;
-      if (m_mode == Mode::MANUAL)
+      if (m_mode == Mode::MANUAL || m_mode == Mode::FREE)
         m_translation = m_scale_target_translation;
 
       m_scale_time_remaining = 0.f;
@@ -680,11 +690,12 @@ Camera::update_scale(float dt_sec)
       m_scale = m_scale_origin + (m_scale_target - m_scale_origin) * progress;
 
       /** MANUAL mode scale management */
-      if (m_mode == Mode::MANUAL)
+      if (m_mode == Mode::MANUAL || m_mode == Mode::FREE)
       {
         // Move camera to the target translation, when zooming in manual mode.
         m_translation = m_scale_origin_translation + (m_scale_target_translation - m_scale_origin_translation) * progress;
-        keep_in_bounds(m_translation);
+        if (m_mode == Mode::MANUAL)
+          keep_in_bounds(m_translation);
         return;
       }
     }
@@ -695,7 +706,7 @@ Camera::update_scale(float dt_sec)
 
   // In MANUAL mode, the translation is managed only when a scale is active.
   // In SCROLLTO mode, the translation is managed in update_scroll_to().
-  if (m_mode == Mode::MANUAL || m_mode == Mode::SCROLLTO)
+  if (m_mode == Mode::MANUAL || m_mode == Mode::FREE || m_mode == Mode::SCROLLTO)
     return;
 
   // FIXME: Poor design: This shouldn't pose a problem to multiplayer.
@@ -748,7 +759,7 @@ Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
   if (time <= 0.f)
   {
     m_scale = scale;
-    if (m_mode == Mode::MANUAL)
+    if (m_mode == Mode::MANUAL || m_mode == Mode::FREE)
       m_translation = m_scale_target_translation;
   }
 }
@@ -766,6 +777,8 @@ Camera::set_mode(const std::string& mode)
     m_mode = Mode::NORMAL;
   else if (mode == "manual")
     m_mode = Mode::MANUAL;
+  else if (mode == "free")
+    m_mode = Mode::FREE;
   else
     log_warning << "Camera mode '" << mode << "' unknown." << std::endl;
 }

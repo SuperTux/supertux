@@ -40,6 +40,17 @@ FadeHelper::FadeHelper(float* value, float time,
 {
 }
 
+FadeHelper::FadeHelper(FadeHelper* other) :
+  m_value(other->m_value),
+  m_progress(other->m_progress),
+  m_start(other->m_start),
+  m_target(other->m_target),
+  m_time(other->m_time),
+  m_total_time(other->m_total_time),
+  m_ease(other->m_ease)
+{
+}
+
 float
 FadeHelper::update(float dt_sec)
 {

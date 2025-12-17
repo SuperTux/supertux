@@ -34,7 +34,7 @@ KeyboardManager::KeyboardManager(InputManager* parent,
 void
 KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 {
-  auto key_mapping = m_keyboard_config.m_keymap.find(event.keysym.sym);
+  auto key_mapping = m_keyboard_config.m_keymap.find(event.keysym.scancode);
 
   // if console key was pressed: toggle console
   if (key_mapping != m_keyboard_config.m_keymap.end() &&
@@ -116,10 +116,10 @@ KeyboardManager::process_console_key_event(const SDL_KeyboardEvent& event)
       console->autocomplete();
       break;
     case SDLK_PAGEUP:
-      console->scroll(-1);
+      console->scroll(-console->get_line_height() + 2);
       break;
     case SDLK_PAGEDOWN:
-      console->scroll(+1);
+      console->scroll(+console->get_line_height() - 2);
       break;
     case SDLK_HOME:
       console->move_cursor(-65535);
@@ -166,7 +166,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     if (event.keysym.sym != SDLK_ESCAPE &&
         event.keysym.sym != SDLK_PAUSE)
     {
-      m_keyboard_config.bind_key(event.keysym.sym, m_wait_for_key->player, m_wait_for_key->control);
+      m_keyboard_config.bind_key(event.keysym.scancode, m_wait_for_key->player, m_wait_for_key->control);
     }
     m_parent->reset();
     MenuManager::instance().refresh();

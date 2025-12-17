@@ -96,6 +96,8 @@ JoystickMenu::recreate_menu()
     }
   }
 
+  add_toggle(-1, _("Globally Ignore Joystick Axis"), &g_config->ignore_joystick_axis);
+
   add_hl();
   add_back(_("Back"));
   refresh();

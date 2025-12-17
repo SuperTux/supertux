@@ -130,10 +130,10 @@ Wind::update(float dt_sec_)
       const float angle = std::atan2(speed.y, speed.x) * float(180.0 / M_PI);
       switch (m_type) {
         case WIND: // Normal wind
-          Sector::get().add<SpriteParticle>("images/particles/wind.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, Color::WHITE, angle);
+          Sector::get().add<SpriteParticle>("images/particles/wind.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, 0, Color::WHITE, angle);
           break;
         case CURRENT: // Current variant
-          Sector::get().add<SpriteParticle>("images/particles/water_piece1.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, Color::WHITE, angle);
+          Sector::get().add<SpriteParticle>("images/particles/water_piece1.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), m_layer, false, 0, Color::WHITE, angle);
           break;
       }
     }

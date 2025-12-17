@@ -26,10 +26,10 @@
 
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color_, float angle) :
+                               int drawing_layer_, bool notimeout, float fadeout_time, Color color_, float angle) :
   SpriteParticle(SpriteManager::current()->create(sprite_name), action,
                  position_, anchor, velocity_, acceleration_,
-                 drawing_layer_, notimeout, color_)
+                 drawing_layer_, fadeout_time, notimeout, color_)
 {
   if (sprite_name == "images/particles/sparkle.sprite")
   {
@@ -42,16 +42,19 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
     {
       lightsprite->set_color(color_);
     }
-
   }
   no_time_out = notimeout;
+  if (fadeout_time != 0.f)
+  {
+    fade_out_timer.start(fadeout_time);
+  }
   sprite->set_color(color_);
   sprite->set_angle(angle);
 }
 
 SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color_, float angle) :
+                               int drawing_layer_, bool notimeout, float fadeout_time, Color color_, float angle) :
   sprite(std::move(sprite_)),
   position(position_),
   velocity(velocity_),
@@ -69,6 +72,10 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
 
   position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
   no_time_out = notimeout;
+  if (fadeout_time != 0.f)
+  {
+    fade_out_timer.start(fadeout_time);
+  }
 }
 
 SpriteParticle::~SpriteParticle()
@@ -102,6 +109,10 @@ void
 SpriteParticle::draw(DrawingContext& context)
 {
   Vector draw_pos = position + velocity * context.get_time_offset();
+  if (fade_out_timer.started())
+  {
+    sprite->set_alpha(std::max(0.f, fade_out_timer.get_timeleft() / fade_out_timer.get_period()));
+  }
   sprite->draw(context.color(), draw_pos, drawing_layer);
 
   //Sparkles glow in the dark

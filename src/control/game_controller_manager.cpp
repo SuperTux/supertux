@@ -18,6 +18,7 @@
 
 #include <algorithm>
 
+#include "editor/editor.hpp"
 #include "control/input_manager.hpp"
 #include "object/player.hpp"
 #include "supertux/gameconfig.hpp"
@@ -29,9 +30,7 @@
 GameControllerManager::GameControllerManager(InputManager* parent) :
   m_parent(parent),
   m_deadzone(8000),
-  m_game_controllers(),
-  m_stick_state(),
-  m_button_state()
+  m_game_controllers()
 {
 }
 
@@ -61,8 +60,8 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
   Controller& controller = m_parent->get_controller(player_id);
   auto set_control = [this, &controller](Control control, Uint8 value)
   {
-    m_button_state[static_cast<int>(control)] = (value != 0);
-    controller.set_control(control, m_button_state[static_cast<int>(control)] == SDL_PRESSED || m_stick_state[static_cast<int>(control)] == SDL_PRESSED);
+    const bool pressed = (value == SDL_PRESSED);
+    controller.set_control(control, pressed);
   };
   switch (ev.button)
   {
@@ -134,6 +133,9 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
 {
   int player_id;
 
+  if (g_config->ignore_joystick_axis)
+    return;
+
   {
     auto it = m_game_controllers.find(SDL_GameControllerFromInstanceID(ev.which));
 
@@ -149,14 +151,7 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
   Controller& controller = m_parent->get_controller(player_id);
   auto set_control = [this, &controller](Control control, bool value)
   {
-    // Check if the input hasn't been changed by anything else like the keyboard.
-    if (controller.hold(control) == m_stick_state[static_cast<int>(control)] &&
-        controller.hold(control) != value)
-    {
-      m_stick_state[static_cast<int>(control)] = value;
-      bool newstate = m_button_state[static_cast<int>(control)] || m_stick_state[static_cast<int>(control)];
-      controller.set_control(control, newstate);
-    }
+    controller.set_control(control, value);
   };
 
   auto axis2button = [this, &set_control](int value, Control control_left, Control control_right)
@@ -213,6 +208,9 @@ GameControllerManager::on_controller_added(int joystick_index)
   if (!m_parent->can_add_user())
     return;
 
+  Savegame* savegame = (GameSession::current() && !Editor::is_active() ?
+    &GameSession::current()->get_savegame() : nullptr);
+
   if (!SDL_IsGameController(joystick_index))
   {
     log_warning << "joystick is not a game controller, ignoring: " << joystick_index << std::endl;
@@ -246,7 +244,7 @@ GameControllerManager::on_controller_added(int joystick_index)
 
         m_game_controllers[game_controller] = id;
 
-        if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen() && id != 0)
+        if (GameSession::current() && (savegame && savegame->is_title_screen()) && id != 0)
         {
           GameSession::current()->on_player_added(id);
         }

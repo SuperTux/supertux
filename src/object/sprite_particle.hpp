@@ -22,6 +22,7 @@
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
+#include "supertux/timer.hpp"
 
 class Player;
 
@@ -31,11 +32,11 @@ public:
   SpriteParticle(SpritePtr sprite, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS - 1, bool notimeout = false, Color color = Color::WHITE, float angle = 0);
+                 int drawing_layer = LAYER_OBJECTS - 1, bool notimeout = false, float fadeout_time = 0, Color color = Color::WHITE, float angle = 0);
   SpriteParticle(const std::string& sprite_name, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS - 1, bool notimeout = false, Color color = Color::WHITE, float angle = 0);
+                 int drawing_layer = LAYER_OBJECTS - 1, bool notimeout = false, float fadeout_time = 0, Color color = Color::WHITE, float angle = 0);
   virtual GameObjectClasses get_class_types() const override { return GameObject::get_class_types().add(typeid(SpriteParticle)); }
   ~SpriteParticle() override;
 
@@ -55,6 +56,7 @@ private:
   SpritePtr lightsprite;
   bool glow;
   bool no_time_out;
+  Timer fade_out_timer;
   Color color;
 
 private:

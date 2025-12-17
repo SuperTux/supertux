@@ -1,0 +1,5 @@
+(supertux-music
+  (file "counter_current.ogg")
+  (loop-begin 38.34)
+  (loop-at    213.58)
+)

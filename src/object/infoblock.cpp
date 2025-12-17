@@ -73,7 +73,7 @@ InfoBlock::get_settings()
 {
   ObjectSettings result = Block::get_settings();
 
-  result.add_multiline_translatable_text(_("Message"), &m_message, "message");
+  result.add_multiline_translatable_text(get_uid(), _("Message"), &m_message, "message");
 
   result.add_color(_("Front Color"), &m_frontcolor, "frontcolor", Color(0.6f, 0.7f, 0.8f, 0.5f));
 
@@ -125,11 +125,14 @@ InfoBlock::hit(Player& player)
 HitResponse
 InfoBlock::collision(MovingObject& other, const CollisionHit& hit_)
 {
-  auto player = dynamic_cast<Player*> (&other);
-  if (player && player->m_does_buttjump)
-  {
-    InfoBlock::hit(*player);
+  if (hit_.has_direction()) {
+    auto player = dynamic_cast<Player*> (&other);
+    if (player && player->m_does_buttjump)
+    {
+      InfoBlock::hit(*player);
+    }
   }
+
   return Block::collision(other, hit_);
 }
 

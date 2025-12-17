@@ -1,0 +1,9 @@
+(supertux-sprite
+ (action
+  (name "default")
+  (fps 2.0)
+  (images 
+    "rottenivy.png"
+  )
+ )
+)

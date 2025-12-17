@@ -31,6 +31,7 @@
 #include "supertux/constants.hpp"
 #include "supertux/controller_hud.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -158,7 +159,16 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
   log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
   assert(screen);
   set_screen_fade(std::move(screen_fade));
-  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
+  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen), nullptr);
+}
+
+void
+ScreenManager::push_screen(std::function<Screen*()> callback, std::unique_ptr<ScreenFade> screen_fade)
+{
+  log_debug << "ScreenManager::push_screen(): (lambda) " << &callback << std::endl;
+  assert(callback);
+  set_screen_fade(std::move(screen_fade));
+  m_actions.emplace_back(Action::PUSH_ACTION, nullptr, std::move(callback));
 }
 
 void
@@ -182,6 +192,8 @@ void
 ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 {
   Integration::close_all();
+
+  GameManager::current()->save();
 
 #ifdef __EMSCRIPTEN__
   g_config->save();
@@ -325,6 +337,10 @@ ScreenManager::process_events()
   auto session = GameSession::current();
   while (SDL_PollEvent(&event))
   {
+    auto window_size = m_video_system.get_window_size();
+    auto window_width = window_size.width * 1.0f;
+    auto window_height = window_size.height * 1.0f;
+
     switch (event.type)
     {
       case SDL_FINGERDOWN:
@@ -338,8 +354,8 @@ ScreenManager::process_events()
 
         event2.type = SDL_MOUSEBUTTONDOWN;
         event2.button.button = SDL_BUTTON_LEFT;
-        event2.button.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
-        event2.button.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
+        event2.button.x = Sint32(old_event.tfinger.x * window_width);
+        event2.button.y = Sint32(old_event.tfinger.y * window_height);
         SDL_PushEvent(&event2);
 
         event.type = SDL_MOUSEMOTION;
@@ -358,8 +374,8 @@ ScreenManager::process_events()
         SDL_Event event2;
         event2.type = SDL_MOUSEBUTTONUP;
         event2.button.button = SDL_BUTTON_LEFT;
-        event2.button.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
-        event2.button.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
+        event2.button.x = Sint32(old_event.tfinger.x * window_width);
+        event2.button.y = Sint32(old_event.tfinger.y * window_height);
         SDL_PushEvent(&event2);
 
         if (m_mobile_controller.process_finger_up_event(event.tfinger))
@@ -379,10 +395,10 @@ ScreenManager::process_events()
           break; // Event was processed by touch controls, do not generate mouse event
 
         event.type = SDL_MOUSEMOTION;
-        event.motion.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
-        event.motion.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
-        event.motion.xrel = Sint32(old_event.tfinger.dx * float(m_video_system.get_window_size().width));
-        event.motion.yrel = Sint32(old_event.tfinger.dy * float(m_video_system.get_window_size().height));
+        event.motion.x = Sint32(old_event.tfinger.x * window_width);
+        event.motion.y = Sint32(old_event.tfinger.y * window_height);
+        event.motion.xrel = Sint32(old_event.tfinger.dx * window_width);
+        event.motion.yrel = Sint32(old_event.tfinger.dy * window_height);
         MouseCursor::current()->set_pos(event.motion.x, event.motion.y);
         break;
     }
@@ -390,7 +406,22 @@ ScreenManager::process_events()
 
     m_menu_manager->event(event);
 
-    m_screen_stack.back()->event(event);
+#define LOGMOUSEY(var) VideoSystem::current()->get_viewport().to_logical(0, var).y
+    // If the console is focused, try to funnel mouse events into that. Lisp
+    // programmers would be proud!
+    // TODO: Dragging-like logic is a little funky, but it's not a big deal
+    if (Console::current()->hasFocus() &&
+        ((event.type == SDL_MOUSEWHEEL && LOGMOUSEY(event.wheel.mouseY) < Console::HEIGHT) ||
+         ((event.type == SDL_MOUSEBUTTONDOWN ||
+           event.type == SDL_MOUSEBUTTONUP) && LOGMOUSEY(event.button.y) < Console::HEIGHT) ||
+         (event.type == SDL_MOUSEMOTION && LOGMOUSEY(event.motion.y) < Console::HEIGHT)))
+    {
+      if (event.type == SDL_MOUSEWHEEL)
+        Console::current()->scroll(-event.wheel.y * 2);
+    }
+    else
+      m_screen_stack.back()->event(event);
+#undef LOGMOUSEY
 
     switch (event.type)
     {
@@ -513,8 +544,14 @@ ScreenManager::handle_screen_switch()
             break;
 
           case Action::PUSH_ACTION:
-            assert(action.screen);
-            m_screen_stack.push_back(std::move(action.screen));
+            if (!action.screen && action.callback)
+            {
+              m_screen_stack.push_back(std::unique_ptr<Screen>(action.callback()));
+            }
+            else
+            {
+              m_screen_stack.push_back(std::move(action.screen));
+            }
             break;
 
           case Action::QUIT_ACTION:
@@ -620,8 +657,8 @@ void ScreenManager::loop_iter()
   // limit the draw time offset to at most one step.
   float time_offset = m_speed * speed_multiplier * std::min(elapsed_time, seconds_per_step);
 
-  if ((steps > 0 && !m_screen_stack.empty())
-      || always_draw) {
+  if (((steps > 0 && !m_screen_stack.empty())
+      || always_draw) && m_actions.empty() || m_screen_fade) {
     // Draw a frame
     Compositor compositor(m_video_system, g_config->frame_prediction ? time_offset : 0.0f);
     draw(compositor, *m_fps_statistics);

@@ -25,6 +25,9 @@ private:
 public:
   static Viewport from_size(const Size& target_size, const Size& desktop_size);
 
+  /** Whether to use the full viewport or not */
+  static void force_full_viewport(bool flag, bool just_set_it = false);
+
 public:
   Viewport();
   Viewport(const Rect& rect, const Vector& scale);

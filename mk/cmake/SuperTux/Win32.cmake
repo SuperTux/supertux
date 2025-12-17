@@ -4,9 +4,12 @@ if(CMAKE_BUILD_TYPE MATCHES "Rel")
   set_target_properties(supertux2 PROPERTIES WIN32_EXECUTABLE YES)
 endif()
 
-## Enable multi-processor compilation (faster)
 if(MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+  ## Enable multi-processor compilation (faster)
+  string(APPEND CMAKE_CXX_FLAGS " /MP")
+
+  ## Seems to fix ZH-XX character codesets
+  string(APPEND CMAKE_CXX_FLAGS " /utf-8")
 endif()
 
 ## And shut up about unsafe stuff

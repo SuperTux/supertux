@@ -38,6 +38,8 @@ public:
   virtual void ortho(float width, float height, bool vflip) = 0;
 
   virtual void blend_func(GLenum src, GLenum dst) = 0;
+  
+  virtual void set_blur(int blur) = 0;
 
   virtual void set_positions(const float* data, size_t size) = 0;
 

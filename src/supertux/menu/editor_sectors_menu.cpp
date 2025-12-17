@@ -47,11 +47,6 @@ EditorSectorsMenu::EditorSectorsMenu()
 
 EditorSectorsMenu::~EditorSectorsMenu()
 {
-  auto editor = Editor::current();
-  if (editor == nullptr) {
-    return;
-  }
-  editor->m_reactivate_request = true;
 }
 
 void
@@ -78,7 +73,6 @@ EditorSectorsMenu::create_sector()
   level->add_sector(std::move(new_sector));
   Editor::current()->load_sector(sector_name);
   MenuManager::instance().clear_menu_stack();
-  Editor::current()->m_reactivate_request = true;
 }
 
 void

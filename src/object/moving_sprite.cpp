@@ -198,8 +198,10 @@ MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name());
-  result.add_int(_("Z-pos"), &m_layer, "z-pos");
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name())
+    ->set_description(_("The sprite file used for this object."));
+  result.add_int(_("Z-pos"), &m_layer, "z-pos")
+    ->set_description(_("The layer this object is drawn on. Higher layers are drawn on top of lower layers."));
 
   result.reorder({"sprite", "z-pos", "x", "y"});
 
@@ -224,19 +226,20 @@ MovingSprite::after_editor_set()
 void
 MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
 {
-    for (int i = 0; i < count; i++) {
-      Vector ppos = m_col.m_bbox.get_middle();
-      float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
-      float velocity = graphicsRandom.randf(350, 400);
-      float vx = sinf(angle)*velocity;
-      float vy = -cosf(angle)*velocity;
-      Vector pspeed = Vector(vx, vy);
-      Vector paccel = Vector(0, Sector::get().get_gravity()*10);
-      Sector::get().add<SpriteParticle>(sprite_path,
-                                             "default",
-                                             ppos, ANCHOR_MIDDLE,
-                                             pspeed, paccel,
-                                             LAYER_OBJECTS-1);
+  for (int i = 0; i < count; i++)
+  {
+    Vector ppos = m_col.m_bbox.get_middle();
+    float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
+    float velocity = graphicsRandom.randf(350, 400);
+    float vx = sinf(angle)*velocity;
+    float vy = -cosf(angle)*velocity;
+    Vector pspeed = Vector(vx, vy);
+    Vector paccel = Vector(0, Sector::get().get_gravity()*10);
+    Sector::get().add<SpriteParticle>(sprite_path,
+                                      "default",
+                                      ppos, ANCHOR_MIDDLE,
+                                      pspeed, paccel,
+                                      LAYER_OBJECTS - 1, false, .75f);
   }
 }
 

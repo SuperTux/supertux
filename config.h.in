@@ -27,10 +27,10 @@
 
 #define BUILD_CONFIG_DATA_DIR "${BUILD_CONFIG_DATA_DIR}"
 
+#cmakedefine IS_SUPERTUX_RELEASE
 #cmakedefine ENABLE_DISCORD
 #cmakedefine STEAM_BUILD
 
-#cmakedefine UBUNTU_TOUCH
 #cmakedefine HIDE_NONMOBILE_OPTIONS
 
 #cmakedefine REMOVE_QUIT_BUTTON

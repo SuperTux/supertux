@@ -28,7 +28,8 @@
 
 SDLBaseVideoSystem::SDLBaseVideoSystem() :
   m_sdl_window(nullptr, &SDL_DestroyWindow),
-  m_desktop_size()
+  m_desktop_size(),
+  m_last_fullscreen_state(g_config->use_fullscreen)
 {
   SDL_DisplayMode mode;
   if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
@@ -159,6 +160,15 @@ SDLBaseVideoSystem::apply_video_mode()
   {
     SDL_SetWindowFullscreen(m_sdl_window.get(), 0);
 
+#ifdef WIN32
+    // After un-fullscreening, the window border likely gets hidden offscreen,
+    // so let's force it downwards so it can be dragged
+    int x;
+    SDL_GetWindowPosition(m_sdl_window.get(), &x, NULL);
+    if (m_last_fullscreen_state == true)
+      SDL_SetWindowPosition(m_sdl_window.get(), x, 67);
+#endif
+
     Size window_size;
     SDL_GetWindowSize(m_sdl_window.get(), &window_size.width, &window_size.height);
 
@@ -216,4 +226,6 @@ SDLBaseVideoSystem::apply_video_mode()
       }
     }
   }
+
+  m_last_fullscreen_state = g_config->use_fullscreen;
 }

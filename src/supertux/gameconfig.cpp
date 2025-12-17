@@ -46,7 +46,6 @@ Config::Config() :
   fit_window(true),
 #endif
   magnification(0.0f),
-  // Ubuntu Touch supports windowed apps.
 #ifdef __ANDROID__
   use_fullscreen(true),
 #else
@@ -64,12 +63,18 @@ Config::Config() :
   sound_volume(100),
   music_volume(50),
   flash_intensity(50),
+  max_viewport(false),
+  fancy_gfx(true),
+  precise_scrolling(true),
+  invert_wheel_x(false),
+  invert_wheel_y(false),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
   tux_spawn_pos(),
   locale(),
   keyboard_config(),
   joystick_config(),
+  ignore_joystick_axis(false),
   mobile_controls(SDL_GetNumTouchDevices() > 0),
   m_mobile_controls_scale(1),
   addons(),
@@ -79,9 +84,11 @@ Config::Config() :
   confirmation_dialog(false),
   pause_on_focusloss(true),
   custom_mouse_cursor(true),
+  custom_system_cursor(false),
   do_release_check(false),
   disable_network(true),
   custom_title_levels(true),
+  prefer_wayland(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -102,13 +109,24 @@ Config::Config() :
   editor_render_grid(true),
   editor_snap_to_grid(true),
   editor_render_background(true),
+  editor_render_animations(true),
   editor_render_lighting(false),
+  editor_invert_shift_scroll(true),
   editor_autotile_mode(false),
   editor_autotile_help(true),
+  editor_zoom_centered(false),
   editor_autosave_frequency(5),
   editor_undo_tracking(true),
   editor_undo_stack_size(20),
   editor_show_deprecated_tiles(false),
+  // TODO: Set to true when this setting is ready
+  editor_show_properties_sidebar(false),
+  editor_show_toolbar_widgets(true),
+  editor_blur(12),
+  editor_remember_last_level(true),
+  editor_max_viewport(true),
+  preferred_text_editor(),
+  editor_last_edited_level(),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
@@ -152,6 +170,7 @@ Config::load()
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
+  config_mapping.get("custom_system_cursor", custom_system_cursor);
   config_mapping.get("do_release_check", do_release_check);
   config_mapping.get("disable_network", disable_network);
   config_mapping.get("custom_title_levels", custom_title_levels);
@@ -233,8 +252,11 @@ Config::load()
     editor_mapping->get("autotile_help", editor_autotile_help);
     editor_mapping->get("autotile_mode", editor_autotile_mode);
     editor_mapping->get("render_background", editor_render_background);
+    editor_mapping->get("render_animations", editor_render_animations);
     editor_mapping->get("render_grid", editor_render_grid);
     editor_mapping->get("render_lighting", editor_render_lighting);
+    editor_mapping->get("invert_shift_scroll", editor_invert_shift_scroll);
+    editor_mapping->get("zoom_centered", editor_zoom_centered);
     editor_mapping->get("selected_snap_grid_size", editor_selected_snap_grid_size);
     editor_mapping->get("snap_to_grid", editor_snap_to_grid);
     editor_mapping->get("undo_tracking", editor_undo_tracking);
@@ -245,6 +267,12 @@ Config::load()
       editor_undo_stack_size = 1;
     }
     editor_mapping->get("show_deprecated_tiles", editor_show_deprecated_tiles);
+    editor_mapping->get("show_properties_sidebar", editor_show_properties_sidebar);
+    editor_mapping->get("show_toolbar_widgets", editor_show_toolbar_widgets);
+    editor_mapping->get("blur", editor_blur);
+    editor_mapping->get("last_edited_level", editor_last_edited_level);
+    editor_mapping->get("remember_last_level", editor_remember_last_level);
+    editor_mapping->get("max_viewport", editor_max_viewport);
   }
 
   if (is_christmas()) {
@@ -258,6 +286,7 @@ Config::load()
   config_mapping.get("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   config_mapping.get("multiplayer_multibind", multiplayer_multibind);
   config_mapping.get("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  config_mapping.get("preferred_text_editor", preferred_text_editor);
 
   std::optional<ReaderMapping> config_video_mapping;
   if (config_mapping.get("video", config_video_mapping))
@@ -287,6 +316,11 @@ Config::load()
     config_video_mapping->get("aspect_height", aspect_size.height);
 
     config_video_mapping->get("magnification", magnification);
+    config_video_mapping->get("fancy_gfx", fancy_gfx);
+    config_video_mapping->get("prefer_wayland", prefer_wayland);
+    config_video_mapping->get("max_viewport", max_viewport);
+
+    Viewport::force_full_viewport(max_viewport, true);
 
 #ifdef __EMSCRIPTEN__
     // Forcibly set autofit to true.
@@ -321,8 +355,13 @@ Config::load()
       joystick_config.read(*joystick_mapping);
     }
 
+    config_control_mapping->get("ignore_joystick_axis", ignore_joystick_axis);
+
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
+    config_control_mapping->get("precise_scrolling", precise_scrolling);
+    config_control_mapping->get("invert_wheel_x", invert_wheel_x);
+    config_control_mapping->get("invert_wheel_y", invert_wheel_y);
   }
 
   std::optional<ReaderCollection> config_addons_mapping;
@@ -373,6 +412,7 @@ Config::save()
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
+  writer.write("custom_system_cursor", custom_system_cursor);
   writer.write("do_release_check", do_release_check);
   writer.write("disable_network", disable_network);
   writer.write("custom_title_levels", custom_title_levels);
@@ -407,6 +447,7 @@ Config::save()
   writer.write("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   writer.write("multiplayer_multibind", multiplayer_multibind);
   writer.write("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  writer.write("preferred_text_editor", preferred_text_editor);
 
   writer.start_list("interface_colors");
   writer.write("menubackcolor", menubackcolor.toVector());
@@ -453,6 +494,9 @@ Config::save()
 #endif
 
   writer.write("magnification", magnification);
+  writer.write("fancy_gfx", fancy_gfx);
+  writer.write("prefer_wayland", prefer_wayland);
+  writer.write("max_viewport", max_viewport);
 
   writer.end_list("video");
 
@@ -474,7 +518,11 @@ Config::save()
     writer.end_list("joystick");
 
     writer.write("mobile_controls", mobile_controls);
+    writer.write("ignore_joystick_axis", ignore_joystick_axis);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
+    writer.write("precise_scrolling", precise_scrolling);
+    writer.write("invert_wheel_x", invert_wheel_x);
+    writer.write("invert_wheel_y", invert_wheel_y );
   }
   writer.end_list("control");
 
@@ -494,13 +542,22 @@ Config::save()
     writer.write("autotile_help", editor_autotile_help);
     writer.write("autotile_mode", editor_autotile_mode);
     writer.write("render_background", editor_render_background);
+    writer.write("render_animations", editor_render_animations);
     writer.write("render_grid", editor_render_grid);
     writer.write("render_lighting", editor_render_lighting);
+    writer.write("invert_shift_scroll", editor_invert_shift_scroll);
+    writer.write("zoom_centered", editor_zoom_centered);
     writer.write("selected_snap_grid_size", editor_selected_snap_grid_size);
     writer.write("snap_to_grid", editor_snap_to_grid);
     writer.write("undo_tracking", editor_undo_tracking);
     writer.write("undo_stack_size", editor_undo_stack_size);
     writer.write("show_deprecated_tiles", editor_show_deprecated_tiles);
+    writer.write("show_properties_sidebar", editor_show_properties_sidebar);
+    writer.write("show_toolbar_widgets", editor_show_toolbar_widgets);
+    writer.write("blur", editor_blur);
+    writer.write("remember_last_level", editor_remember_last_level);
+    writer.write("max_viewport", editor_max_viewport);
+    writer.write("last_edited_level", editor_last_edited_level);
   }
   writer.end_list("editor");
 

@@ -141,7 +141,8 @@ Main::Main() :
   m_game_manager(),
   m_screen_manager(),
   m_savegame(),
-  m_downloader() // Used for getting the version of the latest SuperTux release.
+  m_downloader(), // Used for getting the version of the latest SuperTux release.
+  m_version_info()
 {
 }
 
@@ -334,7 +335,13 @@ std::string physfs_userdir = PHYSFS_getUserDir();
 #ifdef _WIN32
 std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
 #else
-std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
+std::string olduserdir;
+// Extra safety check to ensure we can't move home.
+// See: https://bugs.gentoo.org/764959
+if (std::string(PACKAGE_NAME) == "")
+  olduserdir = FileSystem::join(physfs_userdir, ".supertux2");
+else
+  olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
 if (FileSystem::is_directory(olduserdir)) {
   std::filesystem::path olduserpath(olduserdir);
@@ -426,9 +433,21 @@ PhysfsSubsystem::~PhysfsSubsystem()
 
 SDLSubsystem::SDLSubsystem()
 {
-  Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO;
-#ifndef UBUNTU_TOUCH
-  flags |= SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+  Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+
+#if SDL_VERSION_ATLEAST(2,0,22) && (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
+    defined(__OPENBSD) || defined(__NetBSD)) && !defined(STEAM_BUILD)
+  /* See commit 254fcc9 for SDL. Most of the Nvidia problems are knocked out (i
+   * think) for now thanks to nvidia's open drivers. Wayland is needed for
+   * precision scrolling to work (which is used for the editor) and most distros
+   * are shipping wayland out of the box, so let's prefer it.
+   *
+   * When we migrate to SDL3, we can remove this snippet as they've now
+   * defaulted to preferring Wayland (if i recall) -- Swagtoy
+   */
+  if (g_config->prefer_wayland)
+    SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
+
 #endif
   if (SDL_Init(flags) < 0)
   {
@@ -460,12 +479,18 @@ Main::init_video()
 {
   VideoSystem::current()->set_title("SuperTux " PACKAGE_VERSION);
 
-  const char* icon_fname = "images/engine/icons/supertux-256x256.png";
+  const char* icon_fname =
+#ifdef IS_SUPERTUX_RELEASE
+    "images/engine/icons/supertux-256x256.png";
+#else
+    "images/engine/icons/supertux-nightly-256x256.png";
+#endif
 
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
 
-  SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
+  SDL_ShowCursor(
+    (g_config->custom_mouse_cursor && !g_config->custom_system_cursor) ? SDL_DISABLE : SDL_ENABLE);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
@@ -581,7 +606,7 @@ Main::launch_game(const CommandLineArguments& args)
         dir = dir.replace(position, fileProtocol.length(), "");
       }
       log_debug << "Adding dir: " << dir << std::endl;
-      PHYSFS_mount(dir.c_str(), nullptr, true);
+      PHYSFS_mount(dir.c_str(), dir.c_str(), true);
 
       if (args.resave && *args.resave)
       {
@@ -589,15 +614,17 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else if (args.editor)
       {
-        if (PHYSFS_exists(start_level.c_str())) {
+        if (PHYSFS_exists(start_level.c_str()))
+        {
           auto editor = std::make_unique<Editor>();
           editor->set_level(start_level);
-          editor->setup();
           editor->update(0, Controller());
           m_screen_manager->push_screen(std::move(editor));
           MenuManager::instance().clear_menu_stack();
           m_sound_manager->stop_music(0.5);
-        } else {
+        }
+        else
+        {
           log_warning << "Level " << start_level << " doesn't exist." << std::endl;
         }
       }
@@ -701,6 +728,7 @@ Main::run(int argc, char** argv)
     {
       args.parse_args(argc, argv);
       g_log_level = args.get_log_level();
+      g_log_tinygettext = args.log_tinygettext;
     }
     catch(const std::exception& err)
     {
@@ -772,18 +800,22 @@ Main::release_check()
   if (g_config->disable_network)
     return;
 
+  m_downloader = std::make_unique<Downloader>();
+
   // Detect a potential new release of SuperTux. If a release, other than
   // the current one is indicated on the given web file, show a notification on the main menu screen.
-  const std::string target_file = "ver_info.nfo";
-  TransferStatusPtr status = m_downloader.request_download("https://raw.githubusercontent.com/SuperTux/addons/master/ver_info.nfo", target_file);
-  status->then([target_file, status](bool success)
+  TransferStatusPtr status = m_downloader->request_string_download(
+    "https://raw.githubusercontent.com/SuperTux/addons/master/ver_info.nfo",
+    m_version_info
+  );
+  status->then([this, status](bool success)
   {
     if (!success)
     {
       log_warning << "Error performing new release check: Failed to download \"supertux-versioninfo\" file: " << status->error_msg << std::endl;
       return;
     }
-    auto doc = ReaderDocument::from_file(target_file);
+    auto doc = ReaderDocument::from_string(m_version_info, "ver_info.nfo");
     auto root = doc.get_root();
     if (root.get_name() != "supertux-versioninfo")
     {
@@ -792,14 +824,15 @@ Main::release_check()
     }
     auto mapping = root.get_mapping();
     std::string latest_ver;
-    if (mapping.get("latest", latest_ver))
+    if (mapping.get("latest", latest_ver) && latest_ver != PACKAGE_VERSION_TAG)
     {
       const std::string version_full = std::string(PACKAGE_VERSION);
       const std::string version = version_full.substr(version_full.find("v") + 1, version_full.find("-") - 1);
       if (version != latest_ver)
       {
-        auto notif = std::make_unique<Notification>("new_release_" + latest_ver);
+        auto notif = std::make_unique<Notification>("new_release_" + latest_ver, 20.f, false, true);
         notif->set_text(fmt::format(fmt::runtime(_("New release: SuperTux v{}!")), latest_ver));
+        notif->set_mini_text(_("Click for more details."));
         notif->on_press([latest_ver]()
                        {
                          Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n\nDo you want to visit the website now?")), latest_ver), []()

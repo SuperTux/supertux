@@ -78,6 +78,16 @@ public:
   int sound_volume;
   int music_volume;
   int flash_intensity;
+  bool precise_scrolling;
+  bool invert_wheel_x;
+  bool invert_wheel_y;
+  bool max_viewport;
+
+  /** Prefer the wayland session. Depending on the platform, this may not be used. */
+  bool prefer_wayland;
+
+  /** Toggles fancy graphical effects like displacement or blur (primarily for the GL backend) */
+  bool fancy_gfx;
 
   /** initial random seed.  0 ==> set from time() */
   int random_seed;
@@ -94,6 +104,7 @@ public:
 
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
+  bool ignore_joystick_axis;
 
   bool mobile_controls;
   float m_mobile_controls_scale;
@@ -111,6 +122,7 @@ public:
   bool confirmation_dialog;
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
+  bool custom_system_cursor;
   bool do_release_check;
   bool disable_network;
   bool custom_title_levels;
@@ -143,13 +155,23 @@ public:
   bool editor_render_grid;
   bool editor_snap_to_grid;
   bool editor_render_background;
+  bool editor_render_animations;
   bool editor_render_lighting;
+  bool editor_invert_shift_scroll;
   bool editor_autotile_mode;
   bool editor_autotile_help;
+  bool editor_zoom_centered;
   int editor_autosave_frequency;
   bool editor_undo_tracking;
   int editor_undo_stack_size;
   bool editor_show_deprecated_tiles;
+  bool editor_show_properties_sidebar;
+  bool editor_show_toolbar_widgets;
+  int editor_blur;
+  bool editor_remember_last_level;
+  bool editor_max_viewport;
+  std::string preferred_text_editor;
+  std::string editor_last_edited_level;
 
   bool multiplayer_auto_manage_players;
   bool multiplayer_multibind;

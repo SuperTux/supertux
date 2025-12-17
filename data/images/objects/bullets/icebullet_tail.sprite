@@ -1,0 +1,11 @@
+(supertux-sprite
+ (action
+  (fps 20)
+  (hitbox -5 -5 0 0)
+  (images "ice_tail-4.png"
+			"ice_tail-3.png"
+			"ice_tail-2.png"
+			"ice_tail-1.png"
+			"ice_tail-0.png")
+ )
+)

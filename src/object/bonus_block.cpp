@@ -261,11 +261,11 @@ BonusBlock::get_settings()
 {
   ObjectSettings result = Block::get_settings();
 
-  result.add_script(_("Script"), &m_script, "script");
+  result.add_script(get_uid(), _("Script"), &m_script, "script");
   result.add_int(_("Count"), &m_hit_counter, "count", get_default_hit_counter());
   result.add_enum(_("Content"), reinterpret_cast<int*>(&m_contents),
-                  { _("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
-                   _("Growth (earth flower)"), _("Growth (retro)"), _("Star"), _("Star (retro)"), _("Tux doll"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
+                  { _("Coin"), _("Growth (fire flower)"), _("Growth (Ice Rosette)"), _("Growth (air flower)"),
+                   _("Growth (Rock Shroom)"), _("Growth (retro)"), _("Star"), _("Star (retro)"), _("Tux doll"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
                    _("Trampoline"), _("Portable trampoline"), _("Coin rain"), _("Coin explosion"), _("Rock"), _("Potion") },
                   { "coin", "firegrow", "icegrow", "airgrow", "earthgrow", "retrogrow", "star", "retrostar", "1up", "custom", "script", "light", "light-on",
                    "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion" },
@@ -300,37 +300,40 @@ BonusBlock::hit(Player& player)
 HitResponse
 BonusBlock::collision(MovingObject& other, const CollisionHit& hit_)
 {
-  auto player = dynamic_cast<Player*> (&other);
-  if (player) {
-    if (player->m_does_buttjump ||
-      (player->is_swimboosting() && player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA))
+  if (hit_.has_direction()) {
+    auto player = dynamic_cast<Player*> (&other);
+    if (player) {
+      if (player->m_does_buttjump ||
+        (player->is_swimboosting() && player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA))
+      {
+        try_drop(player);
+      }
+    }
+
+    auto badguy = dynamic_cast<BadGuy*> (&other);
+    if (badguy) {
+      // Hit contains no information for collisions with blocks.
+      // Badguy's bottom has to be below the top of the block
+      // SHIFT_DELTA is required to slide over one tile gaps.
+      if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
+        try_open(player);
+      }
+    }
+
+    auto crusher = dynamic_cast<Crusher*> (&other);
+    if (crusher)
     {
-      try_drop(player);
-    }
-  }
-
-  auto badguy = dynamic_cast<BadGuy*> (&other);
-  if (badguy) {
-    // Hit contains no information for collisions with blocks.
-    // Badguy's bottom has to be below the top of the block
-    // SHIFT_DELTA is required to slide over one tile gaps.
-    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
       try_open(player);
     }
-  }
 
-  auto crusher = dynamic_cast<Crusher*> (&other);
-  if (crusher)
-  {
-    try_open(player);
-  }
-
-  auto portable = dynamic_cast<Portable*> (&other);
-  if (portable && !badguy) {
-    if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
-      try_open(player);
+    auto portable = dynamic_cast<Portable*> (&other);
+    if (portable && !badguy) {
+      if (other.get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+        try_open(player);
+      }
     }
   }
+
   return Block::collision(other, hit_);
 }
 

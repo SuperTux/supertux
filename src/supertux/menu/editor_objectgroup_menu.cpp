@@ -40,15 +40,11 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
 
   add_hl();
   add_entry(-1,_("Cancel"));
+  allow_click_when_unfocused();
 }
 
 EditorObjectgroupMenu::~EditorObjectgroupMenu()
 {
-  auto editor = Editor::current();
-  if (editor == nullptr) {
-    return;
-  }
-  editor->m_reactivate_request = true;
 }
 
 void

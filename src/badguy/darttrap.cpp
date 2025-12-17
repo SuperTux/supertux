@@ -27,12 +27,13 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  StickyBadguy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1, COLGROUP_DISABLED),
+  StickyBadguy(reader, "images/creatures/darttrap/skull/darttrap_skull.sprite", get_allowed_directions()[0], LAYER_TILES - 1, COLGROUP_DISABLED),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),
   m_ammo(),
-  m_dart_sprite("images/creatures/darttrap/granito/root_dart.sprite"),
+  m_dart_sprite("images/creatures/darttrap/skull/skull_dart.sprite"),
+  m_dart_lightsprite("images/creatures/darttrap/skull/dart_light.sprite"),
   m_state(IDLE),
   m_fire_timer()
 {
@@ -43,7 +44,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("initial-delay", m_initial_delay, 0.0f);
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
-  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/granito/root_dart.sprite");
+  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/skull/skull_dart.sprite");
   set_colgroup_active(COLGROUP_DISABLED);
 
   m_countMe = false;
@@ -81,8 +82,6 @@ DartTrap::active_update(float dt_sec)
     sticky_update(dt_sec);
   }
 
-  // end dynamic
-
   if (!m_enabled) return;
 
   switch (m_state) {
@@ -116,7 +115,8 @@ void
 DartTrap::fire()
 {
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Dart &dart = Sector::get().add<Dart>(Vector(0.f, 0.f), m_dir, this, m_dart_sprite);
+  Dart &dart = Sector::get().add<Dart>(Vector(0.f, 0.f), m_dir, this,
+                                       m_dart_sprite, m_dart_lightsprite);
   if(m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
     dart.set_flip(m_flip);
 
@@ -152,11 +152,16 @@ DartTrap::get_settings()
 {
   ObjectSettings result = StickyBadguy::get_settings();
 
-  result.add_float(_("Initial delay"), &m_initial_delay, "initial-delay");
-  result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
-  result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay");
-  result.add_int(_("Ammo"), &m_ammo, "ammo");
-  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/granito/root_dart.sprite");
+  result.add_float(_("Initial delay"), &m_initial_delay, "initial-delay")
+    ->set_description(_("Time until the first dart is fired after the trap is activated."));
+  result.add_bool(_("Enabled"), &m_enabled, "enabled", true)
+    ->set_description(_("Whether the trap is enabled."));
+  result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay")
+    ->set_description(_("Time between consecutive darts."));
+  result.add_int(_("Ammo"), &m_ammo, "ammo")
+    ->set_description(_("Number of darts the trap can fire. A value of -1 means infinite."));
+  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/skull/skull_dart.sprite")
+    ->set_description(_("Sprite used for the dart."));
 
   result.reorder({"initial-delay", "fire-delay", "ammo", "sticky", "direction", "x", "y", "dart-sprite"});
 
@@ -167,8 +172,8 @@ GameObjectTypes
 DartTrap::get_types() const
 {
   return {
-    {"granito", _("Granito")},
-    {"skull", _("Skull")}
+    {"skull", _("Skull")},
+    {"granito", _("Granito")}
   };
 }
 
@@ -182,10 +187,11 @@ DartTrap::get_default_sprite_name() const
     case GRANITO:
       return "images/creatures/darttrap/granito/darttrap_granito.sprite";
   }
-  return "images/creatures/darttrap/granito/darttrap_granito.sprite";
+  return "images/creatures/darttrap/skull/darttrap_skull.sprite";
 }
 
-void DartTrap::kill_fall()
+void
+DartTrap::kill_fall()
 {
 }
 
@@ -222,11 +228,13 @@ DartTrap::on_type_change(int old_type)
 
   switch (m_type)
   {
-    case GRANITO:
-      m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
-      break;
     case SKULL:
       m_dart_sprite = "images/creatures/darttrap/skull/skull_dart.sprite";
+      m_dart_lightsprite = "images/creatures/darttrap/skull/dart_light.sprite";
+      break;
+    case GRANITO:
+      m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
+      m_dart_lightsprite = "images/creatures/darttrap/granito/dart_light.sprite";
       break;
   }
 }

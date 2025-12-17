@@ -60,9 +60,9 @@ PowerUp::get_types() const
   return {
     { "egg", _("Egg") },
     { "fire", _("Fire Flower") },
-    { "ice", _("Ice Flower") },
+    { "ice", _("Ice Rosette") },
     { "air", _("Air Flower") },
-    { "earth", _("Earth Flower") },
+    { "earth", _("Rock Shroom") },
     { "star", _("Star") },
     { "oneup", _("Tux Doll") },
     { "flip", _("Flip Potion") },
@@ -323,7 +323,7 @@ PowerUp::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_script(_("Script"), &script, "script");
+  result.add_script(get_uid(), _("Script"), &script, "script");
   result.add_bool(_("Disable gravity"), &no_physics, "disable-physics", false);
 
   result.reorder({"script", "disable-physics", "sprite", "x", "y"});

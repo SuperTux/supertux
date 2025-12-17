@@ -83,6 +83,7 @@ public:
 
   inline bool is_active() const { return !m_menu_stack.empty(); }
   inline bool has_dialog() const { return m_dialog.current || m_dialog.has_next; }
+  inline std::size_t get_menu_stack_size() const { return m_menu_stack.size(); }
 
   Menu* current_menu() const;
   Menu* previous_menu() const;

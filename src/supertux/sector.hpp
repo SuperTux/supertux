@@ -84,6 +84,8 @@ public:
   inline Level& get_level() const { return m_level; }
   TileSet* get_tileset() const override;
   bool in_worldmap() const override;
+  inline void set_init_script_run_once(bool run_once) { m_init_script_run_once = run_once; }
+  inline bool get_init_script_run_once() const { return m_init_script_run_once; }
 
   /** activates this sector (change music, initialize player class, ...) */
   void activate(const std::string& spawnpoint);
@@ -231,7 +233,7 @@ public:
 
   std::vector<Player*> get_players() const;
 
-  Vector get_spawn_point_position(const std::string& spawnpoint);
+  Vector get_spawn_point_position(const std::string& spawnpoint) const;
 
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
@@ -245,7 +247,7 @@ private:
       bonusblocks, add light to lava tiles) */
   void convert_tiles2gameobject();
 
-  SpawnPointMarker* get_spawn_point(const std::string& spawnpoint);
+  SpawnPointMarker* get_spawn_point(const std::string& spawnpoint) const;
 
 private:
   Level& m_level; // Parent level
@@ -266,6 +268,13 @@ private:
   Vector m_last_translation; // For camera interpolation at high frame rates
   float m_last_scale;
   float m_last_dt;
+  bool m_init_script_run;
+  bool m_init_script_run_once;
+
+ public:
+  // The default sector size.
+  static const int DEFAULT_SECTOR_WIDTH = 350;
+  static const int DEFAULT_SECTOR_HEIGHT = 60;
 
 private:
   Sector(const Sector&) = delete;

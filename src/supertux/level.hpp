@@ -44,6 +44,7 @@ public:
   // saves to a levelfile
   void save(const std::string& filename, bool retry = false);
   void save(std::ostream& stream);
+  void save(Writer& writer);
 
   void add_sector(std::unique_ptr<Sector> sector);
   inline const std::string& get_name() const { return m_name; }
@@ -63,16 +64,17 @@ public:
   int get_total_badguys() const;
   int get_total_secrets() const;
 
+  bool is_saving_in_progress() const { return m_saving_in_progress; }
+
   void reactivate();
 
   inline bool is_worldmap() const { return m_is_worldmap; }
 
   inline const std::string& get_license() const { return m_license; }
 
-private:
   void initialize();
 
-  void save(Writer& writer);
+private:
   void load_old_format(const ReaderMapping& reader);
 
 public:
@@ -86,7 +88,7 @@ public:
     INHERIT
   };
   static std::string get_setting_name(Setting setting);
-  static Setting get_setting_from_name(std::string setting);
+  static Setting get_setting_from_name(const std::string& setting);
 
   bool m_is_worldmap;
 
@@ -112,6 +114,9 @@ public:
   std::string m_icon;
   std::string m_icon_locked;
   std::string m_wmselect_bkg;
+
+private:
+  bool m_saving_in_progress;
 
 private:
   Level(const Level&) = delete;

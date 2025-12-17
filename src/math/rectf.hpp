@@ -50,15 +50,11 @@ public:
   Rectf(const Vector& np1, const Vector& np2) :
     m_p1(np1), m_size(np2.x - np1.x, np2.y - np1.y)
   {
-    assert(m_size.width >= 0 &&
-           m_size.height >= 0);
   }
 
   Rectf(float x1, float y1, float x2, float y2) :
     m_p1(x1, y1), m_size(x2 - x1, y2 - y1)
   {
-    assert(m_size.width >= 0 &&
-           m_size.height >= 0);
   }
 
   Rectf(const Vector& p1, const Sizef& size) :

@@ -45,10 +45,12 @@ public:
   virtual bool is_singleton() const override { return true; }
   virtual bool track_state() const override { return false; }
 
+  void on_item_pocket_change(Player* player);
   void reset();
 
 private:
   PlayerStatus& m_player_status;
+  Timer m_item_pocket_fade;
   int displayed_coins;
   int displayed_coins_frame;
   SurfacePtr coin_surface;

@@ -20,6 +20,7 @@
 #include "util/currenton.hpp"
 
 #include <memory>
+#include <sstream>
 #include <unordered_map>
 #include <vector>
 #include <queue>
@@ -34,12 +35,12 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
+#include "supertux/level.hpp"
 #include "video/surface_ptr.hpp"
 
 class CodeController;
 class DrawingContext;
 class EndSequence;
-class Level;
 class Player;
 class Sector;
 class Statistics;
@@ -77,7 +78,10 @@ private:
   };
 
 public:
+  GameSession(Savegame* savegame = nullptr, Statistics* statistics = nullptr);
+  GameSession(Level* level, Savegame* savegame = nullptr, Statistics* statistics = nullptr);
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
+  GameSession(std::istream& istream, Savegame* savegame = nullptr, Statistics* statistics = nullptr);
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -134,8 +138,12 @@ public:
   void toggle_pause();
   void abort_level();
   bool is_active() const;
+  inline void skip_intro() { m_skip_intro = true; }
 
-  inline Savegame& get_savegame() const { return m_savegame; }
+  // TODO: Use pointer instead of reference. m_savegame can be NULL when the
+  //   editor is active; this results in many cases where people check
+  //   Editor::is_active()
+  inline Savegame& get_savegame() const { return *m_savegame; }
 
   void set_scheduler(SquirrelScheduler& new_scheduler);
 
@@ -156,7 +164,8 @@ public:
   bool m_prevent_death; /**< true if players should enter ghost mode instead of dying */
 
 private:
-  std::unique_ptr<Level> m_level;
+  Level* m_level;
+  std::unique_ptr<Level> m_level_storage;
   SurfacePtr m_statistics_backdrop;
 
   ssq::Table m_data_table;
@@ -177,18 +186,22 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string m_newsector;
   std::string m_newspawnpoint;
+  std::istream* m_levelstream;
   ScreenFade::FadeType m_spawn_fade_type;
   Timer m_spawn_fade_timer;
   bool m_spawn_with_invincibility;
 
   Statistics* m_best_level_statistics;
-  Savegame& m_savegame;
+  Savegame* m_savegame;
+
+  PlayerStatus m_tmp_playerstatus;
 
   // Note: m_play_time should reset when a level is restarted from the beginning
   //       but NOT if Tux respawns at a checkpoint (for LevelTimes to work)
   float m_play_time; /**< total time in seconds that this session ran interactively */
 
   bool m_levelintro_shown; /**< true if the LevelIntro screen was already shown */
+  bool m_skip_intro; /**< Manually skipped the intro from outside this class */
 
   int m_coins_at_start; /** How many coins does the player have at the start */
   std::vector<BonusType> m_boni_at_start; /** What boni does the player have at the start */

@@ -1,0 +1,101 @@
+(supertux-sprite
+  (action
+   (name "working-left")
+   (hitbox 20 61 55 35)
+   (images "rocket_launcher-left.png"))
+ 
+ (action
+   (name "broken-left")
+   (loops 1)
+   (fps 20)
+   (hitbox 20 61 55 35)
+   (images "rocket_launcher-broken-left0.png"
+           "rocket_launcher-broken-left1.png"
+		   "rocket_launcher-broken-left2.png"
+		   "rocket_launcher-broken-left3.png"
+		   "rocket_launcher-broken-left4.png"
+		   "rocket_launcher-broken-left5.png"
+		   "rocket_launcher-broken-left6.png"
+		   "rocket_launcher-broken-left7.png"
+		   "rocket_launcher-broken-left6.png"
+		   "rocket_launcher-broken-left5.png"
+		   "rocket_launcher-broken-left8.png"
+		   "rocket_launcher-broken-left5.png"))
+
+ (action
+   (name "iced-left")
+   (loops 1)
+   (fps 24)
+   (hitbox 20 61 55 35)
+   (images "rocket_launcher-frozen-left0.png"
+           "rocket_launcher-frozen-left1.png"
+		   "rocket_launcher-frozen-left2.png"
+		   "rocket_launcher-frozen-left3.png"
+		   "rocket_launcher-frozen-left4.png"))
+ 
+ (action
+   (name "working-right")
+   (hitbox 20 61 55 35)
+   (images "rocket_launcher-right.png"))
+ 
+ (action
+   (name "broken-right")
+   (hitbox 20 61 55 35)
+   (loops 1)
+   (fps 20)
+   (images "rocket_launcher-broken-right0.png"
+           "rocket_launcher-broken-right1.png"
+		   "rocket_launcher-broken-right2.png"
+		   "rocket_launcher-broken-right3.png"
+		   "rocket_launcher-broken-right4.png"
+		   "rocket_launcher-broken-right5.png"
+		   "rocket_launcher-broken-right6.png"
+		   "rocket_launcher-broken-right7.png"
+		   "rocket_launcher-broken-right6.png"
+		   "rocket_launcher-broken-right5.png"
+		   "rocket_launcher-broken-right8.png"
+		   "rocket_launcher-broken-right5.png"))
+
+ (action
+   (name "iced-right")
+   (loops 1)
+   (fps 24)
+   (hitbox 20 61 55 35)
+   (images "rocket_launcher-frozen-right0.png"
+           "rocket_launcher-frozen-right1.png"
+		   "rocket_launcher-frozen-right2.png"
+		   "rocket_launcher-frozen-right3.png"
+		   "rocket_launcher-frozen-right4.png"))
+
+ (action
+   (name "turn-left")
+   (loops 1)
+   (fps 18)
+   (hitbox 20 61 55 35)
+   (images "rocket_launcher-turning7.png"
+           "rocket_launcher-turning6.png"
+		   "rocket_launcher-turning5.png"
+		   "rocket_launcher-turning4.png"
+		   "rocket_launcher-turning3.png"
+		   "rocket_launcher-turning2.png"
+		   "rocket_launcher-turning1.png"
+		   "rocket_launcher-turning0.png"
+		   "rocket_launcher-left.png"))
+
+ (action
+   (name "turn-right")
+   (loops 1)
+   (fps 18)
+   (hitbox 20 61 55 35)
+   (images "rocket_launcher-turning0.png"
+           "rocket_launcher-turning1.png"
+		   "rocket_launcher-turning2.png"
+		   "rocket_launcher-turning3.png"
+		   "rocket_launcher-turning4.png"
+		   "rocket_launcher-turning5.png"
+		   "rocket_launcher-turning6.png"
+		   "rocket_launcher-turning7.png"
+		   "rocket_launcher-right.png")
+  )
+)
+

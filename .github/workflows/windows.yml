@@ -149,7 +149,6 @@ jobs:
             mv *.msi upload/
           }
 
-
       - name: Upload MSI Installer
         uses: actions/upload-artifact@v4
         with:

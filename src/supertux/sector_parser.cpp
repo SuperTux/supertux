@@ -44,7 +44,12 @@
 #include "util/reader_mapping.hpp"
 #include "worldmap/spawn_point.hpp"
 
-static const std::string DEFAULT_BG = "images/background/antarctic/arctis2.png";
+namespace
+{
+  static const std::string DEFAULT_BG = "images/background/antarctic/snow_hills.png";
+  static const std::string DEFAULT_BG_TOP = "images/background/misc/transparent_up.png";
+  static const std::string DEFAULT_BG_BOTTOM = "images/background/antarctic/snow_bottom.png";
+}
 
 std::unique_ptr<Sector>
 SectorParser::from_reader(Level& level, const ReaderMapping& reader, bool editable)
@@ -145,6 +150,14 @@ SectorParser::parse(const ReaderMapping& reader)
       iter.get(value);
       m_sector.set_init_script(value);
     }
+    else if(iter.get_key() == "init-script-run-once")
+    {
+      auto sector = dynamic_cast<Sector*>(&m_sector);
+      if (!sector) continue;
+      bool value;
+      iter.get(value);
+      sector->set_init_script_run_once(value);
+    }
     else if (iter.get_key() == "ambient-light")
     {
       const auto& sx = iter.get_sexp();
@@ -191,6 +204,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   std::string backgroundimage;
   if (reader.get("background", backgroundimage) && (!backgroundimage.empty())) {
     // These paths may need to be changed.
+    //Delete 3 lines below once deprecated Backgrounds are deleted. 
     if (backgroundimage == "arctis.png") backgroundimage = "arctis.jpg";
     if (backgroundimage == "arctis2.jpg") backgroundimage = "arctis.jpg";
     if (backgroundimage == "ocean.png") backgroundimage = "ocean.jpg";
@@ -247,12 +261,8 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   m_sector.add<SpawnPointMarker>(DEFAULT_SPAWNPOINT_NAME, startpos);
 
-  m_sector.add<MusicObject>().set_music("music/chipdisko.ogg");
-  // skip reading music filename. It's all .ogg now, anyway
-  /*
-    reader.get("music", music);
-    m_sector.set_music("music/" + m_sector.get_music());
-  */
+  auto& music = m_sector.add<MusicObject>();
+  music.set_music("/music/antarctic/midday.music");
 
   int width = 30, height = 15;
   reader.get("width", width);
@@ -340,49 +350,66 @@ SectorParser::create_sector()
   if (!m_sector.in_worldmap())
   {
     auto& background = m_sector.add<Background>();
-    background.set_image(DEFAULT_BG);
-    background.set_speed(0.5);
+    background.set_images(DEFAULT_BG_TOP, DEFAULT_BG, DEFAULT_BG_BOTTOM);
+    background.set_speed(0.3);
+    background.set_name("Snowy_Hills");
 
-    auto& bkgrd = m_sector.add<TileMap>(m_sector.get_tileset());
-    bkgrd.resize(100, 35);
-    bkgrd.set_layer(-100);
-    bkgrd.set_solid(false);
+    auto& panorama = m_sector.add<Background>();
+    panorama.set_image("images/background/antarctic/snow_panorama.png");
+    panorama.set_images(DEFAULT_BG_TOP, "images/background/antarctic/snow_panorama.png", "images/background/misc/water_bottom.png");
+    panorama.set_speed(0.0);
+    panorama.set_layer(-350);
+    panorama.set_name("Panorama");
 
-    auto& frgrd = m_sector.add<TileMap>(m_sector.get_tileset());
-    frgrd.resize(100, 35);
-    frgrd.set_layer(100);
-    frgrd.set_solid(false);
+    auto& midground_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
+    midground_tilemap.resize(Sector::DEFAULT_SECTOR_WIDTH, Sector::DEFAULT_SECTOR_HEIGHT);
+    midground_tilemap.set_layer(-100);
+    midground_tilemap.set_solid(false);
+    midground_tilemap.set_name("MidGround_Tiles");
 
-    // Add background gradient to sector:
+    auto& background_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
+    background_tilemap.resize(Sector::DEFAULT_SECTOR_WIDTH, Sector::DEFAULT_SECTOR_HEIGHT);
+    background_tilemap.set_layer(-150);
+    background_tilemap.set_solid(false);
+    background_tilemap.set_name("BackGround_Tiles");
+
     auto& gradient = m_sector.add<Gradient>();
     gradient.set_gradient(Gradient::DEFAULT_GRADIENT_TOP, Gradient::DEFAULT_GRADIENT_BOTTOM);
-    gradient.set_layer(-301);
+    gradient.set_layer(-400);
   }
   else
   {
     auto& water = m_sector.add<TileMap>(m_sector.get_tileset());
-    water.resize(100, 35, 1);
+    water.resize(DEFAULT_WORLDMAP_WIDTH, DEFAULT_WORLDMAP_HEIGHT, 1);
     water.set_layer(-100);
     water.set_solid(false);
+    water.set_name("Water_Tiles");
   }
 
-  auto& intact = m_sector.add<TileMap>(m_sector.get_tileset());
-  if (m_sector.in_worldmap()) {
-    intact.resize(100, 100, 0);
-  } else {
-    intact.resize(100, 35, 0);
-  }
-  intact.set_layer(0);
-  intact.set_solid(true);
+  auto& music = m_sector.add<MusicObject>();
+  music.set_name("Music_Object");
 
-  if (m_sector.in_worldmap()) {
+  auto& main_tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
+  main_tilemap.set_layer(0);
+  main_tilemap.set_solid(true);
+  main_tilemap.set_name("Main_Tiles");
+
+  if (m_sector.in_worldmap())
+  {
+    main_tilemap.resize(DEFAULT_WORLDMAP_WIDTH, DEFAULT_WORLDMAP_HEIGHT, 0);
+
     m_sector.add<worldmap::SpawnPointObject>(DEFAULT_SPAWNPOINT_NAME, Vector(4, 4));
-  } else {
+  }
+  else
+  {
+    main_tilemap.resize(Sector::DEFAULT_SECTOR_WIDTH, Sector::DEFAULT_SECTOR_HEIGHT, 0);
+
     m_sector.add<SpawnPointMarker>(DEFAULT_SPAWNPOINT_NAME, Vector(64, 480));
+
+    music.set_music("/music/antarctic/midday.music");
   }
 
   m_sector.add<Camera>("Camera");
-  m_sector.add<MusicObject>();
 
   m_sector.finish_construction(m_editable);
 }
