@@ -327,6 +327,7 @@ GhostTree::set_state(MyState new_state) {
     case STATE_RECHARGING:
       m_glowing = true;
       set_action(m_attack == ATTACK_PINCH ? "charge-pinch" : "charge");
+      m_col.set_unisolid(true);
       m_state_timer.start(1);
       m_willo_to_spawn = m_attack == ATTACK_PINCH ? 9 : 3;
       break;
@@ -418,11 +419,9 @@ GhostTree::willowisp_suck_finished(TreeWillOWisp* willowisp)
 }
 
 bool
-GhostTree::collides(MovingObject& other, const CollisionHit& ) const
+GhostTree::collides(MovingObject& other, const CollisionHit& hit) const
 {
-  if (m_state != STATE_RECHARGING) return false;
-  if (dynamic_cast<Player*>(&other)) return true;
-  return false;
+  return hit.bottom && m_state == STATE_RECHARGING && dynamic_cast<Player*>(&other) != nullptr;
 }
 
 HitResponse
