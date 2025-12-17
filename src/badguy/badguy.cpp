@@ -1247,21 +1247,31 @@ BadGuy::ignite()
   m_sprite->stop_animation();
   m_ignited = true;
 
-  if (m_sprite->has_action("melting-left")) {
-
+  if (m_sprite->has_action("melting-left") || m_sprite->has_action("melting"))
+  {
     // Melt it!
-    if (m_sprite->has_action("ground-melting-left") && on_ground()) {
-      set_action("ground-melting", m_dir, 1);
+    if ((m_sprite->has_action("ground-melting-left") || m_sprite->has_action("ground-melting")) && on_ground())
+    {
+      if (m_sprite->has_action("ground-melting-left"))
+        set_action("ground-melting", m_dir, 1);
+      else
+        set_action("ground-melting", 1);
+
       SoundManager::current()->play("sounds/splash.ogg", get_pos());
       set_state(STATE_GROUND_MELTING);
-    } else {
-      set_action("melting", m_dir, 1);
+    }
+    else
+    {
+      if (m_sprite->has_action("melting-left"))
+        set_action("melting", m_dir, 1);
+      else
+        set_action("melting", 1);
+
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
       set_state(STATE_MELTING);
     }
 
     run_dead_script();
-
   } else if (m_sprite->has_action("burning-left")) {
     // Burn it!
     m_glowing = true;
