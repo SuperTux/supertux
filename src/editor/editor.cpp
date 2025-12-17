@@ -580,6 +580,9 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   std::unique_ptr<World> owned_world;
   World* current_world = m_world.get();
 
+  if (!g_config->max_viewport && g_config->editor_max_viewport)
+    VideoSystem::current()->get_viewport().force_full_viewport(false);
+
   m_leveltested = true;
   if ((m_level && !current_world) || m_levelfile == "")
   {
@@ -901,6 +904,10 @@ Editor::quit_editor()
   check_unsaved_changes([quit] {
     quit();
   });
+
+  // reset viewport to how it was
+  if (VideoSystem::current())
+    VideoSystem::current()->get_viewport().force_full_viewport(g_config->max_viewport);
 }
 
 bool
@@ -1101,6 +1108,9 @@ Editor::setup()
   }
   m_toolbox_widget->setup();
   m_layers_widget->setup();
+
+  if (!g_config->max_viewport && g_config->editor_max_viewport)
+    VideoSystem::current()->get_viewport().force_full_viewport(true);
 
   // Reactivate the editor after level test.
   reactivate();

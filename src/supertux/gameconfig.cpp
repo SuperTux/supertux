@@ -124,6 +124,7 @@ Config::Config() :
   editor_show_toolbar_widgets(true),
   editor_blur(12),
   editor_remember_last_level(true),
+  editor_max_viewport(true),
   preferred_text_editor(),
   editor_last_edited_level(),
   multiplayer_auto_manage_players(true),
@@ -271,6 +272,7 @@ Config::load()
     editor_mapping->get("blur", editor_blur);
     editor_mapping->get("last_edited_level", editor_last_edited_level);
     editor_mapping->get("remember_last_level", editor_remember_last_level);
+    editor_mapping->get("max_viewport", editor_max_viewport);
   }
 
   if (is_christmas()) {
@@ -552,6 +554,7 @@ Config::save()
     writer.write("show_toolbar_widgets", editor_show_toolbar_widgets);
     writer.write("blur", editor_blur);
     writer.write("remember_last_level", editor_remember_last_level);
+    writer.write("max_viewport", editor_max_viewport);
     writer.write("last_edited_level", editor_last_edited_level);
   }
   writer.end_list("editor");

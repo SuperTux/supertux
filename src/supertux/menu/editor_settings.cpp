@@ -23,6 +23,11 @@
 #include "supertux/globals.hpp"
 #include "video/compositor.hpp"
 
+enum
+{
+  MNID_PREFER_FULL_VIEWPORT,
+};
+
 EditorSettings::EditorSettings()
 {
   add_label(_("Editor Settings"));
@@ -50,6 +55,7 @@ EditorSettings::EditorSettings()
 #endif
   add_toggle(-1, _("Show Toolbar"), &(g_config->editor_show_toolbar_widgets));
   add_toggle(-1, _("Remember Last Level"), &(g_config->editor_remember_last_level));
+  add_toggle(MNID_PREFER_FULL_VIEWPORT, _("Prefer Full Viewport"), &(g_config->editor_max_viewport));
   add_intfield(_("Blur Amount"), &(g_config->editor_blur), -1, true, ItemIntFieldRange{0, 67});
   add_textfield(_("Preferred Text Editor"), &(g_config->preferred_text_editor));
   if (g_config->editor_undo_tracking)
@@ -69,4 +75,15 @@ EditorSettings::~EditorSettings()
 void
 EditorSettings::menu_action(MenuItem& item)
 {
+  switch (item.get_id())
+  {
+    case MNID_PREFER_FULL_VIEWPORT:
+      if (!g_config->max_viewport)
+        VideoSystem::current()->get_viewport().force_full_viewport(g_config->editor_max_viewport);
+
+      break;
+
+    default:
+      break;
+  }
 }

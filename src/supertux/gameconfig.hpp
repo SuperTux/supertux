@@ -169,6 +169,7 @@ public:
   bool editor_show_toolbar_widgets;
   int editor_blur;
   bool editor_remember_last_level;
+  bool editor_max_viewport;
   std::string preferred_text_editor;
   std::string editor_last_edited_level;
 
