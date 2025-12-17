@@ -225,8 +225,8 @@ RCrystallo::on_flip(float height)
   auto& crystallo = Sector::get().add<Crystallo>(get_pos(), m_start_position, get_velocity_x(),
                                                  std::move(m_sprite), m_dir, m_radius, m_dead_script);
 
-  if (is_glinting)
-    crystallo.is_glinting = true;
+  if (m_is_glinting)
+    crystallo.m_is_glinting = true;
 
   remove_me();
 }

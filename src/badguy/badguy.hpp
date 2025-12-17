@@ -286,7 +286,7 @@ protected:
 
 public:
   /** Is this enemy glinting? If yes, then count it to the coin statistics */
-  bool is_glinting;
+  bool m_is_glinting;
 
 protected:
   /** true if initialize() has already been called */

@@ -64,7 +64,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
                const std::string& fire_sprite_name) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
-  is_glinting(false),
+  m_is_glinting(false),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
   m_dir(direction),
@@ -121,7 +121,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
                const std::string& fire_sprite_name) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
-  is_glinting(false),
+  m_is_glinting(false),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
   m_dir(Direction::LEFT),
@@ -157,9 +157,9 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_dir = m_start_dir;
 
   if (m_can_glint)
-    reader.get("glinting", is_glinting);
+    reader.get("glinting", m_is_glinting);
   else
-    is_glinting = false;
+    m_is_glinting = false;
 
   reader.get("dead-script", m_dead_script);
 
@@ -333,7 +333,7 @@ BadGuy::update(float dt_sec)
       }
 
       // display glinting particles
-      if (is_glinting)
+      if (m_is_glinting)
       {
         if (graphicsRandom.rand(0, 4) == 0)
         {
@@ -480,7 +480,7 @@ BadGuy::get_allowed_directions() const
 int
 BadGuy::get_coins_worth() const
 {
-  return (m_can_glint && is_glinting) ? 1 : 0;
+  return (m_can_glint && m_is_glinting) ? 1 : 0;
 }
 
 void
@@ -862,7 +862,7 @@ BadGuy::run_dead_script()
 
   m_is_active_flag = false;
 
-  if (is_glinting && m_can_glint && !m_holds_coins)
+  if (m_is_glinting && m_can_glint && !m_holds_coins)
   {
     const int num_coins = get_coins_worth();
 
@@ -887,7 +887,7 @@ BadGuy::run_dead_script()
     Sector::get().run_script(m_dead_script, "dead-script");
   }
 
-  is_glinting = false;
+  m_is_glinting = false;
 }
 
 void
@@ -1372,7 +1372,7 @@ BadGuy::get_settings()
     ->set_description(_("Script that is executed when the badguy dies."));
 
   if (m_can_glint)
-    result.add_bool(_("Glinting"), &is_glinting, "glinting");
+    result.add_bool(_("Glinting"), &m_is_glinting, "glinting");
 
   result.reorder({"direction", "sprite", "x", "y", "glinting"});
 

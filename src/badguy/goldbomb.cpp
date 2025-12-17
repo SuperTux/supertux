@@ -45,7 +45,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   m_realize_timer()
 {
   assert(SAFE_DIST >= REALIZE_DIST);
-  reader.get("glinting", is_glinting, true);
+  reader.get("glinting", m_is_glinting, true);
   m_holds_coins = true;
 }
 
@@ -195,7 +195,7 @@ GoldBomb::active_update(float dt_sec)
 void
 GoldBomb::explode()
 {
-  const bool was_glinting = is_glinting;
+  const bool was_glinting = m_is_glinting;
   MrBomb::explode();
   Sector::get().add<CoinExplode>(get_pos(), was_glinting);
 }
@@ -203,7 +203,7 @@ GoldBomb::explode()
 int
 GoldBomb::get_coins_worth() const
 {
-  return (is_glinting) ? 10 : 0;
+  return (m_is_glinting) ? 10 : 0;
 }
 
 void

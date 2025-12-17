@@ -91,7 +91,7 @@ MrTree::is_freezable() const
 int
 MrTree::get_coins_worth() const
 {
-  return (is_glinting) ? 3 : 0;
+  return (m_is_glinting) ? 3 : 0;
 }
 
 bool
@@ -112,8 +112,8 @@ MrTree::collision_squished(MovingObject& object)
   stumpy_pos.x += 8;
   stumpy_pos.y += 28;
   auto& stumpy = Sector::get().add<Stumpy>(stumpy_pos, m_dir);
-  if (is_glinting)
-    stumpy.is_glinting = true;
+  if (m_is_glinting)
+    stumpy.m_is_glinting = true;
   remove_me();
 
   // Give feedback.
@@ -144,8 +144,8 @@ MrTree::collision_squished(MovingObject& object)
     Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + VICIOUSIVY_WIDTH, leaf1_pos.y + VICIOUSIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf1_bbox, this)) {
       auto& leaf1 = Sector::get().add<ViciousIvy>(leaf1_bbox.p1(), Direction::LEFT);
-      if (is_glinting)
-        leaf1.is_glinting = true;
+      if (m_is_glinting)
+        leaf1.m_is_glinting = true;
     }
 
     // Spawn ViciousIvy.
@@ -153,8 +153,8 @@ MrTree::collision_squished(MovingObject& object)
     Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + VICIOUSIVY_WIDTH, leaf2_pos.y + VICIOUSIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf2_bbox, this)) {
       auto& leaf2 = Sector::get().add<ViciousIvy>(leaf2_bbox.p1(), Direction::RIGHT);
-      if (is_glinting)
-        leaf2.is_glinting = true;
+      if (m_is_glinting)
+        leaf2.m_is_glinting = true;
     }
   }
   return true;
