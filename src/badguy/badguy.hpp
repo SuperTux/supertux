@@ -142,6 +142,8 @@ public:
 
   virtual bool is_freezable() const;
 
+  virtual int get_coins_worth() const override;
+
   /** Return true if this badguy can be hurt by tiles
       with the attribute "hurts" */
   virtual bool is_hurtable() const { return true; }
@@ -283,9 +285,8 @@ protected:
   Physic m_physic;
 
 public:
-  /** Count this badguy to the statistics? This value should not be
-      changed during runtime. */
-  bool m_countMe;
+  /** Is this enemy glinting? If yes, then count it to the coin statistics */
+  bool m_is_glinting;
 
 protected:
   /** true if initialize() has already been called */
@@ -304,6 +305,9 @@ protected:
   bool m_in_water; /** < true if the badguy is currently in water */
   bool m_on_ice; /**< true if the badguy is currently on ice */
   bool m_ice_this_frame; /**< true if the badguy touched ice this frame */
+
+  bool m_can_glint; /** true if the badguy supports the glinting system */
+  bool m_holds_coins; /** true if the glinting system shouldn't drop any additional coins on death */
 
   std::string m_dead_script; /**< script to execute when badguy is killed */
 

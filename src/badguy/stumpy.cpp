@@ -127,6 +127,12 @@ Stumpy::collision_squished(MovingObject& object)
   return true;
 }
 
+int
+Stumpy::get_coins_worth() const
+{
+  return (m_is_glinting) ? 3 : 0;
+}
+
 void
 Stumpy::collision_solid(const CollisionHit& hit)
 {

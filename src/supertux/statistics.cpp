@@ -44,7 +44,6 @@ static const float INGAME_STATS_DISTANCE = 1.7f;
 
 Statistics::Preferences::Preferences() :
   enable_coins(true),
-  enable_badguys(false),
   enable_secrets(true)
 {
 }
@@ -53,7 +52,6 @@ void
 Statistics::Preferences::parse(const ReaderMapping& reader)
 {
   reader.get("enable-coins", enable_coins);
-  reader.get("enable-badguys", enable_badguys);
   reader.get("enable-secrets", enable_secrets);
 }
 
@@ -61,7 +59,6 @@ void
 Statistics::Preferences::write(Writer& writer) const
 {
   writer.write("enable-coins", enable_coins);
-  writer.write("enable-badguys", enable_badguys);
   writer.write("enable-secrets", enable_secrets);
 }
 
@@ -69,7 +66,6 @@ void
 Statistics::Preferences::add_to_menu(Menu& menu)
 {
   menu.add_toggle(-1, _("Enable Coins Statistic"), &enable_coins);
-  menu.add_toggle(-1, _("Enable Badguys Statistic"), &enable_badguys);
   menu.add_toggle(-1, _("Enable Secrets Statistic"), &enable_secrets);
 }
 
@@ -77,17 +73,13 @@ Statistics::Preferences::add_to_menu(Menu& menu)
 Statistics::Statistics() :
   m_status(INVALID),
   m_total_coins(),
-  m_total_badguys(),
   m_total_secrets(),
   m_coins(),
-  m_badguys(),
   m_secrets(),
   m_time(),
   m_cleared_coins(false),
-  m_cleared_badguys(false),
   m_cleared_secrets(false),
   m_coins_time(0.f),
-  m_badguys_time(0.f),
   m_secrets_time(0.f),
   m_preferences(),
   m_max_width(256),
@@ -101,7 +93,6 @@ Statistics::Statistics() :
   WMAP_INFO_TOP_Y1(),
   WMAP_INFO_TOP_Y2(),
   coin_icon(Surface::from_file("/images/engine/hud/coin-icon.png")),
-  badguy_icon(Surface::from_file("/images/engine/hud/badguy-icon.png")),
   secret_icon(Surface::from_file("/images/engine/hud/secret-icon.png"))
 {
   calculate_max_caption_length();
@@ -139,11 +130,9 @@ Statistics::serialize_to_squirrel(ssq::Table& table) const
 
   ssq::Table statistics = table.addTable("statistics");
   statistics.set("coins-collected", m_coins);
-  statistics.set("badguys-killed", m_badguys);
   statistics.set("secrets-found", m_secrets);
   statistics.set("time-needed", m_time);
   statistics.set("coins-collected-total", m_total_coins);
-  statistics.set("badguys-killed-total", m_total_badguys);
   statistics.set("secrets-found-total", m_total_secrets);
 }
 
@@ -154,11 +143,9 @@ Statistics::unserialize_from_squirrel(const ssq::Table& table)
   {
     const ssq::Table statistics = table.findTable("statistics");
     statistics.get("coins-collected", m_coins);
-    statistics.get("badguys-killed", m_badguys);
     statistics.get("secrets-found", m_secrets);
     statistics.get("time-needed", m_time);
     statistics.get("coins-collected-total", m_total_coins);
-    statistics.get("badguys-killed-total", m_total_badguys);
     statistics.get("secrets-found-total", m_total_secrets);
 
     m_status = FINAL;
@@ -212,15 +199,6 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
         if (m_coins >= m_total_coins)
           tcolor = Statistics::perfect_color;
         break;
-      case 1:
-        if (!m_preferences.enable_badguys)
-          continue;
-
-        caption_buf = CAPTION_MAX_FRAGGING;
-        stat_buf = frags_to_string(m_badguys, m_total_badguys);
-        if (m_badguys >= m_total_badguys)
-          tcolor = Statistics::perfect_color;
-        break;
       case 2:
         if (!m_preferences.enable_secrets)
           continue;
@@ -272,7 +250,6 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
 
   int visible_rows = 1;
   if (m_preferences.enable_coins)   ++visible_rows;
-  if (m_preferences.enable_badguys) ++visible_rows;
   if (m_preferences.enable_secrets) ++visible_rows;
 
   const std::vector<float> column_widths = { 215.f, 130.f, 130.f };
@@ -349,29 +326,6 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
     }
   }
 
-  if (m_preferences.enable_badguys)
-  {
-    y += row_height;
-
-    if (m_badguys >= m_total_badguys)
-      tcolor = Statistics::perfect_color;
-    else
-      tcolor = Statistics::text_color;
-    context.color().draw_text(Resources::normal_font, _("Badguys"), Vector(col_x_positions[1] - label_indent, y), ALIGN_RIGHT, layer, Statistics::header_color);
-    context.color().draw_text(Resources::normal_font, frags_to_string(m_badguys, m_total_badguys), Vector(col_x_positions[1], y), ALIGN_LEFT, layer, tcolor);
-
-    if (best_stats)
-    {
-      int badguys_best = (best_stats->m_badguys > m_badguys) ? best_stats->m_badguys : m_badguys;
-      int total_badguys_best = (best_stats->m_total_badguys > m_total_badguys) ? best_stats->m_total_badguys : m_total_badguys;
-      if (badguys_best >= total_badguys_best)
-        tcolor = Statistics::perfect_color;
-      else
-        tcolor = Statistics::text_color;
-      context.color().draw_text(Resources::normal_font, frags_to_string(badguys_best, total_badguys_best), Vector(col_x_positions[2], y), ALIGN_LEFT, layer, tcolor);
-    }
-  }
-
   if (m_preferences.enable_secrets)
   {
     y += row_height;
@@ -433,37 +387,6 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
     y -= height * INGAME_STATS_DISTANCE;
   }
 
-  if (m_preferences.enable_badguys)
-  {
-    if (on_pause_menu || (m_cleared_badguys && m_badguys_time < 5.f))
-    {
-      std::string text(frags_to_string(m_badguys, m_total_badguys));
-      float width = Resources::normal_font->get_text_width(text),
-            x_offset = width + 75.f;
-
-      if (!on_pause_menu)
-        x_offset *= std::min(1.f, -std::abs(m_badguys_time - 2.5f) + 2.5f);
-
-      Vector pos(context.get_width() - x_offset, y);
-
-      context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 37.f,
-                                             pos.y + height).grown(5.f),
-                                       Color(0.f, 0.f, 0.f, 0.5f),
-                                       10.f, LAYER_HUD - 1);
-      context.color().draw_text(Resources::normal_font, text, pos,
-                                FontAlignment::ALIGN_LEFT, LAYER_HUD,
-                                (m_badguys < m_total_badguys)
-                                      ? Statistics::text_color
-                                      : Statistics::perfect_color
-                                );
-      context.color().draw_surface_scaled(badguy_icon,
-                                          Rectf(Vector(pos.x + width + 3.f, pos.y - 5.f), Sizef(32.f, 32.f)),
-                                          LAYER_HUD);
-    }
-
-    y -= height * INGAME_STATS_DISTANCE;
-  }
-
   if (m_preferences.enable_coins && (on_pause_menu || (m_cleared_coins && m_coins_time < 5.f)))
   {
     std::string text(coins_to_string(m_coins, m_total_coins));
@@ -497,9 +420,6 @@ Statistics::update_timers(float dt_sec)
   if (m_cleared_coins)
     m_coins_time += dt_sec;
 
-  if (m_cleared_badguys)
-    m_badguys_time += dt_sec;
-
   if (m_cleared_secrets)
     m_secrets_time += dt_sec;
 }
@@ -510,11 +430,9 @@ Statistics::init(const Level& level)
   m_status = ACCUMULATING;
 
   m_coins = 0;
-  m_badguys = 0;
   m_secrets = 0;
 
   m_total_coins = level.get_total_coins();
-  m_total_badguys = level.get_total_badguys();
   m_total_secrets = level.get_total_secrets();
 }
 
@@ -537,7 +455,6 @@ Statistics::update(const Statistics& other)
   if (other.m_status != FINAL) return;
 
   m_coins = std::max(m_coins, other.m_coins);
-  m_badguys = std::max(m_badguys, other.m_badguys);
   m_secrets = std::max(m_secrets, other.m_secrets);
   if (m_time == 0)
     m_time = other.m_time;
@@ -545,13 +462,11 @@ Statistics::update(const Statistics& other)
     m_time = std::min(m_time, other.m_time);
 
   m_total_coins = other.m_total_coins;
-  m_total_badguys = other.m_total_badguys;
   m_total_secrets = other.m_total_secrets;
 
   m_preferences = other.m_preferences;
 
   m_coins = math::clamp(m_coins, 0, m_total_coins);
-  m_badguys = math::clamp(m_badguys, 0, m_total_badguys);
   m_secrets = math::clamp(m_secrets, 0, m_total_secrets);
   m_status = FINAL;
 }
@@ -560,7 +475,6 @@ bool
 Statistics::completed(const float target_time) const
 {
   return ((!m_preferences.enable_coins || m_coins == m_total_coins) &&
-          (!m_preferences.enable_badguys || m_badguys == m_total_badguys) &&
           (!m_preferences.enable_secrets || m_secrets == m_total_secrets) &&
           (target_time == 0.0f || m_time <= target_time));
 }
@@ -570,14 +484,6 @@ Statistics::coins_to_string(int coins, int total_coins)
 {
   std::ostringstream os;
   os << std::min(std::min(coins, total_coins), 999) << "/" << std::min(total_coins, 999);
-  return os.str();
-}
-
-std::string
-Statistics::frags_to_string(int badguys, int total_badguys)
-{
-  std::ostringstream os;
-  os << std::min(std::min(badguys, total_badguys), 999) << "/" << std::min(total_badguys, 999);
   return os.str();
 }
 
@@ -619,19 +525,6 @@ Statistics::check_coins()
   {
     m_cleared_coins = true;
     SoundManager::current()->play("/sounds/coins_cleared.ogg", 0.5f);
-  }
-}
-
-void
-Statistics::check_badguys()
-{
-  if (!m_preferences.enable_badguys || m_cleared_badguys)
-    return;
-
-  if (m_badguys >= m_total_badguys)
-  {
-    m_cleared_badguys = true;
-    SoundManager::current()->play("/sounds/retro_fall.wav", 0.5f);
   }
 }
 

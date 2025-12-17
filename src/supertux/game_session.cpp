@@ -547,7 +547,7 @@ GameSession::setup()
   }
   m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
 
-  int total_stats_to_be_collected = m_level->m_stats.m_total_coins + m_level->m_stats.m_total_badguys + m_level->m_stats.m_total_secrets;
+  int total_stats_to_be_collected = m_level->m_stats.m_total_coins + m_level->m_stats.m_total_secrets;
   if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0) && m_savegame && !m_skip_intro) {
     m_levelintro_shown = true;
     m_active = false;

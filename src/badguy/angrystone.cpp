@@ -31,7 +31,6 @@ AngryStone::AngryStone(const ReaderMapping& reader) :
   m_timer(),
   m_state(IDLE)
 {
-  m_countMe = false;
   m_physic.set_velocity(0, 0);
   m_physic.enable_gravity(true);
   set_action("idle");

@@ -26,6 +26,7 @@
 #include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
+#include "object/coin.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
@@ -63,7 +64,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
                const std::string& fire_sprite_name) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
-  m_countMe(true),
+  m_is_glinting(false),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
   m_dir(direction),
@@ -73,6 +74,8 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_in_water(false),
   m_on_ice(false),
   m_ice_this_frame(false),
+  m_can_glint(true),
+  m_holds_coins(false),
   m_dead_script(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
@@ -118,7 +121,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
                const std::string& fire_sprite_name) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   m_physic(),
-  m_countMe(true),
+  m_is_glinting(false),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
   m_dir(Direction::LEFT),
@@ -128,6 +131,8 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   m_in_water(false),
   m_on_ice(false),
   m_ice_this_frame(false),
+  m_can_glint(true),
+  m_holds_coins(false),
   m_dead_script(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
@@ -150,6 +155,11 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
   if (reader.get("direction", dir_str))
     m_start_dir = string_to_dir(dir_str);
   m_dir = m_start_dir;
+
+  if (m_can_glint)
+    reader.get("glinting", m_is_glinting);
+  else
+    m_is_glinting = false;
 
   reader.get("dead-script", m_dead_script);
 
@@ -175,7 +185,8 @@ BadGuy::draw(DrawingContext& context)
 
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
-    if (Editor::is_active()) {
+    if (Editor::is_active())
+    {
       m_sprite->draw(context.color(), draw_pos, m_layer, m_flip);
     }
   }
@@ -316,10 +327,31 @@ BadGuy::update(float dt_sec)
   switch (m_state) {
     case STATE_ACTIVE:
       m_is_active_flag = true;
-      if (Editor::is_active()) {
+      if (Editor::is_active())
+      {
         break;
       }
-      //won't work if defined anywhere else for some reason
+
+      // display glinting particles
+      if (m_is_glinting)
+      {
+        if (graphicsRandom.rand(0, 4) == 0)
+        {
+          const float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
+          const float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
+          const Vector ppos = Vector(px, py);
+          Sector::get().add<SpriteParticle>(
+            "images/particles/glint.sprite",
+            "default",
+            ppos,
+            ANCHOR_MIDDLE,
+            Vector(0, 0),
+            Vector(0, 0),
+            LAYER_OBJECTS + 6);
+        }
+      }
+
+      // won't work if defined anywhere else for some reason
       if (m_frozen && is_portable())
         m_freezesprite->set_action(get_overlay_size(), 1);
       else
@@ -443,6 +475,12 @@ std::vector<Direction>
 BadGuy::get_allowed_directions() const
 {
   return { Direction::AUTO, Direction::LEFT, Direction::RIGHT };
+}
+
+int
+BadGuy::get_coins_worth() const
+{
+  return (m_can_glint && m_is_glinting) ? 1 : 0;
 }
 
 void
@@ -814,7 +852,6 @@ BadGuy::kill_fall()
     // Start the dead-script.
     run_dead_script();
   }
-
 }
 
 void
@@ -825,8 +862,20 @@ BadGuy::run_dead_script()
 
   m_is_active_flag = false;
 
-  if (m_countMe)
-    Sector::get().get_level().m_stats.increment_badguys();
+  if (m_is_glinting && m_can_glint && !m_holds_coins)
+  {
+    const int num_coins = get_coins_worth();
+
+    for (int i = 0; i < num_coins; ++i)
+    {
+      const float coin_x = get_bbox().get_middle().x - 16.0f;
+      const float coin_y = get_bbox().get_top() - 32.0f;
+
+      Sector::get().add<HeavyCoin>(Vector(coin_x, coin_y),
+                                   Vector(graphicsRandom.randf(-175.0f, 175.0f),
+                                   0.0f));
+    }
+  }
 
   if (m_parent_dispenser != nullptr)
   {
@@ -837,6 +886,8 @@ BadGuy::run_dead_script()
   if (!m_dead_script.empty()) {
     Sector::get().run_script(m_dead_script, "dead-script");
   }
+
+  m_is_glinting = false;
 }
 
 void
@@ -1330,7 +1381,10 @@ BadGuy::get_settings()
   result.add_script(get_uid(), _("Death script"), &m_dead_script, "dead-script")
     ->set_description(_("Script that is executed when the badguy dies."));
 
-  result.reorder({"direction", "sprite", "x", "y"});
+  if (m_can_glint)
+    result.add_bool(_("Glinting"), &m_is_glinting, "glinting");
+
+  result.reorder({"direction", "sprite", "x", "y", "glinting"});
 
   return result;
 }
@@ -1394,7 +1448,6 @@ BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
   if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
 }
-
 
 void
 BadGuy::register_class(ssq::VM& vm)

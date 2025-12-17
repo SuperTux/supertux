@@ -61,7 +61,6 @@ public:
   inline const std::string& get_tileset() const { return m_tileset; }
 
   int get_total_coins() const;
-  int get_total_badguys() const;
   int get_total_secrets() const;
 
   bool is_saving_in_progress() const { return m_saving_in_progress; }

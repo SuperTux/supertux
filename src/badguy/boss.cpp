@@ -42,7 +42,7 @@ Boss::Boss(const ReaderMapping& reader, const std::string& sprite_name, int laye
   reader.get("lives", m_lives, DEFAULT_LIVES);
   m_max_lives = m_lives;
 
-  m_countMe = true;
+  m_can_glint = false;
 
   reader.get("pinch-lives", m_pinch_lives, DEFAULT_PINCH_LIVES);
   reader.get("pinch-activation-script", m_pinch_activation_script, "");

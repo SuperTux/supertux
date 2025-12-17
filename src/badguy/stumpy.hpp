@@ -38,6 +38,7 @@ public:
   static std::string display_name() { return _("Stumpy"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(Stumpy)); }
+  int get_coins_worth() const override;
 
 protected:
   enum MyState {
