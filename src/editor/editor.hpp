@@ -70,14 +70,6 @@ private:
     return is_autosave_file(filename) ? filename : filename + "~";
   }
 
-private:
-  enum arrow_key {
-    KEY_LEFT  = 1,
-    KEY_RIGHT = 1<<1,
-    KEY_UP    = 1<<2,
-    KEY_DOWN  = 1<<3
-  };
-
 public:
   static bool s_resaving_in_progress;
 
@@ -292,7 +284,6 @@ private:
   float m_scroll_speed;
   float m_new_scale;
   bool m_move_locked;
-  uint8_t m_arrow_keys;
 
   Vector m_mouse_pos;
 
