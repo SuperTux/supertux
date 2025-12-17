@@ -155,7 +155,7 @@ GameMenu::menu_action(MenuItem& item)
                 Dialog::show_message(_("Couldn't open worldmap for this level."));
                 return nullptr;
               }
-              worldmap->start_level();
+              worldmap->start_level(true);
               return worldmap;
             });
           });

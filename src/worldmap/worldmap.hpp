@@ -93,8 +93,11 @@ public:
                   bool perform_full_setup = true);
 
   const std::string& get_filename() const;
-  
-  inline void start_level() { m_really_enter_level = true; }
+
+  void start_level(bool skip_cutscene = false) {
+    m_really_enter_level = true;
+    m_skip_cutscene = skip_cutscene;
+  }
 
   bool is_item_pocket_allowed() const { return m_allow_item_pocket; }
 
@@ -128,10 +131,11 @@ private:
 
   bool m_allow_item_pocket;
   bool m_really_enter_level;
+  bool m_skip_cutscene;
   bool m_enter_level;
   bool m_in_level;
   bool m_in_world_select;
-  
+
   std::string m_next_filename;
   std::string m_next_force_sector;
   std::string m_next_force_spawnpoint;

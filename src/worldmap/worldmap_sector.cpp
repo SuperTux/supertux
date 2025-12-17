@@ -351,6 +351,7 @@ WorldMapSector::update(float dt_sec)
 
       if (level_->get_tile_pos() == tux_pos) {
         try {
+          bool skip_cutscene = false;
           Vector shrinkpos = Vector(level_->get_pos().x + 16 - m_camera->get_offset().x,
                                     level_->get_pos().y +  8 - m_camera->get_offset().y);
           std::string levelfile = m_parent.m_levels_path + level_->get_level_filename();
@@ -359,14 +360,16 @@ WorldMapSector::update(float dt_sec)
           if (m_parent.m_really_enter_level)
           {
             game_session->skip_intro();
+            skip_cutscene = m_parent.m_skip_cutscene;
             m_parent.m_really_enter_level = false;
+            m_parent.m_skip_cutscene = false;
           }
           game_session->restart_level();
 
           // update state and savegame
           m_parent.save_state();
           ScreenManager::current()->push_screen(std::move(game_session),
-                                                std::make_unique<ShrinkFade>(shrinkpos, 1.0f, LAYER_LIGHTMAP - 1));
+                                                skip_cutscene ? nullptr : std::make_unique<ShrinkFade>(shrinkpos, 1.0f, LAYER_LIGHTMAP - 1));
 
           m_parent.m_in_level = true;
         } catch(std::exception& e) {
