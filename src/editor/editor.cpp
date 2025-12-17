@@ -160,7 +160,6 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
-  m_move_locked(false),
   m_mouse_pos(0.f, 0.f),
   m_layers_widget_needs_refresh(false),
   m_script_manager(),
@@ -698,23 +697,20 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  if (!m_move_locked)
-  {
-    if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT]) {
-      scroll({ -m_scroll_speed, 0.0f });
-    }
+  if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT]) {
+    scroll({ -m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::RIGHT) || keys[SDL_SCANCODE_RIGHT]) {
-      scroll({ m_scroll_speed, 0.0f });
-    }
+  if (controller.hold(Control::RIGHT) || keys[SDL_SCANCODE_RIGHT]) {
+    scroll({ m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::UP) || keys[SDL_SCANCODE_UP]) {
-      scroll({ 0.0f, -m_scroll_speed });
-    }
+  if (controller.hold(Control::UP) || keys[SDL_SCANCODE_UP]) {
+    scroll({ 0.0f, -m_scroll_speed });
+  }
 
-    if (controller.hold(Control::DOWN) || keys[SDL_SCANCODE_DOWN]) {
-      scroll({ 0.0f, m_scroll_speed });
-    }
+  if (controller.hold(Control::DOWN) || keys[SDL_SCANCODE_DOWN]) {
+    scroll({ 0.0f, m_scroll_speed });
   }
 }
 
@@ -1151,6 +1147,7 @@ Editor::reactivate()
 
   m_leveltested = false;
   Tile::draw_editor_images = true;
+
   m_level->reactivate();
 
   m_sector->activate(Vector(0,0));
@@ -1175,7 +1172,6 @@ Editor::on_window_resize()
 void
 Editor::event(const SDL_Event& ev)
 {
-  m_move_locked = false;
   if (!m_enabled || !m_levelloaded ||
       MenuManager::current()->is_active() || MenuManager::current()->has_dialog()) return;
 
@@ -1233,7 +1229,6 @@ Editor::event(const SDL_Event& ev)
         }
         else if (m_ctrl_pressed)
         {
-          m_move_locked = true;
           switch (ev.key.keysym.sym)
           {
             case SDLK_t:
@@ -1283,8 +1278,6 @@ Editor::event(const SDL_Event& ev)
               m_new_scale = 1.f;
               break;
             default:
-              // i.e. just ctrl held; invert it back
-              m_move_locked = false;
               break;
           }
         }
