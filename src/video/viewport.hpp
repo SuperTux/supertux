@@ -50,6 +50,9 @@ public:
   /** True if the logical screen doens't cover the whole window */
   bool needs_clear_screen() const;
 
+  /** Whether to use the full viewport or not */
+  void force_full_viewport(bool flag) const;
+
 private:
   /** The minimum logical screen size that is allowed */
   static const Size s_max_size;

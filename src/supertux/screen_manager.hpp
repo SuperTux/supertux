@@ -94,7 +94,7 @@ private:
     Type type;
     std::unique_ptr<Screen> screen;
     callback_t callback;
-    
+
     Action(Type type_,
            std::unique_ptr<Screen> screen_ = {},
            callback_t cb = nullptr) :

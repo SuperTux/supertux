@@ -25,6 +25,8 @@
 #include "math/vector.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/screen_manager.hpp"
+#include "gui/menu_manager.hpp"
 
 // Minimum and maximum size of the virtual screen, note that the
 // maximum must not exceed X/Y_OFFSCREEN_DISTANCE or enemies end up
@@ -33,6 +35,8 @@ const Size Viewport::s_max_size(1368, 800);
 const Size Viewport::s_min_size(640, 480);
 
 namespace {
+
+bool force_full_viewport = false;
 
 inline Size
 apply_pixel_aspect_ratio_pre(const Size& window_size, float pixel_aspect_ratio)
@@ -93,7 +97,7 @@ calculate_scale(const Size& min_size, const Size& max_size,
 inline Rect
 calculate_viewport(const Size& max_size, const Size& window_size, float scale)
 {
-  if (g_config->max_viewport)
+  if (::force_full_viewport)
     return {0, 0, window_size};
   int viewport_width = std::min(window_size.width,
                                 static_cast<int>(scale * static_cast<float>(max_size.width)));
@@ -121,7 +125,7 @@ void calculate_viewport(const Size& min_size, const Size& max_size,
   Size window_size;
   float scale;
 
-  if (g_config->max_viewport)
+  if (::force_full_viewport)
   {
     window_size = real_window_size;
     scale = 1.0;
@@ -192,6 +196,8 @@ Viewport::Viewport() :
   m_rect(),
   m_scale(0.0f, 0.0f)
 {
+  if (g_config->max_viewport)
+    force_full_viewport(g_config->max_viewport);
 }
 
 Viewport::Viewport(const Rect& rect, const Vector& scale) :
@@ -229,4 +235,18 @@ bool
 Viewport::needs_clear_screen() const
 {
   return (m_rect.left != 0 || m_rect.top != 0);
+}
+
+void
+Viewport::force_full_viewport(bool flag) const
+{
+  ::force_full_viewport = flag;
+  // Sort of evil, but 99% of the time when setting this you want to ensure
+  // stuff updates with it.
+  if (VideoSystem::current())
+    VideoSystem::current()->apply_config();
+  if (ScreenManager::current())
+    ScreenManager::current()->on_window_resize();
+  if (MenuManager::current())
+    MenuManager::instance().on_window_resize();
 }
