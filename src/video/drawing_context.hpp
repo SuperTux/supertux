@@ -91,6 +91,9 @@ public:
   inline void set_alpha(float alpha) { transform().alpha = alpha; }
   inline float get_alpha() const { return transform().alpha; }
 
+  inline void set_max_layer(int layer) { transform().max_layer = layer; }
+  inline int get_max_layer() const { return transform().max_layer; }
+
   /** For position extrapolation at high frame rates: real time since last game update step */
   inline void set_time_offset(float time_offset) { m_time_offset = time_offset; }
   inline float get_time_offset() const { return m_time_offset; }

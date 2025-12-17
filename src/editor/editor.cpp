@@ -251,7 +251,12 @@ Editor::draw(Compositor& compositor)
     // issue with the PlayerStatus.
     if (!m_leveltested)
     {
+      context.push_transform();
+      context.set_max_layer(LAYER_GUI - 22); // Lowest layer used by an editor UI item is LAYER_GUI - 21
+
       m_sector->draw(context);
+
+      context.pop_transform();
 
       // If an object is selected, draw an indicator around it.
       const GameObject* selected_object = m_selected_object.get();
