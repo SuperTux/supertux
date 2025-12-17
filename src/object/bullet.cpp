@@ -27,7 +27,7 @@
 #include "video/viewport.hpp"
 #include "object/sprite_particle.hpp"
 
-Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_, Player& player) :
+Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, PlayerBonusType type_, Player& player) :
   m_player(player),
   physic(),
   life_count(3),
@@ -49,7 +49,7 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
       break;
 
     default:
-      log_warning << "Bullet::Bullet called with unknown BonusType" << std::endl;
+      log_warning << "Bullet::Bullet called with unknown PlayerBonusType" << std::endl;
       life_count = 10;
       sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
       break;

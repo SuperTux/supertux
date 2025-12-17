@@ -202,11 +202,11 @@ public:
 
       @returns true if the bonus has been set (or was already good enough)
                false if the bonus could not be set (for example no space for big tux) */
-  bool add_bonus(BonusType type, bool animate = false);
+  bool add_bonus(PlayerBonusType type, bool animate = false);
 
   /** like add_bonus, but can also downgrade the bonus items carried */
-  bool set_bonus(BonusType type, bool animate = false);
-  inline BonusType get_bonus() const { return m_player_status.bonus[m_id]; }
+  bool set_bonus(PlayerBonusType type, bool animate = false);
+  inline PlayerBonusType get_bonus() const { return m_player_status.bonus[m_id]; }
 
   std::string bonus_to_string() const;
 
@@ -443,6 +443,7 @@ public:
    */
   void eject_item_pocket();
 
+  // get_item_pocket and set_item_pocket are using PlayerBonusType, but it needs to say int to make squirrel happy
   /**
    * @scripting
    * @description Returns the item currently in the player's Item Pocket as a ""BONUS"" enum value.
@@ -492,7 +493,7 @@ private:
   void slide();
   void swim(float pointx, float pointy, bool boost);
 
-  BonusType string_to_bonus(const std::string& bonus) const;
+  PlayerBonusType string_to_bonus(const std::string& bonus) const;
 
   /** slows Tux down a little, based on where he's standing */
   void apply_friction();

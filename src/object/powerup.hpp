@@ -18,6 +18,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
+#include "supertux/player_status.hpp"
 
 class PowerUp : public MovingSprite
 {
@@ -38,7 +39,7 @@ public:
 
 public:
   PowerUp(const ReaderMapping& mapping);
-  PowerUp(const Vector& pos, int type);
+  PowerUp(const Vector& pos, PowerUp::Type type);
 
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
@@ -55,7 +56,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return MovingSprite::get_class_types().add(typeid(PowerUp)); }
 
-  static Type get_type_from_bonustype(int type);
+  static PowerUp::Type get_type_from_bonustype(PlayerBonusType type);
 
   std::vector<std::string> get_patches() const override;
   virtual ObjectSettings get_settings() override;

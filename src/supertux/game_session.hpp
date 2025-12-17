@@ -204,7 +204,7 @@ private:
   bool m_skip_intro; /**< Manually skipped the intro from outside this class */
 
   int m_coins_at_start; /** How many coins does the player have at the start */
-  std::vector<BonusType> m_boni_at_start; /** What boni does the player have at the start */
+  std::vector<PlayerBonusType> m_boni_at_start; /** What bonus does the player have at the start */
   std::vector<int> m_max_fire_bullets_at_start; /** How many fire bullets does the player have */
   std::vector<int> m_max_ice_bullets_at_start; /** How many ice bullets does the player have */
 
