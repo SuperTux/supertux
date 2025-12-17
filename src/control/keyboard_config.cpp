@@ -69,7 +69,6 @@ KeyboardConfig::KeyboardConfig() :
   m_keymap[SDL_SCANCODE_BACKSPACE] = {0, Control::REMOVE};
 }
 
-#include <iostream>
 void
 KeyboardConfig::read(const ReaderMapping& keymap_mapping)
 {
