@@ -68,6 +68,7 @@ private:
     STATE_HATCHING,
     STATE_RISING,
     STATE_FALLING,
+    STATE_FADE_OUT
   };
 
   State m_state;

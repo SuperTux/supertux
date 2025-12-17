@@ -19,8 +19,11 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "badguy/dart.hpp"
+#include "math/random.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
+#include "object/shard.hpp"
+#include "object/sprite_particle.hpp"
 #include "supertux/sector.hpp"
 #include "video/surface.hpp"
 
@@ -38,6 +41,7 @@ static const float RED_ROOT_DELAY = 0.15f;
 static const float RED_ROOT_SPAN = 32;
 
 static const float GREEN_ROOT_SPEED = 64;
+static const std::string GREEN_ROOT_SHARD_SPRITE = "images/creatures/granito/corrupted/big/root_spike.sprite";
 
 static const float BLUE_ROOT_SPEED = 64;
 static const float BLUE_ROOT_FIRE_DELAY = 1.0;
@@ -111,6 +115,19 @@ GhostTreeRootMain::GhostTreeRootMain(const Vector& pos, GhostTreeAttack* parent)
   sound->set_pitch(MAIN_ROOT_SOUND_PITCH);
   sound->play();
   SoundManager::current()->manage_source(std::move(sound));
+
+  const float gravity = Sector::get().get_gravity() * 100.f;
+  for (int i = 0; i < 5; i++)
+  {
+    const Vector velocity(graphicsRandom.randf(-100.f, 100.f),
+                          graphicsRandom.randf(-400.f, -300.f));
+    Sector::get().add<SpriteParticle>("images/particles/corrupted_rock.sprite",
+                                      "piece-" + std::to_string(i),
+                                      get_pos() - Vector(0, MAIN_ROOT_HATCH_OFFSET + 10.f),
+                                      ANCHOR_MIDDLE,
+                                      velocity, Vector(0.f, gravity),
+                                      LAYER_OBJECTS + 3, true);
+  }
 }
 
 GhostTreeRootMain::~GhostTreeRootMain()
@@ -163,10 +180,17 @@ GhostTreeRootMain::active_update(float dt_sec)
       if (m_state_timer.check())
       {
         m_parent->root_died();
-        remove_me();
+        m_state = STATE_FADE_OUT;
+        m_state_timer.start(0.2f);
       }
       break;
     }
+
+    case STATE_FADE_OUT:
+      if (m_state_timer.check())
+        remove_me();
+
+      break;
 
     default:
       break;
@@ -181,7 +205,23 @@ GhostTreeRootMain::draw(DrawingContext& context)
   const Vector off((-newsize.width / 2.f) + (m_sprite->get_current_hitbox_width() / 2.f),
                    -newsize.height - MAIN_ROOT_HATCH_OFFSET - MAIN_ROOT_HILL_OFFSET);
   const Rectf dest(m_start_position + off, newsize);
-  context.color().draw_surface_scaled(m_hill, dest, m_layer + 5);
+
+  PaintStyle style;
+  switch (m_state) {
+    case STATE_HATCHING:
+      style.set_alpha(std::min(1.f, m_state_timer.get_progress() * 2.f));
+      break;
+
+    case STATE_FADE_OUT:
+      style.set_alpha(1.f - m_state_timer.get_progress());
+      break;
+
+    default:
+      style.set_alpha(1.f);
+      break;
+  }
+
+  context.color().draw_surface_scaled(m_hill, dest, m_layer + 5, style);
 
   BadGuy::draw(context);
 }
@@ -250,7 +290,14 @@ GhostTreeRootGreen::active_update(float dt_sec)
   if (get_pos().y > m_level_top) {
     return;
   }
-  Sector::get().add<Explosion>(m_col.m_bbox.get_middle(), EXPLOSION_STRENGTH_DEFAULT);
+
+  Sector::get().add<Explosion>(m_col.m_bbox.get_middle(), 0.f);
+
+  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f),  GREEN_ROOT_SHARD_SPRITE);
+  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f),  GREEN_ROOT_SHARD_SPRITE);
+  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f), GREEN_ROOT_SHARD_SPRITE);
+  Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f), GREEN_ROOT_SHARD_SPRITE);
+
   m_parent->root_died();
   remove_me();
 }
@@ -363,6 +410,12 @@ GhostTreeRootPinch::active_update(float dt_sec)
     case STATE_EXPLOSION_DELAY:
       if (m_state_timer.check()) {
         Sector::get().add<Explosion>(m_col.m_bbox.get_middle(), EXPLOSION_STRENGTH_DEFAULT);
+
+        Sector::get().add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f),  GREEN_ROOT_SHARD_SPRITE);
+        Sector::get().add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f),  GREEN_ROOT_SHARD_SPRITE);
+        Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f), GREEN_ROOT_SHARD_SPRITE);
+        Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f), GREEN_ROOT_SHARD_SPRITE);
+
         m_parent->root_died();
         remove_me();
       }
