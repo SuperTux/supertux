@@ -335,7 +335,7 @@ BadGuy::update(float dt_sec)
       // display glinting particles
       if (m_is_glinting)
       {
-        if (graphicsRandom.rand(0, 4) == 0)
+        if (graphicsRandom.rand(0, 8) == 0)
         {
           const float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
           const float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
