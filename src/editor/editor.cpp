@@ -148,6 +148,7 @@ Editor::Editor() :
   m_has_deprecated_tiles(false),
   m_widgets(),
   m_controls(),
+  m_post_save(nullptr),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_toolbar_widget(),
@@ -516,10 +517,12 @@ Editor::remove_autosave_file()
 }
 
 bool
-Editor::save_level(const std::string& filename, bool switch_file)
+Editor::save_level(const std::string& filename, bool switch_file, const std::function<void ()>& post_save)
 {
   if (m_temp_level && !m_save_temp_level)
   {
+    if (post_save)
+      m_post_save = post_save;
     MenuManager::instance().set_menu(MenuStorage::EDITOR_TEMP_SAVE_MENU);
     return false;
   }
@@ -547,6 +550,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
   auto notif = std::make_unique<Notification>("save_level_notif", 3.f);
   notif->set_text(_("Level saved!"));
   MenuManager::instance().set_notification(std::move(notif));
+  trigger_post_save();
   return true;
 }
 
@@ -871,9 +875,20 @@ Editor::reset_level()
   m_sector = nullptr;
 
   m_reload_request = false;
+  //m_post_save = nullptr;
 
   MouseCursor::current()->set_icon(nullptr);
   set_level(nullptr, true);
+}
+
+void
+Editor::trigger_post_save()
+{
+  if (m_post_save)
+  {
+    m_post_save();
+    m_post_save = nullptr;
+  }
 }
 
 void
@@ -936,7 +951,7 @@ Editor::has_unsaved_changes()
 void
 Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
-  if (!m_levelloaded || m_temp_level)
+  if (!m_levelloaded)
   {
     action();
     return;
@@ -946,12 +961,14 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
   {
     m_enabled = false;
     auto dialog = std::make_unique<Dialog>();
-    dialog->set_text(g_config->editor_undo_tracking ? _("This level contains unsaved changes, do you want to save?") :
-                                                      _("This level may contain unsaved changes, do you want to save?"));
+    if (m_temp_level)
+      dialog->set_text(_("This level hasn't been saved yet. Do you want to save it instead?"));
+    else
+      dialog->set_text(g_config->editor_undo_tracking ? _("This level contains unsaved changes, do you want to save?") :
+                                                        _("This level may contain unsaved changes, do you want to save?"));
     dialog->add_default_button(_("Yes"), [this, action] {
       check_save_prerequisites([this, action] {
-        save_level();
-        action();
+        save_level("", false, action);
         m_enabled = true;
       });
     });
