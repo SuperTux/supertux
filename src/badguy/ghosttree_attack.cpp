@@ -376,8 +376,10 @@ void
 GhostTreeRootPinch::fire()
 {
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::get().add<Dart>(get_pos() + Vector(-70.0f, 126.0f), Direction::LEFT, this, BLUE_ROOT_PROJECTILE);
-  Sector::get().add<Dart>(get_pos() + Vector( 16.0f, 127.0f), Direction::RIGHT, this, BLUE_ROOT_PROJECTILE);
+  Sector::get().add<Dart>(get_pos() + Vector(-70.0f, 126.0f), Direction::LEFT, this, BLUE_ROOT_PROJECTILE,
+                          "images/creatures/ghosttree/blue_root_light.sprite");
+  Sector::get().add<Dart>(get_pos() + Vector( 16.0f, 127.0f), Direction::RIGHT, this, BLUE_ROOT_PROJECTILE,
+                          "images/creatures/ghosttree/blue_root_light.sprite");
 }
 
 // PART 3: Root Attacks
