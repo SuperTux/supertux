@@ -196,8 +196,6 @@ Viewport::Viewport() :
   m_rect(),
   m_scale(0.0f, 0.0f)
 {
-  if (g_config->max_viewport)
-    force_full_viewport(g_config->max_viewport);
 }
 
 Viewport::Viewport(const Rect& rect, const Vector& scale) :
@@ -238,15 +236,18 @@ Viewport::needs_clear_screen() const
 }
 
 void
-Viewport::force_full_viewport(bool flag) const
+Viewport::force_full_viewport(bool flag, bool just_set_it)
 {
   ::force_full_viewport = flag;
   // Sort of evil, but 99% of the time when setting this you want to ensure
   // stuff updates with it.
-  if (VideoSystem::current())
-    VideoSystem::current()->apply_config();
-  if (ScreenManager::current())
-    ScreenManager::current()->on_window_resize();
-  if (MenuManager::current())
-    MenuManager::instance().on_window_resize();
+  if (!just_set_it)
+  {
+    if (VideoSystem::current())
+      VideoSystem::current()->apply_config();
+    if (ScreenManager::current())
+      ScreenManager::current()->on_window_resize();
+    if (MenuManager::current())
+      MenuManager::instance().on_window_resize();
+  }
 }

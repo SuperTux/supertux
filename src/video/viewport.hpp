@@ -25,6 +25,9 @@ private:
 public:
   static Viewport from_size(const Size& target_size, const Size& desktop_size);
 
+  /** Whether to use the full viewport or not */
+  static void force_full_viewport(bool flag, bool just_set_it = false);
+
 public:
   Viewport();
   Viewport(const Rect& rect, const Vector& scale);
@@ -49,9 +52,6 @@ public:
 
   /** True if the logical screen doens't cover the whole window */
   bool needs_clear_screen() const;
-
-  /** Whether to use the full viewport or not */
-  void force_full_viewport(bool flag) const;
 
 private:
   /** The minimum logical screen size that is allowed */
