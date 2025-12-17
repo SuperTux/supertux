@@ -36,7 +36,7 @@
 static const size_t WILLOWISP_COUNT = 10;
 static const float WILLOWISP_TOP_OFFSET = -64;
 static const Vector SUCK_TARGET_OFFSET = Vector(-16,-16);
-static const float SUCK_TARGET_SPREAD = 8;
+static const float SUCK_TARGET_SPREAD = 16;
 
 GhostTree::GhostTree(const ReaderMapping& mapping) :
   Boss(mapping, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10,
@@ -76,12 +76,13 @@ GhostTree::activate()
 {
 }
 
-Vector GhostTree::get_attack_pos()
+Vector
+GhostTree::get_attack_pos()
 {
   const float middle = m_col.m_bbox.get_middle().x;
   const float base = m_col.m_bbox.get_bottom() + 96;
 
-  // NOTE: This is never the case when entering SPITTING state.
+  // NOTE: This should never be the case when entering SPITTING state.
   if (m_attack == ATTACK_NORMAL)
     return Vector(middle, base);
 
@@ -132,6 +133,20 @@ GhostTree::active_update(float dt_sec)
       break;
 
     case STATE_SUCKING:
+      if (m_state_timer.check())
+      {
+        set_state(STATE_SPITTING);
+        for (const auto& wisp : m_willowisps) {
+          if (should_suck(wisp->get_color())) {
+            Vector pos = get_attack_pos();
+            wisp->start_sucking(pos + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
+                                             gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)),
+                                0.5f);
+          }
+        }
+      }
+      break;
+
     case STATE_SPITTING:
       break;
 
@@ -170,6 +185,9 @@ GhostTree::active_update(float dt_sec)
 
 bool
 GhostTree::should_suck(const Color& color) const {
+  if (m_attack == ATTACK_PINCH)
+    return true;
+
   switch (m_willo) {
     case ATTACK_RED:
       return color.red == 1.0;
@@ -177,8 +195,6 @@ GhostTree::should_suck(const Color& color) const {
       return color.green == 1.0;
     case ATTACK_BLUE:
       return color.blue == 1.0;
-    case ATTACK_PINCH:
-      return true;
     default:
       return false;
   }
@@ -187,14 +203,16 @@ GhostTree::should_suck(const Color& color) const {
 void
 GhostTree::rotate_willo_color() {
   m_willo = static_cast<AttackType>(static_cast<int>(ATTACK_FIRST_SPECIAL)
-                                        + ((static_cast<int>(m_willo) + 1) % 3));
+                                    + ((static_cast<int>(m_willo) - static_cast<int>(ATTACK_FIRST_SPECIAL)
+                                        + 1) % 3));
 }
 
 void
 GhostTree::spawn_willowisp(AttackType color) {
   Vector pos(m_col.m_bbox.get_width() / 2,
-  m_col.m_bbox.get_height() / 2 + (m_flip == NO_FLIP ? (m_willo_spawn_y + WILLOWISP_TOP_OFFSET) :
-                                                      -(m_willo_spawn_y + WILLOWISP_TOP_OFFSET + 32.0f)));
+  m_col.m_bbox.get_height() / 2 + (m_flip == NO_FLIP
+                                   ? (m_willo_spawn_y + WILLOWISP_TOP_OFFSET)
+                                   : -(m_willo_spawn_y + WILLOWISP_TOP_OFFSET + 32.0f)));
   auto& willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + m_willo_radius, m_willo_speed);
   m_willowisps.push_back(&willowisp);
 
@@ -254,7 +272,18 @@ GhostTree::set_state(MyState new_state) {
 
     case STATE_SUCKING:
       m_glowing = false;
+      m_state_timer.stop();
       SoundManager::current()->play("sounds/tree_suck.ogg", get_pos());
+
+      if (m_pinch_mode)
+      {
+        m_attack = ATTACK_PINCH;
+      }
+      else
+      {
+        m_attack = m_willo;
+      }
+
       for (const auto& willo : m_willowisps) {
         if (should_suck(willo->get_color())) {
           willo->start_sucking(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET
@@ -263,12 +292,17 @@ GhostTree::set_state(MyState new_state) {
                                2.5f);
         }
       }
+
+      break;
+
+    case STATE_SPITTING:
+      m_glowing = true;
+      set_action(m_attack == ATTACK_PINCH ? "scream-pinch" : "scream");
+      SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       break;
 
     case STATE_ATTACKING:
       m_glowing = true;
-      set_action(m_attack == ATTACK_PINCH ? "scream-pinch" : "scream");
-      SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       start_attack();
       break;
 
@@ -305,9 +339,9 @@ GhostTree::start_attack()
     {
       Vector pos = get_attack_pos();
       if (pos.x > middle)
-        m_root_attack.reset(new GhostTreeAttackRed(pos.y, pos.x, pos.x + (512 * 2)));
-      else
         m_root_attack.reset(new GhostTreeAttackRed(pos.y, pos.x, pos.x - (512 * 2)));
+      else
+        m_root_attack.reset(new GhostTreeAttackRed(pos.y, pos.x, pos.x + (512 * 2)));
 
       break;
     }
@@ -333,17 +367,18 @@ GhostTree::willowisp_suck_finished(TreeWillOWisp* willowisp)
       if (willowisp->was_sucked())
         break;
 
-      set_state(STATE_SPITTING);
-      [[fallthrough]];
+      if (!m_state_timer.started())
+        m_state_timer.start(0.5f);
+
+      break;
 
     case STATE_SPITTING:
-    {
-      Vector pos = get_attack_pos();
-      willowisp->start_sucking(pos + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
-                                            gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)),
-                               0.5f);
+      set_state(STATE_ATTACKING);
+      [[fallthrough]];
+
+    case STATE_ATTACKING:
+      willowisp->vanish();
       break;
-    }
 
     default:
       break;
@@ -390,7 +425,10 @@ GhostTree::collision_squished(MovingObject& object)
     while (m_willo_to_spawn--) {
       spawn_willowisp(m_attack);
     }
-    m_attack = static_cast<AttackType>(static_cast<int>(m_attack) + 1);
+    rotate_willo_color();
+    m_attack = static_cast<AttackType>(static_cast<int>(ATTACK_FIRST_SPECIAL)
+                                       + ((static_cast<int>(m_attack) - static_cast<int>(ATTACK_FIRST_SPECIAL)
+                                           + 1) % 3));
   }
   
   set_state(STATE_IDLE);
