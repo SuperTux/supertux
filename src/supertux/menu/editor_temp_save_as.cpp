@@ -80,6 +80,7 @@ EditorTempSaveAs::menu_action(MenuItem& item)
         return;
       }
 
+      // post_save will get implicitly called here
       editor->m_save_request = true;
       editor->m_save_request_filename = m_file_name;
       editor->m_save_temp_level = true;

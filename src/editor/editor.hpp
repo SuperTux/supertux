@@ -127,7 +127,9 @@ public:
     m_levelfile = levelfile;
     m_reload_request = true;
   }
-  bool save_level(const std::string& filename = "", bool switch_file = false);
+  bool save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr);
+
+  void trigger_post_save();
 
   std::string get_level_directory() const;
 
@@ -273,6 +275,7 @@ private:
   std::optional<std::pair<std::string, Vector>> m_last_test_pos;
   std::vector<std::unique_ptr<Widget> > m_widgets;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
+  std::function<void ()> m_post_save;
 
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
