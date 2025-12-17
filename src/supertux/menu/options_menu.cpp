@@ -807,6 +807,8 @@ OptionsMenu::menu_action(MenuItem& item)
 
     case MNID_MAX_VIEWPORT:
       VideoSystem::current()->apply_config();
+      ScreenManager::current()->on_window_resize();
+      MenuManager::instance().on_window_resize();
       break;
 
     case MNID_MOBILE_CONTROLS_SCALE:
