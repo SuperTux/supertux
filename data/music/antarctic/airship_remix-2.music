@@ -1,5 +1,8 @@
 (supertux-music
   (file "airship_2.ogg")
+  (title "Airship 2")
+  (authors "Jason Lavallée")
+  (license "CC-BY-SA / GPL 2+")
   (loop-begin 0)
   (loop-at    202)
 )

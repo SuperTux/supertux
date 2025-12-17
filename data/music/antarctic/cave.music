@@ -1,5 +1,8 @@
 (supertux-music
   (file "cave.ogg")
+  (title "The Cave (Milestone 2 Version)")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
   (loop-begin 0)
   (loop-at    -1)
 )

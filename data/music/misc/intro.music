@@ -1,5 +1,8 @@
 (supertux-music
   (file "intro.ogg")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
+  (title "Intro Theme")
   (loop-begin 0)
   (loop-at    34)
 )

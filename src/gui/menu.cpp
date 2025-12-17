@@ -55,6 +55,8 @@
 
 #include "supertux/error_handler.hpp"
 
+static const float HELP_MARGIN_Y = 16.f;
+
 // The amount in pixels the mouse has to wiggle after scrolling before it can hover over things again.
 constexpr int MOUSE_DEADZONE_AMOUNT = 70;
 
@@ -242,7 +244,7 @@ Menu::add_string_select(int id, const std::string& text, int default_item, const
 ItemAction&
 Menu::add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
                const std::string& basedir, bool path_relative_to_basedir,
-               const std::function<void (MenuItem&)>& item_processor, int id)
+               const std::function<void (MenuItem&, const std::string&, bool)> item_processor, int id)
 {
   return add_item<ItemAction>(text, id,
     [input, extensions, basedir, path_relative_to_basedir, item_processor]()
@@ -542,9 +544,9 @@ Menu::draw(DrawingContext& context)
     const int text_height = static_cast<int>(Resources::normal_font->get_text_height(m_items[m_active_item]->get_help()));
 
     const Rectf text_rect(m_pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
-                          static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
+                          static_cast<float>(SCREEN_HEIGHT) - HELP_MARGIN_Y - static_cast<float>(text_height) - 4.0f,
                           m_pos.x + static_cast<float>(text_width) / 2.0f + 8.0f,
-                          static_cast<float>(SCREEN_HEIGHT) - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
+                          static_cast<float>(SCREEN_HEIGHT) - HELP_MARGIN_Y + 4.0f);
 
     context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
                                            text_rect.p2() + Vector(4,4)),
@@ -558,7 +560,7 @@ Menu::draw(DrawingContext& context)
                                      LAYER_GUI);
 
     context.color().draw_text(Resources::normal_font, m_items[m_active_item]->get_help(),
-                              Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
+                              Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - HELP_MARGIN_Y - static_cast<float>(text_height)),
                               ALIGN_CENTER, LAYER_GUI);
   }
 }

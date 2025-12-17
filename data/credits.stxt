@@ -430,7 +430,22 @@
   )
   (blank)
   (person
+    (name "Alasdair \"Servalot\"")
+  )
+  (person
+    (name "Alex \"cynicmusic\" Smith")
+  )
+  (person
     (name "Asbjoern \"Mystical\" Andersen")
+  )
+  (person
+    (name "congusbongus")
+  )
+  (person
+    (name "Enol \"Meji\" Monte")
+  )
+  (person
+    (name "Flan")
   )
   (person
     (name "Forty-Two")
@@ -445,13 +460,13 @@
     (name "Chris Huelsbeck")
   )
   (person
-    (name "Bart K.")
+    (name "Bart Kelsey")
   )
   (person
     (name "Jason Lavallée")
   )
   (person
-    (name "Chris Leutwyler")
+    (name "Chris \"Krobonil\" Leutwyler")
   )
   (person
     (name "Lukas \"Mortimer Twang\" Nystrand")
@@ -467,6 +482,9 @@
   )
   (person
     (name "treskalle")
+  )
+  (person
+    (name "ZhayTee")
   )
   
   (blank)
@@ -589,6 +607,9 @@
   )
   (person
     (name "Lennard Hofmann")
+  )
+  (person
+    (name "James De Ricco")
   )
   (person
     (name "Jann Horn")

@@ -1,5 +1,8 @@
 (supertux-music
   (file "chipdisko.ogg")
+  (title "Mortimer's Chipdisko")
+  (authors "Lukas Nystrand (as Mortimer Twang)")
+  (license "CC-BY-SA / GPL")
   (loop-begin 0)
   (loop-at    158)
 )
