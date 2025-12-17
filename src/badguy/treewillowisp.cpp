@@ -44,7 +44,8 @@ TreeWillOWisp::TreeWillOWisp(GhostTree* tree_, const Vector& pos,
   m_suck_timer()
 {
   SoundManager::current()->preload(SOUND);
-  set_colgroup_active(COLGROUP_MOVING);
+  set_colgroup_active(COLGROUP_DISABLED);
+  m_physic.enable_gravity(false);
 }
 
 TreeWillOWisp::~TreeWillOWisp()
@@ -68,7 +69,6 @@ TreeWillOWisp::vanish()
   m_state = STATE_VANISHING;
   m_layer = m_tree->get_layer() + 1;
   set_action("vanishing", 1);
-  set_colgroup_active(COLGROUP_DISABLED);
 
   if (m_parent_dispenser != nullptr)
   {
@@ -86,23 +86,13 @@ TreeWillOWisp::start_sucking(const Vector& suck_target_, float duration)
   m_suck_timer.start(duration);
 }
 
-/*HitResponse
-TreeWillOWisp::collision_player(Player& player, const CollisionHit& hit)
+void
+TreeWillOWisp::fly_away(const Vector& from)
 {
-  // TODO: This function is essentially a no-op. Remove if it doesn't change the behavior.
-  return BadGuy::collision_player(player, hit);
-}*/
+  m_state = STATE_FLY_AWAY;
+  m_layer = m_tree->get_layer() + 1;
 
-bool
-TreeWillOWisp::collides(MovingObject& other, const CollisionHit& ) const
-{
-  auto lantern = dynamic_cast<Lantern*>(&other);
-  if (lantern && lantern->is_open())
-    return true;
-  /*if (dynamic_cast<Player*>(&other))
-    return true;*/
-
-  return false;
+  m_fly_dir = glm::normalize(get_pos() - from) * 30.f;
 }
 
 void
@@ -121,7 +111,6 @@ TreeWillOWisp::active_update(float dt_sec)
       // Remove the TreeWillOWisp if it has completely vanished.
       if (m_sprite->animation_done()) {
         remove_me();
-        m_tree->willowisp_suck_finished(this);
       }
       break;
 
@@ -157,6 +146,10 @@ TreeWillOWisp::active_update(float dt_sec)
       }
       break;
     }
+
+    case STATE_FLY_AWAY:
+      m_col.set_movement(m_fly_dir);
+      break;
   }
 
   m_sound->set_position(get_pos());

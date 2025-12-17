@@ -175,7 +175,24 @@ GhostTree::active_update(float dt_sec)
       break;
 
     case STATE_DEAD:
+      if (m_state_timer.check())
+      {
+        set_state(STATE_MUSIC_FADE_OUT);
+      }
       break;
+
+    case STATE_MUSIC_FADE_OUT:
+      if (m_state_timer.check())
+      {
+        set_state(STATE_WISP_FLY_AWAY);
+      }
+      break;
+
+    case STATE_WISP_FLY_AWAY:
+      if (m_state_timer.check())
+      {
+        run_dead_script();
+      }
 
     default:
       break;
@@ -318,7 +335,18 @@ GhostTree::set_state(MyState new_state) {
       m_glowing = false;
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       set_action("busted");
-      run_dead_script();
+      m_state_timer.start(2.f);
+      break;
+
+    case STATE_MUSIC_FADE_OUT:
+      SoundManager::current()->stop_music(3.f);
+      m_state_timer.start(3.f + 2.f);
+      break;
+
+    case STATE_WISP_FLY_AWAY:
+      for (TreeWillOWisp* wisp : m_willowisps)
+        wisp->fly_away(get_bbox().get_middle());
+      m_state_timer.start(3.f);
       break;
 
     default:

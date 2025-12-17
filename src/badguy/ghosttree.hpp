@@ -58,7 +58,9 @@ private:
     STATE_SPITTING,
     STATE_ATTACKING,
     STATE_RECHARGING,
-    STATE_DEAD
+    STATE_DEAD,
+    STATE_MUSIC_FADE_OUT,
+    STATE_WISP_FLY_AWAY,
   };
   
   enum AttackType {

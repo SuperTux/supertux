@@ -35,7 +35,7 @@ public:
 
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
-  virtual void kill_fall() override { vanish(); }
+  virtual void kill_fall() override {}
 
   virtual void draw(DrawingContext& context) override;
 
@@ -44,22 +44,20 @@ public:
 
   void vanish();
   void start_sucking(const Vector& suck_target, float duration);
+  void fly_away(const Vector& from);
 
   void set_color(const Color& color);
   inline Color get_color() const { return m_color; }
 
   inline bool was_sucked() const { return m_state == STATE_SUCKED; }
 
-protected:
-  virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
-  //virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
-
 private:
   enum MyState {
     STATE_DEFAULT,
     STATE_VANISHING,
     STATE_IDLE,
-    STATE_SUCKED
+    STATE_SUCKED,
+    STATE_FLY_AWAY
   };
 
 private:
@@ -76,6 +74,8 @@ private:
   Vector m_suck_start;
   Vector m_suck_target;
   Timer m_suck_timer;
+
+  Vector m_fly_dir;
 
 private:
   TreeWillOWisp(const TreeWillOWisp&) = delete;
