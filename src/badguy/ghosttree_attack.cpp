@@ -314,11 +314,15 @@ GhostTreeRootBlue::fire()
 {
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
   if (m_variant == 1) {
-    Sector::get().add<Dart>(get_pos() + Vector(-70.0f, 124.0f), Direction::LEFT, this, BLUE_ROOT_PROJECTILE);
-    Sector::get().add<Dart>(get_pos() + Vector( 16.0f,  57.0f), Direction::RIGHT, this, BLUE_ROOT_PROJECTILE);
+    Sector::get().add<Dart>(get_pos() + Vector(-70.0f, 124.0f), Direction::LEFT, this, BLUE_ROOT_PROJECTILE,
+                            "images/creatures/ghosttree/blue_root_light.sprite");
+    Sector::get().add<Dart>(get_pos() + Vector( 16.0f,  57.0f), Direction::RIGHT, this, BLUE_ROOT_PROJECTILE,
+                            "images/creatures/ghosttree/blue_root_light.sprite");
   } else {
-    Sector::get().add<Dart>(get_pos() + Vector(-70.0f,  82.0f), Direction::LEFT, this, BLUE_ROOT_PROJECTILE);
-    Sector::get().add<Dart>(get_pos() + Vector( 16.0f, 124.0f), Direction::RIGHT, this, BLUE_ROOT_PROJECTILE);
+    Sector::get().add<Dart>(get_pos() + Vector(-70.0f,  82.0f), Direction::LEFT, this, BLUE_ROOT_PROJECTILE,
+                            "images/creatures/ghosttree/blue_root_light.sprite");
+    Sector::get().add<Dart>(get_pos() + Vector( 16.0f, 124.0f), Direction::RIGHT, this, BLUE_ROOT_PROJECTILE,
+                            "images/creatures/ghosttree/blue_root_light.sprite");
   }
 }
 
