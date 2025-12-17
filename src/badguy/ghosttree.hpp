@@ -86,6 +86,7 @@ private:
   float m_willo_radius;
   float m_willo_speed;
   int m_willo_to_spawn;
+  Vector m_attack_pos;
 
   std::vector<TreeWillOWisp*> m_willowisps;
   std::unique_ptr<GhostTreeAttack> m_root_attack;

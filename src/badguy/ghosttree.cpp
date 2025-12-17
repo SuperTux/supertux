@@ -138,9 +138,8 @@ GhostTree::active_update(float dt_sec)
         set_state(STATE_SPITTING);
         for (const auto& wisp : m_willowisps) {
           if (should_suck(wisp->get_color())) {
-            Vector pos = get_attack_pos();
-            wisp->start_sucking(pos + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
-                                             gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)),
+            wisp->start_sucking(m_attack_pos + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
+                                                      gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)),
                                 0.5f);
           }
         }
@@ -267,6 +266,7 @@ GhostTree::set_state(MyState new_state) {
       m_glowing = false;
       set_action(m_attack == ATTACK_PINCH ? "idle-pinch" : "idle");
       m_attack = ATTACK_NORMAL;
+      m_attack_pos = get_attack_pos();
       start_attack();
       break;
 
@@ -299,6 +299,7 @@ GhostTree::set_state(MyState new_state) {
       m_glowing = true;
       set_action(m_attack == ATTACK_PINCH ? "scream-pinch" : "scream");
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
+      m_attack_pos = get_attack_pos();
       break;
 
     case STATE_ATTACKING:
@@ -332,29 +333,28 @@ GhostTree::start_attack()
   float middle = get_bbox().get_middle().x;
   switch (m_attack) {
     case ATTACK_NORMAL:
-      m_root_attack.reset(new GhostTreeAttackMain(get_attack_pos()));
+      m_root_attack.reset(new GhostTreeAttackMain(m_attack_pos));
       break;
 
     case ATTACK_RED:
     {
-      Vector pos = get_attack_pos();
-      if (pos.x > middle)
-        m_root_attack.reset(new GhostTreeAttackRed(pos.y, pos.x, pos.x - (512 * 2)));
+      if (m_attack_pos.x > middle)
+        m_root_attack.reset(new GhostTreeAttackRed(m_attack_pos.y, m_attack_pos.x, m_attack_pos.x - (512 * 2)));
       else
-        m_root_attack.reset(new GhostTreeAttackRed(pos.y, pos.x, pos.x + (512 * 2)));
+        m_root_attack.reset(new GhostTreeAttackRed(m_attack_pos.y, m_attack_pos.x, m_attack_pos.x + (512 * 2)));
 
       break;
     }
 
     case ATTACK_GREEN:
-      m_root_attack.reset(new GhostTreeAttackGreen(get_attack_pos()));
+      m_root_attack.reset(new GhostTreeAttackGreen(m_attack_pos));
       break;
     case ATTACK_BLUE:
-      m_root_attack.reset(new GhostTreeAttackBlue(get_attack_pos()));
+      m_root_attack.reset(new GhostTreeAttackBlue(m_attack_pos));
       break;
     case ATTACK_PINCH:
     default:
-      m_root_attack.reset(new GhostTreeAttackPinch(get_attack_pos(), middle - 512, middle + 512));
+      m_root_attack.reset(new GhostTreeAttackPinch(m_attack_pos, middle - 512, middle + 512));
       break;
   }
 }
@@ -378,6 +378,10 @@ GhostTree::willowisp_suck_finished(TreeWillOWisp* willowisp)
 
     case STATE_ATTACKING:
       willowisp->vanish();
+      m_willowisps.erase(std::remove_if(m_willowisps.begin(), m_willowisps.end(),
+                         [willowisp](TreeWillOWisp* w) -> bool {
+                           return w == willowisp;
+                         }));
       break;
 
     default:
