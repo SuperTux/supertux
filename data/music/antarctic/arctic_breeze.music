@@ -1,5 +1,8 @@
 (supertux-music
   (file "arctic_breeze.ogg")
+  (title "Antarctic Breeze")
+  (authors "Jason Lavallée")
+  (license "CC-BY-SA / GPL 2+")
   (loop-begin 0)
   (loop-at    197)
 )

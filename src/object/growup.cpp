@@ -24,8 +24,8 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom_sprite) :
-  MovingSprite(pos, custom_sprite.empty() ? "images/powerups/egg/egg.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
+GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom_sprite, int layer) :
+  MovingSprite(pos, custom_sprite.empty() ? "images/powerups/egg/egg.sprite" : custom_sprite, layer, COLGROUP_MOVING),
   m_physic(),
   m_custom_sprite(!custom_sprite.empty()),
   m_shadesprite(SpriteManager::current()->create("images/powerups/egg/egg.sprite")),

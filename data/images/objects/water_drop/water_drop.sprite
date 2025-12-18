@@ -8,12 +8,13 @@
  (action
   (name "splash")
   (fps 15.0)
-  (hitbox 64 16 32 32)
+  (hitbox 14 -10 32 32)
   (images "water-splash-0.png"
           "water-splash-1.png"
           "water-splash-2.png"
           "water-splash-3.png"
-          "water-splash-4.png")
+          "water-splash-4.png"
+          "water-splash-5.png")
  )
  (action
   (name "particle_0")

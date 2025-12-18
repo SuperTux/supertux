@@ -30,6 +30,7 @@ SkyDive::SkyDive(const ReaderMapping& reader) :
 {
   SoundManager::current()->preload("sounds/explosion.wav");
   set_action("default");
+  m_can_glint = false;
 }
 
 void

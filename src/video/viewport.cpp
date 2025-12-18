@@ -25,6 +25,8 @@
 #include "math/vector.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/screen_manager.hpp"
+#include "gui/menu_manager.hpp"
 
 // Minimum and maximum size of the virtual screen, note that the
 // maximum must not exceed X/Y_OFFSCREEN_DISTANCE or enemies end up
@@ -33,6 +35,8 @@ const Size Viewport::s_max_size(1368, 800);
 const Size Viewport::s_min_size(640, 480);
 
 namespace {
+
+bool force_full_viewport = false;
 
 inline Size
 apply_pixel_aspect_ratio_pre(const Size& window_size, float pixel_aspect_ratio)
@@ -93,6 +97,8 @@ calculate_scale(const Size& min_size, const Size& max_size,
 inline Rect
 calculate_viewport(const Size& max_size, const Size& window_size, float scale)
 {
+  if (::force_full_viewport)
+    return {0, 0, window_size};
   int viewport_width = std::min(window_size.width,
                                 static_cast<int>(scale * static_cast<float>(max_size.width)));
   int viewport_height = std::min(window_size.height,
@@ -116,11 +122,21 @@ void calculate_viewport(const Size& min_size, const Size& max_size,
                         Vector& out_scale,
                         Rect& out_viewport)
 {
-  // Transform the real window_size by the aspect ratio, then do
-  // calculations on that virtual window_size
-  Size window_size = apply_pixel_aspect_ratio_pre(real_window_size, pixel_aspect_ratio);
+  Size window_size;
+  float scale;
 
-  float scale = calculate_scale(min_size, max_size, window_size, magnification);
+  if (::force_full_viewport)
+  {
+    window_size = real_window_size;
+    scale = 1.0;
+  }
+  else
+  {
+    // Transform the real window_size by the aspect ratio, then do
+    // calculations on that virtual window_size
+    window_size = apply_pixel_aspect_ratio_pre(real_window_size, pixel_aspect_ratio);
+    scale = calculate_scale(min_size, max_size, window_size, magnification);
+  }
 
   // Calculate the new viewport size
   out_viewport = calculate_viewport(max_size, window_size, scale);
@@ -217,4 +233,21 @@ bool
 Viewport::needs_clear_screen() const
 {
   return (m_rect.left != 0 || m_rect.top != 0);
+}
+
+void
+Viewport::force_full_viewport(bool flag, bool just_set_it)
+{
+  ::force_full_viewport = flag;
+  // Sort of evil, but 99% of the time when setting this you want to ensure
+  // stuff updates with it.
+  if (!just_set_it)
+  {
+    if (VideoSystem::current())
+      VideoSystem::current()->apply_config();
+    if (ScreenManager::current())
+      ScreenManager::current()->on_window_resize();
+    if (MenuManager::current())
+      MenuManager::instance().on_window_resize();
+  }
 }

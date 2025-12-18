@@ -1,5 +1,8 @@
 (supertux-music
   (file "jewels.ogg")
+  (authors "Alex \"cynicmusic\" Smith" "congusbongus")
+  (title "Crystal Cave + Mysterious Ambience (seamless loop)")
+  (license "CC-BY 3.0 / CC-BY-SA 3.0 / GPL 3.0")
   (loop-begin 0)
   (loop-at -1)
 )

@@ -59,6 +59,7 @@ private:
 
 public:
   GameObjectManager(bool undo_tracking = false);
+  GameObjectManager(GameObjectManager* gom);
   virtual ~GameObjectManager() override;
 
   virtual std::string get_exposed_class_name() const override { return "GameObjectManager"; }
@@ -332,6 +333,8 @@ private:
 
   void this_before_object_add(GameObject& object);
   void this_before_object_remove(GameObject& object);
+
+  void update_editor_buttons();  
 
 protected:
   /** An initial flush_game_objects() call has been initiated. */

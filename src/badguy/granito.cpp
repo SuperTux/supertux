@@ -38,7 +38,7 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
   walk_speed = 0;
   set_ledge_behavior(LedgeBehavior::NORMAL);
 
-  m_countMe = false;
+  m_can_glint = false;
 
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   m_col.set_unisolid(true);
@@ -279,8 +279,8 @@ Granito::get_settings()
 
   settings.remove("dead-script");
 
-  settings.add_script(_("Detect script"), &m_detect_script, "detect-script");
-  settings.add_script(_("Carried script"), &m_carried_script, "carried-script");
+  settings.add_script(get_uid(), _("Detect script"), &m_detect_script, "detect-script");
+  settings.add_script(get_uid(), _("Carried script"), &m_carried_script, "carried-script");
 
   return settings;
 }

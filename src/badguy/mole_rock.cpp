@@ -28,7 +28,6 @@ MoleRock::MoleRock(const ReaderMapping& reader) :
   initial_velocity(Vector(0, -400))
 {
   m_physic.enable_gravity(true);
-  m_countMe = false;
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
 }
@@ -39,7 +38,6 @@ MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* pare
   initial_velocity(velocity)
 {
   m_physic.enable_gravity(true);
-  m_countMe = false;
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
 }

@@ -8,9 +8,6 @@ build.*/
 # Installed vcpkg packages
 vcpkg_installed/
 
-# Ubuntu Touch (clickable) build files
-.clickable/
-
 # Tags file
 tags
 
@@ -72,6 +69,10 @@ data/levels/more/
 *.patch
 *.zip
 *.diff
+
+# Flatpak
+.flatpak-builder/
+*.flatpak
 
 # Annoying OS Generated Files
 .DS_Store

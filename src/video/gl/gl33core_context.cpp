@@ -34,7 +34,8 @@ GL33CoreContext::GL33CoreContext(GLVideoSystem& video_system) :
   m_white_texture(),
   m_black_texture(),
   m_grey_texture(),
-  m_transparent_texture()
+  m_transparent_texture(),
+  m_blur()
 {
   assert_gl();
 
@@ -67,7 +68,7 @@ GL33CoreContext::bind()
   GLTextureRenderer* back_renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
 
   GLTexture* texture;
-  if (back_renderer->is_rendering() || !back_renderer->get_texture())
+  if (!back_renderer || back_renderer->is_rendering() || !back_renderer->get_texture())
   {
     texture = m_black_texture.get();
     glUniform1f(m_program->get_backbuffer_location(), 0.0f);
@@ -177,12 +178,24 @@ GL33CoreContext::set_color(const Color& color)
 }
 
 void
+GL33CoreContext::set_blur(int amount)
+{
+  m_blur = amount;
+}
+
+void
 GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacement_texture)
 {
   assert_gl();
 
   GLTextureRenderer* back_renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
+  
+  /* if there's no back renderer (i.e. fancy fx disabled) then don't
+     bother with displacement textures */
+  if (!back_renderer)
+  	displacement_texture = NULL;
 
+  glUniform1i(m_program->get_blur_location(), m_blur);
   if (displacement_texture && back_renderer->is_rendering())
   {
     glActiveTexture(GL_TEXTURE0);
@@ -231,6 +244,7 @@ GL33CoreContext::bind_no_texture()
 {
   assert_gl();
 
+  glUniform1i(m_program->get_blur_location(), m_blur);
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, m_white_texture->get_handle());
 

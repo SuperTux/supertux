@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Slobodan Simić <slsimic@gmail.com>, 2019
+# Issa1552 <fairfull.playing@gmail.com>, 2025
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:59+0000\n"
-"Last-Translator: Slobodan Simić <slsimic@gmail.com>, 2019\n"
+"Last-Translator: Issa1552 <fairfull.playing@gmail.com>, 2025\n"
 "Language-Team: Serbian (https://app.transifex.com/arctic-games/teams/95/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,15 +24,15 @@ msgstr ""
 
 #: data/levels/community2016/Ancient_Ruins (RustyBox).stl:3
 msgid "The Ancient Ruins Of The Forest"
-msgstr ""
+msgstr "Древне рушевине шуме"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:3
 msgid "Double Problems"
-msgstr ""
+msgstr "Двоструки проблеми"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:82
 msgid "-Concentrate! Tux! It's not Mario!"
-msgstr ""
+msgstr "-Концентриши се! Тукс! Није то Марио!"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:142
 msgid "You found a secret area!"
@@ -39,52 +40,52 @@ msgstr "Пронашао си тајну област!"
 
 #: data/levels/community2016/Entrance_To_Cave (gelada).stl:3
 msgid "The Entrance To The Cave"
-msgstr ""
+msgstr "Улаз у пећину"
 
 #: data/levels/community2016/Entrance_To_Lava_Castle (herobrine).stl:3
 msgid "The Entrance To The Lava Castle"
-msgstr ""
+msgstr "Улаз у замак Лава"
 
 #: data/levels/community2016/HMS_Snowballs_Ahoy (Vellidragon).stl:3
 msgid "HMS Snowball Ahoy!"
-msgstr ""
+msgstr "ХМС Снежна кугла Ахој!"
 
 #: data/levels/community2016/Into_The_Palace (ThomyW).stl:3
 msgid "Into The Palace"
-msgstr ""
+msgstr "У палату"
 
 #: data/levels/community2016/Is_The_Biggest_Fish (cookie monster).stl:3
 msgid "Is The Biggest Fish"
-msgstr ""
+msgstr "Је највећа риба"
 
 #: data/levels/community2016/Problem_With_Green (herobrine).stl:3
 msgid "The Problem With GREEN"
-msgstr ""
+msgstr "Проблем са ЗЕЛЕНИМ"
 
 #: data/levels/community2016/Sunny_Hills (Serano).stl:3
 msgid "Sunny Hills"
-msgstr ""
+msgstr "Сунчана брда"
 
 #: data/levels/community2016/The_Mountains (gelada).stl:3
 msgid "The Mountains"
-msgstr ""
+msgstr "Планине"
 
 #: data/levels/community2016/The_Strange_Thing (herobrine).stl:3
 msgid "The Strange Thing"
-msgstr ""
+msgstr "Чудна ствар"
 
 #: data/levels/community2016/Uncontrolled_Lift (gelada).stl:3
 msgid "Uncontrolled Lift"
-msgstr ""
+msgstr "Неконтролисано подизање"
 
 #: data/levels/community2016/Up_Or_Down (Serano).stl:3
 msgid "Up, Or Down?"
-msgstr ""
+msgstr "Горе или доле?"
 
 #: data/levels/community2016/Welcome_To_Icy_Island (gelada).stl:3
 msgid "Welcome To The Icy Island"
-msgstr ""
+msgstr "Добродошли на Ледено острво"
 
 #: data/levels/community2016/worldmap.stwm:3
 msgid "Community Island 2016"
-msgstr ""
+msgstr "Острво заједнице 2016"

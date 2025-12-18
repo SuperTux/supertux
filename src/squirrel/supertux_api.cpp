@@ -85,7 +85,7 @@ static SQInteger get_current_thread(HSQUIRRELVM vm)
  */
 static bool is_christmas()
 {
-  return g_config->christmas_mode;
+  return g_config->is_christmas();
 }
 
 /**

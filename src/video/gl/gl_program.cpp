@@ -74,6 +74,7 @@ GLProgram::GLProgram() :
   m_animate_location = glGetUniformLocation(m_program, "animate");
   m_displacement_animate_location = glGetUniformLocation(m_program, "displacement_animate");
   m_is_displacement_location = glGetUniformLocation(m_program, "is_displacement");
+  m_blur_location = glGetUniformLocation(m_program, "blur");
   m_position_location = glGetAttribLocation(m_program, "position");
   m_texcoord_location = glGetAttribLocation(m_program, "texcoord");
   m_diffuse_location = glGetAttribLocation(m_program, "diffuse");

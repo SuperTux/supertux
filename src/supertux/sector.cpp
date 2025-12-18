@@ -172,7 +172,7 @@ Sector::finish_construction(bool editable)
 }
 
 SpawnPointMarker*
-Sector::get_spawn_point(const std::string& spawnpoint)
+Sector::get_spawn_point(const std::string& spawnpoint) const
 {
   SpawnPointMarker* sp = nullptr;
   for (auto& spawn_point : get_objects_by_type<SpawnPointMarker>()) {
@@ -186,7 +186,7 @@ Sector::get_spawn_point(const std::string& spawnpoint)
 }
 
 Vector
-Sector::get_spawn_point_position(const std::string& spawnpoint)
+Sector::get_spawn_point_position(const std::string& spawnpoint) const
 {
   SpawnPointMarker* sp = get_spawn_point(spawnpoint);
   if (sp)
@@ -237,9 +237,6 @@ Sector::activate(const Vector& player_pos)
   // The Sector object is called 'settings' as it is accessed as 'sector.settings'
   m_squirrel_environment->expose(*this, "settings");
 
-  if (Editor::is_active())
-    return;
-
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
   const auto players = get_objects_by_type<Player>();
@@ -264,10 +261,14 @@ Sector::activate(const Vector& player_pos)
   {
     Player& player = *players.begin();
     Camera& camera = get_camera();
-    player.set_pos(player.get_pos()+Vector(-32, 0));
-    camera.reset(player.get_pos());
+    player.set_pos(player.get_pos() + Vector(-32, 0));
+    // Don't reset the camera if in free mode on sector activation
+    if (camera.get_mode() != Camera::Mode::FREE)
+    {
+      camera.reset(player.get_pos());
+    }
     camera.update(1);
-    player.set_pos(player.get_pos()+(Vector(32, 0)));
+    player.set_pos(player.get_pos() + (Vector(32, 0)));
     camera.update(1);
   }
 
@@ -317,11 +318,11 @@ Sector::deactivate()
 Rectf
 Sector::get_active_region() const
 {
-  Camera& camera = get_camera();
+  auto cam_translation = get_camera().get_translation();
   return Rectf(
-    camera.get_translation() - Vector(1600, 1200),
-    camera.get_translation() + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
-                                                           static_cast<float>(SCREEN_HEIGHT)));
+    cam_translation - Vector(1600, 1200),
+    cam_translation + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
+                                                  static_cast<float>(SCREEN_HEIGHT)));
 }
 
 int
@@ -831,6 +832,10 @@ Sector::convert_tiles2gameobject()
             Vector pos = tm.get_tile_position(x, y) + tm_offset;
             try {
               auto object = GameObjectFactory::instance().create(tile.get_object_name(), pos, Direction::AUTO, tile.get_object_data());
+              
+              if (auto* moving_sprite = dynamic_cast<MovingSprite*>(object.get()))
+                moving_sprite->set_layer(tm.get_layer());
+              
               add_object(std::move(object));
               tm.change(x, y, 0);
             } catch(std::exception& e) {

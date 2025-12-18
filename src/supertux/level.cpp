@@ -54,7 +54,8 @@ Level::Level(bool worldmap) :
   m_skip_cutscene(false),
   m_icon(),
   m_icon_locked(),
-  m_wmselect_bkg()
+  m_wmselect_bkg(),
+  m_saving_in_progress(false)
 {
   s_current = this;
 
@@ -122,6 +123,7 @@ void
 Level::save(const std::string& filepath, bool retry)
 {
   //FIXME: It tests for directory in supertux/data, but saves into .supertux2.
+  log_info << "Attempting to save complete path \"" << filepath << "\"" << std::endl;
   try {
     { // make sure the level directory exists
       std::string dirname = FileSystem::dirname(filepath);
@@ -174,6 +176,8 @@ Level::save(const std::string& filepath, bool retry)
 void
 Level::save(Writer& writer)
 {
+  m_saving_in_progress = true;
+
   writer.start_list("supertux-level");
   // Starts writing to supertux level file. Keep this at the very beginning.
 
@@ -220,6 +224,8 @@ Level::save(Writer& writer)
 
   // Ends writing to supertux level file. Keep this at the very end.
   writer.end_list("supertux-level");
+
+  m_saving_in_progress = false;
 }
 
 std::string
@@ -241,7 +247,7 @@ Level::get_setting_name(Setting setting)
 }
 
 Level::Setting
-Level::get_setting_from_name(std::string setting)
+Level::get_setting_from_name(const std::string& setting)
 {
   if (setting == "on")
   {
@@ -303,18 +309,6 @@ Level::get_total_coins() const
       total_coins += obj->get_coins_worth();
   }
   return total_coins;
-}
-
-int
-Level::get_total_badguys() const
-{
-  int total_badguys = 0;
-  for (auto const& sector : m_sectors) {
-    total_badguys += sector->get_object_count<BadGuy>([] (const BadGuy& badguy) {
-      return badguy.m_countMe;
-    });
-  }
-  return total_badguys;
 }
 
 int

@@ -55,9 +55,13 @@ PneumaticPlatformChild::collision(MovingObject& other, const CollisionHit& )
   auto pl = dynamic_cast<Player*>(&other);
   if (pl) {
     if (pl->is_big()) m_contacts.insert(nullptr);
-    auto pomo = dynamic_cast<MovingObject*>(pl->get_grabbed_object());
-    assert(pomo);
-    m_contacts.insert(pomo);
+
+    auto grabbed_object = pl->get_grabbed_object();
+    if (grabbed_object) {
+      auto pomo = dynamic_cast<MovingObject*>(grabbed_object);
+      assert(pomo);
+      m_contacts.insert(pomo);
+    }
   }
 
   m_contacts.insert(&other);
@@ -157,8 +161,8 @@ PneumaticPlatform::get_settings()
   ObjectSettings result = GameObject::get_settings();
 
   result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", "images/objects/platforms/small.sprite");
-  result.add_float(_("X"), &m_pos.x, "x", 0.0f, OPTION_HIDDEN);
-  result.add_float(_("Y"), &m_pos.y, "y", 0.0f, OPTION_HIDDEN);
+  result.add_float(_("X"), &m_pos.x, "x", 0.0f, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
+  result.add_float(_("Y"), &m_pos.y, "y", 0.0f, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
 
   return result;
 }

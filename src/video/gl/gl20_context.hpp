@@ -41,6 +41,8 @@ public:
 
   virtual void set_colors(const float* data, size_t size) override;
   virtual void set_color(const Color& color) override;
+  
+  virtual void set_blur(int amount) override;
 
   virtual void bind_texture(const Texture& texture, const Texture* displacement_texture) override;
   virtual void bind_no_texture() override;

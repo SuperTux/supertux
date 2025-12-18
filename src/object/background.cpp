@@ -279,8 +279,8 @@ Background::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_float(_("X"), &m_pos.x, "x", 0.0f, OPTION_HIDDEN);
-  result.add_float(_("Y"), &m_pos.y, "y", 0.0f, OPTION_HIDDEN);
+  result.add_float(_("X"), &m_pos.x, "x", 0.0f, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
+  result.add_float(_("Y"), &m_pos.y, "y", 0.0f, OPTION_HIDDEN | OPTION_VISIBLE_PROPERTIES);
 
   result.add_bool(_("Fill"), &m_fill, "fill", false);
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);

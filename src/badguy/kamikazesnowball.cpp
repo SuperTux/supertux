@@ -159,7 +159,8 @@ LeafShot::collision_squished(MovingObject& object)
     return BadGuy::collision_squished(object);
   set_action("squished", m_dir);
   // Spawn death particles.
-  spawn_explosion_sprites(3, "images/particles/leafshot.sprite");
+  spawn_explosion_sprites(3, m_type == NORMAL ? "images/particles/viciousivy.sprite"
+                                              : "images/particles/rottenivy.sprite");
   kill_squished(object);
   return true;
 }
@@ -168,7 +169,8 @@ void
 LeafShot::kill_collision()
 {
   KamikazeSnowball::kill_collision();
-  spawn_explosion_sprites(3, "images/particles/leafshot.sprite");
+  spawn_explosion_sprites(3, m_type == NORMAL ? "images/particles/viciousivy.sprite"
+                                              : "images/particles/rottenivy.sprite");
 }
 
 /* EOF */

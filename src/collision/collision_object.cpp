@@ -24,6 +24,7 @@ CollisionObject::CollisionObject(CollisionGroup group, MovingObject& parent) :
   m_parent(parent),
   m_bbox(),
   m_group(group),
+  m_physic_hint(nullptr),
   m_movement(0.0f, 0.0f),
   m_dest(),
   m_unisolid(false),
@@ -87,6 +88,12 @@ CollisionObject::propagate_movement(const Vector& movement)
     m_ground_movement_manager->register_movement(*this, *other_object, movement);
     other_object->propagate_movement(movement);
   }
+}
+
+void
+CollisionObject::set_physic_hint(Physic& physic)
+{
+  m_physic_hint = &physic;
 }
 
 bool

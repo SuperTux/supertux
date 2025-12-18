@@ -22,6 +22,7 @@ namespace
 
 #include "badguy/boss.hpp"
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
@@ -41,7 +42,7 @@ Boss::Boss(const ReaderMapping& reader, const std::string& sprite_name, int laye
   reader.get("lives", m_lives, DEFAULT_LIVES);
   m_max_lives = m_lives;
 
-  m_countMe = true;
+  m_can_glint = false;
 
   reader.get("pinch-lives", m_pinch_lives, DEFAULT_PINCH_LIVES);
   reader.get("pinch-activation-script", m_pinch_activation_script, "");
@@ -67,7 +68,7 @@ Boss::draw(DrawingContext& context)
 void
 Boss::draw_hit_points(DrawingContext& context)
 {
-  if (m_hud_head)
+  if (m_hud_head && !Editor::is_active())
   {
     context.push_transform();
     context.set_translation(Vector(0, 0));
@@ -91,19 +92,23 @@ Boss::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_text("hud-icon", &m_hud_icon, "hud-icon", "images/creatures/yeti/hudlife.png", OPTION_HIDDEN);
-  result.add_int(_("Lives"), &m_lives, "lives", DEFAULT_LIVES);
+  result.add_text("hud-icon", &m_hud_icon, "hud-icon", "images/creatures/yeti/hudlife.png", OPTION_HIDDEN)
+    ->set_description(_("The icon that is displayed at the top indicating how many lives this boss has left"));
+  result.add_int(_("Lives"), &m_lives, "lives", DEFAULT_LIVES)
+    ->set_description(_("The maximum number of lives this boss has"));
 
   /* l10n: Pinch Mode refers to a particular boss mode that gets
      activated once the boss has lost the specified amounts of lives.
      This setting specifies how many lives need to be spent until pinch
      mode is activated. */
-  result.add_int(_("Lives to Pinch Mode"), &m_pinch_lives, "pinch-lives", DEFAULT_PINCH_LIVES);
+  result.add_int(_("Lives to Pinch Mode"), &m_pinch_lives, "pinch-lives", DEFAULT_PINCH_LIVES)
+    ->set_description(_("Specifies how many lives need to be spent until pinch mode (a special boss mode) is activated"));
 
   /* l10n: Pinch Mode refers to a particular boss mode that gets
     activated once the boss has lost the specified amounts of lives.
     This setting specifies the squirrel script that gets run to activate boss mode.  */
-  result.add_script(_("Pinch Mode Activation Script"), &m_pinch_activation_script, "pinch-activation-script");
+  result.add_script(get_uid(), _("Pinch Mode Activation Script"), &m_pinch_activation_script, "pinch-activation-script")
+    ->set_description(_("The script that gets run when pinch mode is activated"));
 
   return result;
 }

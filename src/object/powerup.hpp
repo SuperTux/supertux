@@ -18,6 +18,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
+#include "video/layer.hpp"
 
 class PowerUp : public MovingSprite
 {
@@ -38,7 +39,7 @@ public:
 
 public:
   PowerUp(const ReaderMapping& mapping);
-  PowerUp(const Vector& pos, int type);
+  PowerUp(const Vector& pos, int type, int layer = LAYER_OBJECTS);
 
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;

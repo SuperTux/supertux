@@ -22,10 +22,11 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 
-Flower::Flower(BonusType _type, const std::string& custom_sprite) :
+Flower::Flower(BonusType _type, const std::string& custom_sprite, int layer) :
   type(_type),
   sprite(),
   flip(NO_FLIP),
+  m_layer(layer),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   m_col.m_bbox.set_size(32, 32);
@@ -65,7 +66,7 @@ Flower::update(float )
 void
 Flower::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS, flip);
+  sprite->draw(context.color(), get_pos(), m_layer, flip);
   lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 

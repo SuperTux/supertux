@@ -40,7 +40,6 @@ BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d, float x_vel) 
   m_turn_around_timer(),
   m_turn_around_counter()
 {
-  m_countMe = false;
   m_x_speed = x_vel;
 }
 
@@ -131,14 +130,15 @@ BouncingSnowball::collision_squished(MovingObject& object)
 void
 BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
-  if (m_sprite->get_action() == "squished")
-    return;
-
-  if (m_frozen)
+  if (m_frozen || !is_active())
   {
     BadGuy::collision_solid(hit);
     return;
   }
+
+  if (m_sprite->get_action() == "squished")
+    return;
+
 
   if (hit.bottom) {
     if (get_state() == STATE_ACTIVE) {

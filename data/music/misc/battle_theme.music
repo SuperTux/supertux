@@ -1,5 +1,8 @@
 (supertux-music
   (file "battle_theme.ogg")
+  (authors "remaxim")
+  (license "CC-BY-SA 3.0 / GPL 2+")
+  (title "Battle Theme")
   (loop-begin 30)
   (loop-at    200)
 )

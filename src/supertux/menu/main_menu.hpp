@@ -32,6 +32,8 @@ public:
 
 private:
   enum MainMenuIDs {
+    MNID_WORLDSET_STORY,
+    MNID_WORLDSET_CONTRIB,
     MNID_LEVELEDITOR,
     MNID_CREDITS,
     MNID_DONATE,
