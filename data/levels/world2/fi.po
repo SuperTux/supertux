@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2025-12-17 08:18+0000\n"
 "PO-Revision-Date: 2013-08-10 23:00+0000\n"
 "Last-Translator: Jaakko Muilu, 2025\n"
 "Language-Team: Finnish (http://app.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -82,7 +82,7 @@ msgstr "Mitä tapahtuu?"
 
 #: data/levels/world2/ghostly_misery.stl:3
 msgid "Ghostly Misery"
-msgstr "Kärsimystä kummituksilta"
+msgstr "Kurjuutta kummituksilta"
 
 #: data/levels/world2/ghosttrees_challenges.stl:3
 msgid "Ghosttree's Challenges"
@@ -90,7 +90,7 @@ msgstr "Kummituspuun haasteet"
 
 #: data/levels/world2/ghouls_lair.stl:3
 msgid "Ghouls' Lair"
-msgstr "Aaveiden kammio"
+msgstr "Aaveiden luola"
 
 #: data/levels/world2/ghouls_lair.stl:859
 msgid ""
@@ -178,7 +178,7 @@ msgid ""
 "!images/objects/rock/rock.png\n"
 "#Tux can pick up certain objects and carry them around.\n"
 "#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Kannettavat esineet:\n!images/objects/rock/rock.png\n#Tux voi poimia ja kantaa tiettyjä esineitä.\n#Poimi esine painamalla toimintanäppäintä ja pidä pohjassa niin kauan kuin haluat kantaa esinettä. Pudota esine päästämällä toimintanäppäimestä."
+msgstr "-Kannettavat esineet:\n!images/objects/rock/rock.png\n#Tux voi poimia ja kantaa tiettyjä esineitä.\n#Poimi esine painamalla toimintanäppäintä ja pidä pohjassa niin kauan kuin haluat kantaa esinettä. Pudota esine vapauttamalla toimintanäppäintä."
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"
