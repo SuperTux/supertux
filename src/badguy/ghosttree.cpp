@@ -281,7 +281,7 @@ GhostTree::set_state(MyState new_state) {
 
     case STATE_IDLE:
       m_glowing = false;
-      set_action(m_attack == ATTACK_PINCH ? "idle-pinch" : "idle");
+      set_action(m_pinch_mode ? "idle-pinch" : "idle");
       m_attack = ATTACK_NORMAL;
       m_attack_pos = get_attack_pos();
       start_attack();
@@ -314,7 +314,7 @@ GhostTree::set_state(MyState new_state) {
 
     case STATE_SPITTING:
       m_glowing = true;
-      set_action(m_attack == ATTACK_PINCH ? "scream-pinch" : "scream");
+      set_action(m_pinch_mode ? "scream-pinch" : "scream");
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       m_attack_pos = get_attack_pos();
       break;
@@ -326,10 +326,10 @@ GhostTree::set_state(MyState new_state) {
 
     case STATE_RECHARGING:
       m_glowing = true;
-      set_action(m_attack == ATTACK_PINCH ? "charge-pinch" : "charge");
+      set_action(m_pinch_mode ? "charge-pinch" : "charge");
       m_col.set_unisolid(true);
       m_state_timer.start(1);
-      m_willo_to_spawn = m_attack == ATTACK_PINCH ? 9 : 3;
+      m_willo_to_spawn = m_pinch_mode ? 9 : 3;
       break;
 
     case STATE_DEAD:
@@ -446,8 +446,12 @@ GhostTree::collision_squished(MovingObject& object)
     set_state(STATE_DEAD);
     return true;
   }
+  else if (m_lives <= m_pinch_lives)
+  {
+    m_pinch_mode = true;
+  }
   
-  if (m_attack == ATTACK_PINCH) {
+  if (m_pinch_mode) {
     while (m_willo_to_spawn--) {
       spawn_willowisp(m_willo);
       rotate_willo_color();
