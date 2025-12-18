@@ -661,11 +661,11 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
   std::unique_ptr<MovingObject> obj;
   if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
   {
-    obj = std::make_unique<GrowUp>(get_pos(), dir, growup_sprite);
+    obj = std::make_unique<GrowUp>(get_pos(), dir, growup_sprite, m_layer - 1);
   }
   else
   {
-    obj = std::make_unique<Flower>(bonus, flower_sprite);
+    obj = std::make_unique<Flower>(bonus, flower_sprite, m_layer - 1);
   }
 
   Sector::get().add<SpecialRiser>(get_pos(), std::move(obj));
@@ -678,12 +678,13 @@ BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bo
 {
   if (player->get_status().bonus[player->get_id()] == BONUS_NONE)
   {
-    Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir, growup_sprite);
+    Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir, growup_sprite, m_layer - 1);
   }
   else
   {
-    Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), type);
+    Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), type, m_layer - 1);
   }
+
   SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
   countdown = true;
 }
