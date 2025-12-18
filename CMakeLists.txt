@@ -263,8 +263,33 @@ else()
   option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" OFF)
 endif()
 
+# Apply pre-compiled headers for faster compilation
 if(SUPERTUX_PCH)
-  target_precompile_headers(supertux2 PRIVATE ${SUPERTUX_HEADERS})
+  target_precompile_headers(supertux2 PRIVATE
+    # Standard library headers
+    <string>
+    <vector>
+    <memory>
+    <algorithm>
+    # GLM library headers
+    <glm/glm.hpp>
+    <glm/ext.hpp>
+    <glm/gtx/io.hpp>
+    # Project headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/math/sizef.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/editor/object_option.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/game_object.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/object/path_walker.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/editor/object_settings.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/moving_object.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/badguy/badguy.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/gui/menu.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/object/moving_sprite.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/sector_base.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/sector.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/game_object_manager.hpp"
+  )
 endif()
 
 target_include_directories(supertux2 PUBLIC ${CMAKE_BINARY_DIR} src/)
