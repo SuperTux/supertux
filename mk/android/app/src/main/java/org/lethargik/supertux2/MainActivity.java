@@ -28,17 +28,14 @@ public class MainActivity extends SDLActivity {
 
     @Override
     protected String[] getLibraries() {
-        return new String[] {
-            "SDL2",
-            "SDL2_image",
-            "SDL2_ttf",
-            "supertux2"
-        };
+        return new String[] {"supertux2"};
     }
+
     @Override
     protected String getMainSharedObject() {
         return "libsupertux2.so";
     }
+
     @Override
     protected String getMainFunction() {
         return "SDL_main";

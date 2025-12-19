@@ -469,7 +469,7 @@ SDLSubsystem::SDLSubsystem()
   Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
 
 #if SDL_VERSION_ATLEAST(2,0,22) && (defined(__linux) || defined(__linux__) || defined(linux) || defined(__FreeBSD) || \
-    defined(__OPENBSD) || defined(__NetBSD)) && !defined(STEAM_BUILD)
+    defined(__OPENBSD) || defined(__NetBSD)) && !defined(STEAM_BUILD) && !defined(ANDROID)
   /* See commit 254fcc9 for SDL. Most of the Nvidia problems are knocked out (i
    * think) for now thanks to nvidia's open drivers. Wayland is needed for
    * precision scrolling to work (which is used for the editor) and most distros
@@ -774,8 +774,6 @@ Main::run(int argc, char** argv)
     m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, args.userdir));
 #endif
     m_physfs_subsystem->print_search_path();
-
-    m_sdl_subsystem.reset(new SDLSubsystem());
 
     s_timelog.log("config");
     m_config_subsystem.reset(new ConfigSubsystem());

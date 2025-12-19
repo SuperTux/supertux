@@ -8,22 +8,23 @@ else {
 }
 
 android {
-    compileSdkVersion 35
+    compileSdkVersion 36
     defaultConfig {
         if (buildAsApplication) {
             applicationId "org.lethargik.supertux2"
         }
         minSdkVersion 21
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode 7000
         versionName "0.7.0"
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_APP_PLATFORM=android-35",
+                arguments "-DANDROID_APP_PLATFORM=android-" + android.compileSdk.toString(),
                           "-DCMAKE_TOOLCHAIN_FILE=${rootDir}/app/jni/vcpkg-chainload.cmake",
                           "-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=${android.ndkDirectory}/build/cmake/android.toolchain.cmake",
                           "-DVCPKG_MANIFEST_MODE=OFF",
                           "-DENABLE_OPENGL=OFF",
+                          "-DANDROID_ALLOW_UNDEFINED_SYMBOLS=ON", // Literally what the fuck
                           "--log-level", "TRACE",
                           "-Wno-dev"
                 abiFilters rootProject.ext.cpuarch as String[]

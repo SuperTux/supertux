@@ -343,8 +343,7 @@ if(NOT EMSCRIPTEN)
 endif()
 
 if(ANDROID)
-  find_library(log-lib log)
-  target_link_libraries(supertux2 PUBLIC ${log-lib})
+  target_link_libraries(supertux2 PUBLIC OpenSLES log)
 endif()
 
 ## Install stuff
@@ -354,21 +353,24 @@ include(SuperTux/BuildInstall)
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 
 # Make android data.zip
-if(ANDROID AND NOT EXISTS "${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip")
-  get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
-  if(NOT EXISTS ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
-    file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
-  endif()
-  file(GLOB DATA_CONTENTS RELATIVE ${DATADIR} ${DATADIR}/*)
-  message("DATA: ${DATA_CONTENTS}")
-  #file(ARCHIVE_CREATE OUTPUT ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
-  execute_process(COMMAND ${CMAKE_COMMAND} -E tar "cfv"
-    "${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip"
-    --format=zip
-    ${DATA_CONTENTS}
+if(ANDROID)
+  set(ANDROID_PROJECT_DIR "${PROJECT_SOURCE_DIR}/build.android/" CACHE PATH
+          "Path to the root of the root of the android project")
+  if(NOT EXISTS "${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip")
+    get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
+    if(NOT EXISTS ${ANDROID_PROJECT_DIR}/app/src/main/assets)
+      file(MAKE_DIRECTORY ${ANDROID_PROJECT_DIR}/app/src/main/assets)
+    endif()
+    file(GLOB DATA_CONTENTS RELATIVE ${DATADIR} ${DATADIR}/*)
+    #file(ARCHIVE_CREATE OUTPUT ${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E tar "cfv"
+            "${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip"
+            --format=zip
+            ${DATA_CONTENTS}
 
-    WORKING_DIRECTORY ${DATADIR}
-  )
+            WORKING_DIRECTORY ${DATADIR}
+    )
+  endif()
 endif()
 
 ## Build tests

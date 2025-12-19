@@ -1,3 +1,5 @@
+message(STATUS "ANDROID_ABI: ${ANDROID_ABI}")
+
 if(ANDROID_ABI STREQUAL "arm64-v8a")
   set(VCPKG_TARGET_TRIPLET "arm64-android")
 elseif(ANDROID_ABI STREQUAL "armeabi-v7a")
