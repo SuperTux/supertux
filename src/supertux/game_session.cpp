@@ -36,6 +36,7 @@
 #include "sdk/integration.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -527,7 +528,7 @@ GameSession::draw(Compositor& compositor)
   if (m_game_pause)
     draw_pause(context);
 
-  if (g_config->show_game_timer)
+  if (g_config->show_game_timer && !g_debug.hide_player_hud)
     draw_timer(context);
 }
 
@@ -1050,6 +1051,8 @@ GameSession::draw_timer(DrawingContext& context) const
     << std::setw(3) << ms;
 
   context.color().draw_text(Resources::normal_bitmap_font, out.str(),
-                            Vector(context.get_width() / 2, 20.f),
+                            Vector(context.get_width() / 2
+                                     + (m_currentsector->get_object_count<LevelTime>() > 0 ? context.get_width() * 0.10f : 0),
+                                   20.f),
                             ALIGN_CENTER, LAYER_HUD);
 }
