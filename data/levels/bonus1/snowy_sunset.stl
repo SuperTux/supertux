@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -68,16 +67,19 @@
       (z-pos 50)
       (x 784)
       (y 672)
+      (glinting #f)
     )
     (captainsnowball
       (z-pos 50)
       (x 2864)
       (y 864)
+      (glinting #f)
     )
     (captainsnowball
       (z-pos 50)
       (x 4448)
       (y 1088)
+      (glinting #f)
     )
     (climbable
       (width 32)
@@ -271,16 +273,19 @@
       (z-pos 50)
       (x 1200)
       (y 1928)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 1880)
       (y 1536)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 4144)
       (y 1424)
+      (glinting #f)
     )
     (door
       (z-pos 1)
@@ -301,6 +306,7 @@
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #t)
       (x 4608)
       (y 1536)
     )
@@ -356,11 +362,13 @@
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (x 928)
       (y 1424)
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (x 3360)
       (y 1472)
     )
@@ -386,11 +394,13 @@
       (z-pos 50)
       (x 752)
       (y 512)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 2272)
       (y 968)
+      (glinting #f)
     )
     (key
       (z-pos 50)
@@ -754,6 +764,7 @@
       (z-pos 50)
       (x 2624)
       (y 992)
+      (glinting #t)
     )
     (spawnpoint
       (name "main")
@@ -966,11 +977,13 @@
       (z-pos 50)
       (x 3360)
       (y 512)
+      (glinting #f)
     )
     (captainsnowball
       (z-pos 50)
       (x 3424)
       (y 512)
+      (glinting #f)
     )
     (climbable
       (width 32)
@@ -1191,16 +1204,19 @@
       (z-pos 50)
       (x 288)
       (y 1728)
+      (glinting #t)
     )
     (dive-mine
       (z-pos 50)
       (x 1872)
       (y 1312)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 5056)
       (y 1536)
+      (glinting #f)
     )
     (door
       (z-pos 1)
@@ -1225,6 +1241,7 @@
     )
     (fish-chasing
       (z-pos 50)
+      (glinting #f)
       (x 1200)
       (y 1616)
     )
@@ -1270,17 +1287,20 @@
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (x 2400)
       (y 1168)
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (radius 80)
       (x 432)
       (y 1568)
     )
     (fish-swimming
       (z-pos 50)
+      (glinting #f)
       (x 4624)
       (y 1520)
     )
@@ -1293,11 +1313,13 @@
       (z-pos 50)
       (x 1184)
       (y 864)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 6064)
       (y 864)
+      (glinting #t)
     )
     (music
       (file "/music/misc/calm_ocean.music")
@@ -1367,6 +1389,7 @@
       (z-pos 50)
       (x 5728)
       (y 1056)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")

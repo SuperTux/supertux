@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "Glacier Danger"))
+  (name (_ "(REPLACE - GLACIER DANGER)"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (target-time 50)
@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector

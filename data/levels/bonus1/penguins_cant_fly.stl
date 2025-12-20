@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
