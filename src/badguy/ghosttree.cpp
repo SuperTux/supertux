@@ -408,7 +408,7 @@ GhostTree::willowisp_suck_finished(TreeWillOWisp* willowisp)
     case STATE_ATTACKING:
       willowisp->vanish();
       m_willowisps.erase(std::remove_if(m_willowisps.begin(), m_willowisps.end(),
-                         [willowisp](TreeWillOWisp* w) -> bool {
+                         [willowisp](const TreeWillOWisp* w) -> bool {
                            return w == willowisp;
                          }));
       break;
