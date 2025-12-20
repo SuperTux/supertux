@@ -311,6 +311,7 @@ Tarantula::draw(DrawingContext& context)
 
   if (BadGuy::get_state() == STATE_FALLING ||
       BadGuy::get_state() == STATE_SQUISHED ||
+      BadGuy::get_state() == STATE_SQUISHED_FADING_OUT ||
       Editor::is_active())
     return;
 
