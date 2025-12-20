@@ -55,7 +55,7 @@
 
 static const float SAFE_TIME = 1.0f;
 static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
-static const float TELEPORT_FADE_TIME = 1.0f;
+static const float TELEPORT_FADE_TIME = 0.75f;
 
 
 GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
@@ -164,7 +164,7 @@ GameSession::on_player_added(int id)
 
   if (player_status->m_num_players <= id)
     player_status->add_player();
-  
+
 
   // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
   auto& player = m_currentsector->add<Player>(*player_status, "Tux" + std::to_string(id + 1), id);
@@ -229,11 +229,11 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     if (FileSystem::dirname(m_levelfile) == "./") {
       m_levelfile = FileSystem::basename(m_levelfile);
     }
-    
+
 	// TODO: We currently storage the level as a stringstream, not ideal.
 	// Level was passed as an argument (likely from the editor)
 	// if (m_level == nullptr && !m_levelfile.empty())
-	
+
 	if (!m_levelstream)
       m_level_storage = LevelParser::from_file(m_levelfile, false, false);
 	else
@@ -242,7 +242,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 	  m_levelstream->seekg(0, std::ios::beg);
 	  m_level_storage = LevelParser::from_stream(*m_levelstream, "", false, false);
 	}
-	
+
 	m_level = m_level_storage.get();
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
@@ -311,7 +311,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     const Vector shrinkpos = get_fade_point();
     ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER,  ShrinkFade::FADEIN));
   }
-  
+
   if (!preserve_music)
   {
     auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
