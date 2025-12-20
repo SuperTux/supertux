@@ -1,5 +1,8 @@
 (supertux-music
   (file "shallow-green.ogg")
+  (authors "Jason Lavallée")
+  (license "CC-BY-SA / GPL 2+")
+  (title "Forest Stroll")
   (loop-begin 0)
   (loop-at    255)
 )

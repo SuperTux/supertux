@@ -1,5 +1,8 @@
 (supertux-music
   (file "theme.ogg")
+  (authors "Marek \"Wansti\" Moeckel")
+  (license "CC-BY-SA / GPL 2+")
+  (title "SuperTux Theme (Milestone 2 Version)")
   (loop-begin 9)
   (loop-at    135)
 )

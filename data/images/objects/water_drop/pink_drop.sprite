@@ -8,7 +8,7 @@
  (action
   (name "splash")
   (fps 15.0)
-  (hitbox 64 16 32 32)
+  (hitbox 14 -10 32 32)
   (images "pink-splash-0.png"
           "pink-splash-1.png"
           "pink-splash-2.png"

@@ -40,8 +40,8 @@ PowerUp::PowerUp(const ReaderMapping& mapping) :
   initialize();
 }
 
-PowerUp::PowerUp(const Vector& pos, int type) :
-  MovingSprite(pos, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
+PowerUp::PowerUp(const Vector& pos, int type, int layer) :
+  MovingSprite(pos, "images/powerups/egg/egg.sprite", layer, COLGROUP_MOVING),
   physic(),
   script(),
   no_physics(false),

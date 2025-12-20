@@ -32,6 +32,7 @@ public:
   static std::string display_name() { return _("Mr. Tree"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual GameObjectClasses get_class_types() const override { return WalkingBadguy::get_class_types().add(typeid(MrTree)); }
+  int get_coins_worth() const override;
 
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;

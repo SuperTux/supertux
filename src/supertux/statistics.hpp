@@ -45,7 +45,6 @@ private:
 
 public:
   static std::string coins_to_string(int coins, int total_coins);
-  static std::string frags_to_string(int badguys, int total_badguys);
   static std::string secrets_to_string(int secrets, int total_secrets);
   static std::string time_to_string(float time);
 
@@ -62,7 +61,6 @@ public:
 
   public:
     bool enable_coins;
-    bool enable_badguys;
     bool enable_secrets;
   };
 
@@ -98,21 +96,18 @@ public:
 
   inline int get_coins() const { return m_coins; }
   inline int get_tuxdolls() const { return m_tuxdolls; }
-  inline int get_badguys() const { return m_badguys; }
   inline int get_secrets() const { return m_secrets; }
   inline float get_time() const { return m_time; }
   inline Status get_status() const { return m_status; }
 
   inline void increment_coins() { m_coins++; check_coins(); }
   inline void increment_tuxdolls() { m_tuxdolls++; }
-  inline void increment_badguys() { m_badguys++; check_badguys(); }
   inline void increment_secrets() { m_secrets++; check_secrets(); }
 
 private:
   void calculate_max_caption_length();
 
   void check_coins();
-  void check_badguys();
   void check_secrets();
 
 private:
@@ -120,23 +115,19 @@ private:
 
 public:
   int m_total_coins; /**< coins in level */
-  int m_total_badguys; /**< (vincible) badguys in level */
   int m_total_secrets; /**< secret areas in level */
 
 private:
   int m_coins; /**< coins collected */
   int m_tuxdolls; /**< tuxdolls collected */
-  int m_badguys; /**< badguys actively killed */
   int m_secrets; /**< secret areas found */
 
   float m_time; /**< seconds needed */
 
   bool m_cleared_coins,
-       m_cleared_badguys,
        m_cleared_secrets;
 
   float m_coins_time,
-        m_badguys_time,
         m_secrets_time;
 
   Preferences m_preferences;
@@ -158,7 +149,6 @@ private:
   float WMAP_INFO_TOP_Y2;
 
   SurfacePtr coin_icon;
-  SurfacePtr badguy_icon;
   SurfacePtr secret_icon;
 
 private:

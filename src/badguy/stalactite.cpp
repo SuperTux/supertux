@@ -41,7 +41,6 @@ Stalactite::Stalactite(const ReaderMapping& mapping) :
   if (m_type != StalactiteType::ICE)
     after_editor_set();
 
-  m_countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/cracking.wav");
   SoundManager::current()->preload("sounds/sizzle.ogg");

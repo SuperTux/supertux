@@ -27,7 +27,7 @@ public:
   enum Direction { FADEOUT, FADEIN };
 
 public:
-  ShrinkFade(const Vector& point, float fade_time, int draw_layer = LAYER_GUI + 1, Direction = FADEOUT);
+  ShrinkFade(const Vector& point, float fade_time, int draw_layer = LAYER_GUI + 1, Direction = FADEOUT, bool force_fade = true);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -41,6 +41,7 @@ private:
   float m_accum_time;
   float m_initial_size;
   Direction m_direction;
+  bool m_force_fade;
 
 private:
   ShrinkFade(const ShrinkFade&) = delete;

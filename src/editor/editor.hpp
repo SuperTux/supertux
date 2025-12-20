@@ -70,14 +70,6 @@ private:
     return is_autosave_file(filename) ? filename : filename + "~";
   }
 
-private:
-  enum arrow_key {
-    KEY_LEFT  = 1,
-    KEY_RIGHT = 1<<1,
-    KEY_UP    = 1<<2,
-    KEY_DOWN  = 1<<3
-  };
-
 public:
   static bool s_resaving_in_progress;
 
@@ -127,7 +119,9 @@ public:
     m_levelfile = levelfile;
     m_reload_request = true;
   }
-  bool save_level(const std::string& filename = "", bool switch_file = false);
+  bool save_level(const std::string& filename = "", bool switch_file = false, const std::function<void ()>& post_save = nullptr);
+
+  void trigger_post_save();
 
   std::string get_level_directory() const;
 
@@ -273,6 +267,7 @@ private:
   std::optional<std::pair<std::string, Vector>> m_last_test_pos;
   std::vector<std::unique_ptr<Widget> > m_widgets;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
+  std::function<void ()> m_post_save;
 
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
@@ -289,7 +284,6 @@ private:
   float m_scroll_speed;
   float m_new_scale;
   bool m_move_locked;
-  uint8_t m_arrow_keys;
 
   Vector m_mouse_pos;
 

@@ -148,6 +148,7 @@ Editor::Editor() :
   m_has_deprecated_tiles(false),
   m_widgets(),
   m_controls(),
+  m_post_save(nullptr),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_toolbar_widget(),
@@ -159,8 +160,6 @@ Editor::Editor() :
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f),
   m_new_scale(0.f),
-  m_move_locked(false),
-  m_arrow_keys(0),
   m_mouse_pos(0.f, 0.f),
   m_layers_widget_needs_refresh(false),
   m_script_manager(),
@@ -516,10 +515,12 @@ Editor::remove_autosave_file()
 }
 
 bool
-Editor::save_level(const std::string& filename, bool switch_file)
+Editor::save_level(const std::string& filename, bool switch_file, const std::function<void ()>& post_save)
 {
   if (m_temp_level && !m_save_temp_level)
   {
+    if (post_save)
+      m_post_save = post_save;
     MenuManager::instance().set_menu(MenuStorage::EDITOR_TEMP_SAVE_MENU);
     return false;
   }
@@ -547,6 +548,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
   auto notif = std::make_unique<Notification>("save_level_notif", 3.f);
   notif->set_text(_("Level saved!"));
   MenuManager::instance().set_notification(std::move(notif));
+  trigger_post_save();
   return true;
 }
 
@@ -678,10 +680,15 @@ Editor::update_keyboard(const Controller& controller)
   if (MenuManager::instance().is_active() || MenuManager::instance().has_dialog())
     return;
 
+  const Uint8* keys = nullptr;
+  keys = SDL_GetKeyboardState(nullptr);
+  assert(keys != nullptr);
+
   if (controller.pressed(Control::ESCAPE)) {
     esc_press();
     return;
   }
+
   if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
   {
     m_enabled = false;
@@ -690,23 +697,20 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  if (!m_move_locked)
-  {
-    if (controller.hold(Control::LEFT) || (m_arrow_keys & KEY_LEFT) == KEY_LEFT) {
-      scroll({ -m_scroll_speed, 0.0f });
-    }
+  if (controller.hold(Control::LEFT) || keys[SDL_SCANCODE_LEFT]) {
+    scroll({ -m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::RIGHT) || (m_arrow_keys & KEY_RIGHT) == KEY_RIGHT) {
-      scroll({ m_scroll_speed, 0.0f });
-    }
+  if (controller.hold(Control::RIGHT) || keys[SDL_SCANCODE_RIGHT]) {
+    scroll({ m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::UP) || (m_arrow_keys & KEY_UP) == KEY_UP) {
-      scroll({ 0.0f, -m_scroll_speed });
-    }
+  if (controller.hold(Control::UP) || keys[SDL_SCANCODE_UP]) {
+    scroll({ 0.0f, -m_scroll_speed });
+  }
 
-    if (controller.hold(Control::DOWN) || (m_arrow_keys & KEY_DOWN) == KEY_DOWN) {
-      scroll({ 0.0f, m_scroll_speed });
-    }
+  if (controller.hold(Control::DOWN) || keys[SDL_SCANCODE_DOWN]) {
+    scroll({ 0.0f, m_scroll_speed });
   }
 }
 
@@ -871,9 +875,20 @@ Editor::reset_level()
   m_sector = nullptr;
 
   m_reload_request = false;
+  //m_post_save = nullptr;
 
   MouseCursor::current()->set_icon(nullptr);
   set_level(nullptr, true);
+}
+
+void
+Editor::trigger_post_save()
+{
+  if (m_post_save)
+  {
+    m_post_save();
+    m_post_save = nullptr;
+  }
 }
 
 void
@@ -936,7 +951,7 @@ Editor::has_unsaved_changes()
 void
 Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
-  if (!m_levelloaded || m_temp_level)
+  if (!m_levelloaded)
   {
     action();
     return;
@@ -946,12 +961,14 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
   {
     m_enabled = false;
     auto dialog = std::make_unique<Dialog>();
-    dialog->set_text(g_config->editor_undo_tracking ? _("This level contains unsaved changes, do you want to save?") :
-                                                      _("This level may contain unsaved changes, do you want to save?"));
+    if (m_temp_level)
+      dialog->set_text(_("This level hasn't been saved yet. Do you want to save it instead?"));
+    else
+      dialog->set_text(g_config->editor_undo_tracking ? _("This level contains unsaved changes, do you want to save?") :
+                                                        _("This level may contain unsaved changes, do you want to save?"));
     dialog->add_default_button(_("Yes"), [this, action] {
       check_save_prerequisites([this, action] {
-        save_level();
-        action();
+        save_level("", false, action);
         m_enabled = true;
       });
     });
@@ -1130,6 +1147,7 @@ Editor::reactivate()
 
   m_leveltested = false;
   Tile::draw_editor_images = true;
+
   m_level->reactivate();
 
   m_sector->activate(Vector(0,0));
@@ -1154,7 +1172,6 @@ Editor::on_window_resize()
 void
 Editor::event(const SDL_Event& ev)
 {
-  m_move_locked = false;
   if (!m_enabled || !m_levelloaded ||
       MenuManager::current()->is_active() || MenuManager::current()->has_dialog()) return;
 
@@ -1200,22 +1217,6 @@ Editor::event(const SDL_Event& ev)
         m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
         m_alt_pressed = ev.key.keysym.mod & KMOD_ALT;
 
-        switch (ev.key.keysym.sym)
-        {
-          case SDLK_UP:
-            m_arrow_keys |= KEY_UP;
-            break;
-          case SDLK_DOWN:
-            m_arrow_keys |= KEY_DOWN;
-            break;
-          case SDLK_LEFT:
-            m_arrow_keys |= KEY_LEFT;
-            break;
-          case SDLK_RIGHT:
-            m_arrow_keys |= KEY_RIGHT;
-            break;
-        }
-
         if (m_ctrl_pressed)
           m_scroll_speed = 16.0f;
         else if (ev.key.keysym.mod & KMOD_RSHIFT)
@@ -1228,7 +1229,6 @@ Editor::event(const SDL_Event& ev)
         }
         else if (m_ctrl_pressed)
         {
-          m_move_locked = true;
           switch (ev.key.keysym.sym)
           {
             case SDLK_t:
@@ -1278,8 +1278,6 @@ Editor::event(const SDL_Event& ev)
               m_new_scale = 1.f;
               break;
             default:
-              // i.e. just ctrl held; invert it back
-              m_move_locked = false;
               break;
           }
         }
@@ -1289,22 +1287,6 @@ Editor::event(const SDL_Event& ev)
         m_ctrl_pressed = ev.key.keysym.mod & KMOD_CTRL;
         m_shift_pressed = ev.key.keysym.mod & KMOD_SHIFT;
         m_alt_pressed = ev.key.keysym.mod & KMOD_ALT;
-
-        switch (ev.key.keysym.sym)
-        {
-          case SDLK_UP:
-            m_arrow_keys ^= KEY_UP;
-            break;
-          case SDLK_DOWN:
-            m_arrow_keys ^= KEY_DOWN;
-            break;
-          case SDLK_LEFT:
-            m_arrow_keys ^= KEY_LEFT;
-            break;
-          case SDLK_RIGHT:
-            m_arrow_keys ^= KEY_RIGHT;
-            break;
-        }
 
         if (!m_ctrl_pressed && !(ev.key.keysym.mod & KMOD_RSHIFT))
           m_scroll_speed = 32.0f;

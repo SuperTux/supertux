@@ -37,10 +37,18 @@ GranitoBig::collision_player(Player& player, const CollisionHit& hit)
   return FORCE_MOVE;
 }
 
+HitResponse GranitoBig::collision(MovingObject& other, const CollisionHit& hit)
+{
+  // Prevent from triggering the collision logic of small granitos
+   return FORCE_MOVE;
+}
+
 void
 GranitoBig::active_update(float dt_sec)
 {
   Granito::active_update(dt_sec);
+
+  m_col.propagate_movement(m_physic.get_movement(dt_sec));
 
   if (!m_carrying)
     return;

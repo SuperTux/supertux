@@ -21,13 +21,14 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-ShrinkFade::ShrinkFade(const Vector& dest, float fade_time, int draw_layer, Direction direction) :
+ShrinkFade::ShrinkFade(const Vector& dest, float fade_time, int draw_layer, Direction direction, bool force_fade) :
   m_draw_layer(draw_layer),
   m_dest(dest),
   m_fade_time(fade_time),
   m_accum_time(0),
   m_initial_size(static_cast<float>(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_HEIGHT : SCREEN_WIDTH)),
-  m_direction(direction)
+  m_direction(direction),
+  m_force_fade(force_fade)
 {
 }
 
@@ -43,9 +44,15 @@ void
 ShrinkFade::draw(DrawingContext& context)
 {
   float progress = m_accum_time / m_fade_time;
+  if (m_force_fade)
+    context.set_alpha((m_direction == FADEIN ? (1.0f - progress) : progress));
+
   float diameter = 2 * m_initial_size * (m_direction == FADEOUT ? (1.0f - progress) : progress);
   context.color().draw_inverse_ellipse(m_dest, Vector(1.1f * diameter, diameter),
                                          Color(0, 0, 0), m_draw_layer);
+
+  if (m_force_fade)
+    context.set_alpha(1.f);
 }
 
 bool

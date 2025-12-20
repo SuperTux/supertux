@@ -256,15 +256,76 @@ include(SuperTux/CompileAmalgation)
 add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 target_compile_features(supertux2 PUBLIC cxx_std_17)
 
-# Pre-compiled headers
-if(IS_SUPERTUX_RELEASE)
-  option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" ON)
-else()
-  option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" OFF)
-endif()
+option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" ${IS_SUPERTUX_RELEASE})
 
+## Apply pre-compiled headers for faster compilation
 if(SUPERTUX_PCH)
-  target_precompile_headers(supertux2 PRIVATE ${SUPERTUX_HEADERS})
+  message(STATUS "Setting pre-compiled headers")
+  set(proj_headers
+    "src/audio/sound_manager.hpp"
+    "src/control/input_manager.hpp"
+    "src/math/anchor_point.hpp"
+    "src/math/vector.hpp"
+    "src/math/size.hpp"
+    "src/math/sizef.hpp"
+    "src/math/util.hpp"
+    "src/editor/object_option.hpp"
+    "src/object/path_walker.hpp"
+    "src/object/player.hpp"
+    "src/object/spawnpoint.hpp"
+    "src/object/camera.hpp"
+    "src/sprite/sprite.hpp"
+    "src/editor/object_settings.hpp"
+    "src/badguy/badguy.hpp"
+    "src/gui/menu.hpp"
+    "src/gui/menu_manager.hpp"
+    "src/util/log.hpp"
+    "src/util/file_system.hpp"
+    "src/util/reader_document.hpp"
+    "src/util/reader_mapping.hpp"
+    "src/video/surface.hpp"
+    "src/video/video_system.hpp"
+    "src/video/compositor.hpp"
+    "src/video/drawing_context.hpp"
+    "src/video/viewport.hpp"
+    "src/editor/editor.hpp"
+    "src/object/moving_sprite.hpp"
+    "src/supertux/moving_object.hpp"
+    "src/supertux/game_object.hpp"
+    "src/supertux/sector_base.hpp"
+    "src/supertux/sector.hpp"
+    "src/supertux/level.hpp"
+    "src/supertux/tile.hpp"
+    "src/supertux/tile_manager.hpp"
+    "src/supertux/world.hpp"
+    "src/supertux/screen_manager.hpp"
+    "src/supertux/game_object_manager.hpp"
+  )
+  list(TRANSFORM proj_headers PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
+
+  target_precompile_headers(supertux2 PRIVATE
+    # Standard library headers
+    <string>
+    <vector>
+    <memory>
+    <algorithm>
+    <functional>
+    <unordered_map>
+    <fstream>
+    # GLM library headers
+    <glm/glm.hpp>
+    <glm/ext.hpp>
+    <glm/gtx/io.hpp>
+    # PhysicsFS
+    <physfs.h>
+    # SDL
+    <SDL.h>
+    <SDL_ttf.h>
+    <SDL_image.h>
+    # FMT
+    <fmt/format.h>
+    "${proj_headers}"
+  )
 endif()
 
 target_include_directories(supertux2 PUBLIC ${CMAKE_BINARY_DIR} src/)
