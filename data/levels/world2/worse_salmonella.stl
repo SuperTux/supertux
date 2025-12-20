@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -95,6 +94,7 @@
     (fish-chasing
       (type "corrupted")
       (z-pos 50)
+      (glinting #f)
       (radius 150)
       (x 10720)
       (y 1952)
@@ -102,12 +102,14 @@
     (fish-chasing
       (type "corrupted")
       (z-pos 50)
+      (glinting #f)
       (x 7840)
       (y 1696)
     )
     (fish-chasing
       (type "corrupted")
       (z-pos 50)
+      (glinting #f)
       (radius 150)
       (x 11776)
       (y 928)
@@ -115,6 +117,7 @@
     (fish-swimming
       (type "corrupted")
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (x 3424)
       (y 1056)
@@ -122,6 +125,7 @@
     (fish-swimming
       (type "corrupted")
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (x 7200)
       (y 992)
@@ -129,6 +133,7 @@
     (fish-swimming
       (type "corrupted")
       (z-pos 200)
+      (glinting #f)
       (radius 50)
       (x 7872)
       (y 992)
@@ -136,6 +141,7 @@
     (fish-swimming
       (type "corrupted")
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (x 8448)
       (y 1952)
@@ -143,6 +149,7 @@
     (fish-swimming
       (type "corrupted")
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (x 7616)
       (y 2304)
@@ -150,6 +157,7 @@
     (fish-swimming
       (type "corrupted")
       (z-pos 50)
+      (glinting #f)
       (radius 50)
       (x 8896)
       (y 2304)
@@ -157,6 +165,7 @@
     (fish-swimming
       (type "corrupted")
       (z-pos 200)
+      (glinting #f)
       (radius 50)
       (x 15296)
       (y 864)
@@ -170,36 +179,42 @@
       (z-pos 50)
       (x 5248)
       (y 448)
+      (glinting #f)
     )
     (igel
       (type "corrupted")
       (z-pos 50)
       (x 11968)
       (y 640)
+      (glinting #f)
     )
     (jumpy
       (type "corrupted")
       (z-pos 50)
       (x 2864)
       (y 800)
+      (glinting #f)
     )
     (jumpy
       (type "corrupted")
       (z-pos 50)
       (x 12256)
       (y 512)
+      (glinting #f)
     )
     (mrtree
       (type "corrupted")
       (z-pos 50)
       (x 4384)
       (y 544)
+      (glinting #f)
     )
     (mrtree
       (type "corrupted")
       (z-pos 50)
       (x 14048)
       (y 608)
+      (glinting #f)
     )
     (music
       (file "/music/forest/ghostforest2.music")
@@ -247,27 +262,26 @@
       (z-pos 50)
       (x 13632)
       (y 736)
+      (glinting #f)
     )
     (snail
       (type "corrupted")
       (z-pos 50)
       (x 11392)
       (y 736)
+      (glinting #f)
     )
     (snail
       (type "corrupted")
       (z-pos 50)
       (x 1440)
       (y 832)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")
       (x 96)
       (y 512)
-    )
-    (spawnpoint
-      (x 1312)
-      (y 832)
     )
     (tilemap
       (solid #f)
@@ -346,36 +360,42 @@
       (z-pos 50)
       (x 5792)
       (y 512)
+      (glinting #f)
     )
     (viciousivy
       (type "corrupted")
       (z-pos 50)
       (x 13728)
       (y 736)
+      (glinting #f)
     )
     (viciousivy
       (type "corrupted")
       (z-pos 50)
       (x 3808)
       (y 672)
+      (glinting #f)
     )
     (viciousivy
       (type "corrupted")
       (z-pos 50)
       (x 2720)
       (y 672)
+      (glinting #f)
     )
     (walkingleaf
       (type "corrupted")
       (z-pos 50)
       (x 14528)
       (y 704)
+      (glinting #f)
     )
     (walkingleaf
       (type "corrupted")
       (z-pos 50)
       (x 15520)
       (y 544)
+      (glinting #f)
     )
     (wind
       (type "current")

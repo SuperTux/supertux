@@ -8,7 +8,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -117,6 +116,7 @@
       (direction "left")
       (x 8480)
       (y 1024)
+      (glinting #t)
     )
     (gradient
       (blend "none")
@@ -139,29 +139,34 @@
       (z-pos 50)
       (x 2784)
       (y 1120)
+      (glinting #t)
     )
     (jumpy
       (type "wooden")
       (z-pos 50)
       (x 11168)
       (y 1088)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 6240)
       (y 1024)
+      (glinting #f)
     )
     (mrtree
       (z-pos 50)
       (direction "left")
       (x 3744)
       (y 1248)
+      (glinting #f)
     )
     (mrtree
       (z-pos 50)
       (direction "left")
       (x 8960)
       (y 480)
+      (glinting #t)
     )
     (music
       (file "/music/forest/forest_midday.music")
@@ -203,12 +208,14 @@
       (direction "left")
       (x 8672)
       (y 480)
+      (glinting #f)
     )
     (snail
       (z-pos 50)
       (direction "left")
       (x 5312)
       (y 1024)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")
@@ -227,12 +234,14 @@
     )
     (stalactite
       (type "rock")
+      (glinting #f)
       (z-pos -1)
       (x 8416)
       (y 832)
     )
     (stalactite
       (type "rock")
+      (glinting #f)
       (z-pos -1)
       (x 10400)
       (y 1184)
@@ -292,29 +301,34 @@
       (direction "left")
       (x 1696)
       (y 1344)
+      (glinting #f)
     )
     (viciousivy
       (z-pos 50)
       (direction "left")
       (x 6704)
       (y 720)
+      (glinting #t)
     )
     (viciousivy
       (z-pos 50)
       (x 5568)
       (y 768)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (direction "left")
       (x 5696)
       (y 768)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (direction "left")
       (x 4320)
       (y 1184)
+      (glinting #f)
     )
     (weak_block
       (version 2)

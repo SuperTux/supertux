@@ -8,7 +8,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -110,11 +109,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
         (leafshot
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -124,11 +125,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
         (leafshot
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -138,11 +141,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
         (leafshot
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -163,6 +168,7 @@
       (z-pos 50)
       (x 8288)
       (y 608)
+      (glinting #f)
     )
     (heavy-brick
       (z-pos 51)
@@ -223,43 +229,51 @@
       (z-pos 50)
       (x 7712)
       (y 896)
+      (glinting #t)
     )
     (jumpy
       (type "wooden")
       (z-pos 50)
       (x 12864)
       (y 448)
+      (glinting #f)
     )
     (jumpy
       (type "wooden")
       (z-pos 50)
       (x 15232)
       (y 960)
+      (glinting #t)
     )
     (mrbomb
       (z-pos 50)
       (x 2240)
       (y 736)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 11584)
       (y 640)
+      (glinting #t)
     )
     (mrbomb
       (z-pos 50)
       (x 7360)
       (y 1056)
+      (glinting #f)
     )
     (mrtree
       (z-pos 50)
       (x 7264)
       (y 512)
+      (glinting #f)
     )
     (mrtree
       (z-pos 50)
       (x 15008)
       (y 608)
+      (glinting #f)
     )
     (music
       (file "/music/forest/bright_thunders.music")
@@ -446,11 +460,13 @@
       (z-pos 50)
       (x 1152)
       (y 736)
+      (glinting #f)
     )
     (snail
       (z-pos 50)
       (x 10240)
       (y 640)
+      (glinting #f)
     )
     (sound-object
       (sample "/sounds/rain.wav")
@@ -521,62 +537,74 @@
       (z-pos 50)
       (x 1472)
       (y 736)
+      (glinting #t)
     )
     (viciousivy
       (z-pos 50)
       (x 1600)
       (y 736)
+      (glinting #f)
     )
     (viciousivy
       (z-pos 50)
       (x 6304)
       (y 640)
+      (glinting #f)
     )
     (viciousivy
       (z-pos 50)
       (x 10336)
       (y 640)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 1728)
       (y 736)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 4512)
       (y 928)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 6144)
       (y 640)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 10432)
       (y 640)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 13984)
       (y 640)
+      (glinting #f)
     )
     (zeekling
       (z-pos 50)
       (direction "left")
       (x 10688)
       (y 320)
+      (glinting #f)
     )
     (zeekling
       (z-pos 50)
       (x 2336)
       (y 480)
+      (glinting #t)
     )
     (zeekling
       (z-pos 50)
       (x 11328)
       (y 416)
+      (glinting #f)
     )
   )
 )

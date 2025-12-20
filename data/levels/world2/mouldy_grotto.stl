@@ -8,7 +8,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -158,12 +157,14 @@
       (direction "left")
       (x 1728)
       (y 672)
+      (glinting #f)
     )
     (viciousivy
       (z-pos 50)
       (direction "left")
       (x 1024)
       (y 864)
+      (glinting #f)
     )
   )
   (sector
@@ -340,10 +341,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (objects
         (mrbomb
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -354,10 +357,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (objects
         (mrbomb
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -370,16 +375,19 @@
       (z-pos 50)
       (x 6784)
       (y 2528)
+      (glinting #t)
     )
     (dive-mine
       (z-pos 50)
       (x 5408)
       (y 2944)
+      (glinting #f)
     )
     (dive-mine
       (z-pos 50)
       (x 3456)
       (y 2880)
+      (glinting #f)
     )
     (firefly
       (z-pos 0)
@@ -389,6 +397,7 @@
     (fish-chasing
       (type "forest")
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 5184)
       (y 2656)
@@ -396,6 +405,7 @@
     (fish-chasing
       (type "forest")
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 5696)
       (y 2464)
@@ -403,6 +413,7 @@
     (fish-chasing
       (type "forest")
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 7488)
       (y 2368)
@@ -410,12 +421,14 @@
     (fish-chasing
       (type "forest")
       (z-pos 50)
+      (glinting #f)
       (x 4000)
       (y 2784)
     )
     (fish-swimming
       (type "forest")
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 3040)
       (y 2784)
@@ -423,6 +436,7 @@
     (fish-swimming
       (type "forest")
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 5728)
       (y 3040)
@@ -431,38 +445,45 @@
       (z-pos 50)
       (x 1632)
       (y 1312)
+      (glinting #t)
     )
     (igel
       (z-pos 50)
       (direction "left")
       (x 5056)
       (y 1760)
+      (glinting #f)
     )
     (igel
       (z-pos 50)
       (x 2528)
       (y 1024)
+      (glinting #f)
     )
     (jumpy
       (type "wooden")
       (z-pos 50)
       (x 6464)
       (y 448)
+      (glinting #f)
     )
     (mole
       (z-pos -1)
       (x 5344)
       (y 480)
+      (glinting #f)
     )
     (mole
       (z-pos -1)
       (x 912)
       (y 1664)
+      (glinting #f)
     )
     (mole
       (z-pos -1)
       (x 1728)
       (y 1696)
+      (glinting #f)
     )
     (music
       (file "/music/forest/forest-cave.music")
@@ -580,30 +601,35 @@
     )
     (stalactite
       (type "rock")
+      (glinting #f)
       (z-pos -1)
       (x 2496)
       (y 1184)
     )
     (stalactite
       (type "rock")
+      (glinting #f)
       (z-pos -1)
       (x 2016)
       (y 2304)
     )
     (stalactite
       (type "rock")
+      (glinting #f)
       (z-pos -1)
       (x 6560)
       (y 1920)
     )
     (stalactite
       (type "rock")
+      (glinting #f)
       (z-pos -1)
       (x 5120)
       (y 896)
     )
     (stalactite
       (type "rock")
+      (glinting #f)
       (z-pos -1)
       (x 6816)
       (y 384)
@@ -678,50 +704,59 @@
       (direction "left")
       (x 2688)
       (y 1440)
+      (glinting #f)
     )
     (viciousivy
       (z-pos 50)
       (direction "left")
       (x 2784)
       (y 1440)
+      (glinting #t)
     )
     (viciousivy
       (z-pos 50)
       (direction "left")
       (x 2208)
       (y 2496)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 4928)
       (y 480)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (direction "left")
       (x 4192)
       (y 1952)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (direction "left")
       (x 2944)
       (y 1440)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 7648)
       (y 1856)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 2304)
       (y 2496)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 5376)
       (y 1056)
+      (glinting #f)
     )
     (weak_block
       (version 2)

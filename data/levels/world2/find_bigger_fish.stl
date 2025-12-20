@@ -8,7 +8,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -146,6 +145,7 @@
     (fish-chasing
       (type "forest")
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 4320)
       (y 1120)
@@ -153,6 +153,7 @@
     (fish-chasing
       (type "forest")
       (z-pos 50)
+      (glinting #f)
       (x 10528)
       (y 1152)
     )
@@ -160,35 +161,42 @@
       (z-pos 50)
       (x 10912)
       (y 640)
+      (glinting #f)
     )
     (fish-jumping
       (z-pos 50)
       (x 12864)
       (y 512)
+      (glinting #f)
     )
     (fish-jumping
       (z-pos 50)
       (x 12416)
       (y 512)
+      (glinting #f)
     )
     (fish-jumping
       (z-pos 50)
       (x 6752)
       (y 736)
+      (glinting #t)
     )
     (fish-jumping
       (z-pos 50)
       (x 6240)
       (y 736)
+      (glinting #f)
     )
     (fish-jumping
       (z-pos 50)
       (x 1184)
       (y 672)
+      (glinting #f)
     )
     (fish-swimming
       (type "forest")
       (z-pos 50)
+      (glinting #t)
       (direction "left")
       (x 4384)
       (y 1504)
@@ -196,6 +204,7 @@
     (fish-swimming
       (type "forest")
       (z-pos 50)
+      (glinting #f)
       (direction "left")
       (x 9280)
       (y 1200)
@@ -203,6 +212,7 @@
     (fish-swimming
       (type "forest")
       (z-pos 50)
+      (glinting #f)
       (x 5120)
       (y 992)
     )
@@ -214,29 +224,34 @@
       (z-pos 50)
       (x 13696)
       (y 544)
+      (glinting #f)
     )
     (igel
       (z-pos 50)
       (x 7712)
       (y 736)
+      (glinting #f)
     )
     (jumpy
       (type "wooden")
       (z-pos 50)
       (x 2208)
       (y 640)
+      (glinting #f)
     )
     (jumpy
       (type "wooden")
       (z-pos 50)
       (x 14048)
       (y 416)
+      (glinting #t)
     )
     (jumpy
       (type "wooden")
       (z-pos 50)
       (x 8320)
       (y 640)
+      (glinting #t)
     )
     (music
       (file "/music/forest/forest_midday.music")
@@ -510,32 +525,38 @@
       (direction "left")
       (x 12080)
       (y 240)
+      (glinting #f)
     )
     (viciousivy
       (z-pos 50)
       (direction "left")
       (x 13680)
       (y 304)
+      (glinting #f)
     )
     (viciousivy
       (z-pos 50)
       (x 1808)
       (y 432)
+      (glinting #f)
     )
     (viciousivy
       (z-pos 50)
       (x 14896)
       (y 240)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 5056)
       (y 608)
+      (glinting #t)
     )
     (walkingleaf
       (z-pos 50)
       (x 5216)
       (y 608)
+      (glinting #f)
     )
     (wind
       (z-pos -99)
@@ -602,7 +623,7 @@
     (fish-swimming
       (type "forest")
       (z-pos 50)
-      (direction "left")
+      (glinting #t)
       (x 2144)
       (y 1088)
     )
