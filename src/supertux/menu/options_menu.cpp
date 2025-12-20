@@ -196,6 +196,9 @@ OptionsMenu::refresh()
       add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled)
         .set_help(_("Enable screen transitions and smooth menu animation"));
 
+      add_toggle(MNID_SHOW_GAME_TIMER, _("Show game timer"), &g_config->show_game_timer)
+        .set_help(_("Show a game timer while playing a level"));
+
       add_toggle(MNID_CUSTOM_TITLE_LEVELS, _("Custom title screen levels"), &g_config->custom_title_levels)
         .set_help(_("Allow overriding the title screen level, when loading certain worlds"));
 

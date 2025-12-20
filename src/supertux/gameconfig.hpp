@@ -72,6 +72,7 @@ public:
   bool show_fps;
   bool show_player_pos;
   bool show_controller;
+  bool show_game_timer;
   float camera_peek_multiplier;
   bool sound_enabled;
   bool music_enabled;

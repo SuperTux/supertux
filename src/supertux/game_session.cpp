@@ -43,6 +43,7 @@
 #include "supertux/levelintro.hpp"
 #include "supertux/levelset_screen.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
@@ -525,6 +526,9 @@ GameSession::draw(Compositor& compositor)
 
   if (m_game_pause)
     draw_pause(context);
+
+  if (g_config->show_game_timer)
+    draw_timer(context);
 }
 
 void
@@ -1022,4 +1026,30 @@ GameSession::drawstatus(DrawingContext& context)
   }
 
   m_level->m_stats.draw_ingame_stats(context, m_game_pause);
+}
+
+void
+GameSession::draw_timer(DrawingContext& context) const
+{
+  int ms = static_cast<int>(m_play_time * 1000.f);
+
+  const int h = ms / (1000 * 60 * 60);
+  ms -= h * (1000 * 60 * 60);
+
+  const int m = ms / (1000 * 60);
+  ms -= m * (1000 * 60);
+
+  const int s = ms / 1000;
+  ms -= s * 1000;
+
+  std::ostringstream out;
+  out << std::setfill('0')
+    << std::setw(2) << h << ':'
+    << std::setw(2) << m << ':'
+    << std::setw(2) << s << '.'
+    << std::setw(3) << ms;
+
+  context.color().draw_text(Resources::normal_bitmap_font, out.str(),
+                            Vector(context.get_width() / 2, 20.f),
+                            ALIGN_CENTER, LAYER_HUD);
 }
