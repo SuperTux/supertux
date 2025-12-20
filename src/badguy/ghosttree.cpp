@@ -77,7 +77,7 @@ GhostTree::activate()
 }
 
 Vector
-GhostTree::get_attack_pos()
+GhostTree::get_attack_pos() const
 {
   const float middle = m_col.m_bbox.get_middle().x;
   const float base = m_col.m_bbox.get_bottom() + 96;

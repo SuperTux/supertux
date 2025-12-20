@@ -95,7 +95,7 @@ private:
   void spawn_willowisp(AttackType color);
   void rotate_willo_color();
 
-  Vector get_attack_pos();
+  Vector get_attack_pos() const;
   void start_attack();
 
 private:
