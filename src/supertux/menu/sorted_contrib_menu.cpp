@@ -21,7 +21,6 @@
 #include <fmt/format.h>
 
 #include "gui/item_action.hpp"
-//#include "gui/item_hl.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/colorscheme.hpp"
@@ -40,6 +39,7 @@ public:
   ItemLockedWorld(const std::string& text, int collected, int required) :
     MenuItem(text),
     m_count_text(fmt::format("{}/{}", collected, required)),
+    m_lock_icon(Surface::from_file("images/engine/menu/lock.png")),
     m_tuxdoll_icon(Surface::from_file("images/powerups/1up/1up.png"))
   {
     set_help(fmt::format(fmt::runtime(_("Collect {} more Tux Dolls in Story Mode to unlock!")), required - collected));
@@ -47,27 +47,31 @@ public:
 
   virtual void draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) override
   {
+    const Vector middle(pos.x + static_cast<float>(menu_width) / 2.f,
+                        pos.y - Resources::normal_font->get_height() / 2.f);
+
+    context.color().draw_surface_scaled(m_lock_icon,
+                                 Rectf(Vector(10.f + pos.x + Resources::normal_font->get_height() * 0.8f / 2.f,
+                                              middle.y + Resources::normal_font->get_height() * 0.1f),
+                                       Sizef(Resources::normal_font->get_height(),
+                                             Resources::normal_font->get_height()) * 0.8f),
+                                 LAYER_GUI);
     context.color().draw_text(Resources::normal_font, get_text(),
-                              Vector(pos.x + static_cast<float>(menu_width) / 2.f - 8.f
-                                       - static_cast<float>(m_tuxdoll_icon->get_width()) / 2.f
-                                       - Resources::normal_font->get_text_width(m_count_text) / 2.f,
-                                     pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.f),
-                              ALIGN_CENTER, LAYER_GUI, Color::RED);
+                              middle - Vector(Resources::normal_font->get_height() // For Tux Doll icon
+                                                + Resources::normal_font->get_text_width(m_count_text), 0) / 2.f,
+                              ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::inactive_color);
 
     context.color().draw_surface_scaled(m_tuxdoll_icon,
-                                 Rectf(Vector(pos.x + static_cast<float>(menu_width) / 2.f + 8.f
-                                                + Resources::normal_font->get_text_width(get_text()) / 2.f
-                                                - Resources::normal_font->get_text_width(m_count_text) / 2.f
-                                                - static_cast<float>(Resources::normal_font->get_height()) / 2.f,
-                                              pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.f),
-                                       Sizef(static_cast<float>(Resources::normal_font->get_height()),
-                                             static_cast<float>(Resources::normal_font->get_height()))),
+                                 Rectf(middle + Vector(20.f + Resources::normal_font->get_text_width(get_text())
+                                                         - Resources::normal_font->get_text_width(m_count_text),
+                                                       Resources::normal_font->get_height() * 0.2f) / 2.f,
+                                       Sizef(Resources::normal_font->get_height(),
+                                             Resources::normal_font->get_height()) * 0.8f),
                                  LAYER_GUI);
     context.color().draw_text(Resources::normal_font, m_count_text,
-                              Vector(pos.x + static_cast<float>(menu_width) / 2.f + 8.f
-                                       + Resources::normal_font->get_text_width(get_text()) / 2.f
-                                       + static_cast<float>(m_tuxdoll_icon->get_width()) / 2.f,
-                                     pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.f),
+                              middle + Vector(32.f + Resources::normal_font->get_text_width(get_text())
+                                                + Resources::normal_font->get_height() * 0.8f * 2, // For both icons
+                                              0) / 2.f,
                               ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::warning_color);
   }
 
@@ -75,11 +79,14 @@ public:
   {
     return static_cast<int>(Resources::normal_font->get_text_width(get_text()))
       + static_cast<int>(Resources::normal_font->get_text_width(m_count_text))
-      + m_tuxdoll_icon->get_width() + 16;
+      + static_cast<int>(Resources::normal_font->get_height() * 0.8f) * 2 // For both icons
+      + 32 // Spacing
+      + 16;
   }
 
 private:
   const std::string m_count_text;
+  SurfacePtr m_lock_icon;
   SurfacePtr m_tuxdoll_icon;
 
 private:
