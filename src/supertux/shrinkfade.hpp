@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "supertux/timer.hpp"
 #include "math/vector.hpp"
 #include "supertux/screen_fade.hpp"
 #include "video/layer.hpp"
