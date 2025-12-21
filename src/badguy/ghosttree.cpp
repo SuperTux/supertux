@@ -56,6 +56,7 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   m_hud_head = Surface::from_file(m_hud_icon);
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
+  SoundManager::current()->preload("sounds/tree_hit.ogg");
   SoundManager::current()->preload("sounds/tree_howling.ogg");
   SoundManager::current()->preload("sounds/tree_suck.ogg");
   SoundManager::current()->preload("sounds/tree_pinch.ogg");
@@ -439,7 +440,7 @@ GhostTree::collision_squished(MovingObject& object)
     player->bounce(*this);
   }
   
-  SoundManager::current()->play(m_attack == ATTACK_BLUE ? "sounds/tree_pinch.ogg" : "sounds/gulp.wav", get_pos());
+  SoundManager::current()->play("sounds/tree_hit.ogg", get_pos());
 
   --m_lives;
   if (m_lives <= 0) {
