@@ -413,10 +413,6 @@ rain_ambient.set_volume(0.6);")
       (x 11776)
       (y 512)
     )
-    (spawnpoint
-      (x 4905.6)
-      (y 1510.03)
-    )
     (thunderstorm
       (running #f)
       (name "thunder")
