@@ -37,6 +37,8 @@ public:
 private:
   const int m_draw_layer;
   Vector m_dest;
+  // this doesn't account for m_speedup, making it the 'real' time
+  Timer m_fade_timer;
   float m_fade_time;
   float m_accum_time;
   float m_initial_size;

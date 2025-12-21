@@ -57,7 +57,8 @@
 
 static const float SAFE_TIME = 1.0f;
 static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
-static const float TELEPORT_FADE_TIME = 1.43f;
+static const float TELEPORT_FADE_TIME = 1.0f;
+static const float TELEPORT_FADE_TIME_CIRCLE = 1.43f;
 static const float TELEPORT_SPEEDUP = 3.18f;
 
 GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
@@ -311,7 +312,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   if (m_levelintro_shown && !m_skip_intro)
   {
     const Vector shrinkpos = get_fade_point();
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME_CIRCLE, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
   }
 
   if (!preserve_music)
@@ -562,7 +563,7 @@ GameSession::setup()
   else
   {
     const Vector shrinkpos = get_fade_point();
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME_CIRCLE, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
   }
   m_skip_intro = false;
 
@@ -651,7 +652,7 @@ GameSession::update(float dt_sec, const Controller& controller)
         const Vector spawn_point_position = sector->get_spawn_point_position(m_newspawnpoint);
         const Vector shrinkpos = get_fade_point(spawn_point_position);
 
-        ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN));
+        ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME_CIRCLE, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
         break;
       }
       default:
@@ -833,19 +834,22 @@ GameSession::respawn_with_fade(const std::string& sector,
   m_spawn_with_invincibility = make_invincible;
 
   bool transition_takes_time = false;
+  float transition_time;
 
   switch (m_spawn_fade_type)
   {
     case ScreenFade::FadeType::FADE:
     {
-      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, TELEPORT_FADE_TIME));
+      transition_time = TELEPORT_FADE_TIME;
+      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, transition_time));
       transition_takes_time = true;
       break;
     }
     case ScreenFade::FadeType::CIRCLE:
     {
       const Vector shrinkpos = get_fade_point(fade_point);
-      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEOUT));
+      transition_time = TELEPORT_FADE_TIME_CIRCLE;
+      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, transition_time, SHRINKFADE_LAYER, ShrinkFade::FADEOUT, true, TELEPORT_SPEEDUP));
       transition_takes_time = true;
       break;
     }
@@ -855,12 +859,12 @@ GameSession::respawn_with_fade(const std::string& sector,
 
   if (transition_takes_time)
   {
-    m_spawn_fade_timer.start(TELEPORT_FADE_TIME);
+    m_spawn_fade_timer.start(transition_time);
 
     // Make all players safe during the fadeout transition
     for (Player* player : m_currentsector->get_players())
     {
-      player->make_temporarily_safe(TELEPORT_FADE_TIME);
+      player->make_temporarily_safe(transition_time);
     }
   }
 }

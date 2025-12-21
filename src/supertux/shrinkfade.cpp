@@ -24,6 +24,7 @@
 ShrinkFade::ShrinkFade(const Vector& dest, float fade_time, int draw_layer, Direction direction, bool force_fade, float speedup) :
   m_draw_layer(draw_layer),
   m_dest(dest),
+  m_fade_timer(),
   m_fade_time(fade_time),
   m_accum_time(0),
   m_initial_size(static_cast<float>(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_HEIGHT : SCREEN_WIDTH)),
@@ -31,15 +32,18 @@ ShrinkFade::ShrinkFade(const Vector& dest, float fade_time, int draw_layer, Dire
   m_force_fade(force_fade),
   m_speedup(speedup)
 {
+  m_fade_timer.start(m_fade_time);
 }
 
 void
 ShrinkFade::update(float dt_sec)
 {
   float progress = m_accum_time / m_fade_time;
-  m_accum_time += dt_sec + (progress * m_speedup * (1.0f/60.0f));
+  m_accum_time += dt_sec + ((m_direction == FADEOUT ? (1.0f - progress) : progress) * m_speedup * (1.0f/60.0f));
   if (m_accum_time > m_fade_time)
     m_accum_time = m_fade_time;
+  else if (m_accum_time <= 0)
+    m_accum_time = 0;
 }
 
 void
@@ -60,5 +64,5 @@ ShrinkFade::draw(DrawingContext& context)
 bool
 ShrinkFade::done() const
 {
-  return m_accum_time >= m_fade_time;
+  return m_fade_timer.get_progress() >= 1.0f;
 }
