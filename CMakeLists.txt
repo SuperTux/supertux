@@ -84,6 +84,17 @@ else()
   endif()
 endif()
 
+option(SUPERTUX_CCACHE "Whether to prefer CCache" OFF)
+
+if(SUPERTUX_CCACHE)
+  find_program(found ccache)
+  if(found)
+    message(STATUS "Using CCache: ${found}")
+    set_property(GLOBAL PROPERTY CMAKE_C_COMPILER_LAUNCHER "${found}")
+    set_property(GLOBAL PROPERTY CMAKE_CXX_COMPILER_LAUNCHER "${found}")
+  endif()
+endif()
+
 if(EMSCRIPTEN OR ANDROID)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
