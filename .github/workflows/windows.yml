@@ -191,7 +191,7 @@ jobs:
           aws_key_id: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.CI_DOWNLOAD_SECRET_ACCESS_KEY }}
           source_dir: 'build/upload'
-          destination_dir: "${{ github.sha }}/gh-actions/windows-${{ matrix.arch }}/${{ github.run_id }}"
+          destination_dir: "ci-build/${{ github.sha }}/gh-actions/windows-${{ matrix.arch }}/${{ github.run_id }}"
 
       - name: Post uploaded file
         shell: bash
@@ -199,7 +199,7 @@ jobs:
         working-directory: build
         run: ../.ci_scripts/deploy.sh
         env:
-          PREFIX: "${{ github.sha }}/gh-actions/windows-${{ matrix.arch }}/${{ github.run_id }}"
+          PREFIX: "ci-build/${{ github.sha }}/gh-actions/windows-${{ matrix.arch }}/${{ github.run_id }}"
           DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
           BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
           IS_WINDOWS: true
