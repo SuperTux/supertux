@@ -269,7 +269,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Upload to nightlies
-        uses: anshulrgoyal/upload-s3-action@master
+        uses: parth-paradkar/upload-s3-without-acl@68848b62953464adb87bd48793f7ec58b8af427c
         if: matrix.release && env.CI_KEY != null
         env:
           CI_KEY: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
