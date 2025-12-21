@@ -18,19 +18,19 @@
 
 #include "badguy/boss.hpp"
 
+class GhostTreeAttack;
 class TreeWillOWisp;
-class Lantern;
 
 class GhostTree final : public Boss
 {
 public:
   GhostTree(const ReaderMapping& mapping);
+  ~GhostTree();
 
   virtual void kill_fall() override { }
 
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
 
   virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision(MovingObject& other, const CollisionHit& hit) override;
@@ -43,41 +43,60 @@ public:
 
   virtual void on_flip(float height) override;
 
-  void willowisp_died(TreeWillOWisp* willowisp);
-  void die();
+  void willowisp_suck_finished(TreeWillOWisp* willowisp);
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
+  virtual bool collision_squished(MovingObject& object) override;
 
 private:
   enum MyState {
-    STATE_IDLE, STATE_SUCKING, STATE_SWALLOWING, STATE_DYING
+    STATE_INIT,
+    STATE_SCREAM,
+    STATE_IDLE,
+    STATE_SUCKING,
+    STATE_SPITTING,
+    STATE_ATTACKING,
+    STATE_RECHARGING,
+    STATE_DEAD,
+    STATE_MUSIC_FADE_OUT,
+    STATE_WISP_FLY_AWAY,
+  };
+  
+  enum AttackType {
+    ATTACK_NORMAL,
+
+    ATTACK_RED,
+    ATTACK_GREEN,
+    ATTACK_BLUE,
+
+    ATTACK_PINCH,
+
+    ATTACK_FIRST_SPECIAL = ATTACK_RED,
   };
 
 private:
-  bool is_color_deadly(Color color) const;
-  void spawn_lantern();
+  void set_state(MyState new_state);
+  bool should_suck(const Color& color) const;
 
 private:
-  MyState mystate;
-  Timer willowisp_timer;
-  float willo_spawn_y;
-  float willo_radius;
-  float willo_speed;
-  int   willo_color;
+  MyState m_state;
+  AttackType m_attack;
+  AttackType m_willo;
+  Timer m_state_timer;
+  float m_willo_spawn_y;
+  float m_willo_radius;
+  float m_willo_speed;
+  int m_willo_to_spawn;
+  Vector m_attack_pos;
 
-  SpritePtr glow_sprite;
-  Timer colorchange_timer;
-  Timer suck_timer;
-  Timer root_timer;
-  int   treecolor;
-  Color suck_lantern_color;
+  std::vector<TreeWillOWisp*> m_willowisps;
+  std::unique_ptr<GhostTreeAttack> m_root_attack;
+  void spawn_willowisp(AttackType color);
+  void rotate_willo_color();
 
-  bool m_taking_life;
-
-  Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
-
-  std::vector<TreeWillOWisp*> willowisps;
+  Vector get_attack_pos() const;
+  void start_attack();
 
 private:
   GhostTree(const GhostTree&) = delete;

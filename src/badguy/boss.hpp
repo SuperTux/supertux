@@ -24,7 +24,7 @@
 class Boss : public BadGuy
 {
 public:
-  Boss(const ReaderMapping& mapping, const std::string& sprite_name, int layer = LAYER_OBJECTS);
+  Boss(const ReaderMapping& mapping, const std::string& sprite_name, int layer = LAYER_OBJECTS, const std::string& light_sprite = DEFAULT_LIGHT_SPRITE);
   virtual void boss_update(float dt_sec);
   virtual void draw(DrawingContext& context) override;
   void draw_hit_points(DrawingContext& context);
