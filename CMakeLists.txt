@@ -67,7 +67,7 @@ set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 set(BUILD_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/data")
 set(BUILD_CONFIG_DATA_DIR "${CMAKE_BINARY_DIR}/data")
 
-# Options for install
+## Options for install
 if(WIN32 AND NOT UNIX)
   set(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
   set(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
@@ -95,21 +95,7 @@ if(IS_SUPERTUX_RELEASE)
   option(STEAM_BUILD "Prepare build for Steam" OFF)
 endif()
 
-if(NOT EMSCRIPTEN)
-  # FIXME: As of writing, Emscripten fails with "wasm-ld: error: /path/to/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/thinlto/libc.a(fileno.o): attempt to add bitcode file after LTO (fileno)"
-  # Seems to be a known issue: https://github.com/emscripten-core/emscripten/issues/20275
-  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster executables)" OFF)
-endif()
-
-if(SUPERTUX_IPO)
-  include(CheckIPOSupported)
-  check_ipo_supported(RESULT result)
-  if(result)
-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON CACHE BOOL "" FORCE)
-  endif()
-else()
-  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF CACHE BOOL "" FORCE)
-endif()
+option(SUPERTUX_LTO "Use link-time optimizations (Takes more RAM at compilation, gives smaller and faster executables)" OFF)
 
 # Mobile builds
 if(ANDROID)
@@ -344,6 +330,25 @@ endif()
 
 set_target_properties(supertux2 PROPERTIES OUTPUT_NAME "supertux2")
 set_target_properties(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
+
+# FIXME: As of writing, Emscripten fails with "wasm-ld: error: /path/to/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/thinlto/libc.a(fileno.o): attempt to add bitcode file after LTO (fileno)"
+# Seems to be a known issue: https://github.com/emscripten-core/emscripten/issues/20275
+if(EMSCRIPTEN)
+  set(SUPERTUX_LTO OFF CACHE BOOL "" FORCE)
+endif()
+
+if(SUPERTUX_LTO)
+  include(CheckIPOSupported)
+  check_ipo_supported(RESULT result)
+  if(result)
+    set_property(TARGET supertux2 PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+    set_property(TARGET squirrel PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+  endif()
+else()
+  set_property(TARGET supertux2 PROPERTY INTERPROCEDURAL_OPTIMIZATION OFF)
+  set_property(TARGET squirrel PROPERTY INTERPROCEDURAL_OPTIMIZATION OFF)
+endif()
+
 
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
