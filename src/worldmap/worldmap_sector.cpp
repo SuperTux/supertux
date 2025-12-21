@@ -369,7 +369,7 @@ WorldMapSector::update(float dt_sec)
           // update state and savegame
           m_parent.save_state();
           ScreenManager::current()->push_screen(std::move(game_session),
-                                                skip_cutscene ? nullptr : std::make_unique<ShrinkFade>(shrinkpos, .9f, LAYER_LIGHTMAP - 1, ShrinkFade::FADEOUT, false));
+                                                skip_cutscene ? nullptr : std::make_unique<ShrinkFade>(shrinkpos, .9f, LAYER_LIGHTMAP - 1, ShrinkFade::FADEOUT, false, .2f));
 
           m_parent.m_in_level = true;
         } catch(std::exception& e) {

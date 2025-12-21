@@ -57,8 +57,8 @@
 
 static const float SAFE_TIME = 1.0f;
 static const int SHRINKFADE_LAYER = LAYER_LIGHTMAP - 1;
-static const float TELEPORT_FADE_TIME = 0.75f;
-
+static const float TELEPORT_FADE_TIME = 1.43f;
+static const float TELEPORT_SPEEDUP = 3.18f;
 
 GameSession::GameSession(Savegame* savegame, Statistics* statistics) :
   reset_button(false),
@@ -311,7 +311,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   if (m_levelintro_shown && !m_skip_intro)
   {
     const Vector shrinkpos = get_fade_point();
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER,  ShrinkFade::FADEIN));
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
   }
 
   if (!preserve_music)
@@ -562,7 +562,7 @@ GameSession::setup()
   else
   {
     const Vector shrinkpos = get_fade_point();
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN));
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, SHRINKFADE_LAYER, ShrinkFade::FADEIN, true, TELEPORT_SPEEDUP));
   }
   m_skip_intro = false;
 
