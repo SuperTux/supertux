@@ -72,7 +72,7 @@
     )
     (decal
       (z-pos -10)
-      (sprite "/images/decal/explanations/billboard-fireflower.png")
+      (sprite "/images/decal/explanations/billboard-earthflower.png")
       (x 2304)
       (y 832)
     )
@@ -112,10 +112,10 @@
     )
     (infoblock
       (z-pos 50)
-      (message (_ "-Earth Flower
+      (message (_ "-Rock Shroom
 !images/powerups/earthflower/earth_flower-0.png
-#The Earth Flower grants Tux a rock solid shield when holding the DOWN key while running.
-#In his rock form, Tux is immune to most types of damage! However, if Tux slams into a solid wall, it will disable his defense, becoming vulnerable again!"))
+#When holding the DOWN key while running, the Rock Shroom grants Tux a rock shield.
+#In his rock form, Tux is immune to most types of damage. However, if Tux slams into a solid wall his defense will cease, becoming vulnerable again. "))
       (fadetransition #f)
       (x 2720)
       (y 896)
