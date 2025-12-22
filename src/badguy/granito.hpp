@@ -32,6 +32,8 @@ class GranitoBig;
  */
 class Granito : public WalkingBadguy
 {
+  friend class GranitoBig;
+
 public:
   static void register_class(ssq::VM& vm);
 
@@ -63,7 +65,6 @@ public:
   virtual GameObjectTypes get_types() const override;
   virtual void after_editor_set() override;
 
-  virtual GranitoBig* get_carrier() const;
   void turn(const Direction& direction);
 
   /**
@@ -179,6 +180,7 @@ protected:
   virtual bool try_jump();
 
   void restore_original_state();
+  void active_update_finish(float dt_sec, bool player_on_top = false);
 
 protected:
   Timer m_walk_interval;
@@ -186,11 +188,13 @@ protected:
   State m_original_state;
 
   bool m_has_waved;
-  bool m_has_entity_on_top; /** True if any entity (player or object) was on top of the granito in the last frame. */
+  bool m_has_player_on_top; /** True if any entity (player or object) was on top of the granito in the last frame. */
   bool m_airborne; /** Unfortunately, on_ground() sucks. */
 
   std::string m_detect_script;
   std::string m_carried_script; /** This is ran when the Granito is carried by a Big Granito */
+
+  GranitoBig* m_carrier;
 
 private:
   Granito(const Granito&) = delete;

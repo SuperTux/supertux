@@ -58,6 +58,8 @@ GranitoBig::active_update(float dt_sec)
   m_carrying->set_velocity_y(0);
   m_carrying->set_pos(pos);
   m_carrying->turn(m_dir);
+
+  m_carrying->get_collision_object()->propagate_movement(m_col.get_movement());
 }
 
 ObjectSettings
@@ -90,6 +92,7 @@ void
 GranitoBig::carry(Granito* granito)
 {
   m_carrying = granito;
+  granito->m_carrier = this;
   Sector::get().run_script(m_carried_script, "carrying-script");
 }
 
@@ -101,6 +104,7 @@ GranitoBig::eject()
 
   m_carrying->walk_for(1.5f);
   m_carrying->jump();
+  m_carrying->m_carrier = nullptr;
   m_carrying = nullptr;
 }
 
