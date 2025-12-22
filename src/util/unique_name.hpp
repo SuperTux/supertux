@@ -18,4 +18,4 @@
 
 #include <string>
 
-std::string make_unique_name(const std::string& prefix, void* ptr);
+std::string make_unique_name(const std::string& prefix, const void* ptr);

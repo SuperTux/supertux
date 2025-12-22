@@ -518,7 +518,7 @@ GhostTreeAttackRed::active_update(float dtime)
     return;
   }
 
-  auto& root = Sector::get().add<GhostTreeRootRed>(Vector(m_current_x, m_pos_y), this);
+  Sector::get().add<GhostTreeRootRed>(Vector(m_current_x, m_pos_y), this);
   m_spawn_timer.start(RED_ROOT_DELAY);
   ++m_remaining_roots;
 
