@@ -30,7 +30,7 @@ class GhostTreeAttack
 {
 public:
   GhostTreeAttack();
-  ~GhostTreeAttack();
+  virtual ~GhostTreeAttack();
 
   virtual void active_update(float dtime) = 0;
   virtual bool is_done() const = 0;
@@ -41,7 +41,7 @@ class GhostTreeRoot : public BadGuy
 {
 public:
   GhostTreeRoot(const Vector& pos, Direction dir, const std::string& sprite);
-  ~GhostTreeRoot();
+  virtual~GhostTreeRoot();
   
   virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;
   virtual void kill_fall() override;
