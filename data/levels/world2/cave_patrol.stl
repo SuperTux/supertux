@@ -93,7 +93,7 @@
     )
     (decal
       (z-pos -10)
-      (sprite "/images/decal/explanations/billboard-fireflower.png")
+      (sprite "/images/decal/explanations/billboard-iceflower.png")
       (x 3328)
       (y 896)
     )
@@ -144,9 +144,9 @@
     )
     (infoblock
       (z-pos 50)
-      (message (_ "-Ice Flower
+      (message (_ "-Ice Rosette
 !images/powerups/iceflower/ice_flower-0.png
-#The ice flower gives Tux the ability to shoot iceballs that can freeze most creatures.
+#The ice rosette gives Tux the ability to shoot iceballs that can freeze most creatures.
 #Frozen creatures can be picked up, carried and thrown!"))
       (fadetransition #f)
       (x 2944)
