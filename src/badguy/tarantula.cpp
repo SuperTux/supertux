@@ -42,7 +42,7 @@ static const float DROP_DETECT_RANGE = 1200.f;
 static const float RETREAT_RANGE = 4.f*32;
 
 Tarantula::Tarantula(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/tarantula/tarantula.sprite", 1),
+  BadGuy(reader, "images/creatures/tarantula/tarantula.sprite", LAYER_TILES + 1),
   m_state(STATE_IDLE),
   m_timer(),
   m_silk(Surface::from_file("images/creatures/tarantula/silk.png")),
