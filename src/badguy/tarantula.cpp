@@ -393,7 +393,7 @@ void
 Tarantula::on_flip(float height)
 {
   BadGuy::on_flip(height);
-  m_flip ^= VERTICAL_FLIP;
+  m_vertical_flip = !m_vertical_flip;
   if (m_state == STATE_IDLE)
   {
     m_start_position.y = get_bbox().get_top();
