@@ -87,6 +87,7 @@ private:
   bool m_retreat;
   bool m_attach_ceiling;
   bool m_static;
+  bool m_vertical_flip;
   float m_ground_height;
 
 private:
