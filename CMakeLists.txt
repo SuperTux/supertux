@@ -39,6 +39,11 @@ cmake_minimum_required(VERSION 3.22)
 
 ## Project name to use as command prefix.
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
+if(ANDROID)
+  include(SuperTux/Android)
+endif()
+
 project(SUPERTUX LANGUAGES C CXX)
 
 # Qt Creator shall not configure this project directly when building for Android.
@@ -64,7 +69,6 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm64" AND MSVC)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_ARM64_ /DMY_CPU_LE")
 endif()
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 include(ExternalProject)
 include(CheckCXXCompilerFlag)
 include(CheckSymbolExists)

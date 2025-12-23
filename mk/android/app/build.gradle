@@ -7,6 +7,11 @@ else {
     apply plugin: 'com.android.library'
 }
 
+Properties props = new Properties()
+if (rootProject.file("${rootDir}/local.properties").exists()) {
+    props.load(rootProject.file("${rootDir}/local.properties").newDataInputStream())
+}
+
 android {
     compileSdkVersion 36
     defaultConfig {
@@ -17,14 +22,18 @@ android {
         targetSdkVersion 36
         versionCode 7000
         versionName "0.7.0"
+        ndkVersion "27.3.13750724"
         externalNativeBuild {
             cmake {
                 arguments "-DANDROID_APP_PLATFORM=android-" + android.compileSdk.toString(),
-                          "-DCMAKE_TOOLCHAIN_FILE=${rootDir}/app/jni/vcpkg-chainload.cmake",
-                          "-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=${android.ndkDirectory}/build/cmake/android.toolchain.cmake",
+                          "-DANDROID=On",
+                          "-DSUPERTUX_VCPKG_ROOT=" + props.getProperty("vcpkg_root", ""),
+                          "-DSUPERTUX_NDK_HOME=" + props.getProperty("ndk_home", ""),
                           "-DVCPKG_MANIFEST_MODE=OFF",
+                          "-DVCPKG_VERBOSE=ON",
                           "-DENABLE_OPENGL=OFF",
                           "-DANDROID_ALLOW_UNDEFINED_SYMBOLS=ON", // Literally what the fuck
+                          //"--debug-find", // If something isn't being found, uncomment this
                           "--log-level", "TRACE",
                           "-Wno-dev"
                 abiFilters rootProject.ext.cpuarch as String[]
@@ -47,7 +56,7 @@ android {
         }
         externalNativeBuild {
             cmake {
-                path 'jni/CMakeLists.txt'
+                path '../../../CMakeLists.txt'
             }
         }
 
