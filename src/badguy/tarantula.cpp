@@ -246,21 +246,21 @@ Tarantula::try_drop()
                                                                    true,
                                                                    nullptr);
 
-  float sectorheight = static_cast<float>(Sector::get().get_editor_size().height * 32);
+  float sector_height = static_cast<float>(Sector::get().get_editor_size().height * 32);
   if (!result.is_valid)
   {
     if (m_vertical_flip && eye.y - DROP_DETECT_RANGE - 1.f < 0)
     {
-      if (m_ground_height > sectorheight)
+      if (m_ground_height > sector_height)
         m_ground_height = 0;
       result.box = Rectf(Vector(0.f, m_ground_height), Sizef(1.f, 1.f));
     }
-    if (!(m_vertical_flip) && eye.y + DROP_DETECT_RANGE + 1.f > sectorheight)
+    if (!(m_vertical_flip) && eye.y + DROP_DETECT_RANGE + 1.f > sector_height)
     {
       // Out of bounds. Drop to the lowest point possible by faking
       // a raycast result.
       if (m_ground_height < 0.f)
-        m_ground_height = sectorheight;
+        m_ground_height = sector_height;
       result.box = Rectf(Vector(0.f, m_ground_height), Sizef(1.f, 1.f));
     }
     else
