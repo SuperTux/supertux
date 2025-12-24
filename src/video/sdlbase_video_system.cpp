@@ -31,11 +31,11 @@ SDLBaseVideoSystem::SDLBaseVideoSystem() :
   m_desktop_size(),
   m_last_fullscreen_state(g_config->use_fullscreen)
 {
-#ifdef __ANDROID__
+//#ifdef __ANDROID__
   // FIXME: SDL_GetDesktopDisplayMode gives a "video system not initialised" error. I don't know why.
-  SDL_VideoInit(nullptr);
-#endif
-
+//  SDL_VideoInit(nullptr);
+//#endif
+#ifndef __ANDROID__
   SDL_DisplayMode mode;
   if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
   {
@@ -46,6 +46,7 @@ SDLBaseVideoSystem::SDLBaseVideoSystem() :
   {
     m_desktop_size = Size(mode.w, mode.h);
   }
+#endif
 }
 
 SDLBaseVideoSystem::~SDLBaseVideoSystem()
@@ -207,8 +208,14 @@ SDLBaseVideoSystem::apply_video_mode()
     {
       SDL_DisplayMode mode;
       mode.format = SDL_PIXELFORMAT_RGB888;
+// #ifdef __ANDROID__
+//       log_warning << "Display w{" << display.w << "} h{" << display.h << "}" << std::endl;
+//       mode.w = display.w;
+//       mode.h = display.h;
+// #else
       mode.w = g_config->fullscreen_size.width;
       mode.h = g_config->fullscreen_size.height;
+// #endif
       mode.refresh_rate = g_config->fullscreen_refresh_rate;
       mode.driverdata = nullptr;
 
