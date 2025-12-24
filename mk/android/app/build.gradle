@@ -13,26 +13,28 @@ if (rootProject.file("${rootDir}/local.properties").exists()) {
 }
 
 android {
-    compileSdkVersion 36
+    compileSdkVersion 35
     defaultConfig {
         if (buildAsApplication) {
             applicationId "org.lethargik.supertux2"
         }
         minSdkVersion 21
-        targetSdkVersion 36
+        targetSdkVersion 35
         versionCode 7000
         versionName "0.7.0"
-        ndkVersion "27.3.13750724"
+        ndkVersion "29.0.14206865"
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_APP_PLATFORM=android-" + android.compileSdk.toString(),
+                arguments "-DANDROID_PLATFORM=android-" + android.compileSdk.toString(),
+                          "-DCMAKE_VERBOSE_MAKEFILE=On",
+                          "-DANDROID_STL=c++_shared",
                           "-DANDROID=On",
                           "-DSUPERTUX_VCPKG_ROOT=" + props.getProperty("vcpkg_root", ""),
                           "-DSUPERTUX_NDK_HOME=" + props.getProperty("ndk_home", ""),
                           "-DVCPKG_MANIFEST_MODE=OFF",
                           "-DVCPKG_VERBOSE=ON",
                           "-DENABLE_OPENGL=OFF",
-                          "-DANDROID_ALLOW_UNDEFINED_SYMBOLS=ON", // Literally what the fuck
+                          "-DANDROID_ALLOW_UNDEFINED_SYMBOLS=OFF", // Literally what the fuck
                           //"--debug-find", // If something isn't being found, uncomment this
                           "--log-level", "TRACE",
                           "-Wno-dev"

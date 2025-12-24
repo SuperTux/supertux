@@ -61,7 +61,9 @@ SDLBaseVideoSystem::set_title(const std::string& title)
 void
 SDLBaseVideoSystem::set_icon(const SDL_Surface& icon)
 {
+#ifndef ANDROID
   SDL_SetWindowIcon(m_sdl_window.get(), const_cast<SDL_Surface*>(&icon));
+#endif
 }
 
 Size

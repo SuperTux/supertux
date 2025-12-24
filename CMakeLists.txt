@@ -222,7 +222,7 @@ endif()
 
 set(HAVE_OPENGL NO)
 # OpenGL for Emscripten is added in Emscripten.cmake
-if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
+if(ENABLE_OPENGL AND NOT EMSCRIPTEN AND NOT ANDROID)
   set(OpenGL_GL_PREFERENCE "LEGACY")
   find_package(OpenGL)
 
@@ -272,11 +272,10 @@ include(SuperTux/CompileAmalgation)
 
 ## Add target for supertux binary
 if(ANDROID)
-  add_library(supertux2 SHARED ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+  add_library(supertux2 SHARED ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} src/main.cpp)
 else()
   add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 endif()
-target_compile_features(supertux2 PUBLIC cxx_std_17)
 
 # Pre-compiled headers
 if(IS_SUPERTUX_RELEASE)
@@ -347,7 +346,8 @@ if(NOT EMSCRIPTEN)
 endif()
 
 if(ANDROID)
-  target_link_libraries(supertux2 PUBLIC OpenSLES log)
+  target_link_libraries(supertux2 PUBLIC log)
+  target_compile_definitions(supertux2 PUBLIC -D__ANDROID__ -DANDROID)
 endif()
 
 ## Install stuff
@@ -358,7 +358,7 @@ configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 
 # Make android data.zip
 if(ANDROID)
-  set(ANDROID_PROJECT_DIR "${PROJECT_SOURCE_DIR}/build.android/" CACHE PATH
+  set(ANDROID_PROJECT_DIR "${PROJECT_SOURCE_DIR}/mk/android/" CACHE PATH
           "Path to the root of the root of the android project")
   if(NOT EXISTS "${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip")
     get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
