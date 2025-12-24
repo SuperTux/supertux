@@ -70,8 +70,8 @@ SDLTextureRenderer::start_draw()
 
   SDL_SetRenderTarget(m_renderer, get_sdl_texture());
   SDL_RenderSetScale(m_renderer,
-                     1.0f / static_cast<float>(m_downscale),
-                     1.0f / static_cast<float>(m_downscale));
+                     m_size.width / m_downscale,
+                     m_size.height / m_downscale);
 }
 
 void
