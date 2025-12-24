@@ -156,6 +156,7 @@ Resources::unload()
   console_font.reset();
   fixed_font.reset();
   normal_font.reset();
+  normal_bitmap_font.reset();
   small_font.reset();
   big_font.reset();
   control_font.reset();
