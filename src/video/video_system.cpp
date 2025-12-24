@@ -94,7 +94,7 @@ VideoSystem::create(VideoSystem::Enum video_system)
 VideoSystem::Enum
 VideoSystem::get_video_system(const std::string &video)
 {
-  if (video == "sdl" || video == "auto") // Backwards compatibility with "auto"
+  if (video == "sdl" || video == "sdl2" || video == "auto") // Backwards compatibility with "auto"
   {
     return VIDEO_SDL;
   }
