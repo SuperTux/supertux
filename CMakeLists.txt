@@ -157,10 +157,6 @@ option(ENABLE_OPENGL "Enable OpenGL support" ON)
 # Find dependencies
 include(SuperTux/AddPackage)
 
-if(ANDROID)
-  set(SUPERTUX_ANDROID_PREFER_PKGCONF PREFER_PKGCONFIG)
-endif()
-
 add_package(TARGET PNG
   PKG PNG PKG_USE PNG::PNG PKG_CONFIG libpng REQUIRED)
 add_package(TARGET ZLIB
@@ -218,7 +214,7 @@ endif()
 
 set(HAVE_OPENGL NO)
 # OpenGL for Emscripten is added in Emscripten.cmake
-if(ENABLE_OPENGL AND NOT EMSCRIPTEN AND NOT ANDROID)
+if(ENABLE_OPENGL AND NOT EMSCRIPTEN)
   set(OpenGL_GL_PREFERENCE "LEGACY")
   find_package(OpenGL)
 
