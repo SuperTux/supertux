@@ -60,7 +60,7 @@ jobs:
           cd vcpkg
           ./bootstrap-vcpkg.sh
 
-          ./vcpkg install --classic \
+          ./vcpkg install --classic --triplet=$VCPKG_TRIPLET \
           fmt libogg libvorbis libraqm freetype physfs glm libpng zlib \
           sdl2 sdl2-image curl openal-soft libogg libvorbis
 
