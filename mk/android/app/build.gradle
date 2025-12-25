@@ -74,10 +74,10 @@ android {
         }
 
     }
-    lintOptions {
+    namespace APP_ID
+    lint {
         abortOnError false
     }
-    namespace APP_ID
 
     /*
     if (buildAsLibrary) {
