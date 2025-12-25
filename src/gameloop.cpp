@@ -913,10 +913,10 @@ GameSession::drawstatus()
   }
 
   sprintf(str, "%d", player_status.distros);
-  white_text->draw("COINS", screen->h, 0, 1);
+  white_text->draw("COINS", screen->h/xdiv, 0, 1);
   gold_text->draw(str, screen->w-32/xdiv, 0, 1);
 
-  white_text->draw("LIVES", 480/xdiv, 20);
+  white_text->draw("LIVES", screen->h/xdiv, 20);
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);

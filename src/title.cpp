@@ -308,10 +308,14 @@ void title(void)
       /* Draw the background: */
       draw_demo(&session, frame_ratio);
       
-      if (Menu::current() == main_menu)
-        logo->draw( 360, 30);
-
-	
+      if (Menu::current() == main_menu) {
+	if (screen->w <= 640) {
+            logo->draw( screen->w-screen->h, 30);
+	}
+	else {
+	    logo->draw( screen->w-screen->h-200, 30);
+	}
+      }
 #ifndef RES320X240
       white_small_text->draw(" SuperTux " VERSION "\n"
                              "Copyright (c) 2003 SuperTux Devel Team\n"
