@@ -79,7 +79,7 @@ set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 set(BUILD_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/data")
 set(BUILD_CONFIG_DATA_DIR "${CMAKE_BINARY_DIR}/data")
 
-# Options for install
+## Options for install
 if(WIN32 AND NOT UNIX)
   set(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
   set(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
@@ -96,6 +96,16 @@ else()
   endif()
 endif()
 
+option(SUPERTUX_CCACHE "Whether to prefer ccache" OFF)
+if(SUPERTUX_CCACHE)
+  find_program(CCACHE_PATH ccache)
+  if(CCACHE_PATH)
+    message(STATUS "Using CCache: ${CCACHE_PATH}")
+    set(CMAKE_C_COMPILER_LAUNCHER "${CCACHE_PATH}")
+    set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PATH}")
+  endif()
+endif()
+
 if(EMSCRIPTEN OR ANDROID)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
@@ -107,21 +117,7 @@ if(IS_SUPERTUX_RELEASE)
   option(STEAM_BUILD "Prepare build for Steam" OFF)
 endif()
 
-if(NOT EMSCRIPTEN)
-  # FIXME: As of writing, Emscripten fails with "wasm-ld: error: /path/to/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/thinlto/libc.a(fileno.o): attempt to add bitcode file after LTO (fileno)"
-  # Seems to be a known issue: https://github.com/emscripten-core/emscripten/issues/20275
-  option(SUPERTUX_IPO "Use interprocedural optimisation (Takes more RAM at compilation, gives smaller and faster executables)" OFF)
-endif()
-
-if(SUPERTUX_IPO)
-  include(CheckIPOSupported)
-  check_ipo_supported(RESULT result)
-  if(result)
-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON CACHE BOOL "" FORCE)
-  endif()
-else()
-  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF CACHE BOOL "" FORCE)
-endif()
+option(SUPERTUX_LTO "Use link-time optimizations (Takes more RAM at compilation, gives smaller and faster executables)" OFF)
 
 # Mobile builds
 if(ANDROID)
@@ -277,15 +273,76 @@ else()
   add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
 endif()
 
-# Pre-compiled headers
-if(IS_SUPERTUX_RELEASE)
-  option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" ON)
-else()
-  option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" OFF)
-endif()
+option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" ${IS_SUPERTUX_RELEASE})
 
+## Apply pre-compiled headers for faster compilation
 if(SUPERTUX_PCH)
-  target_precompile_headers(supertux2 PRIVATE ${SUPERTUX_HEADERS})
+  message(STATUS "Setting pre-compiled headers")
+  set(proj_headers
+    "src/audio/sound_manager.hpp"
+    "src/control/input_manager.hpp"
+    "src/math/anchor_point.hpp"
+    "src/math/vector.hpp"
+    "src/math/size.hpp"
+    "src/math/sizef.hpp"
+    "src/math/util.hpp"
+    "src/editor/object_option.hpp"
+    "src/object/path_walker.hpp"
+    "src/object/player.hpp"
+    "src/object/spawnpoint.hpp"
+    "src/object/camera.hpp"
+    "src/sprite/sprite.hpp"
+    "src/editor/object_settings.hpp"
+    "src/badguy/badguy.hpp"
+    "src/gui/menu.hpp"
+    "src/gui/menu_manager.hpp"
+    "src/util/log.hpp"
+    "src/util/file_system.hpp"
+    "src/util/reader_document.hpp"
+    "src/util/reader_mapping.hpp"
+    "src/video/surface.hpp"
+    "src/video/video_system.hpp"
+    "src/video/compositor.hpp"
+    "src/video/drawing_context.hpp"
+    "src/video/viewport.hpp"
+    "src/editor/editor.hpp"
+    "src/object/moving_sprite.hpp"
+    "src/supertux/moving_object.hpp"
+    "src/supertux/game_object.hpp"
+    "src/supertux/sector_base.hpp"
+    "src/supertux/sector.hpp"
+    "src/supertux/level.hpp"
+    "src/supertux/tile.hpp"
+    "src/supertux/tile_manager.hpp"
+    "src/supertux/world.hpp"
+    "src/supertux/screen_manager.hpp"
+    "src/supertux/game_object_manager.hpp"
+  )
+  list(TRANSFORM proj_headers PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
+
+  target_precompile_headers(supertux2 PRIVATE
+    # Standard library headers
+    <string>
+    <vector>
+    <memory>
+    <algorithm>
+    <functional>
+    <unordered_map>
+    <fstream>
+    # GLM library headers
+    <glm/glm.hpp>
+    <glm/ext.hpp>
+    <glm/gtx/io.hpp>
+    # PhysicsFS
+    <physfs.h>
+    # SDL
+    <SDL.h>
+    <SDL_ttf.h>
+    <SDL_image.h>
+    # FMT
+    <fmt/format.h>
+    "${proj_headers}"
+  )
 endif()
 
 target_include_directories(supertux2 PUBLIC ${CMAKE_BINARY_DIR} src/)
@@ -304,6 +361,25 @@ endif()
 
 set_target_properties(supertux2 PROPERTIES OUTPUT_NAME "supertux2")
 set_target_properties(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
+
+# FIXME: As of writing, Emscripten fails with "wasm-ld: error: /path/to/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/thinlto/libc.a(fileno.o): attempt to add bitcode file after LTO (fileno)"
+# Seems to be a known issue: https://github.com/emscripten-core/emscripten/issues/20275
+if(EMSCRIPTEN)
+  set(SUPERTUX_LTO OFF CACHE BOOL "" FORCE)
+endif()
+
+if(SUPERTUX_LTO)
+  include(CheckIPOSupported)
+  check_ipo_supported(RESULT result)
+  if(result)
+    set_property(TARGET supertux2 PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+    set_property(TARGET squirrel PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+  endif()
+else()
+  set_property(TARGET supertux2 PROPERTY INTERPROCEDURAL_OPTIMIZATION OFF)
+  set_property(TARGET squirrel PROPERTY INTERPROCEDURAL_OPTIMIZATION OFF)
+endif()
+
 
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")

@@ -269,7 +269,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Upload to nightlies
-        uses: anshulrgoyal/upload-s3-action@master
+        uses: parth-paradkar/upload-s3-without-acl@68848b62953464adb87bd48793f7ec58b8af427c
         if: matrix.release && env.CI_KEY != null
         env:
           CI_KEY: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
@@ -278,14 +278,14 @@ jobs:
           aws_key_id: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.CI_DOWNLOAD_SECRET_ACCESS_KEY }}
           source_dir: 'build/upload'
-          destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
+          destination_dir: "ci-build/${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
 
       - name: Post uploaded file
         if: matrix.release && env.DOWNLOAD_APIKEY != null
         working-directory: build
         run: ../.ci_scripts/deploy.sh
         env:
-          PREFIX: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
+          PREFIX: "ci-build/${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
           DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
           BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 

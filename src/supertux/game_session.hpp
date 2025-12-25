@@ -152,6 +152,7 @@ private:
 
   void drawstatus(DrawingContext& context);
   void draw_pause(DrawingContext& context);
+  void draw_timer(DrawingContext& context) const;
 
   void on_escape_press(bool force_quick_respawn);
 

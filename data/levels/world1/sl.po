@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2025-12-17 08:18+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019,2022,2025\n"
 "Language-Team: Slovenian (http://app.transifex.com/arctic-games/supertux/language/sl/)\n"
@@ -47,6 +47,10 @@ msgstr "Med dvema ledenikoma"
 msgid "Bouncy, Bouncy Mountainside"
 msgstr "Poskočno pobočje"
 
+#: data/levels/world1/castle_cutscene.stl:3
+msgid "Nobody Home"
+msgstr "Nikogar ni doma"
+
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
 msgstr "Nolokov grad"
@@ -71,7 +75,7 @@ msgstr "Vhod v votlino"
 msgid "A Fork in the Road?"
 msgstr "Razpotje?"
 
-#: data/levels/world1/fork_in_the_road.stl:750
+#: data/levels/world1/fork_in_the_road.stl:741
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -132,39 +136,75 @@ msgid "A Path in the Clouds"
 msgstr "Plavanje v oblakih"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tuks je dosegel konec gradu."
+msgid "At last, Tux managed to rush towards the final room of the icy castle."
+msgstr "Končno se je uspel Tuks prebiti v zadnjo sobano ledenega gradu."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "A presenečen je odkril zgolj pisemce."
+msgid ""
+"To his suprise, there was no one here. Neither Penny, nor this... strange "
+"Nolok guy."
+msgstr "Presenečen je odkril, da ni tam nikogar. Ne Pike ne tistega čudnega Noloka."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "V pismu mu je Pika napisala, da jo je Nolok odpeljal v oddaljene gozdove."
+msgid "Surely they had to be here somewhere, right? Perhaps a hidden room?"
+msgstr "Gotovo tičita nekje tukaj, kajne? Morda v kaki skriti sobi?"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Ne vedoč, kakšne načrte ima Nolok, se je Tuks zbal za svojo preljubo Piko."
+"After a bit of back and forth with himself, Tux noticed a small note "
+"attached to one of the pillars."
+msgstr "Po nekaj iskanja in premlevanja je Tuks na enem od stebrov opazil pripeto majhno sporočilce."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Nenadoma pa ..."
+msgid "It was yet another note, by that Nolok."
+msgstr "Napisal ga je tisti strašni Nolok."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:7
+msgid ""
+"It read that he had already left Icy Island towards the far north. If he "
+"wished to follow him and save his beloved friend, he would have to come to "
+"the Crystal Mine."
+msgstr "V njem je pisalo, da se je odpravil z Ledenega otoka daleč na sever. Če mu Tuks želi slediti in rešiti svojo prijateljico, mora priti v Kristalni rudnik."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:8
+msgid ""
+"Marked below was a rough map of the Glacier Isle, showing a boat and some "
+"kind of small pier on the other end."
+msgstr "Pod sporočilom je bila skica Ledeniškega otoka. Na drugem koncu sta bila narisana čoln in majhen pomol."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:9
+msgid ""
+"But before Tux could even make sense of any of it, a load roar filled the "
+"room!"
+msgstr "Toda še preden je lahko Tuks premlel vse skupaj, se je čez sobano razleglo glasno rjovenje!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:10
+msgid ""
+"The mighty Yeti had made his appearence, busting his chest in an "
+"intimidating fashion!"
+msgstr "Pojavil se je mogočni jeti in se grozeče tolkel po prsih."
+
+#: data/levels/world1/scripts_castle_cutscene.txt:11
+msgid ""
+"Tux made his way towards a balcony on the other end of the room. With no "
+"other option, he jumped!"
+msgstr "Tuks se je pognal proti balkonu na drugi strani sobe. Ker mu ni preostalo drugega, je skočil!"
+
+#: data/levels/world1/scripts_castle_cutscene.txt:12
+msgid "Unfortunately, the Yeti would not let him go so easily..."
+msgstr "Na žalost se jeti ni vdal tako zlahka ..."
 
 #: data/levels/world1/scripts_crystal_mine.txt:2
 msgid ""
 "After a long swim across the antarctic waters, Tux arrived at the Glacier "
-"Isles the Yeti told him about."
-msgstr "Po dolgotrajnem plavanju čez antarktične vode je Tuks prispel na Ledeniške otoke, o katerih mu je pripovedoval jeti."
+"Isle mentioned in Nolok's note."
+msgstr "Po dolgem plavanju po antarktičnih vodah je Tuks prispel na Ledeniški otok, ki ga je omenjalo Nolokovo sporočilo."
 
 #: data/levels/world1/scripts_crystal_mine.txt:3
 msgid ""
-"A massive shaft layed before him leading down into the aforementioned "
-"Crystal Mine."
-msgstr "Pred njim je ležal ogromen jašek, ki je vodil v že omenjeni Rudnik kristalov."
+"A massive shaft lay before him, leading down into the aforementioned Crystal"
+" Mine."
+msgstr "Pred njim je zevala ogromna odprtina, ki je vodila navzdol v Kristalni rudnik."
 
 #: data/levels/world1/scripts_crystal_mine.txt:4
 msgid ""
@@ -180,25 +220,25 @@ msgstr "Naposled se je Tuks prebil skozi rudnik kristalov in se znašel na naspr
 
 #: data/levels/world1/scripts_crystal_mine.txt:6
 msgid ""
-"As he was about the exit the mine, internally Tux was hoping that all the "
-"yeti said was true."
-msgstr "Ko se je bližal izhodu iz rudnika, je Tuks potihem upal, da mu je jeti povedal resnico."
+"As he was about to exit the mine, Tux was internally hoping that all Nolok "
+"wrote in the note was true."
+msgstr "Ko je stopal iz rudnika, je Tuks pri sebi upal, da je Nolok napisal resnico."
 
 #: data/levels/world1/scripts_crystal_mine.txt:7
 msgid ""
-"To his relief, Tux did find a boat still docked. With it he could sail up "
-"north, to the aforementioned forest."
-msgstr "Tuks si je oddahnil. Čoln ga je še vedno čakal na pomolu. Z njim bo lahko odplul na sever, v gozd."
+"To his relief, he did find a boat still docked. With it, he could sail up "
+"north, to find Nolok and save Penny."
+msgstr "Olajšan je odkril, da je čoln še privezan ob pomol. Z njim se bo lahko podal na sever poiskat Noloka in rešit Piko."
 
 #: data/levels/world1/scripts_crystal_mine.txt:8
-msgid "Seems like the yeti did not lie to him after all."
-msgstr "Navsezadnje mu jeti le ni lagal."
+msgid "It seemed the map in the note wasn't a trap after all."
+msgstr "Očitno zemljevid in sporočilo vendarle nista bila past."
 
 #: data/levels/world1/scripts_crystal_mine.txt:9
 msgid ""
-"The more he thought about it, he probably wasn't even meant to know about "
-"all this in the first place..."
-msgstr "Dlje kot je razmišljal, jasneje mu je bilo, da vsega tega najverjetneje ne bi smel vedeti ..."
+"The more he thought about it, the less he was sure about Nolok's "
+"motivations. Why would he leave clues behind?"
+msgstr "Naj si je še tako razbijal glavo, si ni znal razložiti, zakaj Nolok počne vse to. Zakaj pušča za seboj vse te namige?"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -241,26 +281,75 @@ msgid ""
 msgstr "V daljavi je zagledal Nolokov grad in se odpravil Piki na pomoč!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
-msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "Utrujen od dolge poti se je Tuks odločil malce odpočiti."
+msgid ""
+"After an entire day of navigating Icy Island, Tux had now almost reached the"
+" supposed castle of Nolok."
+msgstr "Po celodnevni poti po Ledenem otoku je Tuks skoraj dosegel Nolokov grad."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
-msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "Tedaj pa je iz daljave zaslišal glasno rjovenje."
+msgid ""
+"The lack of sleep during the night may not have been ideal but he was "
+"determined to keep going!"
+msgstr "Vso noč je prebedel, zato je bil pošteno utrujen, vendar odločen, da bo nadaljeval pot!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
-msgid "A yeti seems to have observed him from afar."
-msgstr "Kaže, da ga je od nekje daleč zagledal jeti."
+msgid ""
+"Not wanting to waste any more time, Tux continued on, sliding down the hill "
+"he was on into the icy valley up ahead."
+msgstr "Brez odlašanja se je Tuks spustil z griča v ledeno dolino pod seboj."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
-"Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
-" ..."
-msgstr "Tuksa je zaskrbel jetijev nenaden umik, zato se je odpravil naprej ..."
+"Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
+"close eye on Tux as he continued his journey."
+msgstr "Ni se zavedal, da ga že vso pot zasleduje jeti."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
-msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "... upajoč, da mu jeti ne bo več prekrižal poti."
+msgid ""
+"The yeti let out a loud roar and proceeded to follow the little penguin."
+msgstr "Jeti je glasno zarjovel in se pognal za malim pingvinčkom."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:2
+msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
+msgstr "Uspelo mu je! Dejansko mu je uspelo! Tuks je premagal mogočnega jetija!"
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:3
+msgid ""
+"While it did not take long for the yeti to get up again, to Tux's relief, he"
+" did not throw hands again."
+msgstr "Čeprav se je jeti hitro pobral na noge, se na Tuksovo olajšanje ni več hotel spopasti z njim."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:4
+msgid ""
+"The yeti was furious however! He could not understand how a tiny penguin "
+"like Tux could have beaten him in a fight."
+msgstr "Toda jeti je bil besen! Ni mu šlo v glavo, kako ga je lahko premagal tak majhen pingvinček."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:5
+msgid ""
+"Almost as if he forgot Tux was there to begin with, the yeti rushed off, "
+"grumbling to himself."
+msgstr "Odvihral je proč, kakor da Tuksa ne bi bilo tam, in si jezno mrmral v brk."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:6
+msgid "Not sure what to make of it, Tux decided to continue moving onwards."
+msgstr "Tuks je najprej presenečeno obstal, potem pa se je odpravil dalje."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:7
+msgid ""
+"As he reached the shore, Tux could already see the Glacier Isle on the "
+"horizon."
+msgstr "Ko je Tuks dosegel obalo, je na obzorju že videl Ledeniški otok."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:8
+msgid ""
+"If he knew Nolok went over there sooner, he could have been there much "
+"faster."
+msgstr "Če bi prej vedel, da bo Nolok tam, bi šel naravnost tja in si prihranil čas."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:9
+msgid "Perhaps that was Nolok's goal with the note he left behind..."
+msgstr "Mogoče je ravno zato Nolok napisal tisto sporočilo ..."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"
@@ -332,7 +421,7 @@ msgstr "-Tuksova lutka\n!images/powerups/1up/1up.png\n#Tuksova lutka podari Tuks
 msgid "Icy Island"
 msgstr "Ledeni otok"
 
-#: data/levels/world1/worldmap.stwm:210
+#: data/levels/world1/worldmap.stwm:243
 msgid "You found a secret area!"
 msgstr "Našel/a si skrito sobo!"
 
@@ -341,5 +430,9 @@ msgid "No More Mr. Ice Guy"
 msgstr "Ne pustimo se več speljati na led"
 
 #: data/levels/world1/yeti_cutscene.stl:3
-msgid "A Yeti in the Distance"
-msgstr "Jeti v daljavi"
+msgid "An Unsuspected Follower"
+msgstr "Nepričakovan zasledovalec"
+
+#: data/levels/world1/yetiwin_cutscene.stl:3
+msgid "Off to the Glacier Isles"
+msgstr "Na Ledeniške otoke"

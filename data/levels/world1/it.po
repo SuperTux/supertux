@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2025-10-22 21:59+0000\n"
+"POT-Creation-Date: 2025-12-17 08:18+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Tommaso Macchiella, 2025\n"
 "Language-Team: Italian (http://app.transifex.com/arctic-games/supertux/language/it/)\n"
@@ -52,6 +52,10 @@ msgstr "Tra due Ghiacciai"
 msgid "Bouncy, Bouncy Mountainside"
 msgstr "Versante Rimbalzante"
 
+#: data/levels/world1/castle_cutscene.stl:3
+msgid "Nobody Home"
+msgstr "C'è nessuno? "
+
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
 msgstr "Il Castello di Nolok"
@@ -76,7 +80,7 @@ msgstr "Ingresso della Grotta"
 msgid "A Fork in the Road?"
 msgstr "Un bivio per la strada"
 
-#: data/levels/world1/fork_in_the_road.stl:750
+#: data/levels/world1/fork_in_the_road.stl:741
 msgid ""
 "-Secret Exit\n"
 "#Levels can sometimes house a secret exit that will reveal a hidden, alternate path! So keep an eye out for suspicious spots on the worldmap."
@@ -137,39 +141,75 @@ msgid "A Path in the Clouds"
 msgstr "Un Sentiero fra le Nuvole"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
-msgid "Tux had reached the end of the castle."
-msgstr "Tux aveva raggiunto la fine del castello."
+msgid "At last, Tux managed to rush towards the final room of the icy castle."
+msgstr "Finalmente, Tux arrivò all'ultima stanza del castello del ghiaccio. "
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
-msgid "But to his surprise all he could find was a letter."
-msgstr "Ma a sua sorpresa tutto ciò che aveva potuto trovare era una lettera."
+msgid ""
+"To his suprise, there was no one here. Neither Penny, nor this... strange "
+"Nolok guy."
+msgstr "Sorprendentemente, non c'era nessuno. Né Penny, né questo... strano Nolok. "
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
-msgid ""
-"A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "Una lettera da Penny nella quale avvisava Tux che Nolok l'aveva portata in una foresta lontana."
+msgid "Surely they had to be here somewhere, right? Perhaps a hidden room?"
+msgstr "Sicuramente dovevano essere qui, no? Forse erano in una stanza segreta? "
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
-"Unsure about what Nolok was doing to her, Tux became worried about his "
-"beloved Penny."
-msgstr "Incerto su cosa Nolok le stesse facendo, Tux si preoccupò per la sua amata Penny."
+"After a bit of back and forth with himself, Tux noticed a small note "
+"attached to one of the pillars."
+msgstr "Dopo un po' di avanti e indietro per conto suo, Tux vide una piccola lettera attaccata a una delle colonne. "
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
-msgid "Until suddenly..."
-msgstr "Finché improvvisamente..."
+msgid "It was yet another note, by that Nolok."
+msgstr "Era ancora una lettera di questo Nolok. "
+
+#: data/levels/world1/scripts_castle_cutscene.txt:7
+msgid ""
+"It read that he had already left Icy Island towards the far north. If he "
+"wished to follow him and save his beloved friend, he would have to come to "
+"the Crystal Mine."
+msgstr "Diceva che Nolok aveva già lasciato l'isola ghiacciata dirigendosi verso Nord. Se Tux avesse voluto seguirlo e salvare la sua amata amica, sarebbe dovuto passare dalle Miniere di Cristallo. "
+
+#: data/levels/world1/scripts_castle_cutscene.txt:8
+msgid ""
+"Marked below was a rough map of the Glacier Isle, showing a boat and some "
+"kind of small pier on the other end."
+msgstr "Sotto c'era una mappa un po' alla buona delle Isole Ghiacciaio, mostrando una barca e un piccolo molo sull'altra sponda. "
+
+#: data/levels/world1/scripts_castle_cutscene.txt:9
+msgid ""
+"But before Tux could even make sense of any of it, a load roar filled the "
+"room!"
+msgstr "Ma prima che Tux potesse anche solo ragionarci su, un ruggito rumoroso riempì la stanza! "
+
+#: data/levels/world1/scripts_castle_cutscene.txt:10
+msgid ""
+"The mighty Yeti had made his appearence, busting his chest in an "
+"intimidating fashion!"
+msgstr "Il mitico Yeti fece la sua comparsa, battendo i pugni sul suo petto con una bellezza intimidatoria! "
+
+#: data/levels/world1/scripts_castle_cutscene.txt:11
+msgid ""
+"Tux made his way towards a balcony on the other end of the room. With no "
+"other option, he jumped!"
+msgstr "Tux scappò verso un balcone sulla parte opposta della stanza. \nSenza altre opzioni, saltò giù! "
+
+#: data/levels/world1/scripts_castle_cutscene.txt:12
+msgid "Unfortunately, the Yeti would not let him go so easily..."
+msgstr "Sfortunatamente, lo Yeti non avrebbe lasciato Tux scappare così facilmente... "
 
 #: data/levels/world1/scripts_crystal_mine.txt:2
 msgid ""
 "After a long swim across the antarctic waters, Tux arrived at the Glacier "
-"Isles the Yeti told him about."
-msgstr "Dopo una lunga nuotata, Tux arrivò alle Isole Ghiacciaio di cui lo Yeti gli aveva parlato."
+"Isle mentioned in Nolok's note."
+msgstr "Dopo una lunga nuotata attraverso le acque artiche, Tux arrivò alle Isole Ghiacciaio menzionate nella lettera di Nolok. "
 
 #: data/levels/world1/scripts_crystal_mine.txt:3
 msgid ""
-"A massive shaft layed before him leading down into the aforementioned "
-"Crystal Mine."
-msgstr "Una grandissima miniera si stendeva davanti a lui, portandolo nella suddetta Miniera di Cristallo."
+"A massive shaft lay before him, leading down into the aforementioned Crystal"
+" Mine."
+msgstr "Una vastissima miniera si distendeva a davanti a lui, scendendo verso la già menzionata Miniera di Cristallo. "
 
 #: data/levels/world1/scripts_crystal_mine.txt:4
 msgid ""
@@ -185,25 +225,25 @@ msgstr "Alla fine, Tux attraversò la Miniera di Cristallo e si trovò sul lato 
 
 #: data/levels/world1/scripts_crystal_mine.txt:6
 msgid ""
-"As he was about the exit the mine, internally Tux was hoping that all the "
-"yeti said was true."
-msgstr "Proprio quando stava per uscire dalla miniera, dentro di sé Tux stava sperando che tutto ciò che lo Yeti gli aveva detto fosse vero."
+"As he was about to exit the mine, Tux was internally hoping that all Nolok "
+"wrote in the note was true."
+msgstr "Mentre stava uscendo dalla miniera, Tux sperava dentro di sé che tutto ciò che Nolok aveva scritto sulla lettera fosse vero."
 
 #: data/levels/world1/scripts_crystal_mine.txt:7
 msgid ""
-"To his relief, Tux did find a boat still docked. With it he could sail up "
-"north, to the aforementioned forest."
-msgstr "Per sua fortuna, Tux trovò una barca ormeggiata. Con essa avrebbe potuto salpare verso nord, verso la suddetta foresta."
+"To his relief, he did find a boat still docked. With it, he could sail up "
+"north, to find Nolok and save Penny."
+msgstr "Per sua fortuna, Tux trovò una barca ormeggiata. Con essa avrebbe potuto salpare verso nord, per trovare Nolok e salvare Penny."
 
 #: data/levels/world1/scripts_crystal_mine.txt:8
-msgid "Seems like the yeti did not lie to him after all."
-msgstr "Sembrava che in fondo lo Yeti non gli avesse mentito."
+msgid "It seemed the map in the note wasn't a trap after all."
+msgstr "Sembrava che in fondo la mappa nella lettera non fosse una trappola."
 
 #: data/levels/world1/scripts_crystal_mine.txt:9
 msgid ""
-"The more he thought about it, he probably wasn't even meant to know about "
-"all this in the first place..."
-msgstr "Pensandoci a fondo, probabilmente lui non avrebbe nemmeno dovuto essere a conoscenza di tutto questo."
+"The more he thought about it, the less he was sure about Nolok's "
+"motivations. Why would he leave clues behind?"
+msgstr "Più ci pensava, meno Tux era sicuro sulle motivazioni di Nolok. Perché dovrebbe lasciargli degli indizi?"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
@@ -246,26 +286,75 @@ msgid ""
 msgstr "Allora Tux vide in lontananza il castello di Nolok e si mise in viaggio per salvare Penny!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
-msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "Esausto dalla lunga camminata, Tux decise di prendersi un attimo di pausa."
+msgid ""
+"After an entire day of navigating Icy Island, Tux had now almost reached the"
+" supposed castle of Nolok."
+msgstr "Dopo un'intera giornata esplorando l'Isola Ghiacciata, Tux aveva quasi raggiunto il supposto castello di Nolok."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
-msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "Ma, improvvisamente, sentì un forte ruggito in lontananza."
+msgid ""
+"The lack of sleep during the night may not have been ideal but he was "
+"determined to keep going!"
+msgstr "Non aver dormito durante la notte poteva non essere stata una buona idea, ma Tux era determinato ad andare avanti!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
-msgid "A yeti seems to have observed him from afar."
-msgstr "Pareva che uno Yeti lo avesse osservato dalla distanza."
+msgid ""
+"Not wanting to waste any more time, Tux continued on, sliding down the hill "
+"he was on into the icy valley up ahead."
+msgstr "Non volendo sprecare neanche un secondo, Tux andò avanti, scivolando giù per la collina finché non fu nella Valle Ghiacciata lì davanti."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
-"Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
-" ..."
-msgstr "Preoccupato dall'improvvisa ritirata dello Yeti, Tux decise di continuare la sua avventura..."
+"Unbeknownst to him, a Yeti seemed very keen on his presence as he kept a "
+"close eye on Tux as he continued his journey."
+msgstr "Ma a sua insaputa, uno Yeti era molto attento alla sua presenza, infatti tenne d'occhio Tux per il resto della sua avventura."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
-msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "...mentre segretamente sperava assolutamente di non incontrare di nuovo lo Yeti."
+msgid ""
+"The yeti let out a loud roar and proceeded to follow the little penguin."
+msgstr "Lo Yeti ruggì e procedette nel seguire il nostro piccolo pinguino."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:2
+msgid "He did it! He actually did it! Tux had beaten the mighty yeti!"
+msgstr "Ce l'aveva fatta! Ce l'aveva fatta! Tux aveva sconfitto il mitico Yeti!"
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:3
+msgid ""
+"While it did not take long for the yeti to get up again, to Tux's relief, he"
+" did not throw hands again."
+msgstr "Anche se lo Yeti si rialzò poco dopo, per fortuna non alzò le mani di nuovo."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:4
+msgid ""
+"The yeti was furious however! He could not understand how a tiny penguin "
+"like Tux could have beaten him in a fight."
+msgstr "Lo Yeti era furioso, comunque! Non poteva credere che un piccolo pinguino come Tux lo avesse battuto in uno scontro."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:5
+msgid ""
+"Almost as if he forgot Tux was there to begin with, the yeti rushed off, "
+"grumbling to himself."
+msgstr "Come se avesse dimenticato che Tux era lì, lo Yeti si precipitò via, borbottando tra sé e sé."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:6
+msgid "Not sure what to make of it, Tux decided to continue moving onwards."
+msgstr "Non essendo molto sicuro su quello che doveva fare, Tux decise che doveva andare avanti."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:7
+msgid ""
+"As he reached the shore, Tux could already see the Glacier Isle on the "
+"horizon."
+msgstr "Quando raggiunse la spiaggia, Tux poteva già vedere le Isole Ghiacciaio sull'orizzonte."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:8
+msgid ""
+"If he knew Nolok went over there sooner, he could have been there much "
+"faster."
+msgstr "Se avesse saputo che Nolok era già stato lì, ci sarebbe andato molto prima."
+
+#: data/levels/world1/scripts_yetiwin_cutscene.txt:9
+msgid "Perhaps that was Nolok's goal with the note he left behind..."
+msgstr "Anche se quello era l'obiettivo della lettera che Nolok si era lasciato dietro..."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "Shattered Bridge"
@@ -337,7 +426,7 @@ msgstr "-Bambola Tux\n!images/powerups/1up/1up.png\n#La bambola Tux fornisce 100
 msgid "Icy Island"
 msgstr "Isola Ghiacciata"
 
-#: data/levels/world1/worldmap.stwm:210
+#: data/levels/world1/worldmap.stwm:243
 msgid "You found a secret area!"
 msgstr "Hai trovato un'area segreta!"
 
@@ -346,5 +435,9 @@ msgid "No More Mr. Ice Guy"
 msgstr "Mai Più Signor Ghiacciolo"
 
 #: data/levels/world1/yeti_cutscene.stl:3
-msgid "A Yeti in the Distance"
-msgstr "Uno Yeti in lontananza"
+msgid "An Unsuspected Follower"
+msgstr "Un Inseguitore Insospettato."
+
+#: data/levels/world1/yetiwin_cutscene.stl:3
+msgid "Off to the Glacier Isles"
+msgstr "Via verso le Isole Ghiacciaio!"

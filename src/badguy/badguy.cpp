@@ -798,10 +798,7 @@ BadGuy::kill_squished(GameObject& object)
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   m_physic.enable_gravity(true);
 
-  if (on_ground())
-    m_physic.set_velocity(0, 0);
-  else
-    m_physic.set_velocity_y(0.0f);
+  m_physic.set_velocity(0, 0);
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   auto player = dynamic_cast<Player*>(&object);

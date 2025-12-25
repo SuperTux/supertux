@@ -30,7 +30,7 @@ public:
   {
     NONE,
     FADE,
-    CIRCLE
+    CIRCLE,
   };
 
   virtual ~ScreenFade() {}

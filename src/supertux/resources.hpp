@@ -46,6 +46,7 @@ public:
 
   /** Regular sized font for menus and text scrolls. */
   static FontPtr normal_font;
+  static FontPtr normal_bitmap_font;
 
   /** Small font for statistics, FPS, etc. */
   static FontPtr small_font;

@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_BADGUY_TREEWILLOWISP_HPP
 
 #include "badguy/badguy.hpp"
+#include "supertux/timer.hpp"
 
 class GhostTree;
 class SoundSource;
@@ -34,44 +35,47 @@ public:
 
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
-  virtual void kill_fall() override { vanish(); }
+  virtual void kill_fall() override {}
 
   virtual void draw(DrawingContext& context) override;
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
-  /** make TreeWillOWisp vanish */
   void vanish();
-  void start_sucking(const Vector& suck_target);
+  void start_sucking(const Vector& suck_target, float duration);
+  void fly_away(const Vector& from);
 
   void set_color(const Color& color);
-  inline Color get_color() const { return color; }
+  inline Color get_color() const { return m_color; }
 
-protected:
-  virtual bool collides(MovingObject& other, const CollisionHit& hit) const override;
-  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  inline bool was_sucked() const { return m_state == STATE_SUCKED; }
 
 private:
   enum MyState {
-    STATE_DEFAULT, STATE_VANISHING, STATE_SUCKED
+    STATE_DEFAULT,
+    STATE_VANISHING,
+    STATE_IDLE,
+    STATE_SUCKED,
+    STATE_FLY_AWAY
   };
 
-public:
-  bool was_sucked;
-
 private:
-  MyState mystate;
+  MyState m_state;
 
-  Color color;
-  float angle;
-  float radius;
-  float speed;
+  Color m_color;
+  float m_angle;
+  float m_radius;
+  float m_speed;
 
-  std::unique_ptr<SoundSource> sound_source;
-  GhostTree* tree;
+  std::unique_ptr<SoundSource> m_sound;
+  GhostTree* m_tree;
 
-  Vector suck_target;
+  Vector m_suck_start;
+  Vector m_suck_target;
+  Timer m_suck_timer;
+
+  Vector m_fly_dir;
 
 private:
   TreeWillOWisp(const TreeWillOWisp&) = delete;

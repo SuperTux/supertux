@@ -119,7 +119,8 @@ LevelTime::draw(DrawingContext& context)
 
     if (time_surface)
     {
-      float all_width = static_cast<float>(time_surface->get_width()) + Resources::normal_font->get_text_width(time_text);
+      float all_width = static_cast<float>(time_surface->get_width()) + Resources::normal_font->get_text_width(time_text)
+          + (g_config->show_game_timer ? context.get_width() * 0.10f * 2 : 0.f);
       context.color().draw_surface(time_surface,
                                    Vector((context.get_width() - all_width) / 2.0f,
                                           BORDER_Y + 1),

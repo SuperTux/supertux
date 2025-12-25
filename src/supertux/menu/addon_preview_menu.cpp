@@ -138,7 +138,7 @@ AddonPreviewMenu::rebuild_menu()
   }
   add_inactive("");
 
-  add_inactive(_("Overrides Data: ") + (overrides_data ? _("Yes") : _("No")), true);
+  add_inactive(fmt::format(fmt::runtime(_("Overrides Data: {}")), overrides_data ? _("Yes") : _("No")), true);
   add_inactive("");
 
   if (screenshots_available && !m_auto_install)

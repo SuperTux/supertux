@@ -280,7 +280,7 @@ open_editor(const std::string& filename)
     log_fatal << "Failed to spawn editor: " << editor << std::endl;
   }
 #else
-  ShellExecute(NULL, editor.c_str(), filename.c_str(), NULL, NULL, SW_SHOWNORMAL);
+  ShellExecute(NULL, NULL, editor.c_str(), filename.c_str(), NULL, SW_SHOWNORMAL);
 #endif
 #endif
 }

@@ -280,15 +280,17 @@ PlayerStatus::give_item_from_pocket(Player* player)
 void
 PlayerStatus::add_item_to_pocket(BonusType bonustype, Player* player)
 {
-  if (m_hud) m_hud->on_item_pocket_change(player);
 
   if (!is_item_pocket_allowed())
     return;
 
-  m_item_pockets[player->get_id()] = bonustype;
-
   if (bonustype <= BONUS_GROWUP)
     return;
+
+  if (m_hud)
+    m_hud->on_item_pocket_change(player);
+
+  m_item_pockets[player->get_id()] = bonustype;
 }
 
 BonusType
