@@ -1,4 +1,4 @@
-package org.lethargik.supertux2;
+package org.supertux.supertux2;
 
 import android.os.Bundle;
 import org.libsdl.app.*;

@@ -1,3 +1,4 @@
+/*
 def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
 def buildAsApplication = !buildAsLibrary
 if (buildAsApplication) {
@@ -6,22 +7,32 @@ if (buildAsApplication) {
 else {
     apply plugin: 'com.android.library'
 }
+*/
+apply plugin: 'com.android.application'
 
 Properties props = new Properties()
 if (rootProject.file("${rootDir}/local.properties").exists()) {
     props.load(rootProject.file("${rootDir}/local.properties").newDataInputStream())
 }
 
+var APP_ID = "org.supertux.supertux2"
+
 android {
     compileSdkVersion 35
     defaultConfig {
+        /*
         if (buildAsApplication) {
-            applicationId "org.lethargik.supertux2"
+            applicationId APP_ID
         }
+        */
+        applicationId APP_ID
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode 7000
+
+        // NOTE: Don't forget to bump the version code!
+        versionCode 1
         versionName "0.7.0"
+
         ndkVersion "29.0.14206865"
         externalNativeBuild {
             cmake {
@@ -66,8 +77,9 @@ android {
     lintOptions {
         abortOnError false
     }
-    namespace 'org.lethargik.supertux2'
+    namespace APP_ID
 
+    /*
     if (buildAsLibrary) {
         libraryVariants.all { variant ->
             variant.outputs.each { output ->
@@ -79,6 +91,7 @@ android {
             }
         }
     }
+    */
 }
 
 dependencies {

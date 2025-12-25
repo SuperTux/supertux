@@ -443,7 +443,8 @@ FL_FindLocale(FL_Locale **locale) {
   // normal method will always give default guess
   // use JNI instead
   JNIEnv* env = (JNIEnv*) SDL_AndroidGetJNIEnv();
-  jclass cls = (*env)->FindClass(env, "org/lethargik/supertux2/MainActivity");
+  // TODO: Specify package name in a compiler definition
+  jclass cls = (*env)->FindClass(env, "org/supertux/supertux2/MainActivity");
   if (cls != NULL) {
     jmethodID getlang = (*env)->GetStaticMethodID(env, cls, "getLang", "()[C");
     jmethodID getcountry = (*env)->GetStaticMethodID(env, cls, "getCountry", "()[C");
