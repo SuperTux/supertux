@@ -310,7 +310,7 @@ void title(void)
       
       if (Menu::current() == main_menu) {
 	if (screen->w <= 640) {
-            logo->draw( screen->w-screen->h, 30);
+        logo->draw( screen->w-screen->h, 30);
 	}
 	else {
 	    logo->draw( screen->w-screen->h-200, 30);
