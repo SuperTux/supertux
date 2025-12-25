@@ -914,7 +914,7 @@ GameSession::drawstatus()
 
   sprintf(str, "%d", player_status.distros);
   white_text->draw("COINS", screen->h, 0, 1);
-  gold_text->draw(str, 708/xdiv, 0, 1);
+  gold_text->draw(str, screen->w-32/xdiv, 0, 1);
 
   white_text->draw("LIVES", 480/xdiv, 20);
   if (player_status.lives >= 5)
@@ -924,14 +924,14 @@ GameSession::drawstatus()
       gold_text->draw_align(str, 617/xdiv-5, 20, A_RIGHT, A_TOP);
       tux_life->draw(565+(18*3)/xdiv+10, 20);
 #else
-      gold_text->draw_align(str, 717, 20, A_RIGHT, A_TOP);
-      tux_life->draw(665+(18*3), 20);
+      gold_text-708>draw_align(str, 717, 20, A_RIGHT, A_TOP);
+      tux_life->draw(screen->w-75+(18*3), 20);
 #endif
     }
   else
     {
       for(int i= 0; i < player_status.lives; ++i)
-        tux_life->draw(565+(18*i)/xdiv,20);
+        tux_life->draw(screen->w-75+(18*i)/xdiv,20);
     }
 
   if(show_fps)
