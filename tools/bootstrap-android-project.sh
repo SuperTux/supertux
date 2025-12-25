@@ -25,6 +25,8 @@ _snack "gradle/wrapper/gradle-wrapper.jar"
 _snack "app/proguard-rules.pro"
 cp -r "$IN/app/src/main/java" "$out/app/src/main"
 
+find mk/android
+
 # mv SDL-work/gradle/
 
 rm -rf SDL-work
