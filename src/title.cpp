@@ -309,12 +309,12 @@ void title(void)
       draw_demo(&session, frame_ratio);
       
       if (Menu::current() == main_menu) {
-	if (screen->w <= 640) {
-        logo->draw( screen->w-screen->h, 30);
-	}
-	else {
-	    logo->draw( screen->w-screen->h-200, 30);
-	}
+		if (screen->w <= 640) {
+	        logo->draw( screen->w-screen->h, 30);
+		}
+		else {
+		    logo->draw( screen->w-screen->h-200, 30);
+		}
       }
 #ifndef RES320X240
       white_small_text->draw(" SuperTux " VERSION "\n"
