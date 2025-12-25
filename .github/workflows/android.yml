@@ -39,6 +39,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Bootstrap custom VCPKG
+        run: |
+          ls -la $VCPKG_INSTALLATION_ROOT
+
+
       - name: Prepare SDL Android project
         if: steps.use-dependencies.outputs.cache-hit != 'true'
         run: |
