@@ -121,9 +121,6 @@ jobs:
             zlib1g-dev:i386 \
             libfmt-dev:i386 \
             libglm-dev
-          
-          # Move patch file into vcpkg directory
-          mv mk/vcpkg/install-pkgconfig.patch /usr/local/share/vcpkg/
 
           # Let's get out of this directory to disable vcpkg manifest mode.
           # Manifest mode is not adequate here because most dependencies can
@@ -132,13 +129,6 @@ jobs:
 
           # These libraries don't exist for 32-bit in Ubuntu repositories.
           vcpkg integrate install
-          pushd /usr/local/share/vcpkg
-          git fetch origin
-          git reset --hard origin/master
-          git apply --ignore-whitespace install-pkgconfig.patch
-
-          popd
-
           vcpkg install --triplet x86-linux physfs glew libraqm
 
           popd

@@ -13,11 +13,7 @@ endif()
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
   set(EM_USE_FLAGS "${EM_USE_FLAGS} -fsanitize=undefined")
-  # Note: Since building with libraqm enabled, -sSAFE_HEAP=1 fails with WASM validator errors,
-  # such as [wasm-validator error in function hb_atomic_t<hb_unicode_funcs_t*>::get_acquire\28\29\20const]
-  # unexpected false: call target must exist. An update of our SDL_ttf submodule might fix this.
-  # In the meantime, -sSAFE_HEAP=1 was removed.
-  set(EM_LINK_FLAGS "${EM_LINK_FLAGS} -fsanitize=undefined -sASSERTIONS=1")
+  set(EM_LINK_FLAGS "${EM_LINK_FLAGS} -fsanitize=undefined -sSAFE_HEAP=1 -sASSERTIONS=1")
 endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EM_USE_FLAGS} ${EM_C_FLAGS}")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EM_USE_FLAGS} ${EM_C_FLAGS}")

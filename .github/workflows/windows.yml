@@ -61,16 +61,7 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         env:
           ARCH: ${{ matrix.arch }}
-          BUILD_TYPE: ${{ matrix.build_type }}
         run: |
-          # Move patch file into vcpkg directory
-          mv mk/vcpkg/install-pkgconfig.patch C:/vcpkg/
-
-          cd C:/vcpkg
-          git fetch origin
-          git reset --hard origin/master
-          git apply --ignore-whitespace install-pkgconfig.patch
-          
           cd C:/
           vcpkg integrate install
           vcpkg install curl:$Env:ARCH-windows
@@ -86,15 +77,6 @@ jobs:
           vcpkg install physfs:$Env:ARCH-windows
           vcpkg install libraqm:$Env:ARCH-windows
           vcpkg install --recurse freetype:$Env:ARCH-windows
-
-          if ($Env:BUILD_TYPE -eq "RelWithDebInfo")
-          {
-            $VCPKG_INSTALLED_PACKAGE_DIR="C:/vcpkg/installed/$Env:ARCH-windows"
-            Copy-Item "$VCPKG_INSTALLED_PACKAGE_DIR/debug/bin/*" -Destination "$VCPKG_INSTALLED_PACKAGE_DIR/bin" -Recurse
-            
-            # Print dependencies
-            Get-ChildItem -Path "$VCPKG_INSTALLED_PACKAGE_DIR/bin" -Recurse
-          }
 
       - name: Run slugify
         id: slugify

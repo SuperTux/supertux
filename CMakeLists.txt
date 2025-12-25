@@ -180,6 +180,11 @@ else()
   include(SuperTux/Emscripten)
 endif()
 
+if(TARGET RAQM)
+  message(STATUS "Compiling SDL_ttf with RAQM")
+  set(SDL2TTF_RAQM ON)
+endif()
+
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
 add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
