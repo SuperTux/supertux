@@ -43,6 +43,15 @@ jobs:
         env:
           VCPKG_ROOT: ${{ github.workspace }}/vcpkg
         run: |
+          case "${{ matrix.arch }}" in
+            arm64-v8a) export VCPKG_TRIPLET=arm64-android ;;
+            armeabi-v7a) export VCPKG_TRIPLET=arm-android ;;
+            x86) export VCPKG_TRIPLET=x86-android ;;
+            x86_64) export VCPKG_TRIPLET=x64-android ;;
+          esac
+          echo $VCPKG_TRIPLET >> $GITHUB_ENV
+          echo $VCPKG_ROOT >> $GITHUB_ENV
+
           git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
           cd vcpkg
           ./bootstrap-vcpkg.sh
@@ -55,8 +64,12 @@ jobs:
 
       - name: Prepare SDL Android project
         if: steps.use-dependencies.outputs.cache-hit != 'true'
+        env:
+          VCPKG_ROOT: ${{ github.workspace }}/vcpkg
         run: |
           ./tools/bootstrap-android-project.sh 2.32.10
+
+          echo "vcpkg_root=$VCPKG_ROOT" > mk/android/local.properties
 
       - name: Set up JDK 20
         uses: actions/setup-java@v4
@@ -76,7 +89,7 @@ jobs:
       - name: Build APK
         working-directory: mk/android/
         env:
-          VCPKG_ROOT: ${{ env.VCPKG_INSTALLATION_ROOT }}
+          VCPKG_ROOT: ${{ github.workspace }}/vcpkg
         run: |
           chmod +x ./gradlew
           ./gradlew assembleRelease -Pcpuarch="${{ matrix.arch }}" --info
