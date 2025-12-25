@@ -46,14 +46,6 @@ endif()
 
 project(SUPERTUX LANGUAGES C CXX)
 
-# Qt Creator shall not configure this project directly when building for Android.
-# The CMake calls are managed by Gradle.
-# You must specify the QT_CREATOR variable manually
-if(ANDROID AND QT_CREATOR)
-  add_subdirectory(mk/cmake/android/)
-  return()
-endif()
-
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0069 NEW)
 endif()
