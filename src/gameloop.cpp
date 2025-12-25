@@ -163,11 +163,18 @@ GameSession::levelintro(void)
   
   char str[60];
  
-  if (get_level()->img_bkgd)
-    get_level()->img_bkgd->draw(0, 0);
-  else
-    drawgradient(get_level()->bkgd_top, get_level()->bkgd_bottom);
+  if (get_level()->img_bkgd) {
+    int bg_w = get_level()->img_bkgd->w; 
+    int scroll_offset = (int)scroll_x % bg_w; 
 
+    for (int x = -scroll_offset; x < screen->w; x += bg_w)
+    {
+        get_level()->img_bkgd->draw(x, 0);
+    }
+  }
+  else {
+    drawgradient(get_level()->bkgd_top, get_level()->bkgd_bottom);
+  }
   sprintf(str, "%s", world->get_level()->name.c_str());
   gold_text->drawf(str, 0, 200, A_HMIDDLE, A_TOP, 1);
 
@@ -907,7 +914,7 @@ GameSession::drawstatus()
 
   sprintf(str, "%d", player_status.distros);
   white_text->draw("COINS", screen->h, 0, 1);
-  gold_text->draw(str, 608/xdiv, 0, 1);
+  gold_text->draw(str, 708/xdiv, 0, 1);
 
   white_text->draw("LIVES", 480/xdiv, 20);
   if (player_status.lives >= 5)
@@ -917,8 +924,8 @@ GameSession::drawstatus()
       gold_text->draw_align(str, 617/xdiv-5, 20, A_RIGHT, A_TOP);
       tux_life->draw(565+(18*3)/xdiv+10, 20);
 #else
-      gold_text->draw_align(str, 617, 20, A_RIGHT, A_TOP);
-      tux_life->draw(565+(18*3), 20);
+      gold_text->draw_align(str, 717, 20, A_RIGHT, A_TOP);
+      tux_life->draw(665+(18*3), 20);
 #endif
     }
   else

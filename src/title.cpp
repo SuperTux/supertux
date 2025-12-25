@@ -309,7 +309,7 @@ void title(void)
       draw_demo(&session, frame_ratio);
       
       if (Menu::current() == main_menu)
-        logo->draw( 160, 30);
+        logo->draw( 360, 30);
 
 	
 #ifndef RES320X240

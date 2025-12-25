@@ -184,16 +184,22 @@ World::draw()
   int y,x;
 
   /* Draw the real background */
-  if(level->img_bkgd)
-    {
-      int s = (int)((float)scroll_x * ((float)level->bkgd_speed/100.0f)) % screen->w;
-      level->img_bkgd->draw_part(s, 0,0,0,level->img_bkgd->w - s, level->img_bkgd->h);
-      level->img_bkgd->draw_part(0, 0,screen->w - s ,0,s,level->img_bkgd->h);
-    }
+  if (level->img_bkgd)
+  {
+      int bg_w = level->img_bkgd->w; 
+      int bg_h = level->img_bkgd->h;
+
+      int offset = (int)(scroll_x * (level->bkgd_speed / 100.0f)) % bg_w;
+
+      for (int x = -offset; x < screen->w; x += bg_w)
+      {
+          level->img_bkgd->draw_part(0, 0, x, 0, bg_w, bg_h);
+      }
+  }
   else
-    {
+  {
       drawgradient(level->bkgd_top, level->bkgd_bottom);
-    }
+  }
     
   /* Draw particle systems (background) */
   std::vector<ParticleSystem*>::iterator p;
@@ -203,24 +209,25 @@ World::draw()
     }
 
   /* Draw background: */
-  for (y = 0; y < 15; ++y)
-    {
-      for (x = 0; x < 21; ++x)
-        {
-          Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
-                     level->bg_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
-        }
-    }
+  for (y = 0; y < screen->h / 32; ++y) {
+
+      for (int x = 0; x <= screen->w / 32 + 1; ++x)
+      {
+          Tile::draw(
+              32*x - fmodf(scroll_x, 32),
+              32*y,
+              level->bg_tiles[y][x + (int)(scroll_x / 32)]
+          );
+      }
+  }
 
   /* Draw interactive tiles: */
-  for (y = 0; y < 15; ++y)
-    {
-      for (x = 0; x < 21; ++x)
-        {
-          Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
-                     level->ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
-        }
-    }
+  for (y = 0; y < screen->h / 32; ++y) {
+      for (x = 0; x < screen->w / 32 + 1; ++x) {
+	  Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
+                     level->ia_tiles[y][x + (int)(scroll_x / 32)]);
+      }
+  }
 
   /* (Bouncy bricks): */
   for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
@@ -247,9 +254,9 @@ World::draw()
     broken_bricks[i]->draw();
 
   /* Draw foreground: */
-  for (y = 0; y < 15; ++y)
+  for (y = 0; y < screen->h / 32; ++y)
     {
-      for (x = 0; x < 21; ++x)
+      for (x = 0; x < screen->w / 32 + 1; ++x)
         {
           Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
                      level->fg_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);

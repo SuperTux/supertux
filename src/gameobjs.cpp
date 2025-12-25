@@ -172,13 +172,21 @@ BouncyBrick::draw()
         }
       else
         {
-          int s = ((int)scroll_x / 2)%640;
+        int bg_w = plevel->img_bkgd->w;  // width of background image
+        int s = ((int)scroll_x / 2) % bg_w;  // horizontal scroll offset
+
 #ifdef RES320X240
-          plevel->img_bkgd->draw_part(dest.x/2 + s/2, dest.y/2, 
-                                      dest.x/2, dest.y,dest.w/2,dest.h/2);
+    for (int x = -s/2; x < dest.w/2; x += bg_w/2)
+    {
+        plevel->img_bkgd->draw_part(dest.x/2 + x, dest.y/2, 
+                                    dest.x/2, dest.y, dest.w/2, dest.h/2);
+    }
 #else
-          plevel->img_bkgd->draw_part(dest.x + s, dest.y, 
-                                      dest.x, dest.y,dest.w,dest.h);
+    for (int x = -s; x < dest.w; x += bg_w)
+    {
+        plevel->img_bkgd->draw_part(dest.x + x, dest.y, 
+                                    dest.x, dest.y, dest.w, dest.h);
+    }
 #endif
         }
 

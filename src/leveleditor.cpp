@@ -913,13 +913,17 @@ void le_drawlevel()
   Uint8 a;
 
   /* Draw the real background */
-  if(le_world->get_level()->bkgd_image[0] != '\0')
+  if (le_world->get_level()->bkgd_image[0] != '\0' && le_world->get_level()->img_bkgd)
   {
-    s = (int)((float)pos_x * ((float)le_world->get_level()->bkgd_speed/100.0f)) % screen->w;
-    le_world->get_level()->img_bkgd->draw_part(s,0,0,0,
-        le_world->get_level()->img_bkgd->w - s - 32, le_world->get_level()->img_bkgd->h);
-    le_world->get_level()->img_bkgd->draw_part(0,0,screen->w - s - 32 ,0,s,
-        le_world->get_level()->img_bkgd->h);
+      int bg_w = le_world->get_level()->img_bkgd->w;
+      int bg_h = le_world->get_level()->img_bkgd->h;
+
+      int offset = (int)(pos_x * (le_world->get_level()->bkgd_speed / 100.0f)) % bg_w;
+
+      for (int x = -offset; x < screen->w; x += bg_w)
+      {
+          le_world->get_level()->img_bkgd->draw_part(0, 0, x, 0, bg_w, bg_h);
+      }
   }
   else
   {
@@ -939,38 +943,26 @@ void le_drawlevel()
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
 
-  for (y = 0; y < 15; ++y)
-    for (x = 0; x < 20; ++x)
-    {
+  for (y = 0; y < screen->h / 32; ++y)
+  {
+      for (int x = 0; x <= screen->w / 32 + 1; ++x)
+      {
+          int tile_x = x + (int)(pos_x / 32);   
 
-      if(active_tm == TM_BG)
-        a = 255;
-      else
-        a = 128;
+          Tile::draw(32*x - fmodf(pos_x, 32), y * 32,
+                   le_world->get_level()->bg_tiles[y][tile_x], a);
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_world->get_level()->bg_tiles[y][x + (int)(pos_x / 32)],a);
+          Tile::draw(32*x - fmodf(pos_x, 32), y * 32,
+                   le_world->get_level()->ia_tiles[y][tile_x], a);
 
-      if(active_tm == TM_IA)
-        a = 255;
-      else
-        a = 128;
+          Tile::draw(32*x - fmodf(pos_x, 32), y * 32,
+                   le_world->get_level()->fg_tiles[y][tile_x], a);
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)],a);
-
-      if(active_tm == TM_FG)
-        a = 255;
-      else
-        a = 128;
-
-      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_world->get_level()->fg_tiles[y][x + (int)(pos_x / 32)],a);
-
-      /* draw whats inside stuff when cursor is selecting those */
-      /* (draw them all the time - is this the right behaviour?) */
-      Tile* edit_image = TileManager::instance()->get(le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)]);
-      if(edit_image && !edit_image->editor_images.empty())
-        edit_image->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32);
-
-    }
+          Tile* edit_image = TileManager::instance()->get(le_world->get_level()->ia_tiles[y][tile_x]);
+          if(edit_image && !edit_image->editor_images.empty())
+                edit_image->editor_images[0]->draw(32*x - ((int)pos_x % 32), 32*y);
+      }
+  }
 
   /* Draw the Bad guys: */
   for (std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it)
