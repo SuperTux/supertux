@@ -60,7 +60,7 @@ jobs:
           cd vcpkg
           ./bootstrap-vcpkg.sh
 
-          ./vcpkg install --classic --triplet=arm64-android \
+          ./vcpkg install --classic \
           fmt libogg libvorbis libraqm freetype physfs glm libpng zlib \
           sdl2 sdl2-image curl openal-soft libogg libvorbis
 
