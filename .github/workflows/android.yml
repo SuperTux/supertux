@@ -40,9 +40,14 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Bootstrap custom VCPKG
+        env:
+          VCPKG_ROOT: ${{ env.VCPKG_INSTALLATION_ROOT }}
         run: |
-          ls -la $VCPKG_INSTALLATION_ROOT
+          vcpkg install --triplet arm64-android \
+          fmt libogg libvorbis libraqm freetype physfs glm libpng zlib \
+          sdl2 sdl2-image curl openal-soft libogg libvorbis
 
+          find $VCPKG_ROOT/installed -name '*.pc' -exec sed -i 's/-lc\+\+//g' {} \;
 
       - name: Prepare SDL Android project
         if: steps.use-dependencies.outputs.cache-hit != 'true'
@@ -66,6 +71,8 @@ jobs:
 
       - name: Build APK
         working-directory: mk/android/
+        env:
+          VCPKG_ROOT: ${{ env.VCPKG_INSTALLATION_ROOT }}
         run: |
           chmod +x ./gradlew
           ./gradlew assembleRelease -Pcpuarch="${{ matrix.arch }}" --info
