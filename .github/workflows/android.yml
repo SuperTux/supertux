@@ -117,7 +117,7 @@ jobs:
           -dname "cn=MatusBro, ou=Contributor, O=SuperTux Team, L=Antarctica, ST=Antarctica, C=aq" \
           -keyalg RSA -keysize 2048 -validity 10000
 
-          $ANDROID_SDK_ROOT/build-tools/33.0.2/apksigner sign \
+          $ANDROID_SDK_ROOT/build-tools/35.0.0/apksigner sign \
           --ks supertux.keystore --ks-pass pass:supertux \
           ./app-release.apk
 
