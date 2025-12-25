@@ -42,7 +42,14 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
-      - name: Bootstrap custom VCPKG
+      - name: Use cached dependencies
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg
+          key: ${{ runner.os }}-${{ matrix.arch }}-vcpkg-${{ hashFiles('.github/workflows/android.yml') }}
+
+      - name: Bootstrap custom vcpkg
         env:
           VCPKG_ROOT: ${{ github.workspace }}/vcpkg
         run: |
@@ -71,11 +78,12 @@ jobs:
         env:
           VCPKG_ROOT: ${{ github.workspace }}/vcpkg
         run: |
+          # Has to be the same version as the one found in vcpkg!!
           ./tools/bootstrap-android-project.sh 2.32.10
 
           echo "vcpkg_root=$VCPKG_ROOT" > mk/android/local.properties
 
-      - name: Set up JDK 20
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
