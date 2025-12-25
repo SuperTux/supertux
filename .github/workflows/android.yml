@@ -48,9 +48,10 @@ jobs:
             armeabi-v7a) export VCPKG_TRIPLET=arm-android ;;
             x86) export VCPKG_TRIPLET=x86-android ;;
             x86_64) export VCPKG_TRIPLET=x64-android ;;
+            *) exit 67 ;;
           esac
-          echo $VCPKG_TRIPLET >> $GITHUB_ENV
-          echo $VCPKG_ROOT >> $GITHUB_ENV
+          echo "VCPKG_TRIPLET=$VCPKG_TRIPLET" >> $GITHUB_ENV
+          echo "VCPKG_ROOT=$VCPKG_ROOT" >> $GITHUB_ENV
 
           git clone https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
           cd vcpkg
