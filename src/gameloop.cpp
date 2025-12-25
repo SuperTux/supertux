@@ -924,7 +924,7 @@ GameSession::drawstatus()
       gold_text->draw_align(str, 617/xdiv-5, 20, A_RIGHT, A_TOP);
       tux_life->draw(565+(18*3)/xdiv+10, 20);
 #else
-      gold_text-708>draw_align(str, 717, 20, A_RIGHT, A_TOP);
+      gold_text->draw_align(str, screen->w-23, 20, A_RIGHT, A_TOP);
       tux_life->draw(screen->w-75+(18*3), 20);
 #endif
     }
