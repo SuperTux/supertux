@@ -65,7 +65,7 @@ jobs:
           fmt libogg libvorbis libraqm freetype physfs glm libpng zlib \
           sdl2 sdl2-image curl openal-soft libogg libvorbis
 
-          find $VCPKG_ROOT/installed -name '*.pc' -exec sed -i 's/-lc\+\+//g' {} \;
+          find $VCPKG_ROOT/installed -name '*.pc' -exec sed -i -E 's/-lc\+\+//g' {} \;
 
       - name: Prepare SDL Android project
         if: steps.use-dependencies.outputs.cache-hit != 'true'
