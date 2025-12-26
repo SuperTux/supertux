@@ -159,6 +159,7 @@ jobs:
           cp ./SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}-unsigned.apk ./SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}.apk
 
           if [[ "${{ secrets.ANDROID_SIGNING_KEY }}" ]]
+          then
             $ANDROID_SDK_ROOT/build-tools/${B_T_VERSION}/apksigner sign \
               --ks supertux.keystore \
               --ks-key-alias supertux \
