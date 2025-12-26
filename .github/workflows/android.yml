@@ -125,11 +125,13 @@ jobs:
           mv mk/android/app/build/outputs/apk/release/app-release-unsigned.apk \
             mk/android/app/build/outputs/apk/release/SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}-unsigned.apk
 
-      - name: Upload unsigned APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: "Unsigned APK ${{ matrix.arch }}"
-          path: "mk/android/app/build/outputs/apk/release/SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}-unsigned.apk"
+      ### Not really a point, but kept around for now
+      #
+      # - name: Upload unsigned APK
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: "Unsigned APK ${{ matrix.arch }}"
+      #     path: "mk/android/app/build/outputs/apk/release/SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}-unsigned.apk"
 
       - name: Fetch keys
         working-directory: mk/android/app/build/outputs/apk/release
@@ -178,5 +180,5 @@ jobs:
       - name: Upload signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: "Signed APK ${{ matrix.arch }}"
+          name: "Signed SuperTux APK ${{ matrix.arch }}"
           path: "mk/android/app/build/outputs/apk/release/SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}.apk"
