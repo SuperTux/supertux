@@ -50,6 +50,7 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.arch }}-vcpkg-${{ hashFiles('.github/workflows/android.yml') }}
 
       - name: Bootstrap custom vcpkg
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         env:
           VCPKG_ROOT: ${{ github.workspace }}/vcpkg
         run: |
