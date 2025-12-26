@@ -114,6 +114,13 @@ else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
+## Determ
+if(MSVC OR ANDROID)
+  option(USE_STATIC_SIMPLESQUIRREL "Statically link the SimpleSquirrel library" ON)
+else()
+  option(USE_STATIC_SIMPLESQUIRREL "Statically link the SimpleSquirrel library" OFF)
+endif()
+
 ## Check platform-dependent build options
 include(ConfigureChecks)
 
@@ -366,11 +373,12 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
 endif()
 
 ## Link supertux binary with squirrel and other libraries
-if(MSVC)
+if(USE_STATIC_SIMPLESQUIRREL)
   target_link_libraries(supertux2 PUBLIC simplesquirrel_static)
 else()
   target_link_libraries(supertux2 PUBLIC simplesquirrel)
 endif()
+
 target_link_libraries(supertux2 PUBLIC
   tinygettext sexp SDL_SavePNG SDL2_ttf
   PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
