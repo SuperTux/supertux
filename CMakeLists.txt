@@ -114,7 +114,7 @@ else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
-## Determ
+## Determine whether static linking for SimpleSquirrel should be defaulted to
 if(MSVC OR ANDROID)
   option(USE_STATIC_SIMPLESQUIRREL "Statically link the SimpleSquirrel library" ON)
 else()
