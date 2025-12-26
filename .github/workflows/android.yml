@@ -34,6 +34,13 @@ jobs:
       matrix:
         arch: [arm64-v8a, armeabi-v7a, x86, x86_64]
     runs-on: ubuntu-latest
+    env:
+      UPERTUX_VERSION: v0.7.0
+      SDL_TAG: 2.32.10
+      B_T_VERSION: 35.0.0
+      NDK_VERSION: 29.0.14206865
+      SDK_VERSION: 35
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
 
     steps:
       - uses: actions/checkout@v4
@@ -51,8 +58,6 @@ jobs:
 
       - name: Bootstrap custom vcpkg
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        env:
-          VCPKG_ROOT: ${{ github.workspace }}/vcpkg
         run: |
           case "${{ matrix.arch }}" in
             arm64-v8a) export VCPKG_TRIPLET=arm64-android ;;
@@ -69,18 +74,28 @@ jobs:
           ./bootstrap-vcpkg.sh
 
           ./vcpkg install --classic --triplet=$VCPKG_TRIPLET \
-          fmt libogg libvorbis libraqm freetype physfs glm libpng zlib \
-          sdl2 sdl2-image curl openal-soft libogg libvorbis
+            fmt     \
+            libogg   \
+            libvorbis \
+            libraqm    \
+            freetype    \
+            physfs      \
+            glm         \
+            libpng      \
+            zlib        \
+            sdl2        \
+            sdl2-image  \
+            curl        \
+            openal-soft \
+            libogg      \
+            libvorbis
 
           find $VCPKG_ROOT/installed -name '*.pc' -exec sed -i -E 's/-lc\+\+//g' {} \;
 
       - name: Prepare SDL Android project
-        if: steps.use-dependencies.outputs.cache-hit != 'true'
-        env:
-          VCPKG_ROOT: ${{ github.workspace }}/vcpkg
         run: |
           # Has to be the same version as the one found in vcpkg!!
-          ./tools/bootstrap-android-project.sh 2.32.10
+          ./tools/bootstrap-android-project.sh ${SDL_TAG}
 
           echo "vcpkg_root=$VCPKG_ROOT" > mk/android/local.properties
 
@@ -95,42 +110,41 @@ jobs:
         uses: android-actions/setup-android@v2
         with:
           packages: |
-            platforms;android-35
-            ndk;29.0.14206865
-            build-tools;35.0.0
+            platforms;android-${{ env.SDK_VERSION }}
+            ndk;${{ env.NDK_VERSION }}
+            build-tools;${{ env.B_T_VERSION }}
 
       - name: Build APK
         working-directory: mk/android/
-        env:
-          VCPKG_ROOT: ${{ github.workspace }}/vcpkg
         run: |
           chmod +x ./gradlew
           ./gradlew assembleRelease -Pcpuarch="${{ matrix.arch }}" --info
+          mv mk/android/app/build/outputs/apk/release/app-release-unsigned.apk \
+            mk/android/app/build/outputs/apk/release/SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}-unsigned.apk
 
       - name: Upload unsigned APK
         uses: actions/upload-artifact@v4
         with:
           name: "Unsigned APK ${{ matrix.arch }}"
-          path: "mk/android/app/build/outputs/apk/release/app-release-unsigned.apk"
+          path: "mk/android/app/build/outputs/apk/release/SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}-unsigned.apk"
 
       - name: Sign APK
         working-directory: mk/android/app/build/outputs/apk/release
         run: |
           # removing possible confusion
-          cp ./app-release-unsigned.apk ./app-release.apk
-
           keytool -genkey -v \
-          -keystore supertux.keystore -alias supertux \
-          -storepass supertux \
-          -dname "cn=MatusBro, ou=Contributor, O=SuperTux Team, L=Antarctica, ST=Antarctica, C=aq" \
-          -keyalg RSA -keysize 2048 -validity 10000
+            -keystore supertux.keystore -alias supertux \
+            -storepass supertux \
+            -dname "cn=MatusBro, ou=Contributor, O=SuperTux Team, L=Antarctica, ST=Antarctica, C=aq" \
+            -keyalg RSA -keysize 2048 -validity 10000
 
-          $ANDROID_SDK_ROOT/build-tools/35.0.0/apksigner sign \
-          --ks supertux.keystore --ks-pass pass:supertux \
-          ./app-release.apk
+          cp ./SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}-unsigned.apk ./SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}.apk
+          $ANDROID_SDK_ROOT/build-tools/${B_T_VERSION}/apksigner sign \
+            --ks supertux.keystore --ks-pass pass:supertux \
+            ./SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}.apk
 
       - name: Upload signed APK
         uses: actions/upload-artifact@v4
         with:
           name: "Signed APK ${{ matrix.arch }}"
-          path: "mk/android/app/build/outputs/apk/release/app-release.apk"
+          path: "mk/android/app/build/outputs/apk/release/SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}.apk"
