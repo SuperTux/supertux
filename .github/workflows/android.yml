@@ -128,20 +128,48 @@ jobs:
           name: "Unsigned APK ${{ matrix.arch }}"
           path: "mk/android/app/build/outputs/apk/release/SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}-unsigned.apk"
 
+      - name: Fetch keys
+        working-directory: mk/android/app/build/outputs/apk/release
+        run: |
+          if [[ "${{ secrets.ANDROID_SIGNING_KEY }}" ]]
+          then
+            echo "${{ secrets.ANDROID_SIGNING_KEY }}" | base64 --decode > supertux.keystore
+          else
+            echo "Key wasn't found. Skipping..."
+          fi
+
       - name: Sign APK
         working-directory: mk/android/app/build/outputs/apk/release
         run: |
-          # removing possible confusion
-          keytool -genkey -v \
-            -keystore supertux.keystore -alias supertux \
-            -storepass supertux \
-            -dname "cn=MatusBro, ou=Contributor, O=SuperTux Team, L=Antarctica, ST=Antarctica, C=aq" \
-            -keyalg RSA -keysize 2048 -validity 10000
+          # Note: this is created before, but just some fallback logic for later
+          if [ ! -f supertux.keystore ]
+          then
+            echo "!!! Generating a new key."
+            keytool -genkey -v \
+              -keystore supertux.keystore \
+              -alias supertux \
+              -storepass hunter2 \
+              -dname "cn=MatusBro, ou=Contributor, O=SuperTux Team, L=Antarctica, ST=Antarctica, C=aq" \
+              -keyalg RSA -keysize 2048 -validity 10000
+          fi
 
           cp ./SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}-unsigned.apk ./SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}.apk
-          $ANDROID_SDK_ROOT/build-tools/${B_T_VERSION}/apksigner sign \
-            --ks supertux.keystore --ks-pass pass:supertux \
-            ./SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}.apk
+
+          if [[ "${{ secrets.ANDROID_SIGNING_KEY }}" ]]
+            $ANDROID_SDK_ROOT/build-tools/${B_T_VERSION}/apksigner sign \
+              --ks supertux.keystore \
+              --ks-key-alias supertux \
+              --ks-pass pass:"${{ secrets.ANDROID_SIGNING_PW }}" \
+              ./SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}.apk
+          else
+            # More fallback logic; our key should exist
+            echo "!!! WARNING: Signing with manual CI key. Check your shit ;-/"
+            $ANDROID_SDK_ROOT/build-tools/${B_T_VERSION}/apksigner sign \
+              --ks supertux.keystore \
+              --ks-key-alias supertux \
+              --ks-pass pass:hunter2 \
+              ./SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}.apk
+          fi
 
       - name: Upload signed APK
         uses: actions/upload-artifact@v4
