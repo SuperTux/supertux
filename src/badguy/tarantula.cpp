@@ -394,11 +394,11 @@ Tarantula::on_flip(float height)
 {
   BadGuy::on_flip(height);
   m_vertical_flip = !m_vertical_flip;
-  if (m_state == STATE_IDLE)
-  {
-    m_start_position.y = get_bbox().get_top();
-    m_last_height = m_start_position.y;
-  }
+
+  m_last_height = height - m_last_height;
+
+  if (!m_vertical_flip)
+    m_start_position.y -= get_height();
 }
 
 GameObjectTypes
