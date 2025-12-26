@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg
-          key: ${{ runner.os }}-${{ matrix.arch }}-vcpkg-${{ hashFiles('.github/workflows/android.yml') }}
+          key: android-${{ matrix.arch }}-vcpkg-${{ hashFiles('.github/workflows/android.yml') }}
 
       - name: Bootstrap custom vcpkg
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
