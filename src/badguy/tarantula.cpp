@@ -271,7 +271,7 @@ Tarantula::try_drop()
 
   m_state = STATE_DROPPING;
   m_target_height = m_vertical_flip
-                    ? std::min(result.box.get_bottom() + (16.f + get_bbox().get_height()), sectorheight)
+                    ? std::min(result.box.get_bottom() + (16.f + get_bbox().get_height()), sector_height)
                     : std::max(result.box.get_top() - (16.f + get_bbox().get_height()), 0.f);
   m_timer.start(calculate_time(DROP_TIME));
 
