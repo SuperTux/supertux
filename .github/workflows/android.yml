@@ -119,6 +119,9 @@ jobs:
         run: |
           chmod +x ./gradlew
           ./gradlew assembleRelease -Pcpuarch="${{ matrix.arch }}" --info
+
+      - name: Rename APK
+        run: |
           mv mk/android/app/build/outputs/apk/release/app-release-unsigned.apk \
             mk/android/app/build/outputs/apk/release/SuperTux-${UPERTUX_VERSION}-${{ matrix.arch }}-unsigned.apk
 
