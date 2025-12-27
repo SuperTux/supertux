@@ -16,7 +16,6 @@
 
 #include "control/mobile_controller.hpp"
 
-#include <numeric>
 #include <string>
 
 #include "SDL.h"
