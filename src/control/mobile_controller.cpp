@@ -16,6 +16,7 @@
 
 #include "control/mobile_controller.hpp"
 
+#include <numeric>
 #include <string>
 
 #include "SDL.h"
@@ -27,25 +28,14 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
+#define CONTROL_INT(x) (static_cast<std::underlying_type_t<Control>>(Control::x))
+
+// TODO: wtf
+
 MobileController::MobileController() :
-  m_up(false),
-  m_down(false),
-  m_left(false),
-  m_right(false),
-  m_jump(false),
-  m_action(false),
-  m_cheats(false),
-  m_debug(false),
-  m_escape(false),
-  m_old_up(false),
-  m_old_down(false),
-  m_old_left(false),
-  m_old_right(false),
-  m_old_jump(false),
-  m_old_action(false),
-  m_old_cheats(false),
-  m_old_debug(false),
-  m_old_escape(false),
+  // note: we reuse the controls but we do not use all of these
+  m_input(CONTROL_INT(CONTROLCOUNT)),
+  m_input_last(CONTROL_INT(CONTROLCOUNT)),
   m_fingers(),
   m_rect_directions(16.f, -144.f, 144.f, -16.f),
   m_rect_jump(-160.f, -80.f, -96.f, -16.f),
@@ -130,30 +120,30 @@ MobileController::draw(DrawingContext& context)
 
   context.color().draw_surface_scaled(m_tex_dirs, m_draw_directions, LAYER_GUI + 99, translucent);
 
-  if (m_up)
+  if (m_input[CONTROL_INT(UP)])
     context.color().draw_surface_scaled(m_tex_up, m_draw_directions, LAYER_GUI + 99, translucent);
-  if (m_down)
+  if (m_input[CONTROL_INT(DOWN)])
     context.color().draw_surface_scaled(m_tex_dwn, m_draw_directions, LAYER_GUI + 99, translucent);
-  if (m_left)
+  if (m_input[CONTROL_INT(LEFT)])
     context.color().draw_surface_scaled(m_tex_lft, m_draw_directions, LAYER_GUI + 99, translucent);
-  if (m_right)
+  if (m_input[CONTROL_INT(RIGHT)])
     context.color().draw_surface_scaled(m_tex_rgt, m_draw_directions, LAYER_GUI + 99, translucent);
 
-  context.color().draw_surface_scaled(m_action ? m_tex_btn_press : m_tex_btn, m_draw_action, LAYER_GUI + 99, translucent);
+  context.color().draw_surface_scaled(m_input[CONTROL_INT(ACTION)] ? m_tex_btn_press : m_tex_btn, m_draw_action, LAYER_GUI + 99, translucent);
   context.color().draw_surface_scaled(m_tex_action, m_draw_action, LAYER_GUI + 99, translucent);
 
-  context.color().draw_surface_scaled(m_jump ? m_tex_btn_press : m_tex_btn, m_draw_jump, LAYER_GUI + 99, translucent);
+  context.color().draw_surface_scaled(m_input[CONTROL_INT(JUMP)] ? m_tex_btn_press : m_tex_btn, m_draw_jump, LAYER_GUI + 99, translucent);
   context.color().draw_surface_scaled(m_tex_jump, m_draw_jump, LAYER_GUI + 99, translucent);
 
-  context.color().draw_surface_scaled(m_escape ? m_tex_btn_press : m_tex_btn, m_draw_escape, LAYER_GUI + 99, translucent);
+  context.color().draw_surface_scaled(m_input[CONTROL_INT(ESCAPE)] ? m_tex_btn_press : m_tex_btn, m_draw_escape, LAYER_GUI + 99, translucent);
   context.color().draw_surface_scaled(m_tex_pause, m_draw_escape.grown(-m_draw_escape.get_height() / 8), LAYER_GUI + 99, translucent);
 
   if (g_config->developer_mode)
   {
-    context.color().draw_surface_scaled(m_cheats ? m_tex_btn_press : m_tex_btn, m_draw_cheats, LAYER_GUI + 99, translucent);
+    context.color().draw_surface_scaled(m_input[CONTROL_INT(CHEAT_MENU)] ? m_tex_btn_press : m_tex_btn, m_draw_cheats, LAYER_GUI + 99, translucent);
     context.color().draw_surface_scaled(m_tex_cheats, m_draw_cheats, LAYER_GUI + 99, translucent);
 
-    context.color().draw_surface_scaled(m_debug ? m_tex_btn_press : m_tex_btn, m_draw_debug, LAYER_GUI + 99, translucent);
+    context.color().draw_surface_scaled(m_input[CONTROL_INT(DEBUG_MENU)] ? m_tex_btn_press : m_tex_btn, m_draw_debug, LAYER_GUI + 99, translucent);
     context.color().draw_surface_scaled(m_tex_debug, m_draw_debug, LAYER_GUI + 99, translucent);
   }
 }
@@ -164,17 +154,9 @@ MobileController::update()
   if (!g_config->mobile_controls)
     return;
 
-  m_old_up = m_up;
-  m_old_down = m_down;
-  m_old_left = m_left;
-  m_old_right = m_right;
-  m_old_jump = m_jump;
-  m_old_action = m_action;
-  m_old_cheats = m_cheats;
-  m_old_debug = m_debug;
-  m_old_escape = m_escape;
-
-  m_up = m_down = m_left = m_right = m_jump = m_action = m_cheats = m_debug = m_escape = false;
+  m_input_last = m_input;
+  // reset
+  m_input = decltype(m_input)(CONTROL_INT(CONTROLCOUNT));
 
   // Allow using on-screen controls with the mouse
   int x, y;
@@ -196,26 +178,12 @@ MobileController::apply(Controller& controller) const
   if (!g_config->mobile_controls)
     return;
 
-  if (m_up != m_old_up)
-    controller.set_control(Control::UP, m_up);
-  if (m_down != m_old_down)
-    controller.set_control(Control::DOWN, m_down);
-  if (m_left != m_old_left)
-    controller.set_control(Control::LEFT, m_left);
-  if (m_right != m_old_right)
-    controller.set_control(Control::RIGHT, m_right);
-  if (m_jump != m_old_jump)
-    controller.set_control(Control::JUMP, m_jump);
-  if (m_action != m_old_action)
-    controller.set_control(Control::ACTION, m_action);
-  if (m_cheats != m_old_cheats)
-    controller.set_control(Control::CHEAT_MENU, m_cheats);
-  if (m_debug != m_old_debug)
-    controller.set_control(Control::DEBUG_MENU, m_debug);
-  if (m_escape != m_old_escape)
-    controller.set_control(Control::ESCAPE, m_escape);
+  for (size_t i = 0; i < static_cast<size_t>(Control::CONTROLCOUNT); ++i)
+    if (m_input[i] != m_input_last[i])
+      controller.set_control(static_cast<Control>(i), static_cast<bool>(m_input[i]));
 
-  if (m_up || m_down || m_left || m_right || m_jump || m_action || m_cheats || m_debug || m_escape)
+  // something is pressed
+  if (std::accumulate(m_input.begin(), m_input.end(), 0) != 0)
   {
     controller.set_touchscreen(true);
   }
@@ -268,41 +236,30 @@ MobileController::activate_widget_at_pos(float x, float y)
 
   Vector pos(x, y);
 
-  if (m_rect_jump.contains(pos))
-    m_jump = true;
-
-  if (m_rect_action.contains(pos))
-    m_action = true;
+  m_input[CONTROL_INT(JUMP)] |= m_rect_jump.contains(pos);
+  m_input[CONTROL_INT(ACTION)] |= m_rect_action.contains(pos);
 
   if (g_config->developer_mode)
   {
-    if (m_rect_cheats.contains(pos))
-      m_cheats = true;
-
-    if (m_rect_debug.contains(pos))
-      m_debug = true;
+    m_input[CONTROL_INT(CHEAT_MENU)] |= m_rect_cheats.contains(pos);
+    m_input[CONTROL_INT(DEBUG_MENU)] |= m_rect_debug.contains(pos);
   }
 
-  if (m_rect_escape.contains(pos))
-    m_escape = true;
+  m_input[CONTROL_INT(ESCAPE)] |= m_rect_escape.contains(pos);
 
   Rectf up = m_rect_directions;
   up.set_bottom(up.get_bottom() - up.get_height() * 2.f / 3.f);
-  if (up.contains(pos))
-    m_up = true;
+  m_input[CONTROL_INT(UP)] |= up.contains(pos);
 
   Rectf down = m_rect_directions;
   down.set_top(down.get_top() + down.get_height() * 2.f / 3.f);
-  if (down.contains(pos))
-    m_down = true;
+  m_input[CONTROL_INT(DOWN)] |= down.contains(pos);
 
   Rectf left = m_rect_directions;
   left.set_right(left.get_right() - left.get_width() * 7.f / 12.f);
-  if (left.contains(pos))
-    m_left = true;
+  m_input[CONTROL_INT(LEFT)] |= left.contains(pos);
 
   Rectf right = m_rect_directions;
   right.set_left(right.get_left() + right.get_width() * 7.f / 12.f);
-  if (right.contains(pos))
-    m_right = true;
+  m_input[CONTROL_INT(RIGHT)] |= right.contains(pos);
 }

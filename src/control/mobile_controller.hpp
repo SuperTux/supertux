@@ -18,9 +18,11 @@
 
 #include <SDL.h>
 #include <map>
+#include <vector>
 
 #include "config.h"
 
+#include "controller.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
@@ -47,6 +49,7 @@ private:
   void activate_widget_at_pos(float x, float y);
 
 private:
+  std::vector<std::underlying_type_t<Control>> m_input, m_input_last;
   bool m_up, m_down, m_left, m_right, m_jump, m_action, m_cheats, m_debug, m_escape;
   bool m_old_up, m_old_down, m_old_left, m_old_right, m_old_jump, m_old_action, m_old_cheats, m_old_debug, m_old_escape;
 
