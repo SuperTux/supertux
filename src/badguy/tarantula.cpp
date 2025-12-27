@@ -396,9 +396,14 @@ Tarantula::on_flip(float height)
   m_vertical_flip = !m_vertical_flip;
 
   m_last_height = height - m_last_height;
+  m_target_height = height - m_target_height;
+  m_ground_height = height - m_ground_height;
 
   if (!m_vertical_flip)
+  {
     m_start_position.y -= get_height();
+    m_last_height -= get_height();
+  }
 }
 
 GameObjectTypes
