@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -480,21 +479,25 @@
       (z-pos 50)
       (x 5616)
       (y 1376)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 3504)
       (y 1376)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 2416)
       (y 1376)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 6656)
       (y 928)
+      (glinting #f)
     )
     (gradient
       (blend "none")
@@ -505,11 +508,13 @@
       (z-pos 50)
       (x 3264)
       (y 960)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 2656)
       (y 960)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/night.music")
@@ -1957,16 +1962,14 @@
       (sprite "/images/tiles/background/cloud.png")
     )
     (scripttrigger
-      (width 32)
-      (height 192)
       (script "Camera.ease_scale(0.8, 3, \"EaseQuadInOut\");")
       (button #f)
+      (width 32)
+      (height 192)
       (x 1024)
       (y 1216)
     )
     (scripttrigger
-      (width 32)
-      (height 864)
       (script "bigguy11.start_moving();
 bigguy12.start_moving();
 bigguy13.start_moving();
@@ -1985,12 +1988,12 @@ cloud13.start_moving();
 cloud14.start_moving();
 cloud15.start_moving();")
       (button #f)
+      (width 32)
+      (height 864)
       (x 2208)
       (y 544)
     )
     (scripttrigger
-      (width 32)
-      (height 640)
       (script "Camera.set_scale(0.8);
 sider1.start_moving();
 sider2.start_moving();
@@ -2004,12 +2007,12 @@ cider6.start_moving();
 cider7.start_moving();
 cider8.start_moving();")
       (button #f)
+      (width 32)
+      (height 640)
       (x 4256)
       (y 704)
     )
     (scripttrigger
-      (width 32)
-      (height 1424)
       (script "duo1_1.start_moving();
 duo1_2.start_moving();
 duo1_3.start_moving();
@@ -2032,22 +2035,24 @@ duo2cloud7.start_moving();
 duo2cloud8.start_moving();
 Camera.set_scale(0.8);")
       (button #f)
+      (width 32)
+      (height 1424)
       (x 5760)
       (y 448)
     )
     (scripttrigger
-      (width 32)
-      (height 224)
       (script "Camera.set_scale(0.8);")
       (button #f)
+      (width 32)
+      (height 224)
       (x 9312)
       (y 704)
     )
     (scripttrigger
-      (width 32)
-      (height 192)
       (script "Camera.set_scale(1.5);")
       (button #f)
+      (width 32)
+      (height 192)
       (x 64)
       (y 1312)
     )
@@ -2055,21 +2060,25 @@ Camera.set_scale(0.8);")
       (z-pos 50)
       (x 2592)
       (y 1152)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (x 3376)
       (y 1152)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (x 4480)
       (y 1344)
+      (glinting #t)
     )
     (snowball
       (z-pos 50)
       (x 4640)
       (y 1344)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")
@@ -2089,30 +2098,36 @@ Camera.set_scale(0.8);")
       (z-pos 50)
       (x 7632)
       (y 704)
+      (glinting #t)
     )
     (sspiky
       (z-pos 50)
       (direction "left")
       (x 7312)
       (y 704)
+      (glinting #t)
     )
     (sspiky
       (z-pos 50)
       (x 7472)
       (y 704)
+      (glinting #f)
     )
     (sspiky
       (z-pos 50)
       (x 7152)
       (y 704)
+      (glinting #f)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (sticky #t)
       (x 3360)
       (y 960)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (sticky #t)
       (x 2560)
@@ -3105,36 +3120,43 @@ Camera.set_scale(0.8);")
       (z-pos 50)
       (x 1824)
       (y 608)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 1984)
       (y 640)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 2016)
       (y 896)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 1856)
       (y 992)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 1824)
       (y 1216)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 1984)
       (y 1248)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 6848)
       (y 1248)
+      (glinting #f)
     )
     (gradient
       (blend "none")
@@ -3145,26 +3167,31 @@ Camera.set_scale(0.8);")
       (z-pos 50)
       (x 2480)
       (y 1184)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
       (x 6128)
       (y 1232)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
       (x 5808)
       (y 1232)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 5488)
       (y 1232)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 5168)
       (y 1232)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/night.music")
@@ -3617,18 +3644,16 @@ Camera.set_scale(0.8);")
       (path-ref "gen17143546771135334579392")
     )
     (scripttrigger
-      (width 32)
-      (height 192)
       (script "InIce.start_moving();
 InIce2.start_moving();
 InIce3.start_moving();")
       (button #f)
+      (width 32)
+      (height 192)
       (x 800)
       (y 1600)
     )
     (scripttrigger
-      (width 32)
-      (height 1184)
       (script "wave1.start_moving();
 wait(0.5);
 wave2.start_moving();
@@ -3637,6 +3662,8 @@ wave3.start_moving();
 wait(0.5);
 wave4.start_moving();")
       (button #f)
+      (width 32)
+      (height 1184)
       (x 4864)
       (y 32)
     )
@@ -3658,21 +3685,25 @@ wave4.start_moving();")
       (z-pos 50)
       (x 6208)
       (y 1248)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (x 5744)
       (y 1248)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (x 5072)
       (y 1248)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (x 5408)
       (y 1248)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")
@@ -3692,36 +3723,42 @@ wave4.start_moving();")
       (y 1152)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (sticky #t)
       (x 5040)
       (y 928)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (sticky #t)
       (x 5936)
       (y 928)
     )
     (stalactite
+      (glinting #t)
       (z-pos -1)
       (sticky #t)
       (x 5360)
       (y 928)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (sticky #t)
       (x 5696)
       (y 928)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (sticky #t)
       (x 5600)
       (y 928)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (sticky #t)
       (x 6256)

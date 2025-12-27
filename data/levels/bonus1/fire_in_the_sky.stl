@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -343,16 +342,19 @@
       (z-pos 50)
       (x 1920)
       (y 1056)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 1312)
       (y 1104)
+      (glinting #f)
     )
     (flyingsnowball
       (z-pos 50)
       (x 6976)
       (y 992)
+      (glinting #f)
     )
     (gradient
       (blend "add")
@@ -374,34 +376,40 @@
       (direction "left")
       (x 2592)
       (y 1232)
+      (glinting #f)
     )
     (livefire
       (z-pos 50)
       (direction "left")
       (x 2240)
       (y 704)
+      (glinting #t)
     )
     (livefire
       (z-pos 50)
       (direction "left")
       (x 4864)
       (y 720)
+      (glinting #f)
     )
     (livefire_asleep
       (z-pos 50)
       (x 3280)
       (y 976)
+      (glinting #f)
     )
     (livefire_asleep
       (z-pos 50)
       (x 7184)
       (y 944)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (direction "left")
       (x 3072)
       (y 992)
+      (glinting #f)
     )
     (music
       (file "/music/castle/icecastle.music")
@@ -491,6 +499,7 @@
       (direction "left")
       (x 4064)
       (y 1184)
+      (glinting #t)
     )
     (spawnpoint
       (name "main")

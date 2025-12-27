@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -62,6 +61,7 @@
       (y 192)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 368)
       (y 64)
@@ -365,11 +365,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -380,11 +382,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -395,11 +399,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3.7)
       (type "cannon")
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -410,11 +416,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (type "cannon")
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -425,11 +433,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 2.8)
       (type "cannon")
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -511,26 +521,31 @@
       (z-pos 50)
       (x 3280)
       (y 1328)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 5920)
       (y 480)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
       (x 5296)
       (y 992)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 2912)
       (y 928)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
       (x 1392)
       (y 992)
+      (glinting #f)
     )
     (key
       (z-pos 50)
@@ -541,26 +556,31 @@
       (z-pos 50)
       (x 4880)
       (y 1184)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 1536)
       (y 544)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 5408)
       (y 736)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 400)
       (y 672)
+      (glinting #f)
     )
     (mriceblock
       (z-pos 50)
       (x 4384)
       (y 1472)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/snowfort.music")
@@ -577,51 +597,61 @@
       (z-pos 50)
       (x 4160)
       (y 1216)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 6592)
       (y 736)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 7360)
       (y 1088)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 2784)
       (y 1280)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 1968)
       (y 544)
+      (glinting #f)
     )
     (short_fuse
       (z-pos 50)
       (x 1904)
       (y 544)
+      (glinting #f)
     )
     (smartblock
       (z-pos 50)
       (x 4544)
       (y 768)
+      (glinting #f)
     )
     (smartblock
       (z-pos 50)
       (x 1136)
       (y 1088)
+      (glinting #f)
     )
     (smartblock
       (z-pos 50)
       (x 2912)
       (y 704)
+      (glinting #f)
     )
     (smartblock
       (z-pos 50)
       (x 7424)
       (y 832)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")
@@ -648,62 +678,74 @@
       (direction "left")
       (x 4208)
       (y 1440)
+      (glinting #f)
     )
     (sspiky
       (z-pos 50)
       (direction "right")
       (x 4352)
       (y 768)
+      (glinting #t)
     )
     (sspiky
       (z-pos 50)
       (direction "right")
       (x 7248)
       (y 960)
+      (glinting #t)
     )
     (sspiky
       (z-pos 50)
       (direction "right")
       (x 2304)
       (y 1280)
+      (glinting #f)
     )
     (sspiky
       (z-pos 50)
       (direction "right")
       (x 608)
       (y 992)
+      (glinting #f)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 4640)
       (y 640)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 4704)
       (y 640)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 5408)
       (y 800)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 2656)
       (y 768)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 2784)
       (y 480)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 1952)
       (y 608)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 1616)
       (y 800)
@@ -842,10 +884,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (limit-dispensed-badguys #t)
@@ -855,10 +899,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 1.8)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -869,10 +915,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3.5)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -883,11 +931,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 2.4)
       (type "cannon")
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -1055,16 +1105,19 @@ door76.start_moving()")
       (y 544)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 2272)
       (y 384)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 1724)
       (y 60)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 800)
       (y 224)
@@ -1276,10 +1329,12 @@ door76.start_moving()")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 2.1)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (limit-dispensed-badguys #t)
@@ -1289,10 +1344,12 @@ door76.start_moving()")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3.6)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -1303,10 +1360,12 @@ door76.start_moving()")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 4.2)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (limit-dispensed-badguys #t)
@@ -1316,11 +1375,13 @@ door76.start_moving()")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 1.7)
       (type "cannon")
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -1431,41 +1492,49 @@ door76.start_moving()")
       (y 512)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 992)
       (y 192)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 928)
       (y 128)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 840)
       (y 96)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 1312)
       (y 416)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 3088)
       (y 416)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 2336)
       (y 160)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 1632)
       (y 64)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 3616)
       (y 416)
@@ -1693,11 +1762,13 @@ door76.start_moving()")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5.3)
       (type "cannon")
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -1708,11 +1779,13 @@ door76.start_moving()")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 2.1)
       (type "cannon")
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -1723,10 +1796,12 @@ door76.start_moving()")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 2.1)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -1911,31 +1986,37 @@ door8.start_moving()")
       (y 288)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 512)
       (y 96)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 576)
       (y 96)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 608)
       (y 96)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 2096)
       (y 96)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 2176)
       (y 544)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 2272)
       (y 544)
@@ -2114,11 +2195,13 @@ door8.start_moving()")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 2.1)
       (type "cannon")
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -2171,16 +2254,19 @@ door8.start_moving()")
       (y 544)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 864)
       (y 352)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 904)
       (y 384)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 752)
       (y 384)

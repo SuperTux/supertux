@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -329,11 +328,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -343,11 +344,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -357,11 +360,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -371,11 +376,13 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -385,10 +392,12 @@
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (objects
         (mrbomb
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -522,16 +531,19 @@
       (z-pos 50)
       (x 3264)
       (y 96)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 5840)
       (y 464)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 7296)
       (y 704)
+      (glinting #f)
     )
     (key
       (z-pos 50)
@@ -543,24 +555,28 @@
       (direction "left")
       (x 1280)
       (y 576)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (direction "left")
       (x 3360)
       (y 576)
+      (glinting #t)
     )
     (mrbomb
       (z-pos 50)
       (direction "left")
       (x 4576)
       (y 640)
+      (glinting #t)
     )
     (mriceblock
       (z-pos 50)
       (direction "left")
       (x 2976)
       (y 576)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/snowfort.music")
@@ -1018,29 +1034,29 @@ sniperplat.start_moving();")
       (y 32)
     )
     (scripttrigger
-      (width 32)
-      (height 32)
       (script "tm2.set_alpha(0);")
       (button #f)
+      (width 32)
+      (height 32)
       (x 160)
       (y 480)
     )
     (scripttrigger
-      (width 48)
-      (height 32)
       (oneshot #t)
       (script "Effect.fade_out(2);
 wait(2);
 Level.spawn(\"go-back\", \"main\");")
       (button #f)
+      (width 48)
+      (height 32)
       (x 7576)
       (y 704)
     )
     (scripttrigger
-      (width 128)
-      (height 32)
       (script "plat1.start_moving();")
       (button #f)
+      (width 128)
+      (height 32)
       (x 1664)
       (y 544)
     )
@@ -1054,48 +1070,56 @@ Level.spawn(\"go-back\", \"main\");")
       (direction "left")
       (x 1504)
       (y 576)
+      (glinting #t)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 4192)
       (y 832)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 4320)
       (y 832)
+      (glinting #f)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 3232)
       (y 576)
+      (glinting #t)
     )
     (spiky
       (z-pos 50)
       (direction "left")
       (x 3104)
       (y 576)
+      (glinting #t)
     )
     (sspiky
       (z-pos 50)
       (direction "left")
       (x 4288)
       (y 704)
+      (glinting #f)
     )
     (sspiky
       (z-pos 50)
       (direction "left")
       (x 4832)
       (y 544)
+      (glinting #f)
     )
     (sspiky
       (z-pos 50)
       (direction "right")
       (x 1184)
       (y 352)
+      (glinting #f)
     )
     (tilemap
       (solid #f)
@@ -1415,11 +1439,13 @@ Level.spawn(\"go-back\", \"main\");")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "right")
@@ -1429,11 +1455,13 @@ Level.spawn(\"go-back\", \"main\");")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -1443,11 +1471,13 @@ Level.spawn(\"go-back\", \"main\");")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 3)
       (type "cannon")
       (objects
         (kamikazesnowball
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -1457,10 +1487,12 @@ Level.spawn(\"go-back\", \"main\");")
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 2)
       (objects
         (mrbomb
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -1623,26 +1655,31 @@ Level.spawn(\"go-back\", \"main\");")
       (z-pos 50)
       (x 3456)
       (y 144)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 7296)
       (y 704)
+      (glinting #f)
     )
     (jumpy
       (z-pos 50)
       (x 3280)
       (y 144)
+      (glinting #t)
     )
     (jumpy
       (z-pos 50)
       (x 3104)
       (y 144)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 5072)
       (y 640)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/snowfort.music")
@@ -2150,10 +2187,10 @@ sniperplat.start_moving();")
       (y 32)
     )
     (scripttrigger
-      (width 128)
-      (height 32)
       (script "finalmovingguy.start_moving();")
       (button #f)
+      (width 128)
+      (height 32)
       (x 2400)
       (y 544)
     )

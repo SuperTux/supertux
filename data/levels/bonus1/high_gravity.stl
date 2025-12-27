@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -308,10 +307,12 @@
     )
     (dispenser
       (z-pos -16)
+      (glinting #f)
       (cycle 5)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -322,10 +323,12 @@
     )
     (dispenser
       (z-pos -16)
+      (glinting #f)
       (cycle 3)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (direction "left")
@@ -336,10 +339,12 @@
     )
     (dispenser
       (z-pos -16)
+      (glinting #f)
       (cycle 2)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (limit-dispensed-badguys #t)
@@ -349,10 +354,12 @@
     )
     (dispenser
       (z-pos -16)
+      (glinting #f)
       (cycle 5)
       (objects
         (short_fuse
           (z-pos 50)
+          (glinting #f)
         )
       )
       (limit-dispensed-badguys #t)
@@ -374,21 +381,25 @@
       (z-pos 50)
       (x 1312)
       (y 1184)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 2304)
       (y 1280)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (x 5216)
       (y 1536)
+      (glinting #t)
     )
     (mrbomb
       (z-pos 50)
       (x 3792)
       (y 1568)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/midday.music")
@@ -656,16 +667,19 @@ wall3.start_moving();")
       (direction "left")
       (x 1952)
       (y 1280)
+      (glinting #t)
     )
     (smartball
       (z-pos 50)
       (x 1152)
       (y 1536)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (x 3584)
       (y 1472)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")

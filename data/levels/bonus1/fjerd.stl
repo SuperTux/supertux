@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -438,10 +437,12 @@ end_cutscene();
     )
     (dispenser
       (z-pos -1)
+      (glinting #f)
       (cycle 5)
       (objects
         (snail
           (z-pos 50)
+          (glinting #f)
         )
       )
       (limit-dispensed-badguys #t)
@@ -451,10 +452,12 @@ end_cutscene();
     )
     (dispenser
       (z-pos 55)
+      (glinting #f)
       (cycle 5)
       (objects
         (snail
           (z-pos 50)
+          (glinting #f)
         )
       )
       (limit-dispensed-badguys #t)
@@ -546,16 +549,19 @@ end_cutscene();
       (z-pos 50)
       (x 1728)
       (y 4240)
+      (glinting #f)
     )
     (mrtree
       (z-pos 50)
       (x 3744)
       (y 4048)
+      (glinting #f)
     )
     (mrtree
       (z-pos 50)
       (x 2688)
       (y 1936)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/glacier.music")
@@ -685,36 +691,42 @@ end_cutscene();
     )
     (rcrystallo
       (z-pos 50)
+      (glinting #f)
       (radius 35)
       (x 3264)
       (y 4224)
     )
     (rcrystallo
       (z-pos 50)
+      (glinting #f)
       (radius 32)
       (x 2704)
       (y 2272)
     )
     (rcrystallo
       (z-pos 50)
+      (glinting #t)
       (radius 32)
       (x 2752)
       (y 2496)
     )
     (rcrystallo
       (z-pos 50)
+      (glinting #t)
       (radius 32)
       (x 3520)
       (y 1600)
     )
     (rcrystallo
       (z-pos 50)
+      (glinting #f)
       (radius 80)
       (x 2352)
       (y 608)
     )
     (rcrystallo
       (z-pos 50)
+      (glinting #f)
       (radius 55)
       (x 2544)
       (y 576)
@@ -971,31 +983,37 @@ end_cutscene();
       (z-pos 50)
       (x 1776)
       (y 4576)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 1184)
       (y 2944)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 2496)
       (y 2688)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 1312)
       (y 1312)
+      (glinting #f)
     )
     (walkingleaf
       (z-pos 50)
       (x 4896)
       (y 4000)
+      (glinting #t)
     )
     (walkingleaf
       (z-pos 50)
       (x 2400)
       (y 1312)
+      (glinting #f)
     )
   )
 )
