@@ -55,6 +55,7 @@ public:
   using exit_cb_t = std::function<void()>;
 
   static bool is_active();
+  inline EditorLayersWidget* get_layers_widget() const { return m_layers_widget; }
 
   static void may_deactivate();
   static void may_reactivate();
