@@ -101,7 +101,7 @@ private:
   bool has_recovered();
   Rectf get_detect_box(CrusherDirection dir = CrusherDirection::ALL);
 
-  Vector get_direction_vector();
+  Vector get_direction_vector(CollisionObject* target = nullptr);
   static Direction direction_from_vector(const Vector& vec);
 
   void crush();
