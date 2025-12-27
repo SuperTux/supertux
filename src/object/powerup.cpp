@@ -110,6 +110,11 @@ PowerUp::initialize()
   SoundManager::current()->preload("sounds/fire-flower.wav");
   SoundManager::current()->preload("sounds/gulp.wav");
 
+  if(m_type == EGG) {
+    m_shadesprite = SpriteManager::current()->create("images/powerups/egg/egg.sprite");
+    m_shadesprite->set_action("shadow");
+  }
+
   // Older levels utilize hardcoded behaviour from the chosen sprite
   if (get_version() == 1)
   {
@@ -314,6 +319,9 @@ PowerUp::draw(DrawingContext& context)
   // Stars and herrings are brighter.
   if (m_type == STAR || m_type == HERRING)
     m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+  if (m_type == EGG)
+    m_shadesprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
   lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
