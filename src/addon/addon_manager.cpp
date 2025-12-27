@@ -41,7 +41,7 @@
 namespace {
 
 static const char* ADDON_INFO_PATH = "/addons/repository.nfo";
-static const char* ADDON_REPOSITORY_URL = "https://raw.githubusercontent.com/SuperTux/addons/master/index-0_6.nfo";
+static const char* ADDON_REPOSITORY_URL = "https://raw.githubusercontent.com/SuperTux/addons/master/index-0_7.nfo";
 
 MD5 md5_from_file(const std::string& filename)
 {
