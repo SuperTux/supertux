@@ -173,6 +173,10 @@ public:
 
   /** Get all types of the object, if available. **/
   virtual GameObjectTypes get_types() const;
+
+  /** 0.6.3 backward compatibility: Get object type from sprite file */
+  virtual bool get_type_from_sprite(const std::string& sprite_name, std::string& type) const;
+
   /**
    * @scripting
    * @description Returns the type index of the object.
