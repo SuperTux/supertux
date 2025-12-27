@@ -77,14 +77,18 @@ Config::Config() :
   joystick_config(),
   ignore_joystick_axis(false),
   mobile_controls(SDL_GetNumTouchDevices() > 0),
-  m_mobile_controls_scale(1),
+  m_mobile_controls_scale(1.3f),
   addons(),
   developer_mode(false),
   christmas_mode(false),
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
+#ifdef __ANDROID__
+  custom_mouse_cursor(false),
+#else
   custom_mouse_cursor(true),
+#endif
   custom_system_cursor(false),
   do_release_check(false),
   disable_network(true),
@@ -360,7 +364,7 @@ Config::load()
     config_control_mapping->get("ignore_joystick_axis", ignore_joystick_axis);
 
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
-    config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
+    config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 2);
     config_control_mapping->get("precise_scrolling", precise_scrolling);
     config_control_mapping->get("invert_wheel_x", invert_wheel_x);
     config_control_mapping->get("invert_wheel_y", invert_wheel_y);

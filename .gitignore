@@ -3,7 +3,7 @@ build/
 build.*/
 **/CMakeFiles/
 **/CMakeCache.txt
-supertux2
+./supertux2
 
 # Installed vcpkg packages
 vcpkg_installed/
@@ -69,6 +69,18 @@ data/levels/more/
 *.patch
 *.zip
 *.diff
+
+# Android
+.gradle
+mk/android/app/.cxx
+mk/android/app/local.properties
+mk/android/app/proguard-rules.pro
+mk/android/app/src/main/java/org/libsdl/
+mk/android/gradle/wrapper/gradle-wrapper.jar
+mk/android/gradlew
+mk/android/gradlew.bat
+mk/android/local.properties
+mk/android/settings.gradle
 
 # Flatpak
 .flatpak-builder/

@@ -86,10 +86,13 @@ SDLVideoSystem::apply_config()
   apply_video_mode();
 
   { // apply_viewport
+#ifndef __ANDROID__
     Size target_size = (g_config->use_fullscreen && g_config->fullscreen_size != Size(0, 0)) ?
       g_config->fullscreen_size :
       g_config->window_size;
-
+#else
+    Size target_size = m_desktop_size;
+#endif
     m_viewport = Viewport::from_size(target_size, m_desktop_size);
   }
 
