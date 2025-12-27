@@ -41,6 +41,8 @@ public:
   virtual GameObjectClasses get_class_types() const override { return BadGuy::get_class_types().add(typeid(Tarantula)); }
   virtual bool is_snipable() const override;
 
+  virtual void on_flip(float height) override;
+
   virtual GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
 
@@ -85,6 +87,7 @@ private:
   bool m_retreat;
   bool m_attach_ceiling;
   bool m_static;
+  bool m_vertical_flip;
   float m_ground_height;
 
 private:

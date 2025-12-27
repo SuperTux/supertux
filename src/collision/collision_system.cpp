@@ -789,13 +789,17 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
   if (ignore != IGNORE_TILES)
   {
     // Check if no tile is in the way.
-    const float lsx = std::min(line_start.x, line_end.x);
-    const float lex = std::max(line_start.x, line_end.x);
-    const float lsy = std::min(line_start.y, line_end.y);
-    const float ley = std::max(line_start.y, line_end.y);
 
-    for (float test_x = lsx; test_x <= lex; test_x += 16) { // NOLINT.
-      for (float test_y = lsy; test_y <= ley; test_y += 16) { // NOLINT.
+    const float lsx = line_start.x;
+    const float lex = line_end.x;
+    const float lsy = line_start.y;
+    const float ley = line_end.y;
+
+    const bool left = lsx > lex;
+    const bool up   = lsy > ley;
+
+    for (float test_x = lsx; left ? test_x >= lex : test_x <= lex; test_x += left ? -16.f : 16.f) { // NOLINT.
+      for (float test_y = lsy; up ? test_y >= ley : test_y <= ley; test_y += up   ? -16.f : 16.f) { // NOLINT.
         for (const auto& solids : m_sector.get_solid_tilemaps()) {
           const auto& test_vector = Vector(test_x, test_y);
           if (solids->is_outside_bounds(test_vector))
@@ -810,7 +814,8 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
           {
             tileresult.is_valid = true;
             tileresult.hit = tile;
-            tileresult.box = solids->get_tile_bbox(static_cast<int>(test_vector.x / 32.f), static_cast<int>(test_vector.y / 32.f));
+            tileresult.box = solids->get_tile_bbox(static_cast<int>(test_vector.x / 32.f),
+                                                   static_cast<int>(test_vector.y / 32.f));
             goto finish_tiles;
           }
         }
