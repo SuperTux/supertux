@@ -21,6 +21,7 @@
 
 #include "SDL.h"
 
+#include "util/log.hpp"
 #include "control/controller.hpp"
 #include "math/vector.hpp"
 #include "supertux/globals.hpp"
@@ -30,12 +31,10 @@
 
 #define CONTROL_INT(x) (static_cast<std::underlying_type_t<Control>>(Control::x))
 
-// TODO: wtf
-
 MobileController::MobileController() :
   // note: we reuse the controls but we do not use all of these
-  m_input(CONTROL_INT(CONTROLCOUNT)),
-  m_input_last(CONTROL_INT(CONTROLCOUNT)),
+  m_input(),
+  m_input_last(),
   m_fingers(),
   m_rect_directions(16.f, -144.f, 144.f, -16.f),
   m_rect_jump(-160.f, -80.f, -96.f, -16.f),
@@ -63,7 +62,8 @@ MobileController::MobileController() :
   m_tex_debug(Surface::from_file("/images/engine/mobile/debug.png")),
   m_screen_width(),
   m_screen_height(),
-  m_mobile_controls_scale()
+  m_mobile_controls_scale(),
+  m_haptic(nullptr, SDL_HapticClose)
 {
 }
 
@@ -156,7 +156,7 @@ MobileController::update()
 
   m_input_last = m_input;
   // reset
-  m_input = decltype(m_input)(CONTROL_INT(CONTROLCOUNT));
+  m_input.reset();
 
   // Allow using on-screen controls with the mouse
   int x, y;
@@ -180,10 +180,13 @@ MobileController::apply(Controller& controller) const
 
   for (size_t i = 0; i < static_cast<size_t>(Control::CONTROLCOUNT); ++i)
     if (m_input[i] != m_input_last[i])
+    {
+
       controller.set_control(static_cast<Control>(i), static_cast<bool>(m_input[i]));
+    }
 
   // something is pressed
-  if (std::accumulate(m_input.begin(), m_input.end(), 0) != 0)
+  if (m_input != 0)
   {
     controller.set_touchscreen(true);
   }
@@ -236,30 +239,39 @@ MobileController::activate_widget_at_pos(float x, float y)
 
   Vector pos(x, y);
 
-  m_input[CONTROL_INT(JUMP)] |= m_rect_jump.contains(pos);
-  m_input[CONTROL_INT(ACTION)] |= m_rect_action.contains(pos);
+  if (m_rect_jump.contains(pos))
+    m_input.set(CONTROL_INT(JUMP), true);
+  if (m_rect_action.contains(pos))
+    m_input.set(CONTROL_INT(ACTION), true);
 
   if (g_config->developer_mode)
   {
-    m_input[CONTROL_INT(CHEAT_MENU)] |= m_rect_cheats.contains(pos);
-    m_input[CONTROL_INT(DEBUG_MENU)] |= m_rect_debug.contains(pos);
+    if (m_rect_cheats.contains(pos))
+      m_input.set(CONTROL_INT(CHEAT_MENU), true);
+    if (m_rect_debug.contains(pos))
+      m_input.set(CONTROL_INT(DEBUG_MENU), true);
   }
 
-  m_input[CONTROL_INT(ESCAPE)] |= m_rect_escape.contains(pos);
+  if (m_rect_escape.contains(pos))
+    m_input.set(CONTROL_INT(ESCAPE), true);
 
   Rectf up = m_rect_directions;
   up.set_bottom(up.get_bottom() - up.get_height() * 2.f / 3.f);
-  m_input[CONTROL_INT(UP)] |= up.contains(pos);
+  if (up.contains(pos))
+    m_input.set(CONTROL_INT(UP), true);
 
   Rectf down = m_rect_directions;
   down.set_top(down.get_top() + down.get_height() * 2.f / 3.f);
-  m_input[CONTROL_INT(DOWN)] |= down.contains(pos);
+  if (down.contains(pos))
+    m_input.set(CONTROL_INT(DOWN), true);
 
   Rectf left = m_rect_directions;
   left.set_right(left.get_right() - left.get_width() * 7.f / 12.f);
-  m_input[CONTROL_INT(LEFT)] |= left.contains(pos);
+  if (left.contains(pos))
+    m_input.set(CONTROL_INT(LEFT), true);
 
   Rectf right = m_rect_directions;
   right.set_left(right.get_left() + right.get_width() * 7.f / 12.f);
-  m_input[CONTROL_INT(RIGHT)] |= right.contains(pos);
+  if (right.contains(pos))
+    m_input.set(CONTROL_INT(RIGHT), true);
 }
