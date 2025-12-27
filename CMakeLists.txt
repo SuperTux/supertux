@@ -149,7 +149,8 @@ endif()
 
 option(ENABLE_OPENGL "Enable OpenGL support" ON)
 
-option(USE_SYSTEM_SDL2_TTF "Build SuperTux with system SDL_TTF" OFF)
+# CI builds should never rely on this, as system SDL2_TTF has no RAQM support, causing Arabic to not be rendered properly.
+option(USE_SYSTEM_SDL2_TTF "Build SuperTux with system SDL2_TTF" OFF)
 
 # Find dependencies
 include(SuperTux/AddPackage)
@@ -196,13 +197,13 @@ else()
   include(SuperTux/Emscripten)
 endif()
 
-if(TARGET RAQM)
+if(TARGET RAQM AND NOT USE_SYSTEM_SDL2_TTF)
   message(STATUS "Compiling SDL_ttf with RAQM")
   set(SDL2TTF_RAQM ON)
 endif()
 
 if(USE_SYSTEM_SDL2_TTF)
-  message(WARNING "Building with system-installed SDL_TTF will cause bi-directional (e.g. Arabic) scriptures to not be displayed properly. CI builds should never rely on this.")
+  message(WARNING "Building with system-wide SDL_TTF will cause bi-directional (e.g. Arabic) scriptures to not be displayed properly.")
 endif()
 
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
