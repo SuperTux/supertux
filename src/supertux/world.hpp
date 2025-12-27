@@ -49,6 +49,7 @@ public:
   inline const std::string& get_contrib_type() const { return m_contrib_type; }
   inline const std::string& get_title_level() const { return m_title_level; }
   inline const std::string get_type() const { return m_is_levelset ? "levelset" : "worldmap"; }
+  inline int get_tuxdolls_required() const { return m_tuxdolls_required; }
 
   std::string get_worldmap_filename() const;
 
@@ -63,6 +64,7 @@ private:
   bool m_hide_from_contribs;
   std::string m_contrib_type; // Type of world if it is contrib: official, community, user
   std::string m_title_level; // Level, which should be used for the title screen, after exiting the world
+  int m_tuxdolls_required; // Amount of required tuxdolls to unlock the world
 
 private:
   World(const World&) = delete;

@@ -38,6 +38,7 @@ Color LevelIntro::s_stat_perfect_color(0.4f,1.f,0.4f);
 Color Statistics::header_color(1.f,1.f,1.f);
 Color Statistics::text_color(1.f,1.f,0.6f);
 Color Statistics::perfect_color(0.4f,1.f,0.4f);
+Color Statistics::special_color = Color::CYAN;
 
 Color ColorScheme::Menu::back_color(0.2f, 0.3f, 0.4f, 0.8f);
 Color ColorScheme::Menu::front_color(0.6f, 0.7f, 0.8f, 0.5f);
