@@ -42,13 +42,14 @@ MobileController::MobileController() :
   m_rect_action(-80.f, -80.f, -16.f, -16.f),
   m_rect_cheats(-160.f, 16.f, -96.f, 80.f),
   m_rect_debug(-80.f, 16.f, -16.f, 80.f),
-  m_rect_escape(16.f, 16.f, 64.f, 64.f),
+  m_rect_escape({96.f, 14.f}, Sizef{48.f, 48.f}),
+  m_rect_item({0.f, 0.f}, Sizef{128.f, 128.f}),
   m_draw_directions(16.f, -144.f, 144.f, -16.f),
   m_draw_jump(-160.f, -80.f, -96.f, -16.f),
   m_draw_action(-80.f, -80.f, -16.f, -16.f),
   m_draw_cheats(-160.f, 16.f, -96.f, 80.f),
   m_draw_debug(-80.f, 16.f, -16.f, 80.f),
-  m_draw_escape(16.f, 16.f, 64.f, 64.f),
+  m_draw_escape(Vector{192.f, 14.f}, Sizef{48.f, 48.f}),
   m_tex_dirs(Surface::from_file("/images/engine/mobile/direction.png")),
   m_tex_btn(Surface::from_file("/images/engine/mobile/button.png")),
   m_tex_btn_press(Surface::from_file("/images/engine/mobile/button_press.png")),
@@ -138,7 +139,6 @@ MobileController::draw(DrawingContext& context)
     m_draw_action = m_rect_action.grown(-m_rect_action.get_height() * 3 / 8);
 
     m_rect_escape.set_size(height * BUTTON_SCALE / 2, height * BUTTON_SCALE / 2);
-    m_rect_escape.set_pos(Vector(0, 0));
     m_draw_escape = m_rect_escape.grown(-m_rect_escape.get_height() / 4);
 
     m_rect_cheats.set_size(height * BUTTON_SCALE / 2, height * BUTTON_SCALE / 2);
@@ -247,6 +247,7 @@ MobileController::process_finger_down_event(const SDL_TouchFingerEvent& event)
   return m_rect_jump.contains(pos) ||
     m_rect_action.contains(pos) ||
     m_rect_escape.contains(pos) ||
+    m_rect_item.contains(pos) ||
     m_rect_directions.contains(pos) ||
     (g_config->developer_mode && m_rect_cheats.contains(pos)) ||
     (g_config->developer_mode && m_rect_debug.contains(pos));
@@ -260,6 +261,7 @@ MobileController::process_finger_up_event(const SDL_TouchFingerEvent& event)
   return m_rect_jump.contains(pos) ||
     m_rect_action.contains(pos) ||
     m_rect_escape.contains(pos) ||
+    m_rect_item.contains(pos) ||
     m_rect_directions.contains(pos) ||
     (g_config->developer_mode && m_rect_cheats.contains(pos)) ||
     (g_config->developer_mode && m_rect_debug.contains(pos));
@@ -273,6 +275,7 @@ MobileController::process_finger_motion_event(const SDL_TouchFingerEvent& event)
   return m_rect_jump.contains(pos) ||
     m_rect_action.contains(pos) ||
     m_rect_escape.contains(pos) ||
+    m_rect_item.contains(pos) ||
     m_rect_directions.contains(pos) ||
     (g_config->developer_mode && m_rect_cheats.contains(pos)) ||
     (g_config->developer_mode && m_rect_debug.contains(pos));
@@ -290,6 +293,8 @@ MobileController::activate_widget_at_pos(float x, float y)
     m_input.set(CONTROL_INT(JUMP), true);
   if (m_rect_action.contains(pos))
     m_input.set(CONTROL_INT(ACTION), true);
+  if (m_rect_item.contains(pos))
+    m_input.set(CONTROL_INT(ITEM), true);
 
   if (g_config->developer_mode)
   {

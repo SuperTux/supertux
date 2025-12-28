@@ -56,7 +56,7 @@ private:
   std::map<SDL_FingerID, Vector> m_fingers;
 
   Rectf m_rect_directions, m_rect_jump, m_rect_action, m_rect_cheats,
-        m_rect_debug, m_rect_escape;
+        m_rect_debug, m_rect_escape, m_rect_item;
   Rectf m_draw_directions, m_draw_jump, m_draw_action, m_draw_cheats,
         m_draw_debug, m_draw_escape;
   const SurfacePtr m_tex_dirs, m_tex_btn, m_tex_btn_press, m_tex_pause,
