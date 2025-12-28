@@ -61,7 +61,9 @@ if(WIN32 AND CMAKE_HOST_WIN32)
 else()
   install(TARGETS supertux2
           DESTINATION ${INSTALL_SUBDIR_BIN})
-  install(TARGETS simplesquirrel)
+  if(NOT USE_STATIC_SIMPLESQUIRREL)
+    install(TARGETS simplesquirrel)
+  endif()
 endif()
 
 if(EMSCRIPTEN)

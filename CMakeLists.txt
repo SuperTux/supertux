@@ -118,6 +118,13 @@ else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
+## Determine whether static linking for SimpleSquirrel should be defaulted to
+if(MSVC OR ANDROID)
+  option(USE_STATIC_SIMPLESQUIRREL "Statically link the SimpleSquirrel library" ON)
+else()
+  option(USE_STATIC_SIMPLESQUIRREL "Statically link the SimpleSquirrel library" OFF)
+endif()
+
 ## Check platform-dependent build options
 include(ConfigureChecks)
 
@@ -146,6 +153,9 @@ endif()
 
 option(ENABLE_OPENGL "Enable OpenGL support" ON)
 
+# CI builds should never rely on this, as system SDL2_TTF has no RAQM support, causing Arabic to not be rendered properly.
+option(USE_SYSTEM_SDL2_TTF "Build SuperTux with system SDL2_TTF" OFF)
+
 # Find dependencies
 include(SuperTux/AddPackage)
 
@@ -162,8 +172,11 @@ add_package(TARGET glm
   PKG glm PKG_USE glm::glm CONFIG REQUIRED PKG_CONFIG glm)
 add_package(TARGET Freetype
   PKG Freetype PKG_USE Freetype::Freetype CONFIG REQUIRED PKG_CONFIG freetype2)
-add_package(TARGET RAQM
-  PKG RAQM PKG_USE RAQM CONFIG PKG_CONFIG libraqm raqm)
+if(NOT USE_SYSTEM_SDL2_TTF)
+  # System-installed SDL2_TTF will not have RAQM support, so no need to look for that.
+  add_package(TARGET RAQM
+    PKG RAQM PKG_USE RAQM CONFIG PKG_CONFIG libraqm raqm)
+endif()
 
 if(NOT EMSCRIPTEN)
   add_package(TARGET SDL2
@@ -172,6 +185,10 @@ if(NOT EMSCRIPTEN)
   add_package(TARGET SDL2_image
     PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image
     ${SUPERTUX_ANDROID_PREFER_PKGCONF})
+  if (USE_SYSTEM_SDL2_TTF)
+    add_package(TARGET SDL2_ttf
+      PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
+  endif()
   add_package(TARGET libcurl
     PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
   add_package(TARGET OpenAL
@@ -186,13 +203,19 @@ else()
   include(SuperTux/Emscripten)
 endif()
 
-if(TARGET RAQM)
+if(TARGET RAQM AND NOT USE_SYSTEM_SDL2_TTF)
   message(STATUS "Compiling SDL_ttf with RAQM")
   set(SDL2TTF_RAQM ON)
 endif()
 
+if(USE_SYSTEM_SDL2_TTF)
+  message(WARNING "Building with system-wide SDL_TTF will cause bi-directional (e.g. Arabic) scriptures to not be displayed properly.")
+endif()
+
 add_subdirectory(external/sexp-cpp EXCLUDE_FROM_ALL)
-add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
+if(NOT USE_SYSTEM_SDL2_TTF)
+  add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
+endif()
 add_subdirectory(external/SDL_SavePNG EXCLUDE_FROM_ALL)
 add_subdirectory(external/simplesquirrel EXCLUDE_FROM_ALL)
 add_subdirectory(external/partio_zip EXCLUDE_FROM_ALL)
@@ -375,11 +398,12 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
 endif()
 
 ## Link supertux binary with squirrel and other libraries
-if(MSVC)
+if(USE_STATIC_SIMPLESQUIRREL)
   target_link_libraries(supertux2 PUBLIC simplesquirrel_static)
 else()
   target_link_libraries(supertux2 PUBLIC simplesquirrel)
 endif()
+
 target_link_libraries(supertux2 PUBLIC
   tinygettext sexp SDL_SavePNG SDL2_ttf
   PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
