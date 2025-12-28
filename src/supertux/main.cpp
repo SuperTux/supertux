@@ -775,8 +775,6 @@ Main::run(int argc, char** argv)
 #endif
     m_physfs_subsystem->print_search_path();
 
-    m_sdl_subsystem.reset(new SDLSubsystem());
-
     s_timelog.log("config");
     m_config_subsystem.reset(new ConfigSubsystem());
     args.merge_into(*g_config);
