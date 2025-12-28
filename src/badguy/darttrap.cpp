@@ -229,9 +229,11 @@ DartTrap::on_type_change(int old_type)
   {
     case GRANITO:
       m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
+      m_dart_lightsprite = "images/creatures/darttrap/granito/dart_light.sprite";
       break;
     case SKULL:
       m_dart_sprite = "images/creatures/darttrap/skull/skull_dart.sprite";
+      m_dart_lightsprite = "images/creatures/darttrap/skull/dart_light.sprite";
       break;
   }
 }
