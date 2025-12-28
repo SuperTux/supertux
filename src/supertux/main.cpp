@@ -786,7 +786,7 @@ Main::run(int argc, char** argv)
 #endif
     m_physfs_subsystem->print_search_path();
 
-    // TODO: This is needed to check how many touchscreen
+    // NOTE: This is needed to check how many touchscreen
     // devices are available in the ConfigSubsystem.
     SDLSubsystem::init_input();
 
