@@ -17,6 +17,7 @@
     )
     (background
       (color 0.6 0.62 0.78)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/mountain.png")
@@ -33,15 +34,17 @@
     )
     (background
       (color 1 1 1)
-      (scroll-speed-x -10)
+      (alignment "top")
       (speed 0)
+      (fill #t)
       (image "/images/background/misc/clouds_storm.png")
       (z-pos -280)
     )
     (background
       (color 1 1 1)
-      (scroll-speed-x -2)
+      (alignment "top")
       (speed 0)
+      (fill #t)
       (image "/images/background/misc/skybox_storm.png")
       (z-pos -290)
     )

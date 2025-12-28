@@ -18,6 +18,7 @@
     )
     (background
       (color 0.6 0.6 0.6)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/mountain.png")

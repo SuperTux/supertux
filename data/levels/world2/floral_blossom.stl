@@ -43,6 +43,7 @@ granito_small7.set_action(\"stand-left\");")
     )
     (background
       (color 1 1 1)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/forest_panorama.png")

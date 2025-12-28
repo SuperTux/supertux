@@ -51,6 +51,7 @@
     )
     (background
       (color 0.5 0.5 0.4)
+      (alignment "bottom")
       (speed 0)
       (image "/images/background/corrupted_forest/mountain_panorama.png")
       (z-pos -240)
@@ -283,21 +284,21 @@
     )
     (granito_giant
       (type "corrupted-b")
-      (z-pos 45)
+      (z-pos -1)
       (direction "left")
       (x 7808)
       (y 896)
     )
     (granito_giant
       (type "corrupted-c")
-      (z-pos 45)
+      (z-pos -1)
       (direction "left")
       (x 12992)
       (y 608)
     )
     (granito_giant
       (type "corrupted-b")
-      (z-pos 45)
+      (z-pos -30)
       (direction "left")
       (x 14784)
       (y 928)

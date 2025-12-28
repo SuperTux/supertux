@@ -56,6 +56,7 @@
     )
     (background
       (color 0.22 0.28 0.45)
+      (alignment "bottom")
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/mountain.png")
@@ -807,24 +808,15 @@ thunder.stop();")
       (y 2464)
     )
     (scripttrigger
-      (oneshot #t)
-      (script "settings.fade_to_ambient_light(0.4, 0.4, 0.45, 0);
-thunder.stop();
-
-bg_layer1.set_images(\"forest_cave/forest_cave_front.png\", \"forest_cave/forest_cave_front.png\", \"forest_cave/forest_cave_front.png\");
-bg_layer1.set_color(1, 1, 1, 1);
-bg_layer2.set_images(\"forest_cave/forest_cave_middle.png\", \"forest_cave/forest_cave_middle.png\", \"forest_cave/forest_cave_middle.png\");
-bg_layer2.set_color(1, 1, 1, 1);
-bg_layer3.set_images(\"forest_cave/forest_cave_backwall.png\", \"forest_cave/forest_cave_backwall.png\", \"forest_cave/forest_cave_backwall.png\");
-bg_layer3.set_color(1, 1, 1, 1);
-
+      (script "thunder.stop();
 entrance1.goto_node(1);
-entrance2.goto_node(1);
+entrance2.goto_node(1);``
 entrance3.goto_node(1);
 entrance4.goto_node(1);
 start_lift.start_moving();
+Camera.set_scale(1.2);
 
-Camera.set_scale(1.2);")
+")
       (button #f)
       (width 96)
       (height 160)
@@ -832,17 +824,12 @@ Camera.set_scale(1.2);")
       (y 2368)
     )
     (scripttrigger
-      (script "bg_layer1.set_images(\"forest_cave/forest_cave_front.png\", \"forest_cave/forest_cave_front.png\", \"forest_cave/forest_cave_front.png\");
-bg_layer1.set_color(1, 1, 1, 1);
-bg_layer2.set_images(\"forest_cave/forest_cave_middle.png\", \"forest_cave/forest_cave_middle.png\", \"forest_cave/forest_cave_middle.png\");
-bg_layer2.set_color(1, 1, 1, 1);
-bg_layer3.set_images(\"forest_cave/forest_cave_backwall.png\", \"forest_cave/forest_cave_backwall.png\", \"forest_cave/forest_cave_backwall.png\");
-bg_layer3.set_color(1, 1, 1, 1);")
+      (script "Camera.scale(1, 2);")
       (button #f)
-      (width 448)
-      (height 32)
-      (x 2720)
-      (y 1504)
+      (width 32)
+      (height 448)
+      (x 4000)
+      (y 384)
     )
     (scripttrigger
       (script "bg_layer1.set_images(\"misc/transparent_up.png\", \"forest/trees_back.png\", \"forest/trees_bottom.png\");
@@ -852,18 +839,30 @@ bg_layer2.set_color(0.38, 0.45, 0.6, 1);
 bg_layer3.set_images(\"misc/transparent_up.png\", \"forest/mountain_trees.png\", \"misc/transparent_up.png\");
 bg_layer3.set_color(0.3, 0.4, 0.5, 1);")
       (button #f)
-      (width 352)
+      (width 36)
       (height 32)
-      (x 2752)
-      (y 1408)
+      (x 2520)
+      (y 1404)
     )
     (scripttrigger
-      (script "Camera.scale(1, 2);")
+      (script "bg_layer1.set_images(\"forest_cave/forest_cave_front.png\", \"forest_cave/forest_cave_front.png\", \"forest_cave/forest_cave_front.png\");
+bg_layer1.set_color(1, 1, 1, 1);
+bg_layer2.set_images(\"forest_cave/forest_cave_middle.png\", \"forest_cave/forest_cave_middle.png\", \"forest_cave/forest_cave_middle.png\");
+bg_layer2.set_color(1, 1, 1, 1);
+bg_layer3.set_images(\"forest_cave/forest_cave_backwall.png\", \"forest_cave/forest_cave_backwall.png\", \"forest_cave/forest_cave_backwall.png\");
+bg_layer3.set_color(1, 1, 1, 1);")
       (button #f)
-      (width 32)
-      (height 448)
-      (x 4000)
-      (y 384)
+      (width 36)
+      (height 32)
+      (x 2516)
+      (y 1488)
+    )
+    (scripttrigger
+      (button #f)
+      (width 224)
+      (height 32)
+      (x 2848)
+      (y 1408)
     )
     (secretarea
       (fade-tilemap "secret")
@@ -908,6 +907,10 @@ bg_layer3.set_color(0.3, 0.4, 0.5, 1);")
     (spawnpoint
       (x 3108)
       (y 1340)
+    )
+    (spawnpoint
+      (x 3936)
+      (y 736)
     )
     (stalactite
       (type "rock")
