@@ -9,7 +9,6 @@
   (icon-locked "")
   (statistics
     (enable-coins #t)
-    (enable-badguys #f)
     (enable-secrets #t)
   )
   (sector
@@ -135,7 +134,9 @@
       (z-pos 50)
       (message (_ "-Tux Doll
 !images/powerups/1up/1up.png
-#The Tux Doll gives Tux 100 coins."))
+#Tux Dolls are a rare collectible which are needed to unlock the Bonus Islands!
+
+#Collect all of them to unlock fun, additional levels!"))
       (fadetransition #f)
       (x 4672)
       (y 448)
@@ -144,18 +145,21 @@
       (z-pos 50)
       (x 8608)
       (y 384)
+      (glinting #f)
     )
     (mrbomb
       (z-pos 50)
       (direction "left")
       (x 4992)
       (y 672)
+      (glinting #f)
     )
     (mriceblock
       (z-pos 50)
       (direction "left")
       (x 2592)
       (y 672)
+      (glinting #f)
     )
     (music
       (file "/music/antarctic/midday.music")
@@ -196,60 +200,70 @@
       (direction "left")
       (x 1632)
       (y 672)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (direction "left")
       (x 7552)
       (y 672)
+      (glinting #f)
     )
     (smartball
       (z-pos 50)
       (direction "left")
       (x 3008)
       (y 672)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 1088)
       (y 672)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 1984)
       (y 672)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 2912)
       (y 672)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 4032)
       (y 544)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 4640)
       (y 672)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 4800)
       (y 672)
+      (glinting #f)
     )
     (snowball
       (z-pos 50)
       (direction "left")
       (x 7648)
       (y 672)
+      (glinting #f)
     )
     (spawnpoint
       (name "main")
@@ -257,6 +271,7 @@
       (y 640)
     )
     (stalactite
+      (glinting #f)
       (z-pos -1)
       (x 6240)
       (y 320)
