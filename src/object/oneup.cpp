@@ -16,6 +16,7 @@
 
 #include "object/oneup.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 
@@ -26,6 +27,8 @@ OneUp::OneUp(const Vector& pos, Direction direction) :
   physic.set_velocity( (direction == Direction::LEFT) ? -100.0f : 100.0f, -400.0f);
   if (direction == Direction::DOWN) // this causes the doll to drop when opened with a butt-jump
     physic.set_velocity(0, -100);
+
+  SoundManager::current()->preload("sounds/lifeup.wav");
 }
 
 void
@@ -44,6 +47,7 @@ OneUp::collision(MovingObject& other, const CollisionHit& )
   if (player)
   {
     Sector::get().get_level().m_stats.increment_tuxdolls();
+    SoundManager::current()->play("sounds/lifeup.wav", get_pos());
 
     remove_me();
     return ABORT_MOVE;
