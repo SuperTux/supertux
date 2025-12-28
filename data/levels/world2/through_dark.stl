@@ -109,13 +109,13 @@
     )
     (decal
       (z-pos -10)
-      (sprite "/images/decal/sign_icons/danger.png")
+      (sprite "/images/decal/sign_icons/rockcrusher.png")
       (x 12672)
       (y 576)
     )
     (decal
       (z-pos -10)
-      (sprite "/images/decal/sign_icons/danger.png")
+      (sprite "/images/decal/sign_icons/rockcrusher.png")
       (x 14880)
       (y 2400)
     )
