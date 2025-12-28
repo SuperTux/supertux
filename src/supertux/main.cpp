@@ -501,6 +501,17 @@ SDLSubsystem::SDLSubsystem()
   atexit(SDL_Quit);
 }
 
+void
+SDLSubsystem::init_input()
+{
+  if (SDL_Init(SDL_INIT_EVENTS) < 0)
+  {
+    std::stringstream msg;
+    msg << "Couldn't initialize SDL input/events: " << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
+}
+
 SDLSubsystem::~SDLSubsystem()
 {
   TTF_Quit();
@@ -774,6 +785,10 @@ Main::run(int argc, char** argv)
     m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, args.userdir));
 #endif
     m_physfs_subsystem->print_search_path();
+
+    // TODO: This is needed to check how many touchscreen
+    // devices are available in the ConfigSubsystem.
+    SDLSubsystem::init_input();
 
     s_timelog.log("config");
     m_config_subsystem.reset(new ConfigSubsystem());
