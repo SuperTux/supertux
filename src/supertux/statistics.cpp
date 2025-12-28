@@ -191,7 +191,7 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
   Color hcolor = Statistics::header_color;
   Color tcolor;
 
-  for (int stat_no = 0; stat_no < 6; stat_no++) {
+  for (int stat_no = 0; stat_no < 5; stat_no++) {
     tcolor = Statistics::header_color;
     switch (stat_no)
     {
@@ -204,7 +204,7 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
         if (m_coins >= m_total_coins)
           tcolor = Statistics::perfect_color;
         break;
-      case 2:
+      case 1:
         if (!m_preferences.enable_secrets)
           continue;
 
@@ -213,13 +213,13 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
         if (m_secrets >= m_total_secrets)
           tcolor = Statistics::perfect_color;
         break;
-      case 3:
+      case 2:
         caption_buf = CAPTION_BEST_TIME;
         stat_buf = time_to_string(m_time);
         if ((m_time < target_time) || (target_time == 0.0f))
           tcolor = Statistics::perfect_color;
         break;
-      case 4:
+      case 3:
         if (target_time != 0.0f) { // display target time only if defined for level
           caption_buf = CAPTION_TARGET_TIME;
           stat_buf = time_to_string(target_time);
@@ -230,7 +230,7 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
           stat_buf = "";
         }
         break;
-      case 5:
+      case 4:
         if (m_tuxdolls <= 0)
           continue;
 
