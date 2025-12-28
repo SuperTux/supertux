@@ -52,7 +52,7 @@ protected:
   };
 
   enum Type {
-    SKULL, GRANITO
+    GRANITO, SKULL
   };
 
   void load();
