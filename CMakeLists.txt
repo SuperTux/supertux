@@ -39,6 +39,11 @@ cmake_minimum_required(VERSION 3.22)
 
 ## Project name to use as command prefix.
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
+if(ANDROID)
+  include(SuperTux/Android)
+endif()
+
 project(SUPERTUX LANGUAGES C CXX)
 
 if(COMMAND cmake_policy)
@@ -56,7 +61,6 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm64" AND MSVC)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_ARM64_ /DMY_CPU_LE")
 endif()
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 include(ExternalProject)
 include(CheckCXXCompilerFlag)
 include(CheckSymbolExists)
@@ -176,9 +180,11 @@ endif()
 
 if(NOT EMSCRIPTEN)
   add_package(TARGET SDL2
-    PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2)
+    PKG SDL2 PKG_USE SDL2::SDL2 CONFIG REQUIRED PKG_CONFIG sdl2 SDL2
+    ${SUPERTUX_ANDROID_PREFER_PKGCONF})
   add_package(TARGET SDL2_image
-    PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image)
+    PKG SDL2_image PKG_USE SDL2_image::SDL2_image CONFIG REQUIRED PKG_CONFIG SDL2_image sdl2_image
+    ${SUPERTUX_ANDROID_PREFER_PKGCONF})
   if (USE_SYSTEM_SDL2_TTF)
     add_package(TARGET SDL2_ttf
       PKG SDL2_ttf PKG_USE SDL2_ttf::SDL2_ttf CONFIG REQUIRED PKG_CONFIG SDL2_ttf sdl2_ttf)
@@ -272,8 +278,11 @@ list(SORT SUPERTUX_RESOURCES)
 include(SuperTux/CompileAmalgation)
 
 ## Add target for supertux binary
-add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
-target_compile_features(supertux2 PUBLIC cxx_std_17)
+if(ANDROID)
+  add_library(supertux2 SHARED ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} src/main.cpp)
+else()
+  add_executable(supertux2 ${SUPERTUX_WIN32_OPTION} ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCES_HXX} ${SUPERTUX_RESOURCES} src/main.cpp)
+endif()
 
 option(SUPERTUX_PCH "Pre-compile headers (faster compilation)" ${IS_SUPERTUX_RELEASE})
 
@@ -399,7 +408,6 @@ target_link_libraries(supertux2 PUBLIC
   tinygettext sexp SDL_SavePNG SDL2_ttf
   PartioZip OpenAL FindLocale obstack glm fmt PhysFS)
 target_compile_definitions(supertux2 PUBLIC GLM_ENABLE_EXPERIMENTAL)
-
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2 PUBLIC
     # SDL2_image
@@ -425,11 +433,37 @@ if(NOT EMSCRIPTEN)
   endif()
 endif()
 
+if(ANDROID)
+  target_link_libraries(supertux2 PUBLIC log)
+  target_compile_definitions(supertux2 PUBLIC -D__ANDROID__ -DANDROID)
+endif()
+
 ## Install stuff
 include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
+
+# Make android data.zip
+if(ANDROID)
+  set(ANDROID_PROJECT_DIR "${PROJECT_SOURCE_DIR}/mk/android/" CACHE PATH
+          "Path to the root of the root of the android project")
+  if(NOT EXISTS "${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip")
+    get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
+    if(NOT EXISTS ${ANDROID_PROJECT_DIR}/app/src/main/assets)
+      file(MAKE_DIRECTORY ${ANDROID_PROJECT_DIR}/app/src/main/assets)
+    endif()
+    file(GLOB DATA_CONTENTS RELATIVE ${DATADIR} ${DATADIR}/*)
+    #file(ARCHIVE_CREATE OUTPUT ${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E tar "cfv"
+            "${ANDROID_PROJECT_DIR}/app/src/main/assets/data.zip"
+            --format=zip
+            ${DATA_CONTENTS}
+
+            WORKING_DIRECTORY ${DATADIR}
+    )
+  endif()
+endif()
 
 ## Build tests
 # TODO Finish porting tests to CTest

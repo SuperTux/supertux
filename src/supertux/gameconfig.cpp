@@ -77,14 +77,18 @@ Config::Config() :
   joystick_config(),
   ignore_joystick_axis(false),
   mobile_controls(SDL_GetNumTouchDevices() > 0),
-  m_mobile_controls_scale(1),
+  m_mobile_controls_scale(1.3f),
   addons(),
   developer_mode(false),
   christmas_mode(false),
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
+#ifdef __ANDROID__
+  custom_mouse_cursor(false),
+#else
   custom_mouse_cursor(true),
+#endif
   custom_system_cursor(false),
   do_release_check(false),
   disable_network(true),
@@ -138,6 +142,8 @@ Config::Config() :
   // and those with an older SDL; they won't have to check the setting each time.
   multiplayer_buzz_controllers(false),
 #endif
+  touch_haptic_feedback(true),
+  touch_just_directional(true),
   repository_url()
 {
 }
@@ -359,8 +365,10 @@ Config::load()
 
     config_control_mapping->get("ignore_joystick_axis", ignore_joystick_axis);
 
+    config_control_mapping->get("touch_haptic_feedback", touch_haptic_feedback);
+    config_control_mapping->get("touch_just_directional", touch_just_directional);
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
-    config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
+    config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 2);
     config_control_mapping->get("precise_scrolling", precise_scrolling);
     config_control_mapping->get("invert_wheel_x", invert_wheel_x);
     config_control_mapping->get("invert_wheel_y", invert_wheel_y);
@@ -522,6 +530,8 @@ Config::save()
 
     writer.write("mobile_controls", mobile_controls);
     writer.write("ignore_joystick_axis", ignore_joystick_axis);
+    writer.write("touch_haptic_feedback", touch_haptic_feedback);
+    writer.write("touch_just_directional", touch_just_directional);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
     writer.write("precise_scrolling", precise_scrolling);
     writer.write("invert_wheel_x", invert_wheel_x);

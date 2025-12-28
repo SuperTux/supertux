@@ -1,0 +1,33 @@
+message(STATUS "ANDROID_ABI: ${ANDROID_ABI} :)")
+
+if(NOT DEFINED ENV{ANDROID_NDK_HOME})
+  set(ndk_home "${SUPERTUX_NDK_HOME}")
+else()
+  set(ndk_home $ENV{ANDROID_NDK_HOME})
+endif()
+
+if(NOT DEFINED ENV{VCPKG_ROOT})
+  set(vcpkg_root "${SUPERTUX_VCPKG_ROOT}")
+else()
+  set(vcpkg_root $ENV{VCPKG_ROOT})
+endif()
+
+if(ANDROID_ABI STREQUAL "arm64-v8a")
+  set(VCPKG_TARGET_TRIPLET "arm64-android")
+elseif(ANDROID_ABI STREQUAL "armeabi-v7a")
+  set(VCPKG_TARGET_TRIPLET "arm-neon-android")
+elseif(ANDROID_ABI STREQUAL "x86_64")
+  set(VCPKG_TARGET_TRIPLET "x64-android")
+elseif(ANDROID_ABI STREQUAL "x86")
+  set(VCPKG_TARGET_TRIPLET "x86-android")
+else()
+  message(FATAL_ERROR "Invalid Android ABI: ${ANDROID_ABI}")
+endif()
+
+add_compile_options(-D__ANDROID__)
+
+set(ANDROID_STL "c++_shared")
+set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE ${ndk_home}/build/cmake/android.toolchain.cmake)
+set(CMAKE_TOOLCHAIN_FILE ${vcpkg_root}/scripts/buildsystems/vcpkg.cmake)
+message(STATUS "VCPKG_CHAINLOAD_TOOLCHAIN_FILE: ${VCPKG_CHAINLOAD_TOOLCHAIN_FILE}")
+message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")

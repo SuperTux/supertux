@@ -20,10 +20,17 @@
         "curl",
         "openal-soft",
         "libogg",
-        "libvorbis",
+        "libvorbis"
+      ],
+      "supports": "!emscripten"
+    },
+    "opengl": {
+      "description": "Add OpenGL support",
+      "dependencies": [
         "glew"
-      ]
+      ],
+      "supports": "!(android | emscripten)"
     }
   },
-  "default-features": ["nonwasm"]
+  "default-features": ["nonwasm", "opengl"]
 }
